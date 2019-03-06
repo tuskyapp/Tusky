@@ -4,10 +4,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageButton
-import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.TextView
+import android.widget.*
+import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.DialogFragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -15,6 +13,7 @@ import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.entity.Account
 import com.keylesspalace.tusky.util.hide
+import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.viewmodel.AccountsInListViewModel
 import com.squareup.picasso.Picasso
 import com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider.from
@@ -45,7 +44,8 @@ class AccountsInListFragment : DialogFragment(), Injectable {
 
     lateinit var listId: String
     lateinit var listName: String
-    val adapter = Adapter()
+    private val adapter = Adapter()
+    private val searchAdapter = SearchAdapter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -75,22 +75,57 @@ class AccountsInListFragment : DialogFragment(), Injectable {
         accountsRecycler.layoutManager = LinearLayoutManager(view.context)
         accountsRecycler.adapter = adapter
 
+        accountsSearchRecycler.layoutManager = LinearLayoutManager(view.context)
+        accountsSearchRecycler.adapter = searchAdapter
+
         viewModel.state
                 .observeOn(AndroidSchedulers.mainThread())
                 .autoDisposable(from(this))
                 .subscribe { state ->
                     adapter.accounts.clear()
-                    adapter.accounts.addAll(state.accounts)
+                    state.accounts.map(adapter.accounts::addAll)
                     adapter.notifyDataSetChanged()
+
+                    if (state.searchResult == null) {
+                        searchAdapter.accounts.clear()
+                        accountsSearchRecycler.hide()
+                    } else {
+                        searchAdapter.accounts.clear()
+                        val listAccounts = state.accounts.asRightOrNull() ?: listOf()
+                        searchAdapter.accounts.addAll(state.searchResult.map { acc ->
+                            acc to listAccounts.contains(acc)
+                        })
+                        searchAdapter.notifyDataSetChanged()
+                        accountsSearchRecycler.show()
+                    }
                 }
 
-        searchNewAccountEditText.setOnEditorActionListener { _, _, _ ->
-            viewModel.load(listId)
-            true
-        }
+        searchView.isSubmitButtonEnabled = true
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                viewModel.search(query ?: "")
+                return true
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                // Close event is not sent so we use this instead
+                if (newText.isNullOrBlank()) {
+                    viewModel.search("")
+                }
+                return true
+            }
+        })
     }
 
-    class Adapter : RecyclerView.Adapter<Adapter.ViewHolder>() {
+    private fun onRemoveFromList(accountId: String) {
+        viewModel.deleteAccountFromList(listId, accountId)
+    }
+
+    private fun onAddToList(account: Account) {
+        viewModel.addAccountToList(listId, account)
+    }
+
+    inner class Adapter : RecyclerView.Adapter<Adapter.ViewHolder>() {
         val accounts = mutableListOf<Account>()
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -112,14 +147,67 @@ class AccountsInListFragment : DialogFragment(), Injectable {
                     .into(holder.avatar)
         }
 
-        class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView),
+                View.OnClickListener {
             val avatar: ImageView = itemView.findViewById(R.id.follow_request_avatar)
             val displayName: TextView = itemView.findViewById(R.id.follow_request_display_name)
             val username: TextView = itemView.findViewById(R.id.follow_request_username)
-            val rejectButton: ImageButton = itemView.findViewById(R.id.follow_request_reject)
+            val removeAccountButton: ImageButton = itemView.findViewById(R.id.follow_request_reject)
 
             init {
                 itemView.findViewById<View>(R.id.follow_request_accept).hide()
+                removeAccountButton.setOnClickListener(this)
+            }
+
+            override fun onClick(v: View?) {
+                onRemoveFromList(accounts[adapterPosition].id)
+            }
+        }
+    }
+
+    inner class SearchAdapter : RecyclerView.Adapter<SearchAdapter.ViewHolder>() {
+        val accounts = mutableListOf<Pair<Account, Boolean>>()
+
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+            val view = LayoutInflater.from(parent.context)
+                    .inflate(R.layout.item_follow_request, parent, false)
+            return ViewHolder(view)
+        }
+
+        override fun getItemCount(): Int = accounts.size
+
+        override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+            val (account, inAList) = accounts[position]
+            holder.username.text = account.username
+            holder.displayName.text = account.displayName
+            Picasso.with(holder.avatar.context)
+                    .load(account.avatar)
+                    .fit()
+                    .placeholder(R.drawable.avatar_default)
+                    .into(holder.avatar)
+            holder.addOrRemoveButton.setImageResource(
+                    if (inAList) R.drawable.ic_reject_24dp else R.drawable.ic_plus_24dp)
+        }
+
+        inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView),
+                View.OnClickListener {
+            val avatar: ImageView = itemView.findViewById(R.id.follow_request_avatar)
+            val displayName: TextView = itemView.findViewById(R.id.follow_request_display_name)
+            val username: TextView = itemView.findViewById(R.id.follow_request_username)
+            val addOrRemoveButton: ImageButton = itemView.findViewById(R.id.follow_request_reject)
+
+            init {
+                itemView.findViewById<View>(R.id.follow_request_accept).hide()
+                addOrRemoveButton.setOnClickListener(this)
+            }
+
+            override fun onClick(v: View?) {
+                val (account, inAList) = accounts[adapterPosition]
+                if (inAList) {
+                    onRemoveFromList(account.id)
+                } else {
+                    onAddToList(account)
+                }
             }
         }
     }

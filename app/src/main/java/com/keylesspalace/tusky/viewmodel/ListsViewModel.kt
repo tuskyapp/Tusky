@@ -62,4 +62,19 @@ internal class ListsViewModel @Inject constructor(private val api: MastodonApi) 
             // TODO: handle error here
         }).addTo(disposable)
     }
+
+    fun deleteList(listId: String) {
+        api.deleteList(listId).subscribe({
+            updateState {
+                val newLists = lists.toMutableList()
+                val index = newLists.indexOfFirst { it.id == listId }
+                if (index != -1) {
+                    newLists.removeAt(index)
+                }
+                copy(lists = newLists)
+            }
+        }, {
+            // TODO: handle error
+        }).addTo(disposable)
+    }
 }

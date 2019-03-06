@@ -27,6 +27,8 @@ sealed class Either<out L, out R> {
 
     fun isRight() = this is Right
 
+    fun isLeft() = this is Left
+
     fun asLeftOrNull() = (this as? Left<L, R>)?.value
 
     fun asRightOrNull() = (this as? Right<L, R>)?.value
@@ -34,4 +36,12 @@ sealed class Either<out L, out R> {
     fun asLeft(): L = (this as Left<L, R>).value
 
     fun asRight(): R = (this as Right<L, R>).value
+
+    inline fun <N> map(crossinline mapper: (R) -> N): Either<L, N> {
+        return if (this.isLeft()) {
+            Left(this.asLeft())
+        } else {
+            Right(mapper(this.asRight()))
+        }
+    }
 }

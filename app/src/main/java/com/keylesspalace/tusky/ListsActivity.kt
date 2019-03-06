@@ -10,6 +10,7 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
+import android.widget.PopupMenu
 import android.widget.TextView
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
@@ -119,13 +120,29 @@ class ListsActivity : BaseActivity(), Injectable, HasSupportFragmentInjector {
         }
     }
 
-    private fun openTimeline(listId: String) {
+    private fun onListSelected(listId: String) {
         startActivityWithSlideInAnimation(
                 ModalTimelineActivity.newIntent(this, TimelineFragment.Kind.LIST, listId))
     }
 
     private fun openListSettings(list: MastoList) {
         AccountsInListFragment.newInstance(list.id, list.title).show(supportFragmentManager, null)
+    }
+
+    private fun onMore(list: MastoList, view: View) {
+        PopupMenu(view.context, view).apply {
+            inflate(R.menu.list_actions)
+            setOnMenuItemClickListener { item ->
+                when (item.itemId) {
+                    R.id.list_edit -> openListSettings(list)
+                    R.id.list_rename -> TODO()
+                    R.id.list_delete -> viewModel.deleteList(list.id)
+                    else -> return@setOnMenuItemClickListener false
+                }
+                true
+            }
+            show()
+        }
     }
 
     override fun supportFragmentInjector() = dispatchingAndroidInjector
@@ -169,18 +186,18 @@ class ListsActivity : BaseActivity(), Injectable, HasSupportFragmentInjector {
         private inner class ListViewHolder(view: View) : RecyclerView.ViewHolder(view),
                 View.OnClickListener {
             val nameTextView: TextView = view.findViewById(R.id.list_name_textview)
-            val editButton: ImageButton = view.findViewById(R.id.editListButton)
+            val moreButton: ImageButton = view.findViewById(R.id.editListButton)
 
             init {
                 view.setOnClickListener(this)
-                editButton.setOnClickListener(this)
+                moreButton.setOnClickListener(this)
             }
 
-            override fun onClick(v: View?) {
-                if (v == nameTextView) {
-                    openTimeline(items[adapterPosition].id)
+            override fun onClick(v: View) {
+                if (v == itemView) {
+                    onListSelected(items[adapterPosition].id)
                 } else {
-                    openListSettings(items[adapterPosition])
+                    onMore(items[adapterPosition], v)
                 }
             }
         }
