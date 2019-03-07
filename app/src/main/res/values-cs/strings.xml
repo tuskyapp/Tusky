@@ -83,6 +83,38 @@
     <string name="action_retry">Zkusit znovu</string>
     <string name="action_close">Zavřít</string>
     <string name="action_view_profile">Profil</string>
+    <string name="action_view_preferences">Předvolby</string>
+    <string name="action_view_account_preferences">Předvolby účtu</string>
+    <string name="action_view_favourites">Oblíbené</string>
+    <string name="action_view_mutes">Skrytí uživatelé</string>
+    <string name="action_view_blocks">Blokovaní uživatelé</string>
+    <string name="action_view_follow_requests">Požadavky o sledování</string>
+    <string name="action_view_media">Média</string>
+    <string name="action_open_in_web">Otevřít v prohlížeči</string>
+    <string name="action_add_media">Přidat média</string>
+    <string name="action_photo_take">Požídit fotku</string>
+    <string name="action_share">Sdílet</string>
+    <string name="action_mute">Skrýt</string>
+    <string name="action_unmute">Odkrýt</string>
+    <string name="action_mention">Zmínit</string>
+    <string name="action_hide_media">Skrýt média</string>
+    <string name="action_open_drawer">Otevřít menu</string>
+    <string name="action_save">Uložit</string>
+    <string name="action_edit_profile">Upravit profil</string>
+    <string name="action_edit_own_profile">Upravit</string>
+    <string name="action_undo">Vrátit</string>
+    <string name="action_accept">Přijmout</string>
+    <string name="action_reject">Zamítnout</string>
+    <string name="action_search">Hledat</string>
+    <string name="action_access_saved_toot">Koncepty</string>
+    <string name="action_toggle_visibility">Viditelnost tootu</string>
+    <string name="action_content_warning">Varování o obsahu</string>
+    <string name="action_emoji_keyboard">Klávesnice s emoji</string>
+    <string name="action_add_tab">Přidat záložku</string>
+    <string name="action_links">Odkazy</string>
+    <string name="action_mentions">Zmínky</string>
+    <string name="action_hashtags">Hashtagy</string>
+    <string name="action_open_reblogger">Otevřít autora boostu</string>
     <!-- note to translators:
          * you should think of “free” as in “free speech,” not as in “free beer”.
            We sometimes call it “libre software,” borrowing the French or Spanish word for “free” as in freedom,
