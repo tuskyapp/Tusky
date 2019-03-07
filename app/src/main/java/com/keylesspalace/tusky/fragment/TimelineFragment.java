@@ -28,9 +28,11 @@ import android.widget.ProgressBar;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
+import io.reactivex.Observable;
 import com.keylesspalace.tusky.AccountListActivity;
 import com.keylesspalace.tusky.BaseActivity;
 import com.keylesspalace.tusky.R;
+import com.keylesspalace.tusky.adapter.StatusBaseViewHolder;
 import com.keylesspalace.tusky.adapter.TimelineAdapter;
 import com.keylesspalace.tusky.appstore.BlockEvent;
 import com.keylesspalace.tusky.appstore.EventHub;
@@ -64,10 +66,12 @@ import com.keylesspalace.tusky.view.EndlessOnScrollListener;
 import com.keylesspalace.tusky.viewdata.StatusViewData;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -1277,4 +1281,32 @@ public class TimelineFragment extends SFragment implements
             return oldItem.deepEquals(newItem);
         }
     };
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        startUpdateTimestamp();
+    }
+
+    private void startUpdateTimestamp() {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        boolean useAbsoluteTime = preferences.getBoolean("absoluteTimeView", false);
+        if (!useAbsoluteTime) {
+            Observable.interval(1, TimeUnit.MINUTES)
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .as(autoDisposable(from(this, Lifecycle.Event.ON_PAUSE)))
+                    .subscribe(
+                            interval -> {
+                                if (adapter != null && adapter.getItemCount()>0) {
+                                    List<String> payload = new ArrayList<>();
+                                    payload.add(StatusBaseViewHolder.Key.KEY_CREATED);
+                                    adapter.notifyItemRangeChanged(0, adapter.getItemCount() - 1, payload);
+                                }
+                            }
+                    );
+        }
+
+    }
+
+
 }
