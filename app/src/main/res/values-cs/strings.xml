@@ -76,6 +76,13 @@
     <string name="action_unblock">Odblokovat</string>
     <string name="action_hide_reblogs">Skrýt boosty</string>
     <string name="action_show_reblogs">Zobrazit boosty</string>
+    <string name="action_report">Nahlásit</string>
+    <string name="action_delete">Smazat</string>
+    <string name="action_send">TOOTNOUT</string>
+    <string name="action_send_public">TOOTNOUT!</string>
+    <string name="action_retry">Zkusit znovu</string>
+    <string name="action_close">Zavřít</string>
+    <string name="action_view_profile">Profil</string>
     <!-- note to translators:
          * you should think of “free” as in “free speech,” not as in “free beer”.
            We sometimes call it “libre software,” borrowing the French or Spanish word for “free” as in freedom,
