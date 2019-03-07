@@ -159,6 +159,7 @@
         <item>Светлая</item>
         <item>Черная</item>
         <item>Автоматическая (по времени)</item>
+        <item>Use System Design</item>
     </string-array>
     <string name="pref_title_browser_settings">Браузер</string>
     <string name="pref_title_custom_tabs">Использовать Chrome Custom Tabs</string>
