@@ -61,6 +61,9 @@ class PreferencesFragment : PreferenceFragmentCompat() {
             }
             true
         }
+
+        val languagePreference: Preference = findPreference("language")
+        languagePreference.icon = IconicsDrawable(languagePreference.context, GoogleMaterial.Icon.gmd_translate).sizePx(iconSize).color(ThemeUtils.getColor(languagePreference.context, R.attr.toolbar_icon_tint))
     }
 
     override fun onResume() {

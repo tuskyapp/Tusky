@@ -15,7 +15,6 @@
 
 package com.keylesspalace.tusky.util
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.content.SharedPreferences
 import android.content.res.Configuration
@@ -32,7 +31,7 @@ class LocaleManager(context: Context) {
     private var prefs: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
 
     fun setLocale(context: Context): Context {
-        val language = prefs.getNonNullString("language", "")
+        val language = prefs.getNonNullString("language", "default")
         if (language.equals("default")) {
             return context;
         }

@@ -115,16 +115,14 @@ public class TuskyApplication extends Application implements HasActivityInjector
     protected void attachBaseContext(Context base) {
         localeManager = new LocaleManager(base);
         super.attachBaseContext(localeManager.setLocale(base));
-        Log.d(TAG, "attachBaseContext");
     }
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         localeManager.setLocale(this);
-        Log.d(TAG, "onConfigurationChanged: " + newConfig.locale.getLanguage());
+        Log.d(TAG, "onConfigurationChanged: " + newConfig.locale.toString());
     }
-
 
     /**
      * This method will load the EmojiCompat font which has been selected.

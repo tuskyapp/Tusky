@@ -135,10 +135,6 @@ class PreferencesActivity : BaseActivity(), SharedPreferences.OnSharedPreference
                 restartActivitiesOnExit = true
             }
             "language" -> {
-                val language = sharedPreferences.getNonNullString("language", "en")
-                Log.d("activeLanguage", language)
-                sharedPreferences.edit().putString("language", language).apply()
-
                 restartActivitiesOnExit = true
                 this.restartCurrentActivity()
             }

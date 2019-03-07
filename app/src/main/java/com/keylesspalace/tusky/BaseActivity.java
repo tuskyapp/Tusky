@@ -102,7 +102,6 @@ public abstract class BaseActivity extends AppCompatActivity implements Injectab
     @Override
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(TuskyApplication.localeManager.setLocale(base));
-        Log.d(TAG, "attachBaseContext");
     }
 
     protected boolean requiresLogin() {
