@@ -42,9 +42,9 @@
                 android:indeterminate="true"
                 android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="@id/headerPreview"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintEnd_toEndOf="@id/headerPreview"
+                app:layout_constraintStart_toStartOf="@id/headerPreview"
+                app:layout_constraintTop_toTopOf="@id/headerPreview" />
 
             <com.keylesspalace.tusky.view.RoundedImageView
                 android:id="@+id/avatarPreview"
@@ -74,12 +74,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:layout_marginStart="16dp"
                 android:indeterminate="true"
                 android:visibility="gone"
-                app:layout_constraintBottom_toBottomOf="@id/headerPreview"
-                app:layout_constraintStart_toStartOf="@id/contentContainer"
-                app:layout_constraintTop_toBottomOf="@id/headerPreview" />
+                app:layout_constraintBottom_toBottomOf="@id/avatarPreview"
+                app:layout_constraintEnd_toEndOf="@id/avatarPreview"
+                app:layout_constraintStart_toStartOf="@id/avatarPreview"
+                app:layout_constraintTop_toTopOf="@id/avatarPreview" />
 
             <LinearLayout
                 android:id="@+id/contentContainer"
