@@ -172,6 +172,7 @@
         <item>Açık</item>
         <item>Siyah</item>
         <item>Gün batımında otomatik</item>
+        <item>Use System Design</item>
     </string-array>
     <string name="pref_title_browser_settings">Tarayacı</string>
     <string name="pref_title_custom_tabs">Chrome Özel Şekmelerini Kullan</string>
