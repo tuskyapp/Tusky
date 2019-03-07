@@ -140,6 +140,11 @@
     <string name="hint_note">O vás</string>
     <string name="hint_search">Hledat…</string>
     <string name="search_no_results">Žádné výsledky</string>
+    <string name="label_quick_reply">Odpovědět…</string>
+    <string name="label_avatar">Avatar</string>
+    <string name="label_header">Záhlaví</string>
+    <string name="link_whats_an_instance">Co je server?</string>
+    <string name="login_connection">Připojuji se…</string>
     <!-- note to translators:
          * you should think of “free” as in “free speech,” not as in “free beer”.
            We sometimes call it “libre software,” borrowing the French or Spanish word for “free” as in freedom,
