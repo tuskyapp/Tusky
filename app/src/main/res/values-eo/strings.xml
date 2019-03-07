@@ -33,6 +33,8 @@
     <string name="action_add_media">Aldoni aŭdovidaĵon</string>
     <string name="action_mute">Silentigi</string>
     <string name="action_unmute">Malsilentigi</string>
+    <string name="action_open_drawer">Montri tirmenuon</string>
+    <string name="action_save">Konservi</string>
     <string name="action_edit_profile">Redakti profilon</string>
     <string name="action_edit_own_profile">Redakti</string>
     <string name="action_accept">Rajtigi</string>
@@ -56,6 +58,7 @@
     <string name="label_avatar">Profilbildo</string>
     <string name="label_header">Fonbildo</string>
     <string name="link_whats_an_instance">Kio estas nodo?</string>
+    <string name="dialog_unfollow_warning">Ne plu sekvi?</string>
     <string name="dialog_delete_toot_warning">Forigi ĉi tiun mesaĝon?</string>
     <string name="visibility_public">Publika: afiŝi en publikaj tempolinioj</string>
     <string name="visibility_unlisted">Nelistigita: Ne afiŝi en publikaj tempolinioj</string>
@@ -64,6 +67,7 @@
     <string name="pref_title_notification_settings">Sciigoj</string>
     <string name="pref_title_edit_notification_settings">Sciigoj</string>
     <string name="pref_title_notifications_enabled">Sciigoj</string>
+    <string name="pref_summary_notifications">por konto %1$s</string>
     <string name="pref_title_appearance_settings">Aspekto</string>
     <string-array name="app_theme_names">
         <item>Malhela</item>
