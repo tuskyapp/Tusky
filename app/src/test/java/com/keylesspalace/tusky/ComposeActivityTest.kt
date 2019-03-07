@@ -26,6 +26,7 @@ import com.keylesspalace.tusky.entity.Account
 import com.keylesspalace.tusky.entity.Emoji
 import com.keylesspalace.tusky.entity.Instance
 import com.keylesspalace.tusky.network.MastodonApi
+import com.keylesspalace.tusky.util.ThemeUtils
 import okhttp3.Request
 import okhttp3.ResponseBody
 import org.junit.Assert
@@ -37,26 +38,28 @@ import org.mockito.Mockito
 import org.mockito.Mockito.`when`
 import org.mockito.Mockito.mock
 import org.robolectric.Robolectric
-import androidx.test.ext.junit.runners.AndroidJUnit4
+import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
 import org.robolectric.fakes.RoboMenuItem
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
+
 /**
  * Created by charlag on 3/7/18.
  */
 
 @Config(application = FakeTuskyApplication::class)
-@RunWith(AndroidJUnit4::class)
+@RunWith(RobolectricTestRunner::class)
 class ComposeActivityTest {
 
     lateinit var activity: ComposeActivity
     lateinit var accountManagerMock: AccountManager
     lateinit var apiMock: MastodonApi
+    lateinit var themeUtilsMock: ThemeUtils
 
-    private val account = AccountEntity(
+    val account = AccountEntity(
             id = 1,
             domain = "example.token",
             accessToken = "token",
@@ -135,9 +138,12 @@ class ComposeActivityTest {
         val dbMock = mock(AppDatabase::class.java)
         `when`(dbMock.instanceDao()).thenReturn(instanceDaoMock)
 
+        themeUtilsMock = Mockito.mock(ThemeUtils::class.java)
+
         activity.mastodonApi = apiMock
         activity.accountManager = accountManagerMock
         activity.database = dbMock
+        activity.themeUtils = themeUtilsMock
 
         `when`(accountManagerMock.activeAccount).thenReturn(account)
 
