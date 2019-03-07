@@ -10,7 +10,7 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 
-const val TEST_DB = "mirgation_test"
+const val TEST_DB = "migration_test"
 
 @RunWith(AndroidJUnit4::class)
 class MigrationsTest {
