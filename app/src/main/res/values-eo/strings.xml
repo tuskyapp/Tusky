@@ -14,6 +14,9 @@
     <string name="status_boosted_format">%s diskonigis</string>
     <string name="status_sensitive_media_title">Tikla enhavo</string>
     <string name="status_sensitive_media_directions">Alklaki por vidi</string>
+    <string name="report_username_format">Signali @%s</string>
+    <string name="report_comment_hint">Pliaj komentoj?</string>
+    <string name="action_quick_reply">Rapida respondo</string>
     <string name="action_reply">Respondi</string>
     <string name="action_favourite">Stelumi</string>
     <string name="action_logout">Elsaluti</string>
@@ -26,6 +29,7 @@
     <string name="action_view_profile">Profilo</string>
     <string name="action_view_blocks">Blokitaj uzantoj</string>
     <string name="action_view_follow_requests">Petoj de sekvado</string>
+    <string name="action_open_in_web">Malfermi en retumilo</string>
     <string name="action_add_media">Aldoni aŭdovidaĵon</string>
     <string name="action_mute">Silentigi</string>
     <string name="action_unmute">Malsilentigi</string>
