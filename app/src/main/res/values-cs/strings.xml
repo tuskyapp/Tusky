@@ -68,6 +68,14 @@
     <string name="action_more">Další</string>
     <string name="action_compose">Napsat</string>
     <string name="action_login">Přihlásit účtem Mastodon</string>
+    <string name="action_logout">Odhlásit</string>
+    <string name="action_logout_confirm">Jste si jistý/á, že se chcete odhlásit z účtu %1$s?</string>
+    <string name="action_follow">Sledovat</string>
+    <string name="action_unfollow">Přestat sledovat</string>
+    <string name="action_block">Blokovat</string>
+    <string name="action_unblock">Odblokovat</string>
+    <string name="action_hide_reblogs">Skrýt boosty</string>
+    <string name="action_show_reblogs">Zobrazit boosty</string>
     <!-- note to translators:
          * you should think of “free” as in “free speech,” not as in “free beer”.
            We sometimes call it “libre software,” borrowing the French or Spanish word for “free” as in freedom,
