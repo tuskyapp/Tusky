@@ -3,6 +3,8 @@
 <resources>
     <string name="error_generic">Vyskytla se chyba.</string>
     <string name="error_network">Vyskytla se chyba síte! Prosím zkontrolujte své připojení a zkuste to znovu!</string>
+    <string name="error_empty">Tohle nemůže být prázdné.</string>
+    <string name="error_invalid_domain">Neplatná doména zadána</string>
     <string name="title_home">Domů</string>
     <string name="title_advanced">Pokročilé</string>
     <string name="title_notifications">Oznámení</string>
@@ -20,6 +22,18 @@
     <string name="title_favourites">Oblíbené</string>
     <string name="title_mutes">Skrytí uživatelé</string>
     <string name="title_blocks">Blokovaní uživatelé</string>
+    <string name="title_follow_requests">Požadavky o sledování</string>
+    <string name="title_edit_profile">Upravit váš profil</string>
+    <string name="title_saved_toot">Koncepty</string>
+    <string name="title_licenses">Licence</string>
+    <string name="status_username_format">\@%s</string>
+    <string name="status_boosted_format">%s boostnul/a</string>
+    <string name="status_sensitive_media_title">Citlivý obsah</string>
+    <string name="status_media_hidden_title">Média skryta</string>
+    <string name="status_sensitive_media_directions">Klikněte pro zobrazení</string>
+    <string name="status_content_warning_show_more">Zobrazit více</string>
+    <string name="status_content_warning_show_less">Zobrazit méně</string>
+    <string name="status_content_show_more">Rozbalit</string>
     <!-- note to translators:
          * you should think of “free” as in “free speech,” not as in “free beer”.
            We sometimes call it “libre software,” borrowing the French or Spanish word for “free” as in freedom,
