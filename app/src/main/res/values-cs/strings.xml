@@ -18,6 +18,10 @@
     <string name="error_media_upload_permission">Je vyžadováno povolení číst média.</string>
     <string name="error_media_download_permission">Je vyžadováno povolení ukládat média.</string>
     <string name="error_media_upload_image_or_video">K jednomu tootu nemohou být přiloženy obrázky i videa.</string>
+    <string name="error_media_upload_sending">Nahrání selhalo.</string>
+    <string name="error_report_too_few_statuses">Musí být nahlášen alespoň jeden toot.</string>
+    <string name="error_invalid_regex">Neplatný regulární výraz</string>
+    <string name="error_sender_account_gone">Chyba při odesílání tootu.</string>
     <string name="title_home">Domů</string>
     <string name="title_advanced">Pokročilé</string>
     <string name="title_notifications">Oznámení</string>
@@ -47,6 +51,23 @@
     <string name="status_content_warning_show_more">Zobrazit více</string>
     <string name="status_content_warning_show_less">Zobrazit méně</string>
     <string name="status_content_show_more">Rozbalit</string>
+    <string name="status_content_show_less">Zabalit</string>
+    <string name="message_empty">Tady nic není.</string>
+    <string name="footer_empty">Tady nic není. Obnovte přetažnením dolů!</string>
+    <string name="notification_reblog_format">%s boostnul/a váš toot</string>
+    <string name="notification_favourite_format">%s si oblíbil/a váš toot</string>
+    <string name="notification_follow_format">%s vás nyí sleduje</string>
+    <string name="report_username_format">Nahlásit uživatele @%s</string>
+    <string name="report_comment_hint">Dodatečné komentáře?</string>
+    <string name="action_quick_reply">Rychlá odpověď</string>
+    <string name="action_reply">Odpovědět</string>
+    <string name="action_reblog">Boostnout</string>
+    <string name="action_unreblog">Odstranit boost</string>
+    <string name="action_favourite">Oblíbit</string>
+    <string name="action_unfavourite">Odstranit oblíbení</string>
+    <string name="action_more">Další</string>
+    <string name="action_compose">Napsat</string>
+    <string name="action_login">Přihlásit účtem Mastodon</string>
     <!-- note to translators:
          * you should think of “free” as in “free speech,” not as in “free beer”.
            We sometimes call it “libre software,” borrowing the French or Spanish word for “free” as in freedom,
