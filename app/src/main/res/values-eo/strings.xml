@@ -85,15 +85,34 @@
     <string name="about_tusky_account">Profilo de Tusky</string>
     <string name="status_media_images">Bildoj</string>
     <!--These are for timestamps on statuses. For example: "16s" or "2d"-->
+    <string name="abbreviated_years_ago">%dj</string>
+    <string name="abbreviated_days_ago">%dt</string>
+    <string name="abbreviated_hours_ago">%dh</string>
+    <string name="abbreviated_minutes_ago">%dm</string>
+    <string name="abbreviated_seconds_ago">%ds</string>
     <string name="follows_you">Sekvas vin</string>
     <string name="action_lists">Listoj</string>
     <string name="title_lists">Listoj</string>
+    <string name="lock_account_label">Ŝlosi konton</string>
+    <string name="compose_save_draft">Konservi malneton?</string>
     <string name="system_default">Sistema defaŭlto</string>
     <string name="later">Poste</string>
     <string name="restart">Restartigi</string>
+    <string name="profile_badge_bot_text">Roboto</string>
     <string name="license_cc_by_4">CC-BY 4.0</string>
     <string name="license_cc_by_sa_4">CC-BY-SA 4.0</string>
     <string name="profile_metadata_label">Profilaj metadatumoj</string>
+    <string name="profile_metadata_label_label">Etikedo</string>
+    <string name="profile_metadata_content_label">Enhavo</string>
+    <string name="unpin_action">Depingli</string>
     <string name="pin_action">Alpingli</string>
+    <string name="conversation_1_recipients">%1$s</string>
+    <string name="conversation_2_recipients">%1$s kaj %2$s</string>
+    <string name="conversation_more_recipients">%1$s, %2$s kaj %3$d aliaj</string>
+    <string name="description_visiblity_public">        Publika
+    </string>
+    <string name="description_visiblity_unlisted">        Nelistigita    </string>
+    <string name="description_visiblity_private">        Sekvantoj
+    </string>
     <string name="description_visiblity_direct">        Rekta    </string>
 </resources>
