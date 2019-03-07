@@ -31,9 +31,16 @@
     <string name="action_unmute">Malsilentigi</string>
     <string name="action_edit_profile">Redakti profilon</string>
     <string name="action_edit_own_profile">Redakti</string>
+    <string name="action_accept">Rajtigi</string>
+    <string name="action_reject">Rifuzi</string>
     <string name="action_search">Serĉi</string>
+    <string name="action_access_saved_toot">Malnetoj</string>
+    <string name="action_add_tab">Aldoni langeton</string>
     <string name="action_links">Ligiloj</string>
     <string name="action_hashtags">Kradvortoj</string>
+    <string name="title_hashtags_dialog">Kradvortoj</string>
+    <string name="title_links_dialog">Ligiloj</string>
+    <string name="action_copy_link">Kopii la ligilon</string>
     <string name="confirmation_reported">Sendita!</string>
     <string name="status_sent">Sendita!</string>
     <string name="hint_domain">Kiu nodo?</string>
@@ -46,6 +53,10 @@
     <string name="label_header">Fonbildo</string>
     <string name="link_whats_an_instance">Kio estas nodo?</string>
     <string name="dialog_delete_toot_warning">Forigi ĉi tiun mesaĝon?</string>
+    <string name="visibility_public">Publika: afiŝi en publikaj tempolinioj</string>
+    <string name="visibility_unlisted">Nelistigita: Ne afiŝi en publikaj tempolinioj</string>
+    <string name="visibility_private">Nur por sekvantoj: Afiŝi nur al sekvantoj</string>
+    <string name="visibility_direct">Rekta: Afiŝi nur al menciitaj uzantoj</string>
     <string name="pref_title_notification_settings">Sciigoj</string>
     <string name="pref_title_edit_notification_settings">Sciigoj</string>
     <string name="pref_title_notifications_enabled">Sciigoj</string>
@@ -53,9 +64,11 @@
     <string-array name="app_theme_names">
         <item>Malhela</item>
         <item>Hela</item>
-        <item>Black</item>
+        <item>Nigra</item>
         <item>Automatic at sunset</item>
     </string-array>
+    <string name="pref_title_browser_settings">Retumilo</string>
+    <string name="pref_title_status_tabs">Langetoj</string>
     <string-array name="post_privacy_names">
         <item>Publika</item>
         <item>Nelistigita</item>
@@ -72,6 +85,7 @@
     <string name="about_tusky_account">Profilo de Tusky</string>
     <string name="status_media_images">Bildoj</string>
     <!--These are for timestamps on statuses. For example: "16s" or "2d"-->
+    <string name="follows_you">Sekvas vin</string>
     <string name="action_lists">Listoj</string>
     <string name="title_lists">Listoj</string>
     <string name="system_default">Sistema defaŭlto</string>
@@ -81,4 +95,5 @@
     <string name="license_cc_by_sa_4">CC-BY-SA 4.0</string>
     <string name="profile_metadata_label">Profilaj metadatumoj</string>
     <string name="pin_action">Alpingli</string>
+    <string name="description_visiblity_direct">        Rekta    </string>
 </resources>
