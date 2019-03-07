@@ -34,6 +34,7 @@ import dagger.android.support.HasSupportFragmentInjector
 import kotlinx.android.synthetic.main.toolbar_basic.*
 import java.lang.IllegalArgumentException
 import javax.inject.Inject
+import androidx.appcompat.app.AppCompatDelegate
 
 class PreferencesActivity : BaseActivity(), SharedPreferences.OnSharedPreferenceChangeListener, HasSupportFragmentInjector {
 
@@ -135,7 +136,13 @@ class PreferencesActivity : BaseActivity(), SharedPreferences.OnSharedPreference
                 finish()
                 overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
 
-                restartActivitiesOnExit = true
+                // MODE_NIGHT_FOLLOW_SYSTEM workaround part 2 :/
+                when(theme){
+                    ThemeUtils.THEME_SYSTEM -> {
+                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
+                    }
+                }
+                //workaround end
 
             }
             "statusTextSize" -> {
