@@ -59,8 +59,6 @@ public abstract class BaseActivity extends AppCompatActivity implements Injectab
 
     protected static final int PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 1;
 
-    private final String TAG = "BaseActivity";
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

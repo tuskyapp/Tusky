@@ -121,7 +121,6 @@ public class TuskyApplication extends Application implements HasActivityInjector
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         localeManager.setLocale(this);
-        Log.d(TAG, "onConfigurationChanged: " + newConfig.locale.toString());
     }
 
     /**
