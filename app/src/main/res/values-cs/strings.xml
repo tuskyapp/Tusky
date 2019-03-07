@@ -115,6 +115,23 @@
     <string name="action_mentions">Zmínky</string>
     <string name="action_hashtags">Hashtagy</string>
     <string name="action_open_reblogger">Otevřít autora boostu</string>
+    <string name="action_open_reblogged_by">Zobrazit boosty</string>
+    <string name="action_open_faved_by">Zobrazit oblíbené</string>
+    <string name="title_hashtags_dialog">Hashtagy</string>
+    <string name="title_mentions_dialog">Zmínky</string>
+    <string name="title_links_dialog">Odkazy</string>
+    <string name="action_open_media_n">Otevřít médium #%d</string>
+    <string name="download_image">Stahuji %1$s</string>
+    <string name="action_copy_link">Zkopírovat odkaz</string>
+    <string name="action_open_as">Otevřít jako %s</string>
+    <string name="action_share_as">Sdílet jako…</string>
+    <string name="send_status_link_to">Sdílet URL tootu na…</string>
+    <string name="send_status_content_to">Sdílet toot na…</string>
+    <string name="send_media_to">Sdílet média na…</string>
+    <string name="confirmation_reported">Odesláno!</string>
+    <string name="confirmation_unblocked">Uživatel odblokován</string>
+    <string name="confirmation_unmuted">Uživatel odkryt</string>
+    <string name="status_sent">Odesláno!</string>
     <!-- note to translators:
          * you should think of “free” as in “free speech,” not as in “free beer”.
            We sometimes call it “libre software,” borrowing the French or Spanish word for “free” as in freedom,
