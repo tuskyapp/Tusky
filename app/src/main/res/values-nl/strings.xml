@@ -64,6 +64,7 @@
     <string name="action_reblog">Boosten</string>
     <string name="action_unreblog">Boost verwijderen</string>
     <string name="action_favourite">Als favoriet markeren</string>
+    <string name="action_unfavourite">Favoriet verwijderen</string>
     <string name="action_more">Meer</string>
     <string name="action_compose">Schrijf een toot</string>
     <string name="action_login">Aanmelden</string>
@@ -110,6 +111,10 @@
     <string name="action_content_warning">Tekstwaarschuwing</string>
     <string name="action_emoji_keyboard">Emojis</string>
     <string name="action_add_tab">Tab toevoegen</string>
+    <string name="action_links">Links</string>
+    <string name="action_mentions">Vermeldingen</string>
+    <string name="action_hashtags">Hashtags</string>
+    <string name="action_open_reblogger">Auteur van deze boost openen</string>
     <string name="action_open_reblogged_by">Boosts tonen</string>
     <string name="action_open_faved_by">Favorieten tonen</string>
     <string name="title_hashtags_dialog">Hashtags</string>
