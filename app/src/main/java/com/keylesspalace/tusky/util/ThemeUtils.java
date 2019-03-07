@@ -98,7 +98,7 @@ public class ThemeUtils {
         drawable.setColorFilter(getColor(context, attribute), PorterDuff.Mode.SRC_IN);
     }
 
-    public static void setAppNightMode(String flavor, Context context) {
+    public void setAppNightMode(String flavor, Context context) {
         switch (flavor) {
             default:
             case THEME_NIGHT:

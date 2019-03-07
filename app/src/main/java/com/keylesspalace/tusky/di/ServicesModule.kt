@@ -15,7 +15,6 @@
 
 package com.keylesspalace.tusky.di
 
-import com.keylesspalace.tusky.service.AccountChooserService
 import com.keylesspalace.tusky.service.SendTootService
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
@@ -24,6 +23,4 @@ import dagger.android.ContributesAndroidInjector
 abstract class ServicesModule {
     @ContributesAndroidInjector
     abstract fun contributesSendTootService(): SendTootService
-    @ContributesAndroidInjector
-    abstract fun contributesAccountChooserService(): AccountChooserService
 }

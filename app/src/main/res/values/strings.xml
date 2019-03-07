@@ -67,7 +67,9 @@
     <string name="action_quick_reply">Quick Reply</string>
     <string name="action_reply">Reply</string>
     <string name="action_reblog">Boost</string>
+    <string name="action_unreblog">Remove boost</string>
     <string name="action_favourite">Favourite</string>
+    <string name="action_unfavourite">Remove favourite</string>
     <string name="action_more">More</string>
     <string name="action_compose">Compose</string>
     <string name="action_login">Login with Mastodon</string>
@@ -114,6 +116,17 @@
     <string name="action_content_warning">Content warning</string>
     <string name="action_emoji_keyboard">Emoji keyboard</string>
     <string name="action_add_tab">Add Tab</string>
+    <string name="action_links">Links</string>
+    <string name="action_mentions">Mentions</string>
+    <string name="action_hashtags">Hashtags</string>
+    <string name="action_open_reblogger">Open boost author</string>
+    <string name="action_open_reblogged_by">Show boosts</string>
+    <string name="action_open_faved_by">Show favourites</string>
+
+    <string name="title_hashtags_dialog">Hashtags</string>
+    <string name="title_mentions_dialog">Mentions</string>
+    <string name="title_links_dialog">Links</string>
+    <string name="action_open_media_n">Open media #%d</string>
 
     <string name="download_image">Downloading %1$s</string>
 
@@ -203,7 +216,7 @@
     <string name="pref_title_show_boosts">Show boosts</string>
     <string name="pref_title_show_replies">Show replies</string>
     <string name="pref_title_filter_regex">Filter out by regular expressions</string>
-    <string name="pref_title_show_media_preview">Show media previews</string>
+    <string name="pref_title_show_media_preview">Download media previews</string>
     <string name="pref_title_proxy_settings">Proxy</string>
     <string name="pref_title_http_proxy_settings">HTTP proxy</string>
     <string name="pref_title_http_proxy_enable">Enable HTTP proxy</string>
@@ -343,6 +356,7 @@
     <string name="caption_systememoji">Your device\'s default emoji set</string>
     <string name="caption_blobmoji">The Blob emojis known from Android 4.4–7.1</string>
     <string name="caption_twemoji">Mastodon\'s standard emoji set</string>
+    <string name="emoji_shortcode_format" translatable="false">:%s:</string>
 
     <string name="download_failed">Download failed</string>
 
@@ -387,5 +401,37 @@
     <string name="conversation_more_recipients">%1$s, %2$s and %3$d more</string>
     <string name="max_tab_number_reached">maximum of %1$d tabs reached</string>
 
+
+    <string name="description_status_media">
+        Media: %s
+    </string>
+    <string name="description_status_cw">
+        Content warning: %s
+    </string>
+    <string name="description_status_media_no_description_placeholder">
+        No description
+    </string>
+    <string name="description_status_reblogged">
+        Reblogged
+    </string>
+    <string name="description_status_favourited">
+        Favourited
+    </string>
+    <string name="description_visiblity_public">
+        Public
+    </string>
+    <string name="description_visiblity_unlisted">
+        Unlisted
+    </string>
+    <string name="description_visiblity_private">
+        Followers
+    </string>
+    <string name="description_visiblity_direct">
+        Direct
+    </string>
+    <string name="description_status">
+        <!-- Display name, cw?, content?, relative date, reposted by?, reposted?, favorited?, username, media?; visibility, fav number?, reblog number?-->
+        %s; %s; %s, %s, %s; %s, %s, %s, %s; %s, %s, %s
+    </string>
 
 </resources>

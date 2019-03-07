@@ -1,4 +1,4 @@
-[![Translate - with Crowdin](https://img.shields.io/badge/translate%20with-crowdin-green.svg?style=flat)](https://crowdin.com/project/tusky) [![Build Status](https://app.bitrise.io/app/a3e773c3c57a894c/status.svg?token=qLu_Ti4Gp2LWcYT4eo2INQ&branch=master)](https://app.bitrise.io/app/a3e773c3c57a894c#/builds) 
+[![Translate - with Crowdin](https://img.shields.io/badge/translate%20with-crowdin-green.svg?style=flat)](https://crowdin.com/project/tusky) [![OpenCollective](https://opencollective.com/tusky/backers/badge.svg)](https://opencollective.com/tusky/) [![Build Status](https://app.bitrise.io/app/a3e773c3c57a894c/status.svg?token=qLu_Ti4Gp2LWcYT4eo2INQ&branch=master)](https://app.bitrise.io/app/a3e773c3c57a894c#/builds) 
 # Tusky
 
 ![](/fastlane/metadata/android/en-US/images/icon.png)
@@ -35,3 +35,5 @@ The current maintainer is [ConnyDuck@chaos.social](https://chaos.social/@ConnyDu
 
 ### Development chatroom
 https://riot.im/app/#/room/#Tusky:matrix.org
+
+### 

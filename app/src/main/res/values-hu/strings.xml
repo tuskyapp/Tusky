@@ -108,6 +108,11 @@
     <string name="action_content_warning">Tartalom figyelmeztetés</string>
     <string name="action_emoji_keyboard">Emoji billentyűzet</string>
     <string name="action_add_tab">Fül hozzáadása</string>
+    <string name="action_links">Linkek</string>
+    <string name="action_mentions">Említések</string>
+    <string name="action_hashtags">Címkék</string>
+    <string name="title_mentions_dialog">Említések</string>
+    <string name="title_links_dialog">Linkek</string>
     <string name="download_image">%1$s letöltése</string>
     <string name="action_copy_link">Link másolása</string>
     <string name="action_open_as">Megnyitás mint %s</string>
@@ -288,4 +293,8 @@
     <string name="title_favourited_by">Kedvencnek jelölte</string>
     <string name="conversation_2_recipients">%1$s és %2$s</string>
     <string name="max_tab_number_reached">fülek maximális száma (%1$d) elérve</string>
+    <string name="description_status_media_no_description_placeholder">        Nincs leírás
+    </string>
+    <string name="description_visiblity_public">Nyilvános    </string>
+    <string name="description_visiblity_private">Követők    </string>
 </resources>

@@ -16,8 +16,8 @@
 package com.keylesspalace.tusky.fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
@@ -28,6 +28,8 @@ import android.widget.ProgressBar;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
+import com.keylesspalace.tusky.AccountListActivity;
+import com.keylesspalace.tusky.BaseActivity;
 import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.adapter.TimelineAdapter;
 import com.keylesspalace.tusky.appstore.BlockEvent;
@@ -51,6 +53,7 @@ import com.keylesspalace.tusky.repository.TimelineRepository;
 import com.keylesspalace.tusky.repository.TimelineRequestMode;
 import com.keylesspalace.tusky.util.CollectionUtil;
 import com.keylesspalace.tusky.util.Either;
+import com.keylesspalace.tusky.util.ListStatusAccessibilityDelegate;
 import com.keylesspalace.tusky.util.ListUtils;
 import com.keylesspalace.tusky.util.PairedList;
 import com.keylesspalace.tusky.util.StringUtils;
@@ -61,7 +64,6 @@ import com.keylesspalace.tusky.view.EndlessOnScrollListener;
 import com.keylesspalace.tusky.viewdata.StatusViewData;
 
 import java.io.IOException;
-import java.math.BigInteger;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
@@ -349,15 +351,14 @@ public class TimelineFragment extends SFragment implements
     }
 
     private void setupRecyclerView() {
+        recyclerView.setAccessibilityDelegateCompat(
+                new ListStatusAccessibilityDelegate(recyclerView, this, statuses::getPairedItem));
         Context context = recyclerView.getContext();
         recyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(context);
         recyclerView.setLayoutManager(layoutManager);
         DividerItemDecoration divider = new DividerItemDecoration(
                 context, layoutManager.getOrientation());
-        Drawable drawable = ThemeUtils.getDrawable(context, R.attr.status_divider_drawable,
-                R.drawable.status_divider_dark);
-        divider.setDrawable(drawable);
         recyclerView.addItemDecoration(divider);
 
         // CWs are expanded without animation, buttons animate itself, we don't need it basically
@@ -472,17 +473,17 @@ public class TimelineFragment extends SFragment implements
                                 removeAllByAccountId(id);
                             }
                         } else if (event instanceof BlockEvent) {
-                            if (kind != Kind.USER && kind != Kind.USER_WITH_REPLIES) {
+                            if (kind != Kind.USER && kind != Kind.USER_WITH_REPLIES && kind != Kind.USER_PINNED) {
                                 String id = ((BlockEvent) event).getAccountId();
                                 removeAllByAccountId(id);
                             }
                         } else if (event instanceof MuteEvent) {
-                            if (kind != Kind.USER && kind != Kind.USER_WITH_REPLIES) {
+                            if (kind != Kind.USER && kind != Kind.USER_WITH_REPLIES && kind != Kind.USER_PINNED) {
                                 String id = ((MuteEvent) event).getAccountId();
                                 removeAllByAccountId(id);
                             }
                         } else if (event instanceof StatusDeletedEvent) {
-                            if (kind != Kind.USER && kind != Kind.USER_WITH_REPLIES) {
+                            if (kind != Kind.USER && kind != Kind.USER_WITH_REPLIES && kind != Kind.USER_PINNED) {
                                 String id = ((StatusDeletedEvent) event).getStatusId();
                                 deleteStatusById(id);
                             }
@@ -635,6 +636,21 @@ public class TimelineFragment extends SFragment implements
         updateAdapter();
     }
 
+
+    @Override
+    public void onShowReblogs(int position) {
+        String statusId = statuses.get(position).asRight().getId();
+        Intent intent = AccountListActivity.newIntent(getContext(), AccountListActivity.Type.REBLOGGED, statusId);
+        ((BaseActivity) getActivity()).startActivityWithSlideInAnimation(intent);
+    }
+
+    @Override
+    public void onShowFavs(int position) {
+        String statusId = statuses.get(position).asRight().getId();
+        Intent intent = AccountListActivity.newIntent(getContext(), AccountListActivity.Type.FAVOURITED, statusId);
+        ((BaseActivity) getActivity()).startActivityWithSlideInAnimation(intent);
+    }
+
     @Override
     public void onLoadMore(int position) {
         //check bounds before accessing list,
@@ -689,7 +705,7 @@ public class TimelineFragment extends SFragment implements
     }
 
     @Override
-    public void onViewMedia(int position, int attachmentIndex, @NonNull View view) {
+    public void onViewMedia(int position, int attachmentIndex, @Nullable View view) {
         Status status = statuses.get(position).asRightOrNull();
         if (status == null) return;
         super.viewMedia(attachmentIndex, status, view);

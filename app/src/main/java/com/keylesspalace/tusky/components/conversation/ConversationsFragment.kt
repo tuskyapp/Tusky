@@ -39,7 +39,6 @@ import com.keylesspalace.tusky.network.TimelineCases
 import com.keylesspalace.tusky.util.NetworkState
 import com.keylesspalace.tusky.util.ThemeUtils
 import com.keylesspalace.tusky.util.hide
-import com.keylesspalace.tusky.util.show
 import kotlinx.android.synthetic.main.fragment_timeline.*
 import javax.inject.Inject
 
@@ -73,10 +72,7 @@ class ConversationsFragment : SFragment(), StatusActionListener, Injectable {
 
         adapter = ConversationAdapter(useAbsoluteTime, mediaPreviewEnabled,this, ::onTopLoaded, viewModel::retry)
 
-        val divider = DividerItemDecoration(view.context, DividerItemDecoration.VERTICAL)
-        val drawable = ThemeUtils.getDrawable(view.context, R.attr.status_divider_drawable, R.drawable.status_divider_dark)
-        divider.setDrawable(drawable)
-        recyclerView.addItemDecoration(divider)
+        recyclerView.addItemDecoration(DividerItemDecoration(view.context, DividerItemDecoration.VERTICAL))
         recyclerView.layoutManager = LinearLayoutManager(view.context)
         recyclerView.adapter = adapter
         (recyclerView.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
@@ -126,7 +122,7 @@ class ConversationsFragment : SFragment(), StatusActionListener, Injectable {
         }
     }
 
-    override fun onViewMedia(position: Int, attachmentIndex: Int, view: View) {
+    override fun onViewMedia(position: Int, attachmentIndex: Int, view: View?) {
         viewModel.conversations.value?.getOrNull(position)?.lastStatus?.let {
             viewMedia(attachmentIndex, it.toStatus(), view)
         }

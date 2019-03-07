@@ -189,7 +189,7 @@ class SearchFragment : SFragment(), StatusActionListener, Injectable {
         }
     }
 
-    override fun onViewMedia(position: Int, attachmentIndex: Int, view: View) {
+    override fun onViewMedia(position: Int, attachmentIndex: Int, view: View?) {
         val status = searchAdapter.getStatusAtPosition(position) ?: return
         viewMedia(attachmentIndex, status, view)
     }

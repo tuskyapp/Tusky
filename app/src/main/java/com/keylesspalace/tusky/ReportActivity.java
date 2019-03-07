@@ -16,7 +16,6 @@
 package com.keylesspalace.tusky;
 
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -30,7 +29,6 @@ import com.keylesspalace.tusky.di.Injectable;
 import com.keylesspalace.tusky.entity.Status;
 import com.keylesspalace.tusky.network.MastodonApi;
 import com.keylesspalace.tusky.util.HtmlUtils;
-import com.keylesspalace.tusky.util.ThemeUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -93,9 +91,6 @@ public class ReportActivity extends BaseActivity implements Injectable {
 
         DividerItemDecoration divider = new DividerItemDecoration(
                 this, layoutManager.getOrientation());
-        Drawable drawable = ThemeUtils.getDrawable(this, R.attr.report_status_divider_drawable,
-                R.drawable.report_status_divider_dark);
-        divider.setDrawable(drawable);
         recyclerView.addItemDecoration(divider);
 
         ReportAdapter.ReportStatus reportStatus = new ReportAdapter.ReportStatus(statusId,
