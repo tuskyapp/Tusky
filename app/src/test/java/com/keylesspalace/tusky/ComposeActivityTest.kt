@@ -54,10 +54,10 @@ import retrofit2.Response
 @RunWith(AndroidJUnit4::class)
 class ComposeActivityTest {
 
-    lateinit var activity: ComposeActivity
-    lateinit var accountManagerMock: AccountManager
-    lateinit var apiMock: MastodonApi
-    lateinit var themeUtilsMock: ThemeUtils
+    private lateinit var activity: ComposeActivity
+    private lateinit var accountManagerMock: AccountManager
+    private lateinit var apiMock: MastodonApi
+    private lateinit var themeUtilsMock: ThemeUtils
 
     private val account = AccountEntity(
             id = 1,
@@ -259,7 +259,7 @@ class ComposeActivityTest {
                 "Example instance for testing",
                 "admin@example.token",
                 "2.6.3",
-                HashMap<String, String>(),
+                HashMap(),
                 null,
                 null,
                 listOf("en"),

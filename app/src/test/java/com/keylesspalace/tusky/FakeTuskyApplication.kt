@@ -6,7 +6,7 @@ package com.keylesspalace.tusky
 
 class FakeTuskyApplication : TuskyApplication() {
 
-    lateinit var locator: ServiceLocator
+    private lateinit var locator: ServiceLocator
 
     override fun initSecurityProvider() {
         // No-op
