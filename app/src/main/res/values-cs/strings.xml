@@ -132,6 +132,14 @@
     <string name="confirmation_unblocked">Uživatel odblokován</string>
     <string name="confirmation_unmuted">Uživatel odkryt</string>
     <string name="status_sent">Odesláno!</string>
+    <string name="status_sent_long">Odpověď byla úspěšně odeslána.</string>
+    <string name="hint_domain">Který server?</string>
+    <string name="hint_compose">Co se právě děje?</string>
+    <string name="hint_content_warning">Varování o obsahu</string>
+    <string name="hint_display_name">Zobrazované jméno</string>
+    <string name="hint_note">O vás</string>
+    <string name="hint_search">Hledat…</string>
+    <string name="search_no_results">Žádné výsledky</string>
     <!-- note to translators:
          * you should think of “free” as in “free speech,” not as in “free beer”.
            We sometimes call it “libre software,” borrowing the French or Spanish word for “free” as in freedom,
@@ -139,4 +147,7 @@
          * the url can be changed to link to the localized version of the license.
     -->
     <!--These are for timestamps on statuses. For example: "16s" or "2d"-->
+    <string name="description_status">        <!-- Zobrazované jméno, varování?, obsah?, relativní datum, znovusdíleno kým?, znovusdíleno?, oblíbeno?, uživatelské jméno, média?; viditelnost, počet oblíbení?, počet boostů?-->
+        %s; %s; %s, %s, %s; %s, %s, %s, %s; %s, %s, %s
+    </string>
 </resources>
