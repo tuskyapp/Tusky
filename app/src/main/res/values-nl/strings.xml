@@ -62,6 +62,7 @@
     <string name="action_quick_reply">Snelle reactie</string>
     <string name="action_reply">Reageren</string>
     <string name="action_reblog">Boosten</string>
+    <string name="action_unreblog">Boost verwijderen</string>
     <string name="action_favourite">Als favoriet markeren</string>
     <string name="action_more">Meer</string>
     <string name="action_compose">Schrijf een toot</string>
@@ -171,7 +172,7 @@
         <item>Licht</item>
         <item>Zwart</item>
         <item>Automatisch tijdens zonsondergang</item>
-        <item>Use System Design</item>
+        <item>Systeemthema gebruiken</item>
     </string-array>
     <string name="pref_title_browser_settings">Webbrowser</string>
     <string name="pref_title_custom_tabs">Aangepaste tabbladen gebruiken</string>
