@@ -171,6 +171,7 @@
         <item>Licht</item>
         <item>Zwart</item>
         <item>Automatisch tijdens zonsondergang</item>
+        <item>Use System Design</item>
     </string-array>
     <string name="pref_title_browser_settings">Webbrowser</string>
     <string name="pref_title_custom_tabs">Aangepaste tabbladen gebruiken</string>
