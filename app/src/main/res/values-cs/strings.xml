@@ -145,6 +145,21 @@
     <string name="label_header">Záhlaví</string>
     <string name="link_whats_an_instance">Co je server?</string>
     <string name="login_connection">Připojuji se…</string>
+    <string name="dialog_whats_an_instance">Sem může být zadána adresa či doména jakéhokoliv
+        serveru, například mastodon.social, icosahedron.website, social.tchncs.de
+        a <a href="https://instances.social">další!</a>
+        \n\nPokud ještě nemáte účet, můžete zadat název instance, ke které se chcete
+        připojit, a vytvořit si tam účet.\n\nServer je jedno místo, kde je hostován váš
+        účet, můžete však jednoduše komunikovat a sledovat lidi na jiných serverech, jako by
+        byli na stejné stránce.
+        \n\nDalší informace mohou být nalezeny na stránce <a href="https://joinmastodon.org">joinmastodon.org</a>.
+    </string>
+    <string name="dialog_title_finishing_media_upload">Dokončuji nahrávání médií</string>
+    <string name="dialog_message_uploading_media">Nahrávám…</string>
+    <string name="dialog_download_image">Stáhnout</string>
+    <string name="dialog_message_cancel_follow_request">Zrušit požadavek o sledování?</string>
+    <string name="dialog_unfollow_warning">Přestat sledovat tento účet?</string>
+    <string name="dialog_delete_toot_warning">Smazat tento toot?</string>
     <!-- note to translators:
          * you should think of “free” as in “free speech,” not as in “free beer”.
            We sometimes call it “libre software,” borrowing the French or Spanish word for “free” as in freedom,
