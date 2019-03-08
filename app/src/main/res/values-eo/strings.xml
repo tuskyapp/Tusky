@@ -32,6 +32,7 @@
     <string name="status_media_hidden_title">Kaŝitaj aŭdovidaĵoj</string>
     <string name="status_sensitive_media_directions">Alklaki por vidi</string>
     <string name="notification_reblog_format">%s diskonigis vian mesaĝon</string>
+    <string name="notification_favourite_format">%s stelumis vian mesaĝon</string>
     <string name="report_username_format">Signali @%s</string>
     <string name="report_comment_hint">Pliaj komentoj?</string>
     <string name="action_quick_reply">Rapida respondo</string>
@@ -39,6 +40,7 @@
     <string name="action_reblog">Diskonigi</string>
     <string name="action_unreblog">Nuligi diskonigon</string>
     <string name="action_favourite">Stelumi</string>
+    <string name="action_unfavourite">Nuligi stelumon</string>
     <string name="action_logout">Elsaluti</string>
     <string name="action_block">Bloki</string>
     <string name="action_unblock">Malbloki</string>
@@ -49,12 +51,14 @@
     <string name="action_send">HUP</string>
     <string name="action_send_public">HUP!</string>
     <string name="action_view_profile">Profilo</string>
+    <string name="action_view_favourites">Stelumoj</string>
     <string name="action_view_blocks">Blokitaj uzantoj</string>
     <string name="action_view_follow_requests">Petoj de sekvado</string>
     <string name="action_open_in_web">Malfermi en retumilo</string>
     <string name="action_add_media">Aldoni aŭdovidaĵon</string>
     <string name="action_mute">Silentigi</string>
     <string name="action_unmute">Malsilentigi</string>
+    <string name="action_mention">Mencii</string>
     <string name="action_hide_media">Kaŝi aŭdovidaĵojn</string>
     <string name="action_open_drawer">Montri tirmenuon</string>
     <string name="action_save">Konservi</string>
@@ -66,10 +70,13 @@
     <string name="action_access_saved_toot">Malnetoj</string>
     <string name="action_add_tab">Aldoni langeton</string>
     <string name="action_links">Ligiloj</string>
+    <string name="action_mentions">Mencioj</string>
     <string name="action_hashtags">Kradvortoj</string>
     <string name="action_open_reblogger">Montri la aŭtoron de la diskonigo</string>
     <string name="action_open_reblogged_by">Montri diskonigojn</string>
+    <string name="action_open_faved_by">Montri stelumojn</string>
     <string name="title_hashtags_dialog">Kradvortoj</string>
+    <string name="title_mentions_dialog">Mencioj</string>
     <string name="title_links_dialog">Ligiloj</string>
     <string name="action_copy_link">Kopii la ligilon</string>
     <string name="confirmation_reported">Sendita!</string>
@@ -95,6 +102,8 @@
     <string name="pref_title_edit_notification_settings">Sciigoj</string>
     <string name="pref_title_notifications_enabled">Sciigoj</string>
     <string name="pref_summary_notifications">por konto %1$s</string>
+    <string name="pref_title_notification_filter_reblogs">viaj mesaĝoj estas diskonigitaj</string>
+    <string name="pref_title_notification_filter_favourites">miaj mesaĝoj estas stelumitaj</string>
     <string name="pref_title_appearance_settings">Aspekto</string>
     <string-array name="app_theme_names">
         <item>Malhela</item>
@@ -113,6 +122,8 @@
         <item>Nur por sekvantoj</item>
     </string-array>
     <string name="notification_channel_boost_name">Diskonigoj</string>
+    <string name="notification_channel_boost_description">Sciigoj kiam viaj mesaĝoj estas diskonigita</string>
+    <string name="notification_channel_favourite_name">Stelumoj</string>
     <string name="about_title_activity">Pri</string>
     <string name="about_tusky_version">Tusky %s</string>
     <!-- note to translators:
@@ -139,6 +150,7 @@
     <string name="restart">Restartigi</string>
     <string name="profile_badge_bot_text">Roboto</string>
     <string name="reblog_private">Diskonigi al la originala atentaro</string>
+    <string name="unreblog_private">Eksdiskonigi</string>
     <string name="license_cc_by_4">CC-BY 4.0</string>
     <string name="license_cc_by_sa_4">CC-BY-SA 4.0</string>
     <string name="profile_metadata_label">Profilaj metadatumoj</string>
@@ -146,14 +158,21 @@
     <string name="profile_metadata_content_label">Enhavo</string>
     <string name="unpin_action">Depingli</string>
     <string name="pin_action">Alpingli</string>
+    <plurals name="favs">
+        <item quantity="one">&lt;b&gt;%1$s&lt;/b&gt; Stelumo</item>
+        <item quantity="other">&lt;b&gt;%1$s&lt;/b&gt; Stelumoj</item>
+    </plurals>
     <plurals name="reblogs">
         <item quantity="one">&lt;b&gt;%s&lt;/b&gt; Diskonigo</item>
         <item quantity="other">&lt;b&gt;%s&lt;/b&gt; Diskonigoj</item>
     </plurals>
     <string name="title_reblogged_by">Diskonigis de</string>
+    <string name="title_favourited_by">Stelumita per</string>
     <string name="conversation_1_recipients">%1$s</string>
     <string name="conversation_2_recipients">%1$s kaj %2$s</string>
     <string name="conversation_more_recipients">%1$s, %2$s kaj %3$d aliaj</string>
+    <string name="description_status_reblogged">        Diskonigita
+    </string>
     <string name="description_visiblity_public">        Publika
     </string>
     <string name="description_visiblity_unlisted">        Nelistigita    </string>
