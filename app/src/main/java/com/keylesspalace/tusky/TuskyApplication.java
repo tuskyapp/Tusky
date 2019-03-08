@@ -23,7 +23,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.preference.PreferenceManager;
-import android.util.Log;
 import androidx.emoji.text.EmojiCompat;
 
 import com.evernote.android.job.JobManager;
@@ -67,8 +66,6 @@ public class TuskyApplication extends Application implements HasActivityInjector
     private ServiceLocator serviceLocator;
 
     public static LocaleManager localeManager;
-
-    private final String TAG = "TuskyApplication";
 
     @Override
     public void onCreate() {

@@ -18,13 +18,9 @@ package com.keylesspalace.tusky.util
 import android.content.Context
 import android.content.SharedPreferences
 import android.content.res.Configuration
-import android.content.res.Resources
 import android.preference.PreferenceManager
 
 import java.util.Locale
-
-import com.keylesspalace.tusky.util.getNonNullString
-
 
 class LocaleManager(context: Context) {
 
@@ -32,14 +28,14 @@ class LocaleManager(context: Context) {
 
     fun setLocale(context: Context): Context {
         val language = prefs.getNonNullString("language", "default")
-        if (language.equals("default")) {
-            return context;
+        if (language == "default") {
+            return context
         }
         val locale = Locale.forLanguageTag(language)
         Locale.setDefault(locale)
 
-        val res = context.getResources()
-        val config = Configuration(res.getConfiguration());
+        val res = context.resources
+        val config = Configuration(res.configuration)
         config.setLocale(locale)
         return context.createConfigurationContext(config)
     }
