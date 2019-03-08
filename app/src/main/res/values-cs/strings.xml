@@ -160,7 +160,26 @@
     <string name="dialog_message_cancel_follow_request">Zrušit požadavek o sledování?</string>
     <string name="dialog_unfollow_warning">Přestat sledovat tento účet?</string>
     <string name="dialog_delete_toot_warning">Smazat tento toot?</string>
-    <string name="visibility_public">Veřejný: Posílat na veřejné časové osy</string>
+    <string name="visibility_public">Veřejný: Poslat na veřejné časové osy</string>
+    <string name="visibility_unlisted">Neuvedený: Neposlat na veřejné časové osy</string>
+    <string name="visibility_private">Pouze pro sledující: Poslat pouze sledujícím</string>
+    <string name="visibility_direct">Přímý: Poslat pouze zmíněným uživatelům</string>
+    <string name="pref_title_notification_settings">Oznámení</string>
+    <string name="pref_title_edit_notification_settings">Oznámení</string>
+    <string name="pref_title_notifications_enabled">Oznámení</string>
+    <string name="pref_summary_notifications">pro účet %1$s</string>
+    <string name="pref_title_notification_alerts">Upozornění</string>
+    <string name="pref_title_notification_alert_sound">Oznamovat se zvukem</string>
+    <string name="pref_title_notification_alert_vibrate">Oznamovat s vibrací</string>
+    <string name="pref_title_notification_alert_light">Oznamovat se světlem</string>
+    <string name="pref_title_notification_filters">Oznamovat, když</string>
+    <string name="pref_title_notification_filter_mentions">jsem zmíněn/a</string>
+    <string name="pref_title_notification_filter_follows">jsem sledován/a</string>
+    <string name="pref_title_notification_filter_reblogs">jsou moje příspěvky boostnuty</string>
+    <string name="pref_title_notification_filter_favourites">jsou moje příspěvky oblíbeny</string>
+    <string name="pref_title_appearance_settings">Vzhled</string>
+    <string name="pref_title_app_theme">Motiv aplikace</string>
+    <string name="pref_title_timelines">Časové osy</string>
     <!-- note to translators:
          * you should think of “free” as in “free speech,” not as in “free beer”.
            We sometimes call it “libre software,” borrowing the French or Spanish word for “free” as in freedom,
