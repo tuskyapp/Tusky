@@ -56,7 +56,7 @@
     <string name="footer_empty">Tady nic není. Obnovte přetažnením dolů!</string>
     <string name="notification_reblog_format">%s boostnul/a váš toot</string>
     <string name="notification_favourite_format">%s si oblíbil/a váš toot</string>
-    <string name="notification_follow_format">%s vás nyí sleduje</string>
+    <string name="notification_follow_format">%s vás nyní sleduje</string>
     <string name="report_username_format">Nahlásit uživatele @%s</string>
     <string name="report_comment_hint">Dodatečné komentáře?</string>
     <string name="action_quick_reply">Rychlá odpověď</string>
@@ -180,6 +180,37 @@
     <string name="pref_title_appearance_settings">Vzhled</string>
     <string name="pref_title_app_theme">Motiv aplikace</string>
     <string name="pref_title_timelines">Časové osy</string>
+    <string-array name="app_theme_names">
+        <item>Tmavý</item>
+        <item>Světlý</item>
+        <item>Černý</item>
+        <item>Automatický při západu slunce</item>
+        <item>Použít systémový design</item>
+    </string-array>
+    <string name="pref_title_browser_settings">Prohlížeč</string>
+    <string name="pref_title_custom_tabs">Používat Vlastní karty Chrome</string>
+    <string name="pref_title_hide_follow_button">Skrýt tlačítko pro psaní při rolování</string>
+    <string name="pref_title_status_filter">Filtrování časových os</string>
+    <string name="pref_title_status_tabs">Záložky</string>
+    <string name="pref_title_show_boosts">Zobrazi boosty</string>
+    <string name="pref_title_show_replies">Zobrazit odpovědi</string>
+    <string name="pref_title_filter_regex">Filtrovat regulárními výrazy</string>
+    <string name="pref_title_show_media_preview">Stahovat náhledy médií</string>
+    <string name="pref_title_proxy_settings">Proxy</string>
+    <string name="pref_title_http_proxy_settings">HTTP proxy</string>
+    <string name="pref_title_http_proxy_enable">Povolit HTTP proxy</string>
+    <string name="pref_title_http_proxy_server">HTTP proxy server</string>
+    <string name="pref_title_http_proxy_port">HTTP proxy port</string>
+    <string name="pref_default_post_privacy">Výchozí soukromí příspěvků</string>
+    <string name="pref_default_media_sensitivity">Vždy označovat média jako citlivá</string>
+    <string name="pref_publishing">Publikování (synchronizováno se serverem)</string>
+    <string name="pref_failed_to_sync">Nepodařilo se synchronizovsat nastavení</string>
+    <string name="pref_media_display">Zobrazení médií</string>
+    <string name="notification_channel_boost_name">Boosty</string>
+    <string name="notification_summary_large">%1$s, %2$s, %3$s a dalších %4$d</string>
+    <string name="notification_summary_medium">%1$s, %2$s a %3$s</string>
+    <string name="notification_summary_small">%1$s a %2$s</string>
+    <string name="notification_title_summary">%d nových interakcí</string>
     <!-- note to translators:
          * you should think of “free” as in “free speech,” not as in “free beer”.
            We sometimes call it “libre software,” borrowing the French or Spanish word for “free” as in freedom,
@@ -187,6 +218,16 @@
          * the url can be changed to link to the localized version of the license.
     -->
     <!--These are for timestamps on statuses. For example: "16s" or "2d"-->
+    <string name="abbreviated_in_years">za %d let</string>
+    <string name="abbreviated_in_days">za %d d</string>
+    <string name="abbreviated_in_hours">za %d h</string>
+    <string name="abbreviated_in_minutes">za %d min</string>
+    <string name="abbreviated_in_seconds">za %d s</string>
+    <string name="abbreviated_years_ago">%d let</string>
+    <string name="abbreviated_days_ago">%d d</string>
+    <string name="abbreviated_hours_ago">%d h</string>
+    <string name="abbreviated_minutes_ago">%d min</string>
+    <string name="abbreviated_seconds_ago">%d s</string>
     <string name="description_status">        <!-- Zobrazované jméno, varování?, obsah?, relativní datum, znovusdíleno kým?, znovusdíleno?, oblíbeno?, uživatelské jméno, média?; viditelnost, počet oblíbení?, počet boostů?-->
         %s; %s; %s, %s, %s; %s, %s, %s, %s; %s, %s, %s
     </string>
