@@ -160,6 +160,7 @@
     <string name="dialog_message_cancel_follow_request">Zrušit požadavek o sledování?</string>
     <string name="dialog_unfollow_warning">Přestat sledovat tento účet?</string>
     <string name="dialog_delete_toot_warning">Smazat tento toot?</string>
+    <string name="visibility_public">Veřejný: Posílat na veřejné časové osy</string>
     <!-- note to translators:
          * you should think of “free” as in “free speech,” not as in “free beer”.
            We sometimes call it “libre software,” borrowing the French or Spanish word for “free” as in freedom,
