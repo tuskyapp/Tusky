@@ -138,6 +138,7 @@
     <string name="later">Poste</string>
     <string name="restart">Restartigi</string>
     <string name="profile_badge_bot_text">Roboto</string>
+    <string name="reblog_private">Diskonigi al la originala atentaro</string>
     <string name="license_cc_by_4">CC-BY 4.0</string>
     <string name="license_cc_by_sa_4">CC-BY-SA 4.0</string>
     <string name="profile_metadata_label">Profilaj metadatumoj</string>
@@ -145,6 +146,11 @@
     <string name="profile_metadata_content_label">Enhavo</string>
     <string name="unpin_action">Depingli</string>
     <string name="pin_action">Alpingli</string>
+    <plurals name="reblogs">
+        <item quantity="one">&lt;b&gt;%s&lt;/b&gt; Diskonigo</item>
+        <item quantity="other">&lt;b&gt;%s&lt;/b&gt; Diskonigoj</item>
+    </plurals>
+    <string name="title_reblogged_by">Diskonigis de</string>
     <string name="conversation_1_recipients">%1$s</string>
     <string name="conversation_2_recipients">%1$s kaj %2$s</string>
     <string name="conversation_more_recipients">%1$s, %2$s kaj %3$d aliaj</string>
