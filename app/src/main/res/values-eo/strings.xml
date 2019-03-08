@@ -4,7 +4,9 @@
     <string name="error_generic">Eraro okazis.</string>
     <string name="error_network">Reta eraro okazis! Bonvolu kontroli vian konekton kaj klopodi denove!</string>
     <string name="error_empty">Ne povas esti malplena.</string>
+    <string name="error_compose_character_limit">Via mesaĝo estas tro longa!</string>
     <string name="title_home">Hejmo</string>
+    <string name="title_advanced">Sperta</string>
     <string name="title_notifications">Sciigoj</string>
     <string name="title_public_local">Loka</string>
     <string name="title_public_federated">Fratara</string>
