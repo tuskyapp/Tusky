@@ -146,6 +146,7 @@
         <item>வெளிச்சம்</item>
         <item>பிளாக்</item>
         <item>தானியங்கி</item>
+        <item>Use System Design</item>
     </string-array>
     <string name="pref_title_browser_settings">உலாவி</string>
     <string name="pref_title_custom_tabs">Chrome தனிப்பயன் கீற்றை பயன்படுத்து</string>
