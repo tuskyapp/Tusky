@@ -22,6 +22,14 @@
             android:title="@string/emoji_style" />
 
         <ListPreference
+            android:defaultValue="default"
+            android:entries="@array/language_entries"
+            android:entryValues="@array/language_values"
+            android:key="language"
+            android:summary="%s"
+            android:title="@string/pref_title_language" />
+
+        <ListPreference
             android:defaultValue="medium"
             android:entries="@array/status_text_size_names"
             android:entryValues="@array/status_text_size_values"

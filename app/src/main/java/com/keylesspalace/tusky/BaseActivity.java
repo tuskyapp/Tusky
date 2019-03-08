@@ -16,6 +16,7 @@
 package com.keylesspalace.tusky;
 
 import android.app.ActivityManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -97,6 +98,11 @@ public abstract class BaseActivity extends AppCompatActivity implements Injectab
         }
 
         callList = new ArrayList<>();
+    }
+
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(TuskyApplication.localeManager.setLocale(base));
     }
 
     protected boolean requiresLogin() {
