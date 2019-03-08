@@ -104,6 +104,7 @@
     <string name="action_toggle_visibility">トゥートの公開範囲</string>
     <string name="action_content_warning">閲覧注意</string>
     <string name="action_emoji_keyboard">絵文字キーボード</string>
+    <string name="title_links_dialog">リンク</string>
     <string name="download_image">%1$s をダウンロードしています</string>
     <string name="action_copy_link">リンクをコピー</string>
     <string name="send_status_link_to">トゥートのURLを共有…</string>
