@@ -57,6 +57,8 @@ public abstract class BaseActivity extends AppCompatActivity implements Injectab
     @Inject
     public AccountManager accountManager;
 
+    ThemeUtils themeUtils = new ThemeUtils();
+
     protected static final int PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 1;
 
     @Override
@@ -73,7 +75,8 @@ public abstract class BaseActivity extends AppCompatActivity implements Injectab
         if (theme.equals("black")) {
             setTheme(R.style.TuskyBlackTheme);
         }
-        ThemeUtils.setAppNightMode(theme, this);
+
+        themeUtils.setAppNightMode(theme, this);
 
         /* set the taskdescription programmatically, the theme would turn it blue */
         String appName = getString(R.string.app_name);

@@ -26,6 +26,7 @@ import com.keylesspalace.tusky.entity.Account
 import com.keylesspalace.tusky.entity.Emoji
 import com.keylesspalace.tusky.entity.Instance
 import com.keylesspalace.tusky.network.MastodonApi
+import com.keylesspalace.tusky.util.ThemeUtils
 import okhttp3.Request
 import okhttp3.ResponseBody
 import org.junit.Assert
@@ -44,6 +45,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
+
 /**
  * Created by charlag on 3/7/18.
  */
@@ -55,6 +57,7 @@ class ComposeActivityTest {
     lateinit var activity: ComposeActivity
     lateinit var accountManagerMock: AccountManager
     lateinit var apiMock: MastodonApi
+    lateinit var themeUtilsMock: ThemeUtils
 
     val account = AccountEntity(
             id = 1,
@@ -135,9 +138,12 @@ class ComposeActivityTest {
         val dbMock = mock(AppDatabase::class.java)
         `when`(dbMock.instanceDao()).thenReturn(instanceDaoMock)
 
+        themeUtilsMock = Mockito.mock(ThemeUtils::class.java)
+
         activity.mastodonApi = apiMock
         activity.accountManager = accountManagerMock
         activity.database = dbMock
+        activity.themeUtils = themeUtilsMock
 
         `when`(accountManagerMock.activeAccount).thenReturn(account)
 

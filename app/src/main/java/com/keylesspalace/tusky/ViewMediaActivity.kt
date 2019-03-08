@@ -272,11 +272,11 @@ class ViewMediaActivity : BaseActivity(), ViewImageFragment.PhotoActionsListener
                 }
             }
 
-            override fun onBitmapFailed(errorDrawable: Drawable) {
+            override fun onBitmapFailed(errorDrawable: Drawable?) {
                 Log.e(TAG, "Error loading temporary media.")
             }
 
-            override fun onPrepareLoad(placeHolderDrawable: Drawable) { }
+            override fun onPrepareLoad(placeHolderDrawable: Drawable?) { }
         })
 
         shareFile(file, "image/png")
