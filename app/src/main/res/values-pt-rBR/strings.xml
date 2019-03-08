@@ -55,7 +55,9 @@
     <string name="action_quick_reply">Resposta rápida</string>
     <string name="action_reply">Responder</string>
     <string name="action_reblog">Compartilhar</string>
+    <string name="action_unreblog">Desfazer compartilhamento</string>
     <string name="action_favourite">Curtir</string>
+    <string name="action_unfavourite">Remover curtida</string>
     <string name="action_more">Mais</string>
     <string name="action_compose">Compor</string>
     <string name="action_login">Entrar com Mastodon</string>
@@ -69,6 +71,8 @@
     <string name="action_show_reblogs">Exibir compartilhamentos</string>
     <string name="action_report">Denunciar</string>
     <string name="action_delete">Excluir</string>
+    <string name="action_send">PUBLICAR</string>
+    <string name="action_send_public">PUBLICAR!</string>
     <string name="action_retry">Tentar novamente</string>
     <string name="action_close">Fechar</string>
     <string name="action_view_profile">Perfil</string>
@@ -99,12 +103,19 @@
     <string name="action_content_warning">Aviso de conteúdo</string>
     <string name="action_emoji_keyboard">Teclado de emojis</string>
     <string name="action_add_tab">Adicionar aba</string>
+    <string name="action_links">Links</string>
+    <string name="action_mentions">Menções</string>
+    <string name="action_open_reblogged_by">Mostrar compartilhamentos</string>
+    <string name="action_open_faved_by">Mostrar curtidas</string>
+    <string name="title_mentions_dialog">Menções</string>
+    <string name="title_links_dialog">Links</string>
     <string name="download_image">Baixando %1$s</string>
     <string name="action_copy_link">Copiar link</string>
     <string name="action_open_as">Abrir como %s</string>
     <string name="action_share_as">Compartilhar como …</string>
     <string name="send_status_link_to">Compartilhar URL do toot no…</string>
     <string name="send_status_content_to">Compartilhar toot no…</string>
+    <string name="send_media_to">Compartilhar mídia via…</string>
     <string name="confirmation_reported">Enviado!</string>
     <string name="confirmation_unblocked">Usuário desbloqueado</string>
     <string name="confirmation_unmuted">Silêncio retirado</string>
@@ -160,6 +171,7 @@
         <item>Diurno</item>
         <item>AMOLED</item>
         <item>Automático</item>
+        <item>Usar o tema do sistema</item>
     </string-array>
     <string name="pref_title_browser_settings">Navegador</string>
     <string name="pref_title_custom_tabs">Usar abas do Chrome</string>
@@ -294,4 +306,7 @@
     <string name="pref_title_absolute_time">Usar tempo absoluto</string>
     <string name="title_reblogged_by">Compartilhado por</string>
     <string name="title_favourited_by">Curtido por</string>
+    <string name="description_visiblity_public">Público    </string>
+    <string name="description_visiblity_private">        Seguidores
+    </string>
 </resources>
