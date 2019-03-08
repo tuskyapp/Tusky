@@ -26,6 +26,7 @@
     <string name="title_notifications">通知</string>
     <string name="title_public_local">ローカル</string>
     <string name="title_public_federated">連合</string>
+    <string name="title_direct_messages">ダイレクトメッセージ</string>
     <string name="title_tab_preferences">タブ</string>
     <string name="title_view_thread">スレッド</string>
     <string name="title_tag">#%s</string>
@@ -104,6 +105,8 @@
     <string name="action_toggle_visibility">トゥートの公開範囲</string>
     <string name="action_content_warning">閲覧注意</string>
     <string name="action_emoji_keyboard">絵文字キーボード</string>
+    <string name="action_add_tab">タブの追加</string>
+    <string name="action_links">リンク</string>
     <string name="title_links_dialog">リンク</string>
     <string name="download_image">%1$s をダウンロードしています</string>
     <string name="action_copy_link">リンクをコピー</string>
