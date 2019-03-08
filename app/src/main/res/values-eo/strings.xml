@@ -31,14 +31,17 @@
     <string name="status_sensitive_media_title">Tikla enhavo</string>
     <string name="status_media_hidden_title">Kaŝitaj aŭdovidaĵoj</string>
     <string name="status_sensitive_media_directions">Alklaki por vidi</string>
+    <string name="notification_reblog_format">%s diskonigis vian mesaĝon</string>
     <string name="report_username_format">Signali @%s</string>
     <string name="report_comment_hint">Pliaj komentoj?</string>
     <string name="action_quick_reply">Rapida respondo</string>
     <string name="action_reply">Respondi</string>
+    <string name="action_reblog">Diskonigi</string>
     <string name="action_favourite">Stelumi</string>
     <string name="action_logout">Elsaluti</string>
     <string name="action_block">Bloki</string>
     <string name="action_unblock">Malbloki</string>
+    <string name="action_show_reblogs">Montri diskonigojn</string>
     <string name="action_report">Signali</string>
     <string name="action_delete">Forigi</string>
     <string name="action_send">HUP</string>
@@ -76,6 +79,8 @@
     <string name="label_avatar">Profilbildo</string>
     <string name="label_header">Fonbildo</string>
     <string name="link_whats_an_instance">Kio estas nodo?</string>
+    <string name="dialog_download_image">Elŝuti</string>
+    <string name="dialog_message_cancel_follow_request">Nuligi peton de sekvado?</string>
     <string name="dialog_unfollow_warning">Ne plu sekvi?</string>
     <string name="dialog_delete_toot_warning">Forigi ĉi tiun mesaĝon?</string>
     <string name="visibility_public">Publika: afiŝi en publikaj tempolinioj</string>
@@ -96,11 +101,14 @@
     </string-array>
     <string name="pref_title_browser_settings">Retumilo</string>
     <string name="pref_title_status_tabs">Langetoj</string>
+    <string name="pref_title_show_boosts">Montri diskonigojn</string>
+    <string name="pref_title_show_replies">Montri la respondojn</string>
     <string-array name="post_privacy_names">
         <item>Publika</item>
         <item>Nelistigita</item>
         <item>Nur por sekvantoj</item>
     </string-array>
+    <string name="notification_channel_boost_name">Diskonigoj</string>
     <string name="about_title_activity">Pri</string>
     <string name="about_tusky_version">Tusky %s</string>
     <!-- note to translators:
