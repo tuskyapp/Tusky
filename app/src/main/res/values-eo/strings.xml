@@ -37,10 +37,12 @@
     <string name="action_quick_reply">Rapida respondo</string>
     <string name="action_reply">Respondi</string>
     <string name="action_reblog">Diskonigi</string>
+    <string name="action_unreblog">Nuligi diskonigon</string>
     <string name="action_favourite">Stelumi</string>
     <string name="action_logout">Elsaluti</string>
     <string name="action_block">Bloki</string>
     <string name="action_unblock">Malbloki</string>
+    <string name="action_hide_reblogs">Kaŝi diskonigojn</string>
     <string name="action_show_reblogs">Montri diskonigojn</string>
     <string name="action_report">Signali</string>
     <string name="action_delete">Forigi</string>
@@ -65,6 +67,8 @@
     <string name="action_add_tab">Aldoni langeton</string>
     <string name="action_links">Ligiloj</string>
     <string name="action_hashtags">Kradvortoj</string>
+    <string name="action_open_reblogger">Montri la aŭtoron de la diskonigo</string>
+    <string name="action_open_reblogged_by">Montri diskonigojn</string>
     <string name="title_hashtags_dialog">Kradvortoj</string>
     <string name="title_links_dialog">Ligiloj</string>
     <string name="action_copy_link">Kopii la ligilon</string>
