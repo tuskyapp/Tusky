@@ -188,6 +188,11 @@
     <string name="pref_title_show_replies">Montri la respondojn</string>
     <string name="pref_title_filter_regex">Filtri per regulaj esprimoj</string>
     <string name="pref_title_show_media_preview">Elŝuti antaŭvidojn de aŭdovidaĵoj</string>
+    <string name="pref_title_proxy_settings">Prokurilo</string>
+    <string name="pref_title_http_proxy_settings">HTTP prokurilo</string>
+    <string name="pref_title_http_proxy_enable">Ebligi HTTP prokurilon</string>
+    <string name="pref_title_http_proxy_server">Adreso de HTTP prokurilo</string>
+    <string name="pref_title_http_proxy_port">Pordo de HTTP prokurilo</string>
     <string name="pref_default_post_privacy">Dekomenca privateco de mesaĝoj</string>
     <string name="pref_default_media_sensitivity">Ĉiam marki aŭdovidaĵojn kiel tiklaj</string>
     <string-array name="post_privacy_names">
