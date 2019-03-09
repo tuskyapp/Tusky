@@ -30,6 +30,7 @@
     <string name="title_direct_messages">Direktnachrichten</string>
     <string name="title_tab_preferences">Tabs</string>
     <string name="title_view_thread">Unterhaltung</string>
+    <string name="title_tag">#%s</string>
     <string name="title_statuses">Beiträge</string>
     <string name="title_statuses_with_replies">mit Antworten</string>
     <string name="title_statuses_pinned">Angeheftet</string>
@@ -42,6 +43,7 @@
     <string name="title_edit_profile">Dein Profil bearbeiten</string>
     <string name="title_saved_toot">Gespeicherte Beiträge</string>
     <string name="title_licenses">Lizenzen</string>
+    <string name="status_username_format">\@%s</string>
     <string name="status_boosted_format">%s teilte</string>
     <string name="status_sensitive_media_title">Heikle Inhalte</string>
     <string name="status_media_hidden_title">Medien versteckt</string>
@@ -60,7 +62,9 @@
     <string name="action_quick_reply">Schnell antworten</string>
     <string name="action_reply">Antworten</string>
     <string name="action_reblog">Teilen</string>
+    <string name="action_unreblog">Boost entfernen</string>
     <string name="action_favourite">Favorisieren</string>
+    <string name="action_unfavourite">Favoriten entfernen</string>
     <string name="action_more">Mehr</string>
     <string name="action_compose">Schreiben</string>
     <string name="action_login">Anmelden mit Mastodon</string>
@@ -107,6 +111,10 @@
     <string name="action_content_warning">Inhaltswarnung</string>
     <string name="action_emoji_keyboard">Emoji</string>
     <string name="action_add_tab">Tab hinzufügen</string>
+    <string name="action_links">Verlinkungen</string>
+    <string name="action_mentions">Erwähnungen</string>
+    <string name="title_mentions_dialog">Erwähnungen</string>
+    <string name="title_links_dialog">Verlinkungen</string>
     <string name="download_image">%1$s heruntergeladen</string>
     <string name="action_copy_link">Link kopieren</string>
     <string name="action_open_as">Öffnen als %s</string>
@@ -245,6 +253,7 @@
     <string name="status_share_content">Inhalt teilen</string>
     <string name="status_share_link">Link teilen</string>
     <string name="status_media_images">Bilder</string>
+    <string name="status_media_video">Video</string>
     <string name="state_follow_requested">Folgeanfrage gesendet</string>
     <string name="no_content">leer</string>
     <!--These are for timestamps on statuses. For example: "16s" or "2d"-->
@@ -303,4 +312,5 @@
     <string name="pin_action">Im Profil anheften</string>
     <string name="title_favourited_by">Favorisiert von</string>
     <string name="max_tab_number_reached">Maximum von %1$d Tabs erreicht</string>
+    <string name="description_status_media_no_description_placeholder">        Keine Beschreibung    </string>
 </resources>
