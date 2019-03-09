@@ -147,15 +147,15 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static com.keylesspalace.tusky.util.MediaUtilsKt.MEDIA_SIZE_UNKNOWN;
+import static com.keylesspalace.tusky.util.MediaUtilsKt.convertUri;
 import static com.keylesspalace.tusky.util.MediaUtilsKt.getImageSquarePixels;
 import static com.keylesspalace.tusky.util.MediaUtilsKt.getImageThumbnail;
 import static com.keylesspalace.tusky.util.MediaUtilsKt.getMediaSize;
-import static com.keylesspalace.tusky.util.MediaUtilsKt.getMimeType;
 import static com.keylesspalace.tusky.util.MediaUtilsKt.getSampledBitmap;
 import static com.keylesspalace.tusky.util.MediaUtilsKt.getVideoThumbnail;
+import static com.keylesspalace.tusky.util.MediaUtilsKt.isFileUri;
 import static com.uber.autodispose.AutoDispose.autoDisposable;
 import static com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider.from;
-import static com.keylesspalace.tusky.util.MediaUtilsKt.isFileUri;
 
 public final class ComposeActivity
         extends BaseActivity
@@ -1077,8 +1077,9 @@ public final class ComposeActivity
     private void attachImages(List<Uri> uriList) {
         if (uriList!=null) {
             for (Uri uri : uriList) {
-                long mediaSize = getMediaSize(getContentResolver(), uri);
-                pickMedia(uri, mediaSize, null);
+                Uri updateUri = convertUri(this,uri);
+                long mediaSize = getMediaSize(getContentResolver(), updateUri);
+                pickMedia(updateUri, mediaSize, null);
             }
         }
     }
@@ -1471,7 +1472,7 @@ public final class ComposeActivity
         }
 
         ContentResolver contentResolver = getContentResolver();
-        String mimeType = getMimeType(uri,contentResolver);
+        String mimeType = contentResolver.getType(uri);
 
         if (mimeType != null) {
             String topLevelType = mimeType.substring(0, mimeType.indexOf('/'));
