@@ -190,6 +190,7 @@
     <string name="pref_title_browser_settings">Navigateur</string>
     <string name="pref_title_custom_tabs">Utiliser le navigateur intégré</string>
     <string name="pref_title_hide_follow_button">Masquer le bouton de composition lors du défilement</string>
+    <string name="pref_title_language">Langue</string>
     <string name="pref_title_status_filter">Filtrage des fils</string>
     <string name="pref_title_status_tabs">Onglets</string>
     <string name="pref_title_show_boosts">Afficher les boosts</string>
