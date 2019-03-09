@@ -236,8 +236,14 @@
     <string name="send_toot_notification_saved_content">Kopio de la mesaĝo estis konservita en viaj malnetoj</string>
     <string name="action_compose_shortcut">Verki</string>
     <string name="error_no_custom_emojis">Via nodo %s ne havas proprajn emoĝiojn</string>
+    <string name="emoji_style">Stilo de emoĝioj</string>
     <string name="system_default">Sistema defaŭlto</string>
+    <string name="download_fonts">Vi unue devos elŝuti ĉi tiujn emoĝiarojn</string>
+    <string name="performing_lookup_title">Serĉante…</string>
+    <string name="expand_collapse_all_statuses">Pligrandigi/malgrandigi ĉiujn mesaĝojn</string>
     <string name="action_open_toot">Malfermi mesaĝon</string>
+    <string name="restart_required">Restartigo necesas</string>
+    <string name="restart_emoji">Vi devos restartigi Tusky por apliki ĉi tiujn ŝanĝojn</string>
     <string name="later">Poste</string>
     <string name="restart">Restartigi</string>
     <string name="download_failed">Elŝuto malsukcesis</string>
