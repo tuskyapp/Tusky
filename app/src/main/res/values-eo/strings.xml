@@ -105,7 +105,11 @@
     <string name="action_copy_link">Kopii la ligilon</string>
     <string name="action_open_as">Malfermi kiel %s</string>
     <string name="action_share_as">Konigi kiel …</string>
+    <string name="send_status_link_to">Konigi URL de mesaĝo al…</string>
+    <string name="send_status_content_to">Konigi mesaĝon al…</string>
+    <string name="send_media_to">Konigi aŭdovidaĵon al…</string>
     <string name="confirmation_reported">Sendita!</string>
+    <string name="confirmation_unblocked">Malblokita uzanto</string>
     <string name="confirmation_unmuted">Malsilentigita uzanto</string>
     <string name="status_sent">Sendita!</string>
     <string name="hint_domain">Kiu nodo?</string>
@@ -117,6 +121,7 @@
     <string name="label_avatar">Profilbildo</string>
     <string name="label_header">Fonbildo</string>
     <string name="link_whats_an_instance">Kio estas nodo?</string>
+    <string name="dialog_message_uploading_media">Alŝutante…</string>
     <string name="dialog_download_image">Elŝuti</string>
     <string name="dialog_message_cancel_follow_request">Nuligi peton de sekvado?</string>
     <string name="dialog_unfollow_warning">Ne plu sekvi?</string>
@@ -129,8 +134,11 @@
     <string name="pref_title_edit_notification_settings">Sciigoj</string>
     <string name="pref_title_notifications_enabled">Sciigoj</string>
     <string name="pref_summary_notifications">por konto %1$s</string>
+    <string name="pref_title_notification_alerts">Avertoj</string>
     <string name="pref_title_notification_alert_sound">Sciigi per sono</string>
     <string name="pref_title_notification_alert_vibrate">Sciigi per vibro</string>
+    <string name="pref_title_notification_alert_light">Sciigi per lumo</string>
+    <string name="pref_title_notification_filters">Sciigi min kiam</string>
     <string name="pref_title_notification_filter_mentions">menciita</string>
     <string name="pref_title_notification_filter_reblogs">viaj mesaĝoj estas diskonigitaj</string>
     <string name="pref_title_notification_filter_favourites">miaj mesaĝoj estas stelumitaj</string>
