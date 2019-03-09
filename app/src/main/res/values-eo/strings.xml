@@ -339,6 +339,7 @@
     <string name="conversation_1_recipients">%1$s</string>
     <string name="conversation_2_recipients">%1$s kaj %2$s</string>
     <string name="conversation_more_recipients">%1$s, %2$s kaj %3$d aliaj</string>
+    <string name="max_tab_number_reached">maksimuma nombro %1$d da langetoj atingita</string>
     <string name="description_status_media">        Aŭdovidaĵo: %s
     </string>
     <string name="description_status_cw">        Enhava averto: %s
