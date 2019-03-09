@@ -287,7 +287,7 @@
     <string name="compose_active_account_description">Publier avec le compte %1$s</string>
     <string name="error_failed_set_caption">Impossible de définir la légende</string>
     <string name="hint_describe_for_visually_impaired">Décrire pour les malvoyants
-\n(limite de caractères %d)</string>
+\n(%d caractères maximum)</string>
     <string name="action_set_caption">Mettre une légende</string>
     <string name="action_remove_media">Supprimer le média</string>
     <string name="lock_account_label">Verrouiller le compte</string>
