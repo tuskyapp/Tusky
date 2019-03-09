@@ -78,6 +78,12 @@
 # preserve line numbers for crash reporting
 -keepattributes SourceFile,LineNumberTable
 -renamesourcefileattribute SourceFile
+-keep public class * extends java.lang.Exception
+
+-keep class com.crashlytics.** { *; }
+-dontwarn com.crashlytics.**
+-keep public class com.google.android.gms.measurement.* { public *; }
+-dontwarn com.google.android.gms.measurement.**
 
 # remove all logging from production apk
 -assumenosideeffects class android.util.Log {
@@ -100,3 +106,9 @@
 # work around a bug in proguard
 # see https://sourceforge.net/p/proguard/bugs/729/
 -keepnames public interface com.uber.autodispose.lifecycle.CorrespondingEventsFunction { *; }
+
+#firebase
+-keepclasseswithmembers class * {
+    public static FirebaseAuth getInstance ();
+}
+-keep class com.google.firebase.auth.FirebaseAuth
