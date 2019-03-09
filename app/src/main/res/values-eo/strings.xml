@@ -31,6 +31,12 @@
     <string name="status_sensitive_media_title">Tikla enhavo</string>
     <string name="status_media_hidden_title">Kaŝitaj aŭdovidaĵoj</string>
     <string name="status_sensitive_media_directions">Alklaki por vidi</string>
+    <string name="status_content_warning_show_more">Montri pli</string>
+    <string name="status_content_warning_show_less">Montri malpli</string>
+    <string name="status_content_show_more">Pligrandigi</string>
+    <string name="status_content_show_less">Malgrandigi</string>
+    <string name="message_empty">Nenio ĉi tie.</string>
+    <string name="footer_empty">Nenio ĉi tie. Tiru malsupren por aktualigi!</string>
     <string name="notification_reblog_format">%s diskonigis vian mesaĝon</string>
     <string name="notification_favourite_format">%s stelumis vian mesaĝon</string>
     <string name="notification_follow_format">%s eksekvis vin</string>
@@ -198,7 +204,9 @@
     <string name="action_open_toot">Malfermi mesaĝon</string>
     <string name="later">Poste</string>
     <string name="restart">Restartigi</string>
+    <string name="download_failed">Elŝuto malsukcesis</string>
     <string name="profile_badge_bot_text">Roboto</string>
+    <string name="account_moved_description">%1$s moviĝis al:</string>
     <string name="reblog_private">Diskonigi al la originala atentaro</string>
     <string name="unreblog_private">Eksdiskonigi</string>
     <string name="license_cc_by_4">CC-BY 4.0</string>
@@ -221,6 +229,8 @@
     <string name="conversation_1_recipients">%1$s</string>
     <string name="conversation_2_recipients">%1$s kaj %2$s</string>
     <string name="conversation_more_recipients">%1$s, %2$s kaj %3$d aliaj</string>
+    <string name="description_status_media">        Aŭdovidaĵo: %s
+    </string>
     <string name="description_status_reblogged">        Diskonigita
     </string>
     <string name="description_status_favourited">        Stelumita
