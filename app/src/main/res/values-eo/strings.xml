@@ -109,6 +109,7 @@
     <string name="title_mentions_dialog">Mencioj</string>
     <string name="title_links_dialog">Ligiloj</string>
     <string name="action_open_media_n">Malfermi aŭdovidaĵon #%d</string>
+    <string name="download_image">Elŝutante %1$s</string>
     <string name="action_copy_link">Kopii la ligilon</string>
     <string name="action_open_as">Malfermi kiel %s</string>
     <string name="action_share_as">Konigi kiel …</string>
@@ -128,6 +129,7 @@
     <string name="label_avatar">Profilbildo</string>
     <string name="label_header">Fonbildo</string>
     <string name="link_whats_an_instance">Kio estas nodo?</string>
+    <string name="login_connection">Konektante…</string>
     <string name="dialog_title_finishing_media_upload">Finante alŝuto de aŭdovidaĵojn</string>
     <string name="dialog_message_uploading_media">Alŝutante…</string>
     <string name="dialog_download_image">Elŝuti</string>
@@ -161,6 +163,7 @@
         <item>Use System Design</item>
     </string-array>
     <string name="pref_title_browser_settings">Retumilo</string>
+    <string name="pref_title_hide_follow_button">Kâsi butonon de verko dum rulumado</string>
     <string name="pref_title_language">Lingvo</string>
     <string name="pref_title_status_tabs">Langetoj</string>
     <string name="pref_title_show_boosts">Montri diskonigojn</string>
