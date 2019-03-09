@@ -238,7 +238,7 @@
     <string name="notification_summary_medium">%1$s, %2$s et %3$s</string>
     <string name="notification_summary_small">%1$s et %2$s</string>
     <string name="notification_title_summary">%d nouvelles interactions</string>
-    <string name="description_account_locked">Compte bloqué</string>
+    <string name="description_account_locked">Compte verrouillé</string>
     <string name="about_title_activity">À propos</string>
     <string name="about_tusky_version">Tusky %s</string>
     <string name="about_tusky_license">Tusky est une application libre et open source.
