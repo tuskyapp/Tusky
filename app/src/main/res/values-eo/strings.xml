@@ -138,13 +138,31 @@
         <item>Nelistigita</item>
         <item>Nur por sekvantoj</item>
     </string-array>
+    <string name="pref_status_text_size">Grando de teksto de mesaĝoj</string>
+    <string-array name="status_text_size_names">
+        <item>La plej malgranda</item>
+        <item>Malgranda</item>
+        <item>Meza</item>
+        <item>Granda</item>
+        <item>La plej granda</item>
+    </string-array>
+    <string-array name="media_display_names">
+        <item>Hide media marked as sensitive</item>
+        <item>Always show media marked as sensitive</item>
+        <item>Ĉiam kaŝi ĉiujn aŭdovidaĵojn</item>
+    </string-array>
     <string name="notification_channel_mention_name">Novaj mencioj</string>
     <string name="notification_channel_mention_descriptions">Sciigoj pri novajn menciojn</string>
+    <string name="notification_channel_follow_name">Novaj sekvantoj</string>
+    <string name="notification_channel_follow_description">Sciigoj pri novajn sekvantojn</string>
     <string name="notification_channel_boost_name">Diskonigoj</string>
     <string name="notification_channel_boost_description">Sciigoj kiam viaj mesaĝoj estas diskonigita</string>
     <string name="notification_channel_favourite_name">Stelumoj</string>
     <string name="notification_channel_favourite_description">Sciigoj kiam viaj mesaĝoj estas stelumitaj</string>
     <string name="notification_mention_format">%s menciis vin</string>
+    <string name="notification_summary_large">%1$s, %2$s, %3$s kaj %4$d aliaj</string>
+    <string name="notification_summary_medium">%1$s, %2$s, kaj %3$s</string>
+    <string name="notification_summary_small">%1$s kaj %2$s</string>
     <string name="about_title_activity">Pri</string>
     <string name="about_tusky_version">Tusky %s</string>
     <!-- note to translators:
@@ -155,18 +173,29 @@
     -->
     <string name="about_tusky_account">Profilo de Tusky</string>
     <string name="status_media_images">Bildoj</string>
+    <string name="status_media_video">Video</string>
     <!--These are for timestamps on statuses. For example: "16s" or "2d"-->
+    <string name="abbreviated_in_years">en %dj</string>
+    <string name="abbreviated_in_days">en %dt</string>
+    <string name="abbreviated_in_hours">en %dh</string>
+    <string name="abbreviated_in_minutes">en %dm</string>
+    <string name="abbreviated_in_seconds">en %ds</string>
     <string name="abbreviated_years_ago">%dj</string>
     <string name="abbreviated_days_ago">%dt</string>
     <string name="abbreviated_hours_ago">%dh</string>
     <string name="abbreviated_minutes_ago">%dm</string>
     <string name="abbreviated_seconds_ago">%ds</string>
     <string name="follows_you">Sekvas vin</string>
+    <string name="load_more_placeholder_text">ŝarĝi pli</string>
+    <string name="add_account_name">Aldoni konton</string>
+    <string name="add_account_description">Aldoni novan Mastodon konton</string>
     <string name="action_lists">Listoj</string>
     <string name="title_lists">Listoj</string>
+    <string name="action_remove_media">Forigi</string>
     <string name="lock_account_label">Ŝlosi konton</string>
     <string name="compose_save_draft">Konservi malneton?</string>
     <string name="system_default">Sistema defaŭlto</string>
+    <string name="action_open_toot">Malfermi mesaĝon</string>
     <string name="later">Poste</string>
     <string name="restart">Restartigi</string>
     <string name="profile_badge_bot_text">Roboto</string>
