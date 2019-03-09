@@ -27,8 +27,13 @@
     <string name="title_notifications">Notifikationer</string>
     <string name="title_public_local">Offentlig</string>
     <string name="title_public_federated">Federerat</string>
+    <string name="title_direct_messages">Direkta meddelanden</string>
+    <string name="title_tab_preferences">Flikar</string>
+    <string name="title_view_thread">Toot</string>
+    <string name="title_tag">#%s</string>
     <string name="title_statuses">Inlägg</string>
     <string name="title_statuses_with_replies">Med svar</string>
+    <string name="title_statuses_pinned">Fastnålad</string>
     <string name="title_follows">Följer</string>
     <string name="title_followers">Följare</string>
     <string name="title_favourites">Favoriter</string>
@@ -38,6 +43,7 @@
     <string name="title_edit_profile">Ändra din profil</string>
     <string name="title_saved_toot">Utkast</string>
     <string name="title_licenses">Licenser</string>
+    <string name="status_username_format">\@%s</string>
     <string name="status_boosted_format">%s knuffade</string>
     <string name="status_sensitive_media_title">Känsligt innehåll</string>
     <string name="status_media_hidden_title">Dold media</string>
@@ -46,6 +52,7 @@
     <string name="status_content_warning_show_less">Visa mindre</string>
     <string name="status_content_show_more">Expandera</string>
     <string name="status_content_show_less">Dölj</string>
+    <string name="message_empty">Ingenting här.</string>
     <string name="footer_empty">Inget här. Dra ner för att uppdatera!</string>
     <string name="notification_reblog_format">%s knuffade din toot</string>
     <string name="notification_favourite_format">%s favoriserade din toot</string>
@@ -55,7 +62,9 @@
     <string name="action_quick_reply">Snabbsvar</string>
     <string name="action_reply">Svara</string>
     <string name="action_reblog">Knuffa</string>
+    <string name="action_unreblog">Ta bort knuff</string>
     <string name="action_favourite">Favorit</string>
+    <string name="action_unfavourite">Ta bort favorit</string>
     <string name="action_more">Mer</string>
     <string name="action_compose">Skriva</string>
     <string name="action_login">Logga in med Mastodon</string>
