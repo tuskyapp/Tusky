@@ -308,6 +308,7 @@
     <string name="restart">Restartigi</string>
     <string name="caption_systememoji">Dekomenca emoĝiaro de via aparato</string>
     <string name="caption_blobmoji">La emoĝioj «Blob» konataj el Android 4.4−7.1</string>
+    <string name="caption_twemoji">Norma emoĝiaro de Mastodon</string>
     <string name="download_failed">Elŝuto malsukcesis</string>
     <string name="profile_badge_bot_text">Roboto</string>
     <string name="account_moved_description">%1$s moviĝis al:</string>
