@@ -214,13 +214,23 @@
     <string name="pref_status_text_size">Velikost textu příspěvků</string>
     <string-array name="status_text_size_names">
         <item>Nejmenší</item>
-        <item>Small</item>
-        <item>Medium</item>
-        <item>Large</item>
-        <item>Largest</item>
+        <item>Malý</item>
+        <item>Střední</item>
+        <item>Velký</item>
+        <item>Největší</item>
     </string-array>
     <string name="pref_media_display">Zobrazení médií</string>
+    <string-array name="media_display_names">
+        <item>Skrýt média označená jako citlivá</item>
+        <item>Vždy zobrazovat média označená jako citlivá</item>
+        <item>Vždy skrývat všechna média</item>
+    </string-array>
+    <string name="notification_channel_mention_name">Nové zmínky</string>
+    <string name="notification_channel_mention_descriptions">Oznámení o nových zmínkách</string>
+    <string name="notification_channel_follow_name">Noví sledující</string>
+    <string name="notification_channel_follow_description">Oznámení o nových sledujících</string>
     <string name="notification_channel_boost_name">Boosty</string>
+    <string name="notification_channel_boost_description">Oznámení, když jsou vaše tooty boostnuty</string>
     <string name="notification_summary_large">%1$s, %2$s, %3$s a dalších %4$d</string>
     <string name="notification_summary_medium">%1$s, %2$s a %3$s</string>
     <string name="notification_summary_small">%1$s a %2$s</string>
