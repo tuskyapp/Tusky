@@ -5,7 +5,9 @@
     <string name="error_network">Reta eraro okazis! Bonvolu kontroli vian konekton kaj klopodi denove!</string>
     <string name="error_empty">Ne povas esti malplena.</string>
     <string name="error_invalid_domain">Enmetita domajno estas nevalida</string>
+    <string name="error_failed_app_registration">Aŭtentigo en ĉi tiu nodo malsukcesis.</string>
     <string name="error_no_web_browser_found">Ne eblas trovi retumilon.</string>
+    <string name="error_authorization_unknown">Nekonata eraro de aŭtentigo okazis.</string>
     <string name="error_authorization_denied">Rajtigo rifuzita.</string>
     <string name="error_retrieving_oauth_token">Akiro de atingoĵetono malsukcesis.</string>
     <string name="error_compose_character_limit">Via mesaĝo estas tro longa!</string>
@@ -173,9 +175,10 @@
         <item>Hela</item>
         <item>Nigra</item>
         <item>Automatic at sunset</item>
-        <item>Use System Design</item>
+        <item>Uzi sisteman temon</item>
     </string-array>
     <string name="pref_title_browser_settings">Retumilo</string>
+    <string name="pref_title_custom_tabs">Uzi la integritan retumilon</string>
     <string name="pref_title_hide_follow_button">Kâsi butonon de verko dum rulumado</string>
     <string name="pref_title_language">Lingvo</string>
     <string name="pref_title_status_filter">Filtrado de tempolinioj</string>
@@ -269,6 +272,7 @@
     <string name="send_toot_notification_saved_content">Kopio de la mesaĝo estis konservita en viaj malnetoj</string>
     <string name="action_compose_shortcut">Verki</string>
     <string name="error_no_custom_emojis">Via nodo %s ne havas proprajn emoĝiojn</string>
+    <string name="copy_to_clipboard_success">Kopiita en tondujo</string>
     <string name="emoji_style">Stilo de emoĝioj</string>
     <string name="system_default">Sistema defaŭlto</string>
     <string name="download_fonts">Vi unue devos elŝuti ĉi tiujn emoĝiarojn</string>
