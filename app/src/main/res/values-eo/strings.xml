@@ -223,6 +223,7 @@
     <string name="abbreviated_minutes_ago">%dm</string>
     <string name="abbreviated_seconds_ago">%ds</string>
     <string name="follows_you">Sekvas vin</string>
+    <string name="title_media">Aŭdovidaĵoj</string>
     <string name="replying_to">Respondo al @%s</string>
     <string name="load_more_placeholder_text">ŝarĝi pli</string>
     <string name="add_account_name">Aldoni konton</string>
@@ -230,6 +231,7 @@
     <string name="action_lists">Listoj</string>
     <string name="title_lists">Listoj</string>
     <string name="title_list_timeline">Tempolinio de la listo</string>
+    <string name="compose_active_account_description">Afiŝi per konto %1$s</string>
     <string name="action_remove_media">Forigi</string>
     <string name="lock_account_label">Ŝlosi konton</string>
     <string name="compose_save_draft">Konservi malneton?</string>
