@@ -200,6 +200,8 @@
     <string name="notification_summary_large">%1$s, %2$s, %3$s kaj %4$d aliaj</string>
     <string name="notification_summary_medium">%1$s, %2$s, kaj %3$s</string>
     <string name="notification_summary_small">%1$s kaj %2$s</string>
+    <string name="notification_title_summary">%d novaj interagoj</string>
+    <string name="description_account_locked">Ŝlosita konto</string>
     <string name="about_title_activity">Pri</string>
     <string name="about_tusky_version">Tusky %s</string>
     <!-- note to translators:
@@ -208,9 +210,15 @@
            to show we do not mean the software is gratis. Source: https://www.gnu.org/philosophy/free-sw.html
          * the url can be changed to link to the localized version of the license.
     -->
+    <string name="about_project_site">        Paĝaro de projekto:\n
+        https://tuskyapp.github.io
+    </string>
     <string name="about_tusky_account">Profilo de Tusky</string>
+    <string name="status_share_content">Konigi enhavon de la mesaĝo</string>
+    <string name="status_share_link">Konigi ligilon al mesaĝo</string>
     <string name="status_media_images">Bildoj</string>
     <string name="status_media_video">Video</string>
+    <string name="state_follow_requested">Sekvado petita</string>
     <!--These are for timestamps on statuses. For example: "16s" or "2d"-->
     <string name="abbreviated_in_years">en %dj</string>
     <string name="abbreviated_in_days">en %dt</string>
@@ -232,6 +240,7 @@
     <string name="title_lists">Listoj</string>
     <string name="title_list_timeline">Tempolinio de la listo</string>
     <string name="compose_active_account_description">Afiŝi per konto %1$s</string>
+    <string name="error_failed_set_caption">Redakto de apudskribo malsukcesis</string>
     <string name="action_remove_media">Forigi</string>
     <string name="lock_account_label">Ŝlosi konton</string>
     <string name="compose_save_draft">Konservi malneton?</string>
