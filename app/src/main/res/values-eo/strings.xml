@@ -284,6 +284,7 @@
     <string name="lock_account_label_description">Vi devas permane rajtigi sekvantojn</string>
     <string name="compose_save_draft">Konservi malneton?</string>
     <string name="send_toot_notification_title">Sendante la mesaĝo…</string>
+    <string name="send_toot_notification_error_title">Eraro dum sendo de la mesaĝo</string>
     <string name="send_toot_notification_channel_name">Sendante la mesaĝoj</string>
     <string name="send_toot_notification_cancel_title">Sendo nuligita</string>
     <string name="send_toot_notification_saved_content">Kopio de la mesaĝo estis konservita en viaj malnetoj</string>
