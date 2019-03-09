@@ -222,6 +222,8 @@ public class NotificationsFragment extends SFragment implements
 
         ((SimpleItemAnimator) recyclerView.getItemAnimator()).setSupportsChangeAnimations(false);
 
+        updateAdapter();
+
         sendFetchNotificationsRequest(null, null, FetchEnd.BOTTOM, -1);
 
         return rootView;

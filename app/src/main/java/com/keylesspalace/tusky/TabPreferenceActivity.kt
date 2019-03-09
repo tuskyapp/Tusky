@@ -47,6 +47,8 @@ class TabPreferenceActivity : BaseActivity(), Injectable, ItemInteractionListene
     private lateinit var touchHelper: ItemTouchHelper
     private lateinit var addTabAdapter: TabAdapter
 
+    private var tabsChanged = false
+
     private val selectedItemElevation by lazy { resources.getDimension(R.dimen.selected_drag_item_elevation) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -188,6 +190,7 @@ class TabPreferenceActivity : BaseActivity(), Injectable, ItemInteractionListene
                     .subscribe()
 
         }
+        tabsChanged = true
     }
 
     override fun onBackPressed() {
@@ -208,7 +211,9 @@ class TabPreferenceActivity : BaseActivity(), Injectable, ItemInteractionListene
 
     override fun onPause() {
         super.onPause()
-        eventHub.dispatch(MainTabsChangedEvent(currentTabs))
+        if(tabsChanged) {
+            eventHub.dispatch(MainTabsChangedEvent(currentTabs))
+        }
     }
 
     companion object {
