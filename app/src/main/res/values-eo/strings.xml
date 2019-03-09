@@ -165,6 +165,7 @@
     <string name="pref_title_notification_alert_light">Sciigi per lumo</string>
     <string name="pref_title_notification_filters">Sciigi al mi kiam</string>
     <string name="pref_title_notification_filter_mentions">menciita</string>
+    <string name="pref_title_notification_filter_follows">sekvita</string>
     <string name="pref_title_notification_filter_reblogs">viaj mesaĝoj estas diskonigitaj</string>
     <string name="pref_title_notification_filter_favourites">miaj mesaĝoj estas stelumitaj</string>
     <string name="pref_title_appearance_settings">Aspekto</string>
@@ -185,6 +186,10 @@
     <string name="pref_title_status_tabs">Langetoj</string>
     <string name="pref_title_show_boosts">Montri diskonigojn</string>
     <string name="pref_title_show_replies">Montri la respondojn</string>
+    <string name="pref_title_filter_regex">Filtri per regulaj esprimoj</string>
+    <string name="pref_title_show_media_preview">Elŝuti antaŭvidojn de aŭdovidaĵoj</string>
+    <string name="pref_default_post_privacy">Dekomenca privateco de mesaĝoj</string>
+    <string name="pref_default_media_sensitivity">Ĉiam marki aŭdovidaĵojn kiel tiklaj</string>
     <string-array name="post_privacy_names">
         <item>Publika</item>
         <item>Nelistigita</item>
@@ -198,6 +203,7 @@
         <item>Granda</item>
         <item>La plej granda</item>
     </string-array>
+    <string name="pref_media_display">Apero de aŭdovidaĵoj</string>
     <string-array name="media_display_names">
         <item>Kaŝi aŭdovidaĵojn markitajn kiel tiklaj</item>
         <item>Ĉiam montri aŭdovidaĵojn markitajn kiel tiklaj</item>
@@ -275,7 +281,7 @@
     <string name="error_no_custom_emojis">Via nodo %s ne havas proprajn emoĝiojn</string>
     <string name="copy_to_clipboard_success">Kopiita en tondujo</string>
     <string name="emoji_style">Stilo de emoĝioj</string>
-    <string name="system_default">Sistema defaŭlto</string>
+    <string name="system_default">Sistema valoro</string>
     <string name="download_fonts">Vi unue devos elŝuti ĉi tiujn emoĝiarojn</string>
     <string name="performing_lookup_title">Serĉante…</string>
     <string name="expand_collapse_all_statuses">Pligrandigi/malgrandigi ĉiujn mesaĝojn</string>
@@ -284,6 +290,7 @@
     <string name="restart_emoji">Vi devos restartigi Tusky por apliki ĉi tiujn ŝanĝojn</string>
     <string name="later">Poste</string>
     <string name="restart">Restartigi</string>
+    <string name="caption_systememoji">Dekomenca emoĝiaro de via aparato</string>
     <string name="download_failed">Elŝuto malsukcesis</string>
     <string name="profile_badge_bot_text">Roboto</string>
     <string name="account_moved_description">%1$s moviĝis al:</string>
