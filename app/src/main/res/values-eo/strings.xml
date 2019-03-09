@@ -122,6 +122,7 @@
     <string name="status_sent">Sendita!</string>
     <string name="hint_domain">Kiu nodo?</string>
     <string name="hint_compose">Kio okazas?</string>
+    <string name="hint_content_warning">Averto pri enhavo</string>
     <string name="hint_display_name">Publika nomo</string>
     <string name="hint_note">Sinprezento</string>
     <string name="hint_search">Serĉi…</string>
@@ -165,6 +166,7 @@
     <string name="pref_title_browser_settings">Retumilo</string>
     <string name="pref_title_hide_follow_button">Kâsi butonon de verko dum rulumado</string>
     <string name="pref_title_language">Lingvo</string>
+    <string name="pref_title_status_filter">Filtrado de tempolinioj</string>
     <string name="pref_title_status_tabs">Langetoj</string>
     <string name="pref_title_show_boosts">Montri diskonigojn</string>
     <string name="pref_title_show_replies">Montri la respondojn</string>
@@ -221,11 +223,13 @@
     <string name="abbreviated_minutes_ago">%dm</string>
     <string name="abbreviated_seconds_ago">%ds</string>
     <string name="follows_you">Sekvas vin</string>
+    <string name="replying_to">Respondo al @%s</string>
     <string name="load_more_placeholder_text">ŝarĝi pli</string>
     <string name="add_account_name">Aldoni konton</string>
     <string name="add_account_description">Aldoni novan Mastodon konton</string>
     <string name="action_lists">Listoj</string>
     <string name="title_lists">Listoj</string>
+    <string name="title_list_timeline">Tempolinio de la listo</string>
     <string name="action_remove_media">Forigi</string>
     <string name="lock_account_label">Ŝlosi konton</string>
     <string name="compose_save_draft">Konservi malneton?</string>
