@@ -122,7 +122,7 @@
     <string name="status_sent">Sendita!</string>
     <string name="hint_domain">Kiu nodo?</string>
     <string name="hint_compose">Kio okazas?</string>
-    <string name="hint_content_warning">Averto pri enhavo</string>
+    <string name="hint_content_warning">Enhava averto</string>
     <string name="hint_display_name">Publika nomo</string>
     <string name="hint_note">Sinprezento</string>
     <string name="hint_search">Serĉi…</string>
@@ -233,6 +233,9 @@
     <string name="action_remove_media">Forigi</string>
     <string name="lock_account_label">Ŝlosi konton</string>
     <string name="compose_save_draft">Konservi malneton?</string>
+    <string name="send_toot_notification_saved_content">Kopio de la mesaĝo estis konservita en viaj malnetoj</string>
+    <string name="action_compose_shortcut">Verki</string>
+    <string name="error_no_custom_emojis">Via nodo %s ne havas proprajn emoĝiojn</string>
     <string name="system_default">Sistema defaŭlto</string>
     <string name="action_open_toot">Malfermi mesaĝon</string>
     <string name="later">Poste</string>
@@ -242,11 +245,14 @@
     <string name="account_moved_description">%1$s moviĝis al:</string>
     <string name="reblog_private">Diskonigi al la originala atentaro</string>
     <string name="unreblog_private">Eksdiskonigi</string>
+    <string name="license_description">Tusky enhavas kodon kaj risurcojn el la sekvantaj malfermitkodaj projetkoj:</string>
     <string name="license_cc_by_4">CC-BY 4.0</string>
     <string name="license_cc_by_sa_4">CC-BY-SA 4.0</string>
     <string name="profile_metadata_label">Profilaj metadatumoj</string>
+    <string name="profile_metadata_add">aldoni datumon</string>
     <string name="profile_metadata_label_label">Etikedo</string>
     <string name="profile_metadata_content_label">Enhavo</string>
+    <string name="pref_title_absolute_time">Uzi absolutan tempon</string>
     <string name="unpin_action">Depingli</string>
     <string name="pin_action">Alpingli</string>
     <plurals name="favs">
@@ -263,6 +269,8 @@
     <string name="conversation_2_recipients">%1$s kaj %2$s</string>
     <string name="conversation_more_recipients">%1$s, %2$s kaj %3$d aliaj</string>
     <string name="description_status_media">        Aŭdovidaĵo: %s
+    </string>
+    <string name="description_status_cw">        Enhava averto: %s
     </string>
     <string name="description_status_reblogged">        Diskonigita
     </string>
