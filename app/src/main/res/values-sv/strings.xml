@@ -318,7 +318,7 @@
     <string name="reblog_private">Knuffa till ursprunglig målgrupp</string>
     <string name="unreblog_private">Ta bort knuff</string>
     <string name="license_description">Tusky innehåller kod och tillgångar från följande öppen källkodsprojekt:</string>
-    <string name="license_apache_2">Licensenserad under the Apache License (copy below)</string>
+    <string name="license_apache_2">Licensierad under the Apache License (kopia nedanför)</string>
     <string name="license_cc_by_4">CC-BY 4.0</string>
     <string name="license_cc_by_sa_4">CC-BY-SA 4.0</string>
     <string name="profile_metadata_label">Profil-metadata</string>
