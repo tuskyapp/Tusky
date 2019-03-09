@@ -112,6 +112,8 @@
     <string name="action_emoji_keyboard">Emoji-tangentbord</string>
     <string name="action_add_tab">Lägg till flik</string>
     <string name="action_links">Länkar</string>
+    <string name="action_mentions">Omnämnanden</string>
+    <string name="action_hashtags">Hashtaggar</string>
     <string name="download_image">Laddar ned %1$s</string>
     <string name="action_copy_link">Kopiera länken</string>
     <string name="send_status_link_to">Dela toot-URL till…</string>
