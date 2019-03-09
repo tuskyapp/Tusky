@@ -145,6 +145,11 @@
     <string name="label_header">Fonbildo</string>
     <string name="link_whats_an_instance">Kio estas nodo?</string>
     <string name="login_connection">Konektante…</string>
+    <string name="dialog_whats_an_instance">La adreso aŭ domajno de iu ajn nodo povas esti enmetitaĉi tie, kiel mastodon.social, icosahedron.website, social.tchncs.de, kaj
+        <a href="https://instances.social">pli!</a>
+        \n\nSe vi ne ankoraŭ havas konton, vi povas enmeti la nomon de la nodo ke vi volas aliĝi kaj krei konton tie.\n\nNodo estas unika loko kie via konto estas gastigita, sed vi povas facile komuniki kun kaj sekvi homojn ĉe aliaj nodoj kiel vi estus ĉe la sama retejo.
+        \n\nPliaj informoj troviĝas ĉe <a href="https://joinmastodon.org">joinmastodon.org</a>.
+    </string>
     <string name="dialog_title_finishing_media_upload">Finante alŝuto de aŭdovidaĵojn</string>
     <string name="dialog_message_uploading_media">Alŝutante…</string>
     <string name="dialog_download_image">Elŝuti</string>
