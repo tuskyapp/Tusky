@@ -42,7 +42,10 @@
     <string name="action_unreblog">Nuligi diskonigon</string>
     <string name="action_favourite">Stelumi</string>
     <string name="action_unfavourite">Nuligi stelumon</string>
+    <string name="action_compose">Verki</string>
+    <string name="action_login">Ensaluti al Mastodon</string>
     <string name="action_logout">Elsaluti</string>
+    <string name="action_logout_confirm">Ĉu vi certas ke vi volas elsaluti el konto %1$s?</string>
     <string name="action_follow">Sekvi</string>
     <string name="action_unfollow">Ne plus sekvi</string>
     <string name="action_block">Bloki</string>
@@ -53,8 +56,12 @@
     <string name="action_delete">Forigi</string>
     <string name="action_send">HUP</string>
     <string name="action_send_public">HUP!</string>
+    <string name="action_close">Fermi</string>
     <string name="action_view_profile">Profilo</string>
+    <string name="action_view_preferences">Preferoj</string>
+    <string name="action_view_account_preferences">Preferoj de konto</string>
     <string name="action_view_favourites">Stelumoj</string>
+    <string name="action_view_mutes">Silentigitaj uzantoj</string>
     <string name="action_view_blocks">Blokitaj uzantoj</string>
     <string name="action_view_follow_requests">Petoj de sekvado</string>
     <string name="action_open_in_web">Malfermi en retumilo</string>
@@ -83,6 +90,7 @@
     <string name="title_links_dialog">Ligiloj</string>
     <string name="action_copy_link">Kopii la ligilon</string>
     <string name="confirmation_reported">Sendita!</string>
+    <string name="confirmation_unmuted">Malsilentigita uzanto</string>
     <string name="status_sent">Sendita!</string>
     <string name="hint_domain">Kiu nodo?</string>
     <string name="hint_compose">Kio okazas?</string>
@@ -105,10 +113,14 @@
     <string name="pref_title_edit_notification_settings">Sciigoj</string>
     <string name="pref_title_notifications_enabled">Sciigoj</string>
     <string name="pref_summary_notifications">por konto %1$s</string>
+    <string name="pref_title_notification_alert_sound">Sciigi per sono</string>
+    <string name="pref_title_notification_alert_vibrate">Sciigi per vibro</string>
     <string name="pref_title_notification_filter_mentions">menciita</string>
     <string name="pref_title_notification_filter_reblogs">viaj mesaĝoj estas diskonigitaj</string>
     <string name="pref_title_notification_filter_favourites">miaj mesaĝoj estas stelumitaj</string>
     <string name="pref_title_appearance_settings">Aspekto</string>
+    <string name="pref_title_app_theme">Temo de la apo</string>
+    <string name="pref_title_timelines">Tempolinioj</string>
     <string-array name="app_theme_names">
         <item>Malhela</item>
         <item>Hela</item>
@@ -117,6 +129,7 @@
         <item>Use System Design</item>
     </string-array>
     <string name="pref_title_browser_settings">Retumilo</string>
+    <string name="pref_title_language">Lingvo</string>
     <string name="pref_title_status_tabs">Langetoj</string>
     <string name="pref_title_show_boosts">Montri diskonigojn</string>
     <string name="pref_title_show_replies">Montri la respondojn</string>
