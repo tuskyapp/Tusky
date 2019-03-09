@@ -62,6 +62,7 @@
     <string name="action_delete">Forigi</string>
     <string name="action_send">HUP</string>
     <string name="action_send_public">HUP!</string>
+    <string name="action_retry">Reprovu</string>
     <string name="action_close">Fermi</string>
     <string name="action_view_profile">Profilo</string>
     <string name="action_view_preferences">Preferoj</string>
@@ -70,8 +71,11 @@
     <string name="action_view_mutes">Silentigitaj uzantoj</string>
     <string name="action_view_blocks">Blokitaj uzantoj</string>
     <string name="action_view_follow_requests">Petoj de sekvado</string>
+    <string name="action_view_media">Aŭdovidaĵo</string>
     <string name="action_open_in_web">Malfermi en retumilo</string>
     <string name="action_add_media">Aldoni aŭdovidaĵon</string>
+    <string name="action_photo_take">Foti</string>
+    <string name="action_share">Konigi</string>
     <string name="action_mute">Silentigi</string>
     <string name="action_unmute">Malsilentigi</string>
     <string name="action_mention">Mencii</string>
@@ -80,10 +84,13 @@
     <string name="action_save">Konservi</string>
     <string name="action_edit_profile">Redakti profilon</string>
     <string name="action_edit_own_profile">Redakti</string>
+    <string name="action_undo">Malfari</string>
     <string name="action_accept">Rajtigi</string>
     <string name="action_reject">Rifuzi</string>
     <string name="action_search">Serĉi</string>
     <string name="action_access_saved_toot">Malnetoj</string>
+    <string name="action_content_warning">Tikla enhavo</string>
+    <string name="action_emoji_keyboard">Klavaro de emoĝioj</string>
     <string name="action_add_tab">Aldoni langeton</string>
     <string name="action_links">Ligiloj</string>
     <string name="action_mentions">Mencioj</string>
@@ -94,7 +101,10 @@
     <string name="title_hashtags_dialog">Kradvortoj</string>
     <string name="title_mentions_dialog">Mencioj</string>
     <string name="title_links_dialog">Ligiloj</string>
+    <string name="action_open_media_n">Malfermi aŭdovidaĵon #%d</string>
     <string name="action_copy_link">Kopii la ligilon</string>
+    <string name="action_open_as">Malfermi kiel %s</string>
+    <string name="action_share_as">Konigi kiel …</string>
     <string name="confirmation_reported">Sendita!</string>
     <string name="confirmation_unmuted">Malsilentigita uzanto</string>
     <string name="status_sent">Sendita!</string>
