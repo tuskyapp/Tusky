@@ -4,6 +4,7 @@
     <string name="error_generic">Eraro okazis.</string>
     <string name="error_network">Reta eraro okazis! Bonvolu kontroli vian konekton kaj klopodi denove!</string>
     <string name="error_empty">Ne povas esti malplena.</string>
+    <string name="error_invalid_domain">Enmetita domajno estas nevalida</string>
     <string name="error_compose_character_limit">Via mesaĝo estas tro longa!</string>
     <string name="error_image_upload_size">La dosiero devas esti malpli ol 8MB.</string>
     <string name="error_video_upload_size">Videaj dosieroj devas esti malpli ol 40MB.</string>
@@ -55,6 +56,7 @@
     <string name="action_unreblog">Nuligi diskonigon</string>
     <string name="action_favourite">Stelumi</string>
     <string name="action_unfavourite">Nuligi stelumon</string>
+    <string name="action_more">Pli</string>
     <string name="action_compose">Verki</string>
     <string name="action_login">Ensaluti al Mastodon</string>
     <string name="action_logout">Elsaluti</string>
@@ -204,6 +206,9 @@
     <string name="description_account_locked">Ŝlosita konto</string>
     <string name="about_title_activity">Pri</string>
     <string name="about_tusky_version">Tusky %s</string>
+    <string name="about_tusky_license">Tusky estas libera kaj malfermitkoda programo.
+        Ĝi estas publikigita laŭ la permesilo «GNU General Public License Version 3».
+        Vi povas vidi la permesilon ĉi tie: https://www.gnu.org/licenses/gpl-3.0.en.html</string>
     <!-- note to translators:
          * you should think of “free” as in “free speech,” not as in “free beer”.
            We sometimes call it “libre software,” borrowing the French or Spanish word for “free” as in freedom,
@@ -241,9 +246,12 @@
     <string name="title_list_timeline">Tempolinio de la listo</string>
     <string name="compose_active_account_description">Afiŝi per konto %1$s</string>
     <string name="error_failed_set_caption">Redakto de apudskribo malsukcesis</string>
+    <string name="action_set_caption">Redakti apudskribon</string>
     <string name="action_remove_media">Forigi</string>
     <string name="lock_account_label">Ŝlosi konton</string>
+    <string name="lock_account_label_description">Vi devas permane rajtigi sekvantojn</string>
     <string name="compose_save_draft">Konservi malneton?</string>
+    <string name="send_toot_notification_title">Sendante la mesaĝon…</string>
     <string name="send_toot_notification_saved_content">Kopio de la mesaĝo estis konservita en viaj malnetoj</string>
     <string name="action_compose_shortcut">Verki</string>
     <string name="error_no_custom_emojis">Via nodo %s ne havas proprajn emoĝiojn</string>
