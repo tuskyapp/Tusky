@@ -35,6 +35,7 @@ import com.keylesspalace.tusky.ViewMediaActivity;
 import com.keylesspalace.tusky.ViewTagActivity;
 import com.keylesspalace.tusky.db.AccountEntity;
 import com.keylesspalace.tusky.db.AccountManager;
+import com.keylesspalace.tusky.di.Injectable;
 import com.keylesspalace.tusky.entity.Attachment;
 import com.keylesspalace.tusky.entity.Status;
 import com.keylesspalace.tusky.network.MastodonApi;
@@ -61,9 +62,7 @@ import androidx.core.view.ViewCompat;
  * adapters. I feel like the profile pages and thread viewer, which I haven't made yet, will also
  * overlap functionality. So, I'm momentarily leaving it and hopefully working on those will clear
  * up what needs to be where. */
-public abstract class SFragment extends BaseFragment {
-
-    protected abstract TimelineCases timelineCases();
+public abstract class SFragment extends BaseFragment implements Injectable {
 
     protected abstract void removeItem(int position);
 
@@ -75,6 +74,8 @@ public abstract class SFragment extends BaseFragment {
     public MastodonApi mastodonApi;
     @Inject
     public AccountManager accountManager;
+    @Inject
+    public TimelineCases timelineCases;
 
     @Override
     public void startActivity(Intent intent) {
@@ -83,7 +84,7 @@ public abstract class SFragment extends BaseFragment {
     }
 
     @Override
-    public void onAttach(Context context) {
+    public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         if (context instanceof BottomSheetActivity) {
             bottomSheetActivity = (BottomSheetActivity) context;
@@ -236,11 +237,11 @@ public abstract class SFragment extends BaseFragment {
                     return true;
                 }
                 case R.id.status_mute: {
-                    timelineCases().mute(accountId);
+                    timelineCases.mute(accountId);
                     return true;
                 }
                 case R.id.status_block: {
-                    timelineCases().block(accountId);
+                    timelineCases.block(accountId);
                     return true;
                 }
                 case R.id.status_report: {
@@ -260,7 +261,7 @@ public abstract class SFragment extends BaseFragment {
                     return true;
                 }
                 case R.id.pin: {
-                    timelineCases().pin(status, !status.isPinned());
+                    timelineCases.pin(status, !status.isPinned());
                     return true;
                 }
             }
@@ -321,7 +322,7 @@ public abstract class SFragment extends BaseFragment {
         new AlertDialog.Builder(getActivity())
                 .setMessage(R.string.dialog_delete_toot_warning)
                 .setPositiveButton(android.R.string.ok, (dialogInterface, i) -> {
-                    timelineCases().delete(id);
+                    timelineCases.delete(id);
                     removeItem(position);
                 })
                 .setNegativeButton(android.R.string.cancel, null)

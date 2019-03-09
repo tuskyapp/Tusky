@@ -43,7 +43,6 @@ import com.keylesspalace.tusky.entity.Notification;
 import com.keylesspalace.tusky.entity.Status;
 import com.keylesspalace.tusky.interfaces.ActionButtonActivity;
 import com.keylesspalace.tusky.interfaces.StatusActionListener;
-import com.keylesspalace.tusky.network.TimelineCases;
 import com.keylesspalace.tusky.util.CollectionUtil;
 import com.keylesspalace.tusky.util.Either;
 import com.keylesspalace.tusky.util.HttpHeaderLink;
@@ -123,8 +122,6 @@ public class NotificationsFragment extends SFragment implements
     }
 
     @Inject
-    public TimelineCases timelineCases;
-    @Inject
     AccountManager accountManager;
     @Inject
     EventHub eventHub;
@@ -143,11 +140,6 @@ public class NotificationsFragment extends SFragment implements
     private boolean bottomLoading;
     private String bottomId;
     private boolean alwaysShowSensitiveMedia;
-
-    @Override
-    protected TimelineCases timelineCases() {
-        return timelineCases;
-    }
 
     // Each element is either a Notification for loading data or a Placeholder
     private final PairedList<Either<Placeholder, Notification>, NotificationViewData> notifications
