@@ -212,6 +212,13 @@
         <item>Pouze pro sledující</item>
     </string-array>
     <string name="pref_status_text_size">Velikost textu příspěvků</string>
+    <string-array name="status_text_size_names">
+        <item>Nejmenší</item>
+        <item>Small</item>
+        <item>Medium</item>
+        <item>Large</item>
+        <item>Largest</item>
+    </string-array>
     <string name="pref_media_display">Zobrazení médií</string>
     <string name="notification_channel_boost_name">Boosty</string>
     <string name="notification_summary_large">%1$s, %2$s, %3$s a dalších %4$d</string>
