@@ -5,6 +5,13 @@
     <string name="error_network">Reta eraro okazis! Bonvolu kontroli vian konekton kaj klopodi denove!</string>
     <string name="error_empty">Ne povas esti malplena.</string>
     <string name="error_compose_character_limit">Via mesaĝo estas tro longa!</string>
+    <string name="error_image_upload_size">La dosiero devas esti malpli ol 8MB.</string>
+    <string name="error_video_upload_size">Videaj dosieroj devas esti malpli ol 40MB.</string>
+    <string name="error_media_upload_type">Tia dosiero ne estas rajtigita.</string>
+    <string name="error_media_upload_opening">Tiu dosiero ne povas esti malfermita.</string>
+    <string name="error_media_upload_permission">Permeso legi aŭdovidaĵojn necesas.</string>
+    <string name="error_media_upload_image_or_video">Bildoj kaj videoj ne povas ambaŭ estas alligita al la sama mesaĝo.</string>
+    <string name="error_media_upload_sending">La alŝuto malsukcesis.</string>
     <string name="title_home">Hejmo</string>
     <string name="title_advanced">Sperta</string>
     <string name="title_notifications">Sciigoj</string>
@@ -121,6 +128,7 @@
     <string name="label_avatar">Profilbildo</string>
     <string name="label_header">Fonbildo</string>
     <string name="link_whats_an_instance">Kio estas nodo?</string>
+    <string name="dialog_title_finishing_media_upload">Finante alŝuto de aŭdovidaĵojn</string>
     <string name="dialog_message_uploading_media">Alŝutante…</string>
     <string name="dialog_download_image">Elŝuti</string>
     <string name="dialog_message_cancel_follow_request">Nuligi peton de sekvado?</string>
@@ -138,7 +146,7 @@
     <string name="pref_title_notification_alert_sound">Sciigi per sono</string>
     <string name="pref_title_notification_alert_vibrate">Sciigi per vibro</string>
     <string name="pref_title_notification_alert_light">Sciigi per lumo</string>
-    <string name="pref_title_notification_filters">Sciigi min kiam</string>
+    <string name="pref_title_notification_filters">Sciigi al mi kiam</string>
     <string name="pref_title_notification_filter_mentions">menciita</string>
     <string name="pref_title_notification_filter_reblogs">viaj mesaĝoj estas diskonigitaj</string>
     <string name="pref_title_notification_filter_favourites">miaj mesaĝoj estas stelumitaj</string>
