@@ -50,6 +50,7 @@
     <string name="status_content_warning_show_less">続きを隠す</string>
     <string name="status_content_show_more">続きを読む</string>
     <string name="status_content_show_less">閉じる</string>
+    <string name="message_empty">何もありません。</string>
     <string name="footer_empty">現在トゥートはありません。更新するにはプルダウンしてください！</string>
     <string name="notification_reblog_format">%sさんがトゥートをブーストしました</string>
     <string name="notification_favourite_format">%sさんがトゥートをお気に入りに登録しました</string>
