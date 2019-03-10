@@ -296,6 +296,24 @@
     <string name="send_toot_notification_error_title">Chyba při odesílání tootu</string>
     <string name="send_toot_notification_channel_name">Odesílám tooty</string>
     <string name="send_toot_notification_cancel_title">Odesílání bylo zrušeno</string>
+    <plurals name="favs">
+        <item quantity="one">&lt;b&gt;%1$s&lt;/b&gt; oblíbení</item>
+        <item quantity="few">&lt;b&gt;%1$s&lt;/b&gt; oblíbení</item>
+        <item quantity="many">&lt;b&gt;%1$s&lt;/b&gt; oblíbení</item>
+        <item quantity="other">&lt;b&gt;%1$s&lt;/b&gt; oblíbení</item>
+    </plurals>
+    <plurals name="reblogs">
+        <item quantity="one">&lt;b&gt;%s&lt;/b&gt; boost</item>
+        <item quantity="few">&lt;b&gt;%s&lt;/b&gt; boost</item>
+        <item quantity="many">&lt;b&gt;%s&lt;/b&gt; boostu</item>
+        <item quantity="other">&lt;b&gt;%s&lt;/b&gt; boostu</item>
+    </plurals>
+    <string name="description_visiblity_public">        Veřejný
+    </string>
+    <string name="description_visiblity_unlisted">        Neuvedený
+    </string>
+    <string name="description_visiblity_private">        Pro sledující
+    </string>
     <string name="description_status">        <!-- Zobrazované jméno, varování?, obsah?, relativní datum, znovusdíleno kým?, znovusdíleno?, oblíbeno?, uživatelské jméno, média?; viditelnost, počet oblíbení?, počet boostů?-->
         %s; %s; %s, %s, %s; %s, %s, %s, %s; %s, %s, %s
     </string>
