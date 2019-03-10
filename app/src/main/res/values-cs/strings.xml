@@ -28,7 +28,7 @@
     <string name="title_public_local">Místní</string>
     <string name="title_public_federated">Federovaná</string>
     <string name="title_direct_messages">Přímé zprávy</string>
-    <string name="title_tab_preferences">Záložky</string>
+    <string name="title_tab_preferences">Panely</string>
     <string name="title_view_thread">Toot</string>
     <string name="title_tag">#%s</string>
     <string name="title_statuses">Tooty</string>
@@ -110,7 +110,7 @@
     <string name="action_toggle_visibility">Viditelnost tootu</string>
     <string name="action_content_warning">Varování o obsahu</string>
     <string name="action_emoji_keyboard">Klávesnice s emoji</string>
-    <string name="action_add_tab">Přidat záložku</string>
+    <string name="action_add_tab">Přidat panel</string>
     <string name="action_links">Odkazy</string>
     <string name="action_mentions">Zmínky</string>
     <string name="action_hashtags">Hashtagy</string>
@@ -192,7 +192,7 @@
     <string name="pref_title_hide_follow_button">Skrýt tlačítko pro psaní při rolování</string>
     <string name="pref_title_language">Jazyk</string>
     <string name="pref_title_status_filter">Filtrování časových os</string>
-    <string name="pref_title_status_tabs">Záložky</string>
+    <string name="pref_title_status_tabs">Panely</string>
     <string name="pref_title_show_boosts">Zobrazi boosty</string>
     <string name="pref_title_show_replies">Zobrazit odpovědi</string>
     <string name="pref_title_filter_regex">Filtrovat regulárními výrazy</string>
@@ -322,7 +322,14 @@
     <string name="license_apache_2">Pod licencí Apache License (kopie níže)</string>
     <string name="license_cc_by_4">CC-BY 4.0</string>
     <string name="license_cc_by_sa_4">CC-BY-SA 4.0</string>
-    <string name="profile_metadata_label">Profilová metadata</string>
+    <string name="profile_metadata_label">Metadata profilu</string>
+    <string name="profile_metadata_add">přidat data</string>
+    <string name="profile_metadata_label_label">Označení</string>
+    <string name="profile_metadata_content_label">Obsah</string>
+    <string name="pref_title_absolute_time">Používat absolutní čas</string>
+    <string name="label_remote_account">Níže uvedené informace nemusejí zcela odrážet profil uživatele. Dotknutím otevřete celý profil v prohlížeči.</string>
+    <string name="unpin_action">Odepnout</string>
+    <string name="pin_action">Připnout</string>
     <plurals name="favs">
         <item quantity="one">&lt;b&gt;%1$s&lt;/b&gt; oblíbení</item>
         <item quantity="few">&lt;b&gt;%1$s&lt;/b&gt; oblíbení</item>
@@ -335,6 +342,22 @@
         <item quantity="many">&lt;b&gt;%s&lt;/b&gt; boostu</item>
         <item quantity="other">&lt;b&gt;%s&lt;/b&gt; boostu</item>
     </plurals>
+    <string name="title_reblogged_by">Boostnuto uživatelem</string>
+    <string name="title_favourited_by">Oblíbeno uživatelem</string>
+    <string name="conversation_1_recipients">%1$s</string>
+    <string name="conversation_2_recipients">%1$s a %2$s</string>
+    <string name="conversation_more_recipients">%1$s, %2$s a %3$d další</string>
+    <string name="max_tab_number_reached">bylo dosaženo maxima %1$d panelů</string>
+    <string name="description_status_media">        Média %s
+    </string>
+    <string name="description_status_cw">        Varování o obsahu: %s
+    </string>
+    <string name="description_status_media_no_description_placeholder">        Žádný popis
+    </string>
+    <string name="description_status_reblogged">        Boostnutý
+    </string>
+    <string name="description_status_favourited">        Oblíbený
+    </string>
     <string name="description_visiblity_public">        Veřejný
     </string>
     <string name="description_visiblity_unlisted">        Neuvedený
