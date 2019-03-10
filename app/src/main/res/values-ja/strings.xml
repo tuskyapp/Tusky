@@ -326,6 +326,5 @@
     </plurals>
     <string name="title_reblogged_by">ブーストした人物</string>
     <string name="title_favourited_by">お気に入りした人物</string>
-    <string name="conversation_1_recipients">%1$s</string>
     <string name="max_tab_number_reached">タブは %1$d 個が上限です</string>
 </resources>
