@@ -14,77 +14,82 @@
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:focusableInTouchMode="true"
-            android:orientation="vertical">
+            android:focusableInTouchMode="true">
 
-            <RelativeLayout
+            <ImageView
+                android:id="@+id/headerPreview"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="200dp"
+                android:contentDescription="@null"
+                app:layout_constraintTop_toTopOf="parent" />
 
-                <ImageView
-                    android:id="@+id/headerPreview"
-                    android:layout_width="match_parent"
-                    android:layout_height="200dp"
-                    android:contentDescription="@null" />
+            <ImageButton
+                android:id="@+id/headerButton"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:background="#66000000"
+                android:contentDescription="@string/label_header"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_add_a_photo_32dp" />
 
-                <ImageButton
-                    android:id="@+id/headerButton"
-                    android:layout_width="match_parent"
-                    android:layout_height="200dp"
-                    android:background="#66000000"
-                    android:contentDescription="@string/label_header"
-                    app:srcCompat="@drawable/ic_add_a_photo_32dp" />
+            <ProgressBar
+                android:id="@+id/headerProgressBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:indeterminate="true"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="@id/headerPreview"
+                app:layout_constraintEnd_toEndOf="@id/headerPreview"
+                app:layout_constraintStart_toStartOf="@id/headerPreview"
+                app:layout_constraintTop_toTopOf="@id/headerPreview" />
 
-                <ProgressBar
-                    android:id="@+id/headerProgressBar"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:indeterminate="true"
-                    android:visibility="gone" />
+            <tech.bigfig.roma.view.RoundedImageView
+                android:id="@+id/avatarPreview"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_marginStart="16dp"
+                android:contentDescription="@null"
+                app:layout_constraintBottom_toBottomOf="@id/headerPreview"
+                app:layout_constraintStart_toStartOf="@id/contentContainer"
+                app:layout_constraintTop_toBottomOf="@id/headerPreview" />
 
-            </RelativeLayout>
+            <ImageButton
+                android:id="@+id/avatarButton"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_marginStart="16dp"
+                android:background="@drawable/round_button"
+                android:contentDescription="@string/label_avatar"
+                android:elevation="4dp"
+                app:layout_constraintBottom_toBottomOf="@id/headerPreview"
+                app:layout_constraintStart_toStartOf="@id/contentContainer"
+                app:layout_constraintTop_toBottomOf="@id/headerPreview"
+                app:srcCompat="@drawable/ic_add_a_photo_32dp" />
 
+            <ProgressBar
+                android:id="@+id/avatarProgressBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:indeterminate="true"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="@id/avatarPreview"
+                app:layout_constraintEnd_toEndOf="@id/avatarPreview"
+                app:layout_constraintStart_toStartOf="@id/avatarPreview"
+                app:layout_constraintTop_toTopOf="@id/avatarPreview" />
 
             <LinearLayout
+                android:id="@+id/contentContainer"
                 android:layout_width="@dimen/timeline_width"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="-40dp"
-                android:orientation="vertical">
-
-                <RelativeLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp">
-
-                    <tech.bigfig.roma.view.RoundedImageView
-                        android:id="@+id/avatarPreview"
-                        android:layout_width="80dp"
-                        android:layout_height="80dp"
-                        android:contentDescription="@null" />
-
-                    <ImageButton
-                        android:id="@+id/avatarButton"
-                        android:layout_width="80dp"
-                        android:layout_height="80dp"
-                        android:background="@drawable/round_button"
-                        android:contentDescription="@string/label_avatar"
-                        android:elevation="4dp"
-                        app:srcCompat="@drawable/ic_add_a_photo_32dp" />
-
-                    <ProgressBar
-                        android:id="@+id/avatarProgressBar"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerInParent="true"
-                        android:indeterminate="true"
-                        android:visibility="gone" />
-
-                </RelativeLayout>
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/avatarPreview">
 
                 <com.google.android.material.textfield.TextInputLayout
                     style="@style/RomaTextInput"
@@ -175,7 +180,7 @@
                     android:textColor="#fff" />
 
             </LinearLayout>
-        </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.core.widget.NestedScrollView>
 

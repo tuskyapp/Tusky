@@ -27,7 +27,6 @@ import tech.bigfig.roma.viewdata.StatusViewData;
 import com.squareup.picasso.Picasso;
 
 import java.text.DateFormat;
-import java.text.NumberFormat;
 import java.util.Date;
 
 import androidx.annotation.Nullable;

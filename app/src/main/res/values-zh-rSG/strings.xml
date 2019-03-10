@@ -159,6 +159,7 @@
         <item>白天</item>
         <item>黑色</item>
         <item>自动切换</item>
+        <item>Use System Design</item>
     </string-array>
     <string name="pref_title_browser_settings">浏览器</string>
     <string name="pref_title_custom_tabs">使用 Chrome Custom Tabs</string>

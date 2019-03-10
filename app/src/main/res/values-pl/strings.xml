@@ -156,6 +156,7 @@
         <item>Jasny</item>
         <item>Czarny</item>
         <item>Zmieniaj automatycznie po zachodzie słońca</item>
+        <item>Use System Design</item>
     </string-array>
     <string name="pref_title_browser_settings">Przeglądarka</string>
     <string name="pref_title_custom_tabs">Używaj niestandardowych kart Chrome</string>

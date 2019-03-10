@@ -293,7 +293,7 @@
             app:layout_constraintTop_toTopOf="@+id/status_media_preview_container"
             app:srcCompat="@drawable/ic_eye_24dp" />
 
-        <androidx.emoji.widget.EmojiTextView
+        <TextView
             android:id="@+id/status_sensitive_media_warning"
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -312,8 +312,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <!--TODO: Check if this needs emoji support-->
-        <androidx.emoji.widget.EmojiTextView
+        <TextView
             android:id="@+id/status_media_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

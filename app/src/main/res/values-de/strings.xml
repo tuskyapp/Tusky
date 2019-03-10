@@ -168,6 +168,7 @@
         <item>Hell</item>
         <item>Schwarz</item>
         <item>Automatisch bei Sonnenuntergang</item>
+        <item>Use System Design</item>
     </string-array>
     <string name="pref_title_browser_settings">Browser</string>
     <string name="pref_title_custom_tabs">Öffne Links in der App</string>

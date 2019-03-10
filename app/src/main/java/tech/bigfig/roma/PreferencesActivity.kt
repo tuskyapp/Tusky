@@ -34,6 +34,7 @@ import dagger.android.support.HasSupportFragmentInjector
 import kotlinx.android.synthetic.main.toolbar_basic.*
 import java.lang.IllegalArgumentException
 import javax.inject.Inject
+import androidx.appcompat.app.AppCompatDelegate
 
 class PreferencesActivity : BaseActivity(), SharedPreferences.OnSharedPreferenceChangeListener, HasSupportFragmentInjector {
 
@@ -123,20 +124,18 @@ class PreferencesActivity : BaseActivity(), SharedPreferences.OnSharedPreference
             "appTheme" -> {
                 val theme = sharedPreferences.getNonNullString("appTheme", ThemeUtils.APP_THEME_DEFAULT)
                 Log.d("activeTheme", theme)
-                ThemeUtils.setAppNightMode(theme, this)
-                restartActivitiesOnExit = true
-
-                // recreate() could be used instead, but it doesn't have an animation B).
-                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
-                val savedInstanceState = Bundle()
-                saveInstanceState(savedInstanceState)
-                intent.putExtras(savedInstanceState)
-                startActivityWithSlideInAnimation(intent)
-                finish()
-                overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
+                ThemeUtils().setAppNightMode(theme, this)
 
                 restartActivitiesOnExit = true
+                this.restartCurrentActivity()
 
+                // MODE_NIGHT_FOLLOW_SYSTEM workaround part 2 :/
+                when(theme){
+                    ThemeUtils.THEME_SYSTEM -> {
+                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
+                    }
+                }
+                //workaround end
             }
             "statusTextSize" -> {
                 restartActivitiesOnExit = true
@@ -144,11 +143,24 @@ class PreferencesActivity : BaseActivity(), SharedPreferences.OnSharedPreference
             "absoluteTimeView" -> {
                 restartActivitiesOnExit = true
             }
+            "language" -> {
+                restartActivitiesOnExit = true
+                this.restartCurrentActivity()
+            }
         }
 
         eventHub.dispatch(PreferenceChangedEvent(key))
     }
 
+    private fun restartCurrentActivity() {
+        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
+        val savedInstanceState = Bundle()
+        saveInstanceState(savedInstanceState)
+        intent.putExtras(savedInstanceState)
+        startActivityWithSlideInAnimation(intent)
+        finish()
+        overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
+    }
 
     override fun onBackPressed() {
         /* Switching themes won't actually change the theme of activities on the back stack.

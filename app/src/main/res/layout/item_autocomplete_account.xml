@@ -22,8 +22,6 @@
         android:gravity="center_vertical"
         android:orientation="vertical">
 
-        <!--TODO: Check if this needs emoji support-->
-        <!--FIXME: The placeholder texts seem to be swapped-->
         <androidx.emoji.widget.EmojiTextView
             android:id="@+id/display_name"
             android:layout_width="wrap_content"
@@ -33,7 +31,7 @@
             android:textColor="?android:textColorPrimary"
             android:textSize="?attr/status_text_large"
             android:textStyle="normal|bold"
-            tools:text="\@ConnyDuck" />
+            tools:text="Conny Duck" />
 
         <TextView
             android:id="@+id/username"
@@ -43,7 +41,7 @@
             android:maxLines="1"
             android:textColor="?android:textColorSecondary"
             android:textSize="?attr/status_text_medium"
-            tools:text="Conny Duck" />
+            tools:text="\@ConnyDuck" />
 
     </LinearLayout>
 
