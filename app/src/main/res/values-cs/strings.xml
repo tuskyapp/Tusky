@@ -232,16 +232,34 @@
     <string name="notification_channel_boost_name">Boosty</string>
     <string name="notification_channel_boost_description">Oznámení, když jsou vaše tooty boostnuty</string>
     <string name="notification_channel_favourite_name">Oblíbení</string>
+    <string name="notification_channel_favourite_description">Oznámení, když jsou vaše tooty označeny jako oblíbené</string>
+    <string name="notification_mention_format">%s vás zmínil/a</string>
     <string name="notification_summary_large">%1$s, %2$s, %3$s a dalších %4$d</string>
     <string name="notification_summary_medium">%1$s, %2$s a %3$s</string>
     <string name="notification_summary_small">%1$s a %2$s</string>
     <string name="notification_title_summary">%d nových interakcí</string>
+    <string name="description_account_locked">Uzamčený účet</string>
+    <string name="about_title_activity">O této aplikaci</string>
+    <string name="about_tusky_version">Tusky %s</string>
+    <string name="about_tusky_license">Tusky je svobodný a otevřený software.
+        Je dostupný pod licencí GNU General Public License, verze 3.
+        Licenci můžete zobrazit zde: https://www.gnu.org/licenses/gpl-3.0.en.html</string>
     <!-- note to translators:
          * you should think of “free” as in “free speech,” not as in “free beer”.
            We sometimes call it “libre software,” borrowing the French or Spanish word for “free” as in freedom,
            to show we do not mean the software is gratis. Source: https://www.gnu.org/philosophy/free-sw.html
          * the url can be changed to link to the localized version of the license.
     -->
+    <string name="about_project_site">        Webová stránka projektu:\n
+        https://tuskyapp.github.io
+    </string>
+    <string name="about_bug_feature_request_site">        Hlášení chyb a návrhy na nové vlastnosti:\n
+        https://github.com/tuskyapp/Tusky/issues
+    </string>
+    <string name="about_tusky_account">Profil aplikace Tusky</string>
+    <string name="status_share_content">Sdílet obsah tootu</string>
+    <string name="status_share_link">Sdílet odkaz k tootu</string>
+    <string name="status_media_images">Obrázky</string>
     <!--These are for timestamps on statuses. For example: "16s" or "2d"-->
     <string name="abbreviated_in_years">za %d let</string>
     <string name="abbreviated_in_days">za %d d</string>
