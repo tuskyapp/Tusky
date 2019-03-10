@@ -300,6 +300,21 @@
     <string name="action_compose_shortcut">Napsat</string>
     <string name="error_no_custom_emojis">Vaše instance %s nemá žádná vlastní emoji</string>
     <string name="copy_to_clipboard_success">Zkopírováno do schránky</string>
+    <string name="emoji_style">Styl emoji</string>
+    <string name="system_default">Výchozí nastavení systému</string>
+    <string name="download_fonts">Musíte si nejprve stáhnout tyto sady emoji</string>
+    <string name="performing_lookup_title">Provádím prohledávání…</string>
+    <string name="expand_collapse_all_statuses">Rozbalit/zabalit všechny příspěvky</string>
+    <string name="action_open_toot">Otevřít toot</string>
+    <string name="restart_required">Je vyžadován restart aplikace</string>
+    <string name="restart_emoji">Pro použití těchto změn musíte restartovat aplikaci Tusky</string>
+    <string name="later">Později</string>
+    <string name="restart">Restartovat</string>
+    <string name="caption_systememoji">Výchozí sada emoji vašeho zařízení</string>
+    <string name="caption_blobmoji">Blob Emoji známá z Androidu 4.4–7.1</string>
+    <string name="caption_twemoji">Standardní sada emoji na Mastodonu</string>
+    <string name="download_failed">Stahování selhalo</string>
+    <string name="profile_badge_bot_text">Robot</string>
     <plurals name="favs">
         <item quantity="one">&lt;b&gt;%1$s&lt;/b&gt; oblíbení</item>
         <item quantity="few">&lt;b&gt;%1$s&lt;/b&gt; oblíbení</item>
@@ -317,6 +332,8 @@
     <string name="description_visiblity_unlisted">        Neuvedený
     </string>
     <string name="description_visiblity_private">        Pro sledující
+    </string>
+    <string name="description_visiblity_direct">        Přímý
     </string>
     <string name="description_status">        <!-- Zobrazované jméno, varování?, obsah?, relativní datum, znovusdíleno kým?, znovusdíleno?, oblíbeno?, uživatelské jméno, média?; viditelnost, počet oblíbení?, počet boostů?-->
         %s; %s; %s, %s, %s; %s, %s, %s, %s; %s, %s, %s
