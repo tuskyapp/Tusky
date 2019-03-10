@@ -15,12 +15,15 @@
 
 package com.keylesspalace.tusky.components.conversation
 
+import android.content.Context
 import android.content.Intent
+import android.net.ConnectivityManager
 import android.os.Bundle
 import android.preference.PreferenceManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.net.ConnectivityManagerCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.paging.PagedList
@@ -30,6 +33,7 @@ import androidx.recyclerview.widget.SimpleItemAnimator
 import com.keylesspalace.tusky.AccountActivity
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.ViewTagActivity
+import com.keylesspalace.tusky.db.AccountEntity
 import com.keylesspalace.tusky.db.AppDatabase
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.di.ViewModelFactory
@@ -40,6 +44,7 @@ import com.keylesspalace.tusky.util.NetworkState
 import com.keylesspalace.tusky.util.ThemeUtils
 import com.keylesspalace.tusky.util.hide
 import kotlinx.android.synthetic.main.fragment_timeline.*
+import kotlinx.android.synthetic.main.item_saved_toot.view.*
 import javax.inject.Inject
 
 class ConversationsFragment : SFragment(), StatusActionListener, Injectable {
@@ -67,10 +72,16 @@ class ConversationsFragment : SFragment(), StatusActionListener, Injectable {
         val useAbsoluteTime = preferences.getBoolean("absoluteTimeView", false)
 
         val account = accountManager.activeAccount
-        val mediaPreviewEnabled = account?.mediaPreviewEnabled ?: true
 
 
-        adapter = ConversationAdapter(useAbsoluteTime, mediaPreviewEnabled,this, ::onTopLoaded, viewModel::retry)
+        val isMetered = ConnectivityManagerCompat.isActiveNetworkMetered(
+                view.context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager)
+        val mediaPreviewEnabled = account != null
+                && (account.mediaPreviewEnabled == AccountEntity.MEDIA_PREVIEW_ALWAYS
+                || (account.mediaPreviewEnabled == AccountEntity.MEDIA_PREVIEW_ON_UNMETERED
+                && !isMetered))
+        adapter = ConversationAdapter(useAbsoluteTime, mediaPreviewEnabled, this, ::onTopLoaded,
+                viewModel::retry)
 
         recyclerView.addItemDecoration(DividerItemDecoration(view.context, DividerItemDecoration.VERTICAL))
         recyclerView.layoutManager = LinearLayoutManager(view.context)

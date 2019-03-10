@@ -209,7 +209,8 @@ public class NotificationsFragment extends SFragment implements
         adapter = new NotificationsAdapter(dataSource, this, this);
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
         alwaysShowSensitiveMedia = accountManager.getActiveAccount().getAlwaysShowSensitiveMedia();
-        boolean mediaPreviewEnabled = accountManager.getActiveAccount().getMediaPreviewEnabled();
+        // TODO
+        boolean mediaPreviewEnabled = false;//accountManager.getActiveAccount().getMediaPreviewEnabled();
         adapter.setMediaPreviewEnabled(mediaPreviewEnabled);
         boolean useAbsoluteTime = preferences.getBoolean("absoluteTimeView", false);
         adapter.setUseAbsoluteTime(useAbsoluteTime);
@@ -573,12 +574,12 @@ public class NotificationsFragment extends SFragment implements
                 break;
             }
             case "mediaPreviewEnabled": {
-                boolean enabled = accountManager.getActiveAccount().getMediaPreviewEnabled();
-                if (enabled != adapter.isMediaPreviewEnabled()) {
-                    adapter.setMediaPreviewEnabled(enabled);
-                    fullyRefresh();
-                }
-                break;
+//                boolean enabled = accountManager.getActiveAccount().getMediaPreviewEnabled();
+//                if (enabled != adapter.isMediaPreviewEnabled()) {
+//                    adapter.setMediaPreviewEnabled(enabled);
+//                    fullyRefresh();
+//                }
+//                break;
             }
         }
     }

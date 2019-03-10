@@ -161,7 +161,8 @@ public final class ViewThreadFragment extends SFragment implements
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(
                 getActivity());
         alwaysShowSensitiveMedia = accountManager.getActiveAccount().getAlwaysShowSensitiveMedia();
-        boolean mediaPreviewEnabled = accountManager.getActiveAccount().getMediaPreviewEnabled();
+        // TODO
+        boolean mediaPreviewEnabled = false; //accountManager.getActiveAccount().getMediaPreviewEnabled();
         adapter.setMediaPreviewEnabled(mediaPreviewEnabled);
         boolean useAbsoluteTime = preferences.getBoolean("absoluteTimeView", false);
         adapter.setUseAbsoluteTime(useAbsoluteTime);

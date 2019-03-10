@@ -65,7 +65,8 @@ class SearchFragment : SFragment(), StatusActionListener, Injectable {
 
         val account = accountManager.activeAccount
         alwaysShowSensitiveMedia = account?.alwaysShowSensitiveMedia ?: false
-        mediaPreviewEnabled = account?.mediaPreviewEnabled ?: true
+        // TODO
+        mediaPreviewEnabled = false
 
         searchRecyclerView.addItemDecoration(DividerItemDecoration(view.context, DividerItemDecoration.VERTICAL))
         searchRecyclerView.layoutManager = LinearLayoutManager(view.context)

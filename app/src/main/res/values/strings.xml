@@ -435,4 +435,10 @@
         %s; %s; %s, %s, %s; %s, %s, %s, %s; %s, %s, %s
     </string>
 
+    <string-array name="pref_previews_names">
+        <item>Always</item>
+        <item>On unmetered networks</item>
+        <item>Never</item>
+    </string-array>
+
 </resources>

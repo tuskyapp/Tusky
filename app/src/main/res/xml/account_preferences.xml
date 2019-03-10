@@ -38,8 +38,10 @@
 
     <PreferenceCategory android:title="@string/pref_title_timelines">
 
-        <SwitchPreference
+        <ListPreference
             android:key="mediaPreviewEnabled"
+            android:entries="@array/pref_previews_names"
+            android:entryValues="@array/pref_previews_values"
             android:title="@string/pref_title_show_media_preview" />
 
         <SwitchPreference

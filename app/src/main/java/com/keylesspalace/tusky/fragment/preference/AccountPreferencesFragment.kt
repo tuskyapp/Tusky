@@ -15,17 +15,18 @@
 
 package com.keylesspalace.tusky.fragment.preference
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.graphics.drawable.Drawable
 import android.os.Build
 import android.os.Bundle
-import com.google.android.material.snackbar.Snackbar
-import androidx.preference.SwitchPreference
+import android.util.Log
+import android.view.View
 import androidx.preference.ListPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
-import android.util.Log
-import android.view.View
+import androidx.preference.SwitchPreference
+import com.google.android.material.snackbar.Snackbar
 import com.keylesspalace.tusky.*
 import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.appstore.PreferenceChangedEvent
@@ -64,11 +65,26 @@ class AccountPreferencesFragment : PreferenceFragmentCompat(),
     private lateinit var defaultPostPrivacyPreference: ListPreference
     private lateinit var defaultMediaSensitivityPreference: SwitchPreference
     private lateinit var alwaysShowSensitiveMediaPreference: SwitchPreference
-    private lateinit var mediaPreviewEnabledPreference: SwitchPreference
+    private lateinit var mediaPreviewEnabledPreference: ListPreference
 
-    private val iconSize by lazy {resources.getDimensionPixelSize(R.dimen.preference_icon_size)}
+    private val iconSize by lazy { resources.getDimensionPixelSize(R.dimen.preference_icon_size) }
 
+    @SuppressLint("ApplySharedPref")
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
+//        // Migrate preference type
+//        val valueIndex = when (accountManager.activeAccount!!.mediaPreviewEnabled) {
+//            AccountEntity.MEDIA_PREVIEW_ALWAYS -> 0
+//            AccountEntity.MEDIA_PREVIEW_NEVER -> 2
+//            AccountEntity.MEDIA_PREVIEW_ON_UNMETERED -> 1
+//            else -> throw AssertionError("Unknown value index")
+//        }
+//        val stringValue = context!!.resources.getStringArray(R.array.pref_previews_values)[valueIndex]
+//        context!!.getSharedPreferences(context!!.getString(R.string.preferences_file_key), Context.MODE_PRIVATE)
+//                .edit()
+//                .remove("mediaPreviewEnabled")
+//                .putString("mediaPreviewEnabled", stringValue)
+//                .commit()
+
         addPreferencesFromResource(R.xml.account_preferences)
 
         notificationPreference = findPreference("notificationPreference")
@@ -77,7 +93,7 @@ class AccountPreferencesFragment : PreferenceFragmentCompat(),
         blockedUsersPreference = findPreference("blockedUsersPreference")
         defaultPostPrivacyPreference = findPreference("defaultPostPrivacy") as ListPreference
         defaultMediaSensitivityPreference = findPreference("defaultMediaSensitivity") as SwitchPreference
-        mediaPreviewEnabledPreference = findPreference("mediaPreviewEnabled") as SwitchPreference
+        mediaPreviewEnabledPreference = findPreference("mediaPreviewEnabled") as ListPreference
         alwaysShowSensitiveMediaPreference = findPreference("alwaysShowSensitiveMedia") as SwitchPreference
 
         notificationPreference.icon = IconicsDrawable(notificationPreference.context, GoogleMaterial.Icon.gmd_notifications).sizePx(iconSize).color(ThemeUtils.getColor(notificationPreference.context, R.attr.toolbar_icon_tint))
@@ -107,14 +123,14 @@ class AccountPreferencesFragment : PreferenceFragmentCompat(),
             defaultMediaSensitivityPreference.isChecked = it.defaultMediaSensitivity
             defaultMediaSensitivityPreference.icon = getIconForSensitivity(it.defaultMediaSensitivity)
 
-            mediaPreviewEnabledPreference.isChecked = it.mediaPreviewEnabled
+            mediaPreviewEnabledPreference.value = it.mediaPreviewEnabled.toString()
             alwaysShowSensitiveMediaPreference.isChecked = it.alwaysShowSensitiveMedia
 
         }
     }
 
     override fun onPreferenceChange(preference: Preference, newValue: Any): Boolean {
-        when(preference) {
+        when (preference) {
             defaultPostPrivacyPreference -> {
                 preference.icon = getIconForVisibility(Status.Visibility.byString(newValue as String))
                 syncWithServer(visibility = newValue)
@@ -125,7 +141,7 @@ class AccountPreferencesFragment : PreferenceFragmentCompat(),
             }
             mediaPreviewEnabledPreference -> {
                 accountManager.activeAccount?.let {
-                    it.mediaPreviewEnabled = newValue as Boolean
+                    it.mediaPreviewEnabled = (newValue as String).toInt()
                     accountManager.saveAccount(it)
                 }
             }
@@ -144,7 +160,7 @@ class AccountPreferencesFragment : PreferenceFragmentCompat(),
 
     override fun onPreferenceClick(preference: Preference): Boolean {
 
-        when(preference) {
+        when (preference) {
             notificationPreference -> {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                     val intent = Intent()
@@ -189,13 +205,14 @@ class AccountPreferencesFragment : PreferenceFragmentCompat(),
 
     private fun syncWithServer(visibility: String? = null, sensitive: Boolean? = null) {
         mastodonApi.accountUpdateSource(visibility, sensitive)
-                .enqueue(object: Callback<Account>{
+                .enqueue(object : Callback<Account> {
                     override fun onResponse(call: Call<Account>, response: Response<Account>) {
                         val account = response.body()
-                        if(response.isSuccessful && account != null) {
+                        if (response.isSuccessful && account != null) {
 
                             accountManager.activeAccount?.let {
-                                it.defaultPostPrivacy = account.source?.privacy ?: Status.Visibility.PUBLIC
+                                it.defaultPostPrivacy = account.source?.privacy
+                                        ?: Status.Visibility.PUBLIC
                                 it.defaultMediaSensitivity = account.source?.sensitive ?: false
                                 accountManager.saveAccount(it)
                             }
@@ -214,9 +231,9 @@ class AccountPreferencesFragment : PreferenceFragmentCompat(),
     }
 
     private fun showErrorSnackbar(visibility: String?, sensitive: Boolean?) {
-        view?.let {view ->
+        view?.let { view ->
             Snackbar.make(view, R.string.pref_failed_to_sync, Snackbar.LENGTH_LONG)
-                    .setAction(R.string.action_retry) { syncWithServer( visibility, sensitive)}
+                    .setAction(R.string.action_retry) { syncWithServer(visibility, sensitive) }
                     .show()
         }
     }

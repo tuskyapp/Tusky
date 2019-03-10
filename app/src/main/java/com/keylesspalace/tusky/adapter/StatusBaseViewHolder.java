@@ -414,15 +414,26 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
     }
 
     @NonNull
-    private static String getLabelTypeText(Context context, Attachment.Type type) {
-        switch (type) {
-            default:
-            case IMAGE:
-                return context.getString(R.string.status_media_images);
-            case GIFV:
-            case VIDEO:
-                return context.getString(R.string.status_media_video);
+    private static CharSequence getLabelTypeText(Context context, List<Attachment> attachments,
+                                                 boolean sensitive) {
+        StringBuilder text = new StringBuilder();
+        for (int i = 0; i < attachments.size(); i++) {
+            Attachment attachment = attachments.get(i);
+            if (TextUtils.isEmpty(attachment.getDescription())) {
+                text.append(context.getString(
+                        R.string.description_status_media_no_description_placeholder));
+            } else {
+                text.append(attachment.getDescription());
+            }
+            if (i != attachments.size() - 1) {
+                text.append('\n');
+            }
         }
+        if (sensitive) {
+            String sensitiveText = context.getString(R.string.status_sensitive_media_title);
+            text.append(String.format(" (%s)", sensitiveText));
+        }
+        return text;
     }
 
     @DrawableRes
@@ -447,11 +458,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
 
         // Set the label's text.
         Context context = itemView.getContext();
-        String labelText = getLabelTypeText(context, attachments.get(0).getType());
-        if (sensitive) {
-            String sensitiveText = context.getString(R.string.status_sensitive_media_title);
-            labelText += String.format(" (%s)", sensitiveText);
-        }
+        CharSequence labelText = getLabelTypeText(context, attachments, sensitive);
         mediaLabel.setText(labelText);
 
         // Set the icon next to the label.

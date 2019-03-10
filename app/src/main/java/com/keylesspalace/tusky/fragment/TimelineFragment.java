@@ -18,6 +18,7 @@ package com.keylesspalace.tusky.fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
@@ -41,6 +42,7 @@ import com.keylesspalace.tusky.appstore.ReblogEvent;
 import com.keylesspalace.tusky.appstore.StatusComposedEvent;
 import com.keylesspalace.tusky.appstore.StatusDeletedEvent;
 import com.keylesspalace.tusky.appstore.UnfollowEvent;
+import com.keylesspalace.tusky.db.AccountEntity;
 import com.keylesspalace.tusky.db.AccountManager;
 import com.keylesspalace.tusky.di.Injectable;
 import com.keylesspalace.tusky.entity.Status;
@@ -76,6 +78,7 @@ import javax.inject.Inject;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.arch.core.util.Function;
+import androidx.core.net.ConnectivityManagerCompat;
 import androidx.core.util.Pair;
 import androidx.lifecycle.Lifecycle;
 import androidx.recyclerview.widget.AsyncDifferConfig;
@@ -319,7 +322,15 @@ public class TimelineFragment extends SFragment implements
     private void setupTimelinePreferences() {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
         alwaysShowSensitiveMedia = accountManager.getActiveAccount().getAlwaysShowSensitiveMedia();
-        boolean mediaPreviewEnabled = accountManager.getActiveAccount().getMediaPreviewEnabled();
+        AccountEntity account = accountManager.getActiveAccount();
+
+        boolean isMetered = ConnectivityManagerCompat.isActiveNetworkMetered(
+                (ConnectivityManager) getContext().getSystemService(Context.CONNECTIVITY_SERVICE));
+        boolean mediaPreviewEnabled = account != null
+                && (account.getMediaPreviewEnabled() == AccountEntity.MEDIA_PREVIEW_ALWAYS
+                || (account.getMediaPreviewEnabled() == AccountEntity.MEDIA_PREVIEW_ON_UNMETERED
+                && !isMetered));
+
         adapter.setMediaPreviewEnabled(mediaPreviewEnabled);
         boolean useAbsoluteTime = preferences.getBoolean("absoluteTimeView", false);
         adapter.setUseAbsoluteTime(useAbsoluteTime);
@@ -743,13 +754,13 @@ public class TimelineFragment extends SFragment implements
                 break;
             }
             case "mediaPreviewEnabled": {
-                boolean enabled = accountManager.getActiveAccount().getMediaPreviewEnabled();
-                boolean oldMediaPreviewEnabled = adapter.getMediaPreviewEnabled();
-                if (enabled != oldMediaPreviewEnabled) {
-                    adapter.setMediaPreviewEnabled(enabled);
-                    fullyRefresh();
-                }
-                break;
+//                int state = accountManager.getActiveAccount().getMediaPreviewEnabled();
+//                boolean oldMediaPreviewEnabled = adapter.getMediaPreviewEnabled();
+//                if (enabled != oldMediaPreviewEnabled) {
+//                    adapter.setMediaPreviewEnabled(enabled);
+//                    fullyRefresh();
+//                }
+//                break;
             }
             case "tabFilterHomeReplies": {
                 boolean filter = sharedPreferences.getBoolean("tabFilterHomeReplies", true);

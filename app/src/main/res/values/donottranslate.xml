@@ -61,6 +61,15 @@
         <item>日本語</item>
     </string-array>
 
+    <string-array name="pref_previews_values">
+        <!-- Always -->
+        <item>1</item>
+        <!-- On unmetered -->
+        <item>2</item>
+        <!-- Never -->
+        <item>0</item>
+    </string-array>
+
     <string-array name="language_values">
         <item>default</item>
         <item>ca</item>

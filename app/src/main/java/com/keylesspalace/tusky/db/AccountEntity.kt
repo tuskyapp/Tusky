@@ -47,7 +47,7 @@ data class AccountEntity(@field:PrimaryKey(autoGenerate = true) var id: Long,
                          var defaultPostPrivacy: Status.Visibility = Status.Visibility.PUBLIC,
                          var defaultMediaSensitivity: Boolean = false,
                          var alwaysShowSensitiveMedia: Boolean = false,
-                         var mediaPreviewEnabled: Boolean = true,
+                         var mediaPreviewEnabled: Int = MEDIA_PREVIEW_ALWAYS,
                          var lastNotificationId: String = "0",
                          var activeNotifications: String = "[]",
                          var emojis: List<Emoji> = emptyList(),
@@ -76,5 +76,11 @@ data class AccountEntity(@field:PrimaryKey(autoGenerate = true) var id: Long,
         result = 31 * result + domain.hashCode()
         result = 31 * result + accountId.hashCode()
         return result
+    }
+
+    companion object {
+        const val MEDIA_PREVIEW_ALWAYS = 1
+        const val MEDIA_PREVIEW_NEVER = 0
+        const val MEDIA_PREVIEW_ON_UNMETERED = 2
     }
 }
