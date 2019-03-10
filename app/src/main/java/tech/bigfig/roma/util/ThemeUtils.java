@@ -15,12 +15,10 @@
 
 package tech.bigfig.roma.util;
 
-import android.app.UiModeManager;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
-import android.os.Build;
 import androidx.annotation.AttrRes;
 import androidx.annotation.ColorInt;
 import androidx.annotation.ColorRes;
@@ -28,8 +26,8 @@ import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDelegate;
+import android.provider.Settings;
 import android.util.TypedValue;
-import android.widget.ImageView;
 
 /**
  * Provides runtime compatibility to obtain theme information and re-theme views, especially where
@@ -42,6 +40,7 @@ public class ThemeUtils {
     private static final String THEME_DAY = "day";
     private static final String THEME_BLACK = "black";
     private static final String THEME_AUTO = "auto";
+    public static final String THEME_SYSTEM = "auto_system";
 
     public static Drawable getDrawable(@NonNull Context context, @AttrRes int attribute,
             @DrawableRes int fallbackDrawable) {
@@ -85,10 +84,6 @@ public class ThemeUtils {
                 ResourcesUtils.getResourceIdentifier(context, "attr", name));
     }
 
-    public static void setImageViewTint(ImageView view, @AttrRes int attribute) {
-        view.setColorFilter(getColor(view.getContext(), attribute), PorterDuff.Mode.SRC_IN);
-    }
-
     /** this can be replaced with drawableTint in xml once minSdkVersion >= 23 */
     public static @Nullable Drawable getTintedDrawable(@NonNull Context context, @DrawableRes int drawableId, @AttrRes int colorAttr) {
         Drawable drawable = context.getDrawable(drawableId);
@@ -103,30 +98,31 @@ public class ThemeUtils {
         drawable.setColorFilter(getColor(context, attribute), PorterDuff.Mode.SRC_IN);
     }
 
-    public static void setAppNightMode(String flavor, Context context) {
-        int mode;
+    public void setAppNightMode(String flavor, Context context) {
         switch (flavor) {
             default:
             case THEME_NIGHT:
-                mode = UiModeManager.MODE_NIGHT_YES;
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
                 break;
             case THEME_DAY:
-                mode = UiModeManager.MODE_NIGHT_NO;
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
                 break;
             case THEME_BLACK:
-                mode = UiModeManager.MODE_NIGHT_YES;
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
                 break;
             case THEME_AUTO:
-                mode = UiModeManager.MODE_NIGHT_AUTO;
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO);
+                break;
+            case THEME_SYSTEM:
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
+
+                //stupid workaround to make MODE_NIGHT_FOLLOW_SYSTEM work :(
+                if((Settings.System.getInt(context.getContentResolver(), "display_night_theme", 0) == 1)) {
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                } else if ((Settings.System.getInt(context.getContentResolver(), "display_night_theme", 0) == 0)) {
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                }
                 break;
         }
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            UiModeManager uiModeManager = (UiModeManager)context.getApplicationContext().getSystemService(Context.UI_MODE_SERVICE);
-            uiModeManager.setNightMode(mode);
-        } else {
-            AppCompatDelegate.setDefaultNightMode(mode);
-        }
-
     }
 }

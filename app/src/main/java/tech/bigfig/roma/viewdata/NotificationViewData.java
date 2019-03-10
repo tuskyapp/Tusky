@@ -18,11 +18,13 @@ package tech.bigfig.roma.viewdata;
 import tech.bigfig.roma.entity.Account;
 import tech.bigfig.roma.entity.Notification;
 
-import io.reactivex.annotations.NonNull;
+import java.util.Objects;
+
+import io.reactivex.annotations.Nullable;
 
 /**
  * Created by charlag on 12/07/2017.
- *
+ * <p>
  * Class to represent data required to display either a notification or a placeholder.
  * It is either a {@link Placeholder} or a {@link Concrete}.
  * It is modelled this way because close relationship between placeholder and concrete notification
@@ -35,16 +37,20 @@ public abstract class NotificationViewData {
     private NotificationViewData() {
     }
 
-    public static  final class Concrete extends NotificationViewData {
+    public abstract long getViewDataId();
+
+    public abstract boolean deepEquals(NotificationViewData other);
+
+    public static final class Concrete extends NotificationViewData {
         private final Notification.Type type;
         private final String id;
         private final Account account;
-        @NonNull
+        @Nullable
         private final StatusViewData.Concrete statusViewData;
         private final boolean isExpanded;
 
         public Concrete(Notification.Type type, String id, Account account,
-                        @NonNull StatusViewData.Concrete statusViewData, boolean isExpanded) {
+                        @Nullable StatusViewData.Concrete statusViewData, boolean isExpanded) {
             this.type = type;
             this.id = id;
             this.account = account;
@@ -64,7 +70,7 @@ public abstract class NotificationViewData {
             return account;
         }
 
-        @NonNull
+        @Nullable
         public StatusViewData.Concrete getStatusViewData() {
             return statusViewData;
         }
@@ -72,17 +78,56 @@ public abstract class NotificationViewData {
         public boolean isExpanded() {
             return isExpanded;
         }
+
+        @Override
+        public long getViewDataId() {
+            return id.hashCode();
+        }
+
+        @Override
+        public boolean deepEquals(NotificationViewData o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            Concrete concrete = (Concrete) o;
+            return isExpanded == concrete.isExpanded &&
+                    type == concrete.type &&
+                    Objects.equals(id, concrete.id) &&
+                    account.getId().equals(concrete.account.getId()) &&
+                    (statusViewData == concrete.statusViewData ||
+                            statusViewData != null &&
+                                    statusViewData.deepEquals(concrete.statusViewData));
+        }
+
+        @Override
+        public int hashCode() {
+
+            return Objects.hash(type, id, account, statusViewData, isExpanded);
+        }
     }
 
     public static final class Placeholder extends NotificationViewData {
+        private final long id;
         private final boolean isLoading;
 
-        public Placeholder(boolean isLoading) {
+        public Placeholder(long id, boolean isLoading) {
+            this.id = id;
             this.isLoading = isLoading;
         }
 
         public boolean isLoading() {
             return isLoading;
+        }
+
+        @Override
+        public long getViewDataId() {
+            return id;
+        }
+
+        @Override
+        public boolean deepEquals(NotificationViewData other) {
+            if (!(other instanceof Placeholder)) return false;
+            Placeholder that = (Placeholder) other;
+            return isLoading == that.isLoading && id == that.id;
         }
     }
 }

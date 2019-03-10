@@ -98,7 +98,7 @@
     <string name="action_mute">Masquer</string>
     <string name="action_unmute">Ne plus masquer</string>
     <string name="action_mention">Mentionner</string>
-    <string name="action_hide_media">Cacher le média</string>
+    <string name="action_hide_media">Cacher les médias</string>
     <string name="action_open_drawer">Ouvrir le menu</string>
     <string name="action_save">Sauvegarder</string>
     <string name="action_edit_profile">Modifier le profil</string>
@@ -186,6 +186,7 @@
         <item>Clair</item>
         <item>Noir</item>
         <item>Basé sur le coucher du soleil</item>
+        <item>Utiliser le thème système</item>
     </string-array>
     <string name="pref_title_browser_settings">Navigateur</string>
     <string name="pref_title_custom_tabs">Utiliser le navigateur intégré</string>

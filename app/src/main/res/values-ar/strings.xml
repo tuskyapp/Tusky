@@ -171,6 +171,7 @@
         <item>فاتحة</item>
         <item>سوداء</item>
         <item>تلقائي عند غروب الشمس</item>
+        <item>Use System Design</item>
     </string-array>
     <string name="pref_title_browser_settings">المتصفح</string>
     <string name="pref_title_custom_tabs">إخفاء زر المتابعة أثناء تمرير الصفحة</string>

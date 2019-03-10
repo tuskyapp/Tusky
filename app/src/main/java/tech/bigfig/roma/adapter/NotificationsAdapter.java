@@ -20,11 +20,6 @@ import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.core.content.ContextCompat;
-import androidx.core.text.BidiFormatter;
-import androidx.recyclerview.widget.RecyclerView;
 import android.text.InputFilter;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
@@ -53,12 +48,25 @@ import tech.bigfig.roma.viewdata.StatusViewData;
 import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
+import androidx.core.text.BidiFormatter;
+import androidx.recyclerview.widget.RecyclerView;
+
 public class NotificationsAdapter extends RecyclerView.Adapter {
+
+    public interface AdapterDataSource<T> {
+        int getItemCount();
+
+        T getItemAt(int pos);
+    }
+
+
     private static final int VIEW_TYPE_MENTION = 0;
     private static final int VIEW_TYPE_STATUS_NOTIFICATION = 1;
     private static final int VIEW_TYPE_FOLLOW = 2;
@@ -67,17 +75,18 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
     private static final InputFilter[] COLLAPSE_INPUT_FILTER = new InputFilter[] { SmartLengthInputFilter.INSTANCE };
     private static final InputFilter[] NO_INPUT_FILTER = new InputFilter[0];
 
-    private List<NotificationViewData> notifications;
     private StatusActionListener statusListener;
     private NotificationActionListener notificationActionListener;
     private boolean mediaPreviewEnabled;
     private boolean useAbsoluteTime;
     private BidiFormatter bidiFormatter;
+    private AdapterDataSource<NotificationViewData> dataSource;
 
-    public NotificationsAdapter(StatusActionListener statusListener,
+    public NotificationsAdapter(AdapterDataSource<NotificationViewData> dataSource,
+                                StatusActionListener statusListener,
                                 NotificationActionListener notificationActionListener) {
         super();
-        notifications = new ArrayList<>();
+        this.dataSource = dataSource;
         this.statusListener = statusListener;
         this.notificationActionListener = notificationActionListener;
         mediaPreviewEnabled = true;
@@ -115,8 +124,8 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position) {
-        if (position < notifications.size()) {
-            NotificationViewData notification = notifications.get(position);
+        if (position < this.dataSource.getItemCount()) {
+            NotificationViewData notification = dataSource.getItemAt(position);
             if (notification instanceof NotificationViewData.Placeholder) {
                 NotificationViewData.Placeholder placeholder = ((NotificationViewData.Placeholder) notification);
                 PlaceholderViewHolder holder = (PlaceholderViewHolder) viewHolder;
@@ -170,12 +179,12 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
 
     @Override
     public int getItemCount() {
-        return notifications.size();
+        return dataSource.getItemCount();
     }
 
     @Override
     public int getItemViewType(int position) {
-        NotificationViewData notification = notifications.get(position);
+        NotificationViewData notification = dataSource.getItemAt(position);
         if (notification instanceof NotificationViewData.Concrete) {
             NotificationViewData.Concrete concrete = ((NotificationViewData.Concrete) notification);
             switch (concrete.getType()) {
@@ -197,36 +206,6 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
             throw new AssertionError("Unknown notification type");
         }
 
-    }
-
-    public void update(@Nullable List<NotificationViewData> newNotifications) {
-        if (newNotifications == null || newNotifications.isEmpty()) {
-            return;
-        }
-        notifications.clear();
-        notifications.addAll(newNotifications);
-        notifyDataSetChanged();
-    }
-
-    public void updateItemWithNotify(int position, NotificationViewData notification,
-                                     boolean notifyAdapter) {
-        notifications.set(position, notification);
-        if (notifyAdapter) notifyItemChanged(position);
-    }
-
-    public void addItems(List<NotificationViewData> newNotifications) {
-        notifications.addAll(newNotifications);
-        notifyItemRangeInserted(notifications.size(), newNotifications.size());
-    }
-
-    public void removeItemAndNotify(int position) {
-        notifications.remove(position);
-        notifyItemRemoved(position);
-    }
-
-    public void clear() {
-        notifications.clear();
-        notifyDataSetChanged();
     }
 
     public void setMediaPreviewEnabled(boolean enabled) {

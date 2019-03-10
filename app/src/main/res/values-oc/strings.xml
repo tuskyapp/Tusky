@@ -157,6 +157,7 @@
         <item>Luminós</item>
         <item>Negre</item>
         <item>Alba automatica</item>
+        <item>Use System Design</item>
     </string-array>
     <string name="pref_title_browser_settings">Navegador</string>
     <string name="pref_title_custom_tabs">Onglets personalizats de Chrome</string>

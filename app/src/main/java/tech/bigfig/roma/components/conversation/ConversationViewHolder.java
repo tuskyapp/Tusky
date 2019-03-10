@@ -109,14 +109,12 @@ public class ConversationViewHolder extends StatusBaseViewHolder {
 
     private void setConversationName(List<ConversationAccountEntity> accounts) {
         Context context = conversationNameTextView.getContext();
-        String conversationName;
-        if(accounts.size() == 0) {
-            conversationName = " ";
-        }else if(accounts.size() == 1) {
+        String conversationName = "";
+        if(accounts.size() == 1) {
             conversationName = context.getString(R.string.conversation_1_recipients, accounts.get(0).getUsername());
         } else if(accounts.size() == 2) {
             conversationName = context.getString(R.string.conversation_2_recipients, accounts.get(0).getUsername(), accounts.get(1).getUsername());
-        } else {
+        } else if (accounts.size() > 2){
             conversationName = context.getString(R.string.conversation_more_recipients, accounts.get(0).getUsername(), accounts.get(1).getUsername(), accounts.size() - 2);
         }
 

@@ -173,6 +173,7 @@
         <item>Claro</item>
         <item>Negro</item>
         <item>Automático</item>
+        <item>Use System Design</item>
     </string-array>
     <string name="pref_title_browser_settings">Navegador</string>
     <string name="pref_title_custom_tabs">Usar pestañas de Chrome</string>
