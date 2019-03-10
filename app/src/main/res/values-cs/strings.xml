@@ -296,6 +296,10 @@
     <string name="send_toot_notification_error_title">Chyba při odesílání tootu</string>
     <string name="send_toot_notification_channel_name">Odesílám tooty</string>
     <string name="send_toot_notification_cancel_title">Odesílání bylo zrušeno</string>
+    <string name="send_toot_notification_saved_content">Kopie vašeho tootu byla uložena do vašich konceptů</string>
+    <string name="action_compose_shortcut">Napsat</string>
+    <string name="error_no_custom_emojis">Vaše instance %s nemá žádná vlastní emoji</string>
+    <string name="copy_to_clipboard_success">Zkopírováno do schránky</string>
     <plurals name="favs">
         <item quantity="one">&lt;b&gt;%1$s&lt;/b&gt; oblíbení</item>
         <item quantity="few">&lt;b&gt;%1$s&lt;/b&gt; oblíbení</item>
