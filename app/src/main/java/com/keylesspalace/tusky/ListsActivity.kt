@@ -14,11 +14,13 @@ import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.PopupMenu
 import android.widget.TextView
+import androidx.annotation.StringRes
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.snackbar.Snackbar
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.entity.MastoList
@@ -28,6 +30,7 @@ import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.visible
 import com.keylesspalace.tusky.viewmodel.ListsViewModel
+import com.keylesspalace.tusky.viewmodel.ListsViewModel.Event.*
 import com.keylesspalace.tusky.viewmodel.ListsViewModel.LoadingState.*
 import com.mikepenz.google_material_typeface_library.GoogleMaterial
 import com.mikepenz.iconics.IconicsDrawable
@@ -91,6 +94,17 @@ class ListsActivity : BaseActivity(), Injectable, HasSupportFragmentInjector {
         addListButton.setOnClickListener {
             ListNameDialogFragment.newInstance().show(supportFragmentManager, null)
         }
+
+        viewModel.events.observeOn(AndroidSchedulers.mainThread())
+                .autoDisposable(from(this))
+                .subscribe { event ->
+                    @Suppress("WHEN_ENUM_CAN_BE_NULL_IN_JAVA")
+                    when (event) {
+                        CREATE_ERROR -> showMessage(R.string.error_create_list)
+                        RENAME_ERROR -> showMessage(R.string.error_rename_list)
+                        DELETE_ERROR -> showMessage(R.string.error_delete_list)
+                    }
+                }
     }
 
 
@@ -120,6 +134,13 @@ class ListsActivity : BaseActivity(), Injectable, HasSupportFragmentInjector {
                     messageView.hide()
                 }
         }
+    }
+
+    private fun showMessage(@StringRes messageId: Int) {
+        Snackbar.make(
+                listsRecycler, messageId, Snackbar.LENGTH_SHORT
+        ).show()
+
     }
 
     private fun onListSelected(listId: String) {
@@ -249,7 +270,8 @@ class ListNameDialogFragment : DialogFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val listId = arguments?.getString(LIST_ID_ARG)
-        createButton.setText(if (listId == null) "Create" else  "Rename")
+        createButton.setText(
+                if (listId == null) R.string.action_create_list else R.string.action_rename_list)
 
         listNameEditText.addTextChangedListener(object : TextWatcher {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {

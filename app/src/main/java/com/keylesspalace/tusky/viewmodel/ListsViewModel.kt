@@ -9,6 +9,7 @@ import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo
 import io.reactivex.subjects.BehaviorSubject
+import io.reactivex.subjects.PublishSubject
 import java.io.IOException
 import java.net.ConnectException
 import javax.inject.Inject
@@ -19,10 +20,16 @@ internal class ListsViewModel @Inject constructor(private val api: MastodonApi) 
         INITIAL, LOADING, LOADED, ERROR_NETWORK, ERROR_OTHER
     }
 
+    enum class Event {
+        CREATE_ERROR, DELETE_ERROR, RENAME_ERROR
+    }
+
     data class State(val lists: List<MastoList>, val loadingState: LoadingState)
 
     val state: Observable<State> get() = _state
-    private var _state = BehaviorSubject.createDefault(State(listOf(), LoadingState.INITIAL))
+    val events: Observable<Event> get() = _events
+    private val _state = BehaviorSubject.createDefault(State(listOf(), LoadingState.INITIAL))
+    private val _events = PublishSubject.create<Event>()
     private val disposable = CompositeDisposable()
 
     fun retryLoading() {
@@ -51,17 +58,13 @@ internal class ListsViewModel @Inject constructor(private val api: MastodonApi) 
         }).addTo(disposable)
     }
 
-    private inline fun updateState(crossinline fn: State.() -> State) {
-        _state.onNext(fn(_state.value!!))
-    }
-
     fun createNewList(listName: String) {
         api.createList(listName).subscribe({ list ->
             updateState {
                 copy(lists = lists + list)
             }
         }, {
-            // TODO: handle error here
+            sendEvent(Event.CREATE_ERROR)
         }).addTo(disposable)
     }
 
@@ -71,7 +74,7 @@ internal class ListsViewModel @Inject constructor(private val api: MastodonApi) 
                 copy(lists = lists.replacedFirstWhich(list) { it.id == listId })
             }
         }, {
-            // TODO: handle error here
+            sendEvent(Event.RENAME_ERROR)
         }).addTo(disposable)
     }
 
@@ -81,7 +84,15 @@ internal class ListsViewModel @Inject constructor(private val api: MastodonApi) 
                 copy(lists = lists.withoutFirstWhich { it.id == listId })
             }
         }, {
-            // TODO: handle error
+            sendEvent(Event.DELETE_ERROR)
         }).addTo(disposable)
+    }
+
+    private inline fun updateState(crossinline fn: State.() -> State) {
+        _state.onNext(fn(_state.value!!))
+    }
+
+    private fun sendEvent(event: Event) {
+        _events.onNext(event)
     }
 }

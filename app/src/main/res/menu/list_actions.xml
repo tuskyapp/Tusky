@@ -2,12 +2,12 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/list_edit"
-        android:title="Edit list" />
+        android:title="@string/action_edit_list" />
     <item
         android:id="@+id/list_rename"
-        android:title="Rename list" />
+        android:title="@string/action_rename_list" />
     <item
         android:id="@+id/list_delete"
-        android:title="Delete list" />
+        android:title="@string/action_delete_list" />
 
 </menu>

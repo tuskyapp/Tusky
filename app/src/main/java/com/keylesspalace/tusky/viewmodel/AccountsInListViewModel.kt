@@ -1,5 +1,6 @@
 package com.keylesspalace.tusky.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import com.keylesspalace.tusky.entity.Account
 import com.keylesspalace.tusky.network.MastodonApi
@@ -39,7 +40,8 @@ class AccountsInListViewModel @Inject constructor(private val api: MastodonApi) 
                         copy(accounts = accounts.map { it + account })
                     }
                 }, {
-                    // TODO: send error to the client
+                    Log.i(javaClass.simpleName,
+                            "Failed to add account to the list: ${account.username}")
                 })
                 .addTo(disposable)
     }
@@ -53,7 +55,7 @@ class AccountsInListViewModel @Inject constructor(private val api: MastodonApi) 
                         })
                     }
                 }, {
-                    // TODO: send error to the client
+                    Log.i(javaClass.simpleName, "Failed to remove account from thelist: $accountId")
                 })
                 .addTo(disposable)
     }
