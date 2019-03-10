@@ -315,6 +315,14 @@
     <string name="caption_twemoji">Standardní sada emoji na Mastodonu</string>
     <string name="download_failed">Stahování selhalo</string>
     <string name="profile_badge_bot_text">Robot</string>
+    <string name="account_moved_description">%1$s se přesunul/a na:</string>
+    <string name="reblog_private">Boostnout původnímu publiku</string>
+    <string name="unreblog_private">Zrušit boost</string>
+    <string name="license_description">Tusky obsahuje kód a zdroje z následujících otevřených projektů:</string>
+    <string name="license_apache_2">Pod licencí Apache License (kopie níže)</string>
+    <string name="license_cc_by_4">CC-BY 4.0</string>
+    <string name="license_cc_by_sa_4">CC-BY-SA 4.0</string>
+    <string name="profile_metadata_label">Profilová metadata</string>
     <plurals name="favs">
         <item quantity="one">&lt;b&gt;%1$s&lt;/b&gt; oblíbení</item>
         <item quantity="few">&lt;b&gt;%1$s&lt;/b&gt; oblíbení</item>
