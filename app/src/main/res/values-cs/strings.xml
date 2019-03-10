@@ -231,6 +231,7 @@
     <string name="notification_channel_follow_description">Oznámení o nových sledujících</string>
     <string name="notification_channel_boost_name">Boosty</string>
     <string name="notification_channel_boost_description">Oznámení, když jsou vaše tooty boostnuty</string>
+    <string name="notification_channel_favourite_name">Oblíbení</string>
     <string name="notification_summary_large">%1$s, %2$s, %3$s a dalších %4$d</string>
     <string name="notification_summary_medium">%1$s, %2$s a %3$s</string>
     <string name="notification_summary_small">%1$s a %2$s</string>
