@@ -260,6 +260,9 @@
     <string name="status_share_content">Sdílet obsah tootu</string>
     <string name="status_share_link">Sdílet odkaz k tootu</string>
     <string name="status_media_images">Obrázky</string>
+    <string name="status_media_video">Video</string>
+    <string name="state_follow_requested">Vyžádáno sledování</string>
+    <string name="no_content">žádný obsah</string>
     <!--These are for timestamps on statuses. For example: "16s" or "2d"-->
     <string name="abbreviated_in_years">za %d let</string>
     <string name="abbreviated_in_days">za %d d</string>
@@ -271,6 +274,28 @@
     <string name="abbreviated_hours_ago">%d h</string>
     <string name="abbreviated_minutes_ago">%d min</string>
     <string name="abbreviated_seconds_ago">%d s</string>
+    <string name="follows_you">Sleduje vás</string>
+    <string name="pref_title_alway_show_sensitive_media">Vždy zobrazovat citlivý obsah</string>
+    <string name="title_media">Média</string>
+    <string name="replying_to">Odpověď uživateli @%s</string>
+    <string name="load_more_placeholder_text">načíst více</string>
+    <string name="add_account_name">Přidat účet</string>
+    <string name="add_account_description">Přidat nový účet Mastodon</string>
+    <string name="action_lists">Seznamy</string>
+    <string name="title_lists">Seznamy</string>
+    <string name="title_list_timeline">Časová osa seznamu</string>
+    <string name="compose_active_account_description">Píšete s účtem %1$s</string>
+    <string name="error_failed_set_caption">Nastavení popisku selhalo</string>
+    <string name="hint_describe_for_visually_impaired">Popis pro zrakově postižené\n(limit %d znaků)</string>
+    <string name="action_set_caption">Nastavit popisek</string>
+    <string name="action_remove_media">Odstranit</string>
+    <string name="lock_account_label">Uzamknout účet</string>
+    <string name="lock_account_label_description">Vyžaduje, abyste ručně schvaloval/a sledující</string>
+    <string name="compose_save_draft">Uložit koncept?</string>
+    <string name="send_toot_notification_title">Odesílám toot…</string>
+    <string name="send_toot_notification_error_title">Chyba při odesílání tootu</string>
+    <string name="send_toot_notification_channel_name">Odesílám tooty</string>
+    <string name="send_toot_notification_cancel_title">Odesílání bylo zrušeno</string>
     <string name="description_status">        <!-- Zobrazované jméno, varování?, obsah?, relativní datum, znovusdíleno kým?, znovusdíleno?, oblíbeno?, uživatelské jméno, média?; viditelnost, počet oblíbení?, počet boostů?-->
         %s; %s; %s, %s, %s; %s, %s, %s, %s; %s, %s, %s
     </string>
