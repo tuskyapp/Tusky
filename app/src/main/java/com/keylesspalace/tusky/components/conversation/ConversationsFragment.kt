@@ -35,7 +35,6 @@ import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.fragment.SFragment
 import com.keylesspalace.tusky.interfaces.StatusActionListener
-import com.keylesspalace.tusky.network.TimelineCases
 import com.keylesspalace.tusky.util.NetworkState
 import com.keylesspalace.tusky.util.ThemeUtils
 import com.keylesspalace.tusky.util.hide
@@ -44,8 +43,6 @@ import javax.inject.Inject
 
 class ConversationsFragment : SFragment(), StatusActionListener, Injectable {
 
-    @Inject
-    lateinit var timelineCases: TimelineCases
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
     @Inject
@@ -163,10 +160,6 @@ class ConversationsFragment : SFragment(), StatusActionListener, Injectable {
         val intent = Intent(context, ViewTagActivity::class.java)
         intent.putExtra("hashtag", tag)
         startActivity(intent)
-    }
-
-    override fun timelineCases(): TimelineCases {
-        return timelineCases
     }
 
     override fun removeItem(position: Int) {

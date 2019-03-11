@@ -46,7 +46,6 @@ import com.keylesspalace.tusky.entity.Status;
 import com.keylesspalace.tusky.entity.StatusContext;
 import com.keylesspalace.tusky.interfaces.StatusActionListener;
 import com.keylesspalace.tusky.network.MastodonApi;
-import com.keylesspalace.tusky.network.TimelineCases;
 import com.keylesspalace.tusky.util.ListStatusAccessibilityDelegate;
 import com.keylesspalace.tusky.util.PairedList;
 import com.keylesspalace.tusky.util.SmartLengthInputFilter;
@@ -84,8 +83,6 @@ public final class ViewThreadFragment extends SFragment implements
     private static final String TAG = "ViewThreadFragment";
 
     @Inject
-    public TimelineCases timelineCases;
-    @Inject
     public MastodonApi mastodonApi;
     @Inject
     public EventHub eventHub;
@@ -116,11 +113,6 @@ public final class ViewThreadFragment extends SFragment implements
         arguments.putString("id", id);
         fragment.setArguments(arguments);
         return fragment;
-    }
-
-    @Override
-    protected TimelineCases timelineCases() {
-        return timelineCases;
     }
 
     @Override

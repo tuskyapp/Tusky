@@ -47,7 +47,6 @@ import com.keylesspalace.tusky.entity.Status;
 import com.keylesspalace.tusky.interfaces.ActionButtonActivity;
 import com.keylesspalace.tusky.interfaces.StatusActionListener;
 import com.keylesspalace.tusky.network.MastodonApi;
-import com.keylesspalace.tusky.network.TimelineCases;
 import com.keylesspalace.tusky.repository.Placeholder;
 import com.keylesspalace.tusky.repository.TimelineRepository;
 import com.keylesspalace.tusky.repository.TimelineRequestMode;
@@ -127,8 +126,6 @@ public class TimelineFragment extends SFragment implements
     }
 
     @Inject
-    public TimelineCases timelineCases;
-    @Inject
     public EventHub eventHub;
     @Inject
     public TimelineRepository timelineRepo;
@@ -159,11 +156,6 @@ public class TimelineFragment extends SFragment implements
     private boolean didLoadEverythingBottom;
     private boolean alwaysShowSensitiveMedia;
     private boolean initialUpdateFailed = false;
-
-    @Override
-    protected TimelineCases timelineCases() {
-        return timelineCases;
-    }
 
     private PairedList<Either<Placeholder, Status>, StatusViewData> statuses =
             new PairedList<>(new Function<Either<Placeholder, Status>, StatusViewData>() {
