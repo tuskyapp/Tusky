@@ -325,6 +325,7 @@
     <string name="filter_edit_dialog_title">Edit filter</string>
     <string name="filter_dialog_remove_button">Remove</string>
     <string name="filter_dialog_update_button">Update</string>
+    <string name="filter_add_description">Phrase to filter</string>
 
     <string name="add_account_name">Add Account</string>
     <string name="add_account_description">Add new Mastodon Account</string>
@@ -390,7 +391,6 @@
 
     <string name="unpin_action">Unpin</string>
     <string name="pin_action">Pin</string>
-    <string name="add">Add</string>
 
     <plurals name="favs">
         <item quantity="one">&lt;b>%1$s&lt;/b> Favourite</item>
@@ -404,7 +404,6 @@
 
     <string name="title_reblogged_by">Boosted by</string>
     <string name="title_favourited_by">Favourited by</string>
-    <string name="filter_add_description">Phrase to filter</string>
 
     <string name="conversation_1_recipients">%1$s</string>
     <string name="conversation_2_recipients">%1$s and %2$s</string>

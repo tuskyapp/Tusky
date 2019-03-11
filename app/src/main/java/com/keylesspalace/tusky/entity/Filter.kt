@@ -25,6 +25,13 @@ data class Filter (
     val irreversible: Boolean,
     @SerializedName("whole_word") val wholeWord: Boolean
 ) {
+    public companion object {
+        const val HOME = "home"
+        const val NOTIFICATIONS = "notifications"
+        const val PUBLIC = "public"
+        const val THREAD = "thread"
+    }
+
     override fun hashCode(): Int {
         return id.hashCode()
     }

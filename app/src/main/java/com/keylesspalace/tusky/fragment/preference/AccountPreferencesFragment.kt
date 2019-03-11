@@ -32,6 +32,7 @@ import com.keylesspalace.tusky.appstore.PreferenceChangedEvent
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.entity.Account
+import com.keylesspalace.tusky.entity.Filter
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.ThemeUtils
@@ -155,7 +156,7 @@ class AccountPreferencesFragment : PreferenceFragmentCompat(),
 
     override fun onPreferenceClick(preference: Preference): Boolean {
 
-        when(preference) {
+        return when(preference) {
             notificationPreference -> {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                     val intent = Intent()
@@ -170,62 +171,42 @@ class AccountPreferencesFragment : PreferenceFragmentCompat(),
                     }
 
                 }
-                return true
+                true
             }
             tabPreference -> {
                 val intent = Intent(context, TabPreferenceActivity::class.java)
                 activity?.startActivity(intent)
                 activity?.overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
-                return true
+                true
             }
             mutedUsersPreference -> {
                 val intent = Intent(context, AccountListActivity::class.java)
                 intent.putExtra("type", AccountListActivity.Type.MUTES)
                 activity?.startActivity(intent)
                 activity?.overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
-                return true
+                true
             }
             blockedUsersPreference -> {
                 val intent = Intent(context, AccountListActivity::class.java)
                 intent.putExtra("type", AccountListActivity.Type.BLOCKS)
                 activity?.startActivity(intent)
                 activity?.overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
-                return true
+                true
             }
             homeFiltersPreference -> {
-                val intent = Intent(context, FiltersActivity::class.java)
-                intent.putExtra(FiltersActivity.FILTERS_CONTEXT, "home")
-                intent.putExtra(FiltersActivity.FILTERS_TITLE, getString(R.string.title_home))
-                activity?.startActivity(intent)
-                activity?.overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
-                return true
+                launchFilterActivity(Filter.HOME, R.string.title_home)
             }
             notificationFiltersPreference -> {
-                val intent = Intent(context, FiltersActivity::class.java)
-                intent.putExtra(FiltersActivity.FILTERS_CONTEXT, "notifications")
-                intent.putExtra(FiltersActivity.FILTERS_TITLE, getString(R.string.title_notifications))
-                activity?.startActivity(intent)
-                activity?.overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
-                return true
+                launchFilterActivity(Filter.NOTIFICATIONS, R.string.title_notifications)
             }
             publicFiltersPreference -> {
-                val intent = Intent(context, FiltersActivity::class.java)
-                intent.putExtra(FiltersActivity.FILTERS_CONTEXT, "public")
-                intent.putExtra(FiltersActivity.FILTERS_TITLE, getString(R.string.pref_title_public_filter_keywords))
-                activity?.startActivity(intent)
-                activity?.overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
-                return true
+                launchFilterActivity(Filter.PUBLIC, R.string.pref_title_public_filter_keywords)
             }
             threadFiltersPreference -> {
-                val intent = Intent(context, FiltersActivity::class.java)
-                intent.putExtra(FiltersActivity.FILTERS_CONTEXT, "thread")
-                intent.putExtra(FiltersActivity.FILTERS_TITLE, getString(R.string.pref_title_thread_filter_keywords))
-                activity?.startActivity(intent)
-                activity?.overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
-                return true
+                launchFilterActivity(Filter.THREAD, R.string.pref_title_thread_filter_keywords)
             }
 
-            else -> return false
+            else -> false
         }
 
     }
@@ -290,6 +271,15 @@ class AccountPreferencesFragment : PreferenceFragmentCompat(),
         val drawable = context?.getDrawable(iconId)
         ThemeUtils.setDrawableTint(context, drawable, R.attr.toolbar_icon_tint)
         return drawable
+    }
+
+    fun launchFilterActivity(filterContext: String, titleResource: Int): Boolean {
+        val intent = Intent(context, FiltersActivity::class.java)
+        intent.putExtra(FiltersActivity.FILTERS_CONTEXT, filterContext)
+        intent.putExtra(FiltersActivity.FILTERS_TITLE, getString(titleResource))
+        activity?.startActivity(intent)
+        activity?.overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
+        return true
     }
 
     companion object {
