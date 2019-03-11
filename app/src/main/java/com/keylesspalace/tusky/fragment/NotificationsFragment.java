@@ -219,6 +219,8 @@ public class NotificationsFragment extends SFragment implements
         bottomLoading = false;
         bottomId = null;
 
+        updateAdapter();
+
         if (notifications.isEmpty()) {
             sendFetchNotificationsRequest(null, null, FetchEnd.BOTTOM, -1);
         } else {
