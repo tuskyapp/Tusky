@@ -50,6 +50,7 @@
     <string name="status_content_warning_show_less">続きを隠す</string>
     <string name="status_content_show_more">続きを読む</string>
     <string name="status_content_show_less">閉じる</string>
+    <string name="message_empty">何もありません。</string>
     <string name="footer_empty">現在トゥートはありません。更新するにはプルダウンしてください！</string>
     <string name="notification_reblog_format">%sさんがトゥートをブーストしました</string>
     <string name="notification_favourite_format">%sさんがトゥートをお気に入りに登録しました</string>
@@ -107,9 +108,12 @@
     <string name="action_emoji_keyboard">絵文字キーボード</string>
     <string name="action_add_tab">タブの追加</string>
     <string name="action_links">リンク</string>
+    <string name="action_hashtags">ハッシュタグ</string>
+    <string name="title_hashtags_dialog">ハッシュタグ</string>
     <string name="title_links_dialog">リンク</string>
     <string name="download_image">%1$s をダウンロードしています</string>
     <string name="action_copy_link">リンクをコピー</string>
+    <string name="action_open_as">%s として開く</string>
     <string name="send_status_link_to">トゥートのURLを共有…</string>
     <string name="send_status_content_to">トゥートを共有…</string>
     <string name="send_media_to">メディアを共有…</string>
@@ -175,6 +179,7 @@
     <string name="pref_title_browser_settings">ブラウザ</string>
     <string name="pref_title_custom_tabs">Chrome Custom Tabsを使用する</string>
     <string name="pref_title_hide_follow_button">スクロール中はフォローボタンを隠す</string>
+    <string name="pref_title_language">言語</string>
     <string name="pref_title_status_filter">タイムラインのフィルタリング</string>
     <string name="pref_title_status_tabs">タブ</string>
     <string name="pref_title_show_boosts">ブーストを表示</string>
@@ -322,4 +327,5 @@
     </plurals>
     <string name="title_reblogged_by">ブーストした人物</string>
     <string name="title_favourited_by">お気に入りした人物</string>
+    <string name="max_tab_number_reached">タブは %1$d 個が上限です</string>
 </resources>
