@@ -215,16 +215,17 @@ public class NotificationsFragment extends SFragment implements
         adapter.setUseAbsoluteTime(useAbsoluteTime);
         recyclerView.setAdapter(adapter);
 
-        notifications.clear();
         topLoading = false;
         bottomLoading = false;
         bottomId = null;
 
+        if (notifications.isEmpty()) {
+            sendFetchNotificationsRequest(null, null, FetchEnd.BOTTOM, -1);
+        } else {
+            progressBar.setVisibility(View.GONE);
+        }
+
         ((SimpleItemAnimator) recyclerView.getItemAnimator()).setSupportsChangeAnimations(false);
-
-        updateAdapter();
-
-        sendFetchNotificationsRequest(null, null, FetchEnd.BOTTOM, -1);
 
         return rootView;
     }
