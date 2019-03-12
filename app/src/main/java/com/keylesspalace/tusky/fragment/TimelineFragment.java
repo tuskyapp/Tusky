@@ -1278,7 +1278,21 @@ public class TimelineFragment extends SFragment implements
 
         @Override
         public boolean areContentsTheSame(StatusViewData oldItem, @NonNull StatusViewData newItem) {
-            return oldItem.deepEquals(newItem);
+            return false; //Items are different always. It allows to refresh timestamp on every view holder update
+        }
+
+        @Nullable
+        @Override
+        public Object getChangePayload(@NonNull StatusViewData oldItem, @NonNull StatusViewData newItem) {
+            if (oldItem.deepEquals(newItem)){
+                //If items are equal - update timestamp only
+                List<String> payload = new ArrayList<>();
+                payload.add(StatusBaseViewHolder.Key.KEY_CREATED);
+                return payload;
+            }
+            else
+                // If items are different - update a whole view holder
+                return null;
         }
     };
 
@@ -1288,6 +1302,11 @@ public class TimelineFragment extends SFragment implements
         startUpdateTimestamp();
     }
 
+    /**
+     * Start to update adapter every minute to refresh timestamp
+     * If setting absoluteTimeView is false
+     * Auto dispose observable on pause
+     */
     private void startUpdateTimestamp() {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
         boolean useAbsoluteTime = preferences.getBoolean("absoluteTimeView", false);
@@ -1296,13 +1315,7 @@ public class TimelineFragment extends SFragment implements
                     .observeOn(AndroidSchedulers.mainThread())
                     .as(autoDisposable(from(this, Lifecycle.Event.ON_PAUSE)))
                     .subscribe(
-                            interval -> {
-                                if (adapter != null && adapter.getItemCount()>0) {
-                                    List<String> payload = new ArrayList<>();
-                                    payload.add(StatusBaseViewHolder.Key.KEY_CREATED);
-                                    adapter.notifyItemRangeChanged(0, adapter.getItemCount() - 1, payload);
-                                }
-                            }
+                            interval -> updateAdapter()
                     );
         }
 
