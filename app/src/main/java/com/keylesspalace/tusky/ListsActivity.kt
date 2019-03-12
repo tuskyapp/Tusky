@@ -72,11 +72,10 @@ class ListsActivity : BaseActivity(), Injectable, HasSupportFragmentInjector {
 
 
         setSupportActionBar(toolbar)
-        val bar = supportActionBar
-        if (bar != null) {
-            bar.title = getString(R.string.title_lists)
-            bar.setDisplayHomeAsUpEnabled(true)
-            bar.setDisplayShowHomeEnabled(true)
+        supportActionBar?.apply {
+            title = getString(R.string.title_lists)
+            setDisplayHomeAsUpEnabled(true)
+            setDisplayShowHomeEnabled(true)
         }
 
         listsRecycler.adapter = adapter

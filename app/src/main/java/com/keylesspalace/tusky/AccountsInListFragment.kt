@@ -4,13 +4,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageButton
-import android.widget.ImageView
 import android.widget.LinearLayout
-import android.widget.TextView
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.DialogFragment
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.di.ViewModelFactory
@@ -25,8 +24,11 @@ import com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider.from
 import com.uber.autodispose.autoDisposable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import kotlinx.android.synthetic.main.fragment_accounts_in_list.*
+import kotlinx.android.synthetic.main.item_follow_request.*
 import java.io.IOException
 import javax.inject.Inject
+
+private typealias AccountInfo = Pair<Account, Boolean>
 
 class AccountsInListFragment : DialogFragment(), Injectable {
 
@@ -48,8 +50,8 @@ class AccountsInListFragment : DialogFragment(), Injectable {
     lateinit var viewModelFactory: ViewModelFactory
     lateinit var viewModel: AccountsInListViewModel
 
-    lateinit var listId: String
-    lateinit var listName: String
+    private lateinit var listId: String
+    private lateinit var listName: String
     private val adapter = Adapter()
     private val searchAdapter = SearchAdapter()
 
@@ -57,8 +59,7 @@ class AccountsInListFragment : DialogFragment(), Injectable {
         super.onCreate(savedInstanceState)
         setStyle(DialogFragment.STYLE_NORMAL, R.style.TuskyDialogFragmentStyle)
         viewModel = viewModelFactory.create(AccountsInListViewModel::class.java)
-        val args = arguments
-                ?: throw IllegalStateException("No arguments specified for AccountsInListFragment")
+        val args = arguments!!
         listId = args.getString(LIST_ID_ARG)!!
         listName = args.getString(LIST_NAME_ARG)!!
 
@@ -156,7 +157,17 @@ class AccountsInListFragment : DialogFragment(), Injectable {
         viewModel.addAccountToList(listId, account)
     }
 
-    inner class Adapter : RecyclerView.Adapter<Adapter.ViewHolder>() {
+    private object AccountDiffer : DiffUtil.ItemCallback<Account>() {
+        override fun areItemsTheSame(oldItem: Account, newItem: Account): Boolean {
+            return oldItem == newItem
+        }
+
+        override fun areContentsTheSame(oldItem: Account, newItem: Account): Boolean {
+            return oldItem.deepEquals(newItem)
+        }
+    }
+
+    inner class Adapter : ListAdapter<Account, Adapter.ViewHolder>(AccountDiffer) {
         val accounts = mutableListOf<Account>()
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -168,28 +179,27 @@ class AccountsInListFragment : DialogFragment(), Injectable {
         override fun getItemCount(): Int = accounts.size
 
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-            val account = accounts[position]
-            holder.username.text = account.username
-            holder.displayName.text = account.displayName
-            Picasso.with(holder.avatar.context)
-                    .load(account.avatar)
-                    .fit()
-                    .placeholder(R.drawable.avatar_default)
-                    .into(holder.avatar)
+            holder.bind(accounts[position])
         }
 
         inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView),
                 View.OnClickListener {
-            val avatar: ImageView = itemView.findViewById(R.id.follow_request_avatar)
-            val displayName: TextView = itemView.findViewById(R.id.follow_request_display_name)
-            val username: TextView = itemView.findViewById(R.id.follow_request_username)
-            val removeAccountButton: ImageButton = itemView.findViewById(R.id.follow_request_reject)
 
             init {
-                itemView.findViewById<View>(R.id.follow_request_accept).hide()
-                removeAccountButton.setOnClickListener(this)
-                removeAccountButton.contentDescription =
+                acceptButton.hide()
+                rejectButton.setOnClickListener(this)
+                rejectButton.contentDescription =
                         itemView.context.getString(R.string.action_remove_from_list)
+            }
+
+            fun bind(account: Account) {
+                usernameTextView.text = account.username
+                displayNameTextView.text = account.displayName
+                Picasso.with(avatar.context)
+                        .load(account.avatar)
+                        .fit()
+                        .placeholder(R.drawable.avatar_default)
+                        .into(avatar)
             }
 
             override fun onClick(v: View?) {
@@ -198,8 +208,20 @@ class AccountsInListFragment : DialogFragment(), Injectable {
         }
     }
 
-    inner class SearchAdapter : RecyclerView.Adapter<SearchAdapter.ViewHolder>() {
-        val accounts = mutableListOf<Pair<Account, Boolean>>()
+    private object SearchDiffer : DiffUtil.ItemCallback<AccountInfo>() {
+        override fun areItemsTheSame(oldItem: AccountInfo, newItem: AccountInfo): Boolean {
+            return oldItem == newItem
+        }
+
+        override fun areContentsTheSame(oldItem: AccountInfo, newItem: AccountInfo): Boolean {
+            return oldItem.second == newItem.second
+                    && oldItem.first.deepEquals(newItem.first)
+        }
+
+    }
+
+    inner class SearchAdapter : ListAdapter<AccountInfo, SearchAdapter.ViewHolder>(SearchDiffer) {
+        val accounts = mutableListOf<AccountInfo>()
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
             val view = LayoutInflater.from(parent.context)
@@ -211,34 +233,35 @@ class AccountsInListFragment : DialogFragment(), Injectable {
 
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
             val (account, inAList) = accounts[position]
-            holder.username.text = account.username
-            holder.displayName.text = account.displayName
-            Picasso.with(holder.avatar.context)
-                    .load(account.avatar)
-                    .fit()
-                    .placeholder(R.drawable.avatar_default)
-                    .into(holder.avatar)
-            holder.addOrRemoveButton.apply {
-                if (inAList) {
-                    setImageResource(R.drawable.ic_reject_24dp)
-                    contentDescription = getString(R.string.action_remove_from_list)
-                } else {
-                    setImageResource(R.drawable.ic_plus_24dp)
-                    contentDescription = getString(R.string.action_add_to_list)
-                }
-            }
+            holder.bind(account, inAList)
+
         }
 
         inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView),
                 View.OnClickListener {
-            val avatar: ImageView = itemView.findViewById(R.id.follow_request_avatar)
-            val displayName: TextView = itemView.findViewById(R.id.follow_request_display_name)
-            val username: TextView = itemView.findViewById(R.id.follow_request_username)
-            val addOrRemoveButton: ImageButton = itemView.findViewById(R.id.follow_request_reject)
+
+            fun bind(account: Account, inAList: Boolean) {
+                usernameTextView.text = account.username
+                displayNameTextView.text = account.displayName
+                Picasso.with(avatar.context)
+                        .load(account.avatar)
+                        .fit()
+                        .placeholder(R.drawable.avatar_default)
+                        .into(avatar)
+                rejectButton.apply {
+                    if (inAList) {
+                        setImageResource(R.drawable.ic_reject_24dp)
+                        contentDescription = getString(R.string.action_remove_from_list)
+                    } else {
+                        setImageResource(R.drawable.ic_plus_24dp)
+                        contentDescription = getString(R.string.action_add_to_list)
+                    }
+                }
+            }
 
             init {
-                itemView.findViewById<View>(R.id.follow_request_accept).hide()
-                addOrRemoveButton.setOnClickListener(this)
+                acceptButton.hide()
+                rejectButton.setOnClickListener(this)
             }
 
             override fun onClick(v: View?) {

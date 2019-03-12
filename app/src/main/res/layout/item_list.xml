@@ -26,7 +26,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
         android:background="?selectableItemBackgroundBorderless"
-        android:contentDescription="@null"
+        android:contentDescription="@string/action_more"
         android:paddingLeft="8dp"
         android:paddingRight="8dp"
         android:src="@drawable/ic_more_horiz_24dp" />
