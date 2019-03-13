@@ -23,6 +23,7 @@ import com.squareup.picasso.Picasso
 import com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider.from
 import com.uber.autodispose.autoDisposable
 import io.reactivex.android.schedulers.AndroidSchedulers
+import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.fragment_accounts_in_list.*
 import kotlinx.android.synthetic.main.item_follow_request.*
 import java.io.IOException
@@ -90,9 +91,7 @@ class AccountsInListFragment : DialogFragment(), Injectable {
                 .observeOn(AndroidSchedulers.mainThread())
                 .autoDisposable(from(this))
                 .subscribe { state ->
-                    adapter.accounts.clear()
-                    state.accounts.map(adapter.accounts::addAll)
-                    adapter.notifyDataSetChanged()
+                    adapter.submitList(state.accounts.asRightOrNull() ?: listOf())
 
                     when (state.accounts) {
                         is Either.Right -> messageView.hide()
@@ -121,15 +120,14 @@ class AccountsInListFragment : DialogFragment(), Injectable {
 
     private fun setupSearchView(state: State) {
         if (state.searchResult == null) {
-            searchAdapter.accounts.clear()
+            searchAdapter.submitList(listOf())
             accountsSearchRecycler.hide()
         } else {
-            searchAdapter.accounts.clear()
             val listAccounts = state.accounts.asRightOrNull() ?: listOf()
-            searchAdapter.accounts.addAll(state.searchResult.map { acc ->
+            val newList = state.searchResult.map { acc ->
                 acc to listAccounts.contains(acc)
-            })
-            searchAdapter.notifyDataSetChanged()
+            }
+            searchAdapter.submitList(newList)
             accountsSearchRecycler.show()
         }
     }
@@ -168,7 +166,6 @@ class AccountsInListFragment : DialogFragment(), Injectable {
     }
 
     inner class Adapter : ListAdapter<Account, Adapter.ViewHolder>(AccountDiffer) {
-        val accounts = mutableListOf<Account>()
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
             val view = LayoutInflater.from(parent.context)
@@ -176,14 +173,14 @@ class AccountsInListFragment : DialogFragment(), Injectable {
             return ViewHolder(view)
         }
 
-        override fun getItemCount(): Int = accounts.size
-
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-            holder.bind(accounts[position])
+            holder.bind(getItem(position))
         }
 
         inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView),
-                View.OnClickListener {
+                View.OnClickListener, LayoutContainer {
+
+            override val containerView = itemView
 
             init {
                 acceptButton.hide()
@@ -203,7 +200,7 @@ class AccountsInListFragment : DialogFragment(), Injectable {
             }
 
             override fun onClick(v: View?) {
-                onRemoveFromList(accounts[adapterPosition].id)
+                onRemoveFromList(getItem(adapterPosition).id)
             }
         }
     }
@@ -221,7 +218,6 @@ class AccountsInListFragment : DialogFragment(), Injectable {
     }
 
     inner class SearchAdapter : ListAdapter<AccountInfo, SearchAdapter.ViewHolder>(SearchDiffer) {
-        val accounts = mutableListOf<AccountInfo>()
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
             val view = LayoutInflater.from(parent.context)
@@ -229,16 +225,16 @@ class AccountsInListFragment : DialogFragment(), Injectable {
             return ViewHolder(view)
         }
 
-        override fun getItemCount(): Int = accounts.size
-
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-            val (account, inAList) = accounts[position]
+            val (account, inAList) = getItem(position)
             holder.bind(account, inAList)
 
         }
 
         inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView),
-                View.OnClickListener {
+                View.OnClickListener, LayoutContainer {
+
+            override val containerView = itemView
 
             fun bind(account: Account, inAList: Boolean) {
                 usernameTextView.text = account.username
@@ -265,7 +261,7 @@ class AccountsInListFragment : DialogFragment(), Injectable {
             }
 
             override fun onClick(v: View?) {
-                val (account, inAList) = accounts[adapterPosition]
+                val (account, inAList) = getItem(adapterPosition)
                 if (inAList) {
                     onRemoveFromList(account.id)
                 } else {

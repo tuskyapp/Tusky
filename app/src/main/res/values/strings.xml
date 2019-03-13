@@ -443,4 +443,6 @@
         %s; %s; %s, %s, %s; %s, %s, %s, %s; %s, %s, %s
     </string>
 
+    <string name="hint_list_name">List name</string>
+
 </resources>

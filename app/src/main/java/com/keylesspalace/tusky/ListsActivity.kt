@@ -1,34 +1,26 @@
 package com.keylesspalace.tusky
 
+import android.app.Dialog
 import android.content.Context
 import android.content.Intent
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageButton
-import android.widget.PopupMenu
-import android.widget.TextView
+import android.widget.*
 import androidx.annotation.StringRes
-import androidx.fragment.app.DialogFragment
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.*
+import androidx.recyclerview.widget.ListAdapter
+import at.connyduck.sparkbutton.helpers.Utils
 import com.google.android.material.snackbar.Snackbar
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.entity.MastoList
 import com.keylesspalace.tusky.fragment.TimelineFragment
-import com.keylesspalace.tusky.util.ThemeUtils
-import com.keylesspalace.tusky.util.hide
-import com.keylesspalace.tusky.util.show
-import com.keylesspalace.tusky.util.visible
+import com.keylesspalace.tusky.util.*
 import com.keylesspalace.tusky.viewmodel.ListsViewModel
 import com.keylesspalace.tusky.viewmodel.ListsViewModel.Event.*
 import com.keylesspalace.tusky.viewmodel.ListsViewModel.LoadingState.*
@@ -40,7 +32,6 @@ import dagger.android.DispatchingAndroidInjector
 import dagger.android.support.HasSupportFragmentInjector
 import io.reactivex.android.schedulers.AndroidSchedulers
 import kotlinx.android.synthetic.main.activity_lists.*
-import kotlinx.android.synthetic.main.dialog_new_list.*
 import kotlinx.android.synthetic.main.toolbar_basic.*
 import javax.inject.Inject
 
@@ -91,7 +82,7 @@ class ListsActivity : BaseActivity(), Injectable, HasSupportFragmentInjector {
         viewModel.retryLoading()
 
         addListButton.setOnClickListener {
-            ListNameDialogFragment.newInstance().show(supportFragmentManager, null)
+            showlistNameDialog(null)
         }
 
         viewModel.events.observeOn(AndroidSchedulers.mainThread())
@@ -106,9 +97,38 @@ class ListsActivity : BaseActivity(), Injectable, HasSupportFragmentInjector {
                 }
     }
 
+    private fun showlistNameDialog(list: MastoList?) {
+        val layout = FrameLayout(this)
+        val editText = EditText(this)
+        editText.setHint(R.string.hint_list_name)
+        layout.addView(editText)
+        val margin = Utils.dpToPx(this, 8)
+        (editText.layoutParams as ViewGroup.MarginLayoutParams)
+                .setMargins(margin, margin, margin, 0)
+
+        val dialog = AlertDialog.Builder(this)
+                .setView(layout)
+                .setPositiveButton(
+                        if (list == null) R.string.action_create_list
+                        else R.string.action_rename_list) { _, _ ->
+                    onPickedDialogName(editText.text, list?.id)
+                }
+                .setNegativeButton(android.R.string.cancel) { d, _ ->
+                    d.dismiss()
+                }
+                .show()
+
+        val positiveButton = dialog.getButton(Dialog.BUTTON_POSITIVE)
+        editText.onTextChanged { s, _, _, _ ->
+            positiveButton.isEnabled = !s.isNullOrBlank()
+        }
+        editText.setText(list?.title)
+        editText.text?.let { editText.setSelection(it.length) }
+    }
+
 
     private fun update(state: ListsViewModel.State) {
-        adapter.update(state.lists)
+        adapter.submitList(state.lists)
         progressBar.visible(state.loadingState == LOADING)
         when (state.loadingState) {
             INITIAL, LOADING -> messageView.hide()
@@ -152,7 +172,7 @@ class ListsActivity : BaseActivity(), Injectable, HasSupportFragmentInjector {
     }
 
     private fun renameListDialog(list: MastoList) {
-        ListNameDialogFragment.newInstanceRename(list.id, list.title).show(supportFragmentManager, null)
+        showlistNameDialog(list)
     }
 
     private fun onMore(list: MastoList, view: View) {
@@ -181,17 +201,18 @@ class ListsActivity : BaseActivity(), Injectable, HasSupportFragmentInjector {
         return false
     }
 
-    private inner class ListsAdapter : RecyclerView.Adapter<ListsAdapter.ListViewHolder>() {
-
-        private val items = mutableListOf<MastoList>()
-
-        fun update(list: List<MastoList>) {
-            this.items.clear()
-            this.items.addAll(list)
-            notifyDataSetChanged()
+    private object ListsDiffer : DiffUtil.ItemCallback<MastoList>() {
+        override fun areItemsTheSame(oldItem: MastoList, newItem: MastoList): Boolean {
+            return oldItem.id == newItem.id
         }
 
-        override fun getItemCount(): Int = items.size
+        override fun areContentsTheSame(oldItem: MastoList, newItem: MastoList): Boolean {
+            return oldItem == newItem
+        }
+    }
+
+    private inner class ListsAdapter
+        : ListAdapter<MastoList, ListsAdapter.ListViewHolder>(ListsDiffer) {
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListViewHolder {
             return LayoutInflater.from(parent.context).inflate(R.layout.item_list, parent, false)
@@ -206,7 +227,7 @@ class ListsActivity : BaseActivity(), Injectable, HasSupportFragmentInjector {
         }
 
         override fun onBindViewHolder(holder: ListViewHolder, position: Int) {
-            holder.nameTextView.text = items[position].title
+            holder.nameTextView.text = getItem(position).title
         }
 
         private inner class ListViewHolder(view: View) : RecyclerView.ViewHolder(view),
@@ -221,74 +242,19 @@ class ListsActivity : BaseActivity(), Injectable, HasSupportFragmentInjector {
 
             override fun onClick(v: View) {
                 if (v == itemView) {
-                    onListSelected(items[adapterPosition].id)
+                    onListSelected(getItem(adapterPosition).id)
                 } else {
-                    onMore(items[adapterPosition], v)
+                    onMore(getItem(adapterPosition), v)
                 }
             }
         }
     }
 
-    fun onPickedDialogName(name: CharSequence, listId: String?) {
+    private fun onPickedDialogName(name: CharSequence, listId: String?) {
         if (listId == null) {
             viewModel.createNewList(name.toString())
         } else {
             viewModel.renameList(listId, name.toString())
         }
-    }
-}
-
-class ListNameDialogFragment : DialogFragment() {
-    companion object {
-        fun newInstance(): ListNameDialogFragment {
-            return ListNameDialogFragment()
-        }
-
-        fun newInstanceRename(listId: String, name: String): ListNameDialogFragment {
-            val args = Bundle()
-            args.putString(LIST_ID_ARG, listId)
-            args.putString(NAME_ARG, name)
-            return ListNameDialogFragment().also { it.arguments = args }
-        }
-
-        private const val LIST_ID_ARG = "listId"
-        private const val NAME_ARG = "name"
-    }
-
-    override fun onStart() {
-        super.onStart()
-        dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-    }
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.dialog_new_list, container, false)
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        val listId = arguments?.getString(LIST_ID_ARG)
-        createButton.setText(
-                if (listId == null) R.string.action_create_list else R.string.action_rename_list)
-
-        listNameEditText.addTextChangedListener(object : TextWatcher {
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                createButton.isEnabled = !s.isNullOrBlank()
-            }
-
-            override fun afterTextChanged(s: Editable?) {
-            }
-
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-            }
-        })
-        listNameEditText.setText(arguments?.getString(NAME_ARG))
-
-        createButton.setOnClickListener {
-            (activity as ListsActivity).onPickedDialogName(listNameEditText.text, listId)
-            dismiss()
-        }
-        cancelbutton.setOnClickListener { dismiss() }
     }
 }
