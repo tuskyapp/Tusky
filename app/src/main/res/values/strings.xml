@@ -118,6 +118,7 @@
     <string name="action_content_warning">Content warning</string>
     <string name="action_emoji_keyboard">Emoji keyboard</string>
     <string name="action_schedule_toot">Schedule Toot</string>
+    <string name="action_reset_schedule">Reset</string>
     <string name="action_add_tab">Add Tab</string>
     <string name="action_links">Links</string>
     <string name="action_mentions">Mentions</string>

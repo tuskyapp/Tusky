@@ -3,6 +3,7 @@ package com.keylesspalace.tusky.view;
 import android.content.Context;
 import android.os.Bundle;
 import android.util.AttributeSet;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -24,6 +25,7 @@ public class ComposeScheduleView extends ConstraintLayout {
     private DateFormat timeFormat;
     private SimpleDateFormat iso8601;
 
+    private Button resetScheduleButton;
     private TextView scheduledDateView;
     private TextView scheduledTimeView;
 
@@ -52,9 +54,11 @@ public class ComposeScheduleView extends ConstraintLayout {
         iso8601 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ", Locale.getDefault());
         iso8601.setTimeZone(TimeZone.getTimeZone("UTC"));
 
+        resetScheduleButton = findViewById(R.id.resetScheduleButton);
         scheduledDateView = findViewById(R.id.scheduledDate);
         scheduledTimeView = findViewById(R.id.scheduledTime);
 
+        resetScheduleButton.setOnClickListener(v -> resetSchedule());
         scheduledDateView.setOnClickListener(v -> openPickDateDialog());
         scheduledTimeView.setOnClickListener(v -> openPickTimeDialog());
 
@@ -71,6 +75,11 @@ public class ComposeScheduleView extends ConstraintLayout {
             scheduledDateView.setText(dateFormat.format(scheduleDateTime.getTime()));
             scheduledTimeView.setText(timeFormat.format(scheduleDateTime.getTime()));
         }
+    }
+
+    private void resetSchedule() {
+        scheduleDateTime = null;
+        setScheduledDateTime();
     }
 
     private void openPickDateDialog() {
