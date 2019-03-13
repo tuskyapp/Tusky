@@ -136,6 +136,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
                     (NotificationViewData.Concrete) notification;
             Notification.Type type = concreteNotificaton.getType();
             switch (type) {
+                default:
                 case MENTION: {
                     StatusViewHolder holder = (StatusViewHolder) viewHolder;
                     StatusViewData.Concrete status = concreteNotificaton.getStatusViewData();

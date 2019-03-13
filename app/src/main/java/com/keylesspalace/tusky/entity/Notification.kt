@@ -24,6 +24,7 @@ data class Notification(
         val status: Status?) {
 
     enum class Type {
+        UNKNOWN,
         @SerializedName("mention")
         MENTION,
         @SerializedName("reblog")
