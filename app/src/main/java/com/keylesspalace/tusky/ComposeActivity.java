@@ -389,6 +389,7 @@ public final class ComposeActivity
         emojiButton.setOnClickListener(v -> showEmojis());
         hideMediaToggle.setOnClickListener(v -> toggleHideMedia());
         scheduleButton.setOnClickListener(v -> showScheduleView());
+        scheduleView.setResetOnClickListener(v -> resetSchedule());
         atButton.setOnClickListener(v -> atButtonClicked());
         hashButton.setOnClickListener(v -> hashButtonClicked());
 
@@ -551,6 +552,7 @@ public final class ComposeActivity
         setStatusVisibility(startingVisibility);
 
         updateHideMediaToggle();
+        updateScheduleButton();
         updateVisibleCharactersLeft();
 
         // Setup the main text field.
@@ -812,6 +814,16 @@ public final class ComposeActivity
             }
             hideMediaToggle.getDrawable().setColorFilter(color, PorterDuff.Mode.SRC_IN);
         }
+    }
+
+    private void updateScheduleButton() {
+        @ColorInt int color;
+        if(scheduleView.getTime() == null) {
+            color = ThemeUtils.getColor(this, android.R.attr.textColorTertiary);
+        } else {
+            color = ContextCompat.getColor(this, R.color.tusky_blue);
+        }
+        scheduleButton.getDrawable().setColorFilter(color, PorterDuff.Mode.SRC_IN);
     }
 
     private void disableButtons() {
@@ -2085,11 +2097,21 @@ public final class ComposeActivity
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
         scheduleView.onDateSet(year, month, dayOfMonth);
+        updateScheduleButton();
+        scheduleBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
     }
 
     @Override
     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
         scheduleView.onTimeSet(hourOfDay, minute);
+        updateScheduleButton();
+        scheduleBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
+    }
+
+    public void resetSchedule() {
+        scheduleView.resetSchedule();
+        updateScheduleButton();
+        scheduleBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
     }
 
     public static final class IntentBuilder {

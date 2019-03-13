@@ -58,7 +58,6 @@ public class ComposeScheduleView extends ConstraintLayout {
         scheduledDateView = findViewById(R.id.scheduledDate);
         scheduledTimeView = findViewById(R.id.scheduledTime);
 
-        resetScheduleButton.setOnClickListener(v -> resetSchedule());
         scheduledDateView.setOnClickListener(v -> openPickDateDialog());
         scheduledTimeView.setOnClickListener(v -> openPickTimeDialog());
 
@@ -77,7 +76,11 @@ public class ComposeScheduleView extends ConstraintLayout {
         }
     }
 
-    private void resetSchedule() {
+    public void setResetOnClickListener(OnClickListener listener) {
+        resetScheduleButton.setOnClickListener(listener);
+    }
+
+    public void resetSchedule() {
         scheduleDateTime = null;
         setScheduledDateTime();
     }
