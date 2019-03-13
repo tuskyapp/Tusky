@@ -13,6 +13,8 @@
         android:paddingTop="4dp"
         android:textColor="?android:textColorTertiary"
         android:textSize="?attr/status_text_medium"
+        android:drawablePadding="4dp"
+        android:drawableEnd="@drawable/ic_create_24dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="2020/01/01" />
@@ -27,6 +29,8 @@
         android:paddingTop="4dp"
         android:textColor="?android:textColorTertiary"
         android:textSize="?attr/status_text_medium"
+        android:drawablePadding="4dp"
+        android:drawableEnd="@drawable/ic_create_24dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/scheduledDate"
         tools:text="00:00:00" />
