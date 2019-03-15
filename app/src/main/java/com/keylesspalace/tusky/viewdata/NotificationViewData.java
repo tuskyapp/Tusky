@@ -59,7 +59,7 @@ public abstract class NotificationViewData {
         }
 
         public Notification.Type getType() {
-            return type == null ? Notification.Type.UNKNOWN : type;
+            return type;
         }
 
         public String getId() {

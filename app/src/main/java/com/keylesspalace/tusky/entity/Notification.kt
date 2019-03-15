@@ -15,7 +15,9 @@
 
 package com.keylesspalace.tusky.entity
 
+import com.google.gson.annotations.JsonAdapter
 import com.google.gson.annotations.SerializedName
+import com.keylesspalace.tusky.json.NotificationTypeAdapter
 
 data class Notification(
         val type: Type,
@@ -23,6 +25,7 @@ data class Notification(
         val account: Account,
         val status: Status?) {
 
+    @JsonAdapter(NotificationTypeAdapter::class)
     enum class Type {
         UNKNOWN,
         @SerializedName("mention")
@@ -32,7 +35,22 @@ data class Notification(
         @SerializedName("favourite")
         FAVOURITE,
         @SerializedName("follow")
-        FOLLOW
+        FOLLOW;
+
+        companion object {
+
+            @JvmStatic
+            fun byString(s: String): Type {
+                return when (s) {
+                    "mention" -> MENTION
+                    "reblog" -> REBLOG
+                    "favourite" -> FAVOURITE
+                    "follow" -> FOLLOW
+                    else -> UNKNOWN
+                }
+            }
+
+        }
     }
 
     override fun hashCode(): Int {
