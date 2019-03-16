@@ -15,8 +15,11 @@
 
 package com.keylesspalace.tusky.entity
 
+import com.google.gson.JsonDeserializationContext
+import com.google.gson.JsonDeserializer
+import com.google.gson.JsonElement
+import com.google.gson.JsonParseException
 import com.google.gson.annotations.JsonAdapter
-import com.keylesspalace.tusky.json.NotificationTypeAdapter
 
 data class Notification(
         val type: Type,
@@ -58,5 +61,14 @@ data class Notification(
         }
         val notification = other as Notification?
         return notification?.id == this.id
+    }
+
+    class NotificationTypeAdapter : JsonDeserializer<Type> {
+
+        @Throws(JsonParseException::class)
+        override fun deserialize(json: JsonElement, typeOfT: java.lang.reflect.Type, context: JsonDeserializationContext): Notification.Type {
+            return Notification.Type.byString(json.asString)
+        }
+
     }
 }
