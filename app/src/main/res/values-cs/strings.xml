@@ -292,6 +292,8 @@
     <string name="action_delete_list">Smazat seznam</string>
     <string name="action_edit_list">Upravit seznam</string>
     <string name="hint_search_people_list">Hledejte mezi lidmi, které sledujete</string>
+    <string name="action_add_to_list">Přidat účet na seznam</string>
+    <string name="action_remove_from_list">Odstranit účet ze seznamu</string>
     <string name="compose_active_account_description">Píšete s účtem %1$s</string>
     <string name="error_failed_set_caption">Nastavení popisku selhalo</string>
     <string name="hint_describe_for_visually_impaired">Popis pro zrakově postižené\n(limit %d znaků)</string>
@@ -377,4 +379,5 @@
     <string name="description_status">        <!-- Zobrazované jméno, varování?, obsah?, relativní datum, znovusdíleno kým?, znovusdíleno?, oblíbeno?, uživatelské jméno, média?; viditelnost, počet oblíbení?, počet boostů?-->
         %s; %s; %s, %s, %s; %s, %s, %s, %s; %s, %s, %s
     </string>
+    <string name="hint_list_name">Název seznamu</string>
 </resources>
