@@ -16,7 +16,6 @@
 package com.keylesspalace.tusky.entity
 
 import com.google.gson.annotations.JsonAdapter
-import com.google.gson.annotations.SerializedName
 import com.keylesspalace.tusky.json.NotificationTypeAdapter
 
 data class Notification(
@@ -28,13 +27,9 @@ data class Notification(
     @JsonAdapter(NotificationTypeAdapter::class)
     enum class Type {
         UNKNOWN,
-        @SerializedName("mention")
         MENTION,
-        @SerializedName("reblog")
         REBLOG,
-        @SerializedName("favourite")
         FAVOURITE,
-        @SerializedName("follow")
         FOLLOW;
 
         companion object {
