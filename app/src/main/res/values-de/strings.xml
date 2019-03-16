@@ -244,7 +244,7 @@
          * the url can be changed to link to the localized version of the license.
     -->
     <string name="about_project_site">        Webseite des Projekts:\n
-        https://tuskyapp.github.io
+        https://tusky.app
     </string>
     <string name="about_bug_feature_request_site">        Fehlermeldungen &amp; Verbesserungsvorschläge:\n
         https://github.com/tuskyapp/Tusky/issues
