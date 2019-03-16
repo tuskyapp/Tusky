@@ -235,9 +235,9 @@ class ListsActivity : BaseActivity(), Injectable, HasSupportFragmentInjector {
                     .let(this::ListViewHolder)
                     .apply {
                         val context = nameTextView.context
-                        val icon = IconicsDrawable(context, GoogleMaterial.Icon.gmd_list).sizeDp(20)
+                        val iconColor = ThemeUtils.getColor(context, android.R.attr.textColorTertiary)
+                        val icon = IconicsDrawable(context, GoogleMaterial.Icon.gmd_list).sizeDp(20).color(iconColor)
 
-                        ThemeUtils.setDrawableTint(context, icon, android.R.attr.textColorTertiary)
                         nameTextView.setCompoundDrawablesRelativeWithIntrinsicBounds(icon, null, null, null)
                     }
         }
