@@ -65,6 +65,25 @@ data class Account(
         return account?.id == this.id
     }
 
+    fun deepEquals(other: Account): Boolean {
+        return id == other.id
+                && localUsername == other.localUsername
+                && displayName == other.displayName
+                && note == other.note
+                && url == other.url
+                && avatar == other.avatar
+                && header == other.header
+                && locked == other.locked
+                && followersCount == other.followersCount
+                && followingCount == other.followingCount
+                && statusesCount == other.statusesCount
+                && source == other.source
+                && bot == other.bot
+                && emojis == other.emojis
+                && fields == other.fields
+                && moved == other.moved
+    }
+
     fun isRemote(): Boolean = this.username != this.localUsername
 }
 

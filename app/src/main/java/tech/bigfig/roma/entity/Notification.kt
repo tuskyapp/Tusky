@@ -15,7 +15,8 @@
 
 package tech.bigfig.roma.entity
 
-import com.google.gson.annotations.SerializedName
+import com.google.gson.annotations.JsonAdapter
+import tech.bigfig.roma.json.NotificationTypeAdapter
 
 data class Notification(
         val type: Type,
@@ -23,15 +24,28 @@ data class Notification(
         val account: Account,
         val status: Status?) {
 
+    @JsonAdapter(NotificationTypeAdapter::class)
     enum class Type {
-        @SerializedName("mention")
+        UNKNOWN,
         MENTION,
-        @SerializedName("reblog")
         REBLOG,
-        @SerializedName("favourite")
         FAVOURITE,
-        @SerializedName("follow")
-        FOLLOW
+        FOLLOW;
+
+        companion object {
+
+            @JvmStatic
+            fun byString(s: String): Type {
+                return when (s) {
+                    "mention" -> MENTION
+                    "reblog" -> REBLOG
+                    "favourite" -> FAVOURITE
+                    "follow" -> FOLLOW
+                    else -> UNKNOWN
+                }
+            }
+
+        }
     }
 
     override fun hashCode(): Int {

@@ -84,8 +84,6 @@ public final class ViewThreadFragment extends SFragment implements
     private static final String TAG = "ViewThreadFragment";
 
     @Inject
-    public TimelineCases timelineCases;
-    @Inject
     public MastodonApi mastodonApi;
     @Inject
     public EventHub eventHub;
@@ -116,11 +114,6 @@ public final class ViewThreadFragment extends SFragment implements
         arguments.putString("id", id);
         fragment.setArguments(arguments);
         return fragment;
-    }
-
-    @Override
-    protected TimelineCases timelineCases() {
-        return timelineCases;
     }
 
     @Override

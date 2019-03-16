@@ -226,7 +226,9 @@
     <string name="description_account_locked">Conta trancada</string>
     <string name="about_title_activity">Sobre</string>
     <string name="about_roma_version">Roma %s</string>
-    <string name="about_roma_license">Roma é um software gratuito e de código aberto.        Ele é licenciado sob a versão 3 da Licença Pública Geral GNU.        Você pode ler a licença aqui: https://www.gnu.org/licenses/gpl-3.0.pt-br.html</string>
+    <string name="about_roma_license">Roma é um software livre e de código aberto.
+        Ele é licenciado sob a versão 3 da Licença Pública Geral GNU.
+        Você pode ler a licença aqui: https://www.gnu.org/licenses/gpl-3.0.pt-br.html</string>
     <!-- note to translators:
          * you should think of “free” as in “free speech,” not as in “free beer”.
            We sometimes call it “libre software,” borrowing the French or Spanish word for “free” as in freedom,

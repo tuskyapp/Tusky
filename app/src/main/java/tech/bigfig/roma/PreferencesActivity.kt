@@ -124,7 +124,7 @@ class PreferencesActivity : BaseActivity(), SharedPreferences.OnSharedPreference
             "appTheme" -> {
                 val theme = sharedPreferences.getNonNullString("appTheme", ThemeUtils.APP_THEME_DEFAULT)
                 Log.d("activeTheme", theme)
-                ThemeUtils().setAppNightMode(theme, this)
+                themeUtils.setAppNightMode(theme, this)
 
                 restartActivitiesOnExit = true
                 this.restartCurrentActivity()

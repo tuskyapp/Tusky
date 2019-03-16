@@ -75,25 +75,29 @@ public class StatusViewHolder extends StatusBaseViewHolder {
 
     @Override
     protected void setupWithStatus(StatusViewData.Concrete status, final StatusActionListener listener,
-                                   boolean mediaPreviewEnabled) {
-        if(status == null) {
-            showContent(false);
-        } else {
-            showContent(true);
-            setupCollapsedState(status, listener);
-            super.setupWithStatus(status, listener, mediaPreviewEnabled);
-
-            String rebloggedByDisplayName = status.getRebloggedByUsername();
-            if (rebloggedByDisplayName == null) {
-                hideRebloggedByDisplayName();
+                                   boolean mediaPreviewEnabled, @Nullable Object payloads) {
+        if (status == null || payloads==null) {
+            if (status == null) {
+                showContent(false);
             } else {
-                setRebloggedByDisplayName(rebloggedByDisplayName);
-            }
+                showContent(true);
+                setupCollapsedState(status, listener);
+                super.setupWithStatus(status, listener, mediaPreviewEnabled, null);
 
-            // I think it's not efficient to create new object every time we bind a holder.
+                String rebloggedByDisplayName = status.getRebloggedByUsername();
+                if (rebloggedByDisplayName == null) {
+                    hideRebloggedByDisplayName();
+                } else {
+                    setRebloggedByDisplayName(rebloggedByDisplayName);
+                }
+
+                // I think it's not efficient to create new object every time we bind a holder.
             // More efficient approach would be creating View.OnClickListener during holder creation
             // and storing StatusActionListener in a variable after binding.
-            rebloggedBar.setOnClickListener(v -> listener.onOpenReblog(getAdapterPosition()));
+            rebloggedBar.setOnClickListener(v -> listener.onOpenReblog(getAdapterPosition()));}
+        }
+        else{
+            super.setupWithStatus(status, listener, mediaPreviewEnabled, payloads);
         }
     }
 

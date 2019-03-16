@@ -29,9 +29,11 @@ import android.widget.ProgressBar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 
+import io.reactivex.Observable;
 import tech.bigfig.roma.AccountListActivity;
 import tech.bigfig.roma.BaseActivity;
 import tech.bigfig.roma.R;
+import tech.bigfig.roma.adapter.StatusBaseViewHolder;
 import tech.bigfig.roma.adapter.TimelineAdapter;
 import tech.bigfig.roma.appstore.BlockEvent;
 import tech.bigfig.roma.appstore.EventHub;
@@ -65,10 +67,12 @@ import tech.bigfig.roma.view.EndlessOnScrollListener;
 import tech.bigfig.roma.viewdata.StatusViewData;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -128,8 +132,6 @@ public class TimelineFragment extends SFragment implements
     }
 
     @Inject
-    public TimelineCases timelineCases;
-    @Inject
     public EventHub eventHub;
     @Inject
     public TimelineRepository timelineRepo;
@@ -160,11 +162,6 @@ public class TimelineFragment extends SFragment implements
     private boolean didLoadEverythingBottom;
     private boolean alwaysShowSensitiveMedia;
     private boolean initialUpdateFailed = false;
-
-    @Override
-    protected TimelineCases timelineCases() {
-        return timelineCases;
-    }
 
     private PairedList<Either<Placeholder, Status>, StatusViewData> statuses =
             new PairedList<>(new Function<Either<Placeholder, Status>, StatusViewData>() {
@@ -1275,7 +1272,48 @@ public class TimelineFragment extends SFragment implements
 
         @Override
         public boolean areContentsTheSame(StatusViewData oldItem, @NonNull StatusViewData newItem) {
-            return oldItem.deepEquals(newItem);
+            return false; //Items are different always. It allows to refresh timestamp on every view holder update
+        }
+
+        @Nullable
+        @Override
+        public Object getChangePayload(@NonNull StatusViewData oldItem, @NonNull StatusViewData newItem) {
+            if (oldItem.deepEquals(newItem)){
+                //If items are equal - update timestamp only
+                List<String> payload = new ArrayList<>();
+                payload.add(StatusBaseViewHolder.Key.KEY_CREATED);
+                return payload;
+            }
+            else
+                // If items are different - update a whole view holder
+                return null;
         }
     };
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        startUpdateTimestamp();
+    }
+
+    /**
+     * Start to update adapter every minute to refresh timestamp
+     * If setting absoluteTimeView is false
+     * Auto dispose observable on pause
+     */
+    private void startUpdateTimestamp() {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        boolean useAbsoluteTime = preferences.getBoolean("absoluteTimeView", false);
+        if (!useAbsoluteTime) {
+            Observable.interval(1, TimeUnit.MINUTES)
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .as(autoDisposable(from(this, Lifecycle.Event.ON_PAUSE)))
+                    .subscribe(
+                            interval -> updateAdapter()
+                    );
+        }
+
+    }
+
+
 }

@@ -43,12 +43,8 @@ import kotlinx.android.synthetic.main.fragment_search.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import javax.inject.Inject
 
-class SearchFragment : SFragment(), StatusActionListener, Injectable {
-
-    @Inject
-    lateinit var timelineCases: TimelineCases
+class SearchFragment : SFragment(), StatusActionListener {
 
     private lateinit var searchAdapter: SearchResultsAdapter
 
@@ -128,10 +124,6 @@ class SearchFragment : SFragment(), StatusActionListener, Injectable {
             searchProgressBar.visibility = View.GONE
             searchNoResultsText.visibility = View.GONE
         }
-    }
-
-    override fun timelineCases(): TimelineCases {
-        return timelineCases
     }
 
     override fun removeItem(position: Int) {

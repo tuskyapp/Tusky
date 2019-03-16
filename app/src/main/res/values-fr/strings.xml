@@ -191,6 +191,7 @@
     <string name="pref_title_browser_settings">Navigateur</string>
     <string name="pref_title_custom_tabs">Utiliser le navigateur intégré</string>
     <string name="pref_title_hide_follow_button">Masquer le bouton de composition lors du défilement</string>
+    <string name="pref_title_language">Langue</string>
     <string name="pref_title_status_filter">Filtrage des fils</string>
     <string name="pref_title_status_tabs">Onglets</string>
     <string name="pref_title_show_reposts">Afficher les reposts</string>
@@ -238,7 +239,7 @@
     <string name="notification_summary_medium">%1$s, %2$s et %3$s</string>
     <string name="notification_summary_small">%1$s et %2$s</string>
     <string name="notification_title_summary">%d nouvelles interactions</string>
-    <string name="description_account_locked">Compte bloqué</string>
+    <string name="description_account_locked">Compte verrouillé</string>
     <string name="about_title_activity">À propos</string>
     <string name="about_roma_version">Roma %s</string>
     <string name="about_roma_license">Roma est une application libre et open source.
@@ -290,7 +291,7 @@
     <string name="compose_active_account_description">Publier avec le compte %1$s</string>
     <string name="error_failed_set_caption">Impossible de définir la légende</string>
     <string name="hint_describe_for_visually_impaired">Décrire pour les malvoyants
-\n(limite de caractères %d)</string>
+\n(%d caractères maximum)</string>
     <string name="action_set_caption">Mettre une légende</string>
     <string name="action_remove_media">Supprimer le média</string>
     <string name="lock_account_label">Verrouiller le compte</string>

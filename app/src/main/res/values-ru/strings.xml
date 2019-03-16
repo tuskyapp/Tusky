@@ -253,7 +253,6 @@
     <string name="description_account_locked">Закрытый аккаунт</string>
 
     <string name="about_title_activity">О приложении</string>
-    <string name="about_tusky_version">Tusky %s</string>
     <string name="about_roma_version">Roma %s</string>
     <string name="about_roma_license">Roma – это бесплатное приложение с открытым исходным кодом.         Выпускается по лицензии GNU General Public License Version 3.         Вы можете прочитать текст лицензии по ссылке: https://www.gnu.org/licenses/gpl-3.0.ru.html</string>
     <!-- note to translators: the url can be changed to link to the localized version of the license -->

@@ -35,8 +35,9 @@ import tech.bigfig.roma.db.AccountManager;
 import tech.bigfig.roma.db.AppDatabase;
 import tech.bigfig.roma.di.AppInjector;
 import tech.bigfig.roma.util.EmojiCompatFont;
-import tech.bigfig.roma.util.LocaleManager;
 import tech.bigfig.roma.util.NotificationPullJobCreator;
+
+import tech.bigfig.roma.util.LocaleManager;
 import com.squareup.picasso.Picasso;
 
 import org.conscrypt.Conscrypt;

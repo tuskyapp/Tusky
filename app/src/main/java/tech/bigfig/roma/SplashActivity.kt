@@ -17,10 +17,11 @@ package tech.bigfig.roma
 
 import android.content.Intent
 import android.os.Bundle
+import tech.bigfig.roma.di.Injectable
 
 import tech.bigfig.roma.util.NotificationHelper
 
-class SplashActivity : AppCompatActivity(), Injectable {
+class SplashActivity : BaseActivity(), Injectable {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

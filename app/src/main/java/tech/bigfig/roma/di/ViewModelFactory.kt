@@ -11,6 +11,8 @@ import dagger.MapKey
 import dagger.Module
 import dagger.multibindings.IntoMap
 import tech.bigfig.roma.components.conversation.ConversationsViewModel
+import tech.bigfig.roma.viewmodel.AccountsInListViewModel
+import tech.bigfig.roma.viewmodel.ListsViewModel
 import javax.inject.Inject
 import javax.inject.Provider
 import javax.inject.Singleton
@@ -47,6 +49,17 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(ConversationsViewModel::class)
     internal abstract fun conversationsViewModel(viewModel: ConversationsViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(ListsViewModel::class)
+    internal abstract fun listsViewModel(viewModel: ListsViewModel): ViewModel
+
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(AccountsInListViewModel::class)
+    internal abstract fun accountsInListViewModel(viewModel: AccountsInListViewModel): ViewModel
 
     //Add more ViewModels here
 }
