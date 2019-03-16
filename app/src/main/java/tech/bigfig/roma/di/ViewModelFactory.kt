@@ -48,5 +48,16 @@ abstract class ViewModelModule {
     @ViewModelKey(ConversationsViewModel::class)
     internal abstract fun conversationsViewModel(viewModel: ConversationsViewModel): ViewModel
 
+    @Binds
+    @IntoMap
+    @ViewModelKey(ListsViewModel::class)
+    internal abstract fun listsViewModel(viewModel: ListsViewModel): ViewModel
+
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(AccountsInListViewModel::class)
+    internal abstract fun accountsInListViewModel(viewModel: AccountsInListViewModel): ViewModel
+
     //Add more ViewModels here
 }

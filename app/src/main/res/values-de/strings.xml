@@ -30,6 +30,7 @@
     <string name="title_direct_messages">Direktnachrichten</string>
     <string name="title_tab_preferences">Tabs</string>
     <string name="title_view_thread">Unterhaltung</string>
+    <string name="title_tag">#%s</string>
     <string name="title_statuses">Beiträge</string>
     <string name="title_statuses_with_replies">mit Antworten</string>
     <string name="title_statuses_pinned">Angeheftet</string>
@@ -40,6 +41,12 @@
 
     <string name="status_username_format">\@%s</string>
     <string name="status_reposted_format">%s teilte</string>
+    <string name="title_follow_requests">Folgeanfrage</string>
+    <string name="title_edit_profile">Dein Profil bearbeiten</string>
+    <string name="title_saved_toot">Gespeicherte Beiträge</string>
+    <string name="title_licenses">Lizenzen</string>
+    <string name="status_username_format">\@%s</string>
+    <string name="status_boosted_format">%s teilte</string>
     <string name="status_sensitive_media_title">Heikle Inhalte</string>
     <string name="status_media_hidden_title">Medien versteckt</string>
     <string name="status_sensitive_media_directions">Zum Anzeigen tippen</string>
@@ -57,7 +64,9 @@
     <string name="action_quick_reply">Schnell antworten</string>
     <string name="action_reply">Antworten</string>
     <string name="action_reblog">Teilen</string>
+    <string name="action_unreblog">Boost entfernen</string>
     <string name="action_favourite">Favorisieren</string>
+    <string name="action_unfavourite">Favoriten entfernen</string>
     <string name="action_more">Mehr</string>
     <string name="action_compose">Schreiben</string>
     <string name="action_login">Anmelden mit Mastodon</string>
@@ -104,6 +113,10 @@
     <string name="action_content_warning">Inhaltswarnung</string>
     <string name="action_emoji_keyboard">Emoji</string>
     <string name="action_add_tab">Tab hinzufügen</string>
+    <string name="action_links">Verlinkungen</string>
+    <string name="action_mentions">Erwähnungen</string>
+    <string name="title_mentions_dialog">Erwähnungen</string>
+    <string name="title_links_dialog">Verlinkungen</string>
     <string name="download_image">%1$s heruntergeladen</string>
     <string name="action_copy_link">Link kopieren</string>
     <string name="action_open_as">Öffnen als %s</string>
@@ -168,11 +181,12 @@
         <item>Hell</item>
         <item>Schwarz</item>
         <item>Automatisch bei Sonnenuntergang</item>
-        <item>Use System Design</item>
+        <item>Systemthema verwenden</item>
     </string-array>
     <string name="pref_title_browser_settings">Browser</string>
     <string name="pref_title_custom_tabs">Öffne Links in der App</string>
     <string name="pref_title_hide_follow_button">Verstecke Button bei Bildlauf </string>
+    <string name="pref_title_language">Sprache</string>
     <string name="pref_title_status_filter">Timeline-Filter</string>
     <string name="pref_title_filter_regex">Mit regulärem Ausdruck filtern</string>
     <string name="pref_title_proxy_settings">Proxy</string>
@@ -231,6 +245,7 @@
     <string name="about_roma_account">Romas Profil</string>
 
     <string name="status_media_images">Bilder</string>
+    <string name="status_media_video">Video</string>
     <string name="status_media_video">Video</string>
     <string name="pref_title_status_tabs">Tabs</string>
     <string name="pref_title_show_replies">Zeige Antworten</string>
@@ -296,4 +311,5 @@
     <string name="pin_action">Im Profil anheften</string>
     <string name="title_favourited_by">Favorisiert von</string>
     <string name="max_tab_number_reached">Maximum von %1$d Tabs erreicht</string>
+    <string name="description_status_media_no_description_placeholder">        Keine Beschreibung    </string>
 </resources>

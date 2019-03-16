@@ -29,11 +29,19 @@ import androidx.appcompat.app.AppCompatDelegate;
 import android.provider.Settings;
 import android.util.TypedValue;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
 /**
  * Provides runtime compatibility to obtain theme information and re-theme views, especially where
  * the ability to do so is not supported in resource files.
  */
+@Singleton
 public class ThemeUtils {
+
+    @Inject
+    public ThemeUtils(){}
+
     public static final String APP_THEME_DEFAULT = ThemeUtils.THEME_NIGHT;
 
     private static final String THEME_NIGHT = "night";

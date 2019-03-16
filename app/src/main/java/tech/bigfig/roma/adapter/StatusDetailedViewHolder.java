@@ -126,74 +126,75 @@ class StatusDetailedViewHolder extends StatusBaseViewHolder {
 
     @Override
     protected void setupWithStatus(final StatusViewData.Concrete status, final StatusActionListener listener,
-                                   boolean mediaPreviewEnabled) {
-        super.setupWithStatus(status, listener, mediaPreviewEnabled);
+                                   boolean mediaPreviewEnabled, @Nullable Object payloads) {
+        super.setupWithStatus(status, listener, mediaPreviewEnabled,payloads);
+        if (payloads==null) {
+            setReblogAndFavCount(status.getReblogsCount(), status.getFavouritesCount(), listener);
 
-        setReblogAndFavCount(status.getReblogsCount(), status.getFavouritesCount(), listener);
-
-        setApplication(status.getApplication());
+            setApplication(status.getApplication());
 
 
-        View.OnLongClickListener longClickListener = view -> {
-            TextView textView = (TextView) view;
-            ClipboardManager clipboard = (ClipboardManager) view.getContext().getSystemService(Context.CLIPBOARD_SERVICE);
-            ClipData clip = ClipData.newPlainText("toot", textView.getText());
-            clipboard.setPrimaryClip(clip);
+            View.OnLongClickListener longClickListener = view -> {
+                TextView textView = (TextView) view;
+                ClipboardManager clipboard = (ClipboardManager) view.getContext().getSystemService(Context.CLIPBOARD_SERVICE);
+                ClipData clip = ClipData.newPlainText("toot", textView.getText());
+                clipboard.setPrimaryClip(clip);
 
-            Toast.makeText(view.getContext(), R.string.copy_to_clipboard_success, Toast.LENGTH_SHORT).show();
+                Toast.makeText(view.getContext(), R.string.copy_to_clipboard_success, Toast.LENGTH_SHORT).show();
 
-            return true;
-        };
+                return true;
+            };
 
-        content.setOnLongClickListener(longClickListener);
-        contentWarningDescription.setOnLongClickListener(longClickListener);
+            content.setOnLongClickListener(longClickListener);
+            contentWarningDescription.setOnLongClickListener(longClickListener);
 
-        if (status.getAttachments().size() == 0 && status.getCard() != null && !TextUtils.isEmpty(status.getCard().getUrl())) {
-            final Card card = status.getCard();
-            cardView.setVisibility(View.VISIBLE);
-            cardTitle.setText(card.getTitle());
-            cardDescription.setText(card.getDescription());
+            if (status.getAttachments().size() == 0 && status.getCard() != null && !TextUtils.isEmpty(status.getCard().getUrl())) {
+                final Card card = status.getCard();
+                cardView.setVisibility(View.VISIBLE);
+                cardTitle.setText(card.getTitle());
+                cardDescription.setText(card.getDescription());
 
-            cardUrl.setText(card.getUrl());
+                cardUrl.setText(card.getUrl());
 
-            if (card.getWidth() > 0 && card.getHeight() > 0 && !TextUtils.isEmpty(card.getImage())) {
-                cardImage.setVisibility(View.VISIBLE);
+                if (card.getWidth() > 0 && card.getHeight() > 0 && !TextUtils.isEmpty(card.getImage())) {
+                    cardImage.setVisibility(View.VISIBLE);
 
-                if (card.getWidth() > card.getHeight()) {
-                    cardView.setOrientation(LinearLayout.VERTICAL);
-                    cardImage.getLayoutParams().height = cardImage.getContext().getResources()
-                            .getDimensionPixelSize(R.dimen.card_image_vertical_height);
-                    cardImage.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
-                    cardInfo.getLayoutParams().height = ViewGroup.LayoutParams.MATCH_PARENT;
-                    cardInfo.getLayoutParams().width = ViewGroup.LayoutParams.WRAP_CONTENT;
+                    if (card.getWidth() > card.getHeight()) {
+                        cardView.setOrientation(LinearLayout.VERTICAL);
+                        cardImage.getLayoutParams().height = cardImage.getContext().getResources()
+                                .getDimensionPixelSize(R.dimen.card_image_vertical_height);
+                        cardImage.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
+                        cardInfo.getLayoutParams().height = ViewGroup.LayoutParams.MATCH_PARENT;
+                        cardInfo.getLayoutParams().width = ViewGroup.LayoutParams.WRAP_CONTENT;
+                    } else {
+                        cardView.setOrientation(LinearLayout.HORIZONTAL);
+                        cardImage.getLayoutParams().height = ViewGroup.LayoutParams.MATCH_PARENT;
+                        cardImage.getLayoutParams().width = cardImage.getContext().getResources()
+                                .getDimensionPixelSize(R.dimen.card_image_horizontal_width);
+                        cardInfo.getLayoutParams().height = ViewGroup.LayoutParams.WRAP_CONTENT;
+                        cardInfo.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
+                    }
+
+                    cardView.setClipToOutline(true);
+
+                    Picasso.with(cardImage.getContext())
+                            .load(card.getImage())
+                            .fit()
+                            .centerCrop()
+                            .into(cardImage);
+
                 } else {
-                    cardView.setOrientation(LinearLayout.HORIZONTAL);
-                    cardImage.getLayoutParams().height = ViewGroup.LayoutParams.MATCH_PARENT;
-                    cardImage.getLayoutParams().width = cardImage.getContext().getResources()
-                            .getDimensionPixelSize(R.dimen.card_image_horizontal_width);
-                    cardInfo.getLayoutParams().height = ViewGroup.LayoutParams.WRAP_CONTENT;
-                    cardInfo.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
+                    cardImage.setVisibility(View.GONE);
                 }
 
-                cardView.setClipToOutline(true);
-
-                Picasso.with(cardImage.getContext())
-                        .load(card.getImage())
-                        .fit()
-                        .centerCrop()
-                        .into(cardImage);
+                cardView.setOnClickListener(v -> LinkHelper.openLink(card.getUrl(), v.getContext()));
 
             } else {
-                cardImage.setVisibility(View.GONE);
+                cardView.setVisibility(View.GONE);
             }
 
-            cardView.setOnClickListener(v -> LinkHelper.openLink(card.getUrl(), v.getContext()));
-
-        } else {
-            cardView.setVisibility(View.GONE);
+            setStatusVisibility(status.getVisibility());
         }
-
-        setStatusVisibility(status.getVisibility());
     }
 
     private void setStatusVisibility(Status.Visibility visibility) {

@@ -189,6 +189,7 @@
     <string name="pref_title_browser_settings">Browser</string>
     <string name="pref_title_custom_tabs">Usa Tab Personalizzate di Chrome</string>
     <string name="pref_title_hide_follow_button">Nascondi il pulsante componi mentre scorri</string>
+    <string name="pref_title_language">Lingua</string>
     <string name="pref_title_status_filter">Filtraggio della timeline</string>
     <string name="pref_title_status_tabs">Schede</string>
     <string name="pref_title_show_reposts">Mostra repost</string>

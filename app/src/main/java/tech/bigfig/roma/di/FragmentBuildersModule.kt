@@ -16,8 +16,10 @@
 
 package tech.bigfig.roma.di
 
+import tech.bigfig.roma.AccountsInListFragment
 import tech.bigfig.roma.fragment.*
-import tech.bigfig.roma.fragment.preference.*
+import tech.bigfig.roma.fragment.preference.AccountPreferencesFragment
+import com.keylesspalace.tusky.fragment.preference.NotificationPreferencesFragment
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import tech.bigfig.roma.components.conversation.ConversationsFragment
@@ -54,5 +56,8 @@ abstract class FragmentBuildersModule {
 
     @ContributesAndroidInjector
     abstract fun directMessagesPreferencesFragment(): ConversationsFragment
+
+    @ContributesAndroidInjector
+    abstract fun accountInListsFragment(): AccountsInListFragment
 
 }

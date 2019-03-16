@@ -73,11 +73,11 @@ public class FollowRequestsAdapter extends AccountAdapter {
 
         FollowRequestViewHolder(View itemView) {
             super(itemView);
-            avatar = itemView.findViewById(R.id.follow_request_avatar);
-            username = itemView.findViewById(R.id.follow_request_username);
-            displayName = itemView.findViewById(R.id.follow_request_display_name);
-            accept = itemView.findViewById(R.id.follow_request_accept);
-            reject = itemView.findViewById(R.id.follow_request_reject);
+            avatar = itemView.findViewById(R.id.avatar);
+            username = itemView.findViewById(R.id.usernameTextView);
+            displayName = itemView.findViewById(R.id.displayNameTextView);
+            accept = itemView.findViewById(R.id.acceptButton);
+            reject = itemView.findViewById(R.id.rejectButton);
         }
 
         void setupWithAccount(Account account) {

@@ -188,6 +188,7 @@
     <string name="pref_title_browser_settings">Webbrowser</string>
     <string name="pref_title_custom_tabs">Aangepaste tabbladen gebruiken</string>
     <string name="pref_title_hide_follow_button">Verberg zwevende tootknop tijdens scrollen</string>
+    <string name="pref_title_language">Taal</string>
     <string name="pref_title_status_filter">Filteren</string>
     <string name="pref_title_status_tabs">Tijdlijnen</string>
     <string name="pref_title_show_reposts">Reposts tonen</string>
@@ -358,7 +359,7 @@
     </string>
     <string name="description_visiblity_direct">        Direct
     </string>
-    <string name="description_status">        <!-- Weergavenaam, inhoudswaarschuwing?, inhoud?, relatieve datum, geboost door?, geboost?, aan favorieten toegevoegd?, gebruikersnaam, media?; zichtbaarheid, fav-nummer?, boostnummer?-->
+    <string name="description_status">        <!-- Display name, cw?, content?, relative date, reposted by?, reposted?, favorited?, username, media?; visibility, fav number?, reblog number?-->
         %s; %s; %s, %s, %s; %s, %s, %s, %s; %s, %s, %s
     </string>
 </resources>

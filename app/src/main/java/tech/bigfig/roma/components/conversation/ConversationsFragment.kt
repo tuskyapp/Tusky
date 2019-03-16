@@ -45,8 +45,6 @@ import kotlinx.android.synthetic.main.fragment_timeline.*
 class ConversationsFragment : SFragment(), StatusActionListener, Injectable {
 
     @Inject
-    lateinit var timelineCases: TimelineCases
-    @Inject
     lateinit var viewModelFactory: ViewModelFactory
     @Inject
     lateinit var db: AppDatabase
@@ -163,10 +161,6 @@ class ConversationsFragment : SFragment(), StatusActionListener, Injectable {
         val intent = Intent(context, ViewTagActivity::class.java)
         intent.putExtra("hashtag", tag)
         startActivity(intent)
-    }
-
-    override fun timelineCases(): TimelineCases {
-        return timelineCases
     }
 
     override fun removeItem(position: Int) {

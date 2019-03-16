@@ -125,8 +125,6 @@ public class NotificationsFragment extends SFragment implements
     }
 
     @Inject
-    public TimelineCases timelineCases;
-    @Inject
     AccountManager accountManager;
     @Inject
     EventHub eventHub;
@@ -145,11 +143,6 @@ public class NotificationsFragment extends SFragment implements
     private boolean bottomLoading;
     private String bottomId;
     private boolean alwaysShowSensitiveMedia;
-
-    @Override
-    protected TimelineCases timelineCases() {
-        return timelineCases;
-    }
 
     // Each element is either a Notification for loading data or a Placeholder
     private final PairedList<Either<Placeholder, Notification>, NotificationViewData> notifications
@@ -217,14 +210,19 @@ public class NotificationsFragment extends SFragment implements
         adapter.setUseAbsoluteTime(useAbsoluteTime);
         recyclerView.setAdapter(adapter);
 
-        notifications.clear();
         topLoading = false;
         bottomLoading = false;
         bottomId = null;
 
-        ((SimpleItemAnimator) recyclerView.getItemAnimator()).setSupportsChangeAnimations(false);
+        updateAdapter();
 
-        sendFetchNotificationsRequest(null, null, FetchEnd.BOTTOM, -1);
+        if (notifications.isEmpty()) {
+            sendFetchNotificationsRequest(null, null, FetchEnd.BOTTOM, -1);
+        } else {
+            progressBar.setVisibility(View.GONE);
+        }
+
+        ((SimpleItemAnimator) recyclerView.getItemAnimator()).setSupportsChangeAnimations(false);
 
         return rootView;
     }
