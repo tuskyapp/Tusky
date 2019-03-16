@@ -24,12 +24,16 @@ import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
+import android.widget.FrameLayout
+import android.widget.ImageButton
 import android.widget.TextView
+import androidx.annotation.StringRes
+import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.widget.PopupMenu
 import tech.bigfig.roma.di.Injectable
 import tech.bigfig.roma.entity.MastoList
 import tech.bigfig.roma.fragment.TimelineFragment
-import tech.bigfig.roma.network.MastodonApi
-import tech.bigfig.roma.util.ThemeUtils
 import com.mikepenz.google_material_typeface_library.GoogleMaterial
 import com.mikepenz.iconics.IconicsDrawable
 import com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider.from
@@ -40,13 +44,13 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import kotlinx.android.synthetic.main.activity_lists.*
 import kotlinx.android.synthetic.main.toolbar_basic.*
 import javax.inject.Inject
-import androidx.appcompat.widget.Toolbar
-import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import tech.bigfig.roma.LoadingState.*
-import tech.bigfig.roma.util.hide
-import tech.bigfig.roma.util.show
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.*
+import at.connyduck.sparkbutton.helpers.Utils
+import com.google.android.material.snackbar.Snackbar
+import tech.bigfig.roma.viewmodel.ListsViewModel
+import tech.bigfig.roma.di.ViewModelFactory
+import tech.bigfig.roma.util.*
 
 /**
  * Created by charlag on 1/4/18.
@@ -103,9 +107,9 @@ class ListsActivity : BaseActivity(), Injectable, HasSupportFragmentInjector {
                 .subscribe { event ->
                     @Suppress("WHEN_ENUM_CAN_BE_NULL_IN_JAVA")
                     when (event) {
-                        CREATE_ERROR -> showMessage(R.string.error_create_list)
-                        RENAME_ERROR -> showMessage(R.string.error_rename_list)
-                        DELETE_ERROR -> showMessage(R.string.error_delete_list)
+                        ListsViewModel.Event.CREATE_ERROR -> showMessage(R.string.error_create_list)
+                        ListsViewModel.Event.RENAME_ERROR -> showMessage(R.string.error_rename_list)
+                        ListsViewModel.Event.DELETE_ERROR -> showMessage(R.string.error_delete_list)
                     }
                 }
     }
@@ -142,22 +146,22 @@ class ListsActivity : BaseActivity(), Injectable, HasSupportFragmentInjector {
 
     private fun update(state: ListsViewModel.State) {
         adapter.submitList(state.lists)
-        progressBar.visible(state.loadingState == LOADING)
+        progressBar.visible(state.loadingState == ListsViewModel.LoadingState.LOADING)
         when (state.loadingState) {
-            INITIAL, LOADING -> messageView.hide()
-            ERROR_NETWORK -> {
+            ListsViewModel.LoadingState.INITIAL, ListsViewModel.LoadingState.LOADING -> messageView.hide()
+            ListsViewModel.LoadingState.ERROR_NETWORK -> {
                 messageView.show()
                 messageView.setup(R.drawable.elephant_offline, R.string.error_network) {
                     viewModel.retryLoading()
                 }
             }
-            ERROR_OTHER -> {
+            ListsViewModel.LoadingState.ERROR_OTHER -> {
                 messageView.show()
                 messageView.setup(R.drawable.elephant_error, R.string.error_generic) {
                     viewModel.retryLoading()
                 }
             }
-            LOADED ->
+            ListsViewModel.LoadingState.LOADED ->
                 if (state.lists.isEmpty()) {
                     messageView.show()
                     messageView.setup(R.drawable.elephant_friend_empty, R.string.message_empty,

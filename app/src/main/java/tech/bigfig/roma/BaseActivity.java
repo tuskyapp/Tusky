@@ -35,7 +35,6 @@ import com.google.android.material.snackbar.Snackbar;
 
 import tech.bigfig.roma.adapter.AccountSelectionAdapter;
 import tech.bigfig.roma.db.AccountEntity;
-import tech.bigfig.roma.entity.Account;
 import tech.bigfig.roma.db.AccountManager;
 import tech.bigfig.roma.di.Injectable;
 import tech.bigfig.roma.interfaces.AccountSelectionListener;
@@ -104,7 +103,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Injectab
 
     @Override
     protected void attachBaseContext(Context base) {
-        super.attachBaseContext(TuskyApplication.localeManager.setLocale(base));
+        super.attachBaseContext(RomaApplication.localeManager.setLocale(base));
     }
 
     protected boolean requiresLogin() {

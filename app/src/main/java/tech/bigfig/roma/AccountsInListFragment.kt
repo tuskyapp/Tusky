@@ -1,20 +1,20 @@
 /* Copyright 2017 Andrew Dawson
  *
- * This file is a part of Tusky.
+ * This file is a part of Roma.
  *
  * This program is free software; you can redistribute it and/or modify it under the terms of the
  * GNU General Public License as published by the Free Software Foundation; either version 3 of the
  * License, or (at your option) any later version.
  *
- * Tusky is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even
+ * Roma is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even
  * the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
  * Public License for more details.
  *
- * You should have received a copy of the GNU General Public License along with Tusky; if not,
+ * You should have received a copy of the GNU General Public License along with Roma; if not,
  * see <http://www.gnu.org/licenses>.
  */
 
-package com.keylesspalace.tusky
+package tech.bigfig.roma
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -27,14 +27,8 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.keylesspalace.tusky.di.Injectable
-import com.keylesspalace.tusky.di.ViewModelFactory
-import com.keylesspalace.tusky.entity.Account
-import com.keylesspalace.tusky.util.Either
-import com.keylesspalace.tusky.util.hide
-import com.keylesspalace.tusky.util.show
-import com.keylesspalace.tusky.viewmodel.AccountsInListViewModel
-import com.keylesspalace.tusky.viewmodel.State
+import tech.bigfig.roma.viewmodel.AccountsInListViewModel
+import tech.bigfig.roma.viewmodel.State
 import com.squareup.picasso.Picasso
 import com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider.from
 import com.uber.autodispose.autoDisposable
@@ -42,6 +36,12 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.fragment_accounts_in_list.*
 import kotlinx.android.synthetic.main.item_follow_request.*
+import tech.bigfig.roma.di.Injectable
+import tech.bigfig.roma.di.ViewModelFactory
+import tech.bigfig.roma.entity.Account
+import tech.bigfig.roma.util.Either
+import tech.bigfig.roma.util.hide
+import tech.bigfig.roma.util.show
 import java.io.IOException
 import javax.inject.Inject
 
@@ -74,7 +74,7 @@ class AccountsInListFragment : DialogFragment(), Injectable {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setStyle(DialogFragment.STYLE_NORMAL, R.style.TuskyDialogFragmentStyle)
+        setStyle(DialogFragment.STYLE_NORMAL, R.style.RomaDialogFragmentStyle)
         viewModel = viewModelFactory.create(AccountsInListViewModel::class.java)
         val args = arguments!!
         listId = args.getString(LIST_ID_ARG)!!

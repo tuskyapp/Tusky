@@ -19,10 +19,10 @@ package tech.bigfig.roma.di
 import tech.bigfig.roma.AccountsInListFragment
 import tech.bigfig.roma.fragment.*
 import tech.bigfig.roma.fragment.preference.AccountPreferencesFragment
-import com.keylesspalace.tusky.fragment.preference.NotificationPreferencesFragment
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import tech.bigfig.roma.components.conversation.ConversationsFragment
+import tech.bigfig.roma.fragment.preference.NotificationPreferencesFragment
 
 /**
  * Created by charlag on 3/24/18.

@@ -1,10 +1,10 @@
-package com.keylesspalace.tusky.json
+package tech.bigfig.roma.json
 
 import com.google.gson.JsonDeserializationContext
 import com.google.gson.JsonDeserializer
 import com.google.gson.JsonElement
 import com.google.gson.JsonParseException
-import com.keylesspalace.tusky.entity.Notification
+import tech.bigfig.roma.entity.Notification
 
 import java.lang.reflect.Type
 

@@ -11,6 +11,8 @@ import dagger.MapKey
 import dagger.Module
 import dagger.multibindings.IntoMap
 import tech.bigfig.roma.components.conversation.ConversationsViewModel
+import tech.bigfig.roma.viewmodel.AccountsInListViewModel
+import tech.bigfig.roma.viewmodel.ListsViewModel
 import javax.inject.Inject
 import javax.inject.Provider
 import javax.inject.Singleton

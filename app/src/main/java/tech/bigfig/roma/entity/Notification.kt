@@ -16,7 +16,7 @@
 package tech.bigfig.roma.entity
 
 import com.google.gson.annotations.JsonAdapter
-import com.keylesspalace.tusky.json.NotificationTypeAdapter
+import tech.bigfig.roma.json.NotificationTypeAdapter
 
 data class Notification(
         val type: Type,

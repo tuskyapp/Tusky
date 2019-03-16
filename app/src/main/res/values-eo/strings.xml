@@ -44,7 +44,6 @@
     <string name="title_saved_toot">Malnetoj</string>
     <string name="title_licenses">Permesiloj</string>
     <string name="status_username_format">\@%s</string>
-    <string name="status_boosted_format">%s diskonigis</string>
     <string name="status_sensitive_media_title">Tikla enhavo</string>
     <string name="status_media_hidden_title">Kaŝitaj aŭdovidaĵoj</string>
     <string name="status_sensitive_media_directions">Alklaki por vidi</string>
@@ -189,7 +188,6 @@
     <string name="pref_title_language">Lingvo</string>
     <string name="pref_title_status_filter">Filtrado de tempolinioj</string>
     <string name="pref_title_status_tabs">Langetoj</string>
-    <string name="pref_title_show_boosts">Montri diskonigojn</string>
     <string name="pref_title_show_replies">Montri la respondojn</string>
     <string name="pref_title_filter_regex">Filtri per regulaj esprimoj</string>
     <string name="pref_title_show_media_preview">Elŝuti antaŭvidojn de aŭdovidaĵoj</string>
@@ -225,8 +223,6 @@
     <string name="notification_channel_mention_descriptions">Sciigoj pri novajn menciojn</string>
     <string name="notification_channel_follow_name">Novaj sekvantoj</string>
     <string name="notification_channel_follow_description">Sciigoj pri novajn sekvantojn</string>
-    <string name="notification_channel_boost_name">Diskonigoj</string>
-    <string name="notification_channel_boost_description">Sciigoj kiam viaj mesaĝoj estas diskonigita</string>
     <string name="notification_channel_favourite_name">Stelumoj</string>
     <string name="notification_channel_favourite_description">Sciigoj kiam viaj mesaĝoj estas stelumitaj</string>
     <string name="notification_mention_format">%s menciis vin</string>
@@ -236,8 +232,8 @@
     <string name="notification_title_summary">%d novaj interagoj</string>
     <string name="description_account_locked">Ŝlosita konto</string>
     <string name="about_title_activity">Pri</string>
-    <string name="about_tusky_version">Tusky %s</string>
-    <string name="about_tusky_license">Tusky estas libera kaj malfermitkoda programo.
+    <string name="about_roma_version">Roma %s</string>
+    <string name="about_roma_license">Roma estas libera kaj malfermitkoda programo.
         Ĝi estas publikigita laŭ la permesilo «GNU General Public License Version 3».
         Vi povas vidi la permesilon ĉi tie: https://www.gnu.org/licenses/gpl-3.0.en.html</string>
     <!-- note to translators:
@@ -247,12 +243,12 @@
          * the url can be changed to link to the localized version of the license.
     -->
     <string name="about_project_site">        Paĝaro de projekto:\n
-        https://tuskyapp.github.io
+        https://romaapp.github.io
     </string>
     <string name="about_bug_feature_request_site">        Raportoj de cimo kaj petoj de funkcio:\n
-        https://github.com/tuskyapp/Tusky/issues
+        https://github.com/romaapp/Roma/issues
     </string>
-    <string name="about_tusky_account">Profilo de Tusky</string>
+    <string name="about_roma_account">Profilo de Roma</string>
     <string name="status_share_content">Konigi enhavon de la mesaĝo</string>
     <string name="status_share_link">Konigi ligilon al mesaĝo</string>
     <string name="status_media_images">Bildoj</string>
@@ -303,7 +299,7 @@
     <string name="expand_collapse_all_statuses">Pligrandigi/malgrandigi ĉiujn mesaĝojn</string>
     <string name="action_open_toot">Malfermi mesaĝon</string>
     <string name="restart_required">Restartigo necesas</string>
-    <string name="restart_emoji">Vi devos restartigi Tusky por apliki ĉi tiujn ŝanĝojn</string>
+    <string name="restart_emoji">Vi devos restartigi Roma por apliki ĉi tiujn ŝanĝojn</string>
     <string name="later">Poste</string>
     <string name="restart">Restartigi</string>
     <string name="caption_systememoji">Dekomenca emoĝiaro de via aparato</string>
@@ -314,7 +310,7 @@
     <string name="account_moved_description">%1$s moviĝis al:</string>
     <string name="reblog_private">Diskonigi al la originala atentaro</string>
     <string name="unreblog_private">Eksdiskonigi</string>
-    <string name="license_description">Tusky enhavas kodon kaj risurcojn el la sekvantaj malfermitkodaj projetkoj:</string>
+    <string name="license_description">Roma enhavas kodon kaj risurcojn el la sekvantaj malfermitkodaj projetkoj:</string>
     <string name="license_apache_2">Laŭ la permesilo «Apache License» (kopio sube)</string>
     <string name="license_cc_by_4">CC-BY 4.0</string>
     <string name="license_cc_by_sa_4">CC-BY-SA 4.0</string>

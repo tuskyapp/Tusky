@@ -35,6 +35,7 @@ import tech.bigfig.roma.ViewMediaActivity;
 import tech.bigfig.roma.ViewTagActivity;
 import tech.bigfig.roma.db.AccountEntity;
 import tech.bigfig.roma.db.AccountManager;
+import tech.bigfig.roma.di.Injectable;
 import tech.bigfig.roma.entity.Attachment;
 import tech.bigfig.roma.entity.Status;
 import tech.bigfig.roma.network.MastodonApi;

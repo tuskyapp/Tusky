@@ -30,7 +30,7 @@
         app:layout_constraintTop_toBottomOf="@id/searchView" />
 
 
-    <com.keylesspalace.tusky.view.BackgroundMessageView
+    <tech.bigfig.roma.view.BackgroundMessageView
         android:id="@+id/messageView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

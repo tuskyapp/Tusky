@@ -239,7 +239,6 @@
     <string name="notification_title_summary">%d nya interaktioner</string>
     <string name="description_account_locked">Låst konto</string>
     <string name="about_title_activity">Om</string>
-    <string name="about_tusky_version">Tusky %s</string>
     <string name="about_roma_version">Roma %s</string>
     <string name="about_roma_license">Roma är fri programvara med öppen källkod.
         Det är licensierat under GNU General Public License version 3. 
@@ -318,7 +317,6 @@
     <string name="account_moved_description">%1$s har flyttat till:</string>
     <string name="reblog_private">Knuffa till ursprunglig målgrupp</string>
     <string name="unreblog_private">Ta bort knuff</string>
-    <string name="license_description">Tusky innehåller kod och tillgångar från följande öppen källkodsprojekt:</string>
 
     <string name="license_description">Roma innehåller kod och tillgångar från följande öppen källkodsprojekt:</string>
     <string name="license_apache_2">Licensierad under the Apache License (kopia nedanför)</string>

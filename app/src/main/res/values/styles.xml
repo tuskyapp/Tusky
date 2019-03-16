@@ -47,7 +47,7 @@
 
     <style name="RomaDialogActivityTheme" parent="@style/RomaTheme" />
 
-    <style name="TuskyDialogFragmentStyle" parent="@style/ThemeOverlay.MaterialComponents.Dialog">
+    <style name="RomaDialogFragmentStyle" parent="@style/ThemeOverlay.MaterialComponents.Dialog">
         <item name="dialogCornerRadius">8dp</item>
         <item name="android:backgroundTint">?attr/window_background</item>
     </style>

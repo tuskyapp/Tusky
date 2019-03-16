@@ -44,7 +44,6 @@
     <string name="title_saved_toot">Koncepty</string>
     <string name="title_licenses">Licence</string>
     <string name="status_username_format">\@%s</string>
-    <string name="status_boosted_format">%s boostnul/a</string>
     <string name="status_sensitive_media_title">Citlivý obsah</string>
     <string name="status_media_hidden_title">Média skryta</string>
     <string name="status_sensitive_media_directions">Klikněte pro zobrazení</string>
@@ -193,7 +192,6 @@
     <string name="pref_title_language">Jazyk</string>
     <string name="pref_title_status_filter">Filtrování časových os</string>
     <string name="pref_title_status_tabs">Panely</string>
-    <string name="pref_title_show_boosts">Zobrazi boosty</string>
     <string name="pref_title_show_replies">Zobrazit odpovědi</string>
     <string name="pref_title_filter_regex">Filtrovat regulárními výrazy</string>
     <string name="pref_title_show_media_preview">Stahovat náhledy médií</string>
@@ -229,8 +227,6 @@
     <string name="notification_channel_mention_descriptions">Oznámení o nových zmínkách</string>
     <string name="notification_channel_follow_name">Noví sledující</string>
     <string name="notification_channel_follow_description">Oznámení o nových sledujících</string>
-    <string name="notification_channel_boost_name">Boosty</string>
-    <string name="notification_channel_boost_description">Oznámení, když jsou vaše tooty boostnuty</string>
     <string name="notification_channel_favourite_name">Oblíbení</string>
     <string name="notification_channel_favourite_description">Oznámení, když jsou vaše tooty označeny jako oblíbené</string>
     <string name="notification_mention_format">%s vás zmínil/a</string>
@@ -240,8 +236,8 @@
     <string name="notification_title_summary">%d nových interakcí</string>
     <string name="description_account_locked">Uzamčený účet</string>
     <string name="about_title_activity">O této aplikaci</string>
-    <string name="about_tusky_version">Tusky %s</string>
-    <string name="about_tusky_license">Tusky je svobodný a otevřený software.
+    <string name="about_roma_version">Roma %s</string>
+    <string name="about_roma_license">Roma je svobodný a otevřený software.
         Je dostupný pod licencí GNU General Public License, verze 3.
         Licenci můžete zobrazit zde: https://www.gnu.org/licenses/gpl-3.0.en.html</string>
     <!-- note to translators:
@@ -251,12 +247,12 @@
          * the url can be changed to link to the localized version of the license.
     -->
     <string name="about_project_site">        Webová stránka projektu:\n
-        https://tuskyapp.github.io
+        https://romaapp.github.io
     </string>
     <string name="about_bug_feature_request_site">        Hlášení chyb a návrhy na nové vlastnosti:\n
-        https://github.com/tuskyapp/Tusky/issues
+        https://github.com/romaapp/Roma/issues
     </string>
-    <string name="about_tusky_account">Profil aplikace Tusky</string>
+    <string name="about_roma_account">Profil aplikace Roma</string>
     <string name="status_share_content">Sdílet obsah tootu</string>
     <string name="status_share_link">Sdílet odkaz k tootu</string>
     <string name="status_media_images">Obrázky</string>
@@ -307,7 +303,7 @@
     <string name="expand_collapse_all_statuses">Rozbalit/zabalit všechny příspěvky</string>
     <string name="action_open_toot">Otevřít toot</string>
     <string name="restart_required">Je vyžadován restart aplikace</string>
-    <string name="restart_emoji">Pro použití těchto změn musíte restartovat aplikaci Tusky</string>
+    <string name="restart_emoji">Pro použití těchto změn musíte restartovat aplikaci Roma</string>
     <string name="later">Později</string>
     <string name="restart">Restartovat</string>
     <string name="caption_systememoji">Výchozí sada emoji vašeho zařízení</string>
@@ -318,7 +314,7 @@
     <string name="account_moved_description">%1$s se přesunul/a na:</string>
     <string name="reblog_private">Boostnout původnímu publiku</string>
     <string name="unreblog_private">Zrušit boost</string>
-    <string name="license_description">Tusky obsahuje kód a zdroje z následujících otevřených projektů:</string>
+    <string name="license_description">Roma obsahuje kód a zdroje z následujících otevřených projektů:</string>
     <string name="license_apache_2">Pod licencí Apache License (kopie níže)</string>
     <string name="license_cc_by_4">CC-BY 4.0</string>
     <string name="license_cc_by_sa_4">CC-BY-SA 4.0</string>
