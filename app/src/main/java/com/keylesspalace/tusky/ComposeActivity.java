@@ -786,8 +786,8 @@ public final class ComposeActivity
 
     private void showEmojis() {
 
-        if(emojiView.getAdapter() != null) {
-            if(emojiView.getAdapter().getItemCount() == 0) {
+        if (emojiView.getAdapter() != null) {
+            if (emojiView.getAdapter().getItemCount() == 0) {
                 String errorMessage = getString(R.string.error_no_custom_emojis, accountManager.getActiveAccount().getDomain());
                 Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show();
             } else {
@@ -1551,15 +1551,15 @@ public final class ComposeActivity
         try {
             switch (token.charAt(0)) {
                 case '@':
-                    ArrayList<Account> resultList = new ArrayList<>();
-                    List<Account> accountList = mastodonApi
-                            .searchAccounts(token.substring(1), false, 20)
-                            .execute()
-                            .body();
-                    if (accountList != null) {
-                        resultList.addAll(accountList);
+                    try {
+                        List<Account> accountList = mastodonApi
+                                .searchAccounts(token.substring(1), false, 20, null)
+                                .blockingGet();
+                        return CollectionsKt.map(accountList,
+                                ComposeAutoCompleteAdapter.AccountResult::new);
+                    } catch (Throwable e) {
+                        return Collections.emptyList();
                     }
-                    return CollectionsKt.map(resultList, ComposeAutoCompleteAdapter.AccountResult::new);
                 case '#':
                     Response<SearchResults> response = mastodonApi.search(token, false).execute();
                     if (response.isSuccessful() && response.body() != null) {

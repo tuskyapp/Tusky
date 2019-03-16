@@ -33,6 +33,7 @@ import com.keylesspalace.tusky.entity.StatusContext;
 import java.util.List;
 
 import androidx.annotation.Nullable;
+import io.reactivex.Completable;
 import io.reactivex.Single;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -196,10 +197,11 @@ public interface MastodonApi {
             @Nullable @Part(value="fields_attributes[3][value]") RequestBody fieldValue3);
 
     @GET("api/v1/accounts/search")
-    Call<List<Account>> searchAccounts(
+    Single<List<Account>> searchAccounts(
             @Query("q") String q,
             @Query("resolve") Boolean resolve,
-            @Query("limit") Integer limit);
+            @Query("limit") Integer limit,
+            @Query("following") Boolean following);
 
     @GET("api/v1/accounts/{id}")
     Call<Account> account(@Path("id") String accountId);
@@ -312,7 +314,29 @@ public interface MastodonApi {
     );
 
     @GET("/api/v1/lists")
-    Call<List<MastoList>> getLists();
+    Single<List<MastoList>> getLists();
+
+    @FormUrlEncoded
+    @POST("api/v1/lists")
+    Single<MastoList> createList(@Field("title") String title);
+
+    @FormUrlEncoded
+    @PUT("api/v1/lists/{listId}")
+    Single<MastoList> updateList(@Path("listId") String listId, @Field("title") String title);
+
+    @DELETE("api/v1/lists/{listId}")
+    Completable deleteList(@Path("listId") String listId);
+
+    @GET("api/v1/lists/{listId}/accounts")
+    Single<List<Account>> getAccountsInList(@Path("listId") String listId, @Query("limit") int limit);
+
+    @DELETE("api/v1/lists/{listId}/accounts")
+    Completable deleteAccountFromList(@Path("listId") String listId,
+                                      @Query("account_ids[]") List<String> accountIds);
+
+    @POST("api/v1/lists/{listId}/accounts")
+    Completable addCountToList(@Path("listId") String listId,
+                               @Query("account_ids[]") List<String> accountIds);
 
     @GET("/api/v1/custom_emojis")
     Call<List<Emoji>> getCustomEmojis();

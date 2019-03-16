@@ -16,9 +16,11 @@
 
 package com.keylesspalace.tusky.di
 
+import com.keylesspalace.tusky.AccountsInListFragment
 import com.keylesspalace.tusky.components.conversation.ConversationsFragment
 import com.keylesspalace.tusky.fragment.*
-import com.keylesspalace.tusky.fragment.preference.*
+import com.keylesspalace.tusky.fragment.preference.AccountPreferencesFragment
+import com.keylesspalace.tusky.fragment.preference.NotificationPreferencesFragment
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
@@ -54,5 +56,8 @@ abstract class FragmentBuildersModule {
 
     @ContributesAndroidInjector
     abstract fun directMessagesPreferencesFragment(): ConversationsFragment
+
+    @ContributesAndroidInjector
+    abstract fun accountInListsFragment(): AccountsInListFragment
 
 }

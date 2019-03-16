@@ -1,5 +1,22 @@
+/* Copyright 2017 Andrew Dawson
+ *
+ * This file is a part of Tusky.
+ *
+ * This program is free software; you can redistribute it and/or modify it under the terms of the
+ * GNU General Public License as published by the Free Software Foundation; either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * Tusky is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even
+ * the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
+ * Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with Tusky; if not,
+ * see <http://www.gnu.org/licenses>.
+ */
+
 package com.keylesspalace.tusky
 
+import android.app.Dialog
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -7,96 +24,38 @@ import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
-import androidx.appcompat.widget.Toolbar
-import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.keylesspalace.tusky.LoadingState.*
+import android.widget.*
+import androidx.annotation.StringRes
+import androidx.appcompat.app.AlertDialog
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.*
+import androidx.recyclerview.widget.ListAdapter
+import at.connyduck.sparkbutton.helpers.Utils
+import com.google.android.material.snackbar.Snackbar
 import com.keylesspalace.tusky.di.Injectable
+import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.entity.MastoList
 import com.keylesspalace.tusky.fragment.TimelineFragment
-import com.keylesspalace.tusky.network.MastodonApi
-import com.keylesspalace.tusky.util.ThemeUtils
-import com.keylesspalace.tusky.util.hide
-import com.keylesspalace.tusky.util.show
+import com.keylesspalace.tusky.util.*
+import com.keylesspalace.tusky.viewmodel.ListsViewModel
+import com.keylesspalace.tusky.viewmodel.ListsViewModel.Event.*
+import com.keylesspalace.tusky.viewmodel.ListsViewModel.LoadingState.*
 import com.mikepenz.google_material_typeface_library.GoogleMaterial
 import com.mikepenz.iconics.IconicsDrawable
+import com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider.from
+import com.uber.autodispose.autoDisposable
+import dagger.android.DispatchingAndroidInjector
+import dagger.android.support.HasSupportFragmentInjector
+import io.reactivex.android.schedulers.AndroidSchedulers
 import kotlinx.android.synthetic.main.activity_lists.*
-import retrofit2.Call
-import retrofit2.Response
-import java.io.IOException
-import java.lang.ref.WeakReference
+import kotlinx.android.synthetic.main.toolbar_basic.*
 import javax.inject.Inject
 
 /**
  * Created by charlag on 1/4/18.
  */
 
-interface ListsView {
-    fun update(state: State)
-    fun openTimeline(listId: String)
-}
-
-
-enum class LoadingState {
-    INITIAL, LOADING, LOADED, ERROR_NETWORK, ERROR_OTHER
-}
-
-data class State(val lists: List<MastoList>, val loadingState: LoadingState)
-
-class ListsViewModel(private val api: MastodonApi) {
-
-    private var _view: WeakReference<ListsView>? = null
-    private val view: ListsView? get() = _view?.get()
-    private var state = State(listOf(), INITIAL)
-
-    fun attach(view: ListsView) {
-        this._view = WeakReference(view)
-        updateView()
-        loadIfNeeded()
-    }
-
-    fun detach() {
-        this._view = null
-    }
-
-    fun didSelectItem(id: String) {
-        view?.openTimeline(id)
-    }
-
-    fun retryLoading() {
-        loadIfNeeded()
-    }
-
-    private fun loadIfNeeded() {
-        if (state.loadingState == LOADING || !state.lists.isEmpty()) return
-        updateState(state.copy(loadingState = LOADING))
-
-        api.getLists().enqueue(object : retrofit2.Callback<List<MastoList>> {
-            override fun onResponse(call: Call<List<MastoList>>, response: Response<List<MastoList>>) {
-                updateState(state.copy(lists = response.body() ?: listOf(), loadingState = LOADED))
-            }
-
-            override fun onFailure(call: Call<List<MastoList>>, err: Throwable?) {
-                updateState(state.copy(
-                        loadingState = if (err is IOException) ERROR_NETWORK else ERROR_OTHER
-                ))
-            }
-        })
-    }
-
-    private fun updateState(state: State) {
-        this.state = state
-        view?.update(state)
-    }
-
-    private fun updateView() {
-        view?.update(state)
-    }
-}
-
-class ListsActivity : BaseActivity(), ListsView, Injectable {
+class ListsActivity : BaseActivity(), Injectable, HasSupportFragmentInjector {
 
     companion object {
         @JvmStatic
@@ -106,7 +65,10 @@ class ListsActivity : BaseActivity(), ListsView, Injectable {
     }
 
     @Inject
-    lateinit var mastodonApi: MastodonApi
+    lateinit var viewModelFactory: ViewModelFactory
+
+    @Inject
+    lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Fragment>
 
     private lateinit var viewModel: ListsViewModel
     private val adapter = ListsAdapter()
@@ -115,14 +77,12 @@ class ListsActivity : BaseActivity(), ListsView, Injectable {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_lists)
 
-        val toolbar = findViewById<Toolbar>(R.id.toolbar)
 
         setSupportActionBar(toolbar)
-        val bar = supportActionBar
-        if (bar != null) {
-            bar.title = getString(R.string.title_lists)
-            bar.setDisplayHomeAsUpEnabled(true)
-            bar.setDisplayShowHomeEnabled(true)
+        supportActionBar?.apply {
+            title = getString(R.string.title_lists)
+            setDisplayHomeAsUpEnabled(true)
+            setDisplayShowHomeEnabled(true)
         }
 
         listsRecycler.adapter = adapter
@@ -130,23 +90,62 @@ class ListsActivity : BaseActivity(), ListsView, Injectable {
         listsRecycler.addItemDecoration(
                 DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
 
-        viewModel = lastNonConfigurationInstance as? ListsViewModel ?: ListsViewModel(mastodonApi)
-        viewModel.attach(this)
+        viewModel = viewModelFactory.create(ListsViewModel::class.java)
+        viewModel.state
+                .observeOn(AndroidSchedulers.mainThread())
+                .autoDisposable(from(this))
+                .subscribe(this::update)
+        viewModel.retryLoading()
+
+        addListButton.setOnClickListener {
+            showlistNameDialog(null)
+        }
+
+        viewModel.events.observeOn(AndroidSchedulers.mainThread())
+                .autoDisposable(from(this))
+                .subscribe { event ->
+                    @Suppress("WHEN_ENUM_CAN_BE_NULL_IN_JAVA")
+                    when (event) {
+                        CREATE_ERROR -> showMessage(R.string.error_create_list)
+                        RENAME_ERROR -> showMessage(R.string.error_rename_list)
+                        DELETE_ERROR -> showMessage(R.string.error_delete_list)
+                    }
+                }
     }
 
-    override fun onDestroy() {
-        viewModel.detach()
-        super.onDestroy()
+    private fun showlistNameDialog(list: MastoList?) {
+        val layout = FrameLayout(this)
+        val editText = EditText(this)
+        editText.setHint(R.string.hint_list_name)
+        layout.addView(editText)
+        val margin = Utils.dpToPx(this, 8)
+        (editText.layoutParams as ViewGroup.MarginLayoutParams)
+                .setMargins(margin, margin, margin, 0)
+
+        val dialog = AlertDialog.Builder(this)
+                .setView(layout)
+                .setPositiveButton(
+                        if (list == null) R.string.action_create_list
+                        else R.string.action_rename_list) { _, _ ->
+                    onPickedDialogName(editText.text, list?.id)
+                }
+                .setNegativeButton(android.R.string.cancel) { d, _ ->
+                    d.dismiss()
+                }
+                .show()
+
+        val positiveButton = dialog.getButton(Dialog.BUTTON_POSITIVE)
+        editText.onTextChanged { s, _, _, _ ->
+            positiveButton.isEnabled = !s.isNullOrBlank()
+        }
+        editText.setText(list?.title)
+        editText.text?.let { editText.setSelection(it.length) }
     }
 
-    override fun onRetainCustomNonConfigurationInstance(): Any {
-        return viewModel
-    }
 
-
-    override fun update(state: State) {
-        adapter.update(state.lists)
-        progressBar.visibility = if (state.loadingState == LOADING) View.VISIBLE else View.GONE
+    private fun update(state: ListsViewModel.State) {
+        adapter.submitList(state.lists)
+        progressBar.visible(state.loadingState == LOADING)
         when (state.loadingState) {
             INITIAL, LOADING -> messageView.hide()
             ERROR_NETWORK -> {
@@ -172,10 +171,43 @@ class ListsActivity : BaseActivity(), ListsView, Injectable {
         }
     }
 
-    override fun openTimeline(listId: String) {
+    private fun showMessage(@StringRes messageId: Int) {
+        Snackbar.make(
+                listsRecycler, messageId, Snackbar.LENGTH_SHORT
+        ).show()
+
+    }
+
+    private fun onListSelected(listId: String) {
         startActivityWithSlideInAnimation(
                 ModalTimelineActivity.newIntent(this, TimelineFragment.Kind.LIST, listId))
     }
+
+    private fun openListSettings(list: MastoList) {
+        AccountsInListFragment.newInstance(list.id, list.title).show(supportFragmentManager, null)
+    }
+
+    private fun renameListDialog(list: MastoList) {
+        showlistNameDialog(list)
+    }
+
+    private fun onMore(list: MastoList, view: View) {
+        PopupMenu(view.context, view).apply {
+            inflate(R.menu.list_actions)
+            setOnMenuItemClickListener { item ->
+                when (item.itemId) {
+                    R.id.list_edit -> openListSettings(list)
+                    R.id.list_rename -> renameListDialog(list)
+                    R.id.list_delete -> viewModel.deleteList(list.id)
+                    else -> return@setOnMenuItemClickListener false
+                }
+                true
+            }
+            show()
+        }
+    }
+
+    override fun supportFragmentInjector() = dispatchingAndroidInjector
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == android.R.id.home) {
@@ -185,17 +217,18 @@ class ListsActivity : BaseActivity(), ListsView, Injectable {
         return false
     }
 
-    private inner class ListsAdapter : RecyclerView.Adapter<ListsAdapter.ListViewHolder>() {
-
-        private val items = mutableListOf<MastoList>()
-
-        fun update(list: List<MastoList>) {
-            this.items.clear()
-            this.items.addAll(list)
-            notifyDataSetChanged()
+    private object ListsDiffer : DiffUtil.ItemCallback<MastoList>() {
+        override fun areItemsTheSame(oldItem: MastoList, newItem: MastoList): Boolean {
+            return oldItem.id == newItem.id
         }
 
-        override fun getItemCount(): Int = items.size
+        override fun areContentsTheSame(oldItem: MastoList, newItem: MastoList): Boolean {
+            return oldItem == newItem
+        }
+    }
+
+    private inner class ListsAdapter
+        : ListAdapter<MastoList, ListsAdapter.ListViewHolder>(ListsDiffer) {
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListViewHolder {
             return LayoutInflater.from(parent.context).inflate(R.layout.item_list, parent, false)
@@ -210,20 +243,34 @@ class ListsActivity : BaseActivity(), ListsView, Injectable {
         }
 
         override fun onBindViewHolder(holder: ListViewHolder, position: Int) {
-            holder.nameTextView.text = items[position].title
+            holder.nameTextView.text = getItem(position).title
         }
 
         private inner class ListViewHolder(view: View) : RecyclerView.ViewHolder(view),
                 View.OnClickListener {
             val nameTextView: TextView = view.findViewById(R.id.list_name_textview)
+            val moreButton: ImageButton = view.findViewById(R.id.editListButton)
 
             init {
                 view.setOnClickListener(this)
+                moreButton.setOnClickListener(this)
             }
 
-            override fun onClick(v: View?) {
-                viewModel.didSelectItem(items[adapterPosition].id)
+            override fun onClick(v: View) {
+                if (v == itemView) {
+                    onListSelected(getItem(adapterPosition).id)
+                } else {
+                    onMore(getItem(adapterPosition), v)
+                }
             }
+        }
+    }
+
+    private fun onPickedDialogName(name: CharSequence, listId: String?) {
+        if (listId == null) {
+            viewModel.createNewList(name.toString())
+        } else {
+            viewModel.renameList(listId, name.toString())
         }
     }
 }

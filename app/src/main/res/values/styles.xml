@@ -47,6 +47,12 @@
 
     <style name="TuskyDialogActivityTheme" parent="@style/TuskyTheme" />
 
+    <style name="TuskyDialogFragmentStyle" parent="@style/ThemeOverlay.MaterialComponents.Dialog">
+        <item name="dialogCornerRadius">8dp</item>
+        <item name="android:backgroundTint">?attr/window_background</item>
+    </style>
+
+
     <style name="TuskyBaseTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
         <item name="colorPrimary">@color/tusky_blue</item>
         <item name="colorOnPrimary">@color/white</item>
@@ -82,21 +88,29 @@
         <item name="status_favourite_active_drawable">@drawable/favourite_active_light</item>
         <item name="status_favourite_inactive_drawable">@drawable/favourite_inactive_light</item>
         <item name="content_warning_button">@drawable/toggle_small_light</item>
-        <item name="sensitive_media_warning_background_color">@color/sensitive_media_warning_background_light</item>
+        <item name="sensitive_media_warning_background_color">
+            @color/sensitive_media_warning_background_light
+        </item>
         <item name="media_preview_unloaded_drawable">@drawable/media_preview_unloaded_light</item>
         <item name="android:listDivider">@drawable/status_divider_light</item>
-        <item name="conversation_thread_line_drawable">@drawable/conversation_thread_line_light</item>
+        <item name="conversation_thread_line_drawable">@drawable/conversation_thread_line_light
+        </item>
         <item name="tab_icon_selected_tint">@color/tusky_blue</item>
         <item name="tab_page_margin_drawable">@drawable/tab_page_margin_light</item>
         <item name="account_header_background_color">@color/color_primary_dark_light</item>
         <item name="account_toolbar_icon_tint_uncollapsed">@color/toolbar_icon_dark
         </item> <!--Default to dark on purpose, because header backgrounds with gradients are always dark.-->
-        <item name="account_toolbar_icon_tint_collapsed">@color/account_toolbar_icon_collapsed_light</item>
+        <item name="account_toolbar_icon_tint_collapsed">
+            @color/account_toolbar_icon_collapsed_light
+        </item>
 
         <item name="compose_close_button_tint">@color/toolbar_icon_light</item>
-        <item name="compose_media_button_disabled_tint">@color/compose_media_button_disabled_light</item>
+        <item name="compose_media_button_disabled_tint">@color/compose_media_button_disabled_light
+        </item>
         <item name="compose_content_warning_bar_background">@drawable/border_background_light</item>
-        <item name="compose_reply_content_background">@color/compose_reply_content_background_light</item>
+        <item name="compose_reply_content_background">
+            @color/compose_reply_content_background_light
+        </item>
 
         <item name="report_status_background_color">@color/report_status_background_light</item>
 
@@ -189,6 +203,7 @@
         <item name="material_drawer_header_selection_text">@color/text_color_primary_black</item>
         <item name="tab_page_margin_drawable">@drawable/tab_page_margin_black</item>
     </style>
-    <style name="TuskyBlackTheme" parent="TuskyBlackThemeBase"/>
+
+    <style name="TuskyBlackTheme" parent="TuskyBlackThemeBase" />
 
 </resources>
