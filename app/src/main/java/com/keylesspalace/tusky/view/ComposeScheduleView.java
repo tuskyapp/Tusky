@@ -1,6 +1,7 @@
 package com.keylesspalace.tusky.view;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.AttributeSet;
 import android.widget.Button;
@@ -64,6 +65,8 @@ public class ComposeScheduleView extends ConstraintLayout {
         scheduleDateTime = null;
 
         setScheduledDateTime();
+
+        setEditIcons();
     }
 
     private void setScheduledDateTime() {
@@ -74,6 +77,20 @@ public class ComposeScheduleView extends ConstraintLayout {
             scheduledDateView.setText(dateFormat.format(scheduleDateTime.getTime()));
             scheduledTimeView.setText(timeFormat.format(scheduleDateTime.getTime()));
         }
+    }
+
+    private void setEditIcons() {
+        final int size = scheduledDateView.getLineHeight();
+
+        Drawable icon = getContext().getDrawable(R.drawable.ic_create_24dp);
+        if (icon == null) {
+            return;
+        }
+
+        icon.setBounds(0, 0, size, size);
+
+        scheduledDateView.setCompoundDrawables(null, null, icon, null);
+        scheduledTimeView.setCompoundDrawables(null, null, icon, null);
     }
 
     public void setResetOnClickListener(OnClickListener listener) {
