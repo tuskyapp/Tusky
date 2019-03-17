@@ -280,6 +280,15 @@
     <string name="action_lists">Listoj</string>
     <string name="title_lists">Listoj</string>
     <string name="title_list_timeline">Tempolinio de la listo</string>
+    <string name="error_create_list">Ne povis krei la liston</string>
+    <string name="error_rename_list">Ne povis ŝanĝi la nomon de la listo</string>
+    <string name="error_delete_list">Ne povis forigi la liston</string>
+    <string name="action_create_list">Krei liston</string>
+    <string name="action_rename_list">Ŝanĝi la nomon de la listo</string>
+    <string name="action_delete_list">Forigi la liston</string>
+    <string name="action_edit_list">Redakti la liston</string>
+    <string name="action_add_to_list">Aldoni konton al la listo</string>
+    <string name="action_remove_from_list">Forigi konton el la listo</string>
     <string name="compose_active_account_description">Afiŝi per konto %1$s</string>
     <string name="error_failed_set_caption">Redakto de apudskribo malsukcesis</string>
     <string name="hint_describe_for_visually_impaired">Priskribi por misvidantaj homoj\n(%d signoj maksimume)</string>
@@ -359,4 +368,5 @@
     <string name="description_status">        <!-- Display name, cw?, content?, relative date, reposted by?, reposted?, favorited?, username, media?; visibility, fav number?, reblog number?-->
         %s; %s; %s, %s, %s; %s, %s, %s, %s; %s, %s, %s
     </string>
+    <string name="hint_list_name">Nomo de la listo</string>
 </resources>
