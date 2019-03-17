@@ -114,6 +114,8 @@
     <string name="action_links">الروابط</string>
     <string name="action_mentions">الإشارات</string>
     <string name="action_hashtags">الوسوم</string>
+    <string name="action_open_reblogged_by">عرض الترقيات</string>
+    <string name="action_open_faved_by">عرض المفضلات</string>
     <string name="title_hashtags_dialog">الوسوم</string>
     <string name="title_mentions_dialog">الإشارات</string>
     <string name="title_links_dialog">الروابط</string>
@@ -179,7 +181,7 @@
         <item>فاتحة</item>
         <item>سوداء</item>
         <item>تلقائي عند غروب الشمس</item>
-        <item>Use System Design</item>
+        <item>استخدم مظهر النظام</item>
     </string-array>
     <string name="pref_title_browser_settings">المتصفح</string>
     <string name="pref_title_custom_tabs">إخفاء زر المتابعة أثناء تمرير الصفحة</string>
@@ -274,6 +276,16 @@
     <string name="action_lists">القوائم</string>
     <string name="title_lists">القوائم</string>
     <string name="title_list_timeline">الخط الزمني للقائمة</string>
+    <string name="error_create_list">لا يمكن إنشاء قائمة</string>
+    <string name="error_rename_list">لا يمكن إعادة تسمية القائمة</string>
+    <string name="error_delete_list">لا يمكن حذف القائمة</string>
+    <string name="action_create_list">إنشاء قائمة</string>
+    <string name="action_rename_list">إعادة تسمية القائمة</string>
+    <string name="action_delete_list">حذف القائمة</string>
+    <string name="action_edit_list">تعديل القائمة</string>
+    <string name="hint_search_people_list">البحث عن أشخاص قصد متابعتهم</string>
+    <string name="action_add_to_list">إضافة الحساب إلى القائمة</string>
+    <string name="action_remove_from_list">إزالة الحساب مِن القائمة</string>
     <string name="compose_active_account_description">النشر بواسطة حساب %1$s</string>
     <string name="error_failed_set_caption">تعذرت عملية إضافة الشرح</string>
     <string name="hint_describe_for_visually_impaired">وصف لضعاف البصر
@@ -327,5 +339,11 @@
     <string name="conversation_2_recipients">%1$s و %2$s</string>
     <string name="conversation_more_recipients">%1$s و %2$s و %3$d آخَرون</string>
     <string name="max_tab_number_reached">لقد بلغت الحد الأقصى مِن الألسنة %1$d</string>
+    <string name="description_status_cw">تحذير عن المحتوى: %s    </string>
     <string name="description_status_media_no_description_placeholder">مِن دون وصف    </string>
+    <string name="description_visiblity_public">للعامة    </string>
+    <string name="description_visiblity_unlisted">غير مُدرَج    </string>
+    <string name="description_visiblity_private">المتابِعون    </string>
+    <string name="description_visiblity_direct">مباشر    </string>
+    <string name="hint_list_name">اسم القائمة</string>
 </resources>
