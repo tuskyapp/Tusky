@@ -339,8 +339,10 @@
     <string name="conversation_2_recipients">%1$s و %2$s</string>
     <string name="conversation_more_recipients">%1$s و %2$s و %3$d آخَرون</string>
     <string name="max_tab_number_reached">لقد بلغت الحد الأقصى مِن الألسنة %1$d</string>
+    <string name="description_status_media">الوسائط: %s    </string>
     <string name="description_status_cw">تحذير عن المحتوى: %s    </string>
     <string name="description_status_media_no_description_placeholder">مِن دون وصف    </string>
+    <string name="description_status_reblogged">أعاد تدوينه    </string>
     <string name="description_visiblity_public">للعامة    </string>
     <string name="description_visiblity_unlisted">غير مُدرَج    </string>
     <string name="description_visiblity_private">المتابِعون    </string>
