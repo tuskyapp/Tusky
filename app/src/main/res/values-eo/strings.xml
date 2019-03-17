@@ -287,6 +287,7 @@
     <string name="action_rename_list">Ŝanĝi la nomon de la listo</string>
     <string name="action_delete_list">Forigi la liston</string>
     <string name="action_edit_list">Redakti la liston</string>
+    <string name="hint_search_people_list">Serĉi homojn ke vi sekvas</string>
     <string name="action_add_to_list">Aldoni konton al la listo</string>
     <string name="action_remove_from_list">Forigi konton el la listo</string>
     <string name="compose_active_account_description">Afiŝi per konto %1$s</string>
