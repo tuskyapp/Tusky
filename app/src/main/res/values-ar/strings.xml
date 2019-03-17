@@ -62,7 +62,9 @@
     <string name="action_quick_reply">إجابة سريعة</string>
     <string name="action_reply">أجب</string>
     <string name="action_reblog">رقّي</string>
+    <string name="action_unreblog">إزالة الترقية</string>
     <string name="action_favourite">تفضيل</string>
+    <string name="action_unfavourite">إزالة المفضلة</string>
     <string name="action_more">المزيد</string>
     <string name="action_compose">حرر</string>
     <string name="action_login">التسجيل بواسطة ماستدون</string>
@@ -109,6 +111,12 @@
     <string name="action_content_warning">تحذير عن المحتوى</string>
     <string name="action_emoji_keyboard">لوحة مفاتيح الإيموجي</string>
     <string name="action_add_tab">إضافة لسان</string>
+    <string name="action_links">الروابط</string>
+    <string name="action_mentions">الإشارات</string>
+    <string name="action_hashtags">الوسوم</string>
+    <string name="title_hashtags_dialog">الوسوم</string>
+    <string name="title_mentions_dialog">الإشارات</string>
+    <string name="title_links_dialog">الروابط</string>
     <string name="download_image">تنزيل %1$s</string>
     <string name="action_copy_link">إنسخ الرابط</string>
     <string name="action_open_as">إفتحه كـ %s</string>
@@ -176,6 +184,7 @@
     <string name="pref_title_browser_settings">المتصفح</string>
     <string name="pref_title_custom_tabs">إخفاء زر المتابعة أثناء تمرير الصفحة</string>
     <string name="pref_title_hide_follow_button">إخفاء زر التحرير عند التمرير</string>
+    <string name="pref_title_language">اللغة</string>
     <string name="pref_title_status_filter">تصفية الخيوط</string>
     <string name="pref_title_status_tabs">الألسنة</string>
     <string name="pref_title_show_boosts">عرض الترقيات</string>
@@ -318,4 +327,5 @@
     <string name="conversation_2_recipients">%1$s و %2$s</string>
     <string name="conversation_more_recipients">%1$s و %2$s و %3$d آخَرون</string>
     <string name="max_tab_number_reached">لقد بلغت الحد الأقصى مِن الألسنة %1$d</string>
+    <string name="description_status_media_no_description_placeholder">مِن دون وصف    </string>
 </resources>
