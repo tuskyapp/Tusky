@@ -40,6 +40,7 @@
     <string name="title_follow_requests">Follow Requests</string>
     <string name="title_edit_profile">Edit your profile</string>
     <string name="title_saved_toot">Drafts</string>
+    <string name="title_scheduled_toot">Scheduled toots</string>
     <string name="title_licenses">Licenses</string>
 
     <string name="status_username_format">\@%s</string>
@@ -80,6 +81,7 @@
     <string name="action_hide_reblogs">Hide boosts</string>
     <string name="action_show_reblogs">Show boosts</string>
     <string name="action_report">Report</string>
+    <string name="action_edit">Edit</string>
     <string name="action_delete">Delete</string>
     <string name="action_delete_and_redraft">Delete and re-draft</string>
     <string name="action_send">TOOT</string>
@@ -114,6 +116,7 @@
     <string name="action_reject">Reject</string>
     <string name="action_search">Search</string>
     <string name="action_access_saved_toot">Drafts</string>
+    <string name="action_access_scheduled_toot">Scheduled toots</string>
     <string name="action_toggle_visibility">Toot visibility</string>
     <string name="action_content_warning">Content warning</string>
     <string name="action_emoji_keyboard">Emoji keyboard</string>

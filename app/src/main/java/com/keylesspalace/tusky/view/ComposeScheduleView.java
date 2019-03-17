@@ -15,8 +15,10 @@ import com.keylesspalace.tusky.fragment.DatePickerFragment;
 import com.keylesspalace.tusky.fragment.TimePickerFragment;
 
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
 
@@ -52,7 +54,7 @@ public class ComposeScheduleView extends ConstraintLayout {
 
         dateFormat = SimpleDateFormat.getDateInstance();
         timeFormat = SimpleDateFormat.getTimeInstance();
-        iso8601 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ", Locale.getDefault());
+        iso8601 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault());
         iso8601.setTimeZone(TimeZone.getTimeZone("UTC"));
 
         resetScheduleButton = findViewById(R.id.resetScheduleButton);
@@ -125,6 +127,20 @@ public class ComposeScheduleView extends ConstraintLayout {
         }
         picker.show(((AppCompatActivity) getContext()).getSupportFragmentManager(),
                 "time_picker");
+    }
+
+    public void setDateTime(String scheduledAt) {
+        Date date;
+        try {
+            date = iso8601.parse(scheduledAt);
+        } catch (ParseException e) {
+            return;
+        }
+        if (scheduleDateTime == null) {
+            scheduleDateTime = Calendar.getInstance(TimeZone.getDefault());
+        }
+        scheduleDateTime.setTime(date);
+        setScheduledDateTime();
     }
 
     public void onDateSet(int year, int month, int dayOfMonth) {

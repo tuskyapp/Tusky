@@ -18,6 +18,7 @@ import androidx.core.content.ContextCompat
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.appstore.StatusComposedEvent
+import com.keylesspalace.tusky.appstore.StatusScheduledEvent
 import com.keylesspalace.tusky.db.AccountEntity
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.db.AppDatabase
@@ -166,7 +167,11 @@ class SendTootService : Service(), Injectable {
                         saveTootHelper.deleteDraft(tootToSend.savedTootUid)
                     }
 
-                    if (!scheduled) response.body()?.let(::StatusComposedEvent)?.let(eventHub::dispatch)
+                    if (scheduled) {
+                        response.body()?.let(::StatusScheduledEvent)?.let(eventHub::dispatch)
+                    } else {
+                        response.body()?.let(::StatusComposedEvent)?.let(eventHub::dispatch)
+                    }
 
                     notificationManager.cancel(tootId)
 

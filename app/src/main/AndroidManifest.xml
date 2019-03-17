@@ -136,6 +136,7 @@
             android:name=".components.report.ReportActivity"
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
         <activity android:name=".components.instancemute.InstanceListActivity" />
+        <activity android:name=".ScheduledTootActivity" />
 
         <receiver android:name=".receiver.NotificationClearBroadcastReceiver" />
         <receiver

@@ -199,6 +199,7 @@ public final class ComposeActivity
     private static final String REPLYING_STATUS_AUTHOR_USERNAME_EXTRA = "replying_author_nickname_extra";
     private static final String REPLYING_STATUS_CONTENT_EXTRA = "replying_status_content";
     private static final String MEDIA_ATTACHMENTS_EXTRA = "media_attachments";
+    private static final String SCHEDULED_AT_EXTRA = "scheduled_at";
     private static final String SENSITIVE_EXTRA = "sensitive";
     private static final String POLL_EXTRA = "poll";
     // Mastodon only counts URLs as this long in terms of status character limits
@@ -535,6 +536,11 @@ public final class ComposeActivity
 
             if (intent.hasExtra(REPLYING_STATUS_CONTENT_EXTRA)) {
                 replyContentTextView.setText(intent.getStringExtra(REPLYING_STATUS_CONTENT_EXTRA));
+            }
+
+            String scheduledAt = intent.getStringExtra(SCHEDULED_AT_EXTRA);
+            if (!TextUtils.isEmpty(scheduledAt)) {
+                scheduleView.setDateTime(scheduledAt);
             }
 
             statusMarkSensitive = intent.getBooleanExtra(SENSITIVE_EXTRA, statusMarkSensitive);
@@ -2140,6 +2146,8 @@ public final class ComposeActivity
         @Nullable
         private ArrayList<Attachment> mediaAttachments;
         @Nullable
+        private String scheduledAt;
+        @Nullable
         private Boolean sensitive;
         @Nullable
         private NewPoll poll;
@@ -2204,6 +2212,11 @@ public final class ComposeActivity
             return this;
         }
 
+        public IntentBuilder scheduledAt(String scheduledAt) {
+            this.scheduledAt = scheduledAt;
+            return this;
+        }
+
         public IntentBuilder sensitive(boolean sensitive) {
             this.sensitive = sensitive;
             return this;
@@ -2253,6 +2266,9 @@ public final class ComposeActivity
             }
             if (mediaAttachments != null) {
                 intent.putParcelableArrayListExtra(MEDIA_ATTACHMENTS_EXTRA, mediaAttachments);
+            }
+            if (scheduledAt != null) {
+                intent.putExtra(SCHEDULED_AT_EXTRA, scheduledAt);
             }
             if (sensitive != null) {
                 intent.putExtra(SENSITIVE_EXTRA, sensitive);
