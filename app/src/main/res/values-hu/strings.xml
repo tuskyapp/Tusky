@@ -237,7 +237,7 @@
          * the url can be changed to link to the localized version of the license.
     -->
     <string name="about_project_site">        Projekt honlapja:\n
-        https://tusky.app
+        https://tuskyapp.github.io
     </string>
     <string name="about_bug_feature_request_site">        Hibajeletés &amp; funkcionalitási kérések:\n
         https://github.com/tuskyapp/Tusky/issues
