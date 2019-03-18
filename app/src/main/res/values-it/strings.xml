@@ -285,7 +285,12 @@
     <string name="error_rename_list">Non è stato possibile rinominare la lista</string>
     <string name="error_delete_list">Non è stato possibile eliminare la lista</string>
     <string name="action_create_list">Crea una lista</string>
-    <string name="action_rename_list">Rinomina una lista</string>
+    <string name="action_rename_list">Rinomina la lista</string>
+    <string name="action_delete_list">Elimina la lista</string>
+    <string name="action_edit_list">Modifica la lista</string>
+    <string name="hint_search_people_list">Cerca tra le persone che segui</string>
+    <string name="action_add_to_list">Aggiungi un account alla lista</string>
+    <string name="action_remove_from_list">Rimuovi un account dalla lista</string>
     <string name="compose_active_account_description">Pubblicando con l\'account %1$s</string>
     <string name="error_failed_set_caption">Impostazione del sottotitolo non riuscita</string>
     <string name="hint_describe_for_visually_impaired">Descrivi per ipovedenti\n(limite di %d caratteri)</string>
@@ -367,4 +372,5 @@
     <string name="description_status">        <!-- Nome visualizzato, cw?, contenuto?, data relativa, ripostato da?, ripostato?, apprezzato?, nome utente, media?; visibilità, numero di mi piace?, numero di riblog?-->
         %s; %s; %s, %s, %s; %s, %s, %s, %s; %s, %s, %s
     </string>
+    <string name="hint_list_name">Nome della lista</string>
 </resources>
