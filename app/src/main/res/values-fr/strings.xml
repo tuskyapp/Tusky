@@ -284,6 +284,16 @@
     <string name="action_lists">Listes</string>
     <string name="title_lists">Listes</string>
     <string name="title_list_timeline">Fil de la liste</string>
+    <string name="error_create_list">Impossible de créer la liste</string>
+    <string name="error_rename_list">Impossible de renommer la liste</string>
+    <string name="error_delete_list">Impossible de supprimer la liste</string>
+    <string name="action_create_list">Créer une liste</string>
+    <string name="action_rename_list">Renommer la liste</string>
+    <string name="action_delete_list">Supprimer la liste</string>
+    <string name="action_edit_list">Modifier la liste</string>
+    <string name="hint_search_people_list">Chercher des personnes que vous suivez</string>
+    <string name="action_add_to_list">Ajouter un compte à la liste</string>
+    <string name="action_remove_from_list">Supprimer un compte de la liste</string>
     <string name="compose_active_account_description">Publier avec le compte %1$s</string>
     <string name="error_failed_set_caption">Impossible de définir la légende</string>
     <string name="hint_describe_for_visually_impaired">Décrire pour les malvoyants
@@ -365,4 +375,5 @@
     <string name="description_status">        <!-- Nom public, avertissement?, contenu?, date relative, reblogué par?, reblogué?, mis en favoris?, username, media?; visibilité, nombre de fav?, nombre de reblogs?-->
         %s; %s; %s, %s, %s; %s, %s, %s, %s; %s, %s, %s
     </string>
+    <string name="hint_list_name">Nom de la liste</string>
 </resources>
