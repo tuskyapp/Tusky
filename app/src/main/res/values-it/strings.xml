@@ -281,6 +281,11 @@
     <string name="action_lists">Liste</string>
     <string name="title_lists">Liste</string>
     <string name="title_list_timeline">Timeline della lista</string>
+    <string name="error_create_list">Non è stato possibile creare la lista</string>
+    <string name="error_rename_list">Non è stato possibile rinominare la lista</string>
+    <string name="error_delete_list">Non è stato possibile eliminare la lista</string>
+    <string name="action_create_list">Crea una lista</string>
+    <string name="action_rename_list">Rinomina una lista</string>
     <string name="compose_active_account_description">Pubblicando con l\'account %1$s</string>
     <string name="error_failed_set_caption">Impostazione del sottotitolo non riuscita</string>
     <string name="hint_describe_for_visually_impaired">Descrivi per ipovedenti\n(limite di %d caratteri)</string>
