@@ -358,7 +358,8 @@ public class TimelineFragment extends SFragment implements
     }
 
     private static String filterToRegexToken(Filter filter) {
-        return filter.getWholeWord() ? String.format("\\b%s\\b", filter.getPhrase()) : filter.getPhrase();
+        String phrase = Pattern.quote(filter.getPhrase());
+        return filter.getWholeWord() ? String.format("\\b%s\\b", phrase) : phrase;
     }
 
     private void applyFilters(List<Filter> filters) {
