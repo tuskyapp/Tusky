@@ -48,14 +48,14 @@ public class EmojiCompatFont {
                     "Blobmoji",
                     R.string.caption_blobmoji,
                     R.drawable.ic_blobmoji,
-                    "https://tuskyapp.github.io/hosted/emoji/BlobmojiCompat.ttf"
+                    "https://tusky.app/hosted/emoji/BlobmojiCompat.ttf"
             );
     private static final EmojiCompatFont TWEMOJI =
             new EmojiCompatFont("Twemoji",
                     "Twemoji",
                     R.string.caption_twemoji,
                     R.drawable.ic_twemoji,
-                    "https://tuskyapp.github.io/hosted/emoji/TwemojiCompat.ttf"
+                    "https://tusky.app/hosted/emoji/TwemojiCompat.ttf"
             );
 
     /**

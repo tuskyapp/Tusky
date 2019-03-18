@@ -240,7 +240,7 @@
          * the url can be changed to link to the localized version of the license.
     -->
     <string name="about_project_site">        プロジェクトのWebサイト（英語）：\n
-        https://tuskyapp.github.io
+        https://tusky.app
     </string>
     <string name="about_bug_feature_request_site">        バグ報告 &amp; 機能リクエスト（英語）：\n
         https://github.com/tuskyapp/Tusky/issues
