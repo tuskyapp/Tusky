@@ -74,6 +74,7 @@
     <string name="action_show_reblogs">ブーストを表示</string>
     <string name="action_report">通報</string>
     <string name="action_delete">削除</string>
+    <string name="delete_and_edit">削除して編集</string>
     <string name="action_send">トゥート</string>
     <string name="action_send_public">トゥート！</string>
     <string name="action_retry">再試行</string>

@@ -21,17 +21,20 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
+import android.text.SpannableStringBuilder;
 
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
 import android.text.Spanned;
+import android.text.style.URLSpan;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.keylesspalace.tusky.BaseActivity;
 import com.keylesspalace.tusky.BottomSheetActivity;
 import com.keylesspalace.tusky.ComposeActivity;
@@ -84,6 +87,8 @@ public abstract class SFragment extends BaseFragment implements Injectable {
     public AccountManager accountManager;
     @Inject
     public TimelineCases timelineCases;
+
+    private Gson gson = new Gson();
 
     @Override
     public void startActivity(Intent intent) {
@@ -274,6 +279,10 @@ public abstract class SFragment extends BaseFragment implements Injectable {
                     showConfirmDeleteDialog(id, position);
                     return true;
                 }
+                case R.id.status_delete_and_edit: {
+                    showConfirmEditDialog(id, position, status);
+                    return true;
+                }
                 case R.id.pin: {
                     timelineCases.pin(status, !status.isPinned());
                     return true;
@@ -341,6 +350,46 @@ public abstract class SFragment extends BaseFragment implements Injectable {
                 })
                 .setNegativeButton(android.R.string.cancel, null)
                 .show();
+    }
+
+    private void showConfirmEditDialog(final String id, final int position, Status status) {
+        if (getActivity() == null) {
+            return;
+        }
+        new AlertDialog.Builder(getActivity())
+                .setMessage(R.string.dialog_edit_toot_warning)
+                .setPositiveButton(android.R.string.ok, (dialogInterface, i) -> {
+                    timelineCases.delete(id);
+                    removeItem(position);
+
+                    Intent intent = new ComposeActivity.IntentBuilder()
+                            .tootText(getEditableText(status.getContent(), status.getMentions()))
+                            .inReplyToId(status.getInReplyToId())
+                            .visibility(status.getVisibility())
+                            .contentWarning(status.getSpoilerText())
+                            .jsonMediaAttachments(gson.toJson(status.getAttachments()))
+                            .sensitive(status.getSensitive())
+                            .build(getContext());
+                    startActivity(intent);
+                })
+                .setNegativeButton(android.R.string.cancel, null)
+                .show();
+    }
+
+    private String getEditableText(Spanned content, Status.Mention[] mentions) {
+        SpannableStringBuilder builder = new SpannableStringBuilder(content);
+        for (URLSpan span : content.getSpans(0, content.length(), URLSpan.class)) {
+            String url = span.getURL();
+            for (Status.Mention mention : mentions) {
+                if (url.equals(mention.getUrl())) {
+                    int start = builder.getSpanStart(span);
+                    int end = builder.getSpanEnd(span);
+                    builder.replace(start, end, '@' + mention.getUsername());
+                    break;
+                }
+            }
+        }
+        return builder.toString();
     }
 
     private void openAsAccount(String statusUrl, AccountEntity account) {
