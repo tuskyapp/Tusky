@@ -66,6 +66,7 @@ import com.keylesspalace.tusky.viewdata.StatusViewData;
 
 import java.util.ArrayList;
 import java.io.IOException;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
@@ -311,6 +312,20 @@ public class TimelineFragment extends SFragment implements
                         });
     }
 
+    private void reloadFilters(boolean refresh) {
+        mastodonApi.getFilters().enqueue(new Callback<List<Filter>>() {
+            @Override
+            public void onResponse(Call<List<Filter>> call, Response<List<Filter>> response) {
+                applyFilters(response.body(), refresh);
+            }
+
+            @Override
+            public void onFailure(Call<List<Filter>> call, Throwable t) {
+                Log.e(TAG, "Error getting filters from server");
+            }
+        });
+    }
+
     private void setupTimelinePreferences() {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
         alwaysShowSensitiveMedia = accountManager.getActiveAccount().getAlwaysShowSensitiveMedia();
@@ -324,18 +339,7 @@ public class TimelineFragment extends SFragment implements
 
         filter = preferences.getBoolean("tabFilterHomeBoosts", true);
         filterRemoveReblogs = kind == Kind.HOME && !filter;
-
-        mastodonApi.getFilters().enqueue(new Callback<List<Filter>>() {
-            @Override
-            public void onResponse(Call<List<Filter>> call, Response<List<Filter>> response) {
-                applyFilters(response.body());
-            }
-
-            @Override
-            public void onFailure(Call<List<Filter>> call, Throwable t) {
-                Log.e(TAG, "Error getting filters from server");
-            }
-        });
+        reloadFilters(false);
     }
 
     private static boolean filterContextMatchesKind(Kind kind, List<String> filterContext) {
@@ -359,7 +363,7 @@ public class TimelineFragment extends SFragment implements
         return filter.getWholeWord() ? String.format("\\b%s\\b", phrase) : phrase;
     }
 
-    private void applyFilters(List<Filter> filters) {
+    private void applyFilters(List<Filter> filters, boolean refresh) {
         List<String> tokens = new ArrayList<>();
         for (Filter filter : filters) {
             if (filterContextMatchesKind(kind, filter.getContext())) {
@@ -369,6 +373,9 @@ public class TimelineFragment extends SFragment implements
         filterRemoveRegex = !tokens.isEmpty();
         if (filterRemoveRegex) {
             filterRemoveRegexMatcher = Pattern.compile(TextUtils.join("|", tokens), Pattern.CASE_INSENSITIVE).matcher("");
+        }
+        if (refresh) {
+            fullyRefresh();
         }
     }
 
@@ -799,19 +806,12 @@ public class TimelineFragment extends SFragment implements
                 }
                 break;
             }
-            case "tabFilterRegex": {
-                boolean oldFilterRemoveRegex = filterRemoveRegex;
-                String newFilterRemoveRegexPattern = sharedPreferences.getString("tabFilterRegex", "");
-                boolean patternChanged;
-                if (filterRemoveRegexMatcher != null) {
-                    patternChanged = !newFilterRemoveRegexPattern.equalsIgnoreCase(filterRemoveRegexMatcher.pattern().pattern());
-                } else {
-                    patternChanged = !newFilterRemoveRegexPattern.isEmpty();
-                }
-                filterRemoveRegex = (kind == Kind.HOME || kind == Kind.PUBLIC_LOCAL || kind == Kind.PUBLIC_FEDERATED) && !newFilterRemoveRegexPattern.isEmpty();
-                if (oldFilterRemoveRegex != filterRemoveRegex || patternChanged) {
-                    filterRemoveRegexMatcher = Pattern.compile(newFilterRemoveRegexPattern, Pattern.CASE_INSENSITIVE).matcher("");
-                    fullyRefresh();
+            case Filter.HOME:
+            case Filter.NOTIFICATIONS:
+            case Filter.THREAD:
+            case Filter.PUBLIC: {
+                if (filterContextMatchesKind(kind, Collections.singletonList(key))) {
+                    reloadFilters(true);
                 }
                 break;
             }

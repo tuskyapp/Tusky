@@ -6,6 +6,8 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import com.keylesspalace.tusky.appstore.EventHub
+import com.keylesspalace.tusky.appstore.PreferenceChangedEvent
 import com.keylesspalace.tusky.entity.Filter
 import com.keylesspalace.tusky.network.MastodonApi
 import kotlinx.android.synthetic.main.activity_filters.*
@@ -20,6 +22,9 @@ import javax.inject.Inject
 class FiltersActivity: BaseActivity() {
     @Inject
     lateinit var api: MastodonApi
+
+    @Inject
+    lateinit var eventHub: EventHub
 
     private lateinit var context : String
     private lateinit var filters: MutableList<Filter>
@@ -45,6 +50,7 @@ class FiltersActivity: BaseActivity() {
                         filters.removeAt(itemIndex)
                     }
                     refreshFilterDisplay()
+                    eventHub.dispatch(PreferenceChangedEvent(context))
                 }
             })
     }
@@ -61,6 +67,7 @@ class FiltersActivity: BaseActivity() {
                 override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                     filters.removeAt(itemIndex)
                     refreshFilterDisplay()
+                    eventHub.dispatch(PreferenceChangedEvent(context))
                 }
             })
         } else {
@@ -77,6 +84,7 @@ class FiltersActivity: BaseActivity() {
             override fun onResponse(call: Call<Filter>, response: Response<Filter>) {
                 filters.add(response.body()!!)
                 refreshFilterDisplay()
+                eventHub.dispatch(PreferenceChangedEvent(context))
             }
 
             override fun onFailure(call: Call<Filter>, t: Throwable) {
