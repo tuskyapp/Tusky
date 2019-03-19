@@ -23,7 +23,7 @@
         android:contentDescription="@string/filter_addition_dialog_title"
         app:layout_anchor="@id/filtersView"
         app:layout_anchorGravity="bottom|end"
-        app:srcCompat="@drawable/ic_create_24dp"
+        android:src="@drawable/ic_plus_24dp"
         />
 
 

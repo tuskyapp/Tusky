@@ -1,14 +1,13 @@
 package com.keylesspalace.tusky
 
-import android.app.AlertDialog
 import android.os.Bundle
 import android.view.MenuItem
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import com.keylesspalace.tusky.entity.Filter
 import com.keylesspalace.tusky.network.MastodonApi
-import com.keylesspalace.tusky.util.hide
 import kotlinx.android.synthetic.main.activity_filters.*
 import kotlinx.android.synthetic.main.dialog_filter.*
 import kotlinx.android.synthetic.main.toolbar_basic.*
@@ -24,6 +23,7 @@ class FiltersActivity: BaseActivity() {
 
     private lateinit var context : String
     private lateinit var filters: MutableList<Filter>
+    private lateinit var dialog: AlertDialog
 
     companion object {
         const val FILTERS_CONTEXT = "filters_context"
@@ -86,43 +86,36 @@ class FiltersActivity: BaseActivity() {
     }
 
     private fun showAddFilterDialog() {
-        val dialog = AlertDialog.Builder(this@FiltersActivity)
+        dialog = AlertDialog.Builder(this@FiltersActivity)
                 .setTitle(R.string.filter_addition_dialog_title)
                 .setView(R.layout.dialog_filter)
+                .setPositiveButton(android.R.string.ok){ _, _ ->
+                    createFilter(dialog.phraseEditText.text.toString())
+                }
+                .setNeutralButton(android.R.string.cancel, null)
                 .create()
         dialog.show()
-
-        // Need to show the dialog before referencing any elements from its view
-        dialog.filterRemove.hide()
-        dialog.filterOk.setText(android.R.string.ok)
-        dialog.filterOk.setOnClickListener {
-            createFilter(dialog.phraseEditText.text.toString())
-            dialog.dismiss()
-        }
-        dialog.filterCancel.setOnClickListener { dialog.cancel() }
     }
 
     private fun setupEditDialogForItem(itemIndex: Int) {
-        val dialog = AlertDialog.Builder(this@FiltersActivity)
+        dialog = AlertDialog.Builder(this@FiltersActivity)
                 .setTitle(R.string.filter_edit_dialog_title)
                 .setView(R.layout.dialog_filter)
+                .setPositiveButton(R.string.filter_dialog_update_button) { _, _ ->
+                    val oldFilter = filters[itemIndex]
+                    val newFilter = Filter(oldFilter.id, dialog.phraseEditText.text.toString(), oldFilter.context,
+                            oldFilter.expiresAt, oldFilter.irreversible, oldFilter.wholeWord)
+                    updateFilter(newFilter, itemIndex)
+                }
+                .setNegativeButton(R.string.filter_dialog_remove_button) { _, _ ->
+                    deleteFilter(itemIndex)
+                }
+                .setNeutralButton(android.R.string.cancel, null)
                 .create()
         dialog.show()
 
         // Need to show the dialog before referencing any elements from its view
         dialog.phraseEditText.setText(filters[itemIndex].phrase)
-        dialog.filterOk.setOnClickListener {
-            val oldFilter = filters[itemIndex]
-            val newFilter = Filter(oldFilter.id, dialog.phraseEditText.text.toString(), oldFilter.context,
-                    oldFilter.expiresAt, oldFilter.irreversible, oldFilter.wholeWord)
-            updateFilter(newFilter, itemIndex)
-            dialog.dismiss()
-        }
-        dialog.filterRemove.setOnClickListener {
-            deleteFilter(itemIndex)
-            dialog.dismiss()
-        }
-        dialog.filterCancel.setOnClickListener { dialog.cancel() }
     }
 
     private fun refreshFilterDisplay() {

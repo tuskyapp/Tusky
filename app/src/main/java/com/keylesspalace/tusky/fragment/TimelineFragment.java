@@ -345,11 +345,8 @@ public class TimelineFragment extends SFragment implements
                 return filterContext.contains(Filter.HOME);
             case PUBLIC_FEDERATED:
             case PUBLIC_LOCAL:
-            case USER:
             case TAG:
                 return filterContext.contains(Filter.PUBLIC);
-            case USER_WITH_REPLIES:
-                return (filterContext.contains(Filter.PUBLIC) || filterContext.contains(Filter.THREAD));
             case FAVOURITES:
                 return (filterContext.contains(Filter.PUBLIC) || filterContext.contains(Filter.NOTIFICATIONS));
             default:
