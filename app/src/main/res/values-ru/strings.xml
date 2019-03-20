@@ -67,7 +67,9 @@
     <string name="action_quick_reply">Быстрый ответ</string>
     <string name="action_reply">Ответить</string>
     <string name="action_reblog">Продвинуть</string>
+    <string name="action_unreblog">Убрать продвижение</string>
     <string name="action_favourite">Нравится</string>
+    <string name="action_unfavourite">Не нравится</string>
     <string name="action_more">Развернуть</string>
     <string name="action_compose">Написать</string>
     <string name="action_login">Войти</string>
@@ -188,18 +190,18 @@
         <item>Светлая</item>
         <item>Черная</item>
         <item>Автоматическая (по времени)</item>
-        <item>Use System Design</item>
+        <item>Как в системе</item>
     </string-array>
 
     <string name="pref_title_browser_settings">Браузер</string>
     <string name="pref_title_custom_tabs">Использовать Chrome Custom Tabs</string>
     <string name="pref_title_hide_follow_button">Скрывать кнопку создания поста при прокрутке ленты</string>
+    <string name="pref_title_language">Язык</string>
     <string name="pref_title_status_filter">Фильтрация ленты</string>
-    <string name="pref_title_status_tabs">Вкладки</string>
+    <string name="pref_title_status_tabs">Фильтры</string>
     <string name="pref_title_show_boosts">Показывать продвижения</string>
     <string name="pref_title_show_replies">Показывать ответы</string>
-    <string name="pref_title_filter_regex">Фильтрация по регулярному выражению</string>
-    <string name="pref_title_show_media_preview">Предпросмотр медиаконтента</string>
+    <string name="pref_title_show_media_preview">Предзагрузка медиаконтента</string>
     <string name="pref_title_proxy_settings">Прокси</string>
     <string name="pref_title_http_proxy_settings">HTTP прокси</string>
     <string name="pref_title_http_proxy_enable">Использовать HTTP прокси</string>
@@ -373,4 +375,34 @@
     <string name="max_tab_number_reached">достигнут лимит в %1$d вкладок</string>
 
     <string name="label_remote_account">Информация может не полностью отражать профиль пользователя. Нажмите чтобы открыть профиль в браузере.</string>
+    <string name="pref_title_public_filter_keywords">Публичные ленты</string>
+    <string name="pref_title_thread_filter_keywords">Диалоги</string>
+    <string name="filter_addition_dialog_title">Добавить фильтр</string>
+    <string name="filter_edit_dialog_title">Изм. фильтр</string>
+    <string name="filter_dialog_remove_button">Удалить</string>
+    <string name="filter_dialog_update_button">Обновить</string>
+    <string name="filter_add_description">Слово или фраза</string>
+    <string name="error_create_list">Не удалось создать список</string>
+    <string name="error_rename_list">Не удалось переименовать список</string>
+    <string name="error_delete_list">Не удалось удалить список</string>
+    <string name="action_create_list">Создать список</string>
+    <string name="action_rename_list">Переименовать список</string>
+    <string name="action_delete_list">Удалить список</string>
+    <string name="action_edit_list">Изменить список</string>
+    <string name="hint_search_people_list">Поиск по вашим подпискам</string>
+    <string name="action_add_to_list">Добавить аккаунт в список</string>
+    <string name="action_remove_from_list">Удалить аккаунт из списка</string>
+    <string name="description_status_media">Медиафайл: %s</string>
+    <string name="description_status_cw">Предупреждение: %s</string>
+    <string name="description_status_media_no_description_placeholder">Без описания</string>
+    <string name="description_status_reblogged">Продвинуто</string>
+    <string name="description_visiblity_public">Публичный</string>
+    <string name="description_visiblity_unlisted">Непубличный</string>
+    <string name="description_visiblity_private">Для подписчиков</string>
+    <string name="description_visiblity_direct">Для упомянутых</string>
+    <string name="description_status">%s; %s; %s, %s, %s; %s, %s, %s, %s; %s, %s, %s</string>
+    <string name="hint_list_name">Название списка</string>
+    <string name="text_content_warning_button">CW</string>
+    <string name="description_status_favourited">Нравится</string>
+    <string name="pref_title_timeline_filters">Фильтры</string>
 </resources>
