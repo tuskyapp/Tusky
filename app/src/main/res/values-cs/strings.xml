@@ -195,7 +195,6 @@
     <string name="pref_title_status_tabs">Panely</string>
     <string name="pref_title_show_boosts">Zobrazi boosty</string>
     <string name="pref_title_show_replies">Zobrazit odpovědi</string>
-    <string name="pref_title_filter_regex">Filtrovat regulárními výrazy</string>
     <string name="pref_title_show_media_preview">Stahovat náhledy médií</string>
     <string name="pref_title_proxy_settings">Proxy</string>
     <string name="pref_title_http_proxy_settings">HTTP proxy</string>
