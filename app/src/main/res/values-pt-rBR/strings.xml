@@ -180,7 +180,6 @@
     <string name="pref_title_status_tabs">Abas</string>
     <string name="pref_title_show_boosts">Mostrar compartilhamentos</string>
     <string name="pref_title_show_replies">Mostrar respostas</string>
-    <string name="pref_title_filter_regex">Filtrar com expressões regulares</string>
     <string name="pref_title_show_media_preview">Mostrar prévias de mídia</string>
     <string name="pref_title_proxy_settings">Proxy</string>
     <string name="pref_title_http_proxy_settings">Proxy HTTP</string>

@@ -191,7 +191,6 @@
     <string name="pref_title_status_tabs">الألسنة</string>
     <string name="pref_title_show_boosts">عرض الترقيات</string>
     <string name="pref_title_show_replies">عرض الردود</string>
-    <string name="pref_title_filter_regex">التصفية عن طريق عبارات منطقية</string>
     <string name="pref_title_show_media_preview">إظهار معاينات الوسائط</string>
     <string name="pref_title_proxy_settings">البروكسي</string>
     <string name="pref_title_http_proxy_settings">بروكسي HTTP</string>
