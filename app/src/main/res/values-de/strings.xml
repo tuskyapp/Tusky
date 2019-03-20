@@ -113,6 +113,7 @@
     <string name="action_add_tab">Tab hinzufügen</string>
     <string name="action_links">Verlinkungen</string>
     <string name="action_mentions">Erwähnungen</string>
+    <string name="action_open_faved_by">Favoriten anzeigen</string>
     <string name="title_mentions_dialog">Erwähnungen</string>
     <string name="title_links_dialog">Verlinkungen</string>
     <string name="download_image">%1$s heruntergeladen</string>
@@ -292,12 +293,15 @@
     <string name="caption_blobmoji">Die Blob–Emojis aus Android 4.4–7.1</string>
     <string name="caption_twemoji">Die Standard-Emojis von Mastodon</string>
     <string name="download_failed">Download fehlgeschlagen.</string>
+    <string name="profile_badge_bot_text">Bot</string>
     <string name="account_moved_description">%1$s ist umgezogen auf:</string>
     <string name="reblog_private">An ursprüngliches Publikum teilen</string>
     <string name="unreblog_private">nicht mehr teilen</string>
 
     <string name="license_description">Roma enthält Code und Inhalte von den folgenden Open-Source-Projekten:</string>
     <string name="license_apache_2">Lizenziert unter der Apache-Lizenz (s. u.)</string>
+    <string name="license_cc_by_4">CC-BY 4.0</string>
+    <string name="license_cc_by_sa_4">CC-BY-SA 4.0</string>
     <string name="profile_metadata_label">Profil-Metadaten</string>
     <string name="profile_metadata_add">Feld hinzufügen</string>
     <string name="profile_metadata_label_label">Bezeichnung</string>
@@ -307,6 +311,15 @@
     <string name="unpin_action">Vom Profil lösen</string>
     <string name="pin_action">Im Profil anheften</string>
     <string name="title_favourited_by">Favorisiert von</string>
+    <string name="conversation_1_recipients">%1$s</string>
+    <string name="conversation_2_recipients">%1$s und %2$s</string>
+    <string name="conversation_more_recipients">%1$s, %2$s und %3$d mehr</string>
     <string name="max_tab_number_reached">Maximum von %1$d Tabs erreicht</string>
     <string name="description_status_media_no_description_placeholder">        Keine Beschreibung    </string>
+    <string name="description_status_favourited">Favorisiert    </string>
+    <string name="description_visiblity_public">Öffentlich    </string>
+    <string name="description_visiblity_private">        Follower
+    </string>
+    <string name="description_visiblity_direct">Direkt    </string>
+    <string name="hint_list_name">Name auflisten</string>
 </resources>

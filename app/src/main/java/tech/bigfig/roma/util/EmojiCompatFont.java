@@ -48,7 +48,6 @@ public class EmojiCompatFont {
                     "Blobmoji",
                     R.string.caption_blobmoji,
                     R.drawable.ic_blobmoji,
-                    //TODO Need to update the url
                     "https://romaapp.github.io/hosted/emoji/BlobmojiCompat.ttf"
             );
     private static final EmojiCompatFont TWEMOJI =
@@ -56,7 +55,6 @@ public class EmojiCompatFont {
                     "Twemoji",
                     R.string.caption_twemoji,
                     R.drawable.ic_twemoji,
-                    //TODO need to update url
                     "https://romaapp.github.io/hosted/emoji/TwemojiCompat.ttf"
             );
 

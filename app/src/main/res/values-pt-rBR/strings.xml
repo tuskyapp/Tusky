@@ -33,7 +33,7 @@
     <string name="title_statuses_with_replies">Com respostas</string>
     <string name="title_follows">Segue</string>
     <string name="title_followers">Seguidores</string>
-    <string name="title_favourites">Favouritos</string>
+    <string name="title_favourites">Curtidas</string>
     <string name="title_mutes">Usuários silenciados</string>
     <string name="title_blocks">Usuários bloqueados</string>
     <string name="title_follow_requests">Solicitações de seguidor</string>
@@ -49,7 +49,7 @@
     <string name="footer_empty">Nada aqui. Arraste para atualizar!</string>
 
     <string name="notification_reblog_format">%s compartilhou seu toot</string>
-    <string name="notification_favourite_format">%s favouritou seu toot</string>
+    <string name="notification_favourite_format">%s curtiu o seu toot</string>
     <string name="notification_follow_format">%s seguiu você</string>
     <string name="report_username_format">Denunciar @%s</string>
     <string name="report_comment_hint">Comentários adicionais?</string>
@@ -57,7 +57,7 @@
     <string name="action_reply">Responder</string>
     <string name="action_reblog">Compartilhar</string>
     <string name="action_unreblog">Desfazer compartilhamento</string>
-    <string name="action_favourite">Favouritar</string>
+    <string name="action_favourite">Curtir</string>
     <string name="action_unfavourite">Remover curtida</string>
     <string name="action_more">Mais</string>
     <string name="action_compose">Compor</string>
@@ -78,7 +78,7 @@
     <string name="action_close">Fechar</string>
     <string name="action_view_profile">Perfil</string>
     <string name="action_view_preferences">Preferências</string>
-    <string name="action_view_favourites">Favouritos</string>
+    <string name="action_view_favourites">Curtidas</string>
     <string name="action_view_mutes">Usuários silenciados</string>
     <string name="action_view_blocks">Usuários bloqueados</string>
     <string name="action_view_follow_requests">Solicitações de seguidor</string>
@@ -163,7 +163,7 @@
     <string name="pref_title_notification_filter_mentions">mencionado</string>
     <string name="pref_title_notification_filter_follows">seguido</string>
     <string name="pref_title_notification_filter_reblogs">minhas postagens forem compartilhadas</string>
-    <string name="pref_title_notification_filter_favourites">minhas postagens forem favouritadas</string>
+    <string name="pref_title_notification_filter_favourites">minhas postagens forem favoritadas</string>
     <string name="pref_title_appearance_settings">Aparência</string>
     <string name="pref_title_app_theme">Temas do app</string>
     <string name="pref_title_timelines">Linhas do tempo</string>

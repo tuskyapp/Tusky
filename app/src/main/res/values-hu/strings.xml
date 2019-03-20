@@ -33,6 +33,7 @@
     <string name="title_tag">#%s</string>
     <string name="title_statuses">Posztok</string>
     <string name="title_statuses_with_replies">Válaszokkal</string>
+    <string name="title_statuses_pinned">Rögzített</string>
     <string name="title_follows">Követ</string>
     <string name="title_followers">Követők</string>
     <string name="title_favourites">Kedvencek</string>
@@ -111,6 +112,8 @@
     <string name="action_links">Linkek</string>
     <string name="action_mentions">Említések</string>
     <string name="action_hashtags">Címkék</string>
+    <string name="action_open_faved_by">Kedvencek megjelenítése</string>
+    <string name="title_hashtags_dialog">Címkék</string>
     <string name="title_mentions_dialog">Említések</string>
     <string name="title_links_dialog">Linkek</string>
     <string name="download_image">%1$s letöltése</string>
