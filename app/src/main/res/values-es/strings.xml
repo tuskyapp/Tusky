@@ -182,7 +182,6 @@
     <string name="pref_title_status_tabs">Pestañas</string>
     <string name="pref_title_show_boosts">Mostrar compartidos</string>
     <string name="pref_title_show_replies">Mostrar respuestas</string>
-    <string name="pref_title_filter_regex">Filtrar con expresiones regulares</string>
     <string name="pref_title_show_media_preview">Previsualizar multimedia</string>
     <string name="pref_title_proxy_settings">Proxy</string>
     <string name="pref_title_http_proxy_settings">Proxy HTTP</string>
