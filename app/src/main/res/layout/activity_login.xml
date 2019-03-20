@@ -61,6 +61,17 @@
                     android:gravity="center"
                     android:text="@string/action_login"
                     android:textSize="20sp" />
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/privacyPolicyButton"
+                    style="@style/RomaButton.TextButton"
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:textAllCaps="false"
+                    android:gravity="center"
+                    android:text="@string/title_privacy_policy"
+                    android:textSize="12sp"
+                    />
 
             </LinearLayout>
 

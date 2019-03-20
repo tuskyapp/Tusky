@@ -36,6 +36,7 @@ class AboutActivity : BottomSheetActivity(), Injectable {
         aboutLicensesButton.setOnClickListener {
             startActivityWithSlideInAnimation(Intent(this, LicenseActivity::class.java))
         }
+        privacyPolicyButton.setOnClickListener { startActivityWithSlideInAnimation(PrivacyPolicyActivity.getIntent(this)) }
 
     }
 

@@ -79,6 +79,18 @@
                     android:textAllCaps="false"
                     android:textSize="16sp" />
 
+                <Button
+                    android:id="@+id/privacyPolicyButton"
+                    style="@style/RomaButton.Outlined"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:lineSpacingMultiplier="1.2"
+                    android:text="@string/title_privacy_policy"
+                    android:textAlignment="center"
+                    android:textAllCaps="false"
+                    android:textSize="16sp" />
+
             </LinearLayout>
 
         </androidx.core.widget.NestedScrollView>

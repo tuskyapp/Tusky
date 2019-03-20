@@ -89,4 +89,7 @@ abstract class ActivitiesModule {
     @ContributesAndroidInjector
     abstract fun contributesTabPreferenceActivity(): TabPreferenceActivity
 
+    @ContributesAndroidInjector
+    abstract fun contributesPrivacyPolicyActivity(): PrivacyPolicyActivity
+
 }

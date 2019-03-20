@@ -80,6 +80,8 @@ class LoginActivity : BaseActivity(), Injectable {
             toolbar.visibility = View.GONE
         }
 
+        privacyPolicyButton.setOnClickListener { startActivityWithSlideInAnimation(PrivacyPolicyActivity.getIntent(this)) }
+
     }
 
     override fun requiresLogin(): Boolean {
