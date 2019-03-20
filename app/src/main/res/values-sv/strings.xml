@@ -194,7 +194,6 @@
     <string name="pref_title_status_tabs">Flikar</string>
     <string name="pref_title_show_boosts">Visa knuffar</string>
     <string name="pref_title_show_replies">Visa svar</string>
-    <string name="pref_title_filter_regex">Filtrera ut med regelbundna uttryck</string>
     <string name="pref_title_show_media_preview">Visa en förhandsgranskning</string>
     <string name="pref_title_proxy_settings">Proxyserver</string>
     <string name="pref_title_http_proxy_settings">HTTP-proxy</string>
