@@ -114,9 +114,12 @@
     <string name="action_links">Verlinkungen</string>
     <string name="action_mentions">Erwähnungen</string>
     <string name="action_hashtags">Hastags</string>
+    <string name="action_open_reblogged_by">Boosts anzeigen</string>
     <string name="action_open_faved_by">Favoriten anzeigen</string>
+    <string name="title_hashtags_dialog">Hashtags</string>
     <string name="title_mentions_dialog">Erwähnungen</string>
     <string name="title_links_dialog">Verlinkungen</string>
+    <string name="action_open_media_n">Medium #%d öffnen</string>
     <string name="download_image">%1$s heruntergeladen</string>
     <string name="action_copy_link">Link kopieren</string>
     <string name="action_open_as">Öffnen als %s</string>
@@ -176,6 +179,7 @@
     <string name="pref_title_appearance_settings">Aussehen</string>
     <string name="pref_title_app_theme">App-Thema</string>
     <string name="pref_title_timelines">Zeitleisten</string>
+    <string name="pref_title_timeline_filters">Filter</string>
     <string-array name="app_theme_names">
         <item>Dunkel</item>
         <item>Hell</item>
@@ -263,11 +267,21 @@
     <string name="title_media">Medien</string>
     <string name="replying_to">Antworten an @%s</string>
     <string name="load_more_placeholder_text">mehr laden</string>
+    <string name="pref_title_thread_filter_keywords">Konversationen</string>
+    <string name="filter_addition_dialog_title">Filter hinzufügen</string>
+    <string name="filter_edit_dialog_title">Filter bearbeiten</string>
+    <string name="filter_dialog_remove_button">Entfernen</string>
+    <string name="filter_dialog_update_button">Aktualisieren</string>
     <string name="add_account_name">Konto hinzufügen</string>
     <string name="add_account_description">Neues Mastodon-Konto hinzufügen</string>
     <string name="action_lists">Listen</string>
     <string name="title_lists">Listen</string>
     <string name="title_list_timeline">Liste</string>
+    <string name="action_create_list">Eine Liste erstellen</string>
+    <string name="action_rename_list">Eine Liste umbennen</string>
+    <string name="action_delete_list">Eine Liste löschen</string>
+    <string name="action_edit_list">Eine Liste bearbeiten</string>
+    <string name="action_add_to_list">Ein Konto zu einer Liste hinzufügen</string>
     <string name="compose_active_account_description">verfassen mit %1$s</string>
     <string name="error_failed_set_caption">Fehler beim Speichern der Beschreibung</string>
     <string name="hint_describe_for_visually_impaired">Für Menschen mit Sehbehinderung beschreiben\n(%d Zeichen)</string>
