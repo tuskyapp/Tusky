@@ -113,6 +113,7 @@
     <string name="action_add_tab">Tab hinzufügen</string>
     <string name="action_links">Verlinkungen</string>
     <string name="action_mentions">Erwähnungen</string>
+    <string name="action_hashtags">Hastags</string>
     <string name="action_open_faved_by">Favoriten anzeigen</string>
     <string name="title_mentions_dialog">Erwähnungen</string>
     <string name="title_links_dialog">Verlinkungen</string>
