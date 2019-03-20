@@ -16,10 +16,13 @@
 package com.keylesspalace.tusky.adapter;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import java.util.List;
 
 import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.interfaces.StatusActionListener;
@@ -70,17 +73,25 @@ public final class TimelineAdapter extends RecyclerView.Adapter {
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position) {
+        bindViewHolder(viewHolder,position,null);
+    }
+
+
+    @Override
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position, @NonNull List payloads) {
+        bindViewHolder(viewHolder,position,payloads);
+    }
+
+    private void bindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position, @Nullable List payloads){
         StatusViewData status = dataSource.getItemAt(position);
         if (status instanceof StatusViewData.Placeholder) {
             PlaceholderViewHolder holder = (PlaceholderViewHolder) viewHolder;
             holder.setup(statusListener, ((StatusViewData.Placeholder) status).isLoading());
-        } else {
+        } else if (status instanceof StatusViewData.Concrete) {
             StatusViewHolder holder = (StatusViewHolder) viewHolder;
-            holder.setupWithStatus((StatusViewData.Concrete) status,
-                    statusListener, mediaPreviewEnabled);
+            holder.setupWithStatus((StatusViewData.Concrete)status,statusListener, mediaPreviewEnabled,payloads!=null&&!payloads.isEmpty()?payloads.get(0):null);
         }
     }
-
     @Override
     public int getItemCount() {
         return dataSource.getItemCount();

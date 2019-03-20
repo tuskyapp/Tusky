@@ -75,22 +75,26 @@ public class StatusViewHolder extends StatusBaseViewHolder {
 
     @Override
     protected void setupWithStatus(StatusViewData.Concrete status, final StatusActionListener listener,
-                                   boolean mediaPreviewEnabled) {
-        if(status == null) {
-            showContent(false);
-        } else {
-            showContent(true);
-            setupCollapsedState(status, listener);
-            super.setupWithStatus(status, listener, mediaPreviewEnabled);
-
-            String rebloggedByDisplayName = status.getRebloggedByUsername();
-            if (rebloggedByDisplayName == null) {
-                hideRebloggedByDisplayName();
+                                   boolean mediaPreviewEnabled, @Nullable Object payloads) {
+        if (status == null || payloads==null) {
+            if (status == null) {
+                showContent(false);
             } else {
-                setRebloggedByDisplayName(rebloggedByDisplayName);
-            }
+                showContent(true);
+                setupCollapsedState(status, listener);
+                super.setupWithStatus(status, listener, mediaPreviewEnabled, null);
 
-            rebloggedBar.setOnClickListener(v -> listener.onOpenReblog(getAdapterPosition()));
+                String rebloggedByDisplayName = status.getRebloggedByUsername();
+                if (rebloggedByDisplayName == null) {
+                    hideRebloggedByDisplayName();
+                } else {
+                    setRebloggedByDisplayName(rebloggedByDisplayName);
+                }
+
+                rebloggedBar.setOnClickListener(v -> listener.onOpenReblog(getAdapterPosition()));}
+        }
+        else{
+            super.setupWithStatus(status, listener, mediaPreviewEnabled, payloads);
         }
     }
 
