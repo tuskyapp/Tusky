@@ -215,7 +215,7 @@
 
     <string-array name="post_privacy_names">
         <item>Публичные</item>
-        <item>Непубличные</item>
+        <item>Скрытые</item>
         <item>Для подписчиков</item>
     </string-array>
 
@@ -397,7 +397,7 @@
     <string name="description_status_media_no_description_placeholder">Без описания</string>
     <string name="description_status_reblogged">Продвинуто</string>
     <string name="description_visiblity_public">Публичный</string>
-    <string name="description_visiblity_unlisted">Непубличный</string>
+    <string name="description_visiblity_unlisted">Скрытый</string>
     <string name="description_visiblity_private">Для подписчиков</string>
     <string name="description_visiblity_direct">Для упомянутых</string>
     <string name="description_status">%s; %s; %s, %s, %s; %s, %s, %s, %s; %s, %s, %s</string>
