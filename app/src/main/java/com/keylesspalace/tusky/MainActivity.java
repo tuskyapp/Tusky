@@ -15,27 +15,18 @@
 
 package com.keylesspalace.tusky;
 
-import androidx.lifecycle.Lifecycle;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.tabs.TabLayout;
-import androidx.emoji.text.EmojiCompat;
-import androidx.fragment.app.Fragment;
-import androidx.core.content.ContextCompat;
-import androidx.viewpager.widget.ViewPager;
-import androidx.appcompat.app.AlertDialog;
 import android.os.Handler;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.tabs.TabLayout;
 import com.keylesspalace.tusky.appstore.CacheUpdater;
 import com.keylesspalace.tusky.appstore.EventHub;
 import com.keylesspalace.tusky.appstore.MainTabsChangedEvent;
@@ -69,12 +60,20 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+import androidx.core.content.ContextCompat;
+import androidx.emoji.text.EmojiCompat;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Lifecycle;
+import androidx.viewpager.widget.ViewPager;
 import dagger.android.AndroidInjector;
 import dagger.android.DispatchingAndroidInjector;
 import dagger.android.support.HasSupportFragmentInjector;
+import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import retrofit2.Call;
-import retrofit2.Callback;
+import kotlin.Unit;
+import retrofit2.HttpException;
 import retrofit2.Response;
 
 import static com.keylesspalace.tusky.util.MediaUtilsKt.deleteStaleCachedMedia;
@@ -119,7 +118,7 @@ public final class MainActivity extends BottomSheetActivity implements ActionBut
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if(accountManager.getActiveAccount() == null) {
+        if (accountManager.getActiveAccount() == null) {
             // will be redirected to LoginActivity by BaseActivity
             return;
         }
@@ -420,9 +419,9 @@ public final class MainActivity extends BottomSheetActivity implements ActionBut
                     .setIcon(tabs.get(i).getIcon())
                     .setContentDescription(tabs.get(i).getText());
             tabLayout.addTab(tab);
-            if(tabs.get(i).getId().equals(TabDataKt.NOTIFICATIONS)) {
+            if (tabs.get(i).getId().equals(TabDataKt.NOTIFICATIONS)) {
                 notificationTabPosition = i;
-                if(selectNotificationTab) {
+                if (selectNotificationTab) {
                     tab.select();
                 }
             }
@@ -505,22 +504,22 @@ public final class MainActivity extends BottomSheetActivity implements ActionBut
     }
 
     private void fetchUserInfo() {
-
-        mastodonApi.accountVerifyCredentials().enqueue(new Callback<Account>() {
-            @Override
-            public void onResponse(@NonNull Call<Account> call, @NonNull Response<Account> response) {
-                if (response.isSuccessful()) {
-                    onFetchUserInfoSuccess(response.body());
-                } else {
-                    onFetchUserInfoFailure(new Exception(response.message()));
-                }
-            }
-
-            @Override
-            public void onFailure(@NonNull Call<Account> call, @NonNull Throwable t) {
-                onFetchUserInfoFailure((Exception) t);
-            }
-        });
+        mastodonApi.accountVerifyCredentials()
+                .onErrorResumeNext((verifyError) -> {
+                    if (isNotAuthenticatedException(verifyError)) {
+                        return accountManager.recoverAuthentication()
+                                .toSingleDefault(Unit.INSTANCE)
+                                .flatMap(__ -> mastodonApi.accountVerifyCredentials());
+                    }
+                    return Single.error(verifyError);
+                })
+                .as(autoDisposable(from(this)))
+                .subscribe(
+                        this::onFetchUserInfoSuccess,
+                        (err) -> {
+                            accountManager.logActiveAccountOut();
+                            redirectIfNotLoggedIn();
+                        });
     }
 
     private void onFetchUserInfoSuccess(Account me) {
@@ -544,7 +543,7 @@ public final class MainActivity extends BottomSheetActivity implements ActionBut
                     .withSelectable(false)
                     .withIcon(GoogleMaterial.Icon.gmd_person_add);
             drawer.addItemAtPosition(followRequestsItem, 3);
-        } else if(!me.getLocked()){
+        } else if (!me.getLocked()) {
             drawer.removeItem(DRAWER_ITEM_FOLLOW_REQUESTS);
         }
 
@@ -556,7 +555,7 @@ public final class MainActivity extends BottomSheetActivity implements ActionBut
 
         List<AccountEntity> allAccounts = accountManager.getAllAccountsOrderedByActive();
 
-        List<IProfile> profiles = new ArrayList<>(allAccounts.size()+1);
+        List<IProfile> profiles = new ArrayList<>(allAccounts.size() + 1);
 
         for (AccountEntity acc : allAccounts) {
             CharSequence emojifiedName = CustomEmojiHelper.emojifyString(acc.getDisplayName(), acc.getEmojis(), headerResult.getView());
@@ -574,7 +573,7 @@ public final class MainActivity extends BottomSheetActivity implements ActionBut
         }
 
         // reuse the already existing "add account" item
-        for (IProfile profile: headerResult.getProfiles()) {
+        for (IProfile profile : headerResult.getProfiles()) {
             if (profile.getIdentifier() == DRAWER_ITEM_ADD_ACCOUNT) {
                 profiles.add(profile);
                 break;
@@ -583,10 +582,6 @@ public final class MainActivity extends BottomSheetActivity implements ActionBut
         headerResult.clear();
         headerResult.setProfiles(profiles);
         headerResult.setActiveProfile(accountManager.getActiveAccount().getId());
-    }
-
-    private void onFetchUserInfoFailure(Exception exception) {
-        Log.e(TAG, "Failed to fetch user info. " + exception.getMessage());
     }
 
     @Nullable
@@ -600,4 +595,11 @@ public final class MainActivity extends BottomSheetActivity implements ActionBut
         return fragmentInjector;
     }
 
+    private boolean isNotAuthenticatedException(Throwable error) {
+        if (error instanceof HttpException) {
+            Response response = ((HttpException) error).response();
+            return response.code() == 401 || response.code() == 403;
+        }
+        return false;
+    }
 }

@@ -31,6 +31,8 @@ import com.keylesspalace.tusky.entity.StringField
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.*
 import io.reactivex.Single
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.rxkotlin.addTo
 import io.reactivex.schedulers.Schedulers
 import okhttp3.MediaType
 import okhttp3.MultipartBody
@@ -51,10 +53,10 @@ private const val AVATAR_FILE_NAME = "avatar.png"
 
 private const val TAG = "EditProfileViewModel"
 
-class EditProfileViewModel  @Inject constructor(
+class EditProfileViewModel @Inject constructor(
         private val mastodonApi: MastodonApi,
         private val eventHub: EventHub
-): ViewModel() {
+) : ViewModel() {
 
     val profileData = MutableLiveData<Resource<Account>>()
     val avatarData = MutableLiveData<Resource<Bitmap>>()
@@ -64,31 +66,21 @@ class EditProfileViewModel  @Inject constructor(
     private var oldProfileData: Account? = null
 
     private val callList: MutableList<Call<*>> = mutableListOf()
+    private val disposable = CompositeDisposable()
 
     fun obtainProfile() {
-        if(profileData.value == null || profileData.value is Error) {
+        if (profileData.value == null || profileData.value is Error) {
 
             profileData.postValue(Loading())
 
-            val call = mastodonApi.accountVerifyCredentials()
-            call.enqueue(object : Callback<Account> {
-                override fun onResponse(call: Call<Account>,
-                                        response: Response<Account>) {
-                    if (response.isSuccessful) {
-                        val profile = response.body()
+            mastodonApi.accountVerifyCredentials()
+                    .subscribe({ profile ->
                         oldProfileData = profile
                         profileData.postValue(Success(profile))
-                    } else {
+                    }, {
                         profileData.postValue(Error())
-                    }
-                }
-
-                override fun onFailure(call: Call<Account>, t: Throwable) {
-                    profileData.postValue(Error())
-                }
-            })
-
-            callList.add(call)
+                    })
+                    .addTo(disposable)
         }
     }
 
@@ -132,17 +124,19 @@ class EditProfileViewModel  @Inject constructor(
             }
 
             bitmap
-        }.subscribeOn(Schedulers.io())
+        }
+                .subscribeOn(Schedulers.io())
                 .subscribe({
                     imageLiveData.postValue(Success(it))
                 }, {
                     imageLiveData.postValue(Error())
                 })
+                .addTo(disposable)
     }
 
     fun save(newDisplayName: String, newNote: String, newLocked: Boolean, newFields: List<StringField>, context: Context) {
 
-        if(saveData.value is Loading || profileData.value !is Success) {
+        if (saveData.value is Loading || profileData.value !is Success) {
             return
         }
 
@@ -199,7 +193,7 @@ class EditProfileViewModel  @Inject constructor(
                 val newProfileData = response.body()
                 if (!response.isSuccessful || newProfileData == null) {
                     val errorResponse = response.errorBody()?.string()
-                    val errorMsg = if(!errorResponse.isNullOrBlank()) {
+                    val errorMsg = if (!errorResponse.isNullOrBlank()) {
                         try {
                             JSONObject(errorResponse).optString("error", null)
                         } catch (e: JSONException) {
@@ -224,7 +218,7 @@ class EditProfileViewModel  @Inject constructor(
 
     // cache activity state for rotation change
     fun updateProfile(newDisplayName: String, newNote: String, newLocked: Boolean, newFields: List<StringField>) {
-        if(profileData.value is Success) {
+        if (profileData.value is Success) {
             val newProfileSource = profileData.value?.data?.source?.copy(note = newNote, fields = newFields)
             val newProfile = profileData.value?.data?.copy(displayName = newDisplayName,
                     locked = newLocked, source = newProfileSource)
@@ -236,7 +230,7 @@ class EditProfileViewModel  @Inject constructor(
 
 
     private fun calculateFieldToUpdate(newField: StringField?, fieldsUnchanged: Boolean): Pair<RequestBody, RequestBody>? {
-        if(fieldsUnchanged || newField == null) {
+        if (fieldsUnchanged || newField == null) {
             return null
         }
         return Pair(
@@ -267,9 +261,8 @@ class EditProfileViewModel  @Inject constructor(
     }
 
     override fun onCleared() {
-        callList.forEach {
-            it.cancel()
-        }
+        disposable.clear()
+        callList.forEach(Call<*>::cancel)
     }
 
 

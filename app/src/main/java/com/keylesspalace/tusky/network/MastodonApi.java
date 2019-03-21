@@ -173,7 +173,7 @@ public interface MastodonApi {
     Single<Status> unpinStatus(@Path("id") String statusId);
 
     @GET("api/v1/accounts/verify_credentials")
-    Call<Account> accountVerifyCredentials();
+    Single<Account> accountVerifyCredentials();
 
     @FormUrlEncoded
     @PATCH("api/v1/accounts/update_credentials")
@@ -300,12 +300,13 @@ public interface MastodonApi {
 
     @FormUrlEncoded
     @POST("oauth/token")
-    Call<AccessToken> fetchOAuthToken(
+    Single<AccessToken> fetchOAuthToken(
             @Header(DOMAIN_HEADER) String domain,
             @Field("client_id") String clientId,
             @Field("client_secret") String clientSecret,
             @Field("redirect_uri") String redirectUri,
             @Field("code") String code,
+            @Field("refresh_token") String refreshToken,
             @Field("grant_type") String grantType
     );
 
@@ -348,7 +349,7 @@ public interface MastodonApi {
     @GET("/api/v1/conversations")
     Call<List<Conversation>> getConversations(@Nullable @Query("max_id") String maxId, @Query("limit") int limit);
     @GET("api/v1/filters")
-    Call<List<Filter>> getFilters();
+    Single<List<Filter>> getFilters();
 
     @FormUrlEncoded
     @POST("api/v1/filters")

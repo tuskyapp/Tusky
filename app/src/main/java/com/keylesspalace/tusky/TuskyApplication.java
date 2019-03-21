@@ -18,18 +18,17 @@ package com.keylesspalace.tusky;
 import android.app.Activity;
 import android.app.Application;
 import android.app.Service;
-import androidx.room.Room;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.preference.PreferenceManager;
-import androidx.emoji.text.EmojiCompat;
 
 import com.evernote.android.job.JobManager;
 import com.jakewharton.picasso.OkHttp3Downloader;
 import com.keylesspalace.tusky.db.AccountManager;
 import com.keylesspalace.tusky.db.AppDatabase;
 import com.keylesspalace.tusky.di.AppInjector;
+import com.keylesspalace.tusky.network.MastodonApi;
 import com.keylesspalace.tusky.util.EmojiCompatFont;
 import com.keylesspalace.tusky.util.LocaleManager;
 import com.keylesspalace.tusky.util.NotificationPullJobCreator;
@@ -41,12 +40,16 @@ import java.security.Security;
 
 import javax.inject.Inject;
 
+import androidx.emoji.text.EmojiCompat;
+import androidx.room.Room;
 import dagger.android.AndroidInjector;
 import dagger.android.DispatchingAndroidInjector;
 import dagger.android.HasActivityInjector;
 import dagger.android.HasBroadcastReceiverInjector;
 import dagger.android.HasServiceInjector;
 import okhttp3.OkHttpClient;
+
+import static com.keylesspalace.tusky.db.AppDatabase.MIGRATION_13_14;
 
 public class TuskyApplication extends Application implements HasActivityInjector, HasServiceInjector, HasBroadcastReceiverInjector {
     @Inject
@@ -59,6 +62,8 @@ public class TuskyApplication extends Application implements HasActivityInjector
     NotificationPullJobCreator notificationPullJobCreator;
     @Inject
     OkHttpClient okHttpClient;
+    @Inject
+    MastodonApi mastodonApi;
 
     private AppDatabase appDatabase;
     private AccountManager accountManager;
@@ -78,9 +83,10 @@ public class TuskyApplication extends Application implements HasActivityInjector
                 .addMigrations(AppDatabase.MIGRATION_2_3, AppDatabase.MIGRATION_3_4, AppDatabase.MIGRATION_4_5,
                         AppDatabase.MIGRATION_5_6, AppDatabase.MIGRATION_6_7, AppDatabase.MIGRATION_7_8,
                         AppDatabase.MIGRATION_8_9, AppDatabase.MIGRATION_9_10, AppDatabase.MIGRATION_10_11,
-                        AppDatabase.MIGRATION_11_12, AppDatabase.MIGRATION_12_13, AppDatabase.MIGRATION_10_13)
+                        AppDatabase.MIGRATION_11_12, AppDatabase.MIGRATION_12_13, AppDatabase.MIGRATION_10_13,
+                        MIGRATION_13_14)
                 .build();
-        accountManager = new AccountManager(appDatabase);
+        accountManager = new AccountManager(appDatabase, () -> mastodonApi);
         serviceLocator = new ServiceLocator() {
             @Override
             public <T> T get(Class<T> clazz) {

@@ -100,7 +100,7 @@ class LoginActivity : BaseActivity(), Injectable {
 
     override fun finish() {
         super.finish()
-        if(isAdditionalLogin()) {
+        if (isAdditionalLogin()) {
             overridePendingTransition(R.anim.slide_from_left, R.anim.slide_to_right)
         }
     }
@@ -228,30 +228,17 @@ class LoginActivity : BaseActivity(), Injectable {
                 setLoading(true)
                 /* Since authorization has succeeded, the final step to log in is to exchange
                  * the authorization code for an access token. */
-                val callback = object : Callback<AccessToken> {
-                    override fun onResponse(call: Call<AccessToken>, response: Response<AccessToken>) {
-                        if (response.isSuccessful) {
-                            onLoginSuccess(response.body()!!.accessToken)
-                        } else {
+                val disposable = mastodonApi.fetchOAuthToken(domain, clientId, clientSecret,
+                        redirectUri, code, /*rerreshToken*/null, /*grantType=*/"authorization_code")
+                        .subscribe({ tokenResponse ->
+                            onLoginSuccess(tokenResponse)
+                        }, { t ->
                             setLoading(false)
                             domainTextInputLayout.error = getString(R.string.error_retrieving_oauth_token)
                             Log.e(TAG, String.format("%s %s",
                                     getString(R.string.error_retrieving_oauth_token),
-                                    response.message()))
-                        }
-                    }
-
-                    override fun onFailure(call: Call<AccessToken>, t: Throwable) {
-                        setLoading(false)
-                        domainTextInputLayout.error = getString(R.string.error_retrieving_oauth_token)
-                        Log.e(TAG, String.format("%s %s",
-                                getString(R.string.error_retrieving_oauth_token),
-                                t.message))
-                    }
-                }
-
-                mastodonApi.fetchOAuthToken(domain, clientId, clientSecret, redirectUri, code,
-                        "authorization_code").enqueue(callback)
+                                    t.message))
+                        })
             } else if (error != null) {
                 /* Authorization failed. Put the error response where the user can read it and they
                  * can try again. */
@@ -286,11 +273,12 @@ class LoginActivity : BaseActivity(), Injectable {
         return intent.getBooleanExtra(LOGIN_MODE, false)
     }
 
-    private fun onLoginSuccess(accessToken: String) {
+    private fun onLoginSuccess(tokenResponse: AccessToken) {
 
         setLoading(true)
 
-        accountManager.addAccount(accessToken, domain)
+        accountManager.addAccount(tokenResponse.accessToken, tokenResponse.refreshToken,
+                tokenResponse.expiresIn, domain, clientId!!, clientSecret!!)
 
         val intent = Intent(this, MainActivity::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK

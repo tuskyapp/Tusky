@@ -29,7 +29,6 @@ import android.widget.ProgressBar;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
-import io.reactivex.Observable;
 import com.keylesspalace.tusky.AccountListActivity;
 import com.keylesspalace.tusky.BaseActivity;
 import com.keylesspalace.tusky.R;
@@ -66,10 +65,9 @@ import com.keylesspalace.tusky.view.BackgroundMessageView;
 import com.keylesspalace.tusky.view.EndlessOnScrollListener;
 import com.keylesspalace.tusky.viewdata.StatusViewData;
 
-import java.util.ArrayList;
 import java.io.IOException;
-import java.util.Collections;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
@@ -95,6 +93,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.SimpleItemAnimator;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import at.connyduck.sparkbutton.helpers.Utils;
+import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import kotlin.Unit;
 import kotlin.collections.CollectionsKt;
@@ -317,17 +316,12 @@ public class TimelineFragment extends SFragment implements
     }
 
     private void reloadFilters(boolean refresh) {
-        mastodonApi.getFilters().enqueue(new Callback<List<Filter>>() {
-            @Override
-            public void onResponse(Call<List<Filter>> call, Response<List<Filter>> response) {
-                applyFilters(response.body(), refresh);
-            }
-
-            @Override
-            public void onFailure(Call<List<Filter>> call, Throwable t) {
-                Log.e(TAG, "Error getting filters from server");
-            }
-        });
+        mastodonApi.getFilters()
+                .as(autoDisposable(from(this)))
+                .subscribe(
+                        (filters) -> applyFilters(filters, refresh),
+                        (t) -> Log.e(TAG, "Error getting filters from server")
+                );
     }
 
     private void setupTimelinePreferences() {
@@ -348,7 +342,7 @@ public class TimelineFragment extends SFragment implements
 
     private static boolean filterContextMatchesKind(Kind kind, List<String> filterContext) {
         // home, notifications, public, thread
-        switch(kind) {
+        switch (kind) {
             case HOME:
                 return filterContext.contains(Filter.HOME);
             case PUBLIC_FEDERATED:
@@ -1314,13 +1308,12 @@ public class TimelineFragment extends SFragment implements
         @Nullable
         @Override
         public Object getChangePayload(@NonNull StatusViewData oldItem, @NonNull StatusViewData newItem) {
-            if (oldItem.deepEquals(newItem)){
+            if (oldItem.deepEquals(newItem)) {
                 //If items are equal - update timestamp only
                 List<String> payload = new ArrayList<>();
                 payload.add(StatusBaseViewHolder.Key.KEY_CREATED);
                 return payload;
-            }
-            else
+            } else
                 // If items are different - update a whole view holder
                 return null;
         }

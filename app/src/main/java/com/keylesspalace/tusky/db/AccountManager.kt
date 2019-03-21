@@ -18,6 +18,9 @@ package com.keylesspalace.tusky.db
 import android.util.Log
 import com.keylesspalace.tusky.entity.Account
 import com.keylesspalace.tusky.entity.Status
+import com.keylesspalace.tusky.network.MastodonApi
+import dagger.Lazy
+import io.reactivex.Completable
 
 /**
  * This class caches the account database and handles all account related operations
@@ -26,7 +29,11 @@ import com.keylesspalace.tusky.entity.Status
 
 private const val TAG = "AccountManager"
 
-class AccountManager(db: AppDatabase) {
+class AccountManager(
+        db: AppDatabase,
+        // Inject API lazily because of the cyclic dependency. Should be re-organized instead.
+        private val mastodonApi: Lazy<MastodonApi>
+) {
 
     @Volatile
     var activeAccount: AccountEntity? = null
@@ -49,7 +56,8 @@ class AccountManager(db: AppDatabase) {
      * @param accessToken the access token for the new account
      * @param domain the domain of the accounts Mastodon instance
      */
-    fun addAccount(accessToken: String, domain: String) {
+    fun addAccount(accessToken: String, refreshToken: String?, expiresIn: String?,
+                   domain: String, clientId: String, clientSecret: String) {
 
         activeAccount?.let {
             it.isActive = false
@@ -60,7 +68,16 @@ class AccountManager(db: AppDatabase) {
 
         val maxAccountId = accounts.maxBy { it.id }?.id ?: 0
         val newAccountId = maxAccountId + 1
-        activeAccount = AccountEntity(id = newAccountId, domain = domain.toLowerCase(), accessToken = accessToken, isActive = true)
+        activeAccount = AccountEntity(
+                id = newAccountId,
+                domain = domain.toLowerCase(),
+                accessToken = accessToken,
+                refreshToken = refreshToken,
+                expiresAt = expiresIn,
+                clientId = clientId,
+                clientSecret = clientSecret,
+                isActive = true
+        )
 
     }
 
@@ -74,7 +91,6 @@ class AccountManager(db: AppDatabase) {
             Log.d(TAG, "saveAccount: saving account with id " + account.id)
             accountDao.insertOrReplace(account)
         }
-
     }
 
     /**
@@ -190,4 +206,37 @@ class AccountManager(db: AppDatabase) {
         }
     }
 
+    /**
+     * Uses refresh_token to get a new token if possible. If it fails, returns false
+     */
+    fun recoverAuthentication(): Completable {
+        val activeAccount = this.activeAccount
+                ?: throw IllegalStateException("Tried to refresh token but no active account present")
+
+        return if (activeAccount.refreshToken != null) {
+            refreshToken(activeAccount)
+        } else {
+            Completable.error(NoRefreshTokenException())
+        }
+    }
+
+    private fun refreshToken(account: AccountEntity): Completable {
+        return mastodonApi.get().fetchOAuthToken(
+                account.domain,
+                account.clientId,
+                account.clientSecret,
+                null,
+                null,
+                account.refreshToken,
+                "refresh_token"
+        ).doOnSuccess { tokenResponse ->
+            account.accessToken = tokenResponse.accessToken
+            // Server may or may not issue new refreshToken as per OAuth spec.
+            // I assume that it means "use the old one" but I may be wrong
+            // ref: https://tools.ietf.org/html/rfc6749#section-1.5
+            account.refreshToken = tokenResponse.refreshToken ?: account.refreshToken
+        }.ignoreElement()
+    }
+
+    class NoRefreshTokenException : RuntimeException()
 }

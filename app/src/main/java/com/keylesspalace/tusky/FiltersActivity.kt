@@ -1,6 +1,7 @@
 package com.keylesspalace.tusky
 
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
@@ -10,6 +11,8 @@ import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.appstore.PreferenceChangedEvent
 import com.keylesspalace.tusky.entity.Filter
 import com.keylesspalace.tusky.network.MastodonApi
+import com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider.from
+import com.uber.autodispose.autoDisposable
 import kotlinx.android.synthetic.main.activity_filters.*
 import kotlinx.android.synthetic.main.dialog_filter.*
 import kotlinx.android.synthetic.main.toolbar_basic.*
@@ -19,14 +22,14 @@ import retrofit2.Callback
 import retrofit2.Response
 import javax.inject.Inject
 
-class FiltersActivity: BaseActivity() {
+class FiltersActivity : BaseActivity() {
     @Inject
     lateinit var api: MastodonApi
 
     @Inject
     lateinit var eventHub: EventHub
 
-    private lateinit var context : String
+    private lateinit var context: String
     private lateinit var filters: MutableList<Filter>
     private lateinit var dialog: AlertDialog
 
@@ -37,29 +40,29 @@ class FiltersActivity: BaseActivity() {
 
     private fun updateFilter(filter: Filter, itemIndex: Int) {
         api.updateFilter(filter.id, filter.phrase, filter.context, filter.irreversible, filter.wholeWord, filter.expiresAt)
-            .enqueue(object: Callback<Filter>{
-                override fun onFailure(call: Call<Filter>, t: Throwable) {
-                    Toast.makeText(this@FiltersActivity, "Error updating filter '${filter.phrase}'", Toast.LENGTH_SHORT).show()
-                }
-
-                override fun onResponse(call: Call<Filter>, response: Response<Filter>) {
-                    val updatedFilter = response.body()!!
-                    if (updatedFilter.context.contains(context)) {
-                        filters[itemIndex] = updatedFilter
-                    } else {
-                        filters.removeAt(itemIndex)
+                .enqueue(object : Callback<Filter> {
+                    override fun onFailure(call: Call<Filter>, t: Throwable) {
+                        Toast.makeText(this@FiltersActivity, "Error updating filter '${filter.phrase}'", Toast.LENGTH_SHORT).show()
                     }
-                    refreshFilterDisplay()
-                    eventHub.dispatch(PreferenceChangedEvent(context))
-                }
-            })
+
+                    override fun onResponse(call: Call<Filter>, response: Response<Filter>) {
+                        val updatedFilter = response.body()!!
+                        if (updatedFilter.context.contains(context)) {
+                            filters[itemIndex] = updatedFilter
+                        } else {
+                            filters.removeAt(itemIndex)
+                        }
+                        refreshFilterDisplay()
+                        eventHub.dispatch(PreferenceChangedEvent(context))
+                    }
+                })
     }
 
     private fun deleteFilter(itemIndex: Int) {
         val filter = filters[itemIndex]
         if (filter.context.count() == 1) {
             // This is the only context for this filter; delete it
-            api.deleteFilter(filters[itemIndex].id).enqueue(object: Callback<ResponseBody> {
+            api.deleteFilter(filters[itemIndex].id).enqueue(object : Callback<ResponseBody> {
                 override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
                     Toast.makeText(this@FiltersActivity, "Error updating filter '${filters[itemIndex].phrase}'", Toast.LENGTH_SHORT).show()
                 }
@@ -80,7 +83,7 @@ class FiltersActivity: BaseActivity() {
     }
 
     private fun createFilter(phrase: String) {
-        api.createFilter(phrase, listOf(context), false, true, "").enqueue(object: Callback<Filter> {
+        api.createFilter(phrase, listOf(context), false, true, "").enqueue(object : Callback<Filter> {
             override fun onResponse(call: Call<Filter>, response: Response<Filter>) {
                 filters.add(response.body()!!)
                 refreshFilterDisplay()
@@ -97,7 +100,7 @@ class FiltersActivity: BaseActivity() {
         dialog = AlertDialog.Builder(this@FiltersActivity)
                 .setTitle(R.string.filter_addition_dialog_title)
                 .setView(R.layout.dialog_filter)
-                .setPositiveButton(android.R.string.ok){ _, _ ->
+                .setPositiveButton(android.R.string.ok) { _, _ ->
                     createFilter(dialog.phraseEditText.text.toString())
                 }
                 .setNeutralButton(android.R.string.cancel, null)
@@ -132,16 +135,12 @@ class FiltersActivity: BaseActivity() {
     }
 
     private fun loadFilters() {
-        api.filters.enqueue(object : Callback<List<Filter>> {
-            override fun onResponse(call: Call<List<Filter>>, response: Response<List<Filter>>) {
-                filters = response.body()!!.filter { filter -> filter.context.contains(context) }.toMutableList()
-                refreshFilterDisplay()
-            }
-
-            override fun onFailure(call: Call<List<Filter>>, t: Throwable) {
-                // Anything?
-            }
-        })
+        api.filters.autoDisposable(from(this))
+                .subscribe({ response ->
+                    filters = response
+                            .filter { filter -> filter.context.contains(context) }
+                            .toMutableList()
+                }, { t -> Log.w(javaClass.simpleName, "Failed to get filters", t) })
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
