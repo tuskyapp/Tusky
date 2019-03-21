@@ -114,6 +114,7 @@
     <string name="download_image">%1$s をダウンロードしています</string>
     <string name="action_copy_link">リンクをコピー</string>
     <string name="action_open_as">%s として開く</string>
+    <string name="action_share_as">… として共有</string>
     <string name="send_status_link_to">トゥートのURLを共有…</string>
     <string name="send_status_content_to">トゥートを共有…</string>
     <string name="send_media_to">メディアを共有…</string>
