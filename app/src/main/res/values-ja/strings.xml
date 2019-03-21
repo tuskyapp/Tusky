@@ -276,6 +276,8 @@
     <string name="action_lists">リスト</string>
     <string name="title_lists">リスト</string>
     <string name="title_list_timeline">リストタイムライン</string>
+    <string name="error_rename_list">リスト名を変更できませんでした。</string>
+    <string name="action_rename_list">リスト名の変更</string>
     <string name="compose_active_account_description">%1$sで投稿</string>
     <string name="error_failed_set_caption">説明の設定に失敗しました</string>
     <string name="hint_describe_for_visually_impaired">視覚障害者のための説明 (%d文字まで)</string>
@@ -337,4 +339,5 @@
     </string>
     <string name="description_visiblity_direct">        ダイレクト
     </string>
+    <string name="hint_list_name">リスト名</string>
 </resources>
