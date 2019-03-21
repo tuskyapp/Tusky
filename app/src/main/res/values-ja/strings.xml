@@ -170,6 +170,7 @@
     <string name="pref_title_appearance_settings">表示</string>
     <string name="pref_title_app_theme">アプリテーマ</string>
     <string name="pref_title_timelines">タイムライン</string>
+    <string name="pref_title_timeline_filters">フィルター</string>
     <string-array name="app_theme_names">
         <item>ダーク</item>
         <item>ライト</item>
@@ -268,6 +269,8 @@
     <string name="title_media">メディア</string>
     <string name="replying_to">\@%sに返信</string>
     <string name="load_more_placeholder_text">さらに読み込む</string>
+    <string name="filter_addition_dialog_title">フィルターを追加</string>
+    <string name="filter_edit_dialog_title">フィルターを編集</string>
     <string name="add_account_name">アカウントを追加</string>
     <string name="add_account_description">新しいMastodonアカウントを追加</string>
     <string name="action_lists">リスト</string>
@@ -328,4 +331,10 @@
     <string name="title_reblogged_by">ブーストした人物</string>
     <string name="title_favourited_by">お気に入りした人物</string>
     <string name="max_tab_number_reached">タブは %1$d 個が上限です</string>
+    <string name="description_visiblity_public">        公開
+    </string>
+    <string name="description_visiblity_unlisted">        未収載
+    </string>
+    <string name="description_visiblity_direct">        ダイレクト
+    </string>
 </resources>
