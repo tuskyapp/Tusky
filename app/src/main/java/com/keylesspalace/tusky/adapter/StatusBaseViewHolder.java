@@ -44,9 +44,10 @@ import at.connyduck.sparkbutton.SparkEventListener;
 import kotlin.collections.CollectionsKt;
 
 public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
-    public static class Key{
+    public static class Key {
         public static final String KEY_CREATED = "created";
     }
+
     private TextView displayName;
     private TextView username;
     private ImageButton replyButton;
@@ -540,8 +541,9 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
 
     protected void setupWithStatus(StatusViewData.Concrete status, final StatusActionListener listener,
                                    boolean mediaPreviewEnabled) {
-        this.setupWithStatus(status,listener,mediaPreviewEnabled,null);
+        this.setupWithStatus(status, listener, mediaPreviewEnabled, null);
     }
+
     protected void setupWithStatus(StatusViewData.Concrete status, final StatusActionListener listener,
                                    boolean mediaPreviewEnabled, @Nullable Object payloads) {
         if (payloads == null) {
@@ -584,14 +586,13 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             // fetches another one from its delegate because it checks that it's set so we remove it
             // and let RecyclerView ask for a new delegate.
             itemView.setAccessibilityDelegate(null);
-        }
-        else{
+        } else {
             if (payloads instanceof List)
-            for (Object item:(List)payloads) {
-                if (Key.KEY_CREATED.equals(item)){
-                    setCreatedAt(status.getCreatedAt());
+                for (Object item : (List) payloads) {
+                    if (Key.KEY_CREATED.equals(item)) {
+                        setCreatedAt(status.getCreatedAt());
+                    }
                 }
-            }
 
         }
     }
