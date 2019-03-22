@@ -180,7 +180,6 @@
     <string name="pref_title_status_filter">Zaman çizelgesi filtreleme</string>
     <string name="pref_title_status_tabs">Sekmeler</string>
     <string name="pref_title_show_replies">Yanıtları göster</string>
-    <string name="pref_title_filter_regex">Düzenli ifadeleri filtrele</string>
     <string name="pref_title_show_media_preview">Medya önizlemelerini göster</string>
     <string name="pref_title_proxy_settings">Proxy</string>
     <string name="pref_title_http_proxy_settings">HTTP Proxy</string>

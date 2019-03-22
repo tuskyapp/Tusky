@@ -165,7 +165,6 @@
     <string name="pref_title_status_tabs">Karty</string>
     <string name="pref_title_show_reposts">Pokazuj podbicia</string>
     <string name="pref_title_show_replies">Pokazuj odpowiedzi</string>
-    <string name="pref_title_filter_regex">Filtruj z użyciem wyrażeń regularnych</string>
     <string name="pref_title_show_media_preview">Pokazuj podgląd zawartości multimedialnej</string>
     <string name="pref_title_http_proxy_settings">Proxy HTTP</string>
     <string name="pref_title_http_proxy_enable">Włącz proxy HTTP</string>

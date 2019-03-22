@@ -193,7 +193,6 @@
     <string name="pref_title_status_tabs">Tijdlijnen</string>
     <string name="pref_title_show_reposts">Reposts tonen</string>
     <string name="pref_title_show_replies">Reacties tonen</string>
-    <string name="pref_title_filter_regex">Filteren op reguliere expressies</string>
     <string name="pref_title_show_media_preview">Voorbeelden van media tonen</string>
     <string name="pref_title_proxy_settings">Proxy</string>
     <string name="pref_title_http_proxy_settings">HTTP-proxy</string>

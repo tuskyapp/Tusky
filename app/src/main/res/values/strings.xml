@@ -199,6 +199,7 @@
     <string name="pref_title_appearance_settings">Appearance</string>
     <string name="pref_title_app_theme">App Theme</string>
     <string name="pref_title_timelines">Timelines</string>
+    <string name="pref_title_timeline_filters">Filters</string>
 
     <string-array name="app_theme_names">
         <item>Dark</item>
@@ -216,7 +217,6 @@
     <string name="pref_title_status_tabs">Tabs</string>
     <string name="pref_title_show_reposts">Show reposts</string>
     <string name="pref_title_show_replies">Show replies</string>
-    <string name="pref_title_filter_regex">Filter out by regular expressions</string>
     <string name="pref_title_show_media_preview">Download media previews</string>
     <string name="pref_title_proxy_settings">Proxy</string>
     <string name="pref_title_http_proxy_settings">HTTP proxy</string>
@@ -319,6 +319,14 @@
     <string name="title_media">Media</string>
     <string name="replying_to">Replying to @%s</string>
     <string name="load_more_placeholder_text">load more</string>
+
+    <string name="pref_title_public_filter_keywords">Public timelines</string>
+    <string name="pref_title_thread_filter_keywords">Conversations</string>
+    <string name="filter_addition_dialog_title">Add filter</string>
+    <string name="filter_edit_dialog_title">Edit filter</string>
+    <string name="filter_dialog_remove_button">Remove</string>
+    <string name="filter_dialog_update_button">Update</string>
+    <string name="filter_add_description">Phrase to filter</string>
 
     <string name="add_account_name">Add Account</string>
     <string name="add_account_description">Add new Mastodon Account</string>

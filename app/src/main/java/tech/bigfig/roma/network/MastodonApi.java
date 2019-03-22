@@ -348,4 +348,37 @@ public interface MastodonApi {
 
     @GET("/api/v1/conversations")
     Call<List<Conversation>> getConversations(@Nullable @Query("max_id") String maxId, @Query("limit") int limit);
+    @GET("api/v1/filters")
+    Call<List<Filter>> getFilters();
+
+    @FormUrlEncoded
+    @POST("api/v1/filters")
+    Call<Filter> createFilter(
+            @Field("phrase") String phrase,
+            @Field("context[]") List<String> context,
+            @Field("irreversible") Boolean irreversible,
+            @Field("whole_word") Boolean wholeWord,
+            @Field("expires_in") String expiresIn
+    );
+
+    @GET("api/v1/filters/{id}")
+    Call<Filter> getFilter(
+            @Path("id") String id
+    );
+
+    @FormUrlEncoded
+    @PUT("api/v1/filters/{id}")
+    Call<Filter> updateFilter(
+            @Path("id") String id,
+            @Field("phrase") String phrase,
+            @Field("context[]") List<String> context,
+            @Field("irreversible") Boolean irreversible,
+            @Field("whole_word") Boolean wholeWord,
+            @Field("expires_in") String expiresIn
+    );
+
+    @DELETE("api/v1/filters/{id}")
+    Call<ResponseBody> deleteFilter(
+            @Path("id") String id
+    );
 }

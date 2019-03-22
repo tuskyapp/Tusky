@@ -170,7 +170,6 @@
     <string name="pref_title_status_tabs">Tabiau</string>
     <string name="pref_title_show_reposts">Dangos hybiadau</string>
     <string name="pref_title_show_replies">Dangos atebion</string>
-    <string name="pref_title_filter_regex">Hidlo drwy fynegiannau arferol </string>
     <string name="pref_title_show_media_preview">Dangos rhagolwg o gyfryngau</string>
     <string name="pref_title_proxy_settings">Procsi</string>
     <string name="pref_title_http_proxy_settings">Procsi HTTP </string>
