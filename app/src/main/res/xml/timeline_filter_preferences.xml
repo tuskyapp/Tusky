@@ -17,15 +17,4 @@
             android:title="@string/pref_title_show_replies"
             app:iconSpaceReserved="false" />
     </PreferenceCategory>
-
-    <PreferenceCategory
-        android:title="@string/title_advanced"
-        app:iconSpaceReserved="false">
-        <Preference
-            android:inputType="textNoSuggestions"
-            android:key="tabFilterRegex"
-            android:title="@string/pref_title_filter_regex"
-            app:iconSpaceReserved="false" />
-    </PreferenceCategory>
-
 </PreferenceScreen>

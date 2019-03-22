@@ -164,7 +164,6 @@
     <string name="pref_title_status_tabs">標籤頁</string>
     <string name="pref_title_show_reposts">顯示轉嘟</string>
     <string name="pref_title_show_replies">顯示回覆</string>
-    <string name="pref_title_filter_regex">使用正規表示式過濾</string>
     <string name="pref_title_show_media_preview">顯示預覽圖</string>
     <string name="pref_title_proxy_settings">代理伺服器</string>
     <string name="pref_title_http_proxy_settings">HTTP 代理伺服器</string>

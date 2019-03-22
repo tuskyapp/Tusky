@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/activityFilters"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".FiltersActivity">
+
+    <include layout="@layout/toolbar_basic" />
+
+    <ListView
+        android:id="@+id/filtersView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/filter_floating_add"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:contentDescription="@string/filter_addition_dialog_title"
+        app:layout_anchor="@id/filtersView"
+        app:layout_anchorGravity="bottom|end"
+        android:src="@drawable/ic_plus_24dp"
+        />
+
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

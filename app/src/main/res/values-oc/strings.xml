@@ -166,7 +166,6 @@
     <string name="pref_title_status_tabs">Onglets</string>
     <string name="pref_title_show_reposts">Mostrar los retuts</string>
     <string name="pref_title_show_replies">Mostrar las responsas</string>
-    <string name="pref_title_filter_regex">Filtrar amb d’expressions regularas</string>
     <string name="pref_title_show_media_preview">Mostrar los apercebuts</string>
     <string name="pref_title_http_proxy_settings">Proxy HTTP</string>
     <string name="pref_title_http_proxy_enable">Activar lo proxy HTTP</string>
