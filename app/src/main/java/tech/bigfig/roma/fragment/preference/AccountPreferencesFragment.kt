@@ -40,6 +40,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import tech.bigfig.roma.*
+import tech.bigfig.roma.entity.Filter
 import javax.inject.Inject
 
 

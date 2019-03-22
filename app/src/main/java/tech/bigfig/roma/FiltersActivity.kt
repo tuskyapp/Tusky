@@ -1,4 +1,4 @@
-package com.keylesspalace.tusky
+package tech.bigfig.roma
 
 import android.os.Bundle
 import android.view.MenuItem
@@ -6,10 +6,7 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import com.keylesspalace.tusky.appstore.EventHub
-import com.keylesspalace.tusky.appstore.PreferenceChangedEvent
-import com.keylesspalace.tusky.entity.Filter
-import com.keylesspalace.tusky.network.MastodonApi
+import tech.bigfig.roma.entity.Filter
 import kotlinx.android.synthetic.main.activity_filters.*
 import kotlinx.android.synthetic.main.dialog_filter.*
 import kotlinx.android.synthetic.main.toolbar_basic.*
@@ -17,9 +14,13 @@ import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import tech.bigfig.roma.appstore.EventHub
+import tech.bigfig.roma.appstore.PreferenceChangedEvent
+import tech.bigfig.roma.di.Injectable
+import tech.bigfig.roma.network.MastodonApi
 import javax.inject.Inject
 
-class FiltersActivity: BaseActivity() {
+class FiltersActivity: BaseActivity(),Injectable {
     @Inject
     lateinit var api: MastodonApi
 

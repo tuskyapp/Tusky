@@ -24,6 +24,7 @@ import tech.bigfig.roma.entity.Attachment;
 import tech.bigfig.roma.entity.Card;
 import tech.bigfig.roma.entity.Conversation;
 import tech.bigfig.roma.entity.Emoji;
+import tech.bigfig.roma.entity.Filter;
 import tech.bigfig.roma.entity.Instance;
 import tech.bigfig.roma.entity.MastoList;
 import tech.bigfig.roma.entity.Notification;

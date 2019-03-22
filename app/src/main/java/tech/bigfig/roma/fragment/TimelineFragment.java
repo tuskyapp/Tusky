@@ -47,6 +47,7 @@ import tech.bigfig.roma.appstore.StatusDeletedEvent;
 import tech.bigfig.roma.appstore.UnfollowEvent;
 import tech.bigfig.roma.db.AccountManager;
 import tech.bigfig.roma.di.Injectable;
+import tech.bigfig.roma.entity.Filter;
 import tech.bigfig.roma.entity.Status;
 import tech.bigfig.roma.interfaces.ActionButtonActivity;
 import tech.bigfig.roma.interfaces.StatusActionListener;
