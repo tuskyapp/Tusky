@@ -184,7 +184,6 @@
     <string name="pref_title_status_tabs">タブ</string>
     <string name="pref_title_show_boosts">ブーストを表示</string>
     <string name="pref_title_show_replies">返信を表示</string>
-    <string name="pref_title_filter_regex">正規表現による除外</string>
     <string name="pref_title_show_media_preview">メディアのプレビューを表示する</string>
     <string name="pref_title_proxy_settings">プロキシー</string>
     <string name="pref_title_http_proxy_settings">HTTPプロキシー</string>

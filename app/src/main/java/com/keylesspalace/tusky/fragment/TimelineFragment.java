@@ -20,6 +20,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -45,6 +46,7 @@ import com.keylesspalace.tusky.appstore.StatusDeletedEvent;
 import com.keylesspalace.tusky.appstore.UnfollowEvent;
 import com.keylesspalace.tusky.db.AccountManager;
 import com.keylesspalace.tusky.di.Injectable;
+import com.keylesspalace.tusky.entity.Filter;
 import com.keylesspalace.tusky.entity.Status;
 import com.keylesspalace.tusky.interfaces.ActionButtonActivity;
 import com.keylesspalace.tusky.interfaces.StatusActionListener;
@@ -64,7 +66,9 @@ import com.keylesspalace.tusky.view.BackgroundMessageView;
 import com.keylesspalace.tusky.view.EndlessOnScrollListener;
 import com.keylesspalace.tusky.viewdata.StatusViewData;
 
+import java.util.ArrayList;
 import java.io.IOException;
+import java.util.Collections;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -312,6 +316,20 @@ public class TimelineFragment extends SFragment implements
                         });
     }
 
+    private void reloadFilters(boolean refresh) {
+        mastodonApi.getFilters().enqueue(new Callback<List<Filter>>() {
+            @Override
+            public void onResponse(Call<List<Filter>> call, Response<List<Filter>> response) {
+                applyFilters(response.body(), refresh);
+            }
+
+            @Override
+            public void onFailure(Call<List<Filter>> call, Throwable t) {
+                Log.e(TAG, "Error getting filters from server");
+            }
+        });
+    }
+
     private void setupTimelinePreferences() {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
         alwaysShowSensitiveMedia = accountManager.getActiveAccount().getAlwaysShowSensitiveMedia();
@@ -325,16 +343,43 @@ public class TimelineFragment extends SFragment implements
 
         filter = preferences.getBoolean("tabFilterHomeBoosts", true);
         filterRemoveReblogs = kind == Kind.HOME && !filter;
+        reloadFilters(false);
+    }
 
-        String regexFilter = preferences.getString("tabFilterRegex", "");
-        filterRemoveRegex = (kind == Kind.HOME
-                || kind == Kind.PUBLIC_LOCAL
-                || kind == Kind.PUBLIC_FEDERATED)
-                && !regexFilter.isEmpty();
+    private static boolean filterContextMatchesKind(Kind kind, List<String> filterContext) {
+        // home, notifications, public, thread
+        switch(kind) {
+            case HOME:
+                return filterContext.contains(Filter.HOME);
+            case PUBLIC_FEDERATED:
+            case PUBLIC_LOCAL:
+            case TAG:
+                return filterContext.contains(Filter.PUBLIC);
+            case FAVOURITES:
+                return (filterContext.contains(Filter.PUBLIC) || filterContext.contains(Filter.NOTIFICATIONS));
+            default:
+                return false;
+        }
+    }
 
+    private static String filterToRegexToken(Filter filter) {
+        String phrase = Pattern.quote(filter.getPhrase());
+        return filter.getWholeWord() ? String.format("\\b%s\\b", phrase) : phrase;
+    }
+
+    private void applyFilters(List<Filter> filters, boolean refresh) {
+        List<String> tokens = new ArrayList<>();
+        for (Filter filter : filters) {
+            if (filterContextMatchesKind(kind, filter.getContext())) {
+                tokens.add(filterToRegexToken(filter));
+            }
+        }
+        filterRemoveRegex = !tokens.isEmpty();
         if (filterRemoveRegex) {
-            filterRemoveRegexMatcher = Pattern.compile(regexFilter, Pattern.CASE_INSENSITIVE)
-                    .matcher("");
+            filterRemoveRegexMatcher = Pattern.compile(TextUtils.join("|", tokens), Pattern.CASE_INSENSITIVE).matcher("");
+        }
+        if (refresh) {
+            fullyRefresh();
         }
     }
 
@@ -765,19 +810,12 @@ public class TimelineFragment extends SFragment implements
                 }
                 break;
             }
-            case "tabFilterRegex": {
-                boolean oldFilterRemoveRegex = filterRemoveRegex;
-                String newFilterRemoveRegexPattern = sharedPreferences.getString("tabFilterRegex", "");
-                boolean patternChanged;
-                if (filterRemoveRegexMatcher != null) {
-                    patternChanged = !newFilterRemoveRegexPattern.equalsIgnoreCase(filterRemoveRegexMatcher.pattern().pattern());
-                } else {
-                    patternChanged = !newFilterRemoveRegexPattern.isEmpty();
-                }
-                filterRemoveRegex = (kind == Kind.HOME || kind == Kind.PUBLIC_LOCAL || kind == Kind.PUBLIC_FEDERATED) && !newFilterRemoveRegexPattern.isEmpty();
-                if (oldFilterRemoveRegex != filterRemoveRegex || patternChanged) {
-                    filterRemoveRegexMatcher = Pattern.compile(newFilterRemoveRegexPattern, Pattern.CASE_INSENSITIVE).matcher("");
-                    fullyRefresh();
+            case Filter.HOME:
+            case Filter.NOTIFICATIONS:
+            case Filter.THREAD:
+            case Filter.PUBLIC: {
+                if (filterContextMatchesKind(kind, Collections.singletonList(key))) {
+                    reloadFilters(true);
                 }
                 break;
             }

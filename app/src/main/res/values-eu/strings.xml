@@ -168,7 +168,6 @@
     <string name="pref_title_status_tabs">Fitxak</string>
     <string name="pref_title_show_boosts">Erakutsi bultzadak</string>
     <string name="pref_title_show_replies">Erakutsi erantzunak</string>
-    <string name="pref_title_filter_regex">Espresio erregularrekin filtratu</string>
     <string name="pref_title_show_media_preview">Multimedia aurreikusi</string>
     <string name="pref_title_proxy_settings">Proxy-a</string>
     <string name="pref_title_http_proxy_settings">HTTP Proxy-a</string>

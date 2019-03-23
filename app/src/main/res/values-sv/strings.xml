@@ -179,6 +179,7 @@
     <string name="pref_title_appearance_settings">Utseende</string>
     <string name="pref_title_app_theme">App Tema</string>
     <string name="pref_title_timelines">Tidslinjer</string>
+    <string name="pref_title_timeline_filters">Filter</string>
     <string-array name="app_theme_names">
         <item>Mörk</item>
         <item>Ljus</item>
@@ -194,7 +195,6 @@
     <string name="pref_title_status_tabs">Flikar</string>
     <string name="pref_title_show_boosts">Visa knuffar</string>
     <string name="pref_title_show_replies">Visa svar</string>
-    <string name="pref_title_filter_regex">Filtrera ut med regelbundna uttryck</string>
     <string name="pref_title_show_media_preview">Visa en förhandsgranskning</string>
     <string name="pref_title_proxy_settings">Proxyserver</string>
     <string name="pref_title_http_proxy_settings">HTTP-proxy</string>
@@ -278,11 +278,28 @@
     <string name="title_media">Media</string>
     <string name="replying_to">Svarar till @%s</string>
     <string name="load_more_placeholder_text">ladda mer</string>
+    <string name="pref_title_public_filter_keywords">Offentliga tidslinjer</string>
+    <string name="pref_title_thread_filter_keywords">Konversationer</string>
+    <string name="filter_addition_dialog_title">Lägg till filter</string>
+    <string name="filter_edit_dialog_title">Redigera filter</string>
+    <string name="filter_dialog_remove_button">Ta bort</string>
+    <string name="filter_dialog_update_button">Uppdatera</string>
+    <string name="filter_add_description">Filtrera fras</string>
     <string name="add_account_name">Lägg till konto</string>
     <string name="add_account_description">Lägg till ett nytt Mastodon-konto</string>
     <string name="action_lists">Listor</string>
     <string name="title_lists">Listor</string>
     <string name="title_list_timeline">Lista tidslinje</string>
+    <string name="error_create_list">Kunde inte skapa lista</string>
+    <string name="error_rename_list">Kunde inte byta namn på lista</string>
+    <string name="error_delete_list">Kunde inte radera lista</string>
+    <string name="action_create_list">Skapa en lista</string>
+    <string name="action_rename_list">Byt namn på lista</string>
+    <string name="action_delete_list">Ta bort denna lista</string>
+    <string name="action_edit_list">Redigera listan</string>
+    <string name="hint_search_people_list">Sök efter personer du följer</string>
+    <string name="action_add_to_list">Lägga till kontot i listan</string>
+    <string name="action_remove_from_list">Ta bort kontot från listan</string>
     <string name="compose_active_account_description">Inlägg med kontot %1$s</string>
     <string name="error_failed_set_caption">Misslyckades med att ange bildtext</string>
     <string name="hint_describe_for_visually_impaired">Beskriv för synskadade\n(%d teckengräns)</string>
@@ -333,6 +350,10 @@
         <item quantity="one">&lt;b&gt;%1$s&lt;/b&gt; Favorit</item>
         <item quantity="other">&lt;b&gt;%1$s&lt;/b&gt; Favoriter</item>
     </plurals>
+    <plurals name="reblogs">
+        <item quantity="one">&lt;b&gt;%s&lt;/b&gt; Knuffa</item>
+        <item quantity="other">&lt;b&gt;%s&lt;/b&gt; Knuffar</item>
+    </plurals>
     <string name="title_reblogged_by">Knuffad av</string>
     <string name="title_favourited_by">Favoriserad av</string>
     <string name="conversation_1_recipients">%1$s</string>
@@ -360,4 +381,5 @@
     <string name="description_status">        <!-- Display name, cw?, content?, relative date, reposted by?, reposted?, favorited?, username, media?; visibility, fav number?, reblog number?-->
         %s; %s; %s, %s, %s; %s, %s, %s, %s; %s, %s, %s
     </string>
+    <string name="hint_list_name">Listnamn</string>
 </resources>

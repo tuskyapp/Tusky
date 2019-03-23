@@ -155,7 +155,6 @@
     <string name="pref_title_status_tabs">கீற்றுகள்</string>
     <string name="pref_title_show_boosts">மேலேற்றத்தை காண்பி</string>
     <string name="pref_title_show_replies">பதில்களைக் காண்பி</string>
-    <string name="pref_title_filter_regex">சுருங்குறித்தொடர் மூலம் வடிகட்டு</string>
     <string name="pref_title_show_media_preview">ஊடக மாதிரிக்காட்சிகளைக் காண்பி</string>
     <string name="pref_title_proxy_settings">ப்ராக்ஸி</string>
     <string name="pref_title_http_proxy_settings">HTTP ப்ராக்ஸி</string>

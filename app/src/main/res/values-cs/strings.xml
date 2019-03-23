@@ -180,6 +180,7 @@
     <string name="pref_title_appearance_settings">Vzhled</string>
     <string name="pref_title_app_theme">Motiv aplikace</string>
     <string name="pref_title_timelines">Časové osy</string>
+    <string name="pref_title_timeline_filters">Filtry</string>
     <string-array name="app_theme_names">
         <item>Tmavý</item>
         <item>Světlý</item>
@@ -195,7 +196,6 @@
     <string name="pref_title_status_tabs">Panely</string>
     <string name="pref_title_show_boosts">Zobrazi boosty</string>
     <string name="pref_title_show_replies">Zobrazit odpovědi</string>
-    <string name="pref_title_filter_regex">Filtrovat regulárními výrazy</string>
     <string name="pref_title_show_media_preview">Stahovat náhledy médií</string>
     <string name="pref_title_proxy_settings">Proxy</string>
     <string name="pref_title_http_proxy_settings">HTTP proxy</string>
@@ -279,6 +279,13 @@
     <string name="title_media">Média</string>
     <string name="replying_to">Odpověď uživateli @%s</string>
     <string name="load_more_placeholder_text">načíst více</string>
+    <string name="pref_title_public_filter_keywords">Veřejné časové osy</string>
+    <string name="pref_title_thread_filter_keywords">Konverzace</string>
+    <string name="filter_addition_dialog_title">Přidat filtr</string>
+    <string name="filter_edit_dialog_title">Upravit filtr</string>
+    <string name="filter_dialog_remove_button">Odstranit</string>
+    <string name="filter_dialog_update_button">Aktualizovat</string>
+    <string name="filter_add_description">Fráze k filtrování</string>
     <string name="add_account_name">Přidat účet</string>
     <string name="add_account_description">Přidat nový účet Mastodon</string>
     <string name="action_lists">Seznamy</string>
