@@ -282,6 +282,7 @@
     <string name="filter_edit_dialog_title">Redakti filtrilon</string>
     <string name="filter_dialog_remove_button">Forigi</string>
     <string name="filter_dialog_update_button">Akualigi</string>
+    <string name="filter_add_description">Frazo filtrota</string>
     <string name="add_account_name">Aldoni konton</string>
     <string name="add_account_description">Aldoni novan Mastodon konton</string>
     <string name="action_lists">Listoj</string>
