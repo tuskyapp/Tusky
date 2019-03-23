@@ -125,6 +125,8 @@
     <string name="action_copy_link">Kopii la ligilon</string>
     <string name="action_open_as">Malfermi kiel %s</string>
     <string name="action_share_as">Konigi kiel …</string>
+    <string name="download_media">Elŝuti aŭdovidaĵon</string>
+    <string name="downloading_media">Elŝutante aŭdovidaĵo</string>
     <string name="send_status_link_to">Konigi URL de mesaĝo al…</string>
     <string name="send_status_content_to">Konigi mesaĝon al…</string>
     <string name="send_media_to">Konigi aŭdovidaĵon al…</string>
