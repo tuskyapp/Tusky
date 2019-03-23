@@ -44,6 +44,7 @@ import com.keylesspalace.tusky.entity.Notification;
 import com.keylesspalace.tusky.entity.Status;
 import com.keylesspalace.tusky.interfaces.ActionButtonActivity;
 import com.keylesspalace.tusky.interfaces.StatusActionListener;
+import com.keylesspalace.tusky.interfaces.TabbedActivity;
 import com.keylesspalace.tusky.util.CollectionUtil;
 import com.keylesspalace.tusky.util.Either;
 import com.keylesspalace.tusky.util.HttpHeaderLink;
@@ -251,26 +252,30 @@ public class NotificationsFragment extends SFragment implements
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        MainActivity activity = (MainActivity) getActivity();
+        Activity activity = getActivity();
         if (activity == null) throw new AssertionError("Activity is null");
 
-        // MainActivity's layout is guaranteed to be inflated until onCreate returns.
-        TabLayout layout = activity.findViewById(R.id.tab_layout);
-        onTabSelectedListener = new TabLayout.OnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-            }
+        if (activity instanceof TabbedActivity) {
+            // MainActivity's layout is guaranteed to be inflated until onCreate returns.
+            TabLayout layout = ((TabbedActivity) activity).getTabLayout();
+            if (layout != null) {
+                onTabSelectedListener = new TabLayout.OnTabSelectedListener() {
+                    @Override
+                    public void onTabSelected(TabLayout.Tab tab) {
+                    }
 
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-            }
+                    @Override
+                    public void onTabUnselected(TabLayout.Tab tab) {
+                    }
 
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-                jumpToTop();
+                    @Override
+                    public void onTabReselected(TabLayout.Tab tab) {
+                        jumpToTop();
+                    }
+                };
+                layout.addOnTabSelectedListener(onTabSelectedListener);
             }
-        };
-        layout.addOnTabSelectedListener(onTabSelectedListener);
+        }
 
         /* This is delayed until onActivityCreated solely because MainActivity.composeButton isn't
          * guaranteed to be set until then.
@@ -329,8 +334,12 @@ public class NotificationsFragment extends SFragment implements
         if (activity == null) {
             Log.e(TAG, "Activity is null");
         } else {
-            TabLayout tabLayout = activity.findViewById(R.id.tab_layout);
-            tabLayout.removeOnTabSelectedListener(onTabSelectedListener);
+            if (activity instanceof TabbedActivity) {
+                TabLayout tabLayout = ((TabbedActivity) activity).getTabLayout();
+                if (tabLayout != null) {
+                    tabLayout.removeOnTabSelectedListener(onTabSelectedListener);
+                }
+            }
         }
 
         super.onDestroyView();

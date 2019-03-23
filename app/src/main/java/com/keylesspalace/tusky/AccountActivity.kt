@@ -41,12 +41,14 @@ import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.appbar.CollapsingToolbarLayout
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
+import com.google.android.material.tabs.TabLayout
 import com.keylesspalace.tusky.adapter.AccountFieldAdapter
 import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.entity.Account
 import com.keylesspalace.tusky.entity.Relationship
 import com.keylesspalace.tusky.interfaces.ActionButtonActivity
 import com.keylesspalace.tusky.interfaces.LinkListener
+import com.keylesspalace.tusky.interfaces.TabbedActivity
 import com.keylesspalace.tusky.pager.AccountPagerAdapter
 import com.keylesspalace.tusky.util.*
 import com.keylesspalace.tusky.viewmodel.AccountViewModel
@@ -59,7 +61,7 @@ import kotlinx.android.synthetic.main.view_account_moved.*
 import java.text.NumberFormat
 import javax.inject.Inject
 
-class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportFragmentInjector, LinkListener {
+class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportFragmentInjector, LinkListener, TabbedActivity {
 
     @Inject
     lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<androidx.fragment.app.Fragment>
@@ -263,7 +265,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
 
         val accountListClickListener = { v: View ->
             val type = when (v.id) {
-                R.id.accountFollowers-> AccountListActivity.Type.FOLLOWERS
+                R.id.accountFollowers -> AccountListActivity.Type.FOLLOWERS
                 R.id.accountFollowing -> AccountListActivity.Type.FOLLOWS
                 else -> throw AssertionError()
             }
@@ -595,6 +597,11 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
             accountFloatingActionButton
         } else null
     }
+
+    override fun getTabLayout(): TabLayout? {
+        return accountTabLayout
+    }
+
 
     override fun supportFragmentInjector(): AndroidInjector<Fragment> {
         return dispatchingAndroidInjector

@@ -50,6 +50,7 @@ import com.keylesspalace.tusky.entity.Filter;
 import com.keylesspalace.tusky.entity.Status;
 import com.keylesspalace.tusky.interfaces.ActionButtonActivity;
 import com.keylesspalace.tusky.interfaces.StatusActionListener;
+import com.keylesspalace.tusky.interfaces.TabbedActivity;
 import com.keylesspalace.tusky.network.MastodonApi;
 import com.keylesspalace.tusky.repository.Placeholder;
 import com.keylesspalace.tusky.repository.TimelineRepository;
@@ -436,24 +437,26 @@ public class TimelineFragment extends SFragment implements
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        if (jumpToTopAllowed()) {
-            TabLayout layout = requireActivity().findViewById(R.id.tab_layout);
-            if (layout != null) {
-                onTabSelectedListener = new TabLayout.OnTabSelectedListener() {
-                    @Override
-                    public void onTabSelected(TabLayout.Tab tab) {
-                    }
+        if (requireActivity() instanceof TabbedActivity) {
+            if (jumpToTopAllowed()) {
+                TabLayout layout = ((TabbedActivity) requireActivity()).getTabLayout();
+                if (layout != null) {
+                    onTabSelectedListener = new TabLayout.OnTabSelectedListener() {
+                        @Override
+                        public void onTabSelected(TabLayout.Tab tab) {
+                        }
 
-                    @Override
-                    public void onTabUnselected(TabLayout.Tab tab) {
-                    }
+                        @Override
+                        public void onTabUnselected(TabLayout.Tab tab) {
+                        }
 
-                    @Override
-                    public void onTabReselected(TabLayout.Tab tab) {
-                        jumpToTop();
-                    }
-                };
-                layout.addOnTabSelectedListener(onTabSelectedListener);
+                        @Override
+                        public void onTabReselected(TabLayout.Tab tab) {
+                            jumpToTop();
+                        }
+                    };
+                    layout.addOnTabSelectedListener(onTabSelectedListener);
+                }
             }
         }
 
@@ -545,10 +548,12 @@ public class TimelineFragment extends SFragment implements
 
     @Override
     public void onDestroyView() {
-        if (jumpToTopAllowed()) {
-            TabLayout tabLayout = requireActivity().findViewById(R.id.tab_layout);
-            if (tabLayout != null) {
-                tabLayout.removeOnTabSelectedListener(onTabSelectedListener);
+        if (requireActivity() instanceof TabbedActivity) {
+            if (jumpToTopAllowed()) {
+                TabLayout tabLayout = ((TabbedActivity) requireActivity()).getTabLayout();
+                if (tabLayout != null) {
+                    tabLayout.removeOnTabSelectedListener(onTabSelectedListener);
+                }
             }
         }
         super.onDestroyView();

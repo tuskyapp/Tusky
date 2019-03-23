@@ -44,6 +44,7 @@ import com.keylesspalace.tusky.components.conversation.ConversationsRepository;
 import com.keylesspalace.tusky.db.AccountEntity;
 import com.keylesspalace.tusky.entity.Account;
 import com.keylesspalace.tusky.interfaces.ActionButtonActivity;
+import com.keylesspalace.tusky.interfaces.TabbedActivity;
 import com.keylesspalace.tusky.pager.MainPagerAdapter;
 import com.keylesspalace.tusky.util.CustomEmojiHelper;
 import com.keylesspalace.tusky.util.NotificationHelper;
@@ -82,7 +83,7 @@ import static com.uber.autodispose.AutoDispose.autoDisposable;
 import static com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider.from;
 
 public final class MainActivity extends BottomSheetActivity implements ActionButtonActivity,
-        HasSupportFragmentInjector {
+        HasSupportFragmentInjector, TabbedActivity {
 
     private static final String TAG = "MainActivity"; // logging tag
     private static final long DRAWER_ITEM_ADD_ACCOUNT = -13;
@@ -600,4 +601,9 @@ public final class MainActivity extends BottomSheetActivity implements ActionBut
         return fragmentInjector;
     }
 
+    @Nullable
+    @Override
+    public TabLayout getTabLayout() {
+        return tabLayout;
+    }
 }
