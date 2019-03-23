@@ -18,11 +18,11 @@ package com.keylesspalace.tusky.db;
 import com.keylesspalace.tusky.TabDataKt;
 import com.keylesspalace.tusky.components.conversation.ConversationEntity;
 
-import androidx.sqlite.db.SupportSQLiteDatabase;
+import androidx.annotation.NonNull;
 import androidx.room.Database;
 import androidx.room.RoomDatabase;
 import androidx.room.migration.Migration;
-import androidx.annotation.NonNull;
+import androidx.sqlite.db.SupportSQLiteDatabase;
 
 /**
  * DB version & declare DAO
@@ -269,7 +269,7 @@ public abstract class AppDatabase extends RoomDatabase {
         @Override
         public void migrate(@NonNull SupportSQLiteDatabase database) {
             database.execSQL("ALTER TABLE `AccountEntity` ADD COLUMN `refreshToken` TEXT");
-            database.execSQL("ALTER TABLE `AccountEntity` ADD COLUMN `expiresIn` TEXT");
+            database.execSQL("ALTER TABLE `AccountEntity` ADD COLUMN `expiresAt` TEXT");
             database.execSQL("ALTER TABLE `AccountEntity` ADD COLUMN `clientId` TEXT");
             database.execSQL("ALTER TABLE `AccountEntity` ADD COLUMN `clientSecret` TEXT");
         }

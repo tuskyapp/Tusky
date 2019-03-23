@@ -21,6 +21,7 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -33,6 +34,7 @@ import com.keylesspalace.tusky.appstore.MainTabsChangedEvent;
 import com.keylesspalace.tusky.appstore.ProfileEditedEvent;
 import com.keylesspalace.tusky.components.conversation.ConversationsRepository;
 import com.keylesspalace.tusky.db.AccountEntity;
+import com.keylesspalace.tusky.db.AccountManager;
 import com.keylesspalace.tusky.entity.Account;
 import com.keylesspalace.tusky.interfaces.ActionButtonActivity;
 import com.keylesspalace.tusky.pager.MainPagerAdapter;
@@ -473,34 +475,38 @@ public final class MainActivity extends BottomSheetActivity implements ActionBut
         AccountEntity activeAccount = accountManager.getActiveAccount();
 
         if (activeAccount != null) {
-
             new AlertDialog.Builder(this)
                     .setTitle(R.string.action_logout)
                     .setMessage(getString(R.string.action_logout_confirm, activeAccount.getFullName()))
                     .setPositiveButton(android.R.string.yes, (dialog, which) -> {
 
-                        NotificationHelper.deleteNotificationChannelsForAccount(accountManager.getActiveAccount(), MainActivity.this);
-                        cacheUpdater.clearForUser(activeAccount.getId());
-                        conversationRepository.deleteCacheForAccount(activeAccount.getId());
 
-                        AccountEntity newAccount = accountManager.logActiveAccountOut();
-
-                        if (!NotificationHelper.areNotificationsEnabled(MainActivity.this, accountManager)) {
-                            NotificationHelper.disablePullNotifications();
-                        }
-
-                        Intent intent;
-                        if (newAccount == null) {
-                            intent = LoginActivity.getIntent(MainActivity.this, false);
-                        } else {
-                            intent = new Intent(MainActivity.this, MainActivity.class);
-                        }
-                        startActivity(intent);
-                        finishWithoutSlideOutAnimation();
                     })
                     .setNegativeButton(android.R.string.no, null)
                     .show();
         }
+    }
+
+    private void doLogout() {
+        AccountEntity activeAccount = accountManager.getActiveAccount();
+        NotificationHelper.deleteNotificationChannelsForAccount(activeAccount, MainActivity.this);
+        cacheUpdater.clearForUser(activeAccount.getId());
+        conversationRepository.deleteCacheForAccount(activeAccount.getId());
+
+        AccountEntity newAccount = accountManager.logActiveAccountOut();
+
+        if (!NotificationHelper.areNotificationsEnabled(MainActivity.this, accountManager)) {
+            NotificationHelper.disablePullNotifications();
+        }
+
+        Intent intent;
+        if (newAccount == null) {
+            intent = LoginActivity.getIntent(MainActivity.this, false);
+        } else {
+            intent = new Intent(MainActivity.this, MainActivity.class);
+        }
+        startActivity(intent);
+        finishWithoutSlideOutAnimation();
     }
 
     private void fetchUserInfo() {
@@ -513,12 +519,17 @@ public final class MainActivity extends BottomSheetActivity implements ActionBut
                     }
                     return Single.error(verifyError);
                 })
+                .observeOn(AndroidSchedulers.mainThread())
                 .as(autoDisposable(from(this)))
                 .subscribe(
                         this::onFetchUserInfoSuccess,
                         (err) -> {
-                            accountManager.logActiveAccountOut();
-                            redirectIfNotLoggedIn();
+                            if (err instanceof AccountManager.NoRefreshTokenException
+                                    || isNotAuthenticatedException(err)) {
+                                doLogout();
+                            } else {
+                                Log.w(TAG, "Failed to get user info: ", err);
+                            }
                         });
     }
 

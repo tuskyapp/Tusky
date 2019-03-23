@@ -43,6 +43,7 @@ import com.keylesspalace.tusky.appstore.ReblogEvent;
 import com.keylesspalace.tusky.appstore.StatusComposedEvent;
 import com.keylesspalace.tusky.appstore.StatusDeletedEvent;
 import com.keylesspalace.tusky.appstore.UnfollowEvent;
+import com.keylesspalace.tusky.db.AccountEntity;
 import com.keylesspalace.tusky.db.AccountManager;
 import com.keylesspalace.tusky.di.Injectable;
 import com.keylesspalace.tusky.entity.Filter;
@@ -242,6 +243,9 @@ public class TimelineFragment extends SFragment implements
     }
 
     private void sendInitialRequest() {
+        if (accountManager.getActiveAccount() == null) {
+            return;
+        }
         if (this.kind == Kind.HOME) {
             this.tryCache();
         } else {
@@ -325,9 +329,13 @@ public class TimelineFragment extends SFragment implements
     }
 
     private void setupTimelinePreferences() {
+        AccountEntity activeAccount = accountManager.getActiveAccount();
+        if (activeAccount == null) {
+            return;
+        }
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        alwaysShowSensitiveMedia = accountManager.getActiveAccount().getAlwaysShowSensitiveMedia();
-        boolean mediaPreviewEnabled = accountManager.getActiveAccount().getMediaPreviewEnabled();
+        alwaysShowSensitiveMedia = activeAccount.getAlwaysShowSensitiveMedia();
+        boolean mediaPreviewEnabled = activeAccount.getMediaPreviewEnabled();
         adapter.setMediaPreviewEnabled(mediaPreviewEnabled);
         boolean useAbsoluteTime = preferences.getBoolean("absoluteTimeView", false);
         adapter.setUseAbsoluteTime(useAbsoluteTime);
@@ -688,6 +696,9 @@ public class TimelineFragment extends SFragment implements
 
     @Override
     public void onLoadMore(int position) {
+        if (accountManager.getActiveAccount() == null) {
+            return;
+        }
         //check bounds before accessing list,
         if (statuses.size() >= position && position > 0) {
             Status fromStatus = statuses.get(position - 1).asRightOrNull();

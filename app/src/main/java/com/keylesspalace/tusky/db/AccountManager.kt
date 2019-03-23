@@ -230,6 +230,7 @@ class AccountManager(
                 account.refreshToken,
                 "refresh_token"
         ).doOnSuccess { tokenResponse ->
+            Log.d(TAG, "Successfully refreshed token for ${account.fullName}")
             account.accessToken = tokenResponse.accessToken
             // Server may or may not issue new refreshToken as per OAuth spec.
             // I assume that it means "use the old one" but I may be wrong

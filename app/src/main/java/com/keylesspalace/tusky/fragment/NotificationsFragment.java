@@ -200,8 +200,12 @@ public class NotificationsFragment extends SFragment implements
 
         adapter = new NotificationsAdapter(dataSource, this, this);
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        alwaysShowSensitiveMedia = accountManager.getActiveAccount().getAlwaysShowSensitiveMedia();
-        boolean mediaPreviewEnabled = accountManager.getActiveAccount().getMediaPreviewEnabled();
+        AccountEntity activeAccount = accountManager.getActiveAccount();
+        if (activeAccount == null) {
+            return rootView;
+        }
+        alwaysShowSensitiveMedia = activeAccount.getAlwaysShowSensitiveMedia();
+        boolean mediaPreviewEnabled = activeAccount.getMediaPreviewEnabled();
         adapter.setMediaPreviewEnabled(mediaPreviewEnabled);
         boolean useAbsoluteTime = preferences.getBoolean("absoluteTimeView", false);
         adapter.setUseAbsoluteTime(useAbsoluteTime);
