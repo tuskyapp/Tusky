@@ -16,7 +16,11 @@
 package com.keylesspalace.tusky
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.MenuItem
+import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.widget.AppCompatEditText
 import androidx.lifecycle.Lifecycle
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -36,6 +40,7 @@ import javax.inject.Inject
 
 import com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider.from
 import com.uber.autodispose.autoDisposable
+import java.util.regex.Pattern
 
 class TabPreferenceActivity : BaseActivity(), Injectable, ItemInteractionListener {
 
@@ -50,6 +55,8 @@ class TabPreferenceActivity : BaseActivity(), Injectable, ItemInteractionListene
     private var tabsChanged = false
 
     private val selectedItemElevation by lazy { resources.getDimension(R.dimen.selected_drag_item_elevation) }
+
+    private val hashtagRegex by lazy { Pattern.compile("([\\w_]*[\\p{Alpha}_][\\w_]*)", Pattern.CASE_INSENSITIVE) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -134,11 +141,71 @@ class TabPreferenceActivity : BaseActivity(), Injectable, ItemInteractionListene
     }
 
     override fun onTabAdded(tab: TabData) {
+
+        if(currentTabs.size >= MAX_TAB_COUNT) {
+            return
+        }
+
+        actionButton.isExpanded = false
+
+        if(tab.id == HASHTAG) {
+            showEditHashtagDialog()
+            return
+        }
+
         currentTabs.add(tab)
         currentTabsAdapter.notifyItemInserted(currentTabs.size - 1)
-        actionButton.isExpanded = false
         updateAvailableTabs()
         saveTabs()
+    }
+
+    override fun onActionChipClicked(tab: TabData) {
+        showEditHashtagDialog(tab)
+    }
+
+    private fun showEditHashtagDialog(tab: TabData? = null) {
+
+        val editText = AppCompatEditText(this)
+        editText.setText("")
+        editText.append(tab?.arguments?.first().orEmpty())
+
+        val dialog = AlertDialog.Builder(this)
+                .setTitle(R.string.edit_hashtag_title)
+                .setMessage(R.string.edit_hashtag_message)
+                .setView(editText)
+                .setNegativeButton(android.R.string.cancel, null)
+                .setPositiveButton(R.string.action_save) { _, _ ->
+                    val input = editText.text.toString().trim()
+                    if(tab == null) {
+                        val newTab = createTabDataFromId(HASHTAG, listOf(input))
+                        currentTabs.add(newTab)
+                        currentTabsAdapter.notifyItemInserted(currentTabs.size - 1)
+                    } else {
+                        val newTab = tab.copy(arguments = listOf(input))
+                        val position = currentTabs.indexOf(tab)
+                        currentTabs[position] = newTab
+
+                        currentTabsAdapter.notifyItemChanged(position)
+                    }
+
+                    updateAvailableTabs()
+                    saveTabs()
+                }
+                .create()
+
+        editText.addTextChangedListener(object: TextWatcher {
+            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) { }
+
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) { }
+
+            override fun afterTextChanged(s: Editable) {
+                val input = s.trim()
+                dialog.getButton(AlertDialog.BUTTON_POSITIVE).isEnabled = input.isNotEmpty() && hashtagRegex.matcher(input).matches()
+            }
+        })
+
+        dialog.show()
+        editText.requestFocus()
     }
 
     private fun updateAvailableTabs() {
@@ -164,6 +231,8 @@ class TabPreferenceActivity : BaseActivity(), Injectable, ItemInteractionListene
         if(!currentTabs.contains(directMessagesTab)) {
             addableTabs.add(directMessagesTab)
         }
+
+        addableTabs.add(createTabDataFromId(HASHTAG))
 
         addTabAdapter.updateData(addableTabs)
 

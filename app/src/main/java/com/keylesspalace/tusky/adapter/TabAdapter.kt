@@ -21,20 +21,25 @@ import android.view.View
 import android.view.ViewGroup
 
 import androidx.recyclerview.widget.RecyclerView
+import com.keylesspalace.tusky.HASHTAG
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.TabData
 import com.keylesspalace.tusky.util.ThemeUtils
 import kotlinx.android.synthetic.main.item_tab_preference.view.*
+import com.keylesspalace.tusky.util.hide
+import com.keylesspalace.tusky.util.show
+
 
 interface ItemInteractionListener {
     fun onTabAdded(tab: TabData)
     fun onStartDelete(viewHolder: RecyclerView.ViewHolder)
     fun onStartDrag(viewHolder: RecyclerView.ViewHolder)
+    fun onActionChipClicked(tab: TabData)
 }
 
-class TabAdapter(var data: List<TabData>,
-                 val small: Boolean = false,
-                 val listener: ItemInteractionListener? = null) : RecyclerView.Adapter<TabAdapter.ViewHolder>() {
+class TabAdapter(private var data: List<TabData>,
+                 private val small: Boolean = false,
+                 private val listener: ItemInteractionListener? = null) : RecyclerView.Adapter<TabAdapter.ViewHolder>() {
 
     fun updateData(newData: List<TabData>) {
         this.data = newData
@@ -52,8 +57,9 @@ class TabAdapter(var data: List<TabData>,
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        val context = holder.itemView.context
         holder.itemView.textView.setText(data[position].text)
-        val iconDrawable = ThemeUtils.getTintedDrawable(holder.itemView.context, data[position].icon, android.R.attr.textColorSecondary)
+        val iconDrawable = ThemeUtils.getTintedDrawable(context, data[position].icon, android.R.attr.textColorSecondary)
         holder.itemView.textView.setCompoundDrawablesRelativeWithIntrinsicBounds(iconDrawable, null, null, null)
         if(small) {
             holder.itemView.textView.setOnClickListener {
@@ -68,9 +74,26 @@ class TabAdapter(var data: List<TabData>,
                 false
             }
         }
+
+        if(!small) {
+
+            if (data[position].id == HASHTAG) {
+                holder.itemView.chipGroup.show()
+                holder.itemView.actionChip.text = data[position].arguments[0]
+
+                // starting from O we use the adaptive drawable that does not need theming
+                holder.itemView.actionChip.setChipIconResource(R.drawable.ic_edit_chip)
+
+                holder.itemView.actionChip.chipIcon = context.getDrawable(R.drawable.ic_edit_chip)
+                holder.itemView.actionChip.setOnClickListener {
+                    listener?.onActionChipClicked(data[position])
+                }
+
+            } else {
+                holder.itemView.chipGroup.hide()
+            }
+        }
     }
-
-
 
     override fun getItemCount(): Int {
         return data.size
