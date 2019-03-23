@@ -15,15 +15,22 @@
 
 package tech.bigfig.roma.fragment;
 
+import android.Manifest;
+import android.app.DownloadManager;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 
+import android.content.pm.PackageManager;
+import android.net.Uri;
+import android.os.Build;
+import android.os.Environment;
 import android.text.Spanned;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import tech.bigfig.roma.BaseActivity;
 import tech.bigfig.roma.BottomSheetActivity;
@@ -69,6 +76,7 @@ public abstract class SFragment extends BaseFragment implements Injectable {
     protected abstract void onReblog(final boolean reblog, final int position);
 
     private BottomSheetActivity bottomSheetActivity;
+    private Status pendingDownloadStatus;
 
     @Inject
     public MastodonApi mastodonApi;
@@ -158,6 +166,8 @@ public abstract class SFragment extends BaseFragment implements Injectable {
         // Give a different menu depending on whether this is the user's own toot or not.
         if (loggedInAccountId == null || !loggedInAccountId.equals(accountId)) {
             popup.inflate(R.menu.status_more);
+            Menu menu = popup.getMenu();
+            menu.findItem(R.id.status_download_media).setVisible(!status.getAttachments().isEmpty());
         } else {
             popup.inflate(R.menu.status_more_for_user);
             Menu menu = popup.getMenu();
@@ -234,6 +244,10 @@ public abstract class SFragment extends BaseFragment implements Injectable {
                 }
                 case R.id.status_open_as: {
                     showOpenAsDialog(statusUrl, item.getTitle());
+                    return true;
+                }
+                case R.id.status_download_media: {
+                    requestDownloadAllMedia(status);
                     return true;
                 }
                 case R.id.status_mute: {
@@ -341,5 +355,32 @@ public abstract class SFragment extends BaseFragment implements Injectable {
     private void showOpenAsDialog(String statusUrl, CharSequence dialogTitle) {
         BaseActivity activity = (BaseActivity)getActivity();
         activity.showAccountChooserDialog(dialogTitle, false, account -> openAsAccount(statusUrl, account));
+    }
+
+    private void downloadAllMedia(Status status) {
+        pendingDownloadStatus = null;
+        Toast.makeText(getContext(), R.string.downloading_media, Toast.LENGTH_SHORT).show();
+        for(Attachment attachment: status.getAttachments()) {
+            String url = attachment.getUrl();
+            Uri uri = Uri.parse(url);
+            String filename = uri.getLastPathSegment();
+
+            DownloadManager downloadManager = (DownloadManager)getActivity().getSystemService(Context.DOWNLOAD_SERVICE);
+            DownloadManager.Request request = new DownloadManager.Request(uri);
+            request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, filename);
+            downloadManager.enqueue(request);
+        }
+    }
+
+    private void requestDownloadAllMedia(Status status) {
+        pendingDownloadStatus = status;
+        String[] permissions = new String[]{ Manifest.permission.WRITE_EXTERNAL_STORAGE };
+        ((BaseActivity)getActivity()).requestPermissions(permissions, Build.VERSION_CODES.M, (permissions1, grantResults) -> {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                downloadAllMedia(status);
+            } else {
+                Toast.makeText(getContext(), R.string.error_media_download_permission, Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }

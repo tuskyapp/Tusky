@@ -634,7 +634,11 @@ public final class ComposeActivity
                         String text = intent.getStringExtra(Intent.EXTRA_TEXT);
                         String shareBody = null;
                         if(subject != null && text != null){
-                            shareBody = String.format("%s\n%s", subject, text);
+                            if(!subject.equals(text) && !text.contains(subject)){
+                                shareBody = String.format("%s\n%s", subject, text);
+                            }else{
+                                shareBody = text;
+                            }
                         }else if(text != null){
                             shareBody = text;
                         }else if(subject != null){

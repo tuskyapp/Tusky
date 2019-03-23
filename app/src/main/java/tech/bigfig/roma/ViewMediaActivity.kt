@@ -31,8 +31,6 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.Environment
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.viewpager.widget.ViewPager
 import android.util.Log
@@ -142,7 +140,7 @@ class ViewMediaActivity : BaseActivity(), ViewImageFragment.PhotoActionsListener
         toolbar.setNavigationOnClickListener { supportFinishAfterTransition() }
         toolbar.setOnMenuItemClickListener { item: MenuItem ->
             when (item.itemId) {
-                R.id.action_download -> downloadMedia()
+                R.id.action_download -> requestDownloadMedia()
                 R.id.action_open_status -> onOpenStatus()
                 R.id.action_share_media -> shareMedia()
                 R.id.action_copy_media_link -> copyLink()
@@ -188,36 +186,25 @@ class ViewMediaActivity : BaseActivity(), ViewImageFragment.PhotoActionsListener
                 .start()
     }
 
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
-        when (requestCode) {
-            PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE -> {
-                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    downloadMedia()
-                } else {
-                    showErrorDialog(toolbar, R.string.error_media_download_permission, R.string.action_retry) { downloadMedia() }
-                }
-            }
-        }
+    private fun downloadMedia() {
+        val url = attachments!![viewPager.currentItem].attachment.url
+        val filename = Uri.parse(url).lastPathSegment
+        Toast.makeText(applicationContext, resources.getString(R.string.download_image, filename), Toast.LENGTH_SHORT).show()
+
+        val downloadManager = getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
+        val request = DownloadManager.Request(Uri.parse(url))
+        request.setDestinationInExternalPublicDir(Environment.DIRECTORY_PICTURES,
+                getString(R.string.app_name) + "/" + filename)
+        downloadManager.enqueue(request)
     }
 
-    private fun downloadMedia() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M &&
-                ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this,
-                    arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
-                    PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE)
-        } else {
-            val url = attachments!![viewPager.currentItem].attachment.url
-            val filename = Uri.parse(url).lastPathSegment
-            val toastText = String.format(resources.getString(R.string.download_image), filename)
-            Toast.makeText(applicationContext, toastText, Toast.LENGTH_SHORT).show()
-
-            val downloadManager = getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
-            val request = DownloadManager.Request(Uri.parse(url))
-            request.setDestinationInExternalPublicDir(Environment.DIRECTORY_PICTURES,
-                    getString(R.string.app_name) + "/" + filename)
-            downloadManager.enqueue(request)
+    private fun requestDownloadMedia() {
+        requestPermissions(arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), Build.VERSION_CODES.M) { _, grantResults ->
+            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                downloadMedia()
+            } else {
+                showErrorDialog(toolbar, R.string.error_media_download_permission, R.string.action_retry) { requestDownloadMedia() }
+            }
         }
     }
 

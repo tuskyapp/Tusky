@@ -187,7 +187,6 @@
     <string name="pref_title_hide_follow_button">Verstecke Button bei Bildlauf </string>
     <string name="pref_title_language">Sprache</string>
     <string name="pref_title_status_filter">Timeline-Filter</string>
-    <string name="pref_title_filter_regex">Mit regulärem Ausdruck filtern</string>
     <string name="pref_title_proxy_settings">Proxy</string>
     <string name="pref_title_http_proxy_settings">HTTP-Proxy</string>
     <string name="pref_title_http_proxy_enable">HTTP-Proxy aktivieren</string>
