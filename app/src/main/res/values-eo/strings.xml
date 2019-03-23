@@ -278,6 +278,7 @@
     <string name="replying_to">Respondo al @%s</string>
     <string name="load_more_placeholder_text">ŝarĝi pli</string>
     <string name="pref_title_public_filter_keywords">Publikaj liniotempoj</string>
+    <string name="pref_title_thread_filter_keywords">Konversacioj</string>
     <string name="filter_addition_dialog_title">Aldoni filtrilon</string>
     <string name="filter_edit_dialog_title">Redakti filtrilon</string>
     <string name="filter_dialog_remove_button">Forigi</string>
