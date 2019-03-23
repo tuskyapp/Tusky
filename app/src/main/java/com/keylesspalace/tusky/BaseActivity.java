@@ -19,11 +19,13 @@ import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
@@ -37,9 +39,11 @@ import com.keylesspalace.tusky.db.AccountEntity;
 import com.keylesspalace.tusky.db.AccountManager;
 import com.keylesspalace.tusky.di.Injectable;
 import com.keylesspalace.tusky.interfaces.AccountSelectionListener;
+import com.keylesspalace.tusky.interfaces.PermissionRequester;
 import com.keylesspalace.tusky.util.ThemeUtils;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -48,6 +52,8 @@ import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import retrofit2.Call;
 
 public abstract class BaseActivity extends AppCompatActivity implements Injectable {
@@ -59,7 +65,9 @@ public abstract class BaseActivity extends AppCompatActivity implements Injectab
     @Inject
     public AccountManager accountManager;
 
-    protected static final int PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 1;
+    protected static final int BUILD_VERSION_ANY = -1;
+    private static final int REQUESTER_NONE = Integer.MAX_VALUE;
+    private HashMap<Integer, PermissionRequester> requesters;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -98,6 +106,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Injectab
         }
 
         callList = new ArrayList<>();
+        requesters = new HashMap<>();
     }
 
     @Override
@@ -221,5 +230,39 @@ public abstract class BaseActivity extends AppCompatActivity implements Injectab
             .setTitle(dialogTitle)
             .setAdapter(adapter, (dialogInterface, index) -> listener.onAccountSelected(accounts.get(index)))
             .show();
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        if (requesters.containsKey(requestCode)) {
+            PermissionRequester requester = requesters.remove(requestCode);
+            requester.onRequestPermissionsResult(permissions, grantResults);
+        }
+    }
+
+    public void requestPermissions(String[] permissions, int minimumBuildVersion, PermissionRequester requester) {
+        if (minimumBuildVersion == BUILD_VERSION_ANY || Build.VERSION.SDK_INT >= minimumBuildVersion) {
+            ArrayList<String> permissionsToRequest = new ArrayList<>();
+            for(String permission: permissions) {
+                if (ContextCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED) {
+                    permissionsToRequest.add(permission);
+                }
+            }
+            if (permissionsToRequest.isEmpty()) {
+                int[] permissionsAlreadyGranted = new int[permissions.length];
+                for (int i = 0; i < permissionsAlreadyGranted.length; ++i)
+                    permissionsAlreadyGranted[i] = PackageManager.PERMISSION_GRANTED;
+                requester.onRequestPermissionsResult(permissions, permissionsAlreadyGranted);
+                return;
+            }
+
+            int newKey = requester == null ? REQUESTER_NONE : requesters.size();
+            if (newKey != REQUESTER_NONE) {
+                requesters.put(newKey, requester);
+            }
+            String[] permissionsCopy = new String[permissionsToRequest.size()];
+            permissionsToRequest.toArray(permissionsCopy);
+            ActivityCompat.requestPermissions(this, permissionsCopy, newKey);
+        }
     }
 }
