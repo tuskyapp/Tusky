@@ -401,7 +401,6 @@
     <string name="description_visiblity_direct">Для упомянутых</string>
     <string name="description_status">%s; %s; %s, %s, %s; %s, %s, %s, %s; %s, %s, %s</string>
     <string name="hint_list_name">Название списка</string>
-    <string name="text_content_warning_button">CW</string>
     <string name="description_status_favourited">Нравится</string>
     <string name="pref_title_timeline_filters">Фильтры</string>
 </resources>

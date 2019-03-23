@@ -178,7 +178,6 @@
     <string name="pref_title_status_tabs">탭</string>
     <string name="pref_title_show_reposts">부스트 보이기</string>
     <string name="pref_title_show_replies">답글 보이기</string>
-    <string name="pref_title_filter_regex">정규 표현식으로 필터링</string>
     <string name="pref_title_show_media_preview">미디어 미리보기 보이기</string>
     <string name="pref_title_proxy_settings">프록시</string>
     <string name="pref_title_http_proxy_settings">HTTP 프록시</string>

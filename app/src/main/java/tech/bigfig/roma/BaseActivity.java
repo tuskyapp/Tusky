@@ -40,6 +40,7 @@ import tech.bigfig.roma.db.AccountEntity;
 import tech.bigfig.roma.db.AccountManager;
 import tech.bigfig.roma.di.Injectable;
 import tech.bigfig.roma.interfaces.AccountSelectionListener;
+import tech.bigfig.roma.interfaces.PermissionRequester;
 import tech.bigfig.roma.util.ThemeUtils;
 
 import java.util.ArrayList;
