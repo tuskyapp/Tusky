@@ -6,7 +6,9 @@
     android:layout_height="wrap_content"
     android:background="?android:colorBackground"
     android:orientation="horizontal"
-    android:padding="16dp">
+    android:paddingStart="16dp"
+    android:paddingTop="16dp"
+    android:paddingEnd="16dp">
 
     <ImageView
         android:id="@+id/imageView"
@@ -30,6 +32,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/imageView"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_goneMarginBottom="16dp"
         tools:drawableStart="@drawable/ic_home_24dp"
         tools:text="Home" />
 
@@ -38,6 +41,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
+        android:layout_marginBottom="8dp"
         android:paddingTop="8dp"
         app:layout_constraintBottom_toBottomOf="parent">
 

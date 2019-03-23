@@ -16,8 +16,6 @@
 package com.keylesspalace.tusky
 
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.MenuItem
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.AppCompatEditText
@@ -31,16 +29,16 @@ import com.keylesspalace.tusky.adapter.TabAdapter
 import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.appstore.MainTabsChangedEvent
 import com.keylesspalace.tusky.di.Injectable
+import com.keylesspalace.tusky.util.onTextChanged
 import com.keylesspalace.tusky.util.visible
+import com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider.from
+import com.uber.autodispose.autoDisposable
 import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_tab_preference.*
 import kotlinx.android.synthetic.main.toolbar_basic.*
-import javax.inject.Inject
-
-import com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider.from
-import com.uber.autodispose.autoDisposable
 import java.util.regex.Pattern
+import javax.inject.Inject
 
 class TabPreferenceActivity : BaseActivity(), Injectable, ItemInteractionListener {
 
@@ -81,7 +79,7 @@ class TabPreferenceActivity : BaseActivity(), Injectable, ItemInteractionListene
         addTabRecyclerView.adapter = addTabAdapter
         addTabRecyclerView.layoutManager = LinearLayoutManager(this)
 
-        touchHelper = ItemTouchHelper(object: ItemTouchHelper.Callback(){
+        touchHelper = ItemTouchHelper(object : ItemTouchHelper.Callback() {
             override fun getMovementFlags(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder): Int {
                 return makeMovementFlags(ItemTouchHelper.UP or ItemTouchHelper.DOWN, ItemTouchHelper.END)
             }
@@ -112,7 +110,7 @@ class TabPreferenceActivity : BaseActivity(), Injectable, ItemInteractionListene
             }
 
             override fun onSelectedChanged(viewHolder: RecyclerView.ViewHolder?, actionState: Int) {
-                if(actionState == ItemTouchHelper.ACTION_STATE_DRAG) {
+                if (actionState == ItemTouchHelper.ACTION_STATE_DRAG) {
                     viewHolder?.itemView?.elevation = selectedItemElevation
                 }
             }
@@ -142,13 +140,13 @@ class TabPreferenceActivity : BaseActivity(), Injectable, ItemInteractionListene
 
     override fun onTabAdded(tab: TabData) {
 
-        if(currentTabs.size >= MAX_TAB_COUNT) {
+        if (currentTabs.size >= MAX_TAB_COUNT) {
             return
         }
 
         actionButton.isExpanded = false
 
-        if(tab.id == HASHTAG) {
+        if (tab.id == HASHTAG) {
             showEditHashtagDialog()
             return
         }
@@ -166,17 +164,17 @@ class TabPreferenceActivity : BaseActivity(), Injectable, ItemInteractionListene
     private fun showEditHashtagDialog(tab: TabData? = null) {
 
         val editText = AppCompatEditText(this)
+        editText.setHint(R.string.edit_hashtag_hint)
         editText.setText("")
         editText.append(tab?.arguments?.first().orEmpty())
 
         val dialog = AlertDialog.Builder(this)
                 .setTitle(R.string.edit_hashtag_title)
-                .setMessage(R.string.edit_hashtag_message)
                 .setView(editText)
                 .setNegativeButton(android.R.string.cancel, null)
                 .setPositiveButton(R.string.action_save) { _, _ ->
                     val input = editText.text.toString().trim()
-                    if(tab == null) {
+                    if (tab == null) {
                         val newTab = createTabDataFromId(HASHTAG, listOf(input))
                         currentTabs.add(newTab)
                         currentTabsAdapter.notifyItemInserted(currentTabs.size - 1)
@@ -193,16 +191,10 @@ class TabPreferenceActivity : BaseActivity(), Injectable, ItemInteractionListene
                 }
                 .create()
 
-        editText.addTextChangedListener(object: TextWatcher {
-            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) { }
-
-            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) { }
-
-            override fun afterTextChanged(s: Editable) {
-                val input = s.trim()
-                dialog.getButton(AlertDialog.BUTTON_POSITIVE).isEnabled = input.isNotEmpty() && hashtagRegex.matcher(input).matches()
-            }
-        })
+        editText.onTextChanged { s, _, _, _ ->
+            val input = s.trim()
+            dialog.getButton(AlertDialog.BUTTON_POSITIVE).isEnabled = input.isNotEmpty() && hashtagRegex.matcher(input).matches()
+        }
 
         dialog.show()
         editText.requestFocus()
@@ -212,23 +204,23 @@ class TabPreferenceActivity : BaseActivity(), Injectable, ItemInteractionListene
         val addableTabs: MutableList<TabData> = mutableListOf()
 
         val homeTab = createTabDataFromId(HOME)
-        if(!currentTabs.contains(homeTab)) {
+        if (!currentTabs.contains(homeTab)) {
             addableTabs.add(homeTab)
         }
         val notificationTab = createTabDataFromId(NOTIFICATIONS)
-        if(!currentTabs.contains(notificationTab)) {
+        if (!currentTabs.contains(notificationTab)) {
             addableTabs.add(notificationTab)
         }
         val localTab = createTabDataFromId(LOCAL)
-        if(!currentTabs.contains(localTab)) {
+        if (!currentTabs.contains(localTab)) {
             addableTabs.add(localTab)
         }
         val federatedTab = createTabDataFromId(FEDERATED)
-        if(!currentTabs.contains(federatedTab)) {
+        if (!currentTabs.contains(federatedTab)) {
             addableTabs.add(federatedTab)
         }
         val directMessagesTab = createTabDataFromId(DIRECT)
-        if(!currentTabs.contains(directMessagesTab)) {
+        if (!currentTabs.contains(directMessagesTab)) {
             addableTabs.add(directMessagesTab)
         }
 
@@ -280,7 +272,7 @@ class TabPreferenceActivity : BaseActivity(), Injectable, ItemInteractionListene
 
     override fun onPause() {
         super.onPause()
-        if(tabsChanged) {
+        if (tabsChanged) {
             eventHub.dispatch(MainTabsChangedEvent(currentTabs))
         }
     }

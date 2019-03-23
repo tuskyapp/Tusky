@@ -19,15 +19,14 @@ import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
-
 import androidx.recyclerview.widget.RecyclerView
 import com.keylesspalace.tusky.HASHTAG
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.TabData
 import com.keylesspalace.tusky.util.ThemeUtils
-import kotlinx.android.synthetic.main.item_tab_preference.view.*
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.show
+import kotlinx.android.synthetic.main.item_tab_preference.view.*
 
 
 interface ItemInteractionListener {
@@ -47,7 +46,7 @@ class TabAdapter(private var data: List<TabData>,
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val layoutId = if(small) {
+        val layoutId = if (small) {
             R.layout.item_tab_preference_small
         } else {
             R.layout.item_tab_preference
@@ -61,13 +60,13 @@ class TabAdapter(private var data: List<TabData>,
         holder.itemView.textView.setText(data[position].text)
         val iconDrawable = ThemeUtils.getTintedDrawable(context, data[position].icon, android.R.attr.textColorSecondary)
         holder.itemView.textView.setCompoundDrawablesRelativeWithIntrinsicBounds(iconDrawable, null, null, null)
-        if(small) {
+        if (small) {
             holder.itemView.textView.setOnClickListener {
                 listener?.onTabAdded(data[position])
             }
         }
         holder.itemView.imageView?.setOnTouchListener { _, event ->
-            if(event.action == MotionEvent.ACTION_DOWN) {
+            if (event.action == MotionEvent.ACTION_DOWN) {
                 listener?.onStartDrag(holder)
                 true
             } else {
@@ -75,13 +74,12 @@ class TabAdapter(private var data: List<TabData>,
             }
         }
 
-        if(!small) {
+        if (!small) {
 
             if (data[position].id == HASHTAG) {
                 holder.itemView.chipGroup.show()
                 holder.itemView.actionChip.text = data[position].arguments[0]
 
-                // starting from O we use the adaptive drawable that does not need theming
                 holder.itemView.actionChip.setChipIconResource(R.drawable.ic_edit_chip)
 
                 holder.itemView.actionChip.chipIcon = context.getDrawable(R.drawable.ic_edit_chip)
