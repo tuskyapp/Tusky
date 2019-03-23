@@ -133,6 +133,8 @@
     <string name="action_copy_link">Copy the link</string>
     <string name="action_open_as">Open as %s</string>
     <string name="action_share_as">Share as …</string>
+    <string name="download_media">Download media</string>
+    <string name="downloading_media">Downloading media</string>
 
     <string name="send_status_link_to">Share toot URL to…</string>
     <string name="send_status_content_to">Share toot to…</string>
