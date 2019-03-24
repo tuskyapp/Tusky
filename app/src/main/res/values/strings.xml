@@ -457,4 +457,9 @@
 
     <string name="hint_list_name">List name</string>
 
+    <string name="edit_hashtag_title">Edit hashtag</string>
+    <string name="edit_hashtag_hint">Hashtag without #</string>
+    <string name="hashtag">Hashtag</string>
+
+
 </resources>

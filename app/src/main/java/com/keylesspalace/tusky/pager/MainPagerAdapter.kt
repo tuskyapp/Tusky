@@ -24,7 +24,8 @@ import com.keylesspalace.tusky.TabData
 class MainPagerAdapter(val tabs: List<TabData>, manager: FragmentManager) : FragmentPagerAdapter(manager) {
 
     override fun getItem(position: Int): Fragment {
-        return tabs[position].fragment()
+        val tab = tabs[position]
+        return tab.fragment(tab.arguments)
     }
 
     override fun getCount(): Int {
@@ -36,7 +37,7 @@ class MainPagerAdapter(val tabs: List<TabData>, manager: FragmentManager) : Frag
     }
 
     override fun getItemId(position: Int): Long {
-        return tabs[position].id.hashCode().toLong()
+        return tabs[position].hashCode() + position.toLong()
     }
 
     override fun getItemPosition(item: Any): Int {
