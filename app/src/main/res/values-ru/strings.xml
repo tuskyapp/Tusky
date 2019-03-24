@@ -400,9 +400,8 @@
     <string name="description_visiblity_unlisted">Скрытый</string>
     <string name="description_visiblity_private">Для подписчиков</string>
     <string name="description_visiblity_direct">Для упомянутых</string>
-    <string name="description_status">%s; %s; %s, %s, %s; %s, %s, %s, %s; %s, %s, %s</string>
+    <string name="description_status">%1$s; %2$s; %3$s, %4$s, %5$s; %6$s, %7$s, %8$s, %9$s; %10$s, %11$s, %12$s</string>
     <string name="hint_list_name">Название списка</string>
-    <string name="text_content_warning_button">CW</string>
     <string name="description_status_favourited">Нравится</string>
     <string name="pref_title_timeline_filters">Фильтры</string>
 </resources>
