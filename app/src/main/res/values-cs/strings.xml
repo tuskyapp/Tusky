@@ -389,4 +389,7 @@
         %s; %s; %s, %s, %s; %s, %s, %s, %s; %s, %s, %s
     </string>
     <string name="hint_list_name">Název seznamu</string>
+    <string name="edit_hashtag_title">Upravit hashtag</string>
+    <string name="edit_hashtag_hint">Hashtag bez #</string>
+    <string name="hashtag">Hashtag</string>
 </resources>
