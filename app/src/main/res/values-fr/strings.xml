@@ -125,6 +125,8 @@
     <string name="action_copy_link">Copier le lien</string>
     <string name="action_open_as">Ouvrir comme %s</string>
     <string name="action_share_as">Partager comme …</string>
+    <string name="download_media">Télécharger le média</string>
+    <string name="downloading_media">Téléchargement du média</string>
     <string name="send_status_link_to">Partager le lien de votre pouet avec…</string>
     <string name="send_status_content_to">Partager le pouet avec…</string>
     <string name="send_media_to">Partager l’image avec …</string>
@@ -180,6 +182,7 @@
     <string name="pref_title_appearance_settings">Apparence</string>
     <string name="pref_title_app_theme">Thème de l’application</string>
     <string name="pref_title_timelines">Fils chronologiques</string>
+    <string name="pref_title_timeline_filters">Filtres</string>
     <string-array name="app_theme_names">
         <item>Sombre</item>
         <item>Clair</item>
@@ -278,6 +281,13 @@
     <string name="title_media">Média</string>
     <string name="replying_to">Réponse à @%s</string>
     <string name="load_more_placeholder_text">en charger plus</string>
+    <string name="pref_title_public_filter_keywords">Timelines publiques</string>
+    <string name="pref_title_thread_filter_keywords">Conversations</string>
+    <string name="filter_addition_dialog_title">Ajouter un filtre</string>
+    <string name="filter_edit_dialog_title">Modifier un filtre</string>
+    <string name="filter_dialog_remove_button">Supprimer</string>
+    <string name="filter_dialog_update_button">Mettre à jour</string>
+    <string name="filter_add_description">Phrase à filtrer</string>
     <string name="add_account_name">Ajouter un compte</string>
     <string name="add_account_description">Ajouter un nouveau compte Mastodon</string>
     <string name="action_lists">Listes</string>

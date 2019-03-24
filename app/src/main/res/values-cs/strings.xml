@@ -125,6 +125,8 @@
     <string name="action_copy_link">Zkopírovat odkaz</string>
     <string name="action_open_as">Otevřít jako %s</string>
     <string name="action_share_as">Sdílet jako…</string>
+    <string name="download_media">Stáhnout média</string>
+    <string name="downloading_media">Stahuji média</string>
     <string name="send_status_link_to">Sdílet URL tootu na…</string>
     <string name="send_status_content_to">Sdílet toot na…</string>
     <string name="send_media_to">Sdílet média na…</string>

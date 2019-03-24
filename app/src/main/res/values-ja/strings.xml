@@ -114,6 +114,7 @@
     <string name="download_image">%1$s をダウンロードしています</string>
     <string name="action_copy_link">リンクをコピー</string>
     <string name="action_open_as">%s として開く</string>
+    <string name="action_share_as">… として共有</string>
     <string name="send_status_link_to">トゥートのURLを共有…</string>
     <string name="send_status_content_to">トゥートを共有…</string>
     <string name="send_media_to">メディアを共有…</string>
@@ -169,6 +170,7 @@
     <string name="pref_title_appearance_settings">表示</string>
     <string name="pref_title_app_theme">アプリテーマ</string>
     <string name="pref_title_timelines">タイムライン</string>
+    <string name="pref_title_timeline_filters">フィルター</string>
     <string-array name="app_theme_names">
         <item>ダーク</item>
         <item>ライト</item>
@@ -267,11 +269,15 @@
     <string name="title_media">メディア</string>
     <string name="replying_to">\@%sに返信</string>
     <string name="load_more_placeholder_text">さらに読み込む</string>
+    <string name="filter_addition_dialog_title">フィルターを追加</string>
+    <string name="filter_edit_dialog_title">フィルターを編集</string>
     <string name="add_account_name">アカウントを追加</string>
     <string name="add_account_description">新しいMastodonアカウントを追加</string>
     <string name="action_lists">リスト</string>
     <string name="title_lists">リスト</string>
     <string name="title_list_timeline">リストタイムライン</string>
+    <string name="error_rename_list">リスト名を変更できませんでした。</string>
+    <string name="action_rename_list">リスト名の変更</string>
     <string name="compose_active_account_description">%1$sで投稿</string>
     <string name="error_failed_set_caption">説明の設定に失敗しました</string>
     <string name="hint_describe_for_visually_impaired">視覚障害者のための説明 (%d文字まで)</string>
@@ -327,4 +333,11 @@
     <string name="title_reblogged_by">ブーストした人物</string>
     <string name="title_favourited_by">お気に入りした人物</string>
     <string name="max_tab_number_reached">タブは %1$d 個が上限です</string>
+    <string name="description_visiblity_public">        公開
+    </string>
+    <string name="description_visiblity_unlisted">        未収載
+    </string>
+    <string name="description_visiblity_direct">        ダイレクト
+    </string>
+    <string name="hint_list_name">リスト名</string>
 </resources>

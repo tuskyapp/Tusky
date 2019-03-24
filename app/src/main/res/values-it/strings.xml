@@ -179,6 +179,7 @@
     <string name="pref_title_appearance_settings">Aspetto</string>
     <string name="pref_title_app_theme">Tema dell\'app</string>
     <string name="pref_title_timelines">Timeline</string>
+    <string name="pref_title_timeline_filters">Filtri</string>
     <string-array name="app_theme_names">
         <item>Scuro</item>
         <item>Chiaro</item>
@@ -275,6 +276,13 @@
     <string name="title_media">Media</string>
     <string name="replying_to">Rispondendo a @%s</string>
     <string name="load_more_placeholder_text">carica di più</string>
+    <string name="pref_title_public_filter_keywords">Timeline pubbliche</string>
+    <string name="pref_title_thread_filter_keywords">Conversazioni</string>
+    <string name="filter_addition_dialog_title">Aggiungi filtro</string>
+    <string name="filter_edit_dialog_title">Modifica filtro</string>
+    <string name="filter_dialog_remove_button">Rimuovi</string>
+    <string name="filter_dialog_update_button">Aggiorna</string>
+    <string name="filter_add_description">Frase da filtrare</string>
     <string name="add_account_name">Aggiungi Account</string>
     <string name="add_account_description">Aggiungi un nuovo Account Mastodon</string>
     <string name="action_lists">Liste</string>

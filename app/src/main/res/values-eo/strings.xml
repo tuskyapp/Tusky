@@ -125,6 +125,8 @@
     <string name="action_copy_link">Kopii la ligilon</string>
     <string name="action_open_as">Malfermi kiel %s</string>
     <string name="action_share_as">Konigi kiel …</string>
+    <string name="download_media">Elŝuti aŭdovidaĵon</string>
+    <string name="downloading_media">Elŝutante aŭdovidaĵo</string>
     <string name="send_status_link_to">Konigi URL de mesaĝo al…</string>
     <string name="send_status_content_to">Konigi mesaĝon al…</string>
     <string name="send_media_to">Konigi aŭdovidaĵon al…</string>
@@ -176,6 +178,7 @@
     <string name="pref_title_appearance_settings">Aspekto</string>
     <string name="pref_title_app_theme">Temo de la apo</string>
     <string name="pref_title_timelines">Tempolinioj</string>
+    <string name="pref_title_timeline_filters">Filtriloj</string>
     <string-array name="app_theme_names">
         <item>Malhela</item>
         <item>Hela</item>
@@ -274,6 +277,13 @@
     <string name="title_media">Aŭdovidaĵoj</string>
     <string name="replying_to">Respondo al @%s</string>
     <string name="load_more_placeholder_text">ŝarĝi pli</string>
+    <string name="pref_title_public_filter_keywords">Publikaj liniotempoj</string>
+    <string name="pref_title_thread_filter_keywords">Konversacioj</string>
+    <string name="filter_addition_dialog_title">Aldoni filtrilon</string>
+    <string name="filter_edit_dialog_title">Redakti filtrilon</string>
+    <string name="filter_dialog_remove_button">Forigi</string>
+    <string name="filter_dialog_update_button">Akualigi</string>
+    <string name="filter_add_description">Frazo filtrota</string>
     <string name="add_account_name">Aldoni konton</string>
     <string name="add_account_description">Aldoni novan Mastodon konton</string>
     <string name="action_lists">Listoj</string>
