@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shortcuts xmlns:android="http://schemas.android.com/apk/res/android">
+    <shortcut
+        android:icon="@mipmap/ic_shortcut_compose"
+        android:shortcutId="com.keylesspalace.tusky.Compose"
+        android:shortcutLongLabel="@string/compose_shortcut_long_label"
+        android:shortcutShortLabel="@string/compose_shortcut_short_label">
+
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetClass="com.keylesspalace.tusky.SplashActivity"
+            android:targetPackage="com.keylesspalace.tusky.test"/>
+        <intent
+            android:action="com.keylesspalace.tusky.Compose"
+            android:targetClass="com.keylesspalace.tusky.ComposeActivity"
+            android:targetPackage="com.keylesspalace.tusky.test"/>
+
+    </shortcut>
+
+</shortcuts>
