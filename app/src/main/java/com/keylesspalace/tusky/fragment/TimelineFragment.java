@@ -69,7 +69,6 @@ import com.keylesspalace.tusky.viewdata.StatusViewData;
 import java.util.ArrayList;
 import java.io.IOException;
 import java.util.Collections;
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
@@ -364,7 +363,7 @@ public class TimelineFragment extends SFragment implements
 
     private static String filterToRegexToken(Filter filter) {
         String phrase = Pattern.quote(filter.getPhrase());
-        return filter.getWholeWord() ? String.format("\\b%s\\b", phrase) : phrase;
+        return filter.getWholeWord() ? String.format("(^|\\W)%s($|\\W)", phrase) : phrase;
     }
 
     private void applyFilters(List<Filter> filters, boolean refresh) {
