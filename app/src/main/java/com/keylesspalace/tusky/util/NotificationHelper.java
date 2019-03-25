@@ -476,7 +476,6 @@ public class NotificationHelper {
         }
 
         switch (notification.getType()) {
-            default:
             case MENTION:
                 return account.getNotificationsMentioned();
             case FOLLOW:
@@ -485,6 +484,8 @@ public class NotificationHelper {
                 return account.getNotificationsReblogged();
             case FAVOURITE:
                 return account.getNotificationsFavorited();
+            default:
+                return false;
         }
     }
 

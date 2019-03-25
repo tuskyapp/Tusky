@@ -45,6 +45,7 @@ import com.keylesspalace.tusky.util.LinkHelper;
 import com.keylesspalace.tusky.util.SmartLengthInputFilter;
 import com.keylesspalace.tusky.viewdata.NotificationViewData;
 import com.keylesspalace.tusky.viewdata.StatusViewData;
+import com.mikepenz.iconics.utils.Utils;
 import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
@@ -71,8 +72,9 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
     private static final int VIEW_TYPE_STATUS_NOTIFICATION = 1;
     private static final int VIEW_TYPE_FOLLOW = 2;
     private static final int VIEW_TYPE_PLACEHOLDER = 3;
+    private static final int VIEW_TYPE_UNKNOWN = 4;
 
-    private static final InputFilter[] COLLAPSE_INPUT_FILTER = new InputFilter[] { SmartLengthInputFilter.INSTANCE };
+    private static final InputFilter[] COLLAPSE_INPUT_FILTER = new InputFilter[]{SmartLengthInputFilter.INSTANCE};
     private static final InputFilter[] NO_INPUT_FILTER = new InputFilter[0];
 
     private StatusActionListener statusListener;
@@ -98,7 +100,6 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         switch (viewType) {
-            default:
             case VIEW_TYPE_MENTION: {
                 View view = LayoutInflater.from(parent.getContext())
                         .inflate(R.layout.item_status, parent, false);
@@ -119,25 +120,36 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
                         .inflate(R.layout.item_status_placeholder, parent, false);
                 return new PlaceholderViewHolder(view);
             }
+            default:
+            case VIEW_TYPE_UNKNOWN: {
+                View view = new View(parent.getContext());
+                view.setLayoutParams(
+                        new ViewGroup.LayoutParams(
+                                ViewGroup.LayoutParams.MATCH_PARENT,
+                                Utils.convertDpToPx(parent.getContext(), 24)
+                        )
+                );
+                return new RecyclerView.ViewHolder(view) {};
+            }
         }
     }
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position) {
-        bindViewHolder(viewHolder,position,null);
+        bindViewHolder(viewHolder, position, null);
     }
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position, @NonNull List payloads) {
-        bindViewHolder(viewHolder,position,payloads);
+        bindViewHolder(viewHolder, position, payloads);
     }
 
-    private void bindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position, @Nullable List payloads){
-        Object payloadForHolder = payloads!=null&&!payloads.isEmpty()?payloads.get(0):null;
+    private void bindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position, @Nullable List payloads) {
+        Object payloadForHolder = payloads != null && !payloads.isEmpty() ? payloads.get(0) : null;
         if (position < this.dataSource.getItemCount()) {
             NotificationViewData notification = dataSource.getItemAt(position);
             if (notification instanceof NotificationViewData.Placeholder) {
-                if (payloadForHolder==null) {
+                if (payloadForHolder == null) {
                     NotificationViewData.Placeholder placeholder = ((NotificationViewData.Placeholder) notification);
                     PlaceholderViewHolder holder = (PlaceholderViewHolder) viewHolder;
                     holder.setup(statusListener, placeholder.isLoading());
@@ -148,19 +160,18 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
                     (NotificationViewData.Concrete) notification;
             Notification.Type type = concreteNotificaton.getType();
             switch (type) {
-                default:
                 case MENTION: {
                     StatusViewHolder holder = (StatusViewHolder) viewHolder;
                     StatusViewData.Concrete status = concreteNotificaton.getStatusViewData();
                     holder.setupWithStatus(status,
-                            statusListener, mediaPreviewEnabled,payloadForHolder);
+                            statusListener, mediaPreviewEnabled, payloadForHolder);
                     break;
                 }
                 case FAVOURITE:
                 case REBLOG: {
                     StatusNotificationViewHolder holder = (StatusNotificationViewHolder) viewHolder;
                     StatusViewData.Concrete statusViewData = concreteNotificaton.getStatusViewData();
-                    if (payloadForHolder==null) {
+                    if (payloadForHolder == null) {
                         if (statusViewData == null) {
                             holder.showNotificationContent(false);
                         } else {
@@ -178,11 +189,10 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
                         holder.setupButtons(notificationActionListener,
                                 concreteNotificaton.getAccount().getId(),
                                 concreteNotificaton.getId());
-                    }
-                    else{
+                    } else {
                         if (payloadForHolder instanceof List)
-                            for (Object item:payloads) {
-                                if (StatusBaseViewHolder.Key.KEY_CREATED.equals(item)){
+                            for (Object item : payloads) {
+                                if (StatusBaseViewHolder.Key.KEY_CREATED.equals(item)) {
                                     holder.setCreatedAt(statusViewData.getCreatedAt());
                                 }
                             }
@@ -190,17 +200,19 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
                     break;
                 }
                 case FOLLOW: {
-                    if (payloadForHolder==null) {
+                    if (payloadForHolder == null) {
                         FollowViewHolder holder = (FollowViewHolder) viewHolder;
                         holder.setMessage(concreteNotificaton.getAccount(), bidiFormatter);
                         holder.setupButtons(notificationActionListener, concreteNotificaton.getAccount().getId());
                     }
                     break;
                 }
+                default:
             }
         }
 
     }
+
     @Override
     public int getItemCount() {
         return dataSource.getItemCount();
@@ -212,7 +224,6 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
         if (notification instanceof NotificationViewData.Concrete) {
             NotificationViewData.Concrete concrete = ((NotificationViewData.Concrete) notification);
             switch (concrete.getType()) {
-                default:
                 case MENTION: {
                     return VIEW_TYPE_MENTION;
                 }
@@ -222,6 +233,9 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
                 }
                 case FOLLOW: {
                     return VIEW_TYPE_FOLLOW;
+                }
+                default: {
+                    return VIEW_TYPE_UNKNOWN;
                 }
             }
         } else if (notification instanceof NotificationViewData.Placeholder) {
