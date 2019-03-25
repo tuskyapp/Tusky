@@ -124,12 +124,24 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position) {
+        bindViewHolder(viewHolder,position,null);
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position, @NonNull List payloads) {
+        bindViewHolder(viewHolder,position,payloads);
+    }
+
+    private void bindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position, @Nullable List payloads){
+        Object payloadForHolder = payloads!=null&&!payloads.isEmpty()?payloads.get(0):null;
         if (position < this.dataSource.getItemCount()) {
             NotificationViewData notification = dataSource.getItemAt(position);
             if (notification instanceof NotificationViewData.Placeholder) {
-                NotificationViewData.Placeholder placeholder = ((NotificationViewData.Placeholder) notification);
-                PlaceholderViewHolder holder = (PlaceholderViewHolder) viewHolder;
-                holder.setup(statusListener, placeholder.isLoading());
+                if (payloadForHolder==null) {
+                    NotificationViewData.Placeholder placeholder = ((NotificationViewData.Placeholder) notification);
+                    PlaceholderViewHolder holder = (PlaceholderViewHolder) viewHolder;
+                    holder.setup(statusListener, placeholder.isLoading());
+                }
                 return;
             }
             NotificationViewData.Concrete concreteNotificaton =
@@ -141,43 +153,54 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
                     StatusViewHolder holder = (StatusViewHolder) viewHolder;
                     StatusViewData.Concrete status = concreteNotificaton.getStatusViewData();
                     holder.setupWithStatus(status,
-                            statusListener, mediaPreviewEnabled);
+                            statusListener, mediaPreviewEnabled,payloadForHolder);
                     break;
                 }
                 case FAVOURITE:
                 case REBLOG: {
                     StatusNotificationViewHolder holder = (StatusNotificationViewHolder) viewHolder;
                     StatusViewData.Concrete statusViewData = concreteNotificaton.getStatusViewData();
+                    if (payloadForHolder==null) {
+                        if (statusViewData == null) {
+                            holder.showNotificationContent(false);
+                        } else {
+                            holder.showNotificationContent(true);
 
-                    if (statusViewData == null) {
-                        holder.showNotificationContent(false);
-                    } else {
-                        holder.showNotificationContent(true);
+                            holder.setDisplayName(statusViewData.getUserFullName(), statusViewData.getAccountEmojis());
+                            holder.setUsername(statusViewData.getNickname());
+                            holder.setCreatedAt(statusViewData.getCreatedAt());
 
-                        holder.setDisplayName(statusViewData.getUserFullName(), statusViewData.getAccountEmojis());
-                        holder.setUsername(statusViewData.getNickname());
-                        holder.setCreatedAt(statusViewData.getCreatedAt());
+                            holder.setAvatars(concreteNotificaton.getStatusViewData().getAvatar(),
+                                    concreteNotificaton.getAccount().getAvatar());
+                        }
 
-                        holder.setAvatars(concreteNotificaton.getStatusViewData().getAvatar(),
-                                concreteNotificaton.getAccount().getAvatar());
+                        holder.setMessage(concreteNotificaton, statusListener, bidiFormatter);
+                        holder.setupButtons(notificationActionListener,
+                                concreteNotificaton.getAccount().getId(),
+                                concreteNotificaton.getId());
                     }
-
-                    holder.setMessage(concreteNotificaton, statusListener, bidiFormatter);
-                    holder.setupButtons(notificationActionListener,
-                            concreteNotificaton.getAccount().getId(),
-                            concreteNotificaton.getId());
+                    else{
+                        if (payloadForHolder instanceof List)
+                            for (Object item:payloads) {
+                                if (StatusBaseViewHolder.Key.KEY_CREATED.equals(item)){
+                                    holder.setCreatedAt(statusViewData.getCreatedAt());
+                                }
+                            }
+                    }
                     break;
                 }
                 case FOLLOW: {
-                    FollowViewHolder holder = (FollowViewHolder) viewHolder;
-                    holder.setMessage(concreteNotificaton.getAccount(), bidiFormatter);
-                    holder.setupButtons(notificationActionListener, concreteNotificaton.getAccount().getId());
+                    if (payloadForHolder==null) {
+                        FollowViewHolder holder = (FollowViewHolder) viewHolder;
+                        holder.setMessage(concreteNotificaton.getAccount(), bidiFormatter);
+                        holder.setupButtons(notificationActionListener, concreteNotificaton.getAccount().getId());
+                    }
                     break;
                 }
             }
         }
-    }
 
+    }
     @Override
     public int getItemCount() {
         return dataSource.getItemCount();
