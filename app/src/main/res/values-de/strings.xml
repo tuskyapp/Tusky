@@ -21,7 +21,7 @@
     <string name="error_media_upload_sending">Die Mediendatei konnte nicht hochgeladen werden.</string>
     <string name="error_report_too_few_statuses">Mindestens ein Beitrag muss gemeldet werden.</string>
     <string name="error_invalid_regex">Ungültiger regulärer Ausdruck</string>
-    <string name="error_sender_account_gone">Fehler beim Senden des Status</string>
+    <string name="error_sender_account_gone">Fehler beim Senden des Status.</string>
     <string name="title_home">Start</string>
     <string name="title_advanced">Erweitert</string>
     <string name="title_notifications">Benachrichtigungen</string>
@@ -356,4 +356,5 @@
     <string name="hashtag">Hashtag</string>
 
 
-</resources>
+<string name="action_open_reblogger">Open boost author</string>
+    </resources>
