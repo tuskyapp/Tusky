@@ -356,6 +356,6 @@
     <string name="hashtag">Hashtag</string>
 
 
-<string name="action_open_reblogger">Open boost author</string>
+<string name="action_open_reblogger"></string>
     <string name="about_tusky_version">Tusky %s</string>
     </resources>
