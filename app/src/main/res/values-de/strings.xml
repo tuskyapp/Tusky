@@ -278,7 +278,7 @@
     <string name="title_lists">Listen</string>
     <string name="title_list_timeline">Liste</string>
     <string name="action_create_list">Eine Liste erstellen</string>
-    <string name="action_rename_list">Eine Liste umbennen</string>
+    <string name="action_rename_list">Eine Liste umbenennen</string>
     <string name="action_delete_list">Eine Liste löschen</string>
     <string name="action_edit_list">Eine Liste bearbeiten</string>
     <string name="action_add_to_list">Ein Konto zu einer Liste hinzufügen</string>
@@ -340,7 +340,7 @@
     </string>
     <string name="description_visiblity_direct">Direkt    </string>
     <string name="hint_list_name">Name auflisten</string>
-<string name="download_media">Medien herunterladen</string>
+    <string name="download_media">Medien herunterladen</string>
     <string name="downloading_media">Medien werden heruntergeladen</string>
 
     <string name="filter_add_description">zu filternde Phrase</string>
@@ -355,7 +355,4 @@
     <string name="edit_hashtag_hint">Hashtag ohne #</string>
     <string name="hashtag">Hashtag</string>
 
-
-<string name="action_open_reblogger"></string>
-    <string name="about_tusky_version">Tusky %s</string>
-    </resources>
+ </resources>
