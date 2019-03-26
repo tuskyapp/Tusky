@@ -1,9 +1,10 @@
+<?xml version='1.0' encoding='UTF-8'?>
 <resources xmlns:tools="http://schemas.android.com/tools">
 
     <string name="error_generic">Произошла ошибка.</string>
     <string name="error_network">Произошла ошибка сети! Пожалуйста, проверьте интернет-соединение и попробуйте снова!</string>
     <string name="error_empty">Не может быть пустым.</string>
-    <string name="error_invalid_domain">Некорректный домен.</string>
+    <string name="error_invalid_domain">Некорректный домен</string>
     <string name="error_failed_app_registration">Ошибка аутентификации на этом узле.</string>
     <string name="error_no_web_browser_found">Не удается найти веб-браузер.</string>
     <string name="error_authorization_unknown">Произошла ошибка неопознанной авторизации.</string>
@@ -353,17 +354,17 @@
     <string name="pin_action">Закрепить</string>
 
     <plurals name="favs">
-        <item quantity="one">&lt;b>%1$s&lt;/b> Понравилось</item>
-        <item quantity="few">&lt;b>%1$s&lt;/b> Понравилось</item>
-        <item quantity="many">&lt;b>%1$s&lt;/b> Понравилось</item>
-        <item quantity="other">&lt;b>%1$s&lt;/b> Понравилось</item>
+        <item quantity="one">&lt;b&gt;%1$s&lt;/b&gt; Понравилось</item>
+        <item quantity="few">&lt;b&gt;%1$s&lt;/b&gt; Понравилось</item>
+        <item quantity="many">&lt;b&gt;%1$s&lt;/b&gt; Понравилось</item>
+        <item quantity="other">&lt;b&gt;%1$s&lt;/b&gt; Понравилось</item>
     </plurals>
 
     <plurals name="reblogs">
-        <item quantity="one">&lt;b>%s&lt;/b> Продвинул(а)</item>
-        <item quantity="few">&lt;b>%s&lt;/b> Продвинули</item>
-        <item quantity="many">&lt;b>%s&lt;/b> Продвинули</item>
-        <item quantity="other">&lt;b>%s&lt;/b> Продвинули</item>
+        <item quantity="one">&lt;b&gt;%s&lt;/b&gt; Продвинул(а)</item>
+        <item quantity="few">&lt;b&gt;%s&lt;/b&gt; Продвинули</item>
+        <item quantity="many">&lt;b&gt;%s&lt;/b&gt; Продвинули</item>
+        <item quantity="other">&lt;b&gt;%s&lt;/b&gt; Продвинули</item>
     </plurals>
 
     <string name="title_reblogged_by">Продвинули</string>
@@ -404,4 +405,24 @@
     <string name="hint_list_name">Название списка</string>
     <string name="description_status_favourited">Нравится</string>
     <string name="pref_title_timeline_filters">Фильтры</string>
+<string name="action_links">Ссылки</string>
+    <string name="action_mentions">Упоминания</string>
+    <string name="action_hashtags">Хэштеги</string>
+    <string name="action_open_reblogger">Перейти к автору</string>
+    <string name="action_open_reblogged_by">Показать продвижения</string>
+    <string name="action_open_faved_by">Показать, кому нравится</string>
+
+    <string name="title_hashtags_dialog">Хэштеги</string>
+    <string name="title_mentions_dialog">Упоминания</string>
+    <string name="title_links_dialog">Ссылки</string>
+    <string name="action_open_media_n">Открыть медиафайл #%d</string>
+
+    <string name="download_media">Скачать медиафайл</string>
+    <string name="downloading_media">Скачивание медиафайла</string>
+
+    <string name="edit_hashtag_title">Изм. хэштег</string>
+    <string name="edit_hashtag_hint">Хэштег без #</string>
+    <string name="hashtag">Хэштег</string>
+
+
 </resources>
