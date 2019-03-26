@@ -1096,7 +1096,10 @@ public class TimelineFragment extends SFragment implements
             Either<Placeholder, Status> lastOfNew = newStatuses.get(newStatuses.size() - 1);
             int index = statuses.indexOf(lastOfNew);
 
-            statuses.subList(0, index).clear();
+            if (index >= 0) {
+                statuses.subList(0, index).clear();
+            }
+
             int newIndex = newStatuses.indexOf(statuses.get(0));
             if (newIndex == -1) {
                 if (index == -1 && fullFetch) {
