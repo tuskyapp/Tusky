@@ -61,8 +61,8 @@ class ProxyPreferencesFragment : PreferenceFragmentCompat(), SharedPreferences.O
     private fun updateSummary(key: String) {
         when (key) {
             "httpProxyServer", "httpProxyPort" -> {
-                val editTextPreference = findPreference(key) as EditTextPreference
-                editTextPreference.summary = editTextPreference.text
+                val editTextPreference: EditTextPreference? = findPreference(key)
+                editTextPreference?.summary = editTextPreference?.text
             }
         }
     }

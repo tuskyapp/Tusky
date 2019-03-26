@@ -42,37 +42,37 @@ class NotificationPreferencesFragment : PreferenceFragmentCompat(), Preference.O
 
         if (activeAccount != null) {
 
-            val notificationPref = findPreference("notificationsEnabled") as SwitchPreference
-            notificationPref.isChecked = activeAccount.notificationsEnabled
-            notificationPref.onPreferenceChangeListener = this
+            val notificationPref: SwitchPreference? = findPreference("notificationsEnabled")
+            notificationPref?.isChecked = activeAccount.notificationsEnabled
+            notificationPref?.onPreferenceChangeListener = this
 
-            val mentionedPref = findPreference("notificationFilterMentions") as SwitchPreference
-            mentionedPref.isChecked = activeAccount.notificationsMentioned
-            mentionedPref.onPreferenceChangeListener = this
+            val mentionedPref: SwitchPreference? = findPreference("notificationFilterMentions")
+            mentionedPref?.isChecked = activeAccount.notificationsMentioned
+            mentionedPref?.onPreferenceChangeListener = this
 
-            val followedPref = findPreference("notificationFilterFollows") as SwitchPreference
-            followedPref.isChecked = activeAccount.notificationsFollowed
-            followedPref.onPreferenceChangeListener = this
+            val followedPref: SwitchPreference? = findPreference("notificationFilterFollows")
+            followedPref?.isChecked = activeAccount.notificationsFollowed
+            followedPref?.onPreferenceChangeListener = this
 
-            val boostedPref = findPreference("notificationFilterReblogs") as SwitchPreference
-            boostedPref.isChecked = activeAccount.notificationsReblogged
-            boostedPref.onPreferenceChangeListener = this
+            val boostedPref: SwitchPreference? = findPreference("notificationFilterReblogs")
+            boostedPref?.isChecked = activeAccount.notificationsReblogged
+            boostedPref?.onPreferenceChangeListener = this
 
-            val favoritedPref = findPreference("notificationFilterFavourites") as SwitchPreference
-            favoritedPref.isChecked = activeAccount.notificationsFavorited
-            favoritedPref.onPreferenceChangeListener = this
+            val favoritedPref: SwitchPreference? = findPreference("notificationFilterFavourites")
+            favoritedPref?.isChecked = activeAccount.notificationsFavorited
+            favoritedPref?.onPreferenceChangeListener = this
 
-            val soundPref = findPreference("notificationAlertSound") as SwitchPreference
-            soundPref.isChecked = activeAccount.notificationSound
-            soundPref.onPreferenceChangeListener = this
+            val soundPref: SwitchPreference? = findPreference("notificationAlertSound")
+            soundPref?.isChecked = activeAccount.notificationSound
+            soundPref?.onPreferenceChangeListener = this
 
-            val vibrationPref = findPreference("notificationAlertVibrate") as SwitchPreference
-            vibrationPref.isChecked = activeAccount.notificationVibration
-            vibrationPref.onPreferenceChangeListener = this
+            val vibrationPref: SwitchPreference? = findPreference("notificationAlertVibrate")
+            vibrationPref?.isChecked = activeAccount.notificationVibration
+            vibrationPref?.onPreferenceChangeListener = this
 
-            val lightPref = findPreference("notificationAlertLight") as SwitchPreference
-            lightPref.isChecked = activeAccount.notificationLight
-            lightPref.onPreferenceChangeListener = this
+            val lightPref: SwitchPreference? = findPreference("notificationAlertLight")
+            lightPref?.isChecked = activeAccount.notificationLight
+            lightPref?.onPreferenceChangeListener = this
         }
     }
 
