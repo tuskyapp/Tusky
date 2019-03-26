@@ -623,7 +623,11 @@ public final class ComposeActivity
                         String text = intent.getStringExtra(Intent.EXTRA_TEXT);
                         String shareBody = null;
                         if(subject != null && text != null){
-                            shareBody = String.format("%s\n%s", subject, text);
+                            if(!subject.equals(text) && !text.contains(subject)){
+                                shareBody = String.format("%s\n%s", subject, text);
+                            }else{
+                                shareBody = text;
+                            }
                         }else if(text != null){
                             shareBody = text;
                         }else if(subject != null){
@@ -786,8 +790,8 @@ public final class ComposeActivity
 
     private void showEmojis() {
 
-        if(emojiView.getAdapter() != null) {
-            if(emojiView.getAdapter().getItemCount() == 0) {
+        if (emojiView.getAdapter() != null) {
+            if (emojiView.getAdapter().getItemCount() == 0) {
                 String errorMessage = getString(R.string.error_no_custom_emojis, accountManager.getActiveAccount().getDomain());
                 Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show();
             } else {
@@ -818,16 +822,29 @@ public final class ComposeActivity
     }
 
     private void onMediaPick() {
-        addMediaBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+        addMediaBehavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
+            @Override
+            public void onStateChanged(@NonNull View bottomSheet, int newState) {
+                //Wait until bottom sheet is not collapsed and show next screen after
+                if (newState==BottomSheetBehavior.STATE_COLLAPSED){
+                    addMediaBehavior.setBottomSheetCallback(null);
+                    if (ContextCompat.checkSelfPermission(ComposeActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE)
+                            != PackageManager.PERMISSION_GRANTED) {
+                        ActivityCompat.requestPermissions(ComposeActivity.this,
+                                new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                                PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE);
+                    } else {
+                        initiateMediaPicking();
+                    }
+                }
+            }
 
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
-                != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this,
-                    new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
-                    PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE);
-        } else {
-            initiateMediaPicking();
-        }
+            @Override
+            public void onSlide(@NonNull View bottomSheet, float slideOffset) {
+
+            }
+        });
+        addMediaBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
     }
 
     @Override
@@ -1551,15 +1568,15 @@ public final class ComposeActivity
         try {
             switch (token.charAt(0)) {
                 case '@':
-                    ArrayList<Account> resultList = new ArrayList<>();
-                    List<Account> accountList = mastodonApi
-                            .searchAccounts(token.substring(1), false, 20)
-                            .execute()
-                            .body();
-                    if (accountList != null) {
-                        resultList.addAll(accountList);
+                    try {
+                        List<Account> accountList = mastodonApi
+                                .searchAccounts(token.substring(1), false, 20, null)
+                                .blockingGet();
+                        return CollectionsKt.map(accountList,
+                                ComposeAutoCompleteAdapter.AccountResult::new);
+                    } catch (Throwable e) {
+                        return Collections.emptyList();
                     }
-                    return CollectionsKt.map(resultList, ComposeAutoCompleteAdapter.AccountResult::new);
                 case '#':
                     Response<SearchResults> response = mastodonApi.search(token, false).execute();
                     if (response.isSuccessful() && response.body() != null) {

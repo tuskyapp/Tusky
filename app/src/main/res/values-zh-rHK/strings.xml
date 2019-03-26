@@ -155,6 +155,7 @@
         <item>白天</item>
         <item>黑色</item>
         <item>自動切換</item>
+        <item>Use System Design</item>
     </string-array>
     <string name="pref_title_browser_settings">瀏覽器</string>
     <string name="pref_title_custom_tabs">使用 Chrome Custom Tabs</string>
@@ -163,7 +164,6 @@
     <string name="pref_title_status_tabs">標籤頁</string>
     <string name="pref_title_show_boosts">顯示轉嘟</string>
     <string name="pref_title_show_replies">顯示回覆</string>
-    <string name="pref_title_filter_regex">使用正規表示式過濾</string>
     <string name="pref_title_show_media_preview">顯示預覽圖</string>
     <string name="pref_title_proxy_settings">代理伺服器</string>
     <string name="pref_title_http_proxy_settings">HTTP 代理伺服器</string>
@@ -216,7 +216,7 @@
          * the url can be changed to link to the localized version of the license.
     -->
     <string name="about_project_site">        專案網站：\n
-        https://tuskyapp.github.io
+        https://tusky.app
     </string>
     <string name="about_bug_feature_request_site">        問題回報：\n
         https://github.com/tuskyapp/Tusky/issues

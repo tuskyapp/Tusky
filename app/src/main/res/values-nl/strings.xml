@@ -62,7 +62,9 @@
     <string name="action_quick_reply">Snelle reactie</string>
     <string name="action_reply">Reageren</string>
     <string name="action_reblog">Boosten</string>
+    <string name="action_unreblog">Boost verwijderen</string>
     <string name="action_favourite">Als favoriet markeren</string>
+    <string name="action_unfavourite">Favoriet verwijderen</string>
     <string name="action_more">Meer</string>
     <string name="action_compose">Schrijf een toot</string>
     <string name="action_login">Aanmelden</string>
@@ -109,6 +111,16 @@
     <string name="action_content_warning">Tekstwaarschuwing</string>
     <string name="action_emoji_keyboard">Emojis</string>
     <string name="action_add_tab">Tab toevoegen</string>
+    <string name="action_links">Links</string>
+    <string name="action_mentions">Vermeldingen</string>
+    <string name="action_hashtags">Hashtags</string>
+    <string name="action_open_reblogger">Auteur van deze boost openen</string>
+    <string name="action_open_reblogged_by">Boosts tonen</string>
+    <string name="action_open_faved_by">Favorieten tonen</string>
+    <string name="title_hashtags_dialog">Hashtags</string>
+    <string name="title_mentions_dialog">Vermeldingen</string>
+    <string name="title_links_dialog">Links</string>
+    <string name="action_open_media_n">Media #%d openen</string>
     <string name="download_image">%1$s aan het downloaden</string>
     <string name="action_copy_link">Link kopiëren</string>
     <string name="action_open_as">Als %s openen</string>
@@ -171,15 +183,16 @@
         <item>Licht</item>
         <item>Zwart</item>
         <item>Automatisch tijdens zonsondergang</item>
+        <item>Systeemthema gebruiken</item>
     </string-array>
     <string name="pref_title_browser_settings">Webbrowser</string>
     <string name="pref_title_custom_tabs">Aangepaste tabbladen gebruiken</string>
     <string name="pref_title_hide_follow_button">Verberg zwevende tootknop tijdens scrollen</string>
+    <string name="pref_title_language">Taal</string>
     <string name="pref_title_status_filter">Filteren</string>
     <string name="pref_title_status_tabs">Tijdlijnen</string>
     <string name="pref_title_show_boosts">Boosts tonen</string>
     <string name="pref_title_show_replies">Reacties tonen</string>
-    <string name="pref_title_filter_regex">Filteren op reguliere expressies</string>
     <string name="pref_title_show_media_preview">Voorbeelden van media tonen</string>
     <string name="pref_title_proxy_settings">Proxy</string>
     <string name="pref_title_http_proxy_settings">HTTP-proxy</string>
@@ -233,7 +246,7 @@
          * the url can be changed to link to the localized version of the license.
     -->
     <string name="about_project_site">Projectwebsite:\n
-                    https://tuskyapp.github.io</string>
+                    https://tusky.app</string>
     <string name="about_bug_feature_request_site">Foutmeldingen &amp; nieuwe functies aanvragen:\n
                     https://github.com/tuskyapp/Tusky/issues</string>
     <string name="about_tusky_account">Tusky\'s profiel</string>
@@ -324,4 +337,25 @@
     <string name="conversation_2_recipients">%1$s en %2$s</string>
     <string name="conversation_more_recipients">%1$s, %2$s en %3$d meer</string>
     <string name="max_tab_number_reached">maximum van %1$d tabs bereikt</string>
+    <string name="description_status_media">        Media: %s
+    </string>
+    <string name="description_status_cw">        Inhoudswaarschuwing: %s
+    </string>
+    <string name="description_status_media_no_description_placeholder">        Geen omschrijving
+    </string>
+    <string name="description_status_reblogged">        Geboost
+    </string>
+    <string name="description_status_favourited">        Aan favorieten toegevoegd
+    </string>
+    <string name="description_visiblity_public">        Openbaar
+    </string>
+    <string name="description_visiblity_unlisted">        Minder openbaar
+    </string>
+    <string name="description_visiblity_private">        Volgers
+    </string>
+    <string name="description_visiblity_direct">        Direct
+    </string>
+    <string name="description_status">        <!-- Display name, cw?, content?, relative date, reposted by?, reposted?, favorited?, username, media?; visibility, fav number?, reblog number?-->
+        %1$s; %2$s; %3$s, %4$s, %5$s; %6$s, %7$s, %8$s, %9$s; %10$s, %11$s, %12$s
+    </string>
 </resources>

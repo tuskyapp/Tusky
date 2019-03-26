@@ -20,6 +20,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,9 +29,11 @@ import android.widget.ProgressBar;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
+import io.reactivex.Observable;
 import com.keylesspalace.tusky.AccountListActivity;
 import com.keylesspalace.tusky.BaseActivity;
 import com.keylesspalace.tusky.R;
+import com.keylesspalace.tusky.adapter.StatusBaseViewHolder;
 import com.keylesspalace.tusky.adapter.TimelineAdapter;
 import com.keylesspalace.tusky.appstore.BlockEvent;
 import com.keylesspalace.tusky.appstore.EventHub;
@@ -43,11 +46,11 @@ import com.keylesspalace.tusky.appstore.StatusDeletedEvent;
 import com.keylesspalace.tusky.appstore.UnfollowEvent;
 import com.keylesspalace.tusky.db.AccountManager;
 import com.keylesspalace.tusky.di.Injectable;
+import com.keylesspalace.tusky.entity.Filter;
 import com.keylesspalace.tusky.entity.Status;
 import com.keylesspalace.tusky.interfaces.ActionButtonActivity;
 import com.keylesspalace.tusky.interfaces.StatusActionListener;
 import com.keylesspalace.tusky.network.MastodonApi;
-import com.keylesspalace.tusky.network.TimelineCases;
 import com.keylesspalace.tusky.repository.Placeholder;
 import com.keylesspalace.tusky.repository.TimelineRepository;
 import com.keylesspalace.tusky.repository.TimelineRequestMode;
@@ -63,11 +66,14 @@ import com.keylesspalace.tusky.view.BackgroundMessageView;
 import com.keylesspalace.tusky.view.EndlessOnScrollListener;
 import com.keylesspalace.tusky.viewdata.StatusViewData;
 
+import java.util.ArrayList;
 import java.io.IOException;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -127,8 +133,6 @@ public class TimelineFragment extends SFragment implements
     }
 
     @Inject
-    public TimelineCases timelineCases;
-    @Inject
     public EventHub eventHub;
     @Inject
     TimelineRepository timelineRepo;
@@ -159,11 +163,6 @@ public class TimelineFragment extends SFragment implements
     private boolean didLoadEverythingBottom;
     private boolean alwaysShowSensitiveMedia;
     private boolean initialUpdateFailed = false;
-
-    @Override
-    protected TimelineCases timelineCases() {
-        return timelineCases;
-    }
 
     private PairedList<Either<Placeholder, Status>, StatusViewData> statuses =
             new PairedList<>(new Function<Either<Placeholder, Status>, StatusViewData>() {
@@ -316,6 +315,25 @@ public class TimelineFragment extends SFragment implements
                         });
     }
 
+    private void reloadFilters(boolean refresh) {
+        mastodonApi.getFilters().enqueue(new Callback<List<Filter>>() {
+            @Override
+            public void onResponse(@NonNull Call<List<Filter>> call, @NonNull Response<List<Filter>> response) {
+                List<Filter> filterList = response.body();
+                if(response.isSuccessful() && filterList != null) {
+                    applyFilters(filterList, refresh);
+                } else {
+                    Log.e(TAG, "Error getting filters from server");
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<List<Filter>> call, @NonNull Throwable t) {
+                Log.e(TAG, "Error getting filters from server", t);
+            }
+        });
+    }
+
     private void setupTimelinePreferences() {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
         alwaysShowSensitiveMedia = accountManager.getActiveAccount().getAlwaysShowSensitiveMedia();
@@ -329,16 +347,43 @@ public class TimelineFragment extends SFragment implements
 
         filter = preferences.getBoolean("tabFilterHomeBoosts", true);
         filterRemoveReblogs = kind == Kind.HOME && !filter;
+        reloadFilters(false);
+    }
 
-        String regexFilter = preferences.getString("tabFilterRegex", "");
-        filterRemoveRegex = (kind == Kind.HOME
-                || kind == Kind.PUBLIC_LOCAL
-                || kind == Kind.PUBLIC_FEDERATED)
-                && !regexFilter.isEmpty();
+    private static boolean filterContextMatchesKind(Kind kind, List<String> filterContext) {
+        // home, notifications, public, thread
+        switch(kind) {
+            case HOME:
+                return filterContext.contains(Filter.HOME);
+            case PUBLIC_FEDERATED:
+            case PUBLIC_LOCAL:
+            case TAG:
+                return filterContext.contains(Filter.PUBLIC);
+            case FAVOURITES:
+                return (filterContext.contains(Filter.PUBLIC) || filterContext.contains(Filter.NOTIFICATIONS));
+            default:
+                return false;
+        }
+    }
 
+    private static String filterToRegexToken(Filter filter) {
+        String phrase = Pattern.quote(filter.getPhrase());
+        return filter.getWholeWord() ? String.format("(^|\\W)%s($|\\W)", phrase) : phrase;
+    }
+
+    private void applyFilters(List<Filter> filters, boolean refresh) {
+        List<String> tokens = new ArrayList<>();
+        for (Filter filter : filters) {
+            if (filterContextMatchesKind(kind, filter.getContext())) {
+                tokens.add(filterToRegexToken(filter));
+            }
+        }
+        filterRemoveRegex = !tokens.isEmpty();
         if (filterRemoveRegex) {
-            filterRemoveRegexMatcher = Pattern.compile(regexFilter, Pattern.CASE_INSENSITIVE)
-                    .matcher("");
+            filterRemoveRegexMatcher = Pattern.compile(TextUtils.join("|", tokens), Pattern.CASE_INSENSITIVE).matcher("");
+        }
+        if (refresh) {
+            fullyRefresh();
         }
     }
 
@@ -769,19 +814,12 @@ public class TimelineFragment extends SFragment implements
                 }
                 break;
             }
-            case "tabFilterRegex": {
-                boolean oldFilterRemoveRegex = filterRemoveRegex;
-                String newFilterRemoveRegexPattern = sharedPreferences.getString("tabFilterRegex", "");
-                boolean patternChanged;
-                if (filterRemoveRegexMatcher != null) {
-                    patternChanged = !newFilterRemoveRegexPattern.equalsIgnoreCase(filterRemoveRegexMatcher.pattern().pattern());
-                } else {
-                    patternChanged = !newFilterRemoveRegexPattern.isEmpty();
-                }
-                filterRemoveRegex = (kind == Kind.HOME || kind == Kind.PUBLIC_LOCAL || kind == Kind.PUBLIC_FEDERATED) && !newFilterRemoveRegexPattern.isEmpty();
-                if (oldFilterRemoveRegex != filterRemoveRegex || patternChanged) {
-                    filterRemoveRegexMatcher = Pattern.compile(newFilterRemoveRegexPattern, Pattern.CASE_INSENSITIVE).matcher("");
-                    fullyRefresh();
+            case Filter.HOME:
+            case Filter.NOTIFICATIONS:
+            case Filter.THREAD:
+            case Filter.PUBLIC: {
+                if (filterContextMatchesKind(kind, Collections.singletonList(key))) {
+                    reloadFilters(true);
                 }
                 break;
             }
@@ -1272,7 +1310,48 @@ public class TimelineFragment extends SFragment implements
 
         @Override
         public boolean areContentsTheSame(StatusViewData oldItem, @NonNull StatusViewData newItem) {
-            return oldItem.deepEquals(newItem);
+            return false; //Items are different always. It allows to refresh timestamp on every view holder update
+        }
+
+        @Nullable
+        @Override
+        public Object getChangePayload(@NonNull StatusViewData oldItem, @NonNull StatusViewData newItem) {
+            if (oldItem.deepEquals(newItem)){
+                //If items are equal - update timestamp only
+                List<String> payload = new ArrayList<>();
+                payload.add(StatusBaseViewHolder.Key.KEY_CREATED);
+                return payload;
+            }
+            else
+                // If items are different - update a whole view holder
+                return null;
         }
     };
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        startUpdateTimestamp();
+    }
+
+    /**
+     * Start to update adapter every minute to refresh timestamp
+     * If setting absoluteTimeView is false
+     * Auto dispose observable on pause
+     */
+    private void startUpdateTimestamp() {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        boolean useAbsoluteTime = preferences.getBoolean("absoluteTimeView", false);
+        if (!useAbsoluteTime) {
+            Observable.interval(1, TimeUnit.MINUTES)
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .as(autoDisposable(from(this, Lifecycle.Event.ON_PAUSE)))
+                    .subscribe(
+                            interval -> updateAdapter()
+                    );
+        }
+
+    }
+
+
 }

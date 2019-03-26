@@ -133,6 +133,8 @@
     <string name="action_copy_link">Copy the link</string>
     <string name="action_open_as">Open as %s</string>
     <string name="action_share_as">Share as …</string>
+    <string name="download_media">Download media</string>
+    <string name="downloading_media">Downloading media</string>
 
     <string name="send_status_link_to">Share toot URL to…</string>
     <string name="send_status_content_to">Share toot to…</string>
@@ -199,6 +201,7 @@
     <string name="pref_title_appearance_settings">Appearance</string>
     <string name="pref_title_app_theme">App Theme</string>
     <string name="pref_title_timelines">Timelines</string>
+    <string name="pref_title_timeline_filters">Filters</string>
 
     <string-array name="app_theme_names">
         <item>Dark</item>
@@ -211,11 +214,11 @@
     <string name="pref_title_browser_settings">Browser</string>
     <string name="pref_title_custom_tabs">Use Chrome Custom Tabs</string>
     <string name="pref_title_hide_follow_button">Hide compose button while scrolling</string>
+    <string name="pref_title_language">Language</string>
     <string name="pref_title_status_filter">Timeline filtering</string>
     <string name="pref_title_status_tabs">Tabs</string>
     <string name="pref_title_show_boosts">Show boosts</string>
     <string name="pref_title_show_replies">Show replies</string>
-    <string name="pref_title_filter_regex">Filter out by regular expressions</string>
     <string name="pref_title_show_media_preview">Download media previews</string>
     <string name="pref_title_proxy_settings">Proxy</string>
     <string name="pref_title_http_proxy_settings">HTTP proxy</string>
@@ -283,7 +286,7 @@
     -->
     <string name="about_project_site">
         Project website:\n
-        https://tuskyapp.github.io
+        https://tusky.app
     </string>
     <string name="about_bug_feature_request_site">
         Bug reports &amp; feature requests:\n
@@ -318,12 +321,30 @@
     <string name="replying_to">Replying to @%s</string>
     <string name="load_more_placeholder_text">load more</string>
 
+    <string name="pref_title_public_filter_keywords">Public timelines</string>
+    <string name="pref_title_thread_filter_keywords">Conversations</string>
+    <string name="filter_addition_dialog_title">Add filter</string>
+    <string name="filter_edit_dialog_title">Edit filter</string>
+    <string name="filter_dialog_remove_button">Remove</string>
+    <string name="filter_dialog_update_button">Update</string>
+    <string name="filter_add_description">Phrase to filter</string>
+
     <string name="add_account_name">Add Account</string>
     <string name="add_account_description">Add new Mastodon Account</string>
 
     <string name="action_lists">Lists</string>
     <string name="title_lists">Lists</string>
     <string name="title_list_timeline">List timeline</string>
+    <string name="error_create_list">Could not create list</string>
+    <string name="error_rename_list">Could not rename list</string>
+    <string name="error_delete_list">Could not delete list</string>
+    <string name="action_create_list">Create a list</string>
+    <string name="action_rename_list">Rename the list</string>
+    <string name="action_delete_list">Delete the list</string>
+    <string name="action_edit_list">Edit the list</string>
+    <string name="hint_search_people_list">Search for people you follow</string>
+    <string name="action_add_to_list">Add account to the list</string>
+    <string name="action_remove_from_list">Remove account from the list</string>
 
     <string name="compose_active_account_description">Posting with account %1$s</string>
 
@@ -431,7 +452,14 @@
     </string>
     <string name="description_status">
         <!-- Display name, cw?, content?, relative date, reposted by?, reposted?, favorited?, username, media?; visibility, fav number?, reblog number?-->
-        %s; %s; %s, %s, %s; %s, %s, %s, %s; %s, %s, %s
+        %1$s; %2$s; %3$s, %4$s, %5$s; %6$s, %7$s, %8$s, %9$s; %10$s, %11$s, %12$s
     </string>
+
+    <string name="hint_list_name">List name</string>
+
+    <string name="edit_hashtag_title">Edit hashtag</string>
+    <string name="edit_hashtag_hint">Hashtag without #</string>
+    <string name="hashtag">Hashtag</string>
+
 
 </resources>

@@ -31,6 +31,7 @@ import com.google.android.material.tabs.TabLayout;
 import com.keylesspalace.tusky.MainActivity;
 import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.adapter.NotificationsAdapter;
+import com.keylesspalace.tusky.adapter.StatusBaseViewHolder;
 import com.keylesspalace.tusky.appstore.BlockEvent;
 import com.keylesspalace.tusky.appstore.EventHub;
 import com.keylesspalace.tusky.appstore.FavoriteEvent;
@@ -43,7 +44,6 @@ import com.keylesspalace.tusky.entity.Notification;
 import com.keylesspalace.tusky.entity.Status;
 import com.keylesspalace.tusky.interfaces.ActionButtonActivity;
 import com.keylesspalace.tusky.interfaces.StatusActionListener;
-import com.keylesspalace.tusky.network.TimelineCases;
 import com.keylesspalace.tusky.util.CollectionUtil;
 import com.keylesspalace.tusky.util.Either;
 import com.keylesspalace.tusky.util.HttpHeaderLink;
@@ -58,9 +58,11 @@ import com.keylesspalace.tusky.viewdata.NotificationViewData;
 import com.keylesspalace.tusky.viewdata.StatusViewData;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 
@@ -79,6 +81,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.SimpleItemAnimator;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import at.connyduck.sparkbutton.helpers.Utils;
+import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import kotlin.Unit;
 import kotlin.collections.CollectionsKt;
@@ -123,8 +126,6 @@ public class NotificationsFragment extends SFragment implements
     }
 
     @Inject
-    public TimelineCases timelineCases;
-    @Inject
     AccountManager accountManager;
     @Inject
     EventHub eventHub;
@@ -143,11 +144,6 @@ public class NotificationsFragment extends SFragment implements
     private boolean bottomLoading;
     private String bottomId;
     private boolean alwaysShowSensitiveMedia;
-
-    @Override
-    protected TimelineCases timelineCases() {
-        return timelineCases;
-    }
 
     // Each element is either a Notification for loading data or a Placeholder
     private final PairedList<Either<Placeholder, Notification>, NotificationViewData> notifications
@@ -215,14 +211,19 @@ public class NotificationsFragment extends SFragment implements
         adapter.setUseAbsoluteTime(useAbsoluteTime);
         recyclerView.setAdapter(adapter);
 
-        notifications.clear();
         topLoading = false;
         bottomLoading = false;
         bottomId = null;
 
-        ((SimpleItemAnimator) recyclerView.getItemAnimator()).setSupportsChangeAnimations(false);
+        updateAdapter();
 
-        sendFetchNotificationsRequest(null, null, FetchEnd.BOTTOM, -1);
+        if (notifications.isEmpty()) {
+            sendFetchNotificationsRequest(null, null, FetchEnd.BOTTOM, -1);
+        } else {
+            progressBar.setVisibility(View.GONE);
+        }
+
+        ((SimpleItemAnimator) recyclerView.getItemAnimator()).setSupportsChangeAnimations(false);
 
         return rootView;
     }
@@ -932,7 +933,45 @@ public class NotificationsFragment extends SFragment implements
 
         @Override
         public boolean areContentsTheSame(NotificationViewData oldItem, NotificationViewData newItem) {
-            return oldItem.deepEquals(newItem);
+            return false;
+        }
+
+        @Nullable
+        @Override
+        public Object getChangePayload(@NonNull NotificationViewData oldItem, @NonNull NotificationViewData newItem) {
+            if (oldItem.deepEquals(newItem)) {
+                //If items are equal - update timestamp only
+                List<String> payload = new ArrayList<>();
+                payload.add(StatusBaseViewHolder.Key.KEY_CREATED);
+                return payload;
+            } else
+                // If items are different - update a whole view holder
+                return null;
         }
     };
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        startUpdateTimestamp();
+    }
+
+    /**
+     * Start to update adapter every minute to refresh timestamp
+     * If setting absoluteTimeView is false
+     * Auto dispose observable on pause
+     */
+    private void startUpdateTimestamp() {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        boolean useAbsoluteTime = preferences.getBoolean("absoluteTimeView", false);
+        if (!useAbsoluteTime) {
+            Observable.interval(1, TimeUnit.MINUTES)
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .as(autoDisposable(from(this, Lifecycle.Event.ON_PAUSE)))
+                    .subscribe(
+                            interval -> updateAdapter()
+                    );
+        }
+
+    }
 }

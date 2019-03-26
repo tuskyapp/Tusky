@@ -146,6 +146,7 @@
         <item>வெளிச்சம்</item>
         <item>பிளாக்</item>
         <item>தானியங்கி</item>
+        <item>Use System Design</item>
     </string-array>
     <string name="pref_title_browser_settings">உலாவி</string>
     <string name="pref_title_custom_tabs">Chrome தனிப்பயன் கீற்றை பயன்படுத்து</string>
@@ -154,7 +155,6 @@
     <string name="pref_title_status_tabs">கீற்றுகள்</string>
     <string name="pref_title_show_boosts">மேலேற்றத்தை காண்பி</string>
     <string name="pref_title_show_replies">பதில்களைக் காண்பி</string>
-    <string name="pref_title_filter_regex">சுருங்குறித்தொடர் மூலம் வடிகட்டு</string>
     <string name="pref_title_show_media_preview">ஊடக மாதிரிக்காட்சிகளைக் காண்பி</string>
     <string name="pref_title_proxy_settings">ப்ராக்ஸி</string>
     <string name="pref_title_http_proxy_settings">HTTP ப்ராக்ஸி</string>
@@ -193,7 +193,7 @@
          * the url can be changed to link to the localized version of the license.
     -->
     <string name="about_project_site">        	திட்டத்தின் வலைத்தளம்:\n
-        https://tuskyapp.github.io
+        https://tusky.app
     </string>
     <string name="about_bug_feature_request_site">        	பிழை அறிக்கைகள் &amp; அம்ச கோரிக்கைகள்:\n
         https://github.com/tuskyapp/Tusky/issues

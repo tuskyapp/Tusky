@@ -15,15 +15,22 @@
 
 package com.keylesspalace.tusky.fragment;
 
+import android.Manifest;
+import android.app.DownloadManager;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 
+import android.content.pm.PackageManager;
+import android.net.Uri;
+import android.os.Build;
+import android.os.Environment;
 import android.text.Spanned;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.keylesspalace.tusky.BaseActivity;
 import com.keylesspalace.tusky.BottomSheetActivity;
@@ -35,6 +42,7 @@ import com.keylesspalace.tusky.ViewMediaActivity;
 import com.keylesspalace.tusky.ViewTagActivity;
 import com.keylesspalace.tusky.db.AccountEntity;
 import com.keylesspalace.tusky.db.AccountManager;
+import com.keylesspalace.tusky.di.Injectable;
 import com.keylesspalace.tusky.entity.Attachment;
 import com.keylesspalace.tusky.entity.Status;
 import com.keylesspalace.tusky.network.MastodonApi;
@@ -61,20 +69,21 @@ import androidx.core.view.ViewCompat;
  * adapters. I feel like the profile pages and thread viewer, which I haven't made yet, will also
  * overlap functionality. So, I'm momentarily leaving it and hopefully working on those will clear
  * up what needs to be where. */
-public abstract class SFragment extends BaseFragment {
-
-    protected abstract TimelineCases timelineCases();
+public abstract class SFragment extends BaseFragment implements Injectable {
 
     protected abstract void removeItem(int position);
 
     protected abstract void onReblog(final boolean reblog, final int position);
 
     private BottomSheetActivity bottomSheetActivity;
+    private Status pendingDownloadStatus;
 
     @Inject
     public MastodonApi mastodonApi;
     @Inject
     public AccountManager accountManager;
+    @Inject
+    public TimelineCases timelineCases;
 
     @Override
     public void startActivity(Intent intent) {
@@ -83,7 +92,7 @@ public abstract class SFragment extends BaseFragment {
     }
 
     @Override
-    public void onAttach(Context context) {
+    public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         if (context instanceof BottomSheetActivity) {
             bottomSheetActivity = (BottomSheetActivity) context;
@@ -157,6 +166,8 @@ public abstract class SFragment extends BaseFragment {
         // Give a different menu depending on whether this is the user's own toot or not.
         if (loggedInAccountId == null || !loggedInAccountId.equals(accountId)) {
             popup.inflate(R.menu.status_more);
+            Menu menu = popup.getMenu();
+            menu.findItem(R.id.status_download_media).setVisible(!status.getAttachments().isEmpty());
         } else {
             popup.inflate(R.menu.status_more_for_user);
             Menu menu = popup.getMenu();
@@ -235,12 +246,16 @@ public abstract class SFragment extends BaseFragment {
                     showOpenAsDialog(statusUrl, item.getTitle());
                     return true;
                 }
+                case R.id.status_download_media: {
+                    requestDownloadAllMedia(status);
+                    return true;
+                }
                 case R.id.status_mute: {
-                    timelineCases().mute(accountId);
+                    timelineCases.mute(accountId);
                     return true;
                 }
                 case R.id.status_block: {
-                    timelineCases().block(accountId);
+                    timelineCases.block(accountId);
                     return true;
                 }
                 case R.id.status_report: {
@@ -260,7 +275,7 @@ public abstract class SFragment extends BaseFragment {
                     return true;
                 }
                 case R.id.pin: {
-                    timelineCases().pin(status, !status.isPinned());
+                    timelineCases.pin(status, !status.isPinned());
                     return true;
                 }
             }
@@ -321,7 +336,7 @@ public abstract class SFragment extends BaseFragment {
         new AlertDialog.Builder(getActivity())
                 .setMessage(R.string.dialog_delete_toot_warning)
                 .setPositiveButton(android.R.string.ok, (dialogInterface, i) -> {
-                    timelineCases().delete(id);
+                    timelineCases.delete(id);
                     removeItem(position);
                 })
                 .setNegativeButton(android.R.string.cancel, null)
@@ -340,5 +355,32 @@ public abstract class SFragment extends BaseFragment {
     private void showOpenAsDialog(String statusUrl, CharSequence dialogTitle) {
         BaseActivity activity = (BaseActivity)getActivity();
         activity.showAccountChooserDialog(dialogTitle, false, account -> openAsAccount(statusUrl, account));
+    }
+
+    private void downloadAllMedia(Status status) {
+        pendingDownloadStatus = null;
+        Toast.makeText(getContext(), R.string.downloading_media, Toast.LENGTH_SHORT).show();
+        for(Attachment attachment: status.getAttachments()) {
+            String url = attachment.getUrl();
+            Uri uri = Uri.parse(url);
+            String filename = uri.getLastPathSegment();
+
+            DownloadManager downloadManager = (DownloadManager)getActivity().getSystemService(Context.DOWNLOAD_SERVICE);
+            DownloadManager.Request request = new DownloadManager.Request(uri);
+            request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, filename);
+            downloadManager.enqueue(request);
+        }
+    }
+
+    private void requestDownloadAllMedia(Status status) {
+        pendingDownloadStatus = status;
+        String[] permissions = new String[]{ Manifest.permission.WRITE_EXTERNAL_STORAGE };
+        ((BaseActivity)getActivity()).requestPermissions(permissions, Build.VERSION_CODES.M, (permissions1, grantResults) -> {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                downloadAllMedia(status);
+            } else {
+                Toast.makeText(getContext(), R.string.error_media_download_permission, Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }

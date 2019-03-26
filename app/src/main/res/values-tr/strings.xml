@@ -172,6 +172,7 @@
         <item>Açık</item>
         <item>Siyah</item>
         <item>Gün batımında otomatik</item>
+        <item>Use System Design</item>
     </string-array>
     <string name="pref_title_browser_settings">Tarayacı</string>
     <string name="pref_title_custom_tabs">Chrome Özel Şekmelerini Kullan</string>
@@ -180,7 +181,6 @@
     <string name="pref_title_status_tabs">Sekmeler</string>
     <string name="pref_title_show_boosts">Yükseltilenleri göster</string>
     <string name="pref_title_show_replies">Yanıtları göster</string>
-    <string name="pref_title_filter_regex">Düzenli ifadeleri filtrele</string>
     <string name="pref_title_show_media_preview">Medya önizlemelerini göster</string>
     <string name="pref_title_proxy_settings">Proxy</string>
     <string name="pref_title_http_proxy_settings">HTTP Proxy</string>
@@ -236,7 +236,7 @@
          * the url can be changed to link to the localized version of the license.
     -->
     <string name="about_project_site">        Proje Web sitesi:\n
-        https://tuskyapp.github.io
+        https://tusky.app
     </string>
     <string name="about_bug_feature_request_site"> &amp; özellik istekleri hata raporları:\n
         https://github.com/tuskyapp/Tusky/issues

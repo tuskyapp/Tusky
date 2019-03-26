@@ -1,28 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="?android:colorBackground"
-        android:orientation="horizontal"
-        android:padding="16dp">
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?android:colorBackground"
+    android:orientation="horizontal"
+    android:paddingStart="16dp"
+    android:paddingTop="16dp"
+    android:paddingEnd="16dp">
+
     <ImageView
         android:id="@+id/imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_gravity="end"
         android:src="@drawable/ic_drag_indicator_24dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/textView"
-            android:textSize="?attr/status_text_large"
-            android:textColor="?android:attr/textColorSecondary"
-            android:drawableStart="@drawable/ic_home_24dp"
-            android:layout_width="0dp"
-            android:layout_marginStart="8dp"
-            android:drawablePadding="12dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"/>
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_weight="1"
+        android:drawablePadding="12dp"
+        android:textColor="?android:attr/textColorSecondary"
+        android:textSize="?attr/status_text_large"
+        app:layout_constraintBottom_toTopOf="@id/chipGroup"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/imageView"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_goneMarginBottom="16dp"
+        tools:drawableStart="@drawable/ic_home_24dp"
+        tools:text="Home" />
 
+    <com.google.android.material.chip.ChipGroup
+        android:id="@+id/chipGroup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginBottom="8dp"
+        android:paddingTop="8dp"
+        app:layout_constraintBottom_toBottomOf="parent">
 
-    </LinearLayout>
+        <com.google.android.material.chip.Chip
+            android:id="@+id/actionChip"
+            style="@style/Widget.MaterialComponents.Chip.Action"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checkable="false"
+            tools:text="add hashtag" />
+
+    </com.google.android.material.chip.ChipGroup>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
 

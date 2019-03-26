@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:key="@string/preferences_file_key">
 
     <PreferenceCategory
@@ -20,6 +19,14 @@
             android:summary="@string/system_default"
             android:icon="@drawable/ic_emoji_24dp"
             android:title="@string/emoji_style" />
+
+        <ListPreference
+            android:defaultValue="default"
+            android:entries="@array/language_entries"
+            android:entryValues="@array/language_values"
+            android:key="language"
+            android:summary="%s"
+            android:title="@string/pref_title_language" />
 
         <ListPreference
             android:defaultValue="medium"

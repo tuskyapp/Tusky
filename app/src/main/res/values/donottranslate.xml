@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name" translatable="false">Tusky</string>
-    <string name="app_website" translatable="false">https://tuskyapp.github.io/</string>
+    <string name="app_website" translatable="false">https://tusky.app</string>
 
     <string name="oauth_scheme" translatable="false">oauth2redirect</string>
     <string name="preferences_file_key" translatable="false">com.keylesspalace.tusky.PREFERENCES</string>
@@ -29,6 +29,70 @@
         <item>black</item>
         <item>auto</item>
         <item>auto_system</item>
+    </string-array>
+
+    <string-array name="language_entries">
+        <item>@string/system_default</item>
+        <item>Català</item>
+        <item>Čeština</item>
+        <item>Cymraeg</item>
+        <item>Deutsch</item>
+        <item>English</item>
+        <item>Esperanto</item>
+        <item>Español</item>
+        <item>Euskara</item>
+        <item>Français</item>
+        <item>Italiano</item>
+        <item>Magyar</item>
+        <item>Nederlands</item>
+        <item>Occitan</item>
+        <item>Polski</item>
+        <item>Português (Brasil)</item>
+        <item>Svenska</item>
+        <item>Türkçe</item>
+        <item>Русский</item>
+        <item>العَرَبِيَّة‎</item>
+        <item>فارسی</item>
+        <item>தமிழ்</item>
+        <item>한국어</item>
+        <item>中文(台灣)</item>
+        <item>中文(新加坡)</item>
+        <item>中文(澳門)</item>
+        <item>中文(简体)</item>
+        <item>中文(香港)</item>
+        <item>日本語</item>
+    </string-array>
+
+    <string-array name="language_values">
+        <item>default</item>
+        <item>ca</item>
+        <item>cs</item>
+        <item>cy</item>
+        <item>de</item>
+        <item>en</item>
+        <item>eo</item>
+        <item>es</item>
+        <item>eu</item>
+        <item>fr</item>
+        <item>it</item>
+        <item>hu</item>
+        <item>nl</item>
+        <item>oc</item>
+        <item>pl</item>
+        <item>pt-BR</item>
+        <item>sv</item>
+        <item>tr</item>
+        <item>ru</item>
+        <item>ar</item>
+        <item>fa</item>
+        <item>ta</item>
+        <item>ko</item>
+        <item>zh-TW</item>
+        <item>zh-SG</item>
+        <item>zh-MO</item>
+        <item>zh-CN</item>
+        <item>zh-HK</item>
+        <item>ja</item>
     </string-array>
 
 </resources>

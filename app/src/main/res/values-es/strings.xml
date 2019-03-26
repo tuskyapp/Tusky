@@ -173,6 +173,7 @@
         <item>Claro</item>
         <item>Negro</item>
         <item>Automático</item>
+        <item>Use System Design</item>
     </string-array>
     <string name="pref_title_browser_settings">Navegador</string>
     <string name="pref_title_custom_tabs">Usar pestañas de Chrome</string>
@@ -181,7 +182,6 @@
     <string name="pref_title_status_tabs">Pestañas</string>
     <string name="pref_title_show_boosts">Mostrar compartidos</string>
     <string name="pref_title_show_replies">Mostrar respuestas</string>
-    <string name="pref_title_filter_regex">Filtrar con expresiones regulares</string>
     <string name="pref_title_show_media_preview">Previsualizar multimedia</string>
     <string name="pref_title_proxy_settings">Proxy</string>
     <string name="pref_title_http_proxy_settings">Proxy HTTP</string>
@@ -237,7 +237,7 @@
          * the url can be changed to link to the localized version of the license.
     -->
     <string name="about_project_site">        Sitio del proyecto:\n
-        https://tuskyapp.github.io
+        https://tusky.app
     </string>
     <string name="about_bug_feature_request_site">        Reporte de errores y peticiones de características:\n
         https://github.com/tuskyapp/Tusky/issues

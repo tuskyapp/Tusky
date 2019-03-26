@@ -155,6 +155,7 @@
         <item>سیاه</item>
         <item>تیره</item>
         <item>خودکار برحسب غروب خورشید</item>
+        <item>Use System Design</item>
     </string-array>
     <string name="pref_title_browser_settings">مرورگر</string>
     <string name="pref_title_custom_tabs">استفاده از زبانه‌های سفارشی کروم</string>
@@ -163,7 +164,6 @@
     <string name="pref_title_status_tabs">زبانه‌ها</string>
     <string name="pref_title_show_boosts">نمایش تقویت‌ها</string>
     <string name="pref_title_show_replies">نمایش پاسخ‌ها</string>
-    <string name="pref_title_filter_regex">فیلتر کردن با عبارات باقاعده</string>
     <string name="pref_title_show_media_preview">پیش‌نمایش رسانه را نشان بده</string>
     <string name="pref_title_proxy_settings">پراکسی</string>
     <string name="pref_title_http_proxy_settings">پراکسی HTTP</string>
@@ -218,7 +218,7 @@
          * the url can be changed to link to the localized version of the license.
     -->
     <string name="about_project_site">        سایت پروژه\n
-        https://tuskyapp.github.io
+        https://tusky.app
     </string>
     <string name="about_bug_feature_request_site">        گزارش خطا و درخواست ویژگی:\n
         https://github.com/tuskyapp/Tusky/issues

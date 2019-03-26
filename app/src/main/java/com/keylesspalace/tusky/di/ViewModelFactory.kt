@@ -6,7 +6,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.keylesspalace.tusky.viewmodel.AccountViewModel
 import com.keylesspalace.tusky.components.conversation.ConversationsViewModel
+import com.keylesspalace.tusky.viewmodel.AccountsInListViewModel
 import com.keylesspalace.tusky.viewmodel.EditProfileViewModel
+import com.keylesspalace.tusky.viewmodel.ListsViewModel
 import dagger.Binds
 import dagger.MapKey
 import dagger.Module
@@ -47,6 +49,17 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(ConversationsViewModel::class)
     internal abstract fun conversationsViewModel(viewModel: ConversationsViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(ListsViewModel::class)
+    internal abstract fun listsViewModel(viewModel: ListsViewModel): ViewModel
+
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(AccountsInListViewModel::class)
+    internal abstract fun accountsInListViewModel(viewModel: AccountsInListViewModel): ViewModel
 
     //Add more ViewModels here
 }

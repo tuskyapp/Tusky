@@ -44,6 +44,9 @@ import at.connyduck.sparkbutton.SparkEventListener;
 import kotlin.collections.CollectionsKt;
 
 public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
+    public static class Key {
+        public static final String KEY_CREATED = "created";
+    }
 
     private TextView displayName;
     private TextView username;
@@ -538,45 +541,60 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
 
     protected void setupWithStatus(StatusViewData.Concrete status, final StatusActionListener listener,
                                    boolean mediaPreviewEnabled) {
-        setDisplayName(status.getUserFullName(), status.getAccountEmojis());
-        setUsername(status.getNickname());
-        setCreatedAt(status.getCreatedAt());
-        setIsReply(status.getInReplyToId() != null);
-        setAvatar(status.getAvatar(), status.getRebloggedAvatar());
-        setReblogged(status.isReblogged());
-        setFavourited(status.isFavourited());
-        List<Attachment> attachments = status.getAttachments();
-        boolean sensitive = status.isSensitive();
-        if (mediaPreviewEnabled) {
-            setMediaPreviews(attachments, sensitive, listener, status.isShowingContent());
+        this.setupWithStatus(status, listener, mediaPreviewEnabled, null);
+    }
 
-            if (attachments.size() == 0) {
+    protected void setupWithStatus(StatusViewData.Concrete status, final StatusActionListener listener,
+                                   boolean mediaPreviewEnabled, @Nullable Object payloads) {
+        if (payloads == null) {
+            setDisplayName(status.getUserFullName(), status.getAccountEmojis());
+            setUsername(status.getNickname());
+            setCreatedAt(status.getCreatedAt());
+            setIsReply(status.getInReplyToId() != null);
+            setAvatar(status.getAvatar(), status.getRebloggedAvatar());
+            setReblogged(status.isReblogged());
+            setFavourited(status.isFavourited());
+            List<Attachment> attachments = status.getAttachments();
+            boolean sensitive = status.isSensitive();
+            if (mediaPreviewEnabled) {
+                setMediaPreviews(attachments, sensitive, listener, status.isShowingContent());
+
+                if (attachments.size() == 0) {
+                    hideSensitiveMediaWarning();
+                }
+                // Hide the unused label.
+                mediaLabel.setVisibility(View.GONE);
+            } else {
+                setMediaLabel(attachments, sensitive, listener);
+                // Hide all unused views.
+                mediaPreviews[0].setVisibility(View.GONE);
+                mediaPreviews[1].setVisibility(View.GONE);
+                mediaPreviews[2].setVisibility(View.GONE);
+                mediaPreviews[3].setVisibility(View.GONE);
                 hideSensitiveMediaWarning();
             }
-            // Hide the unused label.
-            mediaLabel.setVisibility(View.GONE);
+
+            setupButtons(listener, status.getSenderId());
+            setRebloggingEnabled(status.getRebloggingEnabled(), status.getVisibility());
+
+            setSpoilerAndContent(status.isExpanded(), status.getContent(), status.getSpoilerText(), status.getMentions(), status.getStatusEmojis(), listener);
+
+            setContentDescription(status);
+            // Workaround for RecyclerView 1.0.0 / androidx.core 1.0.0
+            // RecyclerView tries to set AccessibilityDelegateCompat to null
+            // but ViewCompat code replaces is with the default one. RecyclerView never
+            // fetches another one from its delegate because it checks that it's set so we remove it
+            // and let RecyclerView ask for a new delegate.
+            itemView.setAccessibilityDelegate(null);
         } else {
-            setMediaLabel(attachments, sensitive, listener);
-            // Hide all unused views.
-            mediaPreviews[0].setVisibility(View.GONE);
-            mediaPreviews[1].setVisibility(View.GONE);
-            mediaPreviews[2].setVisibility(View.GONE);
-            mediaPreviews[3].setVisibility(View.GONE);
-            hideSensitiveMediaWarning();
+            if (payloads instanceof List)
+                for (Object item : (List) payloads) {
+                    if (Key.KEY_CREATED.equals(item)) {
+                        setCreatedAt(status.getCreatedAt());
+                    }
+                }
+
         }
-
-        setupButtons(listener, status.getSenderId());
-        setRebloggingEnabled(status.getRebloggingEnabled(), status.getVisibility());
-
-        setSpoilerAndContent(status.isExpanded(), status.getContent(), status.getSpoilerText(), status.getMentions(), status.getStatusEmojis(), listener);
-
-        setContentDescription(status);
-        // Workaround for RecyclerView 1.0.0 / androidx.core 1.0.0
-        // RecyclerView tries to set AccessibilityDelegateCompat to null
-        // but ViewCompat code replaces is with the default one. RecyclerView never
-        // fetches another one from its delegate because it checks that it's set so we remove it
-        // and let RecyclerView ask for a new delegate.
-        itemView.setAccessibilityDelegate(null);
     }
 
 
