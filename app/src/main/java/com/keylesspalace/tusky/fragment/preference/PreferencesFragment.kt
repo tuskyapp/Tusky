@@ -25,13 +25,13 @@ import com.keylesspalace.tusky.util.getNonNullString
 import com.mikepenz.google_material_typeface_library.GoogleMaterial
 import com.mikepenz.iconics.IconicsDrawable
 
+fun PreferenceFragmentCompat.requirePreference(key: String): Preference {
+    return findPreference(key)!!
+}
+
 class PreferencesFragment : PreferenceFragmentCompat() {
 
     private val iconSize by lazy {resources.getDimensionPixelSize(R.dimen.preference_icon_size)}
-
-    private fun requirePreference(key: String): Preference {
-        return findPreference(key)!!
-    }
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
 

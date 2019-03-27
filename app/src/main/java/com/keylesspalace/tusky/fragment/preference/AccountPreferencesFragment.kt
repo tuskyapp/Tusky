@@ -73,10 +73,6 @@ class AccountPreferencesFragment : PreferenceFragmentCompat(),
 
     private val iconSize by lazy {resources.getDimensionPixelSize(R.dimen.preference_icon_size)}
 
-    private fun requirePreference(key: String): Preference {
-        return findPreference(key)!!
-    }
-
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         addPreferencesFromResource(R.xml.account_preferences)
 

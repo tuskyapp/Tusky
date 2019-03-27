@@ -59,10 +59,6 @@ class ProxyPreferencesFragment : PreferenceFragmentCompat(), SharedPreferences.O
         updateSummary (key)
     }
 
-    private fun requirePreference(key: String): Preference {
-        return findPreference(key)!!
-    }
-
     private fun updateSummary(key: String) {
         when (key) {
             "httpProxyServer", "httpProxyPort" -> {

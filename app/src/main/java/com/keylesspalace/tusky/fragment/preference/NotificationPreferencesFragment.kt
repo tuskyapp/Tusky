@@ -35,10 +35,6 @@ class NotificationPreferencesFragment : PreferenceFragmentCompat(), Preference.O
         addPreferencesFromResource(R.xml.notification_preferences)
     }
 
-    private fun requirePreference(key: String): Preference {
-        return findPreference(key)!!
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
