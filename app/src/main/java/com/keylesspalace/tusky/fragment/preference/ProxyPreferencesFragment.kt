@@ -18,6 +18,7 @@ package com.keylesspalace.tusky.fragment.preference
 import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.preference.EditTextPreference
+import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import com.keylesspalace.tusky.R
 
@@ -58,10 +59,14 @@ class ProxyPreferencesFragment : PreferenceFragmentCompat(), SharedPreferences.O
         updateSummary (key)
     }
 
+    private fun requirePreference(key: String): Preference {
+        return findPreference(key)!!
+    }
+
     private fun updateSummary(key: String) {
         when (key) {
             "httpProxyServer", "httpProxyPort" -> {
-                val editTextPreference = findPreference(key) as EditTextPreference
+                val editTextPreference = requirePreference(key) as EditTextPreference
                 editTextPreference.summary = editTextPreference.text
             }
         }
