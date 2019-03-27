@@ -178,16 +178,6 @@
                 android:layout_marginEnd="12dp"
                 android:layout_marginStart="12dp"
                 android:layout_marginTop="12dp"
-                license:license="@string/license_apache_2"
-                license:link="https://uber.github.io/AutoDispose/"
-                license:name="AutoDispose" />
-
-            <com.keylesspalace.tusky.view.LicenseCard
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="12dp"
-                android:layout_marginStart="12dp"
-                android:layout_marginTop="12dp"
                 license:license="@string/license_cc_by_4"
                 license:link="https://twemoji.twitter.com/"
                 license:name="Twemoji" />
