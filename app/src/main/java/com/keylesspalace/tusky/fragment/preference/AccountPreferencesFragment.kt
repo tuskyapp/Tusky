@@ -15,7 +15,6 @@
 
 package com.keylesspalace.tusky.fragment.preference
 
-import android.content.Context
 import android.content.Intent
 import android.graphics.drawable.Drawable
 import android.os.Build
@@ -58,19 +57,19 @@ class AccountPreferencesFragment : PreferenceFragmentCompat(),
     @Inject
     lateinit var eventHub: EventHub
 
-    private var notificationPreference: Preference? = null
-    private var tabPreference: Preference? = null
-    private var mutedUsersPreference: Preference? = null
-    private var blockedUsersPreference: Preference? = null
+    private lateinit var notificationPreference: Preference
+    private lateinit var tabPreference: Preference
+    private lateinit var mutedUsersPreference: Preference
+    private lateinit var blockedUsersPreference: Preference
 
-    private var defaultPostPrivacyPreference: ListPreference? = null
-    private var defaultMediaSensitivityPreference: SwitchPreference? = null
-    private var alwaysShowSensitiveMediaPreference: SwitchPreference? = null
-    private var mediaPreviewEnabledPreference: SwitchPreference? = null
-    private var homeFiltersPreference: Preference? = null
-    private var notificationFiltersPreference: Preference? = null
-    private var publicFiltersPreference: Preference? = null
-    private var threadFiltersPreference: Preference? = null
+    private lateinit var defaultPostPrivacyPreference: ListPreference
+    private lateinit var defaultMediaSensitivityPreference: SwitchPreference
+    private lateinit var alwaysShowSensitiveMediaPreference: SwitchPreference
+    private lateinit var mediaPreviewEnabledPreference: SwitchPreference
+    private lateinit var homeFiltersPreference: Preference
+    private lateinit var notificationFiltersPreference: Preference
+    private lateinit var publicFiltersPreference: Preference
+    private lateinit var threadFiltersPreference: Preference
 
     private val iconSize by lazy {resources.getDimensionPixelSize(R.dimen.preference_icon_size)}
 
@@ -81,32 +80,32 @@ class AccountPreferencesFragment : PreferenceFragmentCompat(),
         tabPreference = findPreference("tabPreference")
         mutedUsersPreference = findPreference("mutedUsersPreference")
         blockedUsersPreference = findPreference("blockedUsersPreference")
-        defaultPostPrivacyPreference = findPreference("defaultPostPrivacy")
-        defaultMediaSensitivityPreference = findPreference("defaultMediaSensitivity")
-        mediaPreviewEnabledPreference = findPreference("mediaPreviewEnabled")
-        alwaysShowSensitiveMediaPreference = findPreference("alwaysShowSensitiveMedia")
+        defaultPostPrivacyPreference = findPreference("defaultPostPrivacy") as ListPreference
+        defaultMediaSensitivityPreference = findPreference("defaultMediaSensitivity") as SwitchPreference
+        mediaPreviewEnabledPreference = findPreference("mediaPreviewEnabled") as SwitchPreference
+        alwaysShowSensitiveMediaPreference = findPreference("alwaysShowSensitiveMedia") as SwitchPreference
         homeFiltersPreference = findPreference("homeFilters")
         notificationFiltersPreference = findPreference("notificationFilters")
         publicFiltersPreference = findPreference("publicFilters")
         threadFiltersPreference = findPreference("threadFilters")
 
-        notificationPreference?.icon = IconicsDrawable(notificationPreference?.context, GoogleMaterial.Icon.gmd_notifications).sizePx(iconSize).color(ThemeUtils.getColor(notificationPreference?.context as Context, R.attr.toolbar_icon_tint))
-        mutedUsersPreference?.icon = getTintedIcon(R.drawable.ic_mute_24dp)
-        blockedUsersPreference?.icon = IconicsDrawable(blockedUsersPreference?.context, GoogleMaterial.Icon.gmd_block).sizePx(iconSize).color(ThemeUtils.getColor(blockedUsersPreference?.context as Context, R.attr.toolbar_icon_tint))
+        notificationPreference.icon = IconicsDrawable(notificationPreference.context, GoogleMaterial.Icon.gmd_notifications).sizePx(iconSize).color(ThemeUtils.getColor(notificationPreference.context, R.attr.toolbar_icon_tint))
+        mutedUsersPreference.icon = getTintedIcon(R.drawable.ic_mute_24dp)
+        blockedUsersPreference.icon = IconicsDrawable(blockedUsersPreference.context, GoogleMaterial.Icon.gmd_block).sizePx(iconSize).color(ThemeUtils.getColor(blockedUsersPreference.context, R.attr.toolbar_icon_tint))
 
-        notificationPreference?.onPreferenceClickListener = this
-        tabPreference?.onPreferenceClickListener = this
-        mutedUsersPreference?.onPreferenceClickListener = this
-        blockedUsersPreference?.onPreferenceClickListener = this
-        homeFiltersPreference?.onPreferenceClickListener = this
-        notificationFiltersPreference?.onPreferenceClickListener = this
-        publicFiltersPreference?.onPreferenceClickListener = this
-        threadFiltersPreference?.onPreferenceClickListener = this
+        notificationPreference.onPreferenceClickListener = this
+        tabPreference.onPreferenceClickListener = this
+        mutedUsersPreference.onPreferenceClickListener = this
+        blockedUsersPreference.onPreferenceClickListener = this
+        homeFiltersPreference.onPreferenceClickListener = this
+        notificationFiltersPreference.onPreferenceClickListener = this
+        publicFiltersPreference.onPreferenceClickListener = this
+        threadFiltersPreference.onPreferenceClickListener = this
 
-        defaultPostPrivacyPreference?.onPreferenceChangeListener = this
-        defaultMediaSensitivityPreference?.onPreferenceChangeListener = this
-        mediaPreviewEnabledPreference?.onPreferenceChangeListener = this
-        alwaysShowSensitiveMediaPreference?.onPreferenceChangeListener = this
+        defaultPostPrivacyPreference.onPreferenceChangeListener = this
+        defaultMediaSensitivityPreference.onPreferenceChangeListener = this
+        mediaPreviewEnabledPreference.onPreferenceChangeListener = this
+        alwaysShowSensitiveMediaPreference.onPreferenceChangeListener = this
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -114,14 +113,14 @@ class AccountPreferencesFragment : PreferenceFragmentCompat(),
 
         accountManager.activeAccount?.let {
 
-            defaultPostPrivacyPreference?.value = it.defaultPostPrivacy.serverString()
-            defaultPostPrivacyPreference?.icon = getIconForVisibility(it.defaultPostPrivacy)
+            defaultPostPrivacyPreference.value = it.defaultPostPrivacy.serverString()
+            defaultPostPrivacyPreference.icon = getIconForVisibility(it.defaultPostPrivacy)
 
-            defaultMediaSensitivityPreference?.isChecked = it.defaultMediaSensitivity
-            defaultMediaSensitivityPreference?.icon = getIconForSensitivity(it.defaultMediaSensitivity)
+            defaultMediaSensitivityPreference.isChecked = it.defaultMediaSensitivity
+            defaultMediaSensitivityPreference.icon = getIconForSensitivity(it.defaultMediaSensitivity)
 
-            mediaPreviewEnabledPreference?.isChecked = it.mediaPreviewEnabled
-            alwaysShowSensitiveMediaPreference?.isChecked = it.alwaysShowSensitiveMedia
+            mediaPreviewEnabledPreference.isChecked = it.mediaPreviewEnabled
+            alwaysShowSensitiveMediaPreference.isChecked = it.alwaysShowSensitiveMedia
 
         }
     }

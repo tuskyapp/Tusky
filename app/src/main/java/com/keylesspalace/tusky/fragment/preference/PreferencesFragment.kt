@@ -15,7 +15,6 @@
 
 package com.keylesspalace.tusky.fragment.preference
 
-import android.content.Context
 import android.os.Bundle
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
@@ -34,17 +33,17 @@ class PreferencesFragment : PreferenceFragmentCompat() {
 
         addPreferencesFromResource(R.xml.preferences)
 
-        val themePreference: Preference? = findPreference("appTheme")
-        themePreference?.icon = IconicsDrawable(themePreference?.context, GoogleMaterial.Icon.gmd_palette).sizePx(iconSize).color(ThemeUtils.getColor(themePreference?.context as Context, R.attr.toolbar_icon_tint))
+        val themePreference: Preference = findPreference("appTheme")
+        themePreference.icon = IconicsDrawable(themePreference.context, GoogleMaterial.Icon.gmd_palette).sizePx(iconSize).color(ThemeUtils.getColor(themePreference.context, R.attr.toolbar_icon_tint))
 
-        val emojiPreference: Preference? = findPreference("emojiCompat")
-        emojiPreference?.icon = IconicsDrawable(emojiPreference?.context, GoogleMaterial.Icon.gmd_sentiment_satisfied).sizePx(iconSize).color(ThemeUtils.getColor(emojiPreference?.context as Context, R.attr.toolbar_icon_tint))
+        val emojiPreference: Preference = findPreference("emojiCompat")
+        emojiPreference.icon = IconicsDrawable(emojiPreference.context, GoogleMaterial.Icon.gmd_sentiment_satisfied).sizePx(iconSize).color(ThemeUtils.getColor(emojiPreference.context, R.attr.toolbar_icon_tint))
 
-        val textSizePreference: Preference? = findPreference("statusTextSize")
-        textSizePreference?.icon = IconicsDrawable(textSizePreference?.context, GoogleMaterial.Icon.gmd_format_size).sizePx(iconSize).color(ThemeUtils.getColor(textSizePreference?.context as Context, R.attr.toolbar_icon_tint))
+        val textSizePreference: Preference = findPreference("statusTextSize")
+        textSizePreference.icon = IconicsDrawable(textSizePreference.context, GoogleMaterial.Icon.gmd_format_size).sizePx(iconSize).color(ThemeUtils.getColor(textSizePreference.context, R.attr.toolbar_icon_tint))
 
-        val timelineFilterPreferences: Preference? = findPreference("timelineFilterPreferences")
-        timelineFilterPreferences?.setOnPreferenceClickListener {
+        val timelineFilterPreferences: Preference = findPreference("timelineFilterPreferences")
+        timelineFilterPreferences.setOnPreferenceClickListener {
             activity?.let { activity ->
                 val intent = PreferencesActivity.newIntent(activity, PreferencesActivity.TAB_FILTER_PREFERENCES)
                 activity.startActivity(intent)
@@ -53,8 +52,8 @@ class PreferencesFragment : PreferenceFragmentCompat() {
             true
         }
 
-        val httpProxyPreferences: Preference? = findPreference("httpProxyPreferences")
-        httpProxyPreferences?.setOnPreferenceClickListener {
+        val httpProxyPreferences: Preference = findPreference("httpProxyPreferences")
+        httpProxyPreferences.setOnPreferenceClickListener {
             activity?.let { activity ->
                 val intent = PreferencesActivity.newIntent(activity, PreferencesActivity.PROXY_PREFERENCES)
                 activity.startActivity(intent)
@@ -63,8 +62,8 @@ class PreferencesFragment : PreferenceFragmentCompat() {
             true
         }
 
-        val languagePreference: Preference? = findPreference("language")
-        languagePreference?.icon = IconicsDrawable(languagePreference?.context, GoogleMaterial.Icon.gmd_translate).sizePx(iconSize).color(ThemeUtils.getColor(languagePreference?.context as Context, R.attr.toolbar_icon_tint))
+        val languagePreference: Preference = findPreference("language")
+        languagePreference.icon = IconicsDrawable(languagePreference.context, GoogleMaterial.Icon.gmd_translate).sizePx(iconSize).color(ThemeUtils.getColor(languagePreference.context, R.attr.toolbar_icon_tint))
     }
 
     override fun onResume() {
@@ -74,7 +73,7 @@ class PreferencesFragment : PreferenceFragmentCompat() {
 
     private fun updateHttpProxySummary() {
 
-        val httpProxyPref: Preference? = findPreference("httpProxyPreferences")
+        val httpProxyPref: Preference = findPreference("httpProxyPreferences")
 
         val sharedPreferences = preferenceManager.sharedPreferences
 
@@ -86,14 +85,14 @@ class PreferencesFragment : PreferenceFragmentCompat() {
             val httpPort = sharedPreferences.getNonNullString("httpProxyPort", "-1").toInt()
 
             if (httpProxyEnabled && httpServer.isNotBlank() && httpPort > 0 && httpPort < 65535) {
-                httpProxyPref?.summary = "$httpServer:$httpPort"
+                httpProxyPref.summary = "$httpServer:$httpPort"
                 return
             }
         } catch (e: NumberFormatException) {
             // user has entered wrong port, fall back to empty summary
         }
 
-        httpProxyPref?.summary = ""
+        httpProxyPref.summary = ""
 
     }
 
