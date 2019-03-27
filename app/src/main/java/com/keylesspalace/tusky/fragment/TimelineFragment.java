@@ -853,6 +853,12 @@ public class TimelineFragment extends SFragment implements
         if (didLoadEverythingBottom || bottomLoading) {
             return;
         }
+
+        if(statuses.size() == 0) {
+            sendInitialRequest();
+            return;
+        }
+
         bottomLoading = true;
 
         Either<Placeholder, Status> last = statuses.get(statuses.size() - 1);
