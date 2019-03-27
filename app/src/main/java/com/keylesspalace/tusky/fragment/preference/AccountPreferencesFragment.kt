@@ -73,21 +73,25 @@ class AccountPreferencesFragment : PreferenceFragmentCompat(),
 
     private val iconSize by lazy {resources.getDimensionPixelSize(R.dimen.preference_icon_size)}
 
+    private fun requirePreference(key: String): Preference {
+        return findPreference(key)!!
+    }
+
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         addPreferencesFromResource(R.xml.account_preferences)
 
-        notificationPreference = findPreference("notificationPreference")
-        tabPreference = findPreference("tabPreference")
-        mutedUsersPreference = findPreference("mutedUsersPreference")
-        blockedUsersPreference = findPreference("blockedUsersPreference")
-        defaultPostPrivacyPreference = findPreference("defaultPostPrivacy") as ListPreference
-        defaultMediaSensitivityPreference = findPreference("defaultMediaSensitivity") as SwitchPreference
-        mediaPreviewEnabledPreference = findPreference("mediaPreviewEnabled") as SwitchPreference
-        alwaysShowSensitiveMediaPreference = findPreference("alwaysShowSensitiveMedia") as SwitchPreference
-        homeFiltersPreference = findPreference("homeFilters")
-        notificationFiltersPreference = findPreference("notificationFilters")
-        publicFiltersPreference = findPreference("publicFilters")
-        threadFiltersPreference = findPreference("threadFilters")
+        notificationPreference = requirePreference("notificationPreference")
+        tabPreference = requirePreference("tabPreference")
+        mutedUsersPreference = requirePreference("mutedUsersPreference")
+        blockedUsersPreference = requirePreference("blockedUsersPreference")
+        defaultPostPrivacyPreference = requirePreference("defaultPostPrivacy") as ListPreference
+        defaultMediaSensitivityPreference = requirePreference("defaultMediaSensitivity") as SwitchPreference
+        mediaPreviewEnabledPreference = requirePreference("mediaPreviewEnabled") as SwitchPreference
+        alwaysShowSensitiveMediaPreference = requirePreference("alwaysShowSensitiveMedia") as SwitchPreference
+        homeFiltersPreference = requirePreference("homeFilters")
+        notificationFiltersPreference = requirePreference("notificationFilters")
+        publicFiltersPreference = requirePreference("publicFilters")
+        threadFiltersPreference = requirePreference("threadFilters")
 
         notificationPreference.icon = IconicsDrawable(notificationPreference.context, GoogleMaterial.Icon.gmd_notifications).sizePx(iconSize).color(ThemeUtils.getColor(notificationPreference.context, R.attr.toolbar_icon_tint))
         mutedUsersPreference.icon = getTintedIcon(R.drawable.ic_mute_24dp)
