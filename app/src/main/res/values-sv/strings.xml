@@ -33,7 +33,7 @@
     <string name="title_tag">#%s</string>
     <string name="title_statuses">Inlägg</string>
     <string name="title_statuses_with_replies">Med svar</string>
-    <string name="title_statuses_pinned">Fastnålad</string>
+    <string name="title_statuses_pinned">Fastnålade</string>
     <string name="title_follows">Följer</string>
     <string name="title_followers">Följare</string>
     <string name="title_favourites">Favoriter</string>
