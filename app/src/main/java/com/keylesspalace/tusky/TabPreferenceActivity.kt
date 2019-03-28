@@ -192,12 +192,17 @@ class TabPreferenceActivity : BaseActivity(), Injectable, ItemInteractionListene
                 .create()
 
         editText.onTextChanged { s, _, _, _ ->
-            val input = s.trim()
-            dialog.getButton(AlertDialog.BUTTON_POSITIVE).isEnabled = input.isNotEmpty() && hashtagRegex.matcher(input).matches()
+            dialog.getButton(AlertDialog.BUTTON_POSITIVE).isEnabled = validateHashtag(s)
         }
 
         dialog.show()
+        dialog.getButton(AlertDialog.BUTTON_POSITIVE).isEnabled = validateHashtag(editText.text)
         editText.requestFocus()
+    }
+
+    private fun validateHashtag(input: CharSequence?): Boolean {
+        val trimmedInput = input?.trim() ?: ""
+        return trimmedInput.isNotEmpty() && hashtagRegex.matcher(trimmedInput).matches()
     }
 
     private fun updateAvailableTabs() {
