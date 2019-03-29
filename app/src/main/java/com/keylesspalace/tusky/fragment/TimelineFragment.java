@@ -30,7 +30,9 @@ import android.widget.ProgressBar;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
+
 import io.reactivex.Observable;
+
 import com.keylesspalace.tusky.AccountListActivity;
 import com.keylesspalace.tusky.BaseActivity;
 import com.keylesspalace.tusky.R;
@@ -322,7 +324,7 @@ public class TimelineFragment extends SFragment implements
             @Override
             public void onResponse(@NonNull Call<List<Filter>> call, @NonNull Response<List<Filter>> response) {
                 List<Filter> filterList = response.body();
-                if(response.isSuccessful() && filterList != null) {
+                if (response.isSuccessful() && filterList != null) {
                     applyFilters(filterList, refresh);
                 } else {
                     Log.e(TAG, "Error getting filters from server");
@@ -354,7 +356,7 @@ public class TimelineFragment extends SFragment implements
 
     private static boolean filterContextMatchesKind(Kind kind, List<String> filterContext) {
         // home, notifications, public, thread
-        switch(kind) {
+        switch (kind) {
             case HOME:
                 return filterContext.contains(Filter.HOME);
             case PUBLIC_FEDERATED:
@@ -824,7 +826,7 @@ public class TimelineFragment extends SFragment implements
             return;
         }
 
-        if(statuses.size() == 0) {
+        if (statuses.size() == 0) {
             sendInitialRequest();
             return;
         }
@@ -1296,13 +1298,12 @@ public class TimelineFragment extends SFragment implements
         @Nullable
         @Override
         public Object getChangePayload(@NonNull StatusViewData oldItem, @NonNull StatusViewData newItem) {
-            if (oldItem.deepEquals(newItem)){
+            if (oldItem.deepEquals(newItem)) {
                 //If items are equal - update timestamp only
                 List<String> payload = new ArrayList<>();
                 payload.add(StatusBaseViewHolder.Key.KEY_CREATED);
                 return payload;
-            }
-            else
+            } else
                 // If items are different - update a whole view holder
                 return null;
         }
@@ -1332,6 +1333,7 @@ public class TimelineFragment extends SFragment implements
         }
 
     }
+
     @Override
     public void setMenuVisibility(boolean menuVisible) {
         super.setMenuVisibility(menuVisible);
