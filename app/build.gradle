@@ -72,6 +72,12 @@ android {
         exclude 'LICENSE_OFL'
         exclude 'LICENSE_UNICODE'
     }
+    bundle {
+        language {
+            // bundle all languages in every apk so the dynamic language switching works
+            enableSplit = false
+        }
+    }
 }
 
 ext.daggerVersion = '2.21'
