@@ -272,7 +272,6 @@
     <string name="send_toot_notification_cancel_title">发送已被取消</string>
     <string name="send_toot_notification_saved_content">嘟文已保存为草稿</string>
     <string name="action_compose_shortcut">发表嘟文</string>
-    <string name="error_no_custom_emojis">此服务器没有自定义表情符号</string>
     <string name="copy_to_clipboard_success">已复制到剪贴板</string>
     <string name="emoji_style">表情符号风格</string>
     <string name="system_default">系统默认</string>

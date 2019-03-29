@@ -176,6 +176,7 @@
     <string name="pref_title_appearance_settings">المظهر</string>
     <string name="pref_title_app_theme">سمة التطبيق</string>
     <string name="pref_title_timelines">الخيوط</string>
+    <string name="pref_title_timeline_filters">عوامل التصفية</string>
     <string-array name="app_theme_names">
         <item>داكنة</item>
         <item>فاتحة</item>
@@ -270,6 +271,13 @@
     <string name="title_media">الوسائط</string>
     <string name="replying_to">ردًا على @%s</string>
     <string name="load_more_placeholder_text">حمِّل المزيد</string>
+    <string name="pref_title_public_filter_keywords">الخطوط الزمنية العمومية</string>
+    <string name="pref_title_thread_filter_keywords">المحادثات</string>
+    <string name="filter_addition_dialog_title">إضافة عامل تصفية</string>
+    <string name="filter_edit_dialog_title">تعديل عامل التصفية</string>
+    <string name="filter_dialog_remove_button">إزالة</string>
+    <string name="filter_dialog_update_button">تحديث</string>
+    <string name="filter_add_description">العبارة التي يلزم تصفيتها</string>
     <string name="add_account_name">إضافة حساب</string>
     <string name="add_account_description">إضافة حساب ماستدون جديد</string>
     <string name="action_lists">القوائم</string>

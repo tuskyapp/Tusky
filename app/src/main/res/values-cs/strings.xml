@@ -124,6 +124,8 @@
     <string name="action_copy_link">Zkopírovat odkaz</string>
     <string name="action_open_as">Otevřít jako %s</string>
     <string name="action_share_as">Sdílet jako…</string>
+    <string name="download_media">Stáhnout média</string>
+    <string name="downloading_media">Stahuji média</string>
     <string name="send_status_link_to">Sdílet URL tootu na…</string>
     <string name="send_status_content_to">Sdílet toot na…</string>
     <string name="send_media_to">Sdílet média na…</string>
@@ -380,7 +382,10 @@
     <string name="description_visiblity_direct">        Přímý
     </string>
     <string name="description_status">        <!-- Zobrazované jméno, varování?, obsah?, relativní datum, znovusdíleno kým?, znovusdíleno?, oblíbeno?, uživatelské jméno, média?; viditelnost, počet oblíbení?, počet boostů?-->
-        %s; %s; %s, %s, %s; %s, %s, %s, %s; %s, %s, %s
+        %1$s; %2$s; %3$s, %4$s, %5$s; %6$s, %7$s, %8$s, %9$s; %10$s, %11$s, %12$s
     </string>
     <string name="hint_list_name">Název seznamu</string>
+    <string name="edit_hashtag_title">Upravit hashtag</string>
+    <string name="edit_hashtag_hint">Hashtag bez #</string>
+    <string name="hashtag">Hashtag</string>
 </resources>

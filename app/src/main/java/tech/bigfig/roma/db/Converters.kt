@@ -58,12 +58,15 @@ class Converters {
     @TypeConverter
     fun stringToTabData(str: String?): List<TabData>? {
         return str?.split(";")
-                ?.map { createTabDataFromId(it) }
+                ?.map {
+                    val data = it.split(":")
+                    createTabDataFromId(data[0], data.drop(1))
+                }
     }
 
     @TypeConverter
     fun tabDataToString(tabData: List<TabData>?): String? {
-        return tabData?.joinToString(";") { it.id }
+        return tabData?.joinToString(";") { it.id + ":" + it.arguments.joinToString(":") }
     }
 
     @TypeConverter

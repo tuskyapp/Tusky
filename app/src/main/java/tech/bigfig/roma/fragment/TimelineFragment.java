@@ -71,7 +71,6 @@ import tech.bigfig.roma.viewdata.StatusViewData;
 import java.util.ArrayList;
 import java.io.IOException;
 import java.util.Collections;
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
@@ -321,13 +320,18 @@ public class TimelineFragment extends SFragment implements
     private void reloadFilters(boolean refresh) {
         mastodonApi.getFilters().enqueue(new Callback<List<Filter>>() {
             @Override
-            public void onResponse(Call<List<Filter>> call, Response<List<Filter>> response) {
-                applyFilters(response.body(), refresh);
+            public void onResponse(@NonNull Call<List<Filter>> call, @NonNull Response<List<Filter>> response) {
+                List<Filter> filterList = response.body();
+                if(response.isSuccessful() && filterList != null) {
+                    applyFilters(filterList, refresh);
+                } else {
+                    Log.e(TAG, "Error getting filters from server");
+                }
             }
 
             @Override
-            public void onFailure(Call<List<Filter>> call, Throwable t) {
-                Log.e(TAG, "Error getting filters from server");
+            public void onFailure(@NonNull Call<List<Filter>> call, @NonNull Throwable t) {
+                Log.e(TAG, "Error getting filters from server", t);
             }
         });
     }
@@ -366,7 +370,7 @@ public class TimelineFragment extends SFragment implements
 
     private static String filterToRegexToken(Filter filter) {
         String phrase = Pattern.quote(filter.getPhrase());
-        return filter.getWholeWord() ? String.format("\\b%s\\b", phrase) : phrase;
+        return filter.getWholeWord() ? String.format("(^|\\W)%s($|\\W)", phrase) : phrase;
     }
 
     private void applyFilters(List<Filter> filters, boolean refresh) {
@@ -851,6 +855,12 @@ public class TimelineFragment extends SFragment implements
         if (didLoadEverythingBottom || bottomLoading) {
             return;
         }
+
+        if(statuses.size() == 0) {
+            sendInitialRequest();
+            return;
+        }
+
         bottomLoading = true;
 
         Either<Placeholder, Status> last = statuses.get(statuses.size() - 1);
