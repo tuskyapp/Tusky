@@ -39,9 +39,7 @@ import javax.inject.Inject
 
 import com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider.from
 import com.uber.autodispose.autoDisposable
-import kotlinx.android.synthetic.main.activity_tab_preference.*
-
-import kotlinx.android.synthetic.main.toolbar_basic.*
+import tech.bigfig.roma.util.onTextChanged
 
 class TabPreferenceActivity : BaseActivity(), Injectable, ItemInteractionListener {
 

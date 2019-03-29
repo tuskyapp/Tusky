@@ -24,9 +24,9 @@ import tech.bigfig.roma.HASHTAG
 import tech.bigfig.roma.R
 import tech.bigfig.roma.TabData
 import tech.bigfig.roma.util.ThemeUtils
-import com.keylesspalace.tusky.util.hide
-import com.keylesspalace.tusky.util.show
 import kotlinx.android.synthetic.main.item_tab_preference.view.*
+import tech.bigfig.roma.util.hide
+import tech.bigfig.roma.util.show
 
 
 interface ItemInteractionListener {
