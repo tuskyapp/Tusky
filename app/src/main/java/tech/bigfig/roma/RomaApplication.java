@@ -30,10 +30,14 @@ import com.crashlytics.android.core.CrashlyticsCore;
 import com.evernote.android.job.JobManager;
 import com.jakewharton.picasso.OkHttp3Downloader;
 
+import androidx.work.RxWorker;
+import androidx.work.WorkManager;
 import io.fabric.sdk.android.Fabric;
 import tech.bigfig.roma.db.AccountManager;
 import tech.bigfig.roma.db.AppDatabase;
 import tech.bigfig.roma.di.AppInjector;
+import tech.bigfig.roma.di.DaggerWorkerFactory;
+import tech.bigfig.roma.di.HasWorkerInjector;
 import tech.bigfig.roma.util.EmojiCompatFont;
 import tech.bigfig.roma.util.NotificationPullJobCreator;
 
@@ -41,6 +45,7 @@ import tech.bigfig.roma.util.LocaleManager;
 import com.squareup.picasso.Picasso;
 
 import org.conscrypt.Conscrypt;
+import org.jetbrains.annotations.NotNull;
 
 import java.security.Security;
 
@@ -53,7 +58,8 @@ import dagger.android.HasBroadcastReceiverInjector;
 import dagger.android.HasServiceInjector;
 import okhttp3.OkHttpClient;
 
-public class RomaApplication extends Application implements HasActivityInjector, HasServiceInjector, HasBroadcastReceiverInjector {
+public class RomaApplication extends Application implements HasActivityInjector, HasServiceInjector, HasBroadcastReceiverInjector,
+        HasWorkerInjector {
     @Inject
     DispatchingAndroidInjector<Activity> dispatchingAndroidInjector;
     @Inject
@@ -64,6 +70,8 @@ public class RomaApplication extends Application implements HasActivityInjector,
     NotificationPullJobCreator notificationPullJobCreator;
     @Inject
     OkHttpClient okHttpClient;
+    @Inject
+    DispatchingAndroidInjector<RxWorker> dispatchingWorkerInjector;
 
     private AppDatabase appDatabase;
     private AccountManager accountManager;
@@ -76,6 +84,7 @@ public class RomaApplication extends Application implements HasActivityInjector,
     public void onCreate() {
         super.onCreate();
         initCrashlytics();
+        initWorkManager();
 
         initSecurityProvider();
 
@@ -109,7 +118,12 @@ public class RomaApplication extends Application implements HasActivityInjector,
         JobManager.create(this).addJobCreator(notificationPullJobCreator);
 
     }
-
+    private void initWorkManager(){
+        androidx.work.Configuration config = new androidx.work.Configuration.Builder()
+                .setWorkerFactory(new DaggerWorkerFactory()) // Overrides default WorkerFactory
+                .build();
+        WorkManager.initialize(this,config);
+    }
     /**
      * Init crashlytics and disable crash reports for debug builds
      */
@@ -189,6 +203,13 @@ public class RomaApplication extends Application implements HasActivityInjector,
     public AndroidInjector<BroadcastReceiver> broadcastReceiverInjector() {
         return dispatchingBroadcastReceiverInjector;
     }
+
+    @NotNull
+    @Override
+    public AndroidInjector<RxWorker> workerInjector() {
+        return dispatchingWorkerInjector;
+    }
+
 
     public interface ServiceLocator {
         <T> T get(Class<T> clazz);

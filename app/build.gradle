@@ -5,24 +5,14 @@ apply plugin: 'kotlin-kapt'
 apply plugin: 'io.fabric'
 
 
-
-def getGitSha = { ->
-    def stdout = new ByteArrayOutputStream()
-    exec {
-        commandLine 'git', 'rev-parse', '--short', 'HEAD'
-        standardOutput = stdout
-    }
-    return stdout.toString().trim()
-}
-
 android {
     compileSdkVersion 28
     defaultConfig {
         applicationId "tech.bigfig.roma"
         minSdkVersion 21
         targetSdkVersion 28
-        versionCode 60
-        versionName "6.0 beta 1"
+        versionCode 64
+        versionName "5.7.6"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
 
@@ -145,7 +135,14 @@ dependencies {
     implementation 'androidx.paging:paging-runtime-ktx:2.1.0'
 
     //Crashlytics
-    implementation 'com.google.firebase:firebase-core:16.0.7'
+    implementation 'com.google.firebase:firebase-core:16.0.8'
     implementation 'com.crashlytics.sdk.android:crashlytics:2.9.9'
+
+    //Firebase Push Messages
+    implementation 'com.google.firebase:firebase-messaging:17.5.0'
+
+    //WorkManager
+    implementation "androidx.work:work-runtime:2.0.0"
+    implementation "androidx.work:work-rxjava2:2.0.0"
 }
 apply plugin: 'com.google.gms.google-services'

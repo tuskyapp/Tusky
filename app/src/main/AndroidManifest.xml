@@ -19,7 +19,7 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/RomaTheme">
-        <activity android:name=".PrivacyPolicyActivity"></activity>
+        <activity android:name=".PrivacyPolicyActivity"/>
 
         <meta-data
             android:name="firebase_crashlytics_collection_enabled"
@@ -36,7 +36,7 @@
         </activity>
         <activity
             android:name=".SavedTootActivity"
-            android:configChanges="orientation|screenSize|keyboardHidden"></activity>
+            android:configChanges="orientation|screenSize|keyboardHidden"/>
         <activity
             android:name=".LoginActivity"
             android:windowSoftInputMode="adjustResize">
@@ -53,7 +53,7 @@
         </activity>
         <activity
             android:name=".MainActivity"
-            android:configChanges="orientation|screenSize|keyboardHidden"></activity>
+            android:configChanges="orientation|screenSize|keyboardHidden"/>
         <activity
             android:name=".ComposeActivity"
             android:theme="@style/RomaDialogActivityTheme"
@@ -173,6 +173,18 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
+
+        <service android:name=".service.push.RomaFirebaseMessagingService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+        <provider
+            android:name="androidx.work.impl.WorkManagerInitializer"
+            android:authorities="${applicationId}.workmanager-init"
+            android:enabled="false"
+            android:exported="false"
+            tools:replace="android:authorities" />
     </application>
 
 </manifest>

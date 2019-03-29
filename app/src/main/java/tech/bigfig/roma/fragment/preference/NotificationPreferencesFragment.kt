@@ -85,9 +85,9 @@ class NotificationPreferencesFragment : PreferenceFragmentCompat(), Preference.O
                 "notificationsEnabled" -> {
                     activeAccount.notificationsEnabled = newValue as Boolean
                     if(NotificationHelper.areNotificationsEnabled(preference.context, accountManager)) {
-                        NotificationHelper.enablePullNotifications()
+                        NotificationHelper.enablePullNotifications(activeAccount.username)
                     } else {
-                        NotificationHelper.disablePullNotifications()
+                        NotificationHelper.disablePullNotifications(activeAccount.username,activeAccount.domain)
                     }
                 }
                 "notificationFilterMentions" -> activeAccount.notificationsMentioned = newValue as Boolean

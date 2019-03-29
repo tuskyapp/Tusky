@@ -35,6 +35,8 @@ import androidx.core.app.RemoteInput;
 import androidx.core.app.TaskStackBuilder;
 import androidx.core.content.ContextCompat;
 import androidx.core.text.BidiFormatter;
+
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.evernote.android.job.JobManager;
@@ -48,7 +50,13 @@ import tech.bigfig.roma.entity.Notification;
 import tech.bigfig.roma.entity.Status;
 import tech.bigfig.roma.receiver.NotificationClearBroadcastReceiver;
 import tech.bigfig.roma.receiver.SendStatusBroadcastReceiver;
+import tech.bigfig.roma.service.push.DeleteFcmTokenWorker;
+import tech.bigfig.roma.service.push.UpdateFcmTokenWorker;
 import tech.bigfig.roma.view.RoundedTransformation;
+
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
@@ -433,23 +441,14 @@ public class NotificationHelper {
 
     }
 
-    public static void enablePullNotifications() {
-        long checkInterval = 1000 * 60 * NOTIFICATION_CHECK_INTERVAL_MINUTES;
+    public static void enablePullNotifications(String account ) {
+        FirebaseInstanceId.getInstance().getInstanceId()
+                .addOnSuccessListener(instanceIdResult -> UpdateFcmTokenWorker.Companion.updateTokens(instanceIdResult.getToken(),account));
 
-        new JobRequest.Builder(NotificationPullJobCreator.NOTIFICATIONS_JOB_TAG)
-                .setPeriodic(checkInterval)
-                .setUpdateCurrent(true)
-                .setRequiredNetworkType(JobRequest.NetworkType.CONNECTED)
-                .build()
-                .scheduleAsync();
-
-        Log.d(TAG, "enabled notification checks with "+ NOTIFICATION_CHECK_INTERVAL_MINUTES + "min interval");
     }
 
-    public static void disablePullNotifications() {
-        JobManager.instance().cancelAllForTag(NotificationPullJobCreator.NOTIFICATIONS_JOB_TAG);
-        Log.d(TAG, "disabled notification checks");
-
+    public static void disablePullNotifications(String account, String domain) {
+        DeleteFcmTokenWorker.Companion.removeTokens(account,domain);
     }
 
     public static void clearNotificationsForActiveAccount(@NonNull Context context, @NonNull AccountManager accountManager) {
@@ -466,16 +465,21 @@ public class NotificationHelper {
 
     private static boolean filterNotification(AccountEntity account, Notification notification,
                                               Context context) {
+        return filterNotification(account,notification.getType(),context);
+    }
+
+    private static boolean filterNotification(AccountEntity account, Notification.Type notificationType,
+                                              Context context) {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
             //noinspection ConstantConditions
-            NotificationChannel channel = notificationManager.getNotificationChannel(getChannelId(account, notification));
+            NotificationChannel channel = notificationManager.getNotificationChannel(getChannelId(account, notificationType));
             return channel.getImportance() > NotificationManager.IMPORTANCE_NONE;
         }
 
-        switch (notification.getType()) {
+        switch (notificationType) {
             case MENTION:
                 return account.getNotificationsMentioned();
             case FOLLOW:
@@ -490,7 +494,10 @@ public class NotificationHelper {
     }
 
     private static String getChannelId(AccountEntity account, Notification notification) {
-        switch (notification.getType()) {
+        return getChannelId(account,notification.getType());
+    }
+    private static String getChannelId(AccountEntity account, Notification.Type notificationType) {
+        switch (notificationType) {
             default:
             case MENTION:
                 return CHANNEL_MENTION + account.getIdentifier();
@@ -585,6 +592,148 @@ public class NotificationHelper {
                 }
         }
         return null;
+    }
+
+    public static void make(final Context context, String notifId, Notification.Type notificationType ,
+                            String avatar, String title, String msg, AccountEntity account) {
+
+        if (!filterNotification(account, notificationType, context)) {
+            return;
+        }
+
+        String rawCurrentNotifications = account.getActiveNotifications();
+        JSONArray currentNotifications;
+        if (Build.VERSION.SDK_INT<Build.VERSION_CODES.O)
+            currentNotifications = new JSONArray();
+        else {
+            try {
+                currentNotifications = new JSONArray(rawCurrentNotifications);
+            } catch (JSONException e) {
+                currentNotifications = new JSONArray();
+            }
+
+            for (int i = 0; i < currentNotifications.length(); i++) {
+                try {
+                    if (currentNotifications.getString(i).equals(notifId)) {
+                        currentNotifications.remove(i);
+                        break;
+                    }
+                } catch (JSONException e) {
+                    Log.d(TAG, Log.getStackTraceString(e));
+                }
+            }
+        }
+
+        currentNotifications.put(notifId);
+
+        account.setActiveNotifications(currentNotifications.toString());
+
+        // Notification group member
+        // =========================
+        final NotificationCompat.Builder builder = newNotification(context, notificationType, account, false);
+
+        notificationId++;
+
+        builder.setContentTitle(title)
+                .setContentText(msg);
+
+        if (notificationType == Notification.Type.MENTION) {
+            builder.setStyle(new NotificationCompat.BigTextStyle()
+                    .bigText(msg));
+        }
+
+        //load the avatar synchronously
+        Bitmap accountAvatar;
+        try {
+            if (!TextUtils.isEmpty(avatar)) {
+                accountAvatar = Picasso.with(context)
+                        .load(avatar)
+                        .transform(new RoundedTransformation(20))
+                        .get();
+            }
+            else{
+                accountAvatar = BitmapFactory.decodeResource(context.getResources(), R.drawable.avatar_default);
+            }
+        } catch (IOException e) {
+            Log.d(TAG, "error loading account avatar", e);
+            accountAvatar = BitmapFactory.decodeResource(context.getResources(), R.drawable.avatar_default);
+        }
+
+        builder.setLargeIcon(accountAvatar);
+
+        builder.setSubText(account.getFullName());
+        builder.setVisibility(NotificationCompat.VISIBILITY_PRIVATE);
+        builder.setCategory(NotificationCompat.CATEGORY_SOCIAL);
+        builder.setOnlyAlertOnce(false);
+
+        // only alert for the first notification of a batch to avoid multiple alerts at once
+
+        builder.setGroupAlertBehavior(NotificationCompat.GROUP_ALERT_SUMMARY);
+
+        // Summary
+        // =======
+        final NotificationCompat.Builder summaryBuilder = newNotification(context, notificationType, account, true);
+
+        if (currentNotifications.length() != 1) {
+            String summaryTitle = context.getString(R.string.notification_title_summary, currentNotifications.length());
+            summaryBuilder.setContentTitle(summaryTitle);
+        }
+
+        summaryBuilder.setSubText(account.getFullName());
+        summaryBuilder.setVisibility(NotificationCompat.VISIBILITY_PRIVATE);
+        summaryBuilder.setCategory(NotificationCompat.CATEGORY_SOCIAL);
+        summaryBuilder.setOnlyAlertOnce(false);
+        summaryBuilder.setGroupSummary(true);
+
+        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
+
+        //noinspection ConstantConditions
+        notificationManager.notify(notificationId, builder.build());
+
+        if (currentNotifications.length() == 1) {
+            notificationManager.notify((int) account.getId(), builder.setGroupSummary(true).build());
+        } else {
+            notificationManager.notify((int) account.getId(), summaryBuilder.build());
+        }
+    }
+
+    private static NotificationCompat.Builder newNotification(Context context, Notification.Type notificationType, AccountEntity account, boolean summary) {
+        Intent summaryResultIntent = new Intent(context, MainActivity.class);
+        summaryResultIntent.putExtra(ACCOUNT_ID, account.getId());
+        TaskStackBuilder summaryStackBuilder = TaskStackBuilder.create(context);
+        summaryStackBuilder.addParentStack(MainActivity.class);
+        summaryStackBuilder.addNextIntent(summaryResultIntent);
+
+        PendingIntent summaryResultPendingIntent = summaryStackBuilder.getPendingIntent(notificationId,
+                PendingIntent.FLAG_UPDATE_CURRENT);
+
+        // we have to switch account here
+        Intent eventResultIntent = new Intent(context, MainActivity.class);
+        eventResultIntent.putExtra(ACCOUNT_ID, account.getId());
+        TaskStackBuilder eventStackBuilder = TaskStackBuilder.create(context);
+        eventStackBuilder.addParentStack(MainActivity.class);
+        eventStackBuilder.addNextIntent(eventResultIntent);
+
+        PendingIntent eventResultPendingIntent = eventStackBuilder.getPendingIntent((int) account.getId(),
+                PendingIntent.FLAG_UPDATE_CURRENT);
+
+        Intent deleteIntent = new Intent(context, NotificationClearBroadcastReceiver.class);
+        deleteIntent.putExtra(ACCOUNT_ID, account.getId());
+        PendingIntent deletePendingIntent = PendingIntent.getBroadcast(context, summary ? (int) account.getId() : notificationId, deleteIntent,
+                PendingIntent.FLAG_UPDATE_CURRENT);
+
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(context, getChannelId(account, notificationType))
+                .setSmallIcon(R.drawable.ic_notify)
+                .setContentIntent(summary ? summaryResultPendingIntent : eventResultPendingIntent)
+                .setDeleteIntent(deletePendingIntent)
+                .setColor(BuildConfig.DEBUG ? Color.parseColor("#19A341") : ContextCompat.getColor(context, R.color.roma_blue))
+                .setGroup(account.getAccountId())
+                .setAutoCancel(true)
+                .setDefaults(0); // So it doesn't ring twice, notify only in Target callback
+
+        setupPreferences(account, builder);
+
+        return builder;
     }
 
 }

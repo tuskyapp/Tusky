@@ -17,14 +17,14 @@ package tech.bigfig.roma.di
 
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
-import tech.bigfig.roma.service.SendTootService
-import tech.bigfig.roma.service.push.RomaFirebaseMessagingService
+import tech.bigfig.roma.service.push.DeleteFcmTokenWorker
+import tech.bigfig.roma.service.push.UpdateFcmTokenWorker
 
 @Module
-abstract class ServicesModule {
+abstract class WorkersModule {
     @ContributesAndroidInjector
-    abstract fun contributesSendTootService(): SendTootService
+    abstract fun contributesUpdateFcmTokenWorker(): UpdateFcmTokenWorker
 
     @ContributesAndroidInjector
-    abstract fun contributesRomaFirebaseMessagingService(): RomaFirebaseMessagingService
+    abstract fun contributesDeleteFcmTokenWorker(): DeleteFcmTokenWorker
 }

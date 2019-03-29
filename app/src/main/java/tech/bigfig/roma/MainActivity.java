@@ -15,40 +15,22 @@
 
 package tech.bigfig.roma;
 
-import androidx.lifecycle.Lifecycle;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.tabs.TabLayout;
-import androidx.emoji.text.EmojiCompat;
-import androidx.fragment.app.Fragment;
-import androidx.core.content.ContextCompat;
-import androidx.viewpager.widget.ViewPager;
-import androidx.appcompat.app.AlertDialog;
 import android.os.Handler;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 
-import tech.bigfig.roma.appstore.CacheUpdater;
-import tech.bigfig.roma.appstore.EventHub;
-import tech.bigfig.roma.appstore.MainTabsChangedEvent;
-import tech.bigfig.roma.appstore.ProfileEditedEvent;
-import tech.bigfig.roma.components.conversation.ConversationsRepository;
-import tech.bigfig.roma.db.AccountEntity;
-import tech.bigfig.roma.entity.Account;
-import tech.bigfig.roma.interfaces.ActionButtonActivity;
-import tech.bigfig.roma.pager.MainPagerAdapter;
-import tech.bigfig.roma.pager.TimelinePagerAdapter;
-import tech.bigfig.roma.util.CustomEmojiHelper;
-import tech.bigfig.roma.util.NotificationHelper;
-import tech.bigfig.roma.util.ThemeUtils;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.tabs.TabLayout;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
 import com.mikepenz.google_material_typeface_library.GoogleMaterial;
 import com.mikepenz.materialdrawer.AccountHeader;
 import com.mikepenz.materialdrawer.AccountHeaderBuilder;
@@ -65,22 +47,56 @@ import com.mikepenz.materialdrawer.util.AbstractDrawerImageLoader;
 import com.mikepenz.materialdrawer.util.DrawerImageLoader;
 import com.squareup.picasso.Picasso;
 
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+import androidx.core.content.ContextCompat;
+import androidx.core.util.Pair;
+import androidx.emoji.text.EmojiCompat;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Lifecycle;
+import androidx.viewpager.widget.ViewPager;
 import dagger.android.AndroidInjector;
 import dagger.android.DispatchingAndroidInjector;
 import dagger.android.support.HasSupportFragmentInjector;
+import io.reactivex.SingleObserver;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.BiFunction;
+import io.reactivex.schedulers.Schedulers;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import tech.bigfig.roma.appstore.CacheUpdater;
+import tech.bigfig.roma.appstore.EventHub;
+import tech.bigfig.roma.appstore.MainTabsChangedEvent;
+import tech.bigfig.roma.appstore.ProfileEditedEvent;
+import tech.bigfig.roma.components.conversation.ConversationsRepository;
+import tech.bigfig.roma.db.AccountEntity;
+import tech.bigfig.roma.entity.Account;
+import tech.bigfig.roma.entity.push.PushAlerts;
+import tech.bigfig.roma.entity.push.PushData;
+import tech.bigfig.roma.entity.push.PushKeys;
+import tech.bigfig.roma.entity.push.PushSubscription;
+import tech.bigfig.roma.entity.push.PushSubscriptionRequest;
+import tech.bigfig.roma.interfaces.ActionButtonActivity;
+import tech.bigfig.roma.pager.MainPagerAdapter;
+import tech.bigfig.roma.service.push.DeleteFcmTokenWorker;
+import tech.bigfig.roma.service.push.UpdateFcmTokenWorker;
+import tech.bigfig.roma.util.CustomEmojiHelper;
+import tech.bigfig.roma.util.NotificationHelper;
+import tech.bigfig.roma.util.PushHelperKt;
+import tech.bigfig.roma.util.ThemeUtils;
 
-import static tech.bigfig.roma.util.MediaUtilsKt.deleteStaleCachedMedia;
 import static com.uber.autodispose.AutoDispose.autoDisposable;
 import static com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider.from;
+import static tech.bigfig.roma.util.MediaUtilsKt.deleteStaleCachedMedia;
 
 
 public final class MainActivity extends BottomSheetActivity implements ActionButtonActivity,
@@ -214,11 +230,14 @@ public final class MainActivity extends BottomSheetActivity implements ActionBut
             }
         });
 
-        // Setup push notifications
-        if (NotificationHelper.areNotificationsEnabled(this, accountManager)) {
-            NotificationHelper.enablePullNotifications();
-        } else {
-            NotificationHelper.disablePullNotifications();
+        AccountEntity entity = accountManager.getActiveAccount();
+        if (entity!=null) {
+            // Setup push notifications
+            if (NotificationHelper.areNotificationsEnabled(this, accountManager)) {
+                NotificationHelper.enablePullNotifications(entity.getUsername());
+            } else {
+                NotificationHelper.disablePullNotifications(entity.getUsername(),entity.getDomain());
+            }
         }
 
         eventHub.getEvents()
@@ -423,9 +442,9 @@ public final class MainActivity extends BottomSheetActivity implements ActionBut
                     .setIcon(tabs.get(i).getIcon())
                     .setContentDescription(tabs.get(i).getText());
             tabLayout.addTab(tab);
-            if(tabs.get(i).getId().equals(TabDataKt.NOTIFICATIONS)) {
+            if (tabs.get(i).getId().equals(TabDataKt.NOTIFICATIONS)) {
                 notificationTabPosition = i;
-                if(selectNotificationTab) {
+                if (selectNotificationTab) {
                     tab.select();
                 }
             }
@@ -484,14 +503,15 @@ public final class MainActivity extends BottomSheetActivity implements ActionBut
                     .setPositiveButton(android.R.string.yes, (dialog, which) -> {
 
                         NotificationHelper.deleteNotificationChannelsForAccount(accountManager.getActiveAccount(), MainActivity.this);
+                        unsubscribePushEvents(activeAccount);
                         cacheUpdater.clearForUser(activeAccount.getId());
                         conversationRepository.deleteCacheForAccount(activeAccount.getId());
 
                         AccountEntity newAccount = accountManager.logActiveAccountOut();
 
-                        if (!NotificationHelper.areNotificationsEnabled(MainActivity.this, accountManager)) {
+                        /*if (!NotificationHelper.areNotificationsEnabled(MainActivity.this, accountManager)) {
                             NotificationHelper.disablePullNotifications();
-                        }
+                        }*/
 
                         Intent intent;
                         if (newAccount == null) {
@@ -505,6 +525,10 @@ public final class MainActivity extends BottomSheetActivity implements ActionBut
                     .setNegativeButton(android.R.string.no, null)
                     .show();
         }
+    }
+
+    private void unsubscribePushEvents(AccountEntity activeAccount) {
+        DeleteFcmTokenWorker.Companion.removeTokens(activeAccount.getAccessToken(),activeAccount.getDomain());
     }
 
     private void fetchUserInfo() {
@@ -547,7 +571,7 @@ public final class MainActivity extends BottomSheetActivity implements ActionBut
                     .withSelectable(false)
                     .withIcon(GoogleMaterial.Icon.gmd_person_add);
             drawer.addItemAtPosition(followRequestsItem, 3);
-        } else if(!me.getLocked()){
+        } else if (!me.getLocked()) {
             drawer.removeItem(DRAWER_ITEM_FOLLOW_REQUESTS);
         }
 
@@ -559,7 +583,7 @@ public final class MainActivity extends BottomSheetActivity implements ActionBut
 
         List<AccountEntity> allAccounts = accountManager.getAllAccountsOrderedByActive();
 
-        List<IProfile> profiles = new ArrayList<>(allAccounts.size()+1);
+        List<IProfile> profiles = new ArrayList<>(allAccounts.size() + 1);
 
         for (AccountEntity acc : allAccounts) {
             CharSequence emojifiedName = CustomEmojiHelper.emojifyString(acc.getDisplayName(), acc.getEmojis(), headerResult.getView());
@@ -577,7 +601,7 @@ public final class MainActivity extends BottomSheetActivity implements ActionBut
         }
 
         // reuse the already existing "add account" item
-        for (IProfile profile: headerResult.getProfiles()) {
+        for (IProfile profile : headerResult.getProfiles()) {
             if (profile.getIdentifier() == DRAWER_ITEM_ADD_ACCOUNT) {
                 profiles.add(profile);
                 break;

@@ -21,12 +21,6 @@ import android.text.Spanned
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonDeserializer
-import tech.bigfig.roma.BuildConfig
-import tech.bigfig.roma.db.AccountManager
-import tech.bigfig.roma.json.SpannedTypeAdapter
-import tech.bigfig.roma.network.InstanceSwitchAuthInterceptor
-import tech.bigfig.roma.network.MastodonApi
-import tech.bigfig.roma.util.OkHttpUtils
 import dagger.Module
 import dagger.Provides
 import dagger.multibindings.ClassKey
@@ -38,6 +32,12 @@ import retrofit2.Converter
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
+import tech.bigfig.roma.BuildConfig
+import tech.bigfig.roma.db.AccountManager
+import tech.bigfig.roma.json.SpannedTypeAdapter
+import tech.bigfig.roma.network.InstanceSwitchAuthInterceptor
+import tech.bigfig.roma.network.MastodonApi
+import tech.bigfig.roma.util.OkHttpUtils
 import javax.inject.Singleton
 
 /**
@@ -77,7 +77,7 @@ class NetworkModule {
                 .apply {
                     addInterceptor(InstanceSwitchAuthInterceptor(accountManager))
                     if (BuildConfig.DEBUG) {
-                        addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BASIC))
+                        addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
                     }
                 }
                 .build()

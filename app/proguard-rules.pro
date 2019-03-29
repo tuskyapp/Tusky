@@ -111,4 +111,4 @@
 -keepclasseswithmembers class * {
     public static FirebaseAuth getInstance ();
 }
--keep class com.google.firebase.auth.FirebaseAuth
+-keep class com.google.firebase.** { *; }
