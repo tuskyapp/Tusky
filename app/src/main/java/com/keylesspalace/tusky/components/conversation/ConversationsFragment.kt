@@ -179,40 +179,6 @@ class ConversationsFragment : SFragment(), StatusActionListener, Injectable {
         }
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-
-        val activity = activity ?: throw AssertionError("Activity is null")
-
-        if (activity is TabbedActivity) {
-            val layout = (activity as TabbedActivity).getTabLayout()
-            if (layout != null) {
-                onTabSelectedListener = object : TabLayout.OnTabSelectedListener {
-                    override fun onTabSelected(tab: TabLayout.Tab) {}
-
-                    override fun onTabUnselected(tab: TabLayout.Tab) {}
-
-                    override fun onTabReselected(tab: TabLayout.Tab) {
-                        jumpToTop()
-                    }
-                }
-                layout.addOnTabSelectedListener(onTabSelectedListener!!)
-            }
-        }
-    }
-
-    override fun onDestroyView() {
-        if (requireActivity() is TabbedActivity) {
-            val tabLayout = (requireActivity() as TabbedActivity).getTabLayout()
-            if (tabLayout != null) {
-                if (onTabSelectedListener != null) {
-                    tabLayout.removeOnTabSelectedListener(onTabSelectedListener!!)
-                }
-            }
-        }
-        super.onDestroyView()
-    }
-
     private fun jumpToTop() {
         if (isAdded) {
             layoutManager?.scrollToPosition(0)
