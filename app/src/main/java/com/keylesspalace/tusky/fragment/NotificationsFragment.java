@@ -643,8 +643,10 @@ public class NotificationsFragment extends SFragment implements
     }
 
     private void jumpToTop() {
-        layoutManager.scrollToPosition(0);
-        scrollListener.reset();
+        if (isMenuVisible()) {
+            layoutManager.scrollToPosition(0);
+            scrollListener.reset();
+        }
     }
 
     private void sendFetchNotificationsRequest(String fromId, String uptoId,

@@ -27,6 +27,7 @@ import androidx.paging.PagedList
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.SimpleItemAnimator
+import com.google.android.material.tabs.TabLayout
 import com.keylesspalace.tusky.AccountActivity
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.ViewTagActivity
@@ -35,6 +36,7 @@ import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.fragment.SFragment
 import com.keylesspalace.tusky.interfaces.StatusActionListener
+import com.keylesspalace.tusky.interfaces.TabbedActivity
 import com.keylesspalace.tusky.util.NetworkState
 import com.keylesspalace.tusky.util.ThemeUtils
 import com.keylesspalace.tusky.util.hide
@@ -52,6 +54,10 @@ class ConversationsFragment : SFragment(), StatusActionListener, Injectable {
 
     private lateinit var adapter: ConversationAdapter
 
+    private var onTabSelectedListener: TabLayout.OnTabSelectedListener? = null
+
+    private var layoutManager: LinearLayoutManager? = null
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         viewModel = ViewModelProviders.of(this, viewModelFactory)[ConversationsViewModel::class.java]
 
@@ -67,10 +73,11 @@ class ConversationsFragment : SFragment(), StatusActionListener, Injectable {
         val mediaPreviewEnabled = account?.mediaPreviewEnabled ?: true
 
 
-        adapter = ConversationAdapter(useAbsoluteTime, mediaPreviewEnabled,this, ::onTopLoaded, viewModel::retry)
+        adapter = ConversationAdapter(useAbsoluteTime, mediaPreviewEnabled, this, ::onTopLoaded, viewModel::retry)
 
         recyclerView.addItemDecoration(DividerItemDecoration(view.context, DividerItemDecoration.VERTICAL))
-        recyclerView.layoutManager = LinearLayoutManager(view.context)
+        layoutManager = LinearLayoutManager(view.context)
+        recyclerView.layoutManager = layoutManager
         recyclerView.adapter = adapter
         (recyclerView.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
 
@@ -169,6 +176,47 @@ class ConversationsFragment : SFragment(), StatusActionListener, Injectable {
     override fun onReply(position: Int) {
         viewModel.conversations.value?.getOrNull(position)?.lastStatus?.let {
             reply(it.toStatus())
+        }
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+
+        val activity = activity ?: throw AssertionError("Activity is null")
+
+        if (activity is TabbedActivity) {
+            val layout = (activity as TabbedActivity).getTabLayout()
+            if (layout != null) {
+                onTabSelectedListener = object : TabLayout.OnTabSelectedListener {
+                    override fun onTabSelected(tab: TabLayout.Tab) {}
+
+                    override fun onTabUnselected(tab: TabLayout.Tab) {}
+
+                    override fun onTabReselected(tab: TabLayout.Tab) {
+                        jumpToTop()
+                    }
+                }
+                layout.addOnTabSelectedListener(onTabSelectedListener!!)
+            }
+        }
+    }
+
+    override fun onDestroyView() {
+        if (requireActivity() is TabbedActivity) {
+            val tabLayout = (requireActivity() as TabbedActivity).getTabLayout()
+            if (tabLayout != null) {
+                if (onTabSelectedListener != null) {
+                    tabLayout.removeOnTabSelectedListener(onTabSelectedListener!!)
+                }
+            }
+        }
+        super.onDestroyView()
+    }
+
+    private fun jumpToTop() {
+        if (isMenuVisible && layoutManager != null) {
+            layoutManager?.scrollToPosition(0)
+            recyclerView.stopScroll()
         }
     }
 

@@ -438,25 +438,23 @@ public class TimelineFragment extends SFragment implements
         super.onActivityCreated(savedInstanceState);
 
         if (requireActivity() instanceof TabbedActivity) {
-            if (jumpToTopAllowed()) {
-                TabLayout layout = ((TabbedActivity) requireActivity()).getTabLayout();
-                if (layout != null) {
-                    onTabSelectedListener = new TabLayout.OnTabSelectedListener() {
-                        @Override
-                        public void onTabSelected(TabLayout.Tab tab) {
-                        }
+            TabLayout layout = ((TabbedActivity) requireActivity()).getTabLayout();
+            if (layout != null) {
+                onTabSelectedListener = new TabLayout.OnTabSelectedListener() {
+                    @Override
+                    public void onTabSelected(TabLayout.Tab tab) {
+                    }
 
-                        @Override
-                        public void onTabUnselected(TabLayout.Tab tab) {
-                        }
+                    @Override
+                    public void onTabUnselected(TabLayout.Tab tab) {
+                    }
 
-                        @Override
-                        public void onTabReselected(TabLayout.Tab tab) {
-                            jumpToTop();
-                        }
-                    };
-                    layout.addOnTabSelectedListener(onTabSelectedListener);
-                }
+                    @Override
+                    public void onTabReselected(TabLayout.Tab tab) {
+                        jumpToTop();
+                    }
+                };
+                layout.addOnTabSelectedListener(onTabSelectedListener);
             }
         }
 
@@ -549,11 +547,9 @@ public class TimelineFragment extends SFragment implements
     @Override
     public void onDestroyView() {
         if (requireActivity() instanceof TabbedActivity) {
-            if (jumpToTopAllowed()) {
-                TabLayout tabLayout = ((TabbedActivity) requireActivity()).getTabLayout();
-                if (tabLayout != null) {
-                    tabLayout.removeOnTabSelectedListener(onTabSelectedListener);
-                }
+            TabLayout tabLayout = ((TabbedActivity) requireActivity()).getTabLayout();
+            if (tabLayout != null) {
+                tabLayout.removeOnTabSelectedListener(onTabSelectedListener);
             }
         }
         super.onDestroyView();
@@ -910,9 +906,11 @@ public class TimelineFragment extends SFragment implements
     }
 
     private void jumpToTop() {
-        layoutManager.scrollToPosition(0);
-        recyclerView.stopScroll();
-        scrollListener.reset();
+        if (isMenuVisible()) {
+            layoutManager.scrollToPosition(0);
+            recyclerView.stopScroll();
+            scrollListener.reset();
+        }
     }
 
     private Call<List<Status>> getFetchCallByTimelineType(Kind kind, String tagOrId, String fromId,
