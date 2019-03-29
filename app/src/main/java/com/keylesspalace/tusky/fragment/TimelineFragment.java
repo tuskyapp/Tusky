@@ -15,6 +15,7 @@
 
 package com.keylesspalace.tusky.fragment;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -437,27 +438,6 @@ public class TimelineFragment extends SFragment implements
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        if (requireActivity() instanceof TabbedActivity) {
-            TabLayout layout = ((TabbedActivity) requireActivity()).getTabLayout();
-            if (layout != null) {
-                onTabSelectedListener = new TabLayout.OnTabSelectedListener() {
-                    @Override
-                    public void onTabSelected(TabLayout.Tab tab) {
-                    }
-
-                    @Override
-                    public void onTabUnselected(TabLayout.Tab tab) {
-                    }
-
-                    @Override
-                    public void onTabReselected(TabLayout.Tab tab) {
-                        jumpToTop();
-                    }
-                };
-                layout.addOnTabSelectedListener(onTabSelectedListener);
-            }
-        }
-
         /* This is delayed until onActivityCreated solely because MainActivity.composeButton isn't
          * guaranteed to be set until then. */
         if (actionButtonPresent()) {
@@ -542,17 +522,6 @@ public class TimelineFragment extends SFragment implements
                     });
             eventRegistered = true;
         }
-    }
-
-    @Override
-    public void onDestroyView() {
-        if (requireActivity() instanceof TabbedActivity) {
-            TabLayout tabLayout = ((TabbedActivity) requireActivity()).getTabLayout();
-            if (tabLayout != null) {
-                tabLayout.removeOnTabSelectedListener(onTabSelectedListener);
-            }
-        }
-        super.onDestroyView();
     }
 
     @Override
@@ -906,7 +875,7 @@ public class TimelineFragment extends SFragment implements
     }
 
     private void jumpToTop() {
-        if (isMenuVisible()) {
+        if (isAdded()) {
             layoutManager.scrollToPosition(0);
             recyclerView.stopScroll();
             scrollListener.reset();
@@ -1363,6 +1332,46 @@ public class TimelineFragment extends SFragment implements
         }
 
     }
+    @Override
+    public void setMenuVisibility(boolean menuVisible) {
+        super.setMenuVisibility(menuVisible);
+        if (menuVisible)
+            addTabListener();
+        else
+            removeTabListener();
+    }
 
+    private void removeTabListener() {
+        Activity activity = getActivity();
+        if (activity instanceof TabbedActivity) {
+            TabLayout tabLayout = ((TabbedActivity) activity).getTabLayout();
+            if (tabLayout != null) {
+                tabLayout.removeOnTabSelectedListener(onTabSelectedListener);
+            }
+        }
+    }
 
+    private void addTabListener() {
+        Activity activity = getActivity();
+        if (activity instanceof TabbedActivity) {
+            TabLayout layout = ((TabbedActivity) activity).getTabLayout();
+            if (layout != null) {
+                onTabSelectedListener = new TabLayout.OnTabSelectedListener() {
+                    @Override
+                    public void onTabSelected(TabLayout.Tab tab) {
+                    }
+
+                    @Override
+                    public void onTabUnselected(TabLayout.Tab tab) {
+                    }
+
+                    @Override
+                    public void onTabReselected(TabLayout.Tab tab) {
+                        jumpToTop();
+                    }
+                };
+                layout.addOnTabSelectedListener(onTabSelectedListener);
+            }
+        }
+    }
 }

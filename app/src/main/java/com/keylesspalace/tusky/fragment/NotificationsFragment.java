@@ -251,31 +251,8 @@ public class NotificationsFragment extends SFragment implements
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
         Activity activity = getActivity();
         if (activity == null) throw new AssertionError("Activity is null");
-
-        if (activity instanceof TabbedActivity) {
-            // MainActivity's layout is guaranteed to be inflated until onCreate returns.
-            TabLayout layout = ((TabbedActivity) activity).getTabLayout();
-            if (layout != null) {
-                onTabSelectedListener = new TabLayout.OnTabSelectedListener() {
-                    @Override
-                    public void onTabSelected(TabLayout.Tab tab) {
-                    }
-
-                    @Override
-                    public void onTabUnselected(TabLayout.Tab tab) {
-                    }
-
-                    @Override
-                    public void onTabReselected(TabLayout.Tab tab) {
-                        jumpToTop();
-                    }
-                };
-                layout.addOnTabSelectedListener(onTabSelectedListener);
-            }
-        }
 
         /* This is delayed until onActivityCreated solely because MainActivity.composeButton isn't
          * guaranteed to be set until then.
@@ -326,23 +303,6 @@ public class NotificationsFragment extends SFragment implements
                         onPreferenceChanged(((PreferenceChangedEvent) event).getPreferenceKey());
                     }
                 });
-    }
-
-    @Override
-    public void onDestroyView() {
-        Activity activity = getActivity();
-        if (activity == null) {
-            Log.e(TAG, "Activity is null");
-        } else {
-            if (activity instanceof TabbedActivity) {
-                TabLayout tabLayout = ((TabbedActivity) activity).getTabLayout();
-                if (tabLayout != null) {
-                    tabLayout.removeOnTabSelectedListener(onTabSelectedListener);
-                }
-            }
-        }
-
-        super.onDestroyView();
     }
 
     @Override
@@ -643,7 +603,7 @@ public class NotificationsFragment extends SFragment implements
     }
 
     private void jumpToTop() {
-        if (isMenuVisible()) {
+        if (isAdded()) {
             layoutManager.scrollToPosition(0);
             scrollListener.reset();
         }
@@ -984,5 +944,49 @@ public class NotificationsFragment extends SFragment implements
                     );
         }
 
+    }
+
+    @Override
+    public void setMenuVisibility(boolean menuVisible) {
+        super.setMenuVisibility(menuVisible);
+        if (menuVisible)
+            addTabListener();
+        else
+            removeTabListener();
+    }
+
+    private void removeTabListener() {
+        Activity activity = getActivity();
+        if (activity instanceof TabbedActivity) {
+            TabLayout tabLayout = ((TabbedActivity) activity).getTabLayout();
+            if (tabLayout != null) {
+                tabLayout.removeOnTabSelectedListener(onTabSelectedListener);
+            }
+        }
+    }
+
+    private void addTabListener() {
+        Activity activity = getActivity();
+        if (activity instanceof TabbedActivity) {
+            // MainActivity's layout is guaranteed to be inflated until onCreate returns.
+            TabLayout layout = ((TabbedActivity) activity).getTabLayout();
+            if (layout != null) {
+                onTabSelectedListener = new TabLayout.OnTabSelectedListener() {
+                    @Override
+                    public void onTabSelected(TabLayout.Tab tab) {
+                    }
+
+                    @Override
+                    public void onTabUnselected(TabLayout.Tab tab) {
+                    }
+
+                    @Override
+                    public void onTabReselected(TabLayout.Tab tab) {
+                        jumpToTop();
+                    }
+                };
+                layout.addOnTabSelectedListener(onTabSelectedListener);
+            }
+        }
     }
 }

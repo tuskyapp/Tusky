@@ -214,9 +214,49 @@ class ConversationsFragment : SFragment(), StatusActionListener, Injectable {
     }
 
     private fun jumpToTop() {
-        if (isMenuVisible && layoutManager != null) {
+        if (isAdded) {
             layoutManager?.scrollToPosition(0)
             recyclerView.stopScroll()
+        }
+    }
+
+    override fun setMenuVisibility(menuVisible: Boolean) {
+        super.setMenuVisibility(menuVisible)
+        if (menuVisible)
+            addTabListener()
+        else
+            removeTabListener()
+    }
+
+    private fun removeTabListener() {
+        val activity = activity
+        if (activity is TabbedActivity) {
+            val tabLayout = (activity as TabbedActivity).getTabLayout()
+            onTabSelectedListener?.let {
+                tabLayout?.removeOnTabSelectedListener(it)
+            }
+        }
+    }
+
+    private fun addTabListener() {
+        val activity = activity
+        if (activity is TabbedActivity) {
+            // MainActivity's layout is guaranteed to be inflated until onCreate returns.
+            val layout = (activity as TabbedActivity).getTabLayout()
+            if (layout != null) {
+                onTabSelectedListener = object : TabLayout.OnTabSelectedListener {
+                    override fun onTabSelected(tab: TabLayout.Tab) {}
+
+                    override fun onTabUnselected(tab: TabLayout.Tab) {}
+
+                    override fun onTabReselected(tab: TabLayout.Tab) {
+                        jumpToTop()
+                    }
+                }
+                onTabSelectedListener?.let {
+                    layout.addOnTabSelectedListener(it)
+                }
+            }
         }
     }
 
