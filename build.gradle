@@ -8,7 +8,7 @@ buildscript {
         maven { url 'https://maven.fabric.io/public' }
     }
     dependencies {
-        classpath 'com.android.tools.build.jetifier:jetifier-processor:1.0.0-beta02'
+        classpath 'com.android.tools.build.jetifier:jetifier-processor:1.0.0-beta04'
         classpath 'com.android.tools.build:gradle:3.3.2'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
 

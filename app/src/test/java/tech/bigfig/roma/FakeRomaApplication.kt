@@ -6,7 +6,7 @@ package tech.bigfig.roma
 
 class FakeRomaApplication : RomaApplication() {
 
-    lateinit var locator: ServiceLocator
+    private lateinit var locator: ServiceLocator
 
     override fun initSecurityProvider() {
         // No-op

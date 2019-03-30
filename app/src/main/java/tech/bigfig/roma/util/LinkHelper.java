@@ -18,6 +18,7 @@ package tech.bigfig.roma.util;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.preference.PreferenceManager;
 import androidx.annotation.Nullable;
@@ -31,6 +32,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
+import com.keylesspalace.tusky.R;
 import tech.bigfig.roma.entity.Status;
 import tech.bigfig.roma.interfaces.LinkListener;
 
@@ -203,7 +205,7 @@ public class LinkHelper {
         try {
             context.startActivity(intent);
         } catch (ActivityNotFoundException e) {
-            Log.w("URLSpan", "Actvity was not found for intent, " + intent.toString());
+            Log.w("LinkHelper", "Actvity was not found for intent, " + intent.toString());
         }
     }
 
@@ -215,27 +217,19 @@ public class LinkHelper {
      * @param context context
      */
     public static void openLinkInCustomTab(Uri uri, Context context) {
-        int toolbarColor = ThemeUtils.getColorById(context, "custom_tab_toolbar");
+        int toolbarColor = ThemeUtils.getColor(context, R.attr.custom_tab_toolbar);
 
-        CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
-        builder.setToolbarColor(toolbarColor);
-        CustomTabsIntent customTabsIntent = builder.build();
+        CustomTabsIntent customTabsIntent = new CustomTabsIntent.Builder()
+                .setToolbarColor(toolbarColor)
+                .setShowTitle(true)
+                .build();
         try {
-            String packageName = CustomTabsHelper.getPackageNameToUse(context);
-
-            //If we cant find a package name, it means theres no browser that supports
-            //Chrome Custom Tabs installed. So, we fallback to the webview
-            if (packageName == null) {
-                openLinkInBrowser(uri, context);
-            } else {
-                customTabsIntent.intent.setPackage(packageName);
-                customTabsIntent.launchUrl(context, uri);
-            }
+            customTabsIntent.launchUrl(context, uri);
         } catch (ActivityNotFoundException e) {
-            Log.w("URLSpan", "Activity was not found for intent, " + customTabsIntent.toString());
+            Log.w("LinkHelper", "Activity was not found for intent " + customTabsIntent.toString());
+            openLinkInBrowser(uri, context);
         }
 
     }
-
 
 }
