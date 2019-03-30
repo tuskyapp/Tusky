@@ -18,6 +18,7 @@ package tech.bigfig.roma.fragment.preference
 import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.preference.EditTextPreference
+import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import tech.bigfig.roma.R
 
@@ -61,7 +62,7 @@ class ProxyPreferencesFragment : PreferenceFragmentCompat(), SharedPreferences.O
     private fun updateSummary(key: String) {
         when (key) {
             "httpProxyServer", "httpProxyPort" -> {
-                val editTextPreference = findPreference(key) as EditTextPreference
+                val editTextPreference = requirePreference(key) as EditTextPreference
                 editTextPreference.summary = editTextPreference.text
             }
         }

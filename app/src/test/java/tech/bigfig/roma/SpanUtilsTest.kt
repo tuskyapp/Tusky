@@ -105,7 +105,7 @@ class SpanUtilsTest {
                 ArrayList<T>()
             } else {
                 spans.filter { it.start >= start && it.end <= end && type.isAssignableFrom(it.span?.javaClass) }
-                        .map { it -> it.span }
+                        .map { it.span }
                         .let { ArrayList(it) }
             }
             return matching.toArray() as Array<T>

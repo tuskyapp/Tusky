@@ -503,7 +503,6 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
                 Picasso.with(context)
                         .load(notificationAvatarUrl)
                         .placeholder(R.drawable.avatar_default)
-                        .fit()
                         .into(notificationAvatar);
             }
         }

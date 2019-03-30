@@ -15,6 +15,7 @@ import androidx.core.view.accessibility.AccessibilityNodeInfoCompat.Accessibilit
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerViewAccessibilityDelegate
 import tech.bigfig.roma.R
+import tech.bigfig.roma.adapter.StatusBaseViewHolder
 import tech.bigfig.roma.interfaces.StatusActionListener
 import tech.bigfig.roma.viewdata.StatusViewData
 
@@ -116,7 +117,10 @@ class ListStatusAccessibilityDelegate(
                     statusActionListener.onViewMedia(pos, 3, null)
                 }
                 R.id.action_expand_cw -> {
-                    statusActionListener.onExpandedChange(true, pos)
+                    // Toggling it directly to avoid animations
+                    // which cannot be disabled for detaild status for some reason
+                    val holder = recyclerView.getChildViewHolder(host) as StatusBaseViewHolder
+                    holder.toggleContentWarning()
                     // Stop and restart narrator before it reads old description.
                     // Would be nice if we could *just* read the content here but doesn't seem
                     // to be possible.

@@ -87,11 +87,6 @@ public class ThemeUtils {
         return value.resourceId;
     }
 
-    public static @ColorInt int getColorById(@NonNull Context context, String name) {
-        return getColor(context,
-                ResourcesUtils.getResourceIdentifier(context, "attr", name));
-    }
-
     /** this can be replaced with drawableTint in xml once minSdkVersion >= 23 */
     public static @Nullable Drawable getTintedDrawable(@NonNull Context context, @DrawableRes int drawableId, @AttrRes int colorAttr) {
         Drawable drawable = context.getDrawable(drawableId);
