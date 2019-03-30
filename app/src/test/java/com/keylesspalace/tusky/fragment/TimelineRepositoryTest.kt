@@ -39,23 +39,23 @@ class TimelineRepositoryTest {
     lateinit var mastodonApi: MastodonApi
 
     @Mock
-    lateinit var accountManager: AccountManager
+    private lateinit var accountManager: AccountManager
 
-    lateinit var gson: Gson
+    private lateinit var gson: Gson
 
-    lateinit var subject: TimelineRepository
+    private lateinit var subject: TimelineRepository
 
-    lateinit var testScheduler: TestScheduler
+    private lateinit var testScheduler: TestScheduler
 
 
-    val limit = 30
-    val account = AccountEntity(
+    private val limit = 30
+    private val account = AccountEntity(
             id = 2,
             accessToken = "token",
             domain = "domain.com",
             isActive = true
     )
-    val htmlConverter = object : HtmlConverter {
+    private val htmlConverter = object : HtmlConverter {
         override fun fromHtml(html: String): Spanned {
             return SpanUtilsTest.FakeSpannable(html)
         }

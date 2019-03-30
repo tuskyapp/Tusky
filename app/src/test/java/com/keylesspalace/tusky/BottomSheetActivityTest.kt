@@ -99,7 +99,7 @@ class BottomSheetActivityTest {
     }
 
     @RunWith(Parameterized::class)
-    class UrlMatchingTests(val url: String, val expectedResult: Boolean) {
+    class UrlMatchingTests(private val url: String, private val expectedResult: Boolean) {
         companion object {
             @Parameterized.Parameters(name = "match_{0}")
             @JvmStatic

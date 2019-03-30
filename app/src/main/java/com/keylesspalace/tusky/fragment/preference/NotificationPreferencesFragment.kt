@@ -42,35 +42,35 @@ class NotificationPreferencesFragment : PreferenceFragmentCompat(), Preference.O
 
         if (activeAccount != null) {
 
-            val notificationPref = findPreference("notificationsEnabled") as SwitchPreference
+            val notificationPref = requirePreference("notificationsEnabled") as SwitchPreference
             notificationPref.isChecked = activeAccount.notificationsEnabled
             notificationPref.onPreferenceChangeListener = this
 
-            val mentionedPref = findPreference("notificationFilterMentions") as SwitchPreference
+            val mentionedPref = requirePreference("notificationFilterMentions") as SwitchPreference
             mentionedPref.isChecked = activeAccount.notificationsMentioned
             mentionedPref.onPreferenceChangeListener = this
 
-            val followedPref = findPreference("notificationFilterFollows") as SwitchPreference
+            val followedPref = requirePreference("notificationFilterFollows") as SwitchPreference
             followedPref.isChecked = activeAccount.notificationsFollowed
             followedPref.onPreferenceChangeListener = this
 
-            val boostedPref = findPreference("notificationFilterReblogs") as SwitchPreference
+            val boostedPref = requirePreference("notificationFilterReblogs") as SwitchPreference
             boostedPref.isChecked = activeAccount.notificationsReblogged
             boostedPref.onPreferenceChangeListener = this
 
-            val favoritedPref = findPreference("notificationFilterFavourites") as SwitchPreference
+            val favoritedPref = requirePreference("notificationFilterFavourites") as SwitchPreference
             favoritedPref.isChecked = activeAccount.notificationsFavorited
             favoritedPref.onPreferenceChangeListener = this
 
-            val soundPref = findPreference("notificationAlertSound") as SwitchPreference
+            val soundPref = requirePreference("notificationAlertSound") as SwitchPreference
             soundPref.isChecked = activeAccount.notificationSound
             soundPref.onPreferenceChangeListener = this
 
-            val vibrationPref = findPreference("notificationAlertVibrate") as SwitchPreference
+            val vibrationPref = requirePreference("notificationAlertVibrate") as SwitchPreference
             vibrationPref.isChecked = activeAccount.notificationVibration
             vibrationPref.onPreferenceChangeListener = this
 
-            val lightPref = findPreference("notificationAlertLight") as SwitchPreference
+            val lightPref = requirePreference("notificationAlertLight") as SwitchPreference
             lightPref.isChecked = activeAccount.notificationLight
             lightPref.onPreferenceChangeListener = this
         }

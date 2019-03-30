@@ -25,6 +25,10 @@ import com.keylesspalace.tusky.util.getNonNullString
 import com.mikepenz.google_material_typeface_library.GoogleMaterial
 import com.mikepenz.iconics.IconicsDrawable
 
+fun PreferenceFragmentCompat.requirePreference(key: String): Preference {
+    return findPreference(key)!!
+}
+
 class PreferencesFragment : PreferenceFragmentCompat() {
 
     private val iconSize by lazy {resources.getDimensionPixelSize(R.dimen.preference_icon_size)}
@@ -33,16 +37,16 @@ class PreferencesFragment : PreferenceFragmentCompat() {
 
         addPreferencesFromResource(R.xml.preferences)
 
-        val themePreference: Preference = findPreference("appTheme")
+        val themePreference: Preference = requirePreference("appTheme")
         themePreference.icon = IconicsDrawable(themePreference.context, GoogleMaterial.Icon.gmd_palette).sizePx(iconSize).color(ThemeUtils.getColor(themePreference.context, R.attr.toolbar_icon_tint))
 
-        val emojiPreference: Preference = findPreference("emojiCompat")
+        val emojiPreference: Preference = requirePreference("emojiCompat")
         emojiPreference.icon = IconicsDrawable(emojiPreference.context, GoogleMaterial.Icon.gmd_sentiment_satisfied).sizePx(iconSize).color(ThemeUtils.getColor(emojiPreference.context, R.attr.toolbar_icon_tint))
 
-        val textSizePreference: Preference = findPreference("statusTextSize")
+        val textSizePreference: Preference = requirePreference("statusTextSize")
         textSizePreference.icon = IconicsDrawable(textSizePreference.context, GoogleMaterial.Icon.gmd_format_size).sizePx(iconSize).color(ThemeUtils.getColor(textSizePreference.context, R.attr.toolbar_icon_tint))
 
-        val timelineFilterPreferences: Preference = findPreference("timelineFilterPreferences")
+        val timelineFilterPreferences: Preference = requirePreference("timelineFilterPreferences")
         timelineFilterPreferences.setOnPreferenceClickListener {
             activity?.let { activity ->
                 val intent = PreferencesActivity.newIntent(activity, PreferencesActivity.TAB_FILTER_PREFERENCES)
@@ -52,7 +56,7 @@ class PreferencesFragment : PreferenceFragmentCompat() {
             true
         }
 
-        val httpProxyPreferences: Preference = findPreference("httpProxyPreferences")
+        val httpProxyPreferences: Preference = requirePreference("httpProxyPreferences")
         httpProxyPreferences.setOnPreferenceClickListener {
             activity?.let { activity ->
                 val intent = PreferencesActivity.newIntent(activity, PreferencesActivity.PROXY_PREFERENCES)
@@ -62,7 +66,7 @@ class PreferencesFragment : PreferenceFragmentCompat() {
             true
         }
 
-        val languagePreference: Preference = findPreference("language")
+        val languagePreference: Preference = requirePreference("language")
         languagePreference.icon = IconicsDrawable(languagePreference.context, GoogleMaterial.Icon.gmd_translate).sizePx(iconSize).color(ThemeUtils.getColor(languagePreference.context, R.attr.toolbar_icon_tint))
     }
 
@@ -73,7 +77,7 @@ class PreferencesFragment : PreferenceFragmentCompat() {
 
     private fun updateHttpProxySummary() {
 
-        val httpProxyPref: Preference = findPreference("httpProxyPreferences")
+        val httpProxyPref: Preference = requirePreference("httpProxyPreferences")
 
         val sharedPreferences = preferenceManager.sharedPreferences
 

@@ -38,7 +38,7 @@ import org.mockito.Mockito
 import org.mockito.Mockito.`when`
 import org.mockito.Mockito.mock
 import org.robolectric.Robolectric
-import org.robolectric.RobolectricTestRunner
+import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.robolectric.annotation.Config
 import org.robolectric.fakes.RoboMenuItem
 import retrofit2.Call
@@ -51,15 +51,15 @@ import retrofit2.Response
  */
 
 @Config(application = FakeTuskyApplication::class)
-@RunWith(RobolectricTestRunner::class)
+@RunWith(AndroidJUnit4::class)
 class ComposeActivityTest {
 
-    lateinit var activity: ComposeActivity
-    lateinit var accountManagerMock: AccountManager
-    lateinit var apiMock: MastodonApi
-    lateinit var themeUtilsMock: ThemeUtils
+    private lateinit var activity: ComposeActivity
+    private lateinit var accountManagerMock: AccountManager
+    private lateinit var apiMock: MastodonApi
+    private lateinit var themeUtilsMock: ThemeUtils
 
-    val account = AccountEntity(
+    private val account = AccountEntity(
             id = 1,
             domain = "example.token",
             accessToken = "token",
@@ -259,7 +259,7 @@ class ComposeActivityTest {
                 "Example instance for testing",
                 "admin@example.token",
                 "2.6.3",
-                HashMap<String, String>(),
+                HashMap(),
                 null,
                 null,
                 listOf("en"),

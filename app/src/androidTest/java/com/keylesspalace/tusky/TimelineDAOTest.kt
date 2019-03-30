@@ -182,7 +182,7 @@ class TimelineDAOTest {
         return Triple(status, author, reblogAuthor)
     }
 
-    fun createPlaceholder(serverId: String, timelineUserId: Long): TimelineStatusEntity {
+    private fun createPlaceholder(serverId: String, timelineUserId: Long): TimelineStatusEntity {
         return TimelineStatusEntity(
                 serverId = serverId,
                 url = null,

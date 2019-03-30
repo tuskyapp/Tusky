@@ -135,7 +135,7 @@ public class TimelineFragment extends SFragment implements
     @Inject
     public EventHub eventHub;
     @Inject
-    public TimelineRepository timelineRepo;
+    TimelineRepository timelineRepo;
 
     @Inject
     public AccountManager accountManager;
@@ -1102,9 +1102,10 @@ public class TimelineFragment extends SFragment implements
             Either<Placeholder, Status> lastOfNew = newStatuses.get(newStatuses.size() - 1);
             int index = statuses.indexOf(lastOfNew);
 
-            for (int i = 0; i < index; i++) {
-                statuses.remove(0);
+            if (index >= 0) {
+                statuses.subList(0, index).clear();
             }
+
             int newIndex = newStatuses.indexOf(statuses.get(0));
             if (newIndex == -1) {
                 if (index == -1 && fullFetch) {
