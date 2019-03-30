@@ -15,6 +15,7 @@ import androidx.core.view.accessibility.AccessibilityNodeInfoCompat.Accessibilit
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerViewAccessibilityDelegate
 import tech.bigfig.roma.R
+import tech.bigfig.roma.adapter.StatusBaseViewHolder
 import tech.bigfig.roma.interfaces.StatusActionListener
 import tech.bigfig.roma.viewdata.StatusViewData
 

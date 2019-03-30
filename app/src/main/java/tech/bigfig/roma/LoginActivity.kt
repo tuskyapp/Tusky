@@ -30,7 +30,6 @@ import tech.bigfig.roma.di.Injectable
 import tech.bigfig.roma.entity.AccessToken
 import tech.bigfig.roma.entity.AppCredentials
 import tech.bigfig.roma.network.MastodonApi
-import tech.bigfig.roma.util.CustomTabsHelper
 import tech.bigfig.roma.util.ThemeUtils
 import kotlinx.android.synthetic.main.activity_login.*
 import okhttp3.HttpUrl

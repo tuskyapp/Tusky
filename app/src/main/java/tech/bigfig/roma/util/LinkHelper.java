@@ -32,7 +32,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
-import com.keylesspalace.tusky.R;
+import tech.bigfig.roma.R;
 import tech.bigfig.roma.entity.Status;
 import tech.bigfig.roma.interfaces.LinkListener;
 
