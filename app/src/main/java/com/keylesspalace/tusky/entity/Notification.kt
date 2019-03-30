@@ -15,10 +15,7 @@
 
 package com.keylesspalace.tusky.entity
 
-import com.google.gson.JsonDeserializationContext
-import com.google.gson.JsonDeserializer
-import com.google.gson.JsonElement
-import com.google.gson.JsonParseException
+import com.google.gson.*
 import com.google.gson.annotations.JsonAdapter
 
 data class Notification(
@@ -28,26 +25,27 @@ data class Notification(
         val status: Status?) {
 
     @JsonAdapter(NotificationTypeAdapter::class)
-    enum class Type {
-        UNKNOWN,
-        MENTION,
-        REBLOG,
-        FAVOURITE,
-        FOLLOW;
+    enum class Type(val presentation: String) {
+        UNKNOWN("unknown"),
+        MENTION("mention"),
+        REBLOG("reblog"),
+        FAVOURITE("favourite"),
+        FOLLOW("follow");
 
         companion object {
 
             @JvmStatic
             fun byString(s: String): Type {
-                return when (s) {
-                    "mention" -> MENTION
-                    "reblog" -> REBLOG
-                    "favourite" -> FAVOURITE
-                    "follow" -> FOLLOW
-                    else -> UNKNOWN
+                values().forEach {
+                    if (s == it.presentation)
+                        return it
                 }
+                return UNKNOWN
             }
+        }
 
+        override fun toString(): String {
+            return presentation
         }
     }
 
@@ -63,7 +61,10 @@ data class Notification(
         return notification?.id == this.id
     }
 
-    class NotificationTypeAdapter : JsonDeserializer<Type> {
+    class NotificationTypeAdapter : JsonDeserializer<Type>, JsonSerializer<Type> {
+        override fun serialize(src: Type?, typeOfSrc: java.lang.reflect.Type?, context: JsonSerializationContext?): JsonElement {
+            return src?.let { JsonPrimitive(src.presentation) } ?: JsonNull.INSTANCE
+        }
 
         @Throws(JsonParseException::class)
         override fun deserialize(json: JsonElement, typeOfT: java.lang.reflect.Type, context: JsonDeserializationContext): Notification.Type {

@@ -22,11 +22,19 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.PopupMenu;
 import android.widget.ProgressBar;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.tabs.TabLayout;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
+import com.keylesspalace.tusky.MainActivity;
 import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.adapter.NotificationsAdapter;
 import com.keylesspalace.tusky.adapter.StatusBaseViewHolder;
@@ -60,9 +68,11 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
@@ -107,6 +117,8 @@ public class NotificationsFragment extends SFragment implements
 
     private static final long TOOLBAR_ID = 99L;
 
+    private Set<Notification.Type> notificationFilter = new HashSet<>();
+
     private enum FetchEnd {
         TOP,
         BOTTOM,
@@ -133,6 +145,8 @@ public class NotificationsFragment extends SFragment implements
     AccountManager accountManager;
     @Inject
     EventHub eventHub;
+    @Inject
+    SharedPreferences preferences;
 
     private SwipeRefreshLayout swipeRefreshLayout;
     private RecyclerView recyclerView;
@@ -188,6 +202,9 @@ public class NotificationsFragment extends SFragment implements
         swipeRefreshLayout.setOnRefreshListener(this);
         swipeRefreshLayout.setColorSchemeResources(R.color.tusky_blue);
         swipeRefreshLayout.setProgressBackgroundColorSchemeColor(ThemeUtils.getColor(context, android.R.attr.colorBackground));
+
+        loadNotificationsFilter();
+
         // Setup the RecyclerView.
         recyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(context);
@@ -554,7 +571,7 @@ public class NotificationsFragment extends SFragment implements
             }
 
             @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
+            public void onFailure(@NotNull Call<ResponseBody> call, @NotNull Throwable t) {
                 //Reload notifications on failure
                 fullyRefresh();
             }
@@ -564,7 +581,111 @@ public class NotificationsFragment extends SFragment implements
 
     @Override
     public void onShowFilterClick(View anchor) {
-        //TODO implement show filter
+        showFilterMenu(anchor);
+    }
+
+    private void showFilterMenu(View anchor) {
+        PopupMenu menu = new PopupMenu(getContext(), anchor);
+        menu.inflate(R.menu.notifications_filter);
+        for (Notification.Type type : notificationFilter) {
+            int itemId = View.NO_ID;
+            switch (type) {
+                case FAVOURITE:
+                    itemId = R.id.filter_favourites;
+                    break;
+                case FOLLOW:
+                    itemId = R.id.filter_follows;
+                    break;
+                case REBLOG:
+                    itemId = R.id.filter_boosts;
+                    break;
+                case MENTION:
+                    itemId = R.id.filter_mentions;
+                    break;
+            }
+            if (itemId != View.NO_ID) {
+                MenuItem item = menu.getMenu().findItem(itemId);
+                if (item != null)
+                    item.setChecked(false);
+            }
+        }
+        menu.setOnMenuItemClickListener(item -> {
+            if (item.isCheckable()) {
+                item.setChecked(!item.isChecked());
+
+                //Prevent popup menu close on item click
+                item.setShowAsAction(MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW);
+                item.setActionView(anchor);
+                item.setOnActionExpandListener(new MenuItem.OnActionExpandListener() {
+                    @Override
+                    public boolean onMenuItemActionExpand(MenuItem item) {
+                        return false;
+                    }
+
+                    @Override
+                    public boolean onMenuItemActionCollapse(MenuItem item) {
+                        return false;
+                    }
+                });
+                return false;
+            } else {
+                //Apply filter changes and close the menu
+                applyFilterChanges(menu.getMenu());
+                return true;
+            }
+        });
+        menu.show();
+    }
+
+    private void applyFilterChanges(Menu menu) {
+        boolean isChanged = updateNotificationFilter(menu, R.id.filter_favourites, Notification.Type.FAVOURITE);
+        isChanged |= updateNotificationFilter(menu, R.id.filter_follows, Notification.Type.FOLLOW);
+        isChanged |= updateNotificationFilter(menu, R.id.filter_boosts, Notification.Type.REBLOG);
+        isChanged |= updateNotificationFilter(menu, R.id.filter_mentions, Notification.Type.MENTION);
+        if (isChanged) {
+            saveNotificationsFilter();
+            fullyRefresh();
+        }
+
+    }
+
+    private Gson getNotificationsGson() {
+        return new GsonBuilder()
+                .registerTypeAdapter(Notification.Type.class, new Notification.NotificationTypeAdapter())
+                .create();
+    }
+
+    private void loadNotificationsFilter() {
+        String json = preferences.getString("notifications.filter", "[]");
+        Set<Notification.Type> set = getNotificationsGson().fromJson(json, new TypeToken<Set<Notification.Type>>() {
+        }.getType());
+        if (set != null)
+            notificationFilter.addAll(set);
+    }
+
+    private void saveNotificationsFilter() {
+        String json = getNotificationsGson().toJson(notificationFilter, new TypeToken<Set<Notification.Type>>() {
+        }.getType());
+        preferences.edit().putString("notifications.filter", json).apply();
+    }
+
+    /**
+     * Update notification filter
+     *
+     * @param menu   popup menu item
+     * @param itemId popup menu item id
+     * @param type   type related to the the popup menu item
+     * @return true if filter item selection was change
+     */
+    private boolean updateNotificationFilter(Menu menu, int itemId, Notification.Type type) {
+        MenuItem item = menu.findItem(itemId);
+        boolean isChecked = item != null && item.isChecked();
+        boolean isFilterExists = notificationFilter.contains(type);
+        if (isChecked)
+            notificationFilter.remove(type);
+        else
+            notificationFilter.add(type);
+        return isChecked && isFilterExists || !isChecked && !isFilterExists;
     }
 
     @Override
@@ -679,7 +800,7 @@ public class NotificationsFragment extends SFragment implements
             bottomLoading = true;
         }
 
-        Call<List<Notification>> call = mastodonApi.notifications(fromId, uptoId, LOAD_AT_ONCE);
+        Call<List<Notification>> call = mastodonApi.notifications(fromId, uptoId, LOAD_AT_ONCE, notificationFilter);
 
         call.enqueue(new Callback<List<Notification>>() {
             @Override
@@ -745,10 +866,12 @@ public class NotificationsFragment extends SFragment implements
             bottomLoading = false;
         }
 
-        if (notifications.size() == 0 && adapter.getItemCount() == 1) {
+        if (this.notifications.size() == 0 && adapter.getItemCount() == 1) {
             this.statusView.setVisibility(View.VISIBLE);
             this.statusView.setup(R.drawable.elephant_friend_empty, R.string.message_empty, null);
 
+        } else {
+            this.statusView.setVisibility(View.GONE);
         }
         swipeRefreshLayout.setRefreshing(false);
         progressBar.setVisibility(View.GONE);
