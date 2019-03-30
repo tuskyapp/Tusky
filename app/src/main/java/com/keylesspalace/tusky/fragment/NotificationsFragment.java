@@ -56,6 +56,8 @@ import com.keylesspalace.tusky.view.EndlessOnScrollListener;
 import com.keylesspalace.tusky.viewdata.NotificationViewData;
 import com.keylesspalace.tusky.viewdata.StatusViewData;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -84,6 +86,7 @@ import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import kotlin.Unit;
 import kotlin.collections.CollectionsKt;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -101,6 +104,8 @@ public class NotificationsFragment extends SFragment implements
 
     private static final int LOAD_AT_ONCE = 30;
     private int maxPlaceholderId = 0;
+
+    private static final long TOOLBAR_ID = 99L;
 
     private enum FetchEnd {
         TOP,
@@ -512,6 +517,57 @@ public class NotificationsFragment extends SFragment implements
     }
 
     @Override
+    public void onClearClick() {
+        clearNotifications();
+    }
+
+    private void clearNotifications() {
+        //Cancel all ongoing requests
+        swipeRefreshLayout.setRefreshing(false);
+        for (Call callItem : callList) {
+            callItem.cancel();
+        }
+        callList.clear();
+        bottomLoading = false;
+        topLoading = false;
+
+        //Disable load more
+        bottomId = null;
+
+        //Clear exists notifications
+        notifications.clear();
+
+        //Update adapter
+        updateAdapter();
+
+        //Execute clear notifications request
+        Call<ResponseBody> call = mastodonApi.clearNotifications();
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(@NotNull Call<ResponseBody> call, @NotNull Response<ResponseBody> response) {
+                if (isAdded()) {
+                    if (!response.isSuccessful()) {
+                        //Reload notifications on failure
+                        fullyRefresh();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                //Reload notifications on failure
+                fullyRefresh();
+            }
+        });
+        callList.add(call);
+    }
+
+    @Override
+    public void onShowFilterClick(View anchor) {
+        //TODO implement show filter
+    }
+
+    @Override
     public void onViewTag(String tag) {
         super.viewTag(tag);
     }
@@ -670,7 +726,7 @@ public class NotificationsFragment extends SFragment implements
                     updateAdapter();
                 }
 
-                if (adapter.getItemCount() > 0) {
+                if (adapter.getItemCount() > 1) {
                     addItems(notifications, fromId);
                 } else {
                     update(notifications, fromId);
@@ -689,7 +745,7 @@ public class NotificationsFragment extends SFragment implements
             bottomLoading = false;
         }
 
-        if (notifications.size() == 0 && adapter.getItemCount() == 0) {
+        if (notifications.size() == 0 && adapter.getItemCount() == 1) {
             this.statusView.setVisibility(View.VISIBLE);
             this.statusView.setup(R.drawable.elephant_friend_empty, R.string.message_empty, null);
 
@@ -843,7 +899,17 @@ public class NotificationsFragment extends SFragment implements
     }
 
     private void updateAdapter() {
-        differ.submitList(notifications.getPairedCopy());
+        List<NotificationViewData>
+                copy = notifications.getPairedCopy();
+        //Add a toolbar item to the top of items
+        boolean isNotificationsExists = false;
+        if (!copy.isEmpty()) {
+            NotificationViewData topItem = copy.get(0);
+            if (topItem instanceof NotificationViewData.Concrete)
+                isNotificationsExists = true;
+        }
+        copy.add(0, new NotificationViewData.Toolbar(TOOLBAR_ID, isNotificationsExists));
+        differ.submitList(copy);
     }
 
     private final ListUpdateCallback listUpdateCallback = new ListUpdateCallback() {

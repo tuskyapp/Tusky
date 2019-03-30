@@ -460,6 +460,8 @@
     <string name="edit_hashtag_title">Edit hashtag</string>
     <string name="edit_hashtag_hint">Hashtag without #</string>
     <string name="hashtag">Hashtag</string>
+    <string name="notifications_clear">Clear</string>
+    <string name="notifications_apply_filter">Filter</string>
 
     <string name="compose_shortcut_long_label">Compose Toot</string>
     <string name="compose_shortcut_short_label">Compose</string>

@@ -130,4 +130,31 @@ public abstract class NotificationViewData {
             return isLoading == that.isLoading && id == that.id;
         }
     }
+
+    public static final class Toolbar extends NotificationViewData {
+        private final long id;
+        private final boolean isItemsExists;
+
+        public Toolbar(long id, boolean isItemsExists) {
+            this.id = id;
+            this.isItemsExists = isItemsExists;
+        }
+
+        @Override
+        public long getViewDataId() {
+            return id;
+        }
+
+        @Override
+        public boolean deepEquals(NotificationViewData other) {
+            if (!(other instanceof Toolbar)) return false;
+            Toolbar that = (Toolbar) other;
+            return id == that.id && isItemsExists == that.isItemsExists;
+        }
+
+        public boolean isItemsExists() {
+            return isItemsExists;
+        }
+    }
+
 }
