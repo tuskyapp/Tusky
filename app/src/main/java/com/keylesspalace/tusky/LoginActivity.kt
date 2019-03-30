@@ -33,7 +33,6 @@ import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.entity.AccessToken
 import com.keylesspalace.tusky.entity.AppCredentials
 import com.keylesspalace.tusky.network.MastodonApi
-import com.keylesspalace.tusky.util.CustomTabsHelper
 import com.keylesspalace.tusky.util.ThemeUtils
 import kotlinx.android.synthetic.main.activity_login.*
 import okhttp3.HttpUrl
@@ -346,22 +345,14 @@ class LoginActivity : BaseActivity(), Injectable {
 
         private fun openInCustomTab(uri: Uri, context: Context): Boolean {
 
-            val toolbarColor = ThemeUtils.getColorById(context, "custom_tab_toolbar")
-            val builder = CustomTabsIntent.Builder()
-            builder.setToolbarColor(toolbarColor)
-            val customTabsIntent = builder.build()
+            val toolbarColor = ThemeUtils.getColor(context, R.attr.custom_tab_toolbar)
+            val customTabsIntent = CustomTabsIntent.Builder()
+                    .setToolbarColor(toolbarColor)
+                    .build()
             try {
-                val packageName = CustomTabsHelper.getPackageNameToUse(context)
-                /* If we cant find a package name, it means theres no browser that supports
-                 * Chrome Custom Tabs installed. So, we fallback to the webview */
-                if (packageName == null) {
-                    return false
-                } else {
-                    customTabsIntent.intent.`package` = packageName
-                    customTabsIntent.launchUrl(context, uri)
-                }
+                 customTabsIntent.launchUrl(context, uri)
             } catch (e: ActivityNotFoundException) {
-                Log.w(TAG, "Activity was not found for intent, " + customTabsIntent.toString())
+                Log.w(TAG, "Activity was not found for intent $customTabsIntent")
                 return false
             }
 
