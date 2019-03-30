@@ -57,6 +57,7 @@ import java.io.File
 import java.io.FileNotFoundException
 import java.io.FileOutputStream
 import java.io.IOException
+import java.lang.Exception
 import java.util.ArrayList
 
 class ViewMediaActivity : BaseActivity(), ViewImageFragment.PhotoActionsListener {
@@ -246,7 +247,7 @@ class ViewMediaActivity : BaseActivity(), ViewImageFragment.PhotoActionsListener
     private fun shareImage(directory: File, url: String) {
         val file = File(directory, getTemporaryMediaFilename("png"))
 
-        Picasso.with(applicationContext).load(Uri.parse(url)).into(object: Target {
+        Picasso.get().load(Uri.parse(url)).into(object: Target {
             override fun onBitmapLoaded(bitmap: Bitmap, from: Picasso.LoadedFrom) {
                 try {
                     val stream = FileOutputStream(file)
@@ -259,7 +260,7 @@ class ViewMediaActivity : BaseActivity(), ViewImageFragment.PhotoActionsListener
                 }
             }
 
-            override fun onBitmapFailed(errorDrawable: Drawable?) {
+            override fun onBitmapFailed(e:Exception, errorDrawable: Drawable?) {
                 Log.e(TAG, "Error loading temporary media.")
             }
 

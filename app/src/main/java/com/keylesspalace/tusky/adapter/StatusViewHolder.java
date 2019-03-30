@@ -59,7 +59,7 @@ public class StatusViewHolder extends StatusBaseViewHolder {
 
         if (hasReblog) {
             avatarReblog.setVisibility(View.VISIBLE);
-            Picasso.with(context)
+            Picasso.get()
                     .load(rebloggedUrl)
                     .placeholder(R.drawable.avatar_default)
                     .into(avatarReblog);

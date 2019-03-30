@@ -22,6 +22,7 @@ import com.keylesspalace.tusky.entity.Attachment
 
 import com.keylesspalace.tusky.util.FocalPointUtil
 import com.squareup.picasso.Callback
+import java.lang.Exception
 
 /**
  * This is an extension of the standard android ImageView, which makes sure to update the custom
@@ -103,7 +104,7 @@ defStyleAttr: Int = 0
     }
 
     // We do not handle the error here, instead it will be handled higher up the call chain.
-    override fun onError() {
+    override fun onError(e: Exception) {
     }
 
     /**

@@ -26,13 +26,13 @@ import android.preference.PreferenceManager;
 import androidx.emoji.text.EmojiCompat;
 
 import com.evernote.android.job.JobManager;
-import com.jakewharton.picasso.OkHttp3Downloader;
 import com.keylesspalace.tusky.db.AccountManager;
 import com.keylesspalace.tusky.db.AppDatabase;
 import com.keylesspalace.tusky.di.AppInjector;
 import com.keylesspalace.tusky.util.EmojiCompatFont;
 import com.keylesspalace.tusky.util.LocaleManager;
 import com.keylesspalace.tusky.util.NotificationPullJobCreator;
+import com.squareup.picasso.OkHttp3Downloader;
 import com.squareup.picasso.Picasso;
 
 import org.conscrypt.Conscrypt;

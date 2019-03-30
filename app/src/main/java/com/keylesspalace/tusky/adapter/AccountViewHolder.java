@@ -34,7 +34,7 @@ class AccountViewHolder extends RecyclerView.ViewHolder {
         CharSequence emojifiedName = CustomEmojiHelper.emojifyString(account.getName(), account.getEmojis(), displayName);
         displayName.setText(emojifiedName);
         Context context = avatar.getContext();
-        Picasso.with(context)
+        Picasso.get()
                 .load(account.getAvatar())
                 .placeholder(R.drawable.avatar_default)
                 .into(avatar);

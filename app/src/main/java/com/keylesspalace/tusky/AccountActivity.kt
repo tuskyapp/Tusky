@@ -305,11 +305,11 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
             accountLockedImageView.visible(account.locked)
             accountBadgeTextView.visible(account.bot)
 
-            Picasso.with(this)
+            Picasso.get()
                     .load(account.avatar)
                     .placeholder(R.drawable.avatar_default)
                     .into(accountAvatarImageView)
-            Picasso.with(this)
+            Picasso.get()
                     .load(account.header)
                     .fit() // prevents crash with large header images
                     .centerCrop()
@@ -341,7 +341,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
                 accountMovedDisplayName.text = movedAccount.name
                 accountMovedUsername.text = getString(R.string.status_username_format, movedAccount.username)
 
-                Picasso.with(this)
+                Picasso.get()
                         .load(movedAccount.avatar)
                         .placeholder(R.drawable.avatar_default)
                         .into(accountMovedAvatar)

@@ -169,7 +169,7 @@ public class NotificationHelper {
         //load the avatar synchronously
         Bitmap accountAvatar;
         try {
-            accountAvatar = Picasso.with(context)
+            accountAvatar = Picasso.get()
                     .load(body.getAccount().getAvatar())
                     .transform(new RoundedTransformation(20))
                     .get();

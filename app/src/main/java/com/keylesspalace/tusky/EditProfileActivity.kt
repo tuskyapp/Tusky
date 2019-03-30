@@ -133,14 +133,14 @@ class EditProfileActivity : BaseActivity(), Injectable {
                         addFieldButton.isEnabled = me.source?.fields?.size ?: 0 < MAX_ACCOUNT_FIELDS
 
                         if(viewModel.avatarData.value == null) {
-                            Picasso.with(this)
+                            Picasso.get()
                                     .load(me.avatar)
                                     .placeholder(R.drawable.avatar_default)
                                     .into(avatarPreview)
                         }
 
                         if(viewModel.headerData.value == null) {
-                            Picasso.with(this)
+                            Picasso.get()
                                     .load(me.header)
                                     .into(headerPreview)
                         }

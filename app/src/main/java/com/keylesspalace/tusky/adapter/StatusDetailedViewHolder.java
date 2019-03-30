@@ -176,7 +176,7 @@ class StatusDetailedViewHolder extends StatusBaseViewHolder {
 
                     cardView.setClipToOutline(true);
 
-                    Picasso.with(cardImage.getContext())
+                    Picasso.get()
                             .load(card.getImage())
                             .fit()
                             .centerCrop()

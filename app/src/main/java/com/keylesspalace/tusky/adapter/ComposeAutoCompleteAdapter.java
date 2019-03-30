@@ -147,7 +147,7 @@ public class ComposeAutoCompleteAdapter extends BaseAdapter
                             account.getEmojis(), accountViewHolder.displayName);
                     accountViewHolder.displayName.setText(emojifiedName);
                     if (!account.getAvatar().isEmpty()) {
-                        Picasso.with(context)
+                        Picasso.get()
                                 .load(account.getAvatar())
                                 .placeholder(R.drawable.avatar_default)
                                 .into(accountViewHolder.avatar);
@@ -188,7 +188,7 @@ public class ComposeAutoCompleteAdapter extends BaseAdapter
                             emoji.getShortcode()
                     );
                     emojiViewHolder.shortcode.setText(formattedShortcode);
-                    Picasso.with(context)
+                    Picasso.get()
                             .load(emoji.getUrl())
                             .into(emojiViewHolder.preview);
                 }

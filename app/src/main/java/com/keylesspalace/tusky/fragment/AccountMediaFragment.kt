@@ -305,7 +305,7 @@ class AccountMediaFragment : BaseFragment(), Injectable {
             val maxW = holder.imageView.context.resources.getInteger(R.integer.media_max_width)
             val maxH = holder.imageView.context.resources.getInteger(R.integer.media_max_height)
 
-            Picasso.with(holder.imageView.context)
+            Picasso.get()
                     .load(item.attachment.previewUrl)
                     .resize(maxW, maxH)
                     .onlyScaleDown()

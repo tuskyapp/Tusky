@@ -42,7 +42,7 @@ class EmojiAdapter(emojiList: List<Emoji>, private val onEmojiSelectedListener: 
     override fun onBindViewHolder(viewHolder: EmojiAdapter.EmojiHolder, position: Int) {
         val emoji = emojiList[position]
 
-        Picasso.with(viewHolder.emojiImageView.context)
+        Picasso.get()
                 .load(emoji.url)
                 .into(viewHolder.emojiImageView)
 

@@ -177,7 +177,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         if (TextUtils.isEmpty(url)) {
             avatar.setImageResource(R.drawable.avatar_default);
         } else {
-            Picasso.with(avatar.getContext())
+            Picasso.get()
                     .load(url)
                     .placeholder(R.drawable.avatar_default)
                     .into(avatar);
@@ -323,7 +323,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             mediaPreviews[i].setVisibility(View.VISIBLE);
 
             if (TextUtils.isEmpty(previewUrl)) {
-                Picasso.with(context)
+                Picasso.get()
                         .load(mediaPreviewUnloadedId)
                         .resize(maxW, maxH)
                         .onlyScaleDown()
@@ -336,7 +336,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
                 if (focus != null) { // If there is a focal point for this attachment:
                     mediaPreviews[i].setFocalPoint(focus);
 
-                    Picasso.with(context)
+                    Picasso.get()
                             .load(previewUrl)
                             .placeholder(mediaPreviewUnloadedId)
                             .resize(maxW, maxH)
@@ -348,7 +348,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
                 } else {
                     mediaPreviews[i].removeFocalPoint();
 
-                    Picasso.with(context)
+                    Picasso.get()
                             .load(previewUrl)
                             .placeholder(mediaPreviewUnloadedId)
                             .resize(maxW, maxH)

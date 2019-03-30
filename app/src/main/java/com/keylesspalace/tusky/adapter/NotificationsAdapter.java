@@ -308,7 +308,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
             if (TextUtils.isEmpty(account.getAvatar())) {
                 avatar.setImageResource(R.drawable.avatar_default);
             } else {
-                Picasso.with(context)
+                Picasso.get()
                         .load(account.getAvatar())
                         .fit()
                         .placeholder(R.drawable.avatar_default)
@@ -491,7 +491,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
             if (TextUtils.isEmpty(statusAvatarUrl)) {
                 statusAvatar.setImageResource(R.drawable.avatar_default);
             } else {
-                Picasso.with(context)
+                Picasso.get()
                         .load(statusAvatarUrl)
                         .placeholder(R.drawable.avatar_default)
                         .into(statusAvatar);
@@ -500,9 +500,10 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
             if (TextUtils.isEmpty(notificationAvatarUrl)) {
                 notificationAvatar.setImageResource(R.drawable.avatar_default);
             } else {
-                Picasso.with(context)
+                Picasso.get()
                         .load(notificationAvatarUrl)
                         .placeholder(R.drawable.avatar_default)
+                        .fit()
                         .into(notificationAvatar);
             }
         }

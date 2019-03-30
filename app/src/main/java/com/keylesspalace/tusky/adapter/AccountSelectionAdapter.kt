@@ -46,7 +46,7 @@ class AccountSelectionAdapter(context: Context): ArrayAdapter<AccountEntity>(con
             username.text = account.fullName
             displayName.text = CustomEmojiHelper.emojifyString(account.displayName, account.emojis, displayName)
             if (!TextUtils.isEmpty(account.profilePictureUrl)) {
-                Picasso.with(context)
+                Picasso.get()
                         .load(account.profilePictureUrl)
                         .placeholder(R.drawable.avatar_default)
                         .into(avatar)

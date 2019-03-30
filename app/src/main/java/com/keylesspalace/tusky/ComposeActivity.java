@@ -285,7 +285,7 @@ public final class ComposeActivity
             if (TextUtils.isEmpty(activeAccount.getProfilePictureUrl())) {
                 composeAvatar.setImageResource(R.drawable.avatar_default);
             } else {
-                Picasso.with(this).load(activeAccount.getProfilePictureUrl())
+                Picasso.get().load(activeAccount.getProfilePictureUrl())
                         .error(R.drawable.avatar_default)
                         .placeholder(R.drawable.avatar_default)
                         .into(composeAvatar);

@@ -35,6 +35,7 @@ import com.squareup.picasso.NetworkPolicy
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_view_media.*
 import kotlinx.android.synthetic.main.fragment_view_image.*
+import java.lang.Exception
 
 class ViewImageFragment : ViewMediaFragment() {
     interface PhotoActionsListener {
@@ -80,7 +81,7 @@ class ViewImageFragment : ViewMediaFragment() {
         // If we are the view to be shown initially...
         if (arguments!!.getBoolean(ViewMediaFragment.ARG_START_POSTPONED_TRANSITION)) {
             // Try to load image from disk.
-            Picasso.with(context)
+            Picasso.get()
                     .load(url)
                     .noFade()
                     .networkPolicy(NetworkPolicy.OFFLINE)
@@ -107,7 +108,7 @@ class ViewImageFragment : ViewMediaFragment() {
                             }
                         }
 
-                        override fun onError() {
+                        override fun onError(e: Exception) {
                             // if there's no image in cache, load from network and start transition
                             // immediately.
                             if (isAdded) {
@@ -171,14 +172,14 @@ class ViewImageFragment : ViewMediaFragment() {
 
     override fun onDetach() {
         super.onDetach()
-        Picasso.with(context).cancelRequest(photoView)
+        Picasso.get().cancelRequest(photoView)
     }
 
     private fun loadImageFromNetwork(url: String, photoView: ImageView) {
         val maxW = photoView.context.resources.getInteger(R.integer.media_max_width)
         val maxH = photoView.context.resources.getInteger(R.integer.media_max_height)
 
-        Picasso.with(context)
+        Picasso.get()
                 .load(url)
                 .noPlaceholder()
                 .networkPolicy(NetworkPolicy.NO_STORE)
@@ -190,7 +191,7 @@ class ViewImageFragment : ViewMediaFragment() {
                         finishLoadingSuccessfully()
                     }
 
-                    override fun onError() {
+                    override fun onError(e:Exception) {
                         progressBar?.hide()
                     }
                 })

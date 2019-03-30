@@ -87,7 +87,7 @@ public class FollowRequestsAdapter extends AccountAdapter {
             String format = username.getContext().getString(R.string.status_username_format);
             String formattedUsername = String.format(format, account.getUsername());
             username.setText(formattedUsername);
-            Picasso.with(avatar.getContext())
+            Picasso.get()
                     .load(account.getAvatar())
                     .placeholder(R.drawable.avatar_default)
                     .into(avatar);

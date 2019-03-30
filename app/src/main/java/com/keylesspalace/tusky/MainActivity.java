@@ -321,12 +321,12 @@ public final class MainActivity extends BottomSheetActivity implements ActionBut
         DrawerImageLoader.init(new AbstractDrawerImageLoader() {
             @Override
             public void set(ImageView imageView, Uri uri, Drawable placeholder, String tag) {
-                Picasso.with(imageView.getContext()).load(uri).placeholder(placeholder).into(imageView);
+                Picasso.get().load(uri).placeholder(placeholder).into(imageView);
             }
 
             @Override
             public void cancel(ImageView imageView) {
-                Picasso.with(imageView.getContext()).cancelRequest(imageView);
+                Picasso.get().cancelRequest(imageView);
             }
         });
 
@@ -528,7 +528,7 @@ public final class MainActivity extends BottomSheetActivity implements ActionBut
 
         ImageView background = headerResult.getHeaderBackgroundView();
 
-        Picasso.with(MainActivity.this)
+        Picasso.get()
                 .load(me.getHeader())
                 .into(background);
 

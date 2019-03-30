@@ -59,7 +59,7 @@ public class CustomEmojiHelper {
                     // the target so an anonymous class would likely be garbage collected.
                     EmojiSpan span = new EmojiSpan(view);
                     builder.setSpan(span, matcher.start(), matcher.end(), 0);
-                    Picasso.with(view.getContext())
+                    Picasso.get()
                             .load(emoji.getUrl())
                             .into(span);
                 }
@@ -128,7 +128,7 @@ public class CustomEmojiHelper {
         }
 
         @Override
-        public void onBitmapFailed(Drawable errorDrawable) {}
+        public void onBitmapFailed(Exception e, Drawable errorDrawable) {}
 
         @Override
         public void onPrepareLoad(Drawable placeHolderDrawable) {}

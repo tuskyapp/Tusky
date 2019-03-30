@@ -208,7 +208,7 @@ class AccountsInListFragment : DialogFragment(), Injectable {
             fun bind(account: Account) {
                 usernameTextView.text = account.username
                 displayNameTextView.text = account.displayName
-                Picasso.with(avatar.context)
+                Picasso.get()
                         .load(account.avatar)
                         .fit()
                         .placeholder(R.drawable.avatar_default)
@@ -255,7 +255,7 @@ class AccountsInListFragment : DialogFragment(), Injectable {
             fun bind(account: Account, inAList: Boolean) {
                 usernameTextView.text = account.username
                 displayNameTextView.text = account.displayName
-                Picasso.with(avatar.context)
+                Picasso.get()
                         .load(account.avatar)
                         .fit()
                         .placeholder(R.drawable.avatar_default)
