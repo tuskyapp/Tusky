@@ -26,6 +26,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.PopupMenu;
 import android.widget.ProgressBar;
 
@@ -56,6 +57,7 @@ import com.keylesspalace.tusky.util.Either;
 import com.keylesspalace.tusky.util.HttpHeaderLink;
 import com.keylesspalace.tusky.util.ListStatusAccessibilityDelegate;
 import com.keylesspalace.tusky.util.ListUtils;
+import com.keylesspalace.tusky.util.NotificationTypeConverterKt;
 import com.keylesspalace.tusky.util.PairedList;
 import com.keylesspalace.tusky.util.ThemeUtils;
 import com.keylesspalace.tusky.util.ViewDataUtils;
@@ -63,8 +65,6 @@ import com.keylesspalace.tusky.view.BackgroundMessageView;
 import com.keylesspalace.tusky.view.EndlessOnScrollListener;
 import com.keylesspalace.tusky.viewdata.NotificationViewData;
 import com.keylesspalace.tusky.viewdata.StatusViewData;
-
-import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -115,7 +115,6 @@ public class NotificationsFragment extends SFragment implements
     private static final int LOAD_AT_ONCE = 30;
     private int maxPlaceholderId = 0;
 
-    private static final long TOOLBAR_ID = 99L;
 
     private Set<Notification.Type> notificationFilter = new HashSet<>();
 
@@ -145,8 +144,6 @@ public class NotificationsFragment extends SFragment implements
     AccountManager accountManager;
     @Inject
     EventHub eventHub;
-    @Inject
-    SharedPreferences preferences;
 
     private SwipeRefreshLayout swipeRefreshLayout;
     private RecyclerView recyclerView;
@@ -156,6 +153,8 @@ public class NotificationsFragment extends SFragment implements
     private LinearLayoutManager layoutManager;
     private EndlessOnScrollListener scrollListener;
     private NotificationsAdapter adapter;
+    private TabLayout.OnTabSelectedListener onTabSelectedListener;
+    private Button buttonFilter;
     private boolean hideFab;
     private boolean topLoading;
     private boolean bottomLoading;
@@ -190,7 +189,7 @@ public class NotificationsFragment extends SFragment implements
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_timeline, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_timeline_notifications, container, false);
 
         @NonNull Context context = inflater.getContext(); // from inflater to silence warning
         // Setup the SwipeRefreshLayout.
@@ -236,6 +235,11 @@ public class NotificationsFragment extends SFragment implements
         bottomId = null;
 
         updateAdapter();
+
+        Button buttonClear = rootView.findViewById(R.id.buttonClear);
+        buttonClear.setOnClickListener(v -> clearNotifications());
+        buttonFilter = rootView.findViewById(R.id.buttonFilter);
+        buttonFilter.setOnClickListener(v -> showFilterMenu());
 
         if (notifications.isEmpty()) {
             sendFetchNotificationsRequest(null, null, FetchEnd.BOTTOM, -1);
@@ -533,11 +537,6 @@ public class NotificationsFragment extends SFragment implements
         onContentCollapsedChange(isCollapsed, position);
     }
 
-    @Override
-    public void onClearClick() {
-        clearNotifications();
-    }
-
     private void clearNotifications() {
         //Cancel all ongoing requests
         swipeRefreshLayout.setRefreshing(false);
@@ -554,6 +553,10 @@ public class NotificationsFragment extends SFragment implements
         //Clear exists notifications
         notifications.clear();
 
+        //Show friend elephant
+        this.statusView.setVisibility(View.VISIBLE);
+        this.statusView.setup(R.drawable.elephant_friend_empty, R.string.message_empty, null);
+
         //Update adapter
         updateAdapter();
 
@@ -561,31 +564,26 @@ public class NotificationsFragment extends SFragment implements
         Call<ResponseBody> call = mastodonApi.clearNotifications();
         call.enqueue(new Callback<ResponseBody>() {
             @Override
-            public void onResponse(@NotNull Call<ResponseBody> call, @NotNull Response<ResponseBody> response) {
+            public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
                 if (isAdded()) {
                     if (!response.isSuccessful()) {
                         //Reload notifications on failure
-                        fullyRefresh();
+                        fullyRefreshWithProgressBar();
                     }
                 }
             }
 
             @Override
-            public void onFailure(@NotNull Call<ResponseBody> call, @NotNull Throwable t) {
+            public void onFailure(@NonNull Call<ResponseBody> call, @NonNull Throwable t) {
                 //Reload notifications on failure
-                fullyRefresh();
+                fullyRefreshWithProgressBar();
             }
         });
         callList.add(call);
     }
 
-    @Override
-    public void onShowFilterClick(View anchor) {
-        showFilterMenu(anchor);
-    }
-
-    private void showFilterMenu(View anchor) {
-        PopupMenu menu = new PopupMenu(getContext(), anchor);
+    private void showFilterMenu() {
+        PopupMenu menu = new PopupMenu(getContext(), buttonFilter);
         menu.inflate(R.menu.notifications_filter);
         for (Notification.Type type : notificationFilter) {
             int itemId = View.NO_ID;
@@ -615,7 +613,7 @@ public class NotificationsFragment extends SFragment implements
 
                 //Prevent popup menu close on item click
                 item.setShowAsAction(MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW);
-                item.setActionView(anchor);
+                item.setActionView(buttonFilter);
                 item.setOnActionExpandListener(new MenuItem.OnActionExpandListener() {
                     @Override
                     public boolean onMenuItemActionExpand(MenuItem item) {
@@ -644,29 +642,25 @@ public class NotificationsFragment extends SFragment implements
         isChanged |= updateNotificationFilter(menu, R.id.filter_mentions, Notification.Type.MENTION);
         if (isChanged) {
             saveNotificationsFilter();
-            fullyRefresh();
+            fullyRefreshWithProgressBar();
         }
 
     }
 
-    private Gson getNotificationsGson() {
-        return new GsonBuilder()
-                .registerTypeAdapter(Notification.Type.class, new Notification.NotificationTypeAdapter())
-                .create();
-    }
-
     private void loadNotificationsFilter() {
-        String json = preferences.getString("notifications.filter", "[]");
-        Set<Notification.Type> set = getNotificationsGson().fromJson(json, new TypeToken<Set<Notification.Type>>() {
-        }.getType());
-        if (set != null)
-            notificationFilter.addAll(set);
+        AccountEntity account = accountManager.getActiveAccount();
+        if (account!=null) {
+            notificationFilter.addAll(NotificationTypeConverterKt.desirialize(
+                    account.getNotificationsFilter()));
+        }
     }
 
     private void saveNotificationsFilter() {
-        String json = getNotificationsGson().toJson(notificationFilter, new TypeToken<Set<Notification.Type>>() {
-        }.getType());
-        preferences.edit().putString("notifications.filter", json).apply();
+        AccountEntity account = accountManager.getActiveAccount();
+        if (account!=null) {
+            account.setNotificationsFilter(NotificationTypeConverterKt.serialize(notificationFilter));
+            accountManager.saveAccount(account);
+        }
     }
 
     /**
@@ -866,12 +860,10 @@ public class NotificationsFragment extends SFragment implements
             bottomLoading = false;
         }
 
-        if (this.notifications.size() == 0 && adapter.getItemCount() == 1) {
+        if (notifications.size() == 0 && adapter.getItemCount() == 0) {
             this.statusView.setVisibility(View.VISIBLE);
             this.statusView.setup(R.drawable.elephant_friend_empty, R.string.message_empty, null);
 
-        } else {
-            this.statusView.setVisibility(View.GONE);
         }
         swipeRefreshLayout.setRefreshing(false);
         progressBar.setVisibility(View.GONE);
@@ -998,6 +990,13 @@ public class NotificationsFragment extends SFragment implements
     private List<Either<Placeholder, Notification>> liftNotificationList(List<Notification> list) {
         return CollectionUtil.map(list, notificationLifter);
     }
+    private void fullyRefreshWithProgressBar() {
+        if (notifications.isEmpty()) {
+            progressBar.setVisibility(View.VISIBLE);
+            statusView.setVisibility(View.GONE);
+        }
+        fullyRefresh();
+    }
 
     private void fullyRefresh() {
         notifications.clear();
@@ -1022,17 +1021,7 @@ public class NotificationsFragment extends SFragment implements
     }
 
     private void updateAdapter() {
-        List<NotificationViewData>
-                copy = notifications.getPairedCopy();
-        //Add a toolbar item to the top of items
-        boolean isNotificationsExists = false;
-        if (!copy.isEmpty()) {
-            NotificationViewData topItem = copy.get(0);
-            if (topItem instanceof NotificationViewData.Concrete)
-                isNotificationsExists = true;
-        }
-        copy.add(0, new NotificationViewData.Toolbar(TOOLBAR_ID, isNotificationsExists));
-        differ.submitList(copy);
+        differ.submitList(notifications.getPairedCopy());
     }
 
     private final ListUpdateCallback listUpdateCallback = new ListUpdateCallback() {

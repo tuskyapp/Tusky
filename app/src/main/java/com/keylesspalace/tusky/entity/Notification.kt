@@ -61,10 +61,7 @@ data class Notification(
         return notification?.id == this.id
     }
 
-    class NotificationTypeAdapter : JsonDeserializer<Type>, JsonSerializer<Type> {
-        override fun serialize(src: Type?, typeOfSrc: java.lang.reflect.Type?, context: JsonSerializationContext?): JsonElement {
-            return src?.let { JsonPrimitive(src.presentation) } ?: JsonNull.INSTANCE
-        }
+    class NotificationTypeAdapter : JsonDeserializer<Type> {
 
         @Throws(JsonParseException::class)
         override fun deserialize(json: JsonElement, typeOfT: java.lang.reflect.Type, context: JsonDeserializationContext): Notification.Type {

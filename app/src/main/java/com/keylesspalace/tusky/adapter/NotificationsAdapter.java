@@ -67,12 +67,12 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
         T getItemAt(int pos);
     }
 
+
     private static final int VIEW_TYPE_MENTION = 0;
     private static final int VIEW_TYPE_STATUS_NOTIFICATION = 1;
     private static final int VIEW_TYPE_FOLLOW = 2;
     private static final int VIEW_TYPE_PLACEHOLDER = 3;
     private static final int VIEW_TYPE_UNKNOWN = 4;
-    private static final int VIEW_TYPE_TOOLBAR = 5;
 
     private static final InputFilter[] COLLAPSE_INPUT_FILTER = new InputFilter[]{SmartLengthInputFilter.INSTANCE};
     private static final InputFilter[] NO_INPUT_FILTER = new InputFilter[0];
@@ -121,11 +121,6 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
                         .inflate(R.layout.item_status_placeholder, parent, false);
                 return new PlaceholderViewHolder(view);
             }
-            case VIEW_TYPE_TOOLBAR: {
-                View view = inflater
-                        .inflate(R.layout.item_notifications_top, parent, false);
-                return new NotificationsToolbarViewHolder(view);
-            }
             default:
             case VIEW_TYPE_UNKNOWN: {
                 View view = new View(parent.getContext());
@@ -135,8 +130,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
                                 Utils.convertDpToPx(parent.getContext(), 24)
                         )
                 );
-                return new RecyclerView.ViewHolder(view) {
-                };
+                return new RecyclerView.ViewHolder(view) {};
             }
         }
     }
@@ -162,15 +156,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
                     holder.setup(statusListener, placeholder.isLoading());
                 }
                 return;
-            } else if (notification instanceof NotificationViewData.Toolbar) {
-                if (payloadForHolder == null) {
-                    NotificationViewData.Toolbar toolbarData = ((NotificationViewData.Toolbar) notification);
-                    NotificationsToolbarViewHolder holder = (NotificationsToolbarViewHolder) viewHolder;
-                    holder.setup(notificationActionListener, toolbarData.isItemsExists());
-                }
-                return;
             }
-
             NotificationViewData.Concrete concreteNotificaton =
                     (NotificationViewData.Concrete) notification;
             Notification.Type type = concreteNotificaton.getType();
@@ -255,8 +241,6 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
             }
         } else if (notification instanceof NotificationViewData.Placeholder) {
             return VIEW_TYPE_PLACEHOLDER;
-        } else if (notification instanceof NotificationViewData.Toolbar) {
-            return VIEW_TYPE_TOOLBAR;
         } else {
             throw new AssertionError("Unknown notification type");
         }
@@ -290,10 +274,6 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
          * @param position    The position of the status in the list.
          */
         void onNotificationContentCollapsedChange(boolean isCollapsed, int position);
-
-        void onClearClick();
-
-        void onShowFilterClick(View anchor);
     }
 
     private static class FollowViewHolder extends RecyclerView.ViewHolder {
