@@ -21,20 +21,18 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.PopupMenu;
+import android.widget.ListView;
+import android.widget.PopupWindow;
 import android.widget.ProgressBar;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.reflect.TypeToken;
 import com.keylesspalace.tusky.MainActivity;
 import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.adapter.NotificationsAdapter;
@@ -568,7 +566,7 @@ public class NotificationsFragment extends SFragment implements
                 if (isAdded()) {
                     if (!response.isSuccessful()) {
                         //Reload notifications on failure
-                        fullyRefreshWithProgressBar();
+                        fullyRefreshWithProgressBar(true);
                     }
                 }
             }
@@ -576,80 +574,86 @@ public class NotificationsFragment extends SFragment implements
             @Override
             public void onFailure(@NonNull Call<ResponseBody> call, @NonNull Throwable t) {
                 //Reload notifications on failure
-                fullyRefreshWithProgressBar();
+                fullyRefreshWithProgressBar(true);
             }
         });
         callList.add(call);
     }
 
+
     private void showFilterMenu() {
-        PopupMenu menu = new PopupMenu(getContext(), buttonFilter);
-        menu.inflate(R.menu.notifications_filter);
-        for (Notification.Type type : notificationFilter) {
-            int itemId = View.NO_ID;
-            switch (type) {
-                case FAVOURITE:
-                    itemId = R.id.filter_favourites;
-                    break;
-                case FOLLOW:
-                    itemId = R.id.filter_follows;
-                    break;
-                case REBLOG:
-                    itemId = R.id.filter_boosts;
-                    break;
-                case MENTION:
-                    itemId = R.id.filter_mentions;
-                    break;
-            }
-            if (itemId != View.NO_ID) {
-                MenuItem item = menu.getMenu().findItem(itemId);
-                if (item != null)
-                    item.setChecked(false);
-            }
+        List<Notification.Type> notificationsList = Notification.Type.Companion.getAsList();
+        List<String> list = new ArrayList<>();
+        for (Notification.Type type : notificationsList) {
+            list.add(getNotificationText(type));
         }
-        menu.setOnMenuItemClickListener(item -> {
-            if (item.isCheckable()) {
-                item.setChecked(!item.isChecked());
 
-                //Prevent popup menu close on item click
-                item.setShowAsAction(MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW);
-                item.setActionView(buttonFilter);
-                item.setOnActionExpandListener(new MenuItem.OnActionExpandListener() {
-                    @Override
-                    public boolean onMenuItemActionExpand(MenuItem item) {
-                        return false;
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_multiple_choice, list);
+        PopupWindow window = new PopupWindow(getContext());
+        View view = LayoutInflater.from(getContext()).inflate(R.layout.notifications_filter, (ViewGroup) getView(), false);
+        final ListView listView = view.findViewById(R.id.listView);
+        view.findViewById(R.id.buttonApply)
+                .setOnClickListener(v -> {
+                    SparseBooleanArray checkedItems = listView.getCheckedItemPositions();
+                    Set<Notification.Type> excludes = new HashSet<>();
+                    for (int i = 0; i < notificationsList.size(); i++) {
+                        if (!checkedItems.get(i, false))
+                            excludes.add(notificationsList.get(i));
                     }
+                    window.dismiss();
+                    applyFilterChanges(excludes);
 
-                    @Override
-                    public boolean onMenuItemActionCollapse(MenuItem item) {
-                        return false;
-                    }
                 });
-                return false;
-            } else {
-                //Apply filter changes and close the menu
-                applyFilterChanges(menu.getMenu());
-                return true;
-            }
-        });
-        menu.show();
+
+        listView.setAdapter(adapter);
+        listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+        for (int i = 0; i < notificationsList.size(); i++) {
+            if (!notificationFilter.contains(notificationsList.get(i)))
+                listView.setItemChecked(i, true);
+        }
+        window.setContentView(view);
+        window.setFocusable(true);
+        window.showAsDropDown(buttonFilter);
+
     }
 
-    private void applyFilterChanges(Menu menu) {
-        boolean isChanged = updateNotificationFilter(menu, R.id.filter_favourites, Notification.Type.FAVOURITE);
-        isChanged |= updateNotificationFilter(menu, R.id.filter_follows, Notification.Type.FOLLOW);
-        isChanged |= updateNotificationFilter(menu, R.id.filter_boosts, Notification.Type.REBLOG);
-        isChanged |= updateNotificationFilter(menu, R.id.filter_mentions, Notification.Type.MENTION);
+    private String getNotificationText(Notification.Type type) {
+        switch (type) {
+            case MENTION:
+                return getString(R.string.filter_mentions);
+            case FAVOURITE:
+                return getString(R.string.filter_favorites);
+            case REBLOG:
+                return getString(R.string.filter_boosts);
+            case FOLLOW:
+                return getString(R.string.filter_follows);
+            default:
+                return "Unknown";
+        }
+    }
+
+    private void applyFilterChanges(Set<Notification.Type> newSet) {
+        List<Notification.Type> notifications = Notification.Type.Companion.getAsList();
+        boolean isChanged = false;
+        for (Notification.Type type : notifications) {
+            if (notificationFilter.contains(type) && !newSet.contains(type)) {
+                notificationFilter.remove(type);
+                isChanged = true;
+            } else if (!notificationFilter.contains(type) && newSet.contains(type)) {
+                notificationFilter.add(type);
+                isChanged = true;
+            }
+        }
         if (isChanged) {
             saveNotificationsFilter();
-            fullyRefreshWithProgressBar();
+            fullyRefreshWithProgressBar(true);
         }
 
     }
 
     private void loadNotificationsFilter() {
         AccountEntity account = accountManager.getActiveAccount();
-        if (account!=null) {
+        if (account != null) {
             notificationFilter.addAll(NotificationTypeConverterKt.desirialize(
                     account.getNotificationsFilter()));
         }
@@ -657,29 +661,10 @@ public class NotificationsFragment extends SFragment implements
 
     private void saveNotificationsFilter() {
         AccountEntity account = accountManager.getActiveAccount();
-        if (account!=null) {
+        if (account != null) {
             account.setNotificationsFilter(NotificationTypeConverterKt.serialize(notificationFilter));
             accountManager.saveAccount(account);
         }
-    }
-
-    /**
-     * Update notification filter
-     *
-     * @param menu   popup menu item
-     * @param itemId popup menu item id
-     * @param type   type related to the the popup menu item
-     * @return true if filter item selection was change
-     */
-    private boolean updateNotificationFilter(Menu menu, int itemId, Notification.Type type) {
-        MenuItem item = menu.findItem(itemId);
-        boolean isChecked = item != null && item.isChecked();
-        boolean isFilterExists = notificationFilter.contains(type);
-        if (isChecked)
-            notificationFilter.remove(type);
-        else
-            notificationFilter.add(type);
-        return isChecked && isFilterExists || !isChecked && !isFilterExists;
     }
 
     @Override
@@ -990,18 +975,19 @@ public class NotificationsFragment extends SFragment implements
     private List<Either<Placeholder, Notification>> liftNotificationList(List<Notification> list) {
         return CollectionUtil.map(list, notificationLifter);
     }
-    private void fullyRefreshWithProgressBar() {
-        if (notifications.isEmpty()) {
+
+    private void fullyRefreshWithProgressBar(boolean isShow) {
+        notifications.clear();
+        if (isShow && notifications.isEmpty()) {
             progressBar.setVisibility(View.VISIBLE);
             statusView.setVisibility(View.GONE);
         }
-        fullyRefresh();
+        updateAdapter();
+        sendFetchNotificationsRequest(null, null, FetchEnd.TOP, -1);
     }
 
     private void fullyRefresh() {
-        notifications.clear();
-        updateAdapter();
-        sendFetchNotificationsRequest(null, null, FetchEnd.TOP, -1);
+        fullyRefreshWithProgressBar(false);
     }
 
     @Nullable
