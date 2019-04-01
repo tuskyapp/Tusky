@@ -29,6 +29,7 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
+import android.media.Image;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -202,7 +203,7 @@ public final class ComposeActivity
     private TootButton tootButton;
     private ImageButton pickButton;
     private ImageButton visibilityButton;
-    private Button contentWarningButton;
+    private ImageButton contentWarningButton;
     private ImageButton emojiButton;
     private ImageButton hideMediaToggle;
 
@@ -1484,12 +1485,10 @@ public final class ComposeActivity
         if (show) {
             statusMarkSensitive = true;
             contentWarningBar.setVisibility(View.VISIBLE);
-            contentWarningButton.setTextColor(ContextCompat.getColor(this, R.color.tusky_blue));
             contentWarningEditor.setSelection(contentWarningEditor.getText().length());
             contentWarningEditor.requestFocus();
         } else {
             contentWarningBar.setVisibility(View.GONE);
-            contentWarningButton.setTextColor(ThemeUtils.getColor(this, android.R.attr.textColorTertiary));
         }
         updateHideMediaToggle();
 
