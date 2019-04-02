@@ -17,6 +17,7 @@ class AccountViewHolder extends RecyclerView.ViewHolder {
     private TextView username;
     private TextView displayName;
     private ImageView avatar;
+    private ImageView avatarInset;
     private String accountId;
 
     AccountViewHolder(View itemView) {
@@ -24,6 +25,7 @@ class AccountViewHolder extends RecyclerView.ViewHolder {
         username = itemView.findViewById(R.id.account_username);
         displayName = itemView.findViewById(R.id.account_display_name);
         avatar = itemView.findViewById(R.id.account_avatar);
+        avatarInset = itemView.findViewById(R.id.account_avatar_inset);
     }
 
     void setupWithAccount(Account account) {
@@ -38,6 +40,13 @@ class AccountViewHolder extends RecyclerView.ViewHolder {
                 .load(account.getAvatar())
                 .placeholder(R.drawable.avatar_default)
                 .into(avatar);
+        if (account.getBot()) {
+            avatarInset.setVisibility(View.VISIBLE);
+            avatarInset.setImageResource(R.drawable.ic_bot_24dp);
+            avatarInset.setBackgroundColor(0x50ffffff);
+        } else {
+            avatarInset.setVisibility(View.GONE);
+        }
     }
 
     void setupActionListener(final AccountActionListener listener) {

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/account_container"
     android:layout_width="match_parent"
     android:layout_height="72dp"
@@ -12,14 +13,31 @@
         android:id="@+id/account_avatar"
         android:layout_width="48dp"
         android:layout_height="48dp"
-        android:layout_centerVertical="true"
-        android:layout_marginEnd="24dp" />
+        android:foregroundGravity="center_vertical"
+        android:layout_marginEnd="24dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <com.keylesspalace.tusky.view.RoundedImageView
+        android:id="@+id/account_avatar_inset"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:contentDescription="@null"
+        android:importantForAccessibility="no"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@id/account_avatar"
+        app:layout_constraintEnd_toEndOf="@id/account_avatar"
+        tools:src="@color/accent"
+        tools:visibility="visible" />
+
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:layout_toEndOf="@id/account_avatar"
+        app:layout_constraintStart_toEndOf="@id/account_avatar"
         android:gravity="center_vertical"
+        android:layout_marginStart="14dp"
         android:orientation="vertical">
 
         <androidx.emoji.widget.EmojiTextView
@@ -45,4 +63,4 @@
 
     </LinearLayout>
 
-</RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

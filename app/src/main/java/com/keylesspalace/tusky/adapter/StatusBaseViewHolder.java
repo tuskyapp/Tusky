@@ -188,7 +188,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         if (isBot && TextUtils.isEmpty(rebloggedUrl)) {
             avatarInset.setVisibility(View.VISIBLE);
             avatarInset.setImageResource(R.drawable.ic_bot_24dp);
-            avatarInset.setBackgroundColor(0x80ffffff);
+            avatarInset.setBackgroundColor(0x50ffffff);
         } else {
             avatarInset.setVisibility(View.GONE);
         }
