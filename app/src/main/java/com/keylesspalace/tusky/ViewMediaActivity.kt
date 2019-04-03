@@ -39,7 +39,9 @@ import android.view.MenuItem
 import android.view.View
 import android.webkit.MimeTypeMap
 import android.widget.Toast
+import androidx.lifecycle.Lifecycle
 import com.bumptech.glide.Glide
+import com.bumptech.glide.request.FutureTarget
 import com.keylesspalace.tusky.BuildConfig.APPLICATION_ID
 import com.keylesspalace.tusky.entity.Attachment
 import com.keylesspalace.tusky.fragment.ViewImageFragment
@@ -49,6 +51,11 @@ import com.keylesspalace.tusky.pager.ImagePagerAdapter
 import com.keylesspalace.tusky.util.CollectionUtil.map
 import com.keylesspalace.tusky.util.getTemporaryMediaFilename
 import com.keylesspalace.tusky.viewdata.AttachmentViewData
+import com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider
+import com.uber.autodispose.autoDisposable
+import io.reactivex.Single
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 
 import kotlinx.android.synthetic.main.activity_view_media.*
 
@@ -159,6 +166,11 @@ class ViewMediaActivity : BaseActivity(), ViewImageFragment.PhotoActionsListener
         return false
     }
 
+    override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
+        menu?.findItem(R.id.action_share_media)?.isEnabled = !isCreating
+        return true
+    }
+
     override fun onBringUp() {
         supportStartPostponedEnterTransition()
     }
@@ -242,30 +254,55 @@ class ViewMediaActivity : BaseActivity(), ViewImageFragment.PhotoActionsListener
     }
 
 
+    private var isCreating: Boolean = false
+
     private fun shareImage(directory: File, url: String) {
+        isCreating = true
+        progressBarShare.visibility = View.VISIBLE
+        invalidateOptionsMenu()
         val file = File(directory, getTemporaryMediaFilename("png"))
-        /*STOPSHIP
-        Glide.with(applicationContext).load(Uri.parse(url)).into(object: Target {
-            override fun onBitmapLoaded(bitmap: Bitmap, from: Picasso.LoadedFrom) {
-                try {
-                    val stream = FileOutputStream(file)
-                    bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream)
-                    stream.close()
-                } catch (fnfe: FileNotFoundException) {
-                    Log.e(TAG, "Error writing temporary media.")
-                } catch (ioe: IOException) {
-                    Log.e(TAG, "Error writing temporary media.")
+        val futureTask: FutureTarget<Bitmap> =
+                Glide.with(applicationContext).asBitmap().load(Uri.parse(url)).submit()
+        Single.create<Boolean> { emitter ->
+            val bitmap = futureTask.get()
+            try {
+                val stream = FileOutputStream(file)
+                bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream)
+                stream.close()
+                emitter.onSuccess(true)
+                return@create
+            } catch (fnfe: FileNotFoundException) {
+                Log.e(TAG, "Error writing temporary media.")
+            } catch (ioe: IOException) {
+                Log.e(TAG, "Error writing temporary media.")
+            }
+            emitter.onSuccess(false)
+
+        }
+
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnDispose {
+                    futureTask.cancel(true)
                 }
-            }
+                .autoDisposable(AndroidLifecycleScopeProvider.from(this, Lifecycle.Event.ON_DESTROY))
+                .subscribe(
+                        { result->
+                            Log.d(TAG,"Download image result: $result")
+                            isCreating = false
+                            invalidateOptionsMenu()
+                            progressBarShare.visibility = View.GONE
+                            if (result)
+                                shareFile(file, "image/png")
+                        },
+                        { error->
+                            isCreating = false
+                            invalidateOptionsMenu()
+                            progressBarShare.visibility = View.GONE
+                            Log.e(TAG,"Failed to download image",error)
+                        }
+                )
 
-            override fun onBitmapFailed(errorDrawable: Drawable?) {
-                Log.e(TAG, "Error loading temporary media.")
-            }
-
-            override fun onPrepareLoad(placeHolderDrawable: Drawable?) { }
-        })
-        */
-        shareFile(file, "image/png")
     }
 
     private fun shareVideo(directory: File, url: String) {

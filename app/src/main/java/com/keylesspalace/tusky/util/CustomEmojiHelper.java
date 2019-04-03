@@ -30,7 +30,10 @@ import android.view.View;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
+import com.bumptech.glide.request.target.ImageViewTarget;
+import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.target.Target;
+import com.bumptech.glide.request.transition.Transition;
 import com.keylesspalace.tusky.entity.Emoji;
 
 import java.lang.ref.WeakReference;
@@ -61,10 +64,11 @@ public class CustomEmojiHelper {
                     EmojiSpan span = new EmojiSpan(view);
                     builder.setSpan(span, matcher.start(), matcher.end(), 0);
                     //STOPSHIP
-                    /*Glide.with(view.getContext())
+                    Glide.with(view.getContext())
+                            .asBitmap()
                             .load(emoji.getUrl())
-                            .into(span);
-                            */
+                            .into(span.getTarget());
+
                 }
             }
 
@@ -120,22 +124,20 @@ public class CustomEmojiHelper {
             imageDrawable.draw(canvas);
             canvas.restore();
         }
-        /*STOPSHIP
-        @Override
-        public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-            View view = viewWeakReference.get();
-            if(view != null) {
-                imageDrawable = new BitmapDrawable(view.getContext().getResources(), bitmap);
-                view.invalidate();
-            }
+
+        Target<Bitmap> getTarget(){
+            return new SimpleTarget<Bitmap>() {
+
+                @Override
+                public void onResourceReady(@NonNull Bitmap bitmap, @Nullable Transition<? super Bitmap> transition) {
+                    View view = viewWeakReference.get();
+                    if (view != null) {
+                        imageDrawable = new BitmapDrawable(view.getContext().getResources(), bitmap);
+                        view.invalidate();
+                    }
+                }
+            };
         }
-
-        @Override
-        public void onBitmapFailed(Drawable errorDrawable) {}
-
-        @Override
-        public void onPrepareLoad(Drawable placeHolderDrawable) {}
-        */
     }
 
 }

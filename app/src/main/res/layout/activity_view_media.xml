@@ -17,4 +17,12 @@
         android:background="@color/toolbar_view_media"
         android:theme="@style/AppTheme.Account.AppBarLayout"/>
 
+    <ProgressBar
+        android:id="@+id/progressBarShare"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:layout_gravity="center"/>
+
 </FrameLayout>
