@@ -12,6 +12,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.DownsampleStrategy;
+import com.bumptech.glide.request.RequestOptions;
 import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.entity.Attachment;
 import com.keylesspalace.tusky.entity.Attachment.Focus;
@@ -27,7 +30,6 @@ import com.keylesspalace.tusky.util.ThemeUtils;
 import com.keylesspalace.tusky.view.MediaPreviewImageView;
 import com.keylesspalace.tusky.viewdata.StatusViewData;
 import com.mikepenz.iconics.utils.Utils;
-import com.squareup.picasso.Picasso;
 
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
@@ -182,7 +184,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         if (TextUtils.isEmpty(url)) {
             avatar.setImageResource(R.drawable.avatar_default);
         } else {
-            Picasso.with(avatar.getContext())
+            Glide.with(avatar)
                     .load(url)
                     .placeholder(R.drawable.avatar_default)
                     .into(avatar);
@@ -336,10 +338,10 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             mediaPreviews[i].setVisibility(View.VISIBLE);
 
             if (TextUtils.isEmpty(previewUrl)) {
-                Picasso.with(context)
+                Glide.with(mediaPreviews[i])
                         .load(mediaPreviewUnloadedId)
-                        .resize(maxW, maxH)
-                        .onlyScaleDown()
+                        .override(maxW,maxH)
+                        .downsample(DownsampleStrategy.CENTER_INSIDE)
                         .centerInside()
                         .into(mediaPreviews[i]);
             } else {
@@ -349,24 +351,21 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
                 if (focus != null) { // If there is a focal point for this attachment:
                     mediaPreviews[i].setFocalPoint(focus);
 
-                    Picasso.with(context)
+                    Glide.with(mediaPreviews[i])
                             .load(previewUrl)
                             .placeholder(mediaPreviewUnloadedId)
-                            .resize(maxW, maxH)
-                            .onlyScaleDown()
-                            .centerInside()
-                            // Also pass the mediaPreview as a callback to ensure it is called
-                            // initially when the image gets loaded:
-                            .into(mediaPreviews[i], mediaPreviews[i]);
+                            .override(maxW,maxH)
+                            .downsample(DownsampleStrategy.CENTER_INSIDE)
+                            .addListener(mediaPreviews[i])
+                            .into(mediaPreviews[i]);
                 } else {
                     mediaPreviews[i].removeFocalPoint();
 
-                    Picasso.with(context)
+                    Glide.with(mediaPreviews[i])
                             .load(previewUrl)
                             .placeholder(mediaPreviewUnloadedId)
-                            .resize(maxW, maxH)
-                            .onlyScaleDown()
-                            .centerInside()
+                            .override(maxW,maxH)
+                            .downsample(DownsampleStrategy.CENTER_INSIDE)
                             .into(mediaPreviews[i]);
                 }
             }

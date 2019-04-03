@@ -39,6 +39,7 @@ import android.view.MenuItem
 import android.view.View
 import android.webkit.MimeTypeMap
 import android.widget.Toast
+import com.bumptech.glide.Glide
 import com.keylesspalace.tusky.BuildConfig.APPLICATION_ID
 import com.keylesspalace.tusky.entity.Attachment
 import com.keylesspalace.tusky.fragment.ViewImageFragment
@@ -48,8 +49,6 @@ import com.keylesspalace.tusky.pager.ImagePagerAdapter
 import com.keylesspalace.tusky.util.CollectionUtil.map
 import com.keylesspalace.tusky.util.getTemporaryMediaFilename
 import com.keylesspalace.tusky.viewdata.AttachmentViewData
-import com.squareup.picasso.Picasso
-import com.squareup.picasso.Target
 
 import kotlinx.android.synthetic.main.activity_view_media.*
 
@@ -245,8 +244,8 @@ class ViewMediaActivity : BaseActivity(), ViewImageFragment.PhotoActionsListener
 
     private fun shareImage(directory: File, url: String) {
         val file = File(directory, getTemporaryMediaFilename("png"))
-
-        Picasso.with(applicationContext).load(Uri.parse(url)).into(object: Target {
+        /*STOPSHIP
+        Glide.with(applicationContext).load(Uri.parse(url)).into(object: Target {
             override fun onBitmapLoaded(bitmap: Bitmap, from: Picasso.LoadedFrom) {
                 try {
                     val stream = FileOutputStream(file)
@@ -265,7 +264,7 @@ class ViewMediaActivity : BaseActivity(), ViewImageFragment.PhotoActionsListener
 
             override fun onPrepareLoad(placeHolderDrawable: Drawable?) { }
         })
-
+        */
         shareFile(file, "image/png")
     }
 

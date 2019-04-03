@@ -21,10 +21,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import com.bumptech.glide.Glide
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.db.AccountEntity
 import com.keylesspalace.tusky.util.CustomEmojiHelper
-import com.squareup.picasso.Picasso
 
 import kotlinx.android.synthetic.main.item_autocomplete_account.view.*
 
@@ -46,7 +46,7 @@ class AccountSelectionAdapter(context: Context): ArrayAdapter<AccountEntity>(con
             username.text = account.fullName
             displayName.text = CustomEmojiHelper.emojifyString(account.displayName, account.emojis, displayName)
             if (!TextUtils.isEmpty(account.profilePictureUrl)) {
-                Picasso.with(context)
+                Glide.with(avatar)
                         .load(account.profilePictureUrl)
                         .placeholder(R.drawable.avatar_default)
                         .into(avatar)

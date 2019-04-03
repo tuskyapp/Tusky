@@ -24,11 +24,11 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.entity.Account;
 import com.keylesspalace.tusky.interfaces.AccountActionListener;
 import com.keylesspalace.tusky.util.CustomEmojiHelper;
-import com.squareup.picasso.Picasso;
 
 public class FollowRequestsAdapter extends AccountAdapter {
 
@@ -87,7 +87,7 @@ public class FollowRequestsAdapter extends AccountAdapter {
             String format = username.getContext().getString(R.string.status_username_format);
             String formattedUsername = String.format(format, account.getUsername());
             username.setText(formattedUsername);
-            Picasso.with(avatar.getContext())
+            Glide.with(avatar.getContext())
                     .load(account.getAvatar())
                     .placeholder(R.drawable.avatar_default)
                     .into(avatar);

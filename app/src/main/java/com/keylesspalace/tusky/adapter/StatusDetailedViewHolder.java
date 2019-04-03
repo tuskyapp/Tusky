@@ -16,6 +16,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.entity.Card;
 import com.keylesspalace.tusky.entity.Status;
@@ -23,7 +24,6 @@ import com.keylesspalace.tusky.interfaces.StatusActionListener;
 import com.keylesspalace.tusky.util.CustomURLSpan;
 import com.keylesspalace.tusky.util.LinkHelper;
 import com.keylesspalace.tusky.viewdata.StatusViewData;
-import com.squareup.picasso.Picasso;
 
 import java.text.DateFormat;
 import java.util.Date;
@@ -176,9 +176,8 @@ class StatusDetailedViewHolder extends StatusBaseViewHolder {
 
                     cardView.setClipToOutline(true);
 
-                    Picasso.with(cardImage.getContext())
+                    Glide.with(cardImage.getContext())
                             .load(card.getImage())
-                            .fit()
                             .centerCrop()
                             .into(cardImage);
 

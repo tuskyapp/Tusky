@@ -16,10 +16,8 @@
 package com.keylesspalace.tusky.util
 
 import android.graphics.Matrix
-import android.widget.ImageView
 
 import com.keylesspalace.tusky.entity.Attachment.Focus
-import com.squareup.picasso.Callback
 
 /**
  * Calculates the image matrix needed to maintain the correct cropping for image views based on
@@ -88,10 +86,10 @@ object FocalPointUtil {
      */
     fun calculateScaling(viewWidth: Float, viewHeight: Float,
                          imageWidth: Float, imageHeight: Float): Float {
-        if (isVerticalCrop(viewWidth, viewHeight, imageWidth, imageHeight)) {
-            return viewWidth / imageWidth
+        return if (isVerticalCrop(viewWidth, viewHeight, imageWidth, imageHeight)) {
+            viewWidth / imageWidth
         } else {     // horizontal crop:
-            return viewHeight / imageHeight
+            viewHeight / imageHeight
         }
     }
 

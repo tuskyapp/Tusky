@@ -26,6 +26,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.bumptech.glide.Glide;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 
@@ -68,7 +69,6 @@ import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IProfile;
 import com.mikepenz.materialdrawer.util.AbstractDrawerImageLoader;
 import com.mikepenz.materialdrawer.util.DrawerImageLoader;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -334,12 +334,12 @@ public final class MainActivity extends BottomSheetActivity implements ActionBut
         DrawerImageLoader.init(new AbstractDrawerImageLoader() {
             @Override
             public void set(ImageView imageView, Uri uri, Drawable placeholder, String tag) {
-                Picasso.with(imageView.getContext()).load(uri).placeholder(placeholder).into(imageView);
+                Glide.with(imageView).load(uri).placeholder(placeholder).into(imageView);
             }
 
             @Override
             public void cancel(ImageView imageView) {
-                Picasso.with(imageView.getContext()).cancelRequest(imageView);
+                Glide.with(imageView.getContext()).clear(imageView);
             }
         });
 
@@ -541,7 +541,7 @@ public final class MainActivity extends BottomSheetActivity implements ActionBut
 
         ImageView background = headerResult.getHeaderBackgroundView();
 
-        Picasso.with(MainActivity.this)
+        Glide.with(MainActivity.this)
                 .load(me.getHeader())
                 .into(background);
 

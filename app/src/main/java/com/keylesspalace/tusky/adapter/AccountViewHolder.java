@@ -8,12 +8,12 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.entity.Account;
 import com.keylesspalace.tusky.interfaces.AccountActionListener;
 import com.keylesspalace.tusky.interfaces.LinkListener;
 import com.keylesspalace.tusky.util.CustomEmojiHelper;
-import com.squareup.picasso.Picasso;
 
 class AccountViewHolder extends RecyclerView.ViewHolder {
     private TextView username;
@@ -40,7 +40,7 @@ class AccountViewHolder extends RecyclerView.ViewHolder {
         CharSequence emojifiedName = CustomEmojiHelper.emojifyString(account.getName(), account.getEmojis(), displayName);
         displayName.setText(emojifiedName);
         Context context = avatar.getContext();
-        Picasso.with(context)
+        Glide.with(context)
                 .load(account.getAvatar())
                 .placeholder(R.drawable.avatar_default)
                 .into(avatar);

@@ -18,21 +18,26 @@ package com.keylesspalace.tusky.fragment
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.content.Context
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.load.resource.bitmap.DownsampleStrategy
+import com.bumptech.glide.request.RequestListener
+import com.bumptech.glide.request.target.Target
 
 import com.github.chrisbanes.photoview.PhotoViewAttacher
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.entity.Attachment
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.visible
-import com.squareup.picasso.Callback
-import com.squareup.picasso.NetworkPolicy
-import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_view_media.*
 import kotlinx.android.synthetic.main.fragment_view_image.*
 
@@ -80,16 +85,24 @@ class ViewImageFragment : ViewMediaFragment() {
         // If we are the view to be shown initially...
         if (arguments!!.getBoolean(ViewMediaFragment.ARG_START_POSTPONED_TRANSITION)) {
             // Try to load image from disk.
-            Picasso.with(context)
+            Glide.with(this)
                     .load(url)
-                    .noFade()
-                    .networkPolicy(NetworkPolicy.OFFLINE)
-                    .resize(maxW, maxH)
-                    .onlyScaleDown()
-                    .centerInside()
-                    .into(photoView, object : Callback {
-                        override fun onSuccess() {
-                            // if we loaded image from disk, we should check that view is attached.
+                    .dontAnimate()
+                    .override(maxW, maxH)
+                    .onlyRetrieveFromCache(true)
+                    .downsample(DownsampleStrategy.CENTER_INSIDE)
+                    .addListener(object: RequestListener<Drawable>{
+                        override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Drawable>?, isFirstResource: Boolean): Boolean {
+                            // if there's no image in cache, load from network and start transition
+                            // immediately.
+                            if (isAdded) {
+                                photoActionsListener.onBringUp()
+                                loadImageFromNetwork(url, photoView)
+                            }
+                            return false
+                        }
+
+                        override fun onResourceReady(resource: Drawable?, model: Any?, target: Target<Drawable>?, dataSource: DataSource?, isFirstResource: Boolean): Boolean {
                             if (photoView?.isAttachedToWindow == true) {
                                 finishLoadingSuccessfully()
                             } else {
@@ -105,17 +118,11 @@ class ViewImageFragment : ViewMediaFragment() {
                                             override fun onViewDetachedFromWindow(v: View?) {}
                                         })
                             }
+                            return false
                         }
 
-                        override fun onError() {
-                            // if there's no image in cache, load from network and start transition
-                            // immediately.
-                            if (isAdded) {
-                                photoActionsListener.onBringUp()
-                                loadImageFromNetwork(url, photoView)
-                            }
-                        }
                     })
+                    .into(photoView)
         } else {
             // if we're not initial page, don't bother.
             loadImageFromNetwork(url, photoView)
@@ -169,31 +176,34 @@ class ViewImageFragment : ViewMediaFragment() {
                 .start()
     }
 
-    override fun onDetach() {
-        super.onDetach()
-        Picasso.with(context).cancelRequest(photoView)
+    override fun onDestroyView() {
+        Glide.with(this).clear(photoView)
+        super.onDestroyView()
     }
 
     private fun loadImageFromNetwork(url: String, photoView: ImageView) {
         val maxW = photoView.context.resources.getInteger(R.integer.media_max_width)
         val maxH = photoView.context.resources.getInteger(R.integer.media_max_height)
 
-        Picasso.with(context)
+        Glide.with(photoView)
                 .load(url)
-                .noPlaceholder()
-                .networkPolicy(NetworkPolicy.NO_STORE)
-                .resize(maxW, maxH)
-                .onlyScaleDown()
-                .centerInside()
-                .into(photoView, object : Callback {
-                    override fun onSuccess() {
-                        finishLoadingSuccessfully()
+                .dontAnimate()
+                .skipMemoryCache(true)
+                .diskCacheStrategy(DiskCacheStrategy.NONE)
+                .override(maxW, maxH)
+                .downsample(DownsampleStrategy.CENTER_INSIDE)
+                .addListener(object:RequestListener<Drawable>{
+                    override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Drawable>?, isFirstResource: Boolean): Boolean {
+                        progressBar?.hide()
+                        return true
                     }
 
-                    override fun onError() {
-                        progressBar?.hide()
+                    override fun onResourceReady(resource: Drawable?, model: Any?, target: Target<Drawable>?, dataSource: DataSource?, isFirstResource: Boolean): Boolean {
+                        finishLoadingSuccessfully()
+                        return false
                     }
                 })
+                .into(photoView)
     }
 
     private fun finishLoadingSuccessfully() {

@@ -28,9 +28,10 @@ import android.text.SpannedString;
 import android.text.style.ReplacementSpan;
 import android.view.View;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.BitmapImageViewTarget;
+import com.bumptech.glide.request.target.Target;
 import com.keylesspalace.tusky.entity.Emoji;
-import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Target;
 
 import java.lang.ref.WeakReference;
 import java.util.List;
@@ -59,9 +60,11 @@ public class CustomEmojiHelper {
                     // the target so an anonymous class would likely be garbage collected.
                     EmojiSpan span = new EmojiSpan(view);
                     builder.setSpan(span, matcher.start(), matcher.end(), 0);
-                    Picasso.with(view.getContext())
+                    //STOPSHIP
+                    /*Glide.with(view.getContext())
                             .load(emoji.getUrl())
                             .into(span);
+                            */
                 }
             }
 
@@ -76,7 +79,7 @@ public class CustomEmojiHelper {
     }
 
 
-    public static class EmojiSpan extends ReplacementSpan implements Target {
+    public static class EmojiSpan extends ReplacementSpan {
 
         private @Nullable Drawable imageDrawable;
         private WeakReference<View> viewWeakReference;
@@ -117,7 +120,7 @@ public class CustomEmojiHelper {
             imageDrawable.draw(canvas);
             canvas.restore();
         }
-
+        /*STOPSHIP
         @Override
         public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
             View view = viewWeakReference.get();
@@ -132,6 +135,7 @@ public class CustomEmojiHelper {
 
         @Override
         public void onPrepareLoad(Drawable placeHolderDrawable) {}
+        */
     }
 
 }

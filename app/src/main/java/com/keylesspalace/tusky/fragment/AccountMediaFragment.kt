@@ -27,6 +27,8 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.DownsampleStrategy
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.ViewMediaActivity
 import com.keylesspalace.tusky.di.Injectable
@@ -38,7 +40,6 @@ import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.view.SquareImageView
 import com.keylesspalace.tusky.viewdata.AttachmentViewData
-import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_timeline.*
 import retrofit2.Call
 import retrofit2.Callback
@@ -305,11 +306,10 @@ class AccountMediaFragment : BaseFragment(), Injectable {
             val maxW = holder.imageView.context.resources.getInteger(R.integer.media_max_width)
             val maxH = holder.imageView.context.resources.getInteger(R.integer.media_max_height)
 
-            Picasso.with(holder.imageView.context)
+            Glide.with(holder.imageView.context)
                     .load(item.attachment.previewUrl)
-                    .resize(maxW, maxH)
-                    .onlyScaleDown()
-                    .centerInside()
+                    .override(maxW, maxH)
+                    .downsample(DownsampleStrategy.CENTER_INSIDE)
                     .into(holder.imageView)
         }
 
