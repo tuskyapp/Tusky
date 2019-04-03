@@ -16,12 +16,16 @@ package com.keylesspalace.tusky.view
 
 import android.content.Context
 import android.graphics.Matrix
+import android.graphics.drawable.Drawable
 import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatImageView
+import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.request.RequestListener
+import com.bumptech.glide.request.target.Target
 import com.keylesspalace.tusky.entity.Attachment
 
 import com.keylesspalace.tusky.util.FocalPointUtil
-import com.squareup.picasso.Callback
 
 /**
  * This is an extension of the standard android ImageView, which makes sure to update the custom
@@ -39,7 +43,7 @@ class MediaPreviewImageView
 context: Context,
 attrs: AttributeSet? = null,
 defStyleAttr: Int = 0
-) : AppCompatImageView(context, attrs, defStyleAttr), Callback {
+) : AppCompatImageView(context, attrs, defStyleAttr),RequestListener<Drawable> {
     private var focus: Attachment.Focus? = null
     private var focalMatrix: Matrix? = null
 
@@ -94,17 +98,15 @@ defStyleAttr: Int = 0
         }
     }
 
-    /**
-     * Called when the image is first succesfully loaded by Picasso, this function makes sure
-     * that the custom matrix of this image is initialized if a focus point is set.
-     */
-    override fun onSuccess() {
-        onSizeChanged(width, height, width, height)
+    override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Drawable>?, isFirstResource: Boolean): Boolean {
+        return false
     }
 
-    // We do not handle the error here, instead it will be handled higher up the call chain.
-    override fun onError() {
+    override fun onResourceReady(resource: Drawable?, model: Any?, target: Target<Drawable>?, dataSource: DataSource?, isFirstResource: Boolean): Boolean {
+        onSizeChanged(width, height, width, height)
+        return false
     }
+
 
     /**
      * Called when the size of the view changes, it calls the FocalPointUtil to update the
