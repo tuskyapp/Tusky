@@ -46,7 +46,6 @@
     <string name="title_licenses">Lisenser</string>
 
     <string name="status_username_format">\@%s</string>
-    <string name="status_boosted_format">%s boosted</string>
     <string name="status_sensitive_media_title">Sensitivt innhold</string>
     <string name="status_media_hidden_title">Media skjult</string>
     <string name="status_sensitive_media_directions">Klikk for å vise</string>
@@ -216,7 +215,6 @@
     <string name="pref_title_language">Språk</string>
     <string name="pref_title_status_filter">Tidslinjefiltrering</string>
     <string name="pref_title_status_tabs">Faner</string>
-    <string name="pref_title_show_boosts">Vis boosts</string>
     <string name="pref_title_show_replies">Vis svar</string>
     <string name="pref_title_show_media_preview">Last ned forhåndsvisning av media</string>
     <string name="pref_title_proxy_settings">Proxy</string>
@@ -258,8 +256,6 @@
     <string name="notification_channel_mention_descriptions"/>
     <string name="notification_channel_follow_name"/>
     <string name="notification_channel_follow_description"/>
-    <string name="notification_channel_boost_name"/>
-    <string name="notification_channel_boost_description"/>
     <string name="notification_channel_favourite_name"/>
     <string name="notification_channel_favourite_description"/>
 
@@ -273,8 +269,6 @@
     <string name="description_account_locked"/>
 
     <string name="about_title_activity"/>
-    <string name="about_tusky_version"/>
-    <string name="about_tusky_license"/>
     <!-- note to translators:
          * you should think of “free” as in “free speech,” not as in “free beer”.
            We sometimes call it “libre software,” borrowing the French or Spanish word for “free” as in freedom,
@@ -283,7 +277,6 @@
     -->
     <string name="about_project_site"/>
     <string name="about_bug_feature_request_site"/>
-    <string name="about_tusky_account"/>
 
     <string name="status_share_content"/>
     <string name="status_share_link"/>
