@@ -15,7 +15,6 @@
 
 package com.keylesspalace.tusky.fragment;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -29,10 +28,6 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.tabs.TabLayout;
-
-import io.reactivex.Observable;
-
 import com.keylesspalace.tusky.AccountListActivity;
 import com.keylesspalace.tusky.BaseActivity;
 import com.keylesspalace.tusky.R;
@@ -52,8 +47,8 @@ import com.keylesspalace.tusky.di.Injectable;
 import com.keylesspalace.tusky.entity.Filter;
 import com.keylesspalace.tusky.entity.Status;
 import com.keylesspalace.tusky.interfaces.ActionButtonActivity;
+import com.keylesspalace.tusky.interfaces.ReselectableFragment;
 import com.keylesspalace.tusky.interfaces.StatusActionListener;
-import com.keylesspalace.tusky.interfaces.TabbedActivity;
 import com.keylesspalace.tusky.network.MastodonApi;
 import com.keylesspalace.tusky.repository.Placeholder;
 import com.keylesspalace.tusky.repository.TimelineRepository;
@@ -70,8 +65,8 @@ import com.keylesspalace.tusky.view.BackgroundMessageView;
 import com.keylesspalace.tusky.view.EndlessOnScrollListener;
 import com.keylesspalace.tusky.viewdata.StatusViewData;
 
-import java.util.ArrayList;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
@@ -98,6 +93,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.SimpleItemAnimator;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import at.connyduck.sparkbutton.helpers.Utils;
+import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import kotlin.Unit;
 import kotlin.collections.CollectionsKt;
@@ -111,7 +107,7 @@ import static com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvid
 public class TimelineFragment extends SFragment implements
         SwipeRefreshLayout.OnRefreshListener,
         StatusActionListener,
-        Injectable {
+        Injectable, ReselectableFragment {
     private static final String TAG = "TimelineF"; // logging tag
     private static final String KIND_ARG = "kind";
     private static final String HASHTAG_OR_ID_ARG = "hashtag_or_id";
@@ -156,7 +152,6 @@ public class TimelineFragment extends SFragment implements
     private String hashtagOrId;
     private LinearLayoutManager layoutManager;
     private EndlessOnScrollListener scrollListener;
-    private TabLayout.OnTabSelectedListener onTabSelectedListener;
     private boolean filterRemoveReplies;
     private boolean filterRemoveReblogs;
     private boolean filterRemoveRegex;
@@ -867,10 +862,6 @@ public class TimelineFragment extends SFragment implements
         sendFetchTimelineRequest(null, null, null, FetchEnd.BOTTOM, -1);
     }
 
-    private boolean jumpToTopAllowed() {
-        return kind != Kind.TAG && kind != Kind.FAVOURITES;
-    }
-
     private boolean actionButtonPresent() {
         return kind != Kind.TAG && kind != Kind.FAVOURITES &&
                 getActivity() instanceof ActionButtonActivity;
@@ -1335,45 +1326,7 @@ public class TimelineFragment extends SFragment implements
     }
 
     @Override
-    public void setMenuVisibility(boolean menuVisible) {
-        super.setMenuVisibility(menuVisible);
-        if (menuVisible)
-            addTabListener();
-        else
-            removeTabListener();
-    }
-
-    private void removeTabListener() {
-        Activity activity = getActivity();
-        if (activity instanceof TabbedActivity) {
-            TabLayout tabLayout = ((TabbedActivity) activity).getTabLayout();
-            if (tabLayout != null) {
-                tabLayout.removeOnTabSelectedListener(onTabSelectedListener);
-            }
-        }
-    }
-
-    private void addTabListener() {
-        Activity activity = getActivity();
-        if (activity instanceof TabbedActivity) {
-            TabLayout layout = ((TabbedActivity) activity).getTabLayout();
-            if (layout != null) {
-                onTabSelectedListener = new TabLayout.OnTabSelectedListener() {
-                    @Override
-                    public void onTabSelected(TabLayout.Tab tab) {
-                    }
-
-                    @Override
-                    public void onTabUnselected(TabLayout.Tab tab) {
-                    }
-
-                    @Override
-                    public void onTabReselected(TabLayout.Tab tab) {
-                        jumpToTop();
-                    }
-                };
-                layout.addOnTabSelectedListener(onTabSelectedListener);
-            }
-        }
+    public void onReselect() {
+        jumpToTop();
     }
 }

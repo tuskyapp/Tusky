@@ -16,20 +16,25 @@
 package com.keylesspalace.tusky;
 
 import androidx.lifecycle.Lifecycle;
+
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
+
 import androidx.emoji.text.EmojiCompat;
 import androidx.fragment.app.Fragment;
 import androidx.core.content.ContextCompat;
 import androidx.viewpager.widget.ViewPager;
 import androidx.appcompat.app.AlertDialog;
+
 import android.os.Handler;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -44,7 +49,7 @@ import com.keylesspalace.tusky.components.conversation.ConversationsRepository;
 import com.keylesspalace.tusky.db.AccountEntity;
 import com.keylesspalace.tusky.entity.Account;
 import com.keylesspalace.tusky.interfaces.ActionButtonActivity;
-import com.keylesspalace.tusky.interfaces.TabbedActivity;
+import com.keylesspalace.tusky.interfaces.ReselectableFragment;
 import com.keylesspalace.tusky.pager.MainPagerAdapter;
 import com.keylesspalace.tusky.util.CustomEmojiHelper;
 import com.keylesspalace.tusky.util.NotificationHelper;
@@ -83,7 +88,7 @@ import static com.uber.autodispose.AutoDispose.autoDisposable;
 import static com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider.from;
 
 public final class MainActivity extends BottomSheetActivity implements ActionButtonActivity,
-        HasSupportFragmentInjector, TabbedActivity {
+        HasSupportFragmentInjector {
 
     private static final String TAG = "MainActivity"; // logging tag
     private static final long DRAWER_ITEM_ADD_ACCOUNT = -13;
@@ -115,12 +120,13 @@ public final class MainActivity extends BottomSheetActivity implements ActionBut
     private ViewPager viewPager;
 
     private int notificationTabPosition;
+    private MainPagerAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if(accountManager.getActiveAccount() == null) {
+        if (accountManager.getActiveAccount() == null) {
             // will be redirected to LoginActivity by BaseActivity
             return;
         }
@@ -210,6 +216,12 @@ public final class MainActivity extends BottomSheetActivity implements ActionBut
 
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
+                if (adapter != null) {
+                    Fragment fragment = adapter.getFragment(tab.getPosition());
+                    if (fragment instanceof ReselectableFragment) {
+                        ((ReselectableFragment) fragment).onReselect();
+                    }
+                }
             }
         });
 
@@ -411,7 +423,7 @@ public final class MainActivity extends BottomSheetActivity implements ActionBut
     private void setupTabs(boolean selectNotificationTab) {
         List<TabData> tabs = accountManager.getActiveAccount().getTabPreferences();
 
-        MainPagerAdapter adapter = new MainPagerAdapter(tabs, getSupportFragmentManager());
+        adapter = new MainPagerAdapter(tabs, getSupportFragmentManager());
         viewPager.setAdapter(adapter);
 
         tabLayout.setupWithViewPager(viewPager);
@@ -421,9 +433,9 @@ public final class MainActivity extends BottomSheetActivity implements ActionBut
                     .setIcon(tabs.get(i).getIcon())
                     .setContentDescription(tabs.get(i).getText());
             tabLayout.addTab(tab);
-            if(tabs.get(i).getId().equals(TabDataKt.NOTIFICATIONS)) {
+            if (tabs.get(i).getId().equals(TabDataKt.NOTIFICATIONS)) {
                 notificationTabPosition = i;
-                if(selectNotificationTab) {
+                if (selectNotificationTab) {
                     tab.select();
                 }
             }
@@ -545,7 +557,7 @@ public final class MainActivity extends BottomSheetActivity implements ActionBut
                     .withSelectable(false)
                     .withIcon(GoogleMaterial.Icon.gmd_person_add);
             drawer.addItemAtPosition(followRequestsItem, 3);
-        } else if(!me.getLocked()){
+        } else if (!me.getLocked()) {
             drawer.removeItem(DRAWER_ITEM_FOLLOW_REQUESTS);
         }
 
@@ -557,7 +569,7 @@ public final class MainActivity extends BottomSheetActivity implements ActionBut
 
         List<AccountEntity> allAccounts = accountManager.getAllAccountsOrderedByActive();
 
-        List<IProfile> profiles = new ArrayList<>(allAccounts.size()+1);
+        List<IProfile> profiles = new ArrayList<>(allAccounts.size() + 1);
 
         for (AccountEntity acc : allAccounts) {
             CharSequence emojifiedName = CustomEmojiHelper.emojifyString(acc.getDisplayName(), acc.getEmojis(), headerResult.getView());
@@ -575,7 +587,7 @@ public final class MainActivity extends BottomSheetActivity implements ActionBut
         }
 
         // reuse the already existing "add account" item
-        for (IProfile profile: headerResult.getProfiles()) {
+        for (IProfile profile : headerResult.getProfiles()) {
             if (profile.getIdentifier() == DRAWER_ITEM_ADD_ACCOUNT) {
                 profiles.add(profile);
                 break;
@@ -599,11 +611,5 @@ public final class MainActivity extends BottomSheetActivity implements ActionBut
     @Override
     public AndroidInjector<Fragment> supportFragmentInjector() {
         return fragmentInjector;
-    }
-
-    @Nullable
-    @Override
-    public TabLayout getTabLayout() {
-        return tabLayout;
     }
 }

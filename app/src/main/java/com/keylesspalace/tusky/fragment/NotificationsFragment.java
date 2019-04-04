@@ -27,8 +27,6 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.tabs.TabLayout;
-import com.keylesspalace.tusky.MainActivity;
 import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.adapter.NotificationsAdapter;
 import com.keylesspalace.tusky.adapter.StatusBaseViewHolder;
@@ -43,8 +41,8 @@ import com.keylesspalace.tusky.di.Injectable;
 import com.keylesspalace.tusky.entity.Notification;
 import com.keylesspalace.tusky.entity.Status;
 import com.keylesspalace.tusky.interfaces.ActionButtonActivity;
+import com.keylesspalace.tusky.interfaces.ReselectableFragment;
 import com.keylesspalace.tusky.interfaces.StatusActionListener;
-import com.keylesspalace.tusky.interfaces.TabbedActivity;
 import com.keylesspalace.tusky.util.CollectionUtil;
 import com.keylesspalace.tusky.util.Either;
 import com.keylesspalace.tusky.util.HttpHeaderLink;
@@ -98,7 +96,7 @@ public class NotificationsFragment extends SFragment implements
         SwipeRefreshLayout.OnRefreshListener,
         StatusActionListener,
         NotificationsAdapter.NotificationActionListener,
-        Injectable {
+        Injectable, ReselectableFragment {
     private static final String TAG = "NotificationF"; // logging tag
 
     private static final int LOAD_AT_ONCE = 30;
@@ -139,7 +137,6 @@ public class NotificationsFragment extends SFragment implements
     private LinearLayoutManager layoutManager;
     private EndlessOnScrollListener scrollListener;
     private NotificationsAdapter adapter;
-    private TabLayout.OnTabSelectedListener onTabSelectedListener;
     private boolean hideFab;
     private boolean topLoading;
     private boolean bottomLoading;
@@ -947,46 +944,7 @@ public class NotificationsFragment extends SFragment implements
     }
 
     @Override
-    public void setMenuVisibility(boolean menuVisible) {
-        super.setMenuVisibility(menuVisible);
-        if (menuVisible)
-            addTabListener();
-        else
-            removeTabListener();
-    }
-
-    private void removeTabListener() {
-        Activity activity = getActivity();
-        if (activity instanceof TabbedActivity) {
-            TabLayout tabLayout = ((TabbedActivity) activity).getTabLayout();
-            if (tabLayout != null) {
-                tabLayout.removeOnTabSelectedListener(onTabSelectedListener);
-            }
-        }
-    }
-
-    private void addTabListener() {
-        Activity activity = getActivity();
-        if (activity instanceof TabbedActivity) {
-            // MainActivity's layout is guaranteed to be inflated until onCreate returns.
-            TabLayout layout = ((TabbedActivity) activity).getTabLayout();
-            if (layout != null) {
-                onTabSelectedListener = new TabLayout.OnTabSelectedListener() {
-                    @Override
-                    public void onTabSelected(TabLayout.Tab tab) {
-                    }
-
-                    @Override
-                    public void onTabUnselected(TabLayout.Tab tab) {
-                    }
-
-                    @Override
-                    public void onTabReselected(TabLayout.Tab tab) {
-                        jumpToTop();
-                    }
-                };
-                layout.addOnTabSelectedListener(onTabSelectedListener);
-            }
-        }
+    public void onReselect() {
+        jumpToTop();
     }
 }

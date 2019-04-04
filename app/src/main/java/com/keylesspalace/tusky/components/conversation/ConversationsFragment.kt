@@ -27,7 +27,6 @@ import androidx.paging.PagedList
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.SimpleItemAnimator
-import com.google.android.material.tabs.TabLayout
 import com.keylesspalace.tusky.AccountActivity
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.ViewTagActivity
@@ -35,15 +34,15 @@ import com.keylesspalace.tusky.db.AppDatabase
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.fragment.SFragment
+import com.keylesspalace.tusky.interfaces.ReselectableFragment
 import com.keylesspalace.tusky.interfaces.StatusActionListener
-import com.keylesspalace.tusky.interfaces.TabbedActivity
 import com.keylesspalace.tusky.util.NetworkState
 import com.keylesspalace.tusky.util.ThemeUtils
 import com.keylesspalace.tusky.util.hide
 import kotlinx.android.synthetic.main.fragment_timeline.*
 import javax.inject.Inject
 
-class ConversationsFragment : SFragment(), StatusActionListener, Injectable {
+class ConversationsFragment : SFragment(), StatusActionListener, Injectable, ReselectableFragment {
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
@@ -53,8 +52,6 @@ class ConversationsFragment : SFragment(), StatusActionListener, Injectable {
     private lateinit var viewModel: ConversationsViewModel
 
     private lateinit var adapter: ConversationAdapter
-
-    private var onTabSelectedListener: TabLayout.OnTabSelectedListener? = null
 
     private var layoutManager: LinearLayoutManager? = null
 
@@ -186,44 +183,8 @@ class ConversationsFragment : SFragment(), StatusActionListener, Injectable {
         }
     }
 
-    override fun setMenuVisibility(menuVisible: Boolean) {
-        super.setMenuVisibility(menuVisible)
-        if (menuVisible)
-            addTabListener()
-        else
-            removeTabListener()
-    }
-
-    private fun removeTabListener() {
-        val activity = activity
-        if (activity is TabbedActivity) {
-            val tabLayout = (activity as TabbedActivity).getTabLayout()
-            onTabSelectedListener?.let {
-                tabLayout?.removeOnTabSelectedListener(it)
-            }
-        }
-    }
-
-    private fun addTabListener() {
-        val activity = activity
-        if (activity is TabbedActivity) {
-            // MainActivity's layout is guaranteed to be inflated until onCreate returns.
-            val layout = (activity as TabbedActivity).getTabLayout()
-            if (layout != null) {
-                onTabSelectedListener = object : TabLayout.OnTabSelectedListener {
-                    override fun onTabSelected(tab: TabLayout.Tab) {}
-
-                    override fun onTabUnselected(tab: TabLayout.Tab) {}
-
-                    override fun onTabReselected(tab: TabLayout.Tab) {
-                        jumpToTop()
-                    }
-                }
-                onTabSelectedListener?.let {
-                    layout.addOnTabSelectedListener(it)
-                }
-            }
-        }
+    override fun onReselect() {
+        jumpToTop()
     }
 
     companion object {
