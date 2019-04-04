@@ -387,4 +387,7 @@
     <string name="hashtag">Hashtag</string>
 
 
+<string name="compose_shortcut_long_label">Componi Toot</string>
+    <string name="compose_shortcut_short_label">Componi</string>
+
 </resources>

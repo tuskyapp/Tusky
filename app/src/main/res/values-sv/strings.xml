@@ -390,4 +390,7 @@
     <string name="hashtag">Hashtag</string>
 
 
+<string name="compose_shortcut_long_label">Skriv toot</string>
+    <string name="compose_shortcut_short_label">Skriv</string>
+
 </resources>

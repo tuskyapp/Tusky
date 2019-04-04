@@ -242,17 +242,16 @@
             android:visibility="gone"
             tools:src="@drawable/ic_eye_24dp" />
 
-        <androidx.appcompat.widget.AppCompatButton
+        <ImageButton
             android:id="@+id/composeContentWarningButton"
             style="?attr/image_button_style"
             android:layout_width="36dp"
             android:layout_height="36dp"
             android:layout_marginEnd="4dp"
-            android:background="?attr/selectableItemBackgroundBorderless"
             android:contentDescription="@string/action_content_warning"
             android:padding="4dp"
-            android:text="@string/text_content_warning_button"
-            android:tooltipText="@string/action_content_warning" />
+            android:tooltipText="@string/action_content_warning"
+            app:srcCompat="@drawable/ic_cw_24dp"/>
 
         <ImageButton
             android:id="@+id/composeEmojiButton"
