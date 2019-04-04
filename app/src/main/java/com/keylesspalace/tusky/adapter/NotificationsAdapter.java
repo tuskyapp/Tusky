@@ -309,7 +309,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
             if (TextUtils.isEmpty(account.getAvatar())) {
                 avatar.setImageResource(R.drawable.avatar_default);
             } else {
-                Glide.with(context)
+                Glide.with(avatar)
                         .load(account.getAvatar())
                         .placeholder(R.drawable.avatar_default)
                         .into(avatar);
@@ -486,12 +486,11 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
         }
 
         void setAvatars(@Nullable String statusAvatarUrl, @Nullable String notificationAvatarUrl) {
-            Context context = statusAvatar.getContext();
 
             if (TextUtils.isEmpty(statusAvatarUrl)) {
                 statusAvatar.setImageResource(R.drawable.avatar_default);
             } else {
-                Glide.with(context)
+                Glide.with(statusAvatar)
                         .load(statusAvatarUrl)
                         .placeholder(R.drawable.avatar_default)
                         .into(statusAvatar);
@@ -500,7 +499,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
             if (TextUtils.isEmpty(notificationAvatarUrl)) {
                 notificationAvatar.setImageResource(R.drawable.avatar_default);
             } else {
-                Glide.with(context)
+                Glide.with(notificationAvatar)
                         .load(notificationAvatarUrl)
                         .placeholder(R.drawable.avatar_default)
                         .into(notificationAvatar);

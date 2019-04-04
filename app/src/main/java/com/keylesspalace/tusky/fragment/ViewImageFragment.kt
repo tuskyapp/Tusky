@@ -185,7 +185,7 @@ class ViewImageFragment : ViewMediaFragment() {
         val maxW = photoView.context.resources.getInteger(R.integer.media_max_width)
         val maxH = photoView.context.resources.getInteger(R.integer.media_max_height)
 
-        Glide.with(photoView)
+        Glide.with(this)
                 .load(url)
                 .dontAnimate()
                 .skipMemoryCache(true)
@@ -195,11 +195,16 @@ class ViewImageFragment : ViewMediaFragment() {
                 .addListener(object:RequestListener<Drawable>{
                     override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Drawable>?, isFirstResource: Boolean): Boolean {
                         progressBar?.hide()
-                        return true
+                        return false
                     }
 
                     override fun onResourceReady(resource: Drawable?, model: Any?, target: Target<Drawable>?, dataSource: DataSource?, isFirstResource: Boolean): Boolean {
-                        finishLoadingSuccessfully()
+                        resource?.let {
+                            target?.onResourceReady(resource,null)
+                            finishLoadingSuccessfully()
+                            return true
+                        }
+                        progressBar?.hide()
                         return false
                     }
                 })

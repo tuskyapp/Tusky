@@ -87,7 +87,7 @@ public class FollowRequestsAdapter extends AccountAdapter {
             String format = username.getContext().getString(R.string.status_username_format);
             String formattedUsername = String.format(format, account.getUsername());
             username.setText(formattedUsername);
-            Glide.with(avatar.getContext())
+            Glide.with(avatar)
                     .load(account.getAvatar())
                     .placeholder(R.drawable.avatar_default)
                     .into(avatar);

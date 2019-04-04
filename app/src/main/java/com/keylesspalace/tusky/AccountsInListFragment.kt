@@ -209,7 +209,7 @@ class AccountsInListFragment : DialogFragment(), Injectable {
             fun bind(account: Account) {
                 usernameTextView.text = account.username
                 displayNameTextView.text = account.displayName
-                Glide.with(avatar)
+                Glide.with(this@AccountsInListFragment)
                         .load(account.avatar)
                         .placeholder(R.drawable.avatar_default)
                         .into(avatar)
@@ -255,7 +255,7 @@ class AccountsInListFragment : DialogFragment(), Injectable {
             fun bind(account: Account, inAList: Boolean) {
                 usernameTextView.text = account.username
                 displayNameTextView.text = account.displayName
-                Glide.with(avatar)
+                Glide.with(this@AccountsInListFragment)
                         .load(account.avatar)
                         .placeholder(R.drawable.avatar_default)
                         .into(avatar)

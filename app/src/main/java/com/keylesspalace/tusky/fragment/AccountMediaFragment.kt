@@ -306,7 +306,7 @@ class AccountMediaFragment : BaseFragment(), Injectable {
             val maxW = holder.imageView.context.resources.getInteger(R.integer.media_max_width)
             val maxH = holder.imageView.context.resources.getInteger(R.integer.media_max_height)
 
-            Glide.with(holder.imageView.context)
+            Glide.with(holder.imageView)
                     .load(item.attachment.previewUrl)
                     .override(maxW, maxH)
                     .downsample(DownsampleStrategy.CENTER_INSIDE)

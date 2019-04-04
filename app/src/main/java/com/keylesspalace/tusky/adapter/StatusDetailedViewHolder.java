@@ -176,7 +176,7 @@ class StatusDetailedViewHolder extends StatusBaseViewHolder {
 
                     cardView.setClipToOutline(true);
 
-                    Glide.with(cardImage.getContext())
+                    Glide.with(cardImage)
                             .load(card.getImage())
                             .centerCrop()
                             .into(cardImage);

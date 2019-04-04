@@ -39,8 +39,7 @@ class AccountViewHolder extends RecyclerView.ViewHolder {
         username.setText(formattedUsername);
         CharSequence emojifiedName = CustomEmojiHelper.emojifyString(account.getName(), account.getEmojis(), displayName);
         displayName.setText(emojifiedName);
-        Context context = avatar.getContext();
-        Glide.with(context)
+        Glide.with(avatar)
                 .load(account.getAvatar())
                 .placeholder(R.drawable.avatar_default)
                 .into(avatar);

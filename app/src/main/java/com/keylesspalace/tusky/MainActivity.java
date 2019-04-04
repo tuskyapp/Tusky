@@ -334,12 +334,12 @@ public final class MainActivity extends BottomSheetActivity implements ActionBut
         DrawerImageLoader.init(new AbstractDrawerImageLoader() {
             @Override
             public void set(ImageView imageView, Uri uri, Drawable placeholder, String tag) {
-                Glide.with(imageView).load(uri).placeholder(placeholder).into(imageView);
+                Glide.with(MainActivity.this).load(uri).placeholder(placeholder).into(imageView);
             }
 
             @Override
             public void cancel(ImageView imageView) {
-                Glide.with(imageView.getContext()).clear(imageView);
+                Glide.with(MainActivity.this).clear(imageView);
             }
         });
 

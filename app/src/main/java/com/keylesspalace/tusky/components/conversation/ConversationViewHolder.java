@@ -122,7 +122,7 @@ public class ConversationViewHolder extends StatusBaseViewHolder {
         for(int i=0; i < avatars.length; i++) {
             ImageView avatarView = avatars[i];
             if(i < accounts.size()) {
-                Glide.with(avatarView.getContext())
+                Glide.with(avatarView)
                         .load(accounts.get(i).getAvatar())
                         .into(avatarView);
                 avatarView.setVisibility(View.VISIBLE);

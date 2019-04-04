@@ -64,7 +64,7 @@ public class CustomEmojiHelper {
                     EmojiSpan span = new EmojiSpan(view);
                     builder.setSpan(span, matcher.start(), matcher.end(), 0);
                     //STOPSHIP
-                    Glide.with(view.getContext())
+                    Glide.with(view)
                             .asBitmap()
                             .load(emoji.getUrl())
                             .into(span.getTarget());
