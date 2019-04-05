@@ -191,7 +191,7 @@ public class NotificationsFragment extends SFragment implements
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAccessibilityDelegateCompat(
                 new ListStatusAccessibilityDelegate(recyclerView, this, (pos) -> {
-                    NotificationViewData notification = notifications.getPairedItem(pos);
+                    NotificationViewData notification = notifications.getPairedItemOrNull(pos);
                     // We support replies only for now
                     if (notification instanceof NotificationViewData.Concrete) {
                         return ((NotificationViewData.Concrete) notification).getStatusViewData();

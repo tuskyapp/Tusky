@@ -397,7 +397,7 @@ public class TimelineFragment extends SFragment implements
 
     private void setupRecyclerView() {
         recyclerView.setAccessibilityDelegateCompat(
-                new ListStatusAccessibilityDelegate(recyclerView, this, statuses::getPairedItem));
+                new ListStatusAccessibilityDelegate(recyclerView, this, statuses::getPairedItemOrNull));
         Context context = recyclerView.getContext();
         recyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(context);
