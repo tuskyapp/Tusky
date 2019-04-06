@@ -84,7 +84,6 @@ public class RomaApplication extends Application implements HasActivityInjector,
     public void onCreate() {
         super.onCreate();
         initCrashlytics();
-        initWorkManager();
 
         initSecurityProvider();
 
@@ -112,6 +111,7 @@ public class RomaApplication extends Application implements HasActivityInjector,
         };
 
         initAppInjector();
+        initWorkManager();
         initPicasso();
         initEmojiCompat();
 
