@@ -2,6 +2,7 @@ package com.keylesspalace.tusky
 
 import android.os.Bundle
 import android.view.MenuItem
+import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
@@ -10,6 +11,8 @@ import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.appstore.PreferenceChangedEvent
 import com.keylesspalace.tusky.entity.Filter
 import com.keylesspalace.tusky.network.MastodonApi
+import com.keylesspalace.tusky.util.hide
+import com.keylesspalace.tusky.util.show
 import kotlinx.android.synthetic.main.activity_filters.*
 import kotlinx.android.synthetic.main.dialog_filter.*
 import kotlinx.android.synthetic.main.toolbar_basic.*
@@ -17,6 +20,7 @@ import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.io.IOException
 import javax.inject.Inject
 
 class FiltersActivity: BaseActivity() {
@@ -132,16 +136,47 @@ class FiltersActivity: BaseActivity() {
     }
 
     private fun loadFilters() {
+
+        filterMessageView.hide()
+        filtersView.hide()
+        addFilterButton.hide()
+        filterProgressBar.show()
+
         api.filters.enqueue(object : Callback<List<Filter>> {
             override fun onResponse(call: Call<List<Filter>>, response: Response<List<Filter>>) {
-                filters = response.body()!!.filter { filter -> filter.context.contains(context) }.toMutableList()
-                refreshFilterDisplay()
+                val filterResponse = response.body()
+                if(response.isSuccessful && filterResponse != null) {
+
+                    filters = filterResponse.filter { filter -> filter.context.contains(context) }.toMutableList()
+                    refreshFilterDisplay()
+
+                    filtersView.show()
+                    addFilterButton.show()
+                    filterProgressBar.hide()
+                } else {
+                    filterProgressBar.hide()
+                    filterMessageView.show()
+                    filterMessageView.setup(R.drawable.elephant_error,
+                            R.string.error_generic, this@FiltersActivity::reload)
+                }
             }
 
             override fun onFailure(call: Call<List<Filter>>, t: Throwable) {
-                // Anything?
+                filterProgressBar.hide()
+                filterMessageView.show()
+                if (t is IOException) {
+                    filterMessageView.setup(R.drawable.elephant_offline,
+                            R.string.error_network, this@FiltersActivity::reload)
+                } else {
+                    filterMessageView.setup(R.drawable.elephant_error,
+                            R.string.error_generic, this@FiltersActivity::reload)
+                }
             }
         })
+    }
+
+    private fun reload(v: View) {
+        loadFilters()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -149,7 +184,7 @@ class FiltersActivity: BaseActivity() {
 
         setContentView(R.layout.activity_filters)
         setupToolbarBackArrow()
-        filter_floating_add.setOnClickListener {
+        addFilterButton.setOnClickListener {
             showAddFilterDialog()
         }
 
