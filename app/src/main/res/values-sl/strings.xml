@@ -2,4 +2,156 @@
 <resources>
 
 
-</resources>
+<string name="error_generic">Pojavila se je napaka.</string>
+    <string name="error_network">Prišlo je do omrežne napake! Preverite povezavo in poskusite znova!</string>
+    <string name="error_empty">To ne sme biti prazno.</string>
+    <string name="error_invalid_domain">Vnesena je neveljavna domena</string>
+    <string name="error_no_web_browser_found">Spletnega brskalnika ni bilo mogoče najti.</string>
+    <string name="error_authorization_denied">Pooblastitev je bila zavrnjena.</string>
+    <string name="error_retrieving_oauth_token">Ni bilo mogoče pridobiti žetona za prijavo.</string>
+    <string name="error_compose_character_limit">Status je predolg!</string>
+    <string name="error_image_upload_size">Datoteka mora biti manjša od 8 MB.</string>
+    <string name="error_video_upload_size">Video datoteke morajo biti manjše od 40 MB.</string>
+    <string name="error_media_upload_type">Te vrste datoteke ni mogoče poslati.</string>
+    <string name="error_media_upload_opening">Te datoteke ni bilo mogoče odpreti.</string>
+    <string name="error_media_upload_permission">Potrebno je dovoljenje za branje medijev.</string>
+    <string name="error_media_download_permission">Potrebno je dovoljenje za shranjevanje medijev.</string>
+    <string name="error_media_upload_image_or_video">Slike in videoposnetki ne morejo biti dodani istemu statusu.</string>
+    <string name="error_media_upload_sending">Prenos ni uspel.</string>
+    <string name="error_report_too_few_statuses">Prijaviti je treba vsaj en status.</string>
+    <string name="error_invalid_regex">Neveljaven regularni izraz</string>
+    <string name="error_sender_account_gone">Napaka pri pošiljanju tuta.</string>
+
+    <string name="title_home">Domov</string>
+    <string name="title_advanced">Napredno</string>
+    <string name="title_notifications">Obvestila</string>
+    <string name="title_public_local">Lokalno</string>
+    <string name="title_public_federated">Združeno</string>
+    <string name="title_direct_messages">Neposredna Sporočila</string>
+    <string name="title_tab_preferences">Zavihki</string>
+    <string name="title_view_thread">Tut</string>
+    <string name="title_tag">#%s</string>
+    <string name="title_statuses">Objave</string>
+    <string name="title_statuses_with_replies">Z odgovori</string>
+    <string name="title_statuses_pinned">Pripeto</string>
+    <string name="title_follows">Sledi</string>
+    <string name="title_followers">Sledilci</string>
+    <string name="title_favourites">Priljubljene</string>
+    <string name="title_mutes">Utišani uporabniki</string>
+    <string name="title_blocks">Blokirani uporabniki</string>
+    <string name="title_follow_requests">Zahteve za sledenje</string>
+    <string name="title_edit_profile">Uredi svoj profil</string>
+    <string name="title_saved_toot">Osnutki</string>
+    <string name="title_licenses">Licence</string>
+
+    <string name="status_username_format">\@%s</string>
+    <string name="status_boosted_format">%s spodbudil</string>
+    <string name="status_sensitive_media_title">Občutljiva vsebina</string>
+    <string name="status_media_hidden_title">Medij je skrit</string>
+    <string name="status_sensitive_media_directions">Kliknite za ogled</string>
+    <string name="status_content_warning_show_more">Pokaži več</string>
+    <string name="status_content_warning_show_less">Pokaži manj</string>
+    <string name="status_content_show_more">Razširi</string>
+    <string name="status_content_show_less">Strni</string>
+
+    <string name="message_empty">Tukaj ni ničesar.</string>
+    <string name="footer_empty">Tukaj ni ničesar. Potegnite navzdol za osvežitev!</string>
+
+    <string name="notification_reblog_format">%s je spodbudil tvoj tut</string>
+    <string name="notification_favourite_format">%s je vzljubil vaš tut</string>
+    <string name="notification_follow_format">%s vam sledi</string>
+
+    <string name="report_username_format">Prijavi @%s</string>
+    <string name="report_comment_hint">Dodatni komentarji\?</string>
+
+    <string name="action_quick_reply">Hiter odgovor</string>
+    <string name="action_reply">Odgovori</string>
+    <string name="action_reblog">Spodbudi</string>
+    <string name="action_unreblog">Odstrani spodbudo</string>
+    <string name="action_favourite">Vzljubi</string>
+    <string name="action_more">Več</string>
+    <string name="action_compose">Sestavi</string>
+    <string name="action_login">Prijavite se z Mastodonom</string>
+    <string name="action_logout">Odjava</string>
+    <string name="action_logout_confirm">Ali ste prepričani, da se želite odjaviti iz računa %1$s\?</string>
+    <string name="action_follow">Sledi</string>
+    <string name="action_unfollow">Prenehaj slediti</string>
+    <string name="action_block">Blokiraj</string>
+    <string name="action_unblock">Odblokiraj</string>
+    <string name="action_hide_reblogs">Skrij spodbude</string>
+    <string name="action_show_reblogs">Prikaži spodbude</string>
+    <string name="action_report">Prijavi</string>
+    <string name="action_delete">Izbriši</string>
+    <string name="action_send">TUTNI</string>
+    <string name="action_send_public">TUTNI!</string>
+    <string name="action_retry">Poskusi znova</string>
+    <string name="action_close">Zapri</string>
+    <string name="action_view_profile">Profil</string>
+    <string name="action_view_preferences">Možnosti</string>
+    <string name="action_view_account_preferences">Možnosti računa</string>
+    <string name="action_view_favourites">Priljubljeni</string>
+    <string name="action_view_mutes">Utišani uporabniki</string>
+    <string name="action_view_blocks">Blokirani uporabniki</string>
+    <string name="action_view_follow_requests">Zahteve za sledenje</string>
+    <string name="action_view_media">Mediji</string>
+    <string name="action_open_in_web">Odpri v brskalniku</string>
+    <string name="action_add_media">Dodaj medij</string>
+    <string name="action_photo_take">Posnemi fotografijo</string>
+    <string name="action_share">Deli</string>
+    <string name="action_mute">Utišaj</string>
+    <string name="action_mention">Omeni</string>
+    <string name="action_hide_media">Skrij medij</string>
+    <string name="action_open_drawer">Odpri predal</string>
+    <string name="action_save">Shrani</string>
+    <string name="action_edit_profile">Uredi profil</string>
+    <string name="action_edit_own_profile">Uredi</string>
+    <string name="action_undo">Razveljavi</string>
+    <string name="action_accept">Sprejmi</string>
+    <string name="action_reject">Zavrni</string>
+    <string name="action_search">Iskanje</string>
+    <string name="action_access_saved_toot">Osnutki</string>
+    <string name="action_toggle_visibility">Vidljivost tuta</string>
+    <string name="action_content_warning">Opozorilo o vsebini</string>
+    <string name="action_emoji_keyboard">Emoji tipkovnica</string>
+    <string name="action_add_tab">Dodaj zavihek</string>
+    <string name="action_links">Povezave</string>
+    <string name="action_mentions">Omembe</string>
+    <string name="action_open_reblogger">Odpri spodbujenega avtorja</string>
+    <string name="action_open_reblogged_by">Prikaži spodbude</string>
+    <string name="action_open_faved_by">Prikaži priljubljene</string>
+
+    <string name="title_mentions_dialog">Omembe</string>
+    <string name="title_links_dialog">Povezave</string>
+    <string name="action_open_media_n">Odpri medij #%d</string>
+
+    <string name="download_image">Prejemanje %1$s</string>
+
+    <string name="action_copy_link">Kopiraj povezavo</string>
+    <string name="action_open_as">Odpri kot %s</string>
+    <string name="action_share_as">Deli kot …</string>
+    <string name="download_media">Prenos medija</string>
+    <string name="downloading_media">Prejemanje medija</string>
+
+    <string name="send_status_link_to">Deli URL tuta z…</string>
+    <string name="send_status_content_to">Deli tut z…</string>
+    <string name="send_media_to">Deli medij z…</string>
+
+    <string name="confirmation_reported">Pošlji!</string>
+    <string name="status_sent">Pošlji!</string>
+    <string name="status_sent_long">Odgovor je bil uspešno poslan.</string>
+
+    <string name="hint_compose">Kaj se dogaja\?</string>
+    <string name="hint_content_warning">Opozorilo o vsebini</string>
+    <string name="hint_display_name">Prikazano ime</string>
+    <string name="hint_note">Bio</string>
+    <string name="hint_search">Iskanje…</string>
+
+    <string name="search_no_results">Ni rezultatov</string>
+
+    <string name="label_quick_reply">Odgovori…</string>
+    <string name="label_avatar">Podoba</string>
+    <string name="label_header">Glava</string>
+
+    <string name="login_connection">Povezovanje…</string>
+
+    </resources>
