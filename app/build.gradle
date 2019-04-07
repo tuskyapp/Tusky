@@ -80,7 +80,7 @@ android {
     }
 }
 
-ext.daggerVersion = '2.21'
+ext.daggerVersion = '2.22.1'
 
 // if libraries are changed here, they should also be changed in LicenseActivity
 dependencies {
@@ -92,7 +92,7 @@ dependencies {
     implementation 'androidx.browser:browser:1.0.0'
     implementation 'androidx.recyclerview:recyclerview:1.0.0'
     implementation 'androidx.legacy:legacy-support-v13:1.0.0'
-    implementation 'com.google.android.material:material:1.1.0-alpha04'
+    implementation 'com.google.android.material:material:1.1.0-alpha05'
     implementation 'androidx.exifinterface:exifinterface:1.0.0'
     implementation 'androidx.cardview:cardview:1.0.0'
     implementation 'androidx.preference:preference:1.1.0-alpha04'
@@ -100,9 +100,9 @@ dependencies {
     implementation 'com.squareup.retrofit2:converter-gson:2.5.0'
     implementation 'com.squareup.retrofit2:adapter-rxjava2:2.5.0'
     implementation 'com.squareup.picasso:picasso:2.5.2'
-    implementation 'com.squareup.okhttp3:okhttp:3.13.1'
-    implementation 'com.squareup.okhttp3:logging-interceptor:3.13.1'
-    implementation 'org.conscrypt:conscrypt-android:2.0.0'
+    implementation 'com.squareup.okhttp3:okhttp:3.14.0'
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.14.0'
+    implementation 'org.conscrypt:conscrypt-android:2.1.0'
     implementation 'com.jakewharton.picasso:picasso2-okhttp3-downloader:1.1.0'
     implementation 'com.github.connyduck:sparkbutton:2.0.0'
     implementation 'com.github.chrisbanes:PhotoView:2.3.0'
@@ -128,20 +128,20 @@ dependencies {
     implementation "com.google.dagger:dagger-android:$daggerVersion"
     implementation "com.google.dagger:dagger-android-support:$daggerVersion"
     kapt "com.google.dagger:dagger-android-processor:$daggerVersion"
-    testImplementation 'org.robolectric:robolectric:4.2'
-    testImplementation 'org.mockito:mockito-inline:2.24.0'
+    testImplementation 'org.robolectric:robolectric:4.2.1'
+    testImplementation 'org.mockito:mockito-inline:2.26.0'
     testImplementation 'com.nhaarman.mockitokotlin2:mockito-kotlin:2.1.0'
-    androidTestImplementation('androidx.test.espresso:espresso-core:3.1.0', {
+    androidTestImplementation('androidx.test.espresso:espresso-core:3.1.1', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     androidTestImplementation 'android.arch.persistence.room:testing:1.1.1'
     testImplementation 'androidx.test.ext:junit:1.1.0'
     debugImplementation 'im.dino:dbinspector:3.4.1@aar'
-    implementation 'io.reactivex.rxjava2:rxjava:2.2.6'
-    implementation 'io.reactivex.rxjava2:rxandroid:2.1.0'
+    implementation 'io.reactivex.rxjava2:rxjava:2.2.8'
+    implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
     implementation 'io.reactivex.rxjava2:rxkotlin:2.3.0'
     implementation 'com.squareup.retrofit2:adapter-rxjava2:2.5.0'
-    implementation 'com.uber.autodispose:autodispose-android-archcomponents:1.1.0'
-    implementation 'com.uber.autodispose:autodispose-ktx:1.1.0'
+    implementation 'com.uber.autodispose:autodispose-android-archcomponents:1.2.0'
+    implementation 'com.uber.autodispose:autodispose-ktx:1.2.0'
     implementation 'androidx.paging:paging-runtime-ktx:2.1.0'
 }
