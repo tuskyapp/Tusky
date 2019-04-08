@@ -34,6 +34,7 @@ import com.keylesspalace.tusky.db.AppDatabase
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.fragment.SFragment
+import com.keylesspalace.tusky.interfaces.ReselectableFragment
 import com.keylesspalace.tusky.interfaces.StatusActionListener
 import com.keylesspalace.tusky.util.NetworkState
 import com.keylesspalace.tusky.util.ThemeUtils
@@ -41,7 +42,7 @@ import com.keylesspalace.tusky.util.hide
 import kotlinx.android.synthetic.main.fragment_timeline.*
 import javax.inject.Inject
 
-class ConversationsFragment : SFragment(), StatusActionListener, Injectable {
+class ConversationsFragment : SFragment(), StatusActionListener, Injectable, ReselectableFragment {
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
@@ -51,6 +52,8 @@ class ConversationsFragment : SFragment(), StatusActionListener, Injectable {
     private lateinit var viewModel: ConversationsViewModel
 
     private lateinit var adapter: ConversationAdapter
+
+    private var layoutManager: LinearLayoutManager? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         viewModel = ViewModelProviders.of(this, viewModelFactory)[ConversationsViewModel::class.java]
@@ -67,10 +70,11 @@ class ConversationsFragment : SFragment(), StatusActionListener, Injectable {
         val mediaPreviewEnabled = account?.mediaPreviewEnabled ?: true
 
 
-        adapter = ConversationAdapter(useAbsoluteTime, mediaPreviewEnabled,this, ::onTopLoaded, viewModel::retry)
+        adapter = ConversationAdapter(useAbsoluteTime, mediaPreviewEnabled, this, ::onTopLoaded, viewModel::retry)
 
         recyclerView.addItemDecoration(DividerItemDecoration(view.context, DividerItemDecoration.VERTICAL))
-        recyclerView.layoutManager = LinearLayoutManager(view.context)
+        layoutManager = LinearLayoutManager(view.context)
+        recyclerView.layoutManager = layoutManager
         recyclerView.adapter = adapter
         (recyclerView.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
 
@@ -170,6 +174,17 @@ class ConversationsFragment : SFragment(), StatusActionListener, Injectable {
         viewModel.conversations.value?.getOrNull(position)?.lastStatus?.let {
             reply(it.toStatus())
         }
+    }
+
+    private fun jumpToTop() {
+        if (isAdded) {
+            layoutManager?.scrollToPosition(0)
+            recyclerView.stopScroll()
+        }
+    }
+
+    override fun onReselect() {
+        jumpToTop()
     }
 
     companion object {
