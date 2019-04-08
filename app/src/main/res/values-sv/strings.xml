@@ -25,7 +25,7 @@
     <string name="title_home">Hem</string>
     <string name="title_advanced">Avancerat</string>
     <string name="title_notifications">Notifikationer</string>
-    <string name="title_public_local">Lokal</string>
+    <string name="title_public_local">Lokalt</string>
     <string name="title_public_federated">Federerat</string>
     <string name="title_direct_messages">Direkta meddelanden</string>
     <string name="title_tab_preferences">Flikar</string>
