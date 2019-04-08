@@ -28,8 +28,6 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.tabs.TabLayout;
-import io.reactivex.Observable;
 import com.keylesspalace.tusky.AccountListActivity;
 import com.keylesspalace.tusky.BaseActivity;
 import com.keylesspalace.tusky.R;
@@ -49,6 +47,7 @@ import com.keylesspalace.tusky.di.Injectable;
 import com.keylesspalace.tusky.entity.Filter;
 import com.keylesspalace.tusky.entity.Status;
 import com.keylesspalace.tusky.interfaces.ActionButtonActivity;
+import com.keylesspalace.tusky.interfaces.ReselectableFragment;
 import com.keylesspalace.tusky.interfaces.StatusActionListener;
 import com.keylesspalace.tusky.network.MastodonApi;
 import com.keylesspalace.tusky.repository.Placeholder;
@@ -66,8 +65,8 @@ import com.keylesspalace.tusky.view.BackgroundMessageView;
 import com.keylesspalace.tusky.view.EndlessOnScrollListener;
 import com.keylesspalace.tusky.viewdata.StatusViewData;
 
-import java.util.ArrayList;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
@@ -94,6 +93,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.SimpleItemAnimator;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import at.connyduck.sparkbutton.helpers.Utils;
+import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import kotlin.Unit;
 import kotlin.collections.CollectionsKt;
@@ -107,7 +107,7 @@ import static com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvid
 public class TimelineFragment extends SFragment implements
         SwipeRefreshLayout.OnRefreshListener,
         StatusActionListener,
-        Injectable {
+        Injectable, ReselectableFragment {
     private static final String TAG = "TimelineF"; // logging tag
     private static final String KIND_ARG = "kind";
     private static final String HASHTAG_OR_ID_ARG = "hashtag_or_id";
@@ -152,7 +152,6 @@ public class TimelineFragment extends SFragment implements
     private String hashtagOrId;
     private LinearLayoutManager layoutManager;
     private EndlessOnScrollListener scrollListener;
-    private TabLayout.OnTabSelectedListener onTabSelectedListener;
     private boolean filterRemoveReplies;
     private boolean filterRemoveReblogs;
     private boolean filterRemoveRegex;
@@ -320,7 +319,7 @@ public class TimelineFragment extends SFragment implements
             @Override
             public void onResponse(@NonNull Call<List<Filter>> call, @NonNull Response<List<Filter>> response) {
                 List<Filter> filterList = response.body();
-                if(response.isSuccessful() && filterList != null) {
+                if (response.isSuccessful() && filterList != null) {
                     applyFilters(filterList, refresh);
                 } else {
                     Log.e(TAG, "Error getting filters from server");
@@ -352,7 +351,7 @@ public class TimelineFragment extends SFragment implements
 
     private static boolean filterContextMatchesKind(Kind kind, List<String> filterContext) {
         // home, notifications, public, thread
-        switch(kind) {
+        switch (kind) {
             case HOME:
                 return filterContext.contains(Filter.HOME);
             case PUBLIC_FEDERATED:
@@ -435,27 +434,6 @@ public class TimelineFragment extends SFragment implements
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
-        if (jumpToTopAllowed()) {
-            TabLayout layout = requireActivity().findViewById(R.id.tab_layout);
-            if (layout != null) {
-                onTabSelectedListener = new TabLayout.OnTabSelectedListener() {
-                    @Override
-                    public void onTabSelected(TabLayout.Tab tab) {
-                    }
-
-                    @Override
-                    public void onTabUnselected(TabLayout.Tab tab) {
-                    }
-
-                    @Override
-                    public void onTabReselected(TabLayout.Tab tab) {
-                        jumpToTop();
-                    }
-                };
-                layout.addOnTabSelectedListener(onTabSelectedListener);
-            }
-        }
 
         /* This is delayed until onActivityCreated solely because MainActivity.composeButton isn't
          * guaranteed to be set until then. */
@@ -541,17 +519,6 @@ public class TimelineFragment extends SFragment implements
                     });
             eventRegistered = true;
         }
-    }
-
-    @Override
-    public void onDestroyView() {
-        if (jumpToTopAllowed()) {
-            TabLayout tabLayout = requireActivity().findViewById(R.id.tab_layout);
-            if (tabLayout != null) {
-                tabLayout.removeOnTabSelectedListener(onTabSelectedListener);
-            }
-        }
-        super.onDestroyView();
     }
 
     @Override
@@ -854,7 +821,7 @@ public class TimelineFragment extends SFragment implements
             return;
         }
 
-        if(statuses.size() == 0) {
+        if (statuses.size() == 0) {
             sendInitialRequest();
             return;
         }
@@ -895,19 +862,17 @@ public class TimelineFragment extends SFragment implements
         sendFetchTimelineRequest(null, null, null, FetchEnd.BOTTOM, -1);
     }
 
-    private boolean jumpToTopAllowed() {
-        return kind != Kind.TAG && kind != Kind.FAVOURITES;
-    }
-
     private boolean actionButtonPresent() {
         return kind != Kind.TAG && kind != Kind.FAVOURITES &&
                 getActivity() instanceof ActionButtonActivity;
     }
 
     private void jumpToTop() {
-        layoutManager.scrollToPosition(0);
-        recyclerView.stopScroll();
-        scrollListener.reset();
+        if (isAdded()) {
+            layoutManager.scrollToPosition(0);
+            recyclerView.stopScroll();
+            scrollListener.reset();
+        }
     }
 
     private Call<List<Status>> getFetchCallByTimelineType(Kind kind, String tagOrId, String fromId,
@@ -1325,13 +1290,12 @@ public class TimelineFragment extends SFragment implements
         @Nullable
         @Override
         public Object getChangePayload(@NonNull StatusViewData oldItem, @NonNull StatusViewData newItem) {
-            if (oldItem.deepEquals(newItem)){
+            if (oldItem.deepEquals(newItem)) {
                 //If items are equal - update timestamp only
                 List<String> payload = new ArrayList<>();
                 payload.add(StatusBaseViewHolder.Key.KEY_CREATED);
                 return payload;
-            }
-            else
+            } else
                 // If items are different - update a whole view holder
                 return null;
         }
@@ -1362,5 +1326,8 @@ public class TimelineFragment extends SFragment implements
 
     }
 
-
+    @Override
+    public void onReselect() {
+        jumpToTop();
+    }
 }

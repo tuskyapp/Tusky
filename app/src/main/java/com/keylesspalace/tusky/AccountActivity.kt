@@ -41,12 +41,14 @@ import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.appbar.CollapsingToolbarLayout
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
+import com.google.android.material.tabs.TabLayout
 import com.keylesspalace.tusky.adapter.AccountFieldAdapter
 import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.entity.Account
 import com.keylesspalace.tusky.entity.Relationship
 import com.keylesspalace.tusky.interfaces.ActionButtonActivity
 import com.keylesspalace.tusky.interfaces.LinkListener
+import com.keylesspalace.tusky.interfaces.ReselectableFragment
 import com.keylesspalace.tusky.pager.AccountPagerAdapter
 import com.keylesspalace.tusky.util.*
 import com.keylesspalace.tusky.viewmodel.AccountViewModel
@@ -103,6 +105,8 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
         FOLLOWING,
         REQUESTED
     }
+
+    private var adapter: AccountPagerAdapter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -174,7 +178,8 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
 
         // Add a listener to change the toolbar icon color when it enters/exits its collapsed state.
         accountAppBarLayout.addOnOffsetChangedListener(object : AppBarLayout.OnOffsetChangedListener {
-            @AttrRes var priorAttribute = R.attr.account_toolbar_icon_tint_uncollapsed
+            @AttrRes
+            var priorAttribute = R.attr.account_toolbar_icon_tint_uncollapsed
 
             override fun onOffsetChanged(appBarLayout: AppBarLayout, verticalOffset: Int) {
 
@@ -250,9 +255,9 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
         accountFieldList.adapter = accountFieldAdapter
 
         // Setup the tabs and timeline pager.
-        val adapter = AccountPagerAdapter(supportFragmentManager, accountId)
+        adapter = AccountPagerAdapter(supportFragmentManager, accountId)
         val pageTitles = arrayOf(getString(R.string.title_statuses), getString(R.string.title_statuses_with_replies), getString(R.string.title_statuses_pinned), getString(R.string.title_media))
-        adapter.setPageTitles(pageTitles)
+        adapter?.setPageTitles(pageTitles)
         accountFragmentViewPager.pageMargin = resources.getDimensionPixelSize(R.dimen.tab_page_margin)
         val pageMarginDrawable = ThemeUtils.getDrawable(this, R.attr.tab_page_margin_drawable,
                 R.drawable.tab_page_margin_dark)
@@ -260,10 +265,21 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
         accountFragmentViewPager.adapter = adapter
         accountFragmentViewPager.offscreenPageLimit = 2
         accountTabLayout.setupWithViewPager(accountFragmentViewPager)
+        accountTabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+            override fun onTabReselected(tab: TabLayout.Tab?) {
+                tab?.position?.let {
+                    (adapter?.getFragment(tab.position) as? ReselectableFragment)?.onReselect()
+                }
+            }
 
+            override fun onTabUnselected(tab: TabLayout.Tab?) {}
+
+            override fun onTabSelected(tab: TabLayout.Tab?) {}
+
+        })
         val accountListClickListener = { v: View ->
             val type = when (v.id) {
-                R.id.accountFollowers-> AccountListActivity.Type.FOLLOWERS
+                R.id.accountFollowers -> AccountListActivity.Type.FOLLOWERS
                 R.id.accountFollowing -> AccountListActivity.Type.FOLLOWS
                 else -> throw AssertionError()
             }
@@ -424,7 +440,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
     }
 
     private fun updateFollowButton() {
-        if(isSelf) {
+        if (isSelf) {
             accountFollowButton.setText(R.string.action_edit_own_profile)
             return
         }
@@ -449,7 +465,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
             accountFollowButton.show()
             updateFollowButton()
 
-            if(isSelf) {
+            if (isSelf) {
                 accountFloatingActionButton.hide()
             } else {
                 accountFloatingActionButton.show()

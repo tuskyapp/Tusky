@@ -27,8 +27,6 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.tabs.TabLayout;
-import com.keylesspalace.tusky.MainActivity;
 import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.adapter.NotificationsAdapter;
 import com.keylesspalace.tusky.adapter.StatusBaseViewHolder;
@@ -43,6 +41,7 @@ import com.keylesspalace.tusky.di.Injectable;
 import com.keylesspalace.tusky.entity.Notification;
 import com.keylesspalace.tusky.entity.Status;
 import com.keylesspalace.tusky.interfaces.ActionButtonActivity;
+import com.keylesspalace.tusky.interfaces.ReselectableFragment;
 import com.keylesspalace.tusky.interfaces.StatusActionListener;
 import com.keylesspalace.tusky.util.CollectionUtil;
 import com.keylesspalace.tusky.util.Either;
@@ -97,7 +96,7 @@ public class NotificationsFragment extends SFragment implements
         SwipeRefreshLayout.OnRefreshListener,
         StatusActionListener,
         NotificationsAdapter.NotificationActionListener,
-        Injectable {
+        Injectable, ReselectableFragment {
     private static final String TAG = "NotificationF"; // logging tag
 
     private static final int LOAD_AT_ONCE = 30;
@@ -138,7 +137,6 @@ public class NotificationsFragment extends SFragment implements
     private LinearLayoutManager layoutManager;
     private EndlessOnScrollListener scrollListener;
     private NotificationsAdapter adapter;
-    private TabLayout.OnTabSelectedListener onTabSelectedListener;
     private boolean hideFab;
     private boolean topLoading;
     private boolean bottomLoading;
@@ -250,27 +248,8 @@ public class NotificationsFragment extends SFragment implements
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
-        MainActivity activity = (MainActivity) getActivity();
+        Activity activity = getActivity();
         if (activity == null) throw new AssertionError("Activity is null");
-
-        // MainActivity's layout is guaranteed to be inflated until onCreate returns.
-        TabLayout layout = activity.findViewById(R.id.tab_layout);
-        onTabSelectedListener = new TabLayout.OnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-            }
-
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-            }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-                jumpToTop();
-            }
-        };
-        layout.addOnTabSelectedListener(onTabSelectedListener);
 
         /* This is delayed until onActivityCreated solely because MainActivity.composeButton isn't
          * guaranteed to be set until then.
@@ -321,19 +300,6 @@ public class NotificationsFragment extends SFragment implements
                         onPreferenceChanged(((PreferenceChangedEvent) event).getPreferenceKey());
                     }
                 });
-    }
-
-    @Override
-    public void onDestroyView() {
-        Activity activity = getActivity();
-        if (activity == null) {
-            Log.e(TAG, "Activity is null");
-        } else {
-            TabLayout tabLayout = activity.findViewById(R.id.tab_layout);
-            tabLayout.removeOnTabSelectedListener(onTabSelectedListener);
-        }
-
-        super.onDestroyView();
     }
 
     @Override
@@ -634,8 +600,10 @@ public class NotificationsFragment extends SFragment implements
     }
 
     private void jumpToTop() {
-        layoutManager.scrollToPosition(0);
-        scrollListener.reset();
+        if (isAdded()) {
+            layoutManager.scrollToPosition(0);
+            scrollListener.reset();
+        }
     }
 
     private void sendFetchNotificationsRequest(String fromId, String uptoId,
@@ -973,5 +941,10 @@ public class NotificationsFragment extends SFragment implements
                     );
         }
 
+    }
+
+    @Override
+    public void onReselect() {
+        jumpToTop();
     }
 }

@@ -15,16 +15,24 @@
 
 package com.keylesspalace.tusky.pager;
 
+import android.util.SparseArray;
+import android.view.ViewGroup;
+
 import com.keylesspalace.tusky.fragment.AccountMediaFragment;
 import com.keylesspalace.tusky.fragment.TimelineFragment;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
 public class AccountPagerAdapter extends FragmentPagerAdapter {
+    private static final int TAB_COUNT = 4;
     private String accountId;
     private String[] pageTitles;
+
+    private SparseArray<Fragment> fragments = new SparseArray<>(TAB_COUNT);
 
     public AccountPagerAdapter(FragmentManager manager, String accountId) {
         super(manager);
@@ -58,11 +66,31 @@ public class AccountPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        return 4;
+        return TAB_COUNT;
+    }
+
+    @NonNull
+    @Override
+    public Object instantiateItem(@NonNull ViewGroup container, int position) {
+        Object fragment = super.instantiateItem(container, position);
+        if (fragment instanceof Fragment)
+            fragments.put(position, (Fragment) fragment);
+        return fragment;
+    }
+
+    @Override
+    public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
+        super.destroyItem(container, position, object);
+        fragments.remove(position);
     }
 
     @Override
     public CharSequence getPageTitle(int position) {
         return pageTitles[position];
+    }
+
+    @Nullable
+    public Fragment getFragment(int position) {
+        return fragments.get(position);
     }
 }
