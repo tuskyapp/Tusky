@@ -24,6 +24,7 @@ import com.keylesspalace.tusky.components.conversation.ConversationAccountEntity
 import com.keylesspalace.tusky.createTabDataFromId
 import com.keylesspalace.tusky.entity.Attachment
 import com.keylesspalace.tusky.entity.Emoji
+import com.keylesspalace.tusky.entity.Poll
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.json.SpannedTypeAdapter
 import com.keylesspalace.tusky.util.HtmlUtils
@@ -133,6 +134,16 @@ class Converters {
             return null
         }
         return HtmlUtils.fromHtml(spannedString)
+    }
+
+    @TypeConverter
+    fun pollToJson(poll: Poll?): String? {
+        return gson.toJson(poll)
+    }
+
+    @TypeConverter
+    fun jsonToPoll(pollJson: String?): Poll? {
+        return gson.fromJson(pollJson, Poll::class.java)
     }
 
 }

@@ -4,9 +4,7 @@ import android.text.SpannedString
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.keylesspalace.tusky.db.*
-import com.keylesspalace.tusky.entity.Account
-import com.keylesspalace.tusky.entity.Attachment
-import com.keylesspalace.tusky.entity.Emoji
+import com.keylesspalace.tusky.entity.*
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.repository.TimelineRequestMode.DISK
@@ -198,6 +196,7 @@ class TimelineRepositoryImpl(
         val application = gson.fromJson(status.application, Status.Application::class.java)
         val emojis: List<Emoji> = gson.fromJson(status.emojis,
                 object : TypeToken<List<Emoji>>() {}.type) ?: listOf()
+        val poll: Poll? = gson.fromJson(status.poll, Poll::class.java)
 
         val reblog = status.reblogServerId?.let { id ->
             Status(
@@ -220,8 +219,8 @@ class TimelineRepositoryImpl(
                     attachments = attachments,
                     mentions = mentions,
                     application = application,
-                    pinned = false
-
+                    pinned = false,
+                    poll = poll
             )
         }
         val status = if (reblog != null) {
@@ -245,7 +244,8 @@ class TimelineRepositoryImpl(
                     attachments = listOf(),
                     mentions = arrayOf(),
                     application = null,
-                    pinned = false
+                    pinned = false,
+                    poll = null
             )
         } else {
             Status(
@@ -268,7 +268,8 @@ class TimelineRepositoryImpl(
                     attachments = attachments,
                     mentions = mentions,
                     application = application,
-                    pinned = false
+                    pinned = false,
+                    poll = poll
             )
         }
         return Either.Right(status)
@@ -335,8 +336,8 @@ fun Placeholder.toEntity(timelineUserId: Long): TimelineStatusEntity {
             mentions = null,
             application = null,
             reblogServerId = null,
-            reblogAccountId = null
-
+            reblogAccountId = null,
+            poll = null
     )
 }
 
@@ -365,7 +366,8 @@ fun Status.toEntity(timelineUserId: Long,
             mentions = actionable.mentions.let(gson::toJson),
             application = actionable.let(gson::toJson),
             reblogServerId = reblog?.id,
-            reblogAccountId = reblog?.let { this.account.id }
+            reblogAccountId = reblog?.let { this.account.id },
+            poll = actionable.poll.let(gson::toJson)
     )
 }
 
