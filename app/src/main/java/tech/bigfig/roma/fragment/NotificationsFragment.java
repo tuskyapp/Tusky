@@ -44,6 +44,7 @@ import tech.bigfig.roma.di.Injectable;
 import tech.bigfig.roma.entity.Notification;
 import tech.bigfig.roma.entity.Status;
 import tech.bigfig.roma.interfaces.ActionButtonActivity;
+import tech.bigfig.roma.interfaces.ReselectableFragment;
 import tech.bigfig.roma.interfaces.StatusActionListener;
 import tech.bigfig.roma.util.CollectionUtil;
 import tech.bigfig.roma.util.Either;

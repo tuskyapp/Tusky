@@ -41,6 +41,7 @@ import tech.bigfig.roma.AccountActivity
 import tech.bigfig.roma.ViewTagActivity
 import tech.bigfig.roma.util.hide
 import kotlinx.android.synthetic.main.fragment_timeline.*
+import tech.bigfig.roma.interfaces.ReselectableFragment
 
 class ConversationsFragment : SFragment(), StatusActionListener, Injectable, ReselectableFragment {
 

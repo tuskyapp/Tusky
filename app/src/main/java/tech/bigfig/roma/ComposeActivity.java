@@ -1583,7 +1583,7 @@ public final class ComposeActivity
             contentWarningBar.setVisibility(View.VISIBLE);
             contentWarningEditor.setSelection(contentWarningEditor.getText().length());
             contentWarningEditor.requestFocus();
-            color = ContextCompat.getColor(this, R.color.tusky_blue);
+            color = ContextCompat.getColor(this, R.color.roma_blue);
         } else {
             contentWarningBar.setVisibility(View.GONE);
             color = ThemeUtils.getColor(this, android.R.attr.textColorTertiary);

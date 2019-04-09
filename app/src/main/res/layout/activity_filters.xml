@@ -15,7 +15,7 @@
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
-    <com.keylesspalace.tusky.view.BackgroundMessageView
+    <tech.bigfig.roma.view.BackgroundMessageView
         android:id="@+id/filterMessageView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
