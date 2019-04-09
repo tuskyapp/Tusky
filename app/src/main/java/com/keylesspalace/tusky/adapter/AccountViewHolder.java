@@ -2,6 +2,8 @@ package com.keylesspalace.tusky.adapter;
 
 import android.content.Context;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -19,6 +21,7 @@ class AccountViewHolder extends RecyclerView.ViewHolder {
     private ImageView avatar;
     private ImageView avatarInset;
     private String accountId;
+    private boolean showBotOverlay;
 
     AccountViewHolder(View itemView) {
         super(itemView);
@@ -26,6 +29,7 @@ class AccountViewHolder extends RecyclerView.ViewHolder {
         displayName = itemView.findViewById(R.id.account_display_name);
         avatar = itemView.findViewById(R.id.account_avatar);
         avatarInset = itemView.findViewById(R.id.account_avatar_inset);
+        showBotOverlay = PreferenceManager.getDefaultSharedPreferences(itemView.getContext()).getBoolean("showBotOverlay", true);
     }
 
     void setupWithAccount(Account account) {
@@ -40,7 +44,7 @@ class AccountViewHolder extends RecyclerView.ViewHolder {
                 .load(account.getAvatar())
                 .placeholder(R.drawable.avatar_default)
                 .into(avatar);
-        if (account.getBot()) {
+        if (showBotOverlay && account.getBot()) {
             avatarInset.setVisibility(View.VISIBLE);
             avatarInset.setImageResource(R.drawable.ic_bot_24dp);
             avatarInset.setBackgroundColor(0x50ffffff);

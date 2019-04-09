@@ -463,5 +463,6 @@
 
     <string name="compose_shortcut_long_label">Compose Toot</string>
     <string name="compose_shortcut_short_label">Compose</string>
+    <string name="pref_title_bot_overlay">Show indicator for bots</string>
 
 </resources>

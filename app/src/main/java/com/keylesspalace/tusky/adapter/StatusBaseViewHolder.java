@@ -2,6 +2,7 @@ package com.keylesspalace.tusky.adapter;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.preference.PreferenceManager;
 import android.text.Spanned;
 import android.text.TextUtils;
 import android.view.View;
@@ -72,6 +73,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
     private boolean useAbsoluteTime;
     private SimpleDateFormat shortSdf;
     private SimpleDateFormat longSdf;
+    private boolean showBotOverlay;
 
     private final NumberFormat numberFormat = NumberFormat.getNumberInstance();
 
@@ -110,6 +112,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         this.useAbsoluteTime = useAbsoluteTime;
         shortSdf = new SimpleDateFormat("HH:mm:ss", Locale.getDefault());
         longSdf = new SimpleDateFormat("MM/dd HH:mm:ss", Locale.getDefault());
+        showBotOverlay = PreferenceManager.getDefaultSharedPreferences(itemView.getContext()).getBoolean("showBotOverlay", true);
     }
 
     protected abstract int getMediaPreviewHeight(Context context);
@@ -185,7 +188,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
                     .into(avatar);
         }
 
-        if (isBot && TextUtils.isEmpty(rebloggedUrl)) {
+        if (showBotOverlay && isBot && TextUtils.isEmpty(rebloggedUrl)) {
             avatarInset.setVisibility(View.VISIBLE);
             avatarInset.setImageResource(R.drawable.ic_bot_24dp);
             avatarInset.setBackgroundColor(0x50ffffff);

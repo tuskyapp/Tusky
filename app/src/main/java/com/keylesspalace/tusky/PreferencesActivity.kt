@@ -143,6 +143,9 @@ class PreferencesActivity : BaseActivity(), SharedPreferences.OnSharedPreference
             "absoluteTimeView" -> {
                 restartActivitiesOnExit = true
             }
+            "showBotOverlay" -> {
+                restartActivitiesOnExit = true
+            }
             "language" -> {
                 restartActivitiesOnExit = true
                 this.restartCurrentActivity()
