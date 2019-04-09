@@ -1,13 +1,28 @@
+/* Copyright 2019 Joel Pyska
+ *
+ * This file is a part of Tusky.
+ *
+ * This program is free software; you can redistribute it and/or modify it under the terms of the
+ * GNU General Public License as published by the Free Software Foundation; either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * Tusky is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even
+ * the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
+ * Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with Tusky; if not,
+ * see <http://www.gnu.org/licenses>. */
+
 package com.keylesspalace.tusky.util
 
 import com.keylesspalace.tusky.entity.Notification
 import org.json.JSONArray
 
 /**
- * Created by pandasoft (joelpyska1@gmail.com) on 01/04/2019.
+ * Serialize to string array and deserialize notifications type
  */
 
-fun serialize(data: Set<Notification.Type>?): String{
+fun serialize(data: Set<Notification.Type>?): String {
     val array = JSONArray()
     data?.forEach {
         array.put(it.presentation)
@@ -15,7 +30,7 @@ fun serialize(data: Set<Notification.Type>?): String{
     return array.toString()
 }
 
-fun desirialize(data:String?):Set<Notification.Type>{
+fun deserialize(data: String?): Set<Notification.Type> {
     val ret = HashSet<Notification.Type>()
     data?.let {
         val array = JSONArray(data)

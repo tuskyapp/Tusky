@@ -12,7 +12,8 @@
         <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:elevation="0dp">
+            app:elevation="0dp"
+            app:layout_behavior="com.keylesspalace.tusky.util.AppBarLayoutNoEmptyScrollBehavior">
 
             <androidx.appcompat.widget.Toolbar
                 android:layout_width="match_parent"

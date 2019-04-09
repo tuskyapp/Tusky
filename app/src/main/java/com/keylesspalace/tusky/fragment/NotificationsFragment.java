@@ -654,7 +654,7 @@ public class NotificationsFragment extends SFragment implements
     private void loadNotificationsFilter() {
         AccountEntity account = accountManager.getActiveAccount();
         if (account != null) {
-            notificationFilter.addAll(NotificationTypeConverterKt.desirialize(
+            notificationFilter.addAll(NotificationTypeConverterKt.deserialize(
                     account.getNotificationsFilter()));
         }
     }
