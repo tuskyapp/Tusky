@@ -142,7 +142,7 @@ public final class ViewThreadFragment extends SFragment implements
         LinearLayoutManager layoutManager = new LinearLayoutManager(context);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAccessibilityDelegateCompat(
-                new ListStatusAccessibilityDelegate(recyclerView, this, statuses::getPairedItem));
+                new ListStatusAccessibilityDelegate(recyclerView, this, statuses::getPairedItemOrNull));
         DividerItemDecoration divider = new DividerItemDecoration(
                 context, layoutManager.getOrientation());
         recyclerView.addItemDecoration(divider);

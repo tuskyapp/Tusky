@@ -15,6 +15,8 @@
 
 package tech.bigfig.roma.pager
 
+import android.util.SparseArray
+import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
@@ -22,6 +24,7 @@ import androidx.viewpager.widget.PagerAdapter
 import tech.bigfig.roma.TabData
 
 class MainPagerAdapter(val tabs: List<TabData>, manager: FragmentManager) : FragmentPagerAdapter(manager) {
+    private val fragments = SparseArray<Fragment>(tabs.size)
 
     override fun getItem(position: Int): Fragment {
         val tab = tabs[position]
@@ -44,4 +47,17 @@ class MainPagerAdapter(val tabs: List<TabData>, manager: FragmentManager) : Frag
         return PagerAdapter.POSITION_NONE
     }
 
+    override fun instantiateItem(container: ViewGroup, position: Int): Any {
+        val fragment = super.instantiateItem(container, position)
+        if (fragment is Fragment)
+            fragments.put(position, fragment)
+        return fragment
+    }
+
+    override fun destroyItem(container: ViewGroup, position: Int, `object`: Any) {
+        super.destroyItem(container, position, `object`)
+        fragments.remove(position)
+    }
+
+    fun getFragment(position: Int): Fragment? = fragments[position]
 }

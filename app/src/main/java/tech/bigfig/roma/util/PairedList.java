@@ -1,5 +1,6 @@
 package tech.bigfig.roma.util;
 
+import androidx.annotation.Nullable;
 import androidx.arch.core.util.Function;
 
 import java.util.AbstractList;
@@ -42,6 +43,15 @@ public final class PairedList<T, V> extends AbstractList<T> {
 
     public V getPairedItem(int index) {
         return synced.get(index);
+    }
+
+    @Nullable
+    public V getPairedItemOrNull(int index) {
+        if (index >= 0 && index < synced.size()) {
+            return synced.get(index);
+        } else {
+            return null;
+        }
     }
 
     public void setPairedItem(int index, V element) {

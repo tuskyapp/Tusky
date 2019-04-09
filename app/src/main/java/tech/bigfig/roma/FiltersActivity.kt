@@ -2,6 +2,7 @@ package tech.bigfig.roma
 
 import android.os.Bundle
 import android.view.MenuItem
+import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
@@ -133,16 +134,47 @@ class FiltersActivity: BaseActivity(),Injectable {
     }
 
     private fun loadFilters() {
+
+        filterMessageView.hide()
+        filtersView.hide()
+        addFilterButton.hide()
+        filterProgressBar.show()
+
         api.filters.enqueue(object : Callback<List<Filter>> {
             override fun onResponse(call: Call<List<Filter>>, response: Response<List<Filter>>) {
-                filters = response.body()!!.filter { filter -> filter.context.contains(context) }.toMutableList()
-                refreshFilterDisplay()
+                val filterResponse = response.body()
+                if(response.isSuccessful && filterResponse != null) {
+
+                    filters = filterResponse.filter { filter -> filter.context.contains(context) }.toMutableList()
+                    refreshFilterDisplay()
+
+                    filtersView.show()
+                    addFilterButton.show()
+                    filterProgressBar.hide()
+                } else {
+                    filterProgressBar.hide()
+                    filterMessageView.show()
+                    filterMessageView.setup(R.drawable.elephant_error,
+                            R.string.error_generic, this@FiltersActivity::reload)
+                }
             }
 
             override fun onFailure(call: Call<List<Filter>>, t: Throwable) {
-                // Anything?
+                filterProgressBar.hide()
+                filterMessageView.show()
+                if (t is IOException) {
+                    filterMessageView.setup(R.drawable.elephant_offline,
+                            R.string.error_network, this@FiltersActivity::reload)
+                } else {
+                    filterMessageView.setup(R.drawable.elephant_error,
+                            R.string.error_generic, this@FiltersActivity::reload)
+                }
             }
         })
+    }
+
+    private fun reload(v: View) {
+        loadFilters()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -150,7 +182,7 @@ class FiltersActivity: BaseActivity(),Injectable {
 
         setContentView(R.layout.activity_filters)
         setupToolbarBackArrow()
-        filter_floating_add.setOnClickListener {
+        addFilterButton.setOnClickListener {
             showAddFilterDialog()
         }
 
