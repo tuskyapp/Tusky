@@ -27,7 +27,7 @@ import android.text.style.ReplacementSpan;
 import android.view.View;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.target.CustomTarget;
 import com.bumptech.glide.request.target.Target;
 import com.bumptech.glide.request.transition.Transition;
 import com.keylesspalace.tusky.entity.Emoji;
@@ -124,15 +124,19 @@ public class CustomEmojiHelper {
         }
 
         Target<Bitmap> getTarget(){
-            return new SimpleTarget<Bitmap>() {
-
+            return new CustomTarget<Bitmap>() {
                 @Override
-                public void onResourceReady(@NonNull Bitmap bitmap, @Nullable Transition<? super Bitmap> transition) {
+                public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
                     View view = viewWeakReference.get();
                     if (view != null) {
-                        imageDrawable = new BitmapDrawable(view.getContext().getResources(), bitmap);
+                        imageDrawable = new BitmapDrawable(view.getContext().getResources(), resource);
                         view.invalidate();
                     }
+                }
+
+                @Override
+                public void onLoadCleared(@Nullable Drawable placeholder) {
+                    //Do nothing on load cleared
                 }
             };
         }
