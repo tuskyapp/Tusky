@@ -83,7 +83,7 @@ class AccountMediaFragment : BaseFragment(), Injectable {
         override fun onFailure(call: Call<List<Status>>?, t: Throwable?) {
             fetchingStatus = FetchingStatus.NOT_FETCHING
 
-            if(isAdded) {
+            if (isAdded) {
                 swipeRefreshLayout.isRefreshing = false
                 progressBar.visibility = View.GONE
                 statusView.show()
@@ -103,7 +103,7 @@ class AccountMediaFragment : BaseFragment(), Injectable {
 
         override fun onResponse(call: Call<List<Status>>, response: Response<List<Status>>) {
             fetchingStatus = FetchingStatus.NOT_FETCHING
-            if(isAdded) {
+            if (isAdded) {
                 swipeRefreshLayout.isRefreshing = false
                 progressBar.visibility = View.GONE
 
@@ -303,13 +303,9 @@ class AccountMediaFragment : BaseFragment(), Injectable {
             holder.imageView.setBackgroundColor(Color.HSVToColor(itemBgBaseHSV))
             val item = items[position]
 
-            val maxW = holder.imageView.context.resources.getInteger(R.integer.media_max_width)
-            val maxH = holder.imageView.context.resources.getInteger(R.integer.media_max_height)
-
             Glide.with(holder.imageView)
                     .load(item.attachment.previewUrl)
-                    .override(maxW, maxH)
-                    .downsample(DownsampleStrategy.CENTER_INSIDE)
+                    .centerInside()
                     .into(holder.imageView)
         }
 

@@ -322,9 +322,6 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
 
         final int n = Math.min(attachments.size(), Status.MAX_MEDIA_ATTACHMENTS);
 
-        final int maxW = context.getResources().getInteger(R.integer.media_max_width);
-        final int maxH = context.getResources().getInteger(R.integer.media_max_height);
-
         for (int i = 0; i < n; i++) {
             String previewUrl = attachments.get(i).getPreviewUrl();
             String description = attachments.get(i).getDescription();
@@ -340,8 +337,6 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             if (TextUtils.isEmpty(previewUrl)) {
                 Glide.with(mediaPreviews[i])
                         .load(mediaPreviewUnloadedId)
-                        .override(maxW,maxH)
-                        .downsample(DownsampleStrategy.CENTER_INSIDE)
                         .centerInside()
                         .into(mediaPreviews[i]);
             } else {
@@ -354,8 +349,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
                     Glide.with(mediaPreviews[i])
                             .load(previewUrl)
                             .placeholder(mediaPreviewUnloadedId)
-                            .override(maxW,maxH)
-                            .downsample(DownsampleStrategy.CENTER_INSIDE)
+                            .centerInside()
                             .addListener(mediaPreviews[i])
                             .into(mediaPreviews[i]);
                 } else {
@@ -364,8 +358,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
                     Glide.with(mediaPreviews[i])
                             .load(previewUrl)
                             .placeholder(mediaPreviewUnloadedId)
-                            .override(maxW,maxH)
-                            .downsample(DownsampleStrategy.CENTER_INSIDE)
+                            .centerInside()
                             .into(mediaPreviews[i]);
                 }
             }

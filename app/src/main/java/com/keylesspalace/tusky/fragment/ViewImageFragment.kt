@@ -20,6 +20,7 @@ import android.animation.AnimatorListenerAdapter
 import android.content.Context
 import android.graphics.drawable.Drawable
 import android.os.Bundle
+import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -51,7 +52,7 @@ class ViewImageFragment : ViewMediaFragment() {
     private lateinit var attacher: PhotoViewAttacher
     private lateinit var photoActionsListener: PhotoActionsListener
     private lateinit var toolbar: View
-    override lateinit var descriptionView : TextView
+    override lateinit var descriptionView: TextView
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -79,19 +80,15 @@ class ViewImageFragment : ViewMediaFragment() {
             result
         }
 
-        val maxW = photoView.context.resources.getInteger(R.integer.media_max_width)
-        val maxH = photoView.context.resources.getInteger(R.integer.media_max_height)
-
         // If we are the view to be shown initially...
         if (arguments!!.getBoolean(ViewMediaFragment.ARG_START_POSTPONED_TRANSITION)) {
             // Try to load image from disk.
             Glide.with(this)
                     .load(url)
                     .dontAnimate()
-                    .override(maxW, maxH)
                     .onlyRetrieveFromCache(true)
-                    .downsample(DownsampleStrategy.CENTER_INSIDE)
-                    .addListener(object: RequestListener<Drawable>{
+                    .centerInside()
+                    .addListener(object : RequestListener<Drawable> {
                         override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Drawable>?, isFirstResource: Boolean): Boolean {
                             // if there's no image in cache, load from network and start transition
                             // immediately.
@@ -141,7 +138,7 @@ class ViewImageFragment : ViewMediaFragment() {
         val arguments = this.arguments!!
         val attachment = arguments.getParcelable<Attachment>(ARG_ATTACHMENT)
         val url: String?
-        var description : String? = null
+        var description: String? = null
 
         if (attachment != null) {
             url = attachment.url
@@ -182,33 +179,32 @@ class ViewImageFragment : ViewMediaFragment() {
     }
 
     private fun loadImageFromNetwork(url: String, photoView: ImageView) {
-        val maxW = photoView.context.resources.getInteger(R.integer.media_max_width)
-        val maxH = photoView.context.resources.getInteger(R.integer.media_max_height)
-
-        Glide.with(this)
-                .load(url)
-                .dontAnimate()
-                .skipMemoryCache(true)
-                .diskCacheStrategy(DiskCacheStrategy.NONE)
-                .override(maxW, maxH)
-                .downsample(DownsampleStrategy.CENTER_INSIDE)
-                .addListener(object:RequestListener<Drawable>{
-                    override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Drawable>?, isFirstResource: Boolean): Boolean {
-                        progressBar?.hide()
-                        return false
-                    }
-
-                    override fun onResourceReady(resource: Drawable?, model: Any?, target: Target<Drawable>?, dataSource: DataSource?, isFirstResource: Boolean): Boolean {
-                        resource?.let {
-                            target?.onResourceReady(resource,null)
-                            finishLoadingSuccessfully()
-                            return true
+        Handler().post {
+            Glide.with(this)
+                    .load(url)
+                    .dontAnimate()
+                    .skipMemoryCache(true)
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .centerInside()
+                    .addListener(object : RequestListener<Drawable> {
+                        override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Drawable>?, isFirstResource: Boolean): Boolean {
+                            progressBar?.hide()
+                            return false
                         }
-                        progressBar?.hide()
-                        return false
-                    }
-                })
-                .into(photoView)
+
+                        override fun onResourceReady(resource: Drawable?, model: Any?, target: Target<Drawable>?, dataSource: DataSource?, isFirstResource: Boolean): Boolean {
+                            resource?.let {
+                                target?.onResourceReady(resource, null)
+                                finishLoadingSuccessfully()
+                                return true
+                            }
+                            progressBar?.hide()
+                            return false
+                        }
+                    })
+                    .into(photoView)
+
+        }
     }
 
     private fun finishLoadingSuccessfully() {
