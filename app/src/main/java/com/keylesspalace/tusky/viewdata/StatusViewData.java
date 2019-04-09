@@ -87,6 +87,7 @@ public abstract class StatusViewData {
         private final Card card;
         private final boolean isCollapsible; /** Whether the status meets the requirement to be collapse */
         final boolean isCollapsed; /** Whether the status is shown partially or fully */
+        private final boolean isBot;
 
         public Concrete(String id, Spanned content, boolean reblogged, boolean favourited,
                         @Nullable String spoilerText, Status.Visibility visibility, List<Attachment> attachments,
@@ -95,7 +96,7 @@ public abstract class StatusViewData {
                         Date createdAt, int reblogsCount, int favouritesCount, @Nullable String inReplyToId,
                         @Nullable Status.Mention[] mentions, String senderId, boolean rebloggingEnabled,
                         Status.Application application, List<Emoji> statusEmojis, List<Emoji> accountEmojis, @Nullable Card card,
-                        boolean isCollapsible, boolean isCollapsed) {
+                        boolean isCollapsible, boolean isCollapsed, boolean isBot) {
             this.id = id;
             if (Build.VERSION.SDK_INT == 23) {
                 // https://github.com/tuskyapp/Tusky/issues/563
@@ -131,6 +132,7 @@ public abstract class StatusViewData {
             this.card = card;
             this.isCollapsible = isCollapsible;
             this.isCollapsed = isCollapsed;
+            this.isBot = isBot;
         }
 
         public String getId() {
@@ -178,6 +180,8 @@ public abstract class StatusViewData {
         public boolean isShowingContent() {
             return isShowingContent;
         }
+
+        public boolean isBot(){ return isBot; }
 
         @Nullable
         public String getRebloggedAvatar() {
@@ -277,6 +281,7 @@ public abstract class StatusViewData {
                     isSensitive == concrete.isSensitive &&
                     isExpanded == concrete.isExpanded &&
                     isShowingContent == concrete.isShowingContent &&
+                    isBot == concrete.isBot &&
                     reblogsCount == concrete.reblogsCount &&
                     favouritesCount == concrete.favouritesCount &&
                     rebloggingEnabled == concrete.rebloggingEnabled &&
@@ -402,6 +407,7 @@ public abstract class StatusViewData {
         private Card card;
         private boolean isCollapsible; /** Whether the status meets the requirement to be collapsed */
         private boolean isCollapsed; /** Whether the status is shown partially or fully */
+        private boolean isBot;
 
         public Builder() {
         }
@@ -435,6 +441,7 @@ public abstract class StatusViewData {
             card = viewData.getCard();
             isCollapsible = viewData.isCollapsible();
             isCollapsed = viewData.isCollapsed();
+            isBot = viewData.isBot();
         }
 
         public Builder setId(String id) {
@@ -494,6 +501,11 @@ public abstract class StatusViewData {
 
         public Builder setIsShowingSensitiveContent(boolean isShowingSensitiveContent) {
             this.isShowingContent = isShowingSensitiveContent;
+            return this;
+        }
+
+        public Builder setIsBot(boolean isBot) {
+            this.isBot = isBot;
             return this;
         }
 
@@ -600,7 +612,7 @@ public abstract class StatusViewData {
                     attachments, rebloggedByUsername, rebloggedAvatar, isSensitive, isExpanded,
                     isShowingContent, userFullName, nickname, avatar, createdAt, reblogsCount,
                     favouritesCount, inReplyToId, mentions, senderId, rebloggingEnabled, application,
-                    statusEmojis, accountEmojis, card, isCollapsible, isCollapsed);
+                    statusEmojis, accountEmojis, card, isCollapsible, isCollapsed, isBot);
         }
     }
 }
