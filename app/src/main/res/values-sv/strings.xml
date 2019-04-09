@@ -392,4 +392,12 @@
 <string name="compose_shortcut_long_label">Skriv toot</string>
     <string name="compose_shortcut_short_label">Skriv</string>
 
-</resources>
+<string name="notifications_clear">Rensa</string>
+    <string name="notifications_apply_filter">Filtrera</string>
+    <string name="filter_favorites">\@string/notification_channel_favourite_name</string>
+    <string name="filter_boosts">\@string/notification_channel_boost_name</string>
+    <string name="filter_follows">\@string/notification_channel_follow_name</string>
+    <string name="filter_mentions">\@string/notification_channel_mention_name</string>
+    <string name="filter_apply">Utför</string>
+
+    </resources>
