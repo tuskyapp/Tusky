@@ -15,10 +15,7 @@
 
 package com.keylesspalace.tusky.entity
 
-import com.google.gson.JsonDeserializationContext
-import com.google.gson.JsonDeserializer
-import com.google.gson.JsonElement
-import com.google.gson.JsonParseException
+import com.google.gson.*
 import com.google.gson.annotations.JsonAdapter
 
 data class Notification(
@@ -28,26 +25,28 @@ data class Notification(
         val status: Status?) {
 
     @JsonAdapter(NotificationTypeAdapter::class)
-    enum class Type {
-        UNKNOWN,
-        MENTION,
-        REBLOG,
-        FAVOURITE,
-        FOLLOW;
+    enum class Type(val presentation: String) {
+        UNKNOWN("unknown"),
+        MENTION("mention"),
+        REBLOG("reblog"),
+        FAVOURITE("favourite"),
+        FOLLOW("follow");
 
         companion object {
 
             @JvmStatic
             fun byString(s: String): Type {
-                return when (s) {
-                    "mention" -> MENTION
-                    "reblog" -> REBLOG
-                    "favourite" -> FAVOURITE
-                    "follow" -> FOLLOW
-                    else -> UNKNOWN
+                values().forEach {
+                    if (s == it.presentation)
+                        return it
                 }
+                return UNKNOWN
             }
+            val asList = listOf(MENTION,REBLOG,FAVOURITE,FOLLOW)
+        }
 
+        override fun toString(): String {
+            return presentation
         }
     }
 

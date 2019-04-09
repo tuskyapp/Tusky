@@ -1,8 +1,8 @@
 {
   "formatVersion": 1,
   "database": {
-    "version": 14,
-    "identityHash": "b9ca62605345d229ced2bb0c1f2db79b",
+    "version": 15,
+    "identityHash": "6a01315ce9f7d402cb61e611140e3c0a",
     "entities": [
       {
         "tableName": "TootEntity",
@@ -280,7 +280,7 @@
       },
       {
         "tableName": "TimelineStatusEntity",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`serverId` TEXT NOT NULL, `url` TEXT, `timelineUserId` INTEGER NOT NULL, `authorServerId` TEXT, `inReplyToId` TEXT, `inReplyToAccountId` TEXT, `content` TEXT, `createdAt` INTEGER NOT NULL, `emojis` TEXT, `reblogsCount` INTEGER NOT NULL, `favouritesCount` INTEGER NOT NULL, `reblogged` INTEGER NOT NULL, `favourited` INTEGER NOT NULL, `sensitive` INTEGER NOT NULL, `spoilerText` TEXT, `visibility` INTEGER, `attachments` TEXT, `mentions` TEXT, `application` TEXT, `reblogServerId` TEXT, `reblogAccountId` TEXT, PRIMARY KEY(`serverId`, `timelineUserId`), FOREIGN KEY(`authorServerId`, `timelineUserId`) REFERENCES `TimelineAccountEntity`(`serverId`, `timelineUserId`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`serverId` TEXT NOT NULL, `url` TEXT, `timelineUserId` INTEGER NOT NULL, `authorServerId` TEXT, `inReplyToId` TEXT, `inReplyToAccountId` TEXT, `content` TEXT, `createdAt` INTEGER NOT NULL, `emojis` TEXT, `reblogsCount` INTEGER NOT NULL, `favouritesCount` INTEGER NOT NULL, `reblogged` INTEGER NOT NULL, `favourited` INTEGER NOT NULL, `sensitive` INTEGER NOT NULL, `spoilerText` TEXT, `visibility` INTEGER, `attachments` TEXT, `mentions` TEXT, `application` TEXT, `reblogServerId` TEXT, `reblogAccountId` TEXT, `poll` TEXT, PRIMARY KEY(`serverId`, `timelineUserId`), FOREIGN KEY(`authorServerId`, `timelineUserId`) REFERENCES `TimelineAccountEntity`(`serverId`, `timelineUserId`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
         "fields": [
           {
             "fieldPath": "serverId",
@@ -407,6 +407,12 @@
             "columnName": "reblogAccountId",
             "affinity": "TEXT",
             "notNull": false
+          },
+          {
+            "fieldPath": "poll",
+            "columnName": "poll",
+            "affinity": "TEXT",
+            "notNull": false
           }
         ],
         "primaryKey": {
@@ -508,7 +514,7 @@
       },
       {
         "tableName": "ConversationEntity",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`accountId` INTEGER NOT NULL, `id` TEXT NOT NULL, `accounts` TEXT NOT NULL, `unread` INTEGER NOT NULL, `s_id` TEXT NOT NULL, `s_url` TEXT, `s_inReplyToId` TEXT, `s_inReplyToAccountId` TEXT, `s_account` TEXT NOT NULL, `s_content` TEXT NOT NULL, `s_createdAt` INTEGER NOT NULL, `s_emojis` TEXT NOT NULL, `s_favouritesCount` INTEGER NOT NULL, `s_favourited` INTEGER NOT NULL, `s_sensitive` INTEGER NOT NULL, `s_spoilerText` TEXT NOT NULL, `s_attachments` TEXT NOT NULL, `s_mentions` TEXT NOT NULL, `s_showingHiddenContent` INTEGER NOT NULL, `s_expanded` INTEGER NOT NULL, `s_collapsible` INTEGER NOT NULL, `s_collapsed` INTEGER NOT NULL, PRIMARY KEY(`id`, `accountId`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`accountId` INTEGER NOT NULL, `id` TEXT NOT NULL, `accounts` TEXT NOT NULL, `unread` INTEGER NOT NULL, `s_id` TEXT NOT NULL, `s_url` TEXT, `s_inReplyToId` TEXT, `s_inReplyToAccountId` TEXT, `s_account` TEXT NOT NULL, `s_content` TEXT NOT NULL, `s_createdAt` INTEGER NOT NULL, `s_emojis` TEXT NOT NULL, `s_favouritesCount` INTEGER NOT NULL, `s_favourited` INTEGER NOT NULL, `s_sensitive` INTEGER NOT NULL, `s_spoilerText` TEXT NOT NULL, `s_attachments` TEXT NOT NULL, `s_mentions` TEXT NOT NULL, `s_showingHiddenContent` INTEGER NOT NULL, `s_expanded` INTEGER NOT NULL, `s_collapsible` INTEGER NOT NULL, `s_collapsed` INTEGER NOT NULL, `s_poll` TEXT, PRIMARY KEY(`id`, `accountId`))",
         "fields": [
           {
             "fieldPath": "accountId",
@@ -641,6 +647,12 @@
             "columnName": "s_collapsed",
             "affinity": "INTEGER",
             "notNull": true
+          },
+          {
+            "fieldPath": "lastStatus.poll",
+            "columnName": "s_poll",
+            "affinity": "TEXT",
+            "notNull": false
           }
         ],
         "primaryKey": {
@@ -656,7 +668,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"b9ca62605345d229ced2bb0c1f2db79b\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"6a01315ce9f7d402cb61e611140e3c0a\")"
     ]
   }
 }

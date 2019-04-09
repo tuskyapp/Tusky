@@ -32,6 +32,7 @@ import com.keylesspalace.tusky.entity.Status;
 import com.keylesspalace.tusky.entity.StatusContext;
 
 import java.util.List;
+import java.util.Set;
 
 import androidx.annotation.Nullable;
 import io.reactivex.Completable;
@@ -101,7 +102,8 @@ public interface MastodonApi {
     Call<List<Notification>> notifications(
             @Query("max_id") String maxId,
             @Query("since_id") String sinceId,
-            @Query("limit") Integer limit);
+            @Query("limit") Integer limit,
+            @Query("exclude_types[]") Set<Notification.Type> excludes);
 
     @GET("api/v1/notifications")
     Call<List<Notification>> notificationsWithAuth(

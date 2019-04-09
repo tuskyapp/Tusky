@@ -99,24 +99,25 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         switch (viewType) {
             case VIEW_TYPE_MENTION: {
-                View view = LayoutInflater.from(parent.getContext())
+                View view = inflater
                         .inflate(R.layout.item_status, parent, false);
                 return new StatusViewHolder(view, useAbsoluteTime);
             }
             case VIEW_TYPE_STATUS_NOTIFICATION: {
-                View view = LayoutInflater.from(parent.getContext())
+                View view = inflater
                         .inflate(R.layout.item_status_notification, parent, false);
                 return new StatusNotificationViewHolder(view, useAbsoluteTime);
             }
             case VIEW_TYPE_FOLLOW: {
-                View view = LayoutInflater.from(parent.getContext())
+                View view = inflater
                         .inflate(R.layout.item_follow, parent, false);
                 return new FollowViewHolder(view);
             }
             case VIEW_TYPE_PLACEHOLDER: {
-                View view = LayoutInflater.from(parent.getContext())
+                View view = inflater
                         .inflate(R.layout.item_status_placeholder, parent, false);
                 return new PlaceholderViewHolder(view);
             }
