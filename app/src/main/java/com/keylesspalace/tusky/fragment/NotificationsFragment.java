@@ -31,9 +31,9 @@ import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.ProgressBar;
 
+import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
-import com.keylesspalace.tusky.MainActivity;
 import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.adapter.NotificationsAdapter;
 import com.keylesspalace.tusky.adapter.StatusBaseViewHolder;
@@ -147,6 +147,7 @@ public class NotificationsFragment extends SFragment implements
     private RecyclerView recyclerView;
     private ProgressBar progressBar;
     private BackgroundMessageView statusView;
+    private AppBarLayout appBarOptions;
 
     private LinearLayoutManager layoutManager;
     private EndlessOnScrollListener scrollListener;
@@ -195,6 +196,7 @@ public class NotificationsFragment extends SFragment implements
         recyclerView = rootView.findViewById(R.id.recyclerView);
         progressBar = rootView.findViewById(R.id.progressBar);
         statusView = rootView.findViewById(R.id.statusView);
+        appBarOptions = rootView.findViewById(R.id.appBarOptions);
 
         swipeRefreshLayout.setOnRefreshListener(this);
         swipeRefreshLayout.setColorSchemeResources(R.color.tusky_blue);
@@ -757,6 +759,7 @@ public class NotificationsFragment extends SFragment implements
 
     private void jumpToTop() {
         if (isAdded()) {
+            appBarOptions.setExpanded(true,false);
             layoutManager.scrollToPosition(0);
             scrollListener.reset();
         }
