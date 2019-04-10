@@ -17,6 +17,7 @@ package com.keylesspalace.tusky.fragment;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -77,6 +78,7 @@ import javax.inject.Inject;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.arch.core.util.Function;
 import androidx.core.util.Pair;
 import androidx.lifecycle.Lifecycle;
@@ -237,7 +239,7 @@ public class NotificationsFragment extends SFragment implements
         updateAdapter();
 
         Button buttonClear = rootView.findViewById(R.id.buttonClear);
-        buttonClear.setOnClickListener(v -> clearNotifications());
+        buttonClear.setOnClickListener(v -> confirmDelete());
         buttonFilter = rootView.findViewById(R.id.buttonFilter);
         buttonFilter.setOnClickListener(v -> showFilterMenu());
 
@@ -250,6 +252,26 @@ public class NotificationsFragment extends SFragment implements
         ((SimpleItemAnimator) recyclerView.getItemAnimator()).setSupportsChangeAnimations(false);
 
         return rootView;
+    }
+
+    private void confirmDelete(){
+        AlertDialog.Builder dialog = new AlertDialog.Builder(getContext());
+        dialog.setTitle(R.string.notification_clear_title);
+        dialog.setMessage(R.string.notification_clear_text);
+
+        dialog.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                clearNotifications();
+            }
+        });
+
+        dialog.setNeutralButton(R.string.no, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                //Do nothing.
+            }
+        });
+
+        dialog.show();
     }
 
     private void handleFavEvent(FavoriteEvent event) {
