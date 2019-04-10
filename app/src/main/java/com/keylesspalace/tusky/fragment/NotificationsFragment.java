@@ -256,7 +256,6 @@ public class NotificationsFragment extends SFragment implements
 
     private void confirmDelete(){
         AlertDialog.Builder dialog = new AlertDialog.Builder(getContext());
-        dialog.setTitle(R.string.notification_clear_title);
         dialog.setMessage(R.string.notification_clear_text);
 
         dialog.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
