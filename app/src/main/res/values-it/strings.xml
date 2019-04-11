@@ -390,4 +390,10 @@
 <string name="compose_shortcut_long_label">Componi Toot</string>
     <string name="compose_shortcut_short_label">Componi</string>
 
+<string name="notifications_clear">Pulisci</string>
+    <string name="notifications_apply_filter">Filtra</string>
+    <string name="filter_apply">Applica</string>
+
+    <string name="pref_title_bot_overlay">Mostra indicatore per bot</string>
+
 </resources>
