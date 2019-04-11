@@ -239,7 +239,7 @@ public class NotificationsFragment extends SFragment implements
         updateAdapter();
 
         Button buttonClear = rootView.findViewById(R.id.buttonClear);
-        buttonClear.setOnClickListener(v -> confirmDelete());
+        buttonClear.setOnClickListener(v -> confirmClearNotifications());
         buttonFilter = rootView.findViewById(R.id.buttonFilter);
         buttonFilter.setOnClickListener(v -> showFilterMenu());
 
@@ -254,21 +254,13 @@ public class NotificationsFragment extends SFragment implements
         return rootView;
     }
 
-    private void confirmDelete(){
+    private void confirmClearNotifications(){
         AlertDialog.Builder dialog = new AlertDialog.Builder(getContext());
         dialog.setMessage(R.string.notification_clear_text);
 
-        dialog.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int which) {
-                clearNotifications();
-            }
-        });
+        dialog.setPositiveButton(android.R.string.yes, (DialogInterface dia, int which) -> clearNotifications());
 
-        dialog.setNeutralButton(R.string.no, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int which) {
-                //Do nothing.
-            }
-        });
+        dialog.setNeutralButton(android.R.string.no, null);
 
         dialog.show();
     }
