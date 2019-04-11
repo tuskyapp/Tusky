@@ -23,6 +23,7 @@ import android.text.Spanned;
 import com.keylesspalace.tusky.entity.Attachment;
 import com.keylesspalace.tusky.entity.Card;
 import com.keylesspalace.tusky.entity.Emoji;
+import com.keylesspalace.tusky.entity.Poll;
 import com.keylesspalace.tusky.entity.Status;
 
 import java.util.ArrayList;
@@ -87,6 +88,8 @@ public abstract class StatusViewData {
         private final Card card;
         private final boolean isCollapsible; /** Whether the status meets the requirement to be collapse */
         final boolean isCollapsed; /** Whether the status is shown partially or fully */
+        @Nullable
+        private final Poll poll;
 
         public Concrete(String id, Spanned content, boolean reblogged, boolean favourited,
                         @Nullable String spoilerText, Status.Visibility visibility, List<Attachment> attachments,
@@ -95,7 +98,7 @@ public abstract class StatusViewData {
                         Date createdAt, int reblogsCount, int favouritesCount, @Nullable String inReplyToId,
                         @Nullable Status.Mention[] mentions, String senderId, boolean rebloggingEnabled,
                         Status.Application application, List<Emoji> statusEmojis, List<Emoji> accountEmojis, @Nullable Card card,
-                        boolean isCollapsible, boolean isCollapsed) {
+                        boolean isCollapsible, boolean isCollapsed, Poll poll) {
             this.id = id;
             if (Build.VERSION.SDK_INT == 23) {
                 // https://github.com/tuskyapp/Tusky/issues/563
@@ -131,6 +134,7 @@ public abstract class StatusViewData {
             this.card = card;
             this.isCollapsible = isCollapsible;
             this.isCollapsed = isCollapsed;
+            this.poll = poll;
         }
 
         public String getId() {
@@ -261,6 +265,11 @@ public abstract class StatusViewData {
          */
         public boolean isCollapsed() {
             return isCollapsed;
+        }
+
+        @Nullable
+        public Poll getPoll() {
+            return poll;
         }
 
         @Override public long getViewDataId() {
@@ -402,6 +411,7 @@ public abstract class StatusViewData {
         private Card card;
         private boolean isCollapsible; /** Whether the status meets the requirement to be collapsed */
         private boolean isCollapsed; /** Whether the status is shown partially or fully */
+        private Poll poll;
 
         public Builder() {
         }
@@ -435,6 +445,7 @@ public abstract class StatusViewData {
             card = viewData.getCard();
             isCollapsible = viewData.isCollapsible();
             isCollapsed = viewData.isCollapsed();
+            poll = viewData.poll;
         }
 
         public Builder setId(String id) {
@@ -591,6 +602,11 @@ public abstract class StatusViewData {
             return this;
         }
 
+        public Builder setPoll(Poll poll) {
+            this.poll = poll;
+            return this;
+        }
+
         public StatusViewData.Concrete createStatusViewData() {
             if (this.statusEmojis == null) statusEmojis = Collections.emptyList();
             if (this.accountEmojis == null) accountEmojis = Collections.emptyList();
@@ -600,7 +616,7 @@ public abstract class StatusViewData {
                     attachments, rebloggedByUsername, rebloggedAvatar, isSensitive, isExpanded,
                     isShowingContent, userFullName, nickname, avatar, createdAt, reblogsCount,
                     favouritesCount, inReplyToId, mentions, senderId, rebloggingEnabled, application,
-                    statusEmojis, accountEmojis, card, isCollapsible, isCollapsed);
+                    statusEmojis, accountEmojis, card, isCollapsible, isCollapsed, poll);
         }
     }
 }

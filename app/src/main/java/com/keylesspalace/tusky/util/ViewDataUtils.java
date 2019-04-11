@@ -63,6 +63,7 @@ public final class ViewDataUtils {
                         SmartLengthInputFilter.LENGTH_DEFAULT
                 ))
                 .setCollapsed(true)
+                .setPoll(visibleStatus.getPoll())
                 .createStatusViewData();
     }
 
