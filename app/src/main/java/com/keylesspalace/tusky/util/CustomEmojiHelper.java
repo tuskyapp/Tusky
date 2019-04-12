@@ -58,8 +58,6 @@ public class CustomEmojiHelper {
                 CharSequence pattern = new StringBuilder(":").append(emoji.getShortcode()).append(':');
                 Matcher matcher = Pattern.compile(pattern.toString()).matcher(text);
                 while (matcher.find()) {
-                    // We keep a span as a Picasso target, because Picasso keeps weak reference to
-                    // the target so an anonymous class would likely be garbage collected.
                     EmojiSpan span = new EmojiSpan(view);
                     builder.setSpan(span, matcher.start(), matcher.end(), 0);
                     Glide.with(view)
