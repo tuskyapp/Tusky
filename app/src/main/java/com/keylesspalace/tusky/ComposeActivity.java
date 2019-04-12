@@ -1539,11 +1539,19 @@ public final class ComposeActivity
             new AlertDialog.Builder(this)
                     .setMessage(R.string.compose_save_draft)
                     .setPositiveButton(R.string.action_save, (d, w) -> saveDraftAndFinish())
-                    .setNegativeButton(R.string.action_delete, (d, w) -> finishWithoutSlideOutAnimation())
+                    .setNegativeButton(R.string.action_delete, (d, w) -> deleteDraftAndFinish())
                     .show();
         } else {
             finishWithoutSlideOutAnimation();
         }
+    }
+
+    private void deleteDraftAndFinish() {
+        for (QueuedMedia media:mediaQueued){
+            if (media.uploadRequest!=null)
+                media.uploadRequest.cancel();
+        }
+        finishWithoutSlideOutAnimation();
     }
 
     private void saveDraftAndFinish() {
