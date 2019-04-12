@@ -20,17 +20,15 @@ import android.animation.AnimatorListenerAdapter
 import android.content.Context
 import android.graphics.drawable.Drawable
 import android.os.Bundle
-import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.lifecycle.Lifecycle
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
-import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.engine.GlideException
-import com.bumptech.glide.load.resource.bitmap.DownsampleStrategy
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 
@@ -39,8 +37,14 @@ import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.entity.Attachment
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.visible
+import com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider.from
+import com.uber.autodispose.autoDisposable
+import io.reactivex.Completable
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.activity_view_media.*
 import kotlinx.android.synthetic.main.fragment_view_image.*
+import java.util.concurrent.TimeUnit
 
 class ViewImageFragment : ViewMediaFragment() {
     interface PhotoActionsListener {
@@ -49,6 +53,7 @@ class ViewImageFragment : ViewMediaFragment() {
         fun onPhotoTap()
     }
 
+    private var dispose: Disposable? = null
     private lateinit var attacher: PhotoViewAttacher
     private lateinit var photoActionsListener: PhotoActionsListener
     private lateinit var toolbar: View
@@ -80,51 +85,16 @@ class ViewImageFragment : ViewMediaFragment() {
             result
         }
 
-        // If we are the view to be shown initially...
-        if (arguments!!.getBoolean(ViewMediaFragment.ARG_START_POSTPONED_TRANSITION)) {
-            // Try to load image from disk.
-            Glide.with(this)
-                    .load(url)
-                    .dontAnimate()
-                    .onlyRetrieveFromCache(true)
-                    .centerInside()
-                    .addListener(object : RequestListener<Drawable> {
-                        override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Drawable>?, isFirstResource: Boolean): Boolean {
-                            // if there's no image in cache, load from network and start transition
-                            // immediately.
-                            if (isAdded) {
-                                photoActionsListener.onBringUp()
-                                loadImageFromNetwork(url, photoView)
-                            }
-                            return false
-                        }
+        loadImageFromNetwork(url, photoView)
 
-                        override fun onResourceReady(resource: Drawable?, model: Any?, target: Target<Drawable>?, dataSource: DataSource?, isFirstResource: Boolean): Boolean {
-                            if (photoView?.isAttachedToWindow == true) {
-                                finishLoadingSuccessfully()
-                            } else {
-                                // if view is not attached yet, wait for an attachment and
-                                // start transition when it's finally ready.
-                                photoView?.addOnAttachStateChangeListener(
-                                        object : View.OnAttachStateChangeListener {
-                                            override fun onViewAttachedToWindow(v: View?) {
-                                                finishLoadingSuccessfully()
-                                                photoView.removeOnAttachStateChangeListener(this)
-                                            }
-
-                                            override fun onViewDetachedFromWindow(v: View?) {}
-                                        })
-                            }
-                            return false
-                        }
-
-                    })
-                    .into(photoView)
-        } else {
-            // if we're not initial page, don't bother.
-            loadImageFromNetwork(url, photoView)
-        }
-
+        //Add a delay to prevent screen blink on load image from the cache
+        dispose = Completable.timer(500, TimeUnit.MILLISECONDS)
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnComplete {
+                    completeTransition()
+                }
+                .autoDisposable(from(viewLifecycleOwner, Lifecycle.Event.ON_DESTROY))
+                .subscribe()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
@@ -178,13 +148,10 @@ class ViewImageFragment : ViewMediaFragment() {
         super.onDestroyView()
     }
 
-    private fun loadImageFromNetwork(url: String, photoView: ImageView) {
-        Handler().post {
+    private fun loadImageFromNetwork(url: String, photoView: ImageView) =
             Glide.with(this)
                     .load(url)
                     .dontAnimate()
-                    .skipMemoryCache(true)
-                    .diskCacheStrategy(DiskCacheStrategy.NONE)
                     .centerInside()
                     .addListener(object : RequestListener<Drawable> {
                         override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Drawable>?, isFirstResource: Boolean): Boolean {
@@ -193,22 +160,20 @@ class ViewImageFragment : ViewMediaFragment() {
                         }
 
                         override fun onResourceReady(resource: Drawable?, model: Any?, target: Target<Drawable>?, dataSource: DataSource?, isFirstResource: Boolean): Boolean {
+                            progressBar?.hide()
+                            dispose?.dispose()
                             resource?.let {
                                 target?.onResourceReady(resource, null)
-                                finishLoadingSuccessfully()
+                                completeTransition()
                                 return true
                             }
-                            progressBar?.hide()
                             return false
                         }
                     })
                     .into(photoView)
 
-        }
-    }
 
-    private fun finishLoadingSuccessfully() {
-        progressBar?.hide()
+    private fun completeTransition() {
         attacher.update()
         photoActionsListener.onBringUp()
     }
