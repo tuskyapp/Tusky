@@ -1,4 +1,4 @@
-Tusky v6.0
+Roma v6.0
 
 - Timeline filters have moved to Account Preferences and will sync with the server
 - You can now have a custom hashtag as tab in the main interface
@@ -7,7 +7,7 @@ Tusky v6.0
 - The compose view will now suggest custom emojis when starting to type
 - New theme setting "follow system theme"
 - Improved timeline accessibility
-- Tusky will now ignore unknown notifications and no longer crash
-- New setting: You can now override the system language and set a different language in Tusky
+- Roma will now ignore unknown notifications and no longer crash
+- New setting: You can now override the system language and set a different language in Roma
 - New translations: Czech and Esperanto
 - A lot of other improvements and fixes

@@ -19,7 +19,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
 
-    <com.keylesspalace.tusky.view.RoundedImageView
+    <tech.bigfig.roma.view.RoundedImageView
         android:id="@+id/account_avatar_inset"
         android:layout_width="24dp"
         android:layout_height="24dp"

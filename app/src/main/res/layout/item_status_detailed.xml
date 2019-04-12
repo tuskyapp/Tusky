@@ -24,7 +24,7 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:src="@drawable/avatar_default" />
 
-    <com.keylesspalace.tusky.view.RoundedImageView
+    <tech.bigfig.roma.view.RoundedImageView
         android:id="@+id/status_avatar_inset"
         android:layout_width="24dp"
         android:layout_height="24dp"

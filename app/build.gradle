@@ -11,7 +11,7 @@ android {
         applicationId "tech.bigfig.roma"
         minSdkVersion 21
         targetSdkVersion 28
-        versionCode 67
+        versionCode 69
         versionName "6.1"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
@@ -144,10 +144,10 @@ dependencies {
     implementation 'com.crashlytics.sdk.android:crashlytics:2.9.9'
 
     //Firebase Push Messages
-    implementation 'com.google.firebase:firebase-messaging:17.5.0'
+    implementation 'com.google.firebase:firebase-messaging:17.6.0'
 
     //WorkManager
-    implementation "androidx.work:work-runtime:2.0.0"
-    implementation "androidx.work:work-rxjava2:2.0.0"
+    implementation "androidx.work:work-runtime:2.0.1"
+    implementation "androidx.work:work-rxjava2:2.0.1"
 }
 apply plugin: 'com.google.gms.google-services'

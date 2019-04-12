@@ -14,7 +14,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:elevation="0dp"
-            app:layout_behavior="com.keylesspalace.tusky.util.AppBarLayoutNoEmptyScrollBehavior">
+            app:layout_behavior="tech.bigfig.roma.util.AppBarLayoutNoEmptyScrollBehavior">
 
             <androidx.appcompat.widget.Toolbar
                 android:layout_width="match_parent"
@@ -34,7 +34,7 @@
 
                     <Button
                         android:id="@+id/buttonClear"
-                        style="@style/TuskyButton.TextButton"
+                        style="@style/RomaButton.TextButton"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -43,7 +43,7 @@
 
                     <Button
                         android:id="@+id/buttonFilter"
-                        style="@style/TuskyButton.TextButton"
+                        style="@style/RomaButton.TextButton"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -86,7 +86,7 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <com.keylesspalace.tusky.view.BackgroundMessageView
+    <tech.bigfig.roma.view.BackgroundMessageView
         android:id="@+id/statusView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

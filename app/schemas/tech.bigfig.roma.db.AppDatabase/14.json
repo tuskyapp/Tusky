@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 14,
-    "identityHash": "b9ca62605345d229ced2bb0c1f2db79b",
+    "identityHash": "8904c68e2a9fb5969da94ffd951e9301",
     "entities": [
       {
         "tableName": "TootEntity",
@@ -74,7 +74,7 @@
       },
       {
         "tableName": "AccountEntity",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `domain` TEXT NOT NULL, `accessToken` TEXT NOT NULL, `isActive` INTEGER NOT NULL, `accountId` TEXT NOT NULL, `username` TEXT NOT NULL, `displayName` TEXT NOT NULL, `profilePictureUrl` TEXT NOT NULL, `notificationsEnabled` INTEGER NOT NULL, `notificationsMentioned` INTEGER NOT NULL, `notificationsFollowed` INTEGER NOT NULL, `notificationsReblogged` INTEGER NOT NULL, `notificationsFavorited` INTEGER NOT NULL, `notificationSound` INTEGER NOT NULL, `notificationVibration` INTEGER NOT NULL, `notificationLight` INTEGER NOT NULL, `defaultPostPrivacy` INTEGER NOT NULL, `defaultMediaSensitivity` INTEGER NOT NULL, `alwaysShowSensitiveMedia` INTEGER NOT NULL, `mediaPreviewEnabled` INTEGER NOT NULL, `lastNotificationId` TEXT NOT NULL, `activeNotifications` TEXT NOT NULL, `emojis` TEXT NOT NULL, `tabPreferences` TEXT NOT NULL, `notificationsFilter` TEXT NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `domain` TEXT NOT NULL, `accessToken` TEXT NOT NULL, `isActive` INTEGER NOT NULL, `accountId` TEXT NOT NULL, `username` TEXT NOT NULL, `displayName` TEXT NOT NULL, `profilePictureUrl` TEXT NOT NULL, `notificationsEnabled` INTEGER NOT NULL, `notificationsMentioned` INTEGER NOT NULL, `notificationsFollowed` INTEGER NOT NULL, `notificationsReblogged` INTEGER NOT NULL, `notificationsFavourited` INTEGER NOT NULL, `notificationSound` INTEGER NOT NULL, `notificationVibration` INTEGER NOT NULL, `notificationLight` INTEGER NOT NULL, `defaultPostPrivacy` INTEGER NOT NULL, `defaultMediaSensitivity` INTEGER NOT NULL, `alwaysShowSensitiveMedia` INTEGER NOT NULL, `mediaPreviewEnabled` INTEGER NOT NULL, `lastNotificationId` TEXT NOT NULL, `activeNotifications` TEXT NOT NULL, `emojis` TEXT NOT NULL, `tabPreferences` TEXT NOT NULL, `notificationsFilter` TEXT NOT NULL)",
         "fields": [
           {
             "fieldPath": "id",
@@ -149,8 +149,8 @@
             "notNull": true
           },
           {
-            "fieldPath": "notificationsFavorited",
-            "columnName": "notificationsFavorited",
+            "fieldPath": "notificationsFavourited",
+            "columnName": "notificationsFavourited",
             "affinity": "INTEGER",
             "notNull": true
           },
@@ -656,7 +656,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"b9ca62605345d229ced2bb0c1f2db79b\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"8904c68e2a9fb5969da94ffd951e9301\")"
     ]
   }
 }

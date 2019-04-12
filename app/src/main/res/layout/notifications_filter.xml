@@ -9,7 +9,7 @@
         android:layout_height="wrap_content"/>
     <Button
         android:id="@+id/buttonApply"
-        style="@style/TuskyButton.TextButton"
+        style="@style/RomaButton.TextButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/filter_apply"
