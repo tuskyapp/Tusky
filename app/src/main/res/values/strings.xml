@@ -461,8 +461,18 @@
     <string name="edit_hashtag_title">Edit hashtag</string>
     <string name="edit_hashtag_hint">Hashtag without #</string>
     <string name="hashtag">Hashtag</string>
+    <string name="notifications_clear">Clear</string>
+    <string name="notifications_apply_filter">Filter</string>
+    <string name="filter_favorites">@string/notification_channel_favourite_name</string>
+    <string name="filter_boosts">@string/notification_channel_boost_name</string>
+    <string name="filter_follows">@string/notification_channel_follow_name</string>
+    <string name="filter_mentions">@string/notification_channel_mention_name</string>
+    <string name="filter_apply">Apply</string>
 
     <string name="compose_shortcut_long_label">Compose Toot</string>
     <string name="compose_shortcut_short_label">Compose</string>
+    <string name="pref_title_bot_overlay">Show indicator for bots</string>
+
+    <string name="notification_clear_text">Are you sure you want to permanently clear all your notifications?</string>
 
 </resources>

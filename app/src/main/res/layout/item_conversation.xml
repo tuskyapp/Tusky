@@ -69,7 +69,7 @@
         tools:src="@drawable/avatar_default" />
 
     <tech.bigfig.roma.view.RoundedImageView
-        android:id="@+id/status_avatar_reblog"
+        android:id="@+id/status_avatar_inset"
         android:layout_width="24dp"
         android:layout_height="24dp"
         android:contentDescription="@null"

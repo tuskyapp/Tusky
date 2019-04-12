@@ -17,16 +17,24 @@ package tech.bigfig.roma.fragment;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.ListView;
+import android.widget.PopupWindow;
 import android.widget.ProgressBar;
 
+import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayout;
 
 import tech.bigfig.roma.MainActivity;
@@ -51,6 +59,7 @@ import tech.bigfig.roma.util.Either;
 import tech.bigfig.roma.util.HttpHeaderLink;
 import tech.bigfig.roma.util.ListStatusAccessibilityDelegate;
 import tech.bigfig.roma.util.ListUtils;
+import tech.bigfig.roma.util.NotificationTypeConverterKt;
 import tech.bigfig.roma.util.PairedList;
 import tech.bigfig.roma.util.ThemeUtils;
 import tech.bigfig.roma.util.ViewDataUtils;
@@ -61,15 +70,18 @@ import tech.bigfig.roma.viewdata.StatusViewData;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.arch.core.util.Function;
 import androidx.core.util.Pair;
 import androidx.lifecycle.Lifecycle;
@@ -87,6 +99,7 @@ import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import kotlin.Unit;
 import kotlin.collections.CollectionsKt;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -104,6 +117,9 @@ public class NotificationsFragment extends SFragment implements
 
     private static final int LOAD_AT_ONCE = 30;
     private int maxPlaceholderId = 0;
+
+
+    private Set<Notification.Type> notificationFilter = new HashSet<>();
 
     private enum FetchEnd {
         TOP,
@@ -136,10 +152,13 @@ public class NotificationsFragment extends SFragment implements
     private RecyclerView recyclerView;
     private ProgressBar progressBar;
     private BackgroundMessageView statusView;
+    private AppBarLayout appBarOptions;
 
     private LinearLayoutManager layoutManager;
     private EndlessOnScrollListener scrollListener;
     private NotificationsAdapter adapter;
+    private TabLayout.OnTabSelectedListener onTabSelectedListener;
+    private Button buttonFilter;
     private boolean hideFab;
     private boolean topLoading;
     private boolean bottomLoading;
@@ -174,7 +193,7 @@ public class NotificationsFragment extends SFragment implements
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_timeline, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_timeline_notifications, container, false);
 
         @NonNull Context context = inflater.getContext(); // from inflater to silence warning
         // Setup the SwipeRefreshLayout.
@@ -182,10 +201,14 @@ public class NotificationsFragment extends SFragment implements
         recyclerView = rootView.findViewById(R.id.recyclerView);
         progressBar = rootView.findViewById(R.id.progressBar);
         statusView = rootView.findViewById(R.id.statusView);
+        appBarOptions = rootView.findViewById(R.id.appBarOptions);
 
         swipeRefreshLayout.setOnRefreshListener(this);
         swipeRefreshLayout.setColorSchemeResources(R.color.roma_blue);
         swipeRefreshLayout.setProgressBackgroundColorSchemeColor(ThemeUtils.getColor(context, android.R.attr.colorBackground));
+
+        loadNotificationsFilter();
+
         // Setup the RecyclerView.
         recyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(context);
@@ -218,6 +241,11 @@ public class NotificationsFragment extends SFragment implements
 
         updateAdapter();
 
+        Button buttonClear = rootView.findViewById(R.id.buttonClear);
+        buttonClear.setOnClickListener(v -> confirmClearNotifications());
+        buttonFilter = rootView.findViewById(R.id.buttonFilter);
+        buttonFilter.setOnClickListener(v -> showFilterMenu());
+
         if (notifications.isEmpty()) {
             sendFetchNotificationsRequest(null, null, FetchEnd.BOTTOM, -1);
         } else {
@@ -227,6 +255,17 @@ public class NotificationsFragment extends SFragment implements
         ((SimpleItemAnimator) recyclerView.getItemAnimator()).setSupportsChangeAnimations(false);
 
         return rootView;
+    }
+
+    private void confirmClearNotifications(){
+        AlertDialog.Builder dialog = new AlertDialog.Builder(getContext());
+        dialog.setMessage(R.string.notification_clear_text);
+
+        dialog.setPositiveButton(android.R.string.yes, (DialogInterface dia, int which) -> clearNotifications());
+
+        dialog.setNeutralButton(android.R.string.no, null);
+
+        dialog.show();
     }
 
     private void handleFavEvent(FavouriteEvent event) {
@@ -514,6 +553,138 @@ public class NotificationsFragment extends SFragment implements
         onContentCollapsedChange(isCollapsed, position);
     }
 
+    private void clearNotifications() {
+        //Cancel all ongoing requests
+        swipeRefreshLayout.setRefreshing(false);
+        for (Call callItem : callList) {
+            callItem.cancel();
+        }
+        callList.clear();
+        bottomLoading = false;
+        topLoading = false;
+
+        //Disable load more
+        bottomId = null;
+
+        //Clear exists notifications
+        notifications.clear();
+
+        //Show friend elephant
+        this.statusView.setVisibility(View.VISIBLE);
+        this.statusView.setup(R.drawable.elephant_friend_empty, R.string.message_empty, null);
+
+        //Update adapter
+        updateAdapter();
+
+        //Execute clear notifications request
+        Call<ResponseBody> call = mastodonApi.clearNotifications();
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
+                if (isAdded()) {
+                    if (!response.isSuccessful()) {
+                        //Reload notifications on failure
+                        fullyRefreshWithProgressBar(true);
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<ResponseBody> call, @NonNull Throwable t) {
+                //Reload notifications on failure
+                fullyRefreshWithProgressBar(true);
+            }
+        });
+        callList.add(call);
+    }
+
+
+    private void showFilterMenu() {
+        List<Notification.Type> notificationsList = Notification.Type.Companion.getAsList();
+        List<String> list = new ArrayList<>();
+        for (Notification.Type type : notificationsList) {
+            list.add(getNotificationText(type));
+        }
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_multiple_choice, list);
+        PopupWindow window = new PopupWindow(getContext());
+        View view = LayoutInflater.from(getContext()).inflate(R.layout.notifications_filter, (ViewGroup) getView(), false);
+        final ListView listView = view.findViewById(R.id.listView);
+        view.findViewById(R.id.buttonApply)
+                .setOnClickListener(v -> {
+                    SparseBooleanArray checkedItems = listView.getCheckedItemPositions();
+                    Set<Notification.Type> excludes = new HashSet<>();
+                    for (int i = 0; i < notificationsList.size(); i++) {
+                        if (!checkedItems.get(i, false))
+                            excludes.add(notificationsList.get(i));
+                    }
+                    window.dismiss();
+                    applyFilterChanges(excludes);
+
+                });
+
+        listView.setAdapter(adapter);
+        listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+        for (int i = 0; i < notificationsList.size(); i++) {
+            if (!notificationFilter.contains(notificationsList.get(i)))
+                listView.setItemChecked(i, true);
+        }
+        window.setContentView(view);
+        window.setFocusable(true);
+        window.showAsDropDown(buttonFilter);
+
+    }
+
+    private String getNotificationText(Notification.Type type) {
+        switch (type) {
+            case MENTION:
+                return getString(R.string.filter_mentions);
+            case FAVOURITE:
+                return getString(R.string.filter_favorites);
+            case REBLOG:
+                return getString(R.string.filter_boosts);
+            case FOLLOW:
+                return getString(R.string.filter_follows);
+            default:
+                return "Unknown";
+        }
+    }
+
+    private void applyFilterChanges(Set<Notification.Type> newSet) {
+        List<Notification.Type> notifications = Notification.Type.Companion.getAsList();
+        boolean isChanged = false;
+        for (Notification.Type type : notifications) {
+            if (notificationFilter.contains(type) && !newSet.contains(type)) {
+                notificationFilter.remove(type);
+                isChanged = true;
+            } else if (!notificationFilter.contains(type) && newSet.contains(type)) {
+                notificationFilter.add(type);
+                isChanged = true;
+            }
+        }
+        if (isChanged) {
+            saveNotificationsFilter();
+            fullyRefreshWithProgressBar(true);
+        }
+
+    }
+
+    private void loadNotificationsFilter() {
+        AccountEntity account = accountManager.getActiveAccount();
+        if (account != null) {
+            notificationFilter.addAll(NotificationTypeConverterKt.deserialize(
+                    account.getNotificationsFilter()));
+        }
+    }
+
+    private void saveNotificationsFilter() {
+        AccountEntity account = accountManager.getActiveAccount();
+        if (account != null) {
+            account.setNotificationsFilter(NotificationTypeConverterKt.serialize(notificationFilter));
+            accountManager.saveAccount(account);
+        }
+    }
+
     @Override
     public void onViewTag(String tag) {
         super.viewTag(tag);
@@ -604,6 +775,7 @@ public class NotificationsFragment extends SFragment implements
 
     private void jumpToTop() {
         if (isAdded()) {
+            appBarOptions.setExpanded(true,false);
             layoutManager.scrollToPosition(0);
             scrollListener.reset();
         }
@@ -626,7 +798,7 @@ public class NotificationsFragment extends SFragment implements
             bottomLoading = true;
         }
 
-        Call<List<Notification>> call = mastodonApi.notifications(fromId, uptoId, LOAD_AT_ONCE);
+        Call<List<Notification>> call = mastodonApi.notifications(fromId, uptoId, LOAD_AT_ONCE, notificationFilter);
 
         call.enqueue(new Callback<List<Notification>>() {
             @Override
@@ -673,7 +845,7 @@ public class NotificationsFragment extends SFragment implements
                     updateAdapter();
                 }
 
-                if (adapter.getItemCount() > 0) {
+                if (adapter.getItemCount() > 1) {
                     addItems(notifications, fromId);
                 } else {
                     update(notifications, fromId);
@@ -823,10 +995,18 @@ public class NotificationsFragment extends SFragment implements
         return CollectionUtil.map(list, notificationLifter);
     }
 
-    private void fullyRefresh() {
+    private void fullyRefreshWithProgressBar(boolean isShow) {
         notifications.clear();
+        if (isShow && notifications.isEmpty()) {
+            progressBar.setVisibility(View.VISIBLE);
+            statusView.setVisibility(View.GONE);
+        }
         updateAdapter();
         sendFetchNotificationsRequest(null, null, FetchEnd.TOP, -1);
+    }
+
+    private void fullyRefresh() {
+        fullyRefreshWithProgressBar(false);
     }
 
     @Nullable
