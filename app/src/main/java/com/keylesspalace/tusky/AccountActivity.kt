@@ -64,7 +64,7 @@ import javax.inject.Inject
 class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportFragmentInjector, LinkListener {
 
     @Inject
-    lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<androidx.fragment.app.Fragment>
+    lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Fragment>
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
 
@@ -96,7 +96,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
     @ColorInt
     private var textColorSecondary: Int = 0
     @Px
-    private var avatarSize: Float = 0f
+    private var avatarSize: Int = 0
     @Px
     private var titleVisibleHeight: Int = 0
 
@@ -170,7 +170,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
         statusBarColorOpaque = ThemeUtils.getColor(this, R.attr.colorPrimaryDark)
         textColorPrimary = ThemeUtils.getColor(this, android.R.attr.textColorPrimary)
         textColorSecondary = ThemeUtils.getColor(this, android.R.attr.textColorSecondary)
-        avatarSize = resources.getDimensionPixelSize(R.dimen.account_activity_avatar_size).toFloat()
+        avatarSize = resources.getDimensionPixelSize(R.dimen.account_activity_avatar_size)
         titleVisibleHeight = resources.getDimensionPixelSize(R.dimen.account_activity_scroll_title_visible_height)
 
         ThemeUtils.setDrawableTint(this, accountToolbar.navigationIcon, R.attr.account_toolbar_icon_tint_uncollapsed)
@@ -211,7 +211,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
                 }
                 oldOffset = verticalOffset
 
-                val scaledAvatarSize = (avatarSize + verticalOffset) / avatarSize
+                val scaledAvatarSize = (avatarSize + verticalOffset) / avatarSize.toFloat()
 
                 accountAvatarImageView.scaleX = scaledAvatarSize
                 accountAvatarImageView.scaleY = scaledAvatarSize
@@ -403,22 +403,21 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
                     return@setOnClickListener
                 }
                 when (followState) {
-                    AccountActivity.FollowState.NOT_FOLLOWING -> {
+                    FollowState.NOT_FOLLOWING -> {
                         viewModel.changeFollowState(accountId)
                     }
-                    AccountActivity.FollowState.REQUESTED -> {
+                    FollowState.REQUESTED -> {
                         showFollowRequestPendingDialog()
                     }
-                    AccountActivity.FollowState.FOLLOWING -> {
+                    FollowState.FOLLOWING -> {
                         showUnfollowWarningDialog()
                     }
                 }
                 updateFollowButton()
             }
 
-            accountMuteButton.setOnClickListener { _ ->
+            accountMuteButton.setOnClickListener {
                 viewModel.changeMuteState(accountId)
-                updateMuteButton()
             }
         }
     }
@@ -458,13 +457,13 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
             return
         }
         when (followState) {
-            AccountActivity.FollowState.NOT_FOLLOWING -> {
+            FollowState.NOT_FOLLOWING -> {
                 accountFollowButton.setText(R.string.action_follow)
             }
-            AccountActivity.FollowState.REQUESTED -> {
+            FollowState.REQUESTED -> {
                 accountFollowButton.setText(R.string.state_follow_requested)
             }
-            AccountActivity.FollowState.FOLLOWING -> {
+            FollowState.FOLLOWING -> {
                 accountFollowButton.setText(R.string.action_unfollow)
             }
         }
