@@ -1547,8 +1547,8 @@ public final class ComposeActivity
     }
 
     private void deleteDraftAndFinish() {
-        for (QueuedMedia media:mediaQueued){
-            if (media.uploadRequest!=null)
+        for (QueuedMedia media : mediaQueued) {
+            if (media.uploadRequest != null)
                 media.uploadRequest.cancel();
         }
         finishWithoutSlideOutAnimation();
