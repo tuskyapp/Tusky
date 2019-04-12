@@ -396,4 +396,6 @@
 
     <string name="pref_title_bot_overlay">Mostra indicatore per bot</string>
 
+<string name="notification_clear_text">Sei sicuro di voler permanentemente eliminare tutte le tue notifiche\?</string>
+
 </resources>
