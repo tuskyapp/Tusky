@@ -242,4 +242,84 @@
         %1$s; %2$s; %3$s, %4$s, %5$s; %6$s, %7$s, %8$s, %9$s; %10$s, %11$s, %12$s
     </string>
 
-</resources>
+<string name="pref_default_media_sensitivity">Marker alltid media som sensitivt</string>
+    <string name="pref_publishing">Publiserer (synkronisert med server)</string>
+    <string name="pref_failed_to_sync">Synkronisering av innstillinger feilet</string>
+
+    <string name="pref_status_text_size">Størrelse på statustekst</string>
+
+    <string name="pref_media_display">Mediavisning</string>
+
+    <string name="notification_channel_follow_name">Nye følgere</string>
+    <string name="notification_channel_follow_description">Varsel om nye følgere</string>
+    <string name="notification_channel_boost_name">Boosts</string>
+    <string name="notification_channel_boost_description">Varsel når tootene dine blir boostet</string>
+    <string name="notification_channel_favourite_name">Favoritter</string>
+    <string name="notification_channel_favourite_description">Varsel når tootene dine blir favorisert</string>
+
+
+    <string name="notification_mention_format">%s nevnte deg</string>
+    <string name="notification_summary_large">%1$s, %2$s, %3$s og %4$d andre</string>
+    <string name="notification_summary_medium">%1$s, %2$s, og %3$s</string>
+    <string name="notification_summary_small">%1$s og %2$s</string>
+    <string name="notification_title_summary">%d nye interaksjoner</string>
+
+    <string name="description_account_locked">Låst konto</string>
+
+    <string name="about_title_activity">Om</string>
+    <string name="about_tusky_version">Tusky %s</string>
+    <string name="about_bug_feature_request_site">Feilrapporter og funksjonalitetsønsker:
+\n https://github.com/tuskyapp/Tusky/issues</string>
+    <string name="about_tusky_account">Tuskys Profil</string>
+
+    <string name="status_share_content">Del inneholdet i tootet</string>
+    <string name="status_share_link">Del link til toot</string>
+    <string name="status_media_images">Bilder</string>
+    <string name="status_media_video">Video</string>
+
+    <string name="state_follow_requested">Følgeforespørsler</string>
+
+    <string name="no_content">ikke noe innhold</string>
+
+    <string name="abbreviated_in_days">om %dd</string>
+    <string name="abbreviated_in_hours">om %dh</string>
+    <string name="abbreviated_in_minutes">om %dm</string>
+    <string name="abbreviated_in_seconds">om %ds</string>
+    <string name="abbreviated_years_ago">%dy</string>
+    <string name="abbreviated_days_ago">%dd</string>
+    <string name="abbreviated_hours_ago">%dh</string>
+    <string name="abbreviated_minutes_ago">%dm</string>
+    <string name="abbreviated_seconds_ago">%ds</string>
+
+    <string name="follows_you">Følger deg</string>
+    <string name="pref_title_alway_show_sensitive_media">Vis alltid sensitivt innhold</string>
+    <string name="title_media">Media</string>
+    <string name="replying_to">Svarer til @%s</string>
+    <string name="load_more_placeholder_text">last mer</string>
+
+    <string name="pref_title_public_filter_keywords">Offentlige tidslinjer</string>
+    <string name="pref_title_thread_filter_keywords">Samtaler</string>
+    <string name="filter_addition_dialog_title">Legg til filter</string>
+    <string name="filter_edit_dialog_title">Endre filter</string>
+    <string name="filter_dialog_remove_button">Fjern</string>
+    <string name="filter_dialog_update_button">Oppdater</string>
+    <string name="filter_add_description">Frase å filtere</string>
+
+    <string name="add_account_name">Legg til konto</string>
+    <string name="add_account_description">Legg til ny Mastodon-konto</string>
+
+    <string name="action_lists">Lister</string>
+    <string name="title_lists">Lister</string>
+    <string name="title_list_timeline">Listetidslinje</string>
+    <string name="error_create_list">Kunne ikke opprette liste</string>
+    <string name="error_rename_list">Kunne ikke gi liste nytt navn</string>
+    <string name="error_delete_list">Kunne ikke slette liste</string>
+    <string name="action_create_list">Opprett en liste</string>
+    <string name="action_rename_list">Gi listen nytt navn</string>
+    <string name="action_delete_list">Slett listen</string>
+    <string name="action_edit_list">Endre listen</string>
+    <string name="hint_search_people_list">Søk etter personer du følger</string>
+    <string name="action_add_to_list">Legg til konto i listen</string>
+    <string name="action_remove_from_list">Fjern konto fra listen</string>
+
+    </resources>
