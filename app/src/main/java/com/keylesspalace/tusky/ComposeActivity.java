@@ -1169,9 +1169,9 @@ public final class ComposeActivity
                     .into(view);
         }
         view.setOnClickListener(v -> onMediaClick(item, v));
-        view.setContentDescription(getString(R.string.action_delete));
         mediaPreviewBar.addView(view);
         mediaQueued.add(item);
+        updateContentDescription(item);
         int queuedCount = mediaQueued.size();
         if (queuedCount == 1) {
             // If there's one video in the queue it is full, so disable the button to queue more.
@@ -1199,6 +1199,33 @@ public final class ComposeActivity
                 onUploadFailure(item, false);
             }
         }
+    }
+
+    private void updateContentDescriptionForAllImages() {
+        List<QueuedMedia> items = new ArrayList<>(mediaQueued);
+        for (QueuedMedia media : items) {
+            updateContentDescription(media);
+        }
+    }
+
+    private void updateContentDescription(QueuedMedia item) {
+        if (item.preview != null) {
+            String imageId;
+            if (!TextUtils.isEmpty(item.description)) {
+                imageId = item.description;
+            } else {
+                int idx = getImageIdx(item);
+                if (idx < 0)
+                    imageId = getString(R.string.compose_preview_image_description_image_unknown);
+                else
+                    imageId = Integer.toString(idx + 1);
+            }
+            item.preview.setContentDescription(getString(R.string.compose_preview_image_description, imageId));
+        }
+    }
+
+    private int getImageIdx(QueuedMedia item) {
+        return mediaQueued.indexOf(item);
     }
 
     private void onMediaClick(QueuedMedia item, View view) {
@@ -1276,6 +1303,7 @@ public final class ComposeActivity
                                 item.description = attachment.getDescription();
                                 item.preview.setChecked(item.description != null && !item.description.isEmpty());
                                 dialog.dismiss();
+                                updateContentDescription(item);
                             } else {
                                 showFailedCaptionMessage();
                             }
@@ -1323,7 +1351,7 @@ public final class ComposeActivity
         if (mediaQueued.size() == 0) {
             updateHideMediaToggle();
         }
-
+        updateContentDescriptionForAllImages();
         enableButton(pickButton, true, true);
         cancelReadyingMedia(item);
     }
