@@ -72,7 +72,7 @@
                 license:link="https://github.com/google/conscrypt"
                 license:name="Conscrypt" />
 
-            <com.keylesspalace.tusky.view.LicenseCard
+            <tech.bigfig.roma.view.LicenseCard
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="12dp"

@@ -15,11 +15,26 @@
 
 package tech.bigfig.roma;
 
+import androidx.lifecycle.Lifecycle;
+
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.tabs.TabLayout;
+
+import androidx.emoji.text.EmojiCompat;
+import androidx.fragment.app.Fragment;
+import androidx.core.content.ContextCompat;
+import androidx.viewpager.widget.ViewPager;
+import androidx.appcompat.app.AlertDialog;
+
 import android.os.Handler;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -86,6 +101,7 @@ import tech.bigfig.roma.entity.push.PushKeys;
 import tech.bigfig.roma.entity.push.PushSubscription;
 import tech.bigfig.roma.entity.push.PushSubscriptionRequest;
 import tech.bigfig.roma.interfaces.ActionButtonActivity;
+import tech.bigfig.roma.interfaces.ReselectableFragment;
 import tech.bigfig.roma.pager.MainPagerAdapter;
 import tech.bigfig.roma.service.push.DeleteFcmTokenWorker;
 import tech.bigfig.roma.service.push.UpdateFcmTokenWorker;
@@ -132,12 +148,13 @@ public final class MainActivity extends BottomSheetActivity implements ActionBut
     private ViewPager viewPager;
 
     private int notificationTabPosition;
+    private MainPagerAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if(accountManager.getActiveAccount() == null) {
+        if (accountManager.getActiveAccount() == null) {
             // will be redirected to LoginActivity by BaseActivity
             return;
         }
@@ -227,6 +244,12 @@ public final class MainActivity extends BottomSheetActivity implements ActionBut
 
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
+                if (adapter != null) {
+                    Fragment fragment = adapter.getFragment(tab.getPosition());
+                    if (fragment instanceof ReselectableFragment) {
+                        ((ReselectableFragment) fragment).onReselect();
+                    }
+                }
             }
         });
 
@@ -408,7 +431,6 @@ public final class MainActivity extends BottomSheetActivity implements ActionBut
 
                     return false;
                 })
-                .withDrawerWidthDp(375)
                 .build();
 
         if (BuildConfig.DEBUG) {
@@ -432,7 +454,7 @@ public final class MainActivity extends BottomSheetActivity implements ActionBut
     private void setupTabs(boolean selectNotificationTab) {
         List<TabData> tabs = accountManager.getActiveAccount().getTabPreferences();
 
-        MainPagerAdapter adapter = new MainPagerAdapter(tabs, getSupportFragmentManager());
+        adapter = new MainPagerAdapter(tabs, getSupportFragmentManager());
         viewPager.setAdapter(adapter);
 
         tabLayout.setupWithViewPager(viewPager);
@@ -626,5 +648,4 @@ public final class MainActivity extends BottomSheetActivity implements ActionBut
     public AndroidInjector<Fragment> supportFragmentInjector() {
         return fragmentInjector;
     }
-
 }

@@ -171,7 +171,7 @@
                     tools:visibility="visible" />
 
                 <LinearLayout
-                    android:id="@+id/accountFollowers"
+                    android:id="@+id/accountStatuses"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="?attr/selectableItemBackgroundBorderless"
@@ -182,21 +182,20 @@
                     app:layout_constraintTop_toBottomOf="@id/accountRemoveView">
 
                     <TextView
-                        android:id="@+id/accountFollowersTextView"
+                        android:id="@+id/accountStatusesTextView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
-                        android:background="@android:color/transparent"
                         android:fontFamily="sans-serif-medium"
                         android:textColor="@color/account_tab_font_color"
                         android:textSize="?attr/status_text_medium"
-                        tools:text="1234" />
+                        tools:text="3000" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:paddingBottom="6dp"
-                        android:text="@string/title_followers"
+                        android:text="@string/title_statuses"
                         android:textColor="@color/account_tab_font_color"
                         android:textSize="?attr/status_text_medium" />
                 </LinearLayout>
@@ -208,8 +207,8 @@
                     android:background="?attr/selectableItemBackgroundBorderless"
                     android:gravity="center_horizontal"
                     android:orientation="vertical"
-                    app:layout_constraintEnd_toStartOf="@id/accountStatuses"
-                    app:layout_constraintStart_toEndOf="@id/accountFollowers"
+                    app:layout_constraintEnd_toStartOf="@id/accountFollowers"
+                    app:layout_constraintStart_toEndOf="@id/accountStatuses"
                     app:layout_constraintTop_toBottomOf="@id/accountRemoveView">
 
                     <TextView
@@ -232,7 +231,7 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/accountStatuses"
+                    android:id="@+id/accountFollowers"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="?attr/selectableItemBackgroundBorderless"
@@ -243,20 +242,21 @@
                     app:layout_constraintTop_toBottomOf="@id/accountRemoveView">
 
                     <TextView
-                        android:id="@+id/accountStatusesTextView"
+                        android:id="@+id/accountFollowersTextView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
+                        android:background="@android:color/transparent"
                         android:fontFamily="sans-serif-medium"
                         android:textColor="@color/account_tab_font_color"
                         android:textSize="?attr/status_text_medium"
-                        tools:text="3000" />
+                        tools:text="1234" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:paddingBottom="6dp"
-                        android:text="@string/title_statuses"
+                        android:text="@string/title_followers"
                         android:textColor="@color/account_tab_font_color"
                         android:textSize="?attr/status_text_medium" />
                 </LinearLayout>

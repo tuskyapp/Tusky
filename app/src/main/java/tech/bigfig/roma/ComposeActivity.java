@@ -1577,14 +1577,19 @@ public final class ComposeActivity
     private void showContentWarning(boolean show) {
         statusHideText = show;
         TransitionManager.beginDelayedTransition((ViewGroup)contentWarningBar.getParent());
+        int color;
         if (show) {
             statusMarkSensitive = true;
             contentWarningBar.setVisibility(View.VISIBLE);
             contentWarningEditor.setSelection(contentWarningEditor.getText().length());
             contentWarningEditor.requestFocus();
+            color = ContextCompat.getColor(this, R.color.roma_blue);
         } else {
             contentWarningBar.setVisibility(View.GONE);
+            color = ThemeUtils.getColor(this, android.R.attr.textColorTertiary);
         }
+        contentWarningButton.getDrawable().setColorFilter(color, PorterDuff.Mode.SRC_IN);
+
         updateHideMediaToggle();
 
     }

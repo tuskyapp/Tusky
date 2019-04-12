@@ -10,7 +10,7 @@ import org.junit.runners.Parameterized
 class SpanUtilsTest {
     @Test
     fun matchesMixedSpans() {
-        val input = "one #one two @two three https://thr.ee/meh?foo=bar&wat=@at#hmm four #four five @five"
+        val input = "one #one two: @two three : https://thr.ee/meh?foo=bar&wat=@at#hmm four #four five @five"
         val inputSpannable = FakeSpannable(input)
         highlightSpans(inputSpannable, 0xffffff)
         val spans = inputSpannable.spans

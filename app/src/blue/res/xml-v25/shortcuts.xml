@@ -2,18 +2,18 @@
 <shortcuts xmlns:android="http://schemas.android.com/apk/res/android">
     <shortcut
         android:icon="@mipmap/ic_shortcut_compose"
-        android:shortcutId="com.keylesspalace.tusky.Compose"
+        android:shortcutId="tech.bigfig.roma.Compose"
         android:shortcutLongLabel="@string/compose_shortcut_long_label"
         android:shortcutShortLabel="@string/compose_shortcut_short_label">
 
         <intent
             android:action="android.intent.action.VIEW"
-            android:targetClass="com.keylesspalace.tusky.SplashActivity"
-            android:targetPackage="com.keylesspalace.tusky"/>
+            android:targetClass="tech.bigfig.roma.SplashActivity"
+            android:targetPackage="tech.bigfig.roma"/>
         <intent
-            android:action="com.keylesspalace.tusky.Compose"
-            android:targetClass="com.keylesspalace.tusky.ComposeActivity"
-            android:targetPackage="com.keylesspalace.tusky"/>
+            android:action="tech.bigfig.roma.Compose"
+            android:targetClass="tech.bigfig.roma.ComposeActivity"
+            android:targetPackage="tech.bigfig.roma"/>
 
     </shortcut>
 

@@ -223,28 +223,11 @@
     <string name="pref_title_http_proxy_server">HTTP-proxyserver</string>
     <string name="pref_title_http_proxy_port">HTTP-proxyport</string>
 
-    <string name="pref_default_post_privacy"/>
-    <string name="pref_default_media_sensitivity"/>
-    <string name="pref_publishing"/>
-    <string name="pref_failed_to_sync"/>
-
     <string-array name="post_privacy_names">
         <item>Public</item>
         <item>Unlisted</item>
         <item>Followers-only</item>
     </string-array>
-
-    <string name="pref_status_text_size"/>
-
-    <string-array name="status_text_size_names">
-        <item>Smallest</item>
-        <item>Small</item>
-        <item>Medium</item>
-        <item>Large</item>
-        <item>Largest</item>
-    </string-array>
-
-    <string name="pref_media_display"/>
 
     <string-array name="media_display_names">
         <item>Hide media marked as sensitive</item>
@@ -393,40 +376,8 @@
 	<item quantity="other"/>
 </plurals>
 
-    <plurals name="reblogs">
-	<item quantity="one"/>
-	<item quantity="other"/>
-</plurals>
-
-    <string name="title_reblogged_by"/>
-    <string name="title_favourited_by"/>
-
-    <string name="conversation_1_recipients"/>
-    <string name="conversation_2_recipients"/>
-    <string name="conversation_more_recipients"/>
-    <string name="max_tab_number_reached"/>
-
-
-    <string name="description_status_media"/>
-    <string name="description_status_cw"/>
-    <string name="description_status_media_no_description_placeholder"/>
-    <string name="description_status_reblogged"/>
-    <string name="description_status_favourited"/>
-    <string name="description_visiblity_public"/>
-    <string name="description_visiblity_unlisted"/>
-    <string name="description_visiblity_private"/>
-    <string name="description_visiblity_direct"/>
     <string name="description_status"><!-- Display name, cw?, content?, relative date, reposted by?, reposted?, favorited?, username, media?; visibility, fav number?, reblog number?-->
         %1$s; %2$s; %3$s, %4$s, %5$s; %6$s, %7$s, %8$s, %9$s; %10$s, %11$s, %12$s
     </string>
-
-    <string name="hint_list_name"/>
-
-    <string name="edit_hashtag_title"/>
-    <string name="edit_hashtag_hint"/>
-    <string name="hashtag"/>
-
-    <string name="compose_shortcut_long_label"/>
-    <string name="compose_shortcut_short_label"/>
 
 </resources>

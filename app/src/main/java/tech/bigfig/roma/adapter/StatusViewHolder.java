@@ -17,6 +17,7 @@ package tech.bigfig.roma.adapter;
 
 import android.content.Context;
 import android.text.InputFilter;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -36,35 +37,28 @@ public class StatusViewHolder extends StatusBaseViewHolder {
     private static final InputFilter[] COLLAPSE_INPUT_FILTER = new InputFilter[]{SmartLengthInputFilter.INSTANCE};
     private static final InputFilter[] NO_INPUT_FILTER = new InputFilter[0];
 
-    private ImageView avatarReblog;
     private TextView rebloggedBar;
     private ToggleButton contentCollapseButton;
 
     StatusViewHolder(View itemView, boolean useAbsoluteTime) {
         super(itemView, useAbsoluteTime);
-        avatarReblog = itemView.findViewById(R.id.status_avatar_reblog);
         rebloggedBar = itemView.findViewById(R.id.status_reblogged);
         contentCollapseButton = itemView.findViewById(R.id.button_toggle_content);
     }
 
     @Override
-    protected void setAvatar(String url, @Nullable String rebloggedUrl) {
-        super.setAvatar(url, rebloggedUrl);
-
+    protected void setAvatar(String url, @Nullable String rebloggedUrl, boolean isBot) {
+        super.setAvatar(url, rebloggedUrl, isBot);
         Context context = avatar.getContext();
-        boolean hasReblog = rebloggedUrl != null && !rebloggedUrl.isEmpty();
-        int padding = hasReblog ? Utils.dpToPx(context, 12) : 0;
 
-        avatar.setPaddingRelative(0, 0, padding, padding);
-
-        if (hasReblog) {
-            avatarReblog.setVisibility(View.VISIBLE);
+        if (!TextUtils.isEmpty(rebloggedUrl)) {
+            int padding = Utils.dpToPx(context, 12);
+            avatar.setPaddingRelative(0, 0, padding, padding);
+            avatarInset.setVisibility(View.VISIBLE);
             Picasso.with(context)
                     .load(rebloggedUrl)
                     .placeholder(R.drawable.avatar_default)
-                    .into(avatarReblog);
-        } else {
-            avatarReblog.setVisibility(View.GONE);
+                    .into(avatarInset);
         }
     }
 

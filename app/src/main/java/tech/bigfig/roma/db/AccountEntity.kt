@@ -51,7 +51,8 @@ data class AccountEntity(@field:PrimaryKey(autoGenerate = true) var id: Long,
                          var lastNotificationId: String = "0",
                          var activeNotifications: String = "[]",
                          var emojis: List<Emoji> = emptyList(),
-                         var tabPreferences: List<TabData> = defaultTabs()) {
+                         var tabPreferences: List<TabData> = defaultTabs(),
+                         var notificationsFilter: String = "[]") {
 
     val identifier: String
         get() = "$domain:$accountId"

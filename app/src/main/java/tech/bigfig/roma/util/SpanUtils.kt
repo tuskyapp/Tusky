@@ -70,7 +70,10 @@ private fun findPattern(string: String, fromIndex: Int): FindCharsResult {
                 result.matchType = matchType
                 result.start = Math.max(0, i - finder.searchPrefixWidth)
                 findEndOfPattern(string, result, finder.pattern)
-                return result
+                if (result.start + finder.searchPrefixWidth <= i + 1 && // The found result is actually triggered by the correct search character
+                        result.end >= result.start) {                   // ...and we actually found a valid result
+                    return result
+                }
             }
         }
     }

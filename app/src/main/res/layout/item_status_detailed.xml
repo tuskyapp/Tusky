@@ -24,6 +24,18 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:src="@drawable/avatar_default" />
 
+    <tech.bigfig.roma.view.RoundedImageView
+        android:id="@+id/status_avatar_inset"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:contentDescription="@null"
+        android:importantForAccessibility="no"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@id/status_avatar"
+        app:layout_constraintEnd_toEndOf="@id/status_avatar"
+        tools:src="@color/accent"
+        tools:visibility="visible" />
+
     <androidx.emoji.widget.EmojiTextView
         android:id="@+id/status_display_name"
         android:layout_width="wrap_content"
@@ -408,14 +420,14 @@
         android:importantForAccessibility="no"
         android:padding="4dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/status_reblog"
+        app:layout_constraintEnd_toStartOf="@id/status_inset"
         app:layout_constraintHorizontal_chainStyle="spread_inside"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/status_buttons_divider"
         app:srcCompat="@drawable/ic_reply_24dp" />
 
     <at.connyduck.sparkbutton.SparkButton
-        android:id="@+id/status_reblog"
+        android:id="@+id/status_inset"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:clipToPadding="false"
@@ -440,8 +452,8 @@
         android:importantForAccessibility="no"
         android:padding="4dp"
         app:layout_constraintEnd_toStartOf="@id/status_more"
-        app:layout_constraintStart_toEndOf="@id/status_reblog"
-        app:layout_constraintTop_toTopOf="@id/status_reblog"
+        app:layout_constraintStart_toEndOf="@id/status_inset"
+        app:layout_constraintTop_toTopOf="@id/status_inset"
         sparkbutton:activeImage="?attr/status_favourite_active_drawable"
         sparkbutton:iconSize="28dp"
         sparkbutton:inactiveImage="?attr/status_favourite_inactive_drawable"
