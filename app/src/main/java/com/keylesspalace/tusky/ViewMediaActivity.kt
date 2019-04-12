@@ -26,7 +26,6 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.Color
-import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -116,20 +115,21 @@ class ViewMediaActivity : BaseActivity(), ViewImageFragment.PhotoActionsListener
         attachments = intent.getParcelableArrayListExtra(EXTRA_ATTACHMENTS)
         val initialPosition = intent.getIntExtra(EXTRA_ATTACHMENT_INDEX, 0)
 
-        val adapter = if(attachments != null) {
+        val adapter = if (attachments != null) {
             val realAttachs = map(attachments, AttachmentViewData::attachment)
             // Setup the view pager.
             ImagePagerAdapter(supportFragmentManager, realAttachs, initialPosition)
 
         } else {
-            val avatarUrl = intent.getStringExtra(EXTRA_AVATAR_URL) ?: throw IllegalArgumentException("attachment list or avatar url has to be set")
+            val avatarUrl = intent.getStringExtra(EXTRA_AVATAR_URL)
+                    ?: throw IllegalArgumentException("attachment list or avatar url has to be set")
 
             AvatarImagePagerAdapter(supportFragmentManager, avatarUrl)
         }
 
         viewPager.adapter = adapter
         viewPager.currentItem = initialPosition
-        viewPager.addOnPageChangeListener(object: ViewPager.SimpleOnPageChangeListener() {
+        viewPager.addOnPageChangeListener(object : ViewPager.SimpleOnPageChangeListener() {
             override fun onPageSelected(position: Int) {
                 toolbar.title = adapter.getPageTitle(position)
             }
@@ -159,7 +159,7 @@ class ViewMediaActivity : BaseActivity(), ViewImageFragment.PhotoActionsListener
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        if(attachments != null) {
+        if (attachments != null) {
             menuInflater.inflate(R.menu.view_media_toolbar, menu)
             return true
         }
@@ -184,11 +184,19 @@ class ViewMediaActivity : BaseActivity(), ViewImageFragment.PhotoActionsListener
         for (listener in toolbarVisibilityListeners) {
             listener.onToolbarVisiblityChanged(toolbarVisible)
         }
-        val visibility = if(toolbarVisible){ View.VISIBLE } else { View.INVISIBLE }
-        val alpha = if(toolbarVisible){ 1.0f } else { 0.0f }
+        val visibility = if (toolbarVisible) {
+            View.VISIBLE
+        } else {
+            View.INVISIBLE
+        }
+        val alpha = if (toolbarVisible) {
+            1.0f
+        } else {
+            0.0f
+        }
 
         toolbar.animate().alpha(alpha)
-                .setListener(object: AnimatorListenerAdapter() {
+                .setListener(object : AnimatorListenerAdapter() {
                     override fun onAnimationEnd(animation: Animator) {
                         toolbar.visibility = visibility
                         animation.removeListener(this)
@@ -237,7 +245,7 @@ class ViewMediaActivity : BaseActivity(), ViewImageFragment.PhotoActionsListener
         }
 
         val attachment = attachments!![viewPager.currentItem].attachment
-        when(attachment.type) {
+        when (attachment.type) {
             Attachment.Type.IMAGE -> shareImage(directory, attachment.url)
             Attachment.Type.VIDEO,
             Attachment.Type.GIFV -> shareVideo(directory, attachment.url)
@@ -263,20 +271,19 @@ class ViewMediaActivity : BaseActivity(), ViewImageFragment.PhotoActionsListener
         val file = File(directory, getTemporaryMediaFilename("png"))
         val futureTask: FutureTarget<Bitmap> =
                 Glide.with(applicationContext).asBitmap().load(Uri.parse(url)).submit()
-        Single.create<Boolean> { emitter ->
+        Single.fromCallable {
             val bitmap = futureTask.get()
             try {
                 val stream = FileOutputStream(file)
                 bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream)
                 stream.close()
-                emitter.onSuccess(true)
-                return@create
+                return@fromCallable true
             } catch (fnfe: FileNotFoundException) {
                 Log.e(TAG, "Error writing temporary media.")
             } catch (ioe: IOException) {
                 Log.e(TAG, "Error writing temporary media.")
             }
-            emitter.onSuccess(false)
+            return@fromCallable false
 
         }
 
@@ -287,19 +294,19 @@ class ViewMediaActivity : BaseActivity(), ViewImageFragment.PhotoActionsListener
                 }
                 .autoDisposable(AndroidLifecycleScopeProvider.from(this, Lifecycle.Event.ON_DESTROY))
                 .subscribe(
-                        { result->
-                            Log.d(TAG,"Download image result: $result")
+                        { result ->
+                            Log.d(TAG, "Download image result: $result")
                             isCreating = false
                             invalidateOptionsMenu()
                             progressBarShare.visibility = View.GONE
                             if (result)
                                 shareFile(file, "image/png")
                         },
-                        { error->
+                        { error ->
                             isCreating = false
                             invalidateOptionsMenu()
                             progressBarShare.visibility = View.GONE
-                            Log.e(TAG,"Failed to download image",error)
+                            Log.e(TAG, "Failed to download image", error)
                         }
                 )
 
