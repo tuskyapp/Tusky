@@ -173,16 +173,18 @@ public final class ComposeActivity
     private static final int PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 1;
 
     private static final String SAVED_TOOT_UID_EXTRA = "saved_toot_uid";
-    private static final String SAVED_TOOT_TEXT_EXTRA = "saved_toot_text";
+    private static final String TOOT_TEXT_EXTRA = "toot_text";
     private static final String SAVED_JSON_URLS_EXTRA = "saved_json_urls";
     private static final String SAVED_JSON_DESCRIPTIONS_EXTRA = "saved_json_descriptions";
-    private static final String SAVED_TOOT_VISIBILITY_EXTRA = "saved_toot_visibility";
+    private static final String TOOT_VISIBILITY_EXTRA = "toot_visibility";
     private static final String IN_REPLY_TO_ID_EXTRA = "in_reply_to_id";
-    private static final String REPLY_VISIBILITY_EXTRA = "reply_visibilty";
+    private static final String REPLY_VISIBILITY_EXTRA = "reply_visibility";
     private static final String CONTENT_WARNING_EXTRA = "content_warning";
-    private static final String MENTIONED_USERNAMES_EXTRA = "netnioned_usernames";
+    private static final String MENTIONED_USERNAMES_EXTRA = "mentioned_usernames";
     private static final String REPLYING_STATUS_AUTHOR_USERNAME_EXTRA = "replying_author_nickname_extra";
     private static final String REPLYING_STATUS_CONTENT_EXTRA = "replying_status_content";
+    private static final String JSON_MEDIA_ATTACHMENTS_EXTRA = "json_media_attachments";
+    private static final String SENSITIVE_EXTRA = "sensitive";
     // Mastodon only counts URLs as this long in terms of status character limits
     static final int MAXIMUM_URL_LENGTH = 23;
     // https://github.com/tootsuite/mastodon/blob/1656663/app/models/media_attachment.rb#L94
@@ -411,6 +413,7 @@ public final class ComposeActivity
         String[] mentionedUsernames = null;
         ArrayList<String> loadedDraftMediaUris = null;
         ArrayList<String> loadedDraftMediaDescriptions = null;
+        ArrayList<Attachment> loadedMediaAttachments = null;
         inReplyToId = null;
         if (intent != null) {
 
@@ -434,14 +437,13 @@ public final class ComposeActivity
                 }
             }
 
-            // If come from SavedTootActivity
-            String savedTootText = intent.getStringExtra(SAVED_TOOT_TEXT_EXTRA);
-            if (!TextUtils.isEmpty(savedTootText)) {
-                startingText = savedTootText;
-                textEditor.setText(savedTootText);
+            String tootText = intent.getStringExtra(TOOT_TEXT_EXTRA);
+            if (!TextUtils.isEmpty(tootText)) {
+                textEditor.setText(tootText);
             }
 
             // try to redo a list of media
+            // If come from SavedTootActivity
             String savedJsonUrls = intent.getStringExtra(SAVED_JSON_URLS_EXTRA);
             String savedJsonDescriptions = intent.getStringExtra(SAVED_JSON_DESCRIPTIONS_EXTRA);
             if (!TextUtils.isEmpty(savedJsonUrls)) {
@@ -454,15 +456,25 @@ public final class ComposeActivity
                         new TypeToken<ArrayList<String>>() {
                         }.getType());
             }
+            // If come from redraft
+            String jsonMediaAttachments = intent.getStringExtra(JSON_MEDIA_ATTACHMENTS_EXTRA);
+            if (!TextUtils.isEmpty(jsonMediaAttachments)) {
+                loadedMediaAttachments = gson.fromJson(jsonMediaAttachments,
+                        new TypeToken<ArrayList<Attachment>>() {
+                        }.getType());
+            }
 
             int savedTootUid = intent.getIntExtra(SAVED_TOOT_UID_EXTRA, 0);
             if (savedTootUid != 0) {
                 this.savedTootUid = savedTootUid;
+
+                // If come from SavedTootActivity
+                startingText = tootText;
             }
 
-            int savedTootVisibility = intent.getIntExtra(SAVED_TOOT_VISIBILITY_EXTRA, Status.Visibility.UNKNOWN.getNum());
-            if (savedTootVisibility != Status.Visibility.UNKNOWN.getNum()) {
-                startingVisibility = Status.Visibility.byNum(savedTootVisibility);
+            int tootVisibility = intent.getIntExtra(TOOT_VISIBILITY_EXTRA, Status.Visibility.UNKNOWN.getNum());
+            if (tootVisibility != Status.Visibility.UNKNOWN.getNum()) {
+                startingVisibility = Status.Visibility.byNum(tootVisibility);
             }
 
             if (intent.hasExtra(REPLYING_STATUS_AUTHOR_USERNAME_EXTRA)) {
@@ -493,6 +505,8 @@ public final class ComposeActivity
             if (intent.hasExtra(REPLYING_STATUS_CONTENT_EXTRA)) {
                 replyContentTextView.setText(intent.getStringExtra(REPLYING_STATUS_CONTENT_EXTRA));
             }
+
+            statusMarkSensitive = intent.getBooleanExtra(SENSITIVE_EXTRA, false);
         }
 
         // After the starting state is finalised, the interface can be set to reflect this state.
@@ -576,6 +590,25 @@ public final class ComposeActivity
                     description = loadedDraftMediaDescriptions.get(mediaIndex);
                 }
                 pickMedia(uri, mediaSize, description);
+            }
+        } else if (!ListUtils.isEmpty(loadedMediaAttachments)) {
+            for (int mediaIndex =0; mediaIndex < loadedMediaAttachments.size(); ++mediaIndex) {
+                Attachment media = loadedMediaAttachments.get(mediaIndex);
+                QueuedMedia.Type type;
+                switch (media.getType()) {
+                    case UNKNOWN:
+                    case IMAGE:
+                    default: {
+                        type = QueuedMedia.Type.IMAGE;
+                        break;
+                    }
+                    case VIDEO:
+                    case GIFV: {
+                        type = QueuedMedia.Type.VIDEO;
+                        break;
+                    }
+                }
+                addMediaToQueue(media.getId(), type, media.getPreviewUrl(), media.getDescription());
             }
         } else if (savedMediaQueued != null) {
             for (SavedQueuedMedia item : savedMediaQueued) {
@@ -1109,6 +1142,11 @@ public final class ComposeActivity
         addMediaToQueue(null, type, preview, uri, mediaSize, null, description);
     }
 
+    private void addMediaToQueue(String id, QueuedMedia.Type type, String previewUrl, @Nullable String description) {
+        addMediaToQueue(id, type, null, Uri.parse(previewUrl), 0,
+                QueuedMedia.ReadyStage.UPLOADED, description);
+    }
+
     private void addMediaToQueue(@Nullable String id, QueuedMedia.Type type, Bitmap preview, Uri uri,
                                  long mediaSize, QueuedMedia.ReadyStage readyStage, @Nullable String description) {
         final QueuedMedia item = new QueuedMedia(type, uri, new ProgressImageView(this),
@@ -1124,7 +1162,14 @@ public final class ComposeActivity
         layoutParams.setMargins(margin, 0, margin, marginBottom);
         view.setLayoutParams(layoutParams);
         view.setScaleType(ImageView.ScaleType.CENTER_CROP);
-        view.setImageBitmap(preview);
+        if (preview != null) {
+            view.setImageBitmap(preview);
+        } else {
+            Picasso.with(this)
+                    .load(uri)
+                    .placeholder(null)
+                    .into(view);
+        }
         view.setOnClickListener(v -> onMediaClick(item, v));
         view.setContentDescription(getString(R.string.action_delete));
         mediaPreviewBar.addView(view);
@@ -1780,7 +1825,7 @@ public final class ComposeActivity
         @Nullable
         private Integer savedTootUid;
         @Nullable
-        private String savedTootText;
+        private String tootText;
         @Nullable
         private String savedJsonUrls;
         @Nullable
@@ -1792,21 +1837,25 @@ public final class ComposeActivity
         @Nullable
         private Status.Visibility replyVisibility;
         @Nullable
-        private Status.Visibility savedVisibility;
+        private Status.Visibility visibility;
         @Nullable
         private String contentWarning;
         @Nullable
         private String replyingStatusAuthor;
         @Nullable
         private String replyingStatusContent;
+        @Nullable
+        private String jsonMediaAttachments;
+        private boolean sensitive = false;
+
 
         public IntentBuilder savedTootUid(int uid) {
             this.savedTootUid = uid;
             return this;
         }
 
-        public IntentBuilder savedTootText(String savedTootText) {
-            this.savedTootText = savedTootText;
+        public IntentBuilder tootText(String tootText) {
+            this.tootText = tootText;
             return this;
         }
 
@@ -1820,8 +1869,8 @@ public final class ComposeActivity
             return this;
         }
 
-        public IntentBuilder savedVisibility(Status.Visibility savedVisibility) {
-            this.savedVisibility = savedVisibility;
+        public IntentBuilder visibility(Status.Visibility visibility) {
+            this.visibility = visibility;
             return this;
         }
 
@@ -1855,14 +1904,24 @@ public final class ComposeActivity
             return this;
         }
 
+        public IntentBuilder jsonMediaAttachments(String jsonMediaAttachments) {
+            this.jsonMediaAttachments = jsonMediaAttachments;
+            return this;
+        }
+
+        public IntentBuilder sensitive(boolean sensitive) {
+            this.sensitive = sensitive;
+            return this;
+        }
+
         public Intent build(Context context) {
             Intent intent = new Intent(context, ComposeActivity.class);
 
             if (savedTootUid != null) {
                 intent.putExtra(SAVED_TOOT_UID_EXTRA, (int) savedTootUid);
             }
-            if (savedTootText != null) {
-                intent.putExtra(SAVED_TOOT_TEXT_EXTRA, savedTootText);
+            if (tootText != null) {
+                intent.putExtra(TOOT_TEXT_EXTRA, tootText);
             }
             if (savedJsonUrls != null) {
                 intent.putExtra(SAVED_JSON_URLS_EXTRA, savedJsonUrls);
@@ -1880,8 +1939,8 @@ public final class ComposeActivity
             if (replyVisibility != null) {
                 intent.putExtra(REPLY_VISIBILITY_EXTRA, replyVisibility.getNum());
             }
-            if (savedVisibility != null) {
-                intent.putExtra(SAVED_TOOT_VISIBILITY_EXTRA, savedVisibility.getNum());
+            if (visibility != null) {
+                intent.putExtra(TOOT_VISIBILITY_EXTRA, visibility.getNum());
             }
             if (contentWarning != null) {
                 intent.putExtra(CONTENT_WARNING_EXTRA, contentWarning);
@@ -1892,6 +1951,10 @@ public final class ComposeActivity
             if (replyingStatusAuthor != null) {
                 intent.putExtra(REPLYING_STATUS_AUTHOR_USERNAME_EXTRA, replyingStatusAuthor);
             }
+            if (jsonMediaAttachments != null) {
+                intent.putExtra(JSON_MEDIA_ATTACHMENTS_EXTRA, jsonMediaAttachments);
+            }
+            intent.putExtra(SENSITIVE_EXTRA, sensitive);
             return intent;
         }
     }
