@@ -50,7 +50,7 @@ class ModalTimelineActivity : BottomSheetActivity(), ActionButtonActivity, HasSu
                     ?: TimelineFragment.Kind.HOME
             val argument = intent?.getStringExtra(ARG_ARG)
             supportFragmentManager.beginTransaction()
-                    .replace(R.id.contentFrame, TimelineFragment.newInstance(kind, argument))
+                    .replace(R.id.contentFrame, TimelineFragment.newInstance(kind, argument,true))
                     .commit()
         }
     }

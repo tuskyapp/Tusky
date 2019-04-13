@@ -54,7 +54,7 @@ public class ViewTagActivity extends BottomSheetActivity implements HasSupportFr
         }
 
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        Fragment fragment = TimelineFragment.newInstance(TimelineFragment.Kind.TAG, hashtag);
+        Fragment fragment = TimelineFragment.newInstance(TimelineFragment.Kind.TAG, hashtag,true);
         fragmentTransaction.replace(R.id.fragment_container, fragment);
         fragmentTransaction.commit();
     }

@@ -152,6 +152,9 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
 
             val toolbarParams = accountToolbar.layoutParams as CollapsingToolbarLayout.LayoutParams
             toolbarParams.topMargin = top
+            swipeToRefreshLayout.setProgressViewOffset(false,
+                    swipeToRefreshLayout.progressViewStartOffset,
+                    swipeToRefreshLayout.progressViewEndOffset)
 
             insets.consumeSystemWindowInsets()
         }

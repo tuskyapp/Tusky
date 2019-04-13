@@ -48,16 +48,16 @@ public class AccountPagerAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         switch (position) {
             case 0: {
-                return TimelineFragment.newInstance(TimelineFragment.Kind.USER, accountId);
+                return TimelineFragment.newInstance(TimelineFragment.Kind.USER, accountId,false);
             }
             case 1: {
-                return TimelineFragment.newInstance(TimelineFragment.Kind.USER_WITH_REPLIES, accountId);
+                return TimelineFragment.newInstance(TimelineFragment.Kind.USER_WITH_REPLIES, accountId,false);
             }
             case 2: {
                 return TimelineFragment.newInstance(TimelineFragment.Kind.USER_PINNED, accountId);
             }
             case 3: {
-                return AccountMediaFragment.newInstance(accountId);
+                return AccountMediaFragment.newInstance(accountId,false);
             }
             default: {
                 throw new AssertionError("Page " + position + " is out of AccountPagerAdapter bounds");

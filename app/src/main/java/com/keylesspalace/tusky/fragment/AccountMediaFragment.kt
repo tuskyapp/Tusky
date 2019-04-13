@@ -57,17 +57,21 @@ class AccountMediaFragment : BaseFragment(), Injectable {
 
     companion object {
         @JvmStatic
-        fun newInstance(accountId: String): AccountMediaFragment {
+        fun newInstance(accountId: String, enableSwipeToRefresh:Boolean=true): AccountMediaFragment {
             val fragment = AccountMediaFragment()
             val args = Bundle()
             args.putString(ACCOUNT_ID_ARG, accountId)
+            args.putBoolean(ARG_ENABLE_SWIPE_TO_REFRESH,enableSwipeToRefresh)
             fragment.arguments = args
             return fragment
         }
 
         private const val ACCOUNT_ID_ARG = "account_id"
         private const val TAG = "AccountMediaFragment"
+        private const val ARG_ENABLE_SWIPE_TO_REFRESH = "arg.enable.swipe.to.refresh"
     }
+
+    private var isSwipeToRefreshEnabled: Boolean = true
 
     @Inject
     lateinit var api: MastodonApi
@@ -152,6 +156,10 @@ class AccountMediaFragment : BaseFragment(), Injectable {
 
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        isSwipeToRefreshEnabled = arguments?.getBoolean(ARG_ENABLE_SWIPE_TO_REFRESH,true)==true
+    }
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_timeline, container, false)
@@ -172,22 +180,25 @@ class AccountMediaFragment : BaseFragment(), Injectable {
         recyclerView.adapter = adapter
 
         val accountId = arguments?.getString(ACCOUNT_ID_ARG)
+        swipe_refresh_layout.isEnabled = isSwipeToRefreshEnabled
 
-        swipeRefreshLayout.setOnRefreshListener {
-            statusView.hide()
-            if (fetchingStatus != FetchingStatus.NOT_FETCHING) return@setOnRefreshListener
-            currentCall = if (statuses.isEmpty()) {
-                fetchingStatus = FetchingStatus.INITIAL_FETCHING
-                api.accountStatuses(accountId, null, null, null, null, true, null)
-            } else {
-                fetchingStatus = FetchingStatus.REFRESHING
-                api.accountStatuses(accountId, null, statuses[0].id, null, null, true, null)
+        if (isSwipeToRefreshEnabled) {
+            swipe_refresh_layout.setOnRefreshListener {
+                if (fetchingStatus != FetchingStatus.NOT_FETCHING) return@setOnRefreshListener
+                currentCall = if (statuses.isEmpty()) {
+                    fetchingStatus = FetchingStatus.INITIAL_FETCHING
+                    api.accountStatuses(accountId, null, null, null, null, true)
+                } else {
+                    fetchingStatus = FetchingStatus.REFRESHING
+                    api.accountStatuses(accountId, null, statuses[0].id, null, null, true)
+                }
+                currentCall?.enqueue(callback)
+
             }
-            currentCall?.enqueue(callback)
-
+            swipe_refresh_layout.setColorSchemeResources(R.color.primary)
+            swipe_refresh_layout.setProgressBackgroundColorSchemeColor(ThemeUtils.getColor(context, android.R.attr.colorBackground))
         }
-        swipeRefreshLayout.setColorSchemeResources(R.color.tusky_blue)
-        swipeRefreshLayout.setProgressBackgroundColorSchemeColor(ThemeUtils.getColor(view.context, android.R.attr.colorBackground))
+
 
         statusView.visibility = View.GONE
 

@@ -51,7 +51,7 @@ public class FavouritesActivity extends BottomSheetActivity implements HasSuppor
         }
 
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        Fragment fragment = TimelineFragment.newInstance(TimelineFragment.Kind.FAVOURITES);
+        Fragment fragment = TimelineFragment.newInstance(TimelineFragment.Kind.FAVOURITES,true);
         fragmentTransaction.replace(R.id.fragment_container, fragment);
         fragmentTransaction.commit();
     }

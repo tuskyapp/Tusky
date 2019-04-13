@@ -112,8 +112,10 @@ public class TimelineFragment extends SFragment implements
     private static final String TAG = "TimelineF"; // logging tag
     private static final String KIND_ARG = "kind";
     private static final String HASHTAG_OR_ID_ARG = "hashtag_or_id";
+    private static final String ARG_ENABLE_SWIPE_TO_REFRESH = "arg.enable.swipe.to.refresh";
 
     private static final int LOAD_AT_ONCE = 30;
+    private boolean isSwipeToRefreshEnabled = true;
 
     public enum Kind {
         HOME,
@@ -181,19 +183,21 @@ public class TimelineFragment extends SFragment implements
                 }
             });
 
-    public static TimelineFragment newInstance(Kind kind) {
+    public static TimelineFragment newInstance(Kind kind, boolean enableSwipeToRefresh) {
         TimelineFragment fragment = new TimelineFragment();
         Bundle arguments = new Bundle();
         arguments.putString(KIND_ARG, kind.name());
+        arguments.putBoolean(ARG_ENABLE_SWIPE_TO_REFRESH,enableSwipeToRefresh);
         fragment.setArguments(arguments);
         return fragment;
     }
 
-    public static TimelineFragment newInstance(Kind kind, String hashtagOrId) {
+    public static TimelineFragment newInstance(Kind kind, String hashtagOrId, boolean enableSwipeToRefresh) {
         TimelineFragment fragment = new TimelineFragment();
         Bundle arguments = new Bundle();
         arguments.putString(KIND_ARG, kind.name());
         arguments.putString(HASHTAG_OR_ID_ARG, hashtagOrId);
+        arguments.putBoolean(ARG_ENABLE_SWIPE_TO_REFRESH,enableSwipeToRefresh);
         fragment.setArguments(arguments);
         return fragment;
     }
@@ -212,6 +216,8 @@ public class TimelineFragment extends SFragment implements
         }
 
         adapter = new TimelineAdapter(dataSource, this);
+
+        isSwipeToRefreshEnabled = arguments.getBoolean(ARG_ENABLE_SWIPE_TO_REFRESH,true);
 
     }
 
@@ -388,11 +394,14 @@ public class TimelineFragment extends SFragment implements
     }
 
     private void setupSwipeRefreshLayout() {
-        Context context = swipeRefreshLayout.getContext();
-        swipeRefreshLayout.setOnRefreshListener(this);
-        swipeRefreshLayout.setColorSchemeResources(R.color.tusky_blue);
-        swipeRefreshLayout.setProgressBackgroundColorSchemeColor(ThemeUtils.getColor(context,
-                android.R.attr.colorBackground));
+        swipeRefreshLayout.setEnabled(isSwipeToRefreshEnabled);
+        if (isSwipeToRefreshEnabled) {
+            Context context = swipeRefreshLayout.getContext();
+            swipeRefreshLayout.setOnRefreshListener(this);
+            swipeRefreshLayout.setColorSchemeResources(R.color.tusky_blue);
+            swipeRefreshLayout.setProgressBackgroundColorSchemeColor(ThemeUtils.getColor(context,
+                    android.R.attr.colorBackground));
+        }
     }
 
     private void setupRecyclerView() {
