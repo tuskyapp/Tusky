@@ -8,7 +8,7 @@ data class Poll(
         @SerializedName("expires_at") val expiresAt: Date?,
         val expired: Boolean,
         val multiple: Boolean,
-        val votes_count: Int,
+        @SerializedName("votes_count") val votesCount: Int,
         val options: List<PollOption>,
         val voted: Boolean?
 )

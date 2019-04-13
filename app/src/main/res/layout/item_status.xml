@@ -327,6 +327,92 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+    <TextView
+        android:layout_marginTop="6dp"
+        android:background="@drawable/poll_option_background"
+        android:id="@+id/status_poll_option_result_0"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        tools:text="40%"
+        app:layout_constraintTop_toBottomOf="@id/status_media_preview_container"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@id/status_display_name"
+        android:paddingStart="6dp"
+        android:paddingEnd="6dp"
+        android:paddingTop="2dp"
+        android:paddingBottom="2dp"
+        android:textSize="?attr/status_text_medium"
+        android:textColor="?android:attr/textColorPrimary"
+        android:lines="1"
+        android:ellipsize="end" />
+
+    <TextView
+        android:layout_marginTop="6dp"
+        android:background="@drawable/poll_option_background"
+        android:id="@+id/status_poll_option_result_1"
+        android:layout_width="0dp"
+        android:paddingStart="6dp"
+        android:paddingEnd="6dp"
+        android:lines="1"
+        android:ellipsize="end"
+        android:layout_height="wrap_content"
+        tools:text="10%"
+        android:paddingTop="2dp"
+        android:paddingBottom="2dp"
+        android:textSize="?attr/status_text_medium"
+        android:textColor="?android:attr/textColorPrimary"
+        app:layout_constraintTop_toBottomOf="@id/status_poll_option_result_0"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@id/status_display_name" />
+
+    <TextView
+        android:layout_marginTop="6dp"
+        android:background="@drawable/poll_option_background"
+        android:id="@+id/status_poll_option_result_2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        tools:text="20%"
+        app:layout_constraintTop_toBottomOf="@id/status_poll_option_result_1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@id/status_display_name"
+        android:paddingStart="6dp"
+        android:paddingEnd="6dp"
+        android:paddingTop="2dp"
+        android:paddingBottom="2dp"
+        android:textSize="?attr/status_text_medium"
+        android:textColor="?android:attr/textColorPrimary"
+        android:lines="1"
+        android:ellipsize="end" />
+
+    <TextView
+        android:background="@drawable/poll_option_background"
+        android:layout_marginTop="6dp"
+        android:id="@+id/status_poll_option_result_3"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        tools:text="30%"
+        app:layout_constraintTop_toBottomOf="@id/status_poll_option_result_2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@id/status_display_name"
+        android:paddingStart="6dp"
+        android:paddingEnd="6dp"
+        android:paddingTop="2dp"
+        android:paddingBottom="2dp"
+        android:textSize="?attr/status_text_medium"
+        android:textColor="?android:attr/textColorPrimary"
+        android:lines="1"
+        android:ellipsize="end" />
+    
+    <TextView
+        android:layout_marginTop="6dp"
+        android:id="@+id/status_poll_description"
+        app:layout_constraintTop_toBottomOf="@id/status_poll_option_result_3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@id/status_display_name"
+        android:layout_width="0dp"
+        tools:text="7 votes • 7 hours remaining"
+        android:layout_height="wrap_content" />
+
     <ImageButton
         android:id="@+id/status_reply"
         style="?attr/image_button_style"
@@ -341,7 +427,7 @@
         app:layout_constraintEnd_toStartOf="@id/status_reblog"
         app:layout_constraintHorizontal_chainStyle="spread_inside"
         app:layout_constraintStart_toStartOf="@id/status_display_name"
-        app:layout_constraintTop_toBottomOf="@id/status_media_preview_container"
+        app:layout_constraintTop_toBottomOf="@id/status_poll_description"
         app:srcCompat="@drawable/ic_reply_24dp" />
 
     <at.connyduck.sparkbutton.SparkButton

@@ -45,4 +45,6 @@
     <attr name="status_text_medium" format="dimension" />
     <attr name="status_text_large" format="dimension" />
 
+    <attr name="pollOptionBackgroundColor" format="reference|color" />
+
 </resources>
