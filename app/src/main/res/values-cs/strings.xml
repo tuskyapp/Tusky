@@ -404,4 +404,6 @@
 
     <string name="pref_title_bot_overlay">Zobrazovat indikátor pro roboty</string>
 
+<string name="notification_clear_text">Jste si jistý/á, že chcete trvale vymazat všechna vaše oznámení\?</string>
+
 </resources>
