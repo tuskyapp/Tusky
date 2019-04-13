@@ -1016,7 +1016,7 @@ public final class ComposeActivity
             spoilerText = contentWarningEditor.getText().toString();
         }
         int characterCount = calculateTextLength();
-        if (characterCount <= 0 && mediaQueued.size() == 0) {
+        if ((characterCount <= 0 || contentText.trim().length() <= 0) && mediaQueued.size() == 0) {
             textEditor.setError(getString(R.string.error_empty));
             enableButtons();
         } else if (characterCount <= maximumTootCharacters) {
