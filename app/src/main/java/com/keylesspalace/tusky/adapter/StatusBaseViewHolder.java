@@ -2,6 +2,7 @@ package com.keylesspalace.tusky.adapter;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.preference.PreferenceManager;
 import android.text.Spanned;
 import android.text.TextUtils;
 import android.view.View;
@@ -64,6 +65,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
     private View sensitiveMediaShow;
     protected TextView mediaLabel;
     private ToggleButton contentWarningButton;
+    protected ImageView avatarInset;
 
     public ImageView avatar;
     public TextView timestampInfo;
@@ -76,6 +78,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
     private boolean useAbsoluteTime;
     private SimpleDateFormat shortSdf;
     private SimpleDateFormat longSdf;
+    private boolean showBotOverlay;
 
     private final NumberFormat numberFormat = NumberFormat.getNumberInstance();
 
@@ -87,7 +90,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         content = itemView.findViewById(R.id.status_content);
         avatar = itemView.findViewById(R.id.status_avatar);
         replyButton = itemView.findViewById(R.id.status_reply);
-        reblogButton = itemView.findViewById(R.id.status_reblog);
+        reblogButton = itemView.findViewById(R.id.status_inset);
         favouriteButton = itemView.findViewById(R.id.status_favourite);
         moreButton = itemView.findViewById(R.id.status_more);
         reblogged = false;
@@ -109,6 +112,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         mediaLabel = itemView.findViewById(R.id.status_media_label);
         contentWarningDescription = itemView.findViewById(R.id.status_content_warning_description);
         contentWarningButton = itemView.findViewById(R.id.status_content_warning_button);
+        avatarInset = itemView.findViewById(R.id.status_avatar_inset);
 
         pollResults = new TextView[] {
                 itemView.findViewById(R.id.status_poll_option_result_0),
@@ -122,6 +126,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         this.useAbsoluteTime = useAbsoluteTime;
         shortSdf = new SimpleDateFormat("HH:mm:ss", Locale.getDefault());
         longSdf = new SimpleDateFormat("MM/dd HH:mm:ss", Locale.getDefault());
+        showBotOverlay = PreferenceManager.getDefaultSharedPreferences(itemView.getContext()).getBoolean("showBotOverlay", true);
     }
 
     protected abstract int getMediaPreviewHeight(Context context);
@@ -187,7 +192,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         }
     }
 
-    protected void setAvatar(String url, @Nullable String rebloggedUrl) {
+    protected void setAvatar(String url, @Nullable String rebloggedUrl, boolean isBot) {
         if (TextUtils.isEmpty(url)) {
             avatar.setImageResource(R.drawable.avatar_default);
         } else {
@@ -195,6 +200,14 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
                     .load(url)
                     .placeholder(R.drawable.avatar_default)
                     .into(avatar);
+        }
+
+        if (showBotOverlay && isBot && TextUtils.isEmpty(rebloggedUrl)) {
+            avatarInset.setVisibility(View.VISIBLE);
+            avatarInset.setImageResource(R.drawable.ic_bot_24dp);
+            avatarInset.setBackgroundColor(0x50ffffff);
+        } else {
+            avatarInset.setVisibility(View.GONE);
         }
     }
 
@@ -569,7 +582,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             setUsername(status.getNickname());
             setCreatedAt(status.getCreatedAt());
             setIsReply(status.getInReplyToId() != null);
-            setAvatar(status.getAvatar(), status.getRebloggedAvatar());
+            setAvatar(status.getAvatar(), status.getRebloggedAvatar(), status.isBot());
             setReblogged(status.isReblogged());
             setFavourited(status.isFavourited());
             List<Attachment> attachments = status.getAttachments();

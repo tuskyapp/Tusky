@@ -17,6 +17,7 @@ package com.keylesspalace.tusky.fragment;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -77,6 +78,7 @@ import javax.inject.Inject;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.arch.core.util.Function;
 import androidx.core.util.Pair;
 import androidx.lifecycle.Lifecycle;
@@ -237,7 +239,7 @@ public class NotificationsFragment extends SFragment implements
         updateAdapter();
 
         Button buttonClear = rootView.findViewById(R.id.buttonClear);
-        buttonClear.setOnClickListener(v -> clearNotifications());
+        buttonClear.setOnClickListener(v -> confirmClearNotifications());
         buttonFilter = rootView.findViewById(R.id.buttonFilter);
         buttonFilter.setOnClickListener(v -> showFilterMenu());
 
@@ -250,6 +252,17 @@ public class NotificationsFragment extends SFragment implements
         ((SimpleItemAnimator) recyclerView.getItemAnimator()).setSupportsChangeAnimations(false);
 
         return rootView;
+    }
+
+    private void confirmClearNotifications(){
+        AlertDialog.Builder dialog = new AlertDialog.Builder(getContext());
+        dialog.setMessage(R.string.notification_clear_text);
+
+        dialog.setPositiveButton(android.R.string.yes, (DialogInterface dia, int which) -> clearNotifications());
+
+        dialog.setNeutralButton(android.R.string.no, null);
+
+        dialog.show();
     }
 
     private void handleFavEvent(FavoriteEvent event) {

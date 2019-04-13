@@ -64,6 +64,7 @@ public final class ViewDataUtils {
                 ))
                 .setCollapsed(true)
                 .setPoll(visibleStatus.getPoll())
+                .setIsBot(visibleStatus.getAccount().getBot())
                 .createStatusViewData();
     }
 
