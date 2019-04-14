@@ -72,12 +72,10 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
 
     private val accountFieldAdapter = AccountFieldAdapter(this)
 
-    private lateinit var accountId: String
     private var followState: FollowState = FollowState.NOT_FOLLOWING
     private var blocking: Boolean = false
     private var muting: Boolean = false
     private var showingReblogs: Boolean = false
-    private var isSelf: Boolean = false
     private var loadedAccount: Account? = null
 
     // fields for scroll animation
@@ -118,7 +116,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
                 is Success -> onAccountChanged(it.data)
                 is Error -> {
                     Snackbar.make(accountCoordinatorLayout, R.string.error_generic, Snackbar.LENGTH_LONG)
-                            .setAction(R.string.action_retry) { reload() }
+                            .setAction(R.string.action_retry) { viewModel.refresh()}
                             .show()
                 }
             }
@@ -131,7 +129,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
 
             if (it is Error) {
                 Snackbar.make(accountCoordinatorLayout, R.string.error_generic, Snackbar.LENGTH_LONG)
-                        .setAction(R.string.action_retry) { reload() }
+                        .setAction(R.string.action_retry) { viewModel.refresh()}
                         .show()
             }
 
@@ -144,7 +142,15 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
         setContentView(R.layout.activity_account)
 
         val intent = intent
-        accountId = intent.getStringExtra(KEY_ACCOUNT_ID)
+        val accountId = intent.getStringExtra(KEY_ACCOUNT_ID)
+        val activeAccount = accountManager.activeAccount
+
+        // Obtain information to fill out the profile.
+        viewModel.setAccountInfo(accountId,accountId == activeAccount?.accountId)
+
+        if (accountId == activeAccount?.accountId) {
+            updateButtons()
+        }
 
         // set toolbar top margin according to system window insets
         accountCoordinatorLayout.setOnApplyWindowInsetsListener { _, insets ->
@@ -152,9 +158,6 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
 
             val toolbarParams = accountToolbar.layoutParams as CollapsingToolbarLayout.LayoutParams
             toolbarParams.topMargin = top
-            swipeToRefreshLayout.setProgressViewOffset(false,
-                    swipeToRefreshLayout.progressViewStartOffset,
-                    swipeToRefreshLayout.progressViewEndOffset)
 
             insets.consumeSystemWindowInsets()
         }
@@ -204,7 +207,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
                     ThemeUtils.setDrawableTint(context, accountToolbar.overflowIcon, attribute)
                 }
 
-                if (hideFab && !isSelf && !blocking) {
+                if (hideFab && !viewModel.isSelf && !blocking) {
                     if (verticalOffset > oldOffset) {
                         accountFloatingActionButton.show()
                     }
@@ -231,6 +234,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
                 accountToolbar.setBackgroundColor(evaluatedToolbarColor)
                 accountHeaderInfoContainer.setBackgroundColor(evaluatedTabBarColor)
                 accountTabLayout.setBackgroundColor(evaluatedTabBarColor)
+                swipeToRefreshLayout.isEnabled = verticalOffset==0
             }
         })
 
@@ -240,18 +244,6 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
         accountMuteButton.hide()
         accountFollowsYouTextView.hide()
 
-        // Obtain information to fill out the profile.
-        viewModel.obtainAccount(accountId)
-
-        val activeAccount = accountManager.activeAccount
-
-        if (accountId == activeAccount?.accountId) {
-            isSelf = true
-            updateButtons()
-        } else {
-            isSelf = false
-            viewModel.obtainRelationship(accountId)
-        }
 
         // setup the RecyclerView for the account fields
         accountFieldList.isNestedScrollingEnabled = false
@@ -287,7 +279,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
                 R.id.accountFollowing -> AccountListActivity.Type.FOLLOWS
                 else -> throw AssertionError()
             }
-            val accountListIntent = AccountListActivity.newIntent(this, type, accountId)
+            val accountListIntent = AccountListActivity.newIntent(this, type, viewModel.accountId)
             startActivityWithSlideInAnimation(accountListIntent)
         }
         accountFollowers.setOnClickListener(accountListClickListener)
@@ -300,7 +292,35 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
             poorTabView.isPressed = true
             accountTabLayout.postDelayed({ poorTabView.isPressed = false }, 300)
         }
+
+        setupRefresh()
     }
+
+    private fun setupTabs() {
+        val currentItem = accountFragmentViewPager.currentItem
+        val adapter = AccountPagerAdapter(supportFragmentManager, viewModel.accountId)
+        val pageTitles = arrayOf(getString(R.string.title_statuses), getString(R.string.title_statuses_with_replies), getString(R.string.title_media))
+        adapter.setPageTitles(pageTitles)
+        accountFragmentViewPager.pageMargin = resources.getDimensionPixelSize(R.dimen.tab_page_margin)
+        val pageMarginDrawable = ThemeUtils.getDrawable(this, R.attr.tab_page_margin_drawable,
+                R.drawable.tab_page_margin_dark)
+        accountFragmentViewPager.setPageMarginDrawable(pageMarginDrawable)
+        accountFragmentViewPager.adapter = adapter
+        accountFragmentViewPager.offscreenPageLimit = 2
+        accountTabLayout.setupWithViewPager(accountFragmentViewPager)
+        accountFragmentViewPager.setCurrentItem(currentItem,false)
+    }
+
+    private fun setupRefresh() {
+        swipeToRefreshLayout.setOnRefreshListener {
+            viewModel.refresh()
+            setupTabs()
+        }
+        viewModel.isRefreshing.observe(this, Observer {isRefreshing->
+            swipeToRefreshLayout.isRefreshing = isRefreshing==true
+        })
+    }
+
 
     private fun onAccountChanged(account: Account?) {
         if (account != null) {
@@ -396,7 +416,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
             accountFloatingActionButton.setOnClickListener { mention() }
 
             accountFollowButton.setOnClickListener {
-                if (isSelf) {
+                if (viewModel.isSelf) {
                     val intent = Intent(this@AccountActivity, EditProfileActivity::class.java)
                     startActivity(intent)
                     return@setOnClickListener
@@ -406,12 +426,12 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
                     return@setOnClickListener
                 }
                 if (blocking) {
-                    viewModel.changeBlockState(accountId)
+                    viewModel.changeBlockState()
                     return@setOnClickListener
                 }
                 when (followState) {
                     FollowState.NOT_FOLLOWING -> {
-                        viewModel.changeFollowState(accountId)
+                        viewModel.changeFollowState()
                     }
                     FollowState.REQUESTED -> {
                         showFollowRequestPendingDialog()
@@ -423,8 +443,8 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
                 updateFollowButton()
             }
 
-            accountMuteButton.setOnClickListener { _ ->
-                viewModel.changeMuteState(accountId)
+            accountMuteButton.setOnClickListener {
+                viewModel.changeMuteState()
                 updateMuteButton()
             }
         }
@@ -433,15 +453,11 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-            accountMuteButton.setOnClickListener {
-                viewModel.changeMuteState(accountId)
-            }
-        }
-    }
+        //reload account when returning from EditProfileActivity
+        if(requestCode == EDIT_ACCOUNT && resultCode == Activity.RESULT_OK) {
+            viewModel.obtainAccount(true)
 
-    override fun onSaveInstanceState(outState: Bundle) {
-        outState.putString(KEY_ACCOUNT_ID, accountId)
-        super.onSaveInstanceState(outState)
+        }
     }
 
     private fun onRelationshipChanged(relation: Relationship) {
@@ -459,13 +475,8 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
         updateButtons()
     }
 
-    private fun reload() {
-        viewModel.obtainAccount(accountId, true)
-        viewModel.obtainRelationship(accountId)
-    }
-
     private fun updateFollowButton() {
-        if (isSelf) {
+        if (viewModel.isSelf) {
             accountFollowButton.setText(R.string.action_edit_own_profile)
             return
         }
@@ -502,7 +513,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
             accountFollowButton.show()
             updateFollowButton()
 
-            if (blocking || isSelf) {
+            if (blocking || viewModel.isSelf) {
                 accountFloatingActionButton.hide()
                 accountMuteButton.hide()
             } else {
@@ -521,7 +532,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.account_toolbar, menu)
 
-        if (!isSelf) {
+        if (!viewModel.isSelf) {
             val follow = menu.findItem(R.id.action_follow)
             follow.title = if (followState == FollowState.NOT_FOLLOWING) {
                 getString(R.string.action_follow)
@@ -571,7 +582,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
     private fun showFollowRequestPendingDialog() {
         AlertDialog.Builder(this)
                 .setMessage(R.string.dialog_message_cancel_follow_request)
-                .setPositiveButton(android.R.string.ok) { _, _ -> viewModel.changeFollowState(accountId) }
+                .setPositiveButton(android.R.string.ok) { _, _ -> viewModel.changeFollowState() }
                 .setNegativeButton(android.R.string.cancel, null)
                 .show()
     }
@@ -579,7 +590,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
     private fun showUnfollowWarningDialog() {
         AlertDialog.Builder(this)
                 .setMessage(R.string.dialog_unfollow_warning)
-                .setPositiveButton(android.R.string.ok) { _, _ -> viewModel.changeFollowState(accountId) }
+                .setPositiveButton(android.R.string.ok) { _, _ -> viewModel.changeFollowState() }
                 .setNegativeButton(android.R.string.cancel, null)
                 .show()
     }
@@ -627,20 +638,20 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
                 return true
             }
             R.id.action_follow -> {
-                viewModel.changeFollowState(accountId)
+                viewModel.changeFollowState()
                 return true
             }
             R.id.action_block -> {
-                viewModel.changeBlockState(accountId)
+                viewModel.changeBlockState()
                 return true
             }
             R.id.action_mute -> {
-                viewModel.changeMuteState(accountId)
+                viewModel.changeMuteState()
                 return true
             }
 
             R.id.action_show_reblogs -> {
-                viewModel.changeShowReblogsState(accountId)
+                viewModel.changeShowReblogsState()
                 return true
             }
         }
@@ -648,7 +659,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
     }
 
     override fun getActionButton(): FloatingActionButton? {
-        return if (!isSelf && !blocking) {
+        return if (!viewModel.isSelf && !blocking) {
             accountFloatingActionButton
         } else null
     }

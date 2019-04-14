@@ -32,10 +32,15 @@ class AccountViewModel  @Inject constructor(
                     }
                 }
 
+    val isRefreshing = MutableLiveData<Boolean>().apply { value=false }
+    private var isDataLoading = false
 
-    fun obtainAccount(accountId: String, reload: Boolean = false) {
+    lateinit var accountId:String
+    var isSelf = false
+
+    fun obtainAccount(reload: Boolean = false) {
         if(accountData.value == null || reload) {
-
+            isDataLoading = true
             accountData.postValue(Loading())
 
             val call = mastodonApi.account(accountId)
@@ -47,10 +52,14 @@ class AccountViewModel  @Inject constructor(
                     } else {
                         accountData.postValue(Error())
                     }
+                    isDataLoading = false
+                    isRefreshing.postValue(false)
                 }
 
                 override fun onFailure(call: Call<Account>, t: Throwable) {
                     accountData.postValue(Error())
+                    isDataLoading = false
+                    isRefreshing.postValue(false)
                 }
             })
 
@@ -58,7 +67,7 @@ class AccountViewModel  @Inject constructor(
         }
     }
 
-    fun obtainRelationship(accountId: String, reload: Boolean = false) {
+    fun obtainRelationship(reload: Boolean = false) {
         if(relationshipData.value == null || reload) {
 
             relationshipData.postValue(Loading())
@@ -86,40 +95,40 @@ class AccountViewModel  @Inject constructor(
         }
     }
 
-    fun changeFollowState(id: String) {
+    fun changeFollowState() {
         val relationship = relationshipData.value?.data
         if (relationship?.following == true || relationship?.requested == true) {
-            changeRelationship(RelationShipAction.UNFOLLOW, id)
+            changeRelationship(RelationShipAction.UNFOLLOW)
         } else {
-            changeRelationship(RelationShipAction.FOLLOW, id)
+            changeRelationship(RelationShipAction.FOLLOW)
         }
     }
 
-    fun changeBlockState(id: String) {
+    fun changeBlockState() {
         if (relationshipData.value?.data?.blocking == true) {
-            changeRelationship(RelationShipAction.UNBLOCK, id)
+            changeRelationship(RelationShipAction.UNBLOCK)
         } else {
-            changeRelationship(RelationShipAction.BLOCK, id)
+            changeRelationship(RelationShipAction.BLOCK)
         }
     }
 
-    fun changeMuteState(id: String) {
+    fun changeMuteState() {
         if (relationshipData.value?.data?.muting == true) {
-            changeRelationship(RelationShipAction.UNMUTE, id)
+            changeRelationship(RelationShipAction.UNMUTE)
         } else {
-            changeRelationship(RelationShipAction.MUTE, id)
+            changeRelationship(RelationShipAction.MUTE)
         }
     }
 
-    fun changeShowReblogsState(id: String) {
+    fun changeShowReblogsState() {
         if (relationshipData.value?.data?.showingReblogs == true) {
-            changeRelationship(RelationShipAction.FOLLOW, id, false)
+            changeRelationship(RelationShipAction.FOLLOW, false)
         } else {
-            changeRelationship(RelationShipAction.FOLLOW, id, true)
+            changeRelationship(RelationShipAction.FOLLOW, true)
         }
     }
 
-    private fun changeRelationship(relationshipAction: RelationShipAction, id: String, showReblogs: Boolean = true) {
+    private fun changeRelationship(relationshipAction: RelationShipAction, showReblogs: Boolean = true) {
         val relation = relationshipData.value?.data
         val account = accountData.value?.data
 
@@ -151,9 +160,9 @@ class AccountViewModel  @Inject constructor(
                     relationshipData.postValue(Success(relationship))
 
                     when (relationshipAction) {
-                        RelationShipAction.UNFOLLOW -> eventHub.dispatch(UnfollowEvent(id))
-                        RelationShipAction.BLOCK -> eventHub.dispatch(BlockEvent(id))
-                        RelationShipAction.MUTE -> eventHub.dispatch(MuteEvent(id))
+                        RelationShipAction.UNFOLLOW -> eventHub.dispatch(UnfollowEvent(accountId))
+                        RelationShipAction.BLOCK -> eventHub.dispatch(BlockEvent(accountId))
+                        RelationShipAction.MUTE -> eventHub.dispatch(MuteEvent(accountId))
                         else -> {}
                     }
 
@@ -169,12 +178,12 @@ class AccountViewModel  @Inject constructor(
         }
 
         val call = when(relationshipAction) {
-            RelationShipAction.FOLLOW ->  mastodonApi.followAccount(id, showReblogs)
-            RelationShipAction.UNFOLLOW ->  mastodonApi.unfollowAccount(id)
-            RelationShipAction.BLOCK ->  mastodonApi.blockAccount(id)
-            RelationShipAction.UNBLOCK ->  mastodonApi.unblockAccount(id)
-            RelationShipAction.MUTE ->  mastodonApi.muteAccount(id)
-            RelationShipAction.UNMUTE ->  mastodonApi.unmuteAccount(id)
+            RelationShipAction.FOLLOW ->  mastodonApi.followAccount(accountId, showReblogs)
+            RelationShipAction.UNFOLLOW ->  mastodonApi.unfollowAccount(accountId)
+            RelationShipAction.BLOCK ->  mastodonApi.blockAccount(accountId)
+            RelationShipAction.UNBLOCK ->  mastodonApi.unblockAccount(accountId)
+            RelationShipAction.MUTE ->  mastodonApi.muteAccount(accountId)
+            RelationShipAction.UNMUTE ->  mastodonApi.unmuteAccount(accountId)
         }
 
         call.enqueue(callback)
@@ -187,6 +196,27 @@ class AccountViewModel  @Inject constructor(
             it.cancel()
         }
         disposable.dispose()
+    }
+
+    fun refresh() {
+        reload(true)
+    }
+
+    private fun reload(isReload: Boolean=false) {
+        if (isDataLoading)
+            return
+        accountId.let {
+            obtainAccount(isReload)
+            if (!isSelf)
+                obtainRelationship(isReload)
+        }
+
+    }
+
+    fun setAccountInfo(accountId: String, isSelf: Boolean) {
+        this.accountId = accountId
+        this.isSelf = isSelf
+        reload(false)
     }
 
     enum class RelationShipAction {
