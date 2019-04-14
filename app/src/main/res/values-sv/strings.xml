@@ -400,4 +400,8 @@
     <string name="filter_mentions">\@string/notification_channel_mention_name</string>
     <string name="filter_apply">Utför</string>
 
-    </resources>
+    <string name="pref_title_bot_overlay">Visa robotindikator</string>
+
+    <string name="notification_clear_text">Är du säker på att du vill rensa dina notifieringar permanent\?</string>
+
+</resources>
