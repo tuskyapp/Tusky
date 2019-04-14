@@ -393,6 +393,10 @@ public final class ViewThreadFragment extends SFragment implements
         adapter.setStatuses(statuses.getPairedCopy());
     }
 
+    public void onVoteInPoll(int position, @NonNull List<Integer> choices) {
+        // TODO
+    }
+
     private void removeAllByAccountId(String accountId) {
         Status status = null;
         if (!statuses.isEmpty()) {

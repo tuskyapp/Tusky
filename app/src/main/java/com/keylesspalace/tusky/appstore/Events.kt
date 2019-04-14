@@ -2,6 +2,7 @@ package com.keylesspalace.tusky.appstore
 
 import com.keylesspalace.tusky.TabData
 import com.keylesspalace.tusky.entity.Account
+import com.keylesspalace.tusky.entity.Poll
 import com.keylesspalace.tusky.entity.Status
 
 data class FavoriteEvent(val statusId: String, val favourite: Boolean) : Dispatchable
@@ -14,3 +15,4 @@ data class StatusComposedEvent(val status: Status) : Dispatchable
 data class ProfileEditedEvent(val newProfileData: Account) : Dispatchable
 data class PreferenceChangedEvent(val preferenceKey: String) : Dispatchable
 data class MainTabsChangedEvent(val newTabs: List<TabData>) : Dispatchable
+data class PollVoteEvent(val statusId: String, val poll: Poll) : Dispatchable

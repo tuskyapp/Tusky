@@ -47,6 +47,7 @@ import com.keylesspalace.tusky.db.AccountEntity;
 import com.keylesspalace.tusky.db.AccountManager;
 import com.keylesspalace.tusky.di.Injectable;
 import com.keylesspalace.tusky.entity.Notification;
+import com.keylesspalace.tusky.entity.Poll;
 import com.keylesspalace.tusky.entity.Status;
 import com.keylesspalace.tusky.interfaces.ActionButtonActivity;
 import com.keylesspalace.tusky.interfaces.ReselectableFragment;
@@ -428,6 +429,24 @@ public class NotificationsFragment extends SFragment implements
 
         notifications.setPairedItem(position, newViewData);
         updateAdapter();
+    }
+
+    public void onVoteInPoll(int position, @NonNull List<Integer> choices) {
+        final Notification notification = notifications.get(position).asRight();
+        final Status status = notification.getStatus();
+
+        timelineCases.voteInPoll(status, choices)
+                .observeOn(AndroidSchedulers.mainThread())
+                .as(autoDisposable(from(this)))
+                .subscribe(
+                        (newPoll) -> setVoteForPoll(position, newPoll),
+                        (t) -> Log.d(TAG,
+                                "Failed to vote in poll: " + status.getId(), t)
+                );
+    }
+
+    private void setVoteForPoll(int position, Poll poll) {
+        // TODO
     }
 
     @Override

@@ -16,6 +16,7 @@
 package com.keylesspalace.tusky.network
 
 import com.keylesspalace.tusky.appstore.*
+import com.keylesspalace.tusky.entity.Poll
 import com.keylesspalace.tusky.entity.Relationship
 import com.keylesspalace.tusky.entity.Status
 import io.reactivex.Single
@@ -25,6 +26,7 @@ import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.lang.IllegalStateException
 
 /**
  * Created by charlag on 3/24/18.
@@ -37,6 +39,8 @@ interface TimelineCases {
     fun block(id: String)
     fun delete(id: String)
     fun pin(status: Status, pin: Boolean)
+    fun voteInPoll(status: Status, choices: List<Int>): Single<Poll>
+
 }
 
 class TimelineCasesImpl(
@@ -114,6 +118,18 @@ class TimelineCasesImpl(
                     status.pinned = updatedStatus.pinned
                 }, {})
                 .addTo(this.cancelDisposable)
+    }
+
+    override fun voteInPoll(status: Status, choices: List<Int>): Single<Poll> {
+        val pollId = status.actionableStatus.poll?.id
+
+        if(pollId == null || choices.isEmpty()) {
+            return Single.error(IllegalStateException())
+        }
+
+        return mastodonApi.voteInPoll(pollId, choices).doAfterSuccess {
+            eventHub.dispatch(PollVoteEvent(status.id, it))
+        }
     }
 
 }

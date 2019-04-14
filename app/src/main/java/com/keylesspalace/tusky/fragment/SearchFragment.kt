@@ -232,10 +232,6 @@ class SearchFragment : SFragment(), StatusActionListener {
         searchRecyclerView.post { searchAdapter.notifyItemChanged(position, updatedStatus) }
     }
 
-    companion object {
-        const val TAG = "SearchFragment"
-    }
-
     override fun onViewAccount(id: String) {
         val intent = AccountActivity.getIntent(requireContext(), id)
         startActivity(intent)
@@ -245,6 +241,22 @@ class SearchFragment : SFragment(), StatusActionListener {
         val intent = Intent(context, ViewTagActivity::class.java)
         intent.putExtra("hashtag", tag)
         startActivity(intent)
+    }
+
+    override fun onVoteInPoll(position: Int, choices: MutableList<Int>) {
+        val status = searchAdapter.getStatusAtPosition(position)
+        if (status != null) {
+            timelineCases.voteInPoll(status, choices)
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .autoDisposable(from(this, Lifecycle.Event.ON_DESTROY))
+                    .subscribe({
+                        // TODO
+                    }, { t -> Log.d(TAG, "Failed to vote in poll " + status.id, t) })
+        }
+    }
+
+    companion object {
+        const val TAG = "SearchFragment"
     }
 
 }
