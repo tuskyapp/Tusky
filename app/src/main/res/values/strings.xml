@@ -494,5 +494,7 @@
         <!-- 15% vote for this! -->
         &lt;b>%1$s%%&lt;/b> %2$s</string>
 
+    <string name="poll_vote">Vote</string>
+
 
 </resources>

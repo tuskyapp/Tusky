@@ -7,8 +7,11 @@ import android.text.Spanned;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
@@ -74,6 +77,9 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
 
     private TextView[] pollResults;
     private TextView pollDescription;
+    private RadioGroup pollRadioGroup;
+    private RadioButton[] pollRadioOptions;
+    private Button pollButton;
 
     private boolean useAbsoluteTime;
     private SimpleDateFormat shortSdf;
@@ -122,6 +128,16 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         };
 
         pollDescription = itemView.findViewById(R.id.status_poll_description);
+
+        pollRadioGroup = itemView.findViewById(R.id.status_poll_radio_group);
+        pollRadioOptions = new RadioButton[] {
+                pollRadioGroup.findViewById(R.id.status_poll_radio_button_0),
+                pollRadioGroup.findViewById(R.id.status_poll_radio_button_1),
+                pollRadioGroup.findViewById(R.id.status_poll_radio_button_2),
+                pollRadioGroup.findViewById(R.id.status_poll_radio_button_3)
+        };
+
+        pollButton = itemView.findViewById(R.id.status_poll_button);
 
         this.useAbsoluteTime = useAbsoluteTime;
         shortSdf = new SimpleDateFormat("HH:mm:ss", Locale.getDefault());
@@ -750,23 +766,61 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
                 pollResult.setVisibility(View.GONE);
             }
             pollDescription.setVisibility(View.GONE);
+            pollRadioGroup.setVisibility(View.GONE);
 
+            for(RadioButton radioButton: pollRadioOptions) {
+                radioButton.setVisibility(View.GONE);
+            }
+
+            pollButton.setVisibility(View.GONE);
         } else {
             Context context = pollDescription.getContext();
             List<PollOption> options = poll.getOptions();
-            for(int i = 0; i<4; i++) {
-                if(i < options.size()) {
-                    String pollOptionText = context.getString(R.string.poll_option_format, options.get(i).getVotesCount(), options.get(i).getTitle());
-                    pollResults[i].setText(HtmlUtils.fromHtml(pollOptionText));
-                    pollResults[i].setVisibility(View.VISIBLE);
 
-                    int level = options.get(i).getVotesCount() == 0 ? 0 : (int) (options.get(i).getVotesCount() / (double) poll.getVotesCount() * 10000);
+            if(poll.getExpired() || poll.getVoted())   {
+                // no voting possible
+                for(int i = 0; i<4; i++) {
+                    if(i < options.size()) {
+                        String pollOptionText = context.getString(R.string.poll_option_format, options.get(i).getVotesCount(), options.get(i).getTitle());
+                        pollResults[i].setText(HtmlUtils.fromHtml(pollOptionText));
+                        pollResults[i].setVisibility(View.VISIBLE);
 
-                    pollResults[i].getBackground().setLevel(level);
+                        int level = options.get(i).getVotesCount() == 0 ? 0 : (int) (options.get(i).getVotesCount() / (double) poll.getVotesCount() * 10000);
 
-                } else {
-                    pollResults[i].setVisibility(View.GONE);
+                        pollResults[i].getBackground().setLevel(level);
+
+                    } else {
+                        pollResults[i].setVisibility(View.GONE);
+                    }
                 }
+
+                pollRadioGroup.setVisibility(View.GONE);
+
+                for(RadioButton radioButton: pollRadioOptions) {
+                    radioButton.setVisibility(View.GONE);
+                }
+
+                pollButton.setVisibility(View.GONE);
+            } else {
+                // voting possible
+
+                for(TextView pollResult: pollResults) {
+                    pollResult.setVisibility(View.GONE);
+                }
+
+                pollRadioGroup.setVisibility(View.VISIBLE);
+                pollButton.setVisibility(View.VISIBLE);
+
+                for(int i = 0; i<4; i++) {
+                    if(i < options.size()) {
+                        pollRadioOptions[i].setText(options.get(i).getTitle());
+                        pollRadioOptions[i].setVisibility(View.VISIBLE);
+
+                    } else {
+                        pollRadioOptions[i].setVisibility(View.GONE);
+                    }
+                }
+
             }
 
             pollDescription.setVisibility(View.VISIBLE);

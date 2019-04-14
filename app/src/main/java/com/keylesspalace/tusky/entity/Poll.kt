@@ -10,7 +10,7 @@ data class Poll(
         val multiple: Boolean,
         @SerializedName("votes_count") val votesCount: Int,
         val options: List<PollOption>,
-        val voted: Boolean?
+        val voted: Boolean
 )
 
 data class PollOption(
