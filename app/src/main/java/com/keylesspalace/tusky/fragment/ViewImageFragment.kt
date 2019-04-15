@@ -20,12 +20,12 @@ import android.animation.AnimatorListenerAdapter
 import android.content.Context
 import android.graphics.drawable.Drawable
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.lifecycle.Lifecycle
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
@@ -37,14 +37,8 @@ import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.entity.Attachment
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.visible
-import com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider.from
-import com.uber.autodispose.autoDisposable
-import io.reactivex.Completable
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.activity_view_media.*
 import kotlinx.android.synthetic.main.fragment_view_image.*
-import java.util.concurrent.TimeUnit
 
 class ViewImageFragment : ViewMediaFragment() {
     interface PhotoActionsListener {
@@ -53,7 +47,6 @@ class ViewImageFragment : ViewMediaFragment() {
         fun onPhotoTap()
     }
 
-    private var dispose: Disposable? = null
     private lateinit var attacher: PhotoViewAttacher
     private lateinit var photoActionsListener: PhotoActionsListener
     private lateinit var toolbar: View
@@ -86,15 +79,6 @@ class ViewImageFragment : ViewMediaFragment() {
         }
 
         loadImageFromNetwork(url, photoView)
-
-        //Add a delay to prevent screen blink on load image from the cache
-        dispose = Completable.timer(500, TimeUnit.MILLISECONDS)
-                .observeOn(AndroidSchedulers.mainThread())
-                .doOnComplete {
-                    completeTransition()
-                }
-                .autoDisposable(from(viewLifecycleOwner, Lifecycle.Event.ON_DESTROY))
-                .subscribe()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
@@ -152,26 +136,37 @@ class ViewImageFragment : ViewMediaFragment() {
             Glide.with(this)
                     .load(url)
                     .dontAnimate()
+                    .onlyRetrieveFromCache(true)
+                    .error(
+                        Glide.with(this)
+                                .load(url)
+                                .centerInside()
+                                .addListener(ImageRequestListener(false))
+                    )
                     .centerInside()
-                    .addListener(object : RequestListener<Drawable> {
-                        override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Drawable>?, isFirstResource: Boolean): Boolean {
-                            progressBar?.hide()
-                            return false
-                        }
-
-                        override fun onResourceReady(resource: Drawable?, model: Any?, target: Target<Drawable>?, dataSource: DataSource?, isFirstResource: Boolean): Boolean {
-                            progressBar?.hide()
-                            dispose?.dispose()
-                            resource?.let {
-                                target?.onResourceReady(resource, null)
-                                completeTransition()
-                                return true
-                            }
-                            return false
-                        }
-                    })
+                    .addListener(ImageRequestListener(true))
                     .into(photoView)
 
+
+    inner class ImageRequestListener(private val isCacheRequest:Boolean) : RequestListener<Drawable> {
+        override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Drawable>?, isFirstResource: Boolean): Boolean {
+            if (isCacheRequest)
+                completeTransition()
+            else
+                progressBar?.hide()
+            return false
+        }
+
+        override fun onResourceReady(resource: Drawable?, model: Any?, target: Target<Drawable>?, dataSource: DataSource?, isFirstResource: Boolean): Boolean {
+            progressBar?.hide()
+            resource?.let {
+                target?.onResourceReady(resource, null)
+                if (isCacheRequest) completeTransition()
+                return true
+            }
+            return false
+        }
+    }
 
     private fun completeTransition() {
         attacher.update()
