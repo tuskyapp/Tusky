@@ -20,7 +20,6 @@ import android.animation.AnimatorListenerAdapter
 import android.content.Context
 import android.graphics.drawable.Drawable
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -133,35 +132,40 @@ class ViewImageFragment : ViewMediaFragment() {
     }
 
     private fun loadImageFromNetwork(url: String, photoView: ImageView) =
+            //Request image from the any cache
             Glide.with(this)
                     .load(url)
                     .dontAnimate()
                     .onlyRetrieveFromCache(true)
                     .error(
-                        Glide.with(this)
-                                .load(url)
-                                .centerInside()
-                                .addListener(ImageRequestListener(false))
+                            //Request image from the network on fail load image from cache
+                            Glide.with(this)
+                                    .load(url)
+                                    .centerInside()
+                                    .addListener(ImageRequestListener(false))
                     )
                     .centerInside()
                     .addListener(ImageRequestListener(true))
                     .into(photoView)
 
 
-    inner class ImageRequestListener(private val isCacheRequest:Boolean) : RequestListener<Drawable> {
+    /**
+     * @param isCacheRequest - is this listener for request image from cache or from the network
+     */
+    private inner class ImageRequestListener(private val isCacheRequest: Boolean) : RequestListener<Drawable> {
         override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Drawable>?, isFirstResource: Boolean): Boolean {
-            if (isCacheRequest)
+            if (isCacheRequest) //Complete the transition on failed image from cache
                 completeTransition()
             else
-                progressBar?.hide()
+                progressBar?.hide() //Hide progress bar only on fail request from internet
             return false
         }
 
         override fun onResourceReady(resource: Drawable?, model: Any?, target: Target<Drawable>?, dataSource: DataSource?, isFirstResource: Boolean): Boolean {
-            progressBar?.hide()
+            progressBar?.hide() //Always hide the progress bar on success
             resource?.let {
                 target?.onResourceReady(resource, null)
-                if (isCacheRequest) completeTransition()
+                if (isCacheRequest) completeTransition() //Complete transition on cache request only, because transition already completed on Network request
                 return true
             }
             return false
