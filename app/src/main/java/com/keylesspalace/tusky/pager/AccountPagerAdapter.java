@@ -54,7 +54,7 @@ public class AccountPagerAdapter extends FragmentPagerAdapter {
                 return TimelineFragment.newInstance(TimelineFragment.Kind.USER_WITH_REPLIES, accountId,false);
             }
             case 2: {
-                return TimelineFragment.newInstance(TimelineFragment.Kind.USER_PINNED, accountId);
+                return TimelineFragment.newInstance(TimelineFragment.Kind.USER_PINNED, accountId,false);
             }
             case 3: {
                 return AccountMediaFragment.newInstance(accountId,false);

@@ -33,6 +33,7 @@ import com.keylesspalace.tusky.ViewMediaActivity
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.entity.Attachment
 import com.keylesspalace.tusky.entity.Status
+import com.keylesspalace.tusky.interfaces.RefreshableFragment
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.ThemeUtils
 import com.keylesspalace.tusky.util.hide
@@ -53,8 +54,7 @@ import javax.inject.Inject
  * Fragment with multiple columns of media previews for the specified account.
  */
 
-class AccountMediaFragment : BaseFragment(), Injectable {
-
+class AccountMediaFragment : BaseFragment(), RefreshableFragment, Injectable {
     companion object {
         @JvmStatic
         fun newInstance(accountId: String, enableSwipeToRefresh:Boolean=true): AccountMediaFragment {
@@ -81,6 +81,8 @@ class AccountMediaFragment : BaseFragment(), Injectable {
     private val statuses = mutableListOf<Status>()
     private var fetchingStatus = FetchingStatus.NOT_FETCHING
     private var isVisibleToUser: Boolean = false
+
+    private var accountId: String?=null
 
     private val callback = object : Callback<List<Status>> {
         override fun onFailure(call: Call<List<Status>>?, t: Throwable?) {
@@ -119,6 +121,8 @@ class AccountMediaFragment : BaseFragment(), Injectable {
                         result.addAll(AttachmentViewData.list(status))
                     }
                     adapter.addTop(result)
+                    if (result.isNotEmpty())
+                        recyclerView.scrollToPosition(0)
 
                     if (statuses.isEmpty()) {
                         statusView.show()
@@ -159,6 +163,7 @@ class AccountMediaFragment : BaseFragment(), Injectable {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         isSwipeToRefreshEnabled = arguments?.getBoolean(ARG_ENABLE_SWIPE_TO_REFRESH,true)==true
+        accountId =  arguments?.getString(ACCOUNT_ID_ARG)
     }
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -179,27 +184,15 @@ class AccountMediaFragment : BaseFragment(), Injectable {
         recyclerView.layoutManager = layoutManager
         recyclerView.adapter = adapter
 
-        val accountId = arguments?.getString(ACCOUNT_ID_ARG)
-        swipe_refresh_layout.isEnabled = isSwipeToRefreshEnabled
+
 
         if (isSwipeToRefreshEnabled) {
-            swipe_refresh_layout.setOnRefreshListener {
-                if (fetchingStatus != FetchingStatus.NOT_FETCHING) return@setOnRefreshListener
-                currentCall = if (statuses.isEmpty()) {
-                    fetchingStatus = FetchingStatus.INITIAL_FETCHING
-                    api.accountStatuses(accountId, null, null, null, null, true)
-                } else {
-                    fetchingStatus = FetchingStatus.REFRESHING
-                    api.accountStatuses(accountId, null, statuses[0].id, null, null, true)
-                }
-                currentCall?.enqueue(callback)
-
+            swipeRefreshLayout.setOnRefreshListener {
+                refresh()
             }
-            swipe_refresh_layout.setColorSchemeResources(R.color.primary)
-            swipe_refresh_layout.setProgressBackgroundColorSchemeColor(ThemeUtils.getColor(context, android.R.attr.colorBackground))
+            swipeRefreshLayout.setColorSchemeResources(R.color.tusky_blue)
+            swipeRefreshLayout.setProgressBackgroundColorSchemeColor(ThemeUtils.getColor(view.context, android.R.attr.colorBackground))
         }
-
-
         statusView.visibility = View.GONE
 
         recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
@@ -223,6 +216,21 @@ class AccountMediaFragment : BaseFragment(), Injectable {
         if (isVisibleToUser) doInitialLoadingIfNeeded()
     }
 
+    private fun refresh() {
+        statusView.hide()
+        if (fetchingStatus != FetchingStatus.NOT_FETCHING) return
+        currentCall = if (statuses.isEmpty()) {
+            fetchingStatus = FetchingStatus.INITIAL_FETCHING
+            api.accountStatuses(accountId, null, null, null, null, true, null)
+        } else {
+            fetchingStatus = FetchingStatus.REFRESHING
+            api.accountStatuses(accountId, null, statuses[0].id, null, null, true, null)
+        }
+        currentCall?.enqueue(callback)
+
+
+    }
+
     // That's sort of an optimization to only load media once user has opened the tab
     // Attention: can be called before *any* lifecycle method!
     override fun setUserVisibleHint(isVisibleToUser: Boolean) {
@@ -235,7 +243,6 @@ class AccountMediaFragment : BaseFragment(), Injectable {
         if (isAdded) {
             statusView.hide()
         }
-        val accountId = arguments?.getString(ACCOUNT_ID_ARG)
         if (fetchingStatus == FetchingStatus.NOT_FETCHING && statuses.isEmpty()) {
             fetchingStatus = FetchingStatus.INITIAL_FETCHING
             currentCall = api.accountStatuses(accountId, null, null, null, null, true, null)
@@ -332,4 +339,10 @@ class AccountMediaFragment : BaseFragment(), Injectable {
             }
         }
     }
+
+    override fun refreshContent() {
+        refresh()
+    }
+
+
 }

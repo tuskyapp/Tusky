@@ -48,6 +48,7 @@ import com.keylesspalace.tusky.entity.Filter;
 import com.keylesspalace.tusky.entity.Poll;
 import com.keylesspalace.tusky.entity.Status;
 import com.keylesspalace.tusky.interfaces.ActionButtonActivity;
+import com.keylesspalace.tusky.interfaces.RefreshableFragment;
 import com.keylesspalace.tusky.interfaces.ReselectableFragment;
 import com.keylesspalace.tusky.interfaces.StatusActionListener;
 import com.keylesspalace.tusky.network.MastodonApi;
@@ -108,7 +109,7 @@ import static com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvid
 public class TimelineFragment extends SFragment implements
         SwipeRefreshLayout.OnRefreshListener,
         StatusActionListener,
-        Injectable, ReselectableFragment {
+        Injectable, ReselectableFragment, RefreshableFragment {
     private static final String TAG = "TimelineF"; // logging tag
     private static final String KIND_ARG = "kind";
     private static final String HASHTAG_OR_ID_ARG = "hashtag_or_id";
@@ -533,7 +534,8 @@ public class TimelineFragment extends SFragment implements
 
     @Override
     public void onRefresh() {
-        swipeRefreshLayout.setEnabled(true);
+        if (isSwipeToRefreshEnabled)
+            swipeRefreshLayout.setEnabled(true);
         this.statusView.setVisibility(View.GONE);
         if (this.initialUpdateFailed) {
             updateCurrent();
@@ -1276,7 +1278,10 @@ public class TimelineFragment extends SFragment implements
                 adapter.notifyItemRangeInserted(position, count);
                 Context context = getContext();
                 if (position == 0 && context != null) {
-                    recyclerView.scrollBy(0, Utils.dpToPx(context, -30));
+                    if (isSwipeToRefreshEnabled)
+                        recyclerView.scrollBy(0, Utils.dpToPx(context, -30));
+                    else
+                        recyclerView.scrollToPosition(0);
                 }
             }
         }
@@ -1370,5 +1375,11 @@ public class TimelineFragment extends SFragment implements
     @Override
     public void onReselect() {
         jumpToTop();
+    }
+
+    @Override
+    public void refreshContent() {
+        if (isAdded())
+            onRefresh();
     }
 }

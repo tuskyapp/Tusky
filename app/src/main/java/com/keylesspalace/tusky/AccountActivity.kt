@@ -49,6 +49,7 @@ import com.keylesspalace.tusky.entity.Account
 import com.keylesspalace.tusky.entity.Relationship
 import com.keylesspalace.tusky.interfaces.ActionButtonActivity
 import com.keylesspalace.tusky.interfaces.LinkListener
+import com.keylesspalace.tusky.interfaces.RefreshableFragment
 import com.keylesspalace.tusky.interfaces.ReselectableFragment
 import com.keylesspalace.tusky.pager.AccountPagerAdapter
 import com.keylesspalace.tusky.util.*
@@ -104,7 +105,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
         REQUESTED
     }
 
-    private var adapter: AccountPagerAdapter? = null
+    private lateinit var adapter: AccountPagerAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -296,25 +297,13 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
         setupRefresh()
     }
 
-    private fun setupTabs() {
-        val currentItem = accountFragmentViewPager.currentItem
-        val adapter = AccountPagerAdapter(supportFragmentManager, viewModel.accountId)
-        val pageTitles = arrayOf(getString(R.string.title_statuses), getString(R.string.title_statuses_with_replies), getString(R.string.title_media))
-        adapter.setPageTitles(pageTitles)
-        accountFragmentViewPager.pageMargin = resources.getDimensionPixelSize(R.dimen.tab_page_margin)
-        val pageMarginDrawable = ThemeUtils.getDrawable(this, R.attr.tab_page_margin_drawable,
-                R.drawable.tab_page_margin_dark)
-        accountFragmentViewPager.setPageMarginDrawable(pageMarginDrawable)
-        accountFragmentViewPager.adapter = adapter
-        accountFragmentViewPager.offscreenPageLimit = 2
-        accountTabLayout.setupWithViewPager(accountFragmentViewPager)
-        accountFragmentViewPager.setCurrentItem(currentItem,false)
-    }
 
     private fun setupRefresh() {
         swipeToRefreshLayout.setOnRefreshListener {
             viewModel.refresh()
-            setupTabs()
+            for (page in 0 until adapter.count){
+                (adapter.getFragment(page) as? RefreshableFragment)?.refreshContent()
+            }
         }
         viewModel.isRefreshing.observe(this, Observer {isRefreshing->
             swipeToRefreshLayout.isRefreshing = isRefreshing==true
@@ -422,7 +411,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
                     return@setOnClickListener
                 }
                 if (blocking) {
-                    viewModel.changeBlockState(accountId)
+                    viewModel.changeBlockState()
                     return@setOnClickListener
                 }
                 if (blocking) {
@@ -447,16 +436,6 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
                 viewModel.changeMuteState()
                 updateMuteButton()
             }
-        }
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-
-        //reload account when returning from EditProfileActivity
-        if(requestCode == EDIT_ACCOUNT && resultCode == Activity.RESULT_OK) {
-            viewModel.obtainAccount(true)
-
         }
     }
 
