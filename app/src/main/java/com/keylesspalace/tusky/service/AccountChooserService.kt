@@ -23,12 +23,12 @@ import android.os.Bundle
 import android.service.chooser.ChooserTarget
 import android.service.chooser.ChooserTargetService
 import android.text.TextUtils
+import com.bumptech.glide.Glide
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.TuskyApplication
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.util.NotificationHelper
-import com.squareup.picasso.Picasso
 
 
 @TargetApi(23)
@@ -48,10 +48,13 @@ class AccountChooserService : ChooserTargetService(), Injectable {
             val icon: Icon = if (TextUtils.isEmpty(account.profilePictureUrl)) {
                 Icon.createWithResource(applicationContext, R.drawable.avatar_default)
             } else {
-                Icon.createWithBitmap(Picasso.with(this).load(account.profilePictureUrl)
+                val bmp = Glide.with(this)
+                        .asBitmap()
+                        .load(account.profilePictureUrl)
                         .error(R.drawable.avatar_default)
                         .placeholder(R.drawable.avatar_default)
-                        .get())
+                        .submit()
+                Icon.createWithBitmap(bmp.get())
             }
             val bundle = Bundle()
             bundle.putLong(NotificationHelper.ACCOUNT_ID, account.id)

@@ -19,9 +19,9 @@ import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
+import com.bumptech.glide.Glide
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.entity.Emoji
-import com.squareup.picasso.Picasso
 
 class EmojiAdapter(emojiList: List<Emoji>, private val onEmojiSelectedListener: OnEmojiSelectedListener) : RecyclerView.Adapter<EmojiAdapter.EmojiHolder>() {
     private val emojiList : List<Emoji>
@@ -42,7 +42,7 @@ class EmojiAdapter(emojiList: List<Emoji>, private val onEmojiSelectedListener: 
     override fun onBindViewHolder(viewHolder: EmojiAdapter.EmojiHolder, position: Int) {
         val emoji = emojiList[position]
 
-        Picasso.with(viewHolder.emojiImageView.context)
+        Glide.with(viewHolder.emojiImageView)
                 .load(emoji.url)
                 .into(viewHolder.emojiImageView)
 

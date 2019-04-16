@@ -23,12 +23,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
+import com.bumptech.glide.Glide;
 import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.adapter.StatusBaseViewHolder;
 import com.keylesspalace.tusky.entity.Attachment;
 import com.keylesspalace.tusky.interfaces.StatusActionListener;
 import com.keylesspalace.tusky.util.SmartLengthInputFilter;
-import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -122,7 +122,7 @@ public class ConversationViewHolder extends StatusBaseViewHolder {
         for(int i=0; i < avatars.length; i++) {
             ImageView avatarView = avatars[i];
             if(i < accounts.size()) {
-                Picasso.with(avatarView.getContext())
+                Glide.with(avatarView)
                         .load(accounts.get(i).getAvatar())
                         .into(avatarView);
                 avatarView.setVisibility(View.VISIBLE);
