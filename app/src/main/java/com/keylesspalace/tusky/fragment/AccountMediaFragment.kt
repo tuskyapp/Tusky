@@ -92,6 +92,7 @@ class AccountMediaFragment : BaseFragment(), RefreshableFragment, Injectable {
             if (isAdded) {
                 swipeRefreshLayout.isRefreshing = false
                 progressBar.visibility = View.GONE
+                topProgressBar?.hide()
                 statusView.show()
                 if (t is IOException) {
                     statusView.setup(R.drawable.elephant_offline, R.string.error_network) {
@@ -112,6 +113,7 @@ class AccountMediaFragment : BaseFragment(), RefreshableFragment, Injectable {
             if (isAdded) {
                 swipeRefreshLayout.isRefreshing = false
                 progressBar.visibility = View.GONE
+                topProgressBar?.hide()
 
                 val body = response.body()
                 body?.let { fetched ->
@@ -229,7 +231,8 @@ class AccountMediaFragment : BaseFragment(), RefreshableFragment, Injectable {
         }
         currentCall?.enqueue(callback)
 
-
+        if (!isSwipeToRefreshEnabled)
+            topProgressBar?.show()
     }
 
     // That's sort of an optimization to only load media once user has opened the tab

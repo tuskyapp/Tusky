@@ -83,6 +83,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.arch.core.util.Function;
 import androidx.core.util.Pair;
+import androidx.core.widget.ContentLoadingProgressBar;
 import androidx.lifecycle.Lifecycle;
 import androidx.recyclerview.widget.AsyncDifferConfig;
 import androidx.recyclerview.widget.AsyncListDiffer;
@@ -95,6 +96,7 @@ import androidx.recyclerview.widget.SimpleItemAnimator;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import at.connyduck.sparkbutton.helpers.Utils;
 import io.reactivex.Observable;
+import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import kotlin.Unit;
 import kotlin.collections.CollectionsKt;
@@ -150,6 +152,7 @@ public class TimelineFragment extends SFragment implements
     private SwipeRefreshLayout swipeRefreshLayout;
     private RecyclerView recyclerView;
     private ProgressBar progressBar;
+    private ContentLoadingProgressBar topProgressBar;
     private BackgroundMessageView statusView;
 
     private TimelineAdapter adapter;
@@ -232,6 +235,7 @@ public class TimelineFragment extends SFragment implements
         swipeRefreshLayout = rootView.findViewById(R.id.swipeRefreshLayout);
         progressBar = rootView.findViewById(R.id.progressBar);
         statusView = rootView.findViewById(R.id.statusView);
+        topProgressBar = rootView.findViewById(R.id.topProgressBar);
 
         setupSwipeRefreshLayout();
         setupRecyclerView();
@@ -951,6 +955,9 @@ public class TimelineFragment extends SFragment implements
     private void sendFetchTimelineRequest(@Nullable String maxId, @Nullable String sinceId,
                                           @Nullable String sinceIdMinusOne,
                                           final FetchEnd fetchEnd, final int pos) {
+        if (isAdded() && (fetchEnd==FetchEnd.TOP || fetchEnd==FetchEnd.BOTTOM && maxId==null && progressBar.getVisibility()!=View.VISIBLE) && !isSwipeToRefreshEnabled)
+            topProgressBar.show();
+
         if (kind == Kind.HOME) {
             TimelineRequestMode mode;
             // allow getting old statuses/fallbacks for network only for for bottom loading
@@ -1031,6 +1038,7 @@ public class TimelineFragment extends SFragment implements
                 }
             }
         if (isAdded()) {
+            topProgressBar.hide();
             updateBottomLoadingState(fetchEnd);
             progressBar.setVisibility(View.GONE);
             swipeRefreshLayout.setRefreshing(false);
@@ -1046,6 +1054,7 @@ public class TimelineFragment extends SFragment implements
     private void onFetchTimelineFailure(Exception exception, FetchEnd fetchEnd, int position) {
         if (isAdded()) {
             swipeRefreshLayout.setRefreshing(false);
+            topProgressBar.hide();
 
             if (fetchEnd == FetchEnd.MIDDLE && !statuses.get(position).isRight()) {
                 Placeholder placeholder = statuses.get(position).asLeftOrNull();
