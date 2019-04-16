@@ -117,6 +117,7 @@ public class TimelineFragment extends SFragment implements
 
     private static final int LOAD_AT_ONCE = 30;
     private boolean isSwipeToRefreshEnabled = true;
+    private boolean isNeedRefresh;
 
     public enum Kind {
         HOME,
@@ -243,6 +244,8 @@ public class TimelineFragment extends SFragment implements
             this.sendInitialRequest();
         } else {
             progressBar.setVisibility(View.GONE);
+            if (isNeedRefresh)
+                onRefresh();
         }
 
         return rootView;
@@ -537,6 +540,7 @@ public class TimelineFragment extends SFragment implements
         if (isSwipeToRefreshEnabled)
             swipeRefreshLayout.setEnabled(true);
         this.statusView.setVisibility(View.GONE);
+        isNeedRefresh = false;
         if (this.initialUpdateFailed) {
             updateCurrent();
         } else {
@@ -988,52 +992,54 @@ public class TimelineFragment extends SFragment implements
     private void onFetchTimelineSuccess(List<Either<Placeholder, Status>> statuses,
                                         FetchEnd fetchEnd, int pos) {
 
-        // We filled the hole (or reached the end) if the server returned less statuses than we
-        // we asked for.
-        boolean fullFetch = statuses.size() >= LOAD_AT_ONCE;
-        filterStatuses(statuses);
-        switch (fetchEnd) {
-            case TOP: {
-                updateStatuses(statuses, fullFetch);
-                break;
-            }
-            case MIDDLE: {
-                replacePlaceholderWithStatuses(statuses, fullFetch, pos);
-                break;
-            }
-            case BOTTOM: {
-                if (!this.statuses.isEmpty()
-                        && !this.statuses.get(this.statuses.size() - 1).isRight()) {
-                    this.statuses.remove(this.statuses.size() - 1);
-                    updateAdapter();
-                }
-
-                if (!statuses.isEmpty() && !statuses.get(statuses.size() - 1).isRight()) {
-                    // Removing placeholder if it's the last one from the cache
-                    statuses.remove(statuses.size() - 1);
-                }
-                int oldSize = this.statuses.size();
-                if (this.statuses.size() > 1) {
-                    addItems(statuses);
-                } else {
+            // We filled the hole (or reached the end) if the server returned less statuses than we
+            // we asked for.
+            boolean fullFetch = statuses.size() >= LOAD_AT_ONCE;
+            filterStatuses(statuses);
+            switch (fetchEnd) {
+                case TOP: {
                     updateStatuses(statuses, fullFetch);
+                    break;
                 }
-                if (this.statuses.size() == oldSize) {
-                    // This may be a brittle check but seems like it works
-                    // Can we check it using headers somehow? Do all server support them?
-                    didLoadEverythingBottom = true;
+                case MIDDLE: {
+                    replacePlaceholderWithStatuses(statuses, fullFetch, pos);
+                    break;
                 }
-                break;
+                case BOTTOM: {
+                    if (!this.statuses.isEmpty()
+                            && !this.statuses.get(this.statuses.size() - 1).isRight()) {
+                        this.statuses.remove(this.statuses.size() - 1);
+                        updateAdapter();
+                    }
+
+                    if (!statuses.isEmpty() && !statuses.get(statuses.size() - 1).isRight()) {
+                        // Removing placeholder if it's the last one from the cache
+                        statuses.remove(statuses.size() - 1);
+                    }
+                    int oldSize = this.statuses.size();
+                    if (this.statuses.size() > 1) {
+                        addItems(statuses);
+                    } else {
+                        updateStatuses(statuses, fullFetch);
+                    }
+                    if (this.statuses.size() == oldSize) {
+                        // This may be a brittle check but seems like it works
+                        // Can we check it using headers somehow? Do all server support them?
+                        didLoadEverythingBottom = true;
+                    }
+                    break;
+                }
             }
-        }
-        updateBottomLoadingState(fetchEnd);
-        progressBar.setVisibility(View.GONE);
-        swipeRefreshLayout.setRefreshing(false);
-        swipeRefreshLayout.setEnabled(true);
-        if (this.statuses.size() == 0) {
-            this.showNothing();
-        } else {
-            this.statusView.setVisibility(View.GONE);
+        if (isAdded()) {
+            updateBottomLoadingState(fetchEnd);
+            progressBar.setVisibility(View.GONE);
+            swipeRefreshLayout.setRefreshing(false);
+            swipeRefreshLayout.setEnabled(true);
+            if (this.statuses.size() == 0) {
+                this.showNothing();
+            } else {
+                this.statusView.setVisibility(View.GONE);
+            }
         }
     }
 
@@ -1381,5 +1387,7 @@ public class TimelineFragment extends SFragment implements
     public void refreshContent() {
         if (isAdded())
             onRefresh();
+        else
+            isNeedRefresh = true;
     }
 }

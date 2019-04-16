@@ -72,6 +72,7 @@ class AccountMediaFragment : BaseFragment(), RefreshableFragment, Injectable {
     }
 
     private var isSwipeToRefreshEnabled: Boolean = true
+    private var needToRefresh = false
 
     @Inject
     lateinit var api: MastodonApi
@@ -248,6 +249,9 @@ class AccountMediaFragment : BaseFragment(), RefreshableFragment, Injectable {
             currentCall = api.accountStatuses(accountId, null, null, null, null, true, null)
             currentCall?.enqueue(callback)
         }
+        else if (needToRefresh)
+            refresh()
+        needToRefresh = false
     }
 
     private fun viewMedia(items: List<AttachmentViewData>, currentIndex: Int, view: View?) {
@@ -341,7 +345,10 @@ class AccountMediaFragment : BaseFragment(), RefreshableFragment, Injectable {
     }
 
     override fun refreshContent() {
-        refresh()
+        if (isAdded)
+            refresh()
+        else
+            needToRefresh = true
     }
 
 
