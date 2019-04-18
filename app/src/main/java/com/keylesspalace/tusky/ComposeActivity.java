@@ -62,6 +62,7 @@ import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.Gson;
@@ -97,7 +98,6 @@ import com.keylesspalace.tusky.view.ProgressImageView;
 import com.keylesspalace.tusky.view.TootButton;
 import com.mikepenz.google_material_typeface_library.GoogleMaterial;
 import com.mikepenz.iconics.IconicsDrawable;
-import com.squareup.picasso.Picasso;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -286,7 +286,7 @@ public final class ComposeActivity
             if (TextUtils.isEmpty(activeAccount.getProfilePictureUrl())) {
                 composeAvatar.setImageResource(R.drawable.avatar_default);
             } else {
-                Picasso.with(this).load(activeAccount.getProfilePictureUrl())
+                Glide.with(this).load(activeAccount.getProfilePictureUrl())
                         .error(R.drawable.avatar_default)
                         .placeholder(R.drawable.avatar_default)
                         .into(composeAvatar);

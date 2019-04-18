@@ -33,6 +33,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
+import com.bumptech.glide.Glide;
 import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.entity.Account;
 import com.keylesspalace.tusky.entity.Emoji;
@@ -46,7 +47,6 @@ import com.keylesspalace.tusky.util.SmartLengthInputFilter;
 import com.keylesspalace.tusky.viewdata.NotificationViewData;
 import com.keylesspalace.tusky.viewdata.StatusViewData;
 import com.mikepenz.iconics.utils.Utils;
-import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -309,9 +309,8 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
             if (TextUtils.isEmpty(account.getAvatar())) {
                 avatar.setImageResource(R.drawable.avatar_default);
             } else {
-                Picasso.with(context)
+                Glide.with(avatar)
                         .load(account.getAvatar())
-                        .fit()
                         .placeholder(R.drawable.avatar_default)
                         .into(avatar);
             }
@@ -487,12 +486,11 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
         }
 
         void setAvatars(@Nullable String statusAvatarUrl, @Nullable String notificationAvatarUrl) {
-            Context context = statusAvatar.getContext();
 
             if (TextUtils.isEmpty(statusAvatarUrl)) {
                 statusAvatar.setImageResource(R.drawable.avatar_default);
             } else {
-                Picasso.with(context)
+                Glide.with(statusAvatar)
                         .load(statusAvatarUrl)
                         .placeholder(R.drawable.avatar_default)
                         .into(statusAvatar);
@@ -501,7 +499,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
             if (TextUtils.isEmpty(notificationAvatarUrl)) {
                 notificationAvatar.setImageResource(R.drawable.avatar_default);
             } else {
-                Picasso.with(context)
+                Glide.with(notificationAvatar)
                         .load(notificationAvatarUrl)
                         .placeholder(R.drawable.avatar_default)
                         .into(notificationAvatar);

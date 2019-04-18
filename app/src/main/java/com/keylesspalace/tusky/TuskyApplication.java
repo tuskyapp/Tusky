@@ -26,14 +26,12 @@ import android.preference.PreferenceManager;
 import androidx.emoji.text.EmojiCompat;
 
 import com.evernote.android.job.JobManager;
-import com.jakewharton.picasso.OkHttp3Downloader;
 import com.keylesspalace.tusky.db.AccountManager;
 import com.keylesspalace.tusky.db.AppDatabase;
 import com.keylesspalace.tusky.di.AppInjector;
 import com.keylesspalace.tusky.util.EmojiCompatFont;
 import com.keylesspalace.tusky.util.LocaleManager;
 import com.keylesspalace.tusky.util.NotificationPullJobCreator;
-import com.squareup.picasso.Picasso;
 
 import org.conscrypt.Conscrypt;
 
@@ -98,7 +96,6 @@ public class TuskyApplication extends Application implements HasActivityInjector
         };
 
         initAppInjector();
-        initPicasso();
         initEmojiCompat();
 
         JobManager.create(this).addJobCreator(notificationPullJobCreator);
@@ -140,17 +137,6 @@ public class TuskyApplication extends Application implements HasActivityInjector
 
     protected void initAppInjector() {
         AppInjector.INSTANCE.init(this);
-    }
-
-    protected void initPicasso() {
-        // Initialize Picasso configuration
-        Picasso.Builder builder = new Picasso.Builder(this);
-        builder.downloader(new OkHttp3Downloader(okHttpClient));
-        if (BuildConfig.DEBUG) {
-            builder.listener((picasso, uri, exception) -> exception.printStackTrace());
-        }
-
-        Picasso.setSingletonInstance(builder.build());
     }
 
     public ServiceLocator getServiceLocator() {
