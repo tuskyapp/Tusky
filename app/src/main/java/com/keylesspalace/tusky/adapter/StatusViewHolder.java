@@ -50,9 +50,12 @@ public class StatusViewHolder extends StatusBaseViewHolder {
         super.setAvatar(url, rebloggedUrl, isBot);
         Context context = avatar.getContext();
 
-        if (!TextUtils.isEmpty(rebloggedUrl)) {
-            int padding = Utils.dpToPx(context, 12);
-            avatar.setPaddingRelative(0, 0, padding, padding);
+        boolean hasReblog = rebloggedUrl != null && !rebloggedUrl.isEmpty();
+        int padding = hasReblog ? Utils.dpToPx(context, 12) : 0;
+
+        avatar.setPaddingRelative(0, 0, padding, padding);
+
+        if (hasReblog) {
             avatarInset.setVisibility(View.VISIBLE);
             Glide.with(context)
                     .load(rebloggedUrl)
