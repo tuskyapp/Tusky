@@ -25,7 +25,7 @@
     <string name="title_home">Hem</string>
     <string name="title_advanced">Avancerat</string>
     <string name="title_notifications">Notifikationer</string>
-    <string name="title_public_local">Lokal</string>
+    <string name="title_public_local">Lokalt</string>
     <string name="title_public_federated">Federerat</string>
     <string name="title_direct_messages">Direkta meddelanden</string>
     <string name="title_tab_preferences">Flikar</string>
@@ -392,5 +392,17 @@
 
 <string name="compose_shortcut_long_label">Skriv toot</string>
     <string name="compose_shortcut_short_label">Skriv</string>
+
+<string name="notifications_clear">Rensa</string>
+    <string name="notifications_apply_filter">Filtrera</string>
+    <string name="filter_favorites">\@string/notification_channel_favourite_name</string>
+    <string name="filter_boosts">\@string/notification_channel_boost_name</string>
+    <string name="filter_follows">\@string/notification_channel_follow_name</string>
+    <string name="filter_mentions">\@string/notification_channel_mention_name</string>
+    <string name="filter_apply">Utför</string>
+
+    <string name="pref_title_bot_overlay">Visa robotindikator</string>
+
+    <string name="notification_clear_text">Är du säker på att du vill rensa dina notifieringar permanent\?</string>
 
 </resources>

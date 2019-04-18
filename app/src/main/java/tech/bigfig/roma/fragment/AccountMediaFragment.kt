@@ -27,6 +27,8 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.DownsampleStrategy
 import tech.bigfig.roma.R
 import tech.bigfig.roma.ViewMediaActivity
 import tech.bigfig.roma.di.Injectable
@@ -37,7 +39,6 @@ import tech.bigfig.roma.util.ThemeUtils
 import tech.bigfig.roma.util.visible
 import tech.bigfig.roma.view.SquareImageView
 import tech.bigfig.roma.viewdata.AttachmentViewData
-import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_timeline.*
 import retrofit2.Call
 import retrofit2.Callback
@@ -83,7 +84,7 @@ class AccountMediaFragment : BaseFragment(), Injectable {
         override fun onFailure(call: Call<List<Status>>?, t: Throwable?) {
             fetchingStatus = FetchingStatus.NOT_FETCHING
 
-            if(isAdded) {
+            if (isAdded) {
                 swipeRefreshLayout.isRefreshing = false
                 progressBar.visibility = View.GONE
                 statusView.show()
@@ -103,7 +104,7 @@ class AccountMediaFragment : BaseFragment(), Injectable {
 
         override fun onResponse(call: Call<List<Status>>, response: Response<List<Status>>) {
             fetchingStatus = FetchingStatus.NOT_FETCHING
-            if(isAdded) {
+            if (isAdded) {
                 swipeRefreshLayout.isRefreshing = false
                 progressBar.visibility = View.GONE
 
@@ -303,13 +304,8 @@ class AccountMediaFragment : BaseFragment(), Injectable {
             holder.imageView.setBackgroundColor(Color.HSVToColor(itemBgBaseHSV))
             val item = items[position]
 
-            val maxW = holder.imageView.context.resources.getInteger(R.integer.media_max_width)
-            val maxH = holder.imageView.context.resources.getInteger(R.integer.media_max_height)
-
-            Picasso.with(holder.imageView.context)
+            Glide.with(holder.imageView)
                     .load(item.attachment.previewUrl)
-                    .resize(maxW, maxH)
-                    .onlyScaleDown()
                     .centerInside()
                     .into(holder.imageView)
         }

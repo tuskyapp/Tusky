@@ -19,15 +19,14 @@ import android.content.Context;
 import android.text.InputFilter;
 import android.text.TextUtils;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
+import com.bumptech.glide.Glide;
 import tech.bigfig.roma.R;
 import tech.bigfig.roma.interfaces.StatusActionListener;
 import tech.bigfig.roma.util.SmartLengthInputFilter;
 import tech.bigfig.roma.viewdata.StatusViewData;
-import com.squareup.picasso.Picasso;
 
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
@@ -55,7 +54,7 @@ public class StatusViewHolder extends StatusBaseViewHolder {
             int padding = Utils.dpToPx(context, 12);
             avatar.setPaddingRelative(0, 0, padding, padding);
             avatarInset.setVisibility(View.VISIBLE);
-            Picasso.with(context)
+            Glide.with(context)
                     .load(rebloggedUrl)
                     .placeholder(R.drawable.avatar_default)
                     .into(avatarInset);

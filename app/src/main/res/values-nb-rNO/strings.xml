@@ -46,6 +46,7 @@
     <string name="title_licenses">Lisenser</string>
 
     <string name="status_username_format">\@%s</string>
+    <string name="status_boosted_format">%s boostet</string>
     <string name="status_sensitive_media_title">Sensitivt innhold</string>
     <string name="status_media_hidden_title">Media skjult</string>
     <string name="status_sensitive_media_directions">Klikk for å vise</string>
@@ -376,8 +377,197 @@
 	<item quantity="other"/>
 </plurals>
 
-    <string name="description_status"><!-- Display name, cw?, content?, relative date, reposted by?, reposted?, favorited?, username, media?; visibility, fav number?, reblog number?-->
-        %1$s; %2$s; %3$s, %4$s, %5$s; %6$s, %7$s, %8$s, %9$s; %10$s, %11$s, %12$s
-    </string>
+    <string name="description_status"> <!-- Display name, cw\?, content\?, relative date, reposted by\?, reposted\?, favorited\?, username, media\?; visibility, fav number\?, reblog number\?--> %1$s; %2$s; %3$s, %4$s, %5$s; %6$s, %7$s, %8$s, %9$s; %10$s, %11$s, %12$s </string>
+
+<string name="pref_default_media_sensitivity">Marker alltid media som sensitivt</string>
+    <string name="pref_publishing">Publiserer (synkronisert med server)</string>
+    <string name="pref_failed_to_sync">Synkronisering av innstillinger feilet</string>
+
+    <string name="pref_status_text_size">Størrelse på statustekst</string>
+
+    <string name="pref_media_display">Mediavisning</string>
+
+    <string name="notification_channel_follow_name">Nye følgere</string>
+    <string name="notification_channel_follow_description">Varsler om nye følgere</string>
+    <string name="notification_channel_boost_name">Boosts</string>
+    <string name="notification_channel_boost_description">Varsler når tootene dine blir boostet</string>
+    <string name="notification_channel_favourite_name">Favoritter</string>
+    <string name="notification_channel_favourite_description">Varsler når tootene dine blir favorisert</string>
+
+
+    <string name="notification_mention_format">%s nevnte deg</string>
+    <string name="notification_summary_large">%1$s, %2$s, %3$s og %4$d andre</string>
+    <string name="notification_summary_medium">%1$s, %2$s, og %3$s</string>
+    <string name="notification_summary_small">%1$s og %2$s</string>
+    <string name="notification_title_summary">%d nye interaksjoner</string>
+
+    <string name="description_account_locked">Låst konto</string>
+
+    <string name="about_title_activity">Om</string>
+    <string name="about_tusky_version">Tusky %s</string>
+    <string name="about_bug_feature_request_site">Feilrapporter og funksjonalitetsønsker:
+\n https://github.com/tuskyapp/Tusky/issues</string>
+    <string name="about_tusky_account">Tuskys Profil</string>
+
+    <string name="status_share_content">Del inneholdet i tootet</string>
+    <string name="status_share_link">Del link til toot</string>
+    <string name="status_media_images">Bilder</string>
+    <string name="status_media_video">Video</string>
+
+    <string name="state_follow_requested">Følgeforespørsler</string>
+
+    <string name="no_content">ikke noe innhold</string>
+
+    <string name="abbreviated_in_days">om %dd</string>
+    <string name="abbreviated_in_hours">om %dh</string>
+    <string name="abbreviated_in_minutes">om %dm</string>
+    <string name="abbreviated_in_seconds">om %ds</string>
+    <string name="abbreviated_years_ago">%dy</string>
+    <string name="abbreviated_days_ago">%dd</string>
+    <string name="abbreviated_hours_ago">%dh</string>
+    <string name="abbreviated_minutes_ago">%dm</string>
+    <string name="abbreviated_seconds_ago">%ds</string>
+
+    <string name="follows_you">Følger deg</string>
+    <string name="pref_title_alway_show_sensitive_media">Vis alltid sensitivt innhold</string>
+    <string name="title_media">Media</string>
+    <string name="replying_to">Svarer til @%s</string>
+    <string name="load_more_placeholder_text">last mer</string>
+
+    <string name="pref_title_public_filter_keywords">Offentlige tidslinjer</string>
+    <string name="pref_title_thread_filter_keywords">Samtaler</string>
+    <string name="filter_addition_dialog_title">Legg til filter</string>
+    <string name="filter_edit_dialog_title">Endre filter</string>
+    <string name="filter_dialog_remove_button">Fjern</string>
+    <string name="filter_dialog_update_button">Oppdater</string>
+    <string name="filter_add_description">Frase å filtere</string>
+
+    <string name="add_account_name">Legg til konto</string>
+    <string name="add_account_description">Legg til ny Mastodon-konto</string>
+
+    <string name="action_lists">Lister</string>
+    <string name="title_lists">Lister</string>
+    <string name="title_list_timeline">Listetidslinje</string>
+    <string name="error_create_list">Kunne ikke opprette liste</string>
+    <string name="error_rename_list">Kunne ikke gi liste nytt navn</string>
+    <string name="error_delete_list">Kunne ikke slette liste</string>
+    <string name="action_create_list">Opprett en liste</string>
+    <string name="action_rename_list">Gi listen nytt navn</string>
+    <string name="action_delete_list">Slett listen</string>
+    <string name="action_edit_list">Endre listen</string>
+    <string name="hint_search_people_list">Søk etter personer du følger</string>
+    <string name="action_add_to_list">Legg til konto i listen</string>
+    <string name="action_remove_from_list">Fjern konto fra listen</string>
+
+    <string name="pref_default_post_privacy">Standard proxy-personvern</string>
+    <string name="notification_channel_mention_name">Nye omtaler</string>
+    <string name="notification_channel_mention_descriptions">Varsler om nye omtaler</string>
+    <string name="about_tusky_license">Tusky er gratis og fri åpen kildekode. Applikasjonen er lisensiert under GNU General Public License versjon 3. Du kan se lisensen her: https://www.gnu.org/licenses/gpl-3.0.en.html</string>
+    <string name="about_project_site">Nettside for prosjektet:
+\n https://tusky.app</string>
+    <string name="abbreviated_in_years">om %dy</string>
+    <string name="compose_active_account_description">Poster med konto %1$s</string>
+
+    <string name="error_failed_set_caption">Klarte ikke å sette bildetekst</string>
+    <string name="hint_describe_for_visually_impaired">Beskriv for de med nedsatt synsevne
+\n(maks %d tegn)</string>
+    <string name="action_set_caption">Sett bildetekst</string>
+    <string name="action_remove_media">Fjern</string>
+    <string name="lock_account_label">Lås konto</string>
+    <string name="lock_account_label_description">Krever at du manuelt godkjenner nye følgere</string>
+    <string name="compose_save_draft">Lagre kladd\?</string>
+    <string name="send_toot_notification_title">Sender Toot…</string>
+    <string name="send_toot_notification_error_title">Det oppsto en feil under sending av tootet</string>
+    <string name="send_toot_notification_channel_name">Sender Toots</string>
+    <string name="send_toot_notification_cancel_title">Sending avbrutt</string>
+    <string name="send_toot_notification_saved_content">En kopi av tootet er lagret i kladdene dine</string>
+    <string name="action_compose_shortcut">Skriv</string>
+
+    <string name="error_no_custom_emojis">Instansen %s har ingen egendefinerte emojis</string>
+    <string name="copy_to_clipboard_success">Kopiert til utklippstavlen</string>
+    <string name="emoji_style">Emoji-stil</string>
+    <string name="system_default">Systemstandard</string>
+    <string name="download_fonts">Du må laste ned disse emoji-samlingene først</string>
+    <string name="performing_lookup_title">Gjennomfører oppslag…</string>
+    <string name="expand_collapse_all_statuses">Utvid/kollaps alle statuser</string>
+    <string name="action_open_toot">Åpne toot</string>
+    <string name="restart_required">Omstart av applikasjonen er påkrevd</string>
+    <string name="restart_emoji">Du må starte Tusky på nytt for at endringene skal bli aktive</string>
+    <string name="later">Senere</string>
+    <string name="restart">Start på nytt</string>
+    <string name="caption_systememoji">Din enhets standard emoji-samling</string>
+    <string name="caption_blobmoji">Blob-emojis kjent fra Android 4.4–7.1</string>
+    <string name="caption_twemoji">Mastadons standard emoji-samling</string>
+    <string name="download_failed">Nedlasting feilet</string>
+
+    <string name="profile_badge_bot_text">Robot</string>
+    <string name="account_moved_description">%1$s har flyttet til:</string>
+
+    <string name="reblog_private">Boost til opprinnelig publikum</string>
+    <string name="unreblog_private">Fjern boost</string>
+
+    <string name="license_description">Tusky inneholder programkode og elementer fra følgende åpen kildekode-prosjekter:</string>
+    <string name="license_apache_2">Lisensiert under Apache License (kopi under)</string>
+    <string name="license_cc_by_4">CC-BY 4.0</string>
+    <string name="license_cc_by_sa_4">CC-BY-SA 4.0</string>
+
+    <string name="profile_metadata_label">Profilmetadata</string>
+    <string name="profile_metadata_add">legg til data</string>
+    <string name="profile_metadata_label_label">Ledetekst</string>
+    <string name="profile_metadata_content_label">Innhold</string>
+
+    <string name="pref_title_absolute_time">Bruk absolutt tid</string>
+
+    <string name="label_remote_account">Informasjonen under kan være mangelfull. Trykk for å åpne komplett brukerprofil i nettleseren.</string>
+
+    <string name="unpin_action">Fjern feste</string>
+    <string name="pin_action">Fest</string>
+
+    <plurals name="favs">
+	<item quantity="one"><b>%1$s</b> Favoritt</item>
+	<item quantity="other"><b>%1$s</b> Favoritter</item>
+</plurals>
+
+    <plurals name="reblogs">
+	<item quantity="one"><b>%s</b> Boost</item>
+	<item quantity="other"><b>%s</b> Boosts</item>
+</plurals>
+
+    <string name="title_reblogged_by">Boostet av</string>
+    <string name="title_favourited_by">Favorisert av</string>
+
+    <string name="conversation_1_recipients">%1$s</string>
+    <string name="conversation_2_recipients">%1$s og %2$s</string>
+    <string name="conversation_more_recipients">%1$s, %2$s og %3$d fler</string>
+    <string name="max_tab_number_reached">grensen på %1$d faner er nådd</string>
+
+
+    <string name="description_status_media">Media: %s</string>
+    <string name="description_status_cw">Innholdsadvarsel: %s</string>
+    <string name="description_status_media_no_description_placeholder">Ingen beskrivelse</string>
+    <string name="description_status_reblogged">Reblogged</string>
+    <string name="description_status_favourited">Favorisert</string>
+    <string name="description_visiblity_public">Offentlig</string>
+    <string name="description_visiblity_unlisted">Ikke listet</string>
+    <string name="description_visiblity_private">Følgere</string>
+    <string name="description_visiblity_direct">Direkte</string>
+    <string name="hint_list_name">Listenavn</string>
+
+    <string name="edit_hashtag_title">Endre emneord</string>
+    <string name="edit_hashtag_hint">Emneord uten #</string>
+    <string name="hashtag">Emneord</string>
+    <string name="notifications_clear">Fjern</string>
+    <string name="notifications_apply_filter">Filter</string>
+    <string name="filter_favorites">\@string/notification_channel_favourite_name</string>
+    <string name="filter_boosts">\@string/notification_channel_boost_name</string>
+    <string name="filter_follows">\@string/notification_channel_follow_name</string>
+    <string name="filter_mentions">\@string/notification_channel_mention_name</string>
+    <string name="filter_apply">Bruk</string>
+
+    <string name="compose_shortcut_long_label">Skriv Toot</string>
+    <string name="compose_shortcut_short_label">Skriv</string>
+    <string name="pref_title_bot_overlay">Vis at konto er en robot</string>
+
+    <string name="notification_clear_text">Er du sikker på at du vil slette alle varsler\?</string>
 
 </resources>

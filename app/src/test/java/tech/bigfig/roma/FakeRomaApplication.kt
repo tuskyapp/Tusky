@@ -16,10 +16,6 @@ class FakeRomaApplication : RomaApplication() {
         // No-op
     }
 
-    override fun initPicasso() {
-        // No-op
-    }
-
     override fun getServiceLocator(): ServiceLocator {
         return locator
     }

@@ -23,6 +23,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
+import com.bumptech.glide.Glide;
 import tech.bigfig.roma.R;
 import tech.bigfig.roma.adapter.StatusBaseViewHolder;
 import tech.bigfig.roma.components.conversation.ConversationAccountEntity;
@@ -31,7 +32,6 @@ import tech.bigfig.roma.components.conversation.ConversationStatusEntity;
 import tech.bigfig.roma.entity.Attachment;
 import tech.bigfig.roma.interfaces.StatusActionListener;
 import tech.bigfig.roma.util.SmartLengthInputFilter;
-import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -125,7 +125,7 @@ public class ConversationViewHolder extends StatusBaseViewHolder {
         for(int i=0; i < avatars.length; i++) {
             ImageView avatarView = avatars[i];
             if(i < accounts.size()) {
-                Picasso.with(avatarView.getContext())
+                Glide.with(avatarView)
                         .load(accounts.get(i).getAvatar())
                         .into(avatarView);
                 avatarView.setVisibility(View.VISIBLE);

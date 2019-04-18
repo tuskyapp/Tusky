@@ -89,8 +89,8 @@
                 android:layout_marginStart="12dp"
                 android:layout_marginTop="12dp"
                 license:license="@string/license_apache_2"
-                license:link="https://square.github.io/picasso/"
-                license:name="Picasso" />
+                license:link="https://bumptech.github.io/glide/"
+                license:name="Glide" />
 
             <tech.bigfig.roma.view.LicenseCard
                 android:layout_width="match_parent"

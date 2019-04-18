@@ -20,14 +20,16 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.SpannedString;
 import android.text.style.ReplacementSpan;
 import android.view.View;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.CustomTarget;
+import com.bumptech.glide.request.target.Target;
+import com.bumptech.glide.request.transition.Transition;
 import tech.bigfig.roma.entity.Emoji;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
@@ -36,6 +38,9 @@ import java.lang.ref.WeakReference;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 public class CustomEmojiHelper {
 
@@ -55,13 +60,13 @@ public class CustomEmojiHelper {
                 CharSequence pattern = new StringBuilder(":").append(emoji.getShortcode()).append(':');
                 Matcher matcher = Pattern.compile(pattern.toString()).matcher(text);
                 while (matcher.find()) {
-                    // We keep a span as a Picasso target, because Picasso keeps weak reference to
-                    // the target so an anonymous class would likely be garbage collected.
                     EmojiSpan span = new EmojiSpan(view);
                     builder.setSpan(span, matcher.start(), matcher.end(), 0);
-                    Picasso.with(view.getContext())
+                    Glide.with(view)
+                            .asBitmap()
                             .load(emoji.getUrl())
-                            .into(span);
+                            .into(span.getTarget());
+
                 }
             }
 
@@ -76,7 +81,7 @@ public class CustomEmojiHelper {
     }
 
 
-    public static class EmojiSpan extends ReplacementSpan implements Target {
+    public static class EmojiSpan extends ReplacementSpan {
 
         private @Nullable Drawable imageDrawable;
         private WeakReference<View> viewWeakReference;
@@ -118,20 +123,23 @@ public class CustomEmojiHelper {
             canvas.restore();
         }
 
-        @Override
-        public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-            View view = viewWeakReference.get();
-            if(view != null) {
-                imageDrawable = new BitmapDrawable(view.getContext().getResources(), bitmap);
-                view.invalidate();
-            }
+        Target<Bitmap> getTarget(){
+            return new CustomTarget<Bitmap>() {
+                @Override
+                public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
+                    View view = viewWeakReference.get();
+                    if (view != null) {
+                        imageDrawable = new BitmapDrawable(view.getContext().getResources(), resource);
+                        view.invalidate();
+                    }
+                }
+
+                @Override
+                public void onLoadCleared(@Nullable Drawable placeholder) {
+                    //Do nothing on load cleared
+                }
+            };
         }
-
-        @Override
-        public void onBitmapFailed(Drawable errorDrawable) {}
-
-        @Override
-        public void onPrepareLoad(Drawable placeHolderDrawable) {}
     }
 
 }

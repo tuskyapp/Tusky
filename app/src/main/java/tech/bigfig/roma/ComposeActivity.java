@@ -63,6 +63,7 @@ import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.Gson;
@@ -295,7 +296,7 @@ public final class ComposeActivity
             if (TextUtils.isEmpty(activeAccount.getProfilePictureUrl())) {
                 composeAvatar.setImageResource(R.drawable.avatar_default);
             } else {
-                Picasso.with(this).load(activeAccount.getProfilePictureUrl())
+                Glide.with(this).load(activeAccount.getProfilePictureUrl())
                         .error(R.drawable.avatar_default)
                         .placeholder(R.drawable.avatar_default)
                         .into(composeAvatar);
@@ -1634,11 +1635,19 @@ public final class ComposeActivity
             new AlertDialog.Builder(this)
                     .setMessage(R.string.compose_save_draft)
                     .setPositiveButton(R.string.action_save, (d, w) -> saveDraftAndFinish())
-                    .setNegativeButton(R.string.action_delete, (d, w) -> finishWithoutSlideOutAnimation())
+                    .setNegativeButton(R.string.action_delete, (d, w) -> deleteDraftAndFinish())
                     .show();
         } else {
             finishWithoutSlideOutAnimation();
         }
+    }
+
+    private void deleteDraftAndFinish() {
+        for (QueuedMedia media : mediaQueued) {
+            if (media.uploadRequest != null)
+                media.uploadRequest.cancel();
+        }
+        finishWithoutSlideOutAnimation();
     }
 
     private void saveDraftAndFinish() {

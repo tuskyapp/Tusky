@@ -8,12 +8,12 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import tech.bigfig.roma.R;
 import tech.bigfig.roma.entity.Account;
 import tech.bigfig.roma.interfaces.AccountActionListener;
 import tech.bigfig.roma.interfaces.LinkListener;
 import tech.bigfig.roma.util.CustomEmojiHelper;
-import com.squareup.picasso.Picasso;
 
 class AccountViewHolder extends RecyclerView.ViewHolder {
     private TextView username;
@@ -39,8 +39,7 @@ class AccountViewHolder extends RecyclerView.ViewHolder {
         username.setText(formattedUsername);
         CharSequence emojifiedName = CustomEmojiHelper.emojifyString(account.getName(), account.getEmojis(), displayName);
         displayName.setText(emojifiedName);
-        Context context = avatar.getContext();
-        Picasso.with(context)
+        Glide.with(avatar)
                 .load(account.getAvatar())
                 .placeholder(R.drawable.avatar_default)
                 .into(avatar);

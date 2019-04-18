@@ -24,11 +24,11 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import tech.bigfig.roma.R;
 import tech.bigfig.roma.entity.Account;
 import tech.bigfig.roma.interfaces.AccountActionListener;
 import tech.bigfig.roma.util.CustomEmojiHelper;
-import com.squareup.picasso.Picasso;
 
 public class BlocksAdapter extends AccountAdapter {
 
@@ -85,7 +85,7 @@ public class BlocksAdapter extends AccountAdapter {
             String format = username.getContext().getString(R.string.status_username_format);
             String formattedUsername = String.format(format, account.getUsername());
             username.setText(formattedUsername);
-            Picasso.with(avatar.getContext())
+            Glide.with(avatar)
                     .load(account.getAvatar())
                     .placeholder(R.drawable.avatar_default)
                     .into(avatar);

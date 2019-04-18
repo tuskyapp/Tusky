@@ -29,6 +29,7 @@ import tech.bigfig.roma.di.Injectable
 import tech.bigfig.roma.util.NotificationHelper
 import com.squareup.picasso.Picasso
 import tech.bigfig.roma.RomaApplication
+import com.bumptech.glide.Glide
 
 
 @TargetApi(23)
@@ -48,10 +49,13 @@ class AccountChooserService : ChooserTargetService(), Injectable {
             val icon: Icon = if (TextUtils.isEmpty(account.profilePictureUrl)) {
                 Icon.createWithResource(applicationContext, R.drawable.avatar_default)
             } else {
-                Icon.createWithBitmap(Picasso.with(this).load(account.profilePictureUrl)
+                val bmp = Glide.with(this)
+                        .asBitmap()
+                        .load(account.profilePictureUrl)
                         .error(R.drawable.avatar_default)
                         .placeholder(R.drawable.avatar_default)
-                        .get())
+                        .submit()
+                Icon.createWithBitmap(bmp.get())
             }
             val bundle = Bundle()
             bundle.putLong(NotificationHelper.ACCOUNT_ID, account.id)

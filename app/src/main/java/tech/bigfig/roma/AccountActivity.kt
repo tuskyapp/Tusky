@@ -37,6 +37,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.Glide
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.appbar.CollapsingToolbarLayout
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -52,7 +53,6 @@ import tech.bigfig.roma.interfaces.ReselectableFragment
 import tech.bigfig.roma.pager.AccountPagerAdapter
 import tech.bigfig.roma.util.*
 import tech.bigfig.roma.viewmodel.AccountViewModel
-import com.squareup.picasso.Picasso
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.support.HasSupportFragmentInjector
@@ -321,13 +321,12 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
             accountLockedImageView.visible(account.locked)
             accountBadgeTextView.visible(account.bot)
 
-            Picasso.with(this)
+            Glide.with(this)
                     .load(account.avatar)
                     .placeholder(R.drawable.avatar_default)
                     .into(accountAvatarImageView)
-            Picasso.with(this)
+            Glide.with(this)
                     .load(account.header)
-                    .fit() // prevents crash with large header images
                     .centerCrop()
                     .into(accountHeaderImageView)
 
@@ -357,7 +356,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
                 accountMovedDisplayName.text = movedAccount.name
                 accountMovedUsername.text = getString(R.string.status_username_format, movedAccount.username)
 
-                Picasso.with(this)
+                Glide.with(this)
                         .load(movedAccount.avatar)
                         .placeholder(R.drawable.avatar_default)
                         .into(accountMovedAvatar)
