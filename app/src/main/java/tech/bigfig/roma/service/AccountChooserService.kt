@@ -23,13 +23,12 @@ import android.os.Bundle
 import android.service.chooser.ChooserTarget
 import android.service.chooser.ChooserTargetService
 import android.text.TextUtils
+import com.bumptech.glide.Glide
 import tech.bigfig.roma.R
 import tech.bigfig.roma.db.AccountManager
 import tech.bigfig.roma.di.Injectable
 import tech.bigfig.roma.util.NotificationHelper
-import com.squareup.picasso.Picasso
 import tech.bigfig.roma.RomaApplication
-import com.bumptech.glide.Glide
 
 
 @TargetApi(23)

@@ -46,7 +46,6 @@
     <string name="title_licenses">Lisenser</string>
 
     <string name="status_username_format">\@%s</string>
-    <string name="status_boosted_format">%s boostet</string>
     <string name="status_sensitive_media_title">Sensitivt innhold</string>
     <string name="status_media_hidden_title">Media skjult</string>
     <string name="status_sensitive_media_directions">Klikk for å vise</string>
@@ -235,147 +234,14 @@
         <item>Always show media marked as sensitive</item>
         <item>Always hide all media</item>
     </string-array>
-
-    <string name="notification_channel_mention_name"/>
-    <string name="notification_channel_mention_descriptions"/>
-    <string name="notification_channel_follow_name"/>
-    <string name="notification_channel_follow_description"/>
-    <string name="notification_channel_favourite_name"/>
-    <string name="notification_channel_favourite_description"/>
-
-
-    <string name="notification_mention_format"/>
-    <string name="notification_summary_large"/>
-    <string name="notification_summary_medium"/>
-    <string name="notification_summary_small"/>
-    <string name="notification_title_summary"/>
-
-    <string name="description_account_locked"/>
-
-    <string name="about_title_activity"/>
     <!-- note to translators:
          * you should think of “free” as in “free speech,” not as in “free beer”.
            We sometimes call it “libre software,” borrowing the French or Spanish word for “free” as in freedom,
            to show we do not mean the software is gratis. Source: https://www.gnu.org/philosophy/free-sw.html
          * the url can be changed to link to the localized version of the license.
     -->
-    <string name="about_project_site"/>
-    <string name="about_bug_feature_request_site"/>
-
-    <string name="status_share_content"/>
-    <string name="status_share_link"/>
-    <string name="status_media_images"/>
-    <string name="status_media_video"/>
-
-    <string name="state_follow_requested"/>
-
-    <string name="no_content"/>
-
-    <!--These are for timestamps on statuses. For example: "16s" or "2d"-->
-    <string name="abbreviated_in_years"/>
-    <string name="abbreviated_in_days"/>
-    <string name="abbreviated_in_hours"/>
-    <string name="abbreviated_in_minutes"/>
-    <string name="abbreviated_in_seconds"/>
-    <string name="abbreviated_years_ago"/>
-    <string name="abbreviated_days_ago"/>
-    <string name="abbreviated_hours_ago"/>
-    <string name="abbreviated_minutes_ago"/>
-    <string name="abbreviated_seconds_ago"/>
-
-    <string name="follows_you"/>
-    <string name="pref_title_alway_show_sensitive_media"/>
-    <string name="title_media"/>
-    <string name="replying_to"/>
-    <string name="load_more_placeholder_text"/>
-
-    <string name="pref_title_public_filter_keywords"/>
-    <string name="pref_title_thread_filter_keywords"/>
-    <string name="filter_addition_dialog_title"/>
-    <string name="filter_edit_dialog_title"/>
-    <string name="filter_dialog_remove_button"/>
-    <string name="filter_dialog_update_button"/>
-    <string name="filter_add_description"/>
-
-    <string name="add_account_name"/>
-    <string name="add_account_description"/>
-
-    <string name="action_lists"/>
-    <string name="title_lists"/>
-    <string name="title_list_timeline"/>
-    <string name="error_create_list"/>
-    <string name="error_rename_list"/>
-    <string name="error_delete_list"/>
-    <string name="action_create_list"/>
-    <string name="action_rename_list"/>
-    <string name="action_delete_list"/>
-    <string name="action_edit_list"/>
-    <string name="hint_search_people_list"/>
-    <string name="action_add_to_list"/>
-    <string name="action_remove_from_list"/>
-
-    <string name="compose_active_account_description"/>
-
-    <string name="error_failed_set_caption"/>
-    <string name="hint_describe_for_visually_impaired"/>
-    <string name="action_set_caption"/>
-    <string name="action_remove_media"/>
-    <string name="lock_account_label"/>
-    <string name="lock_account_label_description"/>
-    <string name="compose_save_draft"/>
-    <string name="send_toot_notification_title"/>
-    <string name="send_toot_notification_error_title"/>
-    <string name="send_toot_notification_channel_name"/>
-    <string name="send_toot_notification_cancel_title"/>
-    <string name="send_toot_notification_saved_content"/>
-    <string name="action_compose_shortcut"/>
-
-    <string name="error_no_custom_emojis"/>
-    <string name="copy_to_clipboard_success"/>
-    <string name="emoji_style"/>
-    <string name="system_default"/>
-    <string name="download_fonts"/>
-    <string name="performing_lookup_title"/>
-    <string name="expand_collapse_all_statuses"/>
-    <string name="action_open_toot"/>
-    <string name="restart_required"/>
-    <string name="restart_emoji"/>
-    <string name="later"/>
-    <string name="restart"/>
-    <string name="caption_systememoji"/>
-    <string name="caption_blobmoji"/>
-    <string name="caption_twemoji"/>
     <string name="emoji_shortcode_format" translatable="false">:%s:</string>
 
-    <string name="download_failed"/>
-
-    <string name="profile_badge_bot_text"/>
-    <string name="account_moved_description"/>
-
-    <string name="reblog_private"/>
-    <string name="unreblog_private"/>
-
-    <string name="license_description"/>
-    <string name="license_apache_2"/>
-    <string name="license_cc_by_4"/>
-    <string name="license_cc_by_sa_4"/>
-
-    <string name="profile_metadata_label"/>
-    <string name="profile_metadata_add"/>
-    <string name="profile_metadata_label_label"/>
-    <string name="profile_metadata_content_label"/>
-
-    <string name="pref_title_absolute_time"/>
-
-    <string name="label_remote_account"/>
-
-    <string name="unpin_action"/>
-    <string name="pin_action"/>
-
-    <plurals name="favs">
-	<item quantity="one"/>
-	<item quantity="other"/>
-</plurals>
 
     <string name="description_status"> <!-- Display name, cw\?, content\?, relative date, reposted by\?, reposted\?, favorited\?, username, media\?; visibility, fav number\?, reblog number\?--> %1$s; %2$s; %3$s, %4$s, %5$s; %6$s, %7$s, %8$s, %9$s; %10$s, %11$s, %12$s </string>
 
@@ -389,8 +255,6 @@
 
     <string name="notification_channel_follow_name">Nye følgere</string>
     <string name="notification_channel_follow_description">Varsler om nye følgere</string>
-    <string name="notification_channel_boost_name">Boosts</string>
-    <string name="notification_channel_boost_description">Varsler når tootene dine blir boostet</string>
     <string name="notification_channel_favourite_name">Favoritter</string>
     <string name="notification_channel_favourite_description">Varsler når tootene dine blir favorisert</string>
 
@@ -404,10 +268,8 @@
     <string name="description_account_locked">Låst konto</string>
 
     <string name="about_title_activity">Om</string>
-    <string name="about_tusky_version">Tusky %s</string>
     <string name="about_bug_feature_request_site">Feilrapporter og funksjonalitetsønsker:
 \n https://github.com/tuskyapp/Tusky/issues</string>
-    <string name="about_tusky_account">Tuskys Profil</string>
 
     <string name="status_share_content">Del inneholdet i tootet</string>
     <string name="status_share_link">Del link til toot</string>
@@ -462,7 +324,6 @@
     <string name="pref_default_post_privacy">Standard proxy-personvern</string>
     <string name="notification_channel_mention_name">Nye omtaler</string>
     <string name="notification_channel_mention_descriptions">Varsler om nye omtaler</string>
-    <string name="about_tusky_license">Tusky er gratis og fri åpen kildekode. Applikasjonen er lisensiert under GNU General Public License versjon 3. Du kan se lisensen her: https://www.gnu.org/licenses/gpl-3.0.en.html</string>
     <string name="about_project_site">Nettside for prosjektet:
 \n https://tusky.app</string>
     <string name="abbreviated_in_years">om %dy</string>

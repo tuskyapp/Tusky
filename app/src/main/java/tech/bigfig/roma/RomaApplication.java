@@ -112,7 +112,6 @@ public class RomaApplication extends Application implements HasActivityInjector,
 
         initAppInjector();
         initWorkManager();
-        initPicasso();
         initEmojiCompat();
 
         JobManager.create(this).addJobCreator(notificationPullJobCreator);

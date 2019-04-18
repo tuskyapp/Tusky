@@ -26,10 +26,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.keylesspalace.tusky.R;
-import com.keylesspalace.tusky.entity.Account;
-import com.keylesspalace.tusky.entity.Emoji;
-import com.keylesspalace.tusky.util.CustomEmojiHelper;
 
 import java.util.ArrayList;
 import java.util.List;
