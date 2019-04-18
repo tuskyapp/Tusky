@@ -49,9 +49,6 @@
 -dontwarn org.codehaus.mojo.animal_sniffer.*
 -dontwarn okhttp3.internal.platform.ConscryptPlatform
 
-## for picasso
--dontwarn com.squareup.okhttp.**
-
 ##for keep
 -dontwarn android.arch.util.paging.CountedDataSource
 -dontwarn android.arch.persistence.room.paging.LimitOffsetDataSource
@@ -106,6 +103,14 @@
 # work around a bug in proguard
 # see https://sourceforge.net/p/proguard/bugs/729/
 -keepnames public interface com.uber.autodispose.lifecycle.CorrespondingEventsFunction { *; }
+
+# Glide
+-keep public class * implements com.bumptech.glide.module.GlideModule
+-keep public class * extends com.bumptech.glide.module.AppGlideModule
+-keep public enum com.bumptech.glide.load.ImageHeaderParser$** {
+  **[] $VALUES;
+  public *;
+}
 
 #firebase
 -keepclasseswithmembers class * {

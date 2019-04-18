@@ -28,7 +28,7 @@ import androidx.emoji.text.EmojiCompat;
 import com.crashlytics.android.Crashlytics;
 import com.crashlytics.android.core.CrashlyticsCore;
 import com.evernote.android.job.JobManager;
-import com.jakewharton.picasso.OkHttp3Downloader;
+
 
 import androidx.work.RxWorker;
 import androidx.work.WorkManager;
@@ -42,7 +42,6 @@ import tech.bigfig.roma.util.EmojiCompatFont;
 import tech.bigfig.roma.util.NotificationPullJobCreator;
 
 import tech.bigfig.roma.util.LocaleManager;
-import com.squareup.picasso.Picasso;
 
 import org.conscrypt.Conscrypt;
 import org.jetbrains.annotations.NotNull;
@@ -113,7 +112,6 @@ public class RomaApplication extends Application implements HasActivityInjector,
 
         initAppInjector();
         initWorkManager();
-        initPicasso();
         initEmojiCompat();
 
         JobManager.create(this).addJobCreator(notificationPullJobCreator);
@@ -173,17 +171,6 @@ public class RomaApplication extends Application implements HasActivityInjector,
 
     protected void initAppInjector() {
         AppInjector.INSTANCE.init(this);
-    }
-
-    protected void initPicasso() {
-        // Initialize Picasso configuration
-        Picasso.Builder builder = new Picasso.Builder(this);
-        builder.downloader(new OkHttp3Downloader(okHttpClient));
-        if (BuildConfig.DEBUG) {
-            builder.listener((picasso, uri, exception) -> exception.printStackTrace());
-        }
-
-        Picasso.setSingletonInstance(builder.build());
     }
 
     public ServiceLocator getServiceLocator() {

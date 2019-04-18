@@ -18,21 +18,24 @@ package tech.bigfig.roma.fragment
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.content.Context
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.request.RequestListener
+import com.bumptech.glide.request.target.Target
 
 import com.github.chrisbanes.photoview.PhotoViewAttacher
 import tech.bigfig.roma.R
 import tech.bigfig.roma.entity.Attachment
 import tech.bigfig.roma.util.hide
 import tech.bigfig.roma.util.visible
-import com.squareup.picasso.Callback
-import com.squareup.picasso.NetworkPolicy
-import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_view_media.*
 import kotlinx.android.synthetic.main.fragment_view_image.*
 
@@ -46,7 +49,7 @@ class ViewImageFragment : ViewMediaFragment() {
     private lateinit var attacher: PhotoViewAttacher
     private lateinit var photoActionsListener: PhotoActionsListener
     private lateinit var toolbar: View
-    override lateinit var descriptionView : TextView
+    override lateinit var descriptionView: TextView
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -74,53 +77,7 @@ class ViewImageFragment : ViewMediaFragment() {
             result
         }
 
-        val maxW = photoView.context.resources.getInteger(R.integer.media_max_width)
-        val maxH = photoView.context.resources.getInteger(R.integer.media_max_height)
-
-        // If we are the view to be shown initially...
-        if (arguments!!.getBoolean(ViewMediaFragment.ARG_START_POSTPONED_TRANSITION)) {
-            // Try to load image from disk.
-            Picasso.with(context)
-                    .load(url)
-                    .noFade()
-                    .networkPolicy(NetworkPolicy.OFFLINE)
-                    .resize(maxW, maxH)
-                    .onlyScaleDown()
-                    .centerInside()
-                    .into(photoView, object : Callback {
-                        override fun onSuccess() {
-                            // if we loaded image from disk, we should check that view is attached.
-                            if (photoView?.isAttachedToWindow == true) {
-                                finishLoadingSuccessfully()
-                            } else {
-                                // if view is not attached yet, wait for an attachment and
-                                // start transition when it's finally ready.
-                                photoView?.addOnAttachStateChangeListener(
-                                        object : View.OnAttachStateChangeListener {
-                                            override fun onViewAttachedToWindow(v: View?) {
-                                                finishLoadingSuccessfully()
-                                                photoView.removeOnAttachStateChangeListener(this)
-                                            }
-
-                                            override fun onViewDetachedFromWindow(v: View?) {}
-                                        })
-                            }
-                        }
-
-                        override fun onError() {
-                            // if there's no image in cache, load from network and start transition
-                            // immediately.
-                            if (isAdded) {
-                                photoActionsListener.onBringUp()
-                                loadImageFromNetwork(url, photoView)
-                            }
-                        }
-                    })
-        } else {
-            // if we're not initial page, don't bother.
-            loadImageFromNetwork(url, photoView)
-        }
-
+        loadImageFromNetwork(url, photoView)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
@@ -134,7 +91,7 @@ class ViewImageFragment : ViewMediaFragment() {
         val arguments = this.arguments!!
         val attachment = arguments.getParcelable<Attachment>(ARG_ATTACHMENT)
         val url: String?
-        var description : String? = null
+        var description: String? = null
 
         if (attachment != null) {
             url = attachment.url
@@ -169,35 +126,53 @@ class ViewImageFragment : ViewMediaFragment() {
                 .start()
     }
 
-    override fun onDetach() {
-        super.onDetach()
-        Picasso.with(context).cancelRequest(photoView)
+    override fun onDestroyView() {
+        Glide.with(this).clear(photoView)
+        super.onDestroyView()
     }
 
-    private fun loadImageFromNetwork(url: String, photoView: ImageView) {
-        val maxW = photoView.context.resources.getInteger(R.integer.media_max_width)
-        val maxH = photoView.context.resources.getInteger(R.integer.media_max_height)
+    private fun loadImageFromNetwork(url: String, photoView: ImageView) =
+            //Request image from the any cache
+            Glide.with(this)
+                    .load(url)
+                    .dontAnimate()
+                    .onlyRetrieveFromCache(true)
+                    .error(
+                            //Request image from the network on fail load image from cache
+                            Glide.with(this)
+                                    .load(url)
+                                    .centerInside()
+                                    .addListener(ImageRequestListener(false))
+                    )
+                    .centerInside()
+                    .addListener(ImageRequestListener(true))
+                    .into(photoView)
 
-        Picasso.with(context)
-                .load(url)
-                .noPlaceholder()
-                .networkPolicy(NetworkPolicy.NO_STORE)
-                .resize(maxW, maxH)
-                .onlyScaleDown()
-                .centerInside()
-                .into(photoView, object : Callback {
-                    override fun onSuccess() {
-                        finishLoadingSuccessfully()
-                    }
 
-                    override fun onError() {
-                        progressBar?.hide()
-                    }
-                })
+    /**
+     * @param isCacheRequest - is this listener for request image from cache or from the network
+     */
+    private inner class ImageRequestListener(private val isCacheRequest: Boolean) : RequestListener<Drawable> {
+        override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Drawable>?, isFirstResource: Boolean): Boolean {
+            if (isCacheRequest) //Complete the transition on failed image from cache
+                completeTransition()
+            else
+                progressBar?.hide() //Hide progress bar only on fail request from internet
+            return false
+        }
+
+        override fun onResourceReady(resource: Drawable?, model: Any?, target: Target<Drawable>?, dataSource: DataSource?, isFirstResource: Boolean): Boolean {
+            progressBar?.hide() //Always hide the progress bar on success
+            resource?.let {
+                target?.onResourceReady(resource, null)
+                if (isCacheRequest) completeTransition() //Complete transition on cache request only, because transition already completed on Network request
+                return true
+            }
+            return false
+        }
     }
 
-    private fun finishLoadingSuccessfully() {
-        progressBar?.hide()
+    private fun completeTransition() {
         attacher.update()
         photoActionsListener.onBringUp()
     }

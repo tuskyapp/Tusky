@@ -25,8 +25,7 @@ import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-
-import com.squareup.picasso.Picasso;
+import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -148,7 +147,7 @@ public class ComposeAutoCompleteAdapter extends BaseAdapter
                             account.getEmojis(), accountViewHolder.displayName);
                     accountViewHolder.displayName.setText(emojifiedName);
                     if (!account.getAvatar().isEmpty()) {
-                        Picasso.with(context)
+                        Glide.with(accountViewHolder.avatar)
                                 .load(account.getAvatar())
                                 .placeholder(R.drawable.avatar_default)
                                 .into(accountViewHolder.avatar);
@@ -189,7 +188,7 @@ public class ComposeAutoCompleteAdapter extends BaseAdapter
                             emoji.getShortcode()
                     );
                     emojiViewHolder.shortcode.setText(formattedShortcode);
-                    Picasso.with(context)
+                    Glide.with(emojiViewHolder.preview)
                             .load(emoji.getUrl())
                             .into(emojiViewHolder.preview);
                 }

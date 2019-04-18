@@ -2,4 +2,417 @@
 <resources>
 
 
+<string name="error_generic">Pojavila se je napaka.</string>
+    <string name="error_network">Prišlo je do omrežne napake! Preverite povezavo in poskusite znova!</string>
+    <string name="error_empty">To ne sme biti prazno.</string>
+    <string name="error_invalid_domain">Vnesena je neveljavna domena</string>
+    <string name="error_no_web_browser_found">Spletnega brskalnika ni bilo mogoče najti.</string>
+    <string name="error_authorization_denied">Pooblastitev je bila zavrnjena.</string>
+    <string name="error_retrieving_oauth_token">Ni bilo mogoče pridobiti žetona za prijavo.</string>
+    <string name="error_compose_character_limit">Status je predolg!</string>
+    <string name="error_image_upload_size">Datoteka mora biti manjša od 8 MB.</string>
+    <string name="error_video_upload_size">Video datoteke morajo biti manjše od 40 MB.</string>
+    <string name="error_media_upload_type">Te vrste datoteke ni mogoče poslati.</string>
+    <string name="error_media_upload_opening">Te datoteke ni bilo mogoče odpreti.</string>
+    <string name="error_media_upload_permission">Potrebno je dovoljenje za branje medijev.</string>
+    <string name="error_media_download_permission">Potrebno je dovoljenje za shranjevanje medijev.</string>
+    <string name="error_media_upload_image_or_video">Slike in videoposnetki ne morejo biti dodani istemu statusu.</string>
+    <string name="error_media_upload_sending">Prenos ni uspel.</string>
+    <string name="error_report_too_few_statuses">Prijaviti je treba vsaj en status.</string>
+    <string name="error_invalid_regex">Neveljaven regularni izraz</string>
+    <string name="error_sender_account_gone">Napaka pri pošiljanju tuta.</string>
+
+    <string name="title_home">Domov</string>
+    <string name="title_advanced">Napredno</string>
+    <string name="title_notifications">Obvestila</string>
+    <string name="title_public_local">Lokalno</string>
+    <string name="title_public_federated">Združeno</string>
+    <string name="title_direct_messages">Neposredna Sporočila</string>
+    <string name="title_tab_preferences">Zavihki</string>
+    <string name="title_view_thread">Tut</string>
+    <string name="title_tag">#%s</string>
+    <string name="title_statuses">Objave</string>
+    <string name="title_statuses_with_replies">Z odgovori</string>
+    <string name="title_statuses_pinned">Pripeto</string>
+    <string name="title_follows">Sledi</string>
+    <string name="title_followers">Sledilci</string>
+    <string name="title_favourites">Priljubljene</string>
+    <string name="title_mutes">Utišani uporabniki</string>
+    <string name="title_blocks">Blokirani uporabniki</string>
+    <string name="title_follow_requests">Zahteve za sledenje</string>
+    <string name="title_edit_profile">Uredi svoj profil</string>
+    <string name="title_saved_toot">Osnutki</string>
+    <string name="title_licenses">Licence</string>
+
+    <string name="status_username_format">\@%s</string>
+    <string name="status_boosted_format">%s spodbudil</string>
+    <string name="status_sensitive_media_title">Občutljiva vsebina</string>
+    <string name="status_media_hidden_title">Medij je skrit</string>
+    <string name="status_sensitive_media_directions">Kliknite za ogled</string>
+    <string name="status_content_warning_show_more">Pokaži več</string>
+    <string name="status_content_warning_show_less">Pokaži manj</string>
+    <string name="status_content_show_more">Razširi</string>
+    <string name="status_content_show_less">Strni</string>
+
+    <string name="message_empty">Tukaj ni ničesar.</string>
+    <string name="footer_empty">Tukaj ni ničesar. Potegnite navzdol za osvežitev!</string>
+
+    <string name="notification_reblog_format">%s je spodbudil tvoj tut</string>
+    <string name="notification_favourite_format">%s je vzljubil vaš tut</string>
+    <string name="notification_follow_format">%s vam sledi</string>
+
+    <string name="report_username_format">Prijavi @%s</string>
+    <string name="report_comment_hint">Dodatni komentarji\?</string>
+
+    <string name="action_quick_reply">Hiter odgovor</string>
+    <string name="action_reply">Odgovori</string>
+    <string name="action_reblog">Spodbudi</string>
+    <string name="action_unreblog">Odstrani spodbudo</string>
+    <string name="action_favourite">Vzljubi</string>
+    <string name="action_more">Več</string>
+    <string name="action_compose">Sestavi</string>
+    <string name="action_login">Prijavite se z Mastodonom</string>
+    <string name="action_logout">Odjava</string>
+    <string name="action_logout_confirm">Ali ste prepričani, da se želite odjaviti iz računa %1$s\?</string>
+    <string name="action_follow">Sledi</string>
+    <string name="action_unfollow">Prenehaj slediti</string>
+    <string name="action_block">Blokiraj</string>
+    <string name="action_unblock">Odblokiraj</string>
+    <string name="action_hide_reblogs">Skrij spodbude</string>
+    <string name="action_show_reblogs">Prikaži spodbude</string>
+    <string name="action_report">Prijavi</string>
+    <string name="action_delete">Izbriši</string>
+    <string name="action_send">TUTNI</string>
+    <string name="action_send_public">TUTNI!</string>
+    <string name="action_retry">Poskusi znova</string>
+    <string name="action_close">Zapri</string>
+    <string name="action_view_profile">Profil</string>
+    <string name="action_view_preferences">Možnosti</string>
+    <string name="action_view_account_preferences">Možnosti računa</string>
+    <string name="action_view_favourites">Priljubljeni</string>
+    <string name="action_view_mutes">Utišani uporabniki</string>
+    <string name="action_view_blocks">Blokirani uporabniki</string>
+    <string name="action_view_follow_requests">Zahteve za sledenje</string>
+    <string name="action_view_media">Mediji</string>
+    <string name="action_open_in_web">Odpri v brskalniku</string>
+    <string name="action_add_media">Dodaj medij</string>
+    <string name="action_photo_take">Posnemi fotografijo</string>
+    <string name="action_share">Deli</string>
+    <string name="action_mute">Utišaj</string>
+    <string name="action_mention">Omeni</string>
+    <string name="action_hide_media">Skrij medij</string>
+    <string name="action_open_drawer">Odpri predal</string>
+    <string name="action_save">Shrani</string>
+    <string name="action_edit_profile">Uredi profil</string>
+    <string name="action_edit_own_profile">Uredi</string>
+    <string name="action_undo">Razveljavi</string>
+    <string name="action_accept">Sprejmi</string>
+    <string name="action_reject">Zavrni</string>
+    <string name="action_search">Iskanje</string>
+    <string name="action_access_saved_toot">Osnutki</string>
+    <string name="action_toggle_visibility">Vidljivost tuta</string>
+    <string name="action_content_warning">Opozorilo o vsebini</string>
+    <string name="action_emoji_keyboard">Emoji tipkovnica</string>
+    <string name="action_add_tab">Dodaj zavihek</string>
+    <string name="action_links">Povezave</string>
+    <string name="action_mentions">Omembe</string>
+    <string name="action_open_reblogger">Odpri spodbujenega avtorja</string>
+    <string name="action_open_reblogged_by">Prikaži spodbude</string>
+    <string name="action_open_faved_by">Prikaži priljubljene</string>
+
+    <string name="title_mentions_dialog">Omembe</string>
+    <string name="title_links_dialog">Povezave</string>
+    <string name="action_open_media_n">Odpri medij #%d</string>
+
+    <string name="download_image">Prejemanje %1$s</string>
+
+    <string name="action_copy_link">Kopiraj povezavo</string>
+    <string name="action_open_as">Odpri kot %s</string>
+    <string name="action_share_as">Deli kot …</string>
+    <string name="download_media">Prenos medija</string>
+    <string name="downloading_media">Prejemanje medija</string>
+
+    <string name="send_status_link_to">Deli URL tuta z…</string>
+    <string name="send_status_content_to">Deli tut z…</string>
+    <string name="send_media_to">Deli medij z…</string>
+
+    <string name="confirmation_reported">Pošlji!</string>
+    <string name="status_sent">Pošlji!</string>
+    <string name="status_sent_long">Odgovor je bil uspešno poslan.</string>
+
+    <string name="hint_compose">Kaj se dogaja\?</string>
+    <string name="hint_content_warning">Opozorilo o vsebini</string>
+    <string name="hint_display_name">Prikazano ime</string>
+    <string name="hint_note">Bio</string>
+    <string name="hint_search">Iskanje…</string>
+
+    <string name="search_no_results">Ni rezultatov</string>
+
+    <string name="label_quick_reply">Odgovori…</string>
+    <string name="label_avatar">Podoba</string>
+    <string name="label_header">Glava</string>
+
+    <string name="login_connection">Povezovanje…</string>
+
+    <string name="error_failed_app_registration">Overitev s tem vozliščem ni uspela.</string>
+    <string name="error_authorization_unknown">Prišlo je do neznane napake pri pooblastitvi.</string>
+    <string name="action_unfavourite">Odstrani priljubljene</string>
+    <string name="action_unmute">Prekini utišanje</string>
+    <string name="action_hashtags">Ključniki</string>
+    <string name="title_hashtags_dialog">Ključniki</string>
+    <string name="confirmation_unblocked">Odblokiran uporabnik</string>
+    <string name="confirmation_unmuted">Prekinjeno utišanje uporabnika</string>
+
+    <string name="hint_domain">Katero vozlišče\?</string>
+    <string name="link_whats_an_instance">Kaj je vozlišče\?</string>
+
+    <string name="dialog_whats_an_instance">Tu lahko vnesete naslov ali domeno katerega koli vozlišča, na primer mastodon.social, icosahedron.website, social.tchncs.de in <a href="https://instances.social"> več! </a>
+\n
+\nČe še nimate računa, lahko vnesete ime vozlišča, kateremu bi se radi pridružili, in tam ustvarite račun.
+\n
+\nVozlišče je ena lokacija, kjer je gostovanje vašega računa, vendar lahko preprosto komunicirate in sledite ljudem na drugih vozliščih, kot da bi bili na isti lokaciji.
+\n
+\nVeč informacij najdete na naslovu <a href="https://joinmastodon.org">joinmastodon.org</a>. </string>
+    <string name="dialog_title_finishing_media_upload">Dokončanje pošiljanja medija</string>
+    <string name="dialog_message_uploading_media">Pošiljanje…</string>
+    <string name="dialog_download_image">Prejmi</string>
+    <string name="dialog_message_cancel_follow_request">Želite preklicati to zahtevo\?</string>
+    <string name="dialog_unfollow_warning">Prenehajte slediti temu računu\?</string>
+    <string name="dialog_delete_toot_warning">Želite izbrisati ta tut\?</string>
+
+    <string name="visibility_public">Javno: Objavi v javnih časovnicah</string>
+    <string name="visibility_unlisted">Ni prikazano: Ne prikaže v javnih časovnicah</string>
+    <string name="visibility_private">Samo sledilci: Objavi samo sledilcem</string>
+    <string name="visibility_direct">Neposredno: Objavi samo pri omenjenih uporabnikih</string>
+
+    <string name="pref_title_notification_settings">Obvestila</string>
+    <string name="pref_title_edit_notification_settings">Obvestila</string>
+    <string name="pref_title_notifications_enabled">Obvestila</string>
+    <string name="pref_summary_notifications">za račun %1$s</string>
+    <string name="pref_title_notification_alerts">Opozorila</string>
+    <string name="pref_title_notification_alert_sound">Obvesti z zvokom</string>
+    <string name="pref_title_notification_alert_vibrate">Obvesti z vibracijo</string>
+    <string name="pref_title_notification_alert_light">Obvesti s svetlobo</string>
+    <string name="pref_title_notification_filters">Obvesti me, ko</string>
+    <string name="pref_title_notification_filter_mentions">sem omenjen</string>
+    <string name="pref_title_notification_filter_follows">me kdo sledi</string>
+    <string name="pref_title_notification_filter_reblogs">so moje objave spodbujene</string>
+    <string name="pref_title_notification_filter_favourites">so moje objave vzljubljene</string>
+    <string name="pref_title_appearance_settings">Videz</string>
+    <string name="pref_title_app_theme">Tema aplikacije</string>
+    <string name="pref_title_timelines">Časovnice</string>
+    <string name="pref_title_timeline_filters">Filtri</string>
+
+    <string name="pref_title_browser_settings">Brskalnik</string>
+    <string name="pref_title_custom_tabs">Uporabi Chromove zavihke po meri</string>
+    <string name="pref_title_hide_follow_button">Med pomikanjem skrij gumb za sestavljanje</string>
+    <string name="pref_title_language">Jezik</string>
+    <string name="pref_title_status_filter">Filtriranje časovnice</string>
+    <string name="pref_title_status_tabs">Zavihki</string>
+    <string name="pref_title_show_boosts">Pokaži spodbude</string>
+    <string name="pref_title_show_replies">Pokaži odgovore</string>
+    <string name="pref_title_show_media_preview">Prenesi predoglede medijev</string>
+    <string name="pref_title_proxy_settings">Posredniški strežnik</string>
+    <string name="pref_title_http_proxy_settings">Pos. strž. HTTP</string>
+    <string name="pref_title_http_proxy_enable">Omogoči pos. strž. HTTP</string>
+    <string name="pref_title_http_proxy_server">Pos. strž HTTP</string>
+    <string name="pref_title_http_proxy_port">Vrata pos. strž. HTTP</string>
+
+    <string name="pref_default_post_privacy">Privzeta zasebnost objave</string>
+    <string name="pref_default_media_sensitivity">Vedno označite medije kot občutljive</string>
+    <string name="pref_publishing">Objavljanje (sinhronizirano s strežnikom)</string>
+    <string name="pref_failed_to_sync">Nastavitev ni bilo mogoče sinhronizirati</string>
+
+    <string name="pref_status_text_size">Velikost besedila statusa</string>
+
+    <string name="pref_media_display">Prikaz medijev</string>
+
+    <string name="notification_channel_mention_name">Nove omembe</string>
+    <string name="notification_channel_mention_descriptions">Obvestila o novih omembah</string>
+    <string name="notification_channel_follow_name">Novi sledilci</string>
+    <string name="notification_channel_follow_description">Obvestila o novih sledilcih</string>
+    <string name="notification_channel_boost_name">Spodbude</string>
+    <string name="notification_channel_boost_description">Obvestila, ko so vaši tuti spodbujeni</string>
+    <string name="notification_channel_favourite_name">Priljubljeni</string>
+    <string name="notification_channel_favourite_description">Obvestila, ko so vaši tuti vzljubljeni</string>
+
+
+    <string name="notification_mention_format">%s vas je omenil-a</string>
+    <string name="notification_summary_large">%1$s, %2$s, %3$s in %4$d ostali</string>
+    <string name="notification_summary_medium">%1$s, %2$s in %3$s</string>
+    <string name="notification_summary_small">%1$s in %2$s</string>
+    <string name="notification_title_summary">%d novih interakcij</string>
+
+    <string name="description_account_locked">Zaklenjen račun</string>
+
+    <string name="about_title_activity">O aplikaciji</string>
+    <string name="about_tusky_version">Tusky %s</string>
+    <string name="about_tusky_license">Tusky je prosta in odprtokodna programska oprema. Licencirana je pod licenco GNU General Public License različice 3. Licenco si lahko ogledate tukaj: https://www.gnu.org/licenses/gpl-3.0.en.html</string>
+    <string name="about_project_site">Spletna stran projekta:
+\nhttps://tusky.app</string>
+    <string name="about_bug_feature_request_site">Poročila o napakah in želje za nove funkcije:
+\nhttps://github.com/tuskyapp/Tusky/issues</string>
+    <string name="about_tusky_account">Profil Tusky</string>
+
+    <string name="status_share_content">Deli vsebino tuta</string>
+    <string name="status_share_link">Deli povezavo do tuta</string>
+    <string name="status_media_images">Slike</string>
+    <string name="status_media_video">Video</string>
+
+    <string name="state_follow_requested">Prošnja za sledenje</string>
+
+    <string name="no_content">brez vsebine</string>
+
+    <string name="abbreviated_in_years">v %dy</string>
+    <string name="abbreviated_in_days">v %dd</string>
+    <string name="abbreviated_in_hours">v %dh</string>
+    <string name="abbreviated_in_minutes">in %dm</string>
+    <string name="abbreviated_in_seconds">v %ds</string>
+    <string name="abbreviated_years_ago">%dy</string>
+    <string name="abbreviated_days_ago">%dd</string>
+    <string name="abbreviated_hours_ago">%dh</string>
+    <string name="abbreviated_minutes_ago">%dm</string>
+    <string name="abbreviated_seconds_ago">%ds</string>
+
+    <string name="follows_you">Vam sledi</string>
+    <string name="pref_title_alway_show_sensitive_media">Vedno prikaži občutljivo vsebino</string>
+    <string name="title_media">Mediji</string>
+    <string name="replying_to">Odgovori @%s</string>
+    <string name="load_more_placeholder_text">naloži več</string>
+
+    <string name="pref_title_public_filter_keywords">Javne časovnice</string>
+    <string name="pref_title_thread_filter_keywords">Pogovori</string>
+    <string name="filter_addition_dialog_title">Dodaj filter</string>
+    <string name="filter_edit_dialog_title">Uredi filter</string>
+    <string name="filter_dialog_remove_button">Odstrani</string>
+    <string name="filter_dialog_update_button">Posodobi</string>
+    <string name="filter_add_description">Filtriraj frazo</string>
+
+    <string name="add_account_name">Dodaj račun</string>
+    <string name="add_account_description">Dodaj nov Mastodon račun</string>
+
+    <string name="action_lists">Seznami</string>
+    <string name="title_lists">Seznami</string>
+    <string name="title_list_timeline">Seznam časovnice</string>
+    <string name="error_create_list">Seznama ni bilo mogoče ustvariti</string>
+    <string name="error_rename_list">Seznama ni bilo mogoče preimenovati</string>
+    <string name="error_delete_list">Seznama ni bilo mogoče izbrisati</string>
+    <string name="action_create_list">Ustvari seznam</string>
+    <string name="action_rename_list">Preimenuj seznam</string>
+    <string name="action_delete_list">Izbriši seznam</string>
+    <string name="action_edit_list">Uredi seznam</string>
+    <string name="hint_search_people_list">Poiščite osebe, katerim sledite</string>
+    <string name="action_add_to_list">Dodaj račun na seznam</string>
+    <string name="action_remove_from_list">Odstrani račun iz seznama</string>
+
+    <string name="compose_active_account_description">Objavljanje z računom %1$s</string>
+
+    <string name="error_failed_set_caption">Opisa ni bilo mogoče nastaviti</string>
+    <string name="hint_describe_for_visually_impaired">Opišite za slabovidne
+\n(omejitev znakov - %d)</string>
+    <string name="action_set_caption">Nastavi opis</string>
+    <string name="action_remove_media">Odstrani</string>
+    <string name="lock_account_label">Zakleni račun</string>
+    <string name="lock_account_label_description">Zahtevana je ročna potrditev sledilcev</string>
+    <string name="compose_save_draft">Shrani osnutek\?</string>
+    <string name="send_toot_notification_title">Pošiljanje tuta…</string>
+    <string name="send_toot_notification_error_title">napaka pri pošiljanju tuta</string>
+    <string name="send_toot_notification_channel_name">Pošiljanje tutov</string>
+    <string name="send_toot_notification_cancel_title">Pošiljanje je preklicano</string>
+    <string name="send_toot_notification_saved_content">Kopija tuta je bila shranjena v osnutke</string>
+    <string name="action_compose_shortcut">Sestavi</string>
+
+    <string name="error_no_custom_emojis">Vaše vozlišče %s nima emotikonov po meri</string>
+    <string name="copy_to_clipboard_success">Kopirano v odložišče</string>
+    <string name="emoji_style">Slog emotikonov</string>
+    <string name="system_default">Privzete nastavitve sistema</string>
+    <string name="download_fonts">Najprej boste morali prenesti te emotikone</string>
+    <string name="performing_lookup_title">Izvajanje iskanja…</string>
+    <string name="expand_collapse_all_statuses">Razširi/Strni vse statuse</string>
+    <string name="action_open_toot">Odpri tut</string>
+    <string name="restart_required">Potreben je ponovni zagon aplikacije</string>
+    <string name="restart_emoji">Če želite uveljaviti te spremembe, morate znova zagnati Tusky</string>
+    <string name="later">Kasneje</string>
+    <string name="restart">Znova zaženi</string>
+    <string name="caption_systememoji">"Privzeti komplet emotikonov vaše naprave "</string>
+    <string name="caption_blobmoji">Blob emotikoni so znani od Android 4.4-7.1</string>
+    <string name="caption_twemoji">Mastodonov privzeti komplet emotikonov</string>
+    <string name="download_failed">Prenos ni uspel</string>
+
+    <string name="profile_badge_bot_text">Robot</string>
+    <string name="account_moved_description">%1$s se je prestavil/a na:</string>
+
+    <string name="reblog_private">Spodbudi izvirnemu občinstvu</string>
+    <string name="unreblog_private">Prekini spodbudo</string>
+
+    <string name="license_description">Tusky vsebuje kodo in sredstva iz naslednjih odprtokodnih projektov:</string>
+    <string name="license_apache_2">Licencirano pod licenco Apache (spodaj)</string>
+    <string name="license_cc_by_4">CC-BY 4.0</string>
+    <string name="license_cc_by_sa_4">CC-BY-SA 4.0</string>
+
+    <string name="profile_metadata_label">Metapodatki profila</string>
+    <string name="profile_metadata_add">dodaj podatke</string>
+    <string name="profile_metadata_label_label">Oznaka</string>
+    <string name="profile_metadata_content_label">Vsebina</string>
+
+    <string name="pref_title_absolute_time">Uporabite absolutni čas</string>
+
+    <string name="label_remote_account">Spodnje informacije lahko nepopolno odražajo profil uporabnika. Pritisnite, da odprete polni profil v brskalniku.</string>
+
+    <string name="unpin_action">Odpni</string>
+    <string name="pin_action">Pripni</string>
+
+    <plurals name="favs">
+	<item quantity="one"><b>%1$s</b> Priljubljena</item>
+	<item quantity="two"><b>%1$s</b> Priljubljeni</item>
+	<item quantity="few"><b>%1$s</b> Priljubljene</item>
+	<item quantity="other"><b>%1$s</b> Priljubljenih</item>
+</plurals>
+
+    <plurals name="reblogs">
+	<item quantity="one"><b>%s</b> Spodbuda</item>
+	<item quantity="two"><b>%s</b> Spodbudi</item>
+	<item quantity="few"><b>%s</b> Spodbude</item>
+	<item quantity="other"><b>%s</b> Spodbud</item>
+</plurals>
+
+    <string name="title_reblogged_by">Spodbudil/a</string>
+    <string name="title_favourited_by">Vzljubil/a</string>
+
+    <string name="conversation_1_recipients">%1$s</string>
+    <string name="conversation_2_recipients">%1$s in %2$s</string>
+    <string name="conversation_more_recipients">%1$s, %2$s in %3$d več</string>
+    <string name="max_tab_number_reached">doseženih maksimalnih %1$d zavihkov</string>
+
+
+    <string name="description_status_media">Mediji: %s</string>
+    <string name="description_status_cw">Opozorila o vsebini: %s</string>
+    <string name="description_status_media_no_description_placeholder">Brez opisa</string>
+    <string name="description_status_reblogged">Ponovno objavljen</string>
+    <string name="description_status_favourited">Priljubljene</string>
+    <string name="description_visiblity_public">Javno</string>
+    <string name="description_visiblity_unlisted">Ni prikazano</string>
+    <string name="description_visiblity_private">Sledilci</string>
+    <string name="description_visiblity_direct">Neposredno</string>
+    <string name="description_status"> <!-- Display name, cw\?, content\?, relative date, reposted by\?, reposted\?, favorited\?, username, media\?; visibility, fav number\?, reblog number\?-->%1$s; %2$s; %3$s, %4$s, %5$s; %6$s, %7$s, %8$s, %9$s; %10$s, %11$s, %12$s </string>
+
+    <string name="hint_list_name">Ime seznama</string>
+
+    <string name="edit_hashtag_title">Uredi ključnik</string>
+    <string name="edit_hashtag_hint">Ključnik brez #</string>
+    <string name="hashtag">Ključnik</string>
+    <string name="notifications_clear">Počisti</string>
+    <string name="notifications_apply_filter">Filter</string>
+    <string name="filter_favorites">\@string/notification_channel_favourite_name</string>
+    <string name="filter_boosts">\@string/notification_channel_boost_name</string>
+    <string name="filter_follows">\@string/notification_channel_follow_name</string>
+    <string name="filter_mentions">\@string/notification_channel_mention_name</string>
+    <string name="filter_apply">Uporabi</string>
+
+    <string name="compose_shortcut_long_label">Sestavi tut</string>
+    <string name="compose_shortcut_short_label">Sestavi</string>
+    <string name="pref_title_bot_overlay">Prikaži kazalnik za robote</string>
+
+    <string name="notification_clear_text">Ali ste prepričani, da želite trajno izbrisati vsa obvestila\?</string>
+
 </resources>

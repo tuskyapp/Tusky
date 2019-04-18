@@ -39,6 +39,9 @@ import androidx.core.text.BidiFormatter;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+import com.bumptech.glide.request.FutureTarget;
 import com.evernote.android.job.JobManager;
 import com.evernote.android.job.JobRequest;
 import tech.bigfig.roma.BuildConfig;
@@ -52,12 +55,8 @@ import tech.bigfig.roma.receiver.NotificationClearBroadcastReceiver;
 import tech.bigfig.roma.receiver.SendStatusBroadcastReceiver;
 import tech.bigfig.roma.service.push.DeleteFcmTokenWorker;
 import tech.bigfig.roma.service.push.UpdateFcmTokenWorker;
-import tech.bigfig.roma.view.RoundedTransformation;
 
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.iid.FirebaseInstanceId;
-import com.google.firebase.iid.InstanceIdResult;
-import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -67,6 +66,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 public class NotificationHelper {
 
@@ -177,11 +177,14 @@ public class NotificationHelper {
         //load the avatar synchronously
         Bitmap accountAvatar;
         try {
-            accountAvatar = Picasso.with(context)
+            FutureTarget<Bitmap> target = Glide.with(context)
+                    .asBitmap()
                     .load(body.getAccount().getAvatar())
-                    .transform(new RoundedTransformation(20))
-                    .get();
-        } catch (IOException e) {
+                    .transform(new RoundedCorners(20))
+                    .submit();
+
+            accountAvatar = target.get();
+        } catch (ExecutionException | InterruptedException e) {
             Log.d(TAG, "error loading account avatar", e);
             accountAvatar = BitmapFactory.decodeResource(context.getResources(), R.drawable.avatar_default);
         }
@@ -645,16 +648,14 @@ public class NotificationHelper {
         //load the avatar synchronously
         Bitmap accountAvatar;
         try {
-            if (!TextUtils.isEmpty(avatar)) {
-                accountAvatar = Picasso.with(context)
-                        .load(avatar)
-                        .transform(new RoundedTransformation(20))
-                        .get();
-            }
-            else{
-                accountAvatar = BitmapFactory.decodeResource(context.getResources(), R.drawable.avatar_default);
-            }
-        } catch (IOException e) {
+            FutureTarget<Bitmap> target = Glide.with(context)
+                    .asBitmap()
+                    .load(avatar)
+                    .transform(new RoundedCorners(20))
+                    .submit();
+
+            accountAvatar = target.get();
+        } catch (ExecutionException | InterruptedException e) {
             Log.d(TAG, "error loading account avatar", e);
             accountAvatar = BitmapFactory.decodeResource(context.getResources(), R.drawable.avatar_default);
         }

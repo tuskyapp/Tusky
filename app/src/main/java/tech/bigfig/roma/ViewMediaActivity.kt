@@ -26,7 +26,6 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.Color
-import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -39,6 +38,9 @@ import android.view.MenuItem
 import android.view.View
 import android.webkit.MimeTypeMap
 import android.widget.Toast
+import androidx.lifecycle.Lifecycle
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.FutureTarget
 import tech.bigfig.roma.BuildConfig.APPLICATION_ID
 import tech.bigfig.roma.entity.Attachment
 import tech.bigfig.roma.fragment.ViewImageFragment
@@ -48,8 +50,11 @@ import tech.bigfig.roma.pager.ImagePagerAdapter
 import tech.bigfig.roma.util.CollectionUtil.map
 import tech.bigfig.roma.util.getTemporaryMediaFilename
 import tech.bigfig.roma.viewdata.AttachmentViewData
-import com.squareup.picasso.Picasso
-import com.squareup.picasso.Target
+import com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider
+import com.uber.autodispose.autoDisposable
+import io.reactivex.Single
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 
 import kotlinx.android.synthetic.main.activity_view_media.*
 
@@ -110,20 +115,21 @@ class ViewMediaActivity : BaseActivity(), ViewImageFragment.PhotoActionsListener
         attachments = intent.getParcelableArrayListExtra(EXTRA_ATTACHMENTS)
         val initialPosition = intent.getIntExtra(EXTRA_ATTACHMENT_INDEX, 0)
 
-        val adapter = if(attachments != null) {
+        val adapter = if (attachments != null) {
             val realAttachs = map(attachments, AttachmentViewData::attachment)
             // Setup the view pager.
             ImagePagerAdapter(supportFragmentManager, realAttachs, initialPosition)
 
         } else {
-            val avatarUrl = intent.getStringExtra(EXTRA_AVATAR_URL) ?: throw IllegalArgumentException("attachment list or avatar url has to be set")
+            val avatarUrl = intent.getStringExtra(EXTRA_AVATAR_URL)
+                    ?: throw IllegalArgumentException("attachment list or avatar url has to be set")
 
             AvatarImagePagerAdapter(supportFragmentManager, avatarUrl)
         }
 
         viewPager.adapter = adapter
         viewPager.currentItem = initialPosition
-        viewPager.addOnPageChangeListener(object: ViewPager.SimpleOnPageChangeListener() {
+        viewPager.addOnPageChangeListener(object : ViewPager.SimpleOnPageChangeListener() {
             override fun onPageSelected(position: Int) {
                 toolbar.title = adapter.getPageTitle(position)
             }
@@ -153,11 +159,16 @@ class ViewMediaActivity : BaseActivity(), ViewImageFragment.PhotoActionsListener
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        if(attachments != null) {
+        if (attachments != null) {
             menuInflater.inflate(R.menu.view_media_toolbar, menu)
             return true
         }
         return false
+    }
+
+    override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
+        menu?.findItem(R.id.action_share_media)?.isEnabled = !isCreating
+        return true
     }
 
     override fun onBringUp() {
@@ -173,11 +184,19 @@ class ViewMediaActivity : BaseActivity(), ViewImageFragment.PhotoActionsListener
         for (listener in toolbarVisibilityListeners) {
             listener.onToolbarVisiblityChanged(toolbarVisible)
         }
-        val visibility = if(toolbarVisible){ View.VISIBLE } else { View.INVISIBLE }
-        val alpha = if(toolbarVisible){ 1.0f } else { 0.0f }
+        val visibility = if (toolbarVisible) {
+            View.VISIBLE
+        } else {
+            View.INVISIBLE
+        }
+        val alpha = if (toolbarVisible) {
+            1.0f
+        } else {
+            0.0f
+        }
 
         toolbar.animate().alpha(alpha)
-                .setListener(object: AnimatorListenerAdapter() {
+                .setListener(object : AnimatorListenerAdapter() {
                     override fun onAnimationEnd(animation: Animator) {
                         toolbar.visibility = visibility
                         animation.removeListener(this)
@@ -226,7 +245,7 @@ class ViewMediaActivity : BaseActivity(), ViewImageFragment.PhotoActionsListener
         }
 
         val attachment = attachments!![viewPager.currentItem].attachment
-        when(attachment.type) {
+        when (attachment.type) {
             Attachment.Type.IMAGE -> shareImage(directory, attachment.url)
             Attachment.Type.VIDEO,
             Attachment.Type.GIFV -> shareVideo(directory, attachment.url)
@@ -243,30 +262,54 @@ class ViewMediaActivity : BaseActivity(), ViewImageFragment.PhotoActionsListener
     }
 
 
+    private var isCreating: Boolean = false
+
     private fun shareImage(directory: File, url: String) {
+        isCreating = true
+        progressBarShare.visibility = View.VISIBLE
+        invalidateOptionsMenu()
         val file = File(directory, getTemporaryMediaFilename("png"))
+        val futureTask: FutureTarget<Bitmap> =
+                Glide.with(applicationContext).asBitmap().load(Uri.parse(url)).submit()
+        Single.fromCallable {
+            val bitmap = futureTask.get()
+            try {
+                val stream = FileOutputStream(file)
+                bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream)
+                stream.close()
+                return@fromCallable true
+            } catch (fnfe: FileNotFoundException) {
+                Log.e(TAG, "Error writing temporary media.")
+            } catch (ioe: IOException) {
+                Log.e(TAG, "Error writing temporary media.")
+            }
+            return@fromCallable false
 
-        Picasso.with(applicationContext).load(Uri.parse(url)).into(object: Target {
-            override fun onBitmapLoaded(bitmap: Bitmap, from: Picasso.LoadedFrom) {
-                try {
-                    val stream = FileOutputStream(file)
-                    bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream)
-                    stream.close()
-                } catch (fnfe: FileNotFoundException) {
-                    Log.e(TAG, "Error writing temporary media.")
-                } catch (ioe: IOException) {
-                    Log.e(TAG, "Error writing temporary media.")
+        }
+
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnDispose {
+                    futureTask.cancel(true)
                 }
-            }
+                .autoDisposable(AndroidLifecycleScopeProvider.from(this, Lifecycle.Event.ON_DESTROY))
+                .subscribe(
+                        { result ->
+                            Log.d(TAG, "Download image result: $result")
+                            isCreating = false
+                            invalidateOptionsMenu()
+                            progressBarShare.visibility = View.GONE
+                            if (result)
+                                shareFile(file, "image/png")
+                        },
+                        { error ->
+                            isCreating = false
+                            invalidateOptionsMenu()
+                            progressBarShare.visibility = View.GONE
+                            Log.e(TAG, "Failed to download image", error)
+                        }
+                )
 
-            override fun onBitmapFailed(errorDrawable: Drawable?) {
-                Log.e(TAG, "Error loading temporary media.")
-            }
-
-            override fun onPrepareLoad(placeHolderDrawable: Drawable?) { }
-        })
-
-        shareFile(file, "image/png")
     }
 
     private fun shareVideo(directory: File, url: String) {

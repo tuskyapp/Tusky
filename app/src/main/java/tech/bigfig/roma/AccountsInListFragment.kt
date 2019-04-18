@@ -27,9 +27,10 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import tech.bigfig.roma.viewmodel.AccountsInListViewModel
 import tech.bigfig.roma.viewmodel.State
-import com.squareup.picasso.Picasso
 import com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider.from
 import com.uber.autodispose.autoDisposable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -208,9 +209,8 @@ class AccountsInListFragment : DialogFragment(), Injectable {
             fun bind(account: Account) {
                 usernameTextView.text = account.username
                 displayNameTextView.text = account.displayName
-                Picasso.with(avatar.context)
+                Glide.with(this@AccountsInListFragment)
                         .load(account.avatar)
-                        .fit()
                         .placeholder(R.drawable.avatar_default)
                         .into(avatar)
             }
@@ -255,9 +255,8 @@ class AccountsInListFragment : DialogFragment(), Injectable {
             fun bind(account: Account, inAList: Boolean) {
                 usernameTextView.text = account.username
                 displayNameTextView.text = account.displayName
-                Picasso.with(avatar.context)
+                Glide.with(this@AccountsInListFragment)
                         .load(account.avatar)
-                        .fit()
                         .placeholder(R.drawable.avatar_default)
                         .into(avatar)
                 rejectButton.apply {

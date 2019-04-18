@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
+import com.bumptech.glide.Glide;
 import tech.bigfig.roma.R;
 import tech.bigfig.roma.entity.Attachment;
 import tech.bigfig.roma.entity.Attachment.Focus;
@@ -28,7 +29,6 @@ import tech.bigfig.roma.util.ThemeUtils;
 import tech.bigfig.roma.view.MediaPreviewImageView;
 import tech.bigfig.roma.viewdata.StatusViewData;
 import com.mikepenz.iconics.utils.Utils;
-import com.squareup.picasso.Picasso;
 
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
@@ -183,7 +183,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         if (TextUtils.isEmpty(url)) {
             avatar.setImageResource(R.drawable.avatar_default);
         } else {
-            Picasso.with(avatar.getContext())
+            Glide.with(avatar)
                     .load(url)
                     .placeholder(R.drawable.avatar_default)
                     .into(avatar);
@@ -321,9 +321,6 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
 
         final int n = Math.min(attachments.size(), Status.MAX_MEDIA_ATTACHMENTS);
 
-        final int maxW = context.getResources().getInteger(R.integer.media_max_width);
-        final int maxH = context.getResources().getInteger(R.integer.media_max_height);
-
         for (int i = 0; i < n; i++) {
             String previewUrl = attachments.get(i).getPreviewUrl();
             String description = attachments.get(i).getDescription();
@@ -337,10 +334,8 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             mediaPreviews[i].setVisibility(View.VISIBLE);
 
             if (TextUtils.isEmpty(previewUrl)) {
-                Picasso.with(context)
+                Glide.with(mediaPreviews[i])
                         .load(mediaPreviewUnloadedId)
-                        .resize(maxW, maxH)
-                        .onlyScaleDown()
                         .centerInside()
                         .into(mediaPreviews[i]);
             } else {
@@ -350,23 +345,18 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
                 if (focus != null) { // If there is a focal point for this attachment:
                     mediaPreviews[i].setFocalPoint(focus);
 
-                    Picasso.with(context)
+                    Glide.with(mediaPreviews[i])
                             .load(previewUrl)
                             .placeholder(mediaPreviewUnloadedId)
-                            .resize(maxW, maxH)
-                            .onlyScaleDown()
                             .centerInside()
-                            // Also pass the mediaPreview as a callback to ensure it is called
-                            // initially when the image gets loaded:
-                            .into(mediaPreviews[i], mediaPreviews[i]);
+                            .addListener(mediaPreviews[i])
+                            .into(mediaPreviews[i]);
                 } else {
                     mediaPreviews[i].removeFocalPoint();
 
-                    Picasso.with(context)
+                    Glide.with(mediaPreviews[i])
                             .load(previewUrl)
                             .placeholder(mediaPreviewUnloadedId)
-                            .resize(maxW, maxH)
-                            .onlyScaleDown()
                             .centerInside()
                             .into(mediaPreviews[i]);
                 }

@@ -23,11 +23,11 @@ import android.os.Bundle
 import android.service.chooser.ChooserTarget
 import android.service.chooser.ChooserTargetService
 import android.text.TextUtils
+import com.bumptech.glide.Glide
 import tech.bigfig.roma.R
 import tech.bigfig.roma.db.AccountManager
 import tech.bigfig.roma.di.Injectable
 import tech.bigfig.roma.util.NotificationHelper
-import com.squareup.picasso.Picasso
 import tech.bigfig.roma.RomaApplication
 
 
@@ -48,10 +48,13 @@ class AccountChooserService : ChooserTargetService(), Injectable {
             val icon: Icon = if (TextUtils.isEmpty(account.profilePictureUrl)) {
                 Icon.createWithResource(applicationContext, R.drawable.avatar_default)
             } else {
-                Icon.createWithBitmap(Picasso.with(this).load(account.profilePictureUrl)
+                val bmp = Glide.with(this)
+                        .asBitmap()
+                        .load(account.profilePictureUrl)
                         .error(R.drawable.avatar_default)
                         .placeholder(R.drawable.avatar_default)
-                        .get())
+                        .submit()
+                Icon.createWithBitmap(bmp.get())
             }
             val bundle = Bundle()
             bundle.putLong(NotificationHelper.ACCOUNT_ID, account.id)

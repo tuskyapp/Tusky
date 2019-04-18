@@ -16,6 +16,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import tech.bigfig.roma.R;
 import tech.bigfig.roma.entity.Card;
 import tech.bigfig.roma.entity.Status;
@@ -24,7 +25,6 @@ import tech.bigfig.roma.util.CustomURLSpan;
 import tech.bigfig.roma.util.HtmlUtils;
 import tech.bigfig.roma.util.LinkHelper;
 import tech.bigfig.roma.viewdata.StatusViewData;
-import com.squareup.picasso.Picasso;
 
 import java.text.DateFormat;
 import java.util.Date;
@@ -177,9 +177,8 @@ class StatusDetailedViewHolder extends StatusBaseViewHolder {
 
                     cardView.setClipToOutline(true);
 
-                    Picasso.with(cardImage.getContext())
+                    Glide.with(cardImage)
                             .load(card.getImage())
-                            .fit()
                             .centerCrop()
                             .into(cardImage);
 

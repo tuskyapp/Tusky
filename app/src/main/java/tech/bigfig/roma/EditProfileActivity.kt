@@ -34,6 +34,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.ImageView
+import com.bumptech.glide.Glide
 import tech.bigfig.roma.adapter.AccountFieldEditAdapter
 import tech.bigfig.roma.di.Injectable
 import tech.bigfig.roma.di.ViewModelFactory
@@ -42,7 +43,6 @@ import tech.bigfig.roma.util.*
 import tech.bigfig.roma.viewmodel.EditProfileViewModel
 import com.mikepenz.google_material_typeface_library.GoogleMaterial
 import com.mikepenz.iconics.IconicsDrawable
-import com.squareup.picasso.Picasso
 import com.theartofdev.edmodo.cropper.CropImage
 import kotlinx.android.synthetic.main.activity_edit_profile.*
 import kotlinx.android.synthetic.main.toolbar_basic.*
@@ -133,14 +133,14 @@ class EditProfileActivity : BaseActivity(), Injectable {
                         addFieldButton.isEnabled = me.source?.fields?.size ?: 0 < MAX_ACCOUNT_FIELDS
 
                         if(viewModel.avatarData.value == null) {
-                            Picasso.with(this)
+                            Glide.with(this)
                                     .load(me.avatar)
                                     .placeholder(R.drawable.avatar_default)
                                     .into(avatarPreview)
                         }
 
                         if(viewModel.headerData.value == null) {
-                            Picasso.with(this)
+                            Glide.with(this)
                                     .load(me.header)
                                     .into(headerPreview)
                         }
