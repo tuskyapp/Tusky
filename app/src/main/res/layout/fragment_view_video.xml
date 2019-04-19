@@ -8,19 +8,6 @@
     android:clickable="true"
     android:focusable="true">
 
-    <TextView
-        android:id="@+id/mediaDescription"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@+id/videoPlayer"
-        android:background="#60000000"
-        android:lineSpacingMultiplier="1.1"
-        android:padding="8dp"
-        android:textAlignment="center"
-        android:textColor="#eee"
-        android:textSize="?attr/status_text_medium"
-        tools:text="Some media description" />
-
     <VideoView
         android:id="@+id/videoPlayer"
         android:layout_width="match_parent"
@@ -31,6 +18,20 @@
         app:layout_constraintBottom_toBottomOf="parent"
         android:layout_gravity="center"
         />
+
+    <TextView
+        android:id="@+id/mediaDescription"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="?attr/actionBarSize"
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="#60000000"
+        android:lineSpacingMultiplier="1.1"
+        android:padding="8dp"
+        android:textAlignment="center"
+        android:textColor="#eee"
+        android:textSize="?attr/status_text_medium"
+        tools:text="Some media description" />
 
     <ProgressBar
         android:id="@+id/progressBar"
