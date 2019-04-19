@@ -454,6 +454,7 @@
         android:paddingTop="4dp"
         android:paddingRight="16dp"
         android:paddingBottom="4dp"
+        android:layout_marginTop="4dp"
         android:text="@string/poll_vote"
         android:textSize="?attr/status_text_medium"
         app:layout_constraintStart_toStartOf="@id/status_display_name"

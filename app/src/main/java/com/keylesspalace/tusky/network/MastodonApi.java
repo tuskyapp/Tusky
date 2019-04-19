@@ -384,9 +384,10 @@ public interface MastodonApi {
             @Path("id") String id
     );
 
-    @POST("api/v1/polls/:id/votes")
+    @FormUrlEncoded
+    @POST("api/v1/polls/{id}/votes")
     Single<Poll> voteInPoll(
-            @Path("id")String id,
+            @Path("id") String id,
             @Field("choices[]") List<Integer> choices
     );
 }

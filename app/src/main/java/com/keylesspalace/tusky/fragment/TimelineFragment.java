@@ -629,14 +629,23 @@ public class TimelineFragment extends SFragment implements
                 .observeOn(AndroidSchedulers.mainThread())
                 .as(autoDisposable(from(this)))
                 .subscribe(
-                        (newPoll) -> setVoteForPoll(position, newPoll),
+                        (newPoll) -> setVoteForPoll(position, status, newPoll),
                         (t) -> Log.d(TAG,
                                 "Failed to vote in poll: " + status.getId(), t)
                 );
     }
 
-    private void setVoteForPoll(int position, Poll poll) {
-        // TODO
+    private void setVoteForPoll(int position, Status status, Poll newPoll) {
+        Pair<StatusViewData.Concrete, Integer> actual =
+                findStatusAndPosition(position, status);
+        if (actual == null) return;
+
+        StatusViewData newViewData = new StatusViewData
+                .Builder(actual.first)
+                .setPoll(newPoll)
+                .createStatusViewData();
+        statuses.setPairedItem(actual.second, newViewData);
+        updateAdapter();
     }
 
     @Override

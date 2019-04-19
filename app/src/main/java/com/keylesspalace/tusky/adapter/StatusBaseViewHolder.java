@@ -36,6 +36,7 @@ import com.mikepenz.iconics.utils.Utils;
 
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -618,7 +619,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
 
             setContentDescription(status);
 
-            setupPoll(status.getPoll(), useAbsoluteTime);
+            setupPoll(status.getPoll(), useAbsoluteTime, listener);
 
             // Workaround for RecyclerView 1.0.0 / androidx.core 1.0.0
             // RecyclerView tries to set AccessibilityDelegateCompat to null
@@ -750,7 +751,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         }
     }
 
-    private void setupPoll(Poll poll, boolean useAbsoluteTime) {
+    private void setupPoll(Poll poll, boolean useAbsoluteTime, StatusActionListener listener) {
         if(poll == null) {
             for(TextView pollResult: pollResults) {
                 pollResult.setVisibility(View.GONE);
@@ -771,11 +772,13 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
                 // no voting possible
                 for(int i = 0; i<4; i++) {
                     if(i < options.size()) {
-                        String pollOptionText = context.getString(R.string.poll_option_format, options.get(i).getVotesCount(), options.get(i).getTitle());
+                        long percent = options.get(i).getVotesCount() == 0 ? 0 : Math.round(options.get(i).getVotesCount() / (double) poll.getVotesCount() * 100);
+
+                        String pollOptionText = context.getString(R.string.poll_option_format, percent, options.get(i).getTitle());
                         pollResults[i].setText(HtmlUtils.fromHtml(pollOptionText));
                         pollResults[i].setVisibility(View.VISIBLE);
 
-                        int level = options.get(i).getVotesCount() == 0 ? 0 : (int) (options.get(i).getVotesCount() / (double) poll.getVotesCount() * 10000);
+                        int level = (int) percent * 100;
 
                         pollResults[i].getBackground().setLevel(level);
 
@@ -799,6 +802,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
                 }
 
                 pollRadioGroup.setVisibility(View.VISIBLE);
+                pollRadioGroup.clearCheck();
                 pollButton.setVisibility(View.VISIBLE);
 
                 for(int i = 0; i<4; i++) {
@@ -833,6 +837,29 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             String pollInfo = pollDescription.getContext().getString(R.string.poll_info_format, votesText, pollDurationInfo);
 
             pollDescription.setText(pollInfo);
+
+            pollButton.setOnClickListener(v -> {
+
+                int selectedRadioButtonIndex;
+                switch (pollRadioGroup.getCheckedRadioButtonId()) {
+                    case R.id.status_poll_radio_button_0:
+                        selectedRadioButtonIndex = 0;
+                        break;
+                    case R.id.status_poll_radio_button_1:
+                        selectedRadioButtonIndex = 1;
+                        break;
+                    case R.id.status_poll_radio_button_2:
+                        selectedRadioButtonIndex = 2;
+                        break;
+                    case R.id.status_poll_radio_button_3:
+                        selectedRadioButtonIndex = 3;
+                        break;
+                    default:
+                        return;
+                }
+
+                listener.onVoteInPoll(getAdapterPosition(), Collections.singletonList(selectedRadioButtonIndex));
+            });
 
         }
     }

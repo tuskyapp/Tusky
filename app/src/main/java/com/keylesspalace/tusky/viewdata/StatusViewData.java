@@ -312,7 +312,8 @@ public abstract class StatusViewData {
                     Objects.equals(application, concrete.application) &&
                     Objects.equals(statusEmojis, concrete.statusEmojis) &&
                     Objects.equals(accountEmojis, concrete.accountEmojis) &&
-                    Objects.equals(card, concrete.card)
+                    Objects.equals(card, concrete.card) &&
+                    Objects.equals(poll, concrete.poll)
                     && isCollapsed == concrete.isCollapsed;
         }
 
