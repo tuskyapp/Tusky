@@ -619,7 +619,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
 
             setContentDescription(status);
 
-            setupPoll(status.getPoll(), useAbsoluteTime, listener);
+            setupPoll(status.getPoll(),status.getStatusEmojis(), useAbsoluteTime, listener);
 
             // Workaround for RecyclerView 1.0.0 / androidx.core 1.0.0
             // RecyclerView tries to set AccessibilityDelegateCompat to null
@@ -751,7 +751,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         }
     }
 
-    private void setupPoll(Poll poll, boolean useAbsoluteTime, StatusActionListener listener) {
+    private void setupPoll(Poll poll, List<Emoji> emojis, boolean useAbsoluteTime, StatusActionListener listener) {
         if(poll == null) {
             for(TextView pollResult: pollResults) {
                 pollResult.setVisibility(View.GONE);
@@ -775,7 +775,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
                         long percent = options.get(i).getVotesCount() == 0 ? 0 : Math.round(options.get(i).getVotesCount() / (double) poll.getVotesCount() * 100);
 
                         String pollOptionText = context.getString(R.string.poll_option_format, percent, options.get(i).getTitle());
-                        pollResults[i].setText(HtmlUtils.fromHtml(pollOptionText));
+                        pollResults[i].setText(CustomEmojiHelper.emojifyText(HtmlUtils.fromHtml(pollOptionText), emojis, pollResults[i]));
                         pollResults[i].setVisibility(View.VISIBLE);
 
                         int level = (int) percent * 100;
@@ -807,7 +807,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
 
                 for(int i = 0; i<4; i++) {
                     if(i < options.size()) {
-                        pollRadioOptions[i].setText(options.get(i).getTitle());
+                        pollRadioOptions[i].setText(CustomEmojiHelper.emojifyString(options.get(i).getTitle(), emojis, pollRadioOptions[i]));
                         pollRadioOptions[i].setVisibility(View.VISIBLE);
 
                     } else {
