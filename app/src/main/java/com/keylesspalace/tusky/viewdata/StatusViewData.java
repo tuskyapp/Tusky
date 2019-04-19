@@ -99,7 +99,7 @@ public abstract class StatusViewData {
                         Date createdAt, int reblogsCount, int favouritesCount, @Nullable String inReplyToId,
                         @Nullable Status.Mention[] mentions, String senderId, boolean rebloggingEnabled,
                         Status.Application application, List<Emoji> statusEmojis, List<Emoji> accountEmojis, @Nullable Card card,
-                        boolean isCollapsible, boolean isCollapsed, Poll poll, boolean isBot) {
+                        boolean isCollapsible, boolean isCollapsed, @Nullable Poll poll, boolean isBot) {
 
             this.id = id;
             if (Build.VERSION.SDK_INT == 23) {

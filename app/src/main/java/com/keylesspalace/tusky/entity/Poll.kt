@@ -11,7 +11,21 @@ data class Poll(
         @SerializedName("votes_count") val votesCount: Int,
         val options: List<PollOption>,
         val voted: Boolean
-)
+) {
+
+    fun votedCopy(choices: List<Int>): Poll {
+        val newOptions = options.mapIndexed { index, option ->
+            if(choices.contains(index)) {
+                option.copy(votesCount = option.votesCount + 1)
+            } else {
+                option
+            }
+        }
+
+        return copy(options = newOptions, votesCount = votesCount + 1, voted = true)
+    }
+
+}
 
 data class PollOption(
         val title: String,
