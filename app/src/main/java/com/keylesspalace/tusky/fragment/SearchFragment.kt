@@ -249,8 +249,16 @@ class SearchFragment : SFragment(), StatusActionListener {
             timelineCases.voteInPoll(status, choices)
                     .observeOn(AndroidSchedulers.mainThread())
                     .autoDisposable(from(this, Lifecycle.Event.ON_DESTROY))
-                    .subscribe({
-                        // TODO
+                    .subscribe({poll ->
+                        val viewData =  ViewDataUtils.statusToViewData(
+                                status,
+                                alwaysShowSensitiveMedia
+                        )
+                        val newViewData = StatusViewData.Builder(viewData)
+                                .setPoll(poll)
+                                .createStatusViewData()
+                        searchAdapter.updateStatusAtPosition(newViewData, position)
+
                     }, { t -> Log.d(TAG, "Failed to vote in poll " + status.id, t) })
         }
     }
