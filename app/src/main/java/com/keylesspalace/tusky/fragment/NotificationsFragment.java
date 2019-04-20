@@ -34,7 +34,6 @@ import android.widget.ProgressBar;
 
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.tabs.TabLayout;
 import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.adapter.NotificationsAdapter;
 import com.keylesspalace.tusky.adapter.StatusBaseViewHolder;
@@ -154,7 +153,6 @@ public class NotificationsFragment extends SFragment implements
     private LinearLayoutManager layoutManager;
     private EndlessOnScrollListener scrollListener;
     private NotificationsAdapter adapter;
-    private TabLayout.OnTabSelectedListener onTabSelectedListener;
     private Button buttonFilter;
     private boolean hideFab;
     private boolean topLoading;

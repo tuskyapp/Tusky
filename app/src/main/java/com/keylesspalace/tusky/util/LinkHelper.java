@@ -18,7 +18,6 @@ package com.keylesspalace.tusky.util;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.net.Uri;
 import android.preference.PreferenceManager;
 import androidx.annotation.Nullable;

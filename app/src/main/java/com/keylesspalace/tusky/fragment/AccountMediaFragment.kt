@@ -28,7 +28,6 @@ import androidx.core.view.ViewCompat
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.resource.bitmap.DownsampleStrategy
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.ViewMediaActivity
 import com.keylesspalace.tusky.di.Injectable
@@ -234,9 +233,8 @@ class AccountMediaFragment : BaseFragment(), Injectable {
     }
 
     private fun viewMedia(items: List<AttachmentViewData>, currentIndex: Int, view: View?) {
-        val type = items[currentIndex].attachment.type
 
-        when (type) {
+        when (items[currentIndex].attachment.type) {
             Attachment.Type.IMAGE,
             Attachment.Type.GIFV,
             Attachment.Type.VIDEO -> {

@@ -28,7 +28,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.entity.Account
@@ -75,7 +74,7 @@ class AccountsInListFragment : DialogFragment(), Injectable {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setStyle(DialogFragment.STYLE_NORMAL, R.style.TuskyDialogFragmentStyle)
+        setStyle(STYLE_NORMAL, R.style.TuskyDialogFragmentStyle)
         viewModel = viewModelFactory.create(AccountsInListViewModel::class.java)
         val args = arguments!!
         listId = args.getString(LIST_ID_ARG)!!

@@ -55,13 +55,13 @@ class AccountListActivity : BaseActivity(), HasSupportFragmentInjector {
         setSupportActionBar(toolbar)
         supportActionBar?.apply {
             when (type) {
-                AccountListActivity.Type.BLOCKS -> setTitle(R.string.title_blocks)
-                AccountListActivity.Type.MUTES -> setTitle(R.string.title_mutes)
-                AccountListActivity.Type.FOLLOW_REQUESTS -> setTitle(R.string.title_follow_requests)
-                AccountListActivity.Type.FOLLOWERS -> setTitle(R.string.title_followers)
-                AccountListActivity.Type.FOLLOWS -> setTitle(R.string.title_follows)
-                AccountListActivity.Type.REBLOGGED -> setTitle(R.string.title_reblogged_by)
-                AccountListActivity.Type.FAVOURITED -> setTitle(R.string.title_favourited_by)
+                Type.BLOCKS -> setTitle(R.string.title_blocks)
+                Type.MUTES -> setTitle(R.string.title_mutes)
+                Type.FOLLOW_REQUESTS -> setTitle(R.string.title_follow_requests)
+                Type.FOLLOWERS -> setTitle(R.string.title_followers)
+                Type.FOLLOWS -> setTitle(R.string.title_follows)
+                Type.REBLOGGED -> setTitle(R.string.title_reblogged_by)
+                Type.FAVOURITED -> setTitle(R.string.title_favourited_by)
             }
             setDisplayHomeAsUpEnabled(true)
             setDisplayShowHomeEnabled(true)

@@ -118,7 +118,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Injectab
         return true;
     }
 
-    private int textStyle(String name) {
+    private static int textStyle(String name) {
         int style;
         switch (name) {
             case "smallest":
