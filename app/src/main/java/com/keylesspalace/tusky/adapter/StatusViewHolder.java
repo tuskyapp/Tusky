@@ -17,7 +17,6 @@ package com.keylesspalace.tusky.adapter;
 
 import android.content.Context;
 import android.text.InputFilter;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.ToggleButton;

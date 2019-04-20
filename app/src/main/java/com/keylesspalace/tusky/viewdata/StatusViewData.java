@@ -269,7 +269,7 @@ public abstract class StatusViewData {
 
         @Override public long getViewDataId() {
             // Chance of collision is super low and impact of mistake is low as well
-            return getId().hashCode();
+            return id.hashCode();
         }
 
         public boolean deepEquals(StatusViewData o) {
@@ -311,7 +311,7 @@ public abstract class StatusViewData {
         }
 
         static CharSequence replaceCrashingCharacters(CharSequence content) {
-            Boolean replacing = false;
+            boolean replacing = false;
             SpannableStringBuilder builder = null;
             int length = content.length();
 

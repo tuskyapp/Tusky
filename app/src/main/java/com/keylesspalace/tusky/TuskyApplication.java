@@ -44,7 +44,6 @@ import dagger.android.DispatchingAndroidInjector;
 import dagger.android.HasActivityInjector;
 import dagger.android.HasBroadcastReceiverInjector;
 import dagger.android.HasServiceInjector;
-import okhttp3.OkHttpClient;
 
 public class TuskyApplication extends Application implements HasActivityInjector, HasServiceInjector, HasBroadcastReceiverInjector {
     @Inject
@@ -55,8 +54,6 @@ public class TuskyApplication extends Application implements HasActivityInjector
     DispatchingAndroidInjector<BroadcastReceiver> dispatchingBroadcastReceiverInjector;
     @Inject
     NotificationPullJobCreator notificationPullJobCreator;
-    @Inject
-    OkHttpClient okHttpClient;
 
     private AppDatabase appDatabase;
     private AccountManager accountManager;

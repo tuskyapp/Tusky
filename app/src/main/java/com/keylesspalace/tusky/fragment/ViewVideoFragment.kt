@@ -84,13 +84,13 @@ class ViewVideoFragment : ViewMediaFragment() {
         videoView.setOnPreparedListener { mp ->
             progressBar.hide()
             mp.isLooping = true
-            if (arguments!!.getBoolean(ViewMediaFragment.ARG_START_POSTPONED_TRANSITION)) {
+            if (arguments!!.getBoolean(ARG_START_POSTPONED_TRANSITION)) {
                 hideToolbarAfterDelay(TOOLBAR_HIDE_DELAY_MS)
                 videoView.start()
             }
         }
 
-        if (arguments!!.getBoolean(ViewMediaFragment.ARG_START_POSTPONED_TRANSITION)) {
+        if (arguments!!.getBoolean(ARG_START_POSTPONED_TRANSITION)) {
             mediaActivity.onBringUp()
         }
     }
@@ -107,7 +107,7 @@ class ViewVideoFragment : ViewMediaFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val attachment = arguments?.getParcelable<Attachment>(ViewMediaFragment.ARG_ATTACHMENT)
+        val attachment = arguments?.getParcelable<Attachment>(ARG_ATTACHMENT)
         val url: String
 
         if (attachment == null) {

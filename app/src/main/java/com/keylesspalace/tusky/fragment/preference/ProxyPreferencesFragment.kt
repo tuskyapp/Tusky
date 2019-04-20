@@ -18,7 +18,6 @@ package com.keylesspalace.tusky.fragment.preference
 import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.preference.EditTextPreference
-import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import com.keylesspalace.tusky.R
 
