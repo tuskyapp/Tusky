@@ -619,7 +619,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
 
             setContentDescription(status);
 
-            setupPoll(status.getPoll(),status.getStatusEmojis(), useAbsoluteTime, listener);
+            setupPoll(status.getPoll(),status.getStatusEmojis(), listener);
 
             // Workaround for RecyclerView 1.0.0 / androidx.core 1.0.0
             // RecyclerView tries to set AccessibilityDelegateCompat to null
@@ -751,7 +751,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         }
     }
 
-    private void setupPoll(Poll poll, List<Emoji> emojis, boolean useAbsoluteTime, StatusActionListener listener) {
+    protected void setupPoll(Poll poll, List<Emoji> emojis, StatusActionListener listener) {
         if(poll == null) {
             for(TextView pollResult: pollResults) {
                 pollResult.setVisibility(View.GONE);

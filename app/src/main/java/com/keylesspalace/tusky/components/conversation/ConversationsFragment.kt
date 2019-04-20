@@ -194,7 +194,7 @@ class ConversationsFragment : SFragment(), StatusActionListener, Injectable, Res
     }
 
     override fun onVoteInPoll(position: Int, choices: MutableList<Int>) {
-        // TODO
+        viewModel.voteInPoll(position, choices)
     }
 
     companion object {
