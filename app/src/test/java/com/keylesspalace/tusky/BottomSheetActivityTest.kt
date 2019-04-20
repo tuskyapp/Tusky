@@ -84,7 +84,8 @@ class BottomSheetActivityTest {
             listOf(),
             arrayOf(),
             null,
-            pinned = false
+            pinned = false,
+            poll = null
     )
     private val statusCallback = FakeSearchResults(status)
 
