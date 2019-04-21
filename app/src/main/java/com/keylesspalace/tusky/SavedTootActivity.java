@@ -155,14 +155,14 @@ public final class SavedTootActivity extends BaseActivity implements SavedTootAd
     public void click(int position, TootEntity item) {
         Intent intent = new ComposeActivity.IntentBuilder()
                 .savedTootUid(item.getUid())
-                .savedTootText(item.getText())
+                .tootText(item.getText())
                 .contentWarning(item.getContentWarning())
                 .savedJsonUrls(item.getUrls())
                 .savedJsonDescriptions(item.getDescriptions())
                 .inReplyToId(item.getInReplyToId())
                 .replyingStatusAuthor(item.getInReplyToUsername())
                 .replyingStatusContent(item.getInReplyToText())
-                .savedVisibility(item.getVisibility())
+                .visibility(item.getVisibility())
                 .build(this);
         startActivity(intent);
     }
