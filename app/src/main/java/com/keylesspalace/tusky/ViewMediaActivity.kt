@@ -47,7 +47,6 @@ import com.keylesspalace.tusky.fragment.ViewImageFragment
 
 import com.keylesspalace.tusky.pager.AvatarImagePagerAdapter
 import com.keylesspalace.tusky.pager.ImagePagerAdapter
-import com.keylesspalace.tusky.util.CollectionUtil.map
 import com.keylesspalace.tusky.util.getTemporaryMediaFilename
 import com.keylesspalace.tusky.viewdata.AttachmentViewData
 import com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider
@@ -116,7 +115,7 @@ class ViewMediaActivity : BaseActivity(), ViewImageFragment.PhotoActionsListener
         val initialPosition = intent.getIntExtra(EXTRA_ATTACHMENT_INDEX, 0)
 
         val adapter = if (attachments != null) {
-            val realAttachs = map(attachments, AttachmentViewData::attachment)
+            val realAttachs = attachments!!.map(AttachmentViewData::attachment)
             // Setup the view pager.
             ImagePagerAdapter(supportFragmentManager, realAttachs, initialPosition)
 
