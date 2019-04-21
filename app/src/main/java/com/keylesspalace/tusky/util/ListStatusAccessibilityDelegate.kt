@@ -16,8 +16,10 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerViewAccessibilityDelegate
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.adapter.StatusBaseViewHolder
+import com.keylesspalace.tusky.entity.Status.Companion.MAX_MEDIA_ATTACHMENTS
 import com.keylesspalace.tusky.interfaces.StatusActionListener
 import com.keylesspalace.tusky.viewdata.StatusViewData
+import kotlin.math.min
 
 // Not using lambdas because there's boxing of int then
 interface StatusProvider {
@@ -60,7 +62,8 @@ class ListStatusAccessibilityDelegate(
                         R.id.action_open_media_2,
                         R.id.action_open_media_3,
                         R.id.action_open_media_4)
-                for (i in 0 until status.attachments.size) {
+                val attachmentCount = min(status.attachments.size, MAX_MEDIA_ATTACHMENTS)
+                for (i in 0 until attachmentCount) {
                     info.addAction(AccessibilityActionCompat(
                             mediaActions[i],
                             context.getString(R.string.action_open_media_n, i + 1)))
