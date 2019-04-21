@@ -23,7 +23,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Environment;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
@@ -77,7 +76,6 @@ public abstract class SFragment extends BaseFragment implements Injectable {
     protected abstract void onReblog(final boolean reblog, final int position);
 
     private BottomSheetActivity bottomSheetActivity;
-    private Status pendingDownloadStatus;
 
     @Inject
     public MastodonApi mastodonApi;
@@ -403,7 +401,6 @@ public abstract class SFragment extends BaseFragment implements Injectable {
     }
 
     private void downloadAllMedia(Status status) {
-        pendingDownloadStatus = null;
         Toast.makeText(getContext(), R.string.downloading_media, Toast.LENGTH_SHORT).show();
         for(Attachment attachment: status.getAttachments()) {
             String url = attachment.getUrl();
@@ -418,9 +415,8 @@ public abstract class SFragment extends BaseFragment implements Injectable {
     }
 
     private void requestDownloadAllMedia(Status status) {
-        pendingDownloadStatus = status;
         String[] permissions = new String[]{ Manifest.permission.WRITE_EXTERNAL_STORAGE };
-        ((BaseActivity)getActivity()).requestPermissions(permissions, Build.VERSION_CODES.M, (permissions1, grantResults) -> {
+        ((BaseActivity)getActivity()).requestPermissions(permissions, (permissions1, grantResults) -> {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 downloadAllMedia(status);
             } else {
