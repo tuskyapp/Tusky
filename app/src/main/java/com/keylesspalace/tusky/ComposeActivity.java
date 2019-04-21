@@ -1165,7 +1165,7 @@ public final class ComposeActivity
         if (preview != null) {
             view.setImageBitmap(preview);
         } else {
-            Picasso.with(this)
+            Glide.with(this)
                     .load(uri)
                     .placeholder(null)
                     .into(view);
