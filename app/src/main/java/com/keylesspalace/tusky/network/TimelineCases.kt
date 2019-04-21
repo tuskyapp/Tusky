@@ -93,7 +93,7 @@ class TimelineCasesImpl(
     override fun block(id: String) {
         val call = mastodonApi.blockAccount(id)
         call.enqueue(object : Callback<Relationship> {
-            override fun onResponse(call: Call<Relationship>, response: retrofit2.Response<Relationship>) {}
+            override fun onResponse(call: Call<Relationship>, response: Response<Relationship>) {}
 
             override fun onFailure(call: Call<Relationship>, t: Throwable) {}
         })
@@ -104,7 +104,7 @@ class TimelineCasesImpl(
     override fun delete(id: String) {
         val call = mastodonApi.deleteStatus(id)
         call.enqueue(object : Callback<ResponseBody> {
-            override fun onResponse(call: Call<ResponseBody>, response: retrofit2.Response<ResponseBody>) {}
+            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {}
 
             override fun onFailure(call: Call<ResponseBody>, t: Throwable) {}
         })

@@ -140,7 +140,7 @@ public class ThreadAdapter extends RecyclerView.Adapter {
 
     @Nullable
     public StatusViewData.Concrete getItem(int position) {
-        if (position != RecyclerView.NO_POSITION && position >= 0 && position < statuses.size()) {
+        if (position >= 0 && position < statuses.size()) {
             return statuses.get(position);
         } else {
             return null;

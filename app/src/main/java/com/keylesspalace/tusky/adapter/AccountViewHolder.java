@@ -1,6 +1,5 @@
 package com.keylesspalace.tusky.adapter;
 
-import android.content.Context;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.preference.PreferenceManager;

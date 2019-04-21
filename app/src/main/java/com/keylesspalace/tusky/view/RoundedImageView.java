@@ -194,12 +194,10 @@ public class RoundedImageView extends AppCompatImageView {
     }
 
     private void applyColorFilter() {
-        if (mBitmapPaint != null) {
-            mBitmapPaint.setColorFilter(mColorFilter);
-        }
+        mBitmapPaint.setColorFilter(mColorFilter);
     }
 
-    private Bitmap getBitmapFromDrawable(Drawable drawable) {
+    private static Bitmap getBitmapFromDrawable(Drawable drawable) {
         if (drawable == null) {
             return null;
         }

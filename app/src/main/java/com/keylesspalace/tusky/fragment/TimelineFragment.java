@@ -54,7 +54,6 @@ import com.keylesspalace.tusky.network.MastodonApi;
 import com.keylesspalace.tusky.repository.Placeholder;
 import com.keylesspalace.tusky.repository.TimelineRepository;
 import com.keylesspalace.tusky.repository.TimelineRequestMode;
-import com.keylesspalace.tusky.util.CollectionUtil;
 import com.keylesspalace.tusky.util.Either;
 import com.keylesspalace.tusky.util.ListStatusAccessibilityDelegate;
 import com.keylesspalace.tusky.util.ListUtils;
@@ -98,6 +97,7 @@ import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import kotlin.Unit;
 import kotlin.collections.CollectionsKt;
+import kotlin.jvm.functions.Function1;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -1188,7 +1188,7 @@ public class TimelineFragment extends SFragment implements
         return -1;
     }
 
-    private final Function<Status, Either<Placeholder, Status>> statusLifter =
+    private final Function1<Status, Either<Placeholder, Status>> statusLifter =
             Either.Right::new;
 
     private @Nullable
@@ -1250,7 +1250,7 @@ public class TimelineFragment extends SFragment implements
     }
 
     private List<Either<Placeholder, Status>> liftStatusList(List<Status> list) {
-        return CollectionUtil.map(list, statusLifter);
+        return CollectionsKt.map(list, statusLifter);
     }
 
     private void updateAdapter() {

@@ -22,7 +22,6 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import android.view.View
 import android.widget.LinearLayout
 import com.keylesspalace.tusky.entity.SearchResults
-import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.LinkHelper
 import retrofit2.Call

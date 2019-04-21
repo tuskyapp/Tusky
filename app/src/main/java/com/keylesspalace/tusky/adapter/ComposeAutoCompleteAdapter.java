@@ -208,15 +208,15 @@ public class ComposeAutoCompleteAdapter extends BaseAdapter
         return view;
     }
 
-    private String formatUsername(AccountResult result) {
+    private static String formatUsername(AccountResult result) {
         return String.format("@%s", result.account.getUsername());
     }
 
-    private String formatHashtag(HashtagResult result) {
+    private static String formatHashtag(HashtagResult result) {
         return String.format("#%s", result.hashtag);
     }
 
-    private String formatEmoji(EmojiResult result) {
+    private static String formatEmoji(EmojiResult result) {
         return String.format(":%s:", result.emoji.getShortcode());
     }
 

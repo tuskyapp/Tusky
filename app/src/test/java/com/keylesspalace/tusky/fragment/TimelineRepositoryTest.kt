@@ -30,6 +30,7 @@ import org.mockito.Mock
 import org.mockito.MockitoAnnotations
 import java.util.*
 import java.util.concurrent.TimeUnit
+import kotlin.collections.ArrayList
 
 class TimelineRepositoryTest {
     @Mock
@@ -297,7 +298,7 @@ class TimelineRepositoryTest {
                 spoilerText = "",
                 reblogged = true,
                 favourited = false,
-                attachments = listOf(),
+                attachments = ArrayList(),
                 mentions = arrayOf(),
                 application = null,
                 inReplyToAccountId = null,

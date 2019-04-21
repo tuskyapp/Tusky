@@ -34,7 +34,6 @@ import android.widget.ProgressBar;
 
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.tabs.TabLayout;
 import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.adapter.NotificationsAdapter;
 import com.keylesspalace.tusky.adapter.StatusBaseViewHolder;
@@ -52,7 +51,6 @@ import com.keylesspalace.tusky.entity.Status;
 import com.keylesspalace.tusky.interfaces.ActionButtonActivity;
 import com.keylesspalace.tusky.interfaces.ReselectableFragment;
 import com.keylesspalace.tusky.interfaces.StatusActionListener;
-import com.keylesspalace.tusky.util.CollectionUtil;
 import com.keylesspalace.tusky.util.Either;
 import com.keylesspalace.tusky.util.HttpHeaderLink;
 import com.keylesspalace.tusky.util.ListStatusAccessibilityDelegate;
@@ -97,6 +95,7 @@ import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import kotlin.Unit;
 import kotlin.collections.CollectionsKt;
+import kotlin.jvm.functions.Function1;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -155,7 +154,6 @@ public class NotificationsFragment extends SFragment implements
     private LinearLayoutManager layoutManager;
     private EndlessOnScrollListener scrollListener;
     private NotificationsAdapter adapter;
-    private TabLayout.OnTabSelectedListener onTabSelectedListener;
     private Button buttonFilter;
     private boolean hideFab;
     private boolean topLoading;
@@ -1004,11 +1002,11 @@ public class NotificationsFragment extends SFragment implements
         updateAdapter();
     }
 
-    private final Function<Notification, Either<Placeholder, Notification>> notificationLifter =
+    private final Function1<Notification, Either<Placeholder, Notification>> notificationLifter =
             Either.Right::new;
 
     private List<Either<Placeholder, Notification>> liftNotificationList(List<Notification> list) {
-        return CollectionUtil.map(list, notificationLifter);
+        return CollectionsKt.map(list, notificationLifter);
     }
 
     private void fullyRefreshWithProgressBar(boolean isShow) {

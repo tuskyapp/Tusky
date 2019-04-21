@@ -71,7 +71,7 @@ data class ConversationStatusEntity(
         val favourited: Boolean,
         val sensitive: Boolean,
         val spoilerText: String,
-        val attachments: List<Attachment>,
+        val attachments: ArrayList<Attachment>,
         val mentions: Array<Status.Mention>,
         val showingHiddenContent: Boolean,
         val expanded: Boolean,

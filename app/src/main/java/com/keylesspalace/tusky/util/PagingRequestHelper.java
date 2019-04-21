@@ -26,7 +26,7 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.atomic.AtomicBoolean;
 /**
  * A helper class for {@link androidx.paging.PagedList.BoundaryCallback BoundaryCallback}s and
- * {@link DataSource}s to help with tracking network requests.
+ * {@link androidx.paging.DataSource}s to help with tracking network requests.
  * <p>
  * It is designed to support 3 types of requests, {@link RequestType#INITIAL INITIAL},
  * {@link RequestType#BEFORE BEFORE} and {@link RequestType#AFTER AFTER} and runs only 1 request
@@ -456,18 +456,18 @@ public class PagingRequestHelper {
      */
     public enum RequestType {
         /**
-         * Corresponds to an initial request made to a {@link DataSource} or the empty state for
+         * Corresponds to an initial request made to a {@link androidx.paging.DataSource} or the empty state for
          * a {@link androidx.paging.PagedList.BoundaryCallback BoundaryCallback}.
          */
         INITIAL,
         /**
-         * Corresponds to the {@code loadBefore} calls in {@link DataSource} or
+         * Corresponds to the {@code loadBefore} calls in {@link androidx.paging.DataSource} or
          * {@code onItemAtFrontLoaded} in
          * {@link androidx.paging.PagedList.BoundaryCallback BoundaryCallback}.
          */
         BEFORE,
         /**
-         * Corresponds to the {@code loadAfter} calls in {@link DataSource} or
+         * Corresponds to the {@code loadAfter} calls in {@link androidx.paging.DataSource} or
          * {@code onItemAtEndLoaded} in
          * {@link androidx.paging.PagedList.BoundaryCallback BoundaryCallback}.
          */

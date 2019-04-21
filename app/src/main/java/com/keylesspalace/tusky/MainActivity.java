@@ -598,7 +598,7 @@ public final class MainActivity extends BottomSheetActivity implements ActionBut
         headerResult.setActiveProfile(accountManager.getActiveAccount().getId());
     }
 
-    private void onFetchUserInfoFailure(Exception exception) {
+    private static void onFetchUserInfoFailure(Exception exception) {
         Log.e(TAG, "Failed to fetch user info. " + exception.getMessage());
     }
 

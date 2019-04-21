@@ -25,7 +25,7 @@ data class Filter (
     val irreversible: Boolean,
     @SerializedName("whole_word") val wholeWord: Boolean
 ) {
-    public companion object {
+    companion object {
         const val HOME = "home"
         const val NOTIFICATIONS = "notifications"
         const val PUBLIC = "public"

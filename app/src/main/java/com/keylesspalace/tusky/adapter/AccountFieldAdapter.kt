@@ -35,12 +35,12 @@ class AccountFieldAdapter(private val linkListener: LinkListener) : RecyclerView
 
     override fun getItemCount() = fields.size
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AccountFieldAdapter.ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_account_field, parent, false)
         return ViewHolder(view)
     }
 
-    override fun onBindViewHolder(viewHolder: AccountFieldAdapter.ViewHolder, position: Int) {
+    override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
         val field = fields[position]
         viewHolder.nameTextView.text = field.name
         val emojifiedValue = CustomEmojiHelper.emojifyText(field.value, emojis, viewHolder.valueTextView)
