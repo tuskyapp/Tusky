@@ -21,12 +21,11 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
-import android.text.SpannableStringBuilder;
-
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
+import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.style.URLSpan;
 import android.view.Menu;
@@ -34,7 +33,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
-import com.google.gson.Gson;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.widget.PopupMenu;
+import androidx.core.app.ActivityOptionsCompat;
+import androidx.core.view.ViewCompat;
+
 import com.keylesspalace.tusky.BaseActivity;
 import com.keylesspalace.tusky.BottomSheetActivity;
 import com.keylesspalace.tusky.ComposeActivity;
@@ -59,13 +64,6 @@ import java.util.Set;
 
 import javax.inject.Inject;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.widget.PopupMenu;
-import androidx.core.app.ActivityOptionsCompat;
-import androidx.core.view.ViewCompat;
-
 /* Note from Andrew on Jan. 22, 2017: This class is a design problem for me, so I left it with an
  * awkward name. TimelineFragment and NotificationFragment have significant overlap but the nature
  * of that is complicated by how they're coupled with Status and Notification and the corresponding
@@ -87,8 +85,6 @@ public abstract class SFragment extends BaseFragment implements Injectable {
     public AccountManager accountManager;
     @Inject
     public TimelineCases timelineCases;
-
-    private Gson gson = new Gson();
 
     @Override
     public void startActivity(Intent intent) {
@@ -367,7 +363,7 @@ public abstract class SFragment extends BaseFragment implements Injectable {
                             .inReplyToId(status.getInReplyToId())
                             .visibility(status.getVisibility())
                             .contentWarning(status.getSpoilerText())
-                            .jsonMediaAttachments(gson.toJson(status.getAttachments()))
+                            .mediaAttachments(status.getAttachments())
                             .sensitive(status.getSensitive())
                             .build(getContext());
                     startActivity(intent);

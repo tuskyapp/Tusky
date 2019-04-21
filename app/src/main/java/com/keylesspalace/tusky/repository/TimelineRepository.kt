@@ -11,12 +11,16 @@ import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.repository.TimelineRequestMode.DISK
 import com.keylesspalace.tusky.repository.TimelineRequestMode.NETWORK
-import com.keylesspalace.tusky.util.*
+import com.keylesspalace.tusky.util.Either
+import com.keylesspalace.tusky.util.HtmlConverter
+import com.keylesspalace.tusky.util.dec
+import com.keylesspalace.tusky.util.inc
 import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
 import java.io.IOException
 import java.util.*
 import java.util.concurrent.TimeUnit
+import kotlin.collections.ArrayList
 
 data class Placeholder(val id: String)
 
@@ -191,8 +195,8 @@ class TimelineRepositoryImpl(
             return Either.Left(Placeholder(this.status.serverId))
         }
 
-        val attachments: List<Attachment> = gson.fromJson(status.attachments,
-                object : TypeToken<List<Attachment>>() {}.type) ?: listOf()
+        val attachments: ArrayList<Attachment> = gson.fromJson(status.attachments,
+                object : TypeToken<List<Attachment>>() {}.type) ?: ArrayList()
         val mentions: Array<Status.Mention> = gson.fromJson(status.mentions,
                 Array<Status.Mention>::class.java) ?: arrayOf()
         val application = gson.fromJson(status.application, Status.Application::class.java)
@@ -242,7 +246,7 @@ class TimelineRepositoryImpl(
                     sensitive = false,
                     spoilerText = "",
                     visibility = status.visibility!!,
-                    attachments = listOf(),
+                    attachments = ArrayList(),
                     mentions = arrayOf(),
                     application = null,
                     pinned = false

@@ -29,7 +29,6 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
-import android.media.Image;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -53,7 +52,6 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.webkit.MimeTypeMap;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -62,13 +60,32 @@ import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.ColorInt;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.Px;
+import androidx.annotation.StringRes;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.content.res.AppCompatResources;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.core.content.FileProvider;
+import androidx.core.view.inputmethod.InputConnectionCompat;
+import androidx.core.view.inputmethod.InputContentInfoCompat;
+import androidx.lifecycle.Lifecycle;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.transition.TransitionManager;
+
 import com.bumptech.glide.Glide;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.keylesspalace.tusky.adapter.EmojiAdapter;
 import com.keylesspalace.tusky.adapter.ComposeAutoCompleteAdapter;
+import com.keylesspalace.tusky.adapter.EmojiAdapter;
 import com.keylesspalace.tusky.adapter.OnEmojiSelectedListener;
 import com.keylesspalace.tusky.db.AccountEntity;
 import com.keylesspalace.tusky.db.AppDatabase;
@@ -83,10 +100,10 @@ import com.keylesspalace.tusky.entity.Status;
 import com.keylesspalace.tusky.network.MastodonApi;
 import com.keylesspalace.tusky.network.ProgressRequestBody;
 import com.keylesspalace.tusky.service.SendTootService;
+import com.keylesspalace.tusky.util.ComposeTokenizer;
 import com.keylesspalace.tusky.util.CountUpDownLatch;
 import com.keylesspalace.tusky.util.DownsizeImageTask;
 import com.keylesspalace.tusky.util.ListUtils;
-import com.keylesspalace.tusky.util.ComposeTokenizer;
 import com.keylesspalace.tusky.util.SaveTootHelper;
 import com.keylesspalace.tusky.util.SpanUtilsKt;
 import com.keylesspalace.tusky.util.StringUtils;
@@ -116,24 +133,6 @@ import java.util.concurrent.CountDownLatch;
 
 import javax.inject.Inject;
 
-import androidx.annotation.ColorInt;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.annotation.Px;
-import androidx.annotation.StringRes;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.content.res.AppCompatResources;
-import androidx.appcompat.widget.Toolbar;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-import androidx.core.content.FileProvider;
-import androidx.core.view.inputmethod.InputConnectionCompat;
-import androidx.core.view.inputmethod.InputContentInfoCompat;
-import androidx.lifecycle.Lifecycle;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.transition.TransitionManager;
 import at.connyduck.sparkbutton.helpers.Utils;
 import io.reactivex.Single;
 import io.reactivex.SingleObserver;
@@ -183,7 +182,7 @@ public final class ComposeActivity
     private static final String MENTIONED_USERNAMES_EXTRA = "mentioned_usernames";
     private static final String REPLYING_STATUS_AUTHOR_USERNAME_EXTRA = "replying_author_nickname_extra";
     private static final String REPLYING_STATUS_CONTENT_EXTRA = "replying_status_content";
-    private static final String JSON_MEDIA_ATTACHMENTS_EXTRA = "json_media_attachments";
+    private static final String MEDIA_ATTACHMENTS_EXTRA = "media_attachments";
     private static final String SENSITIVE_EXTRA = "sensitive";
     // Mastodon only counts URLs as this long in terms of status character limits
     static final int MAXIMUM_URL_LENGTH = 23;
@@ -413,7 +412,7 @@ public final class ComposeActivity
         String[] mentionedUsernames = null;
         ArrayList<String> loadedDraftMediaUris = null;
         ArrayList<String> loadedDraftMediaDescriptions = null;
-        ArrayList<Attachment> loadedMediaAttachments = null;
+        ArrayList<Attachment> mediaAttachments = null;
         inReplyToId = null;
         if (intent != null) {
 
@@ -457,12 +456,7 @@ public final class ComposeActivity
                         }.getType());
             }
             // If come from redraft
-            String jsonMediaAttachments = intent.getStringExtra(JSON_MEDIA_ATTACHMENTS_EXTRA);
-            if (!TextUtils.isEmpty(jsonMediaAttachments)) {
-                loadedMediaAttachments = gson.fromJson(jsonMediaAttachments,
-                        new TypeToken<ArrayList<Attachment>>() {
-                        }.getType());
-            }
+            mediaAttachments = intent.getParcelableArrayListExtra(MEDIA_ATTACHMENTS_EXTRA);
 
             int savedTootUid = intent.getIntExtra(SAVED_TOOT_UID_EXTRA, 0);
             if (savedTootUid != 0) {
@@ -591,9 +585,9 @@ public final class ComposeActivity
                 }
                 pickMedia(uri, mediaSize, description);
             }
-        } else if (!ListUtils.isEmpty(loadedMediaAttachments)) {
-            for (int mediaIndex =0; mediaIndex < loadedMediaAttachments.size(); ++mediaIndex) {
-                Attachment media = loadedMediaAttachments.get(mediaIndex);
+        } else if (!ListUtils.isEmpty(mediaAttachments)) {
+            for (int mediaIndex =0; mediaIndex < mediaAttachments.size(); ++mediaIndex) {
+                Attachment media = mediaAttachments.get(mediaIndex);
                 QueuedMedia.Type type;
                 switch (media.getType()) {
                     case UNKNOWN:
@@ -1845,7 +1839,7 @@ public final class ComposeActivity
         @Nullable
         private String replyingStatusContent;
         @Nullable
-        private String jsonMediaAttachments;
+        private ArrayList<Attachment> mediaAttachments;
         private boolean sensitive = false;
 
 
@@ -1904,8 +1898,8 @@ public final class ComposeActivity
             return this;
         }
 
-        public IntentBuilder jsonMediaAttachments(String jsonMediaAttachments) {
-            this.jsonMediaAttachments = jsonMediaAttachments;
+        public IntentBuilder mediaAttachments(ArrayList<Attachment> mediaAttachments) {
+            this.mediaAttachments = mediaAttachments;
             return this;
         }
 
@@ -1951,8 +1945,8 @@ public final class ComposeActivity
             if (replyingStatusAuthor != null) {
                 intent.putExtra(REPLYING_STATUS_AUTHOR_USERNAME_EXTRA, replyingStatusAuthor);
             }
-            if (jsonMediaAttachments != null) {
-                intent.putExtra(JSON_MEDIA_ATTACHMENTS_EXTRA, jsonMediaAttachments);
+            if (mediaAttachments != null) {
+                intent.putParcelableArrayListExtra(MEDIA_ATTACHMENTS_EXTRA, mediaAttachments);
             }
             intent.putExtra(SENSITIVE_EXTRA, sensitive);
             return intent;
