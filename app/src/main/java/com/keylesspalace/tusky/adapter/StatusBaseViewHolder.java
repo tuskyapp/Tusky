@@ -193,6 +193,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             avatarInset.setImageResource(R.drawable.ic_bot_24dp);
             avatarInset.setBackgroundColor(0x50ffffff);
         } else {
+            avatarInset.setBackground(null);
             avatarInset.setVisibility(View.GONE);
         }
     }
