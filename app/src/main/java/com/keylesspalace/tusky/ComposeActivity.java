@@ -956,7 +956,11 @@ public final class ComposeActivity
                 getIntent().getStringExtra(SAVED_JSON_URLS_EXTRA),
                 accountManager.getActiveAccount(), savedTootUid);
 
-        startService(sendIntent);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            startForegroundService(sendIntent);
+        } else {
+            startService(sendIntent);
+        }
 
         finishWithoutSlideOutAnimation();
 
