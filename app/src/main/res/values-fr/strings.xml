@@ -390,4 +390,14 @@
     <string name="hashtag">Hashtag</string>
 
 
+<string name="notifications_clear">Nettoyer</string>
+    <string name="notifications_apply_filter">Filtrer</string>
+    <string name="filter_apply">Appliquer</string>
+
+    <string name="compose_shortcut_long_label">Ecrire un pouet</string>
+    <string name="compose_shortcut_short_label">Ecrire</string>
+    <string name="pref_title_bot_overlay">Afficher l\'indicateur de robots</string>
+
+    <string name="notification_clear_text">Nettoyer toutes les notifications de façon permanente\?</string>
+
 </resources>
