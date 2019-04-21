@@ -275,7 +275,7 @@ public abstract class SFragment extends BaseFragment implements Injectable {
                     showConfirmDeleteDialog(id, position);
                     return true;
                 }
-                case R.id.status_delete_and_edit: {
+                case R.id.status_delete_and_redraft: {
                     showConfirmEditDialog(id, position, status);
                     return true;
                 }
@@ -353,7 +353,7 @@ public abstract class SFragment extends BaseFragment implements Injectable {
             return;
         }
         new AlertDialog.Builder(getActivity())
-                .setMessage(R.string.dialog_edit_toot_warning)
+                .setMessage(R.string.dialog_redraft_toot_warning)
                 .setPositiveButton(android.R.string.ok, (dialogInterface, i) -> {
                     timelineCases.delete(id);
                     removeItem(position);

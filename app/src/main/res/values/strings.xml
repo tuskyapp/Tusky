@@ -83,7 +83,7 @@
     <string name="action_show_reblogs">Show boosts</string>
     <string name="action_report">Report</string>
     <string name="action_delete">Delete</string>
-    <string name="delete_and_edit">Delete and Edit</string>
+    <string name="action_delete_and_redraft">Delete and re-draft</string>
     <string name="action_send">TOOT</string>
     <string name="action_send_public">TOOT!</string>
     <string name="action_retry">Retry</string>
@@ -180,7 +180,7 @@
     <string name="dialog_message_cancel_follow_request">Revoke the follow request?</string>
     <string name="dialog_unfollow_warning">Unfollow this account?</string>
     <string name="dialog_delete_toot_warning">Delete this toot?</string>
-    <string name="dialog_edit_toot_warning">Delete and edit this toot?</string>
+    <string name="dialog_redraft_toot_warning">Delete and re-draft this toot?</string>
 
     <string name="visibility_public">Public: Post to public timelines</string>
     <string name="visibility_unlisted">Unlisted: Do not show in public timelines</string>
