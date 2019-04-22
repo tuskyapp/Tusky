@@ -39,7 +39,8 @@ data class Status(
         @SerializedName("media_attachments") var attachments: ArrayList<Attachment>,
         val mentions: Array<Mention>,
         val application: Application?,
-        var pinned: Boolean?
+        var pinned: Boolean?,
+        val poll: Poll?
 ) {
 
     val actionableId: String
@@ -161,5 +162,6 @@ data class Status(
 
     companion object {
         const val MAX_MEDIA_ATTACHMENTS = 4
+        const val MAX_POLL_OPTIONS = 4
     }
 }

@@ -20,57 +20,86 @@ import android.content.Context;
 import com.keylesspalace.tusky.R;
 
 public class DateUtils {
+
+    private static final long SECOND_IN_MILLIS = 1000;
+    private static final long MINUTE_IN_MILLIS = SECOND_IN_MILLIS * 60;
+    private static final long HOUR_IN_MILLIS = MINUTE_IN_MILLIS * 60;
+    private static final long DAY_IN_MILLIS = HOUR_IN_MILLIS * 24;
+    private static final long YEAR_IN_MILLIS = DAY_IN_MILLIS * 365;
+
     /**
      * This is a rough duplicate of {@link android.text.format.DateUtils#getRelativeTimeSpanString},
      * but even with the FORMAT_ABBREV_RELATIVE flag it wasn't abbreviating enough.
      */
     public static String getRelativeTimeSpanString(Context context, long then, long now) {
-        final long MINUTE = 60;
-        final long HOUR = 60 * MINUTE;
-        final long DAY = 24 * HOUR;
-        final long YEAR = 365 * DAY;
-        long span = (now - then) / 1000;
+        long span = now - then;
         boolean future = false;
         if (span < 0) {
             future = true;
             span = -span;
         }
-        String format;
-        if (span < MINUTE) {
+        int format;
+        if (span < MINUTE_IN_MILLIS) {
+            span /= SECOND_IN_MILLIS;
             if (future) {
-                format = context.getString(R.string.abbreviated_in_seconds);
+                format = R.string.abbreviated_in_seconds;
             } else {
-                format = context.getString(R.string.abbreviated_seconds_ago);
+                format = R.string.abbreviated_seconds_ago;
             }
-        } else if (span < HOUR) {
-            span /= MINUTE;
+        } else if (span < HOUR_IN_MILLIS) {
+            span /= MINUTE_IN_MILLIS;
             if (future) {
-                format = context.getString(R.string.abbreviated_in_minutes);
+                format = R.string.abbreviated_in_minutes;
             } else {
-                format = context.getString(R.string.abbreviated_minutes_ago);
+                format = R.string.abbreviated_minutes_ago;
             }
-        } else if (span < DAY) {
-            span /= HOUR;
+        } else if (span < DAY_IN_MILLIS) {
+            span /= HOUR_IN_MILLIS;
             if (future) {
-                format = context.getString(R.string.abbreviated_in_hours);
+                format = R.string.abbreviated_in_hours;
             } else {
-                format = context.getString(R.string.abbreviated_hours_ago);
+                format = R.string.abbreviated_hours_ago;
             }
-        } else if (span < YEAR) {
-            span /= DAY;
+        } else if (span < YEAR_IN_MILLIS) {
+            span /= DAY_IN_MILLIS;
             if (future) {
-                format = context.getString(R.string.abbreviated_in_days);
+                format = R.string.abbreviated_in_days;
             } else {
-                format = context.getString(R.string.abbreviated_days_ago);
+                format = R.string.abbreviated_days_ago;
             }
         } else {
-            span /= YEAR;
+            span /= YEAR_IN_MILLIS;
             if (future) {
-                format = context.getString(R.string.abbreviated_in_years);
+                format = R.string.abbreviated_in_years;
             } else {
-                format = context.getString(R.string.abbreviated_years_ago);
+                format = R.string.abbreviated_years_ago;
             }
         }
-        return String.format(format, span);
+        return context.getString(format, span);
     }
+
+    public static String formatDuration(Context context, long then, long now) {
+        long span = then - now;
+        if (span < 0) {
+            span = 0;
+        }
+        int format;
+        if (span < MINUTE_IN_MILLIS) {
+            span /= SECOND_IN_MILLIS;
+            format = R.string.timespan_seconds;
+        } else if (span < HOUR_IN_MILLIS) {
+            span /= MINUTE_IN_MILLIS;
+            format = R.string.timespan_minutes;
+
+        } else if (span < DAY_IN_MILLIS) {
+            span /= HOUR_IN_MILLIS;
+            format = R.string.timespan_hours;
+
+        } else {
+            span /= DAY_IN_MILLIS;
+            format = R.string.timespan_days;
+        }
+        return context.getString(format, span);
+    }
+
 }

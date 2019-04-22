@@ -305,7 +305,8 @@ class TimelineRepositoryTest {
                 inReplyToId = null,
                 pinned = false,
                 reblog = null,
-                url = "http://example.com/statuses/$id"
+                url = "http://example.com/statuses/$id",
+                poll = null
         )
     }
 

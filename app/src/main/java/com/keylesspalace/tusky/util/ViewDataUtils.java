@@ -63,8 +63,8 @@ public final class ViewDataUtils {
                         SmartLengthInputFilter.LENGTH_DEFAULT
                 ))
                 .setCollapsed(true)
+                .setPoll(visibleStatus.getPoll())
                 .setIsBot(visibleStatus.getAccount().getBot())
-
                 .createStatusViewData();
     }
 

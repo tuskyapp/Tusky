@@ -45,6 +45,7 @@ import com.keylesspalace.tusky.appstore.UnfollowEvent;
 import com.keylesspalace.tusky.db.AccountManager;
 import com.keylesspalace.tusky.di.Injectable;
 import com.keylesspalace.tusky.entity.Filter;
+import com.keylesspalace.tusky.entity.Poll;
 import com.keylesspalace.tusky.entity.Status;
 import com.keylesspalace.tusky.interfaces.ActionButtonActivity;
 import com.keylesspalace.tusky.interfaces.ReselectableFragment;
@@ -615,6 +616,34 @@ public class TimelineFragment extends SFragment implements
         StatusViewData newViewData = new StatusViewData
                 .Builder(actual.first)
                 .setFavourited(favourite)
+                .createStatusViewData();
+        statuses.setPairedItem(actual.second, newViewData);
+        updateAdapter();
+    }
+
+    public void onVoteInPoll(int position, @NonNull List<Integer> choices) {
+        final Status status = statuses.get(position).asRight();
+
+        setVoteForPoll(position, status, status.getPoll().votedCopy(choices));
+
+        timelineCases.voteInPoll(status, choices)
+                .observeOn(AndroidSchedulers.mainThread())
+                .as(autoDisposable(from(this)))
+                .subscribe(
+                        (newPoll) -> setVoteForPoll(position, status, newPoll),
+                        (t) -> Log.d(TAG,
+                                "Failed to vote in poll: " + status.getId(), t)
+                );
+    }
+
+    private void setVoteForPoll(int position, Status status, Poll newPoll) {
+        Pair<StatusViewData.Concrete, Integer> actual =
+                findStatusAndPosition(position, status);
+        if (actual == null) return;
+
+        StatusViewData newViewData = new StatusViewData
+                .Builder(actual.first)
+                .setPoll(newPoll)
                 .createStatusViewData();
         statuses.setPairedItem(actual.second, newViewData);
         updateAdapter();

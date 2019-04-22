@@ -26,6 +26,7 @@ import com.keylesspalace.tusky.entity.Filter;
 import com.keylesspalace.tusky.entity.Instance;
 import com.keylesspalace.tusky.entity.MastoList;
 import com.keylesspalace.tusky.entity.Notification;
+import com.keylesspalace.tusky.entity.Poll;
 import com.keylesspalace.tusky.entity.Relationship;
 import com.keylesspalace.tusky.entity.SearchResults;
 import com.keylesspalace.tusky.entity.Status;
@@ -381,5 +382,12 @@ public interface MastodonApi {
     @DELETE("api/v1/filters/{id}")
     Call<ResponseBody> deleteFilter(
             @Path("id") String id
+    );
+
+    @FormUrlEncoded
+    @POST("api/v1/polls/{id}/votes")
+    Single<Poll> voteInPoll(
+            @Path("id") String id,
+            @Field("choices[]") List<Integer> choices
     );
 }

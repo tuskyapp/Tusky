@@ -143,6 +143,7 @@ public class SearchResultsAdapter extends RecyclerView.Adapter {
 
     public void updateStatusAtPosition(StatusViewData.Concrete status, int position) {
         concreteStatusList.set(position - accountList.size(), status);
+        notifyItemChanged(position);
     }
 
     public void removeStatusAtPosition(int position) {
