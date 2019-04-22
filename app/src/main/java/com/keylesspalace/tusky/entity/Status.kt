@@ -162,5 +162,6 @@ data class Status(
 
     companion object {
         const val MAX_MEDIA_ATTACHMENTS = 4
+        const val MAX_POLL_OPTIONS = 4
     }
 }

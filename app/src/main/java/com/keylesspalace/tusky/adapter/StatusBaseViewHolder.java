@@ -770,9 +770,9 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
 
             if(poll.getExpired() || poll.getVoted())   {
                 // no voting possible
-                for(int i = 0; i<4; i++) {
+                for(int i = 0; i < Status.MAX_POLL_OPTIONS; i++) {
                     if(i < options.size()) {
-                        long percent = options.get(i).getVotesCount() == 0 ? 0 : Math.round(options.get(i).getVotesCount() / (double) poll.getVotesCount() * 100);
+                        long percent = calculatePollPercent(options.get(i).getVotesCount(), poll.getVotesCount());
 
                         String pollOptionText = context.getString(R.string.poll_option_format, percent, options.get(i).getTitle());
                         pollResults[i].setText(CustomEmojiHelper.emojifyText(HtmlUtils.fromHtml(pollOptionText), emojis, pollResults[i]));
@@ -805,7 +805,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
                 pollRadioGroup.clearCheck();
                 pollButton.setVisibility(View.VISIBLE);
 
-                for(int i = 0; i<4; i++) {
+                for(int i = 0; i < Status.MAX_POLL_OPTIONS; i++) {
                     if(i < options.size()) {
                         pollRadioOptions[i].setText(CustomEmojiHelper.emojifyString(options.get(i).getTitle(), emojis, pollRadioOptions[i]));
                         pollRadioOptions[i].setVisibility(View.VISIBLE);
@@ -862,5 +862,12 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             });
 
         }
+    }
+
+    private static long calculatePollPercent(int votes, int totalVotes) {
+        if(votes == 0) {
+            return 0;
+        }
+        return Math.round(votes / (double) totalVotes * 100);
     }
 }
