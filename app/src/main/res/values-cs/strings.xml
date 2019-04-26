@@ -343,8 +343,6 @@
     <plurals name="favs">
         <item quantity="one">&lt;b&gt;%1$s&lt;/b&gt; oblíbení</item>
         <item quantity="few">&lt;b&gt;%1$s&lt;/b&gt; oblíbení</item>
-        <item quantity="many">&lt;b&gt;%1$s&lt;/b&gt; oblíbení</item>
-        <item quantity="other">&lt;b&gt;%1$s&lt;/b&gt; oblíbení</item>
     </plurals>
     <plurals name="reblogs">
 	<item quantity="one"><b>%s</b> boost</item>
