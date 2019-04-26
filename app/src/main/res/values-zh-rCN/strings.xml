@@ -164,7 +164,6 @@
     <string name="app_theme_light">白天</string>
     <string name="app_theme_black">暗色</string>
     <string name="app_theme_auto">自动切换</string>
-    <string name="app_theme_system">Use System Design</string>
     <string name="pref_title_browser_settings">浏览器</string>
     <string name="pref_title_custom_tabs">使用 Chrome Custom Tabs</string>
     <string name="pref_title_hide_follow_button">浏览时自动隐藏发嘟按钮</string>

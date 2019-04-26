@@ -170,7 +170,6 @@
     <string name="app_theme_light">Açık</string>
     <string name="app_theme_black">Siyah</string>
     <string name="app_theme_auto">Gün batımında otomatik</string>
-    <string name="app_theme_system">Use System Design</string>
     <string name="pref_title_browser_settings">Tarayacı</string>
     <string name="pref_title_custom_tabs">Chrome Özel Şekmelerini Kullan</string>
     <string name="pref_title_hide_follow_button">Kaydırırken takip düğmesi gizlensin</string>

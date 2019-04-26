@@ -144,7 +144,6 @@
     <string name="app_theme_light">வெளிச்சம்</string>
     <string name="app_theme_black">பிளாக்</string>
     <string name="app_theme_auto">தானியங்கி</string>
-    <string name="app_theme_system">Use System Design</string>
     <string name="pref_title_browser_settings">உலாவி</string>
     <string name="pref_title_custom_tabs">Chrome தனிப்பயன் கீற்றை பயன்படுத்து</string>
     <string name="pref_title_hide_follow_button">உருளலின் போது எழுது பொத்தானை மறை</string>
