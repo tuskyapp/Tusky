@@ -14,7 +14,6 @@ abstract class TimelineDao {
     @Insert(onConflict = REPLACE)
     abstract fun insertAccount(timelineAccountEntity: TimelineAccountEntity): Long
 
-
     @Insert(onConflict = REPLACE)
     abstract fun insertStatus(timelineAccountEntity: TimelineStatusEntity): Long
 
@@ -58,13 +57,20 @@ LIMIT :limit""")
         insertStatus(status)
     }
 
+    @Query("""DELETE FROM TimelineStatusEntity WHERE timelineUserId = :accountId AND
+        (LENGTH(serverId) < LENGTH(:maxId) OR LENGTH(serverId) == LENGTH(:maxId) AND serverId < :maxId)
+AND
+(LENGTH(serverId) > LENGTH(:minId) OR LENGTH(serverId) == LENGTH(:minId) AND serverId > :minId)
+    """)
+    abstract fun deleteRange(accountId: Long, minId: String, maxId: String)
+
     @Query("""DELETE FROM TimelineStatusEntity WHERE authorServerId = null
-AND timelineUserId = :acccount AND
+AND timelineUserId = :account AND
 (LENGTH(serverId) < LENGTH(:maxId) OR LENGTH(serverId) == LENGTH(:maxId) AND serverId < :maxId)
 AND
 (LENGTH(serverId) > LENGTH(:sinceId) OR LENGTH(serverId) == LENGTH(:sinceId) AND serverId > :sinceId)
 """)
-    abstract fun removeAllPlaceholdersBetween(acccount: Long, maxId: String, sinceId: String)
+    abstract fun removeAllPlaceholdersBetween(account: Long, maxId: String, sinceId: String)
 
     @Query("""UPDATE TimelineStatusEntity SET favourited = :favourited
 WHERE timelineUserId = :accountId AND (serverId = :statusId OR reblogServerId - :statusId)""")

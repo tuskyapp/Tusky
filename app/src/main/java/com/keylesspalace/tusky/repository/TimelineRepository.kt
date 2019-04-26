@@ -144,6 +144,9 @@ class TimelineRepositoryImpl(
         }
 
         Single.fromCallable {
+
+            timelineDao.deleteRange(accountId, statuses.last().id, statuses.first().id)
+
             for (status in statuses) {
                 timelineDao.insertInTransaction(
                         status.toEntity(accountId, htmlConverter, gson),
