@@ -180,13 +180,11 @@
     <string name="pref_title_app_theme">App Tema</string>
     <string name="pref_title_timelines">Tidslinjer</string>
     <string name="pref_title_timeline_filters">Filter</string>
-    <string-array name="app_theme_names">
-        <item>Mörk</item>
-        <item>Ljus</item>
-        <item>Svart</item>
-        <item>Automatiskt vid solnedgång</item>
-        <item>Använda systemdesign</item>
-    </string-array>
+    <string name="app_them_dark">Mörk</string>
+    <string name="app_theme_light">Ljus</string>
+    <string name="app_theme_black">Svart</string>
+    <string name="app_theme_auto">Automatiskt vid solnedgång</string>
+    <string name="app_theme_system">Använda systemdesign</string>
     <string name="pref_title_browser_settings">Webbläsare</string>
     <string name="pref_title_custom_tabs">Använd Chrome-anpassade flikar</string>
     <string name="pref_title_hide_follow_button">Dölj skriv-knappen medan du scrollar</string>
@@ -205,25 +203,19 @@
     <string name="pref_default_media_sensitivity">Markera alltid media som känsligt</string>
     <string name="pref_publishing">Publicering (synkroniserad med server)</string>
     <string name="pref_failed_to_sync">Misslyckades att synkronisera inställningar</string>
-    <string-array name="post_privacy_names">
-        <item>Offentlig</item>
-        <item>Olistad</item>
-        <item>Endast följare</item>
-    </string-array>
+    <string name="post_privacy_public">Offentlig</string>
+    <string name="post_privacy_unlisted">Olistad</string>
+    <string name="post_privacy_followers_only">Endast följare</string>
     <string name="pref_status_text_size">Textstorlek på status</string>
-    <string-array name="status_text_size_names">
-        <item>Minsta</item>
-        <item>Liten</item>
-        <item>Mellan</item>
-        <item>Stor</item>
-        <item>Största</item>
-    </string-array>
+    <string name="status_text_size_smallest">Minsta</string>
+    <string name="status_text_size_small">Liten</string>
+    <string name="status_text_size_medium">Mellan</string>
+    <string name="status_text_size_large">Stor</string>
+    <string name="status_text_size_largest">Största</string>
     <string name="pref_media_display">Visa media</string>
-    <string-array name="media_display_names">
-        <item>Dölj media som markerat känsligt</item>
-        <item>Visa alltid media som markerat känsligt</item>
-        <item>Dölj alltid media</item>
-    </string-array>
+    <string name="media_hide_sensitive">Dölj media som markerat känsligt</string>
+    <string name="media_hide_none">Visa alltid media som markerat känsligt</string>
+    <string name="media_hide_all">Dölj alltid media</string>
     <string name="notification_channel_mention_name">Nya omnämnanden</string>
     <string name="notification_channel_mention_descriptions">Notifieringar om nya omnämnanden</string>
     <string name="notification_channel_follow_name">Nya följare</string>

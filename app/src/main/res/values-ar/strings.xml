@@ -177,13 +177,11 @@
     <string name="pref_title_app_theme">سمة التطبيق</string>
     <string name="pref_title_timelines">الخيوط</string>
     <string name="pref_title_timeline_filters">عوامل التصفية</string>
-    <string-array name="app_theme_names">
-        <item>داكنة</item>
-        <item>فاتحة</item>
-        <item>سوداء</item>
-        <item>تلقائي عند غروب الشمس</item>
-        <item>استخدم مظهر النظام</item>
-    </string-array>
+    <string name="app_them_dark">داكنة</string>
+    <string name="app_theme_light">فاتحة</string>
+    <string name="app_theme_black">سوداء</string>
+    <string name="app_theme_auto">تلقائي عند غروب الشمس</string>
+    <string name="app_theme_system">استخدم مظهر النظام</string>
     <string name="pref_title_browser_settings">المتصفح</string>
     <string name="pref_title_custom_tabs">إخفاء زر المتابعة أثناء تمرير الصفحة</string>
     <string name="pref_title_hide_follow_button">إخفاء زر التحرير عند التمرير</string>
@@ -202,25 +200,19 @@
     <string name="pref_default_media_sensitivity">تعيين الوسائط كمحتوى حساس دائمًا</string>
     <string name="pref_publishing">النشر</string>
     <string name="pref_failed_to_sync">فَشِلَت عملية مزامنة الإعدادات</string>
-    <string-array name="post_privacy_names">
-        <item>للعامة</item>
-        <item>غير مدرج</item>
-        <item>للمُتابِعين فقط</item>
-    </string-array>
+    <string name="post_privacy_public">للعامة</string>
+    <string name="post_privacy_unlisted">غير مدرج</string>
+    <string name="post_privacy_followers_only">للمُتابِعين فقط</string>
     <string name="pref_status_text_size">حجم الخط</string>
-    <string-array name="status_text_size_names">
-        <item>صغير جدا</item>
-        <item>صغير</item>
-        <item>متوسط</item>
-        <item>عريض</item>
-        <item>عريض جدا</item>
-    </string-array>
+    <string name="status_text_size_smallest">صغير جدا</string>
+    <string name="status_text_size_small">صغير</string>
+    <string name="status_text_size_medium">متوسط</string>
+    <string name="status_text_size_large">عريض</string>
+    <string name="status_text_size_largest">عريض جدا</string>
     <string name="pref_media_display">عرض الوسائط</string>
-    <string-array name="media_display_names">
-        <item>إخفاء الوسائط المعينة كحساسة</item>
-        <item>اظهار الوسائط المعينة كمحتوى حساس دائمًا</item>
-        <item>إخفاء كافة الوسائط دائما</item>
-    </string-array>
+    <string name="media_hide_sensitive">إخفاء الوسائط المعينة كحساسة</string>
+    <string name="media_hide_none">اظهار الوسائط المعينة كمحتوى حساس دائمًا</string>
+    <string name="media_hide_all">إخفاء كافة الوسائط دائما</string>
     <string name="notification_channel_mention_name">إشارات جديدة</string>
     <string name="notification_channel_mention_descriptions">الإخطارات عندما يشار إليك</string>
     <string name="notification_channel_follow_name">متابِعون جدد</string>

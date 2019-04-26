@@ -150,13 +150,10 @@
     <string name="pref_title_appearance_settings">ظاهر</string>
     <string name="pref_title_app_theme">تم برنامه</string>
     <string name="pref_title_timelines">خط‌های زمانی</string>
-    <string-array name="app_theme_names">
-        <item>روشن</item>
-        <item>سیاه</item>
-        <item>تیره</item>
-        <item>خودکار برحسب غروب خورشید</item>
-        <item>Use System Design</item>
-    </string-array>
+    <string name="app_them_dark">روشن</string>
+    <string name="app_theme_light">سیاه</string>
+    <string name="app_theme_black">تیره</string>
+    <string name="app_theme_auto">خودکار برحسب غروب خورشید</string>
     <string name="pref_title_browser_settings">مرورگر</string>
     <string name="pref_title_custom_tabs">استفاده از زبانه‌های سفارشی کروم</string>
     <string name="pref_title_hide_follow_button">پنهان کردن دکمه ایجاد هنگام پیمایش</string>
@@ -174,25 +171,19 @@
     <string name="pref_default_media_sensitivity">همواره رسانه را به عنوان حساس نشانه‌گذاری کن</string>
     <string name="pref_publishing">انتشار</string>
     <string name="pref_failed_to_sync">ناتوانی در هم‌گام‌سازی تنظیمات</string>
-    <string-array name="post_privacy_names">
-        <item>عمومی</item>
-        <item>لیست‌نشده</item>
-        <item>فقط دنبال‌کنندگان</item>
-    </string-array>
+    <string name="post_privacy_public">عمومی</string>
+    <string name="post_privacy_unlisted">لیست‌نشده</string>
+    <string name="post_privacy_followers_only">فقط دنبال‌کنندگان</string>
     <string name="pref_status_text_size">اندازه متن وضعیت</string>
-    <string-array name="status_text_size_names">
-        <item>کوچک‌ترین</item>
-        <item>کوچک</item>
-        <item>متوسط</item>
-        <item>بزرگ</item>
-        <item>بزرگ‌ترین</item>
-    </string-array>
+    <string name="status_text_size_smallest">کوچک‌ترین</string>
+    <string name="status_text_size_small">کوچک</string>
+    <string name="status_text_size_medium">متوسط</string>
+    <string name="status_text_size_large">بزرگ</string>
+    <string name="status_text_size_largest">بزرگ‌ترین</string>
     <string name="pref_media_display">نمایش رسانه</string>
-    <string-array name="media_display_names">
-        <item>رسانه‌های نشان‌گذاری شده به عنوان حساس را پنهان کن</item>
-        <item>رسانه‌های نشانه‌گذاری شده به عنوان حساس را همواره نشان بده</item>
-        <item>همه رسانه‌ها را همواره پنهان کن</item>
-    </string-array>
+    <string name="media_hide_sensitive">رسانه‌های نشان‌گذاری شده به عنوان حساس را پنهان کن</string>
+    <string name="media_hide_none">رسانه‌های نشانه‌گذاری شده به عنوان حساس را همواره نشان بده</string>
+    <string name="media_hide_all">همه رسانه‌ها را همواره پنهان کن</string>
     <string name="notification_channel_mention_name">صدا زدن جدید</string>
     <string name="notification_channel_mention_descriptions">هشدار در مورد صدازدن جدید</string>
     <string name="notification_channel_follow_name">دنبال‌کننده‌های جدید</string>

@@ -156,13 +156,10 @@
     <string name="pref_title_notification_filter_favourites">fy mhyst sy\'n ffefrynnau</string>
     <string name="pref_title_appearance_settings">Gwedd</string>
     <string name="pref_title_app_theme">Thema\'r App</string>
-    <string-array name="app_theme_names">
-        <item>Tywyll</item>
-        <item>Golau</item>
-        <item>Du</item>
-        <item>Awtomatig wrth iddi nosi</item>
-        <item>Use System Design</item>
-    </string-array>
+    <string name="app_them_dark">Tywyll</string>
+    <string name="app_theme_light">Golau</string>
+    <string name="app_theme_black">Du</string>
+    <string name="app_theme_auto">Awtomatig wrth iddi nosi</string>
     <string name="pref_title_browser_settings">Porwr</string>
     <string name="pref_title_custom_tabs">Defnyddio Tabiau Personol Chrome </string>
     <string name="pref_title_hide_follow_button">Cuddio\'r botwm creu wrth sgrolio </string>
@@ -178,19 +175,15 @@
     <string name="pref_title_http_proxy_port">Porthol procsiHTTP </string>
     <string name="pref_default_post_privacy">Preifatrwydd postiadau rhagosodedig</string>
     <string name="pref_publishing">Cyhoeddi </string>
-    <string-array name="post_privacy_names">
-        <item>Cyhoeddus</item>
-        <item>Heb ei restru</item>
-        <item>Dilynwyr yn unig</item>
-    </string-array>
+    <string name="post_privacy_public">Cyhoeddus</string>
+    <string name="post_privacy_unlisted">Heb ei restru</string>
+    <string name="post_privacy_followers_only">Dilynwyr yn unig</string>
     <string name="pref_status_text_size">Maint testun statws</string>
-    <string-array name="status_text_size_names">
-        <item>Lleiaf</item>
-        <item>Bach </item>
-        <item>Canolig </item>
-        <item>Mawr </item>
-        <item>Mwyaf </item>
-    </string-array>
+    <string name="status_text_size_smallest">Lleiaf</string>
+    <string name="status_text_size_small">Bach </string>
+    <string name="status_text_size_medium">Canolig </string>
+    <string name="status_text_size_large">Mawr </string>
+    <string name="status_text_size_largest">Mwyaf </string>
     <string name="notification_channel_mention_name">Yn sôn amdanoch o\'r newydd </string>
     <string name="notification_channel_mention_descriptions">Hysbysiadau sôn amdanoch o\'r newydd</string>
     <string name="notification_channel_follow_name">Dilynwyr Newydd</string>

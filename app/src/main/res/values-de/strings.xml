@@ -180,13 +180,11 @@
     <string name="pref_title_app_theme">App-Thema</string>
     <string name="pref_title_timelines">Zeitleisten</string>
     <string name="pref_title_timeline_filters">Filter</string>
-    <string-array name="app_theme_names">
-        <item>Dunkel</item>
-        <item>Hell</item>
-        <item>Schwarz</item>
-        <item>Automatisch bei Sonnenuntergang</item>
-        <item>Systemthema verwenden</item>
-    </string-array>
+    <string name="app_them_dark">Dunkel</string>
+    <string name="app_theme_light">Hell</string>
+    <string name="app_theme_black">Schwarz</string>
+    <string name="app_theme_auto">Automatisch bei Sonnenuntergang</string>
+    <string name="app_theme_system">Systemthema verwenden</string>
     <string name="pref_title_browser_settings">Browser</string>
     <string name="pref_title_custom_tabs">Öffne Links in der App</string>
     <string name="pref_title_hide_follow_button">Verstecke Button bei Bildlauf </string>
@@ -205,25 +203,19 @@
     <string name="pref_default_media_sensitivity">Medien immer als heikel markieren</string>
     <string name="pref_publishing">Beiträge</string>
     <string name="pref_failed_to_sync">Fehler beim Synchronisieren</string>
-    <string-array name="post_privacy_names">
-        <item>Öffentlich</item>
-        <item>Nicht gelistet</item>
-        <item>Nur Folgende</item>
-    </string-array>
+    <string name="post_privacy_public">Öffentlich</string>
+    <string name="post_privacy_unlisted">Nicht gelistet</string>
+    <string name="post_privacy_followers_only">Nur Folgende</string>
     <string name="pref_status_text_size">Schriftgröße</string>
-    <string-array name="status_text_size_names">
-        <item>Kleiner</item>
-        <item>Klein</item>
-        <item>Normal</item>
-        <item>Groß</item>
-        <item>Größer</item>
-    </string-array>
+    <string name="status_text_size_smallest">Kleiner</string>
+    <string name="status_text_size_small">Klein</string>
+    <string name="status_text_size_medium">Normal</string>
+    <string name="status_text_size_large">Groß</string>
+    <string name="status_text_size_largest">Größer</string>
     <string name="pref_media_display">Medienanzeige</string>
-    <string-array name="media_display_names">
-        <item>Verberge Medien welche als heikel makiert sind</item>
-        <item>Medien, die als sensibel markiert sind, immer anzeigen</item>
-        <item>Medien immer verstecken</item>
-    </string-array>
+    <string name="media_hide_sensitive">Verberge Medien welche als heikel makiert sind</string>
+    <string name="media_hide_none">Medien, die als sensibel markiert sind, immer anzeigen</string>
+    <string name="media_hide_all">Medien immer verstecken</string>
     <string name="notification_channel_mention_name">Neue Erwähnungen</string>
     <string name="notification_channel_mention_descriptions">Benachrichtigungen über neue Erwähnungen</string>
     <string name="notification_channel_follow_name">Neue Folgende</string>

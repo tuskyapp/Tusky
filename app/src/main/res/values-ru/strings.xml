@@ -186,13 +186,11 @@
     <string name="pref_title_app_theme">Тема</string>
     <string name="pref_title_timelines">Ленты</string>
 
-    <string-array name="app_theme_names">
-        <item>Тёмная</item>
-        <item>Светлая</item>
-        <item>Черная</item>
-        <item>Автоматическая (по времени)</item>
-        <item>Как в системе</item>
-    </string-array>
+    <string name="app_them_dark">Тёмная</string>
+    <string name="app_theme_light">Светлая</string>
+    <string name="app_theme_black">Черная</string>
+    <string name="app_theme_auto">Автоматическая (по времени)</string>
+    <string name="app_theme_system">Как в системе</string>
 
     <string name="pref_title_browser_settings">Браузер</string>
     <string name="pref_title_custom_tabs">Использовать Chrome Custom Tabs</string>
@@ -214,28 +212,22 @@
     <string name="pref_publishing">Публикация (синхронизировано с сервером)</string>
     <string name="pref_failed_to_sync">Не удалось синхронизировать настройки</string>
 
-    <string-array name="post_privacy_names">
-        <item>Публичные</item>
-        <item>Скрытые</item>
-        <item>Для подписчиков</item>
-    </string-array>
+    <string name="post_privacy_public">Публичные</string>
+    <string name="post_privacy_unlisted">Скрытые</string>
+    <string name="post_privacy_followers_only">Для подписчиков</string>
 
     <string name="pref_status_text_size">Размер текста статусов</string>
 
-    <string-array name="status_text_size_names">
-        <item>Крохотный</item>
-        <item>Маленький</item>
-        <item>Средний</item>
-        <item>Большой</item>
-        <item>Огромный</item>
-    </string-array>
+    <string name="status_text_size_smallest">Крохотный</string>
+    <string name="status_text_size_small">Маленький</string>
+    <string name="status_text_size_medium">Средний</string>
+    <string name="status_text_size_large">Большой</string>
+    <string name="status_text_size_largest">Огромный</string>
 
     <string name="pref_media_display">Отображение медиафайлов</string>
-    <string-array name="media_display_names">
-        <item>Скрывать чувствительные медиафайлы</item>
-        <item>Всегда показывать чувствительные медиафайлы</item>
-        <item>Всегда скрывать все медиафайлы</item>
-    </string-array>
+    <string name="media_hide_sensitive">Скрывать чувствительные медиафайлы</string>
+    <string name="media_hide_none">Всегда показывать чувствительные медиафайлы</string>
+    <string name="media_hide_all">Всегда скрывать все медиафайлы</string>
 
     <string name="notification_channel_mention_name">Новые упоминания</string>
     <string name="notification_channel_mention_descriptions">Уведомлять о новых упоминаниях</string>

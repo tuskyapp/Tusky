@@ -178,13 +178,11 @@
     <string name="pref_title_appearance_settings">Uiterlijk</string>
     <string name="pref_title_app_theme">Thema</string>
     <string name="pref_title_timelines">Tijdlijnen</string>
-    <string-array name="app_theme_names">
-        <item>Donker</item>
-        <item>Licht</item>
-        <item>Zwart</item>
-        <item>Automatisch tijdens zonsondergang</item>
-        <item>Systeemthema gebruiken</item>
-    </string-array>
+    <string name="app_them_dark">Donker</string>
+    <string name="app_theme_light">Licht</string>
+    <string name="app_theme_black">Zwart</string>
+    <string name="app_theme_auto">Automatisch tijdens zonsondergang</string>
+    <string name="app_theme_system">Systeemthema gebruiken</string>
     <string name="pref_title_browser_settings">Webbrowser</string>
     <string name="pref_title_custom_tabs">Aangepaste tabbladen gebruiken</string>
     <string name="pref_title_hide_follow_button">Verberg zwevende tootknop tijdens scrollen</string>
@@ -203,25 +201,19 @@
     <string name="pref_default_media_sensitivity">Media altijd als gevoelig markeren</string>
     <string name="pref_publishing">Publiceren</string>
     <string name="pref_failed_to_sync">Synchroniseren</string>
-    <string-array name="post_privacy_names">
-        <item>Openbaar</item>
-        <item>Minder openbaar</item>
-        <item>Alleen volgers</item>
-    </string-array>
+    <string name="post_privacy_public">Openbaar</string>
+    <string name="post_privacy_unlisted">Minder openbaar</string>
+    <string name="post_privacy_followers_only">Alleen volgers</string>
     <string name="pref_status_text_size">Tekstgrootte van toots</string>
-    <string-array name="status_text_size_names">
-        <item>Kleinst</item>
-        <item>Klein</item>
-        <item>Standaard</item>
-        <item>Groot</item>
-        <item>Grootst</item>
-    </string-array>
+    <string name="status_text_size_smallest">Kleinst</string>
+    <string name="status_text_size_small">Klein</string>
+    <string name="status_text_size_medium">Standaard</string>
+    <string name="status_text_size_large">Groot</string>
+    <string name="status_text_size_largest">Grootst</string>
     <string name="pref_media_display">Mediaweergave</string>
-    <string-array name="media_display_names">
-        <item>Als gevoelig gemarkeerde media verbergen</item>
-        <item>Als gevoelig gemarkeerde media altijd verbergen</item>
-        <item>Media altijd verbergen</item>
-    </string-array>
+    <string name="media_hide_sensitive">Als gevoelig gemarkeerde media verbergen</string>
+    <string name="media_hide_none">Als gevoelig gemarkeerde media altijd verbergen</string>
+    <string name="media_hide_all">Media altijd verbergen</string>
     <string name="notification_channel_mention_name">Nieuwe vermeldingen</string>
     <string name="notification_channel_mention_descriptions">Meldingen over nieuwe vermeldingen</string>
     <string name="notification_channel_follow_name">Nieuwe volgers</string>

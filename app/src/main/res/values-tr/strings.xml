@@ -167,13 +167,11 @@
     <string name="pref_title_appearance_settings">Görünüş</string>
     <string name="pref_title_app_theme">Uygulama teması</string>
     <string name="pref_title_timelines">Zaman çizelgeleri</string>
-    <string-array name="app_theme_names">
-        <item>Koyu</item>
-        <item>Açık</item>
-        <item>Siyah</item>
-        <item>Gün batımında otomatik</item>
-        <item>Use System Design</item>
-    </string-array>
+    <string name="app_them_dark">Koyu</string>
+    <string name="app_theme_light">Açık</string>
+    <string name="app_theme_black">Siyah</string>
+    <string name="app_theme_auto">Gün batımında otomatik</string>
+    <string name="app_theme_system">Use System Design</string>
     <string name="pref_title_browser_settings">Tarayacı</string>
     <string name="pref_title_custom_tabs">Chrome Özel Şekmelerini Kullan</string>
     <string name="pref_title_hide_follow_button">Kaydırırken takip düğmesi gizlensin</string>
@@ -191,25 +189,19 @@
     <string name="pref_default_media_sensitivity">Her zaman hassas medya olarak işaretle</string>
     <string name="pref_publishing">Yayınlama (sunucuyla eşitlenir)</string>
     <string name="pref_failed_to_sync">Ayarları eşitleme başarısız</string>
-    <string-array name="post_privacy_names">
-        <item>Herkese Açık</item>
-        <item>Liste dışı</item>
-        <item>Sadece takip edenler</item>
-    </string-array>
+    <string name="post_privacy_public">Herkese Açık</string>
+    <string name="post_privacy_unlisted">Liste dışı</string>
+    <string name="post_privacy_followers_only">Sadece takip edenler</string>
     <string name="pref_status_text_size">Durum metin boyutu</string>
-    <string-array name="status_text_size_names">
-        <item>En küçük</item>
-        <item>Küçük</item>
-        <item>Orta</item>
-        <item>Büyük</item>
-        <item>En büyük</item>
-    </string-array>
+    <string name="status_text_size_smallest">En küçük</string>
+    <string name="status_text_size_small">Küçük</string>
+    <string name="status_text_size_medium">Orta</string>
+    <string name="status_text_size_large">Büyük</string>
+    <string name="status_text_size_largest">En büyük</string>
     <string name="pref_media_display">Medya göster</string>
-    <string-array name="media_display_names">
-        <item>Hassas olarak işaretlenmiş medyayı gizle</item>
-        <item>Hassas olarak işaretlenmiş medyayı göster</item>
-        <item>Tüm medyayı gizle</item>
-    </string-array>
+    <string name="media_hide_sensitive">Hassas olarak işaretlenmiş medyayı gizle</string>
+    <string name="media_hide_none">Hassas olarak işaretlenmiş medyayı göster</string>
+    <string name="media_hide_all">Tüm medyayı gizle</string>
     <string name="notification_channel_mention_name">Yeni Bahsedilenler</string>
     <string name="notification_channel_mention_descriptions">Yeni bahsedilenler hakkında bildirim</string>
     <string name="notification_channel_follow_name">Yeni Takipçiler</string>
