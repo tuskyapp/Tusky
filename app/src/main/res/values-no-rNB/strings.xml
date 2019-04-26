@@ -58,7 +58,7 @@
     <string name="message_empty">Her er det ingenting.</string>
     <string name="footer_empty">Her er det ingenting. Dra ned for å oppdatere!</string>
 
-    <string name="notification_reblog_format">%s boosted tootet ditt</string>
+    <string name="notification_reblog_format">%s boostet tootet ditt</string>
     <string name="notification_favourite_format">%s favoriserte tootet ditt</string>
     <string name="notification_follow_format">%s fulgte deg</string>
 
