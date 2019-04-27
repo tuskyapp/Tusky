@@ -176,7 +176,7 @@ public interface MastodonApi {
     Single<Status> unpinStatus(@Path("id") String statusId);
 
     @GET("api/v1/accounts/verify_credentials")
-    Call<Account> accountVerifyCredentials();
+    Single<Account> accountVerifyCredentials();
 
     @FormUrlEncoded
     @PATCH("api/v1/accounts/update_credentials")
