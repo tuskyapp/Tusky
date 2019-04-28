@@ -8,6 +8,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RadioButton;
@@ -36,6 +37,7 @@ import com.mikepenz.iconics.utils.Utils;
 
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -80,6 +82,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
     private TextView pollDescription;
     private RadioGroup pollRadioGroup;
     private RadioButton[] pollRadioOptions;
+    private CheckBox[] pollCheckboxOptions;
     private Button pollButton;
 
     private boolean useAbsoluteTime;
@@ -136,6 +139,12 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
                 pollRadioGroup.findViewById(R.id.status_poll_radio_button_1),
                 pollRadioGroup.findViewById(R.id.status_poll_radio_button_2),
                 pollRadioGroup.findViewById(R.id.status_poll_radio_button_3)
+        };
+        pollCheckboxOptions = new CheckBox[] {
+                itemView.findViewById(R.id.status_poll_checkbox_0),
+                itemView.findViewById(R.id.status_poll_checkbox_1),
+                itemView.findViewById(R.id.status_poll_checkbox_2),
+                itemView.findViewById(R.id.status_poll_checkbox_3)
         };
 
         pollButton = itemView.findViewById(R.id.status_poll_button);
@@ -760,62 +769,20 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             pollDescription.setVisibility(View.GONE);
             pollRadioGroup.setVisibility(View.GONE);
 
-            for(RadioButton radioButton: pollRadioOptions) {
-                radioButton.setVisibility(View.GONE);
+            for(CheckBox checkBox: pollCheckboxOptions) {
+                checkBox.setVisibility(View.GONE);
             }
 
             pollButton.setVisibility(View.GONE);
         } else {
             Context context = pollDescription.getContext();
-            List<PollOption> options = poll.getOptions();
 
             if(poll.getExpired() || poll.getVoted())   {
                 // no voting possible
-                for(int i = 0; i < Status.MAX_POLL_OPTIONS; i++) {
-                    if(i < options.size()) {
-                        long percent = calculatePollPercent(options.get(i).getVotesCount(), poll.getVotesCount());
-
-                        String pollOptionText = context.getString(R.string.poll_option_format, percent, options.get(i).getTitle());
-                        pollResults[i].setText(CustomEmojiHelper.emojifyText(HtmlUtils.fromHtml(pollOptionText), emojis, pollResults[i]));
-                        pollResults[i].setVisibility(View.VISIBLE);
-
-                        int level = (int) percent * 100;
-
-                        pollResults[i].getBackground().setLevel(level);
-
-                    } else {
-                        pollResults[i].setVisibility(View.GONE);
-                    }
-                }
-
-                pollRadioGroup.setVisibility(View.GONE);
-
-                for(RadioButton radioButton: pollRadioOptions) {
-                    radioButton.setVisibility(View.GONE);
-                }
-
-                pollButton.setVisibility(View.GONE);
+               setupPollResult(poll, emojis);
             } else {
                 // voting possible
-
-                for(TextView pollResult: pollResults) {
-                    pollResult.setVisibility(View.GONE);
-                }
-
-                pollRadioGroup.setVisibility(View.VISIBLE);
-                pollRadioGroup.clearCheck();
-                pollButton.setVisibility(View.VISIBLE);
-
-                for(int i = 0; i < Status.MAX_POLL_OPTIONS; i++) {
-                    if(i < options.size()) {
-                        pollRadioOptions[i].setText(CustomEmojiHelper.emojifyString(options.get(i).getTitle(), emojis, pollRadioOptions[i]));
-                        pollRadioOptions[i].setVisibility(View.VISIBLE);
-
-                    } else {
-                        pollRadioOptions[i].setVisibility(View.GONE);
-                    }
-                }
-
+                setupPollVoting(poll, emojis, listener);
             }
 
             pollDescription.setVisibility(View.VISIBLE);
@@ -838,6 +805,94 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             String pollInfo = pollDescription.getContext().getString(R.string.poll_info_format, votesText, pollDurationInfo);
 
             pollDescription.setText(pollInfo);
+
+
+        }
+    }
+
+    private void setupPollResult(Poll poll, List<Emoji> emojis) {
+        List<PollOption> options = poll.getOptions();
+
+        for(int i = 0; i < Status.MAX_POLL_OPTIONS; i++) {
+            if(i < options.size()) {
+                long percent = calculatePollPercent(options.get(i).getVotesCount(), poll.getVotesCount());
+
+                String pollOptionText = pollResults[i].getContext().getString(R.string.poll_option_format, percent, options.get(i).getTitle());
+                pollResults[i].setText(CustomEmojiHelper.emojifyText(HtmlUtils.fromHtml(pollOptionText), emojis, pollResults[i]));
+                pollResults[i].setVisibility(View.VISIBLE);
+
+                int level = (int) percent * 100;
+
+                pollResults[i].getBackground().setLevel(level);
+
+            } else {
+                pollResults[i].setVisibility(View.GONE);
+            }
+        }
+
+        pollRadioGroup.setVisibility(View.GONE);
+
+        for(CheckBox checkBox: pollCheckboxOptions) {
+            checkBox.setVisibility(View.GONE);
+        }
+
+        pollButton.setVisibility(View.GONE);
+    }
+
+    private void setupPollVoting(Poll poll, List<Emoji> emojis, StatusActionListener listener) {
+        List<PollOption> options = poll.getOptions();
+
+        pollButton.setVisibility(View.VISIBLE);
+
+        for(TextView pollResult: pollResults) {
+            pollResult.setVisibility(View.GONE);
+        }
+
+        if(poll.getMultiple()) {
+
+            pollRadioGroup.setVisibility(View.GONE);
+
+            for(int i = 0; i < Status.MAX_POLL_OPTIONS; i++) {
+                if(i < options.size()) {
+                    pollCheckboxOptions[i].setText(CustomEmojiHelper.emojifyString(options.get(i).getTitle(), emojis, pollCheckboxOptions[i]));
+                    pollCheckboxOptions[i].setVisibility(View.VISIBLE);
+                    pollCheckboxOptions[i].setChecked(false);
+                } else {
+                    pollCheckboxOptions[i].setVisibility(View.GONE);
+                }
+            }
+
+            pollButton.setOnClickListener(v -> {
+
+                List<Integer> pollResult = new ArrayList<>(options.size());
+                for(int i = 0; i < options.size(); i++) {
+                    if(pollCheckboxOptions[i].isChecked()) {
+                        pollResult.add(i);
+                    }
+                }
+                if(pollResult.size() == 0) {
+                    return;
+                }
+
+                listener.onVoteInPoll(getAdapterPosition(), pollResult);
+            });
+        } else {
+
+            for(CheckBox pollCheckbox: pollCheckboxOptions) {
+                pollCheckbox.setVisibility(View.GONE);
+            }
+
+            pollRadioGroup.setVisibility(View.VISIBLE);
+            pollRadioGroup.clearCheck();
+
+            for(int i = 0; i < Status.MAX_POLL_OPTIONS; i++) {
+                if(i < options.size()) {
+                    pollRadioOptions[i].setText(CustomEmojiHelper.emojifyString(options.get(i).getTitle(), emojis, pollRadioOptions[i]));
+                    pollRadioOptions[i].setVisibility(View.VISIBLE);
+                } else {
+                    pollRadioOptions[i].setVisibility(View.GONE);
+                }
+            }
 
             pollButton.setOnClickListener(v -> {
 
