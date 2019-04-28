@@ -133,6 +133,7 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     androidTestImplementation 'android.arch.persistence.room:testing:1.1.1'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.0'
     testImplementation 'androidx.test.ext:junit:1.1.0'
     debugImplementation 'im.dino:dbinspector:3.4.1@aar'
     implementation 'io.reactivex.rxjava2:rxjava:2.2.8'
