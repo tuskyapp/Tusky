@@ -23,7 +23,6 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.bumptech.glide.Glide;
@@ -518,25 +517,14 @@ public final class MainActivity extends BottomSheetActivity implements ActionBut
     }
 
     private void fetchUserInfo() {
-
-        mastodonApi.accountVerifyCredentials().enqueue(new Callback<Account>() {
-            @Override
-            public void onResponse(@NonNull Call<Account> call, @NonNull Response<Account> response) {
-                if (response.isSuccessful()) {
-                    onFetchUserInfoSuccess(response.body());
-                } else {
-                    onFetchUserInfoFailure(new Exception(response.message()));
-                }
-            }
-
-            @Override
-            public void onFailure(@NonNull Call<Account> call, @NonNull Throwable t) {
-                onFetchUserInfoFailure((Exception) t);
-            }
-        });
+        mastodonApi.accountVerifyCredentials()
+                .observeOn(AndroidSchedulers.mainThread())
+                .as(autoDisposable(from(this, Lifecycle.Event.ON_DESTROY)))
+                .subscribe(this::onFetchUserInfoSuccess, MainActivity::onFetchUserInfoFailure);
     }
 
     private void onFetchUserInfoSuccess(Account me) {
+
         // Add the header image and avatar from the account, into the navigation drawer header.
 
         ImageView background = headerResult.getHeaderBackgroundView();
@@ -598,8 +586,8 @@ public final class MainActivity extends BottomSheetActivity implements ActionBut
         headerResult.setActiveProfile(accountManager.getActiveAccount().getId());
     }
 
-    private static void onFetchUserInfoFailure(Exception exception) {
-        Log.e(TAG, "Failed to fetch user info. " + exception.getMessage());
+    private static void onFetchUserInfoFailure(Throwable throwable) {
+        Log.e(TAG, "Failed to fetch user info. " + throwable.getMessage());
     }
 
     @Nullable

@@ -450,6 +450,50 @@
             tools:text="Option 4" />
     </RadioGroup>
 
+    <CheckBox
+        android:id="@+id/status_poll_checkbox_0"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:lines="1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/status_poll_radio_group"
+        tools:text="Option 1" />
+
+    <CheckBox
+        android:id="@+id/status_poll_checkbox_1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:lines="1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/status_poll_checkbox_0"
+        tools:text="Option 1" />
+
+    <CheckBox
+        android:id="@+id/status_poll_checkbox_2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:lines="1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/status_poll_checkbox_1"
+        tools:text="Option 1" />
+
+    <CheckBox
+        android:id="@+id/status_poll_checkbox_3"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:lines="1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/status_poll_checkbox_2"
+        tools:text="Option 1" />
+
     <!-- using AppCompatButton because we don't want the inflater to turn it into a MaterialButton -->
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/status_poll_button"
@@ -467,7 +511,7 @@
         android:text="@string/poll_vote"
         android:textSize="?attr/status_text_medium"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/status_poll_radio_group" />
+        app:layout_constraintTop_toBottomOf="@id/status_poll_checkbox_3" />
 
     <TextView
         android:id="@+id/status_poll_description"
