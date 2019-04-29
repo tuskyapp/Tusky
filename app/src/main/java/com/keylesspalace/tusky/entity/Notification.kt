@@ -30,7 +30,8 @@ data class Notification(
         MENTION("mention"),
         REBLOG("reblog"),
         FAVOURITE("favourite"),
-        FOLLOW("follow");
+        FOLLOW("follow"),
+        POLL("poll");
 
         companion object {
 
