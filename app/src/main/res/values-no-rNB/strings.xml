@@ -202,13 +202,6 @@
     <string name="pref_title_timelines">Tidslinjer</string>
     <string name="pref_title_timeline_filters">Filtre</string>
 
-    <string-array name="app_theme_names">
-        <item>Dark</item>
-        <item>Light</item>
-        <item>Black</item>
-        <item>Automatic at sunset</item>
-        <item>Use System Design</item>
-    </string-array>
 
     <string name="pref_title_browser_settings">Nettleser</string>
     <string name="pref_title_custom_tabs">Bruke Chrome tilpassede faner</string>
@@ -224,18 +217,6 @@
     <string name="pref_title_http_proxy_enable">Skru på HTTP-proxy</string>
     <string name="pref_title_http_proxy_server">Serveradresse</string>
     <string name="pref_title_http_proxy_port">Serverport</string>
-
-    <string-array name="post_privacy_names">
-        <item>Public</item>
-        <item>Unlisted</item>
-        <item>Followers-only</item>
-    </string-array>
-
-    <string-array name="media_display_names">
-        <item>Hide media marked as sensitive</item>
-        <item>Always show media marked as sensitive</item>
-        <item>Always hide all media</item>
-    </string-array>
 
 
     <string name="description_status"> <!-- Display name, cw\?, content\?, relative date, reposted by\?, reposted\?, favorited\?, username, media\?; visibility, fav number\?, reblog number\?--> %1$s; %2$s; %3$s, %4$s, %5$s; %6$s, %7$s, %8$s, %9$s; %10$s, %11$s, %12$s </string>
