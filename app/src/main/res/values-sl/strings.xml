@@ -415,4 +415,27 @@
 
     <string name="notification_clear_text">Ali ste prepričani, da želite trajno izbrisati vsa obvestila\?</string>
 
+<string name="action_delete_and_redraft">Izbriši in preoblikuj</string>
+    <string name="dialog_redraft_toot_warning">Izbriši in preoblikuj tut\?</string>
+
+    <string name="timespan_days">%d dni</string>
+    <string name="timespan_hours">%d ur</string>
+    <string name="timespan_minutes">%d minut</string>
+    <string name="timespan_seconds">%d sekund</string>
+
+    <string name="poll_info_format"> <!-- 15 votes • 1 hour left --> %1$s • %2$s</string>
+    <plurals name="poll_info_votes">
+	<item quantity="one">glas</item>
+	<item quantity="two">glasova</item>
+	<item quantity="few">glasovi</item>
+	<item quantity="other">glasov</item>
+</plurals>
+    <string name="poll_info_time_relative">še %s</string>
+    <string name="poll_info_time_absolute">se konča ob %s</string>
+    <string name="poll_info_closed">zapto</string>
+    <string name="poll_option_format"> <!-- 15% vote for this! --> &lt;b&gt;%1$d%%&lt;/b&gt; %2$s</string>
+
+    <string name="poll_vote">Glasovanje</string>
+
+
 </resources>
