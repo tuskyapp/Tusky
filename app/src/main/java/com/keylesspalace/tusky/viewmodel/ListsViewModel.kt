@@ -59,7 +59,7 @@ internal class ListsViewModel @Inject constructor(private val api: MastodonApi) 
             copy(loadingState = LoadingState.LOADING)
         }
 
-        api.getLists().subscribe({ lists ->
+        api.lists.subscribe({ lists ->
             updateState {
                 copy(
                         lists = lists,
