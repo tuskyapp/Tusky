@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="app_theme_names">
+        <item>@string/app_them_dark</item>
+        <item>@string/app_theme_light</item>
+        <item>@string/app_theme_black</item>
+        <item>@string/app_theme_auto</item>
+        <item>@string/app_theme_system</item>
+    </string-array>
+
+    <string-array name="post_privacy_names">
+        <item>@string/post_privacy_public</item>
+        <item>@string/post_privacy_unlisted</item>
+        <item>@string/post_privacy_followers_only</item>
+    </string-array>
+
+    <string-array name="status_text_size_names">
+        <item>@string/status_text_size_smallest</item>
+        <item>@string/status_text_size_small</item>
+        <item>@string/status_text_size_medium</item>
+        <item>@string/status_text_size_large</item>
+        <item>@string/status_text_size_largest</item>
+    </string-array>
+
+    <string-array name="media_display_names">
+        <item>@string/media_hide_sensitive</item>
+        <item>@string/media_hide_none</item>
+        <item>@string/media_hide_all</item>
+    </string-array>
+
+</resources>

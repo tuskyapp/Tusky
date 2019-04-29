@@ -205,13 +205,11 @@
     <string name="pref_title_timelines">Timelines</string>
     <string name="pref_title_timeline_filters">Filters</string>
 
-    <string-array name="app_theme_names">
-        <item>Dark</item>
-        <item>Light</item>
-        <item>Black</item>
-        <item>Automatic at sunset</item>
-        <item>Use System Design</item>
-    </string-array>
+    <string name="app_them_dark">Dark</string>
+    <string name="app_theme_light">Light</string>
+    <string name="app_theme_black">Black</string>
+    <string name="app_theme_auto">Automatic at sunset</string>
+    <string name="app_theme_system">Use System Design</string>
 
     <string name="pref_title_browser_settings">Browser</string>
     <string name="pref_title_custom_tabs">Use Chrome Custom Tabs</string>
@@ -233,29 +231,23 @@
     <string name="pref_publishing">Publishing (synced with server)</string>
     <string name="pref_failed_to_sync">Failed to sync settings</string>
 
-    <string-array name="post_privacy_names">
-        <item>Public</item>
-        <item>Unlisted</item>
-        <item>Followers-only</item>
-    </string-array>
+    <string name="post_privacy_public">Public</string>
+    <string name="post_privacy_unlisted">Unlisted</string>
+    <string name="post_privacy_followers_only">Followers-only</string>
 
     <string name="pref_status_text_size">Status text size</string>
 
-    <string-array name="status_text_size_names">
-        <item>Smallest</item>
-        <item>Small</item>
-        <item>Medium</item>
-        <item>Large</item>
-        <item>Largest</item>
-    </string-array>
+    <string name="status_text_size_smallest">Smallest</string>
+    <string name="status_text_size_small">Small</string>
+    <string name="status_text_size_medium">Medium</string>
+    <string name="status_text_size_large">Large</string>
+    <string name="status_text_size_largest">Largest</string>
 
     <string name="pref_media_display">Media display</string>
 
-    <string-array name="media_display_names">
-        <item>Hide media marked as sensitive</item>
-        <item>Always show media marked as sensitive</item>
-        <item>Always hide all media</item>
-    </string-array>
+    <string name="media_hide_sensitive">Hide media marked as sensitive</string>
+    <string name="media_hide_none">Always show media marked as sensitive</string>
+    <string name="media_hide_all">Always hide all media</string>
 
     <string name="notification_channel_mention_name">New Mentions</string>
     <string name="notification_channel_mention_descriptions">Notifications about new mentions</string>
