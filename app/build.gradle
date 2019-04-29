@@ -120,7 +120,7 @@ dependencies {
     implementation 'androidx.room:room-runtime:2.0.0'
     kapt 'androidx.room:room-compiler:2.0.0'
     implementation 'androidx.room:room-rxjava2:2.0.0'
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
     implementation "com.google.dagger:dagger:$daggerVersion"
     kapt "com.google.dagger:dagger-compiler:$daggerVersion"
     implementation "com.google.dagger:dagger-android:$daggerVersion"
