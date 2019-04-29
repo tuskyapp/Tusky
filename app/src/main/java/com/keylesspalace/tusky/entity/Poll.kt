@@ -22,7 +22,7 @@ data class Poll(
             }
         }
 
-        return copy(options = newOptions, votesCount = votesCount + 1, voted = true)
+        return copy(options = newOptions, votesCount = votesCount + choices.size, voted = true)
     }
 
 }
