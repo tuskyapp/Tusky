@@ -341,9 +341,10 @@
     <string name="unpin_action">Odepnout</string>
     <string name="pin_action">Připnout</string>
     <plurals name="favs">
-        <item quantity="one">&lt;b&gt;%1$s&lt;/b&gt; oblíbení</item>
-        <item quantity="few">&lt;b&gt;%1$s&lt;/b&gt; oblíbení</item>
-    </plurals>
+	<item quantity="one"><b>%1$s</b> oblíbení</item>
+	<item quantity="few"><b>%1$s</b> oblíbení</item>
+	<item quantity="other"><b>%1$s</b> oblíbení</item>
+</plurals>
     <plurals name="reblogs">
 	<item quantity="one"><b>%s</b> boost</item>
 	<item quantity="few"><b>%s</b> boost</item>
