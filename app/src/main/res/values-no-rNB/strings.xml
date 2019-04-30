@@ -390,7 +390,7 @@
     <string name="description_status_reblogged">Reblogged</string>
     <string name="description_status_favourited">Favorisert</string>
     <string name="description_visiblity_public">Offentlig</string>
-    <string name="description_visiblity_unlisted">Ikke listet</string>
+    <string name="description_visiblity_unlisted">Ikke offentlige tidslinjer</string>
     <string name="description_visiblity_private">Følgere</string>
     <string name="description_visiblity_direct">Direkte</string>
     <string name="hint_list_name">Listenavn</string>
@@ -433,4 +433,24 @@
     <string name="poll_vote">Stem</string>
 
 
-</resources>
+<string name="app_them_dark">Mørk</string>
+    <string name="app_theme_light">Lys</string>
+    <string name="app_theme_black">Svart</string>
+    <string name="app_theme_auto">Automatisk ved solnedgang</string>
+    <string name="app_theme_system">Bruk systemdesign</string>
+
+    <string name="post_privacy_public">Offentlig</string>
+    <string name="post_privacy_unlisted">Ikke offentlige tidslinjer</string>
+    <string name="post_privacy_followers_only">Kun følgere</string>
+
+    <string name="status_text_size_smallest">Minste</string>
+    <string name="status_text_size_small">Liten</string>
+    <string name="status_text_size_medium">Medium</string>
+    <string name="status_text_size_large">Stor</string>
+    <string name="status_text_size_largest">Størst</string>
+
+    <string name="media_hide_sensitive">Skjul media markert som sensitivt</string>
+    <string name="media_hide_none">Vis alltid media markert som sensitivt</string>
+    <string name="media_hide_all">Skjul alltid media</string>
+
+    </resources>
