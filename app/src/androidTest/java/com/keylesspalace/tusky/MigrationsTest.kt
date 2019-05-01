@@ -2,8 +2,8 @@ package com.keylesspalace.tusky
 
 import androidx.room.testing.MigrationTestHelper
 import androidx.sqlite.db.framework.FrameworkSQLiteOpenHelperFactory
-import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
+import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.keylesspalace.tusky.db.AppDatabase
 import org.junit.Assert.assertEquals
 import org.junit.Rule
