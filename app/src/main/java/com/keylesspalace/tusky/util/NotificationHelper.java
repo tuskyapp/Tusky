@@ -339,16 +339,16 @@ public class NotificationHelper {
                     CHANNEL_BOOST + account.getIdentifier(),
                     CHANNEL_FAVOURITE + account.getIdentifier()};
             int[] channelNames = {
-                    R.string.notification_channel_mention_name,
-                    R.string.notification_channel_follow_name,
-                    R.string.notification_channel_boost_name,
-                    R.string.notification_channel_favourite_name
+                    R.string.notification_mention_name,
+                    R.string.notification_follow_name,
+                    R.string.notification_boost_name,
+                    R.string.notification_favourite_name
             };
             int[] channelDescriptions = {
-                    R.string.notification_channel_mention_descriptions,
-                    R.string.notification_channel_follow_description,
-                    R.string.notification_channel_boost_description,
-                    R.string.notification_channel_favourite_description
+                    R.string.notification_mention_descriptions,
+                    R.string.notification_follow_description,
+                    R.string.notification_boost_description,
+                    R.string.notification_favourite_description
             };
 
             List<NotificationChannel> channels = new ArrayList<>(4);

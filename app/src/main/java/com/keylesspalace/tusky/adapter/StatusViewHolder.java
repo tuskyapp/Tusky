@@ -104,7 +104,7 @@ public class StatusViewHolder extends StatusBaseViewHolder {
     // don't use this on the same ViewHolder as setRebloggedByDisplayName, will cause recycling issues as paddings are changed
     void setPollInfo(final boolean ownPoll) {
         statusInfo.setText(ownPoll ? R.string.poll_ended_created : R.string.poll_ended_voted);
-        statusInfo.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_poll_18dp, 0, 0, 0);
+        statusInfo.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_poll_24dp, 0, 0, 0);
         statusInfo.setCompoundDrawablePadding(Utils.dpToPx(statusInfo.getContext(), 10));
         statusInfo.setPaddingRelative(Utils.dpToPx(statusInfo.getContext(), 28), 0, 0, 0);
         statusInfo.setVisibility(View.VISIBLE);

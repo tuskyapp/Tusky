@@ -43,7 +43,7 @@ data class Notification(
                 }
                 return UNKNOWN
             }
-            val asList = listOf(MENTION,REBLOG,FAVOURITE,FOLLOW)
+            val asList = listOf(MENTION, REBLOG, FAVOURITE, FOLLOW, POLL)
         }
 
         override fun toString(): String {
