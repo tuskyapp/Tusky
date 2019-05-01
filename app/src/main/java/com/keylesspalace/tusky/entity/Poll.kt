@@ -2,6 +2,7 @@ package com.keylesspalace.tusky.entity
 
 import com.google.gson.annotations.SerializedName
 import java.util.*
+import kotlin.math.roundToInt
 
 data class Poll(
         val id: String,
@@ -30,4 +31,12 @@ data class Poll(
 data class PollOption(
         val title: String,
         @SerializedName("votes_count") val votesCount: Int
-)
+) {
+    fun getPercent(totalVotes: Int): Int {
+        return if (votesCount == 0) {
+            0
+        } else {
+            (votesCount / totalVotes.toDouble() * 100).roundToInt()
+        }
+    }
+}

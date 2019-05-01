@@ -200,6 +200,7 @@
     <string name="pref_title_notification_filter_follows">followed</string>
     <string name="pref_title_notification_filter_reblogs">my posts are boosted</string>
     <string name="pref_title_notification_filter_favourites">my posts are favourited</string>
+    <string name="pref_title_notification_filter_poll">polls have ended</string>
     <string name="pref_title_appearance_settings">Appearance</string>
     <string name="pref_title_app_theme">App Theme</string>
     <string name="pref_title_timelines">Timelines</string>
