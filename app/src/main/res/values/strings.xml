@@ -490,5 +490,8 @@
 
     <string name="poll_vote">Vote</string>
 
+    <string name="poll_ended_voted">A poll you have voted in has ended</string>
+    <string name="poll_ended_created">A poll you created has ended</string>
+
 
 </resources>

@@ -77,6 +77,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
     private static final InputFilter[] COLLAPSE_INPUT_FILTER = new InputFilter[]{SmartLengthInputFilter.INSTANCE};
     private static final InputFilter[] NO_INPUT_FILTER = new InputFilter[0];
 
+    private String accountId;
     private StatusActionListener statusListener;
     private NotificationActionListener notificationActionListener;
     private boolean mediaPreviewEnabled;
@@ -84,10 +85,12 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
     private BidiFormatter bidiFormatter;
     private AdapterDataSource<NotificationViewData> dataSource;
 
-    public NotificationsAdapter(AdapterDataSource<NotificationViewData> dataSource,
+    public NotificationsAdapter(String accountId,
+                                AdapterDataSource<NotificationViewData> dataSource,
                                 StatusActionListener statusListener,
                                 NotificationActionListener notificationActionListener) {
 
+        this.accountId = accountId;
         this.dataSource = dataSource;
         this.statusListener = statusListener;
         this.notificationActionListener = notificationActionListener;
@@ -165,7 +168,11 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
                     StatusViewData.Concrete status = concreteNotificaton.getStatusViewData();
                     holder.setupWithStatus(status,
                             statusListener, mediaPreviewEnabled, payloadForHolder);
-
+                    if(concreteNotificaton.getType() == Notification.Type.POLL) {
+                        holder.setPollInfo(accountId.equals(concreteNotificaton.getAccount().getId()));
+                    } else {
+                        holder.hideStatusInfo();
+                    }
                     break;
                 }
                 case VIEW_TYPE_STATUS_NOTIFICATION: {

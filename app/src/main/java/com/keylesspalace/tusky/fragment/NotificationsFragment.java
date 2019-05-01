@@ -222,7 +222,8 @@ public class NotificationsFragment extends SFragment implements
 
         recyclerView.addItemDecoration(new DividerItemDecoration(context, DividerItemDecoration.VERTICAL));
 
-        adapter = new NotificationsAdapter(dataSource, this, this);
+        adapter = new NotificationsAdapter(accountManager.getActiveAccount().getAccountId(),
+                dataSource, this, this);
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
         alwaysShowSensitiveMedia = accountManager.getActiveAccount().getAlwaysShowSensitiveMedia();
         boolean mediaPreviewEnabled = accountManager.getActiveAccount().getMediaPreviewEnabled();
