@@ -30,6 +30,7 @@ class ModalTimelineActivity : BottomSheetActivity(), ActionButtonActivity, HasSu
         }
 
     }
+
     @Inject
     lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Fragment>
 
@@ -50,7 +51,7 @@ class ModalTimelineActivity : BottomSheetActivity(), ActionButtonActivity, HasSu
                     ?: TimelineFragment.Kind.HOME
             val argument = intent?.getStringExtra(ARG_ARG)
             supportFragmentManager.beginTransaction()
-                    .replace(R.id.contentFrame, TimelineFragment.newInstance(kind, argument,true))
+                    .replace(R.id.contentFrame, TimelineFragment.newInstance(kind, argument))
                     .commit()
         }
     }

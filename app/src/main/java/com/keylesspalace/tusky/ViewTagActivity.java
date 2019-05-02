@@ -16,11 +16,13 @@
 package com.keylesspalace.tusky;
 
 import android.os.Bundle;
+
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.widget.Toolbar;
+
 import android.view.MenuItem;
 
 import com.keylesspalace.tusky.fragment.TimelineFragment;
@@ -54,7 +56,7 @@ public class ViewTagActivity extends BottomSheetActivity implements HasSupportFr
         }
 
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        Fragment fragment = TimelineFragment.newInstance(TimelineFragment.Kind.TAG, hashtag,true);
+        Fragment fragment = TimelineFragment.newInstance(TimelineFragment.Kind.TAG, hashtag);
         fragmentTransaction.replace(R.id.fragment_container, fragment);
         fragmentTransaction.commit();
     }

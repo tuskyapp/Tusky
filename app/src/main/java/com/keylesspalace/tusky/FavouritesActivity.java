@@ -16,11 +16,13 @@
 package com.keylesspalace.tusky;
 
 import android.os.Bundle;
+
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.widget.Toolbar;
+
 import android.view.MenuItem;
 
 import com.keylesspalace.tusky.fragment.TimelineFragment;
@@ -51,7 +53,7 @@ public class FavouritesActivity extends BottomSheetActivity implements HasSuppor
         }
 
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        Fragment fragment = TimelineFragment.newInstance(TimelineFragment.Kind.FAVOURITES,true);
+        Fragment fragment = TimelineFragment.newInstance(TimelineFragment.Kind.FAVOURITES);
         fragmentTransaction.replace(R.id.fragment_container, fragment);
         fragmentTransaction.commit();
     }
