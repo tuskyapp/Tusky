@@ -389,10 +389,10 @@
     <string name="compose_shortcut_short_label">Ecrire</string>
     <string name="pref_title_bot_overlay">Afficher l\'indicateur de robots</string>
 
-    <string name="notification_clear_text">Nettoyer toutes les notifications de façon permanente\?</string>
+    <string name="notification_clear_text">Nettoyer toutes les notifications de façon permanente \?</string>
 
 <string name="action_delete_and_redraft">Effacer et ré-écrire</string>
-    <string name="dialog_redraft_toot_warning">Effacer et ré-écrire ce pouet\?</string>
+    <string name="dialog_redraft_toot_warning">Effacer et ré-écrire ce pouet \?</string>
 
     <string name="timespan_days">%d jours</string>
     <string name="timespan_hours">%d heures</string>

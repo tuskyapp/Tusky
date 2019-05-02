@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='UTF-8'?>
 <resources>
     <string name="error_generic">وقع هناك خطأ.</string>
     <string name="error_network">حدث خطأ في الشبكة! يرجى التحقق من اتصالك ثم أعد المحاولة!</string>
@@ -346,4 +346,36 @@
     <string name="description_visiblity_private">المتابِعون    </string>
     <string name="description_visiblity_direct">مباشر    </string>
     <string name="hint_list_name">اسم القائمة</string>
+<string name="action_delete_and_redraft">حذف وإعادة الصياغة</string>
+    <string name="action_open_reblogger">إظهار صاحب الترقية</string>
+    <string name="action_open_media_n">افتح الوسيط #%d</string>
+
+    <string name="download_media">تنزيل الوسائط</string>
+    <string name="downloading_media">جارٍ تنزيل الوسائط</string>
+
+    <string name="dialog_redraft_toot_warning">هل تريد حذف وإعادة صياغة هذا التبويق؟</string>
+
+    <string name="timespan_days">%d أيام</string>
+    <string name="timespan_hours">%d ساعات</string>
+    <string name="timespan_minutes">%d دقائق</string>
+    <string name="timespan_seconds">%d ثوان</string>
+
+    <string name="description_status_favourited">تم تفضيله</string>
+    <string name="edit_hashtag_title">تعديل الوسم</string>
+    <string name="edit_hashtag_hint">وسم بدون #</string>
+    <string name="hashtag">الوسم</string>
+    <string name="notifications_clear">مسح</string>
+    <string name="notifications_apply_filter">عامل تصفية</string>
+    <string name="filter_apply">طَبِّق</string>
+
+    <string name="compose_shortcut_long_label">تحرير تبويق</string>
+    <string name="compose_shortcut_short_label">كتابة</string>
+    <string name="notification_clear_text">هل تريد حقا مسح كافة إشعاراتك؟</string>
+
+    <string name="poll_info_time_relative">%s متبقي</string>
+    <string name="poll_info_time_absolute">ينتهي في %s</string>
+    <string name="poll_info_closed">انتهى</string>
+    <string name="poll_vote">صَوِّت</string>
+
+
 </resources>
