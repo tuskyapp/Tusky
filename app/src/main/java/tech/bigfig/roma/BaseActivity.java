@@ -25,7 +25,6 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
@@ -49,6 +48,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 import androidx.appcompat.app.AlertDialog;
@@ -66,7 +66,6 @@ public abstract class BaseActivity extends AppCompatActivity implements Injectab
     @Inject
     public AccountManager accountManager;
 
-    protected static final int BUILD_VERSION_ANY = -1;
     private static final int REQUESTER_NONE = Integer.MAX_VALUE;
     private HashMap<Integer, PermissionRequester> requesters;
 
@@ -119,7 +118,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Injectab
         return true;
     }
 
-    private int textStyle(String name) {
+    private static int textStyle(String name) {
         int style;
         switch (name) {
             case "smallest":
@@ -228,42 +227,41 @@ public abstract class BaseActivity extends AppCompatActivity implements Injectab
         adapter.addAll(accounts);
 
         new AlertDialog.Builder(this)
-            .setTitle(dialogTitle)
-            .setAdapter(adapter, (dialogInterface, index) -> listener.onAccountSelected(accounts.get(index)))
-            .show();
+                .setTitle(dialogTitle)
+                .setAdapter(adapter, (dialogInterface, index) -> listener.onAccountSelected(accounts.get(index)))
+                .show();
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         if (requesters.containsKey(requestCode)) {
             PermissionRequester requester = requesters.remove(requestCode);
             requester.onRequestPermissionsResult(permissions, grantResults);
         }
     }
 
-    public void requestPermissions(String[] permissions, int minimumBuildVersion, PermissionRequester requester) {
-        if (minimumBuildVersion == BUILD_VERSION_ANY || Build.VERSION.SDK_INT >= minimumBuildVersion) {
-            ArrayList<String> permissionsToRequest = new ArrayList<>();
-            for(String permission: permissions) {
-                if (ContextCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED) {
-                    permissionsToRequest.add(permission);
-                }
+    public void requestPermissions(String[] permissions, PermissionRequester requester) {
+        ArrayList<String> permissionsToRequest = new ArrayList<>();
+        for(String permission: permissions) {
+            if (ContextCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED) {
+                permissionsToRequest.add(permission);
             }
-            if (permissionsToRequest.isEmpty()) {
-                int[] permissionsAlreadyGranted = new int[permissions.length];
-                for (int i = 0; i < permissionsAlreadyGranted.length; ++i)
-                    permissionsAlreadyGranted[i] = PackageManager.PERMISSION_GRANTED;
-                requester.onRequestPermissionsResult(permissions, permissionsAlreadyGranted);
-                return;
-            }
-
-            int newKey = requester == null ? REQUESTER_NONE : requesters.size();
-            if (newKey != REQUESTER_NONE) {
-                requesters.put(newKey, requester);
-            }
-            String[] permissionsCopy = new String[permissionsToRequest.size()];
-            permissionsToRequest.toArray(permissionsCopy);
-            ActivityCompat.requestPermissions(this, permissionsCopy, newKey);
         }
+        if (permissionsToRequest.isEmpty()) {
+            int[] permissionsAlreadyGranted = new int[permissions.length];
+            for (int i = 0; i < permissionsAlreadyGranted.length; ++i)
+                permissionsAlreadyGranted[i] = PackageManager.PERMISSION_GRANTED;
+            requester.onRequestPermissionsResult(permissions, permissionsAlreadyGranted);
+            return;
+        }
+
+        int newKey = requester == null ? REQUESTER_NONE : requesters.size();
+        if (newKey != REQUESTER_NONE) {
+            requesters.put(newKey, requester);
+        }
+        String[] permissionsCopy = new String[permissionsToRequest.size()];
+        permissionsToRequest.toArray(permissionsCopy);
+        ActivityCompat.requestPermissions(this, permissionsCopy, newKey);
+
     }
 }

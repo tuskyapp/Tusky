@@ -93,7 +93,7 @@ class FiltersActivity : BaseActivity(), Injectable {
             }
 
             override fun onFailure(call: Call<Filter>, t: Throwable) {
-                Toast.makeText(this@FiltersActivity, "Error creating filter '${phrase}'", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@FiltersActivity, "Error creating filter '$phrase'", Toast.LENGTH_SHORT).show()
             }
         })
     }

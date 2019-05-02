@@ -55,7 +55,6 @@ import dagger.android.DispatchingAndroidInjector;
 import dagger.android.HasActivityInjector;
 import dagger.android.HasBroadcastReceiverInjector;
 import dagger.android.HasServiceInjector;
-import okhttp3.OkHttpClient;
 
 public class RomaApplication extends Application implements HasActivityInjector, HasServiceInjector, HasBroadcastReceiverInjector,
         HasWorkerInjector {
@@ -67,8 +66,6 @@ public class RomaApplication extends Application implements HasActivityInjector,
     DispatchingAndroidInjector<BroadcastReceiver> dispatchingBroadcastReceiverInjector;
     @Inject
     NotificationPullJobCreator notificationPullJobCreator;
-    @Inject
-    OkHttpClient okHttpClient;
     @Inject
     DispatchingAndroidInjector<RxWorker> dispatchingWorkerInjector;
 
@@ -92,7 +89,7 @@ public class RomaApplication extends Application implements HasActivityInjector,
                         AppDatabase.MIGRATION_5_6, AppDatabase.MIGRATION_6_7, AppDatabase.MIGRATION_7_8,
                         AppDatabase.MIGRATION_8_9, AppDatabase.MIGRATION_9_10, AppDatabase.MIGRATION_10_11,
                         AppDatabase.MIGRATION_11_12, AppDatabase.MIGRATION_12_13, AppDatabase.MIGRATION_10_13,
-                        AppDatabase.MIGRATION_13_14)
+                        AppDatabase.MIGRATION_13_14, AppDatabase.MIGRATION_14_15)
                 .build();
         accountManager = new AccountManager(appDatabase);
         serviceLocator = new ServiceLocator() {

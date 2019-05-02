@@ -28,7 +28,6 @@ import androidx.core.view.ViewCompat
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.resource.bitmap.DownsampleStrategy
 import tech.bigfig.roma.R
 import tech.bigfig.roma.ViewMediaActivity
 import tech.bigfig.roma.di.Injectable
@@ -235,9 +234,8 @@ class AccountMediaFragment : BaseFragment(), Injectable {
     }
 
     private fun viewMedia(items: List<AttachmentViewData>, currentIndex: Int, view: View?) {
-        val type = items[currentIndex].attachment.type
 
-        when (type) {
+        when (items[currentIndex].attachment.type) {
             Attachment.Type.IMAGE,
             Attachment.Type.GIFV,
             Attachment.Type.VIDEO -> {

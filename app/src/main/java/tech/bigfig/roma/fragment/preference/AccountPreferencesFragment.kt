@@ -273,7 +273,7 @@ class AccountPreferencesFragment : PreferenceFragmentCompat(),
         return drawable
     }
 
-    fun launchFilterActivity(filterContext: String, titleResource: Int): Boolean {
+    private fun launchFilterActivity(filterContext: String, titleResource: Int): Boolean {
         val intent = Intent(context, FiltersActivity::class.java)
         intent.putExtra(FiltersActivity.FILTERS_CONTEXT, filterContext)
         intent.putExtra(FiltersActivity.FILTERS_TITLE, getString(titleResource))

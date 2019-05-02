@@ -73,12 +73,13 @@ data class ConversationStatusEntity(
         val favourited: Boolean,
         val sensitive: Boolean,
         val spoilerText: String,
-        val attachments: List<Attachment>,
+        val attachments: ArrayList<Attachment>,
         val mentions: Array<Status.Mention>,
         val showingHiddenContent: Boolean,
         val expanded: Boolean,
         val collapsible: Boolean,
-        val collapsed: Boolean
+        val collapsed: Boolean,
+        val poll: Poll?
 
 ) {
     /** its necessary to override this because Spanned.equals does not work as expected  */
@@ -106,6 +107,7 @@ data class ConversationStatusEntity(
         if (expanded != other.expanded) return false
         if (collapsible != other.collapsible) return false
         if (collapsed != other.collapsed) return false
+        if (poll != other.poll) return false
 
         return true
     }
@@ -129,6 +131,7 @@ data class ConversationStatusEntity(
         result = 31 * result + expanded.hashCode()
         result = 31 * result + collapsible.hashCode()
         result = 31 * result + collapsed.hashCode()
+        result = 31 * result + poll.hashCode()
         return result
     }
 
@@ -153,7 +156,8 @@ data class ConversationStatusEntity(
                 attachments = attachments,
                 mentions = mentions,
                 application = null,
-                pinned = false)
+                pinned = false,
+                poll = poll)
     }
 }
 
@@ -174,7 +178,8 @@ fun Status.toEntity() =
                 false,
                 false,
                 !SmartLengthInputFilter.hasBadRatio(content, SmartLengthInputFilter.LENGTH_DEFAULT),
-                true
+                true,
+                poll
         )
 
 

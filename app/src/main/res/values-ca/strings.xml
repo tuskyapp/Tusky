@@ -161,19 +161,11 @@
     <string name="pref_default_post_privacy">Privacitat predeterminada dels toots</string>
     <string name="pref_publishing">Publicació</string>
 
-    <string-array name="post_privacy_names">
-        <item>Pública</item>
-        <item>Sense llistar</item>
-        <item>Només seguidors</item>
-    </string-array>
+    <string name="post_privacy_public">Pública</string>
+    <string name="post_privacy_unlisted">Sense llistar</string>
+    <string name="post_privacy_followers_only">Només seguidors</string>
 
     <string name="pref_status_text_size">Mida de text de l\'estat</string>
-
-    <!--<string-array name="status_text_size_names">-->
-        <!--<item>Petita</item>-->
-        <!--<item>Mitjana</item>-->
-        <!--<item>Gran</item>-->
-    <!--</string-array>-->
 
     <string name="notification_channel_mention_name">Mencions noves</string>
     <string name="notification_channel_mention_descriptions">Notificacions sobre mencions noves</string>

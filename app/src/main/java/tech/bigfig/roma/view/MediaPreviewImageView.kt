@@ -77,10 +77,10 @@ defStyleAttr: Int = 0
      * even if we have a focus point set.
      */
     override fun getScaleType(): ScaleType {
-        if (focus != null) {
-            return ScaleType.CENTER_CROP
+        return if (focus != null) {
+            ScaleType.CENTER_CROP
         } else {
-            return super.getScaleType()
+            super.getScaleType()
         }
     }
 

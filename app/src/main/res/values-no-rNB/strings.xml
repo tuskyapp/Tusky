@@ -26,13 +26,13 @@
     <string name="title_home">Hjem</string>
     <string name="title_advanced">Avansert</string>
     <string name="title_notifications">Varsler</string>
-    <string name="title_public_local">Lokal</string>
-    <string name="title_public_federated">Forent</string>
+    <string name="title_public_local">Lokal tidslinje</string>
+    <string name="title_public_federated">Forent tidslinje</string>
     <string name="title_direct_messages">Direktemeldinger</string>
     <string name="title_tab_preferences">Faner</string>
     <string name="title_view_thread">Toot</string>
     <string name="title_tag">#%s</string>
-    <string name="title_statuses">Innlegg</string>
+    <string name="title_statuses">Toots</string>
     <string name="title_statuses_with_replies">Med svar</string>
     <string name="title_statuses_pinned">Festet</string>
     <string name="title_follows">Følger</string>
@@ -57,7 +57,7 @@
     <string name="message_empty">Her er det ingenting.</string>
     <string name="footer_empty">Her er det ingenting. Dra ned for å oppdatere!</string>
 
-    <string name="notification_reblog_format">%s boosted tootet ditt</string>
+    <string name="notification_reblog_format">%s boostet tootet ditt</string>
     <string name="notification_favourite_format">%s favoriserte tootet ditt</string>
     <string name="notification_follow_format">%s fulgte deg</string>
 
@@ -77,7 +77,7 @@
     <string name="action_logout_confirm">Er du sikker på at du vil logge ut fra kontoen %1$s\?</string>
     <string name="action_follow">Følg</string>
     <string name="action_unfollow">Slutt å følge</string>
-    <string name="action_block">Blokker</string>
+    <string name="action_block">Blokker bruker</string>
     <string name="action_unblock">Fjern blokkering</string>
     <string name="action_hide_reblogs">Skjul boosts</string>
     <string name="action_show_reblogs">Vis boosts</string>
@@ -99,9 +99,9 @@
     <string name="action_add_media">Legg til media</string>
     <string name="action_photo_take">Ta bilde</string>
     <string name="action_share">Del</string>
-    <string name="action_mute">Demp</string>
+    <string name="action_mute">Demp bruker</string>
     <string name="action_unmute">Fjern demping</string>
-    <string name="action_mention">Nevn</string>
+    <string name="action_mention">Nevn i ny toot</string>
     <string name="action_hide_media">Skjul media</string>
     <string name="action_open_drawer">Åpne skuff</string>
     <string name="action_save">Lagre</string>
@@ -178,10 +178,10 @@
     <string name="dialog_unfollow_warning">Slutte å følge denne kontoen\?</string>
     <string name="dialog_delete_toot_warning">Slette dette tootet\?</string>
 
-    <string name="visibility_public">Offentlig: Vis i offentlig tidslinjer</string>
-    <string name="visibility_unlisted">Ikke oppført: Ikke vis i offentlige tidslinjer</string>
-    <string name="visibility_private">Bare følgere: Vis bare til følgere</string>
-    <string name="visibility_direct">Direkte: Vis bare til nevnte brukere</string>
+    <string name="visibility_public">Vis i offentlige tidslinjer</string>
+    <string name="visibility_unlisted">Ikke vis i offentlige tidslinjer</string>
+    <string name="visibility_private">Vis bare til følgere</string>
+    <string name="visibility_direct">Vis bare til nevnte brukere</string>
 
     <string name="pref_title_notification_settings">Varsler</string>
     <string name="pref_title_edit_notification_settings">Varsler</string>
@@ -197,17 +197,10 @@
     <string name="pref_title_notification_filter_reblogs">tootene mine blir boostet</string>
     <string name="pref_title_notification_filter_favourites">tootene mine blir favorisert</string>
     <string name="pref_title_appearance_settings">Utseende</string>
-    <string name="pref_title_app_theme">Apptema</string>
+    <string name="pref_title_app_theme">Applikasjonstema</string>
     <string name="pref_title_timelines">Tidslinjer</string>
-    <string name="pref_title_timeline_filters">Filtere</string>
+    <string name="pref_title_timeline_filters">Filtre</string>
 
-    <string-array name="app_theme_names">
-        <item>Dark</item>
-        <item>Light</item>
-        <item>Black</item>
-        <item>Automatic at sunset</item>
-        <item>Use System Design</item>
-    </string-array>
 
     <string name="pref_title_browser_settings">Nettleser</string>
     <string name="pref_title_custom_tabs">Bruke Chrome tilpassede faner</string>
@@ -220,20 +213,8 @@
     <string name="pref_title_proxy_settings">Proxy</string>
     <string name="pref_title_http_proxy_settings">HTTP-proxy</string>
     <string name="pref_title_http_proxy_enable">Skru på HTTP-proxy</string>
-    <string name="pref_title_http_proxy_server">HTTP-proxyserver</string>
-    <string name="pref_title_http_proxy_port">HTTP-proxyport</string>
-
-    <string-array name="post_privacy_names">
-        <item>Public</item>
-        <item>Unlisted</item>
-        <item>Followers-only</item>
-    </string-array>
-
-    <string-array name="media_display_names">
-        <item>Hide media marked as sensitive</item>
-        <item>Always show media marked as sensitive</item>
-        <item>Always hide all media</item>
-    </string-array>
+    <string name="pref_title_http_proxy_server">Serveradresse</string>
+    <string name="pref_title_http_proxy_port">Serverport</string>
     <!-- note to translators:
          * you should think of “free” as in “free speech,” not as in “free beer”.
            We sometimes call it “libre software,” borrowing the French or Spanish word for “free” as in freedom,
@@ -246,10 +227,10 @@
     <string name="description_status"> <!-- Display name, cw\?, content\?, relative date, reposted by\?, reposted\?, favorited\?, username, media\?; visibility, fav number\?, reblog number\?--> %1$s; %2$s; %3$s, %4$s, %5$s; %6$s, %7$s, %8$s, %9$s; %10$s, %11$s, %12$s </string>
 
 <string name="pref_default_media_sensitivity">Marker alltid media som sensitivt</string>
-    <string name="pref_publishing">Publiserer (synkronisert med server)</string>
+    <string name="pref_publishing">Publisering (synkronisert med server)</string>
     <string name="pref_failed_to_sync">Synkronisering av innstillinger feilet</string>
 
-    <string name="pref_status_text_size">Størrelse på statustekst</string>
+    <string name="pref_status_text_size">Tekststørrelse</string>
 
     <string name="pref_media_display">Mediavisning</string>
 
@@ -268,11 +249,12 @@
     <string name="description_account_locked">Låst konto</string>
 
     <string name="about_title_activity">Om</string>
-    <string name="about_bug_feature_request_site">Feilrapporter og funksjonalitetsønsker:
+    <string name="about_bug_feature_request_site">Rapporter feil og ønsker om funksjonalitet her:
 \n https://github.com/tuskyapp/Tusky/issues</string>
+    <string name="about_tusky_account">Tuskys Mastodon-profil</string>
 
     <string name="status_share_content">Del inneholdet i tootet</string>
-    <string name="status_share_link">Del link til toot</string>
+    <string name="status_share_link">Del link til tootet</string>
     <string name="status_media_images">Bilder</string>
     <string name="status_media_video">Video</string>
 
@@ -300,7 +282,7 @@
     <string name="pref_title_thread_filter_keywords">Samtaler</string>
     <string name="filter_addition_dialog_title">Legg til filter</string>
     <string name="filter_edit_dialog_title">Endre filter</string>
-    <string name="filter_dialog_remove_button">Fjern</string>
+    <string name="filter_dialog_remove_button">Slett</string>
     <string name="filter_dialog_update_button">Oppdater</string>
     <string name="filter_add_description">Frase å filtere</string>
 
@@ -319,12 +301,13 @@
     <string name="action_edit_list">Endre listen</string>
     <string name="hint_search_people_list">Søk etter personer du følger</string>
     <string name="action_add_to_list">Legg til konto i listen</string>
-    <string name="action_remove_from_list">Fjern konto fra listen</string>
+    <string name="action_remove_from_list">Slett konto fra listen</string>
 
-    <string name="pref_default_post_privacy">Standard proxy-personvern</string>
+    <string name="pref_default_post_privacy">Standard synlighet for toots</string>
     <string name="notification_channel_mention_name">Nye omtaler</string>
     <string name="notification_channel_mention_descriptions">Varsler om nye omtaler</string>
-    <string name="about_project_site">Nettside for prosjektet:
+    <string name="about_tusky_license">Tusky er fri og åpen kildekode. Applikasjonen er lisensiert under GNU General Public License versjon 3. Du kan se lisensen her: https://www.gnu.org/licenses/gpl-3.0.en.html</string>
+    <string name="about_project_site">Hjemmeside:
 \n https://tusky.app</string>
     <string name="abbreviated_in_years">om %dy</string>
     <string name="compose_active_account_description">Poster med konto %1$s</string>
@@ -333,7 +316,7 @@
     <string name="hint_describe_for_visually_impaired">Beskriv for de med nedsatt synsevne
 \n(maks %d tegn)</string>
     <string name="action_set_caption">Sett bildetekst</string>
-    <string name="action_remove_media">Fjern</string>
+    <string name="action_remove_media">Slett</string>
     <string name="lock_account_label">Lås konto</string>
     <string name="lock_account_label_description">Krever at du manuelt godkjenner nye følgere</string>
     <string name="compose_save_draft">Lagre kladd\?</string>
@@ -348,7 +331,7 @@
     <string name="copy_to_clipboard_success">Kopiert til utklippstavlen</string>
     <string name="emoji_style">Emoji-stil</string>
     <string name="system_default">Systemstandard</string>
-    <string name="download_fonts">Du må laste ned disse emoji-samlingene først</string>
+    <string name="download_fonts">Du må laste ned emoji-samlingene før de kan brukes</string>
     <string name="performing_lookup_title">Gjennomfører oppslag…</string>
     <string name="expand_collapse_all_statuses">Utvid/kollaps alle statuser</string>
     <string name="action_open_toot">Åpne toot</string>
@@ -373,7 +356,7 @@
     <string name="license_cc_by_sa_4">CC-BY-SA 4.0</string>
 
     <string name="profile_metadata_label">Profilmetadata</string>
-    <string name="profile_metadata_add">legg til data</string>
+    <string name="profile_metadata_add">legg til profilmetadata</string>
     <string name="profile_metadata_label_label">Ledetekst</string>
     <string name="profile_metadata_content_label">Innhold</string>
 
@@ -417,7 +400,7 @@
     <string name="edit_hashtag_title">Endre emneord</string>
     <string name="edit_hashtag_hint">Emneord uten #</string>
     <string name="hashtag">Emneord</string>
-    <string name="notifications_clear">Fjern</string>
+    <string name="notifications_clear">Slett</string>
     <string name="notifications_apply_filter">Filter</string>
     <string name="filter_favorites">\@string/notification_channel_favourite_name</string>
     <string name="filter_boosts">\@string/notification_channel_boost_name</string>
@@ -427,8 +410,29 @@
 
     <string name="compose_shortcut_long_label">Skriv Toot</string>
     <string name="compose_shortcut_short_label">Skriv</string>
-    <string name="pref_title_bot_overlay">Vis at konto er en robot</string>
+    <string name="pref_title_bot_overlay">Marker robotkontoer</string>
 
     <string name="notification_clear_text">Er du sikker på at du vil slette alle varsler\?</string>
+
+<string name="action_delete_and_redraft">Slett og skriv på nytt</string>
+    <string name="dialog_redraft_toot_warning">Vil du slette dette tottet og skrive det på nytt\?</string>
+
+    <string name="timespan_days">%d dager</string>
+    <string name="timespan_hours">%d timer</string>
+    <string name="timespan_minutes">%d minutter</string>
+    <string name="timespan_seconds">%d sekunder</string>
+
+    <string name="poll_info_format"> <!-- 15 votes • 1 hour left --> %1$s • %2$s</string>
+    <plurals name="poll_info_votes">
+	<item quantity="one">%s stemme</item>
+	<item quantity="other">%s stemmer</item>
+</plurals>
+    <string name="poll_info_time_relative">%s igjen</string>
+    <string name="poll_info_time_absolute">avsluttes %s</string>
+    <string name="poll_info_closed">stengt</string>
+    <string name="poll_option_format"> <!-- 15% vote for this! --> &lt;b&gt;%1$d%%&lt;/b&gt; %2$s</string>
+
+    <string name="poll_vote">Stem</string>
+
 
 </resources>

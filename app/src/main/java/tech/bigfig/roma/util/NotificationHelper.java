@@ -251,7 +251,6 @@ public class NotificationHelper {
 
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
 
-        //noinspection ConstantConditions
         notificationManager.notify(notificationId, builder.build());
         if (currentNotifications.length() == 1) {
             notificationManager.notify((int) account.getId(), builder.setGroupSummary(true).build());
@@ -382,7 +381,6 @@ public class NotificationHelper {
                 channels.add(channel);
             }
 
-            //noinspection ConstantConditions
             notificationManager.createNotificationChannels(channels);
 
         }

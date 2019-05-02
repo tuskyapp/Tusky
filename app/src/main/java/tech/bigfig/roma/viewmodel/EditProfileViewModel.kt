@@ -31,6 +31,8 @@ import tech.bigfig.roma.entity.StringField
 import tech.bigfig.roma.network.MastodonApi
 import tech.bigfig.roma.util.*
 import io.reactivex.Single
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.rxkotlin.addTo
 import io.reactivex.schedulers.Schedulers
 import okhttp3.MediaType
 import okhttp3.MultipartBody
@@ -63,32 +65,24 @@ class EditProfileViewModel  @Inject constructor(
 
     private var oldProfileData: Account? = null
 
-    private val callList: MutableList<Call<*>> = mutableListOf()
+    private val disposeables = CompositeDisposable()
 
     fun obtainProfile() {
         if(profileData.value == null || profileData.value is Error) {
 
             profileData.postValue(Loading())
 
-            val call = mastodonApi.accountVerifyCredentials()
-            call.enqueue(object : Callback<Account> {
-                override fun onResponse(call: Call<Account>,
-                                        response: Response<Account>) {
-                    if (response.isSuccessful) {
-                        val profile = response.body()
-                        oldProfileData = profile
-                        profileData.postValue(Success(profile))
-                    } else {
-                        profileData.postValue(Error())
-                    }
-                }
+            mastodonApi.accountVerifyCredentials()
+                    .subscribe(
+                            {profile ->
+                                oldProfileData = profile
+                                profileData.postValue(Success(profile))
+                            },
+                            {
+                                profileData.postValue(Error())
+                            })
+                    .addTo(disposeables)
 
-                override fun onFailure(call: Call<Account>, t: Throwable) {
-                    profileData.postValue(Error())
-                }
-            })
-
-            callList.add(call)
         }
     }
 
@@ -138,6 +132,7 @@ class EditProfileViewModel  @Inject constructor(
                 }, {
                     imageLiveData.postValue(Error())
                 })
+                .addTo(disposeables)
     }
 
     fun save(newDisplayName: String, newNote: String, newLocked: Boolean, newFields: List<StringField>, context: Context) {
@@ -267,9 +262,7 @@ class EditProfileViewModel  @Inject constructor(
     }
 
     override fun onCleared() {
-        callList.forEach {
-            it.cancel()
-        }
+        disposeables.dispose()
     }
 
 

@@ -43,6 +43,7 @@ public class AccountPagerAdapter extends FragmentPagerAdapter {
         pageTitles = titles;
     }
 
+    @NonNull
     @Override
     public Fragment getItem(int position) {
         switch (position) {

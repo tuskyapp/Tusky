@@ -27,7 +27,6 @@ import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.Color
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
 import android.os.Environment
 import androidx.core.content.FileProvider
@@ -116,7 +115,7 @@ class ViewMediaActivity : BaseActivity(), ViewImageFragment.PhotoActionsListener
         val initialPosition = intent.getIntExtra(EXTRA_ATTACHMENT_INDEX, 0)
 
         val adapter = if (attachments != null) {
-            val realAttachs = map(attachments, AttachmentViewData::attachment)
+            val realAttachs = attachments!!.map(AttachmentViewData::attachment)
             // Setup the view pager.
             ImagePagerAdapter(supportFragmentManager, realAttachs, initialPosition)
 
@@ -218,7 +217,7 @@ class ViewMediaActivity : BaseActivity(), ViewImageFragment.PhotoActionsListener
     }
 
     private fun requestDownloadMedia() {
-        requestPermissions(arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), Build.VERSION_CODES.M) { _, grantResults ->
+        requestPermissions(arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE)) { _, grantResults ->
             if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 downloadMedia()
             } else {

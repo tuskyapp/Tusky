@@ -78,7 +78,7 @@ ext.daggerVersion = '2.22.1'
 
 // if libraries are changed here, they should also be changed in LicenseActivity
 dependencies {
-    implementation('com.mikepenz:materialdrawer:6.1.1@aar') {
+    implementation('com.mikepenz:materialdrawer:6.1.2@aar') {
         transitive = true
     }
     implementation 'androidx.core:core:1.0.1'
@@ -93,8 +93,8 @@ dependencies {
     implementation 'com.squareup.retrofit2:retrofit:2.5.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.5.0'
     implementation 'com.squareup.retrofit2:adapter-rxjava2:2.5.0'
-    implementation 'com.squareup.okhttp3:okhttp:3.14.0'
-    implementation 'com.squareup.okhttp3:logging-interceptor:3.14.0'
+    implementation 'com.squareup.okhttp3:okhttp:3.14.1'
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.14.1'
     implementation 'org.conscrypt:conscrypt-android:2.1.0'
     implementation 'com.github.connyduck:sparkbutton:2.0.0'
     implementation 'com.github.chrisbanes:PhotoView:2.3.0'
@@ -121,12 +121,13 @@ dependencies {
     implementation "com.google.dagger:dagger-android-support:$daggerVersion"
     kapt "com.google.dagger:dagger-android-processor:$daggerVersion"
     testImplementation 'org.robolectric:robolectric:4.2.1'
-    testImplementation 'org.mockito:mockito-inline:2.26.0'
+    testImplementation 'org.mockito:mockito-inline:2.27.0'
     testImplementation 'com.nhaarman.mockitokotlin2:mockito-kotlin:2.1.0'
     androidTestImplementation('androidx.test.espresso:espresso-core:3.1.1', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     androidTestImplementation 'android.arch.persistence.room:testing:1.1.1'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.0'
     testImplementation 'androidx.test.ext:junit:1.1.0'
     debugImplementation 'im.dino:dbinspector:3.4.1@aar'
     implementation 'io.reactivex.rxjava2:rxjava:2.2.8'
@@ -139,7 +140,6 @@ dependencies {
 
     //Glide
     implementation 'com.github.bumptech.glide:glide:4.9.0'
-    annotationProcessor 'com.github.bumptech.glide:compiler:4.9.0'
     implementation 'com.github.bumptech.glide:okhttp3-integration:4.9.0'
 
     //Crashlytics

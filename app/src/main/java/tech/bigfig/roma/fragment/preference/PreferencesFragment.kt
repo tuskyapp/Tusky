@@ -68,6 +68,11 @@ class PreferencesFragment : PreferenceFragmentCompat() {
 
         val languagePreference: Preference = requirePreference("language")
         languagePreference.icon = IconicsDrawable(languagePreference.context, GoogleMaterial.Icon.gmd_translate).sizePx(iconSize).color(ThemeUtils.getColor(languagePreference.context, R.attr.toolbar_icon_tint))
+
+        val botIndicatorPreference = requirePreference("showBotOverlay")
+        val botDrawable = botIndicatorPreference.context.getDrawable(R.drawable.ic_bot_24dp)
+        ThemeUtils.setDrawableTint(context, botDrawable, R.attr.toolbar_icon_tint)
+        botIndicatorPreference.icon = botDrawable
     }
 
     override fun onResume() {

@@ -105,6 +105,8 @@ public class ConversationViewHolder extends StatusBaseViewHolder {
 
         setAvatars(conversation.getAccounts());
 
+        setupPoll(status.getPoll(), status.getEmojis(), listener);
+
     }
 
     private void setConversationName(List<ConversationAccountEntity> accounts) {

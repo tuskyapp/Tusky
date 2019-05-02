@@ -394,6 +394,33 @@ public final class ViewThreadFragment extends SFragment implements
         adapter.setStatuses(statuses.getPairedCopy());
     }
 
+    public void onVoteInPoll(int position, @NonNull List<Integer> choices) {
+        final Status status = statuses.get(position).getActionableStatus();
+
+        setVoteForPoll(position, status.getPoll().votedCopy(choices));
+
+        timelineCases.voteInPoll(status, choices)
+                .observeOn(AndroidSchedulers.mainThread())
+                .as(autoDisposable(from(this)))
+                .subscribe(
+                        (newPoll) -> setVoteForPoll(position, newPoll),
+                        (t) -> Log.d(TAG,
+                                "Failed to vote in poll: " + status.getId(), t)
+                );
+
+    }
+
+    private void setVoteForPoll(int position, Poll newPoll) {
+
+        StatusViewData.Concrete viewData = statuses.getPairedItem(position);
+
+        StatusViewData.Concrete newViewData = new StatusViewData.Builder(viewData)
+                .setPoll(newPoll)
+                .createStatusViewData();
+        statuses.setPairedItem(position, newViewData);
+        adapter.setItem(position, newViewData, true);
+    }
+
     private void removeAllByAccountId(String accountId) {
         Status status = null;
         if (!statuses.isEmpty()) {

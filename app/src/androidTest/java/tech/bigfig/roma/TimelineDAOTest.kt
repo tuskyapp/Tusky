@@ -124,6 +124,42 @@ class TimelineDAOTest {
         )
     }
 
+    @Test
+    fun overwriteDeletedStatus() {
+
+        val oldStatuses = listOf(
+                makeStatus(statusId = 3),
+                makeStatus(statusId = 2),
+                makeStatus(statusId = 1)
+        )
+
+        timelineDao.deleteRange(1, oldStatuses.last().first.serverId, oldStatuses.first().first.serverId)
+
+        for ((status, author, reblogAuthor) in oldStatuses) {
+            timelineDao.insertInTransaction(status, author, reblogAuthor)
+        }
+
+        // status 2 gets deleted, newly loaded status contain only 1 + 3
+        val newStatuses = listOf(
+                makeStatus(statusId = 3),
+                makeStatus(statusId = 1)
+        )
+
+        timelineDao.deleteRange(1, newStatuses.last().first.serverId, newStatuses.first().first.serverId)
+
+        for ((status, author, reblogAuthor) in newStatuses) {
+            timelineDao.insertInTransaction(status, author, reblogAuthor)
+        }
+
+        //make sure status 2 is no longer in db
+
+        assertEquals(
+                newStatuses,
+                timelineDao.getStatusesForAccount(1, null, null, 100).blockingGet()
+                        .map { it.toTriple() }
+        )
+    }
+
     private fun makeStatus(
             accountId: Long = 1,
             statusId: Long = 10,
@@ -178,7 +214,8 @@ class TimelineDAOTest {
                 mentions = "mentions$accountId",
                 application = "application$accountId",
                 reblogServerId = if (reblog) (statusId * 100).toString() else null,
-                reblogAccountId = reblogAuthor?.serverId
+                reblogAccountId = reblogAuthor?.serverId,
+                poll = null
         )
         return Triple(status, author, reblogAuthor)
     }
@@ -205,8 +242,8 @@ class TimelineDAOTest {
                 mentions = null,
                 application = null,
                 reblogServerId = null,
-                reblogAccountId = null
-
+                reblogAccountId = null,
+                poll = null
         )
     }
 

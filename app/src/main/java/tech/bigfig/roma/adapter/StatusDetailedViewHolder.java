@@ -43,8 +43,8 @@ class StatusDetailedViewHolder extends StatusBaseViewHolder {
     private TextView cardUrl;
     private View infoDivider;
 
-    StatusDetailedViewHolder(View view) {
-        super(view, false);
+    StatusDetailedViewHolder(View view, boolean useAbsoluteTime) {
+        super(view, useAbsoluteTime);
         reblogs = view.findViewById(R.id.status_reblogs);
         favourites = view.findViewById(R.id.status_favourites);
         cardView = view.findViewById(R.id.card_view);
@@ -127,8 +127,8 @@ class StatusDetailedViewHolder extends StatusBaseViewHolder {
     @Override
     protected void setupWithStatus(final StatusViewData.Concrete status, final StatusActionListener listener,
                                    boolean mediaPreviewEnabled, @Nullable Object payloads) {
-        super.setupWithStatus(status, listener, mediaPreviewEnabled,payloads);
-        if (payloads==null) {
+        super.setupWithStatus(status, listener, mediaPreviewEnabled, payloads);
+        if (payloads == null) {
             setReblogAndFavCount(status.getReblogsCount(), status.getFavouritesCount(), listener);
 
             setApplication(status.getApplication());

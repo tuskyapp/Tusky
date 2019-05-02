@@ -335,6 +335,195 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+
+    <TextView
+        android:id="@+id/status_poll_option_result_0"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:background="@drawable/poll_option_background"
+        android:ellipsize="end"
+        android:lines="1"
+        android:paddingStart="8dp"
+        android:paddingTop="4dp"
+        android:paddingEnd="8dp"
+        android:paddingBottom="4dp"
+        android:textColor="?android:attr/textColorPrimary"
+        android:textSize="?attr/status_text_medium"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/status_media_preview_container"
+        tools:text="40%" />
+
+    <TextView
+        android:id="@+id/status_poll_option_result_1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:background="@drawable/poll_option_background"
+        android:ellipsize="end"
+        android:lines="1"
+        android:paddingStart="8dp"
+        android:paddingTop="4dp"
+        android:paddingEnd="8dp"
+        android:paddingBottom="4dp"
+        android:textColor="?android:attr/textColorPrimary"
+        android:textSize="?attr/status_text_medium"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/status_poll_option_result_0"
+        tools:text="10%" />
+
+    <TextView
+        android:id="@+id/status_poll_option_result_2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:background="@drawable/poll_option_background"
+        android:ellipsize="end"
+        android:lines="1"
+        android:paddingStart="8dp"
+        android:paddingTop="4dp"
+        android:paddingEnd="8dp"
+        android:paddingBottom="4dp"
+        android:textColor="?android:attr/textColorPrimary"
+        android:textSize="?attr/status_text_medium"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/status_poll_option_result_1"
+        tools:text="20%" />
+
+    <TextView
+        android:id="@+id/status_poll_option_result_3"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:background="@drawable/poll_option_background"
+        android:ellipsize="end"
+        android:lines="1"
+        android:paddingStart="8dp"
+        android:paddingTop="4dp"
+        android:paddingEnd="8dp"
+        android:paddingBottom="4dp"
+        android:textColor="?android:attr/textColorPrimary"
+        android:textSize="?attr/status_text_medium"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/status_poll_option_result_2"
+        tools:text="30%" />
+
+    <RadioGroup
+        android:id="@+id/status_poll_radio_group"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/status_poll_option_result_3">
+
+        <RadioButton
+            android:id="@+id/status_poll_radio_button_0"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="?attr/status_text_medium"
+            tools:text="Option 1" />
+
+        <RadioButton
+            android:id="@+id/status_poll_radio_button_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="?attr/status_text_medium"
+            tools:text="Option 2" />
+
+        <RadioButton
+            android:id="@+id/status_poll_radio_button_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="?attr/status_text_medium"
+            tools:text="Option 3" />
+
+        <RadioButton
+            android:id="@+id/status_poll_radio_button_3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="?attr/status_text_medium"
+            tools:text="Option 4" />
+    </RadioGroup>
+
+    <CheckBox
+        android:id="@+id/status_poll_checkbox_0"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:lines="1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/status_poll_radio_group"
+        tools:text="Option 1" />
+
+    <CheckBox
+        android:id="@+id/status_poll_checkbox_1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:lines="1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/status_poll_checkbox_0"
+        tools:text="Option 1" />
+
+    <CheckBox
+        android:id="@+id/status_poll_checkbox_2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:lines="1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/status_poll_checkbox_1"
+        tools:text="Option 1" />
+
+    <CheckBox
+        android:id="@+id/status_poll_checkbox_3"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:lines="1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/status_poll_checkbox_2"
+        tools:text="Option 1" />
+
+    <!-- using AppCompatButton because we don't want the inflater to turn it into a MaterialButton -->
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/status_poll_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:background="?attr/content_warning_button"
+        android:gravity="center"
+        android:minWidth="150dp"
+        android:minHeight="0dp"
+        android:paddingLeft="16dp"
+        android:paddingTop="4dp"
+        android:paddingRight="16dp"
+        android:paddingBottom="4dp"
+        android:text="@string/poll_vote"
+        android:textSize="?attr/status_text_medium"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/status_poll_checkbox_3" />
+
+    <TextView
+        android:id="@+id/status_poll_description"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:textSize="?attr/status_text_medium"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/status_poll_button"
+        tools:text="7 votes • 7 hours remaining" />
+
     <TextView
         android:id="@+id/status_timestamp_info"
         android:layout_width="0dp"
@@ -346,7 +535,7 @@
         android:textSize="?attr/status_text_medium"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/status_media_preview_container"
+        app:layout_constraintTop_toBottomOf="@id/status_poll_description"
         tools:text="21 Dec 2018 18:45" />
 
     <View
@@ -355,8 +544,8 @@
         android:layout_height="1dp"
         android:layout_below="@id/status_timestamp_info"
         android:layout_marginTop="6dp"
-        android:importantForAccessibility="no"
         android:background="?android:attr/listDivider"
+        android:importantForAccessibility="no"
         android:paddingStart="16dp"
         android:paddingEnd="16dp"
         app:layout_constraintTop_toBottomOf="@id/status_timestamp_info" />
@@ -403,8 +592,8 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_marginTop="6dp"
-        android:importantForAccessibility="no"
         android:background="?android:attr/listDivider"
+        android:importantForAccessibility="no"
         android:paddingStart="16dp"
         android:paddingEnd="16dp"
         app:layout_constraintTop_toBottomOf="@id/status_counters_barrier" />

@@ -54,7 +54,7 @@ internal class ListsViewModel @Inject constructor(private val api: MastodonApi) 
 
     private fun loadIfNeeded() {
         val state = _state.value!!
-        if (state.loadingState == LoadingState.LOADING || !state.lists.isEmpty()) return
+        if (state.loadingState == LoadingState.LOADING || state.lists.isNotEmpty()) return
         updateState {
             copy(loadingState = LoadingState.LOADING)
         }

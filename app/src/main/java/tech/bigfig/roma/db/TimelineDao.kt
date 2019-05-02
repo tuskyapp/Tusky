@@ -14,7 +14,6 @@ abstract class TimelineDao {
     @Insert(onConflict = REPLACE)
     abstract fun insertAccount(timelineAccountEntity: TimelineAccountEntity): Long
 
-
     @Insert(onConflict = REPLACE)
     abstract fun insertStatus(timelineAccountEntity: TimelineStatusEntity): Long
 
@@ -27,7 +26,7 @@ SELECT s.serverId, s.url, s.timelineUserId,
 s.authorServerId, s.inReplyToId, s.inReplyToAccountId, s.createdAt,
 s.emojis, s.reblogsCount, s.favouritesCount, s.reblogged, s.favourited, s.sensitive,
 s.spoilerText, s.visibility, s.mentions, s.application, s.reblogServerId,s.reblogAccountId,
-s.content, s.attachments,
+s.content, s.attachments, s.poll,
 a.serverId as 'a_serverId', a.timelineUserId as 'a_timelineUserId',
 a.localUsername as 'a_localUsername', a.username as 'a_username',
 a.displayName as 'a_displayName', a.url as 'a_url', a.avatar as 'a_avatar', a.emojis as 'a_emojis',
@@ -58,13 +57,20 @@ LIMIT :limit""")
         insertStatus(status)
     }
 
+    @Query("""DELETE FROM TimelineStatusEntity WHERE timelineUserId = :accountId AND
+        (LENGTH(serverId) < LENGTH(:maxId) OR LENGTH(serverId) == LENGTH(:maxId) AND serverId < :maxId)
+AND
+(LENGTH(serverId) > LENGTH(:minId) OR LENGTH(serverId) == LENGTH(:minId) AND serverId > :minId)
+    """)
+    abstract fun deleteRange(accountId: Long, minId: String, maxId: String)
+
     @Query("""DELETE FROM TimelineStatusEntity WHERE authorServerId = null
-AND timelineUserId = :acccount AND
+AND timelineUserId = :account AND
 (LENGTH(serverId) < LENGTH(:maxId) OR LENGTH(serverId) == LENGTH(:maxId) AND serverId < :maxId)
 AND
 (LENGTH(serverId) > LENGTH(:sinceId) OR LENGTH(serverId) == LENGTH(:sinceId) AND serverId > :sinceId)
 """)
-    abstract fun removeAllPlaceholdersBetween(acccount: Long, maxId: String, sinceId: String)
+    abstract fun removeAllPlaceholdersBetween(account: Long, maxId: String, sinceId: String)
 
     @Query("""UPDATE TimelineStatusEntity SET favourited = :favourited
 WHERE timelineUserId = :accountId AND (serverId = :statusId OR reblogServerId - :statusId)""")

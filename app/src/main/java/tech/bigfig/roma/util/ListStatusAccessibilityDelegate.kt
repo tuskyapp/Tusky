@@ -61,7 +61,8 @@ class ListStatusAccessibilityDelegate(
                         R.id.action_open_media_2,
                         R.id.action_open_media_3,
                         R.id.action_open_media_4)
-                for (i in 0 until status.attachments.size) {
+                val attachmentCount = min(status.attachments.size, MAX_MEDIA_ATTACHMENTS)
+                for (i in 0 until attachmentCount) {
                     info.addAction(AccessibilityActionCompat(
                             mediaActions[i],
                             context.getString(R.string.action_open_media_n, i + 1)))

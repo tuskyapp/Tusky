@@ -4,19 +4,20 @@ import android.text.SpannedString
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import tech.bigfig.roma.db.*
-import tech.bigfig.roma.entity.Account
-import tech.bigfig.roma.entity.Attachment
-import tech.bigfig.roma.entity.Emoji
+import tech.bigfig.roma.entity.*
 import tech.bigfig.roma.entity.Status
 import tech.bigfig.roma.network.MastodonApi
 import tech.bigfig.roma.repository.TimelineRequestMode.DISK
 import tech.bigfig.roma.repository.TimelineRequestMode.NETWORK
-import tech.bigfig.roma.util.*
+import tech.bigfig.roma.util.Either
+import tech.bigfig.roma.util.HtmlConverter
+import tech.bigfig.roma.util.dec
 import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
 import java.io.IOException
 import java.util.*
 import java.util.concurrent.TimeUnit
+import kotlin.collections.ArrayList
 
 data class Placeholder(val id: String)
 
@@ -142,6 +143,11 @@ class TimelineRepositoryImpl(
         }
 
         Single.fromCallable {
+
+            if(statuses.isNotEmpty()) {
+                timelineDao.deleteRange(accountId, statuses.last().id, statuses.first().id)
+            }
+
             for (status in statuses) {
                 timelineDao.insertInTransaction(
                         status.toEntity(accountId, htmlConverter, gson),
@@ -191,13 +197,14 @@ class TimelineRepositoryImpl(
             return Either.Left(Placeholder(this.status.serverId))
         }
 
-        val attachments: List<Attachment> = gson.fromJson(status.attachments,
-                object : TypeToken<List<Attachment>>() {}.type) ?: listOf()
+        val attachments: ArrayList<Attachment> = gson.fromJson(status.attachments,
+                object : TypeToken<List<Attachment>>() {}.type) ?: ArrayList()
         val mentions: Array<Status.Mention> = gson.fromJson(status.mentions,
                 Array<Status.Mention>::class.java) ?: arrayOf()
         val application = gson.fromJson(status.application, Status.Application::class.java)
         val emojis: List<Emoji> = gson.fromJson(status.emojis,
                 object : TypeToken<List<Emoji>>() {}.type) ?: listOf()
+        val poll: Poll? = gson.fromJson(status.poll, Poll::class.java)
 
         val reblog = status.reblogServerId?.let { id ->
             Status(
@@ -220,8 +227,8 @@ class TimelineRepositoryImpl(
                     attachments = attachments,
                     mentions = mentions,
                     application = application,
-                    pinned = false
-
+                    pinned = false,
+                    poll = poll
             )
         }
         val status = if (reblog != null) {
@@ -242,10 +249,11 @@ class TimelineRepositoryImpl(
                     sensitive = false,
                     spoilerText = "",
                     visibility = status.visibility!!,
-                    attachments = listOf(),
+                    attachments = ArrayList(),
                     mentions = arrayOf(),
                     application = null,
-                    pinned = false
+                    pinned = false,
+                    poll = null
             )
         } else {
             Status(
@@ -268,7 +276,8 @@ class TimelineRepositoryImpl(
                     attachments = attachments,
                     mentions = mentions,
                     application = application,
-                    pinned = false
+                    pinned = false,
+                    poll = poll
             )
         }
         return Either.Right(status)
@@ -335,8 +344,8 @@ fun Placeholder.toEntity(timelineUserId: Long): TimelineStatusEntity {
             mentions = null,
             application = null,
             reblogServerId = null,
-            reblogAccountId = null
-
+            reblogAccountId = null,
+            poll = null
     )
 }
 
@@ -365,7 +374,8 @@ fun Status.toEntity(timelineUserId: Long,
             mentions = actionable.mentions.let(gson::toJson),
             application = actionable.let(gson::toJson),
             reblogServerId = reblog?.id,
-            reblogAccountId = reblog?.let { this.account.id }
+            reblogAccountId = reblog?.let { this.account.id },
+            poll = actionable.poll.let(gson::toJson)
     )
 }
 

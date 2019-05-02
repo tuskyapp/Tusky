@@ -18,9 +18,11 @@ package tech.bigfig.roma.components.conversation
 import android.content.Intent
 import android.os.Bundle
 import android.preference.PreferenceManager
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.paging.PagedList
@@ -186,6 +188,10 @@ class ConversationsFragment : SFragment(), StatusActionListener, Injectable, Res
 
     override fun onReselect() {
         jumpToTop()
+    }
+
+    override fun onVoteInPoll(position: Int, choices: MutableList<Int>) {
+        viewModel.voteInPoll(position, choices)
     }
 
     companion object {
