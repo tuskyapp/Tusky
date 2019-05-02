@@ -56,12 +56,12 @@ class AccountFieldEditAdapter : RecyclerView.Adapter<AccountFieldEditAdapter.Vie
 
     override fun getItemCount(): Int = fieldData.size
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AccountFieldEditAdapter.ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_edit_field, parent, false)
         return ViewHolder(view)
     }
 
-    override fun onBindViewHolder(viewHolder: AccountFieldEditAdapter.ViewHolder, position: Int) {
+    override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
         viewHolder.nameTextView.setText(fieldData[position].first)
         viewHolder.valueTextView.setText(fieldData[position].second)
 

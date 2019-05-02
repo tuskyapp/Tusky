@@ -45,9 +45,11 @@
         <item>Italiano</item>
         <item>Magyar</item>
         <item>Nederlands</item>
+        <item>Norsk</item>
         <item>Occitan</item>
         <item>Polski</item>
         <item>Português (Brasil)</item>
+        <item>Slovenščina</item>
         <item>Svenska</item>
         <item>Türkçe</item>
         <item>Русский</item>
@@ -77,9 +79,11 @@
         <item>it</item>
         <item>hu</item>
         <item>nl</item>
+        <item>no-nb</item>
         <item>oc</item>
         <item>pl</item>
         <item>pt-BR</item>
+        <item>sl</item>
         <item>sv</item>
         <item>tr</item>
         <item>ru</item>

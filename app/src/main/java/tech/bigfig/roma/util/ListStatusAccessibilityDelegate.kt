@@ -16,8 +16,10 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerViewAccessibilityDelegate
 import tech.bigfig.roma.R
 import tech.bigfig.roma.adapter.StatusBaseViewHolder
+import tech.bigfig.roma.entity.Status.Companion.MAX_MEDIA_ATTACHMENTS
 import tech.bigfig.roma.interfaces.StatusActionListener
 import tech.bigfig.roma.viewdata.StatusViewData
+import java.lang.Integer.min
 
 
 // Not using lambdas because there's boxing of int then
@@ -61,7 +63,8 @@ class ListStatusAccessibilityDelegate(
                         R.id.action_open_media_2,
                         R.id.action_open_media_3,
                         R.id.action_open_media_4)
-                for (i in 0 until status.attachments.size) {
+                val attachmentCount = min(status.attachments.size, MAX_MEDIA_ATTACHMENTS)
+                for (i in 0 until attachmentCount) {
                     info.addAction(AccessibilityActionCompat(
                             mediaActions[i],
                             context.getString(R.string.action_open_media_n, i + 1)))

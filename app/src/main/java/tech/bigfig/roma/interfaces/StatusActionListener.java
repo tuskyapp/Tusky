@@ -17,6 +17,8 @@ package tech.bigfig.roma.interfaces;
 
 import android.view.View;
 
+import java.util.List;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
@@ -57,5 +59,7 @@ public interface StatusActionListener extends LinkListener {
      * @param position The position of the status in the list.
      */
     default void onShowFavs(int position) {}
+
+    void onVoteInPoll(int position, @NonNull List<Integer> choices);
 
 }

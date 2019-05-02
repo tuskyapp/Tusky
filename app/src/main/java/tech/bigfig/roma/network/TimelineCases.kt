@@ -25,6 +25,8 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import tech.bigfig.roma.appstore.*
+import tech.bigfig.roma.entity.Poll
+import java.lang.IllegalStateException
 
 /**
  * Created by charlag on 3/24/18.
@@ -37,6 +39,8 @@ interface TimelineCases {
     fun block(id: String)
     fun delete(id: String)
     fun pin(status: Status, pin: Boolean)
+    fun voteInPoll(status: Status, choices: List<Int>): Single<Poll>
+
 }
 
 class TimelineCasesImpl(
@@ -89,7 +93,7 @@ class TimelineCasesImpl(
     override fun block(id: String) {
         val call = mastodonApi.blockAccount(id)
         call.enqueue(object : Callback<Relationship> {
-            override fun onResponse(call: Call<Relationship>, response: retrofit2.Response<Relationship>) {}
+            override fun onResponse(call: Call<Relationship>, response: Response<Relationship>) {}
 
             override fun onFailure(call: Call<Relationship>, t: Throwable) {}
         })
@@ -100,7 +104,7 @@ class TimelineCasesImpl(
     override fun delete(id: String) {
         val call = mastodonApi.deleteStatus(id)
         call.enqueue(object : Callback<ResponseBody> {
-            override fun onResponse(call: Call<ResponseBody>, response: retrofit2.Response<ResponseBody>) {}
+            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {}
 
             override fun onFailure(call: Call<ResponseBody>, t: Throwable) {}
         })
@@ -114,6 +118,18 @@ class TimelineCasesImpl(
                     status.pinned = updatedStatus.pinned
                 }, {})
                 .addTo(this.cancelDisposable)
+    }
+
+    override fun voteInPoll(status: Status, choices: List<Int>): Single<Poll> {
+        val pollId = status.actionableStatus.poll?.id
+
+        if(pollId == null || choices.isEmpty()) {
+            return Single.error(IllegalStateException())
+        }
+
+        return mastodonApi.voteInPoll(pollId, choices).doAfterSuccess {
+            eventHub.dispatch(PollVoteEvent(status.id, it))
+        }
     }
 
 }

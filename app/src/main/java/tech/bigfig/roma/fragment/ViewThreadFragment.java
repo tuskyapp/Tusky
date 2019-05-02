@@ -42,6 +42,7 @@ import tech.bigfig.roma.appstore.StatusComposedEvent;
 import tech.bigfig.roma.appstore.StatusDeletedEvent;
 import tech.bigfig.roma.di.Injectable;
 import tech.bigfig.roma.entity.Card;
+import tech.bigfig.roma.entity.Poll;
 import tech.bigfig.roma.entity.Status;
 import tech.bigfig.roma.entity.StatusContext;
 import tech.bigfig.roma.interfaces.StatusActionListener;
@@ -392,6 +393,33 @@ public final class ViewThreadFragment extends SFragment implements
         }
         statuses.remove(position);
         adapter.setStatuses(statuses.getPairedCopy());
+    }
+
+    public void onVoteInPoll(int position, @NonNull List<Integer> choices) {
+        final Status status = statuses.get(position).getActionableStatus();
+
+        setVoteForPoll(position, status.getPoll().votedCopy(choices));
+
+        timelineCases.voteInPoll(status, choices)
+                .observeOn(AndroidSchedulers.mainThread())
+                .as(autoDisposable(from(this)))
+                .subscribe(
+                        (newPoll) -> setVoteForPoll(position, newPoll),
+                        (t) -> Log.d(TAG,
+                                "Failed to vote in poll: " + status.getId(), t)
+                );
+
+    }
+
+    private void setVoteForPoll(int position, Poll newPoll) {
+
+        StatusViewData.Concrete viewData = statuses.getPairedItem(position);
+
+        StatusViewData.Concrete newViewData = new StatusViewData.Builder(viewData)
+                .setPoll(newPoll)
+                .createStatusViewData();
+        statuses.setPairedItem(position, newViewData);
+        adapter.setItem(position, newViewData, true);
     }
 
     private void removeAllByAccountId(String accountId) {

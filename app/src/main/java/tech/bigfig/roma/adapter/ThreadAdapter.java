@@ -60,7 +60,7 @@ public class ThreadAdapter extends RecyclerView.Adapter {
             case VIEW_TYPE_STATUS_DETAILED: {
                 View view = LayoutInflater.from(parent.getContext())
                         .inflate(R.layout.item_status_detailed, parent, false);
-                return new StatusDetailedViewHolder(view);
+                return new StatusDetailedViewHolder(view, useAbsoluteTime);
             }
         }
     }
@@ -140,7 +140,7 @@ public class ThreadAdapter extends RecyclerView.Adapter {
 
     @Nullable
     public StatusViewData.Concrete getItem(int position) {
-        if (position != RecyclerView.NO_POSITION && position >= 0 && position < statuses.size()) {
+        if (position >= 0 && position < statuses.size()) {
             return statuses.get(position);
         } else {
             return null;

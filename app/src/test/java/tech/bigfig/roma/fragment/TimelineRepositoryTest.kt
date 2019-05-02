@@ -30,6 +30,7 @@ import org.mockito.Mock
 import org.mockito.MockitoAnnotations
 import java.util.*
 import java.util.concurrent.TimeUnit
+import kotlin.collections.ArrayList
 
 class TimelineRepositoryTest {
     @Mock
@@ -90,6 +91,9 @@ class TimelineRepositoryTest {
 
         assertEquals(statuses.map(Status::lift), result)
         testScheduler.advanceTimeBy(100, TimeUnit.SECONDS)
+
+        verify(timelineDao).deleteRange(account.id, statuses.last().id, statuses.first().id)
+
         verify(timelineDao).insertStatusIfNotThere(Placeholder("1").toEntity(account.id))
         for (status in statuses) {
             verify(timelineDao).insertInTransaction(
@@ -121,6 +125,7 @@ class TimelineRepositoryTest {
                 result
         )
         testScheduler.advanceTimeBy(100, TimeUnit.SECONDS)
+        verify(timelineDao).deleteRange(account.id, response.last().id, response.first().id)
         // We assume for now that overlapped one is inserted but it's not that important
         for (status in response) {
             verify(timelineDao).insertInTransaction(
@@ -151,6 +156,7 @@ class TimelineRepositoryTest {
         val placeholder = Placeholder("3")
         assertEquals(response.map(Status::lift) + Either.Left(placeholder), result)
         testScheduler.advanceTimeBy(100, TimeUnit.SECONDS)
+        verify(timelineDao).deleteRange(account.id, response.last().id, response.first().id)
         for (status in response) {
             verify(timelineDao).insertInTransaction(
                     status.toEntity(account.id, htmlConverter, gson),
@@ -191,6 +197,7 @@ class TimelineRepositoryTest {
                 result
         )
         testScheduler.advanceTimeBy(100, TimeUnit.SECONDS)
+        verify(timelineDao).deleteRange(account.id, response.last().id, response.first().id)
         // We assume for now that overlapped one is inserted but it's not that important
         for (status in response) {
             verify(timelineDao).insertInTransaction(
@@ -234,6 +241,9 @@ class TimelineRepositoryTest {
         )
         testScheduler.advanceTimeBy(100, TimeUnit.SECONDS)
         // We assume for now that overlapped one is inserted but it's not that important
+
+        verify(timelineDao).deleteRange(account.id, response.last().id, response.first().id)
+
         for (status in response) {
             verify(timelineDao).insertInTransaction(
                     status.toEntity(account.id, htmlConverter, gson),
@@ -297,14 +307,15 @@ class TimelineRepositoryTest {
                 spoilerText = "",
                 reblogged = true,
                 favourited = false,
-                attachments = listOf(),
+                attachments = ArrayList(),
                 mentions = arrayOf(),
                 application = null,
                 inReplyToAccountId = null,
                 inReplyToId = null,
                 pinned = false,
                 reblog = null,
-                url = "http://example.com/statuses/$id"
+                url = "http://example.com/statuses/$id",
+                poll = null
         )
     }
 

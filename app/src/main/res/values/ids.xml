@@ -1,4 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <item name="pin" type="id" />
+    <item name="status_poll_option_result_0" type="id" />
+    <item name="status_poll_option_result_1" type="id" />
+    <item name="status_poll_option_result_2" type="id" />
+    <item name="status_poll_option_result_3" type="id" />
+    <item name="status_poll_description" type="id" />
+    <item name="status_poll_radio_group" type="id" />
+    <item name="status_poll_radio_button_0" type="id" />
+    <item name="status_poll_radio_button_1" type="id" />
+    <item name="status_poll_radio_button_2" type="id" />
+    <item name="status_poll_radio_button_3" type="id" />
+    <item name="status_poll_checkbox_0" type="id" />
+    <item name="status_poll_checkbox_1" type="id" />
+    <item name="status_poll_checkbox_2" type="id" />
+    <item name="status_poll_checkbox_3" type="id" />
+    <item name="status_poll_button" type="id" />
 </resources>

@@ -50,6 +50,7 @@ import tech.bigfig.roma.entity.Filter;
 import tech.bigfig.roma.entity.Instance;
 import tech.bigfig.roma.entity.MastoList;
 import tech.bigfig.roma.entity.Notification;
+import tech.bigfig.roma.entity.Poll;
 import tech.bigfig.roma.entity.Relationship;
 import tech.bigfig.roma.entity.SearchResults;
 import tech.bigfig.roma.entity.Status;
@@ -177,7 +178,7 @@ public interface MastodonApi {
     Single<Status> unpinStatus(@Path("id") String statusId);
 
     @GET("api/v1/accounts/verify_credentials")
-    Call<Account> accountVerifyCredentials();
+    Single<Account> accountVerifyCredentials();
 
     @FormUrlEncoded
     @PATCH("api/v1/accounts/update_credentials")
@@ -395,4 +396,11 @@ public interface MastodonApi {
     Call<Object> unsubscribePush(
             @Header("Authorization") String auth,
             @Header(DOMAIN_HEADER) String domain);
+
+    @FormUrlEncoded
+    @POST("api/v1/polls/{id}/votes")
+    Single<Poll> voteInPoll(
+            @Path("id") String id,
+            @Field("choices[]") List<Integer> choices
+    );
 }

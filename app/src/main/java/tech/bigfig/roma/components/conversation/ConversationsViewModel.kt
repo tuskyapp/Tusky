@@ -67,6 +67,25 @@ class ConversationsViewModel @Inject constructor(
 
     }
 
+    fun voteInPoll(position: Int, choices: MutableList<Int>) {
+        conversations.value?.getOrNull(position)?.let { conversation ->
+            timelineCases.voteInPoll(conversation.lastStatus.toStatus(), choices)
+                    .flatMap { poll ->
+                        val newConversation = conversation.copy(
+                                lastStatus = conversation.lastStatus.copy(poll = poll)
+                        )
+                        Single.fromCallable {
+                            database.conversationDao().insert(newConversation)
+                        }
+                    }
+                    .subscribeOn(Schedulers.io())
+                    .doOnError { t -> Log.w("ConversationViewModel", "Failed to favourite conversation", t) }
+                    .subscribe()
+                    .addTo(disposables)
+        }
+
+    }
+
     fun expandHiddenStatus(expanded: Boolean, position: Int) {
         conversations.value?.getOrNull(position)?.let { conversation ->
             val newConversation = conversation.copy(

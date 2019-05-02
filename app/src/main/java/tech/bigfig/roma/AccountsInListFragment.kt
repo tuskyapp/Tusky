@@ -28,7 +28,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
 import tech.bigfig.roma.viewmodel.AccountsInListViewModel
 import tech.bigfig.roma.viewmodel.State
 import com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider.from
@@ -75,7 +74,7 @@ class AccountsInListFragment : DialogFragment(), Injectable {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setStyle(DialogFragment.STYLE_NORMAL, R.style.RomaDialogFragmentStyle)
+        setStyle(STYLE_NORMAL, R.style.RomaDialogFragmentStyle)
         viewModel = viewModelFactory.create(AccountsInListViewModel::class.java)
         val args = arguments!!
         listId = args.getString(LIST_ID_ARG)!!

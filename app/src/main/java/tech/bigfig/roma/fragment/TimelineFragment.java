@@ -45,16 +45,15 @@ import tech.bigfig.roma.appstore.UnfollowEvent;
 import tech.bigfig.roma.db.AccountManager;
 import tech.bigfig.roma.di.Injectable;
 import tech.bigfig.roma.entity.Filter;
+import tech.bigfig.roma.entity.Poll;
 import tech.bigfig.roma.entity.Status;
 import tech.bigfig.roma.interfaces.ActionButtonActivity;
 import tech.bigfig.roma.interfaces.ReselectableFragment;
 import tech.bigfig.roma.interfaces.StatusActionListener;
 import tech.bigfig.roma.network.MastodonApi;
-import tech.bigfig.roma.network.TimelineCases;
 import tech.bigfig.roma.repository.Placeholder;
 import tech.bigfig.roma.repository.TimelineRepository;
 import tech.bigfig.roma.repository.TimelineRequestMode;
-import tech.bigfig.roma.util.CollectionUtil;
 import tech.bigfig.roma.util.Either;
 import tech.bigfig.roma.util.ListStatusAccessibilityDelegate;
 import tech.bigfig.roma.util.ListUtils;
@@ -98,6 +97,7 @@ import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import kotlin.Unit;
 import kotlin.collections.CollectionsKt;
+import kotlin.jvm.functions.Function1;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -616,6 +616,34 @@ public class TimelineFragment extends SFragment implements
         StatusViewData newViewData = new StatusViewData
                 .Builder(actual.first)
                 .setFavourited(favourite)
+                .createStatusViewData();
+        statuses.setPairedItem(actual.second, newViewData);
+        updateAdapter();
+    }
+
+    public void onVoteInPoll(int position, @NonNull List<Integer> choices) {
+        final Status status = statuses.get(position).asRight();
+
+        setVoteForPoll(position, status, status.getPoll().votedCopy(choices));
+
+        timelineCases.voteInPoll(status, choices)
+                .observeOn(AndroidSchedulers.mainThread())
+                .as(autoDisposable(from(this)))
+                .subscribe(
+                        (newPoll) -> setVoteForPoll(position, status, newPoll),
+                        (t) -> Log.d(TAG,
+                                "Failed to vote in poll: " + status.getId(), t)
+                );
+    }
+
+    private void setVoteForPoll(int position, Status status, Poll newPoll) {
+        Pair<StatusViewData.Concrete, Integer> actual =
+                findStatusAndPosition(position, status);
+        if (actual == null) return;
+
+        StatusViewData newViewData = new StatusViewData
+                .Builder(actual.first)
+                .setPoll(newPoll)
                 .createStatusViewData();
         statuses.setPairedItem(actual.second, newViewData);
         updateAdapter();
@@ -1160,7 +1188,7 @@ public class TimelineFragment extends SFragment implements
         return -1;
     }
 
-    private final Function<Status, Either<Placeholder, Status>> statusLifter =
+    private final Function1<Status, Either<Placeholder, Status>> statusLifter =
             Either.Right::new;
 
     private @Nullable
@@ -1222,7 +1250,7 @@ public class TimelineFragment extends SFragment implements
     }
 
     private List<Either<Placeholder, Status>> liftStatusList(List<Status> list) {
-        return CollectionUtil.map(list, statusLifter);
+        return CollectionsKt.map(list, statusLifter);
     }
 
     private void updateAdapter() {

@@ -78,6 +78,8 @@
 
         <item name="minTouchTargetSize">32dp</item> <!-- this affects RadioButton size -->
 
+        <item name="pollOptionBackgroundColor">@color/color_primary_dark</item>
+
     </style>
 
     <style name="RomaImageButton.Dark" parent="@style/Widget.MaterialComponents.Button.UnelevatedButton">

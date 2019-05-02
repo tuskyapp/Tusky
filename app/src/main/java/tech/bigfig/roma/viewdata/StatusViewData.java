@@ -23,6 +23,7 @@ import android.text.Spanned;
 import tech.bigfig.roma.entity.Attachment;
 import tech.bigfig.roma.entity.Card;
 import tech.bigfig.roma.entity.Emoji;
+import tech.bigfig.roma.entity.Poll;
 import tech.bigfig.roma.entity.Status;
 
 import java.util.ArrayList;
@@ -87,6 +88,8 @@ public abstract class StatusViewData {
         private final Card card;
         private final boolean isCollapsible; /** Whether the status meets the requirement to be collapse */
         final boolean isCollapsed; /** Whether the status is shown partially or fully */
+        @Nullable
+        private final Poll poll;
         private final boolean isBot;
 
         public Concrete(String id, Spanned content, boolean reblogged, boolean favourited,
@@ -96,7 +99,8 @@ public abstract class StatusViewData {
                         Date createdAt, int reblogsCount, int favouritesCount, @Nullable String inReplyToId,
                         @Nullable Status.Mention[] mentions, String senderId, boolean rebloggingEnabled,
                         Status.Application application, List<Emoji> statusEmojis, List<Emoji> accountEmojis, @Nullable Card card,
-                        boolean isCollapsible, boolean isCollapsed, boolean isBot) {
+                        boolean isCollapsible, boolean isCollapsed, @Nullable Poll poll, boolean isBot) {
+
             this.id = id;
             if (Build.VERSION.SDK_INT == 23) {
                 // https://github.com/romaapp/Roma/issues/563
@@ -132,6 +136,7 @@ public abstract class StatusViewData {
             this.card = card;
             this.isCollapsible = isCollapsible;
             this.isCollapsed = isCollapsed;
+            this.poll = poll;
             this.isBot = isBot;
         }
 
@@ -267,9 +272,14 @@ public abstract class StatusViewData {
             return isCollapsed;
         }
 
+        @Nullable
+        public Poll getPoll() {
+            return poll;
+        }
+
         @Override public long getViewDataId() {
             // Chance of collision is super low and impact of mistake is low as well
-            return getId().hashCode();
+            return id.hashCode();
         }
 
         public boolean deepEquals(StatusViewData o) {
@@ -302,7 +312,8 @@ public abstract class StatusViewData {
                     Objects.equals(application, concrete.application) &&
                     Objects.equals(statusEmojis, concrete.statusEmojis) &&
                     Objects.equals(accountEmojis, concrete.accountEmojis) &&
-                    Objects.equals(card, concrete.card)
+                    Objects.equals(card, concrete.card) &&
+                    Objects.equals(poll, concrete.poll)
                     && isCollapsed == concrete.isCollapsed;
         }
 
@@ -311,7 +322,7 @@ public abstract class StatusViewData {
         }
 
         static CharSequence replaceCrashingCharacters(CharSequence content) {
-            Boolean replacing = false;
+            boolean replacing = false;
             SpannableStringBuilder builder = null;
             int length = content.length();
 
@@ -407,6 +418,7 @@ public abstract class StatusViewData {
         private Card card;
         private boolean isCollapsible; /** Whether the status meets the requirement to be collapsed */
         private boolean isCollapsed; /** Whether the status is shown partially or fully */
+        private Poll poll;
         private boolean isBot;
 
         public Builder() {
@@ -441,6 +453,7 @@ public abstract class StatusViewData {
             card = viewData.getCard();
             isCollapsible = viewData.isCollapsible();
             isCollapsed = viewData.isCollapsed();
+            poll = viewData.poll;
             isBot = viewData.isBot();
         }
 
@@ -603,6 +616,11 @@ public abstract class StatusViewData {
             return this;
         }
 
+        public Builder setPoll(Poll poll) {
+            this.poll = poll;
+            return this;
+        }
+
         public StatusViewData.Concrete createStatusViewData() {
             if (this.statusEmojis == null) statusEmojis = Collections.emptyList();
             if (this.accountEmojis == null) accountEmojis = Collections.emptyList();
@@ -612,7 +630,7 @@ public abstract class StatusViewData {
                     attachments, rebloggedByUsername, rebloggedAvatar, isSensitive, isExpanded,
                     isShowingContent, userFullName, nickname, avatar, createdAt, reblogsCount,
                     favouritesCount, inReplyToId, mentions, senderId, rebloggingEnabled, application,
-                    statusEmojis, accountEmojis, card, isCollapsible, isCollapsed, isBot);
+                    statusEmojis, accountEmojis, card, isCollapsible, isCollapsed, poll, isBot);
         }
     }
 }

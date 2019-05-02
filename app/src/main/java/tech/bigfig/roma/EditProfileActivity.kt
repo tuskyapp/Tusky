@@ -248,13 +248,13 @@ class EditProfileActivity : BaseActivity(), Injectable {
         intent.addCategory(Intent.CATEGORY_OPENABLE)
         intent.type = "image/*"
         when (currentlyPicking) {
-            EditProfileActivity.PickType.AVATAR -> {
+            PickType.AVATAR -> {
                 startActivityForResult(intent, AVATAR_PICK_RESULT)
             }
-            EditProfileActivity.PickType.HEADER -> {
+            PickType.HEADER -> {
                 startActivityForResult(intent, HEADER_PICK_RESULT)
             }
-            EditProfileActivity.PickType.NOTHING -> { /* do nothing */ }
+            PickType.NOTHING -> { /* do nothing */ }
         }
     }
 
@@ -297,18 +297,18 @@ class EditProfileActivity : BaseActivity(), Injectable {
 
     private fun beginMediaPicking() {
         when (currentlyPicking) {
-            EditProfileActivity.PickType.AVATAR -> {
+            PickType.AVATAR -> {
                 avatarProgressBar.visibility = View.VISIBLE
                 avatarPreview.visibility = View.INVISIBLE
                 avatarButton.setImageDrawable(null)
 
             }
-            EditProfileActivity.PickType.HEADER -> {
+            PickType.HEADER -> {
                 headerProgressBar.visibility = View.VISIBLE
                 headerPreview.visibility = View.INVISIBLE
                 headerButton.setImageDrawable(null)
             }
-            EditProfileActivity.PickType.NOTHING -> { /* do nothing */ }
+            PickType.NOTHING -> { /* do nothing */ }
         }
     }
 
@@ -359,10 +359,10 @@ class EditProfileActivity : BaseActivity(), Injectable {
         beginMediaPicking()
 
         when (currentlyPicking) {
-            EditProfileActivity.PickType.AVATAR -> {
+            PickType.AVATAR -> {
                 viewModel.newAvatar(uri, this)
             }
-            EditProfileActivity.PickType.HEADER -> {
+            PickType.HEADER -> {
                 viewModel.newHeader(uri, this)
             }
             else -> {

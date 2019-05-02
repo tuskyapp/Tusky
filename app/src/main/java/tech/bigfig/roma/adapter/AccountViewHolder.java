@@ -1,6 +1,5 @@
 package tech.bigfig.roma.adapter;
 
-import android.content.Context;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.preference.PreferenceManager;

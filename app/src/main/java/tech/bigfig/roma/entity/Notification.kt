@@ -65,8 +65,8 @@ data class Notification(
     class NotificationTypeAdapter : JsonDeserializer<Type> {
 
         @Throws(JsonParseException::class)
-        override fun deserialize(json: JsonElement, typeOfT: java.lang.reflect.Type, context: JsonDeserializationContext): Notification.Type {
-            return Notification.Type.byString(json.asString)
+        override fun deserialize(json: JsonElement, typeOfT: java.lang.reflect.Type, context: JsonDeserializationContext): Type {
+            return Type.byString(json.asString)
         }
 
     }

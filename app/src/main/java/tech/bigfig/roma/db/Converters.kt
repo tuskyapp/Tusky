@@ -24,6 +24,7 @@ import tech.bigfig.roma.components.conversation.ConversationAccountEntity
 import tech.bigfig.roma.createTabDataFromId
 import tech.bigfig.roma.entity.Attachment
 import tech.bigfig.roma.entity.Emoji
+import tech.bigfig.roma.entity.Poll
 import tech.bigfig.roma.entity.Status
 import tech.bigfig.roma.json.SpannedTypeAdapter
 import tech.bigfig.roma.util.HtmlUtils
@@ -95,8 +96,8 @@ class Converters {
     }
 
     @TypeConverter
-    fun jsonToAttachmentList(attachmentListJson: String?): List<Attachment>? {
-        return gson.fromJson(attachmentListJson, object : TypeToken<List<Attachment>>() {}.type)
+    fun jsonToAttachmentList(attachmentListJson: String?): ArrayList<Attachment>? {
+        return gson.fromJson(attachmentListJson, object : TypeToken<ArrayList<Attachment>>() {}.type)
     }
 
     @TypeConverter
@@ -133,6 +134,16 @@ class Converters {
             return null
         }
         return HtmlUtils.fromHtml(spannedString)
+    }
+
+    @TypeConverter
+    fun pollToJson(poll: Poll?): String? {
+        return gson.toJson(poll)
+    }
+
+    @TypeConverter
+    fun jsonToPoll(pollJson: String?): Poll? {
+        return gson.fromJson(pollJson, Poll::class.java)
     }
 
 }

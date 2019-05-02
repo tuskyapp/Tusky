@@ -34,12 +34,12 @@ class EmojiAdapter(emojiList: List<Emoji>, private val onEmojiSelectedListener: 
         return emojiList.size
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EmojiAdapter.EmojiHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EmojiHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_emoji_button, parent, false) as ImageView
         return EmojiHolder(view)
     }
 
-    override fun onBindViewHolder(viewHolder: EmojiAdapter.EmojiHolder, position: Int) {
+    override fun onBindViewHolder(viewHolder: EmojiHolder, position: Int) {
         val emoji = emojiList[position]
 
         Glide.with(viewHolder.emojiImageView)

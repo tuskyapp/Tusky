@@ -35,7 +35,6 @@ import android.widget.ProgressBar;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
-import com.google.android.material.tabs.TabLayout;
 
 import tech.bigfig.roma.MainActivity;
 import tech.bigfig.roma.R;
@@ -50,11 +49,11 @@ import tech.bigfig.roma.db.AccountEntity;
 import tech.bigfig.roma.db.AccountManager;
 import tech.bigfig.roma.di.Injectable;
 import tech.bigfig.roma.entity.Notification;
+import tech.bigfig.roma.entity.Poll;
 import tech.bigfig.roma.entity.Status;
 import tech.bigfig.roma.interfaces.ActionButtonActivity;
 import tech.bigfig.roma.interfaces.ReselectableFragment;
 import tech.bigfig.roma.interfaces.StatusActionListener;
-import tech.bigfig.roma.util.CollectionUtil;
 import tech.bigfig.roma.util.Either;
 import tech.bigfig.roma.util.HttpHeaderLink;
 import tech.bigfig.roma.util.ListStatusAccessibilityDelegate;
@@ -99,6 +98,7 @@ import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import kotlin.Unit;
 import kotlin.collections.CollectionsKt;
+import kotlin.jvm.functions.Function1;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -157,7 +157,6 @@ public class NotificationsFragment extends SFragment implements
     private LinearLayoutManager layoutManager;
     private EndlessOnScrollListener scrollListener;
     private NotificationsAdapter adapter;
-    private TabLayout.OnTabSelectedListener onTabSelectedListener;
     private Button buttonFilter;
     private boolean hideFab;
     private boolean topLoading;
@@ -431,6 +430,24 @@ public class NotificationsFragment extends SFragment implements
 
         notifications.setPairedItem(position, newViewData);
         updateAdapter();
+    }
+
+    public void onVoteInPoll(int position, @NonNull List<Integer> choices) {
+        final Notification notification = notifications.get(position).asRight();
+        final Status status = notification.getStatus();
+
+        timelineCases.voteInPoll(status, choices)
+                .observeOn(AndroidSchedulers.mainThread())
+                .as(autoDisposable(from(this)))
+                .subscribe(
+                        (newPoll) -> setVoteForPoll(position, newPoll),
+                        (t) -> Log.d(TAG,
+                                "Failed to vote in poll: " + status.getId(), t)
+                );
+    }
+
+    private void setVoteForPoll(int position, Poll poll) {
+        // TODO
     }
 
     @Override
@@ -988,11 +1005,11 @@ public class NotificationsFragment extends SFragment implements
         updateAdapter();
     }
 
-    private final Function<Notification, Either<Placeholder, Notification>> notificationLifter =
+    private final Function1<Notification, Either<Placeholder, Notification>> notificationLifter =
             Either.Right::new;
 
     private List<Either<Placeholder, Notification>> liftNotificationList(List<Notification> list) {
-        return CollectionUtil.map(list, notificationLifter);
+        return CollectionsKt.map(list, notificationLifter);
     }
 
     private void fullyRefreshWithProgressBar(boolean isShow) {
