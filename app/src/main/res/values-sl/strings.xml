@@ -45,7 +45,7 @@
     <string name="title_licenses">Licence</string>
 
     <string name="status_username_format">\@%s</string>
-    <string name="status_boosted_format">%s spodbudil</string>
+    <string name="status_reposted_format">%s spodbudil</string>
     <string name="status_sensitive_media_title">Občutljiva vsebina</string>
     <string name="status_media_hidden_title">Medij je skrit</string>
     <string name="status_sensitive_media_directions">Kliknite za ogled</string>
@@ -209,7 +209,7 @@
     <string name="pref_title_language">Jezik</string>
     <string name="pref_title_status_filter">Filtriranje časovnice</string>
     <string name="pref_title_status_tabs">Zavihki</string>
-    <string name="pref_title_show_boosts">Pokaži spodbude</string>
+    <string name="pref_title_show_reposts">Pokaži spodbude</string>
     <string name="pref_title_show_replies">Pokaži odgovore</string>
     <string name="pref_title_show_media_preview">Prenesi predoglede medijev</string>
     <string name="pref_title_proxy_settings">Posredniški strežnik</string>
@@ -231,8 +231,8 @@
     <string name="notification_channel_mention_descriptions">Obvestila o novih omembah</string>
     <string name="notification_channel_follow_name">Novi sledilci</string>
     <string name="notification_channel_follow_description">Obvestila o novih sledilcih</string>
-    <string name="notification_channel_boost_name">Spodbude</string>
-    <string name="notification_channel_boost_description">Obvestila, ko so vaši tuti spodbujeni</string>
+    <string name="notification_channel_repost_name">Spodbude</string>
+    <string name="notification_channel_repost_description">Obvestila, ko so vaši tuti spodbujeni</string>
     <string name="notification_channel_favourite_name">Priljubljeni</string>
     <string name="notification_channel_favourite_description">Obvestila, ko so vaši tuti vzljubljeni</string>
 
@@ -246,13 +246,13 @@
     <string name="description_account_locked">Zaklenjen račun</string>
 
     <string name="about_title_activity">O aplikaciji</string>
-    <string name="about_tusky_version">Tusky %s</string>
-    <string name="about_tusky_license">Tusky je prosta in odprtokodna programska oprema. Licencirana je pod licenco GNU General Public License različice 3. Licenco si lahko ogledate tukaj: https://www.gnu.org/licenses/gpl-3.0.en.html</string>
+    <string name="about_roma_version">Roma %s</string>
+    <string name="about_roma_license">Roma je prosta in odprtokodna programska oprema. Licencirana je pod licenco GNU General Public License različice 3. Licenco si lahko ogledate tukaj: https://www.gnu.org/licenses/gpl-3.0.en.html</string>
     <string name="about_project_site">Spletna stran projekta:
-\nhttps://tusky.app</string>
+\nhttps://romaapp.github.io</string>
     <string name="about_bug_feature_request_site">Poročila o napakah in želje za nove funkcije:
-\nhttps://github.com/tuskyapp/Tusky/issues</string>
-    <string name="about_tusky_account">Profil Tusky</string>
+\nhttps://github.com/romaapp/Roma/issues</string>
+    <string name="about_roma_account">Profil Roma</string>
 
     <string name="status_share_content">Deli vsebino tuta</string>
     <string name="status_share_link">Deli povezavo do tuta</string>
@@ -331,7 +331,7 @@
     <string name="expand_collapse_all_statuses">Razširi/Strni vse statuse</string>
     <string name="action_open_toot">Odpri tut</string>
     <string name="restart_required">Potreben je ponovni zagon aplikacije</string>
-    <string name="restart_emoji">Če želite uveljaviti te spremembe, morate znova zagnati Tusky</string>
+    <string name="restart_emoji">Če želite uveljaviti te spremembe, morate znova zagnati Roma</string>
     <string name="later">Kasneje</string>
     <string name="restart">Znova zaženi</string>
     <string name="caption_systememoji">"Privzeti komplet emotikonov vaše naprave "</string>
@@ -345,7 +345,7 @@
     <string name="reblog_private">Spodbudi izvirnemu občinstvu</string>
     <string name="unreblog_private">Prekini spodbudo</string>
 
-    <string name="license_description">Tusky vsebuje kodo in sredstva iz naslednjih odprtokodnih projektov:</string>
+    <string name="license_description">Roma vsebuje kodo in sredstva iz naslednjih odprtokodnih projektov:</string>
     <string name="license_apache_2">Licencirano pod licenco Apache (spodaj)</string>
     <string name="license_cc_by_4">CC-BY 4.0</string>
     <string name="license_cc_by_sa_4">CC-BY-SA 4.0</string>
@@ -404,7 +404,7 @@
     <string name="notifications_clear">Počisti</string>
     <string name="notifications_apply_filter">Filter</string>
     <string name="filter_favorites">\@string/notification_channel_favourite_name</string>
-    <string name="filter_boosts">\@string/notification_channel_boost_name</string>
+    <string name="filter_boosts">\@string/notification_channel_repost_name</string>
     <string name="filter_follows">\@string/notification_channel_follow_name</string>
     <string name="filter_mentions">\@string/notification_channel_mention_name</string>
     <string name="filter_apply">Uporabi</string>

@@ -46,7 +46,6 @@ import tech.bigfig.roma.fragment.ViewImageFragment
 
 import tech.bigfig.roma.pager.AvatarImagePagerAdapter
 import tech.bigfig.roma.pager.ImagePagerAdapter
-import tech.bigfig.roma.util.CollectionUtil.map
 import tech.bigfig.roma.util.getTemporaryMediaFilename
 import tech.bigfig.roma.viewdata.AttachmentViewData
 import com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider

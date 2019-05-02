@@ -16,22 +16,13 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
+import androidx.annotation.DrawableRes;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.content.res.AppCompatResources;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.bumptech.glide.Glide;
-import tech.bigfig.roma.R;
-import tech.bigfig.roma.entity.Attachment;
-import tech.bigfig.roma.entity.Attachment.Focus;
-import tech.bigfig.roma.entity.Attachment.MetaData;
-import tech.bigfig.roma.entity.Emoji;
-import tech.bigfig.roma.entity.Status;
-import tech.bigfig.roma.interfaces.StatusActionListener;
-import tech.bigfig.roma.util.CustomEmojiHelper;
-import tech.bigfig.roma.util.DateUtils;
-import tech.bigfig.roma.util.HtmlUtils;
-import tech.bigfig.roma.util.LinkHelper;
-import tech.bigfig.roma.util.SmartLengthInputFilter;
-import tech.bigfig.roma.util.ThemeUtils;
-import tech.bigfig.roma.view.MediaPreviewImageView;
-import tech.bigfig.roma.viewdata.StatusViewData;
 import com.mikepenz.iconics.utils.Utils;
 
 import java.text.NumberFormat;
@@ -42,14 +33,25 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-import androidx.annotation.DrawableRes;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.content.res.AppCompatResources;
-import androidx.recyclerview.widget.RecyclerView;
 import at.connyduck.sparkbutton.SparkButton;
 import at.connyduck.sparkbutton.SparkEventListener;
 import kotlin.collections.CollectionsKt;
+import tech.bigfig.roma.R;
+import tech.bigfig.roma.entity.Attachment;
+import tech.bigfig.roma.entity.Attachment.Focus;
+import tech.bigfig.roma.entity.Attachment.MetaData;
+import tech.bigfig.roma.entity.Emoji;
+import tech.bigfig.roma.entity.Poll;
+import tech.bigfig.roma.entity.PollOption;
+import tech.bigfig.roma.entity.Status;
+import tech.bigfig.roma.interfaces.StatusActionListener;
+import tech.bigfig.roma.util.CustomEmojiHelper;
+import tech.bigfig.roma.util.DateUtils;
+import tech.bigfig.roma.util.HtmlUtils;
+import tech.bigfig.roma.util.LinkHelper;
+import tech.bigfig.roma.util.ThemeUtils;
+import tech.bigfig.roma.view.MediaPreviewImageView;
+import tech.bigfig.roma.viewdata.StatusViewData;
 
 public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
     public static class Key {

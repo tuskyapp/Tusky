@@ -2,6 +2,7 @@ package tech.bigfig.roma.appstore
 
 import tech.bigfig.roma.TabData
 import tech.bigfig.roma.entity.Account
+import tech.bigfig.roma.entity.Poll
 import tech.bigfig.roma.entity.Status
 
 data class FavouriteEvent(val statusId: String, val favourite: Boolean) : Dispatchable

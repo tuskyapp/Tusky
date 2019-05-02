@@ -1,4 +1,4 @@
-package com.keylesspalace.tusky.entity
+package tech.bigfig.roma.entity
 
 import com.google.gson.annotations.SerializedName
 import java.util.*

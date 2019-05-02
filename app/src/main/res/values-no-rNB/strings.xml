@@ -250,8 +250,8 @@
 
     <string name="about_title_activity">Om</string>
     <string name="about_bug_feature_request_site">Rapporter feil og ønsker om funksjonalitet her:
-\n https://github.com/tuskyapp/Tusky/issues</string>
-    <string name="about_tusky_account">Tuskys Mastodon-profil</string>
+\n https://github.com/romaapp/Roma/issues</string>
+    <string name="about_roma_account">Romas Mastodon-profil</string>
 
     <string name="status_share_content">Del inneholdet i tootet</string>
     <string name="status_share_link">Del link til tootet</string>
@@ -306,9 +306,9 @@
     <string name="pref_default_post_privacy">Standard synlighet for toots</string>
     <string name="notification_channel_mention_name">Nye omtaler</string>
     <string name="notification_channel_mention_descriptions">Varsler om nye omtaler</string>
-    <string name="about_tusky_license">Tusky er fri og åpen kildekode. Applikasjonen er lisensiert under GNU General Public License versjon 3. Du kan se lisensen her: https://www.gnu.org/licenses/gpl-3.0.en.html</string>
+    <string name="about_roma_license">Roma er fri og åpen kildekode. Applikasjonen er lisensiert under GNU General Public License versjon 3. Du kan se lisensen her: https://www.gnu.org/licenses/gpl-3.0.en.html</string>
     <string name="about_project_site">Hjemmeside:
-\n https://tusky.app</string>
+\n https://romaapp.github.io</string>
     <string name="abbreviated_in_years">om %dy</string>
     <string name="compose_active_account_description">Poster med konto %1$s</string>
 
@@ -336,7 +336,7 @@
     <string name="expand_collapse_all_statuses">Utvid/kollaps alle statuser</string>
     <string name="action_open_toot">Åpne toot</string>
     <string name="restart_required">Omstart av applikasjonen er påkrevd</string>
-    <string name="restart_emoji">Du må starte Tusky på nytt for at endringene skal bli aktive</string>
+    <string name="restart_emoji">Du må starte Roma på nytt for at endringene skal bli aktive</string>
     <string name="later">Senere</string>
     <string name="restart">Start på nytt</string>
     <string name="caption_systememoji">Din enhets standard emoji-samling</string>
@@ -350,7 +350,7 @@
     <string name="reblog_private">Boost til opprinnelig publikum</string>
     <string name="unreblog_private">Fjern boost</string>
 
-    <string name="license_description">Tusky inneholder programkode og elementer fra følgende åpen kildekode-prosjekter:</string>
+    <string name="license_description">Roma inneholder programkode og elementer fra følgende åpen kildekode-prosjekter:</string>
     <string name="license_apache_2">Lisensiert under Apache License (kopi under)</string>
     <string name="license_cc_by_4">CC-BY 4.0</string>
     <string name="license_cc_by_sa_4">CC-BY-SA 4.0</string>

@@ -16,8 +16,10 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerViewAccessibilityDelegate
 import tech.bigfig.roma.R
 import tech.bigfig.roma.adapter.StatusBaseViewHolder
+import tech.bigfig.roma.entity.Status.Companion.MAX_MEDIA_ATTACHMENTS
 import tech.bigfig.roma.interfaces.StatusActionListener
 import tech.bigfig.roma.viewdata.StatusViewData
+import java.lang.Integer.min
 
 
 // Not using lambdas because there's boxing of int then

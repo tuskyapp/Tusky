@@ -18,6 +18,8 @@ package tech.bigfig.roma;
 import android.app.Activity;
 import android.app.Application;
 import android.app.Service;
+
+import androidx.annotation.NonNull;
 import androidx.room.Room;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -44,7 +46,7 @@ import tech.bigfig.roma.util.NotificationPullJobCreator;
 import tech.bigfig.roma.util.LocaleManager;
 
 import org.conscrypt.Conscrypt;
-import org.jetbrains.annotations.NotNull;
+
 
 import java.security.Security;
 
@@ -189,7 +191,7 @@ public class RomaApplication extends Application implements HasActivityInjector,
         return dispatchingBroadcastReceiverInjector;
     }
 
-    @NotNull
+    @NonNull
     @Override
     public AndroidInjector<RxWorker> workerInjector() {
         return dispatchingWorkerInjector;

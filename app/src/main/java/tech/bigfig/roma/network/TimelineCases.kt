@@ -25,6 +25,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import tech.bigfig.roma.appstore.*
+import tech.bigfig.roma.entity.Poll
 import java.lang.IllegalStateException
 
 /**

@@ -23,6 +23,7 @@ import android.text.Spanned;
 import tech.bigfig.roma.entity.Attachment;
 import tech.bigfig.roma.entity.Card;
 import tech.bigfig.roma.entity.Emoji;
+import tech.bigfig.roma.entity.Poll;
 import tech.bigfig.roma.entity.Status;
 
 import java.util.ArrayList;

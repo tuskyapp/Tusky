@@ -12,6 +12,7 @@ import tech.bigfig.roma.repository.TimelineRequestMode.NETWORK
 import tech.bigfig.roma.util.Either
 import tech.bigfig.roma.util.HtmlConverter
 import tech.bigfig.roma.util.dec
+import tech.bigfig.roma.util.inc
 import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
 import java.io.IOException

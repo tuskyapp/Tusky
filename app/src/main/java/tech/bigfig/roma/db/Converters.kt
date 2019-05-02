@@ -24,6 +24,7 @@ import tech.bigfig.roma.components.conversation.ConversationAccountEntity
 import tech.bigfig.roma.createTabDataFromId
 import tech.bigfig.roma.entity.Attachment
 import tech.bigfig.roma.entity.Emoji
+import tech.bigfig.roma.entity.Poll
 import tech.bigfig.roma.entity.Status
 import tech.bigfig.roma.json.SpannedTypeAdapter
 import tech.bigfig.roma.util.HtmlUtils

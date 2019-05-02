@@ -50,6 +50,7 @@ import tech.bigfig.roma.entity.Filter;
 import tech.bigfig.roma.entity.Instance;
 import tech.bigfig.roma.entity.MastoList;
 import tech.bigfig.roma.entity.Notification;
+import tech.bigfig.roma.entity.Poll;
 import tech.bigfig.roma.entity.Relationship;
 import tech.bigfig.roma.entity.SearchResults;
 import tech.bigfig.roma.entity.Status;

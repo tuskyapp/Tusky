@@ -42,6 +42,7 @@ import tech.bigfig.roma.appstore.StatusComposedEvent;
 import tech.bigfig.roma.appstore.StatusDeletedEvent;
 import tech.bigfig.roma.di.Injectable;
 import tech.bigfig.roma.entity.Card;
+import tech.bigfig.roma.entity.Poll;
 import tech.bigfig.roma.entity.Status;
 import tech.bigfig.roma.entity.StatusContext;
 import tech.bigfig.roma.interfaces.StatusActionListener;
