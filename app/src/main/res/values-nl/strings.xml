@@ -415,4 +415,13 @@
     <string name="poll_vote">Stemmen</string>
 
 
+<string name="pref_title_notification_filter_poll">er zijn polls zijn beëindigd</string>
+    <string name="notification_poll_name">Polls</string>
+    <string name="notification_poll_description">Meldingen over polls die zijn beëindigd</string>
+
+
+    <string name="poll_ended_voted">Een poll waaraan jij hebt meegedaan is beëindigd</string>
+    <string name="poll_ended_created">Een poll die jij hebt aangemaakt is beëindigd</string>
+
+
 </resources>
