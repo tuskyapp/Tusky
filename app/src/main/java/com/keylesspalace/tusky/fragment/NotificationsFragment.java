@@ -646,6 +646,8 @@ public class NotificationsFragment extends SFragment implements
         }
         window.setContentView(view);
         window.setFocusable(true);
+        window.setWidth(ViewGroup.LayoutParams.WRAP_CONTENT);
+        window.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
         window.showAsDropDown(buttonFilter);
 
     }
