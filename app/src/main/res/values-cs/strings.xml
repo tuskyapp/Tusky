@@ -218,14 +218,14 @@
     <string name="media_hide_sensitive">Skrýt média označená jako citlivá</string>
     <string name="media_hide_none">Vždy zobrazovat média označená jako citlivá</string>
     <string name="media_hide_all">Vždy skrývat všechna média</string>
-    <string name="notification_channel_mention_name">Nové zmínky</string>
-    <string name="notification_channel_mention_descriptions">Oznámení o nových zmínkách</string>
-    <string name="notification_channel_follow_name">Noví sledující</string>
-    <string name="notification_channel_follow_description">Oznámení o nových sledujících</string>
-    <string name="notification_channel_boost_name">Boosty</string>
-    <string name="notification_channel_boost_description">Oznámení, když jsou vaše tooty boostnuty</string>
-    <string name="notification_channel_favourite_name">Oblíbení</string>
-    <string name="notification_channel_favourite_description">Oznámení, když jsou vaše tooty označeny jako oblíbené</string>
+    <string name="notification_mention_name">Nové zmínky</string>
+    <string name="notification_mention_descriptions">Oznámení o nových zmínkách</string>
+    <string name="notification_follow_name">Noví sledující</string>
+    <string name="notification_follow_description">Oznámení o nových sledujících</string>
+    <string name="notification_boost_name">Boosty</string>
+    <string name="notification_boost_description">Oznámení, když jsou vaše tooty boostnuty</string>
+    <string name="notification_favourite_name">Oblíbení</string>
+    <string name="notification_favourite_description">Oznámení, když jsou vaše tooty označeny jako oblíbené</string>
     <string name="notification_mention_format">%s vás zmínil/a</string>
     <string name="notification_summary_large">%1$s, %2$s, %3$s a dalších %4$d</string>
     <string name="notification_summary_medium">%1$s, %2$s a %3$s</string>
@@ -386,10 +386,6 @@
 
 <string name="notifications_clear">Vymazat</string>
     <string name="notifications_apply_filter">Filtrovat</string>
-    <string name="filter_favorites">\@string/notification_channel_favourite_name</string>
-    <string name="filter_boosts">\@string/notification_channel_boost_name</string>
-    <string name="filter_follows">\@string/notification_channel_follow_name</string>
-    <string name="filter_mentions">\@string/notification_channel_mention_name</string>
     <string name="filter_apply">Použít</string>
 
     <string name="pref_title_bot_overlay">Zobrazovat indikátor pro roboty</string>

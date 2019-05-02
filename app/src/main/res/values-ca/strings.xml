@@ -168,14 +168,14 @@
 
     <string name="pref_status_text_size">Mida de text de l\'estat</string>
 
-    <string name="notification_channel_mention_name">Mencions noves</string>
-    <string name="notification_channel_mention_descriptions">Notificacions sobre mencions noves</string>
-    <string name="notification_channel_follow_name">Seguidors nous</string>
-    <string name="notification_channel_follow_description">Notificacions sobre nous seguidors</string>
-    <string name="notification_channel_boost_name">Retoots</string>
-    <string name="notification_channel_boost_description">Notificacions si retootejents els teus toots</string>
-    <string name="notification_channel_favourite_name">Preferits</string>
-    <string name="notification_channel_favourite_description">Notificacions si marquen com a preferits els teus toots</string>
+    <string name="notification_mention_name">Mencions noves</string>
+    <string name="notification_mention_descriptions">Notificacions sobre mencions noves</string>
+    <string name="notification_follow_name">Seguidors nous</string>
+    <string name="notification_follow_description">Notificacions sobre nous seguidors</string>
+    <string name="notification_boost_name">Retoots</string>
+    <string name="notification_boost_description">Notificacions si retootejents els teus toots</string>
+    <string name="notification_favourite_name">Preferits</string>
+    <string name="notification_favourite_description">Notificacions si marquen com a preferits els teus toots</string>
 
 
     <string name="notification_mention_format">%s et mencionen</string>

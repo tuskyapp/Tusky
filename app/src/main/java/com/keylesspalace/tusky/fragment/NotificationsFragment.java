@@ -222,7 +222,8 @@ public class NotificationsFragment extends SFragment implements
 
         recyclerView.addItemDecoration(new DividerItemDecoration(context, DividerItemDecoration.VERTICAL));
 
-        adapter = new NotificationsAdapter(dataSource, this, this);
+        adapter = new NotificationsAdapter(accountManager.getActiveAccount().getAccountId(),
+                dataSource, this, this);
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
         alwaysShowSensitiveMedia = accountManager.getActiveAccount().getAlwaysShowSensitiveMedia();
         boolean mediaPreviewEnabled = accountManager.getActiveAccount().getMediaPreviewEnabled();
@@ -652,13 +653,15 @@ public class NotificationsFragment extends SFragment implements
     private String getNotificationText(Notification.Type type) {
         switch (type) {
             case MENTION:
-                return getString(R.string.filter_mentions);
+                return getString(R.string.notification_mention_name);
             case FAVOURITE:
-                return getString(R.string.filter_favorites);
+                return getString(R.string.notification_favourite_name);
             case REBLOG:
-                return getString(R.string.filter_boosts);
+                return getString(R.string.notification_boost_name);
             case FOLLOW:
-                return getString(R.string.filter_follows);
+                return getString(R.string.notification_follow_name);
+            case POLL:
+                return getString(R.string.notification_poll_name);
             default:
                 return "Unknown";
         }
