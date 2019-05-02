@@ -1,3 +1,4 @@
+<?xml version='1.0' encoding='UTF-8'?>
 <resources>
 
     <string name="error_generic">S\'ha produït un error.</string>
@@ -227,5 +228,8 @@
     <string name="title_media">Multimèdia</string>
     <string name="replying_to">En resposta a @%s</string>
     <string name="load_more_placeholder_text">carrega\'n més</string>
+
+<string name="poll_vote">Vota</string>
+
 
 </resources>
