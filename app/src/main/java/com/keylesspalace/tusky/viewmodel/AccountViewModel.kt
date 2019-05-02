@@ -3,6 +3,7 @@ package com.keylesspalace.tusky.viewmodel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.keylesspalace.tusky.appstore.*
+import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.entity.Account
 import com.keylesspalace.tusky.entity.Relationship
 import com.keylesspalace.tusky.network.MastodonApi
@@ -18,7 +19,8 @@ import javax.inject.Inject
 
 class AccountViewModel  @Inject constructor(
             private val mastodonApi: MastodonApi,
-            private val eventHub: EventHub
+            private val eventHub: EventHub,
+            private val accountManager: AccountManager
     ): ViewModel() {
 
     val accountData = MutableLiveData<Resource<Account>>()
@@ -213,9 +215,9 @@ class AccountViewModel  @Inject constructor(
 
     }
 
-    fun setAccountInfo(accountId: String, isSelf: Boolean) {
+    fun setAccountInfo(accountId: String) {
         this.accountId = accountId
-        this.isSelf = isSelf
+        this.isSelf = accountManager.activeAccount?.accountId == accountId
         reload(false)
     }
 

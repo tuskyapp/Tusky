@@ -143,12 +143,11 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
 
         val intent = intent
         val accountId = intent.getStringExtra(KEY_ACCOUNT_ID)
-        val activeAccount = accountManager.activeAccount
 
         // Obtain information to fill out the profile.
-        viewModel.setAccountInfo(accountId,accountId == activeAccount?.accountId)
+        viewModel.setAccountInfo(accountId)
 
-        if (accountId == activeAccount?.accountId) {
+        if (viewModel.isSelf) {
             updateButtons()
         }
 
