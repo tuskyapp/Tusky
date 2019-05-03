@@ -108,49 +108,114 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        makeNotificationBarTransparent()
+        setContentView(R.layout.activity_account)
 
         viewModel = ViewModelProviders.of(this, viewModelFactory)[AccountViewModel::class.java]
 
-        viewModel.accountData.observe(this, Observer<Resource<Account>> {
-            when (it) {
-                is Success -> onAccountChanged(it.data)
-                is Error -> {
-                    Snackbar.make(accountCoordinatorLayout, R.string.error_generic, Snackbar.LENGTH_LONG)
-                            .setAction(R.string.action_retry) { viewModel.refresh() }
-                            .show()
-                }
-            }
-        })
-        viewModel.relationshipData.observe(this, Observer<Resource<Relationship>> {
-            val relation = it?.data
-            if (relation != null) {
-                onRelationshipChanged(relation)
-            }
-
-            if (it is Error) {
-                Snackbar.make(accountCoordinatorLayout, R.string.error_generic, Snackbar.LENGTH_LONG)
-                        .setAction(R.string.action_retry) { viewModel.refresh() }
-                        .show()
-            }
-
-        })
-
-        val decorView = window.decorView
-        decorView.systemUiVisibility = decorView.systemUiVisibility or View.SYSTEM_UI_FLAG_LAYOUT_STABLE or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-        window.statusBarColor = Color.TRANSPARENT
-
-        setContentView(R.layout.activity_account)
-
-        val intent = intent
-        val accountId = intent.getStringExtra(KEY_ACCOUNT_ID)
-
         // Obtain information to fill out the profile.
-        viewModel.setAccountInfo(accountId)
+        viewModel.setAccountInfo(intent.getStringExtra(KEY_ACCOUNT_ID))
 
         if (viewModel.isSelf) {
             updateButtons()
         }
 
+        hideFab = PreferenceManager.getDefaultSharedPreferences(this).getBoolean("fabHide", false)
+
+        loadResources()
+        setupToolbar()
+        setupTabs()
+        setupAccountViews()
+        setupRefreshLayout()
+        subscribeObservables()
+    }
+
+    /**
+     * Load colors and dimensions from resources
+     */
+    private fun loadResources() {
+        toolbarColor = ThemeUtils.getColor(this, R.attr.toolbar_background_color)
+        backgroundColor = ThemeUtils.getColor(this, android.R.attr.colorBackground)
+        statusBarColorTransparent = ContextCompat.getColor(this, R.color.header_background_filter)
+        statusBarColorOpaque = ThemeUtils.getColor(this, R.attr.colorPrimaryDark)
+        textColorPrimary = ThemeUtils.getColor(this, android.R.attr.textColorPrimary)
+        textColorSecondary = ThemeUtils.getColor(this, android.R.attr.textColorSecondary)
+        avatarSize = resources.getDimension(R.dimen.account_activity_avatar_size)
+        titleVisibleHeight = resources.getDimensionPixelSize(R.dimen.account_activity_scroll_title_visible_height)
+    }
+
+    /**
+     * Setup account widgets visibility and actions
+     */
+    private fun setupAccountViews() {
+        // Initialise the default UI states.
+        accountFloatingActionButton.hide()
+        accountFollowButton.hide()
+        accountMuteButton.hide()
+        accountFollowsYouTextView.hide()
+
+
+        // setup the RecyclerView for the account fields
+        accountFieldList.isNestedScrollingEnabled = false
+        accountFieldList.layoutManager = LinearLayoutManager(this)
+        accountFieldList.adapter = accountFieldAdapter
+
+
+        val accountListClickListener = { v: View ->
+            val type = when (v.id) {
+                R.id.accountFollowers -> AccountListActivity.Type.FOLLOWERS
+                R.id.accountFollowing -> AccountListActivity.Type.FOLLOWS
+                else -> throw AssertionError()
+            }
+            val accountListIntent = AccountListActivity.newIntent(this, type, viewModel.accountId)
+            startActivityWithSlideInAnimation(accountListIntent)
+        }
+        accountFollowers.setOnClickListener(accountListClickListener)
+        accountFollowing.setOnClickListener(accountListClickListener)
+
+        accountStatuses.setOnClickListener {
+            // Make nice ripple effect on tab
+            accountTabLayout.getTabAt(0)!!.select()
+            val poorTabView = (accountTabLayout.getChildAt(0) as ViewGroup).getChildAt(0)
+            poorTabView.isPressed = true
+            accountTabLayout.postDelayed({ poorTabView.isPressed = false }, 300)
+        }
+
+    }
+
+    /**
+     * Init timeline tabs
+     */
+    private fun setupTabs() {
+        // Setup the tabs and timeline pager.
+        adapter = AccountPagerAdapter(supportFragmentManager, viewModel.accountId)
+        val pageTitles = arrayOf(getString(R.string.title_statuses), getString(R.string.title_statuses_with_replies), getString(R.string.title_statuses_pinned), getString(R.string.title_media))
+        adapter.setPageTitles(pageTitles)
+        accountFragmentViewPager.pageMargin = resources.getDimensionPixelSize(R.dimen.tab_page_margin)
+        val pageMarginDrawable = ThemeUtils.getDrawable(this, R.attr.tab_page_margin_drawable,
+                R.drawable.tab_page_margin_dark)
+        accountFragmentViewPager.setPageMarginDrawable(pageMarginDrawable)
+        accountFragmentViewPager.adapter = adapter
+        accountFragmentViewPager.offscreenPageLimit = 2
+        accountTabLayout.setupWithViewPager(accountFragmentViewPager)
+        accountTabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+            override fun onTabReselected(tab: TabLayout.Tab?) {
+                tab?.position?.let { position ->
+                    (adapter.getFragment(position) as? ReselectableFragment)?.onReselect()
+                }
+            }
+
+            override fun onTabUnselected(tab: TabLayout.Tab?) {}
+
+            override fun onTabSelected(tab: TabLayout.Tab?) {}
+
+        })
+    }
+
+    /**
+     * Setup toolbar
+     */
+    private fun setupToolbar() {
         // set toolbar top margin according to system window insets
         accountCoordinatorLayout.setOnApplyWindowInsetsListener { _, insets ->
             val top = insets.systemWindowInsetTop
@@ -166,17 +231,6 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
         supportActionBar?.title = null
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
-
-        hideFab = PreferenceManager.getDefaultSharedPreferences(this).getBoolean("fabHide", false)
-
-        toolbarColor = ThemeUtils.getColor(this, R.attr.toolbar_background_color)
-        backgroundColor = ThemeUtils.getColor(this, android.R.attr.colorBackground)
-        statusBarColorTransparent = ContextCompat.getColor(this, R.color.header_background_filter)
-        statusBarColorOpaque = ThemeUtils.getColor(this, R.attr.colorPrimaryDark)
-        textColorPrimary = ThemeUtils.getColor(this, android.R.attr.textColorPrimary)
-        textColorSecondary = ThemeUtils.getColor(this, android.R.attr.textColorSecondary)
-        avatarSize = resources.getDimension(R.dimen.account_activity_avatar_size)
-        titleVisibleHeight = resources.getDimensionPixelSize(R.dimen.account_activity_scroll_title_visible_height)
 
         ThemeUtils.setDrawableTint(this, accountToolbar.navigationIcon, R.attr.account_toolbar_icon_tint_uncollapsed)
         ThemeUtils.setDrawableTint(this, accountToolbar.overflowIcon, R.attr.account_toolbar_icon_tint_uncollapsed)
@@ -237,65 +291,47 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
             }
         })
 
-        // Initialise the default UI states.
-        accountFloatingActionButton.hide()
-        accountFollowButton.hide()
-        accountMuteButton.hide()
-        accountFollowsYouTextView.hide()
-
-
-        // setup the RecyclerView for the account fields
-        accountFieldList.isNestedScrollingEnabled = false
-        accountFieldList.layoutManager = LinearLayoutManager(this)
-        accountFieldList.adapter = accountFieldAdapter
-
-        // Setup the tabs and timeline pager.
-        adapter = AccountPagerAdapter(supportFragmentManager, accountId)
-        val pageTitles = arrayOf(getString(R.string.title_statuses), getString(R.string.title_statuses_with_replies), getString(R.string.title_statuses_pinned), getString(R.string.title_media))
-        adapter.setPageTitles(pageTitles)
-        accountFragmentViewPager.pageMargin = resources.getDimensionPixelSize(R.dimen.tab_page_margin)
-        val pageMarginDrawable = ThemeUtils.getDrawable(this, R.attr.tab_page_margin_drawable,
-                R.drawable.tab_page_margin_dark)
-        accountFragmentViewPager.setPageMarginDrawable(pageMarginDrawable)
-        accountFragmentViewPager.adapter = adapter
-        accountFragmentViewPager.offscreenPageLimit = 2
-        accountTabLayout.setupWithViewPager(accountFragmentViewPager)
-        accountTabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
-            override fun onTabReselected(tab: TabLayout.Tab?) {
-                tab?.position?.let { position ->
-                    (adapter.getFragment(position) as? ReselectableFragment)?.onReselect()
-                }
-            }
-
-            override fun onTabUnselected(tab: TabLayout.Tab?) {}
-
-            override fun onTabSelected(tab: TabLayout.Tab?) {}
-
-        })
-        val accountListClickListener = { v: View ->
-            val type = when (v.id) {
-                R.id.accountFollowers -> AccountListActivity.Type.FOLLOWERS
-                R.id.accountFollowing -> AccountListActivity.Type.FOLLOWS
-                else -> throw AssertionError()
-            }
-            val accountListIntent = AccountListActivity.newIntent(this, type, viewModel.accountId)
-            startActivityWithSlideInAnimation(accountListIntent)
-        }
-        accountFollowers.setOnClickListener(accountListClickListener)
-        accountFollowing.setOnClickListener(accountListClickListener)
-
-        accountStatuses.setOnClickListener {
-            // Make nice ripple effect on tab
-            accountTabLayout.getTabAt(0)!!.select()
-            val poorTabView = (accountTabLayout.getChildAt(0) as ViewGroup).getChildAt(0)
-            poorTabView.isPressed = true
-            accountTabLayout.postDelayed({ poorTabView.isPressed = false }, 300)
-        }
-
-        setupRefresh()
     }
 
-    private fun setupRefresh() {
+    private fun makeNotificationBarTransparent() {
+        val decorView = window.decorView
+        decorView.systemUiVisibility = decorView.systemUiVisibility or View.SYSTEM_UI_FLAG_LAYOUT_STABLE or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+        window.statusBarColor = Color.TRANSPARENT
+    }
+
+    /**
+     * Subscribe to data loaded at the view model
+     */
+    private fun subscribeObservables() {
+        viewModel.accountData.observe(this, Observer<Resource<Account>> {
+            when (it) {
+                is Success -> onAccountChanged(it.data)
+                is Error -> {
+                    Snackbar.make(accountCoordinatorLayout, R.string.error_generic, Snackbar.LENGTH_LONG)
+                            .setAction(R.string.action_retry) { viewModel.refresh() }
+                            .show()
+                }
+            }
+        })
+        viewModel.relationshipData.observe(this, Observer<Resource<Relationship>> {
+            val relation = it?.data
+            if (relation != null) {
+                onRelationshipChanged(relation)
+            }
+
+            if (it is Error) {
+                Snackbar.make(accountCoordinatorLayout, R.string.error_generic, Snackbar.LENGTH_LONG)
+                        .setAction(R.string.action_retry) { viewModel.refresh() }
+                        .show()
+            }
+
+        })
+    }
+
+    /**
+     * Setup swipe to refresh layout
+     */
+    private fun setupRefreshLayout() {
         swipeToRefreshLayout.setOnRefreshListener {
             viewModel.refresh()
             adapter.refreshContent()
