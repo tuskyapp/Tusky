@@ -775,9 +775,13 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
 
             pollButton.setVisibility(View.GONE);
         } else {
+            long timestamp = System.currentTimeMillis();
+
+            boolean expired = poll.getExpired() || (poll.getExpiresAt() != null && timestamp > poll.getExpiresAt().getTime());
+
             Context context = pollDescription.getContext();
 
-            if(poll.getExpired() || poll.getVoted())   {
+            if(expired || poll.getVoted())   {
                 // no voting possible
                setupPollResult(poll, emojis);
             } else {
@@ -790,14 +794,15 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             String votes = numberFormat.format(poll.getVotesCount());
             String votesText = context.getResources().getQuantityString(R.plurals.poll_info_votes, poll.getVotesCount(), votes);
 
+
             CharSequence pollDurationInfo;
-            if(poll.getExpired()) {
+            if(expired) {
                 pollDurationInfo = context.getString(R.string.poll_info_closed);
             } else {
                 if(useAbsoluteTime) {
                     pollDurationInfo = context.getString(R.string.poll_info_time_absolute, getAbsoluteTime(poll.getExpiresAt()));
                 } else {
-                    String pollDuration = DateUtils.formatDuration(pollDescription.getContext(), poll.getExpiresAt().getTime(), System.currentTimeMillis());
+                    String pollDuration = DateUtils.formatDuration(pollDescription.getContext(), poll.getExpiresAt().getTime(), timestamp);
                     pollDurationInfo = context.getString(R.string.poll_info_time_relative, pollDuration);
                 }
             }
