@@ -473,9 +473,9 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
 
     private fun updateMuteButton() {
         if (muting) {
-            accountMuteButton.setImageResource(R.drawable.ic_unmute_24dp)
+            accountMuteButton.setIconResource(R.drawable.ic_unmute_24dp)
         } else {
-            accountMuteButton.setImageResource(R.drawable.ic_mute_24dp)
+            accountMuteButton.setIconResource(R.drawable.ic_mute_24dp)
         }
     }
 

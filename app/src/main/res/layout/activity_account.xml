@@ -74,7 +74,7 @@
                         app:layout_constraintTop_toTopOf="parent"
                         tools:text="Follow Requested" />
 
-                    <ImageButton
+                    <com.google.android.material.button.MaterialButton
                         android:id="@+id/accountMuteButton"
                         android:layout_width="wrap_content"
                         android:layout_height="0dp"
@@ -85,10 +85,14 @@
                         app:layout_constraintBottom_toBottomOf="@+id/accountFollowButton"
                         app:layout_constraintEnd_toStartOf="@id/accountFollowButton"
                         app:layout_constraintHorizontal_bias="1"
+                        android:minWidth="0dp"
+                        android:paddingStart="8dp"
+                        android:paddingEnd="8dp"
                         app:layout_constraintHorizontal_chainStyle="packed"
                         app:layout_constraintStart_toStartOf="@id/guideAvatar"
                         app:layout_constraintTop_toTopOf="@+id/accountFollowButton"
-                        app:srcCompat="@drawable/ic_unmute_24dp" />
+                        style="@style/TuskyButton.Outlined"
+                        app:icon="@drawable/ic_unmute_24dp" />
 
                     <androidx.emoji.widget.EmojiTextView
                         android:id="@+id/accountDisplayNameTextView"
