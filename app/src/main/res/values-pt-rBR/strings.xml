@@ -197,14 +197,14 @@
     <string name="status_text_size_largest">Maior</string>
     <string name="media_hide_sensitive">Ocultar mídia marcada como sensível</string>
 
-    <string name="notification_channel_mention_name">Novas Menções</string>
-    <string name="notification_channel_mention_descriptions">Notificações sobre novas menções</string>
-    <string name="notification_channel_follow_name">Novos Seguidores</string>
-    <string name="notification_channel_follow_description">Notificações sobre novos seguidores</string>
-    <string name="notification_channel_boost_name">Compartilhamentos</string>
-    <string name="notification_channel_boost_description">Notificações quando seus toots forem compartilhados</string>
-    <string name="notification_channel_favourite_name">Favoritos</string>
-    <string name="notification_channel_favourite_description">Notificações quando seus toots forem favoritados</string>
+    <string name="notification_mention_name">Novas Menções</string>
+    <string name="notification_mention_descriptions">Notificações sobre novas menções</string>
+    <string name="notification_follow_name">Novos Seguidores</string>
+    <string name="notification_follow_description">Notificações sobre novos seguidores</string>
+    <string name="notification_boost_name">Compartilhamentos</string>
+    <string name="notification_boost_description">Notificações quando seus toots forem compartilhados</string>
+    <string name="notification_favourite_name">Favoritos</string>
+    <string name="notification_favourite_description">Notificações quando seus toots forem favoritados</string>
     <string name="notification_mention_format">%s mencionou você</string>
     <string name="notification_summary_large">%1$s, %2$s, %3$s e %4$d outros</string>
     <string name="notification_summary_medium">%1$s, %2$s, e %3$s</string>

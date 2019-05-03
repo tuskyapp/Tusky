@@ -178,14 +178,14 @@
     <string name="status_text_size_medium">Mejana</string>
     <string name="status_text_size_large">Granda</string>
     <string name="status_text_size_largest">Grandassa</string>
-    <string name="notification_channel_mention_name">Mencions nòvas</string>
-    <string name="notification_channel_mention_descriptions">Notificacions de mencions noves</string>
-    <string name="notification_channel_follow_name">Seguidors nòus</string>
-    <string name="notification_channel_follow_description">Notificacions de nòus seguidors</string>
-    <string name="notification_channel_boost_name">Retuts</string>
-    <string name="notification_channel_boost_description">Notificacions de compartiment de vòstres tuts</string>
-    <string name="notification_channel_favourite_name">Preferits</string>
-    <string name="notification_channel_favourite_description">Notificacions s’agradan vòstres tuts</string>
+    <string name="notification_mention_name">Mencions nòvas</string>
+    <string name="notification_mention_descriptions">Notificacions de mencions noves</string>
+    <string name="notification_follow_name">Seguidors nòus</string>
+    <string name="notification_follow_description">Notificacions de nòus seguidors</string>
+    <string name="notification_boost_name">Retuts</string>
+    <string name="notification_boost_description">Notificacions de compartiment de vòstres tuts</string>
+    <string name="notification_favourite_name">Preferits</string>
+    <string name="notification_favourite_description">Notificacions s’agradan vòstres tuts</string>
     <string name="notification_mention_format">%s vos mencionan</string>
     <string name="notification_summary_large">%1$s, %2$s, %3$s e %4$d mai</string>
     <string name="notification_summary_medium">%1$s, %2$s e %3$s</string>
@@ -383,5 +383,37 @@
 
     <string name="compose_shortcut_long_label">Escriure un tut</string>
     <string name="compose_shortcut_short_label">Escriure</string>
+
+<string name="action_delete_and_redraft">Suprimir e reformular</string>
+    <string name="dialog_redraft_toot_warning">Suprimir e reformular aqueste tut \?</string>
+
+    <string name="app_theme_system">Utilizar lo tèma sistèma</string>
+
+    <string name="media_hide_sensitive">Amagar los mèdias marcats coma sensibles</string>
+    <string name="media_hide_none">Totjorn mostrar los mèdias marcat coma sensibles</string>
+    <string name="media_hide_all">Totjorn amagar los mèdias</string>
+
+    <string name="timespan_days">%d jorns</string>
+    <string name="timespan_hours">%d oras</string>
+    <string name="timespan_minutes">%d minutas</string>
+    <string name="timespan_seconds">%d segondas</string>
+
+    <string name="notifications_clear">Netejar</string>
+    <string name="notifications_apply_filter">Filtrar</string>
+    <string name="filter_apply">Aplicar</string>
+
+    <string name="pref_title_bot_overlay">Mostrar coma indicator pels robòts</string>
+
+    <string name="notification_clear_text">Netejar totas las notificacions d’un biais permanent \?</string>
+
+    <plurals name="poll_info_votes">
+	<item quantity="one">%s vòte</item>
+	<item quantity="other">%s vòtes</item>
+</plurals>
+    <string name="poll_info_time_relative">%s restant</string>
+    <string name="poll_info_time_absolute">S’acaba a %s</string>
+    <string name="poll_info_closed">acabat</string>
+    <string name="poll_vote">Votar</string>
+
 
 </resources>

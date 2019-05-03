@@ -229,14 +229,14 @@
     <string name="media_hide_none">Всегда показывать чувствительные медиафайлы</string>
     <string name="media_hide_all">Всегда скрывать все медиафайлы</string>
 
-    <string name="notification_channel_mention_name">Новые упоминания</string>
-    <string name="notification_channel_mention_descriptions">Уведомлять о новых упоминаниях</string>
-    <string name="notification_channel_follow_name">Новые подписчики</string>
-    <string name="notification_channel_follow_description">Уведомлять о новых подписчиках</string>
-    <string name="notification_channel_boost_name">Продвижения</string>
-    <string name="notification_channel_boost_description">Уведомлять, если кто-то продвинул ваши сообщения</string>
-    <string name="notification_channel_favourite_name">Избранное</string>
-    <string name="notification_channel_favourite_description">Уведомлять, когда ваши сообщения отмечают как «избранные»</string>
+    <string name="notification_mention_name">Новые упоминания</string>
+    <string name="notification_mention_descriptions">Уведомлять о новых упоминаниях</string>
+    <string name="notification_follow_name">Новые подписчики</string>
+    <string name="notification_follow_description">Уведомлять о новых подписчиках</string>
+    <string name="notification_boost_name">Продвижения</string>
+    <string name="notification_boost_description">Уведомлять, если кто-то продвинул ваши сообщения</string>
+    <string name="notification_favourite_name">Избранное</string>
+    <string name="notification_favourite_description">Уведомлять, когда ваши сообщения отмечают как «избранные»</string>
 
 
     <string name="notification_mention_format">%s упомянул(а) Вас</string>

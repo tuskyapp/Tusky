@@ -815,13 +815,13 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
 
         for(int i = 0; i < Status.MAX_POLL_OPTIONS; i++) {
             if(i < options.size()) {
-                long percent = calculatePollPercent(options.get(i).getVotesCount(), poll.getVotesCount());
+                int percent = options.get(i).getPercent(poll.getVotesCount());
 
                 String pollOptionText = pollResults[i].getContext().getString(R.string.poll_option_format, percent, options.get(i).getTitle());
                 pollResults[i].setText(CustomEmojiHelper.emojifyText(HtmlUtils.fromHtml(pollOptionText), emojis, pollResults[i]));
                 pollResults[i].setVisibility(View.VISIBLE);
 
-                int level = (int) percent * 100;
+                int level = percent * 100;
 
                 pollResults[i].getBackground().setLevel(level);
 
@@ -920,10 +920,4 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         }
     }
 
-    private static long calculatePollPercent(int votes, int totalVotes) {
-        if(votes == 0) {
-            return 0;
-        }
-        return Math.round(votes / (double) totalVotes * 100);
-    }
 }

@@ -39,6 +39,12 @@
             android:title="@string/pref_title_notification_filter_favourites"
             app:iconSpaceReserved="false" />
 
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="notificationFilterPolls"
+            android:title="@string/pref_title_notification_filter_poll"
+            app:iconSpaceReserved="false" />
+
     </PreferenceCategory>
 
     <PreferenceCategory

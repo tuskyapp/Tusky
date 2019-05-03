@@ -74,7 +74,7 @@ public class TuskyApplication extends Application implements HasActivityInjector
                         AppDatabase.MIGRATION_5_6, AppDatabase.MIGRATION_6_7, AppDatabase.MIGRATION_7_8,
                         AppDatabase.MIGRATION_8_9, AppDatabase.MIGRATION_9_10, AppDatabase.MIGRATION_10_11,
                         AppDatabase.MIGRATION_11_12, AppDatabase.MIGRATION_12_13, AppDatabase.MIGRATION_10_13,
-                        AppDatabase.MIGRATION_13_14, AppDatabase.MIGRATION_14_15)
+                        AppDatabase.MIGRATION_13_14, AppDatabase.MIGRATION_14_15, AppDatabase.MIGRATION_15_16)
                 .build();
         accountManager = new AccountManager(appDatabase);
         serviceLocator = new ServiceLocator() {
