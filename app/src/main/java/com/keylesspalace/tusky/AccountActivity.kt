@@ -93,8 +93,8 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
     private var textColorPrimary: Int = 0
     @ColorInt
     private var textColorSecondary: Int = 0
-    @Px
-    private var avatarSize: Int = 0
+
+    private var avatarSize: Float = 0f
     @Px
     private var titleVisibleHeight: Int = 0
 
@@ -116,7 +116,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
                 is Success -> onAccountChanged(it.data)
                 is Error -> {
                     Snackbar.make(accountCoordinatorLayout, R.string.error_generic, Snackbar.LENGTH_LONG)
-                            .setAction(R.string.action_retry) { viewModel.refresh()}
+                            .setAction(R.string.action_retry) { viewModel.refresh() }
                             .show()
                 }
             }
@@ -129,7 +129,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
 
             if (it is Error) {
                 Snackbar.make(accountCoordinatorLayout, R.string.error_generic, Snackbar.LENGTH_LONG)
-                        .setAction(R.string.action_retry) { viewModel.refresh()}
+                        .setAction(R.string.action_retry) { viewModel.refresh() }
                         .show()
             }
 
@@ -175,7 +175,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
         statusBarColorOpaque = ThemeUtils.getColor(this, R.attr.colorPrimaryDark)
         textColorPrimary = ThemeUtils.getColor(this, android.R.attr.textColorPrimary)
         textColorSecondary = ThemeUtils.getColor(this, android.R.attr.textColorSecondary)
-        avatarSize = resources.getDimensionPixelSize(R.dimen.account_activity_avatar_size)
+        avatarSize = resources.getDimension(R.dimen.account_activity_avatar_size)
         titleVisibleHeight = resources.getDimensionPixelSize(R.dimen.account_activity_scroll_title_visible_height)
 
         ThemeUtils.setDrawableTint(this, accountToolbar.navigationIcon, R.attr.account_toolbar_icon_tint_uncollapsed)
@@ -216,7 +216,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
                 }
                 oldOffset = verticalOffset
 
-                val scaledAvatarSize = (avatarSize + verticalOffset) / avatarSize.toFloat()
+                val scaledAvatarSize = (avatarSize + verticalOffset) / avatarSize
 
                 accountAvatarImageView.scaleX = scaledAvatarSize
                 accountAvatarImageView.scaleY = scaledAvatarSize
@@ -233,7 +233,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
                 accountToolbar.setBackgroundColor(evaluatedToolbarColor)
                 accountHeaderInfoContainer.setBackgroundColor(evaluatedTabBarColor)
                 accountTabLayout.setBackgroundColor(evaluatedTabBarColor)
-                swipeToRefreshLayout.isEnabled = verticalOffset==0
+                swipeToRefreshLayout.isEnabled = verticalOffset == 0
             }
         })
 
@@ -262,7 +262,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
         accountTabLayout.setupWithViewPager(accountFragmentViewPager)
         accountTabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabReselected(tab: TabLayout.Tab?) {
-                tab?.position?.let { position->
+                tab?.position?.let { position ->
                     (adapter.getFragment(position) as? ReselectableFragment)?.onReselect()
                 }
             }
@@ -300,8 +300,8 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
             viewModel.refresh()
             adapter.refreshContent()
         }
-        viewModel.isRefreshing.observe(this, Observer {isRefreshing->
-            swipeToRefreshLayout.isRefreshing = isRefreshing==true
+        viewModel.isRefreshing.observe(this, Observer { isRefreshing ->
+            swipeToRefreshLayout.isRefreshing = isRefreshing == true
         })
     }
 
