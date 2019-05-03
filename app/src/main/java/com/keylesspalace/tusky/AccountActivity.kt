@@ -303,8 +303,10 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
         viewModel.isRefreshing.observe(this, Observer { isRefreshing ->
             swipeToRefreshLayout.isRefreshing = isRefreshing == true
         })
+        swipeToRefreshLayout.setColorSchemeResources(R.color.tusky_blue)
+        swipeToRefreshLayout.setProgressBackgroundColorSchemeColor(ThemeUtils.getColor(this,
+                android.R.attr.colorBackground))
     }
-
 
     private fun onAccountChanged(account: Account?) {
         if (account != null) {
