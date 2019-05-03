@@ -232,4 +232,15 @@
 <string name="poll_vote">Vota</string>
 
 
-</resources>
+<string name="error_sender_account_gone">Error enviant el toot</string>
+
+    <string name="title_advanced">Avançat</string>
+    <string name="title_tab_preferences">Pestanyes</string>
+    <string name="title_licenses">Llicències</string>
+
+    <string name="status_content_show_more">Ampliar</string>
+    <string name="action_quick_reply">Resposta ràpida</string>
+    <string name="action_unfavourite">Elimineu els preferits</string>
+    <string name="action_view_account_preferences">Preferències del compte</string>
+    <string name="action_edit_own_profile">Edita</string>
+    </resources>
