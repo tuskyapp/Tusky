@@ -255,14 +255,11 @@ public class NotificationsFragment extends SFragment implements
     }
 
     private void confirmClearNotifications(){
-        AlertDialog.Builder dialog = new AlertDialog.Builder(getContext());
-        dialog.setMessage(R.string.notification_clear_text);
-
-        dialog.setPositiveButton(android.R.string.yes, (DialogInterface dia, int which) -> clearNotifications());
-
-        dialog.setNeutralButton(android.R.string.no, null);
-
-        dialog.show();
+        new AlertDialog.Builder(getContext())
+                .setMessage(R.string.notification_clear_text)
+                .setPositiveButton(android.R.string.yes, (DialogInterface dia, int which) -> clearNotifications())
+                .setNegativeButton(android.R.string.no, null)
+                .show();
     }
 
     private void handleFavEvent(FavoriteEvent event) {
@@ -646,6 +643,8 @@ public class NotificationsFragment extends SFragment implements
         }
         window.setContentView(view);
         window.setFocusable(true);
+        window.setWidth(ViewGroup.LayoutParams.WRAP_CONTENT);
+        window.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
         window.showAsDropDown(buttonFilter);
 
     }
