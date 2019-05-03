@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='UTF-8'?>
 <resources>
     <string name="error_generic">Hiba történt.</string>
     <string name="error_network">Hálózati hiba történt! Kérjük, ellenőrizze a kapcsolatot, és próbálja meg újra!</string>
@@ -64,7 +64,7 @@
     <string name="action_favourite">Kedvenc</string>
     <string name="action_more">Több</string>
     <string name="action_compose">Szerkeszt</string>
-    <string name="action_login">Bejelentkezés Mastodon-al</string>
+    <string name="action_login">Bejelentkezés Mastodonnal</string>
     <string name="action_logout">Kijelentkezés</string>
     <string name="action_logout_confirm">Biztosan ki szeretnél jelentkezni a következőből: %1$s?</string>
     <string name="action_follow">Követ</string>
@@ -290,4 +290,9 @@
     </string>
     <string name="description_visiblity_public">Nyilvános    </string>
     <string name="description_visiblity_private">Követők    </string>
-</resources>
+<string name="action_unfavourite">Kedvenc eltávolítása</string>
+    <string name="action_delete_and_redraft">Törlés és új piszkozat</string>
+    <string name="action_open_media_n">Média megnyitása: #%d</string>
+
+    <string name="download_media">Média letöltése</string>
+    </resources>
