@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='UTF-8'?>
 <resources>
     <string name="error_generic">Hiba történt.</string>
     <string name="error_network">Hálózati hiba történt! Kérjük, ellenőrizze a kapcsolatot, és próbálja meg újra!</string>
@@ -64,7 +64,7 @@
     <string name="action_favourite">Kedvenc</string>
     <string name="action_more">Több</string>
     <string name="action_compose">Szerkeszt</string>
-    <string name="action_login">Bejelentkezés Mastodon-al</string>
+    <string name="action_login">Bejelentkezés Mastodonnal</string>
     <string name="action_logout">Kijelentkezés</string>
     <string name="action_logout_confirm">Biztosan ki szeretnél jelentkezni a következőből: %1$s?</string>
     <string name="action_follow">Követ</string>
@@ -168,7 +168,7 @@
     <string name="pref_title_notification_filter_mentions">említett</string>
     <string name="pref_title_notification_filter_follows">követett</string>
     <string name="pref_title_notification_filter_reblogs">posztjaimat rebloggolták</string>
-    <string name="pref_title_notification_filter_favourites">posztjaimat kedvencé teszik</string>
+    <string name="pref_title_notification_filter_favourites">posztjaimat kedvenccé teszik</string>
     <string name="pref_title_appearance_settings">Kinézet</string>
     <string name="pref_title_timelines">Idővonalak</string>
     <string name="app_them_dark">Sötét</string>
@@ -290,4 +290,61 @@
     </string>
     <string name="description_visiblity_public">Nyilvános    </string>
     <string name="description_visiblity_private">Követők    </string>
-</resources>
+<string name="action_unfavourite">Kedvenc eltávolítása</string>
+    <string name="action_delete_and_redraft">Törlés és új piszkozat</string>
+    <string name="action_open_media_n">Média megnyitása: #%d</string>
+
+    <string name="download_media">Média letöltése</string>
+    <string name="downloading_media">Média letöltése</string>
+
+    <string name="send_media_to">Média megosztása következővel:</string>
+
+    <string name="dialog_redraft_toot_warning">Törlöd és újraírod ezt a tootot\?</string>
+
+    <string name="pref_summary_notifications">a %1$s fióknak</string>
+    <string name="pref_title_notification_filter_poll">befejeződött a szavazás</string>
+    <string name="pref_title_timeline_filters">Szűrők</string>
+
+    <string name="app_theme_system">Alapértelmezett téma használata</string>
+
+    <string name="pref_title_language">Nyelv</string>
+    <string name="pref_publishing">Közzététel (szerverrel szinkronizált)</string>
+    <string name="pref_media_display">Média megjelenítése</string>
+
+    <string name="notification_poll_name">Szavazások</string>
+    <string name="notification_poll_description">Értesítés a befejezett szavazásokról</string>
+
+
+    <string name="about_tusky_license">Tusky ingyenes és nyílt forráskódú szoftver. A GNU General Public License Version 3 érvényes rá, amit itt tekinthets meg: https://www.gnu.org/licenses/gpl-3.0.en.html</string>
+    <string name="abbreviated_in_years">%dé múlva</string>
+    <string name="abbreviated_in_days">%nn múlva</string>
+    <string name="abbreviated_in_hours">%dó múlva</string>
+    <string name="abbreviated_in_minutes">%dp múlva</string>
+    <string name="abbreviated_years_ago">%dé</string>
+    <string name="abbreviated_days_ago">%dn</string>
+    <string name="abbreviated_hours_ago">%dó</string>
+    <string name="abbreviated_minutes_ago">%dp</string>
+    <string name="abbreviated_seconds_ago">%dm</string>
+
+    <string name="timespan_days">%d nap</string>
+    <string name="timespan_hours">%d óra</string>
+    <string name="timespan_minutes">%d perc</string>
+    <string name="timespan_seconds">%d másodperc</string>
+
+    <string name="replying_to">Válasz @%s részére</string>
+    <string name="pref_title_public_filter_keywords">Nyilvános idővonalak</string>
+    <string name="pref_title_thread_filter_keywords">Beszélgetések</string>
+    <string name="filter_addition_dialog_title">Szűrő hozzáadása</string>
+    <string name="filter_edit_dialog_title">Szűrő szerkesztése</string>
+    <string name="filter_dialog_remove_button">Eltávolítás</string>
+    <string name="filter_dialog_update_button">Frissítés</string>
+    <string name="filter_add_description">Szűrőkifejezés</string>
+
+    <string name="error_create_list">Nem sikerült a lista létrehozása</string>
+    <string name="error_rename_list">Nem sikerült a lista átnevezése</string>
+    <string name="error_delete_list">Nem sikerült a lista törlése</string>
+    <string name="action_create_list">Lista létrehozása</string>
+    <string name="action_rename_list">Lista átnevezése</string>
+    <string name="action_delete_list">Lista törlése</string>
+    <string name="action_edit_list">Lista szerkesztése</string>
+    </resources>

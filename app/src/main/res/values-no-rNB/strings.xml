@@ -449,4 +449,13 @@
     <string name="media_hide_none">Vis alltid media markert som sensitivt</string>
     <string name="media_hide_all">Skjul alltid media</string>
 
-    </resources>
+    <string name="pref_title_notification_filter_poll">Avstemminger er avsluttet</string>
+    <string name="notification_poll_name">Avstemminger</string>
+    <string name="notification_poll_description">Varsler om avstemminger som er avsluttet</string>
+
+
+    <string name="poll_ended_voted">En avstemming du har stemt på er avsluttet</string>
+    <string name="poll_ended_created">En avstemming du opprettet er avsluttet</string>
+
+
+</resources>
