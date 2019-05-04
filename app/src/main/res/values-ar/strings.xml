@@ -378,4 +378,20 @@
     <string name="poll_vote">صَوِّت</string>
 
 
+<string name="notification_poll_name">استطلاعات الرأي</string>
+    <string name="notification_poll_description">الإشعارات المتعلقة باستطلاعات الرأي التي انتهت</string>
+
+
+    <plurals name="poll_info_votes">
+	<item quantity="zero">%s صوت</item>
+	<item quantity="one">%s صوت</item>
+	<item quantity="two">صوتين</item>
+	<item quantity="few">%s أصوات</item>
+	<item quantity="many">%s أصوات</item>
+	<item quantity="other">%s صوت</item>
+</plurals>
+    <string name="poll_ended_voted">لقد انتهى استطلاع رأي قد أبديت بصوتك فيه</string>
+    <string name="poll_ended_created">لقد انتهى استطلاع رأي قمتَ بإنشائه</string>
+
+
 </resources>
