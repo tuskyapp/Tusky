@@ -622,9 +622,12 @@ public class TimelineFragment extends SFragment implements
     }
 
     public void onVoteInPoll(int position, @NonNull List<Integer> choices) {
+
         final Status status = statuses.get(position).asRight();
 
-        setVoteForPoll(position, status, status.getPoll().votedCopy(choices));
+        Poll votedPoll = status.getActionableStatus().getPoll().votedCopy(choices);
+
+        setVoteForPoll(position, status, votedPoll);
 
         timelineCases.voteInPoll(status, choices)
                 .observeOn(AndroidSchedulers.mainThread())
