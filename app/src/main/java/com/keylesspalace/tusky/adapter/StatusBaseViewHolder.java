@@ -869,17 +869,23 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
 
             pollButton.setOnClickListener(v -> {
 
-                List<Integer> pollResult = new ArrayList<>(options.size());
-                for(int i = 0; i < options.size(); i++) {
-                    if(pollCheckboxOptions[i].isChecked()) {
-                        pollResult.add(i);
+                int position = getAdapterPosition();
+
+                if (position != RecyclerView.NO_POSITION) {
+
+                    List<Integer> pollResult = new ArrayList<>(options.size());
+                    for (int i = 0; i < options.size(); i++) {
+                        if (pollCheckboxOptions[i].isChecked()) {
+                            pollResult.add(i);
+                        }
                     }
-                }
-                if(pollResult.size() == 0) {
-                    return;
+                    if (pollResult.size() == 0) {
+                        return;
+                    }
+
+                    listener.onVoteInPoll(position, pollResult);
                 }
 
-                listener.onVoteInPoll(getAdapterPosition(), pollResult);
             });
         } else {
 
@@ -901,25 +907,30 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
 
             pollButton.setOnClickListener(v -> {
 
-                int selectedRadioButtonIndex;
-                switch (pollRadioGroup.getCheckedRadioButtonId()) {
-                    case R.id.status_poll_radio_button_0:
-                        selectedRadioButtonIndex = 0;
-                        break;
-                    case R.id.status_poll_radio_button_1:
-                        selectedRadioButtonIndex = 1;
-                        break;
-                    case R.id.status_poll_radio_button_2:
-                        selectedRadioButtonIndex = 2;
-                        break;
-                    case R.id.status_poll_radio_button_3:
-                        selectedRadioButtonIndex = 3;
-                        break;
-                    default:
-                        return;
-                }
+                int position = getAdapterPosition();
 
-                listener.onVoteInPoll(getAdapterPosition(), Collections.singletonList(selectedRadioButtonIndex));
+                if (position != RecyclerView.NO_POSITION) {
+
+                    int selectedRadioButtonIndex;
+                    switch (pollRadioGroup.getCheckedRadioButtonId()) {
+                        case R.id.status_poll_radio_button_0:
+                            selectedRadioButtonIndex = 0;
+                            break;
+                        case R.id.status_poll_radio_button_1:
+                            selectedRadioButtonIndex = 1;
+                            break;
+                        case R.id.status_poll_radio_button_2:
+                            selectedRadioButtonIndex = 2;
+                            break;
+                        case R.id.status_poll_radio_button_3:
+                            selectedRadioButtonIndex = 3;
+                            break;
+                        default:
+                            return;
+                    }
+
+                    listener.onVoteInPoll(position, Collections.singletonList(selectedRadioButtonIndex));
+                }
             });
 
         }
