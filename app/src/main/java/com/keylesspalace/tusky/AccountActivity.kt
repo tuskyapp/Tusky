@@ -345,28 +345,40 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
     }
 
     private fun onAccountChanged(account: Account?) {
-        if (account != null) {
-            loadedAccount = account
-            val usernameFormatted = getString(R.string.status_username_format, account.username)
-            accountUsernameTextView.text = usernameFormatted
-            accountDisplayNameTextView.text = CustomEmojiHelper.emojifyString(account.name, account.emojis, accountDisplayNameTextView)
-            if (supportActionBar != null) {
-                try {
-                    supportActionBar?.title = EmojiCompat.get().process(account.name)
-                } catch (e: IllegalStateException) {
-                    supportActionBar?.title = account.name
-                }
+        loadedAccount = account ?: return
 
-                val subtitle = String.format(getString(R.string.status_username_format),
-                        account.username)
-                supportActionBar?.subtitle = subtitle
-            }
-            val emojifiedNote = CustomEmojiHelper.emojifyText(account.note, account.emojis, accountNoteTextView)
-            LinkHelper.setClickableText(accountNoteTextView, emojifiedNote, null, this)
+        val usernameFormatted = getString(R.string.status_username_format, account.username)
+        accountUsernameTextView.text = usernameFormatted
+        accountDisplayNameTextView.text = CustomEmojiHelper.emojifyString(account.name, account.emojis, accountDisplayNameTextView)
 
-            accountLockedImageView.visible(account.locked)
-            accountBadgeTextView.visible(account.bot)
+        val emojifiedNote = CustomEmojiHelper.emojifyText(account.note, account.emojis, accountNoteTextView)
+        LinkHelper.setClickableText(accountNoteTextView, emojifiedNote, null, this)
 
+        accountFieldAdapter.fields = account.fields ?: emptyList()
+        accountFieldAdapter.emojis = account.emojis ?: emptyList()
+        accountFieldAdapter.notifyDataSetChanged()
+
+
+        accountLockedImageView.visible(account.locked)
+        accountBadgeTextView.visible(account.bot)
+
+        updateAccountAvatar()
+        updateToolbar()
+        updateMovedAccount()
+        updateRemoteAccount()
+        updateAccountStats()
+
+        accountMuteButton.setOnClickListener {
+            viewModel.changeMuteState()
+            updateMuteButton()
+        }
+    }
+
+    /**
+     * Load account's avatar and header image
+     */
+    private fun updateAccountAvatar() {
+        loadedAccount?.let { account ->
             Glide.with(this)
                     .load(account.avatar)
                     .placeholder(R.drawable.avatar_default)
@@ -376,6 +388,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
                     .centerCrop()
                     .into(accountHeaderImageView)
 
+
             accountAvatarImageView.setOnClickListener { avatarView ->
                 val intent = ViewMediaActivity.newAvatarIntent(avatarView.context, account.avatar)
 
@@ -384,52 +397,81 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
 
                 startActivity(intent, options.toBundle())
             }
+        }
+    }
 
-            accountFieldAdapter.fields = account.fields ?: emptyList()
-            accountFieldAdapter.emojis = account.emojis ?: emptyList()
-            accountFieldAdapter.notifyDataSetChanged()
+    /**
+     * Update toolbar views for loaded account
+     */
+    private fun updateToolbar() {
+        loadedAccount?.let { account ->
+            try {
+                supportActionBar?.title = EmojiCompat.get().process(account.name)
+            } catch (e: IllegalStateException) {
+                supportActionBar?.title = account.name
+            }
+            supportActionBar?.subtitle = String.format(getString(R.string.status_username_format), account.username)
+        }
+    }
 
-            if (account.moved != null) {
-                val movedAccount = account.moved
+    /**
+     * Update moved account info
+     */
+    private fun updateMovedAccount() {
+        loadedAccount?.moved?.let { movedAccount ->
 
-                accountMovedView.show()
+            accountMovedView.show()
 
-                // necessary because accountMovedView is now replaced in layout hierachy
-                findViewById<View>(R.id.accountMovedView).setOnClickListener {
-                    onViewAccount(movedAccount.id)
-                }
-
-                accountMovedDisplayName.text = movedAccount.name
-                accountMovedUsername.text = getString(R.string.status_username_format, movedAccount.username)
-
-                Glide.with(this)
-                        .load(movedAccount.avatar)
-                        .placeholder(R.drawable.avatar_default)
-                        .into(accountMovedAvatar)
-
-                accountMovedText.text = getString(R.string.account_moved_description, movedAccount.displayName)
-
-                // this is necessary because API 19 can't handle vector compound drawables
-                val movedIcon = ContextCompat.getDrawable(this, R.drawable.ic_briefcase)?.mutate()
-                val textColor = ThemeUtils.getColor(this, android.R.attr.textColorTertiary)
-                movedIcon?.setColorFilter(textColor, PorterDuff.Mode.SRC_IN)
-
-                accountMovedText.setCompoundDrawablesRelativeWithIntrinsicBounds(movedIcon, null, null, null)
-
-                accountFollowers.hide()
-                accountFollowing.hide()
-                accountStatuses.hide()
-                accountTabLayout.hide()
-                accountFragmentViewPager.hide()
+            // necessary because accountMovedView is now replaced in layout hierachy
+            findViewById<View>(R.id.accountMovedView).setOnClickListener {
+                onViewAccount(movedAccount.id)
             }
 
+            accountMovedDisplayName.text = movedAccount.name
+            accountMovedUsername.text = getString(R.string.status_username_format, movedAccount.username)
+
+            Glide.with(this)
+                    .load(movedAccount.avatar)
+                    .placeholder(R.drawable.avatar_default)
+                    .into(accountMovedAvatar)
+
+            accountMovedText.text = getString(R.string.account_moved_description, movedAccount.displayName)
+
+            // this is necessary because API 19 can't handle vector compound drawables
+            val movedIcon = ContextCompat.getDrawable(this, R.drawable.ic_briefcase)?.mutate()
+            val textColor = ThemeUtils.getColor(this, android.R.attr.textColorTertiary)
+            movedIcon?.setColorFilter(textColor, PorterDuff.Mode.SRC_IN)
+
+            accountMovedText.setCompoundDrawablesRelativeWithIntrinsicBounds(movedIcon, null, null, null)
+
+            accountFollowers.hide()
+            accountFollowing.hide()
+            accountStatuses.hide()
+            accountTabLayout.hide()
+            accountFragmentViewPager.hide()
+        }
+
+    }
+
+    /**
+     * Check is account remote and update info if so
+     */
+    private fun updateRemoteAccount() {
+        loadedAccount?.let { account ->
             if (account.isRemote()) {
                 accountRemoveView.show()
                 accountRemoveView.setOnClickListener {
                     LinkHelper.openLink(account.url, this)
                 }
             }
+        }
+    }
 
+    /**
+     * Update account stat info
+     */
+    private fun updateAccountStats() {
+        loadedAccount?.let { account ->
             val numberFormat = NumberFormat.getNumberInstance()
             accountFollowersTextView.text = numberFormat.format(account.followersCount)
             accountFollowingTextView.text = numberFormat.format(account.followingCount)
@@ -443,14 +485,12 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
                     startActivity(intent)
                     return@setOnClickListener
                 }
+
                 if (blocking) {
                     viewModel.changeBlockState()
                     return@setOnClickListener
                 }
-                if (blocking) {
-                    viewModel.changeBlockState()
-                    return@setOnClickListener
-                }
+
                 when (followState) {
                     FollowState.NOT_FOLLOWING -> {
                         viewModel.changeFollowState()
@@ -463,11 +503,6 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
                     }
                 }
                 updateFollowButton()
-            }
-
-            accountMuteButton.setOnClickListener {
-                viewModel.changeMuteState()
-                updateMuteButton()
             }
         }
     }
