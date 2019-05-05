@@ -1,5 +1,6 @@
 package com.keylesspalace.tusky.appstore
 
+import com.google.gson.Gson
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.db.AppDatabase
 import io.reactivex.Single
@@ -10,7 +11,8 @@ import javax.inject.Inject
 class CacheUpdater @Inject constructor(
         eventHub: EventHub,
         accountManager: AccountManager,
-        private val appDatabase: AppDatabase
+        private val appDatabase: AppDatabase,
+        gson: Gson
 ) {
 
     private val disposable: Disposable
@@ -28,6 +30,10 @@ class CacheUpdater @Inject constructor(
                     timelineDao.removeAllByUser(accountId, event.accountId)
                 is StatusDeletedEvent ->
                     timelineDao.delete(accountId, event.statusId)
+                is PollVoteEvent -> {
+                    val pollString = gson.toJson(event.poll)
+                    timelineDao.setVoted(accountId, event.statusId, pollString)
+                }
             }
         }
     }
