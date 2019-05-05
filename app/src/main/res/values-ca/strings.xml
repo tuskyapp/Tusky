@@ -83,7 +83,6 @@
     <string name="action_unmute">Deixa de silenciar</string>
     <string name="action_mention">Menciona</string>
     <string name="action_hide_media">Amaga el multimèdia</string>
-    <string name="action_open_drawer"></string>
     <string name="action_save">Desa</string>
     <string name="action_edit_profile">Edita el perfil</string>
     <string name="action_undo">Desfés</string>
@@ -206,8 +205,6 @@
     <string name="status_share_link">Comparteix l\'enllaç al toot</string>
     <string name="status_media_images">Imatges</string>
     <string name="status_media_video">Vídeo</string>
-
-    <string name="state_follow_requested"></string>
 
     <string name="no_content">no hi ha cap contingut</string>
 
