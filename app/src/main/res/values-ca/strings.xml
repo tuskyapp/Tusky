@@ -42,7 +42,7 @@
     <string name="status_content_warning_show_more">Mostra\'n més</string>
     <string name="status_content_warning_show_less">Mostra\'n menys</string>
 
-    <string name="footer_empty">No hi res aquí. Llisca avall per a actualitzar!</string>
+    <string name="footer_empty">No hi ha res aquí. Llisca avall per a actualitzar!</string>
 
     <string name="notification_reblog_format">%s ha retootejat el teu toot</string>
     <string name="notification_favourite_format">%s ha marcat com a preferit el teu toot</string>
@@ -83,7 +83,6 @@
     <string name="action_unmute">Deixa de silenciar</string>
     <string name="action_mention">Menciona</string>
     <string name="action_hide_media">Amaga el multimèdia</string>
-    <string name="action_open_drawer">Open drawer</string>
     <string name="action_save">Desa</string>
     <string name="action_edit_profile">Edita el perfil</string>
     <string name="action_undo">Desfés</string>
@@ -207,8 +206,6 @@
     <string name="status_media_images">Imatges</string>
     <string name="status_media_video">Vídeo</string>
 
-    <string name="state_follow_requested">Follow requested</string>
-
     <string name="no_content">no hi ha cap contingut</string>
 
     <!--These are for timestamps on statuses. For example: "16s" or "2d"-->
@@ -243,4 +240,7 @@
     <string name="action_unfavourite">Elimineu els preferits</string>
     <string name="action_view_account_preferences">Preferències del compte</string>
     <string name="action_edit_own_profile">Edita</string>
+    <string name="title_direct_messages">Missatges directes</string>
+    <string name="message_empty">No hi ha res aquí.</string>
+    <string name="action_unreblog">Elimineu els preferits</string>
     </resources>

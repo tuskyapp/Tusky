@@ -249,14 +249,14 @@
     <string name="media_hide_none">总是显示敏感媒体</string>
     <string name="media_hide_all">总是隐藏所有媒体</string>
 
-    <string name="notification_channel_mention_name">被提及</string>
-    <string name="notification_channel_mention_descriptions">当有用户在嘟文中提及我时</string>
-    <string name="notification_channel_follow_name">关注者</string>
-    <string name="notification_channel_follow_description">当有用户关注我时</string>
-    <string name="notification_channel_boost_name">转嘟</string>
-    <string name="notification_channel_boost_description">当有用户转嘟了我的嘟文时</string>
-    <string name="notification_channel_favourite_name">收藏</string>
-    <string name="notification_channel_favourite_description">当有用户收藏了我的嘟文时</string>
+    <string name="notification_mention_name">被提及</string>
+    <string name="notification_mention_descriptions">当有用户在嘟文中提及我时</string>
+    <string name="notification_follow_name">关注者</string>
+    <string name="notification_follow_description">当有用户关注我时</string>
+    <string name="notification_boost_name">转嘟</string>
+    <string name="notification_boost_description">当有用户转嘟了我的嘟文时</string>
+    <string name="notification_favourite_name">收藏</string>
+    <string name="notification_favourite_description">当有用户收藏了我的嘟文时</string>
 
 
     <string name="notification_mention_format">%s 提及了你</string>
@@ -457,10 +457,6 @@
     <string name="hashtag">话题</string>
     <string name="notifications_clear">清除</string>
     <string name="notifications_apply_filter">过滤</string>
-    <string name="filter_favorites">@string/notification_channel_favourite_name</string>
-    <string name="filter_boosts">@string/notification_channel_boost_name</string>
-    <string name="filter_follows">@string/notification_channel_follow_name</string>
-    <string name="filter_mentions">@string/notification_channel_mention_name</string>
     <string name="filter_apply">应用</string>
 
     <string name="compose_shortcut_long_label">发表新嘟文</string>

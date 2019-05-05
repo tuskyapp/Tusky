@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='UTF-8'?>
 <resources>
     <string name="error_generic">Ha ocurrido un error.</string>
     <string name="error_network">¡Se ha producido un error de red! ¡Por favor, comprueba tu conexión e inténtalo de nuevo!</string>
@@ -16,7 +16,7 @@
     <string name="error_media_upload_opening">No pudo abrirse el fichero.</string>
     <string name="error_media_upload_permission">Se requiere permiso para acceder al almacenamiento.</string>
     <string name="error_media_download_permission">Se requiere permiso para descargar al almacenamiento.</string>
-    <string name="error_media_upload_image_or_video">No se pueden adjuntar imágenes y vídeos en el mismo estado</string>
+    <string name="error_media_upload_image_or_video">No se pueden adjuntar imágenes y vídeos en el mismo estado.</string>
     <string name="error_media_upload_sending">La subida falló.</string>
     <string name="error_report_too_few_statuses">Debe seleccionar al menos un estado.</string>
     <string name="error_invalid_regex">Expresión regular inválida</string>
@@ -320,4 +320,12 @@
     <string name="conversation_2_recipients">%1$s y %2$s</string>
     <string name="conversation_more_recipients">%1$s, %2$s y %3$d más</string>
     <string name="max_tab_number_reached">máximo de %1$d pestañas alcanzadas</string>
-</resources>
+<string name="action_mentions">Menciones</string>
+    <string name="action_open_faved_by">Mostrar favoritos</string>
+
+    <string name="title_mentions_dialog">Menciones</string>
+    <string name="download_media">Descargar multimedia</string>
+    <string name="app_theme_system">Usar tema del sistema</string>
+
+    <string name="pref_title_language">Idioma</string>
+    </resources>
