@@ -414,10 +414,6 @@
 <string name="action_delete_and_redraft">Izbriši in preoblikuj</string>
     <string name="dialog_redraft_toot_warning">Izbriši in preoblikuj tut\?</string>
 
-    <string name="timespan_days">%d dni</string>
-    <string name="timespan_hours">%d ur</string>
-    <string name="timespan_minutes">%d minut</string>
-    <string name="timespan_seconds">%d sekund</string>
 
     <string name="poll_info_format"> <!-- 15 votes • 1 hour left --> %1$s • %2$s</string>
     <plurals name="poll_info_votes">

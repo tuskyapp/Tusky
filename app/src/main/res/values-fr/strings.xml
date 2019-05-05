@@ -394,11 +394,6 @@
 <string name="action_delete_and_redraft">Effacer et ré-écrire</string>
     <string name="dialog_redraft_toot_warning">Effacer et ré-écrire ce pouet \?</string>
 
-    <string name="timespan_days">%d jours</string>
-    <string name="timespan_hours">%d heures</string>
-    <string name="timespan_minutes">%d minutes</string>
-    <string name="timespan_seconds">%d secondes</string>
-
     <plurals name="poll_info_votes">
 	<item quantity="one">%s vote</item>
 	<item quantity="other">%s votes</item>

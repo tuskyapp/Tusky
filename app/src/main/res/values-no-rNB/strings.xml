@@ -411,10 +411,6 @@
 <string name="action_delete_and_redraft">Slett og skriv på nytt</string>
     <string name="dialog_redraft_toot_warning">Vil du slette dette tottet og skrive det på nytt\?</string>
 
-    <string name="timespan_days">%d dager</string>
-    <string name="timespan_hours">%d timer</string>
-    <string name="timespan_minutes">%d minutter</string>
-    <string name="timespan_seconds">%d sekunder</string>
 
     <string name="poll_info_format"> <!-- 15 votes • 1 hour left --> %1$s • %2$s</string>
     <plurals name="poll_info_votes">
