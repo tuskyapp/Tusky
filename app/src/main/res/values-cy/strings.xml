@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='UTF-8'?>
 <resources>
     <string name="error_generic">Roedd gwall.</string>
     <string name="error_empty">Ni all hwn fod yn wag.</string>
@@ -279,4 +279,5 @@
     <string name="profile_metadata_add">ychwanegu data</string>
     <string name="profile_metadata_content_label">Cynnwys</string>
     <string name="pref_title_absolute_time">Defnyddio amser absoliwt</string>
-</resources>
+<string name="status_username_format">\@%s</string>
+    </resources>

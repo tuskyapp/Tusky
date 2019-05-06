@@ -404,4 +404,5 @@
     <string name="poll_vote">Voter</string>
 
 
-</resources>
+<string name="notification_poll_name">Sondages</string>
+    </resources>
