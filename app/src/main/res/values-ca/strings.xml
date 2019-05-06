@@ -36,7 +36,7 @@
     <string name="title_saved_toot">Esborranys</string>
 
     <string name="status_username_format">\@%s</string>
-    <string name="status_boosted_format">%s tootejat</string>
+    <string name="status_boosted_format">%s ha retootejat</string>
     <string name="status_sensitive_media_title">Contingut sensible</string>
     <string name="status_sensitive_media_directions">Fes clic per a visualitzar-lo</string>
     <string name="status_content_warning_show_more">Mostra\'n més</string>
@@ -229,7 +229,7 @@
 <string name="poll_vote">Vota</string>
 
 
-<string name="error_sender_account_gone">Error enviant el toot</string>
+<string name="error_sender_account_gone">Error enviant el toot.</string>
 
     <string name="title_advanced">Avançat</string>
     <string name="title_tab_preferences">Pestanyes</string>
@@ -243,4 +243,33 @@
     <string name="title_direct_messages">Missatges directes</string>
     <string name="message_empty">No hi ha res aquí.</string>
     <string name="action_unreblog">Elimineu els preferits</string>
+    <string name="error_network">S\'ha produït un error de conexió! Si us plau, comprova la teva conexió!</string>
+    <string name="error_video_upload_size">Els fitxers han de tenir menys de 40 MB.</string>
+    <string name="error_invalid_regex">Expressió regular invàlida</string>
+    <string name="status_media_hidden_title">Multimèdia amagada</string>
+    <string name="status_content_show_less">Amagar</string>
+
+    <string name="action_logout_confirm">Estas segur de tancar la sessió de %1$s\?</string>
+    <string name="action_hide_reblogs">Amaga els retoots</string>
+    <string name="action_show_reblogs">Mostra els retootejats</string>
+    <string name="action_delete_and_redraft">Elimina i reecririu</string>
+    <string name="action_open_drawer">Obre el menú</string>
+    <string name="action_toggle_visibility">Visibilitat del toot</string>
+    <string name="action_content_warning">Contingut sensible</string>
+    <string name="action_add_tab">Afegir una pestanya</string>
+    <string name="action_links">Enllaç</string>
+    <string name="action_mentions">Mencions</string>
+    <string name="action_hashtags">Hashtags</string>
+    <string name="action_open_faved_by">Mostra els favorits</string>
+
+    <string name="title_hashtags_dialog">Hashtags</string>
+    <string name="title_mentions_dialog">Mencions</string>
+    <string name="title_links_dialog">Enllaços</string>
+    <string name="action_share_as">Compartir com …</string>
+    <string name="download_media">Descargar el multimedia</string>
+    <string name="send_media_to">Compartir la imatge a …</string>
+
+    <string name="status_sent">Enviat!</string>
+    <string name="state_follow_requested">Petició de seguiment enviada</string>
+
     </resources>
