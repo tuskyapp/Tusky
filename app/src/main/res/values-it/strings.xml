@@ -214,14 +214,14 @@
     <string name="media_hide_sensitive">Nascondi media segnati come sensibili</string>
     <string name="media_hide_none">Mostra sempre media segnati come sensibili</string>
     <string name="media_hide_all">Nascondi sempre tutti i media</string>
-    <string name="notification_channel_mention_name">Nuove Menzioni</string>
-    <string name="notification_channel_mention_descriptions">Notifiche quando qualcuno ti menziona</string>
-    <string name="notification_channel_follow_name">Nuove persone che ti seguono</string>
-    <string name="notification_channel_follow_description">Notifiche su nuove persone che ti seguono</string>
-    <string name="notification_channel_repost_name">Repost</string>
-    <string name="notification_channel_repost_description">Notifiche quando i tuoi toot vengono repostati</string>
-    <string name="notification_channel_favourite_name">Preferiti</string>
-    <string name="notification_channel_favourite_description">Notifiche quando i tuoi toot vengono segnati come preferiti</string>
+    <string name="notification_mention_name">Nuove Menzioni</string>
+    <string name="notification_mention_descriptions">Notifiche quando qualcuno ti menziona</string>
+    <string name="notification_follow_name">Nuove persone che ti seguono</string>
+    <string name="notification_follow_description">Notifiche su nuove persone che ti seguono</string>
+    <string name="notification_repost_name">Repost</string>
+    <string name="notification_repost_description">Notifiche quando i tuoi toot vengono repostati</string>
+    <string name="notification_favourite_name">Preferiti</string>
+    <string name="notification_favourite_description">Notifiche quando i tuoi toot vengono segnati come preferiti</string>
     <string name="notification_mention_format">%s ti ha menzionato</string>
     <string name="notification_summary_large">%1$s, %2$s, %3$s e %4$d altri</string>
     <string name="notification_summary_medium">%1$s, %2$s e %3$s</string>
@@ -391,11 +391,6 @@
 
 <string name="action_delete_and_redraft">Cancella e riscrivi</string>
     <string name="dialog_redraft_toot_warning">Cancellare e riscrivere questo toot\?</string>
-
-    <string name="timespan_days">%d giorni</string>
-    <string name="timespan_hours">%d ore</string>
-    <string name="timespan_minutes">%d minuti</string>
-    <string name="timespan_seconds">%d secondi</string>
 
     <plurals name="poll_info_votes">
 	<item quantity="one">%s voto</item>

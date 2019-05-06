@@ -225,7 +225,8 @@ public class NotificationsFragment extends SFragment implements
 
         recyclerView.addItemDecoration(new DividerItemDecoration(context, DividerItemDecoration.VERTICAL));
 
-        adapter = new NotificationsAdapter(dataSource, this, this);
+        adapter = new NotificationsAdapter(accountManager.getActiveAccount().getAccountId(),
+                dataSource, this, this);
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
         alwaysShowSensitiveMedia = accountManager.getActiveAccount().getAlwaysShowSensitiveMedia();
         boolean mediaPreviewEnabled = accountManager.getActiveAccount().getMediaPreviewEnabled();
@@ -257,14 +258,11 @@ public class NotificationsFragment extends SFragment implements
     }
 
     private void confirmClearNotifications(){
-        AlertDialog.Builder dialog = new AlertDialog.Builder(getContext());
-        dialog.setMessage(R.string.notification_clear_text);
-
-        dialog.setPositiveButton(android.R.string.yes, (DialogInterface dia, int which) -> clearNotifications());
-
-        dialog.setNeutralButton(android.R.string.no, null);
-
-        dialog.show();
+        new AlertDialog.Builder(getContext())
+                .setMessage(R.string.notification_clear_text)
+                .setPositiveButton(android.R.string.yes, (DialogInterface dia, int which) -> clearNotifications())
+                .setNegativeButton(android.R.string.no, null)
+                .show();
     }
 
     private void handleFavEvent(FavouriteEvent event) {
@@ -272,7 +270,7 @@ public class NotificationsFragment extends SFragment implements
                 findReplyPosition(event.getStatusId());
         if (posAndNotification == null) return;
         //noinspection ConstantConditions
-        setFavovouriteForStatus(posAndNotification.first,
+        setFavouriteForStatus(posAndNotification.first,
                 posAndNotification.second.getStatus(),
                 event.getFavourite());
     }
@@ -300,7 +298,7 @@ public class NotificationsFragment extends SFragment implements
         hideFab = preferences.getBoolean("fabHide", false);
         scrollListener = new EndlessOnScrollListener(layoutManager) {
             @Override
-            public void onScrolled(RecyclerView view, int dx, int dy) {
+            public void onScrolled(@NonNull RecyclerView view, int dx, int dy) {
                 super.onScrolled(view, dx, dy);
 
                 ActionButtonActivity activity = (ActionButtonActivity) getActivity();
@@ -406,13 +404,13 @@ public class NotificationsFragment extends SFragment implements
                 .observeOn(AndroidSchedulers.mainThread())
                 .as(autoDisposable(from(this)))
                 .subscribe(
-                        (newStatus) -> setFavovouriteForStatus(position, status, favourite),
+                        (newStatus) -> setFavouriteForStatus(position, status, favourite),
                         (t) -> Log.d(getClass().getSimpleName(),
                                 "Failed to favourite status: " + status.getId(), t)
                 );
     }
 
-    private void setFavovouriteForStatus(int position, Status status, boolean favourite) {
+    private void setFavouriteForStatus(int position, Status status, boolean favourite) {
         status.setFavourited(favourite);
 
         if (status.getReblog() != null) {
@@ -447,7 +445,18 @@ public class NotificationsFragment extends SFragment implements
     }
 
     private void setVoteForPoll(int position, Poll poll) {
-        // TODO
+
+        NotificationViewData.Concrete viewdata = (NotificationViewData.Concrete) notifications.getPairedItem(position);
+
+        StatusViewData.Builder viewDataBuilder = new StatusViewData.Builder(viewdata.getStatusViewData());
+        viewDataBuilder.setPoll(poll);
+
+        NotificationViewData.Concrete newViewData = new NotificationViewData.Concrete(
+                viewdata.getType(), viewdata.getId(), viewdata.getAccount(),
+                viewDataBuilder.createStatusViewData(), viewdata.isExpanded());
+
+        notifications.setPairedItem(position, newViewData);
+        updateAdapter();
     }
 
     @Override
@@ -457,7 +466,7 @@ public class NotificationsFragment extends SFragment implements
     }
 
     @Override
-    public void onViewMedia(int position, int attachmentIndex, @NonNull View view) {
+    public void onViewMedia(int position, int attachmentIndex, @Nullable View view) {
         Notification notification = notifications.get(position).asRightOrNull();
         if (notification == null || notification.getStatus() == null) return;
         super.viewMedia(attachmentIndex, notification.getStatus(), view);
@@ -648,6 +657,8 @@ public class NotificationsFragment extends SFragment implements
         }
         window.setContentView(view);
         window.setFocusable(true);
+        window.setWidth(ViewGroup.LayoutParams.WRAP_CONTENT);
+        window.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
         window.showAsDropDown(buttonFilter);
 
     }
@@ -655,13 +666,15 @@ public class NotificationsFragment extends SFragment implements
     private String getNotificationText(Notification.Type type) {
         switch (type) {
             case MENTION:
-                return getString(R.string.filter_mentions);
+                return getString(R.string.notification_mention_name);
             case FAVOURITE:
-                return getString(R.string.filter_favorites);
+                return getString(R.string.notification_favourite_name);
             case REBLOG:
-                return getString(R.string.filter_boosts);
+                return getString(R.string.notification_repost_name);
             case FOLLOW:
-                return getString(R.string.filter_follows);
+                return getString(R.string.notification_follow_name);
+            case POLL:
+                return getString(R.string.notification_poll_name);
             default:
                 return "Unknown";
         }
@@ -1100,7 +1113,7 @@ public class NotificationsFragment extends SFragment implements
         }
 
         @Override
-        public boolean areContentsTheSame(NotificationViewData oldItem, NotificationViewData newItem) {
+        public boolean areContentsTheSame(@NonNull NotificationViewData oldItem, @NonNull NotificationViewData newItem) {
             return false;
         }
 

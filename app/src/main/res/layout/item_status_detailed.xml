@@ -426,6 +426,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="?attr/status_text_medium"
+            app:buttonTint="?attr/compound_button_color"
             tools:text="Option 1" />
 
         <RadioButton
@@ -433,6 +434,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="?attr/status_text_medium"
+            app:buttonTint="?attr/compound_button_color"
             tools:text="Option 2" />
 
         <RadioButton
@@ -440,6 +442,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="?attr/status_text_medium"
+            app:buttonTint="?attr/compound_button_color"
             tools:text="Option 3" />
 
         <RadioButton
@@ -447,6 +450,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="?attr/status_text_medium"
+            app:buttonTint="?attr/compound_button_color"
             tools:text="Option 4" />
     </RadioGroup>
 
@@ -456,6 +460,7 @@
         android:layout_height="wrap_content"
         android:ellipsize="end"
         android:lines="1"
+        app:buttonTint="?attr/compound_button_color"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/status_poll_radio_group"
@@ -467,6 +472,7 @@
         android:layout_height="wrap_content"
         android:ellipsize="end"
         android:lines="1"
+        app:buttonTint="?attr/compound_button_color"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/status_poll_checkbox_0"
@@ -478,6 +484,7 @@
         android:layout_height="wrap_content"
         android:ellipsize="end"
         android:lines="1"
+        app:buttonTint="?attr/compound_button_color"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/status_poll_checkbox_1"
@@ -489,6 +496,7 @@
         android:layout_height="wrap_content"
         android:ellipsize="end"
         android:lines="1"
+        app:buttonTint="?attr/compound_button_color"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/status_poll_checkbox_2"

@@ -215,14 +215,14 @@
     <string name="media_hide_sensitive">Dölj media som markerat känsligt</string>
     <string name="media_hide_none">Visa alltid media som markerat känsligt</string>
     <string name="media_hide_all">Dölj alltid media</string>
-    <string name="notification_channel_mention_name">Nya omnämnanden</string>
-    <string name="notification_channel_mention_descriptions">Notifieringar om nya omnämnanden</string>
-    <string name="notification_channel_follow_name">Nya följare</string>
-    <string name="notification_channel_follow_description">Notifieringar för nya följare</string>
-    <string name="notification_channel_repost_name">Knuffar</string>
-    <string name="notification_channel_repost_description">Notifieringar när dina toots blir knuffade</string>
-    <string name="notification_channel_favourite_name">Favouriter</string>
-    <string name="notification_channel_favourite_description">Notifieringar när dina toots blir markerade som favouriter</string>
+    <string name="notification_mention_name">Nya omnämnanden</string>
+    <string name="notification_mention_descriptions">Notifieringar om nya omnämnanden</string>
+    <string name="notification_follow_name">Nya följare</string>
+    <string name="notification_follow_description">Notifieringar för nya följare</string>
+    <string name="notification_repost_name">Knuffar</string>
+    <string name="notification_repost_description">Notifieringar när dina toots blir knuffade</string>
+    <string name="notification_favourite_name">Favouriter</string>
+    <string name="notification_favourite_description">Notifieringar när dina toots blir markerade som favouriter</string>
     <string name="notification_mention_format">%s omnämnde dig</string>
     <string name="notification_summary_large">%1$s, %2$s, %3$s och %4$d andra</string>
     <string name="notification_summary_medium">%1$s, %2$s, och %3$s</string>
@@ -386,10 +386,6 @@
 
 <string name="notifications_clear">Rensa</string>
     <string name="notifications_apply_filter">Filtrera</string>
-    <string name="filter_favorites">\@string/notification_channel_favourite_name</string>
-    <string name="filter_boosts">\@string/notification_channel_boost_name</string>
-    <string name="filter_follows">\@string/notification_channel_follow_name</string>
-    <string name="filter_mentions">\@string/notification_channel_mention_name</string>
     <string name="filter_apply">Utför</string>
 
     <string name="pref_title_bot_overlay">Visa robotindikator</string>
@@ -398,11 +394,6 @@
 
 <string name="action_delete_and_redraft">Radera och skriv nytt</string>
     <string name="dialog_redraft_toot_warning">Radera och skriva ny toot\?</string>
-
-    <string name="timespan_days">%d dagar</string>
-    <string name="timespan_hours">%d timmar</string>
-    <string name="timespan_minutes">%d minuter</string>
-    <string name="timespan_seconds">%d sekunder</string>
 
     <string name="poll_info_format"> <!-- 15 röster • 1 timme kvar --> %1$s • %2$s</string>
     <plurals name="poll_info_votes">

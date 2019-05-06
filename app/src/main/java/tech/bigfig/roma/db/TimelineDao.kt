@@ -98,4 +98,8 @@ AND serverId = :statusId""")
     @Query("""DELETE FROM TimelineStatusEntity WHERE timelineUserId = :accountId
 AND authorServerId != :accountServerId AND createdAt < :olderThan""")
     abstract fun cleanup(accountId: Long, accountServerId: String, olderThan: Long)
+
+    @Query("""UPDATE TimelineStatusEntity SET poll = :poll
+WHERE timelineUserId = :accountId AND (serverId = :statusId OR reblogServerId - :statusId)""")
+    abstract fun setVoted(accountId: Long, statusId: String, poll: String)
 }

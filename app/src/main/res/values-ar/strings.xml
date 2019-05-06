@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='UTF-8'?>
 <resources>
     <string name="error_generic">وقع هناك خطأ.</string>
     <string name="error_network">حدث خطأ في الشبكة! يرجى التحقق من اتصالك ثم أعد المحاولة!</string>
@@ -212,14 +212,14 @@
     <string name="media_hide_sensitive">إخفاء الوسائط المعينة كحساسة</string>
     <string name="media_hide_none">اظهار الوسائط المعينة كمحتوى حساس دائمًا</string>
     <string name="media_hide_all">إخفاء كافة الوسائط دائما</string>
-    <string name="notification_channel_mention_name">إشارات جديدة</string>
-    <string name="notification_channel_mention_descriptions">الإخطارات عندما يشار إليك</string>
-    <string name="notification_channel_follow_name">متابِعون جدد</string>
-    <string name="notification_channel_follow_description">إخطارات عند تلقي متابعين جدد</string>
-    <string name="notification_channel_repost_name">الترقيات</string>
-    <string name="notification_channel_repost_description">إخطارات عندما يقوم أحدهم بترقية تبويقاتي</string>
-    <string name="notification_channel_favourite_name">المفضلة</string>
-    <string name="notification_channel_favourite_description">الإشعار عندما يقوم أحدهم بإضافة تبويقاتك إلى مفضلاته</string>
+    <string name="notification_mention_name">إشارات جديدة</string>
+    <string name="notification_mention_descriptions">الإخطارات عندما يشار إليك</string>
+    <string name="notification_follow_name">متابِعون جدد</string>
+    <string name="notification_follow_description">إخطارات عند تلقي متابعين جدد</string>
+    <string name="notification_repost_name">الترقيات</string>
+    <string name="notification_repost_description">إخطارات عندما يقوم أحدهم بترقية تبويقاتي</string>
+    <string name="notification_favourite_name">المفضلة</string>
+    <string name="notification_favourite_description">الإشعار عندما يقوم أحدهم بإضافة تبويقاتك إلى مفضلاته</string>
     <string name="notification_mention_format">%s أشار إليك</string>
     <string name="notification_summary_large">%1$s, %2$s, %3$s و %4$d أخرى</string>
     <string name="notification_summary_medium">%1$s, %2$s, و %3$s</string>
@@ -346,4 +346,47 @@
     <string name="description_visiblity_private">المتابِعون    </string>
     <string name="description_visiblity_direct">مباشر    </string>
     <string name="hint_list_name">اسم القائمة</string>
+<string name="action_delete_and_redraft">حذف وإعادة الصياغة</string>
+    <string name="action_open_reblogger">إظهار صاحب الترقية</string>
+    <string name="action_open_media_n">افتح الوسيط #%d</string>
+
+    <string name="download_media">تنزيل الوسائط</string>
+    <string name="downloading_media">جارٍ تنزيل الوسائط</string>
+
+    <string name="dialog_redraft_toot_warning">هل تريد حذف وإعادة صياغة هذا التبويق؟</string>
+
+    <string name="description_status_favourited">تم تفضيله</string>
+    <string name="edit_hashtag_title">تعديل الوسم</string>
+    <string name="edit_hashtag_hint">وسم بدون #</string>
+    <string name="hashtag">الوسم</string>
+    <string name="notifications_clear">مسح</string>
+    <string name="notifications_apply_filter">عامل تصفية</string>
+    <string name="filter_apply">طَبِّق</string>
+
+    <string name="compose_shortcut_long_label">تحرير تبويق</string>
+    <string name="compose_shortcut_short_label">كتابة</string>
+    <string name="notification_clear_text">هل تريد حقا مسح كافة إشعاراتك؟</string>
+
+    <string name="poll_info_time_relative">%s متبقي</string>
+    <string name="poll_info_time_absolute">ينتهي في %s</string>
+    <string name="poll_info_closed">انتهى</string>
+    <string name="poll_vote">صَوِّت</string>
+
+
+<string name="notification_poll_name">استطلاعات الرأي</string>
+    <string name="notification_poll_description">الإشعارات المتعلقة باستطلاعات الرأي التي انتهت</string>
+
+
+    <plurals name="poll_info_votes">
+	<item quantity="zero">%s صوت</item>
+	<item quantity="one">%s صوت</item>
+	<item quantity="two">صوتين</item>
+	<item quantity="few">%s أصوات</item>
+	<item quantity="many">%s أصوات</item>
+	<item quantity="other">%s صوت</item>
+</plurals>
+    <string name="poll_ended_voted">لقد انتهى استطلاع رأي قد أبديت بصوتك فيه</string>
+    <string name="poll_ended_created">لقد انتهى استطلاع رأي قمتَ بإنشائه</string>
+
+
 </resources>

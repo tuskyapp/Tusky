@@ -11,8 +11,8 @@ android {
         applicationId "tech.bigfig.roma"
         minSdkVersion 21
         targetSdkVersion 28
-        versionCode 73
-        versionName "6.2"
+        versionCode 74
+        versionName "7.0 beta 1"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
 

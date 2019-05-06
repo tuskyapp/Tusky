@@ -227,14 +227,14 @@
 
     <string name="pref_media_display">Prikaz medijev</string>
 
-    <string name="notification_channel_mention_name">Nove omembe</string>
-    <string name="notification_channel_mention_descriptions">Obvestila o novih omembah</string>
-    <string name="notification_channel_follow_name">Novi sledilci</string>
-    <string name="notification_channel_follow_description">Obvestila o novih sledilcih</string>
-    <string name="notification_channel_repost_name">Spodbude</string>
-    <string name="notification_channel_repost_description">Obvestila, ko so vaši tuti spodbujeni</string>
-    <string name="notification_channel_favourite_name">Priljubljeni</string>
-    <string name="notification_channel_favourite_description">Obvestila, ko so vaši tuti vzljubljeni</string>
+    <string name="notification_mention_name">Nove omembe</string>
+    <string name="notification_mention_descriptions">Obvestila o novih omembah</string>
+    <string name="notification_follow_name">Novi sledilci</string>
+    <string name="notification_follow_description">Obvestila o novih sledilcih</string>
+    <string name="notification_repost_name">Spodbude</string>
+    <string name="notification_repost_description">Obvestila, ko so vaši tuti spodbujeni</string>
+    <string name="notification_favourite_name">Priljubljeni</string>
+    <string name="notification_favourite_description">Obvestila, ko so vaši tuti vzljubljeni</string>
 
 
     <string name="notification_mention_format">%s vas je omenil-a</string>
@@ -403,10 +403,10 @@
     <string name="hashtag">Ključnik</string>
     <string name="notifications_clear">Počisti</string>
     <string name="notifications_apply_filter">Filter</string>
-    <string name="filter_favorites">\@string/notification_channel_favourite_name</string>
-    <string name="filter_boosts">\@string/notification_channel_repost_name</string>
-    <string name="filter_follows">\@string/notification_channel_follow_name</string>
-    <string name="filter_mentions">\@string/notification_channel_mention_name</string>
+    <string name="filter_favorites">@string/notification_favourite_name</string>
+    <string name="filter_boosts">@string/notification_repost_name</string>
+    <string name="filter_follows">@string/notification_follow_name</string>
+    <string name="filter_mentions">@string/notification_mention_name</string>
     <string name="filter_apply">Uporabi</string>
 
     <string name="compose_shortcut_long_label">Sestavi tut</string>
@@ -418,10 +418,6 @@
 <string name="action_delete_and_redraft">Izbriši in preoblikuj</string>
     <string name="dialog_redraft_toot_warning">Izbriši in preoblikuj tut\?</string>
 
-    <string name="timespan_days">%d dni</string>
-    <string name="timespan_hours">%d ur</string>
-    <string name="timespan_minutes">%d minut</string>
-    <string name="timespan_seconds">%d sekund</string>
 
     <string name="poll_info_format"> <!-- 15 votes • 1 hour left --> %1$s • %2$s</string>
     <plurals name="poll_info_votes">

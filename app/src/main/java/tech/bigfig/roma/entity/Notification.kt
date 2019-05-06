@@ -30,7 +30,8 @@ data class Notification(
         MENTION("mention"),
         REBLOG("reblog"),
         FAVOURITE("favourite"),
-        FOLLOW("follow");
+        FOLLOW("follow"),
+        POLL("poll");
 
         companion object {
 
@@ -42,7 +43,7 @@ data class Notification(
                 }
                 return UNKNOWN
             }
-            val asList = listOf(MENTION,REBLOG,FAVOURITE,FOLLOW)
+            val asList = listOf(MENTION, REBLOG, FAVOURITE, FOLLOW, POLL)
         }
 
         override fun toString(): String {
