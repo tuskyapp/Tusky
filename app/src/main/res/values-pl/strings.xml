@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='UTF-8'?>
 <resources>
     <string name="error_generic">Wystąpił błąd.</string>
     <string name="error_empty">To nie może pozostać puste.</string>
@@ -273,4 +273,25 @@
     <string name="profile_metadata_add">dodaj dane</string>
     <string name="profile_metadata_label_label">Nazwa</string>
     <string name="profile_metadata_content_label">Zawartość</string>
-</resources>
+<string name="error_network">Problem z łącznością. Sprawdź swoje połączenie internetowe i spróbuj ponownie.</string>
+    <string name="error_video_upload_size">Pliki wideo muszą być mniejsze niż 40MB.</string>
+    <string name="title_direct_messages">Wiadomości bezpośrednie</string>
+    <string name="title_statuses_pinned">Przypięte</string>
+    <string name="status_content_show_more">Rozwiń</string>
+    <string name="status_content_show_less">Zwiń</string>
+
+    <string name="message_empty">Nic tu nie ma.</string>
+    <string name="action_unfavourite">Usuń z ulubionych</string>
+    <string name="action_delete_and_redraft">Usuń i napisz jeszcze raz</string>
+    <string name="action_view_account_preferences">Ustawienia konta</string>
+    <string name="action_links">Linki</string>
+    <string name="action_mentions">Wzmianki</string>
+    <string name="action_hashtags">Hashtagi</string>
+    <string name="action_open_faved_by">Pokaż ulubione</string>
+
+    <string name="title_hashtags_dialog">Hashtagi</string>
+    <string name="title_mentions_dialog">Wzmianki</string>
+    <string name="title_links_dialog">Linki</string>
+    <string name="action_open_as">Otwórz jako %s</string>
+    <string name="action_share_as">Udostępnij jako …</string>
+    </resources>
