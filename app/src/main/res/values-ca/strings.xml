@@ -2,10 +2,10 @@
 <resources>
 
     <string name="error_generic">S\'ha produït un error.</string>
-    <string name="error_empty">Això no pot ser buit.</string>
+    <string name="error_empty">Això no pot estar buit.</string>
     <string name="error_invalid_domain">El domini introduït no és vàlid</string>
     <string name="error_failed_app_registration">L\'autenticació en aquesta instància ha fallat.</string>
-    <string name="error_no_web_browser_found">No s\'ha trobat cap navegador web a usar.</string>
+    <string name="error_no_web_browser_found">No s\'ha trobat cap navegador web per usar.</string>
     <string name="error_authorization_unknown">S\'ha produït un error d\'autorització no identificat.</string>
     <string name="error_authorization_denied">L\'autorització s\'ha denegat.</string>
     <string name="error_retrieving_oauth_token">L\'obtenció del testimoni d\'inici de sessió ha fallat.</string>
