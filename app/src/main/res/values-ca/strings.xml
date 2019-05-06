@@ -272,4 +272,56 @@
     <string name="status_sent">Enviat!</string>
     <string name="state_follow_requested">Petició de seguiment enviada</string>
 
+    <string name="title_statuses_with_replies">Amb resposta</string>
+    <string name="action_emoji_keyboard">Teclat d\'emojis</string>
+    <string name="action_open_media_n">Obrir el media #%d</string>
+
+    <string name="action_open_as">Obrir com %s</string>
+    <string name="downloading_media">Descarregant media</string>
+
+    <string name="status_sent_long">Resposta enviada correctament.</string>
+
+    <string name="label_quick_reply">Resposta …</string>
+    <string name="dialog_message_cancel_follow_request">Revocar la petició de seguiment\?</string>
+    <string name="dialog_delete_toot_warning">Vols eliminar aquest toot\?</string>
+    <string name="dialog_redraft_toot_warning">Esborrar i reescriure aquest toot\?</string>
+
+    <string name="pref_summary_notifications">per el compte %1$s</string>
+    <string name="pref_title_notification_filter_poll">Finalització de les enquetes</string>
+    <string name="pref_title_app_theme">Tema</string>
+    <string name="pref_title_timelines">Cronologia</string>
+    <string name="pref_title_timeline_filters">Filtres</string>
+
+    <string name="app_them_dark">Fosc</string>
+    <string name="app_theme_light">Clar</string>
+    <string name="app_theme_black">Negre</string>
+    <string name="app_theme_auto">Brillantor automàtica</string>
+    <string name="app_theme_system">Utilitzar el tema del sistema</string>
+
+    <string name="pref_title_language">Idioma</string>
+    <string name="pref_title_proxy_settings">Proxy</string>
+    <string name="pref_title_http_proxy_settings">HTTP proxy</string>
+    <string name="pref_title_http_proxy_enable">Activar el proxy HTTP</string>
+    <string name="pref_title_http_proxy_server">Servidor del proxy HTTP</string>
+    <string name="pref_title_http_proxy_port">Port del proxy HTTP</string>
+
+    <string name="pref_default_media_sensitivity">Marcar sempre els medias com a sensibles</string>
+    <string name="pref_failed_to_sync">Error al sincronitzar els paràmetres</string>
+
+    <string name="status_text_size_smallest">Més petit</string>
+    <string name="status_text_size_small">Petit</string>
+    <string name="status_text_size_medium">Mig</string>
+    <string name="status_text_size_large">Gran</string>
+    <string name="status_text_size_largest">Més grand</string>
+
+    <string name="media_hide_sensitive">Ocultar els mèdia marcats com a sensibles</string>
+    <string name="media_hide_none">Mostrar sempre els mèdia marcats com a sensibles</string>
+    <string name="media_hide_all">Ocultar sempre tots els mèdia</string>
+
+    <string name="notification_poll_name">Enquestes</string>
+    <string name="pref_title_thread_filter_keywords">Converses</string>
+    <string name="filter_addition_dialog_title">Afegir un filtre</string>
+    <string name="filter_edit_dialog_title">Modificar un filtre</string>
+    <string name="filter_dialog_remove_button">Eliminar</string>
+    <string name="add_account_name">Afegir un compte</string>
     </resources>
