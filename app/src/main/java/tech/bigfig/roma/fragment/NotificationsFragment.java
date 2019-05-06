@@ -670,7 +670,7 @@ public class NotificationsFragment extends SFragment implements
             case FAVOURITE:
                 return getString(R.string.notification_favourite_name);
             case REBLOG:
-                return getString(R.string.notification_boost_name);
+                return getString(R.string.notification_repost_name);
             case FOLLOW:
                 return getString(R.string.notification_follow_name);
             case POLL:

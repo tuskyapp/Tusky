@@ -27,6 +27,9 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Build;
 import android.provider.Settings;
+import android.text.TextUtils;
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
@@ -36,37 +39,33 @@ import androidx.core.app.TaskStackBuilder;
 import androidx.core.content.ContextCompat;
 import androidx.core.text.BidiFormatter;
 
-import android.text.TextUtils;
-import android.util.Log;
-
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.FutureTarget;
-import com.evernote.android.job.JobManager;
-import com.evernote.android.job.JobRequest;
+import com.google.firebase.iid.FirebaseInstanceId;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.concurrent.ExecutionException;
+
 import tech.bigfig.roma.BuildConfig;
 import tech.bigfig.roma.MainActivity;
 import tech.bigfig.roma.R;
 import tech.bigfig.roma.db.AccountEntity;
 import tech.bigfig.roma.db.AccountManager;
 import tech.bigfig.roma.entity.Notification;
+import tech.bigfig.roma.entity.Poll;
+import tech.bigfig.roma.entity.PollOption;
 import tech.bigfig.roma.entity.Status;
 import tech.bigfig.roma.receiver.NotificationClearBroadcastReceiver;
 import tech.bigfig.roma.receiver.SendStatusBroadcastReceiver;
 import tech.bigfig.roma.service.push.DeleteFcmTokenWorker;
 import tech.bigfig.roma.service.push.UpdateFcmTokenWorker;
-
-import com.google.firebase.iid.FirebaseInstanceId;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 public class NotificationHelper {
 
@@ -351,14 +350,14 @@ public class NotificationHelper {
             int[] channelNames = {
                     R.string.notification_mention_name,
                     R.string.notification_follow_name,
-                    R.string.notification_boost_name,
+                    R.string.notification_repost_name,
                     R.string.notification_favourite_name,
                     R.string.notification_poll_name
             };
             int[] channelDescriptions = {
                     R.string.notification_mention_descriptions,
                     R.string.notification_follow_description,
-                    R.string.notification_boost_description,
+                    R.string.notification_repost_description,
                     R.string.notification_favourite_description,
                     R.string.notification_poll_description
             };
@@ -480,7 +479,9 @@ public class NotificationHelper {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
-            String channelId = getChannelId(account, notification);
+
+            String channelId = getChannelId(account, notificationType);
+
             if(channelId == null) {
                 // unknown notificationtype
                 return false;

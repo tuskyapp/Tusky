@@ -248,8 +248,6 @@
     <!--These are for timestamps on statuses. For example: "16s" or "2d"-->
     <string name="follows_you">Folgt dir</string>
     <string name="pref_title_alway_show_sensitive_media">Heikle Inhalte immer anzeigen</string>
-    <string name="notification_channel_repost_name">Geteilte Beiträge</string>
-    <string name="notification_channel_repost_description">Benachrichtigungen wenn deine Beiträge geteilt werden</string>
     <string name="replying_to">Antworten an @%s</string>
     <string name="title_media">Medien</string>
     <string name="load_more_placeholder_text">mehr laden</string>

@@ -311,7 +311,7 @@
     <string name="notification_poll_description">Értesítés a befejezett szavazásokról</string>
 
 
-    <string name="about_tusky_license">Tusky ingyenes és nyílt forráskódú szoftver. A GNU General Public License Version 3 érvényes rá, amit itt tekinthets meg: https://www.gnu.org/licenses/gpl-3.0.en.html</string>
+    <string name="about_roma_license">Tusky ingyenes és nyílt forráskódú szoftver. A GNU General Public License Version 3 érvényes rá, amit itt tekinthets meg: https://www.gnu.org/licenses/gpl-3.0.en.html</string>
     <string name="abbreviated_in_years">%dé múlva</string>
     <string name="abbreviated_in_days">%nn múlva</string>
     <string name="abbreviated_in_hours">%dó múlva</string>

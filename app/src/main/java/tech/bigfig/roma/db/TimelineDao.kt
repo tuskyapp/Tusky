@@ -6,7 +6,6 @@ import androidx.room.OnConflictStrategy.IGNORE
 import androidx.room.OnConflictStrategy.REPLACE
 import androidx.room.Query
 import androidx.room.Transaction
-import com.keylesspalace.tusky.entity.Poll
 import io.reactivex.Single
 
 @Dao

@@ -266,7 +266,6 @@
 
     <string name="about_title_activity">关于 Roma</string>
     <string name="about_roma_version">Roma %s</string>
-    <string name="about_tusky_version">Tusky %s</string>
     <string name="about_roma_license">Roma 是基于 GNU General Public License Version 3 许可证开源的自由软件。完整的许可证协议：https://www.gnu.org/licenses/gpl-3.0.en.html</string>
 
 
