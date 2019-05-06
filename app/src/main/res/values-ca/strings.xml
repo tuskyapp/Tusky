@@ -13,7 +13,7 @@
     <string name="error_image_upload_size">El fitxer ha de ser inferior a 8MB.</string>
     <string name="error_media_upload_type">Aquest tipus de fitxer no es pot pujar.</string>
     <string name="error_media_upload_opening">Aquest tipus de fitxer no es pot obrir.</string>
-    <string name="error_media_upload_permission">Cal permís de lectura del mitjà.</string>
+    <string name="error_media_upload_permission">Cal permís d\'accés al emmagatzematge.</string>
     <string name="error_media_download_permission">Cal pemís d\'escriptura en el mitjà.</string>
     <string name="error_media_upload_image_or_video">No es poden adjuntar imatges i vídeos en el mateix estat.</string>
     <string name="error_media_upload_sending">La pujada ha fallat.</string>
