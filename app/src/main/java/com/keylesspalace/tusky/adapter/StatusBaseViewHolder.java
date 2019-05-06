@@ -5,6 +5,7 @@ import android.graphics.drawable.Drawable;
 import android.preference.PreferenceManager;
 import android.text.Spanned;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -17,6 +18,10 @@ import android.widget.TextView;
 import android.widget.ToggleButton;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.entity.Attachment;
 import com.keylesspalace.tusky.entity.Attachment.Focus;
@@ -218,7 +223,49 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         }
     }
 
-    protected void setAvatar(String url, @Nullable String rebloggedUrl, boolean isBot) {
+    private void setAvatar(String url, @Nullable String rebloggedUrl, boolean isBot) {
+
+        if(TextUtils.isEmpty(rebloggedUrl)) {
+            avatar.setPaddingRelative(0, 0, 0, 0);
+
+            if(showBotOverlay && isBot) {
+                avatarInset.setVisibility(View.VISIBLE);
+                avatarInset.setBackgroundColor(0x50ffffff);
+                Glide.with(avatarInset)
+                        .load(R.drawable.ic_bot_24dp)
+                        .listener(new RequestListener() {
+
+                            @Override
+                            public boolean onLoadFailed(@Nullable GlideException e, Object model, Target target, boolean isFirstResource) {
+                                Log.e("STATUS", "Load failed", e);
+                                return false;
+                            }
+
+                            @Override
+                            public boolean onResourceReady(Object resource, Object model, Target target, DataSource dataSource, boolean isFirstResource) {
+                                Log.e("STATUS", "Success");
+
+                                return false;
+                            }
+                        })
+                        .into(avatarInset);
+
+            } else {
+                avatarInset.setVisibility(View.GONE);
+            }
+
+        } else {
+            int padding = Utils.convertDpToPx(avatar.getContext(), 12);
+            avatar.setPaddingRelative(0, 0, padding, padding);
+
+            avatarInset.setVisibility(View.VISIBLE);
+            avatarInset.setBackground(null);
+            Glide.with(avatarInset)
+                    .load(rebloggedUrl)
+                    .placeholder(R.drawable.avatar_default)
+                    .into(avatarInset);
+        }
+
         if (TextUtils.isEmpty(url)) {
             avatar.setImageResource(R.drawable.avatar_default);
         } else {
@@ -228,14 +275,6 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
                     .into(avatar);
         }
 
-        if (showBotOverlay && isBot && TextUtils.isEmpty(rebloggedUrl)) {
-            avatarInset.setVisibility(View.VISIBLE);
-            avatarInset.setImageResource(R.drawable.ic_bot_24dp);
-            avatarInset.setBackgroundColor(0x50ffffff);
-        } else {
-            avatarInset.setBackground(null);
-            avatarInset.setVisibility(View.GONE);
-        }
     }
 
     protected void setCreatedAt(@Nullable Date createdAt) {
