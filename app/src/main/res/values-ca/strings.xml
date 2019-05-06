@@ -2,10 +2,10 @@
 <resources>
 
     <string name="error_generic">S\'ha produït un error.</string>
-    <string name="error_empty">Això no pot ser buit.</string>
+    <string name="error_empty">Això no pot estar buit.</string>
     <string name="error_invalid_domain">El domini introduït no és vàlid</string>
     <string name="error_failed_app_registration">L\'autenticació en aquesta instància ha fallat.</string>
-    <string name="error_no_web_browser_found">No s\'ha trobat cap navegador web a usar.</string>
+    <string name="error_no_web_browser_found">No s\'ha trobat cap navegador web per usar.</string>
     <string name="error_authorization_unknown">S\'ha produït un error d\'autorització no identificat.</string>
     <string name="error_authorization_denied">L\'autorització s\'ha denegat.</string>
     <string name="error_retrieving_oauth_token">L\'obtenció del testimoni d\'inici de sessió ha fallat.</string>
@@ -13,7 +13,7 @@
     <string name="error_image_upload_size">El fitxer ha de ser inferior a 8MB.</string>
     <string name="error_media_upload_type">Aquest tipus de fitxer no es pot pujar.</string>
     <string name="error_media_upload_opening">Aquest tipus de fitxer no es pot obrir.</string>
-    <string name="error_media_upload_permission">Cal permís de lectura del mitjà.</string>
+    <string name="error_media_upload_permission">Cal permís d\'accés al emmagatzematge.</string>
     <string name="error_media_download_permission">Cal pemís d\'escriptura en el mitjà.</string>
     <string name="error_media_upload_image_or_video">No es poden adjuntar imatges i vídeos en el mateix estat.</string>
     <string name="error_media_upload_sending">La pujada ha fallat.</string>
