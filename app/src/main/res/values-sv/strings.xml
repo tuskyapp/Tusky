@@ -394,11 +394,6 @@
 <string name="action_delete_and_redraft">Radera och skriv nytt</string>
     <string name="dialog_redraft_toot_warning">Radera och skriva ny toot\?</string>
 
-    <string name="timespan_days">%d dagar</string>
-    <string name="timespan_hours">%d timmar</string>
-    <string name="timespan_minutes">%d minuter</string>
-    <string name="timespan_seconds">%d sekunder</string>
-
     <string name="poll_info_format"> <!-- 15 röster • 1 timme kvar --> %1$s • %2$s</string>
     <plurals name="poll_info_votes">
 	<item quantity="one">%s röst</item>

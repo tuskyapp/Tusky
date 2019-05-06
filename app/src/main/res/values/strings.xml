@@ -312,12 +312,6 @@
     <string name="abbreviated_minutes_ago">%dm</string>
     <string name="abbreviated_seconds_ago">%ds</string>
 
-    <!--These are for timestamps on polls -->
-    <string name="timespan_days">%d days</string>
-    <string name="timespan_hours">%d hours</string>
-    <string name="timespan_minutes">%d minutes</string>
-    <string name="timespan_seconds">%d seconds</string>
-
     <string name="follows_you">Follows you</string>
     <string name="pref_title_alway_show_sensitive_media">Always show sensitive content</string>
     <string name="title_media">Media</string>
@@ -492,5 +486,22 @@
     <string name="poll_ended_voted">A poll you have voted in has ended</string>
     <string name="poll_ended_created">A poll you created has ended</string>
 
+    <!--These are for timestamps on polls -->
+    <plurals name="poll_timespan_days">
+        <item quantity="one">%d day</item>
+        <item quantity="other">%d days</item>
+    </plurals>
+    <plurals name="poll_timespan_hours">
+        <item quantity="one">%d hour</item>
+        <item quantity="other">%d hours</item>
+    </plurals>
+    <plurals name="poll_timespan_minutes">
+        <item quantity="one">%d minute</item>
+        <item quantity="other">%d minutes</item>
+    </plurals>
+    <plurals name="poll_timespan_seconds">
+        <item quantity="one">%d second</item>
+        <item quantity="other">%d seconds</item>
+    </plurals>
 
 </resources>

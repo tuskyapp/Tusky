@@ -383,10 +383,6 @@
 <string name="action_delete_and_redraft">Verwijderen en herschrijven</string>
     <string name="dialog_redraft_toot_warning">Deze toot verwijderen en herschrijven\?</string>
 
-    <string name="timespan_days">%d dagen</string>
-    <string name="timespan_hours">%d uur</string>
-    <string name="timespan_minutes">%d minuten</string>
-    <string name="timespan_seconds">%d seconden</string>
 
     <string name="notifications_clear">Leegmaken</string>
     <string name="notifications_apply_filter">Filter</string>

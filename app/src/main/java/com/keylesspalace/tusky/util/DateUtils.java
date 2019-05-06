@@ -78,7 +78,7 @@ public class DateUtils {
         return context.getString(format, span);
     }
 
-    public static String formatDuration(Context context, long then, long now) {
+    public static String formatPollDuration(Context context, long then, long now) {
         long span = then - now;
         if (span < 0) {
             span = 0;
@@ -86,20 +86,20 @@ public class DateUtils {
         int format;
         if (span < MINUTE_IN_MILLIS) {
             span /= SECOND_IN_MILLIS;
-            format = R.string.timespan_seconds;
+            format = R.plurals.poll_timespan_seconds;
         } else if (span < HOUR_IN_MILLIS) {
             span /= MINUTE_IN_MILLIS;
-            format = R.string.timespan_minutes;
+            format = R.plurals.poll_timespan_minutes;
 
         } else if (span < DAY_IN_MILLIS) {
             span /= HOUR_IN_MILLIS;
-            format = R.string.timespan_hours;
+            format = R.plurals.poll_timespan_hours;
 
         } else {
             span /= DAY_IN_MILLIS;
-            format = R.string.timespan_days;
+            format = R.plurals.poll_timespan_days;
         }
-        return context.getString(format, span);
+        return context.getResources().getQuantityString(format, (int) span, (int) span);
     }
 
 }

@@ -309,11 +309,6 @@
     <string name="abbreviated_minutes_ago">%d 分钟前</string>
     <string name="abbreviated_seconds_ago">%d 秒前</string>
 
-    <!--These are for timestamps on polls -->
-    <string name="timespan_days">%d 天</string>
-    <string name="timespan_hours">%d 小时</string>
-    <string name="timespan_minutes">%d 分钟</string>
-    <string name="timespan_seconds">%d 秒</string>
 
     <string name="follows_you">关注了你</string>
     <string name="pref_title_alway_show_sensitive_media">总是显示所有敏感媒体内容</string>

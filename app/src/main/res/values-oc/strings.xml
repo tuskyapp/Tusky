@@ -393,11 +393,6 @@
     <string name="media_hide_none">Totjorn mostrar los mèdias marcat coma sensibles</string>
     <string name="media_hide_all">Totjorn amagar los mèdias</string>
 
-    <string name="timespan_days">%d jorns</string>
-    <string name="timespan_hours">%d oras</string>
-    <string name="timespan_minutes">%d minutas</string>
-    <string name="timespan_seconds">%d segondas</string>
-
     <string name="notifications_clear">Netejar</string>
     <string name="notifications_apply_filter">Filtrar</string>
     <string name="filter_apply">Aplicar</string>

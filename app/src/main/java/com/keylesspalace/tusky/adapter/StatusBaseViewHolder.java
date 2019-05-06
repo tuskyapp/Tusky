@@ -802,7 +802,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
                 if(useAbsoluteTime) {
                     pollDurationInfo = context.getString(R.string.poll_info_time_absolute, getAbsoluteTime(poll.getExpiresAt()));
                 } else {
-                    String pollDuration = DateUtils.formatDuration(pollDescription.getContext(), poll.getExpiresAt().getTime(), timestamp);
+                    String pollDuration = DateUtils.formatPollDuration(pollDescription.getContext(), poll.getExpiresAt().getTime(), timestamp);
                     pollDurationInfo = context.getString(R.string.poll_info_time_relative, pollDuration);
                 }
             }

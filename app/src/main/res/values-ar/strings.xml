@@ -355,11 +355,6 @@
 
     <string name="dialog_redraft_toot_warning">هل تريد حذف وإعادة صياغة هذا التبويق؟</string>
 
-    <string name="timespan_days">%d أيام</string>
-    <string name="timespan_hours">%d ساعات</string>
-    <string name="timespan_minutes">%d دقائق</string>
-    <string name="timespan_seconds">%d ثوان</string>
-
     <string name="description_status_favourited">تم تفضيله</string>
     <string name="edit_hashtag_title">تعديل الوسم</string>
     <string name="edit_hashtag_hint">وسم بدون #</string>
