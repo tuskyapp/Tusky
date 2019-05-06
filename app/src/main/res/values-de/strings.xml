@@ -376,8 +376,7 @@
 
     <string name="notification_clear_text">Bist du dir sicher, dass du alle deine Benachrichtigungen dauerhaft löschen möchtest\?</string>
 
-    <string name="poll_info_format">" %1$s • %2$s"<!-- 15 votes • 1 hour left -->
-        %1$s • %2$s</string>
+    <string name="poll_info_format"> <!-- 15 votes • 1 hour left --> %1$s • %2$s</string>
     <plurals name="poll_info_votes">
 	<item quantity="one">%s Stimme</item>
 	<item quantity="other">%s Stimmen</item>
