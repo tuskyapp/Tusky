@@ -112,6 +112,7 @@ public class NotificationHelper {
     public static final String CHANNEL_FOLLOW = "CHANNEL_FOLLOW";
     public static final String CHANNEL_REPOST = "CHANNEL_REPOST";
     public static final String CHANNEL_FAVOURITE = "CHANNEL_FAVOURITE";
+    public static final String CHANNEL_POLL = "CHANNEL_POLL";
 
     /**
      * time in minutes between notification checks
@@ -166,12 +167,12 @@ public class NotificationHelper {
 
         notificationId++;
 
-        builder.setContentTitle(titleForType(context, body, bidiFormatter))
-                .setContentText(bodyForType(body));
+        builder.setContentTitle(titleForType(context, body, bidiFormatter, account))
+                .setContentText(bodyForType(body, context));
 
-        if (body.getType() == Notification.Type.MENTION) {
+        if (body.getType() == Notification.Type.MENTION || body.getType() == Notification.Type.POLL) {
             builder.setStyle(new NotificationCompat.BigTextStyle()
-                    .bigText(bodyForType(body)));
+                    .bigText(bodyForType(body, context)));
         }
 
         //load the avatar synchronously
@@ -344,21 +345,25 @@ public class NotificationHelper {
                     CHANNEL_MENTION + account.getIdentifier(),
                     CHANNEL_FOLLOW + account.getIdentifier(),
                     CHANNEL_REPOST + account.getIdentifier(),
-                    CHANNEL_FAVOURITE + account.getIdentifier()};
+                    CHANNEL_FAVOURITE + account.getIdentifier(),
+                    CHANNEL_POLL + account.getIdentifier(),
+            };
             int[] channelNames = {
-                    R.string.notification_channel_mention_name,
-                    R.string.notification_channel_follow_name,
-                    R.string.notification_channel_repost_name,
-                    R.string.notification_channel_favourite_name
+                    R.string.notification_mention_name,
+                    R.string.notification_follow_name,
+                    R.string.notification_boost_name,
+                    R.string.notification_favourite_name,
+                    R.string.notification_poll_name
             };
             int[] channelDescriptions = {
-                    R.string.notification_channel_mention_descriptions,
-                    R.string.notification_channel_follow_description,
-                    R.string.notification_channel_repost_description,
-                    R.string.notification_channel_favourite_description
+                    R.string.notification_mention_descriptions,
+                    R.string.notification_follow_description,
+                    R.string.notification_boost_description,
+                    R.string.notification_favourite_description,
+                    R.string.notification_poll_description
             };
 
-            List<NotificationChannel> channels = new ArrayList<>(4);
+            List<NotificationChannel> channels = new ArrayList<>(5);
 
             NotificationChannelGroup channelGroup = new NotificationChannelGroup(account.getIdentifier(), account.getFullName());
 
@@ -475,8 +480,13 @@ public class NotificationHelper {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
+            String channelId = getChannelId(account, notification);
+            if(channelId == null) {
+                // unknown notificationtype
+                return false;
+            }
             //noinspection ConstantConditions
-            NotificationChannel channel = notificationManager.getNotificationChannel(getChannelId(account, notificationType));
+            NotificationChannel channel = notificationManager.getNotificationChannel(channelId);
             return channel.getImportance() > NotificationManager.IMPORTANCE_NONE;
         }
 
@@ -489,17 +499,18 @@ public class NotificationHelper {
                 return account.getNotificationsReblogged();
             case FAVOURITE:
                 return account.getNotificationsFavourited();
+            case POLL:
+                return account.getNotificationsPolls();
             default:
                 return false;
         }
     }
 
-    private static String getChannelId(AccountEntity account, Notification notification) {
+    private static @Nullable String getChannelId(AccountEntity account, Notification notification) {
         return getChannelId(account,notification.getType());
     }
     private static String getChannelId(AccountEntity account, Notification.Type notificationType) {
         switch (notificationType) {
-            default:
             case MENTION:
                 return CHANNEL_MENTION + account.getIdentifier();
             case FOLLOW:
@@ -508,6 +519,10 @@ public class NotificationHelper {
                 return CHANNEL_REPOST + account.getIdentifier();
             case FAVOURITE:
                 return CHANNEL_FAVOURITE + account.getIdentifier();
+            case POLL:
+                return CHANNEL_POLL + account.getIdentifier();
+            default:
+                return null;
         }
 
     }
@@ -560,7 +575,7 @@ public class NotificationHelper {
     }
 
     @Nullable
-    private static String titleForType(Context context, Notification notification, BidiFormatter bidiFormatter) {
+    private static String titleForType(Context context, Notification notification, BidiFormatter bidiFormatter, AccountEntity account) {
         String accountName = bidiFormatter.unicodeWrap(notification.getAccount().getName());
         switch (notification.getType()) {
             case MENTION:
@@ -575,21 +590,42 @@ public class NotificationHelper {
             case REBLOG:
                 return String.format(context.getString(R.string.notification_reblog_format),
                         accountName);
+            case POLL:
+                if(notification.getStatus().getAccount().getId().equals(account.getAccountId())) {
+                    return context.getString(R.string.poll_ended_created);
+                } else {
+                    return context.getString(R.string.poll_ended_voted);
+                }
         }
         return null;
     }
 
-    private static String bodyForType(Notification notification) {
+    private static String bodyForType(Notification notification, Context context) {
         switch (notification.getType()) {
             case FOLLOW:
                 return "@" + notification.getAccount().getUsername();
             case MENTION:
             case FAVOURITE:
             case REBLOG:
-                if (notification.getStatus().getSensitive()) {
+                if (!TextUtils.isEmpty(notification.getStatus().getSpoilerText())) {
                     return notification.getStatus().getSpoilerText();
                 } else {
                     return notification.getStatus().getContent().toString();
+                }
+            case POLL:
+                if (!TextUtils.isEmpty(notification.getStatus().getSpoilerText())) {
+                    return notification.getStatus().getSpoilerText();
+                } else {
+                    StringBuilder builder = new StringBuilder(notification.getStatus().getContent());
+                    builder.append('\n');
+                    Poll poll = notification.getStatus().getPoll();
+                    for(PollOption option: poll.getOptions()) {
+                        int percent = option.getPercent(poll.getVotesCount());
+                        CharSequence optionText = HtmlUtils.fromHtml(context.getString(R.string.poll_option_format, percent, option.getTitle()));
+                        builder.append(optionText);
+                        builder.append('\n');
+                    }
+                    return builder.toString();
                 }
         }
         return null;

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='UTF-8'?>
 <resources>
     <string name="error_generic">Ha ocurrido un error.</string>
     <string name="error_network">¡Se ha producido un error de red! ¡Por favor, comprueba tu conexión e inténtalo de nuevo!</string>
@@ -16,7 +16,7 @@
     <string name="error_media_upload_opening">No pudo abrirse el fichero.</string>
     <string name="error_media_upload_permission">Se requiere permiso para acceder al almacenamiento.</string>
     <string name="error_media_download_permission">Se requiere permiso para descargar al almacenamiento.</string>
-    <string name="error_media_upload_image_or_video">No se pueden adjuntar imágenes y vídeos en el mismo estado</string>
+    <string name="error_media_upload_image_or_video">No se pueden adjuntar imágenes y vídeos en el mismo estado.</string>
     <string name="error_media_upload_sending">La subida falló.</string>
     <string name="error_report_too_few_statuses">Debe seleccionar al menos un estado.</string>
     <string name="error_invalid_regex">Expresión regular inválida</string>
@@ -201,16 +201,14 @@
     <string name="media_hide_sensitive">Ocultar medios marcados como sensibles</string>
     <string name="media_hide_none">Mostrar siempre los medios marcados como sensibles</string>
     <string name="media_hide_all">Ocultar siempre todos los medios</string>
-    <string name="notification_channel_mention_name">Nuevas menciones</string>
-    <string name="notification_channel_mention_descriptions">Notificaciones de nuevas menciones</string>
-    <string name="notification_channel_follow_name">Nuevos seguidores</string>
-    <string name="notification_channel_follow_description">Notificaciones de nuevos seguidores</string>
-    <string name="notification_channel_repost_name">Compartidos</string>
-    <string name="notification_channel_repost_description">Notificaciones de estados que fueron compartidos</string>
-    <string name="notification_channel_favourite_name">Favouritos</string>
-    <string name="notification_channel_favourite_description">Notificaciones de estados que recibieron favourito</string>
-
-
+    <string name="notification_mention_name">Nuevas menciones</string>
+    <string name="notification_mention_descriptions">Notificaciones de nuevas menciones</string>
+    <string name="notification_follow_name">Nuevos seguidores</string>
+    <string name="notification_follow_description">Notificaciones de nuevos seguidores</string>
+    <string name="notification_repost_name">Compartidos</string>
+    <string name="notification_repost_description">Notificaciones de estados que fueron compartidos</string>
+    <string name="notification_favourite_name">Favouritos</string>
+    <string name="notification_favourite_description">Notificaciones de estados que recibieron favourito</string>
     <string name="notification_mention_format">%s te mencionó</string>
     <string name="notification_summary_large">%1$s, %2$s, %3$s y %4$d otros</string>
     <string name="notification_summary_medium">%1$s, %2$s, y %3$s</string>
@@ -326,4 +324,12 @@
     <string name="conversation_2_recipients">%1$s y %2$s</string>
     <string name="conversation_more_recipients">%1$s, %2$s y %3$d más</string>
     <string name="max_tab_number_reached">máximo de %1$d pestañas alcanzadas</string>
-</resources>
+<string name="action_mentions">Menciones</string>
+    <string name="action_open_faved_by">Mostrar favoritos</string>
+
+    <string name="title_mentions_dialog">Menciones</string>
+    <string name="download_media">Descargar multimedia</string>
+    <string name="app_theme_system">Usar tema del sistema</string>
+
+    <string name="pref_title_language">Idioma</string>
+    </resources>

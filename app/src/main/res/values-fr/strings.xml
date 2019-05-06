@@ -219,14 +219,14 @@
     <string name="media_hide_sensitive">Masquer les médias marqués comme sensibles</string>
     <string name="media_hide_none">Toujours afficher les médias marqués comme sensibles</string>
     <string name="media_hide_all">Toujours masquer tous les médias</string>
-    <string name="notification_channel_mention_name">Nouvelles mentions</string>
-    <string name="notification_channel_mention_descriptions">Notifications pour les nouvelles mentions</string>
-    <string name="notification_channel_follow_name">Nouveaux abonnés</string>
-    <string name="notification_channel_follow_description">Notifications pour les nouveaux abonnés</string>
-    <string name="notification_channel_repost_name">Reposts</string>
-    <string name="notification_channel_repost_description">Notifications quand vos pouets sont repostés</string>
-    <string name="notification_channel_favourite_name">Favoris</string>
-    <string name="notification_channel_favourite_description">Notifications quand vos pouets sont mis en favoris</string>
+    <string name="notification_mention_name">Nouvelles mentions</string>
+    <string name="notification_mention_descriptions">Notifications pour les nouvelles mentions</string>
+    <string name="notification_follow_name">Nouveaux abonnés</string>
+    <string name="notification_follow_description">Notifications pour les nouveaux abonnés</string>
+    <string name="notification_repost_name">Reposts</string>
+    <string name="notification_repost_description">Notifications quand vos pouets sont repostés</string>
+    <string name="notification_favourite_name">Favoris</string>
+    <string name="notification_favourite_description">Notifications quand vos pouets sont mis en favoris</string>
     <string name="notification_mention_format">%s vous a mentionné</string>
     <string name="notification_summary_large">%1$s, %2$s, %3$s et %4$d autres</string>
     <string name="notification_summary_medium">%1$s, %2$s et %3$s</string>
@@ -395,15 +395,10 @@
     <string name="compose_shortcut_short_label">Ecrire</string>
     <string name="pref_title_bot_overlay">Afficher l\'indicateur de robots</string>
 
-    <string name="notification_clear_text">Nettoyer toutes les notifications de façon permanente\?</string>
+    <string name="notification_clear_text">Nettoyer toutes les notifications de façon permanente \?</string>
 
 <string name="action_delete_and_redraft">Effacer et ré-écrire</string>
-    <string name="dialog_redraft_toot_warning">Effacer et ré-écrire ce pouet\?</string>
-
-    <string name="timespan_days">%d jours</string>
-    <string name="timespan_hours">%d heures</string>
-    <string name="timespan_minutes">%d minutes</string>
-    <string name="timespan_seconds">%d secondes</string>
+    <string name="dialog_redraft_toot_warning">Effacer et ré-écrire ce pouet \?</string>
 
     <plurals name="poll_info_votes">
 	<item quantity="one">%s vote</item>

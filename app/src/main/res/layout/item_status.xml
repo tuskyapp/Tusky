@@ -13,7 +13,7 @@
     android:paddingRight="14dp">
 
     <androidx.emoji.widget.EmojiTextView
-        android:id="@+id/status_reblogged"
+        android:id="@+id/status_info"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/status_reblogged_bar_padding_top"
@@ -40,7 +40,7 @@
         android:importantForAccessibility="no"
         android:scaleType="centerCrop"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/status_reblogged"
+        app:layout_constraintTop_toBottomOf="@id/status_info"
         tools:src="@drawable/avatar_default" />
 
     <tech.bigfig.roma.view.RoundedImageView
@@ -72,7 +72,7 @@
         app:layout_constraintEnd_toStartOf="@id/status_timestamp_info"
         app:layout_constraintHorizontal_bias="0"
         app:layout_constraintStart_toEndOf="@id/status_avatar"
-        app:layout_constraintTop_toBottomOf="@id/status_reblogged"
+        app:layout_constraintTop_toBottomOf="@id/status_info"
         tools:text="Ente r the void you foooooo" />
 
     <TextView
@@ -417,6 +417,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="?attr/status_text_medium"
+            app:buttonTint="?attr/compound_button_color"
             tools:text="Option 1" />
 
         <RadioButton
@@ -424,6 +425,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="?attr/status_text_medium"
+            app:buttonTint="?attr/compound_button_color"
             tools:text="Option 2" />
 
         <RadioButton
@@ -431,6 +433,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="?attr/status_text_medium"
+            app:buttonTint="?attr/compound_button_color"
             tools:text="Option 3" />
 
         <RadioButton
@@ -438,6 +441,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="?attr/status_text_medium"
+            app:buttonTint="?attr/compound_button_color"
             tools:text="Option 4" />
     </RadioGroup>
 
@@ -447,6 +451,7 @@
         android:layout_height="wrap_content"
         android:ellipsize="end"
         android:lines="1"
+        app:buttonTint="?attr/compound_button_color"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@id/status_display_name"
         app:layout_constraintTop_toBottomOf="@id/status_poll_radio_group"
@@ -458,6 +463,7 @@
         android:layout_height="wrap_content"
         android:ellipsize="end"
         android:lines="1"
+        app:buttonTint="?attr/compound_button_color"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@id/status_display_name"
         app:layout_constraintTop_toBottomOf="@id/status_poll_checkbox_0"
@@ -469,6 +475,7 @@
         android:layout_height="wrap_content"
         android:ellipsize="end"
         android:lines="1"
+        app:buttonTint="?attr/compound_button_color"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@id/status_display_name"
         app:layout_constraintTop_toBottomOf="@id/status_poll_checkbox_1"
@@ -480,6 +487,7 @@
         android:layout_height="wrap_content"
         android:ellipsize="end"
         android:lines="1"
+        app:buttonTint="?attr/compound_button_color"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@id/status_display_name"
         app:layout_constraintTop_toBottomOf="@id/status_poll_checkbox_2"
