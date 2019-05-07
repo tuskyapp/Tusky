@@ -341,7 +341,7 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <TextView
+    <androidx.emoji.widget.EmojiTextView
         android:id="@+id/status_poll_option_result_0"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -360,7 +360,7 @@
         app:layout_constraintTop_toBottomOf="@id/status_media_preview_container"
         tools:text="40%" />
 
-    <TextView
+    <androidx.emoji.widget.EmojiTextView
         android:id="@+id/status_poll_option_result_1"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -379,7 +379,7 @@
         app:layout_constraintTop_toBottomOf="@id/status_poll_option_result_0"
         tools:text="10%" />
 
-    <TextView
+    <androidx.emoji.widget.EmojiTextView
         android:id="@+id/status_poll_option_result_2"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -398,7 +398,7 @@
         app:layout_constraintTop_toBottomOf="@id/status_poll_option_result_1"
         tools:text="20%" />
 
-    <TextView
+    <androidx.emoji.widget.EmojiTextView
         android:id="@+id/status_poll_option_result_3"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
