@@ -296,7 +296,8 @@ fun Account.toEntity(accountId: Long, gson: Gson): TimelineAccountEntity {
             displayName = displayName,
             url = url,
             avatar = avatar,
-            emojis = gson.toJson(emojis)
+            emojis = gson.toJson(emojis),
+            bot = bot
     )
 }
 
@@ -315,7 +316,7 @@ fun TimelineAccountEntity.toAccount(gson: Gson): Account {
             followersCount = 0,
             statusesCount = 0,
             source = null,
-            bot = false,
+            bot = bot,
             emojis = gson.fromJson(this.emojis, emojisListTypeToken.type),
             fields = null,
             moved = null
