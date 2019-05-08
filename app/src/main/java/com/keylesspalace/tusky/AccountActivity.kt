@@ -420,10 +420,10 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
     private fun updateMovedAccount() {
         loadedAccount?.moved?.let { movedAccount ->
 
-            accountMovedView.show()
+            accountMovedView?.show()
 
             // necessary because accountMovedView is now replaced in layout hierachy
-            findViewById<View>(R.id.accountMovedView).setOnClickListener {
+            findViewById<View>(R.id.accountMovedViewLayout).setOnClickListener {
                 onViewAccount(movedAccount.id)
             }
 
