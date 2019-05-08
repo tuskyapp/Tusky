@@ -10,8 +10,9 @@
         android:title="@string/pref_title_notifications_enabled"
         app:iconSpaceReserved="false" />
 
-    <com.keylesspalace.tusky.view.UnclickablePreferenceCategory
+    <PreferenceCategory
         android:dependency="notificationsEnabled"
+        android:shouldDisableView="true"
         android:title="@string/pref_title_notification_filters"
         app:iconSpaceReserved="false">
 
@@ -44,10 +45,11 @@
             android:key="notificationFilterPolls"
             android:title="@string/pref_title_notification_filter_poll"
             app:iconSpaceReserved="false" />
-    </com.keylesspalace.tusky.view.UnclickablePreferenceCategory>
+    </PreferenceCategory>
 
-    <com.keylesspalace.tusky.view.UnclickablePreferenceCategory
+    <PreferenceCategory
         android:dependency="notificationsEnabled"
+        android:shouldDisableView="true"
         android:title="@string/pref_title_notification_alerts"
         app:iconSpaceReserved="false">
 
@@ -68,5 +70,5 @@
             android:key="notificationAlertLight"
             android:title="@string/pref_title_notification_alert_light"
             app:iconSpaceReserved="false" />
-    </com.keylesspalace.tusky.view.UnclickablePreferenceCategory>
+    </PreferenceCategory>
 </androidx.preference.PreferenceScreen>

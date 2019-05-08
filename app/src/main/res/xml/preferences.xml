@@ -2,7 +2,9 @@
 <androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     android:key="@string/preferences_file_key">
 
-    <com.keylesspalace.tusky.view.UnclickablePreferenceCategory android:title="@string/pref_title_appearance_settings">
+    <PreferenceCategory
+        android:shouldDisableView="true"
+        android:title="@string/pref_title_appearance_settings">
 
         <ListPreference
             android:defaultValue="night"
@@ -49,28 +51,34 @@
             android:defaultValue="true"
             android:key="showBotOverlay"
             android:title="@string/pref_title_bot_overlay" />
-    </com.keylesspalace.tusky.view.UnclickablePreferenceCategory>
+    </PreferenceCategory>
 
-    <com.keylesspalace.tusky.view.UnclickablePreferenceCategory android:title="@string/pref_title_browser_settings">
+    <PreferenceCategory
+        android:shouldDisableView="true"
+        android:title="@string/pref_title_browser_settings">
 
         <SwitchPreferenceCompat
             android:defaultValue="false"
             android:key="customTabs"
             android:title="@string/pref_title_custom_tabs" />
-    </com.keylesspalace.tusky.view.UnclickablePreferenceCategory>
+    </PreferenceCategory>
 
-    <com.keylesspalace.tusky.view.UnclickablePreferenceCategory android:title="@string/pref_title_status_filter">
+    <PreferenceCategory
+        android:shouldDisableView="true"
+        android:title="@string/pref_title_status_filter">
 
         <Preference
             android:key="timelineFilterPreferences"
             android:title="@string/pref_title_status_tabs" />
-    </com.keylesspalace.tusky.view.UnclickablePreferenceCategory>
+    </PreferenceCategory>
 
-    <com.keylesspalace.tusky.view.UnclickablePreferenceCategory android:title="@string/pref_title_proxy_settings">
+    <PreferenceCategory
+        android:shouldDisableView="true"
+        android:title="@string/pref_title_proxy_settings">
 
         <Preference
             android:key="httpProxyPreferences"
             android:summary="%s"
             android:title="@string/pref_title_http_proxy_settings" />
-    </com.keylesspalace.tusky.view.UnclickablePreferenceCategory>
+    </PreferenceCategory>
 </androidx.preference.PreferenceScreen>

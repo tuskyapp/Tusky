@@ -18,7 +18,9 @@
         android:key="blockedUsersPreference"
         android:title="@string/action_view_blocks" />
 
-    <com.keylesspalace.tusky.view.UnclickablePreferenceCategory android:title="@string/pref_publishing">
+    <PreferenceCategory
+        android:shouldDisableView="true"
+        android:title="@string/pref_publishing">
         <ListPreference
             android:defaultValue="public"
             android:entries="@array/post_privacy_names"
@@ -32,9 +34,11 @@
             android:icon="@drawable/ic_eye_24dp"
             android:key="defaultMediaSensitivity"
             android:title="@string/pref_default_media_sensitivity" />
-    </com.keylesspalace.tusky.view.UnclickablePreferenceCategory>
+    </PreferenceCategory>
 
-    <com.keylesspalace.tusky.view.UnclickablePreferenceCategory android:title="@string/pref_title_timelines">
+    <PreferenceCategory
+        android:shouldDisableView="true"
+        android:title="@string/pref_title_timelines">
         <SwitchPreferenceCompat
             android:key="mediaPreviewEnabled"
             android:title="@string/pref_title_show_media_preview" />
@@ -42,9 +46,11 @@
         <SwitchPreferenceCompat
             android:key="alwaysShowSensitiveMedia"
             android:title="@string/pref_title_alway_show_sensitive_media" />
-    </com.keylesspalace.tusky.view.UnclickablePreferenceCategory>
+    </PreferenceCategory>
 
-    <com.keylesspalace.tusky.view.UnclickablePreferenceCategory android:title="@string/pref_title_timeline_filters">
+    <PreferenceCategory
+        android:shouldDisableView="true"
+        android:title="@string/pref_title_timeline_filters">
         <Preference
             android:key="publicFilters"
             android:title="@string/pref_title_public_filter_keywords" />
@@ -60,5 +66,5 @@
         <Preference
             android:key="threadFilters"
             android:title="@string/pref_title_thread_filter_keywords" />
-    </com.keylesspalace.tusky.view.UnclickablePreferenceCategory>
+    </PreferenceCategory>
 </androidx.preference.PreferenceScreen>
