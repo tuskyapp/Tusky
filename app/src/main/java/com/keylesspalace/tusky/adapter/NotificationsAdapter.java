@@ -317,6 +317,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
                 avatar.setImageResource(R.drawable.avatar_default);
             } else {
                 Glide.with(avatar)
+                        .asBitmap()
                         .load(account.getAvatar())
                         .placeholder(R.drawable.avatar_default)
                         .into(avatar);

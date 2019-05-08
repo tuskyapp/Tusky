@@ -86,6 +86,7 @@ public class BlocksAdapter extends AccountAdapter {
             String formattedUsername = String.format(format, account.getUsername());
             username.setText(formattedUsername);
             Glide.with(avatar)
+                    .asBitmap()
                     .load(account.getAvatar())
                     .placeholder(R.drawable.avatar_default)
                     .into(avatar);

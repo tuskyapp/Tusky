@@ -241,6 +241,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             avatarInset.setVisibility(View.VISIBLE);
             avatarInset.setBackground(null);
             Glide.with(avatarInset)
+                    .asBitmap()
                     .load(rebloggedUrl)
                     .placeholder(R.drawable.avatar_default)
                     .into(avatarInset);
@@ -250,6 +251,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             avatar.setImageResource(R.drawable.avatar_default);
         } else {
             Glide.with(avatar)
+                    .asBitmap()
                     .load(url)
                     .placeholder(R.drawable.avatar_default)
                     .into(avatar);

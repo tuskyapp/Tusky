@@ -47,6 +47,7 @@ class AccountSelectionAdapter(context: Context): ArrayAdapter<AccountEntity>(con
             displayName.text = CustomEmojiHelper.emojifyString(account.displayName, account.emojis, displayName)
             if (!TextUtils.isEmpty(account.profilePictureUrl)) {
                 Glide.with(avatar)
+                        .asBitmap()
                         .load(account.profilePictureUrl)
                         .placeholder(R.drawable.avatar_default)
                         .into(avatar)
