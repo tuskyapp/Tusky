@@ -545,7 +545,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
         if (muting) {
             accountMuteButton.setIconResource(R.drawable.ic_unmute_24dp)
         } else {
-            accountMuteButton.setIconResource(R.drawable.ic_mute_24dp)
+            accountMuteButton.hide()
         }
     }
 
@@ -562,7 +562,10 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
                 accountMuteButton.hide()
             } else {
                 accountFloatingActionButton.show()
-                accountMuteButton.show()
+                if (muting)
+                    accountMuteButton.show()
+                else
+                    accountMuteButton.hide()
                 updateMuteButton()
             }
 
