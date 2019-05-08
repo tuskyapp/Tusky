@@ -383,10 +383,64 @@
 	<item quantity="two">صوتين</item>
 	<item quantity="few">%s أصوات</item>
 	<item quantity="many">%s أصوات</item>
-	<item quantity="other">%s صوت</item>
+	<item quantity="other">%s أصوات</item>
 </plurals>
     <string name="poll_ended_voted">لقد انتهى استطلاع رأي قد أبديت بصوتك فيه</string>
     <string name="poll_ended_created">لقد انتهى استطلاع رأي قمتَ بإنشائه</string>
 
+
+<string name="pref_title_notification_filter_poll">انتهت استطلاعات الرأي</string>
+    <plurals name="favs">
+	<item quantity="zero"><b>%1$s</b>"  مفضلة"</item>
+	<item quantity="one"><b>%1$s</b> مفضلة</item>
+	<item quantity="two"><b>%1$s</b> مفضلتين</item>
+	<item quantity="few"><b>%1$s</b> مفضلة</item>
+	<item quantity="many"><b>%1$s</b> مفضلات</item>
+	<item quantity="other"><b>%1$s</b> مفضلات</item>
+</plurals>
+
+    <plurals name="reblogs">
+	<item quantity="zero"><b>%s</b> ترقية</item>
+	<item quantity="one"><b>%s</b> ترقية</item>
+	<item quantity="two"><b>%s</b> ترقيتين</item>
+	<item quantity="few"><b>%s</b> ترقيات</item>
+	<item quantity="many"><b>%s</b> ترقيات</item>
+	<item quantity="other"><b>%s</b> ترقيات</item>
+</plurals>
+
+    <string name="pref_title_bot_overlay">إظهار علامة البوتات</string>
+
+    <plurals name="poll_timespan_days">
+	<item quantity="zero">%d أيام</item>
+	<item quantity="one">%d يوم</item>
+	<item quantity="two">%d يومين</item>
+	<item quantity="few">%d أيام</item>
+	<item quantity="many">%d أيام</item>
+	<item quantity="other">%d أيام</item>
+</plurals>
+    <plurals name="poll_timespan_hours">
+	<item quantity="zero">%d ساعات</item>
+	<item quantity="one">%d ساعة</item>
+	<item quantity="two">%d ساعتين</item>
+	<item quantity="few">%d %d ساعات</item>
+	<item quantity="many">%d %d ساعات</item>
+	<item quantity="other">%d %d ساعات</item>
+</plurals>
+    <plurals name="poll_timespan_minutes">
+	<item quantity="zero">%d دقائق</item>
+	<item quantity="one">%d دقيقة</item>
+	<item quantity="two">%d دقيقتين</item>
+	<item quantity="few">%d دقائق</item>
+	<item quantity="many">%d دقائق</item>
+	<item quantity="other">%d دقائق</item>
+</plurals>
+    <plurals name="poll_timespan_seconds">
+	<item quantity="zero">%d ثوان</item>
+	<item quantity="one">%d ثانية</item>
+	<item quantity="two">%d ثانيتين</item>
+	<item quantity="few">%d ثوان</item>
+	<item quantity="many">%d ثوان</item>
+	<item quantity="other">%d ثوان</item>
+</plurals>
 
 </resources>
