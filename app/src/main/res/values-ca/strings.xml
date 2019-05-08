@@ -474,4 +474,7 @@
 	<item quantity="other">%d segons</item>
 </plurals>
 
-</resources>
+<string name="description_status_cw">Advertència: %s</string>
+    <string name="poll_option_format"> <!-- 15% vota aquesta acció! --> &lt;b&gt;%1$d%%&lt;/b&gt; %2$s</string>
+
+    </resources>
