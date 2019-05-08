@@ -444,9 +444,6 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
 
             accountMovedText.setCompoundDrawablesRelativeWithIntrinsicBounds(movedIcon, null, null, null)
 
-            accountFollowers.hide()
-            accountFollowing.hide()
-            accountStatuses.hide()
             accountTabLayout.hide()
             accountFragmentViewPager.hide()
         }
