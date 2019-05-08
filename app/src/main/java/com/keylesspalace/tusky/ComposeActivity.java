@@ -605,7 +605,7 @@ public final class ComposeActivity
                 pickMedia(uri, mediaSize, description);
             }
         } else if (!ListUtils.isEmpty(mediaAttachments)) {
-            for (int mediaIndex =0; mediaIndex < mediaAttachments.size(); ++mediaIndex) {
+            for (int mediaIndex = 0; mediaIndex < mediaAttachments.size(); ++mediaIndex) {
                 Attachment media = mediaAttachments.get(mediaIndex);
                 QueuedMedia.Type type;
                 switch (media.getType()) {
