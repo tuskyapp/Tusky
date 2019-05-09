@@ -12,7 +12,6 @@
 
     <PreferenceCategory
         android:dependency="notificationsEnabled"
-        android:shouldDisableView="true"
         android:title="@string/pref_title_notification_filters"
         app:iconSpaceReserved="false">
 
@@ -49,7 +48,6 @@
 
     <PreferenceCategory
         android:dependency="notificationsEnabled"
-        android:shouldDisableView="true"
         android:title="@string/pref_title_notification_alerts"
         app:iconSpaceReserved="false">
 

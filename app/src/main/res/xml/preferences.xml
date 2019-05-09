@@ -2,9 +2,7 @@
 <androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     android:key="@string/preferences_file_key">
 
-    <PreferenceCategory
-        android:shouldDisableView="true"
-        android:title="@string/pref_title_appearance_settings">
+    <PreferenceCategory android:title="@string/pref_title_appearance_settings">
 
         <ListPreference
             android:defaultValue="night"
@@ -53,9 +51,7 @@
             android:title="@string/pref_title_bot_overlay" />
     </PreferenceCategory>
 
-    <PreferenceCategory
-        android:shouldDisableView="true"
-        android:title="@string/pref_title_browser_settings">
+    <PreferenceCategory android:title="@string/pref_title_browser_settings">
 
         <SwitchPreferenceCompat
             android:defaultValue="false"
@@ -63,18 +59,14 @@
             android:title="@string/pref_title_custom_tabs" />
     </PreferenceCategory>
 
-    <PreferenceCategory
-        android:shouldDisableView="true"
-        android:title="@string/pref_title_status_filter">
+    <PreferenceCategory android:title="@string/pref_title_status_filter">
 
         <Preference
             android:key="timelineFilterPreferences"
             android:title="@string/pref_title_status_tabs" />
     </PreferenceCategory>
 
-    <PreferenceCategory
-        android:shouldDisableView="true"
-        android:title="@string/pref_title_proxy_settings">
+    <PreferenceCategory android:title="@string/pref_title_proxy_settings">
 
         <Preference
             android:key="httpProxyPreferences"
