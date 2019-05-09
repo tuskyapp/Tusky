@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:key="notificationSettings"
     android:title="@string/pref_title_edit_notification_settings">
 
-    <SwitchPreference
+    <SwitchPreferenceCompat
         android:defaultValue="true"
         android:key="notificationsEnabled"
         android:title="@string/pref_title_notifications_enabled"
@@ -15,36 +15,35 @@
         android:title="@string/pref_title_notification_filters"
         app:iconSpaceReserved="false">
 
-        <SwitchPreference
+        <SwitchPreferenceCompat
             android:defaultValue="true"
             android:key="notificationFilterMentions"
             android:title="@string/pref_title_notification_filter_mentions"
             app:iconSpaceReserved="false" />
 
-        <SwitchPreference
+        <SwitchPreferenceCompat
             android:defaultValue="true"
             android:key="notificationFilterFollows"
             android:title="@string/pref_title_notification_filter_follows"
             app:iconSpaceReserved="false" />
 
-        <SwitchPreference
+        <SwitchPreferenceCompat
             android:defaultValue="true"
             android:key="notificationFilterReblogs"
             android:title="@string/pref_title_notification_filter_reblogs"
             app:iconSpaceReserved="false" />
 
-        <SwitchPreference
+        <SwitchPreferenceCompat
             android:defaultValue="true"
             android:key="notificationFilterFavourites"
             android:title="@string/pref_title_notification_filter_favourites"
             app:iconSpaceReserved="false" />
 
-        <SwitchPreference
+        <SwitchPreferenceCompat
             android:defaultValue="true"
             android:key="notificationFilterPolls"
             android:title="@string/pref_title_notification_filter_poll"
             app:iconSpaceReserved="false" />
-
     </PreferenceCategory>
 
     <PreferenceCategory
@@ -52,24 +51,22 @@
         android:title="@string/pref_title_notification_alerts"
         app:iconSpaceReserved="false">
 
-        <SwitchPreference
+        <SwitchPreferenceCompat
             android:defaultValue="true"
             android:key="notificationAlertSound"
             android:title="@string/pref_title_notification_alert_sound"
             app:iconSpaceReserved="false" />
 
-        <SwitchPreference
+        <SwitchPreferenceCompat
             android:defaultValue="true"
             android:key="notificationAlertVibrate"
             android:title="@string/pref_title_notification_alert_vibrate"
             app:iconSpaceReserved="false" />
 
-        <SwitchPreference
+        <SwitchPreferenceCompat
             android:defaultValue="true"
             android:key="notificationAlertLight"
             android:title="@string/pref_title_notification_alert_light"
             app:iconSpaceReserved="false" />
-
     </PreferenceCategory>
-
-</PreferenceScreen>
+</androidx.preference.PreferenceScreen>

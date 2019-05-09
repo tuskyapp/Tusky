@@ -1,20 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:title="@string/pref_title_status_tabs">
 
     <PreferenceCategory
         android:title="@string/title_home"
         app:iconSpaceReserved="false">
+
         <CheckBoxPreference
             android:defaultValue="true"
             android:key="tabFilterHomeReposts"
             android:title="@string/pref_title_show_reposts"
             app:iconSpaceReserved="false" />
+
         <CheckBoxPreference
             android:defaultValue="true"
             android:key="tabFilterHomeReplies"
             android:title="@string/pref_title_show_replies"
             app:iconSpaceReserved="false" />
     </PreferenceCategory>
-</PreferenceScreen>
+</androidx.preference.PreferenceScreen>

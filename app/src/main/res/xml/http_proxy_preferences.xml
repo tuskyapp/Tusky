@@ -1,22 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:title="@string/pref_title_http_proxy_settings">
 
-    <SwitchPreference
+    <SwitchPreferenceCompat
         android:defaultValue="false"
         android:key="httpProxyEnabled"
         android:title="@string/pref_title_http_proxy_enable"
         app:iconSpaceReserved="false" />
+
     <EditTextPreference
         android:key="httpProxyServer"
         android:summary="%s"
         android:title="@string/pref_title_http_proxy_server"
         app:iconSpaceReserved="false" />
+
     <EditTextPreference
         android:key="httpProxyPort"
         android:summary="%s"
         android:title="@string/pref_title_http_proxy_port"
         app:iconSpaceReserved="false" />
-
-</PreferenceScreen>
+</androidx.preference.PreferenceScreen>

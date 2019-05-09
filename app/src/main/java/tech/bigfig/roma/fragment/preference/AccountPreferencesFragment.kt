@@ -20,12 +20,12 @@ import android.graphics.drawable.Drawable
 import android.os.Build
 import android.os.Bundle
 import com.google.android.material.snackbar.Snackbar
-import androidx.preference.SwitchPreference
+import android.util.Log
+import android.view.View
 import androidx.preference.ListPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
-import android.util.Log
-import android.view.View
+import androidx.preference.SwitchPreferenceCompat
 import tech.bigfig.roma.appstore.EventHub
 import tech.bigfig.roma.appstore.PreferenceChangedEvent
 import tech.bigfig.roma.db.AccountManager
@@ -63,15 +63,15 @@ class AccountPreferencesFragment : PreferenceFragmentCompat(),
     private lateinit var blockedUsersPreference: Preference
 
     private lateinit var defaultPostPrivacyPreference: ListPreference
-    private lateinit var defaultMediaSensitivityPreference: SwitchPreference
-    private lateinit var alwaysShowSensitiveMediaPreference: SwitchPreference
-    private lateinit var mediaPreviewEnabledPreference: SwitchPreference
+    private lateinit var defaultMediaSensitivityPreference: SwitchPreferenceCompat
+    private lateinit var alwaysShowSensitiveMediaPreference: SwitchPreferenceCompat
+    private lateinit var mediaPreviewEnabledPreference: SwitchPreferenceCompat
     private lateinit var homeFiltersPreference: Preference
     private lateinit var notificationFiltersPreference: Preference
     private lateinit var publicFiltersPreference: Preference
     private lateinit var threadFiltersPreference: Preference
 
-    private val iconSize by lazy {resources.getDimensionPixelSize(R.dimen.preference_icon_size)}
+    private val iconSize by lazy { resources.getDimensionPixelSize(R.dimen.preference_icon_size) }
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         addPreferencesFromResource(R.xml.account_preferences)
@@ -81,9 +81,9 @@ class AccountPreferencesFragment : PreferenceFragmentCompat(),
         mutedUsersPreference = requirePreference("mutedUsersPreference")
         blockedUsersPreference = requirePreference("blockedUsersPreference")
         defaultPostPrivacyPreference = requirePreference("defaultPostPrivacy") as ListPreference
-        defaultMediaSensitivityPreference = requirePreference("defaultMediaSensitivity") as SwitchPreference
-        mediaPreviewEnabledPreference = requirePreference("mediaPreviewEnabled") as SwitchPreference
-        alwaysShowSensitiveMediaPreference = requirePreference("alwaysShowSensitiveMedia") as SwitchPreference
+        defaultMediaSensitivityPreference = requirePreference("defaultMediaSensitivity") as SwitchPreferenceCompat
+        mediaPreviewEnabledPreference = requirePreference("mediaPreviewEnabled") as SwitchPreferenceCompat
+        alwaysShowSensitiveMediaPreference = requirePreference("alwaysShowSensitiveMedia") as SwitchPreferenceCompat
         homeFiltersPreference = requirePreference("homeFilters")
         notificationFiltersPreference = requirePreference("notificationFilters")
         publicFiltersPreference = requirePreference("publicFilters")
@@ -126,7 +126,7 @@ class AccountPreferencesFragment : PreferenceFragmentCompat(),
     }
 
     override fun onPreferenceChange(preference: Preference, newValue: Any): Boolean {
-        when(preference) {
+        when (preference) {
             defaultPostPrivacyPreference -> {
                 preference.icon = getIconForVisibility(Status.Visibility.byString(newValue as String))
                 syncWithServer(visibility = newValue)
@@ -156,7 +156,7 @@ class AccountPreferencesFragment : PreferenceFragmentCompat(),
 
     override fun onPreferenceClick(preference: Preference): Boolean {
 
-        return when(preference) {
+        return when (preference) {
             notificationPreference -> {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                     val intent = Intent()
@@ -213,13 +213,14 @@ class AccountPreferencesFragment : PreferenceFragmentCompat(),
 
     private fun syncWithServer(visibility: String? = null, sensitive: Boolean? = null) {
         mastodonApi.accountUpdateSource(visibility, sensitive)
-                .enqueue(object: Callback<Account>{
+                .enqueue(object : Callback<Account> {
                     override fun onResponse(call: Call<Account>, response: Response<Account>) {
                         val account = response.body()
-                        if(response.isSuccessful && account != null) {
+                        if (response.isSuccessful && account != null) {
 
                             accountManager.activeAccount?.let {
-                                it.defaultPostPrivacy = account.source?.privacy ?: Status.Visibility.PUBLIC
+                                it.defaultPostPrivacy = account.source?.privacy
+                                        ?: Status.Visibility.PUBLIC
                                 it.defaultMediaSensitivity = account.source?.sensitive ?: false
                                 accountManager.saveAccount(it)
                             }
@@ -238,9 +239,9 @@ class AccountPreferencesFragment : PreferenceFragmentCompat(),
     }
 
     private fun showErrorSnackbar(visibility: String?, sensitive: Boolean?) {
-        view?.let {view ->
+        view?.let { view ->
             Snackbar.make(view, R.string.pref_failed_to_sync, Snackbar.LENGTH_LONG)
-                    .setAction(R.string.action_retry) { syncWithServer( visibility, sensitive)}
+                    .setAction(R.string.action_retry) { syncWithServer(visibility, sensitive) }
                     .show()
         }
     }
