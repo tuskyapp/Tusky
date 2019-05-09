@@ -466,7 +466,7 @@
     <string name="pref_title_bot_overlay">Show indicator for bots</string>
 
     <string name="notification_clear_text">Are you sure you want to permanently clear all your notifications?</string>
-    <string name="compose_preview_image_description">Actions for the image %s</string>
+    <string name="compose_preview_image_description">Actions for image %s</string>
 
     <string name="poll_info_format">
         <!-- 15 votes • 1 hour left -->
