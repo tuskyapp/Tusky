@@ -135,6 +135,25 @@ import java.util.concurrent.CountDownLatch;
 
 import javax.inject.Inject;
 
+import androidx.annotation.ColorInt;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.Px;
+import androidx.annotation.StringRes;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.content.res.AppCompatResources;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.core.content.FileProvider;
+import androidx.core.view.inputmethod.InputConnectionCompat;
+import androidx.core.view.inputmethod.InputContentInfoCompat;
+import androidx.lifecycle.Lifecycle;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.transition.TransitionManager;
+
 import at.connyduck.sparkbutton.helpers.Utils;
 import io.reactivex.Single;
 import io.reactivex.SingleObserver;
@@ -327,12 +346,12 @@ public final class ComposeActivity
                 @Override
                 public void onResponse(@NonNull Call<List<Emoji>> call, @NonNull Response<List<Emoji>> response) {
                     List<Emoji> emojiList = response.body();
-                    if(emojiList == null) {
+                    if (emojiList == null) {
                         emojiList = Collections.emptyList();
                     }
                     Collections.sort(emojiList, (a, b) ->
-                        a.getShortcode().toLowerCase(Locale.ROOT).compareTo(
-                            b.getShortcode().toLowerCase(Locale.ROOT)));
+                            a.getShortcode().toLowerCase(Locale.ROOT).compareTo(
+                                    b.getShortcode().toLowerCase(Locale.ROOT)));
                     setEmojiList(emojiList);
                     cacheInstanceMetadata(activeAccount);
                 }
@@ -366,7 +385,7 @@ public final class ComposeActivity
         tootButton.setOnClickListener(v -> onSendClicked());
         pickButton.setOnClickListener(v -> openPickDialog());
         visibilityButton.setOnClickListener(v -> showComposeOptions());
-        contentWarningButton.setOnClickListener(v-> onContentWarningChanged());
+        contentWarningButton.setOnClickListener(v -> onContentWarningChanged());
         emojiButton.setOnClickListener(v -> showEmojis());
         hideMediaToggle.setOnClickListener(v -> toggleHideMedia());
 
@@ -493,7 +512,7 @@ public final class ComposeActivity
                 replyTextView.setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, arrowDownIcon, null);
 
                 replyTextView.setOnClickListener(v -> {
-                    TransitionManager.beginDelayedTransition((ViewGroup)replyContentTextView.getParent());
+                    TransitionManager.beginDelayedTransition((ViewGroup) replyContentTextView.getParent());
 
                     if (replyContentTextView.getVisibility() != View.VISIBLE) {
                         replyContentTextView.setVisibility(View.VISIBLE);
@@ -559,7 +578,7 @@ public final class ComposeActivity
         }
 
         // work around Android platform bug -> https://issuetracker.google.com/issues/67102093
-        if(Build.VERSION.SDK_INT == Build.VERSION_CODES.O || Build.VERSION.SDK_INT == Build.VERSION_CODES.O_MR1 ) {
+        if (Build.VERSION.SDK_INT == Build.VERSION_CODES.O || Build.VERSION.SDK_INT == Build.VERSION_CODES.O_MR1) {
             textEditor.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
         }
 
@@ -598,7 +617,7 @@ public final class ComposeActivity
                 pickMedia(uri, mediaSize, description);
             }
         } else if (!ListUtils.isEmpty(mediaAttachments)) {
-            for (int mediaIndex =0; mediaIndex < mediaAttachments.size(); ++mediaIndex) {
+            for (int mediaIndex = 0; mediaIndex < mediaAttachments.size(); ++mediaIndex) {
                 Attachment media = mediaAttachments.get(mediaIndex);
                 QueuedMedia.Type type;
                 switch (media.getType()) {
@@ -661,15 +680,15 @@ public final class ComposeActivity
                         String subject = intent.getStringExtra(Intent.EXTRA_SUBJECT);
                         String text = intent.getStringExtra(Intent.EXTRA_TEXT);
                         String shareBody = null;
-                        if(subject != null && text != null){
-                            if(!subject.equals(text) && !text.contains(subject)){
+                        if (subject != null && text != null) {
+                            if (!subject.equals(text) && !text.contains(subject)) {
                                 shareBody = String.format("%s\n%s", subject, text);
-                            }else{
+                            } else {
                                 shareBody = text;
                             }
-                        }else if(text != null){
+                        } else if (text != null) {
                             shareBody = text;
-                        }else if(subject != null){
+                        } else if (subject != null) {
                             shareBody = subject;
                         }
 
@@ -762,10 +781,10 @@ public final class ComposeActivity
     }
 
     private void updateHideMediaToggle() {
-        TransitionManager.beginDelayedTransition((ViewGroup)hideMediaToggle.getParent());
+        TransitionManager.beginDelayedTransition((ViewGroup) hideMediaToggle.getParent());
 
         @ColorInt int color;
-        if(mediaQueued.size() == 0) {
+        if (mediaQueued.size() == 0) {
             hideMediaToggle.setVisibility(View.GONE);
         } else {
             hideMediaToggle.setVisibility(View.VISIBLE);
@@ -891,7 +910,7 @@ public final class ComposeActivity
             @Override
             public void onStateChanged(@NonNull View bottomSheet, int newState) {
                 //Wait until bottom sheet is not collapsed and show next screen after
-                if (newState==BottomSheetBehavior.STATE_COLLAPSED){
+                if (newState == BottomSheetBehavior.STATE_COLLAPSED) {
                     addMediaBehavior.setBottomSheetCallback(null);
                     if (ContextCompat.checkSelfPermission(ComposeActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE)
                             != PackageManager.PERMISSION_GRANTED) {
@@ -1170,7 +1189,7 @@ public final class ComposeActivity
             // Continue only if the File was successfully created
             if (photoFile != null) {
                 photoUploadUri = FileProvider.getUriForFile(this,
-                        BuildConfig.APPLICATION_ID+".fileprovider",
+                        BuildConfig.APPLICATION_ID + ".fileprovider",
                         photoFile);
                 intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUploadUri);
                 startActivityForResult(intent, MEDIA_TAKE_PHOTO_RESULT);
@@ -1227,9 +1246,9 @@ public final class ComposeActivity
                     .into(view);
         }
         view.setOnClickListener(v -> onMediaClick(item, v));
-        view.setContentDescription(getString(R.string.action_delete));
         mediaPreviewBar.addView(view);
         mediaQueued.add(item);
+        updateContentDescription(item);
         int queuedCount = mediaQueued.size();
         if (queuedCount == 1) {
             // If there's one video in the queue it is full, so disable the button to queue more.
@@ -1257,6 +1276,33 @@ public final class ComposeActivity
                 onUploadFailure(item, false);
             }
         }
+    }
+
+    private void updateContentDescriptionForAllImages() {
+        List<QueuedMedia> items = new ArrayList<>(mediaQueued);
+        for (QueuedMedia media : items) {
+            updateContentDescription(media);
+        }
+    }
+
+    private void updateContentDescription(QueuedMedia item) {
+        if (item.preview != null) {
+            String imageId;
+            if (!TextUtils.isEmpty(item.description)) {
+                imageId = item.description;
+            } else {
+                int idx = getImageIdx(item);
+                if (idx < 0)
+                    imageId = null;
+                else
+                    imageId = Integer.toString(idx + 1);
+            }
+            item.preview.setContentDescription(getString(R.string.compose_preview_image_description, imageId));
+        }
+    }
+
+    private int getImageIdx(QueuedMedia item) {
+        return mediaQueued.indexOf(item);
     }
 
     private void onMediaClick(QueuedMedia item, View view) {
@@ -1297,7 +1343,8 @@ public final class ComposeActivity
                 .as(autoDisposable(from(this, Lifecycle.Event.ON_DESTROY)))
                 .subscribe(new SingleObserver<Bitmap>() {
                     @Override
-                    public void onSubscribe(Disposable d) {}
+                    public void onSubscribe(Disposable d) {
+                    }
 
                     @Override
                     public void onSuccess(Bitmap bitmap) {
@@ -1305,7 +1352,8 @@ public final class ComposeActivity
                     }
 
                     @Override
-                    public void onError(Throwable e) { }
+                    public void onError(Throwable e) {
+                    }
                 });
 
 
@@ -1322,38 +1370,39 @@ public final class ComposeActivity
         input.setLines(2);
         input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
         input.setText(item.description);
-        input.setFilters(new InputFilter[] { new InputFilter.LengthFilter(MEDIA_DESCRIPTION_CHARACTER_LIMIT) });
+        input.setFilters(new InputFilter[]{new InputFilter.LengthFilter(MEDIA_DESCRIPTION_CHARACTER_LIMIT)});
 
         DialogInterface.OnClickListener okListener = (dialog, which) -> {
-                Runnable updateDescription = () -> {
-                    mastodonApi.updateMedia(item.id, input.getText().toString()).enqueue(new Callback<Attachment>() {
-                        @Override
-                        public void onResponse(@NonNull Call<Attachment> call, @NonNull Response<Attachment> response) {
-                            Attachment attachment = response.body();
-                            if (response.isSuccessful() && attachment != null) {
-                                item.description = attachment.getDescription();
-                                item.preview.setChecked(item.description != null && !item.description.isEmpty());
-                                dialog.dismiss();
-                            } else {
-                                showFailedCaptionMessage();
-                            }
-                            item.updateDescription = null;
-                        }
-
-                        @Override
-                        public void onFailure(@NonNull Call<Attachment> call, @NonNull Throwable t) {
+            Runnable updateDescription = () -> {
+                mastodonApi.updateMedia(item.id, input.getText().toString()).enqueue(new Callback<Attachment>() {
+                    @Override
+                    public void onResponse(@NonNull Call<Attachment> call, @NonNull Response<Attachment> response) {
+                        Attachment attachment = response.body();
+                        if (response.isSuccessful() && attachment != null) {
+                            item.description = attachment.getDescription();
+                            item.preview.setChecked(item.description != null && !item.description.isEmpty());
+                            dialog.dismiss();
+                            updateContentDescription(item);
+                        } else {
                             showFailedCaptionMessage();
-                            item.updateDescription = null;
                         }
-                    });
-                };
+                        item.updateDescription = null;
+                    }
 
-                if (item.readyStage == QueuedMedia.ReadyStage.UPLOADED) {
-                    updateDescription.run();
-                } else {
-                    // media is still uploading, queue description update for when it finishes
-                    item.updateDescription = updateDescription;
-                }
+                    @Override
+                    public void onFailure(@NonNull Call<Attachment> call, @NonNull Throwable t) {
+                        showFailedCaptionMessage();
+                        item.updateDescription = null;
+                    }
+                });
+            };
+
+            if (item.readyStage == QueuedMedia.ReadyStage.UPLOADED) {
+                updateDescription.run();
+            } else {
+                // media is still uploading, queue description update for when it finishes
+                item.updateDescription = updateDescription;
+            }
         };
 
         AlertDialog dialog = new AlertDialog.Builder(this)
@@ -1381,7 +1430,7 @@ public final class ComposeActivity
         if (mediaQueued.size() == 0) {
             updateHideMediaToggle();
         }
-
+        updateContentDescriptionForAllImages();
         enableButton(pickButton, true, true);
         cancelReadyingMedia(item);
     }
@@ -1403,7 +1452,7 @@ public final class ComposeActivity
                     public void onSuccess(File tempFile) {
                         item.uri = FileProvider.getUriForFile(
                                 ComposeActivity.this,
-                                BuildConfig.APPLICATION_ID+".fileprovider",
+                                BuildConfig.APPLICATION_ID + ".fileprovider",
                                 tempFile);
                         uploadMedia(item);
                     }
@@ -1619,7 +1668,7 @@ public final class ComposeActivity
 
     private void showContentWarning(boolean show) {
         statusHideText = show;
-        TransitionManager.beginDelayedTransition((ViewGroup)contentWarningBar.getParent());
+        TransitionManager.beginDelayedTransition((ViewGroup) contentWarningBar.getParent());
         int color;
         if (show) {
             statusMarkSensitive = true;
@@ -1651,9 +1700,9 @@ public final class ComposeActivity
     @Override
     public void onBackPressed() {
         // Acting like a teen: deliberately ignoring parent.
-        if(composeOptionsBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED ||
+        if (composeOptionsBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED ||
                 addMediaBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED ||
-                emojiBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED ) {
+                emojiBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED) {
             composeOptionsBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
             addMediaBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
             emojiBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
@@ -1785,14 +1834,14 @@ public final class ComposeActivity
 
     @Override
     public void onEmojiSelected(@NotNull String shortcode) {
-        textEditor.getText().insert(textEditor.getSelectionStart(), ":"+shortcode+": ");
+        textEditor.getText().insert(textEditor.getSelectionStart(), ":" + shortcode + ": ");
     }
 
     private void loadCachedInstanceMetadata(@NotNull AccountEntity activeAccount) {
         InstanceEntity instanceEntity = database.instanceDao()
                 .loadMetadataForInstance(activeAccount.getDomain());
 
-        if(instanceEntity != null) {
+        if (instanceEntity != null) {
             Integer max = instanceEntity.getMaximumTootCharacters();
             maximumTootCharacters = (max == null ? STATUS_CHARACTER_LIMIT : max);
             setEmojiList(instanceEntity.getEmojiList());
@@ -1817,14 +1866,13 @@ public final class ComposeActivity
     }
 
     // Accessors for testing, hence package scope
-    int getMaximumTootCharacters()
-    {
+    int getMaximumTootCharacters() {
         return maximumTootCharacters;
     }
 
     static boolean canHandleMimeType(@Nullable String mimeType) {
         return (mimeType != null &&
-                    (mimeType.startsWith("image/") || mimeType.startsWith("video/") || mimeType.equals("text/plain")));
+                (mimeType.startsWith("image/") || mimeType.startsWith("video/") || mimeType.equals("text/plain")));
     }
 
     public static final class QueuedMedia {

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     android:key="@string/preferences_file_key">
 
     <Preference
@@ -19,7 +19,6 @@
         android:title="@string/action_view_blocks" />
 
     <PreferenceCategory android:title="@string/pref_publishing">
-
         <ListPreference
             android:defaultValue="public"
             android:entries="@array/post_privacy_names"
@@ -28,40 +27,38 @@
             android:summary="%s"
             android:title="@string/pref_default_post_privacy" />
 
-        <SwitchPreference
+        <SwitchPreferenceCompat
             android:defaultValue="false"
             android:icon="@drawable/ic_eye_24dp"
             android:key="defaultMediaSensitivity"
             android:title="@string/pref_default_media_sensitivity" />
-
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/pref_title_timelines">
-
-        <SwitchPreference
+        <SwitchPreferenceCompat
             android:key="mediaPreviewEnabled"
             android:title="@string/pref_title_show_media_preview" />
 
-        <SwitchPreference
+        <SwitchPreferenceCompat
             android:key="alwaysShowSensitiveMedia"
             android:title="@string/pref_title_alway_show_sensitive_media" />
     </PreferenceCategory>
+
     <PreferenceCategory android:title="@string/pref_title_timeline_filters">
         <Preference
             android:key="publicFilters"
-            android:title="@string/pref_title_public_filter_keywords"
-            />
+            android:title="@string/pref_title_public_filter_keywords" />
+
         <Preference
             android:key="notificationFilters"
-            android:title="@string/title_notifications"
-            />
+            android:title="@string/title_notifications" />
+
         <Preference
             android:key="homeFilters"
-            android:title="@string/title_home"
-            />
+            android:title="@string/title_home" />
+
         <Preference
             android:key="threadFilters"
-            android:title="@string/pref_title_thread_filter_keywords"
-            />
+            android:title="@string/pref_title_thread_filter_keywords" />
     </PreferenceCategory>
-</PreferenceScreen>
+</androidx.preference.PreferenceScreen>

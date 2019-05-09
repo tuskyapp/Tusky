@@ -16,10 +16,10 @@
 package tech.bigfig.roma.fragment.preference
 
 import android.os.Bundle
-import androidx.preference.SwitchPreference
+import android.view.View
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
-import android.view.View
+import androidx.preference.SwitchPreferenceCompat
 import tech.bigfig.roma.R
 import tech.bigfig.roma.db.AccountManager
 import tech.bigfig.roma.di.Injectable
@@ -42,39 +42,39 @@ class NotificationPreferencesFragment : PreferenceFragmentCompat(), Preference.O
 
         if (activeAccount != null) {
 
-            val notificationPref = requirePreference("notificationsEnabled") as SwitchPreference
+            val notificationPref = requirePreference("notificationsEnabled") as SwitchPreferenceCompat
             notificationPref.isChecked = activeAccount.notificationsEnabled
             notificationPref.onPreferenceChangeListener = this
 
-            val mentionedPref = requirePreference("notificationFilterMentions") as SwitchPreference
+            val mentionedPref = requirePreference("notificationFilterMentions") as SwitchPreferenceCompat
             mentionedPref.isChecked = activeAccount.notificationsMentioned
             mentionedPref.onPreferenceChangeListener = this
 
-            val followedPref = requirePreference("notificationFilterFollows") as SwitchPreference
+            val followedPref = requirePreference("notificationFilterFollows") as SwitchPreferenceCompat
             followedPref.isChecked = activeAccount.notificationsFollowed
             followedPref.onPreferenceChangeListener = this
 
-            val repostedPref = requirePreference("notificationFilterReblogs") as SwitchPreference
+            val repostedPref = requirePreference("notificationFilterReblogs") as SwitchPreferenceCompat
             repostedPref.isChecked = activeAccount.notificationsReblogged
             repostedPref.onPreferenceChangeListener = this
 
-            val favouritedPref = requirePreference("notificationFilterFavourites") as SwitchPreference
+            val favouritedPref = requirePreference("notificationFilterFavourites") as SwitchPreferenceCompat
             favouritedPref.isChecked = activeAccount.notificationsFavourited
             favouritedPref.onPreferenceChangeListener = this
 
-            val pollsPref = requirePreference("notificationFilterPolls") as SwitchPreference
+            val pollsPref = requirePreference("notificationFilterPolls") as SwitchPreferenceCompat
             pollsPref.isChecked = activeAccount.notificationsPolls
             pollsPref.onPreferenceChangeListener = this
 
-            val soundPref = requirePreference("notificationAlertSound") as SwitchPreference
+            val soundPref = requirePreference("notificationAlertSound") as SwitchPreferenceCompat
             soundPref.isChecked = activeAccount.notificationSound
             soundPref.onPreferenceChangeListener = this
 
-            val vibrationPref = requirePreference("notificationAlertVibrate") as SwitchPreference
+            val vibrationPref = requirePreference("notificationAlertVibrate") as SwitchPreferenceCompat
             vibrationPref.isChecked = activeAccount.notificationVibration
             vibrationPref.onPreferenceChangeListener = this
 
-            val lightPref = requirePreference("notificationAlertLight") as SwitchPreference
+            val lightPref = requirePreference("notificationAlertLight") as SwitchPreferenceCompat
             lightPref.isChecked = activeAccount.notificationLight
             lightPref.onPreferenceChangeListener = this
         }
@@ -88,7 +88,7 @@ class NotificationPreferencesFragment : PreferenceFragmentCompat(), Preference.O
             when (preference.key) {
                 "notificationsEnabled" -> {
                     activeAccount.notificationsEnabled = newValue as Boolean
-                    if(NotificationHelper.areNotificationsEnabled(preference.context, accountManager)) {
+                    if (NotificationHelper.areNotificationsEnabled(preference.context, accountManager)) {
                         NotificationHelper.enablePullNotifications(activeAccount.username)
                     } else {
                         NotificationHelper.disablePullNotifications(activeAccount.username,activeAccount.domain)
