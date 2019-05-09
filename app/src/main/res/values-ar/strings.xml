@@ -330,7 +330,7 @@
     <string name="pref_title_absolute_time">استخدام الوقت المطلق</string>
     <string name="label_remote_account">المعلومات الواردة أدناه قد لا تعكس الملف الكامل للمستخدم. اضغط لفتحه على المتصفح.</string>
     <string name="unpin_action">فك التدبيس</string>
-    <string name="pin_action">تدبيس</string>
+    <string name="pin_action">دبِّس</string>
     <string name="title_reblogged_by">رقّاه</string>
     <string name="title_favourited_by">قام بإضافته إلى المفضلة</string>
     <string name="conversation_1_recipients">%1$s</string>
@@ -443,4 +443,6 @@
 	<item quantity="other">%d ثوان</item>
 </plurals>
 
-</resources>
+<string name="compose_preview_image_description">إجراءات على الصورة %s</string>
+
+    </resources>
