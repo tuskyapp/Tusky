@@ -84,8 +84,8 @@
     <string name="action_report">报告</string>
     <string name="action_delete">删除</string>
     <string name="action_delete_and_redraft">删除并重新编辑</string>
-    <string name="action_send">发嘟</string>
-    <string name="action_send_public">发嘟！</string>
+    <string name="action_send">嘟嘟</string>
+    <string name="action_send_public">嘟嘟！</string>
     <string name="action_retry">重试</string>
     <string name="action_close">关闭</string>
     <string name="action_view_profile">个人资料</string>
@@ -120,9 +120,9 @@
     <string name="action_links">链接</string>
     <string name="action_mentions">提及</string>
     <string name="action_hashtags">话题</string>
-    <string name="action_open_reblogger">打开转发者主页</string>
-    <string name="action_open_reblogged_by">显示转发者</string>
-    <string name="action_open_faved_by">显示收藏者</string>
+    <string name="action_open_reblogger">打开转嘟用户主页</string>
+    <string name="action_open_reblogged_by">显示转嘟</string>
+    <string name="action_open_faved_by">显示收藏</string>
 
     <string name="title_hashtags_dialog">话题</string>
     <string name="title_mentions_dialog">提及</string>
@@ -165,7 +165,7 @@
 
     <string name="login_connection">正在连接…</string>
 
-    <string name="dialog_whats_an_instance">请输入你帐号所在的 Mastodon 站点的域名，比如 pawoo.net，mstdn.jp，mao.daizhige.org，<a href="https://instances.social">等等</a> 。
+    <string name="dialog_whats_an_instance">请输入你帐号所在的 Mastodon 站点的域名，比如 pawoo.net，acg.mn，wxw.moe，<a href="https://instances.social">等等</a> 。
         \n\n还没有 Mastodon 帐号？你也可以输入想注册的 Mastodon 站点的域名，然后在该服务器创建新的帐号并授权 Roma 登入。
         \n\n在 Mastodon 里，跨站互动和站内互动一样简单。可以前往 <a href="https://joinmastodon.org">https://joinmastodon.org</a> 了解更多信息。
     </string>
@@ -200,6 +200,7 @@
     <string name="pref_title_notification_filter_follows">有新的关注者</string>
     <string name="pref_title_notification_filter_reblogs">嘟文被转嘟</string>
     <string name="pref_title_notification_filter_favourites">嘟文被收藏</string>
+    <string name="pref_title_notification_filter_poll">投票已结束</string>
     <string name="pref_title_appearance_settings">外观</string>
     <string name="pref_title_app_theme">应用主题</string>
     <string name="pref_title_timelines">时间轴</string>
@@ -248,21 +249,25 @@
     <string name="media_hide_sensitive">自动隐藏敏感媒体</string>
     <string name="media_hide_none">总是显示敏感媒体</string>
     <string name="media_hide_all">总是隐藏所有媒体</string>
-    <string name="notification_mention_name">被提及</string>
+    <string name="notification_mention_name">提及</string>
     <string name="notification_mention_descriptions">当有用户在嘟文中提及我时</string>
-    <string name="notification_follow_name">关注者</string>
+    <string name="notification_follow_name">关注</string>
     <string name="notification_follow_description">当有用户关注我时</string>
     <string name="notification_repost_name">转嘟</string>
     <string name="notification_repost_description">当有用户转嘟了我的嘟文时</string>
     <string name="notification_favourite_name">被收藏</string>
     <string name="notification_favourite_description">当有用户收藏了我的嘟文时</string>
+    <string name="notification_poll_name">投票</string>
+    <string name="notification_poll_description">当我参与的投票结束时</string>
+
+
     <string name="notification_mention_format">%s 提及了你</string>
     <string name="notification_summary_large">%1$s, %2$s, %3$s 和 %4$d 人</string>
     <string name="notification_summary_medium">%1$s, %2$s, 和 %3$s</string>
     <string name="notification_summary_small">%1$s 和 %2$s</string>
     <string name="notification_title_summary">%d 个新互动</string>
 
-    <string name="description_account_locked">被锁定的帐号</string>
+    <string name="description_account_locked">锁嘟用户</string>
 
     <string name="about_title_activity">关于 Roma</string>
     <string name="about_roma_version">Roma %s</string>
@@ -300,7 +305,6 @@
     <string name="abbreviated_minutes_ago">%d 分钟前</string>
     <string name="abbreviated_seconds_ago">%d 秒前</string>
 
-
     <string name="follows_you">关注了你</string>
     <string name="pref_title_alway_show_sensitive_media">总是显示所有敏感媒体内容</string>
     <string name="title_media">媒体</string>
@@ -320,7 +324,7 @@
 
     <string name="action_lists">列表</string>
     <string name="title_lists">列表</string>
-    <string name="title_list_timeline">列表公共时间轴</string>
+    <string name="title_list_timeline">列表时间轴</string>
     <string name="error_create_list">无法新建列表</string>
     <string name="error_rename_list">无法重命名列表</string>
     <string name="error_delete_list">无法删除列表</string>
@@ -400,8 +404,8 @@
         <item quantity="other">&lt;b&gt;%s&lt;/b&gt; 次转嘟</item>
     </plurals>
 
-    <string name="title_reblogged_by">转嘟者</string>
-    <string name="title_favourited_by">收藏者</string>
+    <string name="title_reblogged_by">转嘟</string>
+    <string name="title_favourited_by">收藏</string>
 
     <string name="conversation_1_recipients">%1$s</string>
     <string name="conversation_2_recipients">%1$s 和 %2$s</string>
@@ -444,10 +448,10 @@
     <string name="hint_list_name">列表名</string>
 
     <string name="edit_hashtag_title">编辑话题</string>
-    <string name="edit_hashtag_hint">不带 # 的话题名字</string>
+    <string name="edit_hashtag_hint">话题名（不含前面的 # 号）</string>
     <string name="hashtag">话题</string>
-    <string name="notifications_clear">清除</string>
-    <string name="notifications_apply_filter">过滤</string>
+    <string name="notifications_clear">清空</string>
+    <string name="notifications_apply_filter">分类</string>
     <string name="filter_apply">应用</string>
 
     <string name="compose_shortcut_long_label">发表新嘟文</string>
@@ -472,5 +476,25 @@
 
     <string name="poll_vote">投票</string>
 
+    <string name="poll_ended_voted">你参与的投票已结束</string>
+    <string name="poll_ended_created">你创建的投票已结束</string>
+
+    <!--These are for timestamps on polls -->
+    <plurals name="poll_timespan_days">
+        <item quantity="one">%d 天</item>
+        <item quantity="other">%d 天</item>
+    </plurals>
+    <plurals name="poll_timespan_hours">
+        <item quantity="one">%d 小时</item>
+        <item quantity="other">%d 小时</item>
+    </plurals>
+    <plurals name="poll_timespan_minutes">
+        <item quantity="one">%d 分钟</item>
+        <item quantity="other">%d 分钟</item>
+    </plurals>
+    <plurals name="poll_timespan_seconds">
+        <item quantity="one">%d 秒</item>
+        <item quantity="other">%d 秒</item>
+    </plurals>
 
 </resources>

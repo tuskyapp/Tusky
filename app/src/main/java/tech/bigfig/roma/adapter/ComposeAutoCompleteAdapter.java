@@ -148,6 +148,7 @@ public class ComposeAutoCompleteAdapter extends BaseAdapter
                     accountViewHolder.displayName.setText(emojifiedName);
                     if (!account.getAvatar().isEmpty()) {
                         Glide.with(accountViewHolder.avatar)
+                                .asBitmap()
                                 .load(account.getAvatar())
                                 .placeholder(R.drawable.avatar_default)
                                 .into(accountViewHolder.avatar);

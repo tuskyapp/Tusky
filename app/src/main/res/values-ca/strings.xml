@@ -272,4 +272,209 @@
     <string name="status_sent">Enviat!</string>
     <string name="state_follow_requested">Petició de seguiment enviada</string>
 
+    <string name="title_statuses_with_replies">Amb resposta</string>
+    <string name="action_emoji_keyboard">Teclat d\'emojis</string>
+    <string name="action_open_media_n">Obrir el media #%d</string>
+
+    <string name="action_open_as">Obrir com %s</string>
+    <string name="downloading_media">Descarregant media</string>
+
+    <string name="status_sent_long">Resposta enviada correctament.</string>
+
+    <string name="label_quick_reply">Resposta …</string>
+    <string name="dialog_message_cancel_follow_request">Revocar la petició de seguiment\?</string>
+    <string name="dialog_delete_toot_warning">Vols eliminar aquest toot\?</string>
+    <string name="dialog_redraft_toot_warning">Esborrar i reescriure aquest toot\?</string>
+
+    <string name="pref_summary_notifications">per el compte %1$s</string>
+    <string name="pref_title_notification_filter_poll">Finalització de les enquetes</string>
+    <string name="pref_title_app_theme">Tema</string>
+    <string name="pref_title_timelines">Cronologia</string>
+    <string name="pref_title_timeline_filters">Filtres</string>
+
+    <string name="app_them_dark">Fosc</string>
+    <string name="app_theme_light">Clar</string>
+    <string name="app_theme_black">Negre</string>
+    <string name="app_theme_auto">Brillantor automàtica</string>
+    <string name="app_theme_system">Utilitzar el tema del sistema</string>
+
+    <string name="pref_title_language">Idioma</string>
+    <string name="pref_title_proxy_settings">Proxy</string>
+    <string name="pref_title_http_proxy_settings">HTTP proxy</string>
+    <string name="pref_title_http_proxy_enable">Activar el proxy HTTP</string>
+    <string name="pref_title_http_proxy_server">Servidor del proxy HTTP</string>
+    <string name="pref_title_http_proxy_port">Port del proxy HTTP</string>
+
+    <string name="pref_default_media_sensitivity">Marcar sempre els medias com a sensibles</string>
+    <string name="pref_failed_to_sync">Error al sincronitzar els paràmetres</string>
+
+    <string name="status_text_size_smallest">Més petit</string>
+    <string name="status_text_size_small">Petit</string>
+    <string name="status_text_size_medium">Mig</string>
+    <string name="status_text_size_large">Gran</string>
+    <string name="status_text_size_largest">Més grand</string>
+
+    <string name="media_hide_sensitive">Ocultar els mèdia marcats com a sensibles</string>
+    <string name="media_hide_none">Mostrar sempre els mèdia marcats com a sensibles</string>
+    <string name="media_hide_all">Ocultar sempre tots els mèdia</string>
+
+    <string name="notification_poll_name">Enquestes</string>
+    <string name="pref_title_thread_filter_keywords">Converses</string>
+    <string name="filter_addition_dialog_title">Afegir un filtre</string>
+    <string name="filter_edit_dialog_title">Modificar un filtre</string>
+    <string name="filter_dialog_remove_button">Eliminar</string>
+    <string name="add_account_name">Afegir un compte</string>
+    <string name="action_open_reblogger">Obre l\'autor de l\'impuls</string>
+    <string name="action_open_reblogged_by">Mostra els impulsos</string>
+    <string name="pref_media_display">Pantalla dels mèdia</string>
+
+    <string name="notification_poll_description">Notificacions d\'enquestes que han finalitzat</string>
+
+
+    <string name="pref_title_public_filter_keywords">Línia de temps públiques</string>
+    <string name="filter_dialog_update_button">Actualització</string>
+    <string name="filter_add_description">Frase per filtrar</string>
+
+    <string name="add_account_description">Afegir un compte de Mastodont</string>
+
+    <string name="action_lists">Llistes</string>
+    <string name="title_lists">Llistes</string>
+    <string name="title_list_timeline">Cronologia de la llista</string>
+    <string name="error_create_list">És impossible crear la llista</string>
+    <string name="error_rename_list">Impossible reanomenar la llista</string>
+    <string name="error_delete_list">És impossible suprimir la llista</string>
+    <string name="action_create_list">Crear una llista</string>
+    <string name="action_rename_list">Reanomenar la llista</string>
+    <string name="action_delete_list">Suprimir la llista</string>
+    <string name="action_edit_list">Modificar la llista</string>
+    <string name="hint_search_people_list">Cercar persones que segueixes</string>
+    <string name="action_add_to_list">Afegir un compte a la llista</string>
+    <string name="action_remove_from_list">Suprimir un compte de la llista</string>
+
+    <string name="compose_active_account_description">Publicar amb el compte %1$s</string>
+
+    <string name="error_failed_set_caption">Error al afegir la llegenda</string>
+    <string name="hint_describe_for_visually_impaired">Descriure per a invidentes
+\n(%d character limit)</string>
+    <string name="action_set_caption">Afegir una llegenda</string>
+    <string name="action_remove_media">Eliminar</string>
+    <string name="lock_account_label">Protegir el compte</string>
+    <string name="lock_account_label_description">S\'haurà d\'admetre els seguidors manualment</string>
+    <string name="compose_save_draft">Guardar l\'esborrany\?</string>
+    <string name="send_toot_notification_title">Enviant toot…</string>
+    <string name="send_toot_notification_error_title">Error enviant el toot</string>
+    <string name="send_toot_notification_channel_name">Enviant toots</string>
+    <string name="send_toot_notification_cancel_title">Envio anul·lat</string>
+    <string name="send_toot_notification_saved_content">Una copia del toot s\'ha guardat a esborranys</string>
+    <string name="action_compose_shortcut">Escriure</string>
+
+    <string name="error_no_custom_emojis">La teva instància %s no te emojis personalitzats</string>
+    <string name="copy_to_clipboard_success">Copia al porta papers</string>
+    <string name="emoji_style">Estil dels emojis</string>
+    <string name="system_default">Sistema per defecte</string>
+    <string name="download_fonts">Hauràs de descarregar el joc d\'emojis</string>
+    <string name="performing_lookup_title">Cercant…</string>
+    <string name="expand_collapse_all_statuses">Expandir/ocultar tots els estats</string>
+    <string name="action_open_toot">Obrir toot</string>
+    <string name="restart_required">Cal reiniciar l\'aplicació</string>
+    <string name="restart_emoji">Has de reiniciar l\'aplicació per tal d\'aplicar aquests canvis</string>
+    <string name="later">Més tard</string>
+    <string name="restart">Reiniciar</string>
+    <string name="caption_systememoji">Conjunt d\'emojis predeterminats del teu dispositiu</string>
+    <string name="caption_blobmoji">Els emojis d\'Android 4.4 a 7.1</string>
+    <string name="caption_twemoji">Emojis estàndard de Mastodont</string>
+    <string name="download_failed">Descàrrega fallida</string>
+
+    <string name="profile_badge_bot_text">Bot</string>
+    <string name="account_moved_description">%1$s s\'ha trasllat a:</string>
+
+    <string name="reblog_private">Tornar a impulsar</string>
+    <string name="unreblog_private">No impulsar</string>
+
+    <string name="license_description">Tusky conté codi i recursos dels següents projectes:</string>
+    <string name="license_apache_2">Sota llicencia Apache (text a sota)</string>
+    <string name="license_cc_by_4">CC-BY 4.0</string>
+    <string name="license_cc_by_sa_4">CC-BY-SA 4.0</string>
+
+    <string name="profile_metadata_label">Metadades del perfil</string>
+    <string name="profile_metadata_add">Afegir dada</string>
+    <string name="profile_metadata_label_label">Etiqueta</string>
+    <string name="profile_metadata_content_label">Contingut</string>
+
+    <string name="pref_title_absolute_time">Utilitzar el temps absolut</string>
+
+    <string name="label_remote_account">La informació de sota pot mostrar el perfil incomplert de l\'usuari. Clica per obrir el perfil complert al navegador.</string>
+
+    <plurals name="favs">
+	<item quantity="one"><b>%1$s</b> Favorit</item>
+	<item quantity="other"><b>%1$s</b> Favorits</item>
+</plurals>
+
+    <plurals name="reblogs">
+	<item quantity="one"><b>%s</b> Impuls</item>
+	<item quantity="other"><b>%s</b> Impulsos</item>
+</plurals>
+
+    <string name="title_reblogged_by">Impulsat per</string>
+    <string name="title_favourited_by">Marcat favorit per</string>
+
+    <string name="conversation_1_recipients">%1$s</string>
+    <string name="conversation_2_recipients">%1$s i %2$s</string>
+    <string name="conversation_more_recipients">%1$s, %2$s i %3$d més</string>
+    <string name="max_tab_number_reached">màxim de %1$d pestanyes aconseguides</string>
+
+
+    <string name="description_status_media">Mèdia : %s</string>
+    <string name="description_status_media_no_description_placeholder">Sense descripció</string>
+    <string name="description_status_favourited">Favorits</string>
+    <string name="description_visiblity_public">Públic</string>
+    <string name="description_visiblity_unlisted">Sense llistar</string>
+    <string name="description_visiblity_private">Seguidors</string>
+    <string name="description_visiblity_direct">Directe</string>
+    <string name="hint_list_name">Nom de la llista</string>
+
+    <string name="edit_hashtag_title">Modificar el hashtag</string>
+    <string name="edit_hashtag_hint">Hashtag sense #</string>
+    <string name="hashtag">Hashtag</string>
+    <string name="notifications_clear">Netejar</string>
+    <string name="notifications_apply_filter">Filtrar</string>
+    <string name="filter_apply">Aplicar</string>
+
+    <string name="compose_shortcut_long_label">Escriure un toot</string>
+    <string name="compose_shortcut_short_label">Escriure</string>
+    <string name="pref_title_bot_overlay">Mostra l\'indicador dels bots</string>
+
+    <string name="notification_clear_text">Vols netejar totes les notificacions permanentment\?</string>
+
+    <string name="poll_info_format"> <!-- 15 vots • queda 1 hora --> %1$s • %2$s</string>
+    <plurals name="poll_info_votes">
+	<item quantity="one">%s vot</item>
+	<item quantity="other">%s vots</item>
+</plurals>
+    <string name="poll_info_time_relative">%s restants</string>
+    <string name="poll_info_time_absolute">Acaba a %s</string>
+    <string name="poll_info_closed">tancat</string>
+    <string name="poll_ended_voted">L\'enquesta on has votat està tancada</string>
+    <string name="poll_ended_created">La enquesta que heu creat ha finalitzat</string>
+
+    <plurals name="poll_timespan_days">
+	<item quantity="one">%d dia</item>
+	<item quantity="other">%d dies</item>
+</plurals>
+    <plurals name="poll_timespan_hours">
+	<item quantity="one">%d hora</item>
+	<item quantity="other">%d hores</item>
+</plurals>
+    <plurals name="poll_timespan_minutes">
+	<item quantity="one">%d minut</item>
+	<item quantity="other">%d minuts</item>
+</plurals>
+    <plurals name="poll_timespan_seconds">
+	<item quantity="one">%d segon</item>
+	<item quantity="other">%d segons</item>
+</plurals>
+
+<string name="description_status_cw">Advertència: %s</string>
+    <string name="poll_option_format"> <!-- 15% vota aquesta acció! --> &lt;b&gt;%1$d%%&lt;/b&gt; %2$s</string>
+
     </resources>

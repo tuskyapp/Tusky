@@ -458,4 +458,21 @@
     <string name="poll_ended_created">En avstemming du opprettet er avsluttet</string>
 
 
+<plurals name="poll_timespan_days">
+	<item quantity="one">%d dag</item>
+	<item quantity="other">%d dager</item>
+</plurals>
+    <plurals name="poll_timespan_hours">
+	<item quantity="one">%d time</item>
+	<item quantity="other">%d timer</item>
+</plurals>
+    <plurals name="poll_timespan_minutes">
+	<item quantity="one">%d minutt</item>
+	<item quantity="other">%d minutter</item>
+</plurals>
+    <plurals name="poll_timespan_seconds">
+	<item quantity="one">%d sekund</item>
+	<item quantity="other">%d sekunder</item>
+</plurals>
+
 </resources>

@@ -219,24 +219,45 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         }
     }
 
-    protected void setAvatar(String url, @Nullable String rebloggedUrl, boolean isBot) {
+    private void setAvatar(String url, @Nullable String rebloggedUrl, boolean isBot) {
+
+        if(TextUtils.isEmpty(rebloggedUrl)) {
+            avatar.setPaddingRelative(0, 0, 0, 0);
+
+            if(showBotOverlay && isBot) {
+                avatarInset.setVisibility(View.VISIBLE);
+                avatarInset.setBackgroundColor(0x50ffffff);
+                Glide.with(avatarInset)
+                        .load(R.drawable.ic_bot_24dp)
+                        .into(avatarInset);
+
+            } else {
+                avatarInset.setVisibility(View.GONE);
+            }
+
+        } else {
+            int padding = Utils.convertDpToPx(avatar.getContext(), 12);
+            avatar.setPaddingRelative(0, 0, padding, padding);
+
+            avatarInset.setVisibility(View.VISIBLE);
+            avatarInset.setBackground(null);
+            Glide.with(avatarInset)
+                    .asBitmap()
+                    .load(rebloggedUrl)
+                    .placeholder(R.drawable.avatar_default)
+                    .into(avatarInset);
+        }
+
         if (TextUtils.isEmpty(url)) {
             avatar.setImageResource(R.drawable.avatar_default);
         } else {
             Glide.with(avatar)
+                    .asBitmap()
                     .load(url)
                     .placeholder(R.drawable.avatar_default)
                     .into(avatar);
         }
 
-        if (showBotOverlay && isBot && TextUtils.isEmpty(rebloggedUrl)) {
-            avatarInset.setVisibility(View.VISIBLE);
-            avatarInset.setImageResource(R.drawable.ic_bot_24dp);
-            avatarInset.setBackgroundColor(0x50ffffff);
-        } else {
-            avatarInset.setBackground(null);
-            avatarInset.setVisibility(View.GONE);
-        }
     }
 
     protected void setCreatedAt(@Nullable Date createdAt) {
@@ -724,6 +745,9 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
     }
 
     private CharSequence getVisibilityDescription(Context context, Status.Visibility visibility) {
+        if(visibility == null) {
+            return "";
+        }
         int resource;
         switch (visibility) {
             case PUBLIC:
