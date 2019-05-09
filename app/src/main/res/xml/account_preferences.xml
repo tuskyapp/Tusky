@@ -18,9 +18,7 @@
         android:key="blockedUsersPreference"
         android:title="@string/action_view_blocks" />
 
-    <PreferenceCategory
-        android:shouldDisableView="true"
-        android:title="@string/pref_publishing">
+    <PreferenceCategory android:title="@string/pref_publishing">
         <ListPreference
             android:defaultValue="public"
             android:entries="@array/post_privacy_names"
@@ -36,9 +34,7 @@
             android:title="@string/pref_default_media_sensitivity" />
     </PreferenceCategory>
 
-    <PreferenceCategory
-        android:shouldDisableView="true"
-        android:title="@string/pref_title_timelines">
+    <PreferenceCategory android:title="@string/pref_title_timelines">
         <SwitchPreferenceCompat
             android:key="mediaPreviewEnabled"
             android:title="@string/pref_title_show_media_preview" />
@@ -48,9 +44,7 @@
             android:title="@string/pref_title_alway_show_sensitive_media" />
     </PreferenceCategory>
 
-    <PreferenceCategory
-        android:shouldDisableView="true"
-        android:title="@string/pref_title_timeline_filters">
+    <PreferenceCategory android:title="@string/pref_title_timeline_filters">
         <Preference
             android:key="publicFilters"
             android:title="@string/pref_title_public_filter_keywords" />
