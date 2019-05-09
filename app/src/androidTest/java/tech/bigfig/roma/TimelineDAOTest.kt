@@ -102,14 +102,14 @@ class TimelineDAOTest {
                 statusId = 60,
                 createdAt = System.currentTimeMillis(),
                 authorServerId = "200"
-                )
+        )
 
         for ((status, author, reblogAuthor) in listOf(oldByThisAccount, oldByAnotherAccount,
                 oldForAnotherAccount, recentByThisAccount, recentByAnotherAccount)) {
             timelineDao.insertInTransaction(status, author, reblogAuthor)
         }
 
-        timelineDao.cleanup(1, "20",  now - TimelineRepository.CLEANUP_INTERVAL)
+        timelineDao.cleanup(1, "20", now - TimelineRepository.CLEANUP_INTERVAL)
 
         assertEquals(
                 listOf(recentByAnotherAccount, recentByThisAccount, oldByThisAccount),
@@ -175,7 +175,7 @@ class TimelineDAOTest {
                 "displayName",
                 "blah",
                 "avatar",
-                "[\"tusky\": \"http://tusky.cool/emoji.jpg\"]"
+                "[\"tusky\": \"http://tusky.cool/emoji.jpg\"]", bot = false
         )
 
         val reblogAuthor = if (reblog) {
@@ -187,7 +187,7 @@ class TimelineDAOTest {
                     "RdisplayName",
                     "Rblah",
                     "Ravatar",
-                    emojis = "[]"
+                    emojis = "[]", bot = false
             )
         } else null
 
