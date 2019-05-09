@@ -443,9 +443,6 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
             movedIcon?.setColorFilter(textColor, PorterDuff.Mode.SRC_IN)
 
             accountMovedText.setCompoundDrawablesRelativeWithIntrinsicBounds(movedIcon, null, null, null)
-
-            accountTabLayout.hide()
-            accountFragmentViewPager.hide()
         }
 
     }

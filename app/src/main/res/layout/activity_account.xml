@@ -201,6 +201,21 @@
                         app:layout_constraintTop_toBottomOf="@id/accountFieldList"
                         tools:visibility="visible" />
 
+                    <ViewStub
+                        android:id="@+id/accountMovedView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inflatedId="@+id/accountMovedViewLayout"
+                        android:layout="@layout/view_account_moved"
+                        app:layout_constraintTop_toBottomOf="@id/accountRemoveView" />
+
+                    <androidx.constraintlayout.widget.Barrier
+                        android:id="@+id/barrierRemote"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:barrierDirection="bottom"
+                        app:constraint_referenced_ids="accountMovedView,accountMovedViewLayout" />
+
                     <LinearLayout
                         android:id="@+id/accountStatuses"
                         android:layout_width="wrap_content"
@@ -210,7 +225,7 @@
                         android:orientation="vertical"
                         app:layout_constraintEnd_toStartOf="@id/accountFollowing"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/accountRemoveView">
+                        app:layout_constraintTop_toBottomOf="@id/barrierRemote">
 
                         <TextView
                             android:id="@+id/accountStatusesTextView"
@@ -241,7 +256,7 @@
                         android:orientation="vertical"
                         app:layout_constraintEnd_toStartOf="@id/accountFollowers"
                         app:layout_constraintStart_toEndOf="@id/accountStatuses"
-                        app:layout_constraintTop_toBottomOf="@id/accountRemoveView">
+                        app:layout_constraintTop_toBottomOf="@id/barrierRemote">
 
                         <TextView
                             android:id="@+id/accountFollowingTextView"
@@ -271,7 +286,7 @@
                         android:orientation="vertical"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@id/accountFollowing"
-                        app:layout_constraintTop_toBottomOf="@id/accountRemoveView">
+                        app:layout_constraintTop_toBottomOf="@id/barrierRemote">
 
                         <TextView
                             android:id="@+id/accountFollowersTextView"
@@ -293,20 +308,6 @@
                             android:textSize="?attr/status_text_medium" />
                     </LinearLayout>
 
-                    <androidx.constraintlayout.widget.Barrier
-                        android:id="@+id/barrierStats"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        app:barrierDirection="bottom"
-                        app:constraint_referenced_ids="accountStatuses,accountFollowing,accountFollowers" />
-
-                    <ViewStub
-                        android:id="@+id/accountMovedView"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:inflatedId="@+id/accountMovedViewLayout"
-                        android:layout="@layout/view_account_moved"
-                        app:layout_constraintTop_toBottomOf="@id/barrierStats" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
