@@ -410,4 +410,9 @@
     <string name="poll_vote">Voter</string>
 
 
-</resources>
+<string name="notification_poll_name">Sondages</string>
+    <string name="pref_title_notification_filter_poll">Les sondages sont clos</string>
+    <string name="notification_poll_description">Notifications à propos des sondages clos</string>
+
+
+    </resources>

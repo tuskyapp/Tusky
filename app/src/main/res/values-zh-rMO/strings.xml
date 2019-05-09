@@ -33,7 +33,7 @@
     <string name="title_tag">#%s</string>
     <string name="title_statuses">嘟文</string>
     <string name="title_statuses_with_replies">嘟文和回覆</string>
-    <string name="title_statuses_pinned">已置顶</string>
+    <string name="title_statuses_pinned">已置頂</string>
     <string name="title_follows">正在關注</string>
     <string name="title_followers">關注者</string>
     <string name="title_favourites">我的收藏</string>
@@ -84,8 +84,8 @@
     <string name="action_report">檢舉</string>
     <string name="action_delete">刪除</string>
     <string name="action_delete_and_redraft">刪除並重新編輯</string>
-    <string name="action_send">發嘟</string>
-    <string name="action_send_public">發嘟！</string>
+    <string name="action_send">嘟嘟</string>
+    <string name="action_send_public">嘟嘟！</string>
     <string name="action_retry">重試</string>
     <string name="action_close">關閉</string>
     <string name="action_view_profile">個人資料</string>
@@ -120,9 +120,9 @@
     <string name="action_links">連結</string>
     <string name="action_mentions">提及</string>
     <string name="action_hashtags">話題</string>
-    <string name="action_open_reblogger">打開轉嘟者主頁</string>
-    <string name="action_open_reblogged_by">顯示轉嘟者</string>
-    <string name="action_open_faved_by">顯示收藏者</string>
+    <string name="action_open_reblogger">打開轉嘟用戶主頁</string>
+    <string name="action_open_reblogged_by">顯示轉嘟</string>
+    <string name="action_open_faved_by">顯示收藏</string>
 
     <string name="title_hashtags_dialog">話題</string>
     <string name="title_mentions_dialog">提及</string>
@@ -200,6 +200,7 @@
     <string name="pref_title_notification_filter_follows">有新的關注者</string>
     <string name="pref_title_notification_filter_reblogs">嘟文被轉嘟</string>
     <string name="pref_title_notification_filter_favourites">嘟文被收藏</string>
+    <string name="pref_title_notification_filter_poll">投票已結束</string>
     <string name="pref_title_appearance_settings">外觀</string>
     <string name="pref_title_app_theme">佈景主題</string>
     <string name="pref_title_timelines">時間軸</string>
@@ -248,21 +249,25 @@
     <string name="media_hide_sensitive">自動隱藏敏感媒體</string>
     <string name="media_hide_none">總是顯示敏感媒體</string>
     <string name="media_hide_all">總是隱藏所有媒體</string>
-    <string name="notification_mention_name">被提及</string>
+    <string name="notification_mention_name">提及</string>
     <string name="notification_mention_descriptions">當有使用者在嘟文中提及我時</string>
-    <string name="notification_follow_name">關注者</string>
+    <string name="notification_follow_name">關注</string>
     <string name="notification_follow_description">當有使用者關注我時</string>
     <string name="notification_repost_name">轉嘟</string>
     <string name="notification_repost_description">當有使用者轉嘟了我的嘟文時</string>
     <string name="notification_favourite_name">收藏</string>
     <string name="notification_favourite_description">當有使用者收藏了我的嘟文時</string>
+    <string name="notification_poll_name">投票</string>
+    <string name="notification_poll_description">當我參與的投票結束時</string>
+
+
     <string name="notification_mention_format">%s 提及了你</string>
     <string name="notification_summary_large">%1$s, %2$s, %3$s 和 %4$d 人</string>
     <string name="notification_summary_medium">%1$s, %2$s, 和 %3$s</string>
     <string name="notification_summary_small">%1$s 和 %2$s</string>
     <string name="notification_title_summary">%d 個新互動</string>
 
-    <string name="description_account_locked">被鎖定的帳號</string>
+    <string name="description_account_locked">鎖嘟用戶</string>
 
     <string name="about_title_activity">關於 Roma</string>
     <string name="about_roma_version">Roma %s</string>
@@ -298,7 +303,6 @@
     <string name="abbreviated_minutes_ago">%d 分鐘前</string>
     <string name="abbreviated_seconds_ago">%d 秒前</string>
 
-
     <string name="follows_you">關注了你</string>
     <string name="pref_title_alway_show_sensitive_media">總是顯示所有敏感媒體內容</string>
     <string name="title_media">媒體</string>
@@ -318,7 +322,7 @@
 
     <string name="action_lists">列表</string>
     <string name="title_lists">列表</string>
-    <string name="title_list_timeline">列表公共時間軸</string>
+    <string name="title_list_timeline">列表時間軸</string>
     <string name="error_create_list">無法新建列表</string>
     <string name="error_rename_list">無法重命名列表</string>
     <string name="error_delete_list">無法刪除列表</string>
@@ -398,8 +402,8 @@
         <item quantity="other">&lt;b>%s&lt;/b> 次轉嘟</item>
     </plurals>
 
-    <string name="title_reblogged_by">轉嘟者</string>
-    <string name="title_favourited_by">收藏者</string>
+    <string name="title_reblogged_by">轉嘟</string>
+    <string name="title_favourited_by">收藏</string>
 
     <string name="conversation_1_recipients">%1$s</string>
     <string name="conversation_2_recipients">%1$s 和 %2$s</string>
@@ -442,10 +446,10 @@
     <string name="hint_list_name">列表名</string>
 
     <string name="edit_hashtag_title">編輯話題</string>
-    <string name="edit_hashtag_hint">不帶 # 的話題名字</string>
+    <string name="edit_hashtag_hint">話題名（不含前面的 # 號）</string>
     <string name="hashtag">話題</string>
-    <string name="notifications_clear">清除</string>
-    <string name="notifications_apply_filter">過濾</string>
+    <string name="notifications_clear">清空</string>
+    <string name="notifications_apply_filter">分類</string>
     <string name="filter_apply">應用</string>
 
     <string name="compose_shortcut_long_label">發表新嘟文</string>
@@ -470,5 +474,25 @@
 
     <string name="poll_vote">投票</string>
 
+    <string name="poll_ended_voted">你參與的投票已結束</string>
+    <string name="poll_ended_created">你創建的投票已結束</string>
+
+    <!--These are for timestamps on polls -->
+    <plurals name="poll_timespan_days">
+        <item quantity="one">%d 天</item>
+        <item quantity="other">%d 天</item>
+    </plurals>
+    <plurals name="poll_timespan_hours">
+        <item quantity="one">%d 小時</item>
+        <item quantity="other">%d 小時</item>
+    </plurals>
+    <plurals name="poll_timespan_minutes">
+        <item quantity="one">%d 分鐘</item>
+        <item quantity="other">%d 分鐘</item>
+    </plurals>
+    <plurals name="poll_timespan_seconds">
+        <item quantity="one">%d 秒</item>
+        <item quantity="other">%d 秒</item>
+    </plurals>
 
 </resources>

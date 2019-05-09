@@ -332,4 +332,40 @@
     <string name="app_theme_system">Usar tema del sistema</string>
 
     <string name="pref_title_language">Idioma</string>
-    </resources>
+    <string name="action_unreblog">Eliminar compartido</string>
+    <string name="action_unfavourite">Eliminar favorito</string>
+    <string name="pref_title_timeline_filters">Filtros</string>
+
+    <string name="notification_poll_name">Encuestas</string>
+    <string name="filter_dialog_remove_button">Eliminar</string>
+    <string name="action_create_list">Crear una lista</string>
+    <string name="action_rename_list">Renombrar la lista</string>
+    <string name="action_add_to_list">Añadir cuenta a la lista</string>
+    <string name="action_remove_from_list">Eliminar cuenta de la lista</string>
+
+    <string name="description_status_favourited">Favoritos</string>
+    <string name="description_visiblity_private">Seguidores</string>
+    <string name="filter_apply">Aplicar</string>
+
+    <string name="pref_title_bot_overlay">Mostrar indicador de bots</string>
+
+    <string name="poll_vote">Votar</string>
+
+    <plurals name="poll_timespan_days">
+	<item quantity="one">%d día</item>
+	<item quantity="other">%d dias</item>
+</plurals>
+    <plurals name="poll_timespan_hours">
+	<item quantity="one">%d hora</item>
+	<item quantity="other">%d horas</item>
+</plurals>
+    <plurals name="poll_timespan_minutes">
+	<item quantity="one">%d minuto</item>
+	<item quantity="other">%d minutos</item>
+</plurals>
+    <plurals name="poll_timespan_seconds">
+	<item quantity="one">%d segundo</item>
+	<item quantity="other">%d segundos</item>
+</plurals>
+
+</resources>

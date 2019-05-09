@@ -21,7 +21,6 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
-import com.bumptech.glide.Glide;
 import tech.bigfig.roma.R;
 import tech.bigfig.roma.interfaces.StatusActionListener;
 import tech.bigfig.roma.util.SmartLengthInputFilter;
@@ -43,25 +42,6 @@ public class StatusViewHolder extends StatusBaseViewHolder {
         super(itemView, useAbsoluteTime);
         statusInfo = itemView.findViewById(R.id.status_info);
         contentCollapseButton = itemView.findViewById(R.id.button_toggle_content);
-    }
-
-    @Override
-    protected void setAvatar(String url, @Nullable String rebloggedUrl, boolean isBot) {
-        super.setAvatar(url, rebloggedUrl, isBot);
-        Context context = avatar.getContext();
-
-        boolean hasReblog = rebloggedUrl != null && !rebloggedUrl.isEmpty();
-        int padding = hasReblog ? Utils.dpToPx(context, 12) : 0;
-
-        avatar.setPaddingRelative(0, 0, padding, padding);
-
-        if (hasReblog) {
-            avatarInset.setVisibility(View.VISIBLE);
-            Glide.with(context)
-                    .load(rebloggedUrl)
-                    .placeholder(R.drawable.avatar_default)
-                    .into(avatarInset);
-        }
     }
 
     @Override
