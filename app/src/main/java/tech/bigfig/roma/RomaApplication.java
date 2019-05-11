@@ -18,35 +18,22 @@ package tech.bigfig.roma;
 import android.app.Activity;
 import android.app.Application;
 import android.app.Service;
-
-import androidx.annotation.NonNull;
-import androidx.room.Room;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.preference.PreferenceManager;
+
+import androidx.annotation.NonNull;
 import androidx.emoji.text.EmojiCompat;
+import androidx.room.Room;
+import androidx.work.RxWorker;
+import androidx.work.WorkManager;
 
 import com.crashlytics.android.Crashlytics;
 import com.crashlytics.android.core.CrashlyticsCore;
 import com.evernote.android.job.JobManager;
 
-
-import androidx.work.RxWorker;
-import androidx.work.WorkManager;
-import io.fabric.sdk.android.Fabric;
-import tech.bigfig.roma.db.AccountManager;
-import tech.bigfig.roma.db.AppDatabase;
-import tech.bigfig.roma.di.AppInjector;
-import tech.bigfig.roma.di.DaggerWorkerFactory;
-import tech.bigfig.roma.di.HasWorkerInjector;
-import tech.bigfig.roma.util.EmojiCompatFont;
-import tech.bigfig.roma.util.NotificationPullJobCreator;
-
-import tech.bigfig.roma.util.LocaleManager;
-
 import org.conscrypt.Conscrypt;
-
 
 import java.security.Security;
 
@@ -57,6 +44,15 @@ import dagger.android.DispatchingAndroidInjector;
 import dagger.android.HasActivityInjector;
 import dagger.android.HasBroadcastReceiverInjector;
 import dagger.android.HasServiceInjector;
+import io.fabric.sdk.android.Fabric;
+import tech.bigfig.roma.db.AccountManager;
+import tech.bigfig.roma.db.AppDatabase;
+import tech.bigfig.roma.di.AppInjector;
+import tech.bigfig.roma.di.DaggerWorkerFactory;
+import tech.bigfig.roma.di.HasWorkerInjector;
+import tech.bigfig.roma.util.EmojiCompatFont;
+import tech.bigfig.roma.util.LocaleManager;
+import tech.bigfig.roma.util.NotificationPullJobCreator;
 
 public class RomaApplication extends Application implements HasActivityInjector, HasServiceInjector, HasBroadcastReceiverInjector,
         HasWorkerInjector {
