@@ -33,6 +33,12 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import androidx.annotation.DrawableRes;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.content.res.AppCompatResources;
+import androidx.emoji.text.EmojiCompat;
+import androidx.recyclerview.widget.RecyclerView;
 import at.connyduck.sparkbutton.SparkButton;
 import at.connyduck.sparkbutton.SparkEventListener;
 import kotlin.collections.CollectionsKt;
@@ -884,7 +890,9 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
 
             for(int i = 0; i < Status.MAX_POLL_OPTIONS; i++) {
                 if(i < options.size()) {
-                    pollCheckboxOptions[i].setText(CustomEmojiHelper.emojifyString(options.get(i).getTitle(), emojis, pollCheckboxOptions[i]));
+                    CharSequence emojifiedPollOptionText = CustomEmojiHelper.emojifyString(options.get(i).getTitle(), emojis, pollCheckboxOptions[i]);
+                    emojifiedPollOptionText = EmojiCompat.get().process(emojifiedPollOptionText);
+                    pollCheckboxOptions[i].setText(emojifiedPollOptionText);
                     pollCheckboxOptions[i].setVisibility(View.VISIBLE);
                     pollCheckboxOptions[i].setChecked(false);
                 } else {
@@ -923,7 +931,9 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
 
             for(int i = 0; i < Status.MAX_POLL_OPTIONS; i++) {
                 if(i < options.size()) {
-                    pollRadioOptions[i].setText(CustomEmojiHelper.emojifyString(options.get(i).getTitle(), emojis, pollRadioOptions[i]));
+                    CharSequence emojifiedPollOptionText = CustomEmojiHelper.emojifyString(options.get(i).getTitle(), emojis, pollRadioOptions[i]);
+                    emojifiedPollOptionText = EmojiCompat.get().process(emojifiedPollOptionText);
+                    pollRadioOptions[i].setText(emojifiedPollOptionText);
                     pollRadioOptions[i].setVisibility(View.VISIBLE);
                 } else {
                     pollRadioOptions[i].setVisibility(View.GONE);
