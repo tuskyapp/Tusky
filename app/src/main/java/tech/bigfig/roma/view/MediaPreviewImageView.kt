@@ -88,7 +88,6 @@ defStyleAttr: Int = 0
      * Overridden setScaleType method which only accepts the new type if we don't have a focal
      * point set.
      *
-     *
      */
     override fun setScaleType(type: ScaleType) {
         if (focus != null) {
@@ -103,7 +102,7 @@ defStyleAttr: Int = 0
     }
 
     override fun onResourceReady(resource: Drawable?, model: Any?, target: Target<Drawable>?, dataSource: DataSource?, isFirstResource: Boolean): Boolean {
-        onSizeChanged(width, height, width, height)
+        recalculateMatrix(width, height, resource)
         return false
     }
 
@@ -113,6 +112,12 @@ defStyleAttr: Int = 0
      * matrix if we have a set focal point. It then reassigns the matrix to this imageView.
      */
     override fun onSizeChanged(width: Int, height: Int, oldWidth: Int, oldHeight: Int) {
+        recalculateMatrix(width, height, drawable)
+
+        super.onSizeChanged(width, height, oldWidth, oldHeight)
+    }
+
+    private fun recalculateMatrix(width: Int, height: Int, drawable: Drawable?) {
         if (drawable != null && focus != null && focalMatrix != null) {
             scaleType = ScaleType.MATRIX
             FocalPointUtil.updateFocalPointMatrix(width.toFloat(), height.toFloat(),
@@ -120,7 +125,5 @@ defStyleAttr: Int = 0
                     focus as Attachment.Focus, focalMatrix as Matrix)
             imageMatrix = focalMatrix
         }
-
-        super.onSizeChanged(width, height, oldWidth, oldHeight)
     }
 }
