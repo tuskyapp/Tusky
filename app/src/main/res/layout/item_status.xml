@@ -188,46 +188,42 @@
         app:layout_constraintTop_toBottomOf="@id/button_toggle_content"
         tools:visibility="gone">
 
-        <com.keylesspalace.tusky.view.MediaPreviewImageView
+        <ImageView
             android:id="@+id/status_media_preview_0"
             android:layout_width="0dp"
             android:layout_height="@dimen/status_media_preview_height"
-            android:scaleType="centerCrop"
             app:layout_constraintEnd_toStartOf="@+id/status_media_preview_1"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:ignore="ContentDescription" />
 
-        <com.keylesspalace.tusky.view.MediaPreviewImageView
+        <ImageView
             android:id="@+id/status_media_preview_1"
             android:layout_width="0dp"
             android:layout_height="@dimen/status_media_preview_height"
             android:layout_marginStart="4dp"
-            android:scaleType="centerCrop"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/status_media_preview_0"
             app:layout_constraintTop_toTopOf="parent"
             tools:ignore="ContentDescription" />
 
 
-        <com.keylesspalace.tusky.view.MediaPreviewImageView
+        <ImageView
             android:id="@+id/status_media_preview_2"
             android:layout_width="0dp"
             android:layout_height="@dimen/status_media_preview_height"
             android:layout_marginTop="4dp"
-            android:scaleType="centerCrop"
             app:layout_constraintEnd_toStartOf="@+id/status_media_preview_3"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/status_media_preview_0"
             tools:ignore="ContentDescription" />
 
-        <com.keylesspalace.tusky.view.MediaPreviewImageView
+        <ImageView
             android:id="@+id/status_media_preview_3"
             android:layout_width="0dp"
             android:layout_height="@dimen/status_media_preview_height"
             android:layout_marginStart="4dp"
             android:layout_marginTop="4dp"
-            android:scaleType="centerCrop"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/status_media_preview_2"
             app:layout_constraintTop_toBottomOf="@+id/status_media_preview_1"

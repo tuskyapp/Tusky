@@ -28,6 +28,7 @@ import com.keylesspalace.tusky.entity.Status;
 import com.keylesspalace.tusky.interfaces.StatusActionListener;
 import com.keylesspalace.tusky.util.CustomEmojiHelper;
 import com.keylesspalace.tusky.util.DateUtils;
+import com.keylesspalace.tusky.util.GlideMatrixTransformation;
 import com.keylesspalace.tusky.util.HtmlUtils;
 import com.keylesspalace.tusky.util.LinkHelper;
 import com.keylesspalace.tusky.util.ThemeUtils;
@@ -66,7 +67,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
     private ImageButton moreButton;
     private boolean favourited;
     private boolean reblogged;
-    protected MediaPreviewImageView[] mediaPreviews;
+    protected ImageView[] mediaPreviews;
     private ImageView[] mediaOverlays;
     private TextView sensitiveMediaWarning;
     private View sensitiveMediaShow;
@@ -106,7 +107,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         moreButton = itemView.findViewById(R.id.status_more);
         reblogged = false;
         favourited = false;
-        mediaPreviews = new MediaPreviewImageView[]{
+        mediaPreviews = new ImageView[]{
                 itemView.findViewById(R.id.status_media_preview_0),
                 itemView.findViewById(R.id.status_media_preview_1),
                 itemView.findViewById(R.id.status_media_preview_2),
@@ -398,28 +399,25 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             if (TextUtils.isEmpty(previewUrl)) {
                 Glide.with(mediaPreviews[i])
                         .load(mediaPreviewUnloadedId)
-                        .centerInside()
                         .into(mediaPreviews[i]);
             } else {
                 MetaData meta = attachments.get(i).getMeta();
                 Focus focus = meta != null ? meta.getFocus() : null;
 
                 if (focus != null) { // If there is a focal point for this attachment:
-                    mediaPreviews[i].setFocalPoint(focus);
-
+                    //mediaPreviews[i].setFocalPoint(focus);
+                    //TODO
                     Glide.with(mediaPreviews[i])
                             .load(previewUrl)
                             .placeholder(mediaPreviewUnloadedId)
-                            .centerInside()
-                            .addListener(mediaPreviews[i])
+                            .transform(new GlideMatrixTransformation(focus))
                             .into(mediaPreviews[i]);
                 } else {
-                    mediaPreviews[i].removeFocalPoint();
+                    //mediaPreviews[i].removeFocalPoint();
 
                     Glide.with(mediaPreviews[i])
                             .load(previewUrl)
                             .placeholder(mediaPreviewUnloadedId)
-                            .centerInside()
                             .into(mediaPreviews[i]);
                 }
             }
