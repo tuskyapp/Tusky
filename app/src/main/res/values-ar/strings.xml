@@ -28,7 +28,7 @@
     <string name="title_public_federated">الفدرالية</string>
     <string name="title_direct_messages">الرسائل المباشرة</string>
     <string name="title_tab_preferences">الألسنة</string>
-    <string name="title_view_thread">بَوِّق</string>
+    <string name="title_view_thread">تبويق</string>
     <string name="title_tag">#%s</string>
     <string name="title_statuses">المشاركات</string>
     <string name="title_statuses_with_replies">يحتوي على ردود</string>
@@ -54,7 +54,7 @@
     <string name="message_empty">لا شيء هنا.</string>
     <string name="footer_empty">لا يوجد شيئ هنا. إسحب إلى أسفل للتحديث !</string>
     <string name="notification_reblog_format">رقّى %s تبويقك</string>
-    <string name="notification_favourite_format">أعجب %s بتبويقك</string>
+    <string name="notification_favourite_format">أعجِب %s بتبويقك</string>
     <string name="notification_follow_format">%s يتبعك</string>
     <string name="report_username_format">أبلغ عن @%s</string>
     <string name="report_comment_hint">تعليقات إضافية ؟</string>
@@ -123,7 +123,7 @@
     <string name="action_open_as">إفتحه كـ %s</string>
     <string name="action_share_as">شاركه كـ…</string>
     <string name="send_status_link_to">شارك رابط التبويق مع…</string>
-    <string name="send_status_content_to">شارك التبويق على …</string>
+    <string name="send_status_content_to">شارك التبويق على…</string>
     <string name="send_media_to">شارك رابط التبويق مع…</string>
     <string name="confirmation_reported">تم الإرسال !</string>
     <string name="confirmation_unblocked">تم فك الحجب عن الحساب</string>
@@ -293,7 +293,7 @@
     <string name="lock_account_label">تجميد الحساب</string>
     <string name="lock_account_label_description">يتطلب منك قبول طلبات المتابَعة يدويا</string>
     <string name="compose_save_draft">هل تود الإحتفاظ بالمسودة ؟</string>
-    <string name="send_toot_notification_title">جارٍ إرسال التبويق …</string>
+    <string name="send_toot_notification_title">جارٍ إرسال التبويق…</string>
     <string name="send_toot_notification_error_title">خطأ أثناء عملية إرسال التبويق</string>
     <string name="send_toot_notification_channel_name">إرسال التبويقات</string>
     <string name="send_toot_notification_cancel_title">أُلغيَ الإرسال</string>
@@ -306,7 +306,7 @@
     <string name="download_fonts">يجب عليك أولا تنزيل حزمة الإيموجي هذه</string>
     <string name="performing_lookup_title">البحث جارٍ …</string>
     <string name="expand_collapse_all_statuses">توسيع/طي كافة المنشورات</string>
-    <string name="action_open_toot">فتح التبويق</string>
+    <string name="action_open_toot">افتح التبويق</string>
     <string name="restart_required">مطلوب إعادة تشغيل التطبيق</string>
     <string name="restart_emoji">إعادة تشغيل توسكي مطلوبة قصد تفعيل التعديلات</string>
     <string name="later">لاحقًا</string>
