@@ -430,4 +430,6 @@
 	<item quantity="other">%d sekunder</item>
 </plurals>
 
-</resources>
+<string name="compose_preview_image_description">Åtgärder för bild %s</string>
+
+    </resources>
