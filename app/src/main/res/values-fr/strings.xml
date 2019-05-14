@@ -409,4 +409,23 @@
     <string name="notification_poll_description">Notifications à propos des sondages clos</string>
 
 
-    </resources>
+    <string name="poll_ended_created">Un sondage que vous avez créé est terminé</string>
+
+    <plurals name="poll_timespan_days">
+	<item quantity="one">%d jour</item>
+	<item quantity="other">%d jours</item>
+</plurals>
+    <plurals name="poll_timespan_hours">
+	<item quantity="one">%d heure</item>
+	<item quantity="other">%d heures</item>
+</plurals>
+    <plurals name="poll_timespan_minutes">
+	<item quantity="one">%d minute</item>
+	<item quantity="other">%d minutes</item>
+</plurals>
+    <plurals name="poll_timespan_seconds">
+	<item quantity="one">%d seconde</item>
+	<item quantity="other">%d secondes</item>
+</plurals>
+
+</resources>

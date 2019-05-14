@@ -471,4 +471,6 @@
 	<item quantity="other">%d sekunder</item>
 </plurals>
 
-</resources>
+<string name="compose_preview_image_description">Handlinger for bilde %s</string>
+
+    </resources>
