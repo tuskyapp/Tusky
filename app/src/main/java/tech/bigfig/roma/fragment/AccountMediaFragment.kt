@@ -28,22 +28,22 @@ import androidx.core.view.ViewCompat
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import kotlinx.android.synthetic.main.fragment_timeline.*
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import tech.bigfig.roma.R
 import tech.bigfig.roma.ViewMediaActivity
 import tech.bigfig.roma.di.Injectable
 import tech.bigfig.roma.entity.Attachment
 import tech.bigfig.roma.entity.Status
+import tech.bigfig.roma.interfaces.RefreshableFragment
 import tech.bigfig.roma.network.MastodonApi
 import tech.bigfig.roma.util.ThemeUtils
-import tech.bigfig.roma.util.visible
-import tech.bigfig.roma.view.SquareImageView
-import tech.bigfig.roma.viewdata.AttachmentViewData
-import kotlinx.android.synthetic.main.fragment_timeline.*
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 import tech.bigfig.roma.util.hide
 import tech.bigfig.roma.util.show
+import tech.bigfig.roma.view.SquareImageView
+import tech.bigfig.roma.viewdata.AttachmentViewData
 import java.io.IOException
 import java.util.*
 import javax.inject.Inject
@@ -54,21 +54,25 @@ import javax.inject.Inject
  * Fragment with multiple columns of media previews for the specified account.
  */
 
-class AccountMediaFragment : BaseFragment(), Injectable {
-
+class AccountMediaFragment : BaseFragment(), RefreshableFragment, Injectable {
     companion object {
         @JvmStatic
-        fun newInstance(accountId: String): AccountMediaFragment {
+        fun newInstance(accountId: String, enableSwipeToRefresh:Boolean=true): AccountMediaFragment {
             val fragment = AccountMediaFragment()
             val args = Bundle()
             args.putString(ACCOUNT_ID_ARG, accountId)
+            args.putBoolean(ARG_ENABLE_SWIPE_TO_REFRESH,enableSwipeToRefresh)
             fragment.arguments = args
             return fragment
         }
 
         private const val ACCOUNT_ID_ARG = "account_id"
         private const val TAG = "AccountMediaFragment"
+        private const val ARG_ENABLE_SWIPE_TO_REFRESH = "arg.enable.swipe.to.refresh"
     }
+
+    private var isSwipeToRefreshEnabled: Boolean = true
+    private var needToRefresh = false
 
     @Inject
     lateinit var api: MastodonApi
@@ -79,6 +83,8 @@ class AccountMediaFragment : BaseFragment(), Injectable {
     private var fetchingStatus = FetchingStatus.NOT_FETCHING
     private var isVisibleToUser: Boolean = false
 
+    private var accountId: String?=null
+
     private val callback = object : Callback<List<Status>> {
         override fun onFailure(call: Call<List<Status>>?, t: Throwable?) {
             fetchingStatus = FetchingStatus.NOT_FETCHING
@@ -86,6 +92,7 @@ class AccountMediaFragment : BaseFragment(), Injectable {
             if (isAdded) {
                 swipeRefreshLayout.isRefreshing = false
                 progressBar.visibility = View.GONE
+                topProgressBar?.hide()
                 statusView.show()
                 if (t is IOException) {
                     statusView.setup(R.drawable.elephant_offline, R.string.error_network) {
@@ -106,6 +113,7 @@ class AccountMediaFragment : BaseFragment(), Injectable {
             if (isAdded) {
                 swipeRefreshLayout.isRefreshing = false
                 progressBar.visibility = View.GONE
+                topProgressBar?.hide()
 
                 val body = response.body()
                 body?.let { fetched ->
@@ -116,6 +124,8 @@ class AccountMediaFragment : BaseFragment(), Injectable {
                         result.addAll(AttachmentViewData.list(status))
                     }
                     adapter.addTop(result)
+                    if (result.isNotEmpty())
+                        recyclerView.scrollToPosition(0)
 
                     if (statuses.isEmpty()) {
                         statusView.show()
@@ -153,6 +163,11 @@ class AccountMediaFragment : BaseFragment(), Injectable {
 
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        isSwipeToRefreshEnabled = arguments?.getBoolean(ARG_ENABLE_SWIPE_TO_REFRESH,true)==true
+        accountId =  arguments?.getString(ACCOUNT_ID_ARG)
+    }
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_timeline, container, false)
@@ -172,24 +187,15 @@ class AccountMediaFragment : BaseFragment(), Injectable {
         recyclerView.layoutManager = layoutManager
         recyclerView.adapter = adapter
 
-        val accountId = arguments?.getString(ACCOUNT_ID_ARG)
 
-        swipeRefreshLayout.setOnRefreshListener {
-            statusView.hide()
-            if (fetchingStatus != FetchingStatus.NOT_FETCHING) return@setOnRefreshListener
-            currentCall = if (statuses.isEmpty()) {
-                fetchingStatus = FetchingStatus.INITIAL_FETCHING
-                api.accountStatuses(accountId, null, null, null, null, true, null)
-            } else {
-                fetchingStatus = FetchingStatus.REFRESHING
-                api.accountStatuses(accountId, null, statuses[0].id, null, null, true, null)
+
+        if (isSwipeToRefreshEnabled) {
+            swipeRefreshLayout.setOnRefreshListener {
+                refresh()
             }
-            currentCall?.enqueue(callback)
-
+            swipeRefreshLayout.setColorSchemeResources(R.color.roma_blue)
+            swipeRefreshLayout.setProgressBackgroundColorSchemeColor(ThemeUtils.getColor(view.context, android.R.attr.colorBackground))
         }
-        swipeRefreshLayout.setColorSchemeResources(R.color.roma_blue)
-        swipeRefreshLayout.setProgressBackgroundColorSchemeColor(ThemeUtils.getColor(view.context, android.R.attr.colorBackground))
-
         statusView.visibility = View.GONE
 
         recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
@@ -213,6 +219,22 @@ class AccountMediaFragment : BaseFragment(), Injectable {
         if (isVisibleToUser) doInitialLoadingIfNeeded()
     }
 
+    private fun refresh() {
+        statusView.hide()
+        if (fetchingStatus != FetchingStatus.NOT_FETCHING) return
+        currentCall = if (statuses.isEmpty()) {
+            fetchingStatus = FetchingStatus.INITIAL_FETCHING
+            api.accountStatuses(accountId, null, null, null, null, true, null)
+        } else {
+            fetchingStatus = FetchingStatus.REFRESHING
+            api.accountStatuses(accountId, null, statuses[0].id, null, null, true, null)
+        }
+        currentCall?.enqueue(callback)
+
+        if (!isSwipeToRefreshEnabled)
+            topProgressBar?.show()
+    }
+
     // That's sort of an optimization to only load media once user has opened the tab
     // Attention: can be called before *any* lifecycle method!
     override fun setUserVisibleHint(isVisibleToUser: Boolean) {
@@ -225,12 +247,14 @@ class AccountMediaFragment : BaseFragment(), Injectable {
         if (isAdded) {
             statusView.hide()
         }
-        val accountId = arguments?.getString(ACCOUNT_ID_ARG)
         if (fetchingStatus == FetchingStatus.NOT_FETCHING && statuses.isEmpty()) {
             fetchingStatus = FetchingStatus.INITIAL_FETCHING
             currentCall = api.accountStatuses(accountId, null, null, null, null, true, null)
             currentCall?.enqueue(callback)
         }
+        else if (needToRefresh)
+            refresh()
+        needToRefresh = false
     }
 
     private fun viewMedia(items: List<AttachmentViewData>, currentIndex: Int, view: View?) {
@@ -322,4 +346,13 @@ class AccountMediaFragment : BaseFragment(), Injectable {
             }
         }
     }
+
+    override fun refreshContent() {
+        if (isAdded)
+            refresh()
+        else
+            needToRefresh = true
+    }
+
+
 }
