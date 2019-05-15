@@ -21,6 +21,10 @@
             layout="@layout/item_emoji_pref" />
 
         <include
+            android:id="@+id/item_notoemoji"
+            layout="@layout/item_emoji_pref" />
+
+        <include
             android:id="@+id/item_nomoji"
             layout="@layout/item_emoji_pref" />
     </LinearLayout>

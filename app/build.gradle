@@ -113,7 +113,7 @@ dependencies {
     // EmojiCompat
     implementation 'androidx.emoji:emoji:1.0.0'
     implementation 'androidx.emoji:emoji-appcompat:1.0.0'
-    implementation 'de.c1710:filemojicompat:1.0.14'
+    implementation 'de.c1710:filemojicompat:1.0.15'
     // architecture components
     implementation 'androidx.lifecycle:lifecycle-extensions:2.0.0'
     //room
