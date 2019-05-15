@@ -1,4 +1,4 @@
-package com.keylesspalace.tusky.interfaces
+package tech.bigfig.roma.interfaces
 
 /**
  * Created by pandasoft (joelpyska1@gmail.com) on 04/04/2019.

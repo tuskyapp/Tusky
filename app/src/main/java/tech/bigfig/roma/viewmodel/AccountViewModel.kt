@@ -14,6 +14,7 @@ import io.reactivex.disposables.Disposable
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import tech.bigfig.roma.db.AccountManager
 import javax.inject.Inject
 
 class AccountViewModel @Inject constructor(

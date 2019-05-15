@@ -75,7 +75,7 @@
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/accountMuteButton"
-                        style="@style/TuskyButton.Outlined"
+                        style="@style/RomaButton.Outlined"
                         android:layout_width="wrap_content"
                         android:layout_height="0dp"
                         android:layout_marginStart="16dp"

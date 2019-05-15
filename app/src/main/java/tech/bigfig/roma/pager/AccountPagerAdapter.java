@@ -20,6 +20,7 @@ import android.view.ViewGroup;
 
 import tech.bigfig.roma.fragment.AccountMediaFragment;
 import tech.bigfig.roma.fragment.TimelineFragment;
+import tech.bigfig.roma.interfaces.RefreshableFragment;
 
 import java.util.HashSet;
 import java.util.Set;

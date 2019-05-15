@@ -48,6 +48,7 @@ import tech.bigfig.roma.entity.Filter;
 import tech.bigfig.roma.entity.Poll;
 import tech.bigfig.roma.entity.Status;
 import tech.bigfig.roma.interfaces.ActionButtonActivity;
+import tech.bigfig.roma.interfaces.RefreshableFragment;
 import tech.bigfig.roma.interfaces.ReselectableFragment;
 import tech.bigfig.roma.interfaces.StatusActionListener;
 import tech.bigfig.roma.network.MastodonApi;
