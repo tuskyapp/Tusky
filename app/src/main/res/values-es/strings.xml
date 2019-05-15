@@ -353,7 +353,7 @@
 
     <plurals name="poll_timespan_days">
 	<item quantity="one">%d día</item>
-	<item quantity="other">%d dias</item>
+	<item quantity="other">%d días</item>
 </plurals>
     <plurals name="poll_timespan_hours">
 	<item quantity="one">%d hora</item>
@@ -368,4 +368,10 @@
 	<item quantity="other">%d segundos</item>
 </plurals>
 
-</resources>
+<string name="poll_info_format"> <!-- 15 votos • queda 1 hora --> %1$s • %2$s</string>
+    <plurals name="poll_info_votes">
+	<item quantity="one">%s voto</item>
+	<item quantity="other">%s votos</item>
+</plurals>
+    <string name="poll_info_closed">cerrada</string>
+    </resources>

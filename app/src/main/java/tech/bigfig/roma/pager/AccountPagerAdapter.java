@@ -21,6 +21,9 @@ import android.view.ViewGroup;
 import tech.bigfig.roma.fragment.AccountMediaFragment;
 import tech.bigfig.roma.fragment.TimelineFragment;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -33,6 +36,8 @@ public class AccountPagerAdapter extends FragmentPagerAdapter {
     private String[] pageTitles;
 
     private SparseArray<Fragment> fragments = new SparseArray<>(TAB_COUNT);
+
+    private final Set<Integer> pagesToRefresh = new HashSet<>();
 
     public AccountPagerAdapter(FragmentManager manager, String accountId) {
         super(manager);
@@ -48,16 +53,16 @@ public class AccountPagerAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         switch (position) {
             case 0: {
-                return TimelineFragment.newInstance(TimelineFragment.Kind.USER, accountId);
+                return TimelineFragment.newInstance(TimelineFragment.Kind.USER, accountId,false);
             }
             case 1: {
-                return TimelineFragment.newInstance(TimelineFragment.Kind.USER_WITH_REPLIES, accountId);
+                return TimelineFragment.newInstance(TimelineFragment.Kind.USER_WITH_REPLIES, accountId,false);
             }
             case 2: {
-                return TimelineFragment.newInstance(TimelineFragment.Kind.USER_PINNED, accountId);
+                return TimelineFragment.newInstance(TimelineFragment.Kind.USER_PINNED, accountId,false);
             }
             case 3: {
-                return AccountMediaFragment.newInstance(accountId);
+                return AccountMediaFragment.newInstance(accountId,false);
             }
             default: {
                 throw new AssertionError("Page " + position + " is out of AccountPagerAdapter bounds");
@@ -76,6 +81,11 @@ public class AccountPagerAdapter extends FragmentPagerAdapter {
         Object fragment = super.instantiateItem(container, position);
         if (fragment instanceof Fragment)
             fragments.put(position, (Fragment) fragment);
+        if (pagesToRefresh.contains(position)) {
+            if (fragment instanceof RefreshableFragment)
+                ((RefreshableFragment) fragment).refreshContent();
+            pagesToRefresh.remove(position);
+        }
         return fragment;
     }
 
@@ -93,5 +103,17 @@ public class AccountPagerAdapter extends FragmentPagerAdapter {
     @Nullable
     public Fragment getFragment(int position) {
         return fragments.get(position);
+    }
+
+    public void refreshContent(){
+        for (int i=0;i<getCount();i++){
+            Fragment fragment = getFragment(i);
+            if (fragment instanceof RefreshableFragment){
+                ((RefreshableFragment) fragment).refreshContent();
+            }
+            else{
+                pagesToRefresh.add(i);
+            }
+        }
     }
 }

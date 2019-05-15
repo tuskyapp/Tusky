@@ -413,4 +413,26 @@
     <string name="notification_poll_description">Notifieringar när omröstningar har avslutats</string>
 
 
+    <string name="poll_ended_voted">En undersökning där du har röstat är avslutad</string>
+    <string name="poll_ended_created">En undersökning du skapat har avslutats</string>
+
+    <plurals name="poll_timespan_days">
+	<item quantity="one">%d dag</item>
+	<item quantity="other">%d dagar</item>
+</plurals>
+    <plurals name="poll_timespan_hours">
+	<item quantity="one">%d timme</item>
+	<item quantity="other">%d timmar</item>
+</plurals>
+    <plurals name="poll_timespan_minutes">
+	<item quantity="one">%d minut</item>
+	<item quantity="other">%d minuter</item>
+</plurals>
+    <plurals name="poll_timespan_seconds">
+	<item quantity="one">%d sekund</item>
+	<item quantity="other">%d sekunder</item>
+</plurals>
+
+<string name="compose_preview_image_description">Åtgärder för bild %s</string>
+
     </resources>

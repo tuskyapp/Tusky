@@ -434,4 +434,59 @@
     <string name="poll_vote">Glasovanje</string>
 
 
+<string name="pref_title_notification_filter_poll">ankete so se končala</string>
+    <string name="app_them_dark">Temna</string>
+    <string name="app_theme_light">Svetla</string>
+    <string name="app_theme_black">Črna</string>
+    <string name="app_theme_auto">Samodejno ob sončnem zahodu</string>
+    <string name="app_theme_system">Uporabi sistemsko temo</string>
+
+    <string name="post_privacy_public">Javno</string>
+    <string name="post_privacy_unlisted">Ni prikazano</string>
+    <string name="post_privacy_followers_only">Samo za sledilce</string>
+
+    <string name="status_text_size_smallest">Najmanjša</string>
+    <string name="status_text_size_small">Majhna</string>
+    <string name="status_text_size_medium">Srednja</string>
+    <string name="status_text_size_large">Velika</string>
+    <string name="status_text_size_largest">Največja</string>
+
+    <string name="media_hide_sensitive">Skrij medij, ki je označen kot občutljiv</string>
+    <string name="media_hide_none">Vedno prikaži medij, ki je označen kot občutljiv</string>
+    <string name="media_hide_all">Vedno skrij vse medije</string>
+
+    <string name="notification_poll_name">Ankete</string>
+    <string name="notification_poll_description">Obvestilo o anketah, ki so se končale</string>
+
+
+    <string name="compose_preview_image_description">Dejanje za sliko &amp;s</string>
+
+    <string name="poll_ended_voted">Anketa, na kateri ste glasovali, se je končala</string>
+    <string name="poll_ended_created">Anketa, ki ste jo ustvarili, se je končala</string>
+
+    <plurals name="poll_timespan_days">
+	<item quantity="one">%d dan</item>
+	<item quantity="two">%d dni</item>
+	<item quantity="few">%d dni</item>
+	<item quantity="other">%d dni</item>
+</plurals>
+    <plurals name="poll_timespan_hours">
+	<item quantity="one">%d ura</item>
+	<item quantity="two">%d uri</item>
+	<item quantity="few">%d ure</item>
+	<item quantity="other">%d ur</item>
+</plurals>
+    <plurals name="poll_timespan_minutes">
+	<item quantity="one">%d minuta</item>
+	<item quantity="two">%d minuti</item>
+	<item quantity="few">%d minute</item>
+	<item quantity="other">%d minut</item>
+</plurals>
+    <plurals name="poll_timespan_seconds">
+	<item quantity="one">%d sekunda</item>
+	<item quantity="two">%d sekundi</item>
+	<item quantity="few">%d sekunde</item>
+	<item quantity="other">%d sekund</item>
+</plurals>
+
 </resources>
