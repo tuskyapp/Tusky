@@ -33,7 +33,7 @@
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
             android:layout_toEndOf="@id/drawer_toggle"
-            android:background="@drawable/background_main_toolbar"
+            android:background="?android:colorBackground"
             android:elevation="@dimen/actionbar_elevation"
             app:tabGravity="fill"
             app:tabIconTint="@color/tab_icon_color"
