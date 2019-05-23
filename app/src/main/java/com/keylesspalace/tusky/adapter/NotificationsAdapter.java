@@ -34,6 +34,8 @@ import android.widget.TextView;
 import android.widget.ToggleButton;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.FitCenter;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.entity.Account;
 import com.keylesspalace.tusky.entity.Emoji;
@@ -316,10 +318,15 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
             if (TextUtils.isEmpty(account.getAvatar())) {
                 avatar.setImageResource(R.drawable.avatar_default);
             } else {
+                int avatarRadius = avatar.getContext().getResources()
+                        .getDimensionPixelSize(R.dimen.avatar_radius_24dp);
                 Glide.with(avatar)
-                        .asBitmap()
                         .load(account.getAvatar())
                         .placeholder(R.drawable.avatar_default)
+                        .transform(
+                                new FitCenter(),
+                                new RoundedCorners(avatarRadius)
+                        )
                         .into(avatar);
             }
         }
@@ -498,18 +505,30 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
             if (TextUtils.isEmpty(statusAvatarUrl)) {
                 statusAvatar.setImageResource(R.drawable.avatar_default);
             } else {
+                int statusAvatarRadius = statusAvatar.getContext().getResources()
+                        .getDimensionPixelSize(R.dimen.avatar_radius_48dp);
                 Glide.with(statusAvatar)
                         .load(statusAvatarUrl)
                         .placeholder(R.drawable.avatar_default)
+                        .transform(
+                                new FitCenter(),
+                                new RoundedCorners(statusAvatarRadius)
+                        )
                         .into(statusAvatar);
             }
 
             if (TextUtils.isEmpty(notificationAvatarUrl)) {
                 notificationAvatar.setImageResource(R.drawable.avatar_default);
             } else {
+                int notificationAvatarRadius = statusAvatar.getContext().getResources()
+                        .getDimensionPixelSize(R.dimen.avatar_radius_24dp);
                 Glide.with(notificationAvatar)
                         .load(notificationAvatarUrl)
                         .placeholder(R.drawable.avatar_default)
+                        .transform(
+                                new FitCenter(),
+                                new RoundedCorners(notificationAvatarRadius)
+                        )
                         .into(notificationAvatar);
             }
         }

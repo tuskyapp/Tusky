@@ -16,19 +16,20 @@
 package com.keylesspalace.tusky.adapter
 
 import android.content.Context
-import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.FitCenter
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.db.AccountEntity
 import com.keylesspalace.tusky.util.CustomEmojiHelper
 
 import kotlinx.android.synthetic.main.item_autocomplete_account.view.*
 
-class AccountSelectionAdapter(context: Context): ArrayAdapter<AccountEntity>(context, R.layout.item_autocomplete_account) {
+class AccountSelectionAdapter(context: Context) : ArrayAdapter<AccountEntity>(context, R.layout.item_autocomplete_account) {
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         var view = convertView
 
@@ -45,11 +46,18 @@ class AccountSelectionAdapter(context: Context): ArrayAdapter<AccountEntity>(con
             val avatar = view.avatar
             username.text = account.fullName
             displayName.text = CustomEmojiHelper.emojifyString(account.displayName, account.emojis, displayName)
-            if (!TextUtils.isEmpty(account.profilePictureUrl)) {
+
+            if (account.profilePictureUrl.isEmpty()) {
+                avatar.setImageResource(R.drawable.avatar_default)
+            } else {
+                val avatarRadius = avatar.context.resources.getDimensionPixelSize(R.dimen.avatar_radius_42dp)
                 Glide.with(avatar)
-                        .asBitmap()
                         .load(account.profilePictureUrl)
                         .placeholder(R.drawable.avatar_default)
+                        .transform(
+                                FitCenter(),
+                                RoundedCorners(avatarRadius)
+                        )
                         .into(avatar)
             }
         }

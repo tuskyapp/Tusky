@@ -9,7 +9,7 @@
     android:paddingLeft="16dp"
     android:paddingRight="16dp">
 
-    <com.keylesspalace.tusky.view.RoundedImageView
+    <ImageView
         android:id="@+id/account_avatar"
         android:layout_width="48dp"
         android:layout_height="48dp"
@@ -19,7 +19,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
 
-    <com.keylesspalace.tusky.view.RoundedImageView
+    <ImageView
         android:id="@+id/account_avatar_inset"
         android:layout_width="24dp"
         android:layout_height="24dp"

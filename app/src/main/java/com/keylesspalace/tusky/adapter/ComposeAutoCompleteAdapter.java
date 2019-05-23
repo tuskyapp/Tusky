@@ -26,6 +26,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.FitCenter;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.entity.Account;
 import com.keylesspalace.tusky.entity.Emoji;
@@ -146,11 +148,18 @@ public class ComposeAutoCompleteAdapter extends BaseAdapter
                     CharSequence emojifiedName = CustomEmojiHelper.emojifyString(account.getName(),
                             account.getEmojis(), accountViewHolder.displayName);
                     accountViewHolder.displayName.setText(emojifiedName);
-                    if (!account.getAvatar().isEmpty()) {
+                    if (account.getAvatar().isEmpty()) {
+                        accountViewHolder.avatar.setImageResource(R.drawable.avatar_default);
+                    } else {
+                        int avatarRadius = accountViewHolder.avatar.getContext().getResources()
+                                .getDimensionPixelSize(R.dimen.avatar_radius_42dp);
                         Glide.with(accountViewHolder.avatar)
-                                .asBitmap()
                                 .load(account.getAvatar())
                                 .placeholder(R.drawable.avatar_default)
+                                .transform(
+                                        new FitCenter(),
+                                        new RoundedCorners(avatarRadius)
+                                )
                                 .into(accountViewHolder.avatar);
                     }
                 }

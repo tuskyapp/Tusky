@@ -334,7 +334,6 @@ public final class MainActivity extends BottomSheetActivity implements ActionBut
             @Override
             public void set(ImageView imageView, Uri uri, Drawable placeholder, String tag) {
                 Glide.with(MainActivity.this)
-                        .asBitmap()
                         .load(uri)
                         .placeholder(placeholder)
                         .into(imageView);

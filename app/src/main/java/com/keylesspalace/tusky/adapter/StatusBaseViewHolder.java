@@ -16,7 +16,15 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
+import androidx.annotation.DrawableRes;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.content.res.AppCompatResources;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.FitCenter;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.entity.Attachment;
 import com.keylesspalace.tusky.entity.Attachment.Focus;
@@ -43,11 +51,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-import androidx.annotation.DrawableRes;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.content.res.AppCompatResources;
-import androidx.recyclerview.widget.RecyclerView;
 import at.connyduck.sparkbutton.SparkButton;
 import at.connyduck.sparkbutton.SparkEventListener;
 import kotlin.collections.CollectionsKt;
@@ -91,6 +94,10 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
     private boolean showBotOverlay;
 
     private final NumberFormat numberFormat = NumberFormat.getNumberInstance();
+
+    private int avatarRadius48dp;
+    private int avatarRadius36dp;
+    private int avatarRadius24dp;
 
     protected StatusBaseViewHolder(View itemView, boolean useAbsoluteTime) {
         super(itemView);
@@ -153,6 +160,10 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         shortSdf = new SimpleDateFormat("HH:mm:ss", Locale.getDefault());
         longSdf = new SimpleDateFormat("MM/dd HH:mm:ss", Locale.getDefault());
         showBotOverlay = PreferenceManager.getDefaultSharedPreferences(itemView.getContext()).getBoolean("showBotOverlay", true);
+
+        this.avatarRadius48dp = itemView.getContext().getResources().getDimensionPixelSize(R.dimen.avatar_radius_48dp);
+        this.avatarRadius36dp = itemView.getContext().getResources().getDimensionPixelSize(R.dimen.avatar_radius_36dp);
+        this.avatarRadius24dp = itemView.getContext().getResources().getDimensionPixelSize(R.dimen.avatar_radius_24dp);
     }
 
     protected abstract int getMediaPreviewHeight(Context context);
@@ -220,6 +231,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
 
     private void setAvatar(String url, @Nullable String rebloggedUrl, boolean isBot) {
 
+        int avatarRadius;
         if(TextUtils.isEmpty(rebloggedUrl)) {
             avatar.setPaddingRelative(0, 0, 0, 0);
 
@@ -234,6 +246,8 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
                 avatarInset.setVisibility(View.GONE);
             }
 
+            avatarRadius = avatarRadius48dp;
+
         } else {
             int padding = Utils.convertDpToPx(avatar.getContext(), 12);
             avatar.setPaddingRelative(0, 0, padding, padding);
@@ -241,19 +255,27 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             avatarInset.setVisibility(View.VISIBLE);
             avatarInset.setBackground(null);
             Glide.with(avatarInset)
-                    .asBitmap()
                     .load(rebloggedUrl)
                     .placeholder(R.drawable.avatar_default)
+                    .transform(
+                            new FitCenter(),
+                            new RoundedCorners(avatarRadius24dp)
+                    )
                     .into(avatarInset);
+
+            avatarRadius = avatarRadius36dp;
         }
 
         if (TextUtils.isEmpty(url)) {
             avatar.setImageResource(R.drawable.avatar_default);
         } else {
             Glide.with(avatar)
-                    .asBitmap()
                     .load(url)
                     .placeholder(R.drawable.avatar_default)
+                    .transform(
+                            new FitCenter(),
+                            new RoundedCorners(avatarRadius)
+                    )
                     .into(avatar);
         }
 

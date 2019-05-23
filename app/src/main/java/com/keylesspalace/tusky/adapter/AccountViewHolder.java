@@ -8,6 +8,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.FitCenter;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.entity.Account;
 import com.keylesspalace.tusky.interfaces.AccountActionListener;
@@ -38,10 +40,15 @@ class AccountViewHolder extends RecyclerView.ViewHolder {
         username.setText(formattedUsername);
         CharSequence emojifiedName = CustomEmojiHelper.emojifyString(account.getName(), account.getEmojis(), displayName);
         displayName.setText(emojifiedName);
+        int avatarRadius = avatar.getContext().getResources()
+                .getDimensionPixelSize(R.dimen.avatar_radius_48dp);
         Glide.with(avatar)
-                .asBitmap()
                 .load(account.getAvatar())
                 .placeholder(R.drawable.avatar_default)
+                .transform(
+                        new FitCenter(),
+                        new RoundedCorners(avatarRadius)
+                )
                 .into(avatar);
         if (showBotOverlay && account.getBot()) {
             avatarInset.setVisibility(View.VISIBLE);

@@ -25,6 +25,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.FitCenter;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.entity.Account;
 import com.keylesspalace.tusky.interfaces.AccountActionListener;
@@ -87,10 +89,15 @@ public class FollowRequestsAdapter extends AccountAdapter {
             String format = username.getContext().getString(R.string.status_username_format);
             String formattedUsername = String.format(format, account.getUsername());
             username.setText(formattedUsername);
+            int avatarRadius = avatar.getContext().getResources()
+                    .getDimensionPixelSize(R.dimen.avatar_radius_48dp);
             Glide.with(avatar)
-                    .asBitmap()
                     .load(account.getAvatar())
                     .placeholder(R.drawable.avatar_default)
+                    .transform(
+                            new FitCenter(),
+                            new RoundedCorners(avatarRadius)
+                    )
                     .into(avatar);
         }
 

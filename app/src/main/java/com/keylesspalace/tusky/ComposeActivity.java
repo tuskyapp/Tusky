@@ -26,6 +26,7 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.AssetFileDescriptor;
 import android.content.res.Resources;
+import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
@@ -80,6 +81,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.transition.TransitionManager;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.FitCenter;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.Gson;
@@ -306,9 +309,19 @@ public final class ComposeActivity
             if (TextUtils.isEmpty(activeAccount.getProfilePictureUrl())) {
                 composeAvatar.setImageResource(R.drawable.avatar_default);
             } else {
+
+                int[] actionBarSizeAttr = new int[] { R.attr.actionBarSize };
+                TypedArray a = obtainStyledAttributes(null, actionBarSizeAttr);
+                int avatarSize = a.getDimensionPixelSize(0, 1);
+                a.recycle();
+
                 Glide.with(this).load(activeAccount.getProfilePictureUrl())
                         .error(R.drawable.avatar_default)
                         .placeholder(R.drawable.avatar_default)
+                        .transform(
+                                new FitCenter(),
+                                new RoundedCorners(avatarSize / 8)
+                        )
                         .into(composeAvatar);
             }
 
