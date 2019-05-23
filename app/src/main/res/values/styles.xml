@@ -60,6 +60,8 @@
         <item name="colorSecondary">@color/roma_blue</item>
         <item name="colorOnSecondary">@color/white</item>
 
+        <item name="colorSurface">@color/color_background_light</item>
+
         <item name="colorPrimaryDark">@color/color_primary_dark_light</item>
 
         <item name="android:colorBackground">@color/color_background_light</item>

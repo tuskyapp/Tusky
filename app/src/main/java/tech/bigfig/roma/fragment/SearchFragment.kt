@@ -150,7 +150,8 @@ class SearchFragment : SFragment(), StatusActionListener {
                                         status,
                                         alwaysShowSensitiveMedia
                                 ),
-                                position
+                                position,
+                                false
                         )
                     }, { t -> Log.d(TAG, "Failed to reblog status " + status.id, t) })
         }
@@ -169,7 +170,8 @@ class SearchFragment : SFragment(), StatusActionListener {
                                         status,
                                         alwaysShowSensitiveMedia
                                 ),
-                                position
+                                position,
+                                false
                         )
                     }, { t -> Log.d(TAG, "Failed to favourite status " + status.id, t) })
         }
@@ -203,7 +205,7 @@ class SearchFragment : SFragment(), StatusActionListener {
         if (status != null) {
             val newStatus = StatusViewData.Builder(status)
                     .setIsExpanded(expanded).createStatusViewData()
-            searchAdapter.updateStatusAtPosition(newStatus, position)
+            searchAdapter.updateStatusAtPosition(newStatus, position, false)
         }
     }
 
@@ -212,7 +214,7 @@ class SearchFragment : SFragment(), StatusActionListener {
         if (status != null) {
             val newStatus = StatusViewData.Builder(status)
                     .setIsShowingSensitiveContent(isShowing).createStatusViewData()
-            searchAdapter.updateStatusAtPosition(newStatus, position)
+            searchAdapter.updateStatusAtPosition(newStatus, position, true)
         }
     }
 
@@ -231,7 +233,7 @@ class SearchFragment : SFragment(), StatusActionListener {
         val updatedStatus = StatusViewData.Builder(status)
                 .setCollapsed(isCollapsed)
                 .createStatusViewData()
-        searchAdapter.updateStatusAtPosition(updatedStatus, position)
+        searchAdapter.updateStatusAtPosition(updatedStatus, position, false)
         searchRecyclerView.post { searchAdapter.notifyItemChanged(position, updatedStatus) }
     }
 
@@ -260,7 +262,7 @@ class SearchFragment : SFragment(), StatusActionListener {
                         val newViewData = StatusViewData.Builder(viewData)
                                 .setPoll(poll)
                                 .createStatusViewData()
-                        searchAdapter.updateStatusAtPosition(newViewData, position)
+                        searchAdapter.updateStatusAtPosition(newViewData, position, true)
 
                     }, { t -> Log.d(TAG, "Failed to vote in poll " + status.id, t) })
         }
