@@ -409,4 +409,35 @@
     <string name="poll_vote">Hlasovat</string>
 
 
+<string name="pref_title_notification_filter_poll">skončí ankety</string>
+    <string name="notification_poll_name">Ankety</string>
+    <string name="notification_poll_description">Oznámení o anketách, které skončily</string>
+
+
+    <string name="compose_preview_image_description">Akce pro obrázek %s</string>
+
+    <string name="poll_ended_voted">Anketa, ve které jste hlasoval/a, skončila</string>
+    <string name="poll_ended_created">Anketa, kterou jste vytvořil/a, skončila</string>
+
+    <plurals name="poll_timespan_days">
+	<item quantity="one">%d den</item>
+	<item quantity="few">%d dny</item>
+	<item quantity="other">%d dní</item>
+</plurals>
+    <plurals name="poll_timespan_hours">
+	<item quantity="one">%d hodina</item>
+	<item quantity="few">%d hodiny</item>
+	<item quantity="other">%d hodin</item>
+</plurals>
+    <plurals name="poll_timespan_minutes">
+	<item quantity="one">%d minuta</item>
+	<item quantity="few">%d minuty</item>
+	<item quantity="other">%d minut</item>
+</plurals>
+    <plurals name="poll_timespan_seconds">
+	<item quantity="one">%d sekunda</item>
+	<item quantity="few">%d sekundy</item>
+	<item quantity="other">%d sekund</item>
+</plurals>
+
 </resources>

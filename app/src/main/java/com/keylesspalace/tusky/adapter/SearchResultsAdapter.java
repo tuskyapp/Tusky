@@ -101,7 +101,7 @@ public class SearchResultsAdapter extends RecyclerView.Adapter {
             if (position >= accountList.size()) {
                 if(position >= accountList.size() + concreteStatusList.size()) {
                     HashtagViewHolder holder = (HashtagViewHolder) viewHolder;
-                    int index = position - accountList.size() - statusList.size();
+                    int index = position - accountList.size() - concreteStatusList.size();
                     holder.setup(hashtagList.get(index), linkListener);
                 } else {
                     StatusViewHolder holder = (StatusViewHolder) viewHolder;
@@ -141,9 +141,11 @@ public class SearchResultsAdapter extends RecyclerView.Adapter {
         return concreteStatusList.get(position - accountList.size());
     }
 
-    public void updateStatusAtPosition(StatusViewData.Concrete status, int position) {
+    public void updateStatusAtPosition(StatusViewData.Concrete status, int position, boolean doNotify) {
         concreteStatusList.set(position - accountList.size(), status);
-        notifyItemChanged(position);
+        if(doNotify) {
+            notifyItemChanged(position);
+        }
     }
 
     public void removeStatusAtPosition(int position) {
@@ -155,6 +157,7 @@ public class SearchResultsAdapter extends RecyclerView.Adapter {
         if (results != null) {
             accountList = results.getAccounts();
             statusList = results.getStatuses();
+            concreteStatusList.clear();
             for(Status status: results.getStatuses()) {
                 concreteStatusList.add(ViewDataUtils.statusToViewData(
                         status,

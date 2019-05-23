@@ -30,6 +30,7 @@ class ModalTimelineActivity : BottomSheetActivity(), ActionButtonActivity, HasSu
         }
 
     }
+
     @Inject
     lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Fragment>
 
