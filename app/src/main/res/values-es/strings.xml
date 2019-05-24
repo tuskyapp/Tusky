@@ -76,7 +76,7 @@
     <string name="action_report">Reportar</string>
     <string name="action_delete">Borrar</string>
     <string name="action_send">Enviar</string>
-    <string name="action_send_public">Publicar</string>
+    <string name="action_send_public">PUBLICAR!</string>
     <string name="action_retry">Reintentar</string>
     <string name="action_close">Cerrar</string>
     <string name="action_view_profile">Perfil</string>
@@ -120,7 +120,7 @@
     <string name="confirmation_unmuted">El usuario ya no está silenciado</string>
     <string name="status_sent">¡Enviada!</string>
     <string name="status_sent_long">Respuesta enviada correctamente.</string>
-    <string name="hint_domain">Indique la instancia</string>
+    <string name="hint_domain">¿Qué instancia\?</string>
     <string name="hint_compose">¿En qué estás pensando?</string>
     <string name="hint_content_warning">Aviso de contenido</string>
     <string name="hint_display_name">Nombre</string>
@@ -370,4 +370,56 @@
 	<item quantity="other">%s votos</item>
 </plurals>
     <string name="poll_info_closed">cerrada</string>
+    <string name="action_delete_and_redraft">Eliminar y editar</string>
+    <string name="action_links">Enlaces</string>
+    <string name="action_hashtags">Etiquetas</string>
+    <string name="title_hashtags_dialog">Etiquetas</string>
+    <string name="title_links_dialog">Enlaces</string>
+    <string name="action_open_media_n">Abrir contenido #%d</string>
+
+    <string name="downloading_media">Descargando contenido</string>
+
+    <string name="dialog_redraft_toot_warning">¿Borrar y devolver a borradores este toot\?</string>
+
+    <string name="pref_title_notification_filter_poll">encuestas han terminado</string>
+    <string name="notification_poll_description">Notificaciones sobre encuestas que han terminado</string>
+
+
+    <string name="pref_title_public_filter_keywords">Cronologías públicas</string>
+    <string name="pref_title_thread_filter_keywords">Conversaciones</string>
+    <string name="filter_addition_dialog_title">Añadir filtro</string>
+    <string name="filter_edit_dialog_title">Editar filtro</string>
+    <string name="filter_dialog_update_button">Actualizar</string>
+    <string name="filter_add_description">Frase para filtrar</string>
+
+    <string name="error_create_list">No se pudo crear la lista</string>
+    <string name="error_rename_list">No se pudo renombrar la lista</string>
+    <string name="error_delete_list">No se pudo eliminar la lista</string>
+    <string name="action_delete_list">Eliminar la lista</string>
+    <string name="action_edit_list">Editar la lista</string>
+    <string name="hint_search_people_list">Buscar personas que sigues</string>
+    <string name="description_status_media">Contenido: %s</string>
+    <string name="description_status_cw">Aviso de contenido: %s</string>
+    <string name="description_status_media_no_description_placeholder">Sin descripción</string>
+    <string name="description_status_reblogged">Compartido</string>
+    <string name="description_visiblity_public">Público</string>
+    <string name="description_visiblity_unlisted">Sin listar</string>
+    <string name="description_visiblity_direct">Directo</string>
+    <string name="hint_list_name">Nombre de la lista</string>
+
+    <string name="edit_hashtag_title">Editar etiqueta</string>
+    <string name="edit_hashtag_hint">Etiqueta sin #</string>
+    <string name="hashtag">Etiqueta</string>
+    <string name="notifications_clear">Limpiar</string>
+    <string name="notifications_apply_filter">Filtro</string>
+    <string name="compose_shortcut_long_label">Componer toot</string>
+    <string name="compose_shortcut_short_label">Componer</string>
+    <string name="notification_clear_text">¿Estás seguro de que quieres eliminar permanentemente todas tus notificaciones\?</string>
+    <string name="compose_preview_image_description">Acciones para la imagen %s</string>
+
+    <string name="poll_info_time_relative">%s restante</string>
+    <string name="poll_info_time_absolute">termina en %s</string>
+    <string name="poll_ended_voted">Una encuesta en la que has votado ha terminado</string>
+    <string name="poll_ended_created">Una encuesta que has creado ha terminado</string>
+
     </resources>
