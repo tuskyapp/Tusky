@@ -47,6 +47,7 @@ import retrofit2.http.DELETE;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.HTTP;
 import retrofit2.http.Header;
 import retrofit2.http.Multipart;
 import retrofit2.http.PATCH;
@@ -266,6 +267,21 @@ public interface MastodonApi {
 
     @GET("api/v1/mutes")
     Single<Response<List<Account>>> mutes(@Query("max_id") String maxId);
+
+    @GET("api/v1/domain_blocks")
+    Single<Response<List<String>>> domainBlocks(
+            @Query("max_id") String maxId,
+            @Query("since_id") String sinceId,
+            @Query("limit") Integer limit);
+
+    @FormUrlEncoded
+    @POST("api/v1/domain_blocks")
+    Call<Object> blockDomain(@Field("domain") String domain);
+
+    @FormUrlEncoded
+    // Normal @DELETE doesn't support fields?
+    @HTTP(method = "DELETE", path = "api/v1/domain_blocks", hasBody = true)
+    Call<Object> unblockDomain(@Field("domain") String domain);
 
     @GET("api/v1/favourites")
     Call<List<Status>> favourites(

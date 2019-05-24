@@ -34,6 +34,7 @@ import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.adapter.StatusBaseViewHolder;
 import com.keylesspalace.tusky.adapter.TimelineAdapter;
 import com.keylesspalace.tusky.appstore.BlockEvent;
+import com.keylesspalace.tusky.appstore.DomainMuteEvent;
 import com.keylesspalace.tusky.appstore.EventHub;
 import com.keylesspalace.tusky.appstore.FavoriteEvent;
 import com.keylesspalace.tusky.appstore.MuteEvent;
@@ -56,6 +57,7 @@ import com.keylesspalace.tusky.repository.Placeholder;
 import com.keylesspalace.tusky.repository.TimelineRepository;
 import com.keylesspalace.tusky.repository.TimelineRequestMode;
 import com.keylesspalace.tusky.util.Either;
+import com.keylesspalace.tusky.util.LinkHelper;
 import com.keylesspalace.tusky.util.ListStatusAccessibilityDelegate;
 import com.keylesspalace.tusky.util.ListUtils;
 import com.keylesspalace.tusky.util.PairedList;
@@ -526,6 +528,11 @@ public class TimelineFragment extends SFragment implements
                                 String id = ((MuteEvent) event).getAccountId();
                                 removeAllByAccountId(id);
                             }
+                        } else if (event instanceof DomainMuteEvent) {
+                            if (kind != Kind.USER && kind != Kind.USER_WITH_REPLIES && kind != Kind.USER_PINNED) {
+                                String instance = ((DomainMuteEvent) event).getInstance();
+                                removeAllByInstance(instance);
+                            }
                         } else if (event instanceof StatusDeletedEvent) {
                             if (kind != Kind.USER && kind != Kind.USER_WITH_REPLIES && kind != Kind.USER_PINNED) {
                                 String id = ((StatusDeletedEvent) event).getStatusId();
@@ -864,6 +871,18 @@ public class TimelineFragment extends SFragment implements
         while (iterator.hasNext()) {
             Status status = iterator.next().asRightOrNull();
             if (status != null && status.getAccount().getId().equals(accountId)) {
+                iterator.remove();
+            }
+        }
+        updateAdapter();
+    }
+
+    private void removeAllByInstance(String instance) {
+        // using iterator to safely remove items while iterating
+        Iterator<Either<Placeholder, Status>> iterator = statuses.iterator();
+        while (iterator.hasNext()) {
+            Status status = iterator.next().asRightOrNull();
+            if (status != null && LinkHelper.getDomain(status.getAccount().getUrl()).equals(instance)) {
                 iterator.remove();
             }
         }

@@ -93,6 +93,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
     private var avatarSize: Float = 0f
     @Px
     private var titleVisibleHeight: Int = 0
+    private lateinit var domain: String
 
     private enum class FollowState {
         NOT_FOLLOWING,
@@ -601,6 +602,17 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
                 getString(R.string.action_mute)
             }
 
+            if (loadedAccount != null) {
+                val muteDomain = menu.findItem(R.id.action_mute_domain)
+                domain = LinkHelper.getDomain(loadedAccount?.url)
+                if (domain.isEmpty()) {
+                    // If we can't get the domain, there's no way we can mute it anyway...
+                    menu.removeItem(R.id.action_mute_domain)
+                } else {
+                    muteDomain.title = getString(R.string.action_mute_domain, domain)
+                }
+            }
+
             if (followState == FollowState.FOLLOWING) {
                 val showReblogs = menu.findItem(R.id.action_show_reblogs)
                 showReblogs.title = if (showingReblogs) {
@@ -618,6 +630,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
             menu.removeItem(R.id.action_follow)
             menu.removeItem(R.id.action_block)
             menu.removeItem(R.id.action_mute)
+            menu.removeItem(R.id.action_mute_domain)
             menu.removeItem(R.id.action_show_reblogs)
         }
 
@@ -636,6 +649,14 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
         AlertDialog.Builder(this)
                 .setMessage(R.string.dialog_unfollow_warning)
                 .setPositiveButton(android.R.string.ok) { _, _ -> viewModel.changeFollowState() }
+                .setNegativeButton(android.R.string.cancel, null)
+                .show()
+    }
+
+    private fun showMuteDomainWarningDialog(instance: String) {
+        AlertDialog.Builder(this)
+                .setMessage(getString(R.string.mute_domain_warning, instance))
+                .setPositiveButton(android.R.string.ok) { _, _ -> viewModel.muteDomain(instance) }
                 .setNegativeButton(android.R.string.cancel, null)
                 .show()
     }
@@ -694,7 +715,10 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
                 viewModel.changeMuteState()
                 return true
             }
-
+            R.id.action_mute_domain -> {
+                showMuteDomainWarningDialog(domain)
+                return true
+            }
             R.id.action_show_reblogs -> {
                 viewModel.changeShowReblogsState()
                 return true

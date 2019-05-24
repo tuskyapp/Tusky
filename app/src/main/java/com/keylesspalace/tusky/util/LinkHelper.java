@@ -40,7 +40,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 
 public class LinkHelper {
-    private static String getDomain(String urlString) {
+    public static String getDomain(String urlString) {
         URI uri;
         try {
             uri = new URI(urlString);

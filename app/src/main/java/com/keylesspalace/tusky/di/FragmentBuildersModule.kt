@@ -71,4 +71,7 @@ abstract class FragmentBuildersModule {
 
     @ContributesAndroidInjector
     abstract fun reportDoneFragment(): ReportDoneFragment
+
+    @ContributesAndroidInjector
+    abstract fun instanceListFragment(): InstanceListFragment
 }

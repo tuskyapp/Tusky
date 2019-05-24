@@ -92,4 +92,7 @@ abstract class ActivitiesModule {
 
     @ContributesAndroidInjector(modules = [FragmentBuildersModule::class])
     abstract fun contributesReportActivity(): ReportActivity
+
+    @ContributesAndroidInjector(modules = [FragmentBuildersModule::class])
+    abstract fun contributesInstanceListActivity(): InstanceListActivity
 }

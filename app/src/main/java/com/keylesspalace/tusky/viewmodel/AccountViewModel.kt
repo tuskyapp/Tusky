@@ -1,5 +1,6 @@
 package com.keylesspalace.tusky.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.keylesspalace.tusky.appstore.*
@@ -122,6 +123,22 @@ class AccountViewModel @Inject constructor(
         }
     }
 
+    fun muteDomain(instance: String) {
+        mastodonApi.blockDomain(instance).enqueue(object: Callback<Any> {
+            override fun onResponse(call: Call<Any>, response: Response<Any>) {
+                if (response.isSuccessful) {
+                    eventHub.dispatch(DomainMuteEvent(instance))
+                } else {
+                    Log.e(TAG, String.format("Error muting %s", instance))
+                }
+            }
+
+            override fun onFailure(call: Call<Any>, t: Throwable) {
+                Log.e(TAG, String.format("Error muting %s", instance), t)
+            }
+        })
+    }
+
     fun changeShowReblogsState() {
         if (relationshipData.value?.data?.showingReblogs == true) {
             changeRelationship(RelationShipAction.FOLLOW, false)
@@ -226,4 +243,7 @@ class AccountViewModel @Inject constructor(
         FOLLOW, UNFOLLOW, BLOCK, UNBLOCK, MUTE, UNMUTE
     }
 
+    companion object {
+        const val TAG = "AccountViewModel"
+    }
 }
