@@ -16,16 +16,15 @@
 package com.keylesspalace.tusky.adapter
 
 import android.content.Context
+import android.preference.PreferenceManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.resource.bitmap.FitCenter
-import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.db.AccountEntity
 import com.keylesspalace.tusky.util.CustomEmojiHelper
+import com.keylesspalace.tusky.util.loadAvatar
 
 import kotlinx.android.synthetic.main.item_autocomplete_account.view.*
 
@@ -47,19 +46,12 @@ class AccountSelectionAdapter(context: Context) : ArrayAdapter<AccountEntity>(co
             username.text = account.fullName
             displayName.text = CustomEmojiHelper.emojifyString(account.displayName, account.emojis, displayName)
 
-            if (account.profilePictureUrl.isEmpty()) {
-                avatar.setImageResource(R.drawable.avatar_default)
-            } else {
-                val avatarRadius = avatar.context.resources.getDimensionPixelSize(R.dimen.avatar_radius_42dp)
-                Glide.with(avatar)
-                        .load(account.profilePictureUrl)
-                        .placeholder(R.drawable.avatar_default)
-                        .transform(
-                                FitCenter(),
-                                RoundedCorners(avatarRadius)
-                        )
-                        .into(avatar)
-            }
+            val avatarRadius = avatar.context.resources.getDimensionPixelSize(R.dimen.avatar_radius_42dp)
+            val animateAvatar = PreferenceManager.getDefaultSharedPreferences(avatar.context)
+                    .getBoolean("animateGifAvatars", false)
+
+            loadAvatar(account.profilePictureUrl, avatar, avatarRadius, animateAvatar)
+
         }
 
         return view

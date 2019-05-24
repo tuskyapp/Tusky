@@ -230,6 +230,10 @@ public class NotificationsFragment extends SFragment implements
         adapter.setMediaPreviewEnabled(mediaPreviewEnabled);
         boolean useAbsoluteTime = preferences.getBoolean("absoluteTimeView", false);
         adapter.setUseAbsoluteTime(useAbsoluteTime);
+        boolean showBotOverlay = preferences.getBoolean("showBotOverlay", true);
+        adapter.setShowBotOverlay(showBotOverlay);
+        boolean animateAvatar = preferences.getBoolean("animateGifAvatars", false);
+        adapter.setAnimateAvatar(animateAvatar);
         recyclerView.setAdapter(adapter);
 
         topLoading = false;
@@ -740,13 +744,12 @@ public class NotificationsFragment extends SFragment implements
                 hideFab = PreferenceManager.getDefaultSharedPreferences(getContext()).getBoolean("fabHide", false);
                 break;
             }
-            case "mediaPreviewEnabled": {
+            case "absoluteTimeView": {
                 boolean enabled = accountManager.getActiveAccount().getMediaPreviewEnabled();
                 if (enabled != adapter.isMediaPreviewEnabled()) {
                     adapter.setMediaPreviewEnabled(enabled);
                     fullyRefresh();
                 }
-                break;
             }
         }
     }

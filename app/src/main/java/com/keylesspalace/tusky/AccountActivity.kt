@@ -38,8 +38,6 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.resource.bitmap.FitCenter
-import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.appbar.CollapsingToolbarLayout
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -79,6 +77,8 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
     private var muting: Boolean = false
     private var showingReblogs: Boolean = false
     private var loadedAccount: Account? = null
+
+    private var animateAvatar: Boolean = false
 
     // fields for scroll animation
     private var hideFab: Boolean = false
@@ -122,7 +122,9 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
             updateButtons()
         }
 
-        hideFab = PreferenceManager.getDefaultSharedPreferences(this).getBoolean("fabHide", false)
+        val sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this)
+        animateAvatar = sharedPrefs.getBoolean("animateGifAvatars", false)
+        hideFab = sharedPrefs.getBoolean("fabHide", false)
 
         loadResources()
         setupToolbar()
@@ -381,15 +383,16 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
      */
     private fun updateAccountAvatar() {
         loadedAccount?.let { account ->
+
+            loadAvatar(
+                    account.avatar,
+                    accountAvatarImageView,
+                    resources.getDimensionPixelSize(R.dimen.avatar_radius_94dp),
+                    animateAvatar
+            )
+
             Glide.with(this)
-                    .load(account.avatar)
-                    .placeholder(R.drawable.avatar_default)
-                    .transform(
-                            FitCenter(),
-                            RoundedCorners(resources.getDimensionPixelSize(R.dimen.avatar_radius_94dp))
-                    )
-                    .into(accountAvatarImageView)
-            Glide.with(this)
+                    .asBitmap()
                     .load(account.header)
                     .centerCrop()
                     .into(accountHeaderImageView)
@@ -438,14 +441,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
 
             val avatarRadius = resources.getDimensionPixelSize(R.dimen.avatar_radius_48dp)
 
-            Glide.with(this)
-                    .load(movedAccount.avatar)
-                    .placeholder(R.drawable.avatar_default)
-                    .transform(
-                            FitCenter(),
-                            RoundedCorners(avatarRadius)
-                    )
-                    .into(accountMovedAvatar)
+            loadAvatar(movedAccount.avatar, accountMovedAvatar, avatarRadius, animateAvatar)
 
             accountMovedText.text = getString(R.string.account_moved_description, movedAccount.displayName)
 

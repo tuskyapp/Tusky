@@ -43,14 +43,17 @@ public final class TimelineAdapter extends RecyclerView.Adapter {
     private final StatusActionListener statusListener;
     private boolean mediaPreviewEnabled;
     private boolean useAbsoluteTime;
+    private boolean showBotOverlay;
+    private boolean animateAvatar;
 
     public TimelineAdapter(AdapterDataSource<StatusViewData> dataSource,
                            StatusActionListener statusListener) {
-        super();
         this.dataSource = dataSource;
         this.statusListener = statusListener;
         mediaPreviewEnabled = true;
         useAbsoluteTime = false;
+        showBotOverlay = true;
+        animateAvatar = false;
     }
 
     @NonNull
@@ -89,7 +92,12 @@ public final class TimelineAdapter extends RecyclerView.Adapter {
             holder.setup(statusListener, ((StatusViewData.Placeholder) status).isLoading());
         } else if (status instanceof StatusViewData.Concrete) {
             StatusViewHolder holder = (StatusViewHolder) viewHolder;
-            holder.setupWithStatus((StatusViewData.Concrete)status,statusListener, mediaPreviewEnabled,payloads!=null&&!payloads.isEmpty()?payloads.get(0):null);
+            holder.setupWithStatus((StatusViewData.Concrete) status,
+                    statusListener,
+                    mediaPreviewEnabled,
+                    showBotOverlay,
+                    animateAvatar,
+                    payloads != null && !payloads.isEmpty() ? payloads.get(0) : null);
         }
     }
     @Override
@@ -111,11 +119,27 @@ public final class TimelineAdapter extends RecyclerView.Adapter {
     }
 
     public void setUseAbsoluteTime(boolean useAbsoluteTime){
-        this.useAbsoluteTime=useAbsoluteTime;
+        this.useAbsoluteTime = useAbsoluteTime;
     }
 
     public boolean getMediaPreviewEnabled() {
         return mediaPreviewEnabled;
+    }
+
+    public void setShowBotOverlay(boolean showBotOverlay) {
+        this.showBotOverlay = showBotOverlay;
+    }
+
+    public boolean getShowBotOverlay() {
+        return showBotOverlay;
+    }
+
+    public void setAnimateAvatar(boolean animateAvatar) {
+        this.animateAvatar = animateAvatar;
+    }
+
+    public boolean getAnimateAvatar() {
+        return animateAvatar;
     }
 
     @Override

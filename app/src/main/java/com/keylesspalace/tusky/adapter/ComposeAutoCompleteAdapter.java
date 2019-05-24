@@ -16,6 +16,7 @@
 package com.keylesspalace.tusky.adapter;
 
 import android.content.Context;
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,12 +27,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.bitmap.FitCenter;
-import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.entity.Account;
 import com.keylesspalace.tusky.entity.Emoji;
 import com.keylesspalace.tusky.util.CustomEmojiHelper;
+import com.keylesspalace.tusky.util.ImageLoadingHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -148,20 +148,19 @@ public class ComposeAutoCompleteAdapter extends BaseAdapter
                     CharSequence emojifiedName = CustomEmojiHelper.emojifyString(account.getName(),
                             account.getEmojis(), accountViewHolder.displayName);
                     accountViewHolder.displayName.setText(emojifiedName);
-                    if (account.getAvatar().isEmpty()) {
-                        accountViewHolder.avatar.setImageResource(R.drawable.avatar_default);
-                    } else {
-                        int avatarRadius = accountViewHolder.avatar.getContext().getResources()
-                                .getDimensionPixelSize(R.dimen.avatar_radius_42dp);
-                        Glide.with(accountViewHolder.avatar)
-                                .load(account.getAvatar())
-                                .placeholder(R.drawable.avatar_default)
-                                .transform(
-                                        new FitCenter(),
-                                        new RoundedCorners(avatarRadius)
-                                )
-                                .into(accountViewHolder.avatar);
-                    }
+
+                    int avatarRadius = accountViewHolder.avatar.getContext().getResources()
+                            .getDimensionPixelSize(R.dimen.avatar_radius_42dp);
+
+                    boolean animateAvatar = PreferenceManager.getDefaultSharedPreferences(accountViewHolder.avatar.getContext())
+                            .getBoolean("animateGifAvatars", false);
+
+                    ImageLoadingHelper.loadAvatar(
+                            account.getAvatar(),
+                            accountViewHolder.avatar,
+                            avatarRadius,
+                            animateAvatar
+                    );
                 }
                 break;
 

@@ -354,6 +354,10 @@ public class TimelineFragment extends SFragment implements
         adapter.setMediaPreviewEnabled(mediaPreviewEnabled);
         boolean useAbsoluteTime = preferences.getBoolean("absoluteTimeView", false);
         adapter.setUseAbsoluteTime(useAbsoluteTime);
+        boolean showBotOverlay = preferences.getBoolean("showBotOverlay", true);
+        adapter.setShowBotOverlay(showBotOverlay);
+        boolean animateAvatar = preferences.getBoolean("animateGifAvatars", false);
+        adapter.setAnimateAvatar(animateAvatar);
 
         boolean filter = preferences.getBoolean("tabFilterHomeReplies", true);
         filterRemoveReplies = kind == Kind.HOME && !filter;

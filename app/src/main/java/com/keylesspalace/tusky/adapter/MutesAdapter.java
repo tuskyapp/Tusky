@@ -2,6 +2,8 @@ package com.keylesspalace.tusky.adapter;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,13 +11,11 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.bitmap.FitCenter;
-import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.entity.Account;
 import com.keylesspalace.tusky.interfaces.AccountActionListener;
 import com.keylesspalace.tusky.util.CustomEmojiHelper;
+import com.keylesspalace.tusky.util.ImageLoadingHelper;
 
 public class MutesAdapter extends AccountAdapter {
 
@@ -57,6 +57,7 @@ public class MutesAdapter extends AccountAdapter {
         private TextView displayName;
         private ImageButton unmute;
         private String id;
+        private boolean animateAvatar;
 
         MutedUserViewHolder(View itemView) {
             super(itemView);
@@ -64,6 +65,8 @@ public class MutesAdapter extends AccountAdapter {
             username = itemView.findViewById(R.id.muted_user_username);
             displayName = itemView.findViewById(R.id.muted_user_display_name);
             unmute = itemView.findViewById(R.id.muted_user_unmute);
+            animateAvatar = PreferenceManager.getDefaultSharedPreferences(itemView.getContext())
+                    .getBoolean("animateGifAvatars", false);
         }
 
         void setupWithAccount(Account account) {
@@ -75,14 +78,7 @@ public class MutesAdapter extends AccountAdapter {
             username.setText(formattedUsername);
             int avatarRadius = avatar.getContext().getResources()
                     .getDimensionPixelSize(R.dimen.avatar_radius_48dp);
-            Glide.with(avatar)
-                    .load(account.getAvatar())
-                    .placeholder(R.drawable.avatar_default)
-                    .transform(
-                            new FitCenter(),
-                            new RoundedCorners(avatarRadius)
-                    )
-                    .into(avatar);
+            ImageLoadingHelper.loadAvatar(account.getAvatar(), avatar, avatarRadius, animateAvatar);
         }
 
         void setupActionListener(final AccountActionListener listener) {

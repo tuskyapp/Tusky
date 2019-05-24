@@ -61,28 +61,7 @@ import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.ColorInt;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.annotation.Px;
-import androidx.annotation.StringRes;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.content.res.AppCompatResources;
-import androidx.appcompat.widget.Toolbar;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-import androidx.core.content.FileProvider;
-import androidx.core.view.inputmethod.InputConnectionCompat;
-import androidx.core.view.inputmethod.InputContentInfoCompat;
-import androidx.lifecycle.Lifecycle;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.transition.TransitionManager;
-
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.bitmap.FitCenter;
-import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.Gson;
@@ -106,6 +85,7 @@ import com.keylesspalace.tusky.service.SendTootService;
 import com.keylesspalace.tusky.util.ComposeTokenizer;
 import com.keylesspalace.tusky.util.CountUpDownLatch;
 import com.keylesspalace.tusky.util.DownsizeImageTask;
+import com.keylesspalace.tusky.util.ImageLoadingHelper;
 import com.keylesspalace.tusky.util.ListUtils;
 import com.keylesspalace.tusky.util.SaveTootHelper;
 import com.keylesspalace.tusky.util.SpanUtilsKt;
@@ -306,24 +286,20 @@ public final class ComposeActivity
         if (activeAccount != null) {
             ImageView composeAvatar = findViewById(R.id.composeAvatar);
 
-            if (TextUtils.isEmpty(activeAccount.getProfilePictureUrl())) {
-                composeAvatar.setImageResource(R.drawable.avatar_default);
-            } else {
 
-                int[] actionBarSizeAttr = new int[] { R.attr.actionBarSize };
-                TypedArray a = obtainStyledAttributes(null, actionBarSizeAttr);
-                int avatarSize = a.getDimensionPixelSize(0, 1);
-                a.recycle();
+            int[] actionBarSizeAttr = new int[] { R.attr.actionBarSize };
+            TypedArray a = obtainStyledAttributes(null, actionBarSizeAttr);
+            int avatarSize = a.getDimensionPixelSize(0, 1);
+            a.recycle();
 
-                Glide.with(this).load(activeAccount.getProfilePictureUrl())
-                        .error(R.drawable.avatar_default)
-                        .placeholder(R.drawable.avatar_default)
-                        .transform(
-                                new FitCenter(),
-                                new RoundedCorners(avatarSize / 8)
-                        )
-                        .into(composeAvatar);
-            }
+            boolean animateAvatars = preferences.getBoolean("animateGifAvatars", false);
+
+            ImageLoadingHelper.loadAvatar(
+                    activeAccount.getProfilePictureUrl(),
+                    composeAvatar,
+                    avatarSize / 8,
+                    animateAvatars
+            );
 
             composeAvatar.setContentDescription(
                     getString(R.string.compose_active_account_description,
