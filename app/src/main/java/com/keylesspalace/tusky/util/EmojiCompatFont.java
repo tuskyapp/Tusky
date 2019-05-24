@@ -179,12 +179,15 @@ public class EmojiCompatFont {
         // (if present) a version code. No version code will be regarded as version 0.
         Pattern fontRegex = Pattern.compile(getName() + "(\\d+(.\\d+)*)?" + ".ttf");
 
-        for(File file: directory.listFiles()) {
-            Matcher matcher = fontRegex.matcher(file.getName());
-            if(matcher.matches()) {
-                String version = matcher.group(1);
-                if(!isOlderVersion(version))
-                    return true;
+        // We can only list all the files in the directory if it exists...
+        if(directory.listFiles() != null) {
+            for (File file : directory.listFiles()) {
+                Matcher matcher = fontRegex.matcher(file.getName());
+                if (matcher.matches()) {
+                    String version = matcher.group(1);
+                    if (!isOlderVersion(version))
+                        return true;
+                }
             }
         }
         return false;
@@ -226,14 +229,16 @@ public class EmojiCompatFont {
         // (if present) a version code. No version code will be regarded as version 0.
         Pattern fontRegex = Pattern.compile(getName() + "(\\d+(.\\d+)*)?" + ".ttf");
 
-        for(File file: directory.listFiles()) {
-            Matcher matcher = fontRegex.matcher(file.getName());
-            if(matcher.matches()) {
-                String version = matcher.group(1);
-                if(isOlderVersion(version)) {
-                    // Uses side effects!
-                    Log.d(TAG, String.format("Deleted %s successfully: %s", file.getAbsolutePath(),
-                            file.delete()));
+        if(directory.listFiles() != null) {
+            for (File file : directory.listFiles()) {
+                Matcher matcher = fontRegex.matcher(file.getName());
+                if (matcher.matches()) {
+                    String version = matcher.group(1);
+                    if (isOlderVersion(version)) {
+                        // Uses side effects!
+                        Log.d(TAG, String.format("Deleted %s successfully: %s", file.getAbsolutePath(),
+                                file.delete()));
+                    }
                 }
             }
         }
