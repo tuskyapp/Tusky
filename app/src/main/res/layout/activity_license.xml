@@ -169,7 +169,7 @@
                 android:layout_marginStart="12dp"
                 android:layout_marginTop="12dp"
                 license:license="@string/license_apache_2"
-                license:link="https://github.com/C1710/blobmoji"
+                license:link="https://github.com/C1710/FileMojiCompat"
                 license:name="FileMojiCompat" />
 
             <com.keylesspalace.tusky.view.LicenseCard
