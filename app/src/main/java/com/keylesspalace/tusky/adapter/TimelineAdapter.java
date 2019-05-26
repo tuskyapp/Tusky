@@ -130,16 +130,8 @@ public final class TimelineAdapter extends RecyclerView.Adapter {
         this.showBotOverlay = showBotOverlay;
     }
 
-    public boolean getShowBotOverlay() {
-        return showBotOverlay;
-    }
-
     public void setAnimateAvatar(boolean animateAvatar) {
         this.animateAvatar = animateAvatar;
-    }
-
-    public boolean getAnimateAvatar() {
-        return animateAvatar;
     }
 
     @Override

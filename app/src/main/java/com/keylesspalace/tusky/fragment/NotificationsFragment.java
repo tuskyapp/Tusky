@@ -738,13 +738,13 @@ public class NotificationsFragment extends SFragment implements
         Log.w(TAG, "Didn't find a notification for ID: " + notificationId);
     }
 
-    public void onPreferenceChanged(String key) {
+    private void onPreferenceChanged(String key) {
         switch (key) {
             case "fabHide": {
                 hideFab = PreferenceManager.getDefaultSharedPreferences(getContext()).getBoolean("fabHide", false);
                 break;
             }
-            case "absoluteTimeView": {
+            case "mediaPreviewEnabled": {
                 boolean enabled = accountManager.getActiveAccount().getMediaPreviewEnabled();
                 if (enabled != adapter.isMediaPreviewEnabled()) {
                     adapter.setMediaPreviewEnabled(enabled);
