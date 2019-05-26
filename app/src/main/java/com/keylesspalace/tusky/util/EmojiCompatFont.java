@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.util.Pair;
 
 import androidx.annotation.Nullable;
 
@@ -44,6 +45,8 @@ public class EmojiCompatFont {
     // The version is stored as a String in the x.xx.xx format (to be able to compare versions)
     private final String version;
     private AsyncTask fontDownloader;
+    // A list of all available font files and whether they are older than the current version or not
+    private ArrayList<Pair<File, Boolean>> existingFontFiles = new ArrayList<>(2 * FONTS.length);
     // The system font gets some special behavior...
     private static final EmojiCompatFont SYSTEM_DEFAULT =
             new EmojiCompatFont("system-default",
@@ -74,7 +77,7 @@ public class EmojiCompatFont {
                     R.string.caption_notoemoji,
                     R.drawable.ic_notoemoji,
                     "https://tusky.app/hosted/emoji/NotoEmojiCompat.ttf",
-                    "12.0.0"
+                    "11.0.0"
                     );
 
     /**
@@ -174,21 +177,11 @@ public class EmojiCompatFont {
      * @return Whether there is a font file with a higher or equal version code to the current
      */
     private boolean newerFileExists(Context context) {
-        File directory = new File(context.getExternalFilesDir(null), DIRECTORY);
-        // It will search for old versions using a regex that matches the font's name plus
-        // (if present) a version code. No version code will be regarded as version 0.
-        Pattern fontRegex = Pattern.compile(getName() + "(\\d+(.\\d+)*)?" + ".ttf");
+        loadExistingFontFiles(context);
 
-        // We can only list all the files in the directory if it exists...
-        if(directory.listFiles() != null) {
-            for (File file : directory.listFiles()) {
-                Matcher matcher = fontRegex.matcher(file.getName());
-                if (matcher.matches()) {
-                    String version = matcher.group(1);
-                    if (!isOlderVersion(version))
-                        return true;
-                }
-            }
+        for (Pair<File, Boolean> file : existingFontFiles) {
+            if(!file.second)
+                return  true;
         }
         return false;
     }
@@ -224,21 +217,38 @@ public class EmojiCompatFont {
      * @param context The current Context
      */
     private void deleteOldVersions(Context context) {
-        File directory = new File(context.getExternalFilesDir(null), DIRECTORY);
-        // It will search for old versions using a regex that matches the font's name plus
-        // (if present) a version code. No version code will be regarded as version 0.
-        Pattern fontRegex = Pattern.compile(getName() + "(\\d+(.\\d+)*)?" + ".ttf");
+        loadExistingFontFiles(context);
 
-        if(directory.listFiles() != null) {
-            for (File file : directory.listFiles()) {
+        for (Pair<File, Boolean> fileExists : existingFontFiles) {
+                if (fileExists.second) {
+                    File file = fileExists.first;
+                    // Uses side effects!
+                    Log.d(TAG, String.format("Deleted %s successfully: %s", file.getAbsolutePath(),
+                            file.delete()));
+                }
+        }
+    }
+
+    /**
+     * Loads all font files that are inside the files directory into an ArrayList with the information
+     * on whether they are older than the currently available version or not.
+     * @param context The Context
+     */
+    private void loadExistingFontFiles(Context context) {
+        // Only load it once
+        if(existingFontFiles == null) {
+            File directory = new File(context.getExternalFilesDir(null), DIRECTORY);
+            File[] existingFontFiles = directory.isDirectory() ? directory.listFiles() : new File[0];
+
+            // It will search for old versions using a regex that matches the font's name plus
+            // (if present) a version code. No version code will be regarded as version 0.
+            Pattern fontRegex = Pattern.compile(getName() + "(\\d+(.\\d+)*)?" + ".ttf");
+
+            for(File file : existingFontFiles) {
                 Matcher matcher = fontRegex.matcher(file.getName());
                 if (matcher.matches()) {
                     String version = matcher.group(1);
-                    if (isOlderVersion(version)) {
-                        // Uses side effects!
-                        Log.d(TAG, String.format("Deleted %s successfully: %s", file.getAbsolutePath(),
-                                file.delete()));
-                    }
+                    this.existingFontFiles.add(new Pair<>(file, isOlderVersion(version)));
                 }
             }
         }
