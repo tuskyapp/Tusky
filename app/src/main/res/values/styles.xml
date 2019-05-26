@@ -30,7 +30,7 @@
         <item name="status_text_large">22sp</item>
     </style>
 
-    <style name="AppTheme.Account.AppBarLayout" parent="ThemeOverlay.AppCompat">
+    <style name="ViewMediaActivity.AppBarLayout" parent="ThemeOverlay.AppCompat">
         <item name="android:colorControlNormal">@color/white</item>
     </style>
 
