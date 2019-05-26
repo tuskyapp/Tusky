@@ -218,9 +218,6 @@
     <string name="pref_title_http_proxy_server">Serveradresse</string>
     <string name="pref_title_http_proxy_port">Serverport</string>
 
-
-    <string name="description_status"> <!-- Display name, cw\?, content\?, relative date, reposted by\?, reposted\?, favorited\?, username, media\?; visibility, fav number\?, reblog number\?--> %1$s; %2$s; %3$s, %4$s, %5$s; %6$s, %7$s, %8$s, %9$s; %10$s, %11$s, %12$s </string>
-
 <string name="pref_default_media_sensitivity">Marker alltid media som sensitivt</string>
     <string name="pref_publishing">Publisering (synkronisert med server)</string>
     <string name="pref_failed_to_sync">Synkronisering av innstillinger feilet</string>
