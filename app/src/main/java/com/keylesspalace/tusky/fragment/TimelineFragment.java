@@ -26,6 +26,22 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.arch.core.util.Function;
+import androidx.core.util.Pair;
+import androidx.core.widget.ContentLoadingProgressBar;
+import androidx.lifecycle.Lifecycle;
+import androidx.recyclerview.widget.AsyncDifferConfig;
+import androidx.recyclerview.widget.AsyncListDiffer;
+import androidx.recyclerview.widget.DiffUtil;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.ListUpdateCallback;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.SimpleItemAnimator;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.keylesspalace.tusky.AccountListActivity;
 import com.keylesspalace.tusky.BaseActivity;
@@ -37,6 +53,7 @@ import com.keylesspalace.tusky.appstore.DomainMuteEvent;
 import com.keylesspalace.tusky.appstore.EventHub;
 import com.keylesspalace.tusky.appstore.FavoriteEvent;
 import com.keylesspalace.tusky.appstore.MuteEvent;
+import com.keylesspalace.tusky.appstore.NewHomeTimelineStatusEvent;
 import com.keylesspalace.tusky.appstore.PreferenceChangedEvent;
 import com.keylesspalace.tusky.appstore.ReblogEvent;
 import com.keylesspalace.tusky.appstore.StatusComposedEvent;
@@ -78,22 +95,6 @@ import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.arch.core.util.Function;
-import androidx.core.util.Pair;
-import androidx.core.widget.ContentLoadingProgressBar;
-import androidx.lifecycle.Lifecycle;
-import androidx.recyclerview.widget.AsyncDifferConfig;
-import androidx.recyclerview.widget.AsyncListDiffer;
-import androidx.recyclerview.widget.DiffUtil;
-import androidx.recyclerview.widget.DividerItemDecoration;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.ListUpdateCallback;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.SimpleItemAnimator;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-
 import at.connyduck.sparkbutton.helpers.Utils;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -119,6 +120,7 @@ public class TimelineFragment extends SFragment implements
     private static final int LOAD_AT_ONCE = 30;
     private boolean isSwipeToRefreshEnabled = true;
     private boolean isNeedRefresh;
+    private Status newStatusEventStatus;
 
     public enum Kind {
         HOME,
@@ -523,6 +525,10 @@ public class TimelineFragment extends SFragment implements
                             handleStatusComposeEvent(status);
                         } else if (event instanceof PreferenceChangedEvent) {
                             onPreferenceChanged(((PreferenceChangedEvent) event).getPreferenceKey());
+                        } else if (event instanceof NewHomeTimelineStatusEvent && kind == Kind.HOME) {
+                            this.newStatusEventStatus = ((NewHomeTimelineStatusEvent) event).getStatus();
+                            this.statuses.add(0, new Either.Right<>(this.newStatusEventStatus));
+                            this.updateAdapter();
                         }
                     });
             eventRegistered = true;
@@ -1296,7 +1302,12 @@ public class TimelineFragment extends SFragment implements
             if (isAdded()) {
                 adapter.notifyItemRangeInserted(position, count);
                 Context context = getContext();
-                if (position == 0 && context != null) {
+                if (
+                        count >
+                                0 && position == 0
+                                && context != null
+                                && statuses.get(0).asRightOrNull() != newStatusEventStatus
+                ) {
                     if (isSwipeToRefreshEnabled)
                         recyclerView.scrollBy(0, Utils.dpToPx(context, -30));
                     else

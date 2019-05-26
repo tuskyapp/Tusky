@@ -4,8 +4,10 @@ import android.content.Context
 import android.util.Log
 import com.google.gson.Gson
 import com.keylesspalace.tusky.appstore.EventHub
+import com.keylesspalace.tusky.appstore.NewHomeTimelineStatusEvent
 import com.keylesspalace.tusky.appstore.NewNotificationEvent
 import com.keylesspalace.tusky.entity.Notification
+import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.NotificationHelper
 import io.reactivex.Flowable
@@ -37,21 +39,39 @@ class ProfileStreamListener @Inject constructor(
                     // "event: notification"
                     // Then notification will be on the next line as:
                     // "data: {...}"
-                    var hadNotification = false
+                    var lastEventType: String? = null
                     linesSequence.forEach { line ->
+                        Log.d(TAG, "new line: $line")
                         failedAttempts = 0
-                        val parts = line.split(':', limit = 2)
-                        if (parts.size > 1 && parts[0] == "data" && hadNotification) {
-                            val account = accountManager.activeAccount
-                            if (account != null) {
-                                val notification = gson.fromJson(parts[1], Notification::class.java)
-                                NotificationHelper.make(context, notification, account, true)
-                                account.lastNotificationId = notification.id
-                                accountManager.saveAccount(account)
-                                eventHub.dispatch(NewNotificationEvent(notification))
+                        val parts = line.split(": ", limit = 2)
+                        if (parts.size < 2) {
+                            return@forEach
+                        }
+                        when (parts[0]) {
+                            "event" -> lastEventType = parts[1]
+                            "data" -> when (lastEventType) {
+                                null -> {
+                                }
+                                "notification" -> {
+                                    Log.d(TAG, "new notification")
+                                    val account = accountManager.activeAccount
+                                    if (account != null) {
+                                        val notification = gson.fromJson(parts[1], Notification::class.java)
+                                        NotificationHelper.make(context, notification, account, true)
+                                        account.lastNotificationId = notification.id
+                                        accountManager.saveAccount(account)
+                                        eventHub.dispatch(NewNotificationEvent(notification))
+                                    }
+                                }
+                                "update" -> {
+                                    Log.d(TAG, "new update")
+                                    accountManager.activeAccount?.let { account ->
+                                        val status = gson.fromJson(parts[1], Status::class.java)
+                                        eventHub.dispatch(NewHomeTimelineStatusEvent(status))
+                                    }
+                                }
                             }
                         }
-                        hadNotification = line.startsWith("event: notification")
                     }
                 }
             }
