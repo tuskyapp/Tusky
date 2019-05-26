@@ -406,7 +406,7 @@
 
 <string name="notification_poll_name">Sondages</string>
     <string name="pref_title_notification_filter_poll">Les sondages sont clos</string>
-    <string name="notification_poll_description">Notifications à propos des sondages clos</string>
+    <string name="notification_poll_description">Notifications pour les sondages terminés</string>
 
 
     <string name="poll_ended_created">Un sondage que vous avez créé est terminé</string>
@@ -428,4 +428,12 @@
 	<item quantity="other">%d secondes</item>
 </plurals>
 
-</resources>
+<string name="pref_title_animate_gif_avatars">Activer l’animation des avatars</string>
+
+    <string name="compose_preview_image_description">Actions pour l’image %s</string>
+
+    <string name="poll_info_format"> <!-- 15 votes • 1 heure restante --> %1$s • %2$s</string>
+    <string name="poll_option_format"> <!-- 15% vote for this! --> &lt;b&gt;%1$d%%&lt;/b&gt; %2$s</string>
+
+    <string name="poll_ended_voted">Un sondage auquel vous avez participé vient de se terminer</string>
+    </resources>
