@@ -439,4 +439,6 @@
 	<item quantity="other">%d segondas</item>
 </plurals>
 
-</resources>
+<string name="compose_preview_image_description">Accions per l’imatge %s</string>
+
+    </resources>
