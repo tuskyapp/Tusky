@@ -26,6 +26,7 @@ fun loadAvatar(url: String?, imageView: ImageView, @Px radius: Int, animate: Boo
                             fitCenterTransformation,
                             RoundedCorners(radius)
                     )
+                    .placeholder(R.drawable.avatar_default)
                     .into(imageView)
 
         } else {
@@ -36,6 +37,7 @@ fun loadAvatar(url: String?, imageView: ImageView, @Px radius: Int, animate: Boo
                             fitCenterTransformation,
                             RoundedCorners(radius)
                     )
+                    .placeholder(R.drawable.avatar_default)
                     .into(imageView)
         }
 
