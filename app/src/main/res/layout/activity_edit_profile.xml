@@ -46,7 +46,7 @@
                 app:layout_constraintStart_toStartOf="@id/headerPreview"
                 app:layout_constraintTop_toTopOf="@id/headerPreview" />
 
-            <com.keylesspalace.tusky.view.RoundedImageView
+            <ImageView
                 android:id="@+id/avatarPreview"
                 android:layout_width="80dp"
                 android:layout_height="80dp"

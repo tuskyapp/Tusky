@@ -35,6 +35,8 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.ImageView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.FitCenter
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.keylesspalace.tusky.adapter.AccountFieldEditAdapter
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.di.ViewModelFactory
@@ -136,6 +138,10 @@ class EditProfileActivity : BaseActivity(), Injectable {
                             Glide.with(this)
                                     .load(me.avatar)
                                     .placeholder(R.drawable.avatar_default)
+                                    .transform(
+                                            FitCenter(),
+                                            RoundedCorners(resources.getDimensionPixelSize(R.dimen.avatar_radius_80dp))
+                                    )
                                     .into(avatarPreview)
                         }
 
@@ -158,8 +164,8 @@ class EditProfileActivity : BaseActivity(), Injectable {
             }
         })
 
-        observeImage(viewModel.avatarData, avatarPreview, avatarProgressBar)
-        observeImage(viewModel.headerData, headerPreview, headerProgressBar)
+        observeImage(viewModel.avatarData, avatarPreview, avatarProgressBar, true)
+        observeImage(viewModel.headerData, headerPreview, headerProgressBar, false)
 
         viewModel.saveData.observe(this, Observer<Resource<Nothing>> {
             when(it) {
@@ -192,12 +198,26 @@ class EditProfileActivity : BaseActivity(), Injectable {
         }
     }
 
-    private fun observeImage(liveData: LiveData<Resource<Bitmap>>, imageView: ImageView, progressBar: View) {
+    private fun observeImage(liveData: LiveData<Resource<Bitmap>>,
+                             imageView: ImageView,
+                             progressBar: View,
+                             roundedCorners: Boolean) {
         liveData.observe(this, Observer<Resource<Bitmap>> {
 
             when (it) {
                 is Success -> {
-                    imageView.setImageBitmap(it.data)
+                    val glide = Glide.with(imageView)
+                            .load(it.data)
+
+                            if (roundedCorners) {
+                                glide.transform(
+                                        FitCenter(),
+                                        RoundedCorners(resources.getDimensionPixelSize(R.dimen.avatar_radius_80dp))
+                                )
+                            }
+
+                            glide.into(imageView)
+
                     imageView.show()
                     progressBar.hide()
                 }

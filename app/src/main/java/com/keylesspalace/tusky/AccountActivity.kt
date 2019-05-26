@@ -78,6 +78,8 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
     private var showingReblogs: Boolean = false
     private var loadedAccount: Account? = null
 
+    private var animateAvatar: Boolean = false
+
     // fields for scroll animation
     private var hideFab: Boolean = false
     private var oldOffset: Int = 0
@@ -120,7 +122,9 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
             updateButtons()
         }
 
-        hideFab = PreferenceManager.getDefaultSharedPreferences(this).getBoolean("fabHide", false)
+        val sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this)
+        animateAvatar = sharedPrefs.getBoolean("animateGifAvatars", false)
+        hideFab = sharedPrefs.getBoolean("fabHide", false)
 
         loadResources()
         setupToolbar()
@@ -379,11 +383,16 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
      */
     private fun updateAccountAvatar() {
         loadedAccount?.let { account ->
+
+            loadAvatar(
+                    account.avatar,
+                    accountAvatarImageView,
+                    resources.getDimensionPixelSize(R.dimen.avatar_radius_94dp),
+                    animateAvatar
+            )
+
             Glide.with(this)
-                    .load(account.avatar)
-                    .placeholder(R.drawable.avatar_default)
-                    .into(accountAvatarImageView)
-            Glide.with(this)
+                    .asBitmap()
                     .load(account.header)
                     .centerCrop()
                     .into(accountHeaderImageView)
@@ -430,10 +439,9 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
             accountMovedDisplayName.text = movedAccount.name
             accountMovedUsername.text = getString(R.string.status_username_format, movedAccount.username)
 
-            Glide.with(this)
-                    .load(movedAccount.avatar)
-                    .placeholder(R.drawable.avatar_default)
-                    .into(accountMovedAvatar)
+            val avatarRadius = resources.getDimensionPixelSize(R.dimen.avatar_radius_48dp)
+
+            loadAvatar(movedAccount.avatar, accountMovedAvatar, avatarRadius, animateAvatar)
 
             accountMovedText.text = getString(R.string.account_moved_description, movedAccount.displayName)
 

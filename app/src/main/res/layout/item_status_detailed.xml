@@ -11,7 +11,7 @@
     android:paddingLeft="14dp"
     android:paddingRight="14dp">
 
-    <com.keylesspalace.tusky.view.RoundedImageView
+    <ImageView
         android:id="@+id/status_avatar"
         android:layout_width="48dp"
         android:layout_height="48dp"
@@ -24,7 +24,7 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:src="@drawable/avatar_default" />
 
-    <com.keylesspalace.tusky.view.RoundedImageView
+    <ImageView
         android:id="@+id/status_avatar_inset"
         android:layout_width="24dp"
         android:layout_height="24dp"

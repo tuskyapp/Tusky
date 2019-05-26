@@ -17,6 +17,8 @@ package com.keylesspalace.tusky.adapter;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,11 +26,11 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.entity.Account;
 import com.keylesspalace.tusky.interfaces.AccountActionListener;
 import com.keylesspalace.tusky.util.CustomEmojiHelper;
+import com.keylesspalace.tusky.util.ImageLoadingHelper;
 
 public class FollowRequestsAdapter extends AccountAdapter {
 
@@ -70,6 +72,7 @@ public class FollowRequestsAdapter extends AccountAdapter {
         private ImageButton accept;
         private ImageButton reject;
         private String id;
+        private boolean animateAvatar;
 
         FollowRequestViewHolder(View itemView) {
             super(itemView);
@@ -78,6 +81,8 @@ public class FollowRequestsAdapter extends AccountAdapter {
             displayName = itemView.findViewById(R.id.displayNameTextView);
             accept = itemView.findViewById(R.id.acceptButton);
             reject = itemView.findViewById(R.id.rejectButton);
+            animateAvatar = PreferenceManager.getDefaultSharedPreferences(itemView.getContext())
+                    .getBoolean("animateGifAvatars", false);
         }
 
         void setupWithAccount(Account account) {
@@ -87,11 +92,9 @@ public class FollowRequestsAdapter extends AccountAdapter {
             String format = username.getContext().getString(R.string.status_username_format);
             String formattedUsername = String.format(format, account.getUsername());
             username.setText(formattedUsername);
-            Glide.with(avatar)
-                    .asBitmap()
-                    .load(account.getAvatar())
-                    .placeholder(R.drawable.avatar_default)
-                    .into(avatar);
+            int avatarRadius = avatar.getContext().getResources()
+                    .getDimensionPixelSize(R.dimen.avatar_radius_48dp);
+            ImageLoadingHelper.loadAvatar(account.getAvatar(), avatar, avatarRadius, animateAvatar);
         }
 
         void setupActionListener(final AccountActionListener listener) {

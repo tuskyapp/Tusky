@@ -16,6 +16,7 @@
 package com.keylesspalace.tusky.adapter;
 
 import android.content.Context;
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,6 +31,7 @@ import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.entity.Account;
 import com.keylesspalace.tusky.entity.Emoji;
 import com.keylesspalace.tusky.util.CustomEmojiHelper;
+import com.keylesspalace.tusky.util.ImageLoadingHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -146,13 +148,19 @@ public class ComposeAutoCompleteAdapter extends BaseAdapter
                     CharSequence emojifiedName = CustomEmojiHelper.emojifyString(account.getName(),
                             account.getEmojis(), accountViewHolder.displayName);
                     accountViewHolder.displayName.setText(emojifiedName);
-                    if (!account.getAvatar().isEmpty()) {
-                        Glide.with(accountViewHolder.avatar)
-                                .asBitmap()
-                                .load(account.getAvatar())
-                                .placeholder(R.drawable.avatar_default)
-                                .into(accountViewHolder.avatar);
-                    }
+
+                    int avatarRadius = accountViewHolder.avatar.getContext().getResources()
+                            .getDimensionPixelSize(R.dimen.avatar_radius_42dp);
+
+                    boolean animateAvatar = PreferenceManager.getDefaultSharedPreferences(accountViewHolder.avatar.getContext())
+                            .getBoolean("animateGifAvatars", false);
+
+                    ImageLoadingHelper.loadAvatar(
+                            account.getAvatar(),
+                            accountViewHolder.avatar,
+                            avatarRadius,
+                            animateAvatar
+                    );
                 }
                 break;
 

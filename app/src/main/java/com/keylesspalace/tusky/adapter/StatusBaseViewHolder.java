@@ -2,7 +2,6 @@ package com.keylesspalace.tusky.adapter;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
-import android.preference.PreferenceManager;
 import android.text.Spanned;
 import android.text.TextUtils;
 import android.view.View;
@@ -15,6 +14,13 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.ToggleButton;
+
+import androidx.annotation.DrawableRes;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.content.res.AppCompatResources;
+import androidx.emoji.text.EmojiCompat;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.keylesspalace.tusky.R;
@@ -29,6 +35,7 @@ import com.keylesspalace.tusky.interfaces.StatusActionListener;
 import com.keylesspalace.tusky.util.CustomEmojiHelper;
 import com.keylesspalace.tusky.util.DateUtils;
 import com.keylesspalace.tusky.util.HtmlUtils;
+import com.keylesspalace.tusky.util.ImageLoadingHelper;
 import com.keylesspalace.tusky.util.LinkHelper;
 import com.keylesspalace.tusky.util.ThemeUtils;
 import com.keylesspalace.tusky.view.MediaPreviewImageView;
@@ -43,12 +50,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-import androidx.annotation.DrawableRes;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.content.res.AppCompatResources;
-import androidx.emoji.text.EmojiCompat;
-import androidx.recyclerview.widget.RecyclerView;
 import at.connyduck.sparkbutton.SparkButton;
 import at.connyduck.sparkbutton.SparkEventListener;
 import kotlin.collections.CollectionsKt;
@@ -89,11 +90,15 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
     private boolean useAbsoluteTime;
     private SimpleDateFormat shortSdf;
     private SimpleDateFormat longSdf;
-    private boolean showBotOverlay;
 
     private final NumberFormat numberFormat = NumberFormat.getNumberInstance();
 
-    protected StatusBaseViewHolder(View itemView, boolean useAbsoluteTime) {
+    private int avatarRadius48dp;
+    private int avatarRadius36dp;
+    private int avatarRadius24dp;
+
+    protected StatusBaseViewHolder(View itemView,
+                                   boolean useAbsoluteTime) {
         super(itemView);
         displayName = itemView.findViewById(R.id.status_display_name);
         username = itemView.findViewById(R.id.status_username);
@@ -104,8 +109,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         reblogButton = itemView.findViewById(R.id.status_inset);
         favouriteButton = itemView.findViewById(R.id.status_favourite);
         moreButton = itemView.findViewById(R.id.status_more);
-        reblogged = false;
-        favourited = false;
+
         mediaPreviews = new MediaPreviewImageView[]{
                 itemView.findViewById(R.id.status_media_preview_0),
                 itemView.findViewById(R.id.status_media_preview_1),
@@ -153,7 +157,10 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         this.useAbsoluteTime = useAbsoluteTime;
         shortSdf = new SimpleDateFormat("HH:mm:ss", Locale.getDefault());
         longSdf = new SimpleDateFormat("MM/dd HH:mm:ss", Locale.getDefault());
-        showBotOverlay = PreferenceManager.getDefaultSharedPreferences(itemView.getContext()).getBoolean("showBotOverlay", true);
+
+        this.avatarRadius48dp = itemView.getContext().getResources().getDimensionPixelSize(R.dimen.avatar_radius_48dp);
+        this.avatarRadius36dp = itemView.getContext().getResources().getDimensionPixelSize(R.dimen.avatar_radius_36dp);
+        this.avatarRadius24dp = itemView.getContext().getResources().getDimensionPixelSize(R.dimen.avatar_radius_24dp);
     }
 
     protected abstract int getMediaPreviewHeight(Context context);
@@ -219,8 +226,13 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         }
     }
 
-    private void setAvatar(String url, @Nullable String rebloggedUrl, boolean isBot) {
+    private void setAvatar(String url,
+                           @Nullable String rebloggedUrl,
+                           boolean isBot,
+                           boolean showBotOverlay,
+                           boolean animateAvatar) {
 
+        int avatarRadius;
         if(TextUtils.isEmpty(rebloggedUrl)) {
             avatar.setPaddingRelative(0, 0, 0, 0);
 
@@ -235,28 +247,20 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
                 avatarInset.setVisibility(View.GONE);
             }
 
+            avatarRadius = avatarRadius48dp;
+
         } else {
             int padding = Utils.convertDpToPx(avatar.getContext(), 12);
             avatar.setPaddingRelative(0, 0, padding, padding);
 
             avatarInset.setVisibility(View.VISIBLE);
             avatarInset.setBackground(null);
-            Glide.with(avatarInset)
-                    .asBitmap()
-                    .load(rebloggedUrl)
-                    .placeholder(R.drawable.avatar_default)
-                    .into(avatarInset);
+            ImageLoadingHelper.loadAvatar(rebloggedUrl, avatarInset, avatarRadius24dp, animateAvatar);
+
+            avatarRadius = avatarRadius36dp;
         }
 
-        if (TextUtils.isEmpty(url)) {
-            avatar.setImageResource(R.drawable.avatar_default);
-        } else {
-            Glide.with(avatar)
-                    .asBitmap()
-                    .load(url)
-                    .placeholder(R.drawable.avatar_default)
-                    .into(avatar);
-        }
+        ImageLoadingHelper.loadAvatar(url, avatar, avatarRadius, animateAvatar);
 
     }
 
@@ -610,18 +614,22 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
     }
 
     protected void setupWithStatus(StatusViewData.Concrete status, final StatusActionListener listener,
-                                   boolean mediaPreviewEnabled) {
-        this.setupWithStatus(status, listener, mediaPreviewEnabled, null);
+                                   boolean mediaPreviewEnabled, boolean showBotOverlay, boolean animateAvatar) {
+        this.setupWithStatus(status, listener, mediaPreviewEnabled, showBotOverlay, animateAvatar, null);
     }
 
-    protected void setupWithStatus(StatusViewData.Concrete status, final StatusActionListener listener,
-                                   boolean mediaPreviewEnabled, @Nullable Object payloads) {
+    protected void setupWithStatus(StatusViewData.Concrete status,
+                                   final StatusActionListener listener,
+                                   boolean mediaPreviewEnabled,
+                                   boolean showBotOverlay,
+                                   boolean animateAvatar,
+                                   @Nullable Object payloads) {
         if (payloads == null) {
             setDisplayName(status.getUserFullName(), status.getAccountEmojis());
             setUsername(status.getNickname());
             setCreatedAt(status.getCreatedAt());
             setIsReply(status.getInReplyToId() != null);
-            setAvatar(status.getAvatar(), status.getRebloggedAvatar(), status.isBot());
+            setAvatar(status.getAvatar(), status.getRebloggedAvatar(), status.isBot(), showBotOverlay, animateAvatar);
             setReblogged(status.isReblogged());
             setFavourited(status.isFavourited());
             List<Attachment> attachments = status.getAttachments();

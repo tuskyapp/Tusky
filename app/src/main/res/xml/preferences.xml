@@ -49,6 +49,11 @@
             android:defaultValue="true"
             android:key="showBotOverlay"
             android:title="@string/pref_title_bot_overlay" />
+
+        <SwitchPreferenceCompat
+            android:defaultValue="false"
+            android:key="animateGifAvatars"
+            android:title="@string/pref_title_animate_gif_avatars" />
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/pref_title_browser_settings">

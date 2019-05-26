@@ -31,7 +31,7 @@
         tools:text="ConnyDuck boosted"
         tools:visibility="visible" />
 
-    <com.keylesspalace.tusky.view.RoundedImageView
+    <ImageView
         android:id="@+id/status_avatar"
         android:layout_width="48dp"
         android:layout_height="48dp"
@@ -43,7 +43,7 @@
         app:layout_constraintTop_toBottomOf="@id/status_info"
         tools:src="@drawable/avatar_default" />
 
-    <com.keylesspalace.tusky.view.RoundedImageView
+    <ImageView
         android:id="@+id/status_avatar_inset"
         android:layout_width="24dp"
         android:layout_height="24dp"

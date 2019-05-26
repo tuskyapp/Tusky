@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?><!--
-* This is the for folnotificationsEnabledions, the layout for the follows/following listings on account
+* This is the for follow notifications, the layout for the follows/following listings on account
 * pages are instead in item_account.xml.
 -->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -27,7 +27,7 @@
         android:textSize="?attr/status_text_medium"
         tools:text="Someone followed you" />
 
-    <com.keylesspalace.tusky.view.RoundedImageView
+    <ImageView
         android:id="@+id/notification_avatar"
         android:layout_width="40dp"
         android:layout_height="40dp"
