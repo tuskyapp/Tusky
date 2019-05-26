@@ -137,13 +137,7 @@ class PreferencesActivity : BaseActivity(), SharedPreferences.OnSharedPreference
                 }
                 //workaround end
             }
-            "statusTextSize" -> {
-                restartActivitiesOnExit = true
-            }
-            "absoluteTimeView" -> {
-                restartActivitiesOnExit = true
-            }
-            "showBotOverlay" -> {
+            "statusTextSize", "absoluteTimeView", "showBotOverlay", "animateGifAvatars" -> {
                 restartActivitiesOnExit = true
             }
             "language" -> {

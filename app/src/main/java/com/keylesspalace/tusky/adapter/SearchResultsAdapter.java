@@ -49,15 +49,19 @@ public class SearchResultsAdapter extends RecyclerView.Adapter {
     private boolean mediaPreviewsEnabled;
     private boolean alwaysShowSensitiveMedia;
     private boolean useAbsoluteTime;
+    private boolean showBotOverlay;
+    private boolean animateAvatar;
 
     private LinkListener linkListener;
     private StatusActionListener statusListener;
 
-    public SearchResultsAdapter(boolean mediaPreviewsEnabled,
-                                boolean alwaysShowSensitiveMedia,
-                                LinkListener linkListener,
+    public SearchResultsAdapter(LinkListener linkListener,
                                 StatusActionListener statusListener,
-                                boolean useAbsoluteTime) {
+                                boolean mediaPreviewsEnabled,
+                                boolean alwaysShowSensitiveMedia,
+                                boolean useAbsoluteTime,
+                                boolean showBotOverlay,
+                                boolean animateAvatar) {
 
         this.accountList = Collections.emptyList();
         this.statusList = Collections.emptyList();
@@ -67,6 +71,8 @@ public class SearchResultsAdapter extends RecyclerView.Adapter {
         this.mediaPreviewsEnabled = mediaPreviewsEnabled;
         this.alwaysShowSensitiveMedia = alwaysShowSensitiveMedia;
         this.useAbsoluteTime = useAbsoluteTime;
+        this.showBotOverlay = showBotOverlay;
+        this.animateAvatar = animateAvatar;
 
         this.linkListener = linkListener;
         this.statusListener = statusListener;
@@ -98,22 +104,23 @@ public class SearchResultsAdapter extends RecyclerView.Adapter {
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position) {
-            if (position >= accountList.size()) {
-                if(position >= accountList.size() + concreteStatusList.size()) {
-                    HashtagViewHolder holder = (HashtagViewHolder) viewHolder;
-                    int index = position - accountList.size() - statusList.size();
-                    holder.setup(hashtagList.get(index), linkListener);
-                } else {
-                    StatusViewHolder holder = (StatusViewHolder) viewHolder;
-                    int index = position - accountList.size();
-                    holder.setupWithStatus(concreteStatusList.get(index), statusListener, mediaPreviewsEnabled);
-                }
+        if (position >= accountList.size()) {
+            if(position >= accountList.size() + concreteStatusList.size()) {
+                HashtagViewHolder holder = (HashtagViewHolder) viewHolder;
+                int index = position - accountList.size() - concreteStatusList.size();
+                holder.setup(hashtagList.get(index), linkListener);
             } else {
-                AccountViewHolder holder = (AccountViewHolder) viewHolder;
-                holder.setupWithAccount(accountList.get(position));
-                holder.setupLinkListener(linkListener);
+                StatusViewHolder holder = (StatusViewHolder) viewHolder;
+                int index = position - accountList.size();
+                holder.setupWithStatus(concreteStatusList.get(index), statusListener,
+                        mediaPreviewsEnabled, showBotOverlay, animateAvatar);
             }
+        } else {
+            AccountViewHolder holder = (AccountViewHolder) viewHolder;
+            holder.setupWithAccount(accountList.get(position));
+            holder.setupLinkListener(linkListener);
         }
+    }
 
     @Override
     public int getItemCount() {
@@ -133,17 +140,19 @@ public class SearchResultsAdapter extends RecyclerView.Adapter {
         }
     }
 
-    public @Nullable Status getStatusAtPosition(int position) {
+    @Nullable public Status getStatusAtPosition(int position) {
         return statusList.get(position - accountList.size());
     }
 
-    public @Nullable StatusViewData.Concrete getConcreteStatusAtPosition(int position) {
+    @Nullable public StatusViewData.Concrete getConcreteStatusAtPosition(int position) {
         return concreteStatusList.get(position - accountList.size());
     }
 
-    public void updateStatusAtPosition(StatusViewData.Concrete status, int position) {
+    public void updateStatusAtPosition(StatusViewData.Concrete status, int position, boolean doNotify) {
         concreteStatusList.set(position - accountList.size(), status);
-        notifyItemChanged(position);
+        if(doNotify) {
+            notifyItemChanged(position);
+        }
     }
 
     public void removeStatusAtPosition(int position) {
@@ -155,6 +164,7 @@ public class SearchResultsAdapter extends RecyclerView.Adapter {
         if (results != null) {
             accountList = results.getAccounts();
             statusList = results.getStatuses();
+            concreteStatusList.clear();
             for(Status status: results.getStatuses()) {
                 concreteStatusList.add(ViewDataUtils.statusToViewData(
                         status,

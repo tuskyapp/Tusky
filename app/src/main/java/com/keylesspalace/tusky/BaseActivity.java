@@ -22,15 +22,18 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
-import android.graphics.PorterDuff;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
-import android.util.TypedValue;
-import android.view.Menu;
 import android.view.View;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.StringRes;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.keylesspalace.tusky.adapter.AccountSelectionAdapter;
@@ -47,13 +50,6 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.annotation.StringRes;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import retrofit2.Call;
 
 public abstract class BaseActivity extends AppCompatActivity implements Injectable {
@@ -91,11 +87,6 @@ public abstract class BaseActivity extends AppCompatActivity implements Injectab
         int recentsBackgroundColor = ThemeUtils.getColor(this, R.attr.recents_background_color);
 
         setTaskDescription(new ActivityManager.TaskDescription(appName, appIcon, recentsBackgroundColor));
-
-        long accountId = getIntent().getLongExtra("account", -1);
-        if (accountId != -1) {
-            accountManager.setActiveAccount(accountId);
-        }
 
         int style = textStyle(preferences.getString("statusTextSize", "medium"));
         getTheme().applyStyle(style, false);
@@ -163,24 +154,6 @@ public abstract class BaseActivity extends AppCompatActivity implements Injectab
             startActivityWithSlideInAnimation(intent);
             finish();
         }
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        TypedValue value = new TypedValue();
-        int color;
-        if (getTheme().resolveAttribute(R.attr.toolbar_icon_tint, value, true)) {
-            color = value.data;
-        } else {
-            color = Color.WHITE;
-        }
-        for (int i = 0; i < menu.size(); i++) {
-            Drawable icon = menu.getItem(i).getIcon();
-            if (icon != null) {
-                icon.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
-            }
-        }
-        return super.onCreateOptionsMenu(menu);
     }
 
     protected void showErrorDialog(View anyView, @StringRes int descriptionId, @StringRes int actionId, View.OnClickListener listener) {

@@ -33,7 +33,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
-import com.bumptech.glide.Glide;
 import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.entity.Account;
 import com.keylesspalace.tusky.entity.Emoji;
@@ -42,6 +41,7 @@ import com.keylesspalace.tusky.interfaces.LinkListener;
 import com.keylesspalace.tusky.interfaces.StatusActionListener;
 import com.keylesspalace.tusky.util.CustomEmojiHelper;
 import com.keylesspalace.tusky.util.DateUtils;
+import com.keylesspalace.tusky.util.ImageLoadingHelper;
 import com.keylesspalace.tusky.util.LinkHelper;
 import com.keylesspalace.tusky.util.SmartLengthInputFilter;
 import com.keylesspalace.tusky.viewdata.NotificationViewData;
@@ -82,6 +82,8 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
     private NotificationActionListener notificationActionListener;
     private boolean mediaPreviewEnabled;
     private boolean useAbsoluteTime;
+    private boolean showBotOverlay;
+    private boolean animateAvatar;
     private BidiFormatter bidiFormatter;
     private AdapterDataSource<NotificationViewData> dataSource;
 
@@ -96,6 +98,8 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
         this.notificationActionListener = notificationActionListener;
         mediaPreviewEnabled = true;
         useAbsoluteTime = false;
+        showBotOverlay = true;
+        animateAvatar = false;
         bidiFormatter = BidiFormatter.getInstance();
     }
 
@@ -112,12 +116,12 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
             case VIEW_TYPE_STATUS_NOTIFICATION: {
                 View view = inflater
                         .inflate(R.layout.item_status_notification, parent, false);
-                return new StatusNotificationViewHolder(view, useAbsoluteTime);
+                return new StatusNotificationViewHolder(view, useAbsoluteTime, animateAvatar);
             }
             case VIEW_TYPE_FOLLOW: {
                 View view = inflater
                         .inflate(R.layout.item_follow, parent, false);
-                return new FollowViewHolder(view);
+                return new FollowViewHolder(view, animateAvatar);
             }
             case VIEW_TYPE_PLACEHOLDER: {
                 View view = inflater
@@ -167,7 +171,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
                     StatusViewHolder holder = (StatusViewHolder) viewHolder;
                     StatusViewData.Concrete status = concreteNotificaton.getStatusViewData();
                     holder.setupWithStatus(status,
-                            statusListener, mediaPreviewEnabled, payloadForHolder);
+                            statusListener, mediaPreviewEnabled, showBotOverlay, animateAvatar, payloadForHolder);
                     if(concreteNotificaton.getType() == Notification.Type.POLL) {
                         holder.setPollInfo(accountId.equals(concreteNotificaton.getAccount().getId()));
                     } else {
@@ -266,6 +270,14 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
         this.useAbsoluteTime = useAbsoluteTime;
     }
 
+    public void setShowBotOverlay(boolean showBotOverlay) {
+        this.showBotOverlay = showBotOverlay;
+    }
+
+    public void setAnimateAvatar(boolean animateAvatar) {
+        this.animateAvatar = animateAvatar;
+    }
+
     public interface NotificationActionListener {
         void onViewAccount(String id);
 
@@ -288,13 +300,15 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
         private TextView usernameView;
         private TextView displayNameView;
         private ImageView avatar;
+        private boolean animateAvatar;
 
-        FollowViewHolder(View itemView) {
+        FollowViewHolder(View itemView, boolean animateAvatar) {
             super(itemView);
             message = itemView.findViewById(R.id.notification_text);
             usernameView = itemView.findViewById(R.id.notification_username);
             displayNameView = itemView.findViewById(R.id.notification_display_name);
             avatar = itemView.findViewById(R.id.notification_avatar);
+            this.animateAvatar = animateAvatar;
         }
 
         void setMessage(Account account, BidiFormatter bidiFormatter) {
@@ -313,15 +327,11 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
 
             displayNameView.setText(emojifiedDisplayName);
 
-            if (TextUtils.isEmpty(account.getAvatar())) {
-                avatar.setImageResource(R.drawable.avatar_default);
-            } else {
-                Glide.with(avatar)
-                        .asBitmap()
-                        .load(account.getAvatar())
-                        .placeholder(R.drawable.avatar_default)
-                        .into(avatar);
-            }
+            int avatarRadius = avatar.getContext().getResources()
+                    .getDimensionPixelSize(R.dimen.avatar_radius_24dp);
+
+            ImageLoadingHelper.loadAvatar(account.getAvatar(), avatar, avatarRadius, animateAvatar);
+
         }
 
         void setupButtons(final NotificationActionListener listener, final String accountId) {
@@ -349,10 +359,11 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
         private StatusViewData.Concrete statusViewData;
 
         private boolean useAbsoluteTime;
+        private boolean animateAvatar;
         private SimpleDateFormat shortSdf;
         private SimpleDateFormat longSdf;
 
-        StatusNotificationViewHolder(View itemView, boolean useAbsoluteTime) {
+        StatusNotificationViewHolder(View itemView, boolean useAbsoluteTime, boolean animateAvatar) {
             super(itemView);
             message = itemView.findViewById(R.id.notification_top_text);
             statusNameBar = itemView.findViewById(R.id.status_name_bar);
@@ -376,6 +387,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
             contentWarningButton.setOnCheckedChangeListener(this);
 
             this.useAbsoluteTime = useAbsoluteTime;
+            this.animateAvatar = animateAvatar;
             shortSdf = new SimpleDateFormat("HH:mm:ss", Locale.getDefault());
             longSdf = new SimpleDateFormat("MM/dd HH:mm:ss", Locale.getDefault());
         }
@@ -495,23 +507,17 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
 
         void setAvatars(@Nullable String statusAvatarUrl, @Nullable String notificationAvatarUrl) {
 
-            if (TextUtils.isEmpty(statusAvatarUrl)) {
-                statusAvatar.setImageResource(R.drawable.avatar_default);
-            } else {
-                Glide.with(statusAvatar)
-                        .load(statusAvatarUrl)
-                        .placeholder(R.drawable.avatar_default)
-                        .into(statusAvatar);
-            }
+            int statusAvatarRadius = statusAvatar.getContext().getResources()
+                    .getDimensionPixelSize(R.dimen.avatar_radius_48dp);
 
-            if (TextUtils.isEmpty(notificationAvatarUrl)) {
-                notificationAvatar.setImageResource(R.drawable.avatar_default);
-            } else {
-                Glide.with(notificationAvatar)
-                        .load(notificationAvatarUrl)
-                        .placeholder(R.drawable.avatar_default)
-                        .into(notificationAvatar);
-            }
+            ImageLoadingHelper.loadAvatar(statusAvatarUrl,
+                    statusAvatar, statusAvatarRadius, animateAvatar);
+
+            int notificationAvatarRadius = statusAvatar.getContext().getResources()
+                    .getDimensionPixelSize(R.dimen.avatar_radius_24dp);
+
+            ImageLoadingHelper.loadAvatar(notificationAvatarUrl,
+                    notificationAvatar, notificationAvatarRadius, animateAvatar);
         }
 
         @Override

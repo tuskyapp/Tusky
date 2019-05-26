@@ -51,14 +51,15 @@ public class StatusViewHolder extends StatusBaseViewHolder {
 
     @Override
     protected void setupWithStatus(StatusViewData.Concrete status, final StatusActionListener listener,
-                                   boolean mediaPreviewEnabled, @Nullable Object payloads) {
+                                   boolean mediaPreviewEnabled, boolean showBotOverlay, boolean animateAvatar,
+                                   @Nullable Object payloads) {
         if (status == null || payloads == null) {
             if (status == null) {
                 showContent(false);
             } else {
                 showContent(true);
                 setupCollapsedState(status, listener);
-                super.setupWithStatus(status, listener, mediaPreviewEnabled, null);
+                super.setupWithStatus(status, listener, mediaPreviewEnabled, showBotOverlay, animateAvatar, null);
 
                 String rebloggedByDisplayName = status.getRebloggedByUsername();
                 if (rebloggedByDisplayName == null) {
@@ -70,7 +71,7 @@ public class StatusViewHolder extends StatusBaseViewHolder {
 
             }
         } else {
-            super.setupWithStatus(status, listener, mediaPreviewEnabled, payloads);
+            super.setupWithStatus(status, listener, mediaPreviewEnabled, showBotOverlay, animateAvatar, payloads);
         }
     }
 

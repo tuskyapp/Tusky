@@ -18,8 +18,8 @@ android {
         applicationId "com.keylesspalace.tusky"
         minSdkVersion 21
         targetSdkVersion 28
-        versionCode 61
-        versionName "7.0"
+        versionCode 62
+        versionName "7.1"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
 
@@ -80,6 +80,12 @@ android {
     }
 }
 
+project.tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+}
+
 ext.daggerVersion = '2.22.1'
 
 // if libraries are changed here, they should also be changed in LicenseActivity
@@ -87,7 +93,7 @@ dependencies {
     implementation('com.mikepenz:materialdrawer:6.1.2@aar') {
         transitive = true
     }
-    implementation 'androidx.core:core:1.0.1'
+    implementation 'androidx.core:core:1.0.2'
     implementation 'androidx.appcompat:appcompat:1.0.2'
     implementation 'androidx.browser:browser:1.0.0'
     implementation 'androidx.recyclerview:recyclerview:1.0.0'
@@ -95,12 +101,12 @@ dependencies {
     implementation 'com.google.android.material:material:1.1.0-alpha05'
     implementation 'androidx.exifinterface:exifinterface:1.0.0'
     implementation 'androidx.cardview:cardview:1.0.0'
-    implementation 'androidx.preference:preference:1.1.0-alpha05'
+    implementation 'androidx.preference:preference:1.1.0-alpha04'
     implementation 'com.squareup.retrofit2:retrofit:2.5.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.5.0'
     implementation 'com.squareup.retrofit2:adapter-rxjava2:2.5.0'
-    implementation 'com.squareup.okhttp3:okhttp:3.14.1'
-    implementation 'com.squareup.okhttp3:logging-interceptor:3.14.1'
+    implementation 'com.squareup.okhttp3:okhttp:3.14.2'
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.14.2'
     implementation 'org.conscrypt:conscrypt-android:2.1.0'
     implementation 'com.github.connyduck:sparkbutton:2.0.0'
     implementation 'com.github.chrisbanes:PhotoView:2.3.0'
@@ -120,7 +126,7 @@ dependencies {
     implementation 'androidx.room:room-runtime:2.0.0'
     kapt 'androidx.room:room-compiler:2.0.0'
     implementation 'androidx.room:room-rxjava2:2.0.0'
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
     implementation "com.google.dagger:dagger:$daggerVersion"
     kapt "com.google.dagger:dagger-compiler:$daggerVersion"
     implementation "com.google.dagger:dagger-android:$daggerVersion"
@@ -140,8 +146,8 @@ dependencies {
     implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
     implementation 'io.reactivex.rxjava2:rxkotlin:2.3.0'
     implementation 'com.squareup.retrofit2:adapter-rxjava2:2.5.0'
-    implementation 'com.uber.autodispose:autodispose-android-archcomponents:1.2.0'
-    implementation 'com.uber.autodispose:autodispose-ktx:1.2.0'
+    implementation 'com.uber.autodispose:autodispose-android-archcomponents:1.3.0'
+    implementation 'com.uber.autodispose:autodispose:1.3.0'
     implementation 'androidx.paging:paging-runtime-ktx:2.1.0'
 
     //Glide

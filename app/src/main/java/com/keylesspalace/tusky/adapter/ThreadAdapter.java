@@ -37,6 +37,8 @@ public class ThreadAdapter extends RecyclerView.Adapter {
     private StatusActionListener statusActionListener;
     private boolean mediaPreviewEnabled;
     private boolean useAbsoluteTime;
+    private boolean showBotOverlay;
+    private boolean animateAvatar;
     private int detailedStatusPosition;
 
     public ThreadAdapter(StatusActionListener listener) {
@@ -44,6 +46,8 @@ public class ThreadAdapter extends RecyclerView.Adapter {
         this.statuses = new ArrayList<>();
         mediaPreviewEnabled = true;
         useAbsoluteTime = false;
+        showBotOverlay = true;
+        animateAvatar = false;
         detailedStatusPosition = RecyclerView.NO_POSITION;
     }
 
@@ -70,10 +74,10 @@ public class ThreadAdapter extends RecyclerView.Adapter {
         StatusViewData.Concrete status = statuses.get(position);
         if (position == detailedStatusPosition) {
             StatusDetailedViewHolder holder = (StatusDetailedViewHolder) viewHolder;
-            holder.setupWithStatus(status, statusActionListener, mediaPreviewEnabled);
+            holder.setupWithStatus(status, statusActionListener, mediaPreviewEnabled, showBotOverlay, animateAvatar);
         } else {
             StatusViewHolder holder = (StatusViewHolder) viewHolder;
-            holder.setupWithStatus(status, statusActionListener, mediaPreviewEnabled);
+            holder.setupWithStatus(status, statusActionListener, mediaPreviewEnabled, showBotOverlay, animateAvatar);
         }
     }
 
@@ -153,6 +157,14 @@ public class ThreadAdapter extends RecyclerView.Adapter {
 
     public void setUseAbsoluteTime(boolean useAbsoluteTime) {
         this.useAbsoluteTime = useAbsoluteTime;
+    }
+
+    public void setShowBotOverlay(boolean showBotOverlay) {
+        this.showBotOverlay = showBotOverlay;
+    }
+
+    public void setAnimateAvatar(boolean animateAvatar) {
+        this.animateAvatar = animateAvatar;
     }
 
     public void setDetailedStatusPosition(int position) {

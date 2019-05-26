@@ -53,7 +53,7 @@
     <string name="report_comment_hint">Comentários adicionais?</string>
     <string name="action_quick_reply">Resposta rápida</string>
     <string name="action_reply">Responder</string>
-    <string name="action_reblog">Dar boost</string>
+    <string name="action_reblog">Boost</string>
     <string name="action_unreblog">Desfazer boost</string>
     <string name="action_favourite">Favoritar</string>
     <string name="action_unfavourite">Desfavoritar</string>
@@ -198,13 +198,13 @@
     <string name="media_hide_sensitive">Ocultar mídia marcada como sensível</string>
 
     <string name="notification_mention_name">Novas Menções</string>
-    <string name="notification_mention_descriptions">Notificações sobre novas menções</string>
+    <string name="notification_mention_descriptions">Notificar sobre novas menções</string>
     <string name="notification_follow_name">Novos Seguidores</string>
-    <string name="notification_follow_description">Notificações sobre novos seguidores</string>
+    <string name="notification_follow_description">Notificar sobre novos seguidores</string>
     <string name="notification_boost_name">Boosts</string>
-    <string name="notification_boost_description">Notificações quando derem boost nos seus toots</string>
+    <string name="notification_boost_description">Notificar quando derem boost nos seus toots</string>
     <string name="notification_favourite_name">Favoritos</string>
-    <string name="notification_favourite_description">Notificações quando favoritarem seus toots</string>
+    <string name="notification_favourite_description">Notificar quando favoritarem seus toots</string>
     <string name="notification_mention_format">%s te mencionou</string>
     <string name="notification_summary_large">%1$s, %2$s, %3$s e %4$d outros</string>
     <string name="notification_summary_medium">%1$s, %2$s, e %3$s</string>
@@ -294,7 +294,7 @@
     <string name="profile_metadata_label_label">Rótulo</string>
     <string name="profile_metadata_content_label">Conteúdo</string>
     <string name="pref_title_absolute_time">Usar tempo absoluto</string>
-    <string name="title_reblogged_by">Boost foi dado por</string>
+    <string name="title_reblogged_by">Levou boost de</string>
     <string name="title_favourited_by">Favoritado por</string>
     <string name="description_visiblity_public">Público    </string>
     <string name="description_visiblity_private">        Seguidores
@@ -331,7 +331,7 @@
     <string name="media_hide_all">Sempre ocultar todas as mídias</string>
 
     <string name="notification_poll_name">Enquetes</string>
-    <string name="notification_poll_description">Notificações de enquetes que já terminaram</string>
+    <string name="notification_poll_description">Notificar enquetes que já terminaram</string>
 
 
     <string name="pref_title_public_filter_keywords">Timelines públicas</string>
@@ -382,7 +382,7 @@
     <string name="description_status_media">Mídia: %s</string>
     <string name="description_status_cw">Aviso de conteúdo: %s</string>
     <string name="description_status_media_no_description_placeholder">Sem descrição</string>
-    <string name="description_status_reblogged">Levou boost</string>
+    <string name="description_status_reblogged">Você deu boost</string>
     <string name="description_status_favourited">Favoritado</string>
     <string name="description_visiblity_unlisted">Não-listado</string>
     <string name="description_visiblity_direct">Direta</string>

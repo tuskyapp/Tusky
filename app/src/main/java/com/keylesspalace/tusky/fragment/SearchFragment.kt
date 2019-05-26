@@ -46,8 +46,6 @@ class SearchFragment : SFragment(), StatusActionListener {
     private lateinit var searchAdapter: SearchResultsAdapter
 
     private var alwaysShowSensitiveMedia = false
-    private var mediaPreviewEnabled = true
-    private var useAbsoluteTime = false
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_search, container, false)
@@ -55,20 +53,25 @@ class SearchFragment : SFragment(), StatusActionListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val preferences = PreferenceManager.getDefaultSharedPreferences(view.context)
-        useAbsoluteTime = preferences.getBoolean("absoluteTimeView", false)
+        val useAbsoluteTime = preferences.getBoolean("absoluteTimeView", false)
+        val showBotOverlay = preferences.getBoolean("showBotOverlay", true)
+        val animateAvatar = preferences.getBoolean("animateGifAvatars", false)
 
         val account = accountManager.activeAccount
         alwaysShowSensitiveMedia = account?.alwaysShowSensitiveMedia ?: false
-        mediaPreviewEnabled = account?.mediaPreviewEnabled ?: true
+        val mediaPreviewEnabled = account?.mediaPreviewEnabled ?: true
 
         searchRecyclerView.addItemDecoration(DividerItemDecoration(view.context, DividerItemDecoration.VERTICAL))
         searchRecyclerView.layoutManager = LinearLayoutManager(view.context)
         searchAdapter = SearchResultsAdapter(
+                this,
+                this,
                 mediaPreviewEnabled,
                 alwaysShowSensitiveMedia,
-                this,
-                this,
-                useAbsoluteTime)
+                useAbsoluteTime,
+                showBotOverlay,
+                animateAvatar
+                )
         searchRecyclerView.adapter = searchAdapter
 
     }
@@ -147,7 +150,8 @@ class SearchFragment : SFragment(), StatusActionListener {
                                         status,
                                         alwaysShowSensitiveMedia
                                 ),
-                                position
+                                position,
+                                false
                         )
                     }, { t -> Log.d(TAG, "Failed to reblog status " + status.id, t) })
         }
@@ -166,7 +170,8 @@ class SearchFragment : SFragment(), StatusActionListener {
                                         status,
                                         alwaysShowSensitiveMedia
                                 ),
-                                position
+                                position,
+                                false
                         )
                     }, { t -> Log.d(TAG, "Failed to favourite status " + status.id, t) })
         }
@@ -200,7 +205,7 @@ class SearchFragment : SFragment(), StatusActionListener {
         if (status != null) {
             val newStatus = StatusViewData.Builder(status)
                     .setIsExpanded(expanded).createStatusViewData()
-            searchAdapter.updateStatusAtPosition(newStatus, position)
+            searchAdapter.updateStatusAtPosition(newStatus, position, false)
         }
     }
 
@@ -209,7 +214,7 @@ class SearchFragment : SFragment(), StatusActionListener {
         if (status != null) {
             val newStatus = StatusViewData.Builder(status)
                     .setIsShowingSensitiveContent(isShowing).createStatusViewData()
-            searchAdapter.updateStatusAtPosition(newStatus, position)
+            searchAdapter.updateStatusAtPosition(newStatus, position, true)
         }
     }
 
@@ -228,7 +233,7 @@ class SearchFragment : SFragment(), StatusActionListener {
         val updatedStatus = StatusViewData.Builder(status)
                 .setCollapsed(isCollapsed)
                 .createStatusViewData()
-        searchAdapter.updateStatusAtPosition(updatedStatus, position)
+        searchAdapter.updateStatusAtPosition(updatedStatus, position, false)
         searchRecyclerView.post { searchAdapter.notifyItemChanged(position, updatedStatus) }
     }
 
@@ -257,7 +262,7 @@ class SearchFragment : SFragment(), StatusActionListener {
                         val newViewData = StatusViewData.Builder(viewData)
                                 .setPoll(poll)
                                 .createStatusViewData()
-                        searchAdapter.updateStatusAtPosition(newViewData, position)
+                        searchAdapter.updateStatusAtPosition(newViewData, position, true)
 
                     }, { t -> Log.d(TAG, "Failed to vote in poll " + status.id, t) })
         }

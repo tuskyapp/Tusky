@@ -216,6 +216,9 @@
     <string name="pref_title_custom_tabs">Use Chrome Custom Tabs</string>
     <string name="pref_title_hide_follow_button">Hide compose button while scrolling</string>
     <string name="pref_title_language">Language</string>
+    <string name="pref_title_bot_overlay">Show indicator for bots</string>
+    <string name="pref_title_animate_gif_avatars">Animate GIF avatars</string>
+
     <string name="pref_title_status_filter">Timeline filtering</string>
     <string name="pref_title_status_tabs">Tabs</string>
     <string name="pref_title_show_boosts">Show boosts</string>
@@ -464,7 +467,6 @@
 
     <string name="compose_shortcut_long_label">Compose Toot</string>
     <string name="compose_shortcut_short_label">Compose</string>
-    <string name="pref_title_bot_overlay">Show indicator for bots</string>
 
     <string name="notification_clear_text">Are you sure you want to permanently clear all your notifications?</string>
     <string name="compose_preview_image_description">Actions for image %s</string>

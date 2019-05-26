@@ -8,7 +8,7 @@
     android:paddingStart="16dp"
     android:paddingEnd="16dp">
 
-    <com.keylesspalace.tusky.view.RoundedImageView
+    <ImageView
         android:id="@+id/account_avatar"
         android:layout_width="48dp"
         android:layout_height="48dp"
@@ -19,7 +19,7 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:src="@drawable/avatar_default" />
 
-    <com.keylesspalace.tusky.view.RoundedImageView
+    <ImageView
         android:id="@+id/account_avatar_inset"
         android:layout_width="24dp"
         android:layout_height="24dp"
@@ -33,23 +33,24 @@
 
     <androidx.emoji.widget.EmojiTextView
         android:id="@+id/account_display_name"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="14dp"
         android:ellipsize="end"
         android:maxLines="1"
-        app:layout_constraintVertical_chainStyle="packed"
         android:textColor="?android:textColorPrimary"
         android:textSize="?attr/status_text_large"
         android:textStyle="normal|bold"
         app:layout_constraintBottom_toTopOf="@id/account_username"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/account_avatar"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="packed"
         tools:text="Display name" />
 
     <TextView
         android:id="@+id/account_username"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="14dp"
         android:ellipsize="end"
@@ -57,6 +58,7 @@
         android:textColor="?android:textColorSecondary"
         android:textSize="?attr/status_text_medium"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/account_avatar"
         app:layout_constraintTop_toBottomOf="@id/account_display_name"
         tools:text="\@username" />

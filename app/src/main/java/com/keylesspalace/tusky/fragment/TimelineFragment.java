@@ -48,6 +48,7 @@ import com.keylesspalace.tusky.entity.Filter;
 import com.keylesspalace.tusky.entity.Poll;
 import com.keylesspalace.tusky.entity.Status;
 import com.keylesspalace.tusky.interfaces.ActionButtonActivity;
+import com.keylesspalace.tusky.interfaces.RefreshableFragment;
 import com.keylesspalace.tusky.interfaces.ReselectableFragment;
 import com.keylesspalace.tusky.interfaces.StatusActionListener;
 import com.keylesspalace.tusky.network.MastodonApi;
@@ -82,6 +83,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.arch.core.util.Function;
 import androidx.core.util.Pair;
+import androidx.core.widget.ContentLoadingProgressBar;
 import androidx.lifecycle.Lifecycle;
 import androidx.recyclerview.widget.AsyncDifferConfig;
 import androidx.recyclerview.widget.AsyncListDiffer;
@@ -92,6 +94,7 @@ import androidx.recyclerview.widget.ListUpdateCallback;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.SimpleItemAnimator;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
 import at.connyduck.sparkbutton.helpers.Utils;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -108,12 +111,15 @@ import static com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvid
 public class TimelineFragment extends SFragment implements
         SwipeRefreshLayout.OnRefreshListener,
         StatusActionListener,
-        Injectable, ReselectableFragment {
+        Injectable, ReselectableFragment, RefreshableFragment {
     private static final String TAG = "TimelineF"; // logging tag
     private static final String KIND_ARG = "kind";
     private static final String HASHTAG_OR_ID_ARG = "hashtag_or_id";
+    private static final String ARG_ENABLE_SWIPE_TO_REFRESH = "arg.enable.swipe.to.refresh";
 
     private static final int LOAD_AT_ONCE = 30;
+    private boolean isSwipeToRefreshEnabled = true;
+    private boolean isNeedRefresh;
 
     public enum Kind {
         HOME,
@@ -146,6 +152,7 @@ public class TimelineFragment extends SFragment implements
     private SwipeRefreshLayout swipeRefreshLayout;
     private RecyclerView recyclerView;
     private ProgressBar progressBar;
+    private ContentLoadingProgressBar topProgressBar;
     private BackgroundMessageView statusView;
 
     private TimelineAdapter adapter;
@@ -182,18 +189,19 @@ public class TimelineFragment extends SFragment implements
             });
 
     public static TimelineFragment newInstance(Kind kind) {
-        TimelineFragment fragment = new TimelineFragment();
-        Bundle arguments = new Bundle();
-        arguments.putString(KIND_ARG, kind.name());
-        fragment.setArguments(arguments);
-        return fragment;
+        return newInstance(kind, null);
     }
 
-    public static TimelineFragment newInstance(Kind kind, String hashtagOrId) {
+    public static TimelineFragment newInstance(Kind kind, @Nullable String hashtagOrId) {
+        return newInstance(kind, hashtagOrId, true);
+    }
+
+    public static TimelineFragment newInstance(Kind kind, @Nullable String hashtagOrId, boolean enableSwipeToRefresh) {
         TimelineFragment fragment = new TimelineFragment();
         Bundle arguments = new Bundle();
         arguments.putString(KIND_ARG, kind.name());
         arguments.putString(HASHTAG_OR_ID_ARG, hashtagOrId);
+        arguments.putBoolean(ARG_ENABLE_SWIPE_TO_REFRESH, enableSwipeToRefresh);
         fragment.setArguments(arguments);
         return fragment;
     }
@@ -213,6 +221,8 @@ public class TimelineFragment extends SFragment implements
 
         adapter = new TimelineAdapter(dataSource, this);
 
+        isSwipeToRefreshEnabled = arguments.getBoolean(ARG_ENABLE_SWIPE_TO_REFRESH, true);
+
     }
 
     @Override
@@ -224,6 +234,7 @@ public class TimelineFragment extends SFragment implements
         swipeRefreshLayout = rootView.findViewById(R.id.swipeRefreshLayout);
         progressBar = rootView.findViewById(R.id.progressBar);
         statusView = rootView.findViewById(R.id.statusView);
+        topProgressBar = rootView.findViewById(R.id.topProgressBar);
 
         setupSwipeRefreshLayout();
         setupRecyclerView();
@@ -236,6 +247,8 @@ public class TimelineFragment extends SFragment implements
             this.sendInitialRequest();
         } else {
             progressBar.setVisibility(View.GONE);
+            if (isNeedRefresh)
+                onRefresh();
         }
 
         return rootView;
@@ -341,6 +354,10 @@ public class TimelineFragment extends SFragment implements
         adapter.setMediaPreviewEnabled(mediaPreviewEnabled);
         boolean useAbsoluteTime = preferences.getBoolean("absoluteTimeView", false);
         adapter.setUseAbsoluteTime(useAbsoluteTime);
+        boolean showBotOverlay = preferences.getBoolean("showBotOverlay", true);
+        adapter.setShowBotOverlay(showBotOverlay);
+        boolean animateAvatar = preferences.getBoolean("animateGifAvatars", false);
+        adapter.setAnimateAvatar(animateAvatar);
 
         boolean filter = preferences.getBoolean("tabFilterHomeReplies", true);
         filterRemoveReplies = kind == Kind.HOME && !filter;
@@ -388,11 +405,14 @@ public class TimelineFragment extends SFragment implements
     }
 
     private void setupSwipeRefreshLayout() {
-        Context context = swipeRefreshLayout.getContext();
-        swipeRefreshLayout.setOnRefreshListener(this);
-        swipeRefreshLayout.setColorSchemeResources(R.color.tusky_blue);
-        swipeRefreshLayout.setProgressBackgroundColorSchemeColor(ThemeUtils.getColor(context,
-                android.R.attr.colorBackground));
+        swipeRefreshLayout.setEnabled(isSwipeToRefreshEnabled);
+        if (isSwipeToRefreshEnabled) {
+            Context context = swipeRefreshLayout.getContext();
+            swipeRefreshLayout.setOnRefreshListener(this);
+            swipeRefreshLayout.setColorSchemeResources(R.color.tusky_blue);
+            swipeRefreshLayout.setProgressBackgroundColorSchemeColor(ThemeUtils.getColor(context,
+                    android.R.attr.colorBackground));
+        }
     }
 
     private void setupRecyclerView() {
@@ -524,8 +544,10 @@ public class TimelineFragment extends SFragment implements
 
     @Override
     public void onRefresh() {
-        swipeRefreshLayout.setEnabled(true);
+        if (isSwipeToRefreshEnabled)
+            swipeRefreshLayout.setEnabled(true);
         this.statusView.setVisibility(View.GONE);
+        isNeedRefresh = false;
         if (this.initialUpdateFailed) {
             updateCurrent();
         } else {
@@ -936,6 +958,9 @@ public class TimelineFragment extends SFragment implements
     private void sendFetchTimelineRequest(@Nullable String maxId, @Nullable String sinceId,
                                           @Nullable String sinceIdMinusOne,
                                           final FetchEnd fetchEnd, final int pos) {
+        if (isAdded() && (fetchEnd == FetchEnd.TOP || fetchEnd == FetchEnd.BOTTOM && maxId == null && progressBar.getVisibility() != View.VISIBLE) && !isSwipeToRefreshEnabled)
+            topProgressBar.show();
+
         if (kind == Kind.HOME) {
             TimelineRequestMode mode;
             // allow getting old statuses/fallbacks for network only for for bottom loading
@@ -1015,20 +1040,24 @@ public class TimelineFragment extends SFragment implements
                 break;
             }
         }
-        updateBottomLoadingState(fetchEnd);
-        progressBar.setVisibility(View.GONE);
-        swipeRefreshLayout.setRefreshing(false);
-        swipeRefreshLayout.setEnabled(true);
-        if (this.statuses.size() == 0) {
-            this.showNothing();
-        } else {
-            this.statusView.setVisibility(View.GONE);
+        if (isAdded()) {
+            topProgressBar.hide();
+            updateBottomLoadingState(fetchEnd);
+            progressBar.setVisibility(View.GONE);
+            swipeRefreshLayout.setRefreshing(false);
+            swipeRefreshLayout.setEnabled(true);
+            if (this.statuses.size() == 0) {
+                this.showNothing();
+            } else {
+                this.statusView.setVisibility(View.GONE);
+            }
         }
     }
 
     private void onFetchTimelineFailure(Exception exception, FetchEnd fetchEnd, int position) {
         if (isAdded()) {
             swipeRefreshLayout.setRefreshing(false);
+            topProgressBar.hide();
 
             if (fetchEnd == FetchEnd.MIDDLE && !statuses.get(position).isRight()) {
                 Placeholder placeholder = statuses.get(position).asLeftOrNull();
@@ -1267,7 +1296,10 @@ public class TimelineFragment extends SFragment implements
                 adapter.notifyItemRangeInserted(position, count);
                 Context context = getContext();
                 if (position == 0 && context != null) {
-                    recyclerView.scrollBy(0, Utils.dpToPx(context, -30));
+                    if (isSwipeToRefreshEnabled)
+                        recyclerView.scrollBy(0, Utils.dpToPx(context, -30));
+                    else
+                        recyclerView.scrollToPosition(0);
                 }
             }
         }
@@ -1361,5 +1393,13 @@ public class TimelineFragment extends SFragment implements
     @Override
     public void onReselect() {
         jumpToTop();
+    }
+
+    @Override
+    public void refreshContent() {
+        if (isAdded())
+            onRefresh();
+        else
+            isNeedRefresh = true;
     }
 }
