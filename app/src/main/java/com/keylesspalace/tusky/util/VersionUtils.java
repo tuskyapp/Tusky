@@ -21,7 +21,7 @@ public class VersionUtils {
     }
 
     public boolean supportsScheduledToots() {
-        return major >= 2 && minor >= 7 && patch >= 0;
+        return (major == 2) ? ( (minor == 7) ? (patch >= 0) : (minor > 7) ) : (major > 2);
     }
 
 }
