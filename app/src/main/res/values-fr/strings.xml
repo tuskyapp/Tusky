@@ -222,7 +222,7 @@
     <string name="notification_mention_descriptions">Notifications pour les nouvelles mentions</string>
     <string name="notification_follow_name">Nouveaux abonnés</string>
     <string name="notification_follow_description">Notifications pour les nouveaux abonnés</string>
-    <string name="notification_boost_name">Boosts</string>
+    <string name="notification_boost_name">Partages</string>
     <string name="notification_boost_description">Notifications quand vos pouets sont boostés</string>
     <string name="notification_favourite_name">Favoris</string>
     <string name="notification_favourite_description">Notifications quand vos pouets sont mis en favoris</string>
