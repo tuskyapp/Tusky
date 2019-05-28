@@ -92,4 +92,6 @@ abstract class ActivitiesModule {
     @ContributesAndroidInjector
     abstract fun contributesFiltersActivity(): FiltersActivity
 
+    @ContributesAndroidInjector
+    abstract fun contributesReport2Activity(): Report2Activity
 }

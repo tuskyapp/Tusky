@@ -44,6 +44,7 @@ import com.keylesspalace.tusky.BottomSheetActivity;
 import com.keylesspalace.tusky.ComposeActivity;
 import com.keylesspalace.tusky.MainActivity;
 import com.keylesspalace.tusky.R;
+import com.keylesspalace.tusky.Report2Activity;
 import com.keylesspalace.tusky.ReportActivity;
 import com.keylesspalace.tusky.ViewMediaActivity;
 import com.keylesspalace.tusky.ViewTagActivity;
@@ -327,12 +328,13 @@ public abstract class SFragment extends BaseFragment implements Injectable {
 
     protected void openReportPage(String accountId, String accountUsername, String statusId,
                                   Spanned statusContent) {
-        Intent intent = new Intent(getContext(), ReportActivity.class);
+        /*Intent intent = new Intent(getContext(), ReportActivity.class);
         intent.putExtra("account_id", accountId);
         intent.putExtra("account_username", accountUsername);
         intent.putExtra("status_id", statusId);
         intent.putExtra("status_content", HtmlUtils.toHtml(statusContent));
-        startActivity(intent);
+        */
+        startActivity(Report2Activity.getIntent(requireContext(),accountId,accountUsername,statusId,statusContent));
     }
 
     protected void showConfirmDeleteDialog(final String id, final int position) {
