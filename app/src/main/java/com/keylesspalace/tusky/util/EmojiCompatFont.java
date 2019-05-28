@@ -45,8 +45,6 @@ public class EmojiCompatFont {
     // The version is stored as a String in the x.xx.xx format (to be able to compare versions)
     private final String version;
     private AsyncTask fontDownloader;
-    // A list of all available font files and whether they are older than the current version or not
-    private ArrayList<Pair<File, Boolean>> existingFontFiles = new ArrayList<>(2 * FONTS.length);
     // The system font gets some special behavior...
     private static final EmojiCompatFont SYSTEM_DEFAULT =
             new EmojiCompatFont("system-default",
@@ -85,6 +83,8 @@ public class EmojiCompatFont {
      * References to them can simply be saved by saving their indices
      */
     public static final EmojiCompatFont[] FONTS = {SYSTEM_DEFAULT, BLOBMOJI, TWEMOJI, NOTOEMOJI};
+    // A list of all available font files and whether they are older than the current version or not
+    private ArrayList<Pair<File, Boolean>> existingFontFiles = new ArrayList<>(6);
 
     private EmojiCompatFont(String name,
                             String display,
