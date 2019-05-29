@@ -85,6 +85,7 @@ import com.keylesspalace.tusky.service.SendTootService;
 import com.keylesspalace.tusky.util.ComposeTokenizer;
 import com.keylesspalace.tusky.util.CountUpDownLatch;
 import com.keylesspalace.tusky.util.DownsizeImageTask;
+import com.keylesspalace.tusky.util.IOUtils;
 import com.keylesspalace.tusky.util.ImageLoadingHelper;
 import com.keylesspalace.tusky.util.ListUtils;
 import com.keylesspalace.tusky.util.SaveTootHelper;
@@ -103,6 +104,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -1513,13 +1515,44 @@ public final class ComposeActivity
     }
 
 
-    private void pickMedia(Uri uri, long mediaSize, String description) {
+    private void pickMedia(Uri inUri, long mediaSize, String description) {
+        Uri uri = inUri;
+        ContentResolver contentResolver = getContentResolver();
+        String mimeType = contentResolver.getType(uri);
+
+        InputStream tempInput = null;
+        FileOutputStream out = null;
+        String filename = inUri.toString().substring(inUri.toString().lastIndexOf("/"));
+        int suffixPosition = filename.lastIndexOf(".");
+        String suffix = "";
+        if(suffixPosition > 0) suffix = filename.substring(suffixPosition);
+        try {
+            tempInput = getContentResolver().openInputStream(inUri);
+            File file = File.createTempFile("randomTemp1", suffix, getCacheDir());
+            out = new FileOutputStream(file.getAbsoluteFile());
+            byte[] buff = new byte[1024];
+            int read = 0;
+            while ((read = tempInput.read(buff)) > 0) {
+                out.write(buff, 0, read);
+            }
+            uri = FileProvider.getUriForFile(this,
+                    BuildConfig.APPLICATION_ID+".fileprovider",
+                    file);
+            mediaSize = getMediaSize(getContentResolver(), uri);
+            tempInput.close();
+            out.close();
+        } catch(IOException e) {
+            Log.w(TAG, e);
+            uri = inUri;
+        } finally {
+            IOUtils.closeQuietly(tempInput);
+            IOUtils.closeQuietly(out);
+        }
+
         if (mediaSize == MEDIA_SIZE_UNKNOWN) {
             displayTransientError(R.string.error_media_upload_opening);
             return;
         }
-        ContentResolver contentResolver = getContentResolver();
-        String mimeType = contentResolver.getType(uri);
         if (mimeType != null) {
             String topLevelType = mimeType.substring(0, mimeType.indexOf('/'));
             switch (topLevelType) {
