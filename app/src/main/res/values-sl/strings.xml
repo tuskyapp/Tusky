@@ -485,4 +485,6 @@
 	<item quantity="other">%d sekund</item>
 </plurals>
 
-</resources>
+<string name="pref_title_animate_gif_avatars">Animirane podobe GIF</string>
+
+    </resources>

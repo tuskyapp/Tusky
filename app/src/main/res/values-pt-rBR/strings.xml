@@ -172,7 +172,7 @@
     <string name="app_theme_system">Usar o tema do sistema</string>
     <string name="pref_title_browser_settings">Navegador</string>
     <string name="pref_title_custom_tabs">Usar abas do Chrome</string>
-    <string name="pref_title_hide_follow_button">Esconder botão de composição ao rolar página</string>
+    <string name="pref_title_hide_follow_button">Esconder compositor ao rolar a página</string>
     <string name="pref_title_status_filter">Filtragem da timeline</string>
     <string name="pref_title_status_tabs">Abas</string>
     <string name="pref_title_show_boosts">Mostrar boosts</string>
@@ -436,4 +436,6 @@
 	<item quantity="other">%d segundos</item>
 </plurals>
 
-</resources>
+<string name="pref_title_animate_gif_avatars">Reproduzir GIFs</string>
+
+    </resources>
