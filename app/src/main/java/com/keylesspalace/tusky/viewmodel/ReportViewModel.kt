@@ -1,12 +1,22 @@
 package com.keylesspalace.tusky.viewmodel
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.keylesspalace.tusky.fragment.report.Screen
+import com.keylesspalace.tusky.network.MastodonApi
+import io.reactivex.disposables.CompositeDisposable
 import javax.inject.Inject
 
 /**
  * Created by pandasoft (joelpyska1@gmail.com) on 2019-05-28.
  */
-class ReportViewModel @Inject constructor() : ViewModel() {
+class ReportViewModel @Inject constructor(private val mastodonApi: MastodonApi) : ViewModel() {
+    private val disposables = CompositeDisposable()
+
+    private val navigationMutable = MutableLiveData<Screen>()
+    val navigation: LiveData<Screen> = navigationMutable
+
     private var statusContent: String? = null
     private var statusId: String? = null
     lateinit var accountUserName: String
@@ -19,4 +29,15 @@ class ReportViewModel @Inject constructor() : ViewModel() {
         this.statusContent = statusContent
     }
 
+    override fun onCleared() {
+        super.onCleared()
+        disposables.clear()
+    }
+
+    fun navigateTo(screen: Screen){
+        navigationMutable.value = screen
+    }
+    fun navigated(){
+        navigationMutable.value = null
+    }
 }

@@ -6,8 +6,11 @@ import android.os.Bundle
 import android.text.Spanned
 import android.view.MenuItem
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import com.keylesspalace.tusky.fragment.report.ReportFirstFragment
+import com.keylesspalace.tusky.di.ViewModelFactory
+import com.keylesspalace.tusky.fragment.report.ReportStatusesFragment
+import com.keylesspalace.tusky.fragment.report.Screen
 import com.keylesspalace.tusky.util.HtmlUtils
 import com.keylesspalace.tusky.viewmodel.ReportViewModel
 import dagger.android.AndroidInjector
@@ -21,11 +24,14 @@ class Report2Activity : BaseActivity(), HasSupportFragmentInjector {
     @Inject
     lateinit var dispatchingFragmentInjector: DispatchingAndroidInjector<Fragment>
 
+    @Inject
+    lateinit var viewModelFactory: ViewModelFactory
+
     private lateinit var viewModel: ReportViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel = ViewModelProviders.of(this)[ReportViewModel::class.java]
+        viewModel = ViewModelProviders.of(this, viewModelFactory)[ReportViewModel::class.java]
         val accountId = intent?.getStringExtra(ACCOUNT_ID)
         val accountUserName = intent?.getStringExtra(ACCOUNT_USERNAME)
         if (accountId.isNullOrBlank() || accountUserName.isNullOrBlank()) {
@@ -49,19 +55,35 @@ class Report2Activity : BaseActivity(), HasSupportFragmentInjector {
         }
 
         if (savedInstanceState == null) {
-            showFirstPage()
+            viewModel.navigateTo(Screen.Statuses)
         }
-
+        subscribeObservables()
     }
 
-    private fun showFragment(fragment: Fragment, isMain: Boolean = false) {
+    private fun subscribeObservables() {
+        viewModel.navigation.observe(this, Observer { screen->
+            if (screen!=null){
+                viewModel.navigated()
+                when(screen){
+                    Screen.Statuses -> showFirstPage()
+                    Screen.Note -> TODO()
+                    Screen.Done -> TODO()
+                    Screen.Back -> onBackPressed()
+                }
+            }
+        })
+    }
+
+    private fun showFragment(fragment: Fragment, isMainScreen: Boolean = false) {
         val fragmentTransaction = supportFragmentManager.beginTransaction()
         fragmentTransaction.replace(R.id.fragment_container, fragment)
+        if (!isMainScreen)
+            fragmentTransaction.addToBackStack(fragment.javaClass.simpleName)
         fragmentTransaction.commit()
     }
 
     private fun showFirstPage() {
-        showFragment(ReportFirstFragment.newInstance(), true)
+        showFragment(ReportStatusesFragment.newInstance(), true)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
