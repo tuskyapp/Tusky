@@ -91,10 +91,6 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
     private var statusBarColorTransparent: Int = 0
     @ColorInt
     private var statusBarColorOpaque: Int = 0
-    @ColorInt
-    private var textColorPrimary: Int = 0
-    @ColorInt
-    private var textColorSecondary: Int = 0
 
     private var avatarSize: Float = 0f
     @Px
@@ -142,8 +138,6 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
         backgroundColor = ThemeUtils.getColor(this, android.R.attr.colorBackground)
         statusBarColorTransparent = ContextCompat.getColor(this, R.color.header_background_filter)
         statusBarColorOpaque = ThemeUtils.getColor(this, R.attr.colorPrimaryDark)
-        textColorPrimary = ThemeUtils.getColor(this, android.R.attr.textColorPrimary)
-        textColorSecondary = ThemeUtils.getColor(this, android.R.attr.textColorSecondary)
         avatarSize = resources.getDimension(R.dimen.account_activity_avatar_size)
         titleVisibleHeight = resources.getDimensionPixelSize(R.dimen.account_activity_scroll_title_visible_height)
     }
@@ -247,13 +241,11 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
             override fun onOffsetChanged(appBarLayout: AppBarLayout, verticalOffset: Int) {
 
                 @AttrRes val attribute = if (titleVisibleHeight + verticalOffset < 0) {
-                    accountToolbar.setTitleTextColor(textColorPrimary)
-                    accountToolbar.setSubtitleTextColor(textColorSecondary)
+                    supportActionBar?.setDisplayShowTitleEnabled(true)
 
                     R.attr.account_toolbar_icon_tint_collapsed
                 } else {
-                    accountToolbar.setTitleTextColor(Color.TRANSPARENT)
-                    accountToolbar.setSubtitleTextColor(Color.TRANSPARENT)
+                    supportActionBar?.setDisplayShowTitleEnabled(false)
 
                     R.attr.account_toolbar_icon_tint_uncollapsed
                 }
@@ -414,10 +406,13 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
      */
     private fun updateToolbar() {
         loadedAccount?.let { account ->
+
+            val emojifiedName = CustomEmojiHelper.emojifyString(account.name, account.emojis, accountToolbar)
+
             try {
-                supportActionBar?.title = EmojiCompat.get().process(account.name)
+                supportActionBar?.title = EmojiCompat.get().process(emojifiedName)
             } catch (e: IllegalStateException) {
-                supportActionBar?.title = account.name
+                supportActionBar?.title = emojifiedName
             }
             supportActionBar?.subtitle = String.format(getString(R.string.status_username_format), account.username)
         }
