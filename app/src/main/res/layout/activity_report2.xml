@@ -9,10 +9,12 @@
 
     <include layout="@layout/toolbar_basic" />
 
-    <FrameLayout
-        android:id="@+id/fragment_container"
+    <com.keylesspalace.tusky.view.ExtendedViewPager
+        android:id="@+id/wizard"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:overScrollMode="never"
+        app:swipeable="false"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

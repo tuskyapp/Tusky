@@ -7,5 +7,6 @@ enum class Screen {
     Statuses,
     Note,
     Done,
-    Back
+    Back,
+    Finish
 }

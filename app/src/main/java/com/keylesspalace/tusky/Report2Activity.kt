@@ -8,6 +8,7 @@ import android.view.MenuItem
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import com.keylesspalace.tusky.adapter.ReportPagerAdapter
 import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.fragment.report.ReportStatusesFragment
 import com.keylesspalace.tusky.fragment.report.Screen
@@ -16,6 +17,7 @@ import com.keylesspalace.tusky.viewmodel.ReportViewModel
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.support.HasSupportFragmentInjector
+import kotlinx.android.synthetic.main.activity_report2.*
 import kotlinx.android.synthetic.main.toolbar_basic.*
 import javax.inject.Inject
 
@@ -52,44 +54,61 @@ class Report2Activity : BaseActivity(), HasSupportFragmentInjector {
             bar.title = getString(R.string.report_username_format, viewModel.accountUserName)
             bar.setDisplayHomeAsUpEnabled(true)
             bar.setDisplayShowHomeEnabled(true)
+            bar.setHomeAsUpIndicator(R.drawable.ic_close_24dp)
         }
-
+        initViewPager()
         if (savedInstanceState == null) {
             viewModel.navigateTo(Screen.Statuses)
         }
         subscribeObservables()
     }
 
+    private fun initViewPager() {
+        wizard.adapter = ReportPagerAdapter(supportFragmentManager)
+    }
+
     private fun subscribeObservables() {
-        viewModel.navigation.observe(this, Observer { screen->
-            if (screen!=null){
+        viewModel.navigation.observe(this, Observer { screen ->
+            if (screen != null) {
                 viewModel.navigated()
-                when(screen){
-                    Screen.Statuses -> showFirstPage()
-                    Screen.Note -> TODO()
-                    Screen.Done -> TODO()
-                    Screen.Back -> onBackPressed()
+                when (screen) {
+                    Screen.Statuses -> showStatusesPage()
+                    Screen.Note -> showNotesPage()
+                    Screen.Done -> showDonePage()
+                    Screen.Back -> showPreviousScreen()
+                    Screen.Finish -> closeScreen()
                 }
             }
         })
     }
 
-    private fun showFragment(fragment: Fragment, isMainScreen: Boolean = false) {
-        val fragmentTransaction = supportFragmentManager.beginTransaction()
-        fragmentTransaction.replace(R.id.fragment_container, fragment)
-        if (!isMainScreen)
-            fragmentTransaction.addToBackStack(fragment.javaClass.simpleName)
-        fragmentTransaction.commit()
+    private fun showPreviousScreen() {
+        when (wizard.currentItem) {
+            0 -> closeScreen()
+            1 -> showStatusesPage()
+        }
     }
 
-    private fun showFirstPage() {
-        showFragment(ReportStatusesFragment.newInstance(), true)
+    private fun showDonePage() {
+        wizard.currentItem = 2
+    }
+
+    private fun showNotesPage() {
+        wizard.currentItem = 1
+    }
+
+    private fun closeScreen() {
+        finish()
+    }
+
+    private fun showStatusesPage() {
+        wizard.currentItem = 0
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> {
-                onBackPressed()
+                closeScreen()
                 return true
             }
         }

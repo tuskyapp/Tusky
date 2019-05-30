@@ -12,11 +12,12 @@ import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.viewmodel.ReportViewModel
+import kotlinx.android.synthetic.main.fragment_report_done.*
 import kotlinx.android.synthetic.main.fragment_report_statuses.*
 import javax.inject.Inject
 
 
-class ReportStatusesFragment : Fragment(), Injectable {
+class ReportDoneFragment : Fragment(), Injectable {
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
@@ -31,7 +32,7 @@ class ReportStatusesFragment : Fragment(), Injectable {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_report_statuses, container, false)
+        return inflater.inflate(R.layout.fragment_report_done, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -40,18 +41,14 @@ class ReportStatusesFragment : Fragment(), Injectable {
     }
 
     private fun handleClicks() {
-        buttonCancel.setOnClickListener {
-            viewModel.navigateTo(Screen.Back)
-        }
-
-        buttonContinue.setOnClickListener {
-            viewModel.navigateTo(Screen.Note)
+        buttonDone.setOnClickListener {
+            viewModel.navigateTo(Screen.Finish)
         }
     }
 
     companion object {
         @JvmStatic
-        fun newInstance() = ReportStatusesFragment()
+        fun newInstance() = ReportDoneFragment()
     }
 
 }
