@@ -450,9 +450,8 @@
     <string name="description_visiblity_direct">
         Direct
     </string>
-    <string name="description_status">
-        <!-- Display name, cw?, content?, relative date, reposted by?, reposted?, favorited?, username, media?; visibility, fav number?, reblog number?-->
-        %1$s; %2$s; %3$s, %4$s, %5$s; %6$s, %7$s, %8$s, %9$s; %10$s, %11$s, %12$s
+    <string name="description_poll">
+        Poll with choices: %s, %s, %s, %s; %s
     </string>
 
     <string name="hint_list_name">List name</string>
