@@ -505,10 +505,8 @@
         <item quantity="other">%d seconds</item>
     </plurals>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="button_continue">Continue</string>
-    <string name="button_report">Report</string>
+    <string name="button_report">@string/action_report</string>
     <string name="button_back">Back</string>
     <string name="button_done">Done</string>
 
