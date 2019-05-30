@@ -3,9 +3,17 @@ package com.keylesspalace.tusky.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.keylesspalace.tusky.entity.Relationship
 import com.keylesspalace.tusky.fragment.report.Screen
 import com.keylesspalace.tusky.network.MastodonApi
+import com.keylesspalace.tusky.util.Error
+import com.keylesspalace.tusky.util.Loading
+import com.keylesspalace.tusky.util.Resource
+import com.keylesspalace.tusky.util.Success
+import io.reactivex.Single
+import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
 /**
@@ -17,6 +25,12 @@ class ReportViewModel @Inject constructor(private val mastodonApi: MastodonApi) 
     private val navigationMutable = MutableLiveData<Screen>()
     val navigation: LiveData<Screen> = navigationMutable
 
+    private val muteStateMutable = MutableLiveData<Resource<Boolean>>()
+    val muteState: LiveData<Resource<Boolean>> = muteStateMutable
+
+    private val blockStateMutable = MutableLiveData<Resource<Boolean>>()
+    val blockState: LiveData<Resource<Boolean>> = blockStateMutable
+
     private var statusContent: String? = null
     private var statusId: String? = null
     lateinit var accountUserName: String
@@ -27,6 +41,7 @@ class ReportViewModel @Inject constructor(private val mastodonApi: MastodonApi) 
         this.accountUserName = userName
         this.statusId = statusId
         this.statusContent = statusContent
+        obtainRelationship()
     }
 
     override fun onCleared() {
@@ -34,10 +49,88 @@ class ReportViewModel @Inject constructor(private val mastodonApi: MastodonApi) 
         disposables.clear()
     }
 
-    fun navigateTo(screen: Screen){
+    fun navigateTo(screen: Screen) {
         navigationMutable.value = screen
     }
-    fun navigated(){
+
+    fun navigated() {
         navigationMutable.value = null
     }
+
+    fun blockUser() {
+        //TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    private fun obtainRelationship() {
+        val ids = listOf(accountId)
+        muteStateMutable.value = Loading()
+        blockStateMutable.value = Loading()
+        disposables.add(
+                mastodonApi.relationshipsObservable(ids)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(
+                                { data ->
+                                    updateRelationship(data.getOrNull(0))
+
+                                },
+                                { error ->
+                                    updateRelationship(null)
+                                }
+                        ))
+    }
+
+
+    private fun updateRelationship(relationship: Relationship?) {
+        if (relationship != null) {
+            muteStateMutable.value = Success(relationship.muting)
+            blockStateMutable.value = Success(relationship.blocking)
+        } else {
+            muteStateMutable.value = Error(false)
+            blockStateMutable.value = Error(false)
+        }
+    }
+
+    fun toggleMute() {
+        val single: Single<Relationship> = if (muteStateMutable.value?.data == true) {
+            mastodonApi.unmuteAccountObservable(accountId)
+        } else {
+            mastodonApi.muteAccountObservable(accountId)
+        }
+        muteStateMutable.value = Loading()
+        disposables.add(
+                single
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(
+                                { relationship ->
+                                    muteStateMutable.value = Success(relationship?.muting == true)
+                                },
+                                { error ->
+                                    muteStateMutable.value = Error(false, error.message)
+                                }
+                        ))
+    }
+
+    fun toggleBlock() {
+        val single: Single<Relationship> = if (blockStateMutable.value?.data == true) {
+            mastodonApi.unblockAccountObservable(accountId)
+        } else {
+            mastodonApi.blockAccountObservable(accountId)
+        }
+        blockStateMutable.value = Loading()
+        disposables.add(
+                single
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(
+                                { relationship ->
+                                    blockStateMutable.value = Success(relationship?.blocking == true)
+                                },
+                                { error ->
+                                    blockStateMutable.value = Error(false, error.message)
+                                }
+                        ))
+    }
+
 }

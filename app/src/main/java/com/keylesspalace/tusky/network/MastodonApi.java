@@ -390,4 +390,19 @@ public interface MastodonApi {
             @Path("id") String id,
             @Field("choices[]") List<Integer> choices
     );
+
+    @POST("api/v1/accounts/{id}/block")
+    Single<Relationship> blockAccountObservable(@Path("id") String accountId);
+
+    @POST("api/v1/accounts/{id}/unblock")
+    Single<Relationship> unblockAccountObservable(@Path("id") String accountId);
+
+    @POST("api/v1/accounts/{id}/mute")
+    Single<Relationship> muteAccountObservable(@Path("id") String accountId);
+
+    @POST("api/v1/accounts/{id}/unmute")
+    Single<Relationship> unmuteAccountObservable(@Path("id") String accountId);
+
+    @GET("api/v1/accounts/relationships")
+    Single<List<Relationship>> relationshipsObservable(@Query("id[]") List<String> accountIds);
 }

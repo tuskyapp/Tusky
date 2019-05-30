@@ -6,14 +6,15 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.di.ViewModelFactory
+import com.keylesspalace.tusky.util.Loading
 import com.keylesspalace.tusky.viewmodel.ReportViewModel
 import kotlinx.android.synthetic.main.fragment_report_done.*
-import kotlinx.android.synthetic.main.fragment_report_statuses.*
 import javax.inject.Inject
 
 
@@ -38,11 +39,39 @@ class ReportDoneFragment : Fragment(), Injectable {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         handleClicks()
+        subscribeObservables()
+    }
+
+    private fun subscribeObservables() {
+        viewModel.muteState.observe(viewLifecycleOwner, Observer {
+            buttonMute.visibility = if (it !is Loading) View.VISIBLE else View.INVISIBLE
+            progressMute.visibility = if (it is Loading) View.VISIBLE else View.INVISIBLE
+            buttonMute.setText( when{
+                it.data == true -> R.string.action_unmute
+                else -> R.string.action_mute
+            })
+        })
+
+        viewModel.blockState.observe(viewLifecycleOwner, Observer {
+            buttonBlock.visibility = if (it !is Loading) View.VISIBLE else View.INVISIBLE
+            progressBlock.visibility = if (it is Loading) View.VISIBLE else View.INVISIBLE
+            buttonBlock.setText( when{
+                it.data == true -> R.string.action_unblock
+                else -> R.string.action_block
+            })
+        })
+
     }
 
     private fun handleClicks() {
         buttonDone.setOnClickListener {
             viewModel.navigateTo(Screen.Finish)
+        }
+        buttonBlock.setOnClickListener {
+            viewModel.toggleBlock()
+        }
+        buttonMute.setOnClickListener {
+            viewModel.toggleMute()
         }
     }
 
