@@ -10,14 +10,14 @@
         android:id="@+id/checkMark"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="56dp"
+        android:layout_marginStart="48dp"
         android:background="@drawable/report_success_background"
-        app:layout_constraintDimensionRatio="H,1:1"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintDimensionRatio="W,1:1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintWidth_default="percent"
-        app:layout_constraintWidth_percent="0.5" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHeight_default="percent"
+        app:layout_constraintHeight_percent="0.5" />
 
     <ImageView
         android:layout_width="0dp"
@@ -29,7 +29,7 @@
         app:layout_constraintHeight_percent="0.3"
         app:layout_constraintStart_toStartOf="@id/checkMark"
         app:layout_constraintTop_toTopOf="@id/checkMark"
-        app:layout_constraintWidth_percent="0.3"
+        app:layout_constraintHeight_default="percent"
         tools:ignore="ContentDescription" />
 
     <TextView
@@ -41,9 +41,10 @@
         android:textColor="?android:textColorPrimary"
         android:textSize="?attr/status_text_large"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/checkMark"
-        app:layout_constraintWidth_percent="0.9" />
+        app:layout_constraintStart_toEndOf="@id/checkMark"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginStart="48dp"
+        android:layout_marginEnd="16dp"/>
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/buttonMute"
@@ -53,8 +54,8 @@
         android:minWidth="@dimen/min_report_button_width"
         android:text="@string/action_mute"
         app:layout_constraintBottom_toTopOf="@id/buttonBlock"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/textReported"
+        app:layout_constraintStart_toStartOf="@id/textReported"
         app:layout_constraintTop_toBottomOf="@id/textReported"
         app:layout_constraintVertical_chainStyle="packed" />
 
@@ -76,8 +77,8 @@
         android:minWidth="@dimen/min_report_button_width"
         android:text="@string/action_block"
         app:layout_constraintBottom_toTopOf="@id/buttonDone"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/textReported"
+        app:layout_constraintStart_toStartOf="@id/textReported"
         app:layout_constraintTop_toBottomOf="@id/buttonMute"
         app:layout_constraintVertical_chainStyle="packed" />
 
@@ -100,8 +101,8 @@
         android:minWidth="@dimen/min_report_button_width"
         android:text="@string/button_done"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/textReported"
+        app:layout_constraintStart_toStartOf="@id/textReported"
         app:layout_constraintTop_toBottomOf="@id/buttonBlock"
         app:layout_constraintVertical_chainStyle="packed" />
 

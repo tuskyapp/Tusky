@@ -38,6 +38,7 @@ class ReportDoneFragment : Fragment(), Injectable {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        textReported.text = getString(R.string.report_sent_success,viewModel.accountUserName)
         handleClicks()
         subscribeObservables()
     }

@@ -509,5 +509,6 @@
     <string name="button_report">@string/action_report</string>
     <string name="button_back">Back</string>
     <string name="button_done">Done</string>
+    <string name="report_sent_success">Successfully reported @%s</string>
 
 </resources>
