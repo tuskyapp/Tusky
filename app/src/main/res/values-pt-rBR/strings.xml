@@ -437,4 +437,6 @@
 
 <string name="pref_title_animate_gif_avatars">Reproduzir GIFs</string>
 
+    <string name="description_poll">Enquete com as opções: %s, %s, %s, %s; %s</string>
+
     </resources>
