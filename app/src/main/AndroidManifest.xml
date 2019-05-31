@@ -119,7 +119,7 @@
         <activity android:name=".ModalTimelineActivity" />
         <activity android:name=".LicenseActivity" />
         <activity android:name=".FiltersActivity" />
-        <activity android:name=".Report2Activity"
+        <activity android:name=".components.report.Report2Activity"
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
 
         <receiver android:name=".receiver.NotificationClearBroadcastReceiver" />

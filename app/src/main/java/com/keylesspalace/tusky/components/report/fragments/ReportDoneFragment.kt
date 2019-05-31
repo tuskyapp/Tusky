@@ -1,4 +1,4 @@
-package com.keylesspalace.tusky.fragment.report
+package com.keylesspalace.tusky.components.report.fragments
 
 
 import android.os.Bundle
@@ -13,7 +13,8 @@ import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.util.Loading
-import com.keylesspalace.tusky.viewmodel.ReportViewModel
+import com.keylesspalace.tusky.components.report.ReportViewModel
+import com.keylesspalace.tusky.components.report.Screen
 import kotlinx.android.synthetic.main.fragment_report_done.*
 import javax.inject.Inject
 

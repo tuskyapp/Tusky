@@ -5,6 +5,7 @@ package com.keylesspalace.tusky.di
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.keylesspalace.tusky.components.conversation.ConversationsViewModel
+import com.keylesspalace.tusky.components.report.ReportViewModel
 import com.keylesspalace.tusky.viewmodel.*
 import com.keylesspalace.tusky.viewmodel.ListsViewModel
 import dagger.Binds

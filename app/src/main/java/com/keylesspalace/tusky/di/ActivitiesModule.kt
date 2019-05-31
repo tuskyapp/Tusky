@@ -16,6 +16,7 @@
 package com.keylesspalace.tusky.di
 
 import com.keylesspalace.tusky.*
+import com.keylesspalace.tusky.components.report.Report2Activity
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 

@@ -5,7 +5,7 @@
     android:id="@+id/activity_view_thread"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Report2Activity">
+    tools:context=".components.report.Report2Activity">
 
     <include layout="@layout/toolbar_basic" />
 

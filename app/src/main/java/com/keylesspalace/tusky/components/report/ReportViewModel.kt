@@ -1,10 +1,9 @@
-package com.keylesspalace.tusky.viewmodel
+package com.keylesspalace.tusky.components.report
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.keylesspalace.tusky.entity.Relationship
-import com.keylesspalace.tusky.fragment.report.Screen
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.Error
 import com.keylesspalace.tusky.util.Loading
@@ -47,6 +46,9 @@ class ReportViewModel @Inject constructor(private val mastodonApi: MastodonApi) 
         this.accountId = accountId
         this.accountUserName = userName
         this.statusId = statusId
+        statusId?.let {
+            selectedIds.add(it)
+        }
         this.statusContent = statusContent
         obtainRelationship()
     }

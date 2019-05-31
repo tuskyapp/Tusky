@@ -1,4 +1,4 @@
-package com.keylesspalace.tusky
+package com.keylesspalace.tusky.components.report
 
 import android.content.Context
 import android.content.Intent
@@ -8,12 +8,11 @@ import android.view.MenuItem
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import com.keylesspalace.tusky.adapter.ReportPagerAdapter
+import com.keylesspalace.tusky.BaseActivity
+import com.keylesspalace.tusky.R
+import com.keylesspalace.tusky.components.report.adapter.ReportPagerAdapter
 import com.keylesspalace.tusky.di.ViewModelFactory
-import com.keylesspalace.tusky.fragment.report.ReportStatusesFragment
-import com.keylesspalace.tusky.fragment.report.Screen
 import com.keylesspalace.tusky.util.HtmlUtils
-import com.keylesspalace.tusky.viewmodel.ReportViewModel
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.support.HasSupportFragmentInjector

@@ -44,8 +44,7 @@ import com.keylesspalace.tusky.BottomSheetActivity;
 import com.keylesspalace.tusky.ComposeActivity;
 import com.keylesspalace.tusky.MainActivity;
 import com.keylesspalace.tusky.R;
-import com.keylesspalace.tusky.Report2Activity;
-import com.keylesspalace.tusky.ReportActivity;
+import com.keylesspalace.tusky.components.report.Report2Activity;
 import com.keylesspalace.tusky.ViewMediaActivity;
 import com.keylesspalace.tusky.ViewTagActivity;
 import com.keylesspalace.tusky.db.AccountEntity;
@@ -55,7 +54,6 @@ import com.keylesspalace.tusky.entity.Attachment;
 import com.keylesspalace.tusky.entity.Status;
 import com.keylesspalace.tusky.network.MastodonApi;
 import com.keylesspalace.tusky.network.TimelineCases;
-import com.keylesspalace.tusky.util.HtmlUtils;
 import com.keylesspalace.tusky.viewdata.AttachmentViewData;
 
 import java.util.LinkedHashSet;

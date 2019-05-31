@@ -21,9 +21,9 @@ import com.keylesspalace.tusky.components.conversation.ConversationsFragment
 import com.keylesspalace.tusky.fragment.*
 import com.keylesspalace.tusky.fragment.preference.AccountPreferencesFragment
 import com.keylesspalace.tusky.fragment.preference.NotificationPreferencesFragment
-import com.keylesspalace.tusky.fragment.report.ReportDoneFragment
-import com.keylesspalace.tusky.fragment.report.ReportNoteFragment
-import com.keylesspalace.tusky.fragment.report.ReportStatusesFragment
+import com.keylesspalace.tusky.components.report.fragments.ReportDoneFragment
+import com.keylesspalace.tusky.components.report.fragments.ReportNoteFragment
+import com.keylesspalace.tusky.components.report.fragments.ReportStatusesFragment
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
