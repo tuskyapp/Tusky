@@ -510,5 +510,8 @@
     <string name="button_back">Back</string>
     <string name="button_done">Done</string>
     <string name="report_sent_success">Successfully reported @%s</string>
+    <string name="hint_additional_info">Additional Info</string>
+    <string name="report_remote_instance">Report to remote instance</string>
+    <string name="failed_report">Failed to report</string>
 
 </resources>

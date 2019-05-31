@@ -405,4 +405,13 @@ public interface MastodonApi {
 
     @GET("api/v1/accounts/relationships")
     Single<List<Relationship>> relationshipsObservable(@Query("id[]") List<String> accountIds);
+
+    @FormUrlEncoded
+    @POST("api/v1/reports")
+    Single<ResponseBody> reportObservable(
+            @Field("account_id") String accountId,
+            @Field("status_ids[]") List<String> statusIds,
+            @Field("comment") String comment,
+            @Field("forward") Boolean isNotifyRemote);
+
 }

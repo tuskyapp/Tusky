@@ -31,6 +31,13 @@ class ReportViewModel @Inject constructor(private val mastodonApi: MastodonApi) 
     private val blockStateMutable = MutableLiveData<Resource<Boolean>>()
     val blockState: LiveData<Resource<Boolean>> = blockStateMutable
 
+    private val reportingStateMutable = MutableLiveData<Resource<Boolean>>()
+    var reportingState: LiveData<Resource<Boolean>> = reportingStateMutable
+
+    val selectedIds = HashSet<String>()
+    var reportNote: String? = null
+    var isRemoteNotify = false
+
     private var statusContent: String? = null
     private var statusId: String? = null
     lateinit var accountUserName: String
@@ -57,9 +64,6 @@ class ReportViewModel @Inject constructor(private val mastodonApi: MastodonApi) 
         navigationMutable.value = null
     }
 
-    fun blockUser() {
-        //TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
 
     private fun obtainRelationship() {
         val ids = listOf(accountId)
@@ -131,6 +135,23 @@ class ReportViewModel @Inject constructor(private val mastodonApi: MastodonApi) 
                                     blockStateMutable.value = Error(false, error.message)
                                 }
                         ))
+    }
+
+    fun doReport() {
+        reportingStateMutable.value = Loading()
+        disposables.add(
+                mastodonApi.reportObservable(accountId, selectedIds.toList(), reportNote, isRemoteNotify)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(
+                                {
+                                    reportingStateMutable.value = Success(true)
+                                },
+                                { error ->
+                                    reportingStateMutable.value = Error(cause = error)
+                                }
+                        )
+        )
     }
 
 }
