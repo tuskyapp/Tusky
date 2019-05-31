@@ -281,11 +281,6 @@ public final class MainActivity extends BottomSheetActivity implements ActionBut
             }
         }
 
-        return super.onKeyDown(keyCode, event);
-    }
-
-    @Override
-    public boolean onKeyShortcut(int keyCode, KeyEvent event) {
         if (event.isCtrlPressed() || event.isShiftPressed()) {
             // FIXME: blackberry keyONE raises SHIFT key event even CTRL IS PRESSED
             switch (keyCode) {
@@ -297,7 +292,8 @@ public final class MainActivity extends BottomSheetActivity implements ActionBut
                 }
             }
         }
-        return super.onKeyShortcut(keyCode, event);
+
+        return super.onKeyDown(keyCode, event);
     }
 
     @Override

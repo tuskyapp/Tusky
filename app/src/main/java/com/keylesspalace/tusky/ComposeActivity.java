@@ -540,7 +540,7 @@ public final class ComposeActivity
             }
         });
 
-        textEditor.setOnKeyListener((view, keyCode, event) -> this.onKeyShortcut(keyCode, event));
+        textEditor.setOnKeyListener((view, keyCode, event) -> this.onKeyDown(keyCode, event));
 
         textEditor.setAdapter(
                 new ComposeAutoCompleteAdapter(this));
@@ -1645,7 +1645,7 @@ public final class ComposeActivity
 
 
     @Override
-    public boolean onKeyShortcut(int keyCode, KeyEvent event) {
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
         Log.d(TAG, event.toString());
         if (event.isCtrlPressed()) {
             if (keyCode == KeyEvent.KEYCODE_ENTER) {
