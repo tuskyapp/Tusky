@@ -19,10 +19,8 @@
     <string name="error_media_upload_image_or_video">No se pueden adjuntar imágenes y vídeos en el mismo estado.</string>
     <string name="error_media_upload_sending">La subida falló.</string>
     <string name="error_report_too_few_statuses">Debe seleccionar al menos un estado.</string>
-    <string name="error_invalid_regex">Expresión regular inválida</string>
     <string name="error_sender_account_gone">Error al publicar.</string>
     <string name="title_home">Inicio</string>
-    <string name="title_advanced">Avanzado</string>
     <string name="title_notifications">Notificaciones</string>
     <string name="title_public_local">Local</string>
     <string name="title_public_federated">Federada</string>
@@ -151,10 +149,8 @@
     <string name="visibility_unlisted">Oculto: No mostrar en historias públicas</string>
     <string name="visibility_private">Privado: Sólo visible para seguidores</string>
     <string name="visibility_direct">Directo: Sólo visible para cuentas mencionadas</string>
-    <string name="pref_title_notification_settings">Notificaciones</string>
     <string name="pref_title_edit_notification_settings">Editar notificaciones</string>
     <string name="pref_title_notifications_enabled">Notificaciones</string>
-    <string name="pref_summary_notifications">para la cuenta %1$s</string>
     <string name="pref_title_notification_alerts">Alertas</string>
     <string name="pref_title_notification_alert_sound">Notificar con sonido</string>
     <string name="pref_title_notification_alert_vibrate">Notificar con vibración</string>
@@ -197,10 +193,6 @@
     <string name="status_text_size_medium">Medio</string>
     <string name="status_text_size_large">Grande</string>
     <string name="status_text_size_largest">Enorme</string>
-    <string name="pref_media_display">Pantalla multimedia</string>
-    <string name="media_hide_sensitive">Ocultar medios marcados como sensibles</string>
-    <string name="media_hide_none">Mostrar siempre los medios marcados como sensibles</string>
-    <string name="media_hide_all">Ocultar siempre todos los medios</string>
     <string name="notification_mention_name">Nuevas menciones</string>
     <string name="notification_mention_descriptions">Notificaciones de nuevas menciones</string>
     <string name="notification_follow_name">Nuevos seguidores</string>

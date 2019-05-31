@@ -18,7 +18,6 @@
     <string name="error_media_upload_sending">பதிவேற்றம் தோல்வியுற்றது.</string>
     <string name="error_report_too_few_statuses">குறைந்தபட்சம் ஒரு நிலையை அறிவிக்க வேண்டும்.</string>
     <string name="title_home">முகப்பு</string>
-    <string name="title_advanced">மேம்பட்ட</string>
     <string name="title_notifications">அறிவிப்புகள்</string>
     <string name="title_public_local">அருகாமயில்</string>
     <string name="title_public_federated">ஒருங்கிணைந்த</string>
@@ -125,10 +124,8 @@
     <string name="visibility_unlisted">அனைவருக்கும் காட்டாதே</string>
     <string name="visibility_private">பின்பற்றுபவர்களுக்கு மட்டும் காண்பி</string>
     <string name="visibility_direct">குறிபிடபட்டுள்ள பயனர்களுக்கு மட்டும் காண்பி</string>
-    <string name="pref_title_notification_settings">அறிவிப்புகள்</string>
     <string name="pref_title_edit_notification_settings">அறிவிப்புகளை திருத்த</string>
     <string name="pref_title_notifications_enabled">அறிவிப்புகள்</string>
-    <string name="pref_summary_notifications">%1$s கணக்குக்கு</string>
     <string name="pref_title_notification_alerts">எச்சரிக்கைகள்</string>
     <string name="pref_title_notification_alert_sound">ஒலி மூலம் தெரிவிக்கவும்</string>
     <string name="pref_title_notification_alert_vibrate">அதிர்வுடன் தெரிவிக்கவும்</string>

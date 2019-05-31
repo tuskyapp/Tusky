@@ -18,10 +18,8 @@
     <string name="error_media_upload_image_or_video">تصاویر و فیلم‌ها هر دو نمی‌توانند به یک وضعیت ضمیمه شوند.</string>
     <string name="error_media_upload_sending">بارگذاری ناموفق بود</string>
     <string name="error_report_too_few_statuses">حداقل یک وضعیت باید گزارش شود</string>
-    <string name="error_invalid_regex">عبارت با قاعده نامعتبر است</string>
     <string name="error_sender_account_gone">خطا در ارسال بوق</string>
     <string name="title_home">خانه</string>
-    <string name="title_advanced">پیشرفته</string>
     <string name="title_notifications">اعلان‌ها</string>
     <string name="title_public_local">محلی</string>
     <string name="title_public_federated">فدرال</string>
@@ -133,10 +131,8 @@
     <string name="visibility_unlisted">خارج از لیست: در خط زمانی عمومی نشان نده</string>
     <string name="visibility_private">تنها دنبال‌کنندگان:پست فقط به دنبال‌کنندگان</string>
     <string name="visibility_direct">مستقیم:پست فقط برای کاربران صدا زده شده</string>
-    <string name="pref_title_notification_settings">اعلان‌ها</string>
     <string name="pref_title_edit_notification_settings">ویرایش اعلان‌ها</string>
     <string name="pref_title_notifications_enabled">اعلان‌ها</string>
-    <string name="pref_summary_notifications">برای حساب %1$s</string>
     <string name="pref_title_notification_alerts">هشدارها</string>
     <string name="pref_title_notification_alert_sound">اعلان با صدا</string>
     <string name="pref_title_notification_alert_vibrate">اعلان با لرزش</string>
@@ -179,10 +175,6 @@
     <string name="status_text_size_medium">متوسط</string>
     <string name="status_text_size_large">بزرگ</string>
     <string name="status_text_size_largest">بزرگ‌ترین</string>
-    <string name="pref_media_display">نمایش رسانه</string>
-    <string name="media_hide_sensitive">رسانه‌های نشان‌گذاری شده به عنوان حساس را پنهان کن</string>
-    <string name="media_hide_none">رسانه‌های نشانه‌گذاری شده به عنوان حساس را همواره نشان بده</string>
-    <string name="media_hide_all">همه رسانه‌ها را همواره پنهان کن</string>
     <string name="notification_mention_name">صدا زدن جدید</string>
     <string name="notification_mention_descriptions">هشدار در مورد صدازدن جدید</string>
     <string name="notification_follow_name">دنبال‌کننده‌های جدید</string>

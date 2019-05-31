@@ -18,10 +18,8 @@
     <string name="error_media_upload_image_or_video">Se pòt pas ajustar imatges e una vidèo dins lo meteis estatut.</string>
     <string name="error_media_upload_sending">Fracàs en mandar.</string>
     <string name="error_report_too_few_statuses">Cal almens denonciar un estatut.</string>
-    <string name="error_invalid_regex">Expression regulara invalida</string>
     <string name="error_sender_account_gone">Error en enviar lo tut.</string>
     <string name="title_home">Acuèlh</string>
-    <string name="title_advanced">Advançat</string>
     <string name="title_notifications">Notificacions</string>
     <string name="title_public_federated">Federacion</string>
     <string name="title_view_thread">Tut</string>
@@ -136,10 +134,8 @@
     <string name="visibility_unlisted">Pas-listada : es pas visibla a las cronologias publicas</string>
     <string name="visibility_private">Solament seguidors : pas que visibla pels vòstres seguidors</string>
     <string name="visibility_direct">Dirècta : pas que visibla al monde mencionats</string>
-    <string name="pref_title_notification_settings">Notificacions</string>
     <string name="pref_title_edit_notification_settings">Modificar las notificacions</string>
     <string name="pref_title_notifications_enabled">Notificacions</string>
-    <string name="pref_summary_notifications">pel compte %1$s</string>
     <string name="pref_title_notification_alerts">Alèrtas</string>
     <string name="pref_title_notification_alert_sound">Notificar amb un son</string>
     <string name="pref_title_notification_alert_vibrate">Notificra amb una vibracion</string>
@@ -313,8 +309,6 @@
     <string name="pref_default_media_sensitivity">Totjorn marcar los mèdias coma sensibles</string>
     <string name="pref_failed_to_sync">Fracàs de la sincronizacion dels paramètres</string>
 
-    <string name="pref_media_display">Afichatge dels mèdias</string>
-
     <string name="about_tusky_version">Tusky %s</string>
     <string name="abbreviated_days_ago">%dd</string>
     <string name="abbreviated_hours_ago">%dh</string>
@@ -387,10 +381,6 @@
     <string name="dialog_redraft_toot_warning">Suprimir e reformular aqueste tut \?</string>
 
     <string name="app_theme_system">Utilizar lo tèma sistèma</string>
-
-    <string name="media_hide_sensitive">Amagar los mèdias marcats coma sensibles</string>
-    <string name="media_hide_none">Totjorn mostrar los mèdias marcat coma sensibles</string>
-    <string name="media_hide_all">Totjorn amagar los mèdias</string>
 
     <string name="notifications_clear">Netejar</string>
     <string name="notifications_apply_filter">Filtrar</string>

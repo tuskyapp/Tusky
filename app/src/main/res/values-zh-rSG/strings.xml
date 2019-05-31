@@ -19,11 +19,9 @@
     <string name="error_media_upload_image_or_video">无法在嘟文中同时插入视频和图片</string>
     <string name="error_media_upload_sending">媒体文件上传失败</string>
     <string name="error_report_too_few_statuses">至少要报告 1 则嘟文</string>
-    <string name="error_invalid_regex">正则表达式无效</string>
     <string name="error_sender_account_gone">嘟文发送时出错</string>
 
     <string name="title_home">主页</string>
-    <string name="title_advanced">高级</string>
     <string name="title_notifications">通知</string>
     <string name="title_public_local">本站时间轴</string>
     <string name="title_public_federated">跨站公共时间轴</string>
@@ -187,10 +185,8 @@
     <string name="visibility_private">仅关注者：只有经过你确认后关注你的用户可见</string>
     <string name="visibility_direct">私信：只有被提及的用户可见</string>
 
-    <string name="pref_title_notification_settings">通知</string>
     <string name="pref_title_edit_notification_settings">通知设置</string>
     <string name="pref_title_notifications_enabled">通知</string>
-    <string name="pref_summary_notifications">帐号 %1$s</string>
     <string name="pref_title_notification_alerts">提醒</string>
     <string name="pref_title_notification_alert_sound">通知铃声</string>
     <string name="pref_title_notification_alert_vibrate">振动</string>
@@ -243,12 +239,6 @@
     <string name="status_text_size_medium">标准</string>
     <string name="status_text_size_large">大</string>
     <string name="status_text_size_largest">最大</string>
-
-    <string name="pref_media_display">媒体显示</string>
-
-    <string name="media_hide_sensitive">自动隐藏敏感媒体</string>
-    <string name="media_hide_none">总是显示敏感媒体</string>
-    <string name="media_hide_all">总是隐藏所有媒体</string>
 
     <string name="notification_mention_name">提及</string>
     <string name="notification_mention_descriptions">当有用户在嘟文中提及我时</string>

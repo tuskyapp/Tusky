@@ -1561,7 +1561,7 @@ public final class ComposeActivity
             switch (topLevelType) {
                 case "video": {
                     if (mediaSize > STATUS_VIDEO_SIZE_LIMIT) {
-                        displayTransientError(R.string.error_image_upload_size);
+                        displayTransientError(R.string.error_video_upload_size);
                         return;
                     }
                     if (mediaQueued.size() > 0

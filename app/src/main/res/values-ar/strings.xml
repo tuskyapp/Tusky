@@ -19,10 +19,8 @@
     <string name="error_media_upload_image_or_video">لا يمكنك إرفاق كلا من الصور و الفيديوهات في نفس المنشور.</string>
     <string name="error_media_upload_sending">اخفقت عملية الرفع.</string>
     <string name="error_report_too_few_statuses">يجب على الأقل اختيار منشور واحد للإبلاغ عنه.</string>
-    <string name="error_invalid_regex">العبارة المنطقية خاطئة</string>
     <string name="error_sender_account_gone">خطأ عند إرسال التبويق.</string>
     <string name="title_home">الرئيسية</string>
-    <string name="title_advanced">الخيارات المتقدمة</string>
     <string name="title_notifications">الاشعارات</string>
     <string name="title_public_local">المحلية</string>
     <string name="title_public_federated">الفدرالية</string>
@@ -159,10 +157,8 @@
     <string name="visibility_unlisted">غير مدرج : لا يُعرَض على الخيوط العمومية</string>
     <string name="visibility_private">لمتابعيك فقط : يُنشر إلى متابعيك فقط</string>
     <string name="visibility_direct">مباشر : يُسرسَل إلى المستخدمين المشار إليهم فقط</string>
-    <string name="pref_title_notification_settings">الاشعارات</string>
     <string name="pref_title_edit_notification_settings">تعديل الاشعارات</string>
     <string name="pref_title_notifications_enabled">الإخطارات</string>
-    <string name="pref_summary_notifications">للحساب %1$s</string>
     <string name="pref_title_notification_alerts">التنبيهات</string>
     <string name="pref_title_notification_alert_sound">إعلام بالصوت</string>
     <string name="pref_title_notification_alert_vibrate">إعلام بالاهتزار</string>
@@ -208,10 +204,6 @@
     <string name="status_text_size_medium">متوسط</string>
     <string name="status_text_size_large">عريض</string>
     <string name="status_text_size_largest">عريض جدا</string>
-    <string name="pref_media_display">عرض الوسائط</string>
-    <string name="media_hide_sensitive">إخفاء الوسائط المعينة كحساسة</string>
-    <string name="media_hide_none">اظهار الوسائط المعينة كمحتوى حساس دائمًا</string>
-    <string name="media_hide_all">إخفاء كافة الوسائط دائما</string>
     <string name="notification_mention_name">إشارات جديدة</string>
     <string name="notification_mention_descriptions">الإخطارات عندما يشار إليك</string>
     <string name="notification_follow_name">متابِعون جدد</string>

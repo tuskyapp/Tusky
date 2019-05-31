@@ -20,11 +20,9 @@
     <string name="error_media_upload_image_or_video">Изображения и видео не могут быть прикрекплены к статусу одновременно.</string>
     <string name="error_media_upload_sending">Загрузка не удалась.</string>
     <string name="error_report_too_few_statuses">Должен быть выбран хотя бы один статус.</string>
-    <string name="error_invalid_regex">Неправильное регулярное выражение</string>
     <string name="error_sender_account_gone">Ошибка при отправке поста.</string>
 
     <string name="title_home">Главная</string>
-    <string name="title_advanced">Дополнительно</string>
     <string name="title_notifications">Уведомления</string>
     <string name="title_public_local">Локальная лента</string>
     <string name="title_public_federated">Глобальная лента</string>
@@ -184,10 +182,8 @@
     <string name="visibility_private">Приватный: Показать только подписчикам</string>
     <string name="visibility_direct">Направленный: Показать только упомянутым</string>
 
-    <string name="pref_title_notification_settings">Уведомления</string>
     <string name="pref_title_edit_notification_settings">Уведомления</string>
     <string name="pref_title_notifications_enabled">Push-уведомления</string>
-    <string name="pref_summary_notifications">для аккаунта %1$s</string>
     <string name="pref_title_notification_alerts">Предупреждения</string>
     <string name="pref_title_notification_alert_sound">Звуковые уведомления</string>
     <string name="pref_title_notification_alert_vibrate">Использовать вибрацию</string>
@@ -239,12 +235,6 @@
     <string name="status_text_size_medium">Средний</string>
     <string name="status_text_size_large">Большой</string>
     <string name="status_text_size_largest">Огромный</string>
-
-    <string name="pref_media_display">Отображение медиафайлов</string>
-
-    <string name="media_hide_sensitive">Скрывать чувствительные медиафайлы</string>
-    <string name="media_hide_none">Всегда показывать чувствительные медиафайлы</string>
-    <string name="media_hide_all">Всегда скрывать все медиафайлы</string>
 
     <string name="notification_mention_name">Упоминания</string>
     <string name="notification_mention_descriptions">Уведомлять о новых упоминаниях</string>
