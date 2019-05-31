@@ -280,6 +280,19 @@ public final class MainActivity extends BottomSheetActivity implements ActionBut
                 return true;
             }
         }
+
+        if (event.isCtrlPressed() || event.isShiftPressed()) {
+            // FIXME: blackberry keyONE raises SHIFT key event even CTRL IS PRESSED
+            switch (keyCode) {
+                case KeyEvent.KEYCODE_N: {
+                    // open compose activity by pressing SHIFT + N (or CTRL + N)
+                    Intent composeIntent = new Intent(getApplicationContext(), ComposeActivity.class);
+                    startActivity(composeIntent);
+                    return true;
+                }
+            }
+        }
+
         return super.onKeyDown(keyCode, event);
     }
 

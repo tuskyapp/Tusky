@@ -47,6 +47,7 @@ import android.text.TextWatcher;
 import android.text.style.URLSpan;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -538,6 +539,8 @@ public final class ComposeActivity
                 updateVisibleCharactersLeft();
             }
         });
+
+        textEditor.setOnKeyListener((view, keyCode, event) -> this.onKeyDown(keyCode, event));
 
         textEditor.setAdapter(
                 new ComposeAutoCompleteAdapter(this));
@@ -1624,6 +1627,7 @@ public final class ComposeActivity
         return super.onOptionsItemSelected(item);
     }
 
+
     @Override
     public void onBackPressed() {
         // Acting like a teen: deliberately ignoring parent.
@@ -1637,6 +1641,21 @@ public final class ComposeActivity
         }
 
         handleCloseButton();
+    }
+
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        Log.d(TAG, event.toString());
+        if (event.isCtrlPressed()) {
+            if (keyCode == KeyEvent.KEYCODE_ENTER) {
+                // send toot by pressing CTRL + ENTER
+                this.onSendClicked();
+                return true;
+            }
+        }
+
+        return super.onKeyDown(keyCode, event);
     }
 
     private void handleCloseButton() {
