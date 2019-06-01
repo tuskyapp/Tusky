@@ -31,8 +31,8 @@ data class Status(
         val emojis: List<Emoji>,
         @SerializedName("reblogs_count") val reblogsCount: Int,
         @SerializedName("favourites_count") val favouritesCount: Int,
-        var reblogged: Boolean = false,
-        var favourited: Boolean = false,
+        var reblogged: Boolean,
+        var favourited: Boolean,
         var sensitive: Boolean,
         @SerializedName("spoiler_text") val spoilerText: String,
         val visibility: Visibility,
@@ -40,7 +40,8 @@ data class Status(
         val mentions: Array<Mention>,
         val application: Application?,
         var pinned: Boolean?,
-        val poll: Poll?
+        val poll: Poll?,
+        val card: Card?
 ) {
 
     val actionableId: String
@@ -120,45 +121,17 @@ data class Status(
     }
 
 
-    class Mention {
-        var id: String? = null
+    data class Mention (
+        val id: String,
+        val url: String,
+        @SerializedName("acct") val username: String,
+        @SerializedName("username") val localUsername: String
+    )
 
-        var url: String? = null
-
-        @SerializedName("acct")
-        var username: String? = null
-
-        @SerializedName("username")
-        var localUsername: String? = null
-
-      override fun equals(other: Any?): Boolean {
-        if (this === other) return true
-        if (javaClass != other?.javaClass) return false
-
-        other as Mention
-
-        if (id != other.id) return false
-        if (url != other.url) return false
-        if (username != other.username) return false
-        if (localUsername != other.localUsername) return false
-
-        return true
-      }
-
-      override fun hashCode(): Int {
-        var result = id?.hashCode() ?: 0
-        result = 31 * result + (url?.hashCode() ?: 0)
-        result = 31 * result + (username?.hashCode() ?: 0)
-        result = 31 * result + (localUsername?.hashCode() ?: 0)
-        return result
-      }
-
-    }
-
-    class Application {
-        var name: String? = null
-        var website: String? = null
-    }
+    data class Application (
+        val name: String,
+        val website: String
+    )
 
     companion object {
         const val MAX_MEDIA_ATTACHMENTS = 4
