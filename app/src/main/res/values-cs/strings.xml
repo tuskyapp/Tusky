@@ -437,4 +437,8 @@
 	<item quantity="other">%d sekund</item>
 </plurals>
 
-</resources>
+<string name="pref_title_animate_gif_avatars">Animovat avatary GIF</string>
+
+    <string name="description_poll">Anketa s volbami: %s, %s, %s, %s; %s</string>
+
+    </resources>
