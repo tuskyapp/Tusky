@@ -2,13 +2,15 @@ package com.keylesspalace.tusky.components.report
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
+import androidx.paging.PagedList
+import com.keylesspalace.tusky.components.conversation.ConversationEntity
+import com.keylesspalace.tusky.components.report.adapter.StatusesRepository
 import com.keylesspalace.tusky.entity.Relationship
+import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.network.MastodonApi
-import com.keylesspalace.tusky.util.Error
-import com.keylesspalace.tusky.util.Loading
-import com.keylesspalace.tusky.util.Resource
-import com.keylesspalace.tusky.util.Success
+import com.keylesspalace.tusky.util.*
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -18,7 +20,9 @@ import javax.inject.Inject
 /**
  * Created by pandasoft (joelpyska1@gmail.com) on 2019-05-28.
  */
-class ReportViewModel @Inject constructor(private val mastodonApi: MastodonApi) : ViewModel() {
+class ReportViewModel @Inject constructor(
+        private val mastodonApi: MastodonApi,
+        private val statusesRepository: StatusesRepository) : ViewModel() {
     private val disposables = CompositeDisposable()
 
     private val navigationMutable = MutableLiveData<Screen>()
@@ -32,6 +36,12 @@ class ReportViewModel @Inject constructor(private val mastodonApi: MastodonApi) 
 
     private val reportingStateMutable = MutableLiveData<Resource<Boolean>>()
     var reportingState: LiveData<Resource<Boolean>> = reportingStateMutable
+
+    private val repoResult = MutableLiveData<BiListing<Status>>()
+    val statuses: LiveData<PagedList<Status>> = Transformations.switchMap(repoResult) { it.pagedList }
+    val networkStateAfter: LiveData<NetworkState> = Transformations.switchMap(repoResult) { it.networkStateAfter }
+    val networkStateBefore: LiveData<NetworkState> = Transformations.switchMap(repoResult) { it.networkStateBefore }
+    val networkStateRefresh: LiveData<NetworkState> = Transformations.switchMap(repoResult) { it.refreshState }
 
     val selectedIds = HashSet<String>()
     var reportNote: String? = null
@@ -51,6 +61,7 @@ class ReportViewModel @Inject constructor(private val mastodonApi: MastodonApi) 
         }
         this.statusContent = statusContent
         obtainRelationship()
+        repoResult.value = statusesRepository.getStatuses(accountId, statusId, disposables)
     }
 
     override fun onCleared() {
@@ -154,6 +165,14 @@ class ReportViewModel @Inject constructor(private val mastodonApi: MastodonApi) 
                                 }
                         )
         )
+    }
+
+    fun retryStatusLoad() {
+        repoResult.value?.retry?.invoke()
+    }
+
+    fun refreshStatuses() {
+        repoResult.value?.refresh?.invoke()
     }
 
 }

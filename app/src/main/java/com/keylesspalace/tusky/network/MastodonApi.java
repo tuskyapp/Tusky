@@ -414,4 +414,18 @@ public interface MastodonApi {
             @Field("comment") String comment,
             @Field("forward") Boolean isNotifyRemote);
 
+    @GET("api/v1/accounts/{id}/statuses")
+    Single<List<Status>> accountStatusesObservable(
+            @Path("id") String accountId,
+            @Query("max_id") String maxId,
+            @Query("since_id") String sinceId,
+            @Query("limit") Integer limit,
+            @Nullable @Query("exclude_replies") Boolean excludeReplies,
+            @Nullable @Query("only_media") Boolean onlyMedia,
+            @Nullable @Query("pinned") Boolean pinned);
+
+
+    @GET("api/v1/statuses/{id}")
+    Single<Status> statusObservable(@Path("id") String statusId);
+
 }

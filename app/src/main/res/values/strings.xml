@@ -513,5 +513,6 @@
     <string name="hint_additional_info">Additional Info</string>
     <string name="report_remote_instance">Report to remote instance</string>
     <string name="failed_report">Failed to report</string>
+    <string name="failed_fetch_statuses">Failed to fetch statuses</string>
 
 </resources>
