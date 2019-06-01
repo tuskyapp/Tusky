@@ -120,7 +120,7 @@ class ReportStatusesFragment : Fragment(), Injectable {
     }
 
     private fun showError(@Suppress("UNUSED_PARAMETER") msg: String?) {
-        if (snackbarErrorRetry?.isShown!=true) {
+        if (snackbarErrorRetry?.isShown != true) {
             snackbarErrorRetry = Snackbar.make(swipeRefreshLayout, R.string.failed_fetch_statuses, Snackbar.LENGTH_INDEFINITE)
             snackbarErrorRetry?.setAction(R.string.action_retry) {
                 viewModel.retryStatusLoad()
@@ -136,10 +136,9 @@ class ReportStatusesFragment : Fragment(), Injectable {
         }
 
         buttonContinue.setOnClickListener {
-            if (viewModel.selectedIds.isEmpty()){
+            if (viewModel.selectedIds.isEmpty()) {
                 Snackbar.make(swipeRefreshLayout, R.string.error_report_too_few_statuses, Snackbar.LENGTH_LONG).show()
-            }
-            else {
+            } else {
                 viewModel.navigateTo(Screen.Note)
             }
         }

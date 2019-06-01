@@ -28,7 +28,7 @@ class ReportDoneFragment : Fragment(), Injectable {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel = ViewModelProviders.of(requireActivity(),viewModelFactory)[ReportViewModel::class.java]
+        viewModel = ViewModelProviders.of(requireActivity(), viewModelFactory)[ReportViewModel::class.java]
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -39,7 +39,7 @@ class ReportDoneFragment : Fragment(), Injectable {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        textReported.text = getString(R.string.report_sent_success,viewModel.accountUserName)
+        textReported.text = getString(R.string.report_sent_success, viewModel.accountUserName)
         handleClicks()
         subscribeObservables()
     }
@@ -48,7 +48,7 @@ class ReportDoneFragment : Fragment(), Injectable {
         viewModel.muteState.observe(viewLifecycleOwner, Observer {
             buttonMute.visibility = if (it !is Loading) View.VISIBLE else View.INVISIBLE
             progressMute.visibility = if (it is Loading) View.VISIBLE else View.INVISIBLE
-            buttonMute.setText( when{
+            buttonMute.setText(when {
                 it.data == true -> R.string.action_unmute
                 else -> R.string.action_mute
             })
@@ -57,7 +57,7 @@ class ReportDoneFragment : Fragment(), Injectable {
         viewModel.blockState.observe(viewLifecycleOwner, Observer {
             buttonBlock.visibility = if (it !is Loading) View.VISIBLE else View.INVISIBLE
             progressBlock.visibility = if (it is Loading) View.VISIBLE else View.INVISIBLE
-            buttonBlock.setText( when{
+            buttonBlock.setText(when {
                 it.data == true -> R.string.action_unblock
                 else -> R.string.action_block
             })

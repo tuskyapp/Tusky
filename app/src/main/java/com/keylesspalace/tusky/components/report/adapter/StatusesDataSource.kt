@@ -48,22 +48,23 @@ class StatusesDataSource(private val accountId: String,
             }
         }
     }
+
     @SuppressLint("CheckResult")
     override fun loadInitial(params: LoadInitialParams<String>, callback: LoadInitialCallback<Status>) {
-        networkStateAfter.postValue( NetworkState.LOADED)
+        networkStateAfter.postValue(NetworkState.LOADED)
         networkStateBefore.postValue(NetworkState.LOADED)
         retryAfter = null
         retryBefore = null
         retryInitial = null
         initialLoad.postValue(NetworkState.LOADING)
-                mastodonApi.statusObservable(params.requestedInitialKey).zipWith(
-                    mastodonApi.accountStatusesObservable(accountId,  params.requestedInitialKey,  null, params.requestedLoadSize-1, null, null, null),
-                        BiFunction { status: Status, list: List<Status> ->
-                            val ret = ArrayList<Status>()
-                            ret.add(status)
-                            ret.addAll(list)
-                            return@BiFunction ret
-                        })
+        mastodonApi.statusObservable(params.requestedInitialKey).zipWith(
+                mastodonApi.accountStatusesObservable(accountId, params.requestedInitialKey, null, params.requestedLoadSize - 1, null, null, null),
+                BiFunction { status: Status, list: List<Status> ->
+                    val ret = ArrayList<Status>()
+                    ret.add(status)
+                    ret.addAll(list)
+                    return@BiFunction ret
+                })
                 .doOnSubscribe {
                     disposables.add(it)
                 }
@@ -74,7 +75,7 @@ class StatusesDataSource(private val accountId: String,
                         },
                         {
                             retryInitial = {
-                                loadInitial(params,callback)
+                                loadInitial(params, callback)
                             }
                             initialLoad.postValue(NetworkState.error(it.message))
                         }
@@ -85,7 +86,7 @@ class StatusesDataSource(private val accountId: String,
     override fun loadAfter(params: LoadParams<String>, callback: LoadCallback<Status>) {
         networkStateAfter.postValue(NetworkState.LOADING)
         retryAfter = null
-        mastodonApi.accountStatusesObservable(accountId, params.key,  null, params.requestedLoadSize, null, null, null)
+        mastodonApi.accountStatusesObservable(accountId, params.key, null, params.requestedLoadSize, null, null, null)
                 .doOnSubscribe {
                     disposables.add(it)
                 }
@@ -96,17 +97,18 @@ class StatusesDataSource(private val accountId: String,
                         },
                         {
                             retryAfter = {
-                                loadAfter(params,callback)
+                                loadAfter(params, callback)
                             }
                             networkStateAfter.postValue(NetworkState.error(it.message))
                         }
-                )    }
+                )
+    }
 
     @SuppressLint("CheckResult")
     override fun loadBefore(params: LoadParams<String>, callback: LoadCallback<Status>) {
         networkStateBefore.postValue(NetworkState.LOADING)
         retryBefore = null
-        mastodonApi.accountStatusesObservable(accountId, null,  params.key, params.requestedLoadSize, null, null, null)
+        mastodonApi.accountStatusesObservable(accountId, null, params.key, params.requestedLoadSize, null, null, null)
                 .doOnSubscribe {
                     disposables.add(it)
                 }
@@ -117,7 +119,7 @@ class StatusesDataSource(private val accountId: String,
                         },
                         {
                             retryBefore = {
-                                loadBefore(params,callback)
+                                loadBefore(params, callback)
                             }
                             networkStateBefore.postValue(NetworkState.error(it.message))
                         }

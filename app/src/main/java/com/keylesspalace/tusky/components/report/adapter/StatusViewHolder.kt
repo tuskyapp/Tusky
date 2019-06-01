@@ -11,7 +11,7 @@ class StatusViewHolder(itemView: View, private val checkedChange: (String, Boole
     init {
         itemView.statusSelection.setOnCheckedChangeListener { _, isChecked ->
             status?.id?.let { statusId ->
-                checkedChange(statusId,isChecked)
+                checkedChange(statusId, isChecked)
             }
         }
     }

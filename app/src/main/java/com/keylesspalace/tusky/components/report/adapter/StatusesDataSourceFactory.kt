@@ -15,7 +15,7 @@ class StatusesDataSourceFactory(
         private val retryExecutor: Executor) : DataSource.Factory<String, Status>() {
     val sourceLiveData = MutableLiveData<StatusesDataSource>()
     override fun create(): DataSource<String, Status> {
-        val source = StatusesDataSource(accountId,mastodonApi,disposables,retryExecutor)
+        val source = StatusesDataSource(accountId, mastodonApi, disposables, retryExecutor)
         sourceLiveData.postValue(source)
         return source
     }

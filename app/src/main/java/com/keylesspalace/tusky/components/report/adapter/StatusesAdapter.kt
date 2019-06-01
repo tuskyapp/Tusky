@@ -51,8 +51,8 @@ class StatusesAdapter(private val useAbsoluteTime: Boolean,
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        differ.getItem(position)?.let { status->
-            (holder as? StatusViewHolder)?.bind(status,checkedStatuses.contains(status.id))
+        differ.getItem(position)?.let { status ->
+            (holder as? StatusViewHolder)?.bind(status, checkedStatuses.contains(status.id))
         }
 
     }
