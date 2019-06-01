@@ -373,7 +373,6 @@
     <string name="description_visiblity_unlisted">Pas listat</string>
     <string name="description_visiblity_private">Seguidors</string>
     <string name="description_visiblity_direct">Dirècte</string>
-    <string name="description_status"> <!-- Nom d’afichatge, cw \?, contengut \?, data relativa, repartejat per \?, repartajat \?, aimat \?, nom d’utilizaire, mèdia \?; visibilitat, nombre de fav \?, nombre de partatge \?--> %1$s; %2$s; %3$s, %4$s, %5$s; %6$s, %7$s, %8$s, %9$s; %10$s, %11$s, %12$s </string>
 
     <string name="hint_list_name">Nom de la lista</string>
 

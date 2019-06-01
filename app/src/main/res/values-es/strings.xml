@@ -424,7 +424,6 @@
 
     <string name="action_open_reblogger">Abrir autor del impulso</string>
     <string name="action_open_reblogged_by">Mostrar impulsos</string>
-    <string name="description_status"> <!-- Display name, cw\?, content\?, relative date, reposted by\?, reposted\?, favorited\?, username, media\?; visibility, fav number\?, reblog number\?--> %1$s; %2$s; %3$s, %4$s, %5$s; %6$s, %7$s, %8$s, %9$s; %10$s, %11$s, %12$s </string>
 
     <string name="poll_option_format"> <!-- 15% vote for this! --> &lt;b&gt;%1$d%%&lt;/b&gt; %2$s</string>
 

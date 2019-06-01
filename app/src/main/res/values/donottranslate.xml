@@ -99,4 +99,10 @@
         <item>ja</item>
     </string-array>
 
+
+    <string name="description_status" translatable="false">
+        <!-- Display name, cw?, content?, poll? relative date, reposted by?, reposted?, favorited?, username, media?; visibility, fav number?, reblog number?-->
+        %1$s; %2$s; %3$s, %13$s %4$s, %5$s; %6$s, %7$s, %8$s, %9$s; %10$s, %11$s, %12$s
+    </string>
+
 </resources>

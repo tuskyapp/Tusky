@@ -172,7 +172,7 @@
     <string name="app_theme_system">Usar o tema do sistema</string>
     <string name="pref_title_browser_settings">Navegador</string>
     <string name="pref_title_custom_tabs">Usar abas do Chrome</string>
-    <string name="pref_title_hide_follow_button">Esconder botão de composição ao rolar página</string>
+    <string name="pref_title_hide_follow_button">Esconder compositor ao rolar a página</string>
     <string name="pref_title_status_filter">Filtragem da timeline</string>
     <string name="pref_title_status_tabs">Abas</string>
     <string name="pref_title_show_boosts">Mostrar boosts</string>
@@ -386,7 +386,6 @@
     <string name="description_status_favourited">Favoritado</string>
     <string name="description_visiblity_unlisted">Não-listado</string>
     <string name="description_visiblity_direct">Direta</string>
-    <string name="description_status"> <!-- Display name, cw\?, content\?, relative date, reposted by\?, reposted\?, favorited\?, username, media\?; visibility, fav number\?, reblog number\?--> %1$s; %2$s; %3$s, %4$s, %5$s; %6$s, %7$s, %8$s, %9$s; %10$s, %11$s, %12$s </string>
 
     <string name="hint_list_name">Nome da lista</string>
 
@@ -436,4 +435,6 @@
 	<item quantity="other">%d segundos</item>
 </plurals>
 
-</resources>
+<string name="pref_title_animate_gif_avatars">Reproduzir GIFs</string>
+
+    </resources>
