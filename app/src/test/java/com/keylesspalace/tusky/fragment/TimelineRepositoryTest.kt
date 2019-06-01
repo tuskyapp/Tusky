@@ -315,7 +315,8 @@ class TimelineRepositoryTest {
                 pinned = false,
                 reblog = null,
                 url = "http://example.com/statuses/$id",
-                poll = null
+                poll = null,
+                card = null
         )
     }
 
