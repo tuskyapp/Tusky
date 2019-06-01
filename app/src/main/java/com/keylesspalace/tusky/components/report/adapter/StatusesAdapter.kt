@@ -47,7 +47,8 @@ class StatusesAdapter(private val useAbsoluteTime: Boolean,
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return StatusViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_report_status, parent, false), checkableCallback)
+        return StatusViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_report_status2, parent, false), checkableCallback,
+                useAbsoluteTime)
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
