@@ -486,4 +486,6 @@
 
 <string name="pref_title_animate_gif_avatars">Animirane podobe GIF</string>
 
+    <string name="description_poll">Anketa z izbiro: %s, %s, %s, %s; %s</string>
+
     </resources>
