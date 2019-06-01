@@ -47,16 +47,14 @@ class StatusViewHolder(itemView: View, private val checkedChange: (String, Boole
     }
 
     private fun getAbsoluteTime(createdAt: Date?): String {
-        val time: String
-        if (createdAt != null) {
+        return if (createdAt != null) {
             if (android.text.format.DateUtils.isToday(createdAt.time)) {
-                time = shortSdf.format(createdAt)
+                shortSdf.format(createdAt)
             } else {
-                time = longSdf.format(createdAt)
+                longSdf.format(createdAt)
             }
         } else {
-            time = "??:??:??"
+            "??:??:??"
         }
-        return time
     }
 }
