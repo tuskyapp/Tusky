@@ -1110,8 +1110,8 @@ public class TimelineFragment extends SFragment implements
             if (status != null
                     && ((status.getInReplyToId() != null && filterRemoveReplies)
                     || (status.getReblog() != null && filterRemoveReblogs)
-                    || (filterRemoveRegex && (filterRemoveRegexMatcher.reset(status.getContent()).find()
-                    || (!status.getSpoilerText().isEmpty() && filterRemoveRegexMatcher.reset(status.getSpoilerText()).find()))))) {
+                    || (filterRemoveRegex && (filterRemoveRegexMatcher.reset(status.getActionableStatus().getContent()).find()
+                    || (!status.getSpoilerText().isEmpty() && filterRemoveRegexMatcher.reset(status.getActionableStatus().getSpoilerText()).find()))))) {
                 it.remove();
             }
         }
