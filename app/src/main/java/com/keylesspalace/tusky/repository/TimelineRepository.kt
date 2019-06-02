@@ -229,7 +229,8 @@ class TimelineRepositoryImpl(
                     mentions = mentions,
                     application = application,
                     pinned = false,
-                    poll = poll
+                    poll = poll,
+                    card = null
             )
         }
         val status = if (reblog != null) {
@@ -254,7 +255,8 @@ class TimelineRepositoryImpl(
                     mentions = arrayOf(),
                     application = null,
                     pinned = false,
-                    poll = null
+                    poll = null,
+                    card = null
             )
         } else {
             Status(
@@ -278,7 +280,8 @@ class TimelineRepositoryImpl(
                     mentions = mentions,
                     application = application,
                     pinned = false,
-                    poll = poll
+                    poll = poll,
+                    card = null
             )
         }
         return Either.Right(status)
