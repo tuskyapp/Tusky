@@ -19,10 +19,8 @@
     <string name="error_media_upload_image_or_video">Immagini e video non possono essere allegati allo stesso stato.</string>
     <string name="error_media_upload_sending">Il caricamento non è riuscito.</string>
     <string name="error_report_too_few_statuses">Almeno uno stato deve essere segnalato.</string>
-    <string name="error_invalid_regex">Espressione regolare non valida</string>
     <string name="error_sender_account_gone">Errore nell\'invio del toot.</string>
     <string name="title_home">Home</string>
-    <string name="title_advanced">Avanzato</string>
     <string name="title_notifications">Notifiche</string>
     <string name="title_public_local">Locale</string>
     <string name="title_public_federated">Federata</string>
@@ -161,10 +159,8 @@
     <string name="visibility_unlisted">Non Elencato: non visibile sulla timeline pubblica e locale</string>
     <string name="visibility_private">Solo Follower: visibile solo dai tuoi follower</string>
     <string name="visibility_direct">Diretto: visibile solo agli utenti menzionati</string>
-    <string name="pref_title_notification_settings">Notifiche</string>
     <string name="pref_title_edit_notification_settings">Modifica Notifiche</string>
     <string name="pref_title_notifications_enabled">Notifiche</string>
-    <string name="pref_summary_notifications">per l\'account %1$s</string>
     <string name="pref_title_notification_alerts">Allarmi</string>
     <string name="pref_title_notification_alert_sound">Notifica con suoneria</string>
     <string name="pref_title_notification_alert_vibrate">Notifica con vibrazione</string>
@@ -210,10 +206,6 @@
     <string name="status_text_size_medium">Normale</string>
     <string name="status_text_size_large">Grande</string>
     <string name="status_text_size_largest">Grandissimo</string>
-    <string name="pref_media_display">Media mostrati</string>
-    <string name="media_hide_sensitive">Nascondi media segnati come sensibili</string>
-    <string name="media_hide_none">Mostra sempre media segnati come sensibili</string>
-    <string name="media_hide_all">Nascondi sempre tutti i media</string>
     <string name="notification_mention_name">Nuove Menzioni</string>
     <string name="notification_mention_descriptions">Notifiche quando qualcuno ti menziona</string>
     <string name="notification_follow_name">Nuove persone che ti seguono</string>

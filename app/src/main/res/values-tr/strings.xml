@@ -19,10 +19,8 @@
     <string name="error_media_upload_image_or_video">Aynı iletiye kem video hem resim eklenemez.</string>
     <string name="error_media_upload_sending">Yükleme başarsız.</string>
     <string name="error_report_too_few_statuses">Her bildirme en azından bir iletiyi işaret etmeli.</string>
-    <string name="error_invalid_regex">Geçersiz düzenli ifade</string>
     <string name="error_sender_account_gone">Toot gönderilirken hata oluştu.</string>
     <string name="title_home">Ana sayfa</string>
-    <string name="title_advanced">Gelişmiş</string>
     <string name="title_notifications">Bildirimler</string>
     <string name="title_public_local">Yerel</string>
     <string name="title_public_federated">Birleşmiş</string>
@@ -150,10 +148,8 @@
     <string name="visibility_unlisted">Saklı: Herkese açık ancak sosyal çizelgesinde çıkmaz</string>
     <string name="visibility_private">Özel: Sadece takipçiler ve bahsedilenlere açık</string>
     <string name="visibility_direct">Direkt: Sadece bahsedilen kullanıcılara açık</string>
-    <string name="pref_title_notification_settings">Bildirimler</string>
     <string name="pref_title_edit_notification_settings">Bildirimleri düzelt</string>
     <string name="pref_title_notifications_enabled">Anlık bildirimler</string>
-    <string name="pref_summary_notifications">hesap için %1$s</string>
     <string name="pref_title_notification_alerts">Uyarılar</string>
     <string name="pref_title_notification_alert_sound">Sesle bildir</string>
     <string name="pref_title_notification_alert_vibrate">Titremeyle bildir</string>
@@ -196,10 +192,6 @@
     <string name="status_text_size_medium">Orta</string>
     <string name="status_text_size_large">Büyük</string>
     <string name="status_text_size_largest">En büyük</string>
-    <string name="pref_media_display">Medya göster</string>
-    <string name="media_hide_sensitive">Hassas olarak işaretlenmiş medyayı gizle</string>
-    <string name="media_hide_none">Hassas olarak işaretlenmiş medyayı göster</string>
-    <string name="media_hide_all">Tüm medyayı gizle</string>
     <string name="notification_mention_name">Yeni Bahsedilenler</string>
     <string name="notification_mention_descriptions">Yeni bahsedilenler hakkında bildirim</string>
     <string name="notification_follow_name">Yeni Takipçiler</string>

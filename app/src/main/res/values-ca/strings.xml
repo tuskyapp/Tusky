@@ -136,7 +136,6 @@
     <string name="visibility_private">Només seguidors: només és visible per al teus seguidors</string>
     <string name="visibility_direct">Directa: només és visible per als usuaris mencionats</string>
 
-    <string name="pref_title_notification_settings">Notificacions</string>
     <string name="pref_title_edit_notification_settings">Edita les notificacions</string>
     <string name="pref_title_notifications_enabled">Notificacions</string>
     <string name="pref_title_notification_alerts">Alertes</string>
@@ -231,7 +230,6 @@
 
 <string name="error_sender_account_gone">Error enviant el toot.</string>
 
-    <string name="title_advanced">Avançat</string>
     <string name="title_tab_preferences">Pestanyes</string>
     <string name="title_licenses">Llicències</string>
 
@@ -245,7 +243,6 @@
     <string name="action_unreblog">Elimineu els preferits</string>
     <string name="error_network">S\'ha produït un error de conexió! Si us plau, comprova la teva conexió!</string>
     <string name="error_video_upload_size">Els fitxers han de tenir menys de 40 MB.</string>
-    <string name="error_invalid_regex">Expressió regular invàlida</string>
     <string name="status_media_hidden_title">Multimèdia amagada</string>
     <string name="status_content_show_less">Amagar</string>
 
@@ -286,7 +283,6 @@
     <string name="dialog_delete_toot_warning">Vols eliminar aquest toot\?</string>
     <string name="dialog_redraft_toot_warning">Esborrar i reescriure aquest toot\?</string>
 
-    <string name="pref_summary_notifications">per el compte %1$s</string>
     <string name="pref_title_notification_filter_poll">Finalització de les enquetes</string>
     <string name="pref_title_app_theme">Tema</string>
     <string name="pref_title_timelines">Cronologia</string>
@@ -314,10 +310,6 @@
     <string name="status_text_size_large">Gran</string>
     <string name="status_text_size_largest">Més grand</string>
 
-    <string name="media_hide_sensitive">Ocultar els mèdia marcats com a sensibles</string>
-    <string name="media_hide_none">Mostrar sempre els mèdia marcats com a sensibles</string>
-    <string name="media_hide_all">Ocultar sempre tots els mèdia</string>
-
     <string name="notification_poll_name">Enquestes</string>
     <string name="pref_title_thread_filter_keywords">Converses</string>
     <string name="filter_addition_dialog_title">Afegir un filtre</string>
@@ -326,7 +318,6 @@
     <string name="add_account_name">Afegir un compte</string>
     <string name="action_open_reblogger">Obre l\'autor de l\'impuls</string>
     <string name="action_open_reblogged_by">Mostra els impulsos</string>
-    <string name="pref_media_display">Pantalla dels mèdia</string>
 
     <string name="notification_poll_description">Notificacions d\'enquestes que han finalitzat</string>
 

@@ -19,10 +19,8 @@
     <string name="error_media_upload_image_or_video">Un même pouet ne peut contenir à la fois une vidéo et une image.</string>
     <string name="error_media_upload_sending">Échec d’envoi du média.</string>
     <string name="error_report_too_few_statuses">Au moins un pouet doit été signalé.</string>
-    <string name="error_invalid_regex">Expression régulière invalide</string>
     <string name="error_sender_account_gone">Erreur lors de l’envoi du pouet.</string>
     <string name="title_home">Accueil</string>
-    <string name="title_advanced">Avancé</string>
     <string name="title_notifications">Notifications</string>
     <string name="title_public_local">Local</string>
     <string name="title_public_federated">Global</string>
@@ -165,10 +163,8 @@
     <string name="visibility_unlisted">Non listé : ne pas afficher dans les fils publics</string>
     <string name="visibility_private">Abonné·e·s uniquement : seul·e·s vos abonné·e·s verront vos statuts</string>
     <string name="visibility_direct">Direct : n’envoyer qu’aux personnes mentionnées</string>
-    <string name="pref_title_notification_settings">Notifications</string>
     <string name="pref_title_edit_notification_settings">Modifier les notifications</string>
     <string name="pref_title_notifications_enabled">Notifications</string>
-    <string name="pref_summary_notifications">pour le compte %1$s</string>
     <string name="pref_title_notification_alerts">Alertes</string>
     <string name="pref_title_notification_alert_sound">Notifier avec un son</string>
     <string name="pref_title_notification_alert_vibrate">Notifier avec une vibration</string>
@@ -214,10 +210,6 @@
     <string name="status_text_size_medium">Moyen</string>
     <string name="status_text_size_large">Grand</string>
     <string name="status_text_size_largest">Plus grand</string>
-    <string name="pref_media_display">Affichage des médias</string>
-    <string name="media_hide_sensitive">Masquer les médias marqués comme sensibles</string>
-    <string name="media_hide_none">Toujours afficher les médias marqués comme sensibles</string>
-    <string name="media_hide_all">Toujours masquer tous les médias</string>
     <string name="notification_mention_name">Nouvelles mentions</string>
     <string name="notification_mention_descriptions">Notifications pour les nouvelles mentions</string>
     <string name="notification_follow_name">Nouveaux abonnés</string>

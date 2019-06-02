@@ -18,10 +18,8 @@
     <string name="error_media_upload_image_or_video">画像と動画を同時に投稿することはできません。</string>
     <string name="error_media_upload_sending">アップロードに失敗しました。</string>
     <string name="error_report_too_few_statuses">少なくとも1つの投稿を報告してください。</string>
-    <string name="error_invalid_regex">無効な正規表現です</string>
     <string name="error_sender_account_gone">トゥート送信時のエラーです。</string>
     <string name="title_home">ホーム</string>
-    <string name="title_advanced">詳細</string>
     <string name="title_notifications">通知</string>
     <string name="title_public_local">ローカル</string>
     <string name="title_public_federated">連合</string>
@@ -154,10 +152,8 @@
     <string name="visibility_unlisted">未収載：公開タイムラインには表示しない</string>
     <string name="visibility_private">フォロワー限定：フォロワーだけに公開</string>
     <string name="visibility_direct">ダイレクト：返信先のユーザーだけに公開</string>
-    <string name="pref_title_notification_settings">通知</string>
     <string name="pref_title_edit_notification_settings">通知を設定</string>
     <string name="pref_title_notifications_enabled">プッシュ通知</string>
-    <string name="pref_summary_notifications">対象: %1$s</string>
     <string name="pref_title_notification_alerts">通知時の動作</string>
     <string name="pref_title_notification_alert_sound">着信音を鳴らす</string>
     <string name="pref_title_notification_alert_vibrate">バイブレーションする</string>
@@ -202,10 +198,6 @@
     <string name="status_text_size_medium">中</string>
     <string name="status_text_size_large">大</string>
     <string name="status_text_size_largest">最大</string>
-    <string name="pref_media_display">メディアの表示</string>
-    <string name="media_hide_sensitive">閲覧注意としてマークされたメディアは隠す</string>
-    <string name="media_hide_none">閲覧注意としてマークされたメディアも常に表示する</string>
-    <string name="media_hide_all">全てのメディアを常に隠す</string>
     <string name="notification_mention_name">新しい返信</string>
     <string name="notification_mention_descriptions">新しい返信の通知</string>
     <string name="notification_follow_name">新しいフォロワー</string>
