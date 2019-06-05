@@ -2,19 +2,18 @@ package com.keylesspalace.tusky.components.report.fragments
 
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-
 import com.keylesspalace.tusky.R
+import com.keylesspalace.tusky.components.report.ReportViewModel
+import com.keylesspalace.tusky.components.report.Screen
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.util.Loading
-import com.keylesspalace.tusky.components.report.ReportViewModel
-import com.keylesspalace.tusky.components.report.Screen
 import kotlinx.android.synthetic.main.fragment_report_done.*
 import javax.inject.Inject
 
@@ -38,7 +37,6 @@ class ReportDoneFragment : Fragment(), Injectable {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
         textReported.text = getString(R.string.report_sent_success, viewModel.accountUserName)
         handleClicks()
         subscribeObservables()
@@ -78,7 +76,6 @@ class ReportDoneFragment : Fragment(), Injectable {
     }
 
     companion object {
-        @JvmStatic
         fun newInstance() = ReportDoneFragment()
     }
 

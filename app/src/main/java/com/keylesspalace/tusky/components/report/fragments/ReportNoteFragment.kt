@@ -11,13 +11,13 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.google.android.material.snackbar.Snackbar
 import com.keylesspalace.tusky.R
+import com.keylesspalace.tusky.components.report.ReportViewModel
+import com.keylesspalace.tusky.components.report.Screen
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.util.Error
 import com.keylesspalace.tusky.util.Loading
 import com.keylesspalace.tusky.util.Success
-import com.keylesspalace.tusky.components.report.ReportViewModel
-import com.keylesspalace.tusky.components.report.Screen
 import kotlinx.android.synthetic.main.fragment_report_note.*
 import java.io.IOException
 import javax.inject.Inject
@@ -42,7 +42,6 @@ class ReportNoteFragment : Fragment(), Injectable {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
         fillViews()
         handleChanges()
         handleClicks()
@@ -113,7 +112,6 @@ class ReportNoteFragment : Fragment(), Injectable {
     }
 
     companion object {
-        @JvmStatic
         fun newInstance() = ReportNoteFragment()
     }
 

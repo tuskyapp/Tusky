@@ -36,8 +36,7 @@ class Report2Activity : BaseActivity(), HasSupportFragmentInjector {
         val accountId = intent?.getStringExtra(ACCOUNT_ID)
         val accountUserName = intent?.getStringExtra(ACCOUNT_USERNAME)
         if (accountId.isNullOrBlank() || accountUserName.isNullOrBlank()) {
-            finish()
-            return
+            throw IllegalStateException("accountId ($accountId) or accountUserName ($accountUserName) is null")
         }
 
         viewModel.init(accountId, accountUserName,
@@ -48,13 +47,13 @@ class Report2Activity : BaseActivity(), HasSupportFragmentInjector {
 
         setSupportActionBar(toolbar)
 
-        val bar = supportActionBar
-        if (bar != null) {
-            bar.title = getString(R.string.report_username_format, viewModel.accountUserName)
-            bar.setDisplayHomeAsUpEnabled(true)
-            bar.setDisplayShowHomeEnabled(true)
-            bar.setHomeAsUpIndicator(R.drawable.ic_close_24dp)
+        supportActionBar?.apply {
+            title = getString(R.string.report_username_format, viewModel.accountUserName)
+            setDisplayHomeAsUpEnabled(true)
+            setDisplayShowHomeEnabled(true)
+            setHomeAsUpIndicator(R.drawable.ic_close_24dp)
         }
+
         initViewPager()
         if (savedInstanceState == null) {
             viewModel.navigateTo(Screen.Statuses)

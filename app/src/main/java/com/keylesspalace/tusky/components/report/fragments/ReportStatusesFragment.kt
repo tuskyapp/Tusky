@@ -6,8 +6,6 @@ import android.preference.PreferenceManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import android.widget.Toast.makeText
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -24,13 +22,8 @@ import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.entity.Status
-import com.keylesspalace.tusky.interfaces.StatusActionListener
-import com.keylesspalace.tusky.util.NetworkState
 import com.keylesspalace.tusky.util.ThemeUtils
 import kotlinx.android.synthetic.main.fragment_report_statuses.*
-import kotlinx.android.synthetic.main.fragment_report_statuses.recyclerView
-import kotlinx.android.synthetic.main.fragment_report_statuses.swipeRefreshLayout
-import kotlinx.android.synthetic.main.fragment_timeline.*
 import javax.inject.Inject
 
 
@@ -61,7 +54,6 @@ class ReportStatusesFragment : Fragment(), Injectable {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
         handleClicks()
         initStatusesView()
         setupSwipeRefreshLayout()
@@ -145,7 +137,6 @@ class ReportStatusesFragment : Fragment(), Injectable {
     }
 
     companion object {
-        @JvmStatic
         fun newInstance() = ReportStatusesFragment()
     }
 

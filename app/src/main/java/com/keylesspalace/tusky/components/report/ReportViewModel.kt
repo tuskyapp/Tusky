@@ -5,7 +5,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import androidx.paging.PagedList
-import com.keylesspalace.tusky.components.conversation.ConversationEntity
 import com.keylesspalace.tusky.components.report.adapter.StatusesRepository
 import com.keylesspalace.tusky.entity.Relationship
 import com.keylesspalace.tusky.entity.Status
@@ -91,7 +90,7 @@ class ReportViewModel @Inject constructor(
                                     updateRelationship(data.getOrNull(0))
 
                                 },
-                                { error ->
+                                {
                                     updateRelationship(null)
                                 }
                         ))
