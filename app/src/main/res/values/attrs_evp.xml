@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <attr name="swipeable" format="boolean" />
-    <declare-styleable name="ExtendedViewPager">
-        <attr name="swipeable" />
-    </declare-styleable>
-</resources>
