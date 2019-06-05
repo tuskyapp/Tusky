@@ -16,11 +16,11 @@ import com.keylesspalace.tusky.util.HtmlUtils
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.support.HasSupportFragmentInjector
-import kotlinx.android.synthetic.main.activity_report2.*
+import kotlinx.android.synthetic.main.activity_report.*
 import kotlinx.android.synthetic.main.toolbar_basic.*
 import javax.inject.Inject
 
-class Report2Activity : BaseActivity(), HasSupportFragmentInjector {
+class ReportActivity : BaseActivity(), HasSupportFragmentInjector {
 
     @Inject
     lateinit var dispatchingFragmentInjector: DispatchingAndroidInjector<Fragment>
@@ -43,7 +43,7 @@ class Report2Activity : BaseActivity(), HasSupportFragmentInjector {
                 intent?.getStringExtra(STATUS_ID), intent?.getStringExtra(STATUS_CONTENT))
 
 
-        setContentView(R.layout.activity_report2)
+        setContentView(R.layout.activity_report)
 
         setSupportActionBar(toolbar)
 
@@ -121,7 +121,7 @@ class Report2Activity : BaseActivity(), HasSupportFragmentInjector {
 
         @JvmStatic
         fun getIntent(context: Context, accountId: String, userName: String, statusId: String, statusContent: Spanned) =
-                Intent(context, Report2Activity::class.java)
+                Intent(context, ReportActivity::class.java)
                         .apply {
                             putExtra(ACCOUNT_ID, accountId)
                             putExtra(ACCOUNT_USERNAME, userName)

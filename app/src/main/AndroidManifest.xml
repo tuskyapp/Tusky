@@ -101,9 +101,7 @@
         <activity android:name=".AccountListActivity" />
         <activity android:name=".AboutActivity" />
         <activity android:name=".TabPreferenceActivity" />
-        <activity
-            android:name=".ReportActivity"
-            android:windowSoftInputMode="stateVisible|adjustResize" />
+
         <activity
             android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
             android:theme="@style/Base.Theme.AppCompat" />
@@ -119,7 +117,7 @@
         <activity android:name=".ModalTimelineActivity" />
         <activity android:name=".LicenseActivity" />
         <activity android:name=".FiltersActivity" />
-        <activity android:name=".components.report.Report2Activity"
+        <activity android:name=".components.report.ReportActivity"
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
 
         <receiver android:name=".receiver.NotificationClearBroadcastReceiver" />
