@@ -32,7 +32,7 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/layoutAdditionalInfo"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                style="@style/TuskyTextInput"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
@@ -52,12 +52,14 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.checkbox.MaterialCheckBox
+            <CheckBox
                 android:id="@+id/checkIsNotifyRemote"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:text="@string/report_remote_instance"
+                android:textSize="?attr/status_text_medium"
+                app:buttonTint="?attr/compound_button_color"
                 app:layout_constraintEnd_toEndOf="@id/guideEnd"
                 app:useMaterialThemeColors="true"
                 app:layout_constraintStart_toStartOf="@id/guideBegin"
