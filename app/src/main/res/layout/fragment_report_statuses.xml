@@ -48,7 +48,7 @@
         app:layout_constraintStart_toStartOf="@id/swipeRefreshLayout"
         app:layout_constraintTop_toTopOf="@id/swipeRefreshLayout" />
 
-    <com.google.android.material.button.MaterialButton
+    <Button
         android:id="@+id/buttonCancel"
         style="@style/TuskyButton.Outlined"
         android:layout_width="wrap_content"
@@ -59,7 +59,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintEnd_toStartOf="@id/buttonContinue" />
 
-    <com.google.android.material.button.MaterialButton
+    <Button
         android:id="@+id/buttonContinue"
         style="@style/TuskyButton"
         android:layout_width="wrap_content"

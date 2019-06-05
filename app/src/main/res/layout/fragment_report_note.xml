@@ -77,7 +77,7 @@
 
     </ScrollView>
 
-    <com.google.android.material.button.MaterialButton
+    <Button
         android:id="@+id/buttonBack"
         style="@style/TuskyButton.Outlined"
         android:layout_width="wrap_content"
@@ -88,7 +88,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintEnd_toStartOf="@id/buttonReport" />
 
-    <com.google.android.material.button.MaterialButton
+    <Button
         android:id="@+id/buttonReport"
         style="@style/TuskyButton"
         android:layout_width="wrap_content"

@@ -45,7 +45,7 @@
         app:layout_constraintTop_toBottomOf="@id/checkMark"
         app:layout_constraintWidth_percent="0.9" />
 
-    <com.google.android.material.button.MaterialButton
+    <Button
         android:id="@+id/buttonMute"
         style="@style/TuskyButton"
         android:layout_width="wrap_content"
@@ -68,7 +68,7 @@
         app:layout_constraintStart_toStartOf="@id/buttonMute"
         app:layout_constraintTop_toTopOf="@id/buttonMute" />
 
-    <com.google.android.material.button.MaterialButton
+    <Button
         android:id="@+id/buttonBlock"
         style="@style/TuskyButton"
         android:layout_width="wrap_content"
@@ -91,7 +91,7 @@
         app:layout_constraintStart_toStartOf="@id/buttonBlock"
         app:layout_constraintTop_toTopOf="@id/buttonBlock" />
 
-    <com.google.android.material.button.MaterialButton
+    <Button
         android:id="@+id/buttonDone"
         style="@style/TuskyButton"
         android:layout_width="wrap_content"
