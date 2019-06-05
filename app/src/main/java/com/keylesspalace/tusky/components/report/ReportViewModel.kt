@@ -50,6 +50,7 @@ class ReportViewModel @Inject constructor(
     private var statusId: String? = null
     lateinit var accountUserName: String
     lateinit var accountId: String
+    var isRemoteAccount: Boolean = false
 
     fun init(accountId: String, userName: String, statusId: String?, statusContent: String?) {
         this.accountId = accountId
@@ -59,6 +60,8 @@ class ReportViewModel @Inject constructor(
             selectedIds.add(it)
         }
         this.statusContent = statusContent
+        isRemoteAccount = userName.contains('@')
+
         obtainRelationship()
         repoResult.value = statusesRepository.getStatuses(accountId, statusId, disposables)
     }
@@ -152,7 +155,7 @@ class ReportViewModel @Inject constructor(
     fun doReport() {
         reportingStateMutable.value = Loading()
         disposables.add(
-                mastodonApi.reportObservable(accountId, selectedIds.toList(), reportNote, isRemoteNotify)
+                mastodonApi.reportObservable(accountId, selectedIds.toList(), reportNote, if (isRemoteAccount) isRemoteNotify else null)
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(
