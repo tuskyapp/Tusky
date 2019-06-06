@@ -8,4 +8,5 @@ import java.util.ArrayList
 
 interface AdapterClickHandler: LinkListener {
     fun showMedia(v: View?, status: Status?, idx: Int)
+    fun checkedChanged(status: Status, isChecked: Boolean)
 }

@@ -19,12 +19,8 @@ class StatusesAdapter(private val useAbsoluteTime: Boolean,
                       private val clickHandler: AdapterClickHandler)
     : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    private val checkableCallback: (String, Boolean) -> Unit = { statusId: String, isChecked: Boolean ->
-        if (isChecked)
-            checkedStatuses.add(statusId)
-        else
-            checkedStatuses.remove(statusId)
-
+    private val statusForPosition: (Int) -> Status? = { position: Int ->
+        if (position != RecyclerView.NO_POSITION) differ.getItem(position) else null
     }
 
     private val differ: AsyncPagedListDiffer<Status> = AsyncPagedListDiffer(object : ListUpdateCallback {
@@ -50,8 +46,8 @@ class StatusesAdapter(private val useAbsoluteTime: Boolean,
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return StatusViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_report_status, parent, false), checkableCallback,
-                useAbsoluteTime, mediaPreviewEnabled, statusViewState, clickHandler)
+        return StatusViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_report_status, parent, false),
+                useAbsoluteTime, mediaPreviewEnabled, statusViewState, clickHandler, statusForPosition)
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {

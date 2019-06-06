@@ -168,6 +168,9 @@ class ReportStatusesFragment : Fragment(), Injectable, AdapterClickHandler {
             }
         }
     }
+    override fun checkedChanged(status: Status, isChecked: Boolean) {
+        viewModel.changedStatusChecked(status,isChecked)
+    }
 
     override fun onViewAccount(id: String) = startActivity(AccountActivity.getIntent(requireContext(), id))
 

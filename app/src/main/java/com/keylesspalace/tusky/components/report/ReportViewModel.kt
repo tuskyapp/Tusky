@@ -191,4 +191,10 @@ class ReportViewModel @Inject constructor(
         checkUrlMutable.value = null
     }
 
+    fun changedStatusChecked(status: Status, checked: Boolean) {
+        if (checked)
+            selectedIds.add(status.id)
+        else
+            selectedIds.remove(status.id)
+    }
 }
