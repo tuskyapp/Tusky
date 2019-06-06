@@ -18,10 +18,8 @@
     <string name="error_media_upload_image_or_video">Imagens e vídeos não podem ser anexados no mesmo toot.</string>
     <string name="error_media_upload_sending">Falha no envio.</string>
     <string name="error_report_too_few_statuses">Pelo menos um toot deve ser denunciado.</string>
-    <string name="error_invalid_regex">Expressão regular inválida</string>
     <string name="error_sender_account_gone">Erro ao enviar toot.</string>
     <string name="title_home">Página inicial</string>
-    <string name="title_advanced">Avançado</string>
     <string name="title_notifications">Notificações</string>
     <string name="title_public_local">Local</string>
     <string name="title_public_federated">Global</string>
@@ -149,10 +147,8 @@
     <string name="visibility_unlisted">Não-listado: Não postar em timelines públicas</string>
     <string name="visibility_private">Privado: Postar apenas para seguidores</string>
     <string name="visibility_direct">Direto: Postar apenas para usuários mencionados</string>
-    <string name="pref_title_notification_settings">Notificações</string>
     <string name="pref_title_edit_notification_settings">Editar notificações</string>
     <string name="pref_title_notifications_enabled">Notificações</string>
-    <string name="pref_summary_notifications">para a conta %1$s</string>
     <string name="pref_title_notification_alerts">Alertas</string>
     <string name="pref_title_notification_alert_sound">Notificar com som</string>
     <string name="pref_title_notification_alert_vibrate">Notificar com vibração</string>
@@ -195,7 +191,6 @@
     <string name="status_text_size_medium">Médio</string>
     <string name="status_text_size_large">Grande</string>
     <string name="status_text_size_largest">Maior</string>
-    <string name="media_hide_sensitive">Ocultar mídia marcada como sensível</string>
 
     <string name="notification_mention_name">Novas Menções</string>
     <string name="notification_mention_descriptions">Notificar sobre novas menções</string>
@@ -325,11 +320,6 @@
     <string name="pref_title_language">Idioma</string>
     <string name="post_privacy_followers_only">Apenas para seguidores</string>
 
-    <string name="pref_media_display">Visualizador de mídia</string>
-
-    <string name="media_hide_none">Sempre mostrar mídia marcada como sensível</string>
-    <string name="media_hide_all">Sempre ocultar todas as mídias</string>
-
     <string name="notification_poll_name">Enquetes</string>
     <string name="notification_poll_description">Notificar enquetes que já terminaram</string>
 
@@ -436,5 +426,7 @@
 </plurals>
 
 <string name="pref_title_animate_gif_avatars">Reproduzir GIFs</string>
+
+    <string name="description_poll">Enquete com as opções: %s, %s, %s, %s; %s</string>
 
     </resources>

@@ -19,10 +19,8 @@
     <string name="error_media_upload_image_or_video">Bildoj kaj videoj ne povas ambaŭ estas alligita al la sama mesaĝo.</string>
     <string name="error_media_upload_sending">La alŝuto malsukcesis.</string>
     <string name="error_report_too_few_statuses">Almenaŭ unu mesaĝo devas esti signalita.</string>
-    <string name="error_invalid_regex">Nevalida regula esprimo</string>
     <string name="error_sender_account_gone">Eraro dum sendo de la mesaĝo.</string>
     <string name="title_home">Hejmo</string>
-    <string name="title_advanced">Sperta</string>
     <string name="title_notifications">Sciigoj</string>
     <string name="title_public_local">Loka</string>
     <string name="title_public_federated">Fratara</string>
@@ -161,10 +159,8 @@
     <string name="visibility_unlisted">Nelistigita: Ne afiŝi en publikaj tempolinioj</string>
     <string name="visibility_private">Nur por sekvantoj: Afiŝi nur al sekvantoj</string>
     <string name="visibility_direct">Rekta: Afiŝi nur al menciitaj uzantoj</string>
-    <string name="pref_title_notification_settings">Sciigoj</string>
     <string name="pref_title_edit_notification_settings">Sciigoj</string>
     <string name="pref_title_notifications_enabled">Sciigoj</string>
-    <string name="pref_summary_notifications">por konto %1$s</string>
     <string name="pref_title_notification_alerts">Avertoj</string>
     <string name="pref_title_notification_alert_sound">Sciigi per sono</string>
     <string name="pref_title_notification_alert_vibrate">Sciigi per vibro</string>
@@ -210,10 +206,6 @@
     <string name="status_text_size_medium">Meza</string>
     <string name="status_text_size_large">Granda</string>
     <string name="status_text_size_largest">La plej granda</string>
-    <string name="pref_media_display">Apero de aŭdovidaĵoj</string>
-    <string name="media_hide_sensitive">Kaŝi aŭdovidaĵojn markitajn kiel tiklaj</string>
-    <string name="media_hide_none">Ĉiam montri aŭdovidaĵojn markitajn kiel tiklaj</string>
-    <string name="media_hide_all">Ĉiam kaŝi ĉiujn aŭdovidaĵojn</string>
     <string name="notification_mention_name">Novaj mencioj</string>
     <string name="notification_mention_descriptions">Sciigoj pri novajn menciojn</string>
     <string name="notification_follow_name">Novaj sekvantoj</string>

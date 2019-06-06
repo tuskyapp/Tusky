@@ -17,10 +17,8 @@
     <string name="error_media_upload_image_or_video">Do wpisu nie mogą być dołączone jednocześnie obrazy i pliki wideo.</string>
     <string name="error_media_upload_sending">Wysyłanie nie powiodło się.</string>
     <string name="error_report_too_few_statuses">Musisz zgłosić przynajmniej jeden wpis.</string>
-    <string name="error_invalid_regex">Nieprawidłowe wyrażenie regularne.</string>
     <string name="error_sender_account_gone">Wysyłanie wpisu nie powiodło się.</string>
     <string name="title_home">Strona główna</string>
-    <string name="title_advanced">Zaawansowane</string>
     <string name="title_notifications">Powiadomienia</string>
     <string name="title_public_local">Lokalne</string>
     <string name="title_public_federated">Federalne</string>
@@ -135,10 +133,8 @@
     <string name="visibility_unlisted">Niepubliczne: Nie wyświetlaj na publicznych osiach czasu</string>
     <string name="visibility_private">Tylko śledzeni: Wyświetlaj tylko śledzonym</string>
     <string name="visibility_direct">Bezpośrednio: Widoczne tylko dla wspomnianych</string>
-    <string name="pref_title_notification_settings">Powiadomienia</string>
     <string name="pref_title_edit_notification_settings">Edytuj powiadomienia</string>
     <string name="pref_title_notifications_enabled">Powiadomienia</string>
-    <string name="pref_summary_notifications">dla konta %1$s</string>
     <string name="pref_title_notification_alerts">Alerty</string>
     <string name="pref_title_notification_alert_sound">Powiadamiaj dźwiękiem</string>
     <string name="pref_title_notification_alert_vibrate">Powiadamiaj wibracją</string>

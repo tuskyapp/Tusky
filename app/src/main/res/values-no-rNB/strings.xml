@@ -20,11 +20,9 @@
     <string name="error_media_upload_image_or_video">Bilder og videoer kan ikke kobles til samme status.</string>
     <string name="error_media_upload_sending">Opplastingen feilet.</string>
     <string name="error_report_too_few_statuses">Minst en status må rapporteres.</string>
-    <string name="error_invalid_regex">Ugyldig regulært utrykk</string>
     <string name="error_sender_account_gone">En feil oppsto under sending av tootet.</string>
 
     <string name="title_home">Hjem</string>
-    <string name="title_advanced">Avansert</string>
     <string name="title_notifications">Varsler</string>
     <string name="title_public_local">Lokal tidslinje</string>
     <string name="title_public_federated">Forent tidslinje</string>
@@ -184,10 +182,8 @@
     <string name="visibility_private">Vis bare til følgere</string>
     <string name="visibility_direct">Vis bare til nevnte brukere</string>
 
-    <string name="pref_title_notification_settings">Varsler</string>
     <string name="pref_title_edit_notification_settings">Varsler</string>
     <string name="pref_title_notifications_enabled">Varsler</string>
-    <string name="pref_summary_notifications">for konto %1$s</string>
     <string name="pref_title_notification_alerts">Varsling</string>
     <string name="pref_title_notification_alert_sound">Varsle med lyd</string>
     <string name="pref_title_notification_alert_vibrate">Varsle med vibrasjon</string>
@@ -223,8 +219,6 @@
     <string name="pref_failed_to_sync">Synkronisering av innstillinger feilet</string>
 
     <string name="pref_status_text_size">Tekststørrelse</string>
-
-    <string name="pref_media_display">Mediavisning</string>
 
     <string name="notification_follow_name">Nye følgere</string>
     <string name="notification_follow_description">Varsler om nye følgere</string>
@@ -438,10 +432,6 @@
     <string name="status_text_size_large">Stor</string>
     <string name="status_text_size_largest">Størst</string>
 
-    <string name="media_hide_sensitive">Skjul media markert som sensitivt</string>
-    <string name="media_hide_none">Vis alltid media markert som sensitivt</string>
-    <string name="media_hide_all">Skjul alltid media</string>
-
     <string name="pref_title_notification_filter_poll">Avstemminger er avsluttet</string>
     <string name="notification_poll_name">Avstemminger</string>
     <string name="notification_poll_description">Varsler om avstemminger som er avsluttet</string>
@@ -471,5 +461,7 @@
 <string name="compose_preview_image_description">Handlinger for bilde %s</string>
 
     <string name="pref_title_animate_gif_avatars">Animer GIF-avatarer</string>
+
+    <string name="description_poll">Avstemming med valg: %s, %s, %s, %s; %s</string>
 
     </resources>

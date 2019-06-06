@@ -18,10 +18,8 @@
     <string name="error_media_upload_image_or_video">Ni allwch atodi delweddau a fideos i\'r un statws.</string>
     <string name="error_media_upload_sending">Methu uwchlwytho.</string>
     <string name="error_report_too_few_statuses">Rhaid rhoi gwybod am o leiaf un statws.</string>
-    <string name="error_invalid_regex">Mynegiant rheolaidd annilys </string>
     <string name="error_sender_account_gone">Methu tŵtio.</string>
     <string name="title_home">Hafan</string>
-    <string name="title_advanced">Dewisiadau Uwch</string>
     <string name="title_notifications">Hysbysiadau</string>
     <string name="title_public_local">Lleol</string>
     <string name="title_public_federated">Ffedereiddwyd</string>
@@ -140,10 +138,8 @@
     <string name="visibility_unlisted">Heb restru: Peidio â dangos ar ffrydiau cyhoeddus</string>
     <string name="visibility_private">Dilynwyr yn Unig: Postio i ddilynwyr yn unig</string>
     <string name="visibility_direct">Uniongyrchol: Postio i ddefnyddwyr y soniwyd amdanynt yn unig</string>
-    <string name="pref_title_notification_settings">Hysbysiadau</string>
     <string name="pref_title_edit_notification_settings">Golygu Hysbysiadau </string>
     <string name="pref_title_notifications_enabled">Hysbysiadau</string>
-    <string name="pref_summary_notifications">i gyfrif %1$s</string>
     <string name="pref_title_notification_alerts">Negeseuon pwysig</string>
     <string name="pref_title_notification_alert_sound">Cael hysbysiad sŵn </string>
     <string name="pref_title_notification_alert_vibrate">Cael hysbysiad crynu </string>

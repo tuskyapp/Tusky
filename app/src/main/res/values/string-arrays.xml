@@ -23,10 +23,4 @@
         <item>@string/status_text_size_largest</item>
     </string-array>
 
-    <string-array name="media_display_names">
-        <item>@string/media_hide_sensitive</item>
-        <item>@string/media_hide_none</item>
-        <item>@string/media_hide_all</item>
-    </string-array>
-
 </resources>

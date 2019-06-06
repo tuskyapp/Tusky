@@ -26,13 +26,12 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class Attachment(
-        var id: String,
-        var url: String,
+        val id: String,
+        val url: String,
         @SerializedName("preview_url") val previewUrl: String,
-        @SerializedName("text_url") val textUrl: String?,
         val meta: MetaData?,
-        var type: Type,
-        var description: String?
+        val type: Type,
+        val description: String?
 ) : Parcelable {
 
     @JsonAdapter(MediaTypeDeserializer::class)

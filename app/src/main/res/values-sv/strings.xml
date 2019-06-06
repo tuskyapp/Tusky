@@ -19,10 +19,8 @@
     <string name="error_media_upload_image_or_video">Bilder och videoklipp kan inte båda bifogas i samma status.</string>
     <string name="error_media_upload_sending">Uppladdningen misslyckades.</string>
     <string name="error_report_too_few_statuses">Minst en status måste rapporteras.</string>
-    <string name="error_invalid_regex">Ogiltigt reguljärt uttryck</string>
     <string name="error_sender_account_gone">Misslyckades med att få ett inloggningsnamn.</string>
     <string name="title_home">Hem</string>
-    <string name="title_advanced">Avancerat</string>
     <string name="title_notifications">Notifikationer</string>
     <string name="title_public_local">Lokalt</string>
     <string name="title_public_federated">Federerat</string>
@@ -162,10 +160,8 @@
     <string name="visibility_unlisted">Olistad: Visa inte i offentliga tidslinjer</string>
     <string name="visibility_private">Enbart-följare: Ses enbart av följare</string>
     <string name="visibility_direct">Direkt: Skicka endast till nämnda användare</string>
-    <string name="pref_title_notification_settings">Notifieringar</string>
     <string name="pref_title_edit_notification_settings">Redigera notifieringar</string>
     <string name="pref_title_notifications_enabled">Notifieringar</string>
-    <string name="pref_summary_notifications">för konto %1$s</string>
     <string name="pref_title_notification_alerts">Alarm</string>
     <string name="pref_title_notification_alert_sound">Meddela med ljud</string>
     <string name="pref_title_notification_alert_vibrate">Meddela med vibration</string>
@@ -211,10 +207,6 @@
     <string name="status_text_size_medium">Mellan</string>
     <string name="status_text_size_large">Stor</string>
     <string name="status_text_size_largest">Största</string>
-    <string name="pref_media_display">Visa media</string>
-    <string name="media_hide_sensitive">Dölj media som markerat känsligt</string>
-    <string name="media_hide_none">Visa alltid media som är markerat känsligt</string>
-    <string name="media_hide_all">Dölj alltid media</string>
     <string name="notification_mention_name">Nya omnämnanden</string>
     <string name="notification_mention_descriptions">Notifieringar om nya omnämnanden</string>
     <string name="notification_follow_name">Nya följare</string>
@@ -428,5 +420,9 @@
 </plurals>
 
 <string name="compose_preview_image_description">Åtgärder för bild %s</string>
+
+    <string name="pref_title_animate_gif_avatars">Animera profil gifar</string>
+
+    <string name="description_poll">Undersökning med valen: %s, %s, %s, %s; %s</string>
 
     </resources>

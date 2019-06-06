@@ -19,11 +19,9 @@
     <string name="error_media_upload_image_or_video">Slike in videoposnetki ne morejo biti dodani istemu statusu.</string>
     <string name="error_media_upload_sending">Prenos ni uspel.</string>
     <string name="error_report_too_few_statuses">Prijaviti je treba vsaj en status.</string>
-    <string name="error_invalid_regex">Neveljaven regularni izraz</string>
     <string name="error_sender_account_gone">Napaka pri pošiljanju tuta.</string>
 
     <string name="title_home">Domov</string>
-    <string name="title_advanced">Napredno</string>
     <string name="title_notifications">Obvestila</string>
     <string name="title_public_local">Lokalno</string>
     <string name="title_public_federated">Združeno</string>
@@ -185,10 +183,8 @@
     <string name="visibility_private">Samo sledilci: Objavi samo sledilcem</string>
     <string name="visibility_direct">Neposredno: Objavi samo pri omenjenih uporabnikih</string>
 
-    <string name="pref_title_notification_settings">Obvestila</string>
     <string name="pref_title_edit_notification_settings">Obvestila</string>
     <string name="pref_title_notifications_enabled">Obvestila</string>
-    <string name="pref_summary_notifications">za račun %1$s</string>
     <string name="pref_title_notification_alerts">Opozorila</string>
     <string name="pref_title_notification_alert_sound">Obvesti z zvokom</string>
     <string name="pref_title_notification_alert_vibrate">Obvesti z vibracijo</string>
@@ -224,8 +220,6 @@
     <string name="pref_failed_to_sync">Nastavitev ni bilo mogoče sinhronizirati</string>
 
     <string name="pref_status_text_size">Velikost besedila statusa</string>
-
-    <string name="pref_media_display">Prikaz medijev</string>
 
     <string name="notification_mention_name">Nove omembe</string>
     <string name="notification_mention_descriptions">Obvestila o novih omembah</string>
@@ -446,10 +440,6 @@
     <string name="status_text_size_large">Velika</string>
     <string name="status_text_size_largest">Največja</string>
 
-    <string name="media_hide_sensitive">Skrij medij, ki je označen kot občutljiv</string>
-    <string name="media_hide_none">Vedno prikaži medij, ki je označen kot občutljiv</string>
-    <string name="media_hide_all">Vedno skrij vse medije</string>
-
     <string name="notification_poll_name">Ankete</string>
     <string name="notification_poll_description">Obvestilo o anketah, ki so se končale</string>
 
@@ -485,5 +475,7 @@
 </plurals>
 
 <string name="pref_title_animate_gif_avatars">Animirane podobe GIF</string>
+
+    <string name="description_poll">Anketa z izbiro: %s, %s, %s, %s; %s</string>
 
     </resources>

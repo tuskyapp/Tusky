@@ -18,10 +18,8 @@
     <string name="error_media_upload_image_or_video">Ezin dira bideoak eta irudiak tut berean gehitu.</string>
     <string name="error_media_upload_sending">Akatsa igotzerakoan.</string>
     <string name="error_report_too_few_statuses">Gutxienez tut bat hautatu behar da.</string>
-    <string name="error_invalid_regex">Espresio erregular baliogabea.</string>
     <string name="error_sender_account_gone">Akatsa tuta bidaltzerakoan.</string>
     <string name="title_home">Hasiera</string>
-    <string name="title_advanced">Aurreratua</string>
     <string name="title_notifications">Jakinarazpenak</string>
     <string name="title_public_local">Lokala</string>
     <string name="title_public_federated">Federatua</string>
@@ -137,10 +135,8 @@
     <string name="visibility_unlisted">Ezkutukoa: Ez erakutsi istorio publikoetan</string>
     <string name="visibility_private">Pribatua: Jarraitzaileentzat soilik ikusgai</string>
     <string name="visibility_direct">Zuzena: Aipatutako kontuentzat bakarrik ikusgai</string>
-    <string name="pref_title_notification_settings">Jakinarazpenak</string>
     <string name="pref_title_edit_notification_settings">Editatu jakinarazpenak</string>
     <string name="pref_title_notifications_enabled">Jakinarazpenak</string>
-    <string name="pref_summary_notifications">%1$s kontuarentzat</string>
     <string name="pref_title_notification_alerts">Alertak</string>
     <string name="pref_title_notification_alert_sound">Soinuarekin jakinarazi</string>
     <string name="pref_title_notification_alert_vibrate">Bibrazioarekin jakinarazi</string>
@@ -183,10 +179,6 @@
     <string name="status_text_size_medium">Erdikoa</string>
     <string name="status_text_size_large">Handia</string>
     <string name="status_text_size_largest">Oso handia</string>
-    <string name="pref_media_display">Erakutsi media</string>
-    <string name="media_hide_sensitive">Ezkutatu eduki mingarri gisa markatutako multimedia</string>
-    <string name="media_hide_none">Beti erakutsi eduki mingarri gisa markatutako multimedia</string>
-    <string name="media_hide_all">Beti ezkutatu multimedia guztiak</string>
     <string name="notification_mention_name">Aipamen berriak</string>
     <string name="notification_mention_descriptions">Aipamen berrien jakinarazpenak</string>
     <string name="notification_follow_name">Jarritzaile berriak</string>

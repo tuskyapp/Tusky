@@ -19,10 +19,8 @@
     <string name="error_media_upload_image_or_video">Bilder und Videos können beide nicht an den Beitrag angehängt werden.</string>
     <string name="error_media_upload_sending">Die Mediendatei konnte nicht hochgeladen werden.</string>
     <string name="error_report_too_few_statuses">Mindestens ein Beitrag muss gemeldet werden.</string>
-    <string name="error_invalid_regex">Ungültiger regulärer Ausdruck</string>
     <string name="error_sender_account_gone">Fehler beim Senden des Status.</string>
     <string name="title_home">Start</string>
-    <string name="title_advanced">Erweitert</string>
     <string name="title_notifications">Benachrichtigungen</string>
     <string name="title_public_local">Lokal</string>
     <string name="title_public_federated">Föderiert</string>
@@ -162,10 +160,8 @@
     <string name="visibility_unlisted">Ungelistet: Nicht in der öffentlichen Timeline sichtbar</string>
     <string name="visibility_private">Nur Folgende: Nur für Folgende sichtbar</string>
     <string name="visibility_direct">Direkt: Nur für Erwähnte sichtbar</string>
-    <string name="pref_title_notification_settings">Benachrichtigungen</string>
     <string name="pref_title_edit_notification_settings">Benachrichtigungseinstellungen</string>
     <string name="pref_title_notifications_enabled">Benachrichtigungen</string>
-    <string name="pref_summary_notifications">für %1$s</string>
     <string name="pref_title_notification_alerts">Benachrichtigungen</string>
     <string name="pref_title_notification_alert_sound">Benachrichtige mit Sound</string>
     <string name="pref_title_notification_alert_vibrate">Benachrichtige mit Vibration</string>
@@ -211,10 +207,6 @@
     <string name="status_text_size_medium">Normal</string>
     <string name="status_text_size_large">Groß</string>
     <string name="status_text_size_largest">Größer</string>
-    <string name="pref_media_display">Medienanzeige</string>
-    <string name="media_hide_sensitive">Verberge Medien welche als heikel makiert sind</string>
-    <string name="media_hide_none">Medien, die als sensibel markiert sind, immer anzeigen</string>
-    <string name="media_hide_all">Medien immer verstecken</string>
     <string name="notification_mention_name">Neue Erwähnungen</string>
     <string name="notification_mention_descriptions">Benachrichtigungen über neue Erwähnungen</string>
     <string name="notification_follow_name">Neue Folgende</string>

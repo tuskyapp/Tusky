@@ -19,11 +19,9 @@
     <string name="error_media_upload_image_or_video">無法在嘟文中同時插入影片和圖片</string>
     <string name="error_media_upload_sending">媒體檔案上傳失敗</string>
     <string name="error_report_too_few_statuses">至少要檢舉 1 則嘟文</string>
-    <string name="error_invalid_regex">正規表示式無效</string>
     <string name="error_sender_account_gone">嘟文發送時出錯</string>
 
     <string name="title_home">主頁</string>
-    <string name="title_advanced">進階</string>
     <string name="title_notifications">通知</string>
     <string name="title_public_local">本站時間軸</string>
     <string name="title_public_federated">跨站公開時間軸</string>
@@ -169,11 +167,6 @@
 
 
 
-
-
-
-
-
     <string name="dialog_title_finishing_media_upload">正在完成上傳…</string>
     <string name="dialog_message_uploading_media">正在上傳…</string>
     <string name="dialog_download_image">下載</string>
@@ -187,10 +180,8 @@
     <string name="visibility_private">僅關注者：只有經過你確認後關注你的使用者可見</string>
     <string name="visibility_direct">私信：只有被提及的使用者可見</string>
 
-    <string name="pref_title_notification_settings">通知</string>
     <string name="pref_title_edit_notification_settings">通知設定</string>
     <string name="pref_title_notifications_enabled">通知</string>
-    <string name="pref_summary_notifications">帳號 %1$s</string>
     <string name="pref_title_notification_alerts">提醒</string>
     <string name="pref_title_notification_alert_sound">通知鈴聲</string>
     <string name="pref_title_notification_alert_vibrate">振動</string>
@@ -243,12 +234,6 @@
     <string name="status_text_size_medium">標準</string>
     <string name="status_text_size_large">大</string>
     <string name="status_text_size_largest">最大</string>
-
-    <string name="pref_media_display">媒體顯示</string>
-
-    <string name="media_hide_sensitive">自動隱藏敏感媒體</string>
-    <string name="media_hide_none">總是顯示敏感媒體</string>
-    <string name="media_hide_all">總是隱藏所有媒體</string>
 
     <string name="notification_mention_name">提及</string>
     <string name="notification_mention_descriptions">當有使用者在嘟文中提及我時</string>

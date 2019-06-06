@@ -19,10 +19,8 @@
     <string name="error_media_upload_image_or_video">Képek és videók egyszerre nem csatolhatók ugyanazon tülköléshez.</string>
     <string name="error_media_upload_sending">Feltöltés sikertelen.</string>
     <string name="error_report_too_few_statuses">Legalább egy tülkölésnek jelentve kell lennie.</string>
-    <string name="error_invalid_regex">Érvénytelen reguláris kifejezés</string>
     <string name="error_sender_account_gone">A tülk elküldése nem sikerult.</string>
     <string name="title_home">Kezdőlap</string>
-    <string name="title_advanced">Haladó</string>
     <string name="title_notifications">Értesítések</string>
     <string name="title_public_local">Helyi</string>
     <string name="title_public_federated">Egyesített</string>
@@ -157,7 +155,6 @@
     <string name="visibility_unlisted">Listázatlan: Nem jelenik meg a nyilvános idővonalon</string>
     <string name="visibility_private">Csak követőknek: Posztolás csak követőknek</string>
     <string name="visibility_direct">Közvetlen: Posztolás csak az említett felhasználóknak</string>
-    <string name="pref_title_notification_settings">Értesítések</string>
     <string name="pref_title_edit_notification_settings">Értesítések szerkesztése</string>
     <string name="pref_title_notifications_enabled">Értesítések</string>
     <string name="pref_title_notification_alerts">Figyelmeztetések</string>
@@ -200,9 +197,6 @@
     <string name="status_text_size_medium">Közepes</string>
     <string name="status_text_size_large">Nagy</string>
     <string name="status_text_size_largest">Legnagyobb</string>
-    <string name="media_hide_sensitive">Rejtsd el az érzékenynek jelölt médiát</string>
-    <string name="media_hide_none">Mindig mutasd az érzékenynek jelölt médiát</string>
-    <string name="media_hide_all">Mindig rejtsd el a média tartalmakat</string>
     <string name="notification_mention_name">Új említések</string>
     <string name="notification_mention_descriptions">Értesítések új említések esetén</string>
     <string name="notification_follow_name">Új követők</string>
@@ -301,7 +295,6 @@
 
     <string name="dialog_redraft_toot_warning">Törlöd és újraírod ezt a tootot\?</string>
 
-    <string name="pref_summary_notifications">a %1$s fióknak</string>
     <string name="pref_title_notification_filter_poll">befejeződött a szavazás</string>
     <string name="pref_title_timeline_filters">Szűrők</string>
 
@@ -309,7 +302,6 @@
 
     <string name="pref_title_language">Nyelv</string>
     <string name="pref_publishing">Közzététel (szerverrel szinkronizált)</string>
-    <string name="pref_media_display">Média megjelenítése</string>
 
     <string name="notification_poll_name">Szavazások</string>
     <string name="notification_poll_description">Értesítés a befejezett szavazásokról</string>
