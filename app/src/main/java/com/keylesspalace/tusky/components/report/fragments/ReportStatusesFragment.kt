@@ -6,6 +6,8 @@ import android.preference.PreferenceManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.app.ActivityOptionsCompat
+import androidx.core.view.ViewCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -16,6 +18,7 @@ import androidx.recyclerview.widget.SimpleItemAnimator
 import com.google.android.material.snackbar.Snackbar
 import com.keylesspalace.tusky.AccountActivity
 import com.keylesspalace.tusky.R
+import com.keylesspalace.tusky.ViewMediaActivity
 import com.keylesspalace.tusky.ViewTagActivity
 import com.keylesspalace.tusky.components.report.ReportViewModel
 import com.keylesspalace.tusky.components.report.Screen
@@ -24,8 +27,10 @@ import com.keylesspalace.tusky.components.report.adapter.StatusesAdapter
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.di.ViewModelFactory
+import com.keylesspalace.tusky.entity.Attachment
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.util.ThemeUtils
+import com.keylesspalace.tusky.viewdata.AttachmentViewData
 import kotlinx.android.synthetic.main.fragment_report_statuses.*
 import javax.inject.Inject
 
@@ -49,6 +54,30 @@ class ReportStatusesFragment : Fragment(), Injectable, AdapterClickHandler {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel = ViewModelProviders.of(requireActivity(), viewModelFactory)[ReportViewModel::class.java]
+    }
+
+    override fun showMedia(v: View?, status: Status?, idx: Int) {
+        status?.actionableStatus?.let { actionable ->
+            when (actionable.attachments[idx].type) {
+                Attachment.Type.GIFV, Attachment.Type.VIDEO, Attachment.Type.IMAGE -> {
+                    val attachments = AttachmentViewData.list(actionable)
+                    val intent = ViewMediaActivity.newIntent(context, attachments,
+                            idx)
+                    if (v != null) {
+                        val url = actionable.attachments[idx].url
+                        ViewCompat.setTransitionName(v, url)
+                        val options = ActivityOptionsCompat.makeSceneTransitionAnimation(requireActivity(),
+                                v, url)
+                        startActivity(intent, options.toBundle())
+                    } else {
+                        startActivity(intent)
+                    }
+                }
+                Attachment.Type.UNKNOWN -> {
+                }
+            }
+
+        }
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -82,7 +111,7 @@ class ReportStatusesFragment : Fragment(), Injectable, AdapterClickHandler {
         val mediaPreviewEnabled = account?.mediaPreviewEnabled ?: true
 
 
-        adapter = StatusesAdapter(useAbsoluteTime, mediaPreviewEnabled, viewModel.selectedIds, this)
+        adapter = StatusesAdapter(useAbsoluteTime, mediaPreviewEnabled, viewModel.selectedIds, viewModel.statusViewState, this)
 
         recyclerView.addItemDecoration(DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL))
         layoutManager = LinearLayoutManager(requireContext())

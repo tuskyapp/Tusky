@@ -6,6 +6,7 @@ import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import androidx.paging.PagedList
 import com.keylesspalace.tusky.components.report.adapter.StatusesRepository
+import com.keylesspalace.tusky.components.report.model.StatusViewState
 import com.keylesspalace.tusky.entity.Relationship
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.network.MastodonApi
@@ -46,6 +47,8 @@ class ReportViewModel @Inject constructor(
     val networkStateRefresh: LiveData<NetworkState> = Transformations.switchMap(repoResult) { it.refreshState }
 
     val selectedIds = HashSet<String>()
+    val statusViewState = StatusViewState()
+
     var reportNote: String? = null
     var isRemoteNotify = false
 

@@ -9,11 +9,13 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListUpdateCallback
 import androidx.recyclerview.widget.RecyclerView
 import com.keylesspalace.tusky.R
+import com.keylesspalace.tusky.components.report.model.StatusViewState
 import com.keylesspalace.tusky.entity.Status
 
 class StatusesAdapter(private val useAbsoluteTime: Boolean,
                       private val mediaPreviewEnabled: Boolean,
                       private val checkedStatuses: MutableSet<String>,
+                      private val statusViewState: StatusViewState,
                       private val clickHandler: AdapterClickHandler)
     : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
@@ -49,7 +51,7 @@ class StatusesAdapter(private val useAbsoluteTime: Boolean,
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return StatusViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_report_status, parent, false), checkableCallback,
-                useAbsoluteTime, clickHandler)
+                useAbsoluteTime, mediaPreviewEnabled, statusViewState, clickHandler)
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
