@@ -73,6 +73,9 @@ class ReportNoteFragment : Fragment(), Injectable {
     private fun fillViews() {
         editNote.setText(viewModel.reportNote)
         checkIsNotifyRemote.visibility = if (viewModel.isRemoteAccount) View.VISIBLE else View.GONE
+        reportDescriptionRemoteInstance.visibility = if (viewModel.isRemoteAccount) View.VISIBLE else View.GONE
+        if (viewModel.isRemoteAccount)
+            checkIsNotifyRemote.text = getString(R.string.report_remote_instance, viewModel.remoteServer)
         checkIsNotifyRemote.isChecked = viewModel.isRemoteNotify
     }
 

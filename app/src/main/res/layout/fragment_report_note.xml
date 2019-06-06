@@ -30,6 +30,18 @@
                 android:orientation="vertical"
                 app:layout_constraintGuide_end="16dp" />
 
+            <TextView
+                android:id="@+id/reportDescription"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/report_description_1"
+                android:textColor="?android:textColorPrimary"
+                android:textSize="?attr/status_text_small"
+                app:layout_constraintEnd_toEndOf="@id/guideEnd"
+                app:layout_constraintStart_toStartOf="@id/guideBegin"
+                app:layout_constraintTop_toTopOf="parent" />
+
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/layoutAdditionalInfo"
                 style="@style/TuskyTextInput"
@@ -40,7 +52,7 @@
                 app:hintEnabled="true"
                 app:layout_constraintEnd_toEndOf="@id/guideEnd"
                 app:layout_constraintStart_toStartOf="@id/guideBegin"
-                app:layout_constraintTop_toTopOf="parent">
+                app:layout_constraintTop_toBottomOf="@id/reportDescription">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/editNote"
@@ -48,9 +60,22 @@
                     android:layout_height="wrap_content"
                     android:gravity="top"
                     android:inputType="textCapSentences|textMultiLine"
-                    android:minLines="6" />
+                    android:minLines="4" />
 
             </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:id="@+id/reportDescriptionRemoteInstance"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/report_description_remote_instance"
+                android:textColor="?android:textColorPrimary"
+                android:textSize="?attr/status_text_small"
+                app:layout_constraintEnd_toEndOf="@id/guideEnd"
+                app:layout_constraintStart_toStartOf="@id/guideBegin"
+                app:layout_constraintTop_toBottomOf="@id/layoutAdditionalInfo" />
+
 
             <CheckBox
                 android:id="@+id/checkIsNotifyRemote"
@@ -62,17 +87,17 @@
                 app:buttonTint="?attr/compound_button_color"
                 app:layout_constraintEnd_toEndOf="@id/guideEnd"
                 app:layout_constraintStart_toStartOf="@id/guideBegin"
-                app:layout_constraintTop_toBottomOf="@id/layoutAdditionalInfo" />
+                app:layout_constraintTop_toBottomOf="@id/reportDescriptionRemoteInstance" />
 
             <ProgressBar
                 android:id="@+id/progressBar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/checkIsNotifyRemote"
                 android:layout_marginTop="48dp"
-                android:visibility="gone"/>
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/checkIsNotifyRemote" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

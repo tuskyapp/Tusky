@@ -509,9 +509,11 @@
     <string name="button_back">Back</string>
     <string name="button_done">Done</string>
     <string name="report_sent_success">Successfully reported @%s</string>
-    <string name="hint_additional_info">Additional Info</string>
-    <string name="report_remote_instance">Report to remote instance</string>
+    <string name="hint_additional_info">Additional comments</string>
+    <string name="report_remote_instance">Forward to %s</string>
     <string name="failed_report">Failed to report</string>
     <string name="failed_fetch_statuses">Failed to fetch statuses</string>
+    <string name="report_description_1">The report will be sent to your server moderator. You can provide an explanation of why you are reporting this account bellow:</string>
+    <string name="report_description_remote_instance">The account is from another server. Send an anonymized copy of the report there as well?</string>
 
 </resources>

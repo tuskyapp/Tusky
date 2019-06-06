@@ -69,6 +69,7 @@ class ReportViewModel @Inject constructor(
     lateinit var accountUserName: String
     lateinit var accountId: String
     var isRemoteAccount: Boolean = false
+    var remoteServer: String? = null
 
     fun init(accountId: String, userName: String, statusId: String?, statusContent: String?) {
         this.accountId = accountId
@@ -79,6 +80,9 @@ class ReportViewModel @Inject constructor(
         }
         this.statusContent = statusContent
         isRemoteAccount = userName.contains('@')
+        if (isRemoteAccount) {
+            remoteServer = userName.substring(userName.indexOf('@') + 1)
+        }
 
         obtainRelationship()
         repoResult.value = statusesRepository.getStatuses(accountId, statusId, disposables)
