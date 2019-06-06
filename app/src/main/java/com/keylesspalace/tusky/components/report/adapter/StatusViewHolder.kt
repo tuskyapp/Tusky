@@ -52,31 +52,38 @@ class StatusViewHolder(itemView: View,
 
         itemView.statusSelection.isChecked = isChecked
 
-        if (status.spoilerText.isBlank()){
-            setTextVisible(true, status.content, status.mentions, status.emojis, clickHandler)
-            itemView.statusContentWarningButton.visibility = View.GONE
-            itemView.statusContentWarningDescription.visibility = View.GONE
-        }
-        else{
-            val emojiSpoiler = CustomEmojiHelper.emojifyString(status.spoilerText, status.emojis, itemView.statusContentWarningDescription)
-            itemView.statusContentWarningDescription.text = emojiSpoiler
-            itemView.statusContentWarningDescription.visibility = View.VISIBLE
-            itemView.statusContentWarningButton.visibility = View.VISIBLE
-            itemView.statusContentWarningButton.isChecked = viewState.isContentShow(status.id,true)
-            itemView.statusContentWarningButton.setOnCheckedChangeListener { _, isViewChecked ->
-                itemView.statusContentWarningDescription.invalidate()
-                viewState.setContentShow(status.id,isViewChecked)
-                setTextVisible(isViewChecked, status.content, status.mentions, status.emojis, clickHandler)
-            }
-            setTextVisible(viewState.isContentShow(status.id,true), status.content, status.mentions, status.emojis, clickHandler)
-        }
+        updateTextView(status)
 
         val sensitive = status.sensitive
-        setMediaPreviews(itemView, mediaPreviewEnabled, status.attachments, sensitive, previewListener,
+
+        setMediasPreview(itemView, mediaPreviewEnabled, status.attachments, sensitive, previewListener,
                 viewState.isMediaShow(status.id, status.sensitive),
                 mediaViewHeight)
 
         setCreatedAt(status.createdAt)
+    }
+
+    private fun updateTextView(status: Status) {
+        setupCollapsedState(status.isCollapsible(), viewState.isCollapsed(status.id, true),
+                viewState.isContentShow(status.id, status.sensitive), status.spoilerText)
+
+        if (status.spoilerText.isBlank()) {
+            setTextVisible(true, status.content, status.mentions, status.emojis, clickHandler)
+            itemView.statusContentWarningButton.visibility = View.GONE
+            itemView.statusContentWarningDescription.visibility = View.GONE
+        } else {
+            val emojiSpoiler = CustomEmojiHelper.emojifyString(status.spoilerText, status.emojis, itemView.statusContentWarningDescription)
+            itemView.statusContentWarningDescription.text = emojiSpoiler
+            itemView.statusContentWarningDescription.visibility = View.VISIBLE
+            itemView.statusContentWarningButton.visibility = View.VISIBLE
+            itemView.statusContentWarningButton.isChecked = viewState.isContentShow(status.id, true)
+            itemView.statusContentWarningButton.setOnCheckedChangeListener { _, isViewChecked ->
+                itemView.statusContentWarningDescription.invalidate()
+                viewState.setContentShow(status.id, isViewChecked)
+                setTextVisible(isViewChecked, status.content, status.mentions, status.emojis, clickHandler)
+            }
+            setTextVisible(viewState.isContentShow(status.id, true), status.content, status.mentions, status.emojis, clickHandler)
+        }
     }
 
 
@@ -91,7 +98,7 @@ class StatusViewHolder(itemView: View,
         } else {
             LinkHelper.setClickableMentions(itemView.statusContent, mentions, listener)
         }
-        if (TextUtils.isEmpty(itemView.statusContent.text)) {
+        if (itemView.statusContent.text.isNullOrBlank()) {
             itemView.statusContent.visibility = View.GONE
         } else {
             itemView.statusContent.visibility = View.VISIBLE
@@ -124,4 +131,32 @@ class StatusViewHolder(itemView: View,
             "??:??:??"
         }
     }
+
+    private fun setupCollapsedState(collapsible: Boolean, collapsed: Boolean, expanded: Boolean, spoilerText: String) {
+        /* input filter for TextViews have to be set before text */
+        if (collapsible && (expanded || TextUtils.isEmpty(spoilerText))) {
+            itemView.buttonToggleContent.setOnCheckedChangeListener { _, isChecked ->
+                status?.let {
+                    viewState.setCollapsed(it.id, isChecked)
+                    status?.let { status ->
+                        updateTextView(status)
+                    }
+                }
+
+            }
+
+            itemView.buttonToggleContent.visibility = View.VISIBLE
+            if (collapsed) {
+                itemView.buttonToggleContent.isChecked = true
+                itemView.statusContent.filters = COLLAPSE_INPUT_FILTER
+            } else {
+                itemView.buttonToggleContent.isChecked = false
+                itemView.statusContent.filters = NO_INPUT_FILTER
+            }
+        } else {
+            itemView.buttonToggleContent.visibility = View.GONE
+            itemView.statusContent.filters = NO_INPUT_FILTER
+        }
+    }
+
 }

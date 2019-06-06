@@ -61,6 +61,28 @@
         android:textColor="?android:textColorPrimary"
         android:textSize="?attr/status_text_medium" />
 
+    <ToggleButton
+        android:id="@+id/buttonToggleContent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="4dp"
+        android:background="?attr/content_warning_button"
+        android:minWidth="150dp"
+        android:minHeight="0dp"
+        android:paddingLeft="16dp"
+        android:paddingTop="4dp"
+        android:paddingRight="16dp"
+        android:paddingBottom="4dp"
+        android:textAllCaps="true"
+        android:textOff="@string/status_content_show_less"
+        android:textOn="@string/status_content_show_more"
+        android:textSize="?attr/status_text_medium"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="@id/guideBegin"
+        app:layout_constraintTop_toBottomOf="@id/statusContent"
+        tools:visibility="visible" />
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/status_media_preview_container"
         android:layout_width="0dp"
@@ -69,7 +91,7 @@
         android:layout_marginEnd="8dp"
         app:layout_constraintEnd_toStartOf="@id/barrierEnd"
         app:layout_constraintStart_toStartOf="@id/guideBegin"
-        app:layout_constraintTop_toBottomOf="@id/statusContent"
+        app:layout_constraintTop_toBottomOf="@id/buttonToggleContent"
         tools:visibility="gone">
 
         <com.keylesspalace.tusky.view.MediaPreviewImageView
@@ -233,7 +255,6 @@
         android:layout_gravity="center_vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/timestampInfo"
-        app:layout_constraintBottom_toBottomOf="parent"
         android:layout_margin="16dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

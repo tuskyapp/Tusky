@@ -1,6 +1,7 @@
 package com.keylesspalace.tusky.util
 
 import android.content.Context
+import android.text.InputFilter
 import android.text.TextUtils
 import android.view.View
 import android.widget.ImageView
@@ -13,12 +14,15 @@ import com.keylesspalace.tusky.entity.Attachment
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.view.MediaPreviewImageView
 
+val COLLAPSE_INPUT_FILTER = arrayOf<InputFilter>(SmartLengthInputFilter.INSTANCE)
+val NO_INPUT_FILTER = arrayOfNulls<InputFilter>(0)
+
 interface MediaPreviewListener {
     fun onViewMedia(v: View?, idx: Int)
     fun onContentHiddenChange(isShowing: Boolean)
 }
 
-fun setMediaPreviews(itemView: View,
+fun setMediasPreview(itemView: View,
                      mediaPreviewEnabled: Boolean,
                      attachments: List<Attachment>,
                      sensitive: Boolean,
@@ -127,8 +131,7 @@ fun setMediaPreviews(itemView: View,
     if (attachments.isNullOrEmpty()) {
         sensitiveMediaWarning.visibility = View.GONE
         sensitiveMediaShow.visibility = View.GONE
-    }
-    else {
+    } else {
 
         val hiddenContentText: String = if (sensitive) {
             context.getString(R.string.status_sensitive_media_template,
@@ -203,4 +206,8 @@ private fun getLabelIcon(type: Attachment.Type): Int {
         Attachment.Type.GIFV, Attachment.Type.VIDEO -> R.drawable.ic_videocam_24dp
         else -> R.drawable.ic_photo_24dp
     }
+}
+
+fun Status.isCollapsible(): Boolean {
+    return !SmartLengthInputFilter.hasBadRatio(content, SmartLengthInputFilter.LENGTH_DEFAULT)
 }

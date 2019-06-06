@@ -44,7 +44,7 @@ public class SmartLengthInputFilter implements InputFilter {
     /**
      * Default for maximum status length on Mastodon and default collapsing length on Pleroma.
      */
-    public static final int LENGTH_DEFAULT = 500;
+    public static final int LENGTH_DEFAULT = 50;
 
     /**
      * Stores a reusable singleton instance of a {@link SmartLengthInputFilter} already configured
