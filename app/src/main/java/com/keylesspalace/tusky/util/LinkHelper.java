@@ -54,9 +54,7 @@ public class LinkHelper {
             return host;
         }
     }
-    public static void setClickableText(TextView view, Status status, final LinkListener listener){
-        setClickableText(view,CustomEmojiHelper.emojifyText(status.getContent(), status.getEmojis(), view),status.getMentions(),listener);
-    }
+
     /**
      * Finds links, mentions, and hashtags in a piece of text and makes them clickable, associating
      * them with callbacks to notify when they're clicked.

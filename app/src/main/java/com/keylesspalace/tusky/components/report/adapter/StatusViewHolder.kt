@@ -1,14 +1,15 @@
 package com.keylesspalace.tusky.components.report.adapter
 
+import android.text.Spanned
+import android.text.TextUtils
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.components.report.model.StatusViewState
+import com.keylesspalace.tusky.entity.Emoji
 import com.keylesspalace.tusky.entity.Status
-import com.keylesspalace.tusky.util.DateUtils
-import com.keylesspalace.tusky.util.LinkHelper
-import com.keylesspalace.tusky.util.MediaPreviewListener
-import com.keylesspalace.tusky.util.setMediaPreviews
+import com.keylesspalace.tusky.interfaces.LinkListener
+import com.keylesspalace.tusky.util.*
 import kotlinx.android.synthetic.main.item_report_status.view.*
 import java.text.SimpleDateFormat
 import java.util.*
@@ -48,14 +49,53 @@ class StatusViewHolder(itemView: View,
 
     fun bind(status: Status, isChecked: Boolean) {
         this.status = status
-        LinkHelper.setClickableText(itemView.statusContent, status, clickHandler)
+
         itemView.statusSelection.isChecked = isChecked
+
+        if (status.spoilerText.isBlank()){
+            setTextVisible(true, status.content, status.mentions, status.emojis, clickHandler)
+            itemView.statusContentWarningButton.visibility = View.GONE
+            itemView.statusContentWarningDescription.visibility = View.GONE
+        }
+        else{
+            val emojiSpoiler = CustomEmojiHelper.emojifyString(status.spoilerText, status.emojis, itemView.statusContentWarningDescription)
+            itemView.statusContentWarningDescription.text = emojiSpoiler
+            itemView.statusContentWarningDescription.visibility = View.VISIBLE
+            itemView.statusContentWarningButton.visibility = View.VISIBLE
+            itemView.statusContentWarningButton.isChecked = viewState.isContentShow(status.id,true)
+            itemView.statusContentWarningButton.setOnCheckedChangeListener { _, isViewChecked ->
+                itemView.statusContentWarningDescription.invalidate()
+                viewState.setContentShow(status.id,isViewChecked)
+                setTextVisible(isViewChecked, status.content, status.mentions, status.emojis, clickHandler)
+            }
+            setTextVisible(viewState.isContentShow(status.id,true), status.content, status.mentions, status.emojis, clickHandler)
+        }
+
         val sensitive = status.sensitive
         setMediaPreviews(itemView, mediaPreviewEnabled, status.attachments, sensitive, previewListener,
                 viewState.isMediaShow(status.id, status.sensitive),
                 mediaViewHeight)
 
         setCreatedAt(status.createdAt)
+    }
+
+
+    private fun setTextVisible(expanded: Boolean,
+                               content: Spanned,
+                               mentions: Array<Status.Mention>?,
+                               emojis: List<Emoji>,
+                               listener: LinkListener) {
+        if (expanded) {
+            val emojifiedText = CustomEmojiHelper.emojifyText(content, emojis, itemView.statusContent)
+            LinkHelper.setClickableText(itemView.statusContent, emojifiedText, mentions, listener)
+        } else {
+            LinkHelper.setClickableMentions(itemView.statusContent, mentions, listener)
+        }
+        if (TextUtils.isEmpty(itemView.statusContent.text)) {
+            itemView.statusContent.visibility = View.GONE
+        } else {
+            itemView.statusContent.visibility = View.VISIBLE
+        }
     }
 
     private fun setCreatedAt(createdAt: Date?) {
