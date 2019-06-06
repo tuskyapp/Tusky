@@ -10,8 +10,9 @@ import com.keylesspalace.tusky.entity.Emoji
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.interfaces.LinkListener
 import com.keylesspalace.tusky.util.*
+import com.keylesspalace.tusky.util.StatusViewHelper.Companion.COLLAPSE_INPUT_FILTER
+import com.keylesspalace.tusky.util.StatusViewHelper.Companion.NO_INPUT_FILTER
 import kotlinx.android.synthetic.main.item_report_status.view.*
-import java.text.SimpleDateFormat
 import java.util.*
 
 class StatusViewHolder(itemView: View,
@@ -20,11 +21,10 @@ class StatusViewHolder(itemView: View,
                        private val viewState: StatusViewState,
                        private val adapterHandler: AdapterHandler,
                        private val getStatusForPosition: (Int) -> Status?) : RecyclerView.ViewHolder(itemView) {
-    private val shortSdf = SimpleDateFormat("HH:mm:ss", Locale.getDefault())
-    private val longSdf = SimpleDateFormat("MM/dd HH:mm:ss", Locale.getDefault())
     private val mediaViewHeight = itemView.context.resources.getDimensionPixelSize(R.dimen.status_media_preview_height)
+    private val statusViewHelper = StatusViewHelper(itemView)
 
-    private val previewListener = object : MediaPreviewListener {
+    private val previewListener = object : StatusViewHelper.MediaPreviewListener {
         override fun onViewMedia(v: View?, idx: Int) {
             status()?.let { status ->
                 adapterHandler.showMedia(v, status, idx)
@@ -53,10 +53,11 @@ class StatusViewHolder(itemView: View,
 
         val sensitive = status.sensitive
 
-        setMediasPreview(itemView, mediaPreviewEnabled, status.attachments, sensitive, previewListener,
+        statusViewHelper.setMediasPreview(mediaPreviewEnabled, status.attachments, sensitive, previewListener,
                 viewState.isMediaShow(status.id, status.sensitive),
                 mediaViewHeight)
 
+        statusViewHelper.setupPollReadonly(status.poll, status.emojis, useAbsoluteTime)
         setCreatedAt(status.createdAt)
     }
 
@@ -108,7 +109,7 @@ class StatusViewHolder(itemView: View,
 
     private fun setCreatedAt(createdAt: Date?) {
         if (useAbsoluteTime) {
-            itemView.timestampInfo.text = getAbsoluteTime(createdAt)
+            itemView.timestampInfo.text = statusViewHelper.getAbsoluteTime(createdAt)
         } else {
             itemView.timestampInfo.text = if (createdAt != null) {
                 val then = createdAt.time
@@ -121,17 +122,6 @@ class StatusViewHolder(itemView: View,
         }
     }
 
-    private fun getAbsoluteTime(createdAt: Date?): String {
-        return if (createdAt != null) {
-            if (android.text.format.DateUtils.isToday(createdAt.time)) {
-                shortSdf.format(createdAt)
-            } else {
-                longSdf.format(createdAt)
-            }
-        } else {
-            "??:??:??"
-        }
-    }
 
     private fun setupCollapsedState(collapsible: Boolean, collapsed: Boolean, expanded: Boolean, spoilerText: String) {
         /* input filter for TextViews have to be set before text */
