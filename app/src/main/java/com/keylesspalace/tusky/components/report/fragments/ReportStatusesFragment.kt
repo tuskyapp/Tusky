@@ -22,7 +22,7 @@ import com.keylesspalace.tusky.ViewMediaActivity
 import com.keylesspalace.tusky.ViewTagActivity
 import com.keylesspalace.tusky.components.report.ReportViewModel
 import com.keylesspalace.tusky.components.report.Screen
-import com.keylesspalace.tusky.components.report.adapter.AdapterClickHandler
+import com.keylesspalace.tusky.components.report.adapter.AdapterHandler
 import com.keylesspalace.tusky.components.report.adapter.StatusesAdapter
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.di.Injectable
@@ -35,7 +35,7 @@ import kotlinx.android.synthetic.main.fragment_report_statuses.*
 import javax.inject.Inject
 
 
-class ReportStatusesFragment : Fragment(), Injectable, AdapterClickHandler {
+class ReportStatusesFragment : Fragment(), Injectable, AdapterHandler {
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
@@ -111,7 +111,7 @@ class ReportStatusesFragment : Fragment(), Injectable, AdapterClickHandler {
         val mediaPreviewEnabled = account?.mediaPreviewEnabled ?: true
 
 
-        adapter = StatusesAdapter(useAbsoluteTime, mediaPreviewEnabled, viewModel.selectedIds, viewModel.statusViewState, this)
+        adapter = StatusesAdapter(useAbsoluteTime, mediaPreviewEnabled, viewModel.statusViewState, this)
 
         recyclerView.addItemDecoration(DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL))
         layoutManager = LinearLayoutManager(requireContext())
@@ -161,15 +161,19 @@ class ReportStatusesFragment : Fragment(), Injectable, AdapterClickHandler {
         }
 
         buttonContinue.setOnClickListener {
-            if (viewModel.selectedIds.isEmpty()) {
-                Snackbar.make(swipeRefreshLayout, R.string.error_report_too_few_statuses, Snackbar.LENGTH_LONG).show()
-            } else {
+            if (viewModel.isStatusesSelected()) {
                 viewModel.navigateTo(Screen.Note)
+            } else {
+                Snackbar.make(swipeRefreshLayout, R.string.error_report_too_few_statuses, Snackbar.LENGTH_LONG).show()
             }
         }
     }
-    override fun checkedChanged(status: Status, isChecked: Boolean) {
-        viewModel.changedStatusChecked(status,isChecked)
+    override fun setStatusChecked(status: Status, isChecked: Boolean) {
+        viewModel.setStatusChecked(status,isChecked)
+    }
+
+    override fun isStatusChecked(id: String): Boolean {
+        return viewModel.isStatusChecked(id)
     }
 
     override fun onViewAccount(id: String) = startActivity(AccountActivity.getIntent(requireContext(), id))

@@ -245,6 +245,7 @@
         android:textColor="?android:textColorTertiary"
         android:textSize="?attr/status_text_medium"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@id/barrierEnd"
         android:layout_marginEnd="16dp"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="21 Dec 2018 18:45" />

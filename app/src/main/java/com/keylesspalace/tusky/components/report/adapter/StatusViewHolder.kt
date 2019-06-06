@@ -18,7 +18,7 @@ class StatusViewHolder(itemView: View,
                        private val useAbsoluteTime: Boolean,
                        private val mediaPreviewEnabled: Boolean,
                        private val viewState: StatusViewState,
-                       private val clickHandler: AdapterClickHandler,
+                       private val adapterHandler: AdapterHandler,
                        private val getStatusForPosition: (Int) -> Status?) : RecyclerView.ViewHolder(itemView) {
     private val shortSdf = SimpleDateFormat("HH:mm:ss", Locale.getDefault())
     private val longSdf = SimpleDateFormat("MM/dd HH:mm:ss", Locale.getDefault())
@@ -27,7 +27,7 @@ class StatusViewHolder(itemView: View,
     private val previewListener = object : MediaPreviewListener {
         override fun onViewMedia(v: View?, idx: Int) {
             status()?.let { status ->
-                clickHandler.showMedia(v, status, idx)
+                adapterHandler.showMedia(v, status, idx)
             }
         }
 
@@ -41,13 +41,13 @@ class StatusViewHolder(itemView: View,
     init {
         itemView.statusSelection.setOnCheckedChangeListener { _, isChecked ->
             status()?.let { status ->
-                clickHandler.checkedChanged(status, isChecked)
+                adapterHandler.setStatusChecked(status, isChecked)
             }
         }
     }
 
-    fun bind(status: Status, isChecked: Boolean) {
-        itemView.statusSelection.isChecked = isChecked
+    fun bind(status: Status) {
+        itemView.statusSelection.isChecked = adapterHandler.isStatusChecked(status.id)
 
         updateTextView()
 
@@ -66,7 +66,7 @@ class StatusViewHolder(itemView: View,
                     viewState.isContentShow(status.id, status.sensitive), status.spoilerText)
 
             if (status.spoilerText.isBlank()) {
-                setTextVisible(true, status.content, status.mentions, status.emojis, clickHandler)
+                setTextVisible(true, status.content, status.mentions, status.emojis, adapterHandler)
                 itemView.statusContentWarningButton.visibility = View.GONE
                 itemView.statusContentWarningDescription.visibility = View.GONE
             } else {
@@ -79,10 +79,10 @@ class StatusViewHolder(itemView: View,
                     status()?.let { status ->
                         itemView.statusContentWarningDescription.invalidate()
                         viewState.setContentShow(status.id, isViewChecked)
-                        setTextVisible(isViewChecked, status.content, status.mentions, status.emojis, clickHandler)
+                        setTextVisible(isViewChecked, status.content, status.mentions, status.emojis, adapterHandler)
                     }
                 }
-                setTextVisible(viewState.isContentShow(status.id, true), status.content, status.mentions, status.emojis, clickHandler)
+                setTextVisible(viewState.isContentShow(status.id, true), status.content, status.mentions, status.emojis, adapterHandler)
             }
         }
     }

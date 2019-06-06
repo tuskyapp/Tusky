@@ -6,7 +6,8 @@ import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.interfaces.LinkListener
 import java.util.ArrayList
 
-interface AdapterClickHandler: LinkListener {
+interface AdapterHandler: LinkListener {
     fun showMedia(v: View?, status: Status?, idx: Int)
-    fun checkedChanged(status: Status, isChecked: Boolean)
+    fun setStatusChecked(status: Status, isChecked: Boolean)
+    fun isStatusChecked(id: String): Boolean
 }

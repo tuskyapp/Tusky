@@ -46,7 +46,7 @@ class ReportViewModel @Inject constructor(
     val networkStateBefore: LiveData<NetworkState> = Transformations.switchMap(repoResult) { it.networkStateBefore }
     val networkStateRefresh: LiveData<NetworkState> = Transformations.switchMap(repoResult) { it.refreshState }
 
-    val selectedIds = HashSet<String>()
+    private val selectedIds = HashSet<String>()
     val statusViewState = StatusViewState()
 
     var reportNote: String? = null
@@ -191,10 +191,18 @@ class ReportViewModel @Inject constructor(
         checkUrlMutable.value = null
     }
 
-    fun changedStatusChecked(status: Status, checked: Boolean) {
+    fun setStatusChecked(status: Status, checked: Boolean) {
         if (checked)
             selectedIds.add(status.id)
         else
             selectedIds.remove(status.id)
+    }
+
+    fun isStatusChecked(id: String): Boolean {
+        return selectedIds.contains(id)
+    }
+
+    fun isStatusesSelected(): Boolean {
+        return selectedIds.isNotEmpty()
     }
 }
