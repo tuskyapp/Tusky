@@ -17,7 +17,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHeight_default="percent"
-        app:layout_constraintHeight_percent="0.5" />
+        app:layout_constraintHeight_percent="0.4" />
 
     <ImageView
         android:layout_width="0dp"
@@ -26,7 +26,7 @@
         android:src="@drawable/ic_check_24dp"
         app:layout_constraintBottom_toBottomOf="@id/checkMark"
         app:layout_constraintEnd_toEndOf="@id/checkMark"
-        app:layout_constraintHeight_percent="0.3"
+        app:layout_constraintHeight_percent="0.25"
         app:layout_constraintStart_toStartOf="@id/checkMark"
         app:layout_constraintTop_toTopOf="@id/checkMark"
         app:layout_constraintHeight_default="percent"

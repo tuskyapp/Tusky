@@ -17,7 +17,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintWidth_default="percent"
-        app:layout_constraintWidth_percent="0.5" />
+        app:layout_constraintWidth_percent="0.35" />
 
     <ImageView
         android:layout_width="0dp"
@@ -29,7 +29,7 @@
         app:layout_constraintHeight_percent="0.3"
         app:layout_constraintStart_toStartOf="@id/checkMark"
         app:layout_constraintTop_toTopOf="@id/checkMark"
-        app:layout_constraintWidth_percent="0.3"
+        app:layout_constraintWidth_percent="0.22"
         tools:ignore="ContentDescription" />
 
     <TextView
