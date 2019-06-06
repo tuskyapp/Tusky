@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.keylesspalace.tusky.BaseActivity
+import com.keylesspalace.tusky.BottomSheetActivity
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.components.report.adapter.ReportPagerAdapter
 import com.keylesspalace.tusky.di.ViewModelFactory
@@ -20,7 +21,7 @@ import kotlinx.android.synthetic.main.activity_report.*
 import kotlinx.android.synthetic.main.toolbar_basic.*
 import javax.inject.Inject
 
-class ReportActivity : BaseActivity(), HasSupportFragmentInjector {
+class ReportActivity : BottomSheetActivity(), HasSupportFragmentInjector {
 
     @Inject
     lateinit var dispatchingFragmentInjector: DispatchingAndroidInjector<Fragment>
@@ -76,6 +77,13 @@ class ReportActivity : BaseActivity(), HasSupportFragmentInjector {
                     Screen.Back -> showPreviousScreen()
                     Screen.Finish -> closeScreen()
                 }
+            }
+        })
+
+        viewModel.checkUrl.observe(this, Observer {
+            if (!it.isNullOrBlank()) {
+                viewModel.urlChecked()
+                viewUrl(it)
             }
         })
     }

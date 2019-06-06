@@ -36,6 +36,9 @@ class ReportViewModel @Inject constructor(
     private val reportingStateMutable = MutableLiveData<Resource<Boolean>>()
     var reportingState: LiveData<Resource<Boolean>> = reportingStateMutable
 
+    private val checkUrlMutable = MutableLiveData<String>()
+    val checkUrl: LiveData<String> = checkUrlMutable
+
     private val repoResult = MutableLiveData<BiListing<Status>>()
     val statuses: LiveData<PagedList<Status>> = Transformations.switchMap(repoResult) { it.pagedList }
     val networkStateAfter: LiveData<NetworkState> = Transformations.switchMap(repoResult) { it.networkStateAfter }
@@ -175,6 +178,14 @@ class ReportViewModel @Inject constructor(
 
     fun refreshStatuses() {
         repoResult.value?.refresh?.invoke()
+    }
+
+    fun checkClickedUrl(url: String?) {
+        checkUrlMutable.value = url
+    }
+
+    fun urlChecked() {
+        checkUrlMutable.value = null
     }
 
 }

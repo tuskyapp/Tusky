@@ -14,9 +14,12 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.SimpleItemAnimator
 import com.google.android.material.snackbar.Snackbar
+import com.keylesspalace.tusky.AccountActivity
 import com.keylesspalace.tusky.R
+import com.keylesspalace.tusky.ViewTagActivity
 import com.keylesspalace.tusky.components.report.ReportViewModel
 import com.keylesspalace.tusky.components.report.Screen
+import com.keylesspalace.tusky.components.report.adapter.AdapterClickHandler
 import com.keylesspalace.tusky.components.report.adapter.StatusesAdapter
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.di.Injectable
@@ -27,7 +30,8 @@ import kotlinx.android.synthetic.main.fragment_report_statuses.*
 import javax.inject.Inject
 
 
-class ReportStatusesFragment : Fragment(), Injectable {
+class ReportStatusesFragment : Fragment(), Injectable, AdapterClickHandler {
+
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
 
@@ -78,7 +82,7 @@ class ReportStatusesFragment : Fragment(), Injectable {
         val mediaPreviewEnabled = account?.mediaPreviewEnabled ?: true
 
 
-        adapter = StatusesAdapter(useAbsoluteTime, mediaPreviewEnabled, viewModel.selectedIds)
+        adapter = StatusesAdapter(useAbsoluteTime, mediaPreviewEnabled, viewModel.selectedIds, this)
 
         recyclerView.addItemDecoration(DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL))
         layoutManager = LinearLayoutManager(requireContext())
@@ -135,6 +139,12 @@ class ReportStatusesFragment : Fragment(), Injectable {
             }
         }
     }
+
+    override fun onViewAccount(id: String) = startActivity(AccountActivity.getIntent(requireContext(), id))
+
+    override fun onViewTag(tag: String) = startActivity(ViewTagActivity.getIntent(requireContext(), tag))
+
+    override fun onViewUrl(url: String?) = viewModel.checkClickedUrl(url)
 
     companion object {
         fun newInstance() = ReportStatusesFragment()
