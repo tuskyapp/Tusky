@@ -61,7 +61,6 @@
                 android:textSize="?attr/status_text_medium"
                 app:buttonTint="?attr/compound_button_color"
                 app:layout_constraintEnd_toEndOf="@id/guideEnd"
-                app:useMaterialThemeColors="true"
                 app:layout_constraintStart_toStartOf="@id/guideBegin"
                 app:layout_constraintTop_toBottomOf="@id/layoutAdditionalInfo" />
 
