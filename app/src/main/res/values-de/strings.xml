@@ -294,6 +294,7 @@
     <string name="caption_systememoji">Die Standard-Emojis deines Geräts</string>
     <string name="caption_blobmoji">Die Blob–Emojis aus Android 4.4–7.1</string>
     <string name="caption_twemoji">Die Standard-Emojis von Mastodon</string>
+    <string name="caption_notoemoji">Die aktuellen Emojis von Google</string>
     <string name="download_failed">Download fehlgeschlagen.</string>
     <string name="profile_badge_bot_text">Bot</string>
     <string name="account_moved_description">%1$s ist umgezogen auf:</string>

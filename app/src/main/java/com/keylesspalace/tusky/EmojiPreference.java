@@ -36,9 +36,13 @@ public class EmojiPreference extends Preference {
     private static final int[] viewIds = {
             R.id.item_nomoji,
             R.id.item_blobmoji,
-            R.id.item_twemoji};
+            R.id.item_twemoji,
+            R.id.item_notoemoji};
 
     private ArrayList<RadioButton> radioButtons = new ArrayList<>();
+
+    private boolean updated, currentNeedsUpdate;
+
 
 
     public EmojiPreference(Context context, AttributeSet attrs) {
@@ -154,6 +158,11 @@ public class EmojiPreference extends Preference {
     private void finishDownload(EmojiCompatFont font, View container) {
         select(font, container.findViewById(R.id.emojicompat_radio));
         updateItem(font, container);
+        // Set the flag to restart the app (because an update has been downloaded)
+        if (selected == original && currentNeedsUpdate) {
+            updated = true;
+            currentNeedsUpdate = false;
+        }
     }
 
     /**
@@ -208,6 +217,10 @@ public class EmojiPreference extends Preference {
         // Select it if necessary
         if(font == selected) {
             radio.setChecked(true);
+            // Update available
+            if (!font.isDownloaded(getContext())) {
+                currentNeedsUpdate = true;
+            }
         }
         else {
             radio.setChecked(false);
@@ -236,7 +249,7 @@ public class EmojiPreference extends Preference {
      */
     private void onDialogOk() {
             saveSelectedFont();
-            if(selected != original) {
+        if (selected != original || updated) {
                 new AlertDialog.Builder(getContext())
                         .setTitle(R.string.restart_required)
                         .setMessage(R.string.restart_emoji)

@@ -3,15 +3,25 @@ package com.keylesspalace.tusky.util;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
-import androidx.annotation.Nullable;
 import android.util.Log;
+import android.util.Pair;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.keylesspalace.tusky.R;
 
 import java.io.EOFException;
 import java.io.File;
+import java.io.FilenameFilter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import de.c1710.filemojicompat.FileEmojiCompatConfig;
 import okhttp3.OkHttpClient;
@@ -26,6 +36,7 @@ import okio.Source;
  * This class bundles information about an emoji font as well as many convenient actions.
  */
 public class EmojiCompatFont {
+    private static final String TAG = "EmojiCompatFont";
     /**
      * This String represents the sub-directory the fonts are stored in.
      */
@@ -35,6 +46,9 @@ public class EmojiCompatFont {
     private final String name, display, url;
     // The thumbnail image and the caption are provided as resource ids
     private final int img, caption;
+    // The version is stored as a String in the x.xx.xx format (to be able to compare versions)
+    private final String version;
+    private final int[] versionCode;
     private AsyncTask fontDownloader;
     // The system font gets some special behavior...
     private static final EmojiCompatFont SYSTEM_DEFAULT =
@@ -42,38 +56,55 @@ public class EmojiCompatFont {
                     "System Default",
                     R.string.caption_systememoji,
                     R.drawable.ic_emoji_34dp,
-                    "");
+                    "",
+                    "0");
     private static final EmojiCompatFont BLOBMOJI =
             new EmojiCompatFont("Blobmoji",
                     "Blobmoji",
                     R.string.caption_blobmoji,
                     R.drawable.ic_blobmoji,
-                    "https://tusky.app/hosted/emoji/BlobmojiCompat.ttf"
+                    "https://tusky.app/hosted/emoji/BlobmojiCompat.ttf",
+                    "12.0.0"
             );
     private static final EmojiCompatFont TWEMOJI =
             new EmojiCompatFont("Twemoji",
                     "Twemoji",
                     R.string.caption_twemoji,
                     R.drawable.ic_twemoji,
-                    "https://tusky.app/hosted/emoji/TwemojiCompat.ttf"
+                    "https://tusky.app/hosted/emoji/TwemojiCompat.ttf",
+                    "12.0.0"
             );
+    private static final EmojiCompatFont NOTOEMOJI =
+            new EmojiCompatFont("NotoEmoji",
+                    "Noto Emoji",
+                    R.string.caption_notoemoji,
+                    R.drawable.ic_notoemoji,
+                    "https://tusky.app/hosted/emoji/NotoEmojiCompat.ttf",
+                    "11.0.0"
+                    );
 
     /**
      * This array stores all available EmojiCompat fonts.
      * References to them can simply be saved by saving their indices
      */
-    public static final EmojiCompatFont[] FONTS = {SYSTEM_DEFAULT, BLOBMOJI, TWEMOJI};
+    public static final EmojiCompatFont[] FONTS = {SYSTEM_DEFAULT, BLOBMOJI, TWEMOJI, NOTOEMOJI};
+    // A list of all available font files and whether they are older than the current version or not
+    // They are ordered by there version codes in ascending order
+    private ArrayList<Pair<File, int[]>> existingFontFiles;
 
     private EmojiCompatFont(String name,
                             String display,
                             int caption,
                             int img,
-                            String url) {
+                            String url,
+                            String version) {
         this.name = name;
         this.display = display;
         this.caption = caption;
         this.img = img;
         this.url = url;
+        this.version = version;
+        this.versionCode = getVersionCode(version);
     }
 
     /**
@@ -115,28 +146,55 @@ public class EmojiCompatFont {
         return context.getResources().getDrawable(img);
     }
 
+    public String getVersion() {
+        return version;
+    }
+
+    public int[] getVersionCode() {
+        return versionCode;
+    }
 
     /**
-     * This method will return the actual font file (regardless of its existence).
+     * This method will return the actual font file (regardless of its existence) for
+     * the current version (not necessarily the latest!).
      * @return The font (TTF) file or null if called on SYSTEM_FONT
      */
     @Nullable
     private File getFont(Context context) {
         if(this != SYSTEM_DEFAULT) {
             File directory = new File(context.getExternalFilesDir(null), DIRECTORY);
-            return new File(directory, this.getName() + ".ttf");
+            return new File(directory, this.getName() + this.getVersion() + ".ttf");
         }
         else {
             return null;
         }
     }
 
+
     public FileEmojiCompatConfig getConfig(Context context) {
-        return new FileEmojiCompatConfig(context, getFont(context));
+        return new FileEmojiCompatConfig(context, getLatestFontFile(context));
     }
 
     public boolean isDownloaded(Context context) {
-        return this == SYSTEM_DEFAULT || getFont(context) != null && getFont(context).exists();
+        // The existence of the current version is actually checked twice, although the first method should
+        // be much faster and more common.
+        return this == SYSTEM_DEFAULT || getFont(context) != null
+                && (getFont(context).exists() || newerFileExists(context));
+    }
+
+    /**
+     * Checks whether there is already a font version that satisfies the current version, i.e. it
+     * has a higher or equal version code.
+     * @param context The Context
+     * @return Whether there is a font file with a higher or equal version code to the current
+     */
+    private boolean newerFileExists(Context context) {
+        loadExistingFontFiles(context);
+        if (!existingFontFiles.isEmpty())
+            // The last file is already the newest one...
+            return compareVersions(existingFontFiles.get(existingFontFiles.size() - 1).second,
+                    getVersionCode()) >= 0;
+        return false;
     }
 
     /**
@@ -145,9 +203,18 @@ public class EmojiCompatFont {
      */
     public void downloadFont(Context context, Downloader.EmojiDownloadListener... listeners) {
         if(this != SYSTEM_DEFAULT) {
+            // Additionally run a cleanup process after the download has been successful.
+            Downloader.EmojiDownloadListener cleanup = font -> deleteOldVersions(context);
+
+            List<Downloader.EmojiDownloadListener> allListeners
+                    = new ArrayList<>(Arrays.asList(listeners));
+            allListeners.add(cleanup);
+            Downloader.EmojiDownloadListener[] allListenersA =
+                    new Downloader.EmojiDownloadListener[allListeners.size()];
+
             fontDownloader = new Downloader(
                     this,
-                    listeners)
+                    allListeners.toArray(allListenersA))
                     .execute(getFont(context));
         }
         else {
@@ -156,6 +223,157 @@ public class EmojiCompatFont {
                 listener.onDownloaded(this);
             }
         }
+    }
+
+    /**
+     * Deletes any older version of a font
+     * @param context The current Context
+     */
+    private void deleteOldVersions(Context context) {
+        loadExistingFontFiles(context);
+        Log.d(TAG, "deleting old versions...");
+
+        Log.d(TAG, String.format("deleteOldVersions: Found %d other font files", existingFontFiles.size()));
+        for (Pair<File, int[]> fileExists : existingFontFiles) {
+            if (compareVersions(fileExists.second, getVersionCode()) < 0) {
+                    File file = fileExists.first;
+                    // Uses side effects!
+                    Log.d(TAG, String.format("Deleted %s successfully: %s", file.getAbsolutePath(),
+                            file.delete()));
+                }
+        }
+    }
+
+    private static final Comparator<Pair<File, int[]>> pairComparator = (o1, o2) -> compareVersions(o1.second, o2.second);
+
+
+    /**
+     * Loads all font files that are inside the files directory into an ArrayList with the information
+     * on whether they are older than the currently available version or not.
+     * @param context The Context
+     */
+    private void loadExistingFontFiles(Context context) {
+        // Only load it once
+        if (this.existingFontFiles == null) {
+            // If we call this on the system default font, just return nothing...
+            if (this == SYSTEM_DEFAULT) {
+                existingFontFiles = new ArrayList<>(0);
+            }
+
+            File directory = new File(context.getExternalFilesDir(null), DIRECTORY);
+            // It will search for old versions using a regex that matches the font's name plus
+            // (if present) a version code. No version code will be regarded as version 0.
+            Pattern fontRegex = Pattern.compile(getName() + "(\\d+(\\.\\d+)*)?" + "\\.ttf");
+
+
+            FilenameFilter ttfFilter = (dir, name) -> name.endsWith(".ttf");
+            File[] existingFontFiles = directory.isDirectory() ? directory.listFiles(ttfFilter) : new File[0];
+            Log.d(TAG, String.format("loadExistingFontFiles: %d other font files found",
+                    existingFontFiles.length));
+            // This is actually the upper bound
+            this.existingFontFiles = new ArrayList<>(existingFontFiles.length);
+
+
+            for(File file : existingFontFiles) {
+                Matcher matcher = fontRegex.matcher(file.getName());
+                if (matcher.matches()) {
+                    String version = matcher.group(1);
+                    int[] versionCode = getVersionCode(version);
+                    Pair<File, int[]> entry = new Pair<>(file, versionCode);
+                    // https://stackoverflow.com/a/51893026
+                    // Insert it in a sorted way
+                    int index = Collections.binarySearch(this.existingFontFiles, entry, pairComparator);
+                    if (index < 0) {
+                        index = -index - 1;
+                    }
+                    this.existingFontFiles.add(index, entry);
+                }
+            }
+        }
+    }
+
+    /**
+     * Returns the current or latest version of this font file (if there is any)
+     * @param context The Context
+     * @return The file for this font with the current or (if not existent) highest version code or null if there is no file for this font.
+     */
+    private File getLatestFontFile(@NonNull Context context) {
+        File current = getFont(context);
+        if (current != null && current.exists())
+            return current;
+        loadExistingFontFiles(context);
+        try {
+            return existingFontFiles.get(existingFontFiles.size() - 1).first;
+        } catch (IndexOutOfBoundsException e) {
+            return getFont(context);
+        }
+    }
+
+    private @Nullable
+    int[] getVersionCode(@Nullable String version) {
+        if (version == null)
+            return null;
+        String[] versions = version.split("\\.");
+        int[] versionCodes = new int[versions.length];
+        for (int i = 0; i < versions.length; i++)
+            versionCodes[i] = parseInt(versions[i], 0);
+        return versionCodes;
+    }
+
+    /**
+     * A small helper method to convert a String to an int with a default value
+     *
+     * @param value The String to be parsed
+     * @param def   The default value
+     * @return Either the String parsed to an int or - if this is not possible - the default value
+     */
+    private int parseInt(@Nullable String value, int def) {
+        try {
+            return Integer.parseInt(value);
+        } catch (NumberFormatException | NullPointerException e) {
+            e.printStackTrace();
+            return def;
+        }
+    }
+
+    /**
+     * Compares two version codes to each other
+     *
+     * @param versionA The first version
+     * @param versionB The second version
+     * @return -1 if versionA < versionB, 1 if versionA > versionB and 0 otherwise
+     */
+    private static int compareVersions(int[] versionA, int[] versionB) {
+        // This saves us much headache about handling a null version
+        if (versionA == null)
+            versionA = new int[]{0};
+
+        int len = Math.max(versionB.length, versionA.length);
+
+        int vA, vB;
+        // Compare the versions
+        for (int i = 0; i < len; i++) {
+            // Just to make sure there is something specified here
+            if (versionA.length > i) {
+                vA = versionA[i];
+            } else {
+                vA = 0;
+            }
+            if (versionB.length > i) {
+                vB = versionB[i];
+            } else {
+                vB = 0;
+            }
+
+            // It needs to be decided on the next level
+            if (vB == vA)
+                continue;
+            // Okay, is version B newer or version A?
+            return Integer.compare(vA, vB);
+        }
+
+        // The versions are equal
+        return 0;
     }
 
     /**
@@ -306,6 +524,7 @@ public class EmojiCompatFont {
     }
 
     @Override
+    @NonNull
     public String toString() {
         return display;
     }
