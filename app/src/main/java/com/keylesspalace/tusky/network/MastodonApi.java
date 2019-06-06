@@ -422,7 +422,8 @@ public interface MastodonApi {
             @Query("limit") Integer limit,
             @Nullable @Query("exclude_replies") Boolean excludeReplies,
             @Nullable @Query("only_media") Boolean onlyMedia,
-            @Nullable @Query("pinned") Boolean pinned);
+            @Nullable @Query("pinned") Boolean pinned,
+            @Nullable @Query("exclude_reblogs") Boolean excludeReblogs);
 
 
     @GET("api/v1/statuses/{id}")

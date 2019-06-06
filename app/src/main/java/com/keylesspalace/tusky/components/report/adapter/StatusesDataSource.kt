@@ -73,7 +73,7 @@ class StatusesDataSource(private val accountId: String,
         retryInitial = null
         initialLoad.postValue(NetworkState.LOADING)
         mastodonApi.statusObservable(params.requestedInitialKey).zipWith(
-                mastodonApi.accountStatusesObservable(accountId, params.requestedInitialKey, null, params.requestedLoadSize - 1, null, null, null),
+                mastodonApi.accountStatusesObservable(accountId, params.requestedInitialKey, null, params.requestedLoadSize - 1, null, null, null, true),
                 BiFunction { status: Status, list: List<Status> ->
                     val ret = ArrayList<Status>()
                     ret.add(status)
@@ -101,7 +101,7 @@ class StatusesDataSource(private val accountId: String,
     override fun loadAfter(params: LoadParams<String>, callback: LoadCallback<Status>) {
         networkStateAfter.postValue(NetworkState.LOADING)
         retryAfter = null
-        mastodonApi.accountStatusesObservable(accountId, params.key, null, params.requestedLoadSize, null, null, null)
+        mastodonApi.accountStatusesObservable(accountId, params.key, null, params.requestedLoadSize, null, null, null, true)
                 .doOnSubscribe {
                     disposables.add(it)
                 }
@@ -123,7 +123,7 @@ class StatusesDataSource(private val accountId: String,
     override fun loadBefore(params: LoadParams<String>, callback: LoadCallback<Status>) {
         networkStateBefore.postValue(NetworkState.LOADING)
         retryBefore = null
-        mastodonApi.accountStatusesObservable(accountId, null, params.key, params.requestedLoadSize, null, null, null)
+        mastodonApi.accountStatusesObservable(accountId, null, params.key, params.requestedLoadSize, null, null, null, true)
                 .doOnSubscribe {
                     disposables.add(it)
                 }
