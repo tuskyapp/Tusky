@@ -420,9 +420,6 @@ public interface MastodonApi {
             @Query("max_id") String maxId,
             @Query("since_id") String sinceId,
             @Query("limit") Integer limit,
-            @Nullable @Query("exclude_replies") Boolean excludeReplies,
-            @Nullable @Query("only_media") Boolean onlyMedia,
-            @Nullable @Query("pinned") Boolean pinned,
             @Nullable @Query("exclude_reblogs") Boolean excludeReblogs);
 
 
