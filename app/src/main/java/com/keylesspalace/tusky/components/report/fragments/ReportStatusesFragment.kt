@@ -44,6 +44,8 @@ import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.entity.Attachment
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.util.ThemeUtils
+import com.keylesspalace.tusky.util.hide
+import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.viewdata.AttachmentViewData
 import kotlinx.android.synthetic.main.fragment_report_statuses.*
 import javax.inject.Inject
@@ -137,19 +139,31 @@ class ReportStatusesFragment : Fragment(), Injectable, AdapterHandler {
         })
 
         viewModel.networkStateAfter.observe(viewLifecycleOwner, Observer {
-            progressBarBottom.visibility = if (it?.status == com.keylesspalace.tusky.util.Status.RUNNING) View.VISIBLE else View.GONE
+            if (it?.status == com.keylesspalace.tusky.util.Status.RUNNING)
+                progressBarBottom.show()
+            else
+                progressBarBottom.hide()
+
             if (it?.status == com.keylesspalace.tusky.util.Status.FAILED)
                 showError(it.msg)
         })
 
         viewModel.networkStateBefore.observe(viewLifecycleOwner, Observer {
-            progressBarTop.visibility = if (it?.status == com.keylesspalace.tusky.util.Status.RUNNING) View.VISIBLE else View.GONE
+            if (it?.status == com.keylesspalace.tusky.util.Status.RUNNING)
+                progressBarTop.show()
+            else
+                progressBarTop.hide()
+
             if (it?.status == com.keylesspalace.tusky.util.Status.FAILED)
                 showError(it.msg)
         })
 
         viewModel.networkStateRefresh.observe(viewLifecycleOwner, Observer {
-            progressBarLoading.visibility = if (it?.status == com.keylesspalace.tusky.util.Status.RUNNING && !swipeRefreshLayout.isRefreshing) View.VISIBLE else View.GONE
+            if (it?.status == com.keylesspalace.tusky.util.Status.RUNNING && !swipeRefreshLayout.isRefreshing)
+                progressBarLoading.show()
+            else
+                progressBarLoading.hide()
+
             if (it?.status != com.keylesspalace.tusky.util.Status.RUNNING)
                 swipeRefreshLayout.isRefreshing = false
             if (it?.status == com.keylesspalace.tusky.util.Status.FAILED)

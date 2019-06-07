@@ -29,6 +29,8 @@ import com.keylesspalace.tusky.components.report.Screen
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.util.Loading
+import com.keylesspalace.tusky.util.hide
+import com.keylesspalace.tusky.util.show
 import kotlinx.android.synthetic.main.fragment_report_done.*
 import javax.inject.Inject
 
@@ -59,8 +61,14 @@ class ReportDoneFragment : Fragment(), Injectable {
 
     private fun subscribeObservables() {
         viewModel.muteState.observe(viewLifecycleOwner, Observer {
-            buttonMute.visibility = if (it !is Loading) View.VISIBLE else View.INVISIBLE
-            progressMute.visibility = if (it is Loading) View.VISIBLE else View.INVISIBLE
+            if (it !is Loading) {
+                buttonMute.show()
+                progressMute.show()
+            } else {
+                buttonMute.hide()
+                progressMute.hide()
+            }
+
             buttonMute.setText(when {
                 it.data == true -> R.string.action_unmute
                 else -> R.string.action_mute
@@ -68,8 +76,14 @@ class ReportDoneFragment : Fragment(), Injectable {
         })
 
         viewModel.blockState.observe(viewLifecycleOwner, Observer {
-            buttonBlock.visibility = if (it !is Loading) View.VISIBLE else View.INVISIBLE
-            progressBlock.visibility = if (it is Loading) View.VISIBLE else View.INVISIBLE
+            if (it !is Loading) {
+                buttonBlock.show()
+                progressBlock.show()
+            }
+            else{
+                buttonBlock.hide()
+                progressBlock.hide()
+            }
             buttonBlock.setText(when {
                 it.data == true -> R.string.action_unblock
                 else -> R.string.action_block

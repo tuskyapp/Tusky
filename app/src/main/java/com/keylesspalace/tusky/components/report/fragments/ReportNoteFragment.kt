@@ -29,9 +29,7 @@ import com.keylesspalace.tusky.components.report.ReportViewModel
 import com.keylesspalace.tusky.components.report.Screen
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.di.ViewModelFactory
-import com.keylesspalace.tusky.util.Error
-import com.keylesspalace.tusky.util.Loading
-import com.keylesspalace.tusky.util.Success
+import com.keylesspalace.tusky.util.*
 import kotlinx.android.synthetic.main.fragment_report_note.*
 import java.io.IOException
 import javax.inject.Inject
@@ -72,8 +70,16 @@ class ReportNoteFragment : Fragment(), Injectable {
 
     private fun fillViews() {
         editNote.setText(viewModel.reportNote)
-        checkIsNotifyRemote.visibility = if (viewModel.isRemoteAccount) View.VISIBLE else View.GONE
-        reportDescriptionRemoteInstance.visibility = if (viewModel.isRemoteAccount) View.VISIBLE else View.GONE
+
+        if (viewModel.isRemoteAccount){
+            checkIsNotifyRemote.show()
+            reportDescriptionRemoteInstance.show()
+        }
+        else{
+            checkIsNotifyRemote.hide()
+            reportDescriptionRemoteInstance.hide()
+        }
+
         if (viewModel.isRemoteAccount)
             checkIsNotifyRemote.text = getString(R.string.report_remote_instance, viewModel.remoteServer)
         checkIsNotifyRemote.isChecked = viewModel.isRemoteNotify
@@ -95,7 +101,7 @@ class ReportNoteFragment : Fragment(), Injectable {
         checkIsNotifyRemote.isEnabled = true
         buttonReport.isEnabled = true
         buttonBack.isEnabled = true
-        progressBar.visibility = View.GONE
+        progressBar.hide()
 
         Snackbar.make(buttonBack, if (error is IOException) R.string.error_network else R.string.error_generic, Snackbar.LENGTH_LONG)
                 .apply {
@@ -115,7 +121,7 @@ class ReportNoteFragment : Fragment(), Injectable {
         buttonBack.isEnabled = false
         editNote.isEnabled = false
         checkIsNotifyRemote.isEnabled = false
-        progressBar.visibility = View.VISIBLE
+        progressBar.show()
     }
 
     private fun handleClicks() {

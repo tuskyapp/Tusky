@@ -83,13 +83,13 @@ class StatusViewHolder(itemView: View,
 
             if (status.spoilerText.isBlank()) {
                 setTextVisible(true, status.content, status.mentions, status.emojis, adapterHandler)
-                itemView.statusContentWarningButton.visibility = View.GONE
-                itemView.statusContentWarningDescription.visibility = View.GONE
+                itemView.statusContentWarningButton.hide()
+                itemView.statusContentWarningDescription.hide()
             } else {
                 val emojiSpoiler = CustomEmojiHelper.emojifyString(status.spoilerText, status.emojis, itemView.statusContentWarningDescription)
                 itemView.statusContentWarningDescription.text = emojiSpoiler
-                itemView.statusContentWarningDescription.visibility = View.VISIBLE
-                itemView.statusContentWarningButton.visibility = View.VISIBLE
+                itemView.statusContentWarningDescription.show()
+                itemView.statusContentWarningButton.show()
                 itemView.statusContentWarningButton.isChecked = viewState.isContentShow(status.id, true)
                 itemView.statusContentWarningButton.setOnCheckedChangeListener { _, isViewChecked ->
                     status()?.let { status ->
@@ -116,9 +116,9 @@ class StatusViewHolder(itemView: View,
             LinkHelper.setClickableMentions(itemView.statusContent, mentions, listener)
         }
         if (itemView.statusContent.text.isNullOrBlank()) {
-            itemView.statusContent.visibility = View.GONE
+            itemView.statusContent.hide()
         } else {
-            itemView.statusContent.visibility = View.VISIBLE
+            itemView.statusContent.show()
         }
     }
 
@@ -148,7 +148,7 @@ class StatusViewHolder(itemView: View,
                 }
             }
 
-            itemView.buttonToggleContent.visibility = View.VISIBLE
+            itemView.buttonToggleContent.show()
             if (collapsed) {
                 itemView.buttonToggleContent.isChecked = true
                 itemView.statusContent.filters = COLLAPSE_INPUT_FILTER
@@ -157,7 +157,7 @@ class StatusViewHolder(itemView: View,
                 itemView.statusContent.filters = NO_INPUT_FILTER
             }
         } else {
-            itemView.buttonToggleContent.visibility = View.GONE
+            itemView.buttonToggleContent.hide()
             itemView.statusContent.filters = NO_INPUT_FILTER
         }
     }
