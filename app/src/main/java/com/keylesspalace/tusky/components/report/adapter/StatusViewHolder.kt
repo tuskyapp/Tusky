@@ -128,7 +128,7 @@ class StatusViewHolder(itemView: View,
         } else {
             itemView.timestampInfo.text = if (createdAt != null) {
                 val then = createdAt.time
-                val now = Date().time
+                val now = System.currentTimeMillis()
                 DateUtils.getRelativeTimeSpanString(itemView.timestampInfo.context, then, now)
             } else {
                 // unknown minutes~
