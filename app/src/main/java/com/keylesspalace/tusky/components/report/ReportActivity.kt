@@ -20,21 +20,23 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.Spanned
 import android.view.MenuItem
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import com.keylesspalace.tusky.BaseActivity
 import com.keylesspalace.tusky.BottomSheetActivity
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.components.report.adapter.ReportPagerAdapter
 import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.util.HtmlUtils
+import com.keylesspalace.tusky.util.ThemeUtils
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.support.HasSupportFragmentInjector
 import kotlinx.android.synthetic.main.activity_report.*
 import kotlinx.android.synthetic.main.toolbar_basic.*
 import javax.inject.Inject
+
 
 class ReportActivity : BottomSheetActivity(), HasSupportFragmentInjector {
 
@@ -63,11 +65,14 @@ class ReportActivity : BottomSheetActivity(), HasSupportFragmentInjector {
 
         setSupportActionBar(toolbar)
 
+        val closeIcon = AppCompatResources.getDrawable(this, R.drawable.ic_close_24dp)
+        ThemeUtils.setDrawableTint(this, closeIcon!!, R.attr.compose_close_button_tint)
+
         supportActionBar?.apply {
             title = getString(R.string.report_username_format, viewModel.accountUserName)
             setDisplayHomeAsUpEnabled(true)
             setDisplayShowHomeEnabled(true)
-            setHomeAsUpIndicator(R.drawable.ic_close_24dp)
+            setHomeAsUpIndicator(closeIcon)
         }
 
         initViewPager()
