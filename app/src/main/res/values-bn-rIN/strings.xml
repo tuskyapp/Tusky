@@ -20,7 +20,7 @@
     <string name="error_media_upload_image_or_video">ছবি এবং ভিডিও উভয় একই স্টেটাস থেকে সংযুক্ত করা যাবে না।</string>
     <string name="error_media_upload_sending">আপলোড করতে ব্যর্থ হয়েছে।</string>
     <string name="error_report_too_few_statuses">অন্তত এক স্টেটাস রিপোর্ট করা আবশ্যক।</string>
-    <string name="error_sender_account_gone">টুট পাঠাতে গিয়ে একটি ত্রুটি ঘটেছে</string>
+    <string name="error_sender_account_gone">টুট পাঠাতে গিয়ে একটি ত্রুটি ঘটেছে।</string>
 
     <string name="title_home">ঘর</string>
     <string name="title_notifications">বিজ্ঞপ্তিগুলি</string>
@@ -152,7 +152,7 @@
     <string name="hint_content_warning">সতর্কবার্তা</string>
     <string name="hint_display_name">প্রদর্শন নাম</string>
     <string name="hint_note">জীবনী</string>
-    <string name="hint_search">অনুসন্ধান</string>
+    <string name="hint_search">অনুসন্ধান…</string>
 
     <string name="search_no_results">কোন ফলাফল নেই</string>
 
