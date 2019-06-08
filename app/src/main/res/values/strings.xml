@@ -507,4 +507,5 @@
     <string name="report_description_1">The report will be sent to your server moderator. You can provide an explanation of why you are reporting this account below:</string>
     <string name="report_description_remote_instance">The account is from another server. Send an anonymized copy of the report there as well?</string>
 
+    <string name="pref_title_show_notifications_filter">Show Notifications filter</string>
 </resources>
