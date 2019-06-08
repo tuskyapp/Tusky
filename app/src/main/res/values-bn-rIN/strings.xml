@@ -1,469 +1,471 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
 
-    <string name="error_generic"></string>
-    <string name="error_network"></string>
-    <string name="error_empty"></string>
-    <string name="error_invalid_domain"></string>
-    <string name="error_failed_app_registration"></string>
-    <string name="error_no_web_browser_found"></string>
-    <string name="error_authorization_unknown"></string>
-    <string name="error_authorization_denied"></string>
-    <string name="error_retrieving_oauth_token"></string>
-    <string name="error_compose_character_limit"></string>
-    <string name="error_image_upload_size"></string>
-    <string name="error_video_upload_size"></string>
-    <string name="error_media_upload_type"></string>
-    <string name="error_media_upload_opening"></string>
-    <string name="error_media_upload_permission"></string>
-    <string name="error_media_download_permission"></string>
-    <string name="error_media_upload_image_or_video"></string>
-    <string name="error_media_upload_sending"></string>
-    <string name="error_report_too_few_statuses"></string>
-    <string name="error_sender_account_gone"></string>
+    <string name="error_generic">একটি ত্রুটি ঘটেছে।</string>
+    <string name="error_network">একটি নেটওয়ার্ক ত্রুটি ঘটেছে! আপনার সংযোগ পরীক্ষা করে আবার চেষ্টা করুন!</string>
+    <string name="error_empty">এই জায়গা খালি হতে পারে না।</string>
+    <string name="error_invalid_domain">অবৈধ ডোমেইন প্রবেশ করানো হয়েছে</string>
+    <string name="error_failed_app_registration">এই ইনস্ট্যান্স এর সঙ্গে প্রমাণীকরণ ব্যর্থ।</string>
+    <string name="error_no_web_browser_found">ব্যবহার করার জন্য একটি ওয়েব ব্রাউজার খুঁজে পাওয়া যায়নি।</string>
+    <string name="error_authorization_unknown">একটি অজ্ঞাত প্রমাণীকরণ ত্রুটি ঘটেছে।</string>
+    <string name="error_authorization_denied">অনুমোদন অস্বীকার করা হয়েছে।</string>
+    <string name="error_retrieving_oauth_token">একটি লগইন টোকেন পেতে ব্যর্থ।</string>
+    <string name="error_compose_character_limit">এই স্টেটাস টি খুব দীর্ঘ!</string>
+    <string name="error_image_upload_size">ফাইল 8MB চেয়ে কম হতে হবে।</string>
+    <string name="error_video_upload_size">ভিডিও ফাইল 40MB চেয়ে কম হতে হবে।</string>
+    <string name="error_media_upload_type">যে ধরনের ফাইল আপলোড করা যাবে না।</string>
+    <string name="error_media_upload_opening">ওই ফাইল খোলা যাবে না।</string>
+    <string name="error_media_upload_permission">মিডিয়া পড়তে অনুমতি প্রয়োজন।</string>
+    <string name="error_media_download_permission">মিডিয়া সংরক্ষণ করার অনুমতি প্রয়োজন।</string>
+    <string name="error_media_upload_image_or_video">ছবি এবং ভিডিও উভয় একই স্টেটাস থেকে সংযুক্ত করা যাবে না।</string>
+    <string name="error_media_upload_sending">আপলোড করতে ব্যর্থ হয়েছে।</string>
+    <string name="error_report_too_few_statuses">অন্তত এক স্টেটাস রিপোর্ট করা আবশ্যক।</string>
+    <string name="error_sender_account_gone">টুট পাঠাতে গিয়ে একটি ত্রুটি ঘটেছে</string>
 
-    <string name="title_home"></string>
-    <string name="title_notifications"></string>
-    <string name="title_public_local"></string>
-    <string name="title_public_federated"></string>
-    <string name="title_direct_messages"></string>
-    <string name="title_tab_preferences"></string>
-    <string name="title_view_thread"></string>
-    <string name="title_tag"></string>
-    <string name="title_statuses"></string>
-    <string name="title_statuses_with_replies"></string>
-    <string name="title_statuses_pinned"></string>
-    <string name="title_follows"></string>
-    <string name="title_followers"></string>
-    <string name="title_favourites"></string>
-    <string name="title_mutes"></string>
-    <string name="title_blocks"></string>
-    <string name="title_follow_requests"></string>
-    <string name="title_edit_profile"></string>
-    <string name="title_saved_toot"></string>
-    <string name="title_licenses"></string>
+    <string name="title_home">ঘর</string>
+    <string name="title_notifications">বিজ্ঞপ্তিগুলি</string>
+    <string name="title_public_local">স্থানীয়</string>
+    <string name="title_public_federated">ফেডারেটেড</string>
+    <string name="title_direct_messages">সরাসরি বার্তা</string>
+    <string name="title_tab_preferences">ট্যাবগুলি</string>
+    <string name="title_view_thread">টুট</string>
+    <string name="title_tag">#%s</string>
+    <string name="title_statuses">পোস্টগুলি</string>
+    <string name="title_statuses_with_replies">উত্তরের সাথে</string>
+    <string name="title_statuses_pinned">পিন করা</string>
+    <string name="title_follows">অনুসরণ</string>
+    <string name="title_followers">অনুগামিবৃন্দ</string>
+    <string name="title_favourites">প্রিয়গুলি</string>
+    <string name="title_mutes">শব্দ বন্ধ ব্যবহারকারী</string>
+    <string name="title_blocks">অবরুদ্ধ ব্যবহারকারী</string>
+    <string name="title_follow_requests">অনুরোধ অনুসরণ করুন</string>
+    <string name="title_edit_profile">আপনার প্রোফাইল সম্পাদনা করুন</string>
+    <string name="title_saved_toot">ড্রাফটগুলি</string>
+    <string name="title_licenses">লাইসেন্সগুলি</string>
 
-    <string name="status_username_format"></string>
-    <string name="status_boosted_format"></string>
-    <string name="status_sensitive_media_title"></string>
-    <string name="status_media_hidden_title"></string>
-    <string name="status_sensitive_media_directions"></string>
-    <string name="status_content_warning_show_more"></string>
-    <string name="status_content_warning_show_less"></string>
-    <string name="status_content_show_more"></string>
-    <string name="status_content_show_less"></string>
+    <string name="status_username_format">\@%s</string>
+    <string name="status_boosted_format">%s সমর্থন দিয়েছে</string>
+    <string name="status_sensitive_media_title">সংবেদনশীল কন্টেন্ট</string>
+    <string name="status_media_hidden_title">মিডিয়া লুকানো</string>
+    <string name="status_sensitive_media_directions">দেখার জন্য ক্লিক করুন</string>
+    <string name="status_content_warning_show_more">আরও দেখাও</string>
+    <string name="status_content_warning_show_less">প্রদর্শন কম</string>
+    <string name="status_content_show_more">বিস্তৃত</string>
+    <string name="status_content_show_less">বন্ধ</string>
 
-    <string name="message_empty"></string>
-    <string name="footer_empty"></string>
+    <string name="message_empty">এখানে কিছুই নেই।</string>
+    <string name="footer_empty">এখানে কিছু নেই। রিফ্রেশ করতে নিচে টানুন!</string>
 
-    <string name="notification_reblog_format"></string>
-    <string name="notification_favourite_format"></string>
-    <string name="notification_follow_format"></string>
+    <string name="notification_reblog_format">%s সমর্থন দিয়েছে</string>
+    <string name="notification_favourite_format">%s আপনার টুট পছন্দ করেছে</string>
+    <string name="notification_follow_format">%s আপনাকে অনুসরণ করেছেন</string>
 
-    <string name="report_username_format"></string>
-    <string name="report_comment_hint"></string>
+    <string name="report_username_format">রিপোর্ট @%s</string>
+    <string name="report_comment_hint">অতিরিক্ত মন্তব্যগুলি\?</string>
 
-    <string name="action_quick_reply"></string>
-    <string name="action_reply"></string>
-    <string name="action_reblog"></string>
-    <string name="action_unreblog"></string>
-    <string name="action_favourite"></string>
-    <string name="action_unfavourite"></string>
-    <string name="action_more"></string>
-    <string name="action_compose"></string>
-    <string name="action_login"></string>
-    <string name="action_logout"></string>
-    <string name="action_logout_confirm"></string>
-    <string name="action_follow"></string>
-    <string name="action_unfollow"></string>
-    <string name="action_block"></string>
-    <string name="action_unblock"></string>
-    <string name="action_hide_reblogs"></string>
-    <string name="action_show_reblogs"></string>
-    <string name="action_report"></string>
-    <string name="action_delete"></string>
-    <string name="action_delete_and_redraft"></string>
-    <string name="action_send"></string>
-    <string name="action_send_public"></string>
-    <string name="action_retry"></string>
-    <string name="action_close"></string>
-    <string name="action_view_profile"></string>
-    <string name="action_view_preferences"></string>
-    <string name="action_view_account_preferences"></string>
-    <string name="action_view_favourites"></string>
-    <string name="action_view_mutes"></string>
-    <string name="action_view_blocks"></string>
-    <string name="action_view_follow_requests"></string>
-    <string name="action_view_media"></string>
-    <string name="action_open_in_web"></string>
-    <string name="action_add_media"></string>
-    <string name="action_photo_take"></string>
-    <string name="action_share"></string>
-    <string name="action_mute"></string>
-    <string name="action_unmute"></string>
-    <string name="action_mention"></string>
-    <string name="action_hide_media"></string>
-    <string name="action_open_drawer"></string>
-    <string name="action_save"></string>
-    <string name="action_edit_profile"></string>
-    <string name="action_edit_own_profile"></string>
-    <string name="action_undo"></string>
-    <string name="action_accept"></string>
-    <string name="action_reject"></string>
-    <string name="action_search"></string>
-    <string name="action_access_saved_toot"></string>
-    <string name="action_toggle_visibility"></string>
-    <string name="action_content_warning"></string>
-    <string name="action_emoji_keyboard"></string>
-    <string name="action_add_tab"></string>
-    <string name="action_links"></string>
-    <string name="action_mentions"></string>
-    <string name="action_hashtags"></string>
-    <string name="action_open_reblogger"></string>
-    <string name="action_open_reblogged_by"></string>
-    <string name="action_open_faved_by"></string>
+    <string name="action_quick_reply">দ্রুত উত্তর</string>
+    <string name="action_reply">উত্তর</string>
+    <string name="action_reblog">সমর্থন</string>
+    <string name="action_unreblog">সমর্থন সরান</string>
+    <string name="action_favourite">পছন্দ</string>
+    <string name="action_unfavourite">পছন্দ সরান</string>
+    <string name="action_more">অধিক</string>
+    <string name="action_compose">রচনা</string>
+    <string name="action_login">ম্যাস্টোডোন সঙ্গে লগইন করুন</string>
+    <string name="action_logout">প্রস্থান</string>
+    <string name="action_logout_confirm">আপনি কি অ্যাকাউন্ট %1$s থেকে লগ আউট করতে চান\?</string>
+    <string name="action_follow">অনুসরণ কর</string>
+    <string name="action_unfollow">অনুসরণ করা বন্ধ করুন</string>
+    <string name="action_block">অবরুদ্ধ</string>
+    <string name="action_unblock">অবরোধ মুক্ত</string>
+    <string name="action_hide_reblogs">সমর্থন লুকান</string>
+    <string name="action_show_reblogs">সমর্থন দেখান</string>
+    <string name="action_report">রিপোর্ট</string>
+    <string name="action_delete">মুছে ফেল</string>
+    <string name="action_delete_and_redraft">মুছুন এবং পুনরায় ড্রাফট কর</string>
+    <string name="action_send">টুট</string>
+    <string name="action_send_public">টুট!</string>
+    <string name="action_retry">পুনরায় চেষ্টা কর</string>
+    <string name="action_close">বদ্ধ</string>
+    <string name="action_view_profile">প্রোফাইল</string>
+    <string name="action_view_preferences">পছন্দসমূহ</string>
+    <string name="action_view_account_preferences">অ্যাকাউন্ট পছন্দসমূহ</string>
+    <string name="action_view_favourites">প্রিয়গুলি</string>
+    <string name="action_view_mutes">শব্দ বন্ধ ব্যবহারকারী</string>
+    <string name="action_view_blocks">অবরুদ্ধ ব্যবহারকারী</string>
+    <string name="action_view_follow_requests">অনুরোধ অনুসরণ করুন</string>
+    <string name="action_view_media">মিডিয়া</string>
+    <string name="action_open_in_web">ব্রাউজারে খোলা</string>
+    <string name="action_add_media">মিডিয়া যোগ করুন</string>
+    <string name="action_photo_take">ছবি তোল</string>
+    <string name="action_share">ভাগ</string>
+    <string name="action_mute">শব্দ বন্ধ</string>
+    <string name="action_unmute">সশব্দ</string>
+    <string name="action_mention">উল্লেখ</string>
+    <string name="action_hide_media">মিডিয়া লুকান</string>
+    <string name="action_open_drawer">ড্রয়ার খুলুন</string>
+    <string name="action_save">সংরক্ষণ</string>
+    <string name="action_edit_profile">প্রোফাইল সম্পাদনা করুন</string>
+    <string name="action_edit_own_profile">সম্পাদন</string>
+    <string name="action_undo">বাতিল</string>
+    <string name="action_accept">গ্রহণ</string>
+    <string name="action_reject">প্রত্যাখ্যান</string>
+    <string name="action_search">অনুসন্ধান</string>
+    <string name="action_access_saved_toot">ড্রাফটগুলি</string>
+    <string name="action_toggle_visibility">টুট দৃশ্যমানতা</string>
+    <string name="action_content_warning">সতর্কবার্তা</string>
+    <string name="action_emoji_keyboard">ইমোজি কীবোর্ড</string>
+    <string name="action_add_tab">ট্যাব যুক্ত করুন</string>
+    <string name="action_links">লিংকসমূহ</string>
+    <string name="action_mentions">উল্লেখসমূহ</string>
+    <string name="action_hashtags">হ্যাশট্যাগ</string>
+    <string name="action_open_reblogger">সমর্থক লেখক খুলুন</string>
+    <string name="action_open_reblogged_by">সমর্থন দেখান</string>
+    <string name="action_open_faved_by">প্রিয়গুলি দেখান</string>
 
-    <string name="title_hashtags_dialog"></string>
-    <string name="title_mentions_dialog"></string>
-    <string name="title_links_dialog"></string>
-    <string name="action_open_media_n"></string>
+    <string name="title_hashtags_dialog">হ্যাশট্যাগ</string>
+    <string name="title_mentions_dialog">উল্লেখসমূহ</string>
+    <string name="title_links_dialog">লিংকসমূহ</string>
+    <string name="action_open_media_n">মিডিয়া খুলুন #%d</string>
 
-    <string name="download_image"></string>
+    <string name="download_image">%1$s ডাউনলোড হচ্ছে</string>
 
-    <string name="action_copy_link"></string>
-    <string name="action_open_as"></string>
-    <string name="action_share_as"></string>
-    <string name="download_media"></string>
-    <string name="downloading_media"></string>
+    <string name="action_copy_link">লিঙ্ক অনুলিপি করুন</string>
+    <string name="action_open_as">%s হিসাবে খুলুন</string>
+    <string name="action_share_as">হিসাবে ভাগ করুন …</string>
+    <string name="download_media">মিডিয়া ডাউনলোড করুন</string>
+    <string name="downloading_media">মিডিয়া ডাউনলোড করা হচ্ছে</string>
 
-    <string name="send_status_link_to"></string>
-    <string name="send_status_content_to"></string>
-    <string name="send_media_to"></string>
+    <string name="send_status_link_to">টুট URL ভাগ করুন …</string>
+    <string name="send_status_content_to">টুট ভাগ করুন …</string>
+    <string name="send_media_to">মিডিয়া শেয়ার করুন …</string>
 
-    <string name="confirmation_reported"></string>
-    <string name="confirmation_unblocked"></string>
-    <string name="confirmation_unmuted"></string>
+    <string name="confirmation_reported">পাঠানো হয়েছে!</string>
+    <string name="confirmation_unblocked">ব্যবহারকারী অবরোধ মুক্ত</string>
+    <string name="confirmation_unmuted">ব্যবহারকারী সশব্দ</string>
 
-    <string name="status_sent"></string>
-    <string name="status_sent_long"></string>
+    <string name="status_sent">পাঠানো হয়েছে!</string>
+    <string name="status_sent_long">উত্তর সফলভাবে পাঠানো হয়েছে।</string>
 
-    <string name="hint_domain"></string>
-    <string name="hint_compose"></string>
-    <string name="hint_content_warning"></string>
-    <string name="hint_display_name"></string>
-    <string name="hint_note"></string>
-    <string name="hint_search"></string>
+    <string name="hint_domain">কোন ইনস্ট্যান্স\?</string>
+    <string name="hint_compose">কি হচ্ছে\?</string>
+    <string name="hint_content_warning">সতর্কবার্তা</string>
+    <string name="hint_display_name">প্রদর্শন নাম</string>
+    <string name="hint_note">জীবনী</string>
+    <string name="hint_search">অনুসন্ধান</string>
 
-    <string name="search_no_results"></string>
+    <string name="search_no_results">কোন ফলাফল নেই</string>
 
-    <string name="label_quick_reply"></string>
-    <string name="label_avatar"></string>
-    <string name="label_header"></string>
+    <string name="label_quick_reply">উত্তর…</string>
+    <string name="label_avatar">অবতার</string>
+    <string name="label_header">হেডার</string>
 
-    <string name="link_whats_an_instance"></string>
+    <string name="link_whats_an_instance">ইনস্ট্যান্স কি\?</string>
 
-    <string name="login_connection"></string>
+    <string name="login_connection">সংযুক্ত হচ্ছে …</string>
 
-    <string name="dialog_whats_an_instance"><a href="https://instances.social">more!</a>
-        \n\nIf you don\'t yet have an account, you can enter the name of the instance you\'d like to
-        join and create an account there.\n\nAn instance is a single place where your account is
-        hosted, but you can easily communicate with and follow folks on other instances as though
-        you were on the same site.
-        \n\nMore info can be found at <a href="https://joinmastodon.org">joinmastodon.org</a>.
-    </string>
-    <string name="dialog_title_finishing_media_upload"></string>
-    <string name="dialog_message_uploading_media"></string>
-    <string name="dialog_download_image"></string>
-    <string name="dialog_message_cancel_follow_request"></string>
-    <string name="dialog_unfollow_warning"></string>
-    <string name="dialog_delete_toot_warning"></string>
-    <string name="dialog_redraft_toot_warning"></string>
+    <string name="dialog_whats_an_instance">কোনও উদাহরণের ঠিকানা বা ডোমেন এখানে প্রবেশ করা যেতে পারে যেমন mastodon.social, icosahedron.website, social.tchncs.de, এবং <a href="https://instances.social"> আরও! </a>
+\n
+\nআপনার যদি এখনো অ্যাকাউন্ট না থাকে তবে আপনি যে ইনস্ট্যান্সটিতে যোগ দিতে চান সেটির নামটি প্রবেশ করতে এবং সেখানে একটি অ্যাকাউন্ট তৈরি করতে পারেন।
+\n
+\nএকটি ইনস্ট্যান্স একটি একক স্থান যেখানে আপনার অ্যাকাউন্ট হোস্ট করা হয়, তবে আপনি সহজেই যোগাযোগ করতে পারেন এবং অন্যান্য ক্ষেত্রে যেমন আপনি একই সাইটে ছিলেন তা অনুসরণ করতে পারেন।
+\n
+\nআরো তথ্য <a href="https://joinmastodon.org"> joinmastodon.org </a> এ পাওয়া যেতে পারে। </string>
+    <string name="dialog_title_finishing_media_upload">মিডিয়া আপলোড সমাপ্ত করা হচ্ছে</string>
+    <string name="dialog_message_uploading_media">আপলোড হচ্ছে …</string>
+    <string name="dialog_download_image">ডাউনলোড</string>
+    <string name="dialog_message_cancel_follow_request">অনুসরণ অনুরোধ প্রত্যাহার\?</string>
+    <string name="dialog_unfollow_warning">এই অ্যাকাউন্টটি অনুসরণ করবেন না\?</string>
+    <string name="dialog_delete_toot_warning">এই টুট টি মুছে ফেলবেন\?</string>
+    <string name="dialog_redraft_toot_warning">এই টুট টি মুছে ফেলবেন এবং পুনরায় ড্রাফট করবেন\?</string>
 
-    <string name="visibility_public"></string>
-    <string name="visibility_unlisted"></string>
-    <string name="visibility_private"></string>
-    <string name="visibility_direct"></string>
+    <string name="visibility_public">সর্বজনীন: পাবলিক টাইমলাইনে পোস্ট কর</string>
+    <string name="visibility_unlisted">তালিকাভুক্ত নয়: সর্বজনীন সময়সূচীগুলিতে দেখাবেন না</string>
+    <string name="visibility_private">শুধুমাত্র অনুসরণকারীদের: শুধুমাত্র অনুসরণকারীদের পোস্ট করুন</string>
+    <string name="visibility_direct">সরাসরি: শুধুমাত্র উল্লেখ ব্যবহারকারীদের পোস্ট করুন</string>
 
-    <string name="pref_title_edit_notification_settings"></string>
-    <string name="pref_title_notifications_enabled"></string>
-    <string name="pref_title_notification_alerts"></string>
-    <string name="pref_title_notification_alert_sound"></string>
-    <string name="pref_title_notification_alert_vibrate"></string>
-    <string name="pref_title_notification_alert_light"></string>
-    <string name="pref_title_notification_filters"></string>
-    <string name="pref_title_notification_filter_mentions"></string>
-    <string name="pref_title_notification_filter_follows"></string>
-    <string name="pref_title_notification_filter_reblogs"></string>
-    <string name="pref_title_notification_filter_favourites"></string>
-    <string name="pref_title_notification_filter_poll"></string>
-    <string name="pref_title_appearance_settings"></string>
-    <string name="pref_title_app_theme"></string>
-    <string name="pref_title_timelines"></string>
-    <string name="pref_title_timeline_filters"></string>
+    <string name="pref_title_edit_notification_settings">বিজ্ঞপ্তিগুলি</string>
+    <string name="pref_title_notifications_enabled">বিজ্ঞপ্তিগুলি</string>
+    <string name="pref_title_notification_alerts">সতর্কতা</string>
+    <string name="pref_title_notification_alert_sound">একটি শব্দ সঙ্গে অবহিত</string>
+    <string name="pref_title_notification_alert_vibrate">কম্পন সঙ্গে অবহিত</string>
+    <string name="pref_title_notification_alert_light">আলো সঙ্গে অবহিত</string>
+    <string name="pref_title_notification_filters">যখন আমাকে অবহিত</string>
+    <string name="pref_title_notification_filter_mentions">উল্লিখিত</string>
+    <string name="pref_title_notification_filter_follows">অনুসরণ</string>
+    <string name="pref_title_notification_filter_reblogs">আমার পোস্টগুলির সমর্থন হচ্ছে</string>
+    <string name="pref_title_notification_filter_favourites">আমার পোস্টগুলির পছন্দ হচ্ছে</string>
+    <string name="pref_title_notification_filter_poll">নির্বাচন শেষ হয়েছে</string>
+    <string name="pref_title_appearance_settings">উপস্থিতি</string>
+    <string name="pref_title_app_theme">এপ্লিকেশন এর থিম</string>
+    <string name="pref_title_timelines">টাইমলাইন</string>
+    <string name="pref_title_timeline_filters">ফিল্টার</string>
 
-    <string name="app_them_dark"></string>
-    <string name="app_theme_light"></string>
-    <string name="app_theme_black"></string>
-    <string name="app_theme_auto"></string>
-    <string name="app_theme_system"></string>
+    <string name="app_them_dark">অন্ধকার</string>
+    <string name="app_theme_light">আলো</string>
+    <string name="app_theme_black">কালো</string>
+    <string name="app_theme_auto">সূর্যাস্ত স্বয়ংক্রিয়</string>
+    <string name="app_theme_system">সিস্টেম ডিজাইন ব্যবহার করুন</string>
 
-    <string name="pref_title_browser_settings"></string>
-    <string name="pref_title_custom_tabs"></string>
-    <string name="pref_title_hide_follow_button"></string>
-    <string name="pref_title_language"></string>
-    <string name="pref_title_bot_overlay"></string>
-    <string name="pref_title_animate_gif_avatars"></string>
+    <string name="pref_title_browser_settings">ব্রাউজার</string>
+    <string name="pref_title_custom_tabs">ক্রোম কাস্টম ট্যাব ব্যবহার করুন</string>
+    <string name="pref_title_hide_follow_button">স্ক্রোল করার সময় রচনা বোতাম লুকান</string>
+    <string name="pref_title_language">ভাষা</string>
+    <string name="pref_title_bot_overlay">বট জন্য সূচক প্রদর্শন করুন</string>
+    <string name="pref_title_animate_gif_avatars">GIF অবতার অ্যানিমেশন করুন</string>
 
-    <string name="pref_title_status_filter"></string>
-    <string name="pref_title_status_tabs"></string>
-    <string name="pref_title_show_boosts"></string>
-    <string name="pref_title_show_replies"></string>
-    <string name="pref_title_show_media_preview"></string>
-    <string name="pref_title_proxy_settings"></string>
-    <string name="pref_title_http_proxy_settings"></string>
-    <string name="pref_title_http_proxy_enable"></string>
-    <string name="pref_title_http_proxy_server"></string>
-    <string name="pref_title_http_proxy_port"></string>
+    <string name="pref_title_status_filter">টাইমলাইন ফিল্টারিং</string>
+    <string name="pref_title_status_tabs">ট্যাবগুলি</string>
+    <string name="pref_title_show_boosts">সমর্থন দেখান</string>
+    <string name="pref_title_show_replies">উত্তর প্রদর্শন করুন</string>
+    <string name="pref_title_show_media_preview">মিডিয়া পূর্বরূপ ডাউনলোড করুন</string>
+    <string name="pref_title_proxy_settings">প্রক্সি</string>
+    <string name="pref_title_http_proxy_settings">HTTP প্রক্সি</string>
+    <string name="pref_title_http_proxy_enable">HTTP প্রক্সি সক্ষম কর</string>
+    <string name="pref_title_http_proxy_server">HTTP প্রক্সি সার্ভার</string>
+    <string name="pref_title_http_proxy_port">HTTP প্রক্সি পোর্ট</string>
 
-    <string name="pref_default_post_privacy"></string>
-    <string name="pref_default_media_sensitivity"></string>
-    <string name="pref_publishing"></string>
-    <string name="pref_failed_to_sync"></string>
+    <string name="pref_default_post_privacy">ডিফল্ট পোস্ট গোপনীয়তা</string>
+    <string name="pref_default_media_sensitivity">সর্বদা সংবেদনশীল হিসাবে মিডিয়া চিহ্নিত করুন</string>
+    <string name="pref_publishing">প্রকাশনা (সার্ভারের সাথে সিঙ্ক করা)</string>
+    <string name="pref_failed_to_sync">সেটিংস সিঙ্ক করতে ব্যর্থ</string>
 
-    <string name="post_privacy_public"></string>
-    <string name="post_privacy_unlisted"></string>
-    <string name="post_privacy_followers_only"></string>
+    <string name="post_privacy_public">সর্বজনীন</string>
+    <string name="post_privacy_unlisted">অতালিকাভুক্ত</string>
+    <string name="post_privacy_followers_only">শুধুমাত্র অনুগামিবৃন্দ</string>
 
-    <string name="pref_status_text_size"></string>
+    <string name="pref_status_text_size">স্থিতি টেক্সট আকার</string>
 
-    <string name="status_text_size_smallest"></string>
-    <string name="status_text_size_small"></string>
-    <string name="status_text_size_medium"></string>
-    <string name="status_text_size_large"></string>
-    <string name="status_text_size_largest"></string>
+    <string name="status_text_size_smallest">কনিষ্ঠ</string>
+    <string name="status_text_size_small">ছোট</string>
+    <string name="status_text_size_medium">মাঝারি</string>
+    <string name="status_text_size_large">বড়</string>
+    <string name="status_text_size_largest">বৃহত্তম</string>
 
-    <string name="notification_mention_name"></string>
-    <string name="notification_mention_descriptions"></string>
-    <string name="notification_follow_name"></string>
-    <string name="notification_follow_description"></string>
-    <string name="notification_boost_name"></string>
-    <string name="notification_boost_description"></string>
-    <string name="notification_favourite_name"></string>
-    <string name="notification_favourite_description"></string>
-    <string name="notification_poll_name"></string>
-    <string name="notification_poll_description"></string>
+    <string name="notification_mention_name">নতুন উল্লেখসমূহ</string>
+    <string name="notification_mention_descriptions">নতুন উল্লেখ সম্পর্কে বিজ্ঞপ্তি</string>
+    <string name="notification_follow_name">নতুন অনুসরণকারী</string>
+    <string name="notification_follow_description">নতুন অনুসরণকারী সম্পর্কে বিজ্ঞপ্তি</string>
+    <string name="notification_boost_name">সমর্থনগুলি</string>
+    <string name="notification_boost_description">আপনার টুটগুলি সমর্থন হলে বিজ্ঞপ্তিগুলি</string>
+    <string name="notification_favourite_name">প্রিয়গুলি</string>
+    <string name="notification_favourite_description">আপনার টুটগুলি প্রিয় হিসাবে চিহ্নিত পেতে বিজ্ঞপ্তি</string>
+    <string name="notification_poll_name">নির্বাচনগুলি</string>
+    <string name="notification_poll_description">শেষ হয়েছে যে নির্বাচনগুলির সম্পর্কে বিজ্ঞপ্তি</string>
 
 
-    <string name="notification_mention_format"></string>
-    <string name="notification_summary_large"></string>
-    <string name="notification_summary_medium"></string>
-    <string name="notification_summary_small"></string>
-    <string name="notification_title_summary"></string>
+    <string name="notification_mention_format">%s আপনাকে উল্লিখিত করেছে</string>
+    <string name="notification_summary_large">%1$s,%2$s,%3$s এবং %4$d আরো অন্য জন</string>
+    <string name="notification_summary_medium">%1$s, %2$s, আর %3$s</string>
+    <string name="notification_summary_small">%1$s আর %2$s</string>
+    <string name="notification_title_summary">%d নতুন মিথস্ক্রিয়া</string>
 
-    <string name="description_account_locked"></string>
+    <string name="description_account_locked">লক অ্যাকাউন্ট</string>
 
-    <string name="about_title_activity"></string>
-    <string name="about_tusky_version"></string>
-    <string name="about_tusky_license"></string>
+    <string name="about_title_activity">সম্পর্কিত</string>
+    <string name="about_tusky_version">টাস্কি %s</string>
+    <string name="about_tusky_license">টাস্কি মুক্ত এবং ওপেন সোর্স সফ্টওয়্যার। এটি GNU জেনারেল পাবলিক লাইসেন্স সংস্করণ 3 এর অধীনে লাইসেন্সযুক্ত। আপনি এখানে লাইসেন্স দেখতে পারেন: https://www.gnu.org/licenses/gpl-3.0.en.html</string>
     <!-- note to translators:
          * you should think of “free” as in “free speech,” not as in “free beer”.
            We sometimes call it “libre software,” borrowing the French or Spanish word for “free” as in freedom,
            to show we do not mean the software is gratis. Source: https://www.gnu.org/philosophy/free-sw.html
          * the url can be changed to link to the localized version of the license.
     -->
-    <string name="about_project_site"></string>
-    <string name="about_bug_feature_request_site"></string>
-    <string name="about_tusky_account"></string>
+    <string name="about_project_site">প্রকল্প ওয়েবসাইট:
+\nhttps://tusky.app</string>
+    <string name="about_bug_feature_request_site">বাগ রিপোর্ট এবং বৈশিষ্ট্য অনুরোধ:
+\nhttps://github.com/tuskyapp/Tusky/issues</string>
+    <string name="about_tusky_account">টাস্কির প্রোফাইল</string>
 
-    <string name="status_share_content"></string>
-    <string name="status_share_link"></string>
-    <string name="status_media_images"></string>
-    <string name="status_media_video"></string>
+    <string name="status_share_content">টুট এর কন্টেন্ট ভাগ করুন</string>
+    <string name="status_share_link">টুট এর সাথে লিংক ভাগ করুন</string>
+    <string name="status_media_images">চিত্রগুলি</string>
+    <string name="status_media_video">ভিডিও</string>
 
-    <string name="state_follow_requested"></string>
+    <string name="state_follow_requested">অনুরোধ অনুসরণ করুন</string>
 
-    <string name="no_content"></string>
+    <string name="no_content">কোন উপাদান নেই</string>
 
     <!--These are for timestamps on statuses. For example: "16s" or "2d"-->
-    <string name="abbreviated_in_years"></string>
-    <string name="abbreviated_in_days"></string>
-    <string name="abbreviated_in_hours"></string>
-    <string name="abbreviated_in_minutes"></string>
-    <string name="abbreviated_in_seconds"></string>
-    <string name="abbreviated_years_ago"></string>
-    <string name="abbreviated_days_ago"></string>
-    <string name="abbreviated_hours_ago"></string>
-    <string name="abbreviated_minutes_ago"></string>
-    <string name="abbreviated_seconds_ago"></string>
+    <string name="abbreviated_in_years">%dy এ</string>
+    <string name="abbreviated_in_days">%dd এ</string>
+    <string name="abbreviated_in_hours">%dh এ</string>
+    <string name="abbreviated_in_minutes">%dm এ</string>
+    <string name="abbreviated_in_seconds">%ds এ</string>
+    <string name="abbreviated_years_ago">%dy</string>
+    <string name="abbreviated_days_ago">%dd</string>
+    <string name="abbreviated_hours_ago">%dh</string>
+    <string name="abbreviated_minutes_ago">%dm</string>
+    <string name="abbreviated_seconds_ago">%ds</string>
 
-    <string name="follows_you"></string>
-    <string name="pref_title_alway_show_sensitive_media"></string>
-    <string name="title_media"></string>
-    <string name="replying_to"></string>
-    <string name="load_more_placeholder_text"></string>
+    <string name="follows_you">আপনাকে অনুসরন করে</string>
+    <string name="pref_title_alway_show_sensitive_media">সর্বদা সংবেদনশীল কন্টেন্ট প্রদর্শন করুন</string>
+    <string name="title_media">মিডিয়া</string>
+    <string name="replying_to">\@%s কে উত্তর দিচ্ছে</string>
+    <string name="load_more_placeholder_text">আরো লোড কর</string>
 
-    <string name="pref_title_public_filter_keywords"></string>
-    <string name="pref_title_thread_filter_keywords"></string>
-    <string name="filter_addition_dialog_title"></string>
-    <string name="filter_edit_dialog_title"></string>
-    <string name="filter_dialog_remove_button"></string>
-    <string name="filter_dialog_update_button"></string>
-    <string name="filter_add_description"></string>
+    <string name="pref_title_public_filter_keywords">পাবলিক টাইমলাইন</string>
+    <string name="pref_title_thread_filter_keywords">কথাবার্তা</string>
+    <string name="filter_addition_dialog_title">ফিল্টার যোগ করুন</string>
+    <string name="filter_edit_dialog_title">ফিল্টার সম্পাদনা করুন</string>
+    <string name="filter_dialog_remove_button">সরান</string>
+    <string name="filter_dialog_update_button">আপডেট</string>
+    <string name="filter_add_description">বাক্য ফিল্টার কর</string>
 
-    <string name="add_account_name"></string>
-    <string name="add_account_description"></string>
+    <string name="add_account_name">অ্যাকাউন্ট যোগ করুন</string>
+    <string name="add_account_description">নতুন ম্যাস্টোডোন অ্যাকাউন্ট যোগ করুন</string>
 
-    <string name="action_lists"></string>
-    <string name="title_lists"></string>
-    <string name="title_list_timeline"></string>
-    <string name="error_create_list"></string>
-    <string name="error_rename_list"></string>
-    <string name="error_delete_list"></string>
-    <string name="action_create_list"></string>
-    <string name="action_rename_list"></string>
-    <string name="action_delete_list"></string>
-    <string name="action_edit_list"></string>
-    <string name="hint_search_people_list"></string>
-    <string name="action_add_to_list"></string>
-    <string name="action_remove_from_list"></string>
+    <string name="action_lists">তালিকাসমূহ</string>
+    <string name="title_lists">তালিকাসমূহ</string>
+    <string name="title_list_timeline"/>
+    <string name="error_create_list"/>
+    <string name="error_rename_list"/>
+    <string name="error_delete_list"/>
+    <string name="action_create_list"/>
+    <string name="action_rename_list"/>
+    <string name="action_delete_list"/>
+    <string name="action_edit_list"/>
+    <string name="hint_search_people_list"/>
+    <string name="action_add_to_list"/>
+    <string name="action_remove_from_list"/>
 
-    <string name="compose_active_account_description"></string>
+    <string name="compose_active_account_description"/>
 
-    <string name="error_failed_set_caption"></string>
-    <string name="hint_describe_for_visually_impaired"></string>
-    <string name="action_set_caption"></string>
-    <string name="action_remove_media"></string>
-    <string name="lock_account_label"></string>
-    <string name="lock_account_label_description"></string>
-    <string name="compose_save_draft"></string>
-    <string name="send_toot_notification_title"></string>
-    <string name="send_toot_notification_error_title"></string>
-    <string name="send_toot_notification_channel_name"></string>
-    <string name="send_toot_notification_cancel_title"></string>
-    <string name="send_toot_notification_saved_content"></string>
-    <string name="action_compose_shortcut"></string>
+    <string name="error_failed_set_caption"/>
+    <string name="hint_describe_for_visually_impaired"/>
+    <string name="action_set_caption"/>
+    <string name="action_remove_media"/>
+    <string name="lock_account_label"/>
+    <string name="lock_account_label_description"/>
+    <string name="compose_save_draft"/>
+    <string name="send_toot_notification_title"/>
+    <string name="send_toot_notification_error_title"/>
+    <string name="send_toot_notification_channel_name"/>
+    <string name="send_toot_notification_cancel_title"/>
+    <string name="send_toot_notification_saved_content"/>
+    <string name="action_compose_shortcut"/>
 
-    <string name="error_no_custom_emojis"></string>
-    <string name="copy_to_clipboard_success"></string>
-    <string name="emoji_style"></string>
-    <string name="system_default"></string>
-    <string name="download_fonts"></string>
-    <string name="performing_lookup_title"></string>
-    <string name="expand_collapse_all_statuses"></string>
-    <string name="action_open_toot"></string>
-    <string name="restart_required"></string>
-    <string name="restart_emoji"></string>
-    <string name="later"></string>
-    <string name="restart"></string>
-    <string name="caption_systememoji"></string>
-    <string name="caption_blobmoji"></string>
-    <string name="caption_twemoji"></string>
-    <string name="caption_notoemoji"></string>
+    <string name="error_no_custom_emojis"/>
+    <string name="copy_to_clipboard_success"/>
+    <string name="emoji_style"/>
+    <string name="system_default"/>
+    <string name="download_fonts"/>
+    <string name="performing_lookup_title"/>
+    <string name="expand_collapse_all_statuses"/>
+    <string name="action_open_toot"/>
+    <string name="restart_required"/>
+    <string name="restart_emoji"/>
+    <string name="later"/>
+    <string name="restart"/>
+    <string name="caption_systememoji"/>
+    <string name="caption_blobmoji"/>
+    <string name="caption_twemoji"/>
+    <string name="caption_notoemoji"/>
     <string name="emoji_shortcode_format" translatable="false">:%s:</string>
 
-    <string name="download_failed"></string>
+    <string name="download_failed"/>
 
-    <string name="profile_badge_bot_text"></string>
-    <string name="account_moved_description"></string>
+    <string name="profile_badge_bot_text"/>
+    <string name="account_moved_description"/>
 
-    <string name="reblog_private"></string>
-    <string name="unreblog_private"></string>
+    <string name="reblog_private"/>
+    <string name="unreblog_private"/>
 
-    <string name="license_description"></string>
-    <string name="license_apache_2"></string>
-    <string name="license_cc_by_4"></string>
-    <string name="license_cc_by_sa_4"></string>
+    <string name="license_description"/>
+    <string name="license_apache_2"/>
+    <string name="license_cc_by_4"/>
+    <string name="license_cc_by_sa_4"/>
 
-    <string name="profile_metadata_label"></string>
-    <string name="profile_metadata_add"></string>
-    <string name="profile_metadata_label_label"></string>
-    <string name="profile_metadata_content_label"></string>
+    <string name="profile_metadata_label"/>
+    <string name="profile_metadata_add"/>
+    <string name="profile_metadata_label_label"/>
+    <string name="profile_metadata_content_label"/>
 
-    <string name="pref_title_absolute_time"></string>
+    <string name="pref_title_absolute_time"/>
 
-    <string name="label_remote_account"></string>
+    <string name="label_remote_account"/>
 
-    <string name="unpin_action"></string>
-    <string name="pin_action"></string>
+    <string name="unpin_action"/>
+    <string name="pin_action"/>
 
     <plurals name="favs">
-	<item quantity="one"></item>
-	<item quantity="other"></item>
+	<item quantity="one"/>
+	<item quantity="other"/>
 </plurals>
 
     <plurals name="reblogs">
-	<item quantity="one"></item>
-	<item quantity="other"></item>
+	<item quantity="one"/>
+	<item quantity="other"/>
 </plurals>
 
-    <string name="title_reblogged_by"></string>
-    <string name="title_favourited_by"></string>
+    <string name="title_reblogged_by"/>
+    <string name="title_favourited_by"/>
 
-    <string name="conversation_1_recipients"></string>
-    <string name="conversation_2_recipients"></string>
-    <string name="conversation_more_recipients"></string>
-    <string name="max_tab_number_reached"></string>
+    <string name="conversation_1_recipients"/>
+    <string name="conversation_2_recipients"/>
+    <string name="conversation_more_recipients"/>
+    <string name="max_tab_number_reached"/>
 
 
-    <string name="description_status_media"></string>
-    <string name="description_status_cw"></string>
-    <string name="description_status_media_no_description_placeholder"></string>
-    <string name="description_status_reblogged"></string>
-    <string name="description_status_favourited"></string>
-    <string name="description_visiblity_public"></string>
-    <string name="description_visiblity_unlisted"></string>
-    <string name="description_visiblity_private"></string>
-    <string name="description_visiblity_direct"></string>
-    <string name="description_poll"></string>
+    <string name="description_status_media"/>
+    <string name="description_status_cw"/>
+    <string name="description_status_media_no_description_placeholder"/>
+    <string name="description_status_reblogged"/>
+    <string name="description_status_favourited"/>
+    <string name="description_visiblity_public"/>
+    <string name="description_visiblity_unlisted"/>
+    <string name="description_visiblity_private"/>
+    <string name="description_visiblity_direct"/>
+    <string name="description_poll"/>
 
-    <string name="hint_list_name"></string>
+    <string name="hint_list_name"/>
 
-    <string name="edit_hashtag_title"></string>
-    <string name="edit_hashtag_hint"></string>
-    <string name="hashtag"></string>
-    <string name="notifications_clear"></string>
-    <string name="notifications_apply_filter"></string>
-    <string name="filter_apply"></string>
+    <string name="edit_hashtag_title"/>
+    <string name="edit_hashtag_hint"/>
+    <string name="hashtag"/>
+    <string name="notifications_clear"/>
+    <string name="notifications_apply_filter"/>
+    <string name="filter_apply"/>
 
-    <string name="compose_shortcut_long_label"></string>
-    <string name="compose_shortcut_short_label"></string>
+    <string name="compose_shortcut_long_label"/>
+    <string name="compose_shortcut_short_label"/>
 
-    <string name="notification_clear_text"></string>
-    <string name="compose_preview_image_description"></string>
+    <string name="notification_clear_text"/>
+    <string name="compose_preview_image_description"/>
 
     <string name="poll_info_format"><!-- 15 votes • 1 hour left -->
         %1$s • %2$s</string>
     <plurals name="poll_info_votes">
-	<item quantity="one"></item>
-	<item quantity="other"></item>
+	<item quantity="one"/>
+	<item quantity="other"/>
 </plurals>
-    <string name="poll_info_time_relative"></string>
-    <string name="poll_info_time_absolute"></string>
-    <string name="poll_info_closed"></string>
+    <string name="poll_info_time_relative"/>
+    <string name="poll_info_time_absolute"/>
+    <string name="poll_info_closed"/>
     <string name="poll_option_format"><!-- 15% vote for this! -->
         &lt;b&gt;%1$d%%&lt;/b&gt; %2$s</string>
 
-    <string name="poll_vote"></string>
+    <string name="poll_vote"/>
 
-    <string name="poll_ended_voted"></string>
-    <string name="poll_ended_created"></string>
+    <string name="poll_ended_voted"/>
+    <string name="poll_ended_created"/>
 
     <!--These are for timestamps on polls -->
     <plurals name="poll_timespan_days">
-	<item quantity="one"></item>
-	<item quantity="other"></item>
+	<item quantity="one"/>
+	<item quantity="other"/>
 </plurals>
     <plurals name="poll_timespan_hours">
-	<item quantity="one"></item>
-	<item quantity="other"></item>
+	<item quantity="one"/>
+	<item quantity="other"/>
 </plurals>
     <plurals name="poll_timespan_minutes">
-	<item quantity="one"></item>
-	<item quantity="other"></item>
+	<item quantity="one"/>
+	<item quantity="other"/>
 </plurals>
     <plurals name="poll_timespan_seconds">
-	<item quantity="one"></item>
-	<item quantity="other"></item>
+	<item quantity="one"/>
+	<item quantity="other"/>
 </plurals>
 
 </resources>
