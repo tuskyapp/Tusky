@@ -19,7 +19,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.widget.Toolbar;
@@ -33,9 +32,9 @@ import javax.inject.Inject;
 
 import dagger.android.AndroidInjector;
 import dagger.android.DispatchingAndroidInjector;
-import dagger.android.support.HasSupportFragmentInjector;
+import dagger.android.HasAndroidInjector;
 
-public class ViewThreadActivity extends BottomSheetActivity implements HasSupportFragmentInjector {
+public class ViewThreadActivity extends BottomSheetActivity implements HasAndroidInjector {
 
     public static final int REVEAL_BUTTON_HIDDEN = 1;
     public static final int REVEAL_BUTTON_REVEAL = 2;
@@ -55,7 +54,7 @@ public class ViewThreadActivity extends BottomSheetActivity implements HasSuppor
     private int revealButtonState = REVEAL_BUTTON_HIDDEN;
 
     @Inject
-    public DispatchingAndroidInjector<Fragment> dispatchingAndroidInjector;
+    public DispatchingAndroidInjector<Object> dispatchingAndroidInjector;
 
     private ViewThreadFragment fragment;
 
@@ -128,7 +127,7 @@ public class ViewThreadActivity extends BottomSheetActivity implements HasSuppor
     }
 
     @Override
-    public AndroidInjector<Fragment> supportFragmentInjector() {
+    public AndroidInjector<Object> androidInjector() {
         return dispatchingAndroidInjector;
     }
 

@@ -20,14 +20,14 @@ import android.app.SearchableInfo;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
+
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuItem;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.keylesspalace.tusky.fragment.SearchFragment;
 
@@ -35,13 +35,13 @@ import javax.inject.Inject;
 
 import dagger.android.AndroidInjector;
 import dagger.android.DispatchingAndroidInjector;
-import dagger.android.support.HasSupportFragmentInjector;
+import dagger.android.HasAndroidInjector;
 
 public class SearchActivity extends BottomSheetActivity implements SearchView.OnQueryTextListener,
-        HasSupportFragmentInjector {
+        HasAndroidInjector {
 
     @Inject
-    public DispatchingAndroidInjector<Fragment> fragmentInjector;
+    public DispatchingAndroidInjector<Object> androidInjector;
 
     private String currentQuery;
 
@@ -136,8 +136,8 @@ public class SearchActivity extends BottomSheetActivity implements SearchView.On
     }
 
     @Override
-    public AndroidInjector<Fragment> supportFragmentInjector() {
-        return fragmentInjector;
+    public AndroidInjector<Object> androidInjector() {
+        return androidInjector;
     }
 
 }

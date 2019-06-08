@@ -16,14 +16,13 @@
 package com.keylesspalace.tusky;
 
 import android.os.Bundle;
+import android.view.MenuItem;
 
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.widget.Toolbar;
-
-import android.view.MenuItem;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.keylesspalace.tusky.fragment.TimelineFragment;
 
@@ -31,12 +30,12 @@ import javax.inject.Inject;
 
 import dagger.android.AndroidInjector;
 import dagger.android.DispatchingAndroidInjector;
-import dagger.android.support.HasSupportFragmentInjector;
+import dagger.android.HasAndroidInjector;
 
-public class FavouritesActivity extends BottomSheetActivity implements HasSupportFragmentInjector {
+public class FavouritesActivity extends BottomSheetActivity implements HasAndroidInjector {
 
     @Inject
-    public DispatchingAndroidInjector<Fragment> dispatchingAndroidInjector;
+    public DispatchingAndroidInjector<Object> dispatchingAndroidInjector;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -70,7 +69,7 @@ public class FavouritesActivity extends BottomSheetActivity implements HasSuppor
     }
 
     @Override
-    public AndroidInjector<Fragment> supportFragmentInjector() {
+    public AndroidInjector<Object> androidInjector() {
         return dispatchingAndroidInjector;
     }
 

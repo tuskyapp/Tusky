@@ -15,15 +15,13 @@
 
 package com.keylesspalace.tusky;
 
-import android.app.Activity;
 import android.app.Application;
-import android.app.Service;
-import androidx.room.Room;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.preference.PreferenceManager;
+
 import androidx.emoji.text.EmojiCompat;
+import androidx.room.Room;
 
 import com.evernote.android.job.JobManager;
 import com.keylesspalace.tusky.db.AccountManager;
@@ -41,17 +39,12 @@ import javax.inject.Inject;
 
 import dagger.android.AndroidInjector;
 import dagger.android.DispatchingAndroidInjector;
-import dagger.android.HasActivityInjector;
-import dagger.android.HasBroadcastReceiverInjector;
-import dagger.android.HasServiceInjector;
+import dagger.android.HasAndroidInjector;
 
-public class TuskyApplication extends Application implements HasActivityInjector, HasServiceInjector, HasBroadcastReceiverInjector {
+public class TuskyApplication extends Application implements HasAndroidInjector {
     @Inject
-    DispatchingAndroidInjector<Activity> dispatchingAndroidInjector;
-    @Inject
-    DispatchingAndroidInjector<Service> dispatchingServiceInjector;
-    @Inject
-    DispatchingAndroidInjector<BroadcastReceiver> dispatchingBroadcastReceiverInjector;
+    DispatchingAndroidInjector<Object> androidInjector;
+
     @Inject
     NotificationPullJobCreator notificationPullJobCreator;
 
@@ -142,18 +135,8 @@ public class TuskyApplication extends Application implements HasActivityInjector
     }
 
     @Override
-    public AndroidInjector<Activity> activityInjector() {
-        return dispatchingAndroidInjector;
-    }
-
-    @Override
-    public AndroidInjector<Service> serviceInjector() {
-        return dispatchingServiceInjector;
-    }
-
-    @Override
-    public AndroidInjector<BroadcastReceiver> broadcastReceiverInjector() {
-        return dispatchingBroadcastReceiverInjector;
+    public AndroidInjector<Object> androidInjector() {
+        return androidInjector;
     }
 
     public interface ServiceLocator {

@@ -33,7 +33,6 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityOptionsCompat
 import androidx.core.content.ContextCompat
 import androidx.emoji.text.EmojiCompat
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -53,18 +52,17 @@ import com.keylesspalace.tusky.interfaces.ReselectableFragment
 import com.keylesspalace.tusky.pager.AccountPagerAdapter
 import com.keylesspalace.tusky.util.*
 import com.keylesspalace.tusky.viewmodel.AccountViewModel
-import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
-import dagger.android.support.HasSupportFragmentInjector
+import dagger.android.HasAndroidInjector
 import kotlinx.android.synthetic.main.activity_account.*
 import kotlinx.android.synthetic.main.view_account_moved.*
 import java.text.NumberFormat
 import javax.inject.Inject
 
-class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportFragmentInjector, LinkListener {
+class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInjector, LinkListener {
 
     @Inject
-    lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Fragment>
+    lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Any>
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
 
@@ -711,9 +709,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasSupportF
         } else null
     }
 
-    override fun supportFragmentInjector(): AndroidInjector<Fragment> {
-        return dispatchingAndroidInjector
-    }
+    override fun androidInjector() = dispatchingAndroidInjector
 
     companion object {
 
