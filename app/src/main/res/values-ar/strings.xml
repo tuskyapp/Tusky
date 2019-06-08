@@ -5,7 +5,7 @@
     <string name="error_empty">لا يجب أن يترك فارغا.</string>
     <string name="error_invalid_domain">اسم النطاق غير صالح</string>
     <string name="error_failed_app_registration">اخفقت المصادقة مع مثيل الخادم هذا.</string>
-    <string name="error_no_web_browser_found">لم يتم العثور على متصفح قابل للإستعمال.</string>
+    <string name="error_no_web_browser_found">تعذر العثور على متصفح ويب قابل للإستعمال.</string>
     <string name="error_authorization_unknown">لقد وقع هناك خطأ مجهول في التصريح.</string>
     <string name="error_authorization_denied">تم رفض التصريح.</string>
     <string name="error_retrieving_oauth_token">فشل الحصول على رمز الدخول.</string>
@@ -436,5 +436,8 @@
 </plurals>
 
 <string name="compose_preview_image_description">إجراءات على الصورة %s</string>
+
+    <string name="caption_notoemoji">حزمة الإيموجي الحالية لـ غوغل</string>
+    <string name="description_poll">استطلاع رأي بالخيارات: %s, %s, %s, %s; %s</string>
 
     </resources>
