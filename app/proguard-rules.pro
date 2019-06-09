@@ -94,9 +94,10 @@
 
 -dontwarn com.google.errorprone.annotations.*
 
-# work around a bug in proguard
-# see https://sourceforge.net/p/proguard/bugs/729/
--keepnames public interface com.uber.autodispose.lifecycle.CorrespondingEventsFunction { *; }
+# without this emoji font downloading fails with AbstractMethodError
+-keep class * extends android.os.AsyncTask {
+    public *;
+}
 
 # Glide
 -keep public class * implements com.bumptech.glide.module.GlideModule
