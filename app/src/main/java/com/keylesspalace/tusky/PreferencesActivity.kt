@@ -28,21 +28,21 @@ import com.keylesspalace.tusky.appstore.PreferenceChangedEvent
 import com.keylesspalace.tusky.fragment.preference.*
 import com.keylesspalace.tusky.util.ThemeUtils
 import com.keylesspalace.tusky.util.getNonNullString
-import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
-import dagger.android.support.HasSupportFragmentInjector
 import kotlinx.android.synthetic.main.toolbar_basic.*
 import java.lang.IllegalArgumentException
 import javax.inject.Inject
 import androidx.appcompat.app.AppCompatDelegate
+import dagger.android.HasAndroidInjector
 
-class PreferencesActivity : BaseActivity(), SharedPreferences.OnSharedPreferenceChangeListener, HasSupportFragmentInjector {
+class PreferencesActivity : BaseActivity(), SharedPreferences.OnSharedPreferenceChangeListener,
+        HasAndroidInjector {
 
     @Inject
     lateinit var eventHub: EventHub
 
     @Inject
-    lateinit var fragmentInjector: DispatchingAndroidInjector<Fragment>
+    lateinit var androidInjector: DispatchingAndroidInjector<Any>
 
     private var restartActivitiesOnExit: Boolean = false
 
@@ -173,9 +173,7 @@ class PreferencesActivity : BaseActivity(), SharedPreferences.OnSharedPreference
         }
     }
 
-    override fun supportFragmentInjector(): AndroidInjector<Fragment> {
-        return fragmentInjector
-    }
+    override fun androidInjector() = androidInjector
 
     companion object {
 

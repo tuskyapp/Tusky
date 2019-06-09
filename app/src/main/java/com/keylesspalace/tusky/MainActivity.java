@@ -77,7 +77,7 @@ import javax.inject.Inject;
 
 import dagger.android.AndroidInjector;
 import dagger.android.DispatchingAndroidInjector;
-import dagger.android.support.HasSupportFragmentInjector;
+import dagger.android.HasAndroidInjector;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 
 import static com.keylesspalace.tusky.util.MediaUtilsKt.deleteStaleCachedMedia;
@@ -85,7 +85,7 @@ import static com.uber.autodispose.AutoDispose.autoDisposable;
 import static com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider.from;
 
 public final class MainActivity extends BottomSheetActivity implements ActionButtonActivity,
-        HasSupportFragmentInjector {
+        HasAndroidInjector {
 
     private static final String TAG = "MainActivity"; // logging tag
     private static final long DRAWER_ITEM_ADD_ACCOUNT = -13;
@@ -102,7 +102,7 @@ public final class MainActivity extends BottomSheetActivity implements ActionBut
     public static final String STATUS_URL = "statusUrl";
 
     @Inject
-    public DispatchingAndroidInjector<Fragment> fragmentInjector;
+    public DispatchingAndroidInjector<Object> androidInjector;
     @Inject
     public EventHub eventHub;
     @Inject
@@ -624,7 +624,7 @@ public final class MainActivity extends BottomSheetActivity implements ActionBut
     }
 
     @Override
-    public AndroidInjector<Fragment> supportFragmentInjector() {
-        return fragmentInjector;
+    public AndroidInjector<Object> androidInjector() {
+        return androidInjector;
     }
 }
