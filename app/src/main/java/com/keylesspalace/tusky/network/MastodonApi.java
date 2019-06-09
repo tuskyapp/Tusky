@@ -385,4 +385,40 @@ public interface MastodonApi {
             @Path("id") String id,
             @Field("choices[]") List<Integer> choices
     );
+
+    @POST("api/v1/accounts/{id}/block")
+    Single<Relationship> blockAccountObservable(@Path("id") String accountId);
+
+    @POST("api/v1/accounts/{id}/unblock")
+    Single<Relationship> unblockAccountObservable(@Path("id") String accountId);
+
+    @POST("api/v1/accounts/{id}/mute")
+    Single<Relationship> muteAccountObservable(@Path("id") String accountId);
+
+    @POST("api/v1/accounts/{id}/unmute")
+    Single<Relationship> unmuteAccountObservable(@Path("id") String accountId);
+
+    @GET("api/v1/accounts/relationships")
+    Single<List<Relationship>> relationshipsObservable(@Query("id[]") List<String> accountIds);
+
+    @FormUrlEncoded
+    @POST("api/v1/reports")
+    Single<ResponseBody> reportObservable(
+            @Field("account_id") String accountId,
+            @Field("status_ids[]") List<String> statusIds,
+            @Field("comment") String comment,
+            @Field("forward") Boolean isNotifyRemote);
+
+    @GET("api/v1/accounts/{id}/statuses")
+    Single<List<Status>> accountStatusesObservable(
+            @Path("id") String accountId,
+            @Query("max_id") String maxId,
+            @Query("since_id") String sinceId,
+            @Query("limit") Integer limit,
+            @Nullable @Query("exclude_reblogs") Boolean excludeReblogs);
+
+
+    @GET("api/v1/statuses/{id}")
+    Single<Status> statusObservable(@Path("id") String statusId);
+
 }

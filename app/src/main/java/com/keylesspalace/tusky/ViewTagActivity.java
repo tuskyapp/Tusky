@@ -15,6 +15,8 @@
 
 package com.keylesspalace.tusky;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 
@@ -34,15 +36,23 @@ import dagger.android.HasAndroidInjector;
 
 public class ViewTagActivity extends BottomSheetActivity implements HasAndroidInjector {
 
+    private static final String HASHTAG = "hashtag";
+
     @Inject
     public DispatchingAndroidInjector<Object> dispatchingAndroidInjector;
+
+    public static Intent getIntent(Context context, String tag){
+        Intent intent = new Intent(context,ViewTagActivity.class);
+        intent.putExtra(HASHTAG,tag);
+        return intent;
+    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_tag);
 
-        String hashtag = getIntent().getStringExtra("hashtag");
+        String hashtag = getIntent().getStringExtra(HASHTAG);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);

@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".components.report.fragments.ReportStatusesFragment">
+
+    <View
+        android:id="@+id/checkMark"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="56dp"
+        android:background="@drawable/report_success_background"
+        app:layout_constraintDimensionRatio="H,1:1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintWidth_default="percent"
+        app:layout_constraintWidth_percent="0.35" />
+
+    <ImageView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/ic_check_24dp"
+        app:layout_constraintBottom_toBottomOf="@id/checkMark"
+        app:layout_constraintEnd_toEndOf="@id/checkMark"
+        app:layout_constraintHeight_percent="0.3"
+        app:layout_constraintStart_toStartOf="@id/checkMark"
+        app:layout_constraintTop_toTopOf="@id/checkMark"
+        app:layout_constraintWidth_percent="0.22"
+        tools:ignore="ContentDescription" />
+
+    <TextView
+        android:id="@+id/textReported"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="48dp"
+        android:gravity="center_horizontal"
+        android:textColor="?android:textColorPrimary"
+        android:textSize="?attr/status_text_large"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/checkMark"
+        app:layout_constraintWidth_percent="0.9" />
+
+    <Button
+        android:id="@+id/buttonMute"
+        style="@style/TuskyButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:minWidth="@dimen/min_report_button_width"
+        android:text="@string/action_mute"
+        app:layout_constraintBottom_toTopOf="@id/buttonBlock"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textReported"
+        app:layout_constraintVertical_chainStyle="packed" />
+
+    <ProgressBar
+        android:id="@+id/progressMute"
+        style="?android:attr/progressBarStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@id/buttonMute"
+        app:layout_constraintEnd_toEndOf="@id/buttonMute"
+        app:layout_constraintStart_toStartOf="@id/buttonMute"
+        app:layout_constraintTop_toTopOf="@id/buttonMute" />
+
+    <Button
+        android:id="@+id/buttonBlock"
+        style="@style/TuskyButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:minWidth="@dimen/min_report_button_width"
+        android:text="@string/action_block"
+        app:layout_constraintBottom_toTopOf="@id/buttonDone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/buttonMute"
+        app:layout_constraintVertical_chainStyle="packed" />
+
+    <ProgressBar
+        android:id="@+id/progressBlock"
+        style="?android:attr/progressBarStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@id/buttonBlock"
+        app:layout_constraintEnd_toEndOf="@id/buttonBlock"
+        app:layout_constraintStart_toStartOf="@id/buttonBlock"
+        app:layout_constraintTop_toTopOf="@id/buttonBlock" />
+
+    <Button
+        android:id="@+id/buttonDone"
+        style="@style/TuskyButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:minWidth="@dimen/min_report_button_width"
+        android:text="@string/button_done"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/buttonBlock"
+        app:layout_constraintVertical_chainStyle="packed" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

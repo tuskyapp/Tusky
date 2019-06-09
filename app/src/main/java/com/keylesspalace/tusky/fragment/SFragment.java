@@ -44,9 +44,9 @@ import com.keylesspalace.tusky.BottomSheetActivity;
 import com.keylesspalace.tusky.ComposeActivity;
 import com.keylesspalace.tusky.MainActivity;
 import com.keylesspalace.tusky.R;
-import com.keylesspalace.tusky.ReportActivity;
 import com.keylesspalace.tusky.ViewMediaActivity;
 import com.keylesspalace.tusky.ViewTagActivity;
+import com.keylesspalace.tusky.components.report.ReportActivity;
 import com.keylesspalace.tusky.db.AccountEntity;
 import com.keylesspalace.tusky.db.AccountManager;
 import com.keylesspalace.tusky.di.Injectable;
@@ -54,7 +54,6 @@ import com.keylesspalace.tusky.entity.Attachment;
 import com.keylesspalace.tusky.entity.Status;
 import com.keylesspalace.tusky.network.MastodonApi;
 import com.keylesspalace.tusky.network.TimelineCases;
-import com.keylesspalace.tusky.util.HtmlUtils;
 import com.keylesspalace.tusky.viewdata.AttachmentViewData;
 
 import java.util.LinkedHashSet;
@@ -327,12 +326,7 @@ public abstract class SFragment extends BaseFragment implements Injectable {
 
     protected void openReportPage(String accountId, String accountUsername, String statusId,
                                   Spanned statusContent) {
-        Intent intent = new Intent(getContext(), ReportActivity.class);
-        intent.putExtra("account_id", accountId);
-        intent.putExtra("account_username", accountUsername);
-        intent.putExtra("status_id", statusId);
-        intent.putExtra("status_content", HtmlUtils.toHtml(statusContent));
-        startActivity(intent);
+        startActivity(ReportActivity.getIntent(requireContext(),accountId,accountUsername,statusId,statusContent));
     }
 
     protected void showConfirmDeleteDialog(final String id, final int position) {

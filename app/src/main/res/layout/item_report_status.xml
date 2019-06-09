@@ -1,22 +1,357 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal">
+    android:paddingTop="8dp"
+    android:paddingBottom="8dp">
 
-    <TextView
-        android:id="@+id/report_status_content"
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideBegin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="8dp" />
+
+    <androidx.emoji.widget.EmojiTextView
+        android:id="@+id/statusContentWarningDescription"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:lineSpacingMultiplier="1.1"
+        android:textColor="?android:textColorPrimary"
+        android:textSize="?attr/status_text_medium"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="@id/barrierEnd"
+        app:layout_constraintStart_toStartOf="@id/guideBegin"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="content warning which is very long and it doesn't fit"
+        tools:visibility="visible" />
+
+    <ToggleButton
+        android:id="@+id/statusContentWarningButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="4dp"
+        android:background="?attr/content_warning_button"
+        android:minWidth="150dp"
+        android:minHeight="0dp"
+        android:paddingLeft="16dp"
+        android:paddingTop="4dp"
+        android:paddingRight="16dp"
+        android:paddingBottom="4dp"
+        android:textAllCaps="true"
+        android:textOff="@string/status_content_warning_show_more"
+        android:textOn="@string/status_content_warning_show_less"
+        android:textSize="?attr/status_text_medium"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="@id/guideBegin"
+        app:layout_constraintTop_toBottomOf="@id/statusContentWarningDescription"
+        tools:visibility="visible" />
+
+    <androidx.emoji.widget.EmojiTextView
+        android:id="@+id/statusContent"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
         android:layout_weight="1"
-        android:padding="8dp"
-        android:textSize="?attr/status_text_medium" />
+        android:textColor="?android:textColorPrimary"
+        android:textSize="?attr/status_text_medium"
+        app:layout_constraintEnd_toStartOf="@id/barrierEnd"
+        app:layout_constraintStart_toStartOf="@id/guideBegin"
+        app:layout_constraintTop_toBottomOf="@id/statusContentWarningButton" />
+
+    <ToggleButton
+        android:id="@+id/buttonToggleContent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="4dp"
+        android:background="?attr/content_warning_button"
+        android:minWidth="150dp"
+        android:minHeight="0dp"
+        android:paddingLeft="16dp"
+        android:paddingTop="4dp"
+        android:paddingRight="16dp"
+        android:paddingBottom="4dp"
+        android:textAllCaps="true"
+        android:textOff="@string/status_content_show_less"
+        android:textOn="@string/status_content_show_more"
+        android:textSize="?attr/status_text_medium"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="@id/guideBegin"
+        app:layout_constraintTop_toBottomOf="@id/statusContent"
+        tools:visibility="visible" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/status_media_preview_container"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/status_media_preview_margin_top"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintEnd_toStartOf="@id/barrierEnd"
+        app:layout_constraintStart_toStartOf="@id/guideBegin"
+        app:layout_constraintTop_toBottomOf="@id/buttonToggleContent"
+        tools:visibility="gone">
+
+        <com.keylesspalace.tusky.view.MediaPreviewImageView
+            android:id="@+id/status_media_preview_0"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/status_media_preview_height"
+            android:scaleType="centerCrop"
+            app:layout_constraintEnd_toStartOf="@+id/status_media_preview_1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="ContentDescription" />
+
+        <com.keylesspalace.tusky.view.MediaPreviewImageView
+            android:id="@+id/status_media_preview_1"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/status_media_preview_height"
+            android:layout_marginStart="4dp"
+            android:scaleType="centerCrop"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/status_media_preview_0"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="ContentDescription" />
+
+
+        <com.keylesspalace.tusky.view.MediaPreviewImageView
+            android:id="@+id/status_media_preview_2"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/status_media_preview_height"
+            android:layout_marginTop="4dp"
+            android:scaleType="centerCrop"
+            app:layout_constraintEnd_toStartOf="@+id/status_media_preview_3"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/status_media_preview_0"
+            tools:ignore="ContentDescription" />
+
+        <com.keylesspalace.tusky.view.MediaPreviewImageView
+            android:id="@+id/status_media_preview_3"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/status_media_preview_height"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="4dp"
+            android:scaleType="centerCrop"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/status_media_preview_2"
+            app:layout_constraintTop_toBottomOf="@+id/status_media_preview_1"
+            tools:ignore="ContentDescription" />
+
+        <ImageView
+            android:id="@+id/status_media_overlay_0"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:scaleType="center"
+            app:layout_constraintBottom_toBottomOf="@+id/status_media_preview_0"
+            app:layout_constraintEnd_toEndOf="@+id/status_media_preview_0"
+            app:layout_constraintStart_toStartOf="@+id/status_media_preview_0"
+            app:layout_constraintTop_toTopOf="@+id/status_media_preview_0"
+            app:srcCompat="?attr/play_indicator_drawable"
+            tools:ignore="ContentDescription" />
+
+        <ImageView
+            android:id="@+id/status_media_overlay_1"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:scaleType="center"
+            app:layout_constraintBottom_toBottomOf="@+id/status_media_preview_1"
+            app:layout_constraintEnd_toEndOf="@+id/status_media_preview_1"
+            app:layout_constraintStart_toStartOf="@+id/status_media_preview_1"
+            app:layout_constraintTop_toTopOf="@+id/status_media_preview_1"
+            app:srcCompat="?attr/play_indicator_drawable"
+            tools:ignore="ContentDescription" />
+
+        <ImageView
+            android:id="@+id/status_media_overlay_2"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:scaleType="center"
+            app:layout_constraintBottom_toBottomOf="@+id/status_media_preview_2"
+            app:layout_constraintEnd_toEndOf="@+id/status_media_preview_2"
+            app:layout_constraintStart_toStartOf="@+id/status_media_preview_2"
+            app:layout_constraintTop_toTopOf="@+id/status_media_preview_2"
+            app:srcCompat="?attr/play_indicator_drawable"
+            tools:ignore="ContentDescription" />
+
+        <ImageView
+            android:id="@+id/status_media_overlay_3"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:scaleType="center"
+            app:layout_constraintBottom_toBottomOf="@+id/status_media_preview_3"
+            app:layout_constraintEnd_toEndOf="@+id/status_media_preview_3"
+            app:layout_constraintStart_toStartOf="@+id/status_media_preview_3"
+            app:layout_constraintTop_toTopOf="@+id/status_media_preview_3"
+            app:srcCompat="?attr/play_indicator_drawable"
+            tools:ignore="ContentDescription" />
+
+        <ImageView
+            android:id="@+id/status_sensitive_media_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:alpha="0.7"
+            android:contentDescription="@null"
+            android:padding="@dimen/status_sensitive_media_button_padding"
+            android:visibility="gone"
+            app:layout_constraintLeft_toLeftOf="@+id/status_media_preview_container"
+            app:layout_constraintTop_toTopOf="@+id/status_media_preview_container"
+            app:srcCompat="@drawable/ic_eye_24dp" />
+
+        <TextView
+            android:id="@+id/status_sensitive_media_warning"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="?attr/sensitive_media_warning_background_color"
+            android:gravity="center"
+            android:lineSpacingMultiplier="1.2"
+            android:orientation="vertical"
+            android:padding="8dp"
+            android:textAlignment="center"
+            android:textColor="@android:color/white"
+            android:textSize="?attr/status_text_medium"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/status_media_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackground"
+            android:drawablePadding="4dp"
+            android:gravity="center_vertical"
+            android:textSize="?attr/status_text_medium"
+            android:visibility="gone"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.emoji.widget.EmojiTextView
+        android:id="@+id/status_poll_option_result_0"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:layout_marginEnd="8dp"
+        android:background="@drawable/poll_option_background"
+        android:ellipsize="end"
+        android:lines="1"
+        android:paddingStart="6dp"
+        android:paddingTop="2dp"
+        android:paddingEnd="6dp"
+        android:paddingBottom="2dp"
+        android:textColor="?android:attr/textColorPrimary"
+        android:textSize="?attr/status_text_medium"
+        app:layout_constraintEnd_toStartOf="@id/barrierEnd"
+        app:layout_constraintStart_toStartOf="@id/guideBegin"
+        app:layout_constraintTop_toBottomOf="@id/status_media_preview_container"
+        tools:text="40%" />
+
+    <androidx.emoji.widget.EmojiTextView
+        android:id="@+id/status_poll_option_result_1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:layout_marginEnd="8dp"
+        android:background="@drawable/poll_option_background"
+        android:ellipsize="end"
+        android:lines="1"
+        android:paddingStart="6dp"
+        android:paddingTop="2dp"
+        android:paddingEnd="6dp"
+        android:paddingBottom="2dp"
+        android:textColor="?android:attr/textColorPrimary"
+        android:textSize="?attr/status_text_medium"
+        app:layout_constraintEnd_toStartOf="@id/barrierEnd"
+        app:layout_constraintStart_toStartOf="@id/guideBegin"
+        app:layout_constraintTop_toBottomOf="@id/status_poll_option_result_0"
+        tools:text="10%" />
+
+    <androidx.emoji.widget.EmojiTextView
+        android:id="@+id/status_poll_option_result_2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:layout_marginEnd="8dp"
+        android:background="@drawable/poll_option_background"
+        android:ellipsize="end"
+        android:lines="1"
+        android:paddingStart="6dp"
+        android:paddingTop="2dp"
+        android:paddingEnd="6dp"
+        android:paddingBottom="2dp"
+        android:textColor="?android:attr/textColorPrimary"
+        android:textSize="?attr/status_text_medium"
+        app:layout_constraintEnd_toStartOf="@id/barrierEnd"
+        app:layout_constraintStart_toStartOf="@id/guideBegin"
+        app:layout_constraintTop_toBottomOf="@id/status_poll_option_result_1"
+        tools:text="20%" />
+
+    <androidx.emoji.widget.EmojiTextView
+        android:id="@+id/status_poll_option_result_3"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:layout_marginEnd="8dp"
+        android:background="@drawable/poll_option_background"
+        android:ellipsize="end"
+        android:lines="1"
+        android:paddingStart="6dp"
+        android:paddingTop="2dp"
+        android:paddingEnd="6dp"
+        android:paddingBottom="2dp"
+        android:textColor="?android:attr/textColorPrimary"
+        android:textSize="?attr/status_text_medium"
+        app:layout_constraintEnd_toStartOf="@id/barrierEnd"
+        app:layout_constraintStart_toStartOf="@id/guideBegin"
+        app:layout_constraintTop_toBottomOf="@id/status_poll_option_result_2"
+        tools:text="30%" />
+
+    <TextView
+        android:id="@+id/status_poll_description"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintEnd_toEndOf="@id/barrierEnd"
+        app:layout_constraintStart_toStartOf="@id/guideBegin"
+        app:layout_constraintTop_toBottomOf="@id/status_poll_option_result_3"
+        tools:text="7 votes • 7 hours remaining" />
+
+
+    <androidx.constraintlayout.widget.Barrier
+        android:id="@+id/barrierEnd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:barrierDirection="start"
+        app:constraint_referenced_ids="statusSelection,timestampInfo" />
+
+    <TextView
+        android:id="@+id/timestampInfo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:importantForAccessibility="no"
+        android:textColor="?android:textColorTertiary"
+        android:textSize="?attr/status_text_medium"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@id/barrierEnd"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="21 Dec 2018 18:45" />
 
     <CheckBox
-        android:id="@+id/report_status_check_box"
+        android:id="@+id/statusSelection"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:layout_margin="16dp" />
+        android:layout_margin="16dp"
+        app:buttonTint="?attr/compound_button_color"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/timestampInfo" />
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
