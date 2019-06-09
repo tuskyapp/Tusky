@@ -6,7 +6,7 @@ apply plugin: 'kotlin-kapt'
 def getGitSha = { ->
     def stdout = new ByteArrayOutputStream()
     exec {
-        commandLine 'git', 'rev-parse', '--short' , 'HEAD'
+        commandLine 'git', 'rev-parse', '--short', 'HEAD'
         standardOutput = stdout
     }
     return stdout.toString().trim()
@@ -35,15 +35,15 @@ android {
             shrinkResources true
             proguardFiles 'proguard-rules.pro'
         }
-        debug { }
+        debug {}
     }
 
     flavorDimensions "color"
     productFlavors {
-        blue { }
+        blue {}
         green {
             applicationIdSuffix ".test"
-            versionNameSuffix "-"+getGitSha()
+            versionNameSuffix "-" + getGitSha()
         }
     }
 
@@ -124,6 +124,7 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-extensions:2.0.0'
     //room
     implementation 'androidx.room:room-runtime:2.0.0'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     kapt 'androidx.room:room-compiler:2.0.0'
     implementation 'androidx.room:room-rxjava2:2.0.0'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
@@ -153,4 +154,7 @@ dependencies {
     //Glide
     implementation 'com.github.bumptech.glide:glide:4.9.0'
     implementation 'com.github.bumptech.glide:okhttp3-integration:4.9.0'
+
+    //Add some useful extensions
+    implementation 'androidx.core:core-ktx:1.2.0-alpha01'
 }

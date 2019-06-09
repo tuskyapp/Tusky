@@ -4,10 +4,9 @@ package com.keylesspalace.tusky.di
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.keylesspalace.tusky.viewmodel.AccountViewModel
 import com.keylesspalace.tusky.components.conversation.ConversationsViewModel
-import com.keylesspalace.tusky.viewmodel.AccountsInListViewModel
-import com.keylesspalace.tusky.viewmodel.EditProfileViewModel
+import com.keylesspalace.tusky.components.report.ReportViewModel
+import com.keylesspalace.tusky.viewmodel.*
 import com.keylesspalace.tusky.viewmodel.ListsViewModel
 import dagger.Binds
 import dagger.MapKey
@@ -60,6 +59,11 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(AccountsInListViewModel::class)
     internal abstract fun accountsInListViewModel(viewModel: AccountsInListViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(ReportViewModel::class)
+    internal abstract fun reportViewModel(viewModel: ReportViewModel): ViewModel
 
     //Add more ViewModels here
 }

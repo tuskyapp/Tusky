@@ -16,6 +16,7 @@
 package com.keylesspalace.tusky.di
 
 import com.keylesspalace.tusky.*
+import com.keylesspalace.tusky.components.report.ReportActivity
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
@@ -72,9 +73,6 @@ abstract class ActivitiesModule {
     abstract fun contributesSplashActivity(): SplashActivity
 
     @ContributesAndroidInjector
-    abstract fun contributesReportActivity(): ReportActivity
-
-    @ContributesAndroidInjector
     abstract fun contributesSavedTootActivity(): SavedTootActivity
 
     @ContributesAndroidInjector(modules = [FragmentBuildersModule::class])
@@ -92,4 +90,6 @@ abstract class ActivitiesModule {
     @ContributesAndroidInjector
     abstract fun contributesFiltersActivity(): FiltersActivity
 
+    @ContributesAndroidInjector(modules = [FragmentBuildersModule::class])
+    abstract fun contributesReportActivity(): ReportActivity
 }

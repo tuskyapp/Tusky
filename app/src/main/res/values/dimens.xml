@@ -39,4 +39,5 @@
     <dimen name="avatar_radius_42dp">5.25dp</dimen> <!-- 1/8 of 42dp -->
     <dimen name="avatar_radius_36dp">4.5dp</dimen> <!-- 1/8 of 36dp -->
     <dimen name="avatar_radius_24dp">3dp</dimen> <!-- 1/8 of 24dp -->
+    <dimen name="min_report_button_width">160dp</dimen>
 </resources>
