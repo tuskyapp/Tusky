@@ -1,9 +1,11 @@
-package com.keylesspalace.tusky
+package com.keylesspalace.tusky.components.instancemute
 
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.fragment.app.Fragment
-import com.keylesspalace.tusky.fragment.InstanceListFragment
+import com.keylesspalace.tusky.BaseActivity
+import com.keylesspalace.tusky.R
+import com.keylesspalace.tusky.components.instancemute.fragment.InstanceListFragment
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.support.HasSupportFragmentInjector

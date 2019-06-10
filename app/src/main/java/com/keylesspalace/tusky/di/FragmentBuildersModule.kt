@@ -18,6 +18,7 @@ package com.keylesspalace.tusky.di
 
 import com.keylesspalace.tusky.AccountsInListFragment
 import com.keylesspalace.tusky.components.conversation.ConversationsFragment
+import com.keylesspalace.tusky.components.instancemute.fragment.InstanceListFragment
 import com.keylesspalace.tusky.fragment.*
 import com.keylesspalace.tusky.fragment.preference.AccountPreferencesFragment
 import com.keylesspalace.tusky.fragment.preference.NotificationPreferencesFragment

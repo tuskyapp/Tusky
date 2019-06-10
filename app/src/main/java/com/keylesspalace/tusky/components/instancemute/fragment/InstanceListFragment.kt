@@ -1,4 +1,4 @@
-package com.keylesspalace.tusky.fragment
+package com.keylesspalace.tusky.components.instancemute.fragment
 
 import android.os.Bundle
 import android.util.Log
@@ -10,9 +10,10 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.keylesspalace.tusky.R
-import com.keylesspalace.tusky.adapter.DomainMutesAdapter
+import com.keylesspalace.tusky.components.instancemute.adapter.DomainMutesAdapter
+import com.keylesspalace.tusky.components.instancemute.interfaces.InstanceActionListener
 import com.keylesspalace.tusky.di.Injectable
-import com.keylesspalace.tusky.interfaces.InstanceActionListener
+import com.keylesspalace.tusky.fragment.BaseFragment
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.HttpHeaderLink
 import com.keylesspalace.tusky.util.hide

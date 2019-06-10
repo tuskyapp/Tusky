@@ -119,7 +119,7 @@
         <activity android:name=".FiltersActivity" />
         <activity android:name=".components.report.ReportActivity"
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
-        <activity android:name=".InstanceListActivity" />
+        <activity android:name=".components.instancemute.InstanceListActivity" />
 
         <receiver android:name=".receiver.NotificationClearBroadcastReceiver" />
 
