@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:key="@string/preferences_file_key">
 
     <PreferenceCategory android:title="@string/pref_title_appearance_settings">
@@ -61,7 +62,8 @@
         <SwitchPreferenceCompat
             android:defaultValue="false"
             android:key="customTabs"
-            android:title="@string/pref_title_custom_tabs" />
+            android:title="@string/pref_title_custom_tabs"
+            app:singleLineTitle="false" />
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/pref_title_status_filter">
