@@ -110,7 +110,7 @@
     <string name="action_access_saved_toot">Osnutki</string>
     <string name="action_toggle_visibility">Vidljivost tuta</string>
     <string name="action_content_warning">Opozorilo o vsebini</string>
-    <string name="action_emoji_keyboard">Emoji tipkovnica</string>
+    <string name="action_emoji_keyboard">Tipkovnica z emotikoni</string>
     <string name="action_add_tab">Dodaj zavihek</string>
     <string name="action_links">Povezave</string>
     <string name="action_mentions">Omembe</string>
@@ -478,4 +478,16 @@
 
     <string name="description_poll">Anketa z izbiro: %s, %s, %s, %s; %s</string>
 
-    </resources>
+    <string name="caption_notoemoji">Googlovi trenutni emotikoni</string>
+    <string name="button_continue">Nadaljuj</string>
+    <string name="button_back">Nazaj</string>
+    <string name="button_done">Končano</string>
+    <string name="report_sent_success">\@%s je uspešno prijavljen</string>
+    <string name="hint_additional_info">Dodatni komentarji</string>
+    <string name="report_remote_instance">Posreduj %s</string>
+    <string name="failed_report">Prijava je bila neuspešna</string>
+    <string name="failed_fetch_statuses">Statusov ni bilo mogoče pridobiti</string>
+    <string name="report_description_1">Poročilo bo poslano moderatorju strežnika. Spodaj lahko navedete, zakaj prijavljate ta račun:</string>
+    <string name="report_description_remote_instance">Račun je iz drugega strežnika. Pošljem anonimno kopijo poročila tudi na drugi strežnik\?</string>
+
+</resources>
