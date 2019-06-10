@@ -342,8 +342,8 @@
  <string name="action_open_reblogger">Öffne Autor des geteilten Beitrages</string>
     <string name="pref_title_public_filter_keywords">Öffentliche Zeitleisten</string>
     <plurals name="favs">
-	<item quantity="one"><b>%1$s</b> Favorit</item>
-	<item quantity="other"><b>%1$s</b> Favoriten</item>
+	<item quantity="one">&lt;b>%1$s&lt;/b> Favorit</item>
+	<item quantity="other">&lt;b>%1$s&lt;/b> Favoriten</item>
 </plurals>
 
     <string name="title_reblogged_by">Geteilt von</string>
