@@ -656,7 +656,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
     private fun showMuteDomainWarningDialog(instance: String) {
         AlertDialog.Builder(this)
                 .setMessage(getString(R.string.mute_domain_warning, instance))
-                .setPositiveButton(android.R.string.ok) { _, _ -> viewModel.muteDomain(instance) }
+                .setPositiveButton(getString(R.string.mute_domain_warning_dialog_ok)) { _, _ -> viewModel.muteDomain(instance) }
                 .setNegativeButton(android.R.string.cancel, null)
                 .show()
     }

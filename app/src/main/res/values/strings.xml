@@ -37,7 +37,7 @@
     <string name="title_favourites">Favourites</string>
     <string name="title_mutes">Muted users</string>
     <string name="title_blocks">Blocked users</string>
-    <string name="title_domain_mutes">Muted instances</string>
+    <string name="title_domain_mutes">Hidden domains</string>
     <string name="title_follow_requests">Follow Requests</string>
     <string name="title_edit_profile">Edit your profile</string>
     <string name="title_saved_toot">Drafts</string>
@@ -93,7 +93,7 @@
     <string name="action_view_favourites">Favourites</string>
     <string name="action_view_mutes">Muted users</string>
     <string name="action_view_blocks">Blocked users</string>
-    <string name="action_view_domain_mutes">Muted instances</string>
+    <string name="action_view_domain_mutes">Hidden domains</string>
     <string name="action_view_follow_requests">Follow Requests</string>
     <string name="action_view_media">Media</string>
     <string name="action_open_in_web">Open in browser</string>
@@ -183,7 +183,8 @@
     <string name="dialog_unfollow_warning">Unfollow this account?</string>
     <string name="dialog_delete_toot_warning">Delete this toot?</string>
     <string name="dialog_redraft_toot_warning">Delete and re-draft this toot?</string>
-    <string name="mute_domain_warning">Are you really, really sure you want to block all of %s? In most cases, a few targeted blocks or mutes are sufficient and preferable.</string>
+    <string name="mute_domain_warning">Are you sure you want to block all of %s? You will not see content from that domain in any public timelines or in your notifications. Your followers from that domain will be removed.</string>
+    <string name="mute_domain_warning_dialog_ok">Hide entire domain</string>
 
     <string name="visibility_public">Public: Post to public timelines</string>
     <string name="visibility_unlisted">Unlisted: Do not show in public timelines</string>
