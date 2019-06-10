@@ -430,4 +430,20 @@
 
 <string name="compose_preview_image_description">Accions per l’imatge %s</string>
 
-    </resources>
+    <string name="pref_title_animate_gif_avatars">Activar l’animacion dels avatars</string>
+
+    <string name="caption_notoemoji">Jòc d’emoji actuals de Google</string>
+    <string name="description_poll">Sondatge amb opcion : %s, %s, %s, %s; %s</string>
+
+    <string name="button_continue">Contunhar</string>
+    <string name="button_back">Tornar</string>
+    <string name="button_done">Acabat</string>
+    <string name="report_sent_success">\@%s corrèctament senhalat</string>
+    <string name="hint_additional_info">Comentaris suplementaris</string>
+    <string name="report_remote_instance">Transferir a %s</string>
+    <string name="failed_report">Fracàs del senhalament</string>
+    <string name="failed_fetch_statuses">Recuperacion dels estatuts impossibla</string>
+    <string name="report_description_1">Lo senhalament serà enviat a vòstre moderator de servidor. Podètz fornir una explicacion de perque senhalatz lo compte çai-jos :</string>
+    <string name="report_description_remote_instance">Aqueste compte es en un autre servidor. Enviar una còpia anonimizada del senhalament \?</string>
+
+</resources>
