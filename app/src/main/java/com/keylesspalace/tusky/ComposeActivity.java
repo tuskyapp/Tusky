@@ -1655,6 +1655,11 @@ public final class ComposeActivity
             }
         }
 
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            onBackPressed();
+            return true;
+        }
+
         return super.onKeyDown(keyCode, event);
     }
 
