@@ -145,6 +145,7 @@
     <string name="confirmation_reported">Sent!</string>
     <string name="confirmation_unblocked">User unblocked</string>
     <string name="confirmation_unmuted">User unmuted</string>
+    <string name="confirmation_domain_unmuted">%s unhidden</string>
 
     <string name="status_sent">Sent!</string>
     <string name="status_sent_long">Reply sent successfully.</string>

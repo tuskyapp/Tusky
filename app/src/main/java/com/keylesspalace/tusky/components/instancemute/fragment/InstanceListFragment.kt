@@ -9,6 +9,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.snackbar.Snackbar
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.components.instancemute.adapter.DomainMutesAdapter
 import com.keylesspalace.tusky.components.instancemute.interfaces.InstanceActionListener
@@ -88,6 +89,11 @@ class InstanceListFragment: BaseFragment(), Injectable, InstanceActionListener {
                 override fun onResponse(call: Call<Any>, response: Response<Any>) {
                     if (response.isSuccessful) {
                         adapter.removeItem(position)
+                        Snackbar.make(recyclerView, getString(R.string.confirmation_domain_unmuted, instance), Snackbar.LENGTH_LONG)
+                                .setAction(R.string.action_undo) {
+                                    mute(true, instance, position)
+                                }
+                                .show()
                     } else {
                         Log.e(TAG, "Error unmuting domain $instance")
                     }
