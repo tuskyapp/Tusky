@@ -101,6 +101,7 @@ class InstanceListFragment: BaseFragment(), Injectable, InstanceActionListener {
             return
         }
         fetching = true
+        instanceProgressBar.show()
 
         if (id != null) {
             recyclerView.post { adapter.bottomLoading = true }
@@ -124,6 +125,7 @@ class InstanceListFragment: BaseFragment(), Injectable, InstanceActionListener {
 
     private fun onFetchInstancesSuccess(instances: List<String>, linkHeader: String?) {
         adapter.bottomLoading = false
+        instanceProgressBar.hide()
 
         val links = HttpHeaderLink.parse(linkHeader)
         val next = HttpHeaderLink.findByRelationType(links, "next")
@@ -146,6 +148,7 @@ class InstanceListFragment: BaseFragment(), Injectable, InstanceActionListener {
 
     private fun onFetchInstancesFailure(throwable: Throwable) {
         fetching = false
+        instanceProgressBar.hide()
         Log.e(TAG, "Fetch failure", throwable)
 
         if (adapter.itemCount == 0) {
