@@ -464,4 +464,16 @@
 
     <string name="description_poll">Avstemming med valg: %s, %s, %s, %s; %s</string>
 
-    </resources>
+    <string name="caption_notoemoji">Googles nåværende emoji-samling</string>
+    <string name="button_continue">Fortsett</string>
+    <string name="button_back">Tilbake</string>
+    <string name="button_done">Ferdig</string>
+    <string name="report_sent_success">\@%s er rapportert</string>
+    <string name="hint_additional_info">Flere kommentarer</string>
+    <string name="report_remote_instance">Videresend til %s</string>
+    <string name="failed_report">Klarte ikke å rapportere</string>
+    <string name="failed_fetch_statuses">Klarte ikke å hente statuser</string>
+    <string name="report_description_1">Rapporten vil bli sendt til instansmoderatoren. Under kan du skrive en forklaring på hvorfor du rapporterer denne kontoen:</string>
+    <string name="report_description_remote_instance">Kontoen tilhører en annen instans. Vil du også sende en anonymisert kopi av rapporten dit\?</string>
+
+</resources>
