@@ -611,18 +611,7 @@ public class NotificationsFragment extends SFragment implements
     private void clearNotifications() {
         //Cancel all ongoing requests
         swipeRefreshLayout.setRefreshing(false);
-        for (Call callItem : callList) {
-            callItem.cancel();
-        }
-        callList.clear();
-        bottomLoading = false;
-        topLoading = false;
-
-        //Disable load more
-        bottomId = null;
-
-        //Clear exists notifications
-        notifications.clear();
+        resetNotificationsLoad();
 
         //Show friend elephant
         this.statusView.setVisibility(View.VISIBLE);
@@ -651,6 +640,21 @@ public class NotificationsFragment extends SFragment implements
             }
         });
         callList.add(call);
+    }
+
+    private void resetNotificationsLoad() {
+        for (Call callItem : callList) {
+            callItem.cancel();
+        }
+        callList.clear();
+        bottomLoading = false;
+        topLoading = false;
+
+        //Disable load more
+        bottomId = null;
+
+        //Clear exists notifications
+        notifications.clear();
     }
 
 
@@ -879,7 +883,8 @@ public class NotificationsFragment extends SFragment implements
 
             @Override
             public void onFailure(@NonNull Call<List<Notification>> call, @NonNull Throwable t) {
-                onFetchNotificationsFailure((Exception) t, fetchEnd, pos);
+                if (!call.isCanceled())
+                    onFetchNotificationsFailure((Exception) t, fetchEnd, pos);
             }
         });
         callList.add(call);
@@ -888,9 +893,15 @@ public class NotificationsFragment extends SFragment implements
     private void onFetchNotificationsSuccess(List<Notification> notifications, String linkHeader,
                                              FetchEnd fetchEnd, int pos) {
         List<HttpHeaderLink> links = HttpHeaderLink.parse(linkHeader);
+        HttpHeaderLink next = HttpHeaderLink.findByRelationType(links, "next");
+        String fromId = null;
+        if (next != null) {
+            fromId = next.uri.getQueryParameter("max_id");
+        }
+
         switch (fetchEnd) {
             case TOP: {
-                update(notifications, null);
+                update(notifications, this.notifications.isEmpty() ? fromId : null);
                 break;
             }
             case MIDDLE: {
@@ -898,11 +909,6 @@ public class NotificationsFragment extends SFragment implements
                 break;
             }
             case BOTTOM: {
-                HttpHeaderLink next = HttpHeaderLink.findByRelationType(links, "next");
-                String fromId = null;
-                if (next != null) {
-                    fromId = next.uri.getQueryParameter("max_id");
-                }
 
                 if (!this.notifications.isEmpty()
                         && !this.notifications.get(this.notifications.size() - 1).isRight()) {
@@ -1061,8 +1067,8 @@ public class NotificationsFragment extends SFragment implements
     }
 
     private void fullyRefreshWithProgressBar(boolean isShow) {
-        notifications.clear();
-        if (isShow && notifications.isEmpty()) {
+        resetNotificationsLoad();
+        if (isShow) {
             progressBar.setVisibility(View.VISIBLE);
             statusView.setVisibility(View.GONE);
         }
