@@ -284,8 +284,6 @@ public class NotificationsFragment extends SFragment implements
             //Clear behaviour to hide app bar
             params.setBehavior(null);
         }
-
-        swipeRefreshLayout.requestLayout();
     }
 
     private void confirmClearNotifications() {
