@@ -476,4 +476,7 @@
     <string name="report_description_1">Rapporten vil bli sendt til instansmoderatoren. Under kan du skrive en forklaring på hvorfor du rapporterer denne kontoen:</string>
     <string name="report_description_remote_instance">Kontoen tilhører en annen instans. Vil du også sende en anonymisert kopi av rapporten dit\?</string>
 
-</resources>
+<string name="title_domain_mutes">Skjulte domener</string>
+    <string name="action_view_domain_mutes">Skjulte domener</string>
+    <string name="action_mute_domain">Demp %s</string>
+    </resources>
