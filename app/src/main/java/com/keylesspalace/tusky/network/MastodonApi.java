@@ -29,6 +29,7 @@ import com.keylesspalace.tusky.entity.Notification;
 import com.keylesspalace.tusky.entity.Poll;
 import com.keylesspalace.tusky.entity.Relationship;
 import com.keylesspalace.tusky.entity.SearchResults;
+import com.keylesspalace.tusky.entity.SearchResults2;
 import com.keylesspalace.tusky.entity.Status;
 import com.keylesspalace.tusky.entity.StatusContext;
 
@@ -436,5 +437,8 @@ public interface MastodonApi {
 
     @GET("api/v1/statuses/{id}")
     Single<Status> statusObservable(@Path("id") String statusId);
+
+    @GET("api/v2/search")
+    Single<SearchResults2> searchObservable(@Query("q") String q, @Query("resolve") Boolean resolve, @Query("limit") Integer limit, @Query("offset") Integer offset, @Query("following") Boolean following);
 
 }
