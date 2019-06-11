@@ -55,6 +55,12 @@
             android:defaultValue="false"
             android:key="animateGifAvatars"
             android:title="@string/pref_title_animate_gif_avatars" />
+
+        <SwitchPreferenceCompat
+            android:defaultValue="true"
+            android:key="showNotificationsFilter"
+            android:title="@string/pref_title_show_notifications_filter" />
+
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/pref_title_browser_settings">
