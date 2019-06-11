@@ -429,4 +429,16 @@
 
     <string name="description_poll">Enquete com as opções: %s, %s, %s, %s; %s</string>
 
-    </resources>
+    <string name="caption_notoemoji">Pacote de emojis atual do Google</string>
+    <string name="button_continue">Continuar</string>
+    <string name="button_back">Voltar</string>
+    <string name="button_done">Feito</string>
+    <string name="report_sent_success">\@%s denunciado com sucesso</string>
+    <string name="hint_additional_info">Comentários adicionais</string>
+    <string name="report_remote_instance">Encaminhar para %s</string>
+    <string name="failed_report">Falha na denúncia</string>
+    <string name="failed_fetch_statuses">Falha ao carregar toots</string>
+    <string name="report_description_1">A denúncia será enviada para o seu administrador da instância. Você pode explicar por que você denunciou a conta:</string>
+    <string name="report_description_remote_instance">A conta está em outra instância. Enviar uma cópia anonimizada da denúncia também\?</string>
+
+</resources>
