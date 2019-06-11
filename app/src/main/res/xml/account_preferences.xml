@@ -18,6 +18,10 @@
         android:key="blockedUsersPreference"
         android:title="@string/action_view_blocks" />
 
+    <Preference
+        android:key="mutedDomainsPreference"
+        android:title="@string/action_view_domain_mutes" />
+
     <PreferenceCategory android:title="@string/pref_publishing">
         <ListPreference
             android:defaultValue="public"
