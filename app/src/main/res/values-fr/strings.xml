@@ -427,4 +427,20 @@
     <string name="poll_ended_voted">Un sondage auquel vous avez participé vient de se terminer</string>
     <string name="description_poll">Sondage avec les choix : %s, %s, %s, %s; %s</string>
 
+    <string name="title_domain_mutes">Domaines cachés</string>
+    <string name="action_view_domain_mutes">Domaines cachés</string>
+    <string name="action_mute_domain">Masquer %s</string>
+    <string name="confirmation_domain_unmuted">%s n’est plus masqué</string>
+
+    <string name="mute_domain_warning_dialog_ok">Masquer le domaine entier</string>
+
+    <string name="caption_notoemoji">L’ensemble d’émojis actuel de Google</string>
+    <string name="button_continue">Continuer</string>
+    <string name="button_back">Retour</string>
+    <string name="report_sent_success">\@%s signalé avec succès</string>
+    <string name="hint_additional_info">Commentaires additionnels</string>
+    <string name="report_remote_instance">Transférer à %s</string>
+    <string name="failed_report">Échec du signalement</string>
+    <string name="failed_fetch_statuses">Échec de récupération des statuts</string>
+    <string name="report_description_1">Le rapport sera envoyé aux modérateur·rice·s de votre instance. Vous pouvez expliquer pourquoi vous signalez le compte ci-dessous :</string>
     </resources>
