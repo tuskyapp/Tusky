@@ -439,6 +439,6 @@ public interface MastodonApi {
     Single<Status> statusObservable(@Path("id") String statusId);
 
     @GET("api/v2/search")
-    Single<SearchResults2> searchObservable(@Query("q") String q, @Query("resolve") Boolean resolve, @Query("limit") Integer limit, @Query("offset") Integer offset, @Query("following") Boolean following);
+    Single<SearchResults2> searchObservable(@Query("type") String type, @Query("q") String q, @Query("resolve") Boolean resolve, @Query("limit") Integer limit, @Query("offset") Integer offset, @Query("following") Boolean following);
 
 }

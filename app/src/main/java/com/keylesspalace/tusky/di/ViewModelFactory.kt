@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.keylesspalace.tusky.components.conversation.ConversationsViewModel
 import com.keylesspalace.tusky.components.report.ReportViewModel
+import com.keylesspalace.tusky.components.search.SearchViewModel
 import com.keylesspalace.tusky.viewmodel.*
 import com.keylesspalace.tusky.viewmodel.ListsViewModel
 import dagger.Binds
@@ -64,6 +65,11 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(ReportViewModel::class)
     internal abstract fun reportViewModel(viewModel: ReportViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(SearchViewModel::class)
+    internal abstract fun searchViewModel(viewModel: SearchViewModel): ViewModel
 
     //Add more ViewModels here
 }

@@ -38,7 +38,7 @@ public class StatusViewHolder extends StatusBaseViewHolder {
     private TextView statusInfo;
     private ToggleButton contentCollapseButton;
 
-    StatusViewHolder(View itemView, boolean useAbsoluteTime) {
+    public StatusViewHolder(View itemView, boolean useAbsoluteTime) {
         super(itemView, useAbsoluteTime);
         statusInfo = itemView.findViewById(R.id.status_info);
         contentCollapseButton = itemView.findViewById(R.id.button_toggle_content);

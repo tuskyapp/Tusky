@@ -47,6 +47,7 @@ import com.keylesspalace.tusky.appstore.EventHub;
 import com.keylesspalace.tusky.appstore.MainTabsChangedEvent;
 import com.keylesspalace.tusky.appstore.ProfileEditedEvent;
 import com.keylesspalace.tusky.components.conversation.ConversationsRepository;
+import com.keylesspalace.tusky.components.search.SearchActivity;
 import com.keylesspalace.tusky.db.AccountEntity;
 import com.keylesspalace.tusky.entity.Account;
 import com.keylesspalace.tusky.fragment.SFragment;
@@ -286,7 +287,7 @@ public final class MainActivity extends BottomSheetActivity implements ActionBut
                 return true;
             }
             case KeyEvent.KEYCODE_SEARCH: {
-                startActivityWithSlideInAnimation(new Intent(this, SearchActivity.class));
+                startActivityWithSlideInAnimation(SearchActivity.getIntent(this));
                 return true;
             }
         }
@@ -413,8 +414,7 @@ public final class MainActivity extends BottomSheetActivity implements ActionBut
                             Intent intent = new Intent(MainActivity.this, FavouritesActivity.class);
                             startActivityWithSlideInAnimation(intent);
                         } else if (drawerItemIdentifier == DRAWER_ITEM_SEARCH) {
-                            Intent intent = new Intent(MainActivity.this, SearchActivity.class);
-                            startActivityWithSlideInAnimation(intent);
+                            startActivityWithSlideInAnimation(SearchActivity.getIntent(this));
                         } else if (drawerItemIdentifier == DRAWER_ITEM_ACCOUNT_SETTINGS) {
                             Intent intent = PreferencesActivity.newIntent(MainActivity.this, PreferencesActivity.ACCOUNT_PREFERENCES);
                             startActivityWithSlideInAnimation(intent);
