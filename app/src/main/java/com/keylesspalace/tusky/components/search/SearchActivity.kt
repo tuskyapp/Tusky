@@ -21,21 +21,22 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import androidx.appcompat.widget.SearchView
-import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.ViewModelProviders
+import com.google.android.material.snackbar.Snackbar
 import com.keylesspalace.tusky.BottomSheetActivity
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.components.search.adapter.SearchPagerAdapter
 import com.keylesspalace.tusky.di.ViewModelFactory
+import com.keylesspalace.tusky.interfaces.AnchorActivity
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
 import kotlinx.android.synthetic.main.activity_search.*
 import javax.inject.Inject
 
-class SearchActivity : BottomSheetActivity(), SearchView.OnQueryTextListener, HasAndroidInjector {
-
+class SearchActivity : BottomSheetActivity(), SearchView.OnQueryTextListener, HasAndroidInjector, AnchorActivity {
     @Inject
     lateinit var androidInjector: DispatchingAndroidInjector<Any>
 
@@ -50,8 +51,7 @@ class SearchActivity : BottomSheetActivity(), SearchView.OnQueryTextListener, Ha
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search)
-        viewModel = ViewModelProviders.of(this,viewModelFactory)[SearchViewModel::class.java]
-        val toolbar = findViewById<Toolbar>(R.id.toolbar)
+        viewModel = ViewModelProviders.of(this, viewModelFactory)[SearchViewModel::class.java]
         setSupportActionBar(toolbar)
         supportActionBar?.apply {
             setDisplayHomeAsUpEnabled(true)
@@ -63,7 +63,7 @@ class SearchActivity : BottomSheetActivity(), SearchView.OnQueryTextListener, Ha
     }
 
     private fun setupPages() {
-        pages.adapter = SearchPagerAdapter(this,supportFragmentManager)
+        pages.adapter = SearchPagerAdapter(this, supportFragmentManager)
         tabs.setupWithViewPager(pages)
     }
 
@@ -123,11 +123,14 @@ class SearchActivity : BottomSheetActivity(), SearchView.OnQueryTextListener, Ha
         searchView.maxWidth = Integer.MAX_VALUE
     }
 
+    override fun getAnchor(): View? = toolbar
+
+
     override fun androidInjector(): AndroidInjector<Any>? {
         return androidInjector
     }
 
-    companion object{
+    companion object {
         @JvmStatic
         fun getIntent(context: Context) = Intent(context, SearchActivity::class.java)
     }
