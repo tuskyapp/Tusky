@@ -24,7 +24,6 @@ import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.ViewModelProviders
-import com.google.android.material.snackbar.Snackbar
 import com.keylesspalace.tusky.BottomSheetActivity
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.components.search.adapter.SearchPagerAdapter
