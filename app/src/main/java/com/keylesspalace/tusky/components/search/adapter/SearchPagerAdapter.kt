@@ -21,13 +21,14 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.components.search.SearchType
+import com.keylesspalace.tusky.components.search.fragments.SearchAccountFragment
 import com.keylesspalace.tusky.components.search.fragments.SearchStatusFragment
 
 class SearchPagerAdapter(private val context: Context, manager: FragmentManager) : FragmentPagerAdapter(manager) {
     override fun getItem(position: Int): Fragment {
         return when (position) {
             0 -> SearchStatusFragment.newInstance(SearchType.Status)
-            1 -> SearchStatusFragment.newInstance(SearchType.Account)
+            1 -> SearchAccountFragment.newInstance(SearchType.Account)
             2 -> SearchStatusFragment.newInstance(SearchType.Hashtag)
             else -> throw IllegalArgumentException("Unknown page index: $position")
         }

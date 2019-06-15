@@ -45,7 +45,7 @@ import com.keylesspalace.tusky.util.Status
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.viewdata.AttachmentViewData
-import kotlinx.android.synthetic.main.fragment_status_search.*
+import kotlinx.android.synthetic.main.fragment_search.*
 import javax.inject.Inject
 
 class SearchStatusFragment : SFragment(), StatusActionListener {
@@ -58,7 +58,7 @@ class SearchStatusFragment : SFragment(), StatusActionListener {
     private lateinit var viewModel: SearchViewModel
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_status_search, container, false)
+        return inflater.inflate(R.layout.fragment_search, container, false)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -210,7 +210,7 @@ class SearchStatusFragment : SFragment(), StatusActionListener {
     private fun showError(@Suppress("UNUSED_PARAMETER") msg: String?) {
         if (snackbarErrorRetry?.isShown != true) {
             snackbarErrorRetry = Snackbar.make((activity as? AnchorActivity)?.getAnchor()
-                    ?: layoutRoot, R.string.failed_fetch_statuses, Snackbar.LENGTH_INDEFINITE)
+                    ?: layoutRoot, R.string.failed_search, Snackbar.LENGTH_INDEFINITE)
             snackbarErrorRetry?.setAction(R.string.action_retry) {
                 viewModel.retryStatusSearch()
             }

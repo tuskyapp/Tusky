@@ -25,6 +25,7 @@ import com.keylesspalace.tusky.fragment.preference.NotificationPreferencesFragme
 import com.keylesspalace.tusky.components.report.fragments.ReportDoneFragment
 import com.keylesspalace.tusky.components.report.fragments.ReportNoteFragment
 import com.keylesspalace.tusky.components.report.fragments.ReportStatusesFragment
+import com.keylesspalace.tusky.components.search.fragments.SearchAccountFragment
 import com.keylesspalace.tusky.components.search.fragments.SearchStatusFragment
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
@@ -76,4 +77,8 @@ abstract class FragmentBuildersModule {
 
     @ContributesAndroidInjector
     abstract fun instanceListFragment(): InstanceListFragment
+
+    @ContributesAndroidInjector
+    abstract fun searchAccountFragment(): SearchAccountFragment
+
 }
