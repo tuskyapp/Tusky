@@ -18,6 +18,7 @@ package com.keylesspalace.tusky.db
 import androidx.paging.DataSource
 import androidx.room.*
 import com.keylesspalace.tusky.components.conversation.ConversationEntity
+import io.reactivex.Single
 
 @Dao
 interface ConversationsDao {
@@ -25,10 +26,10 @@ interface ConversationsDao {
     fun insert(conversations: List<ConversationEntity>)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(conversation: ConversationEntity)
+    fun insert(conversation: ConversationEntity): Single<Long>
 
     @Delete
-    fun delete(conversation: ConversationEntity)
+    fun delete(conversation: ConversationEntity): Single<Int>
 
     @Query("SELECT * FROM ConversationEntity WHERE accountId = :accountId ORDER BY s_createdAt DESC")
     fun conversationsForAccount(accountId: Long) : DataSource.Factory<Int, ConversationEntity>
