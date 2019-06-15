@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/account_container"
     android:layout_width="match_parent"
+    android:background="?attr/selectableItemBackground"
     android:layout_height="72dp"
     android:paddingStart="16dp"
     android:paddingEnd="16dp">
