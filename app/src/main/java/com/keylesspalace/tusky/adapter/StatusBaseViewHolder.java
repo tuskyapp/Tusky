@@ -93,7 +93,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
 
     private final NumberFormat numberFormat = NumberFormat.getNumberInstance();
 
-    private int avatarRadius48dp;
+    protected int avatarRadius48dp;
     private int avatarRadius36dp;
     private int avatarRadius24dp;
 
