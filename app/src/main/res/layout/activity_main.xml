@@ -21,14 +21,12 @@
             android:background="?android:colorBackground"
             android:contentDescription="@string/action_open_drawer"
             android:elevation="@dimen/actionbar_elevation"
-            app:layout_anchor="@id/pager"
-            app:layout_anchorGravity="top|left"
             app:srcCompat="@drawable/ic_menu_24dp" />
 
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tab_layout"
             style="@style/TuskyTabAppearance"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="?attr/actionBarSize"
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
@@ -37,6 +35,7 @@
             android:elevation="@dimen/actionbar_elevation"
             app:tabGravity="fill"
             app:tabIconTint="@color/tab_icon_color"
+            app:tabMaxWidth="0dp"
             app:tabMode="fixed"
             app:tabPaddingEnd="1dp"
             app:tabPaddingStart="1dp"
