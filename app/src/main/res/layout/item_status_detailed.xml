@@ -144,6 +144,7 @@
             android:id="@+id/card_image"
             android:layout_width="match_parent"
             android:layout_height="300dp"
+            android:layout_margin="1dp"
             android:background="?attr/card_image_background" />
 
         <LinearLayout
