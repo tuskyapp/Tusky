@@ -134,10 +134,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:background="?attr/card_background"
+        android:background="@drawable/card_frame"
         android:clipChildren="true"
         android:orientation="vertical"
         app:layout_constraintTop_toBottomOf="@+id/status_content"
+        android:foreground="?attr/selectableItemBackground"
         tools:visibility="gone">
 
         <ImageView
@@ -145,7 +146,8 @@
             android:layout_width="match_parent"
             android:layout_height="300dp"
             android:layout_margin="1dp"
-            android:background="?attr/card_image_background" />
+            android:scaleType="center"
+            android:background="?attr/card_background_color" />
 
         <LinearLayout
             android:id="@+id/card_info"

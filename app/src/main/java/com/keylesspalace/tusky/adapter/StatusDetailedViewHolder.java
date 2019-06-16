@@ -162,7 +162,6 @@ class StatusDetailedViewHolder extends StatusBaseViewHolder {
                 RoundedCornersTransformation.CornerType cornertype;
 
                 if (card.getWidth() > 0 && card.getHeight() > 0 && !TextUtils.isEmpty(card.getImage())) {
-                    cardImage.setVisibility(View.VISIBLE);
 
                     if (card.getWidth() > card.getHeight()) {
                         cardView.setOrientation(LinearLayout.VERTICAL);
@@ -192,7 +191,15 @@ class StatusDetailedViewHolder extends StatusBaseViewHolder {
                             .into(cardImage);
 
                 } else {
-                    cardImage.setVisibility(View.GONE);
+                    cardView.setOrientation(LinearLayout.HORIZONTAL);
+                    cardImage.getLayoutParams().height = ViewGroup.LayoutParams.MATCH_PARENT;
+                    cardImage.getLayoutParams().width = cardImage.getContext().getResources()
+                            .getDimensionPixelSize(R.dimen.card_image_horizontal_width);
+                    cardInfo.getLayoutParams().height = ViewGroup.LayoutParams.WRAP_CONTENT;
+                    cardInfo.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
+
+                    cardImage.setImageResource(R.drawable.card_image_placeholder);
+
                 }
 
                 cardView.setOnClickListener(v -> LinkHelper.openLink(card.getUrl(), v.getContext()));
