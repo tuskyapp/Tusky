@@ -2,7 +2,7 @@
 <resources>
     <string name="error_generic">Ocorreu um erro.</string>
     <string name="error_empty">Não pode estar vazio.</string>
-    <string name="error_invalid_domain">Domínio inválido</string>
+    <string name="error_invalid_domain">Instância inválida</string>
     <string name="error_failed_app_registration">Falha ao autenticar com esta instância.</string>
     <string name="error_no_web_browser_found">Navegador não foi encontrado.</string>
     <string name="error_authorization_unknown">Ocorreu um erro não-identificado de autorização.</string>
@@ -140,7 +140,7 @@
     <string name="dialog_title_finishing_media_upload">Envio de mídia terminando</string>
     <string name="dialog_message_uploading_media">Enviando…</string>
     <string name="dialog_download_image">Baixar</string>
-    <string name="dialog_message_cancel_follow_request">Revogar a solicitação de seguidor?</string>
+    <string name="dialog_message_cancel_follow_request">Recusar o seguidor pendente\?</string>
     <string name="dialog_unfollow_warning">Deixar de seguir esta conta?</string>
     <string name="dialog_delete_toot_warning">Excluir este toot?</string>
     <string name="visibility_public">Público: Postar em timelines públicas</string>
@@ -432,7 +432,7 @@
     <string name="caption_notoemoji">Pacote de emojis atual do Google</string>
     <string name="button_continue">Continuar</string>
     <string name="button_back">Voltar</string>
-    <string name="button_done">Feito</string>
+    <string name="button_done">Ok</string>
     <string name="report_sent_success">\@%s denunciado com sucesso</string>
     <string name="hint_additional_info">Comentários adicionais</string>
     <string name="report_remote_instance">Encaminhar para %s</string>
@@ -441,4 +441,13 @@
     <string name="report_description_1">A denúncia será enviada para o seu administrador da instância. Você pode explicar por que você denunciou a conta:</string>
     <string name="report_description_remote_instance">A conta está em outra instância. Enviar uma cópia anonimizada da denúncia também\?</string>
 
+<string name="title_domain_mutes">Instâncias bloqueadas</string>
+    <string name="action_view_domain_mutes">Instâncias bloqueadas</string>
+    <string name="action_mute_domain">Bloquear %s</string>
+    <string name="confirmation_domain_unmuted">%s desbloqueada</string>
+
+    <string name="mute_domain_warning">Você tem certeza de que deseja bloquear tudo de %s\? Você não verá mais conteúdos desta instância em nenhuma timeline pública ou nas suas notificações. Seus seguidores desta instância serão removidos.</string>
+    <string name="mute_domain_warning_dialog_ok">Bloquear instância</string>
+
+    <string name="pref_title_show_notifications_filter">Mostrar filtro de notificações</string>
 </resources>
