@@ -124,10 +124,10 @@ dependencies {
     // architecture components
     implementation 'androidx.lifecycle:lifecycle-extensions:2.0.0'
     //room
-    implementation 'androidx.room:room-runtime:2.0.0'
+    implementation 'androidx.room:room-runtime:2.1.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    kapt 'androidx.room:room-compiler:2.0.0'
-    implementation 'androidx.room:room-rxjava2:2.0.0'
+    kapt 'androidx.room:room-compiler:2.1.0'
+    implementation 'androidx.room:room-rxjava2:2.1.0'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
     implementation "com.google.dagger:dagger:$daggerVersion"
     kapt "com.google.dagger:dagger-compiler:$daggerVersion"
