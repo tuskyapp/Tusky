@@ -437,4 +437,13 @@
     <string name="button_continue">Fortsätt</string>
     <string name="button_back">Tillbaka</string>
     <string name="button_done">Klar</string>
-    </resources>
+    <string name="report_sent_success">Anmälan av @%s har lyckats</string>
+    <string name="hint_additional_info">Ytterligare kommentarer</string>
+    <string name="report_remote_instance">Vidarebefordra till %s</string>
+    <string name="failed_report">Misslyckades att anmäla</string>
+    <string name="failed_fetch_statuses">Misslyckades att uppdatera status</string>
+    <string name="report_description_1">Anmälan kommer att skickas till din serveradminastratör. Du kan beskriva varför du anmäler kontot nedan:</string>
+    <string name="report_description_remote_instance">Kontot är från en annan server. Skicka en avidentifierad kopia av anmälan dit också\?</string>
+
+    <string name="pref_title_show_notifications_filter">Visa notifikationsfilter</string>
+</resources>
