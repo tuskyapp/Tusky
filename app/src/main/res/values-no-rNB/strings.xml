@@ -462,7 +462,7 @@
 
     <string name="pref_title_animate_gif_avatars">Animer GIF-avatarer</string>
 
-    <string name="description_poll">Avstemming med valg: %s, %s, %s, %s; %s</string>
+    <string name="description_poll">Avstemming med valg: %1$s, %2$s, %3$s, %4$s; %5$s</string>
 
     <string name="caption_notoemoji">Googles nåværende emoji-samling</string>
     <string name="button_continue">Fortsett</string>

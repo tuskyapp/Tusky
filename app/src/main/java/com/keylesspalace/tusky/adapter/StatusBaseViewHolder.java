@@ -783,7 +783,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         if (poll == null) {
             return "";
         } else {
-            CharSequence[] args = new CharSequence[5];
+            Object[] args = new CharSequence[5];
             List<PollOption> options = poll.getOptions();
             for (int i = 0; i < args.length; i++) {
                 if (i < options.size()) {

@@ -476,7 +476,7 @@
 
 <string name="pref_title_animate_gif_avatars">Animirane podobe GIF</string>
 
-    <string name="description_poll">Anketa z izbiro: %s, %s, %s, %s; %s</string>
+    <string name="description_poll">Anketa z izbiro: %1$s, %2$s, %3$s, %4$s; %5$s</string>
 
     <string name="caption_notoemoji">Googlovi trenutni emotikoni</string>
     <string name="button_continue">Nadaljuj</string>

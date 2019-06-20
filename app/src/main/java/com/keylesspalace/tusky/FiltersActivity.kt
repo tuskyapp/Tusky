@@ -2,7 +2,6 @@ package com.keylesspalace.tusky
 
 import android.os.Bundle
 import android.view.MenuItem
-import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
@@ -61,7 +60,7 @@ class FiltersActivity: BaseActivity() {
 
     private fun deleteFilter(itemIndex: Int) {
         val filter = filters[itemIndex]
-        if (filter.context.count() == 1) {
+        if (filter.context.size == 1) {
             // This is the only context for this filter; delete it
             api.deleteFilter(filters[itemIndex].id).enqueue(object: Callback<ResponseBody> {
                 override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
@@ -157,7 +156,7 @@ class FiltersActivity: BaseActivity() {
                     filterProgressBar.hide()
                     filterMessageView.show()
                     filterMessageView.setup(R.drawable.elephant_error,
-                            R.string.error_generic, this@FiltersActivity::reload)
+                            R.string.error_generic) { loadFilters() }
                 }
             }
 
@@ -166,17 +165,13 @@ class FiltersActivity: BaseActivity() {
                 filterMessageView.show()
                 if (t is IOException) {
                     filterMessageView.setup(R.drawable.elephant_offline,
-                            R.string.error_network, this@FiltersActivity::reload)
+                            R.string.error_network) { loadFilters() }
                 } else {
                     filterMessageView.setup(R.drawable.elephant_error,
-                            R.string.error_generic, this@FiltersActivity::reload)
+                            R.string.error_generic) { loadFilters() }
                 }
             }
         })
-    }
-
-    private fun reload(v: View) {
-        loadFilters()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

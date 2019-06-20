@@ -448,7 +448,7 @@
         Direct
     </string>
     <string name="description_poll">
-        Poll with choices: %s, %s, %s, %s; %s
+        Poll with choices: %1$s, %2$s, %3$s, %4$s; %5$s
     </string>
 
     <string name="hint_list_name">List name</string>
