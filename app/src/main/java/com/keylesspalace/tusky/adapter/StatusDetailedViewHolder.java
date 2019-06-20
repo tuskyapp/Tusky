@@ -155,16 +155,26 @@ class StatusDetailedViewHolder extends StatusBaseViewHolder {
                 final Card card = status.getCard();
                 cardView.setVisibility(View.VISIBLE);
                 cardTitle.setText(card.getTitle());
-                cardDescription.setText(card.getDescription());
+                if(TextUtils.isEmpty(card.getDescription()) && TextUtils.isEmpty(card.getAuthorName())) {
+                    cardDescription.setVisibility(View.GONE);
+                } else {
+                    cardDescription.setVisibility(View.VISIBLE);
+                    if(TextUtils.isEmpty(card.getDescription())) {
+                        cardDescription.setText(card.getAuthorName());
+                    } else {
+                        cardDescription.setText(card.getDescription());
+                    }
+                }
 
                 cardUrl.setText(card.getUrl());
 
-                RoundedCornersTransformation.CornerType cornertype;
+                if (!TextUtils.isEmpty(card.getImage())) {
 
-                if (card.getWidth() > 0 && card.getHeight() > 0 && !TextUtils.isEmpty(card.getImage())) {
+                    RoundedCornersTransformation.CornerType cornertype;
 
                     if (card.getWidth() > card.getHeight()) {
                         cardView.setOrientation(LinearLayout.VERTICAL);
+
                         cardImage.getLayoutParams().height = cardImage.getContext().getResources()
                                 .getDimensionPixelSize(R.dimen.card_image_vertical_height);
                         cardImage.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
@@ -173,6 +183,8 @@ class StatusDetailedViewHolder extends StatusBaseViewHolder {
                         cornertype = RoundedCornersTransformation.CornerType.TOP;
                     } else {
                         cardView.setOrientation(LinearLayout.HORIZONTAL);
+                        cardInfo.setMinimumHeight(cardImage.getContext().getResources()
+                                .getDimensionPixelSize(R.dimen.card_image_horizontal_width));
                         cardImage.getLayoutParams().height = ViewGroup.LayoutParams.MATCH_PARENT;
                         cardImage.getLayoutParams().width = cardImage.getContext().getResources()
                                 .getDimensionPixelSize(R.dimen.card_image_horizontal_width);

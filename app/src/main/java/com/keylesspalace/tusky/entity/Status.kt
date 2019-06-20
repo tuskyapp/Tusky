@@ -130,7 +130,7 @@ data class Status(
 
     data class Application (
         val name: String,
-        val website: String
+        val website: String?
     )
 
     companion object {
