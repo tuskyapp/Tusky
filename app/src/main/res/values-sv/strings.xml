@@ -425,4 +425,25 @@
 
     <string name="description_poll">Undersökning med valen: %s, %s, %s, %s; %s</string>
 
-    </resources>
+    <string name="title_domain_mutes">Dolda domän</string>
+    <string name="action_view_domain_mutes">Dolda domäner</string>
+    <string name="action_mute_domain">Tysta %s</string>
+    <string name="confirmation_domain_unmuted">%s inte tystnad längre</string>
+
+    <string name="mute_domain_warning">Är du säker på att du vill blockera allt från %s\? Du kommer inte kunna se något innehåll från denna domän i publika tidslinje eller i dina notifieringar. Dina följare på domänen kommer inte att bli borttagna.</string>
+    <string name="mute_domain_warning_dialog_ok">Dölj hela domän</string>
+
+    <string name="caption_notoemoji">Google\'s nuvarande emojis</string>
+    <string name="button_continue">Fortsätt</string>
+    <string name="button_back">Tillbaka</string>
+    <string name="button_done">Klar</string>
+    <string name="report_sent_success">Anmälan av @%s har lyckats</string>
+    <string name="hint_additional_info">Ytterligare kommentarer</string>
+    <string name="report_remote_instance">Vidarebefordra till %s</string>
+    <string name="failed_report">Misslyckades att anmäla</string>
+    <string name="failed_fetch_statuses">Misslyckades att uppdatera status</string>
+    <string name="report_description_1">Anmälan kommer att skickas till din serveradminastratör. Du kan beskriva varför du anmäler kontot nedan:</string>
+    <string name="report_description_remote_instance">Kontot är från en annan server. Skicka en avidentifierad kopia av anmälan dit också\?</string>
+
+    <string name="pref_title_show_notifications_filter">Visa notifikationsfilter</string>
+</resources>

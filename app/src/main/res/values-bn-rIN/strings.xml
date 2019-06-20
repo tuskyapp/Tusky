@@ -467,4 +467,15 @@
 	<item quantity="other">%d সেকেন্ড</item>
 </plurals>
 
+<string name="button_continue">চালিয়ে যান</string>
+    <string name="button_back">পিছনে যান</string>
+    <string name="button_done">সম্পন্ন</string>
+    <string name="report_sent_success">%s এ সফলভাবে রিপোর্ট করা হয়েছে</string>
+    <string name="hint_additional_info">অতিরিক্ত মন্তব্যগুলি</string>
+    <string name="report_remote_instance">%s এ ফরওয়ার্ড করুন</string>
+    <string name="failed_report">রিপোর্ট করতে ব্যর্থ হয়েছে</string>
+    <string name="failed_fetch_statuses">স্টেটাসগুলি আনতে ব্যর্থ</string>
+    <string name="report_description_1">রিপোর্ট আপনার সার্ভার মডারেটরে পাঠানো হবে। আপনি নীচের এই অ্যাকাউন্টটি কেন প্রতিবেদন করছেন তা ব্যাখ্যা করতে পারেন:</string>
+    <string name="report_description_remote_instance">এই একাউন্ট তা একটি অন্য সার্ভারের। রিপোর্ট এর সঙ্গে একটি বেনামি কপি ওখানে পাঠাতে চান\?</string>
+
 </resources>

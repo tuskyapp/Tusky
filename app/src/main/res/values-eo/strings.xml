@@ -416,4 +416,27 @@
 	<item quantity="other">%d sekundoj</item>
 </plurals>
 
+<string name="title_domain_mutes">Kaŝitaj domajnoj</string>
+    <string name="action_view_domain_mutes">Kaŝitaj domajnoj</string>
+    <string name="action_mute_domain">Silentigi %s</string>
+    <string name="confirmation_domain_unmuted">%s malsilentigita</string>
+
+    <string name="mute_domain_warning">Ĉu vi certas ke vi volas tute bloki {domain}\? Vi ne vidos enhavon de tiu domajno en publika tempolinio aŭ en viaj sciigoj. Viaj sekvantoj de tiu domajno estos forigitaj.</string>
+    <string name="mute_domain_warning_dialog_ok">Kaŝi la tutan domajnon</string>
+
+    <string name="caption_notoemoji">La aktuala emoĝiaro de Google</string>
+    <string name="description_poll">Balotenketo kun elektoj: %s, %s, %s, %s; %s</string>
+
+    <string name="button_continue">Daŭrigi</string>
+    <string name="button_back">Reveni</string>
+    <string name="button_done">Farita</string>
+    <string name="report_sent_success">\@%s sukcese signalita</string>
+    <string name="hint_additional_info">Pliaj komentoj</string>
+    <string name="report_remote_instance">Plusendi al %s</string>
+    <string name="failed_report">Signalo malsukcesis</string>
+    <string name="failed_fetch_statuses">Venigo de statusoj malsukcesis</string>
+    <string name="report_description_1">La signalo estos sendita al la kontrolantoj de via servilo. Vi povas doni klarigon pri kial vi signalas ĉi tiun konton sube:</string>
+    <string name="report_description_remote_instance">La konto estas en alia servilo. Ĉu sendi sennomigitan kopion de la signalo ankaŭ tien\?</string>
+
+    <string name="pref_title_show_notifications_filter">Montri filtrilon de Sciigoj</string>
 </resources>

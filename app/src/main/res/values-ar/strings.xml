@@ -440,4 +440,22 @@
     <string name="caption_notoemoji">حزمة الإيموجي الحالية لـ غوغل</string>
     <string name="description_poll">استطلاع رأي بالخيارات: %s, %s, %s, %s; %s</string>
 
-    </resources>
+    <string name="title_domain_mutes">النطاقات المخفية</string>
+    <string name="action_view_domain_mutes">النطاقات المخفية</string>
+    <string name="action_mute_domain">اكتم %s</string>
+    <string name="confirmation_domain_unmuted">لم يعُد %s مخفيا</string>
+
+    <string name="mute_domain_warning_dialog_ok">اخفِ كافة النطاق</string>
+
+    <string name="pref_title_animate_gif_avatars">تنشيط الصور المتحركة GIF للحسابات</string>
+
+    <string name="button_continue">واصل</string>
+    <string name="button_back">العودة</string>
+    <string name="button_done">تم</string>
+    <string name="report_sent_success">تم الابلاغ عن @%s بنجاح</string>
+    <string name="hint_additional_info">تعليقات إضافية</string>
+    <string name="report_remote_instance">أعد تحويله إلى %s</string>
+    <string name="failed_report">فشل الابلاغ</string>
+    <string name="failed_fetch_statuses">فشلت عملية جلب المنشورات</string>
+    <string name="pref_title_show_notifications_filter">اعرض مصفاة الإشعارات</string>
+</resources>
