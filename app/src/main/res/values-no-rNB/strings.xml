@@ -96,7 +96,7 @@
     <string name="action_view_media">Media</string>
     <string name="action_open_in_web">Åpne i nettleser</string>
     <string name="action_add_media">Legg til media</string>
-    <string name="action_photo_take">Ta bilde</string>
+    <string name="action_photo_take">Ta et bilde</string>
     <string name="action_share">Del</string>
     <string name="action_mute">Demp bruker</string>
     <string name="action_unmute">Fjern demping</string>
@@ -420,7 +420,7 @@
     <string name="app_theme_light">Lys</string>
     <string name="app_theme_black">Svart</string>
     <string name="app_theme_auto">Automatisk ved solnedgang</string>
-    <string name="app_theme_system">Bruk systemdesign</string>
+    <string name="app_theme_system">Bruk systeminnstillinger</string>
 
     <string name="post_privacy_public">Offentlig</string>
     <string name="post_privacy_unlisted">Ikke offentlige tidslinjer</string>
@@ -476,4 +476,13 @@
     <string name="report_description_1">Rapporten vil bli sendt til instansmoderatoren. Under kan du skrive en forklaring på hvorfor du rapporterer denne kontoen:</string>
     <string name="report_description_remote_instance">Kontoen tilhører en annen instans. Vil du også sende en anonymisert kopi av rapporten dit\?</string>
 
+<string name="title_domain_mutes">Skjulte domener</string>
+    <string name="action_view_domain_mutes">Skjulte domener</string>
+    <string name="action_mute_domain">Demp %s</string>
+    <string name="confirmation_domain_unmuted">%s er ikke lenger skjult</string>
+
+    <string name="mute_domain_warning">Er du sikker på at du vil blokkere hele %s\? Du kommer ikke til å se innhold fra domenet i noen offentlige tidslinjer, eller i varslene dine. Kontoer som følger deg fra domenet vil bli fjernet.</string>
+    <string name="mute_domain_warning_dialog_ok">Skjul hele domenet</string>
+
+    <string name="pref_title_show_notifications_filter">Vis varselfilter</string>
 </resources>

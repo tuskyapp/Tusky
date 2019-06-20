@@ -433,4 +433,25 @@
 
     <string name="description_poll">Anketa s volbami: %1$s, %2$s, %3$s, %4$s; %5$s</string>
 
-    </resources>
+    <string name="title_domain_mutes">Skryté domény</string>
+    <string name="action_view_domain_mutes">Skryté domény</string>
+    <string name="action_mute_domain">Skrýt doménu %s</string>
+    <string name="confirmation_domain_unmuted">Doména %s odkryta</string>
+
+    <string name="mute_domain_warning">Jste si jistý/á, že chcete zablokovat vše z domény %s\? Z této domény neuvidíte obsah v žádné veřejné časové ose ani v oznámeních. Vaši sledující z této domény budou odstraněni.</string>
+    <string name="mute_domain_warning_dialog_ok">Skrýt celou doménu</string>
+
+    <string name="caption_notoemoji">Aktuální sada emoji od Googlu</string>
+    <string name="button_continue">Pokračovat</string>
+    <string name="button_back">Zpět</string>
+    <string name="button_done">Hotovo</string>
+    <string name="report_sent_success">\@%s úspěšně nahlášen/a</string>
+    <string name="hint_additional_info">Dodatečné komentáře</string>
+    <string name="report_remote_instance">Přeposlat na %s</string>
+    <string name="failed_report">Nahlášení selhalo</string>
+    <string name="failed_fetch_statuses">Stahování tootů neuspělo</string>
+    <string name="report_description_1">Nahlášení bude zasláno moderátorovi vašeho serveru. Níže můžete uvést, proč tento účet nahlašujete:</string>
+    <string name="report_description_remote_instance">Tento účet je z jiného serveru. Chcete na něj také poslat anonymizovanou kopii\?</string>
+
+    <string name="pref_title_show_notifications_filter">Zobrazit filtr oznámení</string>
+</resources>

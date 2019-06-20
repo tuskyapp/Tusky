@@ -425,6 +425,29 @@
     <string name="poll_option_format"> <!-- 15% vote for this! --> &lt;b&gt;%1$d%%&lt;/b&gt; %2$s</string>
 
     <string name="poll_ended_voted">Un sondage auquel vous avez participé vient de se terminer</string>
+
     <string name="description_poll">Sondage avec des choix : %1$s, %2$s, %3$s, %4$s; %5$s</string>
 
-    </resources>
+
+    <string name="title_domain_mutes">Domaines cachés</string>
+    <string name="action_view_domain_mutes">Domaines cachés</string>
+    <string name="action_mute_domain">Masquer %s</string>
+    <string name="confirmation_domain_unmuted">%s n’est plus masqué</string>
+
+    <string name="mute_domain_warning_dialog_ok">Masquer le domaine entier</string>
+
+    <string name="caption_notoemoji">L’ensemble d’émojis actuel de Google</string>
+    <string name="button_continue">Continuer</string>
+    <string name="button_back">Retour</string>
+    <string name="report_sent_success">\@%s signalé avec succès</string>
+    <string name="hint_additional_info">Commentaires additionnels</string>
+    <string name="report_remote_instance">Transférer à %s</string>
+    <string name="failed_report">Échec du signalement</string>
+    <string name="failed_fetch_statuses">Échec de récupération des statuts</string>
+    <string name="report_description_1">Le rapport sera envoyé aux modérateur·rice·s de votre instance. Vous pouvez expliquer pourquoi vous signalez le compte ci-dessous :</string>
+    <string name="mute_domain_warning">Êtes-vous sûr⋅e de vouloir bloquer %s en entier \? Vous ne verrez plus de contenu provenant de ce domaine, ni dans fils publics, ni dans vos notifications. Vos abonné·e·s utilisant ce domaine seront retiré·e·s.</string>
+    <string name="button_done">Terminé</string>
+    <string name="report_description_remote_instance">Le compte provient d’un autre serveur. Envoyez également une copie anonyme du rapport \?</string>
+
+    <string name="pref_title_show_notifications_filter">Montrer le filtre des notifications</string>
+</resources>
