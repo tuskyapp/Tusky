@@ -183,8 +183,6 @@ class StatusDetailedViewHolder extends StatusBaseViewHolder {
                         cornertype = RoundedCornersTransformation.CornerType.TOP;
                     } else {
                         cardView.setOrientation(LinearLayout.HORIZONTAL);
-                        cardInfo.setMinimumHeight(cardImage.getContext().getResources()
-                                .getDimensionPixelSize(R.dimen.card_image_horizontal_width));
                         cardImage.getLayoutParams().height = ViewGroup.LayoutParams.MATCH_PARENT;
                         cardImage.getLayoutParams().width = cardImage.getContext().getResources()
                                 .getDimensionPixelSize(R.dimen.card_image_horizontal_width);
