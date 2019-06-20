@@ -416,6 +416,13 @@ public class TimelineFragment extends SFragment implements
             Either<Placeholder, Status> either = statuses.get(i);
             if (either.isRight()
                     && id.equals(either.asRight().getId())) {
+                Status status = either.asRightOrNull();
+                if (status != null && status.getInReplyToId() != null) {
+                    int statusPosition = findStatusOrReblogPositionById(status.getInReplyToId());
+                    if (statusPosition >= 0) {
+                        updateStatusRepliesCounter(statusPosition, -1);
+                    }
+                }
                 statuses.remove(either);
                 updateAdapter();
                 break;
@@ -584,7 +591,7 @@ public class TimelineFragment extends SFragment implements
         if (status.getReblog() != null) {
             status.getReblog().setReblogged(reblog);
         }
-        if (newStatus!=null){
+        if (newStatus != null) {
             status.setReblogsCount(newStatus.getReblogsCount());
             if (status.getReblog() != null) {
                 status.getReblog().setReblogsCount(newStatus.getReblogsCount());
@@ -620,12 +627,12 @@ public class TimelineFragment extends SFragment implements
 
     private void setFavouriteForStatus(int position, Status status, Status newStatus, boolean favourite) {
         status.setFavourited(favourite);
-        if (newStatus!=null)
+        if (newStatus != null)
             status.setFavouritesCount(newStatus.getFavouritesCount());
 
         if (status.getReblog() != null) {
             status.getReblog().setFavourited(favourite);
-            if (newStatus!=null)
+            if (newStatus != null)
                 status.getReblog().setFavouritesCount(newStatus.getFavouritesCount());
         }
 
@@ -1261,7 +1268,7 @@ public class TimelineFragment extends SFragment implements
         int pos = findStatusOrReblogPositionById(reblogEvent.getStatusId());
         if (pos < 0) return;
         Status status = statuses.get(pos).asRight();
-        setRebloggedForStatus(pos, status, reblogEvent.getReblog(),reblogEvent.getStatusNew());
+        setRebloggedForStatus(pos, status, reblogEvent.getReblog(), reblogEvent.getStatusNew());
     }
 
     private void handleFavEvent(@NonNull FavoriteEvent favEvent) {
@@ -1289,7 +1296,26 @@ public class TimelineFragment extends SFragment implements
             case LIST:
                 return;
         }
+
+        if (status.getInReplyToId() != null) {
+            int statusPosition = findStatusOrReblogPositionById(status.getInReplyToId());
+            if (statusPosition >= 0) {
+                updateStatusRepliesCounter(statusPosition, 1);
+            }
+        }
         onRefresh();
+    }
+
+    private void updateStatusRepliesCounter(int statusPosition, int repliesCounterChange) {
+        StatusViewData.Concrete actual = ((StatusViewData.Concrete)
+                statuses.getPairedItem(statusPosition));
+        int newRepliesCount = actual.getRepliesCount() + repliesCounterChange;
+        StatusViewData newViewData =
+                new StatusViewData.Builder(actual)
+                        .setRepliesCount(newRepliesCount > 0 ? newRepliesCount : 0)
+                        .createStatusViewData();
+        statuses.setPairedItem(statusPosition, newViewData);
+        updateAdapter();
     }
 
     private List<Either<Placeholder, Status>> liftStatusList(List<Status> list) {

@@ -37,7 +37,7 @@ interface TimelineCases {
     fun favourite(status: Status, favourite: Boolean): Single<Status>
     fun mute(id: String)
     fun block(id: String)
-    fun delete(id: String)
+    fun delete(id: String, inReplyTo: String?)
     fun pin(status: Status, pin: Boolean)
     fun voteInPoll(status: Status, choices: List<Int>): Single<Poll>
 
@@ -101,14 +101,14 @@ class TimelineCasesImpl(
 
     }
 
-    override fun delete(id: String) {
+    override fun delete(id: String, inReplyTo: String?) {
         val call = mastodonApi.deleteStatus(id)
         call.enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {}
 
             override fun onFailure(call: Call<ResponseBody>, t: Throwable) {}
         })
-        eventHub.dispatch(StatusDeletedEvent(id))
+        eventHub.dispatch(StatusDeletedEvent(id, inReplyTo))
     }
 
     override fun pin(status: Status, pin: Boolean) {

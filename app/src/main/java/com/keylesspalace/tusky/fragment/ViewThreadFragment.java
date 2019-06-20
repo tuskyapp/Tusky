@@ -387,8 +387,11 @@ public final class ViewThreadFragment extends SFragment implements
             //the status got removed, close the activity
             getActivity().finish();
         }
-        statuses.remove(position);
-        adapter.setStatuses(statuses.getPairedCopy());
+        Status status = statuses.get(position);
+        replyDeleted(status.getId());
+
+        /*if (statuses.remove(status))
+            adapter.setStatuses(statuses.getPairedCopy());*/
     }
 
     public void onVoteInPoll(int position, @NonNull List<Integer> choices) {
@@ -585,18 +588,18 @@ public final class ViewThreadFragment extends SFragment implements
 
         boolean favourite = event.getFavourite();
         posAndStatus.second.setFavourited(favourite);
-        posAndStatus.second.setFavouritesCount(event.getStatusNew()!= null ? event.getStatusNew().getFavouritesCount() : event.getStatusOld().getFavouritesCount());
+        posAndStatus.second.setFavouritesCount(event.getStatusNew() != null ? event.getStatusNew().getFavouritesCount() : event.getStatusOld().getFavouritesCount());
 
         if (posAndStatus.second.getReblog() != null) {
             posAndStatus.second.getReblog().setFavourited(favourite);
-            posAndStatus.second.getReblog().setFavouritesCount(event.getStatusNew()!= null ? event.getStatusNew().getFavouritesCount() : event.getStatusOld().getFavouritesCount());
+            posAndStatus.second.getReblog().setFavouritesCount(event.getStatusNew() != null ? event.getStatusNew().getFavouritesCount() : event.getStatusOld().getFavouritesCount());
         }
 
         StatusViewData.Concrete viewdata = statuses.getPairedItem(posAndStatus.first);
 
         StatusViewData.Builder viewDataBuilder = new StatusViewData.Builder((viewdata));
         viewDataBuilder.setFavourited(favourite);
-        viewDataBuilder.setFavouritesCount(event.getStatusNew()!= null ? event.getStatusNew().getFavouritesCount() : event.getStatusOld().getFavouritesCount());
+        viewDataBuilder.setFavouritesCount(event.getStatusNew() != null ? event.getStatusNew().getFavouritesCount() : event.getStatusOld().getFavouritesCount());
 
         StatusViewData.Concrete newViewData = viewDataBuilder.createStatusViewData();
 
@@ -614,7 +617,7 @@ public final class ViewThreadFragment extends SFragment implements
         if (posAndStatus.second.getReblog() != null) {
             posAndStatus.second.getReblog().setReblogged(reblog);
         }
-        if (event.getStatusNew()!=null){
+        if (event.getStatusNew() != null) {
             posAndStatus.second.setReblogsCount(event.getStatusNew().getReblogsCount());
 
             if (posAndStatus.second.getReblog() != null) {
@@ -641,17 +644,35 @@ public final class ViewThreadFragment extends SFragment implements
 
         if (eventStatus.getInReplyToId().equals(thisThreadsStatusId)) {
             insertStatus(eventStatus, statuses.size());
+            addReplyCount(0, 1);
         } else {
             // If new status is a reply to some status in the thread, insert new status after it
             // We only check statuses below main status, ones on top don't belong to this thread
             for (int i = statusIndex; i < statuses.size(); i++) {
                 Status status = statuses.get(i);
                 if (eventStatus.getInReplyToId().equals(status.getId())) {
+                    addReplyCount(i, 1);
                     insertStatus(eventStatus, i + 1);
                     break;
                 }
             }
         }
+    }
+
+    private void addReplyCount(int idx, int countToAdd) {
+        Status status = statuses.get(idx);
+        int newRepliesCount = status.getRepliesCount() + countToAdd;
+        status.setRepliesCount(newRepliesCount >= 0 ? newRepliesCount : 0);
+
+        StatusViewData.Concrete viewdata = statuses.getPairedItem(idx);
+
+        StatusViewData.Builder viewDataBuilder = new StatusViewData.Builder((viewdata));
+        viewDataBuilder.setRepliesCount(status.getRepliesCount());
+
+        StatusViewData.Concrete newViewData = viewDataBuilder.createStatusViewData();
+
+        statuses.setPairedItem(idx, newViewData);
+        adapter.setItem(idx, newViewData, true);
     }
 
     private void insertStatus(Status status, int at) {
@@ -660,13 +681,26 @@ public final class ViewThreadFragment extends SFragment implements
     }
 
     private void handleStatusDeletedEvent(StatusDeletedEvent event) {
-        Pair<Integer, Status> posAndStatus = findStatusAndPos(event.getStatusId());
+        replyDeleted(event.getStatusId());
+    }
+
+    private void replyDeleted(String statusId) {
+        Pair<Integer, Status> posAndStatus = findStatusAndPos(statusId);
         if (posAndStatus == null) return;
 
         @SuppressWarnings("ConstantConditions")
         int pos = posAndStatus.first;
-        statuses.remove(pos);
-        adapter.removeItem(pos);
+        Status status = posAndStatus.second;
+        if (status != null && status.getInReplyToId() != null) {
+            Pair<Integer, Status> statusPosition = findStatusAndPos(status.getInReplyToId());
+            if (statusPosition != null && statusPosition.first != null && statusPosition.first >= 0) {
+                addReplyCount(statusPosition.first, -1);
+            }
+        }
+
+        if (statuses.remove(status))
+            adapter.removeItem(pos);
+
     }
 
     @Nullable

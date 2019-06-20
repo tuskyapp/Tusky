@@ -143,7 +143,7 @@ public abstract class SFragment extends BaseFragment implements Injectable {
         mentionedUsernames.add(actionableStatus.getAccount().getUsername());
         String loggedInUsername = null;
         AccountEntity activeAccount = accountManager.getActiveAccount();
-        if(activeAccount != null) {
+        if (activeAccount != null) {
             loggedInUsername = activeAccount.getUsername();
         }
         for (Status.Mention mention : mentions) {
@@ -163,6 +163,7 @@ public abstract class SFragment extends BaseFragment implements Injectable {
 
     protected void more(@NonNull final Status status, View view, final int position) {
         final String id = status.getActionableId();
+        final String inReplyToId = status.getActionableStatus().getInReplyToId();
         final String accountId = status.getActionableStatus().getAccount().getId();
         final String accountUsername = status.getActionableStatus().getAccount().getUsername();
         final Spanned content = status.getActionableStatus().getContent();
@@ -172,7 +173,7 @@ public abstract class SFragment extends BaseFragment implements Injectable {
 
         String loggedInAccountId = null;
         AccountEntity activeAccount = accountManager.getActiveAccount();
-        if(activeAccount != null) {
+        if (activeAccount != null) {
             loggedInAccountId = activeAccount.getAccountId();
         }
 
@@ -205,7 +206,7 @@ public abstract class SFragment extends BaseFragment implements Injectable {
 
         Menu menu = popup.getMenu();
         MenuItem openAsItem = menu.findItem(R.id.status_open_as);
-        switch(accounts.size()) {
+        switch (accounts.size()) {
             case 0:
             case 1:
                 openAsItem.setVisible(false);
@@ -228,7 +229,8 @@ public abstract class SFragment extends BaseFragment implements Injectable {
             switch (item.getItemId()) {
                 case R.id.status_share_content: {
                     Status statusToShare = status;
-                    if(statusToShare.getReblog() != null) statusToShare = statusToShare.getReblog();
+                    if (statusToShare.getReblog() != null)
+                        statusToShare = statusToShare.getReblog();
 
                     Intent sendIntent = new Intent();
                     sendIntent.setAction(Intent.ACTION_SEND);
@@ -285,11 +287,11 @@ public abstract class SFragment extends BaseFragment implements Injectable {
                     return true;
                 }
                 case R.id.status_delete: {
-                    showConfirmDeleteDialog(id, position);
+                    showConfirmDeleteDialog(id, inReplyToId, position);
                     return true;
                 }
                 case R.id.status_delete_and_redraft: {
-                    showConfirmEditDialog(id, position, status);
+                    showConfirmEditDialog(id, inReplyToId, position, status);
                     return true;
                 }
                 case R.id.pin: {
@@ -342,28 +344,28 @@ public abstract class SFragment extends BaseFragment implements Injectable {
 
     protected void openReportPage(String accountId, String accountUsername, String statusId,
                                   Spanned statusContent) {
-        startActivity(ReportActivity.getIntent(requireContext(),accountId,accountUsername,statusId,statusContent));
+        startActivity(ReportActivity.getIntent(requireContext(), accountId, accountUsername, statusId, statusContent));
     }
 
-    protected void showConfirmDeleteDialog(final String id, final int position) {
+    protected void showConfirmDeleteDialog(final String id, final String inReplyToId, final int position) {
         new AlertDialog.Builder(getActivity())
                 .setMessage(R.string.dialog_delete_toot_warning)
                 .setPositiveButton(android.R.string.ok, (dialogInterface, i) -> {
-                    timelineCases.delete(id);
+                    timelineCases.delete(id, inReplyToId);
                     removeItem(position);
                 })
                 .setNegativeButton(android.R.string.cancel, null)
                 .show();
     }
 
-    private void showConfirmEditDialog(final String id, final int position, Status status) {
+    private void showConfirmEditDialog(final String id, final String inReplyToId, final int position, Status status) {
         if (getActivity() == null) {
             return;
         }
         new AlertDialog.Builder(getActivity())
                 .setMessage(R.string.dialog_redraft_toot_warning)
                 .setPositiveButton(android.R.string.ok, (dialogInterface, i) -> {
-                    timelineCases.delete(id);
+                    timelineCases.delete(id, inReplyToId);
                     removeItem(position);
 
                     Intent intent = new ComposeActivity.IntentBuilder()
@@ -402,22 +404,22 @@ public abstract class SFragment extends BaseFragment implements Injectable {
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         intent.putExtra(MainActivity.STATUS_URL, statusUrl);
         startActivity(intent);
-        ((BaseActivity)getActivity()).finishWithoutSlideOutAnimation();
+        ((BaseActivity) getActivity()).finishWithoutSlideOutAnimation();
     }
 
     private void showOpenAsDialog(String statusUrl, CharSequence dialogTitle) {
-        BaseActivity activity = (BaseActivity)getActivity();
+        BaseActivity activity = (BaseActivity) getActivity();
         activity.showAccountChooserDialog(dialogTitle, false, account -> openAsAccount(statusUrl, account));
     }
 
     private void downloadAllMedia(Status status) {
         Toast.makeText(getContext(), R.string.downloading_media, Toast.LENGTH_SHORT).show();
-        for(Attachment attachment: status.getAttachments()) {
+        for (Attachment attachment : status.getAttachments()) {
             String url = attachment.getUrl();
             Uri uri = Uri.parse(url);
             String filename = uri.getLastPathSegment();
 
-            DownloadManager downloadManager = (DownloadManager)getActivity().getSystemService(Context.DOWNLOAD_SERVICE);
+            DownloadManager downloadManager = (DownloadManager) getActivity().getSystemService(Context.DOWNLOAD_SERVICE);
             DownloadManager.Request request = new DownloadManager.Request(uri);
             request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, filename);
             downloadManager.enqueue(request);
@@ -425,8 +427,8 @@ public abstract class SFragment extends BaseFragment implements Injectable {
     }
 
     private void requestDownloadAllMedia(Status status) {
-        String[] permissions = new String[]{ Manifest.permission.WRITE_EXTERNAL_STORAGE };
-        ((BaseActivity)getActivity()).requestPermissions(permissions, (permissions1, grantResults) -> {
+        String[] permissions = new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE};
+        ((BaseActivity) getActivity()).requestPermissions(permissions, (permissions1, grantResults) -> {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 downloadAllMedia(status);
             } else {

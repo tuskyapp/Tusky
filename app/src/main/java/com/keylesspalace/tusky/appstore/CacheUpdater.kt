@@ -40,6 +40,11 @@ class CacheUpdater @Inject constructor(
                     val pollString = gson.toJson(event.poll)
                     timelineDao.setVoted(accountId, event.statusId, pollString)
                 }
+                is StatusComposedEvent ->{
+                    event.status.inReplyToId?.let { replyId->
+                        timelineDao.addReply(accountId, replyId)
+                    }
+                }
             }
         }
     }

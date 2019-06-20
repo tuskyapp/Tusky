@@ -59,6 +59,8 @@ import com.keylesspalace.tusky.appstore.EventHub;
 import com.keylesspalace.tusky.appstore.FavoriteEvent;
 import com.keylesspalace.tusky.appstore.PreferenceChangedEvent;
 import com.keylesspalace.tusky.appstore.ReblogEvent;
+import com.keylesspalace.tusky.appstore.StatusComposedEvent;
+import com.keylesspalace.tusky.appstore.StatusDeletedEvent;
 import com.keylesspalace.tusky.db.AccountEntity;
 import com.keylesspalace.tusky.db.AccountManager;
 import com.keylesspalace.tusky.di.Injectable;
@@ -367,7 +369,23 @@ public class NotificationsFragment extends SFragment implements
                     } else if (event instanceof PreferenceChangedEvent) {
                         onPreferenceChanged(((PreferenceChangedEvent) event).getPreferenceKey());
                     }
+                    else if (event instanceof StatusComposedEvent){
+                        updateReplyCount(((StatusComposedEvent)event).getStatus().getInReplyToId(),1);
+                    }
+                    else if (event instanceof StatusDeletedEvent){
+                        updateReplyCount(((StatusDeletedEvent) event).getInReplyToId(),-1);
+                    }
+
                 });
+    }
+
+    private void updateReplyCount(String inReplyToId, int count) {
+        if (inReplyToId!=null) {
+            Pair<Integer, Notification> posAndNotification =
+                    findReplyPosition(inReplyToId);
+            if (posAndNotification == null || posAndNotification.first == null) return;
+            updateNotificationRepliesCounter(posAndNotification.first, count);
+        }
     }
 
     @Override
@@ -1188,6 +1206,21 @@ public class NotificationsFragment extends SFragment implements
                 return null;
         }
     };
+
+    private void updateNotificationRepliesCounter(int position, int repliesCounterChange) {
+        NotificationViewData.Concrete viewdata = (NotificationViewData.Concrete) notifications.getPairedItem(position);
+
+        StatusViewData.Builder viewDataBuilder = new StatusViewData.Builder(viewdata.getStatusViewData());
+        int newRepliesCount = viewdata.getStatusViewData().getRepliesCount()+repliesCounterChange;
+        viewDataBuilder.setRepliesCount(newRepliesCount>=0?newRepliesCount:0);
+
+        NotificationViewData.Concrete newViewData = new NotificationViewData.Concrete(
+                viewdata.getType(), viewdata.getId(), viewdata.getAccount(),
+                viewDataBuilder.createStatusViewData(), viewdata.isExpanded());
+        notifications.setPairedItem(position, newViewData);
+        updateAdapter();
+    }
+
 
     @Override
     public void onResume() {

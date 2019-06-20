@@ -320,7 +320,8 @@ public abstract class StatusViewData {
                     Objects.equals(accountEmojis, concrete.accountEmojis) &&
                     Objects.equals(card, concrete.card) &&
                     Objects.equals(poll, concrete.poll)
-                    && isCollapsed == concrete.isCollapsed;
+                    && isCollapsed == concrete.isCollapsed&&
+                    repliesCount == concrete.repliesCount;
         }
 
         static Spanned replaceCrashingCharacters(Spanned content) {
