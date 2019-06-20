@@ -23,9 +23,15 @@ class CacheUpdater @Inject constructor(
             val accountId = accountManager.activeAccount?.id ?: return@subscribe
             when (event) {
                 is FavoriteEvent ->
-                    timelineDao.setFavourited(accountId, event.statusId, event.favourite)
+                    if (event.statusNew != null)
+                        timelineDao.setFavourited(accountId, event.statusId, event.favourite, event.statusNew.favouritesCount)
+                    else
+                        timelineDao.setFavourited(accountId, event.statusId, event.favourite)
                 is ReblogEvent ->
-                    timelineDao.setReblogged(accountId, event.statusId, event.reblog)
+                    if (event.statusNew != null)
+                        timelineDao.setReblogged(accountId, event.statusId, event.reblog, event.statusNew.reblogsCount)
+                    else
+                        timelineDao.setReblogged(accountId, event.statusId, event.reblog)
                 is UnfollowEvent ->
                     timelineDao.removeAllByUser(accountId, event.accountId)
                 is StatusDeletedEvent ->

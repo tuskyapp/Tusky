@@ -424,6 +424,16 @@
         app:layout_constraintTop_toBottomOf="@id/status_poll_description"
         app:srcCompat="@drawable/ic_reply_24dp" />
 
+    <TextView
+        android:id="@+id/countReplies"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@id/status_reply"
+        app:layout_constraintBottom_toBottomOf="@id/status_reply"
+        app:layout_constraintStart_toEndOf="@id/status_reply"
+        android:textSize="?attr/status_text_small"
+        android:textColor="?android:textColorPrimary"/>
+
     <at.connyduck.sparkbutton.SparkButton
         android:id="@+id/status_inset"
         android:layout_width="30dp"
@@ -441,6 +451,16 @@
         sparkbutton:primaryColor="@color/tusky_blue"
         sparkbutton:secondaryColor="@color/tusky_blue_light" />
 
+    <TextView
+        android:id="@+id/countReposts"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@id/status_inset"
+        app:layout_constraintBottom_toBottomOf="@id/status_inset"
+        app:layout_constraintStart_toEndOf="@id/status_inset"
+        android:textSize="?attr/status_text_small"
+        android:textColor="?android:textColorPrimary"/>
+
     <at.connyduck.sparkbutton.SparkButton
         android:id="@+id/status_favourite"
         android:layout_width="30dp"
@@ -457,6 +477,16 @@
         sparkbutton:inactiveImage="?attr/status_favourite_inactive_drawable"
         sparkbutton:primaryColor="@color/tusky_orange"
         sparkbutton:secondaryColor="@color/tusky_orange_light" />
+
+    <TextView
+        android:id="@+id/countFavorites"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@id/status_favourite"
+        app:layout_constraintBottom_toBottomOf="@id/status_favourite"
+        app:layout_constraintStart_toEndOf="@id/status_favourite"
+        android:textSize="?attr/status_text_small"
+        android:textColor="?android:textColorPrimary"/>
 
     <ImageButton
         android:id="@+id/status_more"

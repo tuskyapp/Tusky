@@ -487,6 +487,7 @@ public class TimelineFragment extends SFragment implements
                         if (event instanceof FavoriteEvent) {
                             FavoriteEvent favEvent = ((FavoriteEvent) event);
                             handleFavEvent(favEvent);
+                            Log.d("EVENT", "Count T: " + (favEvent.getStatusOld() != null ? favEvent.getStatusOld().getFavouritesCount() : 0) + " ->" + (favEvent.getStatusNew() != null ? favEvent.getStatusNew().getFavouritesCount() : 0));
                         } else if (event instanceof ReblogEvent) {
                             ReblogEvent reblogEvent = (ReblogEvent) event;
                             handleReblogEvent(reblogEvent);
@@ -572,16 +573,23 @@ public class TimelineFragment extends SFragment implements
                 .observeOn(AndroidSchedulers.mainThread())
                 .as(autoDisposable(from(this, Lifecycle.Event.ON_DESTROY)))
                 .subscribe(
-                        (newStatus) -> setRebloggedForStatus(position, status, reblog),
+                        (newStatus) -> setRebloggedForStatus(position, status, reblog, newStatus),
                         (err) -> Log.d(TAG, "Failed to reblog status " + status.getId(), err)
                 );
     }
 
-    private void setRebloggedForStatus(int position, Status status, boolean reblog) {
+    private void setRebloggedForStatus(int position, Status status, boolean reblog, Status newStatus) {
         status.setReblogged(reblog);
 
         if (status.getReblog() != null) {
             status.getReblog().setReblogged(reblog);
+        }
+        if (newStatus!=null){
+            status.setReblogsCount(newStatus.getReblogsCount());
+            if (status.getReblog() != null) {
+                status.getReblog().setReblogsCount(newStatus.getReblogsCount());
+            }
+
         }
 
         Pair<StatusViewData.Concrete, Integer> actual =
@@ -591,6 +599,7 @@ public class TimelineFragment extends SFragment implements
         StatusViewData newViewData =
                 new StatusViewData.Builder(actual.first)
                         .setReblogged(reblog)
+                        .setReblogsCount(status.getReblogsCount())
                         .createStatusViewData();
         statuses.setPairedItem(actual.second, newViewData);
         updateAdapter();
@@ -604,16 +613,20 @@ public class TimelineFragment extends SFragment implements
                 .observeOn(AndroidSchedulers.mainThread())
                 .as(autoDisposable(from(this, Lifecycle.Event.ON_DESTROY)))
                 .subscribe(
-                        (newStatus) -> setFavouriteForStatus(position, newStatus, favourite),
+                        (newStatus) -> setFavouriteForStatus(position, newStatus, newStatus, favourite),
                         (err) -> Log.d(TAG, "Failed to favourite status " + status.getId(), err)
                 );
     }
 
-    private void setFavouriteForStatus(int position, Status status, boolean favourite) {
+    private void setFavouriteForStatus(int position, Status status, Status newStatus, boolean favourite) {
         status.setFavourited(favourite);
+        if (newStatus!=null)
+            status.setFavouritesCount(newStatus.getFavouritesCount());
 
         if (status.getReblog() != null) {
             status.getReblog().setFavourited(favourite);
+            if (newStatus!=null)
+                status.getReblog().setFavouritesCount(newStatus.getFavouritesCount());
         }
 
         Pair<StatusViewData.Concrete, Integer> actual =
@@ -623,6 +636,7 @@ public class TimelineFragment extends SFragment implements
         StatusViewData newViewData = new StatusViewData
                 .Builder(actual.first)
                 .setFavourited(favourite)
+                .setFavouritesCount(newStatus != null ? newStatus.getFavouritesCount() : status.getFavouritesCount())
                 .createStatusViewData();
         statuses.setPairedItem(actual.second, newViewData);
         updateAdapter();
@@ -1247,14 +1261,14 @@ public class TimelineFragment extends SFragment implements
         int pos = findStatusOrReblogPositionById(reblogEvent.getStatusId());
         if (pos < 0) return;
         Status status = statuses.get(pos).asRight();
-        setRebloggedForStatus(pos, status, reblogEvent.getReblog());
+        setRebloggedForStatus(pos, status, reblogEvent.getReblog(),reblogEvent.getStatusNew());
     }
 
     private void handleFavEvent(@NonNull FavoriteEvent favEvent) {
         int pos = findStatusOrReblogPositionById(favEvent.getStatusId());
         if (pos < 0) return;
         Status status = statuses.get(pos).asRight();
-        setFavouriteForStatus(pos, status, favEvent.getFavourite());
+        setFavouriteForStatus(pos, status, favEvent.getStatusNew(), favEvent.getFavourite());
     }
 
     private void handleStatusComposeEvent(@NonNull Status status) {

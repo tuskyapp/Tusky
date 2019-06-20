@@ -63,7 +63,7 @@ class TimelineCasesImpl(
             mastodonApi.unreblogStatus(id)
         }
         return call.doAfterSuccess {
-            eventHub.dispatch(ReblogEvent(status.id, reblog))
+            eventHub.dispatch(ReblogEvent(status.id, reblog, status, it))
         }
     }
 
@@ -76,7 +76,7 @@ class TimelineCasesImpl(
             mastodonApi.unfavouriteStatus(id)
         }
         return call.doAfterSuccess {
-            eventHub.dispatch(FavoriteEvent(status.id, favourite))
+            eventHub.dispatch(FavoriteEvent(status.id, favourite, status, it))
         }
     }
 

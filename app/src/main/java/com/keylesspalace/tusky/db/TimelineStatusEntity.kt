@@ -50,7 +50,8 @@ data class TimelineStatusEntity(
         val application: String?,
         val reblogServerId: String?, // if it has a reblogged status, it's id is stored here
         val reblogAccountId: String?,
-        val poll: String?
+        val poll: String?,
+        val repliesCount: Int
 )
 
 @Entity(

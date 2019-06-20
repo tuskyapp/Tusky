@@ -230,7 +230,8 @@ class TimelineRepositoryImpl(
                     application = application,
                     pinned = false,
                     poll = poll,
-                    card = null
+                    card = null,
+                    repliesCount = status.repliesCount
             )
         }
         val status = if (reblog != null) {
@@ -256,7 +257,8 @@ class TimelineRepositoryImpl(
                     application = null,
                     pinned = false,
                     poll = null,
-                    card = null
+                    card = null,
+                    repliesCount = 0
             )
         } else {
             Status(
@@ -281,7 +283,8 @@ class TimelineRepositoryImpl(
                     application = application,
                     pinned = false,
                     poll = poll,
-                    card = null
+                    card = null,
+                    repliesCount = status.repliesCount
             )
         }
         return Either.Right(status)
@@ -350,7 +353,8 @@ fun Placeholder.toEntity(timelineUserId: Long): TimelineStatusEntity {
             application = null,
             reblogServerId = null,
             reblogAccountId = null,
-            poll = null
+            poll = null,
+            repliesCount = 0
     )
 }
 
@@ -380,7 +384,8 @@ fun Status.toEntity(timelineUserId: Long,
             application = actionable.let(gson::toJson),
             reblogServerId = reblog?.id,
             reblogAccountId = reblog?.let { this.account.id },
-            poll = actionable.poll.let(gson::toJson)
+            poll = actionable.poll.let(gson::toJson),
+            repliesCount = actionable.repliesCount
     )
 }
 

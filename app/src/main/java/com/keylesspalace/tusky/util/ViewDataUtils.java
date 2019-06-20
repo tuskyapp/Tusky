@@ -39,6 +39,7 @@ public final class ViewDataUtils {
                 .setCreatedAt(visibleStatus.getCreatedAt())
                 .setReblogsCount(visibleStatus.getReblogsCount())
                 .setFavouritesCount(visibleStatus.getFavouritesCount())
+                .setRepliesCount(visibleStatus.getRepliesCount())
                 .setInReplyToId(visibleStatus.getInReplyToId())
                 .setFavourited(visibleStatus.getFavourited())
                 .setReblogged(visibleStatus.getReblogged())

@@ -74,6 +74,7 @@ public abstract class StatusViewData {
         private final Date createdAt;
         private final int reblogsCount;
         private final int favouritesCount;
+        private final int repliesCount;
         @Nullable
         private final String inReplyToId;
         // I would rather have something else but it would be too much of a rewrite
@@ -99,7 +100,7 @@ public abstract class StatusViewData {
                         Date createdAt, int reblogsCount, int favouritesCount, @Nullable String inReplyToId,
                         @Nullable Status.Mention[] mentions, String senderId, boolean rebloggingEnabled,
                         Status.Application application, List<Emoji> statusEmojis, List<Emoji> accountEmojis, @Nullable Card card,
-                        boolean isCollapsible, boolean isCollapsed, @Nullable PollViewData poll, boolean isBot) {
+                        boolean isCollapsible, boolean isCollapsed, @Nullable PollViewData poll, boolean isBot, int repliesCount) {
 
             this.id = id;
             if (Build.VERSION.SDK_INT == 23) {
@@ -138,6 +139,7 @@ public abstract class StatusViewData {
             this.isCollapsed = isCollapsed;
             this.poll = poll;
             this.isBot = isBot;
+            this.repliesCount = repliesCount;
         }
 
         public String getId() {
@@ -245,6 +247,10 @@ public abstract class StatusViewData {
 
         public List<Emoji> getAccountEmojis() {
             return accountEmojis;
+        }
+
+        public int getRepliesCount(){
+            return repliesCount;
         }
 
         @Nullable
@@ -420,6 +426,7 @@ public abstract class StatusViewData {
         private boolean isCollapsed; /** Whether the status is shown partially or fully */
         private PollViewData poll;
         private boolean isBot;
+        private int repliesCount;
 
         public Builder() {
         }
@@ -455,6 +462,7 @@ public abstract class StatusViewData {
             isCollapsed = viewData.isCollapsed();
             poll = viewData.poll;
             isBot = viewData.isBot();
+            repliesCount = viewData.repliesCount;
         }
 
         public Builder setId(String id) {
@@ -621,6 +629,11 @@ public abstract class StatusViewData {
             return this;
         }
 
+        public Builder setRepliesCount(int repliesCount){
+            this.repliesCount = repliesCount;
+            return this;
+        }
+
         public StatusViewData.Concrete createStatusViewData() {
             if (this.statusEmojis == null) statusEmojis = Collections.emptyList();
             if (this.accountEmojis == null) accountEmojis = Collections.emptyList();
@@ -630,7 +643,7 @@ public abstract class StatusViewData {
                     attachments, rebloggedByUsername, rebloggedAvatar, isSensitive, isExpanded,
                     isShowingContent, userFullName, nickname, avatar, createdAt, reblogsCount,
                     favouritesCount, inReplyToId, mentions, senderId, rebloggingEnabled, application,
-                    statusEmojis, accountEmojis, card, isCollapsible, isCollapsed, poll, isBot);
+                    statusEmojis, accountEmojis, card, isCollapsible, isCollapsed, poll, isBot,repliesCount);
         }
     }
 }

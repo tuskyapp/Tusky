@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.text.Spanned;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -82,6 +83,10 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
     private TextView pollDescription;
     private Button pollButton;
 
+    private TextView countReplies;
+    private TextView countFavorites;
+    private TextView countReposts;
+
     private PollAdapter pollAdapter;
 
     private boolean useAbsoluteTime;
@@ -134,6 +139,10 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         pollOptions = itemView.findViewById(R.id.status_poll_options);
         pollDescription = itemView.findViewById(R.id.status_poll_description);
         pollButton = itemView.findViewById(R.id.status_poll_button);
+
+        countReplies = itemView.findViewById(R.id.countReplies);
+        countReposts = itemView.findViewById(R.id.countReposts);
+        countFavorites = itemView.findViewById(R.id.countFavorites);
 
         pollAdapter = new PollAdapter();
         pollOptions.setAdapter(pollAdapter);
@@ -663,6 +672,9 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             // fetches another one from its delegate because it checks that it's set so we remove it
             // and let RecyclerView ask for a new delegate.
             itemView.setAccessibilityDelegate(null);
+
+            setupCounters(status);
+
         } else {
             if (payloads instanceof List)
                 for (Object item : (List) payloads) {
@@ -672,6 +684,18 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
                 }
 
         }
+    }
+
+    private void setupCounters(StatusViewData.Concrete status) {
+        if (countFavorites!=null)
+            countFavorites.setText(status.getFavouritesCount()>0?String.format(Locale.getDefault(),"%d",status.getFavouritesCount()):"");
+
+        if (countReposts!=null)
+            countReposts.setText(status.getReblogsCount()>0?String.format(Locale.getDefault(),"%d",status.getReblogsCount()):"");
+
+        if (countReplies!=null)
+            countReplies.setText(status.getRepliesCount()>0?String.format(Locale.getDefault(),"%d",status.getRepliesCount()):"");
+
     }
 
 

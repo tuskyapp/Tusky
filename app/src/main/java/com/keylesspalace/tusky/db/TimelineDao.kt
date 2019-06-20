@@ -26,7 +26,7 @@ SELECT s.serverId, s.url, s.timelineUserId,
 s.authorServerId, s.inReplyToId, s.inReplyToAccountId, s.createdAt,
 s.emojis, s.reblogsCount, s.favouritesCount, s.reblogged, s.favourited, s.sensitive,
 s.spoilerText, s.visibility, s.mentions, s.application, s.reblogServerId,s.reblogAccountId,
-s.content, s.attachments, s.poll,
+s.content, s.attachments, s.poll, s.repliesCount,
 a.serverId as 'a_serverId', a.timelineUserId as 'a_timelineUserId',
 a.localUsername as 'a_localUsername', a.username as 'a_username',
 a.displayName as 'a_displayName', a.url as 'a_url', a.avatar as 'a_avatar',
@@ -73,10 +73,18 @@ AND
 """)
     abstract fun removeAllPlaceholdersBetween(account: Long, maxId: String, sinceId: String)
 
+    @Query("""UPDATE TimelineStatusEntity SET favourited = :favourited, favouritesCount = :favouriteCount
+WHERE timelineUserId = :accountId AND (serverId = :statusId OR reblogServerId - :statusId)""")
+    abstract fun setFavourited(accountId: Long, statusId: String, favourited: Boolean, favouriteCount: Int)
+
     @Query("""UPDATE TimelineStatusEntity SET favourited = :favourited
 WHERE timelineUserId = :accountId AND (serverId = :statusId OR reblogServerId = :statusId)""")
     abstract fun setFavourited(accountId: Long, statusId: String, favourited: Boolean)
 
+
+    @Query("""UPDATE TimelineStatusEntity SET reblogged = :reblogged, reblogsCount = :reblogsCount
+WHERE timelineUserId = :accountId AND (serverId = :statusId OR reblogServerId - :statusId)""")
+    abstract fun setReblogged(accountId: Long, statusId: String, reblogged: Boolean, reblogsCount: Int)
 
     @Query("""UPDATE TimelineStatusEntity SET reblogged = :reblogged
 WHERE timelineUserId = :accountId AND (serverId = :statusId OR reblogServerId = :statusId)""")
