@@ -870,7 +870,8 @@ public class TimelineFragment extends SFragment implements
         Iterator<Either<Placeholder, Status>> iterator = statuses.iterator();
         while (iterator.hasNext()) {
             Status status = iterator.next().asRightOrNull();
-            if (status != null && status.getAccount().getId().equals(accountId)) {
+            if (status != null &&
+                    (status.getAccount().getId().equals(accountId) || status.getActionableStatus().getAccount().getId().equals(accountId))) {
                 iterator.remove();
             }
         }
