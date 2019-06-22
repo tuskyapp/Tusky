@@ -14,7 +14,7 @@
     <dimen name="text_content_margin">16dp</dimen>
     <dimen name="status_sensitive_media_button_padding">5dp</dimen>
 
-    <dimen name="card_image_vertical_height">160dp</dimen>
+    <dimen name="card_image_vertical_height">210dp</dimen>
     <dimen name="card_image_horizontal_width">100dp</dimen>
 
     <dimen name="compose_activity_snackbar_elevation">16dp</dimen>
@@ -40,4 +40,6 @@
     <dimen name="avatar_radius_36dp">4.5dp</dimen> <!-- 1/8 of 36dp -->
     <dimen name="avatar_radius_24dp">3dp</dimen> <!-- 1/8 of 24dp -->
     <dimen name="min_report_button_width">160dp</dimen>
+
+    <dimen name="card_radius">5dp</dimen>
 </resources>

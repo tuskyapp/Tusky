@@ -17,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.entity.Card;
 import com.keylesspalace.tusky.entity.Status;
@@ -30,6 +31,8 @@ import java.util.Date;
 
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
+
+import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 
 class StatusDetailedViewHolder extends StatusBaseViewHolder {
     private TextView reblogs;
@@ -152,20 +155,32 @@ class StatusDetailedViewHolder extends StatusBaseViewHolder {
                 final Card card = status.getCard();
                 cardView.setVisibility(View.VISIBLE);
                 cardTitle.setText(card.getTitle());
-                cardDescription.setText(card.getDescription());
+                if(TextUtils.isEmpty(card.getDescription()) && TextUtils.isEmpty(card.getAuthorName())) {
+                    cardDescription.setVisibility(View.GONE);
+                } else {
+                    cardDescription.setVisibility(View.VISIBLE);
+                    if(TextUtils.isEmpty(card.getDescription())) {
+                        cardDescription.setText(card.getAuthorName());
+                    } else {
+                        cardDescription.setText(card.getDescription());
+                    }
+                }
 
                 cardUrl.setText(card.getUrl());
 
-                if (card.getWidth() > 0 && card.getHeight() > 0 && !TextUtils.isEmpty(card.getImage())) {
-                    cardImage.setVisibility(View.VISIBLE);
+                if (!TextUtils.isEmpty(card.getImage())) {
+
+                    RoundedCornersTransformation.CornerType cornertype;
 
                     if (card.getWidth() > card.getHeight()) {
                         cardView.setOrientation(LinearLayout.VERTICAL);
+
                         cardImage.getLayoutParams().height = cardImage.getContext().getResources()
                                 .getDimensionPixelSize(R.dimen.card_image_vertical_height);
                         cardImage.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
                         cardInfo.getLayoutParams().height = ViewGroup.LayoutParams.MATCH_PARENT;
                         cardInfo.getLayoutParams().width = ViewGroup.LayoutParams.WRAP_CONTENT;
+                        cornertype = RoundedCornersTransformation.CornerType.TOP;
                     } else {
                         cardView.setOrientation(LinearLayout.HORIZONTAL);
                         cardImage.getLayoutParams().height = ViewGroup.LayoutParams.MATCH_PARENT;
@@ -173,17 +188,28 @@ class StatusDetailedViewHolder extends StatusBaseViewHolder {
                                 .getDimensionPixelSize(R.dimen.card_image_horizontal_width);
                         cardInfo.getLayoutParams().height = ViewGroup.LayoutParams.WRAP_CONTENT;
                         cardInfo.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
+                        cornertype = RoundedCornersTransformation.CornerType.LEFT;
                     }
 
-                    cardView.setClipToOutline(true);
+                    int radius = cardImage.getContext().getResources()
+                            .getDimensionPixelSize(R.dimen.card_radius);
 
+                    cardView.setClipToOutline(true);
                     Glide.with(cardImage)
                             .load(card.getImage())
-                            .centerCrop()
+                            .transform(new CenterCrop(), new RoundedCornersTransformation(radius, 0, cornertype))
                             .into(cardImage);
 
                 } else {
-                    cardImage.setVisibility(View.GONE);
+                    cardView.setOrientation(LinearLayout.HORIZONTAL);
+                    cardImage.getLayoutParams().height = ViewGroup.LayoutParams.MATCH_PARENT;
+                    cardImage.getLayoutParams().width = cardImage.getContext().getResources()
+                            .getDimensionPixelSize(R.dimen.card_image_horizontal_width);
+                    cardInfo.getLayoutParams().height = ViewGroup.LayoutParams.WRAP_CONTENT;
+                    cardInfo.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
+
+                    cardImage.setImageResource(R.drawable.card_image_placeholder);
+
                 }
 
                 cardView.setOnClickListener(v -> LinkHelper.openLink(card.getUrl(), v.getContext()));

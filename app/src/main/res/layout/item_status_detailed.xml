@@ -134,8 +134,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:background="?attr/card_background"
+        android:background="@drawable/card_frame"
         android:clipChildren="true"
+        android:foreground="?attr/selectableItemBackground"
+        android:minHeight="80dp"
         android:orientation="vertical"
         app:layout_constraintTop_toBottomOf="@+id/status_content"
         tools:visibility="gone">
@@ -144,7 +146,10 @@
             android:id="@+id/card_image"
             android:layout_width="match_parent"
             android:layout_height="300dp"
-            android:background="?attr/card_image_background" />
+            android:layout_margin="1dp"
+            android:background="?attr/card_background_color"
+            android:importantForAccessibility="no"
+            android:scaleType="center" />
 
         <LinearLayout
             android:id="@+id/card_info"
@@ -164,7 +169,7 @@
                 android:ellipsize="end"
                 android:fontFamily="sans-serif-medium"
                 android:lines="1"
-                android:textColor="?android:textColorPrimary"
+                android:textColor="?android:textColorSecondary"
                 android:textSize="?attr/status_text_medium" />
 
             <androidx.emoji.widget.EmojiTextView

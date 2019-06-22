@@ -125,8 +125,7 @@
         <item name="material_drawer_header_selection_subtext">@color/text_color_secondary_dark
         </item> <!--Intentionally dark so it can be overlayed over the account's header image.-->
 
-        <item name="card_background">@drawable/card_frame_light</item>
-        <item name="card_image_background">@color/text_color_tertiary_light</item>
+        <item name="card_background_color">@color/color_primary_light</item>
 
         <item name="play_indicator_drawable">@drawable/ic_play_indicator_light</item>
 

@@ -35,8 +35,7 @@
     <attr name="compose_content_warning_bar_background" format="reference" />
     <attr name="compose_reply_content_background" format="reference|color" />
     <attr name="report_status_background_color" format="reference|color" />
-    <attr name="card_background" format="reference|color" />
-    <attr name="card_image_background" format="reference|color" />
+    <attr name="card_background_color" format="reference|color" />
     <attr name="compound_button_color" format="reference" />
     <attr name="autocomplete_divider_drawable" format="reference" />
 
