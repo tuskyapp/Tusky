@@ -30,6 +30,7 @@ import com.keylesspalace.tusky.entity.Attachment;
 import com.keylesspalace.tusky.interfaces.StatusActionListener;
 import com.keylesspalace.tusky.util.ImageLoadingHelper;
 import com.keylesspalace.tusky.util.SmartLengthInputFilter;
+import com.keylesspalace.tusky.viewdata.PollViewDataKt;
 
 import java.util.List;
 
@@ -106,7 +107,7 @@ public class ConversationViewHolder extends StatusBaseViewHolder {
 
         setAvatars(conversation.getAccounts());
 
-        setupPoll(status.getPoll(), status.getEmojis(), listener);
+        setupPoll(PollViewDataKt.toViewData(status.getPoll()), status.getEmojis(), listener);
 
     }
 

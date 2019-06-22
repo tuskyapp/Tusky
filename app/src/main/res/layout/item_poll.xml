@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <androidx.emoji.widget.EmojiTextView
+        android:id="@+id/status_poll_option_result"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:background="@drawable/poll_option_background"
+        android:ellipsize="end"
+        android:lines="1"
+        android:paddingStart="6dp"
+        android:paddingTop="2dp"
+        android:paddingEnd="6dp"
+        android:paddingBottom="2dp"
+        android:textColor="?android:attr/textColorPrimary"
+        android:textSize="?attr/status_text_medium"
+        tools:text="40%" />
+
+    <RadioButton
+        android:id="@+id/status_poll_radio_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="?attr/status_text_medium"
+        app:buttonTint="?attr/compound_button_color"
+        tools:text="Option 1" />
+
+    <CheckBox
+        android:id="@+id/status_poll_checkbox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:lines="1"
+        app:buttonTint="?attr/compound_button_color"
+        tools:text="Option 1" />
+
+</FrameLayout>
