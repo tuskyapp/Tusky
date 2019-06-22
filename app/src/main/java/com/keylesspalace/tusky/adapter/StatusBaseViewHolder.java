@@ -846,7 +846,6 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             pollDescription.setVisibility(View.VISIBLE);
             pollDescription.setText(getPollInfoText(timestamp, poll, context));
 
-
         }
     }
 
@@ -856,6 +855,8 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         CharSequence pollDurationInfo;
         if (poll.getExpired()) {
             pollDurationInfo = context.getString(R.string.poll_info_closed);
+        } else if (poll.getExpiresAt() == null) {
+            return votesText;
         } else {
             if (useAbsoluteTime) {
                 pollDurationInfo = context.getString(R.string.poll_info_time_absolute, getAbsoluteTime(poll.getExpiresAt()));

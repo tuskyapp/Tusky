@@ -35,6 +35,7 @@
         android:layout_height="wrap_content"
         android:ellipsize="end"
         android:lines="1"
+        android:textSize="?attr/status_text_medium"
         app:buttonTint="?attr/compound_button_color"
         tools:text="Option 1" />
 
