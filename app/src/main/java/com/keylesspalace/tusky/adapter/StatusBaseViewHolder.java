@@ -7,11 +7,8 @@ import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
@@ -19,7 +16,8 @@ import android.widget.ToggleButton;
 import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.emoji.text.EmojiCompat;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -28,8 +26,6 @@ import com.keylesspalace.tusky.entity.Attachment;
 import com.keylesspalace.tusky.entity.Attachment.Focus;
 import com.keylesspalace.tusky.entity.Attachment.MetaData;
 import com.keylesspalace.tusky.entity.Emoji;
-import com.keylesspalace.tusky.entity.Poll;
-import com.keylesspalace.tusky.entity.PollOption;
 import com.keylesspalace.tusky.entity.Status;
 import com.keylesspalace.tusky.interfaces.StatusActionListener;
 import com.keylesspalace.tusky.util.CustomEmojiHelper;
@@ -39,13 +35,14 @@ import com.keylesspalace.tusky.util.ImageLoadingHelper;
 import com.keylesspalace.tusky.util.LinkHelper;
 import com.keylesspalace.tusky.util.ThemeUtils;
 import com.keylesspalace.tusky.view.MediaPreviewImageView;
+import com.keylesspalace.tusky.viewdata.PollOptionViewData;
+import com.keylesspalace.tusky.viewdata.PollViewData;
+import com.keylesspalace.tusky.viewdata.PollViewDataKt;
 import com.keylesspalace.tusky.viewdata.StatusViewData;
 import com.mikepenz.iconics.utils.Utils;
 
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -74,19 +71,18 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
     private View sensitiveMediaShow;
     protected TextView[] mediaLabels;
     private ToggleButton contentWarningButton;
-    protected ImageView avatarInset;
+    private ImageView avatarInset;
 
     public ImageView avatar;
     public TextView timestampInfo;
     public TextView content;
     public TextView contentWarningDescription;
 
-    private TextView[] pollResults;
+    private RecyclerView pollOptions;
     private TextView pollDescription;
-    private RadioGroup pollRadioGroup;
-    private RadioButton[] pollRadioOptions;
-    private CheckBox[] pollCheckboxOptions;
     private Button pollButton;
+
+    private PollAdapter pollAdapter;
 
     private boolean useAbsoluteTime;
     private SimpleDateFormat shortSdf;
@@ -135,30 +131,14 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         contentWarningButton = itemView.findViewById(R.id.status_content_warning_button);
         avatarInset = itemView.findViewById(R.id.status_avatar_inset);
 
-        pollResults = new TextView[]{
-                itemView.findViewById(R.id.status_poll_option_result_0),
-                itemView.findViewById(R.id.status_poll_option_result_1),
-                itemView.findViewById(R.id.status_poll_option_result_2),
-                itemView.findViewById(R.id.status_poll_option_result_3)
-        };
-
+        pollOptions = itemView.findViewById(R.id.status_poll_options);
         pollDescription = itemView.findViewById(R.id.status_poll_description);
-
-        pollRadioGroup = itemView.findViewById(R.id.status_poll_radio_group);
-        pollRadioOptions = new RadioButton[] {
-                pollRadioGroup.findViewById(R.id.status_poll_radio_button_0),
-                pollRadioGroup.findViewById(R.id.status_poll_radio_button_1),
-                pollRadioGroup.findViewById(R.id.status_poll_radio_button_2),
-                pollRadioGroup.findViewById(R.id.status_poll_radio_button_3)
-        };
-        pollCheckboxOptions = new CheckBox[] {
-                itemView.findViewById(R.id.status_poll_checkbox_0),
-                itemView.findViewById(R.id.status_poll_checkbox_1),
-                itemView.findViewById(R.id.status_poll_checkbox_2),
-                itemView.findViewById(R.id.status_poll_checkbox_3)
-        };
-
         pollButton = itemView.findViewById(R.id.status_poll_button);
+
+        pollAdapter = new PollAdapter();
+        pollOptions.setAdapter(pollAdapter);
+        pollOptions.setLayoutManager(new LinearLayoutManager(pollOptions.getContext()));
+        ((DefaultItemAnimator) pollOptions.getItemAnimator()).setSupportsChangeAnimations(false);
 
         this.useAbsoluteTime = useAbsoluteTime;
         shortSdf = new SimpleDateFormat("HH:mm:ss", Locale.getDefault());
@@ -795,15 +775,15 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
 
     private CharSequence getPollDescription(Context context,
                                             @NonNull StatusViewData.Concrete status) {
-        Poll poll = status.getPoll();
+        PollViewData poll = status.getPoll();
         if (poll == null) {
             return "";
         } else {
             CharSequence[] args = new CharSequence[5];
-            List<PollOption> options = poll.getOptions();
+            List<PollOptionViewData> options = poll.getOptions();
             for (int i = 0; i < args.length; i++) {
                 if (i < options.size()) {
-                    int percent = options.get(i).getPercent(poll.getVotesCount());
+                    int percent = PollViewDataKt.calculatePercent(options.get(i).getVotesCount(), poll.getVotesCount());
                     args[i] = HtmlUtils.fromHtml(context.getString(
                             R.string.poll_option_format,
                             percent,
@@ -835,19 +815,15 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         }
     }
 
-    protected void setupPoll(Poll poll, List<Emoji> emojis, StatusActionListener listener) {
+    protected void setupPoll(PollViewData poll, List<Emoji> emojis, StatusActionListener listener) {
         if (poll == null) {
-            for (TextView pollResult : pollResults) {
-                pollResult.setVisibility(View.GONE);
-            }
-            pollDescription.setVisibility(View.GONE);
-            pollRadioGroup.setVisibility(View.GONE);
 
-            for (CheckBox checkBox : pollCheckboxOptions) {
-                checkBox.setVisibility(View.GONE);
-            }
+            pollOptions.setVisibility(View.GONE);
+
+            pollDescription.setVisibility(View.GONE);
 
             pollButton.setVisibility(View.GONE);
+
         } else {
             long timestamp = System.currentTimeMillis();
 
@@ -855,25 +831,49 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
 
             Context context = pollDescription.getContext();
 
+            pollOptions.setVisibility(View.VISIBLE);
+
             if (expired || poll.getVoted()) {
                 // no voting possible
-                setupPollResult(poll, emojis);
+                pollAdapter.setup(poll.getOptions(), poll.getVotesCount(), emojis, PollAdapter.RESULT);
+
+                pollButton.setVisibility(View.GONE);
             } else {
                 // voting possible
-                setupPollVoting(poll, emojis, listener);
+                pollAdapter.setup(poll.getOptions(), poll.getVotesCount(), emojis, poll.getMultiple() ? PollAdapter.MULTIPLE : PollAdapter.SINGLE);
+
+                pollButton.setVisibility(View.VISIBLE);
+
+                pollButton.setOnClickListener(v -> {
+
+                    int position = getAdapterPosition();
+
+                    if (position != RecyclerView.NO_POSITION) {
+
+                        List<Integer> pollResult = pollAdapter.getSelected();
+
+                        if(!pollResult.isEmpty()) {
+                            listener.onVoteInPoll(position, pollResult);
+                        }
+                    }
+
+                });
             }
 
             pollDescription.setVisibility(View.VISIBLE);
             pollDescription.setText(getPollInfoText(timestamp, poll, context));
+
         }
     }
 
-    private CharSequence getPollInfoText(long timestamp, Poll poll, Context context) {
+    private CharSequence getPollInfoText(long timestamp, PollViewData poll, Context context) {
         String votes = numberFormat.format(poll.getVotesCount());
         String votesText = context.getResources().getQuantityString(R.plurals.poll_info_votes, poll.getVotesCount(), votes);
         CharSequence pollDurationInfo;
         if (poll.getExpired()) {
             pollDurationInfo = context.getString(R.string.poll_info_closed);
+        } else if (poll.getExpiresAt() == null) {
+            return votesText;
         } else {
             if (useAbsoluteTime) {
                 pollDurationInfo = context.getString(R.string.poll_info_time_absolute, getAbsoluteTime(poll.getExpiresAt()));
@@ -884,131 +884,6 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         }
 
         return pollDescription.getContext().getString(R.string.poll_info_format, votesText, pollDurationInfo);
-    }
-
-    private void setupPollResult(Poll poll, List<Emoji> emojis) {
-        List<PollOption> options = poll.getOptions();
-
-        for(int i = 0; i < Status.MAX_POLL_OPTIONS; i++) {
-            if(i < options.size()) {
-                int percent = options.get(i).getPercent(poll.getVotesCount());
-
-                String pollOptionText = pollResults[i].getContext().getString(R.string.poll_option_format, percent, options.get(i).getTitle());
-                pollResults[i].setText(CustomEmojiHelper.emojifyText(HtmlUtils.fromHtml(pollOptionText), emojis, pollResults[i]));
-                pollResults[i].setVisibility(View.VISIBLE);
-
-                int level = percent * 100;
-
-                pollResults[i].getBackground().setLevel(level);
-
-            } else {
-                pollResults[i].setVisibility(View.GONE);
-            }
-        }
-
-        pollRadioGroup.setVisibility(View.GONE);
-
-        for(CheckBox checkBox: pollCheckboxOptions) {
-            checkBox.setVisibility(View.GONE);
-        }
-
-        pollButton.setVisibility(View.GONE);
-    }
-
-    private void setupPollVoting(Poll poll, List<Emoji> emojis, StatusActionListener listener) {
-        List<PollOption> options = poll.getOptions();
-
-        pollButton.setVisibility(View.VISIBLE);
-
-        for(TextView pollResult: pollResults) {
-            pollResult.setVisibility(View.GONE);
-        }
-
-        if(poll.getMultiple()) {
-
-            pollRadioGroup.setVisibility(View.GONE);
-
-            for(int i = 0; i < Status.MAX_POLL_OPTIONS; i++) {
-                if(i < options.size()) {
-                    CharSequence emojifiedPollOptionText = CustomEmojiHelper.emojifyString(options.get(i).getTitle(), emojis, pollCheckboxOptions[i]);
-                    emojifiedPollOptionText = EmojiCompat.get().process(emojifiedPollOptionText);
-                    pollCheckboxOptions[i].setText(emojifiedPollOptionText);
-                    pollCheckboxOptions[i].setVisibility(View.VISIBLE);
-                    pollCheckboxOptions[i].setChecked(false);
-                } else {
-                    pollCheckboxOptions[i].setVisibility(View.GONE);
-                }
-            }
-
-            pollButton.setOnClickListener(v -> {
-
-                int position = getAdapterPosition();
-
-                if (position != RecyclerView.NO_POSITION) {
-
-                    List<Integer> pollResult = new ArrayList<>(options.size());
-                    for (int i = 0; i < options.size(); i++) {
-                        if (pollCheckboxOptions[i].isChecked()) {
-                            pollResult.add(i);
-                        }
-                    }
-                    if (pollResult.size() == 0) {
-                        return;
-                    }
-
-                    listener.onVoteInPoll(position, pollResult);
-                }
-
-            });
-        } else {
-
-            for(CheckBox pollCheckbox: pollCheckboxOptions) {
-                pollCheckbox.setVisibility(View.GONE);
-            }
-
-            pollRadioGroup.setVisibility(View.VISIBLE);
-            pollRadioGroup.clearCheck();
-
-            for(int i = 0; i < Status.MAX_POLL_OPTIONS; i++) {
-                if(i < options.size()) {
-                    CharSequence emojifiedPollOptionText = CustomEmojiHelper.emojifyString(options.get(i).getTitle(), emojis, pollRadioOptions[i]);
-                    emojifiedPollOptionText = EmojiCompat.get().process(emojifiedPollOptionText);
-                    pollRadioOptions[i].setText(emojifiedPollOptionText);
-                    pollRadioOptions[i].setVisibility(View.VISIBLE);
-                } else {
-                    pollRadioOptions[i].setVisibility(View.GONE);
-                }
-            }
-
-            pollButton.setOnClickListener(v -> {
-
-                int position = getAdapterPosition();
-
-                if (position != RecyclerView.NO_POSITION) {
-
-                    int selectedRadioButtonIndex;
-                    switch (pollRadioGroup.getCheckedRadioButtonId()) {
-                        case R.id.status_poll_radio_button_0:
-                            selectedRadioButtonIndex = 0;
-                            break;
-                        case R.id.status_poll_radio_button_1:
-                            selectedRadioButtonIndex = 1;
-                            break;
-                        case R.id.status_poll_radio_button_2:
-                            selectedRadioButtonIndex = 2;
-                            break;
-                        case R.id.status_poll_radio_button_3:
-                            selectedRadioButtonIndex = 3;
-                            break;
-                        default:
-                            return;
-                    }
-
-                    listener.onVoteInPoll(position, Collections.singletonList(selectedRadioButtonIndex));
-                }
-            });
-
-        }
     }
 
 }

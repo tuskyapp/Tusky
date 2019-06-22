@@ -27,6 +27,9 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Build;
 import android.provider.Settings;
+import android.text.TextUtils;
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
@@ -35,9 +38,6 @@ import androidx.core.app.RemoteInput;
 import androidx.core.app.TaskStackBuilder;
 import androidx.core.content.ContextCompat;
 import androidx.core.text.BidiFormatter;
-
-import android.text.TextUtils;
-import android.util.Log;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
@@ -55,6 +55,7 @@ import com.keylesspalace.tusky.entity.PollOption;
 import com.keylesspalace.tusky.entity.Status;
 import com.keylesspalace.tusky.receiver.NotificationClearBroadcastReceiver;
 import com.keylesspalace.tusky.receiver.SendStatusBroadcastReceiver;
+import com.keylesspalace.tusky.viewdata.PollViewDataKt;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -626,7 +627,7 @@ public class NotificationHelper {
                     builder.append('\n');
                     Poll poll = notification.getStatus().getPoll();
                     for(PollOption option: poll.getOptions()) {
-                        int percent = option.getPercent(poll.getVotesCount());
+                        int percent = PollViewDataKt.calculatePercent(option.getVotesCount(), poll.getVotesCount());
                         CharSequence optionText = HtmlUtils.fromHtml(context.getString(R.string.poll_option_format, percent, option.getTitle()));
                         builder.append(optionText);
                         builder.append('\n');

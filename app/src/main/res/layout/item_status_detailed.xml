@@ -381,172 +381,16 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-
-    <androidx.emoji.widget.EmojiTextView
-        android:id="@+id/status_poll_option_result_0"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/status_poll_options"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="6dp"
-        android:background="@drawable/poll_option_background"
-        android:ellipsize="end"
-        android:lines="1"
-        android:paddingStart="8dp"
-        android:paddingTop="4dp"
-        android:paddingEnd="8dp"
-        android:paddingBottom="4dp"
-        android:textColor="?android:attr/textColorPrimary"
-        android:textSize="?attr/status_text_medium"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="4dp"
+        android:nestedScrollingEnabled="false"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/status_media_preview_container"
-        tools:text="40%" />
-
-    <androidx.emoji.widget.EmojiTextView
-        android:id="@+id/status_poll_option_result_1"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="6dp"
-        android:background="@drawable/poll_option_background"
-        android:ellipsize="end"
-        android:lines="1"
-        android:paddingStart="8dp"
-        android:paddingTop="4dp"
-        android:paddingEnd="8dp"
-        android:paddingBottom="4dp"
-        android:textColor="?android:attr/textColorPrimary"
-        android:textSize="?attr/status_text_medium"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/status_poll_option_result_0"
-        tools:text="10%" />
-
-    <androidx.emoji.widget.EmojiTextView
-        android:id="@+id/status_poll_option_result_2"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="6dp"
-        android:background="@drawable/poll_option_background"
-        android:ellipsize="end"
-        android:lines="1"
-        android:paddingStart="8dp"
-        android:paddingTop="4dp"
-        android:paddingEnd="8dp"
-        android:paddingBottom="4dp"
-        android:textColor="?android:attr/textColorPrimary"
-        android:textSize="?attr/status_text_medium"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/status_poll_option_result_1"
-        tools:text="20%" />
-
-    <androidx.emoji.widget.EmojiTextView
-        android:id="@+id/status_poll_option_result_3"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="6dp"
-        android:background="@drawable/poll_option_background"
-        android:ellipsize="end"
-        android:lines="1"
-        android:paddingStart="8dp"
-        android:paddingTop="4dp"
-        android:paddingEnd="8dp"
-        android:paddingBottom="4dp"
-        android:textColor="?android:attr/textColorPrimary"
-        android:textSize="?attr/status_text_medium"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/status_poll_option_result_2"
-        tools:text="30%" />
-
-    <RadioGroup
-        android:id="@+id/status_poll_radio_group"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="6dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/status_poll_option_result_3">
-
-        <RadioButton
-            android:id="@+id/status_poll_radio_button_0"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="?attr/status_text_medium"
-            app:buttonTint="?attr/compound_button_color"
-            tools:text="Option 1" />
-
-        <RadioButton
-            android:id="@+id/status_poll_radio_button_1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="?attr/status_text_medium"
-            app:buttonTint="?attr/compound_button_color"
-            tools:text="Option 2" />
-
-        <RadioButton
-            android:id="@+id/status_poll_radio_button_2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="?attr/status_text_medium"
-            app:buttonTint="?attr/compound_button_color"
-            tools:text="Option 3" />
-
-        <RadioButton
-            android:id="@+id/status_poll_radio_button_3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="?attr/status_text_medium"
-            app:buttonTint="?attr/compound_button_color"
-            tools:text="Option 4" />
-    </RadioGroup>
-
-    <CheckBox
-        android:id="@+id/status_poll_checkbox_0"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:ellipsize="end"
-        android:lines="1"
-        app:buttonTint="?attr/compound_button_color"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/status_poll_radio_group"
-        tools:text="Option 1" />
-
-    <CheckBox
-        android:id="@+id/status_poll_checkbox_1"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:ellipsize="end"
-        android:lines="1"
-        app:buttonTint="?attr/compound_button_color"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/status_poll_checkbox_0"
-        tools:text="Option 1" />
-
-    <CheckBox
-        android:id="@+id/status_poll_checkbox_2"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:ellipsize="end"
-        android:lines="1"
-        app:buttonTint="?attr/compound_button_color"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/status_poll_checkbox_1"
-        tools:text="Option 1" />
-
-    <CheckBox
-        android:id="@+id/status_poll_checkbox_3"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:ellipsize="end"
-        android:lines="1"
-        app:buttonTint="?attr/compound_button_color"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/status_poll_checkbox_2"
-        tools:text="Option 1" />
+        app:layout_constraintTop_toBottomOf="@id/status_media_preview_container" />
 
     <!-- using AppCompatButton because we don't want the inflater to turn it into a MaterialButton -->
     <androidx.appcompat.widget.AppCompatButton
@@ -565,7 +409,7 @@
         android:text="@string/poll_vote"
         android:textSize="?attr/status_text_medium"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/status_poll_checkbox_3" />
+        app:layout_constraintTop_toBottomOf="@id/status_poll_options" />
 
     <TextView
         android:id="@+id/status_poll_description"

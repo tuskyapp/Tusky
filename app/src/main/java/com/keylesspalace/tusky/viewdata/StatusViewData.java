@@ -89,7 +89,7 @@ public abstract class StatusViewData {
         private final boolean isCollapsible; /** Whether the status meets the requirement to be collapse */
         final boolean isCollapsed; /** Whether the status is shown partially or fully */
         @Nullable
-        private final Poll poll;
+        private final PollViewData poll;
         private final boolean isBot;
 
         public Concrete(String id, Spanned content, boolean reblogged, boolean favourited,
@@ -99,7 +99,7 @@ public abstract class StatusViewData {
                         Date createdAt, int reblogsCount, int favouritesCount, @Nullable String inReplyToId,
                         @Nullable Status.Mention[] mentions, String senderId, boolean rebloggingEnabled,
                         Status.Application application, List<Emoji> statusEmojis, List<Emoji> accountEmojis, @Nullable Card card,
-                        boolean isCollapsible, boolean isCollapsed, @Nullable Poll poll, boolean isBot) {
+                        boolean isCollapsible, boolean isCollapsed, @Nullable PollViewData poll, boolean isBot) {
 
             this.id = id;
             if (Build.VERSION.SDK_INT == 23) {
@@ -273,7 +273,7 @@ public abstract class StatusViewData {
         }
 
         @Nullable
-        public Poll getPoll() {
+        public PollViewData getPoll() {
             return poll;
         }
 
@@ -418,7 +418,7 @@ public abstract class StatusViewData {
         private Card card;
         private boolean isCollapsible; /** Whether the status meets the requirement to be collapsed */
         private boolean isCollapsed; /** Whether the status is shown partially or fully */
-        private Poll poll;
+        private PollViewData poll;
         private boolean isBot;
 
         public Builder() {
@@ -617,7 +617,7 @@ public abstract class StatusViewData {
         }
 
         public Builder setPoll(Poll poll) {
-            this.poll = poll;
+            this.poll = PollViewDataKt.toViewData(poll);
             return this;
         }
 
