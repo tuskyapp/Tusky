@@ -30,6 +30,7 @@ import com.keylesspalace.tusky.entity.Emoji
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.view.MediaPreviewImageView
 import com.keylesspalace.tusky.viewdata.PollViewData
+import com.keylesspalace.tusky.viewdata.calculatePercent
 import java.text.NumberFormat
 import java.text.SimpleDateFormat
 import java.util.*
@@ -280,7 +281,7 @@ class StatusViewHelper(private val itemView: View) {
 
         for (i in 0 until Status.MAX_POLL_OPTIONS) {
             if (i < options.size) {
-                val percent = options[i].getPercent(poll.votesCount)
+                val percent = calculatePercent(options[i].votesCount, poll.votesCount)
 
                 val pollOptionText = pollResults[i].context.getString(R.string.poll_option_format, percent, options[i].title)
                 pollResults[i].text = CustomEmojiHelper.emojifyText(HtmlUtils.fromHtml(pollOptionText), emojis, pollResults[i])

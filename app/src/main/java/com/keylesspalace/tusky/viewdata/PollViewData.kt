@@ -20,13 +20,13 @@ data class PollOptionViewData(
         val title: String,
         var votesCount: Int,
         var selected: Boolean
-) {
-    fun getPercent(totalVotes: Int): Int {
-        return if (votesCount == 0) {
-            0
-        } else {
-            (votesCount / totalVotes.toDouble() * 100).roundToInt()
-        }
+)
+
+fun calculatePercent(fraction: Int, total: Int): Int {
+    return if (fraction == 0) {
+        0
+    } else {
+        (fraction / total.toDouble() * 100).roundToInt()
     }
 }
 

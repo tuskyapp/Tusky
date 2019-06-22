@@ -37,6 +37,7 @@ import com.keylesspalace.tusky.util.ThemeUtils;
 import com.keylesspalace.tusky.view.MediaPreviewImageView;
 import com.keylesspalace.tusky.viewdata.PollOptionViewData;
 import com.keylesspalace.tusky.viewdata.PollViewData;
+import com.keylesspalace.tusky.viewdata.PollViewDataKt;
 import com.keylesspalace.tusky.viewdata.StatusViewData;
 import com.mikepenz.iconics.utils.Utils;
 
@@ -766,7 +767,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             List<PollOptionViewData> options = poll.getOptions();
             for (int i = 0; i < args.length; i++) {
                 if (i < options.size()) {
-                    int percent = options.get(i).getPercent(poll.getVotesCount());
+                    int percent = PollViewDataKt.calculatePercent(options.get(i).getVotesCount(), poll.getVotesCount());
                     args[i] = HtmlUtils.fromHtml(context.getString(
                             R.string.poll_option_format,
                             percent,

@@ -627,7 +627,7 @@ public class NotificationHelper {
                     builder.append('\n');
                     Poll poll = notification.getStatus().getPoll();
                     for(PollOption option: poll.getOptions()) {
-                        int percent = PollViewDataKt.toViewData(option).getPercent(poll.getVotesCount());
+                        int percent = PollViewDataKt.calculatePercent(option.getVotesCount(), poll.getVotesCount());
                         CharSequence optionText = HtmlUtils.fromHtml(context.getString(R.string.poll_option_format, percent, option.getTitle()));
                         builder.append(optionText);
                         builder.append('\n');
