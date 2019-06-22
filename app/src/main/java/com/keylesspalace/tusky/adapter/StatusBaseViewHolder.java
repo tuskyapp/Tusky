@@ -13,12 +13,12 @@ import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.content.res.AppCompatResources;
 import androidx.emoji.text.EmojiCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -49,6 +49,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 
 import at.connyduck.sparkbutton.SparkButton;
 import at.connyduck.sparkbutton.SparkEventListener;
@@ -71,7 +72,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
     private ImageView[] mediaOverlays;
     private TextView sensitiveMediaWarning;
     private View sensitiveMediaShow;
-    protected TextView mediaLabel;
+    protected TextView[] mediaLabels;
     private ToggleButton contentWarningButton;
     protected ImageView avatarInset;
 
@@ -124,7 +125,12 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         };
         sensitiveMediaWarning = itemView.findViewById(R.id.status_sensitive_media_warning);
         sensitiveMediaShow = itemView.findViewById(R.id.status_sensitive_media_button);
-        mediaLabel = itemView.findViewById(R.id.status_media_label);
+        mediaLabels = new TextView[]{
+                itemView.findViewById(R.id.status_media_label_1),
+                itemView.findViewById(R.id.status_media_label_2),
+                itemView.findViewById(R.id.status_media_label_3),
+                itemView.findViewById(R.id.status_media_label_4)
+        };
         contentWarningDescription = itemView.findViewById(R.id.status_content_warning_description);
         contentWarningButton = itemView.findViewById(R.id.status_content_warning_button);
         avatarInset = itemView.findViewById(R.id.status_avatar_inset);
@@ -435,12 +441,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
                 mediaOverlays[i].setVisibility(View.GONE);
             }
 
-            final int urlIndex = i;
-            mediaPreviews[i].setOnClickListener(v -> {
-                if (getAdapterPosition() != RecyclerView.NO_POSITION) {
-                    listener.onViewMedia(getAdapterPosition(), urlIndex, v);
-                }
-            });
+            setAttachmentClickListeners(mediaPreviews[i], listener, i, attachments.get(i));
 
             if (n <= 2) {
                 mediaPreviews[0].getLayoutParams().height = getMediaPreviewHeight(context) * 2;
@@ -490,18 +491,6 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         }
     }
 
-    @NonNull
-    private static String getLabelTypeText(Context context, Attachment.Type type) {
-        switch (type) {
-            default:
-            case IMAGE:
-                return context.getString(R.string.status_media_images);
-            case GIFV:
-            case VIDEO:
-                return context.getString(R.string.status_media_video);
-        }
-    }
-
     @DrawableRes
     private static int getLabelIcon(Attachment.Type type) {
         switch (type) {
@@ -515,29 +504,54 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
     }
 
     protected void setMediaLabel(List<Attachment> attachments, boolean sensitive,
-                                 final StatusActionListener listener) {
-        if (attachments.size() == 0) {
-            mediaLabel.setVisibility(View.GONE);
-            return;
-        }
-        mediaLabel.setVisibility(View.VISIBLE);
-
-        // Set the label's text.
+                                 final StatusActionListener listener, boolean showingContent) {
         Context context = itemView.getContext();
-        String labelText = getLabelTypeText(context, attachments.get(0).getType());
-        if (sensitive) {
-            String sensitiveText = context.getString(R.string.status_sensitive_media_title);
-            labelText += String.format(" (%s)", sensitiveText);
+        for (int i = 0; i < mediaLabels.length; i++) {
+            TextView mediaLabel = mediaLabels[i];
+            if (i < attachments.size()) {
+                Attachment attachment = attachments.get(i);
+                mediaLabel.setVisibility(View.VISIBLE);
+
+                if (sensitive && !showingContent) {
+                    mediaLabel.setText(R.string.status_sensitive_media_title);
+                } else {
+                    mediaLabel.setText(getAttachmentDescription(context, attachment));
+                }
+
+                // Set the icon next to the label.
+                int drawableId = getLabelIcon(attachments.get(0).getType());
+                Drawable drawable = Objects.requireNonNull(context.getDrawable(drawableId));
+                ThemeUtils.setDrawableTint(context, drawable, android.R.attr.textColorTertiary);
+                mediaLabel.setCompoundDrawablesWithIntrinsicBounds(drawable, null, null, null);
+
+                setAttachmentClickListeners(mediaLabel, listener, i, attachment);
+            } else {
+                mediaLabel.setVisibility(View.GONE);
+            }
         }
-        mediaLabel.setText(labelText);
+    }
 
-        // Set the icon next to the label.
-        int drawableId = getLabelIcon(attachments.get(0).getType());
-        Drawable drawable = AppCompatResources.getDrawable(context, drawableId);
-        ThemeUtils.setDrawableTint(context, drawable, android.R.attr.textColorTertiary);
-        mediaLabel.setCompoundDrawablesWithIntrinsicBounds(drawable, null, null, null);
+    private void setAttachmentClickListeners(View view, StatusActionListener listener,
+                                             int index, Attachment attachment) {
+        view.setOnClickListener(v -> {
+            if (getAdapterPosition() != RecyclerView.NO_POSITION) {
+                listener.onViewMedia(getAdapterPosition(), index, null);
+            }
+        });
+        view.setOnLongClickListener(v -> {
+            CharSequence description = getAttachmentDescription(view.getContext(), attachment);
+            Toast.makeText(view.getContext(), description, Toast.LENGTH_LONG).show();
+            return true;
+        });
+    }
 
-        mediaLabel.setOnClickListener(v -> listener.onViewMedia(getAdapterPosition(), 0, null));
+    private CharSequence getAttachmentDescription(Context context, Attachment attachment) {
+        if (TextUtils.isEmpty(attachment.getDescription())) {
+            return context
+                    .getString(R.string.description_status_media_no_description_placeholder);
+        } else {
+            return attachment.getDescription();
+        }
     }
 
     protected void hideSensitiveMediaWarning() {
@@ -641,9 +655,11 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
                     hideSensitiveMediaWarning();
                 }
                 // Hide the unused label.
-                mediaLabel.setVisibility(View.GONE);
+                for (TextView mediaLabel : mediaLabels) {
+                    mediaLabel.setVisibility(View.GONE);
+                }
             } else {
-                setMediaLabel(attachments, sensitive, listener);
+                setMediaLabel(attachments, sensitive, listener, status.isShowingContent());
                 // Hide all unused views.
                 mediaPreviews[0].setVisibility(View.GONE);
                 mediaPreviews[1].setVisibility(View.GONE);
