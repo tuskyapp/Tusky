@@ -405,4 +405,14 @@
     <string name="poll_ended_created">Een poll die jij hebt aangemaakt is beëindigd</string>
 
 
-</resources>
+<string name="title_domain_mutes">Verborgen domeinen</string>
+    <string name="action_view_domain_mutes">Verborgen domeinen</string>
+    <string name="action_mute_domain">%s negeren</string>
+    <string name="confirmation_domain_unmuted">%s niet langer verborgen</string>
+
+    <string name="mute_domain_warning_dialog_ok">Volledig domein verbergen</string>
+
+    <string name="pref_title_animate_gif_avatars">GIF-avatars animeren</string>
+
+    <string name="caption_notoemoji">Google\'s huidige emojiset</string>
+    </resources>
