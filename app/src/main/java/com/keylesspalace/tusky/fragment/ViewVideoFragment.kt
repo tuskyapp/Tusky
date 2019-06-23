@@ -26,7 +26,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.MediaController
 import android.widget.TextView
-
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.ViewMediaActivity
 import com.keylesspalace.tusky.entity.Attachment
@@ -68,7 +67,7 @@ class ViewVideoFragment : ViewMediaFragment() {
     }
 
     @SuppressLint("ClickableViewAccessibility")
-    override fun setupMediaView(url: String) {
+    override fun setupMediaView(url: String, previewUrl: String?) {
         descriptionView = mediaDescription
         val videoView = videoPlayer
         videoView.transitionName = url
@@ -114,7 +113,7 @@ class ViewVideoFragment : ViewMediaFragment() {
             throw IllegalArgumentException("attachment has to be set")
         }
         url = attachment.url
-        finalizeViewSetup(url, attachment.description)
+        finalizeViewSetup(url, attachment.previewUrl, attachment.description)
     }
 
     override fun onToolbarVisibilityChange(visible: Boolean) {
@@ -138,5 +137,8 @@ class ViewVideoFragment : ViewMediaFragment() {
         } else {
             handler.removeCallbacks(hideToolbar)
         }
+    }
+
+    override fun onTransitionEnd() {
     }
 }

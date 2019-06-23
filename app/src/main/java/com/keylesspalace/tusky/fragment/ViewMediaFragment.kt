@@ -18,15 +18,16 @@ package com.keylesspalace.tusky.fragment
 import android.os.Bundle
 import android.text.TextUtils
 import android.widget.TextView
+import com.keylesspalace.tusky.SharedElementTransitionListener
 
 import com.keylesspalace.tusky.ViewMediaActivity
 import com.keylesspalace.tusky.entity.Attachment
 import com.keylesspalace.tusky.util.visible
 
-abstract class ViewMediaFragment : BaseFragment() {
+abstract class ViewMediaFragment : BaseFragment(), SharedElementTransitionListener {
     private var toolbarVisibiltyDisposable: Function0<Boolean>? = null
 
-    abstract fun setupMediaView(url: String)
+    abstract fun setupMediaView(url: String, previewUrl: String?)
     abstract fun onToolbarVisibilityChange(visible: Boolean)
     abstract val descriptionView : TextView
 
@@ -66,9 +67,9 @@ abstract class ViewMediaFragment : BaseFragment() {
         }
     }
 
-    protected fun finalizeViewSetup(url: String, description: String?) {
+    protected fun finalizeViewSetup(url: String, previewUrl: String?, description: String?) {
         val mediaActivity = activity as ViewMediaActivity
-        setupMediaView(url)
+        setupMediaView(url, previewUrl)
 
         descriptionView.text = description ?: ""
         showingDescription = !TextUtils.isEmpty(description)

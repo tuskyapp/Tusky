@@ -29,21 +29,23 @@ import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
-import androidx.core.content.FileProvider
-import androidx.viewpager.widget.ViewPager
+import android.transition.Transition
+import android.transition.TransitionListenerAdapter
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.webkit.MimeTypeMap
 import android.widget.Toast
+import androidx.core.content.FileProvider
 import androidx.lifecycle.Lifecycle
+import androidx.viewpager.widget.PagerAdapter
+import androidx.viewpager.widget.ViewPager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.FutureTarget
 import com.keylesspalace.tusky.BuildConfig.APPLICATION_ID
 import com.keylesspalace.tusky.entity.Attachment
 import com.keylesspalace.tusky.fragment.ViewImageFragment
-
 import com.keylesspalace.tusky.pager.AvatarImagePagerAdapter
 import com.keylesspalace.tusky.pager.ImagePagerAdapter
 import com.keylesspalace.tusky.util.getTemporaryMediaFilename
@@ -53,14 +55,12 @@ import com.uber.autodispose.autoDisposable
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
-
 import kotlinx.android.synthetic.main.activity_view_media.*
-
 import java.io.File
 import java.io.FileNotFoundException
 import java.io.FileOutputStream
 import java.io.IOException
-import java.util.ArrayList
+import java.util.*
 
 class ViewMediaActivity : BaseActivity(), ViewImageFragment.PhotoActionsListener {
     companion object {
@@ -125,7 +125,7 @@ class ViewMediaActivity : BaseActivity(), ViewImageFragment.PhotoActionsListener
             AvatarImagePagerAdapter(supportFragmentManager, avatarUrl)
         }
 
-        viewPager.adapter = adapter
+        viewPager.adapter = adapter as PagerAdapter
         viewPager.currentItem = initialPosition
         viewPager.addOnPageChangeListener(object : ViewPager.SimpleOnPageChangeListener() {
             override fun onPageSelected(position: Int) {
@@ -154,6 +154,12 @@ class ViewMediaActivity : BaseActivity(), ViewImageFragment.PhotoActionsListener
 
         window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LOW_PROFILE
         window.statusBarColor = Color.BLACK
+        window.sharedElementEnterTransition.addListener(object : TransitionListenerAdapter() {
+            override fun onTransitionEnd(transition: Transition?) {
+                (adapter as SharedElementTransitionListener).onTransitionEnd()
+                window.sharedElementEnterTransition.removeListener(this)
+            }
+        })
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -326,4 +332,8 @@ class ViewMediaActivity : BaseActivity(), ViewImageFragment.PhotoActionsListener
 
         shareFile(file, mimeType)
     }
+}
+
+interface SharedElementTransitionListener {
+    fun onTransitionEnd()
 }
