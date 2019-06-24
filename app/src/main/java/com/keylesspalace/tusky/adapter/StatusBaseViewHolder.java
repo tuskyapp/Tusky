@@ -421,7 +421,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
                 mediaOverlays[i].setVisibility(View.GONE);
             }
 
-            setAttachmentClickListeners(mediaPreviews[i], listener, i, attachments.get(i));
+            setAttachmentClickListener(mediaPreviews[i], listener, i, attachments.get(i), true);
 
             if (n <= 2) {
                 mediaPreviews[0].getLayoutParams().height = getMediaPreviewHeight(context) * 2;
@@ -504,18 +504,18 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
                 ThemeUtils.setDrawableTint(context, drawable, android.R.attr.textColorTertiary);
                 mediaLabel.setCompoundDrawablesWithIntrinsicBounds(drawable, null, null, null);
 
-                setAttachmentClickListeners(mediaLabel, listener, i, attachment);
+                setAttachmentClickListener(mediaLabel, listener, i, attachment, false);
             } else {
                 mediaLabel.setVisibility(View.GONE);
             }
         }
     }
 
-    private void setAttachmentClickListeners(View view, StatusActionListener listener,
-                                             int index, Attachment attachment) {
+    private void setAttachmentClickListener(View view, StatusActionListener listener,
+                                            int index, Attachment attachment, boolean animateTransition) {
         view.setOnClickListener(v -> {
             if (getAdapterPosition() != RecyclerView.NO_POSITION) {
-                listener.onViewMedia(getAdapterPosition(), index, null);
+                listener.onViewMedia(getAdapterPosition(), index, animateTransition ? v : null);
             }
         });
         view.setOnLongClickListener(v -> {
