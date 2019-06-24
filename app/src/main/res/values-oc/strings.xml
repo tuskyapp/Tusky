@@ -446,4 +446,13 @@
     <string name="report_description_1">Lo senhalament serà enviat a vòstre moderator de servidor. Podètz fornir una explicacion de perque senhalatz lo compte çai-jos :</string>
     <string name="report_description_remote_instance">Aqueste compte es en un autre servidor. Enviar una còpia anonimizada del senhalament \?</string>
 
+<string name="title_domain_mutes">Domenis resconduts</string>
+    <string name="action_view_domain_mutes">Domenis resconduts</string>
+    <string name="action_mute_domain">Rescondre %s</string>
+    <string name="confirmation_domain_unmuted">%s es pas mai rescondut</string>
+
+    <string name="mute_domain_warning">Volètz vertadièrament blocar complètament %s \? Veiretz pas mai de contengut venent d’aqueste domeni, nimai los flux d’actualitat o las notificacion. Vòstres seguidors d’aqueste domeni seràn tirats.</string>
+    <string name="mute_domain_warning_dialog_ok">Rescondre tot lo domeni</string>
+
+    <string name="pref_title_show_notifications_filter">Mostrar lo filtre de las notificacions</string>
 </resources>

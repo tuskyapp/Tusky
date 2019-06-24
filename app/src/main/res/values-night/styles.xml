@@ -65,8 +65,7 @@
         <item name="material_drawer_header_selection_text">@color/text_color_primary_dark</item>
         <item name="material_drawer_header_selection_subtext">@color/text_color_secondary_dark</item>
 
-        <item name="card_background">@drawable/card_frame_dark</item>
-        <item name="card_image_background">@color/text_color_tertiary_dark</item>
+        <item name="card_background_color">@color/color_primary_dark</item>
 
         <item name="play_indicator_drawable">@drawable/ic_play_indicator_dark</item>
 

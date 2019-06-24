@@ -323,6 +323,8 @@
     <string name="filter_edit_dialog_title">Edit filter</string>
     <string name="filter_dialog_remove_button">Remove</string>
     <string name="filter_dialog_update_button">Update</string>
+    <string name="filter_dialog_whole_word">Whole word</string>
+    <string name="filter_dialog_whole_word_description">When the keyword or phrase is alphanumeric only, it will only be applied if it matches the whole word</string>
     <string name="filter_add_description">Phrase to filter</string>
 
     <string name="add_account_name">Add Account</string>

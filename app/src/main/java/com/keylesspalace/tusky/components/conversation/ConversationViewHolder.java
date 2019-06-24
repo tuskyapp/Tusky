@@ -24,16 +24,18 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.bumptech.glide.Glide;
 import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.adapter.StatusBaseViewHolder;
 import com.keylesspalace.tusky.entity.Attachment;
 import com.keylesspalace.tusky.interfaces.StatusActionListener;
 import com.keylesspalace.tusky.util.ImageLoadingHelper;
 import com.keylesspalace.tusky.util.SmartLengthInputFilter;
+import com.keylesspalace.tusky.viewdata.PollViewDataKt;
 
 import java.util.List;
-
-import androidx.recyclerview.widget.RecyclerView;
 
 public class ConversationViewHolder extends StatusBaseViewHolder {
     private static final InputFilter[] COLLAPSE_INPUT_FILTER = new InputFilter[]{SmartLengthInputFilter.INSTANCE};
@@ -87,9 +89,11 @@ public class ConversationViewHolder extends StatusBaseViewHolder {
                 hideSensitiveMediaWarning();
             }
             // Hide the unused label.
-            mediaLabel.setVisibility(View.GONE);
+            for (TextView mediaLabel : mediaLabels) {
+                mediaLabel.setVisibility(View.GONE);
+            }
         } else {
-            setMediaLabel(attachments, sensitive, listener);
+            setMediaLabel(attachments, sensitive, listener, status.getShowingHiddenContent());
             // Hide all unused views.
             mediaPreviews[0].setVisibility(View.GONE);
             mediaPreviews[1].setVisibility(View.GONE);
@@ -106,7 +110,7 @@ public class ConversationViewHolder extends StatusBaseViewHolder {
 
         setAvatars(conversation.getAccounts());
 
-        setupPoll(status.getPoll(), status.getEmojis(), listener);
+        setupPoll(PollViewDataKt.toViewData(status.getPoll()), status.getEmojis(), listener);
 
     }
 

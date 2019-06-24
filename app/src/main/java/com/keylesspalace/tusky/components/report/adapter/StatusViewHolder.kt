@@ -27,6 +27,7 @@ import com.keylesspalace.tusky.interfaces.LinkListener
 import com.keylesspalace.tusky.util.*
 import com.keylesspalace.tusky.util.StatusViewHelper.Companion.COLLAPSE_INPUT_FILTER
 import com.keylesspalace.tusky.util.StatusViewHelper.Companion.NO_INPUT_FILTER
+import com.keylesspalace.tusky.viewdata.toViewData
 import kotlinx.android.synthetic.main.item_report_status.view.*
 import java.util.*
 
@@ -72,7 +73,7 @@ class StatusViewHolder(itemView: View,
                 viewState.isMediaShow(status.id, status.sensitive),
                 mediaViewHeight)
 
-        statusViewHelper.setupPollReadonly(status.poll, status.emojis, useAbsoluteTime)
+        statusViewHelper.setupPollReadonly(status.poll.toViewData(), status.emojis, useAbsoluteTime)
         setCreatedAt(status.createdAt)
     }
 

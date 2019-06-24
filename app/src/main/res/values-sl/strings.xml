@@ -490,4 +490,13 @@
     <string name="report_description_1">Poročilo bo poslano moderatorju strežnika. Spodaj lahko navedete, zakaj prijavljate ta račun:</string>
     <string name="report_description_remote_instance">Račun je iz drugega strežnika. Pošljem anonimno kopijo poročila tudi na drugi strežnik\?</string>
 
+<string name="title_domain_mutes">Skrite domene</string>
+    <string name="action_view_domain_mutes">Skrite domene</string>
+    <string name="action_mute_domain">Utišaj %s</string>
+    <string name="confirmation_domain_unmuted">Domena %s odrita</string>
+
+    <string name="mute_domain_warning">Ali ste prepričani, da želite blokirati vse iz domene %s\? Vsebine iz te domene ne boste videli v nobeni javni časovnici ali v obvestilih. Vaši sledilci iz te domene bodo odstranjeni.</string>
+    <string name="mute_domain_warning_dialog_ok">Skrij celotno domeno</string>
+
+    <string name="pref_title_show_notifications_filter">Pokaži filtre obvestil</string>
 </resources>

@@ -82,8 +82,8 @@ class FiltersActivity: BaseActivity() {
         }
     }
 
-    private fun createFilter(phrase: String) {
-        api.createFilter(phrase, listOf(context), false, true, "").enqueue(object: Callback<Filter> {
+    private fun createFilter(phrase: String, wholeWord: Boolean) {
+        api.createFilter(phrase, listOf(context), false, wholeWord, "").enqueue(object: Callback<Filter> {
             override fun onResponse(call: Call<Filter>, response: Response<Filter>) {
                 filters.add(response.body()!!)
                 refreshFilterDisplay()
@@ -101,11 +101,12 @@ class FiltersActivity: BaseActivity() {
                 .setTitle(R.string.filter_addition_dialog_title)
                 .setView(R.layout.dialog_filter)
                 .setPositiveButton(android.R.string.ok){ _, _ ->
-                    createFilter(dialog.phraseEditText.text.toString())
+                    createFilter(dialog.phraseEditText.text.toString(), dialog.phraseWholeWord.isChecked)
                 }
                 .setNeutralButton(android.R.string.cancel, null)
                 .create()
         dialog.show()
+        dialog.phraseWholeWord.isChecked = true
     }
 
     private fun setupEditDialogForItem(itemIndex: Int) {
@@ -115,7 +116,7 @@ class FiltersActivity: BaseActivity() {
                 .setPositiveButton(R.string.filter_dialog_update_button) { _, _ ->
                     val oldFilter = filters[itemIndex]
                     val newFilter = Filter(oldFilter.id, dialog.phraseEditText.text.toString(), oldFilter.context,
-                            oldFilter.expiresAt, oldFilter.irreversible, oldFilter.wholeWord)
+                            oldFilter.expiresAt, oldFilter.irreversible, dialog.phraseWholeWord.isChecked)
                     updateFilter(newFilter, itemIndex)
                 }
                 .setNegativeButton(R.string.filter_dialog_remove_button) { _, _ ->
@@ -126,7 +127,9 @@ class FiltersActivity: BaseActivity() {
         dialog.show()
 
         // Need to show the dialog before referencing any elements from its view
-        dialog.phraseEditText.setText(filters[itemIndex].phrase)
+        val filter = filters[itemIndex]
+        dialog.phraseEditText.setText(filter.phrase)
+        dialog.phraseWholeWord.isChecked = filter.wholeWord
     }
 
     private fun refreshFilterDisplay() {

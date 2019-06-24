@@ -421,7 +421,7 @@ public final class ViewThreadFragment extends SFragment implements
         Iterator<Status> iterator = statuses.iterator();
         while (iterator.hasNext()) {
             Status s = iterator.next();
-            if (s.getAccount().getId().equals(accountId)) {
+            if (s.getAccount().getId().equals(accountId) || s.getActionableStatus().getAccount().getId().equals(accountId)) {
                 iterator.remove();
             }
         }

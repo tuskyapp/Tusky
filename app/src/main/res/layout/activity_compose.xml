@@ -21,6 +21,32 @@
             android:padding="8dp"
             tools:ignore="ContentDescription" />
         <!--content description will be set in code -->
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/atButton"
+            style="?attr/image_button_style"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="end"
+            android:padding="8dp"
+            android:text="@string/at_symbol"
+            android:textStyle="bold"
+            android:textColor="?android:textColorTertiary"
+            android:textSize="?attr/status_text_large"
+            />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/hashButton"
+            style="?attr/image_button_style"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="end"
+            android:padding="8dp"
+            android:text="@string/hash_symbol"
+            android:textStyle="bold"
+            android:textColor="?android:textColorTertiary"
+            android:textSize="?attr/status_text_large"
+            />
     </androidx.appcompat.widget.Toolbar>
 
     <androidx.core.widget.NestedScrollView
