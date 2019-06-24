@@ -449,4 +449,6 @@
     <string name="report_description_remote_instance">Het account is van een andere server. Wil je ook een geanonimiseerde kopie van de rapportage daarnaartoe sturen\?</string>
 
     <string name="pref_title_show_notifications_filter">Meldingenfilter tonen</string>
-</resources>
+<string name="filter_dialog_whole_word">Heel woord</string>
+    <string name="filter_dialog_whole_word_description">Wanneer het trefwoord of zinsdeel alfanumeriek is, wordt het alleen gefilterd wanneer het hele woord overeenkomt</string>
+    </resources>
