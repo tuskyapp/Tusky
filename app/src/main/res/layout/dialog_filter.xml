@@ -15,4 +15,23 @@
         android:hint="@string/filter_add_description"
         app:layout_constraintTop_toTopOf="parent"
         />
+    <CheckBox
+        android:id="@+id/phraseWholeWord"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingEnd="24dp"
+        android:paddingStart="24dp"
+        android:text="@string/filter_dialog_whole_word"
+        app:layout_constraintTop_toBottomOf="@id/phraseEditText"
+        app:layout_constraintLeft_toLeftOf="parent"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingEnd="8dp"
+        android:paddingStart="8dp"
+        app:layout_constraintTop_toBottomOf="@id/phraseWholeWord"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:text="@string/filter_dialog_whole_word_description"
+        />
 </androidx.constraintlayout.widget.ConstraintLayout>
