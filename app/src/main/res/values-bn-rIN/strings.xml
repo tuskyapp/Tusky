@@ -417,7 +417,7 @@
     <string name="description_visiblity_unlisted">অতালিকাভুক্ত</string>
     <string name="description_visiblity_private">অনুগামিবৃন্দ</string>
     <string name="description_visiblity_direct">সরাসরি</string>
-    <string name="description_poll">পছন্দগুলি সহ নর্বাচন: %s, %s, %s, %s; %s</string>
+    <string name="description_poll">পছন্দগুলি সহ নর্বাচন: %1$s, %2$s, %3$s, %4$s; %5$s</string>
 
     <string name="hint_list_name">নামের তালিকা</string>
 

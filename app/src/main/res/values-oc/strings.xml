@@ -433,7 +433,7 @@
     <string name="pref_title_animate_gif_avatars">Activar l’animacion dels avatars</string>
 
     <string name="caption_notoemoji">Jòc d’emoji actuals de Google</string>
-    <string name="description_poll">Sondatge amb opcion : %s, %s, %s, %s; %s</string>
+    <string name="description_poll">Sondatge amb opcion : %1$s, %2$s, %3$s, %4$s; %5$s</string>
 
     <string name="button_continue">Contunhar</string>
     <string name="button_back">Tornar</string>

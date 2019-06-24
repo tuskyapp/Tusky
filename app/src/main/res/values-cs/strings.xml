@@ -431,7 +431,7 @@
 
 <string name="pref_title_animate_gif_avatars">Animovat avatary GIF</string>
 
-    <string name="description_poll">Anketa s volbami: %s, %s, %s, %s; %s</string>
+    <string name="description_poll">Anketa s volbami: %1$s, %2$s, %3$s, %4$s; %5$s</string>
 
     <string name="title_domain_mutes">Skryté domény</string>
     <string name="action_view_domain_mutes">Skryté domény</string>

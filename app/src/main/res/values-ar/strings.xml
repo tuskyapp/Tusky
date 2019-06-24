@@ -438,7 +438,6 @@
 <string name="compose_preview_image_description">إجراءات على الصورة %s</string>
 
     <string name="caption_notoemoji">حزمة الإيموجي الحالية لـ غوغل</string>
-    <string name="description_poll">استطلاع رأي بالخيارات: %s, %s, %s, %s; %s</string>
 
     <string name="title_domain_mutes">النطاقات المخفية</string>
     <string name="action_view_domain_mutes">النطاقات المخفية</string>
