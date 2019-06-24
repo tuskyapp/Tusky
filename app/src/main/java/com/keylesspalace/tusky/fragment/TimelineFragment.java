@@ -284,6 +284,7 @@ public class TimelineFragment extends SFragment implements
                     }
 
                     this.updateCurrent();
+                    this.loadAbove();
                 });
     }
 
@@ -292,7 +293,7 @@ public class TimelineFragment extends SFragment implements
         if (this.statuses.isEmpty()) {
             topId = null;
         } else {
-            topId = CollectionsKt.first(statuses, Either::isRight).asRight().getId();
+            topId = CollectionsKt.first(this.statuses, Either::isRight).asRight().getId();
         }
         this.timelineRepo.getStatuses(topId, null, null, LOAD_AT_ONCE,
                 TimelineRequestMode.NETWORK)
@@ -305,22 +306,32 @@ public class TimelineFragment extends SFragment implements
                             if (!statuses.isEmpty()) {
                                 filterStatuses(statuses);
 
-                                // Working around a bug when Mastodon API doesn't return the first
-                                // status because of string "id < maxId". Hacking with ID doesn't
-                                // help.
-                                if (!this.statuses.isEmpty()) {
-                                    Either<Placeholder, Status> firstOld = this.statuses.get(0);
-                                    this.statuses.clear();
-                                    this.statuses.add(firstOld);
-                                } else {
-                                    this.statuses.clear();
+
+                                if (!this.statuses.isEmpty() && topId != null) {
+                                    // clear old cached statuses
+                                    Iterator<Either<Placeholder, Status>> iterator = statuses.iterator();
+                                    while (iterator.hasNext()) {
+                                        Either<Placeholder, Status> item = iterator.next();
+                                        if(item.isRight()) {
+                                            Status status = item.asRight();
+                                            if (status.getId().length() < topId.length() || status.getId().compareTo(topId) <= 0) {
+                                                iterator.remove();
+                                            }
+                                        } else {
+                                            Placeholder placeholder = item.asLeft();
+                                            if (placeholder.getId().length() < topId.length() || placeholder.getId().compareTo(topId) <= 0) {
+                                                iterator.remove();
+                                            }
+                                        }
+
+                                    }
                                 }
+
                                 this.statuses.addAll(statuses);
                                 this.updateAdapter();
                             }
                             this.bottomLoading = false;
-                            // Get more statuses so that users know that something is there
-                            this.loadAbove();
+
                         },
                         (e) -> {
                             this.initialUpdateFailed = true;
@@ -557,9 +568,10 @@ public class TimelineFragment extends SFragment implements
         isNeedRefresh = false;
         if (this.initialUpdateFailed) {
             updateCurrent();
-        } else {
-            this.loadAbove();
         }
+
+        this.loadAbove();
+
     }
 
     private void loadAbove() {
@@ -1171,7 +1183,7 @@ public class TimelineFragment extends SFragment implements
 
     private void removeConsecutivePlaceholders() {
         for (int i = 0; i < statuses.size() - 1; i++) {
-            if (!statuses.get(i).isRight() && !statuses.get(i + 1).isRight()) {
+            if (statuses.get(i).isLeft() && statuses.get(i + 1).isLeft()) {
                 statuses.remove(i);
             }
         }
@@ -1201,13 +1213,13 @@ public class TimelineFragment extends SFragment implements
      * For certain requests we don't want to see placeholders, they will be removed some other way
      */
     private void clearPlaceholdersForResponse(List<Either<Placeholder, Status>> statuses) {
-        CollectionsKt.removeAll(statuses, s -> !s.isRight());
+        CollectionsKt.removeAll(statuses, Either::isLeft);
     }
 
     private void replacePlaceholderWithStatuses(List<Either<Placeholder, Status>> newStatuses,
                                                 boolean fullFetch, int pos) {
         Either<Placeholder, Status> placeholder = statuses.get(pos);
-        if (!placeholder.isRight()) {
+        if (placeholder.isLeft()) {
             statuses.remove(pos);
         }
 
