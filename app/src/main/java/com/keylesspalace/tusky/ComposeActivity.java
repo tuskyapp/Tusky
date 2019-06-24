@@ -54,6 +54,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.webkit.MimeTypeMap;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -212,6 +213,8 @@ public final class ComposeActivity
     private ImageButton contentWarningButton;
     private ImageButton emojiButton;
     private ImageButton hideMediaToggle;
+    private Button atButton;
+    private Button hashButton;
 
     private ComposeOptionsView composeOptionsView;
     private BottomSheetBehavior composeOptionsBehavior;
@@ -267,6 +270,8 @@ public final class ComposeActivity
         hideMediaToggle = findViewById(R.id.composeHideMediaButton);
         emojiView = findViewById(R.id.emojiView);
         emojiList = Collections.emptyList();
+        atButton = findViewById(R.id.atButton);
+        hashButton = findViewById(R.id.hashButton);
 
         saveTootHelper = new SaveTootHelper(database.tootDao(), this);
 
@@ -371,6 +376,8 @@ public final class ComposeActivity
         contentWarningButton.setOnClickListener(v -> onContentWarningChanged());
         emojiButton.setOnClickListener(v -> showEmojis());
         hideMediaToggle.setOnClickListener(v -> toggleHideMedia());
+        atButton.setOnClickListener(v -> atButtonClicked());
+        hashButton.setOnClickListener(v -> hashButtonClicked());
 
         TextView actionPhotoTake = findViewById(R.id.action_photo_take);
         TextView actionPhotoPick = findViewById(R.id.action_photo_pick);
@@ -691,6 +698,24 @@ public final class ComposeActivity
         }
 
         textEditor.requestFocus();
+    }
+
+    private void replaceTextAtCaret(CharSequence text) {
+        // If you select "backward" in an editable, you get SelectionStart > SelectionEnd
+        int start = Math.min(textEditor.getSelectionStart(), textEditor.getSelectionEnd());
+        int end = Math.max(textEditor.getSelectionStart(), textEditor.getSelectionEnd());
+        textEditor.getText().replace(start, end, text);
+
+        // Set the cursor after the inserted text
+        textEditor.setSelection(start + text.length());
+    }
+
+    private void atButtonClicked() {
+        replaceTextAtCaret("@");
+    }
+
+    private void hashButtonClicked() {
+        replaceTextAtCaret("#");
     }
 
     @Override
@@ -1785,7 +1810,7 @@ public final class ComposeActivity
 
     @Override
     public void onEmojiSelected(@NotNull String shortcode) {
-        textEditor.getText().insert(textEditor.getSelectionStart(), ":" + shortcode + ": ");
+        replaceTextAtCaret(":" + shortcode + ": ");
     }
 
     private void loadCachedInstanceMetadata(@NotNull AccountEntity activeAccount) {
