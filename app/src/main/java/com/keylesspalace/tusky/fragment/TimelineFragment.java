@@ -20,7 +20,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -76,8 +75,6 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import javax.inject.Inject;
 
@@ -164,8 +161,6 @@ public class TimelineFragment extends SFragment implements
     private EndlessOnScrollListener scrollListener;
     private boolean filterRemoveReplies;
     private boolean filterRemoveReblogs;
-    private boolean filterRemoveRegex;
-    private Matcher filterRemoveRegexMatcher;
     private boolean hideFab;
     private boolean bottomLoading;
 
@@ -341,25 +336,6 @@ public class TimelineFragment extends SFragment implements
                         });
     }
 
-    private void reloadFilters(boolean refresh) {
-        mastodonApi.getFilters().enqueue(new Callback<List<Filter>>() {
-            @Override
-            public void onResponse(@NonNull Call<List<Filter>> call, @NonNull Response<List<Filter>> response) {
-                List<Filter> filterList = response.body();
-                if (response.isSuccessful() && filterList != null) {
-                    applyFilters(filterList, refresh);
-                } else {
-                    Log.e(TAG, "Error getting filters from server");
-                }
-            }
-
-            @Override
-            public void onFailure(@NonNull Call<List<Filter>> call, @NonNull Throwable t) {
-                Log.e(TAG, "Error getting filters from server", t);
-            }
-        });
-    }
-
     private void setupTimelinePreferences() {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
         alwaysShowSensitiveMedia = accountManager.getActiveAccount().getAlwaysShowSensitiveMedia();
@@ -396,25 +372,14 @@ public class TimelineFragment extends SFragment implements
         }
     }
 
-    private static String filterToRegexToken(Filter filter) {
-        String phrase = Pattern.quote(filter.getPhrase());
-        return filter.getWholeWord() ? String.format("(^|\\W)%s($|\\W)", phrase) : phrase;
+    @Override
+    protected boolean filterIsRelevant(Filter filter) {
+        return filterContextMatchesKind(kind, filter.getContext());
     }
 
-    private void applyFilters(List<Filter> filters, boolean refresh) {
-        List<String> tokens = new ArrayList<>();
-        for (Filter filter : filters) {
-            if (filterContextMatchesKind(kind, filter.getContext())) {
-                tokens.add(filterToRegexToken(filter));
-            }
-        }
-        filterRemoveRegex = !tokens.isEmpty();
-        if (filterRemoveRegex) {
-            filterRemoveRegexMatcher = Pattern.compile(TextUtils.join("|", tokens), Pattern.CASE_INSENSITIVE).matcher("");
-        }
-        if (refresh) {
-            fullyRefresh();
-        }
+    @Override
+    protected void refreshAfterApplyingFilters() {
+        fullyRefresh();
     }
 
     private void setupSwipeRefreshLayout() {
@@ -1142,8 +1107,7 @@ public class TimelineFragment extends SFragment implements
             if (status != null
                     && ((status.getInReplyToId() != null && filterRemoveReplies)
                     || (status.getReblog() != null && filterRemoveReblogs)
-                    || (filterRemoveRegex && (filterRemoveRegexMatcher.reset(status.getActionableStatus().getContent()).find()
-                    || (!status.getSpoilerText().isEmpty() && filterRemoveRegexMatcher.reset(status.getActionableStatus().getSpoilerText()).find()))))) {
+                    || shouldFilterStatus(status))) {
                 it.remove();
             }
         }

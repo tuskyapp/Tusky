@@ -40,6 +40,7 @@ import com.keylesspalace.tusky.appstore.ReblogEvent;
 import com.keylesspalace.tusky.appstore.StatusComposedEvent;
 import com.keylesspalace.tusky.appstore.StatusDeletedEvent;
 import com.keylesspalace.tusky.di.Injectable;
+import com.keylesspalace.tusky.entity.Filter;
 import com.keylesspalace.tusky.entity.Poll;
 import com.keylesspalace.tusky.entity.Status;
 import com.keylesspalace.tusky.entity.StatusContext;
@@ -53,6 +54,7 @@ import com.keylesspalace.tusky.util.ViewDataUtils;
 import com.keylesspalace.tusky.view.ConversationLineItemDecoration;
 import com.keylesspalace.tusky.viewdata.StatusViewData;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
@@ -156,6 +158,7 @@ public final class ViewThreadFragment extends SFragment implements
         adapter.setAnimateAvatar(animateAvatars);
         boolean showBotIndicator = preferences.getBoolean("showBotOverlay", true);
         adapter.setShowBotOverlay(showBotIndicator);
+        reloadFilters(false);
 
         recyclerView.setAdapter(adapter);
 
@@ -511,7 +514,7 @@ public final class ViewThreadFragment extends SFragment implements
         return i;
     }
 
-    private void setContext(List<Status> ancestors, List<Status> descendants) {
+    private void setContext(List<Status> unfilteredAncestors, List<Status> unfilteredDescendants) {
         Status mainStatus = null;
 
         // In case of refresh, remove old ancestors and descendants first. We'll remove all blindly,
@@ -522,6 +525,11 @@ public final class ViewThreadFragment extends SFragment implements
             statuses.clear();
             adapter.clearItems();
         }
+
+        ArrayList<Status> ancestors = new ArrayList<>();
+        for (Status status : unfilteredAncestors)
+            if (!shouldFilterStatus(status))
+                ancestors.add(status);
 
         // Insert newly fetched ancestors
         statusIndex = ancestors.size();
@@ -541,11 +549,17 @@ public final class ViewThreadFragment extends SFragment implements
         if (mainStatus != null) {
             // In case we needed to delete everything (which is way easier than deleting
             // everything except one), re-insert the remaining status here.
+            // Not filtering the main status, since the user explicitly chose to be here
             statuses.add(statusIndex, mainStatus);
             StatusViewData.Concrete viewData = statuses.getPairedItem(statusIndex);
 
             adapter.addItem(statusIndex, viewData);
         }
+
+        ArrayList<Status> descendants = new ArrayList<>();
+        for (Status status : unfilteredDescendants)
+            if (!shouldFilterStatus(status))
+                descendants.add(status);
 
         // Insert newly fetched descendants
         statuses.addAll(descendants);
@@ -670,5 +684,15 @@ public final class ViewThreadFragment extends SFragment implements
         }
         activity.setRevealButtonState(allExpanded() ? ViewThreadActivity.REVEAL_BUTTON_HIDE :
                 ViewThreadActivity.REVEAL_BUTTON_REVEAL);
+    }
+
+    @Override
+    protected boolean filterIsRelevant(Filter filter) {
+        return filter.getContext().contains(Filter.THREAD);
+    }
+
+    @Override
+    protected void refreshAfterApplyingFilters() {
+        onRefresh();
     }
 }
