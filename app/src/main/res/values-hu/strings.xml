@@ -1,105 +1,105 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
     <string name="error_generic">Hiba történt.</string>
-    <string name="error_network">Hálózati hiba történt! Kérjük, ellenőrizze a kapcsolatot, és próbálja meg újra!</string>
+    <string name="error_network">Hálózati hiba történt! Kérjük, ellenőrizd a kapcsolatot, és próbáld meg újra!</string>
     <string name="error_empty">Ez nem lehet üres.</string>
-    <string name="error_invalid_domain">Helytelen domén</string>
-    <string name="error_failed_app_registration">Sikertelen bejelentkezés ezen a példányon.</string>
+    <string name="error_invalid_domain">Helytelen domain</string>
+    <string name="error_failed_app_registration">Sikertelen bejelentkezés ezen a szerveren.</string>
     <string name="error_no_web_browser_found">Nem található használható böngésző.</string>
     <string name="error_authorization_unknown">Azonosítatlan engedélyezési hiba történt.</string>
     <string name="error_authorization_denied">Engedély megtagadva.</string>
     <string name="error_retrieving_oauth_token">Bejelentkezési token megszerzése sikertelen.</string>
     <string name="error_compose_character_limit">Túl hosszú a tülkölés!</string>
     <string name="error_image_upload_size">A fájlnak kisebbnek kell lennie, mint 8MB.</string>
-    <string name="error_video_upload_size">A video fájlnak kisebbnek kell lennie, mint 40MB.</string>
+    <string name="error_video_upload_size">A videó fájlnak kisebbnek kell lennie, mint 40MB.</string>
     <string name="error_media_upload_type">Ilyen típusú fájlt nem lehet feltölteni.</string>
     <string name="error_media_upload_opening">Fájl megnyitása sikertelen.</string>
     <string name="error_media_upload_permission">Média olvasási engedély szükséges.</string>
     <string name="error_media_download_permission">Média tárolási engedély szükséges.</string>
     <string name="error_media_upload_image_or_video">Képek és videók egyszerre nem csatolhatók ugyanazon tülköléshez.</string>
     <string name="error_media_upload_sending">Feltöltés sikertelen.</string>
-    <string name="error_report_too_few_statuses">Legalább egy tülkölésnek jelentve kell lennie.</string>
-    <string name="error_sender_account_gone">A tülk elküldése nem sikerult.</string>
+    <string name="error_report_too_few_statuses">Legalább egy tülkölést jelenti kell.</string>
+    <string name="error_sender_account_gone">Nem sikerült elküldeni a tülköt.</string>
     <string name="title_home">Kezdőlap</string>
     <string name="title_notifications">Értesítések</string>
     <string name="title_public_local">Helyi</string>
-    <string name="title_public_federated">Egyesített</string>
+    <string name="title_public_federated">Föderációs</string>
     <string name="title_direct_messages">Közvetlen üzenetek</string>
     <string name="title_tab_preferences">Fülek</string>
     <string name="title_view_thread">Tülk</string>
     <string name="title_tag">#%s</string>
-    <string name="title_statuses">Posztok</string>
+    <string name="title_statuses">Tülkölés</string>
     <string name="title_statuses_with_replies">Válaszokkal</string>
     <string name="title_statuses_pinned">Rögzített</string>
-    <string name="title_follows">Követ</string>
-    <string name="title_followers">Követők</string>
+    <string name="title_follows">Követett</string>
+    <string name="title_followers">Követő</string>
     <string name="title_favourites">Kedvencek</string>
     <string name="title_mutes">Némított felhasználók</string>
-    <string name="title_blocks">Blokkolt felhasználók</string>
+    <string name="title_blocks">Letiltott felhasználók</string>
     <string name="title_follow_requests">Követési kérelmek</string>
     <string name="title_edit_profile">Profilod szerkesztése</string>
     <string name="title_saved_toot">Piszkozatok</string>
     <string name="title_licenses">Licencek</string>
     <string name="status_username_format">\@%s</string>
-    <string name="status_boosted_format">%s reblogolta</string>
-    <string name="status_sensitive_media_title">Kényes tartalom</string>
-    <string name="status_media_hidden_title">Média elrejtve</string>
+    <string name="status_boosted_format">%s megtolta</string>
+    <string name="status_sensitive_media_title">Szenzitív tartalom</string>
+    <string name="status_media_hidden_title">Rejtett média</string>
     <string name="status_sensitive_media_directions">Kattints a megnézéshez</string>
     <string name="status_content_warning_show_more">Mutass többet</string>
     <string name="status_content_warning_show_less">Mutass kevesebbet</string>
-    <string name="status_content_show_more">Kibont</string>
-    <string name="status_content_show_less">Összecsuk</string>
+    <string name="status_content_show_more">Kibontás</string>
+    <string name="status_content_show_less">Összecsukás</string>
     <string name="message_empty">Nincs itt semmi.</string>
     <string name="footer_empty">Üres tartalom. Húzd le a frissítéshez!</string>
-    <string name="notification_reblog_format">%s rebloggolta tülkölésed</string>
-    <string name="notification_favourite_format">%s kedvencnek jelölte tülkölésed</string>
-    <string name="notification_follow_format">%s követett</string>
-    <string name="report_username_format">\@%s jelentése</string>
+    <string name="notification_reblog_format">%s megolta a tülködet</string>
+    <string name="notification_favourite_format">%s kedvencnek jelölte tülködet</string>
+    <string name="notification_follow_format">%s követ</string>
+    <string name="report_username_format">\@%s bejelentése</string>
     <string name="report_comment_hint">Egyéb megjegyzés?</string>
     <string name="action_quick_reply">Gyors válasz</string>
     <string name="action_reply">Válasz</string>
-    <string name="action_reblog">Rebloggol</string>
+    <string name="action_reblog">Megtolás</string>
     <string name="action_favourite">Kedvenc</string>
     <string name="action_more">Több</string>
-    <string name="action_compose">Szerkeszt</string>
+    <string name="action_compose">Szerkesztés</string>
     <string name="action_login">Bejelentkezés Mastodonnal</string>
     <string name="action_logout">Kijelentkezés</string>
     <string name="action_logout_confirm">Biztosan ki szeretnél jelentkezni a következőből: %1$s?</string>
-    <string name="action_follow">Követ</string>
-    <string name="action_unfollow">Követőktől eltávolít</string>
-    <string name="action_block">Blokkol</string>
-    <string name="action_unblock">Tiltás feloldása</string>
-    <string name="action_hide_reblogs">Reblogok elrejtése</string>
-    <string name="action_show_reblogs">Reblogok megjelenítése</string>
-    <string name="action_report">Jelent</string>
-    <string name="action_delete">Töröl</string>
+    <string name="action_follow">Követés</string>
+    <string name="action_unfollow">Követés vége</string>
+    <string name="action_block">Letiltás</string>
+    <string name="action_unblock">Letiltás feloldása</string>
+    <string name="action_hide_reblogs">Megtolások elrejtése</string>
+    <string name="action_show_reblogs">Megtolások mutatása</string>
+    <string name="action_report">Bejelentés</string>
+    <string name="action_delete">Törlés</string>
     <string name="action_send">TÜLK</string>
     <string name="action_send_public">TÜLK!</string>
-    <string name="action_retry">Próbálja újra</string>
-    <string name="action_close">Bezár</string>
+    <string name="action_retry">Próbáld újra</string>
+    <string name="action_close">Bezárás</string>
     <string name="action_view_profile">Profil</string>
     <string name="action_view_preferences">Beállítások</string>
     <string name="action_view_account_preferences">Fiókbeállítások</string>
     <string name="action_view_favourites">Kedvencek</string>
     <string name="action_view_mutes">Némított felhasználók</string>
-    <string name="action_view_blocks">Blokkolt felhasználók</string>
+    <string name="action_view_blocks">Letiltott felhasználók</string>
     <string name="action_view_follow_requests">Követési kérelmek</string>
     <string name="action_view_media">Média</string>
     <string name="action_open_in_web">Megnyitás böngészőben</string>
-    <string name="action_add_media">Média hozzácsatolása</string>
+    <string name="action_add_media">Média csatolása</string>
     <string name="action_photo_take">Kép készítése</string>
-    <string name="action_share">Megoszt</string>
-    <string name="action_mute">Némít</string>
+    <string name="action_share">Megosztás</string>
+    <string name="action_mute">Némítás</string>
     <string name="action_unmute">Némítás feloldása</string>
     <string name="action_mention">Megemlítés</string>
     <string name="action_hide_media">Média elrejtése</string>
     <string name="action_open_drawer">Drawer megnyitása</string>
     <string name="action_save">Mentés</string>
     <string name="action_edit_profile">Profil szerkesztése</string>
-    <string name="action_edit_own_profile">Szerkeszt</string>
-    <string name="action_undo">Visszavon</string>
-    <string name="action_accept">Elfogad</string>
-    <string name="action_reject">Elutasít</string>
+    <string name="action_edit_own_profile">Szerkesztés</string>
+    <string name="action_undo">Visszavonás</string>
+    <string name="action_accept">Elfogadás</string>
+    <string name="action_reject">Elutasítás</string>
     <string name="action_search">Keresés</string>
     <string name="action_access_saved_toot">Piszkozatok</string>
     <string name="action_toggle_visibility">Tülkök láthatósága</string>
@@ -108,9 +108,9 @@
     <string name="action_add_tab">Fül hozzáadása</string>
     <string name="action_links">Linkek</string>
     <string name="action_mentions">Említések</string>
-    <string name="action_hashtags">Címkék</string>
+    <string name="action_hashtags">Hashtagek</string>
     <string name="action_open_faved_by">Kedvencek megjelenítése</string>
-    <string name="title_hashtags_dialog">Címkék</string>
+    <string name="title_hashtags_dialog">Hashtagek</string>
     <string name="title_mentions_dialog">Említések</string>
     <string name="title_links_dialog">Linkek</string>
     <string name="download_image">%1$s letöltése</string>
@@ -120,78 +120,76 @@
     <string name="send_status_link_to">Tülk URL megosztása…</string>
     <string name="send_status_content_to">Tülk megosztása…</string>
     <string name="confirmation_reported">Elküldve!</string>
-    <string name="confirmation_unblocked">Felhasználó deblokkolva</string>
-    <string name="confirmation_unmuted">Felhasználó kinémítva</string>
+    <string name="confirmation_unblocked">Felhasználó letiltása feloldva</string>
+    <string name="confirmation_unmuted">Felhasználó némítása feloldva</string>
     <string name="status_sent">Elküldve!</string>
     <string name="status_sent_long">Válasz sikeresen elküldve.</string>
-    <string name="hint_domain">Mely példány?</string>
-    <string name="hint_compose">Mire gondolsz?</string>
-    <string name="hint_content_warning">Tartalom Figyelmeztető</string>
+    <string name="hint_domain">Mely szerver\?</string>
+    <string name="hint_compose">Mi jár a fejedben\?</string>
+    <string name="hint_content_warning">Tartalom figyelmeztetés</string>
     <string name="hint_display_name">Megjelenítési név</string>
-    <string name="hint_note">Önéletrajz</string>
+    <string name="hint_note">Bemutatkozás</string>
     <string name="hint_search">Keresés…</string>
     <string name="search_no_results">Nincs találat</string>
     <string name="label_quick_reply">Válasz…</string>
-    <string name="label_avatar">Avatár</string>
+    <string name="label_avatar">Profilkép</string>
     <string name="label_header">Fejléc</string>
-    <string name="link_whats_an_instance">Mi egy példány?</string>
+    <string name="link_whats_an_instance">Mi az a szerver\?</string>
     <string name="login_connection">Csatlakozás…</string>
-    <string name="dialog_whats_an_instance">Bármely példány címe vagy tartománya beírható ide,
-        mint mastodon.social, icosahedron.website, social.tchncs.de, és
-        <a href="https://instances.social">mások!</a>
-        \n\nHa még nincs fiókja, beírhatja a címét azon példánynak amelyhez csatlakozna
-        és hozzon létre egy fiókot.\n\nA példány azon hely ahol a fiókja van tárolva,
-        de könnyen kommunikálhat más példányokon tartozkodő személyekkel mintha ugyanazon
-        az oldalon lennének.
-        \n\nTöbb információt találhat: <a href="https://joinmastodon.org">joinmastodon.org</a>.
-    </string>
+    <string name="dialog_whats_an_instance">Bármely szerver címét beírhatod ide, mint mastodon.social, icosahedron.website, social.tchncs.de, és <a href="https://instances.social">mások!</a> 
+\n
+\nHa még nincs fiókod, beírhatod a címét ide annak a szervernek amelyhez csatlakoznál, majd azon létrehozhatsz egy fiókot.
+\n
+\nA szerver az a hely ahol a fiókadataidat tárolják, de ettől még ugyanúgy kommunikálhatsz más szervereken lévő emberekkel, mintha ugyanazon az oldalon lennétek. 
+\n
+\nTöbb információt találhatsz itt: <a href="https://joinmastodon.org">joinmastodon.org</a>. </string>
     <string name="dialog_title_finishing_media_upload">Média feltöltés befejezése</string>
     <string name="dialog_message_uploading_media">Feltöltés…</string>
     <string name="dialog_download_image">Letöltés</string>
     <string name="dialog_message_cancel_follow_request">Visszavonod a követési kérelmet?</string>
     <string name="dialog_unfollow_warning">Követés megszüntetése?</string>
     <string name="dialog_delete_toot_warning">Törlöd ezt a tülköt?</string>
-    <string name="visibility_public">Nyilvános: Nyilvános idővonalra való posztolás</string>
+    <string name="visibility_public">Nyilvános: Tülkölés nyilvános idővonalra</string>
     <string name="visibility_unlisted">Listázatlan: Nem jelenik meg a nyilvános idővonalon</string>
-    <string name="visibility_private">Csak követőknek: Posztolás csak követőknek</string>
-    <string name="visibility_direct">Közvetlen: Posztolás csak az említett felhasználóknak</string>
-    <string name="pref_title_edit_notification_settings">Értesítések szerkesztése</string>
+    <string name="visibility_private">Csak követőknek: Tülkölés csak követőknek</string>
+    <string name="visibility_direct">Közvetlen: Tülkölés csak a megemlített felhasználóknak</string>
+    <string name="pref_title_edit_notification_settings">Értesítések</string>
     <string name="pref_title_notifications_enabled">Értesítések</string>
     <string name="pref_title_notification_alerts">Figyelmeztetések</string>
     <string name="pref_title_notification_alert_sound">Értesítés hanggal</string>
     <string name="pref_title_notification_alert_vibrate">Értesítés rezgéssel</string>
     <string name="pref_title_notification_alert_light">Értesítés fénnyel</string>
-    <string name="pref_title_notification_filters">Mikor értesítsen</string>
-    <string name="pref_title_notification_filter_mentions">említett</string>
-    <string name="pref_title_notification_filter_follows">követett</string>
-    <string name="pref_title_notification_filter_reblogs">posztjaimat rebloggolták</string>
-    <string name="pref_title_notification_filter_favourites">posztjaimat kedvenccé teszik</string>
-    <string name="pref_title_appearance_settings">Kinézet</string>
+    <string name="pref_title_notification_filters">Értesítsen, ha</string>
+    <string name="pref_title_notification_filter_mentions">említettek</string>
+    <string name="pref_title_notification_filter_follows">bekövettek</string>
+    <string name="pref_title_notification_filter_reblogs">tülkömet megtolták</string>
+    <string name="pref_title_notification_filter_favourites">tülkömet kedvenccé tették</string>
+    <string name="pref_title_appearance_settings">Megjelenés</string>
     <string name="pref_title_timelines">Idővonalak</string>
     <string name="app_them_dark">Sötét</string>
     <string name="app_theme_light">Világos</string>
     <string name="app_theme_black">Fekete</string>
     <string name="app_theme_auto">Automatikus naplementekor</string>
     <string name="pref_title_browser_settings">Böngésző</string>
-    <string name="pref_title_custom_tabs">Linkek megnyitása applikáción belül</string>
-    <string name="pref_title_hide_follow_button">Szerkesztési gomb elérejtése görgetés közben</string>
+    <string name="pref_title_custom_tabs">Link megnyitása appon belül</string>
+    <string name="pref_title_hide_follow_button">Szerkesztés elrejtése görgetés közben</string>
     <string name="pref_title_status_filter">Idővonal szűrése</string>
     <string name="pref_title_status_tabs">Fülek</string>
-    <string name="pref_title_show_boosts">Rebloggolások mutatása</string>
+    <string name="pref_title_show_boosts">Megtolások mutatása</string>
     <string name="pref_title_show_replies">Válaszok mutatása</string>
-    <string name="pref_title_show_media_preview">Média előnézet mutatása</string>
+    <string name="pref_title_show_media_preview">Média előnézet letöltése</string>
     <string name="pref_title_proxy_settings">Proxy</string>
     <string name="pref_title_http_proxy_settings">HTTP proxy</string>
     <string name="pref_title_http_proxy_enable">HTTP proxy engedélyezése</string>
-    <string name="pref_title_http_proxy_server">HTTP Proxy szerver</string>
-    <string name="pref_title_http_proxy_port">HTTP Proxy port</string>
-    <string name="pref_default_post_privacy">Alapértelmezett poszt láthatóság</string>
-    <string name="pref_default_media_sensitivity">Minden médiát jelölj meg érzékenynek</string>
+    <string name="pref_title_http_proxy_server">HTTP proxy szerver</string>
+    <string name="pref_title_http_proxy_port">HTTP proxy port</string>
+    <string name="pref_default_post_privacy">Tülkök alapértelmezett láthatósága</string>
+    <string name="pref_default_media_sensitivity">Minden média szenzitívnek jelölése</string>
     <string name="pref_failed_to_sync">A beállítások szinkronizálása nem sikerült</string>
     <string name="post_privacy_public">Nyilvános</string>
-    <string name="post_privacy_unlisted">Unlisted</string>
+    <string name="post_privacy_unlisted">Listázatlan</string>
     <string name="post_privacy_followers_only">Csak követőknek</string>
-    <string name="pref_status_text_size">Státusz szöveg mérete</string>
+    <string name="pref_status_text_size">Tülkölés szövegmérete</string>
     <string name="status_text_size_smallest">Legkisebb</string>
     <string name="status_text_size_small">Kicsi</string>
     <string name="status_text_size_medium">Közepes</string>
@@ -201,11 +199,11 @@
     <string name="notification_mention_descriptions">Értesítések új említések esetén</string>
     <string name="notification_follow_name">Új követők</string>
     <string name="notification_follow_description">Értesítések az új követők esetén</string>
-    <string name="notification_boost_name">Rebloggok</string>
-    <string name="notification_boost_description">Értesítések posztjaid rebloggolása esetén</string>
+    <string name="notification_boost_name">Megtolások</string>
+    <string name="notification_boost_description">Értesítések tülkjeid megtolása esetén</string>
     <string name="notification_favourite_name">Kedvencek</string>
-    <string name="notification_favourite_description">Értesítések mikor Tülköléseid kedvencnek jelölik</string>
-    <string name="notification_mention_format">%s megemített téged</string>
+    <string name="notification_favourite_description">Értesítések mikor tülkjeidet kedvencnek jelölik</string>
+    <string name="notification_mention_format">%s megemlített téged</string>
     <string name="notification_summary_large">%1$s, %2$s, %3$s és még %4$d</string>
     <string name="notification_summary_medium">%1$s, %2$s meg %3$s</string>
     <string name="notification_summary_small">%1$s és %2$s</string>
@@ -222,11 +220,10 @@
     <string name="about_project_site">        Projekt honlapja:\n
         https://tusky.app
     </string>
-    <string name="about_bug_feature_request_site">        Hibajeletés &amp; funkcionalitási kérések:\n
-        https://github.com/tuskyapp/Tusky/issues
-    </string>
-    <string name="about_tusky_account">Tusky Profilja</string>
-    <string name="status_share_content">Tülk! tartalmának megosztása</string>
+    <string name="about_bug_feature_request_site">Hibajelentés &amp; új funkciók igénylése:
+\n https://github.com/tuskyapp/Tusky/issues</string>
+    <string name="about_tusky_account">Tusky profilja</string>
+    <string name="status_share_content">Tülk tartalmának megosztása</string>
     <string name="status_share_link">Tülk linkjének megosztása</string>
     <string name="status_media_images">Képek</string>
     <string name="status_media_video">Videók</string>
@@ -234,7 +231,7 @@
     <string name="no_content">nincs tartalom</string>
     <!--These are for timestamps on statuses. For example: "16s" or "2d"-->
     <string name="follows_you">Követ téged</string>
-    <string name="pref_title_alway_show_sensitive_media">Mindig mutassa a NSFW tartalmat</string>
+    <string name="pref_title_alway_show_sensitive_media">Mindig mutassa a szenzitív tartalmat</string>
     <string name="title_media">Média</string>
     <string name="load_more_placeholder_text">több betöltése</string>
     <string name="add_account_name">Fiók hozzáadása</string>
@@ -245,19 +242,19 @@
     <string name="lock_account_label">Fiók lezárása</string>
     <string name="compose_save_draft">Elmented a vázlatot?</string>
     <string name="send_toot_notification_title">Tülk elküldése…</string>
-    <string name="send_toot_notification_error_title">A tülk elküldése nem sikerult</string>
+    <string name="send_toot_notification_error_title">A tülk elküldése nem sikerült</string>
     <string name="send_toot_notification_channel_name">Tülkök elküldése</string>
     <string name="send_toot_notification_cancel_title">Küldés megszakítva</string>
     <string name="send_toot_notification_saved_content">A tülk másolatát elmentettük a vázlataid közé</string>
     <string name="action_compose_shortcut">Szerkeszt</string>
-    <string name="error_no_custom_emojis">A %s instanciádnak nincsenek egyedi emoji-jai</string>
+    <string name="error_no_custom_emojis">A %s szervernek nincsenek egyedi emoji-jai</string>
     <string name="copy_to_clipboard_success">Vágólapra másolva</string>
     <string name="emoji_style">Emoji stílus</string>
     <string name="system_default">Rendszer alapértelmezett</string>
     <string name="download_fonts">Először le kell töltened ezeket az emoji készleteket</string>
     <string name="performing_lookup_title">Keresés…</string>
     <string name="action_open_toot">Tülk megnyitása</string>
-    <string name="restart_required">Újraindítás szükséges</string>
+    <string name="restart_required">Az app újraindítása szükséges</string>
     <string name="restart_emoji">A beállítások érvényesítéséhez újra kell indítani a Tusky-t</string>
     <string name="later">Később</string>
     <string name="restart">Újraindítás</string>
@@ -265,7 +262,7 @@
     <string name="caption_blobmoji">Az Android 4.4-7.1 Blob emoji-jai</string>
     <string name="caption_twemoji">Mastodon alap emoji készlet</string>
     <string name="download_failed">Letöltés sikertelen</string>
-    <string name="profile_badge_bot_text">Robot</string>
+    <string name="profile_badge_bot_text">Bot</string>
     <string name="account_moved_description">%1$s elköltözött:</string>
     <string name="license_description">A Tusky a következő nyílt forráskódú projektekből tartalmaz programkódot és más elemeket:</string>
     <string name="license_cc_by_4">CC-BY 4.0</string>
@@ -276,16 +273,16 @@
     <string name="profile_metadata_content_label">Tartalom</string>
     <string name="pref_title_absolute_time">Abszolút idő használata</string>
     <string name="label_remote_account">Az alábbi felhasználói profil adatok lehet, hogy hiányosak. Kattints ide a teljes profil böngészőben való megnyitásához.</string>
-    <string name="title_reblogged_by">Reblogolta</string>
+    <string name="title_reblogged_by">Megtolta</string>
     <string name="title_favourited_by">Kedvencnek jelölte</string>
     <string name="conversation_2_recipients">%1$s és %2$s</string>
-    <string name="max_tab_number_reached">fülek maximális száma (%1$d) elérve</string>
+    <string name="max_tab_number_reached">elérted a fülek maximális számát (%1$d)</string>
     <string name="description_status_media_no_description_placeholder">        Nincs leírás
     </string>
     <string name="description_visiblity_public">Nyilvános    </string>
     <string name="description_visiblity_private">Követők    </string>
 <string name="action_unfavourite">Kedvenc eltávolítása</string>
-    <string name="action_delete_and_redraft">Törlés és új piszkozat</string>
+    <string name="action_delete_and_redraft">Törlés és újrafogalmazás</string>
     <string name="action_open_media_n">Média megnyitása: #%d</string>
 
     <string name="download_media">Média letöltése</string>
@@ -293,12 +290,12 @@
 
     <string name="send_media_to">Média megosztása következővel:</string>
 
-    <string name="dialog_redraft_toot_warning">Törlöd és újraírod ezt a tootot\?</string>
+    <string name="dialog_redraft_toot_warning">Törlöd és újraírod ezt a tülköt\?</string>
 
     <string name="pref_title_notification_filter_poll">befejeződött a szavazás</string>
     <string name="pref_title_timeline_filters">Szűrők</string>
 
-    <string name="app_theme_system">Alapértelmezett téma használata</string>
+    <string name="app_theme_system">Rendszer téma használata</string>
 
     <string name="pref_title_language">Nyelv</string>
     <string name="pref_publishing">Közzététel (szerverrel szinkronizált)</string>
@@ -307,7 +304,7 @@
     <string name="notification_poll_description">Értesítés a befejezett szavazásokról</string>
 
 
-    <string name="about_tusky_license">Tusky ingyenes és nyílt forráskódú szoftver. A GNU General Public License Version 3 érvényes rá, amit itt tekinthets meg: https://www.gnu.org/licenses/gpl-3.0.en.html</string>
+    <string name="about_tusky_license">Tusky ingyenes és nyílt forráskódú szoftver. A GNU General Public License Version 3 érvényes rá, amit itt tekinthetsz meg: https://www.gnu.org/licenses/gpl-3.0.en.html</string>
     <string name="abbreviated_in_years">%dé múlva</string>
     <string name="abbreviated_in_days">%nn múlva</string>
     <string name="abbreviated_in_hours">%dó múlva</string>
@@ -316,7 +313,7 @@
     <string name="abbreviated_days_ago">%dn</string>
     <string name="abbreviated_hours_ago">%dó</string>
     <string name="abbreviated_minutes_ago">%dp</string>
-    <string name="abbreviated_seconds_ago">%dm</string>
+    <string name="abbreviated_seconds_ago">%dmp</string>
 
 
     <string name="replying_to">Válasz @%s részére</string>
@@ -335,4 +332,78 @@
     <string name="action_rename_list">Lista átnevezése</string>
     <string name="action_delete_list">Lista törlése</string>
     <string name="action_edit_list">Lista szerkesztése</string>
+    <string name="title_domain_mutes">Rejtett domainek</string>
+    <string name="action_unreblog">Megtolás visszavonása</string>
+    <string name="action_view_domain_mutes">Rejtett domainek</string>
+    <string name="action_mute_domain">%s némítása</string>
+    <string name="action_open_reblogger">Megtolás szerkesztő megnyitása</string>
+    <string name="action_open_reblogged_by">Megtolások mutatása</string>
+    <string name="confirmation_domain_unmuted">%s elrejtése feloldva</string>
+
+    <string name="mute_domain_warning">Biztos, hogy az egész %s domaint le akarod tiltani\? Egyetlen nyilvános idővonalon sem fogsz látni semmilyen tartalmat vagy értesítést innen. Az ebből a domainből származó követőidet el fogjuk távolítani.</string>
+    <string name="mute_domain_warning_dialog_ok">Teljes domain elrejtése</string>
+
+    <string name="pref_title_app_theme">App téma</string>
+    <string name="pref_title_bot_overlay">Bot jelölő mutatása</string>
+    <string name="pref_title_animate_gif_avatars">GIF profilképek animálása</string>
+
+    <string name="abbreviated_in_seconds">%dmp múlva</string>
+    <string name="filter_dialog_whole_word">Teljes szó</string>
+    <string name="filter_dialog_whole_word_description">Ha a kulcsszó csak alfanumerikus karakterekből áll, csak teljes szóra fog illeszkedni</string>
+    <string name="title_list_timeline">Lista idővonal</string>
+    <string name="hint_search_people_list">Általad követettek keresése</string>
+    <string name="action_add_to_list">Fiók hozzáadása a listához</string>
+    <string name="action_remove_from_list">Fiók eltávolítása a listából</string>
+
+    <string name="compose_active_account_description">Tülkölés %1$s fiókkal</string>
+
+    <string name="error_failed_set_caption">Cím beállítása nem sikerült</string>
+    <string name="hint_describe_for_visually_impaired">Leírás látássérülteknek
+\n(%d karakter korlát)</string>
+    <string name="action_set_caption">Cím beállítása</string>
+    <string name="lock_account_label_description">Minden követődet külön engedélyezned kell</string>
+    <string name="expand_collapse_all_statuses">Minden tülk kibontása/összecsukása</string>
+    <string name="caption_notoemoji">Google jelenlegi emoji készlete</string>
+    <string name="reblog_private">Megtolás az eredeti közönségnek</string>
+    <string name="unreblog_private">Megtolás törlése</string>
+
+    <string name="license_apache_2">Apache licensz alatt</string>
+    <string name="unpin_action">Kitűzés eltávolítása</string>
+    <string name="pin_action">Kitűzés</string>
+
+    <plurals name="favs">
+	<item quantity="one"><b>%1$s</b> Kedvenc</item>
+	<item quantity="other"><b>%1$s</b> Kedvenc</item>
+</plurals>
+
+    <plurals name="reblogs">
+	<item quantity="one"><b>%s</b> Megtolás</item>
+	<item quantity="other"><b>%s</b> Megtolás</item>
+</plurals>
+
+    <string name="conversation_1_recipients">%1$s</string>
+    <string name="conversation_more_recipients">%1$s, %2$s és még %3$d</string>
+    <string name="description_status_media">Média: %s</string>
+    <string name="description_status_cw">Tartalom figyelmeztetés: %s</string>
+    <string name="description_status_reblogged">Megtolt</string>
+    <string name="description_status_favourited">Kedvelt</string>
+    <string name="description_visiblity_unlisted">Listázatlan</string>
+    <string name="description_visiblity_direct">Közvetlen</string>
+    <string name="description_poll">Szavazás válaszokkal: %1$s, %2$s, %3$s, %4$s; %5$s</string>
+
+    <string name="hint_list_name">Lista neve</string>
+
+    <string name="edit_hashtag_title">Hashtag szerkesztése</string>
+    <string name="edit_hashtag_hint">Hashtag # nélkül</string>
+    <string name="hashtag">Hashtag</string>
+    <string name="notifications_clear">Törlés</string>
+    <string name="notifications_apply_filter">Szűrés</string>
+    <string name="filter_apply">Alkalmaz</string>
+
+    <string name="compose_shortcut_long_label">Tülk Szerkesztése</string>
+    <string name="compose_shortcut_short_label">Szerkesztés</string>
+
+    <string name="notification_clear_text">Biztos, hogy minden értesítésedet véglegesen törlöd\?</string>
+    <string name="compose_preview_image_description">Műveletek a %s képpel</string>
+
     </resources>
