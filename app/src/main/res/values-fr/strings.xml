@@ -450,4 +450,5 @@
     <string name="report_description_remote_instance">Le compte provient d’un autre serveur. Envoyez également une copie anonyme du rapport \?</string>
 
     <string name="pref_title_show_notifications_filter">Montrer le filtre des notifications</string>
-</resources>
+<string name="filter_dialog_whole_word">Mot entier</string>
+    </resources>
