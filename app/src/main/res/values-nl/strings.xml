@@ -416,7 +416,7 @@
 
     <string name="caption_notoemoji">Google\'s huidige emojiset</string>
     <string name="mute_domain_warning">Weet je zeker dat je alles van %s wilt blokkeren\? Je zult op alle openbare tijdlijnen en in jouw meldingen geen inhoud van dat domein zien. Jouw volgers van dat domein worden verwijderd.</string>
-    <string name="description_poll">Poll met keuzes: %s, %s, %s, %s; %s</string>
+    <string name="description_poll">Poll met keuzes: %1$s, %2$s, %3$s, %4$s; %5$s</string>
 
     <string name="compose_preview_image_description">Acties voor afbeelding %s</string>
 
