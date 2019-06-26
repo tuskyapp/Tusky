@@ -52,10 +52,10 @@ class SearchHashtagsAdapter(private val linkListener: LinkListener)
 
         val STATUS_COMPARATOR = object : DiffUtil.ItemCallback<HashTag>() {
             override fun areContentsTheSame(oldItem: HashTag, newItem: HashTag): Boolean =
-                    oldItem.url == newItem.url
+                    oldItem.name == newItem.name
 
             override fun areItemsTheSame(oldItem: HashTag, newItem: HashTag): Boolean =
-                    oldItem.url == newItem.url
+                    oldItem.name == newItem.name
         }
 
     }

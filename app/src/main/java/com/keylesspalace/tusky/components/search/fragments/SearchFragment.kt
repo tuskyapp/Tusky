@@ -18,7 +18,6 @@ import com.keylesspalace.tusky.ViewTagActivity
 import com.keylesspalace.tusky.components.search.SearchViewModel
 import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.fragment.SFragment
-import com.keylesspalace.tusky.interfaces.AnchorActivity
 import com.keylesspalace.tusky.interfaces.LinkListener
 import com.keylesspalace.tusky.util.NetworkState
 import com.keylesspalace.tusky.util.Status
@@ -62,9 +61,10 @@ abstract class SearchFragment<T> : SFragment(), LinkListener {
         })
 
         networkStateRefresh.observe(viewLifecycleOwner, Observer {
-            if (it == NetworkState.LOADING)
+            if (it == NetworkState.LOADING) {
+                refreshAdapter()
                 searchProgressBar.show()
-            else
+            } else
                 searchProgressBar.hide()
 
             if (it.status == Status.FAILED)
@@ -105,9 +105,9 @@ abstract class SearchFragment<T> : SFragment(), LinkListener {
 
     private fun showError(@Suppress("UNUSED_PARAMETER") msg: String?) {
         if (snackbarErrorRetry?.isShown != true) {
-            snackbarErrorRetry = Snackbar.make((activity as? AnchorActivity)?.getAnchor()
-                    ?: layoutRoot, R.string.failed_search, Snackbar.LENGTH_INDEFINITE)
+            snackbarErrorRetry = Snackbar.make(layoutRoot, R.string.failed_search, Snackbar.LENGTH_INDEFINITE)
             snackbarErrorRetry?.setAction(R.string.action_retry) {
+                snackbarErrorRetry = null
                 viewModel.retryStatusSearch()
             }
             snackbarErrorRetry?.show()
@@ -126,6 +126,8 @@ abstract class SearchFragment<T> : SFragment(), LinkListener {
     override fun onViewAccount(id: String) = startActivity(AccountActivity.getIntent(requireContext(), id))
 
     override fun onViewTag(tag: String) = startActivity(ViewTagActivity.getIntent(requireContext(), tag))
+
+    protected fun refreshAdapter() {}
 
 
 }

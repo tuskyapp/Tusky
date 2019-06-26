@@ -1,28 +1,29 @@
 package com.keylesspalace.tusky.components.search
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations
-import androidx.lifecycle.ViewModel
+import android.util.Log
+import androidx.lifecycle.*
 import androidx.paging.PagedList
 import com.keylesspalace.tusky.components.search.adapter.SearchRepository
 import com.keylesspalace.tusky.entity.Account
 import com.keylesspalace.tusky.entity.HashTag
+import com.keylesspalace.tusky.entity.Poll
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.network.MastodonApi
+import com.keylesspalace.tusky.network.TimelineCases
 import com.keylesspalace.tusky.util.Listing
 import com.keylesspalace.tusky.util.NetworkState
 import com.keylesspalace.tusky.util.ViewDataUtils
 import com.keylesspalace.tusky.viewdata.StatusViewData
+import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import javax.inject.Inject
 
-class SearchViewModel @Inject constructor(private val mastodonApi: MastodonApi) : ViewModel() {
+class SearchViewModel @Inject constructor(mastodonApi: MastodonApi, private val timelineCases: TimelineCases) : ViewModel() {
     private val disposables = CompositeDisposable()
 
     private val statusesRepository = SearchRepository<Pair<Status, StatusViewData.Concrete>>(mastodonApi)
     private val accountsRepository = SearchRepository<Account>(mastodonApi)
-    private val hastagsRepository = SearchRepository<HashTag>(mastodonApi)
+    private val hashtagsRepository = SearchRepository<HashTag>(mastodonApi)
     var alwaysShowSensitiveMedia: Boolean = false
 
     private val repoResultStatus = MutableLiveData<Listing<Pair<Status, StatusViewData.Concrete>>>()
@@ -40,16 +41,20 @@ class SearchViewModel @Inject constructor(private val mastodonApi: MastodonApi) 
     val networkStateHashTag: LiveData<NetworkState> = Transformations.switchMap(repoResultHashTag) { it.networkState }
     val networkStateHashTagRefresh: LiveData<NetworkState> = Transformations.switchMap(repoResultHashTag) { it.refreshState }
 
-
+    private val loadedStatuses = ArrayList<Pair<Status, StatusViewData.Concrete>>()
     fun search(query: String?) {
-        repoResultStatus.value = statusesRepository.getSearchData(SearchType.Status, query, disposables) {
-            it?.statuses?.map { status -> Pair(status, ViewDataUtils.statusToViewData(status, alwaysShowSensitiveMedia)!!) }
-                    ?: emptyList()
+        loadedStatuses.clear()
+        repoResultStatus.value = statusesRepository.getSearchData(SearchType.Status, query, disposables, initialItems = loadedStatuses) {
+            (it?.statuses?.map { status -> Pair(status, ViewDataUtils.statusToViewData(status, alwaysShowSensitiveMedia)!!) }
+                    ?: emptyList())
+                    .apply {
+                        loadedStatuses.addAll(this)
+                    }
         }
         repoResultAccount.value = accountsRepository.getSearchData(SearchType.Account, query, disposables) {
             it?.accounts ?: emptyList()
         }
-        repoResultHashTag.value = hastagsRepository.getSearchData(SearchType.Hashtag, query, disposables) {
+        repoResultHashTag.value = hashtagsRepository.getSearchData(SearchType.Hashtag, query, disposables) {
             it?.hashtags ?: emptyList()
         }
 
@@ -62,5 +67,103 @@ class SearchViewModel @Inject constructor(private val mastodonApi: MastodonApi) 
 
     fun retryStatusSearch() {
         repoResultStatus.value?.retry?.invoke()
+    }
+
+    fun removeItem(status: Pair<Status, StatusViewData.Concrete>) {
+        timelineCases.delete(status.first.id)
+        if (loadedStatuses.remove(status))
+            repoResultStatus.value?.refresh?.invoke()
+    }
+
+    fun expandedChange(status: Pair<Status, StatusViewData.Concrete>, expanded: Boolean) {
+        val idx = loadedStatuses.indexOf(status)
+        if (idx >= 0) {
+            val newPair = Pair(status.first, StatusViewData.Builder(status.second).setIsExpanded(expanded).createStatusViewData())
+            loadedStatuses[idx] = newPair
+            repoResultStatus.value?.refresh?.invoke()
+        }
+    }
+
+    fun reblog(status: Pair<Status, StatusViewData.Concrete>, reblog: Boolean) {
+        disposables.add(timelineCases.reblog(status.first, reblog)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        { setRebloggedForStatus(status, reblog) },
+                        { err -> Log.d(TAG, "Failed to reblog status ${status.first.id}", err) }
+                )
+        )
+    }
+
+    private fun setRebloggedForStatus(status: Pair<Status, StatusViewData.Concrete>, reblog: Boolean) {
+        status.first.reblogged = reblog
+        status.first.reblog?.reblogged = reblog
+
+        val idx = loadedStatuses.indexOf(status)
+        if (idx >= 0) {
+            val newPair = Pair(status.first, StatusViewData.Builder(status.second).setReblogged(reblog).createStatusViewData())
+            loadedStatuses[idx] = newPair
+            repoResultStatus.value?.refresh?.invoke()
+        }
+    }
+
+    fun contentHiddenChange(status: Pair<Status, StatusViewData.Concrete>, isShowing: Boolean) {
+        val idx = loadedStatuses.indexOf(status)
+        if (idx >= 0) {
+            val newPair = Pair(status.first, StatusViewData.Builder(status.second).setIsShowingSensitiveContent(isShowing).createStatusViewData())
+            loadedStatuses[idx] = newPair
+            repoResultStatus.value?.refresh?.invoke()
+        }
+    }
+
+    fun collapsedChange(status: Pair<Status, StatusViewData.Concrete>, collapsed: Boolean) {
+        val idx = loadedStatuses.indexOf(status)
+        if (idx >= 0) {
+            val newPair = Pair(status.first, StatusViewData.Builder(status.second).setCollapsed(collapsed).createStatusViewData())
+            loadedStatuses[idx] = newPair
+            repoResultStatus.value?.refresh?.invoke()
+        }
+    }
+
+    fun voteInPoll(status: Pair<Status, StatusViewData.Concrete>, choices: MutableList<Int>) {
+        val votedPoll = status.first.actionableStatus.poll!!.votedCopy(choices)
+        updateStatus(status, votedPoll)
+        disposables.add(timelineCases.voteInPoll(status.first, choices)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        { newPoll -> updateStatus(status, newPoll) },
+                        { t ->
+                            Log.d(TAG,
+                                    "Failed to vote in poll: ${status.first.id}", t)
+                        }
+                ))
+    }
+
+    private fun updateStatus(status: Pair<Status, StatusViewData.Concrete>, newPoll: Poll) {
+        val idx = loadedStatuses.indexOf(status)
+        if (idx >= 0) {
+
+            val newViewData = StatusViewData.Builder(status.second)
+                    .setPoll(newPoll)
+                    .createStatusViewData()
+            loadedStatuses[idx] = Pair(status.first, newViewData)
+            repoResultStatus.value?.refresh?.invoke()
+        }
+    }
+
+    fun favorite(status: Pair<Status, StatusViewData.Concrete>, isFavorited: Boolean) {
+        val idx = loadedStatuses.indexOf(status)
+        if (idx >= 0) {
+            val newPair = Pair(status.first, StatusViewData.Builder(status.second).setFavourited(isFavorited).createStatusViewData())
+            loadedStatuses[idx] = newPair
+            repoResultStatus.value?.refresh?.invoke()
+        }
+        disposables.add(timelineCases.favourite(status.first, isFavorited)
+                .onErrorReturnItem(status.first)
+                .subscribe())
+    }
+
+
+    companion object {
+        private const val TAG = "SearchViewModel"
     }
 }

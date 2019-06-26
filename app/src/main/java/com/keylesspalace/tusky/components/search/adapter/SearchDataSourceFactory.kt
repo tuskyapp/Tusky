@@ -29,10 +29,11 @@ class SearchDataSourceFactory<T>(
         private val searchRequest: String?,
         private val disposables: CompositeDisposable,
         private val retryExecutor: Executor,
+        private val cacheData: List<T>? = null,
         private val parser: (SearchResults2?) -> List<T>) : DataSource.Factory<Int, T>() {
     val sourceLiveData = MutableLiveData<SearchDataSource<T>>()
     override fun create(): DataSource<Int, T> {
-        val source = SearchDataSource(mastodonApi, searchType, searchRequest, disposables, retryExecutor, parser)
+        val source = SearchDataSource(mastodonApi, searchType, searchRequest, disposables, retryExecutor, cacheData, parser)
         sourceLiveData.postValue(source)
         return source
     }

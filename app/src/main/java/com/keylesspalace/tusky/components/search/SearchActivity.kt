@@ -28,14 +28,13 @@ import com.keylesspalace.tusky.BottomSheetActivity
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.components.search.adapter.SearchPagerAdapter
 import com.keylesspalace.tusky.di.ViewModelFactory
-import com.keylesspalace.tusky.interfaces.AnchorActivity
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
 import kotlinx.android.synthetic.main.activity_search.*
 import javax.inject.Inject
 
-class SearchActivity : BottomSheetActivity(), SearchView.OnQueryTextListener, HasAndroidInjector, AnchorActivity {
+class SearchActivity : BottomSheetActivity(), SearchView.OnQueryTextListener, HasAndroidInjector {
     @Inject
     lateinit var androidInjector: DispatchingAndroidInjector<Any>
 
@@ -121,9 +120,6 @@ class SearchActivity : BottomSheetActivity(), SearchView.OnQueryTextListener, Ha
 
         searchView.maxWidth = Integer.MAX_VALUE
     }
-
-    override fun getAnchor(): View? = toolbar
-
 
     override fun androidInjector(): AndroidInjector<Any>? {
         return androidInjector

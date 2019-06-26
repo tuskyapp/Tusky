@@ -31,6 +31,7 @@ class SearchDataSource<T>(
         private val searchRequest: String?,
         private val disposables: CompositeDisposable,
         private val retryExecutor: Executor,
+        private val initialItems: List<T>? = null,
         private val parser: (SearchResults2?) -> List<T>) : PositionalDataSource<T>() {
 
     val networkState = MutableLiveData<NetworkState>()
@@ -47,30 +48,33 @@ class SearchDataSource<T>(
         }
     }
 
-
     @SuppressLint("CheckResult")
     override fun loadInitial(params: LoadInitialParams, callback: LoadInitialCallback<T>) {
-        networkState.postValue(NetworkState.LOADED)
-        retry = null
-        initialLoad.postValue(NetworkState.LOADING)
-        mastodonApi.searchObservable(searchType.apiParameter, searchRequest, true, params.requestedLoadSize, 0, false)
-                .doOnSubscribe {
-                    disposables.add(it)
-                }
-                .subscribe(
-                        { data ->
-                            val res = parser(data)
-                            callback.onResult(res, params.requestedStartPosition)
-                            initialLoad.postValue(NetworkState.LOADED)
+        if (!initialItems.isNullOrEmpty()) {
+            callback.onResult(initialItems, 0)
+        } else {
+            networkState.postValue(NetworkState.LOADED)
+            retry = null
+            initialLoad.postValue(NetworkState.LOADING)
+            mastodonApi.searchObservable(searchType.apiParameter, searchRequest, true, params.requestedLoadSize, 0, false)
+                    .doOnSubscribe {
+                        disposables.add(it)
+                    }
+                    .subscribe(
+                            { data ->
+                                val res = parser(data)
+                                callback.onResult(res, params.requestedStartPosition)
+                                initialLoad.postValue(NetworkState.LOADED)
 
-                        },
-                        { error ->
-                            retry = {
-                                loadInitial(params, callback)
+                            },
+                            { error ->
+                                retry = {
+                                    loadInitial(params, callback)
+                                }
+                                initialLoad.postValue(NetworkState.error(error.message))
                             }
-                            initialLoad.postValue(NetworkState.error(error.message))
-                        }
-                )
+                    )
+        }
 
     }
 

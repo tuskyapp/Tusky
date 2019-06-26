@@ -60,7 +60,9 @@ class SearchStatusesFragment : SearchFragment<Pair<Status, StatusViewData.Concre
 
 
     override fun onContentHiddenChange(isShowing: Boolean, position: Int) {
-        //TODO
+        (adapter as? SearchStatusesAdapter)?.getItem(position)?.let {
+            viewModel.contentHiddenChange(it, isShowing)
+        }
     }
 
     override fun onReply(position: Int) {
@@ -70,7 +72,9 @@ class SearchStatusesFragment : SearchFragment<Pair<Status, StatusViewData.Concre
     }
 
     override fun onFavourite(favourite: Boolean, position: Int) {
-        //TODO
+        (adapter as? SearchStatusesAdapter)?.getItem(position)?.let { status ->
+            viewModel.favorite(status, favourite)
+        }
     }
 
     override fun onMore(view: View, position: Int) {
@@ -117,7 +121,9 @@ class SearchStatusesFragment : SearchFragment<Pair<Status, StatusViewData.Concre
     }
 
     override fun onExpandedChange(expanded: Boolean, position: Int) {
-        //TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        (adapter as? SearchStatusesAdapter)?.getItem(position)?.let {
+            viewModel.expandedChange(it, expanded)
+        }
     }
 
     override fun onLoadMore(position: Int) {
@@ -125,19 +131,27 @@ class SearchStatusesFragment : SearchFragment<Pair<Status, StatusViewData.Concre
     }
 
     override fun onContentCollapsedChange(isCollapsed: Boolean, position: Int) {
-        //TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        (adapter as? SearchStatusesAdapter)?.getItem(position)?.let {
+            viewModel.collapsedChange(it, isCollapsed)
+        }
     }
 
     override fun onVoteInPoll(position: Int, choices: MutableList<Int>) {
-        //TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        (adapter as? SearchStatusesAdapter)?.getItem(position)?.let {
+            viewModel.voteInPoll(it, choices)
+        }
     }
 
     override fun removeItem(position: Int) {
-        //TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        (adapter as? SearchStatusesAdapter)?.getItem(position)?.let {
+            viewModel.removeItem(it)
+        }
     }
 
     override fun onReblog(reblog: Boolean, position: Int) {
-        //TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        (adapter as? SearchStatusesAdapter)?.getItem(position)?.let { status ->
+            viewModel.reblog(status, reblog)
+        }
     }
 
     companion object {
