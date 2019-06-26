@@ -497,4 +497,30 @@
     <string name="button_back">Назад</string>
     <string name="button_done">Готово</string>
     <string name="hint_additional_info">Дополнительные комментарии</string>
-    </resources>
+    <string name="title_domain_mutes">Скрытые домены</string>
+    <string name="action_view_domain_mutes">Скрытые домены</string>
+    <string name="action_mute_domain">Заглушить %s</string>
+    <string name="confirmation_domain_unmuted">%s показывается</string>
+
+    <string name="mute_domain_warning">Вы уверены, что хотите заблокировать %s целиком\? Вы перестанете видеть посты с того узла во всех публичных лентах и уведомлениях. Все ваши подписчики с того домена будут удалены.</string>
+    <string name="mute_domain_warning_dialog_ok">Скрыть узел целиком</string>
+
+    <string name="pref_title_notification_filter_poll">завершившиеся опросы</string>
+    <string name="pref_title_animate_gif_avatars">Анимировать GIF-аватары</string>
+
+    <string name="filter_dialog_whole_word">Слово целиком</string>
+    <string name="filter_dialog_whole_word_description">Если слово или фраза состоит только из букв и цифр, будет учитываться полное совпадение</string>
+    <string name="caption_notoemoji">Набор эмодзи от Google</string>
+    <string name="description_poll">Опрос с вариантами: %1$s, %2$s, %3$s, %4$s; %5$s</string>
+
+    <string name="compose_preview_image_description">Действия для изображения %s</string>
+
+    <string name="report_sent_success">Жалоба на @%s отправлена</string>
+    <string name="report_remote_instance">Переслать в %s</string>
+    <string name="failed_report">Не удалось пожаловаться</string>
+    <string name="failed_fetch_statuses">Не удалось загрузить посты</string>
+    <string name="report_description_1">Жалоба будет отправлена модератору вашего узла. Ниже вы можете добавить пояснение о причинах жалобы:</string>
+    <string name="report_description_remote_instance">Этот аккаунт расположен на другом узле. Отправить анонимную копию жалобы туда\?</string>
+
+    <string name="pref_title_show_notifications_filter">Показывать фильтр уведомлений</string>
+</resources>
