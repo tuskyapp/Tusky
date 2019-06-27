@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -13,11 +14,12 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.keylesspalace.tusky.AccountActivity
+import com.keylesspalace.tusky.BottomSheetActivity
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.ViewTagActivity
 import com.keylesspalace.tusky.components.search.SearchViewModel
+import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.di.ViewModelFactory
-import com.keylesspalace.tusky.fragment.SFragment
 import com.keylesspalace.tusky.interfaces.LinkListener
 import com.keylesspalace.tusky.util.NetworkState
 import com.keylesspalace.tusky.util.Status
@@ -26,7 +28,7 @@ import com.keylesspalace.tusky.util.show
 import kotlinx.android.synthetic.main.fragment_search.*
 import javax.inject.Inject
 
-abstract class SearchFragment<T> : SFragment(), LinkListener {
+abstract class SearchFragment<T> : Fragment(), LinkListener, Injectable {
     private var snackbarErrorRetry: Snackbar? = null
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
@@ -62,7 +64,6 @@ abstract class SearchFragment<T> : SFragment(), LinkListener {
 
         networkStateRefresh.observe(viewLifecycleOwner, Observer {
             if (it == NetworkState.LOADING) {
-                refreshAdapter()
                 searchProgressBar.show()
             } else
                 searchProgressBar.hide()
@@ -114,20 +115,14 @@ abstract class SearchFragment<T> : SFragment(), LinkListener {
         }
     }
 
-    override fun removeItem(position: Int) {
-        //Ignore
-    }
-
-    override fun onReblog(reblog: Boolean, position: Int) {
-        //Ignore
-    }
-
-
     override fun onViewAccount(id: String) = startActivity(AccountActivity.getIntent(requireContext(), id))
 
     override fun onViewTag(tag: String) = startActivity(ViewTagActivity.getIntent(requireContext(), tag))
 
-    protected fun refreshAdapter() {}
+    override fun onViewUrl(url: String) {
+        bottomSheetActivity?.viewUrl(url)
+    }
 
+    protected val bottomSheetActivity = (activity as? BottomSheetActivity)
 
 }

@@ -4,6 +4,8 @@ import android.util.Log
 import androidx.lifecycle.*
 import androidx.paging.PagedList
 import com.keylesspalace.tusky.components.search.adapter.SearchRepository
+import com.keylesspalace.tusky.db.AccountEntity
+import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.entity.Account
 import com.keylesspalace.tusky.entity.HashTag
 import com.keylesspalace.tusky.entity.Poll
@@ -18,13 +20,26 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import javax.inject.Inject
 
-class SearchViewModel @Inject constructor(mastodonApi: MastodonApi, private val timelineCases: TimelineCases) : ViewModel() {
+class SearchViewModel @Inject constructor(
+        mastodonApi: MastodonApi,
+        private val timelineCases: TimelineCases,
+        private val accountManager: AccountManager) : ViewModel() {
+
+    var activeAccount: AccountEntity?
+        get() = accountManager.activeAccount
+        set(value) {
+            accountManager.activeAccount = value
+        }
+
+    val mediaPreviewEnabled: Boolean
+        get() = activeAccount?.mediaPreviewEnabled ?: false
     private val disposables = CompositeDisposable()
 
     private val statusesRepository = SearchRepository<Pair<Status, StatusViewData.Concrete>>(mastodonApi)
     private val accountsRepository = SearchRepository<Account>(mastodonApi)
     private val hashtagsRepository = SearchRepository<HashTag>(mastodonApi)
-    var alwaysShowSensitiveMedia: Boolean = false
+    var alwaysShowSensitiveMedia: Boolean = activeAccount?.alwaysShowSensitiveMedia
+            ?: false
 
     private val repoResultStatus = MutableLiveData<Listing<Pair<Status, StatusViewData.Concrete>>>()
     val statuses: LiveData<PagedList<Pair<Status, StatusViewData.Concrete>>> = Transformations.switchMap(repoResultStatus) { it.pagedList }
@@ -160,6 +175,26 @@ class SearchViewModel @Inject constructor(mastodonApi: MastodonApi, private val 
         disposables.add(timelineCases.favourite(status.first, isFavorited)
                 .onErrorReturnItem(status.first)
                 .subscribe())
+    }
+
+    fun getAllAccountsOrderedByActive(): List<AccountEntity> {
+        return accountManager.getAllAccountsOrderedByActive()
+    }
+
+    fun muteAcount(accountId: String) {
+        timelineCases.mute(accountId)
+    }
+
+    fun pinAccount(status: Status, isPin: Boolean) {
+        timelineCases.pin(status, isPin)
+    }
+
+    fun blockAccount(accountId: String) {
+        timelineCases.block(accountId)
+    }
+
+    fun deleteStatus(id: String) {
+        timelineCases.delete(id)
     }
 
 
