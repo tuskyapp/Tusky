@@ -283,7 +283,7 @@
     <string name="copy_to_clipboard_success">In die Zwischenablage kopiert</string>
     <string name="emoji_style">Emoji-Stil</string>
     <string name="system_default">System-Standard</string>
-    <string name="download_fonts">Du musst diese Emoji-Sets zunächst herunterladen.</string>
+    <string name="download_fonts">Du musst diese Emoji-Sets zunächst herunterladen</string>
     <string name="performing_lookup_title">Nachschlagen…</string>
     <string name="expand_collapse_all_statuses">Alle Beiträge aus/einklappen</string>
     <string name="action_open_toot">Beitrag öffnen</string>
@@ -429,4 +429,7 @@
     <string name="abbreviated_in_days">in %dd</string>
     <string name="abbreviated_in_hours">in %dh</string>
     <string name="abbreviated_in_minutes">in %dm</string>
+    <string name="abbreviated_in_seconds">in %ds</string>
+    <string name="abbreviated_days_ago">%dT</string>
+    <string name="abbreviated_minutes_ago">%dM</string>
     </resources>
