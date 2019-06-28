@@ -485,4 +485,6 @@
     <string name="mute_domain_warning_dialog_ok">Skjul hele domenet</string>
 
     <string name="pref_title_show_notifications_filter">Vis varselfilter</string>
-</resources>
+<string name="filter_dialog_whole_word">Hele ordet</string>
+    <string name="filter_dialog_whole_word_description">Når nøkkelordet kun inneholder bokstaver og tall, vil det bare brukes dersom det stemmer overens med hele ordet</string>
+    </resources>

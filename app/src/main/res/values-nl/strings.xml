@@ -415,4 +415,40 @@
     <string name="pref_title_animate_gif_avatars">GIF-avatars animeren</string>
 
     <string name="caption_notoemoji">Google\'s huidige emojiset</string>
+    <string name="mute_domain_warning">Weet je zeker dat je alles van %s wilt blokkeren\? Je zult op alle openbare tijdlijnen en in jouw meldingen geen inhoud van dat domein zien. Jouw volgers van dat domein worden verwijderd.</string>
+    <string name="description_poll">Poll met keuzes: %1$s, %2$s, %3$s, %4$s; %5$s</string>
+
+    <string name="compose_preview_image_description">Acties voor afbeelding %s</string>
+
+    <plurals name="poll_timespan_days">
+	<item quantity="one">%d dag</item>
+	<item quantity="other">%d dagen</item>
+</plurals>
+    <plurals name="poll_timespan_hours">
+	<item quantity="one">%d uur</item>
+	<item quantity="other">%d uur</item>
+</plurals>
+    <plurals name="poll_timespan_minutes">
+	<item quantity="one">%d minuut</item>
+	<item quantity="other">%d minuten</item>
+</plurals>
+    <plurals name="poll_timespan_seconds">
+	<item quantity="one">"%d  seconde"</item>
+	<item quantity="other">%d seconden</item>
+</plurals>
+
+    <string name="button_continue">Doorgaan</string>
+    <string name="button_back">Terug</string>
+    <string name="button_done">Klaar</string>
+    <string name="report_sent_success">Het rapporteren van @%s is geslaagd</string>
+    <string name="hint_additional_info">Extra opmerkingen</string>
+    <string name="report_remote_instance">Verder naar %s</string>
+    <string name="failed_report">Het rapporteren is mislukt</string>
+    <string name="failed_fetch_statuses">Het ophalen van toots is mislukt</string>
+    <string name="report_description_1">Deze rapportage wordt naar jouw servermoderator(en) gestuurd. Je kunt een uitleg geven over waarom je het account hieronder wilt rapporteren:</string>
+    <string name="report_description_remote_instance">Het account is van een andere server. Wil je ook een geanonimiseerde kopie van de rapportage daarnaartoe sturen\?</string>
+
+    <string name="pref_title_show_notifications_filter">Meldingenfilter tonen</string>
+<string name="filter_dialog_whole_word">Heel woord</string>
+    <string name="filter_dialog_whole_word_description">Wanneer het trefwoord of zinsdeel alfanumeriek is, wordt het alleen gefilterd wanneer het hele woord overeenkomt</string>
     </resources>

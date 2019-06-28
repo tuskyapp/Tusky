@@ -156,7 +156,7 @@
     <string name="visibility_public">عمومي : ينشر على الخيوط العمومية</string>
     <string name="visibility_unlisted">غير مدرج : لا يُعرَض على الخيوط العمومية</string>
     <string name="visibility_private">لمتابعيك فقط : يُنشر إلى متابعيك فقط</string>
-    <string name="visibility_direct">مباشر : يُسرسَل إلى المستخدمين المشار إليهم فقط</string>
+    <string name="visibility_direct">مباشر : يُنشر إلى المستخدمين المشار إليهم فقط</string>
     <string name="pref_title_edit_notification_settings">تعديل الاشعارات</string>
     <string name="pref_title_notifications_enabled">الإخطارات</string>
     <string name="pref_title_notification_alerts">التنبيهات</string>
@@ -457,4 +457,7 @@
     <string name="failed_report">فشل الابلاغ</string>
     <string name="failed_fetch_statuses">فشلت عملية جلب المنشورات</string>
     <string name="pref_title_show_notifications_filter">اعرض مصفاة الإشعارات</string>
-</resources>
+<string name="filter_dialog_whole_word">الكلمة كاملة</string>
+    <string name="description_poll">استطلاع رأي بالخيارات: %1$s, %2$s, %3$s, %4$s; %5$s</string>
+
+    </resources>

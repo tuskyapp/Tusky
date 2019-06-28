@@ -455,4 +455,6 @@
     <string name="mute_domain_warning_dialog_ok">Rescondre tot lo domeni</string>
 
     <string name="pref_title_show_notifications_filter">Mostrar lo filtre de las notificacions</string>
-</resources>
+<string name="filter_dialog_whole_word">Mot complèt</string>
+    <string name="filter_dialog_whole_word_description">Quand un mot clau o una frasa es solament alfanumeric, serà pas qu’aplicat se correspond al mot complèt</string>
+    </resources>

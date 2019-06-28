@@ -419,4 +419,31 @@
 
     <string name="poll_option_format"> <!-- 15% vote for this! --> &lt;b&gt;%1$d%%&lt;/b&gt; %2$s</string>
 
-    </resources>
+    <string name="title_domain_mutes">Dominios ocultos</string>
+    <string name="action_view_domain_mutes">Dominios ocultos</string>
+    <string name="action_mute_domain">Silenciar %s</string>
+    <string name="confirmation_domain_unmuted">%s visible</string>
+
+    <string name="mute_domain_warning">¿Estás seguro de que quieres bloquear todo sobre %s\? No verás contenido de ese dominio ni en la cronología ni en tus notificaciones. Tus seguidores de ese dominio serán eliminados.</string>
+    <string name="mute_domain_warning_dialog_ok">Ocultar dominio completo</string>
+
+    <string name="pref_title_animate_gif_avatars">Animar avatares GIF</string>
+
+    <string name="filter_dialog_whole_word">Toda palabra</string>
+    <string name="filter_dialog_whole_word_description">Cuando la palabra o frase sea solo alfanumérica, solo se aplicará si coincide con toda la palabra</string>
+    <string name="caption_notoemoji">Set de emojis actual de Google</string>
+    <string name="description_poll">Encuesta con opciones: %1$s, %2$s, %3$s, %4$s; %5$s</string>
+
+    <string name="button_continue">Continuar</string>
+    <string name="button_back">Atrás</string>
+    <string name="button_done">Hecho</string>
+    <string name="report_sent_success">\@%s reportado satisfactoriamente</string>
+    <string name="hint_additional_info">Comentarios adicionales</string>
+    <string name="report_remote_instance">Reenviar a %s</string>
+    <string name="failed_report">Reporte fallido</string>
+    <string name="failed_fetch_statuses">Fallo al obtener estados</string>
+    <string name="report_description_1">El reporte será enviado a los moderadores de tu servidor. Puedes añadir una explicación de por qué estás reportando esta cuenta a continuación:</string>
+    <string name="report_description_remote_instance">La cuenta es de otro servidor. ¿Enviar una copia anónima del reporte\?</string>
+
+    <string name="pref_title_show_notifications_filter">Mostrar filtro de notificaciones</string>
+</resources>

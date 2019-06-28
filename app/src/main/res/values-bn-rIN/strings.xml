@@ -478,4 +478,15 @@
     <string name="report_description_1">রিপোর্ট আপনার সার্ভার মডারেটরে পাঠানো হবে। আপনি নীচের এই অ্যাকাউন্টটি কেন প্রতিবেদন করছেন তা ব্যাখ্যা করতে পারেন:</string>
     <string name="report_description_remote_instance">এই একাউন্ট তা একটি অন্য সার্ভারের। রিপোর্ট এর সঙ্গে একটি বেনামি কপি ওখানে পাঠাতে চান\?</string>
 
+<string name="title_domain_mutes">গোপন ডোমেইনগুলি</string>
+    <string name="action_view_domain_mutes">গোপন ডোমেইনগুলি</string>
+    <string name="action_mute_domain">নিঃশব্দ %s</string>
+    <string name="confirmation_domain_unmuted">%s লুকোনো না</string>
+
+    <string name="mute_domain_warning">আপনি কি সব %s ব্লক করতে চান\? আপনি যে ডোমেন থেকে কোনও পাবলিক টাইমলাইনে বা আপনার বিজ্ঞপ্তিগুলিতে সামগ্রী দেখতে পাবেন না। আপনার অনুসরণকারীদের সরানো হবে।</string>
+    <string name="mute_domain_warning_dialog_ok">পুরো ডোমেইন লুকান</string>
+
+    <string name="filter_dialog_whole_word">সম্পূর্ণ শব্দ</string>
+    <string name="filter_dialog_whole_word_description">যখন শব্দ বা বাক্যাংশটি শুধুমাত্র আলফানিউমেরিক হয় তখন এটি শুধুমাত্র তখনই প্রয়োগ করা হবে যদি এটি সম্পূর্ণ শব্দটির সাথে মেলে</string>
+    <string name="pref_title_show_notifications_filter">বিজ্ঞপ্তি ফিল্টার দেখান</string>
 </resources>
