@@ -39,4 +39,7 @@ class SplashActivity : BaseActivity() {
         startActivity(intent)
         finish()
     }
+
+    override fun requiresLogin() = false
+
 }
