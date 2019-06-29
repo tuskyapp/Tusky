@@ -392,12 +392,10 @@
     <string name="pin_action">置顶</string>
 
     <plurals name="favs">
-        <item quantity="one">&lt;b>%1$s&lt;/b> 次收藏</item>
         <item quantity="other">&lt;b&gt;%1$s&lt;/b&gt; 次收藏</item>
     </plurals>
 
     <plurals name="reblogs">
-        <item quantity="one">&lt;b>%s&lt;/b> 次转嘟</item>
         <item quantity="other">&lt;b&gt;%s&lt;/b&gt; 次转嘟</item>
     </plurals>
 
@@ -457,7 +455,6 @@
         <!-- 15 votes • 1 hour left -->
         %1$s • %2$s</string>
     <plurals name="poll_info_votes">
-        <item quantity="one">%s 次投票</item>
         <item quantity="other">%s 次投票</item>
     </plurals>
     <string name="poll_info_time_relative">剩余 %s</string>
@@ -474,19 +471,15 @@
 
     <!--These are for timestamps on polls -->
     <plurals name="poll_timespan_days">
-        <item quantity="one">%d 天</item>
         <item quantity="other">%d 天</item>
     </plurals>
     <plurals name="poll_timespan_hours">
-        <item quantity="one">%d 小时</item>
         <item quantity="other">%d 小时</item>
     </plurals>
     <plurals name="poll_timespan_minutes">
-        <item quantity="one">%d 分钟</item>
         <item quantity="other">%d 分钟</item>
     </plurals>
     <plurals name="poll_timespan_seconds">
-        <item quantity="one">%d 秒</item>
         <item quantity="other">%d 秒</item>
     </plurals>
 

@@ -10,6 +10,8 @@
     <string name="at_symbol" translatable="false">\@</string>
     <string name="hash_symbol" translatable="false">#</string>
 
+    <string name="emoji_shortcode_format" translatable="false">:%s:</string>
+
     <string-array name="post_privacy_values">
         <item>public</item>
         <item>unlisted</item>

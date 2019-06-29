@@ -306,7 +306,7 @@
 
     <string name="about_tusky_license">Tusky ingyenes és nyílt forráskódú szoftver. A GNU General Public License Version 3 érvényes rá, amit itt tekinthetsz meg: https://www.gnu.org/licenses/gpl-3.0.en.html</string>
     <string name="abbreviated_in_years">%dé múlva</string>
-    <string name="abbreviated_in_days">%nn múlva</string>
+    <string name="abbreviated_in_days">%dn múlva</string>
     <string name="abbreviated_in_hours">%dó múlva</string>
     <string name="abbreviated_in_minutes">%dp múlva</string>
     <string name="abbreviated_years_ago">%dé</string>

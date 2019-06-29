@@ -410,10 +410,10 @@
 
     <string name="poll_info_format"> <!-- 15 votes • 1 hour left --> %1$s • %2$s</string>
     <plurals name="poll_info_votes">
-	<item quantity="one">glas</item>
-	<item quantity="two">glasova</item>
-	<item quantity="few">glasovi</item>
-	<item quantity="other">glasov</item>
+	<item quantity="one">%s glas</item>
+	<item quantity="two">%s glasova</item>
+	<item quantity="few">%s glasovi</item>
+	<item quantity="other">%s glasov</item>
 </plurals>
     <string name="poll_info_time_relative">še %s</string>
     <string name="poll_info_time_absolute">se konča ob %s</string>
@@ -444,7 +444,7 @@
     <string name="notification_poll_description">Obvestilo o anketah, ki so se končale</string>
 
 
-    <string name="compose_preview_image_description">Dejanje za sliko &amp;s</string>
+    <string name="compose_preview_image_description">Dejanje za sliko %s</string>
 
     <string name="poll_ended_voted">Anketa, na kateri ste glasovali, se je končala</string>
     <string name="poll_ended_created">Anketa, ki ste jo ustvarili, se je končala</string>

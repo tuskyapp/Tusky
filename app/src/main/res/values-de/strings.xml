@@ -424,12 +424,5 @@
     <string name="report_description_remote_instance">Dieses Konto ist von einem anderen Server. Soll eine anonymisierte Kopie des Berichts auch dorthin geschickt werden\?</string>
 
     <string name="pref_title_show_notifications_filter">Benachrichtigungsfilter anzeigen</string>
-<string name="about_tusky_version">Tusky %s</string>
-    <string name="abbreviated_in_years">In %dy</string>
-    <string name="abbreviated_in_days">in %dd</string>
-    <string name="abbreviated_in_hours">in %dh</string>
-    <string name="abbreviated_in_minutes">in %dm</string>
-    <string name="abbreviated_in_seconds">in %ds</string>
-    <string name="abbreviated_days_ago">%dT</string>
-    <string name="abbreviated_minutes_ago">%dM</string>
+
     </resources>

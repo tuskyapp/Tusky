@@ -362,7 +362,6 @@
     <string name="caption_blobmoji">অ্যান্ড্রয়েড ৪.৪-৭.১ থেকে পরিচিত ব্লোব ইমোজিস</string>
     <string name="caption_twemoji">ম্যাস্টোডোন এর মান ইমোজি সেট</string>
     <string name="caption_notoemoji">গুগল এর বর্তমান ইমোজি সেট</string>
-    <string name="emoji_shortcode_format" translatable="false">:%s:</string>
 
     <string name="download_failed">ডাউনলোড ব্যর্থ হয়েছে</string>
 
