@@ -460,4 +460,8 @@
 <string name="filter_dialog_whole_word">الكلمة كاملة</string>
     <string name="description_poll">استطلاع رأي بالخيارات: %1$s, %2$s, %3$s, %4$s; %5$s</string>
 
+    <string name="mute_domain_warning">هل أنت متأكد من أنك تريد حجب كافة %s ؟ سوف لن يكون باستطاعتك رؤية أي محتوى قادم من هذا النطاق بعد الآن ، لا في الخيوط الزمنية العامة ولا في إخطاراتك. سيتم إزالة متابِعيك الذين هم على هذا النطاق.</string>
+    <string name="report_description_1">سيتم إرسال التقرير إلى مشرفي خادمك. يمكنك تقديم تفسير عن سبب الإبلاغ عن الحساب أدناه:</string>
+    <string name="report_description_remote_instance">هذا الحساب ينتسب إلى خادم آخر. هل تريد إرسال نسخة مجهولة من التقرير إلى هناك أيضا؟</string>
+
     </resources>
