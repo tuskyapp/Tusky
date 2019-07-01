@@ -48,7 +48,9 @@ public class LinkHelper {
             return "";
         }
         String host = uri.getHost();
-        if (host.startsWith("www.")) {
+        if(host == null) {
+            return "";
+        } else if (host.startsWith("www.")) {
             return host.substring(4);
         } else {
             return host;
