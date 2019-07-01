@@ -414,9 +414,9 @@
 	<item quantity="zero">%d ساعات</item>
 	<item quantity="one">%d ساعة</item>
 	<item quantity="two">%d ساعتين</item>
-	<item quantity="few">%d %d ساعات</item>
-	<item quantity="many">%d %d ساعات</item>
-	<item quantity="other">%d %d ساعات</item>
+	<item quantity="few">%d ساعات</item>
+	<item quantity="many">%d ساعات</item>
+	<item quantity="other">%d ساعات</item>
 </plurals>
     <plurals name="poll_timespan_minutes">
 	<item quantity="zero">%d دقائق</item>
