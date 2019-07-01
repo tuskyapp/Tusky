@@ -1,0 +1,7 @@
+Tusky v7.0
+
+- Supporte l'affichage, le vote et les notifications des sondages
+- Nouveaux boutons pour filtrer les notification et effacer toutes les notifications
+- "Effacer & réécrire" vos propres pouets
+- Nouvel indicateur pour les profils robots (peut-être désactivé dans les préférences)
+- Nouvelles langues : Norvégien Bokmål et Slovène.
