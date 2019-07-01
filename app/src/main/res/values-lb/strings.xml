@@ -1,172 +1,172 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
 
-    <string name="error_generic"></string>
-    <string name="error_network"></string>
-    <string name="error_empty"></string>
-    <string name="error_invalid_domain"></string>
-    <string name="error_failed_app_registration"></string>
-    <string name="error_no_web_browser_found"></string>
-    <string name="error_authorization_unknown"></string>
-    <string name="error_authorization_denied"></string>
-    <string name="error_retrieving_oauth_token"></string>
-    <string name="error_compose_character_limit"></string>
-    <string name="error_image_upload_size"></string>
-    <string name="error_video_upload_size"></string>
-    <string name="error_media_upload_type"></string>
-    <string name="error_media_upload_opening"></string>
-    <string name="error_media_upload_permission"></string>
-    <string name="error_media_download_permission"></string>
-    <string name="error_media_upload_image_or_video"></string>
-    <string name="error_media_upload_sending"></string>
-    <string name="error_report_too_few_statuses"></string>
-    <string name="error_sender_account_gone"></string>
+    <string name="error_generic">E Feeler ass opgetrueden.</string>
+    <string name="error_network"/>
+    <string name="error_empty">Dëst kann net eidel bleiwen.</string>
+    <string name="error_invalid_domain"/>
+    <string name="error_failed_app_registration">D\'Authentifizéierung mat där Instanz feelgeschloen.</string>
+    <string name="error_no_web_browser_found">Konnt kee Webbrowser fannen.</string>
+    <string name="error_authorization_unknown"/>
+    <string name="error_authorization_denied"/>
+    <string name="error_retrieving_oauth_token"/>
+    <string name="error_compose_character_limit"/>
+    <string name="error_image_upload_size"/>
+    <string name="error_video_upload_size"/>
+    <string name="error_media_upload_type"/>
+    <string name="error_media_upload_opening"/>
+    <string name="error_media_upload_permission"/>
+    <string name="error_media_download_permission"/>
+    <string name="error_media_upload_image_or_video"/>
+    <string name="error_media_upload_sending"/>
+    <string name="error_report_too_few_statuses"/>
+    <string name="error_sender_account_gone"/>
 
-    <string name="title_home"></string>
-    <string name="title_notifications"></string>
-    <string name="title_public_local"></string>
-    <string name="title_public_federated"></string>
-    <string name="title_direct_messages"></string>
-    <string name="title_tab_preferences"></string>
-    <string name="title_view_thread"></string>
-    <string name="title_tag"></string>
-    <string name="title_statuses"></string>
-    <string name="title_statuses_with_replies"></string>
-    <string name="title_statuses_pinned"></string>
-    <string name="title_follows"></string>
-    <string name="title_followers"></string>
-    <string name="title_favourites"></string>
-    <string name="title_mutes"></string>
-    <string name="title_blocks"></string>
-    <string name="title_domain_mutes"></string>
-    <string name="title_follow_requests"></string>
-    <string name="title_edit_profile"></string>
-    <string name="title_saved_toot"></string>
-    <string name="title_licenses"></string>
+    <string name="title_home"/>
+    <string name="title_notifications"/>
+    <string name="title_public_local"/>
+    <string name="title_public_federated"/>
+    <string name="title_direct_messages"/>
+    <string name="title_tab_preferences"/>
+    <string name="title_view_thread"/>
+    <string name="title_tag"/>
+    <string name="title_statuses"/>
+    <string name="title_statuses_with_replies"/>
+    <string name="title_statuses_pinned"/>
+    <string name="title_follows"/>
+    <string name="title_followers"/>
+    <string name="title_favourites"/>
+    <string name="title_mutes"/>
+    <string name="title_blocks"/>
+    <string name="title_domain_mutes"/>
+    <string name="title_follow_requests"/>
+    <string name="title_edit_profile"/>
+    <string name="title_saved_toot"/>
+    <string name="title_licenses"/>
 
-    <string name="status_username_format"></string>
-    <string name="status_boosted_format"></string>
-    <string name="status_sensitive_media_title"></string>
-    <string name="status_media_hidden_title"></string>
-    <string name="status_sensitive_media_directions"></string>
-    <string name="status_content_warning_show_more"></string>
-    <string name="status_content_warning_show_less"></string>
-    <string name="status_content_show_more"></string>
-    <string name="status_content_show_less"></string>
+    <string name="status_username_format"/>
+    <string name="status_boosted_format"/>
+    <string name="status_sensitive_media_title"/>
+    <string name="status_media_hidden_title"/>
+    <string name="status_sensitive_media_directions"/>
+    <string name="status_content_warning_show_more"/>
+    <string name="status_content_warning_show_less"/>
+    <string name="status_content_show_more"/>
+    <string name="status_content_show_less"/>
 
-    <string name="message_empty"></string>
-    <string name="footer_empty"></string>
+    <string name="message_empty"/>
+    <string name="footer_empty"/>
 
-    <string name="notification_reblog_format"></string>
-    <string name="notification_favourite_format"></string>
-    <string name="notification_follow_format"></string>
+    <string name="notification_reblog_format"/>
+    <string name="notification_favourite_format"/>
+    <string name="notification_follow_format"/>
 
-    <string name="report_username_format"></string>
-    <string name="report_comment_hint"></string>
+    <string name="report_username_format"/>
+    <string name="report_comment_hint"/>
 
-    <string name="action_quick_reply"></string>
-    <string name="action_reply"></string>
-    <string name="action_reblog"></string>
-    <string name="action_unreblog"></string>
-    <string name="action_favourite"></string>
-    <string name="action_unfavourite"></string>
-    <string name="action_more"></string>
-    <string name="action_compose"></string>
-    <string name="action_login"></string>
-    <string name="action_logout"></string>
-    <string name="action_logout_confirm"></string>
-    <string name="action_follow"></string>
-    <string name="action_unfollow"></string>
-    <string name="action_block"></string>
-    <string name="action_unblock"></string>
-    <string name="action_hide_reblogs"></string>
-    <string name="action_show_reblogs"></string>
-    <string name="action_report"></string>
-    <string name="action_delete"></string>
-    <string name="action_delete_and_redraft"></string>
-    <string name="action_send"></string>
-    <string name="action_send_public"></string>
-    <string name="action_retry"></string>
-    <string name="action_close"></string>
-    <string name="action_view_profile"></string>
-    <string name="action_view_preferences"></string>
-    <string name="action_view_account_preferences"></string>
-    <string name="action_view_favourites"></string>
-    <string name="action_view_mutes"></string>
-    <string name="action_view_blocks"></string>
-    <string name="action_view_domain_mutes"></string>
-    <string name="action_view_follow_requests"></string>
-    <string name="action_view_media"></string>
-    <string name="action_open_in_web"></string>
-    <string name="action_add_media"></string>
-    <string name="action_photo_take"></string>
-    <string name="action_share"></string>
-    <string name="action_mute"></string>
-    <string name="action_unmute"></string>
-    <string name="action_mute_domain"></string>
-    <string name="action_mention"></string>
-    <string name="action_hide_media"></string>
-    <string name="action_open_drawer"></string>
-    <string name="action_save"></string>
-    <string name="action_edit_profile"></string>
-    <string name="action_edit_own_profile"></string>
-    <string name="action_undo"></string>
-    <string name="action_accept"></string>
-    <string name="action_reject"></string>
-    <string name="action_search"></string>
-    <string name="action_access_saved_toot"></string>
-    <string name="action_toggle_visibility"></string>
-    <string name="action_content_warning"></string>
-    <string name="action_emoji_keyboard"></string>
-    <string name="action_add_tab"></string>
-    <string name="action_links"></string>
-    <string name="action_mentions"></string>
-    <string name="action_hashtags"></string>
-    <string name="action_open_reblogger"></string>
-    <string name="action_open_reblogged_by"></string>
-    <string name="action_open_faved_by"></string>
+    <string name="action_quick_reply"/>
+    <string name="action_reply"/>
+    <string name="action_reblog"/>
+    <string name="action_unreblog"/>
+    <string name="action_favourite"/>
+    <string name="action_unfavourite"/>
+    <string name="action_more"/>
+    <string name="action_compose"/>
+    <string name="action_login"/>
+    <string name="action_logout"/>
+    <string name="action_logout_confirm"/>
+    <string name="action_follow"/>
+    <string name="action_unfollow"/>
+    <string name="action_block"/>
+    <string name="action_unblock"/>
+    <string name="action_hide_reblogs"/>
+    <string name="action_show_reblogs"/>
+    <string name="action_report"/>
+    <string name="action_delete"/>
+    <string name="action_delete_and_redraft"/>
+    <string name="action_send"/>
+    <string name="action_send_public"/>
+    <string name="action_retry"/>
+    <string name="action_close"/>
+    <string name="action_view_profile"/>
+    <string name="action_view_preferences"/>
+    <string name="action_view_account_preferences"/>
+    <string name="action_view_favourites"/>
+    <string name="action_view_mutes"/>
+    <string name="action_view_blocks"/>
+    <string name="action_view_domain_mutes"/>
+    <string name="action_view_follow_requests"/>
+    <string name="action_view_media"/>
+    <string name="action_open_in_web"/>
+    <string name="action_add_media"/>
+    <string name="action_photo_take"/>
+    <string name="action_share"/>
+    <string name="action_mute"/>
+    <string name="action_unmute"/>
+    <string name="action_mute_domain"/>
+    <string name="action_mention"/>
+    <string name="action_hide_media"/>
+    <string name="action_open_drawer"/>
+    <string name="action_save"/>
+    <string name="action_edit_profile"/>
+    <string name="action_edit_own_profile"/>
+    <string name="action_undo"/>
+    <string name="action_accept"/>
+    <string name="action_reject"/>
+    <string name="action_search"/>
+    <string name="action_access_saved_toot"/>
+    <string name="action_toggle_visibility"/>
+    <string name="action_content_warning"/>
+    <string name="action_emoji_keyboard"/>
+    <string name="action_add_tab"/>
+    <string name="action_links"/>
+    <string name="action_mentions"/>
+    <string name="action_hashtags"/>
+    <string name="action_open_reblogger"/>
+    <string name="action_open_reblogged_by"/>
+    <string name="action_open_faved_by"/>
 
-    <string name="title_hashtags_dialog"></string>
-    <string name="title_mentions_dialog"></string>
-    <string name="title_links_dialog"></string>
-    <string name="action_open_media_n"></string>
+    <string name="title_hashtags_dialog"/>
+    <string name="title_mentions_dialog"/>
+    <string name="title_links_dialog"/>
+    <string name="action_open_media_n"/>
 
-    <string name="download_image"></string>
+    <string name="download_image"/>
 
-    <string name="action_copy_link"></string>
-    <string name="action_open_as"></string>
-    <string name="action_share_as"></string>
-    <string name="download_media"></string>
-    <string name="downloading_media"></string>
+    <string name="action_copy_link"/>
+    <string name="action_open_as"/>
+    <string name="action_share_as"/>
+    <string name="download_media"/>
+    <string name="downloading_media"/>
 
-    <string name="send_status_link_to"></string>
-    <string name="send_status_content_to"></string>
-    <string name="send_media_to"></string>
+    <string name="send_status_link_to"/>
+    <string name="send_status_content_to"/>
+    <string name="send_media_to"/>
 
-    <string name="confirmation_reported"></string>
-    <string name="confirmation_unblocked"></string>
-    <string name="confirmation_unmuted"></string>
-    <string name="confirmation_domain_unmuted"></string>
+    <string name="confirmation_reported"/>
+    <string name="confirmation_unblocked"/>
+    <string name="confirmation_unmuted"/>
+    <string name="confirmation_domain_unmuted"/>
 
-    <string name="status_sent"></string>
-    <string name="status_sent_long"></string>
+    <string name="status_sent"/>
+    <string name="status_sent_long"/>
 
-    <string name="hint_domain"></string>
-    <string name="hint_compose"></string>
-    <string name="hint_content_warning"></string>
-    <string name="hint_display_name"></string>
-    <string name="hint_note"></string>
-    <string name="hint_search"></string>
+    <string name="hint_domain"/>
+    <string name="hint_compose"/>
+    <string name="hint_content_warning"/>
+    <string name="hint_display_name"/>
+    <string name="hint_note"/>
+    <string name="hint_search"/>
 
-    <string name="search_no_results"></string>
+    <string name="search_no_results"/>
 
-    <string name="label_quick_reply"></string>
-    <string name="label_avatar"></string>
-    <string name="label_header"></string>
+    <string name="label_quick_reply"/>
+    <string name="label_avatar"/>
+    <string name="label_header"/>
 
-    <string name="link_whats_an_instance"></string>
+    <string name="link_whats_an_instance"/>
 
-    <string name="login_connection"></string>
+    <string name="login_connection"/>
 
     <string name="dialog_whats_an_instance"><a href="https://instances.social">more!</a>
         \n\nIf you don\'t yet have an account, you can enter the name of the instance you\'d like to
@@ -175,313 +175,313 @@
         you were on the same site.
         \n\nMore info can be found at <a href="https://joinmastodon.org">joinmastodon.org</a>.
     </string>
-    <string name="dialog_title_finishing_media_upload"></string>
-    <string name="dialog_message_uploading_media"></string>
-    <string name="dialog_download_image"></string>
-    <string name="dialog_message_cancel_follow_request"></string>
-    <string name="dialog_unfollow_warning"></string>
-    <string name="dialog_delete_toot_warning"></string>
-    <string name="dialog_redraft_toot_warning"></string>
-    <string name="mute_domain_warning"></string>
-    <string name="mute_domain_warning_dialog_ok"></string>
+    <string name="dialog_title_finishing_media_upload"/>
+    <string name="dialog_message_uploading_media"/>
+    <string name="dialog_download_image"/>
+    <string name="dialog_message_cancel_follow_request"/>
+    <string name="dialog_unfollow_warning"/>
+    <string name="dialog_delete_toot_warning"/>
+    <string name="dialog_redraft_toot_warning"/>
+    <string name="mute_domain_warning"/>
+    <string name="mute_domain_warning_dialog_ok"/>
 
-    <string name="visibility_public"></string>
-    <string name="visibility_unlisted"></string>
-    <string name="visibility_private"></string>
-    <string name="visibility_direct"></string>
+    <string name="visibility_public"/>
+    <string name="visibility_unlisted"/>
+    <string name="visibility_private"/>
+    <string name="visibility_direct"/>
 
-    <string name="pref_title_edit_notification_settings"></string>
-    <string name="pref_title_notifications_enabled"></string>
-    <string name="pref_title_notification_alerts"></string>
-    <string name="pref_title_notification_alert_sound"></string>
-    <string name="pref_title_notification_alert_vibrate"></string>
-    <string name="pref_title_notification_alert_light"></string>
-    <string name="pref_title_notification_filters"></string>
-    <string name="pref_title_notification_filter_mentions"></string>
-    <string name="pref_title_notification_filter_follows"></string>
-    <string name="pref_title_notification_filter_reblogs"></string>
-    <string name="pref_title_notification_filter_favourites"></string>
-    <string name="pref_title_notification_filter_poll"></string>
-    <string name="pref_title_appearance_settings"></string>
-    <string name="pref_title_app_theme"></string>
-    <string name="pref_title_timelines"></string>
-    <string name="pref_title_timeline_filters"></string>
+    <string name="pref_title_edit_notification_settings"/>
+    <string name="pref_title_notifications_enabled"/>
+    <string name="pref_title_notification_alerts"/>
+    <string name="pref_title_notification_alert_sound"/>
+    <string name="pref_title_notification_alert_vibrate"/>
+    <string name="pref_title_notification_alert_light"/>
+    <string name="pref_title_notification_filters"/>
+    <string name="pref_title_notification_filter_mentions"/>
+    <string name="pref_title_notification_filter_follows"/>
+    <string name="pref_title_notification_filter_reblogs"/>
+    <string name="pref_title_notification_filter_favourites"/>
+    <string name="pref_title_notification_filter_poll"/>
+    <string name="pref_title_appearance_settings"/>
+    <string name="pref_title_app_theme"/>
+    <string name="pref_title_timelines"/>
+    <string name="pref_title_timeline_filters"/>
 
-    <string name="app_them_dark"></string>
-    <string name="app_theme_light"></string>
-    <string name="app_theme_black"></string>
-    <string name="app_theme_auto"></string>
-    <string name="app_theme_system"></string>
+    <string name="app_them_dark"/>
+    <string name="app_theme_light"/>
+    <string name="app_theme_black"/>
+    <string name="app_theme_auto"/>
+    <string name="app_theme_system"/>
 
-    <string name="pref_title_browser_settings"></string>
-    <string name="pref_title_custom_tabs"></string>
-    <string name="pref_title_hide_follow_button"></string>
-    <string name="pref_title_language"></string>
-    <string name="pref_title_bot_overlay"></string>
-    <string name="pref_title_animate_gif_avatars"></string>
+    <string name="pref_title_browser_settings"/>
+    <string name="pref_title_custom_tabs"/>
+    <string name="pref_title_hide_follow_button"/>
+    <string name="pref_title_language"/>
+    <string name="pref_title_bot_overlay"/>
+    <string name="pref_title_animate_gif_avatars"/>
 
-    <string name="pref_title_status_filter"></string>
-    <string name="pref_title_status_tabs"></string>
-    <string name="pref_title_show_boosts"></string>
-    <string name="pref_title_show_replies"></string>
-    <string name="pref_title_show_media_preview"></string>
-    <string name="pref_title_proxy_settings"></string>
-    <string name="pref_title_http_proxy_settings"></string>
-    <string name="pref_title_http_proxy_enable"></string>
-    <string name="pref_title_http_proxy_server"></string>
-    <string name="pref_title_http_proxy_port"></string>
+    <string name="pref_title_status_filter"/>
+    <string name="pref_title_status_tabs"/>
+    <string name="pref_title_show_boosts"/>
+    <string name="pref_title_show_replies"/>
+    <string name="pref_title_show_media_preview"/>
+    <string name="pref_title_proxy_settings"/>
+    <string name="pref_title_http_proxy_settings"/>
+    <string name="pref_title_http_proxy_enable"/>
+    <string name="pref_title_http_proxy_server"/>
+    <string name="pref_title_http_proxy_port"/>
 
-    <string name="pref_default_post_privacy"></string>
-    <string name="pref_default_media_sensitivity"></string>
-    <string name="pref_publishing"></string>
-    <string name="pref_failed_to_sync"></string>
+    <string name="pref_default_post_privacy"/>
+    <string name="pref_default_media_sensitivity"/>
+    <string name="pref_publishing"/>
+    <string name="pref_failed_to_sync"/>
 
-    <string name="post_privacy_public"></string>
-    <string name="post_privacy_unlisted"></string>
-    <string name="post_privacy_followers_only"></string>
+    <string name="post_privacy_public"/>
+    <string name="post_privacy_unlisted"/>
+    <string name="post_privacy_followers_only"/>
 
-    <string name="pref_status_text_size"></string>
+    <string name="pref_status_text_size"/>
 
-    <string name="status_text_size_smallest"></string>
-    <string name="status_text_size_small"></string>
-    <string name="status_text_size_medium"></string>
-    <string name="status_text_size_large"></string>
-    <string name="status_text_size_largest"></string>
+    <string name="status_text_size_smallest"/>
+    <string name="status_text_size_small"/>
+    <string name="status_text_size_medium"/>
+    <string name="status_text_size_large"/>
+    <string name="status_text_size_largest"/>
 
-    <string name="notification_mention_name"></string>
-    <string name="notification_mention_descriptions"></string>
-    <string name="notification_follow_name"></string>
-    <string name="notification_follow_description"></string>
-    <string name="notification_boost_name"></string>
-    <string name="notification_boost_description"></string>
-    <string name="notification_favourite_name"></string>
-    <string name="notification_favourite_description"></string>
-    <string name="notification_poll_name"></string>
-    <string name="notification_poll_description"></string>
+    <string name="notification_mention_name"/>
+    <string name="notification_mention_descriptions"/>
+    <string name="notification_follow_name"/>
+    <string name="notification_follow_description"/>
+    <string name="notification_boost_name"/>
+    <string name="notification_boost_description"/>
+    <string name="notification_favourite_name"/>
+    <string name="notification_favourite_description"/>
+    <string name="notification_poll_name"/>
+    <string name="notification_poll_description"/>
 
 
-    <string name="notification_mention_format"></string>
-    <string name="notification_summary_large"></string>
-    <string name="notification_summary_medium"></string>
-    <string name="notification_summary_small"></string>
-    <string name="notification_title_summary"></string>
+    <string name="notification_mention_format"/>
+    <string name="notification_summary_large"/>
+    <string name="notification_summary_medium"/>
+    <string name="notification_summary_small"/>
+    <string name="notification_title_summary"/>
 
-    <string name="description_account_locked"></string>
+    <string name="description_account_locked"/>
 
-    <string name="about_title_activity"></string>
-    <string name="about_tusky_version"></string>
-    <string name="about_tusky_license"></string>
+    <string name="about_title_activity"/>
+    <string name="about_tusky_version"/>
+    <string name="about_tusky_license"/>
     <!-- note to translators:
          * you should think of “free” as in “free speech,” not as in “free beer”.
            We sometimes call it “libre software,” borrowing the French or Spanish word for “free” as in freedom,
            to show we do not mean the software is gratis. Source: https://www.gnu.org/philosophy/free-sw.html
          * the url can be changed to link to the localized version of the license.
     -->
-    <string name="about_project_site"></string>
-    <string name="about_bug_feature_request_site"></string>
-    <string name="about_tusky_account"></string>
+    <string name="about_project_site"/>
+    <string name="about_bug_feature_request_site"/>
+    <string name="about_tusky_account"/>
 
-    <string name="status_share_content"></string>
-    <string name="status_share_link"></string>
-    <string name="status_media_images"></string>
-    <string name="status_media_video"></string>
+    <string name="status_share_content"/>
+    <string name="status_share_link"/>
+    <string name="status_media_images"/>
+    <string name="status_media_video"/>
 
-    <string name="state_follow_requested"></string>
+    <string name="state_follow_requested"/>
 
-    <string name="no_content"></string>
+    <string name="no_content"/>
 
     <!--These are for timestamps on statuses. For example: "16s" or "2d"-->
-    <string name="abbreviated_in_years"></string>
-    <string name="abbreviated_in_days"></string>
-    <string name="abbreviated_in_hours"></string>
-    <string name="abbreviated_in_minutes"></string>
-    <string name="abbreviated_in_seconds"></string>
-    <string name="abbreviated_years_ago"></string>
-    <string name="abbreviated_days_ago"></string>
-    <string name="abbreviated_hours_ago"></string>
-    <string name="abbreviated_minutes_ago"></string>
-    <string name="abbreviated_seconds_ago"></string>
+    <string name="abbreviated_in_years"/>
+    <string name="abbreviated_in_days"/>
+    <string name="abbreviated_in_hours"/>
+    <string name="abbreviated_in_minutes"/>
+    <string name="abbreviated_in_seconds"/>
+    <string name="abbreviated_years_ago"/>
+    <string name="abbreviated_days_ago"/>
+    <string name="abbreviated_hours_ago"/>
+    <string name="abbreviated_minutes_ago"/>
+    <string name="abbreviated_seconds_ago"/>
 
-    <string name="follows_you"></string>
-    <string name="pref_title_alway_show_sensitive_media"></string>
-    <string name="title_media"></string>
-    <string name="replying_to"></string>
-    <string name="load_more_placeholder_text"></string>
+    <string name="follows_you"/>
+    <string name="pref_title_alway_show_sensitive_media"/>
+    <string name="title_media"/>
+    <string name="replying_to"/>
+    <string name="load_more_placeholder_text"/>
 
-    <string name="pref_title_public_filter_keywords"></string>
-    <string name="pref_title_thread_filter_keywords"></string>
-    <string name="filter_addition_dialog_title"></string>
-    <string name="filter_edit_dialog_title"></string>
-    <string name="filter_dialog_remove_button"></string>
-    <string name="filter_dialog_update_button"></string>
-    <string name="filter_dialog_whole_word"></string>
-    <string name="filter_dialog_whole_word_description"></string>
-    <string name="filter_add_description"></string>
+    <string name="pref_title_public_filter_keywords"/>
+    <string name="pref_title_thread_filter_keywords"/>
+    <string name="filter_addition_dialog_title"/>
+    <string name="filter_edit_dialog_title"/>
+    <string name="filter_dialog_remove_button"/>
+    <string name="filter_dialog_update_button"/>
+    <string name="filter_dialog_whole_word"/>
+    <string name="filter_dialog_whole_word_description"/>
+    <string name="filter_add_description"/>
 
-    <string name="add_account_name"></string>
-    <string name="add_account_description"></string>
+    <string name="add_account_name"/>
+    <string name="add_account_description"/>
 
-    <string name="action_lists"></string>
-    <string name="title_lists"></string>
-    <string name="title_list_timeline"></string>
-    <string name="error_create_list"></string>
-    <string name="error_rename_list"></string>
-    <string name="error_delete_list"></string>
-    <string name="action_create_list"></string>
-    <string name="action_rename_list"></string>
-    <string name="action_delete_list"></string>
-    <string name="action_edit_list"></string>
-    <string name="hint_search_people_list"></string>
-    <string name="action_add_to_list"></string>
-    <string name="action_remove_from_list"></string>
+    <string name="action_lists"/>
+    <string name="title_lists"/>
+    <string name="title_list_timeline"/>
+    <string name="error_create_list"/>
+    <string name="error_rename_list"/>
+    <string name="error_delete_list"/>
+    <string name="action_create_list"/>
+    <string name="action_rename_list"/>
+    <string name="action_delete_list"/>
+    <string name="action_edit_list"/>
+    <string name="hint_search_people_list"/>
+    <string name="action_add_to_list"/>
+    <string name="action_remove_from_list"/>
 
-    <string name="compose_active_account_description"></string>
+    <string name="compose_active_account_description"/>
 
-    <string name="error_failed_set_caption"></string>
-    <string name="hint_describe_for_visually_impaired"></string>
-    <string name="action_set_caption"></string>
-    <string name="action_remove_media"></string>
-    <string name="lock_account_label"></string>
-    <string name="lock_account_label_description"></string>
-    <string name="compose_save_draft"></string>
-    <string name="send_toot_notification_title"></string>
-    <string name="send_toot_notification_error_title"></string>
-    <string name="send_toot_notification_channel_name"></string>
-    <string name="send_toot_notification_cancel_title"></string>
-    <string name="send_toot_notification_saved_content"></string>
-    <string name="action_compose_shortcut"></string>
+    <string name="error_failed_set_caption"/>
+    <string name="hint_describe_for_visually_impaired"/>
+    <string name="action_set_caption"/>
+    <string name="action_remove_media"/>
+    <string name="lock_account_label"/>
+    <string name="lock_account_label_description"/>
+    <string name="compose_save_draft"/>
+    <string name="send_toot_notification_title"/>
+    <string name="send_toot_notification_error_title"/>
+    <string name="send_toot_notification_channel_name"/>
+    <string name="send_toot_notification_cancel_title"/>
+    <string name="send_toot_notification_saved_content"/>
+    <string name="action_compose_shortcut"/>
 
-    <string name="error_no_custom_emojis"></string>
-    <string name="copy_to_clipboard_success"></string>
-    <string name="emoji_style"></string>
-    <string name="system_default"></string>
-    <string name="download_fonts"></string>
-    <string name="performing_lookup_title"></string>
-    <string name="expand_collapse_all_statuses"></string>
-    <string name="action_open_toot"></string>
-    <string name="restart_required"></string>
-    <string name="restart_emoji"></string>
-    <string name="later"></string>
-    <string name="restart"></string>
-    <string name="caption_systememoji"></string>
-    <string name="caption_blobmoji"></string>
-    <string name="caption_twemoji"></string>
-    <string name="caption_notoemoji"></string>
+    <string name="error_no_custom_emojis"/>
+    <string name="copy_to_clipboard_success"/>
+    <string name="emoji_style"/>
+    <string name="system_default"/>
+    <string name="download_fonts"/>
+    <string name="performing_lookup_title"/>
+    <string name="expand_collapse_all_statuses"/>
+    <string name="action_open_toot"/>
+    <string name="restart_required"/>
+    <string name="restart_emoji"/>
+    <string name="later"/>
+    <string name="restart"/>
+    <string name="caption_systememoji"/>
+    <string name="caption_blobmoji"/>
+    <string name="caption_twemoji"/>
+    <string name="caption_notoemoji"/>
 
-    <string name="download_failed"></string>
+    <string name="download_failed"/>
 
-    <string name="profile_badge_bot_text"></string>
-    <string name="account_moved_description"></string>
+    <string name="profile_badge_bot_text"/>
+    <string name="account_moved_description"/>
 
-    <string name="reblog_private"></string>
-    <string name="unreblog_private"></string>
+    <string name="reblog_private"/>
+    <string name="unreblog_private"/>
 
-    <string name="license_description"></string>
-    <string name="license_apache_2"></string>
-    <string name="license_cc_by_4"></string>
-    <string name="license_cc_by_sa_4"></string>
+    <string name="license_description"/>
+    <string name="license_apache_2"/>
+    <string name="license_cc_by_4"/>
+    <string name="license_cc_by_sa_4"/>
 
-    <string name="profile_metadata_label"></string>
-    <string name="profile_metadata_add"></string>
-    <string name="profile_metadata_label_label"></string>
-    <string name="profile_metadata_content_label"></string>
+    <string name="profile_metadata_label"/>
+    <string name="profile_metadata_add"/>
+    <string name="profile_metadata_label_label"/>
+    <string name="profile_metadata_content_label"/>
 
-    <string name="pref_title_absolute_time"></string>
+    <string name="pref_title_absolute_time"/>
 
-    <string name="label_remote_account"></string>
+    <string name="label_remote_account"/>
 
-    <string name="unpin_action"></string>
-    <string name="pin_action"></string>
+    <string name="unpin_action"/>
+    <string name="pin_action"/>
 
     <plurals name="favs">
-	<item quantity="one"></item>
-	<item quantity="other"></item>
+	<item quantity="one"/>
+	<item quantity="other"/>
 </plurals>
 
     <plurals name="reblogs">
-	<item quantity="one"></item>
-	<item quantity="other"></item>
+	<item quantity="one"/>
+	<item quantity="other"/>
 </plurals>
 
-    <string name="title_reblogged_by"></string>
-    <string name="title_favourited_by"></string>
+    <string name="title_reblogged_by"/>
+    <string name="title_favourited_by"/>
 
-    <string name="conversation_1_recipients"></string>
-    <string name="conversation_2_recipients"></string>
-    <string name="conversation_more_recipients"></string>
-    <string name="max_tab_number_reached"></string>
+    <string name="conversation_1_recipients"/>
+    <string name="conversation_2_recipients"/>
+    <string name="conversation_more_recipients"/>
+    <string name="max_tab_number_reached"/>
 
 
-    <string name="description_status_media"></string>
-    <string name="description_status_cw"></string>
-    <string name="description_status_media_no_description_placeholder"></string>
-    <string name="description_status_reblogged"></string>
-    <string name="description_status_favourited"></string>
-    <string name="description_visiblity_public"></string>
-    <string name="description_visiblity_unlisted"></string>
-    <string name="description_visiblity_private"></string>
-    <string name="description_visiblity_direct"></string>
-    <string name="description_poll"></string>
+    <string name="description_status_media"/>
+    <string name="description_status_cw"/>
+    <string name="description_status_media_no_description_placeholder"/>
+    <string name="description_status_reblogged"/>
+    <string name="description_status_favourited"/>
+    <string name="description_visiblity_public"/>
+    <string name="description_visiblity_unlisted"/>
+    <string name="description_visiblity_private"/>
+    <string name="description_visiblity_direct"/>
+    <string name="description_poll"/>
 
-    <string name="hint_list_name"></string>
+    <string name="hint_list_name"/>
 
-    <string name="edit_hashtag_title"></string>
-    <string name="edit_hashtag_hint"></string>
-    <string name="hashtag"></string>
-    <string name="notifications_clear"></string>
-    <string name="notifications_apply_filter"></string>
-    <string name="filter_apply"></string>
+    <string name="edit_hashtag_title"/>
+    <string name="edit_hashtag_hint"/>
+    <string name="hashtag"/>
+    <string name="notifications_clear"/>
+    <string name="notifications_apply_filter"/>
+    <string name="filter_apply"/>
 
-    <string name="compose_shortcut_long_label"></string>
-    <string name="compose_shortcut_short_label"></string>
+    <string name="compose_shortcut_long_label"/>
+    <string name="compose_shortcut_short_label"/>
 
-    <string name="notification_clear_text"></string>
-    <string name="compose_preview_image_description"></string>
+    <string name="notification_clear_text"/>
+    <string name="compose_preview_image_description"/>
 
     <string name="poll_info_format"><!-- 15 votes • 1 hour left -->
         %1$s • %2$s</string>
     <plurals name="poll_info_votes">
-	<item quantity="one"></item>
-	<item quantity="other"></item>
+	<item quantity="one"/>
+	<item quantity="other"/>
 </plurals>
-    <string name="poll_info_time_relative"></string>
-    <string name="poll_info_time_absolute"></string>
-    <string name="poll_info_closed"></string>
+    <string name="poll_info_time_relative"/>
+    <string name="poll_info_time_absolute"/>
+    <string name="poll_info_closed"/>
     <string name="poll_option_format"><!-- 15% vote for this! --> &lt;b&gt;%1$d%%&lt;/b&gt; %2$s</string>
 
-    <string name="poll_vote"></string>
+    <string name="poll_vote"/>
 
-    <string name="poll_ended_voted"></string>
-    <string name="poll_ended_created"></string>
+    <string name="poll_ended_voted"/>
+    <string name="poll_ended_created"/>
 
     <!--These are for timestamps on polls -->
     <plurals name="poll_timespan_days">
-	<item quantity="one"></item>
-	<item quantity="other"></item>
+	<item quantity="one"/>
+	<item quantity="other"/>
 </plurals>
     <plurals name="poll_timespan_hours">
-	<item quantity="one"></item>
-	<item quantity="other"></item>
+	<item quantity="one"/>
+	<item quantity="other"/>
 </plurals>
     <plurals name="poll_timespan_minutes">
-	<item quantity="one"></item>
-	<item quantity="other"></item>
+	<item quantity="one"/>
+	<item quantity="other"/>
 </plurals>
     <plurals name="poll_timespan_seconds">
-	<item quantity="one"></item>
-	<item quantity="other"></item>
+	<item quantity="one"/>
+	<item quantity="other"/>
 </plurals>
 
-    <string name="button_continue"></string>
-    <string name="button_back"></string>
-    <string name="button_done"></string>
-    <string name="report_sent_success"></string>
-    <string name="hint_additional_info"></string>
-    <string name="report_remote_instance"></string>
-    <string name="failed_report"></string>
-    <string name="failed_fetch_statuses"></string>
-    <string name="report_description_1"></string>
-    <string name="report_description_remote_instance"></string>
+    <string name="button_continue"/>
+    <string name="button_back"/>
+    <string name="button_done"/>
+    <string name="report_sent_success"/>
+    <string name="hint_additional_info"/>
+    <string name="report_remote_instance"/>
+    <string name="failed_report"/>
+    <string name="failed_fetch_statuses"/>
+    <string name="report_description_1"/>
+    <string name="report_description_remote_instance"/>
 
-    <string name="pref_title_show_notifications_filter"></string>
+    <string name="pref_title_show_notifications_filter"/>
 </resources>
