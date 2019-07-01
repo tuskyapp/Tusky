@@ -36,6 +36,7 @@
 
     <string-array name="language_entries">
         <item>@string/system_default</item>
+        <item>British English</item>
         <item>Català</item>
         <item>Čeština</item>
         <item>Cymraeg</item>
@@ -70,6 +71,7 @@
 
     <string-array name="language_values">
         <item>default</item>
+        <item>en-gb</item>
         <item>ca</item>
         <item>cs</item>
         <item>cy</item>
