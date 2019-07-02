@@ -12,6 +12,8 @@
 
     <string name="description_status_favourited">Favourited</string>
 
+    <string name="title_favourited_by">Favourited by</string>
+
     <string name="error_authorization_unknown">An unidentified authorisation error occurred.</string>
     <string name="error_authorization_denied">Authorisation was denied.</string>
 
