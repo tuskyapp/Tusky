@@ -499,4 +499,6 @@
     <string name="mute_domain_warning_dialog_ok">Skrij celotno domeno</string>
 
     <string name="pref_title_show_notifications_filter">Pokaži filtre obvestil</string>
-</resources>
+<string name="filter_dialog_whole_word">Cela beseda</string>
+    <string name="filter_dialog_whole_word_description">Če je ključna beseda ali fraza samo alfanumerična, bo uporabljena le, če se ujema s celotno besedo</string>
+    </resources>
