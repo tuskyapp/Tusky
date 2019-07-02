@@ -19,5 +19,7 @@
         <item quantity="one">&lt;b>%1$s&lt;/b> Favourite</item>
         <item quantity="other">&lt;b>%1$s&lt;/b> Favourites</item>
     </plurals>
+    
+    <string name="report_description_remote_instance">The account is from another server. Send an anonymised copy of the report there as well?</string>
 
 </resources>
