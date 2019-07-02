@@ -34,7 +34,7 @@
     <string name="title_statuses_pinned">Pinned</string>
     <string name="title_follows">Follows</string>
     <string name="title_followers">Followers</string>
-    <string name="title_favourites">Favourites</string>
+    <string name="title_favourites">Favorites</string>
     <string name="title_mutes">Muted users</string>
     <string name="title_blocks">Blocked users</string>
     <string name="title_domain_mutes">Hidden domains</string>
@@ -57,7 +57,7 @@
     <string name="footer_empty">Nothing here. Pull down to refresh!</string>
 
     <string name="notification_reblog_format">%s boosted your toot</string>
-    <string name="notification_favourite_format">%s favourited your toot</string>
+    <string name="notification_favourite_format">%s favorited your toot</string>
     <string name="notification_follow_format">%s followed you</string>
 
     <string name="report_username_format">Report @%s</string>
@@ -67,8 +67,8 @@
     <string name="action_reply">Reply</string>
     <string name="action_reblog">Boost</string>
     <string name="action_unreblog">Remove boost</string>
-    <string name="action_favourite">Favourite</string>
-    <string name="action_unfavourite">Remove favourite</string>
+    <string name="action_favourite">Favorite</string>
+    <string name="action_unfavourite">Remove favorite</string>
     <string name="action_more">More</string>
     <string name="action_compose">Compose</string>
     <string name="action_login">Login with Mastodon</string>
@@ -90,7 +90,7 @@
     <string name="action_view_profile">Profile</string>
     <string name="action_view_preferences">Preferences</string>
     <string name="action_view_account_preferences">Account Preferences</string>
-    <string name="action_view_favourites">Favourites</string>
+    <string name="action_view_favourites">Favorites</string>
     <string name="action_view_mutes">Muted users</string>
     <string name="action_view_blocks">Blocked users</string>
     <string name="action_view_domain_mutes">Hidden domains</string>
@@ -123,7 +123,7 @@
     <string name="action_hashtags">Hashtags</string>
     <string name="action_open_reblogger">Open boost author</string>
     <string name="action_open_reblogged_by">Show boosts</string>
-    <string name="action_open_faved_by">Show favourites</string>
+    <string name="action_open_faved_by">Show favorites</string>
 
     <string name="title_hashtags_dialog">Hashtags</string>
     <string name="title_mentions_dialog">Mentions</string>
@@ -201,7 +201,7 @@
     <string name="pref_title_notification_filter_mentions">mentioned</string>
     <string name="pref_title_notification_filter_follows">followed</string>
     <string name="pref_title_notification_filter_reblogs">my posts are boosted</string>
-    <string name="pref_title_notification_filter_favourites">my posts are favourited</string>
+    <string name="pref_title_notification_filter_favourites">my posts are favorited</string>
     <string name="pref_title_notification_filter_poll">polls have ended</string>
     <string name="pref_title_appearance_settings">Appearance</string>
     <string name="pref_title_app_theme">App Theme</string>
@@ -255,8 +255,8 @@
     <string name="notification_follow_description">Notifications about new followers</string>
     <string name="notification_boost_name">Boosts</string>
     <string name="notification_boost_description">Notifications when your toots get boosted</string>
-    <string name="notification_favourite_name">Favourites</string>
-    <string name="notification_favourite_description">Notifications when your toots get marked as favourite</string>
+    <string name="notification_favourite_name">Favorites</string>
+    <string name="notification_favourite_description">Notifications when your toots get marked as favorite</string>
     <string name="notification_poll_name">Polls</string>
     <string name="notification_poll_description">Notifications about polls that have ended</string>
 
@@ -403,8 +403,8 @@
     <string name="pin_action">Pin</string>
 
     <plurals name="favs">
-        <item quantity="one">&lt;b>%1$s&lt;/b> Favourite</item>
-        <item quantity="other">&lt;b>%1$s&lt;/b> Favourites</item>
+        <item quantity="one">&lt;b>%1$s&lt;/b> Favorite</item>
+        <item quantity="other">&lt;b>%1$s&lt;/b> Favorites</item>
     </plurals>
 
     <plurals name="reblogs">
@@ -413,7 +413,7 @@
     </plurals>
 
     <string name="title_reblogged_by">Boosted by</string>
-    <string name="title_favourited_by">Favourited by</string>
+    <string name="title_favourited_by">Favorited by</string>
 
     <string name="conversation_1_recipients">%1$s</string>
     <string name="conversation_2_recipients">%1$s and %2$s</string>
@@ -434,7 +434,7 @@
         Reblogged
     </string>
     <string name="description_status_favourited">
-        Favourited
+        Favorited
     </string>
     <string name="description_visiblity_public">
         Public

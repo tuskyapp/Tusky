@@ -40,7 +40,8 @@
         <item>Čeština</item>
         <item>Cymraeg</item>
         <item>Deutsch</item>
-        <item>English</item>
+        <item>English (UK)</item>
+        <item>English (US)</item>
         <item>Esperanto</item>
         <item>Español</item>
         <item>Euskara</item>
@@ -74,6 +75,7 @@
         <item>cs</item>
         <item>cy</item>
         <item>de</item>
+        <item>en-gb</item>
         <item>en</item>
         <item>eo</item>
         <item>es</item>
