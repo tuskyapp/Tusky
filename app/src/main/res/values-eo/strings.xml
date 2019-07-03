@@ -425,7 +425,7 @@
     <string name="mute_domain_warning_dialog_ok">Kaŝi la tutan domajnon</string>
 
     <string name="caption_notoemoji">La aktuala emoĝiaro de Google</string>
-    <string name="description_poll">Balotenketo kun elektoj: %s, %s, %s, %s; %s</string>
+    <string name="description_poll">Balotenketo kun elektoj: %1$s, %2$s, %3$s, %4$s; %5$s</string>
 
     <string name="button_continue">Daŭrigi</string>
     <string name="button_back">Reveni</string>
