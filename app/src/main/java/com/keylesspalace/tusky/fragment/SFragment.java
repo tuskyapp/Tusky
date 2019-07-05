@@ -85,6 +85,8 @@ public abstract class SFragment extends BaseFragment implements Injectable {
     protected abstract void onReblog(final boolean reblog, final int position);
 
     private BottomSheetActivity bottomSheetActivity;
+
+    private static List<Filter> filters;
     private boolean filterRemoveRegex;
     private Matcher filterRemoveRegexMatcher;
 
@@ -433,13 +435,18 @@ public abstract class SFragment extends BaseFragment implements Injectable {
         });
     }
 
-    void reloadFilters(boolean refresh) {
+    void reloadFilters(boolean forceRefresh) {
+        if (filters != null && !forceRefresh) {
+            applyFilters(forceRefresh);
+            return;
+        }
+
         mastodonApi.getFilters().enqueue(new Callback<List<Filter>>() {
             @Override
             public void onResponse(@NonNull Call<List<Filter>> call, @NonNull Response<List<Filter>> response) {
-                List<Filter> filterList = response.body();
-                if (response.isSuccessful() && filterList != null) {
-                    applyFilters(filterList, refresh);
+                filters = response.body();
+                if (response.isSuccessful() && filters != null) {
+                    applyFilters(forceRefresh);
                 } else {
                     Log.e(TAG, "Error getting filters from server");
                 }
@@ -468,7 +475,7 @@ public abstract class SFragment extends BaseFragment implements Injectable {
             || (!status.getSpoilerText().isEmpty() && filterRemoveRegexMatcher.reset(status.getActionableStatus().getSpoilerText()).find())));
     }
 
-    private void applyFilters(List<Filter> filters, boolean refresh) {
+    private void applyFilters(boolean refresh) {
         List<String> tokens = new ArrayList<>();
         for (Filter filter : filters) {
             if (filterIsRelevant(filter)) {
