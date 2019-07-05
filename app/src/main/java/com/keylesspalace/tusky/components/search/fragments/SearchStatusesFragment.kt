@@ -195,7 +195,7 @@ class SearchStatusesFragment : SearchFragment<Pair<Status, StatusViewData.Concre
                 .replyingStatusAuthor(actionableStatus.account.localUsername)
                 .replyingStatusContent(actionableStatus.content.toString())
                 .build(context)
-        activity!!.startActivity(intent)
+        requireActivity.startActivity(intent)
     }
 
     private fun more(status: Status, view: View, position: Int) {
