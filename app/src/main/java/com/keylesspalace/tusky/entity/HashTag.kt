@@ -1,8 +1,3 @@
 package com.keylesspalace.tusky.entity
 
-import com.google.gson.annotations.SerializedName
-
-data class HashTag(
-        @field:SerializedName("name")
-        val name: String
-)
+data class HashTag(val name: String)

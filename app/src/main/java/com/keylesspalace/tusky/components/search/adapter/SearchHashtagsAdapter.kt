@@ -44,10 +44,6 @@ class SearchHashtagsAdapter(private val linkListener: LinkListener)
 
     }
 
-    public override fun getItem(position: Int): HashTag? {
-        return super.getItem(position)
-    }
-
     companion object {
 
         val STATUS_COMPARATOR = object : DiffUtil.ItemCallback<HashTag>() {

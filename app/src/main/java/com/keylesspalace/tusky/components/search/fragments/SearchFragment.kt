@@ -21,10 +21,7 @@ import com.keylesspalace.tusky.components.search.SearchViewModel
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.interfaces.LinkListener
-import com.keylesspalace.tusky.util.NetworkState
-import com.keylesspalace.tusky.util.Status
-import com.keylesspalace.tusky.util.hide
-import com.keylesspalace.tusky.util.show
+import com.keylesspalace.tusky.util.*
 import kotlinx.android.synthetic.main.fragment_search.*
 import javax.inject.Inject
 
@@ -63,10 +60,8 @@ abstract class SearchFragment<T> : Fragment(), LinkListener, Injectable {
         })
 
         networkStateRefresh.observe(viewLifecycleOwner, Observer {
-            if (it == NetworkState.LOADING) {
-                searchProgressBar.show()
-            } else
-                searchProgressBar.hide()
+
+            searchProgressBar.visible(it == NetworkState.LOADING)
 
             if (it.status == Status.FAILED)
                 showError(it.msg)
@@ -75,10 +70,8 @@ abstract class SearchFragment<T> : Fragment(), LinkListener, Injectable {
         })
 
         networkState.observe(viewLifecycleOwner, Observer {
-            if (it == NetworkState.LOADING)
-                progressBarBottom.show()
-            else
-                progressBarBottom.hide()
+
+            progressBarBottom.visible(it == NetworkState.LOADING)
 
             if (it.status == Status.FAILED)
                 showError(it.msg)
@@ -97,7 +90,7 @@ abstract class SearchFragment<T> : Fragment(), LinkListener, Injectable {
 
     }
 
-    protected fun showNoData(isEmpty: Boolean) {
+    private fun showNoData(isEmpty: Boolean) {
         if (isEmpty && networkStateRefresh.value == NetworkState.LOADED)
             searchNoResultsText.show()
         else

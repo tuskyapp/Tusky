@@ -209,7 +209,7 @@ class SearchStatusesFragment : SearchFragment<Pair<Status, StatusViewData.Concre
 
         val loggedInAccountId = viewModel.activeAccount?.accountId
 
-        val popup = PopupMenu(context!!, view)
+        val popup = PopupMenu(view.context, view)
         // Give a different menu depending on whether this is the user's own toot or not.
         if (loggedInAccountId == null || loggedInAccountId != accountId) {
             popup.inflate(R.menu.status_more)
@@ -386,27 +386,26 @@ class SearchStatusesFragment : SearchFragment<Pair<Status, StatusViewData.Concre
     }
 
     private fun showConfirmEditDialog(id: String, position: Int, status: Status) {
-        if (activity == null) {
-            return
-        }
-        AlertDialog.Builder(activity!!)
-                .setMessage(R.string.dialog_redraft_toot_warning)
-                .setPositiveButton(android.R.string.ok) { _, _ ->
-                    viewModel.deleteStatus(id)
-                    removeItem(position)
+        activity?.let {
+            AlertDialog.Builder(it)
+                    .setMessage(R.string.dialog_redraft_toot_warning)
+                    .setPositiveButton(android.R.string.ok) { _, _ ->
+                        viewModel.deleteStatus(id)
+                        removeItem(position)
 
-                    val intent = ComposeActivity.IntentBuilder()
-                            .tootText(getEditableText(status.content, status.mentions))
-                            .inReplyToId(status.inReplyToId)
-                            .visibility(status.visibility)
-                            .contentWarning(status.spoilerText)
-                            .mediaAttachments(status.attachments)
-                            .sensitive(status.sensitive)
-                            .build(context)
-                    startActivity(intent)
-                }
-                .setNegativeButton(android.R.string.cancel, null)
-                .show()
+                        val intent = ComposeActivity.IntentBuilder()
+                                .tootText(getEditableText(status.content, status.mentions))
+                                .inReplyToId(status.inReplyToId)
+                                .visibility(status.visibility)
+                                .contentWarning(status.spoilerText)
+                                .mediaAttachments(status.attachments)
+                                .sensitive(status.sensitive)
+                                .build(context)
+                        startActivity(intent)
+                    }
+                    .setNegativeButton(android.R.string.cancel, null)
+                    .show()
+        }
     }
 
     private fun getEditableText(content: Spanned, mentions: Array<Status.Mention>): String {
