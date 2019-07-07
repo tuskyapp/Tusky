@@ -144,7 +144,7 @@
     <string name="pref_title_notification_filter_mentions">òm me menciona</string>
     <string name="pref_title_notification_filter_follows">òm me sèc</string>
     <string name="pref_title_notification_filter_reblogs">òm parteja mas publicacions</string>
-    <string name="pref_title_notification_filter_favourites">òm me met mos tuts en favorit</string>
+    <string name="pref_title_notification_filter_favourites">òm met mos tuts en favorit</string>
     <string name="pref_title_appearance_settings">Aparença</string>
     <string name="pref_title_app_theme">Tèma de l’app</string>
     <string name="app_them_dark">Escur</string>
