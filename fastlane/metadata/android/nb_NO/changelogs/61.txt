@@ -1,0 +1,7 @@
+Tusky v7.0
+
+- Støtte for avstemninger.
+- Nye knapper for å filtrere varslinger, og for å slette alle varslinger
+- Slett og skriv dine egne toots på nytt
+- Bot-kontoer er nå markert (markeringen kan skrus av)
+- Nye språk: Norsk (bokmål) og slovensk.

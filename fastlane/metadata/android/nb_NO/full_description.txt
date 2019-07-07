@@ -1,0 +1,12 @@
+Tusky er en lettvektsklient for Mastodon, et gratis/libre sosialt nettverk basert på åpen kildekode.
+
+• Material Design
+• Støtter det meste av Mastodon-funksjonalitet
+• Støtte for flere samtidige kontoer
+• Mørkt og lyst fargetema med muligheten for å bytte automatisk på bestemte tider på døgnet
+• Kladder - skriv toots, og lagre dem til senere
+• Velg mellom forskjellige emoji-stiler
+• Optimalisert for alle skjermstørrelser
+• Fullstendig åpen kildekode - ingen lukkede avhengigheter, som Google-tjenester
+
+Om du vil vite mer om Mastodon, gå til https://joinmastodon.org/
