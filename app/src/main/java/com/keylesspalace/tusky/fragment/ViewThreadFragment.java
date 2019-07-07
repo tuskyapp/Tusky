@@ -154,6 +154,8 @@ public final class ViewThreadFragment extends SFragment implements
         adapter.setUseAbsoluteTime(useAbsoluteTime);
         boolean animateAvatars = preferences.getBoolean("animateGifAvatars", false);
         adapter.setAnimateAvatar(animateAvatars);
+        boolean showBotIndicator = preferences.getBoolean("showBotOverlay", true);
+        adapter.setShowBotOverlay(showBotIndicator);
 
         recyclerView.setAdapter(adapter);
 
