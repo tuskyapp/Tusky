@@ -52,7 +52,7 @@
     <string name="message_empty">Nada aquí.</string>
     <string name="footer_empty">Nada por aquí. ¡Arrastra hacia abajo para recargar!</string>
     <string name="notification_reblog_format">%s impulsó tu toot</string>
-    <string name="notification_favourite_format">%s marcó favorito</string>
+    <string name="notification_favourite_format">%s marcó como favorito tu post</string>
     <string name="notification_follow_format">%s te siguió</string>
     <string name="report_username_format">Reportar @%s</string>
     <string name="report_comment_hint">¿Información adicional?</string>
