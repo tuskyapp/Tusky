@@ -301,20 +301,21 @@ public class TimelineFragment extends SFragment implements
                             if (!statuses.isEmpty()) {
                                 filterStatuses(statuses);
 
-
                                 if (!this.statuses.isEmpty() && topId != null) {
                                     // clear old cached statuses
-                                    Iterator<Either<Placeholder, Status>> iterator = statuses.iterator();
+                                    Iterator<Either<Placeholder, Status>> iterator = this.statuses.iterator();
                                     while (iterator.hasNext()) {
                                         Either<Placeholder, Status> item = iterator.next();
                                         if(item.isRight()) {
                                             Status status = item.asRight();
-                                            if (status.getId().length() < topId.length() || status.getId().compareTo(topId) <= 0) {
+                                            if (status.getId().length() < topId.length() || status.getId().compareTo(topId) < 0) {
+
                                                 iterator.remove();
                                             }
                                         } else {
                                             Placeholder placeholder = item.asLeft();
-                                            if (placeholder.getId().length() < topId.length() || placeholder.getId().compareTo(topId) <= 0) {
+                                            if (placeholder.getId().length() < topId.length() || placeholder.getId().compareTo(topId) < 0) {
+
                                                 iterator.remove();
                                             }
                                         }
