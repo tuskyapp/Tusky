@@ -495,4 +495,8 @@ public abstract class SFragment extends BaseFragment implements Injectable {
         String phrase = Pattern.quote(filter.getPhrase());
         return filter.getWholeWord() ? String.format("(^|\\W)%s($|\\W)", phrase) : phrase;
     }
+
+    public static void flushFilters() {
+        filters = null;
+    }
 }

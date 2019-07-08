@@ -49,6 +49,7 @@ import com.keylesspalace.tusky.appstore.ProfileEditedEvent;
 import com.keylesspalace.tusky.components.conversation.ConversationsRepository;
 import com.keylesspalace.tusky.db.AccountEntity;
 import com.keylesspalace.tusky.entity.Account;
+import com.keylesspalace.tusky.fragment.SFragment;
 import com.keylesspalace.tusky.interfaces.ActionButtonActivity;
 import com.keylesspalace.tusky.interfaces.ReselectableFragment;
 import com.keylesspalace.tusky.pager.MainPagerAdapter;
@@ -492,6 +493,7 @@ public final class MainActivity extends BottomSheetActivity implements ActionBut
 
     private void changeAccount(long newSelectedId, @Nullable Intent forward) {
         cacheUpdater.stop();
+        SFragment.flushFilters();
         accountManager.setActiveAccount(newSelectedId);
 
         Intent intent = new Intent(this, MainActivity.class);
