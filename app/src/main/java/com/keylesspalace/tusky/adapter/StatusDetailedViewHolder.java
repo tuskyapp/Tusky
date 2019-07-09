@@ -56,6 +56,8 @@ class StatusDetailedViewHolder extends StatusBaseViewHolder {
         cardDescription = view.findViewById(R.id.card_description);
         cardUrl = view.findViewById(R.id.card_link);
         infoDivider = view.findViewById(R.id.status_info_divider);
+
+        cardView.setClipToOutline(true);
     }
 
     @Override
@@ -194,7 +196,6 @@ class StatusDetailedViewHolder extends StatusBaseViewHolder {
                     int radius = cardImage.getContext().getResources()
                             .getDimensionPixelSize(R.dimen.card_radius);
 
-                    cardView.setClipToOutline(true);
                     Glide.with(cardImage)
                             .load(card.getImage())
                             .transform(new CenterCrop(), new RoundedCornersTransformation(radius, 0, cornertype))
