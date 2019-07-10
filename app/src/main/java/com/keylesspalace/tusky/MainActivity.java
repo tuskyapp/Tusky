@@ -120,7 +120,7 @@ public final class MainActivity extends BottomSheetActivity implements ActionBut
     private int notificationTabPosition;
     private MainPagerAdapter adapter;
 
-    private EmojiCompat.InitCallback emojiInitCallback = new EmojiCompat.InitCallback() {
+    private final EmojiCompat.InitCallback emojiInitCallback = new EmojiCompat.InitCallback() {
         @Override
         public void onInitialized() {
             updateProfiles();
