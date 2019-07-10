@@ -362,6 +362,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
         updateMovedAccount()
         updateRemoteAccount()
         updateAccountStats()
+        invalidateOptionsMenu()
 
         accountMuteButton.setOnClickListener {
             viewModel.changeMuteState()
