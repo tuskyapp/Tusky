@@ -1,0 +1,7 @@
+Tusky v7.0
+
+- Support för att visa undersökningar, rösta och notifikationer
+- Nya knappar för ett filtrera notifikationsfliken och att ta bort alla notifieringar
+- Radera & skriv ny toot
+- Ny indikator som visar om kontot är en bot vid profilbilden (kan stängas av under inställningar)
+- Nya översättningar: Norska (Bokmål) and Slovenska.
