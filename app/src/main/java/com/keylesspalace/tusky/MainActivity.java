@@ -120,6 +120,13 @@ public final class MainActivity extends BottomSheetActivity implements ActionBut
     private int notificationTabPosition;
     private MainPagerAdapter adapter;
 
+    private final EmojiCompat.InitCallback emojiInitCallback = new EmojiCompat.InitCallback() {
+        @Override
+        public void onInitialized() {
+            updateProfiles();
+        }
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -309,6 +316,12 @@ public final class MainActivity extends BottomSheetActivity implements ActionBut
         }
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EmojiCompat.get().unregisterInitCallback(emojiInitCallback);
+    }
+
     private void forwardShare(Intent intent) {
         Intent composeIntent = new Intent(this, ComposeActivity.class);
         composeIntent.setAction(intent.getAction());
@@ -438,12 +451,7 @@ public final class MainActivity extends BottomSheetActivity implements ActionBut
             drawer.addItem(debugItem);
         }
 
-        EmojiCompat.get().registerInitCallback(new EmojiCompat.InitCallback() {
-            @Override
-            public void onInitialized() {
-                updateProfiles();
-            }
-        });
+        EmojiCompat.get().registerInitCallback(emojiInitCallback);
     }
 
     private void setupTabs(boolean selectNotificationTab) {
