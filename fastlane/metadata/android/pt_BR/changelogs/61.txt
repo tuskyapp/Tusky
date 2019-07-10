@@ -1,0 +1,7 @@
+Tusky v7.0
+
+- Suporte para enquetes: exibição, votação e notificação
+- Novos botões para filtrar notificações e excluí-las
+- Exclua e rascunhe seus toots
+- Novo indicador que mostra na foto de perfil se uma conta é um robô (pode ser desativado nas preferências)
+- Novas traduções: Norueguês Bokmål e Esloveno.
