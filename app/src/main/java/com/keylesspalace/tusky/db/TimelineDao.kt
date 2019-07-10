@@ -74,12 +74,12 @@ AND
     abstract fun removeAllPlaceholdersBetween(account: Long, maxId: String, sinceId: String)
 
     @Query("""UPDATE TimelineStatusEntity SET favourited = :favourited
-WHERE timelineUserId = :accountId AND (serverId = :statusId OR reblogServerId - :statusId)""")
+WHERE timelineUserId = :accountId AND (serverId = :statusId OR reblogServerId = :statusId)""")
     abstract fun setFavourited(accountId: Long, statusId: String, favourited: Boolean)
 
 
     @Query("""UPDATE TimelineStatusEntity SET reblogged = :reblogged
-WHERE timelineUserId = :accountId AND (serverId = :statusId OR reblogServerId - :statusId)""")
+WHERE timelineUserId = :accountId AND (serverId = :statusId OR reblogServerId = :statusId)""")
     abstract fun setReblogged(accountId: Long, statusId: String, reblogged: Boolean)
 
     @Query("""DELETE FROM TimelineStatusEntity WHERE timelineUserId = :accountId AND
@@ -101,6 +101,6 @@ AND authorServerId != :accountServerId AND createdAt < :olderThan""")
     abstract fun cleanup(accountId: Long, accountServerId: String, olderThan: Long)
 
     @Query("""UPDATE TimelineStatusEntity SET poll = :poll
-WHERE timelineUserId = :accountId AND (serverId = :statusId OR reblogServerId - :statusId)""")
+WHERE timelineUserId = :accountId AND (serverId = :statusId OR reblogServerId = :statusId)""")
     abstract fun setVoted(accountId: Long, statusId: String, poll: String)
 }
