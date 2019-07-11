@@ -372,13 +372,13 @@
     <string name="pin_action">Kitűzés</string>
 
     <plurals name="favs">
-	<item quantity="one"><b>%1$s</b> Kedvenc</item>
-	<item quantity="other"><b>%1$s</b> Kedvenc</item>
+	<item quantity="one">&lt;b>%1$s&lt;/b> Kedvenc</item>
+	<item quantity="other">&lt;b>%1$s&lt;/b> Kedvenc</item>
 </plurals>
 
     <plurals name="reblogs">
-	<item quantity="one"><b>%s</b> Megtolás</item>
-	<item quantity="other"><b>%s</b> Megtolás</item>
+	<item quantity="one">&lt;b>%s&lt;/b> Megtolás</item>
+	<item quantity="other">&lt;b>%s&lt;/b> Megtolás</item>
 </plurals>
 
     <string name="conversation_1_recipients">%1$s</string>

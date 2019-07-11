@@ -357,17 +357,17 @@
     <string name="pin_action">Pripni</string>
 
     <plurals name="favs">
-	<item quantity="one"><b>%1$s</b> Priljubljena</item>
-	<item quantity="two"><b>%1$s</b> Priljubljeni</item>
-	<item quantity="few"><b>%1$s</b> Priljubljene</item>
-	<item quantity="other"><b>%1$s</b> Priljubljenih</item>
+	<item quantity="one">&lt;b>%1$s&lt;/b> Priljubljena</item>
+	<item quantity="two">&lt;b>%1$s&lt;/b> Priljubljeni</item>
+	<item quantity="few">&lt;b>%1$s&lt;/b> Priljubljene</item>
+	<item quantity="other">&lt;b>%1$s&lt;/b> Priljubljenih</item>
 </plurals>
 
     <plurals name="reblogs">
-	<item quantity="one"><b>%s</b> Spodbuda</item>
-	<item quantity="two"><b>%s</b> Spodbudi</item>
-	<item quantity="few"><b>%s</b> Spodbude</item>
-	<item quantity="other"><b>%s</b> Spodbud</item>
+	<item quantity="one">&lt;b>%s&lt;/b> Spodbuda</item>
+	<item quantity="two">&lt;b>%s&lt;/b> Spodbudi</item>
+	<item quantity="few">&lt;b>%s&lt;/b> Spodbude</item>
+	<item quantity="other">&lt;b>%s&lt;/b> Spodbud</item>
 </plurals>
 
     <string name="title_reblogged_by">Spodbudil/a</string>

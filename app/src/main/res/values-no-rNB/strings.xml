@@ -357,13 +357,13 @@
     <string name="pin_action">Fest</string>
 
     <plurals name="favs">
-	<item quantity="one"><b>%1$s</b> Favoritt</item>
-	<item quantity="other"><b>%1$s</b> Favoritter</item>
+	<item quantity="one">&lt;b>%1$s&lt;/b> Favoritt</item>
+	<item quantity="other">&lt;b>%1$s&lt;/b> Favoritter</item>
 </plurals>
 
     <plurals name="reblogs">
-	<item quantity="one"><b>%s</b> Boost</item>
-	<item quantity="other"><b>%s</b> Boosts</item>
+	<item quantity="one">&lt;b>%s&lt;/b> Boost</item>
+	<item quantity="other">&lt;b>%s&lt;/b> Boosts</item>
 </plurals>
 
     <string name="title_reblogged_by">Boostet av</string>

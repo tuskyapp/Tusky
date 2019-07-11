@@ -303,8 +303,8 @@
         <item quantity="other">&lt;b&gt;%1$s&lt;/b&gt; Favoritos</item>
     </plurals>
     <plurals name="reblogs">
-	<item quantity="one"><b>%s</b> Impulso</item>
-	<item quantity="other"><b>%s</b> Impulsos</item>
+	<item quantity="one">&lt;b>%s&lt;/b> Impulso</item>
+	<item quantity="other">&lt;b>%s&lt;/b> Impulsos</item>
 </plurals>
     <string name="title_reblogged_by">Impulsado por</string>
     <string name="title_favourited_by">Marcado como favorito por</string>

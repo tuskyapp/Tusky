@@ -397,13 +397,13 @@
     <string name="label_remote_account">La informació de sota pot mostrar el perfil incomplert de l\'usuari. Clica per obrir el perfil complert al navegador.</string>
 
     <plurals name="favs">
-	<item quantity="one"><b>%1$s</b> Favorit</item>
-	<item quantity="other"><b>%1$s</b> Favorits</item>
+	<item quantity="one">&lt;b>%1$s&lt;/b> Favorit</item>
+	<item quantity="other">&lt;b>%1$s&lt;/b> Favorits</item>
 </plurals>
 
     <plurals name="reblogs">
-	<item quantity="one"><b>%s</b> Impuls</item>
-	<item quantity="other"><b>%s</b> Impulsos</item>
+	<item quantity="one">&lt;b>%s&lt;/b> Impuls</item>
+	<item quantity="other">&lt;b>%s&lt;/b> Impulsos</item>
 </plurals>
 
     <string name="title_reblogged_by">Impulsat per</string>

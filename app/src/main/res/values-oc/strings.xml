@@ -340,13 +340,13 @@
     <string name="license_cc_by_sa_4">CC-BY-SA 4.0</string>
 
     <plurals name="favs">
-	<item quantity="one"><b>%1$s</b> Favorit</item>
-	<item quantity="other"><b>3%1$s</b>4 Favorits</item>
+	<item quantity="one">&lt;b>%1$s&lt;/b> Favorit</item>
+	<item quantity="other">&lt;b>3%1$s&lt;/b>4 Favorits</item>
 </plurals>
 
     <plurals name="reblogs">
-	<item quantity="one"><b>%s</b> partatge</item>
-	<item quantity="other"><b>%s</b> partatges</item>
+	<item quantity="one">&lt;b>%s&lt;/b> partatge</item>
+	<item quantity="other">&lt;b>%s&lt;/b> partatges</item>
 </plurals>
 
     <string name="title_reblogged_by">Partejat per</string>

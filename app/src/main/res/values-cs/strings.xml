@@ -333,14 +333,14 @@
     <string name="unpin_action">Odepnout</string>
     <string name="pin_action">Připnout</string>
     <plurals name="favs">
-	<item quantity="one"><b>%1$s</b> oblíbení</item>
-	<item quantity="few"><b>%1$s</b> oblíbení</item>
-	<item quantity="other"><b>%1$s</b> oblíbení</item>
+	<item quantity="one">&lt;b>%1$s&lt;/b> oblíbení</item>
+	<item quantity="few">&lt;b>%1$s&lt;/b> oblíbení</item>
+	<item quantity="other">&lt;b>%1$s&lt;/b> oblíbení</item>
 </plurals>
     <plurals name="reblogs">
-	<item quantity="one"><b>%s</b> boost</item>
-	<item quantity="few"><b>%s</b> boost</item>
-	<item quantity="other"><b>%s</b> boostů</item>
+	<item quantity="one">&lt;b>%s&lt;/b> boost</item>
+	<item quantity="few">&lt;b>%s&lt;/b> boost</item>
+	<item quantity="other">&lt;b>%s&lt;/b> boostů</item>
 </plurals>
     <string name="title_reblogged_by">Boostnuto uživatelem</string>
     <string name="title_favourited_by">Oblíbeno uživatelem</string>

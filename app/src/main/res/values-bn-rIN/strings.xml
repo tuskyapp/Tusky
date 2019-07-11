@@ -389,13 +389,13 @@
     <string name="pin_action">পিন</string>
 
     <plurals name="favs">
-	<item quantity="one"><b>%1$s</b> প্রিয়</item>
-	<item quantity="other"><b>%1$s</b> পছন্দসই</item>
+	<item quantity="one">&lt;b>%1$s&lt;/b> প্রিয়</item>
+	<item quantity="other">&lt;b>%1$s&lt;/b> পছন্দসই</item>
 </plurals>
 
     <plurals name="reblogs">
-	<item quantity="one"><b>%s</b> সমর্থন</item>
-	<item quantity="other"><b>%s</b> সমর্থনগুলি</item>
+	<item quantity="one">&lt;b>%s&lt;/b> সমর্থন</item>
+	<item quantity="other">&lt;b>%s&lt;/b> সমর্থনগুলি</item>
 </plurals>
 
     <string name="title_reblogged_by">দ্বারা সর্মথন</string>

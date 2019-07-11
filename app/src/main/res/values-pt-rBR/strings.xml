@@ -354,13 +354,13 @@
     <string name="pin_action">Fixar</string>
 
     <plurals name="favs">
-	<item quantity="one"><b>%1$s</b> Favorito</item>
-	<item quantity="other"><b>%1$s</b> Favoritos</item>
+	<item quantity="one">&lt;b>%1$s&lt;/b> Favorito</item>
+	<item quantity="other">&lt;b>%1$s&lt;/b> Favoritos</item>
 </plurals>
 
     <plurals name="reblogs">
-	<item quantity="one"><b>%s</b> Boost</item>
-	<item quantity="other"><b>%s</b> Boosts</item>
+	<item quantity="one">&lt;b>%s&lt;/b> Boost</item>
+	<item quantity="other">&lt;b>%s&lt;/b> Boosts</item>
 </plurals>
 
     <string name="conversation_1_recipients">%1$s</string>
