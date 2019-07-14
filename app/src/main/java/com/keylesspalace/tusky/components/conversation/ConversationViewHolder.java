@@ -38,7 +38,9 @@ import com.keylesspalace.tusky.viewdata.PollViewDataKt;
 import java.util.List;
 
 public class ConversationViewHolder extends StatusBaseViewHolder {
-    private static final InputFilter[] COLLAPSE_INPUT_FILTER = new InputFilter[]{SmartLengthInputFilter.INSTANCE};
+    private static final InputFilter[] COLLAPSE_INPUT_FILTER = new InputFilter[] {
+            SmartLengthInputFilter.Companion.getINSTANCE()
+    };
     private static final InputFilter[] NO_INPUT_FILTER = new InputFilter[0];
 
     private TextView conversationNameTextView;

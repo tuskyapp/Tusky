@@ -360,7 +360,7 @@ public final class ViewThreadFragment extends SFragment implements
         }
 
         StatusViewData.Concrete updatedStatus = new StatusViewData.Builder(status)
-                .setCollapsible(!SmartLengthInputFilter.hasBadRatio(
+                .setCollapsible(!SmartLengthInputFilter.Companion.hasBadRatio(
                         status.getContent(),
                         SmartLengthInputFilter.LENGTH_DEFAULT
                 ))
