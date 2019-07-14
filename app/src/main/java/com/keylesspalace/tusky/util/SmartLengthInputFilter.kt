@@ -100,6 +100,7 @@ class SmartLengthInputFilter(
 		 * Stores a reusable singleton instance of a {@link SmartLengthInputFilter} already configured
 		 * to the default maximum length of {@value #LENGTH_DEFAULT}.
 		 */
+		@JvmStatic
 		val INSTANCE = SmartLengthInputFilter(LENGTH_DEFAULT)
 
 		/**
