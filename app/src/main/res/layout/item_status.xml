@@ -432,7 +432,7 @@
         app:layout_constraintBottom_toBottomOf="@id/status_reply"
         app:layout_constraintStart_toEndOf="@id/status_reply"
         android:textSize="?attr/status_text_small"
-        android:textColor="?android:textColorPrimary"/>
+        android:textColor="?attr/status_inactive_counter_colour"/>
 
     <at.connyduck.sparkbutton.SparkButton
         android:id="@+id/status_inset"
@@ -459,7 +459,7 @@
         app:layout_constraintBottom_toBottomOf="@id/status_inset"
         app:layout_constraintStart_toEndOf="@id/status_inset"
         android:textSize="?attr/status_text_small"
-        android:textColor="?android:textColorPrimary"/>
+        android:textColor="?attr/status_inactive_counter_colour"/>
 
     <at.connyduck.sparkbutton.SparkButton
         android:id="@+id/status_favourite"
@@ -486,7 +486,7 @@
         app:layout_constraintBottom_toBottomOf="@id/status_favourite"
         app:layout_constraintStart_toEndOf="@id/status_favourite"
         android:textSize="?attr/status_text_small"
-        android:textColor="?android:textColorPrimary"/>
+        android:textColor="?attr/status_inactive_counter_colour"/>
 
     <ImageButton
         android:id="@+id/status_more"

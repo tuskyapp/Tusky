@@ -80,6 +80,7 @@
         <item name="toolbar_background_color">@color/toolbar_background_light</item>
         <item name="toolbar_icon_tint">@color/toolbar_icon_light</item>
         <item name="image_button_style">@style/TuskyImageButton.Light</item>
+        <item name="status_inactive_counter_colour">@color/text_color_tertiary_light</item>
         <item name="status_reblog_small_drawable">@drawable/ic_reblog_light_18dp</item>
         <item name="status_reblog_inactive_drawable">@drawable/reblog_inactive_light</item>
         <item name="status_reblog_disabled_drawable">@drawable/reblog_private_light</item>

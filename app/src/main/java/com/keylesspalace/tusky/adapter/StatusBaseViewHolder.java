@@ -332,6 +332,12 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
     private void setReblogged(boolean reblogged) {
         this.reblogged = reblogged;
         reblogButton.setChecked(reblogged);
+        if (reblogged) {
+            countReposts.setTextColor(countReposts.getResources().getColor(R.color.tusky_blue));
+        }
+        else {
+            countReposts.setTextColor(ThemeUtils.getColor(reblogButton.getContext(), R.attr.status_inactive_counter_colour));
+        }
     }
 
     // This should only be called after setReblogged, in order to override the tint correctly.
@@ -369,6 +375,12 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
     protected void setFavourited(boolean favourited) {
         this.favourited = favourited;
         favouriteButton.setChecked(favourited);
+        if (favourited) {
+            countFavorites.setTextColor(countFavorites.getResources().getColor(R.color.tusky_orange));
+        }
+        else {
+            countFavorites.setTextColor(ThemeUtils.getColor(favouriteButton.getContext(), R.attr.status_inactive_counter_colour));
+        }
     }
 
     protected void setMediaPreviews(final List<Attachment> attachments, boolean sensitive,
