@@ -1,0 +1,10 @@
+Tusky v6.0
+
+- Tidslinjefiltre er flyttet til kontoinnstillinger, og vil nå synkroniseres med server
+- Du kan nå legge til emneknagger som egne faner
+- Lister kan nå endres
+- Sikkerhet: Fjernet støtte for TLS 1.0 og TLS 1.1, og la til støtte for TLS 1.3 på Android 6+
+- Når du komponerer et toot vil det foreslås emojis mens du skriver
+- Ny applikasjonstemainnstilling "Bruk systeminnstillinger"
+- Forbedret tilgjengelighet i tidslinjen
+- Mange andre forbedringer og feilrettinger
