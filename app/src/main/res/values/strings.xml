@@ -220,6 +220,7 @@
     <string name="pref_title_language">Language</string>
     <string name="pref_title_bot_overlay">Show indicator for bots</string>
     <string name="pref_title_animate_gif_avatars">Animate GIF avatars</string>
+    <string name="pref_title_show_counters">Show interaction counters</string>
 
     <string name="pref_title_status_filter">Timeline filtering</string>
     <string name="pref_title_status_tabs">Tabs</string>

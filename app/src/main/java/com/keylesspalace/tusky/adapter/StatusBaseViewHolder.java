@@ -16,6 +16,7 @@ import android.widget.ToggleButton;
 import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -674,6 +675,13 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
 
             setupCounters(status);
 
+            // Update interaction counters when preference state changes
+            PreferenceManager.getDefaultSharedPreferences(itemView.getContext()).registerOnSharedPreferenceChangeListener((sharedPreferences, key) -> {
+                if (key.equals("showCounters")) {
+                    setupCounters(status);
+                }
+            });
+
         } else {
             if (payloads instanceof List)
                 for (Object item : (List) payloads) {
@@ -686,14 +694,28 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
     }
 
     private void setupCounters(StatusViewData.Concrete status) {
-        if (countFavorites!=null)
-            countFavorites.setText(status.getFavouritesCount()>0?String.format(Locale.getDefault(),"%d",status.getFavouritesCount()):"");
 
-        if (countReposts!=null)
-            countReposts.setText(status.getReblogsCount()>0?String.format(Locale.getDefault(),"%d",status.getReblogsCount()):"");
+        if(PreferenceManager.getDefaultSharedPreferences(countReposts.getContext()).getBoolean("showCounters", false)) {
+            
+            countReplies.setVisibility(View.VISIBLE);
+            countFavorites.setVisibility(View.VISIBLE);
+            countReposts.setVisibility(View.VISIBLE);
 
-        if (countReplies!=null)
-            countReplies.setText(status.getRepliesCount()>0?String.format(Locale.getDefault(),"%d",status.getRepliesCount()):"");
+            if (countFavorites != null)
+                countFavorites.setText(status.getFavouritesCount() > 0 ? String.format(Locale.getDefault(), "%d", status.getFavouritesCount()) : "");
+
+            if (countReposts != null)
+                countReposts.setText(status.getReblogsCount() > 0 ? String.format(Locale.getDefault(), "%d", status.getReblogsCount()) : "");
+
+            if (countReplies != null)
+                countReplies.setText(status.getRepliesCount() > 0 ? String.format(Locale.getDefault(), "%d", status.getRepliesCount()) : "");
+        }
+        else {
+
+            countReplies.setVisibility(View.INVISIBLE);
+            countFavorites.setVisibility(View.INVISIBLE);
+            countReposts.setVisibility(View.INVISIBLE);
+        }
 
     }
 

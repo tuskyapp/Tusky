@@ -61,6 +61,11 @@
             android:key="showNotificationsFilter"
             android:title="@string/pref_title_show_notifications_filter" />
 
+        <SwitchPreferenceCompat
+                android:defaultValue="false"
+                android:key="showCounters"
+                android:title="@string/pref_title_show_counters" />
+
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/pref_title_browser_settings">
