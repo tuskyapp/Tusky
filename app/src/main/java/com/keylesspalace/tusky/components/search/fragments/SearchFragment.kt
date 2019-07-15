@@ -51,7 +51,16 @@ abstract class SearchFragment<T> : Fragment(), LinkListener, Injectable {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initAdapter()
+        setupSwipeRefreshLayout()
         subscribeObservables()
+    }
+
+    private fun setupSwipeRefreshLayout() {
+        swipeRefreshLayout.setOnRefreshListener(this)
+        swipeRefreshLayout.setColorSchemeResources(R.color.tusky_blue)
+        swipeRefreshLayout.setProgressBackgroundColorSchemeColor(
+                ThemeUtils.getColor(swipeRefreshLayout.context, android.R.attr.colorBackground))
+
     }
 
     private fun subscribeObservables() {
