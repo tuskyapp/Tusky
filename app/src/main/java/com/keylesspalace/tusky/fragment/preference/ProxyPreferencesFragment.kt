@@ -20,6 +20,7 @@ import android.os.Bundle
 import androidx.preference.EditTextPreference
 import androidx.preference.PreferenceFragmentCompat
 import com.keylesspalace.tusky.R
+import kotlin.system.exitProcess
 
 class ProxyPreferencesFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedPreferenceChangeListener {
 
@@ -50,7 +51,7 @@ class ProxyPreferencesFragment : PreferenceFragmentCompat(), SharedPreferences.O
 
         if (pendingRestart) {
             pendingRestart = false
-            System.exit(0)
+            exitProcess(0)
         }
     }
 
