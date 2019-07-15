@@ -123,7 +123,9 @@ public final class MainActivity extends BottomSheetActivity implements ActionBut
     private final EmojiCompat.InitCallback emojiInitCallback = new EmojiCompat.InitCallback() {
         @Override
         public void onInitialized() {
-            updateProfiles();
+            if(!isDestroyed()) {
+                updateProfiles();
+            }
         }
     };
 
