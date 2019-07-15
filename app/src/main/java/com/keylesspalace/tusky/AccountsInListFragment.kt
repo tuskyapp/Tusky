@@ -17,6 +17,7 @@
 package com.keylesspalace.tusky
 
 import android.os.Bundle
+import android.preference.PreferenceManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -27,12 +28,12 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.entity.Account
 import com.keylesspalace.tusky.util.Either
 import com.keylesspalace.tusky.util.hide
+import com.keylesspalace.tusky.util.loadAvatar
 import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.viewmodel.AccountsInListViewModel
 import com.keylesspalace.tusky.viewmodel.State
@@ -71,6 +72,9 @@ class AccountsInListFragment : DialogFragment(), Injectable {
     private lateinit var listName: String
     private val adapter = Adapter()
     private val searchAdapter = SearchAdapter()
+
+    private val radius by lazy { resources.getDimensionPixelSize(R.dimen.avatar_radius_48dp) }
+    private val animateAvatar by lazy { PreferenceManager.getDefaultSharedPreferences(requireContext()).getBoolean("animateGifAvatars", false) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -206,12 +210,9 @@ class AccountsInListFragment : DialogFragment(), Injectable {
             }
 
             fun bind(account: Account) {
+                displayNameTextView.text = account.name
                 usernameTextView.text = account.username
-                displayNameTextView.text = account.displayName
-                Glide.with(this@AccountsInListFragment)
-                        .load(account.avatar)
-                        .placeholder(R.drawable.avatar_default)
-                        .into(avatar)
+                loadAvatar(account.avatar, avatar, radius, animateAvatar)
             }
 
             override fun onClick(v: View?) {
@@ -252,12 +253,10 @@ class AccountsInListFragment : DialogFragment(), Injectable {
             override val containerView = itemView
 
             fun bind(account: Account, inAList: Boolean) {
+                displayNameTextView.text = account.name
                 usernameTextView.text = account.username
-                displayNameTextView.text = account.displayName
-                Glide.with(this@AccountsInListFragment)
-                        .load(account.avatar)
-                        .placeholder(R.drawable.avatar_default)
-                        .into(avatar)
+                loadAvatar(account.avatar, avatar, radius, animateAvatar)
+
                 rejectButton.apply {
                     if (inAList) {
                         setImageResource(R.drawable.ic_reject_24dp)
