@@ -1,7 +1,10 @@
 package com.keylesspalace.tusky.components.search
 
 import android.util.Log
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Transformations
+import androidx.lifecycle.ViewModel
 import androidx.paging.PagedList
 import com.keylesspalace.tusky.components.search.adapter.SearchRepository
 import com.keylesspalace.tusky.db.AccountEntity
@@ -18,12 +21,16 @@ import com.keylesspalace.tusky.util.ViewDataUtils
 import com.keylesspalace.tusky.viewdata.StatusViewData
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
+import java.util.*
 import javax.inject.Inject
+import kotlin.collections.ArrayList
 
 class SearchViewModel @Inject constructor(
         mastodonApi: MastodonApi,
         private val timelineCases: TimelineCases,
         private val accountManager: AccountManager) : ViewModel() {
+
+    var currentQuery: String? = null
 
     var activeAccount: AccountEntity?
         get() = accountManager.activeAccount
@@ -69,7 +76,7 @@ class SearchViewModel @Inject constructor(
         repoResultAccount.value = accountsRepository.getSearchData(SearchType.Account, query, disposables) {
             it?.accounts ?: emptyList()
         }
-        repoResultHashTag.value = hashtagsRepository.getSearchData(SearchType.Hashtag, query, disposables) {
+        repoResultHashTag.value = hashtagsRepository.getSearchData(SearchType.Hashtag, String.format(Locale.getDefault(),"#%s",query), disposables) {
             it?.hashtags ?: emptyList()
         }
 
@@ -78,10 +85,6 @@ class SearchViewModel @Inject constructor(
     override fun onCleared() {
         super.onCleared()
         disposables.clear()
-    }
-
-    fun retryStatusSearch() {
-        repoResultStatus.value?.retry?.invoke()
     }
 
     fun removeItem(status: Pair<Status, StatusViewData.Concrete>) {
@@ -195,6 +198,10 @@ class SearchViewModel @Inject constructor(
 
     fun deleteStatus(id: String) {
         timelineCases.delete(id)
+    }
+
+    fun retryAllSearches() {
+        search(currentQuery)
     }
 
 

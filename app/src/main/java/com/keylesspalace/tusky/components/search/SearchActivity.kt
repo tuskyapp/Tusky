@@ -21,7 +21,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
 import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.ViewModelProviders
 import com.keylesspalace.tusky.BottomSheetActivity
@@ -42,9 +41,6 @@ class SearchActivity : BottomSheetActivity(), SearchView.OnQueryTextListener, Ha
     lateinit var viewModelFactory: ViewModelFactory
 
     private lateinit var viewModel: SearchViewModel
-
-
-    private var currentQuery: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -78,8 +74,8 @@ class SearchActivity : BottomSheetActivity(), SearchView.OnQueryTextListener, Ha
                 .actionView as SearchView
         setupSearchView(searchView)
 
-        if (currentQuery != null) {
-            searchView.setQuery(currentQuery, false)
+        if (viewModel.currentQuery != null) {
+            searchView.setQuery(viewModel.currentQuery, false)
         }
 
         return true
@@ -105,8 +101,8 @@ class SearchActivity : BottomSheetActivity(), SearchView.OnQueryTextListener, Ha
 
     private fun handleIntent(intent: Intent) {
         if (Intent.ACTION_SEARCH == intent.action) {
-            currentQuery = intent.getStringExtra(SearchManager.QUERY)
-            viewModel.search(currentQuery)
+            viewModel.currentQuery = intent.getStringExtra(SearchManager.QUERY)
+            viewModel.search(viewModel.currentQuery)
         }
     }
 

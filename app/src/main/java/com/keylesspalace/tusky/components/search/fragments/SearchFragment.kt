@@ -12,6 +12,7 @@ import androidx.paging.PagedList
 import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.android.material.snackbar.Snackbar
 import com.keylesspalace.tusky.AccountActivity
 import com.keylesspalace.tusky.BottomSheetActivity
@@ -23,9 +24,13 @@ import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.interfaces.LinkListener
 import com.keylesspalace.tusky.util.*
 import kotlinx.android.synthetic.main.fragment_search.*
+import java.util.*
 import javax.inject.Inject
+import kotlin.concurrent.schedule
 
-abstract class SearchFragment<T> : Fragment(), LinkListener, Injectable {
+abstract class SearchFragment<T> : Fragment(),
+        LinkListener, Injectable, SwipeRefreshLayout.OnRefreshListener {
+    private var isSwipeToRefreshEnabled: Boolean = true
     private var snackbarErrorRetry: Snackbar? = null
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
@@ -111,7 +116,7 @@ abstract class SearchFragment<T> : Fragment(), LinkListener, Injectable {
             snackbarErrorRetry = Snackbar.make(layoutRoot, R.string.failed_search, Snackbar.LENGTH_INDEFINITE)
             snackbarErrorRetry?.setAction(R.string.action_retry) {
                 snackbarErrorRetry = null
-                viewModel.retryStatusSearch()
+                viewModel.retryAllSearches()
             }
             snackbarErrorRetry?.show()
         }
@@ -127,4 +132,13 @@ abstract class SearchFragment<T> : Fragment(), LinkListener, Injectable {
 
     protected val bottomSheetActivity = (activity as? BottomSheetActivity)
 
+    override fun onRefresh() {
+
+        // Dismissed here because the RecyclerView bottomProgressBar is shown as soon as the retry begins.
+        Timer("DelayDismiss", false).schedule(200) {
+            swipeRefreshLayout.isRefreshing = false
+        }
+
+        viewModel.retryAllSearches()
+    }
 }
