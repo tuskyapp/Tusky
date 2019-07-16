@@ -1116,6 +1116,7 @@ public class TimelineFragment extends SFragment implements
 
     private void updateStatuses(List<Either<Placeholder, Status>> newStatuses, boolean fullFetch) {
         if (ListUtils.isEmpty(newStatuses)) {
+            updateAdapter();
             return;
         }
 
