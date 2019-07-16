@@ -206,4 +206,10 @@
 
     <style name="TuskyBlackTheme" parent="TuskyBlackThemeBase" />
 
+    <!-- customize the shape of the avatars in account selection list -->
+    <style name="BezelImageView">
+        <item name="biv_maskDrawable">@drawable/materialdrawer_shape_small</item>
+        <item name="biv_drawCircularShadow">false</item>
+    </style>
+
 </resources>
