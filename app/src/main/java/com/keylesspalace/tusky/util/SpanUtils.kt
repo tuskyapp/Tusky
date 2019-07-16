@@ -6,6 +6,7 @@ import android.text.style.CharacterStyle
 import android.text.style.ForegroundColorSpan
 import android.text.style.URLSpan
 import java.util.regex.Pattern
+import kotlin.math.max
 
 /**
  * @see <a href="https://github.com/tootsuite/mastodon/blob/master/app/models/tag.rb">
@@ -68,7 +69,7 @@ private fun findPattern(string: String, fromIndex: Int): FindCharsResult {
                     && ((i - fromIndex) < finder.searchPrefixWidth ||
                             Character.isWhitespace(string.codePointAt(i - finder.searchPrefixWidth)))) {
                 result.matchType = matchType
-                result.start = Math.max(0, i - finder.searchPrefixWidth)
+                result.start = max(0, i - finder.searchPrefixWidth)
                 findEndOfPattern(string, result, finder.pattern)
                 if (result.start + finder.searchPrefixWidth <= i + 1 && // The found result is actually triggered by the correct search character
                         result.end >= result.start) {                   // ...and we actually found a valid result

@@ -58,6 +58,7 @@ import kotlinx.android.synthetic.main.activity_account.*
 import kotlinx.android.synthetic.main.view_account_moved.*
 import java.text.NumberFormat
 import javax.inject.Inject
+import kotlin.math.abs
 
 class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInjector, LinkListener {
 
@@ -272,7 +273,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
 
                 accountAvatarImageView.visible(scaledAvatarSize > 0)
 
-                var transparencyPercent = Math.abs(verticalOffset) / titleVisibleHeight.toFloat()
+                var transparencyPercent = abs(verticalOffset) / titleVisibleHeight.toFloat()
                 if (transparencyPercent > 1) transparencyPercent = 1f
 
                 window.statusBarColor = argbEvaluator.evaluate(transparencyPercent, statusBarColorTransparent, statusBarColorOpaque) as Int

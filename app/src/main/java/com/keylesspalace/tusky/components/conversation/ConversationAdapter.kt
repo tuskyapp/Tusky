@@ -41,7 +41,7 @@ class ConversationAdapter(private val useAbsoluteTime: Boolean,
         override fun onChanged(position: Int, count: Int, payload: Any?) {
             notifyItemRangeChanged(position, count, payload)
         }
-    }, AsyncDifferConfig.Builder<ConversationEntity>(CONVERSATION_COMPARATOR).build())
+    }, AsyncDifferConfig.Builder(CONVERSATION_COMPARATOR).build())
 
     fun submitList(list: PagedList<ConversationEntity>) {
         differ.submitList(list)

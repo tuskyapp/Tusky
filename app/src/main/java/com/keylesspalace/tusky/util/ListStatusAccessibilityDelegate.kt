@@ -159,7 +159,7 @@ class ListStatusAccessibilityDelegate(
             val textLinks = links.map { item -> item.link }
             AlertDialog.Builder(host.context)
                     .setTitle(R.string.title_links_dialog)
-                    .setAdapter(ArrayAdapter<String>(
+                    .setAdapter(ArrayAdapter(
                             host.context,
                             android.R.layout.simple_list_item_1,
                             textLinks)
@@ -188,7 +188,7 @@ class ListStatusAccessibilityDelegate(
             val tags = getHashtags(status).map { it.subSequence(1, it.length) }.toList()
             AlertDialog.Builder(host.context)
                     .setTitle(R.string.title_hashtags_dialog)
-                    .setAdapter(ArrayAdapter<CharSequence>(host.context,
+                    .setAdapter(ArrayAdapter(host.context,
                             android.R.layout.simple_list_item_1, tags)
                     ) { _, which ->
                         statusActionListener.onViewTag(tags[which].toString())
