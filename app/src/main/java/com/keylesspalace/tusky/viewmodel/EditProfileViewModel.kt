@@ -34,7 +34,9 @@ import io.reactivex.Single
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo
 import io.reactivex.schedulers.Schedulers
-import okhttp3.MediaType
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.RequestBody.Companion.asRequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import org.json.JSONException
@@ -144,30 +146,30 @@ class EditProfileViewModel  @Inject constructor(
         val displayName = if (oldProfileData?.displayName == newDisplayName) {
             null
         } else {
-            RequestBody.create(MultipartBody.FORM, newDisplayName)
+            newDisplayName.toRequestBody(MultipartBody.FORM)
         }
 
         val note = if (oldProfileData?.source?.note == newNote) {
             null
         } else {
-            RequestBody.create(MultipartBody.FORM, newNote)
+            newNote.toRequestBody(MultipartBody.FORM)
         }
 
         val locked = if (oldProfileData?.locked == newLocked) {
             null
         } else {
-            RequestBody.create(MultipartBody.FORM, newLocked.toString())
+            newLocked.toString().toRequestBody(MultipartBody.FORM)
         }
 
         val avatar = if (avatarData.value is Success && avatarData.value?.data != null) {
-            val avatarBody = RequestBody.create(MediaType.parse("image/png"), getCacheFileForName(context, AVATAR_FILE_NAME))
+            val avatarBody = getCacheFileForName(context, AVATAR_FILE_NAME).asRequestBody("image/png".toMediaTypeOrNull())
             MultipartBody.Part.createFormData("avatar", randomAlphanumericString(12), avatarBody)
         } else {
             null
         }
 
         val header = if (headerData.value is Success && headerData.value?.data != null) {
-            val headerBody = RequestBody.create(MediaType.parse("image/png"), getCacheFileForName(context, HEADER_FILE_NAME))
+            val headerBody = getCacheFileForName(context, HEADER_FILE_NAME).asRequestBody("image/png".toMediaTypeOrNull())
             MultipartBody.Part.createFormData("header", randomAlphanumericString(12), headerBody)
         } else {
             null
@@ -235,8 +237,8 @@ class EditProfileViewModel  @Inject constructor(
             return null
         }
         return Pair(
-                RequestBody.create(MultipartBody.FORM, newField.name),
-                RequestBody.create(MultipartBody.FORM, newField.value)
+                newField.name.toRequestBody(MultipartBody.FORM),
+                newField.value.toRequestBody(MultipartBody.FORM)
         )
     }
 
