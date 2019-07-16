@@ -31,10 +31,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.entity.Account
-import com.keylesspalace.tusky.util.Either
-import com.keylesspalace.tusky.util.hide
-import com.keylesspalace.tusky.util.loadAvatar
-import com.keylesspalace.tusky.util.show
+import com.keylesspalace.tusky.util.*
 import com.keylesspalace.tusky.viewmodel.AccountsInListViewModel
 import com.keylesspalace.tusky.viewmodel.State
 import com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider.from
@@ -210,7 +207,7 @@ class AccountsInListFragment : DialogFragment(), Injectable {
             }
 
             fun bind(account: Account) {
-                displayNameTextView.text = account.name
+                displayNameTextView.text = CustomEmojiHelper.emojifyString(account.name, account.emojis, displayNameTextView)
                 usernameTextView.text = account.username
                 loadAvatar(account.avatar, avatar, radius, animateAvatar)
             }
@@ -253,7 +250,7 @@ class AccountsInListFragment : DialogFragment(), Injectable {
             override val containerView = itemView
 
             fun bind(account: Account, inAList: Boolean) {
-                displayNameTextView.text = account.name
+                displayNameTextView.text = CustomEmojiHelper.emojifyString(account.name, account.emojis, displayNameTextView)
                 usernameTextView.text = account.username
                 loadAvatar(account.avatar, avatar, radius, animateAvatar)
 
