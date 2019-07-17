@@ -49,7 +49,7 @@ data class Account(
 ) : Parcelable {
 
     val name: String
-        get() = if (displayName.isEmpty()) {
+        get() = if (displayName.isNullOrEmpty()) {
             localUsername
         } else displayName
 

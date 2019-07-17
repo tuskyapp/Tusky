@@ -515,4 +515,6 @@
     <string name="report_description_remote_instance">The account is from another server. Send an anonymized copy of the report there as well?</string>
 
     <string name="pref_title_show_notifications_filter">Show Notifications filter</string>
+
+    <string name="null_display_name_placeholder">unknown</string>
 </resources>
