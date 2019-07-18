@@ -58,7 +58,7 @@ public final class ViewDataUtils {
                 .setApplication(visibleStatus.getApplication())
                 .setStatusEmojis(visibleStatus.getEmojis())
                 .setAccountEmojis(visibleStatus.getAccount().getEmojis())
-                .setCollapsible(!SmartLengthInputFilter.Companion.hasBadRatio(
+                .setCollapsible(!SmartLengthInputFilter.hasBadRatio(
                         visibleStatus.getContent(),
                         SmartLengthInputFilter.LENGTH_DEFAULT
                 ))
