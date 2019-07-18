@@ -14,37 +14,37 @@ import android.text.Spanned
  *     <li>Expansion of the limit by up to 10 characters to facilitate the previous constraint.</li>
  *     <li>Constraints are not applied if the percentage of hidden content is too small.</li>
  * </ul>
- *
- * Some of these features are configurable through at instancing time.
- *
- * @param max            The maximum length before trimming. May change based on other constraints.
- * @param allowRunway    Whether to extend {@param max} by an extra 10 characters and trim precisely
- *                       at the end of the closest word.
- * @param skipIfBadRatio Whether to skip trimming entirely if the trimmed content will be less than
- *                       25% of the shown content.
  */
-class SmartLengthInputFilter(
-		val max: Int = LENGTH_DEFAULT,
-		val allowRunway: Boolean = true,
-		val skipIfBadRatio: Boolean = true
-) : InputFilter {
+object SmartLengthInputFilter : InputFilter {
+
+	/**
+	 * Defines how many characters to extend beyond the limit to cut at the end of the word on the
+	 * boundary of it rather than cutting at the word preceding that one.
+	 */
+	const val RUNWAY = 10
+
+	/**
+	 * Default for maximum status length on Mastodon and default collapsing length on Pleroma.
+	 */
+	const val LENGTH_DEFAULT = 500
+
 	/** {@inheritDoc} */
 	override fun filter(source: CharSequence, start: Int, end: Int, dest: Spanned, dstart: Int, dend: Int): CharSequence? {
 		// Code originally imported from InputFilter.LengthFilter but heavily customized and converted to Kotlin.
 		// https://android.googlesource.com/platform/frameworks/base/+/master/core/java/android/text/InputFilter.java#175
 
 		val sourceLength = source.length
-		var keep = max - dest.length - dend - dstart
+		var keep = LENGTH_DEFAULT - dest.length - dend - dstart
 		if (keep <= 0) return ""
 		if (keep >= end - start) return null // Keep original
 
 		keep += start
 
-		// Skip trimming if the ratio doesn't warrant it and there is no enforcement
-		if (skipIfBadRatio && keep.toDouble() / sourceLength > 0.75) return null
+		// Skip trimming if the ratio doesn't warrant it
+		if (keep.toDouble() / sourceLength > 0.75) return null
 
 		// Enable trimming at the end of the closest word if possible
-		if (allowRunway && source[keep].isLetterOrDigit()) {
+		if (source[keep].isLetterOrDigit()) {
 			var boundary: Int
 
 			// Android N+ offer a clone of the ICU APIs in Java for better internationalization and
@@ -84,35 +84,16 @@ class SmartLengthInputFilter(
 		}
 	}
 
-	companion object {
-		/**
-		 * Defines how many characters to extend beyond the limit to cut at the end of the word on the
-		 * boundary of it rather than cutting at the word preceding that one.
-		 */
-		const val RUNWAY = 10
-
-		/**
-		 * Default for maximum status length on Mastodon and default collapsing length on Pleroma.
-		 */
-		const val LENGTH_DEFAULT = 500
-
-		/**
-		 * Stores a reusable singleton instance of a {@link SmartLengthInputFilter} already configured
-		 * to the default maximum length of {@value #LENGTH_DEFAULT}.
-		 */
-		@JvmStatic
-		val INSTANCE = SmartLengthInputFilter(LENGTH_DEFAULT)
-
-		/**
-		 * Calculates if it's worth trimming the message at a specific limit or if the content that will
-		 * be hidden will not be enough to justify the operation.
-		 *
-		 * @param message The message to trim.
-		 * @param limit   The maximum length after trimming.
-		 * @return        Whether the message should be trimmed or not.
-		 */
-		fun hasBadRatio(message: Spanned, limit: Int): Boolean {
-			return limit / message.length > 0.75
-		}
+	/**
+	 * Calculates if it's worth trimming the message at a specific limit or if the content that will
+	 * be hidden will not be enough to justify the operation.
+	 *
+	 * @param message The message to trim.
+	 * @param limit   The maximum length after trimming.
+	 * @return        Whether the message should be trimmed or not.
+	 */
+	@JvmStatic
+	fun hasBadRatio(message: Spanned, limit: Int): Boolean {
+		return limit / message.length > 0.75
 	}
 }
