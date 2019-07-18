@@ -18,6 +18,6 @@ package com.keylesspalace.tusky.util
 import com.keylesspalace.tusky.entity.Status
 
 fun Status.isCollapsible(): Boolean {
-    return !hasBadRatio(content, SmartLengthInputFilter.LENGTH_DEFAULT)
+    return !hasBadRatio(content)
 }
 

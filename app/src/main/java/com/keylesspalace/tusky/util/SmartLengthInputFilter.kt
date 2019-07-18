@@ -5,15 +5,25 @@ import android.text.SpannableStringBuilder
 import android.text.Spanned
 
 /**
+ * Defines how many characters to extend beyond the limit to cut at the end of the word on the
+ * boundary of it rather than cutting at the word preceding that one.
+ */
+private const val RUNWAY = 10
+
+/**
+ * Default for maximum status length on Mastodon and default collapsing length on Pleroma.
+ */
+private const val LENGTH_DEFAULT = 500
+
+/**
  * Calculates if it's worth trimming the message at a specific limit or if the content that will
  * be hidden will not be enough to justify the operation.
  *
  * @param message The message to trim.
- * @param limit   The maximum length after trimming.
  * @return        Whether the message should be trimmed or not.
  */
-fun hasBadRatio(message: Spanned, limit: Int): Boolean {
-	return limit / message.length > 0.75
+fun hasBadRatio(message: Spanned): Boolean {
+	return LENGTH_DEFAULT / message.length > 0.75
 }
 
 /**
@@ -28,18 +38,6 @@ fun hasBadRatio(message: Spanned, limit: Int): Boolean {
  * </ul>
  */
 object SmartLengthInputFilter : InputFilter {
-
-	/**
-	 * Defines how many characters to extend beyond the limit to cut at the end of the word on the
-	 * boundary of it rather than cutting at the word preceding that one.
-	 */
-	const val RUNWAY = 10
-
-	/**
-	 * Default for maximum status length on Mastodon and default collapsing length on Pleroma.
-	 */
-	const val LENGTH_DEFAULT = 500
-
 	/** {@inheritDoc} */
 	override fun filter(source: CharSequence, start: Int, end: Int, dest: Spanned, dstart: Int, dend: Int): CharSequence? {
 		// Code originally imported from InputFilter.LengthFilter but heavily customized and converted to Kotlin.

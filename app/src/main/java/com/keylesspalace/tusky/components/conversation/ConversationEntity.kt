@@ -177,7 +177,7 @@ fun Status.toEntity() =
                 spoilerText, attachments, mentions,
                 false,
                 false,
-                !hasBadRatio(content, SmartLengthInputFilter.LENGTH_DEFAULT),
+                !hasBadRatio(content),
                 true,
                 poll
         )
