@@ -5,6 +5,18 @@ import android.text.SpannableStringBuilder
 import android.text.Spanned
 
 /**
+ * Calculates if it's worth trimming the message at a specific limit or if the content that will
+ * be hidden will not be enough to justify the operation.
+ *
+ * @param message The message to trim.
+ * @param limit   The maximum length after trimming.
+ * @return        Whether the message should be trimmed or not.
+ */
+fun hasBadRatio(message: Spanned, limit: Int): Boolean {
+	return limit / message.length > 0.75
+}
+
+/**
  * A customized version of {@link android.text.InputFilter.LengthFilter} which allows smarter
  * constraints and adds better visuals such as:
  * <ul>
@@ -82,18 +94,5 @@ object SmartLengthInputFilter : InputFilter {
 		} else {
 			"${source.subSequence(start, keep)}…"
 		}
-	}
-
-	/**
-	 * Calculates if it's worth trimming the message at a specific limit or if the content that will
-	 * be hidden will not be enough to justify the operation.
-	 *
-	 * @param message The message to trim.
-	 * @param limit   The maximum length after trimming.
-	 * @return        Whether the message should be trimmed or not.
-	 */
-	@JvmStatic
-	fun hasBadRatio(message: Spanned, limit: Int): Boolean {
-		return limit / message.length > 0.75
 	}
 }
