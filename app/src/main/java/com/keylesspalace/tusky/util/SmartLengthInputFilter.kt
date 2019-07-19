@@ -22,7 +22,7 @@ private const val LENGTH_DEFAULT = 500
  * @param message The message to trim.
  * @return        Whether the message should be trimmed or not.
  */
-fun hasBadRatio(message: Spanned): Boolean {
+fun shouldTrimStatus(message: Spanned): Boolean {
 	return LENGTH_DEFAULT / message.length > 0.75
 }
 

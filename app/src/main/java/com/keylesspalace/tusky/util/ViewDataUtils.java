@@ -58,7 +58,7 @@ public final class ViewDataUtils {
                 .setApplication(visibleStatus.getApplication())
                 .setStatusEmojis(visibleStatus.getEmojis())
                 .setAccountEmojis(visibleStatus.getAccount().getEmojis())
-                .setCollapsible(!SmartLengthInputFilterKt.hasBadRatio(visibleStatus.getContent()))
+                .setCollapsible(!SmartLengthInputFilterKt.shouldTrimStatus(visibleStatus.getContent()))
                 .setCollapsed(true)
                 .setPoll(visibleStatus.getPoll())
                 .setCard(visibleStatus.getCard())
