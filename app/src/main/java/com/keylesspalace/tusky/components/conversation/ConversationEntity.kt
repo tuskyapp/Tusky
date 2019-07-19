@@ -22,7 +22,7 @@ import androidx.room.Entity
 import androidx.room.TypeConverters
 import com.keylesspalace.tusky.db.Converters
 import com.keylesspalace.tusky.entity.*
-import com.keylesspalace.tusky.util.SmartLengthInputFilter
+import com.keylesspalace.tusky.util.shouldTrimStatus
 import java.util.*
 
 @Entity(primaryKeys = ["id","accountId"])
@@ -176,7 +176,7 @@ fun Status.toEntity() =
                 spoilerText, attachments, mentions,
                 false,
                 false,
-                !SmartLengthInputFilter.hasBadRatio(content, SmartLengthInputFilter.LENGTH_DEFAULT),
+                !shouldTrimStatus(content),
                 true,
                 poll
         )

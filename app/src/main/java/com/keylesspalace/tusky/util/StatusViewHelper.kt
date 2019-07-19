@@ -310,7 +310,7 @@ class StatusViewHelper(private val itemView: View) {
     }
 
     companion object {
-        val COLLAPSE_INPUT_FILTER = arrayOf<InputFilter>(SmartLengthInputFilter.INSTANCE)
+        val COLLAPSE_INPUT_FILTER = arrayOf<InputFilter>(SmartLengthInputFilter)
         val NO_INPUT_FILTER = arrayOfNulls<InputFilter>(0)
     }
 }
