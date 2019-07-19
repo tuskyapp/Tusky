@@ -15,7 +15,7 @@ import com.keylesspalace.tusky.interfaces.LinkListener;
 import com.keylesspalace.tusky.util.CustomEmojiHelper;
 import com.keylesspalace.tusky.util.ImageLoadingHelper;
 
-class AccountViewHolder extends RecyclerView.ViewHolder {
+public class AccountViewHolder extends RecyclerView.ViewHolder {
     private TextView username;
     private TextView displayName;
     private ImageView avatar;
@@ -24,7 +24,7 @@ class AccountViewHolder extends RecyclerView.ViewHolder {
     private boolean showBotOverlay;
     private boolean animateAvatar;
 
-    AccountViewHolder(View itemView) {
+    public AccountViewHolder(View itemView) {
         super(itemView);
         username = itemView.findViewById(R.id.account_username);
         displayName = itemView.findViewById(R.id.account_display_name);
@@ -35,7 +35,7 @@ class AccountViewHolder extends RecyclerView.ViewHolder {
         animateAvatar = sharedPrefs.getBoolean("animateGifAvatars", false);
     }
 
-    void setupWithAccount(Account account) {
+    public void setupWithAccount(Account account) {
         accountId = account.getId();
         String format = username.getContext().getString(R.string.status_username_format);
         String formattedUsername = String.format(format, account.getUsername());
@@ -58,7 +58,7 @@ class AccountViewHolder extends RecyclerView.ViewHolder {
         itemView.setOnClickListener(v -> listener.onViewAccount(accountId));
     }
 
-    void setupLinkListener(final LinkListener listener) {
+    public void setupLinkListener(final LinkListener listener) {
         itemView.setOnClickListener(v -> listener.onViewAccount(accountId));
     }
 }

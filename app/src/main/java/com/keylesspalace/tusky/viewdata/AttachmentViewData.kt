@@ -19,5 +19,12 @@ data class AttachmentViewData(
                 AttachmentViewData(it, actionable.id, actionable.url!!)
             }
         }
+
+        fun list(attachments: List<Attachment>): List<AttachmentViewData> {
+            return attachments.map {
+                AttachmentViewData(it, it.id, it.url)
+            }
+        }
+
     }
 }

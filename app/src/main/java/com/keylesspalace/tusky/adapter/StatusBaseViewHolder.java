@@ -607,7 +607,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         itemView.setOnClickListener(viewThreadListener);
     }
 
-    protected void setupWithStatus(StatusViewData.Concrete status, final StatusActionListener listener,
+    public void setupWithStatus(StatusViewData.Concrete status, final StatusActionListener listener,
                                    boolean mediaPreviewEnabled, boolean showBotOverlay, boolean animateAvatar) {
         this.setupWithStatus(status, listener, mediaPreviewEnabled, showBotOverlay, animateAvatar, null);
     }

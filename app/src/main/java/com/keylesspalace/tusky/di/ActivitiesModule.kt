@@ -18,6 +18,7 @@ package com.keylesspalace.tusky.di
 import com.keylesspalace.tusky.*
 import com.keylesspalace.tusky.components.instancemute.InstanceListActivity
 import com.keylesspalace.tusky.components.report.ReportActivity
+import com.keylesspalace.tusky.components.search.SearchActivity
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
