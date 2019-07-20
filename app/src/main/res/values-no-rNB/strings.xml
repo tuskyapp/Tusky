@@ -357,13 +357,13 @@
     <string name="pin_action">Fest</string>
 
     <plurals name="favs">
-	<item quantity="one">&lt;b>%1$s&lt;/b> Favoritt</item>
-	<item quantity="other">&lt;b>%1$s&lt;/b> Favoritter</item>
+	<item quantity="one">&lt;b&gt;%1$s&lt;/b&gt; Favoritt</item>
+	<item quantity="other">&lt;b&gt;%1$s&lt;/b&gt; Favoritter</item>
 </plurals>
 
     <plurals name="reblogs">
-	<item quantity="one">&lt;b>%s&lt;/b> Boost</item>
-	<item quantity="other">&lt;b>%s&lt;/b> Boosts</item>
+	<item quantity="one">&lt;b&gt;%s&lt;/b&gt; Boost</item>
+	<item quantity="other">&lt;b&gt;%s&lt;/b&gt; Boosts</item>
 </plurals>
 
     <string name="title_reblogged_by">Boostet av</string>
@@ -487,4 +487,7 @@
     <string name="pref_title_show_notifications_filter">Vis varselfilter</string>
 <string name="filter_dialog_whole_word">Hele ordet</string>
     <string name="filter_dialog_whole_word_description">Når nøkkelordet kun inneholder bokstaver og tall, vil det bare brukes dersom det stemmer overens med hele ordet</string>
+    <string name="title_accounts">Kontoer</string>
+    <string name="failed_search">Klarte ikke å søke</string>
+
     </resources>
