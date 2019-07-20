@@ -450,4 +450,6 @@
     <string name="mute_domain_warning_dialog_ok">Bloquear instância</string>
 
     <string name="pref_title_show_notifications_filter">Mostrar filtro de notificações</string>
-</resources>
+<string name="filter_dialog_whole_word">Toda palavra</string>
+    <string name="filter_dialog_whole_word_description">Se for apenas alfanumérico, só se aplicará se combinar com a palavra inteira</string>
+    </resources>
