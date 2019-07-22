@@ -85,9 +85,14 @@ class FiltersActivity: BaseActivity() {
     private fun createFilter(phrase: String, wholeWord: Boolean) {
         api.createFilter(phrase, listOf(context), false, wholeWord, "").enqueue(object: Callback<Filter> {
             override fun onResponse(call: Call<Filter>, response: Response<Filter>) {
-                filters.add(response.body()!!)
-                refreshFilterDisplay()
-                eventHub.dispatch(PreferenceChangedEvent(context))
+                val filterResponse = response.body()
+                if(response.isSuccessful && filterResponse != null) {
+                    filters.add(filterResponse)
+                    refreshFilterDisplay()
+                    eventHub.dispatch(PreferenceChangedEvent(context))
+                } else {
+                    Toast.makeText(this@FiltersActivity, "Error creating filter '$phrase'", Toast.LENGTH_SHORT).show()
+                }
             }
 
             override fun onFailure(call: Call<Filter>, t: Throwable) {
