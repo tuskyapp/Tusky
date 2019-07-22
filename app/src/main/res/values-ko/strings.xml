@@ -58,7 +58,7 @@
     <string name="footer_empty">게시물이 없습니다. 아래로 당겨서 새로고침하세요!</string>
 
     <string name="notification_reblog_format">%s님이 부스트 했습니다</string>
-    <string name="notification_favourite_format">%님이 즐겨찾기 했습니다</string>
+    <string name="notification_favourite_format">%s님이 즐겨찾기 했습니다</string>
     <string name="notification_follow_format">%s님이 나를 팔로우 했습니다.</string>
 
     <string name="report_username_format">\@%s 신고</string>
@@ -134,7 +134,6 @@
     <string name="download_image">%1$s 다운로드 중</string>
 
     <string name="action_copy_link">링크 복사</string>
-    <string name="action_open_as">사사사</string>
     <string name="action_share_as">공유</string>
     <string name="download_media">다운로드</string>
     <string name="downloading_media">미디어 다운로드 중</string>
@@ -313,7 +312,7 @@
     <string name="follows_you">당신을 팔로우합니다</string>
     <string name="pref_title_alway_show_sensitive_media">민감한 컨텐츠 항상 보이기</string>
     <string name="title_media">미디어</string>
-    <string name="replying_to">\@s에게 답장</string>
+    <string name="replying_to">\@%s에게 답장</string>
     <string name="load_more_placeholder_text">더 불러오기</string>
 
     <string name="pref_title_public_filter_keywords">공개 타임라인</string>

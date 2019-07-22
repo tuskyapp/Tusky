@@ -12,8 +12,8 @@
     <string name="notification_favourite_name">Favourites</string>
     <string name="notification_favourite_description">Notifications when your toots get marked as favourite</string>
     <plurals name="favs">
-	<item quantity="one"><b>%1$s</b> Favourite</item>
-	<item quantity="other"><b>%1$s</b> Favourites</item>
+	<item quantity="one">&lt;b>%1$s&lt;/b> Favourite</item>
+	<item quantity="other">&lt;b>%1$s&lt;/b> Favourites</item>
 </plurals>
 
     <string name="title_favourited_by">Favourited by</string>

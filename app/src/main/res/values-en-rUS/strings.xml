@@ -1,12 +1,2 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<resources><string name="dialog_whats_an_instance"><a href="https://instances.social">more!</a> 
-\n
-\nIf you don\'t yet have an account, you can enter the name of the instance you\'d like to join and create an account there.
-\n
-\nAn instance is a single place where your account is hosted, but you can easily communicate with and follow folks on other instances as though you were on the same site. 
-\n
-\nMore info can be found at <a href="https://joinmastodon.org">joinmastodon.org</a>. </string>
-    <string name="poll_info_format"> <!-- 15 votes • 1 hour left --> %1$s • %2$s</string>
-    <string name="poll_option_format"> <!-- 15% vote for this! --> &lt;b&gt;%1$d%%&lt;/b&gt; %2$s</string>
-
-    </resources>
+<resources></resources>

@@ -240,7 +240,7 @@
     <string name="follows_you">Sizi takip ediyor</string>
     <string name="pref_title_alway_show_sensitive_media">Her zaman hassas içerikleri göster</string>
     <string name="title_media">Medya</string>
-    <string name="replying_to"/>
+
     <string name="load_more_placeholder_text">daha fazla yükle</string>
     <string name="add_account_name">Hesap Ekle</string>
     <string name="add_account_description">Yeni Mastodon hesabı ekle</string>
@@ -248,7 +248,6 @@
     <string name="title_lists">Listeler</string>
     <string name="title_list_timeline">Zaman çizelgesini listele</string>
     <string name="compose_active_account_description">%1$s hesabıyla gönderiliyor</string>
-    <string name="error_failed_set_caption"/>
     <string name="hint_describe_for_visually_impaired">Görme engelliler için açıklama
 \n(%d karakter limiti)</string>
     <string name="action_set_caption">Başlık belirle</string>
@@ -278,9 +277,7 @@
     <string name="caption_blobmoji">Android 4.4 — 7.1\'den bilinen baloncuk emojisi</string>
     <string name="caption_twemoji">Mastodon\'un standart emoji seti</string>
     <string name="download_failed">İndirme başarısız</string>
-    <string name="profile_badge_bot_text"/>
     <string name="account_moved_description">%1$s buraya taşındı:</string>
-    <string name="reblog_private"/>
     <string name="unreblog_private">Yinelemeyi geri al</string>
     <string name="license_description">Tusky aşağıdakı açık kaynaklı projelerden kod ve materyal içeriyor:</string>
     <string name="license_apache_2">Apache Lisansı altında lisanslanmıştır (kopya aşağıda)</string>

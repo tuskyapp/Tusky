@@ -421,7 +421,7 @@
     <string name="action_mute_domain">Silentigi %s</string>
     <string name="confirmation_domain_unmuted">%s malsilentigita</string>
 
-    <string name="mute_domain_warning">Ĉu vi certas ke vi volas tute bloki {domain}\? Vi ne vidos enhavon de tiu domajno en publika tempolinio aŭ en viaj sciigoj. Viaj sekvantoj de tiu domajno estos forigitaj.</string>
+    <string name="mute_domain_warning">Ĉu vi certas ke vi volas tute bloki %s\? Vi ne vidos enhavon de tiu domajno en publika tempolinio aŭ en viaj sciigoj. Viaj sekvantoj de tiu domajno estos forigitaj.</string>
     <string name="mute_domain_warning_dialog_ok">Kaŝi la tutan domajnon</string>
 
     <string name="caption_notoemoji">La aktuala emoĝiaro de Google</string>
