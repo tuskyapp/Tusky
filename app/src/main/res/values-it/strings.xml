@@ -60,7 +60,7 @@
     <string name="action_reply">Rispondi</string>
     <string name="action_reblog">Boosta</string>
     <string name="action_unreblog">Rimuovi boost</string>
-    <string name="action_favourite">Mi piace</string>
+    <string name="action_favourite">Aggiungi ai preferiti</string>
     <string name="action_unfavourite">Rimuovi preferito</string>
     <string name="action_more">Di più</string>
     <string name="action_compose">Componi</string>
@@ -391,4 +391,23 @@
     <string name="poll_vote">Vota</string>
 
 
-</resources>
+<string name="title_domain_mutes">Domini nascosti</string>
+    <string name="action_view_domain_mutes">Domini nascosti</string>
+    <string name="action_mute_domain">Silenzia %s</string>
+    <string name="confirmation_domain_unmuted">%s</string>
+
+    <string name="mute_domain_warning">Sei sicuro di voler bloccare tutto %s\? Non vedrai nessun contenuto da quel dominio in nessuna timeline pubblica o nelle tue notifiche. I tuoi seguaci che stanno in quel dominio saranno rimossi</string>
+    <string name="mute_domain_warning_dialog_ok">Nascondi l\'intero dominio</string>
+
+    <string name="pref_title_notification_filter_poll">Le votazioni sono finite</string>
+    <string name="pref_title_animate_gif_avatars">Mostra le animazioni delle GIF negli avatar</string>
+
+    <string name="notification_poll_name">Votazioni</string>
+    <string name="notification_poll_description">Notifiche sulle votazioni che sono concluse</string>
+
+
+    <string name="filter_dialog_whole_word">Parola intera</string>
+    <string name="filter_dialog_whole_word_description">Quando la parola chiave o la frase sono composte da caratteri alfanumerici, sara\' applicata solo se corrisponde alla parola completa</string>
+    <string name="caption_notoemoji">Insieme di emoji di Google</string>
+
+    </resources>
