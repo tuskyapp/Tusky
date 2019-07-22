@@ -79,7 +79,7 @@ class StatusViewHolder(itemView: View,
 
     private fun updateTextView() {
         status()?.let { status ->
-            setupCollapsedState(status.isCollapsible(), viewState.isCollapsed(status.id, true),
+            setupCollapsedState(shouldTrimStatus(status.content), viewState.isCollapsed(status.id, true),
                     viewState.isContentShow(status.id, status.sensitive), status.spoilerText)
 
             if (status.spoilerText.isBlank()) {

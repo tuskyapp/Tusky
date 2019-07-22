@@ -38,8 +38,7 @@ private const val LENGTH_DEFAULT = 500
  * @return        Whether the message should be trimmed or not.
  */
 fun shouldTrimStatus(message: Spanned): Boolean {
-    // Check for emptiness so that we don't divide by zero
-	return message.isNotEmpty() && LENGTH_DEFAULT.toFloat() / message.length > 0.75
+	return message.isNotEmpty() && LENGTH_DEFAULT.toFloat() / message.length < 0.75
 }
 
 /**
@@ -60,7 +59,7 @@ object SmartLengthInputFilter : InputFilter {
 		// https://android.googlesource.com/platform/frameworks/base/+/master/core/java/android/text/InputFilter.java#175
 
 		val sourceLength = source.length
-		var keep = LENGTH_DEFAULT - dest.length - dend - dstart
+		var keep = LENGTH_DEFAULT - (dest.length - (dend - dstart))
 		if (keep <= 0) return ""
 		if (keep >= end - start) return null // Keep original
 
@@ -78,17 +77,17 @@ object SmartLengthInputFilter : InputFilter {
 			// those without having to add the ICU4J library at a minimum Api trade-off.
 			if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
 				val iterator = android.icu.text.BreakIterator.getWordInstance()
-				iterator.setText(source.toString())
-				boundary = iterator.following(keep)
-				if (keep - boundary > RUNWAY) boundary = iterator.preceding(keep)
-			} else {
-				val iterator = java.text.BreakIterator.getWordInstance()
-				iterator.setText(source.toString())
-				boundary = iterator.following(keep)
-				if (keep - boundary > RUNWAY) boundary = iterator.preceding(keep)
-			}
+			iterator.setText(source.toString())
+			boundary = iterator.following(keep)
+			if (keep - boundary > RUNWAY) boundary = iterator.preceding(keep)
+		} else {
+			val iterator = java.text.BreakIterator.getWordInstance()
+			iterator.setText(source.toString())
+			boundary = iterator.following(keep)
+			if (keep - boundary > RUNWAY) boundary = iterator.preceding(keep)
+		}
 
-			keep = boundary
+		keep = boundary
 		} else {
 
 			// If no runway is allowed simply remove whitespaces if present

@@ -176,7 +176,7 @@ fun Status.toEntity() =
                 spoilerText, attachments, mentions,
                 false,
                 false,
-                !shouldTrimStatus(content),
+                shouldTrimStatus(content),
                 true,
                 poll
         )
