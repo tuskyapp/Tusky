@@ -268,7 +268,7 @@ public class NotificationHelper {
         summaryStackBuilder.addParentStack(MainActivity.class);
         summaryStackBuilder.addNextIntent(summaryResultIntent);
 
-        PendingIntent summaryResultPendingIntent = summaryStackBuilder.getPendingIntent(notificationId,
+        PendingIntent summaryResultPendingIntent = summaryStackBuilder.getPendingIntent((int) (notificationId + account.getId() * 10000),
                 PendingIntent.FLAG_UPDATE_CURRENT);
 
         // we have to switch account here
