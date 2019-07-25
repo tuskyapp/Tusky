@@ -518,7 +518,7 @@ public final class ComposeActivity
                 replyContentTextView.setText(intent.getStringExtra(REPLYING_STATUS_CONTENT_EXTRA));
             }
 
-            statusMarkSensitive = intent.getBooleanExtra(SENSITIVE_EXTRA, false);
+            statusMarkSensitive = intent.getBooleanExtra(SENSITIVE_EXTRA, statusMarkSensitive);
         }
 
         // After the starting state is finalised, the interface can be set to reflect this state.
@@ -1963,7 +1963,8 @@ public final class ComposeActivity
         private String replyingStatusContent;
         @Nullable
         private ArrayList<Attachment> mediaAttachments;
-        private boolean sensitive = false;
+        @Nullable
+        private Boolean sensitive;
 
 
         public IntentBuilder savedTootUid(int uid) {
@@ -2071,7 +2072,9 @@ public final class ComposeActivity
             if (mediaAttachments != null) {
                 intent.putParcelableArrayListExtra(MEDIA_ATTACHMENTS_EXTRA, mediaAttachments);
             }
-            intent.putExtra(SENSITIVE_EXTRA, sensitive);
+            if(sensitive != null) {
+                intent.putExtra(SENSITIVE_EXTRA, sensitive);
+            }
             return intent;
         }
     }
