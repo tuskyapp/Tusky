@@ -42,7 +42,10 @@ class AccountFieldAdapter(private val linkListener: LinkListener) : RecyclerView
 
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
         val field = fields[position]
-        viewHolder.nameTextView.text = field.name
+
+        val emojifiedName = CustomEmojiHelper.emojifyString(field.name, emojis, viewHolder.nameTextView)
+        viewHolder.nameTextView.text = emojifiedName
+
         val emojifiedValue = CustomEmojiHelper.emojifyText(field.value, emojis, viewHolder.valueTextView)
         LinkHelper.setClickableText(viewHolder.valueTextView, emojifiedValue, null, linkListener)
 
