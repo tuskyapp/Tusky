@@ -48,7 +48,6 @@ import com.keylesspalace.tusky.interfaces.StatusActionListener;
 import com.keylesspalace.tusky.network.MastodonApi;
 import com.keylesspalace.tusky.util.ListStatusAccessibilityDelegate;
 import com.keylesspalace.tusky.util.PairedList;
-import com.keylesspalace.tusky.util.SmartLengthInputFilterKt;
 import com.keylesspalace.tusky.util.ThemeUtils;
 import com.keylesspalace.tusky.util.ViewDataUtils;
 import com.keylesspalace.tusky.view.ConversationLineItemDecoration;
@@ -360,7 +359,6 @@ public final class ViewThreadFragment extends SFragment implements
         }
 
         StatusViewData.Concrete updatedStatus = new StatusViewData.Builder(status)
-                .setCollapsible(!SmartLengthInputFilterKt.shouldTrimStatus(status.getContent()))
                 .setCollapsed(isCollapsed)
                 .createStatusViewData();
         statuses.setPairedItem(position, updatedStatus);
