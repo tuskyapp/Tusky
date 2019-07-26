@@ -257,7 +257,8 @@ class ComposeActivityTest {
                         emptyList(),
                         emptyList()
                 ),
-                maximumTootCharacters
+                maximumTootCharacters,
+                null
         )
     }
 

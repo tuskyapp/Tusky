@@ -41,6 +41,7 @@ import com.keylesspalace.tusky.adapter.AccountFieldEditAdapter
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.entity.Account
+import com.keylesspalace.tusky.entity.Instance
 import com.keylesspalace.tusky.util.*
 import com.keylesspalace.tusky.viewmodel.EditProfileViewModel
 import com.mikepenz.google_material_typeface_library.GoogleMaterial
@@ -160,6 +161,18 @@ class EditProfileActivity : BaseActivity(), Injectable {
                     }
                     snackbar.show()
 
+                }
+            }
+        })
+
+        viewModel.obtainInstance()
+        viewModel.instanceData.observe(this, Observer<Resource<Instance>> { result ->
+            when (result) {
+                is Success -> {
+                    val instance = result.data
+                    if (instance?.maxBioChars != null && instance.maxBioChars > 0) {
+                        noteEditTextLayout.counterMaxLength = instance.maxBioChars
+                    }
                 }
             }
         })
