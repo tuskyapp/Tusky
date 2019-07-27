@@ -17,6 +17,7 @@ package com.keylesspalace.tusky.adapter;
 
 import android.content.Context;
 import android.text.InputFilter;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.ToggleButton;
@@ -53,26 +54,21 @@ public class StatusViewHolder extends StatusBaseViewHolder {
     protected void setupWithStatus(StatusViewData.Concrete status, final StatusActionListener listener,
                                    boolean mediaPreviewEnabled, boolean showBotOverlay, boolean animateAvatar,
                                    @Nullable Object payloads) {
-        if (status == null || payloads == null) {
-            if (status == null) {
-                showContent(false);
+        if (payloads == null) {
+
+            setupCollapsedState(status, listener);
+
+            String rebloggedByDisplayName = status.getRebloggedByUsername();
+            if (rebloggedByDisplayName == null) {
+                hideStatusInfo();
             } else {
-                showContent(true);
-                setupCollapsedState(status, listener);
-                super.setupWithStatus(status, listener, mediaPreviewEnabled, showBotOverlay, animateAvatar, null);
-
-                String rebloggedByDisplayName = status.getRebloggedByUsername();
-                if (rebloggedByDisplayName == null) {
-                    hideStatusInfo();
-                } else {
-                    setRebloggedByDisplayName(rebloggedByDisplayName);
-                    statusInfo.setOnClickListener(v -> listener.onOpenReblog(getAdapterPosition()));
-                }
-
+                setRebloggedByDisplayName(rebloggedByDisplayName);
+                statusInfo.setOnClickListener(v -> listener.onOpenReblog(getAdapterPosition()));
             }
-        } else {
-            super.setupWithStatus(status, listener, mediaPreviewEnabled, showBotOverlay, animateAvatar, payloads);
+
         }
+        super.setupWithStatus(status, listener, mediaPreviewEnabled, showBotOverlay, animateAvatar, payloads);
+
     }
 
     private void setRebloggedByDisplayName(final String name) {
@@ -92,15 +88,12 @@ public class StatusViewHolder extends StatusBaseViewHolder {
     }
 
     void hideStatusInfo() {
-        if (statusInfo == null) {
-            return;
-        }
         statusInfo.setVisibility(View.GONE);
     }
 
     private void setupCollapsedState(final StatusViewData.Concrete status, final StatusActionListener listener) {
         /* input filter for TextViews have to be set before text */
-        if (status.isCollapsible() && (status.isExpanded() || status.getSpoilerText() == null || status.getSpoilerText().isEmpty())) {
+        if (status.isCollapsible() && (status.isExpanded() || TextUtils.isEmpty(status.getSpoilerText()))) {
             contentCollapseButton.setOnCheckedChangeListener((buttonView, isChecked) -> {
                 int position = getAdapterPosition();
                 if (position != RecyclerView.NO_POSITION)

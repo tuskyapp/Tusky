@@ -267,7 +267,7 @@ class StatusViewHelper(private val itemView: View) {
             if (useAbsoluteTime) {
                 pollDurationInfo = context.getString(R.string.poll_info_time_absolute, getAbsoluteTime(poll.expiresAt))
             } else {
-                val pollDuration = DateUtils.formatPollDuration(context, poll.expiresAt!!.time, timestamp)
+                val pollDuration = TimestampUtils.formatPollDuration(context, poll.expiresAt!!.time, timestamp)
                 pollDurationInfo = context.getString(R.string.poll_info_time_relative, pollDuration)
             }
         }
