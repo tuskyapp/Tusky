@@ -162,6 +162,7 @@ public class NotificationsFragment extends SFragment implements
     private boolean bottomLoading;
     private String bottomId;
     private boolean alwaysShowSensitiveMedia;
+    private boolean alwaysOpenSpoiler;
     private boolean showNotificationsFilter;
 
     // Each element is either a Notification for loading data or a Placeholder
@@ -173,7 +174,8 @@ public class NotificationsFragment extends SFragment implements
                 Notification notification = input.asRight();
                 return ViewDataUtils.notificationToViewData(
                         notification,
-                        alwaysShowSensitiveMedia
+                        alwaysShowSensitiveMedia,
+                        alwaysOpenSpoiler
                 );
             } else {
                 return new NotificationViewData.Placeholder(input.asLeft().id, false);
@@ -236,6 +238,7 @@ public class NotificationsFragment extends SFragment implements
         adapter = new NotificationsAdapter(accountManager.getActiveAccount().getAccountId(),
                 dataSource, this, this);
         alwaysShowSensitiveMedia = accountManager.getActiveAccount().getAlwaysShowSensitiveMedia();
+        alwaysOpenSpoiler = accountManager.getActiveAccount().getAlwaysOpenSpoiler();
         boolean mediaPreviewEnabled = accountManager.getActiveAccount().getMediaPreviewEnabled();
         adapter.setMediaPreviewEnabled(mediaPreviewEnabled);
         boolean useAbsoluteTime = preferences.getBoolean("absoluteTimeView", false);

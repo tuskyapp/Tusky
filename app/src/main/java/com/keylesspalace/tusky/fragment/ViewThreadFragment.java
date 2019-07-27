@@ -92,6 +92,7 @@ public final class ViewThreadFragment extends SFragment implements
     private ThreadAdapter adapter;
     private String thisThreadsStatusId;
     private boolean alwaysShowSensitiveMedia;
+    private boolean alwaysOpenSpoiler;
 
     private int statusIndex = 0;
 
@@ -101,7 +102,8 @@ public final class ViewThreadFragment extends SFragment implements
                 public StatusViewData.Concrete apply(Status input) {
                     return ViewDataUtils.statusToViewData(
                             input,
-                            alwaysShowSensitiveMedia
+                            alwaysShowSensitiveMedia,
+                            alwaysOpenSpoiler
                     );
                 }
             });
@@ -149,6 +151,7 @@ public final class ViewThreadFragment extends SFragment implements
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(
                 getActivity());
         alwaysShowSensitiveMedia = accountManager.getActiveAccount().getAlwaysShowSensitiveMedia();
+        alwaysOpenSpoiler = accountManager.getActiveAccount().getAlwaysOpenSpoiler();
         boolean mediaPreviewEnabled = accountManager.getActiveAccount().getMediaPreviewEnabled();
         adapter.setMediaPreviewEnabled(mediaPreviewEnabled);
         boolean useAbsoluteTime = preferences.getBoolean("absoluteTimeView", false);
