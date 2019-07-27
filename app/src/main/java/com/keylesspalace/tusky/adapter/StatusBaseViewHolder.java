@@ -518,23 +518,25 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
                 listener.onReply(position);
             }
         });
-        reblogButton.setEventListener(new SparkEventListener() {
-            @Override
-            public void onEvent(ImageView button, boolean buttonState) {
-                int position = getAdapterPosition();
-                if (position != RecyclerView.NO_POSITION) {
-                    listener.onReblog(buttonState, position);
+        if(reblogButton != null) {
+            reblogButton.setEventListener(new SparkEventListener() {
+                @Override
+                public void onEvent(ImageView button, boolean buttonState) {
+                    int position = getAdapterPosition();
+                    if (position != RecyclerView.NO_POSITION) {
+                        listener.onReblog(buttonState, position);
+                    }
                 }
-            }
 
-            @Override
-            public void onEventAnimationEnd(ImageView button, boolean buttonState) {
-            }
+                @Override
+                public void onEventAnimationEnd(ImageView button, boolean buttonState) {
+                }
 
-            @Override
-            public void onEventAnimationStart(ImageView button, boolean buttonState) {
-            }
-        });
+                @Override
+                public void onEventAnimationStart(ImageView button, boolean buttonState) {
+                }
+            });
+        }
 
         favouriteButton.setEventListener(new SparkEventListener() {
             @Override
