@@ -202,7 +202,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
                                 concreteNotificaton.getId());
                     } else {
                         if (payloadForHolder instanceof List)
-                            for (Object item : payloads) {
+                            for (Object item : (List)payloadForHolder) {
                                 if (StatusBaseViewHolder.Key.KEY_CREATED.equals(item)) {
                                     holder.setCreatedAt(statusViewData.getCreatedAt());
                                 }
