@@ -26,7 +26,6 @@ import android.widget.ToggleButton;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
 import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.adapter.StatusBaseViewHolder;
 import com.keylesspalace.tusky.entity.Attachment;
@@ -56,7 +55,11 @@ public class ConversationViewHolder extends StatusBaseViewHolder {
         super(itemView, useAbsoluteTime);
         conversationNameTextView = itemView.findViewById(R.id.conversation_name);
         contentCollapseButton = itemView.findViewById(R.id.button_toggle_content);
-        avatars = new ImageView[]{avatar, itemView.findViewById(R.id.status_avatar_1), itemView.findViewById(R.id.status_avatar_2)};
+        avatars = new ImageView[]{
+                avatar,
+                itemView.findViewById(R.id.status_avatar_1),
+                itemView.findViewById(R.id.status_avatar_2)
+        };
 
         this.listener = listener;
         this.mediaPreviewEnabled = mediaPreviewEnabled;

@@ -29,6 +29,7 @@ import com.keylesspalace.tusky.viewdata.StatusViewData;
 import java.text.DateFormat;
 import java.util.Date;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -66,13 +67,9 @@ class StatusDetailedViewHolder extends StatusBaseViewHolder {
     }
 
     @Override
-    protected void setCreatedAt(@Nullable Date createdAt) {
-        if (createdAt != null) {
-            DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.DEFAULT, DateFormat.SHORT);
-            timestampInfo.setText(dateFormat.format(createdAt));
-        } else {
-            timestampInfo.setText("");
-        }
+    protected void setCreatedAt(@NonNull Date createdAt) {
+        DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.DEFAULT, DateFormat.SHORT);
+        timestampInfo.setText(dateFormat.format(createdAt));
     }
 
     private void setReblogAndFavCount(int reblogCount, int favCount, StatusActionListener listener) {
@@ -137,7 +134,6 @@ class StatusDetailedViewHolder extends StatusBaseViewHolder {
             setReblogAndFavCount(status.getReblogsCount(), status.getFavouritesCount(), listener);
 
             setApplication(status.getApplication());
-
 
             View.OnLongClickListener longClickListener = view -> {
                 TextView textView = (TextView) view;
@@ -224,9 +220,6 @@ class StatusDetailedViewHolder extends StatusBaseViewHolder {
     }
 
     private void setStatusVisibility(Status.Visibility visibility) {
-        if (visibility == null || this.timestampInfo == null) {
-            return;
-        }
 
         int visibilityIcon;
         switch (visibility) {
@@ -260,7 +253,7 @@ class StatusDetailedViewHolder extends StatusBaseViewHolder {
                 size
         );
         visibilityDrawable.setTint(this.timestampInfo.getCurrentTextColor());
-        this.timestampInfo.setCompoundDrawables(
+        this.timestampInfo.setCompoundDrawablesWithIntrinsicBounds(
                 visibilityDrawable,
                 null,
                 null,

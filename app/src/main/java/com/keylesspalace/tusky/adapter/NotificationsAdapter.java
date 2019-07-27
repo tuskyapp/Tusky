@@ -40,7 +40,7 @@ import com.keylesspalace.tusky.entity.Notification;
 import com.keylesspalace.tusky.interfaces.LinkListener;
 import com.keylesspalace.tusky.interfaces.StatusActionListener;
 import com.keylesspalace.tusky.util.CustomEmojiHelper;
-import com.keylesspalace.tusky.util.DateUtils;
+import com.keylesspalace.tusky.util.TimestampUtils;
 import com.keylesspalace.tusky.util.ImageLoadingHelper;
 import com.keylesspalace.tusky.util.LinkHelper;
 import com.keylesspalace.tusky.util.SmartLengthInputFilter;
@@ -435,7 +435,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
                 if (createdAt != null) {
                     long then = createdAt.getTime();
                     long now = new Date().getTime();
-                    readout = DateUtils.getRelativeTimeSpanString(timestampInfo.getContext(), then, now);
+                    readout = TimestampUtils.getRelativeTimeSpanString(timestampInfo.getContext(), then, now);
                     readoutAloud = android.text.format.DateUtils.getRelativeTimeSpanString(then, now,
                             android.text.format.DateUtils.SECOND_IN_MILLIS,
                             android.text.format.DateUtils.FORMAT_ABBREV_RELATIVE);

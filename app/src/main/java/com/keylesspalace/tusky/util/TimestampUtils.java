@@ -19,7 +19,7 @@ import android.content.Context;
 
 import com.keylesspalace.tusky.R;
 
-public class DateUtils {
+public class TimestampUtils {
 
     private static final long SECOND_IN_MILLIS = 1000;
     private static final long MINUTE_IN_MILLIS = SECOND_IN_MILLIS * 60;

@@ -129,7 +129,6 @@ public class LinkHelper {
         }
 
         view.setText(builder);
-        view.setLinksClickable(true);
         view.setMovementMethod(LinkMovementMethod.getInstance());
     }
 
@@ -177,7 +176,6 @@ public class LinkHelper {
             start = end;
         }
         view.setText(builder);
-        view.setLinksClickable(true);
         view.setMovementMethod(LinkMovementMethod.getInstance());
     }
 
@@ -210,7 +208,7 @@ public class LinkHelper {
         try {
             context.startActivity(intent);
         } catch (ActivityNotFoundException e) {
-            Log.w("LinkHelper", "Actvity was not found for intent, " + intent.toString());
+            Log.w("LinkHelper", "Actvity was not found for intent, " + intent);
         }
     }
 
@@ -231,7 +229,7 @@ public class LinkHelper {
         try {
             customTabsIntent.launchUrl(context, uri);
         } catch (ActivityNotFoundException e) {
-            Log.w("LinkHelper", "Activity was not found for intent " + customTabsIntent.toString());
+            Log.w("LinkHelper", "Activity was not found for intent " + customTabsIntent);
             openLinkInBrowser(uri, context);
         }
 
