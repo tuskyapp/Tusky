@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:key="@string/preferences_file_key">
 
     <Preference
@@ -35,17 +36,20 @@
             android:defaultValue="false"
             android:icon="@drawable/ic_eye_24dp"
             android:key="defaultMediaSensitivity"
-            android:title="@string/pref_default_media_sensitivity" />
+            android:title="@string/pref_default_media_sensitivity"
+            app:singleLineTitle="false" />
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/pref_title_timelines">
         <SwitchPreferenceCompat
             android:key="mediaPreviewEnabled"
-            android:title="@string/pref_title_show_media_preview" />
+            android:title="@string/pref_title_show_media_preview"
+            app:singleLineTitle="false" />
 
         <SwitchPreferenceCompat
             android:key="alwaysShowSensitiveMedia"
-            android:title="@string/pref_title_alway_show_sensitive_media" />
+            android:title="@string/pref_title_alway_show_sensitive_media"
+            app:singleLineTitle="false" />
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/pref_title_timeline_filters">
