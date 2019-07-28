@@ -2,23 +2,18 @@ package com.keylesspalace.tusky.components.instancemute
 
 import android.os.Bundle
 import android.view.MenuItem
-import androidx.fragment.app.Fragment
 import com.keylesspalace.tusky.BaseActivity
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.components.instancemute.fragment.InstanceListFragment
-import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
-import dagger.android.support.HasSupportFragmentInjector
+import dagger.android.HasAndroidInjector
 import javax.inject.Inject
 import kotlinx.android.synthetic.main.toolbar_basic.*
 
-class InstanceListActivity: BaseActivity(), HasSupportFragmentInjector {
-    @Inject
-    lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Fragment>
+class InstanceListActivity: BaseActivity(), HasAndroidInjector {
 
-    override fun supportFragmentInjector(): AndroidInjector<Fragment>? {
-        return dispatchingAndroidInjector
-    }
+    @Inject
+    lateinit var androidInjector: DispatchingAndroidInjector<Any>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,5 +41,7 @@ class InstanceListActivity: BaseActivity(), HasSupportFragmentInjector {
         }
         return super.onOptionsItemSelected(item)
     }
+
+    override fun androidInjector() = androidInjector
 
 }

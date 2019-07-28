@@ -21,7 +21,6 @@ import android.os.Bundle
 import android.text.Spanned
 import android.view.MenuItem
 import androidx.appcompat.content.res.AppCompatResources
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.keylesspalace.tusky.BottomSheetActivity
@@ -30,18 +29,17 @@ import com.keylesspalace.tusky.components.report.adapter.ReportPagerAdapter
 import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.util.HtmlUtils
 import com.keylesspalace.tusky.util.ThemeUtils
-import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
-import dagger.android.support.HasSupportFragmentInjector
+import dagger.android.HasAndroidInjector
 import kotlinx.android.synthetic.main.activity_report.*
 import kotlinx.android.synthetic.main.toolbar_basic.*
 import javax.inject.Inject
 
 
-class ReportActivity : BottomSheetActivity(), HasSupportFragmentInjector {
+class ReportActivity : BottomSheetActivity(), HasAndroidInjector {
 
     @Inject
-    lateinit var dispatchingFragmentInjector: DispatchingAndroidInjector<Fragment>
+    lateinit var androidInjector: DispatchingAndroidInjector<Any>
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
@@ -158,5 +156,5 @@ class ReportActivity : BottomSheetActivity(), HasSupportFragmentInjector {
                         }
     }
 
-    override fun supportFragmentInjector(): AndroidInjector<Fragment> = dispatchingFragmentInjector
+    override fun androidInjector() = androidInjector
 }
