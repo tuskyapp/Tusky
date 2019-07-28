@@ -86,7 +86,7 @@ project.tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
     }
 }
 
-ext.daggerVersion = '2.23.2'
+ext.daggerVersion = '2.24'
 ext.retrofitVersion = '2.6.0'
 
 // if libraries are changed here, they should also be changed in LicenseActivity
