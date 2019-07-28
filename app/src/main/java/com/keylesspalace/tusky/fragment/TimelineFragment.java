@@ -166,6 +166,7 @@ public class TimelineFragment extends SFragment implements
 
     private boolean didLoadEverythingBottom;
     private boolean alwaysShowSensitiveMedia;
+    private boolean alwaysOpenSpoiler;
     private boolean initialUpdateFailed = false;
 
     private PairedList<Either<Placeholder, Status>, StatusViewData> statuses =
@@ -176,7 +177,8 @@ public class TimelineFragment extends SFragment implements
                     if (status != null) {
                         return ViewDataUtils.statusToViewData(
                                 status,
-                                alwaysShowSensitiveMedia
+                                alwaysShowSensitiveMedia,
+                                alwaysOpenSpoiler
                         );
                     } else {
                         Placeholder placeholder = input.asLeft();
@@ -340,6 +342,7 @@ public class TimelineFragment extends SFragment implements
     private void setupTimelinePreferences() {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
         alwaysShowSensitiveMedia = accountManager.getActiveAccount().getAlwaysShowSensitiveMedia();
+        alwaysOpenSpoiler = accountManager.getActiveAccount().getAlwaysOpenSpoiler();
         boolean mediaPreviewEnabled = accountManager.getActiveAccount().getMediaPreviewEnabled();
         adapter.setMediaPreviewEnabled(mediaPreviewEnabled);
         boolean useAbsoluteTime = preferences.getBoolean("absoluteTimeView", false);

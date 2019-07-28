@@ -45,7 +45,9 @@ class SearchViewModel @Inject constructor(
     private val statusesRepository = SearchRepository<Pair<Status, StatusViewData.Concrete>>(mastodonApi)
     private val accountsRepository = SearchRepository<Account>(mastodonApi)
     private val hashtagsRepository = SearchRepository<HashTag>(mastodonApi)
-    var alwaysShowSensitiveMedia: Boolean = activeAccount?.alwaysShowSensitiveMedia
+    val alwaysShowSensitiveMedia: Boolean = activeAccount?.alwaysShowSensitiveMedia
+            ?: false
+    val alwaysOpenSpoiler: Boolean = activeAccount?.alwaysOpenSpoiler
             ?: false
 
     private val repoResultStatus = MutableLiveData<Listing<Pair<Status, StatusViewData.Concrete>>>()
@@ -67,7 +69,7 @@ class SearchViewModel @Inject constructor(
     fun search(query: String?) {
         loadedStatuses.clear()
         repoResultStatus.value = statusesRepository.getSearchData(SearchType.Status, query, disposables, initialItems = loadedStatuses) {
-            (it?.statuses?.map { status -> Pair(status, ViewDataUtils.statusToViewData(status, alwaysShowSensitiveMedia)!!) }
+            (it?.statuses?.map { status -> Pair(status, ViewDataUtils.statusToViewData(status, alwaysShowSensitiveMedia, alwaysOpenSpoiler)!!) }
                     ?: emptyList())
                     .apply {
                         loadedStatuses.addAll(this)

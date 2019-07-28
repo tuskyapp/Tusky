@@ -29,7 +29,8 @@ import com.keylesspalace.tusky.viewdata.StatusViewData;
 public final class ViewDataUtils {
     @Nullable
     public static StatusViewData.Concrete statusToViewData(@Nullable Status status,
-                                                           boolean alwaysShowSensitiveMedia) {
+                                                           boolean alwaysShowSensitiveMedia,
+                                                           boolean alwaysOpenSpoiler) {
         if (status == null) return null;
         Status visibleStatus = status.getReblog() == null ? status : status.getReblog();
         return new StatusViewData.Builder().setId(status.getId())
@@ -42,7 +43,7 @@ public final class ViewDataUtils {
                 .setInReplyToId(visibleStatus.getInReplyToId())
                 .setFavourited(visibleStatus.getFavourited())
                 .setReblogged(visibleStatus.getReblogged())
-                .setIsExpanded(false)
+                .setIsExpanded(alwaysOpenSpoiler)
                 .setIsShowingSensitiveContent(false)
                 .setMentions(visibleStatus.getMentions())
                 .setNickname(visibleStatus.getAccount().getUsername())
@@ -67,14 +68,16 @@ public final class ViewDataUtils {
     }
 
     public static NotificationViewData.Concrete notificationToViewData(Notification notification,
-                                                                       boolean alwaysShowSensitiveData) {
+                                                                       boolean alwaysShowSensitiveData,
+                                                                       boolean alwaysOpenSpoiler) {
         return new NotificationViewData.Concrete(
                 notification.getType(),
                 notification.getId(),
                 notification.getAccount(),
                 statusToViewData(
                         notification.getStatus(),
-                        alwaysShowSensitiveData
+                        alwaysShowSensitiveData,
+                        alwaysOpenSpoiler
                 ),
                 false
         );

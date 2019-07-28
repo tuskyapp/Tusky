@@ -65,6 +65,7 @@ class AccountPreferencesFragment : PreferenceFragmentCompat(),
     private lateinit var defaultPostPrivacyPreference: ListPreference
     private lateinit var defaultMediaSensitivityPreference: SwitchPreferenceCompat
     private lateinit var alwaysShowSensitiveMediaPreference: SwitchPreferenceCompat
+    private lateinit var alwaysOpenSpoilerPreference: SwitchPreferenceCompat
     private lateinit var mediaPreviewEnabledPreference: SwitchPreferenceCompat
     private lateinit var homeFiltersPreference: Preference
     private lateinit var notificationFiltersPreference: Preference
@@ -85,6 +86,7 @@ class AccountPreferencesFragment : PreferenceFragmentCompat(),
         defaultMediaSensitivityPreference = requirePreference("defaultMediaSensitivity") as SwitchPreferenceCompat
         mediaPreviewEnabledPreference = requirePreference("mediaPreviewEnabled") as SwitchPreferenceCompat
         alwaysShowSensitiveMediaPreference = requirePreference("alwaysShowSensitiveMedia") as SwitchPreferenceCompat
+        alwaysOpenSpoilerPreference = requirePreference("alwaysOpenSpoiler") as SwitchPreferenceCompat
         homeFiltersPreference = requirePreference("homeFilters")
         notificationFiltersPreference = requirePreference("notificationFilters")
         publicFiltersPreference = requirePreference("publicFilters")
@@ -109,6 +111,7 @@ class AccountPreferencesFragment : PreferenceFragmentCompat(),
         defaultMediaSensitivityPreference.onPreferenceChangeListener = this
         mediaPreviewEnabledPreference.onPreferenceChangeListener = this
         alwaysShowSensitiveMediaPreference.onPreferenceChangeListener = this
+        alwaysOpenSpoilerPreference.onPreferenceChangeListener = this
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -124,6 +127,7 @@ class AccountPreferencesFragment : PreferenceFragmentCompat(),
 
             mediaPreviewEnabledPreference.isChecked = it.mediaPreviewEnabled
             alwaysShowSensitiveMediaPreference.isChecked = it.alwaysShowSensitiveMedia
+            alwaysOpenSpoilerPreference.isChecked = it.alwaysOpenSpoiler
 
         }
     }
@@ -147,6 +151,12 @@ class AccountPreferencesFragment : PreferenceFragmentCompat(),
             alwaysShowSensitiveMediaPreference -> {
                 accountManager.activeAccount?.let {
                     it.alwaysShowSensitiveMedia = newValue as Boolean
+                    accountManager.saveAccount(it)
+                }
+            }
+            alwaysOpenSpoilerPreference -> {
+                accountManager.activeAccount?.let {
+                    it.alwaysOpenSpoiler = newValue as Boolean
                     accountManager.saveAccount(it)
                 }
             }
