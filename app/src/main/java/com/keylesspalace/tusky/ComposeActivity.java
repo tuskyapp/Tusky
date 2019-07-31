@@ -176,7 +176,7 @@ public final class ComposeActivity
         ComposeAutoCompleteAdapter.AutocompletionProvider,
         OnEmojiSelectedListener,
         Injectable, InputConnectionCompat.OnCommitContentListener,
-        DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
+        TimePickerDialog.OnTimeSetListener {
 
     private static final String TAG = "ComposeActivity"; // logging tag
     static final int STATUS_CHARACTER_LIMIT = 500;
@@ -2098,13 +2098,6 @@ public final class ComposeActivity
             dest.writeString(readyStage.name());
             dest.writeString(description);
         }
-    }
-
-    @Override
-    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-        scheduleView.onDateSet(year, month, dayOfMonth);
-        updateScheduleButton();
-        scheduleBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
     }
 
     @Override
