@@ -253,7 +253,7 @@ class StatusDetailedViewHolder extends StatusBaseViewHolder {
                 size
         );
         visibilityDrawable.setTint(this.timestampInfo.getCurrentTextColor());
-        this.timestampInfo.setCompoundDrawablesWithIntrinsicBounds(
+        this.timestampInfo.setCompoundDrawables(
                 visibilityDrawable,
                 null,
                 null,
