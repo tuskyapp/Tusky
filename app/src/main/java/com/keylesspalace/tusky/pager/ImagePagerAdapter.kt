@@ -17,9 +17,9 @@ class ImagePagerAdapter(
 
     private var primaryItem: ViewMediaFragment? = null
 
-    override fun setPrimaryItem(container: ViewGroup, position: Int, `object`: Any) {
-        super.setPrimaryItem(container, position, `object`)
-        this.primaryItem = `object` as ViewMediaFragment
+    override fun setPrimaryItem(container: ViewGroup, position: Int, item: Any) {
+        super.setPrimaryItem(container, position, item)
+        this.primaryItem = item as ViewMediaFragment
     }
 
     override fun getItem(position: Int): Fragment {
@@ -41,5 +41,4 @@ class ImagePagerAdapter(
     override fun onTransitionEnd() {
         primaryItem?.onTransitionEnd()
     }
-
 }

@@ -29,15 +29,18 @@ abstract class ViewMediaFragment : BaseFragment(), SharedElementTransitionListen
 
     abstract fun setupMediaView(url: String, previewUrl: String?)
     abstract fun onToolbarVisibilityChange(visible: Boolean)
-    abstract val descriptionView : TextView
+    abstract val descriptionView: TextView
 
     protected var showingDescription = false
     protected var isDescriptionVisible = false
 
     companion object {
-        @JvmStatic protected val ARG_START_POSTPONED_TRANSITION = "startPostponedTransition"
-        @JvmStatic protected val ARG_ATTACHMENT = "attach"
-        @JvmStatic protected val ARG_AVATAR_URL = "avatarUrl"
+        @JvmStatic
+        protected val ARG_START_POSTPONED_TRANSITION = "startPostponedTransition"
+        @JvmStatic
+        protected val ARG_ATTACHMENT = "attach"
+        @JvmStatic
+        protected val ARG_AVATAR_URL = "avatarUrl"
 
         @JvmStatic
         fun newInstance(attachment: Attachment, shouldStartPostponedTransition: Boolean): ViewMediaFragment {
@@ -75,13 +78,12 @@ abstract class ViewMediaFragment : BaseFragment(), SharedElementTransitionListen
         showingDescription = !TextUtils.isEmpty(description)
         isDescriptionVisible = showingDescription
 
-        descriptionView.visible(showingDescription && mediaActivity.isToolbarVisible())
+        descriptionView.visible(showingDescription && mediaActivity.isToolbarVisible)
 
-        toolbarVisibiltyDisposable = (activity as ViewMediaActivity).addToolbarVisibilityListener(object: ViewMediaActivity.ToolbarVisibilityListener {
-            override fun onToolbarVisiblityChanged(isVisible: Boolean) {
-                onToolbarVisibilityChange(isVisible)
-            }
-        })
+        toolbarVisibiltyDisposable = (activity as ViewMediaActivity)
+                .addToolbarVisibilityListener { isVisible ->
+                    onToolbarVisibilityChange(isVisible)
+                }
     }
 
     override fun onDestroyView() {

@@ -55,7 +55,7 @@ class ViewVideoFragment : ViewMediaFragment() {
         }
 
         if (isVisibleToUser) {
-            if (mediaActivity.isToolbarVisible()) {
+            if (mediaActivity.isToolbarVisible) {
                 handler.postDelayed(hideToolbar, TOOLBAR_HIDE_DELAY_MS)
             }
             videoPlayer.start()

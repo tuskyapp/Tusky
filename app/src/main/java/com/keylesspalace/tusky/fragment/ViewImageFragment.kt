@@ -35,10 +35,10 @@ import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.entity.Attachment
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.visible
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.subjects.BehaviorSubject
 import kotlinx.android.synthetic.main.activity_view_media.*
 import kotlinx.android.synthetic.main.fragment_view_image.*
+import kotlin.math.abs
 
 class ViewImageFragment : ViewMediaFragment() {
     interface PhotoActionsListener {
@@ -61,22 +61,21 @@ class ViewImageFragment : ViewMediaFragment() {
     override fun setupMediaView(url: String, previewUrl: String?) {
         descriptionView = mediaDescription
         photoView.transitionName = url
-        attacher = PhotoViewAttacher(photoView)
+        attacher = PhotoViewAttacher(photoView).apply {
+            // Clicking outside the photo closes the viewer.
+            setOnOutsidePhotoTapListener { photoActionsListener.onDismiss() }
+            setOnClickListener { onMediaTap() }
 
-        // Clicking outside the photo closes the viewer.
-        attacher.setOnOutsidePhotoTapListener { photoActionsListener.onDismiss() }
-
-        attacher.setOnClickListener { onMediaTap() }
-
-        /* A vertical swipe motion also closes the viewer. This is especially useful when the photo
-         * mostly fills the screen so clicking outside is difficult. */
-        attacher.setOnSingleFlingListener { _, _, velocityX, velocityY ->
-            var result = false
-            if (Math.abs(velocityY) > Math.abs(velocityX)) {
-                photoActionsListener.onDismiss()
-                result = true
+            /* A vertical swipe motion also closes the viewer. This is especially useful when the photo
+             * mostly fills the screen so clicking outside is difficult. */
+            setOnSingleFlingListener { _, _, velocityX, velocityY ->
+                var result = false
+                if (abs(velocityY) > abs(velocityX)) {
+                    photoActionsListener.onDismiss()
+                    result = true
+                }
+                result
             }
-            result
         }
 
         loadImageFromNetwork(url, previewUrl, photoView)
@@ -167,7 +166,7 @@ class ViewImageFragment : ViewMediaFragment() {
             private val isCacheRequest: Boolean,
             private val isThumnailRequest: Boolean) : RequestListener<Drawable> {
 
-        override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Drawable>?,
+        override fun onLoadFailed(e: GlideException?, model: Any, target: Target<Drawable>,
                                   isFirstResource: Boolean): Boolean {
             // If cache for full image failed, complete transition
             if (isCacheRequest && !isThumnailRequest) photoActionsListener.onBringUp()
@@ -176,27 +175,23 @@ class ViewImageFragment : ViewMediaFragment() {
             return false
         }
 
-        override fun onResourceReady(resource: Drawable?, model: Any?, target: Target<Drawable>?,
-                                     dataSource: DataSource?, isFirstResource: Boolean): Boolean {
+        override fun onResourceReady(resource: Drawable, model: Any, target: Target<Drawable>,
+                                     dataSource: DataSource, isFirstResource: Boolean): Boolean {
             progressBar?.hide() // Always hide the progress bar on success
-            resource?.let {
                 if (isThumnailRequest) {
                     photoView.post {
-                        target?.onResourceReady(resource, null)
+                        target.onResourceReady(resource, null)
                         photoActionsListener.onBringUp()
                     }
                 } else {
                     transition
                             .take(1)
-                            .observeOn(AndroidSchedulers.mainThread())
                             .subscribe {
-                                target?.onResourceReady(resource, null)
+                                target.onResourceReady(resource, null)
                                 photoActionsListener.onBringUp()
                             }
                 }
                 return true
-            }
-            return false
         }
 
     }
