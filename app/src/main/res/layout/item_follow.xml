@@ -1,67 +1,72 @@
-<?xml version="1.0" encoding="utf-8"?><!--
-* This is the for follow notifications, the layout for the follows/following listings on account
-* pages are instead in item_account.xml.
--->
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:paddingBottom="10dp"
     android:paddingLeft="14dp"
-    android:paddingRight="14dp">
+    android:paddingRight="14dp"
+    android:paddingBottom="10dp">
 
     <androidx.emoji.widget.EmojiTextView
         android:id="@+id/notification_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="4dp"
         android:layout_marginTop="8dp"
-        android:drawablePadding="10dp"
         android:drawableStart="@drawable/ic_person_add_24dp"
+        android:drawablePadding="10dp"
         android:ellipsize="end"
         android:gravity="center_vertical"
         android:maxLines="1"
         android:paddingStart="28dp"
         android:textColor="?android:textColorTertiary"
         android:textSize="?attr/status_text_medium"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         tools:text="Someone followed you" />
 
     <ImageView
         android:id="@+id/notification_avatar"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="42dp"
+        android:layout_height="42dp"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/notification_text"
-        android:layout_marginEnd="14dp"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="6dp"
+        android:layout_marginTop="6dp"
         android:contentDescription="@string/action_view_profile"
         android:scaleType="centerCrop"
-        android:textSize="?attr/status_text_medium" />
+        android:textSize="?attr/status_text_medium"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/notification_text"
+        tools:src="@drawable/avatar_default" />
 
     <androidx.emoji.widget.EmojiTextView
         android:id="@+id/notification_display_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/notification_text"
-        android:layout_toEndOf="@id/notification_avatar"
+        android:layout_marginStart="14dp"
         android:ellipsize="end"
         android:maxLines="1"
         android:textColor="?android:textColorPrimary"
         android:textSize="?attr/status_text_medium"
         android:textStyle="normal|bold"
+        app:layout_constraintBottom_toTopOf="@id/notification_username"
+        app:layout_constraintStart_toEndOf="@id/notification_avatar"
+        app:layout_constraintTop_toTopOf="@id/notification_avatar"
         tools:text="Test User" />
 
     <TextView
         android:id="@+id/notification_username"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/notification_display_name"
-        android:layout_toEndOf="@id/notification_avatar"
+        android:layout_marginStart="14dp"
         android:ellipsize="end"
         android:maxLines="1"
         android:textColor="?android:textColorSecondary"
         android:textSize="?attr/status_text_medium"
+        app:layout_constraintBottom_toBottomOf="@id/notification_avatar"
+        app:layout_constraintStart_toEndOf="@id/notification_avatar"
+        app:layout_constraintTop_toBottomOf="@id/notification_display_name"
         tools:text="\@testuser" />
 
-</RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

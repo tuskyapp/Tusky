@@ -328,7 +328,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
             displayNameView.setText(emojifiedDisplayName);
 
             int avatarRadius = avatar.getContext().getResources()
-                    .getDimensionPixelSize(R.dimen.avatar_radius_24dp);
+                    .getDimensionPixelSize(R.dimen.avatar_radius_42dp);
 
             ImageLoadingHelper.loadAvatar(account.getAvatar(), avatar, avatarRadius, animateAvatar);
 
@@ -508,7 +508,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
         void setAvatars(@Nullable String statusAvatarUrl, @Nullable String notificationAvatarUrl) {
 
             int statusAvatarRadius = statusAvatar.getContext().getResources()
-                    .getDimensionPixelSize(R.dimen.avatar_radius_48dp);
+                    .getDimensionPixelSize(R.dimen.avatar_radius_36dp);
 
             ImageLoadingHelper.loadAvatar(statusAvatarUrl,
                     statusAvatar, statusAvatarRadius, animateAvatar);
