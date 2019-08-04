@@ -30,14 +30,15 @@ import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
-
 import com.github.chrisbanes.photoview.PhotoViewAttacher
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.entity.Attachment
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.visible
+import io.reactivex.subjects.BehaviorSubject
 import kotlinx.android.synthetic.main.activity_view_media.*
 import kotlinx.android.synthetic.main.fragment_view_image.*
+import kotlin.math.abs
 
 class ViewImageFragment : ViewMediaFragment() {
     interface PhotoActionsListener {
@@ -49,35 +50,35 @@ class ViewImageFragment : ViewMediaFragment() {
     private lateinit var attacher: PhotoViewAttacher
     private lateinit var photoActionsListener: PhotoActionsListener
     private lateinit var toolbar: View
-    override lateinit var descriptionView: TextView
+    private var transition = BehaviorSubject.create<Unit>()
 
+    override lateinit var descriptionView: TextView
     override fun onAttach(context: Context) {
         super.onAttach(context)
         photoActionsListener = context as PhotoActionsListener
     }
 
-    override fun setupMediaView(url: String) {
+    override fun setupMediaView(url: String, previewUrl: String?) {
         descriptionView = mediaDescription
         photoView.transitionName = url
-        attacher = PhotoViewAttacher(photoView)
+        attacher = PhotoViewAttacher(photoView).apply {
+            // Clicking outside the photo closes the viewer.
+            setOnOutsidePhotoTapListener { photoActionsListener.onDismiss() }
+            setOnClickListener { onMediaTap() }
 
-        // Clicking outside the photo closes the viewer.
-        attacher.setOnOutsidePhotoTapListener { photoActionsListener.onDismiss() }
-
-        attacher.setOnClickListener { onMediaTap() }
-
-        /* A vertical swipe motion also closes the viewer. This is especially useful when the photo
-         * mostly fills the screen so clicking outside is difficult. */
-        attacher.setOnSingleFlingListener { _, _, velocityX, velocityY ->
-            var result = false
-            if (Math.abs(velocityY) > Math.abs(velocityX)) {
-                photoActionsListener.onDismiss()
-                result = true
+            /* A vertical swipe motion also closes the viewer. This is especially useful when the photo
+             * mostly fills the screen so clicking outside is difficult. */
+            setOnSingleFlingListener { _, _, velocityX, velocityY ->
+                var result = false
+                if (abs(velocityY) > abs(velocityX)) {
+                    photoActionsListener.onDismiss()
+                    result = true
+                }
+                result
             }
-            result
         }
 
-        loadImageFromNetwork(url, photoView)
+        loadImageFromNetwork(url, previewUrl, photoView)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
@@ -103,7 +104,7 @@ class ViewImageFragment : ViewMediaFragment() {
             }
         }
 
-        finalizeViewSetup(url, description)
+        finalizeViewSetup(url, attachment?.previewUrl, description)
     }
 
     private fun onMediaTap() {
@@ -131,49 +132,71 @@ class ViewImageFragment : ViewMediaFragment() {
         super.onDestroyView()
     }
 
-    private fun loadImageFromNetwork(url: String, photoView: ImageView) =
-            //Request image from the any cache
-            Glide.with(this)
-                    .load(url)
-                    .dontAnimate()
-                    .onlyRetrieveFromCache(true)
-                    .error(
-                            //Request image from the network on fail load image from cache
-                            Glide.with(this)
-                                    .load(url)
-                                    .centerInside()
-                                    .addListener(ImageRequestListener(false))
-                    )
-                    .centerInside()
-                    .addListener(ImageRequestListener(true))
-                    .into(photoView)
-
+    private fun loadImageFromNetwork(url: String, previewUrl: String?, photoView: ImageView) {
+        val glide = Glide.with(this)
+        // Request image from the any cache
+        glide
+                .load(url)
+                .dontAnimate()
+                .onlyRetrieveFromCache(true)
+                .let {
+                    if (previewUrl != null)
+                        it.thumbnail(glide
+                                .load(previewUrl)
+                                .dontAnimate()
+                                .onlyRetrieveFromCache(true)
+                                .centerInside()
+                                .addListener(ImageRequestListener(true, isThumnailRequest = true)))
+                    else it
+                }
+                //Request image from the network on fail load image from cache
+                .error(glide.load(url)
+                        .centerInside()
+                        .addListener(ImageRequestListener(false, isThumnailRequest = false))
+                )
+                .centerInside()
+                .addListener(ImageRequestListener(true, isThumnailRequest = false))
+                .into(photoView)
+    }
 
     /**
      * @param isCacheRequest - is this listener for request image from cache or from the network
      */
-    private inner class ImageRequestListener(private val isCacheRequest: Boolean) : RequestListener<Drawable> {
-        override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Drawable>?, isFirstResource: Boolean): Boolean {
-            if (isCacheRequest) //Complete the transition on failed image from cache
-                completeTransition()
-            else
-                progressBar?.hide() //Hide progress bar only on fail request from internet
+    private inner class ImageRequestListener(
+            private val isCacheRequest: Boolean,
+            private val isThumnailRequest: Boolean) : RequestListener<Drawable> {
+
+        override fun onLoadFailed(e: GlideException?, model: Any, target: Target<Drawable>,
+                                  isFirstResource: Boolean): Boolean {
+            // If cache for full image failed, complete transition
+            if (isCacheRequest && !isThumnailRequest) photoActionsListener.onBringUp()
+            // Hide progress bar only on fail request from internet
+            if (!isCacheRequest) progressBar?.hide()
             return false
         }
 
-        override fun onResourceReady(resource: Drawable?, model: Any?, target: Target<Drawable>?, dataSource: DataSource?, isFirstResource: Boolean): Boolean {
-            progressBar?.hide() //Always hide the progress bar on success
-            resource?.let {
-                target?.onResourceReady(resource, null)
-                if (isCacheRequest) completeTransition() //Complete transition on cache request only, because transition already completed on Network request
+        override fun onResourceReady(resource: Drawable, model: Any, target: Target<Drawable>,
+                                     dataSource: DataSource, isFirstResource: Boolean): Boolean {
+            progressBar?.hide() // Always hide the progress bar on success
+                if (isThumnailRequest) {
+                    photoView.post {
+                        target.onResourceReady(resource, null)
+                        photoActionsListener.onBringUp()
+                    }
+                } else {
+                    transition
+                            .take(1)
+                            .subscribe {
+                                target.onResourceReady(resource, null)
+                                photoActionsListener.onBringUp()
+                            }
+                }
                 return true
-            }
-            return false
         }
+
     }
 
-    private fun completeTransition() {
-        attacher.update()
-        photoActionsListener.onBringUp()
+    override fun onTransitionEnd() {
+        this.transition.onNext(Unit)
     }
 }
