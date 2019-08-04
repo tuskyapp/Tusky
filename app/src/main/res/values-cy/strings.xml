@@ -276,4 +276,19 @@
     <string name="profile_metadata_content_label">Cynnwys</string>
     <string name="pref_title_absolute_time">Defnyddio amser absoliwt</string>
 <string name="status_username_format">\@%s</string>
+    <string name="error_network">Digwyddodd gwall rhwydwaith! Gwiriwch eich cysylltiad a cheisiwch eto!</string>
+    <string name="title_direct_messages">Negeseuon Uniongyrchol</string>
+    <string name="title_tab_preferences">Tabiau</string>
+    <string name="title_tag">#%s</string>
+    <string name="title_statuses_pinned">Wedi\'i binio</string>
+    <string name="title_domain_mutes">Parthau cudd</string>
+    <string name="message_empty">Dim byd yma.</string>
+    <string name="action_unreblog">Dileu hwb</string>
+    <string name="action_unfavourite">Dileu hoff</string>
+    <string name="action_delete_and_redraft">Dileu ac ail-ddrafftio</string>
+    <string name="action_view_account_preferences">Dewisiadau Cyfrif</string>
+    <string name="action_view_domain_mutes">Parthau cudd</string>
+    <string name="action_mute_domain">Tawelwch %s</string>
+    <string name="action_add_tab">Ychwanegu Tab</string>
+    <string name="action_links">Cysylltiadau</string>
     </resources>
