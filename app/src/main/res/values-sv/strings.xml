@@ -448,4 +448,8 @@
     <string name="pref_title_show_notifications_filter">Visa notifikationsfilter</string>
 <string name="filter_dialog_whole_word">Helt ord</string>
     <string name="filter_dialog_whole_word_description">När nyckelordet eller frasen är alfanumerisk enbart, blir den enbart appliceras om den matchar hela ordet</string>
+    <string name="pref_title_alway_open_spoiler">Expandera alltid toots med innehållsvarningar</string>
+    <string name="title_accounts">Konton</string>
+    <string name="failed_search">Sökning misslyckades</string>
+
     </resources>

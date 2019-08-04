@@ -439,4 +439,5 @@
     <string name="report_description_remote_instance">La konto estas en alia servilo. Ĉu sendi sennomigitan kopion de la signalo ankaŭ tien\?</string>
 
     <string name="pref_title_show_notifications_filter">Montri filtrilon de Sciigoj</string>
-</resources>
+<string name="filter_dialog_whole_word">Tuta vorto</string>
+    </resources>

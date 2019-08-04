@@ -357,17 +357,17 @@
     <string name="pin_action">Pripni</string>
 
     <plurals name="favs">
-	<item quantity="one">&lt;b>%1$s&lt;/b> Priljubljena</item>
-	<item quantity="two">&lt;b>%1$s&lt;/b> Priljubljeni</item>
-	<item quantity="few">&lt;b>%1$s&lt;/b> Priljubljene</item>
-	<item quantity="other">&lt;b>%1$s&lt;/b> Priljubljenih</item>
+	<item quantity="one">&lt;b&gt;%1$s&lt;/b&gt; Priljubljena</item>
+	<item quantity="two">&lt;b&gt;%1$s&lt;/b&gt; Priljubljeni</item>
+	<item quantity="few">&lt;b&gt;%1$s&lt;/b&gt; Priljubljene</item>
+	<item quantity="other">&lt;b&gt;%1$s&lt;/b&gt; Priljubljenih</item>
 </plurals>
 
     <plurals name="reblogs">
-	<item quantity="one">&lt;b>%s&lt;/b> Spodbuda</item>
-	<item quantity="two">&lt;b>%s&lt;/b> Spodbudi</item>
-	<item quantity="few">&lt;b>%s&lt;/b> Spodbude</item>
-	<item quantity="other">&lt;b>%s&lt;/b> Spodbud</item>
+	<item quantity="one">&lt;b&gt;%s&lt;/b&gt; Spodbuda</item>
+	<item quantity="two">&lt;b&gt;%s&lt;/b&gt; Spodbudi</item>
+	<item quantity="few">&lt;b&gt;%s&lt;/b&gt; Spodbude</item>
+	<item quantity="other">&lt;b&gt;%s&lt;/b&gt; Spodbud</item>
 </plurals>
 
     <string name="title_reblogged_by">Spodbudil/a</string>
@@ -501,4 +501,7 @@
     <string name="pref_title_show_notifications_filter">Pokaži filtre obvestil</string>
 <string name="filter_dialog_whole_word">Cela beseda</string>
     <string name="filter_dialog_whole_word_description">Če je ključna beseda ali fraza samo alfanumerična, bo uporabljena le, če se ujema s celotno besedo</string>
+    <string name="title_accounts">Računi</string>
+    <string name="failed_search">Iskanje je bilo neuspešno</string>
+
     </resources>

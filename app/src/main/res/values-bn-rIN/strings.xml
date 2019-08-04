@@ -389,13 +389,13 @@
     <string name="pin_action">পিন</string>
 
     <plurals name="favs">
-	<item quantity="one">&lt;b>%1$s&lt;/b> প্রিয়</item>
-	<item quantity="other">&lt;b>%1$s&lt;/b> পছন্দসই</item>
+	<item quantity="one">&lt;b&gt;%1$s&lt;/b&gt; প্রিয়</item>
+	<item quantity="other">&lt;b&gt;%1$s&lt;/b&gt; পছন্দসই</item>
 </plurals>
 
     <plurals name="reblogs">
-	<item quantity="one">&lt;b>%s&lt;/b> সমর্থন</item>
-	<item quantity="other">&lt;b>%s&lt;/b> সমর্থনগুলি</item>
+	<item quantity="one">&lt;b&gt;%s&lt;/b&gt; সমর্থন</item>
+	<item quantity="other">&lt;b&gt;%s&lt;/b&gt; সমর্থনগুলি</item>
 </plurals>
 
     <string name="title_reblogged_by">দ্বারা সর্মথন</string>
@@ -488,4 +488,8 @@
     <string name="filter_dialog_whole_word">সম্পূর্ণ শব্দ</string>
     <string name="filter_dialog_whole_word_description">যখন শব্দ বা বাক্যাংশটি শুধুমাত্র আলফানিউমেরিক হয় তখন এটি শুধুমাত্র তখনই প্রয়োগ করা হবে যদি এটি সম্পূর্ণ শব্দটির সাথে মেলে</string>
     <string name="pref_title_show_notifications_filter">বিজ্ঞপ্তি ফিল্টার দেখান</string>
-</resources>
+<string name="pref_title_alway_open_spoiler">সর্বদা সামগ্রী সতর্কতা সহ চিহ্নিত টুটগুলি প্রসারিত করুন</string>
+    <string name="title_accounts">অক্কোউন্টগুলি</string>
+    <string name="failed_search">অনুসন্ধান করতে ব্যর্থ</string>
+
+    </resources>
