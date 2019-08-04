@@ -358,7 +358,7 @@ public interface MastodonApi {
     Call<List<Emoji>> getCustomEmojis();
 
     @GET("api/v1/instance")
-    Call<Instance> getInstance();
+    Single<Instance> getInstance();
 
     @GET("/api/v1/conversations")
     Call<List<Conversation>> getConversations(@Nullable @Query("max_id") String maxId, @Query("limit") int limit);

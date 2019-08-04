@@ -28,7 +28,8 @@ data class Instance (
         val thumbnail: String?,
         val languages: List<String>,
         @SerializedName("contact_account") val contactAccount: Account,
-        @SerializedName("max_toot_chars") val maxTootChars: Int?
+        @SerializedName("max_toot_chars") val maxTootChars: Int?,
+        @SerializedName("max_bio_chars") val maxBioChars: Int?
 ) {
     override fun hashCode(): Int {
         return uri.hashCode()
