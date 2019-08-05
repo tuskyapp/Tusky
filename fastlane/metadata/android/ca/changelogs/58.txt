@@ -1,0 +1,10 @@
+670/5000
+Tusky v6.0
+
+- Els filtres de línia de temps s'han canviat a Preferències del compte i es sincronitzaran amb el servidor
+- Ara podeu tenir un hashtag personalitzat com a pestanya a la interfície principal
+- Ara es poden editar llistes
+- Seguretat: es va suprimir el suport per a TLS 1.0 i TLS 1.1, i es va afegir suport per a TLS 1.3 a Android 6+
+- La vista de redacció ara suggerirà emojis personalitzats en començar a escriure
+- Configuració nova del tema "seguir el tema del sistema"
+- Mil
