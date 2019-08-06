@@ -29,21 +29,22 @@ import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
-import androidx.core.content.FileProvider
-import androidx.viewpager.widget.ViewPager
+import android.transition.Transition
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.webkit.MimeTypeMap
 import android.widget.Toast
+import androidx.core.content.FileProvider
 import androidx.lifecycle.Lifecycle
+import androidx.viewpager.widget.PagerAdapter
+import androidx.viewpager.widget.ViewPager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.FutureTarget
 import com.keylesspalace.tusky.BuildConfig.APPLICATION_ID
 import com.keylesspalace.tusky.entity.Attachment
 import com.keylesspalace.tusky.fragment.ViewImageFragment
-
 import com.keylesspalace.tusky.pager.AvatarImagePagerAdapter
 import com.keylesspalace.tusky.pager.ImagePagerAdapter
 import com.keylesspalace.tusky.util.getTemporaryMediaFilename
@@ -53,14 +54,14 @@ import com.uber.autodispose.autoDisposable
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
-
 import kotlinx.android.synthetic.main.activity_view_media.*
-
 import java.io.File
 import java.io.FileNotFoundException
 import java.io.FileOutputStream
 import java.io.IOException
-import java.util.ArrayList
+import java.util.*
+
+typealias ToolbarVisibilityListener = (isVisible: Boolean) -> Unit
 
 class ViewMediaActivity : BaseActivity(), ViewImageFragment.PhotoActionsListener {
     companion object {
@@ -84,23 +85,16 @@ class ViewMediaActivity : BaseActivity(), ViewImageFragment.PhotoActionsListener
         }
     }
 
+    var isToolbarVisible = true
+        private set
+
     private var attachments: ArrayList<AttachmentViewData>? = null
-
-    private var toolbarVisible = true
-    private val toolbarVisibilityListeners = ArrayList<ToolbarVisibilityListener>()
-
-    interface ToolbarVisibilityListener {
-        fun onToolbarVisiblityChanged(isVisible: Boolean)
-    }
+    private val toolbarVisibilityListeners = mutableListOf<ToolbarVisibilityListener>()
 
     fun addToolbarVisibilityListener(listener: ToolbarVisibilityListener): Function0<Boolean> {
         this.toolbarVisibilityListeners.add(listener)
-        listener.onToolbarVisiblityChanged(toolbarVisible)
+        listener(isToolbarVisible)
         return { toolbarVisibilityListeners.remove(listener) }
-    }
-
-    fun isToolbarVisible(): Boolean {
-        return toolbarVisible
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -113,7 +107,10 @@ class ViewMediaActivity : BaseActivity(), ViewImageFragment.PhotoActionsListener
         attachments = intent.getParcelableArrayListExtra(EXTRA_ATTACHMENTS)
         val initialPosition = intent.getIntExtra(EXTRA_ATTACHMENT_INDEX, 0)
 
-        val adapter = if (attachments != null) {
+        // Adapter is actually of existential type PageAdapter & SharedElementsTransitionListener
+        // but it cannot be expressed and if I don't specify type explicitly compilation fails
+        // (probably a bug in compiler)
+        val adapter: PagerAdapter = if (attachments != null) {
             val realAttachs = attachments!!.map(AttachmentViewData::attachment)
             // Setup the view pager.
             ImagePagerAdapter(supportFragmentManager, realAttachs, initialPosition)
@@ -154,6 +151,12 @@ class ViewMediaActivity : BaseActivity(), ViewImageFragment.PhotoActionsListener
 
         window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LOW_PROFILE
         window.statusBarColor = Color.BLACK
+        window.sharedElementEnterTransition.addListener(object : NoopTransitionListener {
+            override fun onTransitionEnd(transition: Transition) {
+                (adapter as SharedElementTransitionListener).onTransitionEnd()
+                window.sharedElementEnterTransition.removeListener(this)
+            }
+        })
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -178,20 +181,12 @@ class ViewMediaActivity : BaseActivity(), ViewImageFragment.PhotoActionsListener
     }
 
     override fun onPhotoTap() {
-        toolbarVisible = !toolbarVisible
+        isToolbarVisible = !isToolbarVisible
         for (listener in toolbarVisibilityListeners) {
-            listener.onToolbarVisiblityChanged(toolbarVisible)
+            listener(isToolbarVisible)
         }
-        val visibility = if (toolbarVisible) {
-            View.VISIBLE
-        } else {
-            View.INVISIBLE
-        }
-        val alpha = if (toolbarVisible) {
-            1.0f
-        } else {
-            0.0f
-        }
+        val visibility = if (isToolbarVisible) View.VISIBLE else View.INVISIBLE
+        val alpha = if (isToolbarVisible) 1.0f else 0.0f
 
         toolbar.animate().alpha(alpha)
                 .setListener(object : AnimatorListenerAdapter() {
@@ -325,5 +320,26 @@ class ViewMediaActivity : BaseActivity(), ViewImageFragment.PhotoActionsListener
         downloadManager.enqueue(request)
 
         shareFile(file, mimeType)
+    }
+}
+
+interface SharedElementTransitionListener {
+    fun onTransitionEnd()
+}
+
+interface NoopTransitionListener : Transition.TransitionListener {
+    override fun onTransitionEnd(transition: Transition) {
+    }
+
+    override fun onTransitionResume(transition: Transition) {
+    }
+
+    override fun onTransitionPause(transition: Transition) {
+    }
+
+    override fun onTransitionCancel(transition: Transition) {
+    }
+
+    override fun onTransitionStart(transition: Transition) {
     }
 }

@@ -463,4 +463,7 @@
     <string name="report_description_1">سيتم إرسال التقرير إلى مشرفي خادمك. يمكنك تقديم تفسير عن سبب الإبلاغ عن الحساب أدناه:</string>
     <string name="report_description_remote_instance">هذا الحساب ينتسب إلى خادم آخر. هل تريد إرسال نسخة مجهولة من التقرير إلى هناك أيضا؟</string>
 
+    <string name="title_accounts">الحسابات</string>
+    <string name="failed_search">فشل البحث</string>
+
     </resources>

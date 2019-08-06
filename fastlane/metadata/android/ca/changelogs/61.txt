@@ -1,0 +1,7 @@
+Tusky v7.0
+
+- Suport per mostrar votacions, vots i notificacions de votacions
+- Nous botons per filtrar la pestanya de notificacions i suprimir totes les notificacions
+- Suprimeix i redirigeix els teus propis signes
+- Nou indicador que mostra si un compte és un bot a la imatge de perfil (es pot desactivar a les preferències)
+- Noves traduccions: norvégien bokmål i eslovè

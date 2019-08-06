@@ -396,13 +396,13 @@
     <string name="label_remote_account">La informació de sota pot mostrar el perfil incomplert de l\'usuari. Clica per obrir el perfil complert al navegador.</string>
 
     <plurals name="favs">
-	<item quantity="one">&lt;b>%1$s&lt;/b> Favorit</item>
-	<item quantity="other">&lt;b>%1$s&lt;/b> Favorits</item>
+	<item quantity="one">&lt;b&gt;%1$s&lt;/b&gt; Favorit</item>
+	<item quantity="other">&lt;b&gt;%1$s&lt;/b&gt; Favorits</item>
 </plurals>
 
     <plurals name="reblogs">
-	<item quantity="one">&lt;b>%s&lt;/b> Impuls</item>
-	<item quantity="other">&lt;b>%s&lt;/b> Impulsos</item>
+	<item quantity="one">&lt;b&gt;%s&lt;/b&gt; Impuls</item>
+	<item quantity="other">&lt;b&gt;%s&lt;/b&gt; Impulsos</item>
 </plurals>
 
     <string name="title_reblogged_by">Impulsat per</string>
@@ -476,5 +476,34 @@
     <string name="compose_preview_image_description">Accions per a la imatge %s</string>
 
     <string name="pref_title_animate_gif_avatars">Activar l\'animació dels GIF</string>
+
+    <string name="title_domain_mutes">Dominis ocults</string>
+    <string name="action_view_domain_mutes">Dominis ocults</string>
+    <string name="action_mute_domain">Silenciar %s</string>
+    <string name="confirmation_domain_unmuted">%s visible</string>
+
+    <string name="mute_domain_warning_dialog_ok">Amagar el domini sencer</string>
+
+    <string name="pref_title_alway_open_spoiler">Obrir sempre els toots marcats amb contingut sensible</string>
+    <string name="filter_dialog_whole_word">Paraula sencera</string>
+    <string name="caption_notoemoji">Ventall actual d\'emojis de Google</string>
+
+    <string name="description_poll">Enquesta amb opcions: %1$s, %2$s, %3$s, %4$s; %5$s</string>
+
+    <string name="button_continue">Continuar</string>
+    <string name="button_back">Enrere</string>
+    <string name="button_done">Fet</string>
+    <string name="hint_additional_info">Comentaris addicionals</string>
+    <string name="report_remote_instance">Reenviar a %s</string>
+    <string name="failed_report">Report erroni</string>
+    <string name="failed_fetch_statuses">Error obtenint els estats</string>
+    <string name="report_description_1">L\'informe s\'enviarà al moderador del teu servidor. Pots afegir una explicació del motiu d\'aquest informe del compte a sota:</string>
+    <string name="title_accounts">Comptes</string>
+    <string name="pref_title_show_notifications_filter">Mostrar el filtre de les notificacions</string>
+<string name="mute_domain_warning">Estàs segur que vols bloquejar tot de %s\? No veuràs cap contingut de domini ni en els fils públics ni a les teves notificacions. Els teus seguidors d\'aquest domini seran eliminats.</string>
+    <string name="filter_dialog_whole_word_description">Quan la paraula o la frase siguin només alfanumèrica , només s\'aplicarà si coincideix amb tota la paraula</string>
+    <string name="report_sent_success">\@%s reportat satisfactòriament</string>
+    <string name="report_description_remote_instance">El compte és d\'un altre servidor. Enviar, igualment, una copia anònima del report\?</string>
+    <string name="failed_search">Cerca fallida</string>
 
     </resources>

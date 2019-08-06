@@ -339,13 +339,13 @@
     <string name="license_cc_by_sa_4">CC-BY-SA 4.0</string>
 
     <plurals name="favs">
-	<item quantity="one">&lt;b>%1$s&lt;/b> Favorit</item>
-	<item quantity="other">&lt;b>3%1$s&lt;/b>4 Favorits</item>
+	<item quantity="one">&lt;b&gt;%1$s&lt;/b&gt; Favorit</item>
+	<item quantity="other">&lt;b&gt;3%1$s&lt;/b&gt;4 Favorits</item>
 </plurals>
 
     <plurals name="reblogs">
-	<item quantity="one">&lt;b>%s&lt;/b> partatge</item>
-	<item quantity="other">&lt;b>%s&lt;/b> partatges</item>
+	<item quantity="one">&lt;b&gt;%s&lt;/b&gt; partatge</item>
+	<item quantity="other">&lt;b&gt;%s&lt;/b&gt; partatges</item>
 </plurals>
 
     <string name="title_reblogged_by">Partejat per</string>
@@ -456,4 +456,8 @@
     <string name="pref_title_show_notifications_filter">Mostrar lo filtre de las notificacions</string>
 <string name="filter_dialog_whole_word">Mot complèt</string>
     <string name="filter_dialog_whole_word_description">Quand un mot clau o una frasa es solament alfanumeric, serà pas qu’aplicat se correspond al mot complèt</string>
+    <string name="pref_title_alway_open_spoiler">Totjorn desplegar los tuts marcats amb un avertiment de contengut</string>
+    <string name="title_accounts">Comptes</string>
+    <string name="failed_search">Fracàs de la recèrca</string>
+
     </resources>

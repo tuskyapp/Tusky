@@ -24,9 +24,7 @@ import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.interfaces.LinkListener
 import com.keylesspalace.tusky.util.*
 import kotlinx.android.synthetic.main.fragment_search.*
-import java.util.*
 import javax.inject.Inject
-import kotlin.concurrent.schedule
 
 abstract class SearchFragment<T> : Fragment(),
         LinkListener, Injectable, SwipeRefreshLayout.OnRefreshListener {
@@ -135,10 +133,10 @@ abstract class SearchFragment<T> : Fragment(),
     override fun onRefresh() {
 
         // Dismissed here because the RecyclerView bottomProgressBar is shown as soon as the retry begins.
-        Timer("DelayDismiss", false).schedule(200) {
+        swipeRefreshLayout.post {
+
             swipeRefreshLayout.isRefreshing = false
         }
-
         viewModel.retryAllSearches()
     }
 }

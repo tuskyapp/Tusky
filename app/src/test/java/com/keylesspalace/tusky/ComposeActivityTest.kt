@@ -39,6 +39,8 @@ import org.mockito.Mockito.`when`
 import org.mockito.Mockito.mock
 import org.robolectric.Robolectric
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import io.reactivex.Single
+import io.reactivex.SingleObserver
 import org.robolectric.annotation.Config
 import org.robolectric.fakes.RoboMenuItem
 import retrofit2.Call
@@ -77,7 +79,7 @@ class ComposeActivityTest {
             notificationVibration = true,
             notificationLight = true
     )
-    var instanceResponseCallback: ((Call<Instance>?, Callback<Instance>?)->Unit)? = null
+    var instanceResponseCallback: (()->Instance)? = null
 
     @Before
     fun setupActivity() {
@@ -109,28 +111,14 @@ class ComposeActivityTest {
 
             override fun enqueue(callback: Callback<List<Emoji>>?) {}
         })
-        `when`(apiMock.instance).thenReturn(object: Call<Instance> {
-            override fun isExecuted(): Boolean {
-                return false
-            }
-            override fun clone(): Call<Instance> {
-                throw Error("not implemented")
-            }
-            override fun isCanceled(): Boolean {
-                throw Error("not implemented")
-            }
-            override fun cancel() {
-                throw Error("not implemented")
-            }
-            override fun execute(): Response<Instance> {
-                throw Error("not implemented")
-            }
-            override fun request(): Request {
-                throw Error("not implemented")
-            }
-
-            override fun enqueue(callback: Callback<Instance>?) {
-                instanceResponseCallback?.invoke(this, callback)
+        `when`(apiMock.instance).thenReturn(object: Single<Instance>() {
+            override fun subscribeActual(observer: SingleObserver<in Instance>) {
+                val instance = instanceResponseCallback?.invoke()
+                if (instance == null) {
+                    observer.onError(Throwable())
+                } else {
+                    observer.onSuccess(instance)
+                }
             }
         })
 
@@ -181,7 +169,7 @@ class ComposeActivityTest {
 
     @Test
     fun whenMaximumTootCharsIsNull_defaultLimitIsUsed() {
-        instanceResponseCallback = getSuccessResponseCallbackWithMaximumTootCharacters(null)
+        instanceResponseCallback = { getInstanceWithMaximumTootCharacters(null) }
         setupActivity()
         assertEquals(ComposeActivity.STATUS_CHARACTER_LIMIT, activity.maximumTootCharacters)
     }
@@ -189,21 +177,9 @@ class ComposeActivityTest {
     @Test
     fun whenMaximumTootCharsIsPopulated_customLimitIsUsed() {
         val customMaximum = 1000
-        instanceResponseCallback = getSuccessResponseCallbackWithMaximumTootCharacters(customMaximum)
+        instanceResponseCallback = { getInstanceWithMaximumTootCharacters(customMaximum) }
         setupActivity()
         assertEquals(customMaximum, activity.maximumTootCharacters)
-    }
-
-    @Test
-    fun whenInitialInstanceRequestFails_defaultValueIsUsed() {
-        instanceResponseCallback = {
-            call: Call<Instance>?, callback: Callback<Instance>? ->
-            if (call != null) {
-                callback?.onResponse(call, Response.error(400, ResponseBody.create(null, "")))
-            }
-        }
-        setupActivity()
-        assertEquals(ComposeActivity.STATUS_CHARACTER_LIMIT, activity.maximumTootCharacters)
     }
 
     @Test
@@ -281,7 +257,8 @@ class ComposeActivityTest {
                         emptyList(),
                         emptyList()
                 ),
-                maximumTootCharacters
+                maximumTootCharacters,
+                null
         )
     }
 

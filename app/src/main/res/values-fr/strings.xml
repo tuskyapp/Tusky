@@ -450,8 +450,9 @@
 
     <string name="pref_title_show_notifications_filter">Montrer le filtre des notifications</string>
 <string name="filter_dialog_whole_word">Mot entier</string>
-    <string name="filter_dialog_whole_word_description">Alphanumérique seulement, sera appliqué uniquement sur le mot entier</string>
+    <string name="filter_dialog_whole_word_description">Un mot-clé ou une phrase alphanumérique sera appliquée seulement s\'il ou elle correspond au mot entier</string>
     <string name="title_accounts">Comptes</string>
     <string name="failed_search">Échec de la recherche</string>
 
+    <string name="pref_title_alway_open_spoiler">Toujours ouvrir les pouets avec un contenu sensible</string>
     </resources>

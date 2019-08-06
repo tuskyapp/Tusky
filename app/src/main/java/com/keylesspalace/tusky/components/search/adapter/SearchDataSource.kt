@@ -88,7 +88,17 @@ class SearchDataSource<T>(
                 }
                 .subscribe(
                         { data ->
-                            val res = parser(data)
+                            // Working around Mastodon bug where exact match is returned no matter
+                            // which offset is requested (so if we seach for a full username, it's
+                            // infinite)
+                            // see https://github.com/tootsuite/mastodon/issues/11365
+                            val res = if (data.accounts.size == 1
+                                    && data.accounts[0].username
+                                            .equals(searchRequest, ignoreCase = true)) {
+                                listOf()
+                            } else {
+                                parser(data)
+                            }
                             callback.onResult(res)
                             networkState.postValue(NetworkState.LOADED)
 

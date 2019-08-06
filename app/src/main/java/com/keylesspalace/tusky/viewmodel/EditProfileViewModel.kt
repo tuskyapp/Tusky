@@ -27,6 +27,7 @@ import com.keylesspalace.tusky.EditProfileActivity.Companion.HEADER_WIDTH
 import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.appstore.ProfileEditedEvent
 import com.keylesspalace.tusky.entity.Account
+import com.keylesspalace.tusky.entity.Instance
 import com.keylesspalace.tusky.entity.StringField
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.*
@@ -64,6 +65,7 @@ class EditProfileViewModel  @Inject constructor(
     val avatarData = MutableLiveData<Resource<Bitmap>>()
     val headerData = MutableLiveData<Resource<Bitmap>>()
     val saveData = MutableLiveData<Resource<Nothing>>()
+    val instanceData = MutableLiveData<Resource<Instance>>()
 
     private var oldProfileData: Account? = null
 
@@ -265,6 +267,21 @@ class EditProfileViewModel  @Inject constructor(
 
     override fun onCleared() {
         disposeables.dispose()
+    }
+
+    fun obtainInstance() {
+        if(instanceData.value == null || instanceData.value is Error) {
+            instanceData.postValue(Loading())
+
+            mastodonApi.instance.subscribe(
+                            {instance ->
+                                instanceData.postValue(Success(instance))
+                            },
+                            {
+                                instanceData.postValue(Error())
+                            })
+                    .addTo(disposeables)
+        }
     }
 
 

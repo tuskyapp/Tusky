@@ -5,7 +5,6 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.keylesspalace.tusky.db.*
 import com.keylesspalace.tusky.entity.*
-import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.repository.TimelineRequestMode.DISK
 import com.keylesspalace.tusky.repository.TimelineRequestMode.NETWORK
