@@ -17,7 +17,6 @@
     <string name="error_media_download_permission">اجازه ذخیره رسانه نیاز است</string>
     <string name="error_media_upload_image_or_video">تصاویر و فیلم‌ها هر دو نمی‌توانند به یک وضعیت ضمیمه شوند.</string>
     <string name="error_media_upload_sending">بارگذاری ناموفق بود</string>
-    <string name="error_report_too_few_statuses">حداقل یک وضعیت باید گزارش شود</string>
     <string name="error_sender_account_gone">خطا در ارسال بوق</string>
     <string name="title_home">خانه</string>
     <string name="title_notifications">اعلان‌ها</string>

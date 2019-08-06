@@ -18,7 +18,6 @@
     <string name="error_media_download_permission">Permeso konservi aŭdovidaĵojn necesas.</string>
     <string name="error_media_upload_image_or_video">Bildoj kaj videoj ne povas ambaŭ estas alligita al la sama mesaĝo.</string>
     <string name="error_media_upload_sending">La alŝuto malsukcesis.</string>
-    <string name="error_report_too_few_statuses">Almenaŭ unu mesaĝo devas esti signalita.</string>
     <string name="error_sender_account_gone">Eraro dum sendo de la mesaĝo.</string>
     <string name="title_home">Hejmo</string>
     <string name="title_notifications">Sciigoj</string>

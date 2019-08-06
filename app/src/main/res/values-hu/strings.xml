@@ -18,7 +18,6 @@
     <string name="error_media_download_permission">Média tárolási engedély szükséges.</string>
     <string name="error_media_upload_image_or_video">Képek és videók egyszerre nem csatolhatók ugyanazon tülköléshez.</string>
     <string name="error_media_upload_sending">Feltöltés sikertelen.</string>
-    <string name="error_report_too_few_statuses">Legalább egy tülkölést jelenti kell.</string>
     <string name="error_sender_account_gone">Nem sikerült elküldeni a tülköt.</string>
     <string name="title_home">Kezdőlap</string>
     <string name="title_notifications">Értesítések</string>

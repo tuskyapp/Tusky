@@ -18,7 +18,6 @@
     <string name="error_media_download_permission">Se requiere permiso para descargar al almacenamiento.</string>
     <string name="error_media_upload_image_or_video">No se pueden adjuntar imágenes y vídeos en el mismo estado.</string>
     <string name="error_media_upload_sending">La subida falló.</string>
-    <string name="error_report_too_few_statuses">Debe seleccionar al menos un estado.</string>
     <string name="error_sender_account_gone">Error al publicar.</string>
     <string name="title_home">Inicio</string>
     <string name="title_notifications">Notificaciones</string>

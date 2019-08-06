@@ -17,7 +17,6 @@
     <string name="error_media_download_permission">Cal pemís d\'escriptura en el mitjà.</string>
     <string name="error_media_upload_image_or_video">No es poden adjuntar imatges i vídeos en el mateix estat.</string>
     <string name="error_media_upload_sending">La pujada ha fallat.</string>
-    <string name="error_report_too_few_statuses">Com a mínim has de denunciar un estat.</string>
 
     <string name="title_home">Inici</string>
     <string name="title_notifications">Notificacions</string>
