@@ -303,8 +303,8 @@
         <item quantity="other">&lt;b&gt;%1$s&lt;/b&gt; Favoritos</item>
     </plurals>
     <plurals name="reblogs">
-	<item quantity="one">&lt;b>%s&lt;/b> Impulso</item>
-	<item quantity="other">&lt;b>%s&lt;/b> Impulsos</item>
+	<item quantity="one">&lt;b&gt;%s&lt;/b&gt; Impulso</item>
+	<item quantity="other">&lt;b&gt;%s&lt;/b&gt; Impulsos</item>
 </plurals>
     <string name="title_reblogged_by">Impulsado por</string>
     <string name="title_favourited_by">Marcado como favorito por</string>
@@ -446,4 +446,8 @@
     <string name="report_description_remote_instance">La cuenta es de otro servidor. ¿Enviar una copia anónima del reporte\?</string>
 
     <string name="pref_title_show_notifications_filter">Mostrar filtro de notificaciones</string>
-</resources>
+<string name="pref_title_alway_open_spoiler">Mostrar siempre toots marcados con avisos de contenido</string>
+    <string name="title_accounts">Cuentas</string>
+    <string name="failed_search">Error al buscar</string>
+
+    </resources>
