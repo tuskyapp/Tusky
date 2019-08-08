@@ -328,4 +328,31 @@
     <string name="action_unreblog">ブーストを解除</string>
     <string name="action_unfavourite">お気に入りを解除</string>
     <string name="action_open_reblogged_by">ブーストを表示</string>
+    <string name="download_media">メディアをダウンロード</string>
+    <string name="downloading_media">メディアをダウンロード中</string>
+
+    <string name="app_theme_system">システムの設定を利用</string>
+
+    <string name="notifications_clear">通知を削除</string>
+    <string name="notifications_apply_filter">フィルター</string>
+    <string name="notification_clear_text">すべての通知を完全に削除してよろしいですか？</string>
+    <plurals name="poll_info_votes">
+	<item quantity="other">%s票</item>
+</plurals>
+    <string name="poll_info_time_relative">残り%s</string>
+    <string name="poll_vote">投票</string>
+
+    <plurals name="poll_timespan_days">
+	<item quantity="other">%d日</item>
+</plurals>
+    <plurals name="poll_timespan_hours">
+	<item quantity="other">%d時間</item>
+</plurals>
+    <plurals name="poll_timespan_minutes">
+	<item quantity="other">%d分</item>
+</plurals>
+    <plurals name="poll_timespan_seconds">
+	<item quantity="other">%d秒</item>
+</plurals>
+
     </resources>
