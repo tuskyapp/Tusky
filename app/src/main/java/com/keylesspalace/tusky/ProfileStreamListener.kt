@@ -7,10 +7,7 @@ import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.OnLifecycleEvent
 import com.google.gson.Gson
-import com.keylesspalace.tusky.appstore.EventHub
-import com.keylesspalace.tusky.appstore.NewHomeTimelineStatusEvent
-import com.keylesspalace.tusky.appstore.NewNotificationEvent
-import com.keylesspalace.tusky.appstore.StatusDeletedEvent
+import com.keylesspalace.tusky.appstore.*
 import com.keylesspalace.tusky.entity.Notification
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.network.MastodonApi
@@ -62,6 +59,9 @@ class ProfileStreamListener @Inject constructor(
         this.internalStop()
     }
 
+    val isStreaming
+        get() = !isStoppedManually
+
     private fun internalResume() {
         Log.d(TAG, "internal resume")
         if (this.isStoppedManually) {
@@ -75,7 +75,10 @@ class ProfileStreamListener @Inject constructor(
                 Log.d(TAG, "internal resume cancelled: ther was a call alrady")
                 return@fromCallable Optional(null)
             }
-            call.execute().body()!!.charStream().useLines { linesSequence ->
+            val callResponse = call.execute()
+            Log.d(TAG, "Dispatching reconenct event")
+            eventHub.dispatch(ProflileStreamingReconnectedEvent)
+            callResponse.body()!!.charStream().useLines { linesSequence ->
                 // Mastodon Event types: update, notification, delete, filters_changed
                 // we react only on notification for now
                 // To detect that it's a notification, we should notice that previous line was

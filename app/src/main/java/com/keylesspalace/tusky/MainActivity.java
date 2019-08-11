@@ -112,7 +112,7 @@ public final class MainActivity extends BottomSheetActivity implements ActionBut
     @Inject
     public ProfileStreamingListenerProvider streamingListenerProvider;
 
-    private ProfileStreamListener profileStreamListener;
+    public ProfileStreamListener profileStreamListener;
     private FloatingActionButton composeButton;
     private AccountHeader headerResult;
     private Drawer drawer;
@@ -266,7 +266,6 @@ public final class MainActivity extends BottomSheetActivity implements ActionBut
         super.onResume();
 
         NotificationHelper.clearNotificationsForActiveAccount(this, accountManager);
-
     }
 
     @Override
