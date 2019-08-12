@@ -1,0 +1,1 @@
+Többfiókos kliens a Mastodon szociális hálóhoz
