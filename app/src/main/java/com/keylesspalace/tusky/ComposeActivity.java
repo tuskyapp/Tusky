@@ -242,6 +242,8 @@ public final class ComposeActivity
     private List<Emoji> emojiList;
     private CountDownLatch emojiListRetrievalLatch = new CountDownLatch(1);
     private int maximumTootCharacters = STATUS_CHARACTER_LIMIT;
+    private Integer maxPollOptions = null;
+    private Integer maxPollOptionLength = null;
     private @Px
     int thumbnailViewSize;
 
@@ -911,7 +913,7 @@ public final class ComposeActivity
 
     private void openPollDialog() {
         addMediaBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
-        AddPollDialog.showAddPollDialog(this, poll, null, null);
+        AddPollDialog.showAddPollDialog(this, poll, maxPollOptions, maxPollOptionLength);
     }
 
     public void updatePoll(NewPoll poll) {
@@ -1825,6 +1827,8 @@ public final class ComposeActivity
         if (instanceEntity != null) {
             Integer max = instanceEntity.getMaximumTootCharacters();
             maximumTootCharacters = (max == null ? STATUS_CHARACTER_LIMIT : max);
+            maxPollOptions = instanceEntity.getMaxPollOptions();
+            maxPollOptionLength = instanceEntity.getMaxPollOptionLength();
             setEmojiList(instanceEntity.getEmojiList());
             updateVisibleCharactersLeft();
         }
@@ -1842,7 +1846,9 @@ public final class ComposeActivity
     }
 
     private void cacheInstanceMetadata(@NotNull AccountEntity activeAccount) {
-        InstanceEntity instanceEntity = new InstanceEntity(activeAccount.getDomain(), emojiList, maximumTootCharacters);
+        InstanceEntity instanceEntity = new InstanceEntity(
+                activeAccount.getDomain(), emojiList, maximumTootCharacters, maxPollOptions, maxPollOptionLength
+        );
         database.instanceDao().insertOrReplace(instanceEntity);
     }
 
@@ -1857,9 +1863,18 @@ public final class ComposeActivity
     }
 
     private void onFetchInstanceSuccess(Instance instance) {
-        if (instance != null && instance.getMaxTootChars() != null) {
-            maximumTootCharacters = instance.getMaxTootChars();
-            updateVisibleCharactersLeft();
+        if (instance != null) {
+
+            if (instance.getMaxTootChars() != null) {
+                maximumTootCharacters = instance.getMaxTootChars();
+                updateVisibleCharactersLeft();
+            }
+
+            if (instance.getPollLimits() != null) {
+                maxPollOptions = instance.getPollLimits().getMaxOptions();
+                maxPollOptionLength = instance.getPollLimits().getMaxOptionChars();
+            }
+
             cacheInstanceMetadata(accountManager.getActiveAccount());
         }
     }

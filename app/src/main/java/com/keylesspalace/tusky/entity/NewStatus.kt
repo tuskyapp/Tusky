@@ -4,7 +4,7 @@ import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 
-class NewStatus(
+data class NewStatus(
         val status: String,
         @SerializedName("spoiler_text") val warningText: String,
         @SerializedName("in_reply_to_id") val inReplyToId: String?,
@@ -15,7 +15,7 @@ class NewStatus(
 )
 
 @Parcelize
-class NewPoll(
+data class NewPoll(
         val options: List<String>,
         val expires_in: Int,
         val multiple: Boolean
