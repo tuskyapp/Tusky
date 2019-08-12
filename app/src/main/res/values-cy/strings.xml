@@ -240,7 +240,7 @@
     <string name="compose_active_account_description">Yn postio â chyfrif %1$s</string>
     <string name="error_failed_set_caption">Methu gosod pennawd</string>
     <string name="action_set_caption">Pennu pennawd</string>
-    <string name="action_remove_media">Dileu</string>
+    <string name="action_remove">Dileu</string>
     <string name="lock_account_label">Cloi cyfrif</string>
     <string name="lock_account_label_description">Angen cymeradwyo dilynwyr eich hun</string>
     <string name="compose_save_draft">Cadw drafft?</string>

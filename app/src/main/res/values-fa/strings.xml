@@ -232,7 +232,7 @@
     <string name="error_failed_set_caption">ناتوان در تنظیم عنوان</string>
     <string name="hint_describe_for_visually_impaired">توصیف برای کم‌بینایان\n(محدودیت نویسه %d)</string>
     <string name="action_set_caption">تنظیم عنوان</string>
-    <string name="action_remove_media">حذف</string>
+    <string name="action_remove">حذف</string>
     <string name="lock_account_label">قفل حساب</string>
     <string name="lock_account_label_description">به شما امکان می‌دهد بصورت دستی دنبال‌کنندگان را تایید کنید</string>
     <string name="compose_save_draft">ذخیره به عنوان پیش‌نویس</string>

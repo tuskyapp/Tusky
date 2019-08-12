@@ -19,12 +19,12 @@ import com.keylesspalace.tusky.entity.AccessToken;
 import com.keylesspalace.tusky.entity.Account;
 import com.keylesspalace.tusky.entity.AppCredentials;
 import com.keylesspalace.tusky.entity.Attachment;
-import com.keylesspalace.tusky.entity.Card;
 import com.keylesspalace.tusky.entity.Conversation;
 import com.keylesspalace.tusky.entity.Emoji;
 import com.keylesspalace.tusky.entity.Filter;
 import com.keylesspalace.tusky.entity.Instance;
 import com.keylesspalace.tusky.entity.MastoList;
+import com.keylesspalace.tusky.entity.NewStatus;
 import com.keylesspalace.tusky.entity.Notification;
 import com.keylesspalace.tusky.entity.Poll;
 import com.keylesspalace.tusky.entity.Relationship;
@@ -44,6 +44,7 @@ import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Response;
+import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
@@ -127,18 +128,12 @@ public interface MastodonApi {
     Call<Attachment> updateMedia(@Path("mediaId") String mediaId,
                                  @Field("description") String description);
 
-    @FormUrlEncoded
     @POST("api/v1/statuses")
     Call<Status> createStatus(
             @Header("Authorization") String auth,
             @Header(DOMAIN_HEADER) String domain,
-            @Field("status") String text,
-            @Field("in_reply_to_id") String inReplyToId,
-            @Field("spoiler_text") String warningText,
-            @Field("visibility") String visibility,
-            @Field("sensitive") Boolean sensitive,
-            @Field("media_ids[]") List<String> mediaIds,
-            @Header("Idempotency-Key") String idempotencyKey);
+            @Header("Idempotency-Key") String idempotencyKey,
+            @Body NewStatus status);
 
     @GET("api/v1/statuses/{id}")
     Call<Status> status(@Path("id") String statusId);

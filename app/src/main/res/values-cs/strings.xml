@@ -290,7 +290,7 @@
     <string name="error_failed_set_caption">Nastavení popisku selhalo</string>
     <string name="hint_describe_for_visually_impaired">Popis pro zrakově postižené\n(limit %d znaků)</string>
     <string name="action_set_caption">Nastavit popisek</string>
-    <string name="action_remove_media">Odstranit</string>
+    <string name="action_remove">Odstranit</string>
     <string name="lock_account_label">Uzamknout účet</string>
     <string name="lock_account_label_description">Vyžaduje, abyste ručně schvaloval/a sledující</string>
     <string name="compose_save_draft">Uložit koncept?</string>

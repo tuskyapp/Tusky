@@ -22,6 +22,8 @@ import com.keylesspalace.tusky.db.AccountEntity
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.db.AppDatabase
 import com.keylesspalace.tusky.di.Injectable
+import com.keylesspalace.tusky.entity.NewPoll
+import com.keylesspalace.tusky.entity.NewStatus
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.SaveTootHelper
@@ -131,16 +133,21 @@ class SendTootService : Service(), Injectable {
 
         tootToSend.retries++
 
-        val sendCall = mastodonApi.createStatus(
-                "Bearer " + account.accessToken,
-                account.domain,
+        val newStatus = NewStatus(
                 tootToSend.text,
-                tootToSend.inReplyToId,
                 tootToSend.warningText,
+                tootToSend.inReplyToId,
                 tootToSend.visibility,
                 tootToSend.sensitive,
                 tootToSend.mediaIds,
-                tootToSend.idempotencyKey
+                tootToSend.poll
+        )
+
+        val sendCall = mastodonApi.createStatus(
+                "Bearer " + account.accessToken,
+                account.domain,
+                tootToSend.idempotencyKey,
+                newStatus
         )
 
 
@@ -277,6 +284,7 @@ class SendTootService : Service(), Injectable {
                            mediaUris: List<Uri>,
                            mediaDescriptions: List<String>,
                            inReplyToId: String?,
+                           poll: NewPoll?,
                            replyingStatusContent: String?,
                            replyingStatusAuthorUsername: String?,
                            savedJsonUrls: String?,
@@ -295,6 +303,7 @@ class SendTootService : Service(), Injectable {
                     mediaUris.map { it.toString() },
                     mediaDescriptions,
                     inReplyToId,
+                    poll,
                     replyingStatusContent,
                     replyingStatusAuthorUsername,
                     savedJsonUrls,
@@ -337,6 +346,7 @@ data class TootToSend(val text: String,
                       val mediaUris: List<String>,
                       val mediaDescriptions: List<String>,
                       val inReplyToId: String?,
+                      val poll: NewPoll?,
                       val replyingStatusContent: String?,
                       val replyingStatusAuthorUsername: String?,
                       val savedJsonUrls: String?,

@@ -305,7 +305,7 @@
     <string name="hint_describe_for_visually_impaired">Beskriv for de med nedsatt synsevne
 \n(maks %d tegn)</string>
     <string name="action_set_caption">Sett bildetekst</string>
-    <string name="action_remove_media">Slett</string>
+    <string name="action_remove">Slett</string>
     <string name="lock_account_label">Lås konto</string>
     <string name="lock_account_label_description">Krever at du manuelt godkjenner nye følgere</string>
     <string name="compose_save_draft">Lagre kladd\?</string>

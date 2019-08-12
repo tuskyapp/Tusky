@@ -256,7 +256,7 @@
     <string name="error_failed_set_caption">Error al añadir leyenda</string>
     <string name="hint_describe_for_visually_impaired">Describir para invidentes\n(límite de %d caracteres)</string>
     <string name="action_set_caption">Añadir leyenda</string>
-    <string name="action_remove_media">Eliminar</string>
+    <string name="action_remove">Eliminar</string>
     <string name="lock_account_label">Proteger cuenta</string>
     <string name="lock_account_label_description">Tendrá que admitir los seguidores manualmente</string>
     <string name="compose_save_draft">¿Guardar borrador?</string>

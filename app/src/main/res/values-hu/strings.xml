@@ -238,7 +238,7 @@
     <string name="add_account_description">Új Mastodon fiók hozzáadása</string>
     <string name="action_lists">Listák</string>
     <string name="title_lists">Listák</string>
-    <string name="action_remove_media">Törlés</string>
+    <string name="action_remove">Törlés</string>
     <string name="lock_account_label">Fiók lezárása</string>
     <string name="compose_save_draft">Elmented a vázlatot?</string>
     <string name="send_toot_notification_title">Tülk elküldése…</string>

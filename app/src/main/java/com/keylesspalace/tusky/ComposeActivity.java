@@ -79,6 +79,7 @@ import com.keylesspalace.tusky.entity.Account;
 import com.keylesspalace.tusky.entity.Attachment;
 import com.keylesspalace.tusky.entity.Emoji;
 import com.keylesspalace.tusky.entity.Instance;
+import com.keylesspalace.tusky.entity.NewPoll;
 import com.keylesspalace.tusky.entity.SearchResults;
 import com.keylesspalace.tusky.entity.Status;
 import com.keylesspalace.tusky.network.MastodonApi;
@@ -94,6 +95,7 @@ import com.keylesspalace.tusky.util.SaveTootHelper;
 import com.keylesspalace.tusky.util.SpanUtilsKt;
 import com.keylesspalace.tusky.util.StringUtils;
 import com.keylesspalace.tusky.util.ThemeUtils;
+import com.keylesspalace.tusky.view.AddPollDialog;
 import com.keylesspalace.tusky.view.ComposeOptionsListener;
 import com.keylesspalace.tusky.view.ComposeOptionsView;
 import com.keylesspalace.tusky.view.EditTextTyped;
@@ -227,6 +229,7 @@ public final class ComposeActivity
     private String inReplyToId;
     private List<QueuedMedia> mediaQueued = new ArrayList<>();
     private CountUpDownLatch waitForMediaLatch;
+    private NewPoll poll;
     private Status.Visibility statusVisibility;     // The current values of the options that will be applied
     private boolean statusMarkSensitive; // to the status being composed.
     private boolean statusHideText;
@@ -368,6 +371,7 @@ public final class ComposeActivity
 
         TextView actionPhotoTake = findViewById(R.id.action_photo_take);
         TextView actionPhotoPick = findViewById(R.id.action_photo_pick);
+        TextView actionAddPoll = findViewById(R.id.action_add_poll);
 
         int textColor = ThemeUtils.getColor(this, android.R.attr.textColorTertiary);
 
@@ -377,8 +381,12 @@ public final class ComposeActivity
         Drawable imageIcon = new IconicsDrawable(this, GoogleMaterial.Icon.gmd_image).color(textColor).sizeDp(18);
         actionPhotoPick.setCompoundDrawablesRelativeWithIntrinsicBounds(imageIcon, null, null, null);
 
+        Drawable pollIcon = new IconicsDrawable(this, GoogleMaterial.Icon.gmd_poll).color(textColor).sizeDp(18);
+        actionAddPoll.setCompoundDrawablesRelativeWithIntrinsicBounds(pollIcon, null, null, null);
+
         actionPhotoTake.setOnClickListener(v -> initiateCameraApp());
         actionPhotoPick.setOnClickListener(v -> onMediaPick());
+        actionAddPoll.setOnClickListener(v -> openPollDialog());
 
         thumbnailViewSize = getResources().getDimensionPixelSize(R.dimen.compose_media_preview_size);
 
@@ -900,6 +908,15 @@ public final class ComposeActivity
         addMediaBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
     }
 
+    private void openPollDialog() {
+        addMediaBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+        AddPollDialog.showAddPollDialog(this, poll, null, null);
+    }
+
+    public void updatePoll(NewPoll poll) {
+        this.poll = poll;
+    }
+
     @Override
     public void onVisibilityChanged(@NonNull Status.Visibility visibility) {
         composeOptionsBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
@@ -1004,7 +1021,7 @@ public final class ComposeActivity
         }
 
         Intent sendIntent = SendTootService.sendTootIntent(this, content, spoilerText,
-                visibility, !mediaUris.isEmpty() && sensitive, mediaIds, mediaUris, mediaDescriptions, inReplyToId,
+                visibility, !mediaUris.isEmpty() && sensitive, mediaIds, mediaUris, mediaDescriptions, inReplyToId, poll,
                 getIntent().getStringExtra(REPLYING_STATUS_CONTENT_EXTRA),
                 getIntent().getStringExtra(REPLYING_STATUS_AUTHOR_USERNAME_EXTRA),
                 getIntent().getStringExtra(SAVED_JSON_URLS_EXTRA),
@@ -1258,7 +1275,7 @@ public final class ComposeActivity
         final int addCaptionId = 1;
         final int removeId = 2;
         popup.getMenu().add(0, addCaptionId, 0, R.string.action_set_caption);
-        popup.getMenu().add(0, removeId, 0, R.string.action_remove_media);
+        popup.getMenu().add(0, removeId, 0, R.string.action_remove);
         popup.setOnMenuItemClickListener(menuItem -> {
             switch (menuItem.getItemId()) {
                 case addCaptionId:

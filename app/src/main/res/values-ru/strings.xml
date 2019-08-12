@@ -353,7 +353,7 @@
     <string name="error_failed_set_caption">Не удалось добавить подпись</string>
     <string name="hint_describe_for_visually_impaired">Описание для слабовидящих\n(не более %d символов)</string>
     <string name="action_set_caption">Добавить подпись</string>
-    <string name="action_remove_media">Удалить</string>
+    <string name="action_remove">Удалить</string>
     <string name="lock_account_label">Закрыть аккаунт</string>
     <string name="lock_account_label_description">Вам придётся вручную подтверждать подписчиков</string>
     <string name="compose_save_draft">Сохранить черновик?</string>

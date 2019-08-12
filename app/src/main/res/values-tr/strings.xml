@@ -251,7 +251,7 @@
     <string name="hint_describe_for_visually_impaired">Görme engelliler için açıklama
 \n(%d karakter limiti)</string>
     <string name="action_set_caption">Başlık belirle</string>
-    <string name="action_remove_media">Kaldır</string>
+    <string name="action_remove">Kaldır</string>
     <string name="lock_account_label">Hesabı Gizle</string>
     <string name="lock_account_label_description">Aktif edilirse takipçileri elle onaylamanız gerekir</string>
     <string name="compose_save_draft">Taslaklara kaydedilsin mi\?</string>

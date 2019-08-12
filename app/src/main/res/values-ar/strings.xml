@@ -281,7 +281,7 @@
     <string name="hint_describe_for_visually_impaired">وصف لضعاف البصر
 \n(%d أحرف على أقصى تقدير)</string>
     <string name="action_set_caption">إضافة شرح</string>
-    <string name="action_remove_media">حذف</string>
+    <string name="action_remove">حذف</string>
     <string name="lock_account_label">تجميد الحساب</string>
     <string name="lock_account_label_description">يتطلب منك قبول طلبات المتابَعة يدويا</string>
     <string name="compose_save_draft">هل تود الإحتفاظ بالمسودة ؟</string>

@@ -348,7 +348,7 @@
     <string name="hint_describe_for_visually_impaired">Descriure per a invidentes
 \n(%d character limit)</string>
     <string name="action_set_caption">Afegir una llegenda</string>
-    <string name="action_remove_media">Eliminar</string>
+    <string name="action_remove">Eliminar</string>
     <string name="lock_account_label">Protegir el compte</string>
     <string name="lock_account_label_description">S\'haurà d\'admetre els seguidors manualment</string>
     <string name="compose_save_draft">Guardar l\'esborrany\?</string>

@@ -285,7 +285,7 @@
     <string name="error_failed_set_caption">Misslyckades med att ange bildtext</string>
     <string name="hint_describe_for_visually_impaired">Beskriv för synskadade\n(%d teckengräns)</string>
     <string name="action_set_caption">Ange bildtext</string>
-    <string name="action_remove_media">Ta bort</string>
+    <string name="action_remove">Ta bort</string>
     <string name="lock_account_label">Lås konto</string>
     <string name="lock_account_label_description">Kräver att du manuellt godkänner följare</string>
     <string name="compose_save_draft">Spara utkast?</string>

@@ -335,7 +335,7 @@
     <string name="hint_describe_for_visually_impaired">দৃষ্টি প্রতিবন্ধী জন্য বর্ণনা করুন
 \n(%d অক্ষর সীমা)</string>
     <string name="action_set_caption">ক্যাপশন সেট করুন</string>
-    <string name="action_remove_media">সরান</string>
+    <string name="action_remove">সরান</string>
     <string name="lock_account_label">অ্যাকাউন্ট লক করুন</string>
     <string name="lock_account_label_description">অনুসারী অনুমোদন করার জন্য আপনাকে প্রয়োজন</string>
     <string name="compose_save_draft">ড্রাফট সংরক্ষণ\?</string>
