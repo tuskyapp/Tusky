@@ -372,13 +372,13 @@
     <string name="pin_action">Kitűzés</string>
 
     <plurals name="favs">
-	<item quantity="one">&lt;b>%1$s&lt;/b> Kedvenc</item>
-	<item quantity="other">&lt;b>%1$s&lt;/b> Kedvenc</item>
+	<item quantity="one">&lt;b&gt;%1$s&lt;/b&gt; Kedvenc</item>
+	<item quantity="other">&lt;b&gt;%1$s&lt;/b&gt; Kedvenc</item>
 </plurals>
 
     <plurals name="reblogs">
-	<item quantity="one">&lt;b>%s&lt;/b> Megtolás</item>
-	<item quantity="other">&lt;b>%s&lt;/b> Megtolás</item>
+	<item quantity="one">&lt;b&gt;%s&lt;/b&gt; Megtolás</item>
+	<item quantity="other">&lt;b&gt;%s&lt;/b&gt; Megtolás</item>
 </plurals>
 
     <string name="conversation_1_recipients">%1$s</string>
@@ -450,4 +450,8 @@
     <string name="report_description_remote_instance">A fiók egy másik szerverről származik. Küldjünk oda is egy anonimizált másolatot a bejelentésről\?</string>
 
     <string name="pref_title_show_notifications_filter">Értesítések szűrőjének mutatása</string>
-</resources>
+<string name="pref_title_alway_open_spoiler">Tartalom-figyelmeztetéssel ellátott tülkök kifejtése mindig</string>
+    <string name="title_accounts">Fiókok</string>
+    <string name="failed_search">Sikertelen keresés</string>
+
+    </resources>
