@@ -50,9 +50,9 @@ class PreviewPollOptionsAdapter: RecyclerView.Adapter<PreviewViewHolder>() {
         val textView = holder.itemView as TextView
 
         val iconId = if (multiple) {
-            R.drawable.ic_check_box_outline_blank_24px
+            R.drawable.ic_check_box_outline_blank_18dp
         } else {
-            R.drawable.ic_radio_button_unchecked_24px
+            R.drawable.ic_radio_button_unchecked_18dp
         }
 
         val iconDrawable = ThemeUtils.getTintedDrawable(textView.context, iconId, android.R.attr.textColorTertiary)
@@ -63,7 +63,6 @@ class PreviewPollOptionsAdapter: RecyclerView.Adapter<PreviewViewHolder>() {
 
         textView.setOnClickListener(clickListener)
     }
-
 
 }
 
