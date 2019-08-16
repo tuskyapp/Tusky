@@ -194,6 +194,7 @@ public final class ComposeActivity
     private static final String REPLYING_STATUS_CONTENT_EXTRA = "replying_status_content";
     private static final String MEDIA_ATTACHMENTS_EXTRA = "media_attachments";
     private static final String SENSITIVE_EXTRA = "sensitive";
+    private static final String POLL_EXTRA = "poll";
     // Mastodon only counts URLs as this long in terms of status character limits
     static final int MAXIMUM_URL_LENGTH = 23;
     // https://github.com/tootsuite/mastodon/blob/1656663/app/models/media_attachment.rb#L94
@@ -522,6 +523,10 @@ public final class ComposeActivity
             }
 
             statusMarkSensitive = intent.getBooleanExtra(SENSITIVE_EXTRA, statusMarkSensitive);
+
+            if(intent.hasExtra(POLL_EXTRA) && (mediaAttachments == null || mediaAttachments.size() == 0)) {
+                updatePoll(intent.getParcelableExtra(POLL_EXTRA));
+            }
         }
 
         // After the starting state is finalised, the interface can be set to reflect this state.
@@ -1758,8 +1763,9 @@ public final class ComposeActivity
         boolean contentWarningChanged = contentWarningBar.getVisibility() == View.VISIBLE &&
                 !TextUtils.isEmpty(contentWarning) && !startingContentWarning.startsWith(contentWarning.toString());
         boolean mediaChanged = !mediaQueued.isEmpty();
+        boolean pollChanged = poll != null;
 
-        if (textChanged || contentWarningChanged || mediaChanged) {
+        if (textChanged || contentWarningChanged || mediaChanged || pollChanged) {
             new AlertDialog.Builder(this)
                     .setMessage(R.string.compose_save_draft)
                     .setPositiveButton(R.string.action_save, (d, w) -> saveDraftAndFinish())
@@ -1795,7 +1801,8 @@ public final class ComposeActivity
                 inReplyToId,
                 getIntent().getStringExtra(REPLYING_STATUS_CONTENT_EXTRA),
                 getIntent().getStringExtra(REPLYING_STATUS_AUTHOR_USERNAME_EXTRA),
-                statusVisibility);
+                statusVisibility,
+                poll);
         finishWithoutSlideOutAnimation();
     }
 
@@ -2052,7 +2059,8 @@ public final class ComposeActivity
         private ArrayList<Attachment> mediaAttachments;
         @Nullable
         private Boolean sensitive;
-
+        @Nullable
+        private NewPoll poll;
 
         public IntentBuilder savedTootUid(int uid) {
             this.savedTootUid = uid;
@@ -2119,6 +2127,11 @@ public final class ComposeActivity
             return this;
         }
 
+        public IntentBuilder poll(NewPoll poll) {
+            this.poll = poll;
+            return this;
+        }
+
         public Intent build(Context context) {
             Intent intent = new Intent(context, ComposeActivity.class);
 
@@ -2159,8 +2172,11 @@ public final class ComposeActivity
             if (mediaAttachments != null) {
                 intent.putParcelableArrayListExtra(MEDIA_ATTACHMENTS_EXTRA, mediaAttachments);
             }
-            if(sensitive != null) {
+            if (sensitive != null) {
                 intent.putExtra(SENSITIVE_EXTRA, sensitive);
+            }
+            if (poll != null) {
+                intent.putExtra(POLL_EXTRA, poll);
             }
             return intent;
         }

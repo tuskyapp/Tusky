@@ -15,6 +15,8 @@
 
 package com.keylesspalace.tusky.db;
 
+import com.google.gson.Gson;
+import com.keylesspalace.tusky.entity.NewPoll;
 import com.keylesspalace.tusky.entity.Status;
 
 import androidx.annotation.Nullable;
@@ -60,9 +62,13 @@ public class TootEntity {
     @ColumnInfo(name = "visibility")
     private final Status.Visibility visibility;
 
+    @Nullable
+    @ColumnInfo(name = "poll")
+    private final NewPoll poll;
+
     public TootEntity(int uid, String text, String urls, String descriptions, String contentWarning, String inReplyToId,
                       @Nullable String inReplyToText, @Nullable String inReplyToUsername,
-                      Status.Visibility visibility) {
+                      Status.Visibility visibility, @Nullable NewPoll poll) {
         this.uid = uid;
         this.text = text;
         this.urls = urls;
@@ -72,6 +78,7 @@ public class TootEntity {
         this.inReplyToText = inReplyToText;
         this.inReplyToUsername = inReplyToUsername;
         this.visibility = visibility;
+        this.poll = poll;
     }
 
     public String getText() {
@@ -112,7 +119,14 @@ public class TootEntity {
         return visibility;
     }
 
+    @Nullable
+    public NewPoll getPoll() {
+        return poll;
+    }
+
     public static final class Converters {
+
+        private static final Gson gson = new Gson();
 
         @TypeConverter
         public Status.Visibility visibilityFromInt(int number) {
@@ -122,6 +136,16 @@ public class TootEntity {
         @TypeConverter
         public int intFromVisibility(Status.Visibility visibility) {
             return visibility == null ? Status.Visibility.UNKNOWN.getNum() : visibility.getNum();
+        }
+
+        @TypeConverter
+        public String pollToString(NewPoll poll) {
+            return gson.toJson(poll);
+        }
+
+        @TypeConverter
+        public NewPoll stringToPoll(String poll) {
+            return gson.fromJson(poll, NewPoll.class);
         }
     }
 }

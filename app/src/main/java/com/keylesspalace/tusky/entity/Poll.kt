@@ -25,6 +25,14 @@ data class Poll(
         return copy(options = newOptions, votesCount = votesCount + choices.size, voted = true)
     }
 
+    fun toNewPoll(creationDate: Date) = NewPoll(
+            options.map { it.title },
+            expiresAt?.let {
+                ((it.time - creationDate.time) / 1000).toInt()
+            }?: 3600,
+            multiple
+    )
+
 }
 
 data class PollOption(

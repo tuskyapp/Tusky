@@ -305,6 +305,8 @@ public abstract class AppDatabase extends RoomDatabase {
         public void migrate(@NonNull SupportSQLiteDatabase database) {
             database.execSQL("ALTER TABLE `InstanceEntity` ADD COLUMN `maxPollOptions` INTEGER");
             database.execSQL("ALTER TABLE `InstanceEntity` ADD COLUMN `maxPollOptionLength` INTEGER");
+
+            database.execSQL("ALTER TABLE `TootEntity` ADD COLUMN `poll` TEXT");
         }
     };
 
