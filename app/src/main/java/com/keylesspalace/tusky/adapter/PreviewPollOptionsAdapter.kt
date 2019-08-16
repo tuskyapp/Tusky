@@ -1,0 +1,56 @@
+package com.keylesspalace.tusky.adapter
+
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.TextView
+import androidx.core.widget.TextViewCompat
+import androidx.recyclerview.widget.RecyclerView
+import com.keylesspalace.tusky.R
+import com.keylesspalace.tusky.util.ThemeUtils
+
+class PreviewPollOptionsAdapter: RecyclerView.Adapter<PreviewViewHolder>() {
+
+    private var options: List<String> = emptyList()
+    private var multiple: Boolean = false
+    private var clickListener: View.OnClickListener? = null
+
+    fun update(newOptions: List<String>, multiple: Boolean) {
+        this.options = newOptions
+        this.multiple = multiple
+        notifyDataSetChanged()
+    }
+
+    fun setOnClickListener(l: View.OnClickListener?) {
+        clickListener = l
+    }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PreviewViewHolder {
+        return PreviewViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_poll_preview_option, parent, false))
+    }
+
+    override fun getItemCount() = options.size
+
+    override fun onBindViewHolder(holder: PreviewViewHolder, position: Int) {
+        val textView = holder.itemView as TextView
+
+        val iconId = if (multiple) {
+            R.drawable.ic_check_box_outline_blank_24px
+        } else {
+            R.drawable.ic_radio_button_unchecked_24px
+        }
+
+        val iconDrawable = ThemeUtils.getTintedDrawable(textView.context, iconId, android.R.attr.textColorTertiary)
+
+        TextViewCompat.setCompoundDrawablesRelativeWithIntrinsicBounds(textView, iconDrawable, null, null, null)
+
+        textView.text = options[position]
+
+        textView.setOnClickListener(clickListener)
+    }
+
+
+}
+
+
+class PreviewViewHolder(itemView: View): RecyclerView.ViewHolder(itemView)

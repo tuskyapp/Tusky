@@ -47,6 +47,7 @@ import android.text.TextWatcher;
 import android.text.style.URLSpan;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
@@ -99,6 +100,7 @@ import com.keylesspalace.tusky.view.AddPollDialog;
 import com.keylesspalace.tusky.view.ComposeOptionsListener;
 import com.keylesspalace.tusky.view.ComposeOptionsView;
 import com.keylesspalace.tusky.view.EditTextTyped;
+import com.keylesspalace.tusky.view.PollPreviewView;
 import com.keylesspalace.tusky.view.ProgressImageView;
 import com.keylesspalace.tusky.view.TootButton;
 import com.mikepenz.google_material_typeface_library.GoogleMaterial;
@@ -215,6 +217,7 @@ public final class ComposeActivity
     private ImageButton contentWarningButton;
     private ImageButton emojiButton;
     private ImageButton hideMediaToggle;
+    private TextView actionAddPoll;
     private Button atButton;
     private Button hashButton;
 
@@ -223,6 +226,8 @@ public final class ComposeActivity
     private BottomSheetBehavior addMediaBehavior;
     private BottomSheetBehavior emojiBehavior;
     private RecyclerView emojiView;
+
+    private PollPreviewView pollPreview;
 
     // this only exists when a status is trying to be sent, but uploads are still occurring
     private ProgressDialog finishingUploadDialog;
@@ -374,7 +379,7 @@ public final class ComposeActivity
 
         TextView actionPhotoTake = findViewById(R.id.action_photo_take);
         TextView actionPhotoPick = findViewById(R.id.action_photo_pick);
-        TextView actionAddPoll = findViewById(R.id.action_add_poll);
+        actionAddPoll = findViewById(R.id.action_add_poll);
 
         int textColor = ThemeUtils.getColor(this, android.R.attr.textColorTertiary);
 
@@ -918,6 +923,53 @@ public final class ComposeActivity
 
     public void updatePoll(NewPoll poll) {
         this.poll = poll;
+
+        enableButton(pickButton, false, false);
+
+        if(pollPreview == null) {
+
+            pollPreview = new PollPreviewView(this);
+
+            Resources resources = getResources();
+            int margin = resources.getDimensionPixelSize(R.dimen.compose_media_preview_margin);
+            int marginBottom = resources.getDimensionPixelSize(R.dimen.compose_media_preview_margin_bottom);
+
+            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            layoutParams.setMargins(margin, margin, margin, marginBottom);
+            pollPreview.setLayoutParams(layoutParams);
+
+            mediaPreviewBar.addView(pollPreview);
+
+            pollPreview.setOnClickListener(v -> {
+                PopupMenu popup = new PopupMenu(this, pollPreview, Gravity.CENTER);
+                final int editId = 1;
+                final int removeId = 2;
+                popup.getMenu().add(0, editId, 0, R.string.edit_poll);
+                popup.getMenu().add(0, removeId, 0, R.string.action_remove);
+                popup.setOnMenuItemClickListener(menuItem -> {
+                    switch (menuItem.getItemId()) {
+                        case editId:
+                            openPollDialog();
+                            break;
+                        case removeId:
+                            removePoll();
+                            break;
+                    }
+                    return true;
+                });
+                popup.show();
+            });
+        }
+
+        pollPreview.setPoll(poll);
+
+    }
+
+    private void removePoll() {
+        poll = null;
+        pollPreview = null;
+        enableButton(pickButton, true, true);
+        mediaPreviewBar.removeAllViews();
     }
 
     @Override
@@ -1229,6 +1281,7 @@ public final class ComposeActivity
         }
 
         updateHideMediaToggle();
+        actionAddPoll.setEnabled(false);
 
         if (item.readyStage != QueuedMedia.ReadyStage.UPLOADED) {
             waitForMediaLatch.countUp();
@@ -1397,6 +1450,7 @@ public final class ComposeActivity
         mediaQueued.remove(item);
         if (mediaQueued.size() == 0) {
             updateHideMediaToggle();
+            actionAddPoll.setEnabled(true);
         }
         updateContentDescriptionForAllImages();
         enableButton(pickButton, true, true);

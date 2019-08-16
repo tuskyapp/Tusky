@@ -532,5 +532,6 @@
     <string name="add_poll_choice">Add choice</string>
     <string name="poll_allow_multiple_choices">Multiple choices</string>
     <string name="poll_new_choice_hint">Choice %d</string>
+    <string name="edit_poll">Edit</string>
 
 </resources>
