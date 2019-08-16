@@ -47,7 +47,6 @@ import android.text.TextWatcher;
 import android.text.style.URLSpan;
 import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
@@ -946,7 +945,7 @@ public final class ComposeActivity
             mediaPreviewBar.addView(pollPreview);
 
             pollPreview.setOnClickListener(v -> {
-                PopupMenu popup = new PopupMenu(this, pollPreview, Gravity.CENTER);
+                PopupMenu popup = new PopupMenu(this, pollPreview);
                 final int editId = 1;
                 final int removeId = 2;
                 popup.getMenu().add(0, editId, 0, R.string.edit_poll);
