@@ -17,7 +17,6 @@
     <string name="error_media_download_permission">メディアの書き込み許可が必要です。</string>
     <string name="error_media_upload_image_or_video">画像と動画を同時に投稿することはできません。</string>
     <string name="error_media_upload_sending">アップロードに失敗しました。</string>
-    <string name="error_report_too_few_statuses">少なくとも1つの投稿を報告してください。</string>
     <string name="error_sender_account_gone">トゥート送信時のエラーです。</string>
     <string name="title_home">ホーム</string>
     <string name="title_notifications">通知</string>

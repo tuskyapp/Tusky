@@ -18,7 +18,6 @@
     <string name="error_media_download_permission">需要授予 Tusky 寫入儲存空間的權限</string>
     <string name="error_media_upload_image_or_video">無法在嘟文中同時插入影片和圖片</string>
     <string name="error_media_upload_sending">媒體檔案上傳失敗</string>
-    <string name="error_report_too_few_statuses">至少要檢舉 1 則嘟文</string>
     <string name="error_sender_account_gone">嘟文發送時出錯</string>
 
     <string name="title_home">主頁</string>

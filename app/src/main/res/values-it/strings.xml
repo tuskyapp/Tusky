@@ -18,7 +18,6 @@
     <string name="error_media_download_permission">È richiesta l\'autorizzazione di archiviazione.</string>
     <string name="error_media_upload_image_or_video">Immagini e video non possono essere allegati allo stesso stato.</string>
     <string name="error_media_upload_sending">Il caricamento non è riuscito.</string>
-    <string name="error_report_too_few_statuses">Almeno uno stato deve essere segnalato.</string>
     <string name="error_sender_account_gone">Errore nell\'invio del toot.</string>
     <string name="title_home">Home</string>
     <string name="title_notifications">Notifiche</string>

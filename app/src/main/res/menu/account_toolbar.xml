@@ -30,5 +30,7 @@
         android:title="@string/action_hide_reblogs"
         app:showAsAction="never" />
 
-
+    <item
+        android:id="@+id/action_report"
+        android:title="@string/action_report" />
 </menu>

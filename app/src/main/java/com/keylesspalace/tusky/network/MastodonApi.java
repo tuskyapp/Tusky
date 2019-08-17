@@ -19,7 +19,6 @@ import com.keylesspalace.tusky.entity.AccessToken;
 import com.keylesspalace.tusky.entity.Account;
 import com.keylesspalace.tusky.entity.AppCredentials;
 import com.keylesspalace.tusky.entity.Attachment;
-import com.keylesspalace.tusky.entity.Card;
 import com.keylesspalace.tusky.entity.Conversation;
 import com.keylesspalace.tusky.entity.Emoji;
 import com.keylesspalace.tusky.entity.Filter;
@@ -298,13 +297,6 @@ public interface MastodonApi {
 
     @POST("api/v1/follow_requests/{id}/reject")
     Call<Relationship> rejectFollowRequest(@Path("id") String accountId);
-
-    @FormUrlEncoded
-    @POST("api/v1/reports")
-    Call<ResponseBody> report(
-            @Field("account_id") String accountId,
-            @Field("status_ids[]") List<String> statusIds,
-            @Field("comment") String comment);
 
     @GET("api/v1/search")
     Call<SearchResults> search(@Query("q") String q, @Query("resolve") Boolean resolve);

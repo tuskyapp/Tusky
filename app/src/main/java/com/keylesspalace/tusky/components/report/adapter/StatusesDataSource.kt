@@ -72,14 +72,18 @@ class StatusesDataSource(private val accountId: String,
         retryBefore = null
         retryInitial = null
         initialLoad.postValue(NetworkState.LOADING)
-        mastodonApi.statusObservable(params.requestedInitialKey).zipWith(
-                mastodonApi.accountStatusesObservable(accountId, params.requestedInitialKey, null, params.requestedLoadSize - 1, true),
-                BiFunction { status: Status, list: List<Status> ->
-                    val ret = ArrayList<Status>()
-                    ret.add(status)
-                    ret.addAll(list)
-                    return@BiFunction ret
-                })
+        if (params.requestedInitialKey == null) {
+            mastodonApi.accountStatusesObservable(accountId, null, null, params.requestedLoadSize, true)
+        } else {
+            mastodonApi.statusObservable(params.requestedInitialKey).zipWith(
+                    mastodonApi.accountStatusesObservable(accountId, params.requestedInitialKey, null, params.requestedLoadSize - 1, true),
+                    BiFunction { status: Status, list: List<Status> ->
+                        val ret = ArrayList<Status>()
+                        ret.add(status)
+                        ret.addAll(list)
+                        return@BiFunction ret
+                    })
+        }
                 .doOnSubscribe {
                     disposables.add(it)
                 }

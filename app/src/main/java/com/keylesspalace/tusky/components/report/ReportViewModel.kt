@@ -64,21 +64,20 @@ class ReportViewModel @Inject constructor(
     var reportNote: String? = null
     var isRemoteNotify = false
 
-    private var statusContent: String? = null
     private var statusId: String? = null
     lateinit var accountUserName: String
     lateinit var accountId: String
     var isRemoteAccount: Boolean = false
     var remoteServer: String? = null
 
-    fun init(accountId: String, userName: String, statusId: String?, statusContent: String?) {
+    fun init(accountId: String, userName: String, statusId: String?) {
         this.accountId = accountId
         this.accountUserName = userName
         this.statusId = statusId
         statusId?.let {
             selectedIds.add(it)
         }
-        this.statusContent = statusContent
+
         isRemoteAccount = userName.contains('@')
         if (isRemoteAccount) {
             remoteServer = userName.substring(userName.indexOf('@') + 1)
@@ -208,17 +207,15 @@ class ReportViewModel @Inject constructor(
     }
 
     fun setStatusChecked(status: Status, checked: Boolean) {
-        if (checked)
+        if (checked) {
             selectedIds.add(status.id)
-        else
+        } else {
             selectedIds.remove(status.id)
+        }
     }
 
     fun isStatusChecked(id: String): Boolean {
         return selectedIds.contains(id)
     }
 
-    fun isStatusesSelected(): Boolean {
-        return selectedIds.isNotEmpty()
-    }
 }

@@ -188,11 +188,7 @@ class ReportStatusesFragment : Fragment(), Injectable, AdapterHandler {
         }
 
         buttonContinue.setOnClickListener {
-            if (viewModel.isStatusesSelected()) {
-                viewModel.navigateTo(Screen.Note)
-            } else {
-                Snackbar.make(swipeRefreshLayout, R.string.error_report_too_few_statuses, Snackbar.LENGTH_LONG).show()
-            }
+            viewModel.navigateTo(Screen.Note)
         }
     }
 

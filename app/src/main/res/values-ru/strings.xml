@@ -19,7 +19,6 @@
     <string name="error_media_download_permission">Необходимо разрешение для хранения медиаконтента.</string>
     <string name="error_media_upload_image_or_video">Изображения и видео не могут быть прикрекплены к статусу одновременно.</string>
     <string name="error_media_upload_sending">Загрузка не удалась.</string>
-    <string name="error_report_too_few_statuses">Должен быть выбран хотя бы один статус.</string>
     <string name="error_sender_account_gone">Ошибка при отправке поста.</string>
 
     <string name="title_home">Главная</string>

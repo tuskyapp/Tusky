@@ -18,7 +18,6 @@
     <string name="error_media_download_permission">Tillstånd att lagra media krävs.</string>
     <string name="error_media_upload_image_or_video">Bilder och videoklipp kan inte båda bifogas i samma status.</string>
     <string name="error_media_upload_sending">Uppladdningen misslyckades.</string>
-    <string name="error_report_too_few_statuses">Minst en status måste rapporteras.</string>
     <string name="error_sender_account_gone">Misslyckades med att få ett inloggningsnamn.</string>
     <string name="title_home">Hem</string>
     <string name="title_notifications">Notifikationer</string>

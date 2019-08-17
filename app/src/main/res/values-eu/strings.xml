@@ -17,7 +17,6 @@
     <string name="error_media_download_permission">Memoriara deskargatzeko  baimena behar da.</string>
     <string name="error_media_upload_image_or_video">Ezin dira bideoak eta irudiak tut berean gehitu.</string>
     <string name="error_media_upload_sending">Akatsa igotzerakoan.</string>
-    <string name="error_report_too_few_statuses">Gutxienez tut bat hautatu behar da.</string>
     <string name="error_sender_account_gone">Akatsa tuta bidaltzerakoan.</string>
     <string name="title_home">Hasiera</string>
     <string name="title_notifications">Jakinarazpenak</string>

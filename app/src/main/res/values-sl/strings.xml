@@ -18,7 +18,6 @@
     <string name="error_media_download_permission">Potrebno je dovoljenje za shranjevanje medijev.</string>
     <string name="error_media_upload_image_or_video">Slike in videoposnetki ne morejo biti dodani istemu statusu.</string>
     <string name="error_media_upload_sending">Prenos ni uspel.</string>
-    <string name="error_report_too_few_statuses">Prijaviti je treba vsaj en status.</string>
     <string name="error_sender_account_gone">Napaka pri pošiljanju tuta.</string>
 
     <string name="title_home">Domov</string>

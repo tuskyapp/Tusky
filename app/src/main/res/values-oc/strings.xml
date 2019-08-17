@@ -17,7 +17,6 @@
     <string name="error_media_download_permission">Cal pemís d\'escritura dins lo mèdia.</string>
     <string name="error_media_upload_image_or_video">Se pòt pas ajustar imatges e una vidèo dins lo meteis estatut.</string>
     <string name="error_media_upload_sending">Fracàs en mandar.</string>
-    <string name="error_report_too_few_statuses">Cal almens denonciar un estatut.</string>
     <string name="error_sender_account_gone">Error en enviar lo tut.</string>
     <string name="title_home">Acuèlh</string>
     <string name="title_notifications">Notificacions</string>

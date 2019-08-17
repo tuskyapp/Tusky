@@ -16,7 +16,6 @@
     <string name="error_media_download_permission">ஊடகத்தை சேமிக்க அனுமதி தேவை.</string>
     <string name="error_media_upload_image_or_video">படங்களும், வீடியோக்களும் ஒரே நிலைக்கு  இணைக்க இயலாது.</string>
     <string name="error_media_upload_sending">பதிவேற்றம் தோல்வியுற்றது.</string>
-    <string name="error_report_too_few_statuses">குறைந்தபட்சம் ஒரு நிலையை அறிவிக்க வேண்டும்.</string>
     <string name="title_home">முகப்பு</string>
     <string name="title_notifications">அறிவிப்புகள்</string>
     <string name="title_public_local">அருகாமயில்</string>
