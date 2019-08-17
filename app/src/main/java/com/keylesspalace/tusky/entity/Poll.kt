@@ -28,7 +28,7 @@ data class Poll(
     fun toNewPoll(creationDate: Date) = NewPoll(
             options.map { it.title },
             expiresAt?.let {
-                ((it.time - creationDate.time) / 1000).toInt()
+                ((it.time - creationDate.time) / 1000).toInt() + 1
             }?: 3600,
             multiple
     )

@@ -32,6 +32,6 @@ data class NewStatus(
 @Parcelize
 data class NewPoll(
         val options: List<String>,
-        val expires_in: Int,
+        @SerializedName("expires_in") val expiresIn: Int,
         val multiple: Boolean
 ): Parcelable

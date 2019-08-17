@@ -50,7 +50,7 @@ fun showAddPollDialog(
     }
 
     val pollDurationId = activity.resources.getIntArray(R.array.poll_duration_values).indexOfLast {
-        it <= poll?.expires_in ?: 0
+        it <= poll?.expiresIn ?: 0
     }
 
     view.pollDurationSpinner.setSelection(pollDurationId)
@@ -69,7 +69,7 @@ fun showAddPollDialog(
                 activity.updatePoll(
                         NewPoll(
                                 options = adapter.pollOptions,
-                                expires_in = pollDuration,
+                                expiresIn = pollDuration,
                                 multiple = view.multipleChoicesCheckBox.isChecked
                         )
                 )
