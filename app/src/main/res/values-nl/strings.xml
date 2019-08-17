@@ -18,7 +18,6 @@
     <string name="error_media_download_permission">Er is toestemming nodig om media op te slaan.</string>
     <string name="error_media_upload_image_or_video">Afbeeldingen en video\'s kunnen niet allebei aan dezelfde toot worden toegevoegd.</string>
     <string name="error_media_upload_sending">Uploaden mislukt.</string>
-    <string name="error_report_too_few_statuses">Minstens een status moet gerapporteerd worden.</string>
     <string name="error_sender_account_gone">Fout tijdens verzenden toot.</string>
     <string name="title_home">Start</string>
     <string name="title_notifications">Meldingen</string>

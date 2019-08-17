@@ -43,6 +43,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayout
 import com.keylesspalace.tusky.adapter.AccountFieldAdapter
+import com.keylesspalace.tusky.components.report.ReportActivity
 import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.entity.Account
 import com.keylesspalace.tusky.entity.Relationship
@@ -628,12 +629,13 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
             }
 
         } else {
-            // It shouldn't be possible to block or follow yourself.
+            // It shouldn't be possible to block, follow, mute or report yourself.
             menu.removeItem(R.id.action_follow)
             menu.removeItem(R.id.action_block)
             menu.removeItem(R.id.action_mute)
             menu.removeItem(R.id.action_mute_domain)
             menu.removeItem(R.id.action_show_reblogs)
+            menu.removeItem(R.id.action_report)
         }
 
         return super.onCreateOptionsMenu(menu)
@@ -723,6 +725,12 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
             }
             R.id.action_show_reblogs -> {
                 viewModel.changeShowReblogsState()
+                return true
+            }
+            R.id.action_report -> {
+                if(loadedAccount != null) {
+                    startActivity(ReportActivity.getIntent(this, viewModel.accountId, loadedAccount!!.username))
+                }
                 return true
             }
         }

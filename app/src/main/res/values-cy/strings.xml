@@ -17,7 +17,6 @@
     <string name="error_media_download_permission">Rhaid cael caniatâd i gadw hwn.</string>
     <string name="error_media_upload_image_or_video">Ni allwch atodi delweddau a fideos i\'r un statws.</string>
     <string name="error_media_upload_sending">Methu uwchlwytho.</string>
-    <string name="error_report_too_few_statuses">Rhaid rhoi gwybod am o leiaf un statws.</string>
     <string name="error_sender_account_gone">Methu tŵtio.</string>
     <string name="title_home">Hafan</string>
     <string name="title_notifications">Hysbysiadau</string>

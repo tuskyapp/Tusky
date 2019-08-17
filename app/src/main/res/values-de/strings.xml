@@ -18,7 +18,6 @@
     <string name="error_media_download_permission">Eine Berechtigung wird zum Speichern des Mediums benötigt.</string>
     <string name="error_media_upload_image_or_video">Bilder und Videos können beide nicht an den Beitrag angehängt werden.</string>
     <string name="error_media_upload_sending">Die Mediendatei konnte nicht hochgeladen werden.</string>
-    <string name="error_report_too_few_statuses">Mindestens ein Beitrag muss gemeldet werden.</string>
     <string name="error_sender_account_gone">Fehler beim Senden des Status.</string>
     <string name="title_home">Start</string>
     <string name="title_notifications">Benachrichtigungen</string>

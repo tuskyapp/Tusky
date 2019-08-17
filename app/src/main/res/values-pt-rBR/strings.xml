@@ -17,7 +17,6 @@
     <string name="error_media_download_permission">Permissão para armazenar mídia é necessária.</string>
     <string name="error_media_upload_image_or_video">Imagens e vídeos não podem ser anexados no mesmo toot.</string>
     <string name="error_media_upload_sending">Falha no envio.</string>
-    <string name="error_report_too_few_statuses">Pelo menos um toot deve ser denunciado.</string>
     <string name="error_sender_account_gone">Erro ao enviar toot.</string>
     <string name="title_home">Página inicial</string>
     <string name="title_notifications">Notificações</string>

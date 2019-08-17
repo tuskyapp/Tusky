@@ -16,7 +16,6 @@
     <string name="error_media_download_permission">Wymagane jest pozwolenie na przechowywanie plików na urządzeniu.</string>
     <string name="error_media_upload_image_or_video">Do wpisu nie mogą być dołączone jednocześnie obrazy i pliki wideo.</string>
     <string name="error_media_upload_sending">Wysyłanie nie powiodło się.</string>
-    <string name="error_report_too_few_statuses">Musisz zgłosić przynajmniej jeden wpis.</string>
     <string name="error_sender_account_gone">Wysyłanie wpisu nie powiodło się.</string>
     <string name="title_home">Strona główna</string>
     <string name="title_notifications">Powiadomienia</string>

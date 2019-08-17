@@ -18,7 +18,6 @@
     <string name="error_media_download_permission">Permission requise pour enregistrer le média.</string>
     <string name="error_media_upload_image_or_video">Un même pouet ne peut contenir à la fois une vidéo et une image.</string>
     <string name="error_media_upload_sending">Échec d’envoi du média.</string>
-    <string name="error_report_too_few_statuses">Au moins un pouet doit été signalé.</string>
     <string name="error_sender_account_gone">Erreur lors de l’envoi du pouet.</string>
     <string name="title_home">Accueil</string>
     <string name="title_notifications">Notifications</string>

@@ -202,7 +202,6 @@ class SearchStatusesFragment : SearchFragment<Pair<Status, StatusViewData.Concre
         val id = status.actionableId
         val accountId = status.actionableStatus.account.id
         val accountUsername = status.actionableStatus.account.username
-        val content = status.actionableStatus.content
         val statusUrl = status.actionableStatus.url
         val accounts = viewModel.getAllAccountsOrderedByActive()
         var openAsTitle: String? = null
@@ -297,7 +296,7 @@ class SearchStatusesFragment : SearchFragment<Pair<Status, StatusViewData.Concre
                     return@setOnMenuItemClickListener true
                 }
                 R.id.status_report -> {
-                    openReportPage(accountId, accountUsername, id, content)
+                    openReportPage(accountId, accountUsername, id)
                     return@setOnMenuItemClickListener true
                 }
                 R.id.status_unreblog_private -> {
@@ -367,9 +366,8 @@ class SearchStatusesFragment : SearchFragment<Pair<Status, StatusViewData.Concre
         }
     }
 
-    private fun openReportPage(accountId: String, accountUsername: String, statusId: String,
-                               statusContent: Spanned) {
-        startActivity(ReportActivity.getIntent(requireContext(), accountId, accountUsername, statusId, statusContent))
+    private fun openReportPage(accountId: String, accountUsername: String, statusId: String) {
+        startActivity(ReportActivity.getIntent(requireContext(), accountId, accountUsername, statusId))
     }
 
     private fun showConfirmDeleteDialog(id: String, position: Int) {

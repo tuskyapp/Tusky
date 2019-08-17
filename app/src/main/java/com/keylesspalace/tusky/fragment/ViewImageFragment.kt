@@ -17,6 +17,7 @@ package com.keylesspalace.tusky.fragment
 
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.drawable.Drawable
 import android.os.Bundle
@@ -51,6 +52,11 @@ class ViewImageFragment : ViewMediaFragment() {
     private lateinit var photoActionsListener: PhotoActionsListener
     private lateinit var toolbar: View
     private var transition = BehaviorSubject.create<Unit>()
+    private var shouldStartTransition = false
+    // Volatile: Image requests happen on background thread and we want to see updates to it
+    // immediately on another thread. Atomic is an overkill for such thing.
+    @Volatile
+    private var startedTransition = false
 
     override lateinit var descriptionView: TextView
     override fun onAttach(context: Context) {
@@ -78,11 +84,13 @@ class ViewImageFragment : ViewMediaFragment() {
             }
         }
 
+        startedTransition = false
         loadImageFromNetwork(url, previewUrl, photoView)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         toolbar = activity!!.toolbar
+        this.transition = BehaviorSubject.create()
         return inflater.inflate(R.layout.fragment_view_image, container, false)
     }
 
@@ -91,6 +99,7 @@ class ViewImageFragment : ViewMediaFragment() {
 
         val arguments = this.arguments!!
         val attachment = arguments.getParcelable<Attachment>(ARG_ATTACHMENT)
+        this.shouldStartTransition = arguments.getBoolean(ARG_START_POSTPONED_TRANSITION)
         val url: String?
         var description: String? = null
 
@@ -129,6 +138,7 @@ class ViewImageFragment : ViewMediaFragment() {
 
     override fun onDestroyView() {
         Glide.with(this).clear(photoView)
+        transition.onComplete()
         super.onDestroyView()
     }
 
@@ -160,6 +170,23 @@ class ViewImageFragment : ViewMediaFragment() {
     }
 
     /**
+     * We start transition as soon as we think reasonable but we must take care about couple of
+     * things>
+     *  - Do not change image in the middle of transition. It messes up the view.
+     *  - Do not transition for the views which don't require it. Starting transition from
+     *      multiple fragments does weird things
+     *  - Do not wait to transition until the image loads from network
+     *
+     * Preview, cached image, network image, x - failed, o - succeeded
+     * P C N - start transition after...
+     * x x x - the cache fails
+     * x x o - the cache fails
+     * x o o - the cache succeeds
+     * o x o - the preview succeeds. Do not start on cache.
+     * o o o - the preview succeeds. Do not start on cache.
+     *
+     * So start transition after the first success or after anything with the cache
+     *
      * @param isCacheRequest - is this listener for request image from cache or from the network
      */
     private inner class ImageRequestListener(
@@ -168,32 +195,46 @@ class ViewImageFragment : ViewMediaFragment() {
 
         override fun onLoadFailed(e: GlideException?, model: Any, target: Target<Drawable>,
                                   isFirstResource: Boolean): Boolean {
-            // If cache for full image failed, complete transition
-            if (isCacheRequest && !isThumnailRequest) photoActionsListener.onBringUp()
+            // If cache for full image failed complete transition
+            if (isCacheRequest && !isThumnailRequest && shouldStartTransition
+                    && !startedTransition) {
+                photoActionsListener.onBringUp()
+            }
             // Hide progress bar only on fail request from internet
             if (!isCacheRequest) progressBar?.hide()
-            return false
+            // We don't want to overwrite preview with null when main image fails to load
+            return !isCacheRequest
         }
 
+        @SuppressLint("CheckResult")
         override fun onResourceReady(resource: Drawable, model: Any, target: Target<Drawable>,
                                      dataSource: DataSource, isFirstResource: Boolean): Boolean {
             progressBar?.hide() // Always hide the progress bar on success
-                if (isThumnailRequest) {
-                    photoView.post {
-                        target.onResourceReady(resource, null)
-                        photoActionsListener.onBringUp()
-                    }
-                } else {
-                    transition
-                            .take(1)
-                            .subscribe {
-                                target.onResourceReady(resource, null)
-                                photoActionsListener.onBringUp()
-                            }
-                }
-                return true
-        }
 
+            if (!startedTransition || !shouldStartTransition) {
+                // Set this right away so that we don't have to concurrent post() requests
+                startedTransition = true
+                // post() because load() replaces image with null. Sometimes after we set
+                // the thumbnail.
+                photoView.post {
+                    target.onResourceReady(resource, null)
+                    if (shouldStartTransition) photoActionsListener.onBringUp()
+                }
+            } else {
+                // This wait for transition. If there's no transition then we should hit
+                // another branch. take() will unsubscribe after we have it to not leak menmory
+                transition
+                        .take(1)
+                        .subscribe {
+                            target.onResourceReady(resource, null)
+                            // It's needed. Don't ask why, I don't know, setImageDrawable() should
+                            // do it by itself but somehow it doesn't work automatically.
+                            // Just do it. If you don't, image will jump around when touched.
+                            attacher.update()
+                        }
+            }
+            return true
+        }
     }
 
     override fun onTransitionEnd() {

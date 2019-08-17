@@ -19,7 +19,6 @@
     <string name="error_media_download_permission">미디어를 저장하기 위한 권한이 필요합니다.</string>
     <string name="error_media_upload_image_or_video">이미지와 비디오는 동시에 첨부할 수 없습니다.</string>
     <string name="error_media_upload_sending">파일을 업로드하지 못했습니다.</string>
-    <string name="error_report_too_few_statuses">신고할 게시물을 최소 1개 이상 선택해야 합니다.</string>
     <string name="error_sender_account_gone">툿을 전송하지 못했습니다.</string>
 
     <string name="title_home">홈</string>

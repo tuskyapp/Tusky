@@ -17,7 +17,6 @@
     <string name="error_media_download_permission">メディアの書き込み許可が必要です。</string>
     <string name="error_media_upload_image_or_video">画像と動画を同時に投稿することはできません。</string>
     <string name="error_media_upload_sending">アップロードに失敗しました。</string>
-    <string name="error_report_too_few_statuses">少なくとも1つの投稿を報告してください。</string>
     <string name="error_sender_account_gone">トゥート送信時のエラーです。</string>
     <string name="title_home">ホーム</string>
     <string name="title_notifications">通知</string>
@@ -354,5 +353,16 @@
     <plurals name="poll_timespan_seconds">
 	<item quantity="other">%d秒</item>
 </plurals>
+
+    <string name="title_domain_mutes">非表示のドメイン</string>
+    <string name="action_view_domain_mutes">非表示のドメイン</string>
+    <string name="action_mute_domain">%sをミュート</string>
+    <string name="pref_title_notification_filter_poll">投票の集計が完了した</string>
+    <string name="notification_poll_name">投票</string>
+    <string name="notification_poll_description">投票の集計が完了したときの通知</string>
+
+
+    <string name="pref_title_thread_filter_keywords">会話</string>
+    <string name="caption_notoemoji">Googleの現在の絵文字セットです</string>
 
     </resources>

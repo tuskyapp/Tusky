@@ -18,7 +18,6 @@
     <string name="error_media_download_permission">Je vyžadováno povolení ukládat média.</string>
     <string name="error_media_upload_image_or_video">K jednomu tootu nemohou být přiloženy obrázky i videa.</string>
     <string name="error_media_upload_sending">Nahrání selhalo.</string>
-    <string name="error_report_too_few_statuses">Musí být nahlášen alespoň jeden toot.</string>
     <string name="error_sender_account_gone">Chyba při odesílání tootu.</string>
     <string name="title_home">Domů</string>
     <string name="title_notifications">Oznámení</string>

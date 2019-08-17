@@ -165,7 +165,6 @@ public abstract class SFragment extends BaseFragment implements Injectable {
         final String id = status.getActionableId();
         final String accountId = status.getActionableStatus().getAccount().getId();
         final String accountUsername = status.getActionableStatus().getAccount().getUsername();
-        final Spanned content = status.getActionableStatus().getContent();
         final String statusUrl = status.getActionableStatus().getUrl();
         List<AccountEntity> accounts = accountManager.getAllAccountsOrderedByActive();
         String openAsTitle = null;
@@ -273,7 +272,7 @@ public abstract class SFragment extends BaseFragment implements Injectable {
                     return true;
                 }
                 case R.id.status_report: {
-                    openReportPage(accountId, accountUsername, id, content);
+                    openReportPage(accountId, accountUsername, id);
                     return true;
                 }
                 case R.id.status_unreblog_private: {
@@ -340,9 +339,8 @@ public abstract class SFragment extends BaseFragment implements Injectable {
         startActivity(intent);
     }
 
-    protected void openReportPage(String accountId, String accountUsername, String statusId,
-                                  Spanned statusContent) {
-        startActivity(ReportActivity.getIntent(requireContext(),accountId,accountUsername,statusId,statusContent));
+    protected void openReportPage(String accountId, String accountUsername, String statusId) {
+        startActivity(ReportActivity.getIntent(requireContext(), accountId, accountUsername, statusId));
     }
 
     protected void showConfirmDeleteDialog(final String id, final int position) {

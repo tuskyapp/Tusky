@@ -19,7 +19,6 @@
     <string name="error_media_download_permission">Trenger tillatelse for å lagre media.</string>
     <string name="error_media_upload_image_or_video">Bilder og videoer kan ikke kobles til samme status.</string>
     <string name="error_media_upload_sending">Opplastingen feilet.</string>
-    <string name="error_report_too_few_statuses">Minst en status må rapporteres.</string>
     <string name="error_sender_account_gone">En feil oppsto under sending av tootet.</string>
 
     <string name="title_home">Hjem</string>
