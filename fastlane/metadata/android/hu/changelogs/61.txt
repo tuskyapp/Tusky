@@ -1,0 +1,7 @@
+Tusky v7.0
+
+- Szavazás támogatása
+- Új gombok értesítések szűrésére és az összes törlésére
+- Tülkök törlése és újrafogalmazása
+- Új indikátor, mely mutatja a bot fiókokat (beállításokban kapcsolható)
+- Új fordítások: Norwegian, Bokmål és Slovenian.
