@@ -62,6 +62,28 @@ fun showAddPollDialog(
             .setNegativeButton(android.R.string.cancel, null)
             .setPositiveButton(android.R.string.ok) { _, _ ->
 
+                if(adapter.validateInput()) {
+
+                    val selectedPollDurationId = view.pollDurationSpinner.selectedItemPosition
+
+                    val pollDuration = activity.resources.getIntArray(R.array.poll_duration_values)[selectedPollDurationId]
+
+                    activity.updatePoll(
+                            NewPoll(
+                                    options = adapter.pollOptions,
+                                    expiresIn = pollDuration,
+                                    multiple = view.multipleChoicesCheckBox.isChecked
+                            )
+                    )
+                }
+            }
+            .create()
+
+    dialog.setOnShowListener {
+        val button = dialog.getButton(AlertDialog.BUTTON_POSITIVE)
+        button.setOnClickListener {
+            if(adapter.validateInput()) {
+
                 val selectedPollDurationId = view.pollDurationSpinner.selectedItemPosition
 
                 val pollDuration = activity.resources.getIntArray(R.array.poll_duration_values)[selectedPollDurationId]
@@ -73,8 +95,13 @@ fun showAddPollDialog(
                                 multiple = view.multipleChoicesCheckBox.isChecked
                         )
                 )
+
+                dialog.dismiss()
             }
-            .show()
+        }
+    }
+
+    dialog.show()
 
     dialog.window?.clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE or WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM)
 

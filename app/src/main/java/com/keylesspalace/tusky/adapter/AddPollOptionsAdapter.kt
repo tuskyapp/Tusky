@@ -40,6 +40,14 @@ class AddPollOptionsAdapter(
         notifyItemInserted(options.size - 1)
     }
 
+    fun validateInput(): Boolean {
+        if (options.contains("") || options.distinct().size != options.size) {
+            return false
+        }
+
+        return true
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val holder = ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_add_poll_option, parent, false))
         holder.editText.filters = arrayOf(InputFilter.LengthFilter(maxOptionLength))
@@ -68,7 +76,6 @@ class AddPollOptionsAdapter(
             notifyItemRemoved(holder.adapterPosition)
         }
     }
-
 
 }
 
