@@ -526,6 +526,10 @@ public final class ComposeActivity
             if(intent.hasExtra(POLL_EXTRA) && (mediaAttachments == null || mediaAttachments.size() == 0)) {
                 updatePoll(intent.getParcelableExtra(POLL_EXTRA));
             }
+
+            if(mediaAttachments != null && mediaAttachments.size() > 0) {
+                enablePollButton(false);
+            }
         }
 
         // After the starting state is finalised, the interface can be set to reflect this state.
@@ -1237,6 +1241,18 @@ public final class ComposeActivity
                 colorActive ? android.R.attr.textColorTertiary : R.attr.compose_media_button_disabled_tint);
     }
 
+    private void enablePollButton(boolean enable) {
+        actionAddPoll.setEnabled(enable);
+        int textColor;
+        if(enable) {
+            textColor = ThemeUtils.getColor(this, android.R.attr.textColorTertiary);
+        } else {
+            textColor = ThemeUtils.getColor(this, R.attr.compose_media_button_disabled_tint);
+        }
+        actionAddPoll.setTextColor(textColor);
+        actionAddPoll.getCompoundDrawablesRelative()[0].setColorFilter(textColor, PorterDuff.Mode.SRC_IN);
+    }
+
     private void addMediaToQueue(QueuedMedia.Type type, Bitmap preview, Uri uri, long mediaSize, @Nullable String description) {
         addMediaToQueue(null, type, preview, uri, mediaSize, null, description);
     }
@@ -1285,7 +1301,7 @@ public final class ComposeActivity
         }
 
         updateHideMediaToggle();
-        actionAddPoll.setEnabled(false);
+        enablePollButton(false);
 
         if (item.readyStage != QueuedMedia.ReadyStage.UPLOADED) {
             waitForMediaLatch.countUp();
@@ -1454,7 +1470,7 @@ public final class ComposeActivity
         mediaQueued.remove(item);
         if (mediaQueued.size() == 0) {
             updateHideMediaToggle();
-            actionAddPoll.setEnabled(true);
+            enablePollButton(true);
         }
         updateContentDescriptionForAllImages();
         enableButton(pickButton, true, true);
