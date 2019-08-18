@@ -2143,7 +2143,6 @@ public final class ComposeActivity
         }
 
         public IntentBuilder poll(NewPoll poll) {
-            Log.e("COMPOSE", "poll duration "+poll.getExpiresIn());
             this.poll = poll;
             return this;
         }

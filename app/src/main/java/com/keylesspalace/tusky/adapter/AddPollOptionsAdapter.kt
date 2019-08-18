@@ -29,7 +29,9 @@ import com.keylesspalace.tusky.util.visible
 
 class AddPollOptionsAdapter(
         private var options: MutableList<String>,
-        private val maxOptionLength: Int
+        private val maxOptionLength: Int,
+        private val onOptionRemoved: () -> Unit,
+        private val onOptionChanged: (Boolean) -> Unit
 ): RecyclerView.Adapter<ViewHolder>() {
 
     val pollOptions: List<String>
@@ -40,14 +42,6 @@ class AddPollOptionsAdapter(
         notifyItemInserted(options.size - 1)
     }
 
-    fun validateInput(): Boolean {
-        if (options.contains("") || options.distinct().size != options.size) {
-            return false
-        }
-
-        return true
-    }
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val holder = ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_add_poll_option, parent, false))
         holder.editText.filters = arrayOf(InputFilter.LengthFilter(maxOptionLength))
@@ -56,6 +50,7 @@ class AddPollOptionsAdapter(
             val pos = holder.adapterPosition
             if(pos != RecyclerView.NO_POSITION) {
                 options[pos] = s.toString()
+                onOptionChanged(validateInput())
             }
         }
 
@@ -72,9 +67,19 @@ class AddPollOptionsAdapter(
         holder.deleteButton.visible(position > 1, View.INVISIBLE)
 
         holder.deleteButton.setOnClickListener {
+            holder.editText.clearFocus()
             options.removeAt(holder.adapterPosition)
             notifyItemRemoved(holder.adapterPosition)
+            onOptionRemoved()
         }
+    }
+
+    private fun validateInput(): Boolean {
+        if (options.contains("") || options.distinct().size != options.size) {
+            return false
+        }
+
+        return true
     }
 
 }

@@ -48,6 +48,12 @@ class PollPreviewView @JvmOverloads constructor(
 
     fun setPoll(poll: NewPoll){
         adapter.update(poll.options, poll.multiple)
+
+        val pollDurationId = resources.getIntArray(R.array.poll_duration_values).indexOfLast {
+            it <= poll.expiresIn
+        }
+        pollDurationPreview.text = resources.getStringArray(R.array.poll_duration_names)[pollDurationId]
+
     }
 
     override fun setOnClickListener(l: OnClickListener?) {
