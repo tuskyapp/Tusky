@@ -26,15 +26,12 @@ import com.keylesspalace.tusky.entity.Account
 import com.keylesspalace.tusky.entity.Emoji
 import com.keylesspalace.tusky.entity.Instance
 import com.keylesspalace.tusky.network.MastodonApi
-import com.keylesspalace.tusky.util.ThemeUtils
 import okhttp3.Request
-import okhttp3.ResponseBody
 import org.junit.Assert
 import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.mockito.Mockito
 import org.mockito.Mockito.`when`
 import org.mockito.Mockito.mock
 import org.robolectric.Robolectric
@@ -59,7 +56,6 @@ class ComposeActivityTest {
     private lateinit var activity: ComposeActivity
     private lateinit var accountManagerMock: AccountManager
     private lateinit var apiMock: MastodonApi
-    private lateinit var themeUtilsMock: ThemeUtils
 
     private val account = AccountEntity(
             id = 1,
@@ -86,9 +82,9 @@ class ComposeActivityTest {
         val controller = Robolectric.buildActivity(ComposeActivity::class.java)
         activity = controller.get()
 
-        accountManagerMock = Mockito.mock(AccountManager::class.java)
+        accountManagerMock = mock(AccountManager::class.java)
 
-        apiMock = Mockito.mock(MastodonApi::class.java)
+        apiMock = mock(MastodonApi::class.java)
         `when`(apiMock.customEmojis).thenReturn(object: Call<List<Emoji>> {
             override fun isExecuted(): Boolean {
                 return false
@@ -126,12 +122,9 @@ class ComposeActivityTest {
         val dbMock = mock(AppDatabase::class.java)
         `when`(dbMock.instanceDao()).thenReturn(instanceDaoMock)
 
-        themeUtilsMock = Mockito.mock(ThemeUtils::class.java)
-
         activity.mastodonApi = apiMock
         activity.accountManager = accountManagerMock
         activity.database = dbMock
-        activity.themeUtils = themeUtilsMock
 
         `when`(accountManagerMock.activeAccount).thenReturn(account)
 
@@ -186,7 +179,7 @@ class ComposeActivityTest {
     fun whenTextContainsNoUrl_everyCharacterIsCounted() {
         val content = "This is test content please ignore thx "
         insertSomeTextInContent(content)
-        Assert.assertEquals(activity.calculateTextLength(), content.length)
+        assertEquals(activity.calculateTextLength(), content.length)
     }
 
     @Test
@@ -194,7 +187,7 @@ class ComposeActivityTest {
         val url = "https://www.google.dk/search?biw=1920&bih=990&tbm=isch&sa=1&ei=bmDrWuOoKMv6kwWOkIaoDQ&q=indiana+jones+i+hate+snakes+animated&oq=indiana+jones+i+hate+snakes+animated&gs_l=psy-ab.3...54174.55443.0.55553.9.7.0.0.0.0.255.333.1j0j1.2.0....0...1c.1.64.psy-ab..7.0.0....0.40G-kcDkC6A#imgdii=PSp15hQjN1JqvM:&imgrc=H0hyE2JW5wrpBM:"
         val additionalContent = "Check out this @image #search result: "
         insertSomeTextInContent(additionalContent + url)
-        Assert.assertEquals(activity.calculateTextLength(), additionalContent.length + ComposeActivity.MAXIMUM_URL_LENGTH)
+        assertEquals(activity.calculateTextLength(), additionalContent.length + ComposeActivity.MAXIMUM_URL_LENGTH)
     }
 
     @Test

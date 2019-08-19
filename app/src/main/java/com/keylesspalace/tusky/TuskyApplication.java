@@ -17,6 +17,7 @@ package com.keylesspalace.tusky;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.preference.PreferenceManager;
 
@@ -30,6 +31,7 @@ import com.keylesspalace.tusky.di.AppInjector;
 import com.keylesspalace.tusky.util.EmojiCompatFont;
 import com.keylesspalace.tusky.util.LocaleManager;
 import com.keylesspalace.tusky.util.NotificationPullJobCreator;
+import com.keylesspalace.tusky.util.ThemeUtils;
 
 import org.conscrypt.Conscrypt;
 
@@ -88,6 +90,7 @@ public class TuskyApplication extends Application implements HasAndroidInjector 
 
         initAppInjector();
         initEmojiCompat();
+        initNightMode();
 
         JobManager.create(this).addJobCreator(notificationPullJobCreator);
 
@@ -128,6 +131,12 @@ public class TuskyApplication extends Application implements HasAndroidInjector 
 
     protected void initAppInjector() {
         AppInjector.INSTANCE.init(this);
+    }
+
+    protected void initNightMode() {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        String theme = preferences.getString("appTheme", ThemeUtils.APP_THEME_DEFAULT);
+        ThemeUtils.setAppNightMode(theme);
     }
 
     public ServiceLocator getServiceLocator() {

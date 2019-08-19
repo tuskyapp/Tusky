@@ -57,8 +57,6 @@ public abstract class BaseActivity extends AppCompatActivity implements Injectab
     protected List<Call> callList;
 
     @Inject
-    public ThemeUtils themeUtils;
-    @Inject
     public AccountManager accountManager;
 
     private static final int REQUESTER_NONE = Integer.MAX_VALUE;
@@ -78,8 +76,6 @@ public abstract class BaseActivity extends AppCompatActivity implements Injectab
         if (theme.equals("black")) {
             setTheme(R.style.TuskyBlackTheme);
         }
-
-        themeUtils.setAppNightMode(theme, this);
 
         /* set the taskdescription programmatically, the theme would turn it blue */
         String appName = getString(R.string.app_name);
