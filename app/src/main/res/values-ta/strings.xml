@@ -219,7 +219,7 @@
     <string name="compose_active_account_description">%1$s கணக்குடன் பதிவிட</string>
     <string name="error_failed_set_caption">தலைப்பை அமைக்க முடியவில்லை</string>
     <string name="action_set_caption">தலைப்பை அமை</string>
-    <string name="action_remove_media">நீக்கு</string>
+    <string name="action_remove">நீக்கு</string>
     <string name="lock_account_label">கணக்கை முடக்கு</string>
     <string name="lock_account_label_description">நீங்களாக பின்பற்றுபவர்களை அங்கீகரிக்க</string>
     <string name="compose_save_draft">வரைவை சேமிக்கவா?</string>

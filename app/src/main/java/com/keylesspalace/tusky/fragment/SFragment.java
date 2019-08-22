@@ -364,14 +364,18 @@ public abstract class SFragment extends BaseFragment implements Injectable {
                     timelineCases.delete(id);
                     removeItem(position);
 
-                    Intent intent = new ComposeActivity.IntentBuilder()
+                    ComposeActivity.IntentBuilder intentBuilder = new ComposeActivity.IntentBuilder()
                             .tootText(getEditableText(status.getContent(), status.getMentions()))
                             .inReplyToId(status.getInReplyToId())
                             .visibility(status.getVisibility())
                             .contentWarning(status.getSpoilerText())
                             .mediaAttachments(status.getAttachments())
-                            .sensitive(status.getSensitive())
-                            .build(getContext());
+                            .sensitive(status.getSensitive());
+                    if(status.getPoll() != null) {
+                        intentBuilder.poll(status.getPoll().toNewPoll(status.getCreatedAt()));
+                    }
+
+                    Intent intent = intentBuilder.build(getContext());
                     startActivity(intent);
                 })
                 .setNegativeButton(android.R.string.cancel, null)
@@ -470,7 +474,7 @@ public abstract class SFragment extends BaseFragment implements Injectable {
 
     boolean shouldFilterStatus(Status status) {
         return (filterRemoveRegex && (filterRemoveRegexMatcher.reset(status.getActionableStatus().getContent()).find()
-            || (!status.getSpoilerText().isEmpty() && filterRemoveRegexMatcher.reset(status.getActionableStatus().getSpoilerText()).find())));
+                || (!status.getSpoilerText().isEmpty() && filterRemoveRegexMatcher.reset(status.getActionableStatus().getSpoilerText()).find())));
     }
 
     private void applyFilters(boolean refresh) {

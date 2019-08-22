@@ -97,6 +97,7 @@
     <string name="action_view_media">Media</string>
     <string name="action_open_in_web">Open in browser</string>
     <string name="action_add_media">Add media</string>
+    <string name="action_add_poll">Add poll</string>
     <string name="action_photo_take">Take photo</string>
     <string name="action_share">Share</string>
     <string name="action_mute">Mute</string>
@@ -349,7 +350,7 @@
     <string name="error_failed_set_caption">Failed to set caption</string>
     <string name="hint_describe_for_visually_impaired">Describe for visually impaired\n(%d character limit)</string>
     <string name="action_set_caption">Set caption</string>
-    <string name="action_remove_media">Remove</string>
+    <string name="action_remove">Remove</string>
     <string name="lock_account_label">Lock account</string>
     <string name="lock_account_label_description">Requires you to manually approve followers</string>
     <string name="compose_save_draft">Save draft?</string>
@@ -517,4 +518,19 @@
     <string name="failed_search">Failed to search</string>
 
     <string name="pref_title_show_notifications_filter">Show Notifications filter</string>
+
+
+    <string name="create_poll_title">Poll</string>
+    <string name="poll_duration_5_min">5 minutes</string>
+    <string name="poll_duration_30_min">30 minutes</string>
+    <string name="poll_duration_1_hour">1 hour</string>
+    <string name="poll_duration_6_hours">6 hours</string>
+    <string name="poll_duration_1_day">1 day</string>
+    <string name="poll_duration_3_days">3 days</string>
+    <string name="poll_duration_7_days">7 days</string>
+    <string name="add_poll_choice">Add choice</string>
+    <string name="poll_allow_multiple_choices">Multiple choices</string>
+    <string name="poll_new_choice_hint">Choice %d</string>
+    <string name="edit_poll">Edit</string>
+
 </resources>

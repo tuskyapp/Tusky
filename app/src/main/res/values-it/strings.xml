@@ -283,7 +283,7 @@
     <string name="error_failed_set_caption">Impostazione del sottotitolo non riuscita</string>
     <string name="hint_describe_for_visually_impaired">Descrivi per ipovedenti\n(limite di %d caratteri)</string>
     <string name="action_set_caption">Inserisci descrizione</string>
-    <string name="action_remove_media">Rimuovi</string>
+    <string name="action_remove">Rimuovi</string>
     <string name="lock_account_label">Blocca account</string>
     <string name="lock_account_label_description">Richiede la tua approvazione manuale di chi ti segue</string>
     <string name="compose_save_draft">Salvare bozza?</string>

@@ -285,7 +285,7 @@
     <string name="error_failed_set_caption">Redakto de apudskribo malsukcesis</string>
     <string name="hint_describe_for_visually_impaired">Priskribi por misvidantaj homoj\n(%d signoj maksimume)</string>
     <string name="action_set_caption">Redakti apudskribon</string>
-    <string name="action_remove_media">Forigi</string>
+    <string name="action_remove">Forigi</string>
     <string name="lock_account_label">Ŝlosi konton</string>
     <string name="lock_account_label_description">Vi devas permane rajtigi sekvantojn</string>
     <string name="compose_save_draft">Konservi malneton?</string>

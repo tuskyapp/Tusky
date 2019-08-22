@@ -331,7 +331,7 @@
     <string name="error_failed_set_caption">設定圖片標題失敗</string>
     <string name="hint_describe_for_visually_impaired">為視覺障礙用戶提供的描述\n(限制 %d 字)</string>
     <string name="action_set_caption">設定圖片標題</string>
-    <string name="action_remove_media">移除</string>
+    <string name="action_remove">移除</string>
     <string name="lock_account_label">保護你的帳戶（鎖嘟）</string>
     <string name="lock_account_label_description">你需要手動審核所有關注請求</string>
     <string name="compose_save_draft">儲存為草稿？</string>

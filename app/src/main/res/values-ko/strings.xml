@@ -347,7 +347,7 @@
     <string name="hint_describe_for_visually_impaired">시각 장애인을 위한 설명
 \n(%d글자 작성 가능)</string>
     <string name="action_set_caption">설명 추가</string>
-    <string name="action_remove_media">삭제</string>
+    <string name="action_remove">삭제</string>
     <string name="lock_account_label">계정 잠금</string>
     <string name="lock_account_label_description">팔로워를 수동으로 승인합니다</string>
     <string name="compose_save_draft">작성 중인 내용을 저장하시겠습니까\?</string>

@@ -304,7 +304,7 @@
     <string name="hint_describe_for_visually_impaired">Opišite za slabovidne
 \n(omejitev znakov - %d)</string>
     <string name="action_set_caption">Nastavi opis</string>
-    <string name="action_remove_media">Odstrani</string>
+    <string name="action_remove">Odstrani</string>
     <string name="lock_account_label">Zakleni račun</string>
     <string name="lock_account_label_description">Zahtevana je ročna potrditev sledilcev</string>
     <string name="compose_save_draft">Shrani osnutek\?</string>

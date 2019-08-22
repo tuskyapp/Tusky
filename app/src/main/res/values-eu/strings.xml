@@ -237,7 +237,7 @@
     <string name="error_failed_set_caption">Akatsa deskribapena eranstean</string>
     <string name="hint_describe_for_visually_impaired">Ikusmen urritasuna dutenentzat deskribapena\n(%d karaktereko muga)</string>
     <string name="action_set_caption">Deskribapena erantsi</string>
-    <string name="action_remove_media">Ezabatu</string>
+    <string name="action_remove">Ezabatu</string>
     <string name="lock_account_label">Kontua babestu</string>
     <string name="lock_account_label_description">Jarraitzaileak eskuz onartu beharko dituzu</string>
     <string name="compose_save_draft">Zirriborroa gorde?</string>

@@ -337,7 +337,7 @@
     <string name="error_failed_set_caption">设置图片标题失败</string>
     <string name="hint_describe_for_visually_impaired">为视觉障碍用户提供的描述\n(限制 %d 字)</string>
     <string name="action_set_caption">设置图片标题</string>
-    <string name="action_remove_media">移除</string>
+    <string name="action_remove">移除</string>
     <string name="lock_account_label">保护你的帐户（锁嘟）</string>
     <string name="lock_account_label_description">你需要手动审核所有关注请求</string>
     <string name="compose_save_draft">保存为草稿？</string>

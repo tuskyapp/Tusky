@@ -233,7 +233,7 @@
     <string name="compose_active_account_description">Publikowanie z konta %1$s</string>
     <string name="error_failed_set_caption">Nie udało się ustawić podpisu</string>
     <string name="action_set_caption">Ustaw podpis</string>
-    <string name="action_remove_media">Usuń</string>
+    <string name="action_remove">Usuń</string>
     <string name="lock_account_label">Zablokuj konto</string>
     <string name="lock_account_label_description">Wymaga od Ciebie ręcznej akceptacji próśb o śledzenie</string>
     <string name="compose_save_draft">Czy chcesz zapisać szkic?</string>

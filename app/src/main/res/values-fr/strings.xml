@@ -290,7 +290,7 @@
     <string name="hint_describe_for_visually_impaired">Décrire pour les malvoyants
 \n(%d caractères maximum)</string>
     <string name="action_set_caption">Mettre une légende</string>
-    <string name="action_remove_media">Supprimer le média</string>
+    <string name="action_remove">Supprimer le média</string>
     <string name="lock_account_label">Verrouiller le compte</string>
     <string name="lock_account_label_description">Vous devez approuvez manuellement les abonnements</string>
     <string name="compose_save_draft">Enregistrer comme brouillon ?</string>

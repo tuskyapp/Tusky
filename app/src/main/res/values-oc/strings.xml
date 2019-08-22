@@ -230,7 +230,7 @@
     <string name="compose_active_account_description">Publicar amb lo compte %1$s</string>
     <string name="error_failed_set_caption">Fracàs en apondre una legenda</string>
     <string name="action_set_caption">Apondre una legenda</string>
-    <string name="action_remove_media">Levar</string>
+    <string name="action_remove">Levar</string>
     <string name="lock_account_label">Clavar lo compte</string>
     <string name="lock_account_label_description">Demanda que validetz manualament los seguidors</string>
     <string name="compose_save_draft">Salvar lo borrolhon ?</string>

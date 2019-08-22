@@ -116,4 +116,27 @@
     </string-array>
 
     <string name="rick_roll_url">https://www.youtube.com/watch?v=dQw4w9WgXcQ</string>
+
+
+    <string-array name="poll_duration_names">
+        <item>@string/poll_duration_5_min</item>
+        <item>@string/poll_duration_30_min</item>
+        <item>@string/poll_duration_1_hour</item>
+        <item>@string/poll_duration_6_hours</item>
+        <item>@string/poll_duration_1_day</item>
+        <item>@string/poll_duration_3_days</item>
+        <item>@string/poll_duration_7_days</item>
+    </string-array>
+
+    <integer-array name="poll_duration_values"> <!-- values in seconds, corresponding to poll_duration_names -->
+        <item>300</item>
+        <item>1800</item>
+        <item>3600</item>
+        <item>21600</item>
+        <item>86400</item>
+        <item>259200</item>
+        <item>604800</item>
+    </integer-array>
+
+
 </resources>

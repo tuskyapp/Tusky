@@ -28,7 +28,6 @@ import com.keylesspalace.tusky.entity.Instance
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.ThemeUtils
 import okhttp3.Request
-import okhttp3.ResponseBody
 import org.junit.Assert
 import org.junit.Assert.*
 import org.junit.Before
@@ -258,6 +257,7 @@ class ComposeActivityTest {
                         emptyList()
                 ),
                 maximumTootCharacters,
+                null,
                 null
         )
     }

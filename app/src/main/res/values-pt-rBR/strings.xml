@@ -251,7 +251,7 @@
     <string name="compose_active_account_description">Usando a conta %1$s</string>
     <string name="error_failed_set_caption">Falha ao incluir descrição</string>
     <string name="action_set_caption">Descrever</string>
-    <string name="action_remove_media">Remover</string>
+    <string name="action_remove">Remover</string>
     <string name="lock_account_label">Trancar conta</string>
     <string name="lock_account_label_description">Requer aprovação manual de seguidores</string>
     <string name="compose_save_draft">Salvar rascunho?</string>

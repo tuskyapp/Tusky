@@ -398,6 +398,7 @@ class SearchStatusesFragment : SearchFragment<Pair<Status, StatusViewData.Concre
                                 .contentWarning(status.spoilerText)
                                 .mediaAttachments(status.attachments)
                                 .sensitive(status.sensitive)
+                                .poll(status.poll?.toNewPoll(status.createdAt))
                                 .build(context)
                         startActivity(intent)
                     }

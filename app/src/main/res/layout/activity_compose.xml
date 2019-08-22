@@ -190,6 +190,15 @@
             android:padding="8dp"
             android:text="@string/action_add_media"
             android:textSize="?attr/status_text_medium" />
+
+        <TextView
+            android:id="@+id/action_add_poll"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawablePadding="8dp"
+            android:padding="8dp"
+            android:text="@string/action_add_poll"
+            android:textSize="?attr/status_text_medium" />
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
