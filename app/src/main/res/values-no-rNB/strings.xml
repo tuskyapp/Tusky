@@ -490,4 +490,18 @@
     <string name="failed_search">Klarte ikke å søke</string>
 
     <string name="pref_title_alway_open_spoiler">Ekspander alltid toots markert med innholdsadvarsel</string>
-    </resources>
+    <string name="action_add_poll">Legg til avstemming</string>
+    <string name="create_poll_title">Avstemming</string>
+    <string name="poll_duration_5_min">5 minutter</string>
+    <string name="poll_duration_30_min">30 minutter</string>
+    <string name="poll_duration_1_hour">1 time</string>
+    <string name="poll_duration_6_hours">6 timer</string>
+    <string name="poll_duration_1_day">1 dag</string>
+    <string name="poll_duration_3_days">3 dager</string>
+    <string name="poll_duration_7_days">7 dager</string>
+    <string name="add_poll_choice">Legg til valg</string>
+    <string name="poll_allow_multiple_choices">Flere valg</string>
+    <string name="poll_new_choice_hint">Valg %d</string>
+    <string name="edit_poll">Endre</string>
+
+</resources>
