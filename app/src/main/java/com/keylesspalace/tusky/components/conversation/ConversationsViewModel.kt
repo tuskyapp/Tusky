@@ -115,6 +115,8 @@ class ConversationsViewModel @Inject constructor(
             /* this is not ideal since deleting last toot from an conversation
                should not delete the conversation but show another toot of the conversation */
             timelineCases.delete(conversation.lastStatus.id)
+                    .subscribeOn(Schedulers.io())
+                    .subscribe()
             database.conversationDao().delete(conversation)
                     .subscribeOn(Schedulers.io())
                     .subscribe()

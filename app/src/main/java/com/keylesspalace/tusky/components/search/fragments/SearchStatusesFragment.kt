@@ -25,15 +25,13 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Environment
 import android.preference.PreferenceManager
-import android.text.SpannableStringBuilder
-import android.text.Spanned
-import android.text.style.URLSpan
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.PopupMenu
 import androidx.core.app.ActivityOptionsCompat
 import androidx.core.view.ViewCompat
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LiveData
 import androidx.paging.PagedList
 import androidx.paging.PagedListAdapter
@@ -50,6 +48,9 @@ import com.keylesspalace.tusky.interfaces.StatusActionListener
 import com.keylesspalace.tusky.util.NetworkState
 import com.keylesspalace.tusky.viewdata.AttachmentViewData
 import com.keylesspalace.tusky.viewdata.StatusViewData
+import com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider.from
+import com.uber.autodispose.autoDisposable
+import io.reactivex.android.schedulers.AndroidSchedulers
 import kotlinx.android.synthetic.main.fragment_search.*
 import java.util.*
 
@@ -389,39 +390,27 @@ class SearchStatusesFragment : SearchFragment<Pair<Status, StatusViewData.Concre
                     .setMessage(R.string.dialog_redraft_toot_warning)
                     .setPositiveButton(android.R.string.ok) { _, _ ->
                         viewModel.deleteStatus(id)
-                        removeItem(position)
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .autoDisposable(from(this, Lifecycle.Event.ON_DESTROY))
+                                .subscribe { (text, inReplyToId, spoilerText, visibility, sensitive, attachments, poll) ->
+                                    removeItem(position)
 
-                        val intent = ComposeActivity.IntentBuilder()
-                                .tootText(getEditableText(status.content, status.mentions))
-                                .inReplyToId(status.inReplyToId)
-                                .visibility(status.visibility)
-                                .contentWarning(status.spoilerText)
-                                .mediaAttachments(status.attachments)
-                                .sensitive(status.sensitive)
-                                .poll(status.poll?.toNewPoll(status.createdAt))
-                                .build(context)
-                        startActivity(intent)
+                                    val intent = ComposeActivity.IntentBuilder()
+                                            .tootText(text)
+                                            .inReplyToId(inReplyToId)
+                                            .visibility(visibility)
+                                            .contentWarning(spoilerText)
+                                            .mediaAttachments(attachments)
+                                            .sensitive(sensitive)
+                                            .poll(poll?.toNewPoll(status.createdAt))
+                                            .build(context)
+                                    startActivity(intent)
+                                }
+
                     }
                     .setNegativeButton(android.R.string.cancel, null)
                     .show()
         }
     }
-
-    private fun getEditableText(content: Spanned, mentions: Array<Status.Mention>): String {
-        val builder = SpannableStringBuilder(content)
-        for (span in content.getSpans(0, content.length, URLSpan::class.java)) {
-            val url = span.url
-            for ((_, url1, username) in mentions) {
-                if (url == url1) {
-                    val start = builder.getSpanStart(span)
-                    val end = builder.getSpanEnd(span)
-                    builder.replace(start, end, "@$username")
-                    break
-                }
-            }
-        }
-        return builder.toString()
-    }
-
 
 }

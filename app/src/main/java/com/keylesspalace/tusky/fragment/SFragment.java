@@ -40,6 +40,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.core.app.ActivityOptionsCompat;
 import androidx.core.view.ViewCompat;
+import androidx.lifecycle.Lifecycle;
 
 import com.keylesspalace.tusky.BaseActivity;
 import com.keylesspalace.tusky.BottomSheetActivity;
@@ -68,9 +69,13 @@ import java.util.regex.Pattern;
 
 import javax.inject.Inject;
 
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import static com.uber.autodispose.AutoDispose.autoDisposable;
+import static com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider.from;
 
 /* Note from Andrew on Jan. 22, 2017: This class is a design problem for me, so I left it with an
  * awkward name. TimelineFragment and NotificationFragment have significant overlap but the nature
@@ -288,7 +293,7 @@ public abstract class SFragment extends BaseFragment implements Injectable {
                     return true;
                 }
                 case R.id.status_delete_and_redraft: {
-                    showConfirmEditDialog(id, position, status);
+                    showConfirmEditDialog(id, position);
                     return true;
                 }
                 case R.id.pin: {
@@ -347,36 +352,44 @@ public abstract class SFragment extends BaseFragment implements Injectable {
         new AlertDialog.Builder(getActivity())
                 .setMessage(R.string.dialog_delete_toot_warning)
                 .setPositiveButton(android.R.string.ok, (dialogInterface, i) -> {
-                    timelineCases.delete(id);
+                    timelineCases.delete(id)
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .as(autoDisposable(from(this, Lifecycle.Event.ON_DESTROY)))
+                            .subscribe();
                     removeItem(position);
                 })
                 .setNegativeButton(android.R.string.cancel, null)
                 .show();
     }
 
-    private void showConfirmEditDialog(final String id, final int position, Status status) {
+    private void showConfirmEditDialog(final String id, final int position) {
         if (getActivity() == null) {
             return;
         }
         new AlertDialog.Builder(getActivity())
                 .setMessage(R.string.dialog_redraft_toot_warning)
                 .setPositiveButton(android.R.string.ok, (dialogInterface, i) -> {
-                    timelineCases.delete(id);
-                    removeItem(position);
+                    timelineCases.delete(id)
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .as(autoDisposable(from(this, Lifecycle.Event.ON_DESTROY)))
+                            .subscribe(deletedStatus -> {
+                                removeItem(position);
 
-                    ComposeActivity.IntentBuilder intentBuilder = new ComposeActivity.IntentBuilder()
-                            .tootText(getEditableText(status.getContent(), status.getMentions()))
-                            .inReplyToId(status.getInReplyToId())
-                            .visibility(status.getVisibility())
-                            .contentWarning(status.getSpoilerText())
-                            .mediaAttachments(status.getAttachments())
-                            .sensitive(status.getSensitive());
-                    if(status.getPoll() != null) {
-                        intentBuilder.poll(status.getPoll().toNewPoll(status.getCreatedAt()));
-                    }
+                                ComposeActivity.IntentBuilder intentBuilder = new ComposeActivity.IntentBuilder()
+                                        .tootText(deletedStatus.getText())
+                                        .inReplyToId(deletedStatus.getInReplyToId())
+                                        .visibility(deletedStatus.getVisibility())
+                                        .contentWarning(deletedStatus.getSpoilerText())
+                                        .mediaAttachments(deletedStatus.getAttachments())
+                                        .sensitive(deletedStatus.getSensitive());
+                                if(deletedStatus.getPoll() != null) {
+                                    intentBuilder.poll(deletedStatus.getPoll().toNewPoll(deletedStatus.getCreatedAt()));
+                                }
 
-                    Intent intent = intentBuilder.build(getContext());
-                    startActivity(intent);
+                                Intent intent = intentBuilder.build(getContext());
+                                startActivity(intent);
+                            });
+
                 })
                 .setNegativeButton(android.R.string.cancel, null)
                 .show();

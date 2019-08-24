@@ -16,13 +16,13 @@
 package com.keylesspalace.tusky.network
 
 import com.keylesspalace.tusky.appstore.*
+import com.keylesspalace.tusky.entity.DeletedStatus
 import com.keylesspalace.tusky.entity.Poll
 import com.keylesspalace.tusky.entity.Relationship
 import com.keylesspalace.tusky.entity.Status
 import io.reactivex.Single
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo
-import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -37,7 +37,7 @@ interface TimelineCases {
     fun favourite(status: Status, favourite: Boolean): Single<Status>
     fun mute(id: String)
     fun block(id: String)
-    fun delete(id: String)
+    fun delete(id: String): Single<DeletedStatus>
     fun pin(status: Status, pin: Boolean)
     fun voteInPoll(status: Status, choices: List<Int>): Single<Poll>
 
@@ -101,14 +101,11 @@ class TimelineCasesImpl(
 
     }
 
-    override fun delete(id: String) {
-        val call = mastodonApi.deleteStatus(id)
-        call.enqueue(object : Callback<ResponseBody> {
-            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {}
-
-            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {}
-        })
-        eventHub.dispatch(StatusDeletedEvent(id))
+    override fun delete(id: String): Single<DeletedStatus> {
+        return mastodonApi.deleteStatus(id)
+                .doAfterSuccess {
+                    eventHub.dispatch(StatusDeletedEvent(id))
+                }
     }
 
     override fun pin(status: Status, pin: Boolean) {
