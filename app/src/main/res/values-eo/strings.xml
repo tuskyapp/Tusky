@@ -443,4 +443,19 @@
     <string name="title_accounts">Kontoj</string>
     <string name="failed_search">Serĉo malsukcesis</string>
 
-    </resources>
+    <string name="action_add_poll">Aldoni baloton</string>
+    <string name="pref_title_alway_open_spoiler">Ĉiam pligrandigi tootoj markiĝita per enhavaj avertoj</string>
+    <string name="create_poll_title">Baloto</string>
+    <string name="poll_duration_5_min">5 minutoj</string>
+    <string name="poll_duration_30_min">30 minutoj</string>
+    <string name="poll_duration_1_hour">1 horo</string>
+    <string name="poll_duration_6_hours">6 horoj</string>
+    <string name="poll_duration_1_day">1 tago</string>
+    <string name="poll_duration_3_days">3 tagoj</string>
+    <string name="poll_duration_7_days">7 tagoj</string>
+    <string name="add_poll_choice">Aldoni elekton</string>
+    <string name="poll_allow_multiple_choices">Multaj elektoj</string>
+    <string name="poll_new_choice_hint">Elekton %d</string>
+    <string name="edit_poll">Redaktigi</string>
+
+</resources>
