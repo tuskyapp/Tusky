@@ -434,4 +434,5 @@
     <string name="poll_duration_7_days">7 Tage</string>
     <string name="edit_poll">Bearbeiten</string>
 
-</resources>
+<string name="about_tusky_version">Tusky Version %s</string>
+    </resources>
