@@ -460,4 +460,18 @@
     <string name="title_accounts">Comptes</string>
     <string name="failed_search">Fracàs de la recèrca</string>
 
-    </resources>
+    <string name="action_add_poll">Ajustar un sondatge</string>
+    <string name="create_poll_title">Sondatge</string>
+    <string name="poll_duration_5_min">5 minutas</string>
+    <string name="poll_duration_30_min">30 minutas</string>
+    <string name="poll_duration_1_hour">1 ora</string>
+    <string name="poll_duration_6_hours">6 oras</string>
+    <string name="poll_duration_1_day">1 jorn</string>
+    <string name="poll_duration_3_days">3 jorns</string>
+    <string name="poll_duration_7_days">7 jorns</string>
+    <string name="add_poll_choice">Ajustar d’opcions</string>
+    <string name="poll_allow_multiple_choices">Opcions multiplas</string>
+    <string name="poll_new_choice_hint">Opcion %d</string>
+    <string name="edit_poll">Modificar</string>
+
+</resources>

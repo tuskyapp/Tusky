@@ -506,4 +506,8 @@
     <string name="report_description_remote_instance">El compte és d\'un altre servidor. Enviar, igualment, una copia anònima del report\?</string>
     <string name="failed_search">Cerca fallida</string>
 
-    </resources>
+    <string name="poll_duration_1_hour">1 hora</string>
+    <string name="poll_duration_6_hours">6 hores</string>
+    <string name="edit_poll">Modificar</string>
+
+</resources>
