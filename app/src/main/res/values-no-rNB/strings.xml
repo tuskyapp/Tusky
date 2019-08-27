@@ -172,7 +172,7 @@
     <string name="dialog_title_finishing_media_upload">Mediaopplasting er ferdig</string>
     <string name="dialog_message_uploading_media">Laster opp…</string>
     <string name="dialog_download_image">Last ned</string>
-    <string name="dialog_message_cancel_follow_request">Trekk tilbake følgeforespørselen\?</string>
+    <string name="dialog_message_cancel_follow_request">Trekk tilbake forespørsel\?</string>
     <string name="dialog_unfollow_warning">Slutte å følge denne kontoen\?</string>
     <string name="dialog_delete_toot_warning">Slette dette tootet\?</string>
 
@@ -246,7 +246,7 @@
     <string name="status_media_images">Bilder</string>
     <string name="status_media_video">Video</string>
 
-    <string name="state_follow_requested">Følgeforespørsler</string>
+    <string name="state_follow_requested">Forespørsel sendt</string>
 
     <string name="no_content">ikke noe innhold</string>
 
