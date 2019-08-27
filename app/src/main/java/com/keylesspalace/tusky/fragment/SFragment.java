@@ -24,10 +24,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Environment;
-import android.text.SpannableStringBuilder;
-import android.text.Spanned;
 import android.text.TextUtils;
-import android.text.style.URLSpan;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -293,7 +290,7 @@ public abstract class SFragment extends BaseFragment implements Injectable {
                     return true;
                 }
                 case R.id.status_delete_and_redraft: {
-                    showConfirmEditDialog(id, position);
+                    showConfirmEditDialog(id, position, status);
                     return true;
                 }
                 case R.id.pin: {
@@ -362,7 +359,7 @@ public abstract class SFragment extends BaseFragment implements Injectable {
                 .show();
     }
 
-    private void showConfirmEditDialog(final String id, final int position) {
+    private void showConfirmEditDialog(final String id, final int position, final Status status) {
         if (getActivity() == null) {
             return;
         }
@@ -374,6 +371,10 @@ public abstract class SFragment extends BaseFragment implements Injectable {
                             .as(autoDisposable(from(this, Lifecycle.Event.ON_DESTROY)))
                             .subscribe(deletedStatus -> {
                                 removeItem(position);
+
+                                if(deletedStatus.isEmpty()) {
+                                    deletedStatus = status.toDeletedStatus();
+                                }
 
                                 ComposeActivity.IntentBuilder intentBuilder = new ComposeActivity.IntentBuilder()
                                         .tootText(deletedStatus.getText())
@@ -393,22 +394,6 @@ public abstract class SFragment extends BaseFragment implements Injectable {
                 })
                 .setNegativeButton(android.R.string.cancel, null)
                 .show();
-    }
-
-    private String getEditableText(Spanned content, Status.Mention[] mentions) {
-        SpannableStringBuilder builder = new SpannableStringBuilder(content);
-        for (URLSpan span : content.getSpans(0, content.length(), URLSpan.class)) {
-            String url = span.getURL();
-            for (Status.Mention mention : mentions) {
-                if (url.equals(mention.getUrl())) {
-                    int start = builder.getSpanStart(span);
-                    int end = builder.getSpanEnd(span);
-                    builder.replace(start, end, '@' + mention.getUsername());
-                    break;
-                }
-            }
-        }
-        return builder.toString();
     }
 
     private void openAsAccount(String statusUrl, AccountEntity account) {

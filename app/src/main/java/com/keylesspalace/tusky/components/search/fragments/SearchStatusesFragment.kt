@@ -392,17 +392,23 @@ class SearchStatusesFragment : SearchFragment<Pair<Status, StatusViewData.Concre
                         viewModel.deleteStatus(id)
                                 .observeOn(AndroidSchedulers.mainThread())
                                 .autoDisposable(from(this, Lifecycle.Event.ON_DESTROY))
-                                .subscribe { (text, inReplyToId, spoilerText, visibility, sensitive, attachments, poll) ->
+                                .subscribe { deletedStatus ->
                                     removeItem(position)
 
+                                    val redraftStatus = if(deletedStatus.isEmpty()) {
+                                        status.toDeletedStatus()
+                                    } else {
+                                        deletedStatus
+                                    }
+
                                     val intent = ComposeActivity.IntentBuilder()
-                                            .tootText(text)
-                                            .inReplyToId(inReplyToId)
-                                            .visibility(visibility)
-                                            .contentWarning(spoilerText)
-                                            .mediaAttachments(attachments)
-                                            .sensitive(sensitive)
-                                            .poll(poll?.toNewPoll(status.createdAt))
+                                            .tootText(redraftStatus.text)
+                                            .inReplyToId(redraftStatus.inReplyToId)
+                                            .visibility(redraftStatus.visibility)
+                                            .contentWarning(redraftStatus.spoilerText)
+                                            .mediaAttachments(redraftStatus.attachments)
+                                            .sensitive(redraftStatus.sensitive)
+                                            .poll(redraftStatus.poll?.toNewPoll(status.createdAt))
                                             .build(context)
                                     startActivity(intent)
                                 }

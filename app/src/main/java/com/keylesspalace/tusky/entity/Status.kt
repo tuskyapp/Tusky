@@ -15,7 +15,9 @@
 
 package com.keylesspalace.tusky.entity
 
+import android.text.SpannableStringBuilder
 import android.text.Spanned
+import android.text.style.URLSpan
 import com.google.gson.annotations.SerializedName
 import java.util.*
 
@@ -106,6 +108,35 @@ data class Status(
 
     fun isPinned(): Boolean {
         return pinned ?: false
+    }
+
+    fun toDeletedStatus(): DeletedStatus {
+        return DeletedStatus(
+                text = getEditableText(),
+                inReplyToId = inReplyToId,
+                spoilerText = spoilerText,
+                visibility = visibility,
+                sensitive = sensitive,
+                attachments = attachments,
+                poll = poll,
+                createdAt = createdAt
+        )
+    }
+
+    private fun getEditableText(): String {
+        val builder = SpannableStringBuilder(content)
+        for (span in content.getSpans(0, content.length, URLSpan::class.java)) {
+            val url = span.url
+            for ((_, url1, username) in mentions) {
+                if (url == url1) {
+                    val start = builder.getSpanStart(span)
+                    val end = builder.getSpanEnd(span)
+                    builder.replace(start, end, "@$username")
+                    break
+                }
+            }
+        }
+        return builder.toString()
     }
 
     override fun equals(other: Any?): Boolean {
