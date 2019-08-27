@@ -352,7 +352,12 @@ public abstract class SFragment extends BaseFragment implements Injectable {
                     timelineCases.delete(id)
                             .observeOn(AndroidSchedulers.mainThread())
                             .as(autoDisposable(from(this, Lifecycle.Event.ON_DESTROY)))
-                            .subscribe();
+                            .subscribe(
+                                    deletedStatus -> {},
+                                    error -> {
+                                        Log.w("SFragment", "error deleting status", error);
+                                        Toast.makeText(getContext(), R.string.error_generic, Toast.LENGTH_SHORT).show();
+                                    });
                     removeItem(position);
                 })
                 .setNegativeButton(android.R.string.cancel, null)
@@ -370,26 +375,30 @@ public abstract class SFragment extends BaseFragment implements Injectable {
                             .observeOn(AndroidSchedulers.mainThread())
                             .as(autoDisposable(from(this, Lifecycle.Event.ON_DESTROY)))
                             .subscribe(deletedStatus -> {
-                                removeItem(position);
+                                        removeItem(position);
 
-                                if(deletedStatus.isEmpty()) {
-                                    deletedStatus = status.toDeletedStatus();
-                                }
+                                        if(deletedStatus.isEmpty()) {
+                                            deletedStatus = status.toDeletedStatus();
+                                        }
 
-                                ComposeActivity.IntentBuilder intentBuilder = new ComposeActivity.IntentBuilder()
-                                        .tootText(deletedStatus.getText())
-                                        .inReplyToId(deletedStatus.getInReplyToId())
-                                        .visibility(deletedStatus.getVisibility())
-                                        .contentWarning(deletedStatus.getSpoilerText())
-                                        .mediaAttachments(deletedStatus.getAttachments())
-                                        .sensitive(deletedStatus.getSensitive());
-                                if(deletedStatus.getPoll() != null) {
-                                    intentBuilder.poll(deletedStatus.getPoll().toNewPoll(deletedStatus.getCreatedAt()));
-                                }
+                                        ComposeActivity.IntentBuilder intentBuilder = new ComposeActivity.IntentBuilder()
+                                                .tootText(deletedStatus.getText())
+                                                .inReplyToId(deletedStatus.getInReplyToId())
+                                                .visibility(deletedStatus.getVisibility())
+                                                .contentWarning(deletedStatus.getSpoilerText())
+                                                .mediaAttachments(deletedStatus.getAttachments())
+                                                .sensitive(deletedStatus.getSensitive());
+                                        if(deletedStatus.getPoll() != null) {
+                                            intentBuilder.poll(deletedStatus.getPoll().toNewPoll(deletedStatus.getCreatedAt()));
+                                        }
 
-                                Intent intent = intentBuilder.build(getContext());
-                                startActivity(intent);
-                            });
+                                        Intent intent = intentBuilder.build(getContext());
+                                        startActivity(intent);
+                                    },
+                                    error -> {
+                                        Log.w("SFragment", "error deleting status", error);
+                                        Toast.makeText(getContext(), R.string.error_generic, Toast.LENGTH_SHORT).show();
+                                    });
 
                 })
                 .setNegativeButton(android.R.string.cancel, null)
