@@ -31,7 +31,7 @@
     <string name="title_tag">#%s</string>
     <string name="title_statuses">툿</string>
     <string name="title_statuses_with_replies">툿과 답장</string>
-    <string name="title_statuses_pinned">고정된 툿</string>
+    <string name="title_statuses_pinned">고정됨</string>
     <string name="title_follows">팔로우</string>
     <string name="title_followers">팔로워</string>
     <string name="title_favourites">즐겨찾기</string>
@@ -108,7 +108,7 @@
     <string name="action_open_drawer">메뉴 열기</string>
     <string name="action_save">저장</string>
     <string name="action_edit_profile">프로필 수정</string>
-    <string name="action_edit_own_profile">수정</string>
+    <string name="action_edit_own_profile">편집</string>
     <string name="action_undo">실행 취소</string>
     <string name="action_accept">수락</string>
     <string name="action_reject">거절</string>
@@ -297,11 +297,11 @@
     <string name="no_content">임시 저장된 게시물이 없습니다</string>
 
     <!--These are for timestamps on statuses. For example: "16s" or "2d"-->
-    <string name="abbreviated_in_years">%d년 전</string>
-    <string name="abbreviated_in_days">%d일 전</string>
-    <string name="abbreviated_in_hours">%d시간 전</string>
-    <string name="abbreviated_in_minutes">%d분 전</string>
-    <string name="abbreviated_in_seconds">%d초 전</string>
+    <string name="abbreviated_in_years">%d년 후</string>
+    <string name="abbreviated_in_days">%d일 후</string>
+    <string name="abbreviated_in_hours">%d시간 후</string>
+    <string name="abbreviated_in_minutes">%d분 후</string>
+    <string name="abbreviated_in_seconds">%d초 후</string>
     <string name="abbreviated_years_ago">%d년</string>
     <string name="abbreviated_days_ago">%d일</string>
     <string name="abbreviated_hours_ago">%d시간</string>
@@ -488,4 +488,18 @@
     <string name="failed_search">검색하지 못했습니다</string>
 
     <string name="pref_title_alway_open_spoiler">열람주의로 설정된 툿을 항상 펼치기</string>
-    </resources>
+    <string name="action_add_poll">투표 추가</string>
+    <string name="create_poll_title">투표</string>
+    <string name="poll_duration_5_min">5분</string>
+    <string name="poll_duration_30_min">30분</string>
+    <string name="poll_duration_1_hour">1시간</string>
+    <string name="poll_duration_6_hours">6시간</string>
+    <string name="poll_duration_1_day">1일</string>
+    <string name="poll_duration_3_days">3일</string>
+    <string name="poll_duration_7_days">7일</string>
+    <string name="add_poll_choice">항목 추가</string>
+    <string name="poll_allow_multiple_choices">여러 항목 선택 가능</string>
+    <string name="poll_new_choice_hint">%d번 항목</string>
+    <string name="edit_poll">수정</string>
+
+</resources>
