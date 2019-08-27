@@ -466,4 +466,19 @@
     <string name="title_accounts">الحسابات</string>
     <string name="failed_search">فشل البحث</string>
 
-    </resources>
+    <string name="action_add_poll">إضافة استطلاع رأي</string>
+    <string name="pref_title_alway_open_spoiler">افتح دائما التبويقات التي تحتوي على محتوى حساس</string>
+    <string name="create_poll_title">استطلاع رأي</string>
+    <string name="poll_duration_5_min">5 دقائق</string>
+    <string name="poll_duration_30_min">30 دقيقة</string>
+    <string name="poll_duration_1_hour">ساعة واحدة</string>
+    <string name="poll_duration_6_hours">6 ساعات</string>
+    <string name="poll_duration_1_day">يوم واحد</string>
+    <string name="poll_duration_3_days">3 أيام</string>
+    <string name="poll_duration_7_days">7 أيام</string>
+    <string name="add_poll_choice">ضف خيارا</string>
+    <string name="poll_allow_multiple_choices">خيارات متعددة</string>
+    <string name="poll_new_choice_hint">الخيار %d</string>
+    <string name="edit_poll">تعديل</string>
+
+</resources>
