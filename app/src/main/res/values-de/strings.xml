@@ -424,4 +424,15 @@
 
     <string name="pref_title_show_notifications_filter">Benachrichtigungsfilter anzeigen</string>
 
+    <string name="create_poll_title">Umfrage</string>
+    <string name="poll_duration_5_min">5 Minuten</string>
+    <string name="poll_duration_30_min">30 Minuten</string>
+    <string name="poll_duration_1_hour">1 Stunde</string>
+    <string name="poll_duration_6_hours">6 Stunden</string>
+    <string name="poll_duration_1_day">1 Tag</string>
+    <string name="poll_duration_3_days">3 Tage</string>
+    <string name="poll_duration_7_days">7 Tage</string>
+    <string name="edit_poll">Bearbeiten</string>
+
+<string name="about_tusky_version">Tusky Version %s</string>
     </resources>

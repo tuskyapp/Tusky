@@ -353,13 +353,13 @@
     <string name="pin_action">Fixar</string>
 
     <plurals name="favs">
-	<item quantity="one">&lt;b>%1$s&lt;/b> Favorito</item>
-	<item quantity="other">&lt;b>%1$s&lt;/b> Favoritos</item>
+	<item quantity="one">&lt;b&gt;%1$s&lt;/b&gt; Favorito</item>
+	<item quantity="other">&lt;b&gt;%1$s&lt;/b&gt; Favoritos</item>
 </plurals>
 
     <plurals name="reblogs">
-	<item quantity="one">&lt;b>%s&lt;/b> Boost</item>
-	<item quantity="other">&lt;b>%s&lt;/b> Boosts</item>
+	<item quantity="one">&lt;b&gt;%s&lt;/b&gt; Boost</item>
+	<item quantity="other">&lt;b&gt;%s&lt;/b&gt; Boosts</item>
 </plurals>
 
     <string name="conversation_1_recipients">%1$s</string>
@@ -451,4 +451,22 @@
     <string name="pref_title_show_notifications_filter">Mostrar filtro de notificações</string>
 <string name="filter_dialog_whole_word">Toda palavra</string>
     <string name="filter_dialog_whole_word_description">Se for apenas alfanumérico, só se aplicará se combinar com a palavra inteira</string>
-    </resources>
+    <string name="action_add_poll">Adicionar enquete</string>
+    <string name="pref_title_alway_open_spoiler">Sempre expandir toots com Aviso de Conteúdo</string>
+    <string name="title_accounts">Contas</string>
+    <string name="failed_search">Erro ao pesquisar</string>
+
+    <string name="create_poll_title">Enquete</string>
+    <string name="poll_duration_5_min">5 minutos</string>
+    <string name="poll_duration_30_min">30 minutos</string>
+    <string name="poll_duration_1_hour">1 hora</string>
+    <string name="poll_duration_6_hours">6 horas</string>
+    <string name="poll_duration_1_day">1 dia</string>
+    <string name="poll_duration_3_days">3 dias</string>
+    <string name="poll_duration_7_days">7 dias</string>
+    <string name="add_poll_choice">Adicionar opção</string>
+    <string name="poll_allow_multiple_choices">Múltiplas opções</string>
+    <string name="poll_new_choice_hint">Opção %d</string>
+    <string name="edit_poll">Editar</string>
+
+</resources>
