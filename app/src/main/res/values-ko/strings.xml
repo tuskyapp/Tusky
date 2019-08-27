@@ -5,13 +5,13 @@
     <string name="error_network">네트워크 오류가 발생했습니다! 인터넷 연결을 확인하고 다시 시도하세요!</string>
     <string name="error_empty">내용을 입력하십시오.</string>
     <string name="error_invalid_domain">도메인이 올바르지 않습니다</string>
-    <string name="error_failed_app_registration">해당 인스턴스로 인증에 실패했습니다.</string>
+    <string name="error_failed_app_registration">해당 인스턴스에 대한 인증에 실패했습니다.</string>
     <string name="error_no_web_browser_found">사용 가능한 웹 브라우저를 찾을 수 없습니다.</string>
-    <string name="error_authorization_unknown">알 수 없는 인증 오류입니다.</string>
+    <string name="error_authorization_unknown">알 수 없는 인증 오류가 발생했습니다.</string>
     <string name="error_authorization_denied">인증이 거부되었습니다.</string>
-    <string name="error_retrieving_oauth_token">로그인 토큰을 받아올 수 없습니다.</string>
+    <string name="error_retrieving_oauth_token">로그인 토큰을 받아 오는 데 실패하였습니다.</string>
     <string name="error_compose_character_limit">게시물 길이가 너무 깁니다!</string>
-    <string name="error_image_upload_size">파일 크기가 8MB 이상인 사진은 업로드할 수 없습니다.</string>
+    <string name="error_image_upload_size">파일 크기는 8MB 미만이어야 합니다.</string>
     <string name="error_video_upload_size">파일 크기가 40MB 이상인 동영상은 업로드할 수 없습니다.</string>
     <string name="error_media_upload_type">이 파일은 첨부할 수 없습니다.</string>
     <string name="error_media_upload_opening">이 파일을 읽지 못했습니다.</string>
@@ -29,17 +29,17 @@
     <string name="title_tab_preferences">탭</string>
     <string name="title_view_thread">툿</string>
     <string name="title_tag">#%s</string>
-    <string name="title_statuses">툿</string>
+    <string name="title_statuses">게시물</string>
     <string name="title_statuses_with_replies">툿과 답장</string>
     <string name="title_statuses_pinned">고정됨</string>
     <string name="title_follows">팔로우</string>
     <string name="title_followers">팔로워</string>
     <string name="title_favourites">즐겨찾기</string>
     <string name="title_mutes">뮤트한 유저</string>
-    <string name="title_blocks">블록한 유저</string>
+    <string name="title_blocks">차단한 유저</string>
     <string name="title_domain_mutes">숨긴 도메인</string>
     <string name="title_follow_requests">팔로우 요청</string>
-    <string name="title_edit_profile">프로필 수정</string>
+    <string name="title_edit_profile">프로필 편집</string>
     <string name="title_saved_toot">임시 저장</string>
     <string name="title_licenses">라이선스</string>
 
@@ -54,7 +54,7 @@
     <string name="status_content_show_less">줄이기</string>
 
     <string name="message_empty">메시지가 없습니다.</string>
-    <string name="footer_empty">게시물이 없습니다. 아래로 당겨서 새로고침하세요!</string>
+    <string name="footer_empty">게시물이 없습니다. 아래로 당겨서 새로고침 하세요!</string>
 
     <string name="notification_reblog_format">%s님이 부스트 했습니다</string>
     <string name="notification_favourite_format">%s님이 즐겨찾기 했습니다</string>
@@ -88,7 +88,7 @@
     <string name="action_retry">다시 시도</string>
     <string name="action_close">닫기</string>
     <string name="action_view_profile">프로필</string>
-    <string name="action_view_preferences">환경 설정</string>
+    <string name="action_view_preferences">환경설정</string>
     <string name="action_view_account_preferences">계정 설정</string>
     <string name="action_view_favourites">즐겨찾기</string>
     <string name="action_view_mutes">뮤트한 유저</string>
@@ -107,7 +107,7 @@
     <string name="action_hide_media">미디어 숨기기</string>
     <string name="action_open_drawer">메뉴 열기</string>
     <string name="action_save">저장</string>
-    <string name="action_edit_profile">프로필 수정</string>
+    <string name="action_edit_profile">프로필 편집</string>
     <string name="action_edit_own_profile">편집</string>
     <string name="action_undo">실행 취소</string>
     <string name="action_accept">수락</string>
@@ -272,7 +272,7 @@
 
     <string name="description_account_locked">계정 잠김</string>
 
-    <string name="about_title_activity">도움말</string>
+    <string name="about_title_activity">이 앱에 관하여</string>
     <string name="about_tusky_version">Tusky %s</string>
     <string name="about_tusky_license">Tusky는 무료이며 오픈 소스입니다. 이 프로젝트는 GNU General Public License Version 3에 의해 배포됩니다. 이 페이지에서 라이선스 전문(영문)을 열람하실 수 있습니다: https://www.gnu.org/licenses/gpl-3.0.en.html</string>
     <!-- note to translators:
