@@ -9,16 +9,14 @@ import androidx.paging.PagedList
 import com.keylesspalace.tusky.components.search.adapter.SearchRepository
 import com.keylesspalace.tusky.db.AccountEntity
 import com.keylesspalace.tusky.db.AccountManager
-import com.keylesspalace.tusky.entity.Account
-import com.keylesspalace.tusky.entity.HashTag
-import com.keylesspalace.tusky.entity.Poll
-import com.keylesspalace.tusky.entity.Status
+import com.keylesspalace.tusky.entity.*
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.network.TimelineCases
 import com.keylesspalace.tusky.util.Listing
 import com.keylesspalace.tusky.util.NetworkState
 import com.keylesspalace.tusky.util.ViewDataUtils
 import com.keylesspalace.tusky.viewdata.StatusViewData
+import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import javax.inject.Inject
@@ -91,6 +89,7 @@ class SearchViewModel @Inject constructor(
 
     fun removeItem(status: Pair<Status, StatusViewData.Concrete>) {
         timelineCases.delete(status.first.id)
+                .subscribe()
         if (loadedStatuses.remove(status))
             repoResultStatus.value?.refresh?.invoke()
     }
@@ -198,8 +197,8 @@ class SearchViewModel @Inject constructor(
         timelineCases.block(accountId)
     }
 
-    fun deleteStatus(id: String) {
-        timelineCases.delete(id)
+    fun deleteStatus(id: String): Single<DeletedStatus> {
+        return timelineCases.delete(id)
     }
 
     fun retryAllSearches() {

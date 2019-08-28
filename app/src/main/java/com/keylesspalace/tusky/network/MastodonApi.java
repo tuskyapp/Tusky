@@ -20,6 +20,7 @@ import com.keylesspalace.tusky.entity.Account;
 import com.keylesspalace.tusky.entity.AppCredentials;
 import com.keylesspalace.tusky.entity.Attachment;
 import com.keylesspalace.tusky.entity.Conversation;
+import com.keylesspalace.tusky.entity.DeletedStatus;
 import com.keylesspalace.tusky.entity.Emoji;
 import com.keylesspalace.tusky.entity.Filter;
 import com.keylesspalace.tusky.entity.Instance;
@@ -152,7 +153,7 @@ public interface MastodonApi {
             @Query("max_id") String maxId);
 
     @DELETE("api/v1/statuses/{id}")
-    Call<ResponseBody> deleteStatus(@Path("id") String statusId);
+    Single<DeletedStatus> deleteStatus(@Path("id") String statusId);
 
     @POST("api/v1/statuses/{id}/reblog")
     Single<Status> reblogStatus(@Path("id") String statusId);
@@ -361,11 +362,6 @@ public interface MastodonApi {
             @Field("irreversible") Boolean irreversible,
             @Field("whole_word") Boolean wholeWord,
             @Field("expires_in") String expiresIn
-    );
-
-    @GET("api/v1/filters/{id}")
-    Call<Filter> getFilter(
-            @Path("id") String id
     );
 
     @FormUrlEncoded
