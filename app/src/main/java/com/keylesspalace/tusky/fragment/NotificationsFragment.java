@@ -261,6 +261,7 @@ public class NotificationsFragment extends SFragment implements
         buttonFilter.setOnClickListener(v -> showFilterMenu());
 
         if (notifications.isEmpty()) {
+            swipeRefreshLayout.setEnabled(false);
             sendFetchNotificationsRequest(null, null, FetchEnd.BOTTOM, -1);
         } else {
             progressBar.setVisibility(View.GONE);
@@ -375,7 +376,6 @@ public class NotificationsFragment extends SFragment implements
 
     @Override
     public void onRefresh() {
-        swipeRefreshLayout.setEnabled(true);
         this.statusView.setVisibility(View.GONE);
         Either<Placeholder, Notification> first = CollectionsKt.firstOrNull(this.notifications);
         String topId;
@@ -941,7 +941,8 @@ public class NotificationsFragment extends SFragment implements
         if (notifications.size() == 0 && adapter.getItemCount() == 0) {
             this.statusView.setVisibility(View.VISIBLE);
             this.statusView.setup(R.drawable.elephant_friend_empty, R.string.message_empty, null);
-
+        } else {
+            swipeRefreshLayout.setEnabled(true);
         }
         swipeRefreshLayout.setRefreshing(false);
         progressBar.setVisibility(View.GONE);
