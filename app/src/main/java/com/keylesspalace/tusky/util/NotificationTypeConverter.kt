@@ -34,7 +34,7 @@ fun deserialize(data: String?): Set<Notification.Type> {
     val ret = HashSet<Notification.Type>()
     data?.let {
         val array = JSONArray(data)
-        for (i in 0..(array.length() - 1)) {
+        for (i in 0 until array.length()) {
             val item = array.getString(i)
             val type = Notification.Type.byString(item)
             if (type != Notification.Type.UNKNOWN)
