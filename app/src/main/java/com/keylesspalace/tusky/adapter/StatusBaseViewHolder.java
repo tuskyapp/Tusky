@@ -334,8 +334,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         favouriteButton.setChecked(favourited);
     }
 
-    private void loadImage(MediaPreviewImageView imageView, String previewUrl, String description,
-                           MetaData meta) {
+    private void loadImage(MediaPreviewImageView imageView, String previewUrl, MetaData meta) {
         if (TextUtils.isEmpty(previewUrl)) {
             Glide.with(imageView)
                     .load(mediaPreviewUnloadedId)
@@ -385,7 +384,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             }
 
             if (!sensitive || showingContent) {
-                loadImage(imageView, previewUrl, description, attachments.get(i).getMeta());
+                loadImage(imageView, previewUrl, attachments.get(i).getMeta());
             } else {
                 imageView.setImageResource(mediaPreviewUnloadedId);
             }
@@ -458,6 +457,8 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             case GIFV:
             case VIDEO:
                 return R.drawable.ic_videocam_24dp;
+            case AUDIO:
+                return R.drawable.ic_music_box_24dp;
         }
     }
 
@@ -505,11 +506,14 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
     }
 
     private static CharSequence getAttachmentDescription(Context context, Attachment attachment) {
+        String duration = "";
+        if(attachment.getMeta().getDuration() != null && attachment.getMeta().getDuration() > 0) {
+            duration = formatDuration(attachment.getMeta().getDuration());
+        }
         if (TextUtils.isEmpty(attachment.getDescription())) {
-            return context
-                    .getString(R.string.description_status_media_no_description_placeholder);
+            return duration + " " + context.getString(R.string.description_status_media_no_description_placeholder);
         } else {
-            return attachment.getDescription();
+            return duration + " " + attachment.getDescription();
         }
     }
 
@@ -605,7 +609,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             setFavourited(status.isFavourited());
             List<Attachment> attachments = status.getAttachments();
             boolean sensitive = status.isSensitive();
-            if (mediaPreviewEnabled) {
+            if (mediaPreviewEnabled && !hasAudioAttachment(attachments)) {
                 setMediaPreviews(attachments, sensitive, listener, status.isShowingContent());
 
                 if (attachments.size() == 0) {
@@ -649,6 +653,15 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
                 }
 
         }
+    }
+
+    protected static boolean hasAudioAttachment(List<Attachment> attachments) {
+        for(Attachment attachment: attachments) {
+            if (attachment.getType() == Attachment.Type.AUDIO) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private void setDescriptionForStatus(@NonNull StatusViewData.Concrete status) {
@@ -846,6 +859,14 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         }
 
         return pollDescription.getContext().getString(R.string.poll_info_format, votesText, pollDurationInfo);
+    }
+
+    private static String formatDuration(double durationInSeconds) {
+        int seconds = (int) Math.round(durationInSeconds) % 60;
+        int minutes = (int) durationInSeconds % 3600 / 60;
+        int hours = (int) durationInSeconds / 3600;
+
+        return String.format("%d:%02d:%02d", hours, minutes, seconds);
     }
 
 }

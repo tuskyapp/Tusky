@@ -85,7 +85,7 @@ public class ConversationViewHolder extends StatusBaseViewHolder {
         setFavourited(status.getFavourited());
         List<Attachment> attachments = status.getAttachments();
         boolean sensitive = status.getSensitive();
-        if(mediaPreviewEnabled) {
+        if(mediaPreviewEnabled && !hasAudioAttachment(attachments)) {
             setMediaPreviews(attachments, sensitive, listener, status.getShowingHiddenContent());
 
             if (attachments.size() == 0) {

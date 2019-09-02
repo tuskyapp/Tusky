@@ -42,6 +42,8 @@ data class Attachment(
         GIFV,
         @SerializedName("video")
         VIDEO,
+        @SerializedName("audio")
+        AUDIO,
         @SerializedName("unknown")
         UNKNOWN
     }
@@ -53,6 +55,7 @@ data class Attachment(
                 "\"image\"" -> Type.IMAGE
                 "\"gifv\"" -> Type.GIFV
                 "\"video\"" -> Type.VIDEO
+                "\"audio\"" -> Type.AUDIO
                 else -> Type.UNKNOWN
             }
         }
@@ -63,7 +66,8 @@ data class Attachment(
      */
     @Parcelize
     data class MetaData (
-            val focus: Focus?
+            val focus: Focus?,
+            val duration: Float?
     ) : Parcelable
 
     /**

@@ -310,7 +310,8 @@ public abstract class SFragment extends BaseFragment implements Injectable {
         switch (type) {
             case GIFV:
             case VIDEO:
-            case IMAGE: {
+            case IMAGE:
+            case AUDIO: {
                 final List<AttachmentViewData> attachments = AttachmentViewData.list(actionable);
                 final Intent intent = ViewMediaActivity.newIntent(getContext(), attachments,
                         urlIndex);
