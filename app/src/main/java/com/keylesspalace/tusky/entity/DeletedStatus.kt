@@ -29,6 +29,6 @@ data class DeletedStatus(
         @SerializedName("created_at") val createdAt: Date
 ) {
     fun isEmpty(): Boolean {
-        return text == null && attachments == null;
+        return text == null && attachments == null
     }
 }
