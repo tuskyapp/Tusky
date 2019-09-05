@@ -1101,6 +1101,10 @@ public final class ComposeActivity
     }
 
     private void readyStatus(final Status.Visibility visibility, final boolean sensitive) {
+        if (waitForMediaLatch.isEmpty()) {
+            onReadySuccess(visibility, sensitive);
+            return;
+        }
         finishingUploadDialog = ProgressDialog.show(
                 this, getString(R.string.dialog_title_finishing_media_upload),
                 getString(R.string.dialog_message_uploading_media), true, true);
