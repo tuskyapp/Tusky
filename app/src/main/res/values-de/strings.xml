@@ -435,4 +435,17 @@
     <string name="edit_poll">Bearbeiten</string>
 
 <string name="about_tusky_version">Tusky Version %s</string>
+    <string name="action_add_poll">Umfrage hinzufügen</string>
+    <string name="pref_title_alway_open_spoiler">Immer Beiträge ausklappen, die mit Inhaltswarnungen versehen wurden</string>
+    <string name="description_poll">Umfrage mit den Möglichkeiten: %1$s, %2$s, %3$s, %4$s; %5$s</string>
+
+    <string name="compose_preview_image_description">Aktionen für Bild %s</string>
+
+    <string name="failed_fetch_statuses">Fehler beim Holen der Beiträge</string>
+    <string name="title_accounts">Konten</string>
+    <string name="failed_search">Fehler beim Suchen</string>
+
+    <string name="add_poll_choice">Auswahlmöglichkeit hinzufügen</string>
+    <string name="poll_allow_multiple_choices">Mehrere Möglichkeiten</string>
+    <string name="poll_new_choice_hint">Möglichkeit %d</string>
     </resources>
