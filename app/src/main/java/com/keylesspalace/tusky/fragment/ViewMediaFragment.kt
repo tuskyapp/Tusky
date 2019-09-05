@@ -51,7 +51,8 @@ abstract class ViewMediaFragment : BaseFragment(), SharedElementTransitionListen
             val fragment = when (attachment.type) {
                 Attachment.Type.IMAGE -> ViewImageFragment()
                 Attachment.Type.VIDEO,
-                Attachment.Type.GIFV -> ViewVideoFragment()
+                Attachment.Type.GIFV,
+                Attachment.Type.AUDIO -> ViewVideoFragment()
                 else -> ViewImageFragment()   // it probably won't show anything, but its better than crashing
             }
             fragment.arguments = arguments
