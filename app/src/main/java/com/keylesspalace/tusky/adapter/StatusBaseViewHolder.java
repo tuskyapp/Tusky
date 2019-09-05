@@ -508,12 +508,12 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
     private static CharSequence getAttachmentDescription(Context context, Attachment attachment) {
         String duration = "";
         if(attachment.getMeta().getDuration() != null && attachment.getMeta().getDuration() > 0) {
-            duration = formatDuration(attachment.getMeta().getDuration());
+            duration = formatDuration(attachment.getMeta().getDuration()) + " ";
         }
         if (TextUtils.isEmpty(attachment.getDescription())) {
-            return duration + " " + context.getString(R.string.description_status_media_no_description_placeholder);
+            return duration + context.getString(R.string.description_status_media_no_description_placeholder);
         } else {
-            return duration + " " + attachment.getDescription();
+            return duration + attachment.getDescription();
         }
     }
 
