@@ -481,4 +481,5 @@
     <string name="poll_new_choice_hint">الخيار %d</string>
     <string name="edit_poll">تعديل</string>
 
-</resources>
+<string name="filter_dialog_whole_word_description">عندما تكون الكلمة أو العبارة أبجدية رقمية فقط ، فلن يتم تطبيقها إلا إذا كانت مطابقة للكلمة بأكملها</string>
+    </resources>
