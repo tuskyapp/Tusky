@@ -44,4 +44,8 @@ public class CountUpDownLatch {
             wait();
         }
     }
+
+    public synchronized boolean isEmpty() {
+        return count == 0;
+    }
 }
