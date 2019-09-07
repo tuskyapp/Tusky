@@ -504,4 +504,18 @@
     <string name="failed_search">Iskanje je bilo neuspešno</string>
 
     <string name="pref_title_alway_open_spoiler">Vedno razširite tute, označene z opozorilom o vsebini</string>
-    </resources>
+    <string name="action_add_poll">Dodaj anketo</string>
+    <string name="create_poll_title">Anketa</string>
+    <string name="poll_duration_5_min">5 minut</string>
+    <string name="poll_duration_30_min">30 minut</string>
+    <string name="poll_duration_1_hour">1 ura</string>
+    <string name="poll_duration_6_hours">6 ur</string>
+    <string name="poll_duration_1_day">1 dan</string>
+    <string name="poll_duration_3_days">3 dni</string>
+    <string name="poll_duration_7_days">7 dni</string>
+    <string name="add_poll_choice">Dodaj izbiro</string>
+    <string name="poll_allow_multiple_choices">Več izbir</string>
+    <string name="poll_new_choice_hint">Izbira %d</string>
+    <string name="edit_poll">Uredi</string>
+
+</resources>

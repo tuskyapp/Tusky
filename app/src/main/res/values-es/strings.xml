@@ -283,7 +283,7 @@
     <string name="download_failed">Descarga fallida</string>
     <string name="profile_badge_bot_text">Bot</string>
     <string name="account_moved_description">%1$s se trasladó a:</string>
-    <string name="reblog_private">Volver a compartir</string>
+    <string name="reblog_private">Impulsar a la audiencia original</string>
     <string name="unreblog_private">Dejar de impulsar</string>
     <string name="license_description">Tusky contiene código y recursos de los siguientes proyectos:</string>
     <string name="license_apache_2">Licenciado bajo Apache License (texto bajo la lista)</string>
@@ -449,4 +449,18 @@
     <string name="title_accounts">Cuentas</string>
     <string name="failed_search">Error al buscar</string>
 
-    </resources>
+    <string name="action_add_poll">Añadir encuesta</string>
+    <string name="create_poll_title">Encuesta</string>
+    <string name="poll_duration_5_min">5 minutos</string>
+    <string name="poll_duration_30_min">30 minutos</string>
+    <string name="poll_duration_1_hour">1 hora</string>
+    <string name="poll_duration_6_hours">6 horas</string>
+    <string name="poll_duration_1_day">1 día</string>
+    <string name="poll_duration_3_days">3 días</string>
+    <string name="poll_duration_7_days">7 días</string>
+    <string name="add_poll_choice">Añadir opción</string>
+    <string name="poll_allow_multiple_choices">Opciones múltiples</string>
+    <string name="poll_new_choice_hint">Opción %d</string>
+    <string name="edit_poll">Editar</string>
+
+</resources>
