@@ -262,7 +262,8 @@ class AccountMediaFragment : BaseFragment(), RefreshableFragment, Injectable {
         when (items[currentIndex].attachment.type) {
             Attachment.Type.IMAGE,
             Attachment.Type.GIFV,
-            Attachment.Type.VIDEO -> {
+            Attachment.Type.VIDEO,
+            Attachment.Type.AUDIO -> {
                 val intent = ViewMediaActivity.newIntent(context, items, currentIndex)
                 if (view != null && activity != null) {
                     val url = items[currentIndex].attachment.url
