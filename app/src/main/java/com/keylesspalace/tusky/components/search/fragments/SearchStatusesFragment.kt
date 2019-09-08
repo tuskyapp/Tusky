@@ -103,7 +103,7 @@ class SearchStatusesFragment : SearchFragment<Pair<Status, StatusViewData.Concre
     override fun onViewMedia(position: Int, attachmentIndex: Int, view: View?) {
         (adapter as? SearchStatusesAdapter)?.getItem(position)?.first?.actionableStatus?.let { actionable ->
             when (actionable.attachments[attachmentIndex].type) {
-                Attachment.Type.GIFV, Attachment.Type.VIDEO, Attachment.Type.IMAGE -> {
+                Attachment.Type.GIFV, Attachment.Type.VIDEO, Attachment.Type.IMAGE, Attachment.Type.AUDIO -> {
                     val attachments = AttachmentViewData.list(actionable)
                     val intent = ViewMediaActivity.newIntent(context, attachments,
                             attachmentIndex)
