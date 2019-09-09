@@ -1,0 +1,7 @@
+Tusky v7.0
+
+- Wsparcie dla wyświetlania ankiet, głosowania i powiadomień o nich
+- Nowy przycisk dla filtrowania powiadomień i usuwania wszystkich powiadomień
+- Możesz usunąć i napisać ponownie własne wpisy
+- Przy ikonach kont ustawionych jako bot pojawia się mała ikonka robota (opcję można wyłączyć w preferencjach)
+- Nowe tłumaczenia: Norweski Bokmål i Słoweński.
