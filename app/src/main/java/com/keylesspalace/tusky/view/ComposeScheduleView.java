@@ -31,8 +31,7 @@ public class ComposeScheduleView extends ConstraintLayout {
     private SimpleDateFormat iso8601;
 
     private Button resetScheduleButton;
-    private TextView scheduledDateView;
-    private TextView scheduledTimeView;
+    private TextView scheduledDateTimeView;
 
     private Calendar scheduleDateTime;
 
@@ -60,11 +59,9 @@ public class ComposeScheduleView extends ConstraintLayout {
         iso8601.setTimeZone(TimeZone.getTimeZone("UTC"));
 
         resetScheduleButton = findViewById(R.id.resetScheduleButton);
-        scheduledDateView = findViewById(R.id.scheduledDate);
-        scheduledTimeView = findViewById(R.id.scheduledTime);
+        scheduledDateTimeView = findViewById(R.id.scheduledDateTime);
 
-        scheduledDateView.setOnClickListener(v -> openPickDateDialog());
-        scheduledTimeView.setOnClickListener(v -> openPickTimeDialog());
+        scheduledDateTimeView.setOnClickListener(v -> openPickDateDialog());
 
         scheduleDateTime = null;
 
@@ -75,16 +72,16 @@ public class ComposeScheduleView extends ConstraintLayout {
 
     private void setScheduledDateTime() {
         if (scheduleDateTime == null) {
-            scheduledDateView.setText(R.string.hint_configure_scheduled_toot);
-            scheduledTimeView.setText(R.string.hint_configure_scheduled_toot);
+            scheduledDateTimeView.setText(R.string.hint_configure_scheduled_toot);
         } else {
-            scheduledDateView.setText(dateFormat.format(scheduleDateTime.getTime()));
-            scheduledTimeView.setText(timeFormat.format(scheduleDateTime.getTime()));
+            scheduledDateTimeView.setText(String.format("%s %s",
+                    dateFormat.format(scheduleDateTime.getTime()),
+                    timeFormat.format(scheduleDateTime.getTime())));
         }
     }
 
     private void setEditIcons() {
-        final int size = scheduledDateView.getLineHeight();
+        final int size = scheduledDateTimeView.getLineHeight();
 
         Drawable icon = getContext().getDrawable(R.drawable.ic_create_24dp);
         if (icon == null) {
@@ -93,8 +90,7 @@ public class ComposeScheduleView extends ConstraintLayout {
 
         icon.setBounds(0, 0, size, size);
 
-        scheduledDateView.setCompoundDrawables(null, null, icon, null);
-        scheduledTimeView.setCompoundDrawables(null, null, icon, null);
+        scheduledDateTimeView.setCompoundDrawables(null, null, icon, null);
     }
 
     public void setResetOnClickListener(OnClickListener listener) {

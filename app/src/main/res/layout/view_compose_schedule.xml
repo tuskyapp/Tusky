@@ -14,7 +14,7 @@
         app:layout_constraintBottom_toBottomOf="parent" />
 
     <TextView
-        android:id="@+id/scheduledDate"
+        android:id="@+id/scheduledDateTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingBottom="16dp"
@@ -24,23 +24,8 @@
         android:textColor="?android:textColorTertiary"
         android:textSize="?attr/status_text_medium"
         android:drawablePadding="4dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="2020/01/01" />
-
-    <TextView
-        android:id="@+id/scheduledTime"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingBottom="16dp"
-        android:paddingEnd="16dp"
-        android:paddingStart="4dp"
-        android:paddingTop="4dp"
-        android:textColor="?android:textColorTertiary"
-        android:textSize="?attr/status_text_medium"
-        android:drawablePadding="4dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/scheduledDate"
-        tools:text="00:00:00" />
+        tools:text="2020/01/01 00:00:00" />
 
 </merge>
