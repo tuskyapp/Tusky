@@ -1,0 +1,9 @@
+Tusky v9.0
+
+- Du kan nå opprette avstemninger fra Tusky
+- Forbedret søk
+- Det er nå mulig å alltid utvide innholdsadvarsler.
+- Kontobilder har alltid runde kanter
+- Det er nå mulig å rapportere bruker som aldri har publisert et toot
+- Tusky vil ikke lenger koble til over HTTP på Android 6 og nyere
+- Flere mindre forbedringer og feilrettinger
