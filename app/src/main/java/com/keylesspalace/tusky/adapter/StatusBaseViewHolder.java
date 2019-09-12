@@ -729,6 +729,10 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
 
     private static CharSequence getVisibilityDescription(Context context, Status.Visibility visibility) {
 
+        if(visibility == null) {
+            return "";
+        }
+
         int resource;
         switch (visibility) {
             case PUBLIC:
