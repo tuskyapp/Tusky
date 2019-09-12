@@ -436,7 +436,7 @@
 
 <string name="about_tusky_version">Tusky Version %s</string>
     <string name="action_add_poll">Umfrage hinzufügen</string>
-    <string name="pref_title_alway_open_spoiler">Immer Beiträge ausklappen, die mit Inhaltswarnungen versehen wurden</string>
+    <string name="pref_title_alway_open_spoiler">Beiträge mit Inhaltswarnungen immer ausklappen</string>
     <string name="description_poll">Umfrage mit den Möglichkeiten: %1$s, %2$s, %3$s, %4$s; %5$s</string>
 
     <string name="compose_preview_image_description">Aktionen für Bild %s</string>

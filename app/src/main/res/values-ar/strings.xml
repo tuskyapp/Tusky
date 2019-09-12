@@ -482,4 +482,5 @@
     <string name="edit_poll">تعديل</string>
 
 <string name="filter_dialog_whole_word_description">عندما تكون الكلمة أو العبارة أبجدية رقمية فقط ، فلن يتم تطبيقها إلا إذا كانت مطابقة للكلمة بأكملها</string>
+    <string name="poll_info_format"> <!-- 15 votes • 1 hour left --> %1$s • %2$s</string>
     </resources>
