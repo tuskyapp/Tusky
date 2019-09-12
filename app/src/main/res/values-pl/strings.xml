@@ -2,7 +2,7 @@
 <resources>
     <string name="error_generic">Wystąpił błąd.</string>
     <string name="error_empty">To nie może pozostać puste.</string>
-    <string name="error_invalid_domain">Wprowadzono nieprawidłową domenę.</string>
+    <string name="error_invalid_domain">Wprowadzono nieprawidłową domenę</string>
     <string name="error_failed_app_registration">Nie udało się uwierzytelnić z tą instancją.</string>
     <string name="error_no_web_browser_found">Nie znaleziono przeglądarki internetowej.</string>
     <string name="error_authorization_unknown">Wystąpił nieokreślony błąd podczas próby autoryzacji.</string>
@@ -22,7 +22,7 @@
     <string name="title_public_local">Lokalne</string>
     <string name="title_public_federated">Federalne</string>
     <string name="title_view_thread">Wątek</string>
-    <string name="title_statuses">Posty</string>
+    <string name="title_statuses">Wpisy</string>
     <string name="title_statuses_with_replies">Z odpowiedziami</string>
     <string name="title_follows">Śledzeni</string>
     <string name="title_followers">Śledzący</string>
@@ -39,9 +39,9 @@
     <string name="status_sensitive_media_directions">Naciśnij, aby wyświetlić</string>
     <string name="status_content_warning_show_more">Pokaż więcej</string>
     <string name="status_content_warning_show_less">Ukryj</string>
-    <string name="footer_empty">Pusto! Pociągnij, aby odświeżyć.</string>
-    <string name="notification_reblog_format">%s podbił Twój post</string>
-    <string name="notification_favourite_format">%s dodał Twój post do ulubionych</string>
+    <string name="footer_empty">Pusto tutaj. Pociągnij, aby odświeżyć!</string>
+    <string name="notification_reblog_format">%s podbił(-a) Twój wpis</string>
+    <string name="notification_favourite_format">%s dodał Twój wpis do ulubionych</string>
     <string name="notification_follow_format">%s zaczął Cię śledzić</string>
     <string name="report_username_format">Zgłoś @%s</string>
     <string name="report_comment_hint">Dodatkowe komentarze?</string>
@@ -130,8 +130,8 @@
     <string name="dialog_unfollow_warning">Czy chcesz przestać śledzić to konto?</string>
     <string name="visibility_public">Publiczne: Opublikuj na publicznych osiach czasu</string>
     <string name="visibility_unlisted">Niepubliczne: Nie wyświetlaj na publicznych osiach czasu</string>
-    <string name="visibility_private">Tylko śledzeni: Wyświetlaj tylko śledzonym</string>
-    <string name="visibility_direct">Bezpośrednio: Widoczne tylko dla wspomnianych</string>
+    <string name="visibility_private">Tylko dla śledzących: Wpis widoczny tylko dla osób, które Cię śledzą</string>
+    <string name="visibility_direct">Bezpośrednio: Widoczny tylko dla wspomnianych</string>
     <string name="pref_title_edit_notification_settings">Edytuj powiadomienia</string>
     <string name="pref_title_notifications_enabled">Powiadomienia</string>
     <string name="pref_title_notification_alerts">Alerty</string>
@@ -141,8 +141,8 @@
     <string name="pref_title_notification_filters">Powiadom mnie, gdy</string>
     <string name="pref_title_notification_filter_mentions">wspomniano o mnie</string>
     <string name="pref_title_notification_filter_follows">zaczęto mnie śledzić</string>
-    <string name="pref_title_notification_filter_reblogs">moje posty zostaną podbite</string>
-    <string name="pref_title_notification_filter_favourites">moje posty zostaną dodane do ulubionych</string>
+    <string name="pref_title_notification_filter_reblogs">moje wpisy zostaną podbite</string>
+    <string name="pref_title_notification_filter_favourites">moje wpisy zostaną polubione</string>
     <string name="pref_title_appearance_settings">Wygląd</string>
     <string name="pref_title_app_theme">Motyw</string>
     <string name="app_them_dark">Ciemny</string>
@@ -164,8 +164,8 @@
     <string name="pref_default_post_privacy">Domyślne ustawienia prywatności wpisów</string>
     <string name="pref_publishing">Publikowanie</string>
     <string name="post_privacy_public">Publiczne</string>
-    <string name="post_privacy_unlisted">Niewypisane</string>
-    <string name="post_privacy_followers_only">Tylko dla śledzonych</string>
+    <string name="post_privacy_unlisted">Niewidoczne</string>
+    <string name="post_privacy_followers_only">Tylko dla śledzących</string>
     <string name="pref_status_text_size">Rozmiar tekstu wpisów</string>
     <string name="status_text_size_smallest">Najmniejszy</string>
     <string name="status_text_size_small">Mały</string>
@@ -179,7 +179,7 @@
     <string name="notification_boost_name">Podbicia</string>
     <string name="notification_boost_description">Powiadomienia o podbiciu wpisów</string>
     <string name="notification_favourite_name">Ulubione</string>
-    <string name="notification_favourite_description">Powiadomienia o dodaniu wpisów do ulubionych</string>
+    <string name="notification_favourite_description">Powiadomienia o polubieniu twoich wpisów</string>
     <string name="notification_mention_format">%s wspomniał o Tobie</string>
     <string name="notification_summary_large">%1$s, %2$s, %3$s i %4$d innych</string>
     <string name="notification_summary_medium">%1$s, %2$s, i %3$s</string>
@@ -187,9 +187,7 @@
     <string name="notification_title_summary">%d nowych powiadomień</string>
     <string name="description_account_locked">Konto zablokowane</string>
     <string name="about_title_activity">O programie</string>
-    <string name="about_tusky_license">Tusky jest wolnym i otwartoźródłowym oprogramowaniem.
-        Jest on dostępny na licencji GNU General Public License w wersji trzeciej.
-        Możesz przeczytać przetłumaczoną treść licencji <a href="https://web.archive.org/web/20171024013739/http://itlaw.computerworld.pl/wp-content/uploads/2008/03/powszechna-licencja-publiczna-gnu_v2.pdf">tutaj</a>.</string>
+    <string name="about_tusky_license">Tusky jest wolnym i otwartoźródłowym oprogramowaniem. Jest on dostępny na licencji GNU General Public License w wersji trzeciej. Możesz przeczytać przetłumaczoną treść licencji <a href="https://web.archive.org/web/20171024013739/http://itlaw.computerworld.pl/wp-content/uploads/2008/03/powszechna-licencja-publiczna-gnu_v2.pdf">tutaj</a></string>
     <!-- note to translators:
          * you should think of “free” as in “free speech,” not as in “free beer”.
            We sometimes call it “libre software,” borrowing the French or Spanish word for “free” as in freedom,
@@ -203,8 +201,8 @@
         https://github.com/tuskyapp/Tusky/issues
     </string>
     <string name="about_tusky_account">Profil Tusky’ego</string>
-    <string name="status_share_content">Udostępnij zawartość postu</string>
-    <string name="status_share_link">Udostępnij link do postu</string>
+    <string name="status_share_content">Udostępnij zawartość wpisu</string>
+    <string name="status_share_link">Udostępnij link do wpisu</string>
     <string name="status_media_images">Obrazy</string>
     <string name="status_media_video">Wideo</string>
     <string name="state_follow_requested">Wysłano prośbę o możliwość śledzenia</string>
@@ -268,7 +266,7 @@
     <string name="profile_metadata_add">dodaj dane</string>
     <string name="profile_metadata_label_label">Nazwa</string>
     <string name="profile_metadata_content_label">Zawartość</string>
-<string name="error_network">Problem z łącznością. Sprawdź swoje połączenie internetowe i spróbuj ponownie.</string>
+<string name="error_network">Wystąpił problem z łącznością! Sprawdź swoje połączenie internetowe i spróbuj ponownie!</string>
     <string name="error_video_upload_size">Pliki wideo muszą być mniejsze niż 40MB.</string>
     <string name="title_direct_messages">Wiadomości bezpośrednie</string>
     <string name="title_statuses_pinned">Przypięte</string>
@@ -289,4 +287,198 @@
     <string name="title_links_dialog">Linki</string>
     <string name="action_open_as">Otwórz jako %s</string>
     <string name="action_share_as">Udostępnij jako …</string>
-    </resources>
+    <string name="title_tab_preferences">Zakładki</string>
+    <string name="title_tag">#%s</string>
+    <string name="title_domain_mutes">Ukryte domeny</string>
+    <string name="status_username_format">\@%s</string>
+    <string name="action_unreblog">Usuń podbicie</string>
+    <string name="action_view_domain_mutes">Ukryte domeny</string>
+    <string name="action_add_poll">Dodaj głosowanie</string>
+    <string name="action_mute_domain">Wycisz %s</string>
+    <string name="action_add_tab">Dodaj zakładkę</string>
+    <string name="action_open_reblogger">Otwórz konto osoby podbijającej</string>
+    <string name="action_open_reblogged_by">Pokaż podbicia</string>
+    <string name="action_open_media_n">Otwórz media #%d</string>
+
+    <string name="download_media">Pobierz media</string>
+    <string name="downloading_media">Pobieranie mediów</string>
+
+    <string name="send_media_to">Wyślij media do…</string>
+
+    <string name="confirmation_domain_unmuted">Domena %s nie jest już schowana</string>
+
+    <string name="dialog_delete_toot_warning">Usunąć ten wpis\?</string>
+    <string name="dialog_redraft_toot_warning">Usunąć i napisać ponownie ten wpis\?</string>
+    <string name="mute_domain_warning">Czy jesteś pewien/pewna że chcesz zablokować wszystko z domeny %s\? Nie będziesz widzieć zawartości z tej domeny w żadnej osi czasu ani w twoich powiadomieniach. Twoi obserwujący z tej domeny nie będą usunięci.</string>
+    <string name="mute_domain_warning_dialog_ok">Schowaj całą domenę</string>
+
+    <string name="pref_title_notification_filter_poll">głosowania zostały zakończone</string>
+    <string name="pref_title_timelines">Osi czasu</string>
+    <string name="pref_title_timeline_filters">Filtry</string>
+
+    <string name="app_theme_system">Użyj motywu systemu</string>
+
+    <string name="pref_title_language">Język</string>
+    <string name="pref_title_bot_overlay">Pokaż oznaczenie dla botów</string>
+    <string name="pref_title_animate_gif_avatars">Animuj avatary GIF</string>
+
+    <string name="pref_title_proxy_settings">Proxy</string>
+    <string name="pref_default_media_sensitivity">Zawsze oznaczaj zawartość multimedialną jako wrażliwą</string>
+    <string name="pref_failed_to_sync">Synchronizacja ustawień nie powiodła się</string>
+
+    <string name="notification_poll_name">Głosowania</string>
+    <string name="notification_poll_description">Powiadomienia o głosowaniach, które zostały zakończone</string>
+
+
+    <string name="about_tusky_version">Tusky %s</string>
+    <string name="pref_title_alway_open_spoiler">Nie ukrywaj zawartości multimedialnej oznaczonej jako wrażliwa</string>
+    <string name="pref_title_public_filter_keywords">Publiczne osi czasu</string>
+    <string name="pref_title_thread_filter_keywords">Konwersacje</string>
+    <string name="filter_addition_dialog_title">Dodaj filtr</string>
+    <string name="filter_edit_dialog_title">Edytuj filtr</string>
+    <string name="filter_dialog_remove_button">Usuń</string>
+    <string name="filter_dialog_update_button">Aktualizuj</string>
+    <string name="filter_dialog_whole_word">Całe słowo</string>
+    <string name="filter_dialog_whole_word_description">Jeśli słowo lub fraza składa się jedynie z liter lub cyfr, filtr będzie zastosowany tylko do pełnych wystąpień</string>
+    <string name="filter_add_description">Fraza, która ma być filtrowana</string>
+
+    <string name="error_create_list">Tworzenie listy nie powiodło się</string>
+    <string name="error_rename_list">Zmiana nazwy listy nie powiodła się</string>
+    <string name="error_delete_list">Usunięcie listy nie powiodło się</string>
+    <string name="action_create_list">Stwórz listę</string>
+    <string name="action_rename_list">Zmień nazwę listy</string>
+    <string name="action_delete_list">Usuń listę</string>
+    <string name="action_edit_list">Edytuj listę</string>
+    <string name="hint_search_people_list">Szukaj osób, które śledzisz</string>
+    <string name="action_add_to_list">Dodaj konto do listy</string>
+    <string name="action_remove_from_list">Usuń konto z listy</string>
+
+    <string name="hint_describe_for_visually_impaired">Wprowadź opis dla niewidomych i niedowidzących
+\n(maksymalna długość: %d)</string>
+    <string name="caption_notoemoji">Aktualny zestaw emoji Google</string>
+
+    <string name="profile_badge_bot_text">Bot</string>
+    <string name="license_cc_by_4">CC-BY 4.0</string>
+    <string name="license_cc_by_sa_4">CC-BY-SA 4.0</string>
+
+    <string name="pref_title_absolute_time">Użyj czasu absolutnego</string>
+
+    <string name="label_remote_account">Informacje poniżej mogą niekompletnie przedstawiać profil użytkownika. Kliknij by otworzyć pełny profil w przeglądarce.</string>
+
+    <string name="unpin_action">Odepnij z profilu</string>
+    <string name="pin_action">Przypnij do profilu</string>
+
+    <plurals name="favs">
+	<item quantity="one"><b>%1$s</b> polubienie</item>
+	<item quantity="few"><b>%1$s</b> polubienia</item>
+	<item quantity="many"><b>%1$s</b> polubień</item>
+</plurals>
+
+    <plurals name="reblogs">
+	<item quantity="one"><b>%s</b> podbicie</item>
+	<item quantity="few"><b>%s</b> podbicia</item>
+	<item quantity="many"><b>%s</b> podbić</item>
+</plurals>
+
+    <string name="title_reblogged_by">Podbite przez</string>
+    <string name="title_favourited_by">Polubione przez</string>
+
+    <string name="conversation_1_recipients">%1$s</string>
+    <string name="conversation_2_recipients">%1$s i %2$s</string>
+    <string name="conversation_more_recipients">%1$s, %2$s i %3$d innych</string>
+    <string name="max_tab_number_reached">maksymalna liczba zakładek (%1$d) osiągnięta</string>
+
+
+    <string name="description_status_media">Media: %s</string>
+    <string name="description_status_cw">Ostrzeżenie o zawartości: %s</string>
+    <string name="description_status_media_no_description_placeholder">Brak opisu</string>
+    <string name="description_status_reblogged">Podbity</string>
+    <string name="description_status_favourited">Polubiony</string>
+    <string name="description_visiblity_public">Publiczny</string>
+    <string name="description_visiblity_unlisted">Niewidoczny</string>
+    <string name="description_visiblity_private">Tylko dla śledzących</string>
+    <string name="description_visiblity_direct">Bezpośrednio</string>
+    <string name="description_poll">Głosowanie z opcjami: %1$s, %2$s, %3$s, %4$s; %5$s</string>
+
+    <string name="hint_list_name">Nazwa listy</string>
+
+    <string name="edit_hashtag_title">Edytuj hashtag</string>
+    <string name="edit_hashtag_hint">Hashtag bez #</string>
+    <string name="hashtag">Hashtag</string>
+    <string name="notifications_clear">Wyczyść</string>
+    <string name="notifications_apply_filter">Filtr</string>
+    <string name="filter_apply">Zastosuj</string>
+
+    <string name="compose_shortcut_long_label">Stwórz wpis</string>
+    <string name="compose_shortcut_short_label">Nowy wpis</string>
+
+    <string name="notification_clear_text">Czy jesteś pewien/pewna, że chcesz wyczyścić wszystkie swoje powiadomienia\?</string>
+    <string name="compose_preview_image_description">Opcje dla obrazu %s</string>
+
+    <string name="poll_info_format"> <!-- 15 głosów • pozostała 1 godzina --> %1$s • %2$s</string>
+    <plurals name="poll_info_votes">
+	<item quantity="one">%s głos</item>
+	<item quantity="few">%s głosy</item>
+	<item quantity="many">%s głosów</item>
+</plurals>
+    <string name="poll_info_time_relative">Zostało %s</string>
+    <string name="poll_info_time_absolute">kończy się %s</string>
+    <string name="poll_info_closed">zakończone</string>
+    <string name="poll_option_format"> <!-- 15% na to głosuje! --> &lt;b&gt;%1$d%%&lt;/b&gt; %2$s</string>
+
+    <string name="poll_vote">Głosuj</string>
+
+    <string name="poll_ended_voted">Głosowanie w którym brałeś(-aś) udział zakończyła się</string>
+    <string name="poll_ended_created">Głosowanie, które stworzyłeś(-aś), zakończyła się</string>
+
+    <plurals name="poll_timespan_days">
+	<item quantity="one">%d dzień</item>
+	<item quantity="few">%d dni</item>
+	<item quantity="many">%d dni</item>
+</plurals>
+    <plurals name="poll_timespan_hours">
+	<item quantity="one">%d godzina</item>
+	<item quantity="few">%d godziny</item>
+	<item quantity="many">%d godzin</item>
+</plurals>
+    <plurals name="poll_timespan_minutes">
+	<item quantity="one">%d minuta</item>
+	<item quantity="few">%d minuty</item>
+	<item quantity="many">%d minut</item>
+</plurals>
+    <plurals name="poll_timespan_seconds">
+	<item quantity="one">%d sekunda</item>
+	<item quantity="few">%d sekundy</item>
+	<item quantity="many">%d sekund</item>
+</plurals>
+
+    <string name="button_continue">Kontynuuj</string>
+    <string name="button_back">Wstecz</string>
+    <string name="button_done">Zakończ</string>
+    <string name="report_sent_success">Zgłoszenie @%s powiodło się</string>
+    <string name="hint_additional_info">Dodatkowe komentarze</string>
+    <string name="report_remote_instance">Wyślij zgłoszenie do %s</string>
+    <string name="failed_report">Zgłoszenie nie powiodło się</string>
+    <string name="failed_fetch_statuses">Pobieranie wpisów nie powiodło się</string>
+    <string name="report_description_1">Zgłoszenie zostanie przesłane do moderatora twojego serwera. Możesz podać przyczynę zgłoszenia tego konta poniżej:</string>
+    <string name="report_description_remote_instance">To konto jest na innym serwerze. Czy przesłać anonimizowaną kopię zgłoszenia na ten serwer\?</string>
+    <string name="title_accounts">Konta</string>
+    <string name="failed_search">Wyszukiwanie nie powidło się</string>
+
+    <string name="pref_title_show_notifications_filter">Pokaż filtr powiadomień</string>
+
+
+    <string name="create_poll_title">Głosowanie</string>
+    <string name="poll_duration_5_min">5 minut</string>
+    <string name="poll_duration_30_min">30 minut</string>
+    <string name="poll_duration_1_hour">1 godzina</string>
+    <string name="poll_duration_6_hours">6 godzin</string>
+    <string name="poll_duration_1_day">1 dzień</string>
+    <string name="poll_duration_3_days">3 dni</string>
+    <string name="poll_duration_7_days">7 dni</string>
+    <string name="add_poll_choice">Dodaj opcję</string>
+    <string name="poll_allow_multiple_choices">Kilka opcji</string>
+    <string name="poll_new_choice_hint">Opcja %d</string>
+    <string name="edit_poll">Edytuj</string>
+
+</resources>
