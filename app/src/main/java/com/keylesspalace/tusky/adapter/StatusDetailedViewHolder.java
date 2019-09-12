@@ -221,6 +221,10 @@ class StatusDetailedViewHolder extends StatusBaseViewHolder {
 
     private void setStatusVisibility(Status.Visibility visibility) {
 
+        if(visibility == null) {
+            return;
+        }
+
         int visibilityIcon;
         switch (visibility) {
             case PUBLIC:
