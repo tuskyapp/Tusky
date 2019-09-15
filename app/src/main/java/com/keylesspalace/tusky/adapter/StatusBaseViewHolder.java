@@ -252,18 +252,25 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
 
     }
 
-    protected void setCreatedAt(@NonNull Date createdAt) {
+    protected void setCreatedAt(Date createdAt) {
         if (useAbsoluteTime) {
             timestampInfo.setText(getAbsoluteTime(createdAt));
         } else {
-            long then = createdAt.getTime();
-            long now = System.currentTimeMillis();
-            String readout = TimestampUtils.getRelativeTimeSpanString(timestampInfo.getContext(), then, now);
-            timestampInfo.setText(readout);
+            if(createdAt == null) {
+                timestampInfo.setText("?m");
+            } else {
+                long then = createdAt.getTime();
+                long now = System.currentTimeMillis();
+                String readout = TimestampUtils.getRelativeTimeSpanString(timestampInfo.getContext(), then, now);
+                timestampInfo.setText(readout);
+            }
         }
     }
 
-    private String getAbsoluteTime(@NonNull Date createdAt) {
+    private String getAbsoluteTime(Date createdAt) {
+        if(createdAt == null) {
+            return "??:??:??";
+        }
         if (DateUtils.isToday(createdAt.getTime())) {
             return shortSdf.format(createdAt);
         } else {
@@ -271,18 +278,22 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         }
     }
 
-    private CharSequence getCreatedAtDescription(@NonNull Date createdAt) {
+    private CharSequence getCreatedAtDescription(Date createdAt) {
         if (useAbsoluteTime) {
             return getAbsoluteTime(createdAt);
         } else {
             /* This one is for screen-readers. Frequently, they would mispronounce timestamps like "17m"
              * as 17 meters instead of minutes. */
 
-            long then = createdAt.getTime();
-            long now = System.currentTimeMillis();
-            return DateUtils.getRelativeTimeSpanString(then, now,
-                    DateUtils.SECOND_IN_MILLIS,
-                    DateUtils.FORMAT_ABBREV_RELATIVE);
+            if(createdAt == null) {
+                return "? minutes";
+            } else {
+                long then = createdAt.getTime();
+                long now = System.currentTimeMillis();
+                return DateUtils.getRelativeTimeSpanString(then, now,
+                        DateUtils.SECOND_IN_MILLIS,
+                        DateUtils.FORMAT_ABBREV_RELATIVE);
+            }
         }
     }
 

@@ -67,9 +67,13 @@ class StatusDetailedViewHolder extends StatusBaseViewHolder {
     }
 
     @Override
-    protected void setCreatedAt(@NonNull Date createdAt) {
-        DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.DEFAULT, DateFormat.SHORT);
-        timestampInfo.setText(dateFormat.format(createdAt));
+    protected void setCreatedAt(Date createdAt) {
+        if(createdAt == null) {
+            timestampInfo.setText("");
+        } else {
+            DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.DEFAULT, DateFormat.SHORT);
+            timestampInfo.setText(dateFormat.format(createdAt));
+        }
     }
 
     private void setReblogAndFavCount(int reblogCount, int favCount, StatusActionListener listener) {
