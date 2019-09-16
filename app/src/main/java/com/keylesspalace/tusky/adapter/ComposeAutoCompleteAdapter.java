@@ -30,6 +30,7 @@ import com.bumptech.glide.Glide;
 import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.entity.Account;
 import com.keylesspalace.tusky.entity.Emoji;
+import com.keylesspalace.tusky.entity.HashTag;
 import com.keylesspalace.tusky.util.CustomEmojiHelper;
 import com.keylesspalace.tusky.util.ImageLoadingHelper;
 
@@ -276,8 +277,8 @@ public class ComposeAutoCompleteAdapter extends BaseAdapter
     public final static class HashtagResult extends AutocompleteResult {
         private final String hashtag;
 
-        public HashtagResult(String hashtag) {
-            this.hashtag = hashtag;
+        public HashtagResult(HashTag hashtag) {
+            this.hashtag = hashtag.getName();
         }
     }
 

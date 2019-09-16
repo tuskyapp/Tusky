@@ -57,7 +57,7 @@ class AccountListFragment : BaseFragment(), AccountActionListener, Injectable {
     lateinit var api: MastodonApi
 
     private lateinit var type: Type
-    private var id: String? = null
+    private lateinit var id: String
     private lateinit var scrollListener: EndlessOnScrollListener
     private lateinit var adapter: AccountAdapter
     private var fetching = false
@@ -66,7 +66,7 @@ class AccountListFragment : BaseFragment(), AccountActionListener, Injectable {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         type = arguments?.getSerializable(ARG_TYPE) as Type
-        id = arguments?.getString(ARG_ID)
+        id = arguments?.getString(ARG_ID)!!
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {

@@ -59,6 +59,7 @@ android {
     }
     testOptions {
         unitTests {
+            returnDefaultValues = true
             includeAndroidResources = true
         }
     }
@@ -135,8 +136,8 @@ dependencies {
     implementation "com.google.dagger:dagger-android-support:$daggerVersion"
     kapt "com.google.dagger:dagger-android-processor:$daggerVersion"
     testImplementation 'org.robolectric:robolectric:4.3'
-    testImplementation 'org.mockito:mockito-inline:2.28.2'
-    testImplementation 'com.nhaarman.mockitokotlin2:mockito-kotlin:2.1.0'
+    testImplementation 'org.mockito:mockito-inline:3.0.0'
+    testImplementation 'com.nhaarman.mockitokotlin2:mockito-kotlin:2.2.0'
     androidTestImplementation('androidx.test.espresso:espresso-core:3.1.1', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })

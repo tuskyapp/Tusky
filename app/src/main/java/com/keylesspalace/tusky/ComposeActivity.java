@@ -80,7 +80,7 @@ import com.keylesspalace.tusky.entity.Attachment;
 import com.keylesspalace.tusky.entity.Emoji;
 import com.keylesspalace.tusky.entity.Instance;
 import com.keylesspalace.tusky.entity.NewPoll;
-import com.keylesspalace.tusky.entity.SearchResults;
+import com.keylesspalace.tusky.entity.SearchResult;
 import com.keylesspalace.tusky.entity.Status;
 import com.keylesspalace.tusky.network.MastodonApi;
 import com.keylesspalace.tusky.network.ProgressRequestBody;
@@ -1827,71 +1827,67 @@ public final class ComposeActivity
 
     @Override
     public List<ComposeAutoCompleteAdapter.AutocompleteResult> search(String token) {
-        try {
-            switch (token.charAt(0)) {
-                case '@':
-                    try {
-                        List<Account> accountList = mastodonApi
-                                .searchAccounts(token.substring(1), false, 20, null)
-                                .blockingGet();
-                        return CollectionsKt.map(accountList,
-                                ComposeAutoCompleteAdapter.AccountResult::new);
-                    } catch (Throwable e) {
-                        return Collections.emptyList();
-                    }
-                case '#':
-                    Response<SearchResults> response = mastodonApi.search(token, false).execute();
-                    if (response.isSuccessful() && response.body() != null) {
-                        return CollectionsKt.map(
-                                response.body().getHashtags(),
-                                ComposeAutoCompleteAdapter.HashtagResult::new
-                        );
-                    } else {
-                        Log.e(TAG, String.format("Autocomplete search for %s failed.", token));
-                        return Collections.emptyList();
-                    }
-                case ':':
-                    try {
-                        emojiListRetrievalLatch.await();
-                    } catch (InterruptedException e) {
-                        Log.e(TAG, String.format("Autocomplete search for %s was interrupted.", token));
-                        return Collections.emptyList();
-                    }
-                    if (emojiList != null) {
-                        String incomplete = token.substring(1).toLowerCase();
-
-                        List<ComposeAutoCompleteAdapter.AutocompleteResult> results =
-                                new ArrayList<>();
-                        List<ComposeAutoCompleteAdapter.AutocompleteResult> resultsInside =
-                                new ArrayList<>();
-
-                        for (Emoji emoji : emojiList) {
-                            String shortcode = emoji.getShortcode().toLowerCase();
-
-                            if (shortcode.startsWith(incomplete)) {
-                                results.add(new ComposeAutoCompleteAdapter.EmojiResult(emoji));
-                            } else if (shortcode.indexOf(incomplete, 1) != -1) {
-                                resultsInside.add(new ComposeAutoCompleteAdapter.EmojiResult(emoji));
-                            }
-                        }
-
-                        if (!results.isEmpty() && !resultsInside.isEmpty()) {
-                            // both lists have results. include a separator between them.
-                            results.add(new ComposeAutoCompleteAdapter.ResultSeparator());
-                        }
-
-                        results.addAll(resultsInside);
-                        return results;
-                    } else {
-                        return Collections.emptyList();
-                    }
-                default:
-                    Log.w(TAG, "Unexpected autocompletion token: " + token);
+        switch (token.charAt(0)) {
+            case '@':
+                try {
+                    List<Account> accountList = mastodonApi
+                            .searchAccounts(token.substring(1), false, 20, null)
+                            .blockingGet();
+                    return CollectionsKt.map(accountList,
+                            ComposeAutoCompleteAdapter.AccountResult::new);
+                } catch (Throwable e) {
                     return Collections.emptyList();
-            }
-        } catch (IOException e) {
-            Log.e(TAG, String.format("Autocomplete search for %s failed.", token));
-            return Collections.emptyList();
+                }
+            case '#':
+                try {
+                    SearchResult searchResults = mastodonApi.searchObservable(token, null, false, null, null, null)
+                            .blockingGet();
+                    return CollectionsKt.map(
+                            searchResults.getHashtags(),
+                            ComposeAutoCompleteAdapter.HashtagResult::new
+                    );
+                } catch (Throwable e) {
+                    Log.e(TAG, String.format("Autocomplete search for %s failed.", token), e);
+                    return Collections.emptyList();
+                }
+            case ':':
+                try {
+                    emojiListRetrievalLatch.await();
+                } catch (InterruptedException e) {
+                    Log.e(TAG, String.format("Autocomplete search for %s was interrupted.", token));
+                    return Collections.emptyList();
+                }
+                if (emojiList != null) {
+                    String incomplete = token.substring(1).toLowerCase();
+
+                    List<ComposeAutoCompleteAdapter.AutocompleteResult> results =
+                            new ArrayList<>();
+                    List<ComposeAutoCompleteAdapter.AutocompleteResult> resultsInside =
+                            new ArrayList<>();
+
+                    for (Emoji emoji : emojiList) {
+                        String shortcode = emoji.getShortcode().toLowerCase();
+
+                        if (shortcode.startsWith(incomplete)) {
+                            results.add(new ComposeAutoCompleteAdapter.EmojiResult(emoji));
+                        } else if (shortcode.indexOf(incomplete, 1) != -1) {
+                            resultsInside.add(new ComposeAutoCompleteAdapter.EmojiResult(emoji));
+                        }
+                    }
+
+                    if (!results.isEmpty() && !resultsInside.isEmpty()) {
+                        // both lists have results. include a separator between them.
+                        results.add(new ComposeAutoCompleteAdapter.ResultSeparator());
+                    }
+
+                    results.addAll(resultsInside);
+                    return results;
+                } else {
+                    return Collections.emptyList();
+                }
+            default:
+                Log.w(TAG, "Unexpected autocompletion token: " + token);
+                return Collections.emptyList();
         }
     }
 

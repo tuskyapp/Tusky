@@ -15,7 +15,7 @@
 
 package com.keylesspalace.tusky.entity
 
-data class SearchResults2 (
+data class SearchResult (
     val accounts: List<Account>,
     val statuses: List<Status>,
     val hashtags: List<HashTag>

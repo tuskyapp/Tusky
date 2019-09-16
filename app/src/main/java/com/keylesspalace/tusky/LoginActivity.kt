@@ -256,7 +256,7 @@ class LoginActivity : BaseActivity(), Injectable {
                     }
                 }
 
-                mastodonApi.fetchOAuthToken(domain, clientId, clientSecret, redirectUri, code,
+                mastodonApi.fetchOAuthToken(domain, clientId ?: "", clientSecret ?: "", redirectUri, code,
                         "authorization_code").enqueue(callback)
             } else if (error != null) {
                 /* Authorization failed. Put the error response where the user can read it and they
