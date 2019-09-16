@@ -67,20 +67,23 @@ interface MastodonApi {
     fun homeTimeline(
             @Query("max_id") maxId: String?,
             @Query("since_id") sinceId: String?,
-            @Query("limit") limit: Int?): Call<List<Status>>
+            @Query("limit") limit: Int?
+    ): Call<List<Status>>
 
     @GET("api/v1/timelines/home")
     fun homeTimelineSingle(
             @Query("max_id") maxId: String?,
             @Query("since_id") sinceId: String?,
-            @Query("limit") limit: Int?): Single<List<Status>>
+            @Query("limit") limit: Int?
+    ): Single<List<Status>>
 
     @GET("api/v1/timelines/public")
     fun publicTimeline(
             @Query("local") local: Boolean?,
             @Query("max_id") maxId: String?,
             @Query("since_id") sinceId: String?,
-            @Query("limit") limit: Int?): Call<List<Status>>
+            @Query("limit") limit: Int?
+    ): Call<List<Status>>
 
     @GET("api/v1/timelines/tag/{hashtag}")
     fun hashtagTimeline(
@@ -88,53 +91,69 @@ interface MastodonApi {
             @Query("local") local: Boolean?,
             @Query("max_id") maxId: String?,
             @Query("since_id") sinceId: String?,
-            @Query("limit") limit: Int?): Call<List<Status>>
+            @Query("limit") limit: Int?
+    ): Call<List<Status>>
 
     @GET("api/v1/timelines/list/{listId}")
     fun listTimeline(
             @Path("listId") listId: String,
             @Query("max_id") maxId: String?,
             @Query("since_id") sinceId: String?,
-            @Query("limit") limit: Int?): Call<List<Status>>
+            @Query("limit") limit: Int?
+    ): Call<List<Status>>
 
     @GET("api/v1/notifications")
     fun notifications(
             @Query("max_id") maxId: String?,
             @Query("since_id") sinceId: String?,
             @Query("limit") limit: Int?,
-            @Query("exclude_types[]") excludes: Set<Notification.Type>?): Call<List<Notification>>
+            @Query("exclude_types[]") excludes: Set<Notification.Type>?
+    ): Call<List<Notification>>
 
     @GET("api/v1/notifications")
     fun notificationsWithAuth(
-            @Header("Authorization") auth: String, @Header(DOMAIN_HEADER) domain: String): Call<List<Notification>>
+            @Header("Authorization") auth: String,
+            @Header(DOMAIN_HEADER) domain: String
+    ): Call<List<Notification>>
 
     @POST("api/v1/notifications/clear")
     fun clearNotifications(): Call<ResponseBody>
 
     @GET("api/v1/notifications/{id}")
-    fun notification(@Path("id") notificationId: String): Call<Notification>
+    fun notification(
+            @Path("id") notificationId: String
+    ): Call<Notification>
 
     @Multipart
     @POST("api/v1/media")
-    fun uploadMedia(@Part file: MultipartBody.Part): Call<Attachment>
+    fun uploadMedia(
+            @Part file: MultipartBody.Part
+    ): Call<Attachment>
 
     @FormUrlEncoded
     @PUT("api/v1/media/{mediaId}")
-    fun updateMedia(@Path("mediaId") mediaId: String,
-                    @Field("description") description: String): Call<Attachment>
+    fun updateMedia(
+            @Path("mediaId") mediaId: String,
+            @Field("description") description: String
+    ): Call<Attachment>
 
     @POST("api/v1/statuses")
     fun createStatus(
             @Header("Authorization") auth: String,
             @Header(DOMAIN_HEADER) domain: String,
             @Header("Idempotency-Key") idempotencyKey: String,
-            @Body status: NewStatus): Call<Status>
+            @Body status: NewStatus
+    ): Call<Status>
 
     @GET("api/v1/statuses/{id}")
-    fun status(@Path("id") statusId: String): Call<Status>
+    fun status(
+            @Path("id") statusId: String
+    ): Call<Status>
 
     @GET("api/v1/statuses/{id}/context")
-    fun statusContext(@Path("id") statusId: String): Call<StatusContext>
+    fun statusContext(
+            @Path("id") statusId: String
+    ): Call<StatusContext>
 
     @GET("api/v1/statuses/{id}/reblogged_by")
     fun statusRebloggedBy(
@@ -149,33 +168,48 @@ interface MastodonApi {
     ): Single<Response<List<Account>>>
 
     @DELETE("api/v1/statuses/{id}")
-    fun deleteStatus(@Path("id") statusId: String): Single<DeletedStatus>
+    fun deleteStatus(
+            @Path("id") statusId: String
+    ): Single<DeletedStatus>
 
     @POST("api/v1/statuses/{id}/reblog")
-    fun reblogStatus(@Path("id") statusId: String): Single<Status>
+    fun reblogStatus(
+            @Path("id") statusId: String
+    ): Single<Status>
 
     @POST("api/v1/statuses/{id}/unreblog")
-    fun unreblogStatus(@Path("id") statusId: String): Single<Status>
+    fun unreblogStatus(
+            @Path("id") statusId: String
+    ): Single<Status>
 
     @POST("api/v1/statuses/{id}/favourite")
-    fun favouriteStatus(@Path("id") statusId: String): Single<Status>
+    fun favouriteStatus(
+            @Path("id") statusId: String
+    ): Single<Status>
 
     @POST("api/v1/statuses/{id}/unfavourite")
-    fun unfavouriteStatus(@Path("id") statusId: String): Single<Status>
+    fun unfavouriteStatus(
+            @Path("id") statusId: String
+    ): Single<Status>
 
     @POST("api/v1/statuses/{id}/pin")
-    fun pinStatus(@Path("id") statusId: String): Single<Status>
+    fun pinStatus(
+            @Path("id") statusId: String
+    ): Single<Status>
 
     @POST("api/v1/statuses/{id}/unpin")
-    fun unpinStatus(@Path("id") statusId: String): Single<Status>
+    fun unpinStatus(
+            @Path("id") statusId: String
+    ): Single<Status>
 
     @GET("api/v1/accounts/verify_credentials")
     fun accountVerifyCredentials(): Single<Account>
 
     @FormUrlEncoded
     @PATCH("api/v1/accounts/update_credentials")
-    fun accountUpdateSource(@Field("source[privacy]") privacy: String?,
-                            @Field("source[sensitive]") sensitive: Boolean?
+    fun accountUpdateSource(
+            @Field("source[privacy]") privacy: String?,
+            @Field("source[sensitive]") sensitive: Boolean?
     ): Call<Account>
 
     @Multipart
@@ -201,10 +235,13 @@ interface MastodonApi {
             @Query("q") q: String,
             @Query("resolve") resolve: Boolean?,
             @Query("limit") limit: Int?,
-            @Query("following") following: Boolean?): Single<List<Account>>
+            @Query("following") following: Boolean?
+    ): Single<List<Account>>
 
     @GET("api/v1/accounts/{id}")
-    fun account(@Path("id") accountId: String): Call<Account>
+    fun account(
+            @Path("id") accountId: String
+    ): Call<Account>
 
     /**
      * Method to fetch statuses for the specified account.
@@ -246,28 +283,44 @@ interface MastodonApi {
     ): Call<Relationship>
 
     @POST("api/v1/accounts/{id}/unfollow")
-    fun unfollowAccount(@Path("id") accountId: String): Call<Relationship>
+    fun unfollowAccount(
+            @Path("id") accountId: String
+    ): Call<Relationship>
 
     @POST("api/v1/accounts/{id}/block")
-    fun blockAccount(@Path("id") accountId: String): Call<Relationship>
+    fun blockAccount(
+            @Path("id") accountId: String
+    ): Call<Relationship>
 
     @POST("api/v1/accounts/{id}/unblock")
-    fun unblockAccount(@Path("id") accountId: String): Call<Relationship>
+    fun unblockAccount(
+            @Path("id") accountId: String
+    ): Call<Relationship>
 
     @POST("api/v1/accounts/{id}/mute")
-    fun muteAccount(@Path("id") accountId: String): Call<Relationship>
+    fun muteAccount(
+            @Path("id") accountId: String
+    ): Call<Relationship>
 
     @POST("api/v1/accounts/{id}/unmute")
-    fun unmuteAccount(@Path("id") accountId: String): Call<Relationship>
+    fun unmuteAccount(
+            @Path("id") accountId: String
+    ): Call<Relationship>
 
     @GET("api/v1/accounts/relationships")
-    fun relationships(@Query("id[]") accountIds: List<String>): Call<List<Relationship>>
+    fun relationships(
+            @Query("id[]") accountIds: List<String>
+    ): Call<List<Relationship>>
 
     @GET("api/v1/blocks")
-    fun blocks(@Query("max_id") maxId: String?): Single<Response<List<Account>>>
+    fun blocks(
+            @Query("max_id") maxId: String?
+    ): Single<Response<List<Account>>>
 
     @GET("api/v1/mutes")
-    fun mutes(@Query("max_id") maxId: String?): Single<Response<List<Account>>>
+    fun mutes(
+            @Query("max_id") maxId: String?
+    ): Single<Response<List<Account>>>
 
     @GET("api/v1/domain_blocks")
     fun domainBlocks(
@@ -278,27 +331,36 @@ interface MastodonApi {
 
     @FormUrlEncoded
     @POST("api/v1/domain_blocks")
-    fun blockDomain(@Field("domain") domain: String): Call<Any>
+    fun blockDomain(
+            @Field("domain") domain: String
+    ): Call<Any>
 
     @FormUrlEncoded
-    // Normal @DELETE doesn't support fields?
+    // @DELETE doesn't support fields
     @HTTP(method = "DELETE", path = "api/v1/domain_blocks", hasBody = true)
     fun unblockDomain(@Field("domain") domain: String): Call<Any>
 
     @GET("api/v1/favourites")
     fun favourites(
-            @Query("max_id") maxId: String,
-            @Query("since_id") sinceId: String,
-            @Query("limit") limit: Int?): Call<List<Status>>
+            @Query("max_id") maxId: String?,
+            @Query("since_id") sinceId: String?,
+            @Query("limit") limit: Int?
+    ): Call<List<Status>>
 
     @GET("api/v1/follow_requests")
-    fun followRequests(@Query("max_id") maxId: String?): Single<Response<List<Account>>>
+    fun followRequests(
+            @Query("max_id") maxId: String?
+    ): Single<Response<List<Account>>>
 
     @POST("api/v1/follow_requests/{id}/authorize")
-    fun authorizeFollowRequest(@Path("id") accountId: String): Call<Relationship>
+    fun authorizeFollowRequest(
+            @Path("id") accountId: String
+    ): Call<Relationship>
 
     @POST("api/v1/follow_requests/{id}/reject")
-    fun rejectFollowRequest(@Path("id") accountId: String): Call<Relationship>
+    fun rejectFollowRequest(
+            @Path("id") accountId: String
+    ): Call<Relationship>
 
     @FormUrlEncoded
     @POST("api/v1/apps")
@@ -307,7 +369,8 @@ interface MastodonApi {
             @Field("client_name") clientName: String,
             @Field("redirect_uris") redirectUris: String,
             @Field("scopes") scopes: String,
-            @Field("website") website: String): Call<AppCredentials>
+            @Field("website") website: String
+    ): Call<AppCredentials>
 
     @FormUrlEncoded
     @POST("oauth/token")
@@ -322,28 +385,45 @@ interface MastodonApi {
 
     @FormUrlEncoded
     @POST("api/v1/lists")
-    fun createList(@Field("title") title: String): Single<MastoList>
+    fun createList(
+            @Field("title") title: String
+    ): Single<MastoList>
 
     @FormUrlEncoded
     @PUT("api/v1/lists/{listId}")
-    fun updateList(@Path("listId") listId: String, @Field("title") title: String): Single<MastoList>
+    fun updateList(
+            @Path("listId") listId: String,
+            @Field("title") title: String
+    ): Single<MastoList>
 
     @DELETE("api/v1/lists/{listId}")
-    fun deleteList(@Path("listId") listId: String): Completable
+    fun deleteList(
+            @Path("listId") listId: String
+    ): Completable
 
     @GET("api/v1/lists/{listId}/accounts")
-    fun getAccountsInList(@Path("listId") listId: String, @Query("limit") limit: Int): Single<List<Account>>
+    fun getAccountsInList(
+            @Path("listId") listId: String,
+            @Query("limit") limit: Int
+    ): Single<List<Account>>
 
     @DELETE("api/v1/lists/{listId}/accounts")
-    fun deleteAccountFromList(@Path("listId") listId: String,
-                              @Query("account_ids[]") accountIds: List<String>): Completable
+    fun deleteAccountFromList(
+            @Path("listId") listId: String,
+            @Query("account_ids[]") accountIds: List<String>
+    ): Completable
 
     @POST("api/v1/lists/{listId}/accounts")
-    fun addCountToList(@Path("listId") listId: String,
-                       @Query("account_ids[]") accountIds: List<String>): Completable
+    fun addCountToList(
+            @Path("listId") listId: String,
+            @Query("account_ids[]") accountIds: List<String>
+    ): Completable
 
     @GET("/api/v1/conversations")
-    fun getConversations(@Query("max_id") maxId: String?, @Query("limit") limit: Int): Call<List<Conversation>>
+    fun getConversations(
+            @Query("max_id") maxId: String?,
+            @Query("limit") limit: Int
+    ): Call<List<Conversation>>
 
     @FormUrlEncoded
     @POST("api/v1/filters")
@@ -379,19 +459,29 @@ interface MastodonApi {
     ): Single<Poll>
 
     @POST("api/v1/accounts/{id}/block")
-    fun blockAccountObservable(@Path("id") accountId: String): Single<Relationship>
+    fun blockAccountObservable(
+            @Path("id") accountId: String
+    ): Single<Relationship>
 
     @POST("api/v1/accounts/{id}/unblock")
-    fun unblockAccountObservable(@Path("id") accountId: String): Single<Relationship>
+    fun unblockAccountObservable(
+            @Path("id") accountId: String
+    ): Single<Relationship>
 
     @POST("api/v1/accounts/{id}/mute")
-    fun muteAccountObservable(@Path("id") accountId: String): Single<Relationship>
+    fun muteAccountObservable(
+            @Path("id") accountId: String
+    ): Single<Relationship>
 
     @POST("api/v1/accounts/{id}/unmute")
-    fun unmuteAccountObservable(@Path("id") accountId: String): Single<Relationship>
+    fun unmuteAccountObservable(
+            @Path("id") accountId: String
+    ): Single<Relationship>
 
     @GET("api/v1/accounts/relationships")
-    fun relationshipsObservable(@Query("id[]") accountIds: List<String>): Single<List<Relationship>>
+    fun relationshipsObservable(
+            @Query("id[]") accountIds: List<String>
+    ): Single<List<Relationship>>
 
     @FormUrlEncoded
     @POST("api/v1/reports")
@@ -399,7 +489,8 @@ interface MastodonApi {
             @Field("account_id") accountId: String,
             @Field("status_ids[]") statusIds: List<String>,
             @Field("comment") comment: String,
-            @Field("forward") isNotifyRemote: Boolean?): Single<ResponseBody>
+            @Field("forward") isNotifyRemote: Boolean?
+    ): Single<ResponseBody>
 
     @GET("api/v1/accounts/{id}/statuses")
     fun accountStatusesObservable(
@@ -407,11 +498,13 @@ interface MastodonApi {
             @Query("max_id") maxId: String?,
             @Query("since_id") sinceId: String?,
             @Query("limit") limit: Int?,
-            @Query("exclude_reblogs") excludeReblogs: Boolean?): Single<List<Status>>
-
+            @Query("exclude_reblogs") excludeReblogs: Boolean?
+    ): Single<List<Status>>
 
     @GET("api/v1/statuses/{id}")
-    fun statusObservable(@Path("id") statusId: String): Single<Status>
+    fun statusObservable(
+            @Path("id") statusId: String
+    ): Single<Status>
 
     @GET("api/v2/search")
     fun searchObservable(
