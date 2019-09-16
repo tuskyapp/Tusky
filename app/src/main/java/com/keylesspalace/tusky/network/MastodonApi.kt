@@ -421,7 +421,7 @@ interface MastodonApi {
 
     @GET("/api/v1/conversations")
     fun getConversations(
-            @Query("max_id") maxId: String?,
+            @Query("max_id") maxId: String? = null,
             @Query("limit") limit: Int
     ): Call<List<Conversation>>
 
