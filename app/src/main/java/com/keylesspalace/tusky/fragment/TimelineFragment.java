@@ -1357,9 +1357,7 @@ public class TimelineFragment extends SFragment implements
         public Object getChangePayload(@NonNull StatusViewData oldItem, @NonNull StatusViewData newItem) {
             if (oldItem.deepEquals(newItem)) {
                 //If items are equal - update timestamp only
-                List<String> payload = new ArrayList<>();
-                payload.add(StatusBaseViewHolder.Key.KEY_CREATED);
-                return payload;
+                return Collections.singletonList(StatusBaseViewHolder.Key.KEY_CREATED);
             } else
                 // If items are different - update a whole view holder
                 return null;
