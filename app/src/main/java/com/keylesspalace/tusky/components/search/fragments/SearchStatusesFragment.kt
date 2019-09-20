@@ -50,7 +50,7 @@ import com.keylesspalace.tusky.util.NetworkState
 import com.keylesspalace.tusky.viewdata.AttachmentViewData
 import com.keylesspalace.tusky.viewdata.StatusViewData
 import com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider.from
-import com.uber.autodispose.autoDisposable
+import com.uber.autodispose.autoDispose
 import io.reactivex.android.schedulers.AndroidSchedulers
 import kotlinx.android.synthetic.main.fragment_search.*
 import java.util.*
@@ -392,7 +392,7 @@ class SearchStatusesFragment : SearchFragment<Pair<Status, StatusViewData.Concre
                     .setPositiveButton(android.R.string.ok) { _, _ ->
                         viewModel.deleteStatus(id)
                                 .observeOn(AndroidSchedulers.mainThread())
-                                .autoDisposable(from(this, Lifecycle.Event.ON_DESTROY))
+                                .autoDispose(from(this, Lifecycle.Event.ON_DESTROY))
                                 .subscribe ({ deletedStatus ->
                                     removeItem(position)
 
