@@ -83,6 +83,7 @@ import com.keylesspalace.tusky.viewdata.StatusViewData;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -1168,9 +1169,7 @@ public class NotificationsFragment extends SFragment implements
         public Object getChangePayload(@NonNull NotificationViewData oldItem, @NonNull NotificationViewData newItem) {
             if (oldItem.deepEquals(newItem)) {
                 //If items are equal - update timestamp only
-                List<String> payload = new ArrayList<>();
-                payload.add(StatusBaseViewHolder.Key.KEY_CREATED);
-                return payload;
+                return Collections.singletonList(StatusBaseViewHolder.Key.KEY_CREATED);
             } else
                 // If items are different - update a whole view holder
                 return null;

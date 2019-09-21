@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
+import com.bumptech.glide.load.resource.bitmap.GranularRoundedCorners;
 import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.entity.Card;
 import com.keylesspalace.tusky.entity.Status;
@@ -29,11 +30,8 @@ import com.keylesspalace.tusky.viewdata.StatusViewData;
 import java.text.DateFormat;
 import java.util.Date;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
-
-import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 
 class StatusDetailedViewHolder extends StatusBaseViewHolder {
     private TextView reblogs;
@@ -172,7 +170,13 @@ class StatusDetailedViewHolder extends StatusBaseViewHolder {
 
                 if (!TextUtils.isEmpty(card.getImage())) {
 
-                    RoundedCornersTransformation.CornerType cornertype;
+                    int topLeftRadius = 0;
+                    int topRightRadius = 0;
+                    int bottomRightRadius = 0;
+                    int bottomLeftRadius = 0;
+
+                    int radius = cardImage.getContext().getResources()
+                            .getDimensionPixelSize(R.dimen.card_radius);
 
                     if (card.getWidth() > card.getHeight()) {
                         cardView.setOrientation(LinearLayout.VERTICAL);
@@ -182,7 +186,8 @@ class StatusDetailedViewHolder extends StatusBaseViewHolder {
                         cardImage.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
                         cardInfo.getLayoutParams().height = ViewGroup.LayoutParams.MATCH_PARENT;
                         cardInfo.getLayoutParams().width = ViewGroup.LayoutParams.WRAP_CONTENT;
-                        cornertype = RoundedCornersTransformation.CornerType.TOP;
+                        topLeftRadius = radius;
+                        topRightRadius = radius;
                     } else {
                         cardView.setOrientation(LinearLayout.HORIZONTAL);
                         cardImage.getLayoutParams().height = ViewGroup.LayoutParams.MATCH_PARENT;
@@ -190,15 +195,18 @@ class StatusDetailedViewHolder extends StatusBaseViewHolder {
                                 .getDimensionPixelSize(R.dimen.card_image_horizontal_width);
                         cardInfo.getLayoutParams().height = ViewGroup.LayoutParams.WRAP_CONTENT;
                         cardInfo.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
-                        cornertype = RoundedCornersTransformation.CornerType.LEFT;
+                        topLeftRadius = radius;
+                        bottomLeftRadius = radius;
                     }
 
-                    int radius = cardImage.getContext().getResources()
-                            .getDimensionPixelSize(R.dimen.card_radius);
+
 
                     Glide.with(cardImage)
                             .load(card.getImage())
-                            .transform(new CenterCrop(), new RoundedCornersTransformation(radius, 0, cornertype))
+                            .transform(
+                                    new CenterCrop(),
+                                    new GranularRoundedCorners(topLeftRadius, topRightRadius, bottomRightRadius, bottomLeftRadius)
+                            )
                             .into(cardImage);
 
                 } else {
