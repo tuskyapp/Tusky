@@ -365,4 +365,50 @@
     <string name="pref_title_thread_filter_keywords">会話</string>
     <string name="caption_notoemoji">Googleの現在の絵文字セットです</string>
 
+    <string name="action_add_poll">投票を追加</string>
+    <string name="action_mentions">返信</string>
+    <string name="title_mentions_dialog">返信</string>
+    <string name="dialog_redraft_toot_warning">このトゥートを削除し、下書きに戻しますか？</string>
+    <string name="filter_dialog_remove_button">削除</string>
+    <string name="filter_dialog_update_button">更新</string>
+    <string name="error_create_list">リストを作成できませんでした。</string>
+    <string name="error_delete_list">リストを削除できませんでした。</string>
+    <string name="action_create_list">リストの作成</string>
+    <string name="action_delete_list">リストの削除</string>
+    <string name="action_edit_list">リストの編集</string>
+    <string name="hint_search_people_list">フォロワーを検索</string>
+    <string name="action_add_to_list">リストにアカウントを追加</string>
+    <string name="action_remove_from_list">リストからアカウントを削除</string>
+
+    <string name="poll_ended_voted">参加した投票の結果がでました</string>
+    <string name="poll_ended_created">作成した投票の結果がでました</string>
+
+    <string name="create_poll_title">投票</string>
+    <string name="poll_duration_5_min">5分</string>
+    <string name="poll_duration_30_min">30分</string>
+    <string name="poll_duration_1_hour">1時間</string>
+    <string name="poll_duration_6_hours">6時間</string>
+    <string name="poll_duration_1_day">1日</string>
+    <string name="poll_duration_3_days">3日</string>
+    <string name="poll_duration_7_days">7日</string>
+    <string name="add_poll_choice">選択肢を追加</string>
+    <string name="poll_allow_multiple_choices">複数選択可</string>
+    <string name="edit_poll">編集</string>
+
+<string name="pref_title_bot_overlay">ボットマークを表示</string>
+    <string name="pref_title_animate_gif_avatars">GIFアバターを動かす</string>
+
+    <string name="pref_title_public_filter_keywords">公開タイムライン</string>
+    <string name="description_status_cw">閲覧注意：%s</string>
+    <string name="edit_hashtag_title">ハッシュタグの編集</string>
+    <string name="hashtag">ハッシュタグ</string>
+    <string name="filter_apply">適用</string>
+
+    <string name="poll_info_closed">投票終了</string>
+    <string name="title_accounts">アカウント</string>
+    <string name="failed_search">検索に失敗しました</string>
+
+    <string name="pref_title_show_notifications_filter">通知フィルターを表示</string>
+
+
     </resources>
