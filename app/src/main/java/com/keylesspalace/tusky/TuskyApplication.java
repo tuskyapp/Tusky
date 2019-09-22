@@ -30,6 +30,7 @@ import com.keylesspalace.tusky.di.AppInjector;
 import com.keylesspalace.tusky.util.EmojiCompatFont;
 import com.keylesspalace.tusky.util.LocaleManager;
 import com.keylesspalace.tusky.util.NotificationPullJobCreator;
+import com.uber.autodispose.AutoDisposePlugins;
 
 import org.conscrypt.Conscrypt;
 
@@ -85,6 +86,8 @@ public class TuskyApplication extends Application implements HasAndroidInjector 
                 }
             }
         };
+
+        AutoDisposePlugins.setHideProxies(false);
 
         initAppInjector();
         initEmojiCompat();
