@@ -15,26 +15,27 @@
 
 package com.keylesspalace.tusky
 
-import com.google.android.material.bottomsheet.BottomSheetBehavior
 import android.text.SpannedString
 import android.widget.LinearLayout
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.keylesspalace.tusky.entity.Account
-import com.keylesspalace.tusky.entity.SearchResults
+import com.keylesspalace.tusky.entity.SearchResult
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.network.MastodonApi
-import okhttp3.Request
+import io.reactivex.Single
+import io.reactivex.android.plugins.RxAndroidPlugins
+import io.reactivex.plugins.RxJavaPlugins
+import io.reactivex.schedulers.TestScheduler
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
 import org.mockito.ArgumentMatchers
-import org.mockito.Mockito
 import org.mockito.Mockito.*
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 import java.util.*
+import java.util.concurrent.TimeUnit
+
 
 class BottomSheetActivityTest {
     private lateinit var activity : FakeBottomSheetActivity
@@ -42,7 +43,8 @@ class BottomSheetActivityTest {
     private val accountQuery = "http://mastodon.foo.bar/@User"
     private val statusQuery = "http://mastodon.foo.bar/@User/345678"
     private val nonMastodonQuery = "http://medium.com/@correspondent/345678"
-    private val emptyCallback = FakeSearchResults()
+    private val emptyCallback = Single.just(SearchResult(emptyList(), emptyList(), emptyList()))
+    private val testScheduler = TestScheduler()
 
     private val account = Account (
             "1",
@@ -62,7 +64,7 @@ class BottomSheetActivityTest {
             emptyList(),
             emptyList()
     )
-    private val accountCallback = FakeSearchResults(account)
+    private val accountSingle = Single.just(SearchResult(listOf(account), emptyList(), emptyList()))
 
     private val status = Status(
             "1",
@@ -88,14 +90,18 @@ class BottomSheetActivityTest {
             poll = null,
             card = null
     )
-    private val statusCallback = FakeSearchResults(status)
+    private val statusSingle = Single.just(SearchResult(emptyList(), listOf(status), emptyList()))
 
     @Before
     fun setup() {
-        apiMock = Mockito.mock(MastodonApi::class.java)
-        `when`(apiMock.search(eq(accountQuery), ArgumentMatchers.anyBoolean())).thenReturn(accountCallback)
-        `when`(apiMock.search(eq(statusQuery), ArgumentMatchers.anyBoolean())).thenReturn(statusCallback)
-        `when`(apiMock.search(eq(nonMastodonQuery), ArgumentMatchers.anyBoolean())).thenReturn(emptyCallback)
+
+        RxJavaPlugins.setIoSchedulerHandler { testScheduler }
+        RxAndroidPlugins.setMainThreadSchedulerHandler { testScheduler }
+
+        apiMock = mock(MastodonApi::class.java)
+        `when`(apiMock.searchObservable(eq(accountQuery), eq(null), ArgumentMatchers.anyBoolean(), eq(null), eq(null), eq(null))).thenReturn(accountSingle)
+        `when`(apiMock.searchObservable(eq(statusQuery), eq(null), ArgumentMatchers.anyBoolean(), eq(null), eq(null), eq(null))).thenReturn(statusSingle)
+        `when`(apiMock.searchObservable(eq(nonMastodonQuery), eq(null), ArgumentMatchers.anyBoolean(), eq(null), eq(null), eq(null))).thenReturn(emptyCallback)
 
         activity = FakeBottomSheetActivity(apiMock)
     }
@@ -190,21 +196,21 @@ class BottomSheetActivityTest {
     @Test
     fun search_inIdealConditions_returnsRequestedResults_forAccount() {
         activity.viewUrl(accountQuery)
-        accountCallback.invokeCallback()
+        testScheduler.advanceTimeBy(100, TimeUnit.MILLISECONDS)
         Assert.assertEquals(account.id, activity.accountId)
     }
 
     @Test
     fun search_inIdealConditions_returnsRequestedResults_forStatus() {
         activity.viewUrl(statusQuery)
-        statusCallback.invokeCallback()
+        testScheduler.advanceTimeBy(100, TimeUnit.MILLISECONDS)
         Assert.assertEquals(status.id, activity.statusId)
     }
 
     @Test
     fun search_inIdealConditions_returnsRequestedResults_forNonMastodonURL() {
         activity.viewUrl(nonMastodonQuery)
-        emptyCallback.invokeCallback()
+        testScheduler.advanceTimeBy(100, TimeUnit.MILLISECONDS)
         Assert.assertEquals(nonMastodonQuery, activity.link)
     }
 
@@ -214,7 +220,6 @@ class BottomSheetActivityTest {
         Assert.assertTrue(activity.isSearching())
         activity.cancelActiveSearch()
         Assert.assertFalse(activity.isSearching())
-        accountCallback.invokeCallback()
         Assert.assertEquals(null, activity.accountId)
     }
 
@@ -222,7 +227,6 @@ class BottomSheetActivityTest {
     fun search_withCancellation_doesNotLoadUrl_forStatus() {
         activity.viewUrl(accountQuery)
         activity.cancelActiveSearch()
-        accountCallback.invokeCallback()
         Assert.assertEquals(null, activity.accountId)
     }
 
@@ -230,7 +234,6 @@ class BottomSheetActivityTest {
     fun search_withCancellation_doesNotLoadUrl_forNonMastodonURL() {
         activity.viewUrl(nonMastodonQuery)
         activity.cancelActiveSearch()
-        emptyCallback.invokeCallback()
         Assert.assertEquals(null, activity.searchUrl)
     }
 
@@ -243,49 +246,16 @@ class BottomSheetActivityTest {
         // begin status search
         activity.viewUrl(statusQuery)
 
-        // return response from account search
-        accountCallback.invokeCallback()
-
-        // ensure that status search is still ongoing
+        // ensure that search is still ongoing
         Assert.assertTrue(activity.isSearching())
-        statusCallback.invokeCallback()
+
+        // return searchResults
+        testScheduler.advanceTimeBy(100, TimeUnit.MILLISECONDS)
 
         // ensure that the result of the status search was recorded
         // and the account search wasn't
         Assert.assertEquals(status.id, activity.statusId)
         Assert.assertEquals(null, activity.accountId)
-    }
-
-    class FakeSearchResults : Call<SearchResults> {
-        private var searchResults: SearchResults
-        private var callback: Callback<SearchResults>? = null
-
-        constructor() {
-            searchResults = SearchResults(Collections.emptyList(), Collections.emptyList(), Collections.emptyList())
-        }
-
-        constructor(status: Status) {
-            searchResults = SearchResults(Collections.emptyList(), listOf(status), Collections.emptyList())
-        }
-
-        constructor(account: Account) {
-            searchResults = SearchResults(listOf(account), Collections.emptyList(), Collections.emptyList())
-        }
-
-        fun invokeCallback() {
-            callback?.onResponse(this, Response.success(searchResults))
-        }
-
-        override fun enqueue(callback: Callback<SearchResults>?) {
-            this.callback = callback
-        }
-
-        override fun isExecuted(): Boolean { throw NotImplementedError() }
-        override fun clone(): Call<SearchResults> { throw NotImplementedError() }
-        override fun isCanceled(): Boolean { throw NotImplementedError() }
-        override fun cancel() { throw NotImplementedError() }
-        override fun execute(): Response<SearchResults> { throw NotImplementedError() }
-        override fun request(): Request { throw NotImplementedError() }
     }
 
     class FakeBottomSheetActivity(api: MastodonApi) : BottomSheetActivity() {
@@ -297,7 +267,7 @@ class BottomSheetActivityTest {
         init {
             mastodonApi = api
             @Suppress("UNCHECKED_CAST")
-            bottomSheet = Mockito.mock(BottomSheetBehavior::class.java) as BottomSheetBehavior<LinearLayout>
+            bottomSheet = mock(BottomSheetBehavior::class.java) as BottomSheetBehavior<LinearLayout>
             callList = arrayListOf()
         }
 

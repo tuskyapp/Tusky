@@ -19,7 +19,7 @@ import android.annotation.SuppressLint
 import androidx.lifecycle.MutableLiveData
 import androidx.paging.PositionalDataSource
 import com.keylesspalace.tusky.components.search.SearchType
-import com.keylesspalace.tusky.entity.SearchResults2
+import com.keylesspalace.tusky.entity.SearchResult
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.NetworkState
 import io.reactivex.disposables.CompositeDisposable
@@ -32,7 +32,7 @@ class SearchDataSource<T>(
         private val disposables: CompositeDisposable,
         private val retryExecutor: Executor,
         private val initialItems: List<T>? = null,
-        private val parser: (SearchResults2?) -> List<T>) : PositionalDataSource<T>() {
+        private val parser: (SearchResult?) -> List<T>) : PositionalDataSource<T>() {
 
     val networkState = MutableLiveData<NetworkState>()
 
@@ -56,7 +56,13 @@ class SearchDataSource<T>(
             networkState.postValue(NetworkState.LOADED)
             retry = null
             initialLoad.postValue(NetworkState.LOADING)
-            mastodonApi.searchObservable(searchType.apiParameter, searchRequest, true, params.requestedLoadSize, 0, false)
+            mastodonApi.searchObservable(
+                    query = searchRequest ?: "",
+                    type = searchType.apiParameter,
+                    resolve = true,
+                    limit = params.requestedLoadSize,
+                    offset = 0,
+                    following =false)
                     .doOnSubscribe {
                         disposables.add(it)
                     }

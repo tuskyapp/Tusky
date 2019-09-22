@@ -113,7 +113,7 @@ class InstanceListFragment: BaseFragment(), Injectable, InstanceActionListener {
             recyclerView.post { adapter.bottomLoading = true }
         }
 
-        api.domainBlocks(id, bottomId, null)
+        api.domainBlocks(id, bottomId)
                 .observeOn(AndroidSchedulers.mainThread())
                 .autoDisposable(from(this, Lifecycle.Event.ON_DESTROY))
                 .subscribe({ response ->

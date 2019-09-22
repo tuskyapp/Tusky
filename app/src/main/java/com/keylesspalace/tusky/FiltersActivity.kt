@@ -149,7 +149,7 @@ class FiltersActivity: BaseActivity() {
         addFilterButton.hide()
         filterProgressBar.show()
 
-        api.filters.enqueue(object : Callback<List<Filter>> {
+        api.getFilters().enqueue(object : Callback<List<Filter>> {
             override fun onResponse(call: Call<List<Filter>>, response: Response<List<Filter>>) {
                 val filterResponse = response.body()
                 if(response.isSuccessful && filterResponse != null) {

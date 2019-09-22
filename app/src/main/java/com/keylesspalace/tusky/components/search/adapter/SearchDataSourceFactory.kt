@@ -18,7 +18,7 @@ package com.keylesspalace.tusky.components.search.adapter
 import androidx.lifecycle.MutableLiveData
 import androidx.paging.DataSource
 import com.keylesspalace.tusky.components.search.SearchType
-import com.keylesspalace.tusky.entity.SearchResults2
+import com.keylesspalace.tusky.entity.SearchResult
 import com.keylesspalace.tusky.network.MastodonApi
 import io.reactivex.disposables.CompositeDisposable
 import java.util.concurrent.Executor
@@ -30,7 +30,7 @@ class SearchDataSourceFactory<T>(
         private val disposables: CompositeDisposable,
         private val retryExecutor: Executor,
         private val cacheData: List<T>? = null,
-        private val parser: (SearchResults2?) -> List<T>) : DataSource.Factory<Int, T>() {
+        private val parser: (SearchResult?) -> List<T>) : DataSource.Factory<Int, T>() {
     val sourceLiveData = MutableLiveData<SearchDataSource<T>>()
     override fun create(): DataSource<Int, T> {
         val source = SearchDataSource(mastodonApi, searchType, searchRequest, disposables, retryExecutor, cacheData, parser)

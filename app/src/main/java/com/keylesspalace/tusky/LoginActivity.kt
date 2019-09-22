@@ -34,6 +34,7 @@ import com.keylesspalace.tusky.entity.AccessToken
 import com.keylesspalace.tusky.entity.AppCredentials
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.ThemeUtils
+import com.keylesspalace.tusky.util.getNonNullString
 import com.keylesspalace.tusky.util.rickRoll
 import com.keylesspalace.tusky.util.shouldRickRoll
 import kotlinx.android.synthetic.main.activity_login.*
@@ -222,14 +223,14 @@ class LoginActivity : BaseActivity(), Injectable {
             val code = uri.getQueryParameter("code")
             val error = uri.getQueryParameter("error")
 
-            domain = preferences.getString(DOMAIN, "")!!
+            /* During the redirect roundtrip this Activity usually dies, which wipes out the
+             * instance variables, so they have to be recovered from where they were saved in
+             * SharedPreferences. */
+            domain = preferences.getNonNullString(DOMAIN, "")
+            clientId = preferences.getString(CLIENT_ID, null)
+            clientSecret = preferences.getString(CLIENT_SECRET, null)
 
-            if (code != null && domain.isNotEmpty()) {
-                /* During the redirect roundtrip this Activity usually dies, which wipes out the
-                 * instance variables, so they have to be recovered from where they were saved in
-                 * SharedPreferences. */
-                clientId = preferences.getString(CLIENT_ID, null)
-                clientSecret = preferences.getString(CLIENT_SECRET, null)
+            if (code != null && domain.isNotEmpty() && !clientId.isNullOrEmpty() && !clientSecret.isNullOrEmpty()) {
 
                 setLoading(true)
                 /* Since authorization has succeeded, the final step to log in is to exchange
@@ -256,7 +257,7 @@ class LoginActivity : BaseActivity(), Injectable {
                     }
                 }
 
-                mastodonApi.fetchOAuthToken(domain, clientId, clientSecret, redirectUri, code,
+                mastodonApi.fetchOAuthToken(domain, clientId!!, clientSecret!!, redirectUri, code,
                         "authorization_code").enqueue(callback)
             } else if (error != null) {
                 /* Authorization failed. Put the error response where the user can read it and they

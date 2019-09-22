@@ -36,7 +36,7 @@ class ConversationsRepository @Inject constructor(val mastodonApi: MastodonApi, 
             networkState.value = NetworkState.LOADING
         }
 
-        mastodonApi.getConversations(null, DEFAULT_PAGE_SIZE).enqueue(
+        mastodonApi.getConversations(limit = DEFAULT_PAGE_SIZE).enqueue(
                 object : Callback<List<Conversation>> {
                     override fun onFailure(call: Call<List<Conversation>>, t: Throwable) {
                         // retrofit calls this on main thread so safe to call set value

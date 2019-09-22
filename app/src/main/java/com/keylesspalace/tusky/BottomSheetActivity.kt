@@ -17,16 +17,16 @@ package com.keylesspalace.tusky
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.annotation.VisibleForTesting
-import com.google.android.material.bottomsheet.BottomSheetBehavior
 import android.view.View
 import android.widget.LinearLayout
-import com.keylesspalace.tusky.entity.SearchResults
+import androidx.annotation.VisibleForTesting
+import androidx.lifecycle.Lifecycle
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.LinkHelper
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider
+import com.uber.autodispose.autoDisposable
+import io.reactivex.android.schedulers.AndroidSchedulers
 import java.net.URI
 import java.net.URISyntaxException
 import javax.inject.Inject
@@ -48,17 +48,17 @@ abstract class BottomSheetActivity : BaseActivity() {
         super.onPostCreate(savedInstanceState)
 
         val bottomSheetLayout: LinearLayout = findViewById(R.id.item_status_bottom_sheet)
-            bottomSheet = BottomSheetBehavior.from(bottomSheetLayout)
-            bottomSheet.state = BottomSheetBehavior.STATE_HIDDEN
-            bottomSheet.setBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
-                override fun onStateChanged(bottomSheet: View, newState: Int) {
-                   if (newState == BottomSheetBehavior.STATE_HIDDEN) {
-                        cancelActiveSearch()
-                    }
+        bottomSheet = BottomSheetBehavior.from(bottomSheetLayout)
+        bottomSheet.state = BottomSheetBehavior.STATE_HIDDEN
+        bottomSheet.setBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
+            override fun onStateChanged(bottomSheet: View, newState: Int) {
+                if (newState == BottomSheetBehavior.STATE_HIDDEN) {
+                    cancelActiveSearch()
                 }
+            }
 
-                override fun onSlide(bottomSheet: View, slideOffset: Float) {}
-            })
+            override fun onSlide(bottomSheet: View, slideOffset: Float) {}
+        })
 
     }
 
@@ -68,41 +68,34 @@ abstract class BottomSheetActivity : BaseActivity() {
             return
         }
 
-        val call = mastodonApi.search(url, true)
-        call.enqueue(object : Callback<SearchResults> {
-            override fun onResponse(call: Call<SearchResults>, response: Response<SearchResults>) {
-                if (getCancelSearchRequested(url)) {
-                    return
-                }
-
-                onEndSearch(url)
-                if (response.isSuccessful) {
-                    // According to the mastodon API doc, if the search query is a url,
-                    // only exact matches for statuses or accounts are returned
-                    // which is good, because pleroma returns a different url
-                    // than the public post link
-                    val searchResult = response.body()
-                    if(searchResult != null) {
-                        if (searchResult.statuses.isNotEmpty()) {
-                            viewThread(searchResult.statuses[0].id, searchResult.statuses[0].url)
-                            return
-                        } else if (searchResult.accounts.isNotEmpty()) {
-                            viewAccount(searchResult.accounts[0].id)
-                            return
-                        }
+        mastodonApi.searchObservable(
+                query = url,
+                resolve = true
+        ).observeOn(AndroidSchedulers.mainThread())
+                .autoDisposable(AndroidLifecycleScopeProvider.from(this, Lifecycle.Event.ON_DESTROY))
+                .subscribe({ (accounts, statuses) ->
+                    if (getCancelSearchRequested(url)) {
+                        return@subscribe
                     }
-                }
-                openLink(url)
-            }
 
-            override fun onFailure(call: Call<SearchResults>, t: Throwable) {
-                if (!getCancelSearchRequested(url)) {
                     onEndSearch(url)
+
+                    if (statuses.isNotEmpty()) {
+                        viewThread(statuses[0].id, statuses[0].url)
+                        return@subscribe
+                    } else if (accounts.isNotEmpty()) {
+                        viewAccount(accounts[0].id)
+                        return@subscribe
+                    }
+
                     openLink(url)
-                }
-            }
-        })
-        callList.add(call)
+                }, {
+                    if (!getCancelSearchRequested(url)) {
+                        onEndSearch(url)
+                        openLink(url)
+                    }
+                })
+
         onBeginSearch(url)
     }
 
@@ -159,11 +152,11 @@ abstract class BottomSheetActivity : BaseActivity() {
     }
 
     private fun showQuerySheet() {
-            bottomSheet.state = BottomSheetBehavior.STATE_COLLAPSED
+        bottomSheet.state = BottomSheetBehavior.STATE_COLLAPSED
     }
 
     private fun hideQuerySheet() {
-            bottomSheet.state = BottomSheetBehavior.STATE_HIDDEN
+        bottomSheet.state = BottomSheetBehavior.STATE_HIDDEN
     }
 }
 
