@@ -25,7 +25,7 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.LinkHelper
 import com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider
-import com.uber.autodispose.autoDisposable
+import com.uber.autodispose.autoDispose
 import io.reactivex.android.schedulers.AndroidSchedulers
 import java.net.URI
 import java.net.URISyntaxException
@@ -72,7 +72,7 @@ abstract class BottomSheetActivity : BaseActivity() {
                 query = url,
                 resolve = true
         ).observeOn(AndroidSchedulers.mainThread())
-                .autoDisposable(AndroidLifecycleScopeProvider.from(this, Lifecycle.Event.ON_DESTROY))
+                .autoDispose(AndroidLifecycleScopeProvider.from(this, Lifecycle.Event.ON_DESTROY))
                 .subscribe({ (accounts, statuses) ->
                     if (getCancelSearchRequested(url)) {
                         return@subscribe
