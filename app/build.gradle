@@ -95,15 +95,15 @@ dependencies {
     implementation('com.mikepenz:materialdrawer:6.1.2@aar') {
         transitive = true
     }
-    implementation 'androidx.core:core:1.0.2'
-    implementation 'androidx.appcompat:appcompat:1.1.0-rc01'
+    implementation 'androidx.core:core:1.1.0'
+    implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'androidx.browser:browser:1.0.0'
     implementation 'androidx.recyclerview:recyclerview:1.0.0'
     implementation 'androidx.legacy:legacy-support-v13:1.0.0'
     implementation 'com.google.android.material:material:1.1.0-alpha05'
     implementation 'androidx.exifinterface:exifinterface:1.0.0'
     implementation 'androidx.cardview:cardview:1.0.0'
-    implementation 'androidx.preference:preference:1.1.0-alpha04'
+    implementation 'androidx.preference:preference:1.1.0'
     implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
     implementation "com.squareup.retrofit2:converter-gson:$retrofitVersion"
     implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofitVersion"
@@ -123,7 +123,7 @@ dependencies {
     implementation 'androidx.emoji:emoji-appcompat:1.0.0'
     implementation 'de.c1710:filemojicompat:1.0.17'
     // architecture components
-    implementation 'androidx.lifecycle:lifecycle-extensions:2.0.0'
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.1.0'
     //room
     implementation 'androidx.room:room-runtime:2.1.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
@@ -157,5 +157,5 @@ dependencies {
     implementation 'com.github.bumptech.glide:okhttp3-integration:4.10.0'
 
     //Add some useful extensions
-    implementation 'androidx.core:core-ktx:1.2.0-alpha01'
+    implementation 'androidx.core:core-ktx:1.2.0-alpha04'
 }
