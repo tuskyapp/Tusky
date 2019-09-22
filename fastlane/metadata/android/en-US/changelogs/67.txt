@@ -1,0 +1,9 @@
+Tusky v9.0
+
+- You can now create Polls from Tusky
+- Improved search
+- New option in Account Preferences to always expand content warnings
+- Avatars in the navigation drawer have now a rounded square shape
+- It is now possible to report users even when they never posted a status
+- Tusky will now refuse to connect over cleartext connections on Android 6+
+- A lot of other small improvements and bug fixes

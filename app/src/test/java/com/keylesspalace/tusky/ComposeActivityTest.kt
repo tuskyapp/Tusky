@@ -85,7 +85,7 @@ class ComposeActivityTest {
         accountManagerMock = mock(AccountManager::class.java)
 
         apiMock = mock(MastodonApi::class.java)
-        `when`(apiMock.customEmojis).thenReturn(object: Call<List<Emoji>> {
+        `when`(apiMock.getCustomEmojis()).thenReturn(object: Call<List<Emoji>> {
             override fun isExecuted(): Boolean {
                 return false
             }
@@ -107,7 +107,7 @@ class ComposeActivityTest {
 
             override fun enqueue(callback: Callback<List<Emoji>>?) {}
         })
-        `when`(apiMock.instance).thenReturn(object: Single<Instance>() {
+        `when`(apiMock.getInstance()).thenReturn(object: Single<Instance>() {
             override fun subscribeActual(observer: SingleObserver<in Instance>) {
                 val instance = instanceResponseCallback?.invoke()
                 if (instance == null) {
@@ -251,6 +251,7 @@ class ComposeActivityTest {
                         emptyList()
                 ),
                 maximumTootCharacters,
+                null,
                 null
         )
     }

@@ -61,7 +61,7 @@ class ReportViewModel @Inject constructor(
     private val selectedIds = HashSet<String>()
     val statusViewState = StatusViewState()
 
-    var reportNote: String? = null
+    var reportNote: String = ""
     var isRemoteNotify = false
 
     private var statusId: String? = null

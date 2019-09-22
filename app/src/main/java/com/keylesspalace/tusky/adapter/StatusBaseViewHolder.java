@@ -186,6 +186,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             contentWarningButton.setVisibility(View.VISIBLE);
             contentWarningButton.setChecked(expanded);
             contentWarningButton.setOnCheckedChangeListener((buttonView, isChecked) -> {
+                contentWarningDescription.invalidate();
                 if (getAdapterPosition() != RecyclerView.NO_POSITION) {
                     listener.onExpandedChange(isChecked, getAdapterPosition());
                 }
@@ -251,18 +252,25 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
 
     }
 
-    protected void setCreatedAt(@NonNull Date createdAt) {
+    protected void setCreatedAt(Date createdAt) {
         if (useAbsoluteTime) {
             timestampInfo.setText(getAbsoluteTime(createdAt));
         } else {
-            long then = createdAt.getTime();
-            long now = System.currentTimeMillis();
-            String readout = TimestampUtils.getRelativeTimeSpanString(timestampInfo.getContext(), then, now);
-            timestampInfo.setText(readout);
+            if(createdAt == null) {
+                timestampInfo.setText("?m");
+            } else {
+                long then = createdAt.getTime();
+                long now = System.currentTimeMillis();
+                String readout = TimestampUtils.getRelativeTimeSpanString(timestampInfo.getContext(), then, now);
+                timestampInfo.setText(readout);
+            }
         }
     }
 
-    private String getAbsoluteTime(@NonNull Date createdAt) {
+    private String getAbsoluteTime(Date createdAt) {
+        if(createdAt == null) {
+            return "??:??:??";
+        }
         if (DateUtils.isToday(createdAt.getTime())) {
             return shortSdf.format(createdAt);
         } else {
@@ -270,18 +278,22 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         }
     }
 
-    private CharSequence getCreatedAtDescription(@NonNull Date createdAt) {
+    private CharSequence getCreatedAtDescription(Date createdAt) {
         if (useAbsoluteTime) {
             return getAbsoluteTime(createdAt);
         } else {
             /* This one is for screen-readers. Frequently, they would mispronounce timestamps like "17m"
              * as 17 meters instead of minutes. */
 
-            long then = createdAt.getTime();
-            long now = System.currentTimeMillis();
-            return DateUtils.getRelativeTimeSpanString(then, now,
-                    DateUtils.SECOND_IN_MILLIS,
-                    DateUtils.FORMAT_ABBREV_RELATIVE);
+            if(createdAt == null) {
+                return "? minutes";
+            } else {
+                long then = createdAt.getTime();
+                long now = System.currentTimeMillis();
+                return DateUtils.getRelativeTimeSpanString(then, now,
+                        DateUtils.SECOND_IN_MILLIS,
+                        DateUtils.FORMAT_ABBREV_RELATIVE);
+            }
         }
     }
 
@@ -334,8 +346,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         favouriteButton.setChecked(favourited);
     }
 
-    private void loadImage(MediaPreviewImageView imageView, String previewUrl, String description,
-                           MetaData meta) {
+    private void loadImage(MediaPreviewImageView imageView, String previewUrl, MetaData meta) {
         if (TextUtils.isEmpty(previewUrl)) {
             Glide.with(imageView)
                     .load(mediaPreviewUnloadedId)
@@ -385,7 +396,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             }
 
             if (!sensitive || showingContent) {
-                loadImage(imageView, previewUrl, description, attachments.get(i).getMeta());
+                loadImage(imageView, previewUrl, attachments.get(i).getMeta());
             } else {
                 imageView.setImageResource(mediaPreviewUnloadedId);
             }
@@ -458,6 +469,8 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             case GIFV:
             case VIDEO:
                 return R.drawable.ic_videocam_24dp;
+            case AUDIO:
+                return R.drawable.ic_music_box_24dp;
         }
     }
 
@@ -505,11 +518,14 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
     }
 
     private static CharSequence getAttachmentDescription(Context context, Attachment attachment) {
+        String duration = "";
+        if(attachment.getMeta() != null && attachment.getMeta().getDuration() != null && attachment.getMeta().getDuration() > 0) {
+            duration = formatDuration(attachment.getMeta().getDuration()) + " ";
+        }
         if (TextUtils.isEmpty(attachment.getDescription())) {
-            return context
-                    .getString(R.string.description_status_media_no_description_placeholder);
+            return duration + context.getString(R.string.description_status_media_no_description_placeholder);
         } else {
-            return attachment.getDescription();
+            return duration + attachment.getDescription();
         }
     }
 
@@ -605,7 +621,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             setFavourited(status.isFavourited());
             List<Attachment> attachments = status.getAttachments();
             boolean sensitive = status.isSensitive();
-            if (mediaPreviewEnabled) {
+            if (mediaPreviewEnabled && !hasAudioAttachment(attachments)) {
                 setMediaPreviews(attachments, sensitive, listener, status.isShowingContent());
 
                 if (attachments.size() == 0) {
@@ -649,6 +665,15 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
                 }
 
         }
+    }
+
+    protected static boolean hasAudioAttachment(List<Attachment> attachments) {
+        for(Attachment attachment: attachments) {
+            if (attachment.getType() == Attachment.Type.AUDIO) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private void setDescriptionForStatus(@NonNull StatusViewData.Concrete status) {
@@ -714,6 +739,10 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
     }
 
     private static CharSequence getVisibilityDescription(Context context, Status.Visibility visibility) {
+
+        if(visibility == null) {
+            return "";
+        }
 
         int resource;
         switch (visibility) {
@@ -846,6 +875,14 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         }
 
         return pollDescription.getContext().getString(R.string.poll_info_format, votesText, pollDurationInfo);
+    }
+
+    private static String formatDuration(double durationInSeconds) {
+        int seconds = (int) Math.round(durationInSeconds) % 60;
+        int minutes = (int) durationInSeconds % 3600 / 60;
+        int hours = (int) durationInSeconds / 3600;
+
+        return String.format("%d:%02d:%02d", hours, minutes, seconds);
     }
 
 }

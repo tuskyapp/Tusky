@@ -263,7 +263,7 @@
     <string name="error_failed_set_caption">Toevoegen van beschrijving mislukt</string>
     <string name="hint_describe_for_visually_impaired">Omschrijf dit voor mensen met een visuele beperking\n(tekenlimiet is %d)</string>
     <string name="action_set_caption">Beschrijving toevoegen</string>
-    <string name="action_remove_media">Verwijderen</string>
+    <string name="action_remove">Verwijderen</string>
     <string name="lock_account_label">Account besloten maken</string>
     <string name="lock_account_label_description">Handmatige goedkeuring vereist voor volgers</string>
     <string name="compose_save_draft">Concept bewaren?</string>
@@ -450,4 +450,16 @@
     <string name="pref_title_show_notifications_filter">Meldingenfilter tonen</string>
 <string name="filter_dialog_whole_word">Heel woord</string>
     <string name="filter_dialog_whole_word_description">Wanneer het trefwoord of zinsdeel alfanumeriek is, wordt het alleen gefilterd wanneer het hele woord overeenkomt</string>
-    </resources>
+    <string name="poll_duration_5_min">5 minuten</string>
+    <string name="poll_duration_30_min">30 minuten</string>
+    <string name="poll_duration_1_hour">1 uur</string>
+    <string name="poll_duration_6_hours">6 uur</string>
+    <string name="poll_duration_1_day">1 dag</string>
+    <string name="poll_duration_3_days">3 dagen</string>
+    <string name="poll_duration_7_days">7 dagen</string>
+    <string name="add_poll_choice">Voeg keuze toe</string>
+    <string name="poll_allow_multiple_choices">Meerdere keuzes</string>
+    <string name="poll_new_choice_hint">Keuze %d</string>
+    <string name="edit_poll">Bewerk</string>
+
+</resources>

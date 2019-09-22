@@ -172,7 +172,7 @@
     <string name="dialog_title_finishing_media_upload">Mediaopplasting er ferdig</string>
     <string name="dialog_message_uploading_media">Laster opp…</string>
     <string name="dialog_download_image">Last ned</string>
-    <string name="dialog_message_cancel_follow_request">Trekk tilbake følgeforespørselen\?</string>
+    <string name="dialog_message_cancel_follow_request">Trekk tilbake forespørsel\?</string>
     <string name="dialog_unfollow_warning">Slutte å følge denne kontoen\?</string>
     <string name="dialog_delete_toot_warning">Slette dette tootet\?</string>
 
@@ -246,7 +246,7 @@
     <string name="status_media_images">Bilder</string>
     <string name="status_media_video">Video</string>
 
-    <string name="state_follow_requested">Følgeforespørsler</string>
+    <string name="state_follow_requested">Forespørsel sendt</string>
 
     <string name="no_content">ikke noe innhold</string>
 
@@ -304,7 +304,7 @@
     <string name="hint_describe_for_visually_impaired">Beskriv for de med nedsatt synsevne
 \n(maks %d tegn)</string>
     <string name="action_set_caption">Sett bildetekst</string>
-    <string name="action_remove_media">Slett</string>
+    <string name="action_remove">Slett</string>
     <string name="lock_account_label">Lås konto</string>
     <string name="lock_account_label_description">Krever at du manuelt godkjenner nye følgere</string>
     <string name="compose_save_draft">Lagre kladd\?</string>
@@ -490,4 +490,18 @@
     <string name="failed_search">Klarte ikke å søke</string>
 
     <string name="pref_title_alway_open_spoiler">Ekspander alltid toots markert med innholdsadvarsel</string>
-    </resources>
+    <string name="action_add_poll">Legg til avstemming</string>
+    <string name="create_poll_title">Avstemming</string>
+    <string name="poll_duration_5_min">5 minutter</string>
+    <string name="poll_duration_30_min">30 minutter</string>
+    <string name="poll_duration_1_hour">1 time</string>
+    <string name="poll_duration_6_hours">6 timer</string>
+    <string name="poll_duration_1_day">1 dag</string>
+    <string name="poll_duration_3_days">3 dager</string>
+    <string name="poll_duration_7_days">7 dager</string>
+    <string name="add_poll_choice">Legg til valg</string>
+    <string name="poll_allow_multiple_choices">Flere valg</string>
+    <string name="poll_new_choice_hint">Valg %d</string>
+    <string name="edit_poll">Endre</string>
+
+</resources>

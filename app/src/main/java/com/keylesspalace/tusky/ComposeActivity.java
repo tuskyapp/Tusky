@@ -79,7 +79,8 @@ import com.keylesspalace.tusky.entity.Account;
 import com.keylesspalace.tusky.entity.Attachment;
 import com.keylesspalace.tusky.entity.Emoji;
 import com.keylesspalace.tusky.entity.Instance;
-import com.keylesspalace.tusky.entity.SearchResults;
+import com.keylesspalace.tusky.entity.NewPoll;
+import com.keylesspalace.tusky.entity.SearchResult;
 import com.keylesspalace.tusky.entity.Status;
 import com.keylesspalace.tusky.network.MastodonApi;
 import com.keylesspalace.tusky.network.ProgressRequestBody;
@@ -94,9 +95,11 @@ import com.keylesspalace.tusky.util.SaveTootHelper;
 import com.keylesspalace.tusky.util.SpanUtilsKt;
 import com.keylesspalace.tusky.util.StringUtils;
 import com.keylesspalace.tusky.util.ThemeUtils;
+import com.keylesspalace.tusky.view.AddPollDialog;
 import com.keylesspalace.tusky.view.ComposeOptionsListener;
 import com.keylesspalace.tusky.view.ComposeOptionsView;
 import com.keylesspalace.tusky.view.EditTextTyped;
+import com.keylesspalace.tusky.view.PollPreviewView;
 import com.keylesspalace.tusky.view.ProgressImageView;
 import com.keylesspalace.tusky.view.TootButton;
 import com.mikepenz.google_material_typeface_library.GoogleMaterial;
@@ -190,6 +193,7 @@ public final class ComposeActivity
     private static final String REPLYING_STATUS_CONTENT_EXTRA = "replying_status_content";
     private static final String MEDIA_ATTACHMENTS_EXTRA = "media_attachments";
     private static final String SENSITIVE_EXTRA = "sensitive";
+    private static final String POLL_EXTRA = "poll";
     // Mastodon only counts URLs as this long in terms of status character limits
     static final int MAXIMUM_URL_LENGTH = 23;
     // https://github.com/tootsuite/mastodon/blob/1656663/app/models/media_attachment.rb#L94
@@ -213,6 +217,7 @@ public final class ComposeActivity
     private ImageButton contentWarningButton;
     private ImageButton emojiButton;
     private ImageButton hideMediaToggle;
+    private TextView actionAddPoll;
     private Button atButton;
     private Button hashButton;
 
@@ -222,11 +227,14 @@ public final class ComposeActivity
     private BottomSheetBehavior emojiBehavior;
     private RecyclerView emojiView;
 
+    private PollPreviewView pollPreview;
+
     // this only exists when a status is trying to be sent, but uploads are still occurring
     private ProgressDialog finishingUploadDialog;
     private String inReplyToId;
     private List<QueuedMedia> mediaQueued = new ArrayList<>();
     private CountUpDownLatch waitForMediaLatch;
+    private NewPoll poll;
     private Status.Visibility statusVisibility;     // The current values of the options that will be applied
     private boolean statusMarkSensitive; // to the status being composed.
     private boolean statusHideText;
@@ -239,6 +247,8 @@ public final class ComposeActivity
     private List<Emoji> emojiList;
     private CountDownLatch emojiListRetrievalLatch = new CountDownLatch(1);
     private int maximumTootCharacters = STATUS_CHARACTER_LIMIT;
+    private Integer maxPollOptions = null;
+    private Integer maxPollOptionLength = null;
     private @Px
     int thumbnailViewSize;
 
@@ -369,6 +379,7 @@ public final class ComposeActivity
 
         TextView actionPhotoTake = findViewById(R.id.action_photo_take);
         TextView actionPhotoPick = findViewById(R.id.action_photo_pick);
+        actionAddPoll = findViewById(R.id.action_add_poll);
 
         int textColor = ThemeUtils.getColor(this, android.R.attr.textColorTertiary);
 
@@ -378,8 +389,12 @@ public final class ComposeActivity
         Drawable imageIcon = new IconicsDrawable(this, GoogleMaterial.Icon.gmd_image).color(textColor).sizeDp(18);
         actionPhotoPick.setCompoundDrawablesRelativeWithIntrinsicBounds(imageIcon, null, null, null);
 
+        Drawable pollIcon = new IconicsDrawable(this, GoogleMaterial.Icon.gmd_poll).color(textColor).sizeDp(18);
+        actionAddPoll.setCompoundDrawablesRelativeWithIntrinsicBounds(pollIcon, null, null, null);
+
         actionPhotoTake.setOnClickListener(v -> initiateCameraApp());
         actionPhotoPick.setOnClickListener(v -> onMediaPick());
+        actionAddPoll.setOnClickListener(v -> openPollDialog());
 
         thumbnailViewSize = getResources().getDimensionPixelSize(R.dimen.compose_media_preview_size);
 
@@ -507,6 +522,14 @@ public final class ComposeActivity
             }
 
             statusMarkSensitive = intent.getBooleanExtra(SENSITIVE_EXTRA, statusMarkSensitive);
+
+            if(intent.hasExtra(POLL_EXTRA) && (mediaAttachments == null || mediaAttachments.size() == 0)) {
+                updatePoll(intent.getParcelableExtra(POLL_EXTRA));
+            }
+
+            if(mediaAttachments != null && mediaAttachments.size() > 0) {
+                enablePollButton(false);
+            }
         }
 
         // After the starting state is finalised, the interface can be set to reflect this state.
@@ -901,6 +924,62 @@ public final class ComposeActivity
         addMediaBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
     }
 
+    private void openPollDialog() {
+        addMediaBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+        AddPollDialog.showAddPollDialog(this, poll, maxPollOptions, maxPollOptionLength);
+    }
+
+    public void updatePoll(NewPoll poll) {
+        this.poll = poll;
+
+        enableButton(pickButton, false, false);
+
+        if(pollPreview == null) {
+
+            pollPreview = new PollPreviewView(this);
+
+            Resources resources = getResources();
+            int margin = resources.getDimensionPixelSize(R.dimen.compose_media_preview_margin);
+            int marginBottom = resources.getDimensionPixelSize(R.dimen.compose_media_preview_margin_bottom);
+
+            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            layoutParams.setMargins(margin, margin, margin, marginBottom);
+            pollPreview.setLayoutParams(layoutParams);
+
+            mediaPreviewBar.addView(pollPreview);
+
+            pollPreview.setOnClickListener(v -> {
+                PopupMenu popup = new PopupMenu(this, pollPreview);
+                final int editId = 1;
+                final int removeId = 2;
+                popup.getMenu().add(0, editId, 0, R.string.edit_poll);
+                popup.getMenu().add(0, removeId, 0, R.string.action_remove);
+                popup.setOnMenuItemClickListener(menuItem -> {
+                    switch (menuItem.getItemId()) {
+                        case editId:
+                            openPollDialog();
+                            break;
+                        case removeId:
+                            removePoll();
+                            break;
+                    }
+                    return true;
+                });
+                popup.show();
+            });
+        }
+
+        pollPreview.setPoll(poll);
+
+    }
+
+    private void removePoll() {
+        poll = null;
+        pollPreview = null;
+        enableButton(pickButton, true, true);
+        mediaPreviewBar.removeAllViews();
+    }
+
     @Override
     public void onVisibilityChanged(@NonNull Status.Visibility visibility) {
         composeOptionsBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
@@ -1005,7 +1084,7 @@ public final class ComposeActivity
         }
 
         Intent sendIntent = SendTootService.sendTootIntent(this, content, spoilerText,
-                visibility, !mediaUris.isEmpty() && sensitive, mediaIds, mediaUris, mediaDescriptions, inReplyToId,
+                visibility, !mediaUris.isEmpty() && sensitive, mediaIds, mediaUris, mediaDescriptions, inReplyToId, poll,
                 getIntent().getStringExtra(REPLYING_STATUS_CONTENT_EXTRA),
                 getIntent().getStringExtra(REPLYING_STATUS_AUTHOR_USERNAME_EXTRA),
                 getIntent().getStringExtra(SAVED_JSON_URLS_EXTRA),
@@ -1022,6 +1101,10 @@ public final class ComposeActivity
     }
 
     private void readyStatus(final Status.Visibility visibility, final boolean sensitive) {
+        if (waitForMediaLatch.isEmpty()) {
+            onReadySuccess(visibility, sensitive);
+            return;
+        }
         finishingUploadDialog = ProgressDialog.show(
                 this, getString(R.string.dialog_title_finishing_media_upload),
                 getString(R.string.dialog_message_uploading_media), true, true);
@@ -1162,6 +1245,18 @@ public final class ComposeActivity
                 colorActive ? android.R.attr.textColorTertiary : R.attr.compose_media_button_disabled_tint);
     }
 
+    private void enablePollButton(boolean enable) {
+        actionAddPoll.setEnabled(enable);
+        int textColor;
+        if(enable) {
+            textColor = ThemeUtils.getColor(this, android.R.attr.textColorTertiary);
+        } else {
+            textColor = ThemeUtils.getColor(this, R.attr.compose_media_button_disabled_tint);
+        }
+        actionAddPoll.setTextColor(textColor);
+        actionAddPoll.getCompoundDrawablesRelative()[0].setColorFilter(textColor, PorterDuff.Mode.SRC_IN);
+    }
+
     private void addMediaToQueue(QueuedMedia.Type type, Bitmap preview, Uri uri, long mediaSize, @Nullable String description) {
         addMediaToQueue(null, type, preview, uri, mediaSize, null, description);
     }
@@ -1210,6 +1305,7 @@ public final class ComposeActivity
         }
 
         updateHideMediaToggle();
+        enablePollButton(false);
 
         if (item.readyStage != QueuedMedia.ReadyStage.UPLOADED) {
             waitForMediaLatch.countUp();
@@ -1259,7 +1355,7 @@ public final class ComposeActivity
         final int addCaptionId = 1;
         final int removeId = 2;
         popup.getMenu().add(0, addCaptionId, 0, R.string.action_set_caption);
-        popup.getMenu().add(0, removeId, 0, R.string.action_remove_media);
+        popup.getMenu().add(0, removeId, 0, R.string.action_remove);
         popup.setOnMenuItemClickListener(menuItem -> {
             switch (menuItem.getItemId()) {
                 case addCaptionId:
@@ -1378,6 +1474,7 @@ public final class ComposeActivity
         mediaQueued.remove(item);
         if (mediaQueued.size() == 0) {
             updateHideMediaToggle();
+            enablePollButton(true);
         }
         updateContentDescriptionForAllImages();
         enableButton(pickButton, true, true);
@@ -1685,8 +1782,9 @@ public final class ComposeActivity
         boolean contentWarningChanged = contentWarningBar.getVisibility() == View.VISIBLE &&
                 !TextUtils.isEmpty(contentWarning) && !startingContentWarning.startsWith(contentWarning.toString());
         boolean mediaChanged = !mediaQueued.isEmpty();
+        boolean pollChanged = poll != null;
 
-        if (textChanged || contentWarningChanged || mediaChanged) {
+        if (textChanged || contentWarningChanged || mediaChanged || pollChanged) {
             new AlertDialog.Builder(this)
                     .setMessage(R.string.compose_save_draft)
                     .setPositiveButton(R.string.action_save, (d, w) -> saveDraftAndFinish())
@@ -1722,77 +1820,74 @@ public final class ComposeActivity
                 inReplyToId,
                 getIntent().getStringExtra(REPLYING_STATUS_CONTENT_EXTRA),
                 getIntent().getStringExtra(REPLYING_STATUS_AUTHOR_USERNAME_EXTRA),
-                statusVisibility);
+                statusVisibility,
+                poll);
         finishWithoutSlideOutAnimation();
     }
 
     @Override
     public List<ComposeAutoCompleteAdapter.AutocompleteResult> search(String token) {
-        try {
-            switch (token.charAt(0)) {
-                case '@':
-                    try {
-                        List<Account> accountList = mastodonApi
-                                .searchAccounts(token.substring(1), false, 20, null)
-                                .blockingGet();
-                        return CollectionsKt.map(accountList,
-                                ComposeAutoCompleteAdapter.AccountResult::new);
-                    } catch (Throwable e) {
-                        return Collections.emptyList();
-                    }
-                case '#':
-                    Response<SearchResults> response = mastodonApi.search(token, false).execute();
-                    if (response.isSuccessful() && response.body() != null) {
-                        return CollectionsKt.map(
-                                response.body().getHashtags(),
-                                ComposeAutoCompleteAdapter.HashtagResult::new
-                        );
-                    } else {
-                        Log.e(TAG, String.format("Autocomplete search for %s failed.", token));
-                        return Collections.emptyList();
-                    }
-                case ':':
-                    try {
-                        emojiListRetrievalLatch.await();
-                    } catch (InterruptedException e) {
-                        Log.e(TAG, String.format("Autocomplete search for %s was interrupted.", token));
-                        return Collections.emptyList();
-                    }
-                    if (emojiList != null) {
-                        String incomplete = token.substring(1).toLowerCase();
-
-                        List<ComposeAutoCompleteAdapter.AutocompleteResult> results =
-                                new ArrayList<>();
-                        List<ComposeAutoCompleteAdapter.AutocompleteResult> resultsInside =
-                                new ArrayList<>();
-
-                        for (Emoji emoji : emojiList) {
-                            String shortcode = emoji.getShortcode().toLowerCase();
-
-                            if (shortcode.startsWith(incomplete)) {
-                                results.add(new ComposeAutoCompleteAdapter.EmojiResult(emoji));
-                            } else if (shortcode.indexOf(incomplete, 1) != -1) {
-                                resultsInside.add(new ComposeAutoCompleteAdapter.EmojiResult(emoji));
-                            }
-                        }
-
-                        if (!results.isEmpty() && !resultsInside.isEmpty()) {
-                            // both lists have results. include a separator between them.
-                            results.add(new ComposeAutoCompleteAdapter.ResultSeparator());
-                        }
-
-                        results.addAll(resultsInside);
-                        return results;
-                    } else {
-                        return Collections.emptyList();
-                    }
-                default:
-                    Log.w(TAG, "Unexpected autocompletion token: " + token);
+        switch (token.charAt(0)) {
+            case '@':
+                try {
+                    List<Account> accountList = mastodonApi
+                            .searchAccounts(token.substring(1), false, 20, null)
+                            .blockingGet();
+                    return CollectionsKt.map(accountList,
+                            ComposeAutoCompleteAdapter.AccountResult::new);
+                } catch (Throwable e) {
                     return Collections.emptyList();
-            }
-        } catch (IOException e) {
-            Log.e(TAG, String.format("Autocomplete search for %s failed.", token));
-            return Collections.emptyList();
+                }
+            case '#':
+                try {
+                    SearchResult searchResults = mastodonApi.searchObservable(token, null, false, null, null, null)
+                            .blockingGet();
+                    return CollectionsKt.map(
+                            searchResults.getHashtags(),
+                            ComposeAutoCompleteAdapter.HashtagResult::new
+                    );
+                } catch (Throwable e) {
+                    Log.e(TAG, String.format("Autocomplete search for %s failed.", token), e);
+                    return Collections.emptyList();
+                }
+            case ':':
+                try {
+                    emojiListRetrievalLatch.await();
+                } catch (InterruptedException e) {
+                    Log.e(TAG, String.format("Autocomplete search for %s was interrupted.", token));
+                    return Collections.emptyList();
+                }
+                if (emojiList != null) {
+                    String incomplete = token.substring(1).toLowerCase();
+
+                    List<ComposeAutoCompleteAdapter.AutocompleteResult> results =
+                            new ArrayList<>();
+                    List<ComposeAutoCompleteAdapter.AutocompleteResult> resultsInside =
+                            new ArrayList<>();
+
+                    for (Emoji emoji : emojiList) {
+                        String shortcode = emoji.getShortcode().toLowerCase();
+
+                        if (shortcode.startsWith(incomplete)) {
+                            results.add(new ComposeAutoCompleteAdapter.EmojiResult(emoji));
+                        } else if (shortcode.indexOf(incomplete, 1) != -1) {
+                            resultsInside.add(new ComposeAutoCompleteAdapter.EmojiResult(emoji));
+                        }
+                    }
+
+                    if (!results.isEmpty() && !resultsInside.isEmpty()) {
+                        // both lists have results. include a separator between them.
+                        results.add(new ComposeAutoCompleteAdapter.ResultSeparator());
+                    }
+
+                    results.addAll(resultsInside);
+                    return results;
+                } else {
+                    return Collections.emptyList();
+                }
+            default:
+                Log.w(TAG, "Unexpected autocompletion token: " + token);
+                return Collections.emptyList();
         }
     }
 
@@ -1808,6 +1903,8 @@ public final class ComposeActivity
         if (instanceEntity != null) {
             Integer max = instanceEntity.getMaximumTootCharacters();
             maximumTootCharacters = (max == null ? STATUS_CHARACTER_LIMIT : max);
+            maxPollOptions = instanceEntity.getMaxPollOptions();
+            maxPollOptionLength = instanceEntity.getMaxPollOptionLength();
             setEmojiList(instanceEntity.getEmojiList());
             updateVisibleCharactersLeft();
         }
@@ -1825,7 +1922,9 @@ public final class ComposeActivity
     }
 
     private void cacheInstanceMetadata(@NotNull AccountEntity activeAccount) {
-        InstanceEntity instanceEntity = new InstanceEntity(activeAccount.getDomain(), emojiList, maximumTootCharacters);
+        InstanceEntity instanceEntity = new InstanceEntity(
+                activeAccount.getDomain(), emojiList, maximumTootCharacters, maxPollOptions, maxPollOptionLength
+        );
         database.instanceDao().insertOrReplace(instanceEntity);
     }
 
@@ -1840,9 +1939,18 @@ public final class ComposeActivity
     }
 
     private void onFetchInstanceSuccess(Instance instance) {
-        if (instance != null && instance.getMaxTootChars() != null) {
-            maximumTootCharacters = instance.getMaxTootChars();
-            updateVisibleCharactersLeft();
+        if (instance != null) {
+
+            if (instance.getMaxTootChars() != null) {
+                maximumTootCharacters = instance.getMaxTootChars();
+                updateVisibleCharactersLeft();
+            }
+
+            if (instance.getPollLimits() != null) {
+                maxPollOptions = instance.getPollLimits().getMaxOptions();
+                maxPollOptionLength = instance.getPollLimits().getMaxOptionChars();
+            }
+
             cacheInstanceMetadata(accountManager.getActiveAccount());
         }
     }
@@ -1966,7 +2074,8 @@ public final class ComposeActivity
         private ArrayList<Attachment> mediaAttachments;
         @Nullable
         private Boolean sensitive;
-
+        @Nullable
+        private NewPoll poll;
 
         public IntentBuilder savedTootUid(int uid) {
             this.savedTootUid = uid;
@@ -2033,6 +2142,11 @@ public final class ComposeActivity
             return this;
         }
 
+        public IntentBuilder poll(NewPoll poll) {
+            this.poll = poll;
+            return this;
+        }
+
         public Intent build(Context context) {
             Intent intent = new Intent(context, ComposeActivity.class);
 
@@ -2073,8 +2187,11 @@ public final class ComposeActivity
             if (mediaAttachments != null) {
                 intent.putParcelableArrayListExtra(MEDIA_ATTACHMENTS_EXTRA, mediaAttachments);
             }
-            if(sensitive != null) {
+            if (sensitive != null) {
                 intent.putExtra(SENSITIVE_EXTRA, sensitive);
+            }
+            if (poll != null) {
+                intent.putExtra(POLL_EXTRA, poll);
             }
             return intent;
         }

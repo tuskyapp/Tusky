@@ -83,7 +83,7 @@ class AccountMediaFragment : BaseFragment(), RefreshableFragment, Injectable {
     private var fetchingStatus = FetchingStatus.NOT_FETCHING
     private var isVisibleToUser: Boolean = false
 
-    private var accountId: String?=null
+    private lateinit var accountId: String
 
     private val callback = object : Callback<List<Status>> {
         override fun onFailure(call: Call<List<Status>>?, t: Throwable?) {
@@ -165,8 +165,8 @@ class AccountMediaFragment : BaseFragment(), RefreshableFragment, Injectable {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        isSwipeToRefreshEnabled = arguments?.getBoolean(ARG_ENABLE_SWIPE_TO_REFRESH,true)==true
-        accountId =  arguments?.getString(ACCOUNT_ID_ARG)
+        isSwipeToRefreshEnabled = arguments?.getBoolean(ARG_ENABLE_SWIPE_TO_REFRESH,true) == true
+        accountId =  arguments?.getString(ACCOUNT_ID_ARG)!!
     }
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -262,7 +262,8 @@ class AccountMediaFragment : BaseFragment(), RefreshableFragment, Injectable {
         when (items[currentIndex].attachment.type) {
             Attachment.Type.IMAGE,
             Attachment.Type.GIFV,
-            Attachment.Type.VIDEO -> {
+            Attachment.Type.VIDEO,
+            Attachment.Type.AUDIO -> {
                 val intent = ViewMediaActivity.newIntent(context, items, currentIndex)
                 if (view != null && activity != null) {
                     val url = items[currentIndex].attachment.url

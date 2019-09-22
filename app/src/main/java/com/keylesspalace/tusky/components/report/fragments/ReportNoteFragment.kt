@@ -61,7 +61,7 @@ class ReportNoteFragment : Fragment(), Injectable {
 
     private fun handleChanges() {
         editNote.doAfterTextChanged {
-            viewModel.reportNote = it?.toString()
+            viewModel.reportNote = it?.toString() ?: ""
         }
         checkIsNotifyRemote.setOnCheckedChangeListener { _, isChecked ->
             viewModel.isRemoteNotify = isChecked

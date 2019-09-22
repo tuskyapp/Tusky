@@ -284,7 +284,7 @@
     <string name="error_failed_set_caption">Misslyckades med att ange bildtext</string>
     <string name="hint_describe_for_visually_impaired">Beskriv för synskadade\n(%d teckengräns)</string>
     <string name="action_set_caption">Ange bildtext</string>
-    <string name="action_remove_media">Ta bort</string>
+    <string name="action_remove">Ta bort</string>
     <string name="lock_account_label">Lås konto</string>
     <string name="lock_account_label_description">Kräver att du manuellt godkänner följare</string>
     <string name="compose_save_draft">Spara utkast?</string>
@@ -451,4 +451,18 @@
     <string name="title_accounts">Konton</string>
     <string name="failed_search">Sökning misslyckades</string>
 
-    </resources>
+    <string name="action_add_poll">Lägg till omröstning</string>
+    <string name="create_poll_title">Omröstning</string>
+    <string name="poll_duration_5_min">5 minuter</string>
+    <string name="poll_duration_30_min">30 minuter</string>
+    <string name="poll_duration_1_hour">1 timme</string>
+    <string name="poll_duration_6_hours">6 timmar</string>
+    <string name="poll_duration_1_day">1 dag</string>
+    <string name="poll_duration_3_days">3 dagar</string>
+    <string name="poll_duration_7_days">7 dagar</string>
+    <string name="add_poll_choice">Lägg till alternativ</string>
+    <string name="poll_allow_multiple_choices">Flerval</string>
+    <string name="poll_new_choice_hint">Val %d</string>
+    <string name="edit_poll">Redigera</string>
+
+</resources>

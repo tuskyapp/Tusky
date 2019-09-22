@@ -334,7 +334,7 @@
     <string name="hint_describe_for_visually_impaired">দৃষ্টি প্রতিবন্ধী জন্য বর্ণনা করুন
 \n(%d অক্ষর সীমা)</string>
     <string name="action_set_caption">ক্যাপশন সেট করুন</string>
-    <string name="action_remove_media">সরান</string>
+    <string name="action_remove">সরান</string>
     <string name="lock_account_label">অ্যাকাউন্ট লক করুন</string>
     <string name="lock_account_label_description">অনুসারী অনুমোদন করার জন্য আপনাকে প্রয়োজন</string>
     <string name="compose_save_draft">ড্রাফট সংরক্ষণ\?</string>
@@ -491,4 +491,18 @@
     <string name="title_accounts">অক্কোউন্টগুলি</string>
     <string name="failed_search">অনুসন্ধান করতে ব্যর্থ</string>
 
-    </resources>
+    <string name="action_add_poll">পোল যুক্ত করুন</string>
+    <string name="create_poll_title">ভোটগ্রহণ</string>
+    <string name="poll_duration_5_min">৫ মিনিট</string>
+    <string name="poll_duration_30_min">৩০ মিনিট</string>
+    <string name="poll_duration_1_hour">১ ঘন্টা</string>
+    <string name="poll_duration_6_hours">৬ ঘন্টা</string>
+    <string name="poll_duration_1_day">১ দিন</string>
+    <string name="poll_duration_3_days">৩ দিন</string>
+    <string name="poll_duration_7_days">৭ দিন</string>
+    <string name="add_poll_choice">পছন্দ যুক্ত করুন</string>
+    <string name="poll_allow_multiple_choices">একাধিক পছন্দ</string>
+    <string name="poll_new_choice_hint">পছন্দ %d</string>
+    <string name="edit_poll">সম্পাদন</string>
+
+</resources>

@@ -290,7 +290,7 @@
     <string name="hint_describe_for_visually_impaired">Décrire pour les malvoyants
 \n(%d caractères maximum)</string>
     <string name="action_set_caption">Mettre une légende</string>
-    <string name="action_remove_media">Supprimer le média</string>
+    <string name="action_remove">Supprimer le média</string>
     <string name="lock_account_label">Verrouiller le compte</string>
     <string name="lock_account_label_description">Vous devez approuvez manuellement les abonnements</string>
     <string name="compose_save_draft">Enregistrer comme brouillon ?</string>
@@ -455,4 +455,18 @@
     <string name="failed_search">Échec de la recherche</string>
 
     <string name="pref_title_alway_open_spoiler">Toujours ouvrir les pouets avec un contenu sensible</string>
-    </resources>
+    <string name="action_add_poll">Ajouter un sondage</string>
+    <string name="create_poll_title">Sondage</string>
+    <string name="poll_duration_5_min">5 minutes</string>
+    <string name="poll_duration_30_min">30 minutes</string>
+    <string name="poll_duration_1_hour">1 heure</string>
+    <string name="poll_duration_6_hours">6 heures</string>
+    <string name="poll_duration_1_day">1 jour</string>
+    <string name="poll_duration_3_days">3 jours</string>
+    <string name="poll_duration_7_days">7 jours</string>
+    <string name="add_poll_choice">Ajouter un choix</string>
+    <string name="poll_allow_multiple_choices">Choix multiples</string>
+    <string name="poll_new_choice_hint">Choix %d</string>
+    <string name="edit_poll">Éditer</string>
+
+</resources>

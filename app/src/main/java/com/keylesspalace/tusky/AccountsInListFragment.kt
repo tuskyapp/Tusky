@@ -36,6 +36,7 @@ import com.keylesspalace.tusky.viewmodel.AccountsInListViewModel
 import com.keylesspalace.tusky.viewmodel.State
 import com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider.from
 import com.uber.autodispose.autoDisposable
+import com.uber.autodispose.autoDispose
 import io.reactivex.android.schedulers.AndroidSchedulers
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.fragment_accounts_in_list.*
@@ -106,7 +107,7 @@ class AccountsInListFragment : DialogFragment(), Injectable {
 
         viewModel.state
                 .observeOn(AndroidSchedulers.mainThread())
-                .autoDisposable(from(this))
+                .autoDispose(from(this))
                 .subscribe { state ->
                     adapter.submitList(state.accounts.asRightOrNull() ?: listOf())
 

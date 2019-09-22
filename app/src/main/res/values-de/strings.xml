@@ -268,7 +268,7 @@
     <string name="error_failed_set_caption">Fehler beim Speichern der Beschreibung</string>
     <string name="hint_describe_for_visually_impaired">Für Menschen mit Sehbehinderung beschreiben\n(%d Zeichen)</string>
     <string name="action_set_caption">Beschreibung eingeben</string>
-    <string name="action_remove_media">entfernen</string>
+    <string name="action_remove">entfernen</string>
     <string name="lock_account_label">Gesperrtes Profil</string>
     <string name="lock_account_label_description">Wer dir folgen möchte, muss um deine Erlaubnis bitten</string>
     <string name="compose_save_draft">Entwurf speichern?</string>
@@ -424,4 +424,28 @@
 
     <string name="pref_title_show_notifications_filter">Benachrichtigungsfilter anzeigen</string>
 
+    <string name="create_poll_title">Umfrage</string>
+    <string name="poll_duration_5_min">5 Minuten</string>
+    <string name="poll_duration_30_min">30 Minuten</string>
+    <string name="poll_duration_1_hour">1 Stunde</string>
+    <string name="poll_duration_6_hours">6 Stunden</string>
+    <string name="poll_duration_1_day">1 Tag</string>
+    <string name="poll_duration_3_days">3 Tage</string>
+    <string name="poll_duration_7_days">7 Tage</string>
+    <string name="edit_poll">Bearbeiten</string>
+
+<string name="about_tusky_version">Tusky Version %s</string>
+    <string name="action_add_poll">Umfrage hinzufügen</string>
+    <string name="pref_title_alway_open_spoiler">Beiträge mit Inhaltswarnungen immer ausklappen</string>
+    <string name="description_poll">Umfrage mit den Möglichkeiten: %1$s, %2$s, %3$s, %4$s; %5$s</string>
+
+    <string name="compose_preview_image_description">Aktionen für Bild %s</string>
+
+    <string name="failed_fetch_statuses">Fehler beim Holen der Beiträge</string>
+    <string name="title_accounts">Konten</string>
+    <string name="failed_search">Fehler beim Suchen</string>
+
+    <string name="add_poll_choice">Auswahlmöglichkeit hinzufügen</string>
+    <string name="poll_allow_multiple_choices">Mehrere Möglichkeiten</string>
+    <string name="poll_new_choice_hint">Möglichkeit %d</string>
     </resources>

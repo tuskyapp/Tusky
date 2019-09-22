@@ -1,4 +1,4 @@
-/* Copyright 2017 Andrew Dawson
+/* Copyright 2019 Tusky Contributors
  *
  * This file is a part of Tusky.
  *
@@ -15,8 +15,23 @@
 
 package com.keylesspalace.tusky.entity
 
-data class SearchResults2 (
-    val accounts: List<Account>,
-    val statuses: List<Status>,
-    val hashtags: List<HashTag>
+import android.os.Parcelable
+import com.google.gson.annotations.SerializedName
+import kotlinx.android.parcel.Parcelize
+
+data class NewStatus(
+        val status: String,
+        @SerializedName("spoiler_text") val warningText: String,
+        @SerializedName("in_reply_to_id") val inReplyToId: String?,
+        val visibility: String,
+        val sensitive: Boolean,
+        @SerializedName("media_ids") val mediaIds: List<String>?,
+        val poll: NewPoll?
 )
+
+@Parcelize
+data class NewPoll(
+        val options: List<String>,
+        @SerializedName("expires_in") val expiresIn: Int,
+        val multiple: Boolean
+): Parcelable

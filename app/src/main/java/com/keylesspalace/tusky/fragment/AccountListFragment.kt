@@ -40,7 +40,7 @@ import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.view.EndlessOnScrollListener
 import com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider.from
-import com.uber.autodispose.autoDisposable
+import com.uber.autodispose.autoDispose
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import kotlinx.android.synthetic.main.fragment_account_list.*
@@ -57,7 +57,7 @@ class AccountListFragment : BaseFragment(), AccountActionListener, Injectable {
     lateinit var api: MastodonApi
 
     private lateinit var type: Type
-    private var id: String? = null
+    private lateinit var id: String
     private lateinit var scrollListener: EndlessOnScrollListener
     private lateinit var adapter: AccountAdapter
     private var fetching = false
@@ -66,7 +66,7 @@ class AccountListFragment : BaseFragment(), AccountActionListener, Injectable {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         type = arguments?.getSerializable(ARG_TYPE) as Type
-        id = arguments?.getString(ARG_ID)
+        id = arguments?.getString(ARG_ID)!!
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
@@ -275,7 +275,7 @@ class AccountListFragment : BaseFragment(), AccountActionListener, Injectable {
 
         getFetchCallByListType(type, id)
                 .observeOn(AndroidSchedulers.mainThread())
-                .autoDisposable(from(this, Lifecycle.Event.ON_DESTROY))
+                .autoDispose(from(this, Lifecycle.Event.ON_DESTROY))
                 .subscribe({ response ->
                     val accountList = response.body()
 

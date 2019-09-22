@@ -128,7 +128,8 @@ abstract class SearchFragment<T> : Fragment(),
         bottomSheetActivity?.viewUrl(url)
     }
 
-    protected val bottomSheetActivity = (activity as? BottomSheetActivity)
+    protected val bottomSheetActivity
+            get() = (activity as? BottomSheetActivity)
 
     override fun onRefresh() {
 

@@ -289,7 +289,7 @@
     <string name="error_failed_set_caption">Nastavení popisku selhalo</string>
     <string name="hint_describe_for_visually_impaired">Popis pro zrakově postižené\n(limit %d znaků)</string>
     <string name="action_set_caption">Nastavit popisek</string>
-    <string name="action_remove_media">Odstranit</string>
+    <string name="action_remove">Odstranit</string>
     <string name="lock_account_label">Uzamknout účet</string>
     <string name="lock_account_label_description">Vyžaduje, abyste ručně schvaloval/a sledující</string>
     <string name="compose_save_draft">Uložit koncept?</string>
@@ -332,14 +332,14 @@
     <string name="unpin_action">Odepnout</string>
     <string name="pin_action">Připnout</string>
     <plurals name="favs">
-	<item quantity="one">&lt;b>%1$s&lt;/b> oblíbení</item>
-	<item quantity="few">&lt;b>%1$s&lt;/b> oblíbení</item>
-	<item quantity="other">&lt;b>%1$s&lt;/b> oblíbení</item>
+	<item quantity="one">&lt;b&gt;%1$s&lt;/b&gt; oblíbení</item>
+	<item quantity="few">&lt;b&gt;%1$s&lt;/b&gt; oblíbení</item>
+	<item quantity="other">&lt;b&gt;%1$s&lt;/b&gt; oblíbení</item>
 </plurals>
     <plurals name="reblogs">
-	<item quantity="one">&lt;b>%s&lt;/b> boost</item>
-	<item quantity="few">&lt;b>%s&lt;/b> boost</item>
-	<item quantity="other">&lt;b>%s&lt;/b> boostů</item>
+	<item quantity="one">&lt;b&gt;%s&lt;/b&gt; boost</item>
+	<item quantity="few">&lt;b&gt;%s&lt;/b&gt; boost</item>
+	<item quantity="other">&lt;b&gt;%s&lt;/b&gt; boostů</item>
 </plurals>
     <string name="title_reblogged_by">Boostnuto uživatelem</string>
     <string name="title_favourited_by">Oblíbeno uživatelem</string>
@@ -453,4 +453,17 @@
     <string name="report_description_remote_instance">Tento účet je z jiného serveru. Chcete na něj také poslat anonymizovanou kopii\?</string>
 
     <string name="pref_title_show_notifications_filter">Zobrazit filtr oznámení</string>
+<string name="create_poll_title">Anketa</string>
+    <string name="poll_duration_5_min">5 minut</string>
+    <string name="poll_duration_30_min">30 minut</string>
+    <string name="poll_duration_1_hour">1 hodinu</string>
+    <string name="poll_duration_6_hours">6 hodin</string>
+    <string name="poll_duration_1_day">1 den</string>
+    <string name="poll_duration_3_days">3 dny</string>
+    <string name="poll_duration_7_days">7 dní</string>
+    <string name="add_poll_choice">Přidat možnost</string>
+    <string name="poll_allow_multiple_choices">Lze zvolit více možností</string>
+    <string name="poll_new_choice_hint">Možnost %d</string>
+    <string name="edit_poll">Upravit</string>
+
 </resources>

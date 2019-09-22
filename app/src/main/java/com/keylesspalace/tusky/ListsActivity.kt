@@ -42,7 +42,7 @@ import com.keylesspalace.tusky.viewmodel.ListsViewModel.LoadingState.*
 import com.mikepenz.google_material_typeface_library.GoogleMaterial
 import com.mikepenz.iconics.IconicsDrawable
 import com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider.from
-import com.uber.autodispose.autoDisposable
+import com.uber.autodispose.autoDispose
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -92,7 +92,7 @@ class ListsActivity : BaseActivity(), Injectable, HasAndroidInjector {
         viewModel = viewModelFactory.create(ListsViewModel::class.java)
         viewModel.state
                 .observeOn(AndroidSchedulers.mainThread())
-                .autoDisposable(from(this))
+                .autoDispose(from(this))
                 .subscribe(this::update)
         viewModel.retryLoading()
 
@@ -101,7 +101,7 @@ class ListsActivity : BaseActivity(), Injectable, HasAndroidInjector {
         }
 
         viewModel.events.observeOn(AndroidSchedulers.mainThread())
-                .autoDisposable(from(this))
+                .autoDispose(from(this))
                 .subscribe { event ->
                     @Suppress("WHEN_ENUM_CAN_BE_NULL_IN_JAVA")
                     when (event) {

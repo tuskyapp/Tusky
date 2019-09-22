@@ -19,7 +19,7 @@ import androidx.lifecycle.Transformations
 import androidx.paging.Config
 import androidx.paging.toLiveData
 import com.keylesspalace.tusky.components.search.SearchType
-import com.keylesspalace.tusky.entity.SearchResults2
+import com.keylesspalace.tusky.entity.SearchResult
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.Listing
 import io.reactivex.disposables.CompositeDisposable
@@ -30,7 +30,7 @@ class SearchRepository<T>(private val mastodonApi: MastodonApi) {
     private val executor = Executors.newSingleThreadExecutor()
 
     fun getSearchData(searchType: SearchType, searchRequest: String?, disposables: CompositeDisposable, pageSize: Int = 20,
-                      initialItems: List<T>? = null, parser: (SearchResults2?) -> List<T>): Listing<T> {
+                      initialItems: List<T>? = null, parser: (SearchResult?) -> List<T>): Listing<T> {
         val sourceFactory = SearchDataSourceFactory(mastodonApi, searchType, searchRequest, disposables, executor, initialItems, parser)
         val livePagedList = sourceFactory.toLiveData(
                 config = Config(pageSize = pageSize, enablePlaceholders = false, initialLoadSizeHint = pageSize * 2),

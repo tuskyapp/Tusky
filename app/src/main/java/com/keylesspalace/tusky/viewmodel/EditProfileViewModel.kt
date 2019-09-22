@@ -273,13 +273,13 @@ class EditProfileViewModel  @Inject constructor(
         if(instanceData.value == null || instanceData.value is Error) {
             instanceData.postValue(Loading())
 
-            mastodonApi.instance.subscribe(
-                            {instance ->
-                                instanceData.postValue(Success(instance))
-                            },
-                            {
-                                instanceData.postValue(Error())
-                            })
+            mastodonApi.getInstance().subscribe(
+                    { instance ->
+                        instanceData.postValue(Success(instance))
+                    },
+                    {
+                        instanceData.postValue(Error())
+                    })
                     .addTo(disposeables)
         }
     }

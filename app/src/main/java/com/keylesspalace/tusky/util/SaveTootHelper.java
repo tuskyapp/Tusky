@@ -17,6 +17,7 @@ import com.google.gson.reflect.TypeToken;
 import com.keylesspalace.tusky.BuildConfig;
 import com.keylesspalace.tusky.db.TootDao;
 import com.keylesspalace.tusky.db.TootEntity;
+import com.keylesspalace.tusky.entity.NewPoll;
 import com.keylesspalace.tusky.entity.Status;
 
 import java.io.File;
@@ -41,17 +42,18 @@ public final class SaveTootHelper {
 
     @SuppressLint("StaticFieldLeak")
     public boolean saveToot(@NonNull String content,
-                             @NonNull String contentWarning,
-                             @Nullable String savedJsonUrls,
-                             @NonNull List<String> mediaUris,
-                             @NonNull List<String> mediaDescriptions,
-                             int savedTootUid,
-                             @Nullable String inReplyToId,
-                             @Nullable String replyingStatusContent,
-                             @Nullable String replyingStatusAuthorUsername,
-                             @NonNull Status.Visibility statusVisibility) {
+                            @NonNull String contentWarning,
+                            @Nullable String savedJsonUrls,
+                            @NonNull List<String> mediaUris,
+                            @NonNull List<String> mediaDescriptions,
+                            int savedTootUid,
+                            @Nullable String inReplyToId,
+                            @Nullable String replyingStatusContent,
+                            @Nullable String replyingStatusAuthorUsername,
+                            @NonNull Status.Visibility statusVisibility,
+                            @Nullable NewPoll poll) {
 
-        if (TextUtils.isEmpty(content) && mediaUris.isEmpty()) {
+        if (TextUtils.isEmpty(content) && mediaUris.isEmpty() && poll == null) {
             return false;
         }
 
@@ -86,7 +88,8 @@ public final class SaveTootHelper {
                 inReplyToId,
                 replyingStatusContent,
                 replyingStatusAuthorUsername,
-                statusVisibility);
+                statusVisibility,
+                poll);
 
         new AsyncTask<Void, Void, Void>() {
             @Override

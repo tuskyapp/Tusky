@@ -163,6 +163,7 @@ public final class SavedTootActivity extends BaseActivity implements SavedTootAd
                 .replyingStatusAuthor(item.getInReplyToUsername())
                 .replyingStatusContent(item.getInReplyToText())
                 .visibility(item.getVisibility())
+                .poll(item.getPoll())
                 .build(this);
         startActivity(intent);
     }

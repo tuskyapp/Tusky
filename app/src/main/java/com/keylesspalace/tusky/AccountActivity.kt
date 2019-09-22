@@ -115,10 +115,6 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
         // Obtain information to fill out the profile.
         viewModel.setAccountInfo(intent.getStringExtra(KEY_ACCOUNT_ID))
 
-        if (viewModel.isSelf) {
-            updateButtons()
-        }
-
         val sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this)
         animateAvatar = sharedPrefs.getBoolean("animateGifAvatars", false)
         hideFab = sharedPrefs.getBoolean("fabHide", false)
@@ -129,6 +125,10 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
         setupAccountViews()
         setupRefreshLayout()
         subscribeObservables()
+
+        if (viewModel.isSelf) {
+            updateButtons()
+        }
     }
 
     /**

@@ -24,10 +24,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Environment;
-import android.text.SpannableStringBuilder;
-import android.text.Spanned;
 import android.text.TextUtils;
-import android.text.style.URLSpan;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -40,6 +37,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.core.app.ActivityOptionsCompat;
 import androidx.core.view.ViewCompat;
+import androidx.lifecycle.Lifecycle;
 
 import com.keylesspalace.tusky.BaseActivity;
 import com.keylesspalace.tusky.BottomSheetActivity;
@@ -68,9 +66,13 @@ import java.util.regex.Pattern;
 
 import javax.inject.Inject;
 
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import static com.uber.autodispose.AutoDispose.autoDisposable;
+import static com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider.from;
 
 /* Note from Andrew on Jan. 22, 2017: This class is a design problem for me, so I left it with an
  * awkward name. TimelineFragment and NotificationFragment have significant overlap but the nature
@@ -308,7 +310,8 @@ public abstract class SFragment extends BaseFragment implements Injectable {
         switch (type) {
             case GIFV:
             case VIDEO:
-            case IMAGE: {
+            case IMAGE:
+            case AUDIO: {
                 final List<AttachmentViewData> attachments = AttachmentViewData.list(actionable);
                 final Intent intent = ViewMediaActivity.newIntent(getContext(), attachments,
                         urlIndex);
@@ -347,51 +350,60 @@ public abstract class SFragment extends BaseFragment implements Injectable {
         new AlertDialog.Builder(getActivity())
                 .setMessage(R.string.dialog_delete_toot_warning)
                 .setPositiveButton(android.R.string.ok, (dialogInterface, i) -> {
-                    timelineCases.delete(id);
+                    timelineCases.delete(id)
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .as(autoDisposable(from(this, Lifecycle.Event.ON_DESTROY)))
+                            .subscribe(
+                                    deletedStatus -> {},
+                                    error -> {
+                                        Log.w("SFragment", "error deleting status", error);
+                                        Toast.makeText(getContext(), R.string.error_generic, Toast.LENGTH_SHORT).show();
+                                    });
                     removeItem(position);
                 })
                 .setNegativeButton(android.R.string.cancel, null)
                 .show();
     }
 
-    private void showConfirmEditDialog(final String id, final int position, Status status) {
+    private void showConfirmEditDialog(final String id, final int position, final Status status) {
         if (getActivity() == null) {
             return;
         }
         new AlertDialog.Builder(getActivity())
                 .setMessage(R.string.dialog_redraft_toot_warning)
                 .setPositiveButton(android.R.string.ok, (dialogInterface, i) -> {
-                    timelineCases.delete(id);
-                    removeItem(position);
+                    timelineCases.delete(id)
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .as(autoDisposable(from(this, Lifecycle.Event.ON_DESTROY)))
+                            .subscribe(deletedStatus -> {
+                                        removeItem(position);
 
-                    Intent intent = new ComposeActivity.IntentBuilder()
-                            .tootText(getEditableText(status.getContent(), status.getMentions()))
-                            .inReplyToId(status.getInReplyToId())
-                            .visibility(status.getVisibility())
-                            .contentWarning(status.getSpoilerText())
-                            .mediaAttachments(status.getAttachments())
-                            .sensitive(status.getSensitive())
-                            .build(getContext());
-                    startActivity(intent);
+                                        if(deletedStatus.isEmpty()) {
+                                            deletedStatus = status.toDeletedStatus();
+                                        }
+
+                                        ComposeActivity.IntentBuilder intentBuilder = new ComposeActivity.IntentBuilder()
+                                                .tootText(deletedStatus.getText())
+                                                .inReplyToId(deletedStatus.getInReplyToId())
+                                                .visibility(deletedStatus.getVisibility())
+                                                .contentWarning(deletedStatus.getSpoilerText())
+                                                .mediaAttachments(deletedStatus.getAttachments())
+                                                .sensitive(deletedStatus.getSensitive());
+                                        if(deletedStatus.getPoll() != null) {
+                                            intentBuilder.poll(deletedStatus.getPoll().toNewPoll(deletedStatus.getCreatedAt()));
+                                        }
+
+                                        Intent intent = intentBuilder.build(getContext());
+                                        startActivity(intent);
+                                    },
+                                    error -> {
+                                        Log.w("SFragment", "error deleting status", error);
+                                        Toast.makeText(getContext(), R.string.error_generic, Toast.LENGTH_SHORT).show();
+                                    });
+
                 })
                 .setNegativeButton(android.R.string.cancel, null)
                 .show();
-    }
-
-    private String getEditableText(Spanned content, Status.Mention[] mentions) {
-        SpannableStringBuilder builder = new SpannableStringBuilder(content);
-        for (URLSpan span : content.getSpans(0, content.length(), URLSpan.class)) {
-            String url = span.getURL();
-            for (Status.Mention mention : mentions) {
-                if (url.equals(mention.getUrl())) {
-                    int start = builder.getSpanStart(span);
-                    int end = builder.getSpanEnd(span);
-                    builder.replace(start, end, '@' + mention.getUsername());
-                    break;
-                }
-            }
-        }
-        return builder.toString();
     }
 
     private void openAsAccount(String statusUrl, AccountEntity account) {
@@ -470,7 +482,7 @@ public abstract class SFragment extends BaseFragment implements Injectable {
 
     boolean shouldFilterStatus(Status status) {
         return (filterRemoveRegex && (filterRemoveRegexMatcher.reset(status.getActionableStatus().getContent()).find()
-            || (!status.getSpoilerText().isEmpty() && filterRemoveRegexMatcher.reset(status.getActionableStatus().getSpoilerText()).find())));
+                || (!status.getSpoilerText().isEmpty() && filterRemoveRegexMatcher.reset(status.getActionableStatus().getSpoilerText()).find())));
     }
 
     private void applyFilters(boolean refresh) {

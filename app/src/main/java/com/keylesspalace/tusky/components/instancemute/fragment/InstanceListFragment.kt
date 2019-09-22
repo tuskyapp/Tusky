@@ -21,7 +21,7 @@ import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.view.EndlessOnScrollListener
 import com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider.from
-import com.uber.autodispose.autoDisposable
+import com.uber.autodispose.autoDispose
 import io.reactivex.android.schedulers.AndroidSchedulers
 import kotlinx.android.synthetic.main.fragment_instance_list.*
 import retrofit2.Call
@@ -113,9 +113,9 @@ class InstanceListFragment: BaseFragment(), Injectable, InstanceActionListener {
             recyclerView.post { adapter.bottomLoading = true }
         }
 
-        api.domainBlocks(id, bottomId, null)
+        api.domainBlocks(id, bottomId)
                 .observeOn(AndroidSchedulers.mainThread())
-                .autoDisposable(from(this, Lifecycle.Event.ON_DESTROY))
+                .autoDispose(from(this, Lifecycle.Event.ON_DESTROY))
                 .subscribe({ response ->
                     val instances = response.body()
 

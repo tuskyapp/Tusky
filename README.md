@@ -7,7 +7,6 @@ Tusky is a beautiful Android client for [Mastodon](https://github.com/tootsuite/
 
 [<img src="/assets/fdroid_badge.png" alt="Get it on F-Droid" height="80" />](https://f-droid.org/repository/browse/?fdid=com.keylesspalace.tusky)
 [<img src="https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png" alt="Get it on Google Play" height="80" />](https://play.google.com/store/apps/details?id=com.keylesspalace.tusky&utm_source=github&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1)
-[<img src="/assets/amazon_badge.png" alt="Get it on Amazon" height="80" />](https://www.amazon.com/dp/B077ZWWX9T)
 
 ## Features
 

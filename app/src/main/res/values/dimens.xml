@@ -42,4 +42,6 @@
     <dimen name="min_report_button_width">160dp</dimen>
 
     <dimen name="card_radius">5dp</dimen>
+
+    <dimen name="poll_preview_padding">12dp</dimen>
 </resources>

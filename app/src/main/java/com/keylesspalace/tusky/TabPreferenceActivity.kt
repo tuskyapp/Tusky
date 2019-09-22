@@ -32,7 +32,7 @@ import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.util.onTextChanged
 import com.keylesspalace.tusky.util.visible
 import com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider.from
-import com.uber.autodispose.autoDisposable
+import com.uber.autodispose.autoDispose
 import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_tab_preference.*
@@ -252,7 +252,7 @@ class TabPreferenceActivity : BaseActivity(), Injectable, ItemInteractionListene
                 accountManager.saveAccount(it)
             }
                     .subscribeOn(Schedulers.io())
-                    .autoDisposable(from(this, Lifecycle.Event.ON_DESTROY))
+                    .autoDispose(from(this, Lifecycle.Event.ON_DESTROY))
                     .subscribe()
 
         }
