@@ -686,7 +686,7 @@ public final class ViewThreadFragment extends SFragment implements
     }
 
     @Override
-    protected boolean filterIsRelevant(Filter filter) {
+    protected boolean filterIsRelevant(@NonNull Filter filter) {
         return filter.getContext().contains(Filter.THREAD);
     }
 

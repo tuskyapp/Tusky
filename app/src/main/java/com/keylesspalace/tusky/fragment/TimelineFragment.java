@@ -377,7 +377,7 @@ public class TimelineFragment extends SFragment implements
     }
 
     @Override
-    protected boolean filterIsRelevant(Filter filter) {
+    protected boolean filterIsRelevant(@NonNull Filter filter) {
         return filterContextMatchesKind(kind, filter.getContext());
     }
 
