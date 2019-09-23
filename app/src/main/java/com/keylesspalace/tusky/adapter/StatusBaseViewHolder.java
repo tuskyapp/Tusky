@@ -682,7 +682,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         String description = context.getString(R.string.description_status,
                 status.getUserFullName(),
                 getContentWarningDescription(context, status),
-                (!status.isSensitive() || status.isExpanded() ? status.getContent() : ""),
+                (TextUtils.isEmpty(status.getSpoilerText()) || !status.isSensitive() || status.isExpanded() ? status.getContent() : ""),
                 getCreatedAtDescription(status.getCreatedAt()),
                 getReblogDescription(context, status),
                 status.getNickname(),
