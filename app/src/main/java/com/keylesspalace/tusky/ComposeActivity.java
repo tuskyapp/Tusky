@@ -1718,6 +1718,7 @@ public final class ComposeActivity
             color = ContextCompat.getColor(this, R.color.tusky_blue);
         } else {
             contentWarningBar.setVisibility(View.GONE);
+            textEditor.requestFocus();
             color = ThemeUtils.getColor(this, android.R.attr.textColorTertiary);
         }
         contentWarningButton.getDrawable().setColorFilter(color, PorterDuff.Mode.SRC_IN);
