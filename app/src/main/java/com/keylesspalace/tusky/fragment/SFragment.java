@@ -33,6 +33,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.VisibleForTesting;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.core.app.ActivityOptionsCompat;
@@ -52,6 +53,7 @@ import com.keylesspalace.tusky.db.AccountManager;
 import com.keylesspalace.tusky.di.Injectable;
 import com.keylesspalace.tusky.entity.Attachment;
 import com.keylesspalace.tusky.entity.Filter;
+import com.keylesspalace.tusky.entity.PollOption;
 import com.keylesspalace.tusky.entity.Status;
 import com.keylesspalace.tusky.network.MastodonApi;
 import com.keylesspalace.tusky.network.TimelineCases;
@@ -445,7 +447,8 @@ public abstract class SFragment extends BaseFragment implements Injectable {
         });
     }
 
-    void reloadFilters(boolean forceRefresh) {
+    @VisibleForTesting
+    public void reloadFilters(boolean forceRefresh) {
         if (filters != null && !forceRefresh) {
             applyFilters(forceRefresh);
             return;
@@ -469,7 +472,7 @@ public abstract class SFragment extends BaseFragment implements Injectable {
         });
     }
 
-    protected boolean filterIsRelevant(Filter filter) {
+    protected boolean filterIsRelevant(@NonNull Filter filter) {
         // Called when building local filter expression
         // Override to select relevant filters for your fragment
         return false;
@@ -480,7 +483,17 @@ public abstract class SFragment extends BaseFragment implements Injectable {
         // Override to refresh your fragment
     }
 
-    boolean shouldFilterStatus(Status status) {
+    @VisibleForTesting
+    public boolean shouldFilterStatus(Status status) {
+
+        if(filterRemoveRegex && status.getPoll() != null) {
+            for(PollOption option: status.getPoll().getOptions()) {
+                if(filterRemoveRegexMatcher.reset(option.getTitle()).find()) {
+                    return true;
+                }
+            }
+        }
+
         return (filterRemoveRegex && (filterRemoveRegexMatcher.reset(status.getActionableStatus().getContent()).find()
                 || (!status.getSpoilerText().isEmpty() && filterRemoveRegexMatcher.reset(status.getActionableStatus().getSpoilerText()).find())));
     }
