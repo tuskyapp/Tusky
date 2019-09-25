@@ -453,4 +453,9 @@
     <string name="title_accounts">Fiókok</string>
     <string name="failed_search">Sikertelen keresés</string>
 
+    <string name="action_add_poll">Szavazás hozzáadása</string>
+    <string name="create_poll_title">Szavazás</string>
+    <string name="poll_duration_5_min">5 perc</string>
+    <string name="poll_duration_30_min">30 perc</string>
+    <string name="poll_duration_1_hour">1 óra</string>
     </resources>
