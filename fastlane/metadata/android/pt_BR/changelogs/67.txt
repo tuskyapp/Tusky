@@ -1,0 +1,9 @@
+Tusky v9.0
+
+- Agora você pode criar enquetes no Tusky
+- Pesquisa melhorada
+- Nova opção nas preferências da conta: "Sempre expandir toots com Aviso de Conteúdo"
+- Avatares em formato quadrado arredondado
+- Agora é possível denunciar usuários mesmo sem toots
+- Tusky se recusará a se conectar através de conexões de texto claro em Android 6+
+- Muitas outras pequenas melhorias e correções de bugs
