@@ -57,7 +57,8 @@ class AccountListFragment : BaseFragment(), AccountActionListener, Injectable {
     lateinit var api: MastodonApi
 
     private lateinit var type: Type
-    private lateinit var id: String
+    private var id: String? = null
+
     private lateinit var scrollListener: EndlessOnScrollListener
     private lateinit var adapter: AccountAdapter
     private var fetching = false
@@ -66,7 +67,7 @@ class AccountListFragment : BaseFragment(), AccountActionListener, Injectable {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         type = arguments?.getSerializable(ARG_TYPE) as Type
-        id = arguments?.getString(ARG_ID)!!
+        id = arguments?.getString(ARG_ID)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
@@ -251,36 +252,52 @@ class AccountListFragment : BaseFragment(), AccountActionListener, Injectable {
         Log.e(TAG, "Failed to $verb account id $accountId.")
     }
 
-    private fun getFetchCallByListType(type: Type, fromId: String?): Single<Response<List<Account>>> {
+    private fun getFetchCallByListType(fromId: String?): Single<Response<List<Account>>> {
         return when (type) {
-            Type.FOLLOWS -> api.accountFollowing(id, fromId)
-            Type.FOLLOWERS -> api.accountFollowers(id, fromId)
+            Type.FOLLOWS -> {
+                val accountId = requireId(type, id)
+                api.accountFollowing(accountId, fromId)
+            }
+            Type.FOLLOWERS -> {
+                val accountId = requireId(type, id)
+                api.accountFollowers(accountId, fromId)
+            }
             Type.BLOCKS -> api.blocks(fromId)
             Type.MUTES -> api.mutes(fromId)
             Type.FOLLOW_REQUESTS -> api.followRequests(fromId)
-            Type.REBLOGGED -> api.statusRebloggedBy(id, fromId)
-            Type.FAVOURITED -> api.statusFavouritedBy(id, fromId)
+            Type.REBLOGGED -> {
+                val statusId = requireId(type, id)
+                api.statusRebloggedBy(statusId, fromId)
+            }
+            Type.FAVOURITED -> {
+                val statusId = requireId(type, id)
+                api.statusFavouritedBy(statusId, fromId)
+            }
         }
     }
 
-    private fun fetchAccounts(id: String? = null) {
+    private fun requireId(type: Type, id: String?): String {
+        return requireNotNull(id) { "id must not be null for type "+type.name }
+    }
+
+    private fun fetchAccounts(fromId: String? = null) {
         if (fetching) {
             return
         }
         fetching = true
 
-        if (id != null) {
+        if (fromId != null) {
             recyclerView.post { adapter.setBottomLoading(true) }
         }
 
-        getFetchCallByListType(type, id)
+        getFetchCallByListType(fromId)
                 .observeOn(AndroidSchedulers.mainThread())
                 .autoDispose(from(this, Lifecycle.Event.ON_DESTROY))
                 .subscribe({ response ->
                     val accountList = response.body()
 
                     if (response.isSuccessful && accountList != null) {
-                        val linkHeader = response.headers().get("Link")
+                        val linkHeader = response.headers()["Link"]
                         onFetchAccountsSuccess(accountList, linkHeader)
                     } else {
                         onFetchAccountsFailure(Exception(response.message()))
