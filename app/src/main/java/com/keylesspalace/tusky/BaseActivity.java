@@ -50,8 +50,6 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import retrofit2.Call;
-
 public abstract class BaseActivity extends AppCompatActivity implements Injectable {
 
     @Inject
