@@ -54,8 +54,6 @@ import retrofit2.Call;
 
 public abstract class BaseActivity extends AppCompatActivity implements Injectable {
 
-    protected List<Call> callList;
-
     @Inject
     public ThemeUtils themeUtils;
     @Inject
@@ -95,7 +93,6 @@ public abstract class BaseActivity extends AppCompatActivity implements Injectab
             redirectIfNotLoggedIn();
         }
 
-        callList = new ArrayList<>();
         requesters = new HashMap<>();
     }
 
@@ -162,14 +159,6 @@ public abstract class BaseActivity extends AppCompatActivity implements Injectab
             bar.setAction(actionId, listener);
             bar.show();
         }
-    }
-
-    @Override
-    protected void onDestroy() {
-        for (Call call : callList) {
-            call.cancel();
-        }
-        super.onDestroy();
     }
 
     public void showAccountChooserDialog(CharSequence dialogTitle, boolean showActiveAccount, AccountSelectionListener listener) {
