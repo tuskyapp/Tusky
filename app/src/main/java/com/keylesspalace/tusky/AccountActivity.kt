@@ -236,10 +236,17 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
 
         // Add a listener to change the toolbar icon color when it enters/exits its collapsed state.
         accountAppBarLayout.addOnOffsetChangedListener(object : AppBarLayout.OnOffsetChangedListener {
+            var priorOffset = 0
+
             @AttrRes
             var priorAttribute = R.attr.account_toolbar_icon_tint_uncollapsed
 
             override fun onOffsetChanged(appBarLayout: AppBarLayout, verticalOffset: Int) {
+
+                if(verticalOffset == priorOffset) {
+                    return
+                }
+                priorOffset = verticalOffset
 
                 @AttrRes val attribute = if (titleVisibleHeight + verticalOffset < 0) {
                     supportActionBar?.setDisplayShowTitleEnabled(true)
