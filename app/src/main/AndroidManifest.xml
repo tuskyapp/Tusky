@@ -103,7 +103,6 @@
         <activity android:name=".ViewTagActivity" />
         <activity
             android:name=".ViewMediaActivity"
-            android:configChanges="orientation|screenSize|keyboardHidden"
             android:theme="@style/TuskyBaseTheme" />
         <activity
             android:name=".AccountActivity"
