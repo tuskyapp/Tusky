@@ -27,6 +27,8 @@ The nightly build from master is [available on Google Play](https://play.google.
 
 If you have any bug reports, feature requests or questions please open an issue or send us a toot at [Tusky@mastodon.social](https://mastodon.social/@Tusky)!
 
+For translating Tusky into your language, visit https://weblate.tusky.app/
+
 ### Head of development
 
 This app was developed by [Vavassor@mastodon.social](https://mastodon.social/@Vavassor).
