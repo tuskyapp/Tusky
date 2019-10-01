@@ -50,7 +50,7 @@ class ViewVideoFragment : ViewMediaFragment() {
     override fun setUserVisibleHint(isVisibleToUser: Boolean) {
         // Start/pause/resume video playback as fragment is shown/hidden
         super.setUserVisibleHint(isVisibleToUser)
-        if (videoPlayer == null) {
+        if (videoView == null) {
             return
         }
 
@@ -58,10 +58,10 @@ class ViewVideoFragment : ViewMediaFragment() {
             if (mediaActivity.isToolbarVisible) {
                 handler.postDelayed(hideToolbar, TOOLBAR_HIDE_DELAY_MS)
             }
-            videoPlayer.start()
+            videoView.start()
         } else {
             handler.removeCallbacks(hideToolbar)
-            videoPlayer.pause()
+            videoView.pause()
             mediaController.hide()
         }
     }
@@ -69,18 +69,31 @@ class ViewVideoFragment : ViewMediaFragment() {
     @SuppressLint("ClickableViewAccessibility")
     override fun setupMediaView(url: String, previewUrl: String?) {
         descriptionView = mediaDescription
-        val videoView = videoPlayer
+
         videoView.transitionName = url
         videoView.setVideoPath(url)
         mediaController = MediaController(mediaActivity)
-        mediaController.setMediaPlayer(videoPlayer)
-        videoPlayer.setMediaController(mediaController)
+        mediaController.setMediaPlayer(videoView)
+        videoView.setMediaController(mediaController)
         videoView.requestFocus()
         videoView.setOnTouchListener { _, _ ->
             mediaActivity.onPhotoTap()
             false
         }
         videoView.setOnPreparedListener { mp ->
+            val containerWidth = videoContainer.measuredWidth.toFloat()
+            val containerHeight = videoContainer.measuredHeight.toFloat()
+            val videoWidth = mp.videoWidth.toFloat()
+            val videoHeight = mp.videoHeight.toFloat()
+
+            if(containerWidth/containerHeight > videoWidth/videoHeight) {
+                videoView.layoutParams.height = ViewGroup.LayoutParams.MATCH_PARENT
+                videoView.layoutParams.width = ViewGroup.LayoutParams.WRAP_CONTENT
+            } else {
+                videoView.layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT
+                videoView.layoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT
+            }
+
             progressBar.hide()
             mp.isLooping = true
             if (arguments!!.getBoolean(ARG_START_POSTPONED_TRANSITION)) {
@@ -117,7 +130,7 @@ class ViewVideoFragment : ViewMediaFragment() {
     }
 
     override fun onToolbarVisibilityChange(visible: Boolean) {
-        if (videoPlayer == null || !userVisibleHint) {
+        if (videoView == null || !userVisibleHint) {
             return
         }
 
