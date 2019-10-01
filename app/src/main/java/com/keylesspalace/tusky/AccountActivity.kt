@@ -227,26 +227,27 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
 
         // Setup the toolbar.
         setSupportActionBar(accountToolbar)
-        supportActionBar?.title = null
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.setDisplayShowHomeEnabled(true)
+        supportActionBar?.run {
+            setDisplayHomeAsUpEnabled(true)
+            setDisplayShowHomeEnabled(true)
+            setDisplayShowTitleEnabled(false)
+        }
 
         ThemeUtils.setDrawableTint(this, accountToolbar.navigationIcon, R.attr.account_toolbar_icon_tint_uncollapsed)
         ThemeUtils.setDrawableTint(this, accountToolbar.overflowIcon, R.attr.account_toolbar_icon_tint_uncollapsed)
 
         // Add a listener to change the toolbar icon color when it enters/exits its collapsed state.
         accountAppBarLayout.addOnOffsetChangedListener(object : AppBarLayout.OnOffsetChangedListener {
-            var priorOffset = 0
 
             @AttrRes
             var priorAttribute = R.attr.account_toolbar_icon_tint_uncollapsed
 
             override fun onOffsetChanged(appBarLayout: AppBarLayout, verticalOffset: Int) {
 
-                if(verticalOffset == priorOffset) {
+                if(verticalOffset == oldOffset) {
                     return
                 }
-                priorOffset = verticalOffset
+                oldOffset = verticalOffset
 
                 @AttrRes val attribute = if (titleVisibleHeight + verticalOffset < 0) {
                     supportActionBar?.setDisplayShowTitleEnabled(true)
@@ -272,7 +273,6 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
                         accountFloatingActionButton.hide()
                     }
                 }
-                oldOffset = verticalOffset
 
                 val scaledAvatarSize = (avatarSize + verticalOffset) / avatarSize
 
