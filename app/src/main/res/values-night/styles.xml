@@ -30,7 +30,7 @@
         <item name="toolbar_background_color">@color/toolbar_background_dark</item>
         <item name="toolbar_icon_tint">@color/toolbar_icon_dark</item>
         <item name="image_button_style">@style/TuskyImageButton.Dark</item>
-        <item name="status_reblog_small_drawable">@drawable/ic_reblog_dark_18dp</item>
+        <item name="status_reblog_small_drawable">@drawable/ic_reblog_dark_24dp</item>
         <item name="status_reblog_inactive_drawable">@drawable/reblog_inactive_dark</item>
         <item name="status_reblog_disabled_drawable">@drawable/reblog_private_dark</item>
         <item name="status_reblog_direct_drawable">@drawable/reblog_direct_dark</item>
