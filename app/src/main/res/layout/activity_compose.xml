@@ -142,7 +142,7 @@
                 android:scrollbars="none">
 
                 <LinearLayout
-                    android:id="@+id/compose_media_preview_bar"
+                    android:id="@+id/composeMediaPreviewBar"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
@@ -174,7 +174,7 @@
         app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
         <TextView
-            android:id="@+id/action_photo_take"
+            android:id="@+id/actionPhotoTake"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:drawablePadding="8dp"
@@ -183,7 +183,7 @@
             android:textSize="?attr/status_text_medium" />
 
         <TextView
-            android:id="@+id/action_photo_pick"
+            android:id="@+id/actionPhotoPick"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:drawablePadding="8dp"
@@ -192,7 +192,7 @@
             android:textSize="?attr/status_text_medium" />
 
         <TextView
-            android:id="@+id/action_add_poll"
+            android:id="@+id/addPollTextActionTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:drawablePadding="8dp"

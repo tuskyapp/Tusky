@@ -196,7 +196,7 @@ class SearchStatusesFragment : SearchFragment<Pair<Status, StatusViewData.Concre
                 .mentionedUsernames(mentionedUsernames)
                 .replyingStatusAuthor(actionableStatus.account.localUsername)
                 .replyingStatusContent(actionableStatus.content.toString())
-                .build(context)
+                .build(context!!)
         requireActivity().startActivity(intent)
     }
 
@@ -403,14 +403,14 @@ class SearchStatusesFragment : SearchFragment<Pair<Status, StatusViewData.Concre
                                     }
 
                                     val intent = ComposeActivity.IntentBuilder()
-                                            .tootText(redraftStatus.text)
+                                            .tootText(redraftStatus.text ?: "")
                                             .inReplyToId(redraftStatus.inReplyToId)
                                             .visibility(redraftStatus.visibility)
                                             .contentWarning(redraftStatus.spoilerText)
                                             .mediaAttachments(redraftStatus.attachments)
                                             .sensitive(redraftStatus.sensitive)
                                             .poll(redraftStatus.poll?.toNewPoll(status.createdAt))
-                                            .build(context)
+                                            .build(context!!)
                                     startActivity(intent)
                                 }, { error ->
                                     Log.w("SearchStatusesFragment", "error deleting status", error)
