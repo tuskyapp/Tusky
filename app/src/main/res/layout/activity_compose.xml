@@ -231,6 +231,20 @@
         app:behavior_peekHeight="0dp"
         app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior" />
 
+    <com.keylesspalace.tusky.view.ComposeScheduleView
+        android:id="@+id/composeScheduleView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?android:colorBackground"
+        android:elevation="12dp"
+        android:paddingStart="16dp"
+        android:paddingTop="8dp"
+        android:paddingEnd="16dp"
+        android:paddingBottom="52dp"
+        app:behavior_hideable="true"
+        app:behavior_peekHeight="0dp"
+        app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -298,6 +312,17 @@
             android:padding="4dp"
             android:tooltipText="@string/action_emoji_keyboard"
             app:srcCompat="@drawable/ic_emoji_24dp" />
+
+        <ImageButton
+            android:id="@+id/composeScheduleButton"
+            style="?attr/image_button_style"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_marginEnd="4dp"
+            android:contentDescription="@string/action_schedule_toot"
+            android:padding="4dp"
+            android:tooltipText="@string/action_schedule_toot"
+            app:srcCompat="@drawable/ic_access_time" />
 
         <Space
             android:layout_width="0dp"
