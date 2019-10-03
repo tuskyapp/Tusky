@@ -136,15 +136,15 @@ class ScheduledTootActivity : BaseActivity(), ScheduledTootAdapter.ScheduledToot
         if (item == null) {
             return
         }
-        val intent = ComposeActivity.IntentBuilder()
-                .tootText(item.params.text)
-                .contentWarning(item.params.spoilerText)
-                .mediaAttachments(item.mediaAttachments)
-                .inReplyToId(item.params.inReplyToId)
-                .visibility(item.params.visibility)
-                .scheduledAt(item.scheduledAt)
-                .sensitive(item.params.sensitive)
-                .build(this)
+        val intent = ComposeActivity.startIntent(this, ComposeActivity.ComposeOptions(
+                tootText = item.params.text,
+                contentWarning = item.params.spoilerText,
+                mediaAttachments = item.mediaAttachments,
+                inReplyToId = item.params.inReplyToId,
+                visibility = item.params.visibility,
+                scheduledAt = item.scheduledAt,
+                sensitive = item.params.sensitive
+        ))
         startActivity(intent)
         delete(position, item)
     }

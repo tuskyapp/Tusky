@@ -25,6 +25,7 @@ import androidx.core.app.RemoteInput
 import androidx.core.content.ContextCompat
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.components.compose.ComposeActivity
+import com.keylesspalace.tusky.components.compose.ComposeActivity.ComposeOptions
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.service.SendTootService
@@ -125,14 +126,14 @@ class SendStatusBroadcastReceiver : BroadcastReceiver() {
 
             accountManager.setActiveAccount(senderId)
 
-            val composeIntent = ComposeActivity.IntentBuilder()
-                    .inReplyToId(citedStatusId)
-                    .replyVisibility(visibility)
-                    .contentWarning(spoiler)
-                    .mentionedUsernames(mentions.toList())
-                    .replyingStatusAuthor(localAuthorId)
-                    .replyingStatusContent(citedText)
-                    .build(context)
+            val composeIntent = ComposeActivity.startIntent(context, ComposeOptions(
+                    inReplyToId = citedStatusId,
+                    replyVisibility = visibility,
+                    contentWarning = spoiler,
+                    mentionedUsernames = mentions.toList(),
+                    replyingStatusAuthor = localAuthorId,
+                    replyingStatusContent = citedText
+            ))
 
             composeIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
 

@@ -245,7 +245,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
 
             override fun onOffsetChanged(appBarLayout: AppBarLayout, verticalOffset: Int) {
 
-                if(verticalOffset == oldOffset) {
+                if (verticalOffset == oldOffset) {
                     return
                 }
                 oldOffset = verticalOffset
@@ -675,9 +675,8 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
 
     private fun mention() {
         loadedAccount?.let {
-            val intent = ComposeActivity.IntentBuilder()
-                    .mentionedUsernames(setOf(it.username))
-                    .build(this)
+            val intent = ComposeActivity.startIntent(this,
+                    ComposeActivity.ComposeOptions(mentionedUsernames = listOf(it.username)))
             startActivity(intent)
         }
     }
@@ -736,7 +735,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
                 return true
             }
             R.id.action_report -> {
-                if(loadedAccount != null) {
+                if (loadedAccount != null) {
                     startActivity(ReportActivity.getIntent(this, viewModel.accountId, loadedAccount!!.username))
                 }
                 return true

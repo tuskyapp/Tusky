@@ -30,6 +30,8 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.keylesspalace.tusky.adapter.SavedTootAdapter;
 import com.keylesspalace.tusky.appstore.EventHub;
 import com.keylesspalace.tusky.appstore.StatusComposedEvent;
@@ -48,6 +50,7 @@ import javax.inject.Inject;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 
+import static com.keylesspalace.tusky.components.compose.ComposeActivity.ComposeOptions;
 import static com.uber.autodispose.AutoDispose.autoDisposable;
 import static com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider.from;
 
@@ -155,18 +158,30 @@ public final class SavedTootActivity extends BaseActivity implements SavedTootAd
 
     @Override
     public void click(int position, TootEntity item) {
-        Intent intent = new ComposeActivity.IntentBuilder()
-                .savedTootUid(item.getUid())
-                .tootText(item.getText())
-                .contentWarning(item.getContentWarning())
-                .savedJsonUrls(item.getUrls())
-                .savedJsonDescriptions(item.getDescriptions())
-                .inReplyToId(item.getInReplyToId())
-                .replyingStatusAuthor(item.getInReplyToUsername())
-                .replyingStatusContent(item.getInReplyToText())
-                .visibility(item.getVisibility())
-                .poll(item.getPoll())
-                .build(this);
+        // @formatter:off
+        List<String> jsonUrls = new Gson().fromJson(item.getUrls(),
+                new TypeToken<List<String>>() {}.getType());
+        List<String> descriptions = new Gson().fromJson(item.getDescriptions(),
+                new TypeToken<List<String>>() {}.getType());
+        // @formatter:on
+        ComposeOptions composeOptions = new ComposeOptions(
+                item.getUid(),
+                item.getText(),
+                jsonUrls,
+                descriptions,
+                /*mentionedUsernames*/null,
+                item.getInReplyToId(),
+                /*replyVisibility*/null,
+                item.getVisibility(),
+                item.getContentWarning(),
+                item.getInReplyToUsername(),
+                item.getInReplyToText(),
+                /*mediaAttachments*/null,
+                /*scheduledat*/null,
+                /*setnsitive*/null,
+                /*poll*/null
+        );
+        Intent intent = ComposeActivity.startIntent(this, composeOptions);
         startActivity(intent);
     }
 

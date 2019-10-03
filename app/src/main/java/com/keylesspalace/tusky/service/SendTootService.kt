@@ -296,7 +296,7 @@ class SendTootService : Service(), Injectable {
                            poll: NewPoll?,
                            replyingStatusContent: String?,
                            replyingStatusAuthorUsername: String?,
-                           savedJsonUrls: String?,
+                           savedJsonUrls: List<String>?,
                            account: AccountEntity,
                            savedTootUid: Int
         ): Intent {
@@ -360,7 +360,7 @@ data class TootToSend(val text: String,
                       val poll: NewPoll?,
                       val replyingStatusContent: String?,
                       val replyingStatusAuthorUsername: String?,
-                      val savedJsonUrls: String?,
+                      val savedJsonUrls: List<String>?,
                       val accountId: Long,
                       val savedTootUid: Int,
                       val idempotencyKey: String,

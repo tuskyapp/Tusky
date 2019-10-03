@@ -54,8 +54,6 @@ import at.connyduck.sparkbutton.helpers.Utils
 import com.bumptech.glide.Glide
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.snackbar.Snackbar
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
 import com.keylesspalace.tusky.BaseActivity
 import com.keylesspalace.tusky.BuildConfig
 import com.keylesspalace.tusky.R
@@ -143,7 +141,7 @@ class ComposeActivity : BaseActivity(),
     private var thumbnailViewSize: Int = 0
 
     private var saveTootHelper: SaveTootHelper? = null
-    private val gson = Gson()
+    private var composeOptions: ComposeOptions? = null
 
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -292,26 +290,28 @@ class ComposeActivity : BaseActivity(),
          * based on what the intent from the reply request passes. */
         val intent = intent
 
-        var mentionedUsernames: Array<String>? = null
-        var loadedDraftMediaUris: ArrayList<String>? = null
-        var loadedDraftMediaDescriptions: ArrayList<String>? = null
-        var mediaAttachments: ArrayList<Attachment>? = null
+        var mentionedUsernames: List<String>? = null
+        var loadedDraftMediaUris: List<String>? = null
+        var loadedDraftMediaDescriptions: List<String>? = null
+        var mediaAttachments: List<Attachment>? = null
         inReplyToId = null
         if (intent != null) {
+            val composeOptions = intent.getParcelableExtra<ComposeOptions?>(COMPOSE_OPTIONS_EXTRA)
+            this.composeOptions = composeOptions
 
             if (startingVisibility === Status.Visibility.UNKNOWN) {
                 val preferredVisibility = activeAccount.defaultPostPrivacy
-                val replyVisibility = Status.Visibility.byNum(
-                        intent.getIntExtra(REPLY_VISIBILITY_EXTRA, Status.Visibility.UNKNOWN.num))
 
-                startingVisibility = Status.Visibility.byNum(preferredVisibility.num.coerceAtLeast(replyVisibility.num))
+                val replyVisibility = composeOptions?.replyVisibility ?: Status.Visibility.UNKNOWN
+                startingVisibility = Status.Visibility.byNum(
+                        preferredVisibility.num.coerceAtLeast(replyVisibility.num))
             }
 
-            inReplyToId = intent.getStringExtra(IN_REPLY_TO_ID_EXTRA)
+            inReplyToId = composeOptions?.inReplyToId
 
-            mentionedUsernames = intent.getStringArrayExtra(MENTIONED_USERNAMES_EXTRA)
+            mentionedUsernames = composeOptions?.mentionedUsernames
 
-            val contentWarning = intent.getStringExtra(CONTENT_WARNING_EXTRA)
+            val contentWarning = composeOptions?.contentWarning
             if (contentWarning != null) {
                 startingHideText = contentWarning.isNotEmpty()
                 if (startingHideText) {
@@ -319,42 +319,34 @@ class ComposeActivity : BaseActivity(),
                 }
             }
 
-            val tootText = intent.getStringExtra(TOOT_TEXT_EXTRA)
+            val tootText = composeOptions?.tootText
             if (!TextUtils.isEmpty(tootText)) {
                 composeEditField.setText(tootText)
             }
 
             // try to redo a list of media
             // If come from SavedTootActivity
-            val savedJsonUrls = intent.getStringExtra(SAVED_JSON_URLS_EXTRA)
-            val savedJsonDescriptions = intent.getStringExtra(SAVED_JSON_DESCRIPTIONS_EXTRA)
-            if (!TextUtils.isEmpty(savedJsonUrls)) {
-                loadedDraftMediaUris = gson.fromJson(savedJsonUrls,
-                        object : TypeToken<ArrayList<String>>() {}.type)
-            }
-            if (!TextUtils.isEmpty(savedJsonDescriptions)) {
-                loadedDraftMediaDescriptions = gson.fromJson(savedJsonDescriptions,
-                        object : TypeToken<ArrayList<String>>() {}.type)
-            }
+            loadedDraftMediaUris = composeOptions?.savedJsonUrls
+            loadedDraftMediaDescriptions = composeOptions?.savedJsonDescriptions
             // If come from redraft
-            mediaAttachments = intent.getParcelableArrayListExtra(MEDIA_ATTACHMENTS_EXTRA)
+            mediaAttachments = composeOptions?.mediaAttachments
 
-            val savedTootUid = intent.getIntExtra(SAVED_TOOT_UID_EXTRA, 0)
-            if (savedTootUid != 0) {
+            val savedTootUid = composeOptions?.savedTootUid
+            if (savedTootUid != null) {
                 this.savedTootUid = savedTootUid
 
                 // If come from SavedTootActivity
-                startingText = tootText
+                startingText = tootText ?: ""
             }
 
-            val tootVisibility = intent.getIntExtra(TOOT_VISIBILITY_EXTRA, Status.Visibility.UNKNOWN.num)
-            if (tootVisibility != Status.Visibility.UNKNOWN.num) {
-                startingVisibility = Status.Visibility.byNum(tootVisibility)
+            val tootVisibility = composeOptions?.visibility ?: Status.Visibility.UNKNOWN
+            if (tootVisibility.num != Status.Visibility.UNKNOWN.num) {
+                startingVisibility = tootVisibility
             }
 
-            if (intent.hasExtra(REPLYING_STATUS_AUTHOR_USERNAME_EXTRA)) {
+            if (composeOptions?.replyingStatusAuthor != null) {
                 composeReplyView.visibility = View.VISIBLE
-                val username = intent.getStringExtra(REPLYING_STATUS_AUTHOR_USERNAME_EXTRA)
+                val username = composeOptions.replyingStatusAuthor
                 composeReplyView.text = getString(R.string.replying_to, username)
                 val arrowDownIcon = IconicsDrawable(this, GoogleMaterial.Icon.gmd_arrow_drop_down).sizeDp(12)
 
@@ -377,22 +369,22 @@ class ComposeActivity : BaseActivity(),
                 }
             }
 
-            if (intent.hasExtra(REPLYING_STATUS_CONTENT_EXTRA)) {
-                composeReplyContentView.text = intent.getStringExtra(REPLYING_STATUS_CONTENT_EXTRA)
+            composeOptions?.replyingStatusContent?.let {
+                composeReplyContentView.text = it
             }
 
-            val scheduledAt = intent.getStringExtra(SCHEDULED_AT_EXTRA)
-            if (!TextUtils.isEmpty(scheduledAt)) {
-                composeScheduleView.setDateTime(scheduledAt)
+            if (!TextUtils.isEmpty(composeOptions?.scheduledAt)) {
+                composeScheduleView.setDateTime(composeOptions?.scheduledAt)
             }
 
-            statusMarkSensitive = intent.getBooleanExtra(SENSITIVE_EXTRA, statusMarkSensitive)
+            statusMarkSensitive = composeOptions?.sensitive ?: statusMarkSensitive
 
-            if (intent.hasExtra(POLL_EXTRA) && (mediaAttachments == null || mediaAttachments.size == 0)) {
-                updatePoll(intent.getParcelableExtra(POLL_EXTRA))
+            val poll = composeOptions?.poll
+            if (poll != null && (mediaAttachments == null || mediaAttachments.isEmpty())) {
+                updatePoll(poll)
             }
 
-            if (mediaAttachments != null && mediaAttachments.size > 0) {
+            if (mediaAttachments != null && mediaAttachments.isNotEmpty()) {
                 enablePollButton(false)
             }
         }
@@ -955,9 +947,9 @@ class ComposeActivity : BaseActivity(),
         val sendIntent = SendTootService.sendTootIntent(this, content, spoilerText,
                 visibility!!, mediaUris.isNotEmpty() && sensitive, mediaIds, mediaUris, mediaDescriptions,
                 composeScheduleView.time, inReplyToId, poll,
-                intent.getStringExtra(REPLYING_STATUS_CONTENT_EXTRA),
-                intent.getStringExtra(REPLYING_STATUS_AUTHOR_USERNAME_EXTRA),
-                intent.getStringExtra(SAVED_JSON_URLS_EXTRA),
+                composeOptions?.replyingStatusContent,
+                composeOptions?.replyingStatusAuthor,
+                composeOptions?.savedJsonUrls,
                 accountManager.activeAccount!!, savedTootUid)
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -1006,7 +998,7 @@ class ComposeActivity : BaseActivity(),
                 super.onCancelled()
             }
         }
-        finishingUploadDialog!!.setOnCancelListener { dialog ->
+        finishingUploadDialog!!.setOnCancelListener {
             /* Generating an interrupt by passing true here is important because an interrupt
              * exception is the only thing that will kick the latch out of its waiting loop
              * early. */
@@ -1627,8 +1619,8 @@ class ComposeActivity : BaseActivity(),
         if (textChanged || contentWarningChanged || mediaChanged || pollChanged) {
             AlertDialog.Builder(this)
                     .setMessage(R.string.compose_save_draft)
-                    .setPositiveButton(R.string.action_save) { d, w -> saveDraftAndFinish() }
-                    .setNegativeButton(R.string.action_delete) { d, w -> deleteDraftAndFinish() }
+                    .setPositiveButton(R.string.action_save) { _, _ -> saveDraftAndFinish() }
+                    .setNegativeButton(R.string.action_delete) { _, _ -> deleteDraftAndFinish() }
                     .show()
         } else {
             finishWithoutSlideOutAnimation()
@@ -1653,13 +1645,13 @@ class ComposeActivity : BaseActivity(),
 
         saveTootHelper!!.saveToot(composeEditField.text.toString(),
                 composeContentWarningField.text.toString(),
-                intent.getStringExtra("saved_json_urls"),
+                composeOptions?.savedJsonUrls,
                 mediaUris,
                 mediaDescriptions,
                 savedTootUid,
                 inReplyToId,
-                intent.getStringExtra(REPLYING_STATUS_CONTENT_EXTRA),
-                intent.getStringExtra(REPLYING_STATUS_AUTHOR_USERNAME_EXTRA),
+                composeOptions?.replyingStatusContent,
+                composeOptions?.replyingStatusAuthor,
                 statusVisibility!!,
                 poll)
         finishWithoutSlideOutAnimation()
@@ -1832,150 +1824,25 @@ class ComposeActivity : BaseActivity(),
         scheduleBehavior!!.state = BottomSheetBehavior.STATE_HIDDEN
     }
 
-    class IntentBuilder {
-        private var savedTootUid: Int? = null
-        private var tootText: String? = null
-        private var savedJsonUrls: String? = null
-        private var savedJsonDescriptions: String? = null
-        private var mentionedUsernames: Collection<String>? = null
-        private var inReplyToId: String? = null
-        private var replyVisibility: Status.Visibility? = null
-        private var visibility: Status.Visibility? = null
-        private var contentWarning: String? = null
-        private var replyingStatusAuthor: String? = null
-        private var replyingStatusContent: String? = null
-        private var mediaAttachments: ArrayList<Attachment>? = null
-        private var scheduledAt: String? = null
-        private var sensitive: Boolean? = null
-        private var poll: NewPoll? = null
-
-        fun savedTootUid(uid: Int): IntentBuilder {
-            this.savedTootUid = uid
-            return this
-        }
-
-        fun tootText(tootText: String): IntentBuilder {
-            this.tootText = tootText
-            return this
-        }
-
-        fun savedJsonUrls(jsonUrls: String): IntentBuilder {
-            this.savedJsonUrls = jsonUrls
-            return this
-        }
-
-        fun savedJsonDescriptions(jsonDescriptions: String): IntentBuilder {
-            this.savedJsonDescriptions = jsonDescriptions
-            return this
-        }
-
-        fun visibility(visibility: Status.Visibility): IntentBuilder {
-            this.visibility = visibility
-            return this
-        }
-
-        fun mentionedUsernames(mentionedUsernames: Collection<String>): IntentBuilder {
-            this.mentionedUsernames = mentionedUsernames
-            return this
-        }
-
-        fun inReplyToId(inReplyToId: String?): IntentBuilder {
-            this.inReplyToId = inReplyToId
-            return this
-        }
-
-        fun replyVisibility(replyVisibility: Status.Visibility): IntentBuilder {
-            this.replyVisibility = replyVisibility
-            return this
-        }
-
-        fun contentWarning(contentWarning: String): IntentBuilder {
-            this.contentWarning = contentWarning
-            return this
-        }
-
-        fun replyingStatusAuthor(username: String): IntentBuilder {
-            this.replyingStatusAuthor = username
-            return this
-        }
-
-        fun replyingStatusContent(content: String): IntentBuilder {
-            this.replyingStatusContent = content
-            return this
-        }
-
-        fun mediaAttachments(mediaAttachments: ArrayList<Attachment>?): IntentBuilder {
-            this.mediaAttachments = mediaAttachments
-            return this
-        }
-
-        fun scheduledAt(scheduledAt: String): IntentBuilder {
-            this.scheduledAt = scheduledAt
-            return this
-        }
-
-        fun sensitive(sensitive: Boolean): IntentBuilder {
-            this.sensitive = sensitive
-            return this
-        }
-
-        fun poll(poll: NewPoll?): IntentBuilder {
-            this.poll = poll
-            return this
-        }
-
-        fun build(context: Context): Intent {
-            val intent = Intent(context, ComposeActivity::class.java)
-
-            if (savedTootUid != null) {
-                intent.putExtra(SAVED_TOOT_UID_EXTRA, savedTootUid as Int)
-            }
-            if (tootText != null) {
-                intent.putExtra(TOOT_TEXT_EXTRA, tootText)
-            }
-            if (savedJsonUrls != null) {
-                intent.putExtra(SAVED_JSON_URLS_EXTRA, savedJsonUrls)
-            }
-            if (savedJsonDescriptions != null) {
-                intent.putExtra(SAVED_JSON_DESCRIPTIONS_EXTRA, savedJsonDescriptions)
-            }
-            if (mentionedUsernames != null) {
-                val usernames = mentionedUsernames!!.toTypedArray()
-                intent.putExtra(MENTIONED_USERNAMES_EXTRA, usernames)
-            }
-            if (inReplyToId != null) {
-                intent.putExtra(IN_REPLY_TO_ID_EXTRA, inReplyToId)
-            }
-            if (replyVisibility != null) {
-                intent.putExtra(REPLY_VISIBILITY_EXTRA, replyVisibility!!.num)
-            }
-            if (visibility != null) {
-                intent.putExtra(TOOT_VISIBILITY_EXTRA, visibility!!.num)
-            }
-            if (contentWarning != null) {
-                intent.putExtra(CONTENT_WARNING_EXTRA, contentWarning)
-            }
-            if (replyingStatusContent != null) {
-                intent.putExtra(REPLYING_STATUS_CONTENT_EXTRA, replyingStatusContent)
-            }
-            if (replyingStatusAuthor != null) {
-                intent.putExtra(REPLYING_STATUS_AUTHOR_USERNAME_EXTRA, replyingStatusAuthor)
-            }
-            if (mediaAttachments != null) {
-                intent.putParcelableArrayListExtra(MEDIA_ATTACHMENTS_EXTRA, mediaAttachments)
-            }
-            if (scheduledAt != null) {
-                intent.putExtra(SCHEDULED_AT_EXTRA, scheduledAt)
-            }
-            if (sensitive != null) {
-                intent.putExtra(SENSITIVE_EXTRA, sensitive!!)
-            }
-            if (poll != null) {
-                intent.putExtra(POLL_EXTRA, poll)
-            }
-            return intent
-        }
-    }
+    @Parcelize
+    data class ComposeOptions(
+            // Let's keep fields var until all consumers are Kotlin
+            var savedTootUid: Int? = null,
+            var tootText: String? = null,
+            var savedJsonUrls: List<String>? = null,
+            var savedJsonDescriptions: List<String>? = null,
+            var mentionedUsernames: List<String>? = null,
+            var inReplyToId: String? = null,
+            var replyVisibility: Status.Visibility? = null,
+            var visibility: Status.Visibility? = null,
+            var contentWarning: String? = null,
+            var replyingStatusAuthor: String? = null,
+            var replyingStatusContent: String? = null,
+            var mediaAttachments: ArrayList<Attachment>? = null,
+            var scheduledAt: String? = null,
+            var sensitive: Boolean? = null,
+            var poll: NewPoll? = null
+    ) : Parcelable
 
     companion object {
 
@@ -1988,25 +1855,19 @@ class ComposeActivity : BaseActivity(),
         private const val MEDIA_TAKE_PHOTO_RESULT = 2
         private const val PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 1
 
-        private const val SAVED_TOOT_UID_EXTRA = "saved_toot_uid"
-        private const val TOOT_TEXT_EXTRA = "toot_text"
-        private const val SAVED_JSON_URLS_EXTRA = "saved_json_urls"
-        private const val SAVED_JSON_DESCRIPTIONS_EXTRA = "saved_json_descriptions"
-        private const val TOOT_VISIBILITY_EXTRA = "toot_visibility"
-        private const val IN_REPLY_TO_ID_EXTRA = "in_reply_to_id"
-        private const val REPLY_VISIBILITY_EXTRA = "reply_visibility"
-        private const val CONTENT_WARNING_EXTRA = "content_warning"
-        private const val MENTIONED_USERNAMES_EXTRA = "mentioned_usernames"
-        private const val REPLYING_STATUS_AUTHOR_USERNAME_EXTRA = "replying_author_nickname_extra"
-        private const val REPLYING_STATUS_CONTENT_EXTRA = "replying_status_content"
-        private const val MEDIA_ATTACHMENTS_EXTRA = "media_attachments"
-        private const val SCHEDULED_AT_EXTRA = "scheduled_at"
-        private const val SENSITIVE_EXTRA = "sensitive"
-        private const val POLL_EXTRA = "poll"
+        private const val COMPOSE_OPTIONS_EXTRA = "COMPOSE_OPTIONS"
+
         // Mastodon only counts URLs as this long in terms of status character limits
         internal const val MAXIMUM_URL_LENGTH = 23
         // https://github.com/tootsuite/mastodon/blob/1656663/app/models/media_attachment.rb#L94
         private const val MEDIA_DESCRIPTION_CHARACTER_LIMIT = 420
+
+        @JvmStatic
+        fun startIntent(context: Context, options: ComposeOptions): Intent {
+            return Intent(context, ComposeActivity::class.java).apply {
+                putExtra(COMPOSE_OPTIONS_EXTRA, options)
+            }
+        }
 
         @JvmStatic
         fun canHandleMimeType(mimeType: String?): Boolean {

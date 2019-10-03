@@ -5,12 +5,13 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.net.Uri;
 import android.os.AsyncTask;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.core.content.FileProvider;
 import android.text.TextUtils;
 import android.util.Log;
 import android.webkit.MimeTypeMap;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.content.FileProvider;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -43,7 +44,7 @@ public final class SaveTootHelper {
     @SuppressLint("StaticFieldLeak")
     public boolean saveToot(@NonNull String content,
                             @NonNull String contentWarning,
-                            @Nullable String savedJsonUrls,
+                            @Nullable List<String> savedJsonUrls,
                             @NonNull List<String> mediaUris,
                             @NonNull List<String> mediaDescriptions,
                             int savedTootUid,
@@ -58,31 +59,25 @@ public final class SaveTootHelper {
         }
 
         // Get any existing file's URIs.
-        ArrayList<String> existingUris = null;
-        if (!TextUtils.isEmpty(savedJsonUrls)) {
-            existingUris = gson.fromJson(savedJsonUrls,
-                    new TypeToken<ArrayList<String>>() {
-                    }.getType());
-        }
 
         String mediaUrlsSerialized = null;
         String mediaDescriptionsSerialized = null;
 
         if (!ListUtils.isEmpty(mediaUris)) {
-            List<String> savedList = saveMedia(mediaUris, existingUris);
+            List<String> savedList = saveMedia(mediaUris, savedJsonUrls);
             if (!ListUtils.isEmpty(savedList)) {
                 mediaUrlsSerialized = gson.toJson(savedList);
-                if (!ListUtils.isEmpty(existingUris)) {
-                    deleteMedia(setDifference(existingUris, savedList));
+                if (!ListUtils.isEmpty(savedJsonUrls)) {
+                    deleteMedia(setDifference(savedJsonUrls, savedList));
                 }
             } else {
                 return false;
             }
             mediaDescriptionsSerialized = gson.toJson(mediaDescriptions);
-        } else if (!ListUtils.isEmpty(existingUris)) {
+        } else if (!ListUtils.isEmpty(savedJsonUrls)) {
             /* If there were URIs in the previous draft, but they've now been removed, those files
              * can be deleted. */
-            deleteMedia(existingUris);
+            deleteMedia(savedJsonUrls);
         }
         final TootEntity toot = new TootEntity(savedTootUid, content, mediaUrlsSerialized, mediaDescriptionsSerialized, contentWarning,
                 inReplyToId,
