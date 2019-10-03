@@ -37,7 +37,6 @@ class FilterTest {
         val activity = controller.get()
 
         activity.accountManager = mock()
-        activity.themeUtils = mock()
         val apiMock = Mockito.mock(MastodonApi::class.java)
         Mockito.`when`(apiMock.getFilters()).thenReturn(object: Call<List<Filter>> {
             override fun isExecuted(): Boolean {
