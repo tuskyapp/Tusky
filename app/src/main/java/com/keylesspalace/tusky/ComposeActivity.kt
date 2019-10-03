@@ -42,7 +42,6 @@ import androidx.annotation.Px
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.content.res.AppCompatResources
-import androidx.appcompat.widget.Toolbar
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
@@ -95,7 +94,13 @@ import java.util.*
 import java.util.concurrent.CountDownLatch
 import javax.inject.Inject
 
-class ComposeActivity : BaseActivity(), ComposeOptionsListener, ComposeAutoCompleteAdapter.AutocompletionProvider, OnEmojiSelectedListener, Injectable, InputConnectionCompat.OnCommitContentListener, TimePickerDialog.OnTimeSetListener {
+class ComposeActivity : BaseActivity(),
+        ComposeOptionsListener,
+        ComposeAutoCompleteAdapter.AutocompletionProvider,
+        OnEmojiSelectedListener,
+        Injectable,
+        InputConnectionCompat.OnCommitContentListener,
+        TimePickerDialog.OnTimeSetListener {
 
     @Inject
     lateinit var mastodonApi: MastodonApi
@@ -151,11 +156,10 @@ class ComposeActivity : BaseActivity(), ComposeOptionsListener, ComposeAutoCompl
         saveTootHelper = SaveTootHelper(database.tootDao(), this)
 
         // Setup the toolbar.
-        val toolbar = findViewById<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
         val actionBar = supportActionBar
         if (actionBar != null) {
-            actionBar.setTitle(null)
+            actionBar.title = null
             actionBar.setDisplayHomeAsUpEnabled(true)
             actionBar.setDisplayShowHomeEnabled(true)
             val closeIcon = AppCompatResources.getDrawable(this, R.drawable.ic_close_24dp)
@@ -167,9 +171,6 @@ class ComposeActivity : BaseActivity(), ComposeOptionsListener, ComposeAutoCompl
         val activeAccount = accountManager.activeAccount
 
         if (activeAccount != null) {
-            val composeAvatar = findViewById<ImageView>(R.id.composeAvatar)
-
-
             val actionBarSizeAttr = intArrayOf(R.attr.actionBarSize)
             val a = obtainStyledAttributes(null, actionBarSizeAttr)
             val avatarSize = a.getDimensionPixelSize(0, 1)
@@ -217,7 +218,7 @@ class ComposeActivity : BaseActivity(), ComposeOptionsListener, ComposeAutoCompl
         composeOptionsBehavior = BottomSheetBehavior.from(composeOptionsBottomSheet)
         composeOptionsBehavior!!.state = BottomSheetBehavior.STATE_HIDDEN
 
-        addMediaBehavior = BottomSheetBehavior.from(findViewById<View>(R.id.addMediaBottomSheet))
+        addMediaBehavior = BottomSheetBehavior.from(addMediaBottomSheet)
 
         scheduleBehavior = BottomSheetBehavior.from(composeScheduleView)
 
@@ -228,19 +229,16 @@ class ComposeActivity : BaseActivity(), ComposeOptionsListener, ComposeAutoCompl
         enableButton(composeEmojiButton, false, false)
 
         // Setup the interface buttons.
-        composeTootButton.setOnClickListener { v -> onSendClicked() }
-        composeAddMediaButton.setOnClickListener { v -> openPickDialog() }
-        composeToggleVisibilityButton.setOnClickListener { v -> showComposeOptions() }
-        composeContentWarningButton.setOnClickListener { v -> onContentWarningChanged() }
-        composeEmojiButton.setOnClickListener { v -> showEmojis() }
-        composeHideMediaButton.setOnClickListener { v -> toggleHideMedia() }
-        composeScheduleButton.setOnClickListener { v -> showScheduleView() }
-        composeScheduleView.setResetOnClickListener { v -> resetSchedule() }
-        atButton!!.setOnClickListener { v -> atButtonClicked() }
-        hashButton!!.setOnClickListener { v -> hashButtonClicked() }
-
-        val actionPhotoTake = findViewById<TextView>(R.id.actionPhotoTake)
-        val actionPhotoPick = findViewById<TextView>(R.id.actionPhotoPick)
+        composeTootButton.setOnClickListener { onSendClicked() }
+        composeAddMediaButton.setOnClickListener { openPickDialog() }
+        composeToggleVisibilityButton.setOnClickListener { showComposeOptions() }
+        composeContentWarningButton.setOnClickListener { onContentWarningChanged() }
+        composeEmojiButton.setOnClickListener { showEmojis() }
+        composeHideMediaButton.setOnClickListener { toggleHideMedia() }
+        composeScheduleButton.setOnClickListener { showScheduleView() }
+        composeScheduleView.setResetOnClickListener { resetSchedule() }
+        atButton!!.setOnClickListener { atButtonClicked() }
+        hashButton!!.setOnClickListener { hashButtonClicked() }
 
         val textColor = ThemeUtils.getColor(this, android.R.attr.textColorTertiary)
 
@@ -253,9 +251,9 @@ class ComposeActivity : BaseActivity(), ComposeOptionsListener, ComposeAutoCompl
         val pollIcon = IconicsDrawable(this, GoogleMaterial.Icon.gmd_poll).color(textColor).sizeDp(18)
         addPollTextActionTextView.setCompoundDrawablesRelativeWithIntrinsicBounds(pollIcon, null, null, null)
 
-        actionPhotoTake.setOnClickListener { v -> initiateCameraApp() }
-        actionPhotoPick.setOnClickListener { v -> onMediaPick() }
-        addPollTextActionTextView.setOnClickListener { v -> openPollDialog() }
+        actionPhotoTake.setOnClickListener { initiateCameraApp() }
+        actionPhotoPick.setOnClickListener { onMediaPick() }
+        addPollTextActionTextView.setOnClickListener { openPollDialog() }
 
         thumbnailViewSize = resources.getDimensionPixelSize(R.dimen.compose_media_preview_size)
 
@@ -303,7 +301,7 @@ class ComposeActivity : BaseActivity(), ComposeOptionsListener, ComposeAutoCompl
                 val replyVisibility = Status.Visibility.byNum(
                         intent.getIntExtra(REPLY_VISIBILITY_EXTRA, Status.Visibility.UNKNOWN.num))
 
-                startingVisibility = Status.Visibility.byNum(Math.max(preferredVisibility.num, replyVisibility.num))
+                startingVisibility = Status.Visibility.byNum(preferredVisibility.num.coerceAtLeast(replyVisibility.num))
             }
 
             inReplyToId = intent.getStringExtra(IN_REPLY_TO_ID_EXTRA)
@@ -312,7 +310,7 @@ class ComposeActivity : BaseActivity(), ComposeOptionsListener, ComposeAutoCompl
 
             val contentWarning = intent.getStringExtra(CONTENT_WARNING_EXTRA)
             if (contentWarning != null) {
-                startingHideText = !contentWarning.isEmpty()
+                startingHideText = contentWarning.isNotEmpty()
                 if (startingHideText) {
                     startingContentWarning = contentWarning
                 }
@@ -328,16 +326,12 @@ class ComposeActivity : BaseActivity(), ComposeOptionsListener, ComposeAutoCompl
             val savedJsonUrls = intent.getStringExtra(SAVED_JSON_URLS_EXTRA)
             val savedJsonDescriptions = intent.getStringExtra(SAVED_JSON_DESCRIPTIONS_EXTRA)
             if (!TextUtils.isEmpty(savedJsonUrls)) {
-                loadedDraftMediaUris = gson.fromJson<ArrayList<String>>(savedJsonUrls,
-                        object : TypeToken<ArrayList<String>>() {
-
-                        }.type)
+                loadedDraftMediaUris = gson.fromJson(savedJsonUrls,
+                        object : TypeToken<ArrayList<String>>() {}.type)
             }
             if (!TextUtils.isEmpty(savedJsonDescriptions)) {
-                loadedDraftMediaDescriptions = gson.fromJson<ArrayList<String>>(savedJsonDescriptions,
-                        object : TypeToken<ArrayList<String>>() {
-
-                        }.type)
+                loadedDraftMediaDescriptions = gson.fromJson(savedJsonDescriptions,
+                        object : TypeToken<ArrayList<String>>() {}.type)
             }
             // If come from redraft
             mediaAttachments = intent.getParcelableArrayListExtra(MEDIA_ATTACHMENTS_EXTRA)
@@ -364,7 +358,7 @@ class ComposeActivity : BaseActivity(), ComposeOptionsListener, ComposeAutoCompl
                 ThemeUtils.setDrawableTint(this, arrowDownIcon, android.R.attr.textColorTertiary)
                 composeReplyView.setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, arrowDownIcon, null)
 
-                composeReplyView.setOnClickListener { v ->
+                composeReplyView.setOnClickListener {
                     TransitionManager.beginDelayedTransition(composeReplyContentView.parent as ViewGroup)
 
                     if (composeReplyContentView.visibility != View.VISIBLE) {
@@ -422,7 +416,7 @@ class ComposeActivity : BaseActivity(), ComposeOptionsListener, ComposeAutoCompl
             }
         })
 
-        composeEditField.setOnKeyListener { view, keyCode, event -> this.onKeyDown(keyCode, event) }
+        composeEditField.setOnKeyListener { _, keyCode, event -> this.onKeyDown(keyCode, event) }
 
         composeEditField.setAdapter(
                 ComposeAutoCompleteAdapter(this))
@@ -568,8 +562,8 @@ class ComposeActivity : BaseActivity(), ComposeOptionsListener, ComposeAutoCompl
 
     private fun replaceTextAtCaret(text: CharSequence) {
         // If you select "backward" in an editable, you get SelectionStart > SelectionEnd
-        val start = Math.min(composeEditField.selectionStart, composeEditField.selectionEnd)
-        val end = Math.max(composeEditField.selectionStart, composeEditField.selectionEnd)
+        val start = composeEditField.selectionStart.coerceAtMost(composeEditField.selectionEnd)
+        val end = composeEditField.selectionStart.coerceAtLeast(composeEditField.selectionEnd)
         composeEditField.text.replace(start, end, text)
 
         // Set the cursor after the inserted text
@@ -777,11 +771,11 @@ class ComposeActivity : BaseActivity(), ComposeOptionsListener, ComposeAutoCompl
     }
 
     private fun onMediaPick() {
-        addMediaBehavior!!.setBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
+        addMediaBehavior!!.bottomSheetCallback = object : BottomSheetBehavior.BottomSheetCallback() {
             override fun onStateChanged(bottomSheet: View, newState: Int) {
                 //Wait until bottom sheet is not collapsed and show next screen after
                 if (newState == BottomSheetBehavior.STATE_COLLAPSED) {
-                    addMediaBehavior!!.setBottomSheetCallback(null)
+                    addMediaBehavior!!.bottomSheetCallback = null
                     if (ContextCompat.checkSelfPermission(this@ComposeActivity, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
                         ActivityCompat.requestPermissions(this@ComposeActivity,
                                 arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
@@ -795,7 +789,7 @@ class ComposeActivity : BaseActivity(), ComposeOptionsListener, ComposeAutoCompl
             override fun onSlide(bottomSheet: View, slideOffset: Float) {
 
             }
-        })
+        }
         addMediaBehavior!!.state = BottomSheetBehavior.STATE_COLLAPSED
     }
 
@@ -823,7 +817,7 @@ class ComposeActivity : BaseActivity(), ComposeOptionsListener, ComposeAutoCompl
 
             composeMediaPreviewBar.addView(pollPreview)
 
-            pollPreview!!.setOnClickListener { v ->
+            pollPreview!!.setOnClickListener {
                 val popup = PopupMenu(this, pollPreview)
                 val editId = 1
                 val removeId = 2
@@ -1026,7 +1020,7 @@ class ComposeActivity : BaseActivity(), ComposeOptionsListener, ComposeAutoCompl
             spoilerText = composeContentWarningField.text.toString()
         }
         val characterCount = calculateTextLength()
-        if ((characterCount <= 0 || contentText.trim { it <= ' ' }.length <= 0) && mediaQueued.size == 0) {
+        if ((characterCount <= 0 || contentText.trim { it <= ' ' }.isEmpty()) && mediaQueued.size == 0) {
             composeEditField.error = getString(R.string.error_empty)
             enableButtons()
         } else if (characterCount <= maximumTootCharacters) {
@@ -1200,15 +1194,14 @@ class ComposeActivity : BaseActivity(), ComposeOptionsListener, ComposeAutoCompl
 
     private fun updateContentDescription(item: QueuedMedia) {
         if (item.preview != null) {
-            val imageId: String?
-            if (!TextUtils.isEmpty(item.description)) {
-                imageId = item.description
+            val imageId: String? = if (!TextUtils.isEmpty(item.description)) {
+                item.description
             } else {
                 val idx = getImageIdx(item)
                 if (idx < 0)
-                    imageId = null
+                    null
                 else
-                    imageId = Integer.toString(idx + 1)
+                    (idx + 1).toString()
             }
             item.preview!!.contentDescription = getString(R.string.compose_preview_image_description, imageId)
         }
@@ -1282,7 +1275,7 @@ class ComposeActivity : BaseActivity(), ComposeOptionsListener, ComposeAutoCompl
                         val attachment = response.body()
                         if (response.isSuccessful && attachment != null) {
                             item.description = attachment.description
-                            item.preview!!.setChecked(item.description != null && !item.description!!.isEmpty())
+                            item.preview!!.setChecked(item.description != null && item.description!!.isNotEmpty())
                             dialog.dismiss()
                             updateContentDescription(item)
                         } else {
@@ -1490,6 +1483,11 @@ class ComposeActivity : BaseActivity(), ComposeOptionsListener, ComposeAutoCompl
         if (suffixPosition > 0) suffix = filename.substring(suffixPosition)
         try {
             getContentResolver().openInputStream(inUri).use { input ->
+                if (input == null) {
+                    Log.w(TAG, "Media input is null")
+                    uri = inUri
+                    return@use
+                }
                 val file = File.createTempFile("randomTemp1", suffix, cacheDir)
                 FileOutputStream(file.absoluteFile).use { out ->
                     input.copyTo(out)
@@ -1694,18 +1692,18 @@ class ComposeActivity : BaseActivity(), ComposeOptionsListener, ComposeAutoCompl
                 }
 
                 if (emojiList != null) {
-                    val incomplete = token.substring(1).toLowerCase()
+                    val incomplete = token.substring(1).toLowerCase(Locale.ROOT)
                     val results = ArrayList<ComposeAutoCompleteAdapter.AutocompleteResult>()
                     val resultsInside = ArrayList<ComposeAutoCompleteAdapter.AutocompleteResult>()
                     for (emoji in emojiList!!) {
-                        val shortcode = emoji.shortcode.toLowerCase()
+                        val shortcode = emoji.shortcode.toLowerCase(Locale.ROOT)
                         if (shortcode.startsWith(incomplete)) {
                             results.add(ComposeAutoCompleteAdapter.EmojiResult(emoji))
                         } else if (shortcode.indexOf(incomplete, 1) != -1) {
                             resultsInside.add(ComposeAutoCompleteAdapter.EmojiResult(emoji))
                         }
                     }
-                    if (!results.isEmpty() && !resultsInside.isEmpty()) {
+                    if (results.isNotEmpty() && resultsInside.isNotEmpty()) {
                         results.add(ComposeAutoCompleteAdapter.ResultSeparator())
                     }
                     results.addAll(resultsInside)
