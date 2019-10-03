@@ -435,7 +435,7 @@
         app:layout_constraintEnd_toStartOf="@id/status_favourite"
         app:layout_constraintStart_toEndOf="@id/status_reply"
         app:layout_constraintTop_toTopOf="@id/status_reply"
-        sparkbutton:activeImage="@drawable/reblog_active"
+        sparkbutton:activeImage="@drawable/ic_reblog_active_24dp"
         sparkbutton:iconSize="28dp"
         sparkbutton:inactiveImage="?attr/status_reblog_inactive_drawable"
         sparkbutton:primaryColor="@color/tusky_blue"
