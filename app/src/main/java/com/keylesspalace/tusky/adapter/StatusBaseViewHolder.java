@@ -324,7 +324,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             } else {
                 inactiveId = ThemeUtils.getDrawableId(reblogButton.getContext(),
                         R.attr.status_reblog_inactive_drawable, R.drawable.reblog_inactive_dark);
-                activeId = R.drawable.reblog_active;
+                activeId = R.drawable.ic_reblog_active_24dp;
             }
             reblogButton.setInactiveImage(inactiveId);
             reblogButton.setActiveImage(activeId);
