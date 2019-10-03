@@ -16,6 +16,10 @@ class FakeTuskyApplication : TuskyApplication() {
         // No-op
     }
 
+    override fun initNightMode() {
+        // No-op
+    }
+
     override fun getServiceLocator(): ServiceLocator {
         return locator
     }
