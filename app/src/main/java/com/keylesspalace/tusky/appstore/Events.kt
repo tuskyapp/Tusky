@@ -12,6 +12,7 @@ data class BlockEvent(val accountId: String) : Dispatchable
 data class MuteEvent(val accountId: String) : Dispatchable
 data class StatusDeletedEvent(val statusId: String) : Dispatchable
 data class StatusComposedEvent(val status: Status) : Dispatchable
+data class StatusScheduledEvent(val status: Status) : Dispatchable
 data class ProfileEditedEvent(val newProfileData: Account) : Dispatchable
 data class PreferenceChangedEvent(val preferenceKey: String) : Dispatchable
 data class MainTabsChangedEvent(val newTabs: List<TabData>) : Dispatchable

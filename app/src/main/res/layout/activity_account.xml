@@ -17,6 +17,7 @@
             android:id="@+id/accountAppBarLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="?android:colorBackground"
             android:elevation="@dimen/actionbar_elevation">
 
             <com.google.android.material.appbar.CollapsingToolbarLayout
@@ -232,7 +233,6 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="8dp"
-
                             android:fontFamily="sans-serif-medium"
                             android:textColor="@color/account_tab_font_color"
                             android:textSize="?attr/status_text_medium"
@@ -293,7 +293,6 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="8dp"
-                            android:background="@android:color/transparent"
                             android:fontFamily="sans-serif-medium"
                             android:textColor="@color/account_tab_font_color"
                             android:textSize="?attr/status_text_medium"
@@ -327,7 +326,6 @@
                 style="@style/TuskyTabAppearance"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-
                 android:background="?android:colorBackground"
                 app:tabGravity="center"
                 app:tabMode="scrollable"

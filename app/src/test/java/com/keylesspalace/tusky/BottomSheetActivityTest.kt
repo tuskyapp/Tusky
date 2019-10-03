@@ -268,7 +268,6 @@ class BottomSheetActivityTest {
             mastodonApi = api
             @Suppress("UNCHECKED_CAST")
             bottomSheet = mock(BottomSheetBehavior::class.java) as BottomSheetBehavior<LinearLayout>
-            callList = arrayListOf()
         }
 
         override fun openLink(url: String) {

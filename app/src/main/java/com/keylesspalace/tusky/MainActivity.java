@@ -15,26 +15,11 @@
 
 package com.keylesspalace.tusky;
 
-import androidx.lifecycle.Lifecycle;
-
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
-
-import androidx.annotation.Nullable;
-
-import com.bumptech.glide.Glide;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.tabs.TabLayout;
-
-import androidx.emoji.text.EmojiCompat;
-import androidx.fragment.app.Fragment;
-import androidx.core.content.ContextCompat;
-import androidx.viewpager.widget.ViewPager;
-import androidx.appcompat.app.AlertDialog;
-
 import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.util.Log;
@@ -42,6 +27,17 @@ import android.view.KeyEvent;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+import androidx.core.content.ContextCompat;
+import androidx.emoji.text.EmojiCompat;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Lifecycle;
+import androidx.viewpager.widget.ViewPager;
+
+import com.bumptech.glide.Glide;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.tabs.TabLayout;
 import com.keylesspalace.tusky.appstore.CacheUpdater;
 import com.keylesspalace.tusky.appstore.EventHub;
 import com.keylesspalace.tusky.appstore.MainTabsChangedEvent;
@@ -101,6 +97,7 @@ public final class MainActivity extends BottomSheetActivity implements ActionBut
     private static final long DRAWER_ITEM_ABOUT = 7;
     private static final long DRAWER_ITEM_LOG_OUT = 8;
     private static final long DRAWER_ITEM_FOLLOW_REQUESTS = 9;
+    private static final long DRAWER_ITEM_SCHEDULED_TOOT = 10;
     public static final String STATUS_URL = "statusUrl";
 
     @Inject
@@ -391,6 +388,7 @@ public final class MainActivity extends BottomSheetActivity implements ActionBut
         listItems.add(new PrimaryDrawerItem().withIdentifier(DRAWER_ITEM_LISTS).withName(R.string.action_lists).withSelectable(false).withIcon(GoogleMaterial.Icon.gmd_list));
         listItems.add(new PrimaryDrawerItem().withIdentifier(DRAWER_ITEM_SEARCH).withName(R.string.action_search).withSelectable(false).withIcon(GoogleMaterial.Icon.gmd_search));
         listItems.add(new PrimaryDrawerItem().withIdentifier(DRAWER_ITEM_SAVED_TOOT).withName(R.string.action_access_saved_toot).withSelectable(false).withIcon(R.drawable.ic_notebook).withIconTintingEnabled(true));
+        listItems.add(new PrimaryDrawerItem().withIdentifier(DRAWER_ITEM_SCHEDULED_TOOT).withName(R.string.action_access_scheduled_toot).withSelectable(false).withIcon(R.drawable.ic_access_time).withIconTintingEnabled(true));
         listItems.add(new DividerDrawerItem());
         listItems.add(new SecondaryDrawerItem().withIdentifier(DRAWER_ITEM_ACCOUNT_SETTINGS).withName(R.string.action_view_account_preferences).withSelectable(false).withIcon(R.drawable.ic_account_settings).withIconTintingEnabled(true));
         listItems.add(new SecondaryDrawerItem().withIdentifier(DRAWER_ITEM_SETTINGS).withName(R.string.action_view_preferences).withSelectable(false).withIcon(GoogleMaterial.Icon.gmd_settings));
@@ -433,6 +431,8 @@ public final class MainActivity extends BottomSheetActivity implements ActionBut
                         } else if (drawerItemIdentifier == DRAWER_ITEM_SAVED_TOOT) {
                             Intent intent = new Intent(MainActivity.this, SavedTootActivity.class);
                             startActivityWithSlideInAnimation(intent);
+                        } else if (drawerItemIdentifier == DRAWER_ITEM_SCHEDULED_TOOT) {
+                            startActivityWithSlideInAnimation(ScheduledTootActivity.newIntent(this));
                         } else if (drawerItemIdentifier == DRAWER_ITEM_LISTS) {
                             startActivityWithSlideInAnimation(ListsActivity.newIntent(this));
                         }

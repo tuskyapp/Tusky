@@ -1,0 +1,9 @@
+Tusky v9.0
+
+- Indíthatsz szavazást Tusky-ból
+- Fejlettebb keresés
+- Új opció a fiók beállításainál a tartalom-figyelmeztetések alapértelmezett mutatására
+- A navigációs fióknál az avataroknak lekerekített négyzet alakja van
+- Be lehet jelenteni olyan fiókokat is, akik még sosem posztoltak
+- A Tusky nem fog csatlakozni titkosítatlan kapcsolaton Android 6+-on
+- Egy rakás kisebb fejlesztés és bugfix

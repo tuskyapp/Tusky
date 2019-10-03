@@ -324,7 +324,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             } else {
                 inactiveId = ThemeUtils.getDrawableId(reblogButton.getContext(),
                         R.attr.status_reblog_inactive_drawable, R.drawable.reblog_inactive_dark);
-                activeId = R.drawable.reblog_active;
+                activeId = R.drawable.ic_reblog_active_24dp;
             }
             reblogButton.setInactiveImage(inactiveId);
             reblogButton.setActiveImage(activeId);
@@ -682,7 +682,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         String description = context.getString(R.string.description_status,
                 status.getUserFullName(),
                 getContentWarningDescription(context, status),
-                (!status.isSensitive() || status.isExpanded() ? status.getContent() : ""),
+                (TextUtils.isEmpty(status.getSpoilerText()) || !status.isSensitive() || status.isExpanded() ? status.getContent() : ""),
                 getCreatedAtDescription(status.getCreatedAt()),
                 getReblogDescription(context, status),
                 status.getNickname(),

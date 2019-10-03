@@ -1,4 +1,4 @@
-/* Copyright 2019 Tusky Contributors
+/* Copyright 2019 kyori19
  *
  * This file is a part of Tusky.
  *
@@ -15,24 +15,12 @@
 
 package com.keylesspalace.tusky.entity
 
-import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
-import kotlinx.android.parcel.Parcelize
 
-data class NewStatus(
-        val status: String,
-        @SerializedName("spoiler_text") val warningText: String,
-        @SerializedName("in_reply_to_id") val inReplyToId: String?,
-        val visibility: String,
+data class StatusParams(
+        val text: String,
         val sensitive: Boolean,
-        @SerializedName("media_ids") val mediaIds: List<String>?,
-        @SerializedName("scheduled_at") val scheduledAt: String?,
-        val poll: NewPoll?
+        val visibility: Status.Visibility,
+        @SerializedName("spoiler_text") val spoilerText: String,
+        @SerializedName("in_reply_to_id") val inReplyToId: String?
 )
-
-@Parcelize
-data class NewPoll(
-        val options: List<String>,
-        @SerializedName("expires_in") val expiresIn: Int,
-        val multiple: Boolean
-): Parcelable

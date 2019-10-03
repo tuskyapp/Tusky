@@ -40,6 +40,7 @@
     <string name="title_follow_requests">Follow Requests</string>
     <string name="title_edit_profile">Edit your profile</string>
     <string name="title_saved_toot">Drafts</string>
+    <string name="title_scheduled_toot">Scheduled toots</string>
     <string name="title_licenses">Licenses</string>
 
     <string name="status_username_format">\@%s</string>
@@ -80,6 +81,7 @@
     <string name="action_hide_reblogs">Hide boosts</string>
     <string name="action_show_reblogs">Show boosts</string>
     <string name="action_report">Report</string>
+    <string name="action_edit">Edit</string>
     <string name="action_delete">Delete</string>
     <string name="action_delete_and_redraft">Delete and re-draft</string>
     <string name="action_send">TOOT</string>
@@ -114,9 +116,12 @@
     <string name="action_reject">Reject</string>
     <string name="action_search">Search</string>
     <string name="action_access_saved_toot">Drafts</string>
+    <string name="action_access_scheduled_toot">Scheduled toots</string>
     <string name="action_toggle_visibility">Toot visibility</string>
     <string name="action_content_warning">Content warning</string>
     <string name="action_emoji_keyboard">Emoji keyboard</string>
+    <string name="action_schedule_toot">Schedule Toot</string>
+    <string name="action_reset_schedule">Reset</string>
     <string name="action_add_tab">Add Tab</string>
     <string name="action_links">Links</string>
     <string name="action_mentions">Mentions</string>
@@ -152,6 +157,7 @@
 
     <string name="hint_domain">Which instance?</string>
     <string name="hint_compose">What\'s happening?</string>
+    <string name="hint_configure_scheduled_toot">Tap here to configure scheduled toot.</string>
     <string name="hint_content_warning">Content warning</string>
     <string name="hint_display_name">Display name</string>
     <string name="hint_note">Bio</string>

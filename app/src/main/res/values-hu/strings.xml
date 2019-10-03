@@ -50,7 +50,7 @@
     <string name="status_content_show_less">Összecsukás</string>
     <string name="message_empty">Nincs itt semmi.</string>
     <string name="footer_empty">Üres tartalom. Húzd le a frissítéshez!</string>
-    <string name="notification_reblog_format">%s megolta a tülködet</string>
+    <string name="notification_reblog_format">%s megtolta a tülködet</string>
     <string name="notification_favourite_format">%s kedvencnek jelölte tülködet</string>
     <string name="notification_follow_format">%s követ</string>
     <string name="report_username_format">\@%s bejelentése</string>
@@ -453,4 +453,18 @@
     <string name="title_accounts">Fiókok</string>
     <string name="failed_search">Sikertelen keresés</string>
 
-    </resources>
+    <string name="action_add_poll">Szavazás hozzáadása</string>
+    <string name="create_poll_title">Szavazás</string>
+    <string name="poll_duration_5_min">5 perc</string>
+    <string name="poll_duration_30_min">30 perc</string>
+    <string name="poll_duration_1_hour">1 óra</string>
+    <string name="poll_duration_6_hours">6 óra</string>
+    <string name="poll_duration_1_day">1 nap</string>
+    <string name="poll_duration_3_days">3 nap</string>
+    <string name="poll_duration_7_days">7 nap</string>
+    <string name="add_poll_choice">Válasz hozzáadása</string>
+    <string name="poll_allow_multiple_choices">Több lehetőség</string>
+    <string name="poll_new_choice_hint">Válasz %d</string>
+    <string name="edit_poll">Szerkesztés</string>
+
+</resources>

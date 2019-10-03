@@ -103,7 +103,6 @@
         <activity android:name=".ViewTagActivity" />
         <activity
             android:name=".ViewMediaActivity"
-            android:configChanges="orientation|screenSize|keyboardHidden"
             android:theme="@style/TuskyBaseTheme" />
         <activity
             android:name=".AccountActivity"
@@ -136,6 +135,7 @@
             android:name=".components.report.ReportActivity"
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
         <activity android:name=".components.instancemute.InstanceListActivity" />
+        <activity android:name=".ScheduledTootActivity" />
 
         <receiver android:name=".receiver.NotificationClearBroadcastReceiver" />
         <receiver

@@ -97,4 +97,7 @@ abstract class ActivitiesModule {
 
     @ContributesAndroidInjector(modules = [FragmentBuildersModule::class])
     abstract fun contributesInstanceListActivity(): InstanceListActivity
+
+    @ContributesAndroidInjector
+    abstract fun contributesScheduledTootActivity(): ScheduledTootActivity
 }

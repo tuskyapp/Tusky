@@ -510,4 +510,14 @@
     <string name="poll_duration_6_hours">6 hores</string>
     <string name="edit_poll">Modificar</string>
 
-</resources>
+<string name="action_add_poll">Afegeix una enquesta</string>
+    <string name="create_poll_title">Enquesta</string>
+    <string name="poll_duration_5_min">5 minuts</string>
+    <string name="poll_duration_30_min">30 minuts</string>
+    <string name="poll_duration_1_day">1 dia</string>
+    <string name="poll_duration_3_days">3 dies</string>
+    <string name="poll_duration_7_days">7 dies</string>
+    <string name="add_poll_choice">Afegeix una tria</string>
+    <string name="poll_allow_multiple_choices">Múltiples tries</string>
+    <string name="poll_new_choice_hint">Tria %d</string>
+    </resources>
