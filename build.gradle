@@ -7,8 +7,8 @@ buildscript {
         google()
     }
     dependencies {
-        classpath 'com.android.tools.build.jetifier:jetifier-processor:1.0.0-beta06'
-        classpath 'com.android.tools.build:gradle:3.5.0'
+        classpath 'com.android.tools.build.jetifier:jetifier-processor:1.0.0-beta07'
+        classpath 'com.android.tools.build:gradle:3.5.1'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
 }
