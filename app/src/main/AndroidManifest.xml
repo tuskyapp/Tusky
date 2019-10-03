@@ -94,7 +94,7 @@
                 android:value="com.keylesspalace.tusky.service.AccountChooserService" />
         </activity>
         <activity
-            android:name=".ComposeActivity"
+            android:name=".components.compose.ComposeActivity"
             android:theme="@style/TuskyDialogActivityTheme"
             android:windowSoftInputMode="stateVisible|adjustResize"/>
         <activity

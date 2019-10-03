@@ -18,6 +18,8 @@ package com.keylesspalace.tusky
 
 import android.text.SpannedString
 import android.widget.EditText
+import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.keylesspalace.tusky.components.compose.ComposeActivity
 import com.keylesspalace.tusky.db.AccountEntity
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.db.AppDatabase
@@ -27,6 +29,8 @@ import com.keylesspalace.tusky.entity.Emoji
 import com.keylesspalace.tusky.entity.Instance
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.ThemeUtils
+import io.reactivex.Single
+import io.reactivex.SingleObserver
 import okhttp3.Request
 import org.junit.Assert
 import org.junit.Assert.*
@@ -37,9 +41,6 @@ import org.mockito.Mockito
 import org.mockito.Mockito.`when`
 import org.mockito.Mockito.mock
 import org.robolectric.Robolectric
-import androidx.test.ext.junit.runners.AndroidJUnit4
-import io.reactivex.Single
-import io.reactivex.SingleObserver
 import org.robolectric.annotation.Config
 import org.robolectric.fakes.RoboMenuItem
 import retrofit2.Call

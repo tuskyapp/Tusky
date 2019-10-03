@@ -23,8 +23,8 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.app.RemoteInput
 import androidx.core.content.ContextCompat
-import com.keylesspalace.tusky.ComposeActivity
 import com.keylesspalace.tusky.R
+import com.keylesspalace.tusky.components.compose.ComposeActivity
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.service.SendTootService

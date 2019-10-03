@@ -17,13 +17,13 @@
 
 package com.keylesspalace.tusky.view
 
+import android.view.WindowManager
 import androidx.appcompat.app.AlertDialog
-import com.keylesspalace.tusky.ComposeActivity
+import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.adapter.AddPollOptionsAdapter
+import com.keylesspalace.tusky.components.compose.ComposeActivity
 import com.keylesspalace.tusky.entity.NewPoll
 import kotlinx.android.synthetic.main.dialog_add_poll.view.*
-import android.view.WindowManager
-import com.keylesspalace.tusky.R
 
 private const val DEFAULT_MAX_OPTION_COUNT = 4
 private const val DEFAULT_MAX_OPTION_LENGTH = 25

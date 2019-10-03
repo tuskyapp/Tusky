@@ -19,7 +19,7 @@ import android.annotation.TargetApi;
 import android.content.Intent;
 import android.service.quicksettings.TileService;
 
-import com.keylesspalace.tusky.ComposeActivity;
+import com.keylesspalace.tusky.components.compose.ComposeActivity;
 
 /**
  * Small Addition that adds in a QuickSettings tile that opens the Compose activity when clicked

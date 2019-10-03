@@ -12,7 +12,7 @@
             android:targetPackage="com.keylesspalace.tusky"/>
         <intent
             android:action="com.keylesspalace.tusky.Compose"
-            android:targetClass="com.keylesspalace.tusky.ComposeActivity"
+            android:targetClass="com.keylesspalace.tusky.components.compose.ComposeActivity"
             android:targetPackage="com.keylesspalace.tusky"/>
 
     </shortcut>
