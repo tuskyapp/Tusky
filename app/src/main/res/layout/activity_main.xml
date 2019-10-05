@@ -8,39 +8,29 @@
     tools:context="com.keylesspalace.tusky.MainActivity">
 
     <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/main_appbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?android:colorBackground"
         android:elevation="@dimen/actionbar_elevation">
 
-        <LinearLayout
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/main_toolbar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <ImageButton
-                android:id="@+id/drawer_toggle"
-                android:layout_width="?attr/actionBarSize"
-                android:layout_height="?attr/actionBarSize"
-                android:background="?attr/selectableItemBackground"
-                android:contentDescription="@string/action_open_drawer"
-                app:srcCompat="@drawable/ic_menu_24dp" />
+            android:layout_height="wrap_content">
 
             <com.google.android.material.tabs.TabLayout
                 android:id="@+id/tab_layout"
                 style="@style/TuskyTabAppearance"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                android:layout_weight="1"
                 app:tabGravity="fill"
                 app:tabIconTint="@color/tab_icon_color"
                 app:tabMaxWidth="0dp"
                 app:tabMode="fixed"
-                app:tabPaddingEnd="1dp"
-                app:tabPaddingStart="1dp"
-                app:tabPaddingTop="4dp"
                 app:tabUnboundedRipple="false" />
-        </LinearLayout>
+
+        </androidx.appcompat.widget.Toolbar>
 
     </com.google.android.material.appbar.AppBarLayout>
 

@@ -7,7 +7,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?android:colorBackground"
-        app:elevation="@dimen/actionbar_elevation"
+        android:elevation="@dimen/actionbar_elevation"
         app:layout_collapseMode="pin">
 
         <androidx.appcompat.widget.Toolbar
