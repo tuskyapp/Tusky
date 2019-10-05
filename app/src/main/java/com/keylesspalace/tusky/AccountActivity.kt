@@ -245,7 +245,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
             fillColor = ColorStateList.valueOf(toolbarColor)
             elevation = appBarElevation
             shapeAppearanceModel = ShapeAppearanceModel.builder()
-                    .setCornerRadius(resources.getDimension(R.dimen.account_avatar_background_radius))
+                    .setAllCornerSizes(resources.getDimension(R.dimen.account_avatar_background_radius))
                     .build()
         }
         accountAvatarImageView.background = avatarBackground
