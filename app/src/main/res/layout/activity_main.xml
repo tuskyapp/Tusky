@@ -26,7 +26,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 app:tabGravity="fill"
-                app:tabIconTint="@color/tab_icon_color"
                 app:tabMaxWidth="0dp"
                 app:tabMode="fixed"
                 app:tabUnboundedRipple="false" />

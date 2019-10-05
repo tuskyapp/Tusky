@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:state_selected="false" android:color="?attr/toolbar_icon_tint"/>
-    <item android:state_selected="true" android:color="?attr/tab_icon_selected_tint"/>
-</selector>
