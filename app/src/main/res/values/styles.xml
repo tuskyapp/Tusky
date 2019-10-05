@@ -77,7 +77,6 @@
 
         <item name="window_background">@color/window_background_light</item>
         <item name="custom_tab_toolbar">@color/custom_tab_toolbar_light</item>
-        <item name="toolbar_background_color">@color/toolbar_background_light</item>
         <item name="toolbar_icon_tint">@color/toolbar_icon_light</item>
         <item name="image_button_style">@style/TuskyImageButton.Light</item>
         <item name="status_reblog_small_drawable">@drawable/ic_reblog_light_24dp</item>
@@ -189,7 +188,6 @@
 
         <item name="recents_background_color">@color/toolbar_background_black</item>
         <item name="window_background">@color/window_background_black</item>
-        <item name="toolbar_background_color">@color/toolbar_background_black</item>
         <item name="sensitive_media_warning_background_color">@color/color_background_black</item>
         <item name="account_header_background_color">@color/color_background_black</item>
 

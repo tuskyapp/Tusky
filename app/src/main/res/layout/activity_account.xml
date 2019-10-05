@@ -17,16 +17,15 @@
             android:id="@+id/accountAppBarLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="?android:colorBackground"
             android:elevation="@dimen/actionbar_elevation">
 
             <com.google.android.material.appbar.CollapsingToolbarLayout
                 android:id="@+id/collapsingToolbar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:contentScrim="?attr/toolbar_background_color"
+                app:contentScrim="?attr/colorSurface"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed"
-                app:statusBarScrim="?android:attr/colorBackground"
+                app:statusBarScrim="?attr/colorSurface"
                 app:titleEnabled="false">
 
                 <ImageView
@@ -64,7 +63,6 @@
                         android:layout_marginTop="6dp"
                         android:ellipsize="end"
                         android:maxLines="1"
-                        android:textColor="@android:color/white"
                         android:textSize="?attr/status_text_medium"
                         app:layout_constrainedWidth="true"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -174,7 +172,6 @@
                         android:id="@+id/accountNoteTextView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-
                         android:lineSpacingMultiplier="1.1"
                         android:paddingTop="10dp"
                         android:textColor="?android:textColorTertiary"
@@ -307,7 +304,6 @@
                             android:textSize="?attr/status_text_medium" />
                     </LinearLayout>
 
-
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <!-- top margin equal to statusbar size will be set programmatically -->
@@ -318,7 +314,9 @@
                     android:layout_gravity="top"
                     android:background="@android:color/transparent"
                     app:layout_collapseMode="pin"
+                    app:contentInsetStartWithNavigation="0dp"
                     app:layout_scrollFlags="scroll|enterAlways" />
+
             </com.google.android.material.appbar.CollapsingToolbarLayout>
 
             <com.google.android.material.tabs.TabLayout
@@ -355,11 +353,12 @@
             android:layout_width="@dimen/account_activity_avatar_size"
             android:layout_height="@dimen/account_activity_avatar_size"
             android:layout_marginStart="16dp"
-            android:background="@drawable/avatar_background"
             android:padding="3dp"
             app:layout_anchor="@+id/accountHeaderInfoContainer"
             app:layout_anchorGravity="top"
             app:layout_scrollFlags="scroll"
             app:srcCompat="@drawable/avatar_default" />
+
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
 </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
