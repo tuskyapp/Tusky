@@ -9,10 +9,11 @@ import com.keylesspalace.tusky.adapter.ComposeAutoCompleteAdapter
 import com.keylesspalace.tusky.components.compose.ComposeActivity.QueuedMedia
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.entity.*
+import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.network.MastodonApi
-import com.keylesspalace.tusky.util.VersionUtils
-import com.keylesspalace.tusky.util.map
-import com.keylesspalace.tusky.util.toLiveData
+import com.keylesspalace.tusky.service.ServiceClient
+import com.keylesspalace.tusky.service.TootToSend
+import com.keylesspalace.tusky.util.*
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import java.util.*
@@ -34,7 +35,8 @@ class ComposeViewModel
 @Inject constructor(
         private val api: MastodonApi,
         private val accountManager: AccountManager,
-        private val mediaUploader: MediaUploader
+        private val mediaUploader: MediaUploader,
+        private val serviceClient: ServiceClient
 ) : RxAwareViewModel() {
     private val instance: LiveData<Instance?> = api.getInstance()
             .map { listOf(it) }
@@ -94,6 +96,10 @@ class ComposeViewModel
                 .autoDispose()
     }
 
+    val addMediaEnabled: LiveData<Boolean> = media.map { mediaItems ->
+        mediaItems.size == 4 || mediaItems.isNotEmpty() && mediaItems[0].type == QueuedMedia.Type.VIDEO
+    }
+
     fun removeMediaFromQueue(item: QueuedMedia) {
         media.value = media.value!! - item
     }
@@ -123,6 +129,62 @@ class ComposeViewModel
 //                viewModel.statusVisibility.value!!,
 //                viewModel.poll.value)
     }
+
+
+    /**
+     * Send status to the server.
+     * Uses current state plus provided arguments.
+     * @return LiveData which will signal once the screen can be closed or null if there are errors
+     */
+    fun sendStatus(
+            content: String,
+            spoilerText: String
+    ): LiveData<Unit> {
+        return media
+                .filter { items -> items.all { it.uploadPercent == -1 } }
+                .map {
+                    val mediaIds = ArrayList<String>()
+                    val mediaUris = ArrayList<Uri>()
+                    val mediaDescriptions = ArrayList<String>()
+                    for (item in media.value!!) {
+                        mediaIds.add(item.id!!)
+                        mediaUris.add(item.uri)
+                        mediaDescriptions.add(item.description ?: "")
+                    }
+
+                    val tootToSend = TootToSend(
+                            content,
+                            spoilerText,
+                            statusVisibility.value!!.serverString(),
+                            mediaUris.isNotEmpty() && markMediaAsSensitive.value!!,
+                            mediaIds,
+                            mediaUris.map { it.toString() },
+                            mediaDescriptions,
+                            scheduledAt = null, // TODO
+                            inReplyToId = null,
+                            poll = null,
+                            replyingStatusContent = null,
+                            replyingStatusAuthorUsername = null,
+                            savedJsonUrls = null,
+                            accountId = accountManager.activeAccount!!.id,
+                            savedTootUid = 0,
+                            idempotencyKey = randomAlphanumericString(16),
+                            retries = 0
+                    )
+                    serviceClient.sendToot(tootToSend)
+                }
+    }
+
+    fun updateDescription(item: QueuedMedia, description: String) {
+        if (item.id == null) TODO()
+        media.value = media.value!!.replacedFirstWhich(item.copy(description = description)) {
+            it.localId == item.localId
+        }
+        api.updateMedia(item.id, description)
+                .subscribe()
+                .autoDispose()
+    }
+
 
     fun search(token: String): List<ComposeAutoCompleteAdapter.AutocompleteResult> {
         // TODO: pull it out of here

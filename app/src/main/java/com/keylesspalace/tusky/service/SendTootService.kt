@@ -8,7 +8,6 @@ import android.content.ClipData
 import android.content.ClipDescription
 import android.content.Context
 import android.content.Intent
-import android.net.Uri
 import android.os.Build
 import android.os.IBinder
 import android.os.Parcelable
@@ -19,7 +18,6 @@ import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.appstore.StatusComposedEvent
 import com.keylesspalace.tusky.appstore.StatusScheduledEvent
-import com.keylesspalace.tusky.db.AccountEntity
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.db.AppDatabase
 import com.keylesspalace.tusky.di.Injectable
@@ -28,7 +26,6 @@ import com.keylesspalace.tusky.entity.NewStatus
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.SaveTootHelper
-import com.keylesspalace.tusky.util.randomAlphanumericString
 import dagger.android.AndroidInjection
 import kotlinx.android.parcel.Parcelize
 import retrofit2.Call
@@ -284,54 +281,19 @@ class SendTootService : Service(), Injectable {
 
         @JvmStatic
         fun sendTootIntent(context: Context,
-                           text: String,
-                           warningText: String,
-                           visibility: Status.Visibility,
-                           sensitive: Boolean,
-                           mediaIds: List<String>,
-                           mediaUris: List<Uri>,
-                           mediaDescriptions: List<String>,
-                           scheduledAt: String?,
-                           inReplyToId: String?,
-                           poll: NewPoll?,
-                           replyingStatusContent: String?,
-                           replyingStatusAuthorUsername: String?,
-                           savedJsonUrls: List<String>?,
-                           account: AccountEntity,
-                           savedTootUid: Int
+                           tootToSend: TootToSend
         ): Intent {
             val intent = Intent(context, SendTootService::class.java)
-
-            val idempotencyKey = randomAlphanumericString(16)
-
-            val tootToSend = TootToSend(text,
-                    warningText,
-                    visibility.serverString(),
-                    sensitive,
-                    mediaIds,
-                    mediaUris.map { it.toString() },
-                    mediaDescriptions,
-                    scheduledAt,
-                    inReplyToId,
-                    poll,
-                    replyingStatusContent,
-                    replyingStatusAuthorUsername,
-                    savedJsonUrls,
-                    account.id,
-                    savedTootUid,
-                    idempotencyKey,
-                    0)
-
             intent.putExtra(KEY_TOOT, tootToSend)
 
-            if(mediaUris.isNotEmpty()) {
+            if (tootToSend.mediaUris.isNotEmpty()) {
                 // forward uri permissions
                 intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
                 val uriClip = ClipData(
                         ClipDescription("Toot Media", arrayOf("image/*", "video/*")),
-                        ClipData.Item(mediaUris[0])
+                        ClipData.Item(tootToSend.mediaUris[0])
                 )
-                mediaUris
+                tootToSend.mediaUris
                         .drop(1)
                         .forEach { mediaUri ->
                             uriClip.addItem(ClipData.Item(mediaUri))
@@ -348,20 +310,22 @@ class SendTootService : Service(), Injectable {
 }
 
 @Parcelize
-data class TootToSend(val text: String,
-                      val warningText: String,
-                      val visibility: String,
-                      val sensitive: Boolean,
-                      val mediaIds: List<String>,
-                      val mediaUris: List<String>,
-                      val mediaDescriptions: List<String>,
-                      val scheduledAt: String?,
-                      val inReplyToId: String?,
-                      val poll: NewPoll?,
-                      val replyingStatusContent: String?,
-                      val replyingStatusAuthorUsername: String?,
-                      val savedJsonUrls: List<String>?,
-                      val accountId: Long,
-                      val savedTootUid: Int,
-                      val idempotencyKey: String,
-                      var retries: Int) : Parcelable
+data class TootToSend(
+        val text: String,
+        val warningText: String,
+        val visibility: String,
+        val sensitive: Boolean,
+        val mediaIds: List<String>,
+        val mediaUris: List<String>,
+        val mediaDescriptions: List<String>,
+        val scheduledAt: String?,
+        val inReplyToId: String?,
+        val poll: NewPoll?,
+        val replyingStatusContent: String?,
+        val replyingStatusAuthorUsername: String?,
+        val savedJsonUrls: List<String>?,
+        val accountId: Long,
+        val savedTootUid: Int,
+        val idempotencyKey: String,
+        var retries: Int
+) : Parcelable

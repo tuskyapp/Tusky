@@ -15,12 +15,25 @@
 
 package com.keylesspalace.tusky.di
 
+import android.content.Context
 import com.keylesspalace.tusky.service.SendTootService
+import com.keylesspalace.tusky.service.ServiceClient
+import com.keylesspalace.tusky.service.ServiceClientImpl
 import dagger.Module
+import dagger.Provides
 import dagger.android.ContributesAndroidInjector
 
 @Module
 abstract class ServicesModule {
     @ContributesAndroidInjector
     abstract fun contributesSendTootService(): SendTootService
+
+    @Module
+    companion object {
+        @Provides
+        @JvmStatic
+        fun providesServiceClient(context: Context): ServiceClient {
+            return ServiceClientImpl(context)
+        }
+    }
 }

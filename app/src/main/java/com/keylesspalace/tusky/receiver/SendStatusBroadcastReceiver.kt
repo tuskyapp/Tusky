@@ -29,7 +29,9 @@ import com.keylesspalace.tusky.components.compose.ComposeActivity.ComposeOptions
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.service.SendTootService
+import com.keylesspalace.tusky.service.TootToSend
 import com.keylesspalace.tusky.util.NotificationHelper
+import com.keylesspalace.tusky.util.randomAlphanumericString
 import dagger.android.AndroidInjection
 import javax.inject.Inject
 
@@ -86,19 +88,25 @@ class SendStatusBroadcastReceiver : BroadcastReceiver() {
 
                 val sendIntent = SendTootService.sendTootIntent(
                         context,
-                        text,
-                        spoiler,
-                        visibility,
-                        false,
-                        emptyList(),
-                        emptyList(),
-                        emptyList(),
-                        null,
-                        citedStatusId,
-                        null,
-                        null,
-                        null,
-                        null, account, 0)
+                        TootToSend(
+                                text,
+                                spoiler,
+                                visibility.serverString(),
+                                false,
+                                emptyList(),
+                                emptyList(),
+                                emptyList(),
+                                null,
+                                citedStatusId,
+                                null,
+                                null,
+                                null,
+                                null, account.id,
+                                0,
+                                randomAlphanumericString(16),
+                                0
+                        )
+                )
 
                 context.startService(sendIntent)
 

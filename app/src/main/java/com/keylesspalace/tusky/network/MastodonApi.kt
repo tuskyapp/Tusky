@@ -123,7 +123,7 @@ interface MastodonApi {
     fun updateMedia(
             @Path("mediaId") mediaId: String,
             @Field("description") description: String
-    ): Call<Attachment>
+    ): Single<Attachment>
 
     @POST("api/v1/statuses")
     fun createStatus(
