@@ -124,6 +124,7 @@ dependencies {
     implementation 'de.c1710:filemojicompat:1.0.17'
     // architecture components
     implementation 'androidx.lifecycle:lifecycle-extensions:2.0.0'
+    implementation "android.arch.lifecycle:reactivestreams:1.1.1"
     //room
     implementation 'androidx.room:room-runtime:2.1.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'

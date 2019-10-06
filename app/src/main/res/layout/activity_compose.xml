@@ -30,10 +30,9 @@
             android:layout_gravity="end"
             android:padding="8dp"
             android:text="@string/at_symbol"
-            android:textStyle="bold"
             android:textColor="?android:textColorTertiary"
             android:textSize="?attr/status_text_large"
-            />
+            android:textStyle="bold" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/hashButton"
@@ -43,10 +42,9 @@
             android:layout_gravity="end"
             android:padding="8dp"
             android:text="@string/hash_symbol"
-            android:textStyle="bold"
             android:textColor="?android:textColorTertiary"
             android:textSize="?attr/status_text_large"
-            />
+            android:textStyle="bold" />
     </androidx.appcompat.widget.Toolbar>
 
     <androidx.core.widget.NestedScrollView
@@ -136,25 +134,11 @@
                 android:textColorHint="?android:attr/textColorTertiary"
                 android:textSize="?attr/status_text_large" />
 
-            <HorizontalScrollView
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/composeMediaPreviewBar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:scrollbars="none">
-
-                <LinearLayout
-                    android:id="@+id/composeMediaPreviewBar"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:paddingLeft="16dp"
-                    android:paddingRight="16dp">
-
-                    <!--This is filled at runtime with ImageView's for each preview in the upload queue.-->
-
-                </LinearLayout>
-
-            </HorizontalScrollView>
-
+                android:scrollbars="none" />
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 
@@ -300,7 +284,7 @@
             android:contentDescription="@string/action_content_warning"
             android:padding="4dp"
             android:tooltipText="@string/action_content_warning"
-            app:srcCompat="@drawable/ic_cw_24dp"/>
+            app:srcCompat="@drawable/ic_cw_24dp" />
 
         <ImageButton
             android:id="@+id/composeEmojiButton"

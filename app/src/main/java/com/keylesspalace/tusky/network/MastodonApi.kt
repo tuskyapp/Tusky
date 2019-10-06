@@ -43,7 +43,7 @@ interface MastodonApi {
     fun getLists(): Single<List<MastoList>>
 
     @GET("/api/v1/custom_emojis")
-    fun getCustomEmojis(): Call<List<Emoji>>
+    fun getCustomEmojis(): Single<List<Emoji>>
 
     @GET("api/v1/instance")
     fun getInstance(): Single<Instance>
@@ -116,7 +116,7 @@ interface MastodonApi {
     @POST("api/v1/media")
     fun uploadMedia(
             @Part file: MultipartBody.Part
-    ): Call<Attachment>
+    ): Single<Attachment>
 
     @FormUrlEncoded
     @PUT("api/v1/media/{mediaId}")

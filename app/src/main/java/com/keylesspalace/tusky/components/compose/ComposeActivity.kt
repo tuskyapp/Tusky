@@ -21,37 +21,41 @@ import android.app.Activity
 import android.app.ProgressDialog
 import android.app.TimePickerDialog
 import android.content.Context
-import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.content.res.AssetFileDescriptor
-import android.graphics.Bitmap
 import android.graphics.PorterDuff
 import android.net.Uri
-import android.os.*
+import android.os.AsyncTask
+import android.os.Build
+import android.os.Bundle
+import android.os.Parcelable
 import android.preference.PreferenceManager
-import android.provider.MediaStore
-import android.text.*
-import android.util.DisplayMetrics
+import android.text.Editable
+import android.text.TextUtils
+import android.text.TextWatcher
 import android.util.Log
-import android.view.*
-import android.webkit.MimeTypeMap
+import android.view.KeyEvent
+import android.view.MenuItem
+import android.view.View
+import android.view.ViewGroup
 import android.widget.*
 import androidx.annotation.ColorInt
 import androidx.annotation.Px
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.content.res.AppCompatResources
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.core.view.inputmethod.InputConnectionCompat
 import androidx.core.view.inputmethod.InputContentInfoCompat
-import androidx.lifecycle.Lifecycle
-import androidx.recyclerview.widget.GridLayoutManager
+import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.*
 import androidx.transition.TransitionManager
-import at.connyduck.sparkbutton.helpers.Utils
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.snackbar.Snackbar
 import com.keylesspalace.tusky.BaseActivity
@@ -60,14 +64,14 @@ import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.adapter.ComposeAutoCompleteAdapter
 import com.keylesspalace.tusky.adapter.EmojiAdapter
 import com.keylesspalace.tusky.adapter.OnEmojiSelectedListener
-import com.keylesspalace.tusky.db.AccountEntity
 import com.keylesspalace.tusky.db.AppDatabase
-import com.keylesspalace.tusky.db.InstanceEntity
 import com.keylesspalace.tusky.di.Injectable
-import com.keylesspalace.tusky.entity.*
+import com.keylesspalace.tusky.di.ViewModelFactory
+import com.keylesspalace.tusky.entity.Attachment
+import com.keylesspalace.tusky.entity.Emoji
+import com.keylesspalace.tusky.entity.NewPoll
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.network.MastodonApi
-import com.keylesspalace.tusky.network.ProgressRequestBody
 import com.keylesspalace.tusky.service.SendTootService
 import com.keylesspalace.tusky.util.*
 import com.keylesspalace.tusky.view.ComposeOptionsListener
@@ -76,21 +80,12 @@ import com.keylesspalace.tusky.view.ProgressImageView
 import com.keylesspalace.tusky.view.showAddPollDialog
 import com.mikepenz.google_material_typeface_library.GoogleMaterial
 import com.mikepenz.iconics.IconicsDrawable
-import com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider.from
-import com.uber.autodispose.autoDispose
-import io.reactivex.Single
-import io.reactivex.SingleObserver
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.Disposable
-import io.reactivex.schedulers.Schedulers
 import kotlinx.android.parcel.Parcelize
 import kotlinx.android.synthetic.main.activity_compose.*
-import okhttp3.MediaType.Companion.toMediaTypeOrNull
-import okhttp3.MultipartBody
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import java.io.*
+import java.io.File
+import java.io.FileNotFoundException
+import java.io.FileOutputStream
+import java.io.IOException
 import java.util.*
 import java.util.concurrent.CountDownLatch
 import javax.inject.Inject
@@ -107,6 +102,8 @@ class ComposeActivity : BaseActivity(),
     lateinit var mastodonApi: MastodonApi
     @Inject
     lateinit var database: AppDatabase
+    @Inject
+    lateinit var viewModelFactory: ViewModelFactory
 
     private var composeOptionsBehavior: BottomSheetBehavior<*>? = null
     private var addMediaBehavior: BottomSheetBehavior<*>? = null
@@ -120,10 +117,6 @@ class ComposeActivity : BaseActivity(),
     private var inReplyToId: String? = null
     private val mediaQueued = ArrayList<QueuedMedia>()
     private var waitForMediaLatch: CountUpDownLatch? = null
-    private var poll: NewPoll? = null
-    private var statusVisibility: Status.Visibility? = null     // The current values of the options that will be applied
-    private var statusMarkSensitive: Boolean = false // to the status being composed.
-    private var statusHideText: Boolean = false
     private var startingText = ""
     private var startingContentWarning: String? = ""
     private var currentInputContentInfo: InputContentInfoCompat? = null
@@ -142,6 +135,7 @@ class ComposeActivity : BaseActivity(),
 
     private var saveTootHelper: SaveTootHelper? = null
     private var composeOptions: ComposeOptions? = null
+    private lateinit var viewModel: ComposeViewModel
 
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -188,27 +182,35 @@ class ComposeActivity : BaseActivity(),
 
             composeAvatar.contentDescription = getString(R.string.compose_active_account_description,
                     activeAccount.fullName)
+            val mediaApater = MediaPreviewAdapter(this)
+            composeMediaPreviewBar.layoutManager =
+                    LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+            composeMediaPreviewBar.adapter = mediaApater
 
-            mastodonApi.getInstance()
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .autoDispose(from(this, Lifecycle.Event.ON_DESTROY))
-                    .subscribe(
-                            { this.onFetchInstanceSuccess(it) },
-                            { this.onFetchInstanceFailure(it) })
+            viewModel = ViewModelProviders.of(this, viewModelFactory).get(ComposeViewModel::class.java)
 
-            mastodonApi.getCustomEmojis().enqueue(object : Callback<List<Emoji>> {
-                override fun onResponse(call: Call<List<Emoji>>, response: Response<List<Emoji>>) {
-                    val emojiList = response.body() ?: listOf()
-                    val sortedEmojis = emojiList.sortedBy { it.shortcode.toLowerCase(Locale.ROOT) }
-                    setEmojiList(sortedEmojis)
-                    cacheInstanceMetadata(activeAccount)
+            withLifecycleContext {
+                viewModel.instanceParams.observe { instanceData ->
+                    maximumTootCharacters = instanceData.maxChars
+                    updateVisibleCharactersLeft()
+                    composeScheduleButton.visible(instanceData.supportsScheduled)
+                    maxPollOptions = instanceData.pollMaxOptions
+                    maxPollOptionLength = instanceData.pollMaxLength
                 }
-
-                override fun onFailure(call: Call<List<Emoji>>, t: Throwable) {
-                    Log.w(TAG, "error loading custom emojis", t)
-                    loadCachedInstanceMetadata(activeAccount)
+                viewModel.emoji.observe { emoji ->
+                    setEmojiList(emoji)
                 }
-            })
+                combineLiveData(viewModel.markMediaAsSensitive, viewModel.hideStatustext) { markSensitive, hideStatusText ->
+                    updateHideMediaToggle(markSensitive, hideStatusText)
+                    showContentWarning(hideStatusText)
+                }.subscribe()
+                viewModel.statusVisibility.observe { visibility ->
+                    setStatusVisibility(visibility)
+                }
+                viewModel.media.observe { media ->
+                    mediaApater.submitList(media)
+                }
+            }
         } else {
             // do not do anything when not logged in, activity will be finished in super.onCreate() anyway
             return
@@ -223,9 +225,9 @@ class ComposeActivity : BaseActivity(),
 
         scheduleBehavior = BottomSheetBehavior.from(composeScheduleView)
 
-        emojiBehavior = BottomSheetBehavior.from(emojiView!!)
+        emojiBehavior = BottomSheetBehavior.from(emojiView)
 
-        emojiView!!.layoutManager = GridLayoutManager(this, 3, GridLayoutManager.HORIZONTAL, false)
+        emojiView.layoutManager = GridLayoutManager(this, 3, GridLayoutManager.HORIZONTAL, false)
 
         enableButton(composeEmojiButton, false, false)
 
@@ -238,8 +240,8 @@ class ComposeActivity : BaseActivity(),
         composeHideMediaButton.setOnClickListener { toggleHideMedia() }
         composeScheduleButton.setOnClickListener { showScheduleView() }
         composeScheduleView.setResetOnClickListener { resetSchedule() }
-        atButton!!.setOnClickListener { atButtonClicked() }
-        hashButton!!.setOnClickListener { hashButtonClicked() }
+        atButton.setOnClickListener { atButtonClicked() }
+        hashButton.setOnClickListener { hashButtonClicked() }
 
         val textColor = ThemeUtils.getColor(this, android.R.attr.textColorTertiary)
 
@@ -258,33 +260,8 @@ class ComposeActivity : BaseActivity(),
 
         thumbnailViewSize = resources.getDimensionPixelSize(R.dimen.compose_media_preview_size)
 
-        /* Initialise all the state, or restore it from a previous run, to determine a "starting"
-         * state. */
-        var startingVisibility: Status.Visibility = Status.Visibility.UNKNOWN
-        var startingHideText: Boolean
-        var savedMediaQueued: ArrayList<SavedQueuedMedia>? = null
-        if (savedInstanceState != null) {
-            startingVisibility = Status.Visibility.byNum(
-                    savedInstanceState.getInt("statusVisibility",
-                            Status.Visibility.PUBLIC.num)
-            )
-            statusMarkSensitive = savedInstanceState.getBoolean("statusMarkSensitive")
-            startingHideText = savedInstanceState.getBoolean("statusHideText")
-            // Keep these until everything needed to put them in the queue is finished initializing.
-            savedMediaQueued = savedInstanceState.getParcelableArrayList("savedMediaQueued")
-            // These are for restoring an in-progress commit content operation.
-            val previousInputContentInfo = InputContentInfoCompat.wrap(
-                    savedInstanceState.getParcelable("commitContentInputContentInfo"))
-            val previousFlags = savedInstanceState.getInt("commitContentFlags")
-            if (previousInputContentInfo != null) {
-                onCommitContentInternal(previousInputContentInfo, previousFlags)
-            }
-            photoUploadUri = savedInstanceState.getParcelable("photoUploadUri")
-        } else {
-            statusMarkSensitive = activeAccount.defaultMediaSensitivity
-            startingHideText = false
-            photoUploadUri = null
-        }
+        var startingVisibility = Status.Visibility.UNKNOWN
+        photoUploadUri = null
 
         /* If the composer is started up as a reply to another post, override the "starting" state
          * based on what the intent from the reply request passes. */
@@ -313,10 +290,7 @@ class ComposeActivity : BaseActivity(),
 
             val contentWarning = composeOptions?.contentWarning
             if (contentWarning != null) {
-                startingHideText = contentWarning.isNotEmpty()
-                if (startingHideText) {
-                    startingContentWarning = contentWarning
-                }
+                startingContentWarning = contentWarning
             }
 
             val tootText = composeOptions?.tootText
@@ -377,7 +351,7 @@ class ComposeActivity : BaseActivity(),
                 composeScheduleView.setDateTime(composeOptions?.scheduledAt)
             }
 
-            statusMarkSensitive = composeOptions?.sensitive ?: statusMarkSensitive
+            composeOptions?.sensitive?.let { viewModel.markMediaAsSensitive.value = it }
 
             val poll = composeOptions?.poll
             if (poll != null && (mediaAttachments == null || mediaAttachments.isEmpty())) {
@@ -390,9 +364,8 @@ class ComposeActivity : BaseActivity(),
         }
 
         // After the starting state is finalised, the interface can be set to reflect this state.
-        setStatusVisibility(startingVisibility)
+        viewModel.statusVisibility.value = startingVisibility
 
-        updateHideMediaToggle()
         updateScheduleButton()
         updateVisibleCharactersLeft()
 
@@ -445,7 +418,6 @@ class ComposeActivity : BaseActivity(),
 
             override fun afterTextChanged(s: Editable) {}
         })
-        showContentWarning(startingHideText)
         if (startingContentWarning != null) {
             composeContentWarningField.setText(startingContentWarning)
         }
@@ -453,40 +425,36 @@ class ComposeActivity : BaseActivity(),
         // Initialise the empty media queue state.
         waitForMediaLatch = CountUpDownLatch()
 
-        // These can only be added after everything affected by the media queue is initialized.
-        if (!isEmpty(loadedDraftMediaUris)) {
-            for (mediaIndex in loadedDraftMediaUris!!.indices) {
-                val uri = Uri.parse(loadedDraftMediaUris[mediaIndex])
-                val mediaSize = getMediaSize(contentResolver, uri)
-                var description: String? = null
-                if (loadedDraftMediaDescriptions != null && mediaIndex < loadedDraftMediaDescriptions.size) {
-                    description = loadedDraftMediaDescriptions[mediaIndex]
-                }
-                pickMedia(uri, mediaSize, description)
-            }
-        } else if (!isEmpty(mediaAttachments)) {
-            for (mediaIndex in mediaAttachments!!.indices) {
-                val (id, _, previewUrl, _, type1, description) = mediaAttachments[mediaIndex]
-                val type: QueuedMedia.Type
-                when (type1) {
-                    Attachment.Type.UNKNOWN, Attachment.Type.IMAGE -> {
-                        type = QueuedMedia.Type.IMAGE
-                    }
-                    Attachment.Type.VIDEO, Attachment.Type.GIFV -> {
-                        type = QueuedMedia.Type.VIDEO
-                    }
-                    else -> {
-                        type = QueuedMedia.Type.IMAGE
-                    }
-                }
-                addMediaToQueue(id, type, previewUrl, description)
-            }
-        } else if (savedMediaQueued != null) {
-            for (item in savedMediaQueued) {
-                val preview = getImageThumbnail(contentResolver, item.uri, thumbnailViewSize)
-                addMediaToQueue(item.id, item.type, preview, item.uri, item.mediaSize, item.readyStage, item.description)
-            }
-        } else if (intent != null && savedInstanceState == null) {
+//        // These can only be added after everything affected by the media queue is initialized.
+//        if (!isEmpty(loadedDraftMediaUris)) {
+//            for (mediaIndex in loadedDraftMediaUris!!.indices) {
+//                val uri = Uri.parse(loadedDraftMediaUris[mediaIndex])
+//                val mediaSize = getMediaSize(contentResolver, uri)
+//                var description: String? = null
+//                if (loadedDraftMediaDescriptions != null && mediaIndex < loadedDraftMediaDescriptions.size) {
+//                    description = loadedDraftMediaDescriptions[mediaIndex]
+//                }
+//                pickMedia(uri, mediaSize)
+//            }
+//        } else if (!isEmpty(mediaAttachments)) {
+//            for (mediaIndex in mediaAttachments!!.indices) {
+//                val (id, _, previewUrl, _, type1, description) = mediaAttachments[mediaIndex]
+//                val type: QueuedMedia.Type
+//                when (type1) {
+//                    Attachment.Type.UNKNOWN, Attachment.Type.IMAGE -> {
+//                        type = QueuedMedia.Type.IMAGE
+//                    }
+//                    Attachment.Type.VIDEO, Attachment.Type.GIFV -> {
+//                        type = QueuedMedia.Type.VIDEO
+//                    }
+//                    else -> {
+//                        type = QueuedMedia.Type.IMAGE
+//                    }
+//                }
+//                addMediaToQueue(id, type, previewUrl)
+//            }
+//        } else
+        if (intent != null && savedInstanceState == null) {
             /* Get incoming images being sent through a share action from another app. Only do this
              * when savedInstanceState is null, otherwise both the images from the intent and the
              * instance state will be re-queued. */
@@ -517,7 +485,7 @@ class ComposeActivity : BaseActivity(),
                     }
                     for (uri in uriList) {
                         val mediaSize = getMediaSize(contentResolver, uri)
-                        pickMedia(uri, mediaSize, null)
+                        pickMedia(uri, mediaSize)
                     }
                 } else if (type == "text/plain") {
                     val action = intent.action
@@ -548,9 +516,6 @@ class ComposeActivity : BaseActivity(),
                 }
             }
         }
-        for (item in mediaQueued) {
-            item.preview!!.setChecked(!TextUtils.isEmpty(item.description))
-        }
 
         composeEditField.requestFocus()
     }
@@ -575,13 +540,7 @@ class ComposeActivity : BaseActivity(),
 
     override fun onSaveInstanceState(outState: Bundle) {
         val savedMediaQueued = ArrayList<SavedQueuedMedia>()
-        for (item in mediaQueued) {
-            savedMediaQueued.add(SavedQueuedMedia(item.id, item.type, item.uri,
-                    item.mediaSize, item.readyStage, item.description))
-        }
         outState.putParcelableArrayList("savedMediaQueued", savedMediaQueued)
-        outState.putBoolean("statusMarkSensitive", statusMarkSensitive)
-        outState.putBoolean("statusHideText", statusHideText)
         if (currentInputContentInfo != null) {
             outState.putParcelable("commitContentInputContentInfo",
                     currentInputContentInfo!!.unwrap() as Parcelable?)
@@ -590,7 +549,6 @@ class ComposeActivity : BaseActivity(),
         currentInputContentInfo = null
         currentFlags = 0
         outState.putParcelable("photoUploadUri", photoUploadUri)
-        outState.putInt("statusVisibility", statusVisibility!!.num)
         super.onSaveInstanceState(outState)
     }
 
@@ -612,11 +570,10 @@ class ComposeActivity : BaseActivity(),
     }
 
     private fun toggleHideMedia() {
-        statusMarkSensitive = !statusMarkSensitive
-        updateHideMediaToggle()
+        this.viewModel.toggleMarkSensitive()
     }
 
-    private fun updateHideMediaToggle() {
+    private fun updateHideMediaToggle(statusMarkSensitive: Boolean, hideStatusText: Boolean) {
         TransitionManager.beginDelayedTransition(composeHideMediaButton.parent as ViewGroup)
 
         @ColorInt val color: Int
@@ -626,7 +583,7 @@ class ComposeActivity : BaseActivity(),
             composeHideMediaButton.visibility = View.VISIBLE
             if (statusMarkSensitive) {
                 composeHideMediaButton.setImageResource(R.drawable.ic_hide_media_24dp)
-                if (statusHideText) {
+                if (hideStatusText) {
                     composeHideMediaButton.isClickable = false
                     color = ContextCompat.getColor(this, R.color.compose_media_visible_button_disabled_blue)
                 } else {
@@ -671,43 +628,18 @@ class ComposeActivity : BaseActivity(),
     }
 
     private fun setStatusVisibility(visibility: Status.Visibility) {
-        statusVisibility = visibility
         composeOptionsBottomSheet.setStatusVisibility(visibility)
         composeTootButton.setStatusVisibility(visibility)
 
-        when (visibility) {
-            Status.Visibility.PUBLIC -> {
-                val globe = AppCompatResources.getDrawable(this, R.drawable.ic_public_24dp)
-                if (globe != null) {
-                    composeToggleVisibilityButton.setImageDrawable(globe)
-                }
-            }
-            Status.Visibility.PRIVATE -> {
-                val lock = AppCompatResources.getDrawable(this,
-                        R.drawable.ic_lock_outline_24dp)
-                if (lock != null) {
-                    composeToggleVisibilityButton.setImageDrawable(lock)
-                }
-            }
-            Status.Visibility.DIRECT -> {
-                val envelope = AppCompatResources.getDrawable(this, R.drawable.ic_email_24dp)
-                if (envelope != null) {
-                    composeToggleVisibilityButton.setImageDrawable(envelope)
-                }
-            }
-            Status.Visibility.UNLISTED -> {
-                val openLock = AppCompatResources.getDrawable(this, R.drawable.ic_lock_open_24dp)
-                if (openLock != null) {
-                    composeToggleVisibilityButton.setImageDrawable(openLock)
-                }
-            }
-            else -> {
-                val openLock = AppCompatResources.getDrawable(this, R.drawable.ic_lock_open_24dp)
-                if (openLock != null) {
-                    composeToggleVisibilityButton.setImageDrawable(openLock)
-                }
-            }
+        val iconRes = when (visibility) {
+            Status.Visibility.PUBLIC -> R.drawable.ic_public_24dp
+            Status.Visibility.PRIVATE -> R.drawable.ic_lock_outline_24dp
+            Status.Visibility.DIRECT -> R.drawable.ic_email_24dp
+            Status.Visibility.UNLISTED -> R.drawable.ic_lock_open_24dp
+            else -> R.drawable.ic_lock_open_24dp
         }
+        val drawable = AppCompatResources.getDrawable(this, iconRes)!!
+        composeToggleVisibilityButton.setImageDrawable(drawable)
     }
 
     private fun showComposeOptions() {
@@ -790,11 +722,10 @@ class ComposeActivity : BaseActivity(),
 
     private fun openPollDialog() {
         addMediaBehavior!!.state = BottomSheetBehavior.STATE_COLLAPSED
-        showAddPollDialog(this, poll, maxPollOptions, maxPollOptionLength)
+        showAddPollDialog(this, viewModel.poll.value, maxPollOptions, maxPollOptionLength)
     }
 
     fun updatePoll(poll: NewPoll) {
-        this.poll = poll
 
         enableButton(composeAddMediaButton, false, false)
 
@@ -810,7 +741,8 @@ class ComposeActivity : BaseActivity(),
             layoutParams.setMargins(margin, margin, margin, marginBottom)
             pollPreview!!.layoutParams = layoutParams
 
-            composeMediaPreviewBar.addView(pollPreview)
+            // TODO
+//            composeMediaPreviewBar.addView(pollPreview)
 
             pollPreview!!.setOnClickListener {
                 val popup = PopupMenu(this, pollPreview)
@@ -834,7 +766,7 @@ class ComposeActivity : BaseActivity(),
     }
 
     private fun removePoll() {
-        poll = null
+        viewModel.poll.value = null
         pollPreview = null
         enableButton(composeAddMediaButton, true, true)
         composeMediaPreviewBar.removeAllViews()
@@ -842,7 +774,7 @@ class ComposeActivity : BaseActivity(),
 
     override fun onVisibilityChanged(visibility: Status.Visibility) {
         composeOptionsBehavior!!.state = BottomSheetBehavior.STATE_COLLAPSED
-        setStatusVisibility(visibility)
+        viewModel.statusVisibility.value = visibility
     }
 
     internal fun calculateTextLength(): Int {
@@ -854,7 +786,7 @@ class ComposeActivity : BaseActivity(),
             }
         }
         var length = composeEditField.length() - offset
-        if (statusHideText) {
+        if (viewModel.hideStatustext.value!!) {
             length += composeContentWarningField.length()
         }
         return length
@@ -866,13 +798,13 @@ class ComposeActivity : BaseActivity(),
 
     private fun onContentWarningChanged() {
         val showWarning = composeContentWarningBar.visibility != View.VISIBLE
-        showContentWarning(showWarning)
+        viewModel.hideStatustext.value = showWarning
         updateVisibleCharactersLeft()
     }
 
     private fun onSendClicked() {
         disableButtons()
-        readyStatus(statusVisibility, statusMarkSensitive)
+        readyStatus()
     }
 
     override fun onCommitContent(inputContentInfo: InputContentInfoCompat, flags: Int, opts: Bundle): Boolean {
@@ -925,7 +857,7 @@ class ComposeActivity : BaseActivity(),
         } else {
             mediaSize = MEDIA_SIZE_UNKNOWN
         }
-        pickMedia(uri, mediaSize, null)
+        pickMedia(uri, mediaSize)
 
         currentInputContentInfo = inputContentInfo
         currentFlags = flags
@@ -938,15 +870,15 @@ class ComposeActivity : BaseActivity(),
         val mediaIds = ArrayList<String>()
         val mediaUris = ArrayList<Uri>()
         val mediaDescriptions = ArrayList<String>()
-        for (item in mediaQueued) {
-            mediaIds.add(item.id!!)
-            mediaUris.add(item.uri)
-            mediaDescriptions.add(item.description ?: "")
-        }
+//        for (item in mediaQueued) {
+//            mediaIds.add(item.id!!)
+//            mediaUris.add(item.uri)
+//            mediaDescriptions.add(item.description ?: "")
+//        }
 
         val sendIntent = SendTootService.sendTootIntent(this, content, spoilerText,
                 visibility!!, mediaUris.isNotEmpty() && sensitive, mediaIds, mediaUris, mediaDescriptions,
-                composeScheduleView.time, inReplyToId, poll,
+                composeScheduleView.time, inReplyToId, viewModel.poll.value,
                 composeOptions?.replyingStatusContent,
                 composeOptions?.replyingStatusAuthor,
                 composeOptions?.savedJsonUrls,
@@ -962,9 +894,9 @@ class ComposeActivity : BaseActivity(),
 
     }
 
-    private fun readyStatus(visibility: Status.Visibility?, sensitive: Boolean) {
+    private fun readyStatus() {
         if (waitForMediaLatch!!.isEmpty) {
-            onReadySuccess(visibility, sensitive)
+            onReadySuccess()
             return
         }
         finishingUploadDialog = ProgressDialog.show(
@@ -986,9 +918,9 @@ class ComposeActivity : BaseActivity(),
                 finishingUploadDialog!!.dismiss()
                 finishingUploadDialog = null
                 if (successful!!) {
-                    onReadySuccess(visibility, sensitive)
+                    onReadySuccess()
                 } else {
-                    onReadyFailure(visibility, sensitive)
+                    onReadyFailure()
                 }
             }
 
@@ -1007,11 +939,11 @@ class ComposeActivity : BaseActivity(),
         waitForMediaTask.execute()
     }
 
-    private fun onReadySuccess(visibility: Status.Visibility?, sensitive: Boolean) {
+    private fun onReadySuccess() {
         /* Validate the status meets the character limit. */
         val contentText = composeEditField.text.toString()
         var spoilerText = ""
-        if (statusHideText) {
+        if (viewModel.hideStatustext.value!!) {
             spoilerText = composeContentWarningField.text.toString()
         }
         val characterCount = calculateTextLength()
@@ -1019,7 +951,7 @@ class ComposeActivity : BaseActivity(),
             composeEditField.error = getString(R.string.error_empty)
             enableButtons()
         } else if (characterCount <= maximumTootCharacters) {
-            sendStatus(contentText, visibility, sensitive, spoilerText)
+            sendStatus(contentText, viewModel.statusVisibility.value!!, viewModel.markMediaAsSensitive.value!!, spoilerText)
 
         } else {
             composeEditField.error = getString(R.string.error_compose_character_limit)
@@ -1027,9 +959,9 @@ class ComposeActivity : BaseActivity(),
         }
     }
 
-    private fun onReadyFailure(visibility: Status.Visibility?, sensitive: Boolean) {
+    private fun onReadyFailure() {
         doErrorDialog(R.string.error_media_upload_sending, R.string.action_retry,
-                View.OnClickListener { readyStatus(visibility, sensitive) })
+                View.OnClickListener { readyStatus() })
         enableButtons()
     }
 
@@ -1047,43 +979,31 @@ class ComposeActivity : BaseActivity(),
         }
     }
 
-    @Throws(IOException::class)
-    private fun createNewImageFile(): File {
-        // Create an image file name
-        val randomId = randomAlphanumericString(12)
-        val imageFileName = "Tusky_" + randomId + "_"
-        val storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES)
-        return File.createTempFile(
-                imageFileName, /* prefix */
-                ".jpg", /* suffix */
-                storageDir      /* directory */
-        )
-    }
 
     private fun initiateCameraApp() {
-        addMediaBehavior!!.state = BottomSheetBehavior.STATE_COLLAPSED
-
-        // We don't need to ask for permission in this case, because the used calls require
-        // android.permission.WRITE_EXTERNAL_STORAGE only on SDKs *older* than Kitkat, which was
-        // way before permission dialogues have been introduced.
-        val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-        if (intent.resolveActivity(packageManager) != null) {
-            var photoFile: File? = null
-            try {
-                photoFile = createNewImageFile()
-            } catch (ex: IOException) {
-                displayTransientError(R.string.error_media_upload_opening)
-            }
-
-            // Continue only if the File was successfully created
-            if (photoFile != null) {
-                photoUploadUri = FileProvider.getUriForFile(this,
-                        BuildConfig.APPLICATION_ID + ".fileprovider",
-                        photoFile)
-                intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUploadUri)
-                startActivityForResult(intent, MEDIA_TAKE_PHOTO_RESULT)
-            }
-        }
+//        addMediaBehavior!!.state = BottomSheetBehavior.STATE_COLLAPSED
+//
+//        // We don't need to ask for permission in this case, because the used calls require
+//        // android.permission.WRITE_EXTERNAL_STORAGE only on SDKs *older* than Kitkat, which was
+//        // way before permission dialogues have been introduced.
+//        val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+//        if (intent.resolveActivity(packageManager) != null) {
+//            var photoFile: File? = null
+//            try {
+//                photoFile = createNewImageFile()
+//            } catch (ex: IOException) {
+//                displayTransientError(R.string.error_media_upload_opening)
+//            }
+//
+//            // Continue only if the File was successfully created
+//            if (photoFile != null) {
+//                photoUploadUri = FileProvider.getUriForFile(this,
+//                        BuildConfig.APPLICATION_ID + ".fileprovider",
+//                        photoFile)
+//                intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUploadUri)
+//                startActivityForResult(intent, MEDIA_TAKE_PHOTO_RESULT)
+//            }
+//        }
     }
 
     private fun initiateMediaPicking() {
@@ -1114,92 +1034,8 @@ class ComposeActivity : BaseActivity(),
         addPollTextActionTextView.compoundDrawablesRelative[0].setColorFilter(textColor, PorterDuff.Mode.SRC_IN)
     }
 
-    private fun addMediaToQueue(type: QueuedMedia.Type, preview: Bitmap, uri: Uri, mediaSize: Long, description: String?) {
-        addMediaToQueue(null, type, preview, uri, mediaSize, null, description)
-    }
-
-    private fun addMediaToQueue(id: String, type: QueuedMedia.Type, previewUrl: String, description: String?) {
-        addMediaToQueue(id, type, null, Uri.parse(previewUrl), 0,
-                QueuedMedia.ReadyStage.UPLOADED, description)
-    }
-
-    private fun addMediaToQueue(id: String?, type: QueuedMedia.Type, preview: Bitmap?, uri: Uri,
-                                mediaSize: Long, readyStage: QueuedMedia.ReadyStage?, description: String?) {
-        val item = QueuedMedia(type, uri, ProgressImageView(this),
-                mediaSize, description)
-        item.id = id
-        item.readyStage = readyStage
-        val view = item.preview
-        val resources = resources
-        val margin = resources.getDimensionPixelSize(R.dimen.compose_media_preview_margin)
-        val marginBottom = resources.getDimensionPixelSize(
-                R.dimen.compose_media_preview_margin_bottom)
-        val layoutParams = LinearLayout.LayoutParams(thumbnailViewSize, thumbnailViewSize)
-        layoutParams.setMargins(margin, 0, margin, marginBottom)
-        view!!.layoutParams = layoutParams
-        view.scaleType = ImageView.ScaleType.CENTER_CROP
-        if (preview != null) {
-            view.setImageBitmap(preview)
-        } else {
-            Glide.with(this)
-                    .load(uri)
-                    .placeholder(null)
-                    .into(view)
-        }
-        view.setOnClickListener { v -> onMediaClick(item, v) }
-        composeMediaPreviewBar.addView(view)
-        mediaQueued.add(item)
-        updateContentDescription(item)
-        val queuedCount = mediaQueued.size
-        if (queuedCount == 1) {
-            // If there's one video in the queue it is full, so disable the button to queue more.
-            if (item.type == QueuedMedia.Type.VIDEO) {
-                enableButton(composeAddMediaButton, false, false)
-            }
-        } else if (queuedCount >= Status.MAX_MEDIA_ATTACHMENTS) {
-            // Limit the total media attachments, also.
-            enableButton(composeAddMediaButton, false, false)
-        }
-
-        updateHideMediaToggle()
-        enablePollButton(false)
-
-        if (item.readyStage != QueuedMedia.ReadyStage.UPLOADED) {
-            waitForMediaLatch!!.countUp()
-
-            try {
-                if (type == QueuedMedia.Type.IMAGE && (mediaSize > STATUS_IMAGE_SIZE_LIMIT || getImageSquarePixels(contentResolver, item.uri) > STATUS_IMAGE_PIXEL_SIZE_LIMIT)) {
-                    downsizeMedia(item)
-                } else {
-                    uploadMedia(item)
-                }
-            } catch (e: IOException) {
-                onUploadFailure(item, false)
-            }
-
-        }
-    }
-
-    private fun updateContentDescriptionForAllImages() {
-        val items = ArrayList(mediaQueued)
-        for (media in items) {
-            updateContentDescription(media)
-        }
-    }
-
-    private fun updateContentDescription(item: QueuedMedia) {
-        if (item.preview != null) {
-            val imageId: String? = if (!TextUtils.isEmpty(item.description)) {
-                item.description
-            } else {
-                val idx = getImageIdx(item)
-                if (idx < 0)
-                    null
-                else
-                    (idx + 1).toString()
-            }
-            item.preview!!.contentDescription = getString(R.string.compose_preview_image_description, imageId)
-        }
+    private fun addMediaToQueue(type: QueuedMedia.Type, uri: Uri, mediaSize: Long) {
+        viewModel.addMediaToQueue(type, uri, mediaSize)
     }
 
     private fun getImageIdx(item: QueuedMedia): Int {
@@ -1223,88 +1059,88 @@ class ComposeActivity : BaseActivity(),
     }
 
     private fun makeCaptionDialog(item: QueuedMedia) {
-        val dialogLayout = LinearLayout(this)
-        val padding = Utils.dpToPx(this, 8)
-        dialogLayout.setPadding(padding, padding, padding, padding)
-
-        dialogLayout.orientation = LinearLayout.VERTICAL
-        val imageView = ImageView(this)
-
-        val displayMetrics = DisplayMetrics()
-        windowManager.defaultDisplay.getMetrics(displayMetrics)
-
-        Single.fromCallable<Bitmap> { getSampledBitmap(contentResolver, item.uri, displayMetrics.widthPixels, displayMetrics.heightPixels) }
-                .subscribeOn(Schedulers.computation())
-                .observeOn(AndroidSchedulers.mainThread())
-                .autoDispose(from(this, Lifecycle.Event.ON_DESTROY))
-                .subscribe(object : SingleObserver<Bitmap> {
-                    override fun onSubscribe(d: Disposable) {}
-
-                    override fun onSuccess(bitmap: Bitmap) {
-                        imageView.setImageBitmap(bitmap)
-                    }
-
-                    override fun onError(e: Throwable) {}
-                })
-
-
-        val margin = Utils.dpToPx(this, 4)
-        dialogLayout.addView(imageView)
-        (imageView.layoutParams as LinearLayout.LayoutParams).weight = 1f
-        imageView.layoutParams.height = 0
-        (imageView.layoutParams as LinearLayout.LayoutParams).setMargins(0, margin, 0, 0)
-
-        val input = EditText(this)
-        input.hint = getString(R.string.hint_describe_for_visually_impaired, MEDIA_DESCRIPTION_CHARACTER_LIMIT)
-        dialogLayout.addView(input)
-        (input.layoutParams as LinearLayout.LayoutParams).setMargins(margin, margin, margin, margin)
-        input.setLines(2)
-        input.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_FLAG_CAP_SENTENCES
-        input.setText(item.description)
-        input.filters = arrayOf<InputFilter>(InputFilter.LengthFilter(MEDIA_DESCRIPTION_CHARACTER_LIMIT))
-
-        val okListener = { dialog: DialogInterface, _: Int ->
-            val updateDescription = Runnable {
-                mastodonApi.updateMedia(item.id!!, input.text.toString()).enqueue(object : Callback<Attachment> {
-                    override fun onResponse(call: Call<Attachment>, response: Response<Attachment>) {
-                        val attachment = response.body()
-                        if (response.isSuccessful && attachment != null) {
-                            item.description = attachment.description
-                            item.preview!!.setChecked(item.description != null && item.description!!.isNotEmpty())
-                            dialog.dismiss()
-                            updateContentDescription(item)
-                        } else {
-                            showFailedCaptionMessage()
-                        }
-                        item.updateDescription = null
-                    }
-
-                    override fun onFailure(call: Call<Attachment>, t: Throwable) {
-                        showFailedCaptionMessage()
-                        item.updateDescription = null
-                    }
-                })
-            }
-
-            if (item.readyStage == QueuedMedia.ReadyStage.UPLOADED) {
-                updateDescription.run()
-            } else {
-                // media is still uploading, queue description update for when it finishes
-                item.updateDescription = updateDescription
-            }
-        }
-
-        val dialog = AlertDialog.Builder(this)
-                .setView(dialogLayout)
-                .setPositiveButton(android.R.string.ok, okListener)
-                .setNegativeButton(android.R.string.cancel, null)
-                .create()
-
-        val window = dialog.window
-        window?.setSoftInputMode(
-                WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
-
-        dialog.show()
+//        val dialogLayout = LinearLayout(this)
+//        val padding = Utils.dpToPx(this, 8)
+//        dialogLayout.setPadding(padding, padding, padding, padding)
+//
+//        dialogLayout.orientation = LinearLayout.VERTICAL
+//        val imageView = ImageView(this)
+//
+//        val displayMetrics = DisplayMetrics()
+//        windowManager.defaultDisplay.getMetrics(displayMetrics)
+//
+//        Single.fromCallable<Bitmap> { getSampledBitmap(contentResolver, item.uri, displayMetrics.widthPixels, displayMetrics.heightPixels) }
+//                .subscribeOn(Schedulers.computation())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .autoDispose(from(this, Lifecycle.Event.ON_DESTROY))
+//                .subscribe(object : SingleObserver<Bitmap> {
+//                    override fun onSubscribe(d: Disposable) {}
+//
+//                    override fun onSuccess(bitmap: Bitmap) {
+//                        imageView.setImageBitmap(bitmap)
+//                    }
+//
+//                    override fun onError(e: Throwable) {}
+//                })
+//
+//
+//        val margin = Utils.dpToPx(this, 4)
+//        dialogLayout.addView(imageView)
+//        (imageView.layoutParams as LinearLayout.LayoutParams).weight = 1f
+//        imageView.layoutParams.height = 0
+//        (imageView.layoutParams as LinearLayout.LayoutParams).setMargins(0, margin, 0, 0)
+//
+//        val input = EditText(this)
+//        input.hint = getString(R.string.hint_describe_for_visually_impaired, MEDIA_DESCRIPTION_CHARACTER_LIMIT)
+//        dialogLayout.addView(input)
+//        (input.layoutParams as LinearLayout.LayoutParams).setMargins(margin, margin, margin, margin)
+//        input.setLines(2)
+//        input.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_FLAG_CAP_SENTENCES
+//        input.setText(item.description)
+//        input.filters = arrayOf<InputFilter>(InputFilter.LengthFilter(MEDIA_DESCRIPTION_CHARACTER_LIMIT))
+//
+//        val okListener = { dialog: DialogInterface, _: Int ->
+//            val updateDescription = Runnable {
+//                mastodonApi.updateMedia(item.id!!, input.text.toString()).enqueue(object : Callback<Attachment> {
+//                    override fun onResponse(call: Call<Attachment>, response: Response<Attachment>) {
+//                        val attachment = response.body()
+//                        if (response.isSuccessful && attachment != null) {
+//                            item.description = attachment.description
+//                            item.preview!!.setChecked(item.description != null && item.description!!.isNotEmpty())
+//                            dialog.dismiss()
+//                            updateContentDescription(item)
+//                        } else {
+//                            showFailedCaptionMessage()
+//                        }
+//                        item.updateDescription = null
+//                    }
+//
+//                    override fun onFailure(call: Call<Attachment>, t: Throwable) {
+//                        showFailedCaptionMessage()
+//                        item.updateDescription = null
+//                    }
+//                })
+//            }
+//
+//            if (item.readyStage == QueuedMedia.ReadyStage.UPLOADED) {
+//                updateDescription.run()
+//            } else {
+//                // media is still uploading, queue description update for when it finishes
+//                item.updateDescription = updateDescription
+//            }
+//        }
+//
+//        val dialog = AlertDialog.Builder(this)
+//                .setView(dialogLayout)
+//                .setPositiveButton(android.R.string.ok, okListener)
+//                .setNegativeButton(android.R.string.cancel, null)
+//                .create()
+//
+//        val window = dialog.window
+//        window?.setSoftInputMode(
+//                WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
+//
+//        dialog.show()
     }
 
     private fun showFailedCaptionMessage() {
@@ -1312,144 +1148,12 @@ class ComposeActivity : BaseActivity(),
     }
 
     private fun removeMediaFromQueue(item: QueuedMedia) {
-        composeMediaPreviewBar.removeView(item.preview)
-        mediaQueued.remove(item)
-        if (mediaQueued.size == 0) {
-            updateHideMediaToggle()
-            enablePollButton(true)
-        }
-        updateContentDescriptionForAllImages()
-        enableButton(composeAddMediaButton, true, true)
-        cancelReadyingMedia(item)
+        viewModel.removeMediaFromQueue(item)
     }
 
     private fun removeAllMediaFromQueue() {
-        val it = mediaQueued.iterator()
-        while (it.hasNext()) {
-            val item = it.next()
-            it.remove()
-            removeMediaFromQueue(item)
-        }
-    }
-
-    @Throws(IOException::class)
-    private fun downsizeMedia(item: QueuedMedia) {
-        item.readyStage = QueuedMedia.ReadyStage.DOWNSIZING
-
-        DownsizeImageTask(STATUS_IMAGE_SIZE_LIMIT, contentResolver, createNewImageFile(),
-                object : DownsizeImageTask.Listener {
-                    override fun onSuccess(tempFile: File) {
-                        item.uri = FileProvider.getUriForFile(
-                                this@ComposeActivity,
-                                BuildConfig.APPLICATION_ID + ".fileprovider",
-                                tempFile)
-                        uploadMedia(item)
-                    }
-
-                    override fun onFailure() {
-                        onMediaDownsizeFailure(item)
-                    }
-                }).execute(item.uri)
-    }
-
-    private fun onMediaDownsizeFailure(item: QueuedMedia) {
-        displayTransientError(R.string.error_image_upload_size)
-        removeMediaFromQueue(item)
-    }
-
-    private fun uploadMedia(item: QueuedMedia) {
-        item.readyStage = QueuedMedia.ReadyStage.UPLOADING
-
-        var mimeType = contentResolver.getType(item.uri)
-        val map = MimeTypeMap.getSingleton()
-        val fileExtension = map.getExtensionFromMimeType(mimeType)
-        val filename = String.format("%s_%s_%s.%s",
-                getString(R.string.app_name),
-                Date().time.toString(),
-                randomAlphanumericString(10),
-                fileExtension)
-
-        val stream: InputStream?
-
-        try {
-            stream = contentResolver.openInputStream(item.uri)
-        } catch (e: FileNotFoundException) {
-            Log.w(TAG, e)
-            return
-        }
-
-        if (mimeType == null) mimeType = "multipart/form-data"
-
-        item.preview!!.setProgress(0)
-
-        val fileBody = ProgressRequestBody(stream, getMediaSize(contentResolver, item.uri), mimeType.toMediaTypeOrNull(),
-                object : ProgressRequestBody.UploadCallback { // may reference activity longer than I would like to
-                    var lastProgress = -1
-
-                    override fun onProgressUpdate(percentage: Int) {
-                        if (percentage != lastProgress) {
-                            runOnUiThread { item.preview!!.setProgress(percentage) }
-                        }
-                        lastProgress = percentage
-                    }
-                })
-
-        val body = MultipartBody.Part.createFormData("file", filename, fileBody)
-
-        item.uploadRequest = mastodonApi.uploadMedia(body)
-
-        item.uploadRequest!!.enqueue(object : Callback<Attachment> {
-            override fun onResponse(call: Call<Attachment>, response: Response<Attachment>) {
-                if (response.isSuccessful) {
-                    onUploadSuccess(item, response.body()!!)
-                    if (item.updateDescription != null) {
-                        item.updateDescription!!.run()
-                    }
-                } else {
-                    Log.d(TAG, "Upload request failed. " + response.message())
-                    onUploadFailure(item, call.isCanceled)
-                }
-            }
-
-            override fun onFailure(call: Call<Attachment>, t: Throwable) {
-                Log.d(TAG, "Upload request failed. " + t.message)
-                onUploadFailure(item, call.isCanceled)
-                item.updateDescription = null
-            }
-        })
-    }
-
-    private fun onUploadSuccess(item: QueuedMedia, media: Attachment) {
-        item.id = media.id
-        item.preview!!.setProgress(-1)
-        item.readyStage = QueuedMedia.ReadyStage.UPLOADED
-
-        waitForMediaLatch!!.countDown()
-    }
-
-    private fun onUploadFailure(item: QueuedMedia, isCanceled: Boolean) {
-        if (!isCanceled) {
-            /* if the upload was voluntarily cancelled, such as if the user clicked on it to remove
-             * it from the queue, then don't display this error message. */
-            displayTransientError(R.string.error_media_upload_sending)
-        }
-        if (finishingUploadDialog != null && finishingUploadDialog!!.isShowing) {
-            finishingUploadDialog!!.cancel()
-        }
-        if (!isCanceled) {
-            // If it is canceled, it's already been removed, otherwise do it.
-            removeMediaFromQueue(item)
-        }
-    }
-
-    private fun cancelReadyingMedia(item: QueuedMedia) {
-        if (item.readyStage == QueuedMedia.ReadyStage.UPLOADING) {
-            item.uploadRequest!!.cancel()
-        }
-        if (item.id == null) {
-            /* The presence of an upload id is used to detect if it finished uploading or not, to
-             * prevent counting down twice on the same media item. */
-            waitForMediaLatch!!.countDown()
+        viewModel.media.value!!.forEach {
+            removeMediaFromQueue(it)
         }
     }
 
@@ -1458,15 +1162,15 @@ class ComposeActivity : BaseActivity(),
         if (resultCode == Activity.RESULT_OK && requestCode == MEDIA_PICK_RESULT && intent != null) {
             val uri = intent.data
             val mediaSize = getMediaSize(contentResolver, uri)
-            pickMedia(uri!!, mediaSize, null)
+            pickMedia(uri!!, mediaSize)
         } else if (resultCode == Activity.RESULT_OK && requestCode == MEDIA_TAKE_PHOTO_RESULT) {
             val mediaSize = getMediaSize(contentResolver, photoUploadUri)
-            pickMedia(photoUploadUri!!, mediaSize, null)
+            pickMedia(photoUploadUri!!, mediaSize)
         }
     }
 
 
-    private fun pickMedia(inUri: Uri, mediaSize: Long, description: String?) {
+    private fun pickMedia(inUri: Uri, mediaSize: Long) {
         var mediaSize = mediaSize
         var uri = inUri
         val contentResolver = contentResolver
@@ -1515,7 +1219,7 @@ class ComposeActivity : BaseActivity(),
                     }
                     val bitmap = getVideoThumbnail(this, uri, thumbnailViewSize)
                     if (bitmap != null) {
-                        addMediaToQueue(QueuedMedia.Type.VIDEO, bitmap, uri, mediaSize, description)
+                        addMediaToQueue(QueuedMedia.Type.VIDEO, uri, mediaSize)
                     } else {
                         displayTransientError(R.string.error_media_upload_opening)
                     }
@@ -1523,7 +1227,7 @@ class ComposeActivity : BaseActivity(),
                 "image" -> {
                     val bitmap = getImageThumbnail(contentResolver, uri, thumbnailViewSize)
                     if (bitmap != null) {
-                        addMediaToQueue(QueuedMedia.Type.IMAGE, bitmap, uri, mediaSize, description)
+                        addMediaToQueue(QueuedMedia.Type.IMAGE, uri, mediaSize)
                     } else {
                         displayTransientError(R.string.error_media_upload_opening)
                     }
@@ -1538,11 +1242,10 @@ class ComposeActivity : BaseActivity(),
     }
 
     private fun showContentWarning(show: Boolean) {
-        statusHideText = show
         TransitionManager.beginDelayedTransition(composeContentWarningBar.parent as ViewGroup)
         val color: Int
         if (show) {
-            statusMarkSensitive = true
+            viewModel.markMediaAsSensitive.value = true
             composeContentWarningBar.visibility = View.VISIBLE
             composeContentWarningField.setSelection(composeContentWarningField.text.length)
             composeContentWarningField.requestFocus()
@@ -1554,16 +1257,12 @@ class ComposeActivity : BaseActivity(),
         }
         composeContentWarningButton.drawable.setColorFilter(color, PorterDuff.Mode.SRC_IN)
 
-        updateHideMediaToggle()
-
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            android.R.id.home -> {
-                handleCloseButton()
-                return true
-            }
+        if (item.itemId == android.R.id.home) {
+            handleCloseButton()
+            return true
         }
 
         return super.onOptionsItemSelected(item)
@@ -1614,7 +1313,7 @@ class ComposeActivity : BaseActivity(),
         val contentWarningChanged = composeContentWarningBar.visibility == View.VISIBLE &&
                 !TextUtils.isEmpty(contentWarning) && !startingContentWarning!!.startsWith(contentWarning.toString())
         val mediaChanged = !mediaQueued.isEmpty()
-        val pollChanged = poll != null
+        val pollChanged = viewModel.poll.value != null
 
         if (textChanged || contentWarningChanged || mediaChanged || pollChanged) {
             AlertDialog.Builder(this)
@@ -1628,108 +1327,21 @@ class ComposeActivity : BaseActivity(),
     }
 
     private fun deleteDraftAndFinish() {
-        for (media in mediaQueued) {
-            if (media.uploadRequest != null)
-                media.uploadRequest!!.cancel()
-        }
+        viewModel.deleteDraft()
         finishWithoutSlideOutAnimation()
     }
 
     private fun saveDraftAndFinish() {
-        val mediaUris = ArrayList<String>()
-        val mediaDescriptions = ArrayList<String?>()
-        for (item in mediaQueued) {
-            mediaUris.add(item.uri.toString())
-            mediaDescriptions.add(item.description)
-        }
-
-        saveTootHelper!!.saveToot(composeEditField.text.toString(),
-                composeContentWarningField.text.toString(),
-                composeOptions?.savedJsonUrls,
-                mediaUris,
-                mediaDescriptions,
-                savedTootUid,
-                inReplyToId,
-                composeOptions?.replyingStatusContent,
-                composeOptions?.replyingStatusAuthor,
-                statusVisibility!!,
-                poll)
+        viewModel.saveDraft()
         finishWithoutSlideOutAnimation()
     }
 
     override fun search(token: String): List<ComposeAutoCompleteAdapter.AutocompleteResult> {
-        when (token[0]) {
-            '@' -> {
-                return try {
-                    val accountList = mastodonApi
-                            .searchAccounts(token.substring(1), false, 20, null)
-                            .blockingGet()
-                    accountList.map<Account, ComposeAutoCompleteAdapter.AutocompleteResult> { account: Account -> ComposeAutoCompleteAdapter.AccountResult(account) }
-                } catch (e: Throwable) {
-                    emptyList()
-                }
-            }
-            '#' -> {
-                return try {
-                    val (_, _, hashtags) = mastodonApi.searchObservable(token, null, false, null, null, null).blockingGet()
-                    hashtags.map { hashtag -> ComposeAutoCompleteAdapter.HashtagResult(hashtag) }
-                } catch (e: Throwable) {
-                    Log.e(TAG, String.format("Autocomplete search for %s failed.", token), e)
-                    emptyList()
-                }
-            }
-            ':' -> {
-                try {
-                    emojiListRetrievalLatch.await()
-                } catch (e: InterruptedException) {
-                    Log.e(TAG, String.format("Autocomplete search for %s was interrupted.", token))
-                    return emptyList()
-                }
-
-                if (emojiList != null) {
-                    val incomplete = token.substring(1).toLowerCase(Locale.ROOT)
-                    val results = ArrayList<ComposeAutoCompleteAdapter.AutocompleteResult>()
-                    val resultsInside = ArrayList<ComposeAutoCompleteAdapter.AutocompleteResult>()
-                    for (emoji in emojiList!!) {
-                        val shortcode = emoji.shortcode.toLowerCase(Locale.ROOT)
-                        if (shortcode.startsWith(incomplete)) {
-                            results.add(ComposeAutoCompleteAdapter.EmojiResult(emoji))
-                        } else if (shortcode.indexOf(incomplete, 1) != -1) {
-                            resultsInside.add(ComposeAutoCompleteAdapter.EmojiResult(emoji))
-                        }
-                    }
-                    if (results.isNotEmpty() && resultsInside.isNotEmpty()) {
-                        results.add(ComposeAutoCompleteAdapter.ResultSeparator())
-                    }
-                    results.addAll(resultsInside)
-                    return results
-                } else {
-                    return emptyList()
-                }
-            }
-            else -> {
-                Log.w(TAG, "Unexpected autocompletion token: $token")
-                return emptyList()
-            }
-        }
+        return viewModel.search(token)
     }
 
     override fun onEmojiSelected(shortcode: String) {
         replaceTextAtCaret(":$shortcode: ")
-    }
-
-    private fun loadCachedInstanceMetadata(activeAccount: AccountEntity) {
-        val instanceEntity = database.instanceDao()
-                .loadMetadataForInstance(activeAccount.domain)
-
-        if (instanceEntity != null) {
-            val max = instanceEntity.maximumTootCharacters
-            maximumTootCharacters = max ?: STATUS_CHARACTER_LIMIT
-            maxPollOptions = instanceEntity.maxPollOptions
-            maxPollOptionLength = instanceEntity.maxPollOptionLength
-            setEmojiList(instanceEntity.emojiList)
-            updateVisibleCharactersLeft()
-        }
     }
 
     private fun setEmojiList(emojiList: List<Emoji>?) {
@@ -1739,63 +1351,22 @@ class ComposeActivity : BaseActivity(),
 
         if (emojiList != null) {
             emojiView!!.adapter = EmojiAdapter(emojiList, this@ComposeActivity)
-            enableButton(composeEmojiButton, true, emojiList.size > 0)
+            enableButton(composeEmojiButton, true, emojiList.isNotEmpty())
         }
-    }
-
-    private fun cacheInstanceMetadata(activeAccount: AccountEntity) {
-        val instanceEntity = InstanceEntity(
-                activeAccount.domain, emojiList, maximumTootCharacters, maxPollOptions, maxPollOptionLength
-        )
-        database.instanceDao().insertOrReplace(instanceEntity)
-    }
-
-    private fun onFetchInstanceSuccess(instance: Instance?) {
-        if (instance != null) {
-            if (instance.maxTootChars != null) {
-                maximumTootCharacters = instance.maxTootChars
-                updateVisibleCharactersLeft()
-            }
-
-            if (!VersionUtils(instance.version).supportsScheduledToots()) {
-                composeScheduleButton.visibility = View.GONE
-            }
-
-            if (instance.pollLimits != null) {
-                maxPollOptions = instance.pollLimits.maxOptions
-                maxPollOptionLength = instance.pollLimits.maxOptionChars
-            }
-
-            cacheInstanceMetadata(accountManager.activeAccount!!)
-        }
-    }
-
-    private fun onFetchInstanceFailure(throwable: Throwable) {
-        Log.w(TAG, "error loading instance data", throwable)
-        loadCachedInstanceMetadata(accountManager.activeAccount!!)
     }
 
     data class QueuedMedia(
-            var type: Type,
-            var uri: Uri,
-            var preview: ProgressImageView?,
-            var mediaSize: Long,
-            var description: String?
+            val localId: Long,
+            val uri: Uri,
+            val type: Type,
+            val mediaSize: Long,
+            val uploadPercent: Int = 0,
+            val id: String? = null,
+            val description: String? = null
     ) {
-        internal var id: String? = null
-        internal var uploadRequest: Call<Attachment>? = null
-        internal var readyStage: ReadyStage? = null
-        internal var updateDescription: Runnable? = null
-
         enum class Type {
             IMAGE,
             VIDEO
-        }
-
-        internal enum class ReadyStage {
-            DOWNSIZING,
-            UPLOADING,
-            UPLOADED
         }
     }
 
@@ -1808,7 +1379,6 @@ class ComposeActivity : BaseActivity(),
             var type: QueuedMedia.Type,
             var uri: Uri,
             var mediaSize: Long,
-            var readyStage: QueuedMedia.ReadyStage?,
             var description: String? = null
     ) : Parcelable
 
@@ -1848,9 +1418,9 @@ class ComposeActivity : BaseActivity(),
 
         private const val TAG = "ComposeActivity" // logging tag
         internal const val STATUS_CHARACTER_LIMIT = 500
-        private const val STATUS_IMAGE_SIZE_LIMIT = 8388608 // 8MiB
+        internal const val STATUS_IMAGE_SIZE_LIMIT = 8388608 // 8MiB
         private const val STATUS_VIDEO_SIZE_LIMIT = 41943040 // 40MiB
-        private const val STATUS_IMAGE_PIXEL_SIZE_LIMIT = 16777216 // 4096^2 Pixels
+        internal const val STATUS_IMAGE_PIXEL_SIZE_LIMIT = 16777216 // 4096^2 Pixels
         private const val MEDIA_PICK_RESULT = 1
         private const val MEDIA_TAKE_PHOTO_RESULT = 2
         private const val PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 1
@@ -1872,6 +1442,59 @@ class ComposeActivity : BaseActivity(),
         @JvmStatic
         fun canHandleMimeType(mimeType: String?): Boolean {
             return mimeType != null && (mimeType.startsWith("image/") || mimeType.startsWith("video/") || mimeType == "text/plain")
+        }
+    }
+
+    class MediaPreviewAdapter(context: Context) : RecyclerView.Adapter<MediaPreviewAdapter.PreviewViewHolder>() {
+
+        fun submitList(list: List<QueuedMedia>) {
+            Log.d(TAG, "new list of size ${list.size}")
+            this.differ.submitList(list)
+        }
+
+        private val thumbnailViewSize =
+                context.resources.getDimensionPixelSize(R.dimen.compose_media_preview_size)
+
+        override fun getItemCount(): Int = differ.currentList.size
+
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PreviewViewHolder {
+            return PreviewViewHolder(ProgressImageView(parent.context))
+        }
+
+        override fun onBindViewHolder(holder: PreviewViewHolder, position: Int) {
+            val item = differ.currentList[position]
+            holder.progressImageView.setChecked(!item.description.isNullOrEmpty())
+            holder.progressImageView.setProgress(item.uploadPercent)
+            Glide.with(holder.itemView.context)
+                    .load(item.uri)
+                    .transform()
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .dontAnimate()
+                    .into(holder.progressImageView)
+        }
+
+        val differ = AsyncListDiffer(this, object : DiffUtil.ItemCallback<QueuedMedia>() {
+            override fun areItemsTheSame(oldItem: QueuedMedia, newItem: QueuedMedia): Boolean {
+                return oldItem.localId == newItem.localId
+            }
+
+            override fun areContentsTheSame(oldItem: QueuedMedia, newItem: QueuedMedia): Boolean {
+                return oldItem == newItem
+            }
+        })
+
+        inner class PreviewViewHolder(val progressImageView: ProgressImageView)
+            : RecyclerView.ViewHolder(progressImageView) {
+            init {
+                val layoutParams = ConstraintLayout.LayoutParams(thumbnailViewSize, thumbnailViewSize)
+                val margin = itemView.context.resources
+                        .getDimensionPixelSize(R.dimen.compose_media_preview_margin)
+                val marginBottom = itemView.context.resources
+                        .getDimensionPixelSize(R.dimen.compose_media_preview_margin_bottom)
+                layoutParams.setMargins(margin, 0, margin, marginBottom)
+                progressImageView.layoutParams = layoutParams
+                progressImageView.scaleType = ImageView.ScaleType.CENTER_CROP
+            }
         }
     }
 }

@@ -42,10 +42,10 @@ public class DownsizeImageTask extends AsyncTask<Uri, Void, Boolean> {
     private File tempFile;
 
     /**
-     * @param sizeLimit the maximum number of bytes each image can take
+     * @param sizeLimit       the maximum number of bytes each image can take
      * @param contentResolver to resolve the specified images' URIs
-     * @param tempFile the file where the result will be stored
-     * @param listener to whom the results are given
+     * @param tempFile        the file where the result will be stored
+     * @param listener        to whom the results are given
      */
     public DownsizeImageTask(int sizeLimit, ContentResolver contentResolver, File tempFile, Listener listener) {
         this.sizeLimit = sizeLimit;
@@ -56,6 +56,25 @@ public class DownsizeImageTask extends AsyncTask<Uri, Void, Boolean> {
 
     @Override
     protected Boolean doInBackground(Uri... uris) {
+        boolean result = DownsizeImageTask.resize(uris, sizeLimit, contentResolver, tempFile);
+        if (isCancelled()) {
+            return false;
+        }
+        return result;
+    }
+
+    @Override
+    protected void onPostExecute(Boolean successful) {
+        if (successful) {
+            listener.onSuccess(tempFile);
+        } else {
+            listener.onFailure();
+        }
+        super.onPostExecute(successful);
+    }
+
+    public static boolean resize(Uri[] uris, int sizeLimit, ContentResolver contentResolver,
+                                 File tempFile) {
         for (Uri uri : uris) {
             InputStream inputStream;
             try {
@@ -118,27 +137,16 @@ public class DownsizeImageTask extends AsyncTask<Uri, Void, Boolean> {
                 reorientedBitmap.recycle();
                 scaledImageSize /= 2;
             } while (tempFile.length() > sizeLimit);
-
-            if (isCancelled()) {
-                return false;
-            }
         }
         return true;
     }
 
-    @Override
-    protected void onPostExecute(Boolean successful) {
-        if (successful) {
-            listener.onSuccess(tempFile);
-        } else {
-            listener.onFailure();
-        }
-        super.onPostExecute(successful);
-    }
-
-    /** Used to communicate the results of the task. */
+    /**
+     * Used to communicate the results of the task.
+     */
     public interface Listener {
         void onSuccess(File file);
+
         void onFailure();
     }
 }
