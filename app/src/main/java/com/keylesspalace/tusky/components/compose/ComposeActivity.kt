@@ -413,7 +413,7 @@ class ComposeActivity : BaseActivity(),
         composeEditField.setSelection(start + text.length)
     }
 
-    private fun prependSelectedWordsWith(text: CharSequence) {
+    fun prependSelectedWordsWith(text: CharSequence) {
         // If you select "backward" in an editable, you get SelectionStart > SelectionEnd
         val start = composeEditField.selectionStart.coerceAtMost(composeEditField.selectionEnd)
         val end = composeEditField.selectionStart.coerceAtLeast(composeEditField.selectionEnd)

@@ -198,6 +198,152 @@ class ComposeActivityTest {
         assertEquals(activity.calculateTextLength(), additionalContent.length + (ComposeActivity.MAXIMUM_URL_LENGTH * 2))
     }
 
+    @Test
+    fun whenSelectionIsEmpty_specialTextIsInsertedAtCaret() {
+        val editor = activity.findViewById<EditText>(R.id.composeEditField)
+        val insertText = "#"
+        editor.setText("Some text")
+
+        for (caretIndex in listOf(9, 1, 0)) {
+            editor.setSelection(caretIndex)
+            activity.prependSelectedWordsWith(insertText)
+            // Text should be inserted at caret
+            assertEquals("Unexpected value at ${caretIndex}", insertText, editor.text.substring(caretIndex, caretIndex + insertText.length))
+
+            // Caret should be placed after inserted text
+            assertEquals(caretIndex + insertText.length, editor.selectionStart)
+            assertEquals(caretIndex + insertText.length, editor.selectionEnd)
+        }
+    }
+
+    @Test
+    fun whenSelectionDoesNotIncludeWordBreak_noSpecialTextIsInserted() {
+        val editor = activity.findViewById<EditText>(R.id.composeEditField)
+        val insertText = "#"
+        val originalText = "Some text"
+        val selectionStart = 1
+        val selectionEnd = 4
+        editor.setText(originalText)
+        editor.setSelection(selectionStart, selectionEnd) // "ome"
+        activity.prependSelectedWordsWith(insertText)
+
+        // Text and selection should be unmodified
+        assertEquals(originalText, editor.text.toString())
+        assertEquals(selectionStart, editor.selectionStart)
+        assertEquals(selectionEnd, editor.selectionEnd)
+    }
+
+    @Test
+    fun whenSelectionIncludesWordBreaks_startsOfAllWordsArePrepended() {
+        val editor = activity.findViewById<EditText>(R.id.composeEditField)
+        val insertText = "#"
+        val originalText = "one two three four"
+        val selectionStart = 2
+        val originalSelectionEnd = 15
+        val modifiedSelectionEnd = 18
+        editor.setText(originalText)
+        editor.setSelection(selectionStart, originalSelectionEnd) // "e two three f"
+        activity.prependSelectedWordsWith(insertText)
+
+        // text should be inserted at word starts inside selection
+        assertEquals("one #two #three #four", editor.text.toString())
+
+        // selection should be expanded accordingly
+        assertEquals(selectionStart, editor.selectionStart)
+        assertEquals(modifiedSelectionEnd, editor.selectionEnd)
+    }
+
+    @Test
+    fun whenSelectionIncludesEnd_textIsNotAppended() {
+        val editor = activity.findViewById<EditText>(R.id.composeEditField)
+        val insertText = "#"
+        val originalText = "Some text"
+        val selectionStart = 7
+        val selectionEnd = 9
+        editor.setText(originalText)
+        editor.setSelection(selectionStart, selectionEnd) // "xt"
+        activity.prependSelectedWordsWith(insertText)
+
+        // Text and selection should be unmodified
+        assertEquals(originalText, editor.text.toString())
+        assertEquals(selectionStart, editor.selectionStart)
+        assertEquals(selectionEnd, editor.selectionEnd)
+    }
+
+    @Test
+    fun whenSelectionIncludesStartAndStartIsAWord_textIsPrepended() {
+        val editor = activity.findViewById<EditText>(R.id.composeEditField)
+        val insertText = "#"
+        val originalText = "Some text"
+        val selectionStart = 0
+        val selectionEnd = 3
+        editor.setText(originalText)
+        editor.setSelection(selectionStart, selectionEnd) // "Som"
+        activity.prependSelectedWordsWith(insertText)
+
+        // Text should be inserted at beginning
+        assert(editor.text.startsWith(insertText))
+
+        // selection should be expanded accordingly
+        assertEquals(selectionStart, editor.selectionStart)
+        assertEquals(selectionEnd + insertText.length, editor.selectionEnd)
+    }
+
+    @Test
+    fun whenSelectionIncludesStartAndStartIsNotAWord_textIsNotPrepended() {
+        val editor = activity.findViewById<EditText>(R.id.composeEditField)
+        val insertText = "#"
+        val originalText = "  Some text"
+        val selectionStart = 0
+        val selectionEnd = 1
+        editor.setText(originalText)
+        editor.setSelection(selectionStart, selectionEnd) // " "
+        activity.prependSelectedWordsWith(insertText)
+
+        // Text and selection should be unmodified
+        assertEquals(originalText, editor.text.toString())
+        assertEquals(selectionStart, editor.selectionStart)
+        assertEquals(selectionEnd, editor.selectionEnd)
+    }
+
+    @Test
+    fun whenSelectionBeginsAtWordStart_textIsPrepended() {
+        val editor = activity.findViewById<EditText>(R.id.composeEditField)
+        val insertText = "#"
+        val originalText = "Some text"
+        val selectionStart = 5
+        val selectionEnd = 9
+        editor.setText(originalText)
+        editor.setSelection(selectionStart, selectionEnd) // "text"
+        activity.prependSelectedWordsWith(insertText)
+
+        // Text is prepended
+        assertEquals("Some #text", editor.text.toString())
+
+        // Selection is expanded accordingly
+        assertEquals(selectionStart, editor.selectionStart)
+        assertEquals(selectionEnd + insertText.length, editor.selectionEnd)
+    }
+
+    @Test
+    fun whenSelectionEndsAtWordStart_textIsAppended() {
+        val editor = activity.findViewById<EditText>(R.id.composeEditField)
+        val insertText = "#"
+        val originalText = "Some text"
+        val selectionStart = 1
+        val selectionEnd = 5
+        editor.setText(originalText)
+        editor.setSelection(selectionStart, selectionEnd) // "ome "
+        activity.prependSelectedWordsWith(insertText)
+
+        // Text is prepended
+        assertEquals("Some #text", editor.text.toString())
+
+        // Selection is expanded accordingly
+        assertEquals(selectionStart, editor.selectionStart)
+        assertEquals(selectionEnd + insertText.length, editor.selectionEnd)
+    }
+
     private fun clickUp() {
         val menuItem = RoboMenuItem(android.R.id.home)
         activity.onOptionsItemSelected(menuItem)
