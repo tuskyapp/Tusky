@@ -22,9 +22,20 @@ import java.io.File
 import java.util.*
 
 sealed class UploadEvent {
-
     data class ProgressEvent(val percentage: Int) : UploadEvent()
     data class FinishedEvent(val attachment: Attachment) : UploadEvent()
+}
+
+fun createNewImageFile(context: Context): File {
+    // Create an image file name
+    val randomId = randomAlphanumericString(12)
+    val imageFileName = "Tusky_${randomId}_"
+    val storageDir = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+    return File.createTempFile(
+            imageFileName, /* prefix */
+            ".jpg", /* suffix */
+            storageDir      /* directory */
+    )
 }
 
 interface MediaUploader {
@@ -76,18 +87,21 @@ class MediaUploaderImpl(
 
             val body = MultipartBody.Part.createFormData("file", filename, fileBody)
 
-            mastodonApi.uploadMedia(body)
+            val uploadDisposable = mastodonApi.uploadMedia(body)
                     .subscribe({ attachment ->
                         emitter.onNext(UploadEvent.FinishedEvent(attachment))
                         emitter.onComplete()
                     }, { e ->
                         emitter.onError(e)
                     })
+
+            // Cancel the request when our observable is cancelled
+            emitter.setDisposable(uploadDisposable)
         }
     }
 
     private fun downsize(media: QueuedMedia): QueuedMedia {
-        val file = createNewImageFile()
+        val file = createNewImageFile(context)
         DownsizeImageTask.resize(arrayOf(media.uri),
                 STATUS_IMAGE_SIZE_LIMIT, context.contentResolver, file)
         return media.copy(uri = file.toUri(), mediaSize = file.length())
@@ -99,16 +113,4 @@ class MediaUploaderImpl(
                 || getImageSquarePixels(context.contentResolver, media.uri) > STATUS_IMAGE_PIXEL_SIZE_LIMIT)
     }
 
-
-    private fun createNewImageFile(): File {
-        // Create an image file name
-        val randomId = randomAlphanumericString(12)
-        val imageFileName = "Tusky_${randomId}_"
-        val storageDir = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
-        return File.createTempFile(
-                imageFileName, /* prefix */
-                ".jpg", /* suffix */
-                storageDir      /* directory */
-        )
-    }
 }

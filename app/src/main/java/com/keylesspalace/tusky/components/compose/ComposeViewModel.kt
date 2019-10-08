@@ -72,10 +72,12 @@ class ComposeViewModel
     val poll: MutableLiveData<NewPoll?> = mutableLiveData(null)
 
     val media = mutableLiveData<List<QueuedMedia>>(listOf())
+    private val mediaToDisposable = mutableMapOf<Long, Disposable>()
+
     fun addMediaToQueue(type: QueuedMedia.Type, uri: Uri, mediaSize: Long) {
         val mediaItem = QueuedMedia(System.currentTimeMillis(), uri, type, mediaSize)
         media.value = media.value!! + mediaItem
-        mediaUploader
+        mediaToDisposable[mediaItem.localId] = mediaUploader
                 .uploadMedia(mediaItem)
                 .subscribe { event ->
                     val item = media.value!!.find { it.localId == mediaItem.localId }
@@ -96,15 +98,11 @@ class ComposeViewModel
                         })
                     }
                 }
-                .autoDispose()
-    }
-
-    val addMediaEnabled: LiveData<Boolean> = media.map { mediaItems ->
-        mediaItems.size == 4 || mediaItems.isNotEmpty() && mediaItems[0].type == QueuedMedia.Type.VIDEO
     }
 
     fun removeMediaFromQueue(item: QueuedMedia) {
-        media.value = media.value!! - item
+        mediaToDisposable[item.localId]?.dispose()
+        media.value = media.value!!.withoutFirstWhich { it.localId == item.localId }
     }
 
     fun deleteDraft() {
@@ -245,6 +243,13 @@ class ComposeViewModel
                 return emptyList()
             }
         }
+    }
+
+    override fun onCleared() {
+        for (uploadDisposable in mediaToDisposable.values) {
+            uploadDisposable.dispose()
+        }
+        super.onCleared()
     }
 
     private companion object {

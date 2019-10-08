@@ -31,6 +31,7 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Parcelable
 import android.preference.PreferenceManager
+import android.provider.MediaStore
 import android.text.*
 import android.util.DisplayMetrics
 import android.util.Log
@@ -206,6 +207,9 @@ class ComposeActivity : BaseActivity(),
                 }
                 viewModel.media.observe { media ->
                     mediaApater.submitList(media)
+                    val active = media.size != 4
+                            && media.firstOrNull()?.type != QueuedMedia.Type.VIDEO
+                    enableButton(composeAddMediaButton, active, active)
                 }
             }
         } else {
@@ -904,29 +908,29 @@ class ComposeActivity : BaseActivity(),
 
 
     private fun initiateCameraApp() {
-//        addMediaBehavior!!.state = BottomSheetBehavior.STATE_COLLAPSED
-//
-//        // We don't need to ask for permission in this case, because the used calls require
-//        // android.permission.WRITE_EXTERNAL_STORAGE only on SDKs *older* than Kitkat, which was
-//        // way before permission dialogues have been introduced.
-//        val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-//        if (intent.resolveActivity(packageManager) != null) {
-//            var photoFile: File? = null
-//            try {
-//                photoFile = createNewImageFile()
-//            } catch (ex: IOException) {
-//                displayTransientError(R.string.error_media_upload_opening)
-//            }
-//
-//            // Continue only if the File was successfully created
-//            if (photoFile != null) {
-//                photoUploadUri = FileProvider.getUriForFile(this,
-//                        BuildConfig.APPLICATION_ID + ".fileprovider",
-//                        photoFile)
-//                intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUploadUri)
-//                startActivityForResult(intent, MEDIA_TAKE_PHOTO_RESULT)
-//            }
-//        }
+        addMediaBehavior!!.state = BottomSheetBehavior.STATE_COLLAPSED
+
+        // We don't need to ask for permission in this case, because the used calls require
+        // android.permission.WRITE_EXTERNAL_STORAGE only on SDKs *older* than Kitkat, which was
+        // way before permission dialogues have been introduced.
+        val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+        if (intent.resolveActivity(packageManager) != null) {
+            var photoFile: File? = null
+            try {
+                photoFile = createNewImageFile(this)
+            } catch (ex: IOException) {
+                displayTransientError(R.string.error_media_upload_opening)
+            }
+
+            // Continue only if the File was successfully created
+            if (photoFile != null) {
+                photoUploadUri = FileProvider.getUriForFile(this,
+                        BuildConfig.APPLICATION_ID + ".fileprovider",
+                        photoFile)
+                intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUploadUri)
+                startActivityForResult(intent, MEDIA_TAKE_PHOTO_RESULT)
+            }
+        }
     }
 
     private fun initiateMediaPicking() {
@@ -1023,12 +1027,6 @@ class ComposeActivity : BaseActivity(),
 
     private fun removeMediaFromQueue(item: QueuedMedia) {
         viewModel.removeMediaFromQueue(item)
-    }
-
-    private fun removeAllMediaFromQueue() {
-        viewModel.media.value!!.forEach {
-            removeMediaFromQueue(it)
-        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?) {
