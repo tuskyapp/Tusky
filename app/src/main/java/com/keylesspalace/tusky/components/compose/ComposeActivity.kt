@@ -25,6 +25,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.content.res.AssetFileDescriptor
 import android.graphics.PorterDuff
+import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -52,6 +53,8 @@ import androidx.transition.TransitionManager
 import at.connyduck.sparkbutton.helpers.Utils
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.request.target.CustomTarget
+import com.bumptech.glide.request.transition.Transition
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.snackbar.Snackbar
 import com.keylesspalace.tusky.BaseActivity
@@ -179,6 +182,7 @@ class ComposeActivity : BaseActivity(),
             composeMediaPreviewBar.layoutManager =
                     LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
             composeMediaPreviewBar.adapter = mediaApater
+            composeMediaPreviewBar.itemAnimator = null
 
             viewModel = ViewModelProviders.of(this, viewModelFactory).get(ComposeViewModel::class.java)
 
@@ -968,10 +972,6 @@ class ComposeActivity : BaseActivity(),
         val displayMetrics = DisplayMetrics()
         windowManager.defaultDisplay.getMetrics(displayMetrics)
 
-        Glide.with(this)
-                .load(item.uri)
-                .into(imageView)
-
         val margin = Utils.dpToPx(this, 4)
         dialogLayout.addView(imageView)
         (imageView.layoutParams as LinearLayout.LayoutParams).weight = 1f
@@ -988,34 +988,6 @@ class ComposeActivity : BaseActivity(),
         input.filters = arrayOf<InputFilter>(InputFilter.LengthFilter(MEDIA_DESCRIPTION_CHARACTER_LIMIT))
 
         val okListener = { dialog: DialogInterface, _: Int ->
-//            val updateDescription = Runnable {
-//                mastodonApi.updateMedia(item.id!!, input.text.toString()).enqueue(object : Callback<Attachment> {
-//                    override fun onResponse(call: Call<Attachment>, response: Response<Attachment>) {
-//                        val attachment = response.body()
-//                        if (response.isSuccessful && attachment != null) {
-//                            item.description = attachment.description
-//                            item.preview!!.setChecked(item.description != null && item.description!!.isNotEmpty())
-//                            dialog.dismiss()
-//                            updateContentDescription(item)
-//                        } else {
-//                            showFailedCaptionMessage()
-//                        }
-//                        item.updateDescription = null
-//                    }
-//
-//                    override fun onFailure(call: Call<Attachment>, t: Throwable) {
-//                        showFailedCaptionMessage()
-//                        item.updateDescription = null
-//                    }
-//                })
-//            }
-//
-//            if (item.readyStage == QueuedMedia.ReadyStage.UPLOADED) {
-//                updateDescription.run()
-//            } else {
-//                // media is still uploading, queue description update for when it finishes
-//                item.updateDescription = updateDescription
-//            }
             viewModel.updateDescription(item, input.text.toString())
             dialog.dismiss()
         }
@@ -1031,6 +1003,18 @@ class ComposeActivity : BaseActivity(),
                 WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
 
         dialog.show()
+
+        // Load the image and manually set it into the ImageView because it doesn't have a fixed
+        // size. Maybe we should limit the size of CustomTarget
+        Glide.with(this)
+                .load(item.uri)
+                .into(object : CustomTarget<Drawable>() {
+                    override fun onLoadCleared(placeholder: Drawable?) {}
+
+                    override fun onResourceReady(resource: Drawable, transition: Transition<in Drawable>?) {
+                        imageView.setImageDrawable(resource)
+                    }
+                })
     }
 
     private fun showFailedCaptionMessage() {
@@ -1099,28 +1083,19 @@ class ComposeActivity : BaseActivity(),
             val topLevelType = mimeType.substring(0, mimeType.indexOf('/'))
             when (topLevelType) {
                 "video" -> {
-//                    if (mediaSize > STATUS_VIDEO_SIZE_LIMIT) {
-//                        displayTransientError(R.string.error_video_upload_size)
-//                        return
-//                    }
-//                    if (mediaQueued.size > 0 && mediaQueued[0].type == QueuedMedia.Type.IMAGE) {
-//                        displayTransientError(R.string.error_media_upload_image_or_video)
-//                        return
-//                    }
-//                    val bitmap = getVideoThumbnail(this, uri, thumbnailViewSize)
-//                    if (bitmap != null) {
-//                        addMediaToQueue(QueuedMedia.Type.VIDEO, uri, mediaSize)
-//                    } else {
-//                        displayTransientError(R.string.error_media_upload_opening)
-//                    }
+                    if (mediaSize > STATUS_VIDEO_SIZE_LIMIT) {
+                        displayTransientError(R.string.error_video_upload_size)
+                        return
+                    }
+                    val media = viewModel.media.value!!
+                    if (media.isNotEmpty() && media[0].type == QueuedMedia.Type.IMAGE) {
+                        displayTransientError(R.string.error_media_upload_image_or_video)
+                        return
+                    }
+                    addMediaToQueue(QueuedMedia.Type.VIDEO, uri, mediaSize)
                 }
                 "image" -> {
-                    val bitmap = getImageThumbnail(contentResolver, uri, thumbnailViewSize)
-                    if (bitmap != null) {
-                        addMediaToQueue(QueuedMedia.Type.IMAGE, uri, mediaSize)
-                    } else {
-                        displayTransientError(R.string.error_media_upload_opening)
-                    }
+                    addMediaToQueue(QueuedMedia.Type.IMAGE, uri, mediaSize)
                 }
                 else -> {
                     displayTransientError(R.string.error_media_upload_type)
@@ -1377,7 +1352,6 @@ class ComposeActivity : BaseActivity(),
             holder.progressImageView.setProgress(item.uploadPercent)
             Glide.with(holder.itemView.context)
                     .load(item.uri)
-                    .transform()
                     .diskCacheStrategy(DiskCacheStrategy.NONE)
                     .dontAnimate()
                     .into(holder.progressImageView)

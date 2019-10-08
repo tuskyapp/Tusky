@@ -4,6 +4,7 @@ import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import com.keylesspalace.tusky.adapter.ComposeAutoCompleteAdapter
 import com.keylesspalace.tusky.components.compose.ComposeActivity.QueuedMedia
@@ -73,15 +74,17 @@ class ComposeViewModel
     val media = mutableLiveData<List<QueuedMedia>>(listOf())
     fun addMediaToQueue(type: QueuedMedia.Type, uri: Uri, mediaSize: Long) {
         val mediaItem = QueuedMedia(System.currentTimeMillis(), uri, type, mediaSize)
-//        media.value = media.value!! + mediaItem
+        media.value = media.value!! + mediaItem
         mediaUploader
                 .uploadMedia(mediaItem)
                 .subscribe { event ->
+                    val item = media.value!!.find { it.localId == mediaItem.localId }
+                            ?: return@subscribe
                     val newMediaItem = when (event) {
                         is UploadEvent.ProgressEvent ->
-                            mediaItem.copy(uploadPercent = event.percentage)
+                            item.copy(uploadPercent = event.percentage)
                         is UploadEvent.FinishedEvent ->
-                            mediaItem.copy(id = event.attachment.id, uploadPercent = -1)
+                            item.copy(id = event.attachment.id, uploadPercent = -1)
                     }
                     synchronized(media) {
                         val mediaValue = media.value!!
@@ -89,7 +92,7 @@ class ComposeViewModel
                         media.postValue(if (index == -1) {
                             mediaValue + newMediaItem
                         } else {
-                            mediaValue.toMutableList().apply { this[index] = newMediaItem }
+                            mediaValue.toMutableList().also { it[index] = newMediaItem }
                         })
                     }
                 }
@@ -176,13 +179,22 @@ class ComposeViewModel
     }
 
     fun updateDescription(item: QueuedMedia, description: String) {
-        if (item.id == null) TODO()
         media.value = media.value!!.replacedFirstWhich(item.copy(description = description)) {
             it.localId == item.localId
         }
-        api.updateMedia(item.id, description)
-                .subscribe()
-                .autoDispose()
+        media.observeForever(object : Observer<List<QueuedMedia>> {
+            override fun onChanged(mediaItems: List<QueuedMedia>) {
+                val updatedItem = mediaItems.find { it.localId == item.localId }
+                if (updatedItem == null) {
+                    media.removeObserver(this)
+                } else if (updatedItem.id != null) {
+                    api.updateMedia(updatedItem.id, description)
+                            .subscribe()
+                            .autoDispose()
+                    media.removeObserver(this)
+                }
+            }
+        })
     }
 
 
