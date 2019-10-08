@@ -23,7 +23,6 @@ import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.content.res.AssetFileDescriptor
 import android.graphics.PorterDuff
 import android.graphics.drawable.Drawable
 import android.net.Uri
@@ -42,18 +41,17 @@ import androidx.annotation.Px
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.content.res.AppCompatResources
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.core.view.inputmethod.InputConnectionCompat
 import androidx.core.view.inputmethod.InputContentInfoCompat
 import androidx.lifecycle.ViewModelProviders
-import androidx.recyclerview.widget.*
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.transition.TransitionManager
 import at.connyduck.sparkbutton.helpers.Utils
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -75,7 +73,6 @@ import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.*
 import com.keylesspalace.tusky.view.ComposeOptionsListener
 import com.keylesspalace.tusky.view.PollPreviewView
-import com.keylesspalace.tusky.view.ProgressImageView
 import com.keylesspalace.tusky.view.showAddPollDialog
 import com.mikepenz.google_material_typeface_library.GoogleMaterial
 import com.mikepenz.iconics.IconicsDrawable
@@ -87,6 +84,8 @@ import java.io.FileOutputStream
 import java.io.IOException
 import java.util.*
 import javax.inject.Inject
+import kotlin.math.max
+import kotlin.math.min
 
 class ComposeActivity : BaseActivity(),
         ComposeOptionsListener,
@@ -123,8 +122,6 @@ class ComposeActivity : BaseActivity(),
     // Accessors for testing, hence package scope
     internal var maximumTootCharacters = STATUS_CHARACTER_LIMIT
         private set
-    private var maxPollOptions: Int? = null
-    private var maxPollOptionLength: Int? = null
     @Px
     private var thumbnailViewSize: Int = 0
 
@@ -139,9 +136,6 @@ class ComposeActivity : BaseActivity(),
             setTheme(R.style.TuskyDialogActivityBlackTheme)
         }
         setContentView(R.layout.activity_compose)
-
-        emojiList = emptyList()
-
 
         // Setup the toolbar.
         setSupportActionBar(toolbar)
@@ -165,7 +159,6 @@ class ComposeActivity : BaseActivity(),
             a.recycle()
 
             val animateAvatars = preferences.getBoolean("animateGifAvatars", false)
-
             loadAvatar(
                     activeAccount.profilePictureUrl,
                     composeAvatar,
@@ -185,19 +178,15 @@ class ComposeActivity : BaseActivity(),
             composeMediaPreviewBar.adapter = mediaApater
             composeMediaPreviewBar.itemAnimator = null
 
-            viewModel = ViewModelProviders.of(this, viewModelFactory).get(ComposeViewModel::class.java)
+            viewModel = ViewModelProviders.of(this, viewModelFactory)[ComposeViewModel::class.java]
 
             withLifecycleContext {
                 viewModel.instanceParams.observe { instanceData ->
                     maximumTootCharacters = instanceData.maxChars
                     updateVisibleCharactersLeft()
                     composeScheduleButton.visible(instanceData.supportsScheduled)
-                    maxPollOptions = instanceData.pollMaxOptions
-                    maxPollOptionLength = instanceData.pollMaxLength
                 }
-                viewModel.emoji.observe { emoji ->
-                    setEmojiList(emoji)
-                }
+                viewModel.emoji.observe { emoji -> setEmojiList(emoji) }
                 combineLiveData(viewModel.markMediaAsSensitive, viewModel.hideStatustext) { markSensitive, hideStatusText ->
                     updateHideMediaToggle(markSensitive, hideStatusText)
                     showContentWarning(hideStatusText)
@@ -221,15 +210,11 @@ class ComposeActivity : BaseActivity(),
 
         composeOptionsBehavior = BottomSheetBehavior.from(composeOptionsBottomSheet)
         composeOptionsBehavior!!.state = BottomSheetBehavior.STATE_HIDDEN
-
         addMediaBehavior = BottomSheetBehavior.from(addMediaBottomSheet)
-
         scheduleBehavior = BottomSheetBehavior.from(composeScheduleView)
-
         emojiBehavior = BottomSheetBehavior.from(emojiView)
 
         emojiView.layoutManager = GridLayoutManager(this, 3, GridLayoutManager.HORIZONTAL, false)
-
         enableButton(composeEmojiButton, false, false)
 
         // Setup the interface buttons.
@@ -286,7 +271,6 @@ class ComposeActivity : BaseActivity(),
             }
 
             inReplyToId = composeOptions?.inReplyToId
-
             mentionedUsernames = composeOptions?.mentionedUsernames
 
             val contentWarning = composeOptions?.contentWarning
@@ -347,11 +331,9 @@ class ComposeActivity : BaseActivity(),
             composeOptions?.replyingStatusContent?.let {
                 composeReplyContentView.text = it
             }
-
             if (!TextUtils.isEmpty(composeOptions?.scheduledAt)) {
                 composeScheduleView.setDateTime(composeOptions?.scheduledAt)
             }
-
             composeOptions?.sensitive?.let { viewModel.markMediaAsSensitive.value = it }
 
             val poll = composeOptions?.poll
@@ -374,16 +356,10 @@ class ComposeActivity : BaseActivity(),
         composeEditField.setOnCommitContentListener(this)
         val mentionColour = composeEditField.linkTextColors.defaultColor
         highlightSpans(composeEditField.text, mentionColour)
-        composeEditField.addTextChangedListener(object : TextWatcher {
-            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
-
-            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
-
-            override fun afterTextChanged(editable: Editable) {
-                highlightSpans(editable, mentionColour)
-                updateVisibleCharactersLeft()
-            }
-        })
+        composeEditField.afterTextChanged { editable ->
+            highlightSpans(editable, mentionColour)
+            updateVisibleCharactersLeft()
+        }
 
         composeEditField.setOnKeyListener { _, keyCode, event -> this.onKeyDown(keyCode, event) }
 
@@ -492,24 +468,19 @@ class ComposeActivity : BaseActivity(),
                     if (action != null && action == Intent.ACTION_SEND) {
                         val subject = intent.getStringExtra(Intent.EXTRA_SUBJECT)
                         val text = intent.getStringExtra(Intent.EXTRA_TEXT)
-                        var shareBody: String? = null
-                        if (subject != null && text != null) {
+                        val shareBody = if (subject != null && text != null) {
                             if (subject != text && !text.contains(subject)) {
-                                shareBody = String.format("%s\n%s", subject, text)
+                                String.format("%s\n%s", subject, text)
                             } else {
-                                shareBody = text
+                                text
                             }
-                        } else if (text != null) {
-                            shareBody = text
-                        } else if (subject != null) {
-                            shareBody = subject
-                        }
+                        } else text ?: subject
 
                         if (shareBody != null) {
-                            val start = Math.max(composeEditField.selectionStart, 0)
-                            val end = Math.max(composeEditField.selectionEnd, 0)
-                            val left = Math.min(start, end)
-                            val right = Math.max(start, end)
+                            val start = composeEditField.selectionStart.coerceAtLeast(0)
+                            val end = composeEditField.selectionEnd.coerceAtLeast(0)
+                            val left = min(start, end)
+                            val right = max(start, end)
                             composeEditField.text.replace(left, right, shareBody, 0, shareBody.length)
                         }
                     }
@@ -539,8 +510,6 @@ class ComposeActivity : BaseActivity(),
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
-        val savedMediaQueued = ArrayList<SavedQueuedMedia>()
-        outState.putParcelableArrayList("savedMediaQueued", savedMediaQueued)
         if (currentInputContentInfo != null) {
             outState.putParcelable("commitContentInputContentInfo",
                     currentInputContentInfo!!.unwrap() as Parcelable?)
@@ -601,11 +570,10 @@ class ComposeActivity : BaseActivity(),
     }
 
     private fun updateScheduleButton() {
-        @ColorInt val color: Int
-        if (composeScheduleView.time == null) {
-            color = ThemeUtils.getColor(this, android.R.attr.textColorTertiary)
+        @ColorInt val color = if (composeScheduleView.time == null) {
+            ThemeUtils.getColor(this, android.R.attr.textColorTertiary)
         } else {
-            color = ContextCompat.getColor(this, R.color.tusky_blue)
+            ContextCompat.getColor(this, R.color.tusky_blue)
         }
         composeScheduleButton.drawable.setColorFilter(color, PorterDuff.Mode.SRC_IN)
     }
@@ -666,7 +634,6 @@ class ComposeActivity : BaseActivity(),
     }
 
     private fun showEmojis() {
-
         if (emojiView!!.adapter != null) {
             if (emojiView!!.adapter!!.itemCount == 0) {
                 val errorMessage = getString(R.string.error_no_custom_emojis, accountManager.activeAccount!!.domain)
@@ -681,9 +648,7 @@ class ComposeActivity : BaseActivity(),
                     emojiBehavior!!.setState(BottomSheetBehavior.STATE_HIDDEN)
                 }
             }
-
         }
-
     }
 
     private fun openPickDialog() {
@@ -695,7 +660,6 @@ class ComposeActivity : BaseActivity(),
         } else {
             addMediaBehavior!!.setState(BottomSheetBehavior.STATE_HIDDEN)
         }
-
     }
 
     private fun onMediaPick() {
@@ -714,24 +678,22 @@ class ComposeActivity : BaseActivity(),
                 }
             }
 
-            override fun onSlide(bottomSheet: View, slideOffset: Float) {
-
-            }
+            override fun onSlide(bottomSheet: View, slideOffset: Float) {}
         }
         addMediaBehavior!!.state = BottomSheetBehavior.STATE_COLLAPSED
     }
 
     private fun openPollDialog() {
         addMediaBehavior!!.state = BottomSheetBehavior.STATE_COLLAPSED
-        showAddPollDialog(this, viewModel.poll.value, maxPollOptions, maxPollOptionLength)
+        val instanceParams = viewModel.instanceParams.value!!
+        showAddPollDialog(this, viewModel.poll.value, instanceParams.pollMaxOptions,
+                instanceParams.pollMaxLength)
     }
 
     fun updatePoll(poll: NewPoll) {
-
         enableButton(composeAddMediaButton, false, false)
 
         if (pollPreview == null) {
-
             pollPreview = PollPreviewView(this)
 
             val resources = resources
@@ -741,7 +703,6 @@ class ComposeActivity : BaseActivity(),
             val layoutParams = LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
             layoutParams.setMargins(margin, margin, margin, marginBottom)
             pollPreview!!.layoutParams = layoutParams
-
             // TODO
 //            composeMediaPreviewBar.addView(pollPreview)
 
@@ -763,7 +724,6 @@ class ComposeActivity : BaseActivity(),
         }
 
         pollPreview!!.setPoll(poll)
-
     }
 
     private fun removePoll() {
@@ -783,7 +743,7 @@ class ComposeActivity : BaseActivity(),
         val urlSpans = composeEditField.urls
         if (urlSpans != null) {
             for (span in urlSpans) {
-                offset += Math.max(0, span.url.length - MAXIMUM_URL_LENGTH)
+                offset += max(0, span.url.length - MAXIMUM_URL_LENGTH)
             }
         }
         var length = composeEditField.length() - offset
@@ -833,28 +793,25 @@ class ComposeActivity : BaseActivity(),
                 Log.e(TAG, "InputContentInfoCompat#requestPermission() failed." + e.message)
                 return false
             }
-
         }
 
         // Determine the file size before putting handing it off to be put in the queue.
         val uri = inputContentInfo.contentUri
         val mediaSize: Long
-        var descriptor: AssetFileDescriptor? = null
-        try {
-            descriptor = contentResolver.openAssetFileDescriptor(uri, "r")
+        val descriptor = try {
+            contentResolver.openAssetFileDescriptor(uri, "r")
         } catch (e: FileNotFoundException) {
             Log.d(TAG, Log.getStackTraceString(e))
             // Eat this exception, having the descriptor be null is sufficient.
+            null
         }
 
         if (descriptor != null) {
             mediaSize = descriptor.length
             try {
                 descriptor.close()
-            } catch (e: IOException) {
-                // Just eat this exception.
+            } catch (e: IOException) { // Just eat this exception.
             }
-
         } else {
             mediaSize = MEDIA_SIZE_UNKNOWN
         }
@@ -894,14 +851,12 @@ class ComposeActivity : BaseActivity(),
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>,
                                             grantResults: IntArray) {
-        when (requestCode) {
-            PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE -> {
-                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    initiateMediaPicking()
-                } else {
-                    doErrorDialog(R.string.error_media_upload_permission, R.string.action_retry,
-                            View.OnClickListener { onMediaPick() })
-                }
+        if (requestCode == PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE) {
+            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                initiateMediaPicking()
+            } else {
+                doErrorDialog(R.string.error_media_upload_permission, R.string.action_retry,
+                        View.OnClickListener { onMediaPick() })
             }
         }
     }
@@ -915,21 +870,19 @@ class ComposeActivity : BaseActivity(),
         // way before permission dialogues have been introduced.
         val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
         if (intent.resolveActivity(packageManager) != null) {
-            var photoFile: File? = null
-            try {
-                photoFile = createNewImageFile(this)
+            val photoFile: File = try {
+                createNewImageFile(this)
             } catch (ex: IOException) {
                 displayTransientError(R.string.error_media_upload_opening)
+                return
             }
 
             // Continue only if the File was successfully created
-            if (photoFile != null) {
-                photoUploadUri = FileProvider.getUriForFile(this,
-                        BuildConfig.APPLICATION_ID + ".fileprovider",
-                        photoFile)
-                intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUploadUri)
-                startActivityForResult(intent, MEDIA_TAKE_PHOTO_RESULT)
-            }
+            photoUploadUri = FileProvider.getUriForFile(this,
+                    BuildConfig.APPLICATION_ID + ".fileprovider",
+                    photoFile)
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUploadUri)
+            startActivityForResult(intent, MEDIA_TAKE_PHOTO_RESULT)
         }
     }
 
@@ -951,12 +904,9 @@ class ComposeActivity : BaseActivity(),
 
     private fun enablePollButton(enable: Boolean) {
         addPollTextActionTextView.isEnabled = enable
-        val textColor: Int
-        if (enable) {
-            textColor = ThemeUtils.getColor(this, android.R.attr.textColorTertiary)
-        } else {
-            textColor = ThemeUtils.getColor(this, R.attr.compose_media_button_disabled_tint)
-        }
+        val textColor = ThemeUtils.getColor(this,
+                if (enable) android.R.attr.textColorTertiary
+                else R.attr.compose_media_button_disabled_tint)
         addPollTextActionTextView.setTextColor(textColor)
         addPollTextActionTextView.compoundDrawablesRelative[0].setColorFilter(textColor, PorterDuff.Mode.SRC_IN)
     }
@@ -1208,9 +1158,6 @@ class ComposeActivity : BaseActivity(),
     }
 
     private fun setEmojiList(emojiList: List<Emoji>?) {
-        this.emojiList = emojiList
-
-
         if (emojiList != null) {
             emojiView!!.adapter = EmojiAdapter(emojiList, this@ComposeActivity)
             enableButton(composeEmojiButton, true, emojiList.isNotEmpty())
@@ -1231,18 +1178,6 @@ class ComposeActivity : BaseActivity(),
             VIDEO
         }
     }
-
-    /**
-     * This saves enough information to re-enqueue an attachment when restoring the activity.
-     */
-    @Parcelize
-    private data class SavedQueuedMedia(
-            var id: String?,
-            var type: QueuedMedia.Type,
-            var uri: Uri,
-            var mediaSize: Long,
-            var description: String? = null
-    ) : Parcelable
 
     override fun onTimeSet(view: TimePicker, hourOfDay: Int, minute: Int) {
         composeScheduleView.onTimeSet(hourOfDay, minute)
@@ -1277,7 +1212,6 @@ class ComposeActivity : BaseActivity(),
     ) : Parcelable
 
     companion object {
-
         private const val TAG = "ComposeActivity" // logging tag
         internal const val STATUS_CHARACTER_LIMIT = 500
         internal const val STATUS_IMAGE_SIZE_LIMIT = 8388608 // 8MiB
@@ -1304,82 +1238,6 @@ class ComposeActivity : BaseActivity(),
         @JvmStatic
         fun canHandleMimeType(mimeType: String?): Boolean {
             return mimeType != null && (mimeType.startsWith("image/") || mimeType.startsWith("video/") || mimeType == "text/plain")
-        }
-    }
-
-    class MediaPreviewAdapter(
-            context: Context,
-            private val onAddCaption: (QueuedMedia) -> Unit,
-            private val onRemove: (QueuedMedia) -> Unit
-    ) : RecyclerView.Adapter<MediaPreviewAdapter.PreviewViewHolder>() {
-
-        fun submitList(list: List<QueuedMedia>) {
-            Log.d(TAG, "new list of size ${list.size}")
-            this.differ.submitList(list)
-        }
-
-        private fun onMediaClick(position: Int, view: View) {
-            val item = differ.currentList[position]
-            val popup = PopupMenu(view.context, view)
-            val addCaptionId = 1
-            val removeId = 2
-            popup.menu.add(0, addCaptionId, 0, R.string.action_set_caption)
-            popup.menu.add(0, removeId, 0, R.string.action_remove)
-            popup.setOnMenuItemClickListener { menuItem ->
-                when (menuItem.itemId) {
-                    addCaptionId -> onAddCaption(item)
-                    removeId -> onRemove(item)
-                }
-                true
-            }
-            popup.show()
-        }
-
-        private val thumbnailViewSize =
-                context.resources.getDimensionPixelSize(R.dimen.compose_media_preview_size)
-
-        override fun getItemCount(): Int = differ.currentList.size
-
-        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PreviewViewHolder {
-            return PreviewViewHolder(ProgressImageView(parent.context))
-        }
-
-        override fun onBindViewHolder(holder: PreviewViewHolder, position: Int) {
-            val item = differ.currentList[position]
-            holder.progressImageView.setChecked(!item.description.isNullOrEmpty())
-            holder.progressImageView.setProgress(item.uploadPercent)
-            Glide.with(holder.itemView.context)
-                    .load(item.uri)
-                    .diskCacheStrategy(DiskCacheStrategy.NONE)
-                    .dontAnimate()
-                    .into(holder.progressImageView)
-        }
-
-        val differ = AsyncListDiffer(this, object : DiffUtil.ItemCallback<QueuedMedia>() {
-            override fun areItemsTheSame(oldItem: QueuedMedia, newItem: QueuedMedia): Boolean {
-                return oldItem.localId == newItem.localId
-            }
-
-            override fun areContentsTheSame(oldItem: QueuedMedia, newItem: QueuedMedia): Boolean {
-                return oldItem == newItem
-            }
-        })
-
-        inner class PreviewViewHolder(val progressImageView: ProgressImageView)
-            : RecyclerView.ViewHolder(progressImageView) {
-            init {
-                val layoutParams = ConstraintLayout.LayoutParams(thumbnailViewSize, thumbnailViewSize)
-                val margin = itemView.context.resources
-                        .getDimensionPixelSize(R.dimen.compose_media_preview_margin)
-                val marginBottom = itemView.context.resources
-                        .getDimensionPixelSize(R.dimen.compose_media_preview_margin_bottom)
-                layoutParams.setMargins(margin, 0, margin, marginBottom)
-                progressImageView.layoutParams = layoutParams
-                progressImageView.scaleType = ImageView.ScaleType.CENTER_CROP
-                progressImageView.setOnClickListener {
-                    onMediaClick(adapterPosition, progressImageView)
-                }
-            }
         }
     }
 }
