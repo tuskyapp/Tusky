@@ -30,6 +30,7 @@ import com.keylesspalace.tusky.entity.Emoji
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.view.MediaPreviewImageView
 import com.keylesspalace.tusky.viewdata.PollViewData
+import com.keylesspalace.tusky.viewdata.buildDescription
 import com.keylesspalace.tusky.viewdata.calculatePercent
 import java.text.NumberFormat
 import java.text.SimpleDateFormat
@@ -283,8 +284,8 @@ class StatusViewHelper(private val itemView: View) {
             if (i < options.size) {
                 val percent = calculatePercent(options[i].votesCount, poll.votesCount)
 
-                val pollOptionText = pollResults[i].context.getString(R.string.poll_option_format, percent, options[i].title)
-                pollResults[i].text = CustomEmojiHelper.emojifyText(HtmlUtils.fromHtml(pollOptionText), emojis, pollResults[i])
+                val pollOptionText = buildDescription(options[i].title, percent, pollResults[i].context)
+                pollResults[i].text = CustomEmojiHelper.emojifyText(pollOptionText, emojis, pollResults[i])
                 pollResults[i].visibility = View.VISIBLE
 
                 val level = percent * 100

@@ -29,6 +29,7 @@ import com.keylesspalace.tusky.util.CustomEmojiHelper
 import com.keylesspalace.tusky.util.HtmlUtils
 import com.keylesspalace.tusky.util.visible
 import com.keylesspalace.tusky.viewdata.PollOptionViewData
+import com.keylesspalace.tusky.viewdata.buildDescription
 import com.keylesspalace.tusky.viewdata.calculatePercent
 
 class PollAdapter: RecyclerView.Adapter<PollViewHolder>() {
@@ -71,10 +72,7 @@ class PollAdapter: RecyclerView.Adapter<PollViewHolder>() {
         when(mode) {
             RESULT -> {
                 val percent = calculatePercent(option.votesCount, voteCount)
-
-                val pollOptionText = holder.resultTextView.context.getString(R.string.poll_option_format, percent, option.title)
-
-                val emojifiedPollOptionText = CustomEmojiHelper.emojifyText(HtmlUtils.fromHtml(pollOptionText), emojis, holder.resultTextView)
+                val emojifiedPollOptionText = CustomEmojiHelper.emojifyText(buildDescription(option.title, percent, holder.resultTextView.context), emojis, holder.resultTextView)
                 holder.resultTextView.text =  EmojiCompat.get().process(emojifiedPollOptionText)
 
                 val level = percent * 100
