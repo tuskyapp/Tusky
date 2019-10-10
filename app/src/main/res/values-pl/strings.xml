@@ -291,7 +291,7 @@
     <string name="title_tag">#%s</string>
     <string name="title_domain_mutes">Ukryte domeny</string>
     <string name="status_username_format">\@%s</string>
-    <string name="action_unreblog">Usuń podbicie</string>
+    <string name="action_unreblog">Cofnij podbicie</string>
     <string name="action_view_domain_mutes">Ukryte domeny</string>
     <string name="action_add_poll">Dodaj głosowanie</string>
     <string name="action_mute_domain">Wycisz %s</string>
@@ -481,4 +481,10 @@
     <string name="poll_new_choice_hint">Opcja %d</string>
     <string name="edit_poll">Edytuj</string>
 
-</resources>
+<string name="title_scheduled_toot">Zaplanowane wpisy</string>
+    <string name="action_edit">Edytuj</string>
+    <string name="action_access_scheduled_toot">Zaplanowane wpisy</string>
+    <string name="action_schedule_toot">Zaplanuj wpis</string>
+    <string name="action_reset_schedule">Resetuj</string>
+    <string name="hint_configure_scheduled_toot">Dotknij tutaj, żeby skonfigurować zaplanowany wpis.</string>
+    </resources>

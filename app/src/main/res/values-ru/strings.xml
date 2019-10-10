@@ -540,4 +540,10 @@
     <string name="poll_new_choice_hint">Вариант %d</string>
     <string name="edit_poll">Изменить</string>
 
-</resources>
+<string name="title_scheduled_toot">Отложенные записи</string>
+    <string name="action_edit">Изменить</string>
+    <string name="action_access_scheduled_toot">Отложенные записи</string>
+    <string name="action_schedule_toot">Отложить запись</string>
+    <string name="action_reset_schedule">Сброс</string>
+    <string name="hint_configure_scheduled_toot">Нажмите для выбора времени отправки.</string>
+    </resources>

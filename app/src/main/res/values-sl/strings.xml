@@ -518,4 +518,8 @@
     <string name="poll_new_choice_hint">Izbira %d</string>
     <string name="edit_poll">Uredi</string>
 
-</resources>
+<string name="title_scheduled_toot">Načrtovani tuti</string>
+    <string name="action_edit">Uredi</string>
+    <string name="action_access_scheduled_toot">Načrtovani tuti</string>
+    <string name="action_reset_schedule">Ponastavi</string>
+    </resources>
