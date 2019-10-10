@@ -481,4 +481,10 @@
     <string name="poll_new_choice_hint">Opcja %d</string>
     <string name="edit_poll">Edytuj</string>
 
-</resources>
+<string name="title_scheduled_toot">Zaplanowane wpisy</string>
+    <string name="action_edit">Edytuj</string>
+    <string name="action_access_scheduled_toot">Zaplanowane wpisy</string>
+    <string name="action_schedule_toot">Zaplanuj wpis</string>
+    <string name="action_reset_schedule">Resetuj</string>
+    <string name="hint_configure_scheduled_toot">Dotknij tutaj, żeby skonfigurować zaplanowany wpis.</string>
+    </resources>
