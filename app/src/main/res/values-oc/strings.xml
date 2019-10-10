@@ -474,4 +474,10 @@
     <string name="poll_new_choice_hint">Opcion %d</string>
     <string name="edit_poll">Modificar</string>
 
-</resources>
+<string name="title_scheduled_toot">Tuts planificats</string>
+    <string name="action_edit">Modificar</string>
+    <string name="action_access_scheduled_toot">Tuts planificats</string>
+    <string name="action_schedule_toot">Planificar de tuts</string>
+    <string name="action_reset_schedule">Escafar</string>
+    <string name="hint_configure_scheduled_toot">Tocatz aquí per configurar los tuts planificats.</string>
+    </resources>
