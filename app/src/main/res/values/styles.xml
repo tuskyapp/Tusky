@@ -63,6 +63,8 @@
 
         <item name="colorPrimaryDark">@color/color_primary_dark_light</item>
 
+        <item name="appBarLayoutStyle">@style/Widget.MaterialComponents.AppBarLayout.Surface</item>
+
         <item name="android:colorBackground">@color/color_background_light</item>
         <item name="recents_background_color">@color/color_primary_light</item>
         <item name="android:windowBackground">@color/window_background_light</item>
@@ -182,6 +184,8 @@
         <item name="android:colorBackground">@color/color_primary_dark_black</item>
         <item name="android:windowBackground">@color/window_background_black</item>
         <item name="android:textColorPrimary">@color/text_color_primary_black</item>
+
+        <item name="colorSurface">@color/color_primary_black</item>
 
         <item name="recents_background_color">@color/toolbar_background_black</item>
         <item name="window_background">@color/window_background_black</item>
