@@ -291,7 +291,7 @@
     <string name="title_tag">#%s</string>
     <string name="title_domain_mutes">Ukryte domeny</string>
     <string name="status_username_format">\@%s</string>
-    <string name="action_unreblog">Usuń podbicie</string>
+    <string name="action_unreblog">Cofnij podbicie</string>
     <string name="action_view_domain_mutes">Ukryte domeny</string>
     <string name="action_add_poll">Dodaj głosowanie</string>
     <string name="action_mute_domain">Wycisz %s</string>
