@@ -138,5 +138,5 @@
         <item>604800</item>
     </integer-array>
 
-
+    <string name="poll_percent_format"><!-- 15% --> &lt;b>%1$d%%&lt;/b></string>
 </resources>
