@@ -465,7 +465,6 @@
 </plurals>
 
 <string name="description_status_cw">Advertència: %s</string>
-    <string name="poll_percent_format"> <!-- 15% --> &lt;b&gt;%1$d%%&lt;/b&gt;</string>
 
     <string name="title_statuses_pinned">Toot fixat</string>
     <string name="unpin_action">Toot no fixat</string>

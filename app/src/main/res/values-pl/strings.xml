@@ -424,7 +424,6 @@
     <string name="poll_info_time_relative">Zostało %s</string>
     <string name="poll_info_time_absolute">kończy się %s</string>
     <string name="poll_info_closed">zakończone</string>
-    <string name="poll_percent_format"> <!-- 15% --> &lt;b&gt;%1$d%%&lt;/b&gt;</string>
 
     <string name="poll_vote">Głosuj</string>
 

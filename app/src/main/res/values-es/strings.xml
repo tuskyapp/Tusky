@@ -416,8 +416,6 @@
     <string name="action_open_reblogger">Abrir autor del impulso</string>
     <string name="action_open_reblogged_by">Mostrar impulsos</string>
 
-    <string name="poll_percent_format"> <!-- 15% --> &lt;b&gt;%1$d%%&lt;/b&gt;</string>
-
     <string name="title_domain_mutes">Dominios ocultos</string>
     <string name="action_view_domain_mutes">Dominios ocultos</string>
     <string name="action_mute_domain">Silenciar %s</string>

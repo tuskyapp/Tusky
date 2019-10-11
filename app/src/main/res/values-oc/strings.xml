@@ -405,7 +405,6 @@
 
 
     <string name="poll_info_format"> <!-- 15 votes • 1 hour left --> %1$s • %2$s</string>
-    <string name="poll_percent_format"> <!-- 15% --> &lt;b&gt;%1$d%%&lt;/b&gt;</string>
 
     <string name="poll_ended_voted">Un sondatge ont avètz votat es acabat</string>
     <string name="poll_ended_created">Un sondatge qu’avètz creat es acabat</string>
