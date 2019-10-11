@@ -29,6 +29,7 @@ import android.view.View
 import android.widget.EditText
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
+import com.bumptech.glide.Glide
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.entity.AccessToken
 import com.keylesspalace.tusky.entity.AppCredentials
@@ -70,6 +71,18 @@ class LoginActivity : BaseActivity(), Injectable {
             domain = savedInstanceState.getString(DOMAIN)!!
             clientId = savedInstanceState.getString(CLIENT_ID)
             clientSecret = savedInstanceState.getString(CLIENT_SECRET)
+        } else {
+            if(BuildConfig.CUSTOM_INSTANCE.isNotBlank() && !isAdditionalLogin()) {
+                domainEditText.setText(BuildConfig.CUSTOM_INSTANCE)
+                domainEditText.setSelection(BuildConfig.CUSTOM_INSTANCE.length)
+            }
+        }
+
+        if(BuildConfig.CUSTOM_LOGO_URL.isNotBlank()) {
+            Glide.with(loginLogo)
+                    .load(BuildConfig.CUSTOM_LOGO_URL)
+                    .placeholder(null)
+                    .into(loginLogo)
         }
 
         preferences = getSharedPreferences(
@@ -173,7 +186,7 @@ class LoginActivity : BaseActivity(), Injectable {
 
         mastodonApi
                 .authenticateApp(domain, getString(R.string.app_name), oauthRedirectUri,
-                        OAUTH_SCOPES, getString(R.string.app_website))
+                        OAUTH_SCOPES, getString(R.string.tusky_website))
                 .enqueue(callback)
         setLoading(true)
 

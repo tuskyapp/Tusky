@@ -12,6 +12,7 @@ import android.view.MenuItem
 import android.widget.TextView
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.util.CustomURLSpan
+import com.keylesspalace.tusky.util.hide
 import kotlinx.android.synthetic.main.activity_about.*
 import kotlinx.android.synthetic.main.toolbar_basic.*
 
@@ -29,24 +30,24 @@ class AboutActivity : BottomSheetActivity(), Injectable {
 
         setTitle(R.string.about_title_activity)
 
-        versionTextView.text = getString(R.string.about_tusky_version, BuildConfig.VERSION_NAME)
+        versionTextView.text = getString(R.string.about_app_version, getString(R.string.app_name), BuildConfig.VERSION_NAME)
+
+        if(BuildConfig.CUSTOM_INSTANCE.isBlank()) {
+            aboutPoweredByTusky.hide()
+        }
 
         aboutLicenseInfoTextView.setClickableTextWithoutUnderlines(R.string.about_tusky_license)
         aboutWebsiteInfoTextView.setClickableTextWithoutUnderlines(R.string.about_project_site)
         aboutBugsFeaturesInfoTextView.setClickableTextWithoutUnderlines(R.string.about_bug_feature_request_site)
 
         tuskyProfileButton.setOnClickListener {
-            onAccountButtonClick()
+            viewUrl(BuildConfig.SUPPORT_ACCOUNT_URL)
         }
 
         aboutLicensesButton.setOnClickListener {
             startActivityWithSlideInAnimation(Intent(this, LicenseActivity::class.java))
         }
 
-    }
-
-    private fun onAccountButtonClick() {
-        viewUrl("https://mastodon.social/@Tusky")
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
