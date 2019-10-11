@@ -45,6 +45,7 @@ import com.keylesspalace.tusky.BottomSheetActivity;
 import com.keylesspalace.tusky.ComposeActivity;
 import com.keylesspalace.tusky.MainActivity;
 import com.keylesspalace.tusky.R;
+import com.keylesspalace.tusky.PostLookupFallbackBehavior;
 import com.keylesspalace.tusky.ViewMediaActivity;
 import com.keylesspalace.tusky.ViewTagActivity;
 import com.keylesspalace.tusky.components.report.ReportActivity;
@@ -134,7 +135,7 @@ public abstract class SFragment extends BaseFragment implements Injectable {
     }
 
     public void onViewUrl(String url) {
-        bottomSheetActivity.viewUrl(url);
+        bottomSheetActivity.viewUrl(url, PostLookupFallbackBehavior.OPEN_IN_BROWSER);
     }
 
     protected void reply(Status status) {

@@ -311,7 +311,7 @@ public final class MainActivity extends BottomSheetActivity implements ActionBut
         if (intent != null) {
             String statusUrl = intent.getStringExtra(STATUS_URL);
             if (statusUrl != null) {
-                viewUrl(statusUrl);
+                viewUrl(statusUrl, PostLookupFallbackBehavior.DISPLAY_ERROR);
             }
         }
     }
