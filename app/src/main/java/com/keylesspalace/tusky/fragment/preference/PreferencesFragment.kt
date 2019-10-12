@@ -38,13 +38,13 @@ class PreferencesFragment : PreferenceFragmentCompat() {
         addPreferencesFromResource(R.xml.preferences)
 
         val themePreference: Preference = requirePreference("appTheme")
-        themePreference.icon = IconicsDrawable(themePreference.context, GoogleMaterial.Icon.gmd_palette).sizePx(iconSize).color(ThemeUtils.getColor(themePreference.context, R.attr.toolbar_icon_tint))
+        themePreference.icon = IconicsDrawable(themePreference.context, GoogleMaterial.Icon.gmd_palette).sizePx(iconSize).color(ThemeUtils.getColor(themePreference.context, R.attr.preference_icon_tint))
 
         val emojiPreference: Preference = requirePreference("emojiCompat")
-        emojiPreference.icon = IconicsDrawable(emojiPreference.context, GoogleMaterial.Icon.gmd_sentiment_satisfied).sizePx(iconSize).color(ThemeUtils.getColor(emojiPreference.context, R.attr.toolbar_icon_tint))
+        emojiPreference.icon = IconicsDrawable(emojiPreference.context, GoogleMaterial.Icon.gmd_sentiment_satisfied).sizePx(iconSize).color(ThemeUtils.getColor(emojiPreference.context, R.attr.preference_icon_tint))
 
         val textSizePreference: Preference = requirePreference("statusTextSize")
-        textSizePreference.icon = IconicsDrawable(textSizePreference.context, GoogleMaterial.Icon.gmd_format_size).sizePx(iconSize).color(ThemeUtils.getColor(textSizePreference.context, R.attr.toolbar_icon_tint))
+        textSizePreference.icon = IconicsDrawable(textSizePreference.context, GoogleMaterial.Icon.gmd_format_size).sizePx(iconSize).color(ThemeUtils.getColor(textSizePreference.context, R.attr.preference_icon_tint))
 
         val timelineFilterPreferences: Preference = requirePreference("timelineFilterPreferences")
         timelineFilterPreferences.setOnPreferenceClickListener {
@@ -67,11 +67,11 @@ class PreferencesFragment : PreferenceFragmentCompat() {
         }
 
         val languagePreference: Preference = requirePreference("language")
-        languagePreference.icon = IconicsDrawable(languagePreference.context, GoogleMaterial.Icon.gmd_translate).sizePx(iconSize).color(ThemeUtils.getColor(languagePreference.context, R.attr.toolbar_icon_tint))
+        languagePreference.icon = IconicsDrawable(languagePreference.context, GoogleMaterial.Icon.gmd_translate).sizePx(iconSize).color(ThemeUtils.getColor(languagePreference.context, R.attr.preference_icon_tint))
 
         val botIndicatorPreference = requirePreference("showBotOverlay")
         val botDrawable = botIndicatorPreference.context.getDrawable(R.drawable.ic_bot_24dp)
-        ThemeUtils.setDrawableTint(context, botDrawable, R.attr.toolbar_icon_tint)
+        ThemeUtils.setDrawableTint(context, botDrawable, R.attr.preference_icon_tint)
         botIndicatorPreference.icon = botDrawable
     }
 

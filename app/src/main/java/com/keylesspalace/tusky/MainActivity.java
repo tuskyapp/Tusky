@@ -24,7 +24,6 @@ import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.KeyEvent;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 
 import androidx.annotation.Nullable;
@@ -178,7 +177,6 @@ public final class MainActivity extends BottomSheetActivity implements ActionBut
         setContentView(R.layout.activity_main);
 
         composeButton = findViewById(R.id.floating_btn);
-        ImageButton drawerToggle = findViewById(R.id.drawer_toggle);
         tabLayout = findViewById(R.id.tab_layout);
         viewPager = findViewById(R.id.pager);
 
@@ -188,10 +186,6 @@ public final class MainActivity extends BottomSheetActivity implements ActionBut
         });
 
         setupDrawer();
-
-        // Setup the navigation drawer toggle button.
-        ThemeUtils.setDrawableTint(this, drawerToggle.getDrawable(), R.attr.toolbar_icon_tint);
-        drawerToggle.setOnClickListener(v -> drawer.openDrawer());
 
         /* Fetch user info while we're doing other things. This has to be done after setting up the
          * drawer, though, because its callback touches the header in the drawer. */
@@ -401,6 +395,7 @@ public final class MainActivity extends BottomSheetActivity implements ActionBut
                 .withHasStableIds(true)
                 .withSelectedItem(-1)
                 .withDrawerItems(listItems)
+                .withToolbar(findViewById(R.id.main_toolbar))
                 .withOnDrawerItemClickListener((view, position, drawerItem) -> {
                     if (drawerItem != null) {
                         long drawerItemIdentifier = drawerItem.getIdentifier();
