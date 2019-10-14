@@ -21,7 +21,6 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
-import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.widget.ImageView;
@@ -32,6 +31,7 @@ import androidx.core.content.ContextCompat;
 import androidx.emoji.text.EmojiCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Lifecycle;
+import androidx.preference.PreferenceManager;
 import androidx.viewpager.widget.ViewPager;
 
 import com.bumptech.glide.Glide;
