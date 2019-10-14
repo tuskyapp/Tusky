@@ -13,11 +13,11 @@ def getGitSha = { ->
 }
 
 android {
-    compileSdkVersion 28
+    compileSdkVersion 29
     defaultConfig {
         applicationId "com.keylesspalace.tusky"
         minSdkVersion 21
-        targetSdkVersion 28
+        targetSdkVersion 29
         versionCode 68
         versionName "9.1"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"

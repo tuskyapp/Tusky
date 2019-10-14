@@ -227,7 +227,7 @@ class ViewMediaActivity : BaseActivity(), ViewImageFragment.PhotoActionsListener
 
     private fun copyLink() {
         val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-        clipboard.primaryClip = ClipData.newPlainText(null, attachments!![viewPager.currentItem].attachment.url)
+        clipboard.setPrimaryClip(ClipData.newPlainText(null, attachments!![viewPager.currentItem].attachment.url))
     }
 
     private fun shareMedia() {
