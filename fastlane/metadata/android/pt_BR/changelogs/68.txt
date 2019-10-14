@@ -1,0 +1,3 @@
+Tusky v9.1
+
+Esta atualização garante compatibilidade com Mastodon 3 e melhora a performance e estabilidade.
