@@ -295,6 +295,7 @@ public class NotificationHelper {
                 .setColor(BuildConfig.DEBUG ? Color.parseColor("#19A341") : ContextCompat.getColor(context, R.color.tusky_blue))
                 .setGroup(account.getAccountId())
                 .setAutoCancel(true)
+                .setShortcutId(Long.toString(account.getId()))
                 .setDefaults(0); // So it doesn't ring twice, notify only in Target callback
 
         setupPreferences(account, builder);
