@@ -24,7 +24,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.util.*
 
-@Config(application = FakeTuskyApplication::class)
+@Config(application = FakeTuskyApplication::class, sdk = [28])
 @RunWith(AndroidJUnit4::class)
 class FilterTest {
 

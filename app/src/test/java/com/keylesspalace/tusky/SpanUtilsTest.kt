@@ -100,15 +100,10 @@ class SpanUtilsTest {
             spans.add(BoundedSpan(what, start, end))
         }
 
-        override fun <T : Any?> getSpans(start: Int, end: Int, type: Class<T>?): Array<T> {
-            val matching = if (type == null) {
-                ArrayList<T>()
-            } else {
-                spans.filter { it.start >= start && it.end <= end && type.isAssignableFrom(it.span?.javaClass) }
+        override fun <T : Any> getSpans(start: Int, end: Int, type: Class<T>): Array<T> {
+            return spans.filter { it.start >= start && it.end <= end && type.isInstance(it)}
                         .map { it.span }
-                        .let { ArrayList(it) }
-            }
-            return matching.toArray() as Array<T>
+                        .toTypedArray() as Array<T>
         }
 
         override fun removeSpan(what: Any?) {
