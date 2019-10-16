@@ -3,7 +3,7 @@
 
 ![](/fastlane/metadata/android/en-US/images/icon.png)
 
-Tusky is a beautiful Android client for [Mastodon](https://github.com/tootsuite/mastodon). Mastodon is a GNU social-compatible federated social network. That means not one entity controls the whole network, rather, like e-mail, volunteers and organisations operate their own independent servers, users from which can all interact with each other seamlessly.
+Tusky is a beautiful Android client for [Mastodon](https://github.com/tootsuite/mastodon). Mastodon is an ActivityPub federated social network. That means no single entity controls the whole network, rather, like e-mail, volunteers and organisations operate their own independent servers, users from which can all interact with each other seamlessly.
 
 [<img src="/assets/fdroid_badge.png" alt="Get it on F-Droid" height="80" />](https://f-droid.org/repository/browse/?fdid=com.keylesspalace.tusky)
 [<img src="https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png" alt="Get it on Google Play" height="80" />](https://play.google.com/store/apps/details?id=com.keylesspalace.tusky&utm_source=github&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1)
