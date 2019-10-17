@@ -53,7 +53,7 @@
         </activity>
         <activity
             android:name=".MainActivity"
-            android:configChanges="orientation|screenSize|keyboardHidden">
+            android:configChanges="orientation|screenSize|keyboardHidden|screenLayout|smallestScreenSize">
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />
 
@@ -108,7 +108,7 @@
             android:theme="@style/TuskyBaseTheme" />
         <activity
             android:name=".AccountActivity"
-            android:configChanges="orientation|screenSize|keyboardHidden" />
+            android:configChanges="orientation|screenSize|keyboardHidden|screenLayout|smallestScreenSize" />
         <activity android:name=".EditProfileActivity" />
         <activity android:name=".PreferencesActivity" />
         <activity android:name=".FavouritesActivity" />
