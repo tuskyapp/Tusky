@@ -50,6 +50,7 @@ fun updateShortcut(context: Context, account: AccountEntity) {
                     .submit(innerSize, innerSize)
                     .get()
 
+            // inset the loaded bitmap inside a 108dp transparent canvas so it looks good as adaptive icon
             val outBmp = Bitmap.createBitmap(outerSize, outerSize, Bitmap.Config.ARGB_8888)
 
             val canvas = Canvas(outBmp)
@@ -83,7 +84,7 @@ fun updateShortcut(context: Context, account: AccountEntity) {
         ShortcutManagerCompat.addDynamicShortcuts(context, listOf(shortcutInfo))
 
     }
-            .subscribeOn(Schedulers.computation())
+            .subscribeOn(Schedulers.io())
             .subscribe()
 
 
