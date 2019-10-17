@@ -142,8 +142,6 @@ public final class MainActivity extends BottomSheetActivity implements ActionBut
 
         if (intent != null) {
 
-            Log.e("MainActivity", ""+intent.getStringExtra(ShortcutManagerCompat.EXTRA_SHORTCUT_ID));
-
             /** there are two possibilities the accountId can be passed to MainActivity:
                 - from our code as long 'account_id'
                 - from share shortcuts as String 'android.intent.extra.shortcut.ID'
