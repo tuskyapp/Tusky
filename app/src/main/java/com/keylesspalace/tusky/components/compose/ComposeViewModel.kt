@@ -74,7 +74,7 @@ class ComposeViewModel
     val media = mutableLiveData<List<QueuedMedia>>(listOf())
     private val mediaToDisposable = mutableMapOf<Long, Disposable>()
 
-    fun addMediaToQueue(type: QueuedMedia.Type, uri: Uri, mediaSize: Long) {
+    fun addMediaToQueue(type: QueuedMedia.Type, uri: Uri, mediaSize: Long): QueuedMedia {
         val mediaItem = QueuedMedia(System.currentTimeMillis(), uri, type, mediaSize)
         media.value = media.value!! + mediaItem
         mediaToDisposable[mediaItem.localId] = mediaUploader
@@ -98,6 +98,12 @@ class ComposeViewModel
                         })
                     }
                 }
+        return mediaItem
+    }
+
+    fun addUploadedMedia(id: String, type: QueuedMedia.Type, uri: Uri, description: String?) {
+        val mediaItem = QueuedMedia(System.currentTimeMillis(), uri, type, 0, -1, id, description)
+        media.value = media.value!! + mediaItem
     }
 
     fun removeMediaFromQueue(item: QueuedMedia) {
@@ -176,14 +182,17 @@ class ComposeViewModel
                 }
     }
 
-    fun updateDescription(item: QueuedMedia, description: String): LiveData<Boolean> {
-        media.value = media.value!!.replacedFirstWhich(item.copy(description = description)) {
-            it.localId == item.localId
+    fun updateDescription(localId: Long, description: String): LiveData<Boolean> {
+        val newList = media.value!!.toMutableList()
+        val index = newList.indexOfFirst { it.localId == localId }
+        if (index != -1) {
+            newList[index] = newList[index].copy(description = description)
         }
+        media.value = newList
         val completedCaptioningLiveData = MutableLiveData<Boolean>()
         media.observeForever(object : Observer<List<QueuedMedia>> {
             override fun onChanged(mediaItems: List<QueuedMedia>) {
-                val updatedItem = mediaItems.find { it.localId == item.localId }
+                val updatedItem = mediaItems.find { it.localId == localId }
                 if (updatedItem == null) {
                     media.removeObserver(this)
                 } else if (updatedItem.id != null) {

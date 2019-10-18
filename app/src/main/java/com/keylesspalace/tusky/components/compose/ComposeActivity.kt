@@ -44,6 +44,7 @@ import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
+import androidx.core.net.toUri
 import androidx.core.view.inputmethod.InputConnectionCompat
 import androidx.core.view.inputmethod.InputContentInfoCompat
 import androidx.lifecycle.ViewModelProviders
@@ -143,7 +144,7 @@ class ComposeActivity : BaseActivity(),
                 this,
                 onAddCaption = { item ->
                     makeCaptionDialog(item.description, item.uri) { newDescription ->
-                        viewModel.updateDescription(item, newDescription)
+                        viewModel.updateDescription(item.localId, newDescription)
                     }
                 },
                 onRemove = this::removeMediaFromQueue
@@ -168,9 +169,8 @@ class ComposeActivity : BaseActivity(),
         val intent = intent
 
         var mentionedUsernames: List<String>? = null
-        var loadedDraftMediaUris: List<String>? = null
-        var loadedDraftMediaDescriptions: List<String>? = null
-        var mediaAttachments: List<Attachment>? = null
+        val loadedDraftMediaUris: List<String>?
+        val loadedDraftMediaDescriptions: List<String>?
         inReplyToId = null
         if (intent != null) {
             val composeOptions = intent.getParcelableExtra<ComposeOptions?>(COMPOSE_OPTIONS_EXTRA)
@@ -201,8 +201,23 @@ class ComposeActivity : BaseActivity(),
             // If come from SavedTootActivity
             loadedDraftMediaUris = composeOptions?.savedJsonUrls
             loadedDraftMediaDescriptions = composeOptions?.savedJsonDescriptions
-            // If come from redraft
-            mediaAttachments = composeOptions?.mediaAttachments
+            if (loadedDraftMediaUris != null && loadedDraftMediaDescriptions != null) {
+                loadedDraftMediaUris.zip(loadedDraftMediaDescriptions)
+                        .forEach { (uri, description) ->
+                            pickMedia(uri.toUri())?.let { item ->
+                                viewModel.updateDescription(item.localId, description)
+                            }
+                        }
+            } else composeOptions?.mediaAttachments?.forEach { a ->
+                // If come from redraft
+                val mediaType = when (a.type) {
+                    Attachment.Type.VIDEO, Attachment.Type.GIFV -> QueuedMedia.Type.VIDEO
+                    Attachment.Type.UNKNOWN, Attachment.Type.IMAGE -> QueuedMedia.Type.IMAGE
+                    else -> QueuedMedia.Type.IMAGE
+                }
+                viewModel.addUploadedMedia(a.id, mediaType, a.url.toUri(), a.description)
+            }
+
 
             val savedTootUid = composeOptions?.savedTootUid
             if (savedTootUid != null) {
@@ -225,12 +240,8 @@ class ComposeActivity : BaseActivity(),
             composeOptions?.sensitive?.let { viewModel.markMediaAsSensitive.value = it }
 
             val poll = composeOptions?.poll
-            if (poll != null && (mediaAttachments == null || mediaAttachments.isEmpty())) {
+            if (poll != null && composeOptions.mediaAttachments.isNullOrEmpty()) {
                 updatePoll(poll)
-            }
-
-            if (mediaAttachments != null && mediaAttachments.isNotEmpty()) {
-                enablePollButton(false)
             }
         }
 
@@ -242,38 +253,12 @@ class ComposeActivity : BaseActivity(),
 
         setupComposeField(mentionedUsernames)
         setupContentWarningField()
+        applyShareIntent(intent, savedInstanceState)
 
-        // Initialise the empty media queue state.
+        composeEditField.requestFocus()
+    }
 
-//        // These can only be added after everything affected by the media queue is initialized.
-//        if (!isEmpty(loadedDraftMediaUris)) {
-//            for (mediaIndex in loadedDraftMediaUris!!.indices) {
-//                val uri = Uri.parse(loadedDraftMediaUris[mediaIndex])
-//                val mediaSize = getMediaSize(contentResolver, uri)
-//                var description: String? = null
-//                if (loadedDraftMediaDescriptions != null && mediaIndex < loadedDraftMediaDescriptions.size) {
-//                    description = loadedDraftMediaDescriptions[mediaIndex]
-//                }
-//                pickMedia(uri, mediaSize)
-//            }
-//        } else if (!isEmpty(mediaAttachments)) {
-//            for (mediaIndex in mediaAttachments!!.indices) {
-//                val (id, _, previewUrl, _, type1, description) = mediaAttachments[mediaIndex]
-//                val type: QueuedMedia.Type
-//                when (type1) {
-//                    Attachment.Type.UNKNOWN, Attachment.Type.IMAGE -> {
-//                        type = QueuedMedia.Type.IMAGE
-//                    }
-//                    Attachment.Type.VIDEO, Attachment.Type.GIFV -> {
-//                        type = QueuedMedia.Type.VIDEO
-//                    }
-//                    else -> {
-//                        type = QueuedMedia.Type.IMAGE
-//                    }
-//                }
-//                addMediaToQueue(id, type, previewUrl)
-//            }
-//        } else
+    private fun applyShareIntent(intent: Intent?, savedInstanceState: Bundle?) {
         if (intent != null && savedInstanceState == null) {
             /* Get incoming images being sent through a share action from another app. Only do this
              * when savedInstanceState is null, otherwise both the images from the intent and the
@@ -304,8 +289,7 @@ class ComposeActivity : BaseActivity(),
                         }
                     }
                     for (uri in uriList) {
-                        val mediaSize = getMediaSize(contentResolver, uri)
-                        pickMedia(uri, mediaSize)
+                        pickMedia(uri)
                     }
                 } else if (type == "text/plain") {
                     val action = intent.action
@@ -331,15 +315,12 @@ class ComposeActivity : BaseActivity(),
                 }
             }
         }
-
-        composeEditField.requestFocus()
     }
 
     private fun setupReplyViews(replyingStatusAuthor: String?) {
         if (replyingStatusAuthor != null) {
             composeReplyView.visibility = View.VISIBLE
-            val username = replyingStatusAuthor
-            composeReplyView.text = getString(R.string.replying_to, username)
+            composeReplyView.text = getString(R.string.replying_to, replyingStatusAuthor)
             val arrowDownIcon = IconicsDrawable(this, GoogleMaterial.Icon.gmd_arrow_drop_down).sizeDp(12)
 
             ThemeUtils.setDrawableTint(this, arrowDownIcon, android.R.attr.textColorTertiary)
@@ -360,9 +341,7 @@ class ComposeActivity : BaseActivity(),
                 }
             }
         }
-        composeOptions?.replyingStatusContent?.let {
-            composeReplyContentView.text = it
-        }
+        composeOptions?.replyingStatusContent?.let { composeReplyContentView.text = it }
     }
 
     private fun setupContentWarningField() {
@@ -924,8 +903,8 @@ class ComposeActivity : BaseActivity(),
                 .setColorFilter(textColor, PorterDuff.Mode.SRC_IN)
     }
 
-    private fun addMediaToQueue(type: QueuedMedia.Type, uri: Uri, mediaSize: Long) {
-        viewModel.addMediaToQueue(type, uri, mediaSize)
+    private fun addMediaToQueue(type: QueuedMedia.Type, uri: Uri, mediaSize: Long): QueuedMedia {
+        return viewModel.addMediaToQueue(type, uri, mediaSize)
     }
 
     private fun removeMediaFromQueue(item: QueuedMedia) {
@@ -944,7 +923,8 @@ class ComposeActivity : BaseActivity(),
         }
     }
 
-    private fun pickMedia(inUri: Uri, mediaSize: Long) {
+    private fun pickMedia(inUri: Uri,
+                          mediaSize: Long = getMediaSize(contentResolver, inUri)): QueuedMedia? {
         var mediaSize = mediaSize
         var uri = inUri
         val contentResolver = contentResolver
@@ -977,7 +957,7 @@ class ComposeActivity : BaseActivity(),
         }
         if (mediaSize == MEDIA_SIZE_UNKNOWN) {
             displayTransientError(R.string.error_media_upload_opening)
-            return
+            return null
         }
         if (mimeType != null) {
             val topLevelType = mimeType.substring(0, mimeType.indexOf('/'))
@@ -985,17 +965,17 @@ class ComposeActivity : BaseActivity(),
                 "video" -> {
                     if (mediaSize > STATUS_VIDEO_SIZE_LIMIT) {
                         displayTransientError(R.string.error_video_upload_size)
-                        return
+                        return null
                     }
                     val media = viewModel.media.value!!
                     if (media.isNotEmpty() && media[0].type == QueuedMedia.Type.IMAGE) {
                         displayTransientError(R.string.error_media_upload_image_or_video)
-                        return
+                        return null
                     }
-                    addMediaToQueue(QueuedMedia.Type.VIDEO, uri, mediaSize)
+                    return addMediaToQueue(QueuedMedia.Type.VIDEO, uri, mediaSize)
                 }
                 "image" -> {
-                    addMediaToQueue(QueuedMedia.Type.IMAGE, uri, mediaSize)
+                    return addMediaToQueue(QueuedMedia.Type.IMAGE, uri, mediaSize)
                 }
                 else -> {
                     displayTransientError(R.string.error_media_upload_type)
@@ -1004,6 +984,7 @@ class ComposeActivity : BaseActivity(),
         } else {
             displayTransientError(R.string.error_media_upload_type)
         }
+        return null
     }
 
     private fun showContentWarning(show: Boolean) {
@@ -1124,8 +1105,7 @@ class ComposeActivity : BaseActivity(),
             val description: String? = null
     ) {
         enum class Type {
-            IMAGE,
-            VIDEO
+            IMAGE, VIDEO;
         }
     }
 
