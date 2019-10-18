@@ -20,26 +20,26 @@ import android.app.Activity
 import android.app.ProgressDialog
 import android.app.TimePickerDialog
 import android.content.Context
-import android.content.DialogInterface
 import android.content.Intent
+import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.graphics.PorterDuff
-import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.Parcelable
 import android.preference.PreferenceManager
 import android.provider.MediaStore
-import android.text.*
-import android.util.DisplayMetrics
+import android.text.TextUtils
 import android.util.Log
-import android.view.*
+import android.view.KeyEvent
+import android.view.MenuItem
+import android.view.View
+import android.view.ViewGroup
 import android.widget.*
 import androidx.annotation.ColorInt
 import androidx.annotation.Px
 import androidx.annotation.StringRes
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -50,10 +50,6 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.transition.TransitionManager
-import at.connyduck.sparkbutton.helpers.Utils
-import com.bumptech.glide.Glide
-import com.bumptech.glide.request.target.CustomTarget
-import com.bumptech.glide.request.transition.Transition
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.snackbar.Snackbar
 import com.keylesspalace.tusky.BaseActivity
@@ -62,6 +58,7 @@ import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.adapter.ComposeAutoCompleteAdapter
 import com.keylesspalace.tusky.adapter.EmojiAdapter
 import com.keylesspalace.tusky.adapter.OnEmojiSelectedListener
+import com.keylesspalace.tusky.db.AccountEntity
 import com.keylesspalace.tusky.db.AppDatabase
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.di.ViewModelFactory
@@ -137,112 +134,29 @@ class ComposeActivity : BaseActivity(),
         }
         setContentView(R.layout.activity_compose)
 
-        // Setup the toolbar.
-        setSupportActionBar(toolbar)
-        val actionBar = supportActionBar
-        if (actionBar != null) {
-            actionBar.title = null
-            actionBar.setDisplayHomeAsUpEnabled(true)
-            actionBar.setDisplayShowHomeEnabled(true)
-            val closeIcon = AppCompatResources.getDrawable(this, R.drawable.ic_close_24dp)
-            ThemeUtils.setDrawableTint(this, closeIcon!!, R.attr.compose_close_button_tint)
-            actionBar.setHomeAsUpIndicator(closeIcon)
-        }
+        setupActionBar()
+        // do not do anything when not logged in, activity will be finished in super.onCreate() anyway
+        val activeAccount = accountManager.activeAccount ?: return
 
-        // setup the account image
-        val activeAccount = accountManager.activeAccount
+        setupAvatar(preferences, activeAccount)
+        val mediaAdapter = MediaPreviewAdapter(
+                this,
+                onAddCaption = { item ->
+                    makeCaptionDialog(item.description, item.uri) { newDescription ->
+                        viewModel.updateDescription(item, newDescription)
+                    }
+                },
+                onRemove = this::removeMediaFromQueue
+        )
+        composeMediaPreviewBar.layoutManager =
+                LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+        composeMediaPreviewBar.adapter = mediaAdapter
+        composeMediaPreviewBar.itemAnimator = null
 
-        if (activeAccount != null) {
-            val actionBarSizeAttr = intArrayOf(R.attr.actionBarSize)
-            val a = obtainStyledAttributes(null, actionBarSizeAttr)
-            val avatarSize = a.getDimensionPixelSize(0, 1)
-            a.recycle()
+        viewModel = ViewModelProviders.of(this, viewModelFactory)[ComposeViewModel::class.java]
 
-            val animateAvatars = preferences.getBoolean("animateGifAvatars", false)
-            loadAvatar(
-                    activeAccount.profilePictureUrl,
-                    composeAvatar,
-                    avatarSize / 8,
-                    animateAvatars
-            )
-
-            composeAvatar.contentDescription = getString(R.string.compose_active_account_description,
-                    activeAccount.fullName)
-            val mediaApater = MediaPreviewAdapter(
-                    this,
-                    onAddCaption = this::makeCaptionDialog,
-                    onRemove = this::removeMediaFromQueue
-            )
-            composeMediaPreviewBar.layoutManager =
-                    LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
-            composeMediaPreviewBar.adapter = mediaApater
-            composeMediaPreviewBar.itemAnimator = null
-
-            viewModel = ViewModelProviders.of(this, viewModelFactory)[ComposeViewModel::class.java]
-
-            withLifecycleContext {
-                viewModel.instanceParams.observe { instanceData ->
-                    maximumTootCharacters = instanceData.maxChars
-                    updateVisibleCharactersLeft()
-                    composeScheduleButton.visible(instanceData.supportsScheduled)
-                }
-                viewModel.emoji.observe { emoji -> setEmojiList(emoji) }
-                combineLiveData(viewModel.markMediaAsSensitive, viewModel.hideStatustext) { markSensitive, hideStatusText ->
-                    updateHideMediaToggle(markSensitive, hideStatusText)
-                    showContentWarning(hideStatusText)
-                }.subscribe()
-                viewModel.statusVisibility.observe { visibility ->
-                    setStatusVisibility(visibility)
-                }
-                viewModel.media.observe { media ->
-                    mediaApater.submitList(media)
-                    val active = media.size != 4
-                            && media.firstOrNull()?.type != QueuedMedia.Type.VIDEO
-                    enableButton(composeAddMediaButton, active, active)
-                }
-            }
-        } else {
-            // do not do anything when not logged in, activity will be finished in super.onCreate() anyway
-            return
-        }
-
-        composeOptionsBottomSheet.listener = this
-
-        composeOptionsBehavior = BottomSheetBehavior.from(composeOptionsBottomSheet)
-        composeOptionsBehavior!!.state = BottomSheetBehavior.STATE_HIDDEN
-        addMediaBehavior = BottomSheetBehavior.from(addMediaBottomSheet)
-        scheduleBehavior = BottomSheetBehavior.from(composeScheduleView)
-        emojiBehavior = BottomSheetBehavior.from(emojiView)
-
-        emojiView.layoutManager = GridLayoutManager(this, 3, GridLayoutManager.HORIZONTAL, false)
-        enableButton(composeEmojiButton, false, false)
-
-        // Setup the interface buttons.
-        composeTootButton.setOnClickListener { onSendClicked() }
-        composeAddMediaButton.setOnClickListener { openPickDialog() }
-        composeToggleVisibilityButton.setOnClickListener { showComposeOptions() }
-        composeContentWarningButton.setOnClickListener { onContentWarningChanged() }
-        composeEmojiButton.setOnClickListener { showEmojis() }
-        composeHideMediaButton.setOnClickListener { toggleHideMedia() }
-        composeScheduleButton.setOnClickListener { showScheduleView() }
-        composeScheduleView.setResetOnClickListener { resetSchedule() }
-        atButton.setOnClickListener { atButtonClicked() }
-        hashButton.setOnClickListener { hashButtonClicked() }
-
-        val textColor = ThemeUtils.getColor(this, android.R.attr.textColorTertiary)
-
-        val cameraIcon = IconicsDrawable(this, GoogleMaterial.Icon.gmd_camera_alt).color(textColor).sizeDp(18)
-        actionPhotoTake.setCompoundDrawablesRelativeWithIntrinsicBounds(cameraIcon, null, null, null)
-
-        val imageIcon = IconicsDrawable(this, GoogleMaterial.Icon.gmd_image).color(textColor).sizeDp(18)
-        actionPhotoPick.setCompoundDrawablesRelativeWithIntrinsicBounds(imageIcon, null, null, null)
-
-        val pollIcon = IconicsDrawable(this, GoogleMaterial.Icon.gmd_poll).color(textColor).sizeDp(18)
-        addPollTextActionTextView.setCompoundDrawablesRelativeWithIntrinsicBounds(pollIcon, null, null, null)
-
-        actionPhotoTake.setOnClickListener { initiateCameraApp() }
-        actionPhotoPick.setOnClickListener { onMediaPick() }
-        addPollTextActionTextView.setOnClickListener { openPollDialog() }
+        subscribeToUpdates(mediaAdapter)
+        setupButtons()
 
         thumbnailViewSize = resources.getDimensionPixelSize(R.dimen.compose_media_preview_size)
 
@@ -303,34 +217,8 @@ class ComposeActivity : BaseActivity(),
                 startingVisibility = tootVisibility
             }
 
-            if (composeOptions?.replyingStatusAuthor != null) {
-                composeReplyView.visibility = View.VISIBLE
-                val username = composeOptions.replyingStatusAuthor
-                composeReplyView.text = getString(R.string.replying_to, username)
-                val arrowDownIcon = IconicsDrawable(this, GoogleMaterial.Icon.gmd_arrow_drop_down).sizeDp(12)
+            setupReplyViews(composeOptions?.replyingStatusAuthor)
 
-                ThemeUtils.setDrawableTint(this, arrowDownIcon, android.R.attr.textColorTertiary)
-                composeReplyView.setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, arrowDownIcon, null)
-
-                composeReplyView.setOnClickListener {
-                    TransitionManager.beginDelayedTransition(composeReplyContentView.parent as ViewGroup)
-
-                    if (composeReplyContentView.visibility != View.VISIBLE) {
-                        composeReplyContentView.visibility = View.VISIBLE
-                        val arrowUpIcon = IconicsDrawable(this, GoogleMaterial.Icon.gmd_arrow_drop_up).sizeDp(12)
-
-                        ThemeUtils.setDrawableTint(this, arrowUpIcon, android.R.attr.textColorTertiary)
-                        composeReplyView.setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, arrowUpIcon, null)
-                    } else {
-                        composeReplyContentView.visibility = View.GONE
-                        composeReplyView.setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, arrowDownIcon, null)
-                    }
-                }
-            }
-
-            composeOptions?.replyingStatusContent?.let {
-                composeReplyContentView.text = it
-            }
             if (!TextUtils.isEmpty(composeOptions?.scheduledAt)) {
                 composeScheduleView.setDateTime(composeOptions?.scheduledAt)
             }
@@ -352,52 +240,8 @@ class ComposeActivity : BaseActivity(),
         updateScheduleButton()
         updateVisibleCharactersLeft()
 
-        // Setup the main text field.
-        composeEditField.setOnCommitContentListener(this)
-        val mentionColour = composeEditField.linkTextColors.defaultColor
-        highlightSpans(composeEditField.text, mentionColour)
-        composeEditField.afterTextChanged { editable ->
-            highlightSpans(editable, mentionColour)
-            updateVisibleCharactersLeft()
-        }
-
-        composeEditField.setOnKeyListener { _, keyCode, event -> this.onKeyDown(keyCode, event) }
-
-        composeEditField.setAdapter(
-                ComposeAutoCompleteAdapter(this))
-        composeEditField.setTokenizer(ComposeTokenizer())
-
-        // Add any mentions to the text field when a reply is first composed.
-        if (mentionedUsernames != null) {
-            val builder = StringBuilder()
-            for (name in mentionedUsernames) {
-                builder.append('@')
-                builder.append(name)
-                builder.append(' ')
-            }
-            startingText = builder.toString()
-            composeEditField.setText(startingText)
-            composeEditField.setSelection(composeEditField.length())
-        }
-
-        // work around Android platform bug -> https://issuetracker.google.com/issues/67102093
-        if (Build.VERSION.SDK_INT == Build.VERSION_CODES.O || Build.VERSION.SDK_INT == Build.VERSION_CODES.O_MR1) {
-            composeEditField.setLayerType(View.LAYER_TYPE_SOFTWARE, null)
-        }
-
-        // Initialise the content warning editor.
-        composeContentWarningField.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
-
-            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-                updateVisibleCharactersLeft()
-            }
-
-            override fun afterTextChanged(s: Editable) {}
-        })
-        if (startingContentWarning != null) {
-            composeContentWarningField.setText(startingContentWarning)
-        }
+        setupComposeField(mentionedUsernames)
+        setupContentWarningField()
 
         // Initialise the empty media queue state.
 
@@ -489,6 +333,172 @@ class ComposeActivity : BaseActivity(),
         }
 
         composeEditField.requestFocus()
+    }
+
+    private fun setupReplyViews(replyingStatusAuthor: String?) {
+        if (replyingStatusAuthor != null) {
+            composeReplyView.visibility = View.VISIBLE
+            val username = replyingStatusAuthor
+            composeReplyView.text = getString(R.string.replying_to, username)
+            val arrowDownIcon = IconicsDrawable(this, GoogleMaterial.Icon.gmd_arrow_drop_down).sizeDp(12)
+
+            ThemeUtils.setDrawableTint(this, arrowDownIcon, android.R.attr.textColorTertiary)
+            composeReplyView.setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, arrowDownIcon, null)
+
+            composeReplyView.setOnClickListener {
+                TransitionManager.beginDelayedTransition(composeReplyContentView.parent as ViewGroup)
+
+                if (composeReplyContentView.visibility != View.VISIBLE) {
+                    composeReplyContentView.visibility = View.VISIBLE
+                    val arrowUpIcon = IconicsDrawable(this, GoogleMaterial.Icon.gmd_arrow_drop_up).sizeDp(12)
+
+                    ThemeUtils.setDrawableTint(this, arrowUpIcon, android.R.attr.textColorTertiary)
+                    composeReplyView.setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, arrowUpIcon, null)
+                } else {
+                    composeReplyContentView.visibility = View.GONE
+                    composeReplyView.setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, arrowDownIcon, null)
+                }
+            }
+        }
+        composeOptions?.replyingStatusContent?.let {
+            composeReplyContentView.text = it
+        }
+    }
+
+    private fun setupContentWarningField() {
+        composeContentWarningField.onTextChanged { _, _, _, _ -> updateVisibleCharactersLeft() }
+        if (startingContentWarning != null) {
+            composeContentWarningField.setText(startingContentWarning)
+        }
+    }
+
+    private fun setupComposeField(mentionedUsernames: List<String>?) {
+        composeEditField.setOnCommitContentListener(this)
+        val mentionColour = composeEditField.linkTextColors.defaultColor
+        highlightSpans(composeEditField.text, mentionColour)
+        composeEditField.afterTextChanged { editable ->
+            highlightSpans(editable, mentionColour)
+            updateVisibleCharactersLeft()
+        }
+
+        composeEditField.setOnKeyListener { _, keyCode, event -> this.onKeyDown(keyCode, event) }
+
+        composeEditField.setAdapter(
+                ComposeAutoCompleteAdapter(this))
+        composeEditField.setTokenizer(ComposeTokenizer())
+
+        // Add any mentions to the text field when a reply is first composed.
+        if (mentionedUsernames != null) {
+            val builder = StringBuilder()
+            for (name in mentionedUsernames) {
+                builder.append('@')
+                builder.append(name)
+                builder.append(' ')
+            }
+            startingText = builder.toString()
+            composeEditField.setText(startingText)
+            composeEditField.setSelection(composeEditField.length())
+        }
+
+        // work around Android platform bug -> https://issuetracker.google.com/issues/67102093
+        if (Build.VERSION.SDK_INT == Build.VERSION_CODES.O
+                || Build.VERSION.SDK_INT == Build.VERSION_CODES.O_MR1) {
+            composeEditField.setLayerType(View.LAYER_TYPE_SOFTWARE, null)
+        }
+    }
+
+    private fun subscribeToUpdates(mediaAdapter: MediaPreviewAdapter) {
+        withLifecycleContext {
+            viewModel.instanceParams.observe { instanceData ->
+                maximumTootCharacters = instanceData.maxChars
+                updateVisibleCharactersLeft()
+                composeScheduleButton.visible(instanceData.supportsScheduled)
+            }
+            viewModel.emoji.observe { emoji -> setEmojiList(emoji) }
+            combineLiveData(viewModel.markMediaAsSensitive, viewModel.hideStatustext) { markSensitive, hideStatusText ->
+                updateHideMediaToggle(markSensitive, hideStatusText)
+                showContentWarning(hideStatusText)
+            }.subscribe()
+            viewModel.statusVisibility.observe { visibility ->
+                setStatusVisibility(visibility)
+            }
+            viewModel.media.observe { media ->
+                mediaAdapter.submitList(media)
+                val active = media.size != 4
+                        && media.firstOrNull()?.type != QueuedMedia.Type.VIDEO
+                enableButton(composeAddMediaButton, active, active)
+            }
+        }
+    }
+
+    private fun setupButtons() {
+        composeOptionsBottomSheet.listener = this
+
+        composeOptionsBehavior = BottomSheetBehavior.from(composeOptionsBottomSheet)
+        composeOptionsBehavior!!.state = BottomSheetBehavior.STATE_HIDDEN
+        addMediaBehavior = BottomSheetBehavior.from(addMediaBottomSheet)
+        scheduleBehavior = BottomSheetBehavior.from(composeScheduleView)
+        emojiBehavior = BottomSheetBehavior.from(emojiView)
+
+        emojiView.layoutManager = GridLayoutManager(this, 3, GridLayoutManager.HORIZONTAL, false)
+        enableButton(composeEmojiButton, false, false)
+
+        // Setup the interface buttons.
+        composeTootButton.setOnClickListener { onSendClicked() }
+        composeAddMediaButton.setOnClickListener { openPickDialog() }
+        composeToggleVisibilityButton.setOnClickListener { showComposeOptions() }
+        composeContentWarningButton.setOnClickListener { onContentWarningChanged() }
+        composeEmojiButton.setOnClickListener { showEmojis() }
+        composeHideMediaButton.setOnClickListener { toggleHideMedia() }
+        composeScheduleButton.setOnClickListener { showScheduleView() }
+        composeScheduleView.setResetOnClickListener { resetSchedule() }
+        atButton.setOnClickListener { atButtonClicked() }
+        hashButton.setOnClickListener { hashButtonClicked() }
+
+        val textColor = ThemeUtils.getColor(this, android.R.attr.textColorTertiary)
+
+        val cameraIcon = IconicsDrawable(this, GoogleMaterial.Icon.gmd_camera_alt).color(textColor).sizeDp(18)
+        actionPhotoTake.setCompoundDrawablesRelativeWithIntrinsicBounds(cameraIcon, null, null, null)
+
+        val imageIcon = IconicsDrawable(this, GoogleMaterial.Icon.gmd_image).color(textColor).sizeDp(18)
+        actionPhotoPick.setCompoundDrawablesRelativeWithIntrinsicBounds(imageIcon, null, null, null)
+
+        val pollIcon = IconicsDrawable(this, GoogleMaterial.Icon.gmd_poll).color(textColor).sizeDp(18)
+        addPollTextActionTextView.setCompoundDrawablesRelativeWithIntrinsicBounds(pollIcon, null, null, null)
+
+        actionPhotoTake.setOnClickListener { initiateCameraApp() }
+        actionPhotoPick.setOnClickListener { onMediaPick() }
+        addPollTextActionTextView.setOnClickListener { openPollDialog() }
+    }
+
+    private fun setupActionBar() {
+        setSupportActionBar(toolbar)
+        val actionBar = supportActionBar
+        if (actionBar != null) {
+            actionBar.title = null
+            actionBar.setDisplayHomeAsUpEnabled(true)
+            actionBar.setDisplayShowHomeEnabled(true)
+            val closeIcon = AppCompatResources.getDrawable(this, R.drawable.ic_close_24dp)
+            ThemeUtils.setDrawableTint(this, closeIcon!!, R.attr.compose_close_button_tint)
+            actionBar.setHomeAsUpIndicator(closeIcon)
+        }
+    }
+
+    private fun setupAvatar(preferences: SharedPreferences, activeAccount: AccountEntity) {
+        val actionBarSizeAttr = intArrayOf(R.attr.actionBarSize)
+        val a = obtainStyledAttributes(null, actionBarSizeAttr)
+        val avatarSize = a.getDimensionPixelSize(0, 1)
+        a.recycle()
+
+        val animateAvatars = preferences.getBoolean("animateGifAvatars", false)
+        loadAvatar(
+                activeAccount.profilePictureUrl,
+                composeAvatar,
+                avatarSize / 8,
+                animateAvatars
+        )
+        composeAvatar.contentDescription = getString(R.string.compose_active_account_description,
+                activeAccount.fullName)
     }
 
     private fun replaceTextAtCaret(text: CharSequence) {
@@ -768,6 +778,7 @@ class ComposeActivity : BaseActivity(),
         sendStatus()
     }
 
+    /** This is for the fancy keyboards which can insert images and stuff. */
     override fun onCommitContent(inputContentInfo: InputContentInfoCompat, flags: Int, opts: Bundle): Boolean {
         try {
             if (currentInputContentInfo != null) {
@@ -899,7 +910,8 @@ class ComposeActivity : BaseActivity(),
     private fun enableButton(button: ImageButton, clickable: Boolean, colorActive: Boolean) {
         button.isEnabled = clickable
         ThemeUtils.setDrawableTint(this, button.drawable,
-                if (colorActive) android.R.attr.textColorTertiary else R.attr.compose_media_button_disabled_tint)
+                if (colorActive) android.R.attr.textColorTertiary
+                else R.attr.compose_media_button_disabled_tint)
     }
 
     private fun enablePollButton(enable: Boolean) {
@@ -908,71 +920,12 @@ class ComposeActivity : BaseActivity(),
                 if (enable) android.R.attr.textColorTertiary
                 else R.attr.compose_media_button_disabled_tint)
         addPollTextActionTextView.setTextColor(textColor)
-        addPollTextActionTextView.compoundDrawablesRelative[0].setColorFilter(textColor, PorterDuff.Mode.SRC_IN)
+        addPollTextActionTextView.compoundDrawablesRelative[0]
+                .setColorFilter(textColor, PorterDuff.Mode.SRC_IN)
     }
 
     private fun addMediaToQueue(type: QueuedMedia.Type, uri: Uri, mediaSize: Long) {
         viewModel.addMediaToQueue(type, uri, mediaSize)
-    }
-
-    private fun makeCaptionDialog(item: QueuedMedia) {
-        val dialogLayout = LinearLayout(this)
-        val padding = Utils.dpToPx(this, 8)
-        dialogLayout.setPadding(padding, padding, padding, padding)
-
-        dialogLayout.orientation = LinearLayout.VERTICAL
-        val imageView = ImageView(this)
-
-        val displayMetrics = DisplayMetrics()
-        windowManager.defaultDisplay.getMetrics(displayMetrics)
-
-        val margin = Utils.dpToPx(this, 4)
-        dialogLayout.addView(imageView)
-        (imageView.layoutParams as LinearLayout.LayoutParams).weight = 1f
-        imageView.layoutParams.height = 0
-        (imageView.layoutParams as LinearLayout.LayoutParams).setMargins(0, margin, 0, 0)
-
-        val input = EditText(this)
-        input.hint = getString(R.string.hint_describe_for_visually_impaired, MEDIA_DESCRIPTION_CHARACTER_LIMIT)
-        dialogLayout.addView(input)
-        (input.layoutParams as LinearLayout.LayoutParams).setMargins(margin, margin, margin, margin)
-        input.setLines(2)
-        input.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_FLAG_CAP_SENTENCES
-        input.setText(item.description)
-        input.filters = arrayOf<InputFilter>(InputFilter.LengthFilter(MEDIA_DESCRIPTION_CHARACTER_LIMIT))
-
-        val okListener = { dialog: DialogInterface, _: Int ->
-            viewModel.updateDescription(item, input.text.toString())
-            dialog.dismiss()
-        }
-
-        val dialog = AlertDialog.Builder(this)
-                .setView(dialogLayout)
-                .setPositiveButton(android.R.string.ok, okListener)
-                .setNegativeButton(android.R.string.cancel, null)
-                .create()
-
-        val window = dialog.window
-        window?.setSoftInputMode(
-                WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
-
-        dialog.show()
-
-        // Load the image and manually set it into the ImageView because it doesn't have a fixed
-        // size. Maybe we should limit the size of CustomTarget
-        Glide.with(this)
-                .load(item.uri)
-                .into(object : CustomTarget<Drawable>() {
-                    override fun onLoadCleared(placeholder: Drawable?) {}
-
-                    override fun onResourceReady(resource: Drawable, transition: Transition<in Drawable>?) {
-                        imageView.setImageDrawable(resource)
-                    }
-                })
-    }
-
-    private fun showFailedCaptionMessage() {
-        Toast.makeText(this, R.string.error_failed_set_caption, Toast.LENGTH_SHORT).show()
     }
 
     private fun removeMediaFromQueue(item: QueuedMedia) {
@@ -990,7 +943,6 @@ class ComposeActivity : BaseActivity(),
             pickMedia(photoUploadUri!!, mediaSize)
         }
     }
-
 
     private fun pickMedia(inUri: Uri, mediaSize: Long) {
         var mediaSize = mediaSize
@@ -1081,7 +1033,6 @@ class ComposeActivity : BaseActivity(),
         return super.onOptionsItemSelected(item)
     }
 
-
     override fun onBackPressed() {
         // Acting like a teen: deliberately ignoring parent.
         if (composeOptionsBehavior!!.state == BottomSheetBehavior.STATE_EXPANDED ||
@@ -1097,7 +1048,6 @@ class ComposeActivity : BaseActivity(),
 
         handleCloseButton()
     }
-
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent): Boolean {
         Log.d(TAG, event.toString())
@@ -1225,8 +1175,6 @@ class ComposeActivity : BaseActivity(),
 
         // Mastodon only counts URLs as this long in terms of status character limits
         internal const val MAXIMUM_URL_LENGTH = 23
-        // https://github.com/tootsuite/mastodon/blob/1656663/app/models/media_attachment.rb#L94
-        private const val MEDIA_DESCRIPTION_CHARACTER_LIMIT = 420
 
         @JvmStatic
         fun startIntent(context: Context, options: ComposeOptions): Intent {

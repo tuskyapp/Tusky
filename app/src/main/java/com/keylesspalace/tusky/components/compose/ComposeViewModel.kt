@@ -176,10 +176,11 @@ class ComposeViewModel
                 }
     }
 
-    fun updateDescription(item: QueuedMedia, description: String) {
+    fun updateDescription(item: QueuedMedia, description: String): LiveData<Boolean> {
         media.value = media.value!!.replacedFirstWhich(item.copy(description = description)) {
             it.localId == item.localId
         }
+        val completedCaptioningLiveData = MutableLiveData<Boolean>()
         media.observeForever(object : Observer<List<QueuedMedia>> {
             override fun onChanged(mediaItems: List<QueuedMedia>) {
                 val updatedItem = mediaItems.find { it.localId == item.localId }
@@ -187,12 +188,17 @@ class ComposeViewModel
                     media.removeObserver(this)
                 } else if (updatedItem.id != null) {
                     api.updateMedia(updatedItem.id, description)
-                            .subscribe()
+                            .subscribe({
+                                completedCaptioningLiveData.postValue(true)
+                            }, {
+                                completedCaptioningLiveData.postValue(false)
+                            })
                             .autoDispose()
                     media.removeObserver(this)
                 }
             }
         })
+        return completedCaptioningLiveData
     }
 
 
