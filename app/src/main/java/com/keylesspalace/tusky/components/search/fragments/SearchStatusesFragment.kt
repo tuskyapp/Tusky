@@ -198,7 +198,7 @@ class SearchStatusesFragment : SearchFragment<Pair<Status, StatusViewData.Concre
                 inReplyToId = inReplyToId,
                 replyVisibility = replyVisibility,
                 contentWarning = contentWarning,
-                mentionedUsernames = mentionedUsernames.toList(),
+                mentionedUsernames = mentionedUsernames,
                 replyingStatusAuthor = actionableStatus.account.localUsername,
                 replyingStatusContent = actionableStatus.content.toString()
         ))

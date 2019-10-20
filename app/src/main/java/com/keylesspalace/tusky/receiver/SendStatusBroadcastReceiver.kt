@@ -138,7 +138,7 @@ class SendStatusBroadcastReceiver : BroadcastReceiver() {
                     inReplyToId = citedStatusId,
                     replyVisibility = visibility,
                     contentWarning = spoiler,
-                    mentionedUsernames = mentions.toList(),
+                    mentionedUsernames = mentions.toSet(),
                     replyingStatusAuthor = localAuthorId,
                     replyingStatusContent = citedText
             ))

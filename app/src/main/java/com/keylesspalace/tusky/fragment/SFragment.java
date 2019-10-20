@@ -159,7 +159,7 @@ public abstract class SFragment extends BaseFragment implements Injectable {
         composeOptions.setInReplyToId(inReplyToId);
         composeOptions.setReplyVisibility(replyVisibility);
         composeOptions.setContentWarning(contentWarning);
-        composeOptions.setMentionedUsernames(new ArrayList<>(mentionedUsernames));
+        composeOptions.setMentionedUsernames(mentionedUsernames);
         composeOptions.setReplyingStatusAuthor(actionableStatus.getAccount().getLocalUsername());
         composeOptions.setReplyingStatusContent(actionableStatus.getContent().toString());
 

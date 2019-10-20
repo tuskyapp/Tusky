@@ -676,7 +676,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
     private fun mention() {
         loadedAccount?.let {
             val intent = ComposeActivity.startIntent(this,
-                    ComposeActivity.ComposeOptions(mentionedUsernames = listOf(it.username)))
+                    ComposeActivity.ComposeOptions(mentionedUsernames = setOf(it.username)))
             startActivity(intent)
         }
     }
