@@ -509,4 +509,6 @@
     <string name="action_schedule_toot">Planlegg toot</string>
     <string name="action_reset_schedule">Tilbakestill</string>
     <string name="hint_configure_scheduled_toot">Klikk her for å konfigurere planlagt toot.</string>
-    </resources>
+    <string name="post_lookup_error_format">Det oppsto en feil under henting av %s</string>
+
+</resources>
