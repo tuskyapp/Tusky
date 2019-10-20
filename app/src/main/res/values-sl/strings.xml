@@ -36,7 +36,7 @@
     <string name="title_favourites">Priljubljene</string>
     <string name="title_mutes">Utišani uporabniki</string>
     <string name="title_blocks">Blokirani uporabniki</string>
-    <string name="title_follow_requests">Zahteve za sledenje</string>
+    <string name="title_follow_requests">Prošnje za sledenje</string>
     <string name="title_edit_profile">Uredi svoj profil</string>
     <string name="title_saved_toot">Osnutki</string>
     <string name="title_licenses">Licence</string>
@@ -89,7 +89,7 @@
     <string name="action_view_favourites">Priljubljeni</string>
     <string name="action_view_mutes">Utišani uporabniki</string>
     <string name="action_view_blocks">Blokirani uporabniki</string>
-    <string name="action_view_follow_requests">Zahteve za sledenje</string>
+    <string name="action_view_follow_requests">Prošnje za sledenje</string>
     <string name="action_view_media">Mediji</string>
     <string name="action_open_in_web">Odpri v brskalniku</string>
     <string name="action_add_media">Dodaj medij</string>
