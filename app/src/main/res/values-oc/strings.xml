@@ -479,4 +479,6 @@
     <string name="action_schedule_toot">Planificar de tuts</string>
     <string name="action_reset_schedule">Escafar</string>
     <string name="hint_configure_scheduled_toot">Tocatz aquí per configurar los tuts planificats.</string>
-    </resources>
+    <string name="post_lookup_error_format">Error en cercant la publicacion %s</string>
+
+</resources>
