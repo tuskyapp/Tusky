@@ -40,11 +40,11 @@ import android.widget.*
 import androidx.annotation.ColorInt
 import androidx.annotation.Px
 import androidx.annotation.StringRes
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
-import androidx.core.net.toUri
 import androidx.core.view.inputmethod.InputConnectionCompat
 import androidx.core.view.inputmethod.InputContentInfoCompat
 import androidx.lifecycle.ViewModelProviders
@@ -77,8 +77,6 @@ import com.mikepenz.iconics.IconicsDrawable
 import kotlinx.android.parcel.Parcelize
 import kotlinx.android.synthetic.main.activity_compose.*
 import java.io.File
-import java.io.FileNotFoundException
-import java.io.FileOutputStream
 import java.io.IOException
 import java.util.*
 import javax.inject.Inject
@@ -109,14 +107,9 @@ class ComposeActivity : BaseActivity(),
 
     // this only exists when a status is trying to be sent, but uploads are still occurring
     private var finishingUploadDialog: ProgressDialog? = null
-    private var inReplyToId: String? = null
-    private var startingText = ""
-    private var startingContentWarning: String? = ""
     private var currentInputContentInfo: InputContentInfoCompat? = null
     private var currentFlags: Int = 0
     private var photoUploadUri: Uri? = null
-    private var savedTootUid = 0
-    private var emojiList: List<Emoji>? = null
     // Accessors for testing, hence package scope
     internal var maximumTootCharacters = STATUS_CHARACTER_LIMIT
         private set
@@ -161,98 +154,31 @@ class ComposeActivity : BaseActivity(),
 
         thumbnailViewSize = resources.getDimensionPixelSize(R.dimen.compose_media_preview_size)
 
-        var startingVisibility = Status.Visibility.UNKNOWN
         photoUploadUri = null
 
         /* If the composer is started up as a reply to another post, override the "starting" state
          * based on what the intent from the reply request passes. */
         val intent = intent
 
-        var mentionedUsernames: List<String>? = null
-        val loadedDraftMediaUris: List<String>?
-        val loadedDraftMediaDescriptions: List<String>?
-        inReplyToId = null
         if (intent != null) {
-            val composeOptions = intent.getParcelableExtra<ComposeOptions?>(COMPOSE_OPTIONS_EXTRA)
-            this.composeOptions = composeOptions
-
-            if (startingVisibility === Status.Visibility.UNKNOWN) {
-                val preferredVisibility = activeAccount.defaultPostPrivacy
-
-                val replyVisibility = composeOptions?.replyVisibility ?: Status.Visibility.UNKNOWN
-                startingVisibility = Status.Visibility.byNum(
-                        preferredVisibility.num.coerceAtLeast(replyVisibility.num))
-            }
-
-            inReplyToId = composeOptions?.inReplyToId
-            mentionedUsernames = composeOptions?.mentionedUsernames
-
-            val contentWarning = composeOptions?.contentWarning
-            if (contentWarning != null) {
-                startingContentWarning = contentWarning
-            }
-
-            val tootText = composeOptions?.tootText
-            if (!TextUtils.isEmpty(tootText)) {
-                composeEditField.setText(tootText)
-            }
-
-            // try to redo a list of media
-            // If come from SavedTootActivity
-            loadedDraftMediaUris = composeOptions?.savedJsonUrls
-            loadedDraftMediaDescriptions = composeOptions?.savedJsonDescriptions
-            if (loadedDraftMediaUris != null && loadedDraftMediaDescriptions != null) {
-                loadedDraftMediaUris.zip(loadedDraftMediaDescriptions)
-                        .forEach { (uri, description) ->
-                            pickMedia(uri.toUri())?.let { item ->
-                                viewModel.updateDescription(item.localId, description)
-                            }
-                        }
-            } else composeOptions?.mediaAttachments?.forEach { a ->
-                // If come from redraft
-                val mediaType = when (a.type) {
-                    Attachment.Type.VIDEO, Attachment.Type.GIFV -> QueuedMedia.Type.VIDEO
-                    Attachment.Type.UNKNOWN, Attachment.Type.IMAGE -> QueuedMedia.Type.IMAGE
-                    else -> QueuedMedia.Type.IMAGE
-                }
-                viewModel.addUploadedMedia(a.id, mediaType, a.url.toUri(), a.description)
-            }
-
-
-            val savedTootUid = composeOptions?.savedTootUid
-            if (savedTootUid != null) {
-                this.savedTootUid = savedTootUid
-
-                // If come from SavedTootActivity
-                startingText = tootText ?: ""
-            }
-
-            val tootVisibility = composeOptions?.visibility ?: Status.Visibility.UNKNOWN
-            if (tootVisibility.num != Status.Visibility.UNKNOWN.num) {
-                startingVisibility = tootVisibility
-            }
-
+            this.composeOptions = intent.getParcelableExtra<ComposeOptions?>(COMPOSE_OPTIONS_EXTRA)
+            viewModel.setup(composeOptions)
             setupReplyViews(composeOptions?.replyingStatusAuthor)
-
-            if (!TextUtils.isEmpty(composeOptions?.scheduledAt)) {
-                composeScheduleView.setDateTime(composeOptions?.scheduledAt)
-            }
-            composeOptions?.sensitive?.let { viewModel.markMediaAsSensitive.value = it }
-
-            val poll = composeOptions?.poll
-            if (poll != null && composeOptions.mediaAttachments.isNullOrEmpty()) {
-                updatePoll(poll)
+            val tootText = composeOptions?.tootText
+            if (!tootText.isNullOrEmpty()) {
+                composeEditField.setText(tootText)
             }
         }
 
-        // After the starting state is finalised, the interface can be set to reflect this state.
-        viewModel.statusVisibility.value = startingVisibility
+        if (!TextUtils.isEmpty(composeOptions?.scheduledAt)) {
+            composeScheduleView.setDateTime(composeOptions?.scheduledAt)
+        }
 
         updateScheduleButton()
         updateVisibleCharactersLeft()
 
-        setupComposeField(mentionedUsernames)
-        setupContentWarningField()
+        setupComposeField(viewModel.startingText)
+        setupContentWarningField(composeOptions?.contentWarning)
         applyShareIntent(intent, savedInstanceState)
 
         composeEditField.requestFocus()
@@ -344,14 +270,14 @@ class ComposeActivity : BaseActivity(),
         composeOptions?.replyingStatusContent?.let { composeReplyContentView.text = it }
     }
 
-    private fun setupContentWarningField() {
+    private fun setupContentWarningField(startingContentWarning: String?) {
         composeContentWarningField.onTextChanged { _, _, _, _ -> updateVisibleCharactersLeft() }
         if (startingContentWarning != null) {
             composeContentWarningField.setText(startingContentWarning)
         }
     }
 
-    private fun setupComposeField(mentionedUsernames: List<String>?) {
+    private fun setupComposeField(startingText: String?) {
         composeEditField.setOnCommitContentListener(this)
         val mentionColour = composeEditField.linkTextColors.defaultColor
         highlightSpans(composeEditField.text, mentionColour)
@@ -366,18 +292,8 @@ class ComposeActivity : BaseActivity(),
                 ComposeAutoCompleteAdapter(this))
         composeEditField.setTokenizer(ComposeTokenizer())
 
-        // Add any mentions to the text field when a reply is first composed.
-        if (mentionedUsernames != null) {
-            val builder = StringBuilder()
-            for (name in mentionedUsernames) {
-                builder.append('@')
-                builder.append(name)
-                builder.append(' ')
-            }
-            startingText = builder.toString()
-            composeEditField.setText(startingText)
-            composeEditField.setSelection(composeEditField.length())
-        }
+        composeEditField.setText(startingText)
+        composeEditField.setSelection(composeEditField.length())
 
         // work around Android platform bug -> https://issuetracker.google.com/issues/67102093
         if (Build.VERSION.SDK_INT == Build.VERSION_CODES.O
@@ -685,7 +601,6 @@ class ComposeActivity : BaseActivity(),
         if (pollPreview == null) {
             pollPreview = PollPreviewView(this)
 
-            val resources = resources
             val margin = resources.getDimensionPixelSize(R.dimen.compose_media_preview_margin)
             val marginBottom = resources.getDimensionPixelSize(R.dimen.compose_media_preview_margin_bottom)
 
@@ -787,25 +702,7 @@ class ComposeActivity : BaseActivity(),
 
         // Determine the file size before putting handing it off to be put in the queue.
         val uri = inputContentInfo.contentUri
-        val mediaSize: Long
-        val descriptor = try {
-            contentResolver.openAssetFileDescriptor(uri, "r")
-        } catch (e: FileNotFoundException) {
-            Log.d(TAG, Log.getStackTraceString(e))
-            // Eat this exception, having the descriptor be null is sufficient.
-            null
-        }
-
-        if (descriptor != null) {
-            mediaSize = descriptor.length
-            try {
-                descriptor.close()
-            } catch (e: IOException) { // Just eat this exception.
-            }
-        } else {
-            mediaSize = MEDIA_SIZE_UNKNOWN
-        }
-        pickMedia(uri, mediaSize)
+        pickMedia(uri)
 
         currentInputContentInfo = inputContentInfo
         currentFlags = flags
@@ -903,10 +800,6 @@ class ComposeActivity : BaseActivity(),
                 .setColorFilter(textColor, PorterDuff.Mode.SRC_IN)
     }
 
-    private fun addMediaToQueue(type: QueuedMedia.Type, uri: Uri, mediaSize: Long): QueuedMedia {
-        return viewModel.addMediaToQueue(type, uri, mediaSize)
-    }
-
     private fun removeMediaFromQueue(item: QueuedMedia) {
         viewModel.removeMediaFromQueue(item)
     }
@@ -915,76 +808,32 @@ class ComposeActivity : BaseActivity(),
         super.onActivityResult(requestCode, resultCode, intent)
         if (resultCode == Activity.RESULT_OK && requestCode == MEDIA_PICK_RESULT && intent != null) {
             val uri = intent.data
-            val mediaSize = getMediaSize(contentResolver, uri)
-            pickMedia(uri!!, mediaSize)
+            pickMedia(uri!!)
         } else if (resultCode == Activity.RESULT_OK && requestCode == MEDIA_TAKE_PHOTO_RESULT) {
-            val mediaSize = getMediaSize(contentResolver, photoUploadUri)
-            pickMedia(photoUploadUri!!, mediaSize)
+            pickMedia(photoUploadUri!!)
         }
     }
 
-    private fun pickMedia(inUri: Uri,
-                          mediaSize: Long = getMediaSize(contentResolver, inUri)): QueuedMedia? {
-        var mediaSize = mediaSize
-        var uri = inUri
-        val contentResolver = contentResolver
-        val mimeType = contentResolver.getType(uri)
-
-        val filename = inUri.toString().substring(inUri.toString().lastIndexOf("/"))
-        val suffixPosition = filename.lastIndexOf(".")
-        var suffix = ""
-        if (suffixPosition > 0) suffix = filename.substring(suffixPosition)
-        try {
-            getContentResolver().openInputStream(inUri).use { input ->
-                if (input == null) {
-                    Log.w(TAG, "Media input is null")
-                    uri = inUri
-                    return@use
-                }
-                val file = File.createTempFile("randomTemp1", suffix, cacheDir)
-                FileOutputStream(file.absoluteFile).use { out ->
-                    input.copyTo(out)
-                    uri = FileProvider.getUriForFile(this,
-                            BuildConfig.APPLICATION_ID + ".fileprovider",
-                            file)
-                    mediaSize = getMediaSize(getContentResolver(), uri)
+    private fun pickMedia(uri: Uri) {
+        withLifecycleContext {
+            viewModel.pickMedia(uri).observe { exceptionOrItem ->
+                exceptionOrItem.asLeftOrNull()?.let {
+                    val errorId = when (it) {
+                        is VideoSizeException -> {
+                            R.string.error_video_upload_size
+                        }
+                        is VideoOrImageException -> {
+                            R.string.error_media_upload_image_or_video
+                        }
+                        else -> {
+                            R.string.error_media_upload_opening
+                        }
+                    }
+                    displayTransientError(errorId)
                 }
 
             }
-        } catch (e: IOException) {
-            Log.w(TAG, e)
-            uri = inUri
         }
-        if (mediaSize == MEDIA_SIZE_UNKNOWN) {
-            displayTransientError(R.string.error_media_upload_opening)
-            return null
-        }
-        if (mimeType != null) {
-            val topLevelType = mimeType.substring(0, mimeType.indexOf('/'))
-            when (topLevelType) {
-                "video" -> {
-                    if (mediaSize > STATUS_VIDEO_SIZE_LIMIT) {
-                        displayTransientError(R.string.error_video_upload_size)
-                        return null
-                    }
-                    val media = viewModel.media.value!!
-                    if (media.isNotEmpty() && media[0].type == QueuedMedia.Type.IMAGE) {
-                        displayTransientError(R.string.error_media_upload_image_or_video)
-                        return null
-                    }
-                    return addMediaToQueue(QueuedMedia.Type.VIDEO, uri, mediaSize)
-                }
-                "image" -> {
-                    return addMediaToQueue(QueuedMedia.Type.IMAGE, uri, mediaSize)
-                }
-                else -> {
-                    displayTransientError(R.string.error_media_upload_type)
-                }
-            }
-        } else {
-            displayTransientError(R.string.error_media_upload_type)
-        }
-        return null
     }
 
     private fun showContentWarning(show: Boolean) {
@@ -1049,25 +898,19 @@ class ComposeActivity : BaseActivity(),
     }
 
     private fun handleCloseButton() {
-        // TODO
-//        val contentText = composeEditField.text
-//        val contentWarning = composeContentWarningField.text
-//
-//        val textChanged = !(TextUtils.isEmpty(contentText) || startingText.startsWith(contentText.toString()))
-//        val contentWarningChanged = composeContentWarningBar.visibility == View.VISIBLE &&
-//                !TextUtils.isEmpty(contentWarning) && !startingContentWarning!!.startsWith(contentWarning.toString())
-//        val mediaChanged = !mediaQueued.isEmpty()
-//        val pollChanged = viewModel.poll.value != null
-//
-//        if (textChanged || contentWarningChanged || mediaChanged || pollChanged) {
-//            AlertDialog.Builder(this)
-//                    .setMessage(R.string.compose_save_draft)
-//                    .setPositiveButton(R.string.action_save) { _, _ -> saveDraftAndFinish() }
-//                    .setNegativeButton(R.string.action_delete) { _, _ -> deleteDraftAndFinish() }
-//                    .show()
-//        } else {
-        finishWithoutSlideOutAnimation()
-//        }
+        val contentText = composeEditField.text?.toString()
+        val contentWarning = composeContentWarningField.text?.toString()
+        if (viewModel.didChange(contentText, contentWarning)) {
+            AlertDialog.Builder(this)
+                    .setMessage(R.string.compose_save_draft)
+                    .setPositiveButton(R.string.action_save) { _, _ ->
+                        saveDraftAndFinish(contentText.toString(), contentWarning.toString())
+                    }
+                    .setNegativeButton(R.string.action_delete) { _, _ -> deleteDraftAndFinish() }
+                    .show()
+        } else {
+            finishWithoutSlideOutAnimation()
+        }
     }
 
     private fun deleteDraftAndFinish() {
@@ -1075,8 +918,8 @@ class ComposeActivity : BaseActivity(),
         finishWithoutSlideOutAnimation()
     }
 
-    private fun saveDraftAndFinish() {
-        viewModel.saveDraft()
+    private fun saveDraftAndFinish(contentText: String, contentWarning: String) {
+        viewModel.saveDraft(contentText, contentWarning)
         finishWithoutSlideOutAnimation()
     }
 

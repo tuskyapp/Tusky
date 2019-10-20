@@ -47,7 +47,8 @@ class SendTootService : Service(), Injectable {
     @Inject
     lateinit var database: AppDatabase
 
-    private lateinit var saveTootHelper: SaveTootHelper
+    @Inject
+    lateinit var saveTootHelper: SaveTootHelper
 
     private val tootsToSend = ConcurrentHashMap<Int, TootToSend>()
     private val sendCalls = ConcurrentHashMap<Int, Call<Status>>()
@@ -58,7 +59,6 @@ class SendTootService : Service(), Injectable {
 
     override fun onCreate() {
         AndroidInjection.inject(this)
-        saveTootHelper = SaveTootHelper(database.tootDao(), this)
         super.onCreate()
     }
 

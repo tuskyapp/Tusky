@@ -57,8 +57,6 @@ import static com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvid
 public final class SavedTootActivity extends BaseActivity implements SavedTootAdapter.SavedTootAction,
         Injectable {
 
-    private SaveTootHelper saveTootHelper;
-
     // ui
     private SavedTootAdapter adapter;
     private TextView noContent;
@@ -71,12 +69,12 @@ public final class SavedTootActivity extends BaseActivity implements SavedTootAd
     EventHub eventHub;
     @Inject
     AppDatabase database;
+    @Inject
+    SaveTootHelper saveTootHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        saveTootHelper = new SaveTootHelper(database.tootDao(), this);
 
         eventHub.getEvents()
                 .observeOn(AndroidSchedulers.mainThread())

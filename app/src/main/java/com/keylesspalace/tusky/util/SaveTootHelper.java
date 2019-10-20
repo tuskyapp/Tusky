@@ -16,6 +16,7 @@ import androidx.core.content.FileProvider;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.keylesspalace.tusky.BuildConfig;
+import com.keylesspalace.tusky.db.AppDatabase;
 import com.keylesspalace.tusky.db.TootDao;
 import com.keylesspalace.tusky.db.TootEntity;
 import com.keylesspalace.tusky.entity.NewPoll;
@@ -28,6 +29,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import javax.inject.Inject;
+
 public final class SaveTootHelper {
 
     private static final String TAG = "SaveTootHelper";
@@ -36,8 +39,9 @@ public final class SaveTootHelper {
     private Context context;
     private Gson gson = new Gson();
 
-    public SaveTootHelper(@NonNull TootDao tootDao, @NonNull Context context) {
-        this.tootDao = tootDao;
+    @Inject
+    public SaveTootHelper(@NonNull AppDatabase appDatabase, @NonNull Context context) {
+        this.tootDao = appDatabase.tootDao();
         this.context = context;
     }
 
@@ -98,15 +102,16 @@ public final class SaveTootHelper {
 
     public void deleteDraft(int tootId) {
         TootEntity item = tootDao.find(tootId);
-        if(item != null) {
+        if (item != null) {
             deleteDraft(item);
         }
     }
 
-    public void deleteDraft(@NonNull TootEntity item){
+    public void deleteDraft(@NonNull TootEntity item) {
         // Delete any media files associated with the status.
         ArrayList<String> uris = gson.fromJson(item.getUrls(),
-                new TypeToken<ArrayList<String>>() {}.getType());
+                new TypeToken<ArrayList<String>>() {
+                }.getType());
         if (uris != null) {
             for (String uriString : uris) {
                 Uri uri = Uri.parse(uriString);
@@ -167,7 +172,7 @@ public final class SaveTootHelper {
                 }
                 return null;
             }
-            Uri resultUri = FileProvider.getUriForFile(context, BuildConfig.APPLICATION_ID+".fileprovider", file);
+            Uri resultUri = FileProvider.getUriForFile(context, BuildConfig.APPLICATION_ID + ".fileprovider", file);
             results.add(resultUri.toString());
         }
         return results;

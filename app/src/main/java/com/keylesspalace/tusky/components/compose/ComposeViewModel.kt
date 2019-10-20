@@ -1,7 +1,9 @@
 package com.keylesspalace.tusky.components.compose
 
 import android.net.Uri
+import android.text.TextUtils
 import android.util.Log
+import androidx.core.net.toUri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
@@ -31,14 +33,29 @@ open class RxAwareViewModel : ViewModel() {
     }
 }
 
+/**
+ * Throw when trying to add an image when video is already present or the other way around
+ */
+class VideoOrImageException : Exception()
+
 
 class ComposeViewModel
 @Inject constructor(
         private val api: MastodonApi,
         private val accountManager: AccountManager,
         private val mediaUploader: MediaUploader,
-        private val serviceClient: ServiceClient
+        private val serviceClient: ServiceClient,
+        private val saveTootHelper: SaveTootHelper
 ) : RxAwareViewModel() {
+
+    private var replyingStatusAuthor: String? = null
+    private var replyingStatusContent: String? = null
+    internal var startingText: String? = null
+    private var savedTootUid: Int = 0
+    private var startingContentWarning: String? = null
+    private var inReplyToId: String? = null
+    private var startingVisibility: Status.Visibility = Status.Visibility.UNKNOWN
+
     private val instance: LiveData<Instance?> = api.getInstance()
             .map { listOf(it) }
             .onErrorReturnItem(listOf())
@@ -73,6 +90,30 @@ class ComposeViewModel
 
     val media = mutableLiveData<List<QueuedMedia>>(listOf())
     private val mediaToDisposable = mutableMapOf<Long, Disposable>()
+
+    fun pickMedia(uri: Uri): LiveData<Either<Throwable, QueuedMedia>> {
+        // We are not calling .toLiveData() here because we don't want to stop the process when
+        // the Activity goes away temporarily (like on screen rotation).
+        val liveData = MutableLiveData<Either<Throwable, QueuedMedia>>()
+        mediaUploader.prepareMedia(uri)
+                .map { (type, uri, size) ->
+                    val mediaItems = media.value!!
+                    if (type == QueuedMedia.Type.VIDEO
+                            && mediaItems.isNotEmpty()
+                            && mediaItems[0].type == QueuedMedia.Type.IMAGE) {
+                        throw VideoOrImageException()
+                    } else {
+                        addMediaToQueue(type, uri, size)
+                    }
+                }
+                .subscribe({ queuedMedia ->
+                    liveData.postValue(Either.Right(queuedMedia))
+                }, { error ->
+                    liveData.postValue(Either.Left(error))
+                })
+                .autoDispose()
+        return liveData
+    }
 
     fun addMediaToQueue(type: QueuedMedia.Type, uri: Uri, mediaSize: Long): QueuedMedia {
         val mediaItem = QueuedMedia(System.currentTimeMillis(), uri, type, mediaSize)
@@ -111,30 +152,44 @@ class ComposeViewModel
         media.value = media.value!!.withoutFirstWhich { it.localId == item.localId }
     }
 
-    fun deleteDraft() {
-        // TODO
+    fun didChange(content: String?, contentWarning: String?): Boolean {
+
+        val textChanged = !(content.isNullOrEmpty()
+                || startingText?.startsWith(content.toString()) ?: false)
+
+        val contentWarningChanged = hideStatustext.value!!
+                && !contentWarning.isNullOrEmpty()
+                && !startingContentWarning!!.startsWith(contentWarning.toString())
+        val mediaChanged = media.value!!.isNotEmpty()
+        val pollChanged = poll.value != null
+
+        return textChanged || contentWarningChanged || mediaChanged || pollChanged
     }
 
-    fun saveDraft() {
-        // TODO
-//        val mediaUris = ArrayList<String>()
-//        val mediaDescriptions = ArrayList<String?>()
-//        for (item in mediaQueued) {
-//            mediaUris.add(item.uri.toString())
-//            mediaDescriptions.add(item.description)
-//        }
-//
-//        saveTootHelper!!.saveToot(composeEditField.text.toString(),
-//                composeContentWarningField.text.toString(),
-//                composeOptions?.savedJsonUrls,
-//                mediaUris,
-//                mediaDescriptions,
-//                savedTootUid,
-//                inReplyToId,
-//                composeOptions?.replyingStatusContent,
-//                composeOptions?.replyingStatusAuthor,
-//                viewModel.statusVisibility.value!!,
-//                viewModel.poll.value)
+    fun deleteDraft() {
+        saveTootHelper.deleteDraft(this.savedTootUid)
+    }
+
+    fun saveDraft(content: String, contentWarning: String) {
+        val mediaUris = mutableListOf<String>()
+        val mediaDescriptions = mutableListOf<String?>()
+        for (item in media.value!!) {
+            mediaUris.add(item.uri.toString())
+            mediaDescriptions.add(item.description)
+        }
+        saveTootHelper.saveToot(
+                content,
+                contentWarning,
+                null,
+                mediaUris,
+                mediaDescriptions,
+                savedTootUid,
+                inReplyToId,
+                replyingStatusContent,
+                replyingStatusAuthor,
+                statusVisibility.value!!,
+                poll.value
+        )
     }
 
 
@@ -265,6 +320,82 @@ class ComposeViewModel
             uploadDisposable.dispose()
         }
         super.onCleared()
+    }
+
+    fun setup(composeOptions: ComposeActivity.ComposeOptions?) {
+        val preferredVisibility = accountManager.activeAccount!!.defaultPostPrivacy
+
+        val replyVisibility = composeOptions?.replyVisibility ?: Status.Visibility.UNKNOWN
+        startingVisibility = Status.Visibility.byNum(
+                preferredVisibility.num.coerceAtLeast(replyVisibility.num))
+        statusVisibility.value = startingVisibility
+
+        inReplyToId = composeOptions?.inReplyToId
+
+
+        val contentWarning = composeOptions?.contentWarning
+        if (contentWarning != null) {
+            startingContentWarning = contentWarning
+        }
+
+
+        // try to redo a list of media
+        // If come from SavedTootActivity
+        val loadedDraftMediaUris = composeOptions?.savedJsonUrls
+        val loadedDraftMediaDescriptions = composeOptions?.savedJsonDescriptions
+        if (loadedDraftMediaUris != null && loadedDraftMediaDescriptions != null) {
+            loadedDraftMediaUris.zip(loadedDraftMediaDescriptions)
+                    .forEach { (uri, description) ->
+                        pickMedia(uri.toUri()).observeForever { errorOrItem ->
+                            if (errorOrItem.isRight()) {
+                                updateDescription(errorOrItem.asRight().localId, description)
+                            }
+                        }
+                    }
+        } else composeOptions?.mediaAttachments?.forEach { a ->
+            // If come from redraft
+            val mediaType = when (a.type) {
+                Attachment.Type.VIDEO, Attachment.Type.GIFV -> QueuedMedia.Type.VIDEO
+                Attachment.Type.UNKNOWN, Attachment.Type.IMAGE -> QueuedMedia.Type.IMAGE
+                else -> QueuedMedia.Type.IMAGE
+            }
+            addUploadedMedia(a.id, mediaType, a.url.toUri(), a.description)
+        }
+
+
+        composeOptions?.savedTootUid?.let { uid ->
+            this.savedTootUid = uid
+            startingText = composeOptions.tootText
+        }
+
+        val tootVisibility = composeOptions?.visibility ?: Status.Visibility.UNKNOWN
+        if (tootVisibility.num != Status.Visibility.UNKNOWN.num) {
+            startingVisibility = tootVisibility
+        }
+        val mentionedUsernames = composeOptions?.mentionedUsernames
+        if (mentionedUsernames != null) {
+            val builder = StringBuilder()
+            for (name in mentionedUsernames) {
+                builder.append('@')
+                builder.append(name)
+                builder.append(' ')
+            }
+            startingText = builder.toString()
+        }
+
+
+        if (!TextUtils.isEmpty(composeOptions?.scheduledAt)) {
+            // TODO: set time
+//            composeScheduleView.setDateTime(composeOptions?.scheduledAt)
+        }
+        composeOptions?.sensitive?.let { markMediaAsSensitive.value = it }
+
+        val poll = composeOptions?.poll
+        if (poll != null && composeOptions.mediaAttachments.isNullOrEmpty()) {
+            this.poll.value = poll
+        }
+        replyingStatusContent = composeOptions?.replyingStatusContent
+        replyingStatusAuthor = composeOptions?.replyingStatusAuthor
     }
 
     private companion object {
