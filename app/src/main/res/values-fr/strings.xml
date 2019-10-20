@@ -474,4 +474,6 @@
     <string name="action_schedule_toot">Planifier le pouet</string>
     <string name="action_reset_schedule">Réinitialiser</string>
     <string name="hint_configure_scheduled_toot">Appuyez ici pour configurer le pouet planifié.</string>
-    </resources>
+    <string name="post_lookup_error_format">Erreur lors de la recherche du post %s</string>
+
+</resources>
