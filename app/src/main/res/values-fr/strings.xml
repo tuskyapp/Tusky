@@ -468,4 +468,10 @@
     <string name="poll_new_choice_hint">Choix %d</string>
     <string name="edit_poll">Éditer</string>
 
-</resources>
+<string name="title_scheduled_toot">Pouets planifiés</string>
+    <string name="action_edit">Éditer</string>
+    <string name="action_access_scheduled_toot">Pouets planifiés</string>
+    <string name="action_schedule_toot">Planifier le pouet</string>
+    <string name="action_reset_schedule">Réinitialiser</string>
+    <string name="hint_configure_scheduled_toot">Appuyez ici pour configurer le pouet planifié.</string>
+    </resources>
