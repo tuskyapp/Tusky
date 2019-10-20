@@ -517,8 +517,12 @@
     <string name="poll_new_choice_hint">Izbira %d</string>
     <string name="edit_poll">Uredi</string>
 
-<string name="title_scheduled_toot">Načrtovani tuti</string>
+<string name="title_scheduled_toot">Napovedani tuti</string>
     <string name="action_edit">Uredi</string>
-    <string name="action_access_scheduled_toot">Načrtovani tuti</string>
+    <string name="action_access_scheduled_toot">Napovedani tuti</string>
     <string name="action_reset_schedule">Ponastavi</string>
-    </resources>
+    <string name="action_schedule_toot">Napovej tut</string>
+    <string name="hint_configure_scheduled_toot">Dotaknite se tukaj, da nastavite napovedan tut.</string>
+    <string name="post_lookup_error_format">Napaka pri iskanju objave %s</string>
+
+</resources>
