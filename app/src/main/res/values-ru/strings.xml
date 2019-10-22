@@ -405,11 +405,10 @@
     <string name="pin_action">Закрепить</string>
 
     <plurals name="favs">
-        <item quantity="one">&lt;b&gt;%1$s&lt;/b&gt; Понравилось</item>
-        <item quantity="few">&lt;b&gt;%1$s&lt;/b&gt; Понравилось</item>
-        <item quantity="many">&lt;b&gt;%1$s&lt;/b&gt; Понравилось</item>
-        <item quantity="other">&lt;b&gt;%1$s&lt;/b&gt; Понравилось</item>
-    </plurals>
+	<item quantity="one"><b>%1$s</b> Понравилось</item>
+	<item quantity="few"><b>%1$s</b> Понравились</item>
+	<item quantity="many"><b>%1$s</b> Понравилось</item>
+</plurals>
 
     <plurals name="reblogs">
         <item quantity="one">&lt;b&gt;%s&lt;/b&gt; Продвинул(а)</item>
@@ -543,4 +542,6 @@
     <string name="action_schedule_toot">Отложить запись</string>
     <string name="action_reset_schedule">Сброс</string>
     <string name="hint_configure_scheduled_toot">Нажмите для выбора времени отправки.</string>
-    </resources>
+    <string name="post_lookup_error_format">Ошибка при поиске сообщения / ний</string>
+
+</resources>
