@@ -18,9 +18,8 @@ package com.keylesspalace.tusky.util
 import android.content.Context
 import android.content.SharedPreferences
 import android.content.res.Configuration
-import android.preference.PreferenceManager
-
-import java.util.Locale
+import androidx.preference.PreferenceManager
+import java.util.*
 
 class LocaleManager(context: Context) {
 

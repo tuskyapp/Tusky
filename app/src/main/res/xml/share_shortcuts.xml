@@ -1,0 +1,8 @@
+<shortcuts xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <share-target android:targetClass="com.keylesspalace.tusky.MainActivity">
+        <data android:mimeType="text/plain" />
+        <category android:name="com.keylesspalace.tusky.Share" />
+    </share-target>
+
+</shortcuts>

@@ -46,4 +46,7 @@
     <dimen name="card_radius">5dp</dimen>
 
     <dimen name="poll_preview_padding">12dp</dimen>
+
+    <dimen name="adaptive_bitmap_inner_size">72dp</dimen>
+    <dimen name="adaptive_bitmap_outer_size">108dp</dimen>
 </resources>

@@ -11,7 +11,7 @@ import org.junit.runner.RunWith
 import org.robolectric.Robolectric
 import org.robolectric.annotation.Config
 
-@Config(application = FakeTuskyApplication::class)
+@Config(application = FakeTuskyApplication::class, sdk = [28])
 @RunWith(AndroidJUnit4::class)
 class RickRollTest {
     private lateinit var activity: Activity

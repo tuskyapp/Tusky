@@ -1,12 +1,12 @@
 package com.keylesspalace.tusky.adapter;
 
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.preference.PreferenceManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.entity.Account;

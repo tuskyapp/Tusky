@@ -51,7 +51,7 @@ abstract class BottomSheetActivity : BaseActivity() {
         val bottomSheetLayout: LinearLayout = findViewById(R.id.item_status_bottom_sheet)
         bottomSheet = BottomSheetBehavior.from(bottomSheetLayout)
         bottomSheet.state = BottomSheetBehavior.STATE_HIDDEN
-        bottomSheet.setBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
+        bottomSheet.addBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
             override fun onStateChanged(bottomSheet: View, newState: Int) {
                 if (newState == BottomSheetBehavior.STATE_HIDDEN) {
                     cancelActiveSearch()

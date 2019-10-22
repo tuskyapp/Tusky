@@ -172,6 +172,7 @@
                         android:id="@+id/accountNoteTextView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:hyphenationFrequency="full"
                         android:lineSpacingMultiplier="1.1"
                         android:paddingTop="10dp"
                         android:textColor="?android:textColorTertiary"
@@ -193,6 +194,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
                         android:layout_marginBottom="8dp"
+                        android:hyphenationFrequency="full"
                         android:lineSpacingMultiplier="1.1"
                         android:text="@string/label_remote_account"
                         android:visibility="gone"
@@ -313,8 +315,8 @@
                     android:layout_height="?attr/actionBarSize"
                     android:layout_gravity="top"
                     android:background="@android:color/transparent"
-                    app:layout_collapseMode="pin"
                     app:contentInsetStartWithNavigation="0dp"
+                    app:layout_collapseMode="pin"
                     app:layout_scrollFlags="scroll|enterAlways" />
 
             </com.google.android.material.appbar.CollapsingToolbarLayout>

@@ -21,7 +21,6 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
-import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.widget.ImageView;
@@ -29,9 +28,11 @@ import android.widget.ImageView;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.ContextCompat;
+import androidx.core.content.pm.ShortcutManagerCompat;
 import androidx.emoji.text.EmojiCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Lifecycle;
+import androidx.preference.PreferenceManager;
 import androidx.viewpager.widget.ViewPager;
 
 import com.bumptech.glide.Glide;
@@ -51,6 +52,7 @@ import com.keylesspalace.tusky.interfaces.ReselectableFragment;
 import com.keylesspalace.tusky.pager.MainPagerAdapter;
 import com.keylesspalace.tusky.util.CustomEmojiHelper;
 import com.keylesspalace.tusky.util.NotificationHelper;
+import com.keylesspalace.tusky.util.ShareShortcutHelper;
 import com.keylesspalace.tusky.util.ThemeUtils;
 import com.mikepenz.google_material_typeface_library.GoogleMaterial;
 import com.mikepenz.materialdrawer.AccountHeader;
@@ -139,7 +141,18 @@ public final class MainActivity extends BottomSheetActivity implements ActionBut
         boolean showNotificationTab = false;
 
         if (intent != null) {
+
+            /** there are two possibilities the accountId can be passed to MainActivity:
+                - from our code as long 'account_id'
+                - from share shortcuts as String 'android.intent.extra.shortcut.ID'
+             */
             long accountId = intent.getLongExtra(NotificationHelper.ACCOUNT_ID, -1);
+            if(accountId == -1) {
+                String accountIdString = intent.getStringExtra(ShortcutManagerCompat.EXTRA_SHORTCUT_ID);
+                if(accountIdString != null) {
+                    accountId = Long.parseLong(accountIdString);
+                }
+            }
             boolean accountRequested = (accountId != -1);
 
             if (accountRequested) {
@@ -528,6 +541,7 @@ public final class MainActivity extends BottomSheetActivity implements ActionBut
                         NotificationHelper.deleteNotificationChannelsForAccount(accountManager.getActiveAccount(), MainActivity.this);
                         cacheUpdater.clearForUser(activeAccount.getId());
                         conversationRepository.deleteCacheForAccount(activeAccount.getId());
+                        ShareShortcutHelper.removeShortcut(this, activeAccount);
 
                         AccountEntity newAccount = accountManager.logActiveAccountOut();
 
@@ -584,6 +598,8 @@ public final class MainActivity extends BottomSheetActivity implements ActionBut
         }
 
         updateProfiles();
+
+        ShareShortcutHelper.updateShortcut(this, accountManager.getActiveAccount());
 
     }
 

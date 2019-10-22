@@ -49,7 +49,7 @@ import retrofit2.Response
  * Created by charlag on 3/7/18.
  */
 
-@Config(application = FakeTuskyApplication::class)
+@Config(application = FakeTuskyApplication::class, sdk = [28])
 @RunWith(AndroidJUnit4::class)
 class ComposeActivityTest {
 
