@@ -489,6 +489,4 @@
     <string name="action_schedule_toot">برمجة تبويق</string>
     <string name="action_reset_schedule">صفّر</string>
     <string name="hint_configure_scheduled_toot">اضغط هنا لضبط برمجة التبويق.</string>
-    <string name="poll_option_format"> <!-- 15% vote for this! --> &lt;b&gt;%1$d%%&lt;/b&gt; %2$s</string>
-
     </resources>
