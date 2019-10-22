@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='UTF-8'?>
 <resources>
     <string name="error_generic">Errorea gertatu da.</string>
     <string name="error_empty">Eremu hau ezin da hutsik egon.</string>
@@ -27,7 +27,7 @@
     <string name="title_statuses_with_replies">Erantzunekin</string>
     <string name="title_follows">Jarraitzen</string>
     <string name="title_followers">Jarraitzaileak</string>
-    <string name="title_favourites">Gogokoak</string>
+    <string name="title_favourites">Gogokoenak</string>
     <string name="title_mutes">Isilduak</string>
     <string name="title_blocks">Blokeatuak</string>
     <string name="title_follow_requests">Eskakizunak</string>
@@ -99,22 +99,22 @@
     <string name="action_emoji_keyboard">Emoji teklatua</string>
     <string name="download_image">%1$s jaisten</string>
     <string name="action_copy_link">Lotura kopiatu</string>
-    <string name="send_status_link_to">Tutaren URL-a partekatu…</string>
+    <string name="send_status_link_to">Tutaren URLa partekatu…</string>
     <string name="send_status_content_to">Tuta partekatu…</string>
-    <string name="send_media_to">Partekatu multimedia hona…</string>
+    <string name="send_media_to">Partekatu media hona…</string>
     <string name="confirmation_reported">Bidalia!</string>
     <string name="confirmation_unblocked">Erabiltzailea ez dago blokeatuta iada.</string>
-    <string name="confirmation_unmuted">Iada erabiltzailea ez dago mutututa.</string>
+    <string name="confirmation_unmuted">Iada erabiltzailea ez dago isilarazia.</string>
     <string name="status_sent">Bidalia!</string>
     <string name="status_sent_long">Erantzuna ongi bidali da.</string>
     <string name="hint_domain">Instantzia hautatu</string>
     <string name="hint_compose">Zer duzu buruan?</string>
-    <string name="hint_content_warning">Eduki abisua</string>
-    <string name="hint_display_name">Izena</string>
+    <string name="hint_content_warning">Eduki-abisua</string>
+    <string name="hint_display_name">Agertuko den izena</string>
     <string name="hint_note">Biografia</string>
     <string name="hint_search">Bilatu…</string>
     <string name="search_no_results">Emaitzarik ez</string>
-    <string name="label_quick_reply">Erantzuna…</string>
+    <string name="label_quick_reply">Erantzun…</string>
     <string name="label_avatar">Irudia</string>
     <string name="label_header">Goiburua</string>
     <string name="link_whats_an_instance">Zer da instantzia?</string>
@@ -124,12 +124,12 @@
 \n\nInstantzia zure kontua dagoen gunea da, baino beste instantzietako erabiltzaileak zurean egongo balira bezala jarraitu ditzakezu.
         \n\nInformazio gehiago <a href="https://joinmastodon.org">joinmastodon.org</a> helbidean topatuko duzu.
     </string>
-    <string name="dialog_title_finishing_media_upload">Multimedia igoera bukatzen</string>
+    <string name="dialog_title_finishing_media_upload">Mediaren igoera bukatzen</string>
     <string name="dialog_message_uploading_media">Igotzen…</string>
     <string name="dialog_download_image">Jaitsi</string>
-    <string name="dialog_message_cancel_follow_request">Lagun eskaera ezeztatu?</string>
-    <string name="dialog_unfollow_warning">Kontu hau jarraitzeari utzi?</string>
-    <string name="dialog_delete_toot_warning">Tuta ezabatu?</string>
+    <string name="dialog_message_cancel_follow_request">Jarraipen-eskaerari uko egin\?</string>
+    <string name="dialog_unfollow_warning">Kontu honi jarraitzeari utzi\?</string>
+    <string name="dialog_delete_toot_warning">Tut hau ezabatu\?</string>
     <string name="visibility_public">Publikoa: Istorio publikoetan erakutsi</string>
     <string name="visibility_unlisted">Ezkutukoa: Ez erakutsi istorio publikoetan</string>
     <string name="visibility_private">Pribatua: Jarraitzaileentzat soilik ikusgai</string>
@@ -277,4 +277,42 @@
     <string name="label_remote_account">Ondorengo edukiak erabiltzailearen informazioa erdizka erakutsi dezake. Profil osoa ikusteko nabigatzailean sakatu.</string>
     <string name="unpin_action">Desainguratu</string>
     <string name="pin_action">Ainguratu</string>
-</resources>
+<string name="error_network">Sareko errore bat sortu da! Zure konexioa ziurta ezazu berriro, mesedez!</string>
+    <string name="title_direct_messages">Mezu Zuzenak</string>
+    <string name="title_tab_preferences">Kategoriak</string>
+    <string name="title_tag">#%s</string>
+    <string name="title_statuses_pinned">Lotuta</string>
+    <string name="title_domain_mutes">Ezkutuko domeinuak</string>
+    <string name="title_scheduled_toot">Programatutako tutak</string>
+    <string name="status_username_format">\@%s</string>
+    <string name="message_empty">Kilkerrak besterik ez hemen.</string>
+    <string name="action_unreblog">Bultzada kendu</string>
+    <string name="action_unfavourite">Gogokoa kendu</string>
+    <string name="action_edit">Editatu</string>
+    <string name="action_delete_and_redraft">Ezabatu eta zirriborroa berriro egin</string>
+    <string name="action_view_domain_mutes">Ezkutuko domeinuak</string>
+    <string name="action_add_poll">Galdeketa gehitu</string>
+    <string name="action_mute_domain">%s isilarazi</string>
+    <string name="action_access_scheduled_toot">Programatutako tutak</string>
+    <string name="action_schedule_toot">Tuta programatu</string>
+    <string name="action_reset_schedule">Berrezarri</string>
+    <string name="action_add_tab">Kategoria gehitu</string>
+    <string name="action_links">Estekak</string>
+    <string name="action_mentions">Aipamenak</string>
+    <string name="action_open_reblogged_by">Bultzadak erakutsi</string>
+    <string name="action_open_faved_by">Gogokoak erakutsi</string>
+
+    <string name="title_mentions_dialog">Aipamenak</string>
+    <string name="title_links_dialog">Estekak</string>
+    <string name="action_open_media_n">Ireki media #%d</string>
+
+    <string name="action_open_as">%s bezala ireki</string>
+    <string name="action_share_as">... bezala partekatu</string>
+    <string name="download_media">Media jaisten</string>
+    <string name="downloading_media">Media jaisten</string>
+
+    <string name="confirmation_domain_unmuted">%s ez dago ezkutatua</string>
+
+    <string name="hint_configure_scheduled_toot">Sakatu hemen programatutako tuta konfiguratzeko.</string>
+    <string name="dialog_redraft_toot_warning">Tut hau ezabatu eta zirriborro berria egin\?</string>
+    </resources>

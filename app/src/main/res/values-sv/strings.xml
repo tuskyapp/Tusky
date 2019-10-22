@@ -464,4 +464,12 @@
     <string name="poll_new_choice_hint">Val %d</string>
     <string name="edit_poll">Redigera</string>
 
+<string name="title_scheduled_toot">Schemalagda toots</string>
+    <string name="action_edit">Redigera</string>
+    <string name="action_access_scheduled_toot">Schemalagda toots</string>
+    <string name="action_schedule_toot">Schemalägg toot</string>
+    <string name="action_reset_schedule">Återställ</string>
+    <string name="hint_configure_scheduled_toot">Knacka här för att konfigurera schemalagd toot.</string>
+    <string name="post_lookup_error_format">Fel vid uppslagning av status %s</string>
+
 </resources>
