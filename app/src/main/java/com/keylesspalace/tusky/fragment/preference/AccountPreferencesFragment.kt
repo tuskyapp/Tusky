@@ -92,9 +92,9 @@ class AccountPreferencesFragment : PreferenceFragmentCompat(),
         publicFiltersPreference = requirePreference("publicFilters")
         threadFiltersPreference = requirePreference("threadFilters")
 
-        notificationPreference.icon = IconicsDrawable(notificationPreference.context, GoogleMaterial.Icon.gmd_notifications).sizePx(iconSize).color(ThemeUtils.getColor(notificationPreference.context, R.attr.toolbar_icon_tint))
+        notificationPreference.icon = IconicsDrawable(notificationPreference.context, GoogleMaterial.Icon.gmd_notifications).sizePx(iconSize).color(ThemeUtils.getColor(notificationPreference.context, R.attr.preference_icon_tint))
         mutedUsersPreference.icon = getTintedIcon(R.drawable.ic_mute_24dp)
-        blockedUsersPreference.icon = IconicsDrawable(blockedUsersPreference.context, GoogleMaterial.Icon.gmd_block).sizePx(iconSize).color(ThemeUtils.getColor(blockedUsersPreference.context, R.attr.toolbar_icon_tint))
+        blockedUsersPreference.icon = IconicsDrawable(blockedUsersPreference.context, GoogleMaterial.Icon.gmd_block).sizePx(iconSize).color(ThemeUtils.getColor(blockedUsersPreference.context, R.attr.preference_icon_tint))
         mutedDomainsPreference.icon = getTintedIcon(R.drawable.ic_mute_24dp)
 
         notificationPreference.onPreferenceClickListener = this
@@ -289,7 +289,7 @@ class AccountPreferencesFragment : PreferenceFragmentCompat(),
 
     private fun getTintedIcon(iconId: Int): Drawable? {
         val drawable = context?.getDrawable(iconId)
-        ThemeUtils.setDrawableTint(context, drawable, R.attr.toolbar_icon_tint)
+        ThemeUtils.setDrawableTint(context, drawable, R.attr.preference_icon_tint)
         return drawable
     }
 

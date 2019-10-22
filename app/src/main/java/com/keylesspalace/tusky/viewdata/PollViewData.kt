@@ -15,8 +15,13 @@
 
 package com.keylesspalace.tusky.viewdata
 
+import android.content.Context
+import android.text.SpannableStringBuilder
+import android.text.Spanned
+import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.entity.Poll
 import com.keylesspalace.tusky.entity.PollOption
+import com.keylesspalace.tusky.util.HtmlUtils
 import java.util.*
 import kotlin.math.roundToInt
 
@@ -42,6 +47,12 @@ fun calculatePercent(fraction: Int, total: Int): Int {
     } else {
         (fraction / total.toDouble() * 100).roundToInt()
     }
+}
+
+fun buildDescription(title: String, percent: Int, context: Context): Spanned {
+    return SpannableStringBuilder(HtmlUtils.fromHtml(context.getString(R.string.poll_percent_format, percent)))
+        .append(" ")
+        .append(title)
 }
 
 fun Poll?.toViewData(): PollViewData? {

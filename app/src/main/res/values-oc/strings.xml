@@ -405,7 +405,6 @@
 
 
     <string name="poll_info_format"> <!-- 15 votes • 1 hour left --> %1$s • %2$s</string>
-    <string name="poll_option_format"> <!-- 15% vote for this! --> &lt;b&gt;%1$d%%&lt;/b&gt; %2$s</string>
 
     <string name="poll_ended_voted">Un sondatge ont avètz votat es acabat</string>
     <string name="poll_ended_created">Un sondatge qu’avètz creat es acabat</string>
@@ -474,4 +473,10 @@
     <string name="poll_new_choice_hint">Opcion %d</string>
     <string name="edit_poll">Modificar</string>
 
-</resources>
+<string name="title_scheduled_toot">Tuts planificats</string>
+    <string name="action_edit">Modificar</string>
+    <string name="action_access_scheduled_toot">Tuts planificats</string>
+    <string name="action_schedule_toot">Planificar de tuts</string>
+    <string name="action_reset_schedule">Escafar</string>
+    <string name="hint_configure_scheduled_toot">Tocatz aquí per configurar los tuts planificats.</string>
+    </resources>
