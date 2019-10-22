@@ -1,0 +1,9 @@
+Tusky v9.0
+
+- Nyní můžete z Tuskyho vytvářet ankety
+- Vylepšené vyhledávání
+- Nová možnost v nastavení účtu umožňuje vždy rozbalovat varování o obsahu
+- Avatary v navigačním menu mají nyní zakulacené rohy
+- Je nyní možné nahlašovat uživatele i pokud ještě nenapsali žádný příspěvek
+- Tusky bude odteď odmítat cleartextová spojení na Androidu 6+
+- Spousta dalších malých vylepšení a oprav chyb
