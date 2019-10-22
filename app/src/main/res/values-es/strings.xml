@@ -467,4 +467,6 @@
     <string name="action_schedule_toot">Programar estado</string>
     <string name="action_reset_schedule">Reiniciar</string>
     <string name="hint_configure_scheduled_toot">Pulsa aquí para configurar un estado programado.</string>
-    </resources>
+    <string name="post_lookup_error_format">Error al buscar el post %s</string>
+
+</resources>
