@@ -36,6 +36,11 @@ class LifecycleContext(val lifecycleOwner: LifecycleOwner) {
             this.observe(lifecycleOwner, Observer { })
 }
 
+/**
+ * Invokes @param [combiner] when value of both @param [a] and @param [b] are not null. Returns
+ * [LiveData] with value set to the result of calling [combiner] with value of both.
+ * Important! You still need to observe to the returned [LiveData] for [combiner] to be invoked.
+ */
 fun <A, B, R> combineLiveData(a: LiveData<A>, b: LiveData<B>, combiner: (A, B) -> R): LiveData<R> {
     val liveData = MediatorLiveData<R>()
     liveData.addSource(a) {
@@ -47,6 +52,22 @@ fun <A, B, R> combineLiveData(a: LiveData<A>, b: LiveData<B>, combiner: (A, B) -
         if (a.value != null && b.value != null) {
             liveData.value = combiner(a.value!!, b.value!!)
         }
+    }
+    return liveData
+}
+
+/**
+ * Returns [LiveData] with value set to the result of calling [combiner] with value of [a] and [b]
+ * after either changes. Doesn't check if either has value.
+ * Important! You still need to observe to the returned [LiveData] for [combiner] to be invoked.
+ */
+fun <A, B, R> combineOptionalLiveData(a: LiveData<A>, b: LiveData<B>, combiner: (A?, B?) -> R): LiveData<R> {
+    val liveData = MediatorLiveData<R>()
+    liveData.addSource(a) {
+        liveData.value = combiner(a.value, b.value)
+    }
+    liveData.addSource(b) {
+        liveData.value = combiner(a.value, b.value)
     }
     return liveData
 }
