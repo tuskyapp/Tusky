@@ -224,7 +224,7 @@ class ComposeViewModel
                             mediaDescriptions,
                             scheduledAt = null, // TODO
                             inReplyToId = null,
-                            poll = null,
+                            poll = poll.value,
                             replyingStatusContent = null,
                             replyingStatusAuthorUsername = null,
                             savedJsonUrls = null,
@@ -396,6 +396,10 @@ class ComposeViewModel
         }
         replyingStatusContent = composeOptions?.replyingStatusContent
         replyingStatusAuthor = composeOptions?.replyingStatusAuthor
+    }
+
+    fun updatePoll(newPoll: NewPoll) {
+        poll.value = newPoll
     }
 
     private companion object {

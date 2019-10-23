@@ -70,7 +70,6 @@ import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.*
 import com.keylesspalace.tusky.view.ComposeOptionsListener
-import com.keylesspalace.tusky.view.PollPreviewView
 import com.keylesspalace.tusky.view.showAddPollDialog
 import com.mikepenz.google_material_typeface_library.GoogleMaterial
 import com.mikepenz.iconics.IconicsDrawable
@@ -103,7 +102,6 @@ class ComposeActivity : BaseActivity(),
     private var emojiBehavior: BottomSheetBehavior<*>? = null
     private var scheduleBehavior: BottomSheetBehavior<*>? = null
 
-    private var pollPreview: PollPreviewView? = null
 
     // this only exists when a status is trying to be sent, but uploads are still occurring
     private var finishingUploadDialog: ProgressDialog? = null
@@ -179,6 +177,7 @@ class ComposeActivity : BaseActivity(),
 
         setupComposeField(viewModel.startingText)
         setupContentWarningField(composeOptions?.contentWarning)
+        setupPollView()
         applyShareIntent(intent, savedInstanceState)
 
         composeEditField.requestFocus()
@@ -318,11 +317,19 @@ class ComposeActivity : BaseActivity(),
                 setStatusVisibility(visibility)
             }
             viewModel.media.observe { media ->
+                composeMediaPreviewBar.visible(media.isNotEmpty())
                 mediaAdapter.submitList(media)
-                val active = media.size != 4
+            }
+            viewModel.poll.observe { poll ->
+                pollPreview.visible(poll != null)
+                poll?.let(pollPreview::setPoll)
+            }
+            combineOptionalLiveData(viewModel.media, viewModel.poll) { media, poll ->
+                val active = poll == null
+                        && media!!.size != 4
                         && media.firstOrNull()?.type != QueuedMedia.Type.VIDEO
                 enableButton(composeAddMediaButton, active, active)
-            }
+            }.subscribe()
         }
     }
 
@@ -592,49 +599,38 @@ class ComposeActivity : BaseActivity(),
         addMediaBehavior!!.state = BottomSheetBehavior.STATE_COLLAPSED
         val instanceParams = viewModel.instanceParams.value!!
         showAddPollDialog(this, viewModel.poll.value, instanceParams.pollMaxOptions,
-                instanceParams.pollMaxLength)
+                instanceParams.pollMaxLength, viewModel::updatePoll)
     }
 
-    fun updatePoll(poll: NewPoll) {
-        enableButton(composeAddMediaButton, false, false)
+    fun setupPollView() {
+        val margin = resources.getDimensionPixelSize(R.dimen.compose_media_preview_margin)
+        val marginBottom = resources.getDimensionPixelSize(R.dimen.compose_media_preview_margin_bottom)
 
-        if (pollPreview == null) {
-            pollPreview = PollPreviewView(this)
+        val layoutParams = LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+        layoutParams.setMargins(margin, margin, margin, marginBottom)
+        pollPreview.layoutParams = layoutParams
 
-            val margin = resources.getDimensionPixelSize(R.dimen.compose_media_preview_margin)
-            val marginBottom = resources.getDimensionPixelSize(R.dimen.compose_media_preview_margin_bottom)
-
-            val layoutParams = LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
-            layoutParams.setMargins(margin, margin, margin, marginBottom)
-            pollPreview!!.layoutParams = layoutParams
-            // TODO
-//            composeMediaPreviewBar.addView(pollPreview)
-
-            pollPreview!!.setOnClickListener {
-                val popup = PopupMenu(this, pollPreview)
-                val editId = 1
-                val removeId = 2
-                popup.menu.add(0, editId, 0, R.string.edit_poll)
-                popup.menu.add(0, removeId, 0, R.string.action_remove)
-                popup.setOnMenuItemClickListener { menuItem ->
-                    when (menuItem.itemId) {
-                        editId -> openPollDialog()
-                        removeId -> removePoll()
-                    }
-                    true
+        pollPreview.setOnClickListener {
+            val popup = PopupMenu(this, pollPreview)
+            val editId = 1
+            val removeId = 2
+            popup.menu.add(0, editId, 0, R.string.edit_poll)
+            popup.menu.add(0, removeId, 0, R.string.action_remove)
+            popup.setOnMenuItemClickListener { menuItem ->
+                when (menuItem.itemId) {
+                    editId -> openPollDialog()
+                    removeId -> removePoll()
                 }
-                popup.show()
+                true
             }
+            popup.show()
         }
-
-        pollPreview!!.setPoll(poll)
     }
+
 
     private fun removePoll() {
         viewModel.poll.value = null
-        pollPreview = null
-        enableButton(composeAddMediaButton, true, true)
-        composeMediaPreviewBar.removeAllViews()
+        pollPreview.hide()
     }
 
     override fun onVisibilityChanged(visibility: Status.Visibility) {

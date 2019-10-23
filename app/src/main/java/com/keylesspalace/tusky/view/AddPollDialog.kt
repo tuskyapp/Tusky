@@ -17,11 +17,12 @@
 
 package com.keylesspalace.tusky.view
 
+import android.content.Context
+import android.view.LayoutInflater
 import android.view.WindowManager
 import androidx.appcompat.app.AlertDialog
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.adapter.AddPollOptionsAdapter
-import com.keylesspalace.tusky.components.compose.ComposeActivity
 import com.keylesspalace.tusky.entity.NewPoll
 import kotlinx.android.synthetic.main.dialog_add_poll.view.*
 
@@ -29,15 +30,16 @@ private const val DEFAULT_MAX_OPTION_COUNT = 4
 private const val DEFAULT_MAX_OPTION_LENGTH = 25
 
 fun showAddPollDialog(
-        activity: ComposeActivity,
+        context: Context,
         poll: NewPoll?,
         maxOptionCount: Int?,
-        maxOptionLength: Int?
+        maxOptionLength: Int?,
+        onUpdatePoll: (NewPoll) -> Unit
 ) {
 
-    val view = activity.layoutInflater.inflate(R.layout.dialog_add_poll, null)
+    val view = LayoutInflater.from(context).inflate(R.layout.dialog_add_poll, null)
 
-    val dialog = AlertDialog.Builder(activity)
+    val dialog = AlertDialog.Builder(context)
             .setIcon(R.drawable.ic_poll_24dp)
             .setTitle(R.string.create_poll_title)
             .setView(view)
@@ -68,7 +70,7 @@ fun showAddPollDialog(
         }
     }
 
-    val pollDurationId = activity.resources.getIntArray(R.array.poll_duration_values).indexOfLast {
+    val pollDurationId = context.resources.getIntArray(R.array.poll_duration_values).indexOfLast {
         it <= poll?.expiresIn ?: 0
     }
 
@@ -81,15 +83,14 @@ fun showAddPollDialog(
         button.setOnClickListener {
             val selectedPollDurationId = view.pollDurationSpinner.selectedItemPosition
 
-            val pollDuration = activity.resources.getIntArray(R.array.poll_duration_values)[selectedPollDurationId]
+            val pollDuration = context.resources
+                    .getIntArray(R.array.poll_duration_values)[selectedPollDurationId]
 
-            activity.updatePoll(
-                    NewPoll(
-                            options = adapter.pollOptions,
-                            expiresIn = pollDuration,
-                            multiple = view.multipleChoicesCheckBox.isChecked
-                    )
-            )
+            onUpdatePoll(NewPoll(
+                    options = adapter.pollOptions,
+                    expiresIn = pollDuration,
+                    multiple = view.multipleChoicesCheckBox.isChecked
+            ))
 
             dialog.dismiss()
         }
