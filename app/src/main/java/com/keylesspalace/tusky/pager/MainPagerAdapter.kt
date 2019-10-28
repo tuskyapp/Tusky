@@ -34,5 +34,5 @@ class MainPagerAdapter(val tabs: List<TabData>, activity: FragmentActivity) : Fr
 
     override fun getItemCount() = tabs.size
 
-    fun getFragment(position: Int): Fragment? = fragments[position].get()
+    fun getFragment(position: Int): Fragment? = fragments[position]?.get()
 }

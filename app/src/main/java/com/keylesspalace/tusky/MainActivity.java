@@ -25,7 +25,6 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.widget.ImageView;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.ContextCompat;
