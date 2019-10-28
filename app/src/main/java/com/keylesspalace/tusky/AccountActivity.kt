@@ -191,9 +191,9 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
         val pageTitles = arrayOf(getString(R.string.title_statuses), getString(R.string.title_statuses_with_replies), getString(R.string.title_statuses_pinned), getString(R.string.title_media))
         adapter.setPageTitles(pageTitles)
         accountFragmentViewPager.pageMargin = resources.getDimensionPixelSize(R.dimen.tab_page_margin)
-        val pageMarginDrawable = ThemeUtils.getDrawable(this, R.attr.tab_page_margin_drawable,
-                R.drawable.tab_page_margin_dark)
-        accountFragmentViewPager.setPageMarginDrawable(pageMarginDrawable)
+       // val pageMarginDrawable = ThemeUtils.getDrawable(this, R.attr.tab_page_margin_drawable,
+        //        R.drawable.tab_page_margin_dark)c TODO
+        //accountFragmentViewPager.setPageMarginDrawable(pageMarginDrawable)
         accountFragmentViewPager.adapter = adapter
         accountFragmentViewPager.offscreenPageLimit = 2
         accountTabLayout.setupWithViewPager(accountFragmentViewPager)

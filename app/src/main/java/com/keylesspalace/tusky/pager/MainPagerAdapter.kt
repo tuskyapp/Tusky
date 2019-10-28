@@ -16,48 +16,23 @@
 package com.keylesspalace.tusky.pager
 
 import android.util.SparseArray
-import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentPagerAdapter
-import androidx.viewpager.widget.PagerAdapter
+import androidx.fragment.app.FragmentActivity
+import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.keylesspalace.tusky.TabData
+import java.lang.ref.WeakReference
 
-class MainPagerAdapter(val tabs: List<TabData>, manager: FragmentManager) : FragmentPagerAdapter(manager) {
-    private val fragments = SparseArray<Fragment>(tabs.size)
+class MainPagerAdapter(val tabs: List<TabData>, activity: FragmentActivity) : FragmentStateAdapter(activity) {
+    private val fragments = SparseArray<WeakReference<Fragment>>(tabs.size)
 
-    override fun getItem(position: Int): Fragment {
+    override fun createFragment(position: Int): Fragment {
         val tab = tabs[position]
-        return tab.fragment(tab.arguments)
-    }
-
-    override fun getCount(): Int {
-        return tabs.size
-    }
-
-    override fun getPageTitle(position: Int): CharSequence? {
-        return null
-    }
-
-    override fun getItemId(position: Int): Long {
-        return tabs[position].hashCode() + position.toLong()
-    }
-
-    override fun getItemPosition(item: Any): Int {
-        return PagerAdapter.POSITION_NONE
-    }
-
-    override fun instantiateItem(container: ViewGroup, position: Int): Any {
-        val fragment = super.instantiateItem(container, position)
-        if (fragment is Fragment)
-            fragments.put(position, fragment)
+        val fragment = tab.fragment(tab.arguments)
+        fragments.put(position, WeakReference(fragment))
         return fragment
     }
 
-    override fun destroyItem(container: ViewGroup, position: Int, `object`: Any) {
-        super.destroyItem(container, position, `object`)
-        fragments.remove(position)
-    }
+    override fun getItemCount() = tabs.size
 
-    fun getFragment(position: Int): Fragment? = fragments[position]
+    fun getFragment(position: Int): Fragment? = fragments[position].get()
 }
