@@ -15,18 +15,16 @@
 
 package com.keylesspalace.tusky.components.search.adapter
 
-import android.content.Context
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentPagerAdapter
-import com.keylesspalace.tusky.R
-import com.keylesspalace.tusky.components.search.SearchType
+import androidx.fragment.app.FragmentActivity
+import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.keylesspalace.tusky.components.search.fragments.SearchAccountsFragment
 import com.keylesspalace.tusky.components.search.fragments.SearchHashtagsFragment
 import com.keylesspalace.tusky.components.search.fragments.SearchStatusesFragment
 
-class SearchPagerAdapter(private val context: Context, manager: FragmentManager) : FragmentPagerAdapter(manager) {
-    override fun getItem(position: Int): Fragment {
+class SearchPagerAdapter(activity: FragmentActivity) : FragmentStateAdapter(activity) {
+
+    override fun createFragment(position: Int): Fragment {
         return when (position) {
             0 -> SearchStatusesFragment.newInstance()
             1 -> SearchAccountsFragment.newInstance()
@@ -35,14 +33,6 @@ class SearchPagerAdapter(private val context: Context, manager: FragmentManager)
         }
     }
 
-    override fun getPageTitle(position: Int): CharSequence? {
-        return when (position) {
-            0 -> context.getString(R.string.title_statuses)
-            1 -> context.getString(R.string.title_accounts)
-            2 -> context.getString(R.string.title_hashtags_dialog)
-            else -> throw IllegalArgumentException("Unknown page index: $position")
-        }
-    }
+    override fun getItemCount() = 3
 
-    override fun getCount(): Int = 3
 }

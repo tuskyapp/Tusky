@@ -23,6 +23,7 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.ViewModelProviders
+import com.google.android.material.tabs.TabLayoutMediator
 import com.keylesspalace.tusky.BottomSheetActivity
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.components.search.adapter.SearchPagerAdapter
@@ -57,8 +58,12 @@ class SearchActivity : BottomSheetActivity(), SearchView.OnQueryTextListener, Ha
     }
 
     private fun setupPages() {
-        pages.adapter = SearchPagerAdapter(this, supportFragmentManager)
-        tabs.setupWithViewPager(pages)
+        pages.adapter = SearchPagerAdapter(this)
+
+        TabLayoutMediator(tabs, pages) {
+            tab, position ->
+            tab.text = getPageTitle(position)
+        }.attach()
     }
 
     override fun onNewIntent(intent: Intent) {
@@ -97,6 +102,15 @@ class SearchActivity : BottomSheetActivity(), SearchView.OnQueryTextListener, Ha
 
     override fun onQueryTextSubmit(query: String): Boolean {
         return false
+    }
+
+    private fun getPageTitle(position: Int): CharSequence? {
+        return when (position) {
+            0 -> getString(R.string.title_statuses)
+            1 -> getString(R.string.title_accounts)
+            2 -> getString(R.string.title_hashtags_dialog)
+            else -> throw IllegalArgumentException("Unknown page index: $position")
+        }
     }
 
     private fun handleIntent(intent: Intent) {
