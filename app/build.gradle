@@ -3,6 +3,8 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
+apply from: "../instance-build.gradle"
+
 def getGitSha = { ->
     def stdout = new ByteArrayOutputStream()
     exec {
@@ -15,13 +17,19 @@ def getGitSha = { ->
 android {
     compileSdkVersion 29
     defaultConfig {
-        applicationId "com.keylesspalace.tusky"
+        applicationId APP_ID
         minSdkVersion 21
         targetSdkVersion 29
         versionCode 68
         versionName "9.1"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
+
+        resValue "string", "app_name", APP_NAME
+
+        buildConfigField("String", "CUSTOM_LOGO_URL", "\"$CUSTOM_LOGO_URL\"")
+        buildConfigField("String", "CUSTOM_INSTANCE", "\"$CUSTOM_INSTANCE\"")
+        buildConfigField("String", "SUPPORT_ACCOUNT_URL", "\"$SUPPORT_ACCOUNT_URL\"")
 
         kapt {
             arguments {

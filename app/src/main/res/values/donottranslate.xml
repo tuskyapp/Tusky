@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name" translatable="false">Tusky</string>
-    <string name="app_website" translatable="false">https://tusky.app</string>
+    <string name="tusky_website" translatable="false">https://tusky.app</string>
+    <string name="about_app_version">%1$s %2$s</string>
 
     <string name="oauth_scheme" translatable="false">oauth2redirect</string>
     <string name="preferences_file_key" translatable="false">com.keylesspalace.tusky.PREFERENCES</string>
