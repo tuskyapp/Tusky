@@ -447,4 +447,10 @@
     <string name="add_poll_choice">Auswahlmöglichkeit hinzufügen</string>
     <string name="poll_allow_multiple_choices">Mehrere Möglichkeiten</string>
     <string name="poll_new_choice_hint">Möglichkeit %d</string>
+    <string name="title_scheduled_toot">Geplante Beiträge</string>
+    <string name="action_edit">Editieren</string>
+    <string name="action_access_scheduled_toot">Geplante Beiträge</string>
+    <string name="action_schedule_toot">Plane Beitrag</string>
+    <string name="action_reset_schedule">Zurücksetzen</string>
+    <string name="hint_configure_scheduled_toot">Drücke hier, um den geplanten Beitrag zu konfigurieren.</string>
     </resources>
