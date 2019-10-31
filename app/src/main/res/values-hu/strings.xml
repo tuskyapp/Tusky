@@ -472,4 +472,6 @@
     <string name="action_schedule_toot">Tülk Időzítése</string>
     <string name="action_reset_schedule">Visszaállítás</string>
     <string name="hint_configure_scheduled_toot">Ide nyúlj az időzített tülkök beállításához.</string>
-    </resources>
+    <string name="post_lookup_error_format">Nem találjuk ezt a posztot %s</string>
+
+</resources>
