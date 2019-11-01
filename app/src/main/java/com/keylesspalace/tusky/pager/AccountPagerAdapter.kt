@@ -15,7 +15,6 @@
 
 package com.keylesspalace.tusky.pager
 
-import android.util.SparseArray
 import androidx.fragment.app.*
 
 import com.keylesspalace.tusky.fragment.AccountMediaFragment
@@ -30,7 +29,7 @@ class AccountPagerAdapter(
         private val accountId: String
 ) : FragmentStateAdapter(activity) {
 
-    private val fragments = SparseArray<WeakReference<Fragment>>(TAB_COUNT)
+    private val fragments = MutableList<WeakReference<Fragment>?>(TAB_COUNT) { null }
 
     override fun getItemCount() = TAB_COUNT
 
@@ -43,7 +42,7 @@ class AccountPagerAdapter(
             else -> throw AssertionError("Page $position is out of AccountPagerAdapter bounds")
         }
 
-        fragments.put(position, WeakReference(fragment))
+        fragments[position] = WeakReference(fragment)
         return fragment
     }
 

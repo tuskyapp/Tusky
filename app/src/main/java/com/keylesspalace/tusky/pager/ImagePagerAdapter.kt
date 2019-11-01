@@ -1,6 +1,5 @@
 package com.keylesspalace.tusky.pager
 
-import android.util.SparseArray
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import com.keylesspalace.tusky.ViewMediaAdapter
@@ -15,7 +14,7 @@ class ImagePagerAdapter(
 ) : ViewMediaAdapter(activity) {
 
     private var didTransition = false
-    private val fragments = SparseArray<WeakReference<ViewMediaFragment>>(attachments.size)
+    private val fragments = MutableList<WeakReference<ViewMediaFragment>?>(attachments.size) { null }
 
     override fun getItemCount() = attachments.size
 
@@ -29,7 +28,7 @@ class ImagePagerAdapter(
                     attachment = attachments[position],
                     shouldStartPostponedTransition = !didTransition && position == initialPosition
             )
-            fragments.put(position, WeakReference(fragment))
+            fragments[position] = WeakReference(fragment)
             return fragment
         } else {
             throw IllegalStateException()
@@ -38,6 +37,6 @@ class ImagePagerAdapter(
 
    override fun onTransitionEnd(position: Int) {
         this.didTransition = true
-        fragments[position].get()?.onTransitionEnd()
+        fragments[position]?.get()?.onTransitionEnd()
     }
 }

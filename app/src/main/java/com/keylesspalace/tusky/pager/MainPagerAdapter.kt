@@ -15,7 +15,6 @@
 
 package com.keylesspalace.tusky.pager
 
-import android.util.SparseArray
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
@@ -23,12 +22,12 @@ import com.keylesspalace.tusky.TabData
 import java.lang.ref.WeakReference
 
 class MainPagerAdapter(val tabs: List<TabData>, activity: FragmentActivity) : FragmentStateAdapter(activity) {
-    private val fragments = SparseArray<WeakReference<Fragment>>(tabs.size)
+    private val fragments = MutableList<WeakReference<Fragment>?>(tabs.size) { null }
 
     override fun createFragment(position: Int): Fragment {
         val tab = tabs[position]
         val fragment = tab.fragment(tab.arguments)
-        fragments.put(position, WeakReference(fragment))
+        fragments[position] = WeakReference(fragment)
         return fragment
     }
 
