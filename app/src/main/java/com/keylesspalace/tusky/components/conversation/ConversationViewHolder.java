@@ -16,7 +16,6 @@
 package com.keylesspalace.tusky.components.conversation;
 
 import android.content.Context;
-import android.preference.PreferenceManager;
 import android.text.InputFilter;
 import android.text.TextUtils;
 import android.view.View;
@@ -24,6 +23,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
+import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.keylesspalace.tusky.R;

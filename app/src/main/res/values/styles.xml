@@ -63,6 +63,8 @@
 
         <item name="colorPrimaryDark">@color/color_primary_dark_light</item>
 
+        <item name="appBarLayoutStyle">@style/Widget.MaterialComponents.AppBarLayout.Surface</item>
+
         <item name="android:colorBackground">@color/color_background_light</item>
         <item name="recents_background_color">@color/color_primary_light</item>
         <item name="android:windowBackground">@color/window_background_light</item>
@@ -77,10 +79,9 @@
 
         <item name="window_background">@color/window_background_light</item>
         <item name="custom_tab_toolbar">@color/custom_tab_toolbar_light</item>
-        <item name="toolbar_background_color">@color/toolbar_background_light</item>
-        <item name="toolbar_icon_tint">@color/toolbar_icon_light</item>
+        <item name="preference_icon_tint">@color/toolbar_icon_light</item>
         <item name="image_button_style">@style/TuskyImageButton.Light</item>
-        <item name="status_reblog_small_drawable">@drawable/ic_reblog_light_18dp</item>
+        <item name="status_reblog_small_drawable">@drawable/ic_reblog_light_24dp</item>
         <item name="status_reblog_inactive_drawable">@drawable/reblog_inactive_light</item>
         <item name="status_reblog_disabled_drawable">@drawable/reblog_private_light</item>
         <item name="status_reblog_direct_drawable">@drawable/reblog_direct_light</item>
@@ -95,7 +96,7 @@
         <item name="conversation_thread_line_drawable">@drawable/conversation_thread_line_light
         </item>
         <item name="tab_icon_selected_tint">@color/tusky_blue</item>
-        <item name="tab_page_margin_drawable">@drawable/tab_page_margin_light</item>
+        <item name="tab_page_margin_color">@color/tab_page_margin_light</item>
         <item name="account_header_background_color">@color/color_primary_dark_light</item>
         <item name="account_toolbar_icon_tint_uncollapsed">@color/toolbar_icon_dark
         </item> <!--Default to dark on purpose, because header backgrounds with gradients are always dark.-->
@@ -156,9 +157,6 @@
         <item name="android:textSize">?attr/status_text_medium</item>
         <item name="android:textAllCaps">true</item>
         <item name="tabIndicatorHeight">3dp</item>
-        <item name="tabIndicatorColor">?attr/tab_icon_selected_tint</item>
-        <item name="tabTextColor">?android:attr/textColorSecondary</item>
-        <item name="tabSelectedTextColor">?attr/tab_icon_selected_tint</item>
     </style>
 
     <style name="TuskyButton" parent="Widget.MaterialComponents.Button">
@@ -187,9 +185,10 @@
         <item name="android:windowBackground">@color/window_background_black</item>
         <item name="android:textColorPrimary">@color/text_color_primary_black</item>
 
+        <item name="colorSurface">@color/color_primary_black</item>
+
         <item name="recents_background_color">@color/toolbar_background_black</item>
         <item name="window_background">@color/window_background_black</item>
-        <item name="toolbar_background_color">@color/toolbar_background_black</item>
         <item name="sensitive_media_warning_background_color">@color/color_background_black</item>
         <item name="account_header_background_color">@color/color_background_black</item>
 
@@ -201,7 +200,7 @@
         <item name="material_drawer_selected">@color/color_primary_black</item>
         <item name="material_drawer_selected_text">@color/text_color_primary_black</item>
         <item name="material_drawer_header_selection_text">@color/text_color_primary_black</item>
-        <item name="tab_page_margin_drawable">@drawable/tab_page_margin_black</item>
+        <item name="tab_page_margin_color">@color/tab_page_margin_black</item>
     </style>
 
     <style name="TuskyBlackTheme" parent="TuskyBlackThemeBase" />

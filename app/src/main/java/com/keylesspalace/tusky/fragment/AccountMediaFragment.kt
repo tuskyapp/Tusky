@@ -81,7 +81,6 @@ class AccountMediaFragment : BaseFragment(), RefreshableFragment, Injectable {
     private var currentCall: Call<List<Status>>? = null
     private val statuses = mutableListOf<Status>()
     private var fetchingStatus = FetchingStatus.NOT_FETCHING
-    private var isVisibleToUser: Boolean = false
 
     private lateinit var accountId: String
 
@@ -216,7 +215,7 @@ class AccountMediaFragment : BaseFragment(), RefreshableFragment, Injectable {
             }
         })
 
-        if (isVisibleToUser) doInitialLoadingIfNeeded()
+        doInitialLoadingIfNeeded()
     }
 
     private fun refresh() {
@@ -233,14 +232,6 @@ class AccountMediaFragment : BaseFragment(), RefreshableFragment, Injectable {
 
         if (!isSwipeToRefreshEnabled)
             topProgressBar?.show()
-    }
-
-    // That's sort of an optimization to only load media once user has opened the tab
-    // Attention: can be called before *any* lifecycle method!
-    override fun setUserVisibleHint(isVisibleToUser: Boolean) {
-        super.setUserVisibleHint(isVisibleToUser)
-        this.isVisibleToUser = isVisibleToUser
-        if (isVisibleToUser && isAdded) doInitialLoadingIfNeeded()
     }
 
     private fun doInitialLoadingIfNeeded() {

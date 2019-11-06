@@ -18,10 +18,10 @@ package com.keylesspalace.tusky
 import android.animation.ArgbEvaluator
 import android.content.Context
 import android.content.Intent
+import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.PorterDuff
 import android.os.Bundle
-import android.preference.PreferenceManager
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -35,13 +35,18 @@ import androidx.core.content.ContextCompat
 import androidx.emoji.text.EmojiCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.viewpager2.widget.MarginPageTransformer
 import com.bumptech.glide.Glide
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.appbar.CollapsingToolbarLayout
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.android.material.shape.MaterialShapeDrawable
+import com.google.android.material.shape.ShapeAppearanceModel
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayout
+import com.google.android.material.tabs.TabLayoutMediator
 import com.keylesspalace.tusky.adapter.AccountFieldAdapter
 import com.keylesspalace.tusky.components.compose.ComposeActivity
 import com.keylesspalace.tusky.components.report.ReportActivity
@@ -87,8 +92,6 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
     @ColorInt
     private var toolbarColor: Int = 0
     @ColorInt
-    private var backgroundColor: Int = 0
-    @ColorInt
     private var statusBarColorTransparent: Int = 0
     @ColorInt
     private var statusBarColorOpaque: Int = 0
@@ -108,6 +111,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        loadResources()
         makeNotificationBarTransparent()
         setContentView(R.layout.activity_account)
 
@@ -120,7 +124,6 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
         animateAvatar = sharedPrefs.getBoolean("animateGifAvatars", false)
         hideFab = sharedPrefs.getBoolean("fabHide", false)
 
-        loadResources()
         setupToolbar()
         setupTabs()
         setupAccountViews()
@@ -136,8 +139,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
      * Load colors and dimensions from resources
      */
     private fun loadResources() {
-        toolbarColor = ThemeUtils.getColor(this, R.attr.toolbar_background_color)
-        backgroundColor = ThemeUtils.getColor(this, android.R.attr.colorBackground)
+        toolbarColor = ThemeUtils.getColor(this, R.attr.colorSurface)
         statusBarColorTransparent = ContextCompat.getColor(this, R.color.header_background_filter)
         statusBarColorOpaque = ThemeUtils.getColor(this, R.attr.colorPrimaryDark)
         avatarSize = resources.getDimension(R.dimen.account_activity_avatar_size)
@@ -188,16 +190,21 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
      */
     private fun setupTabs() {
         // Setup the tabs and timeline pager.
-        adapter = AccountPagerAdapter(supportFragmentManager, viewModel.accountId)
-        val pageTitles = arrayOf(getString(R.string.title_statuses), getString(R.string.title_statuses_with_replies), getString(R.string.title_statuses_pinned), getString(R.string.title_media))
-        adapter.setPageTitles(pageTitles)
-        accountFragmentViewPager.pageMargin = resources.getDimensionPixelSize(R.dimen.tab_page_margin)
-        val pageMarginDrawable = ThemeUtils.getDrawable(this, R.attr.tab_page_margin_drawable,
-                R.drawable.tab_page_margin_dark)
-        accountFragmentViewPager.setPageMarginDrawable(pageMarginDrawable)
+        adapter = AccountPagerAdapter(this, viewModel.accountId)
+
         accountFragmentViewPager.adapter = adapter
         accountFragmentViewPager.offscreenPageLimit = 2
-        accountTabLayout.setupWithViewPager(accountFragmentViewPager)
+
+        val pageTitles = arrayOf(getString(R.string.title_statuses), getString(R.string.title_statuses_with_replies), getString(R.string.title_statuses_pinned), getString(R.string.title_media))
+
+        TabLayoutMediator(accountTabLayout, accountFragmentViewPager) {
+            tab, position ->
+            tab.text = pageTitles[position]
+        }.attach()
+
+        val pageMargin = resources.getDimensionPixelSize(R.dimen.tab_page_margin)
+        accountFragmentViewPager.setPageTransformer(MarginPageTransformer(pageMargin))
+
         accountTabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabReselected(tab: TabLayout.Tab?) {
                 tab?.position?.let { position ->
@@ -212,9 +219,6 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
         })
     }
 
-    /**
-     * Setup toolbar
-     */
     private fun setupToolbar() {
         // set toolbar top margin according to system window insets
         accountCoordinatorLayout.setOnApplyWindowInsetsListener { _, insets ->
@@ -236,6 +240,23 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
 
         ThemeUtils.setDrawableTint(this, accountToolbar.navigationIcon, R.attr.account_toolbar_icon_tint_uncollapsed)
         ThemeUtils.setDrawableTint(this, accountToolbar.overflowIcon, R.attr.account_toolbar_icon_tint_uncollapsed)
+
+        val appBarElevation = resources.getDimension(R.dimen.actionbar_elevation)
+
+        val toolbarBackground = MaterialShapeDrawable.createWithElevationOverlay(this, appBarElevation)
+        toolbarBackground.fillColor = ColorStateList.valueOf(Color.TRANSPARENT)
+        accountToolbar.background = toolbarBackground
+
+        accountHeaderInfoContainer.background = MaterialShapeDrawable.createWithElevationOverlay(this, appBarElevation)
+
+        val avatarBackground = MaterialShapeDrawable.createWithElevationOverlay(this, appBarElevation).apply {
+            fillColor = ColorStateList.valueOf(toolbarColor)
+            elevation = appBarElevation
+            shapeAppearanceModel = ShapeAppearanceModel.builder()
+                    .setAllCornerSizes(resources.getDimension(R.dimen.account_avatar_background_radius))
+                    .build()
+        }
+        accountAvatarImageView.background = avatarBackground
 
         // Add a listener to change the toolbar icon color when it enters/exits its collapsed state.
         accountAppBarLayout.addOnOffsetChangedListener(object : AppBarLayout.OnOffsetChangedListener {
@@ -282,16 +303,14 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
 
                 accountAvatarImageView.visible(scaledAvatarSize > 0)
 
-                var transparencyPercent = abs(verticalOffset) / titleVisibleHeight.toFloat()
-                if (transparencyPercent > 1) transparencyPercent = 1f
+                val transparencyPercent = (abs(verticalOffset) / titleVisibleHeight.toFloat()).coerceAtMost(1f)
 
                 window.statusBarColor = argbEvaluator.evaluate(transparencyPercent, statusBarColorTransparent, statusBarColorOpaque) as Int
 
                 val evaluatedToolbarColor = argbEvaluator.evaluate(transparencyPercent, Color.TRANSPARENT, toolbarColor) as Int
-                val evaluatedTabBarColor = argbEvaluator.evaluate(transparencyPercent, backgroundColor, toolbarColor) as Int
-                accountToolbar.setBackgroundColor(evaluatedToolbarColor)
-                accountHeaderInfoContainer.setBackgroundColor(evaluatedTabBarColor)
-                accountTabLayout.setBackgroundColor(evaluatedTabBarColor)
+
+                toolbarBackground.fillColor = ColorStateList.valueOf(evaluatedToolbarColor)
+
                 swipeToRefreshLayout.isEnabled = verticalOffset == 0
             }
         })
@@ -301,7 +320,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
     private fun makeNotificationBarTransparent() {
         val decorView = window.decorView
         decorView.systemUiVisibility = decorView.systemUiVisibility or View.SYSTEM_UI_FLAG_LAYOUT_STABLE or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-        window.statusBarColor = Color.TRANSPARENT
+        window.statusBarColor = statusBarColorTransparent
     }
 
     /**

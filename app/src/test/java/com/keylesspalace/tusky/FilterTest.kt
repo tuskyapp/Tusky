@@ -24,7 +24,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.util.*
 
-@Config(application = FakeTuskyApplication::class)
+@Config(application = FakeTuskyApplication::class, sdk = [28])
 @RunWith(AndroidJUnit4::class)
 class FilterTest {
 
@@ -37,7 +37,6 @@ class FilterTest {
         val activity = controller.get()
 
         activity.accountManager = mock()
-        activity.themeUtils = mock()
         val apiMock = Mockito.mock(MastodonApi::class.java)
         Mockito.`when`(apiMock.getFilters()).thenReturn(object: Call<List<Filter>> {
             override fun isExecuted(): Boolean {

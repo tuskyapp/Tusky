@@ -1,0 +1,7 @@
+Tusky v7.0
+
+- Podpora pro zobrazování anket, hlasování a oznámení o anketách
+- Nová tlačítka pro filtrování v panelu oznámení a smazání všech oznámení
+- Smažte a přepište své vlastní tooty
+- Nový indikátor na obrázku profilu, který ukazuje, jestli je účet robot (může být vypnut v nastavení)
+- Nové překlady: norština (bokmål) a slovinština.

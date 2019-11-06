@@ -575,11 +575,11 @@ class ComposeActivity : BaseActivity(),
     }
 
     private fun onMediaPick() {
-        addMediaBehavior!!.bottomSheetCallback = object : BottomSheetBehavior.BottomSheetCallback() {
+        addMediaBehavior!!.addBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
             override fun onStateChanged(bottomSheet: View, newState: Int) {
                 //Wait until bottom sheet is not collapsed and show next screen after
                 if (newState == BottomSheetBehavior.STATE_COLLAPSED) {
-                    addMediaBehavior!!.bottomSheetCallback = null
+                    addMediaBehavior!!.removeBottomSheetCallback(this)
                     if (ContextCompat.checkSelfPermission(this@ComposeActivity, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
                         ActivityCompat.requestPermissions(this@ComposeActivity,
                                 arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
@@ -592,6 +592,7 @@ class ComposeActivity : BaseActivity(),
 
             override fun onSlide(bottomSheet: View, slideOffset: Float) {}
         }
+        )
         addMediaBehavior!!.state = BottomSheetBehavior.STATE_COLLAPSED
     }
 

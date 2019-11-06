@@ -27,10 +27,9 @@
 
         <item name="window_background">@color/window_background_dark</item>
         <item name="custom_tab_toolbar">@color/custom_tab_toolbar_dark</item>
-        <item name="toolbar_background_color">@color/toolbar_background_dark</item>
-        <item name="toolbar_icon_tint">@color/toolbar_icon_dark</item>
+        <item name="preference_icon_tint">@color/toolbar_icon_dark</item>
         <item name="image_button_style">@style/TuskyImageButton.Dark</item>
-        <item name="status_reblog_small_drawable">@drawable/ic_reblog_dark_18dp</item>
+        <item name="status_reblog_small_drawable">@drawable/ic_reblog_dark_24dp</item>
         <item name="status_reblog_inactive_drawable">@drawable/reblog_inactive_dark</item>
         <item name="status_reblog_disabled_drawable">@drawable/reblog_private_dark</item>
         <item name="status_reblog_direct_drawable">@drawable/reblog_direct_dark</item>
@@ -42,7 +41,7 @@
         <item name="android:listDivider">@drawable/status_divider_dark</item>
         <item name="conversation_thread_line_drawable">@drawable/conversation_thread_line_dark</item>
         <item name="tab_icon_selected_tint">@color/tusky_blue</item>
-        <item name="tab_page_margin_drawable">@drawable/tab_page_margin_dark</item>
+        <item name="tab_page_margin_color">@color/tab_page_margin_dark</item>
         <item name="account_header_background_color">@color/color_background_dark</item>
         <item name="account_toolbar_icon_tint_uncollapsed">@color/toolbar_icon_dark</item>
         <item name="account_toolbar_icon_tint_collapsed">@color/account_toolbar_icon_collapsed_dark</item>

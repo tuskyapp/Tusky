@@ -69,6 +69,8 @@ import java.util.concurrent.ExecutionException;
 import io.reactivex.Single;
 import io.reactivex.schedulers.Schedulers;
 
+import static com.keylesspalace.tusky.viewdata.PollViewDataKt.buildDescription;
+
 public class NotificationHelper {
 
     private static int notificationId = 0;
@@ -293,6 +295,7 @@ public class NotificationHelper {
                 .setColor(BuildConfig.DEBUG ? Color.parseColor("#19A341") : ContextCompat.getColor(context, R.color.tusky_blue))
                 .setGroup(account.getAccountId())
                 .setAutoCancel(true)
+                .setShortcutId(Long.toString(account.getId()))
                 .setDefaults(0); // So it doesn't ring twice, notify only in Target callback
 
         setupPreferences(account, builder);
@@ -627,9 +630,9 @@ public class NotificationHelper {
                     builder.append('\n');
                     Poll poll = notification.getStatus().getPoll();
                     for(PollOption option: poll.getOptions()) {
-                        int percent = PollViewDataKt.calculatePercent(option.getVotesCount(), poll.getVotesCount());
-                        CharSequence optionText = HtmlUtils.fromHtml(context.getString(R.string.poll_option_format, percent, option.getTitle()));
-                        builder.append(optionText);
+                        builder.append(buildDescription(option.getTitle(),
+                                PollViewDataKt.calculatePercent(option.getVotesCount(), poll.getVotesCount()),
+                                context));
                         builder.append('\n');
                     }
                     return builder.toString();

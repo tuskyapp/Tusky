@@ -31,7 +31,8 @@
 
             <meta-data
                 android:name="android.app.shortcuts"
-                android:resource="@xml/shortcuts" />
+                android:resource="@xml/share_shortcuts" />
+
         </activity>
         <activity
             android:name=".SavedTootActivity"
@@ -52,7 +53,7 @@
         </activity>
         <activity
             android:name=".MainActivity"
-            android:configChanges="orientation|screenSize|keyboardHidden">
+            android:configChanges="orientation|screenSize|keyboardHidden|screenLayout|smallestScreenSize">
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />
 
@@ -91,7 +92,8 @@
 
             <meta-data
                 android:name="android.service.chooser.chooser_target_service"
-                android:value="com.keylesspalace.tusky.service.AccountChooserService" />
+                android:value="androidx.sharetarget.ChooserTargetServiceCompat" />
+
         </activity>
         <activity
             android:name=".components.compose.ComposeActivity"
@@ -106,7 +108,7 @@
             android:theme="@style/TuskyBaseTheme" />
         <activity
             android:name=".AccountActivity"
-            android:configChanges="orientation|screenSize|keyboardHidden" />
+            android:configChanges="orientation|screenSize|keyboardHidden|screenLayout|smallestScreenSize" />
         <activity android:name=".EditProfileActivity" />
         <activity android:name=".PreferencesActivity" />
         <activity android:name=".FavouritesActivity" />
@@ -153,16 +155,8 @@
                 <action android:name="android.service.quicksettings.action.QS_TILE" />
             </intent-filter>
         </service>
+
         <service android:name=".service.SendTootService" />
-        <service
-            android:name=".service.AccountChooserService"
-            android:label="@string/app_name"
-            android:permission="android.permission.BIND_CHOOSER_TARGET_SERVICE"
-            tools:targetApi="23">
-            <intent-filter>
-                <action android:name="android.service.chooser.ChooserTargetService" />
-            </intent-filter>
-        </service>
 
         <provider
             android:name="androidx.core.content.FileProvider"

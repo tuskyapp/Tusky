@@ -17,13 +17,13 @@
 package com.keylesspalace.tusky
 
 import android.os.Bundle
-import android.preference.PreferenceManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.DialogFragment
+import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.ListAdapter
@@ -35,7 +35,6 @@ import com.keylesspalace.tusky.util.*
 import com.keylesspalace.tusky.viewmodel.AccountsInListViewModel
 import com.keylesspalace.tusky.viewmodel.State
 import com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider.from
-import com.uber.autodispose.autoDisposable
 import com.uber.autodispose.autoDispose
 import io.reactivex.android.schedulers.AndroidSchedulers
 import kotlinx.android.extensions.LayoutContainer

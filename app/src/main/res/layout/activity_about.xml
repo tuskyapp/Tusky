@@ -16,8 +16,8 @@
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textDirection="anyRtl"
-            android:layout_gravity="center">
+            android:layout_gravity="center"
+            android:textDirection="anyRtl">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -42,10 +42,23 @@
                     android:textStyle="bold" />
 
                 <TextView
+                    android:id="@+id/aboutPoweredByTusky"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:drawablePadding="16dp"
+                    android:gravity="center_vertical"
+                    android:textSize="18sp"
+                    android:text="@string/about_powered_by_tusky"
+                    android:textStyle="bold" />
+
+
+                <TextView
                     android:id="@+id/aboutLicenseInfoTextView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="24dp"
+                    android:hyphenationFrequency="full"
                     android:lineSpacingMultiplier="1.2"
                     android:paddingStart="@dimen/text_content_margin"
                     android:paddingEnd="@dimen/text_content_margin"

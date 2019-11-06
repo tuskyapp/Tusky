@@ -19,11 +19,6 @@ import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.preference.PreferenceManager;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.browser.customtabs.CustomTabsIntent;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.method.LinkMovementMethod;
@@ -33,11 +28,15 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.browser.customtabs.CustomTabsIntent;
+import androidx.preference.PreferenceManager;
+
 import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.entity.Status;
 import com.keylesspalace.tusky.interfaces.LinkListener;
 
-import java.lang.CharSequence;
 import java.net.URI;
 import java.net.URISyntaxException;
 

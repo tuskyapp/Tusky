@@ -52,6 +52,8 @@ import at.connyduck.sparkbutton.SparkButton;
 import at.connyduck.sparkbutton.SparkEventListener;
 import kotlin.collections.CollectionsKt;
 
+import static com.keylesspalace.tusky.viewdata.PollViewDataKt.buildDescription;
+
 public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
     public static class Key {
         public static final String KEY_CREATED = "created";
@@ -324,7 +326,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             } else {
                 inactiveId = ThemeUtils.getDrawableId(reblogButton.getContext(),
                         R.attr.status_reblog_inactive_drawable, R.drawable.reblog_inactive_dark);
-                activeId = R.drawable.reblog_active;
+                activeId = R.drawable.ic_reblog_active_24dp;
             }
             reblogButton.setInactiveImage(inactiveId);
             reblogButton.setActiveImage(activeId);
@@ -775,10 +777,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             for (int i = 0; i < args.length; i++) {
                 if (i < options.size()) {
                     int percent = PollViewDataKt.calculatePercent(options.get(i).getVotesCount(), poll.getVotesCount());
-                    args[i] = HtmlUtils.fromHtml(context.getString(
-                            R.string.poll_option_format,
-                            percent,
-                            options.get(i).getTitle()));
+                    args[i] = buildDescription(options.get(i).getTitle(), percent, context);
                 } else {
                     args[i] = "";
                 }

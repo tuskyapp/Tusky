@@ -9,7 +9,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.annotation.Config
 
-@Config(application = FakeTuskyApplication::class)
+@Config(application = FakeTuskyApplication::class, sdk = [28])
 @RunWith(AndroidJUnit4::class)
 class SmartLengthInputFilterTest {
 

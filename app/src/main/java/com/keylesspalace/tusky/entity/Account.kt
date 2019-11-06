@@ -61,8 +61,7 @@ data class Account(
         if (other !is Account) {
             return false
         }
-        val account = other as Account?
-        return account?.id == this.id
+        return other.id == this.id
     }
 
     fun deepEquals(other: Account): Boolean {

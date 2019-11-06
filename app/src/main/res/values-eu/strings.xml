@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='UTF-8'?>
 <resources>
     <string name="error_generic">Errorea gertatu da.</string>
     <string name="error_empty">Eremu hau ezin da hutsik egon.</string>
@@ -27,7 +27,7 @@
     <string name="title_statuses_with_replies">Erantzunekin</string>
     <string name="title_follows">Jarraitzen</string>
     <string name="title_followers">Jarraitzaileak</string>
-    <string name="title_favourites">Gogokoak</string>
+    <string name="title_favourites">Gogokoenak</string>
     <string name="title_mutes">Isilduak</string>
     <string name="title_blocks">Blokeatuak</string>
     <string name="title_follow_requests">Eskakizunak</string>
@@ -99,22 +99,22 @@
     <string name="action_emoji_keyboard">Emoji teklatua</string>
     <string name="download_image">%1$s jaisten</string>
     <string name="action_copy_link">Lotura kopiatu</string>
-    <string name="send_status_link_to">Tutaren URL-a partekatu…</string>
+    <string name="send_status_link_to">Tutaren URLa partekatu…</string>
     <string name="send_status_content_to">Tuta partekatu…</string>
-    <string name="send_media_to">Partekatu multimedia hona…</string>
+    <string name="send_media_to">Partekatu media hona…</string>
     <string name="confirmation_reported">Bidalia!</string>
     <string name="confirmation_unblocked">Erabiltzailea ez dago blokeatuta iada.</string>
-    <string name="confirmation_unmuted">Iada erabiltzailea ez dago mutututa.</string>
+    <string name="confirmation_unmuted">Iada erabiltzailea ez dago isilarazia.</string>
     <string name="status_sent">Bidalia!</string>
     <string name="status_sent_long">Erantzuna ongi bidali da.</string>
     <string name="hint_domain">Instantzia hautatu</string>
     <string name="hint_compose">Zer duzu buruan?</string>
-    <string name="hint_content_warning">Eduki abisua</string>
-    <string name="hint_display_name">Izena</string>
+    <string name="hint_content_warning">Eduki-abisua</string>
+    <string name="hint_display_name">Agertuko den izena</string>
     <string name="hint_note">Biografia</string>
     <string name="hint_search">Bilatu…</string>
     <string name="search_no_results">Emaitzarik ez</string>
-    <string name="label_quick_reply">Erantzuna…</string>
+    <string name="label_quick_reply">Erantzun…</string>
     <string name="label_avatar">Irudia</string>
     <string name="label_header">Goiburua</string>
     <string name="link_whats_an_instance">Zer da instantzia?</string>
@@ -124,12 +124,12 @@
 \n\nInstantzia zure kontua dagoen gunea da, baino beste instantzietako erabiltzaileak zurean egongo balira bezala jarraitu ditzakezu.
         \n\nInformazio gehiago <a href="https://joinmastodon.org">joinmastodon.org</a> helbidean topatuko duzu.
     </string>
-    <string name="dialog_title_finishing_media_upload">Multimedia igoera bukatzen</string>
+    <string name="dialog_title_finishing_media_upload">Mediaren igoera bukatzen</string>
     <string name="dialog_message_uploading_media">Igotzen…</string>
     <string name="dialog_download_image">Jaitsi</string>
-    <string name="dialog_message_cancel_follow_request">Lagun eskaera ezeztatu?</string>
-    <string name="dialog_unfollow_warning">Kontu hau jarraitzeari utzi?</string>
-    <string name="dialog_delete_toot_warning">Tuta ezabatu?</string>
+    <string name="dialog_message_cancel_follow_request">Jarraipen-eskaerari uko egin\?</string>
+    <string name="dialog_unfollow_warning">Kontu honi jarraitzeari utzi\?</string>
+    <string name="dialog_delete_toot_warning">Tut hau ezabatu\?</string>
     <string name="visibility_public">Publikoa: Istorio publikoetan erakutsi</string>
     <string name="visibility_unlisted">Ezkutukoa: Ez erakutsi istorio publikoetan</string>
     <string name="visibility_private">Pribatua: Jarraitzaileentzat soilik ikusgai</string>
@@ -144,49 +144,49 @@
     <string name="pref_title_notification_filter_mentions">Aipatzen naute</string>
     <string name="pref_title_notification_filter_follows">Jarraitzen didate</string>
     <string name="pref_title_notification_filter_reblogs">Bultzatzen naute</string>
-    <string name="pref_title_notification_filter_favourites">Nire mezuak gogoko ditu</string>
+    <string name="pref_title_notification_filter_favourites">Nire argitarapenak gustokoak izan dira</string>
     <string name="pref_title_appearance_settings">Interfazea</string>
-    <string name="pref_title_app_theme">Gaia</string>
-    <string name="pref_title_timelines">Denbora lerroak</string>
+    <string name="pref_title_app_theme">Aplikazioaren gaia</string>
+    <string name="pref_title_timelines">Denbora-lerroak</string>
     <string name="app_them_dark">Iluna</string>
     <string name="app_theme_light">Argia</string>
     <string name="app_theme_black">Beltza</string>
-    <string name="app_theme_auto">Automatikoa</string>
+    <string name="app_theme_auto">Automatikoa iluntzean</string>
     <string name="pref_title_browser_settings">Nabigatzailea</string>
-    <string name="pref_title_custom_tabs">Chromeko fitxak erabili</string>
-    <string name="pref_title_hide_follow_button">Tut egiteko botoia ezkutatu jaisterakoan.</string>
-    <string name="pref_title_status_filter">Denbora-lerro filtroak</string>
+    <string name="pref_title_custom_tabs">Chromeko fitxa pertsonalizatuak erabili</string>
+    <string name="pref_title_hide_follow_button">Tut egiteko botoia ezkutatu beherantz joaterakoan.</string>
+    <string name="pref_title_status_filter">Denbora-lerroko iragazkiak</string>
     <string name="pref_title_status_tabs">Fitxak</string>
     <string name="pref_title_show_boosts">Erakutsi bultzadak</string>
     <string name="pref_title_show_replies">Erakutsi erantzunak</string>
-    <string name="pref_title_show_media_preview">Multimedia aurreikusi</string>
-    <string name="pref_title_proxy_settings">Proxy-a</string>
-    <string name="pref_title_http_proxy_settings">HTTP Proxy-a</string>
-    <string name="pref_title_http_proxy_enable">HTTP Proxy-a gaitu</string>
-    <string name="pref_title_http_proxy_server">HTTP Proxy-aren zerbitzaria</string>
-    <string name="pref_title_http_proxy_port">HTTP Proxy-aren portua</string>
-    <string name="pref_default_post_privacy">Aurrezarritako ikusgarritasuna</string>
-    <string name="pref_default_media_sensitivity">Beti markatu multimedia eduki mingarri gisa</string>
-    <string name="pref_publishing">Bidalketak</string>
+    <string name="pref_title_show_media_preview">Jaitsi mediaren aurreikuspenak</string>
+    <string name="pref_title_proxy_settings">Proxya</string>
+    <string name="pref_title_http_proxy_settings">HTTP proxya</string>
+    <string name="pref_title_http_proxy_enable">HTTP proxya gaitu</string>
+    <string name="pref_title_http_proxy_server">HTTP proxyaren zerbitzaria</string>
+    <string name="pref_title_http_proxy_port">HTTP proxyaren portua</string>
+    <string name="pref_default_post_privacy">Argitarapenen aurrezarritako pribatutasuna</string>
+    <string name="pref_default_media_sensitivity">Media eduki-mingarri gisa beti markatu</string>
+    <string name="pref_publishing">Argitaratzeak (zerbitzariarekin sinkronizatua)</string>
     <string name="pref_failed_to_sync">Aukerak sinkronizatzean akatsa</string>
     <string name="post_privacy_public">Publikoa</string>
-    <string name="post_privacy_unlisted">Ezkutukoa</string>
-    <string name="post_privacy_followers_only">Pribatua</string>
-    <string name="pref_status_text_size">Testuaren tamaina</string>
-    <string name="status_text_size_smallest">Oso txikia</string>
+    <string name="post_privacy_unlisted">Zerrendatu gabea</string>
+    <string name="post_privacy_followers_only">Jarraitzaileak soilik</string>
+    <string name="pref_status_text_size">Status testuaren tamaina</string>
+    <string name="status_text_size_smallest">Txikiena</string>
     <string name="status_text_size_small">Txikia</string>
     <string name="status_text_size_medium">Erdikoa</string>
     <string name="status_text_size_large">Handia</string>
-    <string name="status_text_size_largest">Oso handia</string>
+    <string name="status_text_size_largest">Handiena</string>
     <string name="notification_mention_name">Aipamen berriak</string>
     <string name="notification_mention_descriptions">Aipamen berrien jakinarazpenak</string>
-    <string name="notification_follow_name">Jarritzaile berriak</string>
+    <string name="notification_follow_name">Jarraitzaile berriak</string>
     <string name="notification_follow_description">Jarraitzaile berrien jakinarazpenak</string>
     <string name="notification_boost_name">Bultzadak</string>
-    <string name="notification_boost_description">Bultzatutako tuten jakinarazpenak</string>
+    <string name="notification_boost_description">Bultzatutako zure tuten jakinarazpenak</string>
     <string name="notification_favourite_name">Gogokoak</string>
-    <string name="notification_favourite_description">Gogokoen jakinarazpenak</string>
-    <string name="notification_mention_format">%s-k aipatu zaitu</string>
+    <string name="notification_favourite_description">Zure tutak gogoko bezala ezartzerakoan jakinarazpenak</string>
+    <string name="notification_mention_format">%s-(e)k aipatu zaitu</string>
     <string name="notification_summary_large">%1$s, %2$s, %3$s eta beste %4$d</string>
     <string name="notification_summary_medium">%1$s, %2$s eta %3$s</string>
     <string name="notification_summary_small">%1$s eta %2$s</string>
@@ -205,12 +205,11 @@
     <string name="about_project_site">        Proiektuaren gunea:\n
         https://tusky.app
     </string>
-    <string name="about_bug_feature_request_site">        Akats jakinarazpenak eta hobekuntza eskariak:\n
-        https://github.com/tuskyapp/Tusky/issues
-    </string>
-    <string name="about_tusky_account">Tusky-ren profila</string>
-    <string name="status_share_content">Partekatu edukia</string>
-    <string name="status_share_link">Partekatu lotura</string>
+    <string name="about_bug_feature_request_site">Akatsen berri-emateak eta hobekuntza-eskariak:
+\n https://github.com/tuskyapp/Tusky/issues</string>
+    <string name="about_tusky_account">Tuskyren profila</string>
+    <string name="status_share_content">Partekatu tutaren edukia</string>
+    <string name="status_share_link">Partekatu tutaren lotura</string>
     <string name="status_media_images">Irudiak</string>
     <string name="status_media_video">Bideoak</string>
     <string name="state_follow_requested">Eskaera bidalita</string>
@@ -277,4 +276,59 @@
     <string name="label_remote_account">Ondorengo edukiak erabiltzailearen informazioa erdizka erakutsi dezake. Profil osoa ikusteko nabigatzailean sakatu.</string>
     <string name="unpin_action">Desainguratu</string>
     <string name="pin_action">Ainguratu</string>
-</resources>
+<string name="error_network">Sareko errore bat sortu da! Zure konexioa ziurta ezazu berriro, mesedez!</string>
+    <string name="title_direct_messages">Mezu Zuzenak</string>
+    <string name="title_tab_preferences">Kategoriak</string>
+    <string name="title_tag">#%s</string>
+    <string name="title_statuses_pinned">Lotuta</string>
+    <string name="title_domain_mutes">Ezkutuko domeinuak</string>
+    <string name="title_scheduled_toot">Programatutako tutak</string>
+    <string name="status_username_format">\@%s</string>
+    <string name="message_empty">Kilkerrak besterik ez hemen.</string>
+    <string name="action_unreblog">Bultzada kendu</string>
+    <string name="action_unfavourite">Gogokoa kendu</string>
+    <string name="action_edit">Editatu</string>
+    <string name="action_delete_and_redraft">Ezabatu eta zirriborroa berriro egin</string>
+    <string name="action_view_domain_mutes">Ezkutuko domeinuak</string>
+    <string name="action_add_poll">Galdeketa gehitu</string>
+    <string name="action_mute_domain">%s isilarazi</string>
+    <string name="action_access_scheduled_toot">Programatutako tutak</string>
+    <string name="action_schedule_toot">Tuta programatu</string>
+    <string name="action_reset_schedule">Berrezarri</string>
+    <string name="action_add_tab">Kategoria gehitu</string>
+    <string name="action_links">Estekak</string>
+    <string name="action_mentions">Aipamenak</string>
+    <string name="action_open_reblogged_by">Bultzadak erakutsi</string>
+    <string name="action_open_faved_by">Gogokoak erakutsi</string>
+
+    <string name="title_mentions_dialog">Aipamenak</string>
+    <string name="title_links_dialog">Estekak</string>
+    <string name="action_open_media_n">Ireki media #%d</string>
+
+    <string name="action_open_as">%s bezala ireki</string>
+    <string name="action_share_as">... bezala partekatu</string>
+    <string name="download_media">Media jaisten</string>
+    <string name="downloading_media">Media jaisten</string>
+
+    <string name="confirmation_domain_unmuted">%s ez dago ezkutatua</string>
+
+    <string name="hint_configure_scheduled_toot">Sakatu hemen programatutako tuta konfiguratzeko.</string>
+    <string name="dialog_redraft_toot_warning">Tut hau ezabatu eta zirriborro berria egin\?</string>
+    <string name="mute_domain_warning">Ziur al zaude %s ezabatu nahi duzula\? Domeinu horretatik datorren edukia ez duzu denbora-lerro publikoetan edo jakinarazpenentan ikusiko. Domeinu horretan dituzun jarraitzaileak ezabatuko dira.</string>
+    <string name="mute_domain_warning_dialog_ok">Domeinu osoa ezkutatu</string>
+
+    <string name="pref_title_notification_filter_poll">Galdeketak bukatu dira</string>
+    <string name="pref_title_timeline_filters">Iragazkiak</string>
+
+    <string name="app_theme_system">Erabili sistemaren diseinua</string>
+
+    <string name="pref_title_language">Hizkuntza</string>
+    <string name="pref_title_bot_overlay">Botentzako erakuslea erakutsi</string>
+    <string name="pref_title_animate_gif_avatars">GIF abatarrak animatu</string>
+
+    <string name="notification_poll_name">Galdeketak</string>
+    <string name="notification_poll_description">Bukatutako galdeketen jakinarazpenak</string>
+
+
+    <string name="about_tusky_version">Tusky %s</string>
+    </resources>

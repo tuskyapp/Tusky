@@ -37,9 +37,10 @@ import android.view.View
 import android.webkit.MimeTypeMap
 import android.widget.Toast
 import androidx.core.content.FileProvider
+import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Lifecycle
-import androidx.viewpager.widget.PagerAdapter
-import androidx.viewpager.widget.ViewPager
+import androidx.viewpager2.adapter.FragmentStateAdapter
+import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.FutureTarget
 import com.keylesspalace.tusky.BuildConfig.APPLICATION_ID
@@ -110,23 +111,23 @@ class ViewMediaActivity : BaseActivity(), ViewImageFragment.PhotoActionsListener
         // Adapter is actually of existential type PageAdapter & SharedElementsTransitionListener
         // but it cannot be expressed and if I don't specify type explicitly compilation fails
         // (probably a bug in compiler)
-        val adapter: PagerAdapter = if (attachments != null) {
+        val adapter: ViewMediaAdapter = if (attachments != null) {
             val realAttachs = attachments!!.map(AttachmentViewData::attachment)
             // Setup the view pager.
-            ImagePagerAdapter(supportFragmentManager, realAttachs, initialPosition)
+            ImagePagerAdapter(this, realAttachs, initialPosition)
 
         } else {
             val avatarUrl = intent.getStringExtra(EXTRA_AVATAR_URL)
                     ?: throw IllegalArgumentException("attachment list or avatar url has to be set")
 
-            AvatarImagePagerAdapter(supportFragmentManager, avatarUrl)
+            AvatarImagePagerAdapter(this, avatarUrl)
         }
 
         viewPager.adapter = adapter
-        viewPager.currentItem = initialPosition
-        viewPager.addOnPageChangeListener(object : ViewPager.SimpleOnPageChangeListener() {
+        viewPager.setCurrentItem(initialPosition, false)
+        viewPager.registerOnPageChangeCallback(object: ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
-                toolbar.title = adapter.getPageTitle(position)
+                toolbar.title = getPageTitle(position)
             }
         })
 
@@ -136,7 +137,7 @@ class ViewMediaActivity : BaseActivity(), ViewImageFragment.PhotoActionsListener
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true)
             actionBar.setDisplayShowHomeEnabled(true)
-            actionBar.title = adapter.getPageTitle(initialPosition)
+            actionBar.title = getPageTitle(initialPosition)
         }
         toolbar.setNavigationOnClickListener { supportFinishAfterTransition() }
         toolbar.setOnMenuItemClickListener { item: MenuItem ->
@@ -153,7 +154,7 @@ class ViewMediaActivity : BaseActivity(), ViewImageFragment.PhotoActionsListener
         window.statusBarColor = Color.BLACK
         window.sharedElementEnterTransition.addListener(object : NoopTransitionListener {
             override fun onTransitionEnd(transition: Transition) {
-                (adapter as SharedElementTransitionListener).onTransitionEnd()
+                adapter.onTransitionEnd(viewPager.currentItem)
                 window.sharedElementEnterTransition.removeListener(this)
             }
         })
@@ -198,6 +199,13 @@ class ViewMediaActivity : BaseActivity(), ViewImageFragment.PhotoActionsListener
                 .start()
     }
 
+    private fun getPageTitle(position: Int): CharSequence {
+        if(attachments == null) {
+            return ""
+        }
+        return String.format(Locale.getDefault(), "%d/%d", position + 1, attachments?.size)
+    }
+
     private fun downloadMedia() {
         val url = attachments!![viewPager.currentItem].attachment.url
         val filename = Uri.parse(url).lastPathSegment
@@ -227,7 +235,7 @@ class ViewMediaActivity : BaseActivity(), ViewImageFragment.PhotoActionsListener
 
     private fun copyLink() {
         val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-        clipboard.primaryClip = ClipData.newPlainText(null, attachments!![viewPager.currentItem].attachment.url)
+        clipboard.setPrimaryClip(ClipData.newPlainText(null, attachments!![viewPager.currentItem].attachment.url))
     }
 
     private fun shareMedia() {
@@ -323,8 +331,8 @@ class ViewMediaActivity : BaseActivity(), ViewImageFragment.PhotoActionsListener
     }
 }
 
-interface SharedElementTransitionListener {
-    fun onTransitionEnd()
+abstract class ViewMediaAdapter(activity: FragmentActivity): FragmentStateAdapter(activity) {
+    abstract fun onTransitionEnd(position: Int)
 }
 
 interface NoopTransitionListener : Transition.TransitionListener {

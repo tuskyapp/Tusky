@@ -120,7 +120,8 @@ public class ComposeScheduleView extends ConstraintLayout {
     private void openPickDateDialog() {
         long yesterday = Calendar.getInstance().getTimeInMillis() - 24 * 60 * 60 * 1000;
         CalendarConstraints calendarConstraints = new CalendarConstraints.Builder()
-                .setValidator(new DateValidatorPointForward(yesterday))
+                .setValidator(
+                        DateValidatorPointForward.from(yesterday))
                 .build();
         if (scheduleDateTime == null) {
             scheduleDateTime = Calendar.getInstance(TimeZone.getDefault());

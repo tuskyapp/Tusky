@@ -19,8 +19,8 @@ package com.keylesspalace.tusky.di
 import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
-import android.preference.PreferenceManager
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
+import androidx.preference.PreferenceManager
 import com.keylesspalace.tusky.TuskyApplication
 import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.appstore.EventHubImpl

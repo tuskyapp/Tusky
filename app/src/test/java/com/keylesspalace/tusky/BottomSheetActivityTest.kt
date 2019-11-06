@@ -215,6 +215,16 @@ class BottomSheetActivityTest {
     }
 
     @Test
+    fun search_withNoResults_appliesRequestedFallbackBehavior() {
+        for (fallbackBehavior in listOf(PostLookupFallbackBehavior.OPEN_IN_BROWSER, PostLookupFallbackBehavior.DISPLAY_ERROR)) {
+            activity.viewUrl(nonMastodonQuery, fallbackBehavior)
+            testScheduler.advanceTimeBy(100, TimeUnit.MILLISECONDS)
+            Assert.assertEquals(nonMastodonQuery, activity.link)
+            Assert.assertEquals(fallbackBehavior, activity.fallbackBehavior)
+        }
+    }
+
+    @Test
     fun search_withCancellation_doesNotLoadUrl_forAccount() {
         activity.viewUrl(accountQuery)
         Assert.assertTrue(activity.isSearching())
@@ -263,6 +273,7 @@ class BottomSheetActivityTest {
         var statusId: String? = null
         var accountId: String? = null
         var link: String? = null
+        var fallbackBehavior: PostLookupFallbackBehavior? = null
 
         init {
             mastodonApi = api
@@ -282,5 +293,9 @@ class BottomSheetActivityTest {
             this.statusId = statusId
         }
 
+        override fun performUrlFallbackAction(url: String, fallbackBehavior: PostLookupFallbackBehavior) {
+            this.link = url
+            this.fallbackBehavior = fallbackBehavior
+        }
     }
 }

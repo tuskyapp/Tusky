@@ -36,8 +36,9 @@
         android:contentDescription="@string/action_view_profile"
         android:scaleType="centerCrop"
         android:textSize="?attr/status_text_medium"
+        app:layout_constraintBottom_toBottomOf="@id/notification_username"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/notification_text"
+        app:layout_constraintTop_toTopOf="@id/notification_display_name"
         tools:src="@drawable/avatar_default" />
 
     <androidx.emoji.widget.EmojiTextView
@@ -52,7 +53,8 @@
         android:textStyle="normal|bold"
         app:layout_constraintBottom_toTopOf="@id/notification_username"
         app:layout_constraintStart_toEndOf="@id/notification_avatar"
-        app:layout_constraintTop_toTopOf="@id/notification_avatar"
+        app:layout_constraintTop_toBottomOf="@id/notification_text"
+        app:layout_constraintVertical_chainStyle="packed"
         tools:text="Test User" />
 
     <TextView
@@ -64,7 +66,7 @@
         android:maxLines="1"
         android:textColor="?android:textColorSecondary"
         android:textSize="?attr/status_text_medium"
-        app:layout_constraintBottom_toBottomOf="@id/notification_avatar"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@id/notification_avatar"
         app:layout_constraintTop_toBottomOf="@id/notification_display_name"
         tools:text="\@testuser" />

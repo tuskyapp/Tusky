@@ -21,23 +21,25 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
-import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.KeyEvent;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.ContextCompat;
+import androidx.core.content.pm.ShortcutManagerCompat;
 import androidx.emoji.text.EmojiCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Lifecycle;
-import androidx.viewpager.widget.ViewPager;
+import androidx.preference.PreferenceManager;
+import androidx.viewpager2.widget.MarginPageTransformer;
+import androidx.viewpager2.widget.ViewPager2;
 
 import com.bumptech.glide.Glide;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.tabs.TabLayoutMediator;
 import com.keylesspalace.tusky.appstore.CacheUpdater;
 import com.keylesspalace.tusky.appstore.EventHub;
 import com.keylesspalace.tusky.appstore.MainTabsChangedEvent;
@@ -53,7 +55,7 @@ import com.keylesspalace.tusky.interfaces.ReselectableFragment;
 import com.keylesspalace.tusky.pager.MainPagerAdapter;
 import com.keylesspalace.tusky.util.CustomEmojiHelper;
 import com.keylesspalace.tusky.util.NotificationHelper;
-import com.keylesspalace.tusky.util.ThemeUtils;
+import com.keylesspalace.tusky.util.ShareShortcutHelper;
 import com.mikepenz.google_material_typeface_library.GoogleMaterial;
 import com.mikepenz.materialdrawer.AccountHeader;
 import com.mikepenz.materialdrawer.AccountHeaderBuilder;
@@ -114,7 +116,7 @@ public final class MainActivity extends BottomSheetActivity implements ActionBut
     private AccountHeader headerResult;
     private Drawer drawer;
     private TabLayout tabLayout;
-    private ViewPager viewPager;
+    private ViewPager2 viewPager;
 
     private int notificationTabPosition;
     private MainPagerAdapter adapter;
@@ -141,7 +143,18 @@ public final class MainActivity extends BottomSheetActivity implements ActionBut
         boolean showNotificationTab = false;
 
         if (intent != null) {
+
+            /** there are two possibilities the accountId can be passed to MainActivity:
+                - from our code as long 'account_id'
+                - from share shortcuts as String 'android.intent.extra.shortcut.ID'
+             */
             long accountId = intent.getLongExtra(NotificationHelper.ACCOUNT_ID, -1);
+            if(accountId == -1) {
+                String accountIdString = intent.getStringExtra(ShortcutManagerCompat.EXTRA_SHORTCUT_ID);
+                if(accountIdString != null) {
+                    accountId = Long.parseLong(accountIdString);
+                }
+            }
             boolean accountRequested = (accountId != -1);
 
             if (accountRequested) {
@@ -179,7 +192,6 @@ public final class MainActivity extends BottomSheetActivity implements ActionBut
         setContentView(R.layout.activity_main);
 
         composeButton = findViewById(R.id.floating_btn);
-        ImageButton drawerToggle = findViewById(R.id.drawer_toggle);
         tabLayout = findViewById(R.id.tab_layout);
         viewPager = findViewById(R.id.pager);
 
@@ -190,10 +202,6 @@ public final class MainActivity extends BottomSheetActivity implements ActionBut
 
         setupDrawer();
 
-        // Setup the navigation drawer toggle button.
-        ThemeUtils.setDrawableTint(this, drawerToggle.getDrawable(), R.attr.toolbar_icon_tint);
-        drawerToggle.setOnClickListener(v -> drawer.openDrawer());
-
         /* Fetch user info while we're doing other things. This has to be done after setting up the
          * drawer, though, because its callback touches the header in the drawer. */
         fetchUserInfo();
@@ -201,10 +209,7 @@ public final class MainActivity extends BottomSheetActivity implements ActionBut
         setupTabs(showNotificationTab);
 
         int pageMargin = getResources().getDimensionPixelSize(R.dimen.tab_page_margin);
-        viewPager.setPageMargin(pageMargin);
-        Drawable pageMarginDrawable = ThemeUtils.getDrawable(this, R.attr.tab_page_margin_drawable,
-                R.drawable.tab_page_margin_dark);
-        viewPager.setPageMarginDrawable(pageMarginDrawable);
+        viewPager.setPageTransformer(new MarginPageTransformer(pageMargin));
 
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
@@ -312,7 +317,7 @@ public final class MainActivity extends BottomSheetActivity implements ActionBut
         if (intent != null) {
             String statusUrl = intent.getStringExtra(STATUS_URL);
             if (statusUrl != null) {
-                viewUrl(statusUrl);
+                viewUrl(statusUrl, PostLookupFallbackBehavior.DISPLAY_ERROR);
             }
         }
     }
@@ -402,6 +407,7 @@ public final class MainActivity extends BottomSheetActivity implements ActionBut
                 .withHasStableIds(true)
                 .withSelectedItem(-1)
                 .withDrawerItems(listItems)
+                .withToolbar(findViewById(R.id.main_toolbar))
                 .withOnDrawerItemClickListener((view, position, drawerItem) -> {
                     if (drawerItem != null) {
                         long drawerItemIdentifier = drawerItem.getIdentifier();
@@ -460,10 +466,11 @@ public final class MainActivity extends BottomSheetActivity implements ActionBut
     private void setupTabs(boolean selectNotificationTab) {
         List<TabData> tabs = accountManager.getActiveAccount().getTabPreferences();
 
-        adapter = new MainPagerAdapter(tabs, getSupportFragmentManager());
+        adapter = new MainPagerAdapter(tabs, this);
         viewPager.setAdapter(adapter);
 
-        tabLayout.setupWithViewPager(viewPager);
+        new TabLayoutMediator(tabLayout, viewPager, (tab, position) -> { }).attach();
+
         tabLayout.removeAllTabs();
         for (int i = 0; i < tabs.size(); i++) {
             TabLayout.Tab tab = tabLayout.newTab()
@@ -534,6 +541,7 @@ public final class MainActivity extends BottomSheetActivity implements ActionBut
                         NotificationHelper.deleteNotificationChannelsForAccount(accountManager.getActiveAccount(), MainActivity.this);
                         cacheUpdater.clearForUser(activeAccount.getId());
                         conversationRepository.deleteCacheForAccount(activeAccount.getId());
+                        ShareShortcutHelper.removeShortcut(this, activeAccount);
 
                         AccountEntity newAccount = accountManager.logActiveAccountOut();
 
@@ -590,6 +598,8 @@ public final class MainActivity extends BottomSheetActivity implements ActionBut
         }
 
         updateProfiles();
+
+        ShareShortcutHelper.updateShortcut(this, accountManager.getActiveAccount());
 
     }
 

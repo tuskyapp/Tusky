@@ -19,21 +19,19 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.preference.PreferenceManager
-import androidx.fragment.app.Fragment
 import android.util.Log
 import android.view.MenuItem
+import androidx.fragment.app.Fragment
+import androidx.preference.PreferenceManager
 import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.appstore.PreferenceChangedEvent
 import com.keylesspalace.tusky.fragment.preference.*
 import com.keylesspalace.tusky.util.ThemeUtils
 import com.keylesspalace.tusky.util.getNonNullString
 import dagger.android.DispatchingAndroidInjector
-import kotlinx.android.synthetic.main.toolbar_basic.*
-import java.lang.IllegalArgumentException
-import javax.inject.Inject
-import androidx.appcompat.app.AppCompatDelegate
 import dagger.android.HasAndroidInjector
+import kotlinx.android.synthetic.main.toolbar_basic.*
+import javax.inject.Inject
 
 class PreferencesActivity : BaseActivity(), SharedPreferences.OnSharedPreferenceChangeListener,
         HasAndroidInjector {
@@ -124,18 +122,11 @@ class PreferencesActivity : BaseActivity(), SharedPreferences.OnSharedPreference
             "appTheme" -> {
                 val theme = sharedPreferences.getNonNullString("appTheme", ThemeUtils.APP_THEME_DEFAULT)
                 Log.d("activeTheme", theme)
-                themeUtils.setAppNightMode(theme, this)
+                ThemeUtils.setAppNightMode(theme)
 
                 restartActivitiesOnExit = true
                 this.restartCurrentActivity()
 
-                // MODE_NIGHT_FOLLOW_SYSTEM workaround part 2 :/
-                when(theme){
-                    ThemeUtils.THEME_SYSTEM -> {
-                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
-                    }
-                }
-                //workaround end
             }
             "statusTextSize", "absoluteTimeView", "showBotOverlay", "animateGifAvatars" -> {
                 restartActivitiesOnExit = true

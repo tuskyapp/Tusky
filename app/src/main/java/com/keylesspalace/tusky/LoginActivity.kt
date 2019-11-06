@@ -26,9 +26,9 @@ import android.text.method.LinkMovementMethod
 import android.util.Log
 import android.view.MenuItem
 import android.view.View
-import android.widget.EditText
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
+import com.bumptech.glide.Glide
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.entity.AccessToken
 import com.keylesspalace.tusky.entity.AppCredentials
@@ -50,9 +50,6 @@ class LoginActivity : BaseActivity(), Injectable {
     lateinit var mastodonApi: MastodonApi
 
     private lateinit var preferences: SharedPreferences
-    private var domain: String = ""
-    private var clientId: String? = null
-    private var clientSecret: String? = null
 
     private val oauthRedirectUri: String
         get() {
@@ -66,10 +63,16 @@ class LoginActivity : BaseActivity(), Injectable {
 
         setContentView(R.layout.activity_login)
 
-        if (savedInstanceState != null) {
-            domain = savedInstanceState.getString(DOMAIN)!!
-            clientId = savedInstanceState.getString(CLIENT_ID)
-            clientSecret = savedInstanceState.getString(CLIENT_SECRET)
+        if(savedInstanceState == null && BuildConfig.CUSTOM_INSTANCE.isNotBlank() && !isAdditionalLogin()) {
+            domainEditText.setText(BuildConfig.CUSTOM_INSTANCE)
+            domainEditText.setSelection(BuildConfig.CUSTOM_INSTANCE.length)
+        }
+
+        if(BuildConfig.CUSTOM_LOGO_URL.isNotBlank()) {
+            Glide.with(loginLogo)
+                    .load(BuildConfig.CUSTOM_LOGO_URL)
+                    .placeholder(null)
+                    .into(loginLogo)
         }
 
         preferences = getSharedPreferences(
@@ -115,13 +118,6 @@ class LoginActivity : BaseActivity(), Injectable {
         return super.onOptionsItemSelected(item)
     }
 
-    override fun onSaveInstanceState(outState: Bundle) {
-        outState.putString(DOMAIN, domain)
-        outState.putString(CLIENT_ID, clientId)
-        outState.putString(CLIENT_SECRET, clientSecret)
-        super.onSaveInstanceState(outState)
-    }
-
     /**
      * Obtain the oauth client credentials for this app. This is only necessary the first time the
      * app is run on a given server instance. So, after the first authentication, they are
@@ -131,7 +127,7 @@ class LoginActivity : BaseActivity(), Injectable {
 
         loginButton.isEnabled = false
 
-        domain = canonicalizeDomain(domainEditText.text.toString())
+        val domain = canonicalizeDomain(domainEditText.text.toString())
 
         try {
             HttpUrl.Builder().host(domain).scheme("https").build()
@@ -157,10 +153,16 @@ class LoginActivity : BaseActivity(), Injectable {
                     return
                 }
                 val credentials = response.body()
-                clientId = credentials!!.clientId
-                clientSecret = credentials.clientSecret
+                val clientId = credentials!!.clientId
+                val clientSecret = credentials.clientSecret
 
-                redirectUserToAuthorizeAndLogin(domainEditText)
+                preferences.edit()
+                        .putString("domain", domain)
+                        .putString("clientId", clientId)
+                        .putString("clientSecret", clientSecret)
+                        .apply()
+
+                redirectUserToAuthorizeAndLogin(domain, clientId)
             }
 
             override fun onFailure(call: Call<AppCredentials>, t: Throwable) {
@@ -173,22 +175,22 @@ class LoginActivity : BaseActivity(), Injectable {
 
         mastodonApi
                 .authenticateApp(domain, getString(R.string.app_name), oauthRedirectUri,
-                        OAUTH_SCOPES, getString(R.string.app_website))
+                        OAUTH_SCOPES, getString(R.string.tusky_website))
                 .enqueue(callback)
         setLoading(true)
 
     }
 
-    private fun redirectUserToAuthorizeAndLogin(editText: EditText) {
+    private fun redirectUserToAuthorizeAndLogin(domain: String, clientId: String) {
         /* To authorize this app and log in it's necessary to redirect to the domain given,
-         * activity_login there, and the server will redirect back to the app with its response. */
+         * login there, and the server will redirect back to the app with its response. */
         val endpoint = MastodonApi.ENDPOINT_AUTHORIZE
-        val redirectUri = oauthRedirectUri
-        val parameters = HashMap<String, String>()
-        parameters["client_id"] = clientId!!
-        parameters["redirect_uri"] = redirectUri
-        parameters["response_type"] = "code"
-        parameters["scope"] = OAUTH_SCOPES
+        val parameters = mapOf(
+                "client_id" to clientId,
+                "redirect_uri" to oauthRedirectUri,
+                "response_type" to "code",
+                "scope" to OAUTH_SCOPES
+        )
         val url = "https://" + domain + endpoint + "?" + toQueryString(parameters)
         val uri = Uri.parse(url)
         if (!openInCustomTab(uri, this)) {
@@ -196,19 +198,10 @@ class LoginActivity : BaseActivity(), Injectable {
             if (viewIntent.resolveActivity(packageManager) != null) {
                 startActivity(viewIntent)
             } else {
-                editText.error = getString(R.string.error_no_web_browser_found)
+                domainEditText.error = getString(R.string.error_no_web_browser_found)
                 setLoading(false)
             }
         }
-    }
-
-    override fun onStop() {
-        super.onStop()
-        preferences.edit()
-                .putString("domain", domain)
-                .putString("clientId", clientId)
-                .putString("clientSecret", clientSecret)
-                .apply()
     }
 
     override fun onStart() {
@@ -223,14 +216,12 @@ class LoginActivity : BaseActivity(), Injectable {
             val code = uri.getQueryParameter("code")
             val error = uri.getQueryParameter("error")
 
-            /* During the redirect roundtrip this Activity usually dies, which wipes out the
-             * instance variables, so they have to be recovered from where they were saved in
-             * SharedPreferences. */
-            domain = preferences.getNonNullString(DOMAIN, "")
-            clientId = preferences.getString(CLIENT_ID, null)
-            clientSecret = preferences.getString(CLIENT_SECRET, null)
+            /* restore variables from SharedPreferences */
+            val domain = preferences.getNonNullString(DOMAIN, "")
+            val clientId = preferences.getNonNullString(CLIENT_ID, "")
+            val clientSecret = preferences.getNonNullString(CLIENT_SECRET, "")
 
-            if (code != null && domain.isNotEmpty() && !clientId.isNullOrEmpty() && !clientSecret.isNullOrEmpty()) {
+            if (code != null && domain.isNotEmpty() && clientId.isNotEmpty() && clientSecret.isNotEmpty()) {
 
                 setLoading(true)
                 /* Since authorization has succeeded, the final step to log in is to exchange
@@ -238,7 +229,7 @@ class LoginActivity : BaseActivity(), Injectable {
                 val callback = object : Callback<AccessToken> {
                     override fun onResponse(call: Call<AccessToken>, response: Response<AccessToken>) {
                         if (response.isSuccessful) {
-                            onLoginSuccess(response.body()!!.accessToken)
+                            onLoginSuccess(response.body()!!.accessToken, domain)
                         } else {
                             setLoading(false)
                             domainTextInputLayout.error = getString(R.string.error_retrieving_oauth_token)
@@ -257,7 +248,7 @@ class LoginActivity : BaseActivity(), Injectable {
                     }
                 }
 
-                mastodonApi.fetchOAuthToken(domain, clientId!!, clientSecret!!, redirectUri, code,
+                mastodonApi.fetchOAuthToken(domain, clientId, clientSecret, redirectUri, code,
                         "authorization_code").enqueue(callback)
             } else if (error != null) {
                 /* Authorization failed. Put the error response where the user can read it and they
@@ -293,7 +284,7 @@ class LoginActivity : BaseActivity(), Injectable {
         return intent.getBooleanExtra(LOGIN_MODE, false)
     }
 
-    private fun onLoginSuccess(accessToken: String) {
+    private fun onLoginSuccess(accessToken: String, domain: String) {
 
         setLoading(true)
 
@@ -358,7 +349,7 @@ class LoginActivity : BaseActivity(), Injectable {
                     .setToolbarColor(toolbarColor)
                     .build()
             try {
-                 customTabsIntent.launchUrl(context, uri)
+                customTabsIntent.launchUrl(context, uri)
             } catch (e: ActivityNotFoundException) {
                 Log.w(TAG, "Activity was not found for intent $customTabsIntent")
                 return false

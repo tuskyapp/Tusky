@@ -23,7 +23,6 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 
@@ -34,6 +33,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.preference.PreferenceManager;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.keylesspalace.tusky.adapter.AccountSelectionAdapter;
@@ -52,8 +52,6 @@ import javax.inject.Inject;
 
 public abstract class BaseActivity extends AppCompatActivity implements Injectable {
 
-    @Inject
-    public ThemeUtils themeUtils;
     @Inject
     public AccountManager accountManager;
 
@@ -74,8 +72,6 @@ public abstract class BaseActivity extends AppCompatActivity implements Injectab
         if (theme.equals("black")) {
             setTheme(R.style.TuskyBlackTheme);
         }
-
-        themeUtils.setAppNightMode(theme, this);
 
         /* set the taskdescription programmatically, the theme would turn it blue */
         String appName = getString(R.string.app_name);

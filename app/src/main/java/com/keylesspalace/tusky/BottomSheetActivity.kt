@@ -19,6 +19,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.LinearLayout
+import android.widget.Toast
 import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.Lifecycle
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -50,7 +51,7 @@ abstract class BottomSheetActivity : BaseActivity() {
         val bottomSheetLayout: LinearLayout = findViewById(R.id.item_status_bottom_sheet)
         bottomSheet = BottomSheetBehavior.from(bottomSheetLayout)
         bottomSheet.state = BottomSheetBehavior.STATE_HIDDEN
-        bottomSheet.setBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
+        bottomSheet.addBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
             override fun onStateChanged(bottomSheet: View, newState: Int) {
                 if (newState == BottomSheetBehavior.STATE_HIDDEN) {
                     cancelActiveSearch()
@@ -62,7 +63,7 @@ abstract class BottomSheetActivity : BaseActivity() {
 
     }
 
-    open fun viewUrl(url: String) {
+    open fun viewUrl(url: String, lookupFallbackBehavior: PostLookupFallbackBehavior = PostLookupFallbackBehavior.OPEN_IN_BROWSER) {
         if (!looksLikeMastodonUrl(url)) {
             openLink(url)
             return
@@ -88,11 +89,11 @@ abstract class BottomSheetActivity : BaseActivity() {
                         return@subscribe
                     }
 
-                    openLink(url)
+                    performUrlFallbackAction(url, lookupFallbackBehavior)
                 }, {
                     if (!getCancelSearchRequested(url)) {
                         onEndSearch(url)
-                        openLink(url)
+                        performUrlFallbackAction(url, lookupFallbackBehavior)
                     }
                 })
 
@@ -111,6 +112,13 @@ abstract class BottomSheetActivity : BaseActivity() {
     open fun viewAccount(id: String) {
         val intent = AccountActivity.getIntent(this, id)
         startActivityWithSlideInAnimation(intent)
+    }
+
+    protected open fun performUrlFallbackAction(url: String, fallbackBehavior: PostLookupFallbackBehavior) {
+        when (fallbackBehavior) {
+            PostLookupFallbackBehavior.OPEN_IN_BROWSER -> openLink(url)
+            PostLookupFallbackBehavior.DISPLAY_ERROR -> Toast.makeText(this, getString(R.string.post_lookup_error_format, url), Toast.LENGTH_SHORT).show()
+        }
     }
 
     @VisibleForTesting
@@ -186,4 +194,9 @@ fun looksLikeMastodonUrl(urlString: String): Boolean {
             path.matches("^/@[^/]+/\\d+$".toRegex()) ||
             path.matches("^/notice/\\d+$".toRegex()) ||
             path.matches("^/objects/[-a-f0-9]+$".toRegex())
+}
+
+enum class PostLookupFallbackBehavior {
+    OPEN_IN_BROWSER,
+    DISPLAY_ERROR,
 }

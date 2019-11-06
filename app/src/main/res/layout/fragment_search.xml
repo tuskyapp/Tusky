@@ -4,20 +4,20 @@
     android:id="@+id/layoutRoot"
     android:layout_width="@dimen/timeline_width"
     android:layout_height="match_parent"
-    android:background="?attr/tab_page_margin_drawable">
+    android:background="?attr/tab_page_margin_color">
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-            android:id="@+id/swipeRefreshLayout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+        android:id="@+id/swipeRefreshLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
         <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/searchRecyclerView"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:background="?attr/window_background"
-                tools:listitem="@layout/item_account"/>
+            android:id="@+id/searchRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:background="?attr/window_background"
+            tools:listitem="@layout/item_account" />
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 

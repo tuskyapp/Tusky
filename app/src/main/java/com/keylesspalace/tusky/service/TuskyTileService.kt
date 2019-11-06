@@ -1,4 +1,4 @@
-/* Copyright 2017 Andrew Dawson
+/* Copyright 2019 Tusky Contributors
  *
  * This file is a part of Tusky.
  *
@@ -13,29 +13,27 @@
  * You should have received a copy of the GNU General Public License along with Tusky; if not,
  * see <http://www.gnu.org/licenses>. */
 
-package com.keylesspalace.tusky.service;
+package com.keylesspalace.tusky.service
 
-import android.annotation.TargetApi;
-import android.content.Intent;
-import android.service.quicksettings.TileService;
-
-import com.keylesspalace.tusky.components.compose.ComposeActivity;
+import android.annotation.TargetApi
+import android.content.Intent
+import android.service.quicksettings.TileService
+import com.keylesspalace.tusky.MainActivity
 
 /**
- * Small Addition that adds in a QuickSettings tile that opens the Compose activity when clicked
- * Created by ztepps on 4/3/17.
+ * Small Addition that adds in a QuickSettings tile
+ * opens the Compose activity or shows an account selector when multiple accounts are present
  */
 
 @TargetApi(24)
-public class TuskyTileService extends TileService {
-    public TuskyTileService() {
-        super();
-    }
+class TuskyTileService : TileService() {
 
-    @Override
-    public void onClick() {
-        Intent intent = new Intent(this, ComposeActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivityAndCollapse(intent);
+    override fun onClick() {
+        val intent = Intent(this, MainActivity::class.java).apply {
+            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            action = Intent.ACTION_SEND
+            type = "text/plain"
+        }
+        startActivityAndCollapse(intent)
     }
 }

@@ -19,7 +19,6 @@
     <color name="text_color_primary_dark">#ffffff</color>
     <color name="text_color_secondary_dark">#d9e1e8</color>
     <color name="text_color_tertiary_dark">#9baec8</color>
-    <color name="toolbar_background_dark">#4c5368</color>
     <color name="toolbar_icon_dark">#d9e1e8</color>
     <color name="status_reblog_button_disabled_dark">#444b5d</color>
     <color name="status_divider_dark">#2f3441</color>
@@ -46,7 +45,6 @@
     <color name="text_color_primary_light">#CC000000</color>
     <color name="text_color_secondary_light">#3c3c3c</color>
     <color name="text_color_tertiary_light">#5f636f</color>
-    <color name="toolbar_background_light">#f6f7f7</color>
     <color name="toolbar_icon_light">#7C000000</color>
     <color name="status_reblog_button_disabled_light">#BFBFBF</color>
     <color name="sensitive_media_warning_background_light">#b0b0b0</color>

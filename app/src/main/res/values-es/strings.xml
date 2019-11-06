@@ -18,14 +18,14 @@
     <string name="error_media_download_permission">Se requiere permiso para descargar al almacenamiento.</string>
     <string name="error_media_upload_image_or_video">No se pueden adjuntar imágenes y vídeos en el mismo estado.</string>
     <string name="error_media_upload_sending">La subida falló.</string>
-    <string name="error_sender_account_gone">Error al publicar.</string>
+    <string name="error_sender_account_gone">Error al enviar estado.</string>
     <string name="title_home">Inicio</string>
     <string name="title_notifications">Notificaciones</string>
     <string name="title_public_local">Local</string>
     <string name="title_public_federated">Federada</string>
     <string name="title_direct_messages">Mensajes Directos</string>
     <string name="title_tab_preferences">Pestañas</string>
-    <string name="title_view_thread">Publicación</string>
+    <string name="title_view_thread">Estado</string>
     <string name="title_tag">#%s</string>
     <string name="title_statuses">Estados</string>
     <string name="title_statuses_with_replies">Con respuestas</string>
@@ -50,8 +50,8 @@
     <string name="status_content_show_less">Ocultar</string>
     <string name="message_empty">Nada aquí.</string>
     <string name="footer_empty">Nada por aquí. ¡Arrastra hacia abajo para recargar!</string>
-    <string name="notification_reblog_format">%s impulsó tu toot</string>
-    <string name="notification_favourite_format">%s marcó como favorito tu post</string>
+    <string name="notification_reblog_format">%s impulsó tu estado</string>
+    <string name="notification_favourite_format">%s marcó como favorito tu estado</string>
     <string name="notification_follow_format">%s te siguió</string>
     <string name="report_username_format">Reportar @%s</string>
     <string name="report_comment_hint">¿Información adicional?</string>
@@ -61,7 +61,7 @@
     <string name="action_favourite">Favorito</string>
     <string name="action_more">Más</string>
     <string name="action_compose">Redactar</string>
-    <string name="action_login">Iniciar sesión</string>
+    <string name="action_login">Iniciar sesión con Mastodon</string>
     <string name="action_logout">Cerrar sesión</string>
     <string name="action_logout_confirm">¿Seguro que quiere cerrar la sesión de %1$s?</string>
     <string name="action_follow">Seguir</string>
@@ -110,7 +110,7 @@
     <string name="action_open_as">Abrir como %s</string>
     <string name="action_share_as">Compartir como…</string>
     <string name="send_status_link_to">Compartir URL…</string>
-    <string name="send_status_content_to">Compartir contenido…</string>
+    <string name="send_status_content_to">Compartir estado…</string>
     <string name="send_media_to">Compartir medios a…</string>
     <string name="confirmation_reported">¡Enviado!</string>
     <string name="confirmation_unblocked">El usuario ya no está bloqueado</string>
@@ -143,7 +143,7 @@
     <string name="dialog_download_image">Descargar</string>
     <string name="dialog_message_cancel_follow_request">¿Cancelar petición de amistad?</string>
     <string name="dialog_unfollow_warning">¿Dejar de seguir esta cuenta?</string>
-    <string name="dialog_delete_toot_warning">¿Eliminar este toot?</string>
+    <string name="dialog_delete_toot_warning">¿Eliminar este estado\?</string>
     <string name="visibility_public">Público: Mostrar en historias públicas</string>
     <string name="visibility_unlisted">Oculto: No mostrar en historias públicas</string>
     <string name="visibility_private">Privado: Sólo visible para seguidores</string>
@@ -260,8 +260,8 @@
     <string name="lock_account_label_description">Tendrá que admitir los seguidores manualmente</string>
     <string name="compose_save_draft">¿Guardar borrador?</string>
     <string name="send_toot_notification_title">Enviando estado…</string>
-    <string name="send_toot_notification_error_title">Error enviando estado</string>
-    <string name="send_toot_notification_channel_name">Enviando estado</string>
+    <string name="send_toot_notification_error_title">Error al enviar el estado</string>
+    <string name="send_toot_notification_channel_name">Enviando estados</string>
     <string name="send_toot_notification_cancel_title">Envío cancelado</string>
     <string name="send_toot_notification_saved_content">Una copia del estado se ha guardado en borradores</string>
     <string name="action_compose_shortcut">Redactar</string>
@@ -370,7 +370,7 @@
 
     <string name="downloading_media">Descargando contenido</string>
 
-    <string name="dialog_redraft_toot_warning">¿Borrar y devolver a borradores este toot\?</string>
+    <string name="dialog_redraft_toot_warning">¿Borrar y devolver a borradores este estado\?</string>
 
     <string name="pref_title_notification_filter_poll">encuestas que han terminado</string>
     <string name="notification_poll_description">Notificaciones sobre encuestas que han terminado</string>
@@ -416,8 +416,6 @@
     <string name="action_open_reblogger">Abrir autor del impulso</string>
     <string name="action_open_reblogged_by">Mostrar impulsos</string>
 
-    <string name="poll_option_format"> <!-- 15% vote for this! --> &lt;b&gt;%1$d%%&lt;/b&gt; %2$s</string>
-
     <string name="title_domain_mutes">Dominios ocultos</string>
     <string name="action_view_domain_mutes">Dominios ocultos</string>
     <string name="action_mute_domain">Silenciar %s</string>
@@ -445,7 +443,7 @@
     <string name="report_description_remote_instance">La cuenta es de otro servidor. ¿Enviar una copia anónima del reporte\?</string>
 
     <string name="pref_title_show_notifications_filter">Mostrar filtro de notificaciones</string>
-<string name="pref_title_alway_open_spoiler">Mostrar siempre toots marcados con avisos de contenido</string>
+<string name="pref_title_alway_open_spoiler">Mostrar siempre estados marcados con avisos de contenido</string>
     <string name="title_accounts">Cuentas</string>
     <string name="failed_search">Error al buscar</string>
 
@@ -462,5 +460,13 @@
     <string name="poll_allow_multiple_choices">Opciones múltiples</string>
     <string name="poll_new_choice_hint">Opción %d</string>
     <string name="edit_poll">Editar</string>
+
+<string name="title_scheduled_toot">Estados programados</string>
+    <string name="action_edit">Editar</string>
+    <string name="action_access_scheduled_toot">Estados programados</string>
+    <string name="action_schedule_toot">Programar estado</string>
+    <string name="action_reset_schedule">Reiniciar</string>
+    <string name="hint_configure_scheduled_toot">Pulsa aquí para configurar un estado programado.</string>
+    <string name="post_lookup_error_format">Error al buscar el post %s</string>
 
 </resources>

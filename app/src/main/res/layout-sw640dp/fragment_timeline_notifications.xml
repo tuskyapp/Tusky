@@ -3,8 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="?attr/tab_page_margin_drawable">
+    android:layout_height="match_parent">
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="640dp"
@@ -80,9 +79,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:src="@android:color/transparent"
             android:visibility="gone"
-            tools:src="@drawable/elephant_error"
             tools:visibility="visible" />
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </FrameLayout>
