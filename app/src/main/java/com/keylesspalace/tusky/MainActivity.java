@@ -33,11 +33,13 @@ import androidx.emoji.text.EmojiCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Lifecycle;
 import androidx.preference.PreferenceManager;
-import androidx.viewpager.widget.ViewPager;
+import androidx.viewpager2.widget.MarginPageTransformer;
+import androidx.viewpager2.widget.ViewPager2;
 
 import com.bumptech.glide.Glide;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.tabs.TabLayoutMediator;
 import com.keylesspalace.tusky.appstore.CacheUpdater;
 import com.keylesspalace.tusky.appstore.EventHub;
 import com.keylesspalace.tusky.appstore.MainTabsChangedEvent;
@@ -53,7 +55,6 @@ import com.keylesspalace.tusky.pager.MainPagerAdapter;
 import com.keylesspalace.tusky.util.CustomEmojiHelper;
 import com.keylesspalace.tusky.util.NotificationHelper;
 import com.keylesspalace.tusky.util.ShareShortcutHelper;
-import com.keylesspalace.tusky.util.ThemeUtils;
 import com.mikepenz.google_material_typeface_library.GoogleMaterial;
 import com.mikepenz.materialdrawer.AccountHeader;
 import com.mikepenz.materialdrawer.AccountHeaderBuilder;
@@ -114,7 +115,7 @@ public final class MainActivity extends BottomSheetActivity implements ActionBut
     private AccountHeader headerResult;
     private Drawer drawer;
     private TabLayout tabLayout;
-    private ViewPager viewPager;
+    private ViewPager2 viewPager;
 
     private int notificationTabPosition;
     private MainPagerAdapter adapter;
@@ -207,10 +208,7 @@ public final class MainActivity extends BottomSheetActivity implements ActionBut
         setupTabs(showNotificationTab);
 
         int pageMargin = getResources().getDimensionPixelSize(R.dimen.tab_page_margin);
-        viewPager.setPageMargin(pageMargin);
-        Drawable pageMarginDrawable = ThemeUtils.getDrawable(this, R.attr.tab_page_margin_drawable,
-                R.drawable.tab_page_margin_dark);
-        viewPager.setPageMarginDrawable(pageMarginDrawable);
+        viewPager.setPageTransformer(new MarginPageTransformer(pageMargin));
 
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
@@ -467,10 +465,11 @@ public final class MainActivity extends BottomSheetActivity implements ActionBut
     private void setupTabs(boolean selectNotificationTab) {
         List<TabData> tabs = accountManager.getActiveAccount().getTabPreferences();
 
-        adapter = new MainPagerAdapter(tabs, getSupportFragmentManager());
+        adapter = new MainPagerAdapter(tabs, this);
         viewPager.setAdapter(adapter);
 
-        tabLayout.setupWithViewPager(viewPager);
+        new TabLayoutMediator(tabLayout, viewPager, (tab, position) -> { }).attach();
+
         tabLayout.removeAllTabs();
         for (int i = 0; i < tabs.size(); i++) {
             TabLayout.Tab tab = tabLayout.newTab()

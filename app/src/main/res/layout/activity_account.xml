@@ -333,10 +333,11 @@
 
         </com.google.android.material.appbar.AppBarLayout>
 
-        <androidx.viewpager.widget.ViewPager
+        <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/accountFragmentViewPager"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:background="?attr/tab_page_margin_color"
             app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton

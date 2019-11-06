@@ -37,6 +37,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.viewpager2.widget.MarginPageTransformer
 import com.bumptech.glide.Glide
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.appbar.CollapsingToolbarLayout
@@ -45,6 +46,7 @@ import com.google.android.material.shape.MaterialShapeDrawable
 import com.google.android.material.shape.ShapeAppearanceModel
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayout
+import com.google.android.material.tabs.TabLayoutMediator
 import com.keylesspalace.tusky.adapter.AccountFieldAdapter
 import com.keylesspalace.tusky.components.report.ReportActivity
 import com.keylesspalace.tusky.di.ViewModelFactory
@@ -187,16 +189,21 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
      */
     private fun setupTabs() {
         // Setup the tabs and timeline pager.
-        adapter = AccountPagerAdapter(supportFragmentManager, viewModel.accountId)
-        val pageTitles = arrayOf(getString(R.string.title_statuses), getString(R.string.title_statuses_with_replies), getString(R.string.title_statuses_pinned), getString(R.string.title_media))
-        adapter.setPageTitles(pageTitles)
-        accountFragmentViewPager.pageMargin = resources.getDimensionPixelSize(R.dimen.tab_page_margin)
-        val pageMarginDrawable = ThemeUtils.getDrawable(this, R.attr.tab_page_margin_drawable,
-                R.drawable.tab_page_margin_dark)
-        accountFragmentViewPager.setPageMarginDrawable(pageMarginDrawable)
+        adapter = AccountPagerAdapter(this, viewModel.accountId)
+
         accountFragmentViewPager.adapter = adapter
         accountFragmentViewPager.offscreenPageLimit = 2
-        accountTabLayout.setupWithViewPager(accountFragmentViewPager)
+
+        val pageTitles = arrayOf(getString(R.string.title_statuses), getString(R.string.title_statuses_with_replies), getString(R.string.title_statuses_pinned), getString(R.string.title_media))
+
+        TabLayoutMediator(accountTabLayout, accountFragmentViewPager) {
+            tab, position ->
+            tab.text = pageTitles[position]
+        }.attach()
+
+        val pageMargin = resources.getDimensionPixelSize(R.dimen.tab_page_margin)
+        accountFragmentViewPager.setPageTransformer(MarginPageTransformer(pageMargin))
+
         accountTabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabReselected(tab: TabLayout.Tab?) {
                 tab?.position?.let { position ->
