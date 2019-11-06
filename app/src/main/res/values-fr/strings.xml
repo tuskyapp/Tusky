@@ -26,7 +26,6 @@
     <string name="title_direct_messages">Messages directs</string>
     <string name="title_tab_preferences">Onglets</string>
     <string name="title_view_thread">Pouet</string>
-    <string name="title_tag">#%s</string>
     <string name="title_statuses">Pouets</string>
     <string name="title_statuses_with_replies">Pouets &amp; réponses</string>
     <string name="title_statuses_pinned">Épinglés</string>

@@ -26,7 +26,6 @@
     <string name="title_direct_messages">Közvetlen üzenetek</string>
     <string name="title_tab_preferences">Fülek</string>
     <string name="title_view_thread">Tülk</string>
-    <string name="title_tag">#%s</string>
     <string name="title_statuses">Tülkölés</string>
     <string name="title_statuses_with_replies">Válaszokkal</string>
     <string name="title_statuses_pinned">Rögzített</string>

@@ -274,7 +274,6 @@
     <string name="title_public_local">Local</string>
     <string name="title_direct_messages">Messatges dirèctes</string>
     <string name="title_tab_preferences">Onglets</string>
-    <string name="title_tag">#%s</string>
     <string name="title_statuses_pinned">Penjats</string>
     <string name="status_username_format">\@%s</string>
     <string name="message_empty">Pas res aicí.</string>

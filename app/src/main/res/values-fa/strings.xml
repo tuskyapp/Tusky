@@ -277,7 +277,6 @@
 <string name="error_network">یک خطای شبکه رخ داد! لطفا اتصال خود را بررسی و دوباره تلاش کنید!</string>
     <string name="title_direct_messages">پیام‌های مستقیم</string>
     <string name="title_tab_preferences">زبانه‌ها</string>
-    <string name="title_tag">#%s</string>
     <string name="title_statuses_pinned">سنجاق‌شده</string>
     <string name="title_domain_mutes">دامنه‌های پنهان</string>
     <string name="status_username_format">\@%s</string>

@@ -26,7 +26,6 @@
     <string name="title_direct_messages">Direkt Mesajlar</string>
     <string name="title_tab_preferences">Sekmeler</string>
     <string name="title_view_thread">İleti</string>
-    <string name="title_tag">#%s</string>
     <string name="title_statuses">İletiler</string>
     <string name="title_statuses_with_replies">Yanıtlar</string>
     <string name="title_statuses_pinned">Sabitlenmiş</string>

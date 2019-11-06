@@ -26,7 +26,6 @@
     <string name="title_direct_messages">Messaggi Diretti</string>
     <string name="title_tab_preferences">Schede</string>
     <string name="title_view_thread">Toot</string>
-    <string name="title_tag">#%s</string>
     <string name="title_statuses">Post</string>
     <string name="title_statuses_with_replies">Con risposte</string>
     <string name="title_statuses_pinned">Fissati in alto</string>
