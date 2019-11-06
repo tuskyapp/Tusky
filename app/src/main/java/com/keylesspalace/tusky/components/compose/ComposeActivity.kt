@@ -1,4 +1,4 @@
-/* Copyright 2017 Andrew Dawson
+/* Copyright 2019 Tusky Contributors
  *
  * This file is a part of Tusky.
  *
@@ -28,7 +28,7 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.Parcelable
-import android.preference.PreferenceManager
+import androidx.preference.PreferenceManager
 import android.provider.MediaStore
 import android.text.TextUtils
 import android.util.Log
@@ -97,10 +97,10 @@ class ComposeActivity : BaseActivity(),
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
 
-    private var composeOptionsBehavior: BottomSheetBehavior<*>? = null
-    private var addMediaBehavior: BottomSheetBehavior<*>? = null
-    private var emojiBehavior: BottomSheetBehavior<*>? = null
-    private var scheduleBehavior: BottomSheetBehavior<*>? = null
+    private lateinit var composeOptionsBehavior: BottomSheetBehavior<*>
+    private lateinit var addMediaBehavior: BottomSheetBehavior<*>
+    private lateinit var emojiBehavior: BottomSheetBehavior<*>
+    private lateinit var scheduleBehavior: BottomSheetBehavior<*>
 
 
     // this only exists when a status is trying to be sent, but uploads are still occurring
@@ -337,7 +337,7 @@ class ComposeActivity : BaseActivity(),
         composeOptionsBottomSheet.listener = this
 
         composeOptionsBehavior = BottomSheetBehavior.from(composeOptionsBottomSheet)
-        composeOptionsBehavior!!.state = BottomSheetBehavior.STATE_HIDDEN
+        composeOptionsBehavior.state = BottomSheetBehavior.STATE_HIDDEN
         addMediaBehavior = BottomSheetBehavior.from(addMediaBottomSheet)
         scheduleBehavior = BottomSheetBehavior.from(composeScheduleView)
         emojiBehavior = BottomSheetBehavior.from(emojiView)
@@ -375,15 +375,15 @@ class ComposeActivity : BaseActivity(),
 
     private fun setupActionBar() {
         setSupportActionBar(toolbar)
-        val actionBar = supportActionBar
-        if (actionBar != null) {
-            actionBar.title = null
-            actionBar.setDisplayHomeAsUpEnabled(true)
-            actionBar.setDisplayShowHomeEnabled(true)
-            val closeIcon = AppCompatResources.getDrawable(this, R.drawable.ic_close_24dp)
-            ThemeUtils.setDrawableTint(this, closeIcon!!, R.attr.compose_close_button_tint)
-            actionBar.setHomeAsUpIndicator(closeIcon)
+        supportActionBar?.run {
+            title = null
+            setDisplayHomeAsUpEnabled(true)
+            setDisplayShowHomeEnabled(true)
+            val closeIcon = AppCompatResources.getDrawable(this@ComposeActivity, R.drawable.ic_close_24dp)
+            ThemeUtils.setDrawableTint(this@ComposeActivity, closeIcon!!, R.attr.compose_close_button_tint)
+            setHomeAsUpIndicator(closeIcon)
         }
+
     }
 
     private fun setupAvatar(preferences: SharedPreferences, activeAccount: AccountEntity) {
@@ -524,24 +524,24 @@ class ComposeActivity : BaseActivity(),
     }
 
     private fun showComposeOptions() {
-        if (composeOptionsBehavior!!.state == BottomSheetBehavior.STATE_HIDDEN || composeOptionsBehavior!!.state == BottomSheetBehavior.STATE_COLLAPSED) {
-            composeOptionsBehavior!!.state = BottomSheetBehavior.STATE_EXPANDED
-            addMediaBehavior!!.state = BottomSheetBehavior.STATE_HIDDEN
-            emojiBehavior!!.state = BottomSheetBehavior.STATE_HIDDEN
-            scheduleBehavior!!.setState(BottomSheetBehavior.STATE_HIDDEN)
+        if (composeOptionsBehavior.state == BottomSheetBehavior.STATE_HIDDEN || composeOptionsBehavior.state == BottomSheetBehavior.STATE_COLLAPSED) {
+            composeOptionsBehavior.state = BottomSheetBehavior.STATE_EXPANDED
+            addMediaBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+            emojiBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+            scheduleBehavior.setState(BottomSheetBehavior.STATE_HIDDEN)
         } else {
-            composeOptionsBehavior!!.setState(BottomSheetBehavior.STATE_HIDDEN)
+            composeOptionsBehavior.setState(BottomSheetBehavior.STATE_HIDDEN)
         }
     }
 
     private fun showScheduleView() {
-        if (scheduleBehavior!!.state == BottomSheetBehavior.STATE_HIDDEN || scheduleBehavior!!.state == BottomSheetBehavior.STATE_COLLAPSED) {
-            scheduleBehavior!!.state = BottomSheetBehavior.STATE_EXPANDED
-            composeOptionsBehavior!!.state = BottomSheetBehavior.STATE_HIDDEN
-            addMediaBehavior!!.state = BottomSheetBehavior.STATE_HIDDEN
-            emojiBehavior!!.setState(BottomSheetBehavior.STATE_HIDDEN)
+        if (scheduleBehavior.state == BottomSheetBehavior.STATE_HIDDEN || scheduleBehavior.state == BottomSheetBehavior.STATE_COLLAPSED) {
+            scheduleBehavior.state = BottomSheetBehavior.STATE_EXPANDED
+            composeOptionsBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+            addMediaBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+            emojiBehavior.setState(BottomSheetBehavior.STATE_HIDDEN)
         } else {
-            scheduleBehavior!!.setState(BottomSheetBehavior.STATE_HIDDEN)
+            scheduleBehavior.setState(BottomSheetBehavior.STATE_HIDDEN)
         }
     }
 
@@ -551,35 +551,35 @@ class ComposeActivity : BaseActivity(),
                 val errorMessage = getString(R.string.error_no_custom_emojis, accountManager.activeAccount!!.domain)
                 Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show()
             } else {
-                if (emojiBehavior!!.state == BottomSheetBehavior.STATE_HIDDEN || emojiBehavior!!.state == BottomSheetBehavior.STATE_COLLAPSED) {
-                    emojiBehavior!!.state = BottomSheetBehavior.STATE_EXPANDED
-                    composeOptionsBehavior!!.state = BottomSheetBehavior.STATE_HIDDEN
-                    addMediaBehavior!!.state = BottomSheetBehavior.STATE_HIDDEN
-                    scheduleBehavior!!.setState(BottomSheetBehavior.STATE_HIDDEN)
+                if (emojiBehavior.state == BottomSheetBehavior.STATE_HIDDEN || emojiBehavior.state == BottomSheetBehavior.STATE_COLLAPSED) {
+                    emojiBehavior.state = BottomSheetBehavior.STATE_EXPANDED
+                    composeOptionsBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+                    addMediaBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+                    scheduleBehavior.setState(BottomSheetBehavior.STATE_HIDDEN)
                 } else {
-                    emojiBehavior!!.setState(BottomSheetBehavior.STATE_HIDDEN)
+                    emojiBehavior.setState(BottomSheetBehavior.STATE_HIDDEN)
                 }
             }
         }
     }
 
     private fun openPickDialog() {
-        if (addMediaBehavior!!.state == BottomSheetBehavior.STATE_HIDDEN || addMediaBehavior!!.state == BottomSheetBehavior.STATE_COLLAPSED) {
-            addMediaBehavior!!.state = BottomSheetBehavior.STATE_EXPANDED
-            composeOptionsBehavior!!.state = BottomSheetBehavior.STATE_HIDDEN
-            emojiBehavior!!.state = BottomSheetBehavior.STATE_HIDDEN
-            scheduleBehavior!!.setState(BottomSheetBehavior.STATE_HIDDEN)
+        if (addMediaBehavior.state == BottomSheetBehavior.STATE_HIDDEN || addMediaBehavior.state == BottomSheetBehavior.STATE_COLLAPSED) {
+            addMediaBehavior.state = BottomSheetBehavior.STATE_EXPANDED
+            composeOptionsBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+            emojiBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+            scheduleBehavior.setState(BottomSheetBehavior.STATE_HIDDEN)
         } else {
-            addMediaBehavior!!.setState(BottomSheetBehavior.STATE_HIDDEN)
+            addMediaBehavior.setState(BottomSheetBehavior.STATE_HIDDEN)
         }
     }
 
     private fun onMediaPick() {
-        addMediaBehavior!!.addBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
+        addMediaBehavior.addBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
             override fun onStateChanged(bottomSheet: View, newState: Int) {
                 //Wait until bottom sheet is not collapsed and show next screen after
                 if (newState == BottomSheetBehavior.STATE_COLLAPSED) {
-                    addMediaBehavior!!.removeBottomSheetCallback(this)
+                    addMediaBehavior.removeBottomSheetCallback(this)
                     if (ContextCompat.checkSelfPermission(this@ComposeActivity, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
                         ActivityCompat.requestPermissions(this@ComposeActivity,
                                 arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
@@ -593,17 +593,17 @@ class ComposeActivity : BaseActivity(),
             override fun onSlide(bottomSheet: View, slideOffset: Float) {}
         }
         )
-        addMediaBehavior!!.state = BottomSheetBehavior.STATE_COLLAPSED
+        addMediaBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
     }
 
     private fun openPollDialog() {
-        addMediaBehavior!!.state = BottomSheetBehavior.STATE_COLLAPSED
+        addMediaBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
         val instanceParams = viewModel.instanceParams.value!!
         showAddPollDialog(this, viewModel.poll.value, instanceParams.pollMaxOptions,
                 instanceParams.pollMaxLength, viewModel::updatePoll)
     }
 
-    fun setupPollView() {
+    private fun setupPollView() {
         val margin = resources.getDimensionPixelSize(R.dimen.compose_media_preview_margin)
         val marginBottom = resources.getDimensionPixelSize(R.dimen.compose_media_preview_margin_bottom)
 
@@ -635,11 +635,11 @@ class ComposeActivity : BaseActivity(),
     }
 
     override fun onVisibilityChanged(visibility: Status.Visibility) {
-        composeOptionsBehavior!!.state = BottomSheetBehavior.STATE_COLLAPSED
+        composeOptionsBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
         viewModel.statusVisibility.value = visibility
     }
 
-    internal fun calculateTextLength(): Int {
+    private fun calculateTextLength(): Int {
         var offset = 0
         val urlSpans = composeEditField.urls
         if (urlSpans != null) {
@@ -698,8 +698,7 @@ class ComposeActivity : BaseActivity(),
         }
 
         // Determine the file size before putting handing it off to be put in the queue.
-        val uri = inputContentInfo.contentUri
-        pickMedia(uri)
+        pickMedia(inputContentInfo.contentUri)
 
         currentInputContentInfo = inputContentInfo
         currentFlags = flags
@@ -747,7 +746,7 @@ class ComposeActivity : BaseActivity(),
 
 
     private fun initiateCameraApp() {
-        addMediaBehavior!!.state = BottomSheetBehavior.STATE_COLLAPSED
+        addMediaBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
 
         // We don't need to ask for permission in this case, because the used calls require
         // android.permission.WRITE_EXTERNAL_STORAGE only on SDKs *older* than Kitkat, which was
@@ -862,14 +861,14 @@ class ComposeActivity : BaseActivity(),
 
     override fun onBackPressed() {
         // Acting like a teen: deliberately ignoring parent.
-        if (composeOptionsBehavior!!.state == BottomSheetBehavior.STATE_EXPANDED ||
-                addMediaBehavior!!.state == BottomSheetBehavior.STATE_EXPANDED ||
-                emojiBehavior!!.state == BottomSheetBehavior.STATE_EXPANDED ||
-                scheduleBehavior!!.state == BottomSheetBehavior.STATE_EXPANDED) {
-            composeOptionsBehavior!!.state = BottomSheetBehavior.STATE_HIDDEN
-            addMediaBehavior!!.state = BottomSheetBehavior.STATE_HIDDEN
-            emojiBehavior!!.state = BottomSheetBehavior.STATE_HIDDEN
-            scheduleBehavior!!.state = BottomSheetBehavior.STATE_HIDDEN
+        if (composeOptionsBehavior.state == BottomSheetBehavior.STATE_EXPANDED ||
+                addMediaBehavior.state == BottomSheetBehavior.STATE_EXPANDED ||
+                emojiBehavior.state == BottomSheetBehavior.STATE_EXPANDED ||
+                scheduleBehavior.state == BottomSheetBehavior.STATE_EXPANDED) {
+            composeOptionsBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+            addMediaBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+            emojiBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+            scheduleBehavior.state = BottomSheetBehavior.STATE_HIDDEN
             return
         }
 
@@ -930,7 +929,7 @@ class ComposeActivity : BaseActivity(),
 
     private fun setEmojiList(emojiList: List<Emoji>?) {
         if (emojiList != null) {
-            emojiView!!.adapter = EmojiAdapter(emojiList, this@ComposeActivity)
+            emojiView.adapter = EmojiAdapter(emojiList, this@ComposeActivity)
             enableButton(composeEmojiButton, true, emojiList.isNotEmpty())
         }
     }
@@ -952,13 +951,13 @@ class ComposeActivity : BaseActivity(),
     override fun onTimeSet(view: TimePicker, hourOfDay: Int, minute: Int) {
         composeScheduleView.onTimeSet(hourOfDay, minute)
         updateScheduleButton()
-        scheduleBehavior!!.state = BottomSheetBehavior.STATE_HIDDEN
+        scheduleBehavior.state = BottomSheetBehavior.STATE_HIDDEN
     }
 
-    fun resetSchedule() {
+    private fun resetSchedule() {
         composeScheduleView.resetSchedule()
         updateScheduleButton()
-        scheduleBehavior!!.state = BottomSheetBehavior.STATE_HIDDEN
+        scheduleBehavior.state = BottomSheetBehavior.STATE_HIDDEN
     }
 
     @Parcelize
