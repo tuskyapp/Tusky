@@ -437,7 +437,7 @@
     <string name="failed_report">Falha na denúncia</string>
     <string name="failed_fetch_statuses">Falha ao carregar toots</string>
     <string name="report_description_1">A denúncia será enviada para o seu administrador da instância. Você pode explicar por que você denunciou a conta:</string>
-    <string name="report_description_remote_instance">A conta está em outra instância. Enviar uma cópia anonimizada da denúncia também\?</string>
+    <string name="report_description_remote_instance">A conta está em outra instância. Enviar uma cópia anônima da denúncia também\?</string>
 
 <string name="title_domain_mutes">Instâncias bloqueadas</string>
     <string name="action_view_domain_mutes">Instâncias bloqueadas</string>
@@ -472,7 +472,7 @@
     <string name="action_edit">Editar</string>
     <string name="action_access_scheduled_toot">Toots agendados</string>
     <string name="action_schedule_toot">Agendar toot</string>
-    <string name="action_reset_schedule">X</string>
+    <string name="action_reset_schedule">Cancelar</string>
     <string name="hint_configure_scheduled_toot">Toque aqui para agendar</string>
     <string name="post_lookup_error_format">Erro ao pesquisar %s</string>
 

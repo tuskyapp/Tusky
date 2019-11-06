@@ -25,7 +25,7 @@
     <attr name="media_preview_unloaded_drawable" format="reference" />
     <attr name="conversation_thread_line_drawable" format="reference" />
     <attr name="tab_icon_selected_tint" format="reference|color" />
-    <attr name="tab_page_margin_drawable" format="reference" />
+    <attr name="tab_page_margin_color" format="reference|color" />
     <attr name="account_header_background_color" format="reference|color" />
     <attr name="account_toolbar_icon_tint_uncollapsed" format="reference|color" />
     <attr name="account_toolbar_icon_tint_collapsed" format="reference|color" />
