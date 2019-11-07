@@ -1,0 +1,9 @@
+Tusky v9.0
+
+- Du kannst jetzt Umfragen erstellen
+- Die Suche wurde verbessert
+- Neue Option in den Profileinstellungen, um Inhaltswarnungen immer auszuklappen
+- Avatare im Hauptmenü haben jetzt abgerundete Ecken
+- Es ist jetzt möglich, Profile ohne Beiträge zu melden
+- Tusky wird auf Android 6+ nur noch sichere Netzwerkverbindungen nutzen
+- Viele andere kleine Verbesserungen und Fehlerkorrekturen
