@@ -54,7 +54,7 @@
     <string name="action_favourite">پسند</string>
     <string name="action_more">بیش‌تر</string>
     <string name="action_compose">ایجاد</string>
-    <string name="action_login">ورود با ماستودون</string>
+    <string name="action_login">ورود با ماستدون</string>
     <string name="action_logout">خروج</string>
     <string name="action_logout_confirm">مطمئنید می‌خواهید از حساب %1s خارج شوید؟</string>
     <string name="action_follow">پیگیری</string>
@@ -119,7 +119,7 @@
     <string name="label_header">سرایند</string>
     <string name="link_whats_an_instance">نمونه چیست؟</string>
     <string name="login_connection">در حال اتصال …</string>
-    <string name="dialog_whats_an_instance">این‌حا می‌تواند نشانی یا دامنهٔ هر نمونه‌ا وارد شود، مثلا mastodon.social، icosahedron.website، social.tchncs.de، و <a href="https://instances.social">بیش‌تر!</a> 
+    <string name="dialog_whats_an_instance">این‌جا می‌تواند نشانی یا دامنهٔ هر نمونه را وارد کنید، مثلا mastodon.social، icosahedron.website، social.tchncs.de، و <a href="https://instances.social">بیش‌تر!</a> 
 \n 
 \n اگر هنوز حساب کاربری ندارید، می‌توانید نام نمونهٔ مورد نظر برای پیوستن را وارد کرده و حساب کاربری بسازید. 
 \n 
@@ -226,7 +226,7 @@
     <string name="replying_to">در حال پاسخ به @%s</string>
     <string name="load_more_placeholder_text">بارگیری بیش‌تر</string>
     <string name="add_account_name">افزودن حساب</string>
-    <string name="add_account_description">افزودن حساب ماستودون جدید</string>
+    <string name="add_account_description">افزودن حساب ماستدون جدید</string>
     <string name="action_lists">فهرست‌ها</string>
     <string name="title_lists">فهرست‌ها</string>
     <string name="title_list_timeline">خط زمانی فهرست</string>
@@ -258,7 +258,7 @@
     <string name="restart">شروع دوباره</string>
     <string name="caption_systememoji">مجموعهٔ اموجی پیش‌گزیدهٔ افزاره‌تان</string>
     <string name="caption_blobmoji">اموجی‌های اندروید ۴.۴ تا ۷.۱</string>
-    <string name="caption_twemoji">مجموعهٔ اموجی استاندارد ماستودون</string>
+    <string name="caption_twemoji">مجموعهٔ اموجی استاندارد ماستدون</string>
     <string name="download_failed">شکست در بارگیری</string>
     <string name="profile_badge_bot_text">بات</string>
     <string name="account_moved_description">%1$s منتقل شد به:</string>
