@@ -1,2 +1,29 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<?xml version='1.0' encoding='UTF-8'?>
+<resources><string name="action_login">मॅस्टोडौन के साथ लॉगिन करें</string>
+    <string name="title_favourites">पसंदीदा</string>
+    <string name="title_saved_toot">ड्राफ्ट</string>
+    <string name="action_logout">लॉग आउट</string>
+    <string name="action_view_preferences">पसंद</string>
+    <string name="action_view_account_preferences">खाता प्राथमिकताएं</string>
+    <string name="action_edit_profile">प्रोफाइल एडिट करें</string>
+    <string name="action_search">खोज</string>
+    <string name="about_title_activity">के बारे में</string>
+    <string name="title_statuses_with_replies">उत्तरों के साथ</string>
+    <string name="title_followers">फॉलोअर्स</string>
+    <string name="action_reply">उत्तर दें</string>
+    <string name="action_follow">फॉलो</string>
+    <string name="action_unfollow">अनफॉलो</string>
+    <string name="action_block">ब्लॉक</string>
+    <string name="action_unblock">अनब्लॉक</string>
+    <string name="action_hide_reblogs">बूस्ट छिपाएं</string>
+    <string name="action_show_reblogs">बूस्ट दिखाएं</string>
+    <string name="action_report">रिपोर्ट करें</string>
+    <string name="action_edit">एडिट करें</string>
+    <string name="action_delete">डिलीट करें</string>
+    <string name="action_delete_and_redraft">डिलीट एवं रिड्राफ्ट करें</string>
+    <string name="action_send">टूट करें</string>
+    <string name="action_send_public">टूट!</string>
+    <string name="action_retry">पुनः प्रयास करें</string>
+    <string name="action_close">बंद करें</string>
+    <string name="action_view_profile">प्रोफाइल</string>
+    </resources>

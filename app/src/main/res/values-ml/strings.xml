@@ -47,4 +47,13 @@
     <string name="title_followers">പിന്തുടരുന്നവർ</string>
     <string name="title_mutes">നിശ്ശബ്ദരാക്കിയ ഉപയോക്താക്കൾ</string>
     <string name="title_blocks">തടയപ്പെട്ട ഉപയോക്താക്കൾ</string>
+    <string name="title_follow_requests">പിന്തുടാനുള്ള അപേക്ഷകൾ</string>
+    <string name="title_edit_profile">പ്രൊഫൈൽ തിരുത്തുക</string>
+    <string name="action_reply">മറുപടി</string>
+    <string name="action_reblog">ബൂസ്റ്റ്</string>
+    <string name="action_unreblog">ബൂസ്റ്റ് പിൻവലിക്കുക</string>
+    <string name="action_favourite">ഇഷ്ടപ്പെട്ടവ</string>
+    <string name="action_unfavourite">ഇഷ്ടപ്പെട്ടവയിൽ നിന്നും കളയുക</string>
+    <string name="action_more">കൂടുതൽ</string>
+    <string name="action_follow">പിന്തുടരുക</string>
     </resources>
