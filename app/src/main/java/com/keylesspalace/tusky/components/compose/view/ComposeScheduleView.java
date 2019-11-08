@@ -13,7 +13,7 @@
  * You should have received a copy of the GNU General Public License along with Tusky; if not,
  * see <http://www.gnu.org/licenses>. */
 
-package com.keylesspalace.tusky.view;
+package com.keylesspalace.tusky.components.compose.view;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;

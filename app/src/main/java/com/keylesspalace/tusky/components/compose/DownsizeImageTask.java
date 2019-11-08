@@ -13,13 +13,15 @@
  * You should have received a copy of the GNU General Public License along with Tusky; if not,
  * see <http://www.gnu.org/licenses>. */
 
-package com.keylesspalace.tusky.util;
+package com.keylesspalace.tusky.components.compose;
 
 import android.content.ContentResolver;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.AsyncTask;
+
+import com.keylesspalace.tusky.util.IOUtils;
 
 import java.io.File;
 import java.io.FileNotFoundException;

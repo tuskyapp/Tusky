@@ -1,4 +1,4 @@
-package com.keylesspalace.tusky.components.compose
+package com.keylesspalace.tusky.components.compose.dialog
 
 import android.app.Activity
 import android.content.DialogInterface

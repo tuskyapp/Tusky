@@ -117,7 +117,7 @@
 
             </LinearLayout>
 
-            <com.keylesspalace.tusky.view.EditTextTyped
+            <com.keylesspalace.tusky.components.compose.view.EditTextTyped
                 android:id="@+id/composeEditField"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -141,7 +141,7 @@
                 android:layout_height="wrap_content"
                 android:scrollbars="none" />
 
-            <com.keylesspalace.tusky.view.PollPreviewView
+            <com.keylesspalace.tusky.components.compose.view.PollPreviewView
                 android:id="@+id/pollPreview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -209,7 +209,7 @@
         app:behavior_peekHeight="0dp"
         app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior" />
 
-    <com.keylesspalace.tusky.view.ComposeOptionsView
+    <com.keylesspalace.tusky.components.compose.view.ComposeOptionsView
         android:id="@+id/composeOptionsBottomSheet"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -223,7 +223,7 @@
         app:behavior_peekHeight="0dp"
         app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior" />
 
-    <com.keylesspalace.tusky.view.ComposeScheduleView
+    <com.keylesspalace.tusky.components.compose.view.ComposeScheduleView
         android:id="@+id/composeScheduleView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -329,7 +329,7 @@
             android:textSize="?attr/status_text_medium"
             tools:text="500" />
 
-        <com.keylesspalace.tusky.view.TootButton
+        <com.keylesspalace.tusky.components.compose.view.TootButton
             android:id="@+id/composeTootButton"
             style="@style/TuskyButton"
             android:layout_width="@dimen/toot_button_width"

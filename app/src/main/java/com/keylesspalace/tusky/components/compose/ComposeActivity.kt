@@ -59,6 +59,8 @@ import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.adapter.ComposeAutoCompleteAdapter
 import com.keylesspalace.tusky.adapter.EmojiAdapter
 import com.keylesspalace.tusky.adapter.OnEmojiSelectedListener
+import com.keylesspalace.tusky.components.compose.dialog.makeCaptionDialog
+import com.keylesspalace.tusky.components.compose.view.ComposeOptionsListener
 import com.keylesspalace.tusky.db.AccountEntity
 import com.keylesspalace.tusky.db.AppDatabase
 import com.keylesspalace.tusky.di.Injectable
@@ -69,8 +71,7 @@ import com.keylesspalace.tusky.entity.NewPoll
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.*
-import com.keylesspalace.tusky.view.ComposeOptionsListener
-import com.keylesspalace.tusky.view.showAddPollDialog
+import com.keylesspalace.tusky.components.compose.dialog.showAddPollDialog
 import com.mikepenz.google_material_typeface_library.GoogleMaterial
 import com.mikepenz.iconics.IconicsDrawable
 import kotlinx.android.parcel.Parcelize

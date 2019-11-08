@@ -15,7 +15,7 @@
 
 @file:JvmName("AddPollDialog")
 
-package com.keylesspalace.tusky.view
+package com.keylesspalace.tusky.components.compose.dialog
 
 import android.content.Context
 import android.view.LayoutInflater

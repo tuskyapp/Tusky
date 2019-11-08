@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.keylesspalace.tusky.R
-import com.keylesspalace.tusky.view.ProgressImageView
+import com.keylesspalace.tusky.components.compose.view.ProgressImageView
 
 class MediaPreviewAdapter(
         context: Context,
