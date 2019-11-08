@@ -56,4 +56,5 @@
     <string name="action_unfavourite">ഇഷ്ടപ്പെട്ടവയിൽ നിന്നും കളയുക</string>
     <string name="action_more">കൂടുതൽ</string>
     <string name="action_follow">പിന്തുടരുക</string>
+    <string name="action_unfollow">പിരിയുക</string>
     </resources>
