@@ -481,4 +481,5 @@
     <string name="hint_configure_scheduled_toot">Tocatz aquí per configurar los tuts planificats.</string>
     <string name="post_lookup_error_format">Error en cercant la publicacion %s</string>
 
-</resources>
+<string name="about_powered_by_tusky">Propulsat per Tusky</string>
+    </resources>
