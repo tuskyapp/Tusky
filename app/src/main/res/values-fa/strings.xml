@@ -21,7 +21,7 @@
     <string name="title_home">خانه</string>
     <string name="title_notifications">آگاهی‌ها</string>
     <string name="title_public_local">محلی</string>
-    <string name="title_public_federated">فدرال</string>
+    <string name="title_public_federated">خودگردانده</string>
     <string name="title_view_thread">بوق</string>
     <string name="title_statuses">فرسته‌ها</string>
     <string name="title_statuses_with_replies">با پاسخ‌</string>
