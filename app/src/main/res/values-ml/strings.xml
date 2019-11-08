@@ -39,7 +39,6 @@
     <string name="title_direct_messages">നേരേയുള്ള സന്ദേശങ്ങൾ</string>
     <string name="title_tab_preferences">ടാബുകൾ</string>
     <string name="title_view_thread">ടൂട്ട്</string>
-    <string name="title_tag">#%s</string>
     <string name="title_statuses">പോസ്റ്റുകൾ</string>
     <string name="title_statuses_with_replies">മറുപടികളോടൊപ്പം</string>
     <string name="title_statuses_pinned">പിൻ ചെയ്തത്</string>
