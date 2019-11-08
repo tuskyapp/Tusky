@@ -26,7 +26,6 @@
     <string name="title_direct_messages">Direkta meddelanden</string>
     <string name="title_tab_preferences">Flikar</string>
     <string name="title_view_thread">Toot</string>
-    <string name="title_tag">#%s</string>
     <string name="title_statuses">Inlägg</string>
     <string name="title_statuses_with_replies">Med svar</string>
     <string name="title_statuses_pinned">Fastnålade</string>

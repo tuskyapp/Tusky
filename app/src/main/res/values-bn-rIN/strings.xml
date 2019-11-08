@@ -28,7 +28,6 @@
     <string name="title_direct_messages">সরাসরি বার্তা</string>
     <string name="title_tab_preferences">ট্যাবগুলি</string>
     <string name="title_view_thread">টুট</string>
-    <string name="title_tag">#%s</string>
     <string name="title_statuses">পোস্টগুলি</string>
     <string name="title_statuses_with_replies">উত্তরের সাথে</string>
     <string name="title_statuses_pinned">পিন করা</string>

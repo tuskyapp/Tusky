@@ -26,7 +26,6 @@
     <string name="title_direct_messages">الرسائل المباشرة</string>
     <string name="title_tab_preferences">الألسنة</string>
     <string name="title_view_thread">تبويق</string>
-    <string name="title_tag">#%s</string>
     <string name="title_statuses">المشاركات</string>
     <string name="title_statuses_with_replies">يحتوي على ردود</string>
     <string name="title_statuses_pinned">مدبّس</string>

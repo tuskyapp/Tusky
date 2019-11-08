@@ -27,7 +27,6 @@
     <string name="title_direct_messages">Neposredna Sporočila</string>
     <string name="title_tab_preferences">Zavihki</string>
     <string name="title_view_thread">Tut</string>
-    <string name="title_tag">#%s</string>
     <string name="title_statuses">Objave</string>
     <string name="title_statuses_with_replies">Z odgovori</string>
     <string name="title_statuses_pinned">Pripeto</string>

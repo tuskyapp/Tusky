@@ -9,6 +9,7 @@
     <string name="status_sensitive_media_template" translatable="false">&lt;b>%1$s&lt;/b>&lt;br>%2$s</string>
     <string name="at_symbol" translatable="false">\@</string>
     <string name="hash_symbol" translatable="false">#</string>
+    <string name="title_tag" translatable="false">#%s</string>
 
     <string name="emoji_shortcode_format" translatable="false">:%s:</string>
 

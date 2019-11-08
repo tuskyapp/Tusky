@@ -279,7 +279,6 @@
 <string name="error_network">Sareko errore bat sortu da! Zure konexioa ziurta ezazu berriro, mesedez!</string>
     <string name="title_direct_messages">Mezu Zuzenak</string>
     <string name="title_tab_preferences">Kategoriak</string>
-    <string name="title_tag">#%s</string>
     <string name="title_statuses_pinned">Lotuta</string>
     <string name="title_domain_mutes">Ezkutuko domeinuak</string>
     <string name="title_scheduled_toot">Programatutako tutak</string>

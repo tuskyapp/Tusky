@@ -27,7 +27,6 @@
     <string name="title_direct_messages">私信</string>
     <string name="title_tab_preferences">标签页</string>
     <string name="title_view_thread">嘟文</string>
-    <string name="title_tag">#%s</string>
     <string name="title_statuses">嘟文</string>
     <string name="title_statuses_with_replies">嘟文和回复</string>
     <string name="title_statuses_pinned">已置顶</string>

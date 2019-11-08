@@ -278,7 +278,6 @@
     <string name="error_network">Digwyddodd gwall rhwydwaith! Gwiriwch eich cysylltiad a cheisiwch eto!</string>
     <string name="title_direct_messages">Negeseuon Uniongyrchol</string>
     <string name="title_tab_preferences">Tabiau</string>
-    <string name="title_tag">#%s</string>
     <string name="title_statuses_pinned">Wedi\'i binio</string>
     <string name="title_domain_mutes">Parthau cudd</string>
     <string name="message_empty">Dim byd yma.</string>

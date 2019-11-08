@@ -26,7 +26,6 @@
     <string name="title_direct_messages">Přímé zprávy</string>
     <string name="title_tab_preferences">Panely</string>
     <string name="title_view_thread">Toot</string>
-    <string name="title_tag">#%s</string>
     <string name="title_statuses">Tooty</string>
     <string name="title_statuses_with_replies">S odpověďmi</string>
     <string name="title_statuses_pinned">Připnuté</string>

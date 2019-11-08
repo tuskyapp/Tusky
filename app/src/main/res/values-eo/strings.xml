@@ -26,7 +26,6 @@
     <string name="title_direct_messages">Rektaj mesaĝoj</string>
     <string name="title_tab_preferences">Langetoj</string>
     <string name="title_view_thread">Mesaĝo</string>
-    <string name="title_tag">#%s</string>
     <string name="title_statuses">Mesaĝoj</string>
     <string name="title_statuses_with_replies">Kun respondoj</string>
     <string name="title_statuses_pinned">Alpinglitaj</string>
