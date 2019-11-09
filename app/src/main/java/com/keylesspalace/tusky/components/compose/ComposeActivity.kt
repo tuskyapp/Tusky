@@ -24,6 +24,7 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.graphics.PorterDuff
+import android.graphics.PorterDuffColorFilter
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -38,7 +39,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.annotation.ColorInt
-import androidx.annotation.Px
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.content.res.AppCompatResources
@@ -103,17 +103,13 @@ class ComposeActivity : BaseActivity(),
     private lateinit var emojiBehavior: BottomSheetBehavior<*>
     private lateinit var scheduleBehavior: BottomSheetBehavior<*>
 
-
     // this only exists when a status is trying to be sent, but uploads are still occurring
     private var finishingUploadDialog: ProgressDialog? = null
     private var currentInputContentInfo: InputContentInfoCompat? = null
     private var currentFlags: Int = 0
     private var photoUploadUri: Uri? = null
     // Accessors for testing, hence package scope
-    internal var maximumTootCharacters = STATUS_CHARACTER_LIMIT
-        private set
-    @Px
-    private var thumbnailViewSize: Int = 0
+    private var maximumTootCharacters = DEFAULT_CHARACTER_LIMIT
 
     private var composeOptions: ComposeOptions? = null
     private lateinit var viewModel: ComposeViewModel
@@ -151,14 +147,8 @@ class ComposeActivity : BaseActivity(),
         subscribeToUpdates(mediaAdapter)
         setupButtons()
 
-        thumbnailViewSize = resources.getDimensionPixelSize(R.dimen.compose_media_preview_size)
-
-        photoUploadUri = null
-
         /* If the composer is started up as a reply to another post, override the "starting" state
          * based on what the intent from the reply request passes. */
-        val intent = intent
-
         if (intent != null) {
             this.composeOptions = intent.getParcelableExtra<ComposeOptions?>(COMPOSE_OPTIONS_EXTRA)
             viewModel.setup(composeOptions)
@@ -344,7 +334,7 @@ class ComposeActivity : BaseActivity(),
         emojiBehavior = BottomSheetBehavior.from(emojiView)
 
         emojiView.layoutManager = GridLayoutManager(this, 3, GridLayoutManager.HORIZONTAL, false)
-        enableButton(composeEmojiButton, false, false)
+        enableButton(composeEmojiButton, clickable = false, colorActive = false)
 
         // Setup the interface buttons.
         composeTootButton.setOnClickListener { onSendClicked() }
@@ -434,20 +424,10 @@ class ComposeActivity : BaseActivity(),
         super.onSaveInstanceState(outState)
     }
 
-    private fun doErrorDialog(@StringRes descriptionId: Int, @StringRes actionId: Int,
-                              listener: View.OnClickListener) {
-        val bar = Snackbar.make(findViewById(R.id.activity_compose), getString(descriptionId),
-                Snackbar.LENGTH_SHORT)
-        bar.setAction(actionId, listener)
-        //necessary so snackbar is shown over everything
-        bar.view.elevation = resources.getDimensionPixelSize(R.dimen.compose_activity_snackbar_elevation).toFloat()
-        bar.show()
-    }
-
     private fun displayTransientError(@StringRes stringId: Int) {
-        val bar = Snackbar.make(findViewById(R.id.activity_compose), stringId, Snackbar.LENGTH_LONG)
+        val bar = Snackbar.make(activityCompose, stringId, Snackbar.LENGTH_LONG)
         //necessary so snackbar is shown over everything
-        bar.view.elevation = resources.getDimensionPixelSize(R.dimen.compose_activity_snackbar_elevation).toFloat()
+        bar.view.elevation = resources.getDimension(R.dimen.compose_activity_snackbar_elevation)
         bar.show()
     }
 
@@ -488,25 +468,16 @@ class ComposeActivity : BaseActivity(),
         } else {
             ContextCompat.getColor(this, R.color.tusky_blue)
         }
-        composeScheduleButton.drawable.setColorFilter(color, PorterDuff.Mode.SRC_IN)
+        composeScheduleButton.drawable.colorFilter = PorterDuffColorFilter(color, PorterDuff.Mode.SRC_IN)
     }
 
-    private fun disableButtons() {
-        composeAddMediaButton.isClickable = false
-        composeToggleVisibilityButton.isClickable = false
-        composeEmojiButton.isClickable = false
-        composeHideMediaButton.isClickable = false
-        composeScheduleButton.isClickable = false
-        composeTootButton.isEnabled = false
-    }
-
-    private fun enableButtons() {
-        composeAddMediaButton.isClickable = true
-        composeToggleVisibilityButton.isClickable = true
-        composeEmojiButton.isClickable = true
-        composeHideMediaButton.isClickable = true
-        composeScheduleButton.isClickable = true
-        composeTootButton.isEnabled = true
+    private fun enableButtons(enable: Boolean) {
+        composeAddMediaButton.isClickable = enable
+        composeToggleVisibilityButton.isClickable = enable
+        composeEmojiButton.isClickable = enable
+        composeHideMediaButton.isClickable = enable
+        composeScheduleButton.isClickable = enable
+        composeTootButton.isEnabled = enable
     }
 
     private fun setStatusVisibility(visibility: Status.Visibility) {
@@ -520,7 +491,7 @@ class ComposeActivity : BaseActivity(),
             Status.Visibility.UNLISTED -> R.drawable.ic_lock_open_24dp
             else -> R.drawable.ic_lock_open_24dp
         }
-        val drawable = AppCompatResources.getDrawable(this, iconRes)!!
+        val drawable = AppCompatResources.getDrawable(this, iconRes)
         composeToggleVisibilityButton.setImageDrawable(drawable)
     }
 
@@ -547,8 +518,8 @@ class ComposeActivity : BaseActivity(),
     }
 
     private fun showEmojis() {
-        if (emojiView!!.adapter != null) {
-            if (emojiView!!.adapter!!.itemCount == 0) {
+        emojiView.adapter?.let {
+            if (it.itemCount == 0) {
                 val errorMessage = getString(R.string.error_no_custom_emojis, accountManager.activeAccount!!.domain)
                 Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show()
             } else {
@@ -666,16 +637,14 @@ class ComposeActivity : BaseActivity(),
     }
 
     private fun onSendClicked() {
-        disableButtons()
+        enableButtons(false)
         sendStatus()
     }
 
     /** This is for the fancy keyboards which can insert images and stuff. */
     override fun onCommitContent(inputContentInfo: InputContentInfoCompat, flags: Int, opts: Bundle): Boolean {
         try {
-            if (currentInputContentInfo != null) {
-                currentInputContentInfo!!.releasePermission()
-            }
+            currentInputContentInfo?.releasePermission()
         } catch (e: Exception) {
             Log.e(TAG, "InputContentInfoCompat#releasePermission() failed." + e.message)
         } finally {
@@ -716,7 +685,7 @@ class ComposeActivity : BaseActivity(),
         val characterCount = calculateTextLength()
         if ((characterCount <= 0 || contentText.isBlank()) && viewModel.media.value!!.isEmpty()) {
             composeEditField.error = getString(R.string.error_empty)
-            enableButtons()
+            enableButtons(true)
         } else if (characterCount <= maximumTootCharacters) {
             finishingUploadDialog = ProgressDialog.show(
                     this, getString(R.string.dialog_title_finishing_media_upload),
@@ -729,7 +698,7 @@ class ComposeActivity : BaseActivity(),
 
         } else {
             composeEditField.error = getString(R.string.error_compose_character_limit)
-            enableButtons()
+            enableButtons(true)
         }
     }
 
@@ -739,12 +708,15 @@ class ComposeActivity : BaseActivity(),
             if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 initiateMediaPicking()
             } else {
-                doErrorDialog(R.string.error_media_upload_permission, R.string.action_retry,
-                        View.OnClickListener { onMediaPick() })
+                val bar = Snackbar.make(activityCompose, R.string.error_media_upload_permission,
+                        Snackbar.LENGTH_SHORT)
+                bar.setAction(R.string.action_retry) { onMediaPick()}
+                //necessary so snackbar is shown over everything
+                bar.view.elevation = resources.getDimension(R.dimen.compose_activity_snackbar_elevation)
+                bar.show()
             }
         }
     }
-
 
     private fun initiateCameraApp() {
         addMediaBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
@@ -793,8 +765,7 @@ class ComposeActivity : BaseActivity(),
                 if (enable) android.R.attr.textColorTertiary
                 else R.attr.compose_media_button_disabled_tint)
         addPollTextActionTextView.setTextColor(textColor)
-        addPollTextActionTextView.compoundDrawablesRelative[0]
-                .setColorFilter(textColor, PorterDuff.Mode.SRC_IN)
+        addPollTextActionTextView.compoundDrawablesRelative[0].colorFilter = PorterDuffColorFilter(textColor, PorterDuff.Mode.SRC_IN)
     }
 
     private fun removeMediaFromQueue(item: QueuedMedia) {
@@ -804,8 +775,7 @@ class ComposeActivity : BaseActivity(),
     override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?) {
         super.onActivityResult(requestCode, resultCode, intent)
         if (resultCode == Activity.RESULT_OK && requestCode == MEDIA_PICK_RESULT && intent != null) {
-            val uri = intent.data
-            pickMedia(uri!!)
+            pickMedia(intent.data!!)
         } else if (resultCode == Activity.RESULT_OK && requestCode == MEDIA_TAKE_PHOTO_RESULT) {
             pickMedia(photoUploadUri!!)
         }
@@ -847,7 +817,7 @@ class ComposeActivity : BaseActivity(),
             composeEditField.requestFocus()
             color = ThemeUtils.getColor(this, android.R.attr.textColorTertiary)
         }
-        composeContentWarningButton.drawable.setColorFilter(color, PorterDuff.Mode.SRC_IN)
+        composeContentWarningButton.drawable.colorFilter = PorterDuffColorFilter(color, PorterDuff.Mode.SRC_IN)
 
     }
 
@@ -895,13 +865,13 @@ class ComposeActivity : BaseActivity(),
     }
 
     private fun handleCloseButton() {
-        val contentText = composeEditField.text?.toString()
-        val contentWarning = composeContentWarningField.text?.toString()
+        val contentText = composeEditField.text.toString()
+        val contentWarning = composeContentWarningField.text.toString()
         if (viewModel.didChange(contentText, contentWarning)) {
             AlertDialog.Builder(this)
                     .setMessage(R.string.compose_save_draft)
                     .setPositiveButton(R.string.action_save) { _, _ ->
-                        saveDraftAndFinish(contentText.toString(), contentWarning.toString())
+                        saveDraftAndFinish(contentText, contentWarning)
                     }
                     .setNegativeButton(R.string.action_delete) { _, _ -> deleteDraftAndFinish() }
                     .show()
@@ -983,7 +953,6 @@ class ComposeActivity : BaseActivity(),
 
     companion object {
         private const val TAG = "ComposeActivity" // logging tag
-        internal const val STATUS_CHARACTER_LIMIT = 500
         internal const val STATUS_IMAGE_SIZE_LIMIT = 8388608 // 8MiB
         private const val STATUS_VIDEO_SIZE_LIMIT = 41943040 // 40MiB
         internal const val STATUS_IMAGE_PIXEL_SIZE_LIMIT = 16777216 // 4096^2 Pixels

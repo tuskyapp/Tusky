@@ -61,7 +61,7 @@ class MediaPreviewAdapter(
                 .into(holder.progressImageView)
     }
 
-    val differ = AsyncListDiffer(this, object : DiffUtil.ItemCallback<ComposeActivity.QueuedMedia>() {
+    private val differ = AsyncListDiffer(this, object : DiffUtil.ItemCallback<ComposeActivity.QueuedMedia>() {
         override fun areItemsTheSame(oldItem: ComposeActivity.QueuedMedia, newItem: ComposeActivity.QueuedMedia): Boolean {
             return oldItem.localId == newItem.localId
         }

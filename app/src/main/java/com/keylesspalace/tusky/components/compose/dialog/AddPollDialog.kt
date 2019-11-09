@@ -26,14 +26,11 @@ import com.keylesspalace.tusky.adapter.AddPollOptionsAdapter
 import com.keylesspalace.tusky.entity.NewPoll
 import kotlinx.android.synthetic.main.dialog_add_poll.view.*
 
-private const val DEFAULT_MAX_OPTION_COUNT = 4
-private const val DEFAULT_MAX_OPTION_LENGTH = 25
-
 fun showAddPollDialog(
         context: Context,
         poll: NewPoll?,
-        maxOptionCount: Int?,
-        maxOptionLength: Int?,
+        maxOptionCount: Int,
+        maxOptionLength: Int,
         onUpdatePoll: (NewPoll) -> Unit
 ) {
 
@@ -49,7 +46,7 @@ fun showAddPollDialog(
 
     val adapter = AddPollOptionsAdapter(
             options = poll?.options?.toMutableList() ?: mutableListOf("", ""),
-            maxOptionLength = maxOptionLength ?: DEFAULT_MAX_OPTION_LENGTH,
+            maxOptionLength = maxOptionLength,
             onOptionRemoved = { valid ->
                 view.addChoiceButton.isEnabled = true
                 dialog.getButton(AlertDialog.BUTTON_POSITIVE).isEnabled = valid
@@ -62,10 +59,10 @@ fun showAddPollDialog(
     view.pollChoices.adapter = adapter
 
     view.addChoiceButton.setOnClickListener {
-        if (adapter.itemCount < maxOptionCount ?: DEFAULT_MAX_OPTION_COUNT) {
+        if (adapter.itemCount < maxOptionCount) {
             adapter.addChoice()
         }
-        if (adapter.itemCount >= maxOptionCount ?: DEFAULT_MAX_OPTION_COUNT) {
+        if (adapter.itemCount >= maxOptionCount) {
             it.isEnabled = false
         }
     }

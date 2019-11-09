@@ -175,8 +175,8 @@ public final class SavedTootActivity extends BaseActivity implements SavedTootAd
                 item.getInReplyToUsername(),
                 item.getInReplyToText(),
                 /*mediaAttachments*/null,
-                /*scheduledat*/null,
-                /*setnsitive*/null,
+                /*scheduledAt*/null,
+                /*sensitive*/null,
                 /*poll*/null
         );
         Intent intent = ComposeActivity.startIntent(this, composeOptions);

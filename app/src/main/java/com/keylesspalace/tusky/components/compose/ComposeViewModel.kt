@@ -65,10 +65,10 @@ class ComposeViewModel
 
     val instanceParams: LiveData<ComposeInstanceParams> = instance.map { instance ->
         ComposeInstanceParams(
-                instance?.maxTootChars ?: 500,
-                instance?.pollLimits?.maxOptions ?: DEFAULT_MAX_OPTION_COUNT,
-                instance?.pollLimits?.maxOptionChars ?: DEFAULT_MAX_OPTION_LENGTH,
-                instance?.version?.let { VersionUtils(it).supportsScheduledToots() } ?: false
+                maxChars = instance?.maxTootChars ?: DEFAULT_CHARACTER_LIMIT,
+                pollMaxOptions = instance?.pollLimits?.maxOptions ?: DEFAULT_MAX_OPTION_COUNT,
+                pollMaxLength = instance?.pollLimits?.maxOptionChars ?: DEFAULT_MAX_OPTION_LENGTH,
+                supportsScheduled = instance?.version?.let { VersionUtils(it).supportsScheduledToots() } ?: false
         )
     }
     val emoji: LiveData<List<Emoji>> = api.getCustomEmojis()
@@ -410,6 +410,7 @@ class ComposeViewModel
 
 fun <T> mutableLiveData(default: T) = MutableLiveData<T>().apply { value = default }
 
+const val DEFAULT_CHARACTER_LIMIT = 500
 private const val DEFAULT_MAX_OPTION_COUNT = 4
 private const val DEFAULT_MAX_OPTION_LENGTH = 25
 
