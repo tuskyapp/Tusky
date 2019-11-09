@@ -89,6 +89,8 @@ class ComposeViewModel
     val poll: MutableLiveData<NewPoll?> = mutableLiveData(null)
 
     val media = mutableLiveData<List<QueuedMedia>>(listOf())
+    val uploadError = MutableLiveData<Throwable>()
+
     private val mediaToDisposable = mutableMapOf<Long, Disposable>()
 
     fun pickMedia(uri: Uri): LiveData<Either<Throwable, QueuedMedia>> {
@@ -115,13 +117,13 @@ class ComposeViewModel
         return liveData
     }
 
-    fun addMediaToQueue(type: QueuedMedia.Type, uri: Uri, mediaSize: Long): QueuedMedia {
+    private fun addMediaToQueue(type: QueuedMedia.Type, uri: Uri, mediaSize: Long): QueuedMedia {
         val mediaItem = QueuedMedia(System.currentTimeMillis(), uri, type, mediaSize)
         media.value = media.value!! + mediaItem
         mediaToDisposable[mediaItem.localId] = mediaUploader
                 .uploadMedia(mediaItem)
-                .subscribe { event ->
-                    val item = media.value!!.find { it.localId == mediaItem.localId }
+                .subscribe ({ event ->
+                    val item = media.value?.find { it.localId == mediaItem.localId }
                             ?: return@subscribe
                     val newMediaItem = when (event) {
                         is UploadEvent.ProgressEvent ->
@@ -138,7 +140,10 @@ class ComposeViewModel
                             mediaValue.toMutableList().also { it[index] = newMediaItem }
                         })
                     }
-                }
+                }, { error ->
+                    media.postValue(media.value?.filter { it.localId != mediaItem.localId } ?: emptyList())
+                    uploadError.postValue(error)
+        })
         return mediaItem
     }
 

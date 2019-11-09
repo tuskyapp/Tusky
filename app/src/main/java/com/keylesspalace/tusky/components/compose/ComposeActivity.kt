@@ -325,6 +325,9 @@ class ComposeActivity : BaseActivity(),
                 enableButton(composeAddMediaButton, active, active)
                 enablePollButton(media.isNullOrEmpty())
             }.subscribe()
+            viewModel.uploadError.observe {
+                displayTransientError(R.string.error_media_upload_sending)
+            }
         }
     }
 
