@@ -85,7 +85,7 @@ class ComposeViewModel
     }
 
     val statusVisibility = mutableLiveData(Status.Visibility.UNKNOWN)
-    val hideStatustext = mutableLiveData(false)
+    val showContentWarning = mutableLiveData(false)
     val poll: MutableLiveData<NewPoll?> = mutableLiveData(null)
 
     val media = mutableLiveData<List<QueuedMedia>>(listOf())
@@ -157,7 +157,7 @@ class ComposeViewModel
         val textChanged = !(content.isNullOrEmpty()
                 || startingText?.startsWith(content.toString()) ?: false)
 
-        val contentWarningChanged = hideStatustext.value!!
+        val contentWarningChanged = showContentWarning.value!!
                 && !contentWarning.isNullOrEmpty()
                 && !startingContentWarning!!.startsWith(contentWarning.toString())
         val mediaChanged = media.value!!.isNotEmpty()

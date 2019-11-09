@@ -47,6 +47,8 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.core.view.inputmethod.InputConnectionCompat
 import androidx.core.view.inputmethod.InputContentInfoCompat
+import androidx.core.view.isGone
+import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -235,7 +237,7 @@ class ComposeActivity : BaseActivity(),
 
     private fun setupReplyViews(replyingStatusAuthor: String?) {
         if (replyingStatusAuthor != null) {
-            composeReplyView.visibility = View.VISIBLE
+            composeReplyView.show()
             composeReplyView.text = getString(R.string.replying_to, replyingStatusAuthor)
             val arrowDownIcon = IconicsDrawable(this, GoogleMaterial.Icon.gmd_arrow_drop_down).sizeDp(12)
 
@@ -245,15 +247,15 @@ class ComposeActivity : BaseActivity(),
             composeReplyView.setOnClickListener {
                 TransitionManager.beginDelayedTransition(composeReplyContentView.parent as ViewGroup)
 
-                if (composeReplyContentView.visibility != View.VISIBLE) {
-                    composeReplyContentView.visibility = View.VISIBLE
+                if (composeReplyContentView.isVisible) {
+                    composeReplyContentView.hide()
+                    composeReplyView.setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, arrowDownIcon, null)
+                } else {
+                    composeReplyContentView.show()
                     val arrowUpIcon = IconicsDrawable(this, GoogleMaterial.Icon.gmd_arrow_drop_up).sizeDp(12)
 
                     ThemeUtils.setDrawableTint(this, arrowUpIcon, android.R.attr.textColorTertiary)
                     composeReplyView.setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, arrowUpIcon, null)
-                } else {
-                    composeReplyContentView.visibility = View.GONE
-                    composeReplyView.setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, arrowDownIcon, null)
                 }
             }
         }
@@ -300,9 +302,9 @@ class ComposeActivity : BaseActivity(),
                 composeScheduleButton.visible(instanceData.supportsScheduled)
             }
             viewModel.emoji.observe { emoji -> setEmojiList(emoji) }
-            combineLiveData(viewModel.markMediaAsSensitive, viewModel.hideStatustext) { markSensitive, hideStatusText ->
-                updateHideMediaToggle(markSensitive, hideStatusText)
-                showContentWarning(hideStatusText)
+            combineLiveData(viewModel.markMediaAsSensitive, viewModel.showContentWarning) { markSensitive, showContentWarning ->
+                updateSensitiveMediaToggle(markSensitive, showContentWarning)
+                showContentWarning(showContentWarning)
             }.subscribe()
             viewModel.statusVisibility.observe { visibility ->
                 setStatusVisibility(visibility)
@@ -310,6 +312,7 @@ class ComposeActivity : BaseActivity(),
             viewModel.media.observe { media ->
                 composeMediaPreviewBar.visible(media.isNotEmpty())
                 mediaAdapter.submitList(media)
+                updateSensitiveMediaToggle(viewModel.markMediaAsSensitive.value != false, viewModel.showContentWarning.value != false)
             }
             viewModel.poll.observe { poll ->
                 pollPreview.visible(poll != null)
@@ -320,6 +323,7 @@ class ComposeActivity : BaseActivity(),
                         && media!!.size != 4
                         && media.firstOrNull()?.type != QueuedMedia.Type.VIDEO
                 enableButton(composeAddMediaButton, active, active)
+                enablePollButton(media.isNullOrEmpty())
             }.subscribe()
         }
     }
@@ -435,31 +439,30 @@ class ComposeActivity : BaseActivity(),
         this.viewModel.toggleMarkSensitive()
     }
 
-    private fun updateHideMediaToggle(statusMarkSensitive: Boolean, hideStatusText: Boolean) {
-        // TODO
-//        TransitionManager.beginDelayedTransition(composeHideMediaButton.parent as ViewGroup)
-//
-//        @ColorInt val color: Int
-//        if (mediaQueued.size == 0) {
-//            composeHideMediaButton.visibility = View.GONE
-//        } else {
-//            composeHideMediaButton.visibility = View.VISIBLE
-//            if (statusMarkSensitive) {
-//                composeHideMediaButton.setImageResource(R.drawable.ic_hide_media_24dp)
-//                if (hideStatusText) {
-//                    composeHideMediaButton.isClickable = false
-//                    color = ContextCompat.getColor(this, R.color.compose_media_visible_button_disabled_blue)
-//                } else {
-//                    composeHideMediaButton.isClickable = true
-//                    color = ContextCompat.getColor(this, R.color.tusky_blue)
-//                }
-//            } else {
-//                composeHideMediaButton.isClickable = true
-//                composeHideMediaButton.setImageResource(R.drawable.ic_eye_24dp)
-//                color = ThemeUtils.getColor(this, android.R.attr.textColorTertiary)
-//            }
-//            composeHideMediaButton.drawable.setColorFilter(color, PorterDuff.Mode.SRC_IN)
-//        }
+    private fun updateSensitiveMediaToggle(markMediaSensitive: Boolean, contentWarningShown: Boolean) {
+        TransitionManager.beginDelayedTransition(composeHideMediaButton.parent as ViewGroup)
+
+        if (viewModel.media.value.isNullOrEmpty()) {
+            composeHideMediaButton.hide()
+        } else {
+            composeHideMediaButton.show()
+            @ColorInt val color = if (contentWarningShown) {
+                composeHideMediaButton.setImageResource(R.drawable.ic_hide_media_24dp)
+                composeHideMediaButton.isClickable = false
+                ContextCompat.getColor(this, R.color.compose_media_visible_button_disabled_blue)
+
+            } else {
+                composeHideMediaButton.isClickable = true
+                if (markMediaSensitive) {
+                    composeHideMediaButton.setImageResource(R.drawable.ic_hide_media_24dp)
+                    ContextCompat.getColor(this, R.color.tusky_blue)
+                } else {
+                    composeHideMediaButton.setImageResource(R.drawable.ic_eye_24dp)
+                    ThemeUtils.getColor(this, android.R.attr.textColorTertiary)
+                }
+            }
+            composeHideMediaButton.drawable.colorFilter = PorterDuffColorFilter(color, PorterDuff.Mode.SRC_IN)
+        }
     }
 
     private fun updateScheduleButton() {
@@ -491,7 +494,7 @@ class ComposeActivity : BaseActivity(),
             Status.Visibility.UNLISTED -> R.drawable.ic_lock_open_24dp
             else -> R.drawable.ic_lock_open_24dp
         }
-        val drawable = AppCompatResources.getDrawable(this, iconRes)
+        val drawable = ThemeUtils.getTintedDrawable(this, iconRes, android.R.attr.textColorTertiary)
         composeToggleVisibilityButton.setImageDrawable(drawable)
     }
 
@@ -620,19 +623,19 @@ class ComposeActivity : BaseActivity(),
             }
         }
         var length = composeEditField.length() - offset
-        if (viewModel.hideStatustext.value!!) {
+        if (viewModel.showContentWarning.value!!) {
             length += composeContentWarningField.length()
         }
         return length
     }
 
     private fun updateVisibleCharactersLeft() {
-        this.composeCharactersLeftView.text = String.format(Locale.getDefault(), "%d", maximumTootCharacters - calculateTextLength())
+        composeCharactersLeftView.text = String.format(Locale.getDefault(), "%d", maximumTootCharacters - calculateTextLength())
     }
 
     private fun onContentWarningChanged() {
-        val showWarning = composeContentWarningBar.visibility != View.VISIBLE
-        viewModel.hideStatustext.value = showWarning
+        val showWarning = composeContentWarningBar.isGone
+        viewModel.showContentWarning.value = showWarning
         updateVisibleCharactersLeft()
     }
 
@@ -679,7 +682,7 @@ class ComposeActivity : BaseActivity(),
     private fun sendStatus() {
         val contentText = composeEditField.text.toString()
         var spoilerText = ""
-        if (viewModel.hideStatustext.value!!) {
+        if (viewModel.showContentWarning.value!!) {
             spoilerText = composeContentWarningField.text.toString()
         }
         val characterCount = calculateTextLength()
@@ -805,17 +808,15 @@ class ComposeActivity : BaseActivity(),
 
     private fun showContentWarning(show: Boolean) {
         TransitionManager.beginDelayedTransition(composeContentWarningBar.parent as ViewGroup)
-        val color: Int
-        if (show) {
-            viewModel.markMediaAsSensitive.value = true
-            composeContentWarningBar.visibility = View.VISIBLE
+        @ColorInt val color = if (show) {
+            composeContentWarningBar.show()
             composeContentWarningField.setSelection(composeContentWarningField.text.length)
             composeContentWarningField.requestFocus()
-            color = ContextCompat.getColor(this, R.color.tusky_blue)
+            ContextCompat.getColor(this, R.color.tusky_blue)
         } else {
-            composeContentWarningBar.visibility = View.GONE
+            composeContentWarningBar.hide()
             composeEditField.requestFocus()
-            color = ThemeUtils.getColor(this, android.R.attr.textColorTertiary)
+            ThemeUtils.getColor(this, android.R.attr.textColorTertiary)
         }
         composeContentWarningButton.drawable.colorFilter = PorterDuffColorFilter(color, PorterDuff.Mode.SRC_IN)
 
