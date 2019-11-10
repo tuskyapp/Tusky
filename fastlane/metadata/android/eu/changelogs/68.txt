@@ -1,0 +1,3 @@
+Tusky v9.1
+
+Argitalpen honek Mastodon 3-rekin bateragarritasuna bermatzen du eta errendimendua eta egonkortasuna hobetzen ditu.

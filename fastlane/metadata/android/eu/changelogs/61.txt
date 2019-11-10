@@ -1,0 +1,7 @@
+Tusky v7.0
+
+- Inkestak, botoak eta inkestak jakinarazteko laguntza
+- Botoi berriak jakinarazpen fitxa iragazteko eta jakinarazpen guztiak ezabatzeko
+- Ezabatu eta berriro diseinatu zure toot-ak
+- Profil irudian kontua bot-a den erakusten duen adierazle berria (lehentasunetan desaktibatu daiteke)
+- Itzulpen berriak: Bokmål Norvegiera eta Esloveniera.

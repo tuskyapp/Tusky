@@ -1,0 +1,9 @@
+Tusky v9.0
+
+- Orain Tusky-tik inkestak sor ditzakezu
+- Bilaketa hobetua
+- Aukera berria Kontuen Hobespenetan beti edukien abisuak zabaltzeko
+- Nabigazioko tiraderaren avatarrek forma karratu biribildua dute orain
+- Horain posible da erabiltzaileen berri ematea inoiz egoera bat argitaratu ez dutenean ere
+- Tusky-k orain ukatu egingo du Android 6+ bertsioetako testu-konexioen bidez konektatzea
+- Beste hainbat hobekuntza txiki eta akats konponketa
