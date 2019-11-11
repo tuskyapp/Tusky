@@ -11,14 +11,18 @@ import androidx.lifecycle.ViewModel
 import com.keylesspalace.tusky.adapter.ComposeAutoCompleteAdapter
 import com.keylesspalace.tusky.components.compose.ComposeActivity.QueuedMedia
 import com.keylesspalace.tusky.db.AccountManager
+import com.keylesspalace.tusky.db.AppDatabase
+import com.keylesspalace.tusky.db.InstanceEntity
 import com.keylesspalace.tusky.entity.*
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.service.ServiceClient
 import com.keylesspalace.tusky.service.TootToSend
 import com.keylesspalace.tusky.util.*
+import io.reactivex.Single
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
+import io.reactivex.functions.BiFunction
 import java.util.*
 import javax.inject.Inject
 
@@ -45,7 +49,8 @@ class ComposeViewModel
         private val accountManager: AccountManager,
         private val mediaUploader: MediaUploader,
         private val serviceClient: ServiceClient,
-        private val saveTootHelper: SaveTootHelper
+        private val saveTootHelper: SaveTootHelper,
+        private val db: AppDatabase
 ) : RxAwareViewModel() {
 
     private var replyingStatusAuthor: String? = null
@@ -56,27 +61,17 @@ class ComposeViewModel
     private var inReplyToId: String? = null
     private var startingVisibility: Status.Visibility = Status.Visibility.UNKNOWN
 
-    private val instance: LiveData<Instance?> = api.getInstance()
-            .map { listOf(it) }
-            .onErrorReturnItem(listOf())
-            .toLiveData()
-            .map { it.firstOrNull() }
-
+    private val instance: MutableLiveData<InstanceEntity?> = MutableLiveData()
 
     val instanceParams: LiveData<ComposeInstanceParams> = instance.map { instance ->
         ComposeInstanceParams(
-                maxChars = instance?.maxTootChars ?: DEFAULT_CHARACTER_LIMIT,
-                pollMaxOptions = instance?.pollLimits?.maxOptions ?: DEFAULT_MAX_OPTION_COUNT,
-                pollMaxLength = instance?.pollLimits?.maxOptionChars ?: DEFAULT_MAX_OPTION_LENGTH,
+                maxChars = instance?.maximumTootCharacters ?: DEFAULT_CHARACTER_LIMIT,
+                pollMaxOptions = instance?.maxPollOptions ?: DEFAULT_MAX_OPTION_COUNT,
+                pollMaxLength = instance?.maxPollOptionLength ?: DEFAULT_MAX_OPTION_LENGTH,
                 supportsScheduled = instance?.version?.let { VersionUtils(it).supportsScheduledToots() } ?: false
         )
     }
-    val emoji: LiveData<List<Emoji>> = api.getCustomEmojis()
-            .map { emojiList ->
-                emojiList.sortedBy { it.shortcode.toLowerCase(Locale.ROOT) }
-            }
-            .onErrorReturnItem(listOf())
-            .toLiveData()
+    val emoji: MutableLiveData<List<Emoji>?> = MutableLiveData()
     val markMediaAsSensitive =
             mutableLiveData(accountManager.activeAccount?.defaultMediaSensitivity ?: false)
 
@@ -92,6 +87,35 @@ class ComposeViewModel
     val uploadError = MutableLiveData<Throwable>()
 
     private val mediaToDisposable = mutableMapOf<Long, Disposable>()
+
+
+    init {
+
+        Single.zip(api.getCustomEmojis(), api.getInstance(), BiFunction<List<Emoji>, Instance, InstanceEntity> { emojis, instance ->
+            InstanceEntity(
+                    instance = accountManager.activeAccount?.domain!!,
+                    emojiList = emojis,
+                    maximumTootCharacters = instance.maxTootChars,
+                    maxPollOptions = instance.pollLimits?.maxOptions,
+                    maxPollOptionLength = instance.pollLimits?.maxOptionChars,
+                    version = instance.version
+            )
+        })
+                .doOnSuccess {
+                    db.instanceDao().insertOrReplace(it)
+                }
+                .onErrorResumeNext(
+                        db.instanceDao().loadMetadataForInstance(accountManager.activeAccount?.domain!!)
+                )
+                .subscribe ({ instanceEntity ->
+                    emoji.postValue(instanceEntity.emojiList)
+                    instance.postValue(instanceEntity)
+                }, { throwable ->
+                    // this can happen on network error when no cached data is available
+                    Log.w(TAG, "error loading instance data", throwable)
+                })
+                .autoDispose()
+    }
 
     fun pickMedia(uri: Uri): LiveData<Either<Throwable, QueuedMedia>> {
         // We are not calling .toLiveData() here because we don't want to stop the process when
@@ -143,11 +167,11 @@ class ComposeViewModel
                 }, { error ->
                     media.postValue(media.value?.filter { it.localId != mediaItem.localId } ?: emptyList())
                     uploadError.postValue(error)
-        })
+                })
         return mediaItem
     }
 
-    fun addUploadedMedia(id: String, type: QueuedMedia.Type, uri: Uri, description: String?) {
+    private fun addUploadedMedia(id: String, type: QueuedMedia.Type, uri: Uri, description: String?) {
         val mediaItem = QueuedMedia(System.currentTimeMillis(), uri, type, 0, -1, id, description)
         media.value = media.value!! + mediaItem
     }

@@ -19,6 +19,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import io.reactivex.Single
 
 @Dao
 interface InstanceDao {
@@ -26,5 +27,5 @@ interface InstanceDao {
     fun insertOrReplace(instance: InstanceEntity)
 
     @Query("SELECT * FROM InstanceEntity WHERE instance = :instance LIMIT 1")
-    fun loadMetadataForInstance(instance: String): InstanceEntity?
+    fun loadMetadataForInstance(instance: String): Single<InstanceEntity>
 }
