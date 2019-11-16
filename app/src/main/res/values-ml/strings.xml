@@ -55,7 +55,7 @@
     <string name="action_unfavourite">ഇഷ്ടപ്പെട്ടവയിൽ നിന്നും കളയുക</string>
     <string name="action_more">കൂടുതൽ</string>
     <string name="action_follow">പിന്തുടരുക</string>
-    <string name="action_unfollow">പിരിയുക</string>
+    <string name="action_unfollow">പിന്‍തുടരുന്നത് അവസാനിപ്പിക്കുക</string>
     <string name="action_retry">വീണ്ടും ശ്രമിക്കുക</string>
     <string name="action_view_follow_requests">പിന്‍തുടരുവാനുള്ള അഭ്യര്‍ത്ഥനകള്‍</string>
     <string name="title_domain_mutes">മറയ്ക്കപ്പെട്ട ഡൊമൈനുകൾ</string>
