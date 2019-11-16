@@ -46,7 +46,7 @@
     <string name="title_followers">പിന്തുടരുന്നവർ</string>
     <string name="title_mutes">നിശ്ശബ്ദരാക്കിയ ഉപയോക്താക്കൾ</string>
     <string name="title_blocks">തടയപ്പെട്ട ഉപയോക്താക്കൾ</string>
-    <string name="title_follow_requests">പിന്തുടാനുള്ള അപേക്ഷകൾ</string>
+    <string name="title_follow_requests">പിന്തുടരാനുള്ള അപേക്ഷകൾ</string>
     <string name="title_edit_profile">പ്രൊഫൈൽ തിരുത്തുക</string>
     <string name="action_reply">മറുപടി</string>
     <string name="action_reblog">ബൂസ്റ്റ്</string>
@@ -56,4 +56,7 @@
     <string name="action_more">കൂടുതൽ</string>
     <string name="action_follow">പിന്തുടരുക</string>
     <string name="action_unfollow">പിരിയുക</string>
+    <string name="action_retry">വീണ്ടും ശ്രമിക്കുക</string>
+    <string name="action_view_follow_requests">പിന്‍തുടരുവാനുള്ള അഭ്യര്‍ത്ഥനകള്‍</string>
+    <string name="title_domain_mutes">മറയ്ക്കപ്പെട്ട ഡൊമൈനുകൾ</string>
     </resources>

@@ -524,4 +524,5 @@
     <string name="hint_configure_scheduled_toot">Dotaknite se tukaj, da nastavite napovedan tut.</string>
     <string name="post_lookup_error_format">Napaka pri iskanju objave %s</string>
 
-</resources>
+<string name="about_powered_by_tusky">Poganja ga Tusky</string>
+    </resources>

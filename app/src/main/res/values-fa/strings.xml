@@ -174,7 +174,7 @@
     <string name="post_privacy_public">عمومی</string>
     <string name="post_privacy_unlisted">فهرست‌نشده</string>
     <string name="post_privacy_followers_only">فقط پیروان</string>
-    <string name="pref_status_text_size">اندازه متن وضعیت</string>
+    <string name="pref_status_text_size">اندازهٔ متن وضعیت</string>
     <string name="status_text_size_smallest">بسیار کوچک</string>
     <string name="status_text_size_small">کوچک</string>
     <string name="status_text_size_medium">متوسط</string>
