@@ -353,6 +353,13 @@ interface MastodonApi {
             @Query("limit") limit: Int?
     ): Call<List<Status>>
 
+    @GET("api/v1/bookmarks")
+    fun bookmarks(
+            @Query("max_id") maxId: String?,
+            @Query("since_id") sinceId: String?,
+            @Query("limit") limit: Int?
+    ): Call<List<Status>>
+
     @GET("api/v1/follow_requests")
     fun followRequests(
             @Query("max_id") maxId: String?

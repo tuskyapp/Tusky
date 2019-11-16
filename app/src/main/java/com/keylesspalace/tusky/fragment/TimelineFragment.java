@@ -128,7 +128,8 @@ public class TimelineFragment extends SFragment implements
         USER_PINNED,
         USER_WITH_REPLIES,
         FAVOURITES,
-        LIST
+        LIST,
+        BOOKMARKS
     }
 
     private enum FetchEnd {
@@ -949,7 +950,7 @@ public class TimelineFragment extends SFragment implements
     }
 
     private boolean actionButtonPresent() {
-        return kind != Kind.TAG && kind != Kind.FAVOURITES &&
+        return kind != Kind.TAG && kind != Kind.FAVOURITES && kind != Kind.BOOKMARKS &&
                 getActivity() instanceof ActionButtonActivity;
     }
 
@@ -982,6 +983,8 @@ public class TimelineFragment extends SFragment implements
                 return api.accountStatuses(tagOrId, fromId, uptoId, LOAD_AT_ONCE, null, null, null);
             case FAVOURITES:
                 return api.favourites(fromId, uptoId, LOAD_AT_ONCE);
+            case BOOKMARKS:
+                return api.bookmarks(fromId, uptoId, LOAD_AT_ONCE);
             case LIST:
                 return api.listTimeline(tagOrId, fromId, uptoId, LOAD_AT_ONCE);
         }

@@ -91,15 +91,16 @@ public final class MainActivity extends BottomSheetActivity implements ActionBut
     private static final long DRAWER_ITEM_ADD_ACCOUNT = -13;
     private static final long DRAWER_ITEM_EDIT_PROFILE = 0;
     private static final long DRAWER_ITEM_FAVOURITES = 1;
-    private static final long DRAWER_ITEM_LISTS = 2;
-    private static final long DRAWER_ITEM_SEARCH = 3;
-    private static final long DRAWER_ITEM_SAVED_TOOT = 4;
-    private static final long DRAWER_ITEM_ACCOUNT_SETTINGS = 5;
-    private static final long DRAWER_ITEM_SETTINGS = 6;
-    private static final long DRAWER_ITEM_ABOUT = 7;
-    private static final long DRAWER_ITEM_LOG_OUT = 8;
-    private static final long DRAWER_ITEM_FOLLOW_REQUESTS = 9;
-    private static final long DRAWER_ITEM_SCHEDULED_TOOT = 10;
+    private static final long DRAWER_ITEM_BOOKMARKS = 2;
+    private static final long DRAWER_ITEM_LISTS = 3;
+    private static final long DRAWER_ITEM_SEARCH = 4;
+    private static final long DRAWER_ITEM_SAVED_TOOT = 5;
+    private static final long DRAWER_ITEM_ACCOUNT_SETTINGS = 6;
+    private static final long DRAWER_ITEM_SETTINGS = 7;
+    private static final long DRAWER_ITEM_ABOUT = 8;
+    private static final long DRAWER_ITEM_LOG_OUT = 9;
+    private static final long DRAWER_ITEM_FOLLOW_REQUESTS = 10;
+    private static final long DRAWER_ITEM_SCHEDULED_TOOT = 11;
     public static final String STATUS_URL = "statusUrl";
 
     @Inject
@@ -144,8 +145,8 @@ public final class MainActivity extends BottomSheetActivity implements ActionBut
         if (intent != null) {
 
             /** there are two possibilities the accountId can be passed to MainActivity:
-                - from our code as long 'account_id'
-                - from share shortcuts as String 'android.intent.extra.shortcut.ID'
+             - from our code as long 'account_id'
+             - from share shortcuts as String 'android.intent.extra.shortcut.ID'
              */
             long accountId = intent.getLongExtra(NotificationHelper.ACCOUNT_ID, -1);
             if(accountId == -1) {
@@ -387,9 +388,10 @@ public final class MainActivity extends BottomSheetActivity implements ActionBut
             }
         });
 
-        List<IDrawerItem> listItems = new ArrayList<>(10);
+        List<IDrawerItem> listItems = new ArrayList<>(11);
         listItems.add(new PrimaryDrawerItem().withIdentifier(DRAWER_ITEM_EDIT_PROFILE).withName(R.string.action_edit_profile).withSelectable(false).withIcon(GoogleMaterial.Icon.gmd_person));
         listItems.add(new PrimaryDrawerItem().withIdentifier(DRAWER_ITEM_FAVOURITES).withName(R.string.action_view_favourites).withSelectable(false).withIcon(GoogleMaterial.Icon.gmd_star));
+        listItems.add(new PrimaryDrawerItem().withIdentifier(DRAWER_ITEM_BOOKMARKS).withName(R.string.action_view_bookmarks).withSelectable(false).withIcon(GoogleMaterial.Icon.gmd_bookmark));
         listItems.add(new PrimaryDrawerItem().withIdentifier(DRAWER_ITEM_LISTS).withName(R.string.action_lists).withSelectable(false).withIcon(GoogleMaterial.Icon.gmd_list));
         listItems.add(new PrimaryDrawerItem().withIdentifier(DRAWER_ITEM_SEARCH).withName(R.string.action_search).withSelectable(false).withIcon(GoogleMaterial.Icon.gmd_search));
         listItems.add(new PrimaryDrawerItem().withIdentifier(DRAWER_ITEM_SAVED_TOOT).withName(R.string.action_access_saved_toot).withSelectable(false).withIcon(R.drawable.ic_notebook).withIconTintingEnabled(true));
@@ -415,7 +417,10 @@ public final class MainActivity extends BottomSheetActivity implements ActionBut
                             Intent intent = new Intent(MainActivity.this, EditProfileActivity.class);
                             startActivityWithSlideInAnimation(intent);
                         } else if (drawerItemIdentifier == DRAWER_ITEM_FAVOURITES) {
-                            Intent intent = new Intent(MainActivity.this, FavouritesActivity.class);
+                            Intent intent = StatusListActivity.newFavouritesIntent(MainActivity.this);
+                            startActivityWithSlideInAnimation(intent);
+                        } else if (drawerItemIdentifier == DRAWER_ITEM_BOOKMARKS) {
+                            Intent intent = StatusListActivity.newBookmarksIntent(MainActivity.this);
                             startActivityWithSlideInAnimation(intent);
                         } else if (drawerItemIdentifier == DRAWER_ITEM_SEARCH) {
                             startActivityWithSlideInAnimation(SearchActivity.getIntent(this));
@@ -591,7 +596,7 @@ public final class MainActivity extends BottomSheetActivity implements ActionBut
                     .withName(R.string.action_view_follow_requests)
                     .withSelectable(false)
                     .withIcon(GoogleMaterial.Icon.gmd_person_add);
-            drawer.addItemAtPosition(followRequestsItem, 3);
+            drawer.addItemAtPosition(followRequestsItem, 4);
         } else if (!me.getLocked()) {
             drawer.removeItem(DRAWER_ITEM_FOLLOW_REQUESTS);
         }
