@@ -239,7 +239,7 @@ public final class ViewThreadFragment extends SFragment implements
                 .as(autoDisposable(from(this)))
                 .subscribe(
                         (newStatus) -> updateStatus(position, newStatus),
-                        (t) -> Log.d(getClass().getSimpleName(),
+                        (t) -> Log.d(TAG,
                                 "Failed to reblog status: " + status.getId(), t)
                 );
     }
@@ -253,8 +253,22 @@ public final class ViewThreadFragment extends SFragment implements
                 .as(autoDisposable(from(this)))
                 .subscribe(
                         (newStatus) -> updateStatus(position, newStatus),
-                        (t) -> Log.d(getClass().getSimpleName(),
+                        (t) -> Log.d(TAG,
                                 "Failed to favourite status: " + status.getId(), t)
+                );
+    }
+
+    @Override
+    public void onBookmark(final boolean bookmark, final int position) {
+        final Status status = statuses.get(position);
+
+        timelineCases.bookmark(statuses.get(position), bookmark)
+                .observeOn(AndroidSchedulers.mainThread())
+                .as(autoDisposable(from(this)))
+                .subscribe(
+                        (newStatus) -> updateStatus(position, newStatus),
+                        (t) -> Log.d(TAG,
+                                "Failed to bookmark status: " + status.getId(), t)
                 );
     }
 
@@ -267,6 +281,7 @@ public final class ViewThreadFragment extends SFragment implements
                     .setReblogged(actionableStatus.getReblogged())
                     .setReblogsCount(actionableStatus.getReblogsCount())
                     .setFavourited(actionableStatus.getFavourited())
+                    .setBookmarked(actionableStatus.getBookmarked())
                     .setFavouritesCount(actionableStatus.getFavouritesCount())
                     .createStatusViewData();
             statuses.setPairedItem(position, viewData);

@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 19,
-    "identityHash": "84ebd39cba4d6749251d330851b70e36",
+    "identityHash": "149cbb8de129241de8c09d7f014dc39d",
     "entities": [
       {
         "tableName": "TootEntity",
@@ -259,7 +259,7 @@
               "domain",
               "accountId"
             ],
-            "createSql": "CREATE UNIQUE INDEX `index_AccountEntity_domain_accountId` ON `${TABLE_NAME}` (`domain`, `accountId`)"
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_AccountEntity_domain_accountId` ON `${TABLE_NAME}` (`domain`, `accountId`)"
           }
         ],
         "foreignKeys": []
@@ -460,7 +460,7 @@
               "authorServerId",
               "timelineUserId"
             ],
-            "createSql": "CREATE  INDEX `index_TimelineStatusEntity_authorServerId_timelineUserId` ON `${TABLE_NAME}` (`authorServerId`, `timelineUserId`)"
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_TimelineStatusEntity_authorServerId_timelineUserId` ON `${TABLE_NAME}` (`authorServerId`, `timelineUserId`)"
           }
         ],
         "foreignKeys": [
@@ -550,7 +550,7 @@
       },
       {
         "tableName": "ConversationEntity",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`accountId` INTEGER NOT NULL, `id` TEXT NOT NULL, `accounts` TEXT NOT NULL, `unread` INTEGER NOT NULL, `s_id` TEXT NOT NULL, `s_url` TEXT, `s_inReplyToId` TEXT, `s_inReplyToAccountId` TEXT, `s_account` TEXT NOT NULL, `s_content` TEXT NOT NULL, `s_createdAt` INTEGER NOT NULL, `s_emojis` TEXT NOT NULL, `s_favouritesCount` INTEGER NOT NULL, `s_favourited` INTEGER NOT NULL, `s_sensitive` INTEGER NOT NULL, `s_spoilerText` TEXT NOT NULL, `s_attachments` TEXT NOT NULL, `s_mentions` TEXT NOT NULL, `s_showingHiddenContent` INTEGER NOT NULL, `s_expanded` INTEGER NOT NULL, `s_collapsible` INTEGER NOT NULL, `s_collapsed` INTEGER NOT NULL, `s_poll` TEXT, PRIMARY KEY(`id`, `accountId`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`accountId` INTEGER NOT NULL, `id` TEXT NOT NULL, `accounts` TEXT NOT NULL, `unread` INTEGER NOT NULL, `s_id` TEXT NOT NULL, `s_url` TEXT, `s_inReplyToId` TEXT, `s_inReplyToAccountId` TEXT, `s_account` TEXT NOT NULL, `s_content` TEXT NOT NULL, `s_createdAt` INTEGER NOT NULL, `s_emojis` TEXT NOT NULL, `s_favouritesCount` INTEGER NOT NULL, `s_favourited` INTEGER NOT NULL, `s_bookmarked` INTEGER NOT NULL, `s_sensitive` INTEGER NOT NULL, `s_spoilerText` TEXT NOT NULL, `s_attachments` TEXT NOT NULL, `s_mentions` TEXT NOT NULL, `s_showingHiddenContent` INTEGER NOT NULL, `s_expanded` INTEGER NOT NULL, `s_collapsible` INTEGER NOT NULL, `s_collapsed` INTEGER NOT NULL, `s_poll` TEXT, PRIMARY KEY(`id`, `accountId`))",
         "fields": [
           {
             "fieldPath": "accountId",
@@ -637,6 +637,12 @@
             "notNull": true
           },
           {
+            "fieldPath": "lastStatus.bookmarked",
+            "columnName": "s_bookmarked",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
             "fieldPath": "lastStatus.sensitive",
             "columnName": "s_sensitive",
             "affinity": "INTEGER",
@@ -705,7 +711,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '84ebd39cba4d6749251d330851b70e36')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '149cbb8de129241de8c09d7f014dc39d')"
     ]
   }
 }

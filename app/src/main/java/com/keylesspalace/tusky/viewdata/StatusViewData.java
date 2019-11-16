@@ -42,8 +42,7 @@ import java.util.Objects;
 
 public abstract class StatusViewData {
 
-    private StatusViewData() {
-    }
+    private StatusViewData() { }
 
     public abstract long getViewDataId();
 
@@ -57,6 +56,7 @@ public abstract class StatusViewData {
         private final Spanned content;
         final boolean reblogged;
         final boolean favourited;
+        final boolean bookmarked;
         @Nullable
         private final String spoilerText;
         private final Status.Visibility visibility;
@@ -92,7 +92,7 @@ public abstract class StatusViewData {
         private final PollViewData poll;
         private final boolean isBot;
 
-        public Concrete(String id, Spanned content, boolean reblogged, boolean favourited,
+        public Concrete(String id, Spanned content, boolean reblogged, boolean favourited, boolean bookmarked,
                         @Nullable String spoilerText, Status.Visibility visibility, List<Attachment> attachments,
                         @Nullable String rebloggedByUsername, @Nullable String rebloggedAvatar, boolean sensitive, boolean isExpanded,
                         boolean isShowingContent, String userFullName, String nickname, String avatar,
@@ -114,6 +114,7 @@ public abstract class StatusViewData {
             }
             this.reblogged = reblogged;
             this.favourited = favourited;
+            this.bookmarked = bookmarked;
             this.visibility = visibility;
             this.attachments = attachments;
             this.rebloggedByUsername = rebloggedByUsername;
@@ -154,6 +155,10 @@ public abstract class StatusViewData {
 
         public boolean isFavourited() {
             return favourited;
+        }
+
+        public boolean isBookmarked() {
+            return bookmarked;
         }
 
         @Nullable
@@ -288,6 +293,7 @@ public abstract class StatusViewData {
             Concrete concrete = (Concrete) o;
             return reblogged == concrete.reblogged &&
                     favourited == concrete.favourited &&
+                    bookmarked == concrete.bookmarked &&
                     isSensitive == concrete.isSensitive &&
                     isExpanded == concrete.isExpanded &&
                     isShowingContent == concrete.isShowingContent &&
@@ -394,6 +400,7 @@ public abstract class StatusViewData {
         private Spanned content;
         private boolean reblogged;
         private boolean favourited;
+        private boolean bookmarked;
         private String spoilerText;
         private Status.Visibility visibility;
         private List<Attachment> attachments;
@@ -429,6 +436,7 @@ public abstract class StatusViewData {
             content = viewData.content;
             reblogged = viewData.reblogged;
             favourited = viewData.favourited;
+            bookmarked = viewData.bookmarked;
             spoilerText = viewData.spoilerText;
             visibility = viewData.visibility;
             attachments = viewData.attachments == null ? null : new ArrayList<>(viewData.attachments);
@@ -474,6 +482,11 @@ public abstract class StatusViewData {
 
         public Builder setFavourited(boolean favourited) {
             this.favourited = favourited;
+            return this;
+        }
+
+        public Builder setBookmarked(boolean bookmarked) {
+            this.bookmarked = bookmarked;
             return this;
         }
 
@@ -626,8 +639,8 @@ public abstract class StatusViewData {
             if (this.accountEmojis == null) accountEmojis = Collections.emptyList();
             if (this.createdAt == null) createdAt = new Date();
 
-            return new StatusViewData.Concrete(id, content, reblogged, favourited, spoilerText, visibility,
-                    attachments, rebloggedByUsername, rebloggedAvatar, isSensitive, isExpanded,
+            return new StatusViewData.Concrete(id, content, reblogged, favourited, bookmarked, spoilerText,
+                    visibility, attachments, rebloggedByUsername, rebloggedAvatar, isSensitive, isExpanded,
                     isShowingContent, userFullName, nickname, avatar, createdAt, reblogsCount,
                     favouritesCount, inReplyToId, mentions, senderId, rebloggingEnabled, application,
                     statusEmojis, accountEmojis, card, isCollapsible, isCollapsed, poll, isBot);

@@ -18,6 +18,8 @@ package com.keylesspalace.tusky.adapter;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -91,6 +93,7 @@ public final class TimelineAdapter extends RecyclerView.Adapter {
             PlaceholderViewHolder holder = (PlaceholderViewHolder) viewHolder;
             holder.setup(statusListener, ((StatusViewData.Placeholder) status).isLoading());
         } else if (status instanceof StatusViewData.Concrete) {
+            Log.d("Adapter", "status "+ ((StatusViewData.Concrete) status).getId() + " bookmarked " + ((StatusViewData.Concrete) status).isBookmarked());
             StatusViewHolder holder = (StatusViewHolder) viewHolder;
             holder.setupWithStatus((StatusViewData.Concrete) status,
                     statusListener,

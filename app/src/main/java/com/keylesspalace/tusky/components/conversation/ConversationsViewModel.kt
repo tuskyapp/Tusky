@@ -65,6 +65,24 @@ class ConversationsViewModel @Inject constructor(
 
     }
 
+    fun bookmark(bookmark: Boolean, position: Int) {
+        conversations.value?.getOrNull(position)?.let { conversation ->
+            timelineCases.bookmark(conversation.lastStatus.toStatus(), bookmark)
+                    .flatMap {
+                        val newConversation = conversation.copy(
+                                lastStatus = conversation.lastStatus.copy(bookmarked = bookmark)
+                        )
+
+                        database.conversationDao().insert(newConversation)
+                    }
+                    .subscribeOn(Schedulers.io())
+                    .doOnError { t -> Log.w("ConversationViewModel", "Failed to bookmark conversation", t) }
+                    .subscribe()
+                    .addTo(disposables)
+        }
+
+    }
+
     fun voteInPoll(position: Int, choices: MutableList<Int>) {
         conversations.value?.getOrNull(position)?.let { conversation ->
             timelineCases.voteInPoll(conversation.lastStatus.toStatus(), choices)

@@ -630,6 +630,38 @@ public class TimelineFragment extends SFragment implements
         updateAdapter();
     }
 
+    @Override
+    public void onBookmark(final boolean bookmark, final int position) {
+        final Status status = statuses.get(position).asRight();
+
+        timelineCases.bookmark(status, bookmark)
+                .observeOn(AndroidSchedulers.mainThread())
+                .as(autoDisposable(from(this, Lifecycle.Event.ON_DESTROY)))
+                .subscribe(
+                        (newStatus) -> setBookmarkForStatus(position, newStatus, bookmark),
+                        (err) -> Log.d(TAG, "Failed to favourite status " + status.getId(), err)
+                );
+    }
+
+    private void setBookmarkForStatus(int position, Status status, boolean bookmark) {
+        status.setBookmarked(bookmark);
+
+        if (status.getReblog() != null) {
+            status.getReblog().setBookmarked(bookmark);
+        }
+
+        Pair<StatusViewData.Concrete, Integer> actual =
+                findStatusAndPosition(position, status);
+        if (actual == null) return;
+
+        StatusViewData newViewData = new StatusViewData
+                .Builder(actual.first)
+                .setBookmarked(bookmark)
+                .createStatusViewData();
+        statuses.setPairedItem(actual.second, newViewData);
+        updateAdapter();
+    }
+
     public void onVoteInPoll(int position, @NonNull List<Integer> choices) {
 
         final Status status = statuses.get(position).asRight();
@@ -1095,11 +1127,8 @@ public class TimelineFragment extends SFragment implements
     }
 
     private void updateBottomLoadingState(FetchEnd fetchEnd) {
-        switch (fetchEnd) {
-            case BOTTOM: {
-                bottomLoading = false;
-                break;
-            }
+        if (fetchEnd == FetchEnd.BOTTOM) {
+            bottomLoading = false;
         }
     }
 
@@ -1223,8 +1252,8 @@ public class TimelineFragment extends SFragment implements
     private final Function1<Status, Either<Placeholder, Status>> statusLifter =
             Either.Right::new;
 
-    private @Nullable
-    Pair<StatusViewData.Concrete, Integer>
+    @Nullable
+    private Pair<StatusViewData.Concrete, Integer>
     findStatusAndPosition(int position, Status status) {
         StatusViewData.Concrete statusToUpdate;
         int positionToUpdate;

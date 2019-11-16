@@ -69,6 +69,7 @@ data class ConversationStatusEntity(
         val emojis: List<Emoji>,
         val favouritesCount: Int,
         val favourited: Boolean,
+        val bookmarked: Boolean,
         val sensitive: Boolean,
         val spoilerText: String,
         val attachments: ArrayList<Attachment>,
@@ -148,6 +149,7 @@ data class ConversationStatusEntity(
                 favouritesCount = favouritesCount,
                 reblogged = false,
                 favourited = favourited,
+                bookmarked = bookmarked,
                 sensitive= sensitive,
                 spoilerText = spoilerText,
                 visibility = Status.Visibility.DIRECT,
@@ -172,7 +174,7 @@ fun Account.toEntity() =
 fun Status.toEntity() =
         ConversationStatusEntity(
                 id, url, inReplyToId, inReplyToAccountId, account.toEntity(), content,
-                createdAt, emojis, favouritesCount, favourited, sensitive,
+                createdAt, emojis, favouritesCount, favourited, bookmarked, sensitive,
                 spoilerText, attachments, mentions,
                 false,
                 false,

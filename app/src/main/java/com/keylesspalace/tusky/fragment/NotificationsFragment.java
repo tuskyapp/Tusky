@@ -443,6 +443,21 @@ public class NotificationsFragment extends SFragment implements
                 );
     }
 
+    @Override
+    public void onBookmark(final boolean bookmark, final int position) {
+        final Notification notification = notifications.get(position).asRight();
+        final Status status = notification.getStatus();
+
+        timelineCases.bookmark(status, bookmark)
+                .observeOn(AndroidSchedulers.mainThread())
+                .as(autoDisposable(from(this)))
+                .subscribe(
+                        (newStatus) -> setFavouriteForStatus(position, status, bookmark),
+                        (t) -> Log.d(getClass().getSimpleName(),
+                                "Failed to bookmark status: " + status.getId(), t)
+                );
+    }
+
     private void setFavouriteForStatus(int position, Status status, boolean favourite) {
         status.setFavourited(favourite);
 

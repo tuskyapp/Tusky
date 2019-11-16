@@ -35,6 +35,7 @@ data class Status(
         @SerializedName("favourites_count") val favouritesCount: Int,
         var reblogged: Boolean,
         var favourited: Boolean,
+        var bookmarked: Boolean,
         var sensitive: Boolean,
         @SerializedName("spoiler_text") val spoilerText: String,
         val visibility: Visibility,

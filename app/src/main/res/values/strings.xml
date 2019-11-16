@@ -67,6 +67,7 @@
     <string name="action_reblog">Boost</string>
     <string name="action_unreblog">Remove boost</string>
     <string name="action_favourite">Favorite</string>
+    <string name="action_bookmark">Bookmark</string>
     <string name="action_unfavourite">Remove favorite</string>
     <string name="action_more">More</string>
     <string name="action_compose">Compose</string>
@@ -442,6 +443,9 @@
     </string>
     <string name="description_status_favourited">
         Favorited
+    </string>
+    <string name="description_status_bookmarked">
+        Bookmarked
     </string>
     <string name="description_visiblity_public">
         Public

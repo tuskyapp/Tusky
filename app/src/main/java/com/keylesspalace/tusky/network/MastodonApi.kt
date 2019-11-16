@@ -180,6 +180,16 @@ interface MastodonApi {
             @Path("id") statusId: String
     ): Single<Status>
 
+    @POST("api/v1/statuses/{id}/bookmark")
+    fun bookmarkStatus(
+            @Path("id") statusId: String
+    ): Single<Status>
+
+    @POST("api/v1/statuses/{id}/unbookmark")
+    fun unbookmarkStatus(
+            @Path("id") statusId: String
+    ): Single<Status>
+
     @POST("api/v1/statuses/{id}/pin")
     fun pinStatus(
             @Path("id") statusId: String

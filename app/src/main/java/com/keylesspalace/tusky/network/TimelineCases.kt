@@ -35,6 +35,7 @@ import java.lang.IllegalStateException
 interface TimelineCases {
     fun reblog(status: Status, reblog: Boolean): Single<Status>
     fun favourite(status: Status, favourite: Boolean): Single<Status>
+    fun bookmark(status: Status, bookmark: Boolean): Single<Status>
     fun mute(id: String)
     fun block(id: String)
     fun delete(id: String): Single<DeletedStatus>
@@ -77,6 +78,19 @@ class TimelineCasesImpl(
         }
         return call.doAfterSuccess {
             eventHub.dispatch(FavoriteEvent(status.id, favourite))
+        }
+    }
+
+    override fun bookmark(status: Status, bookmark: Boolean): Single<Status> {
+        val id = status.actionableId
+
+        val call = if (bookmark) {
+            mastodonApi.bookmarkStatus(id)
+        } else {
+            mastodonApi.unbookmarkStatus(id)
+        }
+        return call.doAfterSuccess {
+            eventHub.dispatch(BookmarkEvent(status.id, bookmark))
         }
     }
 
