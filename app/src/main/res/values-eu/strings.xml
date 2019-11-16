@@ -2,7 +2,7 @@
 <resources>
     <string name="error_generic">Errorea gertatu da.</string>
     <string name="error_empty">Eremu hau ezin da hutsik egon.</string>
-    <string name="error_invalid_domain">Domeinu izen okerra.</string>
+    <string name="error_invalid_domain">Domeinu baliogabea sartu da</string>
     <string name="error_failed_app_registration">Akatsa saioa hasterakoan.</string>
     <string name="error_no_web_browser_found">Ez da web nabigatzailerik aurkitu.</string>
     <string name="error_authorization_unknown">Identifikatu gabeko baimentza akatsa gertatu da.</string>
@@ -103,11 +103,11 @@
     <string name="send_status_content_to">Tuta partekatu…</string>
     <string name="send_media_to">Partekatu media hona…</string>
     <string name="confirmation_reported">Bidalia!</string>
-    <string name="confirmation_unblocked">Erabiltzailea ez dago blokeatuta iada.</string>
-    <string name="confirmation_unmuted">Iada erabiltzailea ez dago isilarazia.</string>
+    <string name="confirmation_unblocked">Erabiltzailea desblokeatuta</string>
+    <string name="confirmation_unmuted">Erabiltzailea isil gabetua</string>
     <string name="status_sent">Bidalia!</string>
     <string name="status_sent_long">Erantzuna ongi bidali da.</string>
-    <string name="hint_domain">Instantzia hautatu</string>
+    <string name="hint_domain">Zein instantzia\?</string>
     <string name="hint_compose">Zer duzu buruan?</string>
     <string name="hint_content_warning">Eduki-abisua</string>
     <string name="hint_display_name">Agertuko den izena</string>
@@ -140,7 +140,7 @@
     <string name="pref_title_notification_alert_sound">Soinuarekin jakinarazi</string>
     <string name="pref_title_notification_alert_vibrate">Bibrazioarekin jakinarazi</string>
     <string name="pref_title_notification_alert_light">Led-arekin jakinarazi</string>
-    <string name="pref_title_notification_filters">Noiz jakinarazi:</string>
+    <string name="pref_title_notification_filters">Noiz jakinarazi</string>
     <string name="pref_title_notification_filter_mentions">Aipatzen naute</string>
     <string name="pref_title_notification_filter_follows">Jarraitzen didate</string>
     <string name="pref_title_notification_filter_reblogs">Bultzatzen naute</string>
@@ -154,7 +154,7 @@
     <string name="app_theme_auto">Automatikoa iluntzean</string>
     <string name="pref_title_browser_settings">Nabigatzailea</string>
     <string name="pref_title_custom_tabs">Chromeko fitxa pertsonalizatuak erabili</string>
-    <string name="pref_title_hide_follow_button">Tut egiteko botoia ezkutatu beherantz joaterakoan.</string>
+    <string name="pref_title_hide_follow_button">Ezkutatu idazteko botoia mugitzean</string>
     <string name="pref_title_status_filter">Denbora-lerroko iragazkiak</string>
     <string name="pref_title_status_tabs">Fitxak</string>
     <string name="pref_title_show_boosts">Erakutsi bultzadak</string>
@@ -330,4 +330,142 @@
 
 
     <string name="about_tusky_version">Tusky %s</string>
-    </resources>
+    <string name="action_hashtags">Traolak</string>
+    <string name="title_hashtags_dialog">Traolak</string>
+    <string name="about_powered_by_tusky">Tusky-k sustatuta</string>
+    <string name="abbreviated_hours_ago">%dh</string>
+    <string name="abbreviated_minutes_ago">%dm</string>
+    <string name="abbreviated_seconds_ago">%ds</string>
+
+    <string name="pref_title_alway_open_spoiler">Beti zabaldu edukien abisuekin markatutako tootak</string>
+    <string name="pref_title_thread_filter_keywords">Elkarrizketak</string>
+    <string name="filter_addition_dialog_title">Gehitu iragazkia</string>
+    <string name="filter_edit_dialog_title">Editatu iragazkia</string>
+    <string name="filter_dialog_remove_button">Kendu</string>
+    <string name="filter_dialog_update_button">Eguneratu</string>
+    <string name="filter_dialog_whole_word">Hitz osoa</string>
+    <string name="filter_dialog_whole_word_description">Gako-hitza edo esaldia alfanumerikoa denean bakarrik, hitz osoarekin bat datorrenean bakarrik aplikatuko da</string>
+    <string name="filter_add_description">Iragazteko esaldia</string>
+
+    <string name="error_create_list">Ezin izan da zerrenda sortu</string>
+    <string name="error_rename_list">Ezin izan da zerrendaren izena aldatu</string>
+    <string name="error_delete_list">Ezin izan da zerrenda ezabatu</string>
+    <string name="action_create_list">Zerrenda sortu</string>
+    <string name="action_rename_list">Zerrenda berrizendatu</string>
+    <string name="action_delete_list">Ezabatu zerrenda</string>
+    <string name="action_edit_list">Editatu zerrenda</string>
+    <string name="hint_search_people_list">Bilatu jarraitzen dituzun pertsonak</string>
+    <string name="action_add_to_list">Gehitu kontua zerrendan</string>
+    <string name="action_remove_from_list">Kendu kontua zerrendatik</string>
+
+    <string name="caption_notoemoji">Google-ren egungo emoji multzoa</string>
+
+    <string name="license_cc_by_4">CC-BY 4.0</string>
+    <string name="license_cc_by_sa_4">CC-BY-SA 4.0</string>
+
+    <plurals name="favs">
+	<item quantity="one"><b>%1$s</b> Gogoko</item>
+	<item quantity="other"><b>%1$s</b> Gogoko</item>
+</plurals>
+
+    <plurals name="reblogs">
+	<item quantity="one"><b>%s</b> Bultzada</item>
+	<item quantity="other"><b>%s</b> Bultzada</item>
+</plurals>
+
+    <string name="title_reblogged_by">Bultzatuta</string>
+    <string name="title_favourited_by">Gogokoa</string>
+
+    <string name="conversation_1_recipients">%1$s</string>
+    <string name="conversation_2_recipients">%1$s eta %2$s</string>
+    <string name="conversation_more_recipients">%1$s, %2$s eta %3$d gehiago</string>
+    <string name="max_tab_number_reached">geienezko %1$d fitxa iritsita</string>
+
+
+    <string name="description_status_media">Media: %s</string>
+    <string name="description_status_cw">Edukiaren abisua: %s</string>
+    <string name="description_status_media_no_description_placeholder">Deskribapenik ez</string>
+    <string name="description_status_reblogged">Birblogeatuta</string>
+    <string name="description_status_favourited">Gogotuta</string>
+    <string name="description_visiblity_public">Publiko</string>
+    <string name="description_visiblity_unlisted">Zerrendagabetuta</string>
+    <string name="description_visiblity_private">Jarraitzaileak</string>
+    <string name="description_visiblity_direct">Zuzena</string>
+    <string name="description_poll">Inkestatu aukerekin: %1$s, %2$s, %3$s, %4$s; %5$s</string>
+
+    <string name="hint_list_name">Zerrendaren izena</string>
+
+    <string name="edit_hashtag_title">Editatu traola</string>
+    <string name="edit_hashtag_hint">Traola # gabe</string>
+    <string name="hashtag">Traola</string>
+    <string name="notifications_clear">Garbitu</string>
+    <string name="notifications_apply_filter">Iragazi</string>
+    <string name="filter_apply">Aplikatu</string>
+
+    <string name="compose_shortcut_long_label">Idatzi Toot-a</string>
+    <string name="compose_shortcut_short_label">Idatzi</string>
+
+    <string name="notification_clear_text">Ziur zaude jakinarazpen guztiak betirako garbitu nahi dituzula\?</string>
+    <string name="compose_preview_image_description">%s irudiarentzako ekintzak</string>
+
+    <string name="poll_info_format"> <!-- 15 boto • Ordu 1 geratzen da --> %1$s • %2$s</string>
+    <plurals name="poll_info_votes">
+	<item quantity="one">Boto %s</item>
+	<item quantity="other">%s Boto</item>
+</plurals>
+    <string name="poll_info_time_absolute">%s amaitzen da</string>
+    <string name="poll_info_closed">itxita</string>
+
+    <string name="poll_vote">Botatu</string>
+
+    <string name="poll_ended_voted">Botoa eman duzun galdeketa amaitu da</string>
+    <string name="poll_ended_created">Sortu duzun galdeketa amaitu da</string>
+
+    <plurals name="poll_timespan_days">
+	<item quantity="one">Egun %d</item>
+	<item quantity="other">%d egun</item>
+</plurals>
+    <plurals name="poll_timespan_hours">
+	<item quantity="one">Ordu %d</item>
+	<item quantity="other">%d ordu</item>
+</plurals>
+    <plurals name="poll_timespan_minutes">
+	<item quantity="one">Minutu %d</item>
+	<item quantity="other">%d minutu</item>
+</plurals>
+    <plurals name="poll_timespan_seconds">
+	<item quantity="one">Segundu %d</item>
+	<item quantity="other">%d segundu</item>
+</plurals>
+
+    <string name="button_continue">Jarraitu</string>
+    <string name="button_back">Itzuli</string>
+    <string name="button_done">Eginda</string>
+    <string name="report_sent_success">\@%s jakinarazi duzu arrakastaz</string>
+    <string name="hint_additional_info">Iruzkin gehigarriak</string>
+    <string name="report_remote_instance">%s-(r)i birbidali</string>
+    <string name="failed_report">Txostena huts egin du</string>
+    <string name="failed_fetch_statuses">Egoeren eskuratzea huts egin du</string>
+    <string name="report_description_1">Txostena zure zerbitzariaren moderatzaileari bidaliko zaio. Jarraian, kontu honen zergatia salatzen duzun azalpena eman dezakezu:</string>
+    <string name="report_description_remote_instance">Kontua beste zerbitzari batekoa da. Bidali txostenaren kopia anonimatua hara ere\?</string>
+    <string name="title_accounts">Kontuak</string>
+    <string name="failed_search">Bilaketa huts egin du</string>
+
+    <string name="pref_title_show_notifications_filter">Erakutsi jakinarazpenen iragazkia</string>
+
+
+    <string name="create_poll_title">Inkesta</string>
+    <string name="poll_duration_5_min">5 minutu</string>
+    <string name="poll_duration_30_min">30 minutu</string>
+    <string name="poll_duration_1_hour">Ordu 1</string>
+    <string name="poll_duration_6_hours">6 ordu</string>
+    <string name="poll_duration_1_day">Egun 1</string>
+    <string name="poll_duration_3_days">3 egun</string>
+    <string name="poll_duration_7_days">7 egun</string>
+    <string name="add_poll_choice">Gehitu aukera</string>
+    <string name="poll_allow_multiple_choices">Aukera anitzak</string>
+    <string name="poll_new_choice_hint">%d. aukera</string>
+    <string name="edit_poll">Editatu</string>
+    <string name="post_lookup_error_format">Errorea agertu da %s mezua bilatzean</string>
+
+</resources>
