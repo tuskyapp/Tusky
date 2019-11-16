@@ -49,6 +49,7 @@ import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.adapter.StatusBaseViewHolder;
 import com.keylesspalace.tusky.adapter.TimelineAdapter;
 import com.keylesspalace.tusky.appstore.BlockEvent;
+import com.keylesspalace.tusky.appstore.BookmarkEvent;
 import com.keylesspalace.tusky.appstore.DomainMuteEvent;
 import com.keylesspalace.tusky.appstore.EventHub;
 import com.keylesspalace.tusky.appstore.FavoriteEvent;
@@ -493,6 +494,9 @@ public class TimelineFragment extends SFragment implements
                         } else if (event instanceof ReblogEvent) {
                             ReblogEvent reblogEvent = (ReblogEvent) event;
                             handleReblogEvent(reblogEvent);
+                        } else if (event instanceof BookmarkEvent) {
+                            BookmarkEvent bookmarkEvent = (BookmarkEvent) event;
+                            handleBookmarkEvent(bookmarkEvent);
                         } else if (event instanceof UnfollowEvent) {
                             if (kind == Kind.HOME) {
                                 String id = ((UnfollowEvent) event).getAccountId();
@@ -1290,6 +1294,13 @@ public class TimelineFragment extends SFragment implements
         if (pos < 0) return;
         Status status = statuses.get(pos).asRight();
         setFavouriteForStatus(pos, status, favEvent.getFavourite());
+    }
+
+    private void handleBookmarkEvent(@NonNull BookmarkEvent bookmarkEvent) {
+        int pos = findStatusOrReblogPositionById(bookmarkEvent.getStatusId());
+        if (pos < 0) return;
+        Status status = statuses.get(pos).asRight();
+        setBookmarkForStatus(pos, status, bookmarkEvent.getBookmark());
     }
 
     private void handleStatusComposeEvent(@NonNull Status status) {

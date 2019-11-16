@@ -45,6 +45,7 @@ import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.ViewThreadActivity;
 import com.keylesspalace.tusky.adapter.ThreadAdapter;
 import com.keylesspalace.tusky.appstore.BlockEvent;
+import com.keylesspalace.tusky.appstore.BookmarkEvent;
 import com.keylesspalace.tusky.appstore.EventHub;
 import com.keylesspalace.tusky.appstore.FavoriteEvent;
 import com.keylesspalace.tusky.appstore.ReblogEvent;
@@ -186,6 +187,8 @@ public final class ViewThreadFragment extends SFragment implements
                         handleFavEvent((FavoriteEvent) event);
                     } else if (event instanceof ReblogEvent) {
                         handleReblogEvent((ReblogEvent) event);
+                    } else if (event instanceof BookmarkEvent) {
+                        handleBookmarkEvent((BookmarkEvent) event);
                     } else if (event instanceof BlockEvent) {
                         removeAllByAccountId(((BlockEvent) event).getAccountId());
                     } else if (event instanceof StatusComposedEvent) {
@@ -629,6 +632,28 @@ public final class ViewThreadFragment extends SFragment implements
 
         StatusViewData.Builder viewDataBuilder = new StatusViewData.Builder((viewdata));
         viewDataBuilder.setReblogged(reblog);
+
+        StatusViewData.Concrete newViewData = viewDataBuilder.createStatusViewData();
+
+        statuses.setPairedItem(posAndStatus.first, newViewData);
+        adapter.setItem(posAndStatus.first, newViewData, true);
+    }
+
+    private void handleBookmarkEvent(BookmarkEvent event) {
+        Pair<Integer, Status> posAndStatus = findStatusAndPos(event.getStatusId());
+        if (posAndStatus == null) return;
+
+        boolean bookmark = event.getBookmark();
+        posAndStatus.second.setBookmarked(bookmark);
+
+        if (posAndStatus.second.getReblog() != null) {
+            posAndStatus.second.getReblog().setBookmarked(bookmark);
+        }
+
+        StatusViewData.Concrete viewdata = statuses.getPairedItem(posAndStatus.first);
+
+        StatusViewData.Builder viewDataBuilder = new StatusViewData.Builder((viewdata));
+        viewDataBuilder.setBookmarked(bookmark);
 
         StatusViewData.Concrete newViewData = viewDataBuilder.createStatusViewData();
 
