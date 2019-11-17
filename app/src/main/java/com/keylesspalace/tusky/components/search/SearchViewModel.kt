@@ -26,7 +26,7 @@ class SearchViewModel @Inject constructor(
         private val timelineCases: TimelineCases,
         private val accountManager: AccountManager) : ViewModel() {
 
-    var currentQuery: String? = null
+    var currentQuery: String = ""
 
     var activeAccount: AccountEntity?
         get() = accountManager.activeAccount
@@ -62,7 +62,7 @@ class SearchViewModel @Inject constructor(
     val networkStateHashTagRefresh: LiveData<NetworkState> = Transformations.switchMap(repoResultHashTag) { it.refreshState }
 
     private val loadedStatuses = ArrayList<Pair<Status, StatusViewData.Concrete>>()
-    fun search(query: String?) {
+    fun search(query: String) {
         loadedStatuses.clear()
         repoResultStatus.value = statusesRepository.getSearchData(SearchType.Status, query, disposables, initialItems = loadedStatuses) {
             (it?.statuses?.map { status -> Pair(status, ViewDataUtils.statusToViewData(status, alwaysShowSensitiveMedia, alwaysOpenSpoiler)!!) }
@@ -74,7 +74,7 @@ class SearchViewModel @Inject constructor(
         repoResultAccount.value = accountsRepository.getSearchData(SearchType.Account, query, disposables) {
             it?.accounts ?: emptyList()
         }
-        val hashtagQuery = if (query != null && query.startsWith("#")) query else "#$query"
+        val hashtagQuery = if (query.startsWith("#")) query else "#$query"
         repoResultHashTag.value =
                 hashtagsRepository.getSearchData(SearchType.Hashtag, hashtagQuery, disposables) {
                     it?.hashtags ?: emptyList()
