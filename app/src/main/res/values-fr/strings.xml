@@ -363,17 +363,17 @@
     <string name="description_visiblity_direct">        Direct
     </string>
     <string name="hint_list_name">Nom de la liste</string>
-<string name="edit_hashtag_title">Modifier les hashtags</string>
-    <string name="edit_hashtag_hint">Hastags sans #</string>
+<string name="edit_hashtag_title">Édition des hashtags</string>
+    <string name="edit_hashtag_hint">Hashtags sans #</string>
     <string name="hashtag">Hashtag</string>
 
 
-<string name="notifications_clear">Nettoyer</string>
+<string name="notifications_clear">Effacer</string>
     <string name="notifications_apply_filter">Filtrer</string>
     <string name="filter_apply">Appliquer</string>
 
-    <string name="compose_shortcut_long_label">Ecrire un pouet</string>
-    <string name="compose_shortcut_short_label">Ecrire</string>
+    <string name="compose_shortcut_long_label">Écrire un pouet</string>
+    <string name="compose_shortcut_short_label">Écrire</string>
     <string name="pref_title_bot_overlay">Afficher l\'indicateur de robots</string>
 
     <string name="notification_clear_text">Nettoyer toutes les notifications de façon permanente \?</string>
@@ -392,7 +392,7 @@
 
 
 <string name="notification_poll_name">Sondages</string>
-    <string name="pref_title_notification_filter_poll">Les sondages sont clos</string>
+    <string name="pref_title_notification_filter_poll">Les sondages sont terminés</string>
     <string name="notification_poll_description">Notifications pour les sondages terminés</string>
 
 
@@ -475,4 +475,5 @@
     <string name="hint_configure_scheduled_toot">Appuyez ici pour configurer le pouet planifié.</string>
     <string name="post_lookup_error_format">Erreur lors de la recherche du post %s</string>
 
-</resources>
+<string name="about_powered_by_tusky">Propulsé par Tusky</string>
+    </resources>
