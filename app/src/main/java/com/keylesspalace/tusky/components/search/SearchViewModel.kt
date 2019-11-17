@@ -19,6 +19,7 @@ import com.keylesspalace.tusky.viewdata.StatusViewData
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.rxkotlin.addTo
 import javax.inject.Inject
 
 class SearchViewModel @Inject constructor(
@@ -89,9 +90,14 @@ class SearchViewModel @Inject constructor(
 
     fun removeItem(status: Pair<Status, StatusViewData.Concrete>) {
         timelineCases.delete(status.first.id)
-                .subscribe()
-        if (loadedStatuses.remove(status))
-            repoResultStatus.value?.refresh?.invoke()
+                .subscribe({
+                    if (loadedStatuses.remove(status))
+                        repoResultStatus.value?.refresh?.invoke()
+                }, {
+                    err -> Log.d(TAG, "Failed to delete status", err)
+                })
+                .addTo(disposables)
+
     }
 
     fun expandedChange(status: Pair<Status, StatusViewData.Concrete>, expanded: Boolean) {
