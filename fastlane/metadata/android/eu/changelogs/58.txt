@@ -1,0 +1,9 @@
+Tusky v6.0
+
+- Kronikaren iragazkiak Kontuen Hobespenetara aldatu dira eta zerbitzariarekin sinkronizatuko dira
+- Orain interfaze nagusian traola pertsonalizatu bat izan dezakezu
+- Zerrendak horain editatu daitezke
+- Segurtasuna: TLS 1.0 eta TLS 1.1 sistemetarako laguntza kendu eta TLS 1.3-ren laguntza gehitu da Android 6+ bertsioan
+- Konposatutako ikuspegiak emoji pertsonalizatuak proposatzen ditu idazten hastean
+- Ezarpen berria "jarraitu sistemaren gaia"
+- Kronologiaren irisgarritasuna hobetu

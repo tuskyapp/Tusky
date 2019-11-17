@@ -1,0 +1,12 @@
+Tusky bezero arina da Mastodonentzat, doako eta irekia den sare sozialen zerbitzarirako.
+
+• Material Design
+• Mastodon API gehienak inplementatu dira
+• Kontu anitzeko laguntza
+• Gai iluna eta argia eguneko orduaren arabera automatikoki aldatzeko aukerarekin
+• Zirriborroak - idatzi tootak eta gorde itzazu gerorako
+• Aukeratu emoji estilo desberdinen artean
+• Pantaila tamaina guztietarako optimizatua
+• Iturri guztiz irekiak - Google zerbitzuak bezalako doako menpekotasunik ez
+
+Mastodoni buruz gehiago jakiteko, bisitatu https://joinmastodon.org/
