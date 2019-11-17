@@ -89,6 +89,7 @@ fun updateShortcut(context: Context, account: AccountEntity) {
 
     }
             .subscribeOn(Schedulers.io())
+            .onErrorReturnItem(false)
             .subscribe()
 
 

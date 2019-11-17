@@ -59,6 +59,7 @@ class ConversationsViewModel @Inject constructor(
                     }
                     .subscribeOn(Schedulers.io())
                     .doOnError { t -> Log.w("ConversationViewModel", "Failed to favourite conversation", t) }
+                    .onErrorReturnItem(0)
                     .subscribe()
                     .addTo(disposables)
         }
@@ -77,6 +78,7 @@ class ConversationsViewModel @Inject constructor(
                     }
                     .subscribeOn(Schedulers.io())
                     .doOnError { t -> Log.w("ConversationViewModel", "Failed to favourite conversation", t) }
+                    .onErrorReturnItem(0)
                     .subscribe()
                     .addTo(disposables)
         }
