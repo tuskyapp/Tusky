@@ -274,7 +274,6 @@
     <string name="title_public_local">Local</string>
     <string name="title_direct_messages">Messatges dirèctes</string>
     <string name="title_tab_preferences">Onglets</string>
-    <string name="title_tag">#%s</string>
     <string name="title_statuses_pinned">Penjats</string>
     <string name="status_username_format">\@%s</string>
     <string name="message_empty">Pas res aicí.</string>
@@ -481,4 +480,5 @@
     <string name="hint_configure_scheduled_toot">Tocatz aquí per configurar los tuts planificats.</string>
     <string name="post_lookup_error_format">Error en cercant la publicacion %s</string>
 
-</resources>
+<string name="about_powered_by_tusky">Propulsat per Tusky</string>
+    </resources>

@@ -28,7 +28,6 @@
     <string name="title_direct_messages">সরাসরি বার্তা</string>
     <string name="title_tab_preferences">ট্যাবগুলি</string>
     <string name="title_view_thread">টুট</string>
-    <string name="title_tag">#%s</string>
     <string name="title_statuses">পোস্টগুলি</string>
     <string name="title_statuses_with_replies">উত্তরের সাথে</string>
     <string name="title_statuses_pinned">পিন করা</string>
@@ -503,5 +502,14 @@
     <string name="poll_allow_multiple_choices">একাধিক পছন্দ</string>
     <string name="poll_new_choice_hint">পছন্দ %d</string>
     <string name="edit_poll">সম্পাদন</string>
+
+<string name="title_scheduled_toot">নির্ধারিত টুটগুলি</string>
+    <string name="action_edit">সম্পাদন</string>
+    <string name="action_access_scheduled_toot">নির্ধারিত টুটগুলি</string>
+    <string name="action_schedule_toot">নির্ধারিত টুট</string>
+    <string name="action_reset_schedule">রিসেট</string>
+    <string name="hint_configure_scheduled_toot">নির্ধারিত টুট কনফিগার করতে এখানে আলতো চাপুন।</string>
+    <string name="about_powered_by_tusky">টাস্কি দ্বারা চালিত</string>
+    <string name="post_lookup_error_format">%s পোস্ট অনুসন্ধানে ত্রুটি</string>
 
 </resources>

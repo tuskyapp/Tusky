@@ -28,7 +28,7 @@ import javax.inject.Inject
 
 abstract class SearchFragment<T> : Fragment(),
         LinkListener, Injectable, SwipeRefreshLayout.OnRefreshListener {
-    private var isSwipeToRefreshEnabled: Boolean = true
+
     private var snackbarErrorRetry: Snackbar? = null
     @Inject
     lateinit var viewModelFactory: ViewModelFactory

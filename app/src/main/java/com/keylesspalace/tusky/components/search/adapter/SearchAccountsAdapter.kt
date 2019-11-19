@@ -22,12 +22,8 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.adapter.AccountViewHolder
-import com.keylesspalace.tusky.adapter.StatusViewHolder
 import com.keylesspalace.tusky.entity.Account
-import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.interfaces.LinkListener
-import com.keylesspalace.tusky.interfaces.StatusActionListener
-import com.keylesspalace.tusky.viewdata.StatusViewData
 
 class SearchAccountsAdapter(private val linkListener: LinkListener)
     : PagedListAdapter<Account, RecyclerView.ViewHolder>(STATUS_COMPARATOR) {

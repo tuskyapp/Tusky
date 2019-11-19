@@ -79,9 +79,7 @@ class SearchActivity : BottomSheetActivity(), SearchView.OnQueryTextListener, Ha
                 .actionView as SearchView
         setupSearchView(searchView)
 
-        if (viewModel.currentQuery != null) {
-            searchView.setQuery(viewModel.currentQuery, false)
-        }
+        searchView.setQuery(viewModel.currentQuery, false)
 
         return true
     }
@@ -115,7 +113,7 @@ class SearchActivity : BottomSheetActivity(), SearchView.OnQueryTextListener, Ha
 
     private fun handleIntent(intent: Intent) {
         if (Intent.ACTION_SEARCH == intent.action) {
-            viewModel.currentQuery = intent.getStringExtra(SearchManager.QUERY)
+            viewModel.currentQuery = intent.getStringExtra(SearchManager.QUERY) ?: ""
             viewModel.search(viewModel.currentQuery)
         }
     }

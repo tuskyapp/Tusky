@@ -61,10 +61,10 @@ abstract class ActivitiesModule {
     abstract fun contributesViewThreadActivity(): ViewThreadActivity
 
     @ContributesAndroidInjector(modules = [FragmentBuildersModule::class])
-    abstract fun contributesFavouritesActivity(): FavouritesActivity
+    abstract fun contributesStatusListActivity(): StatusListActivity
 
     @ContributesAndroidInjector(modules = [FragmentBuildersModule::class])
-    abstract fun contribtutesSearchAvtivity(): SearchActivity
+    abstract fun contributesSearchAvtivity(): SearchActivity
 
     @ContributesAndroidInjector
     abstract fun contributesAboutActivity(): AboutActivity

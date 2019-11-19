@@ -191,6 +191,7 @@ class FilterTest {
                 favouritesCount = 0,
                 reblogged = false,
                 favourited = false,
+                bookmarked = false,
                 sensitive = false,
                 spoilerText = spoilerText,
                 visibility = Status.Visibility.PUBLIC,

@@ -28,7 +28,6 @@
     <string name="title_direct_messages">Личные сообщения</string>
     <string name="title_tab_preferences">Вкладки</string>
     <string name="title_view_thread">Обсуждение</string>
-    <string name="title_tag">#%s</string>
     <string name="title_statuses">Посты</string>
     <string name="title_statuses_with_replies">Посты и ответы</string>
     <string name="title_statuses_pinned">Закреплённые</string>

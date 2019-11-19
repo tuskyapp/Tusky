@@ -26,7 +26,6 @@
     <string name="title_direct_messages">Directe berichten</string>
     <string name="title_tab_preferences">Tabs</string>
     <string name="title_view_thread">Toot</string>
-    <string name="title_tag">#%s</string>
     <string name="title_statuses">Toots</string>
     <string name="title_statuses_with_replies">Met reacties</string>
     <string name="title_statuses_pinned">Vastgezet</string>

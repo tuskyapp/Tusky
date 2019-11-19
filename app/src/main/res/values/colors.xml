@@ -5,6 +5,8 @@
     <color name="tusky_blue_light">#56a7e1</color>
     <color name="tusky_orange">#ca8f04</color>
     <color name="tusky_orange_light">#fab207</color>
+    <color name="tusky_green">#19a341</color>
+    <color name="tusky_green_light">#25d069</color>
 
     <color name="toolbar_view_media">#8f000000</color>
     <color name="header_background_filter">#44000000</color>

@@ -26,6 +26,8 @@ class CacheUpdater @Inject constructor(
                     timelineDao.setFavourited(accountId, event.statusId, event.favourite)
                 is ReblogEvent ->
                     timelineDao.setReblogged(accountId, event.statusId, event.reblog)
+                is BookmarkEvent ->
+                    timelineDao.setBookmarked(accountId, event.statusId, event.bookmark )
                 is UnfollowEvent ->
                     timelineDao.removeAllByUser(accountId, event.accountId)
                 is StatusDeletedEvent ->

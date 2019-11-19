@@ -21,7 +21,7 @@
     <string name="title_home">خانه</string>
     <string name="title_notifications">آگاهی‌ها</string>
     <string name="title_public_local">محلی</string>
-    <string name="title_public_federated">فدرال</string>
+    <string name="title_public_federated">همگانی</string>
     <string name="title_view_thread">بوق</string>
     <string name="title_statuses">فرسته‌ها</string>
     <string name="title_statuses_with_replies">با پاسخ‌</string>
@@ -54,7 +54,7 @@
     <string name="action_favourite">پسند</string>
     <string name="action_more">بیش‌تر</string>
     <string name="action_compose">ایجاد</string>
-    <string name="action_login">ورود با ماستودون</string>
+    <string name="action_login">ورود با ماستدون</string>
     <string name="action_logout">خروج</string>
     <string name="action_logout_confirm">مطمئنید می‌خواهید از حساب %1s خارج شوید؟</string>
     <string name="action_follow">پیگیری</string>
@@ -119,7 +119,7 @@
     <string name="label_header">سرایند</string>
     <string name="link_whats_an_instance">نمونه چیست؟</string>
     <string name="login_connection">در حال اتصال …</string>
-    <string name="dialog_whats_an_instance">این‌حا می‌تواند نشانی یا دامنهٔ هر نمونه‌ا وارد شود، مثلا mastodon.social، icosahedron.website، social.tchncs.de، و <a href="https://instances.social">بیش‌تر!</a> 
+    <string name="dialog_whats_an_instance">این‌جا می‌تواند نشانی یا دامنهٔ هر نمونه را وارد کنید، مثلا mastodon.social، icosahedron.website، social.tchncs.de، و <a href="https://instances.social">بیش‌تر!</a> 
 \n 
 \n اگر هنوز حساب کاربری ندارید، می‌توانید نام نمونهٔ مورد نظر برای پیوستن را وارد کرده و حساب کاربری بسازید. 
 \n 
@@ -161,7 +161,7 @@
     <string name="pref_title_status_tabs">زبانه‌ها</string>
     <string name="pref_title_show_boosts">نمایش تقویت‌ها</string>
     <string name="pref_title_show_replies">نمایش پاسخ‌ها</string>
-    <string name="pref_title_show_media_preview">بارگیری پیش‌نمایش‌های رسانه</string>
+    <string name="pref_title_show_media_preview">بارگیری پیش‌نمایش رسانه‌ها</string>
     <string name="pref_title_proxy_settings">پیشکار</string>
     <string name="pref_title_http_proxy_settings">پیشکار HTTP</string>
     <string name="pref_title_http_proxy_enable">به کار انداختن پیشکار HTTP</string>
@@ -169,12 +169,12 @@
     <string name="pref_title_http_proxy_port">درگاه پیشکار HTTP</string>
     <string name="pref_default_post_privacy">محرمانگی پیش‌گزیدهٔ فرسته</string>
     <string name="pref_default_media_sensitivity">علامت‌گذاری همیشگی رسانه به عنوان حساس</string>
-    <string name="pref_publishing">در حال انتشار (همگام با کارساز)</string>
+    <string name="pref_publishing">انتشار (همگام با کارساز)</string>
     <string name="pref_failed_to_sync">شکست در هم‌گام‌سازی تنظیمات</string>
     <string name="post_privacy_public">عمومی</string>
     <string name="post_privacy_unlisted">فهرست‌نشده</string>
     <string name="post_privacy_followers_only">فقط پیروان</string>
-    <string name="pref_status_text_size">اندازه متن وضعیت</string>
+    <string name="pref_status_text_size">اندازهٔ متن وضعیت</string>
     <string name="status_text_size_smallest">بسیار کوچک</string>
     <string name="status_text_size_small">کوچک</string>
     <string name="status_text_size_medium">متوسط</string>
@@ -226,7 +226,7 @@
     <string name="replying_to">در حال پاسخ به @%s</string>
     <string name="load_more_placeholder_text">بارگیری بیش‌تر</string>
     <string name="add_account_name">افزودن حساب</string>
-    <string name="add_account_description">افزودن حساب ماستودون جدید</string>
+    <string name="add_account_description">افزودن حساب ماستدون جدید</string>
     <string name="action_lists">فهرست‌ها</string>
     <string name="title_lists">فهرست‌ها</string>
     <string name="title_list_timeline">خط زمانی فهرست</string>
@@ -258,7 +258,7 @@
     <string name="restart">شروع دوباره</string>
     <string name="caption_systememoji">مجموعهٔ اموجی پیش‌گزیدهٔ افزاره‌تان</string>
     <string name="caption_blobmoji">اموجی‌های اندروید ۴.۴ تا ۷.۱</string>
-    <string name="caption_twemoji">مجموعهٔ اموجی استاندارد ماستودون</string>
+    <string name="caption_twemoji">مجموعهٔ اموجی استاندارد ماستدون</string>
     <string name="download_failed">شکست در بارگیری</string>
     <string name="profile_badge_bot_text">بات</string>
     <string name="account_moved_description">%1$s منتقل شد به:</string>
@@ -277,7 +277,6 @@
 <string name="error_network">یک خطای شبکه رخ داد! لطفا اتصال خود را بررسی و دوباره تلاش کنید!</string>
     <string name="title_direct_messages">پیام‌های مستقیم</string>
     <string name="title_tab_preferences">زبانه‌ها</string>
-    <string name="title_tag">#%s</string>
     <string name="title_statuses_pinned">سنجاق‌شده</string>
     <string name="title_domain_mutes">دامنه‌های پنهان</string>
     <string name="status_username_format">\@%s</string>
@@ -456,12 +455,12 @@
     <string name="poll_new_choice_hint">گزینهٔ %d</string>
     <string name="edit_poll">ویرایش</string>
 
-<string name="title_scheduled_toot">بوق‌های زمان‌بسته</string>
+<string name="title_scheduled_toot">بوق‌های زمان‌بندی‌شده</string>
     <string name="action_edit">ویرایش</string>
-    <string name="action_access_scheduled_toot">بوق‌های زمان‌بسته</string>
-    <string name="action_schedule_toot">بوق زمان‌بسته</string>
+    <string name="action_access_scheduled_toot">بوق‌های زمان‌بندی‌شده</string>
+    <string name="action_schedule_toot">زمان‌بندی بوق</string>
     <string name="action_reset_schedule">بازنشانی</string>
-    <string name="hint_configure_scheduled_toot">برای پیکربندی بوق زمان‌بسته، این‌جا را کلیک کنید.</string>
+    <string name="hint_configure_scheduled_toot">برای پیکربندی بوق زمان‌بندی‌شده، این‌جا را بزنید.</string>
     <string name="mute_domain_warning">مطمئنید می‌خواهید تمام %s را مسدود کنید؟ محتوای آن دامنه را در هیچ‌یک از خط زمانی‌ها یا در آگاهی‌هایتان نخواهید دید. پیروانتان از آن دامنه، برداشته خواهند شد.</string>
     <string name="filter_dialog_whole_word_description">هنگامی که کلیدواژه یا عبارت، فقط حروف‌عددی باشد، فقط اگر با تمام واژه مطابق باشد، اعمال خواهد شد</string>
     <string name="filter_add_description">عبارت پالایش</string>
@@ -471,4 +470,5 @@
     <string name="report_description_remote_instance">این حساب از کارسازی دیگر است. رونوشتی ناشناس از گزارش، به آن‌جا نیز ارسال شود؟</string>
     <string name="post_lookup_error_format">خطا در یافتن فرستهٔ %s</string>
 
-</resources>
+<string name="about_powered_by_tusky">قدرت‌گرفته از تاسکی</string>
+    </resources>

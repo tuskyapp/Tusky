@@ -26,7 +26,6 @@
     <string name="title_direct_messages">Direktnachrichten</string>
     <string name="title_tab_preferences">Tabs</string>
     <string name="title_view_thread">Unterhaltung</string>
-    <string name="title_tag">#%s</string>
     <string name="title_statuses">Beiträge</string>
     <string name="title_statuses_with_replies">mit Antworten</string>
     <string name="title_statuses_pinned">Angeheftet</string>

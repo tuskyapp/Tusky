@@ -56,6 +56,7 @@ class ListStatusAccessibilityDelegate(
                     info.addAction(if (status.isReblogged) unreblogAction else reblogAction)
                 }
                 info.addAction(if (status.isFavourited) unfavouriteAction else favouriteAction)
+                info.addAction(if (status.isBookmarked) unbookmarkAction else bookmarkAction)
 
                 val mediaActions = intArrayOf(
                         R.id.action_open_media_1,
@@ -95,6 +96,8 @@ class ListStatusAccessibilityDelegate(
                 }
                 R.id.action_favourite -> statusActionListener.onFavourite(true, pos)
                 R.id.action_unfavourite -> statusActionListener.onFavourite(false, pos)
+                R.id.action_bookmark -> statusActionListener.onBookmark(true, pos)
+                R.id.action_unbookmark -> statusActionListener.onBookmark(false, pos)
                 R.id.action_reblog -> statusActionListener.onReblog(true, pos)
                 R.id.action_unreblog -> statusActionListener.onReblog(false, pos)
                 R.id.action_open_profile -> {
@@ -271,6 +274,14 @@ class ListStatusAccessibilityDelegate(
     private val favouriteAction = AccessibilityActionCompat(
             R.id.action_favourite,
             context.getString(R.string.action_favourite))
+
+    private val bookmarkAction = AccessibilityActionCompat(
+            R.id.action_bookmark,
+            context.getString(R.string.action_bookmark))
+
+    private val unbookmarkAction = AccessibilityActionCompat(
+            R.id.action_unbookmark,
+            context.getString(R.string.action_bookmark))
 
     private val openProfileAction = AccessibilityActionCompat(
             R.id.action_open_profile,

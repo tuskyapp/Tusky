@@ -27,13 +27,13 @@
     <string name="title_direct_messages">Direct Messages</string>
     <string name="title_tab_preferences">Tabs</string>
     <string name="title_view_thread">Toot</string>
-    <string name="title_tag">#%s</string>
     <string name="title_statuses">Posts</string>
     <string name="title_statuses_with_replies">With replies</string>
     <string name="title_statuses_pinned">Pinned</string>
     <string name="title_follows">Follows</string>
     <string name="title_followers">Followers</string>
     <string name="title_favourites">Favorites</string>
+    <string name="title_bookmarks">Bookmarks</string>
     <string name="title_mutes">Muted users</string>
     <string name="title_blocks">Blocked users</string>
     <string name="title_domain_mutes">Hidden domains</string>
@@ -68,6 +68,7 @@
     <string name="action_reblog">Boost</string>
     <string name="action_unreblog">Remove boost</string>
     <string name="action_favourite">Favorite</string>
+    <string name="action_bookmark">Bookmark</string>
     <string name="action_unfavourite">Remove favorite</string>
     <string name="action_more">More</string>
     <string name="action_compose">Compose</string>
@@ -92,6 +93,7 @@
     <string name="action_view_preferences">Preferences</string>
     <string name="action_view_account_preferences">Account Preferences</string>
     <string name="action_view_favourites">Favorites</string>
+    <string name="action_view_bookmarks">Bookmarks</string>
     <string name="action_view_mutes">Muted users</string>
     <string name="action_view_blocks">Blocked users</string>
     <string name="action_view_domain_mutes">Hidden domains</string>
@@ -443,6 +445,9 @@
     </string>
     <string name="description_status_favourited">
         Favorited
+    </string>
+    <string name="description_status_bookmarked">
+        Bookmarked
     </string>
     <string name="description_visiblity_public">
         Public

@@ -49,6 +49,7 @@ import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.adapter.StatusBaseViewHolder;
 import com.keylesspalace.tusky.adapter.TimelineAdapter;
 import com.keylesspalace.tusky.appstore.BlockEvent;
+import com.keylesspalace.tusky.appstore.BookmarkEvent;
 import com.keylesspalace.tusky.appstore.DomainMuteEvent;
 import com.keylesspalace.tusky.appstore.EventHub;
 import com.keylesspalace.tusky.appstore.FavoriteEvent;
@@ -128,7 +129,8 @@ public class TimelineFragment extends SFragment implements
         USER_PINNED,
         USER_WITH_REPLIES,
         FAVOURITES,
-        LIST
+        LIST,
+        BOOKMARKS
     }
 
     private enum FetchEnd {
@@ -492,6 +494,9 @@ public class TimelineFragment extends SFragment implements
                         } else if (event instanceof ReblogEvent) {
                             ReblogEvent reblogEvent = (ReblogEvent) event;
                             handleReblogEvent(reblogEvent);
+                        } else if (event instanceof BookmarkEvent) {
+                            BookmarkEvent bookmarkEvent = (BookmarkEvent) event;
+                            handleBookmarkEvent(bookmarkEvent);
                         } else if (event instanceof UnfollowEvent) {
                             if (kind == Kind.HOME) {
                                 String id = ((UnfollowEvent) event).getAccountId();
@@ -625,6 +630,38 @@ public class TimelineFragment extends SFragment implements
         StatusViewData newViewData = new StatusViewData
                 .Builder(actual.first)
                 .setFavourited(favourite)
+                .createStatusViewData();
+        statuses.setPairedItem(actual.second, newViewData);
+        updateAdapter();
+    }
+
+    @Override
+    public void onBookmark(final boolean bookmark, final int position) {
+        final Status status = statuses.get(position).asRight();
+
+        timelineCases.bookmark(status, bookmark)
+                .observeOn(AndroidSchedulers.mainThread())
+                .as(autoDisposable(from(this, Lifecycle.Event.ON_DESTROY)))
+                .subscribe(
+                        (newStatus) -> setBookmarkForStatus(position, newStatus, bookmark),
+                        (err) -> Log.d(TAG, "Failed to favourite status " + status.getId(), err)
+                );
+    }
+
+    private void setBookmarkForStatus(int position, Status status, boolean bookmark) {
+        status.setBookmarked(bookmark);
+
+        if (status.getReblog() != null) {
+            status.getReblog().setBookmarked(bookmark);
+        }
+
+        Pair<StatusViewData.Concrete, Integer> actual =
+                findStatusAndPosition(position, status);
+        if (actual == null) return;
+
+        StatusViewData newViewData = new StatusViewData
+                .Builder(actual.first)
+                .setBookmarked(bookmark)
                 .createStatusViewData();
         statuses.setPairedItem(actual.second, newViewData);
         updateAdapter();
@@ -917,7 +954,7 @@ public class TimelineFragment extends SFragment implements
     }
 
     private boolean actionButtonPresent() {
-        return kind != Kind.TAG && kind != Kind.FAVOURITES &&
+        return kind != Kind.TAG && kind != Kind.FAVOURITES && kind != Kind.BOOKMARKS &&
                 getActivity() instanceof ActionButtonActivity;
     }
 
@@ -950,6 +987,8 @@ public class TimelineFragment extends SFragment implements
                 return api.accountStatuses(tagOrId, fromId, uptoId, LOAD_AT_ONCE, null, null, null);
             case FAVOURITES:
                 return api.favourites(fromId, uptoId, LOAD_AT_ONCE);
+            case BOOKMARKS:
+                return api.bookmarks(fromId, uptoId, LOAD_AT_ONCE);
             case LIST:
                 return api.listTimeline(tagOrId, fromId, uptoId, LOAD_AT_ONCE);
         }
@@ -1095,11 +1134,8 @@ public class TimelineFragment extends SFragment implements
     }
 
     private void updateBottomLoadingState(FetchEnd fetchEnd) {
-        switch (fetchEnd) {
-            case BOTTOM: {
-                bottomLoading = false;
-                break;
-            }
+        if (fetchEnd == FetchEnd.BOTTOM) {
+            bottomLoading = false;
         }
     }
 
@@ -1223,8 +1259,8 @@ public class TimelineFragment extends SFragment implements
     private final Function1<Status, Either<Placeholder, Status>> statusLifter =
             Either.Right::new;
 
-    private @Nullable
-    Pair<StatusViewData.Concrete, Integer>
+    @Nullable
+    private Pair<StatusViewData.Concrete, Integer>
     findStatusAndPosition(int position, Status status) {
         StatusViewData.Concrete statusToUpdate;
         int positionToUpdate;
@@ -1258,6 +1294,13 @@ public class TimelineFragment extends SFragment implements
         if (pos < 0) return;
         Status status = statuses.get(pos).asRight();
         setFavouriteForStatus(pos, status, favEvent.getFavourite());
+    }
+
+    private void handleBookmarkEvent(@NonNull BookmarkEvent bookmarkEvent) {
+        int pos = findStatusOrReblogPositionById(bookmarkEvent.getStatusId());
+        if (pos < 0) return;
+        Status status = statuses.get(pos).asRight();
+        setBookmarkForStatus(pos, status, bookmarkEvent.getBookmark());
     }
 
     private void handleStatusComposeEvent(@NonNull Status status) {

@@ -307,6 +307,7 @@ class TimelineRepositoryTest {
                 spoilerText = "",
                 reblogged = true,
                 favourited = false,
+                bookmarked = false,
                 attachments = ArrayList(),
                 mentions = arrayOf(),
                 application = null,

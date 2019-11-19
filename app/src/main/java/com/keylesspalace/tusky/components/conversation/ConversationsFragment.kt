@@ -117,6 +117,10 @@ class ConversationsFragment : SFragment(), StatusActionListener, Injectable, Res
         viewModel.favourite(favourite, position)
     }
 
+    override fun onBookmark(favourite: Boolean, position: Int) {
+        viewModel.bookmark(favourite, position)
+    }
+
     override fun onMore(view: View, position: Int) {
         viewModel.conversations.value?.getOrNull(position)?.lastStatus?.let {
             more(it.toStatus(), view, position)

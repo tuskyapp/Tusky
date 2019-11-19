@@ -111,7 +111,7 @@
             android:configChanges="orientation|screenSize|keyboardHidden|screenLayout|smallestScreenSize" />
         <activity android:name=".EditProfileActivity" />
         <activity android:name=".PreferencesActivity" />
-        <activity android:name=".FavouritesActivity" />
+        <activity android:name=".StatusListActivity" />
         <activity android:name=".AccountListActivity" />
         <activity android:name=".AboutActivity" />
         <activity android:name=".TabPreferenceActivity" />

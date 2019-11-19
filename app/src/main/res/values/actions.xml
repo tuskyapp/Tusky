@@ -4,6 +4,8 @@
     <item name="action_reply" type="id" />
     <item name="action_favourite" type="id" />
     <item name="action_unfavourite" type="id" />
+    <item name="action_bookmark" type="id" />
+    <item name="action_unbookmark" type="id" />
     <item name="action_reblog" type="id" />
     <item name="action_unreblog" type="id" />
     <item name="action_open_profile" type="id" />

@@ -106,6 +106,7 @@ dependencies {
 
     implementation "androidx.core:core-ktx:1.2.0-beta01"
     implementation "androidx.appcompat:appcompat:1.1.0"
+    implementation "androidx.fragment:fragment-ktx:1.1.0"
     implementation "androidx.browser:browser:1.0.0"
     implementation "androidx.recyclerview:recyclerview:1.0.0"
     implementation "androidx.exifinterface:exifinterface:1.0.0"

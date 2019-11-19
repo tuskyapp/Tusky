@@ -25,7 +25,6 @@
     <string name="title_direct_messages">ダイレクトメッセージ</string>
     <string name="title_tab_preferences">タブ</string>
     <string name="title_view_thread">スレッド</string>
-    <string name="title_tag">#%s</string>
     <string name="title_statuses">投稿</string>
     <string name="title_statuses_with_replies">投稿と返信</string>
     <string name="title_statuses_pinned">ピン留め</string>

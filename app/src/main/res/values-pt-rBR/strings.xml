@@ -294,7 +294,6 @@
     <string name="description_visiblity_private">        Seguidores
     </string>
 <string name="error_network">Ocorreu um erro de conexão! Por favor, verifique sua internet e tente novamente!</string>
-    <string name="title_tag">#%s</string>
     <string name="title_statuses_pinned">Fixado</string>
     <string name="status_username_format">\@%s</string>
     <string name="status_content_show_more">Expandir</string>

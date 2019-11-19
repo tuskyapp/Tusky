@@ -26,7 +26,6 @@
     <string name="title_direct_messages">Mensajes Directos</string>
     <string name="title_tab_preferences">Pestañas</string>
     <string name="title_view_thread">Estado</string>
-    <string name="title_tag">#%s</string>
     <string name="title_statuses">Estados</string>
     <string name="title_statuses_with_replies">Con respuestas</string>
     <string name="title_statuses_pinned">Fijado</string>
@@ -469,4 +468,5 @@
     <string name="hint_configure_scheduled_toot">Pulsa aquí para configurar un estado programado.</string>
     <string name="post_lookup_error_format">Error al buscar el post %s</string>
 
-</resources>
+<string name="about_powered_by_tusky">Potenciado por Tusky</string>
+    </resources>

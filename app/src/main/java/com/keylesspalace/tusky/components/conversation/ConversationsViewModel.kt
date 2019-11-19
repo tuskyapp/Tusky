@@ -59,6 +59,25 @@ class ConversationsViewModel @Inject constructor(
                     }
                     .subscribeOn(Schedulers.io())
                     .doOnError { t -> Log.w("ConversationViewModel", "Failed to favourite conversation", t) }
+                    .onErrorReturnItem(0)
+                    .subscribe()
+                    .addTo(disposables)
+        }
+
+    }
+
+    fun bookmark(bookmark: Boolean, position: Int) {
+        conversations.value?.getOrNull(position)?.let { conversation ->
+            timelineCases.bookmark(conversation.lastStatus.toStatus(), bookmark)
+                    .flatMap {
+                        val newConversation = conversation.copy(
+                                lastStatus = conversation.lastStatus.copy(bookmarked = bookmark)
+                        )
+
+                        database.conversationDao().insert(newConversation)
+                    }
+                    .subscribeOn(Schedulers.io())
+                    .doOnError { t -> Log.w("ConversationViewModel", "Failed to bookmark conversation", t) }
                     .subscribe()
                     .addTo(disposables)
         }
@@ -77,6 +96,7 @@ class ConversationsViewModel @Inject constructor(
                     }
                     .subscribeOn(Schedulers.io())
                     .doOnError { t -> Log.w("ConversationViewModel", "Failed to favourite conversation", t) }
+                    .onErrorReturnItem(0)
                     .subscribe()
                     .addTo(disposables)
         }

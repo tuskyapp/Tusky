@@ -99,6 +99,12 @@ class SearchStatusesFragment : SearchFragment<Pair<Status, StatusViewData.Concre
         }
     }
 
+    override fun onBookmark(bookmark: Boolean, position: Int) {
+        (adapter as? SearchStatusesAdapter)?.getItem(position)?.let { status ->
+            viewModel.bookmark(status, bookmark)
+        }
+    }
+
     override fun onMore(view: View, position: Int) {
         (adapter as? SearchStatusesAdapter)?.getItem(position)?.first?.let {
             more(it, view, position)
