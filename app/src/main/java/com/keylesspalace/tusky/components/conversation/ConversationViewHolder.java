@@ -83,6 +83,7 @@ public class ConversationViewHolder extends StatusBaseViewHolder {
         setCreatedAt(status.getCreatedAt());
         setIsReply(status.getInReplyToId() != null);
         setFavourited(status.getFavourited());
+        setBookmarked(status.getBookmarked());
         List<Attachment> attachments = status.getAttachments();
         boolean sensitive = status.getSensitive();
         if(mediaPreviewEnabled && !hasAudioAttachment(attachments)) {

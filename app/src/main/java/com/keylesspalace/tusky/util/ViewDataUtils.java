@@ -42,6 +42,7 @@ public final class ViewDataUtils {
                 .setFavouritesCount(visibleStatus.getFavouritesCount())
                 .setInReplyToId(visibleStatus.getInReplyToId())
                 .setFavourited(visibleStatus.getFavourited())
+                .setBookmarked(visibleStatus.getBookmarked())
                 .setReblogged(visibleStatus.getReblogged())
                 .setIsExpanded(alwaysOpenSpoiler)
                 .setIsShowingSensitiveContent(false)

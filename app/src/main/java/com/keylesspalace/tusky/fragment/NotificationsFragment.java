@@ -55,6 +55,7 @@ import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.adapter.NotificationsAdapter;
 import com.keylesspalace.tusky.adapter.StatusBaseViewHolder;
 import com.keylesspalace.tusky.appstore.BlockEvent;
+import com.keylesspalace.tusky.appstore.BookmarkEvent;
 import com.keylesspalace.tusky.appstore.EventHub;
 import com.keylesspalace.tusky.appstore.FavoriteEvent;
 import com.keylesspalace.tusky.appstore.PreferenceChangedEvent;
@@ -309,6 +310,16 @@ public class NotificationsFragment extends SFragment implements
                 event.getFavourite());
     }
 
+    private void handleBookmarkEvent(BookmarkEvent event) {
+        Pair<Integer, Notification> posAndNotification =
+                findReplyPosition(event.getStatusId());
+        if (posAndNotification == null) return;
+        //noinspection ConstantConditions
+        setBookmarkForStatus(posAndNotification.first,
+                posAndNotification.second.getStatus(),
+                event.getBookmark());
+    }
+
     private void handleReblogEvent(ReblogEvent event) {
         Pair<Integer, Notification> posAndNotification = findReplyPosition(event.getStatusId());
         if (posAndNotification == null) return;
@@ -365,6 +376,8 @@ public class NotificationsFragment extends SFragment implements
                 .subscribe(event -> {
                     if (event instanceof FavoriteEvent) {
                         handleFavEvent((FavoriteEvent) event);
+                    } else if (event instanceof BookmarkEvent) {
+                        handleBookmarkEvent((BookmarkEvent) event);
                     } else if (event instanceof ReblogEvent) {
                         handleReblogEvent((ReblogEvent) event);
                     } else if (event instanceof BlockEvent) {
@@ -454,6 +467,41 @@ public class NotificationsFragment extends SFragment implements
 
         StatusViewData.Builder viewDataBuilder = new StatusViewData.Builder(viewdata.getStatusViewData());
         viewDataBuilder.setFavourited(favourite);
+
+        NotificationViewData.Concrete newViewData = new NotificationViewData.Concrete(
+                viewdata.getType(), viewdata.getId(), viewdata.getAccount(),
+                viewDataBuilder.createStatusViewData(), viewdata.isExpanded());
+
+        notifications.setPairedItem(position, newViewData);
+        updateAdapter();
+    }
+
+    @Override
+    public void onBookmark(final boolean bookmark, final int position) {
+        final Notification notification = notifications.get(position).asRight();
+        final Status status = notification.getStatus();
+
+        timelineCases.bookmark(status, bookmark)
+                .observeOn(AndroidSchedulers.mainThread())
+                .as(autoDisposable(from(this)))
+                .subscribe(
+                        (newStatus) -> setBookmarkForStatus(position, status, bookmark),
+                        (t) -> Log.d(getClass().getSimpleName(),
+                                "Failed to bookmark status: " + status.getId(), t)
+                );
+    }
+
+    private void setBookmarkForStatus(int position, Status status, boolean bookmark) {
+        status.setBookmarked(bookmark);
+
+        if (status.getReblog() != null) {
+            status.getReblog().setBookmarked(bookmark);
+        }
+
+        NotificationViewData.Concrete viewdata = (NotificationViewData.Concrete) notifications.getPairedItem(position);
+
+        StatusViewData.Builder viewDataBuilder = new StatusViewData.Builder(viewdata.getStatusViewData());
+        viewDataBuilder.setBookmarked(bookmark);
 
         NotificationViewData.Concrete newViewData = new NotificationViewData.Concrete(
                 viewdata.getType(), viewdata.getId(), viewdata.getAccount(),

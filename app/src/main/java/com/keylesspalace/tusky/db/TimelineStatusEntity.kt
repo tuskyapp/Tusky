@@ -41,6 +41,7 @@ data class TimelineStatusEntity(
         val reblogsCount: Int,
         val favouritesCount: Int,
         val reblogged: Boolean,
+        val bookmarked: Boolean,
         val favourited: Boolean,
         val sensitive: Boolean,
         val spoilerText: String?,

@@ -180,6 +180,16 @@ interface MastodonApi {
             @Path("id") statusId: String
     ): Single<Status>
 
+    @POST("api/v1/statuses/{id}/bookmark")
+    fun bookmarkStatus(
+            @Path("id") statusId: String
+    ): Single<Status>
+
+    @POST("api/v1/statuses/{id}/unbookmark")
+    fun unbookmarkStatus(
+            @Path("id") statusId: String
+    ): Single<Status>
+
     @POST("api/v1/statuses/{id}/pin")
     fun pinStatus(
             @Path("id") statusId: String
@@ -338,6 +348,13 @@ interface MastodonApi {
 
     @GET("api/v1/favourites")
     fun favourites(
+            @Query("max_id") maxId: String?,
+            @Query("since_id") sinceId: String?,
+            @Query("limit") limit: Int?
+    ): Call<List<Status>>
+
+    @GET("api/v1/bookmarks")
+    fun bookmarks(
             @Query("max_id") maxId: String?,
             @Query("since_id") sinceId: String?,
             @Query("limit") limit: Int?

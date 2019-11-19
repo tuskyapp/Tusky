@@ -81,6 +81,7 @@ class BottomSheetActivityTest {
             false,
             false,
             false,
+            false,
             "",
             Status.Visibility.PUBLIC,
             ArrayList(),

@@ -64,6 +64,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
     private ImageButton replyButton;
     private SparkButton reblogButton;
     private SparkButton favouriteButton;
+    private SparkButton bookmarkButton;
     private ImageButton moreButton;
     protected MediaPreviewImageView[] mediaPreviews;
     private ImageView[] mediaOverlays;
@@ -107,6 +108,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         replyButton = itemView.findViewById(R.id.status_reply);
         reblogButton = itemView.findViewById(R.id.status_inset);
         favouriteButton = itemView.findViewById(R.id.status_favourite);
+        bookmarkButton = itemView.findViewById(R.id.status_bookmark);
         moreButton = itemView.findViewById(R.id.status_more);
 
         mediaPreviews = new MediaPreviewImageView[]{
@@ -348,6 +350,10 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         favouriteButton.setChecked(favourited);
     }
 
+    protected void setBookmarked(boolean bookmarked) {
+        bookmarkButton.setChecked(bookmarked);
+    }
+
     private void loadImage(MediaPreviewImageView imageView, String previewUrl, MetaData meta) {
         if (TextUtils.isEmpty(previewUrl)) {
             Glide.with(imageView)
@@ -582,6 +588,27 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             public void onEventAnimationStart(ImageView button, boolean buttonState) {
             }
         });
+
+        bookmarkButton.setEventListener(new SparkEventListener() {
+            @Override
+            public void onEvent(ImageView button, boolean buttonState) {
+                int position = getAdapterPosition();
+                if (position != RecyclerView.NO_POSITION) {
+                    listener.onBookmark(buttonState, position);
+                }
+            }
+
+            @Override
+            public void onEventAnimationEnd(ImageView button, boolean buttonState) {
+
+            }
+
+            @Override
+            public void onEventAnimationStart(ImageView button, boolean buttonState) {
+
+            }
+        });
+
         moreButton.setOnClickListener(v -> {
             int position = getAdapterPosition();
             if (position != RecyclerView.NO_POSITION) {
@@ -621,6 +648,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             setAvatar(status.getAvatar(), status.getRebloggedAvatar(), status.isBot(), showBotOverlay, animateAvatar);
             setReblogged(status.isReblogged());
             setFavourited(status.isFavourited());
+            setBookmarked(status.isBookmarked());
             List<Attachment> attachments = status.getAttachments();
             boolean sensitive = status.isSensitive();
             if (mediaPreviewEnabled && !hasAudioAttachment(attachments)) {
@@ -690,6 +718,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
                 status.getNickname(),
                 status.isReblogged() ? context.getString(R.string.description_status_reblogged) : "",
                 status.isFavourited() ? context.getString(R.string.description_status_favourited) : "",
+                status.isBookmarked() ? context.getString(R.string.description_status_bookmarked) : "",
                 getMediaDescription(context, status),
                 getVisibilityDescription(context, status.getVisibility()),
                 getFavsText(context, status.getFavouritesCount()),

@@ -187,6 +187,18 @@ class SearchViewModel @Inject constructor(
                 .subscribe())
     }
 
+    fun bookmark(status: Pair<Status, StatusViewData.Concrete>, isBookmarked: Boolean) {
+        val idx = loadedStatuses.indexOf(status)
+        if (idx >= 0) {
+            val newPair = Pair(status.first, StatusViewData.Builder(status.second).setFavourited(isBookmarked).createStatusViewData())
+            loadedStatuses[idx] = newPair
+            repoResultStatus.value?.refresh?.invoke()
+        }
+        disposables.add(timelineCases.favourite(status.first, isBookmarked)
+                .onErrorReturnItem(status.first)
+                .subscribe())
+    }
+
     fun getAllAccountsOrderedByActive(): List<AccountEntity> {
         return accountManager.getAllAccountsOrderedByActive()
     }

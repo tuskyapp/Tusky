@@ -24,7 +24,7 @@ abstract class TimelineDao {
     @Query("""
 SELECT s.serverId, s.url, s.timelineUserId,
 s.authorServerId, s.inReplyToId, s.inReplyToAccountId, s.createdAt,
-s.emojis, s.reblogsCount, s.favouritesCount, s.reblogged, s.favourited, s.sensitive,
+s.emojis, s.reblogsCount, s.favouritesCount, s.reblogged, s.favourited, s.bookmarked, s.sensitive,
 s.spoilerText, s.visibility, s.mentions, s.application, s.reblogServerId,s.reblogAccountId,
 s.content, s.attachments, s.poll,
 a.serverId as 'a_serverId', a.timelineUserId as 'a_timelineUserId',
@@ -77,6 +77,9 @@ AND
 WHERE timelineUserId = :accountId AND (serverId = :statusId OR reblogServerId = :statusId)""")
     abstract fun setFavourited(accountId: Long, statusId: String, favourited: Boolean)
 
+    @Query("""UPDATE TimelineStatusEntity SET bookmarked = :bookmarked
+WHERE timelineUserId = :accountId AND (serverId = :statusId OR reblogServerId = :statusId)""")
+    abstract fun setBookmarked(accountId: Long, statusId: String, bookmarked: Boolean)
 
     @Query("""UPDATE TimelineStatusEntity SET reblogged = :reblogged
 WHERE timelineUserId = :accountId AND (serverId = :statusId OR reblogServerId = :statusId)""")
