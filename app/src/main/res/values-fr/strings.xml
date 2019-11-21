@@ -472,7 +472,6 @@
     <string name="action_access_scheduled_toot">Pouets planifiés</string>
     <string name="action_schedule_toot">Planifier le pouet</string>
     <string name="action_reset_schedule">Réinitialiser</string>
-    <string name="hint_configure_scheduled_toot">Appuyez ici pour configurer le pouet planifié.</string>
     <string name="post_lookup_error_format">Erreur lors de la recherche du post %s</string>
 
 <string name="about_powered_by_tusky">Propulsé par Tusky</string>

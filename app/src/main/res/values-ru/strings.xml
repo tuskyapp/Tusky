@@ -540,7 +540,6 @@
     <string name="action_access_scheduled_toot">Отложенные записи</string>
     <string name="action_schedule_toot">Отложить запись</string>
     <string name="action_reset_schedule">Сброс</string>
-    <string name="hint_configure_scheduled_toot">Нажмите для выбора времени отправки.</string>
     <string name="post_lookup_error_format">Ошибка при поиске сообщения / ний</string>
 
 </resources>

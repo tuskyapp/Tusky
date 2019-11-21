@@ -159,7 +159,6 @@
 
     <string name="hint_domain">Which instance?</string>
     <string name="hint_compose">What\'s happening?</string>
-    <string name="hint_configure_scheduled_toot">Tap here to configure scheduled toot.</string>
     <string name="hint_content_warning">Content warning</string>
     <string name="hint_display_name">Display name</string>
     <string name="hint_note">Bio</string>

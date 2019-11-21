@@ -318,6 +318,14 @@ class ComposeActivity : BaseActivity(),
                 pollPreview.visible(poll != null)
                 poll?.let(pollPreview::setPoll)
             }
+            viewModel.scheduledAt.observe {scheduledAt ->
+                if(scheduledAt == null) {
+                    composeScheduleView.resetSchedule()
+                } else {
+                    composeScheduleView.setDateTime(scheduledAt)
+                }
+                updateScheduleButton()
+            }
             combineOptionalLiveData(viewModel.media, viewModel.poll) { media, poll ->
                 val active = poll == null
                         && media!!.size != 4
@@ -350,7 +358,7 @@ class ComposeActivity : BaseActivity(),
         composeContentWarningButton.setOnClickListener { onContentWarningChanged() }
         composeEmojiButton.setOnClickListener { showEmojis() }
         composeHideMediaButton.setOnClickListener { toggleHideMedia() }
-        composeScheduleButton.setOnClickListener { showScheduleView() }
+        composeScheduleButton.setOnClickListener { onScheduleClick() }
         composeScheduleView.setResetOnClickListener { resetSchedule() }
         atButton.setOnClickListener { atButtonClicked() }
         hashButton.setOnClickListener { hashButtonClicked() }
@@ -509,6 +517,14 @@ class ComposeActivity : BaseActivity(),
             scheduleBehavior.setState(BottomSheetBehavior.STATE_HIDDEN)
         } else {
             composeOptionsBehavior.setState(BottomSheetBehavior.STATE_HIDDEN)
+        }
+    }
+
+    private fun onScheduleClick() {
+        if(viewModel.scheduledAt.value == null) {
+            composeScheduleView.openPickDateDialog()
+        } else {
+            showScheduleView()
         }
     }
 
@@ -925,13 +941,12 @@ class ComposeActivity : BaseActivity(),
 
     override fun onTimeSet(view: TimePicker, hourOfDay: Int, minute: Int) {
         composeScheduleView.onTimeSet(hourOfDay, minute)
-        updateScheduleButton()
+        viewModel.updateScheduledAt(composeScheduleView.time)
         scheduleBehavior.state = BottomSheetBehavior.STATE_HIDDEN
     }
 
     private fun resetSchedule() {
-        composeScheduleView.resetSchedule()
-        updateScheduleButton()
+        viewModel.updateScheduledAt(null)
         scheduleBehavior.state = BottomSheetBehavior.STATE_HIDDEN
     }
 

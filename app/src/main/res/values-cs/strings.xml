@@ -470,7 +470,6 @@
     <string name="action_access_scheduled_toot">Plánované tooty</string>
     <string name="action_schedule_toot">Naplánovat toot</string>
     <string name="action_reset_schedule">Obnovit</string>
-    <string name="hint_configure_scheduled_toot">Klepnutím sem nastavíte plánovaný toot.</string>
     <string name="pref_title_alway_open_spoiler">Vždy rozbalovat tooty označené varováními o obsahu</string>
     <string name="filter_dialog_whole_word">Celé slovo</string>
     <string name="filter_dialog_whole_word_description">Je-li klíčové slovo nebo fráze pouze alfanumerická, bude použita pouze, pokud odpovídá celému slovu</string>

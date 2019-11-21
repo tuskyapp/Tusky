@@ -487,7 +487,6 @@
     <string name="action_access_scheduled_toot">التبويقات المبَرمَجة</string>
     <string name="action_schedule_toot">برمجة تبويق</string>
     <string name="action_reset_schedule">صفّر</string>
-    <string name="hint_configure_scheduled_toot">اضغط هنا لضبط برمجة التبويق.</string>
     <string name="post_lookup_error_format">خطأ أثناء البحث عن منشور %s</string>
 
 </resources>

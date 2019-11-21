@@ -460,7 +460,6 @@
     <string name="action_access_scheduled_toot">بوق‌های زمان‌بندی‌شده</string>
     <string name="action_schedule_toot">زمان‌بندی بوق</string>
     <string name="action_reset_schedule">بازنشانی</string>
-    <string name="hint_configure_scheduled_toot">برای پیکربندی بوق زمان‌بندی‌شده، این‌جا را بزنید.</string>
     <string name="mute_domain_warning">مطمئنید می‌خواهید تمام %s را مسدود کنید؟ محتوای آن دامنه را در هیچ‌یک از خط زمانی‌ها یا در آگاهی‌هایتان نخواهید دید. پیروانتان از آن دامنه، برداشته خواهند شد.</string>
     <string name="filter_dialog_whole_word_description">هنگامی که کلیدواژه یا عبارت، فقط حروف‌عددی باشد، فقط اگر با تمام واژه مطابق باشد، اعمال خواهد شد</string>
     <string name="filter_add_description">عبارت پالایش</string>

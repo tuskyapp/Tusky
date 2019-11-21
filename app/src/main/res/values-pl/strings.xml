@@ -484,7 +484,6 @@
     <string name="action_access_scheduled_toot">Zaplanowane wpisy</string>
     <string name="action_schedule_toot">Zaplanuj wpis</string>
     <string name="action_reset_schedule">Resetuj</string>
-    <string name="hint_configure_scheduled_toot">Dotknij tutaj, żeby skonfigurować zaplanowany wpis.</string>
     <string name="about_powered_by_tusky">Napędzane przez Tusky</string>
     <string name="post_lookup_error_format">Błąd przy wyszukiwaniu wpisu %s</string>
 

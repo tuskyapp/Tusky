@@ -30,6 +30,7 @@ import com.google.android.material.datepicker.DateValidatorPointForward;
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.fragment.TimePickerFragment;
+import com.keylesspalace.tusky.util.ThemeUtils;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -87,7 +88,7 @@ public class ComposeScheduleView extends ConstraintLayout {
 
     private void setScheduledDateTime() {
         if (scheduleDateTime == null) {
-            scheduledDateTimeView.setText(R.string.hint_configure_scheduled_toot);
+            scheduledDateTimeView.setText("");
         } else {
             scheduledDateTimeView.setText(String.format("%s %s",
                     dateFormat.format(scheduleDateTime.getTime()),
@@ -96,12 +97,12 @@ public class ComposeScheduleView extends ConstraintLayout {
     }
 
     private void setEditIcons() {
-        final int size = scheduledDateTimeView.getLineHeight();
-
-        Drawable icon = getContext().getDrawable(R.drawable.ic_create_24dp);
+        Drawable icon = ThemeUtils.getTintedDrawable(getContext(), R.drawable.ic_create_24dp, android.R.attr.textColorTertiary);
         if (icon == null) {
             return;
         }
+
+        final int size = scheduledDateTimeView.getLineHeight();
 
         icon.setBounds(0, 0, size, size);
 
@@ -117,7 +118,7 @@ public class ComposeScheduleView extends ConstraintLayout {
         setScheduledDateTime();
     }
 
-    private void openPickDateDialog() {
+    public void openPickDateDialog() {
         long yesterday = Calendar.getInstance().getTimeInMillis() - 24 * 60 * 60 * 1000;
         CalendarConstraints calendarConstraints = new CalendarConstraints.Builder()
                 .setValidator(

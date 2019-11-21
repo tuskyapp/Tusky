@@ -82,6 +82,7 @@ class ComposeViewModel
     val statusVisibility = mutableLiveData(Status.Visibility.UNKNOWN)
     val showContentWarning = mutableLiveData(false)
     val poll: MutableLiveData<NewPoll?> = mutableLiveData(null)
+    val scheduledAt: MutableLiveData<String?> = mutableLiveData(null)
 
     val media = mutableLiveData<List<QueuedMedia>>(listOf())
     val uploadError = MutableLiveData<Throwable>()
@@ -221,7 +222,6 @@ class ComposeViewModel
         )
     }
 
-
     /**
      * Send status to the server.
      * Uses current state plus provided arguments.
@@ -251,7 +251,7 @@ class ComposeViewModel
                             mediaIds,
                             mediaUris.map { it.toString() },
                             mediaDescriptions,
-                            scheduledAt = null, // TODO
+                            scheduledAt = scheduledAt.value,
                             inReplyToId = null,
                             poll = poll.value,
                             replyingStatusContent = null,
@@ -413,10 +413,8 @@ class ComposeViewModel
         }
 
 
-        if (!TextUtils.isEmpty(composeOptions?.scheduledAt)) {
-            // TODO: set time
-//            composeScheduleView.setDateTime(composeOptions?.scheduledAt)
-        }
+        scheduledAt.value = composeOptions?.scheduledAt
+
         composeOptions?.sensitive?.let { markMediaAsSensitive.value = it }
 
         val poll = composeOptions?.poll
@@ -429,6 +427,10 @@ class ComposeViewModel
 
     fun updatePoll(newPoll: NewPoll) {
         poll.value = newPoll
+    }
+
+    fun updateScheduledAt(newScheduledAt: String?) {
+        scheduledAt.value = newScheduledAt
     }
 
     private companion object {
