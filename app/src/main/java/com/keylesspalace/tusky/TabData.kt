@@ -30,6 +30,7 @@ const val LOCAL = "Local"
 const val FEDERATED = "Federated"
 const val DIRECT = "Direct"
 const val HASHTAG = "Hashtag"
+const val LIST = "List"
 
 data class TabData(val id: String,
                    @StringRes val text: Int,
@@ -45,6 +46,7 @@ fun createTabDataFromId(id: String, arguments: List<String> = emptyList()): TabD
         FEDERATED -> TabData(FEDERATED, R.string.title_public_federated, R.drawable.ic_public_24dp, { TimelineFragment.newInstance(TimelineFragment.Kind.PUBLIC_FEDERATED) })
         DIRECT -> TabData(DIRECT, R.string.title_direct_messages, R.drawable.reblog_direct_dark, { ConversationsFragment.newInstance() })
         HASHTAG -> TabData(HASHTAG, R.string.hashtag, R.drawable.ic_hashtag, { args -> TimelineFragment.newInstance(TimelineFragment.Kind.TAG, args.getOrNull(0).orEmpty()) }, arguments)
+        LIST -> TabData(LIST, R.string.list, R.drawable.ic_list, { args -> TimelineFragment.newInstance(TimelineFragment.Kind.LIST, args.getOrNull(0).orEmpty()) }, arguments)
         else -> throw IllegalArgumentException("unknown tab type")
     }
 }
