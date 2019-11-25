@@ -51,6 +51,7 @@ class ViewVideoFragment : ViewMediaFragment() {
     private val TOOLBAR_HIDE_DELAY_MS = 3000L
     override lateinit var descriptionView : TextView
     private lateinit var mediaController : MediaController
+    private var isAudio = false
 
     override fun setUserVisibleHint(isVisibleToUser: Boolean) {
         // Start/pause/resume video playback as fragment is shown/hidden
@@ -109,7 +110,13 @@ class ViewVideoFragment : ViewMediaFragment() {
                 handler.removeCallbacks(hideToolbar)
             }
             override fun onPlay() {
-                hideToolbarAfterDelay(TOOLBAR_HIDE_DELAY_MS)
+                // Audio doesn't cause the controller to show automatically,
+                // and we only want to hide the toolbar if it's a video.
+                if (isAudio) {
+                    mediaController.show()
+                } else {
+                    hideToolbarAfterDelay(TOOLBAR_HIDE_DELAY_MS)
+                }
             }
         })
         videoView.setOnPreparedListener { mp ->
@@ -157,6 +164,7 @@ class ViewVideoFragment : ViewMediaFragment() {
             throw IllegalArgumentException("attachment has to be set")
         }
         url = attachment.url
+        isAudio = attachment.type == Attachment.Type.AUDIO
         finalizeViewSetup(url, attachment.previewUrl, attachment.description)
     }
 
