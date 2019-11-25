@@ -23,7 +23,7 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Some media description" />
 
-    <VideoView
+    <com.keylesspalace.tusky.view.ExposedPlayPauseVideoView
         android:id="@+id/videoView"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"

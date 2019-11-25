@@ -18,9 +18,12 @@ package com.keylesspalace.tusky.fragment
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.annotation.SuppressLint
+import android.content.Context
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.AttributeSet
+import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -31,6 +34,7 @@ import com.keylesspalace.tusky.ViewMediaActivity
 import com.keylesspalace.tusky.entity.Attachment
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.visible
+import com.keylesspalace.tusky.view.ExposedPlayPauseVideoView
 import kotlinx.android.synthetic.main.activity_view_media.*
 import kotlinx.android.synthetic.main.fragment_view_video.*
 
@@ -41,6 +45,7 @@ class ViewVideoFragment : ViewMediaFragment() {
         // Hoist toolbar hiding to activity so it can track state across different fragments
         // This is explicitly stored as runnable so that we pass it to the handler later for cancellation
         mediaActivity.onPhotoTap()
+        mediaController.hide()
     }
     private lateinit var mediaActivity: ViewMediaActivity
     private val TOOLBAR_HIDE_DELAY_MS = 3000L
@@ -72,7 +77,13 @@ class ViewVideoFragment : ViewMediaFragment() {
 
         videoView.transitionName = url
         videoView.setVideoPath(url)
-        mediaController = MediaController(mediaActivity)
+        mediaController = object : MediaController(mediaActivity) {
+            override fun show(timeout: Int) {
+                // We're doing manual auto-close management
+                super.show(0)
+            }
+        }
+
         mediaController.setMediaPlayer(videoView)
         videoView.setMediaController(mediaController)
         videoView.requestFocus()
@@ -80,6 +91,14 @@ class ViewVideoFragment : ViewMediaFragment() {
             mediaActivity.onPhotoTap()
             false
         }
+        videoView.setPlayPauseListener(object: ExposedPlayPauseVideoView.PlayPauseListener {
+            override fun onPause() {
+                handler.removeCallbacks(hideToolbar)
+            }
+            override fun onPlay() {
+                hideToolbarAfterDelay(TOOLBAR_HIDE_DELAY_MS)
+            }
+        })
         videoView.setOnPreparedListener { mp ->
             val containerWidth = videoContainer.measuredWidth.toFloat()
             val containerHeight = videoContainer.measuredHeight.toFloat()
@@ -97,7 +116,6 @@ class ViewVideoFragment : ViewMediaFragment() {
             progressBar.hide()
             mp.isLooping = true
             if (arguments!!.getBoolean(ARG_START_POSTPONED_TRANSITION)) {
-                hideToolbarAfterDelay(TOOLBAR_HIDE_DELAY_MS)
                 videoView.start()
             }
         }
@@ -136,6 +154,12 @@ class ViewVideoFragment : ViewMediaFragment() {
 
         isDescriptionVisible = showingDescription && visible
         val alpha = if (isDescriptionVisible) 1.0f else 0.0f
+        if (isDescriptionVisible) {
+            // If to be visible, need to make visible immediately and animate alpha
+            descriptionView.alpha = 0.0f
+            descriptionView.visible(isDescriptionVisible)
+        }
+
         descriptionView.animate().alpha(alpha)
                 .setListener(object : AnimatorListenerAdapter() {
                     override fun onAnimationEnd(animation: Animator) {
@@ -145,7 +169,7 @@ class ViewVideoFragment : ViewMediaFragment() {
                 })
                 .start()
 
-        if (visible) {
+        if (visible && videoView.isPlaying) {
             hideToolbarAfterDelay(TOOLBAR_HIDE_DELAY_MS)
         } else {
             handler.removeCallbacks(hideToolbar)
