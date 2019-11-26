@@ -490,4 +490,9 @@
     <string name="hint_configure_scheduled_toot">اضغط هنا لضبط برمجة التبويق.</string>
     <string name="post_lookup_error_format">خطأ أثناء البحث عن منشور %s</string>
 
-</resources>
+<string name="title_bookmarks">الفواصل المرجعية</string>
+    <string name="action_bookmark">أضفه إلى الفواصل المرجعية</string>
+    <string name="action_view_bookmarks">الفواصل المرجعية</string>
+    <string name="about_powered_by_tusky">مدعوم بِـ Tusky</string>
+    <string name="description_status_bookmarked">أضيف إلى الفواصل المرجعية</string>
+    </resources>
