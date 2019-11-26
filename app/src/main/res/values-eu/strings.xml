@@ -468,4 +468,11 @@
     <string name="edit_poll">Editatu</string>
     <string name="post_lookup_error_format">Errorea agertu da %s mezua bilatzean</string>
 
-</resources>
+<string name="title_bookmarks">Laster-markak</string>
+    <string name="action_bookmark">Laster-marka</string>
+    <string name="action_view_bookmarks">Laster-markak</string>
+    <string name="action_open_reblogger">Ireki bultzadaren egilea</string>
+    <string name="pref_title_public_filter_keywords">Denbora lerro publikoak</string>
+    <string name="description_status_bookmarked">Laster-markatuta</string>
+    <string name="poll_info_time_relative">%s geratzen da</string>
+    </resources>
