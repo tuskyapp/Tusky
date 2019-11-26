@@ -481,4 +481,8 @@
     <string name="post_lookup_error_format">Error en cercant la publicacion %s</string>
 
 <string name="about_powered_by_tusky">Propulsat per Tusky</string>
+    <string name="title_bookmarks">Marcapaginas</string>
+    <string name="action_bookmark">Ajustar als marcapaginas</string>
+    <string name="action_view_bookmarks">Marcapaginas</string>
+    <string name="description_status_bookmarked">Ajustat als marcapaginas</string>
     </resources>
