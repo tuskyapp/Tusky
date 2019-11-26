@@ -475,4 +475,9 @@
     <string name="hint_configure_scheduled_toot">Toque aqui para agendar</string>
     <string name="post_lookup_error_format">Erro ao pesquisar %s</string>
 
-</resources>
+<string name="title_bookmarks">Salvos</string>
+    <string name="action_bookmark">Salvo</string>
+    <string name="action_view_bookmarks">Salvos</string>
+    <string name="about_powered_by_tusky">Desenvolvido por Tusky</string>
+    <string name="description_status_bookmarked">Salvo</string>
+    </resources>
