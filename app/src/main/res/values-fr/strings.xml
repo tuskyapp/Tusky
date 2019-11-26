@@ -476,4 +476,8 @@
     <string name="post_lookup_error_format">Erreur lors de la recherche du post %s</string>
 
 <string name="about_powered_by_tusky">Propulsé par Tusky</string>
+    <string name="title_bookmarks">Signets</string>
+    <string name="action_bookmark">Marquer comme signet</string>
+    <string name="action_view_bookmarks">Signets</string>
+    <string name="description_status_bookmarked">Marqué comme un signet</string>
     </resources>

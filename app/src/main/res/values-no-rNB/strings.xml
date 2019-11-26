@@ -511,4 +511,8 @@
     <string name="post_lookup_error_format">Det oppsto en feil under henting av %s</string>
 
 <string name="about_powered_by_tusky">Drevet av Tusky</string>
+    <string name="title_bookmarks">Bokmerker</string>
+    <string name="action_bookmark">Bokmerke</string>
+    <string name="action_view_bookmarks">Bokmerker</string>
+    <string name="description_status_bookmarked">Bokmerke lagt til</string>
     </resources>
