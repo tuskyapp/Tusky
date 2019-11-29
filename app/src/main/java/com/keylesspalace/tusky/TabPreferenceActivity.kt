@@ -219,7 +219,8 @@ class TabPreferenceActivity : BaseActivity(), Injectable, ItemInteractionListene
                         { lists ->
                             adapter.addAll(lists)
                         },
-                        {
+                        { throwable ->
+                            throwable.printStackTrace()
                         }
                 )
 
