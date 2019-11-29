@@ -23,7 +23,7 @@ import android.widget.ArrayAdapter
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.entity.MastoList
 import com.keylesspalace.tusky.util.ThemeUtils
-import kotlinx.android.synthetic.main.item_autocomplete_hashtag.view.*
+import kotlinx.android.synthetic.main.item_picker_list.view.*
 
 class ListSelectionAdapter(context: Context) : ArrayAdapter<MastoList>(context, R.layout.item_autocomplete_hashtag) {
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
@@ -31,13 +31,13 @@ class ListSelectionAdapter(context: Context) : ArrayAdapter<MastoList>(context, 
 
         if (convertView == null) {
             val layoutInflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-            view = layoutInflater.inflate(R.layout.item_autocomplete_hashtag, parent, false)
+            view = layoutInflater.inflate(R.layout.item_picker_list, parent, false)
         }
         view!!
 
         val list = getItem(position)
         if (list != null) {
-            val title = view.hashtag
+            val title = view.title
             title.text = list.title
             val icon = ThemeUtils.getTintedDrawable(context, R.drawable.ic_list, android.R.attr.textColorPrimary)
             title.setCompoundDrawablesRelativeWithIntrinsicBounds(icon, null, null, null)
