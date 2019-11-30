@@ -220,7 +220,7 @@ class TabPreferenceActivity : BaseActivity(), Injectable, ItemInteractionListene
                             adapter.addAll(lists)
                         },
                         { throwable ->
-                            throwable.printStackTrace()
+                            Log.e("TabPreferenceActivity", "failed to load lists", throwable)
                         }
                 )
 
