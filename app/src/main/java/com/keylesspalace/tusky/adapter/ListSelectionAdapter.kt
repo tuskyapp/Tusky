@@ -39,7 +39,7 @@ class ListSelectionAdapter(context: Context) : ArrayAdapter<MastoList>(context, 
         if (list != null) {
             val title = view.title
             title.text = list.title
-            val icon = ThemeUtils.getTintedDrawable(context, R.drawable.ic_list, android.R.attr.textColorPrimary)
+            val icon = ThemeUtils.getTintedDrawable(context, R.drawable.ic_list, android.R.attr.textColorTertiary)
             title.setCompoundDrawablesRelativeWithIntrinsicBounds(icon, null, null, null)
         }
 
