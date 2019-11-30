@@ -16,6 +16,7 @@
 package com.keylesspalace.tusky
 
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.AppCompatEditText
