@@ -70,6 +70,8 @@ import com.mikepenz.materialdrawer.model.interfaces.IProfile;
 import com.mikepenz.materialdrawer.util.AbstractDrawerImageLoader;
 import com.mikepenz.materialdrawer.util.DrawerImageLoader;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -480,7 +482,11 @@ public final class MainActivity extends BottomSheetActivity implements ActionBut
             TabLayout.Tab tab = tabLayout.newTab()
                     .setIcon(tabs.get(i).getIcon());
             if (tabs.get(i).getId().equals(TabDataKt.LIST)) {
-                tab.setContentDescription(tabs.get(i).getArguments().get(1));
+                try {
+                    tab.setContentDescription(URLDecoder.decode(tabs.get(i).getArguments().get(1), "UTF-8"));
+                } catch (UnsupportedEncodingException e) {
+                    Log.e("MainActivity", "failed to decode title", e);
+                }
             } else {
                 tab.setContentDescription(tabs.get(i).getText());
             }

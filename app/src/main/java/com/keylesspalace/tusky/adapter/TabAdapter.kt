@@ -28,6 +28,7 @@ import com.keylesspalace.tusky.util.ThemeUtils
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.show
 import kotlinx.android.synthetic.main.item_tab_preference.view.*
+import java.net.URLDecoder
 
 
 interface ItemInteractionListener {
@@ -59,7 +60,7 @@ class TabAdapter(private var data: List<TabData>,
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val context = holder.itemView.context
         if (!small && data[position].id == LIST) {
-            holder.itemView.textView.text = data[position].arguments.getOrNull(1).orEmpty()
+            holder.itemView.textView.text = URLDecoder.decode(data[position].arguments.getOrNull(1).orEmpty(), "UTF-8")
         } else {
             holder.itemView.textView.setText(data[position].text)
         }
