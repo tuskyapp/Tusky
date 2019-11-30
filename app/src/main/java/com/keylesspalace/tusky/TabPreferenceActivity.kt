@@ -230,6 +230,7 @@ class TabPreferenceActivity : BaseActivity(), Injectable, ItemInteractionListene
                 .setTitle(R.string.select_list_title)
                 .setAdapter(adapter) { _, position ->
                     val list = adapter.getItem(position)
+                    // List name may include ":"
                     val newTab = createTabDataFromId(LIST, listOf(list!!.id,  URLEncoder.encode(list.title, "UTF-8")))
                     currentTabs.add(newTab)
                     currentTabsAdapter.notifyItemInserted(currentTabs.size - 1)
