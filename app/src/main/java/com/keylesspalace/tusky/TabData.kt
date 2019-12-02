@@ -21,6 +21,7 @@ import androidx.fragment.app.Fragment
 import com.keylesspalace.tusky.components.conversation.ConversationsFragment
 import com.keylesspalace.tusky.fragment.NotificationsFragment
 import com.keylesspalace.tusky.fragment.TimelineFragment
+import java.net.URLDecoder
 
 /** this would be a good case for a sealed class, but that does not work nice with Room */
 
@@ -46,7 +47,7 @@ fun createTabDataFromId(id: String, arguments: List<String> = emptyList()): TabD
         FEDERATED -> TabData(FEDERATED, R.string.title_public_federated, R.drawable.ic_public_24dp, { TimelineFragment.newInstance(TimelineFragment.Kind.PUBLIC_FEDERATED) })
         DIRECT -> TabData(DIRECT, R.string.title_direct_messages, R.drawable.reblog_direct_dark, { ConversationsFragment.newInstance() })
         HASHTAG -> TabData(HASHTAG, R.string.hashtag, R.drawable.ic_hashtag, { args -> TimelineFragment.newInstance(TimelineFragment.Kind.TAG, args.getOrNull(0).orEmpty()) }, arguments)
-        LIST -> TabData(LIST, R.string.list, R.drawable.ic_list, { args -> TimelineFragment.newInstance(TimelineFragment.Kind.LIST, args.getOrNull(0).orEmpty()) }, arguments)
+        LIST -> TabData(LIST, R.string.list, R.drawable.ic_list, { args -> TimelineFragment.newInstance(TimelineFragment.Kind.LIST, args.getOrNull(0).orEmpty()) }, arguments.map { URLDecoder.decode(it, "UTF-8") })
         else -> throw IllegalArgumentException("unknown tab type")
     }
 }
