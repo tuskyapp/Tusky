@@ -488,4 +488,8 @@
     <string name="about_powered_by_tusky">Napędzane przez Tusky</string>
     <string name="post_lookup_error_format">Błąd przy wyszukiwaniu wpisu %s</string>
 
-</resources>
+<string name="title_bookmarks">Zakładki</string>
+    <string name="action_bookmark">Zakładka</string>
+    <string name="action_view_bookmarks">Zakładki</string>
+    <string name="description_status_bookmarked">Dodane do zakładek</string>
+    </resources>
