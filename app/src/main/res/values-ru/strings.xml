@@ -405,7 +405,7 @@
 
     <plurals name="favs">
 	<item quantity="one"><b>%1$s</b> Понравилось</item>
-	<item quantity="few"><b>%1$s</b> Понравились</item>
+	<item quantity="few"><b>%1$s</b> Понравилось</item>
 	<item quantity="many"><b>%1$s</b> Понравилось</item>
 </plurals>
 
