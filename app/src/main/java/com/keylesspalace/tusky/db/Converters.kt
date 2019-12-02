@@ -67,6 +67,7 @@ class Converters {
 
     @TypeConverter
     fun tabDataToString(tabData: List<TabData>?): String? {
+        // List name may include ":"
         return tabData?.joinToString(";") { it.id + ":" + it.arguments.joinToString(":") }
     }
 
