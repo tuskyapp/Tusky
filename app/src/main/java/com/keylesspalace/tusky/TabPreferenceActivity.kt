@@ -41,7 +41,6 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_tab_preference.*
 import kotlinx.android.synthetic.main.toolbar_basic.*
-import java.net.URLEncoder
 import java.util.regex.Pattern
 import javax.inject.Inject
 
@@ -230,7 +229,7 @@ class TabPreferenceActivity : BaseActivity(), Injectable, ItemInteractionListene
                 .setTitle(R.string.select_list_title)
                 .setAdapter(adapter) { _, position ->
                     val list = adapter.getItem(position)
-                    val newTab = createTabDataFromId(LIST, listOf(list!!.id,  URLEncoder.encode(list.title, "UTF-8")))
+                    val newTab = createTabDataFromId(LIST, listOf(list!!.id, list.title))
                     currentTabs.add(newTab)
                     currentTabsAdapter.notifyItemInserted(currentTabs.size - 1)
                     updateAvailableTabs()

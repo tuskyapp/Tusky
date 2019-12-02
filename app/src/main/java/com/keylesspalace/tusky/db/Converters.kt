@@ -28,6 +28,7 @@ import com.keylesspalace.tusky.entity.Poll
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.json.SpannedTypeAdapter
 import com.keylesspalace.tusky.util.HtmlUtils
+import java.net.URLEncoder
 import java.util.*
 
 class Converters {
@@ -68,7 +69,7 @@ class Converters {
     @TypeConverter
     fun tabDataToString(tabData: List<TabData>?): String? {
         // List name may include ":"
-        return tabData?.joinToString(";") { it.id + ":" + it.arguments.joinToString(":") }
+        return tabData?.joinToString(";") { it.id + ":" + it.arguments.joinToString(":") { s -> URLEncoder.encode(s, "UTF-8") } }
     }
 
     @TypeConverter
