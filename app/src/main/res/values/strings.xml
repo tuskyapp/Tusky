@@ -470,6 +470,8 @@
     <string name="edit_hashtag_title">Edit hashtag</string>
     <string name="edit_hashtag_hint">Hashtag without #</string>
     <string name="hashtag">Hashtag</string>
+    <string name="select_list_title">Select list</string>
+    <string name="list">List</string>
     <string name="notifications_clear">Clear</string>
     <string name="notifications_apply_filter">Filter</string>
     <string name="filter_apply">Apply</string>

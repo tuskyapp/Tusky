@@ -16,6 +16,7 @@
 package com.keylesspalace.tusky
 
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.AppCompatEditText
@@ -25,15 +26,18 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.keylesspalace.tusky.adapter.ItemInteractionListener
+import com.keylesspalace.tusky.adapter.ListSelectionAdapter
 import com.keylesspalace.tusky.adapter.TabAdapter
 import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.appstore.MainTabsChangedEvent
 import com.keylesspalace.tusky.di.Injectable
+import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.onTextChanged
 import com.keylesspalace.tusky.util.visible
 import com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider.from
 import com.uber.autodispose.autoDispose
 import io.reactivex.Single
+import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_tab_preference.*
 import kotlinx.android.synthetic.main.toolbar_basic.*
@@ -42,6 +46,8 @@ import javax.inject.Inject
 
 class TabPreferenceActivity : BaseActivity(), Injectable, ItemInteractionListener {
 
+    @Inject
+    lateinit var mastodonApi: MastodonApi
     @Inject
     lateinit var eventHub: EventHub
 
@@ -151,6 +157,11 @@ class TabPreferenceActivity : BaseActivity(), Injectable, ItemInteractionListene
             return
         }
 
+        if (tab.id == LIST) {
+            showSelectListDialog()
+            return
+        }
+
         currentTabs.add(tab)
         currentTabsAdapter.notifyItemInserted(currentTabs.size - 1)
         updateAvailableTabs()
@@ -200,6 +211,33 @@ class TabPreferenceActivity : BaseActivity(), Injectable, ItemInteractionListene
         editText.requestFocus()
     }
 
+    private fun showSelectListDialog() {
+        val adapter = ListSelectionAdapter(this)
+        mastodonApi.getLists()
+                .observeOn(AndroidSchedulers.mainThread())
+                .autoDispose(from(this, Lifecycle.Event.ON_DESTROY))
+                .subscribe (
+                        { lists ->
+                            adapter.addAll(lists)
+                        },
+                        { throwable ->
+                            Log.e("TabPreferenceActivity", "failed to load lists", throwable)
+                        }
+                )
+
+        AlertDialog.Builder(this)
+                .setTitle(R.string.select_list_title)
+                .setAdapter(adapter) { _, position ->
+                    val list = adapter.getItem(position)
+                    val newTab = createTabDataFromId(LIST, listOf(list!!.id, list.title))
+                    currentTabs.add(newTab)
+                    currentTabsAdapter.notifyItemInserted(currentTabs.size - 1)
+                    updateAvailableTabs()
+                    saveTabs()
+                }
+                .show()
+    }
+
     private fun validateHashtag(input: CharSequence?): Boolean {
         val trimmedInput = input?.trim() ?: ""
         return trimmedInput.isNotEmpty() && hashtagRegex.matcher(trimmedInput).matches()
@@ -230,6 +268,7 @@ class TabPreferenceActivity : BaseActivity(), Injectable, ItemInteractionListene
         }
 
         addableTabs.add(createTabDataFromId(HASHTAG))
+        addableTabs.add(createTabDataFromId(LIST))
 
         addTabAdapter.updateData(addableTabs)
 

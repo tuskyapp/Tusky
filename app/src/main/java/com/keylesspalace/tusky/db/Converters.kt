@@ -28,6 +28,8 @@ import com.keylesspalace.tusky.entity.Poll
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.json.SpannedTypeAdapter
 import com.keylesspalace.tusky.util.HtmlUtils
+import java.net.URLDecoder
+import java.net.URLEncoder
 import java.util.*
 
 class Converters {
@@ -61,13 +63,14 @@ class Converters {
         return str?.split(";")
                 ?.map {
                     val data = it.split(":")
-                    createTabDataFromId(data[0], data.drop(1))
+                    createTabDataFromId(data[0], data.drop(1).map { s -> URLDecoder.decode(s, "UTF-8") })
                 }
     }
 
     @TypeConverter
     fun tabDataToString(tabData: List<TabData>?): String? {
-        return tabData?.joinToString(";") { it.id + ":" + it.arguments.joinToString(":") }
+        // List name may include ":"
+        return tabData?.joinToString(";") { it.id + ":" + it.arguments.joinToString(":") { s -> URLEncoder.encode(s, "UTF-8") } }
     }
 
     @TypeConverter
