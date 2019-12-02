@@ -364,13 +364,13 @@
     <string name="license_cc_by_sa_4">CC-BY-SA 4.0</string>
 
     <plurals name="favs">
-	<item quantity="one"><b>%1$s</b> Gogoko</item>
-	<item quantity="other"><b>%1$s</b> Gogoko</item>
+	<item quantity="one">&lt;b&gt;%1$s&lt;/b&gt; Gogoko</item>
+	<item quantity="other">&lt;b&gt;%1$s&lt;/b&gt; Gogoko</item>
 </plurals>
 
     <plurals name="reblogs">
-	<item quantity="one"><b>%s</b> Bultzada</item>
-	<item quantity="other"><b>%s</b> Bultzada</item>
+	<item quantity="one">&lt;b&gt;%s&lt;/b&gt; Bultzada</item>
+	<item quantity="other">&lt;b&gt;%s&lt;/b&gt; Bultzada</item>
 </plurals>
 
     <string name="title_reblogged_by">Bultzatuta</string>

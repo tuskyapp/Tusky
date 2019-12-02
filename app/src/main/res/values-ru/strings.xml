@@ -404,9 +404,9 @@
     <string name="pin_action">Закрепить</string>
 
     <plurals name="favs">
-	<item quantity="one"><b>%1$s</b> Понравилось</item>
-	<item quantity="few"><b>%1$s</b> Понравилось</item>
-	<item quantity="many"><b>%1$s</b> Понравилось</item>
+	<item quantity="one">&lt;b&gt;%1$s&lt;/b&gt; Понравилось</item>
+	<item quantity="few">&lt;b&gt;%1$s&lt;/b&gt; Понравилось</item>
+	<item quantity="many">&lt;b&gt;%1$s&lt;/b&gt; Понравилось</item>
 </plurals>
 
     <plurals name="reblogs">
