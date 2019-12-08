@@ -36,7 +36,7 @@
         <item name="status_favourite_active_drawable">@drawable/favourite_active_dark</item>
         <item name="status_favourite_inactive_drawable">@drawable/favourite_inactive_dark</item>
         <item name="content_warning_button">@drawable/toggle_small</item>
-        <item name="sensitive_media_warning_background_color">@color/color_background_dark</item>
+        <item name="sensitive_media_warning_background_color">#80000000</item>
         <item name="media_preview_unloaded_drawable">@drawable/media_preview_unloaded_dark</item>
         <item name="android:listDivider">@drawable/status_divider_dark</item>
         <item name="conversation_thread_line_drawable">@drawable/conversation_thread_line_dark</item>
