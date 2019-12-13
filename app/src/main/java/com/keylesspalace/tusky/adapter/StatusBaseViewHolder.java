@@ -178,11 +178,13 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
                                         @Nullable String spoilerText,
                                         @Nullable Status.Mention[] mentions,
                                         @NonNull List<Emoji> emojis,
+                                        @Nullable PollViewData poll,
                                         final StatusActionListener listener) {
+        setupPoll(poll, emojis, listener);
         if (TextUtils.isEmpty(spoilerText)) {
             contentWarningDescription.setVisibility(View.GONE);
             contentWarningButton.setVisibility(View.GONE);
-            this.setTextVisible(true, content, mentions, emojis, listener);
+            this.setTextVisible(true, content, mentions, emojis, poll, listener);
         } else {
             CharSequence emojiSpoiler = CustomEmojiHelper.emojifyString(spoilerText, emojis, contentWarningDescription);
             contentWarningDescription.setText(emojiSpoiler);
@@ -194,9 +196,9 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
                 if (getAdapterPosition() != RecyclerView.NO_POSITION) {
                     listener.onExpandedChange(isChecked, getAdapterPosition());
                 }
-                this.setTextVisible(isChecked, content, mentions, emojis, listener);
+                this.setTextVisible(isChecked, content, mentions, emojis, poll, listener);
             });
-            this.setTextVisible(expanded, content, mentions, emojis, listener);
+            this.setTextVisible(expanded, content, mentions, emojis, poll, listener);
         }
     }
 
@@ -204,6 +206,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
                                 Spanned content,
                                 Status.Mention[] mentions,
                                 List<Emoji> emojis,
+                                @Nullable PollViewData poll,
                                 final StatusActionListener listener) {
         if (expanded) {
             Spanned emojifiedText = CustomEmojiHelper.emojifyText(content, emojis, this.content);
@@ -216,6 +219,14 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         } else {
             this.content.setVisibility(View.VISIBLE);
         }
+        setPollVisible(poll != null && expanded);
+    }
+
+    private void setPollVisible(boolean visible) {
+        int visibility = visible ? View.VISIBLE : View.GONE;
+        pollButton.setVisibility(visibility);
+        pollDescription.setVisibility(visibility);
+        pollOptions.setVisibility(visibility);
     }
 
     private void setAvatar(String url,
@@ -674,11 +685,9 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             setupButtons(listener, status.getSenderId());
             setRebloggingEnabled(status.getRebloggingEnabled(), status.getVisibility());
 
-            setSpoilerAndContent(status.isExpanded(), status.getContent(), status.getSpoilerText(), status.getMentions(), status.getStatusEmojis(), listener);
+            setSpoilerAndContent(status.isExpanded(), status.getContent(), status.getSpoilerText(), status.getMentions(), status.getStatusEmojis(), status.getPoll(), listener);
 
             setDescriptionForStatus(status);
-
-            setupPoll(status.getPoll(), status.getStatusEmojis(), listener);
 
             // Workaround for RecyclerView 1.0.0 / androidx.core 1.0.0
             // RecyclerView tries to set AccessibilityDelegateCompat to null
@@ -834,15 +843,9 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         }
     }
 
-    protected void setupPoll(PollViewData poll, List<Emoji> emojis, StatusActionListener listener) {
+    private void setupPoll(PollViewData poll, List<Emoji> emojis, StatusActionListener listener) {
         if (poll == null) {
-
-            pollOptions.setVisibility(View.GONE);
-
-            pollDescription.setVisibility(View.GONE);
-
-            pollButton.setVisibility(View.GONE);
-
+            setPollVisible(false);
         } else {
             long timestamp = System.currentTimeMillis();
 
