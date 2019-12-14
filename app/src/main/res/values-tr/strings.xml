@@ -50,7 +50,7 @@
     <string name="message_empty">Burada hiçbir şey yok.</string>
     <string name="footer_empty">Burada henüz hiçbir şey yok. Yenilemek için aşağıya çekin!</string>
     <string name="notification_reblog_format">%s iletini yineledi</string>
-    <string name="notification_favourite_format">%s iletini favorilerine ekledi</string>
+    <string name="notification_favourite_format">%s ileti favorilerine ekledi</string>
     <string name="notification_follow_format">%s seni takip etti</string>
     <string name="report_username_format">\@%s bildir</string>
     <string name="report_comment_hint">Daha fazla yorum?</string>
@@ -456,4 +456,6 @@
     <string name="add_poll_choice">Seçenek ekle</string>
     <string name="poll_allow_multiple_choices">Çoklu seçim</string>
     <string name="edit_poll">Düzenle</string>
+    <string name="replying_to">\@%s olarak yanıtla</string>
+    <string name="profile_badge_bot_text">Bot</string>
     </resources>
