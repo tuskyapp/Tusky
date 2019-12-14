@@ -1,0 +1,8 @@
+Tusky v6.0
+
+- I filtri della timeline sono stati spostati in Preferenze Utente e si sincronizzeranno con il server
+- Ora è possibile avere un hashtag personalizzato come scheda nell'interfaccia principale
+- Le liste possono ora essere modificate
+- Sicurezza: rimosso il supporto per TLS 1.0 e TLS 1.1.1, e aggiunto il supporto per TLS 1.3 su Android 6+.
+- La vista della composizione suggerirà ora le emojis personalizzate quando si inizia a digitare
+- Nuova impostazione del tema "Segui il tema del
