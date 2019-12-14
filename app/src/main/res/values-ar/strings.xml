@@ -495,4 +495,6 @@
     <string name="action_view_bookmarks">الفواصل المرجعية</string>
     <string name="about_powered_by_tusky">مدعوم بِـ Tusky</string>
     <string name="description_status_bookmarked">أضيف إلى الفواصل المرجعية</string>
+    <string name="select_list_title">اختر قائمة</string>
+    <string name="list">القائمة</string>
     </resources>

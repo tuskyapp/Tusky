@@ -480,4 +480,6 @@
     <string name="action_bookmark">Marquer comme signet</string>
     <string name="action_view_bookmarks">Signets</string>
     <string name="description_status_bookmarked">Marqué comme un signet</string>
+    <string name="select_list_title">Sélectionner la liste</string>
+    <string name="list">Liste</string>
     </resources>
