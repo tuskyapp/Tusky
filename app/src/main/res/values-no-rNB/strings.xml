@@ -515,4 +515,6 @@
     <string name="action_bookmark">Bokmerke</string>
     <string name="action_view_bookmarks">Bokmerker</string>
     <string name="description_status_bookmarked">Bokmerke lagt til</string>
+    <string name="select_list_title">Velg liste</string>
+    <string name="list">Liste</string>
     </resources>
