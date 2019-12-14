@@ -485,4 +485,6 @@
     <string name="action_bookmark">Ajustar als marcapaginas</string>
     <string name="action_view_bookmarks">Marcapaginas</string>
     <string name="description_status_bookmarked">Ajustat als marcapaginas</string>
+    <string name="select_list_title">Seleccionar la list</string>
+    <string name="list">Lista</string>
     </resources>
