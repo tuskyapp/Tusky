@@ -40,6 +40,7 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.annotation.ColorInt
 import androidx.annotation.StringRes
+import androidx.annotation.VisibleForTesting
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.app.ActivityCompat
@@ -106,8 +107,8 @@ class ComposeActivity : BaseActivity(),
     private var currentInputContentInfo: InputContentInfoCompat? = null
     private var currentFlags: Int = 0
     private var photoUploadUri: Uri? = null
-    // Accessors for testing, hence package scope
-    private var maximumTootCharacters = DEFAULT_CHARACTER_LIMIT
+    @VisibleForTesting
+    var maximumTootCharacters = DEFAULT_CHARACTER_LIMIT
 
     private var composeOptions: ComposeOptions? = null
     private lateinit var viewModel: ComposeViewModel
@@ -626,7 +627,8 @@ class ComposeActivity : BaseActivity(),
         viewModel.statusVisibility.value = visibility
     }
 
-    private fun calculateTextLength(): Int {
+    @VisibleForTesting
+    fun calculateTextLength(): Int {
         var offset = 0
         val urlSpans = composeEditField.urls
         if (urlSpans != null) {
@@ -974,7 +976,8 @@ class ComposeActivity : BaseActivity(),
         private const val COMPOSE_OPTIONS_EXTRA = "COMPOSE_OPTIONS"
 
         // Mastodon only counts URLs as this long in terms of status character limits
-        private const val MAXIMUM_URL_LENGTH = 23
+        @VisibleForTesting
+        const val MAXIMUM_URL_LENGTH = 23
 
         @JvmStatic
         fun startIntent(context: Context, options: ComposeOptions): Intent {
