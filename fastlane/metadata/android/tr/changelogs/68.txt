@@ -1,0 +1,3 @@
+Tusky v9.1
+
+Bu sürüm Mastodon 3 ile uyumluluğu sağlar, performansı ve kararlılığı arttırır.

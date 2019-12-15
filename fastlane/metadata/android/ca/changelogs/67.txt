@@ -1,0 +1,9 @@
+Tusky v9.0
+
+- Ara podeu crear enquestes a partir de Tusky
+- Millora de la cerca
+- Nova opció a Preferències del compte per ampliar sempre els avisos de contingut
+- Els avatars del calaix de navegació tenen ara una forma quadrada arrodonida
+- Ara és possible informar als usuaris fins i tot quan mai no han publicat un estat
+- Ara Tusky es negarà a connectar-se a connexions de text clar a Android 6+
+- Un munt d’altres petites millores i solucions d’errors
