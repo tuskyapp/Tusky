@@ -49,6 +49,7 @@ import androidx.core.view.inputmethod.InputConnectionCompat
 import androidx.core.view.inputmethod.InputContentInfoCompat
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -64,14 +65,12 @@ import com.keylesspalace.tusky.adapter.OnEmojiSelectedListener
 import com.keylesspalace.tusky.components.compose.dialog.makeCaptionDialog
 import com.keylesspalace.tusky.components.compose.view.ComposeOptionsListener
 import com.keylesspalace.tusky.db.AccountEntity
-import com.keylesspalace.tusky.db.AppDatabase
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.entity.Attachment
 import com.keylesspalace.tusky.entity.Emoji
 import com.keylesspalace.tusky.entity.NewPoll
 import com.keylesspalace.tusky.entity.Status
-import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.*
 import com.keylesspalace.tusky.components.compose.dialog.showAddPollDialog
 import com.mikepenz.google_material_typeface_library.GoogleMaterial
@@ -82,6 +81,7 @@ import java.io.File
 import java.io.IOException
 import java.util.*
 import javax.inject.Inject
+import kotlin.collections.ArrayList
 import kotlin.math.max
 import kotlin.math.min
 
@@ -93,10 +93,6 @@ class ComposeActivity : BaseActivity(),
         InputConnectionCompat.OnCommitContentListener,
         TimePickerDialog.OnTimeSetListener {
 
-    @Inject
-    lateinit var mastodonApi: MastodonApi
-    @Inject
-    lateinit var database: AppDatabase
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
 
@@ -713,7 +709,7 @@ class ComposeActivity : BaseActivity(),
                     this, getString(R.string.dialog_title_finishing_media_upload),
                     getString(R.string.dialog_message_uploading_media), true, true)
 
-            viewModel.sendStatus(contentText, spoilerText).observe(this, androidx.lifecycle.Observer {
+            viewModel.sendStatus(contentText, spoilerText).observe(this, Observer {
                 finishingUploadDialog?.dismiss()
                 finishWithoutSlideOutAnimation()
             })
@@ -731,7 +727,9 @@ class ComposeActivity : BaseActivity(),
                 initiateMediaPicking()
             } else {
                 val bar = Snackbar.make(activityCompose, R.string.error_media_upload_permission,
-                        Snackbar.LENGTH_SHORT)
+                        Snackbar.LENGTH_SHORT).apply {
+
+                }
                 bar.setAction(R.string.action_retry) { onMediaPick()}
                 //necessary so snackbar is shown over everything
                 bar.view.elevation = resources.getDimension(R.dimen.compose_activity_snackbar_elevation)
