@@ -238,10 +238,10 @@ interface MastodonApi {
 
     @GET("api/v1/accounts/search")
     fun searchAccounts(
-            @Query("q") q: String,
-            @Query("resolve") resolve: Boolean?,
-            @Query("limit") limit: Int?,
-            @Query("following") following: Boolean?
+            @Query("q") query: String,
+            @Query("resolve") resolve: Boolean? = null,
+            @Query("limit") limit: Int? = null,
+            @Query("following") following: Boolean? = null
     ): Single<List<Account>>
 
     @GET("api/v1/accounts/{id}")

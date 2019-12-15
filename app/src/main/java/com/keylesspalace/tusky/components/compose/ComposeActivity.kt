@@ -909,7 +909,7 @@ class ComposeActivity : BaseActivity(),
     }
 
     override fun search(token: String): List<ComposeAutoCompleteAdapter.AutocompleteResult> {
-        return viewModel.search(token)
+        return viewModel.searchAutocompleteSuggestions(token)
     }
 
     override fun onEmojiSelected(shortcode: String) {

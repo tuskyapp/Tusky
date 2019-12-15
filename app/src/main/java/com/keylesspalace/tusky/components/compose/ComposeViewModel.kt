@@ -9,6 +9,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import com.keylesspalace.tusky.adapter.ComposeAutoCompleteAdapter
 import com.keylesspalace.tusky.components.compose.ComposeActivity.QueuedMedia
+import com.keylesspalace.tusky.components.search.SearchType
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.db.AppDatabase
 import com.keylesspalace.tusky.db.InstanceEntity
@@ -294,23 +295,24 @@ class ComposeViewModel
     }
 
 
-    fun search(token: String): List<ComposeAutoCompleteAdapter.AutocompleteResult> {
-        // TODO: pull it out of here
+    fun searchAutocompleteSuggestions(token: String): List<ComposeAutoCompleteAdapter.AutocompleteResult> {
         when (token[0]) {
             '@' -> {
                 return try {
-                    val accountList = api
-                            .searchAccounts(token.substring(1), false, 20, null)
+                    api.searchAccounts(query = token.substring(1), limit = 10)
                             .blockingGet()
-                    accountList.map<Account, ComposeAutoCompleteAdapter.AutocompleteResult> { account: Account -> ComposeAutoCompleteAdapter.AccountResult(account) }
+                            .map { ComposeAutoCompleteAdapter.AccountResult(it) }
                 } catch (e: Throwable) {
+                    Log.e(TAG, String.format("Autocomplete search for %s failed.", token), e)
                     emptyList()
                 }
             }
             '#' -> {
                 return try {
-                    val (_, _, hashtags) = api.searchObservable(token, null, false, null, null, null).blockingGet()
-                    hashtags.map { hashtag -> ComposeAutoCompleteAdapter.HashtagResult(hashtag) }
+                    api.searchObservable(query = token, type = SearchType.Hashtag.apiParameter, limit = 10)
+                            .blockingGet()
+                            .hashtags
+                            .map { ComposeAutoCompleteAdapter.HashtagResult(it) }
                 } catch (e: Throwable) {
                     Log.e(TAG, String.format("Autocomplete search for %s failed.", token), e)
                     emptyList()
