@@ -368,15 +368,15 @@
     <string name="pin_action">Przypnij do profilu</string>
 
     <plurals name="favs">
-	<item quantity="one"><b>%1$s</b> polubienie</item>
-	<item quantity="few"><b>%1$s</b> polubienia</item>
-	<item quantity="many"><b>%1$s</b> polubień</item>
+	<item quantity="one">&lt;b&gt;%1$s&lt;/b&gt; polubienie</item>
+	<item quantity="few">&lt;b&gt;%1$s&lt;/b&gt; polubienia</item>
+	<item quantity="many">&lt;b&gt;%1$s&lt;/b&gt; polubień</item>
 </plurals>
 
     <plurals name="reblogs">
-	<item quantity="one"><b>%s</b> podbicie</item>
-	<item quantity="few"><b>%s</b> podbicia</item>
-	<item quantity="many"><b>%s</b> podbić</item>
+	<item quantity="one">&lt;b&gt;%s&lt;/b&gt; podbicie</item>
+	<item quantity="few">&lt;b&gt;%s&lt;/b&gt; podbicia</item>
+	<item quantity="many">&lt;b&gt;%s&lt;/b&gt; podbić</item>
 </plurals>
 
     <string name="title_reblogged_by">Podbite przez</string>
@@ -487,4 +487,10 @@
     <string name="about_powered_by_tusky">Napędzane przez Tusky</string>
     <string name="post_lookup_error_format">Błąd przy wyszukiwaniu wpisu %s</string>
 
-</resources>
+<string name="title_bookmarks">Zakładki</string>
+    <string name="action_bookmark">Zakładka</string>
+    <string name="action_view_bookmarks">Zakładki</string>
+    <string name="description_status_bookmarked">Dodane do zakładek</string>
+    <string name="select_list_title">Wybierz listę</string>
+    <string name="list">Lista</string>
+    </resources>

@@ -489,4 +489,11 @@
     <string name="action_reset_schedule">صفّر</string>
     <string name="post_lookup_error_format">خطأ أثناء البحث عن منشور %s</string>
 
-</resources>
+<string name="title_bookmarks">الفواصل المرجعية</string>
+    <string name="action_bookmark">أضفه إلى الفواصل المرجعية</string>
+    <string name="action_view_bookmarks">الفواصل المرجعية</string>
+    <string name="about_powered_by_tusky">مدعوم بِـ Tusky</string>
+    <string name="description_status_bookmarked">أضيف إلى الفواصل المرجعية</string>
+    <string name="select_list_title">اختر قائمة</string>
+    <string name="list">القائمة</string>
+    </resources>

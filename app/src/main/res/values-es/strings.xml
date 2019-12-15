@@ -468,4 +468,8 @@
     <string name="post_lookup_error_format">Error al buscar el post %s</string>
 
 <string name="about_powered_by_tusky">Potenciado por Tusky</string>
+    <string name="title_bookmarks">Favoritos</string>
+    <string name="action_bookmark">Favorito</string>
+    <string name="action_view_bookmarks">Favoritos</string>
+    <string name="description_status_bookmarked">Marcado como favorito</string>
     </resources>

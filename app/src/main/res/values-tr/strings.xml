@@ -50,7 +50,7 @@
     <string name="message_empty">Burada hiçbir şey yok.</string>
     <string name="footer_empty">Burada henüz hiçbir şey yok. Yenilemek için aşağıya çekin!</string>
     <string name="notification_reblog_format">%s iletini yineledi</string>
-    <string name="notification_favourite_format">%s iletini favorilerine ekledi</string>
+    <string name="notification_favourite_format">%s ileti favorilerine ekledi</string>
     <string name="notification_follow_format">%s seni takip etti</string>
     <string name="report_username_format">\@%s bildir</string>
     <string name="report_comment_hint">Daha fazla yorum?</string>
@@ -294,8 +294,8 @@
         <item quantity="other">&lt;b&gt;%1$s&lt;/b&gt; Favoriler</item>
     </plurals>
     <plurals name="reblogs">
-	<item quantity="one">&lt;b>%s&lt;/b> Yinelenen</item>
-	<item quantity="other">&lt;b>%s&lt;/b> Yinelenenler</item>
+	<item quantity="one">&lt;b&gt;%s&lt;/b&gt; Yinelenen</item>
+	<item quantity="other">&lt;b&gt;%s&lt;/b&gt; Yinelenenler</item>
 </plurals>
     <string name="title_reblogged_by">tarafından yinelendi</string>
     <string name="title_favourited_by">Tarafından favorilendi</string>
@@ -425,4 +425,37 @@
     <string name="title_mentions_dialog">Bahsedenler</string>
     <string name="action_open_media_n">#%d medyayı aç</string>
 
+    <string name="title_bookmarks">Yer imleri</string>
+    <string name="title_scheduled_toot">Zamanlanmış iletiler</string>
+    <string name="action_bookmark">Yerimi</string>
+    <string name="action_edit">Düzenle</string>
+    <string name="action_delete_and_redraft">Sil ve düzenle</string>
+    <string name="action_view_bookmarks">Yer imleri</string>
+    <string name="action_add_poll">Anket ekle</string>
+    <string name="action_access_scheduled_toot">Zamanlanmış iletiler</string>
+    <string name="action_schedule_toot">İleti zamanla</string>
+    <string name="action_reset_schedule">Sıfırla</string>
+    <string name="hint_configure_scheduled_toot">Zamanlanmış iletiyi yapılandırmak için buraya dokunun.</string>
+    <string name="dialog_redraft_toot_warning">Bu iletiyi silip yeniden düzenlemek istiyor musun\?</string>
+    <string name="pref_title_bot_overlay">Botlar için gösterge göster</string>
+    <string name="about_powered_by_tusky">Tusky tarafından desteklenmektedir</string>
+    <string name="description_status_bookmarked">Yerimine eklendi</string>
+    <string name="select_list_title">Liste seç</string>
+    <string name="list">Liste</string>
+    <string name="title_accounts">Hesaplar</string>
+    <string name="failed_search">Arama başarısız</string>
+
+    <string name="create_poll_title">Anket</string>
+    <string name="poll_duration_5_min">5 dakika</string>
+    <string name="poll_duration_30_min">30 dakika</string>
+    <string name="poll_duration_1_hour">1 saat</string>
+    <string name="poll_duration_6_hours">6 saat</string>
+    <string name="poll_duration_1_day">1 gün</string>
+    <string name="poll_duration_3_days">3 gün</string>
+    <string name="poll_duration_7_days">7 gün</string>
+    <string name="add_poll_choice">Seçenek ekle</string>
+    <string name="poll_allow_multiple_choices">Çoklu seçim</string>
+    <string name="edit_poll">Düzenle</string>
+    <string name="replying_to">\@%s olarak yanıtla</string>
+    <string name="profile_badge_bot_text">Bot</string>
     </resources>

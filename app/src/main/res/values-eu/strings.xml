@@ -363,13 +363,13 @@
     <string name="license_cc_by_sa_4">CC-BY-SA 4.0</string>
 
     <plurals name="favs">
-	<item quantity="one"><b>%1$s</b> Gogoko</item>
-	<item quantity="other"><b>%1$s</b> Gogoko</item>
+	<item quantity="one">&lt;b&gt;%1$s&lt;/b&gt; Gogoko</item>
+	<item quantity="other">&lt;b&gt;%1$s&lt;/b&gt; Gogoko</item>
 </plurals>
 
     <plurals name="reblogs">
-	<item quantity="one"><b>%s</b> Bultzada</item>
-	<item quantity="other"><b>%s</b> Bultzada</item>
+	<item quantity="one">&lt;b&gt;%s&lt;/b&gt; Bultzada</item>
+	<item quantity="other">&lt;b&gt;%s&lt;/b&gt; Bultzada</item>
 </plurals>
 
     <string name="title_reblogged_by">Bultzatuta</string>
@@ -442,7 +442,7 @@
     <string name="button_done">Eginda</string>
     <string name="report_sent_success">\@%s jakinarazi duzu arrakastaz</string>
     <string name="hint_additional_info">Iruzkin gehigarriak</string>
-    <string name="report_remote_instance">%s-(r)i birbidali</string>
+    <string name="report_remote_instance">%s(r)i birbidali</string>
     <string name="failed_report">Txostena huts egin du</string>
     <string name="failed_fetch_statuses">Egoeren eskuratzea huts egin du</string>
     <string name="report_description_1">Txostena zure zerbitzariaren moderatzaileari bidaliko zaio. Jarraian, kontu honen zergatia salatzen duzun azalpena eman dezakezu:</string>
@@ -467,4 +467,11 @@
     <string name="edit_poll">Editatu</string>
     <string name="post_lookup_error_format">Errorea agertu da %s mezua bilatzean</string>
 
-</resources>
+<string name="title_bookmarks">Laster-markak</string>
+    <string name="action_bookmark">Laster-marka</string>
+    <string name="action_view_bookmarks">Laster-markak</string>
+    <string name="action_open_reblogger">Ireki bultzadaren egilea</string>
+    <string name="pref_title_public_filter_keywords">Denbora lerro publikoak</string>
+    <string name="description_status_bookmarked">Laster-markatuta</string>
+    <string name="poll_info_time_relative">%s geratzen da</string>
+    </resources>

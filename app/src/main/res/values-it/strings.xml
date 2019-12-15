@@ -325,9 +325,9 @@
     <string name="unpin_action">Non fissare</string>
     <string name="pin_action">Fissa</string>
     <plurals name="favs">
-        <item quantity="one">&lt;b&gt;%1$s&lt;/b&gt; Mi piace</item>
-        <item quantity="other">&lt;b&gt;%1$s&lt;/b&gt; Mi piace</item>
-    </plurals>
+	<item quantity="one"><b>%1$s</b> Mi piace</item>
+	<item quantity="other"><b>%1$s</b> Mi piace</item>
+</plurals>
     <plurals name="reblogs">
         <item quantity="one">&lt;b&gt;%s&lt;/b&gt; Boost</item>
         <item quantity="other">&lt;b&gt;%s&lt;/b&gt; Boost</item>
@@ -392,9 +392,9 @@
 <string name="title_domain_mutes">Domini nascosti</string>
     <string name="action_view_domain_mutes">Domini nascosti</string>
     <string name="action_mute_domain">Silenzia %s</string>
-    <string name="confirmation_domain_unmuted">%s</string>
+    <string name="confirmation_domain_unmuted">%s mostrati</string>
 
-    <string name="mute_domain_warning">Sei sicuro di voler bloccare tutto %s\? Non vedrai nessun contenuto da quel dominio in nessuna timeline pubblica o nelle tue notifiche. I tuoi seguaci che stanno in quel dominio saranno rimossi</string>
+    <string name="mute_domain_warning">Sei sicuro di voler bloccare tutto %s\? Non vedrai nessun contenuto da quel dominio in nessuna timeline pubblica o nelle tue notifiche. I tuoi seguaci che stanno in quel dominio saranno rimossi.</string>
     <string name="mute_domain_warning_dialog_ok">Nascondi l\'intero dominio</string>
 
     <string name="pref_title_notification_filter_poll">Le votazioni sono finite</string>
@@ -405,7 +405,77 @@
 
 
     <string name="filter_dialog_whole_word">Parola intera</string>
-    <string name="filter_dialog_whole_word_description">Quando la parola chiave o la frase sono composte da caratteri alfanumerici, sara\' applicata solo se corrisponde alla parola completa</string>
+    <string name="filter_dialog_whole_word_description">Quando la parola chiave o la frase sono composte da soli caratteri alfanumerici, sarà applicata solo se corrisponde alla parola completa</string>
     <string name="caption_notoemoji">Insieme di emoji di Google</string>
 
+    <string name="title_bookmarks">Segnalibri</string>
+    <string name="action_bookmark">Segnalibro</string>
+    <string name="action_edit">Modifica</string>
+    <string name="action_view_bookmarks">Segnalibri</string>
+    <string name="action_add_poll">Aggiungi sondaggio</string>
+    <string name="about_powered_by_tusky">Fatto con Tusky</string>
+    <string name="pref_title_alway_open_spoiler">Espandi sempre i toot segnalati come contenuto sensibile</string>
+    <string name="description_status_bookmarked">Messo nei segnalibri</string>
+    <string name="description_poll">Sondaggio con scelte: %1$s, %2$s, %3$s, %4$s; %5$s</string>
+
+    <string name="select_list_title">Scegli lista</string>
+    <string name="list">Lista</string>
+    <string name="compose_preview_image_description">Azioni per l\'immagine %s</string>
+
+    <string name="poll_ended_voted">Un sondaggio che hai votato è terminato</string>
+    <string name="poll_ended_created">Un sondaggio che hai creato è terminato</string>
+
+    <plurals name="poll_timespan_days">
+	<item quantity="one">%d giorno</item>
+	<item quantity="other">%d giorni</item>
+</plurals>
+    <plurals name="poll_timespan_hours">
+	<item quantity="one">%d ora</item>
+	<item quantity="other">%d ore</item>
+</plurals>
+    <plurals name="poll_timespan_minutes">
+	<item quantity="one">%d minuto</item>
+	<item quantity="other">%d minuti</item>
+</plurals>
+    <plurals name="poll_timespan_seconds">
+	<item quantity="one">%d secondo</item>
+	<item quantity="other">%d secondi</item>
+</plurals>
+
+    <string name="button_continue">Continua</string>
+    <string name="button_back">Indietro</string>
+    <string name="button_done">Fatto</string>
+    <string name="report_sent_success">Inviato con successo @%s</string>
+    <string name="hint_additional_info">Altri commenti</string>
+    <string name="report_remote_instance">Inoltra a %s</string>
+    <string name="failed_report">Errore durante l\'invio</string>
+    <string name="failed_fetch_statuses">Errore durante lo scaricamento degli aggiornamenti</string>
+    <string name="report_description_1">La segnalazione sarà inviata al moderatore del tuo server. Puoi spiegare perchè vuoi segnalare questo utente qui sotto:</string>
+    <string name="report_description_remote_instance">L\'utente è su un altro server. Mandare una copia della segnalazione anche lì\?</string>
+    <string name="title_accounts">Utenti</string>
+    <string name="failed_search">Errore durante la ricerca</string>
+
+    <string name="pref_title_show_notifications_filter">Mostra il filtro delle notifiche</string>
+
+
+    <string name="create_poll_title">Sondaggio</string>
+    <string name="poll_duration_5_min">5 minuti</string>
+    <string name="poll_duration_30_min">30 minuti</string>
+    <string name="poll_duration_1_hour">1 ora</string>
+    <string name="poll_duration_6_hours">6 ore</string>
+    <string name="poll_duration_1_day">1 giorno</string>
+    <string name="poll_duration_3_days">3 giorni</string>
+    <string name="poll_duration_7_days">7 giorni</string>
+    <string name="add_poll_choice">Aggiungi scelta</string>
+    <string name="poll_allow_multiple_choices">Scelte multiple</string>
+    <string name="poll_new_choice_hint">Scelta %d</string>
+    <string name="edit_poll">Modifica</string>
+    <string name="post_lookup_error_format">Errore nella ricerca del post %s</string>
+
+<string name="title_scheduled_toot">Toot programmati</string>
+    <string name="action_access_scheduled_toot">Toot programmati</string>
+    <string name="action_schedule_toot">Programma un toot</string>
+    <string name="action_reset_schedule">RIpristina</string>
+    <string name="hint_configure_scheduled_toot">Tocca qui configurare i toot programmati.</string>
+    <string name="poll_info_format"> <!-- 15 votes • 1 hour left --> %1$s • %2$s</string>
     </resources>

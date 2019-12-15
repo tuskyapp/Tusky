@@ -472,4 +472,11 @@
     <string name="action_reset_schedule">Visszaállítás</string>
     <string name="post_lookup_error_format">Nem találjuk ezt a posztot %s</string>
 
-</resources>
+<string name="title_bookmarks">Könyvjelzők</string>
+    <string name="action_bookmark">Könyvjelző</string>
+    <string name="action_view_bookmarks">Könyvjelzők</string>
+    <string name="about_powered_by_tusky">Tusky által hatjva</string>
+    <string name="description_status_bookmarked">Könyvjelzőzve</string>
+    <string name="select_list_title">Lista kiválasztása</string>
+    <string name="list">Lista</string>
+    </resources>

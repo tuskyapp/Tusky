@@ -21,6 +21,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.keylesspalace.tusky.HASHTAG
+import com.keylesspalace.tusky.LIST
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.TabData
 import com.keylesspalace.tusky.util.ThemeUtils
@@ -57,7 +58,11 @@ class TabAdapter(private var data: List<TabData>,
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val context = holder.itemView.context
-        holder.itemView.textView.setText(data[position].text)
+        if (!small && data[position].id == LIST) {
+            holder.itemView.textView.text = data[position].arguments.getOrNull(1).orEmpty()
+        } else {
+            holder.itemView.textView.setText(data[position].text)
+        }
         val iconDrawable = ThemeUtils.getTintedDrawable(context, data[position].icon, android.R.attr.textColorSecondary)
         holder.itemView.textView.setCompoundDrawablesRelativeWithIntrinsicBounds(iconDrawable, null, null, null)
         if (small) {

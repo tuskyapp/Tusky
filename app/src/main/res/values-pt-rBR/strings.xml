@@ -23,8 +23,8 @@
     <string name="title_public_local">Local</string>
     <string name="title_public_federated">Global</string>
     <string name="title_direct_messages">Mensagens diretas</string>
-    <string name="title_tab_preferences">Abas</string>
-    <string name="title_view_thread">Sequência</string>
+    <string name="title_tab_preferences">Editar abas</string>
+    <string name="title_view_thread">Conversa</string>
     <string name="title_statuses">Toots</string>
     <string name="title_statuses_with_replies">Com respostas</string>
     <string name="title_follows">Segue</string>
@@ -37,7 +37,7 @@
     <string name="title_saved_toot">Rascunhos</string>
     <string name="title_licenses">Licenças</string>
     <string name="status_boosted_format">%s deu boost</string>
-    <string name="status_sensitive_media_title">Conteúdo sensível</string>
+    <string name="status_sensitive_media_title">Mídia sensível</string>
     <string name="status_media_hidden_title">Mídia oculta</string>
     <string name="status_sensitive_media_directions">Toque para ver</string>
     <string name="status_content_warning_show_more">Mostrar mais</string>
@@ -96,7 +96,7 @@
     <string name="action_search">Pesquisar</string>
     <string name="action_access_saved_toot">Rascunhos</string>
     <string name="action_toggle_visibility">Privacidade do toot</string>
-    <string name="action_content_warning">Aviso de conteúdo</string>
+    <string name="action_content_warning">Aviso de Conteúdo</string>
     <string name="action_emoji_keyboard">Teclado de emojis</string>
     <string name="action_add_tab">Adicionar aba</string>
     <string name="action_links">Links</string>
@@ -119,7 +119,7 @@
     <string name="status_sent_long">Resposta enviada com sucesso.</string>
     <string name="hint_domain">Qual instância?</string>
     <string name="hint_compose">No que você está pensando?</string>
-    <string name="hint_content_warning">Aviso de conteúdo</string>
+    <string name="hint_content_warning">Aviso de Conteúdo aqui</string>
     <string name="hint_display_name">Nome de exibição</string>
     <string name="hint_note">Biografia</string>
     <string name="hint_search">Pesquisar…</string>
@@ -129,9 +129,9 @@
     <string name="label_header">Capa</string>
     <string name="link_whats_an_instance">O que é uma instância?</string>
     <string name="login_connection">Conectando…</string>
-    <string name="dialog_whats_an_instance">O endereço ou domínio de qualquer instância pode ser inserido aqui, como mastodon.social, icosahedron.website, social.tchncs.de ou qualquer <a href="https://instances.social">outro!</a>
+    <string name="dialog_whats_an_instance">O domínio de qualquer instância pode ser inserido aqui, como mastodon.social, masto.donte.com.br, colorid.es ou qualquer <a href="https://instances.social">outro!</a> 
 \n 
-\n Se você não tem uma conta ainda, você pode inserir o nome da instância a qual você gostaria de participar e criar uma conta lá.
+\n Se você não tem uma conta ainda, você pode inserir o nome da instância a qual você gostaria de participar e criar uma conta lá. 
 \n 
 \n Uma instância é um lugar onde sua conta é hospedada, mas você pode facilmente se comunicar e seguir pessoas de outras instâncias como se vocês estivessem no mesmo site. 
 \n 
@@ -142,8 +142,8 @@
     <string name="dialog_message_cancel_follow_request">Recusar o seguidor pendente\?</string>
     <string name="dialog_unfollow_warning">Deixar de seguir esta conta?</string>
     <string name="dialog_delete_toot_warning">Excluir este toot?</string>
-    <string name="visibility_public">Público: Postar em timelines públicas</string>
-    <string name="visibility_unlisted">Não-listado: Não postar em timelines públicas</string>
+    <string name="visibility_public">Público: Postar em linhas públicas</string>
+    <string name="visibility_unlisted">Não-listado: Não postar em linhas públicas</string>
     <string name="visibility_private">Privado: Postar apenas para seguidores</string>
     <string name="visibility_direct">Direto: Postar apenas para usuários mencionados</string>
     <string name="pref_title_edit_notification_settings">Editar notificações</string>
@@ -153,13 +153,13 @@
     <string name="pref_title_notification_alert_vibrate">Notificar com vibração</string>
     <string name="pref_title_notification_alert_light">Notificar com luz</string>
     <string name="pref_title_notification_filters">Notifique-me quando</string>
-    <string name="pref_title_notification_filter_mentions">mencionado</string>
-    <string name="pref_title_notification_filter_follows">seguido</string>
+    <string name="pref_title_notification_filter_mentions">me mencionarem</string>
+    <string name="pref_title_notification_filter_follows">me seguirem</string>
     <string name="pref_title_notification_filter_reblogs">derem boosts nos meus toots</string>
     <string name="pref_title_notification_filter_favourites">favoritarem meus toots</string>
     <string name="pref_title_appearance_settings">Aparência</string>
     <string name="pref_title_app_theme">Temas</string>
-    <string name="pref_title_timelines">Timelines</string>
+    <string name="pref_title_timelines">Linhas do tempo</string>
     <string name="app_them_dark">Noturno</string>
     <string name="app_theme_light">Diurno</string>
     <string name="app_theme_black">AMOLED</string>
@@ -168,7 +168,7 @@
     <string name="pref_title_browser_settings">Navegador</string>
     <string name="pref_title_custom_tabs">Usar abas do Chrome</string>
     <string name="pref_title_hide_follow_button">Esconder compositor ao rolar a página</string>
-    <string name="pref_title_status_filter">Filtragem da timeline</string>
+    <string name="pref_title_status_filter">Filtro da linha do tempo</string>
     <string name="pref_title_status_tabs">Abas</string>
     <string name="pref_title_show_boosts">Mostrar boosts</string>
     <string name="pref_title_show_replies">Mostrar respostas</string>
@@ -191,9 +191,9 @@
     <string name="status_text_size_large">Grande</string>
     <string name="status_text_size_largest">Maior</string>
 
-    <string name="notification_mention_name">Novas Menções</string>
+    <string name="notification_mention_name">Menções</string>
     <string name="notification_mention_descriptions">Notificar sobre novas menções</string>
-    <string name="notification_follow_name">Novos Seguidores</string>
+    <string name="notification_follow_name">Seguidores</string>
     <string name="notification_follow_description">Notificar sobre novos seguidores</string>
     <string name="notification_boost_name">Boosts</string>
     <string name="notification_boost_description">Notificar quando derem boost nos seus toots</string>
@@ -239,7 +239,7 @@
     <string name="abbreviated_minutes_ago">%dm</string>
     <string name="abbreviated_seconds_ago">%ds</string>
     <string name="follows_you">Segue você</string>
-    <string name="pref_title_alway_show_sensitive_media">Sempre mostrar conteúdo sensível</string>
+    <string name="pref_title_alway_show_sensitive_media">Sempre mostrar mídia sensível</string>
     <string name="title_media">Mídia</string>
     <string name="replying_to">Respondendo a @%s</string>
     <string name="load_more_placeholder_text">carregar mais</string>
@@ -247,7 +247,7 @@
     <string name="add_account_description">Adicionar nova conta Mastodon</string>
     <string name="action_lists">Listas</string>
     <string name="title_lists">Listas</string>
-    <string name="title_list_timeline">Timeline da lista</string>
+    <string name="title_list_timeline">Linha da lista</string>
     <string name="compose_active_account_description">Usando a conta %1$s</string>
     <string name="error_failed_set_caption">Falha ao incluir descrição</string>
     <string name="action_set_caption">Descrever</string>
@@ -312,7 +312,7 @@
 
     <string name="dialog_redraft_toot_warning">Excluir e rascunhar este toot\?</string>
 
-    <string name="pref_title_notification_filter_poll">Enquetes terminaram</string>
+    <string name="pref_title_notification_filter_poll">enquetes terminarem</string>
     <string name="pref_title_timeline_filters">Filtros</string>
 
     <string name="pref_title_language">Idioma</string>
@@ -322,8 +322,8 @@
     <string name="notification_poll_description">Notificar enquetes que já terminaram</string>
 
 
-    <string name="pref_title_public_filter_keywords">Timelines públicas</string>
-    <string name="pref_title_thread_filter_keywords">Sequências</string>
+    <string name="pref_title_public_filter_keywords">Linhas públicas</string>
+    <string name="pref_title_thread_filter_keywords">Conversas</string>
     <string name="filter_addition_dialog_title">Criar filtro</string>
     <string name="filter_edit_dialog_title">Editar filtro</string>
     <string name="filter_dialog_remove_button">Remover</string>
@@ -342,7 +342,7 @@
     <string name="action_remove_from_list">Remover conta da lista</string>
 
     <string name="hint_describe_for_visually_impaired">Descrever para deficientes visuais
-\n(limite de %d caracteres)</string>
+\n(até %d caracteres)</string>
     <string name="license_cc_by_4">CC-BY 4.0</string>
     <string name="license_cc_by_sa_4">CC-BY-SA 4.0</string>
 
@@ -368,7 +368,7 @@
 
 
     <string name="description_status_media">Mídia: %s</string>
-    <string name="description_status_cw">Aviso de conteúdo: %s</string>
+    <string name="description_status_cw">Aviso de Conteúdo: %s</string>
     <string name="description_status_media_no_description_placeholder">Sem descrição</string>
     <string name="description_status_reblogged">Você deu boost</string>
     <string name="description_status_favourited">Favoritado</string>
@@ -402,8 +402,8 @@
 
     <string name="poll_vote">Votar</string>
 
-    <string name="poll_ended_voted">Uma enquete em que você votou terminou</string>
-    <string name="poll_ended_created">Uma enquete sua terminou</string>
+    <string name="poll_ended_voted">Uma enquete que você votou terminou</string>
+    <string name="poll_ended_created">Sua enquete terminou</string>
 
     <plurals name="poll_timespan_days">
 	<item quantity="one">%d dia</item>
@@ -435,15 +435,15 @@
     <string name="report_remote_instance">Encaminhar para %s</string>
     <string name="failed_report">Falha na denúncia</string>
     <string name="failed_fetch_statuses">Falha ao carregar toots</string>
-    <string name="report_description_1">A denúncia será enviada para o seu administrador da instância. Você pode explicar por que você denunciou a conta:</string>
-    <string name="report_description_remote_instance">A conta está em outra instância. Enviar uma cópia anônima da denúncia também\?</string>
+    <string name="report_description_1">A denúncia será enviada aos moderadores da instância. Você pode explicar por que você denunciou a conta:</string>
+    <string name="report_description_remote_instance">A conta está em outra instância. Enviar uma cópia anônima da denúncia para lá\?</string>
 
 <string name="title_domain_mutes">Instâncias bloqueadas</string>
     <string name="action_view_domain_mutes">Instâncias bloqueadas</string>
     <string name="action_mute_domain">Bloquear %s</string>
     <string name="confirmation_domain_unmuted">%s desbloqueada</string>
 
-    <string name="mute_domain_warning">Você tem certeza de que deseja bloquear tudo de %s\? Você não verá mais conteúdos desta instância em nenhuma timeline pública ou nas suas notificações. Seus seguidores desta instância serão removidos.</string>
+    <string name="mute_domain_warning">Você tem certeza de que deseja bloquear tudo de %s\? Você não verá mais o conteúdo desta instância em nenhuma linha do tempo pública ou nas suas notificações. Seus seguidores desta instância serão removidos.</string>
     <string name="mute_domain_warning_dialog_ok">Bloquear instância</string>
 
     <string name="pref_title_show_notifications_filter">Mostrar filtro de notificações</string>
@@ -467,11 +467,18 @@
     <string name="poll_new_choice_hint">Opção %d</string>
     <string name="edit_poll">Editar</string>
 
-<string name="title_scheduled_toot">Toots agendados</string>
+<string name="title_scheduled_toot">Agendados</string>
     <string name="action_edit">Editar</string>
-    <string name="action_access_scheduled_toot">Toots agendados</string>
+    <string name="action_access_scheduled_toot">Agendados</string>
     <string name="action_schedule_toot">Agendar toot</string>
     <string name="action_reset_schedule">Cancelar</string>
     <string name="post_lookup_error_format">Erro ao pesquisar %s</string>
 
-</resources>
+<string name="title_bookmarks">Salvos</string>
+    <string name="action_bookmark">Salvar</string>
+    <string name="action_view_bookmarks">Salvos</string>
+    <string name="about_powered_by_tusky">Desenvolvido por Tusky</string>
+    <string name="description_status_bookmarked">Salvo</string>
+    <string name="select_list_title">Selecionar lista</string>
+    <string name="list">Lista</string>
+    </resources>
