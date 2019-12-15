@@ -518,4 +518,19 @@
     <string name="add_poll_choice">Afegeix una tria</string>
     <string name="poll_allow_multiple_choices">Múltiples tries</string>
     <string name="poll_new_choice_hint">Tria %d</string>
-    </resources>
+    <string name="title_bookmarks">Preferits</string>
+    <string name="title_scheduled_toot">Toots programats</string>
+    <string name="action_bookmark">Preferit</string>
+    <string name="action_edit">Editar</string>
+    <string name="action_view_bookmarks">Preferits</string>
+    <string name="action_access_scheduled_toot">Toots programats</string>
+    <string name="action_schedule_toot">Programar el toot</string>
+    <string name="action_reset_schedule">Reiniciar</string>
+    <string name="hint_configure_scheduled_toot">Clica aquí per configurar el toot programat.</string>
+    <string name="about_powered_by_tusky">Desenvolupat per Tusky</string>
+    <string name="description_status_bookmarked">Afegit a les adreces d\'interès</string>
+    <string name="select_list_title">Seleccionar la llista</string>
+    <string name="list">Llista</string>
+    <string name="post_lookup_error_format">S\'ha produït un error en cercar la publicació %s</string>
+
+</resources>

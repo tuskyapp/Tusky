@@ -368,9 +368,9 @@
     <string name="pin_action">Przypnij do profilu</string>
 
     <plurals name="favs">
-	<item quantity="one">&lt;b>%1$s&lt;/b&gt; polubienie</item>
-	<item quantity="few">&lt;b>%1$s&lt;/b&gt; polubienia</item>
-	<item quantity="many">&lt;b>%1$s&lt;/b&gt; polubień</item>
+	<item quantity="one">&lt;b&gt;%1$s&lt;/b&gt; polubienie</item>
+	<item quantity="few">&lt;b&gt;%1$s&lt;/b&gt; polubienia</item>
+	<item quantity="many">&lt;b&gt;%1$s&lt;/b&gt; polubień</item>
 </plurals>
 
     <plurals name="reblogs">
@@ -492,4 +492,6 @@
     <string name="action_bookmark">Zakładka</string>
     <string name="action_view_bookmarks">Zakładki</string>
     <string name="description_status_bookmarked">Dodane do zakładek</string>
+    <string name="select_list_title">Wybierz listę</string>
+    <string name="list">Lista</string>
     </resources>

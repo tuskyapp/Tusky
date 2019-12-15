@@ -191,9 +191,9 @@
     <string name="status_text_size_large">Grande</string>
     <string name="status_text_size_largest">Maior</string>
 
-    <string name="notification_mention_name">Novas Menções</string>
+    <string name="notification_mention_name">Menções</string>
     <string name="notification_mention_descriptions">Notificar sobre novas menções</string>
-    <string name="notification_follow_name">Novos Seguidores</string>
+    <string name="notification_follow_name">Seguidores</string>
     <string name="notification_follow_description">Notificar sobre novos seguidores</string>
     <string name="notification_boost_name">Boosts</string>
     <string name="notification_boost_description">Notificar quando derem boost nos seus toots</string>
@@ -342,7 +342,7 @@
     <string name="action_remove_from_list">Remover conta da lista</string>
 
     <string name="hint_describe_for_visually_impaired">Descrever para deficientes visuais
-\n(limite de %d caracteres)</string>
+\n(até %d caracteres)</string>
     <string name="license_cc_by_4">CC-BY 4.0</string>
     <string name="license_cc_by_sa_4">CC-BY-SA 4.0</string>
 
@@ -467,17 +467,19 @@
     <string name="poll_new_choice_hint">Opção %d</string>
     <string name="edit_poll">Editar</string>
 
-<string name="title_scheduled_toot">Toots agendados</string>
+<string name="title_scheduled_toot">Agendados</string>
     <string name="action_edit">Editar</string>
-    <string name="action_access_scheduled_toot">Toots agendados</string>
+    <string name="action_access_scheduled_toot">Agendados</string>
     <string name="action_schedule_toot">Agendar toot</string>
     <string name="action_reset_schedule">Cancelar</string>
     <string name="hint_configure_scheduled_toot">Toque aqui para agendar</string>
     <string name="post_lookup_error_format">Erro ao pesquisar %s</string>
 
 <string name="title_bookmarks">Salvos</string>
-    <string name="action_bookmark">Salvo</string>
+    <string name="action_bookmark">Salvar</string>
     <string name="action_view_bookmarks">Salvos</string>
     <string name="about_powered_by_tusky">Desenvolvido por Tusky</string>
     <string name="description_status_bookmarked">Salvo</string>
+    <string name="select_list_title">Selecionar lista</string>
+    <string name="list">Lista</string>
     </resources>
