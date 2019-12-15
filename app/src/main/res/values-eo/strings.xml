@@ -464,7 +464,6 @@
     <string name="action_access_scheduled_toot">Planitaj mesaĝoj</string>
     <string name="action_schedule_toot">Plani mesaĝon</string>
     <string name="action_reset_schedule">Restarigi</string>
-    <string name="hint_configure_scheduled_toot">Frapetu ĉi-tie por agordi la planitan mesaĝon.</string>
     <string name="about_powered_by_tusky">Funkciigita de Tusky</string>
     <string name="description_status_bookmarked">Aldonita al la legosignoj</string>
     <string name="select_list_title">Elekti la liston</string>

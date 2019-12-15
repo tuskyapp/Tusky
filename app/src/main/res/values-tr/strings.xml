@@ -435,7 +435,6 @@
     <string name="action_access_scheduled_toot">Zamanlanmış iletiler</string>
     <string name="action_schedule_toot">İleti zamanla</string>
     <string name="action_reset_schedule">Sıfırla</string>
-    <string name="hint_configure_scheduled_toot">Zamanlanmış iletiyi yapılandırmak için buraya dokunun.</string>
     <string name="dialog_redraft_toot_warning">Bu iletiyi silip yeniden düzenlemek istiyor musun\?</string>
     <string name="pref_title_bot_overlay">Botlar için gösterge göster</string>
     <string name="about_powered_by_tusky">Tusky tarafından desteklenmektedir</string>

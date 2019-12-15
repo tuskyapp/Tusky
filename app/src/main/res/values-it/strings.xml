@@ -476,6 +476,5 @@
     <string name="action_access_scheduled_toot">Toot programmati</string>
     <string name="action_schedule_toot">Programma un toot</string>
     <string name="action_reset_schedule">RIpristina</string>
-    <string name="hint_configure_scheduled_toot">Tocca qui configurare i toot programmati.</string>
     <string name="poll_info_format"> <!-- 15 votes • 1 hour left --> %1$s • %2$s</string>
     </resources>
