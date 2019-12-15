@@ -74,13 +74,9 @@ class MediaUploaderImpl(
         return Single.fromCallable {
             var mediaSize = getMediaSize(contentResolver, inUri)
             var uri = inUri
-            val contentResolver = contentResolver
             val mimeType = contentResolver.getType(uri)
 
-            val filename = inUri.toString().substring(inUri.toString().lastIndexOf("/"))
-            val suffixPosition = filename.lastIndexOf(".")
-            var suffix = ""
-            if (suffixPosition > 0) suffix = filename.substring(suffixPosition)
+            val suffix = "." + MimeTypeMap.getSingleton().getExtensionFromMimeType(mimeType ?: "tmp")
 
             try {
                 contentResolver.openInputStream(inUri).use { input ->

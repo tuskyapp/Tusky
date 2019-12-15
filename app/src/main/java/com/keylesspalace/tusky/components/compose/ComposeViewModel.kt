@@ -1,7 +1,6 @@
 package com.keylesspalace.tusky.components.compose
 
 import android.net.Uri
-import android.text.TextUtils
 import android.util.Log
 import androidx.core.net.toUri
 import androidx.lifecycle.LiveData
@@ -367,16 +366,15 @@ class ComposeViewModel
             startingContentWarning = contentWarning
         }
 
-
         // try to redo a list of media
         // If come from SavedTootActivity
         val loadedDraftMediaUris = composeOptions?.savedJsonUrls
-        val loadedDraftMediaDescriptions = composeOptions?.savedJsonDescriptions
+        val loadedDraftMediaDescriptions: List<String?>? = composeOptions?.savedJsonDescriptions
         if (loadedDraftMediaUris != null && loadedDraftMediaDescriptions != null) {
             loadedDraftMediaUris.zip(loadedDraftMediaDescriptions)
                     .forEach { (uri, description) ->
                         pickMedia(uri.toUri()).observeForever { errorOrItem ->
-                            if (errorOrItem.isRight()) {
+                            if (errorOrItem.isRight() && description != null) {
                                 updateDescription(errorOrItem.asRight().localId, description)
                             }
                         }
