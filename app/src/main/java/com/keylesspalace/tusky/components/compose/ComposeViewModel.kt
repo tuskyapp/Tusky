@@ -366,10 +366,10 @@ class ComposeViewModel
             startingContentWarning = contentWarning
         }
 
-        // try to redo a list of media
-        // If come from SavedTootActivity
-        val loadedDraftMediaUris = composeOptions?.savedJsonUrls
-        val loadedDraftMediaDescriptions: List<String?>? = composeOptions?.savedJsonDescriptions
+        // recreate media list
+        // when coming from SavedTootActivity
+        val loadedDraftMediaUris = composeOptions?.mediaUrls
+        val loadedDraftMediaDescriptions: List<String?>? = composeOptions?.mediaDescriptions
         if (loadedDraftMediaUris != null && loadedDraftMediaDescriptions != null) {
             loadedDraftMediaUris.zip(loadedDraftMediaDescriptions)
                     .forEach { (uri, description) ->
@@ -380,7 +380,7 @@ class ComposeViewModel
                         }
                     }
         } else composeOptions?.mediaAttachments?.forEach { a ->
-            // If come from redraft
+            // when coming from redraft
             val mediaType = when (a.type) {
                 Attachment.Type.VIDEO, Attachment.Type.GIFV -> QueuedMedia.Type.VIDEO
                 Attachment.Type.UNKNOWN, Attachment.Type.IMAGE -> QueuedMedia.Type.IMAGE

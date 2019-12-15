@@ -953,8 +953,8 @@ class ComposeActivity : BaseActivity(),
             // Let's keep fields var until all consumers are Kotlin
             var savedTootUid: Int? = null,
             var tootText: String? = null,
-            var savedJsonUrls: List<String>? = null,
-            var savedJsonDescriptions: List<String>? = null,
+            var mediaUrls: List<String>? = null,
+            var mediaDescriptions: List<String>? = null,
             var mentionedUsernames: Set<String>? = null,
             var inReplyToId: String? = null,
             var replyVisibility: Status.Visibility? = null,
@@ -962,7 +962,7 @@ class ComposeActivity : BaseActivity(),
             var contentWarning: String? = null,
             var replyingStatusAuthor: String? = null,
             var replyingStatusContent: String? = null,
-            var mediaAttachments: ArrayList<Attachment>? = null,
+            var mediaAttachments: List<Attachment>? = null,
             var scheduledAt: String? = null,
             var sensitive: Boolean? = null,
             var poll: NewPoll? = null
@@ -970,9 +970,6 @@ class ComposeActivity : BaseActivity(),
 
     companion object {
         private const val TAG = "ComposeActivity" // logging tag
-        internal const val STATUS_IMAGE_SIZE_LIMIT = 8388608 // 8MiB
-        private const val STATUS_VIDEO_SIZE_LIMIT = 41943040 // 40MiB
-        internal const val STATUS_IMAGE_PIXEL_SIZE_LIMIT = 16777216 // 4096^2 Pixels
         private const val MEDIA_PICK_RESULT = 1
         private const val MEDIA_TAKE_PHOTO_RESULT = 2
         private const val PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 1
@@ -980,7 +977,7 @@ class ComposeActivity : BaseActivity(),
         private const val COMPOSE_OPTIONS_EXTRA = "COMPOSE_OPTIONS"
 
         // Mastodon only counts URLs as this long in terms of status character limits
-        internal const val MAXIMUM_URL_LENGTH = 23
+        private const val MAXIMUM_URL_LENGTH = 23
 
         @JvmStatic
         fun startIntent(context: Context, options: ComposeOptions): Intent {

@@ -9,8 +9,6 @@ import androidx.core.content.FileProvider
 import androidx.core.net.toUri
 import com.keylesspalace.tusky.BuildConfig
 import com.keylesspalace.tusky.R
-import com.keylesspalace.tusky.components.compose.ComposeActivity.Companion.STATUS_IMAGE_PIXEL_SIZE_LIMIT
-import com.keylesspalace.tusky.components.compose.ComposeActivity.Companion.STATUS_IMAGE_SIZE_LIMIT
 import com.keylesspalace.tusky.components.compose.ComposeActivity.QueuedMedia
 import com.keylesspalace.tusky.entity.Attachment
 import com.keylesspalace.tusky.network.MastodonApi
@@ -183,5 +181,8 @@ class MediaUploaderImpl(
     private companion object {
         private const val TAG = "MediaUploaderImpl"
         private const val STATUS_VIDEO_SIZE_LIMIT = 41943040 // 40MiB
+        private const val STATUS_IMAGE_SIZE_LIMIT = 8388608 // 8MiB
+        private const val STATUS_IMAGE_PIXEL_SIZE_LIMIT = 16777216 // 4096^2 Pixels
+
     }
 }
