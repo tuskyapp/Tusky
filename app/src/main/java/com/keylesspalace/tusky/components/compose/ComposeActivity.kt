@@ -161,9 +161,6 @@ class ComposeActivity : BaseActivity(),
             composeScheduleView.setDateTime(composeOptions?.scheduledAt)
         }
 
-        updateScheduleButton()
-        updateVisibleCharactersLeft()
-
         setupComposeField(viewModel.startingText)
         setupContentWarningField(composeOptions?.contentWarning)
         setupPollView()
@@ -259,20 +256,14 @@ class ComposeActivity : BaseActivity(),
     }
 
     private fun setupContentWarningField(startingContentWarning: String?) {
-        composeContentWarningField.onTextChanged { _, _, _, _ -> updateVisibleCharactersLeft() }
         if (startingContentWarning != null) {
             composeContentWarningField.setText(startingContentWarning)
         }
+        composeContentWarningField.onTextChanged { _, _, _, _ -> updateVisibleCharactersLeft() }
     }
 
     private fun setupComposeField(startingText: String?) {
         composeEditField.setOnCommitContentListener(this)
-        val mentionColour = composeEditField.linkTextColors.defaultColor
-        highlightSpans(composeEditField.text, mentionColour)
-        composeEditField.afterTextChanged { editable ->
-            highlightSpans(editable, mentionColour)
-            updateVisibleCharactersLeft()
-        }
 
         composeEditField.setOnKeyListener { _, keyCode, event -> this.onKeyDown(keyCode, event) }
 
@@ -282,6 +273,13 @@ class ComposeActivity : BaseActivity(),
 
         composeEditField.setText(startingText)
         composeEditField.setSelection(composeEditField.length())
+
+        val mentionColour = composeEditField.linkTextColors.defaultColor
+        highlightSpans(composeEditField.text, mentionColour)
+        composeEditField.afterTextChanged { editable ->
+            highlightSpans(editable, mentionColour)
+            updateVisibleCharactersLeft()
+        }
 
         // work around Android platform bug -> https://issuetracker.google.com/issues/67102093
         if (Build.VERSION.SDK_INT == Build.VERSION_CODES.O
@@ -339,7 +337,6 @@ class ComposeActivity : BaseActivity(),
         composeOptionsBottomSheet.listener = this
 
         composeOptionsBehavior = BottomSheetBehavior.from(composeOptionsBottomSheet)
-        composeOptionsBehavior.state = BottomSheetBehavior.STATE_HIDDEN
         addMediaBehavior = BottomSheetBehavior.from(addMediaBottomSheet)
         scheduleBehavior = BottomSheetBehavior.from(composeScheduleView)
         emojiBehavior = BottomSheetBehavior.from(emojiView)
