@@ -43,6 +43,7 @@ import com.keylesspalace.tusky.di.Injectable;
 import com.keylesspalace.tusky.util.SaveTootHelper;
 
 import java.lang.ref.WeakReference;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -156,12 +157,11 @@ public final class SavedTootActivity extends BaseActivity implements SavedTootAd
 
     @Override
     public void click(int position, TootEntity item) {
-        // @formatter:off
-        List<String> jsonUrls = new Gson().fromJson(item.getUrls(),
-                new TypeToken<List<String>>() {}.getType());
-        List<String> descriptions = new Gson().fromJson(item.getDescriptions(),
-                new TypeToken<List<String>>() {}.getType());
-        // @formatter:on
+        Gson gson = new Gson();
+        Type stringListType = new TypeToken<List<String>>() {}.getType();
+        List<String> jsonUrls = gson.fromJson(item.getUrls(), stringListType);
+        List<String> descriptions = gson.fromJson(item.getDescriptions(), stringListType);
+
         ComposeOptions composeOptions = new ComposeOptions(
                 item.getUid(),
                 item.getText(),
