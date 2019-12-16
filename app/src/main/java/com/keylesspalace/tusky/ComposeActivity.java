@@ -1289,7 +1289,7 @@ public final class ComposeActivity
     private void enableButton(ImageButton button, boolean clickable, boolean colorActive) {
         button.setEnabled(clickable);
         ThemeUtils.setDrawableTint(this, button.getDrawable(),
-                colorActive ? android.R.attr.textColorTertiary : R.attr.compose_media_button_disabled_tint);
+                colorActive ? android.R.attr.textColorTertiary : R.attr.image_button_disabled_tint);
     }
 
     private void enablePollButton(boolean enable) {
@@ -1298,7 +1298,7 @@ public final class ComposeActivity
         if(enable) {
             textColor = ThemeUtils.getColor(this, android.R.attr.textColorTertiary);
         } else {
-            textColor = ThemeUtils.getColor(this, R.attr.compose_media_button_disabled_tint);
+            textColor = ThemeUtils.getColor(this, R.attr.image_button_disabled_tint);
         }
         actionAddPoll.setTextColor(textColor);
         actionAddPoll.getCompoundDrawablesRelative()[0].setColorFilter(textColor, PorterDuff.Mode.SRC_IN);

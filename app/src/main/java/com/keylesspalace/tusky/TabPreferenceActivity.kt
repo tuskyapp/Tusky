@@ -41,6 +41,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_tab_preference.*
 import kotlinx.android.synthetic.main.toolbar_basic.*
+import kotlinx.android.synthetic.main.item_tab_preference.view.removeButton
 import java.util.regex.Pattern
 import javax.inject.Inject
 
@@ -76,7 +77,7 @@ class TabPreferenceActivity : BaseActivity(), Injectable, ItemInteractionListene
         }
 
         currentTabs = (accountManager.activeAccount?.tabPreferences ?: emptyList()).toMutableList()
-        currentTabsAdapter = TabAdapter(currentTabs, false, this)
+        currentTabsAdapter = TabAdapter(currentTabs, false, this, currentTabs.size <= MIN_TAB_COUNT)
         currentTabsRecyclerView.adapter = currentTabsAdapter
         currentTabsRecyclerView.layoutManager = LinearLayoutManager(this)
         currentTabsRecyclerView.addItemDecoration(DividerItemDecoration(this, LinearLayoutManager.VERTICAL))
@@ -109,10 +110,7 @@ class TabPreferenceActivity : BaseActivity(), Injectable, ItemInteractionListene
             }
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                currentTabs.removeAt(viewHolder.adapterPosition)
-                currentTabsAdapter.notifyItemRemoved(viewHolder.adapterPosition)
-                updateAvailableTabs()
-                saveTabs()
+                onTabRemoved(viewHolder.adapterPosition)
             }
 
             override fun onSelectedChanged(viewHolder: RecyclerView.ViewHolder?, actionState: Int) {
@@ -164,6 +162,13 @@ class TabPreferenceActivity : BaseActivity(), Injectable, ItemInteractionListene
 
         currentTabs.add(tab)
         currentTabsAdapter.notifyItemInserted(currentTabs.size - 1)
+        updateAvailableTabs()
+        saveTabs()
+    }
+
+    override fun onTabRemoved(position: Int) {
+        currentTabs.removeAt(position)
+        currentTabsAdapter.notifyItemRemoved(position)
         updateAvailableTabs()
         saveTabs()
     }
@@ -273,7 +278,7 @@ class TabPreferenceActivity : BaseActivity(), Injectable, ItemInteractionListene
         addTabAdapter.updateData(addableTabs)
 
         maxTabsInfo.visible(addableTabs.size == 0 || currentTabs.size >= MAX_TAB_COUNT)
-
+        currentTabsAdapter.setRemoveButtonVisible(currentTabs.size > MIN_TAB_COUNT);
     }
 
     override fun onStartDelete(viewHolder: RecyclerView.ViewHolder) {

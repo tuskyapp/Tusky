@@ -47,7 +47,7 @@
         <item name="account_toolbar_icon_tint_collapsed">@color/account_toolbar_icon_collapsed_dark</item>
 
         <item name="compose_close_button_tint">@color/toolbar_icon_dark</item>
-        <item name="compose_media_button_disabled_tint">@color/compose_media_button_disabled_dark</item>
+        <item name="image_button_disabled_tint">@color/image_button_disabled_dark</item>
         <item name="compose_content_warning_bar_background">@drawable/border_background_dark</item>
         <item name="compose_reply_content_background">@color/compose_reply_content_background_dark</item>
 
