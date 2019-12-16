@@ -180,7 +180,6 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
                                         @NonNull List<Emoji> emojis,
                                         @Nullable PollViewData poll,
                                         final StatusActionListener listener) {
-        setupPoll(poll, emojis, listener);
         if (TextUtils.isEmpty(spoilerText)) {
             contentWarningDescription.setVisibility(View.GONE);
             contentWarningButton.setVisibility(View.GONE);
@@ -211,6 +210,9 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         if (expanded) {
             Spanned emojifiedText = CustomEmojiHelper.emojifyText(content, emojis, this.content);
             LinkHelper.setClickableText(this.content, emojifiedText, mentions, listener);
+            if (poll != null) {
+                setupPoll(poll, emojis, listener);
+            }
         } else {
             LinkHelper.setClickableMentions(this.content, mentions, listener);
         }
@@ -844,48 +846,43 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
     }
 
     private void setupPoll(PollViewData poll, List<Emoji> emojis, StatusActionListener listener) {
-        if (poll == null) {
-            setPollVisible(false);
+        long timestamp = System.currentTimeMillis();
+
+        boolean expired = poll.getExpired() || (poll.getExpiresAt() != null && timestamp > poll.getExpiresAt().getTime());
+
+        Context context = pollDescription.getContext();
+
+        pollOptions.setVisibility(View.VISIBLE);
+
+        if (expired || poll.getVoted()) {
+            // no voting possible
+            pollAdapter.setup(poll.getOptions(), poll.getVotesCount(), emojis, PollAdapter.RESULT);
+
+            pollButton.setVisibility(View.GONE);
         } else {
-            long timestamp = System.currentTimeMillis();
+            // voting possible
+            pollAdapter.setup(poll.getOptions(), poll.getVotesCount(), emojis, poll.getMultiple() ? PollAdapter.MULTIPLE : PollAdapter.SINGLE);
 
-            boolean expired = poll.getExpired() || (poll.getExpiresAt() != null && timestamp > poll.getExpiresAt().getTime());
+            pollButton.setVisibility(View.VISIBLE);
 
-            Context context = pollDescription.getContext();
+            pollButton.setOnClickListener(v -> {
 
-            pollOptions.setVisibility(View.VISIBLE);
+                int position = getAdapterPosition();
 
-            if (expired || poll.getVoted()) {
-                // no voting possible
-                pollAdapter.setup(poll.getOptions(), poll.getVotesCount(), emojis, PollAdapter.RESULT);
+                if (position != RecyclerView.NO_POSITION) {
 
-                pollButton.setVisibility(View.GONE);
-            } else {
-                // voting possible
-                pollAdapter.setup(poll.getOptions(), poll.getVotesCount(), emojis, poll.getMultiple() ? PollAdapter.MULTIPLE : PollAdapter.SINGLE);
+                    List<Integer> pollResult = pollAdapter.getSelected();
 
-                pollButton.setVisibility(View.VISIBLE);
-
-                pollButton.setOnClickListener(v -> {
-
-                    int position = getAdapterPosition();
-
-                    if (position != RecyclerView.NO_POSITION) {
-
-                        List<Integer> pollResult = pollAdapter.getSelected();
-
-                        if (!pollResult.isEmpty()) {
-                            listener.onVoteInPoll(position, pollResult);
-                        }
+                    if (!pollResult.isEmpty()) {
+                        listener.onVoteInPoll(position, pollResult);
                     }
+                }
 
-                });
-            }
-
-            pollDescription.setVisibility(View.VISIBLE);
-            pollDescription.setText(getPollInfoText(timestamp, poll, context));
-
+            });
         }
+
+        pollDescription.setVisibility(View.VISIBLE);
+        pollDescription.setText(getPollInfoText(timestamp, poll, context));
     }
 
     private CharSequence getPollInfoText(long timestamp, PollViewData poll, Context context) {
