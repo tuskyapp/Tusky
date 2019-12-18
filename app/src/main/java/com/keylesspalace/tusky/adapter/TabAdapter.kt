@@ -39,9 +39,9 @@ interface ItemInteractionListener {
 }
 
 class TabAdapter(private var data: List<TabData>,
-                 private val small: Boolean = false,
+                 private val small: Boolean,
                  private val listener: ItemInteractionListener,
-                 private var removeButtonEnabled: Boolean? = null) : RecyclerView.Adapter<TabAdapter.ViewHolder>() {
+                 private var removeButtonEnabled: Boolean = false) : RecyclerView.Adapter<TabAdapter.ViewHolder>() {
 
     fun updateData(newData: List<TabData>) {
         this.data = newData
@@ -84,14 +84,12 @@ class TabAdapter(private var data: List<TabData>,
             listener.onTabRemoved(holder.adapterPosition)
         }
         if (holder.itemView.removeButton != null) {
-            removeButtonEnabled?.let {
-                holder.itemView.removeButton.setEnabled(it)
-                ThemeUtils.setDrawableTint(
-                    holder.itemView.context,
-                    holder.itemView.removeButton.getDrawable(),
-                    (if (it) android.R.attr.textColorTertiary else R.attr.image_button_disabled_tint)
-                )
-            }
+            holder.itemView.removeButton.isEnabled = removeButtonEnabled
+            ThemeUtils.setDrawableTint(
+                holder.itemView.context,
+                holder.itemView.removeButton.drawable,
+                (if (removeButtonEnabled) android.R.attr.textColorTertiary else R.attr.image_button_disabled_tint)
+            )
         }
 
         if (!small) {
