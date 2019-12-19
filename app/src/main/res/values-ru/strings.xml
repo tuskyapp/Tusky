@@ -543,4 +543,11 @@
     <string name="hint_configure_scheduled_toot">Нажмите для выбора времени отправки.</string>
     <string name="post_lookup_error_format">Ошибка при поиске сообщения / ний</string>
 
-</resources>
+<string name="title_bookmarks">Закладки</string>
+    <string name="action_bookmark">Добавить в закладки</string>
+    <string name="action_view_bookmarks">Закладки</string>
+    <string name="about_powered_by_tusky">Под управлением Tusky</string>
+    <string name="description_status_bookmarked">Добавлено в закладки</string>
+    <string name="select_list_title">Выбрать список</string>
+    <string name="list">Список</string>
+    </resources>
