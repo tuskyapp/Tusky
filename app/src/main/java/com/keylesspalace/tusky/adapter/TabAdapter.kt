@@ -32,14 +32,16 @@ import kotlinx.android.synthetic.main.item_tab_preference.view.*
 
 interface ItemInteractionListener {
     fun onTabAdded(tab: TabData)
+    fun onTabRemoved(position: Int)
     fun onStartDelete(viewHolder: RecyclerView.ViewHolder)
     fun onStartDrag(viewHolder: RecyclerView.ViewHolder)
     fun onActionChipClicked(tab: TabData)
 }
 
 class TabAdapter(private var data: List<TabData>,
-                 private val small: Boolean = false,
-                 private val listener: ItemInteractionListener? = null) : RecyclerView.Adapter<TabAdapter.ViewHolder>() {
+                 private val small: Boolean,
+                 private val listener: ItemInteractionListener,
+                 private var removeButtonEnabled: Boolean = false) : RecyclerView.Adapter<TabAdapter.ViewHolder>() {
 
     fun updateData(newData: List<TabData>) {
         this.data = newData
@@ -67,16 +69,27 @@ class TabAdapter(private var data: List<TabData>,
         holder.itemView.textView.setCompoundDrawablesRelativeWithIntrinsicBounds(iconDrawable, null, null, null)
         if (small) {
             holder.itemView.textView.setOnClickListener {
-                listener?.onTabAdded(data[position])
+                listener.onTabAdded(data[position])
             }
         }
         holder.itemView.imageView?.setOnTouchListener { _, event ->
             if (event.action == MotionEvent.ACTION_DOWN) {
-                listener?.onStartDrag(holder)
+                listener.onStartDrag(holder)
                 true
             } else {
                 false
             }
+        }
+        holder.itemView.removeButton?.setOnClickListener {
+            listener.onTabRemoved(holder.adapterPosition)
+        }
+        if (holder.itemView.removeButton != null) {
+            holder.itemView.removeButton.isEnabled = removeButtonEnabled
+            ThemeUtils.setDrawableTint(
+                holder.itemView.context,
+                holder.itemView.removeButton.drawable,
+                (if (removeButtonEnabled) android.R.attr.textColorTertiary else R.attr.image_button_disabled_tint)
+            )
         }
 
         if (!small) {
@@ -89,7 +102,7 @@ class TabAdapter(private var data: List<TabData>,
 
                 holder.itemView.actionChip.chipIcon = context.getDrawable(R.drawable.ic_edit_chip)
                 holder.itemView.actionChip.setOnClickListener {
-                    listener?.onActionChipClicked(data[position])
+                    listener.onActionChipClicked(data[position])
                 }
 
             } else {
@@ -100,6 +113,13 @@ class TabAdapter(private var data: List<TabData>,
 
     override fun getItemCount(): Int {
         return data.size
+    }
+
+    fun setRemoveButtonVisible(enabled: Boolean) {
+        if (removeButtonEnabled != enabled) {
+            removeButtonEnabled = enabled
+            notifyDataSetChanged()
+        }
     }
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)

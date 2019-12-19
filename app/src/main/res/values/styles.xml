@@ -105,7 +105,7 @@
         </item>
 
         <item name="compose_close_button_tint">@color/toolbar_icon_light</item>
-        <item name="compose_media_button_disabled_tint">@color/compose_media_button_disabled_light
+        <item name="image_button_disabled_tint">@color/image_button_disabled_light
         </item>
         <item name="compose_content_warning_bar_background">@drawable/border_background_light</item>
         <item name="compose_reply_content_background">

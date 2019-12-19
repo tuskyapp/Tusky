@@ -775,14 +775,14 @@ class ComposeActivity : BaseActivity(),
         button.isEnabled = clickable
         ThemeUtils.setDrawableTint(this, button.drawable,
                 if (colorActive) android.R.attr.textColorTertiary
-                else R.attr.compose_media_button_disabled_tint)
+                else R.attr.image_button_disabled_tint)
     }
 
     private fun enablePollButton(enable: Boolean) {
         addPollTextActionTextView.isEnabled = enable
         val textColor = ThemeUtils.getColor(this,
                 if (enable) android.R.attr.textColorTertiary
-                else R.attr.compose_media_button_disabled_tint)
+                else R.attr.image_button_disabled_tint)
         addPollTextActionTextView.setTextColor(textColor)
         addPollTextActionTextView.compoundDrawablesRelative[0].colorFilter = PorterDuffColorFilter(textColor, PorterDuff.Mode.SRC_IN)
     }

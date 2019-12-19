@@ -472,4 +472,6 @@
     <string name="action_bookmark">Favorito</string>
     <string name="action_view_bookmarks">Favoritos</string>
     <string name="description_status_bookmarked">Marcado como favorito</string>
+    <string name="select_list_title">Seleccionar lista</string>
+    <string name="list">Lista</string>
     </resources>
