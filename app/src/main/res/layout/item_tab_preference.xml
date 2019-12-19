@@ -7,7 +7,7 @@
     android:background="?android:colorBackground"
     android:orientation="horizontal"
     android:paddingStart="16dp"
-    android:paddingTop="16dp"
+    android:paddingTop="8dp"
     android:paddingEnd="16dp">
 
     <ImageView
@@ -15,6 +15,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="end"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
         android:src="@drawable/ic_drag_indicator_24dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -24,6 +26,8 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
         android:layout_weight="1"
         android:drawablePadding="12dp"
         android:textColor="?android:attr/textColorSecondary"
@@ -32,9 +36,22 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/imageView"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_goneMarginBottom="16dp"
+        app:layout_goneMarginBottom="8dp"
         tools:drawableStart="@drawable/ic_home_24dp"
         tools:text="Home" />
+
+    <ImageButton
+        android:id="@+id/removeButton"
+        style="?attr/image_button_style"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_gravity="end"
+        android:layout_marginTop="4dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="@string/action_delete"
+        android:src="@drawable/ic_clear_24dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.chip.ChipGroup
         android:id="@+id/chipGroup"
@@ -56,4 +73,3 @@
     </com.google.android.material.chip.ChipGroup>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
-
