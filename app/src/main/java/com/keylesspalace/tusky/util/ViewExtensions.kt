@@ -52,3 +52,12 @@ inline fun EditText.onTextChanged(
         }
     })
 }
+
+inline fun EditText.afterTextChanged(
+        crossinline callback: (s: Editable) -> Unit) {
+    addTextChangedListener(object : DefaultTextWatcher() {
+        override fun afterTextChanged(s: Editable) {
+            callback(s)
+        }
+    })
+}

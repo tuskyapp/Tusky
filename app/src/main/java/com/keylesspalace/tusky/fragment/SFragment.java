@@ -42,12 +42,13 @@ import androidx.lifecycle.Lifecycle;
 
 import com.keylesspalace.tusky.BaseActivity;
 import com.keylesspalace.tusky.BottomSheetActivity;
-import com.keylesspalace.tusky.ComposeActivity;
 import com.keylesspalace.tusky.MainActivity;
 import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.PostLookupFallbackBehavior;
 import com.keylesspalace.tusky.ViewMediaActivity;
 import com.keylesspalace.tusky.ViewTagActivity;
+import com.keylesspalace.tusky.components.compose.ComposeActivity;
+import com.keylesspalace.tusky.components.compose.ComposeActivity.ComposeOptions;
 import com.keylesspalace.tusky.components.report.ReportActivity;
 import com.keylesspalace.tusky.db.AccountEntity;
 import com.keylesspalace.tusky.db.AccountManager;
@@ -148,21 +149,22 @@ public abstract class SFragment extends BaseFragment implements Injectable {
         mentionedUsernames.add(actionableStatus.getAccount().getUsername());
         String loggedInUsername = null;
         AccountEntity activeAccount = accountManager.getActiveAccount();
-        if(activeAccount != null) {
+        if (activeAccount != null) {
             loggedInUsername = activeAccount.getUsername();
         }
         for (Status.Mention mention : mentions) {
             mentionedUsernames.add(mention.getUsername());
         }
         mentionedUsernames.remove(loggedInUsername);
-        Intent intent = new ComposeActivity.IntentBuilder()
-                .inReplyToId(inReplyToId)
-                .replyVisibility(replyVisibility)
-                .contentWarning(contentWarning)
-                .mentionedUsernames(mentionedUsernames)
-                .replyingStatusAuthor(actionableStatus.getAccount().getLocalUsername())
-                .replyingStatusContent(actionableStatus.getContent().toString())
-                .build(getContext());
+        ComposeOptions composeOptions = new ComposeOptions();
+        composeOptions.setInReplyToId(inReplyToId);
+        composeOptions.setReplyVisibility(replyVisibility);
+        composeOptions.setContentWarning(contentWarning);
+        composeOptions.setMentionedUsernames(mentionedUsernames);
+        composeOptions.setReplyingStatusAuthor(actionableStatus.getAccount().getLocalUsername());
+        composeOptions.setReplyingStatusContent(actionableStatus.getContent().toString());
+
+        Intent intent = ComposeActivity.startIntent(getContext(), composeOptions);
         getActivity().startActivity(intent);
     }
 
@@ -176,7 +178,7 @@ public abstract class SFragment extends BaseFragment implements Injectable {
 
         String loggedInAccountId = null;
         AccountEntity activeAccount = accountManager.getActiveAccount();
-        if(activeAccount != null) {
+        if (activeAccount != null) {
             loggedInAccountId = activeAccount.getAccountId();
         }
 
@@ -209,7 +211,7 @@ public abstract class SFragment extends BaseFragment implements Injectable {
 
         Menu menu = popup.getMenu();
         MenuItem openAsItem = menu.findItem(R.id.status_open_as);
-        switch(accounts.size()) {
+        switch (accounts.size()) {
             case 0:
             case 1:
                 openAsItem.setVisible(false);
@@ -232,7 +234,8 @@ public abstract class SFragment extends BaseFragment implements Injectable {
             switch (item.getItemId()) {
                 case R.id.status_share_content: {
                     Status statusToShare = status;
-                    if(statusToShare.getReblog() != null) statusToShare = statusToShare.getReblog();
+                    if (statusToShare.getReblog() != null)
+                        statusToShare = statusToShare.getReblog();
 
                     Intent sendIntent = new Intent();
                     sendIntent.setAction(Intent.ACTION_SEND);
@@ -357,7 +360,8 @@ public abstract class SFragment extends BaseFragment implements Injectable {
                             .observeOn(AndroidSchedulers.mainThread())
                             .as(autoDisposable(from(this, Lifecycle.Event.ON_DESTROY)))
                             .subscribe(
-                                    deletedStatus -> {},
+                                    deletedStatus -> {
+                                    },
                                     error -> {
                                         Log.w("SFragment", "error deleting status", error);
                                         Toast.makeText(getContext(), R.string.error_generic, Toast.LENGTH_SHORT).show();
@@ -381,22 +385,22 @@ public abstract class SFragment extends BaseFragment implements Injectable {
                             .subscribe(deletedStatus -> {
                                         removeItem(position);
 
-                                        if(deletedStatus.isEmpty()) {
+                                        if (deletedStatus.isEmpty()) {
                                             deletedStatus = status.toDeletedStatus();
                                         }
-
-                                        ComposeActivity.IntentBuilder intentBuilder = new ComposeActivity.IntentBuilder()
-                                                .tootText(deletedStatus.getText())
-                                                .inReplyToId(deletedStatus.getInReplyToId())
-                                                .visibility(deletedStatus.getVisibility())
-                                                .contentWarning(deletedStatus.getSpoilerText())
-                                                .mediaAttachments(deletedStatus.getAttachments())
-                                                .sensitive(deletedStatus.getSensitive());
-                                        if(deletedStatus.getPoll() != null) {
-                                            intentBuilder.poll(deletedStatus.getPoll().toNewPoll(deletedStatus.getCreatedAt()));
+                                        ComposeOptions composeOptions = new ComposeOptions();
+                                        composeOptions.setTootText(deletedStatus.getText());
+                                        composeOptions.setInReplyToId(deletedStatus.getInReplyToId());
+                                        composeOptions.setVisibility(deletedStatus.getVisibility());
+                                        composeOptions.setContentWarning(deletedStatus.getSpoilerText());
+                                        composeOptions.setMediaAttachments(deletedStatus.getAttachments());
+                                        composeOptions.setSensitive(deletedStatus.getSensitive());
+                                        if (deletedStatus.getPoll() != null) {
+                                            composeOptions.setPoll(deletedStatus.getPoll().toNewPoll(deletedStatus.getCreatedAt()));
                                         }
 
-                                        Intent intent = intentBuilder.build(getContext());
+                                        Intent intent = ComposeActivity
+                                                .startIntent(getContext(), composeOptions);
                                         startActivity(intent);
                                     },
                                     error -> {
@@ -415,22 +419,22 @@ public abstract class SFragment extends BaseFragment implements Injectable {
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         intent.putExtra(MainActivity.STATUS_URL, statusUrl);
         startActivity(intent);
-        ((BaseActivity)getActivity()).finishWithoutSlideOutAnimation();
+        ((BaseActivity) getActivity()).finishWithoutSlideOutAnimation();
     }
 
     private void showOpenAsDialog(String statusUrl, CharSequence dialogTitle) {
-        BaseActivity activity = (BaseActivity)getActivity();
+        BaseActivity activity = (BaseActivity) getActivity();
         activity.showAccountChooserDialog(dialogTitle, false, account -> openAsAccount(statusUrl, account));
     }
 
     private void downloadAllMedia(Status status) {
         Toast.makeText(getContext(), R.string.downloading_media, Toast.LENGTH_SHORT).show();
-        for(Attachment attachment: status.getAttachments()) {
+        for (Attachment attachment : status.getAttachments()) {
             String url = attachment.getUrl();
             Uri uri = Uri.parse(url);
             String filename = uri.getLastPathSegment();
 
-            DownloadManager downloadManager = (DownloadManager)getActivity().getSystemService(Context.DOWNLOAD_SERVICE);
+            DownloadManager downloadManager = (DownloadManager) getActivity().getSystemService(Context.DOWNLOAD_SERVICE);
             DownloadManager.Request request = new DownloadManager.Request(uri);
             request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, filename);
             downloadManager.enqueue(request);
@@ -438,8 +442,8 @@ public abstract class SFragment extends BaseFragment implements Injectable {
     }
 
     private void requestDownloadAllMedia(Status status) {
-        String[] permissions = new String[]{ Manifest.permission.WRITE_EXTERNAL_STORAGE };
-        ((BaseActivity)getActivity()).requestPermissions(permissions, (permissions1, grantResults) -> {
+        String[] permissions = new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE};
+        ((BaseActivity) getActivity()).requestPermissions(permissions, (permissions1, grantResults) -> {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 downloadAllMedia(status);
             } else {
@@ -487,9 +491,9 @@ public abstract class SFragment extends BaseFragment implements Injectable {
     @VisibleForTesting
     public boolean shouldFilterStatus(Status status) {
 
-        if(filterRemoveRegex && status.getPoll() != null) {
-            for(PollOption option: status.getPoll().getOptions()) {
-                if(filterRemoveRegexMatcher.reset(option.getTitle()).find()) {
+        if (filterRemoveRegex && status.getPoll() != null) {
+            for (PollOption option : status.getPoll().getOptions()) {
+                if (filterRemoveRegexMatcher.reset(option.getTitle()).find()) {
                     return true;
                 }
             }

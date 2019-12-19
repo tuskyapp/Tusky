@@ -22,7 +22,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
 
-import com.keylesspalace.tusky.ComposeActivity;
+import com.keylesspalace.tusky.components.compose.ComposeActivity;
 
 import java.util.Calendar;
 import java.util.TimeZone;

@@ -477,7 +477,6 @@
     <string name="action_access_scheduled_toot">Tuts planificats</string>
     <string name="action_schedule_toot">Planificar de tuts</string>
     <string name="action_reset_schedule">Escafar</string>
-    <string name="hint_configure_scheduled_toot">Tocatz aquí per configurar los tuts planificats.</string>
     <string name="post_lookup_error_format">Error en cercant la publicacion %s</string>
 
 <string name="about_powered_by_tusky">Propulsat per Tusky</string>

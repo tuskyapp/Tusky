@@ -508,7 +508,6 @@
     <string name="action_access_scheduled_toot">নির্ধারিত টুটগুলি</string>
     <string name="action_schedule_toot">নির্ধারিত টুট</string>
     <string name="action_reset_schedule">রিসেট</string>
-    <string name="hint_configure_scheduled_toot">নির্ধারিত টুট কনফিগার করতে এখানে আলতো চাপুন।</string>
     <string name="about_powered_by_tusky">টাস্কি দ্বারা চালিত</string>
     <string name="post_lookup_error_format">%s পোস্ট অনুসন্ধানে ত্রুটি</string>
 

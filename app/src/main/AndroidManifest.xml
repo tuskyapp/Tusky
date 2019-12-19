@@ -96,7 +96,7 @@
 
         </activity>
         <activity
-            android:name=".ComposeActivity"
+            android:name=".components.compose.ComposeActivity"
             android:theme="@style/TuskyDialogActivityTheme"
             android:windowSoftInputMode="stateVisible|adjustResize"/>
         <activity

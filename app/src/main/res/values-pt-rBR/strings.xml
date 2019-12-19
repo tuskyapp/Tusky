@@ -472,7 +472,6 @@
     <string name="action_access_scheduled_toot">Agendados</string>
     <string name="action_schedule_toot">Agendar toot</string>
     <string name="action_reset_schedule">Cancelar</string>
-    <string name="hint_configure_scheduled_toot">Toque aqui para agendar</string>
     <string name="post_lookup_error_format">Erro ao pesquisar %s</string>
 
 <string name="title_bookmarks">Salvos</string>

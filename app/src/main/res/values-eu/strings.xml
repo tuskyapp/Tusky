@@ -311,7 +311,6 @@
 
     <string name="confirmation_domain_unmuted">%s ez dago ezkutatua</string>
 
-    <string name="hint_configure_scheduled_toot">Sakatu hemen programatutako tuta konfiguratzeko.</string>
     <string name="dialog_redraft_toot_warning">Tut hau ezabatu eta zirriborro berria egin\?</string>
     <string name="mute_domain_warning">Ziur al zaude %s ezabatu nahi duzula\? Domeinu horretatik datorren edukia ez duzu denbora-lerro publikoetan edo jakinarazpenentan ikusiko. Domeinu horretan dituzun jarraitzaileak ezabatuko dira.</string>
     <string name="mute_domain_warning_dialog_ok">Domeinu osoa ezkutatu</string>

@@ -18,16 +18,21 @@ package com.keylesspalace.tusky
 
 import android.text.SpannedString
 import android.widget.EditText
-import com.keylesspalace.tusky.db.AccountEntity
-import com.keylesspalace.tusky.db.AccountManager
-import com.keylesspalace.tusky.db.AppDatabase
-import com.keylesspalace.tusky.db.InstanceDao
+import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.keylesspalace.tusky.components.compose.ComposeActivity
+import com.keylesspalace.tusky.components.compose.ComposeViewModel
+import com.keylesspalace.tusky.components.compose.DEFAULT_CHARACTER_LIMIT
+import com.keylesspalace.tusky.components.compose.MediaUploader
+import com.keylesspalace.tusky.db.*
+import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.entity.Account
-import com.keylesspalace.tusky.entity.Emoji
 import com.keylesspalace.tusky.entity.Instance
 import com.keylesspalace.tusky.network.MastodonApi
-import okhttp3.Request
-import org.junit.Assert
+import com.keylesspalace.tusky.service.ServiceClient
+import com.keylesspalace.tusky.util.SaveTootHelper
+import com.nhaarman.mockitokotlin2.any
+import io.reactivex.Single
+import io.reactivex.SingleObserver
 import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
@@ -35,15 +40,8 @@ import org.junit.runner.RunWith
 import org.mockito.Mockito.`when`
 import org.mockito.Mockito.mock
 import org.robolectric.Robolectric
-import androidx.test.ext.junit.runners.AndroidJUnit4
-import io.reactivex.Single
-import io.reactivex.SingleObserver
 import org.robolectric.annotation.Config
 import org.robolectric.fakes.RoboMenuItem
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-
 
 /**
  * Created by charlag on 3/7/18.
@@ -52,14 +50,15 @@ import retrofit2.Response
 @Config(application = FakeTuskyApplication::class, sdk = [28])
 @RunWith(AndroidJUnit4::class)
 class ComposeActivityTest {
-
     private lateinit var activity: ComposeActivity
     private lateinit var accountManagerMock: AccountManager
     private lateinit var apiMock: MastodonApi
 
+    private val instanceDomain = "example.domain"
+
     private val account = AccountEntity(
             id = 1,
-            domain = "example.token",
+            domain = instanceDomain,
             accessToken = "token",
             isActive = true,
             accountId = "1",
@@ -83,30 +82,10 @@ class ComposeActivityTest {
         activity = controller.get()
 
         accountManagerMock = mock(AccountManager::class.java)
+        `when`(accountManagerMock.activeAccount).thenReturn(account)
 
         apiMock = mock(MastodonApi::class.java)
-        `when`(apiMock.getCustomEmojis()).thenReturn(object: Call<List<Emoji>> {
-            override fun isExecuted(): Boolean {
-                return false
-            }
-            override fun clone(): Call<List<Emoji>> {
-                throw Error("not implemented")
-            }
-            override fun isCanceled(): Boolean {
-                throw Error("not implemented")
-            }
-            override fun cancel() {
-                throw Error("not implemented")
-            }
-            override fun execute(): Response<List<Emoji>> {
-                throw Error("not implemented")
-            }
-            override fun request(): Request {
-                throw Error("not implemented")
-            }
-
-            override fun enqueue(callback: Callback<List<Emoji>>?) {}
-        })
+        `when`(apiMock.getCustomEmojis()).thenReturn(Single.just(emptyList()))
         `when`(apiMock.getInstance()).thenReturn(object: Single<Instance>() {
             override fun subscribeActual(observer: SingleObserver<in Instance>) {
                 val instance = instanceResponseCallback?.invoke()
@@ -119,15 +98,27 @@ class ComposeActivityTest {
         })
 
         val instanceDaoMock = mock(InstanceDao::class.java)
+        `when`(instanceDaoMock.loadMetadataForInstance(any())).thenReturn(
+                Single.just(InstanceEntity(instanceDomain, emptyList(),null, null, null, null))
+        )
+
         val dbMock = mock(AppDatabase::class.java)
         `when`(dbMock.instanceDao()).thenReturn(instanceDaoMock)
 
-        activity.mastodonApi = apiMock
+        val viewModel = ComposeViewModel(
+                apiMock,
+                accountManagerMock,
+                mock(MediaUploader::class.java),
+                mock(ServiceClient::class.java),
+                mock(SaveTootHelper::class.java),
+                dbMock
+        )
+
+        val viewModelFactoryMock = mock(ViewModelFactory::class.java)
+        `when`(viewModelFactoryMock.create(ComposeViewModel::class.java)).thenReturn(viewModel)
+
         activity.accountManager = accountManagerMock
-        activity.database = dbMock
-
-        `when`(accountManagerMock.activeAccount).thenReturn(account)
-
+        activity.viewModelFactory = viewModelFactoryMock
 
         controller.create().start()
     }
@@ -164,7 +155,7 @@ class ComposeActivityTest {
     fun whenMaximumTootCharsIsNull_defaultLimitIsUsed() {
         instanceResponseCallback = { getInstanceWithMaximumTootCharacters(null) }
         setupActivity()
-        assertEquals(ComposeActivity.STATUS_CHARACTER_LIMIT, activity.maximumTootCharacters)
+        assertEquals(DEFAULT_CHARACTER_LIMIT, activity.maximumTootCharacters)
     }
 
     @Test
@@ -196,7 +187,7 @@ class ComposeActivityTest {
         val url = "https://www.google.dk/search?biw=1920&bih=990&tbm=isch&sa=1&ei=bmDrWuOoKMv6kwWOkIaoDQ&q=indiana+jones+i+hate+snakes+animated&oq=indiana+jones+i+hate+snakes+animated&gs_l=psy-ab.3...54174.55443.0.55553.9.7.0.0.0.0.255.333.1j0j1.2.0....0...1c.1.64.psy-ab..7.0.0....0.40G-kcDkC6A#imgdii=PSp15hQjN1JqvM:&imgrc=H0hyE2JW5wrpBM:"
         val additionalContent = " Check out this @image #search result: "
         insertSomeTextInContent(shortUrl + additionalContent + url)
-        Assert.assertEquals(activity.calculateTextLength(), additionalContent.length + shortUrl.length + ComposeActivity.MAXIMUM_URL_LENGTH)
+        assertEquals(activity.calculateTextLength(), additionalContent.length + shortUrl.length + ComposeActivity.MAXIMUM_URL_LENGTH)
     }
 
     @Test
@@ -204,7 +195,7 @@ class ComposeActivityTest {
         val url = "https://www.google.dk/search?biw=1920&bih=990&tbm=isch&sa=1&ei=bmDrWuOoKMv6kwWOkIaoDQ&q=indiana+jones+i+hate+snakes+animated&oq=indiana+jones+i+hate+snakes+animated&gs_l=psy-ab.3...54174.55443.0.55553.9.7.0.0.0.0.255.333.1j0j1.2.0....0...1c.1.64.psy-ab..7.0.0....0.40G-kcDkC6A#imgdii=PSp15hQjN1JqvM:&imgrc=H0hyE2JW5wrpBM:"
         val additionalContent = " Check out this @image #search result: "
         insertSomeTextInContent(url + additionalContent + url)
-        Assert.assertEquals(activity.calculateTextLength(), additionalContent.length + (ComposeActivity.MAXIMUM_URL_LENGTH * 2))
+        assertEquals(activity.calculateTextLength(), additionalContent.length + (ComposeActivity.MAXIMUM_URL_LENGTH * 2))
     }
 
     private fun clickUp() {
@@ -256,13 +247,5 @@ class ComposeActivityTest {
         )
     }
 
-    private fun getSuccessResponseCallbackWithMaximumTootCharacters(maximumTootCharacters: Int?): (Call<Instance>?, Callback<Instance>?) -> Unit
-    {
-        return {
-            call: Call<Instance>?, callback: Callback<Instance>? ->
-            if (call != null) {
-                callback?.onResponse(call, Response.success(getInstanceWithMaximumTootCharacters(maximumTootCharacters)))
-            }
-        }
-    }
 }
+

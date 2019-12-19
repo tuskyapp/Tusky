@@ -5,16 +5,18 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.net.Uri;
 import android.os.AsyncTask;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.core.content.FileProvider;
 import android.text.TextUtils;
 import android.util.Log;
 import android.webkit.MimeTypeMap;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.content.FileProvider;
+
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.keylesspalace.tusky.BuildConfig;
+import com.keylesspalace.tusky.db.AppDatabase;
 import com.keylesspalace.tusky.db.TootDao;
 import com.keylesspalace.tusky.db.TootEntity;
 import com.keylesspalace.tusky.entity.NewPoll;
@@ -27,6 +29,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import javax.inject.Inject;
+
 public final class SaveTootHelper {
 
     private static final String TAG = "SaveTootHelper";
@@ -35,15 +39,16 @@ public final class SaveTootHelper {
     private Context context;
     private Gson gson = new Gson();
 
-    public SaveTootHelper(@NonNull TootDao tootDao, @NonNull Context context) {
-        this.tootDao = tootDao;
+    @Inject
+    public SaveTootHelper(@NonNull AppDatabase appDatabase, @NonNull Context context) {
+        this.tootDao = appDatabase.tootDao();
         this.context = context;
     }
 
     @SuppressLint("StaticFieldLeak")
     public boolean saveToot(@NonNull String content,
                             @NonNull String contentWarning,
-                            @Nullable String savedJsonUrls,
+                            @Nullable List<String> savedJsonUrls,
                             @NonNull List<String> mediaUris,
                             @NonNull List<String> mediaDescriptions,
                             int savedTootUid,
@@ -58,31 +63,25 @@ public final class SaveTootHelper {
         }
 
         // Get any existing file's URIs.
-        ArrayList<String> existingUris = null;
-        if (!TextUtils.isEmpty(savedJsonUrls)) {
-            existingUris = gson.fromJson(savedJsonUrls,
-                    new TypeToken<ArrayList<String>>() {
-                    }.getType());
-        }
 
         String mediaUrlsSerialized = null;
         String mediaDescriptionsSerialized = null;
 
         if (!ListUtils.isEmpty(mediaUris)) {
-            List<String> savedList = saveMedia(mediaUris, existingUris);
+            List<String> savedList = saveMedia(mediaUris, savedJsonUrls);
             if (!ListUtils.isEmpty(savedList)) {
                 mediaUrlsSerialized = gson.toJson(savedList);
-                if (!ListUtils.isEmpty(existingUris)) {
-                    deleteMedia(setDifference(existingUris, savedList));
+                if (!ListUtils.isEmpty(savedJsonUrls)) {
+                    deleteMedia(setDifference(savedJsonUrls, savedList));
                 }
             } else {
                 return false;
             }
             mediaDescriptionsSerialized = gson.toJson(mediaDescriptions);
-        } else if (!ListUtils.isEmpty(existingUris)) {
+        } else if (!ListUtils.isEmpty(savedJsonUrls)) {
             /* If there were URIs in the previous draft, but they've now been removed, those files
              * can be deleted. */
-            deleteMedia(existingUris);
+            deleteMedia(savedJsonUrls);
         }
         final TootEntity toot = new TootEntity(savedTootUid, content, mediaUrlsSerialized, mediaDescriptionsSerialized, contentWarning,
                 inReplyToId,
@@ -103,15 +102,16 @@ public final class SaveTootHelper {
 
     public void deleteDraft(int tootId) {
         TootEntity item = tootDao.find(tootId);
-        if(item != null) {
+        if (item != null) {
             deleteDraft(item);
         }
     }
 
-    public void deleteDraft(@NonNull TootEntity item){
+    public void deleteDraft(@NonNull TootEntity item) {
         // Delete any media files associated with the status.
         ArrayList<String> uris = gson.fromJson(item.getUrls(),
-                new TypeToken<ArrayList<String>>() {}.getType());
+                new TypeToken<ArrayList<String>>() {
+                }.getType());
         if (uris != null) {
             for (String uriString : uris) {
                 Uri uri = Uri.parse(uriString);
@@ -172,7 +172,7 @@ public final class SaveTootHelper {
                 }
                 return null;
             }
-            Uri resultUri = FileProvider.getUriForFile(context, BuildConfig.APPLICATION_ID+".fileprovider", file);
+            Uri resultUri = FileProvider.getUriForFile(context, BuildConfig.APPLICATION_ID + ".fileprovider", file);
             results.add(resultUri.toString());
         }
         return results;

@@ -1,4 +1,4 @@
-/* Copyright 2018 Conny Duck
+/* Copyright 2019 Tusky Contributors
  *
  * This file is a part of Tusky.
  *
@@ -13,19 +13,22 @@
  * You should have received a copy of the GNU General Public License along with Tusky; if not,
  * see <http://www.gnu.org/licenses>. */
 
-package com.keylesspalace.tusky.db
+package com.keylesspalace.tusky.service
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
-import io.reactivex.Single
+import android.content.Context
+import android.os.Build
 
-@Dao
-interface InstanceDao {
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertOrReplace(instance: InstanceEntity)
+interface ServiceClient {
+    fun sendToot(tootToSend: TootToSend)
+}
 
-    @Query("SELECT * FROM InstanceEntity WHERE instance = :instance LIMIT 1")
-    fun loadMetadataForInstance(instance: String): Single<InstanceEntity>
+class ServiceClientImpl(private val context: Context) : ServiceClient {
+    override fun sendToot(tootToSend: TootToSend) {
+        val intent = SendTootService.sendTootIntent(context, tootToSend)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            context.startForegroundService(intent)
+        } else {
+            context.startService(intent)
+        }
+    }
 }

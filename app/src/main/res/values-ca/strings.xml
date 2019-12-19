@@ -526,7 +526,6 @@
     <string name="action_access_scheduled_toot">Toots programats</string>
     <string name="action_schedule_toot">Programar el toot</string>
     <string name="action_reset_schedule">Reiniciar</string>
-    <string name="hint_configure_scheduled_toot">Clica aquí per configurar el toot programat.</string>
     <string name="about_powered_by_tusky">Desenvolupat per Tusky</string>
     <string name="description_status_bookmarked">Afegit a les adreces d\'interès</string>
     <string name="select_list_title">Seleccionar la llista</string>

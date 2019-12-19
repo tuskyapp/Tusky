@@ -451,6 +451,5 @@
     <string name="action_access_scheduled_toot">Geplante Beiträge</string>
     <string name="action_schedule_toot">Plane Beitrag</string>
     <string name="action_reset_schedule">Zurücksetzen</string>
-    <string name="hint_configure_scheduled_toot">Drücke hier, um den geplanten Beitrag zu konfigurieren.</string>
     <string name="abbreviated_in_years">Dies sind Zeitstempel für Status. Beispiele: \"16s\" oder \"2t\".</string>
     </resources>

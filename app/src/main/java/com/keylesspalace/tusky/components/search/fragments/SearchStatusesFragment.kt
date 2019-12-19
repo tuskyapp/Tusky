@@ -38,7 +38,12 @@ import androidx.paging.PagedListAdapter
 import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.keylesspalace.tusky.*
+import com.keylesspalace.tusky.BaseActivity
+import com.keylesspalace.tusky.MainActivity
+import com.keylesspalace.tusky.R
+import com.keylesspalace.tusky.ViewMediaActivity
+import com.keylesspalace.tusky.components.compose.ComposeActivity
+import com.keylesspalace.tusky.components.compose.ComposeActivity.ComposeOptions
 import com.keylesspalace.tusky.components.report.ReportActivity
 import com.keylesspalace.tusky.components.search.adapter.SearchStatusesAdapter
 import com.keylesspalace.tusky.db.AccountEntity
@@ -195,14 +200,14 @@ class SearchStatusesFragment : SearchFragment<Pair<Status, StatusViewData.Concre
             mentionedUsernames.add(username)
         }
         mentionedUsernames.remove(loggedInUsername)
-        val intent = ComposeActivity.IntentBuilder()
-                .inReplyToId(inReplyToId)
-                .replyVisibility(replyVisibility)
-                .contentWarning(contentWarning)
-                .mentionedUsernames(mentionedUsernames)
-                .replyingStatusAuthor(actionableStatus.account.localUsername)
-                .replyingStatusContent(actionableStatus.content.toString())
-                .build(context)
+        val intent = ComposeActivity.startIntent(context!!, ComposeOptions(
+                inReplyToId = inReplyToId,
+                replyVisibility = replyVisibility,
+                contentWarning = contentWarning,
+                mentionedUsernames = mentionedUsernames,
+                replyingStatusAuthor = actionableStatus.account.localUsername,
+                replyingStatusContent = actionableStatus.content.toString()
+        ))
         requireActivity().startActivity(intent)
     }
 
@@ -398,24 +403,24 @@ class SearchStatusesFragment : SearchFragment<Pair<Status, StatusViewData.Concre
                         viewModel.deleteStatus(id)
                                 .observeOn(AndroidSchedulers.mainThread())
                                 .autoDispose(from(this, Lifecycle.Event.ON_DESTROY))
-                                .subscribe ({ deletedStatus ->
+                                .subscribe({ deletedStatus ->
                                     removeItem(position)
 
-                                    val redraftStatus = if(deletedStatus.isEmpty()) {
+                                    val redraftStatus = if (deletedStatus.isEmpty()) {
                                         status.toDeletedStatus()
                                     } else {
                                         deletedStatus
                                     }
 
-                                    val intent = ComposeActivity.IntentBuilder()
-                                            .tootText(redraftStatus.text)
-                                            .inReplyToId(redraftStatus.inReplyToId)
-                                            .visibility(redraftStatus.visibility)
-                                            .contentWarning(redraftStatus.spoilerText)
-                                            .mediaAttachments(redraftStatus.attachments)
-                                            .sensitive(redraftStatus.sensitive)
-                                            .poll(redraftStatus.poll?.toNewPoll(status.createdAt))
-                                            .build(context)
+                                    val intent = ComposeActivity.startIntent(context!!, ComposeOptions(
+                                            tootText = redraftStatus.text ?: "",
+                                            inReplyToId = redraftStatus.inReplyToId,
+                                            visibility = redraftStatus.visibility,
+                                            contentWarning = redraftStatus.spoilerText,
+                                            mediaAttachments = redraftStatus.attachments,
+                                            sensitive = redraftStatus.sensitive,
+                                            poll = redraftStatus.poll?.toNewPoll(status.createdAt)
+                                    ))
                                     startActivity(intent)
                                 }, { error ->
                                     Log.w("SearchStatusesFragment", "error deleting status", error)

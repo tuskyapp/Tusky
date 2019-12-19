@@ -1,4 +1,4 @@
-/* Copyright 2018 Conny Duck
+/* Copyright 2019 Tusky Contributors
  *
  * This file is a part of Tusky.
  *
@@ -13,19 +13,18 @@
  * You should have received a copy of the GNU General Public License along with Tusky; if not,
  * see <http://www.gnu.org/licenses>. */
 
-package com.keylesspalace.tusky.db
+package com.keylesspalace.tusky.di
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
-import io.reactivex.Single
+import android.content.Context
+import com.keylesspalace.tusky.components.compose.MediaUploader
+import com.keylesspalace.tusky.components.compose.MediaUploaderImpl
+import com.keylesspalace.tusky.network.MastodonApi
+import dagger.Module
+import dagger.Provides
 
-@Dao
-interface InstanceDao {
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertOrReplace(instance: InstanceEntity)
-
-    @Query("SELECT * FROM InstanceEntity WHERE instance = :instance LIMIT 1")
-    fun loadMetadataForInstance(instance: String): Single<InstanceEntity>
+@Module
+class MediaUploaderModule {
+    @Provides
+    fun providesMediaUploder(context: Context, mastodonApi: MastodonApi): MediaUploader =
+            MediaUploaderImpl(context, mastodonApi)
 }

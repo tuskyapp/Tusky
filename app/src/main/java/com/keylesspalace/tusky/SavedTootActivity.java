@@ -22,21 +22,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
-import com.keylesspalace.tusky.adapter.SavedTootAdapter;
-import com.keylesspalace.tusky.appstore.EventHub;
-import com.keylesspalace.tusky.appstore.StatusComposedEvent;
-import com.keylesspalace.tusky.db.AppDatabase;
-import com.keylesspalace.tusky.db.TootDao;
-import com.keylesspalace.tusky.db.TootEntity;
-import com.keylesspalace.tusky.di.Injectable;
-import com.keylesspalace.tusky.util.SaveTootHelper;
-
-import java.lang.ref.WeakReference;
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.inject.Inject;
-
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.widget.Toolbar;
@@ -44,15 +29,34 @@ import androidx.lifecycle.Lifecycle;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import com.keylesspalace.tusky.adapter.SavedTootAdapter;
+import com.keylesspalace.tusky.appstore.EventHub;
+import com.keylesspalace.tusky.appstore.StatusComposedEvent;
+import com.keylesspalace.tusky.components.compose.ComposeActivity;
+import com.keylesspalace.tusky.db.AppDatabase;
+import com.keylesspalace.tusky.db.TootDao;
+import com.keylesspalace.tusky.db.TootEntity;
+import com.keylesspalace.tusky.di.Injectable;
+import com.keylesspalace.tusky.util.SaveTootHelper;
+
+import java.lang.ref.WeakReference;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.inject.Inject;
+
 import io.reactivex.android.schedulers.AndroidSchedulers;
 
+import static com.keylesspalace.tusky.components.compose.ComposeActivity.ComposeOptions;
 import static com.uber.autodispose.AutoDispose.autoDisposable;
 import static com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider.from;
 
 public final class SavedTootActivity extends BaseActivity implements SavedTootAdapter.SavedTootAction,
         Injectable {
-
-    private SaveTootHelper saveTootHelper;
 
     // ui
     private SavedTootAdapter adapter;
@@ -66,12 +70,12 @@ public final class SavedTootActivity extends BaseActivity implements SavedTootAd
     EventHub eventHub;
     @Inject
     AppDatabase database;
+    @Inject
+    SaveTootHelper saveTootHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        saveTootHelper = new SaveTootHelper(database.tootDao(), this);
 
         eventHub.getEvents()
                 .observeOn(AndroidSchedulers.mainThread())
@@ -153,18 +157,29 @@ public final class SavedTootActivity extends BaseActivity implements SavedTootAd
 
     @Override
     public void click(int position, TootEntity item) {
-        Intent intent = new ComposeActivity.IntentBuilder()
-                .savedTootUid(item.getUid())
-                .tootText(item.getText())
-                .contentWarning(item.getContentWarning())
-                .savedJsonUrls(item.getUrls())
-                .savedJsonDescriptions(item.getDescriptions())
-                .inReplyToId(item.getInReplyToId())
-                .replyingStatusAuthor(item.getInReplyToUsername())
-                .replyingStatusContent(item.getInReplyToText())
-                .visibility(item.getVisibility())
-                .poll(item.getPoll())
-                .build(this);
+        Gson gson = new Gson();
+        Type stringListType = new TypeToken<List<String>>() {}.getType();
+        List<String> jsonUrls = gson.fromJson(item.getUrls(), stringListType);
+        List<String> descriptions = gson.fromJson(item.getDescriptions(), stringListType);
+
+        ComposeOptions composeOptions = new ComposeOptions(
+                item.getUid(),
+                item.getText(),
+                jsonUrls,
+                descriptions,
+                /*mentionedUsernames*/null,
+                item.getInReplyToId(),
+                /*replyVisibility*/null,
+                item.getVisibility(),
+                item.getContentWarning(),
+                item.getInReplyToUsername(),
+                item.getInReplyToText(),
+                /*mediaAttachments*/null,
+                /*scheduledAt*/null,
+                /*sensitive*/null,
+                /*poll*/null
+        );
+        Intent intent = ComposeActivity.startIntent(this, composeOptions);
         startActivity(intent);
     }
 

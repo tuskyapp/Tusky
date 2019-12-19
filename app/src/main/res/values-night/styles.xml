@@ -81,7 +81,6 @@
     </style>
 
     <style name="TuskyImageButton.Dark" parent="@style/Widget.MaterialComponents.Button.UnelevatedButton">
-        <item name="android:tint">@color/text_color_tertiary_dark</item>
         <item name="android:background">?attr/selectableItemBackgroundBorderless</item>
     </style>
 
