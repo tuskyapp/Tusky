@@ -34,10 +34,9 @@ import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.service.ServiceClient
 import com.keylesspalace.tusky.service.TootToSend
 import com.keylesspalace.tusky.util.*
-import io.reactivex.Single
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
-import io.reactivex.functions.BiFunction
+import io.reactivex.rxkotlin.Singles
 import java.util.*
 import javax.inject.Inject
 
@@ -107,7 +106,7 @@ class ComposeViewModel
 
     init {
 
-        Single.zip(api.getCustomEmojis(), api.getInstance(), BiFunction<List<Emoji>, Instance, InstanceEntity> { emojis, instance ->
+        Singles.zip(api.getCustomEmojis(), api.getInstance()) { emojis, instance ->
             InstanceEntity(
                     instance = accountManager.activeAccount?.domain!!,
                     emojiList = emojis,
@@ -116,7 +115,7 @@ class ComposeViewModel
                     maxPollOptionLength = instance.pollLimits?.maxOptionChars,
                     version = instance.version
             )
-        })
+        }
                 .doOnSuccess {
                     db.instanceDao().insertOrReplace(it)
                 }

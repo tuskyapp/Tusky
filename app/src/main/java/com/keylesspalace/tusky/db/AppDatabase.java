@@ -311,7 +311,6 @@ public abstract class AppDatabase extends RoomDatabase {
     };
 
     public static final Migration MIGRATION_19_20 = new Migration(19, 20) {
-
         @Override
         public void migrate(@NonNull SupportSQLiteDatabase database) {
             database.execSQL("ALTER TABLE `TimelineStatusEntity` ADD COLUMN `bookmarked` INTEGER NOT NULL DEFAULT 0");
@@ -321,7 +320,6 @@ public abstract class AppDatabase extends RoomDatabase {
     };
 
     public static final Migration MIGRATION_20_21 = new Migration(20, 21) {
-
         @Override
         public void migrate(@NonNull SupportSQLiteDatabase database) {
             database.execSQL("ALTER TABLE `InstanceEntity` ADD COLUMN `version` TEXT");
