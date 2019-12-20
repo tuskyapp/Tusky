@@ -31,6 +31,7 @@ object PrefKeys {
     const val SHOW_CARDS_IN_TIMELINES = "showCardsInTimelines"
     const val CONFIRM_REBLOGS = "confirmReblogs"
     const val ENABLE_SWIPE_FOR_TABS = "enableSwipeForTabs"
+    const val AUTO_CAPTION_IMAGES = "autoCaptionImages"
 
     const val CUSTOM_TABS = "customTabs"
     const val WELLBEING_LIMITED_NOTIFICATIONS = "wellbeingModeLimitedNotifications"

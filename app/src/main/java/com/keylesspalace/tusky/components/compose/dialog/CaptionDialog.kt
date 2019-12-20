@@ -16,6 +16,7 @@
 package com.keylesspalace.tusky.components.compose.dialog
 
 import android.app.Activity
+import android.content.Context
 import android.content.DialogInterface
 import android.graphics.drawable.Drawable
 import android.net.Uri
@@ -27,18 +28,24 @@ import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.core.graphics.drawable.toBitmap
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
+import androidx.preference.PreferenceManager
 import at.connyduck.sparkbutton.helpers.Utils
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
 import com.github.chrisbanes.photoview.PhotoView
+import com.googlecode.tesseract.android.TessBaseAPI
 import com.keylesspalace.tusky.R
+import com.keylesspalace.tusky.settings.PrefKeys
 import com.keylesspalace.tusky.util.withLifecycleContext
 
 // https://github.com/tootsuite/mastodon/blob/c6904c0d3766a2ea8a81ab025c127169ecb51373/app/models/media_attachment.rb#L32
 private const val MEDIA_DESCRIPTION_CHARACTER_LIMIT = 1500
+private val tess = TessBaseAPI()
+private var tessInitialized = false
 
 fun <T> T.makeCaptionDialog(existingDescription: String?,
                             previewUri: Uri,
@@ -106,8 +113,46 @@ fun <T> T.makeCaptionDialog(existingDescription: String?,
 
                 override fun onResourceReady(resource: Drawable, transition: Transition<in Drawable>?) {
                     imageView.setImageDrawable(resource)
+
+                    // Attempt to autopopulate caption
+                    if (existingDescription.isNullOrBlank() &&
+                            PreferenceManager.getDefaultSharedPreferences(applicationContext).getBoolean(PrefKeys.AUTO_CAPTION_IMAGES, true)) {
+                        if (!tessInitialized) {
+                            initializeTess(applicationContext)
+                        }
+
+                        if (tessInitialized) {
+                            performOCR(resource, input, applicationContext)
+                        }
+                    }
                 }
             })
+}
+
+private fun initializeTess(context: Context) {
+    try {
+        // FIXME: Offer language selection / training data download? Ship training data with translations?
+        if (!tess.init(context.getExternalFilesDir("OCR").toString(), "eng", TessBaseAPI.OEM_TESSERACT_ONLY)) {
+            throw RuntimeException("Unknown error")
+        }
+        tessInitialized = true
+    } catch (e: Exception) {
+        Toast.makeText(context, String.format("Error initializing OCR engine: %s", e), Toast.LENGTH_LONG).show()
+    }
+}
+
+private fun performOCR(resource: Drawable, input: EditText, context: Context) {
+    try {
+        tess.pageSegMode = TessBaseAPI.PageSegMode.PSM_AUTO
+        tess.setImage(resource.toBitmap())
+        val text = tess.utF8Text
+        // TODO: Minimum confidence threshold?
+        if (!text.isNullOrBlank()) {
+            input.setText(text)
+        }
+    } catch (e: Exception) {
+        Toast.makeText(context, String.format("Error performing OCR: %s", e), Toast.LENGTH_LONG).show()
+    }
 }
 
 

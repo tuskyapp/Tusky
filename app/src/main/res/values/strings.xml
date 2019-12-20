@@ -554,6 +554,7 @@
     <string name="failed_search">Failed to search</string>
 
     <string name="pref_title_show_notifications_filter">Show Notifications filter</string>
+    <string name="pref_title_auto_caption_images">Propose automatic image captions</string>
     <string name="pref_title_enable_swipe_for_tabs">Enable swipe gesture to switch between tabs</string>
 
 
