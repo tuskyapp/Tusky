@@ -107,7 +107,8 @@ dependencies {
     implementation "androidx.core:core-ktx:1.2.0-rc01"
     implementation "androidx.appcompat:appcompat:1.1.0"
     implementation "androidx.fragment:fragment-ktx:1.1.0"
-    implementation "androidx.browser:browser:1.0.0"
+    implementation "androidx.browser:browser:1.2.0"
+    implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.0.0"
     implementation "androidx.recyclerview:recyclerview:1.1.0"
     implementation "androidx.exifinterface:exifinterface:1.1.0"
     implementation "androidx.cardview:cardview:1.0.0"
@@ -151,7 +152,7 @@ dependencies {
     implementation "com.google.dagger:dagger-android-support:$daggerVersion"
     kapt "com.google.dagger:dagger-android-processor:$daggerVersion"
 
-    implementation "com.github.connyduck:sparkbutton:2.0.1"
+    implementation "com.github.connyduck:sparkbutton:3.0.0"
 
     implementation "com.github.chrisbanes:PhotoView:2.3.0"
 

@@ -565,60 +565,25 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             }
         });
         if (reblogButton != null) {
-            reblogButton.setEventListener(new SparkEventListener() {
-                @Override
-                public void onEvent(ImageView button, boolean buttonState) {
-                    int position = getAdapterPosition();
-                    if (position != RecyclerView.NO_POSITION) {
-                        listener.onReblog(buttonState, position);
-                    }
-                }
-
-                @Override
-                public void onEventAnimationEnd(ImageView button, boolean buttonState) {
-                }
-
-                @Override
-                public void onEventAnimationStart(ImageView button, boolean buttonState) {
+            reblogButton.setEventListener((button, buttonState) -> {
+                int position = getAdapterPosition();
+                if (position != RecyclerView.NO_POSITION) {
+                    listener.onReblog(buttonState, position);
                 }
             });
         }
 
-        favouriteButton.setEventListener(new SparkEventListener() {
-            @Override
-            public void onEvent(ImageView button, boolean buttonState) {
-                int position = getAdapterPosition();
-                if (position != RecyclerView.NO_POSITION) {
-                    listener.onFavourite(buttonState, position);
-                }
-            }
-
-            @Override
-            public void onEventAnimationEnd(ImageView button, boolean buttonState) {
-            }
-
-            @Override
-            public void onEventAnimationStart(ImageView button, boolean buttonState) {
+        favouriteButton.setEventListener((button, buttonState) -> {
+            int position = getAdapterPosition();
+            if (position != RecyclerView.NO_POSITION) {
+                listener.onFavourite(buttonState, position);
             }
         });
 
-        bookmarkButton.setEventListener(new SparkEventListener() {
-            @Override
-            public void onEvent(ImageView button, boolean buttonState) {
-                int position = getAdapterPosition();
-                if (position != RecyclerView.NO_POSITION) {
-                    listener.onBookmark(buttonState, position);
-                }
-            }
-
-            @Override
-            public void onEventAnimationEnd(ImageView button, boolean buttonState) {
-
-            }
-
-            @Override
-            public void onEventAnimationStart(ImageView button, boolean buttonState) {
-
+        bookmarkButton.setEventListener((button, buttonState) -> {
+            int position = getAdapterPosition();
+            if (position != RecyclerView.NO_POSITION) {
+                listener.onBookmark(buttonState, position);
             }
         });
 
