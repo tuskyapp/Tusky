@@ -20,14 +20,15 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
-import androidx.browser.customtabs.CustomTabsIntent
 import android.text.method.LinkMovementMethod
 import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
+import androidx.browser.customtabs.CustomTabsIntent
 import com.bumptech.glide.Glide
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.entity.AccessToken
@@ -345,9 +346,16 @@ class LoginActivity : BaseActivity(), Injectable {
         private fun openInCustomTab(uri: Uri, context: Context): Boolean {
 
             val toolbarColor = ThemeUtils.getColor(context, R.attr.custom_tab_toolbar)
-            val customTabsIntent = CustomTabsIntent.Builder()
+            val customTabsIntentBuilder = CustomTabsIntent.Builder()
                     .setToolbarColor(toolbarColor)
-                    .build()
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1) {
+                customTabsIntentBuilder.setNavigationBarColor(
+                        ThemeUtils.getColor(context, android.R.attr.navigationBarColor)
+                )
+            }
+
+            val customTabsIntent = customTabsIntentBuilder.build()
             try {
                 customTabsIntent.launchUrl(context, uri)
             } catch (e: ActivityNotFoundException) {
