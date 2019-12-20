@@ -83,6 +83,7 @@ class AccountViewModel @Inject constructor(
                 }
 
                 override fun onFailure(call: Call<Account>, t: Throwable) {
+                    Log.w(TAG, "failed obtaining account", t)
                     accountData.postValue(Error())
                     isDataLoading = false
                     isRefreshing.postValue(false)
@@ -113,6 +114,7 @@ class AccountViewModel @Inject constructor(
                 }
 
                 override fun onFailure(call: Call<List<Relationship>>, t: Throwable) {
+                    Log.w(TAG, "failed obtaining relationships", t)
                     relationshipData.postValue(Error())
                 }
             })
@@ -137,7 +139,7 @@ class AccountViewModel @Inject constructor(
                 }
 
                 override fun onFailure(call: Call<List<IdentityProof>>, t: Throwable) {
-                    relationshipData.postValue(Error())
+                    Log.w(TAG, "failed obtaining identity proofs", t)
                 }
             })
 
