@@ -52,6 +52,8 @@ import com.keylesspalace.tusky.components.compose.ComposeActivity
 import com.keylesspalace.tusky.components.report.ReportActivity
 import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.entity.Account
+import com.keylesspalace.tusky.entity.Field
+import com.keylesspalace.tusky.entity.IdentityProof
 import com.keylesspalace.tusky.entity.Relationship
 import com.keylesspalace.tusky.interfaces.ActionButtonActivity
 import com.keylesspalace.tusky.interfaces.LinkListener
@@ -350,6 +352,11 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
             }
 
         })
+        viewModel.accountFieldData.observe(this, Observer<List<Either<IdentityProof, Field>>> {
+            accountFieldAdapter.fields = it
+            accountFieldAdapter.notifyDataSetChanged()
+
+        })
     }
 
     /**
@@ -378,7 +385,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
         val emojifiedNote = CustomEmojiHelper.emojifyText(account.note, account.emojis, accountNoteTextView)
         LinkHelper.setClickableText(accountNoteTextView, emojifiedNote, null, this)
 
-        accountFieldAdapter.fields = account.fields ?: emptyList()
+       // accountFieldAdapter.fields = account.fields ?: emptyList()
         accountFieldAdapter.emojis = account.emojis ?: emptyList()
         accountFieldAdapter.notifyDataSetChanged()
 

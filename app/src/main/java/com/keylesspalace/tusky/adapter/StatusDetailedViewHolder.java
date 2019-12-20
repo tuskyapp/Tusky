@@ -115,10 +115,7 @@ class StatusDetailedViewHolder extends StatusBaseViewHolder {
             timestampInfo.append("  •  ");
 
             if (app.getWebsite() != null) {
-                URLSpan span = new CustomURLSpan(app.getWebsite());
-
-                SpannableStringBuilder text = new SpannableStringBuilder(app.getName());
-                text.setSpan(span, 0, app.getName().length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+                CharSequence text = LinkHelper.createClickableText(app.getName(), app.getWebsite());
                 timestampInfo.append(text);
                 timestampInfo.setMovementMethod(LinkMovementMethod.getInstance());
             } else {
