@@ -19,8 +19,7 @@ import android.animation.ArgbEvaluator
 import android.content.Context
 import android.content.Intent
 import android.content.res.ColorStateList
-import android.graphics.Color
-import android.graphics.PorterDuff
+import android.graphics.*
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -120,7 +119,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
         viewModel = ViewModelProviders.of(this, viewModelFactory)[AccountViewModel::class.java]
 
         // Obtain information to fill out the profile.
-        viewModel.setAccountInfo(intent.getStringExtra(KEY_ACCOUNT_ID))
+        viewModel.setAccountInfo(intent.getStringExtra(KEY_ACCOUNT_ID)!!)
 
         val sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this)
         animateAvatar = sharedPrefs.getBoolean("animateGifAvatars", false)
@@ -479,7 +478,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
             // this is necessary because API 19 can't handle vector compound drawables
             val movedIcon = ContextCompat.getDrawable(this, R.drawable.ic_briefcase)?.mutate()
             val textColor = ThemeUtils.getColor(this, android.R.attr.textColorTertiary)
-            movedIcon?.setColorFilter(textColor, PorterDuff.Mode.SRC_IN)
+            movedIcon?.colorFilter = PorterDuffColorFilter(textColor, PorterDuff.Mode.SRC_IN)
 
             accountMovedText.setCompoundDrawablesRelativeWithIntrinsicBounds(movedIcon, null, null, null)
         }
