@@ -184,7 +184,7 @@ public class LinkHelper {
 
         SpannableStringBuilder clickableText = new SpannableStringBuilder(text);
         clickableText.setSpan(span, 0, text.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
-        return text;
+        return clickableText;
     }
 
     /**
