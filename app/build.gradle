@@ -151,7 +151,7 @@ dependencies {
     implementation "com.google.dagger:dagger-android-support:$daggerVersion"
     kapt "com.google.dagger:dagger-android-processor:$daggerVersion"
 
-    implementation "com.github.connyduck:sparkbutton:2.0.1"
+    implementation "com.github.connyduck:sparkbutton:3.0.0"
 
     implementation "com.github.chrisbanes:PhotoView:2.3.0"
 
