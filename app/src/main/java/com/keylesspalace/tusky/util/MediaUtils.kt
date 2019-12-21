@@ -16,13 +16,10 @@
 package com.keylesspalace.tusky.util
 
 import android.content.ContentResolver
-import android.content.Context
 import android.database.Cursor
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Matrix
-import android.media.MediaMetadataRetriever
-import android.media.ThumbnailUtils
 import android.net.Uri
 import android.provider.OpenableColumns
 import androidx.annotation.Px
@@ -104,26 +101,6 @@ fun getSampledBitmap(contentResolver: ContentResolver, uri: Uri, @Px reqWidth: I
     } finally {
         IOUtils.closeQuietly(stream)
     }
-}
-
-fun getImageThumbnail(contentResolver: ContentResolver, uri: Uri, @Px thumbnailSize: Int): Bitmap? {
-    val source = getSampledBitmap(contentResolver, uri, thumbnailSize, thumbnailSize) ?: return null
-    return ThumbnailUtils.extractThumbnail(source, thumbnailSize, thumbnailSize, ThumbnailUtils.OPTIONS_RECYCLE_INPUT)
-}
-
-fun getVideoThumbnail(context: Context, uri: Uri, @Px thumbnailSize: Int): Bitmap? {
-    val retriever = MediaMetadataRetriever()
-    try {
-        retriever.setDataSource(context, uri)
-    } catch (e: IllegalArgumentException) {
-        Log.w(TAG, e)
-        return null
-    } catch (e: SecurityException) {
-        Log.w(TAG, e)
-        return null
-    }
-    val source = retriever.frameAtTime ?: return null
-    return ThumbnailUtils.extractThumbnail(source, thumbnailSize, thumbnailSize, ThumbnailUtils.OPTIONS_RECYCLE_INPUT)
 }
 
 @Throws(FileNotFoundException::class)
