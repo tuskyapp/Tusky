@@ -318,6 +318,11 @@ interface MastodonApi {
             @Query("id[]") accountIds: List<String>
     ): Call<List<Relationship>>
 
+    @GET("api/v1/accounts/{id}/identity_proofs")
+    fun identityProofs(
+            @Path("id") accountId: String
+    ): Call<List<IdentityProof>>
+
     @GET("api/v1/blocks")
     fun blocks(
             @Query("max_id") maxId: String?

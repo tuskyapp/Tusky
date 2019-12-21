@@ -179,6 +179,14 @@ public class LinkHelper {
         view.setMovementMethod(LinkMovementMethod.getInstance());
     }
 
+    public static CharSequence createClickableText(String text, String link) {
+        URLSpan span = new CustomURLSpan(link);
+
+        SpannableStringBuilder clickableText = new SpannableStringBuilder(text);
+        clickableText.setSpan(span, 0, text.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+        return clickableText;
+    }
+
     /**
      * Opens a link, depending on the settings, either in the browser or in a custom tab
      *
