@@ -144,6 +144,7 @@
     </style>
 
     <style name="TuskyImageButton.Light" parent="@style/Widget.MaterialComponents.Button.UnelevatedButton">
+        <item name="android:tint">@color/text_color_tertiary_light</item>
         <item name="android:background">?attr/selectableItemBackgroundBorderless</item>
     </style>
 
