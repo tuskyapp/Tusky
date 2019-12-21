@@ -464,7 +464,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             }
 
             final Attachment.Type type = attachment.getType();
-            if (type == Attachment.Type.VIDEO || type == Attachment.Type.GIFV) {
+            if (showingContent && (type == Attachment.Type.VIDEO || type == Attachment.Type.GIFV)) {
                 mediaOverlays[i].setVisibility(View.VISIBLE);
             } else {
                 mediaOverlays[i].setVisibility(View.GONE);
