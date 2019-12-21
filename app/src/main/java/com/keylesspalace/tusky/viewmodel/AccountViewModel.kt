@@ -1,7 +1,6 @@
 package com.keylesspalace.tusky.viewmodel
 
 import android.util.Log
-import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.keylesspalace.tusky.appstore.*
@@ -26,9 +25,13 @@ class AccountViewModel @Inject constructor(
 
     val accountData = MutableLiveData<Resource<Account>>()
     val relationshipData = MutableLiveData<Resource<Relationship>>()
-    val accountFieldData = MediatorLiveData<List<Either<IdentityProof, Field>>>()
 
     private val identityProofData = MutableLiveData<List<IdentityProof>>()
+
+    val accountFieldData = combineOptionalLiveData(accountData, identityProofData) { accountRes, identityProofs ->
+        identityProofs.orEmpty().map { Either.Left<IdentityProof, Field>(it) }
+                .plus(accountRes?.data?.fields.orEmpty().map { Either.Right<IdentityProof, Field>(it) })
+    }
 
 
     private val callList: MutableList<Call<*>> = mutableListOf()
@@ -44,25 +47,6 @@ class AccountViewModel @Inject constructor(
 
     lateinit var accountId: String
     var isSelf = false
-
-    init {
-        accountFieldData.addSource(accountData) { accountRes ->
-            if(accountRes is Success) {
-                accountFieldData.value = mergeAccountFieldData(identityProofData.value, accountRes.data?.fields)
-            }
-        }
-        accountFieldData.addSource(identityProofData) { identityProofs ->
-            val accountRes = accountData.value
-            if(accountRes is Success) {
-                accountFieldData.value = mergeAccountFieldData(identityProofs, accountRes.data?.fields)
-            }
-        }
-    }
-
-    private fun mergeAccountFieldData(identityProofList: List<IdentityProof>?, fieldList: List<Field>?): List<Either<IdentityProof, Field>> {
-        return identityProofList.orEmpty().map { Either.Left<IdentityProof, Field>(it) }
-                .plus(fieldList.orEmpty().map { Either.Right<IdentityProof, Field>(it) })
-    }
 
     private fun obtainAccount(reload: Boolean = false) {
         if (accountData.value == null || reload) {
