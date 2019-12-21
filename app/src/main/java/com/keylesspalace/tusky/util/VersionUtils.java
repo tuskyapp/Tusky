@@ -15,6 +15,8 @@
 
 package com.keylesspalace.tusky.util;
 
+import androidx.annotation.NonNull;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -24,7 +26,7 @@ public class VersionUtils {
     private int minor;
     private int patch;
 
-    public VersionUtils(String versionString) {
+    public VersionUtils(@NonNull String versionString) {
         String regex = "([0-9]+)\\.([0-9]+)\\.([0-9]+).*";
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(versionString);
