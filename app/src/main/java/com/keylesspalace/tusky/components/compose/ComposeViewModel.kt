@@ -266,7 +266,7 @@ class ComposeViewModel
                             mediaUris.map { it.toString() },
                             mediaDescriptions,
                             scheduledAt = scheduledAt.value,
-                            inReplyToId = null,
+                            inReplyToId = inReplyToId,
                             poll = poll.value,
                             replyingStatusContent = null,
                             replyingStatusAuthorUsername = null,
