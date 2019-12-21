@@ -406,10 +406,9 @@ class ComposeViewModel
         }
 
 
-        composeOptions?.savedTootUid?.let { uid ->
-            this.savedTootUid = uid
-            startingText = composeOptions.tootText
-        }
+        savedTootUid = composeOptions?.savedTootUid ?: 0
+        startingText = composeOptions?.tootText
+
 
         val tootVisibility = composeOptions?.visibility ?: Status.Visibility.UNKNOWN
         if (tootVisibility.num != Status.Visibility.UNKNOWN.num) {
