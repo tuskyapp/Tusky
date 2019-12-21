@@ -448,6 +448,8 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             if (showingContent) {
                 loadImage(imageView, previewUrl, attachment.getMeta(), attachment.getBlurhash());
             } else {
+                imageView.setFocalPoint(null);
+                imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
                 if (attachment.getBlurhash() != null) {
                     Bitmap blurhashBitmap = BlurHashDecoder.INSTANCE.decode(
                             attachment.getBlurhash(),
