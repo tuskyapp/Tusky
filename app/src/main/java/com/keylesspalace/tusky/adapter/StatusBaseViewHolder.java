@@ -34,6 +34,7 @@ import com.keylesspalace.tusky.util.CustomEmojiHelper;
 import com.keylesspalace.tusky.util.HtmlUtils;
 import com.keylesspalace.tusky.util.ImageLoadingHelper;
 import com.keylesspalace.tusky.util.LinkHelper;
+import com.keylesspalace.tusky.util.StatusDisplayOptions;
 import com.keylesspalace.tusky.util.ThemeUtils;
 import com.keylesspalace.tusky.util.TimestampUtils;
 import com.keylesspalace.tusky.view.MediaPreviewImageView;
@@ -98,8 +99,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
 
     private final Drawable mediaPreviewUnloaded;
 
-    protected StatusBaseViewHolder(View itemView,
-                                   boolean useAbsoluteTime) {
+    protected StatusBaseViewHolder(View itemView) {
         super(itemView);
         displayName = itemView.findViewById(R.id.status_display_name);
         username = itemView.findViewById(R.id.status_username);
@@ -237,14 +237,13 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
     private void setAvatar(String url,
                            @Nullable String rebloggedUrl,
                            boolean isBot,
-                           boolean showBotOverlay,
-                           boolean animateAvatar) {
+                           StatusDisplayOptions statusDisplayOptions) {
 
         int avatarRadius;
         if (TextUtils.isEmpty(rebloggedUrl)) {
             avatar.setPaddingRelative(0, 0, 0, 0);
 
-            if (showBotOverlay && isBot) {
+            if (statusDisplayOptions.showBotOverlay() && isBot) {
                 avatarInset.setVisibility(View.VISIBLE);
                 avatarInset.setBackgroundColor(0x50ffffff);
                 Glide.with(avatarInset)
@@ -263,12 +262,14 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
 
             avatarInset.setVisibility(View.VISIBLE);
             avatarInset.setBackground(null);
-            ImageLoadingHelper.loadAvatar(rebloggedUrl, avatarInset, avatarRadius24dp, animateAvatar);
+            ImageLoadingHelper.loadAvatar(rebloggedUrl, avatarInset, avatarRadius24dp,
+                    statusDisplayOptions.animateAvatars());
 
             avatarRadius = avatarRadius36dp;
         }
 
-        ImageLoadingHelper.loadAvatar(url, avatar, avatarRadius, animateAvatar);
+        ImageLoadingHelper.loadAvatar(url, avatar, avatarRadius,
+                statusDisplayOptions.animateAvatars());
 
     }
 
@@ -633,31 +634,27 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
     }
 
     public void setupWithStatus(StatusViewData.Concrete status, final StatusActionListener listener,
-                                boolean mediaPreviewEnabled, boolean showBotOverlay, boolean animateAvatar,
-                                boolean useBlurhash) {
-        this.setupWithStatus(status, listener, mediaPreviewEnabled, showBotOverlay, animateAvatar, useBlurhash, null);
+                                StatusDisplayOptions statusDisplayOptions) {
+        this.setupWithStatus(status, listener, statusDisplayOptions, null);
     }
 
     protected void setupWithStatus(StatusViewData.Concrete status,
                                    final StatusActionListener listener,
-                                   boolean mediaPreviewEnabled,
-                                   boolean showBotOverlay,
-                                   boolean animateAvatar,
-                                   boolean useBlurhash,
+                                   StatusDisplayOptions statusDisplayOptions,
                                    @Nullable Object payloads) {
         if (payloads == null) {
             setDisplayName(status.getUserFullName(), status.getAccountEmojis());
             setUsername(status.getNickname());
             setCreatedAt(status.getCreatedAt());
             setIsReply(status.getInReplyToId() != null);
-            setAvatar(status.getAvatar(), status.getRebloggedAvatar(), status.isBot(), showBotOverlay, animateAvatar);
+            setAvatar(status.getAvatar(), status.getRebloggedAvatar(), status.isBot(), statusDisplayOptions);
             setReblogged(status.isReblogged());
             setFavourited(status.isFavourited());
             setBookmarked(status.isBookmarked());
             List<Attachment> attachments = status.getAttachments();
             boolean sensitive = status.isSensitive();
-            if (mediaPreviewEnabled && !hasAudioAttachment(attachments)) {
-                setMediaPreviews(attachments, sensitive, listener, status.isShowingContent(), useBlurhash);
+            if (statusDisplayOptions.mediaPreviewEnabled() && !hasAudioAttachment(attachments)) {
+                setMediaPreviews(attachments, sensitive, listener, status.isShowingContent(), statusDisplayOptions.useBlurhash());
 
                 if (attachments.size() == 0) {
                     hideSensitiveMediaWarning();

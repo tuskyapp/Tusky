@@ -33,9 +33,7 @@ import java.util.*
 
 class StatusViewHolder(
         itemView: View,
-        private val useAbsoluteTime: Boolean,
-        private val mediaPreviewEnabled: Boolean,
-        private val useBlurhash: Boolean,
+        private val statusDisplayOptions: StatusDisplayOptions,
         private val viewState: StatusViewState,
         private val adapterHandler: AdapterHandler,
         private val getStatusForPosition: (Int) -> Status?
@@ -72,11 +70,11 @@ class StatusViewHolder(
 
         val sensitive = status.sensitive
 
-        statusViewHelper.setMediasPreview(mediaPreviewEnabled, useBlurhash, status.attachments,
+        statusViewHelper.setMediasPreview(statusDisplayOptions, status.attachments,
                 sensitive, previewListener, viewState.isMediaShow(status.id, status.sensitive),
                 mediaViewHeight)
 
-        statusViewHelper.setupPollReadonly(status.poll.toViewData(), status.emojis, useAbsoluteTime)
+        statusViewHelper.setupPollReadonly(status.poll.toViewData(), status.emojis, statusDisplayOptions.useAbsoluteTime)
         setCreatedAt(status.createdAt)
     }
 
@@ -127,7 +125,7 @@ class StatusViewHolder(
     }
 
     private fun setCreatedAt(createdAt: Date?) {
-        if (useAbsoluteTime) {
+        if (statusDisplayOptions.useAbsoluteTime) {
             itemView.timestampInfo.text = statusViewHelper.getAbsoluteTime(createdAt)
         } else {
             itemView.timestampInfo.text = if (createdAt != null) {

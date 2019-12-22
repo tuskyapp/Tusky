@@ -60,6 +60,7 @@ import com.keylesspalace.tusky.interfaces.StatusActionListener;
 import com.keylesspalace.tusky.network.MastodonApi;
 import com.keylesspalace.tusky.util.ListStatusAccessibilityDelegate;
 import com.keylesspalace.tusky.util.PairedList;
+import com.keylesspalace.tusky.util.StatusDisplayOptions;
 import com.keylesspalace.tusky.util.ThemeUtils;
 import com.keylesspalace.tusky.util.ViewDataUtils;
 import com.keylesspalace.tusky.view.ConversationLineItemDecoration;
@@ -123,8 +124,16 @@ public final class ViewThreadFragment extends SFragment implements
         super.onCreate(savedInstanceState);
 
         thisThreadsStatusId = getArguments().getString("id");
-
-        adapter = new ThreadAdapter(this);
+        SharedPreferences preferences =
+                PreferenceManager.getDefaultSharedPreferences(getActivity());
+        StatusDisplayOptions statusDisplayOptions = new StatusDisplayOptions(
+                preferences.getBoolean("animateGifAvatars", false),
+                accountManager.getActiveAccount().getMediaPreviewEnabled(),
+                preferences.getBoolean("absoluteTimeView", false),
+                preferences.getBoolean("showBotOverlay", true),
+                preferences.getBoolean("useBlurhash", true)
+        );
+        adapter = new ThreadAdapter(statusDisplayOptions, this);
     }
 
     @Override
@@ -150,20 +159,8 @@ public final class ViewThreadFragment extends SFragment implements
         recyclerView.addItemDecoration(divider);
 
         recyclerView.addItemDecoration(new ConversationLineItemDecoration(context));
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(
-                getActivity());
         alwaysShowSensitiveMedia = accountManager.getActiveAccount().getAlwaysShowSensitiveMedia();
         alwaysOpenSpoiler = accountManager.getActiveAccount().getAlwaysOpenSpoiler();
-        boolean mediaPreviewEnabled = accountManager.getActiveAccount().getMediaPreviewEnabled();
-        adapter.setMediaPreviewEnabled(mediaPreviewEnabled);
-        boolean useAbsoluteTime = preferences.getBoolean("absoluteTimeView", false);
-        adapter.setUseAbsoluteTime(useAbsoluteTime);
-        boolean animateAvatars = preferences.getBoolean("animateGifAvatars", false);
-        adapter.setAnimateAvatar(animateAvatars);
-        boolean showBotIndicator = preferences.getBoolean("showBotOverlay", true);
-        adapter.setShowBotOverlay(showBotIndicator);
-        boolean useBlurhash = preferences.getBoolean("useBlurahsh", true);
-        adapter.setUseBlurhash(useBlurhash);
         reloadFilters(false);
 
         recyclerView.setAdapter(adapter);

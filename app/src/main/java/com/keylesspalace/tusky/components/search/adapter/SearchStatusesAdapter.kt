@@ -24,14 +24,11 @@ import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.adapter.StatusViewHolder
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.interfaces.StatusActionListener
+import com.keylesspalace.tusky.util.StatusDisplayOptions
 import com.keylesspalace.tusky.viewdata.StatusViewData
 
 class SearchStatusesAdapter(
-        private val useAbsoluteTime: Boolean,
-        private val mediaPreviewEnabled: Boolean,
-        private val showBotOverlay: Boolean,
-        private val animateAvatar: Boolean,
-        private val useBlurhash: Boolean,
+        private val statusDisplayOptions: StatusDisplayOptions,
         private val statusListener: StatusActionListener
 ) : PagedListAdapter<Pair<Status, StatusViewData.Concrete>, RecyclerView.ViewHolder>(STATUS_COMPARATOR) {
 
@@ -39,15 +36,14 @@ class SearchStatusesAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val view = LayoutInflater.from(parent.context)
                 .inflate(R.layout.item_status, parent, false)
-        return StatusViewHolder(view, useAbsoluteTime)
+        return StatusViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         getItem(position)?.let { item ->
             (holder as? StatusViewHolder)?.setupWithStatus(item.second, statusListener,
-                    mediaPreviewEnabled, showBotOverlay, animateAvatar, useBlurhash)
+                    statusDisplayOptions)
         }
-
     }
 
     public override fun getItem(position: Int): Pair<Status, StatusViewData.Concrete>? {

@@ -25,15 +25,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.interfaces.StatusActionListener;
+import com.keylesspalace.tusky.util.StatusDisplayOptions;
 import com.keylesspalace.tusky.viewdata.StatusViewData;
 
 import java.util.List;
 
 public final class TimelineAdapter extends RecyclerView.Adapter {
-
-    public void setUseBlurhash(boolean useBlurhash) {
-        this.useBlurhash = useBlurhash;
-    }
 
     public interface AdapterDataSource<T> {
         int getItemCount();
@@ -45,22 +42,29 @@ public final class TimelineAdapter extends RecyclerView.Adapter {
     private static final int VIEW_TYPE_PLACEHOLDER = 2;
 
     private final AdapterDataSource<StatusViewData> dataSource;
+    private StatusDisplayOptions statusDisplayOptions;
     private final StatusActionListener statusListener;
-    private boolean mediaPreviewEnabled;
-    private boolean useAbsoluteTime;
-    private boolean showBotOverlay;
-    private boolean animateAvatar;
-    private boolean useBlurhash;
 
     public TimelineAdapter(AdapterDataSource<StatusViewData> dataSource,
+                           StatusDisplayOptions statusDisplayOptions,
                            StatusActionListener statusListener) {
         this.dataSource = dataSource;
+        this.statusDisplayOptions = statusDisplayOptions;
         this.statusListener = statusListener;
-        mediaPreviewEnabled = true;
-        useAbsoluteTime = false;
-        showBotOverlay = true;
-        animateAvatar = false;
-        useBlurhash = true;
+    }
+
+    public boolean getMediaPreviewEnabled() {
+        return statusDisplayOptions.mediaPreviewEnabled();
+    }
+
+    public void setMediaPreviewEnabled(boolean mediaPreviewEnabled) {
+        this.statusDisplayOptions = statusDisplayOptions.copy(
+                statusDisplayOptions.animateAvatars(),
+                mediaPreviewEnabled,
+                statusDisplayOptions.useAbsoluteTime(),
+                statusDisplayOptions.showBotOverlay(),
+                statusDisplayOptions.useBlurhash()
+        );
     }
 
     @NonNull
@@ -71,7 +75,7 @@ public final class TimelineAdapter extends RecyclerView.Adapter {
             case VIEW_TYPE_STATUS: {
                 View view = LayoutInflater.from(viewGroup.getContext())
                         .inflate(R.layout.item_status, viewGroup, false);
-                return new StatusViewHolder(view, useAbsoluteTime);
+                return new StatusViewHolder(view);
             }
             case VIEW_TYPE_PLACEHOLDER: {
                 View view = LayoutInflater.from(viewGroup.getContext())
@@ -83,16 +87,16 @@ public final class TimelineAdapter extends RecyclerView.Adapter {
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position) {
-        bindViewHolder(viewHolder,position,null);
+        bindViewHolder(viewHolder, position, null);
     }
 
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position, @NonNull List payloads) {
-        bindViewHolder(viewHolder,position,payloads);
+        bindViewHolder(viewHolder, position, payloads);
     }
 
-    private void bindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position, @Nullable List payloads){
+    private void bindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position, @Nullable List payloads) {
         StatusViewData status = dataSource.getItemAt(position);
         if (status instanceof StatusViewData.Placeholder) {
             PlaceholderViewHolder holder = (PlaceholderViewHolder) viewHolder;
@@ -101,13 +105,11 @@ public final class TimelineAdapter extends RecyclerView.Adapter {
             StatusViewHolder holder = (StatusViewHolder) viewHolder;
             holder.setupWithStatus((StatusViewData.Concrete) status,
                     statusListener,
-                    mediaPreviewEnabled,
-                    showBotOverlay,
-                    animateAvatar,
-                    useBlurhash,
+                    statusDisplayOptions,
                     payloads != null && !payloads.isEmpty() ? payloads.get(0) : null);
         }
     }
+
     @Override
     public int getItemCount() {
         return dataSource.getItemCount();
@@ -120,26 +122,6 @@ public final class TimelineAdapter extends RecyclerView.Adapter {
         } else {
             return VIEW_TYPE_STATUS;
         }
-    }
-
-    public void setMediaPreviewEnabled(boolean enabled) {
-        mediaPreviewEnabled = enabled;
-    }
-
-    public void setUseAbsoluteTime(boolean useAbsoluteTime){
-        this.useAbsoluteTime = useAbsoluteTime;
-    }
-
-    public boolean getMediaPreviewEnabled() {
-        return mediaPreviewEnabled;
-    }
-
-    public void setShowBotOverlay(boolean showBotOverlay) {
-        this.showBotOverlay = showBotOverlay;
-    }
-
-    public void setAnimateAvatar(boolean animateAvatar) {
-        this.animateAvatar = animateAvatar;
     }
 
     @Override

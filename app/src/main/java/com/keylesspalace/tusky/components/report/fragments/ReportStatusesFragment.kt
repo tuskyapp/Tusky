@@ -43,6 +43,7 @@ import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.entity.Attachment
 import com.keylesspalace.tusky.entity.Status
+import com.keylesspalace.tusky.util.StatusDisplayOptions
 import com.keylesspalace.tusky.util.ThemeUtils
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.show
@@ -119,15 +120,15 @@ class ReportStatusesFragment : Fragment(), Injectable, AdapterHandler {
 
     private fun initStatusesView() {
         val preferences = PreferenceManager.getDefaultSharedPreferences(requireContext())
+        val statusDisplayOptions = StatusDisplayOptions(
+                animateAvatars = false,
+                mediaPreviewEnabled = accountManager.activeAccount?.mediaPreviewEnabled ?: true,
+                useAbsoluteTime = preferences.getBoolean("absoluteTimeView", false),
+                showBotOverlay = false,
+                useBlurhash = preferences.getBoolean("useBlurhash", true)
+        )
 
-        val useAbsoluteTime = preferences.getBoolean("absoluteTimeView", false)
-
-        val account = accountManager.activeAccount
-        val mediaPreviewEnabled = account?.mediaPreviewEnabled ?: true
-        val useBlurhash = preferences.getBoolean("useBlurhash", true)
-
-
-        adapter = StatusesAdapter(useAbsoluteTime, mediaPreviewEnabled, useBlurhash,
+        adapter = StatusesAdapter(statusDisplayOptions,
                 viewModel.statusViewState, this)
 
         recyclerView.addItemDecoration(DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL))

@@ -48,8 +48,7 @@ class StatusViewHelper(private val itemView: View) {
     private val longSdf = SimpleDateFormat("MM/dd HH:mm:ss", Locale.getDefault())
 
     fun setMediasPreview(
-            mediaPreviewEnabled: Boolean,
-            useBlurhash: Boolean,
+            statusDisplayOptions: StatusDisplayOptions,
             attachments: List<Attachment>,
             sensitive: Boolean,
             previewListener: MediaPreviewListener,
@@ -72,7 +71,7 @@ class StatusViewHelper(private val itemView: View) {
         val sensitiveMediaWarning = itemView.findViewById<TextView>(R.id.status_sensitive_media_warning)
         val sensitiveMediaShow = itemView.findViewById<View>(R.id.status_sensitive_media_button)
         val mediaLabel = itemView.findViewById<TextView>(R.id.status_media_label)
-        if (mediaPreviewEnabled) {
+        if (statusDisplayOptions.mediaPreviewEnabled) {
             // Hide the unused label.
             mediaLabel.visibility = View.GONE
         } else {
@@ -138,7 +137,7 @@ class StatusViewHelper(private val itemView: View) {
                     }
                 } else {
                     mediaPreviews[i].removeFocalPoint()
-                    if (useBlurhash && attachment.blurhash != null) {
+                    if (statusDisplayOptions.useBlurhash && attachment.blurhash != null) {
                         val blurhashBitmap = decodeBlurHash(context, attachment.blurhash)
                         mediaPreviews[i].setImageDrawable(blurhashBitmap)
                     } else {
@@ -189,14 +188,14 @@ class StatusViewHelper(private val itemView: View) {
                 previewListener.onContentHiddenChange(false)
                 v.visibility = View.GONE
                 sensitiveMediaWarning.visibility = View.VISIBLE
-                setMediasPreview(mediaPreviewEnabled, useBlurhash, attachments, sensitive, previewListener,
+                setMediasPreview(statusDisplayOptions, attachments, sensitive, previewListener,
                         false, mediaPreviewHeight)
             }
             sensitiveMediaWarning.setOnClickListener { v ->
                 previewListener.onContentHiddenChange(true)
                 v.visibility = View.GONE
                 sensitiveMediaShow.visibility = View.VISIBLE
-                setMediasPreview(mediaPreviewEnabled, useBlurhash, attachments, sensitive, previewListener,
+                setMediasPreview(statusDisplayOptions, attachments, sensitive, previewListener,
                         true, mediaPreviewHeight)
             }
         }
