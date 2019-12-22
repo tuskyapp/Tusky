@@ -9,6 +9,7 @@ import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.Lifecycle
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.keylesspalace.tusky.adapter.ScheduledTootAction
 import com.keylesspalace.tusky.adapter.ScheduledTootAdapter
 import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.appstore.StatusScheduledEvent
@@ -29,7 +30,7 @@ import retrofit2.Response
 import javax.inject.Inject
 
 
-class ScheduledTootActivity : BaseActivity(), ScheduledTootAdapter.ScheduledTootAction, Injectable {
+class ScheduledTootActivity : BaseActivity(), ScheduledTootAction, Injectable {
 
     companion object {
         @JvmStatic
