@@ -5,7 +5,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.view.MenuItem
-import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.Lifecycle
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -23,6 +22,7 @@ import com.uber.autodispose.AutoDispose.autoDisposable
 import com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider.from
 import io.reactivex.android.schedulers.AndroidSchedulers
 import kotlinx.android.synthetic.main.activity_scheduled_toot.*
+import kotlinx.android.synthetic.main.toolbar_basic.*
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
@@ -50,25 +50,22 @@ class ScheduledTootActivity : BaseActivity(), ScheduledTootAction, Injectable {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_scheduled_toot)
 
-        val toolbar = findViewById<Toolbar>(R.id.toolbar)
-
         setSupportActionBar(toolbar)
-        val bar = supportActionBar
-        if (bar != null) {
-            bar.title = getString(R.string.title_scheduled_toot)
-            bar.setDisplayHomeAsUpEnabled(true)
-            bar.setDisplayShowHomeEnabled(true)
+        supportActionBar?.run {
+            title = getString(R.string.title_scheduled_toot)
+            setDisplayHomeAsUpEnabled(true)
+            setDisplayShowHomeEnabled(true)
         }
 
-        swipe_refresh_layout.setOnRefreshListener(this::refreshStatuses)
+        swipeRefreshLayout.setOnRefreshListener(this::refreshStatuses)
 
-        scheduled_toot_list.setHasFixedSize(true)
+        scheduledTootList.setHasFixedSize(true)
         val layoutManager = LinearLayoutManager(this)
-        scheduled_toot_list.layoutManager = layoutManager
+        scheduledTootList.layoutManager = layoutManager
         val divider = DividerItemDecoration(this, layoutManager.orientation)
-        scheduled_toot_list.addItemDecoration(divider)
+        scheduledTootList.addItemDecoration(divider)
         adapter = ScheduledTootAdapter(this)
-        scheduled_toot_list.adapter = adapter
+        scheduledTootList.adapter = adapter
 
         loadStatuses()
 
@@ -93,11 +90,11 @@ class ScheduledTootActivity : BaseActivity(), ScheduledTootAction, Injectable {
     }
 
     fun loadStatuses() {
-        progress_bar.visibility = View.VISIBLE
+        progressBar.visibility = View.VISIBLE
         mastodonApi.scheduledStatuses()
                 .enqueue(object : Callback<List<ScheduledStatus>> {
                     override fun onResponse(call: Call<List<ScheduledStatus>>, response: Response<List<ScheduledStatus>>) {
-                        progress_bar.visibility = View.GONE
+                        progressBar.visibility = View.GONE
                         if (response.body().isNullOrEmpty()) {
                             errorMessageView.show()
                             errorMessageView.setup(R.drawable.elephant_friend_empty, R.string.message_empty,
@@ -108,7 +105,7 @@ class ScheduledTootActivity : BaseActivity(), ScheduledTootAction, Injectable {
                     }
 
                     override fun onFailure(call: Call<List<ScheduledStatus>>, t: Throwable) {
-                        progress_bar.visibility = View.GONE
+                        progressBar.visibility = View.GONE
                         errorMessageView.show()
                         errorMessageView.setup(R.drawable.elephant_error, R.string.error_generic) {
                             errorMessageView.hide()
@@ -119,11 +116,11 @@ class ScheduledTootActivity : BaseActivity(), ScheduledTootAction, Injectable {
     }
 
     private fun refreshStatuses() {
-        swipe_refresh_layout.isRefreshing = true
+        swipeRefreshLayout.isRefreshing = true
         mastodonApi.scheduledStatuses()
                 .enqueue(object : Callback<List<ScheduledStatus>> {
                     override fun onResponse(call: Call<List<ScheduledStatus>>, response: Response<List<ScheduledStatus>>) {
-                        swipe_refresh_layout.isRefreshing = false
+                        swipeRefreshLayout.isRefreshing = false
                         if (response.body().isNullOrEmpty()) {
                             errorMessageView.show()
                             errorMessageView.setup(R.drawable.elephant_friend_empty, R.string.message_empty,
@@ -134,7 +131,7 @@ class ScheduledTootActivity : BaseActivity(), ScheduledTootAction, Injectable {
                     }
 
                     override fun onFailure(call: Call<List<ScheduledStatus>>, t: Throwable) {
-                        swipe_refresh_layout.isRefreshing = false
+                        swipeRefreshLayout.isRefreshing = false
                     }
                 })
     }
