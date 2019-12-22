@@ -1,4 +1,4 @@
-package com.keylesspalace.tusky
+package com.keylesspalace.tusky.components.scheduled
 
 import android.content.Context
 import android.content.Intent
@@ -9,8 +9,8 @@ import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.Lifecycle
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.keylesspalace.tusky.adapter.ScheduledTootAction
-import com.keylesspalace.tusky.adapter.ScheduledTootAdapter
+import com.keylesspalace.tusky.BaseActivity
+import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.appstore.StatusScheduledEvent
 import com.keylesspalace.tusky.components.compose.ComposeActivity
