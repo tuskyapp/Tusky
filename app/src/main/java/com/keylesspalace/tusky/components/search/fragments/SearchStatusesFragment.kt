@@ -74,10 +74,12 @@ class SearchStatusesFragment : SearchFragment<Pair<Status, StatusViewData.Concre
         val useAbsoluteTime = preferences.getBoolean("absoluteTimeView", false)
         val showBotOverlay = preferences.getBoolean("showBotOverlay", true)
         val animateAvatar = preferences.getBoolean("animateGifAvatars", false)
+        val useBlurhash = preferences.getBoolean("useBlurhash", true)
 
         searchRecyclerView.addItemDecoration(DividerItemDecoration(searchRecyclerView.context, DividerItemDecoration.VERTICAL))
         searchRecyclerView.layoutManager = LinearLayoutManager(searchRecyclerView.context)
-        return SearchStatusesAdapter(useAbsoluteTime, viewModel.mediaPreviewEnabled, showBotOverlay, animateAvatar, this)
+        return SearchStatusesAdapter(useAbsoluteTime, viewModel.mediaPreviewEnabled, showBotOverlay,
+                animateAvatar, useBlurhash, this)
     }
 
 

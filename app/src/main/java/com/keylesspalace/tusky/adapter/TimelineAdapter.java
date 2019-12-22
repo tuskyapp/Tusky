@@ -15,20 +15,25 @@
 
 package com.keylesspalace.tusky.adapter;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.util.List;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.interfaces.StatusActionListener;
 import com.keylesspalace.tusky.viewdata.StatusViewData;
 
+import java.util.List;
+
 public final class TimelineAdapter extends RecyclerView.Adapter {
+
+    public void setUseBlurhash(boolean useBlurhash) {
+        this.useBlurhash = useBlurhash;
+    }
 
     public interface AdapterDataSource<T> {
         int getItemCount();
@@ -45,6 +50,7 @@ public final class TimelineAdapter extends RecyclerView.Adapter {
     private boolean useAbsoluteTime;
     private boolean showBotOverlay;
     private boolean animateAvatar;
+    private boolean useBlurhash;
 
     public TimelineAdapter(AdapterDataSource<StatusViewData> dataSource,
                            StatusActionListener statusListener) {
@@ -54,6 +60,7 @@ public final class TimelineAdapter extends RecyclerView.Adapter {
         useAbsoluteTime = false;
         showBotOverlay = true;
         animateAvatar = false;
+        useBlurhash = true;
     }
 
     @NonNull
@@ -97,6 +104,7 @@ public final class TimelineAdapter extends RecyclerView.Adapter {
                     mediaPreviewEnabled,
                     showBotOverlay,
                     animateAvatar,
+                    useBlurhash,
                     payloads != null && !payloads.isEmpty() ? payloads.get(0) : null);
         }
     }

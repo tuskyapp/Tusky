@@ -3,6 +3,7 @@ package com.keylesspalace.tusky.adapter;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.text.Spanned;
 import android.text.TextUtils;
@@ -413,7 +414,8 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
     }
 
     protected void setMediaPreviews(final List<Attachment> attachments, boolean sensitive,
-                                    final StatusActionListener listener, boolean showingContent) {
+                                    final StatusActionListener listener, boolean showingContent,
+                                    boolean useBlurhash) {
         Context context = itemView.getContext();
         final int n = Math.min(attachments.size(), Status.MAX_MEDIA_ATTACHMENTS);
 
@@ -450,7 +452,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             } else {
                 imageView.setFocalPoint(null);
                 imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-                if (attachment.getBlurhash() != null) {
+                if (useBlurhash && attachment.getBlurhash() != null) {
                     Bitmap blurhashBitmap = BlurHashDecoder.INSTANCE.decode(
                             attachment.getBlurhash(),
                             32,
@@ -459,7 +461,9 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
                     );
                     imageView.setImageBitmap(blurhashBitmap);
                 } else {
-                    imageView.setImageDrawable(mediaPreviewUnloaded);
+                    imageView.setImageDrawable(null);
+                    imageView.setImageDrawable(new ColorDrawable(ThemeUtils.getColor(
+                            context, R.attr.sensitive_media_warning_background_color)));
                 }
             }
 
@@ -638,8 +642,9 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
     }
 
     public void setupWithStatus(StatusViewData.Concrete status, final StatusActionListener listener,
-                                boolean mediaPreviewEnabled, boolean showBotOverlay, boolean animateAvatar) {
-        this.setupWithStatus(status, listener, mediaPreviewEnabled, showBotOverlay, animateAvatar, null);
+                                boolean mediaPreviewEnabled, boolean showBotOverlay, boolean animateAvatar,
+                                boolean useBlurhash) {
+        this.setupWithStatus(status, listener, mediaPreviewEnabled, showBotOverlay, animateAvatar, useBlurhash, null);
     }
 
     protected void setupWithStatus(StatusViewData.Concrete status,
@@ -647,6 +652,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
                                    boolean mediaPreviewEnabled,
                                    boolean showBotOverlay,
                                    boolean animateAvatar,
+                                   boolean useBlurhash,
                                    @Nullable Object payloads) {
         if (payloads == null) {
             setDisplayName(status.getUserFullName(), status.getAccountEmojis());
@@ -660,7 +666,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             List<Attachment> attachments = status.getAttachments();
             boolean sensitive = status.isSensitive();
             if (mediaPreviewEnabled && !hasAudioAttachment(attachments)) {
-                setMediaPreviews(attachments, sensitive, listener, status.isShowingContent());
+                setMediaPreviews(attachments, sensitive, listener, status.isShowingContent(), useBlurhash);
 
                 if (attachments.size() == 0) {
                     hideSensitiveMediaWarning();

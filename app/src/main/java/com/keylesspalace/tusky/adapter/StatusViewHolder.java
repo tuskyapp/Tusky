@@ -22,13 +22,13 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
+import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.interfaces.StatusActionListener;
 import com.keylesspalace.tusky.util.SmartLengthInputFilter;
 import com.keylesspalace.tusky.viewdata.StatusViewData;
-
-import androidx.annotation.Nullable;
-import androidx.recyclerview.widget.RecyclerView;
 
 import at.connyduck.sparkbutton.helpers.Utils;
 
@@ -53,6 +53,7 @@ public class StatusViewHolder extends StatusBaseViewHolder {
     @Override
     protected void setupWithStatus(StatusViewData.Concrete status, final StatusActionListener listener,
                                    boolean mediaPreviewEnabled, boolean showBotOverlay, boolean animateAvatar,
+                                   boolean useBlurhash,
                                    @Nullable Object payloads) {
         if (payloads == null) {
 
@@ -67,7 +68,7 @@ public class StatusViewHolder extends StatusBaseViewHolder {
             }
 
         }
-        super.setupWithStatus(status, listener, mediaPreviewEnabled, showBotOverlay, animateAvatar, payloads);
+        super.setupWithStatus(status, listener, mediaPreviewEnabled, showBotOverlay, animateAvatar, useBlurhash, payloads);
 
     }
 

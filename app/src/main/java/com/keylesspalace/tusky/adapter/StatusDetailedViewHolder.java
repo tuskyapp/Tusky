@@ -16,6 +16,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.GranularRoundedCorners;
@@ -29,9 +32,6 @@ import com.keylesspalace.tusky.viewdata.StatusViewData;
 
 import java.text.DateFormat;
 import java.util.Date;
-
-import androidx.annotation.Nullable;
-import androidx.recyclerview.widget.RecyclerView;
 
 class StatusDetailedViewHolder extends StatusBaseViewHolder {
     private TextView reblogs;
@@ -127,8 +127,10 @@ class StatusDetailedViewHolder extends StatusBaseViewHolder {
     @Override
     protected void setupWithStatus(final StatusViewData.Concrete status, final StatusActionListener listener,
                                    boolean mediaPreviewEnabled, boolean showBotOverlay, boolean animateAvatar,
+                                   boolean useBlurhash,
                                    @Nullable Object payloads) {
-        super.setupWithStatus(status, listener, mediaPreviewEnabled, showBotOverlay, animateAvatar, payloads);
+        super.setupWithStatus(status, listener, mediaPreviewEnabled, showBotOverlay, animateAvatar,
+                useBlurhash, payloads);
         if (payloads == null) {
             setReblogAndFavCount(status.getReblogsCount(), status.getFavouritesCount(), listener);
 

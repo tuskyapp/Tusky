@@ -15,12 +15,13 @@
 
 package com.keylesspalace.tusky.adapter;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.interfaces.StatusActionListener;
@@ -38,6 +39,7 @@ public class ThreadAdapter extends RecyclerView.Adapter {
     private boolean mediaPreviewEnabled;
     private boolean useAbsoluteTime;
     private boolean showBotOverlay;
+    private boolean useBlurhash;
     private boolean animateAvatar;
     private int detailedStatusPosition;
 
@@ -48,6 +50,7 @@ public class ThreadAdapter extends RecyclerView.Adapter {
         useAbsoluteTime = false;
         showBotOverlay = true;
         animateAvatar = false;
+        useBlurhash = true;
         detailedStatusPosition = RecyclerView.NO_POSITION;
     }
 
@@ -74,10 +77,12 @@ public class ThreadAdapter extends RecyclerView.Adapter {
         StatusViewData.Concrete status = statuses.get(position);
         if (position == detailedStatusPosition) {
             StatusDetailedViewHolder holder = (StatusDetailedViewHolder) viewHolder;
-            holder.setupWithStatus(status, statusActionListener, mediaPreviewEnabled, showBotOverlay, animateAvatar);
+            holder.setupWithStatus(status, statusActionListener, mediaPreviewEnabled,
+                    showBotOverlay, useBlurhash, animateAvatar);
         } else {
             StatusViewHolder holder = (StatusViewHolder) viewHolder;
-            holder.setupWithStatus(status, statusActionListener, mediaPreviewEnabled, showBotOverlay, animateAvatar);
+            holder.setupWithStatus(status, statusActionListener, mediaPreviewEnabled,
+                    showBotOverlay, useBlurhash, animateAvatar);
         }
     }
 
@@ -165,6 +170,10 @@ public class ThreadAdapter extends RecyclerView.Adapter {
 
     public void setAnimateAvatar(boolean animateAvatar) {
         this.animateAvatar = animateAvatar;
+    }
+
+    public void setUseBlurhash(boolean useBlurhash) {
+        this.useBlurhash = useBlurhash;
     }
 
     public void setDetailedStatusPosition(int position) {

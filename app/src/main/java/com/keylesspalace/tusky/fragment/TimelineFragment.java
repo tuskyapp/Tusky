@@ -352,6 +352,8 @@ public class TimelineFragment extends SFragment implements
         adapter.setShowBotOverlay(showBotOverlay);
         boolean animateAvatar = preferences.getBoolean("animateGifAvatars", false);
         adapter.setAnimateAvatar(animateAvatar);
+        boolean useBlurhash = preferences.getBoolean("useBlurhash", true);
+        adapter.setUseBlurhash(useBlurhash);
 
         boolean filter = preferences.getBoolean("tabFilterHomeReplies", true);
         filterRemoveReplies = kind == Kind.HOME && !filter;

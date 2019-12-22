@@ -33,6 +33,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
+import androidx.core.text.BidiFormatter;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.entity.Account;
 import com.keylesspalace.tusky.entity.Emoji;
@@ -40,10 +46,10 @@ import com.keylesspalace.tusky.entity.Notification;
 import com.keylesspalace.tusky.interfaces.LinkListener;
 import com.keylesspalace.tusky.interfaces.StatusActionListener;
 import com.keylesspalace.tusky.util.CustomEmojiHelper;
-import com.keylesspalace.tusky.util.TimestampUtils;
 import com.keylesspalace.tusky.util.ImageLoadingHelper;
 import com.keylesspalace.tusky.util.LinkHelper;
 import com.keylesspalace.tusky.util.SmartLengthInputFilter;
+import com.keylesspalace.tusky.util.TimestampUtils;
 import com.keylesspalace.tusky.viewdata.NotificationViewData;
 import com.keylesspalace.tusky.viewdata.StatusViewData;
 import com.mikepenz.iconics.utils.Utils;
@@ -52,12 +58,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.core.content.ContextCompat;
-import androidx.core.text.BidiFormatter;
-import androidx.recyclerview.widget.RecyclerView;
 
 public class NotificationsAdapter extends RecyclerView.Adapter {
 
@@ -84,6 +84,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
     private boolean useAbsoluteTime;
     private boolean showBotOverlay;
     private boolean animateAvatar;
+    private boolean useBlurhash;
     private BidiFormatter bidiFormatter;
     private AdapterDataSource<NotificationViewData> dataSource;
 
@@ -100,6 +101,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
         useAbsoluteTime = false;
         showBotOverlay = true;
         animateAvatar = false;
+        useBlurhash = true;
         bidiFormatter = BidiFormatter.getInstance();
     }
 
@@ -171,7 +173,8 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
                     StatusViewHolder holder = (StatusViewHolder) viewHolder;
                     StatusViewData.Concrete status = concreteNotificaton.getStatusViewData();
                     holder.setupWithStatus(status,
-                            statusListener, mediaPreviewEnabled, showBotOverlay, animateAvatar, payloadForHolder);
+                            statusListener, mediaPreviewEnabled, showBotOverlay, animateAvatar,
+                            useBlurhash, payloadForHolder);
                     if(concreteNotificaton.getType() == Notification.Type.POLL) {
                         holder.setPollInfo(accountId.equals(concreteNotificaton.getAccount().getId()));
                     } else {
@@ -276,6 +279,10 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
 
     public void setAnimateAvatar(boolean animateAvatar) {
         this.animateAvatar = animateAvatar;
+    }
+
+    public void setUseBlurhash(boolean useBlurhash) {
+        this.useBlurhash = useBlurhash;
     }
 
     public interface NotificationActionListener {

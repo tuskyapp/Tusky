@@ -162,6 +162,8 @@ public final class ViewThreadFragment extends SFragment implements
         adapter.setAnimateAvatar(animateAvatars);
         boolean showBotIndicator = preferences.getBoolean("showBotOverlay", true);
         adapter.setShowBotOverlay(showBotIndicator);
+        boolean useBlurhash = preferences.getBoolean("useBlurahsh", true);
+        adapter.setUseBlurhash(useBlurhash);
         reloadFilters(false);
 
         recyclerView.setAdapter(adapter);

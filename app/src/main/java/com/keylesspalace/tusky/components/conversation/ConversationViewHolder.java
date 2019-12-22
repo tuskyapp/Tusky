@@ -47,6 +47,7 @@ public class ConversationViewHolder extends StatusBaseViewHolder {
     private StatusActionListener listener;
     private boolean mediaPreviewEnabled;
     private boolean animateAvatars;
+    private boolean useBlurhash;
 
     ConversationViewHolder(View itemView,
                            StatusActionListener listener,
@@ -65,6 +66,7 @@ public class ConversationViewHolder extends StatusBaseViewHolder {
         this.mediaPreviewEnabled = mediaPreviewEnabled;
 
         this.animateAvatars = PreferenceManager.getDefaultSharedPreferences(itemView.getContext()).getBoolean("animateGifAvatars", false);
+        this.useBlurhash = PreferenceManager.getDefaultSharedPreferences(itemView.getContext()).getBoolean("useBlurhash", true);
     }
 
     @Override
@@ -87,7 +89,7 @@ public class ConversationViewHolder extends StatusBaseViewHolder {
         List<Attachment> attachments = status.getAttachments();
         boolean sensitive = status.getSensitive();
         if(mediaPreviewEnabled && !hasAudioAttachment(attachments)) {
-            setMediaPreviews(attachments, sensitive, listener, status.getShowingHiddenContent());
+            setMediaPreviews(attachments, sensitive, listener, status.getShowingHiddenContent(), useBlurhash);
 
             if (attachments.size() == 0) {
                 hideSensitiveMediaWarning();

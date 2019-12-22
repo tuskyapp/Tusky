@@ -56,7 +56,7 @@ class PreferencesActivity : BaseActivity(), SharedPreferences.OnSharedPreference
             setDisplayShowHomeEnabled(true)
         }
 
-        val fragment: Fragment = when(intent.getIntExtra(EXTRA_PREFERENCE_TYPE, 0)) {
+        val fragment: Fragment = when (intent.getIntExtra(EXTRA_PREFERENCE_TYPE, 0)) {
             GENERAL_PREFERENCES -> {
                 setTitle(R.string.action_view_preferences)
                 PreferencesFragment.newInstance()
@@ -128,7 +128,8 @@ class PreferencesActivity : BaseActivity(), SharedPreferences.OnSharedPreference
                 this.restartCurrentActivity()
 
             }
-            "statusTextSize", "absoluteTimeView", "showBotOverlay", "animateGifAvatars" -> {
+            "statusTextSize", "absoluteTimeView", "showBotOverlay", "animateGifAvatars",
+            "useBlurhash" -> {
                 restartActivitiesOnExit = true
             }
             "language" -> {
