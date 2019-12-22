@@ -31,12 +31,15 @@ import com.keylesspalace.tusky.viewdata.toViewData
 import kotlinx.android.synthetic.main.item_report_status.view.*
 import java.util.*
 
-class StatusViewHolder(itemView: View,
-                       private val useAbsoluteTime: Boolean,
-                       private val mediaPreviewEnabled: Boolean,
-                       private val viewState: StatusViewState,
-                       private val adapterHandler: AdapterHandler,
-                       private val getStatusForPosition: (Int) -> Status?) : RecyclerView.ViewHolder(itemView) {
+class StatusViewHolder(
+        itemView: View,
+        private val useAbsoluteTime: Boolean,
+        private val mediaPreviewEnabled: Boolean,
+        private val useBlurhash: Boolean,
+        private val viewState: StatusViewState,
+        private val adapterHandler: AdapterHandler,
+        private val getStatusForPosition: (Int) -> Status?
+) : RecyclerView.ViewHolder(itemView) {
     private val mediaViewHeight = itemView.context.resources.getDimensionPixelSize(R.dimen.status_media_preview_height)
     private val statusViewHelper = StatusViewHelper(itemView)
 
@@ -69,8 +72,8 @@ class StatusViewHolder(itemView: View,
 
         val sensitive = status.sensitive
 
-        statusViewHelper.setMediasPreview(mediaPreviewEnabled, status.attachments, sensitive, previewListener,
-                viewState.isMediaShow(status.id, status.sensitive),
+        statusViewHelper.setMediasPreview(mediaPreviewEnabled, useBlurhash, status.attachments,
+                sensitive, previewListener, viewState.isMediaShow(status.id, status.sensitive),
                 mediaViewHeight)
 
         statusViewHelper.setupPollReadonly(status.poll.toViewData(), status.emojis, useAbsoluteTime)

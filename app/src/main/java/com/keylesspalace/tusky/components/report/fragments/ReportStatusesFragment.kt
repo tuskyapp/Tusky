@@ -124,9 +124,11 @@ class ReportStatusesFragment : Fragment(), Injectable, AdapterHandler {
 
         val account = accountManager.activeAccount
         val mediaPreviewEnabled = account?.mediaPreviewEnabled ?: true
+        val useBlurhash = preferences.getBoolean("useBlurhash", true)
 
 
-        adapter = StatusesAdapter(useAbsoluteTime, mediaPreviewEnabled, viewModel.statusViewState, this)
+        adapter = StatusesAdapter(useAbsoluteTime, mediaPreviewEnabled, useBlurhash,
+                viewModel.statusViewState, this)
 
         recyclerView.addItemDecoration(DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL))
         layoutManager = LinearLayoutManager(requireContext())

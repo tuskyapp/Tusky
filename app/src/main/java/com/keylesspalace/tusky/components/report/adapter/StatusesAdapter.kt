@@ -24,11 +24,13 @@ import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.components.report.model.StatusViewState
 import com.keylesspalace.tusky.entity.Status
 
-class StatusesAdapter(private val useAbsoluteTime: Boolean,
-                      private val mediaPreviewEnabled: Boolean,
-                      private val statusViewState: StatusViewState,
-                      private val adapterHandler: AdapterHandler)
-    : PagedListAdapter<Status, RecyclerView.ViewHolder>(STATUS_COMPARATOR) {
+class StatusesAdapter(
+        private val useAbsoluteTime: Boolean,
+        private val mediaPreviewEnabled: Boolean,
+        private val useBlurhash: Boolean,
+        private val statusViewState: StatusViewState,
+        private val adapterHandler: AdapterHandler
+) : PagedListAdapter<Status, RecyclerView.ViewHolder>(STATUS_COMPARATOR) {
 
     private val statusForPosition: (Int) -> Status? = { position: Int ->
         if (position != RecyclerView.NO_POSITION) getItem(position) else null
@@ -37,7 +39,8 @@ class StatusesAdapter(private val useAbsoluteTime: Boolean,
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return StatusViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_report_status, parent, false),
-                useAbsoluteTime, mediaPreviewEnabled, statusViewState, adapterHandler, statusForPosition)
+                useAbsoluteTime, mediaPreviewEnabled, useBlurhash, statusViewState, adapterHandler,
+                statusForPosition)
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {

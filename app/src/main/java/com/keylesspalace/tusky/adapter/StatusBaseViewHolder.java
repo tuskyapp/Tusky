@@ -1,7 +1,6 @@
 package com.keylesspalace.tusky.adapter;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
@@ -31,7 +30,6 @@ import com.keylesspalace.tusky.entity.Attachment.MetaData;
 import com.keylesspalace.tusky.entity.Emoji;
 import com.keylesspalace.tusky.entity.Status;
 import com.keylesspalace.tusky.interfaces.StatusActionListener;
-import com.keylesspalace.tusky.util.BlurHashDecoder;
 import com.keylesspalace.tusky.util.CustomEmojiHelper;
 import com.keylesspalace.tusky.util.HtmlUtils;
 import com.keylesspalace.tusky.util.ImageLoadingHelper;
@@ -373,8 +371,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
     }
 
     private BitmapDrawable decodeBlurHash(String blurhash) {
-        return new BitmapDrawable(this.avatar.getResources(),
-                BlurHashDecoder.INSTANCE.decode(blurhash, 32, 32, 1));
+        return ImageLoadingHelper.decodeBlurHash(this.avatar.getContext(), blurhash);
     }
 
     private void loadImage(MediaPreviewImageView imageView, String previewUrl, MetaData meta,
@@ -453,15 +450,9 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
                 imageView.setFocalPoint(null);
                 imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
                 if (useBlurhash && attachment.getBlurhash() != null) {
-                    Bitmap blurhashBitmap = BlurHashDecoder.INSTANCE.decode(
-                            attachment.getBlurhash(),
-                            32,
-                            32,
-                            1
-                    );
-                    imageView.setImageBitmap(blurhashBitmap);
+                    BitmapDrawable blurhashBitmap = decodeBlurHash(attachment.getBlurhash());
+                    imageView.setImageDrawable(blurhashBitmap);
                 } else {
-                    imageView.setImageDrawable(null);
                     imageView.setImageDrawable(new ColorDrawable(ThemeUtils.getColor(
                             context, R.attr.sensitive_media_warning_background_color)));
                 }
