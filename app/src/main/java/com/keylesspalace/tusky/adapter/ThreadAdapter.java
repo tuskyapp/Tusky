@@ -15,15 +15,17 @@
 
 package com.keylesspalace.tusky.adapter;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.interfaces.StatusActionListener;
+import com.keylesspalace.tusky.util.StatusDisplayOptions;
 import com.keylesspalace.tusky.viewdata.StatusViewData;
 
 import java.util.ArrayList;
@@ -34,20 +36,14 @@ public class ThreadAdapter extends RecyclerView.Adapter {
     private static final int VIEW_TYPE_STATUS_DETAILED = 1;
 
     private List<StatusViewData.Concrete> statuses;
+    private StatusDisplayOptions statusDisplayOptions;
     private StatusActionListener statusActionListener;
-    private boolean mediaPreviewEnabled;
-    private boolean useAbsoluteTime;
-    private boolean showBotOverlay;
-    private boolean animateAvatar;
     private int detailedStatusPosition;
 
-    public ThreadAdapter(StatusActionListener listener) {
+    public ThreadAdapter(StatusDisplayOptions statusDisplayOptions, StatusActionListener listener) {
+        this.statusDisplayOptions = statusDisplayOptions;
         this.statusActionListener = listener;
         this.statuses = new ArrayList<>();
-        mediaPreviewEnabled = true;
-        useAbsoluteTime = false;
-        showBotOverlay = true;
-        animateAvatar = false;
         detailedStatusPosition = RecyclerView.NO_POSITION;
     }
 
@@ -59,12 +55,12 @@ public class ThreadAdapter extends RecyclerView.Adapter {
             case VIEW_TYPE_STATUS: {
                 View view = LayoutInflater.from(parent.getContext())
                         .inflate(R.layout.item_status, parent, false);
-                return new StatusViewHolder(view, useAbsoluteTime);
+                return new StatusViewHolder(view);
             }
             case VIEW_TYPE_STATUS_DETAILED: {
                 View view = LayoutInflater.from(parent.getContext())
                         .inflate(R.layout.item_status_detailed, parent, false);
-                return new StatusDetailedViewHolder(view, useAbsoluteTime);
+                return new StatusDetailedViewHolder(view);
             }
         }
     }
@@ -74,10 +70,10 @@ public class ThreadAdapter extends RecyclerView.Adapter {
         StatusViewData.Concrete status = statuses.get(position);
         if (position == detailedStatusPosition) {
             StatusDetailedViewHolder holder = (StatusDetailedViewHolder) viewHolder;
-            holder.setupWithStatus(status, statusActionListener, mediaPreviewEnabled, showBotOverlay, animateAvatar);
+            holder.setupWithStatus(status, statusActionListener, statusDisplayOptions);
         } else {
             StatusViewHolder holder = (StatusViewHolder) viewHolder;
-            holder.setupWithStatus(status, statusActionListener, mediaPreviewEnabled, showBotOverlay, animateAvatar);
+            holder.setupWithStatus(status, statusActionListener, statusDisplayOptions);
         }
     }
 
@@ -149,22 +145,6 @@ public class ThreadAdapter extends RecyclerView.Adapter {
         } else {
             return null;
         }
-    }
-
-    public void setMediaPreviewEnabled(boolean enabled) {
-        mediaPreviewEnabled = enabled;
-    }
-
-    public void setUseAbsoluteTime(boolean useAbsoluteTime) {
-        this.useAbsoluteTime = useAbsoluteTime;
-    }
-
-    public void setShowBotOverlay(boolean showBotOverlay) {
-        this.showBotOverlay = showBotOverlay;
-    }
-
-    public void setAnimateAvatar(boolean animateAvatar) {
-        this.animateAvatar = animateAvatar;
     }
 
     public void setDetailedStatusPosition(int position) {

@@ -1,6 +1,8 @@
 package com.keylesspalace.tusky.adapter;
 
 import android.content.Context;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.text.Spanned;
 import android.text.TextUtils;
@@ -32,6 +34,7 @@ import com.keylesspalace.tusky.util.CustomEmojiHelper;
 import com.keylesspalace.tusky.util.HtmlUtils;
 import com.keylesspalace.tusky.util.ImageLoadingHelper;
 import com.keylesspalace.tusky.util.LinkHelper;
+import com.keylesspalace.tusky.util.StatusDisplayOptions;
 import com.keylesspalace.tusky.util.ThemeUtils;
 import com.keylesspalace.tusky.util.TimestampUtils;
 import com.keylesspalace.tusky.view.MediaPreviewImageView;
@@ -49,7 +52,6 @@ import java.util.Locale;
 import java.util.Objects;
 
 import at.connyduck.sparkbutton.SparkButton;
-import at.connyduck.sparkbutton.SparkEventListener;
 import kotlin.collections.CollectionsKt;
 
 import static com.keylesspalace.tusky.viewdata.PollViewDataKt.buildDescription;
@@ -95,10 +97,9 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
     private int avatarRadius36dp;
     private int avatarRadius24dp;
 
-    private final int mediaPreviewUnloadedId;
+    private final Drawable mediaPreviewUnloaded;
 
-    protected StatusBaseViewHolder(View itemView,
-                                   boolean useAbsoluteTime) {
+    protected StatusBaseViewHolder(View itemView) {
         super(itemView);
         displayName = itemView.findViewById(R.id.status_display_name);
         username = itemView.findViewById(R.id.status_username);
@@ -152,8 +153,10 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         this.avatarRadius36dp = itemView.getContext().getResources().getDimensionPixelSize(R.dimen.avatar_radius_36dp);
         this.avatarRadius24dp = itemView.getContext().getResources().getDimensionPixelSize(R.dimen.avatar_radius_24dp);
 
-        mediaPreviewUnloadedId = ThemeUtils.getDrawableId(itemView.getContext(),
-                R.attr.media_preview_unloaded_drawable, android.R.color.black);
+        mediaPreviewUnloaded = itemView.getContext().getDrawable(
+                ThemeUtils.getDrawableId(itemView.getContext(),
+                        R.attr.media_preview_unloaded_drawable, android.R.color.black)
+        );
     }
 
     protected abstract int getMediaPreviewHeight(Context context);
@@ -234,14 +237,13 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
     private void setAvatar(String url,
                            @Nullable String rebloggedUrl,
                            boolean isBot,
-                           boolean showBotOverlay,
-                           boolean animateAvatar) {
+                           StatusDisplayOptions statusDisplayOptions) {
 
         int avatarRadius;
         if (TextUtils.isEmpty(rebloggedUrl)) {
             avatar.setPaddingRelative(0, 0, 0, 0);
 
-            if (showBotOverlay && isBot) {
+            if (statusDisplayOptions.showBotOverlay() && isBot) {
                 avatarInset.setVisibility(View.VISIBLE);
                 avatarInset.setBackgroundColor(0x50ffffff);
                 Glide.with(avatarInset)
@@ -260,12 +262,14 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
 
             avatarInset.setVisibility(View.VISIBLE);
             avatarInset.setBackground(null);
-            ImageLoadingHelper.loadAvatar(rebloggedUrl, avatarInset, avatarRadius24dp, animateAvatar);
+            ImageLoadingHelper.loadAvatar(rebloggedUrl, avatarInset, avatarRadius24dp,
+                    statusDisplayOptions.animateAvatars());
 
             avatarRadius = avatarRadius36dp;
         }
 
-        ImageLoadingHelper.loadAvatar(url, avatar, avatarRadius, animateAvatar);
+        ImageLoadingHelper.loadAvatar(url, avatar, avatarRadius,
+                statusDisplayOptions.animateAvatars());
 
     }
 
@@ -273,7 +277,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         if (useAbsoluteTime) {
             timestampInfo.setText(getAbsoluteTime(createdAt));
         } else {
-            if(createdAt == null) {
+            if (createdAt == null) {
                 timestampInfo.setText("?m");
             } else {
                 long then = createdAt.getTime();
@@ -285,7 +289,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
     }
 
     private String getAbsoluteTime(Date createdAt) {
-        if(createdAt == null) {
+        if (createdAt == null) {
             return "??:??:??";
         }
         if (DateUtils.isToday(createdAt.getTime())) {
@@ -302,7 +306,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             /* This one is for screen-readers. Frequently, they would mispronounce timestamps like "17m"
              * as 17 meters instead of minutes. */
 
-            if(createdAt == null) {
+            if (createdAt == null) {
                 return "? minutes";
             } else {
                 long then = createdAt.getTime();
@@ -367,12 +371,22 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         bookmarkButton.setChecked(bookmarked);
     }
 
-    private void loadImage(MediaPreviewImageView imageView, String previewUrl, MetaData meta) {
+    private BitmapDrawable decodeBlurHash(String blurhash) {
+        return ImageLoadingHelper.decodeBlurHash(this.avatar.getContext(), blurhash);
+    }
+
+    private void loadImage(MediaPreviewImageView imageView, String previewUrl, MetaData meta,
+                           @Nullable String blurhash) {
+        Drawable placeholder = blurhash != null ? decodeBlurHash(blurhash) : mediaPreviewUnloaded;
         if (TextUtils.isEmpty(previewUrl)) {
-            Glide.with(imageView)
-                    .load(mediaPreviewUnloadedId)
-                    .centerInside()
-                    .into(imageView);
+            if (blurhash != null) {
+                imageView.setImageDrawable(decodeBlurHash(blurhash));
+            } else {
+                Glide.with(imageView)
+                        .load(placeholder)
+                        .centerInside()
+                        .into(imageView);
+            }
         } else {
             Focus focus = meta != null ? meta.getFocus() : null;
 
@@ -381,7 +395,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
 
                 Glide.with(imageView)
                         .load(previewUrl)
-                        .placeholder(mediaPreviewUnloadedId)
+                        .placeholder(placeholder)
                         .centerInside()
                         .addListener(imageView)
                         .into(imageView);
@@ -390,7 +404,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
 
                 Glide.with(imageView)
                         .load(previewUrl)
-                        .placeholder(mediaPreviewUnloadedId)
+                        .placeholder(placeholder)
                         .centerInside()
                         .into(imageView);
             }
@@ -398,39 +412,11 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
     }
 
     protected void setMediaPreviews(final List<Attachment> attachments, boolean sensitive,
-                                    final StatusActionListener listener, boolean showingContent) {
+                                    final StatusActionListener listener, boolean showingContent,
+                                    boolean useBlurhash) {
         Context context = itemView.getContext();
         final int n = Math.min(attachments.size(), Status.MAX_MEDIA_ATTACHMENTS);
 
-        for (int i = 0; i < n; i++) {
-            String previewUrl = attachments.get(i).getPreviewUrl();
-            String description = attachments.get(i).getDescription();
-            MediaPreviewImageView imageView = mediaPreviews[i];
-
-            imageView.setVisibility(View.VISIBLE);
-
-            if (TextUtils.isEmpty(description)) {
-                imageView.setContentDescription(imageView.getContext()
-                        .getString(R.string.action_view_media));
-            } else {
-                imageView.setContentDescription(description);
-            }
-
-            if (!sensitive || showingContent) {
-                loadImage(imageView, previewUrl, attachments.get(i).getMeta());
-            } else {
-                imageView.setImageResource(mediaPreviewUnloadedId);
-            }
-
-            final Attachment.Type type = attachments.get(i).getType();
-            if (type == Attachment.Type.VIDEO || type == Attachment.Type.GIFV) {
-                mediaOverlays[i].setVisibility(View.VISIBLE);
-            } else {
-                mediaOverlays[i].setVisibility(View.GONE);
-            }
-
-            setAttachmentClickListener(imageView, listener, i, attachments.get(i), true);
-        }
 
         final int mediaPreviewHeight = getMediaPreviewHeight(context);
 
@@ -444,15 +430,51 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             mediaPreviews[3].getLayoutParams().height = mediaPreviewHeight;
         }
 
+        for (int i = 0; i < n; i++) {
+            Attachment attachment = attachments.get(i);
+            String previewUrl = attachment.getPreviewUrl();
+            String description = attachment.getDescription();
+            MediaPreviewImageView imageView = mediaPreviews[i];
+
+            imageView.setVisibility(View.VISIBLE);
+
+            if (TextUtils.isEmpty(description)) {
+                imageView.setContentDescription(imageView.getContext()
+                        .getString(R.string.action_view_media));
+            } else {
+                imageView.setContentDescription(description);
+            }
+
+            if (showingContent) {
+                loadImage(imageView, previewUrl, attachment.getMeta(), attachment.getBlurhash());
+            } else {
+                imageView.setFocalPoint(null);
+                imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                if (useBlurhash && attachment.getBlurhash() != null) {
+                    BitmapDrawable blurhashBitmap = decodeBlurHash(attachment.getBlurhash());
+                    imageView.setImageDrawable(blurhashBitmap);
+                } else {
+                    imageView.setImageDrawable(new ColorDrawable(ThemeUtils.getColor(
+                            context, R.attr.sensitive_media_warning_background_color)));
+                }
+            }
+
+            final Attachment.Type type = attachment.getType();
+            if (showingContent && (type == Attachment.Type.VIDEO || type == Attachment.Type.GIFV)) {
+                mediaOverlays[i].setVisibility(View.VISIBLE);
+            } else {
+                mediaOverlays[i].setVisibility(View.GONE);
+            }
+
+            setAttachmentClickListener(imageView, listener, i, attachment, true);
+        }
+
+
         final String hiddenContentText;
         if (sensitive) {
-            hiddenContentText = context.getString(R.string.status_sensitive_media_template,
-                    context.getString(R.string.status_sensitive_media_title),
-                    context.getString(R.string.status_sensitive_media_directions));
+            hiddenContentText = context.getString(R.string.status_sensitive_media_title);
         } else {
-            hiddenContentText = context.getString(R.string.status_sensitive_media_template,
-                    context.getString(R.string.status_media_hidden_title),
-                    context.getString(R.string.status_sensitive_media_directions));
+            hiddenContentText = context.getString(R.string.status_media_hidden_title);
         }
 
         sensitiveMediaWarning.setText(HtmlUtils.fromHtml(hiddenContentText));
@@ -528,7 +550,11 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         view.setOnClickListener(v -> {
             int position = getAdapterPosition();
             if (position != RecyclerView.NO_POSITION) {
-                listener.onViewMedia(position, index, animateTransition ? v : null);
+                if (sensitiveMediaWarning.getVisibility() == View.VISIBLE) {
+                    listener.onContentHiddenChange(true, getAdapterPosition());
+                } else {
+                    listener.onViewMedia(position, index, animateTransition ? v : null);
+                }
             }
         });
         view.setOnLongClickListener(v -> {
@@ -540,7 +566,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
 
     private static CharSequence getAttachmentDescription(Context context, Attachment attachment) {
         String duration = "";
-        if(attachment.getMeta() != null && attachment.getMeta().getDuration() != null && attachment.getMeta().getDuration() > 0) {
+        if (attachment.getMeta() != null && attachment.getMeta().getDuration() != null && attachment.getMeta().getDuration() > 0) {
             duration = formatDuration(attachment.getMeta().getDuration()) + " ";
         }
         if (TextUtils.isEmpty(attachment.getDescription())) {
@@ -608,29 +634,27 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
     }
 
     public void setupWithStatus(StatusViewData.Concrete status, final StatusActionListener listener,
-                                boolean mediaPreviewEnabled, boolean showBotOverlay, boolean animateAvatar) {
-        this.setupWithStatus(status, listener, mediaPreviewEnabled, showBotOverlay, animateAvatar, null);
+                                StatusDisplayOptions statusDisplayOptions) {
+        this.setupWithStatus(status, listener, statusDisplayOptions, null);
     }
 
     protected void setupWithStatus(StatusViewData.Concrete status,
                                    final StatusActionListener listener,
-                                   boolean mediaPreviewEnabled,
-                                   boolean showBotOverlay,
-                                   boolean animateAvatar,
+                                   StatusDisplayOptions statusDisplayOptions,
                                    @Nullable Object payloads) {
         if (payloads == null) {
             setDisplayName(status.getUserFullName(), status.getAccountEmojis());
             setUsername(status.getNickname());
             setCreatedAt(status.getCreatedAt());
             setIsReply(status.getInReplyToId() != null);
-            setAvatar(status.getAvatar(), status.getRebloggedAvatar(), status.isBot(), showBotOverlay, animateAvatar);
+            setAvatar(status.getAvatar(), status.getRebloggedAvatar(), status.isBot(), statusDisplayOptions);
             setReblogged(status.isReblogged());
             setFavourited(status.isFavourited());
             setBookmarked(status.isBookmarked());
             List<Attachment> attachments = status.getAttachments();
             boolean sensitive = status.isSensitive();
-            if (mediaPreviewEnabled && !hasAudioAttachment(attachments)) {
-                setMediaPreviews(attachments, sensitive, listener, status.isShowingContent());
+            if (statusDisplayOptions.mediaPreviewEnabled() && !hasAudioAttachment(attachments)) {
+                setMediaPreviews(attachments, sensitive, listener, status.isShowingContent(), statusDisplayOptions.useBlurhash());
 
                 if (attachments.size() == 0) {
                     hideSensitiveMediaWarning();
@@ -674,7 +698,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
     }
 
     protected static boolean hasAudioAttachment(List<Attachment> attachments) {
-        for(Attachment attachment: attachments) {
+        for (Attachment attachment : attachments) {
             if (attachment.getType() == Attachment.Type.AUDIO) {
                 return true;
             }
@@ -747,7 +771,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
 
     private static CharSequence getVisibilityDescription(Context context, Status.Visibility visibility) {
 
-        if(visibility == null) {
+        if (visibility == null) {
             return "";
         }
 

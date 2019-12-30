@@ -16,6 +16,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.GranularRoundedCorners;
@@ -25,13 +28,11 @@ import com.keylesspalace.tusky.entity.Status;
 import com.keylesspalace.tusky.interfaces.StatusActionListener;
 import com.keylesspalace.tusky.util.CustomURLSpan;
 import com.keylesspalace.tusky.util.LinkHelper;
+import com.keylesspalace.tusky.util.StatusDisplayOptions;
 import com.keylesspalace.tusky.viewdata.StatusViewData;
 
 import java.text.DateFormat;
 import java.util.Date;
-
-import androidx.annotation.Nullable;
-import androidx.recyclerview.widget.RecyclerView;
 
 class StatusDetailedViewHolder extends StatusBaseViewHolder {
     private TextView reblogs;
@@ -44,8 +45,8 @@ class StatusDetailedViewHolder extends StatusBaseViewHolder {
     private TextView cardUrl;
     private View infoDivider;
 
-    StatusDetailedViewHolder(View view, boolean useAbsoluteTime) {
-        super(view, useAbsoluteTime);
+    StatusDetailedViewHolder(View view) {
+        super(view);
         reblogs = view.findViewById(R.id.status_reblogs);
         favourites = view.findViewById(R.id.status_favourites);
         cardView = view.findViewById(R.id.card_view);
@@ -125,10 +126,11 @@ class StatusDetailedViewHolder extends StatusBaseViewHolder {
     }
 
     @Override
-    protected void setupWithStatus(final StatusViewData.Concrete status, final StatusActionListener listener,
-                                   boolean mediaPreviewEnabled, boolean showBotOverlay, boolean animateAvatar,
+    protected void setupWithStatus(final StatusViewData.Concrete status,
+                                   final StatusActionListener listener,
+                                   StatusDisplayOptions statusDisplayOptions,
                                    @Nullable Object payloads) {
-        super.setupWithStatus(status, listener, mediaPreviewEnabled, showBotOverlay, animateAvatar, payloads);
+        super.setupWithStatus(status, listener, statusDisplayOptions, payloads);
         if (payloads == null) {
             setReblogAndFavCount(status.getReblogsCount(), status.getFavouritesCount(), listener);
 

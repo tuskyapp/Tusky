@@ -52,6 +52,7 @@ import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.interfaces.AccountSelectionListener
 import com.keylesspalace.tusky.interfaces.StatusActionListener
 import com.keylesspalace.tusky.util.NetworkState
+import com.keylesspalace.tusky.util.StatusDisplayOptions
 import com.keylesspalace.tusky.viewdata.AttachmentViewData
 import com.keylesspalace.tusky.viewdata.StatusViewData
 import com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider.from
@@ -71,13 +72,17 @@ class SearchStatusesFragment : SearchFragment<Pair<Status, StatusViewData.Concre
 
     override fun createAdapter(): PagedListAdapter<Pair<Status, StatusViewData.Concrete>, *> {
         val preferences = PreferenceManager.getDefaultSharedPreferences(searchRecyclerView.context)
-        val useAbsoluteTime = preferences.getBoolean("absoluteTimeView", false)
-        val showBotOverlay = preferences.getBoolean("showBotOverlay", true)
-        val animateAvatar = preferences.getBoolean("animateGifAvatars", false)
+        val statusDisplayOptions = StatusDisplayOptions(
+                animateAvatars = preferences.getBoolean("animateGifAvatars", false),
+                mediaPreviewEnabled = viewModel.mediaPreviewEnabled,
+                useAbsoluteTime = preferences.getBoolean("absoluteTimeView", false),
+                showBotOverlay = preferences.getBoolean("showBotOverlay", true),
+                useBlurhash = preferences.getBoolean("useBlurhash", true)
+        )
 
         searchRecyclerView.addItemDecoration(DividerItemDecoration(searchRecyclerView.context, DividerItemDecoration.VERTICAL))
         searchRecyclerView.layoutManager = LinearLayoutManager(searchRecyclerView.context)
-        return SearchStatusesAdapter(useAbsoluteTime, viewModel.mediaPreviewEnabled, showBotOverlay, animateAvatar, this)
+        return SearchStatusesAdapter(statusDisplayOptions, this)
     }
 
 

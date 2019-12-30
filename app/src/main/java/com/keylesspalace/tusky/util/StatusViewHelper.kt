@@ -16,6 +16,7 @@
 package com.keylesspalace.tusky.util
 
 import android.content.Context
+import android.graphics.drawable.ColorDrawable
 import android.text.InputFilter
 import android.text.TextUtils
 import android.view.View
@@ -47,7 +48,7 @@ class StatusViewHelper(private val itemView: View) {
     private val longSdf = SimpleDateFormat("MM/dd HH:mm:ss", Locale.getDefault())
 
     fun setMediasPreview(
-            mediaPreviewEnabled: Boolean,
+            statusDisplayOptions: StatusDisplayOptions,
             attachments: List<Attachment>,
             sensitive: Boolean,
             previewListener: MediaPreviewListener,
@@ -70,7 +71,7 @@ class StatusViewHelper(private val itemView: View) {
         val sensitiveMediaWarning = itemView.findViewById<TextView>(R.id.status_sensitive_media_warning)
         val sensitiveMediaShow = itemView.findViewById<View>(R.id.status_sensitive_media_button)
         val mediaLabel = itemView.findViewById<TextView>(R.id.status_media_label)
-        if (mediaPreviewEnabled) {
+        if (statusDisplayOptions.mediaPreviewEnabled) {
             // Hide the unused label.
             mediaLabel.visibility = View.GONE
         } else {
@@ -86,13 +87,15 @@ class StatusViewHelper(private val itemView: View) {
         }
 
 
-        val mediaPreviewUnloadedId = ThemeUtils.getDrawableId(context, R.attr.media_preview_unloaded_drawable, android.R.color.black)
+        val mediaPreviewUnloaded = ThemeUtils.getDrawable(context,
+                R.attr.media_preview_unloaded_drawable, android.R.color.black)
 
         val n = min(attachments.size, Status.MAX_MEDIA_ATTACHMENTS)
 
         for (i in 0 until n) {
-            val previewUrl = attachments[i].previewUrl
-            val description = attachments[i].description
+            val attachment = attachments[i]
+            val previewUrl = attachment.previewUrl
+            val description = attachment.description
 
             if (TextUtils.isEmpty(description)) {
                 mediaPreviews[i].contentDescription = context.getString(R.string.action_view_media)
@@ -104,35 +107,49 @@ class StatusViewHelper(private val itemView: View) {
 
             if (TextUtils.isEmpty(previewUrl)) {
                 Glide.with(mediaPreviews[i])
-                        .load(mediaPreviewUnloadedId)
+                        .load(mediaPreviewUnloaded)
                         .centerInside()
                         .into(mediaPreviews[i])
             } else {
-                val meta = attachments[i].meta
+                val placeholder = if (attachment.blurhash != null)
+                    decodeBlurHash(context, attachment.blurhash)
+                else mediaPreviewUnloaded
+                val meta = attachment.meta
                 val focus = meta?.focus
+                if (showingContent) {
+                    if (focus != null) { // If there is a focal point for this attachment:
+                        mediaPreviews[i].setFocalPoint(focus)
 
-                if (focus != null) { // If there is a focal point for this attachment:
-                    mediaPreviews[i].setFocalPoint(focus)
+                        Glide.with(mediaPreviews[i])
+                                .load(previewUrl)
+                                .placeholder(placeholder)
+                                .centerInside()
+                                .addListener(mediaPreviews[i])
+                                .into(mediaPreviews[i])
+                    } else {
+                        mediaPreviews[i].removeFocalPoint()
 
-                    Glide.with(mediaPreviews[i])
-                            .load(previewUrl)
-                            .placeholder(mediaPreviewUnloadedId)
-                            .centerInside()
-                            .addListener(mediaPreviews[i])
-                            .into(mediaPreviews[i])
+                        Glide.with(mediaPreviews[i])
+                                .load(previewUrl)
+                                .placeholder(placeholder)
+                                .centerInside()
+                                .into(mediaPreviews[i])
+                    }
                 } else {
                     mediaPreviews[i].removeFocalPoint()
-
-                    Glide.with(mediaPreviews[i])
-                            .load(previewUrl)
-                            .placeholder(mediaPreviewUnloadedId)
-                            .centerInside()
-                            .into(mediaPreviews[i])
+                    if (statusDisplayOptions.useBlurhash && attachment.blurhash != null) {
+                        val blurhashBitmap = decodeBlurHash(context, attachment.blurhash)
+                        mediaPreviews[i].setImageDrawable(blurhashBitmap)
+                    } else {
+                        mediaPreviews[i].setImageDrawable(ColorDrawable(ThemeUtils.getColor(
+                                context, R.attr.sensitive_media_warning_background_color)))
+                    }
                 }
             }
 
-            val type = attachments[i].type
-            if ((type === Attachment.Type.VIDEO) or (type === Attachment.Type.GIFV)) {
+            val type = attachment.type
+            if (showingContent
+                    && (type === Attachment.Type.VIDEO) or (type === Attachment.Type.GIFV)) {
                 mediaOverlays[i].visibility = View.VISIBLE
             } else {
                 mediaOverlays[i].visibility = View.GONE
@@ -158,13 +175,9 @@ class StatusViewHelper(private val itemView: View) {
         } else {
 
             val hiddenContentText: String = if (sensitive) {
-                context.getString(R.string.status_sensitive_media_template,
-                        context.getString(R.string.status_sensitive_media_title),
-                        context.getString(R.string.status_sensitive_media_directions))
+                context.getString(R.string.status_sensitive_media_title)
             } else {
-                context.getString(R.string.status_sensitive_media_template,
-                        context.getString(R.string.status_media_hidden_title),
-                        context.getString(R.string.status_sensitive_media_directions))
+                context.getString(R.string.status_media_hidden_title)
             }
 
             sensitiveMediaWarning.text = HtmlUtils.fromHtml(hiddenContentText)
@@ -175,11 +188,15 @@ class StatusViewHelper(private val itemView: View) {
                 previewListener.onContentHiddenChange(false)
                 v.visibility = View.GONE
                 sensitiveMediaWarning.visibility = View.VISIBLE
+                setMediasPreview(statusDisplayOptions, attachments, sensitive, previewListener,
+                        false, mediaPreviewHeight)
             }
             sensitiveMediaWarning.setOnClickListener { v ->
                 previewListener.onContentHiddenChange(true)
                 v.visibility = View.GONE
                 sensitiveMediaShow.visibility = View.VISIBLE
+                setMediasPreview(statusDisplayOptions, attachments, sensitive, previewListener,
+                        true, mediaPreviewHeight)
             }
         }
 

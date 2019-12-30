@@ -75,6 +75,7 @@ import com.keylesspalace.tusky.util.ListStatusAccessibilityDelegate;
 import com.keylesspalace.tusky.util.ListUtils;
 import com.keylesspalace.tusky.util.NotificationTypeConverterKt;
 import com.keylesspalace.tusky.util.PairedList;
+import com.keylesspalace.tusky.util.StatusDisplayOptions;
 import com.keylesspalace.tusky.util.ThemeUtils;
 import com.keylesspalace.tusky.util.ViewDataUtils;
 import com.keylesspalace.tusky.view.BackgroundMessageView;
@@ -237,18 +238,18 @@ public class NotificationsFragment extends SFragment implements
 
         recyclerView.addItemDecoration(new DividerItemDecoration(context, DividerItemDecoration.VERTICAL));
 
+        StatusDisplayOptions statusDisplayOptions = new StatusDisplayOptions(
+                preferences.getBoolean("animateGifAvatars", false),
+                accountManager.getActiveAccount().getMediaPreviewEnabled(),
+                preferences.getBoolean("absoluteTimeView", false),
+                preferences.getBoolean("showBotOverlay", true),
+                preferences.getBoolean("useBlurhash", true)
+        );
+
         adapter = new NotificationsAdapter(accountManager.getActiveAccount().getAccountId(),
-                dataSource, this, this);
+                dataSource, statusDisplayOptions, this, this);
         alwaysShowSensitiveMedia = accountManager.getActiveAccount().getAlwaysShowSensitiveMedia();
         alwaysOpenSpoiler = accountManager.getActiveAccount().getAlwaysOpenSpoiler();
-        boolean mediaPreviewEnabled = accountManager.getActiveAccount().getMediaPreviewEnabled();
-        adapter.setMediaPreviewEnabled(mediaPreviewEnabled);
-        boolean useAbsoluteTime = preferences.getBoolean("absoluteTimeView", false);
-        adapter.setUseAbsoluteTime(useAbsoluteTime);
-        boolean showBotOverlay = preferences.getBoolean("showBotOverlay", true);
-        adapter.setShowBotOverlay(showBotOverlay);
-        boolean animateAvatar = preferences.getBoolean("animateGifAvatars", false);
-        adapter.setAnimateAvatar(animateAvatar);
         recyclerView.setAdapter(adapter);
 
         topLoading = false;

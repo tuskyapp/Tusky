@@ -37,6 +37,7 @@ import com.keylesspalace.tusky.fragment.SFragment
 import com.keylesspalace.tusky.interfaces.ReselectableFragment
 import com.keylesspalace.tusky.interfaces.StatusActionListener
 import com.keylesspalace.tusky.util.NetworkState
+import com.keylesspalace.tusky.util.StatusDisplayOptions
 import com.keylesspalace.tusky.util.ThemeUtils
 import com.keylesspalace.tusky.util.hide
 import kotlinx.android.synthetic.main.fragment_timeline.*
@@ -62,15 +63,18 @@ class ConversationsFragment : SFragment(), StatusActionListener, Injectable, Res
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-
         val preferences = PreferenceManager.getDefaultSharedPreferences(view.context)
-        val useAbsoluteTime = preferences.getBoolean("absoluteTimeView", false)
 
-        val account = accountManager.activeAccount
-        val mediaPreviewEnabled = account?.mediaPreviewEnabled ?: true
+        val statusDisplayOptions = StatusDisplayOptions(
+                animateAvatars = preferences.getBoolean("animateGifAvatars", false),
+                mediaPreviewEnabled = accountManager.activeAccount?.mediaPreviewEnabled ?: true,
+                useAbsoluteTime = preferences.getBoolean("absoluteTimeView", false),
+                showBotOverlay = preferences.getBoolean("showBotOverlay", true),
+                useBlurhash = preferences.getBoolean("useBlurhash", true)
+        )
 
 
-        adapter = ConversationAdapter(useAbsoluteTime, mediaPreviewEnabled, this, ::onTopLoaded, viewModel::retry)
+        adapter = ConversationAdapter(statusDisplayOptions, this, ::onTopLoaded, viewModel::retry)
 
         recyclerView.addItemDecoration(DividerItemDecoration(view.context, DividerItemDecoration.VERTICAL))
         layoutManager = LinearLayoutManager(view.context)

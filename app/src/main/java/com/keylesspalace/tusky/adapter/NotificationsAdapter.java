@@ -33,6 +33,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
+import androidx.core.text.BidiFormatter;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.entity.Account;
 import com.keylesspalace.tusky.entity.Emoji;
@@ -40,10 +46,11 @@ import com.keylesspalace.tusky.entity.Notification;
 import com.keylesspalace.tusky.interfaces.LinkListener;
 import com.keylesspalace.tusky.interfaces.StatusActionListener;
 import com.keylesspalace.tusky.util.CustomEmojiHelper;
-import com.keylesspalace.tusky.util.TimestampUtils;
 import com.keylesspalace.tusky.util.ImageLoadingHelper;
 import com.keylesspalace.tusky.util.LinkHelper;
 import com.keylesspalace.tusky.util.SmartLengthInputFilter;
+import com.keylesspalace.tusky.util.StatusDisplayOptions;
+import com.keylesspalace.tusky.util.TimestampUtils;
 import com.keylesspalace.tusky.viewdata.NotificationViewData;
 import com.keylesspalace.tusky.viewdata.StatusViewData;
 import com.mikepenz.iconics.utils.Utils;
@@ -52,12 +59,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.core.content.ContextCompat;
-import androidx.core.text.BidiFormatter;
-import androidx.recyclerview.widget.RecyclerView;
 
 public class NotificationsAdapter extends RecyclerView.Adapter {
 
@@ -78,28 +79,23 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
     private static final InputFilter[] NO_INPUT_FILTER = new InputFilter[0];
 
     private String accountId;
+    private StatusDisplayOptions statusDisplayOptions;
     private StatusActionListener statusListener;
     private NotificationActionListener notificationActionListener;
-    private boolean mediaPreviewEnabled;
-    private boolean useAbsoluteTime;
-    private boolean showBotOverlay;
-    private boolean animateAvatar;
     private BidiFormatter bidiFormatter;
     private AdapterDataSource<NotificationViewData> dataSource;
 
     public NotificationsAdapter(String accountId,
                                 AdapterDataSource<NotificationViewData> dataSource,
+                                StatusDisplayOptions statusDisplayOptions,
                                 StatusActionListener statusListener,
                                 NotificationActionListener notificationActionListener) {
 
         this.accountId = accountId;
         this.dataSource = dataSource;
+        this.statusDisplayOptions = statusDisplayOptions;
         this.statusListener = statusListener;
         this.notificationActionListener = notificationActionListener;
-        mediaPreviewEnabled = true;
-        useAbsoluteTime = false;
-        showBotOverlay = true;
-        animateAvatar = false;
         bidiFormatter = BidiFormatter.getInstance();
     }
 
@@ -108,20 +104,20 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         switch (viewType) {
-            case VIEW_TYPE_STATUS:    {
+            case VIEW_TYPE_STATUS: {
                 View view = inflater
                         .inflate(R.layout.item_status, parent, false);
-                return new StatusViewHolder(view, useAbsoluteTime);
+                return new StatusViewHolder(view);
             }
             case VIEW_TYPE_STATUS_NOTIFICATION: {
                 View view = inflater
                         .inflate(R.layout.item_status_notification, parent, false);
-                return new StatusNotificationViewHolder(view, useAbsoluteTime, animateAvatar);
+                return new StatusNotificationViewHolder(view, statusDisplayOptions);
             }
             case VIEW_TYPE_FOLLOW: {
                 View view = inflater
                         .inflate(R.layout.item_follow, parent, false);
-                return new FollowViewHolder(view, animateAvatar);
+                return new FollowViewHolder(view, statusDisplayOptions);
             }
             case VIEW_TYPE_PLACEHOLDER: {
                 View view = inflater
@@ -137,7 +133,8 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
                                 Utils.convertDpToPx(parent.getContext(), 24)
                         )
                 );
-                return new RecyclerView.ViewHolder(view) {};
+                return new RecyclerView.ViewHolder(view) {
+                };
             }
         }
     }
@@ -171,8 +168,8 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
                     StatusViewHolder holder = (StatusViewHolder) viewHolder;
                     StatusViewData.Concrete status = concreteNotificaton.getStatusViewData();
                     holder.setupWithStatus(status,
-                            statusListener, mediaPreviewEnabled, showBotOverlay, animateAvatar, payloadForHolder);
-                    if(concreteNotificaton.getType() == Notification.Type.POLL) {
+                            statusListener, statusDisplayOptions, payloadForHolder);
+                    if (concreteNotificaton.getType() == Notification.Type.POLL) {
                         holder.setPollInfo(accountId.equals(concreteNotificaton.getAccount().getId()));
                     } else {
                         holder.hideStatusInfo();
@@ -202,7 +199,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
                                 concreteNotificaton.getId());
                     } else {
                         if (payloadForHolder instanceof List)
-                            for (Object item : (List)payloadForHolder) {
+                            for (Object item : (List) payloadForHolder) {
                                 if (StatusBaseViewHolder.Key.KEY_CREATED.equals(item)) {
                                     holder.setCreatedAt(statusViewData.getCreatedAt());
                                 }
@@ -221,12 +218,25 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
                 default:
             }
         }
-
     }
 
     @Override
     public int getItemCount() {
         return dataSource.getItemCount();
+    }
+
+    public void setMediaPreviewEnabled(boolean mediaPreviewEnabled) {
+        this.statusDisplayOptions = statusDisplayOptions.copy(
+                statusDisplayOptions.animateAvatars(),
+                mediaPreviewEnabled,
+                statusDisplayOptions.useAbsoluteTime(),
+                statusDisplayOptions.showBotOverlay(),
+                statusDisplayOptions.useBlurhash()
+        );
+    }
+
+    public boolean isMediaPreviewEnabled() {
+        return this.statusDisplayOptions.mediaPreviewEnabled();
     }
 
     @Override
@@ -256,26 +266,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
             throw new AssertionError("Unknown notification type");
         }
 
-    }
 
-    public void setMediaPreviewEnabled(boolean enabled) {
-        mediaPreviewEnabled = enabled;
-    }
-
-    public boolean isMediaPreviewEnabled() {
-        return mediaPreviewEnabled;
-    }
-
-    public void setUseAbsoluteTime(boolean useAbsoluteTime) {
-        this.useAbsoluteTime = useAbsoluteTime;
-    }
-
-    public void setShowBotOverlay(boolean showBotOverlay) {
-        this.showBotOverlay = showBotOverlay;
-    }
-
-    public void setAnimateAvatar(boolean animateAvatar) {
-        this.animateAvatar = animateAvatar;
     }
 
     public interface NotificationActionListener {
@@ -300,15 +291,15 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
         private TextView usernameView;
         private TextView displayNameView;
         private ImageView avatar;
-        private boolean animateAvatar;
+        private StatusDisplayOptions statusDisplayOptions;
 
-        FollowViewHolder(View itemView, boolean animateAvatar) {
+        FollowViewHolder(View itemView, StatusDisplayOptions statusDisplayOptions) {
             super(itemView);
             message = itemView.findViewById(R.id.notification_text);
             usernameView = itemView.findViewById(R.id.notification_username);
             displayNameView = itemView.findViewById(R.id.notification_display_name);
             avatar = itemView.findViewById(R.id.notification_avatar);
-            this.animateAvatar = animateAvatar;
+            this.statusDisplayOptions = statusDisplayOptions;
         }
 
         void setMessage(Account account, BidiFormatter bidiFormatter) {
@@ -330,7 +321,8 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
             int avatarRadius = avatar.getContext().getResources()
                     .getDimensionPixelSize(R.dimen.avatar_radius_42dp);
 
-            ImageLoadingHelper.loadAvatar(account.getAvatar(), avatar, avatarRadius, animateAvatar);
+            ImageLoadingHelper.loadAvatar(account.getAvatar(), avatar, avatarRadius,
+                    statusDisplayOptions.animateAvatars());
 
         }
 
@@ -352,18 +344,16 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
         private final TextView contentWarningDescriptionTextView;
         private final ToggleButton contentWarningButton;
         private final ToggleButton contentCollapseButton; // TODO: This code SHOULD be based on StatusBaseViewHolder
+        private StatusDisplayOptions statusDisplayOptions;
 
         private String accountId;
         private String notificationId;
         private NotificationActionListener notificationActionListener;
         private StatusViewData.Concrete statusViewData;
-
-        private boolean useAbsoluteTime;
-        private boolean animateAvatar;
         private SimpleDateFormat shortSdf;
         private SimpleDateFormat longSdf;
 
-        StatusNotificationViewHolder(View itemView, boolean useAbsoluteTime, boolean animateAvatar) {
+        StatusNotificationViewHolder(View itemView, StatusDisplayOptions statusDisplayOptions) {
             super(itemView);
             message = itemView.findViewById(R.id.notification_top_text);
             statusNameBar = itemView.findViewById(R.id.status_name_bar);
@@ -376,6 +366,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
             contentWarningDescriptionTextView = itemView.findViewById(R.id.notification_content_warning_description);
             contentWarningButton = itemView.findViewById(R.id.notification_content_warning_button);
             contentCollapseButton = itemView.findViewById(R.id.button_toggle_notification_content);
+            this.statusDisplayOptions = statusDisplayOptions;
 
             int darkerFilter = Color.rgb(123, 123, 123);
             statusAvatar.setColorFilter(darkerFilter, PorterDuff.Mode.MULTIPLY);
@@ -385,9 +376,6 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
             message.setOnClickListener(this);
             statusContent.setOnClickListener(this);
             contentWarningButton.setOnCheckedChangeListener(this);
-
-            this.useAbsoluteTime = useAbsoluteTime;
-            this.animateAvatar = animateAvatar;
             shortSdf = new SimpleDateFormat("HH:mm:ss", Locale.getDefault());
             longSdf = new SimpleDateFormat("MM/dd HH:mm:ss", Locale.getDefault());
         }
@@ -414,7 +402,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
         }
 
         protected void setCreatedAt(@Nullable Date createdAt) {
-            if (useAbsoluteTime) {
+            if (statusDisplayOptions.useAbsoluteTime()) {
                 String time;
                 if (createdAt != null) {
                     if (System.currentTimeMillis() - createdAt.getTime() > 86400000L) {
@@ -511,13 +499,13 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
                     .getDimensionPixelSize(R.dimen.avatar_radius_36dp);
 
             ImageLoadingHelper.loadAvatar(statusAvatarUrl,
-                    statusAvatar, statusAvatarRadius, animateAvatar);
+                    statusAvatar, statusAvatarRadius, statusDisplayOptions.animateAvatars());
 
             int notificationAvatarRadius = statusAvatar.getContext().getResources()
                     .getDimensionPixelSize(R.dimen.avatar_radius_24dp);
 
-            ImageLoadingHelper.loadAvatar(notificationAvatarUrl,
-                    notificationAvatar, notificationAvatarRadius, animateAvatar);
+            ImageLoadingHelper.loadAvatar(notificationAvatarUrl, notificationAvatar,
+                    notificationAvatarRadius, statusDisplayOptions.animateAvatars());
         }
 
         @Override

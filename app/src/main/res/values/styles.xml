@@ -88,9 +88,7 @@
         <item name="status_favourite_active_drawable">@drawable/favourite_active_light</item>
         <item name="status_favourite_inactive_drawable">@drawable/favourite_inactive_light</item>
         <item name="content_warning_button">@drawable/toggle_small_light</item>
-        <item name="sensitive_media_warning_background_color">
-            @color/sensitive_media_warning_background_light
-        </item>
+        <item name="sensitive_media_warning_background_color">#80B0B0B0</item>
         <item name="media_preview_unloaded_drawable">@drawable/media_preview_unloaded_light</item>
         <item name="android:listDivider">@drawable/status_divider_light</item>
         <item name="conversation_thread_line_drawable">@drawable/conversation_thread_line_light
@@ -189,7 +187,7 @@
 
         <item name="recents_background_color">@color/toolbar_background_black</item>
         <item name="window_background">@color/window_background_black</item>
-        <item name="sensitive_media_warning_background_color">@color/color_background_black</item>
+        <item name="sensitive_media_warning_background_color">#80000000</item>
         <item name="account_header_background_color">@color/color_background_black</item>
 
         <item name="report_status_background_color">@color/color_background_black</item>

@@ -12,20 +12,21 @@ import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.adapter.NetworkStateViewHolder
 import com.keylesspalace.tusky.interfaces.StatusActionListener
 import com.keylesspalace.tusky.util.NetworkState
+import com.keylesspalace.tusky.util.StatusDisplayOptions
 
-class ConversationAdapter(private val useAbsoluteTime: Boolean,
-                          private val mediaPreviewEnabled: Boolean,
-                          private val listener: StatusActionListener,
-                          private val topLoadedCallback: () -> Unit,
-                          private val retryCallback: () -> Unit)
- : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class ConversationAdapter(
+        private val statusDisplayOptions: StatusDisplayOptions,
+        private val listener: StatusActionListener,
+        private val topLoadedCallback: () -> Unit,
+        private val retryCallback: () -> Unit
+) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private var networkState: NetworkState? = null
 
-    private val differ: AsyncPagedListDiffer<ConversationEntity> = AsyncPagedListDiffer(object: ListUpdateCallback {
+    private val differ: AsyncPagedListDiffer<ConversationEntity> = AsyncPagedListDiffer(object : ListUpdateCallback {
         override fun onInserted(position: Int, count: Int) {
             notifyItemRangeInserted(position, count)
-            if(position == 0) {
+            if (position == 0) {
                 topLoadedCallback()
             }
         }
@@ -51,7 +52,8 @@ class ConversationAdapter(private val useAbsoluteTime: Boolean,
         val view = LayoutInflater.from(parent.context).inflate(viewType, parent, false)
         return when (viewType) {
             R.layout.item_network_state -> NetworkStateViewHolder(view, retryCallback)
-            R.layout.item_conversation -> ConversationViewHolder(view, listener, useAbsoluteTime, mediaPreviewEnabled)
+            R.layout.item_conversation -> ConversationViewHolder(view, statusDisplayOptions,
+                    listener)
             else -> throw IllegalArgumentException("unknown view type $viewType")
         }
     }

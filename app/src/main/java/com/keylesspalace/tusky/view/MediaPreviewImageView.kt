@@ -50,7 +50,7 @@ defStyleAttr: Int = 0
     /**
      * Set the focal point for this view.
      */
-    fun setFocalPoint(focus: Attachment.Focus) {
+    fun setFocalPoint(focus: Attachment.Focus?) {
         this.focus = focus
         super.setScaleType(ScaleType.MATRIX)
 
