@@ -64,7 +64,12 @@ class ScheduledTootActivity : BaseActivity(), ScheduledTootAction, Injectable {
                 Status.SUCCESS -> {
                     progressBar.hide()
                     swipeRefreshLayout.isRefreshing = false
-                    errorMessageView.hide()
+                    if(viewModel.data.value?.loadedCount == 0) {
+                        errorMessageView.setup(R.drawable.elephant_friend_empty, R.string.no_scheduled_status)
+                        errorMessageView.show()
+                    } else {
+                        errorMessageView.hide()
+                    }
                 }
                 Status.RUNNING -> {
                     errorMessageView.hide()
