@@ -20,6 +20,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.TextView
+import androidx.paging.PagedListAdapter
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.entity.ScheduledStatus
@@ -31,9 +33,18 @@ interface ScheduledTootAction {
 
 class ScheduledTootAdapter(
         val listener: ScheduledTootAction
-) : RecyclerView.Adapter<ScheduledTootAdapter.TootViewHolder>() {
+) : PagedListAdapter<ScheduledStatus, ScheduledTootAdapter.TootViewHolder>(
+        object: DiffUtil.ItemCallback<ScheduledStatus>(){
+            override fun areItemsTheSame(oldItem: ScheduledStatus, newItem: ScheduledStatus): Boolean {
+                return oldItem.id == newItem.id
+            }
 
-    private var items: MutableList<ScheduledStatus> = mutableListOf()
+            override fun areContentsTheSame(oldItem: ScheduledStatus, newItem: ScheduledStatus): Boolean {
+                return oldItem == newItem
+            }
+
+        }
+) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TootViewHolder {
         val view = LayoutInflater.from(parent.context)
@@ -42,24 +53,11 @@ class ScheduledTootAdapter(
     }
 
     override fun onBindViewHolder(viewHolder: TootViewHolder, position: Int) {
-        viewHolder.bind(items[position])
-    }
-
-    override fun getItemCount() = items.size
-
-    fun setItems(newItems: List<ScheduledStatus>) {
-        items = newItems.toMutableList()
-        notifyDataSetChanged()
-    }
-
-    fun removeItem(position: Int): ScheduledStatus? {
-        if (position < 0 || position >= items.size) {
-            return null
+        getItem(position)?.let{
+            viewHolder.bind(it)
         }
-        val toot = items.removeAt(position)
-        notifyItemRemoved(position)
-        return toot
     }
+
 
     inner class TootViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
@@ -70,15 +68,15 @@ class ScheduledTootAdapter(
         fun bind(item: ScheduledStatus) {
             edit.isEnabled = true
             delete.isEnabled = true
-                text.text = item.params.text
-                edit.setOnClickListener { v: View ->
-                    v.isEnabled = false
-                    listener.edit(adapterPosition, item)
-                }
-                delete.setOnClickListener { v: View ->
-                    v.isEnabled = false
-                    listener.delete(adapterPosition, item)
-                }
+            text.text = item.params.text
+            edit.setOnClickListener { v: View ->
+                v.isEnabled = false
+                listener.edit(adapterPosition, item)
+            }
+            delete.setOnClickListener { v: View ->
+                v.isEnabled = false
+                listener.delete(adapterPosition, item)
+            }
 
         }
 

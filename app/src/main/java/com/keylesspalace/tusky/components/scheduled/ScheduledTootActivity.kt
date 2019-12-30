@@ -3,9 +3,10 @@ package com.keylesspalace.tusky.components.scheduled
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.view.View
 import android.view.MenuItem
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.keylesspalace.tusky.BaseActivity
@@ -14,8 +15,9 @@ import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.appstore.StatusScheduledEvent
 import com.keylesspalace.tusky.components.compose.ComposeActivity
 import com.keylesspalace.tusky.di.Injectable
+import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.entity.ScheduledStatus
-import com.keylesspalace.tusky.network.MastodonApi
+import com.keylesspalace.tusky.util.Status
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.show
 import com.uber.autodispose.AutoDispose.autoDisposable
@@ -23,12 +25,7 @@ import com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider.from
 import io.reactivex.android.schedulers.AndroidSchedulers
 import kotlinx.android.synthetic.main.activity_scheduled_toot.*
 import kotlinx.android.synthetic.main.toolbar_basic.*
-import okhttp3.ResponseBody
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 import javax.inject.Inject
-
 
 class ScheduledTootActivity : BaseActivity(), ScheduledTootAction, Injectable {
 
@@ -42,9 +39,11 @@ class ScheduledTootActivity : BaseActivity(), ScheduledTootAction, Injectable {
     lateinit var adapter: ScheduledTootAdapter
 
     @Inject
-    lateinit var mastodonApi: MastodonApi
-    @Inject
     lateinit var eventHub: EventHub
+    @Inject
+    lateinit var viewModelFactory: ViewModelFactory
+
+    lateinit var viewModel: ScheduledTootViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -66,6 +65,8 @@ class ScheduledTootActivity : BaseActivity(), ScheduledTootAction, Injectable {
         scheduledTootList.addItemDecoration(divider)
         adapter = ScheduledTootAdapter(this)
         scheduledTootList.adapter = adapter
+
+        viewModel = ViewModelProvider(this, viewModelFactory)[ScheduledTootViewModel::class.java]
 
         loadStatuses()
 
@@ -90,55 +91,42 @@ class ScheduledTootActivity : BaseActivity(), ScheduledTootAction, Injectable {
     }
 
     fun loadStatuses() {
-        progressBar.visibility = View.VISIBLE
-        mastodonApi.scheduledStatuses()
-                .enqueue(object : Callback<List<ScheduledStatus>> {
-                    override fun onResponse(call: Call<List<ScheduledStatus>>, response: Response<List<ScheduledStatus>>) {
-                        progressBar.visibility = View.GONE
-                        if (response.body().isNullOrEmpty()) {
-                            errorMessageView.show()
-                            errorMessageView.setup(R.drawable.elephant_friend_empty, R.string.message_empty,
-                                    null)
-                        } else {
-                            show(response.body()!!)
-                        }
-                    }
+        viewModel.data.observe(this, Observer {
+            adapter.submitList(it)
+        })
 
-                    override fun onFailure(call: Call<List<ScheduledStatus>>, t: Throwable) {
-                        progressBar.visibility = View.GONE
-                        errorMessageView.show()
-                        errorMessageView.setup(R.drawable.elephant_error, R.string.error_generic) {
-                            errorMessageView.hide()
-                            loadStatuses()
-                        }
+        viewModel.networkState.observe(this, Observer { (status) ->
+            when(status) {
+                Status.SUCCESS -> {
+                    progressBar.hide()
+                    swipeRefreshLayout.isRefreshing = false
+                    errorMessageView.hide()
+                }
+                Status.RUNNING -> {
+                    errorMessageView.hide()
+                    if(viewModel.data.value?.loadedCount ?: 0 > 0) {
+                        swipeRefreshLayout.isRefreshing = true
+                    } else {
+                        progressBar.show()
                     }
-                })
+                }
+                Status.FAILED -> {
+                    if(viewModel.data.value?.loadedCount ?: 0 >= 0) {
+                        progressBar.hide()
+                        swipeRefreshLayout.isRefreshing = false
+                        errorMessageView.setup(R.drawable.elephant_error, R.string.error_generic) {
+                            refreshStatuses()
+                        }
+                        errorMessageView.show()
+                    }
+                }
+            }
+
+        })
     }
 
     private fun refreshStatuses() {
-        swipeRefreshLayout.isRefreshing = true
-        mastodonApi.scheduledStatuses()
-                .enqueue(object : Callback<List<ScheduledStatus>> {
-                    override fun onResponse(call: Call<List<ScheduledStatus>>, response: Response<List<ScheduledStatus>>) {
-                        swipeRefreshLayout.isRefreshing = false
-                        if (response.body().isNullOrEmpty()) {
-                            errorMessageView.show()
-                            errorMessageView.setup(R.drawable.elephant_friend_empty, R.string.message_empty,
-                                    null)
-                        } else {
-                            show(response.body()!!)
-                        }
-                    }
-
-                    override fun onFailure(call: Call<List<ScheduledStatus>>, t: Throwable) {
-                        swipeRefreshLayout.isRefreshing = false
-                    }
-                })
-    }
-
-    fun show(statuses: List<ScheduledStatus>) {
-        adapter.setItems(statuses)
-        adapter.notifyDataSetChanged()
+        viewModel.reload()
     }
 
     override fun edit(position: Int, item: ScheduledStatus?) {
@@ -162,15 +150,7 @@ class ScheduledTootActivity : BaseActivity(), ScheduledTootAction, Injectable {
         if (item == null) {
             return
         }
-        mastodonApi.deleteScheduledStatus(item.id)
-                .enqueue(object : Callback<ResponseBody> {
-                    override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
-                        adapter.removeItem(position)
-                    }
 
-                    override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-
-                    }
-                })
+        viewModel.deleteScheduledStatus(item)
     }
 }
