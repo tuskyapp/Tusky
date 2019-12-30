@@ -4,15 +4,12 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.keylesspalace.tusky.BaseActivity
 import com.keylesspalace.tusky.R
-import com.keylesspalace.tusky.appstore.EventHub
-import com.keylesspalace.tusky.appstore.StatusScheduledEvent
 import com.keylesspalace.tusky.components.compose.ComposeActivity
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.di.ViewModelFactory
@@ -20,30 +17,18 @@ import com.keylesspalace.tusky.entity.ScheduledStatus
 import com.keylesspalace.tusky.util.Status
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.show
-import com.uber.autodispose.AutoDispose.autoDisposable
-import com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider.from
-import io.reactivex.android.schedulers.AndroidSchedulers
 import kotlinx.android.synthetic.main.activity_scheduled_toot.*
 import kotlinx.android.synthetic.main.toolbar_basic.*
 import javax.inject.Inject
 
 class ScheduledTootActivity : BaseActivity(), ScheduledTootAction, Injectable {
 
-    companion object {
-        @JvmStatic
-        fun newIntent(context: Context): Intent {
-            return Intent(context, ScheduledTootActivity::class.java)
-        }
-    }
-
-    lateinit var adapter: ScheduledTootAdapter
-
-    @Inject
-    lateinit var eventHub: EventHub
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
 
     lateinit var viewModel: ScheduledTootViewModel
+
+    private val adapter = ScheduledTootAdapter(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,38 +44,13 @@ class ScheduledTootActivity : BaseActivity(), ScheduledTootAction, Injectable {
         swipeRefreshLayout.setOnRefreshListener(this::refreshStatuses)
 
         scheduledTootList.setHasFixedSize(true)
-        val layoutManager = LinearLayoutManager(this)
-        scheduledTootList.layoutManager = layoutManager
-        val divider = DividerItemDecoration(this, layoutManager.orientation)
+        scheduledTootList.layoutManager = LinearLayoutManager(this)
+        val divider = DividerItemDecoration(this, DividerItemDecoration.VERTICAL)
         scheduledTootList.addItemDecoration(divider)
-        adapter = ScheduledTootAdapter(this)
         scheduledTootList.adapter = adapter
 
         viewModel = ViewModelProvider(this, viewModelFactory)[ScheduledTootViewModel::class.java]
 
-        loadStatuses()
-
-        eventHub.events
-                .observeOn(AndroidSchedulers.mainThread())
-                .`as`(autoDisposable(from(this, Lifecycle.Event.ON_DESTROY)))
-                .subscribe { event ->
-                    if (event is StatusScheduledEvent) {
-                        refreshStatuses()
-                    }
-                }
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            android.R.id.home -> {
-                onBackPressed()
-                return true
-            }
-        }
-        return super.onOptionsItemSelected(item)
-    }
-
-    fun loadStatuses() {
         viewModel.data.observe(this, Observer {
             adapter.submitList(it)
         })
@@ -123,16 +83,24 @@ class ScheduledTootActivity : BaseActivity(), ScheduledTootAction, Injectable {
             }
 
         })
+
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            android.R.id.home -> {
+                onBackPressed()
+                return true
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     private fun refreshStatuses() {
         viewModel.reload()
     }
 
-    override fun edit(position: Int, item: ScheduledStatus?) {
-        if (item == null) {
-            return
-        }
+    override fun edit(item: ScheduledStatus) {
         val intent = ComposeActivity.startIntent(this, ComposeActivity.ComposeOptions(
                 tootText = item.params.text,
                 contentWarning = item.params.spoilerText,
@@ -143,14 +111,16 @@ class ScheduledTootActivity : BaseActivity(), ScheduledTootAction, Injectable {
                 sensitive = item.params.sensitive
         ))
         startActivity(intent)
-        delete(position, item)
     }
 
-    override fun delete(position: Int, item: ScheduledStatus?) {
-        if (item == null) {
-            return
-        }
-
+    override fun delete(item: ScheduledStatus) {
         viewModel.deleteScheduledStatus(item)
+    }
+
+    companion object {
+        @JvmStatic
+        fun newIntent(context: Context): Intent {
+            return Intent(context, ScheduledTootActivity::class.java)
+        }
     }
 }

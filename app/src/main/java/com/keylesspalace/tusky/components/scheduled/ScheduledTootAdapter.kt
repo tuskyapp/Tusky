@@ -27,8 +27,8 @@ import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.entity.ScheduledStatus
 
 interface ScheduledTootAction {
-    fun edit(position: Int, item: ScheduledStatus?)
-    fun delete(position: Int, item: ScheduledStatus?)
+    fun edit(item: ScheduledStatus)
+    fun delete(item: ScheduledStatus)
 }
 
 class ScheduledTootAdapter(
@@ -71,11 +71,11 @@ class ScheduledTootAdapter(
             text.text = item.params.text
             edit.setOnClickListener { v: View ->
                 v.isEnabled = false
-                listener.edit(adapterPosition, item)
+                listener.edit(item)
             }
             delete.setOnClickListener { v: View ->
                 v.isEnabled = false
-                listener.delete(adapterPosition, item)
+                listener.delete(item)
             }
 
         }
