@@ -15,6 +15,7 @@ import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.entity.ScheduledStatus
 import com.keylesspalace.tusky.util.Status
+import com.keylesspalace.tusky.util.ThemeUtils
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.show
 import kotlinx.android.synthetic.main.activity_scheduled_toot.*
@@ -42,6 +43,9 @@ class ScheduledTootActivity : BaseActivity(), ScheduledTootAction, Injectable {
         }
 
         swipeRefreshLayout.setOnRefreshListener(this::refreshStatuses)
+        swipeRefreshLayout.setColorSchemeResources(R.color.tusky_blue)
+        swipeRefreshLayout.setProgressBackgroundColorSchemeColor(
+                ThemeUtils.getColor(this, android.R.attr.colorBackground))
 
         scheduledTootList.setHasFixedSize(true)
         scheduledTootList.layoutManager = LinearLayoutManager(this)
