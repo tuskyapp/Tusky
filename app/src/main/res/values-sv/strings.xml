@@ -470,4 +470,11 @@
     <string name="action_reset_schedule">Återställ</string>
     <string name="post_lookup_error_format">Fel vid uppslagning av status %s</string>
 
-</resources>
+<string name="title_bookmarks">Bokmärken</string>
+    <string name="action_bookmark">Bokmärk</string>
+    <string name="action_view_bookmarks">Bokmärken</string>
+    <string name="about_powered_by_tusky">Drivs av Tusky</string>
+    <string name="description_status_bookmarked">Bokmärkt</string>
+    <string name="select_list_title">Välj lista</string>
+    <string name="list">Lista</string>
+    </resources>
