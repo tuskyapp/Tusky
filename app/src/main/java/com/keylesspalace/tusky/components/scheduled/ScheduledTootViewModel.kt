@@ -23,6 +23,7 @@ import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.appstore.StatusScheduledEvent
 import com.keylesspalace.tusky.entity.ScheduledStatus
 import com.keylesspalace.tusky.network.MastodonApi
+import com.keylesspalace.tusky.util.RxAwareViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo
@@ -31,9 +32,7 @@ import javax.inject.Inject
 class ScheduledTootViewModel @Inject constructor(
         val mastodonApi: MastodonApi,
         val eventHub: EventHub
-): ViewModel() {
-
-    private val disposables = CompositeDisposable()
+): RxAwareViewModel() {
 
     private val dataSourceFactory = ScheduledTootDataSourceFactory(mastodonApi, disposables)
 
@@ -51,7 +50,7 @@ class ScheduledTootViewModel @Inject constructor(
                         reload()
                     }
                 }
-                .addTo(disposables)
+                .autoDispose()
     }
 
     fun reload() {
@@ -65,12 +64,8 @@ class ScheduledTootViewModel @Inject constructor(
                 },{ throwable ->
                     Log.w("ScheduledTootViewModel", "Error deleting scheduled status", throwable)
                 })
-                .addTo(disposables)
+                .autoDispose()
 
-    }
-
-    override fun onCleared() {
-        disposables.clear()
     }
 
 }

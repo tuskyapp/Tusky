@@ -37,7 +37,7 @@ import kotlinx.android.synthetic.main.activity_scheduled_toot.*
 import kotlinx.android.synthetic.main.toolbar_basic.*
 import javax.inject.Inject
 
-class ScheduledTootActivity : BaseActivity(), ScheduledTootAction, Injectable {
+class ScheduledTootActivity : BaseActivity(), ScheduledTootActionListener, Injectable {
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory

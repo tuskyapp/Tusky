@@ -26,13 +26,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.entity.ScheduledStatus
 
-interface ScheduledTootAction {
+interface ScheduledTootActionListener {
     fun edit(item: ScheduledStatus)
     fun delete(item: ScheduledStatus)
 }
 
 class ScheduledTootAdapter(
-        val listener: ScheduledTootAction
+        val listener: ScheduledTootActionListener
 ) : PagedListAdapter<ScheduledStatus, ScheduledTootAdapter.TootViewHolder>(
         object: DiffUtil.ItemCallback<ScheduledStatus>(){
             override fun areItemsTheSame(oldItem: ScheduledStatus, newItem: ScheduledStatus): Boolean {
