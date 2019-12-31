@@ -215,8 +215,11 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             LinkHelper.setClickableText(this.content, emojifiedText, mentions, listener);
             if (poll != null) {
                 setupPoll(poll, emojis, listener);
+            } else {
+                hidePoll();
             }
         } else {
+            hidePoll();
             LinkHelper.setClickableMentions(this.content, mentions, listener);
         }
         if (TextUtils.isEmpty(this.content.getText())) {
@@ -224,14 +227,12 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         } else {
             this.content.setVisibility(View.VISIBLE);
         }
-        setPollVisible(poll != null && expanded);
     }
 
-    private void setPollVisible(boolean visible) {
-        int visibility = visible ? View.VISIBLE : View.GONE;
-        pollButton.setVisibility(visibility);
-        pollDescription.setVisibility(visibility);
-        pollOptions.setVisibility(visibility);
+    private void hidePoll() {
+        pollButton.setVisibility(View.GONE);
+        pollDescription.setVisibility(View.GONE);
+        pollOptions.setVisibility(View.GONE);
     }
 
     private void setAvatar(String url,
