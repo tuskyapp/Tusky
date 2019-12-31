@@ -37,7 +37,7 @@ class BackgroundMessageView @JvmOverloads constructor(
      * If [clickListener] is `null` then the button will be hidden.
      */
     fun setup(@DrawableRes imageRes: Int, @StringRes messageRes: Int,
-              clickListener: ((v: View) -> Unit)?) {
+              clickListener: ((v: View) -> Unit)? = null) {
         messageTextView.setText(messageRes)
         messageTextView.setCompoundDrawablesWithIntrinsicBounds(0, imageRes, 0, 0)
         button.setOnClickListener(clickListener)

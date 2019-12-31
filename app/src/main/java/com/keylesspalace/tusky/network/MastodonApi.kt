@@ -201,12 +201,15 @@ interface MastodonApi {
     ): Single<Status>
 
     @GET("api/v1/scheduled_statuses")
-    fun scheduledStatuses(): Call<List<ScheduledStatus>>
+    fun scheduledStatuses(
+            @Query("limit") limit: Int? = null,
+            @Query("max_id") maxId: String? = null
+    ): Single<List<ScheduledStatus>>
 
     @DELETE("api/v1/scheduled_statuses/{id}")
     fun deleteScheduledStatus(
             @Path("id") scheduledStatusId: String
-    ): Call<ResponseBody>
+    ): Single<ResponseBody>
 
     @GET("api/v1/accounts/verify_credentials")
     fun accountVerifyCredentials(): Single<Account>
