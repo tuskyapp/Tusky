@@ -4,15 +4,13 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
-import androidx.lifecycle.ViewModel
 import androidx.paging.PagedList
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.db.AppDatabase
 import com.keylesspalace.tusky.network.TimelineCases
 import com.keylesspalace.tusky.util.Listing
 import com.keylesspalace.tusky.util.NetworkState
-import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.rxkotlin.addTo
+import com.keylesspalace.tusky.util.RxAwareViewModel
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
@@ -21,15 +19,13 @@ class ConversationsViewModel @Inject constructor(
         private val timelineCases: TimelineCases,
         private val database: AppDatabase,
         private val accountManager: AccountManager
-) : ViewModel() {
+) : RxAwareViewModel() {
 
     private val repoResult = MutableLiveData<Listing<ConversationEntity>>()
 
     val conversations: LiveData<PagedList<ConversationEntity>> = Transformations.switchMap(repoResult) { it.pagedList }
     val networkState: LiveData<NetworkState> = Transformations.switchMap(repoResult) { it.networkState }
     val refreshState: LiveData<NetworkState> = Transformations.switchMap(repoResult) { it.refreshState }
-
-    private val disposables = CompositeDisposable()
 
     fun load() {
         val accountId = accountManager.activeAccount?.id ?: return
@@ -61,7 +57,7 @@ class ConversationsViewModel @Inject constructor(
                     .doOnError { t -> Log.w("ConversationViewModel", "Failed to favourite conversation", t) }
                     .onErrorReturnItem(0)
                     .subscribe()
-                    .addTo(disposables)
+                    .autoDispose()
         }
 
     }
@@ -79,7 +75,7 @@ class ConversationsViewModel @Inject constructor(
                     .subscribeOn(Schedulers.io())
                     .doOnError { t -> Log.w("ConversationViewModel", "Failed to bookmark conversation", t) }
                     .subscribe()
-                    .addTo(disposables)
+                    .autoDispose()
         }
 
     }
@@ -98,7 +94,7 @@ class ConversationsViewModel @Inject constructor(
                     .doOnError { t -> Log.w("ConversationViewModel", "Failed to favourite conversation", t) }
                     .onErrorReturnItem(0)
                     .subscribe()
-                    .addTo(disposables)
+                    .autoDispose()
         }
 
     }
@@ -148,10 +144,6 @@ class ConversationsViewModel @Inject constructor(
         database.conversationDao().insert(conversation)
                 .subscribeOn(Schedulers.io())
                 .subscribe()
-    }
-
-    override fun onCleared() {
-        disposables.dispose()
     }
 
 }

@@ -18,7 +18,6 @@ package com.keylesspalace.tusky.components.report
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
-import androidx.lifecycle.ViewModel
 import androidx.paging.PagedList
 import com.keylesspalace.tusky.components.report.adapter.StatusesRepository
 import com.keylesspalace.tusky.components.report.model.StatusViewState
@@ -26,16 +25,13 @@ import com.keylesspalace.tusky.entity.Relationship
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.*
-import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
 class ReportViewModel @Inject constructor(
         private val mastodonApi: MastodonApi,
-        private val statusesRepository: StatusesRepository) : ViewModel() {
-    private val disposables = CompositeDisposable()
+        private val statusesRepository: StatusesRepository) : RxAwareViewModel() {
 
     private val navigationMutable = MutableLiveData<Screen>()
     val navigation: LiveData<Screen> = navigationMutable
@@ -87,11 +83,6 @@ class ReportViewModel @Inject constructor(
         repoResult.value = statusesRepository.getStatuses(accountId, statusId, disposables)
     }
 
-    override fun onCleared() {
-        super.onCleared()
-        disposables.clear()
-    }
-
     fun navigateTo(screen: Screen) {
         navigationMutable.value = screen
     }
@@ -105,19 +96,19 @@ class ReportViewModel @Inject constructor(
         val ids = listOf(accountId)
         muteStateMutable.value = Loading()
         blockStateMutable.value = Loading()
-        disposables.add(
-                mastodonApi.relationshipsObservable(ids)
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(
-                                { data ->
-                                    updateRelationship(data.getOrNull(0))
+        mastodonApi.relationshipsObservable(ids)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        { data ->
+                            updateRelationship(data.getOrNull(0))
 
-                                },
-                                {
-                                    updateRelationship(null)
-                                }
-                        ))
+                        },
+                        {
+                            updateRelationship(null)
+                        }
+                )
+                .autoDispose()
     }
 
 
@@ -132,62 +123,61 @@ class ReportViewModel @Inject constructor(
     }
 
     fun toggleMute() {
-        val single: Single<Relationship> = if (muteStateMutable.value?.data == true) {
+        muteStateMutable.value = Loading()
+
+        if (muteStateMutable.value?.data == true) {
             mastodonApi.unmuteAccountObservable(accountId)
         } else {
             mastodonApi.muteAccountObservable(accountId)
         }
-        muteStateMutable.value = Loading()
-        disposables.add(
-                single
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(
-                                { relationship ->
-                                    muteStateMutable.value = Success(relationship?.muting == true)
-                                },
-                                { error ->
-                                    muteStateMutable.value = Error(false, error.message)
-                                }
-                        ))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        { relationship ->
+                            muteStateMutable.value = Success(relationship?.muting == true)
+                        },
+                        { error ->
+                            muteStateMutable.value = Error(false, error.message)
+                        }
+                ).autoDispose()
     }
 
     fun toggleBlock() {
-        val single: Single<Relationship> = if (blockStateMutable.value?.data == true) {
+        blockStateMutable.value = Loading()
+
+        if (blockStateMutable.value?.data == true) {
             mastodonApi.unblockAccountObservable(accountId)
         } else {
             mastodonApi.blockAccountObservable(accountId)
         }
-        blockStateMutable.value = Loading()
-        disposables.add(
-                single
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(
-                                { relationship ->
-                                    blockStateMutable.value = Success(relationship?.blocking == true)
-                                },
-                                { error ->
-                                    blockStateMutable.value = Error(false, error.message)
-                                }
-                        ))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        { relationship ->
+                            blockStateMutable.value = Success(relationship?.blocking == true)
+                        },
+                        { error ->
+                            blockStateMutable.value = Error(false, error.message)
+                        }
+                )
+                .autoDispose()
     }
 
     fun doReport() {
         reportingStateMutable.value = Loading()
-        disposables.add(
-                mastodonApi.reportObservable(accountId, selectedIds.toList(), reportNote, if (isRemoteAccount) isRemoteNotify else null)
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(
-                                {
-                                    reportingStateMutable.value = Success(true)
-                                },
-                                { error ->
-                                    reportingStateMutable.value = Error(cause = error)
-                                }
-                        )
-        )
+        mastodonApi.reportObservable(accountId, selectedIds.toList(), reportNote, if (isRemoteAccount) isRemoteNotify else null)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        {
+                            reportingStateMutable.value = Success(true)
+                        },
+                        { error ->
+                            reportingStateMutable.value = Error(cause = error)
+                        }
+                )
+                .autoDispose()
+
     }
 
     fun retryStatusLoad() {
