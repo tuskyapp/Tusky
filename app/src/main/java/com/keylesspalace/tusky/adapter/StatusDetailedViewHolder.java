@@ -4,11 +4,8 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
-import android.text.SpannableStringBuilder;
-import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
-import android.text.style.URLSpan;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -26,7 +23,6 @@ import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.entity.Card;
 import com.keylesspalace.tusky.entity.Status;
 import com.keylesspalace.tusky.interfaces.StatusActionListener;
-import com.keylesspalace.tusky.util.CustomURLSpan;
 import com.keylesspalace.tusky.util.LinkHelper;
 import com.keylesspalace.tusky.util.StatusDisplayOptions;
 import com.keylesspalace.tusky.viewdata.StatusViewData;
@@ -66,8 +62,8 @@ class StatusDetailedViewHolder extends StatusBaseViewHolder {
     }
 
     @Override
-    protected void setCreatedAt(Date createdAt) {
-        if(createdAt == null) {
+    protected void setCreatedAt(Date createdAt, StatusDisplayOptions statusDisplayOptions) {
+        if (createdAt == null) {
             timestampInfo.setText("");
         } else {
             DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.DEFAULT, DateFormat.SHORT);
@@ -154,11 +150,11 @@ class StatusDetailedViewHolder extends StatusBaseViewHolder {
                 final Card card = status.getCard();
                 cardView.setVisibility(View.VISIBLE);
                 cardTitle.setText(card.getTitle());
-                if(TextUtils.isEmpty(card.getDescription()) && TextUtils.isEmpty(card.getAuthorName())) {
+                if (TextUtils.isEmpty(card.getDescription()) && TextUtils.isEmpty(card.getAuthorName())) {
                     cardDescription.setVisibility(View.GONE);
                 } else {
                     cardDescription.setVisibility(View.VISIBLE);
-                    if(TextUtils.isEmpty(card.getDescription())) {
+                    if (TextUtils.isEmpty(card.getDescription())) {
                         cardDescription.setText(card.getAuthorName());
                     } else {
                         cardDescription.setText(card.getDescription());
@@ -199,7 +195,6 @@ class StatusDetailedViewHolder extends StatusBaseViewHolder {
                     }
 
 
-
                     Glide.with(cardImage)
                             .load(card.getImage())
                             .transform(
@@ -232,7 +227,7 @@ class StatusDetailedViewHolder extends StatusBaseViewHolder {
 
     private void setStatusVisibility(Status.Visibility visibility) {
 
-        if(visibility == null) {
+        if (visibility == null) {
             return;
         }
 
