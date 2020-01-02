@@ -16,7 +16,6 @@
 package com.keylesspalace.tusky.components.scheduled
 
 import android.util.Log
-import androidx.lifecycle.ViewModel
 import androidx.paging.Config
 import androidx.paging.toLiveData
 import com.keylesspalace.tusky.appstore.EventHub
@@ -25,8 +24,6 @@ import com.keylesspalace.tusky.entity.ScheduledStatus
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.RxAwareViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.rxkotlin.addTo
 import javax.inject.Inject
 
 class ScheduledTootViewModel @Inject constructor(

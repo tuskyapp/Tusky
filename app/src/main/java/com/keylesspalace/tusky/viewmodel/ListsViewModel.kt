@@ -16,14 +16,12 @@
 
 package com.keylesspalace.tusky.viewmodel
 
-import androidx.lifecycle.ViewModel
 import com.keylesspalace.tusky.entity.MastoList
 import com.keylesspalace.tusky.network.MastodonApi
-import com.keylesspalace.tusky.util.withoutFirstWhich
+import com.keylesspalace.tusky.util.RxAwareViewModel
 import com.keylesspalace.tusky.util.replacedFirstWhich
+import com.keylesspalace.tusky.util.withoutFirstWhich
 import io.reactivex.Observable
-import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.rxkotlin.addTo
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.PublishSubject
 import java.io.IOException
@@ -31,7 +29,7 @@ import java.net.ConnectException
 import javax.inject.Inject
 
 
-internal class ListsViewModel @Inject constructor(private val api: MastodonApi) : ViewModel() {
+internal class ListsViewModel @Inject constructor(private val api: MastodonApi) : RxAwareViewModel() {
     enum class LoadingState {
         INITIAL, LOADING, LOADED, ERROR_NETWORK, ERROR_OTHER
     }
@@ -46,7 +44,6 @@ internal class ListsViewModel @Inject constructor(private val api: MastodonApi) 
     val events: Observable<Event> get() = _events
     private val _state = BehaviorSubject.createDefault(State(listOf(), LoadingState.INITIAL))
     private val _events = PublishSubject.create<Event>()
-    private val disposable = CompositeDisposable()
 
     fun retryLoading() {
         loadIfNeeded()
@@ -71,7 +68,7 @@ internal class ListsViewModel @Inject constructor(private val api: MastodonApi) 
                 copy(loadingState = if (err is IOException || err is ConnectException)
                     LoadingState.ERROR_NETWORK else LoadingState.ERROR_OTHER)
             }
-        }).addTo(disposable)
+        }).autoDispose()
     }
 
     fun createNewList(listName: String) {
@@ -81,7 +78,7 @@ internal class ListsViewModel @Inject constructor(private val api: MastodonApi) 
             }
         }, {
             sendEvent(Event.CREATE_ERROR)
-        }).addTo(disposable)
+        }).autoDispose()
     }
 
     fun renameList(listId: String, listName: String) {
@@ -91,7 +88,7 @@ internal class ListsViewModel @Inject constructor(private val api: MastodonApi) 
             }
         }, {
             sendEvent(Event.RENAME_ERROR)
-        }).addTo(disposable)
+        }).autoDispose()
     }
 
     fun deleteList(listId: String) {
@@ -101,7 +98,7 @@ internal class ListsViewModel @Inject constructor(private val api: MastodonApi) 
             }
         }, {
             sendEvent(Event.DELETE_ERROR)
-        }).addTo(disposable)
+        }).autoDispose()
     }
 
     private inline fun updateState(crossinline fn: State.() -> State) {
