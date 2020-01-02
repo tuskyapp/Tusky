@@ -123,8 +123,6 @@ class ReportViewModel @Inject constructor(
     }
 
     fun toggleMute() {
-        muteStateMutable.value = Loading()
-
         if (muteStateMutable.value?.data == true) {
             mastodonApi.unmuteAccountObservable(accountId)
         } else {
@@ -140,11 +138,11 @@ class ReportViewModel @Inject constructor(
                             muteStateMutable.value = Error(false, error.message)
                         }
                 ).autoDispose()
+
+        muteStateMutable.value = Loading()
     }
 
     fun toggleBlock() {
-        blockStateMutable.value = Loading()
-
         if (blockStateMutable.value?.data == true) {
             mastodonApi.unblockAccountObservable(accountId)
         } else {
@@ -161,6 +159,8 @@ class ReportViewModel @Inject constructor(
                         }
                 )
                 .autoDispose()
+
+        blockStateMutable.value = Loading()
     }
 
     fun doReport() {
