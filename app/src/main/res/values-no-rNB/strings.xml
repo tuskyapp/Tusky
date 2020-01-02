@@ -516,4 +516,8 @@
     <string name="description_status_bookmarked">Bokmerke lagt til</string>
     <string name="select_list_title">Velg liste</string>
     <string name="list">Liste</string>
-    </resources>
+    <string name="gradient_for_media">Vis fargegradienter for skjult media</string>
+
+    <string name="no_scheduled_status">Du har ingen planlagte statuser.</string>
+
+</resources>
