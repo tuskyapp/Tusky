@@ -203,6 +203,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
         android:layout_marginBottom="4dp"
+        android:background="@drawable/media_preview_outline"
         android:importantForAccessibility="noHideDescendants"
         app:layout_constraintTop_toBottomOf="@id/card_view">
 
@@ -319,7 +320,10 @@
             android:gravity="center"
             android:lineSpacingMultiplier="1.2"
             android:orientation="vertical"
-            android:padding="8dp"
+            android:paddingLeft="12dp"
+            android:paddingTop="8dp"
+            android:paddingRight="12dp"
+            android:paddingBottom="8dp"
             android:textAlignment="center"
             android:textColor="@android:color/white"
             android:textSize="?attr/status_text_medium"
