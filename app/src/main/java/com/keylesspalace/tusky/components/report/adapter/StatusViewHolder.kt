@@ -61,6 +61,7 @@ class StatusViewHolder(
                 adapterHandler.setStatusChecked(status, isChecked)
             }
         }
+        itemView.status_media_preview_container.clipToOutline = true
     }
 
     fun bind(status: Status) {
