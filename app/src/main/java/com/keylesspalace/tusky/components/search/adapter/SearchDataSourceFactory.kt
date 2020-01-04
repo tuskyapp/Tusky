@@ -26,7 +26,7 @@ import java.util.concurrent.Executor
 class SearchDataSourceFactory<T>(
         private val mastodonApi: MastodonApi,
         private val searchType: SearchType,
-        private val searchRequest: String?,
+        private val searchRequest: String,
         private val disposables: CompositeDisposable,
         private val retryExecutor: Executor,
         private val cacheData: List<T>? = null,

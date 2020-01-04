@@ -32,7 +32,6 @@ class SearchStatusesAdapter(
         private val statusListener: StatusActionListener
 ) : PagedListAdapter<Pair<Status, StatusViewData.Concrete>, RecyclerView.ViewHolder>(STATUS_COMPARATOR) {
 
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val view = LayoutInflater.from(parent.context)
                 .inflate(R.layout.item_status, parent, false)
@@ -41,8 +40,7 @@ class SearchStatusesAdapter(
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         getItem(position)?.let { item ->
-            (holder as? StatusViewHolder)?.setupWithStatus(item.second, statusListener,
-                    statusDisplayOptions)
+            (holder as StatusViewHolder).setupWithStatus(item.second, statusListener, statusDisplayOptions)
         }
     }
 

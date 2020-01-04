@@ -15,7 +15,6 @@
 
 package com.keylesspalace.tusky.components.search.adapter
 
-import android.annotation.SuppressLint
 import androidx.lifecycle.MutableLiveData
 import androidx.paging.PositionalDataSource
 import com.keylesspalace.tusky.components.search.SearchType
@@ -23,12 +22,13 @@ import com.keylesspalace.tusky.entity.SearchResult
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.NetworkState
 import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.rxkotlin.addTo
 import java.util.concurrent.Executor
 
 class SearchDataSource<T>(
         private val mastodonApi: MastodonApi,
         private val searchType: SearchType,
-        private val searchRequest: String?,
+        private val searchRequest: String,
         private val disposables: CompositeDisposable,
         private val retryExecutor: Executor,
         private val initialItems: List<T>? = null,
@@ -48,7 +48,6 @@ class SearchDataSource<T>(
         }
     }
 
-    @SuppressLint("CheckResult")
     override fun loadInitial(params: LoadInitialParams, callback: LoadInitialCallback<T>) {
         if (!initialItems.isNullOrEmpty()) {
             callback.onResult(initialItems.toList(), 0)
@@ -57,15 +56,12 @@ class SearchDataSource<T>(
             retry = null
             initialLoad.postValue(NetworkState.LOADING)
             mastodonApi.searchObservable(
-                    query = searchRequest ?: "",
+                    query = searchRequest,
                     type = searchType.apiParameter,
                     resolve = true,
                     limit = params.requestedLoadSize,
                     offset = 0,
                     following =false)
-                    .doOnSubscribe {
-                        disposables.add(it)
-                    }
                     .subscribe(
                             { data ->
                                 val res = parser(data)
@@ -79,19 +75,15 @@ class SearchDataSource<T>(
                                 }
                                 initialLoad.postValue(NetworkState.error(error.message))
                             }
-                    )
+                    ).addTo(disposables)
         }
 
     }
 
-    @SuppressLint("CheckResult")
     override fun loadRange(params: LoadRangeParams, callback: LoadRangeCallback<T>) {
         networkState.postValue(NetworkState.LOADING)
         retry = null
         mastodonApi.searchObservable(searchType.apiParameter, searchRequest, true, params.loadSize, params.startPosition, false)
-                .doOnSubscribe {
-                    disposables.add(it)
-                }
                 .subscribe(
                         { data ->
                             // Working around Mastodon bug where exact match is returned no matter
@@ -115,7 +107,7 @@ class SearchDataSource<T>(
                             }
                             networkState.postValue(NetworkState.error(error.message))
                         }
-                )
+                ).addTo(disposables)
 
 
     }

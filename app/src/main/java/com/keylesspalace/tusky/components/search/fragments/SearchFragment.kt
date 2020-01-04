@@ -63,8 +63,8 @@ abstract class SearchFragment<T> : Fragment(),
         swipeRefreshLayout.setOnRefreshListener(this)
         swipeRefreshLayout.setColorSchemeResources(R.color.tusky_blue)
         swipeRefreshLayout.setProgressBackgroundColorSchemeColor(
-                ThemeUtils.getColor(swipeRefreshLayout.context, android.R.attr.colorBackground))
-
+                ThemeUtils.getColor(swipeRefreshLayout.context, android.R.attr.colorBackground)
+        )
     }
 
     private fun subscribeObservables() {
@@ -76,8 +76,9 @@ abstract class SearchFragment<T> : Fragment(),
 
             searchProgressBar.visible(it == NetworkState.LOADING)
 
-            if (it.status == Status.FAILED)
-                showError(it.msg)
+            if (it.status == Status.FAILED) {
+                showError()
+            }
             checkNoData()
 
         })
@@ -86,8 +87,9 @@ abstract class SearchFragment<T> : Fragment(),
 
             progressBarBottom.visible(it == NetworkState.LOADING)
 
-            if (it.status == Status.FAILED)
-                showError(it.msg)
+            if (it.status == Status.FAILED) {
+                showError()
+            }
         })
     }
 
@@ -111,7 +113,7 @@ abstract class SearchFragment<T> : Fragment(),
             searchNoResultsText.hide()
     }
 
-    private fun showError(@Suppress("UNUSED_PARAMETER") msg: String?) {
+    private fun showError() {
         if (snackbarErrorRetry?.isShown != true) {
             snackbarErrorRetry = Snackbar.make(layoutRoot, R.string.failed_search, Snackbar.LENGTH_INDEFINITE)
             snackbarErrorRetry?.setAction(R.string.action_retry) {
@@ -131,13 +133,12 @@ abstract class SearchFragment<T> : Fragment(),
     }
 
     protected val bottomSheetActivity
-            get() = (activity as? BottomSheetActivity)
+        get() = (activity as? BottomSheetActivity)
 
     override fun onRefresh() {
 
         // Dismissed here because the RecyclerView bottomProgressBar is shown as soon as the retry begins.
         swipeRefreshLayout.post {
-
             swipeRefreshLayout.isRefreshing = false
         }
         viewModel.retryAllSearches()

@@ -26,8 +26,7 @@ import com.keylesspalace.tusky.entity.HashTag
 import com.keylesspalace.tusky.interfaces.LinkListener
 
 class SearchHashtagsAdapter(private val linkListener: LinkListener)
-    : PagedListAdapter<HashTag, RecyclerView.ViewHolder>(STATUS_COMPARATOR) {
-
+    : PagedListAdapter<HashTag, RecyclerView.ViewHolder>(HASHTAG_COMPARATOR) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val view = LayoutInflater.from(parent.context)
@@ -36,17 +35,14 @@ class SearchHashtagsAdapter(private val linkListener: LinkListener)
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        getItem(position)?.let { item ->
-            (holder as? HashtagViewHolder)?.apply {
-                setup(item.name, linkListener)
-            }
+        getItem(position)?.let { (name) ->
+            (holder as HashtagViewHolder).setup(name, linkListener)
         }
-
     }
 
     companion object {
 
-        val STATUS_COMPARATOR = object : DiffUtil.ItemCallback<HashTag>() {
+        val HASHTAG_COMPARATOR = object : DiffUtil.ItemCallback<HashTag>() {
             override fun areContentsTheSame(oldItem: HashTag, newItem: HashTag): Boolean =
                     oldItem.name == newItem.name
 
