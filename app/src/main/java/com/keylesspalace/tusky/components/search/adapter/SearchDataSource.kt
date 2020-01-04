@@ -51,7 +51,7 @@ class SearchDataSource<T>(
     @SuppressLint("CheckResult")
     override fun loadInitial(params: LoadInitialParams, callback: LoadInitialCallback<T>) {
         if (!initialItems.isNullOrEmpty()) {
-            callback.onResult(initialItems, 0)
+            callback.onResult(initialItems.toList(), 0)
         } else {
             networkState.postValue(NetworkState.LOADED)
             retry = null

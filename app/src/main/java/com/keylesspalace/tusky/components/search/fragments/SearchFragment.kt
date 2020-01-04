@@ -12,6 +12,7 @@ import androidx.paging.PagedList
 import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.SimpleItemAnimator
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.android.material.snackbar.Snackbar
 import com.keylesspalace.tusky.AccountActivity
@@ -99,7 +100,8 @@ abstract class SearchFragment<T> : Fragment(),
         searchRecyclerView.layoutManager = LinearLayoutManager(searchRecyclerView.context)
         adapter = createAdapter()
         searchRecyclerView.adapter = adapter
-
+        searchRecyclerView.setHasFixedSize(true)
+        (searchRecyclerView.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
     }
 
     private fun showNoData(isEmpty: Boolean) {
