@@ -20,7 +20,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.TextView;
+import android.widget.LinearLayout;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
@@ -41,6 +41,7 @@ import com.keylesspalace.tusky.db.TootDao;
 import com.keylesspalace.tusky.db.TootEntity;
 import com.keylesspalace.tusky.di.Injectable;
 import com.keylesspalace.tusky.util.SaveTootHelper;
+import com.keylesspalace.tusky.view.BackgroundMessageView;
 
 import java.lang.ref.WeakReference;
 import java.lang.reflect.Type;
@@ -60,7 +61,7 @@ public final class SavedTootActivity extends BaseActivity implements SavedTootAd
 
     // ui
     private SavedTootAdapter adapter;
-    private TextView noContent;
+    private BackgroundMessageView errorMessageView;
 
     private List<TootEntity> toots = new ArrayList<>();
     @Nullable
@@ -95,7 +96,7 @@ public final class SavedTootActivity extends BaseActivity implements SavedTootAd
         }
 
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
-        noContent = findViewById(R.id.no_content);
+        errorMessageView = findViewById(R.id.errorMessageView);
         recyclerView.setHasFixedSize(true);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
@@ -136,9 +137,10 @@ public final class SavedTootActivity extends BaseActivity implements SavedTootAd
 
     private void setNoContent(int size) {
         if (size == 0) {
-            noContent.setVisibility(View.VISIBLE);
+            errorMessageView.setup(R.drawable.elephant_friend_empty, R.string.no_saved_status, null);
+            errorMessageView.setVisibility(View.VISIBLE);
         } else {
-            noContent.setVisibility(View.INVISIBLE);
+            errorMessageView.setVisibility(View.GONE);
         }
     }
 
