@@ -179,11 +179,11 @@ class SearchViewModel @Inject constructor(
     fun bookmark(status: Pair<Status, StatusViewData.Concrete>, isBookmarked: Boolean) {
         val idx = loadedStatuses.indexOf(status)
         if (idx >= 0) {
-            val newPair = Pair(status.first, StatusViewData.Builder(status.second).setFavourited(isBookmarked).createStatusViewData())
+            val newPair = Pair(status.first, StatusViewData.Builder(status.second).setBookmarked(isBookmarked).createStatusViewData())
             loadedStatuses[idx] = newPair
             repoResultStatus.value?.refresh?.invoke()
         }
-        timelineCases.favourite(status.first, isBookmarked)
+        timelineCases.bookmark(status.first, isBookmarked)
                 .onErrorReturnItem(status.first)
                 .subscribe()
                 .autoDispose()
