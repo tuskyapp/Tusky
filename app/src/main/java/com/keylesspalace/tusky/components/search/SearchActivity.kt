@@ -33,7 +33,7 @@ import dagger.android.HasAndroidInjector
 import kotlinx.android.synthetic.main.activity_search.*
 import javax.inject.Inject
 
-class SearchActivity : BottomSheetActivity(), SearchView.OnQueryTextListener, HasAndroidInjector {
+class SearchActivity : BottomSheetActivity(), HasAndroidInjector {
     @Inject
     lateinit var androidInjector: DispatchingAndroidInjector<Any>
 
@@ -93,14 +93,6 @@ class SearchActivity : BottomSheetActivity(), SearchView.OnQueryTextListener, Ha
         return super.onOptionsItemSelected(item)
     }
 
-    override fun onQueryTextChange(newText: String): Boolean {
-        return false
-    }
-
-    override fun onQueryTextSubmit(query: String): Boolean {
-        return false
-    }
-
     private fun getPageTitle(position: Int): CharSequence? {
         return when (position) {
             0 -> getString(R.string.title_statuses)
@@ -122,7 +114,6 @@ class SearchActivity : BottomSheetActivity(), SearchView.OnQueryTextListener, Ha
 
         searchView.setSearchableInfo((getSystemService(Context.SEARCH_SERVICE) as? SearchManager)?.getSearchableInfo(componentName))
 
-        searchView.setOnQueryTextListener(this)
         searchView.requestFocus()
 
         searchView.maxWidth = Integer.MAX_VALUE
