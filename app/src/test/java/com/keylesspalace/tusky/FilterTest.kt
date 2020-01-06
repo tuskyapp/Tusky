@@ -86,6 +86,14 @@ class FilterTest {
                                                 expiresAt = null,
                                                 irreversible = false,
                                                 wholeWord = true
+                                        ),
+                                        Filter(
+                                                id = "123",
+                                                phrase = "@twitter.com",
+                                                context = listOf(Filter.HOME),
+                                                expiresAt = null,
+                                                irreversible = false,
+                                                wholeWord = true
                                         )
                                 )
                         )
@@ -169,6 +177,13 @@ class FilterTest {
                         spoilerText = "should not be filtered",
                         pollOptions = listOf("should not be filtered", "badWord")
                 )
+        ))
+    }
+
+    @Test
+    fun shouldFilterPartialWord_whenWholeWordFilterContainsNonAlphanumericCharacters() {
+        assertTrue(fragment.shouldFilterStatus(
+                mockStatus(content = "one two someone@twitter.com three")
         ))
     }
 
