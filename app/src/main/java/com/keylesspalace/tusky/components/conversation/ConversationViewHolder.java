@@ -19,9 +19,9 @@ import android.content.Context;
 import android.text.InputFilter;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.ToggleButton;
 
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -41,7 +41,7 @@ public class ConversationViewHolder extends StatusBaseViewHolder {
     private static final InputFilter[] NO_INPUT_FILTER = new InputFilter[0];
 
     private TextView conversationNameTextView;
-    private ToggleButton contentCollapseButton;
+    private Button contentCollapseButton;
     private ImageView[] avatars;
 
     private StatusDisplayOptions statusDisplayOptions;
@@ -145,18 +145,18 @@ public class ConversationViewHolder extends StatusBaseViewHolder {
     private void setupCollapsedState(boolean collapsible, boolean collapsed, boolean expanded, String spoilerText, final StatusActionListener listener) {
         /* input filter for TextViews have to be set before text */
         if (collapsible && (expanded || TextUtils.isEmpty(spoilerText))) {
-            contentCollapseButton.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            contentCollapseButton.setOnClickListener(view -> {
                 int position = getAdapterPosition();
                 if (position != RecyclerView.NO_POSITION)
-                    listener.onContentCollapsedChange(isChecked, position);
+                    listener.onContentCollapsedChange(!collapsed, position);
             });
 
             contentCollapseButton.setVisibility(View.VISIBLE);
             if (collapsed) {
-                contentCollapseButton.setChecked(true);
+                contentCollapseButton.setText(R.string.status_content_warning_show_more);
                 content.setFilters(COLLAPSE_INPUT_FILTER);
             } else {
-                contentCollapseButton.setChecked(false);
+                contentCollapseButton.setText(R.string.status_content_warning_show_less);
                 content.setFilters(NO_INPUT_FILTER);
             }
         } else {

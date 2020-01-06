@@ -93,13 +93,13 @@
         app:layout_constraintTop_toBottomOf="@id/status_avatar"
         tools:text="CW this is a long long long long long long long long content warning" />
 
-    <ToggleButton
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/status_content_warning_button"
+        style="@style/TuskyButton.Outlined"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
         android:layout_marginBottom="4dp"
-        android:background="?attr/content_warning_button"
         android:importantForAccessibility="no"
         android:minWidth="160dp"
         android:minHeight="0dp"
@@ -108,11 +108,10 @@
         android:paddingRight="16dp"
         android:paddingBottom="4dp"
         android:textAllCaps="true"
-        android:textOff="@string/status_content_warning_show_more"
-        android:textOn="@string/status_content_warning_show_less"
         android:textSize="?attr/status_text_large"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/status_content_warning_description" />
+        app:layout_constraintTop_toBottomOf="@+id/status_content_warning_description"
+        tools:text="@string/status_content_warning_show_more" />
 
     <androidx.emoji.widget.EmojiTextView
         android:id="@+id/status_content"
@@ -387,7 +386,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/status_media_label_2" />
 
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.recyclerview.widget.RecyclerView
@@ -401,13 +399,12 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/status_media_preview_container" />
 
-    <!-- using AppCompatButton because we don't want the inflater to turn it into a MaterialButton -->
-    <androidx.appcompat.widget.AppCompatButton
+    <Button
         android:id="@+id/status_poll_button"
+        style="@style/TuskyButton.Outlined"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
-        android:background="?attr/content_warning_button"
         android:gravity="center"
         android:minWidth="150dp"
         android:minHeight="0dp"
