@@ -95,6 +95,7 @@ public abstract class SFragment extends BaseFragment implements Injectable {
     private static List<Filter> filters;
     private boolean filterRemoveRegex;
     private Matcher filterRemoveRegexMatcher;
+    private static Matcher alphanumeric = Pattern.compile("^\\w+$").matcher("");
 
     @Inject
     public MastodonApi mastodonApi;
@@ -520,8 +521,11 @@ public abstract class SFragment extends BaseFragment implements Injectable {
     }
 
     private static String filterToRegexToken(Filter filter) {
-        String phrase = Pattern.quote(filter.getPhrase());
-        return filter.getWholeWord() ? String.format("(^|\\W)%s($|\\W)", phrase) : phrase;
+        String phrase = filter.getPhrase();
+        String quotedPhrase = Pattern.quote(phrase);
+        return (filter.getWholeWord() && alphanumeric.reset(phrase).matches()) ? // "whole word" should only apply to alphanumeric filters, #1543
+                String.format("(^|\\W)%s($|\\W)", quotedPhrase) :
+                quotedPhrase;
     }
 
     public static void flushFilters() {
