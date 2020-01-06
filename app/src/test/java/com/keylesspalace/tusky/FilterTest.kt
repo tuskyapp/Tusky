@@ -153,7 +153,7 @@ class FilterTest {
     }
 
     @Test
-    fun shouldNotFilter_whenContentDoesNotMAtchWholeWord() {
+    fun shouldNotFilter_whenContentDoesNotMatchWholeWord() {
         assertFalse(fragment.shouldFilterStatus(
                 mockStatus(content = "one two badWholeWordTest three")
         ))
