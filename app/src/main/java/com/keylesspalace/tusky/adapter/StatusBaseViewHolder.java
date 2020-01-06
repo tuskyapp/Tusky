@@ -473,15 +473,11 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             setAttachmentClickListener(imageView, listener, i, attachment, true);
         }
 
-
-        final String hiddenContentText;
         if (sensitive) {
-            hiddenContentText = context.getString(R.string.status_sensitive_media_title);
+            sensitiveMediaWarning.setText(R.string.status_sensitive_media_title);
         } else {
-            hiddenContentText = context.getString(R.string.status_media_hidden_title);
+            sensitiveMediaWarning.setText(R.string.status_media_hidden_title);
         }
-
-        sensitiveMediaWarning.setText(HtmlUtils.fromHtml(hiddenContentText));
 
         sensitiveMediaWarning.setVisibility(showingContent ? View.GONE : View.VISIBLE);
         sensitiveMediaShow.setVisibility(showingContent ? View.VISIBLE : View.GONE);
