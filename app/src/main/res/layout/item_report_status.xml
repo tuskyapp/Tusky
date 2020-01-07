@@ -28,13 +28,13 @@
         tools:text="content warning which is very long and it doesn't fit"
         tools:visibility="visible" />
 
-    <ToggleButton
+    <Button
         android:id="@+id/statusContentWarningButton"
+        style="@style/TuskyButton.Outlined"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
         android:layout_marginBottom="4dp"
-        android:background="?attr/content_warning_button"
         android:minWidth="150dp"
         android:minHeight="0dp"
         android:paddingLeft="16dp"
@@ -42,12 +42,11 @@
         android:paddingRight="16dp"
         android:paddingBottom="4dp"
         android:textAllCaps="true"
-        android:textOff="@string/status_content_warning_show_more"
-        android:textOn="@string/status_content_warning_show_less"
         android:textSize="?attr/status_text_medium"
         android:visibility="gone"
         app:layout_constraintStart_toStartOf="@id/guideBegin"
         app:layout_constraintTop_toBottomOf="@id/statusContentWarningDescription"
+        tools:text="@string/status_content_warning_show_more"
         tools:visibility="visible" />
 
     <androidx.emoji.widget.EmojiTextView
@@ -62,13 +61,13 @@
         app:layout_constraintStart_toStartOf="@id/guideBegin"
         app:layout_constraintTop_toBottomOf="@id/statusContentWarningButton" />
 
-    <ToggleButton
+    <Button
         android:id="@+id/buttonToggleContent"
+        style="@style/TuskyButton.Outlined"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
         android:layout_marginBottom="4dp"
-        android:background="?attr/content_warning_button"
         android:minWidth="150dp"
         android:minHeight="0dp"
         android:paddingLeft="16dp"
@@ -76,12 +75,11 @@
         android:paddingRight="16dp"
         android:paddingBottom="4dp"
         android:textAllCaps="true"
-        android:textOff="@string/status_content_show_less"
-        android:textOn="@string/status_content_show_more"
         android:textSize="?attr/status_text_medium"
         android:visibility="gone"
         app:layout_constraintStart_toStartOf="@id/guideBegin"
         app:layout_constraintTop_toBottomOf="@id/statusContent"
+        tools:text="@string/status_content_show_less"
         tools:visibility="visible" />
 
     <androidx.constraintlayout.widget.ConstraintLayout

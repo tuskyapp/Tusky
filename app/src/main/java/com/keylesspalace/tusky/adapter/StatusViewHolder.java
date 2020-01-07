@@ -19,8 +19,8 @@ import android.content.Context;
 import android.text.InputFilter;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
-import android.widget.ToggleButton;
 
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
@@ -38,7 +38,7 @@ public class StatusViewHolder extends StatusBaseViewHolder {
     private static final InputFilter[] NO_INPUT_FILTER = new InputFilter[0];
 
     private TextView statusInfo;
-    private ToggleButton contentCollapseButton;
+    private Button contentCollapseButton;
 
     public StatusViewHolder(View itemView) {
         super(itemView);
@@ -96,18 +96,18 @@ public class StatusViewHolder extends StatusBaseViewHolder {
     private void setupCollapsedState(final StatusViewData.Concrete status, final StatusActionListener listener) {
         /* input filter for TextViews have to be set before text */
         if (status.isCollapsible() && (status.isExpanded() || TextUtils.isEmpty(status.getSpoilerText()))) {
-            contentCollapseButton.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            contentCollapseButton.setOnClickListener(view -> {
                 int position = getAdapterPosition();
                 if (position != RecyclerView.NO_POSITION)
-                    listener.onContentCollapsedChange(isChecked, position);
+                    listener.onContentCollapsedChange(!status.isCollapsed(), position);
             });
 
             contentCollapseButton.setVisibility(View.VISIBLE);
             if (status.isCollapsed()) {
-                contentCollapseButton.setChecked(true);
+                contentCollapseButton.setText(R.string.status_content_warning_show_more);
                 content.setFilters(COLLAPSE_INPUT_FILTER);
             } else {
-                contentCollapseButton.setChecked(false);
+                contentCollapseButton.setText(R.string.status_content_warning_show_less);
                 content.setFilters(NO_INPUT_FILTER);
             }
         } else {

@@ -28,10 +28,9 @@ import android.text.style.StyleSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CompoundButton;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.ToggleButton;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -332,7 +331,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
     }
 
     private static class StatusNotificationViewHolder extends RecyclerView.ViewHolder
-            implements View.OnClickListener, ToggleButton.OnCheckedChangeListener {
+            implements View.OnClickListener {
         private final TextView message;
         private final View statusNameBar;
         private final TextView displayName;
@@ -342,8 +341,8 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
         private final ImageView statusAvatar;
         private final ImageView notificationAvatar;
         private final TextView contentWarningDescriptionTextView;
-        private final ToggleButton contentWarningButton;
-        private final ToggleButton contentCollapseButton; // TODO: This code SHOULD be based on StatusBaseViewHolder
+        private final Button contentWarningButton;
+        private final Button contentCollapseButton; // TODO: This code SHOULD be based on StatusBaseViewHolder
         private StatusDisplayOptions statusDisplayOptions;
 
         private String accountId;
@@ -375,7 +374,6 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
             itemView.setOnClickListener(this);
             message.setOnClickListener(this);
             statusContent.setOnClickListener(this);
-            contentWarningButton.setOnCheckedChangeListener(this);
             shortSdf = new SimpleDateFormat("HH:mm:ss", Locale.getDefault());
             longSdf = new SimpleDateFormat("MM/dd HH:mm:ss", Locale.getDefault());
         }
@@ -481,6 +479,14 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
                 boolean hasSpoiler = !TextUtils.isEmpty(statusViewData.getSpoilerText());
                 contentWarningDescriptionTextView.setVisibility(hasSpoiler ? View.VISIBLE : View.GONE);
                 contentWarningButton.setVisibility(hasSpoiler ? View.VISIBLE : View.GONE);
+
+                contentWarningButton.setOnClickListener(view -> {
+                    if (getAdapterPosition() != RecyclerView.NO_POSITION) {
+                        notificationActionListener.onExpandedChange(!statusViewData.isExpanded(), getAdapterPosition());
+                    }
+                    statusContent.setVisibility(statusViewData.isExpanded() ? View.GONE : View.VISIBLE);
+                });
+
                 setupContentAndSpoiler(notificationViewData, listener);
             }
 
@@ -537,19 +543,19 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
             List<Emoji> emojis = statusViewData.getStatusEmojis();
 
             if (statusViewData.isCollapsible() && (notificationViewData.isExpanded() || !hasSpoiler)) {
-                contentCollapseButton.setOnCheckedChangeListener((buttonView, isChecked) -> {
+                contentCollapseButton.setOnClickListener(view -> {
                     int position = getAdapterPosition();
                     if (position != RecyclerView.NO_POSITION && notificationActionListener != null) {
-                        notificationActionListener.onNotificationContentCollapsedChange(isChecked, position);
+                        notificationActionListener.onNotificationContentCollapsedChange(statusViewData.isCollapsed(), position);
                     }
                 });
 
                 contentCollapseButton.setVisibility(View.VISIBLE);
                 if (statusViewData.isCollapsed()) {
-                    contentCollapseButton.setChecked(true);
+                    contentCollapseButton.setText(R.string.status_content_warning_show_more);
                     statusContent.setFilters(COLLAPSE_INPUT_FILTER);
                 } else {
-                    contentCollapseButton.setChecked(false);
+                    contentCollapseButton.setText(R.string.status_content_warning_show_less);
                     statusContent.setFilters(NO_INPUT_FILTER);
                 }
             } else {
@@ -565,12 +571,5 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
             contentWarningDescriptionTextView.setText(emojifiedContentWarning);
         }
 
-        @Override
-        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-            if (getAdapterPosition() != RecyclerView.NO_POSITION) {
-                notificationActionListener.onExpandedChange(isChecked, getAdapterPosition());
-            }
-            statusContent.setVisibility(isChecked ? View.VISIBLE : View.GONE);
-        }
     }
 }
