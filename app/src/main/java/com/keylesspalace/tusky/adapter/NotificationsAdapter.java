@@ -526,8 +526,6 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
                     if (notificationActionListener != null)
                         notificationActionListener.onViewAccount(accountId);
                     break;
-                case R.id.notification_content_warning_button:
-
             }
         }
 
