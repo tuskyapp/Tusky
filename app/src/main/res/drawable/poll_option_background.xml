@@ -3,4 +3,4 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:drawable="@drawable/poll_option_shape"
     android:clipOrientation="horizontal"
-    android:gravity="left|clip_horizontal|fill_vertical"/>
+    android:gravity="start|clip_horizontal|fill_vertical"/>
