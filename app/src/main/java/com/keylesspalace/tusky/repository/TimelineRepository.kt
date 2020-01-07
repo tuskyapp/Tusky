@@ -31,6 +31,11 @@ interface TimelineRepository {
     fun getStatuses(maxId: String?, sinceId: String?, sincedIdMinusOne: String?, limit: Int,
                     requestMode: TimelineRequestMode): Single<out List<TimelineStatus>>
 
+    fun getBookmarks(maxId: String?, sinceId: String?, sincedIdMinusOne: String?,
+                     limit: Int): Single<out List<TimelineStatus>>
+
+    fun insertStatus(status: Status)
+
     companion object {
         val CLEANUP_INTERVAL = TimeUnit.DAYS.toMillis(14)
     }
@@ -59,6 +64,31 @@ class TimelineRepositoryImpl(
         } else {
             getStatusesFromNetwork(maxId, sinceId, sincedIdMinusOne, limit, accountId, requestMode)
         }
+    }
+
+    override fun getBookmarks(maxId: String?, sinceId: String?, sincedIdMinusOne: String?, limit: Int): Single<out List<TimelineStatus>> {
+        val accountId = accountManager.activeAccount?.id ?: throw IllegalStateException()
+
+
+        return mastodonApi.bookmarksObservable(maxId, sinceId, limit)
+                .map { statuses -> statuses.map(Status::lift) }
+                .onErrorResumeNext {
+                    timelineDao.getStatusesForAccount(accountId, maxId, sinceId, limit, true)
+                            .map { statuses ->
+                                statuses.map { it.toStatus() }
+                            }
+                }
+
+    }
+
+    override fun insertStatus(status: Status) {
+        accountManager.activeAccount?.let { account ->
+            timelineDao.insertInTransaction(
+                    status.toEntity(account.id, htmlConverter, gson),
+                    status.account.toEntity(account.id, gson),
+                    status.reblog?.account?.toEntity(account.id, gson)
+            )
+        } ?: throw IllegalStateException("Not logged in")
     }
 
     private fun getStatusesFromNetwork(maxId: String?, sinceId: String?,
@@ -144,7 +174,7 @@ class TimelineRepositoryImpl(
 
         Single.fromCallable {
 
-            if(statuses.isNotEmpty()) {
+            if (statuses.isNotEmpty()) {
                 timelineDao.deleteRange(accountId, statuses.last().id, statuses.first().id)
             }
 

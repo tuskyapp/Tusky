@@ -55,6 +55,34 @@ class TimelineDAOTest {
     }
 
     @Test
+    fun insertGetBookmarked() {
+        val setOne = makeStatus(statusId = 3, bookmarked = true)
+        val setTwo = makeStatus(statusId = 20, reblog = true)
+        val ignoredOne = makeStatus(statusId = 1)
+
+        for ((status, author, reblogger) in listOf(setOne, setTwo)) {
+            timelineDao.insertInTransaction(status, author, reblogger)
+        }
+
+        val resultsFromDb = timelineDao.getStatusesForAccount(
+                account = setOne.first.timelineUserId,
+                maxId = "21",
+                sinceId = ignoredOne.first.serverId,
+                limit = 10,
+                bookmarkedOnly = true
+        )
+                .blockingGet()
+
+        assertEquals(1, resultsFromDb.size)
+        for ((set, fromDb) in listOf(setOne).zip(resultsFromDb)) {
+            val (status, author, reblogger) = set
+            assertEquals(status, fromDb.status)
+            assertEquals(author, fromDb.account)
+            assertEquals(reblogger, fromDb.reblogAccount)
+        }
+    }
+
+    @Test
     fun doNotOverwrite() {
         val (status, author) = makeStatus()
         timelineDao.insertInTransaction(status, author, null)
@@ -101,17 +129,22 @@ class TimelineDAOTest {
                 statusId = 60,
                 createdAt = System.currentTimeMillis(),
                 authorServerId = "200"
-                )
+        )
+        val bookmarked = makeStatus(
+                statusId = 15,
+                createdAt = oldDate,
+                bookmarked = true
+        )
 
         for ((status, author, reblogAuthor) in listOf(oldByThisAccount, oldByAnotherAccount,
-                oldForAnotherAccount, recentByThisAccount, recentByAnotherAccount)) {
+                oldForAnotherAccount, recentByThisAccount, recentByAnotherAccount, bookmarked)) {
             timelineDao.insertInTransaction(status, author, reblogAuthor)
         }
 
-        timelineDao.cleanup(1, "20",  now - TimelineRepository.CLEANUP_INTERVAL)
+        timelineDao.cleanup(1, "20", now - TimelineRepository.CLEANUP_INTERVAL)
 
         assertEquals(
-                listOf(recentByAnotherAccount, recentByThisAccount, oldByThisAccount),
+                listOf(recentByAnotherAccount, recentByThisAccount, bookmarked, oldByThisAccount),
                 timelineDao.getStatusesForAccount(1, null, null, 100).blockingGet()
                         .map { it.toTriple() }
         )
@@ -164,7 +197,8 @@ class TimelineDAOTest {
             statusId: Long = 10,
             reblog: Boolean = false,
             createdAt: Long = statusId,
-            authorServerId: String = "20"
+            authorServerId: String = "20",
+            bookmarked: Boolean = false
     ): Triple<TimelineStatusEntity, TimelineAccountEntity, TimelineAccountEntity?> {
         val author = TimelineAccountEntity(
                 authorServerId,
@@ -208,7 +242,7 @@ class TimelineDAOTest {
                 favouritesCount = 2 * statusId.toInt(),
                 reblogged = even,
                 favourited = !even,
-                bookmarked = false,
+                bookmarked = bookmarked,
                 sensitive = even,
                 spoilerText = "spoier$statusId",
                 visibility = Status.Visibility.PRIVATE,

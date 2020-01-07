@@ -45,9 +45,12 @@ ELSE 1 END)
 AND (CASE WHEN :sinceId IS NOT NULL THEN
 (LENGTH(s.serverId) > LENGTH(:sinceId) OR LENGTH(s.serverId) == LENGTH(:sinceId) AND s.serverId > :sinceId)
 ELSE 1 END)
+AND (CASE WHEN :bookmarkedOnly THEN
+(s.bookmarked == '1')
+ELSE 1 END)
 ORDER BY LENGTH(s.serverId) DESC, s.serverId DESC
 LIMIT :limit""")
-    abstract fun getStatusesForAccount(account: Long, maxId: String?, sinceId: String?, limit: Int): Single<List<TimelineStatusWithAccount>>
+    abstract fun getStatusesForAccount(account: Long, maxId: String?, sinceId: String?, limit: Int, bookmarkedOnly: Boolean = false): Single<List<TimelineStatusWithAccount>>
 
 
     @Transaction
@@ -100,7 +103,7 @@ AND serverId = :statusId""")
     abstract fun delete(accountId: Long, statusId: String)
 
     @Query("""DELETE FROM TimelineStatusEntity WHERE timelineUserId = :accountId
-AND authorServerId != :accountServerId AND createdAt < :olderThan""")
+AND authorServerId != :accountServerId AND createdAt < :olderThan AND bookmarked != '1'""")
     abstract fun cleanup(accountId: Long, accountServerId: String, olderThan: Long)
 
     @Query("""UPDATE TimelineStatusEntity SET poll = :poll

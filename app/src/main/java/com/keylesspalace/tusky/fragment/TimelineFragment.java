@@ -1016,6 +1016,14 @@ public class TimelineFragment extends SFragment implements
                             (result) -> onFetchTimelineSuccess(result, fetchEnd, pos),
                             (err) -> onFetchTimelineFailure(new Exception(err), fetchEnd, pos)
                     );
+        } else if (kind == Kind.BOOKMARKS) {
+            timelineRepo.getBookmarks(maxId, sinceId, sinceIdMinusOne, LOAD_AT_ONCE)
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .as(autoDisposable(from(this, Lifecycle.Event.ON_DESTROY)))
+                    .subscribe(
+                            (result) -> onFetchTimelineSuccess(result, fetchEnd, pos),
+                            (err) -> onFetchTimelineFailure(new Exception(err), fetchEnd, pos)
+                    );
         } else {
             Callback<List<Status>> callback = new Callback<List<Status>>() {
                 @Override

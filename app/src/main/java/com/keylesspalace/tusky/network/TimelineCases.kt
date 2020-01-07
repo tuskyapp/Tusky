@@ -20,13 +20,13 @@ import com.keylesspalace.tusky.entity.DeletedStatus
 import com.keylesspalace.tusky.entity.Poll
 import com.keylesspalace.tusky.entity.Relationship
 import com.keylesspalace.tusky.entity.Status
+import com.keylesspalace.tusky.repository.TimelineRepository
 import io.reactivex.Single
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.lang.IllegalStateException
 
 /**
  * Created by charlag on 3/24/18.
@@ -46,7 +46,8 @@ interface TimelineCases {
 
 class TimelineCasesImpl(
         private val mastodonApi: MastodonApi,
-        private val eventHub: EventHub
+        private val eventHub: EventHub,
+        private val timelineRepo: TimelineRepository
 ) : TimelineCases {
 
     /**
@@ -89,8 +90,12 @@ class TimelineCasesImpl(
         } else {
             mastodonApi.unbookmarkStatus(id)
         }
+
+        val statusToInsert = status.actionableStatus
+        timelineRepo.insertStatus(statusToInsert.copy(bookmarked = bookmark))
+
         return call.doAfterSuccess {
-            eventHub.dispatch(BookmarkEvent(status.id, bookmark))
+            eventHub.dispatch(BookmarkEvent(statusToInsert.id, bookmark))
         }
     }
 
@@ -134,7 +139,7 @@ class TimelineCasesImpl(
     override fun voteInPoll(status: Status, choices: List<Int>): Single<Poll> {
         val pollId = status.actionableStatus.poll?.id
 
-        if(pollId == null || choices.isEmpty()) {
+        if (pollId == null || choices.isEmpty()) {
             return Single.error(IllegalStateException())
         }
 

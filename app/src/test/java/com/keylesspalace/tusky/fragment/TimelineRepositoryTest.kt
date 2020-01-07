@@ -293,6 +293,24 @@ class TimelineRepositoryTest {
         assertEquals(listOf(status).map(Status::lift), result)
     }
 
+
+    @Test
+    fun getLocalBookmarked() {
+        RxJavaPlugins.setIoSchedulerHandler { Schedulers.single() }
+        val status = makeStatus("4").copy(bookmarked = true)
+        val dbResult = TimelineStatusWithAccount()
+        dbResult.status = status.toEntity(account.id, htmlConverter, gson)
+        dbResult.account = status.account.toEntity(account.id, gson)
+
+        whenever(mastodonApi.bookmarksObservable(any(), any(), anyInt()))
+                .thenReturn(Single.error(Exception()))
+        whenever(timelineDao.getStatusesForAccount(account.id, null, null, 30, true))
+                .thenReturn(Single.just(listOf(dbResult)))
+        val result = subject.getBookmarks(null, null, null, limit)
+                .blockingGet()
+        assertEquals(listOf(status).map(Status::lift), result)
+    }
+
     private fun makeStatus(id: String, account: Account = makeAccount(id)): Status {
         return Status(
                 id = id,

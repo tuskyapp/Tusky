@@ -29,6 +29,7 @@ import com.keylesspalace.tusky.db.AppDatabase
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.network.TimelineCases
 import com.keylesspalace.tusky.network.TimelineCasesImpl
+import com.keylesspalace.tusky.repository.TimelineRepository
 import com.keylesspalace.tusky.util.HtmlConverter
 import com.keylesspalace.tusky.util.HtmlConverterImpl
 import dagger.Module
@@ -60,8 +61,9 @@ class AppModule {
 
     @Provides
     fun providesTimelineUseCases(api: MastodonApi,
-                                 eventHub: EventHub): TimelineCases {
-        return TimelineCasesImpl(api, eventHub)
+                                 eventHub: EventHub,
+                                 timelineRepository: TimelineRepository): TimelineCases {
+        return TimelineCasesImpl(api, eventHub, timelineRepository)
     }
 
     @Provides
