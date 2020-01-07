@@ -31,9 +31,9 @@ class SearchViewModel @Inject constructor(
             accountManager.activeAccount = value
         }
 
-    val mediaPreviewEnabled: Boolean = activeAccount?.mediaPreviewEnabled ?: false
-    val alwaysShowSensitiveMedia: Boolean = activeAccount?.alwaysShowSensitiveMedia ?: false
-    val alwaysOpenSpoiler: Boolean = activeAccount?.alwaysOpenSpoiler ?: false
+    val mediaPreviewEnabled = activeAccount?.mediaPreviewEnabled ?: false
+    val alwaysShowSensitiveMedia = activeAccount?.alwaysShowSensitiveMedia ?: false
+    val alwaysOpenSpoiler = activeAccount?.alwaysOpenSpoiler ?: false
 
     private val statusesRepository = SearchRepository<Pair<Status, StatusViewData.Concrete>>(mastodonApi)
     private val accountsRepository = SearchRepository<Account>(mastodonApi)

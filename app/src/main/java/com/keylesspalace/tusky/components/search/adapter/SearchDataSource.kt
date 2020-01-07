@@ -32,7 +32,8 @@ class SearchDataSource<T>(
         private val disposables: CompositeDisposable,
         private val retryExecutor: Executor,
         private val initialItems: List<T>? = null,
-        private val parser: (SearchResult?) -> List<T>) : PositionalDataSource<T>() {
+        private val parser: (SearchResult?) -> List<T>,
+        private val source: SearchDataSourceFactory<T>) : PositionalDataSource<T>() {
 
     val networkState = MutableLiveData<NetworkState>()
 
@@ -83,6 +84,9 @@ class SearchDataSource<T>(
     override fun loadRange(params: LoadRangeParams, callback: LoadRangeCallback<T>) {
         networkState.postValue(NetworkState.LOADING)
         retry = null
+        if(source.exhausted) {
+            return callback.onResult(emptyList())
+        }
         mastodonApi.searchObservable(searchType.apiParameter, searchRequest, true, params.loadSize, params.startPosition, false)
                 .subscribe(
                         { data ->
@@ -97,9 +101,11 @@ class SearchDataSource<T>(
                             } else {
                                 parser(data)
                             }
+                            if(res.isEmpty()) {
+                                source.exhausted = true
+                            }
                             callback.onResult(res)
                             networkState.postValue(NetworkState.LOADED)
-
                         },
                         { error ->
                             retry = {
