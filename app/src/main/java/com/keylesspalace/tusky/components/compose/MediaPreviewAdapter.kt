@@ -69,11 +69,16 @@ class MediaPreviewAdapter(
         val item = differ.currentList[position]
         holder.progressImageView.setChecked(!item.description.isNullOrEmpty())
         holder.progressImageView.setProgress(item.uploadPercent)
-        Glide.with(holder.itemView.context)
-                .load(item.uri)
-                .diskCacheStrategy(DiskCacheStrategy.NONE)
-                .dontAnimate()
-                .into(holder.progressImageView)
+        if (item.type == ComposeActivity.QueuedMedia.Type.AUDIO) {
+            // TODO: Fancy waveform display?
+            holder.progressImageView.setImageResource(R.drawable.ic_music_box_24dp)
+        } else {
+            Glide.with(holder.itemView.context)
+                    .load(item.uri)
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .dontAnimate()
+                    .into(holder.progressImageView)
+        }
     }
 
     private val differ = AsyncListDiffer(this, object : DiffUtil.ItemCallback<ComposeActivity.QueuedMedia>() {

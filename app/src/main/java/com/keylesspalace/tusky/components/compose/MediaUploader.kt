@@ -63,6 +63,7 @@ interface MediaUploader {
     fun uploadMedia(media: QueuedMedia): Observable<UploadEvent>
 }
 
+class AudioSizeException : Exception()
 class VideoSizeException : Exception()
 class MediaTypeException : Exception()
 class CouldNotOpenFileException : Exception()
@@ -127,6 +128,12 @@ class MediaUploaderImpl(
                     }
                     "image" -> {
                         PreparedMedia(QueuedMedia.Type.IMAGE, uri, mediaSize)
+                    }
+                    "audio" -> {
+                        if (mediaSize > STATUS_AUDIO_SIZE_LIMIT) {
+                            throw AudioSizeException()
+                        }
+                        PreparedMedia(QueuedMedia.Type.AUDIO, uri, mediaSize)
                     }
                     else -> {
                         throw MediaTypeException()
@@ -196,6 +203,7 @@ class MediaUploaderImpl(
     private companion object {
         private const val TAG = "MediaUploaderImpl"
         private const val STATUS_VIDEO_SIZE_LIMIT = 41943040 // 40MiB
+        private const val STATUS_AUDIO_SIZE_LIMIT = 41943040 // 40MiB
         private const val STATUS_IMAGE_SIZE_LIMIT = 8388608 // 8MiB
         private const val STATUS_IMAGE_PIXEL_SIZE_LIMIT = 16777216 // 4096^2 Pixels
 

@@ -324,7 +324,7 @@ class ComposeActivity : BaseActivity(),
             combineOptionalLiveData(viewModel.media, viewModel.poll) { media, poll ->
                 val active = poll == null
                         && media!!.size != 4
-                        && media.firstOrNull()?.type != QueuedMedia.Type.VIDEO
+                        && (media.isEmpty() || media.first().type == QueuedMedia.Type.IMAGE)
                 enableButton(composeAddMediaButton, active, active)
                 enablePollButton(media.isNullOrEmpty())
             }.subscribe()
@@ -765,7 +765,7 @@ class ComposeActivity : BaseActivity(),
         val intent = Intent(Intent.ACTION_GET_CONTENT)
         intent.addCategory(Intent.CATEGORY_OPENABLE)
 
-        val mimeTypes = arrayOf("image/*", "video/*")
+        val mimeTypes = arrayOf("image/*", "video/*", "audio/*")
         intent.type = "*/*"
         intent.putExtra(Intent.EXTRA_MIME_TYPES, mimeTypes)
         startActivityForResult(intent, MEDIA_PICK_RESULT)
@@ -807,6 +807,9 @@ class ComposeActivity : BaseActivity(),
                     val errorId = when (it) {
                         is VideoSizeException -> {
                             R.string.error_video_upload_size
+                        }
+                        is AudioSizeException -> {
+                            R.string.error_audio_upload_size
                         }
                         is VideoOrImageException -> {
                             R.string.error_media_upload_image_or_video
@@ -932,7 +935,7 @@ class ComposeActivity : BaseActivity(),
             val description: String? = null
     ) {
         enum class Type {
-            IMAGE, VIDEO;
+            IMAGE, VIDEO, AUDIO;
         }
     }
 
