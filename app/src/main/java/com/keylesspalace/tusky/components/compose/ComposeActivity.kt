@@ -413,12 +413,53 @@ class ComposeActivity : BaseActivity(),
         composeEditField.setSelection(start + text.length)
     }
 
+    private fun prependSelectedWordsWith(text: CharSequence) {
+        // If you select "backward" in an editable, you get SelectionStart > SelectionEnd
+        val start = composeEditField.selectionStart.coerceAtMost(composeEditField.selectionEnd)
+        val end = composeEditField.selectionStart.coerceAtLeast(composeEditField.selectionEnd)
+        val editorText = composeEditField.text
+
+        if (start == end) {
+            // No selection, just insert text at caret
+            editorText.insert(start, text)
+            // Set the cursor after the inserted text
+            composeEditField.setSelection(start + text.length)
+        } else {
+            var wasWord: Boolean
+            var isWord = end < editorText.length && !Character.isWhitespace(editorText[end])
+            var newEnd = end
+
+            // Iterate the selection backward so we don't have to juggle indices on insertion
+            var index = end - 1
+            while (index >= start - 1 && index >= 0) {
+                wasWord = isWord
+                isWord = !Character.isWhitespace(editorText[index])
+                if (wasWord && !isWord) {
+                    // We've reached the beginning of a word, perform insert
+                    editorText.insert(index + 1, text)
+                    newEnd += text.length
+                }
+                --index
+            }
+
+            if (start == 0 && isWord) {
+                // Special case when the selection includes the start of the text
+                editorText.insert(0, text)
+                newEnd += text.length
+            }
+
+            // Keep the same text (including insertions) selected
+            composeEditField.setSelection(start, newEnd)
+        }
+    }
+
+
     private fun atButtonClicked() {
-        replaceTextAtCaret("@")
+        prependSelectedWordsWith("@")
     }
 
     private fun hashButtonClicked() {
-        replaceTextAtCaret("#")
+        prependSelectedWordsWith("#")
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
