@@ -177,7 +177,7 @@ class ComposeActivity : BaseActivity(),
              * instance state will be re-queued. */
             val type = intent.type
             if (type != null) {
-                if (type.startsWith("image/") || type.startsWith("video/")) {
+                if (type.startsWith("image/") || type.startsWith("video/") || type.startsWith("audio/")) {
                     val uriList = ArrayList<Uri>()
                     if (intent.action != null) {
                         when (intent.action) {
@@ -991,7 +991,7 @@ class ComposeActivity : BaseActivity(),
 
         @JvmStatic
         fun canHandleMimeType(mimeType: String?): Boolean {
-            return mimeType != null && (mimeType.startsWith("image/") || mimeType.startsWith("video/") || mimeType == "text/plain")
+            return mimeType != null && (mimeType.startsWith("image/") || mimeType.startsWith("video/") || mimeType.startsWith("audio/") || mimeType == "text/plain")
         }
     }
 }
