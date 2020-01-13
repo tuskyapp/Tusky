@@ -3,18 +3,15 @@ package com.keylesspalace.tusky.components.search
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations
 import androidx.paging.PagedList
 import com.keylesspalace.tusky.components.search.adapter.SearchRepository
 import com.keylesspalace.tusky.db.AccountEntity
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.entity.*
+import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.network.TimelineCases
-import com.keylesspalace.tusky.util.Listing
-import com.keylesspalace.tusky.util.NetworkState
-import com.keylesspalace.tusky.util.RxAwareViewModel
-import com.keylesspalace.tusky.util.ViewDataUtils
+import com.keylesspalace.tusky.util.*
 import com.keylesspalace.tusky.viewdata.StatusViewData
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -23,7 +20,8 @@ import javax.inject.Inject
 class SearchViewModel @Inject constructor(
         mastodonApi: MastodonApi,
         private val timelineCases: TimelineCases,
-        private val accountManager: AccountManager) : RxAwareViewModel() {
+        private val accountManager: AccountManager
+) : RxAwareViewModel() {
 
     var currentQuery: String = ""
 
@@ -33,49 +31,46 @@ class SearchViewModel @Inject constructor(
             accountManager.activeAccount = value
         }
 
-    val mediaPreviewEnabled: Boolean
-        get() = activeAccount?.mediaPreviewEnabled ?: false
+    val mediaPreviewEnabled = activeAccount?.mediaPreviewEnabled ?: false
+    val alwaysShowSensitiveMedia = activeAccount?.alwaysShowSensitiveMedia ?: false
+    val alwaysOpenSpoiler = activeAccount?.alwaysOpenSpoiler ?: false
 
     private val statusesRepository = SearchRepository<Pair<Status, StatusViewData.Concrete>>(mastodonApi)
     private val accountsRepository = SearchRepository<Account>(mastodonApi)
     private val hashtagsRepository = SearchRepository<HashTag>(mastodonApi)
-    val alwaysShowSensitiveMedia: Boolean = activeAccount?.alwaysShowSensitiveMedia
-            ?: false
-    val alwaysOpenSpoiler: Boolean = activeAccount?.alwaysOpenSpoiler
-            ?: false
 
     private val repoResultStatus = MutableLiveData<Listing<Pair<Status, StatusViewData.Concrete>>>()
-    val statuses: LiveData<PagedList<Pair<Status, StatusViewData.Concrete>>> = Transformations.switchMap(repoResultStatus) { it.pagedList }
-    val networkStateStatus: LiveData<NetworkState> = Transformations.switchMap(repoResultStatus) { it.networkState }
-    val networkStateStatusRefresh: LiveData<NetworkState> = Transformations.switchMap(repoResultStatus) { it.refreshState }
+    val statuses: LiveData<PagedList<Pair<Status, StatusViewData.Concrete>>> = repoResultStatus.switchMap { it.pagedList }
+    val networkStateStatus: LiveData<NetworkState> = repoResultStatus.switchMap { it.networkState }
+    val networkStateStatusRefresh: LiveData<NetworkState> = repoResultStatus.switchMap { it.refreshState }
 
     private val repoResultAccount = MutableLiveData<Listing<Account>>()
-    val accounts: LiveData<PagedList<Account>> = Transformations.switchMap(repoResultAccount) { it.pagedList }
-    val networkStateAccount: LiveData<NetworkState> = Transformations.switchMap(repoResultAccount) { it.networkState }
-    val networkStateAccountRefresh: LiveData<NetworkState> = Transformations.switchMap(repoResultAccount) { it.refreshState }
+    val accounts: LiveData<PagedList<Account>> = repoResultAccount.switchMap { it.pagedList }
+    val networkStateAccount: LiveData<NetworkState> = repoResultAccount.switchMap { it.networkState }
+    val networkStateAccountRefresh: LiveData<NetworkState> = repoResultAccount.switchMap { it.refreshState }
 
     private val repoResultHashTag = MutableLiveData<Listing<HashTag>>()
-    val hashtags: LiveData<PagedList<HashTag>> = Transformations.switchMap(repoResultHashTag) { it.pagedList }
-    val networkStateHashTag: LiveData<NetworkState> = Transformations.switchMap(repoResultHashTag) { it.networkState }
-    val networkStateHashTagRefresh: LiveData<NetworkState> = Transformations.switchMap(repoResultHashTag) { it.refreshState }
+    val hashtags: LiveData<PagedList<HashTag>> = repoResultHashTag.switchMap { it.pagedList }
+    val networkStateHashTag: LiveData<NetworkState> = repoResultHashTag.switchMap { it.networkState }
+    val networkStateHashTagRefresh: LiveData<NetworkState> = repoResultHashTag.switchMap { it.refreshState }
 
     private val loadedStatuses = ArrayList<Pair<Status, StatusViewData.Concrete>>()
     fun search(query: String) {
         loadedStatuses.clear()
         repoResultStatus.value = statusesRepository.getSearchData(SearchType.Status, query, disposables, initialItems = loadedStatuses) {
-            (it?.statuses?.map { status -> Pair(status, ViewDataUtils.statusToViewData(status, alwaysShowSensitiveMedia, alwaysOpenSpoiler)!!) }
-                    ?: emptyList())
+            it?.statuses?.map { status -> Pair(status, ViewDataUtils.statusToViewData(status, alwaysShowSensitiveMedia, alwaysOpenSpoiler)!!) }
+                    .orEmpty()
                     .apply {
                         loadedStatuses.addAll(this)
                     }
         }
         repoResultAccount.value = accountsRepository.getSearchData(SearchType.Account, query, disposables) {
-            it?.accounts ?: emptyList()
+            it?.accounts.orEmpty()
         }
         val hashtagQuery = if (query.startsWith("#")) query else "#$query"
         repoResultHashTag.value =
                 hashtagsRepository.getSearchData(SearchType.Hashtag, hashtagQuery, disposables) {
-                    it?.hashtags ?: emptyList()
+                    it?.hashtags.orEmpty()
                 }
 
     }
@@ -184,11 +179,11 @@ class SearchViewModel @Inject constructor(
     fun bookmark(status: Pair<Status, StatusViewData.Concrete>, isBookmarked: Boolean) {
         val idx = loadedStatuses.indexOf(status)
         if (idx >= 0) {
-            val newPair = Pair(status.first, StatusViewData.Builder(status.second).setFavourited(isBookmarked).createStatusViewData())
+            val newPair = Pair(status.first, StatusViewData.Builder(status.second).setBookmarked(isBookmarked).createStatusViewData())
             loadedStatuses[idx] = newPair
             repoResultStatus.value?.refresh?.invoke()
         }
-        timelineCases.favourite(status.first, isBookmarked)
+        timelineCases.bookmark(status.first, isBookmarked)
                 .onErrorReturnItem(status.first)
                 .subscribe()
                 .autoDispose()

@@ -12,6 +12,7 @@ import androidx.paging.PagedList
 import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.SimpleItemAnimator
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.android.material.snackbar.Snackbar
 import com.keylesspalace.tusky.AccountActivity
@@ -62,8 +63,8 @@ abstract class SearchFragment<T> : Fragment(),
         swipeRefreshLayout.setOnRefreshListener(this)
         swipeRefreshLayout.setColorSchemeResources(R.color.tusky_blue)
         swipeRefreshLayout.setProgressBackgroundColorSchemeColor(
-                ThemeUtils.getColor(swipeRefreshLayout.context, android.R.attr.colorBackground))
-
+                ThemeUtils.getColor(swipeRefreshLayout.context, android.R.attr.colorBackground)
+        )
     }
 
     private fun subscribeObservables() {
@@ -75,8 +76,9 @@ abstract class SearchFragment<T> : Fragment(),
 
             searchProgressBar.visible(it == NetworkState.LOADING)
 
-            if (it.status == Status.FAILED)
-                showError(it.msg)
+            if (it.status == Status.FAILED) {
+                showError()
+            }
             checkNoData()
 
         })
@@ -85,8 +87,9 @@ abstract class SearchFragment<T> : Fragment(),
 
             progressBarBottom.visible(it == NetworkState.LOADING)
 
-            if (it.status == Status.FAILED)
-                showError(it.msg)
+            if (it.status == Status.FAILED) {
+                showError()
+            }
         })
     }
 
@@ -99,7 +102,8 @@ abstract class SearchFragment<T> : Fragment(),
         searchRecyclerView.layoutManager = LinearLayoutManager(searchRecyclerView.context)
         adapter = createAdapter()
         searchRecyclerView.adapter = adapter
-
+        searchRecyclerView.setHasFixedSize(true)
+        (searchRecyclerView.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
     }
 
     private fun showNoData(isEmpty: Boolean) {
@@ -109,7 +113,7 @@ abstract class SearchFragment<T> : Fragment(),
             searchNoResultsText.hide()
     }
 
-    private fun showError(@Suppress("UNUSED_PARAMETER") msg: String?) {
+    private fun showError() {
         if (snackbarErrorRetry?.isShown != true) {
             snackbarErrorRetry = Snackbar.make(layoutRoot, R.string.failed_search, Snackbar.LENGTH_INDEFINITE)
             snackbarErrorRetry?.setAction(R.string.action_retry) {
@@ -129,13 +133,12 @@ abstract class SearchFragment<T> : Fragment(),
     }
 
     protected val bottomSheetActivity
-            get() = (activity as? BottomSheetActivity)
+        get() = (activity as? BottomSheetActivity)
 
     override fun onRefresh() {
 
         // Dismissed here because the RecyclerView bottomProgressBar is shown as soon as the retry begins.
         swipeRefreshLayout.post {
-
             swipeRefreshLayout.isRefreshing = false
         }
         viewModel.retryAllSearches()

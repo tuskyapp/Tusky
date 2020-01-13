@@ -26,14 +26,18 @@ import java.util.concurrent.Executor
 class SearchDataSourceFactory<T>(
         private val mastodonApi: MastodonApi,
         private val searchType: SearchType,
-        private val searchRequest: String?,
+        private val searchRequest: String,
         private val disposables: CompositeDisposable,
         private val retryExecutor: Executor,
         private val cacheData: List<T>? = null,
         private val parser: (SearchResult?) -> List<T>) : DataSource.Factory<Int, T>() {
+
     val sourceLiveData = MutableLiveData<SearchDataSource<T>>()
+
+    var exhausted = false
+
     override fun create(): DataSource<Int, T> {
-        val source = SearchDataSource(mastodonApi, searchType, searchRequest, disposables, retryExecutor, cacheData, parser)
+        val source = SearchDataSource(mastodonApi, searchType, searchRequest, disposables, retryExecutor, cacheData, parser, this)
         sourceLiveData.postValue(source)
         return source
     }

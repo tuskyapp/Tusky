@@ -59,7 +59,6 @@ import com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider.from
 import com.uber.autodispose.autoDispose
 import io.reactivex.android.schedulers.AndroidSchedulers
 import kotlinx.android.synthetic.main.fragment_search.*
-import java.util.*
 
 class SearchStatusesFragment : SearchFragment<Pair<Status, StatusViewData.Concrete>>(), StatusActionListener {
 
@@ -69,6 +68,9 @@ class SearchStatusesFragment : SearchFragment<Pair<Status, StatusViewData.Concre
         get() = viewModel.networkStateStatus
     override val data: LiveData<PagedList<Pair<Status, StatusViewData.Concrete>>>
         get() = viewModel.statuses
+
+    private val searchAdapter
+            get() = super.adapter as SearchStatusesAdapter
 
     override fun createAdapter(): PagedListAdapter<Pair<Status, StatusViewData.Concrete>, *> {
         val preferences = PreferenceManager.getDefaultSharedPreferences(searchRecyclerView.context)
@@ -87,37 +89,37 @@ class SearchStatusesFragment : SearchFragment<Pair<Status, StatusViewData.Concre
 
 
     override fun onContentHiddenChange(isShowing: Boolean, position: Int) {
-        (adapter as? SearchStatusesAdapter)?.getItem(position)?.let {
+        searchAdapter.getItem(position)?.let {
             viewModel.contentHiddenChange(it, isShowing)
         }
     }
 
     override fun onReply(position: Int) {
-        (adapter as? SearchStatusesAdapter)?.getItem(position)?.first?.let { status ->
+        searchAdapter.getItem(position)?.first?.let { status ->
             reply(status)
         }
     }
 
     override fun onFavourite(favourite: Boolean, position: Int) {
-        (adapter as? SearchStatusesAdapter)?.getItem(position)?.let { status ->
+        searchAdapter.getItem(position)?.let { status ->
             viewModel.favorite(status, favourite)
         }
     }
 
     override fun onBookmark(bookmark: Boolean, position: Int) {
-        (adapter as? SearchStatusesAdapter)?.getItem(position)?.let { status ->
+        searchAdapter.getItem(position)?.let { status ->
             viewModel.bookmark(status, bookmark)
         }
     }
 
     override fun onMore(view: View, position: Int) {
-        (adapter as? SearchStatusesAdapter)?.getItem(position)?.first?.let {
+        searchAdapter.getItem(position)?.first?.let {
             more(it, view, position)
         }
     }
 
     override fun onViewMedia(position: Int, attachmentIndex: Int, view: View?) {
-        (adapter as? SearchStatusesAdapter)?.getItem(position)?.first?.actionableStatus?.let { actionable ->
+        searchAdapter.getItem(position)?.first?.actionableStatus?.let { actionable ->
             when (actionable.attachments[attachmentIndex].type) {
                 Attachment.Type.GIFV, Attachment.Type.VIDEO, Attachment.Type.IMAGE, Attachment.Type.AUDIO -> {
                     val attachments = AttachmentViewData.list(actionable)
@@ -142,48 +144,48 @@ class SearchStatusesFragment : SearchFragment<Pair<Status, StatusViewData.Concre
     }
 
     override fun onViewThread(position: Int) {
-        (adapter as? SearchStatusesAdapter)?.getItem(position)?.first?.let { status ->
+        searchAdapter.getItem(position)?.first?.let { status ->
             val actionableStatus = status.actionableStatus
             bottomSheetActivity?.viewThread(actionableStatus.id, actionableStatus.url)
         }
     }
 
     override fun onOpenReblog(position: Int) {
-        (adapter as? SearchStatusesAdapter)?.getItem(position)?.first?.let { status ->
+        searchAdapter.getItem(position)?.first?.let { status ->
             bottomSheetActivity?.viewAccount(status.account.id)
         }
     }
 
     override fun onExpandedChange(expanded: Boolean, position: Int) {
-        (adapter as? SearchStatusesAdapter)?.getItem(position)?.let {
+        searchAdapter.getItem(position)?.let {
             viewModel.expandedChange(it, expanded)
         }
     }
 
     override fun onLoadMore(position: Int) {
-        //Ignore
+        // Not possible here
     }
 
     override fun onContentCollapsedChange(isCollapsed: Boolean, position: Int) {
-        (adapter as? SearchStatusesAdapter)?.getItem(position)?.let {
+        searchAdapter.getItem(position)?.let {
             viewModel.collapsedChange(it, isCollapsed)
         }
     }
 
     override fun onVoteInPoll(position: Int, choices: MutableList<Int>) {
-        (adapter as? SearchStatusesAdapter)?.getItem(position)?.let {
+        searchAdapter.getItem(position)?.let {
             viewModel.voteInPoll(it, choices)
         }
     }
 
     private fun removeItem(position: Int) {
-        (adapter as? SearchStatusesAdapter)?.getItem(position)?.let {
+        searchAdapter.getItem(position)?.let {
             viewModel.removeItem(it)
         }
     }
 
     override fun onReblog(reblog: Boolean, position: Int) {
-        (adapter as? SearchStatusesAdapter)?.getItem(position)?.let { status ->
+        searchAdapter.getItem(position)?.let { status ->
             viewModel.reblog(status, reblog)
         }
     }
@@ -193,27 +195,23 @@ class SearchStatusesFragment : SearchFragment<Pair<Status, StatusViewData.Concre
     }
 
     private fun reply(status: Status) {
-        val inReplyToId = status.actionableId
         val actionableStatus = status.actionableStatus
-        val replyVisibility = actionableStatus.visibility
-        val contentWarning = actionableStatus.spoilerText
-        val mentions = actionableStatus.mentions
-        val mentionedUsernames = LinkedHashSet<String>()
-        mentionedUsernames.add(actionableStatus.account.username)
-        val loggedInUsername = viewModel.activeAccount?.username
-        for ((_, _, username) in mentions) {
-            mentionedUsernames.add(username)
-        }
-        mentionedUsernames.remove(loggedInUsername)
-        val intent = ComposeActivity.startIntent(context!!, ComposeOptions(
-                inReplyToId = inReplyToId,
-                replyVisibility = replyVisibility,
-                contentWarning = contentWarning,
+        val mentionedUsernames = actionableStatus.mentions.map { it.username }
+                .toMutableSet()
+                .apply {
+                    add(actionableStatus.account.username)
+                    remove(viewModel.activeAccount?.username)
+                }
+
+        val intent = ComposeActivity.startIntent(requireContext(), ComposeOptions(
+                inReplyToId = status.actionableId,
+                replyVisibility = actionableStatus.visibility,
+                contentWarning = actionableStatus.spoilerText,
                 mentionedUsernames = mentionedUsernames,
                 replyingStatusAuthor = actionableStatus.account.localUsername,
                 replyingStatusContent = actionableStatus.content.toString()
         ))
-        requireActivity().startActivity(intent)
+        startActivity(intent)
     }
 
     private fun more(status: Status, view: View, position: Int) {
@@ -252,8 +250,7 @@ class SearchStatusesFragment : SearchFragment<Pair<Status, StatusViewData.Concre
             }
         }
 
-        val menu = popup.menu
-        val openAsItem = menu.findItem(R.id.status_open_as)
+        val openAsItem = popup.menu.findItem(R.id.status_open_as)
         when (accounts.size) {
             0, 1 -> openAsItem.isVisible = false
             2 -> for (account in accounts) {
@@ -269,13 +266,12 @@ class SearchStatusesFragment : SearchFragment<Pair<Status, StatusViewData.Concre
         popup.setOnMenuItemClickListener { item ->
             when (item.itemId) {
                 R.id.status_share_content -> {
-                    var statusToShare: Status? = status
-                    if (statusToShare!!.reblog != null) statusToShare = statusToShare.reblog
+                    val statusToShare: Status = status.actionableStatus
 
                     val sendIntent = Intent()
                     sendIntent.action = Intent.ACTION_SEND
 
-                    val stringToShare = statusToShare!!.account.username +
+                    val stringToShare = statusToShare.account.username +
                             " - " +
                             statusToShare.content.toString()
                     sendIntent.putExtra(Intent.EXTRA_TEXT, stringToShare)
@@ -292,7 +288,7 @@ class SearchStatusesFragment : SearchFragment<Pair<Status, StatusViewData.Concre
                     return@setOnMenuItemClickListener true
                 }
                 R.id.status_copy_link -> {
-                    val clipboard = activity!!.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+                    val clipboard = requireActivity().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
                     clipboard.setPrimaryClip(ClipData.newPlainText(null, statusUrl))
                     return@setOnMenuItemClickListener true
                 }
@@ -365,7 +361,7 @@ class SearchStatusesFragment : SearchFragment<Pair<Status, StatusViewData.Concre
             val uri = Uri.parse(url)
             val filename = uri.lastPathSegment
 
-            val downloadManager = activity!!.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
+            val downloadManager = requireActivity().getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
             val request = DownloadManager.Request(uri)
             request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, filename)
             downloadManager.enqueue(request)
@@ -417,7 +413,7 @@ class SearchStatusesFragment : SearchFragment<Pair<Status, StatusViewData.Concre
                                         deletedStatus
                                     }
 
-                                    val intent = ComposeActivity.startIntent(context!!, ComposeOptions(
+                                    val intent = ComposeActivity.startIntent(requireContext(), ComposeOptions(
                                             tootText = redraftStatus.text ?: "",
                                             inReplyToId = redraftStatus.inReplyToId,
                                             visibility = redraftStatus.visibility,
