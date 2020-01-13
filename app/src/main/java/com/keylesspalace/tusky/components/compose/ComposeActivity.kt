@@ -166,8 +166,7 @@ class ComposeActivity : BaseActivity(),
         setupContentWarningField(composeOptions?.contentWarning)
         setupPollView()
         applyShareIntent(intent, savedInstanceState)
-
-        composeEditField.requestFocus()
+        viewModel.setupComplete.value = true
     }
 
     private fun applyShareIntent(intent: Intent?, savedInstanceState: Bundle?) {
@@ -330,6 +329,10 @@ class ComposeActivity : BaseActivity(),
             }.subscribe()
             viewModel.uploadError.observe {
                 displayTransientError(R.string.error_media_upload_sending)
+            }
+            viewModel.setupComplete.observe {
+                // Focus may have changed during view model setup, ensure initial focus is on the edit field
+                composeEditField.requestFocus()
             }
         }
     }
