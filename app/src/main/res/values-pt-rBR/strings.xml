@@ -481,4 +481,8 @@
     <string name="description_status_bookmarked">Salvo</string>
     <string name="select_list_title">Selecionar lista</string>
     <string name="list">Lista</string>
-    </resources>
+    <string name="gradient_for_media">Mostrar blur em mídias ocultas</string>
+
+    <string name="no_scheduled_status">Sem toots agendados.</string>
+
+</resources>
