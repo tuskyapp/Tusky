@@ -16,14 +16,14 @@
 package com.keylesspalace.tusky.components.report.adapter
 
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentPagerAdapter
+import androidx.fragment.app.FragmentActivity
+import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.keylesspalace.tusky.components.report.fragments.ReportDoneFragment
 import com.keylesspalace.tusky.components.report.fragments.ReportNoteFragment
 import com.keylesspalace.tusky.components.report.fragments.ReportStatusesFragment
 
-class ReportPagerAdapter(manager: FragmentManager) : FragmentPagerAdapter(manager) {
-    override fun getItem(position: Int): Fragment {
+class ReportPagerAdapter(activity: FragmentActivity) : FragmentStateAdapter(activity) {
+    override fun createFragment(position: Int): Fragment {
         return when (position) {
             0 -> ReportStatusesFragment.newInstance()
             1 -> ReportNoteFragment.newInstance()
@@ -32,5 +32,5 @@ class ReportPagerAdapter(manager: FragmentManager) : FragmentPagerAdapter(manage
         }
     }
 
-    override fun getCount(): Int = 3
+    override fun getItemCount() = 3
 }

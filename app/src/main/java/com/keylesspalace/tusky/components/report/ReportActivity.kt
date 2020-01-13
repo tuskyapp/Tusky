@@ -78,7 +78,8 @@ class ReportActivity : BottomSheetActivity(), HasAndroidInjector {
     }
 
     private fun initViewPager() {
-        wizard.adapter = ReportPagerAdapter(supportFragmentManager)
+        wizard.isUserInputEnabled = false
+        wizard.adapter = ReportPagerAdapter(this)
     }
 
     private fun subscribeObservables() {
