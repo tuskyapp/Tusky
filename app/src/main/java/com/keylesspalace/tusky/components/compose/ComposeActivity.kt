@@ -29,7 +29,6 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.Parcelable
-import androidx.preference.PreferenceManager
 import android.provider.MediaStore
 import android.text.TextUtils
 import android.util.Log
@@ -52,6 +51,7 @@ import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.transition.TransitionManager
@@ -64,6 +64,7 @@ import com.keylesspalace.tusky.adapter.ComposeAutoCompleteAdapter
 import com.keylesspalace.tusky.adapter.EmojiAdapter
 import com.keylesspalace.tusky.adapter.OnEmojiSelectedListener
 import com.keylesspalace.tusky.components.compose.dialog.makeCaptionDialog
+import com.keylesspalace.tusky.components.compose.dialog.showAddPollDialog
 import com.keylesspalace.tusky.components.compose.view.ComposeOptionsListener
 import com.keylesspalace.tusky.db.AccountEntity
 import com.keylesspalace.tusky.di.Injectable
@@ -73,7 +74,6 @@ import com.keylesspalace.tusky.entity.Emoji
 import com.keylesspalace.tusky.entity.NewPoll
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.util.*
-import com.keylesspalace.tusky.components.compose.dialog.showAddPollDialog
 import com.mikepenz.google_material_typeface_library.GoogleMaterial
 import com.mikepenz.iconics.IconicsDrawable
 import kotlinx.android.parcel.Parcelize
@@ -410,7 +410,11 @@ class ComposeActivity : BaseActivity(),
         // If you select "backward" in an editable, you get SelectionStart > SelectionEnd
         val start = composeEditField.selectionStart.coerceAtMost(composeEditField.selectionEnd)
         val end = composeEditField.selectionStart.coerceAtLeast(composeEditField.selectionEnd)
-        composeEditField.text.replace(start, end, text)
+        val textToInsert = if (
+                composeEditField.text.isNotEmpty()
+                && !composeEditField.text[start - 1].isWhitespace()
+        ) " $text" else text
+        composeEditField.text.replace(start, end, textToInsert)
 
         // Set the cursor after the inserted text
         composeEditField.setSelection(start + text.length)
