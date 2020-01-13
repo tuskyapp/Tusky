@@ -518,4 +518,5 @@
 
     <string name="no_scheduled_status">Du har ingen planlagte statuser.</string>
 
-</resources>
+<string name="no_saved_status">Du har ikke lagret noen kladder.</string>
+    </resources>
