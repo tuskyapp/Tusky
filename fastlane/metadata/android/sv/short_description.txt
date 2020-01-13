@@ -1,1 +1,1 @@
-En klient med stöd för flera konton på det sociala nätverket Mastodon
+En klient med stöd för flera konton för det sociala nätverket Mastodon
