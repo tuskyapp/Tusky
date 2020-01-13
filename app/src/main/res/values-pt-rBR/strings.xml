@@ -462,7 +462,7 @@
     <string name="poll_duration_3_days">3 dias</string>
     <string name="poll_duration_7_days">7 dias</string>
     <string name="add_poll_choice">Adicionar opção</string>
-    <string name="poll_allow_multiple_choices">Múltiplas opções</string>
+    <string name="poll_allow_multiple_choices">Múltiplos votos</string>
     <string name="poll_new_choice_hint">Opção %d</string>
     <string name="edit_poll">Editar</string>
 
