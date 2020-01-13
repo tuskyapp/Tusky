@@ -275,8 +275,6 @@
 
     <string name="state_follow_requested">Запрошенные подписки</string>
 
-    <string name="no_content">ничего нет</string>
-
     <!--Отметки времени у постов: "16s" or "2d"-->
     <string name="abbreviated_in_years">через %dг</string>
     <string name="abbreviated_in_days">через %dд</string>

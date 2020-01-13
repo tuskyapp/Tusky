@@ -223,7 +223,6 @@
     <string name="status_media_images">Görseller</string>
     <string name="status_media_video">Video</string>
     <string name="state_follow_requested">Takip istekleri</string>
-    <string name="no_content">içerik yok</string>
     <!--These are for timestamps on statuses. For example: "16s" or "2d"-->
     <string name="abbreviated_in_years">%dy</string>
     <string name="abbreviated_in_days">%dd</string>

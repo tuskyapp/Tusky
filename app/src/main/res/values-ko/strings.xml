@@ -293,8 +293,6 @@
 
     <string name="state_follow_requested">팔로우 요청함</string>
 
-    <string name="no_content">임시 저장된 게시물이 없습니다</string>
-
     <!--These are for timestamps on statuses. For example: "16s" or "2d"-->
     <string name="abbreviated_in_years">%d년 후</string>
     <string name="abbreviated_in_days">%d일 후</string>

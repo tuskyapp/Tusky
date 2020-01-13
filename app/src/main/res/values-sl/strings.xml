@@ -253,8 +253,6 @@
 
     <string name="state_follow_requested">Prošnja za sledenje</string>
 
-    <string name="no_content">brez vsebine</string>
-
     <string name="abbreviated_in_years">v %dy</string>
     <string name="abbreviated_in_days">v %dd</string>
     <string name="abbreviated_in_hours">v %dh</string>

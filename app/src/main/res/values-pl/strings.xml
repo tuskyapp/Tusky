@@ -206,7 +206,6 @@
     <string name="status_media_images">Obrazy</string>
     <string name="status_media_video">Wideo</string>
     <string name="state_follow_requested">Wysłano prośbę o możliwość śledzenia</string>
-    <string name="no_content">brak zawartości</string>
     <!--These are for timestamps on statuses. For example: "16s" or "2d"-->
     <string name="abbreviated_in_years">w %d lata</string>
     <string name="abbreviated_in_days">w %d dni</string>

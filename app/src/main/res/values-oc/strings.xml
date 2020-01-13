@@ -209,7 +209,6 @@
     <string name="status_media_images">Imatges</string>
     <string name="status_media_video">Vidèo</string>
     <string name="state_follow_requested">Demanda d’abonament</string>
-    <string name="no_content">I a pas cap de contengut</string>
     <!--These are for timestamps on statuses. For example: "16s" or "2d"-->
     <string name="abbreviated_in_years">en %d ans</string>
     <string name="abbreviated_in_days">en %dd</string>

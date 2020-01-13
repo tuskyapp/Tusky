@@ -226,7 +226,6 @@
     <string name="status_media_images">Imagens</string>
     <string name="status_media_video">Vídeo</string>
     <string name="state_follow_requested">Solicitação enviada</string>
-    <string name="no_content">sem conteúdo</string>
     <!--These are for timestamps on statuses. For example: "16s" or "2d"-->
     <string name="abbreviated_in_years">em %dy</string>
     <string name="abbreviated_in_days">em %dd</string>

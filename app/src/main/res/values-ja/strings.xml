@@ -233,7 +233,6 @@
     <string name="status_media_images">画像</string>
     <string name="status_media_video">動画</string>
     <string name="state_follow_requested">フォローリクエスト中</string>
-    <string name="no_content">下書きはありません</string>
     <!--These are for timestamps on statuses. For example: "16s" or "2d"-->
     <string name="abbreviated_in_years">%d年後</string>
     <string name="abbreviated_in_days">%d日後</string>

@@ -239,7 +239,6 @@
     <string name="status_media_images">Immagini</string>
     <string name="status_media_video">Video</string>
     <string name="state_follow_requested">In attesa di approvazione</string>
-    <string name="no_content">nessun contenuto</string>
     <!--These are for timestamps on statuses. For example: "16s" or "2d"-->
     <string name="abbreviated_in_years">in %da</string>
     <string name="abbreviated_in_days">in %dg</string>

@@ -245,7 +245,6 @@
     <string name="status_media_images">Obrázky</string>
     <string name="status_media_video">Video</string>
     <string name="state_follow_requested">Vyžádáno sledování</string>
-    <string name="no_content">žádný obsah</string>
     <!--These are for timestamps on statuses. For example: "16s" or "2d"-->
     <string name="abbreviated_in_years">za %d let</string>
     <string name="abbreviated_in_days">za %d d</string>

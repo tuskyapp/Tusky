@@ -280,8 +280,6 @@
 
     <string name="state_follow_requested">已請求關注</string>
 
-    <string name="no_content">沒有內容</string>
-
     <!--These are for timestamps on statuses. For example: "16s" or "2d"-->
     <string name="abbreviated_in_years">%d 年內</string>
     <string name="abbreviated_in_days">%d 天內</string>
