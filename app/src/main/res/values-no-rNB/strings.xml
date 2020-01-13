@@ -247,8 +247,6 @@
 
     <string name="state_follow_requested">Forespørsel sendt</string>
 
-    <string name="no_content">ikke noe innhold</string>
-
     <string name="abbreviated_in_days">om %dd</string>
     <string name="abbreviated_in_hours">om %dh</string>
     <string name="abbreviated_in_minutes">om %dm</string>
@@ -520,4 +518,5 @@
 
     <string name="no_scheduled_status">Du har ingen planlagte statuser.</string>
 
-</resources>
+<string name="no_saved_status">Du har ikke lagret noen kladder.</string>
+    </resources>

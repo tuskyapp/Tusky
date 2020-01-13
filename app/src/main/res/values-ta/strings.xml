@@ -194,7 +194,6 @@
     <string name="status_media_images">படங்கள்</string>
     <string name="status_media_video">காணொளி</string>
     <string name="state_follow_requested">கோரிக்கையைப் பின்பற்றவும்</string>
-    <string name="no_content">எந்த உள்ளடக்கமும் இல்லை</string>
     <!--These are for timestamps on statuses. For example: "16s" or "2d"-->
     <string name="abbreviated_in_years">%dஆ-முன்</string>
     <string name="abbreviated_in_days">%dநா-முன்</string>

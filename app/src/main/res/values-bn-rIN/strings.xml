@@ -282,8 +282,6 @@
 
     <string name="state_follow_requested">অনুরোধ অনুসরণ করুন</string>
 
-    <string name="no_content">কোন উপাদান নেই</string>
-
     <!--These are for timestamps on statuses. For example: "16s" or "2d"-->
     <string name="abbreviated_in_years">%dy এ</string>
     <string name="abbreviated_in_days">%dd এ</string>

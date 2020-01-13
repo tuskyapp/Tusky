@@ -236,7 +236,6 @@
     <string name="status_media_images">Afbeeldingen</string>
     <string name="status_media_video">Video</string>
     <string name="state_follow_requested">Volgverzoek verzonden</string>
-    <string name="no_content">geen inhoud</string>
     <!--These are for timestamps on statuses. For example: "16s" or "2d"-->
     <string name="abbreviated_in_years">over %dj</string>
     <string name="abbreviated_in_days">over %dd</string>

@@ -241,7 +241,6 @@
     <string name="status_media_images">Bilder</string>
     <string name="status_media_video">Video</string>
     <string name="state_follow_requested">Folgeanfrage gesendet</string>
-    <string name="no_content">leer</string>
     <!--These are for timestamps on statuses. For example: "16s" or "2d"-->
     <string name="follows_you">Folgt dir</string>
     <string name="pref_title_alway_show_sensitive_media">Heikle Inhalte immer anzeigen</string>

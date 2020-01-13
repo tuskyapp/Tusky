@@ -226,7 +226,6 @@
     <string name="status_media_images">Imagens</string>
     <string name="status_media_video">Vídeo</string>
     <string name="state_follow_requested">Solicitação enviada</string>
-    <string name="no_content">sem conteúdo</string>
     <!--These are for timestamps on statuses. For example: "16s" or "2d"-->
     <string name="abbreviated_in_years">em %dy</string>
     <string name="abbreviated_in_days">em %dd</string>
@@ -463,7 +462,7 @@
     <string name="poll_duration_3_days">3 dias</string>
     <string name="poll_duration_7_days">7 dias</string>
     <string name="add_poll_choice">Adicionar opção</string>
-    <string name="poll_allow_multiple_choices">Múltiplas opções</string>
+    <string name="poll_allow_multiple_choices">Múltiplos votos</string>
     <string name="poll_new_choice_hint">Opção %d</string>
     <string name="edit_poll">Editar</string>
 
@@ -481,4 +480,8 @@
     <string name="description_status_bookmarked">Salvo</string>
     <string name="select_list_title">Selecionar lista</string>
     <string name="list">Lista</string>
-    </resources>
+    <string name="gradient_for_media">Mostrar blur em mídias ocultas</string>
+
+    <string name="no_scheduled_status">Sem toots agendados.</string>
+
+</resources>

@@ -14,11 +14,11 @@
     <string name="error_video_upload_size">Videofiler måste vara mindre än 40MB.</string>
     <string name="error_media_upload_type">Den typen av fil kan inte laddas upp.</string>
     <string name="error_media_upload_opening">Den filen kunde inte öppnas.</string>
-    <string name="error_media_upload_permission">Tillstånd att läsa media krävs.</string>
-    <string name="error_media_download_permission">Tillstånd att lagra media krävs.</string>
+    <string name="error_media_upload_permission">Behörighet att läsa media krävs.</string>
+    <string name="error_media_download_permission">Behörighet att spara media krävs.</string>
     <string name="error_media_upload_image_or_video">Bilder och videoklipp kan inte båda bifogas i samma status.</string>
     <string name="error_media_upload_sending">Uppladdningen misslyckades.</string>
-    <string name="error_sender_account_gone">Misslyckades med att få ett inloggningsnamn.</string>
+    <string name="error_sender_account_gone">Kunde inte skicka toot.</string>
     <string name="title_home">Hem</string>
     <string name="title_notifications">Notifikationer</string>
     <string name="title_public_local">Lokalt</string>
@@ -109,7 +109,7 @@
     <string name="action_links">Länkar</string>
     <string name="action_mentions">Omnämnanden</string>
     <string name="action_hashtags">Hashtaggar</string>
-    <string name="action_open_reblogger">Öppna knuffa författare</string>
+    <string name="action_open_reblogger">Öppna knuff författare</string>
     <string name="action_open_reblogged_by">Visa knuffar</string>
     <string name="action_open_faved_by">Visa favoriter</string>
     <string name="title_hashtags_dialog">Hashtaggar</string>
@@ -117,7 +117,7 @@
     <string name="title_links_dialog">Länkar</string>
     <string name="action_open_media_n">Öppna media #%d</string>
     <string name="download_image">Laddar ned %1$s</string>
-    <string name="action_copy_link">Kopiera länken</string>
+    <string name="action_copy_link">Kopiera länk</string>
     <string name="action_open_as">Öppen som %s</string>
     <string name="action_share_as">Dela som …</string>
     <string name="send_status_link_to">Dela toot-URL till…</string>
@@ -158,8 +158,8 @@
     <string name="visibility_unlisted">Olistad: Visa inte i offentliga tidslinjer</string>
     <string name="visibility_private">Enbart-följare: Ses enbart av följare</string>
     <string name="visibility_direct">Direkt: Skicka endast till nämnda användare</string>
-    <string name="pref_title_edit_notification_settings">Redigera notifieringar</string>
-    <string name="pref_title_notifications_enabled">Notifieringar</string>
+    <string name="pref_title_edit_notification_settings">Notifikationer</string>
+    <string name="pref_title_notifications_enabled">Notifikationer</string>
     <string name="pref_title_notification_alerts">Alarm</string>
     <string name="pref_title_notification_alert_sound">Meddela med ljud</string>
     <string name="pref_title_notification_alert_vibrate">Meddela med vibration</string>
@@ -173,14 +173,14 @@
     <string name="pref_title_app_theme">Applikationstema</string>
     <string name="pref_title_timelines">Tidslinjer</string>
     <string name="pref_title_timeline_filters">Filter</string>
-    <string name="app_them_dark">Mörk</string>
-    <string name="app_theme_light">Ljus</string>
+    <string name="app_them_dark">Mörkt</string>
+    <string name="app_theme_light">Ljust</string>
     <string name="app_theme_black">Svart</string>
     <string name="app_theme_auto">Automatiskt vid solnedgång</string>
     <string name="app_theme_system">Använd systemdesign</string>
     <string name="pref_title_browser_settings">Webbläsare</string>
     <string name="pref_title_custom_tabs">Använd Chrome-anpassade flikar</string>
-    <string name="pref_title_hide_follow_button">Dölj skriv-knappen medan du scrollar</string>
+    <string name="pref_title_hide_follow_button">Dölj skriv-knappen vid skrollning</string>
     <string name="pref_title_language">Språk</string>
     <string name="pref_title_status_filter">Filtrering av tidslinje</string>
     <string name="pref_title_status_tabs">Flikar</string>
@@ -208,11 +208,11 @@
     <string name="notification_mention_name">Nya omnämnanden</string>
     <string name="notification_mention_descriptions">Notifieringar om nya omnämnanden</string>
     <string name="notification_follow_name">Nya följare</string>
-    <string name="notification_follow_description">Notifieringar angående nya följare</string>
+    <string name="notification_follow_description">Notifieringar om nya följare</string>
     <string name="notification_boost_name">Knuffar</string>
-    <string name="notification_boost_description">Notifieringar när dina toot blir knuffade</string>
+    <string name="notification_boost_description">Notifieringar när dina toots blir knuffade</string>
     <string name="notification_favourite_name">Favoriter</string>
-    <string name="notification_favourite_description">Notifieringar när dina toot blir markerade som favoriter</string>
+    <string name="notification_favourite_description">Notifieringar när dina toots blir markerade som favoriter</string>
     <string name="notification_mention_format">%s omnämnde dig</string>
     <string name="notification_summary_large">%1$s, %2$s, %3$s och %4$d andra</string>
     <string name="notification_summary_medium">%1$s, %2$s, och %3$s</string>
@@ -239,8 +239,7 @@
     <string name="status_share_link">Dela länk till toot</string>
     <string name="status_media_images">Bilder</string>
     <string name="status_media_video">Video</string>
-    <string name="state_follow_requested">Följarförfrågning</string>
-    <string name="no_content">inget innehåll</string>
+    <string name="state_follow_requested">Följarförfrågad</string>
     <!--These are for timestamps on statuses. For example: "16s" or "2d"-->
     <string name="abbreviated_in_years">om %dy</string>
     <string name="abbreviated_in_days">om %dd</string>
@@ -273,11 +272,11 @@
     <string name="error_rename_list">Kunde inte byta namn på lista</string>
     <string name="error_delete_list">Kunde inte radera lista</string>
     <string name="action_create_list">Skapa en lista</string>
-    <string name="action_rename_list">Byt namn på lista</string>
-    <string name="action_delete_list">Ta bort denna lista</string>
-    <string name="action_edit_list">Redigera listan</string>
+    <string name="action_rename_list">Byt namn</string>
+    <string name="action_delete_list">Ta bort</string>
+    <string name="action_edit_list">Ändra</string>
     <string name="hint_search_people_list">Sök efter personer du följer</string>
-    <string name="action_add_to_list">Lägga till kontot i listan</string>
+    <string name="action_add_to_list">Lägg till konto i listan</string>
     <string name="action_remove_from_list">Ta bort kontot från listan</string>
     <string name="compose_active_account_description">Inlägg med kontot %1$s</string>
     <string name="error_failed_set_caption">Misslyckades med att ange bildtext</string>
@@ -302,7 +301,7 @@
     <string name="expand_collapse_all_statuses">Expandera/Dölj alla status</string>
     <string name="action_open_toot">Öppna toot</string>
     <string name="restart_required">Omstart av appen krävs</string>
-    <string name="restart_emoji">Du måste starta om Tusky för att kunna tillämpa ändringarna</string>
+    <string name="restart_emoji">Du måste starta om Tusky för att tillämpa ändringarna</string>
     <string name="later">Senare</string>
     <string name="restart">Starta om</string>
     <string name="caption_systememoji">Standard-emojis för din enhet</string>
@@ -330,9 +329,9 @@
         <item quantity="other">&lt;b&gt;%1$s&lt;/b&gt; Favoriter</item>
     </plurals>
     <plurals name="reblogs">
-        <item quantity="one">&lt;b&gt;%s&lt;/b&gt; Knuffa</item>
-        <item quantity="other">&lt;b&gt;%s&lt;/b&gt; Knuffar</item>
-    </plurals>
+	<item quantity="one"><b>%s</b> Knuff</item>
+	<item quantity="other"><b>%s</b> Knuffar</item>
+</plurals>
     <string name="title_reblogged_by">Knuffad av</string>
     <string name="title_favourited_by">Favoriserad av</string>
     <string name="conversation_1_recipients">%1$s</string>
@@ -377,7 +376,7 @@
     <string name="notification_clear_text">Är du säker på att du vill rensa dina notifieringar permanent\?</string>
 
 <string name="action_delete_and_redraft">Radera och skriv nytt</string>
-    <string name="dialog_redraft_toot_warning">Radera och skriva ny toot\?</string>
+    <string name="dialog_redraft_toot_warning">Radera och skriv ny toot\?</string>
 
     <string name="poll_info_format"> <!-- 15 röster • 1 timme kvar --> %1$s • %2$s</string>
     <plurals name="poll_info_votes">
@@ -391,7 +390,7 @@
     <string name="poll_vote">Rösta</string>
 
 
-<string name="pref_title_notification_filter_poll">omröstningen är avslutad</string>
+<string name="pref_title_notification_filter_poll">omröstning är avslutad</string>
     <string name="notification_poll_name">Omröstningar</string>
     <string name="notification_poll_description">Notifieringar när omröstningar har avslutats</string>
 
@@ -428,7 +427,7 @@
     <string name="confirmation_domain_unmuted">%s inte tystnad längre</string>
 
     <string name="mute_domain_warning">Är du säker på att du vill blockera allt från %s\? Du kommer inte kunna se något innehåll från denna domän i publika tidslinje eller i dina notifieringar. Dina följare på domänen kommer inte att bli borttagna.</string>
-    <string name="mute_domain_warning_dialog_ok">Dölj hela domän</string>
+    <string name="mute_domain_warning_dialog_ok">Dölj hela domänen</string>
 
     <string name="caption_notoemoji">Google\'s nuvarande emojis</string>
     <string name="button_continue">Fortsätt</string>
@@ -440,7 +439,7 @@
     <string name="failed_report">Misslyckades att anmäla</string>
     <string name="failed_fetch_statuses">Misslyckades att hämta status</string>
     <string name="report_description_1">Anmälan kommer att skickas till din serveradminstratör. Du kan beskriva varför du anmäler kontot nedan:</string>
-    <string name="report_description_remote_instance">Kontot är från en annan server. Skicka en avidentifierad kopia av anmälan dit också\?</string>
+    <string name="report_description_remote_instance">Kontot är från en annan server. Skicka en anonym kopia av anmälan dit också\?</string>
 
     <string name="pref_title_show_notifications_filter">Visa notifikationsfilter</string>
 <string name="filter_dialog_whole_word">Helt ord</string>
@@ -477,4 +476,8 @@
     <string name="description_status_bookmarked">Bokmärkt</string>
     <string name="select_list_title">Välj lista</string>
     <string name="list">Lista</string>
-    </resources>
+    <string name="gradient_for_media">Visa färgglada gradienter för gömd media</string>
+
+    <string name="no_scheduled_status">Du har inga schemalagda statusar.</string>
+
+</resources>

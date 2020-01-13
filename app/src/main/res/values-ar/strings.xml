@@ -235,7 +235,6 @@
     <string name="status_media_images">صور</string>
     <string name="status_media_video">فيديو</string>
     <string name="state_follow_requested">طلب متابعة</string>
-    <string name="no_content">ليس هناك محتوى</string>
     <!--These are for timestamps on statuses. For example: "16s" or "2d"-->
     <string name="abbreviated_in_years">في %dy</string>
     <string name="abbreviated_in_days">في %dd</string>
@@ -498,4 +497,7 @@
     <string name="list">القائمة</string>
     <string name="gradient_for_media">اظهر ألوانا متدرّجة للوسائط المخفية</string>
 
-    </resources>
+    <string name="no_saved_status">ليس لديك أية مسودات.</string>
+    <string name="no_scheduled_status">ليس لديك أية منشورات مُبرمَجة للنشر.</string>
+
+</resources>

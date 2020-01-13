@@ -213,7 +213,6 @@
     <string name="status_media_images">Irudiak</string>
     <string name="status_media_video">Bideoak</string>
     <string name="state_follow_requested">Eskaera bidalita</string>
-    <string name="no_content">Hutsik dago hau</string>
     <!--These are for timestamps on statuses. For example: "16s" or "2d"-->
     <string name="abbreviated_in_years">%du-an</string>
     <string name="abbreviated_in_days">%de-an</string>

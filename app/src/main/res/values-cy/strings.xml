@@ -214,7 +214,6 @@
     <string name="status_media_images">Delweddau</string>
     <string name="status_media_video">Fideo</string>
     <string name="state_follow_requested">Gofyn i ddilyn</string>
-    <string name="no_content">dim cynnwys</string>
     <!--These are for timestamps on statuses. For example: "16s" or "2d"-->
     <string name="abbreviated_in_years">%dy </string>
     <string name="abbreviated_in_days"> %dd </string>

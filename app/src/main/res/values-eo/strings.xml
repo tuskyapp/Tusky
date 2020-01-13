@@ -241,7 +241,6 @@
     <string name="status_media_images">Bildoj</string>
     <string name="status_media_video">Video</string>
     <string name="state_follow_requested">Sekvado petita</string>
-    <string name="no_content">neniu enhavo</string>
     <!--These are for timestamps on statuses. For example: "16s" or "2d"-->
     <string name="abbreviated_in_years">en %dj</string>
     <string name="abbreviated_in_days">en %dt</string>

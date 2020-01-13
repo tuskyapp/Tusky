@@ -203,8 +203,6 @@
     <string name="status_media_images">Imatges</string>
     <string name="status_media_video">Vídeo</string>
 
-    <string name="no_content">no hi ha cap contingut</string>
-
     <!--These are for timestamps on statuses. For example: "16s" or "2d"-->
     <string name="abbreviated_in_years">en %d anys</string>
     <string name="abbreviated_in_days">en %dd</string>
