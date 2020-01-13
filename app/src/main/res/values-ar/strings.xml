@@ -497,4 +497,7 @@
     <string name="list">القائمة</string>
     <string name="gradient_for_media">اظهر ألوانا متدرّجة للوسائط المخفية</string>
 
-    </resources>
+    <string name="no_saved_status">ليس لديك أية مسودات.</string>
+    <string name="no_scheduled_status">ليس لديك أية منشورات مُبرمَجة للنشر.</string>
+
+</resources>
