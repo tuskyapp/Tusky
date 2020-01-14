@@ -1,0 +1,7 @@
+Tusky útg7.0
+
+- Stuðningur við birtingu kannana, atkvæðagreiðslu og tilkynningar vegna kannana
+- Nýjir hnappar til að sía tilkynningaflipa og til að eyða öllum tilkynningunum
+- Eyða og endurvinna eigin tíst
+- Nýtt merki á auðkennismynd sýnir hvort aðgangur sé róbót (hægt að slökkva á þessu í kjörstillingum)
+- Nýjar þýðingar: Norskt bókmál og Slóvenska.
