@@ -1024,6 +1024,14 @@ public class NotificationsFragment extends SFragment implements
             }
         }
         Log.e(TAG, "Fetch failure: " + exception.getMessage());
+
+        if (fetchEnd == FetchEnd.TOP) {
+            topLoading = false;
+        }
+        if (fetchEnd == FetchEnd.BOTTOM) {
+            bottomLoading = false;
+        }
+
         progressBar.setVisibility(View.GONE);
     }
 
