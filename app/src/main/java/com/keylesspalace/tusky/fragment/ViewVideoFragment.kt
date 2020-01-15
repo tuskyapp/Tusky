@@ -18,11 +18,9 @@ package com.keylesspalace.tusky.fragment
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.annotation.SuppressLint
-import android.content.Context
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.util.AttributeSet
 import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
@@ -101,10 +99,6 @@ class ViewVideoFragment : ViewMediaFragment() {
         mediaController.setMediaPlayer(videoView)
         videoView.setMediaController(mediaController)
         videoView.requestFocus()
-        videoView.setOnTouchListener { _, _ ->
-            mediaActivity.onPhotoTap()
-            false
-        }
         videoView.setPlayPauseListener(object: ExposedPlayPauseVideoView.PlayPauseListener {
             override fun onPause() {
                 handler.removeCallbacks(hideToolbar)
@@ -131,6 +125,13 @@ class ViewVideoFragment : ViewMediaFragment() {
             } else {
                 videoView.layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT
                 videoView.layoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT
+            }
+
+            // Wait until the media is loaded before accepting taps as we don't want toolbar to
+            // be hidden until then.
+            videoView.setOnTouchListener { _, _ ->
+                mediaActivity.onPhotoTap()
+                false
             }
 
             progressBar.hide()
@@ -190,7 +191,7 @@ class ViewVideoFragment : ViewMediaFragment() {
                 })
                 .start()
 
-        if (visible && videoView.isPlaying) {
+        if (visible && videoView.isPlaying && !isAudio) {
             hideToolbarAfterDelay(TOOLBAR_HIDE_DELAY_MS)
         } else {
             handler.removeCallbacks(hideToolbar)
