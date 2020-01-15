@@ -479,6 +479,11 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
                 boolean hasSpoiler = !TextUtils.isEmpty(statusViewData.getSpoilerText());
                 contentWarningDescriptionTextView.setVisibility(hasSpoiler ? View.VISIBLE : View.GONE);
                 contentWarningButton.setVisibility(hasSpoiler ? View.VISIBLE : View.GONE);
+                if (statusViewData.isExpanded()) {
+                    contentWarningButton.setText(R.string.status_content_warning_show_less);
+                } else {
+                    contentWarningButton.setText(R.string.status_content_warning_show_more);
+                }
 
                 contentWarningButton.setOnClickListener(view -> {
                     if (getAdapterPosition() != RecyclerView.NO_POSITION) {
