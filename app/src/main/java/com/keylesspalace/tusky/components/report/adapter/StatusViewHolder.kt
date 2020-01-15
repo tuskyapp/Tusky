@@ -31,12 +31,13 @@ import com.keylesspalace.tusky.viewdata.toViewData
 import kotlinx.android.synthetic.main.item_report_status.view.*
 import java.util.*
 
-class StatusViewHolder(itemView: View,
-                       private val useAbsoluteTime: Boolean,
-                       private val mediaPreviewEnabled: Boolean,
-                       private val viewState: StatusViewState,
-                       private val adapterHandler: AdapterHandler,
-                       private val getStatusForPosition: (Int) -> Status?) : RecyclerView.ViewHolder(itemView) {
+class StatusViewHolder(
+        itemView: View,
+        private val statusDisplayOptions: StatusDisplayOptions,
+        private val viewState: StatusViewState,
+        private val adapterHandler: AdapterHandler,
+        private val getStatusForPosition: (Int) -> Status?
+) : RecyclerView.ViewHolder(itemView) {
     private val mediaViewHeight = itemView.context.resources.getDimensionPixelSize(R.dimen.status_media_preview_height)
     private val statusViewHelper = StatusViewHelper(itemView)
 
@@ -60,6 +61,7 @@ class StatusViewHolder(itemView: View,
                 adapterHandler.setStatusChecked(status, isChecked)
             }
         }
+        itemView.status_media_preview_container.clipToOutline = true
     }
 
     fun bind(status: Status) {
@@ -69,11 +71,11 @@ class StatusViewHolder(itemView: View,
 
         val sensitive = status.sensitive
 
-        statusViewHelper.setMediasPreview(mediaPreviewEnabled, status.attachments, sensitive, previewListener,
-                viewState.isMediaShow(status.id, status.sensitive),
+        statusViewHelper.setMediasPreview(statusDisplayOptions, status.attachments,
+                sensitive, previewListener, viewState.isMediaShow(status.id, status.sensitive),
                 mediaViewHeight)
 
-        statusViewHelper.setupPollReadonly(status.poll.toViewData(), status.emojis, useAbsoluteTime)
+        statusViewHelper.setupPollReadonly(status.poll.toViewData(), status.emojis, statusDisplayOptions.useAbsoluteTime)
         setCreatedAt(status.createdAt)
     }
 
@@ -91,12 +93,14 @@ class StatusViewHolder(itemView: View,
                 itemView.statusContentWarningDescription.text = emojiSpoiler
                 itemView.statusContentWarningDescription.show()
                 itemView.statusContentWarningButton.show()
-                itemView.statusContentWarningButton.isChecked = viewState.isContentShow(status.id, true)
-                itemView.statusContentWarningButton.setOnCheckedChangeListener { _, isViewChecked ->
+                setContentWarningButtonText(viewState.isContentShow(status.id, true))
+                itemView.statusContentWarningButton.setOnClickListener {
                     status()?.let { status ->
+                        val contentShown = viewState.isContentShow(status.id, true)
                         itemView.statusContentWarningDescription.invalidate()
-                        viewState.setContentShow(status.id, isViewChecked)
-                        setTextVisible(isViewChecked, status.content, status.mentions, status.emojis, adapterHandler)
+                        viewState.setContentShow(status.id, !contentShown)
+                        setTextVisible(!contentShown, status.content, status.mentions, status.emojis, adapterHandler)
+                        setContentWarningButtonText(!contentShown)
                     }
                 }
                 setTextVisible(viewState.isContentShow(status.id, true), status.content, status.mentions, status.emojis, adapterHandler)
@@ -104,6 +108,13 @@ class StatusViewHolder(itemView: View,
         }
     }
 
+    private fun setContentWarningButtonText(contentShown: Boolean) {
+        if(contentShown) {
+            itemView.statusContentWarningButton.setText(R.string.status_content_warning_show_less)
+        } else {
+            itemView.statusContentWarningButton.setText(R.string.status_content_warning_show_more)
+        }
+    }
 
     private fun setTextVisible(expanded: Boolean,
                                content: Spanned,
@@ -124,7 +135,7 @@ class StatusViewHolder(itemView: View,
     }
 
     private fun setCreatedAt(createdAt: Date?) {
-        if (useAbsoluteTime) {
+        if (statusDisplayOptions.useAbsoluteTime) {
             itemView.timestampInfo.text = statusViewHelper.getAbsoluteTime(createdAt)
         } else {
             itemView.timestampInfo.text = if (createdAt != null) {
@@ -142,19 +153,19 @@ class StatusViewHolder(itemView: View,
     private fun setupCollapsedState(collapsible: Boolean, collapsed: Boolean, expanded: Boolean, spoilerText: String) {
         /* input filter for TextViews have to be set before text */
         if (collapsible && (expanded || TextUtils.isEmpty(spoilerText))) {
-            itemView.buttonToggleContent.setOnCheckedChangeListener { _, isChecked ->
+            itemView.buttonToggleContent.setOnClickListener{
                 status()?.let { status ->
-                    viewState.setCollapsed(status.id, isChecked)
+                    viewState.setCollapsed(status.id, !collapsed)
                     updateTextView()
                 }
             }
 
             itemView.buttonToggleContent.show()
             if (collapsed) {
-                itemView.buttonToggleContent.isChecked = true
+                itemView.buttonToggleContent.setText(R.string.status_content_show_more)
                 itemView.statusContent.filters = COLLAPSE_INPUT_FILTER
             } else {
-                itemView.buttonToggleContent.isChecked = false
+                itemView.buttonToggleContent.setText(R.string.status_content_show_less)
                 itemView.statusContent.filters = NO_INPUT_FILTER
             }
         } else {

@@ -2,7 +2,7 @@
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_compose"
+    android:id="@+id/activityCompose"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -30,10 +30,9 @@
             android:layout_gravity="end"
             android:padding="8dp"
             android:text="@string/at_symbol"
-            android:textStyle="bold"
             android:textColor="?android:textColorTertiary"
             android:textSize="?attr/status_text_large"
-            />
+            android:textStyle="bold" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/hashButton"
@@ -43,10 +42,9 @@
             android:layout_gravity="end"
             android:padding="8dp"
             android:text="@string/hash_symbol"
-            android:textStyle="bold"
             android:textColor="?android:textColorTertiary"
             android:textSize="?attr/status_text_large"
-            />
+            android:textStyle="bold" />
     </androidx.appcompat.widget.Toolbar>
 
     <androidx.core.widget.NestedScrollView
@@ -119,7 +117,7 @@
 
             </LinearLayout>
 
-            <com.keylesspalace.tusky.view.EditTextTyped
+            <com.keylesspalace.tusky.components.compose.view.EditTextTyped
                 android:id="@+id/composeEditField"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -136,25 +134,19 @@
                 android:textColorHint="?android:attr/textColorTertiary"
                 android:textSize="?attr/status_text_large" />
 
-            <HorizontalScrollView
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/composeMediaPreviewBar"
+                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:scrollbars="none">
+                android:scrollbars="none" />
 
-                <LinearLayout
-                    android:id="@+id/compose_media_preview_bar"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:paddingLeft="16dp"
-                    android:paddingRight="16dp">
-
-                    <!--This is filled at runtime with ImageView's for each preview in the upload queue.-->
-
-                </LinearLayout>
-
-            </HorizontalScrollView>
-
+            <com.keylesspalace.tusky.components.compose.view.PollPreviewView
+                android:id="@+id/pollPreview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                tools:visibility="visible" />
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 
@@ -174,7 +166,7 @@
         app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
         <TextView
-            android:id="@+id/action_photo_take"
+            android:id="@+id/actionPhotoTake"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:drawablePadding="8dp"
@@ -183,7 +175,7 @@
             android:textSize="?attr/status_text_medium" />
 
         <TextView
-            android:id="@+id/action_photo_pick"
+            android:id="@+id/actionPhotoPick"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:drawablePadding="8dp"
@@ -192,7 +184,7 @@
             android:textSize="?attr/status_text_medium" />
 
         <TextView
-            android:id="@+id/action_add_poll"
+            android:id="@+id/addPollTextActionTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:drawablePadding="8dp"
@@ -217,7 +209,7 @@
         app:behavior_peekHeight="0dp"
         app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior" />
 
-    <com.keylesspalace.tusky.view.ComposeOptionsView
+    <com.keylesspalace.tusky.components.compose.view.ComposeOptionsView
         android:id="@+id/composeOptionsBottomSheet"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -231,7 +223,7 @@
         app:behavior_peekHeight="0dp"
         app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior" />
 
-    <com.keylesspalace.tusky.view.ComposeScheduleView
+    <com.keylesspalace.tusky.components.compose.view.ComposeScheduleView
         android:id="@+id/composeScheduleView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -300,7 +292,7 @@
             android:contentDescription="@string/action_content_warning"
             android:padding="4dp"
             android:tooltipText="@string/action_content_warning"
-            app:srcCompat="@drawable/ic_cw_24dp"/>
+            app:srcCompat="@drawable/ic_cw_24dp" />
 
         <ImageButton
             android:id="@+id/composeEmojiButton"
@@ -337,7 +329,7 @@
             android:textSize="?attr/status_text_medium"
             tools:text="500" />
 
-        <com.keylesspalace.tusky.view.TootButton
+        <com.keylesspalace.tusky.components.compose.view.TootButton
             android:id="@+id/composeTootButton"
             style="@style/TuskyButton"
             android:layout_width="@dimen/toot_button_width"

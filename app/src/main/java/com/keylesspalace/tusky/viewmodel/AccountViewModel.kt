@@ -6,12 +6,11 @@ import androidx.lifecycle.ViewModel
 import com.keylesspalace.tusky.appstore.*
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.entity.Account
+import com.keylesspalace.tusky.entity.Field
+import com.keylesspalace.tusky.entity.IdentityProof
 import com.keylesspalace.tusky.entity.Relationship
 import com.keylesspalace.tusky.network.MastodonApi
-import com.keylesspalace.tusky.util.Error
-import com.keylesspalace.tusky.util.Loading
-import com.keylesspalace.tusky.util.Resource
-import com.keylesspalace.tusky.util.Success
+import com.keylesspalace.tusky.util.*
 import io.reactivex.disposables.Disposable
 import retrofit2.Call
 import retrofit2.Callback
@@ -26,6 +25,14 @@ class AccountViewModel @Inject constructor(
 
     val accountData = MutableLiveData<Resource<Account>>()
     val relationshipData = MutableLiveData<Resource<Relationship>>()
+
+    private val identityProofData = MutableLiveData<List<IdentityProof>>()
+
+    val accountFieldData = combineOptionalLiveData(accountData, identityProofData) { accountRes, identityProofs ->
+        identityProofs.orEmpty().map { Either.Left<IdentityProof, Field>(it) }
+                .plus(accountRes?.data?.fields.orEmpty().map { Either.Right<IdentityProof, Field>(it) })
+    }
+
 
     private val callList: MutableList<Call<*>> = mutableListOf()
     private val disposable: Disposable = eventHub.events
@@ -60,6 +67,7 @@ class AccountViewModel @Inject constructor(
                 }
 
                 override fun onFailure(call: Call<Account>, t: Throwable) {
+                    Log.w(TAG, "failed obtaining account", t)
                     accountData.postValue(Error())
                     isDataLoading = false
                     isRefreshing.postValue(false)
@@ -90,7 +98,32 @@ class AccountViewModel @Inject constructor(
                 }
 
                 override fun onFailure(call: Call<List<Relationship>>, t: Throwable) {
+                    Log.w(TAG, "failed obtaining relationships", t)
                     relationshipData.postValue(Error())
+                }
+            })
+
+            callList.add(call)
+        }
+    }
+
+    private fun obtainIdentityProof(reload: Boolean = false) {
+        if (identityProofData.value == null || reload) {
+
+            val call = mastodonApi.identityProofs(accountId)
+            call.enqueue(object : Callback<List<IdentityProof>> {
+                override fun onResponse(call: Call<List<IdentityProof>>,
+                                        response: Response<List<IdentityProof>>) {
+                    val proofs = response.body()
+                    if (response.isSuccessful && proofs != null ) {
+                        identityProofData.postValue(proofs)
+                    } else {
+                        identityProofData.postValue(emptyList())
+                    }
+                }
+
+                override fun onFailure(call: Call<List<IdentityProof>>, t: Throwable) {
+                    Log.w(TAG, "failed obtaining identity proofs", t)
                 }
             })
 
@@ -227,6 +260,7 @@ class AccountViewModel @Inject constructor(
             return
         accountId.let {
             obtainAccount(isReload)
+            obtainIdentityProof()
             if (!isSelf)
                 obtainRelationship(isReload)
         }

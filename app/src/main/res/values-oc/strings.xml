@@ -209,7 +209,6 @@
     <string name="status_media_images">Imatges</string>
     <string name="status_media_video">Vidèo</string>
     <string name="state_follow_requested">Demanda d’abonament</string>
-    <string name="no_content">I a pas cap de contengut</string>
     <!--These are for timestamps on statuses. For example: "16s" or "2d"-->
     <string name="abbreviated_in_years">en %d ans</string>
     <string name="abbreviated_in_days">en %dd</string>
@@ -477,8 +476,13 @@
     <string name="action_access_scheduled_toot">Tuts planificats</string>
     <string name="action_schedule_toot">Planificar de tuts</string>
     <string name="action_reset_schedule">Escafar</string>
-    <string name="hint_configure_scheduled_toot">Tocatz aquí per configurar los tuts planificats.</string>
     <string name="post_lookup_error_format">Error en cercant la publicacion %s</string>
 
 <string name="about_powered_by_tusky">Propulsat per Tusky</string>
+    <string name="title_bookmarks">Marcapaginas</string>
+    <string name="action_bookmark">Ajustar als marcapaginas</string>
+    <string name="action_view_bookmarks">Marcapaginas</string>
+    <string name="description_status_bookmarked">Ajustat als marcapaginas</string>
+    <string name="select_list_title">Seleccionar la list</string>
+    <string name="list">Lista</string>
     </resources>

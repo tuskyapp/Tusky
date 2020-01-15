@@ -27,5 +27,6 @@ data class InstanceEntity(
         val emojiList: List<Emoji>?,
         val maximumTootCharacters: Int?,
         val maxPollOptions: Int?,
-        val maxPollOptionLength: Int?
+        val maxPollOptionLength: Int?,
+        val version: String?
 )

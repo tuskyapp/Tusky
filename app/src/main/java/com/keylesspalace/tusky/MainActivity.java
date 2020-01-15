@@ -44,7 +44,9 @@ import com.keylesspalace.tusky.appstore.CacheUpdater;
 import com.keylesspalace.tusky.appstore.EventHub;
 import com.keylesspalace.tusky.appstore.MainTabsChangedEvent;
 import com.keylesspalace.tusky.appstore.ProfileEditedEvent;
+import com.keylesspalace.tusky.components.compose.ComposeActivity;
 import com.keylesspalace.tusky.components.conversation.ConversationsRepository;
+import com.keylesspalace.tusky.components.scheduled.ScheduledTootActivity;
 import com.keylesspalace.tusky.components.search.SearchActivity;
 import com.keylesspalace.tusky.db.AccountEntity;
 import com.keylesspalace.tusky.entity.Account;
@@ -478,8 +480,12 @@ public final class MainActivity extends BottomSheetActivity implements ActionBut
         tabLayout.removeAllTabs();
         for (int i = 0; i < tabs.size(); i++) {
             TabLayout.Tab tab = tabLayout.newTab()
-                    .setIcon(tabs.get(i).getIcon())
-                    .setContentDescription(tabs.get(i).getText());
+                    .setIcon(tabs.get(i).getIcon());
+            if (tabs.get(i).getId().equals(TabDataKt.LIST)) {
+                tab.setContentDescription(tabs.get(i).getArguments().get(1));
+            } else {
+                tab.setContentDescription(tabs.get(i).getText());
+            }
             tabLayout.addTab(tab);
             if (tabs.get(i).getId().equals(TabDataKt.NOTIFICATIONS)) {
                 notificationTabPosition = i;

@@ -26,8 +26,7 @@ import com.keylesspalace.tusky.entity.Account
 import com.keylesspalace.tusky.interfaces.LinkListener
 
 class SearchAccountsAdapter(private val linkListener: LinkListener)
-    : PagedListAdapter<Account, RecyclerView.ViewHolder>(STATUS_COMPARATOR) {
-
+    : PagedListAdapter<Account, RecyclerView.ViewHolder>(ACCOUNT_COMPARATOR) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val view = LayoutInflater.from(parent.context)
@@ -37,21 +36,16 @@ class SearchAccountsAdapter(private val linkListener: LinkListener)
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         getItem(position)?.let { item ->
-            (holder as? AccountViewHolder)?.apply {
+            (holder as AccountViewHolder).apply {
                 setupWithAccount(item)
                 setupLinkListener(linkListener)
             }
         }
-
-    }
-
-    public override fun getItem(position: Int): Account? {
-        return super.getItem(position)
     }
 
     companion object {
 
-        val STATUS_COMPARATOR = object : DiffUtil.ItemCallback<Account>() {
+        val ACCOUNT_COMPARATOR = object : DiffUtil.ItemCallback<Account>() {
             override fun areContentsTheSame(oldItem: Account, newItem: Account): Boolean =
                     oldItem.deepEquals(newItem)
 

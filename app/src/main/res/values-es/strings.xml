@@ -228,7 +228,6 @@
     <string name="status_media_images">Imágenes</string>
     <string name="status_media_video">Video</string>
     <string name="state_follow_requested">Solicitud enviada</string>
-    <string name="no_content">No hay nada aquí</string>
     <!--These are for timestamps on statuses. For example: "16s" or "2d"-->
     <string name="abbreviated_in_years">en %dy</string>
     <string name="abbreviated_in_days">en %dd</string>
@@ -465,8 +464,13 @@
     <string name="action_access_scheduled_toot">Estados programados</string>
     <string name="action_schedule_toot">Programar estado</string>
     <string name="action_reset_schedule">Reiniciar</string>
-    <string name="hint_configure_scheduled_toot">Pulsa aquí para configurar un estado programado.</string>
     <string name="post_lookup_error_format">Error al buscar el post %s</string>
 
 <string name="about_powered_by_tusky">Potenciado por Tusky</string>
+    <string name="title_bookmarks">Favoritos</string>
+    <string name="action_bookmark">Favorito</string>
+    <string name="action_view_bookmarks">Favoritos</string>
+    <string name="description_status_bookmarked">Marcado como favorito</string>
+    <string name="select_list_title">Seleccionar lista</string>
+    <string name="list">Lista</string>
     </resources>

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='UTF-8'?>
 <resources>
     <string name="error_generic">應用程式出現異常</string>
     <string name="error_network">網絡請求出錯，請檢查互聯網連接並重試</string>
@@ -281,8 +281,6 @@
 
     <string name="state_follow_requested">已請求關注</string>
 
-    <string name="no_content">沒有內容</string>
-
     <!--These are for timestamps on statuses. For example: "16s" or "2d"-->
     <string name="abbreviated_in_years">%d 年內</string>
     <string name="abbreviated_in_days">%d 天內</string>
@@ -385,11 +383,11 @@
     <string name="pin_action">置頂</string>
 
     <plurals name="favs">
-        <item quantity="other">&lt;b>%1$s&lt;/b> 次收藏</item>
+        <item quantity="other">&lt;b&gt;%1$s&lt;/b&gt; 次收藏</item>
     </plurals>
 
     <plurals name="reblogs">
-        <item quantity="other">&lt;b>%s&lt;/b> 次轉嘟</item>
+        <item quantity="other">&lt;b&gt;%s&lt;/b&gt; 次轉嘟</item>
     </plurals>
 
     <string name="title_reblogged_by">轉嘟</string>

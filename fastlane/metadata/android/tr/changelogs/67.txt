@@ -1,0 +1,9 @@
+Tusky v9.0
+
+- Artık Tusky'den Anket oluşturabilirsiniz
+- Geliştirilmiş arama
+- İçerik tercihlerini her zaman genişletmek için Hesap Tercihlerinde yeni seçenek
+- Navigasyon çekmecesindeki avatarlar artık yuvarlatılmış kare şeklinde
+- Artık kullanıcıları hiç durum bildirmemiş olsalar bile bildirmek mümkün.
+- Tusky şimdi Android 6+ üzerindeki cleartext bağlantılarına bağlanmayı reddedecek
+- Diğer bir sürü küçük iyileştirme ve hata düzeltmeleri

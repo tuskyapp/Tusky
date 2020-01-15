@@ -1,0 +1,7 @@
+Tusky v7.0
+
+- Anket, oylama ve anket bildirimlerini görüntüleme desteği
+- Bildirim sekmesini filtrelemek ve tüm bildirimleri silmek için yeni düğmeler
+- Kendi iletilerini sil ve yeniden tasarla
+- Bir hesabın profil resminde bot olup olmadığını gösteren yeni gösterge (tercihlerden kapatılabilir)
+- Yeni çeviriler: Norveççe Bokmål ve Slovence.

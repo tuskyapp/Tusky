@@ -93,13 +93,13 @@
         app:layout_constraintTop_toBottomOf="@id/status_avatar"
         tools:text="CW this is a long long long long long long long long content warning" />
 
-    <ToggleButton
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/status_content_warning_button"
+        style="@style/TuskyButton.Outlined"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
         android:layout_marginBottom="4dp"
-        android:background="?attr/content_warning_button"
         android:importantForAccessibility="no"
         android:minWidth="160dp"
         android:minHeight="0dp"
@@ -108,11 +108,10 @@
         android:paddingRight="16dp"
         android:paddingBottom="4dp"
         android:textAllCaps="true"
-        android:textOff="@string/status_content_warning_show_more"
-        android:textOn="@string/status_content_warning_show_less"
         android:textSize="?attr/status_text_large"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/status_content_warning_description" />
+        app:layout_constraintTop_toBottomOf="@+id/status_content_warning_description"
+        tools:text="@string/status_content_warning_show_more" />
 
     <androidx.emoji.widget.EmojiTextView
         android:id="@+id/status_content"
@@ -203,6 +202,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
         android:layout_marginBottom="4dp"
+        android:background="@drawable/media_preview_outline"
         android:importantForAccessibility="noHideDescendants"
         app:layout_constraintTop_toBottomOf="@id/card_view">
 
@@ -313,13 +313,16 @@
 
         <TextView
             android:id="@+id/status_sensitive_media_warning"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:background="?attr/sensitive_media_warning_background_color"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/media_warning_bg"
             android:gravity="center"
             android:lineSpacingMultiplier="1.2"
             android:orientation="vertical"
-            android:padding="8dp"
+            android:paddingLeft="12dp"
+            android:paddingTop="8dp"
+            android:paddingRight="12dp"
+            android:paddingBottom="8dp"
             android:textAlignment="center"
             android:textColor="@android:color/white"
             android:textSize="?attr/status_text_medium"
@@ -327,7 +330,9 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="@string/status_sensitive_media_title"
+            tools:visibility="visible" />
 
         <TextView
             android:id="@+id/status_media_label_0"
@@ -381,7 +386,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/status_media_label_2" />
 
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.recyclerview.widget.RecyclerView
@@ -395,13 +399,12 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/status_media_preview_container" />
 
-    <!-- using AppCompatButton because we don't want the inflater to turn it into a MaterialButton -->
-    <androidx.appcompat.widget.AppCompatButton
+    <Button
         android:id="@+id/status_poll_button"
+        style="@style/TuskyButton.Outlined"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
-        android:background="?attr/content_warning_button"
         android:gravity="center"
         android:minWidth="150dp"
         android:minHeight="0dp"

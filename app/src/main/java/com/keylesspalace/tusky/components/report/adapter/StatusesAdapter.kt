@@ -23,12 +23,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.components.report.model.StatusViewState
 import com.keylesspalace.tusky.entity.Status
+import com.keylesspalace.tusky.util.StatusDisplayOptions
 
-class StatusesAdapter(private val useAbsoluteTime: Boolean,
-                      private val mediaPreviewEnabled: Boolean,
-                      private val statusViewState: StatusViewState,
-                      private val adapterHandler: AdapterHandler)
-    : PagedListAdapter<Status, RecyclerView.ViewHolder>(STATUS_COMPARATOR) {
+class StatusesAdapter(
+        private val statusDisplayOptions: StatusDisplayOptions,
+        private val statusViewState: StatusViewState,
+        private val adapterHandler: AdapterHandler
+) : PagedListAdapter<Status, RecyclerView.ViewHolder>(STATUS_COMPARATOR) {
 
     private val statusForPosition: (Int) -> Status? = { position: Int ->
         if (position != RecyclerView.NO_POSITION) getItem(position) else null
@@ -36,8 +37,10 @@ class StatusesAdapter(private val useAbsoluteTime: Boolean,
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return StatusViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_report_status, parent, false),
-                useAbsoluteTime, mediaPreviewEnabled, statusViewState, adapterHandler, statusForPosition)
+        val view = LayoutInflater.from(parent.context)
+                .inflate(R.layout.item_report_status, parent, false)
+        return StatusViewHolder(view, statusDisplayOptions, statusViewState, adapterHandler,
+                statusForPosition)
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {

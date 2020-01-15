@@ -19,6 +19,7 @@ import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.method.LinkMovementMethod;
@@ -68,7 +69,7 @@ public class LinkHelper {
      * @param listener to notify about particular spans that are clicked
      */
     public static void setClickableText(TextView view, Spanned content,
-            @Nullable Status.Mention[] mentions, final LinkListener listener) {
+                                        @Nullable Status.Mention[] mentions, final LinkListener listener) {
         SpannableStringBuilder builder = new SpannableStringBuilder(content);
         URLSpan[] urlSpans = content.getSpans(0, content.length(), URLSpan.class);
         for (URLSpan span : urlSpans) {
@@ -178,6 +179,14 @@ public class LinkHelper {
         view.setMovementMethod(LinkMovementMethod.getInstance());
     }
 
+    public static CharSequence createClickableText(String text, String link) {
+        URLSpan span = new CustomURLSpan(link);
+
+        SpannableStringBuilder clickableText = new SpannableStringBuilder(text);
+        clickableText.setSpan(span, 0, text.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+        return clickableText;
+    }
+
     /**
      * Opens a link, depending on the settings, either in the browser or in a custom tab
      *
@@ -221,10 +230,17 @@ public class LinkHelper {
     public static void openLinkInCustomTab(Uri uri, Context context) {
         int toolbarColor = ThemeUtils.getColor(context, R.attr.custom_tab_toolbar);
 
-        CustomTabsIntent customTabsIntent = new CustomTabsIntent.Builder()
+        CustomTabsIntent.Builder customTabsIntentBuilder = new CustomTabsIntent.Builder()
                 .setToolbarColor(toolbarColor)
-                .setShowTitle(true)
-                .build();
+                .setShowTitle(true);
+
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1) {
+            customTabsIntentBuilder.setNavigationBarColor(
+                    ThemeUtils.getColor(context, android.R.attr.navigationBarColor)
+            );
+        }
+
+        CustomTabsIntent customTabsIntent = customTabsIntentBuilder.build();
         try {
             customTabsIntent.launchUrl(context, uri);
         } catch (ActivityNotFoundException e) {

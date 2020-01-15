@@ -159,7 +159,6 @@
 
     <string name="hint_domain">Which instance?</string>
     <string name="hint_compose">What\'s happening?</string>
-    <string name="hint_configure_scheduled_toot">Tap here to configure scheduled toot.</string>
     <string name="hint_content_warning">Content warning</string>
     <string name="hint_display_name">Display name</string>
     <string name="hint_note">Bio</string>
@@ -228,6 +227,7 @@
     <string name="pref_title_language">Language</string>
     <string name="pref_title_bot_overlay">Show indicator for bots</string>
     <string name="pref_title_animate_gif_avatars">Animate GIF avatars</string>
+    <string name="gradient_for_media">Show colorful gradients for hidden media</string>
 
     <string name="pref_title_status_filter">Timeline filtering</string>
     <string name="pref_title_status_tabs">Tabs</string>
@@ -305,8 +305,6 @@
     <string name="status_media_video">Video</string>
 
     <string name="state_follow_requested">Follow requested</string>
-
-    <string name="no_content">no content</string>
 
     <!--These are for timestamps on statuses. For example: "16s" or "2d"-->
     <string name="abbreviated_in_years">in %dy</string>
@@ -470,6 +468,8 @@
     <string name="edit_hashtag_title">Edit hashtag</string>
     <string name="edit_hashtag_hint">Hashtag without #</string>
     <string name="hashtag">Hashtag</string>
+    <string name="select_list_title">Select list</string>
+    <string name="list">List</string>
     <string name="notifications_clear">Clear</string>
     <string name="notifications_apply_filter">Filter</string>
     <string name="filter_apply">Apply</string>
@@ -543,5 +543,8 @@
     <string name="poll_new_choice_hint">Choice %d</string>
     <string name="edit_poll">Edit</string>
     <string name="post_lookup_error_format">Error looking up post %s</string>
+
+    <string name="no_saved_status">You don\'t have any drafts.</string>
+    <string name="no_scheduled_status">You don\'t have any scheduled statuses.</string>
 
 </resources>

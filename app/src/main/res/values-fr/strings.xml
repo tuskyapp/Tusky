@@ -26,7 +26,7 @@
     <string name="title_direct_messages">Messages directs</string>
     <string name="title_tab_preferences">Onglets</string>
     <string name="title_view_thread">Pouet</string>
-    <string name="title_statuses">Pouets</string>
+    <string name="title_statuses">Messages</string>
     <string name="title_statuses_with_replies">Pouets &amp; réponses</string>
     <string name="title_statuses_pinned">Épinglés</string>
     <string name="title_follows">Abonnements</string>
@@ -170,8 +170,8 @@
     <string name="pref_title_notification_filters">Me notifier lorsque</string>
     <string name="pref_title_notification_filter_mentions">on me mentionne</string>
     <string name="pref_title_notification_filter_follows">on me suit</string>
-    <string name="pref_title_notification_filter_reblogs">mes pouets sont boostés</string>
-    <string name="pref_title_notification_filter_favourites">mes pouets sont mis en favoris</string>
+    <string name="pref_title_notification_filter_reblogs">mes messages sont boostés</string>
+    <string name="pref_title_notification_filter_favourites">mes messages sont mis en favoris</string>
     <string name="pref_title_appearance_settings">Apparence</string>
     <string name="pref_title_app_theme">Thème de l’application</string>
     <string name="pref_title_timelines">Fils chronologiques</string>
@@ -245,7 +245,6 @@
     <string name="status_media_images">Images</string>
     <string name="status_media_video">Vidéo</string>
     <string name="state_follow_requested">Demande de suivi effectuée</string>
-    <string name="no_content">aucun contenu</string>
     <!--These are for timestamps on statuses. For example: "16s" or "2d"-->
     <string name="abbreviated_in_years">en %da</string>
     <string name="abbreviated_in_days">en %dj</string>
@@ -472,8 +471,13 @@
     <string name="action_access_scheduled_toot">Pouets planifiés</string>
     <string name="action_schedule_toot">Planifier le pouet</string>
     <string name="action_reset_schedule">Réinitialiser</string>
-    <string name="hint_configure_scheduled_toot">Appuyez ici pour configurer le pouet planifié.</string>
-    <string name="post_lookup_error_format">Erreur lors de la recherche du post %s</string>
+    <string name="post_lookup_error_format">Erreur lors de la récupération du message %s</string>
 
 <string name="about_powered_by_tusky">Propulsé par Tusky</string>
+    <string name="title_bookmarks">Marque-pages</string>
+    <string name="action_bookmark">Ajouter aux marque-pages</string>
+    <string name="action_view_bookmarks">Marque-pages</string>
+    <string name="description_status_bookmarked">Ajouté aux marque-pages</string>
+    <string name="select_list_title">Sélectionner la liste</string>
+    <string name="list">Liste</string>
     </resources>

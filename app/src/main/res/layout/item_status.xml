@@ -117,13 +117,13 @@
         tools:text="content warning which is very long and it doesn't fit"
         tools:visibility="visible" />
 
-    <ToggleButton
+    <Button
         android:id="@+id/status_content_warning_button"
+        style="@style/TuskyButton.Outlined"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
         android:layout_marginBottom="4dp"
-        android:background="?attr/content_warning_button"
         android:importantForAccessibility="no"
         android:minWidth="150dp"
         android:minHeight="0dp"
@@ -138,6 +138,7 @@
         android:visibility="gone"
         app:layout_constraintStart_toStartOf="@id/status_display_name"
         app:layout_constraintTop_toBottomOf="@id/status_content_warning_description"
+        tools:text="@string/status_content_warning_show_more"
         tools:visibility="visible" />
 
     <androidx.emoji.widget.EmojiTextView
@@ -156,13 +157,13 @@
         app:layout_constraintTop_toBottomOf="@id/status_content_warning_button"
         tools:text="This is a status" />
 
-    <ToggleButton
+    <Button
         android:id="@+id/button_toggle_content"
+        style="@style/TuskyButton.Outlined"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
         android:layout_marginBottom="4dp"
-        android:background="?attr/content_warning_button"
         android:importantForAccessibility="no"
         android:minWidth="150dp"
         android:minHeight="0dp"
@@ -171,12 +172,11 @@
         android:paddingRight="16dp"
         android:paddingBottom="4dp"
         android:textAllCaps="true"
-        android:textOff="@string/status_content_show_less"
-        android:textOn="@string/status_content_show_more"
         android:textSize="?attr/status_text_medium"
         android:visibility="gone"
         app:layout_constraintStart_toStartOf="@id/status_display_name"
         app:layout_constraintTop_toBottomOf="@id/status_content"
+        tools:text="@string/status_content_show_less"
         tools:visibility="visible" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -184,11 +184,12 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/status_media_preview_margin_top"
+        android:background="@drawable/media_preview_outline"
         android:importantForAccessibility="noHideDescendants"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@id/status_display_name"
         app:layout_constraintTop_toBottomOf="@id/button_toggle_content"
-        tools:visibility="gone">
+        tools:visibility="visible">
 
         <com.keylesspalace.tusky.view.MediaPreviewImageView
             android:id="@+id/status_media_preview_0"
@@ -298,14 +299,17 @@
 
         <TextView
             android:id="@+id/status_sensitive_media_warning"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:background="?attr/sensitive_media_warning_background_color"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/media_warning_bg"
             android:gravity="center"
             android:importantForAccessibility="no"
             android:lineSpacingMultiplier="1.2"
             android:orientation="vertical"
-            android:padding="8dp"
+            android:paddingLeft="12dp"
+            android:paddingTop="8dp"
+            android:paddingRight="12dp"
+            android:paddingBottom="8dp"
             android:textAlignment="center"
             android:textColor="@android:color/white"
             android:textSize="?attr/status_text_medium"
@@ -313,7 +317,9 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="@string/status_sensitive_media_title"
+            tools:visibility="visible" />
 
         <TextView
             android:id="@+id/status_media_label_0"
@@ -380,13 +386,12 @@
         app:layout_constraintStart_toStartOf="@id/status_display_name"
         app:layout_constraintTop_toBottomOf="@id/status_media_preview_container" />
 
-    <!-- using AppCompatButton because we don't want the inflater to turn it into a MaterialButton -->
-    <androidx.appcompat.widget.AppCompatButton
+    <Button
         android:id="@+id/status_poll_button"
+        style="@style/TuskyButton.Outlined"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
-        android:background="?attr/content_warning_button"
         android:gravity="center"
         android:minWidth="150dp"
         android:minHeight="0dp"

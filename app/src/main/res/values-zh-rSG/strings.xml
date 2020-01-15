@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='UTF-8'?>
 <resources>
     <string name="error_generic">应用程序出现异常</string>
     <string name="error_network">网络请求出错，请检查互联网连接并重试</string>
@@ -285,8 +285,6 @@
     <string name="status_media_video">视频</string>
 
     <string name="state_follow_requested">已发送关注请求</string>
-
-    <string name="no_content">没有内容</string>
 
     <!--These are for timestamps on statuses. For example: "16s" or "2d"-->
     <string name="abbreviated_in_years">%d 年内</string>

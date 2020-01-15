@@ -31,7 +31,8 @@ data class Attachment(
         @SerializedName("preview_url") val previewUrl: String,
         val meta: MetaData?,
         val type: Type,
-        val description: String?
+        val description: String?,
+        val blurhash: String?
 ) : Parcelable {
 
     @JsonAdapter(MediaTypeDeserializer::class)

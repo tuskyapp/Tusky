@@ -245,7 +245,6 @@
     <string name="status_media_images">Obrázky</string>
     <string name="status_media_video">Video</string>
     <string name="state_follow_requested">Vyžádáno sledování</string>
-    <string name="no_content">žádný obsah</string>
     <!--These are for timestamps on statuses. For example: "16s" or "2d"-->
     <string name="abbreviated_in_years">za %d let</string>
     <string name="abbreviated_in_days">za %d d</string>
@@ -470,7 +469,6 @@
     <string name="action_access_scheduled_toot">Plánované tooty</string>
     <string name="action_schedule_toot">Naplánovat toot</string>
     <string name="action_reset_schedule">Obnovit</string>
-    <string name="hint_configure_scheduled_toot">Klepnutím sem nastavíte plánovaný toot.</string>
     <string name="pref_title_alway_open_spoiler">Vždy rozbalovat tooty označené varováními o obsahu</string>
     <string name="filter_dialog_whole_word">Celé slovo</string>
     <string name="filter_dialog_whole_word_description">Je-li klíčové slovo nebo fráze pouze alfanumerická, bude použita pouze, pokud odpovídá celému slovu</string>

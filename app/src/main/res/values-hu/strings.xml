@@ -226,7 +226,6 @@
     <string name="status_media_images">Képek</string>
     <string name="status_media_video">Videók</string>
     <string name="state_follow_requested">Követés kérelmezve</string>
-    <string name="no_content">nincs tartalom</string>
     <!--These are for timestamps on statuses. For example: "16s" or "2d"-->
     <string name="follows_you">Követ téged</string>
     <string name="pref_title_alway_show_sensitive_media">Mindig mutassa a szenzitív tartalmat</string>
@@ -470,7 +469,13 @@
     <string name="action_access_scheduled_toot">Időzített tülkök</string>
     <string name="action_schedule_toot">Tülk Időzítése</string>
     <string name="action_reset_schedule">Visszaállítás</string>
-    <string name="hint_configure_scheduled_toot">Ide nyúlj az időzített tülkök beállításához.</string>
     <string name="post_lookup_error_format">Nem találjuk ezt a posztot %s</string>
 
-</resources>
+<string name="title_bookmarks">Könyvjelzők</string>
+    <string name="action_bookmark">Könyvjelző</string>
+    <string name="action_view_bookmarks">Könyvjelzők</string>
+    <string name="about_powered_by_tusky">Tusky által hatjva</string>
+    <string name="description_status_bookmarked">Könyvjelzőzve</string>
+    <string name="select_list_title">Lista kiválasztása</string>
+    <string name="list">Lista</string>
+    </resources>

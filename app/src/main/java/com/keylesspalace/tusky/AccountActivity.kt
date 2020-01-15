@@ -19,8 +19,7 @@ import android.animation.ArgbEvaluator
 import android.content.Context
 import android.content.Intent
 import android.content.res.ColorStateList
-import android.graphics.Color
-import android.graphics.PorterDuff
+import android.graphics.*
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -48,9 +47,12 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.keylesspalace.tusky.adapter.AccountFieldAdapter
+import com.keylesspalace.tusky.components.compose.ComposeActivity
 import com.keylesspalace.tusky.components.report.ReportActivity
 import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.entity.Account
+import com.keylesspalace.tusky.entity.Field
+import com.keylesspalace.tusky.entity.IdentityProof
 import com.keylesspalace.tusky.entity.Relationship
 import com.keylesspalace.tusky.interfaces.ActionButtonActivity
 import com.keylesspalace.tusky.interfaces.LinkListener
@@ -117,7 +119,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
         viewModel = ViewModelProviders.of(this, viewModelFactory)[AccountViewModel::class.java]
 
         // Obtain information to fill out the profile.
-        viewModel.setAccountInfo(intent.getStringExtra(KEY_ACCOUNT_ID))
+        viewModel.setAccountInfo(intent.getStringExtra(KEY_ACCOUNT_ID)!!)
 
         val sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this)
         animateAvatar = sharedPrefs.getBoolean("animateGifAvatars", false)
@@ -265,7 +267,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
 
             override fun onOffsetChanged(appBarLayout: AppBarLayout, verticalOffset: Int) {
 
-                if(verticalOffset == oldOffset) {
+                if (verticalOffset == oldOffset) {
                     return
                 }
                 oldOffset = verticalOffset
@@ -349,6 +351,11 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
             }
 
         })
+        viewModel.accountFieldData.observe(this, Observer<List<Either<IdentityProof, Field>>> {
+            accountFieldAdapter.fields = it
+            accountFieldAdapter.notifyDataSetChanged()
+
+        })
     }
 
     /**
@@ -377,7 +384,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
         val emojifiedNote = CustomEmojiHelper.emojifyText(account.note, account.emojis, accountNoteTextView)
         LinkHelper.setClickableText(accountNoteTextView, emojifiedNote, null, this)
 
-        accountFieldAdapter.fields = account.fields ?: emptyList()
+       // accountFieldAdapter.fields = account.fields ?: emptyList()
         accountFieldAdapter.emojis = account.emojis ?: emptyList()
         accountFieldAdapter.notifyDataSetChanged()
 
@@ -471,7 +478,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
             // this is necessary because API 19 can't handle vector compound drawables
             val movedIcon = ContextCompat.getDrawable(this, R.drawable.ic_briefcase)?.mutate()
             val textColor = ThemeUtils.getColor(this, android.R.attr.textColorTertiary)
-            movedIcon?.setColorFilter(textColor, PorterDuff.Mode.SRC_IN)
+            movedIcon?.colorFilter = PorterDuffColorFilter(textColor, PorterDuff.Mode.SRC_IN)
 
             accountMovedText.setCompoundDrawablesRelativeWithIntrinsicBounds(movedIcon, null, null, null)
         }
@@ -693,9 +700,8 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
 
     private fun mention() {
         loadedAccount?.let {
-            val intent = ComposeActivity.IntentBuilder()
-                    .mentionedUsernames(setOf(it.username))
-                    .build(this)
+            val intent = ComposeActivity.startIntent(this,
+                    ComposeActivity.ComposeOptions(mentionedUsernames = setOf(it.username)))
             startActivity(intent)
         }
     }
@@ -754,7 +760,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
                 return true
             }
             R.id.action_report -> {
-                if(loadedAccount != null) {
+                if (loadedAccount != null) {
                     startActivity(ReportActivity.getIntent(this, viewModel.accountId, loadedAccount!!.username))
                 }
                 return true

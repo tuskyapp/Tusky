@@ -275,8 +275,6 @@
 
     <string name="state_follow_requested">Запрошенные подписки</string>
 
-    <string name="no_content">ничего нет</string>
-
     <!--Отметки времени у постов: "16s" or "2d"-->
     <string name="abbreviated_in_years">через %dг</string>
     <string name="abbreviated_in_days">через %dд</string>
@@ -404,9 +402,9 @@
     <string name="pin_action">Закрепить</string>
 
     <plurals name="favs">
-	<item quantity="one"><b>%1$s</b> Понравилось</item>
-	<item quantity="few"><b>%1$s</b> Понравились</item>
-	<item quantity="many"><b>%1$s</b> Понравилось</item>
+	<item quantity="one">&lt;b&gt;%1$s&lt;/b&gt; Понравилось</item>
+	<item quantity="few">&lt;b&gt;%1$s&lt;/b&gt; Понравилось</item>
+	<item quantity="many">&lt;b&gt;%1$s&lt;/b&gt; Понравилось</item>
 </plurals>
 
     <plurals name="reblogs">
@@ -540,7 +538,13 @@
     <string name="action_access_scheduled_toot">Отложенные записи</string>
     <string name="action_schedule_toot">Отложить запись</string>
     <string name="action_reset_schedule">Сброс</string>
-    <string name="hint_configure_scheduled_toot">Нажмите для выбора времени отправки.</string>
     <string name="post_lookup_error_format">Ошибка при поиске сообщения / ний</string>
 
-</resources>
+<string name="title_bookmarks">Закладки</string>
+    <string name="action_bookmark">Добавить в закладки</string>
+    <string name="action_view_bookmarks">Закладки</string>
+    <string name="about_powered_by_tusky">Под управлением Tusky</string>
+    <string name="description_status_bookmarked">Добавлено в закладки</string>
+    <string name="select_list_title">Выбрать список</string>
+    <string name="list">Список</string>
+    </resources>

@@ -235,7 +235,6 @@
     <string name="status_media_images">صور</string>
     <string name="status_media_video">فيديو</string>
     <string name="state_follow_requested">طلب متابعة</string>
-    <string name="no_content">ليس هناك محتوى</string>
     <!--These are for timestamps on statuses. For example: "16s" or "2d"-->
     <string name="abbreviated_in_years">في %dy</string>
     <string name="abbreviated_in_days">في %dd</string>
@@ -487,7 +486,18 @@
     <string name="action_access_scheduled_toot">التبويقات المبَرمَجة</string>
     <string name="action_schedule_toot">برمجة تبويق</string>
     <string name="action_reset_schedule">صفّر</string>
-    <string name="hint_configure_scheduled_toot">اضغط هنا لضبط برمجة التبويق.</string>
     <string name="post_lookup_error_format">خطأ أثناء البحث عن منشور %s</string>
+
+<string name="title_bookmarks">الفواصل المرجعية</string>
+    <string name="action_bookmark">أضفه إلى الفواصل المرجعية</string>
+    <string name="action_view_bookmarks">الفواصل المرجعية</string>
+    <string name="about_powered_by_tusky">مدعوم بِـ Tusky</string>
+    <string name="description_status_bookmarked">أضيف إلى الفواصل المرجعية</string>
+    <string name="select_list_title">اختر قائمة</string>
+    <string name="list">القائمة</string>
+    <string name="gradient_for_media">اظهر ألوانا متدرّجة للوسائط المخفية</string>
+
+    <string name="no_saved_status">ليس لديك أية مسودات.</string>
+    <string name="no_scheduled_status">ليس لديك أية منشورات مُبرمَجة للنشر.</string>
 
 </resources>

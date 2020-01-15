@@ -2,6 +2,8 @@
 
 package com.keylesspalace.tusky.util
 
+import android.content.Context
+import android.graphics.drawable.BitmapDrawable
 import android.widget.ImageView
 import androidx.annotation.Px
 import com.bumptech.glide.Glide
@@ -14,7 +16,7 @@ private val centerCropTransformation = CenterCrop()
 
 fun loadAvatar(url: String?, imageView: ImageView, @Px radius: Int, animate: Boolean) {
 
-    if(url.isNullOrBlank()) {
+    if (url.isNullOrBlank()) {
         Glide.with(imageView)
                 .load(R.drawable.avatar_default)
                 .into(imageView)
@@ -42,4 +44,8 @@ fun loadAvatar(url: String?, imageView: ImageView, @Px radius: Int, animate: Boo
         }
 
     }
+}
+
+fun decodeBlurHash(context: Context, blurhash: String): BitmapDrawable {
+    return BitmapDrawable(context.resources, BlurHashDecoder.decode(blurhash, 32, 32, 1f))
 }

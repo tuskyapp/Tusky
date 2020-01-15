@@ -96,7 +96,7 @@
 
         </activity>
         <activity
-            android:name=".ComposeActivity"
+            android:name=".components.compose.ComposeActivity"
             android:theme="@style/TuskyDialogActivityTheme"
             android:windowSoftInputMode="stateVisible|adjustResize"/>
         <activity
@@ -137,7 +137,7 @@
             android:name=".components.report.ReportActivity"
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
         <activity android:name=".components.instancemute.InstanceListActivity" />
-        <activity android:name=".ScheduledTootActivity" />
+        <activity android:name=".components.scheduled.ScheduledTootActivity" />
 
         <receiver android:name=".receiver.NotificationClearBroadcastReceiver" />
         <receiver

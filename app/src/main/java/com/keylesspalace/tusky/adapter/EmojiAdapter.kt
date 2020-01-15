@@ -22,12 +22,14 @@ import android.widget.ImageView
 import com.bumptech.glide.Glide
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.entity.Emoji
+import java.util.*
 
 class EmojiAdapter(emojiList: List<Emoji>, private val onEmojiSelectedListener: OnEmojiSelectedListener) : RecyclerView.Adapter<EmojiAdapter.EmojiHolder>() {
     private val emojiList : List<Emoji>
 
     init {
         this.emojiList = emojiList.filter { emoji -> emoji.visibleInPicker == null || emoji.visibleInPicker }
+                .sortedBy { it.shortcode.toLowerCase(Locale.ROOT) }
     }
 
     override fun getItemCount(): Int {

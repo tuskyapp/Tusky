@@ -18,16 +18,21 @@ package com.keylesspalace.tusky
 
 import android.text.SpannedString
 import android.widget.EditText
-import com.keylesspalace.tusky.db.AccountEntity
-import com.keylesspalace.tusky.db.AccountManager
-import com.keylesspalace.tusky.db.AppDatabase
-import com.keylesspalace.tusky.db.InstanceDao
+import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.keylesspalace.tusky.components.compose.ComposeActivity
+import com.keylesspalace.tusky.components.compose.ComposeViewModel
+import com.keylesspalace.tusky.components.compose.DEFAULT_CHARACTER_LIMIT
+import com.keylesspalace.tusky.components.compose.MediaUploader
+import com.keylesspalace.tusky.db.*
+import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.entity.Account
-import com.keylesspalace.tusky.entity.Emoji
 import com.keylesspalace.tusky.entity.Instance
 import com.keylesspalace.tusky.network.MastodonApi
-import okhttp3.Request
-import org.junit.Assert
+import com.keylesspalace.tusky.service.ServiceClient
+import com.keylesspalace.tusky.util.SaveTootHelper
+import com.nhaarman.mockitokotlin2.any
+import io.reactivex.Single
+import io.reactivex.SingleObserver
 import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
@@ -35,15 +40,8 @@ import org.junit.runner.RunWith
 import org.mockito.Mockito.`when`
 import org.mockito.Mockito.mock
 import org.robolectric.Robolectric
-import androidx.test.ext.junit.runners.AndroidJUnit4
-import io.reactivex.Single
-import io.reactivex.SingleObserver
 import org.robolectric.annotation.Config
 import org.robolectric.fakes.RoboMenuItem
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-
 
 /**
  * Created by charlag on 3/7/18.
@@ -52,14 +50,15 @@ import retrofit2.Response
 @Config(application = FakeTuskyApplication::class, sdk = [28])
 @RunWith(AndroidJUnit4::class)
 class ComposeActivityTest {
-
     private lateinit var activity: ComposeActivity
     private lateinit var accountManagerMock: AccountManager
     private lateinit var apiMock: MastodonApi
 
+    private val instanceDomain = "example.domain"
+
     private val account = AccountEntity(
             id = 1,
-            domain = "example.token",
+            domain = instanceDomain,
             accessToken = "token",
             isActive = true,
             accountId = "1",
@@ -83,30 +82,10 @@ class ComposeActivityTest {
         activity = controller.get()
 
         accountManagerMock = mock(AccountManager::class.java)
+        `when`(accountManagerMock.activeAccount).thenReturn(account)
 
         apiMock = mock(MastodonApi::class.java)
-        `when`(apiMock.getCustomEmojis()).thenReturn(object: Call<List<Emoji>> {
-            override fun isExecuted(): Boolean {
-                return false
-            }
-            override fun clone(): Call<List<Emoji>> {
-                throw Error("not implemented")
-            }
-            override fun isCanceled(): Boolean {
-                throw Error("not implemented")
-            }
-            override fun cancel() {
-                throw Error("not implemented")
-            }
-            override fun execute(): Response<List<Emoji>> {
-                throw Error("not implemented")
-            }
-            override fun request(): Request {
-                throw Error("not implemented")
-            }
-
-            override fun enqueue(callback: Callback<List<Emoji>>?) {}
-        })
+        `when`(apiMock.getCustomEmojis()).thenReturn(Single.just(emptyList()))
         `when`(apiMock.getInstance()).thenReturn(object: Single<Instance>() {
             override fun subscribeActual(observer: SingleObserver<in Instance>) {
                 val instance = instanceResponseCallback?.invoke()
@@ -119,15 +98,27 @@ class ComposeActivityTest {
         })
 
         val instanceDaoMock = mock(InstanceDao::class.java)
+        `when`(instanceDaoMock.loadMetadataForInstance(any())).thenReturn(
+                Single.just(InstanceEntity(instanceDomain, emptyList(),null, null, null, null))
+        )
+
         val dbMock = mock(AppDatabase::class.java)
         `when`(dbMock.instanceDao()).thenReturn(instanceDaoMock)
 
-        activity.mastodonApi = apiMock
+        val viewModel = ComposeViewModel(
+                apiMock,
+                accountManagerMock,
+                mock(MediaUploader::class.java),
+                mock(ServiceClient::class.java),
+                mock(SaveTootHelper::class.java),
+                dbMock
+        )
+
+        val viewModelFactoryMock = mock(ViewModelFactory::class.java)
+        `when`(viewModelFactoryMock.create(ComposeViewModel::class.java)).thenReturn(viewModel)
+
         activity.accountManager = accountManagerMock
-        activity.database = dbMock
-
-        `when`(accountManagerMock.activeAccount).thenReturn(account)
-
+        activity.viewModelFactory = viewModelFactoryMock
 
         controller.create().start()
     }
@@ -164,7 +155,7 @@ class ComposeActivityTest {
     fun whenMaximumTootCharsIsNull_defaultLimitIsUsed() {
         instanceResponseCallback = { getInstanceWithMaximumTootCharacters(null) }
         setupActivity()
-        assertEquals(ComposeActivity.STATUS_CHARACTER_LIMIT, activity.maximumTootCharacters)
+        assertEquals(DEFAULT_CHARACTER_LIMIT, activity.maximumTootCharacters)
     }
 
     @Test
@@ -196,7 +187,7 @@ class ComposeActivityTest {
         val url = "https://www.google.dk/search?biw=1920&bih=990&tbm=isch&sa=1&ei=bmDrWuOoKMv6kwWOkIaoDQ&q=indiana+jones+i+hate+snakes+animated&oq=indiana+jones+i+hate+snakes+animated&gs_l=psy-ab.3...54174.55443.0.55553.9.7.0.0.0.0.255.333.1j0j1.2.0....0...1c.1.64.psy-ab..7.0.0....0.40G-kcDkC6A#imgdii=PSp15hQjN1JqvM:&imgrc=H0hyE2JW5wrpBM:"
         val additionalContent = " Check out this @image #search result: "
         insertSomeTextInContent(shortUrl + additionalContent + url)
-        Assert.assertEquals(activity.calculateTextLength(), additionalContent.length + shortUrl.length + ComposeActivity.MAXIMUM_URL_LENGTH)
+        assertEquals(activity.calculateTextLength(), additionalContent.length + shortUrl.length + ComposeActivity.MAXIMUM_URL_LENGTH)
     }
 
     @Test
@@ -204,7 +195,153 @@ class ComposeActivityTest {
         val url = "https://www.google.dk/search?biw=1920&bih=990&tbm=isch&sa=1&ei=bmDrWuOoKMv6kwWOkIaoDQ&q=indiana+jones+i+hate+snakes+animated&oq=indiana+jones+i+hate+snakes+animated&gs_l=psy-ab.3...54174.55443.0.55553.9.7.0.0.0.0.255.333.1j0j1.2.0....0...1c.1.64.psy-ab..7.0.0....0.40G-kcDkC6A#imgdii=PSp15hQjN1JqvM:&imgrc=H0hyE2JW5wrpBM:"
         val additionalContent = " Check out this @image #search result: "
         insertSomeTextInContent(url + additionalContent + url)
-        Assert.assertEquals(activity.calculateTextLength(), additionalContent.length + (ComposeActivity.MAXIMUM_URL_LENGTH * 2))
+        assertEquals(activity.calculateTextLength(), additionalContent.length + (ComposeActivity.MAXIMUM_URL_LENGTH * 2))
+    }
+
+    @Test
+    fun whenSelectionIsEmpty_specialTextIsInsertedAtCaret() {
+        val editor = activity.findViewById<EditText>(R.id.composeEditField)
+        val insertText = "#"
+        editor.setText("Some text")
+
+        for (caretIndex in listOf(9, 1, 0)) {
+            editor.setSelection(caretIndex)
+            activity.prependSelectedWordsWith(insertText)
+            // Text should be inserted at caret
+            assertEquals("Unexpected value at ${caretIndex}", insertText, editor.text.substring(caretIndex, caretIndex + insertText.length))
+
+            // Caret should be placed after inserted text
+            assertEquals(caretIndex + insertText.length, editor.selectionStart)
+            assertEquals(caretIndex + insertText.length, editor.selectionEnd)
+        }
+    }
+
+    @Test
+    fun whenSelectionDoesNotIncludeWordBreak_noSpecialTextIsInserted() {
+        val editor = activity.findViewById<EditText>(R.id.composeEditField)
+        val insertText = "#"
+        val originalText = "Some text"
+        val selectionStart = 1
+        val selectionEnd = 4
+        editor.setText(originalText)
+        editor.setSelection(selectionStart, selectionEnd) // "ome"
+        activity.prependSelectedWordsWith(insertText)
+
+        // Text and selection should be unmodified
+        assertEquals(originalText, editor.text.toString())
+        assertEquals(selectionStart, editor.selectionStart)
+        assertEquals(selectionEnd, editor.selectionEnd)
+    }
+
+    @Test
+    fun whenSelectionIncludesWordBreaks_startsOfAllWordsArePrepended() {
+        val editor = activity.findViewById<EditText>(R.id.composeEditField)
+        val insertText = "#"
+        val originalText = "one two three four"
+        val selectionStart = 2
+        val originalSelectionEnd = 15
+        val modifiedSelectionEnd = 18
+        editor.setText(originalText)
+        editor.setSelection(selectionStart, originalSelectionEnd) // "e two three f"
+        activity.prependSelectedWordsWith(insertText)
+
+        // text should be inserted at word starts inside selection
+        assertEquals("one #two #three #four", editor.text.toString())
+
+        // selection should be expanded accordingly
+        assertEquals(selectionStart, editor.selectionStart)
+        assertEquals(modifiedSelectionEnd, editor.selectionEnd)
+    }
+
+    @Test
+    fun whenSelectionIncludesEnd_textIsNotAppended() {
+        val editor = activity.findViewById<EditText>(R.id.composeEditField)
+        val insertText = "#"
+        val originalText = "Some text"
+        val selectionStart = 7
+        val selectionEnd = 9
+        editor.setText(originalText)
+        editor.setSelection(selectionStart, selectionEnd) // "xt"
+        activity.prependSelectedWordsWith(insertText)
+
+        // Text and selection should be unmodified
+        assertEquals(originalText, editor.text.toString())
+        assertEquals(selectionStart, editor.selectionStart)
+        assertEquals(selectionEnd, editor.selectionEnd)
+    }
+
+    @Test
+    fun whenSelectionIncludesStartAndStartIsAWord_textIsPrepended() {
+        val editor = activity.findViewById<EditText>(R.id.composeEditField)
+        val insertText = "#"
+        val originalText = "Some text"
+        val selectionStart = 0
+        val selectionEnd = 3
+        editor.setText(originalText)
+        editor.setSelection(selectionStart, selectionEnd) // "Som"
+        activity.prependSelectedWordsWith(insertText)
+
+        // Text should be inserted at beginning
+        assert(editor.text.startsWith(insertText))
+
+        // selection should be expanded accordingly
+        assertEquals(selectionStart, editor.selectionStart)
+        assertEquals(selectionEnd + insertText.length, editor.selectionEnd)
+    }
+
+    @Test
+    fun whenSelectionIncludesStartAndStartIsNotAWord_textIsNotPrepended() {
+        val editor = activity.findViewById<EditText>(R.id.composeEditField)
+        val insertText = "#"
+        val originalText = "  Some text"
+        val selectionStart = 0
+        val selectionEnd = 1
+        editor.setText(originalText)
+        editor.setSelection(selectionStart, selectionEnd) // " "
+        activity.prependSelectedWordsWith(insertText)
+
+        // Text and selection should be unmodified
+        assertEquals(originalText, editor.text.toString())
+        assertEquals(selectionStart, editor.selectionStart)
+        assertEquals(selectionEnd, editor.selectionEnd)
+    }
+
+    @Test
+    fun whenSelectionBeginsAtWordStart_textIsPrepended() {
+        val editor = activity.findViewById<EditText>(R.id.composeEditField)
+        val insertText = "#"
+        val originalText = "Some text"
+        val selectionStart = 5
+        val selectionEnd = 9
+        editor.setText(originalText)
+        editor.setSelection(selectionStart, selectionEnd) // "text"
+        activity.prependSelectedWordsWith(insertText)
+
+        // Text is prepended
+        assertEquals("Some #text", editor.text.toString())
+
+        // Selection is expanded accordingly
+        assertEquals(selectionStart, editor.selectionStart)
+        assertEquals(selectionEnd + insertText.length, editor.selectionEnd)
+    }
+
+    @Test
+    fun whenSelectionEndsAtWordStart_textIsAppended() {
+        val editor = activity.findViewById<EditText>(R.id.composeEditField)
+        val insertText = "#"
+        val originalText = "Some text"
+        val selectionStart = 1
+        val selectionEnd = 5
+        editor.setText(originalText)
+        editor.setSelection(selectionStart, selectionEnd) // "ome "
+        activity.prependSelectedWordsWith(insertText)
+
+        // Text is prepended
+        assertEquals("Some #text", editor.text.toString())
+
+        // Selection is expanded accordingly
+        assertEquals(selectionStart, editor.selectionStart)
+        assertEquals(selectionEnd + insertText.length, editor.selectionEnd)
     }
 
     private fun clickUp() {
@@ -256,13 +393,5 @@ class ComposeActivityTest {
         )
     }
 
-    private fun getSuccessResponseCallbackWithMaximumTootCharacters(maximumTootCharacters: Int?): (Call<Instance>?, Callback<Instance>?) -> Unit
-    {
-        return {
-            call: Call<Instance>?, callback: Callback<Instance>? ->
-            if (call != null) {
-                callback?.onResponse(call, Response.success(getInstanceWithMaximumTootCharacters(maximumTootCharacters)))
-            }
-        }
-    }
 }
+

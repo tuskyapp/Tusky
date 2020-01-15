@@ -1,0 +1,9 @@
+Tusky v9.0
+
+- Si possono creare sondaggi da Tusky
+- Ricerca migliorata
+- Nuova opzione nelle preferenze utente per espandere sempre i contenuti sensibili
+- Le icone di navigazione hanno ora una forma quadrata arrotondata
+- È ora possibile segnalare gli utenti anche prima che pubblichino nulla
+- Tusky ora si rifiuterà di connettersi attraverso connessioni non cifrate su Android 6+
+- Molti altri piccoli miglioramenti e correzioni di errori

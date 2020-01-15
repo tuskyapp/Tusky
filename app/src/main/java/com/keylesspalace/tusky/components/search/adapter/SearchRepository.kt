@@ -29,7 +29,7 @@ class SearchRepository<T>(private val mastodonApi: MastodonApi) {
 
     private val executor = Executors.newSingleThreadExecutor()
 
-    fun getSearchData(searchType: SearchType, searchRequest: String?, disposables: CompositeDisposable, pageSize: Int = 20,
+    fun getSearchData(searchType: SearchType, searchRequest: String, disposables: CompositeDisposable, pageSize: Int = 20,
                       initialItems: List<T>? = null, parser: (SearchResult?) -> List<T>): Listing<T> {
         val sourceFactory = SearchDataSourceFactory(mastodonApi, searchType, searchRequest, disposables, executor, initialItems, parser)
         val livePagedList = sourceFactory.toLiveData(

@@ -62,6 +62,12 @@
 
         <SwitchPreferenceCompat
             android:defaultValue="true"
+            android:key="useBlurhash"
+            android:title="@string/gradient_for_media"
+            app:singleLineTitle="false" />
+
+        <SwitchPreferenceCompat
+            android:defaultValue="true"
             android:key="showNotificationsFilter"
             android:title="@string/pref_title_show_notifications_filter"
             app:singleLineTitle="false" />

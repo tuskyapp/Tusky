@@ -4,10 +4,14 @@ package com.keylesspalace.tusky.di
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.keylesspalace.tusky.components.compose.ComposeViewModel
 import com.keylesspalace.tusky.components.conversation.ConversationsViewModel
 import com.keylesspalace.tusky.components.report.ReportViewModel
+import com.keylesspalace.tusky.components.scheduled.ScheduledTootViewModel
 import com.keylesspalace.tusky.components.search.SearchViewModel
-import com.keylesspalace.tusky.viewmodel.*
+import com.keylesspalace.tusky.viewmodel.AccountViewModel
+import com.keylesspalace.tusky.viewmodel.AccountsInListViewModel
+import com.keylesspalace.tusky.viewmodel.EditProfileViewModel
 import com.keylesspalace.tusky.viewmodel.ListsViewModel
 import dagger.Binds
 import dagger.MapKey
@@ -70,6 +74,16 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(SearchViewModel::class)
     internal abstract fun searchViewModel(viewModel: SearchViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(ComposeViewModel::class)
+    internal abstract fun composeViewModel(viewModel: ComposeViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(ScheduledTootViewModel::class)
+    internal abstract fun scheduledTootViewModel(viewModel: ScheduledTootViewModel): ViewModel
 
     //Add more ViewModels here
 }

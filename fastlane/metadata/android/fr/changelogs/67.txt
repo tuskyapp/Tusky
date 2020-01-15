@@ -1,9 +1,9 @@
 Tusky v9.0
 
-- Vous pouvez désormais créer des sondages depuis Tusky
+- Vous pouvez créer des sondages depuis Tusky
 - Recherche améliorée
 - Nouvelle option dans les préférences du compte pour toujours étendre les avertissements de contenu
-- Les avatars dans le menu de navigation ont désormais une forme de 
-- Il est désormais possible de signaler des utilisateurs même si ils n'ont jamais posté de status 
-- Tusky refuse désormais de se connecté via les connections cleartext sur Android 6+
-- Plein de petite corrections de bugs et d'améliorations
+- Les avatars dans le menu de navigation ont désormais une forme arrondie 
+- Il est désormais possible de signaler des utilisateurs même si ils n’ont jamais publié de status 
+- Tusky refusera désormais de se connecter en texte clair sur Android 6+
+- Plein de petite corrections de bugs et d’améliorations

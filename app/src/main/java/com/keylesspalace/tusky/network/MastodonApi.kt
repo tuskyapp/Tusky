@@ -43,7 +43,7 @@ interface MastodonApi {
     fun getLists(): Single<List<MastoList>>
 
     @GET("/api/v1/custom_emojis")
-    fun getCustomEmojis(): Call<List<Emoji>>
+    fun getCustomEmojis(): Single<List<Emoji>>
 
     @GET("api/v1/instance")
     fun getInstance(): Single<Instance>
@@ -116,14 +116,14 @@ interface MastodonApi {
     @POST("api/v1/media")
     fun uploadMedia(
             @Part file: MultipartBody.Part
-    ): Call<Attachment>
+    ): Single<Attachment>
 
     @FormUrlEncoded
     @PUT("api/v1/media/{mediaId}")
     fun updateMedia(
             @Path("mediaId") mediaId: String,
             @Field("description") description: String
-    ): Call<Attachment>
+    ): Single<Attachment>
 
     @POST("api/v1/statuses")
     fun createStatus(
@@ -201,12 +201,15 @@ interface MastodonApi {
     ): Single<Status>
 
     @GET("api/v1/scheduled_statuses")
-    fun scheduledStatuses(): Call<List<ScheduledStatus>>
+    fun scheduledStatuses(
+            @Query("limit") limit: Int? = null,
+            @Query("max_id") maxId: String? = null
+    ): Single<List<ScheduledStatus>>
 
     @DELETE("api/v1/scheduled_statuses/{id}")
     fun deleteScheduledStatus(
             @Path("id") scheduledStatusId: String
-    ): Call<ResponseBody>
+    ): Single<ResponseBody>
 
     @GET("api/v1/accounts/verify_credentials")
     fun accountVerifyCredentials(): Single<Account>
@@ -238,10 +241,10 @@ interface MastodonApi {
 
     @GET("api/v1/accounts/search")
     fun searchAccounts(
-            @Query("q") q: String,
-            @Query("resolve") resolve: Boolean?,
-            @Query("limit") limit: Int?,
-            @Query("following") following: Boolean?
+            @Query("q") query: String,
+            @Query("resolve") resolve: Boolean? = null,
+            @Query("limit") limit: Int? = null,
+            @Query("following") following: Boolean? = null
     ): Single<List<Account>>
 
     @GET("api/v1/accounts/{id}")
@@ -317,6 +320,11 @@ interface MastodonApi {
     fun relationships(
             @Query("id[]") accountIds: List<String>
     ): Call<List<Relationship>>
+
+    @GET("api/v1/accounts/{id}/identity_proofs")
+    fun identityProofs(
+            @Path("id") accountId: String
+    ): Call<List<IdentityProof>>
 
     @GET("api/v1/blocks")
     fun blocks(

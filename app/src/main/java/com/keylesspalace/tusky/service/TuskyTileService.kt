@@ -18,7 +18,6 @@ package com.keylesspalace.tusky.service
 import android.annotation.TargetApi
 import android.content.Intent
 import android.service.quicksettings.TileService
-
 import com.keylesspalace.tusky.MainActivity
 
 /**

@@ -293,8 +293,6 @@
 
     <string name="state_follow_requested">팔로우 요청함</string>
 
-    <string name="no_content">임시 저장된 게시물이 없습니다</string>
-
     <!--These are for timestamps on statuses. For example: "16s" or "2d"-->
     <string name="abbreviated_in_years">%d년 후</string>
     <string name="abbreviated_in_days">%d일 후</string>
@@ -400,11 +398,11 @@
     <string name="pin_action">고정</string>
 
     <plurals name="favs">
-	<item quantity="other"><b>%1$s</b> 즐겨찾기</item>
+	<item quantity="other">&lt;b&gt;%1$s&lt;/b&gt; 즐겨찾기</item>
 </plurals>
 
     <plurals name="reblogs">
-	<item quantity="other"><b>%s</b> 부스트</item>
+	<item quantity="other">&lt;b&gt;%s&lt;/b&gt; 부스트</item>
 </plurals>
 
     <string name="title_reblogged_by">부스트한 유저</string>
