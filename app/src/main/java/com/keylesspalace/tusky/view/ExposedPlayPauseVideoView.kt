@@ -4,26 +4,26 @@ import android.content.Context
 import android.util.AttributeSet
 import android.widget.VideoView
 
-class ExposedPlayPauseVideoView : VideoView {
-    private var mListener: PlayPauseListener? = null
+class ExposedPlayPauseVideoView @JvmOverloads constructor(
+        context: Context,
+        attrs: AttributeSet? = null,
+        defStyleAttr: Int = 0)
+    : VideoView(context, attrs, defStyleAttr) {
 
-    constructor(ctx: Context) : super(ctx)
-    constructor(ctx: Context, attrs: AttributeSet) : super(ctx, attrs)
-    constructor(ctx: Context, attrs: AttributeSet, defStyleAttr: Int) : super(ctx, attrs, defStyleAttr)
-    constructor(ctx: Context, attrs: AttributeSet, defStyleAttr: Int, defStyleRes: Int) : super(ctx, attrs, defStyleAttr, defStyleRes)
+    private var listener: PlayPauseListener? = null
 
     fun setPlayPauseListener(listener: PlayPauseListener) {
-        mListener = listener
+        this.listener = listener
     }
 
     override fun start() {
         super.start()
-        mListener?.onPlay()
+        listener?.onPlay()
     }
 
     override fun pause() {
         super.pause()
-        mListener?.onPause()
+        listener?.onPause()
     }
 
     interface PlayPauseListener {
