@@ -71,7 +71,7 @@ class MediaPreviewAdapter(
         holder.progressImageView.setProgress(item.uploadPercent)
         if (item.type == ComposeActivity.QueuedMedia.Type.AUDIO) {
             // TODO: Fancy waveform display?
-            holder.progressImageView.setImageResource(R.drawable.ic_music_box_24dp)
+            holder.progressImageView.setImageResource(R.drawable.ic_music_box_preview_24dp)
         } else {
             Glide.with(holder.itemView.context)
                     .load(item.uri)
