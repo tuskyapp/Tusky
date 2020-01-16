@@ -254,8 +254,9 @@ class ViewMediaActivity : BaseActivity(), ViewImageFragment.PhotoActionsListener
         val attachment = attachments!![viewPager.currentItem].attachment
         when (attachment.type) {
             Attachment.Type.IMAGE -> shareImage(directory, attachment.url)
+            Attachment.Type.AUDIO,
             Attachment.Type.VIDEO,
-            Attachment.Type.GIFV -> shareVideo(directory, attachment.url)
+            Attachment.Type.GIFV -> shareMediaFile(directory, attachment.url)
             else -> Log.e(TAG, "Unknown media format for sharing.")
         }
     }
@@ -319,7 +320,7 @@ class ViewMediaActivity : BaseActivity(), ViewImageFragment.PhotoActionsListener
 
     }
 
-    private fun shareVideo(directory: File, url: String) {
+    private fun shareMediaFile(directory: File, url: String) {
         val uri = Uri.parse(url)
         val mimeTypeMap = MimeTypeMap.getSingleton()
         val extension = MimeTypeMap.getFileExtensionFromUrl(url)
