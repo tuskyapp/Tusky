@@ -17,7 +17,10 @@ package com.keylesspalace.tusky.adapter;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.ColorFilter;
+import android.graphics.LightingColorFilter;
 import android.graphics.PorterDuff;
+import android.graphics.PorterDuffColorFilter;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.text.InputFilter;
@@ -49,6 +52,7 @@ import com.keylesspalace.tusky.util.ImageLoadingHelper;
 import com.keylesspalace.tusky.util.LinkHelper;
 import com.keylesspalace.tusky.util.SmartLengthInputFilter;
 import com.keylesspalace.tusky.util.StatusDisplayOptions;
+import com.keylesspalace.tusky.util.ThemeUtils;
 import com.keylesspalace.tusky.util.TimestampUtils;
 import com.keylesspalace.tusky.viewdata.NotificationViewData;
 import com.keylesspalace.tusky.viewdata.StatusViewData;
@@ -367,9 +371,18 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
             contentCollapseButton = itemView.findViewById(R.id.button_toggle_notification_content);
             this.statusDisplayOptions = statusDisplayOptions;
 
-            int darkerFilter = Color.rgb(123, 123, 123);
-            statusAvatar.setColorFilter(darkerFilter, PorterDuff.Mode.MULTIPLY);
-            notificationAvatar.setColorFilter(darkerFilter, PorterDuff.Mode.MULTIPLY);
+            ColorFilter colorFilter;
+            // Wow this is horrible
+            if (ThemeUtils.getColorId(itemView.getContext(), R.attr.window_background)
+                    == R.color.window_background_light) {
+                colorFilter = new LightingColorFilter(Color.WHITE, Color.rgb(100, 100, 100));
+            } else {
+                colorFilter = new PorterDuffColorFilter(Color.rgb(123, 123, 123),
+                        PorterDuff.Mode.MULTIPLY);
+            }
+
+            statusAvatar.setColorFilter(colorFilter);
+            notificationAvatar.setColorFilter(colorFilter);
 
             itemView.setOnClickListener(this);
             message.setOnClickListener(this);
