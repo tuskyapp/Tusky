@@ -167,7 +167,7 @@
 
         <TextView
             android:id="@+id/actionPhotoTake"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:drawablePadding="8dp"
             android:padding="8dp"
@@ -176,7 +176,7 @@
 
         <TextView
             android:id="@+id/actionPhotoPick"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:drawablePadding="8dp"
             android:padding="8dp"
@@ -185,7 +185,7 @@
 
         <TextView
             android:id="@+id/addPollTextActionTextView"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:drawablePadding="8dp"
             android:padding="8dp"
