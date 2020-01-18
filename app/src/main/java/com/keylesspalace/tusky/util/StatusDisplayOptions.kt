@@ -12,5 +12,7 @@ data class StatusDisplayOptions(
         @get:JvmName("useBlurhash")
         val useBlurhash: Boolean,
         @get:JvmName("cardViewMode")
-        val cardViewMode: CardViewMode
+        val cardViewMode: CardViewMode,
+        @get:JvmName("confirmReblogs")
+        val confirmReblogs: Boolean
 )

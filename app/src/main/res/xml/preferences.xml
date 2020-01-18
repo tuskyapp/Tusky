@@ -78,6 +78,12 @@
             android:title="@string/pref_title_show_cards_in_timelines"
             app:singleLineTitle="false" />
 
+        <SwitchPreferenceCompat
+            android:defaultValue="false"
+            android:key="confirmReblogs"
+            android:title="@string/pref_title_confirm_reblogs"
+            app:singleLineTitle="false" />
+
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/pref_title_browser_settings">

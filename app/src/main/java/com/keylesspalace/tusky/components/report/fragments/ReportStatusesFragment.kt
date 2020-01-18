@@ -117,7 +117,8 @@ class ReportStatusesFragment : Fragment(), Injectable, AdapterHandler {
                 useAbsoluteTime = preferences.getBoolean("absoluteTimeView", false),
                 showBotOverlay = false,
                 useBlurhash = preferences.getBoolean("useBlurhash", true),
-                cardViewMode = CardViewMode.NONE
+                cardViewMode = CardViewMode.NONE,
+                confirmReblogs = preferences.getBoolean("confirmReblogs", true)
         )
 
         adapter = StatusesAdapter(statusDisplayOptions,

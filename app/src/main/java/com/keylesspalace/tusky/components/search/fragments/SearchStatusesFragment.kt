@@ -71,7 +71,7 @@ class SearchStatusesFragment : SearchFragment<Pair<Status, StatusViewData.Concre
         get() = viewModel.statuses
 
     private val searchAdapter
-            get() = super.adapter as SearchStatusesAdapter
+        get() = super.adapter as SearchStatusesAdapter
 
     override fun createAdapter(): PagedListAdapter<Pair<Status, StatusViewData.Concrete>, *> {
         val preferences = PreferenceManager.getDefaultSharedPreferences(searchRecyclerView.context)
@@ -81,7 +81,8 @@ class SearchStatusesFragment : SearchFragment<Pair<Status, StatusViewData.Concre
                 useAbsoluteTime = preferences.getBoolean("absoluteTimeView", false),
                 showBotOverlay = preferences.getBoolean("showBotOverlay", true),
                 useBlurhash = preferences.getBoolean("useBlurhash", true),
-                cardViewMode = CardViewMode.NONE
+                cardViewMode = CardViewMode.NONE,
+                confirmReblogs = preferences.getBoolean("confirmReblogs", true)
         )
 
         searchRecyclerView.addItemDecoration(DividerItemDecoration(searchRecyclerView.context, DividerItemDecoration.VERTICAL))
