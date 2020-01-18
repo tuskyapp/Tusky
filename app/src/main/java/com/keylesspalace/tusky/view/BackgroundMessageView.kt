@@ -39,7 +39,7 @@ class BackgroundMessageView @JvmOverloads constructor(
     fun setup(@DrawableRes imageRes: Int, @StringRes messageRes: Int,
               clickListener: ((v: View) -> Unit)? = null) {
         messageTextView.setText(messageRes)
-        messageTextView.setCompoundDrawablesWithIntrinsicBounds(0, imageRes, 0, 0)
+        imageView.setImageResource(imageRes)
         button.setOnClickListener(clickListener)
         button.visible(clickListener != null)
     }
