@@ -24,7 +24,6 @@ import android.text.InputType
 import android.util.DisplayMetrics
 import android.view.WindowManager
 import android.widget.EditText
-import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
@@ -34,6 +33,7 @@ import at.connyduck.sparkbutton.helpers.Utils
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
+import com.github.chrisbanes.photoview.PhotoView
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.util.withLifecycleContext
 
@@ -50,7 +50,7 @@ fun <T> T.makeCaptionDialog(existingDescription: String?,
     dialogLayout.setPadding(padding, padding, padding, padding)
 
     dialogLayout.orientation = LinearLayout.VERTICAL
-    val imageView = ImageView(this)
+    val imageView = PhotoView(this)
 
     val displayMetrics = DisplayMetrics()
     windowManager.defaultDisplay.getMetrics(displayMetrics)
