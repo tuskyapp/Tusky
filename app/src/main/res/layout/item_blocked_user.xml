@@ -19,7 +19,7 @@
 
     <ImageButton
         android:id="@+id/blocked_user_unblock"
-        style="?attr/image_button_style"
+        style="@style/TuskyImageButton"
         android:layout_width="32dp"
         android:layout_height="32dp"
         android:layout_alignParentEnd="true"

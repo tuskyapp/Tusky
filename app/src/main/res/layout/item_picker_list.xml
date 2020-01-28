@@ -5,4 +5,5 @@
     android:layout_height="wrap_content"
     android:padding="16dp"
     android:drawablePadding="8dp"
+    android:textColor="@color/textColorSecondary"
     android:textSize="?attr/status_text_medium" />

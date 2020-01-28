@@ -34,7 +34,7 @@ class LicenseCard
     init {
         inflate(context, R.layout.card_license, this)
 
-        setCardBackgroundColor(ThemeUtils.getColor(context, android.R.attr.colorBackground))
+        setCardBackgroundColor(ThemeUtils.getColor(context, R.attr.colorSurface))
 
         val a = context.theme.obtainStyledAttributes(attrs, R.styleable.LicenseCard, 0, 0)
 

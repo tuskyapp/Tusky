@@ -60,14 +60,11 @@ class ReportActivity : BottomSheetActivity(), HasAndroidInjector {
 
         setSupportActionBar(toolbar)
 
-        val closeIcon = AppCompatResources.getDrawable(this, R.drawable.ic_close_24dp)
-        ThemeUtils.setDrawableTint(this, closeIcon!!, R.attr.compose_close_button_tint)
-
         supportActionBar?.apply {
             title = getString(R.string.report_username_format, viewModel.accountUserName)
             setDisplayHomeAsUpEnabled(true)
             setDisplayShowHomeEnabled(true)
-            setHomeAsUpIndicator(closeIcon)
+            setHomeAsUpIndicator(R.drawable.ic_close_24dp)
         }
 
         initViewPager()

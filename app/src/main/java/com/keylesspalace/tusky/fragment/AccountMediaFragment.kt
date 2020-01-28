@@ -23,7 +23,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.core.app.ActivityOptionsCompat
-import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -179,14 +178,10 @@ class AccountMediaFragment : BaseFragment(), RefreshableFragment, Injectable {
         val columnCount = view.context.resources.getInteger(R.integer.profile_media_column_count)
         val layoutManager = GridLayoutManager(view.context, columnCount)
 
-        val bgRes = ThemeUtils.getColorId(view.context, R.attr.window_background)
-
-        adapter.baseItemColor = ContextCompat.getColor(recyclerView.context, bgRes)
+        adapter.baseItemColor =  ThemeUtils.getColor(view.context, android.R.attr.windowBackground)
 
         recyclerView.layoutManager = layoutManager
         recyclerView.adapter = adapter
-
-
 
         if (isSwipeToRefreshEnabled) {
             swipeRefreshLayout.setOnRefreshListener {

@@ -24,7 +24,7 @@
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/atButton"
-            style="?attr/image_button_style"
+            style="@style/TuskyImageButton"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_gravity="end"
@@ -36,7 +36,7 @@
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/hashButton"
-            style="?attr/image_button_style"
+            style="@style/TuskyImageButton"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_gravity="end"
@@ -77,7 +77,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="2dp"
-                android:background="?attr/compose_reply_content_background"
+                android:background="?attr/colorBackgroundAccent"
                 android:lineSpacingMultiplier="1.1"
                 android:paddingLeft="16dp"
                 android:paddingTop="4dp"
@@ -154,7 +154,7 @@
         android:id="@+id/addMediaBottomSheet"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?android:colorBackground"
+        android:background="?attr/colorSurface"
         android:elevation="12dp"
         android:orientation="vertical"
         android:paddingStart="16dp"
@@ -197,7 +197,7 @@
         android:id="@+id/emojiView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?android:colorBackground"
+        android:background="?attr/colorSurface"
         android:clipToPadding="false"
         android:elevation="12dp"
         android:orientation="vertical"
@@ -213,7 +213,7 @@
         android:id="@+id/composeOptionsBottomSheet"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?android:colorBackground"
+        android:background="?attr/colorSurface"
         android:elevation="12dp"
         android:paddingStart="16dp"
         android:paddingTop="8dp"
@@ -227,7 +227,7 @@
         android:id="@+id/composeScheduleView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?android:colorBackground"
+        android:background="?attr/colorSurface"
         android:elevation="12dp"
         android:paddingStart="16dp"
         android:paddingTop="8dp"
@@ -241,7 +241,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:background="?android:colorBackground"
+        android:background="?attr/colorSurface"
         android:elevation="12dp"
         android:gravity="center_vertical"
         android:paddingStart="8dp"
@@ -251,7 +251,7 @@
 
         <ImageButton
             android:id="@+id/composeAddMediaButton"
-            style="?attr/image_button_style"
+            style="@style/TuskyImageButton"
             android:layout_width="36dp"
             android:layout_height="36dp"
             android:layout_marginEnd="4dp"
@@ -262,7 +262,7 @@
 
         <ImageButton
             android:id="@+id/composeToggleVisibilityButton"
-            style="?attr/image_button_style"
+            style="@style/TuskyImageButton"
             android:layout_width="36dp"
             android:layout_height="36dp"
             android:layout_marginEnd="4dp"
@@ -273,7 +273,7 @@
 
         <ImageButton
             android:id="@+id/composeHideMediaButton"
-            style="?attr/image_button_style"
+            style="@style/TuskyImageButton"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_marginEnd="4dp"
@@ -285,7 +285,7 @@
 
         <ImageButton
             android:id="@+id/composeContentWarningButton"
-            style="?attr/image_button_style"
+            style="@style/TuskyImageButton"
             android:layout_width="36dp"
             android:layout_height="36dp"
             android:layout_marginEnd="4dp"
@@ -296,7 +296,7 @@
 
         <ImageButton
             android:id="@+id/composeEmojiButton"
-            style="?attr/image_button_style"
+            style="@style/TuskyImageButton"
             android:layout_width="36dp"
             android:layout_height="36dp"
             android:layout_marginEnd="4dp"
@@ -307,7 +307,7 @@
 
         <ImageButton
             android:id="@+id/composeScheduleButton"
-            style="?attr/image_button_style"
+            style="@style/TuskyImageButton"
             android:layout_width="36dp"
             android:layout_height="36dp"
             android:layout_marginEnd="4dp"

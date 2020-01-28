@@ -88,7 +88,7 @@ class TabAdapter(private var data: List<TabData>,
             ThemeUtils.setDrawableTint(
                 holder.itemView.context,
                 holder.itemView.removeButton.drawable,
-                (if (removeButtonEnabled) android.R.attr.textColorTertiary else R.attr.image_button_disabled_tint)
+                (if (removeButtonEnabled) android.R.attr.textColorTertiary else R.attr.textColorDisabled)
             )
         }
 

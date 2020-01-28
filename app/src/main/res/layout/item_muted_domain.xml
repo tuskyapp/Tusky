@@ -12,7 +12,7 @@
 
     <ImageButton
         android:id="@+id/muted_domain_unmute"
-        style="?attr/image_button_style"
+        style="@style/TuskyImageButton"
         android:layout_width="32dp"
         android:layout_height="32dp"
         app:layout_constraintTop_toTopOf="parent"

@@ -361,7 +361,7 @@ public final class MainActivity extends BottomSheetActivity implements ActionBut
 
         ImageView background = headerResult.getHeaderBackgroundView();
         background.setColorFilter(ContextCompat.getColor(this, R.color.header_background_filter));
-        background.setBackgroundColor(ContextCompat.getColor(this, R.color.window_background_dark));
+        background.setBackgroundColor(ContextCompat.getColor(this, R.color.tusky_grey_10));
 
         final boolean animateAvatars = PreferenceManager.getDefaultSharedPreferences(this)
                 .getBoolean("animateGifAvatars", false);

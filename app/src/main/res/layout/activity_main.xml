@@ -11,6 +11,7 @@
         android:id="@+id/main_appbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:elevationOverlayEnabled="false"
         android:elevation="@dimen/actionbar_elevation">
 
         <androidx.appcompat.widget.Toolbar
@@ -35,7 +36,7 @@
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/pager"
-        android:background="?attr/tab_page_margin_color"
+        android:background="?android:windowBackground"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/tab_layout"

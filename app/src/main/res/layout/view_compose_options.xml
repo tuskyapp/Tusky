@@ -23,7 +23,7 @@
             android:paddingStart="10dp"
             android:text="@string/visibility_public"
             android:textColor="?android:textColorTertiary"
-            app:buttonTint="?attr/compound_button_color" />
+            app:buttonTint="@color/compound_button_color" />
 
         <RadioButton
             android:id="@+id/unlistedRadioButton"
@@ -36,7 +36,7 @@
             android:paddingStart="10dp"
             android:text="@string/visibility_unlisted"
             android:textColor="?android:textColorTertiary"
-            app:buttonTint="?attr/compound_button_color" />
+            app:buttonTint="@color/compound_button_color" />
 
         <RadioButton
             android:id="@+id/privateRadioButton"
@@ -49,7 +49,7 @@
             android:paddingStart="10dp"
             android:text="@string/visibility_private"
             android:textColor="?android:textColorTertiary"
-            app:buttonTint="?attr/compound_button_color" />
+            app:buttonTint="@color/compound_button_color" />
 
         <RadioButton
             android:id="@+id/directRadioButton"
@@ -61,7 +61,7 @@
             android:paddingStart="10dp"
             android:text="@string/visibility_direct"
             android:textColor="?android:textColorTertiary"
-            app:buttonTint="?attr/compound_button_color" />
+            app:buttonTint="@color/compound_button_color" />
 
     </RadioGroup>
 

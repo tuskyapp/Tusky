@@ -153,10 +153,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         this.avatarRadius36dp = itemView.getContext().getResources().getDimensionPixelSize(R.dimen.avatar_radius_36dp);
         this.avatarRadius24dp = itemView.getContext().getResources().getDimensionPixelSize(R.dimen.avatar_radius_24dp);
 
-        mediaPreviewUnloaded = itemView.getContext().getDrawable(
-                ThemeUtils.getDrawableId(itemView.getContext(),
-                        R.attr.media_preview_unloaded_drawable, android.R.color.black)
-        );
+        mediaPreviewUnloaded = new ColorDrawable(ThemeUtils.getColor(itemView.getContext(), R.attr.colorBackgroundAccent));
     }
 
     protected abstract int getMediaPreviewHeight(Context context);
@@ -353,12 +350,10 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             int inactiveId;
             int activeId;
             if (visibility == Status.Visibility.PRIVATE) {
-                inactiveId = ThemeUtils.getDrawableId(reblogButton.getContext(),
-                        R.attr.status_reblog_disabled_drawable, R.drawable.reblog_private_dark);
-                activeId = R.drawable.reblog_private_active;
+                inactiveId = R.drawable.ic_reblog_private_24dp;
+                activeId = R.drawable.ic_reblog_private_active_24dp;
             } else {
-                inactiveId = ThemeUtils.getDrawableId(reblogButton.getContext(),
-                        R.attr.status_reblog_inactive_drawable, R.drawable.reblog_inactive_dark);
+                inactiveId = R.drawable.ic_reblog_24dp;
                 activeId = R.drawable.ic_reblog_active_24dp;
             }
             reblogButton.setInactiveImage(inactiveId);
@@ -366,11 +361,9 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         } else {
             int disabledId;
             if (visibility == Status.Visibility.DIRECT) {
-                disabledId = ThemeUtils.getDrawableId(reblogButton.getContext(),
-                        R.attr.status_reblog_direct_drawable, R.drawable.reblog_direct_dark);
+                disabledId = R.drawable.ic_reblog_direct_24dp;
             } else {
-                disabledId = ThemeUtils.getDrawableId(reblogButton.getContext(),
-                        R.attr.status_reblog_disabled_drawable, R.drawable.reblog_private_dark);
+                disabledId = R.drawable.ic_reblog_private_24dp;
             }
             reblogButton.setInactiveImage(disabledId);
             reblogButton.setActiveImage(disabledId);
@@ -468,8 +461,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
                     BitmapDrawable blurhashBitmap = decodeBlurHash(attachment.getBlurhash());
                     imageView.setImageDrawable(blurhashBitmap);
                 } else {
-                    imageView.setImageDrawable(new ColorDrawable(ThemeUtils.getColor(
-                            context, R.attr.sensitive_media_warning_background_color)));
+                    imageView.setImageDrawable(mediaPreviewUnloaded);
                 }
             }
 
