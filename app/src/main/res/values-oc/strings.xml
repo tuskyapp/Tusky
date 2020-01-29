@@ -485,4 +485,10 @@
     <string name="description_status_bookmarked">Ajustat als marcapaginas</string>
     <string name="select_list_title">Seleccionar la list</string>
     <string name="list">Lista</string>
-    </resources>
+    <string name="error_audio_upload_size">Los fichièrs àudio devon èsser inferiors a 40 Mo.</string>
+    <string name="gradient_for_media">Mostrar los degradats de colors pels contenguts resconduts</string>
+
+    <string name="no_saved_status">Avètz pas cap de borrolhon.</string>
+    <string name="no_scheduled_status">Avètz pas cap de tut planificat.</string>
+
+</resources>
