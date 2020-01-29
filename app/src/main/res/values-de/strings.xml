@@ -1,10 +1,10 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
     <string name="error_generic">Ein Fehler ist aufgetreten.</string>
-    <string name="error_network">Ein Netzwerkfehler ist aufgetreten! Bitte überprüfen Sie Ihre Internetverbindung und versuchen Sie es erneut!</string>
+    <string name="error_network">Ein Netzwerkfehler ist aufgetreten! Bitte überprüfen deine Internetverbindung und versuche es erneut!</string>
     <string name="error_empty">Dies darf nicht leer sein.</string>
     <string name="error_invalid_domain">Ungültige Domain angegeben</string>
-    <string name="error_failed_app_registration">Diese App konnte sich auf dem Server nicht authentifizieren.</string>
+    <string name="error_failed_app_registration">Authentifizieren mit dieser Instanz fehlgeschlagen.</string>
     <string name="error_no_web_browser_found">Kein Webbrowser gefunden.</string>
     <string name="error_authorization_unknown">Ein undefinierbarer Autorisierungsfehler ist aufgetreten.</string>
     <string name="error_authorization_denied">Autorisierung fehlgeschlagen.</string>
@@ -14,18 +14,18 @@
     <string name="error_video_upload_size">Videodateien müssen kleiner als 40MB sein.</string>
     <string name="error_media_upload_type">Dieser Dateityp darf nicht hochgeladen werden.</string>
     <string name="error_media_upload_opening">Die Datei konnte nicht geöffnet werden.</string>
-    <string name="error_media_upload_permission">Eine Leseberechtigung wird für das Hochladen der Mediendatei benötigt.</string>
-    <string name="error_media_download_permission">Eine Berechtigung wird zum Speichern des Mediums benötigt.</string>
-    <string name="error_media_upload_image_or_video">Bilder und Videos können beide nicht an den Beitrag angehängt werden.</string>
+    <string name="error_media_upload_permission">Leseberechtigung für die Mediendatei wird benötigt.</string>
+    <string name="error_media_download_permission">Schreibberechtigung für Mediendateien wird benötigt.</string>
+    <string name="error_media_upload_image_or_video">Bilder und Videos können nicht beide gleichzeitig an einen Beitrag angehängt werden.</string>
     <string name="error_media_upload_sending">Die Mediendatei konnte nicht hochgeladen werden.</string>
-    <string name="error_sender_account_gone">Fehler beim Senden des Status.</string>
+    <string name="error_sender_account_gone">Fehler beim Senden des Beitrags.</string>
     <string name="title_home">Start</string>
     <string name="title_notifications">Benachrichtigungen</string>
     <string name="title_public_local">Lokal</string>
     <string name="title_public_federated">Föderiert</string>
     <string name="title_direct_messages">Direktnachrichten</string>
     <string name="title_tab_preferences">Tabs</string>
-    <string name="title_view_thread">Unterhaltung</string>
+    <string name="title_view_thread">Beitrag</string>
     <string name="title_statuses">Beiträge</string>
     <string name="title_statuses_with_replies">mit Antworten</string>
     <string name="title_statuses_pinned">Angeheftet</string>
@@ -34,9 +34,9 @@
     <string name="title_favourites">Favoriten</string>
     <string name="title_mutes">Stummgeschaltete Profile</string>
     <string name="title_blocks">Blockierte Profile</string>
-    <string name="title_follow_requests">Folgeanfrage</string>
+    <string name="title_follow_requests">Folgeanfragen</string>
     <string name="title_edit_profile">Dein Profil bearbeiten</string>
-    <string name="title_saved_toot">Gespeicherte Beiträge</string>
+    <string name="title_saved_toot">Entwürfe</string>
     <string name="title_licenses">Lizenzen</string>
     <string name="status_username_format">\@%s</string>
     <string name="status_boosted_format">%s teilte</string>
@@ -59,7 +59,7 @@
     <string name="action_reblog">Teilen</string>
     <string name="action_unreblog">Boost entfernen</string>
     <string name="action_favourite">Favorisieren</string>
-    <string name="action_unfavourite">Favoriten entfernen</string>
+    <string name="action_unfavourite">Favorisierung entfernen</string>
     <string name="action_more">Mehr</string>
     <string name="action_compose">Schreiben</string>
     <string name="action_login">Anmelden mit Mastodon</string>
@@ -97,7 +97,7 @@
     <string name="action_save">Speichern</string>
     <string name="action_edit_profile">Profil bearbeiten</string>
     <string name="action_edit_own_profile">Bearbeiten</string>
-    <string name="action_undo">rückgängig machen</string>
+    <string name="action_undo">Rückgängig machen</string>
     <string name="action_accept">Akzeptieren</string>
     <string name="action_reject">Ablehnen</string>
     <string name="action_search">Suche</string>
@@ -108,7 +108,7 @@
     <string name="action_add_tab">Tab hinzufügen</string>
     <string name="action_links">Verlinkungen</string>
     <string name="action_mentions">Erwähnungen</string>
-    <string name="action_hashtags">Hastags</string>
+    <string name="action_hashtags">Hashtags</string>
     <string name="action_open_reblogged_by">Boosts anzeigen</string>
     <string name="action_open_faved_by">Favoriten anzeigen</string>
     <string name="title_hashtags_dialog">Hashtags</string>
@@ -123,7 +123,7 @@
     <string name="send_status_content_to">Beitragsinhalt teilen</string>
     <string name="send_media_to">Mediendatei teilen…</string>
     <string name="confirmation_reported">Gesendet!</string>
-    <string name="confirmation_unblocked">entblockt</string>
+    <string name="confirmation_unblocked">Entblockt</string>
     <string name="confirmation_unmuted">Stummschaltung aufgehoben</string>
     <string name="status_sent">Gesendet!</string>
     <string name="status_sent_long">Antwort erfolgreich gesendet.</string>
@@ -208,10 +208,10 @@
     <string name="notification_mention_name">Neue Erwähnungen</string>
     <string name="notification_mention_descriptions">Benachrichtigungen über neue Erwähnungen</string>
     <string name="notification_follow_name">Neue Folgende</string>
-    <string name="notification_follow_description">Benachrichtigunen über neue Folgende</string>
+    <string name="notification_follow_description">Benachrichtigungen über neue Folgende</string>
     <string name="notification_boost_name">Geteilte Beiträge</string>
     <string name="notification_boost_description">Benachrichtigungen wenn deine Beiträge geteilt werden</string>
-    <string name="notification_favourite_name">Favorisierte Beiträge</string>
+    <string name="notification_favourite_name">Favoriten</string>
     <string name="notification_favourite_description">Benachrichtigungen wenn deine Beiträge favorisiert werden</string>
     <string name="notification_mention_format">%s hat dich erwähnt</string>
     <string name="notification_summary_large">%1$s, %2$s, %3$s und %4$d andere</string>
@@ -271,10 +271,10 @@
     <string name="lock_account_label_description">Wer dir folgen möchte, muss um deine Erlaubnis bitten</string>
     <string name="compose_save_draft">Entwurf speichern?</string>
     <string name="send_toot_notification_title">Beitrag senden…</string>
-    <string name="send_toot_notification_error_title">Fehler beim senden</string>
+    <string name="send_toot_notification_error_title">Fehler beim Senden</string>
     <string name="send_toot_notification_channel_name">Beiträge senden</string>
     <string name="send_toot_notification_cancel_title">Senden abgebrochen</string>
-    <string name="send_toot_notification_saved_content">Eine Kopie des Beitrags wurde in deine Entwürfe gespeichert</string>
+    <string name="send_toot_notification_saved_content">Eine Kopie des Beitrags wurde in deinen Entwürfen gespeichert</string>
     <string name="action_compose_shortcut">Antworten</string>
     <string name="error_no_custom_emojis">Deine Instanz %s hat keine Emojis definiert</string>
     <string name="copy_to_clipboard_success">In die Zwischenablage kopiert</string>
@@ -282,17 +282,17 @@
     <string name="system_default">System-Standard</string>
     <string name="download_fonts">Du musst diese Emoji-Sets zunächst herunterladen</string>
     <string name="performing_lookup_title">Nachschlagen…</string>
-    <string name="expand_collapse_all_statuses">Alle Beiträge aus/einklappen</string>
+    <string name="expand_collapse_all_statuses">Alle Beiträge aus-/einklappen</string>
     <string name="action_open_toot">Beitrag öffnen</string>
     <string name="restart_required">App-Neustart erforderlich</string>
     <string name="restart_emoji">Du musst Tusky neustarten um die Änderungen anzuwenden</string>
     <string name="later">Später</string>
     <string name="restart">Neustarten</string>
     <string name="caption_systememoji">Die Standard-Emojis deines Geräts</string>
-    <string name="caption_blobmoji">Die Blob–Emojis aus Android 4.4–7.1</string>
+    <string name="caption_blobmoji">Die Blob-Emojis aus Android 4.4-7.1</string>
     <string name="caption_twemoji">Die Standard-Emojis von Mastodon</string>
     <string name="caption_notoemoji">Die aktuellen Emojis von Google</string>
-    <string name="download_failed">Download fehlgeschlagen.</string>
+    <string name="download_failed">Download fehlgeschlagen</string>
     <string name="profile_badge_bot_text">Bot</string>
     <string name="account_moved_description">%1$s ist umgezogen auf:</string>
     <string name="reblog_private">An ursprüngliches Publikum teilen</string>
@@ -306,7 +306,7 @@
     <string name="profile_metadata_label_label">Bezeichnung</string>
     <string name="profile_metadata_content_label">Inhalt</string>
     <string name="pref_title_absolute_time">Absolute Zeitstempel verwenden</string>
-    <string name="label_remote_account">Das Profil wird möglicherweise unvollständig wiedergegeben. Klick um vollständiges Profil anzuzeigen.</string>
+    <string name="label_remote_account">Das Profil wird möglicherweise unvollständig wiedergegeben. Tippe hier, um vollständiges Profil anzuzeigen.</string>
     <string name="unpin_action">Vom Profil lösen</string>
     <string name="pin_action">Im Profil anheften</string>
     <string name="title_favourited_by">Favorisiert von</string>
@@ -349,7 +349,7 @@
     <string name="description_status_reblogged">Geteilt</string>
     <string name="description_visiblity_unlisted">Ungelistet</string>
     <string name="action_delete_and_redraft">Löschen und neu erstellen</string>
-    <string name="dialog_redraft_toot_warning">Bist du dir sicher, dass du diesen Beitrag löschen und neu machen möchtest\?</string>
+    <string name="dialog_redraft_toot_warning">Bist du dir sicher, dass du diesen Beitrag löschen und neu erstellen möchtest\?</string>
 
     <string name="pref_title_notification_filter_poll">Umfragen vorbei sind</string>
     <string name="notification_poll_name">Umfragen</string>
@@ -377,8 +377,8 @@
 
     <string name="poll_vote">Abstimmen</string>
 
-    <string name="poll_ended_voted">Eine Umfrage in der du abgestimmt hast ist vorbei</string>
-    <string name="poll_ended_created">Eine Umfrage die du erstellt hast ist vorbei</string>
+    <string name="poll_ended_voted">Eine Umfrage, in der du abgestimmt hast, ist vorbei</string>
+    <string name="poll_ended_created">Eine Umfrage, die du erstellt hast, ist vorbei</string>
 
     <plurals name="poll_timespan_days">
 	<item quantity="one">%d Tag</item>
@@ -403,7 +403,7 @@
     <string name="confirmation_domain_unmuted">%s nicht mehr versteckt</string>
 
     <string name="mute_domain_warning">Bist du dir sicher, dass du die Domain %s blockieren willst\? Nach der Blockierung wirst du nichts mehr von dieser Domain in öffentlichen Zeitleisten oder Benachrichtigungen sehen. Deine Follower von dieser Domain werden entfernt.</string>
-    <string name="mute_domain_warning_dialog_ok">ganze Domain verbergen</string>
+    <string name="mute_domain_warning_dialog_ok">Ganze Domain verbergen</string>
 
     <string name="pref_title_animate_gif_avatars">GIF-Avatare animieren</string>
 
@@ -451,4 +451,24 @@
     <string name="action_schedule_toot">Plane Beitrag</string>
     <string name="action_reset_schedule">Zurücksetzen</string>
     <string name="abbreviated_in_years">Dies sind Zeitstempel für Status. Beispiele: \"16s\" oder \"2t\".</string>
-    </resources>
+    <string name="error_audio_upload_size">Audiodateien müssen kleiner als 40MB sein.</string>
+    <string name="title_bookmarks">Lesezeichen</string>
+    <string name="action_bookmark">Lesezeichen</string>
+    <string name="action_view_bookmarks">Lesezeichen</string>
+    <string name="gradient_for_media">Bunten Farbverlauf für versteckte Medien anzeigen</string>
+
+    <string name="about_powered_by_tusky">Angetrieben durch Tusky</string>
+    <plurals name="reblogs">
+	<item quantity="one"><b>%s</b> Boost</item>
+	<item quantity="other"><b>%s</b> Boosts</item>
+</plurals>
+
+    <string name="description_status_bookmarked">Als Lesezeichen gespeichert</string>
+    <string name="select_list_title">Liste auswählen</string>
+    <string name="list">Liste</string>
+    <string name="post_lookup_error_format">Fehler beim Nachschlagen von Post %s</string>
+
+    <string name="no_saved_status">Du hast keine Entwürfe.</string>
+    <string name="no_scheduled_status">Du hast keine geplanten Beiträge.</string>
+
+</resources>
