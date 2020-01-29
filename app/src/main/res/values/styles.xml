@@ -80,6 +80,7 @@
         <item name="appBarLayoutStyle">@style/Widget.MaterialComponents.AppBarLayout.Surface</item>
 
         <item name="minTouchTargetSize">32dp</item> <!-- this affects RadioButton size -->
+        <item name="elevationOverlayEnabled">false</item> <!-- disable the automatic tinting of surfaces with elevation in dark mode -->
 
     </style>
 
@@ -132,7 +133,7 @@
         <item name="android:colorBackground">@color/black</item>
         <item name="windowBackgroundColor">@color/black</item>
 
-        <item name="colorSurface">@color/tusky_grey_05</item>
+        <item name="colorSurface">@color/tusky_grey_10</item>
 
         <item name="iconColor">@color/tusky_grey_40</item>
         <item name="colorBackgroundAccent">@color/tusky_grey_05</item>
