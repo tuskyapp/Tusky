@@ -1,0 +1,31 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<resources><string name="action_login">Prihlásiť sa účtom Mastodon</string>
+    <string name="title_saved_toot">Koncepty</string>
+    <string name="action_logout">Odhlásiť sa</string>
+    <string name="action_view_preferences">Nastavenia</string>
+    <string name="action_view_account_preferences">Nastavenia účtu</string>
+    <string name="action_edit_profile">Upraviť profil</string>
+    <string name="action_search">Hľadať</string>
+    <string name="action_lists">Zoznamy</string>
+    <string name="title_lists">Zoznamy</string>
+    <string name="error_generic">Vyskytla sa chyba.</string>
+    <string name="title_notifications">Oznámenia</string>
+    <string name="title_direct_messages">Priame správy</string>
+    <string name="title_statuses_with_replies">S odpoveďmi</string>
+    <string name="title_statuses_pinned">Pripnuté</string>
+    <string name="title_followers">Sledujúci</string>
+    <string name="title_bookmarks">Záložky</string>
+    <string name="title_licenses">Licencie</string>
+
+    <string name="status_username_format">\@%s</string>
+    <string name="status_sensitive_media_title">Citlivý obsah</string>
+    <string name="status_sensitive_media_directions">Kliknite pre zobrazenie</string>
+    <string name="status_content_warning_show_more">Zobraziť viac</string>
+    <string name="status_content_warning_show_less">Zobraziť menej</string>
+    <string name="status_content_show_more">Rozbaliť</string>
+    <string name="status_content_show_less">Zabaliť</string>
+
+    <string name="report_username_format">Nahlásiť používateľa @%s</string>
+    <string name="action_quick_reply">Rýchla odpoveď</string>
+    <string name="action_reply">Odpovedať</string>
+    </resources>
