@@ -1,0 +1,10 @@
+Tusky útg6.0
+
+- Tímalínusíur hafa verið færðar í kjörstillingar notandaaðgangs og munu samstillast við vefþjón
+- YNú geturðu haft sérsniðið myllumerki sem flipa í aðalviðmóti
+- Hægt er að breyta listumk
+- Öryggi: fjarlægður stuðningur við TLS 1.0 og TLS 1.1, bætt við stuðningi við TLS 1.3 á Android 6+
+- Semja-sýnin stingur núna upp á sérsniðnum tjáningartáknum þegar byrjað er að skrifa
+- Ný stilling á þema "nota þema kerfis"
+- Bætt aðgengi að tímalínu
+- Tusky mun núna hunsa óþekktar tilkynningar

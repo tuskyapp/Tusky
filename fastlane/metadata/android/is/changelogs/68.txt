@@ -1,0 +1,3 @@
+Tusky útg9.1
+
+Þessi útgáfa tryggir samhæfni við Mastodon 3 og bætir afköst og stöðugleika.
