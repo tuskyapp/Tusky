@@ -1,4 +1,4 @@
-/* Copyright 2017 Andrew Dawson
+/* Copyright 2019 Tusky Contributors
  *
  * This file is a part of Tusky.
  *
@@ -13,20 +13,16 @@
  * You should have received a copy of the GNU General Public License along with Tusky; if not,
  * see <http://www.gnu.org/licenses>. */
 
-package com.keylesspalace.tusky.pager
+package com.keylesspalace.tusky.util
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
-import com.keylesspalace.tusky.TabData
-import com.keylesspalace.tusky.util.CustomFragmentStateAdapter
+import androidx.viewpager2.adapter.FragmentStateAdapter
 
-class MainPagerAdapter(val tabs: List<TabData>, activity: FragmentActivity) : CustomFragmentStateAdapter(activity) {
+abstract class CustomFragmentStateAdapter(
+        private val activity: FragmentActivity
+): FragmentStateAdapter(activity) {
 
-    override fun createFragment(position: Int): Fragment {
-        val tab = tabs[position]
-        return tab.fragment(tab.arguments)
-    }
-
-    override fun getItemCount() = tabs.size
-
+    fun getFragment(position: Int): Fragment?
+            = activity.supportFragmentManager.findFragmentByTag("f"  + getItemId(position))
 }
