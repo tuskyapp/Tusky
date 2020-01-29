@@ -1,0 +1,7 @@
+Tusky v7.0
+
+- Unterstützung für das Anzeigen von Umfragen, Abstimmen und Umfragebenachrichtigungen
+- Neue Knöpfe um den Benachrichtigungstab zu filtern und alle Benachrichtigungen zu löschen
+- Lösche & erstelle deine Toots neu
+- es wird auf dem Profilbild angezeigt, ob es sich bei einem Account um einen Bot handelt (kann in den Einstellungen ausgeschaltet werden)
+- Neue Übersetzungen: Norwegisch Bokmål und Slovenisch.
