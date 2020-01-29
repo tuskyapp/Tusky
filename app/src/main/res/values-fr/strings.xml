@@ -480,4 +480,10 @@
     <string name="description_status_bookmarked">Ajouté aux marque-pages</string>
     <string name="select_list_title">Sélectionner la liste</string>
     <string name="list">Liste</string>
-    </resources>
+    <string name="error_audio_upload_size">Les fichiers audio doivent être inférieurs à 40 Mo.</string>
+    <string name="gradient_for_media">Afficher des dégradés en couleur pour les médias cachés</string>
+
+    <string name="no_saved_status">Vous n’avez aucun brouillon.</string>
+    <string name="no_scheduled_status">Vous n’avez aucun pouet planifié.</string>
+
+</resources>
