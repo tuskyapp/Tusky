@@ -500,4 +500,5 @@
     <string name="no_saved_status">ليس لديك أية مسودات.</string>
     <string name="no_scheduled_status">ليس لديك أية منشورات مُبرمَجة للنشر.</string>
 
-</resources>
+<string name="error_audio_upload_size">يجب أن يكون حجم الملفات الصوتية أقل مِن 40 ميغابايت.</string>
+    </resources>
