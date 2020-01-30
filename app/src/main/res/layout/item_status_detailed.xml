@@ -324,7 +324,7 @@
             android:paddingRight="12dp"
             android:paddingBottom="8dp"
             android:textAlignment="center"
-            android:textColor="@android:color/white"
+            android:textColor="?android:attr/textColorSecondary"
             android:textSize="?attr/status_text_medium"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
