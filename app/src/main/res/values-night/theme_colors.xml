@@ -18,4 +18,6 @@
 
     <color name="favoriteButtonActiveColor">@color/tusky_orange</color>
 
+    <bool name="lightNavigationBar">false</bool>
+
 </resources>

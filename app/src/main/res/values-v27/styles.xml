@@ -10,9 +10,8 @@
         <item name="android:navigationBarDividerColor">@color/tusky_grey_30</item>
     </style>
 
-    <!--Light Application Theme Styles-->
     <style name="TuskyTheme" parent="TuskyBaseTheme">
-        <item name="android:windowLightNavigationBar">true</item>
+        <item name="android:windowLightNavigationBar">@bool/lightNavigationBar</item>
         <item name="android:navigationBarColor">@color/colorBackground</item>
         <item name="android:navigationBarDividerColor">@color/colorBackgroundAccent</item>
     </style>
