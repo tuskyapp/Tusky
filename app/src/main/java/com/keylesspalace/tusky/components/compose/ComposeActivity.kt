@@ -113,6 +113,8 @@ class ComposeActivity : BaseActivity(),
     private var composeOptions: ComposeOptions? = null
     private lateinit var viewModel: ComposeViewModel
 
+    private var mediaCount = 0
+
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val preferences = PreferenceManager.getDefaultSharedPreferences(this)
@@ -304,9 +306,12 @@ class ComposeActivity : BaseActivity(),
                 setStatusVisibility(visibility)
             }
             viewModel.media.observe { media ->
-                composeMediaPreviewBar.visible(media.isNotEmpty())
                 mediaAdapter.submitList(media)
-                updateSensitiveMediaToggle(viewModel.markMediaAsSensitive.value != false, viewModel.showContentWarning.value != false)
+                if(media.size != mediaCount) {
+                    mediaCount = media.size
+                    composeMediaPreviewBar.visible(media.isNotEmpty())
+                    updateSensitiveMediaToggle(viewModel.markMediaAsSensitive.value != false, viewModel.showContentWarning.value != false)
+                }
             }
             viewModel.poll.observe { poll ->
                 pollPreview.visible(poll != null)
@@ -493,8 +498,6 @@ class ComposeActivity : BaseActivity(),
     }
 
     private fun updateSensitiveMediaToggle(markMediaSensitive: Boolean, contentWarningShown: Boolean) {
-        TransitionManager.beginDelayedTransition(composeHideMediaButton.parent as ViewGroup)
-
         if (viewModel.media.value.isNullOrEmpty()) {
             composeHideMediaButton.hide()
         } else {
