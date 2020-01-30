@@ -24,6 +24,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.DrawableRes
 import androidx.appcompat.content.res.AppCompatResources
+import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.entity.Attachment
@@ -87,8 +88,7 @@ class StatusViewHelper(private val itemView: View) {
         }
 
 
-        val mediaPreviewUnloaded = ThemeUtils.getDrawable(context,
-                R.attr.media_preview_unloaded_drawable, android.R.color.black)
+        val mediaPreviewUnloaded = ColorDrawable(ThemeUtils.getColor(context, R.attr.colorBackgroundAccent))
 
         val n = min(attachments.size, Status.MAX_MEDIA_ATTACHMENTS)
 
@@ -141,8 +141,7 @@ class StatusViewHelper(private val itemView: View) {
                         val blurhashBitmap = decodeBlurHash(context, attachment.blurhash)
                         mediaPreviews[i].setImageDrawable(blurhashBitmap)
                     } else {
-                        mediaPreviews[i].setImageDrawable(ColorDrawable(ThemeUtils.getColor(
-                                context, R.attr.sensitive_media_warning_background_color)))
+                        mediaPreviews[i].setImageDrawable(mediaPreviewUnloaded)
                     }
                 }
             }

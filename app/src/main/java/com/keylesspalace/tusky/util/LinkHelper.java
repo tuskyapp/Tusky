@@ -228,7 +228,7 @@ public class LinkHelper {
      * @param context context
      */
     public static void openLinkInCustomTab(Uri uri, Context context) {
-        int toolbarColor = ThemeUtils.getColor(context, R.attr.custom_tab_toolbar);
+        int toolbarColor = ThemeUtils.getColor(context, R.attr.colorSurface);
 
         CustomTabsIntent.Builder customTabsIntentBuilder = new CustomTabsIntent.Builder()
                 .setToolbarColor(toolbarColor)

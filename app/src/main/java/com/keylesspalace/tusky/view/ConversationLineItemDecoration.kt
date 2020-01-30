@@ -20,15 +20,14 @@ import android.graphics.Canvas
 import android.graphics.drawable.Drawable
 import androidx.recyclerview.widget.RecyclerView
 import android.view.View
+import androidx.core.content.ContextCompat
 
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.adapter.ThreadAdapter
-import com.keylesspalace.tusky.util.ThemeUtils
 
 class ConversationLineItemDecoration(private val context: Context) : RecyclerView.ItemDecoration() {
 
-    private val divider: Drawable  = ThemeUtils.getDrawable(context, R.attr.conversation_thread_line_drawable,
-            R.drawable.conversation_thread_line_dark)
+    private val divider: Drawable = ContextCompat.getDrawable(context, R.drawable.conversation_thread_line)!!
 
     override fun onDraw(canvas: Canvas, parent: RecyclerView, state: RecyclerView.State) {
         val dividerStart = parent.paddingStart + context.resources.getDimensionPixelSize(R.dimen.status_line_margin_start)

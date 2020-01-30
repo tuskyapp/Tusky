@@ -256,7 +256,7 @@
             app:layout_constraintEnd_toEndOf="@+id/status_media_preview_0"
             app:layout_constraintStart_toStartOf="@+id/status_media_preview_0"
             app:layout_constraintTop_toTopOf="@+id/status_media_preview_0"
-            app:srcCompat="?attr/play_indicator_drawable"
+            app:srcCompat="@drawable/ic_play_indicator"
             tools:ignore="ContentDescription" />
 
         <ImageView
@@ -268,7 +268,7 @@
             app:layout_constraintEnd_toEndOf="@+id/status_media_preview_1"
             app:layout_constraintStart_toStartOf="@+id/status_media_preview_1"
             app:layout_constraintTop_toTopOf="@+id/status_media_preview_1"
-            app:srcCompat="?attr/play_indicator_drawable"
+            app:srcCompat="@drawable/ic_play_indicator"
             tools:ignore="ContentDescription" />
 
         <ImageView
@@ -280,7 +280,7 @@
             app:layout_constraintEnd_toEndOf="@+id/status_media_preview_2"
             app:layout_constraintStart_toStartOf="@+id/status_media_preview_2"
             app:layout_constraintTop_toTopOf="@+id/status_media_preview_2"
-            app:srcCompat="?attr/play_indicator_drawable"
+            app:srcCompat="@drawable/ic_play_indicator"
             tools:ignore="ContentDescription" />
 
         <ImageView
@@ -292,7 +292,7 @@
             app:layout_constraintEnd_toEndOf="@+id/status_media_preview_3"
             app:layout_constraintStart_toStartOf="@+id/status_media_preview_3"
             app:layout_constraintTop_toTopOf="@+id/status_media_preview_3"
-            app:srcCompat="?attr/play_indicator_drawable"
+            app:srcCompat="@drawable/ic_play_indicator"
             tools:ignore="ContentDescription" />
 
         <ImageView
@@ -321,7 +321,7 @@
             android:paddingRight="12dp"
             android:paddingBottom="8dp"
             android:textAlignment="center"
-            android:textColor="@android:color/white"
+            android:textColor="?android:attr/textColorSecondary"
             android:textSize="?attr/status_text_medium"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -424,7 +424,7 @@
 
     <ImageButton
         android:id="@+id/status_reply"
-        style="?attr/image_button_style"
+        style="@style/TuskyImageButton"
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:layout_marginTop="4dp"
@@ -448,9 +448,9 @@
         app:layout_constraintEnd_toStartOf="@id/status_bookmark"
         app:layout_constraintStart_toEndOf="@id/status_reply"
         app:layout_constraintTop_toTopOf="@id/status_reply"
-        sparkbutton:activeImage="?attr/status_favourite_active_drawable"
+        sparkbutton:activeImage="@drawable/ic_favourite_active_24dp"
         sparkbutton:iconSize="28dp"
-        sparkbutton:inactiveImage="?attr/status_favourite_inactive_drawable"
+        sparkbutton:inactiveImage="@drawable/ic_favourite_24dp"
         sparkbutton:primaryColor="@color/tusky_orange"
         sparkbutton:secondaryColor="@color/tusky_orange_light" />
 
@@ -473,7 +473,7 @@
 
     <ImageButton
         android:id="@+id/status_more"
-        style="?attr/image_button_style"
+        style="@style/TuskyImageButton"
         android:layout_width="24dp"
         android:layout_height="30dp"
         android:layout_marginEnd="8dp"

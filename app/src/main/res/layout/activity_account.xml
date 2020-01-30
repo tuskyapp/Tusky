@@ -33,7 +33,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="180dp"
                     android:layout_alignTop="@+id/account_header_info"
-                    android:background="?attr/account_header_background_color"
+                    android:background="?attr/colorPrimaryDark"
                     android:scaleType="centerCrop"
                     app:layout_collapseMode="parallax"
                     app:layout_constraintStart_toStartOf="parent"
@@ -130,7 +130,7 @@
                         app:layout_constraintBottom_toBottomOf="@+id/accountUsernameTextView"
                         app:layout_constraintStart_toEndOf="@+id/accountUsernameTextView"
                         app:layout_constraintTop_toTopOf="@+id/accountUsernameTextView"
-                        app:srcCompat="@drawable/reblog_private_light"
+                        app:srcCompat="@drawable/ic_reblog_private_24dp"
                         tools:visibility="visible" />
 
                     <TextView
@@ -326,7 +326,7 @@
                 style="@style/TuskyTabAppearance"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="?android:colorBackground"
+                android:background="?attr/colorSurface"
                 app:tabGravity="center"
                 app:tabMode="scrollable"
                 app:tabTextAppearance="@style/TuskyTabAppearance" />
@@ -337,7 +337,7 @@
             android:id="@+id/accountFragmentViewPager"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="?attr/tab_page_margin_color"
+            android:background="?android:windowBackground"
             app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton

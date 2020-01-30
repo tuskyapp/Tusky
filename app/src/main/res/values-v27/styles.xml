@@ -2,26 +2,25 @@
 
     <style name="SplashTheme" parent="Theme.AppCompat.NoActionBar">
         <item name="android:windowBackground">@drawable/background_splash</item>
-        <item name="colorPrimary">@color/color_primary_dark_dark</item>
-        <item name="colorPrimaryDark">@color/color_primary_dark_dark</item>
+        <item name="colorPrimary">@color/tusky_grey_20</item>
+        <item name="colorPrimaryDark">@color/tusky_grey_20</item>
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowLightNavigationBar">false</item>
-        <item name="android:navigationBarColor">@color/window_background_dark</item>
-        <item name="android:navigationBarDividerColor">@color/status_divider_dark</item>
+        <item name="android:navigationBarColor">@color/tusky_grey_20</item>
+        <item name="android:navigationBarDividerColor">@color/tusky_grey_30</item>
     </style>
 
-    <!--Light Application Theme Styles-->
     <style name="TuskyTheme" parent="TuskyBaseTheme">
-        <item name="android:windowLightNavigationBar">true</item>
-        <item name="android:navigationBarColor">@color/color_background_light</item>
-        <item name="android:navigationBarDividerColor">@color/status_divider_light</item>
+        <item name="android:windowLightNavigationBar">@bool/lightNavigationBar</item>
+        <item name="android:navigationBarColor">@color/colorBackground</item>
+        <item name="android:navigationBarDividerColor">@color/colorBackgroundAccent</item>
     </style>
 
     <!--Black Application Theme Styles-->
     <style name="TuskyBlackTheme" parent="TuskyBlackThemeBase">
         <item name="android:windowLightNavigationBar">false</item>
-        <item name="android:navigationBarColor">@color/color_primary_dark_black</item>
-        <item name="android:navigationBarDividerColor">@color/color_primary_dark_black</item>
+        <item name="android:navigationBarColor">@color/black</item>
+        <item name="android:navigationBarDividerColor">@color/tusky_grey_05</item>
     </style>
 
 </resources>

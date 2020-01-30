@@ -148,7 +148,7 @@
             app:layout_constraintEnd_toEndOf="@+id/status_media_preview_0"
             app:layout_constraintStart_toStartOf="@+id/status_media_preview_0"
             app:layout_constraintTop_toTopOf="@+id/status_media_preview_0"
-            app:srcCompat="?attr/play_indicator_drawable"
+            app:srcCompat="@drawable/ic_play_indicator"
             tools:ignore="ContentDescription" />
 
         <ImageView
@@ -160,7 +160,7 @@
             app:layout_constraintEnd_toEndOf="@+id/status_media_preview_1"
             app:layout_constraintStart_toStartOf="@+id/status_media_preview_1"
             app:layout_constraintTop_toTopOf="@+id/status_media_preview_1"
-            app:srcCompat="?attr/play_indicator_drawable"
+            app:srcCompat="@drawable/ic_play_indicator"
             tools:ignore="ContentDescription" />
 
         <ImageView
@@ -172,7 +172,7 @@
             app:layout_constraintEnd_toEndOf="@+id/status_media_preview_2"
             app:layout_constraintStart_toStartOf="@+id/status_media_preview_2"
             app:layout_constraintTop_toTopOf="@+id/status_media_preview_2"
-            app:srcCompat="?attr/play_indicator_drawable"
+            app:srcCompat="@drawable/ic_play_indicator"
             tools:ignore="ContentDescription" />
 
         <ImageView
@@ -184,7 +184,7 @@
             app:layout_constraintEnd_toEndOf="@+id/status_media_preview_3"
             app:layout_constraintStart_toStartOf="@+id/status_media_preview_3"
             app:layout_constraintTop_toTopOf="@+id/status_media_preview_3"
-            app:srcCompat="?attr/play_indicator_drawable"
+            app:srcCompat="@drawable/ic_play_indicator"
             tools:ignore="ContentDescription" />
 
         <ImageView
@@ -214,7 +214,7 @@
             android:paddingRight="12dp"
             android:paddingBottom="8dp"
             android:textAlignment="center"
-            android:textColor="@android:color/white"
+            android:textColor="?android:attr/textColorSecondary"
             android:textSize="?attr/status_text_medium"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -354,7 +354,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:layout_margin="16dp"
-        app:buttonTint="?attr/compound_button_color"
+        app:buttonTint="@color/compound_button_color"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/timestampInfo" />
 

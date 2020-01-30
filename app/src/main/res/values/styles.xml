@@ -30,130 +30,83 @@
         <item name="status_text_large">22sp</item>
     </style>
 
-    <style name="ViewMediaActivity.AppBarLayout" parent="ThemeOverlay.AppCompat">
-        <item name="android:colorControlNormal">@color/white</item>
-    </style>
-
     <style name="SplashTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
         <item name="android:windowBackground">@drawable/background_splash</item>
-        <item name="colorPrimary">@color/color_primary_dark_dark</item>
-        <item name="colorPrimaryDark">@color/color_primary_dark_dark</item>
+        <item name="colorPrimary">@color/tusky_grey_10</item>
+        <item name="colorPrimaryDark">@color/tusky_grey_10</item>
         <item name="android:windowNoTitle">true</item>
     </style>
 
-    <!--Light Application Theme Styles-->
     <style name="TuskyTheme" parent="TuskyBaseTheme" />
 
     <style name="TuskyDialogActivityTheme" parent="@style/TuskyTheme" />
 
-    <style name="TuskyDialogFragmentStyle" parent="@style/ThemeOverlay.MaterialComponents.Dialog">
-        <item name="dialogCornerRadius">8dp</item>
-        <item name="android:backgroundTint">?attr/window_background</item>
-    </style>
-
-
-    <style name="TuskyBaseTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
+    <style name="TuskyBaseTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="colorPrimary">@color/tusky_blue</item>
         <item name="colorOnPrimary">@color/white</item>
 
         <item name="colorSecondary">@color/tusky_blue</item>
         <item name="colorOnSecondary">@color/white</item>
 
-        <item name="colorSurface">@color/color_background_light</item>
+        <item name="colorSurface">@color/colorSurface</item>
 
-        <item name="colorPrimaryDark">@color/color_primary_dark_light</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
 
+        <item name="android:colorBackground">@color/colorBackground</item>
+        <item name="colorBackgroundAccent">@color/colorBackgroundAccent</item>
+        <item name="windowBackgroundColor">@color/windowBackground</item>
+
+        <item name="android:textColorPrimary">@color/textColorPrimary</item>
+        <item name="android:textColorSecondary">@color/textColorSecondary</item>
+        <item name="android:textColorTertiary">@color/textColorTertiary</item>
+
+        <item name="iconColor">@color/iconColor</item>
+
+        <item name="android:listDivider">@drawable/status_divider</item>
+
+        <item name="textColorDisabled">@color/textColorDisabled</item>
+
+        <item name="material_drawer_background">@color/colorBackground</item>
+        <item name="material_drawer_primary_text">@color/textColorSecondary</item>
+        <item name="material_drawer_primary_icon">@color/iconColor</item>
+        <item name="material_drawer_secondary_text">@color/textColorTertiary</item>
+        <item name="material_drawer_hint_text">@color/textColorTertiary</item>
+        <item name="material_drawer_divider">@color/colorBackgroundAccent</item>
+        <item name="material_drawer_header_selection_text">@color/white</item>
+        <item name="material_drawer_header_selection_subtext">@color/white</item>
+
+        <item name="alertDialogTheme">@style/TuskyDialog</item>
+        <item name="snackbarButtonStyle">@style/TuskyButton.TextButton</item>
         <item name="appBarLayoutStyle">@style/Widget.MaterialComponents.AppBarLayout.Surface</item>
 
-        <item name="android:colorBackground">@color/color_background_light</item>
-        <item name="recents_background_color">@color/color_primary_light</item>
-        <item name="android:windowBackground">@color/window_background_light</item>
-        <item name="android:textColorPrimary">@color/text_color_primary_light</item>
-        <item name="android:textColorSecondary">@color/text_color_secondary_light</item>
-        <item name="android:textColorTertiary">@color/text_color_tertiary_light</item>
-
-        <item name="android:actionMenuTextColor">@color/text_color_primary_light</item>
-
-        <item name="alertDialogTheme">@style/TuskyDialog.Light</item>
-        <item name="snackbarButtonStyle">@style/TuskyButton.TextButton</item>
-
-        <item name="window_background">@color/window_background_light</item>
-        <item name="custom_tab_toolbar">@color/custom_tab_toolbar_light</item>
-        <item name="preference_icon_tint">@color/toolbar_icon_light</item>
-        <item name="image_button_style">@style/TuskyImageButton.Light</item>
-        <item name="status_reblog_small_drawable">@drawable/ic_reblog_light_24dp</item>
-        <item name="status_reblog_inactive_drawable">@drawable/reblog_inactive_light</item>
-        <item name="status_reblog_disabled_drawable">@drawable/reblog_private_light</item>
-        <item name="status_reblog_direct_drawable">@drawable/reblog_direct_light</item>
-        <item name="status_favourite_active_drawable">@drawable/favourite_active_light</item>
-        <item name="status_favourite_inactive_drawable">@drawable/favourite_inactive_light</item>
-        <item name="sensitive_media_warning_background_color">#80B0B0B0</item>
-        <item name="media_preview_unloaded_drawable">@drawable/media_preview_unloaded_light</item>
-        <item name="android:listDivider">@drawable/status_divider_light</item>
-        <item name="conversation_thread_line_drawable">@drawable/conversation_thread_line_light
-        </item>
-        <item name="tab_icon_selected_tint">@color/tusky_blue</item>
-        <item name="tab_page_margin_color">@color/tab_page_margin_light</item>
-        <item name="account_header_background_color">@color/color_primary_dark_light</item>
-        <item name="account_toolbar_icon_tint_uncollapsed">@color/toolbar_icon_dark
-        </item> <!--Default to dark on purpose, because header backgrounds with gradients are always dark.-->
-        <item name="account_toolbar_icon_tint_collapsed">
-            @color/account_toolbar_icon_collapsed_light
-        </item>
-
-        <item name="compose_close_button_tint">@color/toolbar_icon_light</item>
-        <item name="image_button_disabled_tint">@color/image_button_disabled_light
-        </item>
-        <item name="compose_content_warning_bar_background">@drawable/border_background_light</item>
-        <item name="compose_reply_content_background">
-            @color/compose_reply_content_background_light
-        </item>
-
-        <item name="report_status_background_color">@color/report_status_background_light</item>
-
-        <item name="material_drawer_background">@color/window_background_light</item>
-        <item name="material_drawer_primary_text">@color/text_color_primary_light</item>
-        <item name="material_drawer_primary_icon">@color/toolbar_icon_light</item>
-        <item name="material_drawer_secondary_text">@color/text_color_secondary_light</item>
-        <item name="material_drawer_hint_text">@color/text_color_tertiary_light</item>
-        <item name="material_drawer_divider">@color/color_primary_dark_light</item>
-        <item name="material_drawer_selected">@color/color_primary_light</item>
-        <item name="material_drawer_selected_text">@color/text_color_primary_light</item>
-        <item name="material_drawer_header_selection_text">@color/text_color_primary_dark
-        </item> <!--Intentionally dark so it can be overlayed over the account's header image.-->
-        <item name="material_drawer_header_selection_subtext">@color/text_color_secondary_dark
-        </item> <!--Intentionally dark so it can be overlayed over the account's header image.-->
-
-        <item name="card_background_color">@color/color_primary_light</item>
-
-        <item name="play_indicator_drawable">@drawable/ic_play_indicator_light</item>
-
-        <item name="compound_button_color">@color/compound_button_color_light</item>
-
-        <item name="autocomplete_divider_drawable">@drawable/autocomplete_divider_light</item>
-
-        <item name="preferenceTheme">@style/PreferenceThemeOverlay</item>
-
         <item name="minTouchTargetSize">32dp</item> <!-- this affects RadioButton size -->
-
-        <item name="pollOptionBackgroundColor">@color/color_primary_dark_light</item>
+        <item name="elevationOverlayEnabled">false</item> <!-- disable the automatic tinting of surfaces with elevation in dark mode -->
 
     </style>
 
-    <style name="TuskyImageButton.Light" parent="@style/Widget.MaterialComponents.Button.UnelevatedButton">
-        <item name="android:tint">@color/text_color_tertiary_light</item>
-        <item name="android:background">?attr/selectableItemBackgroundBorderless</item>
+    <style name="ViewMediaActivity.AppBarLayout" parent="ThemeOverlay.AppCompat">
+        <item name="android:colorControlNormal">@color/white</item>
     </style>
 
-    <style name="TuskyDialog.Light" parent="@style/ThemeOverlay.MaterialComponents.Dialog.Alert">
+    <style name="TuskyDialog" parent="@style/ThemeOverlay.MaterialComponents.Dialog.Alert">
         <item name="android:letterSpacing">0</item>
         <item name="dialogCornerRadius">8dp</item>
+    </style>
+
+    <style name="TuskyDialogFragmentStyle" parent="@style/ThemeOverlay.MaterialComponents.Dialog">
+        <item name="dialogCornerRadius">8dp</item>
+        <item name="android:backgroundTint">?attr/windowBackgroundColor</item>
     </style>
 
     <style name="TuskyTabAppearance" parent="Widget.MaterialComponents.TabLayout">
         <item name="android:textSize">?attr/status_text_medium</item>
         <item name="android:textAllCaps">true</item>
         <item name="tabIndicatorHeight">3dp</item>
+    </style>
+
+    <style name="TuskyImageButton" parent="@style/Widget.MaterialComponents.Button.UnelevatedButton">
+        <item name="android:tint">?android:attr/textColorTertiary</item>
+        <item name="android:background">?attr/selectableItemBackgroundBorderless</item>
     </style>
 
     <style name="TuskyButton" parent="Widget.MaterialComponents.Button">
@@ -173,31 +126,21 @@
         <item name="android:textColorHint">?android:attr/textColorTertiary</item>
     </style>
 
-
     <!--Black Application Theme Styles-->
     <style name="TuskyBlackThemeBase" parent="TuskyBaseTheme">
-        <item name="colorPrimaryDark">@color/color_primary_dark_black</item>
+        <item name="colorPrimaryDark">@color/tusky_grey_05</item>
 
-        <item name="android:colorBackground">@color/color_primary_dark_black</item>
-        <item name="android:windowBackground">@color/window_background_black</item>
-        <item name="android:textColorPrimary">@color/text_color_primary_black</item>
+        <item name="android:colorBackground">@color/black</item>
+        <item name="windowBackgroundColor">@color/black</item>
 
-        <item name="colorSurface">@color/color_primary_black</item>
+        <item name="colorSurface">@color/tusky_grey_10</item>
 
-        <item name="recents_background_color">@color/toolbar_background_black</item>
-        <item name="window_background">@color/window_background_black</item>
-        <item name="sensitive_media_warning_background_color">#80000000</item>
-        <item name="account_header_background_color">@color/color_background_black</item>
+        <item name="iconColor">@color/tusky_grey_40</item>
+        <item name="colorBackgroundAccent">@color/tusky_grey_05</item>
 
-        <item name="report_status_background_color">@color/color_background_black</item>
-
-        <item name="material_drawer_background">@color/window_background_black</item>
-        <item name="material_drawer_primary_text">@color/text_color_primary_black</item>
-        <item name="material_drawer_divider">@color/color_primary_dark_black</item>
-        <item name="material_drawer_selected">@color/color_primary_black</item>
-        <item name="material_drawer_selected_text">@color/text_color_primary_black</item>
-        <item name="material_drawer_header_selection_text">@color/text_color_primary_black</item>
-        <item name="tab_page_margin_color">@color/tab_page_margin_black</item>
+        <item name="material_drawer_background">@color/black</item>
+        <item name="material_drawer_primary_icon">@color/tusky_grey_40</item>
+        <item name="material_drawer_divider">@color/tusky_grey_05</item>
     </style>
 
     <style name="TuskyBlackTheme" parent="TuskyBlackThemeBase" />

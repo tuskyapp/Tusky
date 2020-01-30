@@ -66,7 +66,7 @@ public final class ProgressImageView extends AppCompatImageView {
 
         markBgPaint.setStyle(Paint.Style.FILL);
         markBgPaint.setColor(ContextCompat.getColor(getContext(),
-                R.color.description_marker_unselected));
+                R.color.tusky_grey_10));
         captionDrawable = AppCompatResources.getDrawable(getContext(), R.drawable.spellcheck);
     }
 
@@ -82,7 +82,7 @@ public final class ProgressImageView extends AppCompatImageView {
 
     public void setChecked(boolean checked) {
         this.markBgPaint.setColor(ContextCompat.getColor(getContext(),
-                checked ? R.color.tusky_blue : R.color.description_marker_unselected));
+                checked ? R.color.tusky_blue : R.color.tusky_grey_10));
         invalidate();
     }
 

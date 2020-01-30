@@ -2,5 +2,5 @@
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
     android:shape="rectangle">
     <size android:height="1dp" />
-    <solid android:color="@color/status_divider_dark" />
+    <solid android:color="?attr/colorBackgroundAccent" />
 </shape>

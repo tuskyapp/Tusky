@@ -76,7 +76,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Injectab
         /* set the taskdescription programmatically, the theme would turn it blue */
         String appName = getString(R.string.app_name);
         Bitmap appIcon = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
-        int recentsBackgroundColor = ThemeUtils.getColor(this, R.attr.recents_background_color);
+        int recentsBackgroundColor = ThemeUtils.getColor(this, R.attr.colorSurface);
 
         setTaskDescription(new ActivityManager.TaskDescription(appName, appIcon, recentsBackgroundColor));
 

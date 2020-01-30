@@ -345,7 +345,7 @@ class LoginActivity : BaseActivity(), Injectable {
 
         private fun openInCustomTab(uri: Uri, context: Context): Boolean {
 
-            val toolbarColor = ThemeUtils.getColor(context, R.attr.custom_tab_toolbar)
+            val toolbarColor = ThemeUtils.getColor(context, R.attr.colorSurface)
             val customTabsIntentBuilder = CustomTabsIntent.Builder()
                     .setToolbarColor(toolbarColor)
 

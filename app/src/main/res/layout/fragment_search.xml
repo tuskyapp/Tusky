@@ -3,8 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/layoutRoot"
     android:layout_width="@dimen/timeline_width"
-    android:layout_height="match_parent"
-    android:background="?attr/tab_page_margin_color">
+    android:layout_height="match_parent">
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swipeRefreshLayout"
@@ -16,7 +15,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center"
-            android:background="?attr/window_background"
+            android:background="?android:attr/windowBackground"
             tools:listitem="@layout/item_account" />
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

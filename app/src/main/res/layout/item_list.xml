@@ -21,7 +21,7 @@
 
     <ImageButton
         android:id="@+id/editListButton"
-        style="?attr/image_button_style"
+        style="@style/TuskyImageButton"
         android:layout_width="36dp"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"

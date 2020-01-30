@@ -41,7 +41,6 @@ import androidx.annotation.ColorInt
 import androidx.annotation.StringRes
 import androidx.annotation.VisibleForTesting
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
@@ -387,9 +386,7 @@ class ComposeActivity : BaseActivity(),
             title = null
             setDisplayHomeAsUpEnabled(true)
             setDisplayShowHomeEnabled(true)
-            val closeIcon = AppCompatResources.getDrawable(this@ComposeActivity, R.drawable.ic_close_24dp)
-            ThemeUtils.setDrawableTint(this@ComposeActivity, closeIcon!!, R.attr.compose_close_button_tint)
-            setHomeAsUpIndicator(closeIcon)
+            setHomeAsUpIndicator(R.drawable.ic_close_24dp)
         }
 
     }
@@ -505,7 +502,7 @@ class ComposeActivity : BaseActivity(),
             @ColorInt val color = if (contentWarningShown) {
                 composeHideMediaButton.setImageResource(R.drawable.ic_hide_media_24dp)
                 composeHideMediaButton.isClickable = false
-                ContextCompat.getColor(this, R.color.compose_media_visible_button_disabled_blue)
+                ContextCompat.getColor(this, R.color.transparent_tusky_blue)
 
             } else {
                 composeHideMediaButton.isClickable = true
@@ -826,14 +823,14 @@ class ComposeActivity : BaseActivity(),
         button.isEnabled = clickable
         ThemeUtils.setDrawableTint(this, button.drawable,
                 if (colorActive) android.R.attr.textColorTertiary
-                else R.attr.image_button_disabled_tint)
+                else R.attr.textColorDisabled)
     }
 
     private fun enablePollButton(enable: Boolean) {
         addPollTextActionTextView.isEnabled = enable
         val textColor = ThemeUtils.getColor(this,
                 if (enable) android.R.attr.textColorTertiary
-                else R.attr.image_button_disabled_tint)
+                else R.attr.textColorDisabled)
         addPollTextActionTextView.setTextColor(textColor)
         addPollTextActionTextView.compoundDrawablesRelative[0].colorFilter = PorterDuffColorFilter(textColor, PorterDuff.Mode.SRC_IN)
     }

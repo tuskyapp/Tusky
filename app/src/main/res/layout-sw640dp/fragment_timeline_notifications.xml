@@ -3,19 +3,20 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="?attr/windowBackgroundColor">
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="640dp"
         android:layout_height="match_parent"
         android:layout_gravity="center_horizontal"
-        android:background="?attr/window_background">
+        android:background="?android:attr/colorBackground">
 
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/appBarOptions"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="?android:colorBackground"
+            android:background="?attr/colorSurface"
             app:elevation="0dp"
             app:layout_behavior="com.keylesspalace.tusky.util.AppBarLayoutNoEmptyScrollBehavior">
 
@@ -64,7 +65,8 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerView"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                android:background="?android:attr/colorBackground" />
 
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 

@@ -41,7 +41,6 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_tab_preference.*
 import kotlinx.android.synthetic.main.toolbar_basic.*
-import kotlinx.android.synthetic.main.item_tab_preference.view.removeButton
 import java.util.regex.Pattern
 import javax.inject.Inject
 

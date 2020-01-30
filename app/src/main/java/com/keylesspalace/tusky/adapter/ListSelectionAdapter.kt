@@ -27,19 +27,16 @@ import kotlinx.android.synthetic.main.item_picker_list.view.*
 
 class ListSelectionAdapter(context: Context) : ArrayAdapter<MastoList>(context, R.layout.item_autocomplete_hashtag) {
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
-        var view = convertView
 
-        if (convertView == null) {
-            val layoutInflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-            view = layoutInflater.inflate(R.layout.item_picker_list, parent, false)
-        }
-        view!!
+        val layoutInflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
 
-        val list = getItem(position)
-        if (list != null) {
+        val view = convertView
+                ?: layoutInflater.inflate(R.layout.item_picker_list, parent, false)
+
+        getItem(position)?.let { list ->
             val title = view.title
             title.text = list.title
-            val icon = ThemeUtils.getTintedDrawable(context, R.drawable.ic_list, android.R.attr.textColorTertiary)
+            val icon = ThemeUtils.getTintedDrawable(context, R.drawable.ic_list, R.attr.iconColor)
             title.setCompoundDrawablesRelativeWithIntrinsicBounds(icon, null, null, null)
         }
 
