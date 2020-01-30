@@ -1,0 +1,12 @@
+Tusky er léttkeyrandi forrit fyrir Mastodon, frjálsa og opna samfélagsnetsþjóninn.
+
+• Material Design hönnun
+• Flestar Mastodon API-skipanir
+• Margir notendaaðgangar
+• Dökk og ljós þemu með möguleika á sjálfvirkti skiptingu eftir tíma sólarhrings
+• Drög - semja tíst og senda síðar
+• Val milli mismunandi stíla emoji-tákna 
+• Bestað fyrir allar skjástærðir
+• Algerlega frjáls hugbúnaður - ekki háð ófrjálsum tilföngum eins og t.d. Google-þjónustum
+
+Til að vita meira um Mastodon, kíktu á https://joinmastodon.org/

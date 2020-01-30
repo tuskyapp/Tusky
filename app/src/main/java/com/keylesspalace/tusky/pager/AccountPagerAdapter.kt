@@ -21,33 +21,23 @@ import com.keylesspalace.tusky.fragment.AccountMediaFragment
 import com.keylesspalace.tusky.fragment.TimelineFragment
 import com.keylesspalace.tusky.interfaces.RefreshableFragment
 
-import androidx.viewpager2.adapter.FragmentStateAdapter
-import java.lang.ref.WeakReference
+import com.keylesspalace.tusky.util.CustomFragmentStateAdapter
 
 class AccountPagerAdapter(
         activity: FragmentActivity,
         private val accountId: String
-) : FragmentStateAdapter(activity) {
-
-    private val fragments = MutableList<WeakReference<Fragment>?>(TAB_COUNT) { null }
+) : CustomFragmentStateAdapter(activity) {
 
     override fun getItemCount() = TAB_COUNT
 
     override fun createFragment(position: Int): Fragment {
-        val fragment: Fragment = when (position) {
+        return when (position) {
             0 -> TimelineFragment.newInstance(TimelineFragment.Kind.USER, accountId, false)
             1 -> TimelineFragment.newInstance(TimelineFragment.Kind.USER_WITH_REPLIES, accountId, false)
             2 -> TimelineFragment.newInstance(TimelineFragment.Kind.USER_PINNED, accountId, false)
             3 -> AccountMediaFragment.newInstance(accountId, false)
             else -> throw AssertionError("Page $position is out of AccountPagerAdapter bounds")
         }
-
-        fragments[position] = WeakReference(fragment)
-        return fragment
-    }
-
-    fun getFragment(position: Int): Fragment? {
-        return fragments[position]?.get()
     }
 
     fun refreshContent() {

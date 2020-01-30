@@ -58,7 +58,7 @@ class ComposeViewModel
     private var replyingStatusContent: String? = null
     internal var startingText: String? = null
     private var savedTootUid: Int = 0
-    private var startingContentWarning: String? = null
+    private var startingContentWarning: String = ""
     private var inReplyToId: String? = null
     private var startingVisibility: Status.Visibility = Status.Visibility.UNKNOWN
 
@@ -191,8 +191,8 @@ class ComposeViewModel
 
         val contentWarningChanged = showContentWarning.value!!
                 && !contentWarning.isNullOrEmpty()
-                && !startingContentWarning!!.startsWith(contentWarning.toString())
-        val mediaChanged = media.value!!.isNotEmpty()
+                && !startingContentWarning.startsWith(contentWarning.toString())
+        val mediaChanged = !media.value.isNullOrEmpty()
         val pollChanged = poll.value != null
 
         return textChanged || contentWarningChanged || mediaChanged || pollChanged

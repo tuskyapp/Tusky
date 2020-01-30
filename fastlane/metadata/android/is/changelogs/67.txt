@@ -1,0 +1,9 @@
+Tusky útg9.0
+
+- Nú geturðu útbúið kannanir í Tusky
+- Bætt leit
+- Nýr valkostur í kjörstillingum að fletta alltaf út aðvaranir vegna efnis
+- Auðkennismyndir í leiðsagnarsleða eru núna ferningslaga og rúnnaðar
+- Núna er hægt að kæra notendur án þess að þeir hafi sent inn stöðufærslu
+- Tusky mun núna neita að tengjast með ódulrituðum (cleartext) tengingum á Android 6+
+- Margar smærri endurbætur og lagfæringar á villum

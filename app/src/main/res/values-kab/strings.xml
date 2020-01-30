@@ -1,0 +1,53 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<resources><string name="action_login">Qqen γer Maṣṭudun</string>
+    <string name="title_favourites">Ismenyifen</string>
+    <string name="title_saved_toot">Irewwayen</string>
+    <string name="action_logout">Ffeγ</string>
+    <string name="action_view_preferences">Iγewwaṛen</string>
+    <string name="action_view_account_preferences">Iγewwaṛen n umiḍan</string>
+    <string name="action_edit_profile">Ẓreg amaγnu</string>
+    <string name="action_search">Nadi</string>
+    <string name="about_title_activity">Γef</string>
+    <string name="action_lists">Tibdarin</string>
+    <string name="title_lists">Tibdarin</string>
+    <string name="error_compose_character_limit">Tijewwiqt-ik aṭas i γuzzifet!</string>
+    <string name="title_home">Agejdan</string>
+    <string name="title_tab_preferences">Iccaren</string>
+    <string name="title_view_thread">Tijewwiqt</string>
+    <string name="title_statuses">Iznan</string>
+    <string name="title_statuses_with_replies">S tririyin</string>
+    <string name="title_edit_profile">Ẓreg amaγnu-ik</string>
+    <string name="status_username_format">\@%s</string>
+    <string name="status_content_warning_show_more">Zeṛ ugar</string>
+    <string name="status_content_warning_show_less">Zeṛ kra kan</string>
+    <string name="message_empty">Ulac walu da.</string>
+    <string name="notification_follow_format">Yeṭafar-ik-id %s</string>
+
+    <string name="action_reply">Err</string>
+    <string name="action_more">Ugar</string>
+    <string name="action_compose">Azen</string>
+    <string name="action_follow">Ḍfeṛ</string>
+    <string name="action_unfollow">Ur ṭafaṛ ara</string>
+    <string name="action_edit">Ẓreg</string>
+    <string name="action_delete">Kkes</string>
+    <string name="action_delete_and_redraft">Kkes tɛiwdeḍ tira</string>
+    <string name="action_send">Jewweq</string>
+    <string name="action_send_public">JEWWEQ!</string>
+    <string name="action_retry">Ɛreḍ tikkelt-nniḍen</string>
+    <string name="action_close">Derreɛ</string>
+    <string name="action_view_profile">Amaγnu</string>
+    <string name="action_view_favourites">Ismenyifen</string>
+    <string name="action_open_in_web">Ldi deg uminig</string>
+    <string name="action_share">Bḍu</string>
+    <string name="action_mute">Sgugem</string>
+    <string name="action_access_saved_toot">Irewwayen</string>
+    <string name="action_open_faved_by">Sken-ed ismenyifen</string>
+
+    <string name="notification_favourite_name">Ismenyifen</string>
+    <plurals name="favs">
+	<item quantity="one"><b>%1$s</b> n usmenyaf</item>
+	<item quantity="other"><b>%1$s</b> n ismenyifen</item>
+</plurals>
+
+    <string name="no_saved_status">Ur teɛiḍ ara irewwayen.</string>
+    </resources>
