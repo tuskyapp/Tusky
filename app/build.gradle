@@ -105,7 +105,7 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
 
     implementation "androidx.core:core-ktx:1.2.0-rc01"
-    implementation "androidx.appcompat:appcompat:1.1.0"
+    implementation "androidx.appcompat:appcompat:1.2.0-alpha02"
     implementation "androidx.fragment:fragment-ktx:1.1.0"
     implementation "androidx.browser:browser:1.2.0"
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.0.0"
