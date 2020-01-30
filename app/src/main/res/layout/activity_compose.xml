@@ -243,6 +243,7 @@
         android:layout_gravity="bottom"
         android:background="?android:colorBackground"
         android:elevation="12dp"
+        android:animateLayoutChanges="true"
         android:gravity="center_vertical"
         android:paddingStart="8dp"
         android:paddingTop="4dp"
@@ -274,13 +275,12 @@
         <ImageButton
             android:id="@+id/composeHideMediaButton"
             style="?attr/image_button_style"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
             android:layout_marginEnd="4dp"
             android:contentDescription="@string/action_hide_media"
             android:padding="4dp"
             android:tooltipText="@string/action_hide_media"
-            android:visibility="gone"
             tools:src="@drawable/ic_eye_24dp" />
 
         <ImageButton
