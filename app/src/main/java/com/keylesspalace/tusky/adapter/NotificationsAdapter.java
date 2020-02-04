@@ -551,7 +551,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
                 contentCollapseButton.setOnClickListener(view -> {
                     int position = getAdapterPosition();
                     if (position != RecyclerView.NO_POSITION && notificationActionListener != null) {
-                        notificationActionListener.onNotificationContentCollapsedChange(statusViewData.isCollapsed(), position);
+                        notificationActionListener.onNotificationContentCollapsedChange(!statusViewData.isCollapsed(), position);
                     }
                 });
 
