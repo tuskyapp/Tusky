@@ -480,4 +480,6 @@
 
     <string name="no_scheduled_status">Du har inga schemalagda statusar.</string>
 
-</resources>
+<string name="error_audio_upload_size">Ljudfiler måste vara mindre än 40MB.</string>
+    <string name="no_saved_status">Du har inga utkast.</string>
+    </resources>
