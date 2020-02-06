@@ -28,4 +28,27 @@
     <string name="report_username_format">Nahlásiť používateľa @%s</string>
     <string name="action_quick_reply">Rýchla odpoveď</string>
     <string name="action_reply">Odpovedať</string>
+    <string name="link_whats_an_instance">Čo je server\?</string>
+
+    <string name="title_favourites">Obľúbené</string>
+    <string name="about_title_activity">O aplikácii</string>
+    <string name="error_network">Vyskytla sa chyba v sieti! Prosím skontrolujte svoje pripojenie a skúste to znova!</string>
+    <string name="error_empty">Toto nemôže byť prázdne.</string>
+    <string name="error_authorization_denied">Autorizácia bola zamietnutá.</string>
+    <string name="error_retrieving_oauth_token">Nepodarilo sa získať prihlasovací token.</string>
+    <string name="error_image_upload_size">Súbor musí byť menší ako 8 MB.</string>
+    <string name="error_video_upload_size">Videosúbory musia byť menšie ako 40 MB.</string>
+    <string name="error_audio_upload_size">Audio súbory musia byť menšie ako 40 MB.</string>
+    <string name="error_media_upload_opening">Súbor sa nepodarilo otvoriť.</string>
+    <string name="title_home">Domov</string>
+    <string name="title_tab_preferences">Panely</string>
+    <string name="action_bookmark">Vytvoriť záložku</string>
+    <string name="action_follow">Sledovať</string>
+    <string name="action_unfollow">Prestať sledovať</string>
+    <string name="action_block">Blokovať</string>
+    <string name="action_unblock">Odblokovať</string>
+    <string name="action_report">Nahlásiť</string>
+    <string name="action_edit">Upraviť</string>
+    <string name="action_delete">Vymazať</string>
+    <string name="action_delete_and_redraft">Vymazať a prepísať</string>
     </resources>
