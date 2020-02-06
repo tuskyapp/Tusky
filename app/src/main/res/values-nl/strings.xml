@@ -441,7 +441,7 @@
     <string name="report_remote_instance">Verder naar %s</string>
     <string name="failed_report">Het rapporteren is mislukt</string>
     <string name="failed_fetch_statuses">Het ophalen van toots is mislukt</string>
-    <string name="report_description_1">Deze rapportage wordt naar jouw servermoderator(en) gestuurd. Je kunt een uitleg geven over waarom je het account hieronder wilt rapporteren:</string>
+    <string name="report_description_1">De rapportage wordt naar de moderator(en) van jouw server gestuurd. Je kunt hieronder een uitleg geven waarom je dit account rapporteert:</string>
     <string name="report_description_remote_instance">Het account is van een andere server. Wil je ook een geanonimiseerde kopie van de rapportage daarnaartoe sturen\?</string>
 
     <string name="pref_title_show_notifications_filter">Meldingenfilter tonen</string>
@@ -458,5 +458,31 @@
     <string name="poll_allow_multiple_choices">Meerdere keuzes</string>
     <string name="poll_new_choice_hint">Keuze %d</string>
     <string name="edit_poll">Bewerk</string>
+
+<string name="error_audio_upload_size">Geluidsbestanden moeten minder dan 40MB zijn.</string>
+    <string name="title_bookmarks">Bladwijzers</string>
+    <string name="title_scheduled_toot">Ingeplande toots</string>
+    <string name="action_bookmark">Bladwijzer</string>
+    <string name="action_edit">Bewerken</string>
+    <string name="action_view_bookmarks">Bladwijzers</string>
+    <string name="action_add_poll">Poll toevoegen</string>
+    <string name="action_access_scheduled_toot">Ingeplande toots</string>
+    <string name="action_schedule_toot">Ingeplande toot</string>
+    <string name="action_reset_schedule">Herstellen</string>
+    <string name="gradient_for_media">Wazige kleurovergangen voor verborgen media tonen</string>
+
+    <string name="about_powered_by_tusky">Powered by Tusky</string>
+    <string name="pref_title_alway_open_spoiler">Altijd toots met tekstwaarschuwingen uitklappen</string>
+    <string name="description_status_bookmarked">Als bladwijzer toegevoegd</string>
+    <string name="select_list_title">Kies een lijst</string>
+    <string name="list">Lijst</string>
+    <string name="title_accounts">Accounts</string>
+    <string name="failed_search">Zoeken mislukt</string>
+
+    <string name="create_poll_title">Poll</string>
+    <string name="post_lookup_error_format">Fout tijdens opzoeken toot %s</string>
+
+    <string name="no_saved_status">Je hebt nog geen concepten.</string>
+    <string name="no_scheduled_status">Je hebt nog geen ingeplande toots.</string>
 
 </resources>
