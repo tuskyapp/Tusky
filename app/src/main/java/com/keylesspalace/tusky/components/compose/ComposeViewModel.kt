@@ -62,7 +62,7 @@ class ComposeViewModel
     private var inReplyToId: String? = null
     private var startingVisibility: Status.Visibility = Status.Visibility.UNKNOWN
 
-    private val instance: MutableLiveData<InstanceEntity?> = MutableLiveData()
+    private val instance: MutableLiveData<InstanceEntity?> = MutableLiveData(null)
 
     val instanceParams: LiveData<ComposeInstanceParams> = instance.map { instance ->
         ComposeInstanceParams(
