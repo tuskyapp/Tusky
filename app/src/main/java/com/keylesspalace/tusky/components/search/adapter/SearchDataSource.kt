@@ -62,7 +62,7 @@ class SearchDataSource<T>(
                     resolve = true,
                     limit = params.requestedLoadSize,
                     offset = 0,
-                    following =false)
+                    following = false)
                     .subscribe(
                             { data ->
                                 val res = parser(data)
@@ -84,10 +84,16 @@ class SearchDataSource<T>(
     override fun loadRange(params: LoadRangeParams, callback: LoadRangeCallback<T>) {
         networkState.postValue(NetworkState.LOADING)
         retry = null
-        if(source.exhausted) {
+        if (source.exhausted) {
             return callback.onResult(emptyList())
         }
-        mastodonApi.searchObservable(searchType.apiParameter, searchRequest, true, params.loadSize, params.startPosition, false)
+        mastodonApi.searchObservable(
+                query = searchRequest,
+                type = searchType.apiParameter,
+                resolve = true,
+                limit = params.loadSize,
+                offset = params.startPosition,
+                following = false)
                 .subscribe(
                         { data ->
                             // Working around Mastodon bug where exact match is returned no matter
@@ -101,7 +107,7 @@ class SearchDataSource<T>(
                             } else {
                                 parser(data)
                             }
-                            if(res.isEmpty()) {
+                            if (res.isEmpty()) {
                                 source.exhausted = true
                             }
                             callback.onResult(res)
