@@ -23,7 +23,7 @@
     <string name="error_retrieving_oauth_token">Mistókst að fá innskráningarteikn.</string>
     <string name="error_compose_character_limit">Stöðufærslan er of löng!</string>
     <string name="error_image_upload_size">Skráin verður að vera minni en 8MB.</string>
-    <string name="error_video_upload_size">Myndskeiðasskrár verða að vera minni en 40MB.</string>
+    <string name="error_video_upload_size">Myndskeiðaskrár verða að vera minni en 40MB.</string>
     <string name="error_media_upload_type">Þessa tegund skrár er ekki hægt að senda inn.</string>
     <string name="error_media_upload_opening">Ekki var hægt að opna skrána.</string>
     <string name="error_media_upload_permission">Krafist er heimilda til að lesa gögn.</string>
@@ -507,4 +507,5 @@
     <string name="no_saved_status">Þú ert ekki með nein drög.</string>
     <string name="no_scheduled_status">Þú ert ekki með neinar áætlaðar stöðufærslur.</string>
 
-</resources>
+<string name="error_audio_upload_size">Hljóðskrár verða að vera minni en 40MB.</string>
+    </resources>

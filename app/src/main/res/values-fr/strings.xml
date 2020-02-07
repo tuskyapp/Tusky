@@ -331,9 +331,9 @@
     <string name="unpin_action">Détacher</string>
     <string name="pin_action">Épingler</string>
     <plurals name="favs">
-        <item quantity="one">&lt;b&gt;%1$s&lt;/b&gt; Favoris</item>
-        <item quantity="other">&lt;b&gt;%1$s&lt;/b&gt; Favoris</item>
-    </plurals>
+	<item quantity="one"><b>%1$s</b> Favori</item>
+	<item quantity="other"><b>%1$s</b> Favoris</item>
+</plurals>
     <plurals name="reblogs">
         <item quantity="one">&lt;b&gt;%s&lt;/b&gt; Boost</item>
         <item quantity="other">&lt;b&gt;%s&lt;/b&gt; Boosts</item>
@@ -381,8 +381,8 @@
     <string name="dialog_redraft_toot_warning">Effacer et ré-écrire ce pouet \?</string>
 
     <plurals name="poll_info_votes">
-	<item quantity="one">%s vote</item>
-	<item quantity="other">%s votes</item>
+	<item quantity="one">%s voix</item>
+	<item quantity="other">%s voix</item>
 </plurals>
     <string name="poll_info_time_relative">%s restant</string>
     <string name="poll_info_time_absolute">Termine à %s</string>

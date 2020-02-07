@@ -50,4 +50,68 @@
 </plurals>
 
     <string name="no_saved_status">Ur teɛiḍ ara irewwayen.</string>
+    <string name="error_generic">Tella-d tucḍa.</string>
+    <string name="title_notifications">Tilγa</string>
+    <string name="link_whats_an_instance">D acu i ttummant\?</string>
+
+    <string name="title_bookmarks">Ticraḍ</string>
+    <string name="action_bookmark">Rnu γer ticraḍ</string>
+    <string name="action_view_bookmarks">Ticraḍ</string>
+    <string name="action_mute_domain">Sgugem %s</string>
+    <string name="action_mention">Bder</string>
+    <string name="action_save">Sekles</string>
+    <string name="action_edit_own_profile">Ẓreg</string>
+    <string name="action_undo">Sefsex</string>
+    <string name="action_emoji_keyboard">Anasiw n imujiyen</string>
+    <string name="action_add_tab">Rnu iccer</string>
+    <string name="action_copy_link">Nγel aseγwen</string>
+    <string name="action_open_as">Ldi amzun d %s</string>
+    <string name="action_share_as">Bḍu amzun d…</string>
+    <string name="send_status_link_to">Bḍu aseγwen n tijewwiq s…</string>
+    <string name="send_status_content_to">Bḍu tijewwiqt d…</string>
+    <string name="hint_domain">Anta tummant\?</string>
+    <string name="hint_compose">d-acu i gellan d amaynut\?</string>
+    <string name="hint_search">Nadi…</string>
+
+    <string name="label_quick_reply">Tiririn…</string>
+    <string name="label_avatar">Tugna n umaγnu</string>
+    <string name="dialog_download_image">Sider</string>
+    <string name="dialog_delete_toot_warning">Kkes tijewwiqt-a\?</string>
+    <string name="pref_title_edit_notification_settings">Ẓreg tilγa</string>
+    <string name="pref_title_appearance_settings">Agrudem</string>
+    <string name="app_theme_light">Aceɛlal</string>
+    <string name="app_theme_black">Aberkan</string>
+    <string name="pref_title_language">Tutlayt</string>
+    <string name="pref_title_status_tabs">Iccaren</string>
+    <string name="pref_title_proxy_settings">Apṛuksi</string>
+    <string name="notification_summary_large">%1$s, %2$s, %3$s d %4$d nniḍen</string>
+    <string name="notification_summary_medium">%1$s, %2$s, akked %3$s</string>
+    <string name="notification_summary_small">%1$s akked %2$s</string>
+    <string name="about_tusky_version">Tusky %s</string>
+    <string name="about_tusky_account">Amaγnu n Tusky</string>
+
+    <string name="status_media_images">Tugniwin</string>
+    <string name="status_media_video">Tibidyutin</string>
+
+    <string name="follows_you">Yeṭafaṛ-ik-id</string>
+    <string name="filter_dialog_remove_button">Kkes</string>
+    <string name="filter_dialog_update_button">Lqem</string>
+    <string name="add_account_name">Rnu amiḍan</string>
+    <string name="add_account_description">Rnu yiwen umiḍan amaynut n Maṣṭudun</string>
+
+    <string name="action_compose_shortcut">Aru</string>
+
+    <string name="error_no_custom_emojis">Tummant-ik·im %s ur tesɛi ara imujiyen udmawanen</string>
+    <string name="action_open_toot">Ldi tijewwiqt</string>
+    <string name="license_cc_by_4">CC-BY 4.0</string>
+    <string name="license_cc_by_sa_4">CC-BY-SA 4.0</string>
+
+    <string name="pin_action">Senṭeḍ</string>
+
+    <string name="action_view_mutes">Imiḍanen yettwasgugmen</string>
+    <string name="action_view_blocks">Imiḍanen yettusḥebsen</string>
+    <string name="action_view_domain_mutes">Tiγula yettwaffren</string>
+    <string name="action_view_follow_requests">Isuturen n teḍfeṛt</string>
+    <string name="action_view_media">Taγwalt</string>
+    <string name="notifications_clear">Sfeḍ</string>
     </resources>
