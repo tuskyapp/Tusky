@@ -458,7 +458,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
 
             loadAvatar(movedAccount.avatar, accountMovedAvatar, avatarRadius, animateAvatar)
 
-            accountMovedText.text = getString(R.string.account_moved_description, movedAccount.displayName)
+            accountMovedText.text = getString(R.string.account_moved_description, movedAccount.name)
 
             // this is necessary because API 19 can't handle vector compound drawables
             val movedIcon = ContextCompat.getDrawable(this, R.drawable.ic_briefcase)?.mutate()
