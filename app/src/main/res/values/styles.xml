@@ -91,6 +91,7 @@
     <style name="TuskyDialog" parent="@style/ThemeOverlay.MaterialComponents.Dialog.Alert">
         <item name="android:letterSpacing">0</item>
         <item name="dialogCornerRadius">8dp</item>
+        <item name="android:background">@color/colorBackground</item>
     </style>
 
     <style name="TuskyDialogFragmentStyle" parent="@style/ThemeOverlay.MaterialComponents.Dialog">
