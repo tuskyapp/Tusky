@@ -50,7 +50,10 @@ fun <T> T.makeCaptionDialog(existingDescription: String?,
     dialogLayout.setPadding(padding, padding, padding, padding)
 
     dialogLayout.orientation = LinearLayout.VERTICAL
-    val imageView = PhotoView(this)
+    val imageView = PhotoView(this).apply {
+        // If it seems a lot, try opening an image of A4 format or similar
+        maximumScale = 6.0f
+    }
 
     val displayMetrics = DisplayMetrics()
     windowManager.defaultDisplay.getMetrics(displayMetrics)
