@@ -114,4 +114,14 @@
     <string name="action_view_follow_requests">Isuturen n teḍfeṛt</string>
     <string name="action_view_media">Taγwalt</string>
     <string name="notifications_clear">Sfeḍ</string>
+    <string name="title_mutes">Imiḍanen yettwasgugmen</string>
+    <string name="title_blocks">Imiḍanen yettusḥebsen</string>
+    <string name="title_domain_mutes">Tiγula yettwaffren</string>
+    <string name="title_follow_requests">Isuturen n teḍfeṛt</string>
+    <string name="pref_title_notifications_enabled">Ẓreg tilγa</string>
+    <string name="title_media">Taγwalt</string>
+    <string name="action_remove">Kkes</string>
+    <string name="compose_shortcut_short_label">Azen</string>
+
+    <string name="edit_poll">Ẓreg</string>
     </resources>
