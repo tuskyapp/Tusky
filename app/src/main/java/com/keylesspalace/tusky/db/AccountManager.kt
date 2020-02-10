@@ -18,6 +18,10 @@ package com.keylesspalace.tusky.db
 import android.util.Log
 import com.keylesspalace.tusky.entity.Account
 import com.keylesspalace.tusky.entity.Status
+import java.util.*
+import javax.inject.Inject
+import javax.inject.Singleton
+import kotlin.Comparator
 
 /**
  * This class caches the account database and handles all account related operations
@@ -26,7 +30,8 @@ import com.keylesspalace.tusky.entity.Status
 
 private const val TAG = "AccountManager"
 
-class AccountManager(db: AppDatabase) {
+@Singleton
+class AccountManager @Inject constructor(db: AppDatabase) {
 
     @Volatile
     var activeAccount: AccountEntity? = null
@@ -60,7 +65,7 @@ class AccountManager(db: AppDatabase) {
 
         val maxAccountId = accounts.maxBy { it.id }?.id ?: 0
         val newAccountId = maxAccountId + 1
-        activeAccount = AccountEntity(id = newAccountId, domain = domain.toLowerCase(), accessToken = accessToken, isActive = true)
+        activeAccount = AccountEntity(id = newAccountId, domain = domain.toLowerCase(Locale.ROOT), accessToken = accessToken, isActive = true)
 
     }
 
@@ -146,8 +151,8 @@ class AccountManager(db: AppDatabase) {
             saveAccount(it)
         }
 
-        activeAccount = accounts.find { acc ->
-            acc.id == accountId
+        activeAccount = accounts.find { (id) ->
+            id == accountId
         }
 
         activeAccount?.let {
@@ -185,8 +190,8 @@ class AccountManager(db: AppDatabase) {
      * @return the requested account or null if it was not found
      */
     fun getAccountById(accountId: Long): AccountEntity? {
-        return accounts.find { acc ->
-            acc.id == accountId
+        return accounts.find { (id) ->
+            id == accountId
         }
     }
 

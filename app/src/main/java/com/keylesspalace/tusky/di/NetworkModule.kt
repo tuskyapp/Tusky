@@ -13,14 +13,12 @@
  * You should have received a copy of the GNU General Public License along with Tusky; if not,
  * see <http://www.gnu.org/licenses>. */
 
-
 package com.keylesspalace.tusky.di
 
 import android.content.Context
 import android.text.Spanned
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
-import com.google.gson.JsonDeserializer
 import com.keylesspalace.tusky.BuildConfig
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.json.SpannedTypeAdapter
@@ -29,12 +27,8 @@ import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.OkHttpUtils
 import dagger.Module
 import dagger.Provides
-import dagger.multibindings.ClassKey
-import dagger.multibindings.IntoMap
-import dagger.multibindings.IntoSet
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
-import retrofit2.Converter
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
@@ -48,31 +42,19 @@ import javax.inject.Singleton
 class NetworkModule {
 
     @Provides
-    @IntoMap
-    @ClassKey(Spanned::class)
-    fun providesSpannedTypeAdapter(): JsonDeserializer<*> = SpannedTypeAdapter()
-
-    @Provides
     @Singleton
-    fun providesGson(adapters: @JvmSuppressWildcards Map<Class<*>, JsonDeserializer<*>>): Gson {
+    fun providesGson(): Gson {
         return GsonBuilder()
-                .apply {
-                    for ((k, v) in adapters) {
-                        registerTypeAdapter(k, v)
-                    }
-                }
+                .registerTypeAdapter(Spanned::class.java, SpannedTypeAdapter())
                 .create()
     }
 
     @Provides
-    @IntoSet
     @Singleton
-    fun providesConverterFactory(gson: Gson): Converter.Factory = GsonConverterFactory.create(gson)
-
-    @Provides
-    @Singleton
-    fun providesHttpClient(accountManager: AccountManager,
-                           context: Context): OkHttpClient {
+    fun providesHttpClient(
+            accountManager: AccountManager,
+            context: Context
+    ): OkHttpClient {
         return OkHttpUtils.getCompatibleClientBuilder(context)
                 .apply {
                     addInterceptor(InstanceSwitchAuthInterceptor(accountManager))
@@ -85,18 +67,14 @@ class NetworkModule {
 
     @Provides
     @Singleton
-    fun providesRetrofit(httpClient: OkHttpClient,
-                         converters: @JvmSuppressWildcards Set<Converter.Factory>): Retrofit {
+    fun providesRetrofit(
+            httpClient: OkHttpClient,
+            gson: Gson
+    ): Retrofit {
         return Retrofit.Builder().baseUrl("https://" + MastodonApi.PLACEHOLDER_DOMAIN)
                 .client(httpClient)
-                .let { builder ->
-                    // Doing it this way in case builder will be immutable so we return the final
-                    // instance
-                    converters.fold(builder) { b, c ->
-                        b.addConverterFactory(c)
-                    }
-                    builder.addCallAdapterFactory(RxJava2CallAdapterFactory.createAsync())
-                }
+                .addConverterFactory(GsonConverterFactory.create(gson))
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.createAsync())
                 .build()
 
     }

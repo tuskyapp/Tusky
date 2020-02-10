@@ -47,7 +47,7 @@ import org.robolectric.fakes.RoboMenuItem
  * Created by charlag on 3/7/18.
  */
 
-@Config(application = FakeTuskyApplication::class, sdk = [28])
+@Config(sdk = [28])
 @RunWith(AndroidJUnit4::class)
 class ComposeActivityTest {
     private lateinit var activity: ComposeActivity
