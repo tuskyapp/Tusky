@@ -538,7 +538,6 @@
     <string name="action_access_scheduled_toot">Отложенные записи</string>
     <string name="action_schedule_toot">Отложить запись</string>
     <string name="action_reset_schedule">Сброс</string>
-    <string name="post_lookup_error_format">Ошибка при поиске сообщения / ний</string>
 
 <string name="title_bookmarks">Закладки</string>
     <string name="action_bookmark">Добавить в закладки</string>
