@@ -51,4 +51,59 @@
     <string name="action_edit">Upraviť</string>
     <string name="action_delete">Vymazať</string>
     <string name="action_delete_and_redraft">Vymazať a prepísať</string>
+    <string name="action_reset_schedule">Obnoviť</string>
+    <string name="action_links">Odkazy</string>
+    <string name="action_mentions">Zmienky</string>
+    <string name="action_hashtags">Hashtagy</string>
+    <string name="action_open_faved_by">Zobraziť obľúbené</string>
+
+    <string name="title_hashtags_dialog">Hashtagy</string>
+    <string name="title_mentions_dialog">Zmienky</string>
+    <string name="title_links_dialog">Odkazy</string>
+    <string name="action_open_media_n">Otvoriť médium #%d</string>
+
+    <string name="download_image">Sťahovanie %1$s</string>
+
+    <string name="action_copy_link">Kopírovať odkaz</string>
+    <string name="action_open_as">Otvoriť ako %s</string>
+    <string name="confirmation_reported">Odoslané!</string>
+    <string name="confirmation_unblocked">Používateľ bol odblokovaný</string>
+    <string name="status_sent">Odoslané!</string>
+    <string name="status_sent_long">Odpoveď bola úspešne odoslaná.</string>
+
+    <string name="hint_domain">Ktorý server\?</string>
+    <string name="hint_display_name">Zobrazované meno</string>
+    <string name="hint_note">O vás</string>
+    <string name="hint_search">Hľadať…</string>
+
+    <string name="search_no_results">Žiadne výsledky</string>
+
+    <string name="label_quick_reply">Odpovedať…</string>
+    <string name="dialog_message_uploading_media">Nahrávanie…</string>
+    <string name="dialog_download_image">Stiahnuť</string>
+    <string name="error_invalid_domain">Neplatná doména</string>
+    <string name="error_failed_app_registration">Autentizácia servru zlyhala.</string>
+    <string name="error_no_web_browser_found">Nepodarilo sa nájsť použiteľný webový prehliadač.</string>
+    <string name="error_authorization_unknown">Vyskytla sa neidentifikovaná chyba autorizácie.</string>
+    <string name="error_compose_character_limit">Toot je príliš dlhý!</string>
+    <string name="error_media_upload_type">Tento typ súboru nemôže byť nahraný.</string>
+    <string name="error_sender_account_gone">Chyba pri odosielaní tootu.</string>
+
+    <string name="title_view_thread">Toot</string>
+    <string name="notification_favourite_format">%s si obľúbil/a váš toot</string>
+    <string name="action_reblog"></string>
+    <string name="action_unreblog"></string>
+    <string name="action_send">TOOT</string>
+    <string name="action_send_public">TOOT!</string>
+    <string name="action_toggle_visibility">Viditeľnosť tootu</string>
+    <string name="action_schedule_toot">Naplánovať toot</string>
+    <string name="dialog_delete_toot_warning">Vymazať tento toot\?</string>
+    <string name="dialog_redraft_toot_warning">Vymazať a prepísať tento toot\?</string>
+    <string name="status_share_content">Zdieľať obsah tootu</string>
+    <string name="status_share_link">Zdieľať odkaz tootu</string>
+    <string name="send_toot_notification_title">Odosielanie tootu…</string>
+    <string name="send_toot_notification_error_title">Chyba pri odosielaní tootu</string>
+    <string name="send_toot_notification_saved_content">Kópia vášho tootu bola uložená do konceptov</string>
+    <string name="action_open_toot">Otvoriť toot</string>
+    <string name="compose_shortcut_long_label">Napísať toot</string>
     </resources>
