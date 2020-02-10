@@ -39,8 +39,8 @@
                 android:layout_marginStart="12dp"
                 android:layout_marginTop="12dp"
                 license:license="@string/license_apache_2"
-                license:link="https://developer.android.com/topic/libraries/support-library/"
-                license:name="Android Support Library" />
+                license:link="https://kotlinlang.org/"
+                license:name="Kotlin" />
 
             <com.keylesspalace.tusky.view.LicenseCard
                 android:layout_width="match_parent"
@@ -49,8 +49,18 @@
                 android:layout_marginStart="12dp"
                 android:layout_marginTop="12dp"
                 license:license="@string/license_apache_2"
-                license:link="https://developer.android.com/topic/libraries/architecture/"
-                license:name="Android Architecture Components" />
+                license:link="https://developer.android.com/jetpack/androidx"
+                license:name="AndroidX" />
+
+            <com.keylesspalace.tusky.view.LicenseCard
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="12dp"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="12dp"
+                license:license="@string/license_apache_2"
+                license:link="https://github.com/material-components/material-components-android"
+                license:name="Material Components for Android" />
 
             <com.keylesspalace.tusky.view.LicenseCard
                 android:layout_width="match_parent"
