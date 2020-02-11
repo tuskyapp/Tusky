@@ -38,4 +38,14 @@ class LocaleManager(context: Context) {
         config.setLocale(locale)
         return context.createConfigurationContext(config)
     }
+
+    fun getISO3Locale(): String {
+        val language = prefs.getNonNullString("language", "default")
+        val locale = if (language == "default") {
+            Locale.getDefault()
+        } else {
+            Locale.forLanguageTag(language)
+        }
+        return locale.isO3Language
+    }
 }
