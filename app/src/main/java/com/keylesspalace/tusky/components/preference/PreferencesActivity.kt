@@ -15,6 +15,7 @@
 
 package com.keylesspalace.tusky.components.preference
 
+import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
@@ -29,6 +30,7 @@ import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.appstore.PreferenceChangedEvent
 import com.keylesspalace.tusky.settings.PrefKeys
+import com.keylesspalace.tusky.util.TesseractHelper
 import com.keylesspalace.tusky.util.ThemeUtils
 import com.keylesspalace.tusky.util.getNonNullString
 import dagger.android.DispatchingAndroidInjector
@@ -138,6 +140,22 @@ class PreferencesActivity : BaseActivity(), SharedPreferences.OnSharedPreference
             "language" -> {
                 restartActivitiesOnExit = true
                 this.restartCurrentActivity()
+            }
+            "autoCaptionImages" -> {
+                if (sharedPreferences.getBoolean("autoCaptionImages", false)) {
+                    // TODO: Check for existing data?
+                    AlertDialog.Builder(this)
+                            .setMessage(getString(R.string.training_data_request_download, TuskyApplication.localeManager.getISO3Locale()))
+                            .setPositiveButton(android.R.string.ok){ _, _ ->
+                                TesseractHelper.downloadTrainingData(this)
+                            }
+                            .setNegativeButton(android.R.string.cancel){ _, _ ->
+                                // Don't try to OCR without training data
+                                sharedPreferences.edit().putBoolean("autoCaptionImages", false).apply()
+                            }
+                            .create()
+                            .show()
+                }
             }
         }
 

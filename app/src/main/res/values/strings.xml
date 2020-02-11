@@ -594,4 +594,6 @@
     <string name="wellbeing_hide_stats_profile">Hide quantitative stats on profiles</string>
     <string name="error_upload_max_media_reached">You cannot upload more than %1$d media attachments.</string>
 
+    <string name="training_data_request_download">Tusky needs to download training data (10-20 MB) for your language (%s)</string>
+    <string name="training_data_download_notification">Tusky: OCR training data (%s)</string>
 </resources>
