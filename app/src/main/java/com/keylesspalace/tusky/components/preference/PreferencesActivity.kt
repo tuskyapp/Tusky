@@ -27,6 +27,7 @@ import androidx.preference.PreferenceManager
 import com.keylesspalace.tusky.BaseActivity
 import com.keylesspalace.tusky.MainActivity
 import com.keylesspalace.tusky.R
+import com.keylesspalace.tusky.TuskyApplication
 import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.appstore.PreferenceChangedEvent
 import com.keylesspalace.tusky.settings.PrefKeys
@@ -139,27 +140,32 @@ class PreferencesActivity : BaseActivity(), SharedPreferences.OnSharedPreference
             }
             "language" -> {
                 restartActivitiesOnExit = true
+                requestDownloadTrainingData(sharedPreferences)
                 this.restartCurrentActivity()
             }
             "autoCaptionImages" -> {
-                if (sharedPreferences.getBoolean("autoCaptionImages", false)) {
-                    // TODO: Check for existing data?
-                    AlertDialog.Builder(this)
-                            .setMessage(getString(R.string.training_data_request_download, TuskyApplication.localeManager.getISO3Locale()))
-                            .setPositiveButton(android.R.string.ok){ _, _ ->
-                                TesseractHelper.downloadTrainingData(this)
-                            }
-                            .setNegativeButton(android.R.string.cancel){ _, _ ->
-                                // Don't try to OCR without training data
-                                sharedPreferences.edit().putBoolean("autoCaptionImages", false).apply()
-                            }
-                            .create()
-                            .show()
-                }
+                requestDownloadTrainingData(sharedPreferences)
             }
         }
 
         eventHub.dispatch(PreferenceChangedEvent(key))
+    }
+
+    private fun requestDownloadTrainingData(sharedPreferences: SharedPreferences) {
+        if (sharedPreferences.getBoolean("autoCaptionImages", false)) {
+            // TODO: Check for existing data?
+            AlertDialog.Builder(this)
+                    .setMessage(getString(R.string.training_data_request_download, TuskyApplication.localeManager.getISO3Locale()))
+                    .setPositiveButton(android.R.string.ok){ _, _ ->
+                        TesseractHelper.downloadTrainingData(this)
+                    }
+                    .setNegativeButton(android.R.string.cancel){ _, _ ->
+                        // Don't try to OCR without training data
+                        sharedPreferences.edit().putBoolean("autoCaptionImages", false).apply()
+                    }
+                    .create()
+                    .show()
+        }
     }
 
     private fun restartCurrentActivity() {
