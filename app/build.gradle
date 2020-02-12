@@ -170,7 +170,7 @@ dependencies {
     implementation "com.theartofdev.edmodo:android-image-cropper:2.8.0"
 
     implementation "de.c1710:filemojicompat:1.0.17"
-    implementation "com.rmtheis:tess-two:9.0.0"
+    implementation "com.rmtheis:tess-two:9.1.0"
 
     testImplementation "androidx.test.ext:junit:1.1.2"
     testImplementation "org.robolectric:robolectric:4.4"
