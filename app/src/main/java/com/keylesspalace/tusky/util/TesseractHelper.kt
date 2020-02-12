@@ -8,6 +8,7 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.core.graphics.drawable.toBitmap
 import androidx.core.net.toUri
+import com.googlecode.tesseract.android.ResultIterator
 import com.googlecode.tesseract.android.TessBaseAPI
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.TuskyApplication
@@ -21,6 +22,7 @@ class TesseractHelper {
                 "jpn",
                 "kor"
         )
+        private const val MINIMUM_CONFIDENCE = 80
 
         val initialized: Boolean
                 get() = tesseractLanguage != null
@@ -44,16 +46,28 @@ class TesseractHelper {
         }
 
         fun performOCR(resource: Drawable, input: EditText, context: Context) {
+            var result: ResultIterator? = null
+            val text = StringBuilder()
+            val level = TessBaseAPI.PageIteratorLevel.RIL_BLOCK
+
             try {
-                tesseractApi.pageSegMode = TessBaseAPI.PageSegMode.PSM_AUTO
+                tesseractApi.pageSegMode = TessBaseAPI.PageSegMode.PSM_SPARSE_TEXT_OSD
                 tesseractApi.setImage(resource.toBitmap())
-                val text = tesseractApi.utF8Text
-                // TODO: Minimum confidence threshold?
-                if (!text.isNullOrBlank()) {
-                    input.setText(text)
-                }
+                val fullText = tesseractApi.utF8Text // This is necessary to actually run OCR
+                result = tesseractApi.resultIterator
+                result?.begin()
+                do {
+                    val blockText = result?.getUTF8Text(level)
+                    if (!blockText.isNullOrBlank() && result.confidence(level) > MINIMUM_CONFIDENCE) {
+                        text.appendln(blockText.trim())
+                    }
+                } while (result?.next(level) == true)
+
+                input.setText(text.trim())
             } catch (e: Exception) {
                 Toast.makeText(context, context.getString(R.string.training_data_ocr_error, e), Toast.LENGTH_LONG).show()
+            } finally {
+                result?.delete()
             }
         }
 
