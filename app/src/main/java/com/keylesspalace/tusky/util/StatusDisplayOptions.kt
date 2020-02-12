@@ -10,5 +10,7 @@ data class StatusDisplayOptions(
         @get:JvmName("showBotOverlay")
         val showBotOverlay: Boolean,
         @get:JvmName("useBlurhash")
-        val useBlurhash: Boolean
+        val useBlurhash: Boolean,
+        @get:JvmName("showCards")
+        val showCards: Boolean
 )

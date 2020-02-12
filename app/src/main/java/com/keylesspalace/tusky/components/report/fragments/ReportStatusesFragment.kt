@@ -119,7 +119,8 @@ class ReportStatusesFragment : Fragment(), Injectable, AdapterHandler {
                 mediaPreviewEnabled = accountManager.activeAccount?.mediaPreviewEnabled ?: true,
                 useAbsoluteTime = preferences.getBoolean("absoluteTimeView", false),
                 showBotOverlay = false,
-                useBlurhash = preferences.getBoolean("useBlurhash", true)
+                useBlurhash = preferences.getBoolean("useBlurhash", true),
+                showCards = false
         )
 
         adapter = StatusesAdapter(statusDisplayOptions,

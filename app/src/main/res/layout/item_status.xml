@@ -157,6 +157,71 @@
         app:layout_constraintTop_toBottomOf="@id/status_content_warning_button"
         tools:text="This is a status" />
 
+    <LinearLayout
+        android:id="@+id/status_card_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/card_frame"
+        android:clipChildren="true"
+        android:foreground="?attr/selectableItemBackground"
+        android:minHeight="80dp"
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@+id/status_content"
+        tools:visibility="gone">
+
+        <ImageView
+            android:id="@+id/card_image"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:layout_margin="1dp"
+            android:background="?attr/colorBackgroundAccent"
+            android:importantForAccessibility="no"
+            android:scaleType="center" />
+
+        <LinearLayout
+            android:id="@+id/card_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingLeft="6dp"
+            android:paddingTop="6dp"
+            android:paddingRight="6dp"
+            android:paddingBottom="6dp">
+
+            <androidx.emoji.widget.EmojiTextView
+                android:id="@+id/card_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:ellipsize="end"
+                android:fontFamily="sans-serif-medium"
+                android:lines="1"
+                android:textColor="?android:textColorSecondary"
+                android:textSize="?attr/status_text_medium" />
+
+            <androidx.emoji.widget.EmojiTextView
+                android:id="@+id/card_description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:ellipsize="end"
+                android:lineSpacingMultiplier="1.1"
+                android:maxLines="2"
+                android:textColor="?android:textColorSecondary"
+                android:textSize="?attr/status_text_medium" />
+
+            <TextView
+                android:id="@+id/card_link"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:lines="1"
+                android:textColor="?android:textColorTertiary"
+                android:textSize="?attr/status_text_medium" />
+        </LinearLayout>
+    </LinearLayout>
+
     <Button
         android:id="@+id/button_toggle_content"
         style="@style/TuskyButton.Outlined"
@@ -175,7 +240,7 @@
         android:textSize="?attr/status_text_medium"
         android:visibility="gone"
         app:layout_constraintStart_toStartOf="@id/status_display_name"
-        app:layout_constraintTop_toBottomOf="@id/status_content"
+        app:layout_constraintTop_toBottomOf="@id/status_card_view"
         tools:text="@string/status_content_show_less"
         tools:visibility="visible" />
 

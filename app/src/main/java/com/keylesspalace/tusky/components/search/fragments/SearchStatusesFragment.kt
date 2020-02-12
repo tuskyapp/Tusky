@@ -79,7 +79,8 @@ class SearchStatusesFragment : SearchFragment<Pair<Status, StatusViewData.Concre
                 mediaPreviewEnabled = viewModel.mediaPreviewEnabled,
                 useAbsoluteTime = preferences.getBoolean("absoluteTimeView", false),
                 showBotOverlay = preferences.getBoolean("showBotOverlay", true),
-                useBlurhash = preferences.getBoolean("useBlurhash", true)
+                useBlurhash = preferences.getBoolean("useBlurhash", true),
+                showCards = false
         )
 
         searchRecyclerView.addItemDecoration(DividerItemDecoration(searchRecyclerView.context, DividerItemDecoration.VERTICAL))

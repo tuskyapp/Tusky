@@ -230,7 +230,8 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
                 mediaPreviewEnabled,
                 statusDisplayOptions.useAbsoluteTime(),
                 statusDisplayOptions.showBotOverlay(),
-                statusDisplayOptions.useBlurhash()
+                statusDisplayOptions.useBlurhash(),
+                false
         );
     }
 

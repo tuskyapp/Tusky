@@ -226,7 +226,8 @@ public class TimelineFragment extends SFragment implements
                 accountManager.getActiveAccount().getMediaPreviewEnabled(),
                 preferences.getBoolean("absoluteTimeView", false),
                 preferences.getBoolean("showBotOverlay", true),
-                preferences.getBoolean("useBlurhash", true)
+                preferences.getBoolean("useBlurhash", true),
+                preferences.getBoolean("showCardsInTimelines", false)
         );
         adapter = new TimelineAdapter(dataSource, statusDisplayOptions, this);
 
