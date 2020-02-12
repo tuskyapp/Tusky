@@ -596,4 +596,6 @@
 
     <string name="training_data_request_download">Tusky needs to download training data (10-20 MB) for your language (%s)</string>
     <string name="training_data_download_notification">Tusky: OCR training data (%s)</string>
+    <string name="training_data_initialization_error">Error initializing OCR engine: %s</string>
+    <string name="training_data_ocr_error">Error performing OCR: %s</string>
 </resources>
