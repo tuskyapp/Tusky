@@ -7,7 +7,7 @@
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowLightNavigationBar">false</item>
         <item name="android:navigationBarColor">@color/tusky_grey_20</item>
-        <item name="android:navigationBarDividerColor">@color/tusky_grey_30</item>
+        <item name="android:navigationBarDividerColor">?attr/dividerColor</item>
     </style>
 
     <style name="TuskyTheme" parent="TuskyBaseTheme">
@@ -20,7 +20,7 @@
     <style name="TuskyBlackTheme" parent="TuskyBlackThemeBase">
         <item name="android:windowLightNavigationBar">false</item>
         <item name="android:navigationBarColor">@color/black</item>
-        <item name="android:navigationBarDividerColor">@color/tusky_grey_05</item>
+        <item name="android:navigationBarDividerColor">@color/tusky_grey_10</item>
     </style>
 
 </resources>

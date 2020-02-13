@@ -63,6 +63,7 @@
         <item name="iconColor">@color/iconColor</item>
 
         <item name="android:listDivider">@drawable/status_divider</item>
+        <item name="dividerColor">@color/dividerColor</item>
 
         <item name="textColorDisabled">@color/textColorDisabled</item>
 
@@ -71,7 +72,7 @@
         <item name="material_drawer_primary_icon">@color/iconColor</item>
         <item name="material_drawer_secondary_text">@color/textColorTertiary</item>
         <item name="material_drawer_hint_text">@color/textColorTertiary</item>
-        <item name="material_drawer_divider">@color/colorBackgroundAccent</item>
+        <item name="material_drawer_divider">?attr/dividerColor</item>
         <item name="material_drawer_header_selection_text">@color/white</item>
         <item name="material_drawer_header_selection_subtext">@color/white</item>
 
@@ -115,6 +116,7 @@
     </style>
 
     <style name="TuskyButton.Outlined" parent="Widget.MaterialComponents.Button.OutlinedButton">
+        <item name="strokeColor">?attr/colorBackgroundAccent</item>
         <item name="android:letterSpacing">0</item>
     </style>
 
@@ -137,11 +139,12 @@
         <item name="colorSurface">@color/tusky_grey_10</item>
 
         <item name="iconColor">@color/tusky_grey_40</item>
-        <item name="colorBackgroundAccent">@color/tusky_grey_05</item>
+        <item name="colorBackgroundAccent">@color/tusky_grey_20</item>
+
+        <item name="dividerColor">@color/tusky_grey_10</item>
 
         <item name="material_drawer_background">@color/black</item>
         <item name="material_drawer_primary_icon">@color/tusky_grey_40</item>
-        <item name="material_drawer_divider">@color/tusky_grey_05</item>
     </style>
 
     <style name="TuskyBlackTheme" parent="TuskyBlackThemeBase" />
