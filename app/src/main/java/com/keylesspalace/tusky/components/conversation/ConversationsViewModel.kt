@@ -74,6 +74,7 @@ class ConversationsViewModel @Inject constructor(
                     }
                     .subscribeOn(Schedulers.io())
                     .doOnError { t -> Log.w("ConversationViewModel", "Failed to bookmark conversation", t) }
+                    .onErrorReturnItem(0)
                     .subscribe()
                     .autoDispose()
         }
@@ -127,7 +128,7 @@ class ConversationsViewModel @Inject constructor(
     }
 
     fun remove(position: Int) {
-        conversations.value?.getOrNull(position)?.let { conversation ->
+        conversations.value?.getOrNull(position)?.let {
             refresh()
         }
     }
