@@ -27,6 +27,7 @@ import de.c1710.filemojicompat.FileEmojiCompatConfig;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+import okhttp3.ResponseBody;
 import okio.BufferedSink;
 import okio.Okio;
 import okio.Source;
@@ -428,7 +429,7 @@ public class EmojiCompatFont {
                     // Download!
                     if (response.body() != null
                             && response.isSuccessful()
-                            && (size = response.body().contentLength()) > 0) {
+                            && (size = networkResponseLength(response)) > 0) {
                         float progress = 0;
                         source = response.body().source();
                         try {
@@ -519,6 +520,32 @@ public class EmojiCompatFont {
              */
             default void onProgress(float Progress) {
                 // ARE WE THERE YET?
+            }
+        }
+
+
+        /**
+         * This method is needed because when transparent compression is used OkHttp reports
+         * {@link ResponseBody#contentLength()} as -1. We try to get the header which server sent
+         * us manually here.
+         *
+         * @see <a href="https://github.com/square/okhttp/issues/259">OkHttp issue 259</a>
+         */
+        private long networkResponseLength(Response response) {
+            Response networkResponse = response.networkResponse();
+            if (networkResponse == null) {
+                // In case it's a fully cached response
+                ResponseBody body = response.body();
+                return body == null ? -1 : body.contentLength();
+            }
+            String header = networkResponse.header("Content-Length");
+            if (header == null) {
+                return -1;
+            }
+            try {
+                return Integer.parseInt(header);
+            } catch (NumberFormatException e) {
+                return -1;
             }
         }
     }
