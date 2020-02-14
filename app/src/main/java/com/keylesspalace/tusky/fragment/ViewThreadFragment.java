@@ -328,7 +328,7 @@ public final class ViewThreadFragment extends SFragment implements
                         .setIsExpanded(expanded)
                         .createStatusViewData();
         statuses.setPairedItem(position, newViewData);
-        adapter.setItem(position, newViewData, false);
+        adapter.setItem(position, newViewData, true);
         updateRevealIcon();
     }
 
