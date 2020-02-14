@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.entity.Status;
 import com.keylesspalace.tusky.interfaces.StatusActionListener;
+import com.keylesspalace.tusky.util.CardViewMode;
 import com.keylesspalace.tusky.util.LinkHelper;
 import com.keylesspalace.tusky.util.StatusDisplayOptions;
 import com.keylesspalace.tusky.viewdata.StatusViewData;
@@ -105,6 +106,7 @@ class StatusDetailedViewHolder extends StatusBaseViewHolder {
                                    StatusDisplayOptions statusDisplayOptions,
                                    @Nullable Object payloads) {
         super.setupWithStatus(status, listener, statusDisplayOptions, payloads);
+        setupCard(status, CardViewMode.FULL_WIDTH); // Always show card for detailed status
         if (payloads == null) {
             setReblogAndFavCount(status.getReblogsCount(), status.getFavouritesCount(), listener);
 

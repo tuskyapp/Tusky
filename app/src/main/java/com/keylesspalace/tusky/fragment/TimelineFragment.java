@@ -72,6 +72,7 @@ import com.keylesspalace.tusky.network.MastodonApi;
 import com.keylesspalace.tusky.repository.Placeholder;
 import com.keylesspalace.tusky.repository.TimelineRepository;
 import com.keylesspalace.tusky.repository.TimelineRequestMode;
+import com.keylesspalace.tusky.util.CardViewMode;
 import com.keylesspalace.tusky.util.Either;
 import com.keylesspalace.tusky.util.LinkHelper;
 import com.keylesspalace.tusky.util.ListStatusAccessibilityDelegate;
@@ -227,7 +228,9 @@ public class TimelineFragment extends SFragment implements
                 preferences.getBoolean("absoluteTimeView", false),
                 preferences.getBoolean("showBotOverlay", true),
                 preferences.getBoolean("useBlurhash", true),
-                preferences.getBoolean("showCardsInTimelines", false)
+                preferences.getBoolean("showCardsInTimelines", false) ?
+                        CardViewMode.FULL_WIDTH :
+                        CardViewMode.NONE
         );
         adapter = new TimelineAdapter(dataSource, statusDisplayOptions, this);
 

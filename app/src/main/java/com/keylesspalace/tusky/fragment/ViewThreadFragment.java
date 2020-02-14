@@ -58,6 +58,7 @@ import com.keylesspalace.tusky.entity.Status;
 import com.keylesspalace.tusky.entity.StatusContext;
 import com.keylesspalace.tusky.interfaces.StatusActionListener;
 import com.keylesspalace.tusky.network.MastodonApi;
+import com.keylesspalace.tusky.util.CardViewMode;
 import com.keylesspalace.tusky.util.ListStatusAccessibilityDelegate;
 import com.keylesspalace.tusky.util.PairedList;
 import com.keylesspalace.tusky.util.StatusDisplayOptions;
@@ -132,7 +133,9 @@ public final class ViewThreadFragment extends SFragment implements
                 preferences.getBoolean("absoluteTimeView", false),
                 preferences.getBoolean("showBotOverlay", true),
                 preferences.getBoolean("useBlurhash", true),
-                true
+                preferences.getBoolean("showCardsInTimelines", false) ?
+                        CardViewMode.INDENTED :
+                        CardViewMode.NONE
         );
         adapter = new ThreadAdapter(statusDisplayOptions, this);
     }

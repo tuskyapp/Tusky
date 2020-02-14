@@ -51,6 +51,7 @@ import com.keylesspalace.tusky.entity.Attachment
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.interfaces.AccountSelectionListener
 import com.keylesspalace.tusky.interfaces.StatusActionListener
+import com.keylesspalace.tusky.util.CardViewMode
 import com.keylesspalace.tusky.util.NetworkState
 import com.keylesspalace.tusky.util.StatusDisplayOptions
 import com.keylesspalace.tusky.viewdata.AttachmentViewData
@@ -80,7 +81,7 @@ class SearchStatusesFragment : SearchFragment<Pair<Status, StatusViewData.Concre
                 useAbsoluteTime = preferences.getBoolean("absoluteTimeView", false),
                 showBotOverlay = preferences.getBoolean("showBotOverlay", true),
                 useBlurhash = preferences.getBoolean("useBlurhash", true),
-                showCards = false
+                cardViewMode = CardViewMode.NONE
         )
 
         searchRecyclerView.addItemDecoration(DividerItemDecoration(searchRecyclerView.context, DividerItemDecoration.VERTICAL))

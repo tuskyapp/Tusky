@@ -36,10 +36,7 @@ import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.fragment.SFragment
 import com.keylesspalace.tusky.interfaces.ReselectableFragment
 import com.keylesspalace.tusky.interfaces.StatusActionListener
-import com.keylesspalace.tusky.util.NetworkState
-import com.keylesspalace.tusky.util.StatusDisplayOptions
-import com.keylesspalace.tusky.util.ThemeUtils
-import com.keylesspalace.tusky.util.hide
+import com.keylesspalace.tusky.util.*
 import kotlinx.android.synthetic.main.fragment_timeline.*
 import javax.inject.Inject
 
@@ -69,7 +66,7 @@ class ConversationsFragment : SFragment(), StatusActionListener, Injectable, Res
                 useAbsoluteTime = preferences.getBoolean("absoluteTimeView", false),
                 showBotOverlay = preferences.getBoolean("showBotOverlay", true),
                 useBlurhash = preferences.getBoolean("useBlurhash", true),
-                showCards = false
+                cardViewMode = CardViewMode.NONE
         )
 
 

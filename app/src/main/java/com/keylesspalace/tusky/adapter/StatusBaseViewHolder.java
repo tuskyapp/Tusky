@@ -35,6 +35,7 @@ import com.keylesspalace.tusky.entity.Card;
 import com.keylesspalace.tusky.entity.Emoji;
 import com.keylesspalace.tusky.entity.Status;
 import com.keylesspalace.tusky.interfaces.StatusActionListener;
+import com.keylesspalace.tusky.util.CardViewMode;
 import com.keylesspalace.tusky.util.CustomEmojiHelper;
 import com.keylesspalace.tusky.util.HtmlUtils;
 import com.keylesspalace.tusky.util.ImageLoadingHelper;
@@ -702,7 +703,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             }
 
             if (cardView != null) {
-                setupCard(status, statusDisplayOptions.showCards());
+                setupCard(status, statusDisplayOptions.cardViewMode());
             }
 
             setupButtons(listener, status.getSenderId());
@@ -933,10 +934,13 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         return pollDescription.getContext().getString(R.string.poll_info_format, votesText, pollDurationInfo);
     }
 
-    protected void setupCard(StatusViewData.Concrete status, boolean showCards) {
-        if (showCards && status.getAttachments().size() == 0 && status.getCard() != null && !TextUtils.isEmpty(status.getCard().getUrl())) {
+    protected void setupCard(StatusViewData.Concrete status, CardViewMode cardViewMode) {
+        if (cardViewMode != CardViewMode.NONE && status.getAttachments().size() == 0 && status.getCard() != null && !TextUtils.isEmpty(status.getCard().getUrl())) {
             final Card card = status.getCard();
             cardView.setVisibility(View.VISIBLE);
+            cardView.getLayoutParams().width = cardViewMode == CardViewMode.FULL_WIDTH ?
+                    ViewGroup.LayoutParams.MATCH_PARENT :
+                    ViewGroup.LayoutParams.WRAP_CONTENT;
             cardTitle.setText(card.getTitle());
             if (TextUtils.isEmpty(card.getDescription()) && TextUtils.isEmpty(card.getAuthorName())) {
                 cardDescription.setVisibility(View.GONE);

@@ -43,10 +43,7 @@ import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.entity.Attachment
 import com.keylesspalace.tusky.entity.Status
-import com.keylesspalace.tusky.util.StatusDisplayOptions
-import com.keylesspalace.tusky.util.ThemeUtils
-import com.keylesspalace.tusky.util.hide
-import com.keylesspalace.tusky.util.show
+import com.keylesspalace.tusky.util.*
 import com.keylesspalace.tusky.viewdata.AttachmentViewData
 import kotlinx.android.synthetic.main.fragment_report_statuses.*
 import javax.inject.Inject
@@ -120,7 +117,7 @@ class ReportStatusesFragment : Fragment(), Injectable, AdapterHandler {
                 useAbsoluteTime = preferences.getBoolean("absoluteTimeView", false),
                 showBotOverlay = false,
                 useBlurhash = preferences.getBoolean("useBlurhash", true),
-                showCards = false
+                cardViewMode = CardViewMode.NONE
         )
 
         adapter = StatusesAdapter(statusDisplayOptions,

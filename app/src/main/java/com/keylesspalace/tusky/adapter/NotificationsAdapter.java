@@ -44,6 +44,7 @@ import com.keylesspalace.tusky.entity.Emoji;
 import com.keylesspalace.tusky.entity.Notification;
 import com.keylesspalace.tusky.interfaces.LinkListener;
 import com.keylesspalace.tusky.interfaces.StatusActionListener;
+import com.keylesspalace.tusky.util.CardViewMode;
 import com.keylesspalace.tusky.util.CustomEmojiHelper;
 import com.keylesspalace.tusky.util.ImageLoadingHelper;
 import com.keylesspalace.tusky.util.LinkHelper;
@@ -231,7 +232,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
                 statusDisplayOptions.useAbsoluteTime(),
                 statusDisplayOptions.showBotOverlay(),
                 statusDisplayOptions.useBlurhash(),
-                false
+                CardViewMode.NONE
         );
     }
 
