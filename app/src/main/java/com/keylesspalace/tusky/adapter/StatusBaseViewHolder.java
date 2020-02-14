@@ -73,6 +73,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
     private TextView sensitiveMediaWarning;
     private View sensitiveMediaShow;
     protected TextView[] mediaLabels;
+    protected CharSequence[] mediaDescriptions;
     private MaterialButton contentWarningButton;
     private ImageView avatarInset;
 
@@ -133,6 +134,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
                 itemView.findViewById(R.id.status_media_label_2),
                 itemView.findViewById(R.id.status_media_label_3)
         };
+        mediaDescriptions = new CharSequence[mediaLabels.length];
         contentWarningDescription = itemView.findViewById(R.id.status_content_warning_description);
         contentWarningButton = itemView.findViewById(R.id.status_content_warning_button);
         avatarInset = itemView.findViewById(R.id.status_avatar_inset);
@@ -181,11 +183,8 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
                                         @Nullable PollViewData poll,
                                         @NonNull StatusDisplayOptions statusDisplayOptions,
                                         final StatusActionListener listener) {
-        if (TextUtils.isEmpty(spoilerText)) {
-            contentWarningDescription.setVisibility(View.GONE);
-            contentWarningButton.setVisibility(View.GONE);
-            this.setTextVisible(true, content, mentions, emojis, poll, statusDisplayOptions, listener);
-        } else {
+        boolean sensitive = !TextUtils.isEmpty(spoilerText);
+        if (sensitive) {
             CharSequence emojiSpoiler = CustomEmojiHelper.emojifyString(spoilerText, emojis, contentWarningDescription);
             contentWarningDescription.setText(emojiSpoiler);
             contentWarningDescription.setVisibility(View.VISIBLE);
@@ -198,9 +197,13 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
                 }
                 setContentWarningButtonText(!expanded);
 
-                this.setTextVisible(!expanded, content, mentions, emojis, poll, statusDisplayOptions, listener);
+                this.setTextVisible(sensitive, !expanded, content, mentions, emojis, poll, statusDisplayOptions, listener);
             });
-            this.setTextVisible(expanded, content, mentions, emojis, poll, statusDisplayOptions, listener);
+            this.setTextVisible(sensitive, expanded, content, mentions, emojis, poll, statusDisplayOptions, listener);
+        } else {
+            contentWarningDescription.setVisibility(View.GONE);
+            contentWarningButton.setVisibility(View.GONE);
+            this.setTextVisible(sensitive, true, content, mentions, emojis, poll, statusDisplayOptions, listener);
         }
     }
 
@@ -212,7 +215,8 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         }
     }
 
-    private void setTextVisible(boolean expanded,
+    private void setTextVisible(boolean sensitive,
+                                boolean expanded,
                                 Spanned content,
                                 Status.Mention[] mentions,
                                 List<Emoji> emojis,
@@ -222,6 +226,9 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         if (expanded) {
             Spanned emojifiedText = CustomEmojiHelper.emojifyText(content, emojis, this.content);
             LinkHelper.setClickableText(this.content, emojifiedText, mentions, listener);
+            for (int i = 0; i < mediaLabels.length; ++i) {
+                updateMediaLabel(i, sensitive, expanded);
+            }
             if (poll != null) {
                 setupPoll(poll, emojis, statusDisplayOptions, listener);
             } else {
@@ -519,6 +526,14 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         }
     }
 
+    private void updateMediaLabel(int index, boolean sensitive, boolean showingContent) {
+        Context context = itemView.getContext();
+        CharSequence label = (sensitive && !showingContent) ?
+                context.getString(R.string.status_sensitive_media_title) :
+                mediaDescriptions[index];
+        mediaLabels[index].setText(label);
+    }
+
     protected void setMediaLabel(List<Attachment> attachments, boolean sensitive,
                                  final StatusActionListener listener, boolean showingContent) {
         Context context = itemView.getContext();
@@ -527,12 +542,8 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             if (i < attachments.size()) {
                 Attachment attachment = attachments.get(i);
                 mediaLabel.setVisibility(View.VISIBLE);
-
-                if (sensitive && !showingContent) {
-                    mediaLabel.setText(R.string.status_sensitive_media_title);
-                } else {
-                    mediaLabel.setText(getAttachmentDescription(context, attachment));
-                }
+                mediaDescriptions[i] = getAttachmentDescription(context, attachment);
+                updateMediaLabel(i, sensitive, showingContent);
 
                 // Set the icon next to the label.
                 int drawableId = getLabelIcon(attachments.get(0).getType());
