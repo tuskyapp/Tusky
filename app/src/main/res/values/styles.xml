@@ -97,7 +97,7 @@
 
     <style name="TuskyDialogFragmentStyle" parent="@style/ThemeOverlay.MaterialComponents.Dialog">
         <item name="dialogCornerRadius">8dp</item>
-        <item name="android:backgroundTint">?attr/windowBackgroundColor</item>
+        <item name="android:backgroundTint">@color/colorBackground</item>
     </style>
 
     <style name="TuskyTabAppearance" parent="Widget.MaterialComponents.TabLayout">
