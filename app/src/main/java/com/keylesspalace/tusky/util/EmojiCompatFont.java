@@ -82,7 +82,7 @@ public class EmojiCompatFont {
                     R.drawable.ic_notoemoji,
                     "https://tusky.app/hosted/emoji/NotoEmojiCompat.ttf",
                     "11.0.0"
-                    );
+            );
 
     /**
      * This array stores all available EmojiCompat fonts.
@@ -110,14 +110,14 @@ public class EmojiCompatFont {
 
     /**
      * Returns the Emoji font associated with this ID
+     *
      * @param id the ID of this font
      * @return the corresponding font. Will default to SYSTEM_DEFAULT if not in range.
      */
     public static EmojiCompatFont byId(int id) {
-        if(id >= 0 && id < FONTS.length) {
+        if (id >= 0 && id < FONTS.length) {
             return FONTS[id];
-        }
-        else {
+        } else {
             return SYSTEM_DEFAULT;
         }
     }
@@ -158,15 +158,15 @@ public class EmojiCompatFont {
     /**
      * This method will return the actual font file (regardless of its existence) for
      * the current version (not necessarily the latest!).
+     *
      * @return The font (TTF) file or null if called on SYSTEM_FONT
      */
     @Nullable
     private File getFont(Context context) {
-        if(this != SYSTEM_DEFAULT) {
+        if (this != SYSTEM_DEFAULT) {
             File directory = new File(context.getExternalFilesDir(null), DIRECTORY);
             return new File(directory, this.getName() + this.getVersion() + ".ttf");
-        }
-        else {
+        } else {
             return null;
         }
     }
@@ -186,6 +186,7 @@ public class EmojiCompatFont {
     /**
      * Checks whether there is already a font version that satisfies the current version, i.e. it
      * has a higher or equal version code.
+     *
      * @param context The Context
      * @return Whether there is a font file with a higher or equal version code to the current
      */
@@ -200,10 +201,11 @@ public class EmojiCompatFont {
 
     /**
      * Downloads the TTF file for this font
+     *
      * @param listeners The listeners which will be notified when the download has been finished
      */
     public void downloadFont(Context context, Downloader.EmojiDownloadListener... listeners) {
-        if(this != SYSTEM_DEFAULT) {
+        if (this != SYSTEM_DEFAULT) {
             // Additionally run a cleanup process after the download has been successful.
             Downloader.EmojiDownloadListener cleanup = font -> deleteOldVersions(context);
 
@@ -217,9 +219,8 @@ public class EmojiCompatFont {
                     this,
                     allListeners.toArray(allListenersA))
                     .execute(getFont(context));
-        }
-        else {
-            for(Downloader.EmojiDownloadListener listener: listeners) {
+        } else {
+            for (Downloader.EmojiDownloadListener listener : listeners) {
                 // The system emoji font is always downloaded...
                 listener.onDownloaded(this);
             }
@@ -228,6 +229,7 @@ public class EmojiCompatFont {
 
     /**
      * Deletes any older version of a font
+     *
      * @param context The current Context
      */
     private void deleteOldVersions(Context context) {
@@ -237,11 +239,11 @@ public class EmojiCompatFont {
         Log.d(TAG, String.format("deleteOldVersions: Found %d other font files", existingFontFiles.size()));
         for (Pair<File, int[]> fileExists : existingFontFiles) {
             if (compareVersions(fileExists.second, getVersionCode()) < 0) {
-                    File file = fileExists.first;
-                    // Uses side effects!
-                    Log.d(TAG, String.format("Deleted %s successfully: %s", file.getAbsolutePath(),
-                            file.delete()));
-                }
+                File file = fileExists.first;
+                // Uses side effects!
+                Log.d(TAG, String.format("Deleted %s successfully: %s", file.getAbsolutePath(),
+                        file.delete()));
+            }
         }
     }
 
@@ -251,6 +253,7 @@ public class EmojiCompatFont {
     /**
      * Loads all font files that are inside the files directory into an ArrayList with the information
      * on whether they are older than the currently available version or not.
+     *
      * @param context The Context
      */
     private void loadExistingFontFiles(Context context) {
@@ -275,7 +278,7 @@ public class EmojiCompatFont {
             this.existingFontFiles = new ArrayList<>(existingFontFiles.length);
 
 
-            for(File file : existingFontFiles) {
+            for (File file : existingFontFiles) {
                 Matcher matcher = fontRegex.matcher(file.getName());
                 if (matcher.matches()) {
                     String version = matcher.group(1);
@@ -295,6 +298,7 @@ public class EmojiCompatFont {
 
     /**
      * Returns the current or latest version of this font file (if there is any)
+     *
      * @param context The Context
      * @return The file for this font with the current or (if not existent) highest version code or null if there is no file for this font.
      */
@@ -381,7 +385,7 @@ public class EmojiCompatFont {
      * Stops downloading the font. If no one started a font download, nothing happens.
      */
     public void cancelDownload() {
-        if(fontDownloader != null) {
+        if (fontDownloader != null) {
             fontDownloader.cancel(false);
             fontDownloader = null;
         }
@@ -408,7 +412,7 @@ public class EmojiCompatFont {
         }
 
         @Override
-        protected File doInBackground(File... files){
+        protected File doInBackground(File... files) {
             // Only download to one file...
             File downloadFile = files[0];
             try {
@@ -449,14 +453,13 @@ public class EmojiCompatFont {
                         Log.e(TAG, "Status code: " + response.code());
                         failed = true;
                     }
-                }
-                finally {
-                    if(source != null) {
+                } finally {
+                    if (source != null) {
                         source.close();
                     }
                     sink.close();
                     // This 'if' uses side effects to delete the File.
-                    if(isCancelled() && !downloadFile.delete()) {
+                    if (isCancelled() && !downloadFile.delete()) {
                         Log.e(TAG, "Could not delete file " + downloadFile);
                     }
                 }
@@ -469,28 +472,27 @@ public class EmojiCompatFont {
 
         @Override
         public void onProgressUpdate(Float... progress) {
-            for(EmojiDownloadListener listener: listeners) {
+            for (EmojiDownloadListener listener : listeners) {
                 listener.onProgress(progress[0]);
             }
         }
 
         @Override
         public void onPostExecute(File downloadedFile) {
-            if(!failed && downloadedFile.exists()) {
+            if (!failed && downloadedFile.exists()) {
                 for (EmojiDownloadListener listener : listeners) {
                     listener.onDownloaded(font);
                 }
-            }
-            else {
+            } else {
                 fail(downloadedFile);
             }
         }
 
         private void fail(File failedFile) {
-            if(failedFile.exists() && !failedFile.delete()) {
+            if (failedFile.exists() && !failedFile.delete()) {
                 Log.e(TAG, "Could not delete file " + failedFile);
             }
-            for(EmojiDownloadListener listener : listeners) {
+            for (EmojiDownloadListener listener : listeners) {
                 listener.onFailed();
             }
         }
@@ -501,11 +503,13 @@ public class EmojiCompatFont {
         public interface EmojiDownloadListener {
             /**
              * Called after successfully finishing a download.
+             *
              * @param font The font related to this download. This will help identifying the download
              */
             void onDownloaded(EmojiCompatFont font);
 
             // TODO: Add functionality
+
             /**
              * Called when something went wrong with the download.
              * This one won't be called when the download has been cancelled though.
@@ -516,6 +520,7 @@ public class EmojiCompatFont {
 
             /**
              * Called whenever the progress changed
+             *
              * @param Progress A value between 0 and 1 representing the current progress
              */
             default void onProgress(float Progress) {
