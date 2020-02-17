@@ -91,8 +91,8 @@
 
     <string name="title_view_thread">Toot</string>
     <string name="notification_favourite_format">%s si obľúbil/a váš toot</string>
-    <string name="action_reblog"></string>
-    <string name="action_unreblog"></string>
+    <string name="action_reblog"/>
+    <string name="action_unreblog"/>
     <string name="action_send">TOOT</string>
     <string name="action_send_public">TOOT!</string>
     <string name="action_toggle_visibility">Viditeľnosť tootu</string>
@@ -106,4 +106,12 @@
     <string name="send_toot_notification_saved_content">Kópia vášho tootu bola uložená do konceptov</string>
     <string name="action_open_toot">Otvoriť toot</string>
     <string name="compose_shortcut_long_label">Napísať toot</string>
+    <string name="title_scheduled_toot">Plánované tooty</string>
+    <string name="action_access_scheduled_toot">Plánované tooty</string>
+    <string name="label_avatar">Avatar</string>
+    <string name="action_remove">Odstrániť</string>
+    <string name="lock_account_label">Uzamknúť účet</string>
+    <string name="compose_save_draft">Uložiť koncept\?</string>
+    <string name="send_toot_notification_channel_name">Odosielanie tootov</string>
+    <string name="send_toot_notification_cancel_title">Odosielanie bolo zrušené</string>
     </resources>
