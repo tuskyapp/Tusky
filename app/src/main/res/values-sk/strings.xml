@@ -91,8 +91,6 @@
 
     <string name="title_view_thread">Toot</string>
     <string name="notification_favourite_format">%s si obľúbil/a váš toot</string>
-    <string name="action_reblog"/>
-    <string name="action_unreblog"/>
     <string name="action_send">TOOT</string>
     <string name="action_send_public">TOOT!</string>
     <string name="action_toggle_visibility">Viditeľnosť tootu</string>

@@ -257,10 +257,10 @@
     <string name="action_lists">Listen</string>
     <string name="title_lists">Listen</string>
     <string name="title_list_timeline">Liste</string>
-    <string name="action_create_list">Eine Liste erstellen</string>
-    <string name="action_rename_list">Eine Liste umbenennen</string>
-    <string name="action_delete_list">Eine Liste löschen</string>
-    <string name="action_edit_list">Eine Liste bearbeiten</string>
+    <string name="action_create_list">Liste erstellen</string>
+    <string name="action_rename_list">Liste umbenennen</string>
+    <string name="action_delete_list">Liste löschen</string>
+    <string name="action_edit_list">Liste bearbeiten</string>
     <string name="action_add_to_list">Ein Konto zu einer Liste hinzufügen</string>
     <string name="compose_active_account_description">verfassen mit %1$s</string>
     <string name="error_failed_set_caption">Fehler beim Speichern der Beschreibung</string>
@@ -450,14 +450,13 @@
     <string name="action_access_scheduled_toot">Geplante Beiträge</string>
     <string name="action_schedule_toot">Plane Beitrag</string>
     <string name="action_reset_schedule">Zurücksetzen</string>
-    <string name="abbreviated_in_years">Dies sind Zeitstempel für Status. Beispiele: \"16s\" oder \"2t\".</string>
     <string name="error_audio_upload_size">Audiodateien müssen kleiner als 40MB sein.</string>
     <string name="title_bookmarks">Lesezeichen</string>
     <string name="action_bookmark">Lesezeichen</string>
     <string name="action_view_bookmarks">Lesezeichen</string>
     <string name="gradient_for_media">Bunten Farbverlauf für versteckte Medien anzeigen</string>
 
-    <string name="about_powered_by_tusky">Angetrieben durch Tusky</string>
+    <string name="about_powered_by_tusky">Powered by Tusky</string>
     <plurals name="reblogs">
 	<item quantity="one"><b>%s</b> Boost</item>
 	<item quantity="other"><b>%s</b> Boosts</item>
