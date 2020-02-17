@@ -467,10 +467,16 @@
     <string name="post_lookup_error_format">Error al buscar el post %s</string>
 
 <string name="about_powered_by_tusky">Potenciado por Tusky</string>
-    <string name="title_bookmarks">Favoritos</string>
+    <string name="title_bookmarks">Marcadores</string>
     <string name="action_bookmark">Favorito</string>
-    <string name="action_view_bookmarks">Favoritos</string>
+    <string name="action_view_bookmarks">Marcadores</string>
     <string name="description_status_bookmarked">Marcado como favorito</string>
     <string name="select_list_title">Seleccionar lista</string>
     <string name="list">Lista</string>
-    </resources>
+    <string name="error_audio_upload_size">Los ficheros de audio deben ser menores de 40MB.</string>
+    <string name="gradient_for_media">Mostrar degradados coloridos para el contenido multimedia oculto.</string>
+
+    <string name="no_saved_status">No tienes ningún borrador.</string>
+    <string name="no_scheduled_status">No tienes ningún estado programado.</string>
+
+</resources>

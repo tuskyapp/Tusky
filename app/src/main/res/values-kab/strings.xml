@@ -8,8 +8,8 @@
     <string name="action_edit_profile">Ẓreg amaγnu</string>
     <string name="action_search">Nadi</string>
     <string name="about_title_activity">Γef</string>
-    <string name="action_lists">Tibdarin</string>
-    <string name="title_lists">Tibdarin</string>
+    <string name="action_lists">Umuγen</string>
+    <string name="title_lists">Umuγen</string>
     <string name="error_compose_character_limit">Tijewwiqt-ik aṭas i γuzzifet!</string>
     <string name="title_home">Agejdan</string>
     <string name="title_tab_preferences">Iccaren</string>
@@ -124,4 +124,110 @@
     <string name="compose_shortcut_short_label">Azen</string>
 
     <string name="edit_poll">Ẓreg</string>
+    <string name="title_statuses_pinned">Yettwanṭḍen</string>
+    <string name="action_add_media">Rnu amidya</string>
+    <string name="action_add_poll">Rnu assenqed</string>
+    <string name="action_photo_take">Ṭef tugna</string>
+    <string name="action_toggle_visibility">Timeẓriwt n tijewwaqt</string>
+    <string name="action_schedule_toot">Sγiwes tijewwaqt-a</string>
+    <string name="status_share_content">Bḍu agbur n tijewwiqt-a</string>
+    <string name="status_share_link">Bḍu aseγwen γer tijewwiqt</string>
+    <string name="filter_addition_dialog_title">Rnu amsizdeg</string>
+    <string name="filter_edit_dialog_title">Ẓreg amsizdeg</string>
+    <string name="action_create_list">Snulfu-d umuγ</string>
+    <string name="action_rename_list">Snifel isem n wumuγ</string>
+    <string name="action_delete_list">Kkes umuγ-a</string>
+    <string name="action_edit_list">Ẓreg umuγ-a</string>
+    <string name="action_add_to_list">Rnu yiwen umiḍan γer tabdert</string>
+    <string name="action_remove_from_list">Kkes amiḍan seg wumuγ</string>
+
+    <string name="profile_metadata_add">Rnu isefka</string>
+    <string name="hint_list_name">Isem n wumuγ</string>
+
+    <string name="select_list_title">Fren tabdart</string>
+    <string name="list">Umuγ</string>
+    <string name="notifications_apply_filter">Sizdeg</string>
+    <string name="title_accounts">Imiḍanen</string>
+    <string name="add_poll_choice">Rnu yiwen wefran</string>
+    <string name="report_username_format">Ccetki γef @%s</string>
+    <string name="action_report">Ccetki</string>
+    <string name="action_reject">Ggami</string>
+    <string name="download_image">Yessidired %1$s</string>
+
+    <string name="send_media_to">Bḍu tugna s…</string>
+
+    <string name="login_connection">itteqqen…</string>
+
+    <string name="dialog_message_uploading_media">Issalay…</string>
+    <string name="pref_title_notification_filter_poll">fukken kran n wadγaren</string>
+    <string name="pref_title_timeline_filters">Imzizdigen</string>
+
+    <string name="app_theme_auto">Akken yella yiṭij</string>
+    <string name="pref_title_browser_settings">Iminig</string>
+    <string name="pref_title_show_replies">Sken-ed tiririyin</string>
+    <string name="pref_title_http_proxy_settings">Apṛuksi HTTP</string>
+    <string name="pref_title_http_proxy_server">Tansa n upṛuksi HTTP</string>
+    <string name="notification_follow_name">Imeḍfaṛen imaynuten</string>
+    <string name="notification_poll_name">Adγaren</string>
+    <string name="notification_mention_format">Yuder-ik-id %s</string>
+    <string name="description_account_locked">Yettwargel umiḍan</string>
+
+    <string name="abbreviated_years_ago">%dis aya</string>
+    <string name="abbreviated_days_ago">%dus aya</string>
+    <string name="replying_to">Tettaraḍ-as i @%s</string>
+    <string name="load_more_placeholder_text">awid ugar</string>
+
+    <string name="pref_title_thread_filter_keywords">Idewenniyen</string>
+    <string name="lock_account_label">Rgel amiḍan</string>
+    <string name="performing_lookup_title">Yettnadi…</string>
+    <string name="restart">Ales tanekra</string>
+    <string name="download_failed">Tuccḍa n usider</string>
+
+    <string name="account_moved_description">Igujj %1$s γer:</string>
+
+    <string name="unpin_action">Kkes asenṭeḍ</string>
+    <string name="conversation_1_recipients">%1$s</string>
+    <string name="conversation_2_recipients">%1$s akked %2$s</string>
+    <string name="conversation_more_recipients">%1$s, %2$s akked %3$d nniḍen</string>
+    <string name="compose_shortcut_long_label">Aru tijewwiqt</string>
+    <string name="poll_info_format"> <!-- 15 n wadγaren • 1 n wesrag id yeqqimen --> %1$s • %2$s</string>
+    <plurals name="poll_info_votes">
+	<item quantity="one">%s wedγar</item>
+	<item quantity="other">%s n yedγaren</item>
+</plurals>
+    <string name="poll_info_time_relative">%s id yugran</string>
+    <string name="poll_info_time_absolute">ad ifak deg %s</string>
+    <string name="poll_info_closed">ifuk</string>
+
+    <string name="poll_vote">Dγer</string>
+
+    <string name="poll_ended_voted">Ifuk, tura kan, yiwen wedγar t tteki-iḍ degs</string>
+    <string name="poll_ended_created">Ifukk yiwen wedγar id snulfaḍ</string>
+
+    <plurals name="poll_timespan_days">
+	<item quantity="one">%d n wass</item>
+	<item quantity="other">%d n wussan</item>
+</plurals>
+    <plurals name="poll_timespan_hours">
+	<item quantity="one">%d wesrag</item>
+	<item quantity="other">%d n yisragen</item>
+</plurals>
+    <plurals name="poll_timespan_minutes">
+	<item quantity="one">%d n tasdidt</item>
+	<item quantity="other">%d n tesdidin</item>
+</plurals>
+    <string name="button_continue">Kemmel</string>
+    <string name="button_back">Uγal</string>
+    <string name="failed_report">Tella-d tuccḍa deg ccetki</string>
+    <string name="failed_search">Tucḍa n unadi</string>
+
+    <string name="create_poll_title">Assenqed</string>
+    <string name="poll_duration_5_min">5 n tasditin</string>
+    <string name="poll_duration_30_min">30 n tasditin</string>
+    <string name="poll_duration_1_hour">1 n wesrag</string>
+    <string name="poll_duration_6_hours">6 n wesragen</string>
+    <string name="poll_duration_1_day">1 n wass</string>
+    <string name="poll_duration_3_days">3 n wussan</string>
+    <string name="poll_duration_7_days">7 n wussan</string>
+    <string name="poll_new_choice_hint">Tafrant %d</string>
     </resources>
