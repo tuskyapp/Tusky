@@ -492,4 +492,10 @@
     <string name="description_status_bookmarked">Dodane do zakładek</string>
     <string name="select_list_title">Wybierz listę</string>
     <string name="list">Lista</string>
-    </resources>
+    <string name="error_audio_upload_size">Pliki audio muszą być mniejsze niż 40MB.</string>
+    <string name="gradient_for_media">Pokaż kolorowe gradienty dla ukrytych mediów</string>
+
+    <string name="no_saved_status">Nie masz żadnych szkiców.</string>
+    <string name="no_scheduled_status">Nie masz żadnych zaplanowanych wpisów.</string>
+
+</resources>

@@ -230,4 +230,8 @@
     <string name="poll_duration_3_days">3 n wussan</string>
     <string name="poll_duration_7_days">7 n wussan</string>
     <string name="poll_new_choice_hint">Tafrant %d</string>
+    <string name="title_follows">Ig ṭafaṛ</string>
+    <string name="title_followers">Imeḍfaṛen</string>
+    <string name="hint_search_people_list">Nadi γef medden i teṭafareḍ</string>
+    <string name="description_visiblity_private">Imeḍfaṛen</string>
     </resources>

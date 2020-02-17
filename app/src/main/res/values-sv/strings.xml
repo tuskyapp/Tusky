@@ -118,7 +118,7 @@
     <string name="action_open_media_n">Öppna media #%d</string>
     <string name="download_image">Laddar ned %1$s</string>
     <string name="action_copy_link">Kopiera länk</string>
-    <string name="action_open_as">Öppen som %s</string>
+    <string name="action_open_as">Öppna med %s</string>
     <string name="action_share_as">Dela som …</string>
     <string name="send_status_link_to">Dela toot-URL till…</string>
     <string name="send_status_content_to">Dela toot till…</string>
