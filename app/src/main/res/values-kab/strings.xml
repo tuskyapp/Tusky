@@ -49,7 +49,7 @@
 	<item quantity="other"><b>%1$s</b> n ismenyifen</item>
 </plurals>
 
-    <string name="no_saved_status">Ur teɛiḍ ara irewwayen.</string>
+    <string name="no_saved_status">Ur tesɛiḍ ara irewwayen.</string>
     <string name="error_generic">Tella-d tucḍa.</string>
     <string name="title_notifications">Tilγa</string>
     <string name="link_whats_an_instance">D acu i ttummant\?</string>
@@ -230,4 +230,10 @@
     <string name="poll_duration_3_days">3 n wussan</string>
     <string name="poll_duration_7_days">7 n wussan</string>
     <string name="poll_new_choice_hint">Tafrant %d</string>
+
+    <string name="title_follows">Ig ṭafaṛ</string>
+    <string name="title_followers">Imeḍfaṛen</string>
+    <string name="hint_search_people_list">Nadi γef medden i teṭafareḍ</string>
+    <string name="description_visiblity_private">Imeḍfaṛen</string>
+
     </resources>
