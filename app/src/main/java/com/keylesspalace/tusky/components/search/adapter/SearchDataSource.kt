@@ -97,12 +97,12 @@ class SearchDataSource<T>(
                 .subscribe(
                         { data ->
                             // Working around Mastodon bug where exact match is returned no matter
-                            // which offset is requested (so if we seach for a full username, it's
+                            // which offset is requested (so if we search for a full username, it's
                             // infinite)
                             // see https://github.com/tootsuite/mastodon/issues/11365
-                            val res = if (data.accounts.size == 1
-                                    && data.accounts[0].username
-                                            .equals(searchRequest, ignoreCase = true)) {
+                            // see https://github.com/tootsuite/mastodon/issues/13083
+                            val res = if ((data.accounts.size == 1 && data.accounts[0].username.equals(searchRequest, ignoreCase = true))
+                                    || (data.statuses.size == 1 && data.statuses[0].url.equals(searchRequest))) {
                                 listOf()
                             } else {
                                 parser(data)
