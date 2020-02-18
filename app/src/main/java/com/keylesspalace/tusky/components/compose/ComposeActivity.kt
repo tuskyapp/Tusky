@@ -65,6 +65,8 @@ import com.keylesspalace.tusky.adapter.OnEmojiSelectedListener
 import com.keylesspalace.tusky.components.compose.dialog.makeCaptionDialog
 import com.keylesspalace.tusky.components.compose.dialog.showAddPollDialog
 import com.keylesspalace.tusky.components.compose.view.ComposeOptionsListener
+import com.keylesspalace.tusky.components.compose.view.ComposeScheduleView
+import com.keylesspalace.tusky.components.compose.view.ComposeScheduleView.MINIMUM_SCHEDULED_SECONDS
 import com.keylesspalace.tusky.db.AccountEntity
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.di.ViewModelFactory
@@ -702,6 +704,20 @@ class ComposeActivity : BaseActivity(),
     }
 
     private fun onSendClicked() {
+        val scheduledTime = composeScheduleView.getDateTime(viewModel.scheduledAt.value)
+        if (scheduledTime != null) {
+            val calendar = ComposeScheduleView.getCalendar().apply {
+                add(Calendar.SECOND, MINIMUM_SCHEDULED_SECONDS)
+            }
+            val minimumScheduledTime = calendar.time
+            if (scheduledTime.before(minimumScheduledTime)) {
+                Toast.makeText(this,
+                        getString(R.string.warning_scheduling_interval),
+                        Toast.LENGTH_LONG)
+                        .show()
+
+            }
+        }
         enableButtons(false)
         sendStatus()
     }
