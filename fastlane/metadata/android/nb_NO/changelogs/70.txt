@@ -1,0 +1,8 @@
+Tusky v10.0
+
+- Du kan nå legge til statuser som bokmerker, og se bokmerkene i Tusky.
+- Du kan nå planlegge et toot for publisering i framtiden.
+- Du kan nå legge til lister på hovedskjermen.
+- Du kan nå publisere lydvedlegg med Tusky.
+
+I tillegg er det mange andre mindre forbedringer og feilrettinger!
