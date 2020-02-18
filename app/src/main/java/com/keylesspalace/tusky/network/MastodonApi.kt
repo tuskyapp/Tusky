@@ -428,16 +428,19 @@ interface MastodonApi {
             @Query("limit") limit: Int
     ): Single<List<Account>>
 
-    @DELETE("api/v1/lists/{listId}/accounts")
+    @FormUrlEncoded
+    // @DELETE doesn't support fields
+    @HTTP(method = "DELETE", path = "api/v1/lists/{listId}/accounts", hasBody = true)
     fun deleteAccountFromList(
             @Path("listId") listId: String,
-            @Query("account_ids[]") accountIds: List<String>
+            @Field("account_ids[]") accountIds: List<String>
     ): Completable
 
+    @FormUrlEncoded
     @POST("api/v1/lists/{listId}/accounts")
     fun addCountToList(
             @Path("listId") listId: String,
-            @Query("account_ids[]") accountIds: List<String>
+            @Field("account_ids[]") accountIds: List<String>
     ): Completable
 
     @GET("/api/v1/conversations")
