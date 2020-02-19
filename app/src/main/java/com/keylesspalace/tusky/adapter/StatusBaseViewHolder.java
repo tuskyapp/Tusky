@@ -389,18 +389,21 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         return ImageLoadingHelper.decodeBlurHash(this.avatar.getContext(), blurhash);
     }
 
-    private void loadImage(MediaPreviewImageView imageView, String previewUrl, MetaData meta,
+    private void loadImage(MediaPreviewImageView imageView,
+                           @Nullable String previewUrl,
+                           @Nullable MetaData meta,
                            @Nullable String blurhash) {
+
         Drawable placeholder = blurhash != null ? decodeBlurHash(blurhash) : mediaPreviewUnloaded;
+
         if (TextUtils.isEmpty(previewUrl)) {
-            if (blurhash != null) {
-                imageView.setImageDrawable(decodeBlurHash(blurhash));
-            } else {
-                Glide.with(imageView)
-                        .load(placeholder)
-                        .centerInside()
-                        .into(imageView);
-            }
+            imageView.removeFocalPoint();
+
+            Glide.with(imageView)
+                    .load(placeholder)
+                    .centerInside()
+                    .into(imageView);
+
         } else {
             Focus focus = meta != null ? meta.getFocus() : null;
 
@@ -459,18 +462,12 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
                 imageView.setContentDescription(description);
             }
 
-            if (showingContent) {
-                loadImage(imageView, previewUrl, attachment.getMeta(), attachment.getBlurhash());
-            } else {
-                imageView.setFocalPoint(null);
-                imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-                if (useBlurhash && attachment.getBlurhash() != null) {
-                    BitmapDrawable blurhashBitmap = decodeBlurHash(attachment.getBlurhash());
-                    imageView.setImageDrawable(blurhashBitmap);
-                } else {
-                    imageView.setImageDrawable(mediaPreviewUnloaded);
-                }
-            }
+            loadImage(
+                    imageView,
+                    showingContent ? previewUrl : null,
+                    attachment.getMeta(),
+                    useBlurhash ? attachment.getBlurhash() : null
+            );
 
             final Attachment.Type type = attachment.getType();
             if (showingContent && (type == Attachment.Type.VIDEO || type == Attachment.Type.GIFV)) {
