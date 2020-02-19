@@ -758,7 +758,7 @@ class ComposeActivity : BaseActivity(),
 
             viewModel.sendStatus(contentText, spoilerText).observe(this, Observer {
                 finishingUploadDialog?.dismiss()
-                finishWithoutSlideOutAnimation()
+                deleteDraftAndFinish()
             })
 
         } else {
