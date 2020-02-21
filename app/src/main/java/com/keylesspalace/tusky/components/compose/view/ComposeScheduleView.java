@@ -23,6 +23,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
@@ -49,6 +50,7 @@ public class ComposeScheduleView extends ConstraintLayout {
 
     private Button resetScheduleButton;
     private TextView scheduledDateTimeView;
+    private TextView invalidScheduleWarningView;
 
     private Calendar scheduleDateTime;
     public static int MINIMUM_SCHEDULED_SECONDS = 330; // Minimum is 5 minutes, pad 30 seconds for posting
@@ -78,8 +80,10 @@ public class ComposeScheduleView extends ConstraintLayout {
 
         resetScheduleButton = findViewById(R.id.resetScheduleButton);
         scheduledDateTimeView = findViewById(R.id.scheduledDateTime);
+        invalidScheduleWarningView = findViewById(R.id.invalidScheduleWarning);
 
         scheduledDateTimeView.setOnClickListener(v -> openPickDateDialog());
+        invalidScheduleWarningView.setText(R.string.warning_scheduling_interval);
 
         scheduleDateTime = null;
 
@@ -91,10 +95,15 @@ public class ComposeScheduleView extends ConstraintLayout {
     private void setScheduledDateTime() {
         if (scheduleDateTime == null) {
             scheduledDateTimeView.setText("");
+            invalidScheduleWarningView.setVisibility(GONE);
         } else {
+            Date scheduled = scheduleDateTime.getTime();
             scheduledDateTimeView.setText(String.format("%s %s",
-                    dateFormat.format(scheduleDateTime.getTime()),
-                    timeFormat.format(scheduleDateTime.getTime())));
+                    dateFormat.format(scheduled),
+                    timeFormat.format(scheduled)));
+            if (!verifyScheduledTime(scheduled)) {
+                invalidScheduleWarningView.setVisibility(VISIBLE);
+            }
         }
     }
 
@@ -169,11 +178,19 @@ public class ComposeScheduleView extends ConstraintLayout {
         setScheduledDateTime();
     }
 
+    public static boolean verifyScheduledTime(@Nullable Date scheduledTime) {
+        if (scheduledTime != null) {
+            Calendar minimumScheduledTime = getCalendar();
+            minimumScheduledTime.add(Calendar.SECOND, MINIMUM_SCHEDULED_SECONDS);
+            return scheduledTime.after(minimumScheduledTime.getTime());
+        }
+        return true;
+    }
+
     private void onDateSet(long selection) {
         initializeSuggestedTime();
         Calendar newDate = getCalendar();
         newDate.setTimeInMillis(selection);
-        newDate.add(Calendar.MINUTE, 10);
         scheduleDateTime.set(newDate.get(Calendar.YEAR), newDate.get(Calendar.MONTH), newDate.get(Calendar.DATE));
         openPickTimeDialog();
     }

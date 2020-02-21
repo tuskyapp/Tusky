@@ -66,7 +66,6 @@ import com.keylesspalace.tusky.components.compose.dialog.makeCaptionDialog
 import com.keylesspalace.tusky.components.compose.dialog.showAddPollDialog
 import com.keylesspalace.tusky.components.compose.view.ComposeOptionsListener
 import com.keylesspalace.tusky.components.compose.view.ComposeScheduleView
-import com.keylesspalace.tusky.components.compose.view.ComposeScheduleView.MINIMUM_SCHEDULED_SECONDS
 import com.keylesspalace.tusky.db.AccountEntity
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.di.ViewModelFactory
@@ -704,28 +703,14 @@ class ComposeActivity : BaseActivity(),
     }
 
     private fun verifyScheduledTime(): Boolean {
-        val scheduledTime = composeScheduleView.getDateTime(viewModel.scheduledAt.value)
-        if (scheduledTime != null) {
-            val minimumScheduledTime = ComposeScheduleView.getCalendar().apply {
-                add(Calendar.SECOND, MINIMUM_SCHEDULED_SECONDS)
-            }
-            return scheduledTime.after(minimumScheduledTime.time)
-        }
-
-        return true
+        return ComposeScheduleView.verifyScheduledTime(composeScheduleView.getDateTime(viewModel.scheduledAt.value))
     }
 
     private fun onSendClicked() {
         if (verifyScheduledTime()) {
             sendStatus()
         } else {
-            AlertDialog.Builder(this)
-                    .setMessage(R.string.warning_scheduling_interval)
-                    .setPositiveButton(R.string.action_send) { _, _ ->
-                        sendStatus()
-                    }
-                    .setNegativeButton(android.R.string.cancel, null)
-                    .show()
+            scheduleBehavior.state = BottomSheetBehavior.STATE_EXPANDED
         }
     }
 
@@ -1014,7 +999,11 @@ class ComposeActivity : BaseActivity(),
     override fun onTimeSet(view: TimePicker, hourOfDay: Int, minute: Int) {
         composeScheduleView.onTimeSet(hourOfDay, minute)
         viewModel.updateScheduledAt(composeScheduleView.time)
-        scheduleBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+        if (verifyScheduledTime()) {
+            scheduleBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+        } else {
+            scheduleBehavior.state = BottomSheetBehavior.STATE_EXPANDED
+        }
     }
 
     private fun resetSchedule() {
