@@ -148,11 +148,13 @@ public class ComposeScheduleView extends ConstraintLayout {
     }
 
     public Date getDateTime(String scheduledAt) {
-        try {
-            return iso8601.parse(scheduledAt);
-        } catch (ParseException e) {
-            return null;
+        if (scheduledAt != null) {
+            try {
+                return iso8601.parse(scheduledAt);
+            } catch (ParseException e) {
+            }
         }
+        return null;
     }
 
     public void setDateTime(String scheduledAt) {
