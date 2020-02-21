@@ -8,6 +8,7 @@ import android.util.Pair;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 
 import com.keylesspalace.tusky.R;
 
@@ -144,7 +145,7 @@ public class EmojiCompatFont {
     }
 
     public Drawable getThumb(Context context) {
-        return context.getResources().getDrawable(img);
+        return ContextCompat.getDrawable(context, img);
     }
 
     public String getVersion() {
