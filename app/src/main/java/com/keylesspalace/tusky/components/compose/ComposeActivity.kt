@@ -703,23 +703,30 @@ class ComposeActivity : BaseActivity(),
         updateVisibleCharactersLeft()
     }
 
-    private fun onSendClicked() {
+    private fun verifyScheduledTime(): Boolean {
         val scheduledTime = composeScheduleView.getDateTime(viewModel.scheduledAt.value)
         if (scheduledTime != null) {
-            val calendar = ComposeScheduleView.getCalendar().apply {
+            val minimumScheduledTime = ComposeScheduleView.getCalendar().apply {
                 add(Calendar.SECOND, MINIMUM_SCHEDULED_SECONDS)
             }
-            val minimumScheduledTime = calendar.time
-            if (scheduledTime.before(minimumScheduledTime)) {
-                Toast.makeText(this,
-                        getString(R.string.warning_scheduling_interval),
-                        Toast.LENGTH_LONG)
-                        .show()
-
-            }
+            return scheduledTime.after(minimumScheduledTime.time)
         }
-        enableButtons(false)
-        sendStatus()
+
+        return true
+    }
+
+    private fun onSendClicked() {
+        if (verifyScheduledTime()) {
+            sendStatus()
+        } else {
+            AlertDialog.Builder(this)
+                    .setMessage(R.string.warning_scheduling_interval)
+                    .setPositiveButton(R.string.action_send) { _, _ ->
+                        sendStatus()
+                    }
+                    .setNegativeButton(android.R.string.cancel, null)
+                    .show()
+        }
     }
 
     /** This is for the fancy keyboards which can insert images and stuff. */
@@ -758,6 +765,7 @@ class ComposeActivity : BaseActivity(),
     }
 
     private fun sendStatus() {
+        enableButtons(false)
         val contentText = composeEditField.text.toString()
         var spoilerText = ""
         if (viewModel.showContentWarning.value!!) {
