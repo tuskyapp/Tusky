@@ -412,10 +412,11 @@ class ComposeActivity : BaseActivity(),
         // If you select "backward" in an editable, you get SelectionStart > SelectionEnd
         val start = composeEditField.selectionStart.coerceAtMost(composeEditField.selectionEnd)
         val end = composeEditField.selectionStart.coerceAtLeast(composeEditField.selectionEnd)
-        val textToInsert = if (
-                composeEditField.text.isNotEmpty()
-                && !composeEditField.text[start - 1].isWhitespace()
-        ) " $text" else text
+        val textToInsert = if (start > 0 && !composeEditField.text[start - 1].isWhitespace()) {
+            " $text"
+        } else {
+            text
+        }
         composeEditField.text.replace(start, end, textToInsert)
 
         // Set the cursor after the inserted text
