@@ -32,7 +32,7 @@
     <string name="title_favourites">Favoritos</string>
     <string name="title_mutes">Usuários silenciados</string>
     <string name="title_blocks">Usuários bloqueados</string>
-    <string name="title_follow_requests">Solicitações de seguidor</string>
+    <string name="title_follow_requests">Seguidores pendentes</string>
     <string name="title_edit_profile">Editar seu perfil</string>
     <string name="title_saved_toot">Rascunhos</string>
     <string name="title_licenses">Licenças</string>
@@ -76,7 +76,7 @@
     <string name="action_view_favourites">Favoritos</string>
     <string name="action_view_mutes">Usuários silenciados</string>
     <string name="action_view_blocks">Usuários bloqueados</string>
-    <string name="action_view_follow_requests">Solicitações de seguidor</string>
+    <string name="action_view_follow_requests">Seguidores pendentes</string>
     <string name="action_view_media">Mídia</string>
     <string name="action_open_in_web">Abrir no navegador</string>
     <string name="action_add_media">Adicionar mídia</string>
