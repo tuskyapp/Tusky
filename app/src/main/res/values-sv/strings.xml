@@ -4,7 +4,7 @@
     <string name="error_network">Ett nätverksfel inträffade! Kontrollera att du är ansluten till internet och försök igen! </string>
     <string name="error_empty">Det här kan inte vara tomt.</string>
     <string name="error_invalid_domain">Ogiltig domän angiven</string>
-    <string name="error_failed_app_registration">Misslyckades med att autentisera med den instansen.</string>
+    <string name="error_failed_app_registration">Kunde inte med att autentisera med den instansen.</string>
     <string name="error_no_web_browser_found">Det gick inte att hitta en webbläsare.</string>
     <string name="error_authorization_unknown">Ett oidentifierat behörighetsfel inträffade.</string>
     <string name="error_authorization_denied">Ingen behörighet.</string>
@@ -152,7 +152,7 @@
     <string name="dialog_message_uploading_media">Laddar upp…</string>
     <string name="dialog_download_image">Ladda ned</string>
     <string name="dialog_message_cancel_follow_request">Återkalla följningsförfrågan?</string>
-    <string name="dialog_unfollow_warning">Avfölja detta konto?</string>
+    <string name="dialog_unfollow_warning">Sluta följ detta konto\?</string>
     <string name="dialog_delete_toot_warning">Radera denna toot?</string>
     <string name="visibility_public">Offentlig: Skicka till offentliga tidslinjer</string>
     <string name="visibility_unlisted">Olistad: Visa inte i offentliga tidslinjer</string>
@@ -170,7 +170,7 @@
     <string name="pref_title_notification_filter_reblogs">mina inlägg är knuffade</string>
     <string name="pref_title_notification_filter_favourites">mina inlägg är favoriserade</string>
     <string name="pref_title_appearance_settings">Utseende</string>
-    <string name="pref_title_app_theme">Applikationstema</string>
+    <string name="pref_title_app_theme">Tema</string>
     <string name="pref_title_timelines">Tidslinjer</string>
     <string name="pref_title_timeline_filters">Filter</string>
     <string name="app_them_dark">Mörkt</string>
@@ -438,7 +438,7 @@
     <string name="report_remote_instance">Vidarebefordra till %s</string>
     <string name="failed_report">Misslyckades att anmäla</string>
     <string name="failed_fetch_statuses">Misslyckades att hämta status</string>
-    <string name="report_description_1">Anmälan kommer att skickas till din serveradminstratör. Du kan beskriva varför du anmäler kontot nedan:</string>
+    <string name="report_description_1">Anmälan kommer att skickas till din servermoderator. Du kan beskriva varför du anmäler kontot nedan:</string>
     <string name="report_description_remote_instance">Kontot är från en annan server. Skicka en anonym kopia av anmälan dit också\?</string>
 
     <string name="pref_title_show_notifications_filter">Visa notifikationsfilter</string>
@@ -463,7 +463,7 @@
     <string name="edit_poll">Redigera</string>
 
 <string name="title_scheduled_toot">Schemalagda toots</string>
-    <string name="action_edit">Redigera</string>
+    <string name="action_edit">Ändra</string>
     <string name="action_access_scheduled_toot">Schemalagda toots</string>
     <string name="action_schedule_toot">Schemalägg toot</string>
     <string name="action_reset_schedule">Återställ</string>
