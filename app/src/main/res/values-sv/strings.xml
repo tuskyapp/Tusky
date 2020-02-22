@@ -42,7 +42,7 @@
     <string name="status_boosted_format">%s knuffade</string>
     <string name="status_sensitive_media_title">Känsligt innehåll</string>
     <string name="status_media_hidden_title">Dold media</string>
-    <string name="status_sensitive_media_directions">Klicka för att se</string>
+    <string name="status_sensitive_media_directions">Tryck för att visa</string>
     <string name="status_content_warning_show_more">Visa mer</string>
     <string name="status_content_warning_show_less">Visa mindre</string>
     <string name="status_content_show_more">Expandera</string>
