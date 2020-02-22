@@ -112,4 +112,19 @@
     <string name="compose_save_draft">Uložiť koncept\?</string>
     <string name="send_toot_notification_channel_name">Odosielanie tootov</string>
     <string name="send_toot_notification_cancel_title">Odosielanie bolo zrušené</string>
+    <string name="performing_lookup_title">Vyhľadávanie…</string>
+    <string name="later">Neskôr</string>
+    <string name="restart">Reštartovať</string>
+    <string name="profile_badge_bot_text">Robot</string>
+    <string name="license_cc_by_4">CC-BY 4.0</string>
+    <string name="license_cc_by_sa_4">CC-BY-SA 4.0</string>
+
+    <string name="profile_metadata_label">Metadáta profilu</string>
+    <string name="profile_metadata_add">pridať dáta</string>
+    <string name="profile_metadata_content_label">Obsah</string>
+
+    <string name="conversation_1_recipients">%1$s</string>
+    <string name="conversation_2_recipients">%1$s a %2$s</string>
+    <string name="description_status_media_no_description_placeholder">Žiadny popis</string>
+    <string name="description_visiblity_public">Verejný</string>
     </resources>

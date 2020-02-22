@@ -395,8 +395,8 @@
     <string name="notification_poll_description">Notifieringar när omröstningar har avslutats</string>
 
 
-    <string name="poll_ended_voted">En undersökning där du har röstat är avslutad</string>
-    <string name="poll_ended_created">En undersökning du skapat har avslutats</string>
+    <string name="poll_ended_voted">En omröstning där du har röstat är avslutad</string>
+    <string name="poll_ended_created">En omröstning som du har skapat har avslutats</string>
 
     <plurals name="poll_timespan_days">
 	<item quantity="one">%d dag</item>
@@ -419,7 +419,7 @@
 
     <string name="pref_title_animate_gif_avatars">Animera profil gifar</string>
 
-    <string name="description_poll">Undersökning med valen: %1$s, %2$s, %3$s, %4$s; %5$s</string>
+    <string name="description_poll">Omröstning med valen: %1$s, %2$s, %3$s, %4$s; %5$s</string>
 
     <string name="title_domain_mutes">Dolda domäner</string>
     <string name="action_view_domain_mutes">Dolda domäner</string>
@@ -448,7 +448,7 @@
     <string name="title_accounts">Konton</string>
     <string name="failed_search">Sökning misslyckades</string>
 
-    <string name="action_add_poll">Lägg till omröstning</string>
+    <string name="action_add_poll">Skapa en omröstning</string>
     <string name="create_poll_title">Omröstning</string>
     <string name="poll_duration_5_min">5 minuter</string>
     <string name="poll_duration_30_min">30 minuter</string>
