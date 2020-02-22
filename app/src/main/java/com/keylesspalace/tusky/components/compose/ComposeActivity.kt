@@ -103,8 +103,6 @@ class ComposeActivity : BaseActivity(),
 
     // this only exists when a status is trying to be sent, but uploads are still occurring
     private var finishingUploadDialog: ProgressDialog? = null
-    private var currentInputContentInfo: InputContentInfoCompat? = null
-    private var currentFlags: Int = 0
     private var photoUploadUri: Uri? = null
     @VisibleForTesting
     var maximumTootCharacters = DEFAULT_CHARACTER_LIMIT
@@ -472,13 +470,6 @@ class ComposeActivity : BaseActivity(),
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
-        if (currentInputContentInfo != null) {
-            outState.putParcelable("commitContentInputContentInfo",
-                    currentInputContentInfo!!.unwrap() as Parcelable?)
-            outState.putInt("commitContentFlags", currentFlags)
-        }
-        currentInputContentInfo = null
-        currentFlags = 0
         outState.putParcelable("photoUploadUri", photoUploadUri)
         super.onSaveInstanceState(outState)
     }
@@ -707,38 +698,25 @@ class ComposeActivity : BaseActivity(),
     }
 
     /** This is for the fancy keyboards which can insert images and stuff. */
-    override fun onCommitContent(inputContentInfo: InputContentInfoCompat, flags: Int, opts: Bundle): Boolean {
-        try {
-            currentInputContentInfo?.releasePermission()
-        } catch (e: Exception) {
-            Log.e(TAG, "InputContentInfoCompat#releasePermission() failed." + e.message)
-        } finally {
-            currentInputContentInfo = null
-        }
-
+    override fun onCommitContent(inputContentInfo: InputContentInfoCompat, flags: Int, opts: Bundle?): Boolean {
         // Verify the returned content's type is of the correct MIME type
         val supported = inputContentInfo.description.hasMimeType("image/*")
 
-        return supported && onCommitContentInternal(inputContentInfo, flags)
-    }
-
-    private fun onCommitContentInternal(inputContentInfo: InputContentInfoCompat, flags: Int): Boolean {
-        if (flags and InputConnectionCompat.INPUT_CONTENT_GRANT_READ_URI_PERMISSION != 0) {
-            try {
-                inputContentInfo.requestPermission()
-            } catch (e: Exception) {
-                Log.e(TAG, "InputContentInfoCompat#requestPermission() failed." + e.message)
-                return false
+        if(supported) {
+            val lacksPermission = (flags and InputConnectionCompat.INPUT_CONTENT_GRANT_READ_URI_PERMISSION) != 0
+            if(lacksPermission) {
+                try {
+                    inputContentInfo.requestPermission()
+                } catch (e: Exception) {
+                    Log.e(TAG, "InputContentInfoCompat#requestPermission() failed." + e.message)
+                    return false
+                }
             }
+            pickMedia(inputContentInfo.contentUri, inputContentInfo)
+            return true
         }
 
-        // Determine the file size before putting handing it off to be put in the queue.
-        pickMedia(inputContentInfo.contentUri)
-
-        currentInputContentInfo = inputContentInfo
-        currentFlags = flags
-
-        return true
+        return false
     }
 
     private fun sendStatus() {
@@ -848,9 +826,12 @@ class ComposeActivity : BaseActivity(),
         }
     }
 
-    private fun pickMedia(uri: Uri) {
+    private fun pickMedia(uri: Uri, contentInfoCompat: InputContentInfoCompat? = null) {
         withLifecycleContext {
             viewModel.pickMedia(uri).observe { exceptionOrItem ->
+
+                contentInfoCompat?.releasePermission()
+
                 exceptionOrItem.asLeftOrNull()?.let {
                     val errorId = when (it) {
                         is VideoSizeException -> {
