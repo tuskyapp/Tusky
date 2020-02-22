@@ -145,6 +145,8 @@ class ComposeActivity : BaseActivity(),
         subscribeToUpdates(mediaAdapter)
         setupButtons()
 
+        photoUploadUri = savedInstanceState?.getParcelable(PHOTO_UPLOAD_URI_KEY)
+
         /* If the composer is started up as a reply to another post, override the "starting" state
          * based on what the intent from the reply request passes. */
         if (intent != null) {
@@ -470,7 +472,7 @@ class ComposeActivity : BaseActivity(),
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
-        outState.putParcelable("photoUploadUri", photoUploadUri)
+        outState.putParcelable(PHOTO_UPLOAD_URI_KEY, photoUploadUri)
         super.onSaveInstanceState(outState)
     }
 
@@ -1006,6 +1008,7 @@ class ComposeActivity : BaseActivity(),
         private const val PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 1
 
         private const val COMPOSE_OPTIONS_EXTRA = "COMPOSE_OPTIONS"
+        private const val PHOTO_UPLOAD_URI_KEY = "PHOTO_UPLOAD_URI"
 
         // Mastodon only counts URLs as this long in terms of status character limits
         @VisibleForTesting
