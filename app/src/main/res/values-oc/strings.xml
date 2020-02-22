@@ -337,8 +337,8 @@
     <string name="license_cc_by_sa_4">CC-BY-SA 4.0</string>
 
     <plurals name="favs">
-	<item quantity="one">&lt;b&gt;%1$s&lt;/b&gt; Favorit</item>
-	<item quantity="other">&lt;b&gt;3%1$s&lt;/b&gt;4 Favorits</item>
+	<item quantity="one"><b>%1$s</b> Favorit</item>
+	<item quantity="other"><b>%1$s</b> Favorits</item>
 </plurals>
 
     <plurals name="reblogs">
