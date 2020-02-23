@@ -27,6 +27,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.viewModels
 import androidx.annotation.ColorInt
 import androidx.annotation.Px
 import androidx.appcompat.app.AlertDialog
@@ -34,7 +35,6 @@ import androidx.core.app.ActivityOptionsCompat
 import androidx.core.content.ContextCompat
 import androidx.emoji.text.EmojiCompat
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager2.widget.MarginPageTransformer
@@ -76,7 +76,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
 
-    private lateinit var viewModel: AccountViewModel
+    private val viewModel: AccountViewModel by viewModels { viewModelFactory }
 
     private val accountFieldAdapter = AccountFieldAdapter(this)
 
@@ -116,9 +116,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
         loadResources()
         makeNotificationBarTransparent()
         setContentView(R.layout.activity_account)
-
-        viewModel = ViewModelProviders.of(this, viewModelFactory)[AccountViewModel::class.java]
-
+        
         // Obtain information to fill out the profile.
         viewModel.setAccountInfo(intent.getStringExtra(KEY_ACCOUNT_ID)!!)
 

@@ -22,8 +22,8 @@ import android.view.ViewGroup
 import androidx.core.app.ActivityOptionsCompat
 import androidx.core.view.ViewCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import androidx.paging.PagedList
 import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -59,18 +59,12 @@ class ReportStatusesFragment : Fragment(), Injectable, AdapterHandler {
     @Inject
     lateinit var accountManager: AccountManager
 
-    private lateinit var viewModel: ReportViewModel
+    private val viewModel: ReportViewModel by viewModels { viewModelFactory }
 
     private lateinit var adapter: StatusesAdapter
     private lateinit var layoutManager: LinearLayoutManager
 
     private var snackbarErrorRetry: Snackbar? = null
-
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        viewModel = ViewModelProviders.of(requireActivity(), viewModelFactory)[ReportViewModel::class.java]
-    }
 
     override fun showMedia(v: View?, status: Status?, idx: Int) {
         status?.actionableStatus?.let { actionable ->

@@ -19,14 +19,12 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
-import androidx.appcompat.content.res.AppCompatResources
+import androidx.activity.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import com.keylesspalace.tusky.BottomSheetActivity
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.components.report.adapter.ReportPagerAdapter
 import com.keylesspalace.tusky.di.ViewModelFactory
-import com.keylesspalace.tusky.util.ThemeUtils
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
 import kotlinx.android.synthetic.main.activity_report.*
@@ -42,11 +40,10 @@ class ReportActivity : BottomSheetActivity(), HasAndroidInjector {
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
 
-    private lateinit var viewModel: ReportViewModel
+    private val viewModel: ReportViewModel by viewModels { viewModelFactory }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel = ViewModelProviders.of(this, viewModelFactory)[ReportViewModel::class.java]
         val accountId = intent?.getStringExtra(ACCOUNT_ID)
         val accountUserName = intent?.getStringExtra(ACCOUNT_USERNAME)
         if (accountId.isNullOrBlank() || accountUserName.isNullOrBlank()) {

@@ -5,9 +5,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import androidx.paging.PagedList
 import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -30,11 +30,12 @@ import javax.inject.Inject
 abstract class SearchFragment<T> : Fragment(),
         LinkListener, Injectable, SwipeRefreshLayout.OnRefreshListener {
 
-    private var snackbarErrorRetry: Snackbar? = null
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
 
-    protected lateinit var viewModel: SearchViewModel
+    protected val viewModel: SearchViewModel by viewModels({requireActivity()}) { viewModelFactory }
+
+    private var snackbarErrorRetry: Snackbar? = null
 
     abstract fun createAdapter(): PagedListAdapter<T, *>
 
@@ -42,11 +43,6 @@ abstract class SearchFragment<T> : Fragment(),
     abstract val networkState: LiveData<NetworkState>
     abstract val data: LiveData<PagedList<T>>
     protected lateinit var adapter: PagedListAdapter<T, *>
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        viewModel = ViewModelProviders.of(requireActivity(), viewModelFactory)[SearchViewModel::class.java]
-    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_search, container, false)

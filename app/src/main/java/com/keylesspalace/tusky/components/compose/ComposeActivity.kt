@@ -37,6 +37,7 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.activity.viewModels
 import androidx.annotation.ColorInt
 import androidx.annotation.StringRes
 import androidx.annotation.VisibleForTesting
@@ -49,7 +50,6 @@ import androidx.core.view.inputmethod.InputContentInfoCompat
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -110,7 +110,7 @@ class ComposeActivity : BaseActivity(),
     var maximumTootCharacters = DEFAULT_CHARACTER_LIMIT
 
     private var composeOptions: ComposeOptions? = null
-    private lateinit var viewModel: ComposeViewModel
+    private val viewModel: ComposeViewModel by viewModels { viewModelFactory }
 
     private var mediaCount = 0
 
@@ -141,8 +141,6 @@ class ComposeActivity : BaseActivity(),
                 LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
         composeMediaPreviewBar.adapter = mediaAdapter
         composeMediaPreviewBar.itemAnimator = null
-
-        viewModel = ViewModelProviders.of(this, viewModelFactory)[ComposeViewModel::class.java]
 
         subscribeToUpdates(mediaAdapter)
         setupButtons()
