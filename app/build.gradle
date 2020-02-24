@@ -96,8 +96,8 @@ project.tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
 }
 
 ext.lifecycleVersion = "2.2.0"
-ext.roomVersion = '2.2.3'
-ext.retrofitVersion = '2.6.0'
+ext.roomVersion = '2.2.4'
+ext.retrofitVersion = '2.7.1'
 ext.okhttpVersion = '4.3.1'
 ext.glideVersion = '4.10.0'
 ext.daggerVersion = '2.26'
@@ -106,7 +106,7 @@ ext.daggerVersion = '2.26'
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
 
-    implementation "androidx.core:core-ktx:1.2.0-rc01"
+    implementation "androidx.core:core-ktx:1.2.0"
     implementation "androidx.appcompat:appcompat:1.2.0-alpha02"
     implementation "androidx.fragment:fragment-ktx:1.2.2"
     implementation "androidx.browser:browser:1.2.0"
@@ -128,7 +128,7 @@ dependencies {
     implementation "androidx.room:room-rxjava2:$roomVersion"
     kapt "androidx.room:room-compiler:$roomVersion"
 
-    implementation "com.google.android.material:material:1.1.0-rc01"
+    implementation "com.google.android.material:material:1.1.0"
 
     implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
     implementation "com.squareup.retrofit2:converter-gson:$retrofitVersion"
