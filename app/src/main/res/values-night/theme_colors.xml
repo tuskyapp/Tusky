@@ -10,7 +10,7 @@
     <color name="textColorPrimary">@color/white</color>
     <color name="textColorSecondary">@color/tusky_grey_90</color>
     <color name="textColorTertiary">@color/tusky_grey_70</color>
-    <color name="textColorDisabled">@color/tusky_grey_30</color>
+    <color name="textColorDisabled">@color/tusky_grey_40</color>
 
     <color name="iconColor">@color/tusky_grey_70</color>
 
