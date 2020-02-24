@@ -33,7 +33,7 @@ abstract class SearchFragment<T> : Fragment(),
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
 
-    protected val viewModel: SearchViewModel by viewModels({requireActivity()}) { viewModelFactory }
+    protected val viewModel: SearchViewModel by viewModels({ requireActivity() }) { viewModelFactory }
 
     private var snackbarErrorRetry: Snackbar? = null
 

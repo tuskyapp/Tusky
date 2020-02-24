@@ -59,7 +59,7 @@ class ReportStatusesFragment : Fragment(), Injectable, AdapterHandler {
     @Inject
     lateinit var accountManager: AccountManager
 
-    private val viewModel: ReportViewModel by viewModels { viewModelFactory }
+    private val viewModel: ReportViewModel by viewModels({ requireActivity() }) { viewModelFactory }
 
     private lateinit var adapter: StatusesAdapter
     private lateinit var layoutManager: LinearLayoutManager
