@@ -21,8 +21,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.components.report.ReportViewModel
 import com.keylesspalace.tusky.components.report.Screen
@@ -40,12 +40,7 @@ class ReportDoneFragment : Fragment(), Injectable {
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
 
-    private lateinit var viewModel: ReportViewModel
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        viewModel = ViewModelProviders.of(requireActivity(), viewModelFactory)[ReportViewModel::class.java]
-    }
+    private val viewModel: ReportViewModel by viewModels({ requireActivity() }) { viewModelFactory }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -69,8 +64,8 @@ class ReportDoneFragment : Fragment(), Injectable {
                 progressMute.hide()
             }
 
-            buttonMute.setText(when {
-                it.data == true -> R.string.action_unmute
+            buttonMute.setText(when (it.data) {
+                true -> R.string.action_unmute
                 else -> R.string.action_mute
             })
         })
@@ -84,8 +79,8 @@ class ReportDoneFragment : Fragment(), Injectable {
                 buttonBlock.hide()
                 progressBlock.hide()
             }
-            buttonBlock.setText(when {
-                it.data == true -> R.string.action_unblock
+            buttonBlock.setText(when (it.data) {
+                true -> R.string.action_unblock
                 else -> R.string.action_block
             })
         })

@@ -19,7 +19,6 @@ import android.Manifest
 import android.app.Activity
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
@@ -34,6 +33,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.ImageView
+import androidx.activity.viewModels
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.FitCenter
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
@@ -69,7 +69,7 @@ class EditProfileActivity : BaseActivity(), Injectable {
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
 
-    private lateinit var viewModel: EditProfileViewModel
+    private val viewModel: EditProfileViewModel by viewModels { viewModelFactory }
 
     private var currentlyPicking: PickType = PickType.NOTHING
 
@@ -89,8 +89,6 @@ class EditProfileActivity : BaseActivity(), Injectable {
         }
 
         setContentView(R.layout.activity_edit_profile)
-
-        viewModel = ViewModelProviders.of(this, viewModelFactory)[EditProfileViewModel::class.java]
 
         setSupportActionBar(toolbar)
         supportActionBar?.run {

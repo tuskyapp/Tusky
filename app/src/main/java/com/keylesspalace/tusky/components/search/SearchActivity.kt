@@ -21,8 +21,8 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import androidx.activity.viewModels
 import androidx.appcompat.widget.SearchView
-import androidx.lifecycle.ViewModelProviders
 import com.google.android.material.tabs.TabLayoutMediator
 import com.keylesspalace.tusky.BottomSheetActivity
 import com.keylesspalace.tusky.R
@@ -40,12 +40,11 @@ class SearchActivity : BottomSheetActivity(), HasAndroidInjector {
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
 
-    private lateinit var viewModel: SearchViewModel
+    private val viewModel: SearchViewModel by viewModels { viewModelFactory }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search)
-        viewModel = ViewModelProviders.of(this, viewModelFactory)[SearchViewModel::class.java]
         setSupportActionBar(toolbar)
         supportActionBar?.apply {
             setDisplayHomeAsUpEnabled(true)

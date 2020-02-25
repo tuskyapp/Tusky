@@ -20,8 +20,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import androidx.paging.PagedList
 import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -50,15 +50,13 @@ class ConversationsFragment : SFragment(), StatusActionListener, Injectable, Res
     @Inject
     lateinit var db: AppDatabase
 
-    private lateinit var viewModel: ConversationsViewModel
+    private val viewModel: ConversationsViewModel by viewModels { viewModelFactory }
 
     private lateinit var adapter: ConversationAdapter
 
     private var layoutManager: LinearLayoutManager? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        viewModel = ViewModelProviders.of(this, viewModelFactory)[ConversationsViewModel::class.java]
-
         return inflater.inflate(R.layout.fragment_timeline, container, false)
     }
 
@@ -87,10 +85,10 @@ class ConversationsFragment : SFragment(), StatusActionListener, Injectable, Res
 
         initSwipeToRefresh()
 
-        viewModel.conversations.observe(this, Observer<PagedList<ConversationEntity>> {
+        viewModel.conversations.observe(viewLifecycleOwner, Observer<PagedList<ConversationEntity>> {
             adapter.submitList(it)
         })
-        viewModel.networkState.observe(this, Observer {
+        viewModel.networkState.observe(viewLifecycleOwner, Observer {
             adapter.setNetworkState(it)
         })
 
@@ -99,7 +97,7 @@ class ConversationsFragment : SFragment(), StatusActionListener, Injectable, Res
     }
 
     private fun initSwipeToRefresh() {
-        viewModel.refreshState.observe(this, Observer {
+        viewModel.refreshState.observe(viewLifecycleOwner, Observer {
             swipeRefreshLayout.isRefreshing = it == NetworkState.LOADING
         })
         swipeRefreshLayout.setOnRefreshListener {
