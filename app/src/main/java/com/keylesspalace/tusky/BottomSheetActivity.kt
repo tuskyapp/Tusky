@@ -171,9 +171,12 @@ abstract class BottomSheetActivity : BaseActivity() {
 // https://mastodon.foo.bar/@User
 // https://mastodon.foo.bar/@User/43456787654678
 // https://pleroma.foo.bar/users/User
-// https://pleroma.foo.bar/users/43456787654678
-// https://pleroma.foo.bar/notice/43456787654678
+// https://pleroma.foo.bar/users/9qTHT2ANWUdXzENqC0
+// https://pleroma.foo.bar/notice/9sBHWIlwwGZi5QGlHc
 // https://pleroma.foo.bar/objects/d4643c42-3ae0-4b73-b8b0-c725f5819207
+// https://friendica.foo.bar/profile/user
+// https://friendica.foo.bar/display/d4643c42-3ae0-4b73-b8b0-c725f5819207
+// https://misskey.foo.bar/notes/83w6r388br (always lowercase)
 fun looksLikeMastodonUrl(urlString: String): Boolean {
     val uri: URI
     try {
@@ -190,10 +193,13 @@ fun looksLikeMastodonUrl(urlString: String): Boolean {
 
     val path = uri.path
     return path.matches("^/@[^/]+$".toRegex()) ||
-            path.matches("^/users/[^/]+$".toRegex()) ||
             path.matches("^/@[^/]+/\\d+$".toRegex()) ||
-            path.matches("^/notice/\\d+$".toRegex()) ||
-            path.matches("^/objects/[-a-f0-9]+$".toRegex())
+            path.matches("^/users/\\w+$".toRegex()) ||
+            path.matches("^/notice/[a-zA-Z0-9]+$".toRegex()) ||
+            path.matches("^/objects/[-a-f0-9]+$".toRegex()) ||
+            path.matches("^/notes/[a-z0-9]+$".toRegex()) ||
+            path.matches("^/display/[-a-f0-9]+$".toRegex()) ||
+            path.matches("^/profile/\\w+$".toRegex())
 }
 
 enum class PostLookupFallbackBehavior {
