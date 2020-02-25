@@ -469,5 +469,6 @@
 
     <string name="no_saved_status">Du hast keine Entwürfe.</string>
     <string name="no_scheduled_status">Du hast keine geplanten Beiträge.</string>
+    <string name="warning_scheduling_interval">Das Datum des geplanten Toots muss mindestens 5 Minuten in der Zukunft liegen.</string>
 
 </resources>
