@@ -101,9 +101,7 @@ public class ComposeScheduleView extends ConstraintLayout {
             scheduledDateTimeView.setText(String.format("%s %s",
                     dateFormat.format(scheduled),
                     timeFormat.format(scheduled)));
-            if (!verifyScheduledTime(scheduled)) {
-                invalidScheduleWarningView.setVisibility(VISIBLE);
-            }
+            verifyScheduledTime(scheduled);
         }
     }
 
@@ -178,13 +176,17 @@ public class ComposeScheduleView extends ConstraintLayout {
         setScheduledDateTime();
     }
 
-    public static boolean verifyScheduledTime(@Nullable Date scheduledTime) {
+    public boolean verifyScheduledTime(@Nullable Date scheduledTime) {
+        boolean valid;
         if (scheduledTime != null) {
             Calendar minimumScheduledTime = getCalendar();
             minimumScheduledTime.add(Calendar.SECOND, MINIMUM_SCHEDULED_SECONDS);
-            return scheduledTime.after(minimumScheduledTime.getTime());
+            valid = scheduledTime.after(minimumScheduledTime.getTime());
+        } else {
+            valid = true;
         }
-        return true;
+        invalidScheduleWarningView.setVisibility(valid ? GONE : VISIBLE);
+        return valid;
     }
 
     private void onDateSet(long selection) {

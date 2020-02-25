@@ -703,14 +703,14 @@ class ComposeActivity : BaseActivity(),
     }
 
     private fun verifyScheduledTime(): Boolean {
-        return ComposeScheduleView.verifyScheduledTime(composeScheduleView.getDateTime(viewModel.scheduledAt.value))
+        return composeScheduleView.verifyScheduledTime(composeScheduleView.getDateTime(viewModel.scheduledAt.value))
     }
 
     private fun onSendClicked() {
         if (verifyScheduledTime()) {
             sendStatus()
         } else {
-            scheduleBehavior.state = BottomSheetBehavior.STATE_EXPANDED
+            showScheduleView()
         }
     }
 
@@ -1002,7 +1002,7 @@ class ComposeActivity : BaseActivity(),
         if (verifyScheduledTime()) {
             scheduleBehavior.state = BottomSheetBehavior.STATE_HIDDEN
         } else {
-            scheduleBehavior.state = BottomSheetBehavior.STATE_EXPANDED
+            showScheduleView()
         }
     }
 
