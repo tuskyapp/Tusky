@@ -236,4 +236,27 @@
     <string name="hint_search_people_list">Nadi γef medden i teṭafareḍ</string>
     <string name="description_visiblity_private">Imeḍfaṛen</string>
 
+    <string name="action_links">Iseγwan</string>
+    <string name="action_mentions">Tibdarin</string>
+    <string name="title_mentions_dialog">Tibdarin</string>
+    <string name="title_links_dialog">Iseγwan</string>
+    <string name="confirmation_reported">Yettwaceyyaɛ!</string>
+    <string name="status_sent">Yettwaceyyaɛ!</string>
+    <string name="search_no_results">Ula d yiwen n ugmuḍ</string>
+
+    <string name="post_privacy_followers_only">I yimeḍfaṛen kan</string>
+
+    <string name="pref_status_text_size">Teγzi n weḍṛis</string>
+
+    <string name="about_powered_by_tusky">Yettwamdemmar s Tusky</string>
+    <string name="about_project_site">Asmel Web n usenfaṛ:
+\n https://tusky.app</string>
+    <string name="abbreviated_hours_ago">%dasr</string>
+    <string name="abbreviated_minutes_ago">%dtas</string>
+    <string name="abbreviated_seconds_ago">%dtasn</string>
+
+    <string name="compose_save_draft">Sekles amzun d arewway\?</string>
+    <string name="later">Ticki</string>
+    <string name="profile_badge_bot_text">Aṛubut</string>
+    <string name="description_status_bookmarked">Yettwarna γer ticṛad</string>
     </resources>
