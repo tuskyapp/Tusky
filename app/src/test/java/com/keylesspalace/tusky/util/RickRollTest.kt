@@ -2,7 +2,6 @@ package com.keylesspalace.tusky.util
 
 import android.app.Activity
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.keylesspalace.tusky.FakeTuskyApplication
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Before
@@ -11,7 +10,7 @@ import org.junit.runner.RunWith
 import org.robolectric.Robolectric
 import org.robolectric.annotation.Config
 
-@Config(application = FakeTuskyApplication::class, sdk = [28])
+@Config(sdk = [28])
 @RunWith(AndroidJUnit4::class)
 class RickRollTest {
     private lateinit var activity: Activity

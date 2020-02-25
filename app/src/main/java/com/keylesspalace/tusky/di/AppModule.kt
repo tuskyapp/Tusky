@@ -21,10 +21,10 @@ import android.content.Context
 import android.content.SharedPreferences
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.preference.PreferenceManager
+import androidx.room.Room
 import com.keylesspalace.tusky.TuskyApplication
 import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.appstore.EventHubImpl
-import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.db.AppDatabase
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.network.TimelineCases
@@ -66,18 +66,21 @@ class AppModule {
 
     @Provides
     @Singleton
-    fun providesAccountManager(app: TuskyApplication): AccountManager {
-        return app.serviceLocator.get(AccountManager::class.java)
-    }
-
-    @Provides
-    @Singleton
     fun providesEventHub(): EventHub = EventHubImpl
 
     @Provides
     @Singleton
-    fun providesDatabase(app: TuskyApplication): AppDatabase {
-        return app.serviceLocator.get(AppDatabase::class.java)
+    fun providesDatabase(appContext: Context): AppDatabase {
+        return Room.databaseBuilder(appContext, AppDatabase::class.java, "tuskyDB")
+                .allowMainThreadQueries()
+                .addMigrations(AppDatabase.MIGRATION_2_3, AppDatabase.MIGRATION_3_4, AppDatabase.MIGRATION_4_5,
+                        AppDatabase.MIGRATION_5_6, AppDatabase.MIGRATION_6_7, AppDatabase.MIGRATION_7_8,
+                        AppDatabase.MIGRATION_8_9, AppDatabase.MIGRATION_9_10, AppDatabase.MIGRATION_10_11,
+                        AppDatabase.MIGRATION_11_12, AppDatabase.MIGRATION_12_13, AppDatabase.MIGRATION_10_13,
+                        AppDatabase.MIGRATION_13_14, AppDatabase.MIGRATION_14_15, AppDatabase.MIGRATION_15_16,
+                        AppDatabase.MIGRATION_16_17, AppDatabase.MIGRATION_17_18, AppDatabase.MIGRATION_18_19,
+                        AppDatabase.MIGRATION_19_20, AppDatabase.MIGRATION_20_21)
+                .build()
     }
 
     @Provides
