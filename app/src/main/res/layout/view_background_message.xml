@@ -1,6 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:gravity="center_horizontal"
+    tools:orientation="vertical"
+    tools:parentTag="android.widget.LinearLayout">
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="4dp"
+        android:layout_weight="1"
+        android:contentDescription="@null"
+        android:scaleType="centerInside"
+        tools:src="@drawable/elephant_offline" />
 
     <TextView
         android:id="@+id/messageTextView"
@@ -13,7 +26,6 @@
         android:paddingRight="16dp"
         android:textAlignment="center"
         android:textSize="?attr/status_text_medium"
-        tools:drawableTop="@drawable/elephant_offline"
         tools:text="@string/error_network" />
 
     <Button
@@ -22,5 +34,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
+        android:layout_marginBottom="4dp"
         android:text="@string/action_retry" />
 </merge>
