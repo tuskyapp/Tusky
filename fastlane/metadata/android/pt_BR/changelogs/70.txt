@@ -1,0 +1,8 @@
+Tusky v10.0
+
+- Pra quem não aguenta mais perder toots no meio dos favoritos, o Salvos chegou!
+- Agora dá para agendar toots, porém é necessário agendá-los para ao menos 5 minutos depois, certo?
+- Utilidade pública: Finalmente poderemos adicionar listas na barrinha do Tusky!
+- Filosofou no áudio de uma conversa e quer compartilhar com o fediverso? Você já pode anexar áudios nos toots, só não se esqueça de descrevê-los!
+
+E muitas outras pequenas melhorias e correções de bugs!
