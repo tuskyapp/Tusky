@@ -245,6 +245,7 @@ public abstract class SFragment extends BaseFragment implements Injectable {
                             " - " +
                             statusToShare.getContent().toString();
                     sendIntent.putExtra(Intent.EXTRA_TEXT, stringToShare);
+                    sendIntent.putExtra(Intent.EXTRA_SUBJECT, statusUrl);
                     sendIntent.setType("text/plain");
                     startActivity(Intent.createChooser(sendIntent, getResources().getText(R.string.send_status_content_to)));
                     return true;
