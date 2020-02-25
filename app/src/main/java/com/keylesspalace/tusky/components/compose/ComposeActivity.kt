@@ -65,6 +65,7 @@ import com.keylesspalace.tusky.adapter.OnEmojiSelectedListener
 import com.keylesspalace.tusky.components.compose.dialog.makeCaptionDialog
 import com.keylesspalace.tusky.components.compose.dialog.showAddPollDialog
 import com.keylesspalace.tusky.components.compose.view.ComposeOptionsListener
+import com.keylesspalace.tusky.components.compose.view.ComposeScheduleView
 import com.keylesspalace.tusky.db.AccountEntity
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.di.ViewModelFactory
@@ -695,9 +696,16 @@ class ComposeActivity : BaseActivity(),
         updateVisibleCharactersLeft()
     }
 
+    private fun verifyScheduledTime(): Boolean {
+        return composeScheduleView.verifyScheduledTime(composeScheduleView.getDateTime(viewModel.scheduledAt.value))
+    }
+
     private fun onSendClicked() {
-        enableButtons(false)
-        sendStatus()
+        if (verifyScheduledTime()) {
+            sendStatus()
+        } else {
+            showScheduleView()
+        }
     }
 
     /** This is for the fancy keyboards which can insert images and stuff. */
@@ -723,6 +731,7 @@ class ComposeActivity : BaseActivity(),
     }
 
     private fun sendStatus() {
+        enableButtons(false)
         val contentText = composeEditField.text.toString()
         var spoilerText = ""
         if (viewModel.showContentWarning.value!!) {
@@ -974,7 +983,11 @@ class ComposeActivity : BaseActivity(),
     override fun onTimeSet(view: TimePicker, hourOfDay: Int, minute: Int) {
         composeScheduleView.onTimeSet(hourOfDay, minute)
         viewModel.updateScheduledAt(composeScheduleView.time)
-        scheduleBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+        if (verifyScheduledTime()) {
+            scheduleBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+        } else {
+            showScheduleView()
+        }
     }
 
     private fun resetSchedule() {

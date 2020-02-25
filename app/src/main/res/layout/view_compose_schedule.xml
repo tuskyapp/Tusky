@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
         android:text="@string/action_reset_schedule"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/invalidScheduleWarning"
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
@@ -23,10 +23,27 @@
         android:paddingBottom="16dp"
         android:textColor="?android:textColorTertiary"
         android:textSize="?attr/status_text_medium"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/invalidScheduleWarning"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1"
         app:layout_constraintStart_toEndOf="@id/resetScheduleButton"
         tools:text="2020/01/01 00:00:00" />
+
+    <TextView
+        android:id="@+id/invalidScheduleWarning"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:drawablePadding="4dp"
+        android:paddingStart="4dp"
+        android:paddingTop="4dp"
+        android:paddingBottom="16dp"
+        android:textColor="?android:textColorTertiary"
+        android:textSize="?attr/status_text_medium"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:text="@string/warning_scheduling_interval"
+        android:visibility="gone" />
 
 </merge>
