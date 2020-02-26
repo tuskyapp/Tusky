@@ -207,15 +207,14 @@ class ComposeActivity : BaseActivity(),
                     if (action != null && action == Intent.ACTION_SEND) {
                         val subject = intent.getStringExtra(Intent.EXTRA_SUBJECT)
                         val text = intent.getStringExtra(Intent.EXTRA_TEXT)
-                        val shareBody = if (subject != null && text != null) {
-                            if (subject != text && !text.contains(subject)) {
-                                String.format("%s\n%s", subject, text)
-                            } else {
-                                text
-                            }
-                        } else text ?: subject
+                        val shareBody = text ?: subject
 
                         if (shareBody != null) {
+                            if (!subject.isNullOrBlank() && subject !in shareBody) {
+                                composeContentWarningField.setText(subject)
+                                viewModel.showContentWarning.value = true
+                            }
+
                             val start = composeEditField.selectionStart.coerceAtLeast(0)
                             val end = composeEditField.selectionEnd.coerceAtLeast(0)
                             val left = min(start, end)
