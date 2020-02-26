@@ -229,7 +229,7 @@ public class TimelineFragment extends SFragment implements
                 preferences.getBoolean("showBotOverlay", true),
                 preferences.getBoolean("useBlurhash", true),
                 preferences.getBoolean("showCardsInTimelines", false) ?
-                        CardViewMode.FULL_WIDTH :
+                        CardViewMode.INDENTED :
                         CardViewMode.NONE
         );
         adapter = new TimelineAdapter(dataSource, statusDisplayOptions, this);
