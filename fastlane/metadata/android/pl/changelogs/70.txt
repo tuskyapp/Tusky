@@ -1,0 +1,8 @@
+Tusky v10.0
+
+- Dodano wsparcie dla zakładek. Możesz teraz dodawać wpisy do zakładek i przeglądać zakładki w Tusky.
+- Możesz teraz zaplanować wpisy w Tusky. (Uwaga: wybrany czas do wysłania zaplanowanego wpisu musi wynosić przynajmniej 5 minut)
+- Możesz teraz dodawać listy do ekranu głównego.
+- Możesz teraz załączać pliki audio do wpisów.
+
+Plus wiele innych małych ulepszeń i poprawek!
