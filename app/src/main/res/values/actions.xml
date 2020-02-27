@@ -22,4 +22,5 @@
     <item name="action_open_reblogger" type="id" />
     <item name="action_open_reblogged_by" type="id" />
     <item name="action_open_faved_by" type="id" />
+    <item name="action_more" type="id" />
 </resources>

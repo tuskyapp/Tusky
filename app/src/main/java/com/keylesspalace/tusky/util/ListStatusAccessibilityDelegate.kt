@@ -82,6 +82,8 @@ class ListStatusAccessibilityDelegate(
                 }
                 if (status.reblogsCount > 0) info.addAction(openRebloggedByAction)
                 if (status.favouritesCount > 0) info.addAction(openFavsAction)
+
+                info.addAction(moreAction)
             }
 
         }
@@ -149,6 +151,9 @@ class ListStatusAccessibilityDelegate(
                 R.id.action_open_faved_by -> {
                     interrupt()
                     statusActionListener.onShowFavs(pos)
+                }
+                R.id.action_more -> {
+                    statusActionListener.onMore(host, pos)
                 }
                 else -> return super.performAccessibilityAction(host, action, args)
             }
@@ -310,6 +315,11 @@ class ListStatusAccessibilityDelegate(
     private val openFavsAction = AccessibilityActionCompat(
             R.id.action_open_faved_by,
             context.getString(R.string.action_open_faved_by))
+
+    private val moreAction = AccessibilityActionCompat(
+            R.id.action_more,
+            context.getString(R.string.action_more)
+    )
 
     private data class LinkSpanInfo(val text: String, val link: String)
 }
