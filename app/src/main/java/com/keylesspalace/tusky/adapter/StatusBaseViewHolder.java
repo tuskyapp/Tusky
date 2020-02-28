@@ -938,9 +938,6 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         if (cardViewMode != CardViewMode.NONE && status.getAttachments().size() == 0 && status.getCard() != null && !TextUtils.isEmpty(status.getCard().getUrl())) {
             final Card card = status.getCard();
             cardView.setVisibility(View.VISIBLE);
-            cardView.getLayoutParams().width = cardViewMode == CardViewMode.FULL_WIDTH ?
-                    ViewGroup.LayoutParams.MATCH_PARENT :
-                    ViewGroup.LayoutParams.WRAP_CONTENT;
             cardTitle.setText(card.getTitle());
             if (TextUtils.isEmpty(card.getDescription()) && TextUtils.isEmpty(card.getAuthorName())) {
                 cardDescription.setVisibility(View.GONE);

@@ -159,7 +159,7 @@
 
     <LinearLayout
         android:id="@+id/status_card_view"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:background="@drawable/card_frame"
@@ -169,6 +169,7 @@
         android:orientation="vertical"
         app:layout_constraintStart_toStartOf="@id/status_display_name"
         app:layout_constraintTop_toBottomOf="@+id/status_content"
+        app:layout_constraintEnd_toEndOf="parent"
         tools:visibility="gone">
 
         <ImageView
