@@ -1,0 +1,8 @@
+Tusky v10.0
+
+- Þú getur núna bákamerkt stöðufærslur og gert lista með bókamerkjunum þínum í Tusky.
+- Þú getur núna sett tíst á áætlun í Tusky. Athugaðu að tíminn sem þú velur þarf að vera í það minnsta efti 5 mínútur.
+- Þú getur núna bætt listum á aðalskjáinn.
+- Þú getur núna sent in hljóðskrár sem viðhengi í Tusky.
+
+Auk hellings af smærri lagfæringum og bætingum!
