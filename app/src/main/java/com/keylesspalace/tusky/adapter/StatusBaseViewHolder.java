@@ -8,9 +8,11 @@ import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,14 +24,18 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.CenterCrop;
+import com.bumptech.glide.load.resource.bitmap.GranularRoundedCorners;
 import com.google.android.material.button.MaterialButton;
 import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.entity.Attachment;
 import com.keylesspalace.tusky.entity.Attachment.Focus;
 import com.keylesspalace.tusky.entity.Attachment.MetaData;
+import com.keylesspalace.tusky.entity.Card;
 import com.keylesspalace.tusky.entity.Emoji;
 import com.keylesspalace.tusky.entity.Status;
 import com.keylesspalace.tusky.interfaces.StatusActionListener;
+import com.keylesspalace.tusky.util.CardViewMode;
 import com.keylesspalace.tusky.util.CustomEmojiHelper;
 import com.keylesspalace.tusky.util.HtmlUtils;
 import com.keylesspalace.tusky.util.ImageLoadingHelper;
@@ -86,6 +92,12 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
     private TextView pollDescription;
     private Button pollButton;
 
+    private LinearLayout cardView;
+    private LinearLayout cardInfo;
+    private ImageView cardImage;
+    private TextView cardTitle;
+    private TextView cardDescription;
+    private TextView cardUrl;
     private PollAdapter pollAdapter;
 
     private SimpleDateFormat shortSdf;
@@ -142,6 +154,13 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         pollOptions = itemView.findViewById(R.id.status_poll_options);
         pollDescription = itemView.findViewById(R.id.status_poll_description);
         pollButton = itemView.findViewById(R.id.status_poll_button);
+
+        cardView = itemView.findViewById(R.id.status_card_view);
+        cardInfo = itemView.findViewById(R.id.card_info);
+        cardImage = itemView.findViewById(R.id.card_image);
+        cardTitle = itemView.findViewById(R.id.card_title);
+        cardDescription = itemView.findViewById(R.id.card_description);
+        cardUrl = itemView.findViewById(R.id.card_link);
 
         pollAdapter = new PollAdapter();
         pollOptions.setAdapter(pollAdapter);
@@ -683,6 +702,10 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
                 hideSensitiveMediaWarning();
             }
 
+            if (cardView != null) {
+                setupCard(status, statusDisplayOptions.cardViewMode());
+            }
+
             setupButtons(listener, status.getSenderId());
             setRebloggingEnabled(status.getRebloggingEnabled(), status.getVisibility());
 
@@ -909,6 +932,80 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         }
 
         return pollDescription.getContext().getString(R.string.poll_info_format, votesText, pollDurationInfo);
+    }
+
+    protected void setupCard(StatusViewData.Concrete status, CardViewMode cardViewMode) {
+        if (cardViewMode != CardViewMode.NONE && status.getAttachments().size() == 0 && status.getCard() != null && !TextUtils.isEmpty(status.getCard().getUrl())) {
+            final Card card = status.getCard();
+            cardView.setVisibility(View.VISIBLE);
+            cardTitle.setText(card.getTitle());
+            if (TextUtils.isEmpty(card.getDescription()) && TextUtils.isEmpty(card.getAuthorName())) {
+                cardDescription.setVisibility(View.GONE);
+            } else {
+                cardDescription.setVisibility(View.VISIBLE);
+                if (TextUtils.isEmpty(card.getDescription())) {
+                    cardDescription.setText(card.getAuthorName());
+                } else {
+                    cardDescription.setText(card.getDescription());
+                }
+            }
+
+            cardUrl.setText(card.getUrl());
+
+            if (!TextUtils.isEmpty(card.getImage())) {
+
+                int topLeftRadius = 0;
+                int topRightRadius = 0;
+                int bottomRightRadius = 0;
+                int bottomLeftRadius = 0;
+
+                int radius = cardImage.getContext().getResources()
+                        .getDimensionPixelSize(R.dimen.card_radius);
+
+                if (card.getWidth() > card.getHeight()) {
+                    cardView.setOrientation(LinearLayout.VERTICAL);
+
+                    cardImage.getLayoutParams().height = cardImage.getContext().getResources()
+                            .getDimensionPixelSize(R.dimen.card_image_vertical_height);
+                    cardImage.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
+                    cardInfo.getLayoutParams().height = ViewGroup.LayoutParams.MATCH_PARENT;
+                    cardInfo.getLayoutParams().width = ViewGroup.LayoutParams.WRAP_CONTENT;
+                    topLeftRadius = radius;
+                    topRightRadius = radius;
+                } else {
+                    cardView.setOrientation(LinearLayout.HORIZONTAL);
+                    cardImage.getLayoutParams().height = ViewGroup.LayoutParams.MATCH_PARENT;
+                    cardImage.getLayoutParams().width = cardImage.getContext().getResources()
+                            .getDimensionPixelSize(R.dimen.card_image_horizontal_width);
+                    cardInfo.getLayoutParams().height = ViewGroup.LayoutParams.WRAP_CONTENT;
+                    cardInfo.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
+                    topLeftRadius = radius;
+                    bottomLeftRadius = radius;
+                }
+
+
+                Glide.with(cardImage)
+                        .load(card.getImage())
+                        .transform(
+                                new CenterCrop(),
+                                new GranularRoundedCorners(topLeftRadius, topRightRadius, bottomRightRadius, bottomLeftRadius)
+                        )
+                        .into(cardImage);
+            } else {
+                cardView.setOrientation(LinearLayout.HORIZONTAL);
+                cardImage.getLayoutParams().height = ViewGroup.LayoutParams.MATCH_PARENT;
+                cardImage.getLayoutParams().width = cardImage.getContext().getResources()
+                        .getDimensionPixelSize(R.dimen.card_image_horizontal_width);
+                cardInfo.getLayoutParams().height = ViewGroup.LayoutParams.WRAP_CONTENT;
+                cardInfo.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
+                cardImage.setImageResource(R.drawable.card_image_placeholder);
+            }
+
+            cardView.setOnClickListener(v -> LinkHelper.openLink(card.getUrl(), v.getContext()));
+            cardView.setClipToOutline(true);
+        } else {
+            cardView.setVisibility(View.GONE);
+        }
     }
 
     private static String formatDuration(double durationInSeconds) {

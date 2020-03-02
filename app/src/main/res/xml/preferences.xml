@@ -72,6 +72,12 @@
             android:title="@string/pref_title_show_notifications_filter"
             app:singleLineTitle="false" />
 
+        <SwitchPreferenceCompat
+            android:defaultValue="false"
+            android:key="showCardsInTimelines"
+            android:title="@string/pref_title_show_cards_in_timelines"
+            app:singleLineTitle="false" />
+
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/pref_title_browser_settings">
