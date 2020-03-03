@@ -135,7 +135,8 @@ public final class ViewThreadFragment extends SFragment implements
                 preferences.getBoolean("useBlurhash", true),
                 preferences.getBoolean("showCardsInTimelines", false) ?
                         CardViewMode.INDENTED :
-                        CardViewMode.NONE
+                        CardViewMode.NONE,
+                preferences.getBoolean("confirmReblogs", true)
         );
         adapter = new ThreadAdapter(statusDisplayOptions, this);
     }

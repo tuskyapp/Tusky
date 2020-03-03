@@ -549,5 +549,6 @@
     <string name="no_scheduled_status">You don\'t have any scheduled statuses.</string>
     <string name="warning_scheduling_interval">Mastodon has a minimum scheduling interval of 5 minutes.</string>
     <string name="pref_title_show_cards_in_timelines">Show link previews in timelines</string>
+    <string name="pref_title_confirm_reblogs">Show confirmation dialog before boosting</string>
 
 </resources>

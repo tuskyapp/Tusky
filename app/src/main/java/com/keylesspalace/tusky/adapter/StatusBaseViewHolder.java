@@ -19,6 +19,7 @@ import android.widget.Toast;
 import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -209,7 +210,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             contentWarningDescription.setVisibility(View.VISIBLE);
             contentWarningButton.setVisibility(View.VISIBLE);
             setContentWarningButtonText(expanded);
-            contentWarningButton.setOnClickListener( view -> {
+            contentWarningButton.setOnClickListener(view -> {
                 contentWarningDescription.invalidate();
                 if (getAdapterPosition() != RecyclerView.NO_POSITION) {
                     listener.onExpandedChange(!expanded, getAdapterPosition());
@@ -227,7 +228,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
     }
 
     private void setContentWarningButtonText(boolean expanded) {
-        if(expanded) {
+        if (expanded) {
             contentWarningButton.setText(R.string.status_content_warning_show_less);
         } else {
             contentWarningButton.setText(R.string.status_content_warning_show_more);
@@ -610,7 +611,9 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         sensitiveMediaShow.setVisibility(View.GONE);
     }
 
-    protected void setupButtons(final StatusActionListener listener, final String accountId) {
+    protected void setupButtons(final StatusActionListener listener, final String accountId,
+                                final String statusContent,
+                                StatusDisplayOptions statusDisplayOptions) {
 
         avatar.setOnClickListener(v -> listener.onViewAccount(accountId));
         replyButton.setOnClickListener(v -> {
@@ -623,7 +626,13 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             reblogButton.setEventListener((button, buttonState) -> {
                 int position = getAdapterPosition();
                 if (position != RecyclerView.NO_POSITION) {
-                    listener.onReblog(buttonState, position);
+                    listener.onReblog(!buttonState, position);
+                }
+                if (statusDisplayOptions.confirmReblogs()) {
+                    showConfirmReblogDialog(listener, statusContent, buttonState, position);
+                    return false;
+                } else {
+                    return true;
                 }
             });
         }
@@ -631,15 +640,17 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         favouriteButton.setEventListener((button, buttonState) -> {
             int position = getAdapterPosition();
             if (position != RecyclerView.NO_POSITION) {
-                listener.onFavourite(buttonState, position);
+                listener.onFavourite(!buttonState, position);
             }
+            return true;
         });
 
         bookmarkButton.setEventListener((button, buttonState) -> {
             int position = getAdapterPosition();
             if (position != RecyclerView.NO_POSITION) {
-                listener.onBookmark(buttonState, position);
+                listener.onBookmark(!buttonState, position);
             }
+            return true;
         });
 
         moreButton.setOnClickListener(v -> {
@@ -660,6 +671,23 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         };
         content.setOnClickListener(viewThreadListener);
         itemView.setOnClickListener(viewThreadListener);
+    }
+
+    private void showConfirmReblogDialog(StatusActionListener listener,
+                                         String statusContent,
+                                         boolean buttonState,
+                                         int position) {
+        int okButtonTextId = buttonState ? R.string.action_unreblog : R.string.action_reblog;
+        new AlertDialog.Builder(reblogButton.getContext())
+                .setMessage(statusContent)
+                .setPositiveButton(okButtonTextId, (__, ___) -> {
+                    listener.onReblog(!buttonState, position);
+                    if (!buttonState) {
+                        // Play animation only when it's reblog, not unreblog
+                        reblogButton.playAnimation();
+                    }
+                })
+                .show();
     }
 
     public void setupWithStatus(StatusViewData.Concrete status, final StatusActionListener listener,
@@ -706,7 +734,8 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
                 setupCard(status, statusDisplayOptions.cardViewMode());
             }
 
-            setupButtons(listener, status.getSenderId());
+            setupButtons(listener, status.getSenderId(), status.getContent().toString(),
+                    statusDisplayOptions);
             setRebloggingEnabled(status.getRebloggingEnabled(), status.getVisibility());
 
             setSpoilerAndContent(status.isExpanded(), status.getContent(), status.getSpoilerText(), status.getMentions(), status.getStatusEmojis(), status.getPoll(), statusDisplayOptions, listener);

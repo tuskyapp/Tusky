@@ -230,7 +230,8 @@ public class TimelineFragment extends SFragment implements
                 preferences.getBoolean("useBlurhash", true),
                 preferences.getBoolean("showCardsInTimelines", false) ?
                         CardViewMode.INDENTED :
-                        CardViewMode.NONE
+                        CardViewMode.NONE,
+                preferences.getBoolean("confirmReblogs", true)
         );
         adapter = new TimelineAdapter(dataSource, statusDisplayOptions, this);
 
@@ -580,6 +581,10 @@ public class TimelineFragment extends SFragment implements
     @Override
     public void onReblog(final boolean reblog, final int position) {
         final Status status = statuses.get(position).asRight();
+        doReblog(reblog, position, status);
+    }
+
+    private void doReblog(boolean reblog, int position, Status status) {
         timelineCases.reblog(status, reblog)
                 .observeOn(AndroidSchedulers.mainThread())
                 .as(autoDisposable(from(this, Lifecycle.Event.ON_DESTROY)))
