@@ -1,0 +1,8 @@
+Tusky v10.0
+
+- Tuskyでブックマークの登録、表示が行えるようになりました。
+- You can now schedule toots with Tusky. Note that the time you select has to be at least 5 minutes in the future.
+- You can now add lists to the main screen.
+- Tuskyで音声ファイルを投稿出来るようになりました。
+
+その他、多くの細かな改善とバグの修正を行いました！
