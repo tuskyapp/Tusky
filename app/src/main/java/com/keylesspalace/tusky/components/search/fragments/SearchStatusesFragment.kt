@@ -83,7 +83,7 @@ class SearchStatusesFragment : SearchFragment<Pair<Status, StatusViewData.Concre
                 showBotOverlay = preferences.getBoolean("showBotOverlay", true),
                 useBlurhash = preferences.getBoolean("useBlurhash", true),
                 cardViewMode = CardViewMode.NONE,
-                confirmReblogs = preferences.getBoolean("confirmReblogs", true)
+                confirmReblogs = preferences.getBoolean("confirmReblogs", false)
         )
 
         searchRecyclerView.addItemDecoration(DividerItemDecoration(searchRecyclerView.context, DividerItemDecoration.VERTICAL))
