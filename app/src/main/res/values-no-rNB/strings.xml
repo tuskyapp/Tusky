@@ -520,4 +520,6 @@
 
 <string name="no_saved_status">Du har ikke lagret noen kladder.</string>
     <string name="error_audio_upload_size">Lydfiler må være mindre enn 40MB.</string>
-    </resources>
+    <string name="warning_scheduling_interval">Mastodon har et minimums planleggingsinterval på 5 minutter.</string>
+
+</resources>
