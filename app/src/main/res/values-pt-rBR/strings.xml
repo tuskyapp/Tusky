@@ -486,4 +486,5 @@
 
 <string name="error_audio_upload_size">Áudios devem ser menores que 40MB.</string>
     <string name="no_saved_status">Sem rascunhos.</string>
+    <string name="warning_scheduling_interval">Mastodon possui um intervalo mínimo de 5 minutos para agendar.</string>
     </resources>
