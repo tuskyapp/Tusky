@@ -472,4 +472,6 @@
 <string name="error_audio_upload_size">Aŭdia dosiero devas esti malpli ol 40MB.</string>
     <string name="gradient_for_media">Montri buntajn transirojn por kaŝitaj aŭdovidaĵoj</string>
 
+    <string name="no_saved_status">Vi ne havas iun ajn malneton.</string>
+    <string name="no_scheduled_status">Vi ne havas iun ajn planitan mesaĝon.</string>
     </resources>

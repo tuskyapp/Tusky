@@ -39,7 +39,7 @@
     <string name="title_saved_toot">Brouillons</string>
     <string name="title_licenses">Licences</string>
     <string name="status_username_format">\@%s</string>
-    <string name="status_boosted_format">%s a boosté</string>
+    <string name="status_boosted_format">%s a partagé</string>
     <string name="status_sensitive_media_title">Contenu sensible</string>
     <string name="status_media_hidden_title">Média caché</string>
     <string name="status_sensitive_media_directions">Cliquer pour voir</string>
@@ -49,15 +49,15 @@
     <string name="status_content_show_less">Replier</string>
     <string name="message_empty">Rien ici.</string>
     <string name="footer_empty">Il n’y a aucun pouet pour le moment.\nGlissez vers le bas pour actualiser !</string>
-    <string name="notification_reblog_format">%s a boosté votre pouet</string>
+    <string name="notification_reblog_format">%s a partagé votre pouet</string>
     <string name="notification_favourite_format">%s a ajouté votre pouet à ses favoris</string>
     <string name="notification_follow_format">%s vous suit</string>
     <string name="report_username_format">Signaler @%s</string>
     <string name="report_comment_hint">Commentaires additonnels ?</string>
     <string name="action_quick_reply">Réponse rapide</string>
     <string name="action_reply">Répondre</string>
-    <string name="action_reblog">Booster</string>
-    <string name="action_unreblog">Supprimer le boost</string>
+    <string name="action_reblog">Partager</string>
+    <string name="action_unreblog">Annuler le partage</string>
     <string name="action_favourite">Favori</string>
     <string name="action_unfavourite">Supprimer le favori</string>
     <string name="action_more">Plus</string>
@@ -69,8 +69,8 @@
     <string name="action_unfollow">Ne plus suivre</string>
     <string name="action_block">Bloquer</string>
     <string name="action_unblock">Débloquer</string>
-    <string name="action_hide_reblogs">Cacher les boosts</string>
-    <string name="action_show_reblogs">Montrer les boosts</string>
+    <string name="action_hide_reblogs">Cacher les partages</string>
+    <string name="action_show_reblogs">Montrer les partages</string>
     <string name="action_report">Signaler</string>
     <string name="action_delete">Supprimer</string>
     <string name="action_send">POUET</string>
@@ -109,8 +109,8 @@
     <string name="action_links">Liens</string>
     <string name="action_mentions">Mentions</string>
     <string name="action_hashtags">Hashtags</string>
-    <string name="action_open_reblogger">Afficher l’auteur·rice du boost</string>
-    <string name="action_open_reblogged_by">Afficher les boosts</string>
+    <string name="action_open_reblogger">Afficher l’auteur·rice du partage</string>
+    <string name="action_open_reblogged_by">Montrer les partages</string>
     <string name="action_open_faved_by">Montrer les favoris</string>
     <string name="title_hashtags_dialog">Hashtags</string>
     <string name="title_mentions_dialog">Mentions</string>
@@ -170,7 +170,7 @@
     <string name="pref_title_notification_filters">Me notifier lorsque</string>
     <string name="pref_title_notification_filter_mentions">on me mentionne</string>
     <string name="pref_title_notification_filter_follows">on me suit</string>
-    <string name="pref_title_notification_filter_reblogs">mes messages sont boostés</string>
+    <string name="pref_title_notification_filter_reblogs">mes pouets sont partagés</string>
     <string name="pref_title_notification_filter_favourites">mes messages sont mis en favoris</string>
     <string name="pref_title_appearance_settings">Apparence</string>
     <string name="pref_title_app_theme">Thème de l’application</string>
@@ -187,7 +187,7 @@
     <string name="pref_title_language">Langue</string>
     <string name="pref_title_status_filter">Filtrage des fils</string>
     <string name="pref_title_status_tabs">Onglets</string>
-    <string name="pref_title_show_boosts">Afficher les boosts</string>
+    <string name="pref_title_show_boosts">Montrer les partages</string>
     <string name="pref_title_show_replies">Afficher les réponses</string>
     <string name="pref_title_show_media_preview">Montrer les miniatures des médias</string>
     <string name="pref_title_proxy_settings">Proxy</string>
@@ -213,7 +213,7 @@
     <string name="notification_follow_name">Nouveaux abonnés</string>
     <string name="notification_follow_description">Notifications pour les nouveaux abonnés</string>
     <string name="notification_boost_name">Partages</string>
-    <string name="notification_boost_description">Notifications quand vos pouets sont boostés</string>
+    <string name="notification_boost_description">Notifications quand vos pouets sont partagés</string>
     <string name="notification_favourite_name">Favoris</string>
     <string name="notification_favourite_description">Notifications quand vos pouets sont mis en favoris</string>
     <string name="notification_mention_format">%s vous a mentionné</string>
@@ -316,8 +316,8 @@
     <string name="download_failed">Échec du téléchargement</string>
     <string name="profile_badge_bot_text">Robot</string>
     <string name="account_moved_description">%1$s a déménagé vers :</string>
-    <string name="reblog_private">Booster vers l’audience originale</string>
-    <string name="unreblog_private">Ne plus booster</string>
+    <string name="reblog_private">Partager à l’audience originale</string>
+    <string name="unreblog_private">Annuler le partage</string>
     <string name="license_description">Tusky contient du code et des ressources issus des projets open source suivants :</string>
     <string name="license_apache_2">Sous licence Apache (copie ci-dessous)</string>
     <string name="license_cc_by_4">CC-BY 4.0</string>
@@ -335,10 +335,10 @@
 	<item quantity="other"><b>%1$s</b> Favoris</item>
 </plurals>
     <plurals name="reblogs">
-        <item quantity="one">&lt;b&gt;%s&lt;/b&gt; Boost</item>
-        <item quantity="other">&lt;b&gt;%s&lt;/b&gt; Boosts</item>
-    </plurals>
-    <string name="title_reblogged_by">Boosté par</string>
+	<item quantity="one"><b>%s</b> Partage</item>
+	<item quantity="other"><b>%s</b> Partages</item>
+</plurals>
+    <string name="title_reblogged_by">Partagé par</string>
     <string name="title_favourited_by">Mis en favoris par</string>
     <string name="conversation_1_recipients">%1$s</string>
     <string name="conversation_2_recipients">%1$s et %2$s</string>
