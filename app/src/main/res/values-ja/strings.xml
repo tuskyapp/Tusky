@@ -409,4 +409,10 @@
     <string name="pref_title_show_notifications_filter">通知フィルターを表示</string>
 
 
+    <string name="action_reset_schedule">リセット</string>
+    <string name="error_audio_upload_size">音声ファイルは40MB未満にしてください。</string>
+    <string name="title_bookmarks">ブックマーク</string>
+    <string name="action_bookmark">ブックマーク</string>
+    <string name="action_edit">編集</string>
+    <string name="action_view_bookmarks">ブックマーク</string>
     </resources>

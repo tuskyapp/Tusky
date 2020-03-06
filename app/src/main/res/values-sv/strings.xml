@@ -482,4 +482,5 @@
 
 <string name="error_audio_upload_size">Ljudfiler måste vara mindre än 40MB.</string>
     <string name="no_saved_status">Du har inga utkast.</string>
+    <string name="warning_scheduling_interval">Mastodon har ett minimalt schemaläggningsintervall på 5 minuter.</string>
     </resources>
