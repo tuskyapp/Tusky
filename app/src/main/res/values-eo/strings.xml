@@ -469,4 +469,7 @@
     <string name="list">Listo</string>
     <string name="post_lookup_error_format">Eraro dum elserĉo de la mesaĝo %s</string>
 
-</resources>
+<string name="error_audio_upload_size">Aŭdia dosiero devas esti malpli ol 40MB.</string>
+    <string name="gradient_for_media">Montri buntajn transirojn por kaŝitaj aŭdovidaĵoj</string>
+
+    </resources>
