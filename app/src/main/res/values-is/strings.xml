@@ -508,4 +508,6 @@
     <string name="no_scheduled_status">Þú ert ekki með neinar áætlaðar stöðufærslur.</string>
 
 <string name="error_audio_upload_size">Hljóðskrár verða að vera minni en 40MB.</string>
-    </resources>
+    <string name="warning_scheduling_interval">Mastodon er með 5 mínútna lágmarksbil fyrir áætlaðar aðgerðir.</string>
+
+</resources>
