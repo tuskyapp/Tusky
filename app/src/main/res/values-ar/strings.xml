@@ -501,4 +501,6 @@
     <string name="no_scheduled_status">ليس لديك أية منشورات مُبرمَجة للنشر.</string>
 
 <string name="error_audio_upload_size">يجب أن يكون حجم الملفات الصوتية أقل مِن 40 ميغابايت.</string>
-    </resources>
+    <string name="warning_scheduling_interval">تُقدّر أدنى فترة لبرمجة النشر في ماستدون بـ 5 دقائق.</string>
+
+</resources>

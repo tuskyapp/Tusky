@@ -1,22 +1,22 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<resources><string name="action_login">Qqen γer Maṣṭudun</string>
+<resources><string name="action_login">Qqen ɣer Maṣṭudun</string>
     <string name="title_favourites">Ismenyifen</string>
     <string name="title_saved_toot">Irewwayen</string>
-    <string name="action_logout">Ffeγ</string>
-    <string name="action_view_preferences">Iγewwaṛen</string>
-    <string name="action_view_account_preferences">Iγewwaṛen n umiḍan</string>
-    <string name="action_edit_profile">Ẓreg amaγnu</string>
+    <string name="action_logout">Ffeɣ</string>
+    <string name="action_view_preferences">Iɣewwaṛen</string>
+    <string name="action_view_account_preferences">Iɣewwaṛen n umiḍan</string>
+    <string name="action_edit_profile">Ẓreg amaɣnu</string>
     <string name="action_search">Nadi</string>
-    <string name="about_title_activity">Γef</string>
-    <string name="action_lists">Umuγen</string>
-    <string name="title_lists">Umuγen</string>
-    <string name="error_compose_character_limit">Tijewwiqt-ik aṭas i γuzzifet!</string>
+    <string name="about_title_activity">Ɣef</string>
+    <string name="action_lists">Umuɣen</string>
+    <string name="title_lists">Umuɣen</string>
+    <string name="error_compose_character_limit">Tijewwiqt-ik aṭas i ɣuzzifet!</string>
     <string name="title_home">Agejdan</string>
     <string name="title_tab_preferences">Iccaren</string>
     <string name="title_view_thread">Tijewwiqt</string>
     <string name="title_statuses">Iznan</string>
     <string name="title_statuses_with_replies">S tririyin</string>
-    <string name="title_edit_profile">Ẓreg amaγnu-ik</string>
+    <string name="title_edit_profile">Ẓreg amaɣnu-ik</string>
     <string name="status_username_format">\@%s</string>
     <string name="status_content_warning_show_more">Zeṛ ugar</string>
     <string name="status_content_warning_show_less">Zeṛ kra kan</string>
@@ -35,13 +35,13 @@
     <string name="action_send_public">JEWWEQ!</string>
     <string name="action_retry">Ɛreḍ tikkelt-nniḍen</string>
     <string name="action_close">Derreɛ</string>
-    <string name="action_view_profile">Amaγnu</string>
+    <string name="action_view_profile">Amaɣnu</string>
     <string name="action_view_favourites">Ismenyifen</string>
     <string name="action_open_in_web">Ldi deg uminig</string>
     <string name="action_share">Bḍu</string>
     <string name="action_mute">Sgugem</string>
     <string name="action_access_saved_toot">Irewwayen</string>
-    <string name="action_open_faved_by">Sken-ed ismenyifen</string>
+    <string name="action_open_faved_by">Sken-d ismenyifen</string>
 
     <string name="notification_favourite_name">Ismenyifen</string>
     <plurals name="favs">
@@ -51,11 +51,11 @@
 
     <string name="no_saved_status">Ur tesɛiḍ ara irewwayen.</string>
     <string name="error_generic">Tella-d tucḍa.</string>
-    <string name="title_notifications">Tilγa</string>
+    <string name="title_notifications">Tilɣa</string>
     <string name="link_whats_an_instance">D acu i ttummant\?</string>
 
     <string name="title_bookmarks">Ticraḍ</string>
-    <string name="action_bookmark">Rnu γer ticraḍ</string>
+    <string name="action_bookmark">Rnu ɣer ticraḍ</string>
     <string name="action_view_bookmarks">Ticraḍ</string>
     <string name="action_mute_domain">Sgugem %s</string>
     <string name="action_mention">Bder</string>
@@ -64,20 +64,20 @@
     <string name="action_undo">Sefsex</string>
     <string name="action_emoji_keyboard">Anasiw n imujiyen</string>
     <string name="action_add_tab">Rnu iccer</string>
-    <string name="action_copy_link">Nγel aseγwen</string>
+    <string name="action_copy_link">Nɣel aseɣwen</string>
     <string name="action_open_as">Ldi amzun d %s</string>
     <string name="action_share_as">Bḍu amzun d…</string>
-    <string name="send_status_link_to">Bḍu aseγwen n tijewwiq s…</string>
+    <string name="send_status_link_to">Bḍu aseɣwen n tijewwiq s…</string>
     <string name="send_status_content_to">Bḍu tijewwiqt d…</string>
     <string name="hint_domain">Anta tummant\?</string>
     <string name="hint_compose">d-acu i gellan d amaynut\?</string>
     <string name="hint_search">Nadi…</string>
 
     <string name="label_quick_reply">Tiririn…</string>
-    <string name="label_avatar">Tugna n umaγnu</string>
+    <string name="label_avatar">Tugna n umaɣnu</string>
     <string name="dialog_download_image">Sider</string>
     <string name="dialog_delete_toot_warning">Kkes tijewwiqt-a\?</string>
-    <string name="pref_title_edit_notification_settings">Ẓreg tilγa</string>
+    <string name="pref_title_edit_notification_settings">Ẓreg tilɣa</string>
     <string name="pref_title_appearance_settings">Agrudem</string>
     <string name="app_theme_light">Aceɛlal</string>
     <string name="app_theme_black">Aberkan</string>
@@ -88,7 +88,7 @@
     <string name="notification_summary_medium">%1$s, %2$s, akked %3$s</string>
     <string name="notification_summary_small">%1$s akked %2$s</string>
     <string name="about_tusky_version">Tusky %s</string>
-    <string name="about_tusky_account">Amaγnu n Tusky</string>
+    <string name="about_tusky_account">Amaɣnu n Tusky</string>
 
     <string name="status_media_images">Tugniwin</string>
     <string name="status_media_video">Tibidyutin</string>
@@ -110,16 +110,16 @@
 
     <string name="action_view_mutes">Imiḍanen yettwasgugmen</string>
     <string name="action_view_blocks">Imiḍanen yettusḥebsen</string>
-    <string name="action_view_domain_mutes">Tiγula yettwaffren</string>
+    <string name="action_view_domain_mutes">Tiɣula yettwaffren</string>
     <string name="action_view_follow_requests">Isuturen n teḍfeṛt</string>
-    <string name="action_view_media">Taγwalt</string>
+    <string name="action_view_media">Taɣwalt</string>
     <string name="notifications_clear">Sfeḍ</string>
     <string name="title_mutes">Imiḍanen yettwasgugmen</string>
     <string name="title_blocks">Imiḍanen yettusḥebsen</string>
-    <string name="title_domain_mutes">Tiγula yettwaffren</string>
+    <string name="title_domain_mutes">Tiɣula yettwaffren</string>
     <string name="title_follow_requests">Isuturen n teḍfeṛt</string>
-    <string name="pref_title_notifications_enabled">Ẓreg tilγa</string>
-    <string name="title_media">Taγwalt</string>
+    <string name="pref_title_notifications_enabled">Tilɣa</string>
+    <string name="title_media">Taywalt</string>
     <string name="action_remove">Kkes</string>
     <string name="compose_shortcut_short_label">Azen</string>
 
@@ -129,27 +129,27 @@
     <string name="action_add_poll">Rnu assenqed</string>
     <string name="action_photo_take">Ṭef tugna</string>
     <string name="action_toggle_visibility">Timeẓriwt n tijewwaqt</string>
-    <string name="action_schedule_toot">Sγiwes tijewwaqt-a</string>
+    <string name="action_schedule_toot">Sɣiwes tijewwaqt-a</string>
     <string name="status_share_content">Bḍu agbur n tijewwiqt-a</string>
-    <string name="status_share_link">Bḍu aseγwen γer tijewwiqt</string>
+    <string name="status_share_link">Bḍu aseɣwen ɣer tijewwiqt</string>
     <string name="filter_addition_dialog_title">Rnu amsizdeg</string>
     <string name="filter_edit_dialog_title">Ẓreg amsizdeg</string>
-    <string name="action_create_list">Snulfu-d umuγ</string>
-    <string name="action_rename_list">Snifel isem n wumuγ</string>
-    <string name="action_delete_list">Kkes umuγ-a</string>
-    <string name="action_edit_list">Ẓreg umuγ-a</string>
-    <string name="action_add_to_list">Rnu yiwen umiḍan γer tabdert</string>
-    <string name="action_remove_from_list">Kkes amiḍan seg wumuγ</string>
+    <string name="action_create_list">Snulfu-d umuɣ</string>
+    <string name="action_rename_list">Snifel isem n wumuɣ</string>
+    <string name="action_delete_list">Kkes umuɣ-a</string>
+    <string name="action_edit_list">Ẓreg umuɣ-a</string>
+    <string name="action_add_to_list">Rnu yiwen umiḍan ɣer wummuɣ</string>
+    <string name="action_remove_from_list">Kkes amiḍan seg wumuɣ</string>
 
     <string name="profile_metadata_add">Rnu isefka</string>
-    <string name="hint_list_name">Isem n wumuγ</string>
+    <string name="hint_list_name">Isem n wumuɣ</string>
 
     <string name="select_list_title">Fren tabdart</string>
-    <string name="list">Umuγ</string>
+    <string name="list">Umuɣ</string>
     <string name="notifications_apply_filter">Sizdeg</string>
     <string name="title_accounts">Imiḍanen</string>
     <string name="add_poll_choice">Rnu yiwen wefran</string>
-    <string name="report_username_format">Ccetki γef @%s</string>
+    <string name="report_username_format">Ccetki ɣef @%s</string>
     <string name="action_report">Ccetki</string>
     <string name="action_reject">Ggami</string>
     <string name="download_image">Yessidired %1$s</string>
@@ -159,16 +159,16 @@
     <string name="login_connection">itteqqen…</string>
 
     <string name="dialog_message_uploading_media">Issalay…</string>
-    <string name="pref_title_notification_filter_poll">fukken kran n wadγaren</string>
+    <string name="pref_title_notification_filter_poll">fukken kran n wadɣaren</string>
     <string name="pref_title_timeline_filters">Imzizdigen</string>
 
     <string name="app_theme_auto">Akken yella yiṭij</string>
     <string name="pref_title_browser_settings">Iminig</string>
-    <string name="pref_title_show_replies">Sken-ed tiririyin</string>
+    <string name="pref_title_show_replies">Sken-d tiririyin</string>
     <string name="pref_title_http_proxy_settings">Apṛuksi HTTP</string>
     <string name="pref_title_http_proxy_server">Tansa n upṛuksi HTTP</string>
     <string name="notification_follow_name">Imeḍfaṛen imaynuten</string>
-    <string name="notification_poll_name">Adγaren</string>
+    <string name="notification_poll_name">Adɣaren</string>
     <string name="notification_mention_format">Yuder-ik-id %s</string>
     <string name="description_account_locked">Yettwargel umiḍan</string>
 
@@ -183,26 +183,26 @@
     <string name="restart">Ales tanekra</string>
     <string name="download_failed">Tuccḍa n usider</string>
 
-    <string name="account_moved_description">Igujj %1$s γer:</string>
+    <string name="account_moved_description">Igujj %1$s ɣer:</string>
 
     <string name="unpin_action">Kkes asenṭeḍ</string>
     <string name="conversation_1_recipients">%1$s</string>
     <string name="conversation_2_recipients">%1$s akked %2$s</string>
     <string name="conversation_more_recipients">%1$s, %2$s akked %3$d nniḍen</string>
     <string name="compose_shortcut_long_label">Aru tijewwiqt</string>
-    <string name="poll_info_format"> <!-- 15 n wadγaren • 1 n wesrag id yeqqimen --> %1$s • %2$s</string>
+    <string name="poll_info_format"> <!-- 15 n wadɣaren • 1 n wesrag id yeqqimen --> %1$s • %2$s</string>
     <plurals name="poll_info_votes">
-	<item quantity="one">%s wedγar</item>
-	<item quantity="other">%s n yedγaren</item>
+	<item quantity="one">%s n wedɣar</item>
+	<item quantity="other">%s n yedɣaren</item>
 </plurals>
     <string name="poll_info_time_relative">%s id yugran</string>
     <string name="poll_info_time_absolute">ad ifak deg %s</string>
     <string name="poll_info_closed">ifuk</string>
 
-    <string name="poll_vote">Dγer</string>
+    <string name="poll_vote">Dɣer</string>
 
-    <string name="poll_ended_voted">Ifuk, tura kan, yiwen wedγar t tteki-iḍ degs</string>
-    <string name="poll_ended_created">Ifukk yiwen wedγar id snulfaḍ</string>
+    <string name="poll_ended_voted">Ifuk, tura kan, yiwen wedɣar t tteki-iḍ degs</string>
+    <string name="poll_ended_created">Ifukk yiwen wedɣar id snulfaḍ</string>
 
     <plurals name="poll_timespan_days">
 	<item quantity="one">%d n wass</item>
@@ -214,18 +214,18 @@
 </plurals>
     <plurals name="poll_timespan_minutes">
 	<item quantity="one">%d n tasdidt</item>
-	<item quantity="other">%d n tesdidin</item>
+	<item quantity="other">%d n tisdidin</item>
 </plurals>
     <string name="button_continue">Kemmel</string>
-    <string name="button_back">Uγal</string>
+    <string name="button_back">Uɣal</string>
     <string name="failed_report">Tella-d tuccḍa deg ccetki</string>
     <string name="failed_search">Tucḍa n unadi</string>
 
     <string name="create_poll_title">Assenqed</string>
-    <string name="poll_duration_5_min">5 n tasditin</string>
-    <string name="poll_duration_30_min">30 n tasditin</string>
-    <string name="poll_duration_1_hour">1 n wesrag</string>
-    <string name="poll_duration_6_hours">6 n wesragen</string>
+    <string name="poll_duration_5_min">5 n tisdidin</string>
+    <string name="poll_duration_30_min">30 n tisdidin</string>
+    <string name="poll_duration_1_hour">1 n usrag</string>
+    <string name="poll_duration_6_hours">6 n isragen</string>
     <string name="poll_duration_1_day">1 n wass</string>
     <string name="poll_duration_3_days">3 n wussan</string>
     <string name="poll_duration_7_days">7 n wussan</string>
@@ -233,30 +233,66 @@
 
     <string name="title_follows">Ig ṭafaṛ</string>
     <string name="title_followers">Imeḍfaṛen</string>
-    <string name="hint_search_people_list">Nadi γef medden i teṭafareḍ</string>
+    <string name="hint_search_people_list">Nadi ɣef medden i teṭafareḍ</string>
     <string name="description_visiblity_private">Imeḍfaṛen</string>
 
-    <string name="action_links">Iseγwan</string>
+    <string name="action_links">Iseɣwan</string>
     <string name="action_mentions">Tibdarin</string>
     <string name="title_mentions_dialog">Tibdarin</string>
-    <string name="title_links_dialog">Iseγwan</string>
+    <string name="title_links_dialog">Iseɣwan</string>
     <string name="confirmation_reported">Yettwaceyyaɛ!</string>
     <string name="status_sent">Yettwaceyyaɛ!</string>
     <string name="search_no_results">Ula d yiwen n ugmuḍ</string>
 
     <string name="post_privacy_followers_only">I yimeḍfaṛen kan</string>
 
-    <string name="pref_status_text_size">Teγzi n weḍṛis</string>
+    <string name="pref_status_text_size">Teɣzi n weḍṛis</string>
 
     <string name="about_powered_by_tusky">Yettwamdemmar s Tusky</string>
     <string name="about_project_site">Asmel Web n usenfaṛ:
 \n https://tusky.app</string>
-    <string name="abbreviated_hours_ago">%dasr</string>
-    <string name="abbreviated_minutes_ago">%dtas</string>
-    <string name="abbreviated_seconds_ago">%dtasn</string>
+    <string name="abbreviated_hours_ago">%dsr</string>
+    <string name="abbreviated_minutes_ago">%dtsd</string>
+    <string name="abbreviated_seconds_ago">%dtsn</string>
 
     <string name="compose_save_draft">Sekles amzun d arewway\?</string>
     <string name="later">Ticki</string>
     <string name="profile_badge_bot_text">Aṛubut</string>
-    <string name="description_status_bookmarked">Yettwarna γer ticṛad</string>
+    <string name="description_status_bookmarked">Yettwarna ɣer ticṛad</string>
+    <string name="abbreviated_in_hours">deg %dsr</string>
+    <string name="abbreviated_in_minutes">deg %dtsd</string>
+    <string name="abbreviated_in_seconds">deg %dtsn</string>
+    <plurals name="poll_timespan_seconds">
+	<item quantity="one">%d n tasint</item>
+	<item quantity="other">%d n tasinin</item>
+</plurals>
+
+    <string name="status_sensitive_media_title">Agbur amḥulfu</string>
+    <string name="pref_default_media_sensitivity">Creḍ allal n teywalt amzun d amḥulfu</string>
+    <string name="action_reset_schedule">Wennez tikkelt-nniḍen</string>
+    <string name="error_media_upload_sending">Asali ur yeddi ara.</string>
+    <string name="error_sender_account_gone">Tuccḍa deg tuzna n tijewwiqt.</string>
+
+    <string name="title_public_local">Adigan</string>
+    <string name="title_licenses">Turagin</string>
+
+    <string name="status_boosted_format">Yebḍa-t %s</string>
+    <string name="notification_reblog_format">Yebḍa %s tijewwiqt-ik·im</string>
+    <string name="notification_favourite_format">Yerna %s tijewwiqt-ik·im ɣer imenyafen-is</string>
+    <string name="action_quick_reply">Tiririt taruradt</string>
+    <string name="action_reblog">Bḍu</string>
+    <string name="action_unreblog">Kkes beṭu</string>
+    <string name="action_hide_reblogs">Ffer beṭuyat</string>
+    <string name="action_show_reblogs">Sken-d beṭuyat</string>
+    <string name="action_unmute">Ur sgugum ara</string>
+    <string name="action_accept">Ddeg</string>
+    <string name="action_hashtags">Ihacṭagen</string>
+    <string name="action_open_reblogged_by">Sken-d beṭuyat</string>
+    <string name="title_hashtags_dialog">Ihacṭagen</string>
+    <string name="confirmation_unmuted">Aseqdac nni ur yettwasgugem ara tura</string>
+    <string name="confirmation_domain_unmuted">%s ur yettwaffer ara</string>
+
+    <string name="hint_note">Assisen</string>
+    <string name="label_header">Tugna n yiɣef n umaɣnu</string>
+
     </resources>

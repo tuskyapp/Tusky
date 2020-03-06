@@ -371,7 +371,7 @@
     <string name="notifications_apply_filter">Filtrer</string>
     <string name="filter_apply">Appliquer</string>
 
-    <string name="compose_shortcut_long_label">Écrire un pouet</string>
+    <string name="compose_shortcut_long_label">Rédiger un pouet</string>
     <string name="compose_shortcut_short_label">Écrire</string>
     <string name="pref_title_bot_overlay">Afficher l\'indicateur de robots</string>
 
@@ -485,5 +485,7 @@
 
     <string name="no_saved_status">Vous n’avez aucun brouillon.</string>
     <string name="no_scheduled_status">Vous n’avez aucun pouet planifié.</string>
+
+<string name="warning_scheduling_interval">L’intervalle minimum de planification sur Mastodon est de 5 minutes.</string>
 
 </resources>
