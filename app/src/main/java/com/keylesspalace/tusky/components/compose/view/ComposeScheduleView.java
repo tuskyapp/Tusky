@@ -192,6 +192,9 @@ public class ComposeScheduleView extends ConstraintLayout {
     private void onDateSet(long selection) {
         initializeSuggestedTime();
         Calendar newDate = getCalendar();
+        // working around bug in DatePicker where date is UTC #1720
+        // see https://github.com/material-components/material-components-android/issues/882
+        newDate.setTimeZone(TimeZone.getTimeZone("UTC"));
         newDate.setTimeInMillis(selection);
         scheduleDateTime.set(newDate.get(Calendar.YEAR), newDate.get(Calendar.MONTH), newDate.get(Calendar.DATE));
         openPickTimeDialog();
