@@ -147,7 +147,7 @@
     <string name="dialog_message_uploading_media">Laddar upp…</string>
     <string name="dialog_download_image">Ladda ned</string>
     <string name="dialog_message_cancel_follow_request">Återkalla följningsförfrågan?</string>
-    <string name="dialog_unfollow_warning">Sluta följ detta konto\?</string>
+    <string name="dialog_unfollow_warning">Sluta följ detta konto?</string>
     <string name="dialog_delete_post_warning">Radera denna toot?</string>
     <string name="visibility_public">Offentlig: Skicka till offentliga tidslinjer</string>
     <string name="visibility_unlisted">Olistad: Visa inte i offentliga tidslinjer</string>
@@ -314,8 +314,8 @@
     <string name="unpin_action">Ta bort nål</string>
     <string name="pin_action">Nåla fast</string>
     <plurals name="favs">
-        <item quantity="one">&lt;b&gt;%1$s&lt;/b&gt; Favorit</item>
-        <item quantity="other">&lt;b&gt;%1$s&lt;/b&gt; Favoriter</item>
+        <item quantity="one"><b>%1$s</b> Favorit</item>
+        <item quantity="other"><b>%1$s</b> Favoriter</item>
     </plurals>
     <plurals name="reblogs">
         <item quantity="one"><b>%1$s</b> Knuff</item>
@@ -351,7 +351,7 @@
     <string name="notifications_apply_filter">Filtrera</string>
     <string name="filter_apply">Utför</string>
     <string name="pref_title_bot_overlay">Visa robotindikator</string>
-    <string name="notification_clear_text">Är du säker på att du vill rensa dina aviseringar permanent\?</string>
+    <string name="notification_clear_text">Är du säker på att du vill rensa dina aviseringar permanent?</string>
     <string name="action_delete_and_redraft">Radera och skriv på nytt</string>
     <string name="dialog_redraft_post_warning">Radera och skriv ny toot\?</string>
     <string name="poll_info_format"> <!-- 15 röster • 1 timme kvar --> %1$s • %2$s</string>
@@ -389,7 +389,7 @@
     <string name="action_view_domain_mutes">Dolda domäner</string>
     <string name="action_mute_domain">Tysta %1$s</string>
     <string name="confirmation_domain_unmuted">%1$s inte tystad längre</string>
-    <string name="mute_domain_warning">Är du säker på att du vill blockera allt från %1$s\? Du kommer inte kunna se något innehåll från denna domän i publika tidslinjer eller i dina notifieringar. Dina följare på domänen kommer inte att bli borttagna.</string>
+    <string name="mute_domain_warning">Är du säker på att du vill blockera allt från %1$s? Du kommer inte kunna se något innehåll från denna domän i publika tidslinjer eller i dina notifieringar. Dina följare på domänen kommer inte att bli borttagna.</string>
     <string name="mute_domain_warning_dialog_ok">Dölj hela domänen</string>
     <string name="caption_notoemoji">Google\'s nuvarande emojis</string>
     <string name="button_continue">Fortsätt</string>
@@ -401,7 +401,7 @@
     <string name="failed_report">Misslyckades att anmäla</string>
     <string name="failed_fetch_posts">Misslyckades att hämta status</string>
     <string name="report_description_1">Anmälan kommer att skickas till din servermoderator. Du kan beskriva varför du anmäler kontot nedan:</string>
-    <string name="report_description_remote_instance">Kontot är från en annan server. Skicka en anonym kopia av anmälan dit också\?</string>
+    <string name="report_description_remote_instance">Kontot är från en annan server. Skicka en anonym kopia av anmälan dit också?</string>
     <string name="filter_dialog_whole_word">Helt ord</string>
     <string name="filter_dialog_whole_word_description">När nyckelordet eller frasen enbart är alfanumerisk, appliceras den om den matchar hela ordet</string>
     <string name="pref_title_alway_open_spoiler">Expandera alltid inlägg med innehållsvarningar</string>
@@ -446,8 +446,8 @@
     </plurals>
     <string name="notification_follow_request_description">Aviseringar om följarförfrågningar</string>
     <string name="notification_follow_request_name">Följförfrågningar</string>
-    <string name="dialog_mute_warning">Tysta @%1$s\?</string>
-    <string name="dialog_block_warning">Blockera @%1$s\?</string>
+    <string name="dialog_mute_warning">Tysta @%1$s?</string>
+    <string name="dialog_block_warning">Blockera @%1$s?</string>
     <string name="action_unmute_conversation">Aktivera ljud på konversation</string>
     <string name="notification_follow_request_format">%1$s vill följa dig</string>
     <string name="add_hashtag_title">Lägg till hashtag</string>
