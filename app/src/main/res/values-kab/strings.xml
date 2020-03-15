@@ -109,13 +109,13 @@
     <string name="pin_action">Senṭeḍ</string>
 
     <string name="action_view_mutes">Imiḍanen yettwasgugmen</string>
-    <string name="action_view_blocks">Imiḍanen yettusḥebsen</string>
+    <string name="action_view_blocks">Imiḍan yettwacekklen</string>
     <string name="action_view_domain_mutes">Tiɣula yettwaffren</string>
     <string name="action_view_follow_requests">Isuturen n teḍfeṛt</string>
     <string name="action_view_media">Taɣwalt</string>
     <string name="notifications_clear">Sfeḍ</string>
     <string name="title_mutes">Imiḍanen yettwasgugmen</string>
-    <string name="title_blocks">Imiḍanen yettusḥebsen</string>
+    <string name="title_blocks">Imiḍanen yettwacekklen</string>
     <string name="title_domain_mutes">Tiɣula yettwaffren</string>
     <string name="title_follow_requests">Isuturen n teḍfeṛt</string>
     <string name="pref_title_notifications_enabled">Tilɣa</string>
@@ -150,7 +150,7 @@
     <string name="title_accounts">Imiḍanen</string>
     <string name="add_poll_choice">Rnu yiwen wefran</string>
     <string name="report_username_format">Ccetki ɣef @%s</string>
-    <string name="action_report">Ccetki</string>
+    <string name="action_report">Ccetki fell-as</string>
     <string name="action_reject">Ggami</string>
     <string name="download_image">Yessidired %1$s</string>
 
@@ -277,8 +277,8 @@
     <string name="title_licenses">Turagin</string>
 
     <string name="status_boosted_format">Yebḍa-t %s</string>
-    <string name="notification_reblog_format">Yebḍa %s tijewwiqt-ik·im</string>
-    <string name="notification_favourite_format">Yerna %s tijewwiqt-ik·im ɣer imenyafen-is</string>
+    <string name="notification_reblog_format">%s Y·Tebḍa tijewwiqt-ik·im</string>
+    <string name="notification_favourite_format">%s Y·Terna tijewwiqt-ik·im ɣer imenyafen-is</string>
     <string name="action_quick_reply">Tiririt taruradt</string>
     <string name="action_reblog">Bḍu</string>
     <string name="action_unreblog">Kkes beṭu</string>
@@ -295,4 +295,8 @@
     <string name="hint_note">Assisen</string>
     <string name="label_header">Tugna n yiɣef n umaɣnu</string>
 
+    <string name="error_empty">Ur ilaq ara ad yili d ilem.</string>
+    <string name="action_block">Cekkel</string>
+    <string name="action_unblock">Kkes tacekkalt</string>
+    <string name="confirmation_unblocked">Tettwakkes tacekkalt ɣef umiḍan-nni</string>
     </resources>

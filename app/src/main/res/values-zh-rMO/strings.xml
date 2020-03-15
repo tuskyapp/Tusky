@@ -161,7 +161,7 @@
 
     <string name="login_connection">正在連線…</string>
 
-    <string name="dialog_whats_an_instance">請輸入你帳號所在的 Mastodon 站點的域名或地址</string>
+    <string name="dialog_whats_an_instance">"請輸入你帳號所在的 Mastodon 站點的域名或地址 "</string>
 
 
 
