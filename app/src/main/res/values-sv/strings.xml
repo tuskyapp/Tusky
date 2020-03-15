@@ -20,7 +20,7 @@
     <string name="error_media_upload_sending">Uppladdningen misslyckades.</string>
     <string name="error_sender_account_gone">Kunde inte skicka toot.</string>
     <string name="title_home">Hem</string>
-    <string name="title_notifications">Notifikationer</string>
+    <string name="title_notifications">Aviseringar</string>
     <string name="title_public_local">Lokalt</string>
     <string name="title_public_federated">Federerat</string>
     <string name="title_direct_messages">Direkta meddelanden</string>
@@ -158,15 +158,15 @@
     <string name="visibility_unlisted">Olistad: Visa inte i offentliga tidslinjer</string>
     <string name="visibility_private">Enbart-följare: Ses enbart av följare</string>
     <string name="visibility_direct">Direkt: Skicka endast till nämnda användare</string>
-    <string name="pref_title_edit_notification_settings">Notifikationer</string>
-    <string name="pref_title_notifications_enabled">Notifikationer</string>
+    <string name="pref_title_edit_notification_settings">Aviseringar</string>
+    <string name="pref_title_notifications_enabled">Aviseringar</string>
     <string name="pref_title_notification_alerts">Alarm</string>
     <string name="pref_title_notification_alert_sound">Meddela med ljud</string>
     <string name="pref_title_notification_alert_vibrate">Meddela med vibration</string>
     <string name="pref_title_notification_alert_light">Notifieringar med LED</string>
     <string name="pref_title_notification_filters">Meddela mig när</string>
     <string name="pref_title_notification_filter_mentions">omnämnd</string>
-    <string name="pref_title_notification_filter_follows">följande</string>
+    <string name="pref_title_notification_filter_follows">nya följare</string>
     <string name="pref_title_notification_filter_reblogs">mina inlägg är knuffade</string>
     <string name="pref_title_notification_filter_favourites">mina inlägg är favoriserade</string>
     <string name="pref_title_appearance_settings">Utseende</string>
@@ -206,13 +206,13 @@
     <string name="status_text_size_large">Stor</string>
     <string name="status_text_size_largest">Största</string>
     <string name="notification_mention_name">Nya omnämnanden</string>
-    <string name="notification_mention_descriptions">Notifieringar om nya omnämnanden</string>
+    <string name="notification_mention_descriptions">Aviseringar om nya omnämnanden</string>
     <string name="notification_follow_name">Nya följare</string>
-    <string name="notification_follow_description">Notifieringar om nya följare</string>
+    <string name="notification_follow_description">Aviseringar på nya följare</string>
     <string name="notification_boost_name">Knuffar</string>
-    <string name="notification_boost_description">Notifieringar när dina toots blir knuffade</string>
+    <string name="notification_boost_description">Aviseringar när dina toots blir knuffade</string>
     <string name="notification_favourite_name">Favoriter</string>
-    <string name="notification_favourite_description">Notifieringar när dina toots blir markerade som favoriter</string>
+    <string name="notification_favourite_description">Aviseringar när dina toots blir markerade som favoriter</string>
     <string name="notification_mention_format">%s omnämnde dig</string>
     <string name="notification_summary_large">%1$s, %2$s, %3$s och %4$d andra</string>
     <string name="notification_summary_medium">%1$s, %2$s, och %3$s</string>
@@ -239,7 +239,7 @@
     <string name="status_share_link">Dela länk till toot</string>
     <string name="status_media_images">Bilder</string>
     <string name="status_media_video">Video</string>
-    <string name="state_follow_requested">Följarförfrågad</string>
+    <string name="state_follow_requested">Följarförfrågan</string>
     <!--These are for timestamps on statuses. For example: "16s" or "2d"-->
     <string name="abbreviated_in_years">om %dy</string>
     <string name="abbreviated_in_days">om %dd</string>
@@ -272,9 +272,9 @@
     <string name="error_rename_list">Kunde inte byta namn på lista</string>
     <string name="error_delete_list">Kunde inte radera lista</string>
     <string name="action_create_list">Skapa en lista</string>
-    <string name="action_rename_list">Byt namn</string>
-    <string name="action_delete_list">Ta bort</string>
-    <string name="action_edit_list">Ändra</string>
+    <string name="action_rename_list">Byt namn på listan</string>
+    <string name="action_delete_list">Ta bort listan</string>
+    <string name="action_edit_list">Redigera lista</string>
     <string name="hint_search_people_list">Sök efter personer du följer</string>
     <string name="action_add_to_list">Lägg till konto i listan</string>
     <string name="action_remove_from_list">Ta bort kontot från listan</string>
@@ -305,7 +305,7 @@
     <string name="later">Senare</string>
     <string name="restart">Starta om</string>
     <string name="caption_systememoji">Standard-emojis för din enhet</string>
-    <string name="caption_blobmoji">Emojis baserade på The Blob emojis kända från Android 4.4–7.1</string>
+    <string name="caption_blobmoji">Emojis baserade på The Blob emojis från Android 4.4–7.1</string>
     <string name="caption_twemoji">Mastodon\'s standard emojis</string>
     <string name="download_failed">Nedladdning misslyckad</string>
     <string name="profile_badge_bot_text">Robot</string>
@@ -373,9 +373,9 @@
 
     <string name="pref_title_bot_overlay">Visa robotindikator</string>
 
-    <string name="notification_clear_text">Är du säker på att du vill rensa dina notifieringar permanent\?</string>
+    <string name="notification_clear_text">Är du säker på att du vill rensa dina aviseringar permanent\?</string>
 
-<string name="action_delete_and_redraft">Radera och skriv nytt</string>
+<string name="action_delete_and_redraft">Radera och skriv på nytt</string>
     <string name="dialog_redraft_toot_warning">Radera och skriv ny toot\?</string>
 
     <string name="poll_info_format"> <!-- 15 röster • 1 timme kvar --> %1$s • %2$s</string>
@@ -384,15 +384,15 @@
 	<item quantity="other">%s röster</item>
 </plurals>
     <string name="poll_info_time_relative">%s kvar</string>
-    <string name="poll_info_time_absolute">avslutas %s</string>
+    <string name="poll_info_time_absolute">avslutas vid %s</string>
     <string name="poll_info_closed">stängd</string>
 
     <string name="poll_vote">Rösta</string>
 
 
-<string name="pref_title_notification_filter_poll">omröstning är avslutad</string>
+<string name="pref_title_notification_filter_poll">omröstningar har avslutats</string>
     <string name="notification_poll_name">Omröstningar</string>
-    <string name="notification_poll_description">Notifieringar när omröstningar har avslutats</string>
+    <string name="notification_poll_description">Aviseringar när omröstningar har avslutats</string>
 
 
     <string name="poll_ended_voted">En omröstning där du har röstat är avslutad</string>
@@ -424,9 +424,9 @@
     <string name="title_domain_mutes">Dolda domäner</string>
     <string name="action_view_domain_mutes">Dolda domäner</string>
     <string name="action_mute_domain">Tysta %s</string>
-    <string name="confirmation_domain_unmuted">%s inte tystnad längre</string>
+    <string name="confirmation_domain_unmuted">%s inte tystad längre</string>
 
-    <string name="mute_domain_warning">Är du säker på att du vill blockera allt från %s\? Du kommer inte kunna se något innehåll från denna domän i publika tidslinje eller i dina notifieringar. Dina följare på domänen kommer inte att bli borttagna.</string>
+    <string name="mute_domain_warning">Är du säker på att du vill blockera allt från %s\? Du kommer inte kunna se något innehåll från denna domän i publika tidslinjer eller i dina notifieringar. Dina följare på domänen kommer inte att bli borttagna.</string>
     <string name="mute_domain_warning_dialog_ok">Dölj hela domänen</string>
 
     <string name="caption_notoemoji">Google\'s nuvarande emojis</string>
@@ -443,7 +443,7 @@
 
     <string name="pref_title_show_notifications_filter">Visa notifikationsfilter</string>
 <string name="filter_dialog_whole_word">Helt ord</string>
-    <string name="filter_dialog_whole_word_description">När nyckelordet eller frasen är alfanumerisk enbart, blir den enbart appliceras om den matchar hela ordet</string>
+    <string name="filter_dialog_whole_word_description">När nyckelordet eller frasen enbart är alfanumerisk, appliceras den om den matchar hela ordet</string>
     <string name="pref_title_alway_open_spoiler">Expandera alltid toots med innehållsvarningar</string>
     <string name="title_accounts">Konton</string>
     <string name="failed_search">Sökning misslyckades</string>
