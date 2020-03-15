@@ -177,7 +177,7 @@
     <string name="app_theme_light">Ljust</string>
     <string name="app_theme_black">Svart</string>
     <string name="app_theme_auto">Automatiskt vid solnedgång</string>
-    <string name="app_theme_system">Använd systemdesign</string>
+    <string name="app_theme_system">Använd system-tema</string>
     <string name="pref_title_browser_settings">Webbläsare</string>
     <string name="pref_title_custom_tabs">Använd Chrome-anpassade flikar</string>
     <string name="pref_title_hide_follow_button">Dölj skriv-knappen vid skrollning</string>
@@ -287,7 +287,7 @@
     <string name="lock_account_label_description">Kräver att du manuellt godkänner följare</string>
     <string name="compose_save_draft">Spara utkast?</string>
     <string name="send_toot_notification_title">Skickar toot…</string>
-    <string name="send_toot_notification_error_title">Fel vid sändning av toot</string>
+    <string name="send_toot_notification_error_title">Kunde inte skicka toot</string>
     <string name="send_toot_notification_channel_name">Skickar toot</string>
     <string name="send_toot_notification_cancel_title">Sändning avbruten</string>
     <string name="send_toot_notification_saved_content">En kopia av tooten har sparats i dina utkast</string>
@@ -298,7 +298,7 @@
     <string name="system_default">Systemstandard</string>
     <string name="download_fonts">Du behöver ladda ned dessa emojis först</string>
     <string name="performing_lookup_title">Utför sökning…</string>
-    <string name="expand_collapse_all_statuses">Expandera/Dölj alla status</string>
+    <string name="expand_collapse_all_statuses">Expandera/Dölj alla statusar</string>
     <string name="action_open_toot">Öppna toot</string>
     <string name="restart_required">Omstart av appen krävs</string>
     <string name="restart_emoji">Du måste starta om Tusky för att tillämpa ändringarna</string>
