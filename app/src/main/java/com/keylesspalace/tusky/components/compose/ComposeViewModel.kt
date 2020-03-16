@@ -249,7 +249,7 @@ class ComposeViewModel
                             content,
                             spoilerText,
                             statusVisibility.value!!.serverString(),
-                            mediaUris.isNotEmpty() && markMediaAsSensitive.value!!,
+                            mediaUris.isNotEmpty() && (markMediaAsSensitive.value!! || showContentWarning.value!!),
                             mediaIds,
                             mediaUris.map { it.toString() },
                             mediaDescriptions,
