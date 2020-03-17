@@ -28,6 +28,12 @@
             app:iconSpaceReserved="false" />
 
         <SwitchPreferenceCompat
+            android:defaultValue="false"
+            android:key="notificationFilterFollowRequests"
+            android:title="@string/pref_title_notification_filter_follow_requests"
+            app:iconSpaceReserved="false" />
+
+        <SwitchPreferenceCompat
             android:defaultValue="true"
             android:key="notificationFilterReblogs"
             android:title="@string/pref_title_notification_filter_reblogs"

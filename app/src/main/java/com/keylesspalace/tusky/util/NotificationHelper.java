@@ -113,6 +113,7 @@ public class NotificationHelper {
      **/
     public static final String CHANNEL_MENTION = "CHANNEL_MENTION";
     public static final String CHANNEL_FOLLOW = "CHANNEL_FOLLOW";
+    public static final String CHANNEL_FOLLOW_REQUEST = "CHANNEL_FOLLOW_REQUEST";
     public static final String CHANNEL_BOOST = "CHANNEL_BOOST";
     public static final String CHANNEL_FAVOURITE = "CHANNEL_FAVOURITE";
     public static final String CHANNEL_POLL = "CHANNEL_POLL";
@@ -348,6 +349,7 @@ public class NotificationHelper {
             String[] channelIds = new String[]{
                     CHANNEL_MENTION + account.getIdentifier(),
                     CHANNEL_FOLLOW + account.getIdentifier(),
+                    CHANNEL_FOLLOW_REQUEST + account.getIdentifier(),
                     CHANNEL_BOOST + account.getIdentifier(),
                     CHANNEL_FAVOURITE + account.getIdentifier(),
                     CHANNEL_POLL + account.getIdentifier(),
@@ -355,6 +357,7 @@ public class NotificationHelper {
             int[] channelNames = {
                     R.string.notification_mention_name,
                     R.string.notification_follow_name,
+                    R.string.notification_follow_request_name,
                     R.string.notification_boost_name,
                     R.string.notification_favourite_name,
                     R.string.notification_poll_name
@@ -362,12 +365,13 @@ public class NotificationHelper {
             int[] channelDescriptions = {
                     R.string.notification_mention_descriptions,
                     R.string.notification_follow_description,
+                    R.string.notification_follow_request_description,
                     R.string.notification_boost_description,
                     R.string.notification_favourite_description,
                     R.string.notification_poll_description
             };
 
-            List<NotificationChannel> channels = new ArrayList<>(5);
+            List<NotificationChannel> channels = new ArrayList<>(6);
 
             NotificationChannelGroup channelGroup = new NotificationChannelGroup(account.getIdentifier(), account.getFullName());
 
@@ -508,6 +512,8 @@ public class NotificationHelper {
                 return account.getNotificationsMentioned();
             case FOLLOW:
                 return account.getNotificationsFollowed();
+            case FOLLOW_REQUEST:
+                return account.getNotificationsFollowRequested();
             case REBLOG:
                 return account.getNotificationsReblogged();
             case FAVOURITE:

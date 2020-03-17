@@ -41,42 +41,23 @@ class NotificationPreferencesFragment : PreferenceFragmentCompat(), Preference.O
         val activeAccount = accountManager.activeAccount
 
         if (activeAccount != null) {
-
-            val notificationPref = requirePreference("notificationsEnabled") as SwitchPreferenceCompat
-            notificationPref.isChecked = activeAccount.notificationsEnabled
-            notificationPref.onPreferenceChangeListener = this
-
-            val mentionedPref = requirePreference("notificationFilterMentions") as SwitchPreferenceCompat
-            mentionedPref.isChecked = activeAccount.notificationsMentioned
-            mentionedPref.onPreferenceChangeListener = this
-
-            val followedPref = requirePreference("notificationFilterFollows") as SwitchPreferenceCompat
-            followedPref.isChecked = activeAccount.notificationsFollowed
-            followedPref.onPreferenceChangeListener = this
-
-            val boostedPref = requirePreference("notificationFilterReblogs") as SwitchPreferenceCompat
-            boostedPref.isChecked = activeAccount.notificationsReblogged
-            boostedPref.onPreferenceChangeListener = this
-
-            val favoritedPref = requirePreference("notificationFilterFavourites") as SwitchPreferenceCompat
-            favoritedPref.isChecked = activeAccount.notificationsFavorited
-            favoritedPref.onPreferenceChangeListener = this
-
-            val pollsPref = requirePreference("notificationFilterPolls") as SwitchPreferenceCompat
-            pollsPref.isChecked = activeAccount.notificationsPolls
-            pollsPref.onPreferenceChangeListener = this
-
-            val soundPref = requirePreference("notificationAlertSound") as SwitchPreferenceCompat
-            soundPref.isChecked = activeAccount.notificationSound
-            soundPref.onPreferenceChangeListener = this
-
-            val vibrationPref = requirePreference("notificationAlertVibrate") as SwitchPreferenceCompat
-            vibrationPref.isChecked = activeAccount.notificationVibration
-            vibrationPref.onPreferenceChangeListener = this
-
-            val lightPref = requirePreference("notificationAlertLight") as SwitchPreferenceCompat
-            lightPref.isChecked = activeAccount.notificationLight
-            lightPref.onPreferenceChangeListener = this
+            for (pair in mapOf(
+                    "notificationsEnabled" to activeAccount.notificationsEnabled,
+                    "notificationFilterMentions" to activeAccount.notificationsMentioned,
+                    "notificationFilterFollows" to activeAccount.notificationsFollowed,
+                    "notificationFilterFollowRequests" to activeAccount.notificationsFollowRequested,
+                    "notificationFilterReblogs" to activeAccount.notificationsReblogged,
+                    "notificationFilterFavourites" to activeAccount.notificationsFavorited,
+                    "notificationFilterPolls" to activeAccount.notificationsPolls,
+                    "notificationAlertSound" to activeAccount.notificationSound,
+                    "notificationAlertVibrate" to activeAccount.notificationVibration,
+                    "notificationAlertLight" to activeAccount.notificationLight
+            )) {
+                (requirePreference(pair.key) as SwitchPreferenceCompat).apply {
+                    isChecked = pair.value
+                    onPreferenceChangeListener = this@NotificationPreferencesFragment
+                }
+            }
         }
     }
 
@@ -96,6 +77,7 @@ class NotificationPreferencesFragment : PreferenceFragmentCompat(), Preference.O
                 }
                 "notificationFilterMentions" -> activeAccount.notificationsMentioned = newValue as Boolean
                 "notificationFilterFollows" -> activeAccount.notificationsFollowed = newValue as Boolean
+                "notificationFilterFollowRequests" -> activeAccount.notificationsFollowRequested = newValue as Boolean
                 "notificationFilterReblogs" -> activeAccount.notificationsReblogged = newValue as Boolean
                 "notificationFilterFavourites" -> activeAccount.notificationsFavorited = newValue as Boolean
                 "notificationFilterPolls" -> activeAccount.notificationsPolls = newValue as Boolean

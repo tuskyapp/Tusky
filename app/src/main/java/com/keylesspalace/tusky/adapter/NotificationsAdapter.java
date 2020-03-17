@@ -42,6 +42,7 @@ import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.entity.Account;
 import com.keylesspalace.tusky.entity.Emoji;
 import com.keylesspalace.tusky.entity.Notification;
+import com.keylesspalace.tusky.interfaces.AccountActionListener;
 import com.keylesspalace.tusky.interfaces.LinkListener;
 import com.keylesspalace.tusky.interfaces.StatusActionListener;
 import com.keylesspalace.tusky.util.CardViewMode;
@@ -72,8 +73,9 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
     private static final int VIEW_TYPE_STATUS = 0;
     private static final int VIEW_TYPE_STATUS_NOTIFICATION = 1;
     private static final int VIEW_TYPE_FOLLOW = 2;
-    private static final int VIEW_TYPE_PLACEHOLDER = 3;
-    private static final int VIEW_TYPE_UNKNOWN = 4;
+    private static final int VIEW_TYPE_FOLLOW_REQUEST = 3;
+    private static final int VIEW_TYPE_PLACEHOLDER = 4;
+    private static final int VIEW_TYPE_UNKNOWN = 5;
 
     private static final InputFilter[] COLLAPSE_INPUT_FILTER = new InputFilter[]{SmartLengthInputFilter.INSTANCE};
     private static final InputFilter[] NO_INPUT_FILTER = new InputFilter[0];
@@ -82,6 +84,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
     private StatusDisplayOptions statusDisplayOptions;
     private StatusActionListener statusListener;
     private NotificationActionListener notificationActionListener;
+    private AccountActionListener accountActionListener;
     private BidiFormatter bidiFormatter;
     private AdapterDataSource<NotificationViewData> dataSource;
 
@@ -89,13 +92,15 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
                                 AdapterDataSource<NotificationViewData> dataSource,
                                 StatusDisplayOptions statusDisplayOptions,
                                 StatusActionListener statusListener,
-                                NotificationActionListener notificationActionListener) {
+                                NotificationActionListener notificationActionListener,
+                                AccountActionListener accountActionListener) {
 
         this.accountId = accountId;
         this.dataSource = dataSource;
         this.statusDisplayOptions = statusDisplayOptions;
         this.statusListener = statusListener;
         this.notificationActionListener = notificationActionListener;
+        this.accountActionListener = accountActionListener;
         bidiFormatter = BidiFormatter.getInstance();
     }
 
@@ -118,6 +123,11 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
                 View view = inflater
                         .inflate(R.layout.item_follow, parent, false);
                 return new FollowViewHolder(view, statusDisplayOptions);
+            }
+            case VIEW_TYPE_FOLLOW_REQUEST: {
+                View view = inflater
+                        .inflate(R.layout.item_follow_request, parent, false);
+                return new FollowRequestViewHolder(view, true);
             }
             case VIEW_TYPE_PLACEHOLDER: {
                 View view = inflater
@@ -215,6 +225,13 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
                     }
                     break;
                 }
+                case VIEW_TYPE_FOLLOW_REQUEST: {
+                    if (payloadForHolder == null) {
+                        FollowRequestViewHolder holder = (FollowRequestViewHolder) viewHolder;
+                        holder.setupWithAccount(concreteNotificaton.getAccount(), bidiFormatter);
+                        holder.setupActionListener(accountActionListener);
+                    }
+                }
                 default:
             }
         }
@@ -257,6 +274,9 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
                 }
                 case FOLLOW: {
                     return VIEW_TYPE_FOLLOW;
+                }
+                case FOLLOW_REQUEST: {
+                    return VIEW_TYPE_FOLLOW_REQUEST;
                 }
                 default: {
                     return VIEW_TYPE_UNKNOWN;

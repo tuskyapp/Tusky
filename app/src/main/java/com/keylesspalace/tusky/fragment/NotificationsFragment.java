@@ -65,7 +65,9 @@ import com.keylesspalace.tusky.db.AccountManager;
 import com.keylesspalace.tusky.di.Injectable;
 import com.keylesspalace.tusky.entity.Notification;
 import com.keylesspalace.tusky.entity.Poll;
+import com.keylesspalace.tusky.entity.Relationship;
 import com.keylesspalace.tusky.entity.Status;
+import com.keylesspalace.tusky.interfaces.AccountActionListener;
 import com.keylesspalace.tusky.interfaces.ActionButtonActivity;
 import com.keylesspalace.tusky.interfaces.ReselectableFragment;
 import com.keylesspalace.tusky.interfaces.StatusActionListener;
@@ -115,6 +117,7 @@ public class NotificationsFragment extends SFragment implements
         SwipeRefreshLayout.OnRefreshListener,
         StatusActionListener,
         NotificationsAdapter.NotificationActionListener,
+        AccountActionListener,
         Injectable, ReselectableFragment {
     private static final String TAG = "NotificationF"; // logging tag
 
@@ -251,7 +254,7 @@ public class NotificationsFragment extends SFragment implements
         );
 
         adapter = new NotificationsAdapter(accountManager.getActiveAccount().getAccountId(),
-                dataSource, statusDisplayOptions, this, this);
+                dataSource, statusDisplayOptions, this, this, this);
         alwaysShowSensitiveMedia = accountManager.getActiveAccount().getAlwaysShowSensitiveMedia();
         alwaysOpenSpoiler = accountManager.getActiveAccount().getAlwaysOpenSpoiler();
         recyclerView.setAdapter(adapter);
@@ -765,6 +768,8 @@ public class NotificationsFragment extends SFragment implements
                 return getString(R.string.notification_boost_name);
             case FOLLOW:
                 return getString(R.string.notification_follow_name);
+            case FOLLOW_REQUEST:
+                return getString(R.string.notification_follow_request_name);
             case POLL:
                 return getString(R.string.notification_poll_name);
             default:
@@ -815,6 +820,50 @@ public class NotificationsFragment extends SFragment implements
     @Override
     public void onViewAccount(String id) {
         super.viewAccount(id);
+    }
+
+    @Override
+    public void onMute(boolean mute, String id, int position) {
+        // No muting from notifications yet
+    }
+
+    @Override
+    public void onBlock(boolean block, String id, int position) {
+        // No blocking from notifications yet
+    }
+
+    @Override
+    public void onRespondToFollowRequest(boolean accept, String id, int position) {
+        Callback<Relationship> callback = new Callback<Relationship>() {
+            @Override
+            public void onResponse(Call<Relationship> call, Response<Relationship> response) {
+                if (response.isSuccessful()) {
+                    onRespondToFollowRequestSuccess();
+                } else {
+                    onRespondToFollowRequestFailure(accept, id);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Relationship> call, Throwable t) {
+                onRespondToFollowRequestFailure(accept, id);
+            }
+        };
+
+        if (accept) {
+            mastodonApi.authorizeFollowRequest(id).enqueue(callback);
+        } else {
+            mastodonApi.rejectFollowRequest(id).enqueue(callback);
+        }
+    }
+
+    private void onRespondToFollowRequestSuccess() {
+        fullyRefreshWithProgressBar(true);
+    }
+
+    private void onRespondToFollowRequestFailure(boolean accept, String accountId) {
+        String verb = accept ? "accept" : "reject";
+        Log.e(TAG, String.format("Failed to %s account id %s", verb, accountId));
     }
 
     @Override
