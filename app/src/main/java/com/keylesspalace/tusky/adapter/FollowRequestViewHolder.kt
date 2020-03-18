@@ -10,7 +10,7 @@ import com.keylesspalace.tusky.interfaces.AccountActionListener
 import com.keylesspalace.tusky.util.CustomEmojiHelper
 import com.keylesspalace.tusky.util.loadAvatar
 import com.keylesspalace.tusky.util.visible
-import kotlinx.android.synthetic.main.item_follow_request.view.*
+import kotlinx.android.synthetic.main.item_follow_request_notification.view.*
 
 internal class FollowRequestViewHolder(itemView: View, private val showHeader: Boolean) : RecyclerView.ViewHolder(itemView) {
     private var id: String? = null

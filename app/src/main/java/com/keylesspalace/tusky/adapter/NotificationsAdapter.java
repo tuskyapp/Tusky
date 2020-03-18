@@ -126,7 +126,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
             }
             case VIEW_TYPE_FOLLOW_REQUEST: {
                 View view = inflater
-                        .inflate(R.layout.item_follow_request, parent, false);
+                        .inflate(R.layout.item_follow_request_notification, parent, false);
                 return new FollowRequestViewHolder(view, true);
             }
             case VIEW_TYPE_PLACEHOLDER: {

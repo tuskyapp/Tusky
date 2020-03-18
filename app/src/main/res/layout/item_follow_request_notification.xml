@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    android:paddingBottom="10dp"
+    >
+
+    <androidx.emoji.widget.EmojiTextView
+        android:id="@+id/notificationTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:drawableStart="@drawable/ic_person_add_24dp"
+        android:drawablePadding="10dp"
+        android:ellipsize="end"
+        android:gravity="center_vertical"
+        android:maxLines="1"
+        android:paddingStart="28dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:textColor="?android:textColorTertiary"
+        android:textSize="?attr/status_text_medium"
+        tools:text="Someone requested to follow you"
+        />
+
+        <ImageView
+            android:id="@+id/avatar"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginTop="10dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/notificationTextView"
+            android:layout_centerVertical="true"
+            android:contentDescription="@string/action_view_profile" />
+
+            <androidx.emoji.widget.EmojiTextView
+                android:id="@+id/displayNameTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:layout_marginStart="14dp"
+                app:layout_constraintTop_toBottomOf="@id/notificationTextView"
+                app:layout_constraintStart_toEndOf="@id/avatar"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textColor="?android:textColorPrimary"
+                android:textSize="?attr/status_text_large"
+                android:textStyle="normal|bold"
+                tools:text="Display name" />
+
+            <TextView
+                android:id="@+id/usernameTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="14dp"
+                app:layout_constraintTop_toBottomOf="@id/displayNameTextView"
+                app:layout_constraintStart_toEndOf="@id/avatar"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textColor="?android:textColorSecondary"
+                android:textSize="?attr/status_text_medium"
+                tools:text="\@username" />
+
+        <ImageButton
+            android:id="@+id/acceptButton"
+            style="@style/TuskyImageButton"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="14dp"
+            app:layout_constraintTop_toBottomOf="@id/notificationTextView"
+            app:layout_constraintEnd_toStartOf="@id/rejectButton"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/action_accept"
+            android:padding="4dp"
+            app:srcCompat="@drawable/ic_check_24dp" />
+
+        <ImageButton
+            android:id="@+id/rejectButton"
+            style="@style/TuskyImageButton"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginTop="14dp"
+            app:layout_constraintTop_toBottomOf="@id/notificationTextView"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="12dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/action_reject"
+            android:padding="4dp"
+            app:srcCompat="@drawable/ic_reject_24dp" />
+</androidx.constraintlayout.widget.ConstraintLayout>
