@@ -100,6 +100,7 @@ import javax.inject.Inject;
 
 import at.connyduck.sparkbutton.helpers.Utils;
 import io.reactivex.Observable;
+import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import kotlin.Unit;
 import kotlin.collections.CollectionsKt;
@@ -834,36 +835,15 @@ public class NotificationsFragment extends SFragment implements
 
     @Override
     public void onRespondToFollowRequest(boolean accept, String id, int position) {
-        Callback<Relationship> callback = new Callback<Relationship>() {
-            @Override
-            public void onResponse(Call<Relationship> call, Response<Relationship> response) {
-                if (response.isSuccessful()) {
-                    onRespondToFollowRequestSuccess();
-                } else {
-                    onRespondToFollowRequestFailure(accept, id);
-                }
-            }
-
-            @Override
-            public void onFailure(Call<Relationship> call, Throwable t) {
-                onRespondToFollowRequestFailure(accept, id);
-            }
-        };
-
-        if (accept) {
-            mastodonApi.authorizeFollowRequest(id).enqueue(callback);
-        } else {
-            mastodonApi.rejectFollowRequest(id).enqueue(callback);
-        }
-    }
-
-    private void onRespondToFollowRequestSuccess() {
-        fullyRefreshWithProgressBar(true);
-    }
-
-    private void onRespondToFollowRequestFailure(boolean accept, String accountId) {
-        String verb = accept ? "accept" : "reject";
-        Log.e(TAG, String.format("Failed to %s account id %s", verb, accountId));
+        Single<Relationship> request = accept ?
+                mastodonApi.authorizeFollowRequestObservable(id) :
+                mastodonApi.rejectFollowRequestObservable(id);
+        request.observeOn(AndroidSchedulers.mainThread())
+                .as(autoDisposable(from(this, Lifecycle.Event.ON_DESTROY)))
+                .subscribe(
+                        (relationship) -> fullyRefreshWithProgressBar(true),
+                        (error) -> Log.e(TAG, String.format("Failed to %s account id %s", accept ? "accept" : "reject", id))
+                );
     }
 
     @Override
