@@ -531,6 +531,8 @@ public class NotificationHelper {
                 return CHANNEL_MENTION + account.getIdentifier();
             case FOLLOW:
                 return CHANNEL_FOLLOW + account.getIdentifier();
+            case FOLLOW_REQUEST:
+                return CHANNEL_FOLLOW_REQUEST + account.getIdentifier();
             case REBLOG:
                 return CHANNEL_BOOST + account.getIdentifier();
             case FAVOURITE:
@@ -600,6 +602,9 @@ public class NotificationHelper {
             case FOLLOW:
                 return String.format(context.getString(R.string.notification_follow_format),
                         accountName);
+            case FOLLOW_REQUEST:
+                return String.format(context.getString(R.string.notification_follow_request_format),
+                        accountName);
             case FAVOURITE:
                 return String.format(context.getString(R.string.notification_favourite_format),
                         accountName);
@@ -619,6 +624,7 @@ public class NotificationHelper {
     private static String bodyForType(Notification notification, Context context) {
         switch (notification.getType()) {
             case FOLLOW:
+            case FOLLOW_REQUEST:
                 return "@" + notification.getAccount().getUsername();
             case MENTION:
             case FAVOURITE:
