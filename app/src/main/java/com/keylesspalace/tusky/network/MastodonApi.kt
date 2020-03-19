@@ -383,6 +383,16 @@ interface MastodonApi {
             @Path("id") accountId: String
     ): Call<Relationship>
 
+    @POST("api/v1/follow_requests/{id}/authorize")
+    fun authorizeFollowRequestObservable(
+            @Path("id") accountId: String
+    ): Single<Relationship>
+
+    @POST("api/v1/follow_requests/{id}/reject")
+    fun rejectFollowRequestObservable(
+            @Path("id") accountId: String
+    ): Single<Relationship>
+
     @FormUrlEncoded
     @POST("api/v1/apps")
     fun authenticateApp(

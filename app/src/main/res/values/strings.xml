@@ -60,6 +60,7 @@
     <string name="notification_reblog_format">%s boosted your toot</string>
     <string name="notification_favourite_format">%s favorited your toot</string>
     <string name="notification_follow_format">%s followed you</string>
+    <string name="notification_follow_request_format">%s requested to follow you</string>
 
     <string name="report_username_format">Report @%s</string>
     <string name="report_comment_hint">Additional comments?</string>
@@ -208,6 +209,7 @@
     <string name="pref_title_notification_filters">Notify me when</string>
     <string name="pref_title_notification_filter_mentions">mentioned</string>
     <string name="pref_title_notification_filter_follows">followed</string>
+    <string name="pref_title_notification_filter_follow_requests">follow requested</string>
     <string name="pref_title_notification_filter_reblogs">my posts are boosted</string>
     <string name="pref_title_notification_filter_favourites">my posts are favorited</string>
     <string name="pref_title_notification_filter_poll">polls have ended</string>
@@ -262,6 +264,8 @@
     <string name="notification_mention_descriptions">Notifications about new mentions</string>
     <string name="notification_follow_name">New Followers</string>
     <string name="notification_follow_description">Notifications about new followers</string>
+    <string name="notification_follow_request_name">Follow Requests</string>
+    <string name="notification_follow_request_description">Notifications about follow requests</string>
     <string name="notification_boost_name">Boosts</string>
     <string name="notification_boost_description">Notifications when your toots get boosted</string>
     <string name="notification_favourite_name">Favorites</string>

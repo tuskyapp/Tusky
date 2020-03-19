@@ -18,19 +18,12 @@ package com.keylesspalace.tusky.adapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.keylesspalace.tusky.R;
-import com.keylesspalace.tusky.entity.Account;
 import com.keylesspalace.tusky.interfaces.AccountActionListener;
-import com.keylesspalace.tusky.util.CustomEmojiHelper;
-import com.keylesspalace.tusky.util.ImageLoadingHelper;
 
 public class FollowRequestsAdapter extends AccountAdapter {
 
@@ -46,7 +39,7 @@ public class FollowRequestsAdapter extends AccountAdapter {
             case VIEW_TYPE_ACCOUNT: {
                 View view = LayoutInflater.from(parent.getContext())
                         .inflate(R.layout.item_follow_request, parent, false);
-                return new FollowRequestViewHolder(view);
+                return new FollowRequestViewHolder(view, false);
             }
             case VIEW_TYPE_FOOTER: {
                 View view = LayoutInflater.from(parent.getContext())
@@ -60,57 +53,8 @@ public class FollowRequestsAdapter extends AccountAdapter {
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position) {
         if (getItemViewType(position) == VIEW_TYPE_ACCOUNT) {
             FollowRequestViewHolder holder = (FollowRequestViewHolder) viewHolder;
-            holder.setupWithAccount(accountList.get(position));
+            holder.setupWithAccount(accountList.get(position), null);
             holder.setupActionListener(accountActionListener);
-        }
-    }
-
-    static class FollowRequestViewHolder extends RecyclerView.ViewHolder {
-        private ImageView avatar;
-        private TextView username;
-        private TextView displayName;
-        private ImageButton accept;
-        private ImageButton reject;
-        private String id;
-        private boolean animateAvatar;
-
-        FollowRequestViewHolder(View itemView) {
-            super(itemView);
-            avatar = itemView.findViewById(R.id.avatar);
-            username = itemView.findViewById(R.id.usernameTextView);
-            displayName = itemView.findViewById(R.id.displayNameTextView);
-            accept = itemView.findViewById(R.id.acceptButton);
-            reject = itemView.findViewById(R.id.rejectButton);
-            animateAvatar = PreferenceManager.getDefaultSharedPreferences(itemView.getContext())
-                    .getBoolean("animateGifAvatars", false);
-        }
-
-        void setupWithAccount(Account account) {
-            id = account.getId();
-            CharSequence emojifiedName = CustomEmojiHelper.emojifyString(account.getName(), account.getEmojis(), displayName);
-            displayName.setText(emojifiedName);
-            String format = username.getContext().getString(R.string.status_username_format);
-            String formattedUsername = String.format(format, account.getUsername());
-            username.setText(formattedUsername);
-            int avatarRadius = avatar.getContext().getResources()
-                    .getDimensionPixelSize(R.dimen.avatar_radius_48dp);
-            ImageLoadingHelper.loadAvatar(account.getAvatar(), avatar, avatarRadius, animateAvatar);
-        }
-
-        void setupActionListener(final AccountActionListener listener) {
-            accept.setOnClickListener(v -> {
-                int position = getAdapterPosition();
-                if (position != RecyclerView.NO_POSITION) {
-                    listener.onRespondToFollowRequest(true, id, position);
-                }
-            });
-            reject.setOnClickListener(v -> {
-                int position = getAdapterPosition();
-                if (position != RecyclerView.NO_POSITION) {
-                    listener.onRespondToFollowRequest(false, id, position);
-                }
-            });
-            avatar.setOnClickListener(v -> listener.onViewAccount(id));
         }
     }
 }
