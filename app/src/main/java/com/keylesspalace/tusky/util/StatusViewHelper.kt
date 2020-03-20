@@ -24,7 +24,6 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.DrawableRes
 import androidx.appcompat.content.res.AppCompatResources
-import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.entity.Attachment
@@ -275,17 +274,22 @@ class StatusViewHelper(private val itemView: View) {
 
     private fun getPollInfoText(timestamp: Long, poll: PollViewData, pollDescription: TextView, useAbsoluteTime: Boolean): CharSequence {
         val context = pollDescription.context
-        val votes = NumberFormat.getNumberInstance().format(poll.votesCount.toLong())
-        val votesText = context.resources.getQuantityString(R.plurals.poll_info_votes, poll.votesCount, votes)
-        val pollDurationInfo: CharSequence
-        if (poll.expired) {
-            pollDurationInfo = context.getString(R.string.poll_info_closed)
+
+        val votesText = if(poll.votersCount == null) {
+            val votes = NumberFormat.getNumberInstance().format(poll.votesCount.toLong())
+            context.resources.getQuantityString(R.plurals.poll_info_votes, poll.votesCount, votes)
+        } else {
+            val votes = NumberFormat.getNumberInstance().format(poll.votersCount.toLong())
+            context.resources.getQuantityString(R.plurals.poll_info_people, poll.votersCount, votes)
+        }
+        val pollDurationInfo = if (poll.expired) {
+            context.getString(R.string.poll_info_closed)
         } else {
             if (useAbsoluteTime) {
-                pollDurationInfo = context.getString(R.string.poll_info_time_absolute, getAbsoluteTime(poll.expiresAt))
+                context.getString(R.string.poll_info_time_absolute, getAbsoluteTime(poll.expiresAt))
             } else {
                 val pollDuration = TimestampUtils.formatPollDuration(context, poll.expiresAt!!.time, timestamp)
-                pollDurationInfo = context.getString(R.string.poll_info_time_relative, pollDuration)
+                context.getString(R.string.poll_info_time_relative, pollDuration)
             }
         }
 
@@ -298,7 +302,7 @@ class StatusViewHelper(private val itemView: View) {
 
         for (i in 0 until Status.MAX_POLL_OPTIONS) {
             if (i < options.size) {
-                val percent = calculatePercent(options[i].votesCount, poll.votesCount)
+                val percent = calculatePercent(options[i].votesCount, poll.votersCount, poll.votesCount)
 
                 val pollOptionText = buildDescription(options[i].title, percent, pollResults[i].context)
                 pollResults[i].text = CustomEmojiHelper.emojifyText(pollOptionText, emojis, pollResults[i])

@@ -489,6 +489,10 @@
         <!-- 15 votes • 1 hour left -->
         %1$s • %2$s</string>
     <plurals name="poll_info_votes">
+        <item quantity="one">%s vote</item>
+        <item quantity="other">%s votes</item>
+    </plurals>
+    <plurals name="poll_info_people">
         <item quantity="one">%s person</item>
         <item quantity="other">%s people</item>
     </plurals>

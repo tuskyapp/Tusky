@@ -869,7 +869,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             List<PollOptionViewData> options = poll.getOptions();
             for (int i = 0; i < args.length; i++) {
                 if (i < options.size()) {
-                    int percent = PollViewDataKt.calculatePercent(options.get(i).getVotesCount(), poll.getVotesCount());
+                    int percent = PollViewDataKt.calculatePercent(options.get(i).getVotesCount(), poll.getVotersCount(), poll.getVotesCount());
                     args[i] = buildDescription(options.get(i).getTitle(), percent, context);
                 } else {
                     args[i] = "";
@@ -912,12 +912,12 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
 
         if (expired || poll.getVoted()) {
             // no voting possible
-            pollAdapter.setup(poll.getOptions(), poll.getVotesCount(), emojis, PollAdapter.RESULT);
+            pollAdapter.setup(poll.getOptions(), poll.getVotesCount(), poll.getVotersCount(), emojis, PollAdapter.RESULT);
 
             pollButton.setVisibility(View.GONE);
         } else {
             // voting possible
-            pollAdapter.setup(poll.getOptions(), poll.getVotesCount(), emojis, poll.getMultiple() ? PollAdapter.MULTIPLE : PollAdapter.SINGLE);
+            pollAdapter.setup(poll.getOptions(), poll.getVotesCount(), poll.getVotersCount(), emojis, poll.getMultiple() ? PollAdapter.MULTIPLE : PollAdapter.SINGLE);
 
             pollButton.setVisibility(View.VISIBLE);
 
@@ -944,8 +944,14 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
     private CharSequence getPollInfoText(long timestamp, PollViewData poll,
                                          StatusDisplayOptions statusDisplayOptions,
                                          Context context) {
-        String votes = numberFormat.format(poll.getVotesCount());
-        String votesText = context.getResources().getQuantityString(R.plurals.poll_info_votes, poll.getVotersCount(), votes);
+        String votesText;
+        if(poll.getVotersCount() == null) {
+            String voters = numberFormat.format(poll.getVotesCount());
+            votesText = context.getResources().getQuantityString(R.plurals.poll_info_votes, poll.getVotesCount(), voters);
+        } else {
+            String voters = numberFormat.format(poll.getVotersCount());
+            votesText = context.getResources().getQuantityString(R.plurals.poll_info_people, poll.getVotersCount(), voters);
+        }
         CharSequence pollDurationInfo;
         if (poll.getExpired()) {
             pollDurationInfo = context.getString(R.string.poll_info_closed);

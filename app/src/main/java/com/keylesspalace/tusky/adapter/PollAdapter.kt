@@ -26,7 +26,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.entity.Emoji
 import com.keylesspalace.tusky.util.CustomEmojiHelper
-import com.keylesspalace.tusky.util.HtmlUtils
 import com.keylesspalace.tusky.util.visible
 import com.keylesspalace.tusky.viewdata.PollOptionViewData
 import com.keylesspalace.tusky.viewdata.buildDescription
@@ -36,12 +35,19 @@ class PollAdapter: RecyclerView.Adapter<PollViewHolder>() {
 
     private var pollOptions: List<PollOptionViewData> = emptyList()
     private var voteCount: Int = 0
+    private var votersCount: Int? = null
     private var mode = RESULT
     private var emojis: List<Emoji> = emptyList()
 
-    fun setup(options: List<PollOptionViewData>, voteCount: Int, emojis: List<Emoji>, mode: Int) {
+    fun setup(
+            options: List<PollOptionViewData>,
+            voteCount: Int,
+            votersCount: Int?,
+            emojis: List<Emoji>,
+            mode: Int) {
         this.pollOptions = options
         this.voteCount = voteCount
+        this.votersCount = votersCount
         this.emojis = emojis
         this.mode = mode
         notifyDataSetChanged()
@@ -71,7 +77,7 @@ class PollAdapter: RecyclerView.Adapter<PollViewHolder>() {
 
         when(mode) {
             RESULT -> {
-                val percent = calculatePercent(option.votesCount, voteCount)
+                val percent = calculatePercent(option.votesCount, votersCount, voteCount)
                 val emojifiedPollOptionText = CustomEmojiHelper.emojifyText(buildDescription(option.title, percent, holder.resultTextView.context), emojis, holder.resultTextView)
                 holder.resultTextView.text =  EmojiCompat.get().process(emojifiedPollOptionText)
 
