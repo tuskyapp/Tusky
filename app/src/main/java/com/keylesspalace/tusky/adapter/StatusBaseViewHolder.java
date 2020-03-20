@@ -945,7 +945,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
                                          StatusDisplayOptions statusDisplayOptions,
                                          Context context) {
         String votes = numberFormat.format(poll.getVotesCount());
-        String votesText = context.getResources().getQuantityString(R.plurals.poll_info_votes, poll.getVotesCount(), votes);
+        String votesText = context.getResources().getQuantityString(R.plurals.poll_info_votes, poll.getVotersCount(), votes);
         CharSequence pollDurationInfo;
         if (poll.getExpired()) {
             pollDurationInfo = context.getString(R.string.poll_info_closed);

@@ -31,6 +31,7 @@ data class PollViewData(
         val expired: Boolean,
         val multiple: Boolean,
         val votesCount: Int,
+        val votersCount: Int,
         val options: List<PollOptionViewData>,
         var voted: Boolean
 )
@@ -63,6 +64,7 @@ fun Poll?.toViewData(): PollViewData? {
             expired,
             multiple,
             votesCount,
+            votersCount,
             options.map { it.toViewData() },
             voted
     )
