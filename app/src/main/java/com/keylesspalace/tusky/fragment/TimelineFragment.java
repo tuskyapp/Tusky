@@ -53,6 +53,7 @@ import com.keylesspalace.tusky.appstore.BookmarkEvent;
 import com.keylesspalace.tusky.appstore.DomainMuteEvent;
 import com.keylesspalace.tusky.appstore.EventHub;
 import com.keylesspalace.tusky.appstore.FavoriteEvent;
+import com.keylesspalace.tusky.appstore.MuteConversationEvent;
 import com.keylesspalace.tusky.appstore.MuteEvent;
 import com.keylesspalace.tusky.appstore.PreferenceChangedEvent;
 import com.keylesspalace.tusky.appstore.ReblogEvent;
@@ -503,6 +504,9 @@ public class TimelineFragment extends SFragment implements
                         } else if (event instanceof BookmarkEvent) {
                             BookmarkEvent bookmarkEvent = (BookmarkEvent) event;
                             handleBookmarkEvent(bookmarkEvent);
+                        } else if (event instanceof MuteConversationEvent) {
+                            MuteConversationEvent muteEvent = (MuteConversationEvent) event;
+                            handleMuteConversationEvent(muteEvent);
                         } else if (event instanceof UnfollowEvent) {
                             if (kind == Kind.HOME) {
                                 String id = ((UnfollowEvent) event).getAccountId();
@@ -1311,6 +1315,11 @@ public class TimelineFragment extends SFragment implements
         if (pos < 0) return;
         Status status = statuses.get(pos).asRight();
         setBookmarkForStatus(pos, status, bookmarkEvent.getBookmark());
+    }
+
+    private void handleMuteConversationEvent(@NonNull MuteConversationEvent _) {
+        // TODO: Is there anything to do here but a full refresh?
+        fullyRefresh();
     }
 
     private void handleStatusComposeEvent(@NonNull Status status) {

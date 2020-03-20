@@ -200,6 +200,16 @@ interface MastodonApi {
             @Path("id") statusId: String
     ): Single<Status>
 
+    @POST("api/v1/statuses/{id}/mute")
+    fun muteConversation(
+            @Path("id") statusId: String
+    ): Single<Status>
+
+    @POST("api/v1/statuses/{id}/unmute")
+    fun unmuteConversation(
+            @Path("id") statusId: String
+    ): Single<Status>
+
     @GET("api/v1/scheduled_statuses")
     fun scheduledStatuses(
             @Query("limit") limit: Int? = null,

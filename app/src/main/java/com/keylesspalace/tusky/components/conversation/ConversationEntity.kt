@@ -157,6 +157,7 @@ data class ConversationStatusEntity(
                 mentions = mentions,
                 application = null,
                 pinned = false,
+                muted = false,
                 poll = poll,
                 card = null)
     }

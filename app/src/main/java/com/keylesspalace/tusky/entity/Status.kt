@@ -43,6 +43,7 @@ data class Status(
         val mentions: Array<Mention>,
         val application: Application?,
         var pinned: Boolean?,
+        var muted: Boolean?,
         val poll: Poll?,
         val card: Card?
 ) {

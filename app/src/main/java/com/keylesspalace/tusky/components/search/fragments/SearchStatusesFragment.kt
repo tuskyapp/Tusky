@@ -49,6 +49,7 @@ import com.keylesspalace.tusky.components.search.adapter.SearchStatusesAdapter
 import com.keylesspalace.tusky.db.AccountEntity
 import com.keylesspalace.tusky.entity.Attachment
 import com.keylesspalace.tusky.entity.Status
+import com.keylesspalace.tusky.entity.Status.Mention
 import com.keylesspalace.tusky.interfaces.AccountSelectionListener
 import com.keylesspalace.tusky.interfaces.StatusActionListener
 import com.keylesspalace.tusky.util.CardViewMode
@@ -228,12 +229,9 @@ class SearchStatusesFragment : SearchFragment<Pair<Status, StatusViewData.Concre
         val loggedInAccountId = viewModel.activeAccount?.accountId
 
         val popup = PopupMenu(view.context, view)
+        val statusIsByCurrentUser = loggedInAccountId?.equals(accountId) == true
         // Give a different menu depending on whether this is the user's own toot or not.
-        if (loggedInAccountId == null || loggedInAccountId != accountId) {
-            popup.inflate(R.menu.status_more)
-            val menu = popup.menu
-            menu.findItem(R.id.status_download_media).isVisible = status.attachments.isNotEmpty()
-        } else {
+        if (statusIsByCurrentUser) {
             popup.inflate(R.menu.status_more_for_user)
             val menu = popup.menu
             menu.findItem(R.id.status_open_as).isVisible = !statusUrl.isNullOrBlank()
@@ -251,6 +249,10 @@ class SearchStatusesFragment : SearchFragment<Pair<Status, StatusViewData.Concre
                 Status.Visibility.UNKNOWN, Status.Visibility.DIRECT -> {
                 } //Ignore
             }
+        } else {
+            popup.inflate(R.menu.status_more)
+            val menu = popup.menu
+            menu.findItem(R.id.status_download_media).isVisible = status.attachments.isNotEmpty()
         }
 
         val openAsItem = popup.menu.findItem(R.id.status_open_as)
@@ -265,6 +267,19 @@ class SearchStatusesFragment : SearchFragment<Pair<Status, StatusViewData.Concre
             else -> openAsTitle = String.format(getString(R.string.action_open_as), "…")
         }
         openAsItem.title = openAsTitle
+
+        val mutable = statusIsByCurrentUser || accountIsInMentions(viewModel.activeAccount, status.mentions)
+        val muteConversationItem = popup.menu.findItem(R.id.status_mute_conversation).apply {
+            isVisible = mutable
+        }
+        if (mutable) {
+            muteConversationItem.setTitle(
+                    if (status.muted == true) {
+                        R.string.action_unmute_conversation
+                    } else {
+                        R.string.action_mute_conversation
+                    })
+        }
 
         popup.setOnMenuItemClickListener { item ->
             when (item.itemId) {
@@ -303,6 +318,12 @@ class SearchStatusesFragment : SearchFragment<Pair<Status, StatusViewData.Concre
                     requestDownloadAllMedia(status)
                     return@setOnMenuItemClickListener true
                 }
+                R.id.status_mute_conversation -> {
+                    searchAdapter.getItem(position)?.let { foundStatus ->
+                        viewModel.muteConversation(foundStatus, status.muted != true)
+                    }
+                    return@setOnMenuItemClickListener true
+                }
                 R.id.status_mute -> {
                     viewModel.muteAcount(accountId)
                     return@setOnMenuItemClickListener true
@@ -339,6 +360,19 @@ class SearchStatusesFragment : SearchFragment<Pair<Status, StatusViewData.Concre
             false
         }
         popup.show()
+    }
+
+    private fun accountIsInMentions(account: AccountEntity?, mentions: Array<Mention>): Boolean {
+        return mentions.firstOrNull {
+            try {
+                if (account?.username == it.username && account.domain == Uri.parse(it.url).host) {
+                    return true
+                }
+            } catch (_: Exception) {
+                // This block intentionally left blank
+            }
+            return false
+        } != null
     }
 
     private fun showOpenAsDialog(statusUrl: String, dialogTitle: CharSequence) {
