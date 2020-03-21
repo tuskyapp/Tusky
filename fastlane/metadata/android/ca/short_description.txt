@@ -1,1 +1,1 @@
-Un client per a diversos comptes per a la xarxa social Mastodont
+Un client multicomptes per a la xarxa social Mastodont
