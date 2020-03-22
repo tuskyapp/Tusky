@@ -491,4 +491,5 @@
     <string name="no_saved_status">Avètz pas cap de borrolhon.</string>
     <string name="no_scheduled_status">Avètz pas cap de tut planificat.</string>
 
-</resources>
+<string name="warning_scheduling_interval">L’interval minimum de planificacion sus Mastodon e de 5 minutas.</string>
+    </resources>
