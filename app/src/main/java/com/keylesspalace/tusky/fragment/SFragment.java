@@ -339,7 +339,7 @@ public abstract class SFragment extends BaseFragment implements Injectable {
                         account.getDomain().equals(Uri.parse(mention.getUrl()).getHost())) {
                     return true;
                 }
-            } catch (Exception _){
+            } catch (Exception exception){
                 // This block intentionally left blank
             }
         }

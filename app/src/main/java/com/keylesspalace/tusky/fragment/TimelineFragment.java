@@ -1317,7 +1317,7 @@ public class TimelineFragment extends SFragment implements
         setBookmarkForStatus(pos, status, bookmarkEvent.getBookmark());
     }
 
-    private void handleMuteConversationEvent(@NonNull MuteConversationEvent _) {
+    private void handleMuteConversationEvent(@NonNull MuteConversationEvent event) {
         // TODO: Is there anything to do here but a full refresh?
         fullyRefresh();
     }

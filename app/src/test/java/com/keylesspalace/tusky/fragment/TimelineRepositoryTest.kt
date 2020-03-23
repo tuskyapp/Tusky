@@ -314,6 +314,7 @@ class TimelineRepositoryTest {
                 inReplyToAccountId = null,
                 inReplyToId = null,
                 pinned = false,
+                muted = false,
                 reblog = null,
                 url = "http://example.com/statuses/$id",
                 poll = null,
