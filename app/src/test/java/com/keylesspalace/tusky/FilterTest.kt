@@ -214,6 +214,7 @@ class FilterTest {
                 mentions = emptyArray(),
                 application = null,
                 pinned = false,
+                muted = false,
                 poll = if (pollOptions != null) {
                     Poll(
                             id = "1234",

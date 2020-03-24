@@ -41,7 +41,7 @@ interface TimelineCases {
     fun delete(id: String): Single<DeletedStatus>
     fun pin(status: Status, pin: Boolean)
     fun voteInPoll(status: Status, choices: List<Int>): Single<Poll>
-
+    fun muteConversation(status: Status, mute: Boolean): Single<Status>
 }
 
 class TimelineCasesImpl(
@@ -91,6 +91,19 @@ class TimelineCasesImpl(
         }
         return call.doAfterSuccess {
             eventHub.dispatch(BookmarkEvent(status.id, bookmark))
+        }
+    }
+
+    override fun muteConversation(status: Status, mute: Boolean): Single<Status> {
+        val id = status.actionableId
+
+        val call = if (mute) {
+            mastodonApi.muteConversation(id)
+        } else {
+            mastodonApi.unmuteConversation(id)
+        }
+        return call.doAfterSuccess {
+            eventHub.dispatch(MuteConversationEvent(status.id, mute))
         }
     }
 

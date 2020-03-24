@@ -88,6 +88,7 @@ class BottomSheetActivityTest {
             arrayOf(),
             null,
             pinned = false,
+            muted = false,
             poll = null,
             card = null
     )

@@ -30,7 +30,7 @@ import androidx.annotation.NonNull;
 
 @Database(entities = {TootEntity.class, AccountEntity.class, InstanceEntity.class, TimelineStatusEntity.class,
                 TimelineAccountEntity.class,  ConversationEntity.class
-        }, version = 22)
+        }, version = 23)
 public abstract class AppDatabase extends RoomDatabase {
 
     public abstract TootDao tootDao();
@@ -330,6 +330,13 @@ public abstract class AppDatabase extends RoomDatabase {
         @Override
         public void migrate(@NonNull SupportSQLiteDatabase database) {
             database.execSQL("ALTER TABLE `AccountEntity` ADD COLUMN `notificationsFollowRequested` INTEGER NOT NULL DEFAULT 0");
+        }
+    };
+
+    public static final Migration MIGRATION_22_23 = new Migration(22, 23) {
+        @Override
+        public void migrate(@NonNull SupportSQLiteDatabase database) {
+            database.execSQL("ALTER TABLE `TimelineStatusEntity` ADD COLUMN `muted` INTEGER");
         }
     };
 

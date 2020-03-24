@@ -22,6 +22,9 @@
         android:id="@+id/status_download_media"
         android:title="@string/download_media" />
     <item
+        android:id="@+id/status_mute_conversation"
+        android:title="@string/action_mute_conversation" />
+    <item
         android:id="@+id/status_mute"
         android:title="@string/action_mute" />
     <item

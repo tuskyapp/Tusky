@@ -185,11 +185,8 @@ public abstract class SFragment extends BaseFragment implements Injectable {
 
         PopupMenu popup = new PopupMenu(getContext(), view);
         // Give a different menu depending on whether this is the user's own toot or not.
-        if (loggedInAccountId == null || !loggedInAccountId.equals(accountId)) {
-            popup.inflate(R.menu.status_more);
-            Menu menu = popup.getMenu();
-            menu.findItem(R.id.status_download_media).setVisible(!status.getAttachments().isEmpty());
-        } else {
+        boolean statusIsByCurrentUser = loggedInAccountId != null && loggedInAccountId.equals(accountId);
+        if (statusIsByCurrentUser) {
             popup.inflate(R.menu.status_more_for_user);
             Menu menu = popup.getMenu();
             switch (status.getVisibility()) {
@@ -208,6 +205,10 @@ public abstract class SFragment extends BaseFragment implements Injectable {
                     break;
                 }
             }
+        } else {
+            popup.inflate(R.menu.status_more);
+            Menu menu = popup.getMenu();
+            menu.findItem(R.id.status_download_media).setVisible(!status.getAttachments().isEmpty());
         }
 
         Menu menu = popup.getMenu();
@@ -230,6 +231,15 @@ public abstract class SFragment extends BaseFragment implements Injectable {
                 break;
         }
         openAsItem.setTitle(openAsTitle);
+
+        MenuItem muteConversationItem = menu.findItem(R.id.status_mute_conversation);
+        boolean mutable = statusIsByCurrentUser || accountIsInMentions(activeAccount, status.getMentions());
+        muteConversationItem.setVisible(mutable);
+        if (mutable) {
+            muteConversationItem.setTitle((status.getMuted() == null || !status.getMuted()) ?
+                    R.string.action_mute_conversation :
+                    R.string.action_unmute_conversation);
+        }
 
         popup.setOnMenuItemClickListener(item -> {
             switch (item.getItemId()) {
@@ -305,10 +315,33 @@ public abstract class SFragment extends BaseFragment implements Injectable {
                     timelineCases.pin(status, !status.isPinned());
                     return true;
                 }
+                case R.id.status_mute_conversation: {
+                    timelineCases.muteConversation(status, status.getMuted() == null || !status.getMuted())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .as(autoDisposable(from(this, Lifecycle.Event.ON_DESTROY)))
+                            .subscribe();
+                    return true;
+                }
             }
             return false;
         });
         popup.show();
+    }
+
+    private static boolean accountIsInMentions(AccountEntity account, Status.Mention[] mentions) {
+        if (account == null) {
+            return false;
+        }
+
+        for (Status.Mention mention : mentions) {
+            if (account.getUsername().equals(mention.getUsername())) {
+                Uri uri = Uri.parse(mention.getUrl());
+                if (uri != null && account.getDomain().equals(uri.getHost())) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     protected void viewMedia(int urlIndex, Status status, @Nullable View view) {
