@@ -534,4 +534,7 @@
 
     <string name="no_scheduled_status">No tens cap estat planificat.</string>
 
-</resources>
+<string name="error_audio_upload_size">Els fitxers d\'àudio han de ser més petits de 40MB.</string>
+    <string name="no_saved_status">No tens cap esborrany.</string>
+    <string name="warning_scheduling_interval">L\'interval mínim de planificació a Mastodon és de 5 minuts.</string>
+    </resources>
