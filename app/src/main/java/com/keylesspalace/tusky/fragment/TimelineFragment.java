@@ -1318,7 +1318,6 @@ public class TimelineFragment extends SFragment implements
     }
 
     private void handleMuteConversationEvent(@NonNull MuteConversationEvent event) {
-        // TODO: Is there anything to do here but a full refresh?
         fullyRefresh();
     }
 

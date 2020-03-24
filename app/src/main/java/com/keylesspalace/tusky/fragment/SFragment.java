@@ -334,13 +334,11 @@ public abstract class SFragment extends BaseFragment implements Injectable {
         }
 
         for (Status.Mention mention : mentions) {
-            try {
-                if (account.getUsername().equals(mention.getUsername()) &&
-                        account.getDomain().equals(Uri.parse(mention.getUrl()).getHost())) {
+            if (account.getUsername().equals(mention.getUsername())) {
+                Uri uri = Uri.parse(mention.getUrl());
+                if (uri != null && account.getDomain().equals(uri.getHost())) {
                     return true;
                 }
-            } catch (Exception exception){
-                // This block intentionally left blank
             }
         }
         return false;
