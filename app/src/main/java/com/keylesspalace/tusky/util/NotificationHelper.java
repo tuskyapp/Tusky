@@ -643,7 +643,7 @@ public class NotificationHelper {
                     Poll poll = notification.getStatus().getPoll();
                     for(PollOption option: poll.getOptions()) {
                         builder.append(buildDescription(option.getTitle(),
-                                PollViewDataKt.calculatePercent(option.getVotesCount(), poll.getVotesCount()),
+                                PollViewDataKt.calculatePercent(option.getVotesCount(), poll.getVotersCount(), poll.getVotesCount()),
                                 context));
                         builder.append('\n');
                     }

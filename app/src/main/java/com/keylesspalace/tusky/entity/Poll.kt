@@ -9,6 +9,7 @@ data class Poll(
         val expired: Boolean,
         val multiple: Boolean,
         @SerializedName("votes_count") val votesCount: Int,
+        @SerializedName("voters_count") val votersCount: Int?, // nullable for compatibility with Pleroma
         val options: List<PollOption>,
         val voted: Boolean
 ) {
@@ -22,7 +23,12 @@ data class Poll(
             }
         }
 
-        return copy(options = newOptions, votesCount = votesCount + choices.size, voted = true)
+        return copy(
+                options = newOptions,
+                votesCount = votesCount + choices.size,
+                votersCount = votersCount?.plus(1),
+                voted = true
+        )
     }
 
     fun toNewPoll(creationDate: Date) = NewPoll(

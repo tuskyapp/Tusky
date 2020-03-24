@@ -494,6 +494,10 @@
         <item quantity="one">%s vote</item>
         <item quantity="other">%s votes</item>
     </plurals>
+    <plurals name="poll_info_people">
+        <item quantity="one">%s person</item>
+        <item quantity="other">%s people</item>
+    </plurals>
     <string name="poll_info_time_relative">%s left</string>
     <string name="poll_info_time_absolute">ends at %s</string>
     <string name="poll_info_closed">closed</string>
