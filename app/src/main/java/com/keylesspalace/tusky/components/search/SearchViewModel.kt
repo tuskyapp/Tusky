@@ -193,7 +193,7 @@ class SearchViewModel @Inject constructor(
         return accountManager.getAllAccountsOrderedByActive()
     }
 
-    fun muteAcount(accountId: String) {
+    fun muteAccount(accountId: String) {
         timelineCases.mute(accountId)
     }
 

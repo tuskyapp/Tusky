@@ -74,6 +74,8 @@ class SearchStatusesFragment : SearchFragment<Pair<Status, StatusViewData.Concre
     private val searchAdapter
         get() = super.adapter as SearchStatusesAdapter
 
+    private var confirmBlocks = true
+
     override fun createAdapter(): PagedListAdapter<Pair<Status, StatusViewData.Concrete>, *> {
         val preferences = PreferenceManager.getDefaultSharedPreferences(searchRecyclerView.context)
         val statusDisplayOptions = StatusDisplayOptions(
@@ -86,6 +88,7 @@ class SearchStatusesFragment : SearchFragment<Pair<Status, StatusViewData.Concre
                 confirmReblogs = preferences.getBoolean("confirmReblogs", true)
         )
 
+        confirmBlocks = preferences.getBoolean("confirmBlocksAndMutes", true)
         searchRecyclerView.addItemDecoration(DividerItemDecoration(searchRecyclerView.context, DividerItemDecoration.VERTICAL))
         searchRecyclerView.layoutManager = LinearLayoutManager(searchRecyclerView.context)
         return SearchStatusesAdapter(statusDisplayOptions, this)
@@ -325,11 +328,11 @@ class SearchStatusesFragment : SearchFragment<Pair<Status, StatusViewData.Concre
                     return@setOnMenuItemClickListener true
                 }
                 R.id.status_mute -> {
-                    viewModel.muteAcount(accountId)
+                    onMute(accountId)
                     return@setOnMenuItemClickListener true
                 }
                 R.id.status_block -> {
-                    viewModel.blockAccount(accountId)
+                    onBlock(accountId)
                     return@setOnMenuItemClickListener true
                 }
                 R.id.status_report -> {
@@ -360,6 +363,30 @@ class SearchStatusesFragment : SearchFragment<Pair<Status, StatusViewData.Concre
             false
         }
         popup.show()
+    }
+
+    private fun onBlock(accountId: String) {
+        if (confirmBlocks) {
+            AlertDialog.Builder(requireContext())
+                    .setMessage(R.string.dialog_block_warning)
+                    .setPositiveButton(android.R.string.ok) { _, _ -> viewModel.blockAccount(accountId) }
+                    .setNegativeButton(android.R.string.cancel, null)
+                    .show()
+        } else {
+            viewModel.blockAccount(accountId)
+        }
+    }
+
+    private fun onMute(accountId: String) {
+        if (confirmBlocks) {
+            AlertDialog.Builder(requireContext())
+                    .setMessage(R.string.dialog_mute_warning)
+                    .setPositiveButton(android.R.string.ok) { _, _ -> viewModel.muteAccount(accountId) }
+                    .setNegativeButton(android.R.string.cancel, null)
+                    .show()
+        } else {
+            viewModel.muteAccount(accountId)
+        }
     }
 
     private fun accountIsInMentions(account: AccountEntity?, mentions: Array<Mention>): Boolean {

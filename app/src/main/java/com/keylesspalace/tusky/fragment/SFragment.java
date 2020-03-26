@@ -39,6 +39,7 @@ import androidx.appcompat.widget.PopupMenu;
 import androidx.core.app.ActivityOptionsCompat;
 import androidx.core.view.ViewCompat;
 import androidx.lifecycle.Lifecycle;
+import androidx.preference.PreferenceManager;
 
 import com.keylesspalace.tusky.BaseActivity;
 import com.keylesspalace.tusky.BottomSheetActivity;
@@ -284,11 +285,11 @@ public abstract class SFragment extends BaseFragment implements Injectable {
                     return true;
                 }
                 case R.id.status_mute: {
-                    timelineCases.mute(accountId);
+                    onMute(accountId);
                     return true;
                 }
                 case R.id.status_block: {
-                    timelineCases.block(accountId);
+                    onBlock(accountId);
                     return true;
                 }
                 case R.id.status_report: {
@@ -326,6 +327,32 @@ public abstract class SFragment extends BaseFragment implements Injectable {
             return false;
         });
         popup.show();
+    }
+
+    private void onMute(String accountId) {
+        Context context = requireContext();
+        if (PreferenceManager.getDefaultSharedPreferences(context).getBoolean("confirmBlocksAndMutes", true)) {
+            new AlertDialog.Builder(context)
+                    .setMessage(R.string.dialog_mute_warning)
+                    .setPositiveButton(android.R.string.ok, (__, ___) -> { timelineCases.mute(accountId); })
+                    .setNegativeButton(android.R.string.cancel, null)
+                    .show();
+        } else {
+            timelineCases.mute(accountId);
+        }
+    }
+
+    private void onBlock(String accountId) {
+        Context context = requireContext();
+        if (PreferenceManager.getDefaultSharedPreferences(context).getBoolean("confirmBlocksAndMutes", true)) {
+            new AlertDialog.Builder(context)
+                    .setMessage(R.string.dialog_block_warning)
+                    .setPositiveButton(android.R.string.ok, (__, ___) -> { timelineCases.block(accountId); })
+                    .setNegativeButton(android.R.string.cancel, null)
+                    .show();
+        } else {
+            timelineCases.block(accountId);
+        }
     }
 
     private static boolean accountIsInMentions(AccountEntity account, Status.Mention[] mentions) {
