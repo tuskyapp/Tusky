@@ -15,23 +15,19 @@
 
 package com.keylesspalace.tusky.entity
 
-import android.os.Parcelable
 import android.text.Spanned
 import com.google.gson.annotations.SerializedName
-import kotlinx.android.parcel.Parcelize
-import kotlinx.android.parcel.WriteWith
 
-@Parcelize
 data class Card(
         val url: String,
-        val title: @WriteWith<SpannedParceler>() Spanned,
-        val description: @WriteWith<SpannedParceler>() Spanned,
+        val title: Spanned,
+        val description: Spanned,
         @SerializedName("author_name") val authorName: String,
         val image: String,
         val type: String,
         val width: Int,
         val height: Int
-) : Parcelable {
+) {
 
     override fun hashCode(): Int {
         return url.hashCode()

@@ -15,24 +15,16 @@
 
 package com.keylesspalace.tusky.entity
 
-import android.os.Parcel
-import android.os.Parcelable
 import android.text.Spanned
-
 import com.google.gson.annotations.SerializedName
-import com.keylesspalace.tusky.util.HtmlUtils
-import kotlinx.android.parcel.Parceler
-import kotlinx.android.parcel.Parcelize
-import kotlinx.android.parcel.WriteWith
-import java.util.*
+import java.util.Date
 
-@Parcelize
 data class Account(
         val id: String,
         @SerializedName("username") val localUsername: String,
         @SerializedName("acct") val username: String,
         @SerializedName("display_name") val displayName: String?, // should never be null per Api definition, but some servers break the contract
-        val note: @WriteWith<SpannedParceler>() Spanned,
+        val note: Spanned,
         val url: String,
         val avatar: String,
         val header: String,
@@ -46,7 +38,7 @@ data class Account(
         val fields: List<Field>? = emptyList(),  //nullable for backward compatibility
         val moved: Account? = null
 
-) : Parcelable {
+) {
 
     val name: String
         get() = if (displayName.isNullOrEmpty()) {
@@ -86,31 +78,20 @@ data class Account(
     fun isRemote(): Boolean = this.username != this.localUsername
 }
 
-@Parcelize
 data class AccountSource(
         val privacy: Status.Visibility,
         val sensitive: Boolean,
         val note: String,
         val fields: List<StringField>?
-): Parcelable
+)
 
-@Parcelize
 data class Field (
         val name: String,
-        val value: @WriteWith<SpannedParceler>() Spanned,
+        val value: Spanned,
         @SerializedName("verified_at") val verifiedAt: Date?
-): Parcelable
+)
 
-@Parcelize
 data class StringField (
         val name: String,
         val value: String
-): Parcelable
-
-object SpannedParceler : Parceler<Spanned> {
-    override fun create(parcel: Parcel): Spanned = HtmlUtils.fromHtml(parcel.readString())
-
-    override fun Spanned.write(parcel: Parcel, flags: Int) {
-        parcel.writeString(HtmlUtils.toHtml(this))
-    }
-}
+)

@@ -16,6 +16,8 @@
 package com.keylesspalace.tusky.db
 
 import android.text.Spanned
+import androidx.core.text.parseAsHtml
+import androidx.core.text.toHtml
 import androidx.room.TypeConverter
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
@@ -27,7 +29,6 @@ import com.keylesspalace.tusky.entity.Emoji
 import com.keylesspalace.tusky.entity.Poll
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.json.SpannedTypeAdapter
-import com.keylesspalace.tusky.util.HtmlUtils
 import java.net.URLDecoder
 import java.net.URLEncoder
 import java.util.*
@@ -128,7 +129,7 @@ class Converters {
         if(spanned == null) {
             return null
         }
-        return HtmlUtils.toHtml(spanned)
+        return spanned.toHtml()
     }
 
     @TypeConverter
@@ -136,7 +137,7 @@ class Converters {
         if(spannedString == null) {
             return null
         }
-        return HtmlUtils.fromHtml(spannedString)
+        return spannedString.parseAsHtml()
     }
 
     @TypeConverter

@@ -18,6 +18,8 @@ package com.keylesspalace.tusky.json;
 import android.text.Spanned;
 import android.text.SpannedString;
 
+import androidx.core.text.HtmlCompat;
+
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
@@ -25,7 +27,6 @@ import com.google.gson.JsonParseException;
 import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
-import com.keylesspalace.tusky.util.HtmlUtils;
 
 import java.lang.reflect.Type;
 
@@ -35,7 +36,9 @@ public class SpannedTypeAdapter implements JsonDeserializer<Spanned>, JsonSerial
             throws JsonParseException {
         String string = json.getAsString();
         if (string != null) {
-            return HtmlUtils.fromHtml(string);
+            /* Html.fromHtml returns trailing whitespace if the html ends in a </p> tag, which
+             * all status contents do, so it should be trimmed. */
+            return (Spanned)trimTrailingWhitespace(HtmlCompat.fromHtml(string, HtmlCompat.FROM_HTML_MODE_LEGACY));
         } else {
             return new SpannedString("");
         }
@@ -43,6 +46,14 @@ public class SpannedTypeAdapter implements JsonDeserializer<Spanned>, JsonSerial
 
     @Override
     public JsonElement serialize(Spanned src, Type typeOfSrc, JsonSerializationContext context) {
-        return new JsonPrimitive(HtmlUtils.toHtml(src));
+        return new JsonPrimitive(HtmlCompat.toHtml(src, HtmlCompat.TO_HTML_PARAGRAPH_LINES_INDIVIDUAL));
+    }
+
+    private static CharSequence trimTrailingWhitespace(CharSequence s) {
+        int i = s.length();
+        do {
+            i--;
+        } while (i >= 0 && Character.isWhitespace(s.charAt(i)));
+        return s.subSequence(0, i + 1);
     }
 }

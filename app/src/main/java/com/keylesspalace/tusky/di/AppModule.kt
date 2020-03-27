@@ -29,8 +29,6 @@ import com.keylesspalace.tusky.db.AppDatabase
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.network.TimelineCases
 import com.keylesspalace.tusky.network.TimelineCasesImpl
-import com.keylesspalace.tusky.util.HtmlConverter
-import com.keylesspalace.tusky.util.HtmlConverterImpl
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -84,9 +82,4 @@ class AppModule {
         .build()
     }
 
-    @Provides
-    @Singleton
-    fun providesHtmlConverter(): HtmlConverter {
-        return HtmlConverterImpl()
-    }
 }
