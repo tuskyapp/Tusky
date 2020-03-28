@@ -1,6 +1,8 @@
 package com.keylesspalace.tusky.fragment
 
-import android.text.Spanned
+import android.text.SpannableString
+import android.text.SpannedString
+import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.google.gson.Gson
 import com.keylesspalace.tusky.SpanUtilsTest
 import com.keylesspalace.tusky.db.AccountEntity
@@ -12,7 +14,6 @@ import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.repository.*
 import com.keylesspalace.tusky.util.Either
-import com.keylesspalace.tusky.util.HtmlConverter
 import com.nhaarman.mockitokotlin2.isNull
 import com.nhaarman.mockitokotlin2.verify
 import com.nhaarman.mockitokotlin2.verifyNoMoreInteractions
@@ -24,14 +25,18 @@ import io.reactivex.schedulers.TestScheduler
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
+import org.junit.runner.RunWith
 import org.mockito.ArgumentMatchers.any
 import org.mockito.ArgumentMatchers.anyInt
 import org.mockito.Mock
 import org.mockito.MockitoAnnotations
+import org.robolectric.annotation.Config
 import java.util.*
 import java.util.concurrent.TimeUnit
 import kotlin.collections.ArrayList
 
+@Config(sdk = [28])
+@RunWith(AndroidJUnit4::class)
 class TimelineRepositoryTest {
     @Mock
     lateinit var timelineDao: TimelineDao
@@ -56,15 +61,6 @@ class TimelineRepositoryTest {
             domain = "domain.com",
             isActive = true
     )
-    private val htmlConverter = object : HtmlConverter {
-        override fun fromHtml(html: String): Spanned {
-            return SpanUtilsTest.FakeSpannable(html)
-        }
-
-        override fun toHtml(text: Spanned): String {
-            return text.toString()
-        }
-    }
 
     @Before
     fun setup() {
@@ -74,8 +70,7 @@ class TimelineRepositoryTest {
         gson = Gson()
         testScheduler = TestScheduler()
         RxJavaPlugins.setIoSchedulerHandler { testScheduler }
-        subject = TimelineRepositoryImpl(timelineDao, mastodonApi, accountManager, gson,
-                htmlConverter)
+        subject = TimelineRepositoryImpl(timelineDao, mastodonApi, accountManager, gson)
     }
 
     @Test
@@ -97,7 +92,7 @@ class TimelineRepositoryTest {
         verify(timelineDao).insertStatusIfNotThere(Placeholder("1").toEntity(account.id))
         for (status in statuses) {
             verify(timelineDao).insertInTransaction(
-                    status.toEntity(account.id, htmlConverter, gson),
+                    status.toEntity(account.id, gson),
                     status.account.toEntity(account.id, gson),
                     null
             )
@@ -129,7 +124,7 @@ class TimelineRepositoryTest {
         // We assume for now that overlapped one is inserted but it's not that important
         for (status in response) {
             verify(timelineDao).insertInTransaction(
-                    status.toEntity(account.id, htmlConverter, gson),
+                    status.toEntity(account.id, gson),
                     status.account.toEntity(account.id, gson),
                     null
             )
@@ -159,7 +154,7 @@ class TimelineRepositoryTest {
         verify(timelineDao).deleteRange(account.id, response.last().id, response.first().id)
         for (status in response) {
             verify(timelineDao).insertInTransaction(
-                    status.toEntity(account.id, htmlConverter, gson),
+                    status.toEntity(account.id, gson),
                     status.account.toEntity(account.id, gson),
                     null
             )
@@ -201,7 +196,7 @@ class TimelineRepositoryTest {
         // We assume for now that overlapped one is inserted but it's not that important
         for (status in response) {
             verify(timelineDao).insertInTransaction(
-                    status.toEntity(account.id, htmlConverter, gson),
+                    status.toEntity(account.id, gson),
                     status.account.toEntity(account.id, gson),
                     null
             )
@@ -246,7 +241,7 @@ class TimelineRepositoryTest {
 
         for (status in response) {
             verify(timelineDao).insertInTransaction(
-                    status.toEntity(account.id, htmlConverter, gson),
+                    status.toEntity(account.id, gson),
                     status.account.toEntity(account.id, gson),
                     null
             )
@@ -263,7 +258,7 @@ class TimelineRepositoryTest {
         val status = makeStatus("2")
         val dbStatus = makeStatus("1")
         val dbResult = TimelineStatusWithAccount()
-        dbResult.status = dbStatus.toEntity(account.id, htmlConverter, gson)
+        dbResult.status = dbStatus.toEntity(account.id, gson)
         dbResult.account = status.account.toEntity(account.id, gson)
 
         whenever(mastodonApi.homeTimelineSingle(any(), any(), any()))
@@ -297,7 +292,7 @@ class TimelineRepositoryTest {
         return Status(
                 id = id,
                 account = account,
-                content = SpanUtilsTest.FakeSpannable("hello$id"),
+                content = SpannableString("hello$id"),
                 createdAt = Date(),
                 emojis = listOf(),
                 reblogsCount = 3,
@@ -328,7 +323,7 @@ class TimelineRepositoryTest {
                 localUsername = "test$id",
                 username = "test$id@example.com",
                 displayName = "Example Account $id",
-                note = SpanUtilsTest.FakeSpannable("Note! $id"),
+                note = SpannableString("Note! $id"),
                 url = "https://example.com/@test$id",
                 avatar = "avatar$id",
                 header = "Header$id",
