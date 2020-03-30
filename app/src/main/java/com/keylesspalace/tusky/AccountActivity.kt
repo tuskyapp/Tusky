@@ -681,6 +681,30 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
                 .show()
     }
 
+    private fun toggleBlock() {
+        if (viewModel.relationshipData.value?.data?.blocking != true) {
+            AlertDialog.Builder(this)
+                    .setMessage(getString(R.string.dialog_block_warning, loadedAccount?.username))
+                    .setPositiveButton(android.R.string.ok) { _, _ -> viewModel.changeBlockState() }
+                    .setNegativeButton(android.R.string.cancel, null)
+                    .show()
+        } else {
+            viewModel.changeBlockState()
+        }
+    }
+
+    private fun toggleMute() {
+        if (viewModel.relationshipData.value?.data?.muting != true) {
+            AlertDialog.Builder(this)
+                    .setMessage(getString(R.string.dialog_mute_warning, loadedAccount?.username))
+                    .setPositiveButton(android.R.string.ok) { _, _ -> viewModel.changeMuteState() }
+                    .setNegativeButton(android.R.string.cancel, null)
+                    .show()
+        } else {
+            viewModel.changeMuteState()
+        }
+    }
+
     private fun mention() {
         loadedAccount?.let {
             val intent = ComposeActivity.startIntent(this,
@@ -727,11 +751,11 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
                 return true
             }
             R.id.action_block -> {
-                viewModel.changeBlockState()
+                toggleBlock()
                 return true
             }
             R.id.action_mute -> {
-                viewModel.changeMuteState()
+                toggleMute()
                 return true
             }
             R.id.action_mute_domain -> {

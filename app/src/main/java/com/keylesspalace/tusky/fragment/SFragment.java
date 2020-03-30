@@ -39,6 +39,7 @@ import androidx.appcompat.widget.PopupMenu;
 import androidx.core.app.ActivityOptionsCompat;
 import androidx.core.view.ViewCompat;
 import androidx.lifecycle.Lifecycle;
+import androidx.preference.PreferenceManager;
 
 import com.keylesspalace.tusky.BaseActivity;
 import com.keylesspalace.tusky.BottomSheetActivity;
@@ -284,11 +285,11 @@ public abstract class SFragment extends BaseFragment implements Injectable {
                     return true;
                 }
                 case R.id.status_mute: {
-                    timelineCases.mute(accountId);
+                    onMute(accountId, accountUsername);
                     return true;
                 }
                 case R.id.status_block: {
-                    timelineCases.block(accountId);
+                    onBlock(accountId, accountUsername);
                     return true;
                 }
                 case R.id.status_report: {
@@ -326,6 +327,22 @@ public abstract class SFragment extends BaseFragment implements Injectable {
             return false;
         });
         popup.show();
+    }
+
+    private void onMute(String accountId, String accountUsername) {
+        new AlertDialog.Builder(requireContext())
+                .setMessage(getString(R.string.dialog_mute_warning, accountUsername))
+                .setPositiveButton(android.R.string.ok, (__, ___) -> timelineCases.mute(accountId))
+                .setNegativeButton(android.R.string.cancel, null)
+                .show();
+    }
+
+    private void onBlock(String accountId, String accountUsername) {
+        new AlertDialog.Builder(requireContext())
+                .setMessage(getString(R.string.dialog_block_warning, accountUsername))
+                .setPositiveButton(android.R.string.ok, (__, ___) -> timelineCases.block(accountId))
+                .setNegativeButton(android.R.string.cancel, null)
+                .show();
     }
 
     private static boolean accountIsInMentions(AccountEntity account, Status.Mention[] mentions) {

@@ -196,6 +196,8 @@
     <string name="dialog_redraft_toot_warning">Delete and re-draft this toot?</string>
     <string name="mute_domain_warning">Are you sure you want to block all of %s? You will not see content from that domain in any public timelines or in your notifications. Your followers from that domain will be removed.</string>
     <string name="mute_domain_warning_dialog_ok">Hide entire domain</string>
+    <string name="dialog_block_warning">Block @%s?</string>
+    <string name="dialog_mute_warning">Mute @%s?</string>
 
     <string name="visibility_public">Public: Post to public timelines</string>
     <string name="visibility_unlisted">Unlisted: Do not show in public timelines</string>

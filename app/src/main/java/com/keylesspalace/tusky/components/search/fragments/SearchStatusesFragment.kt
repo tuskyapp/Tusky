@@ -325,11 +325,11 @@ class SearchStatusesFragment : SearchFragment<Pair<Status, StatusViewData.Concre
                     return@setOnMenuItemClickListener true
                 }
                 R.id.status_mute -> {
-                    viewModel.muteAcount(accountId)
+                    onMute(accountId, accountUsername)
                     return@setOnMenuItemClickListener true
                 }
                 R.id.status_block -> {
-                    viewModel.blockAccount(accountId)
+                    onBlock(accountId, accountUsername)
                     return@setOnMenuItemClickListener true
                 }
                 R.id.status_report -> {
@@ -360,6 +360,22 @@ class SearchStatusesFragment : SearchFragment<Pair<Status, StatusViewData.Concre
             false
         }
         popup.show()
+    }
+
+    private fun onBlock(accountId: String, accountUsername: String) {
+        AlertDialog.Builder(requireContext())
+                .setMessage(getString(R.string.dialog_block_warning, accountUsername))
+                .setPositiveButton(android.R.string.ok) { _, _ -> viewModel.blockAccount(accountId) }
+                .setNegativeButton(android.R.string.cancel, null)
+                .show()
+    }
+
+    private fun onMute(accountId: String, accountUsername: String) {
+        AlertDialog.Builder(requireContext())
+                .setMessage(getString(R.string.dialog_mute_warning, accountUsername))
+                .setPositiveButton(android.R.string.ok) { _, _ -> viewModel.muteAccount(accountId) }
+                .setNegativeButton(android.R.string.cancel, null)
+                .show()
     }
 
     private fun accountIsInMentions(account: AccountEntity?, mentions: Array<Mention>): Boolean {
