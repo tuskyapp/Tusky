@@ -87,7 +87,6 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
     private var loadedAccount: Account? = null
 
     private var animateAvatar: Boolean = false
-    private var confirmOnBlock: Boolean = true
 
     // fields for scroll animation
     private var hideFab: Boolean = false
@@ -124,7 +123,6 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
         val sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this)
         animateAvatar = sharedPrefs.getBoolean("animateGifAvatars", false)
         hideFab = sharedPrefs.getBoolean("fabHide", false)
-        confirmOnBlock = sharedPrefs.getBoolean("confirmBlocksAndMutes", true)
 
         setupToolbar()
         setupTabs()
@@ -684,9 +682,9 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
     }
 
     private fun toggleBlock() {
-        if (confirmOnBlock && viewModel.relationshipData.value?.data?.blocking != true) {
+        if (viewModel.relationshipData.value?.data?.blocking != true) {
             AlertDialog.Builder(this)
-                    .setMessage(R.string.dialog_block_warning)
+                    .setMessage(getString(R.string.dialog_block_warning, loadedAccount?.username))
                     .setPositiveButton(android.R.string.ok) { _, _ -> viewModel.changeBlockState() }
                     .setNegativeButton(android.R.string.cancel, null)
                     .show()
@@ -696,9 +694,9 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
     }
 
     private fun toggleMute() {
-        if (confirmOnBlock && viewModel.relationshipData.value?.data?.muting != true) {
+        if (viewModel.relationshipData.value?.data?.muting != true) {
             AlertDialog.Builder(this)
-                    .setMessage(R.string.dialog_mute_warning)
+                    .setMessage(getString(R.string.dialog_mute_warning, loadedAccount?.username))
                     .setPositiveButton(android.R.string.ok) { _, _ -> viewModel.changeMuteState() }
                     .setNegativeButton(android.R.string.cancel, null)
                     .show()

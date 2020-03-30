@@ -285,11 +285,11 @@ public abstract class SFragment extends BaseFragment implements Injectable {
                     return true;
                 }
                 case R.id.status_mute: {
-                    onMute(accountId);
+                    onMute(accountId, accountUsername);
                     return true;
                 }
                 case R.id.status_block: {
-                    onBlock(accountId);
+                    onBlock(accountId, accountUsername);
                     return true;
                 }
                 case R.id.status_report: {
@@ -329,30 +329,20 @@ public abstract class SFragment extends BaseFragment implements Injectable {
         popup.show();
     }
 
-    private void onMute(String accountId) {
-        Context context = requireContext();
-        if (PreferenceManager.getDefaultSharedPreferences(context).getBoolean("confirmBlocksAndMutes", true)) {
-            new AlertDialog.Builder(context)
-                    .setMessage(R.string.dialog_mute_warning)
-                    .setPositiveButton(android.R.string.ok, (__, ___) -> { timelineCases.mute(accountId); })
-                    .setNegativeButton(android.R.string.cancel, null)
-                    .show();
-        } else {
-            timelineCases.mute(accountId);
-        }
+    private void onMute(String accountId, String accountUsername) {
+        new AlertDialog.Builder(requireContext())
+                .setMessage(getString(R.string.dialog_mute_warning, accountUsername))
+                .setPositiveButton(android.R.string.ok, (__, ___) -> timelineCases.mute(accountId))
+                .setNegativeButton(android.R.string.cancel, null)
+                .show();
     }
 
-    private void onBlock(String accountId) {
-        Context context = requireContext();
-        if (PreferenceManager.getDefaultSharedPreferences(context).getBoolean("confirmBlocksAndMutes", true)) {
-            new AlertDialog.Builder(context)
-                    .setMessage(R.string.dialog_block_warning)
-                    .setPositiveButton(android.R.string.ok, (__, ___) -> { timelineCases.block(accountId); })
-                    .setNegativeButton(android.R.string.cancel, null)
-                    .show();
-        } else {
-            timelineCases.block(accountId);
-        }
+    private void onBlock(String accountId, String accountUsername) {
+        new AlertDialog.Builder(requireContext())
+                .setMessage(getString(R.string.dialog_block_warning, accountUsername))
+                .setPositiveButton(android.R.string.ok, (__, ___) -> timelineCases.block(accountId))
+                .setNegativeButton(android.R.string.cancel, null)
+                .show();
     }
 
     private static boolean accountIsInMentions(AccountEntity account, Status.Mention[] mentions) {

@@ -84,12 +84,6 @@
             android:title="@string/pref_title_confirm_reblogs"
             app:singleLineTitle="false" />
 
-        <SwitchPreferenceCompat
-            android:defaultValue="true"
-            android:key="confirmBlocksAndMutes"
-            android:title="@string/pref_title_confirm_blocks_and_mutes"
-            app:singleLineTitle="false" />
-
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/pref_title_browser_settings">
