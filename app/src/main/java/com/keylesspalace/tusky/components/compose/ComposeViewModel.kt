@@ -63,6 +63,7 @@ class ComposeViewModel
     private var startingVisibility: Status.Visibility = Status.Visibility.UNKNOWN
 
     private var contentWarningStateChanged: Boolean = false
+    private var modifiedInitialState: Boolean = false
 
     private val instance: MutableLiveData<InstanceEntity?> = MutableLiveData(null)
 
@@ -197,7 +198,7 @@ class ComposeViewModel
         val mediaChanged = !media.value.isNullOrEmpty()
         val pollChanged = poll.value != null
 
-        return textChanged || contentWarningChanged || mediaChanged || pollChanged
+        return modifiedInitialState || textChanged || contentWarningChanged || mediaChanged || pollChanged
     }
 
     fun contentWarningChanged(value: Boolean) {
@@ -369,7 +370,7 @@ class ComposeViewModel
                 preferredVisibility.num.coerceAtLeast(replyVisibility.num))
 
         inReplyToId = composeOptions?.inReplyToId
-
+        modifiedInitialState = composeOptions?.modifiedInitialState == true
 
         val contentWarning = composeOptions?.contentWarning
         if (contentWarning != null) {
