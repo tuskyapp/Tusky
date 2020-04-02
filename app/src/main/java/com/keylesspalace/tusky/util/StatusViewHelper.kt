@@ -171,14 +171,11 @@ class StatusViewHelper(private val itemView: View) {
             sensitiveMediaWarning.visibility = View.GONE
             sensitiveMediaShow.visibility = View.GONE
         } else {
-
-            val hiddenContentText: String = if (sensitive) {
+            sensitiveMediaWarning.text =  if (sensitive) {
                 context.getString(R.string.status_sensitive_media_title)
             } else {
                 context.getString(R.string.status_media_hidden_title)
             }
-
-            sensitiveMediaWarning.text = HtmlUtils.fromHtml(hiddenContentText)
 
             sensitiveMediaWarning.visibility = if (showingContent) View.GONE else View.VISIBLE
             sensitiveMediaShow.visibility = if (showingContent) View.VISIBLE else View.GONE

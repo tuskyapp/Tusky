@@ -20,6 +20,7 @@ import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
+import androidx.core.text.HtmlCompat;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -38,7 +39,6 @@ import com.keylesspalace.tusky.entity.Status;
 import com.keylesspalace.tusky.interfaces.StatusActionListener;
 import com.keylesspalace.tusky.util.CardViewMode;
 import com.keylesspalace.tusky.util.CustomEmojiHelper;
-import com.keylesspalace.tusky.util.HtmlUtils;
 import com.keylesspalace.tusky.util.ImageLoadingHelper;
 import com.keylesspalace.tusky.util.LinkHelper;
 import com.keylesspalace.tusky.util.StatusDisplayOptions;
@@ -884,7 +884,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
     protected CharSequence getFavsText(Context context, int count) {
         if (count > 0) {
             String countString = numberFormat.format(count);
-            return HtmlUtils.fromHtml(context.getResources().getQuantityString(R.plurals.favs, count, countString));
+            return HtmlCompat.fromHtml(context.getResources().getQuantityString(R.plurals.favs, count, countString), HtmlCompat.FROM_HTML_MODE_LEGACY);
         } else {
             return "";
         }
@@ -893,7 +893,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
     protected CharSequence getReblogsText(Context context, int count) {
         if (count > 0) {
             String countString = numberFormat.format(count);
-            return HtmlUtils.fromHtml(context.getResources().getQuantityString(R.plurals.reblogs, count, countString));
+            return HtmlCompat.fromHtml(context.getResources().getQuantityString(R.plurals.reblogs, count, countString), HtmlCompat.FROM_HTML_MODE_LEGACY);
         } else {
             return "";
         }
