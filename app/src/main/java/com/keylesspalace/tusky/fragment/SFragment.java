@@ -318,6 +318,7 @@ public abstract class SFragment extends BaseFragment implements Injectable {
                 }
                 case R.id.status_mute_conversation: {
                     timelineCases.muteConversation(status, status.getMuted() == null || !status.getMuted())
+                            .onErrorReturnItem(status)
                             .observeOn(AndroidSchedulers.mainThread())
                             .as(autoDisposable(from(this, Lifecycle.Event.ON_DESTROY)))
                             .subscribe();
