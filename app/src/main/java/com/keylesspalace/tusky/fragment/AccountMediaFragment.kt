@@ -199,10 +199,10 @@ class AccountMediaFragment : BaseFragment(), RefreshableFragment, Injectable {
                     val itemCount = layoutManager.itemCount
                     val lastItem = layoutManager.findLastCompletelyVisibleItemPosition()
                     if (itemCount <= lastItem + 3 && fetchingStatus == FetchingStatus.NOT_FETCHING) {
-                        statuses.lastOrNull()?.let { last ->
-                            Log.d(TAG, "Requesting statuses with max_id: ${last.id}, (bottom)")
+                        statuses.lastOrNull()?.let { (id) ->
+                            Log.d(TAG, "Requesting statuses with max_id: ${id}, (bottom)")
                             fetchingStatus = FetchingStatus.FETCHING_BOTTOM
-                            currentCall = api.accountStatuses(accountId, last.id, null, null, null, true, null)
+                            currentCall = api.accountStatuses(accountId, id, null, null, null, true, null)
                             currentCall?.enqueue(bottomCallback)
                         }
                     }
@@ -254,7 +254,7 @@ class AccountMediaFragment : BaseFragment(), RefreshableFragment, Injectable {
                 if (view != null && activity != null) {
                     val url = items[currentIndex].attachment.url
                     ViewCompat.setTransitionName(view, url)
-                    val options = ActivityOptionsCompat.makeSceneTransitionAnimation(activity!!, view, url)
+                    val options = ActivityOptionsCompat.makeSceneTransitionAnimation(requireActivity(), view, url)
                     startActivity(intent, options.toBundle())
                 } else {
                     startActivity(intent)

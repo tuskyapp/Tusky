@@ -89,7 +89,7 @@ class ViewImageFragment : ViewMediaFragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        toolbar = activity!!.toolbar
+        toolbar = requireActivity().toolbar
         this.transition = BehaviorSubject.create()
         return inflater.inflate(R.layout.fragment_view_image, container, false)
     }
@@ -97,7 +97,7 @@ class ViewImageFragment : ViewMediaFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val arguments = this.arguments!!
+        val arguments = this.requireArguments()
         val attachment = arguments.getParcelable<Attachment>(ARG_ATTACHMENT)
         this.shouldStartTransition = arguments.getBoolean(ARG_START_POSTPONED_TRANSITION)
         val url: String?

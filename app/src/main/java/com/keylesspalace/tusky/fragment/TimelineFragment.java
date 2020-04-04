@@ -212,7 +212,7 @@ public class TimelineFragment extends SFragment implements
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Bundle arguments = Objects.requireNonNull(getArguments());
+        Bundle arguments = requireArguments();
         kind = Kind.valueOf(arguments.getString(KIND_ARG));
         if (kind == Kind.TAG
                 || kind == Kind.USER
