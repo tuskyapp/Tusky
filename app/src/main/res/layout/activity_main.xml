@@ -2,26 +2,26 @@
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_main"
+    android:id="@+id/activityMain"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.keylesspalace.tusky.MainActivity">
 
     <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/main_appbar"
+        android:id="@+id/mainAppbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:elevationOverlayEnabled="false"
         android:elevation="@dimen/actionbar_elevation">
 
         <androidx.appcompat.widget.Toolbar
-            android:id="@+id/main_toolbar"
+            android:id="@+id/mainToolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:contentInsetStartWithNavigation="0dp">
 
             <com.google.android.material.tabs.TabLayout
-                android:id="@+id/tab_layout"
+                android:id="@+id/tabLayout"
                 style="@style/TuskyTabAppearance"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
@@ -35,20 +35,20 @@
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.viewpager2.widget.ViewPager2
-        android:id="@+id/pager"
+        android:id="@+id/viewPager"
         android:background="?attr/windowBackgroundColor"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/tab_layout"
+        android:layout_below="@id/tabLayout"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/floating_btn"
+        android:id="@+id/composeButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:contentDescription="@string/action_compose"
-        app:layout_anchor="@id/pager"
+        app:layout_anchor="@id/viewPager"
         app:layout_anchorGravity="bottom|end"
         app:srcCompat="@drawable/ic_create_24dp" />
 
