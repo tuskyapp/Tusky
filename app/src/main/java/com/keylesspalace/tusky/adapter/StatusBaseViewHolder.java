@@ -611,20 +611,27 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         sensitiveMediaShow.setVisibility(View.GONE);
     }
 
-    protected void setupButtons(final StatusActionListener listener, final String accountId,
+    protected void setupButtons(final StatusActionListener listener,
+                                final String accountId,
                                 final String statusContent,
                                 StatusDisplayOptions statusDisplayOptions) {
-
         avatar.setOnClickListener(v -> listener.onViewAccount(accountId));
+        replyButton.setOnClickListener(v -> {
+            int position = getAdapterPosition();
+            if (position != RecyclerView.NO_POSITION) {
+                listener.onReply(position);
+            }
+        });
         if (reblogButton != null) {
             reblogButton.setEventListener((button, buttonState) -> {
+                // return true to play animaion
                 int position = getAdapterPosition();
                 if (position != RecyclerView.NO_POSITION) {
                     if (statusDisplayOptions.confirmReblogs()) {
                         showConfirmReblogDialog(listener, statusContent, buttonState, position);
                         return false;
                     } else {
-                        listener.onReply(position);
+                        listener.onReblog(!buttonState, position);
                         return true;
                     }
                 } else {
