@@ -611,10 +611,10 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         sensitiveMediaShow.setVisibility(View.GONE);
     }
 
-    protected void setupButtons(final StatusActionListener listener, final String accountId,
+    protected void setupButtons(final StatusActionListener listener,
+                                final String accountId,
                                 final String statusContent,
                                 StatusDisplayOptions statusDisplayOptions) {
-
         avatar.setOnClickListener(v -> listener.onViewAccount(accountId));
         replyButton.setOnClickListener(v -> {
             int position = getAdapterPosition();
@@ -624,15 +624,18 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         });
         if (reblogButton != null) {
             reblogButton.setEventListener((button, buttonState) -> {
+                // return true to play animaion
                 int position = getAdapterPosition();
                 if (position != RecyclerView.NO_POSITION) {
-                    listener.onReblog(!buttonState, position);
-                }
-                if (statusDisplayOptions.confirmReblogs()) {
-                    showConfirmReblogDialog(listener, statusContent, buttonState, position);
-                    return false;
+                    if (statusDisplayOptions.confirmReblogs()) {
+                        showConfirmReblogDialog(listener, statusContent, buttonState, position);
+                        return false;
+                    } else {
+                        listener.onReblog(!buttonState, position);
+                        return true;
+                    }
                 } else {
-                    return true;
+                    return false;
                 }
             });
         }
