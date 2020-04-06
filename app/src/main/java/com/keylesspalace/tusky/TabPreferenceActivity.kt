@@ -277,7 +277,7 @@ class TabPreferenceActivity : BaseActivity(), Injectable, ItemInteractionListene
         addTabAdapter.updateData(addableTabs)
 
         maxTabsInfo.visible(addableTabs.size == 0 || currentTabs.size >= MAX_TAB_COUNT)
-        currentTabsAdapter.setRemoveButtonVisible(currentTabs.size > MIN_TAB_COUNT);
+        currentTabsAdapter.setRemoveButtonVisible(currentTabs.size > MIN_TAB_COUNT)
     }
 
     override fun onStartDelete(viewHolder: RecyclerView.ViewHolder) {

@@ -77,7 +77,7 @@ class AccountsInListFragment : DialogFragment(), Injectable {
         super.onCreate(savedInstanceState)
         setStyle(STYLE_NORMAL, R.style.TuskyDialogFragmentStyle)
         viewModel = viewModelFactory.create(AccountsInListViewModel::class.java)
-        val args = arguments!!
+        val args = requireArguments()
         listId = args.getString(LIST_ID_ARG)!!
         listName = args.getString(LIST_NAME_ARG)!!
 
@@ -255,12 +255,12 @@ class AccountsInListFragment : DialogFragment(), Injectable {
                 loadAvatar(account.avatar, avatar, radius, animateAvatar)
 
                 rejectButton.apply {
-                    if (inAList) {
+                    contentDescription = if (inAList) {
                         setImageResource(R.drawable.ic_reject_24dp)
-                        contentDescription = getString(R.string.action_remove_from_list)
+                        getString(R.string.action_remove_from_list)
                     } else {
                         setImageResource(R.drawable.ic_plus_24dp)
-                        contentDescription = getString(R.string.action_add_to_list)
+                        getString(R.string.action_add_to_list)
                     }
                 }
             }

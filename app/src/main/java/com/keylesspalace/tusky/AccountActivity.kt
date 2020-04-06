@@ -52,8 +52,6 @@ import com.keylesspalace.tusky.components.compose.ComposeActivity
 import com.keylesspalace.tusky.components.report.ReportActivity
 import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.entity.Account
-import com.keylesspalace.tusky.entity.Field
-import com.keylesspalace.tusky.entity.IdentityProof
 import com.keylesspalace.tusky.entity.Relationship
 import com.keylesspalace.tusky.interfaces.ActionButtonActivity
 import com.keylesspalace.tusky.interfaces.LinkListener
@@ -311,7 +309,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
      * Subscribe to data loaded at the view model
      */
     private fun subscribeObservables() {
-        viewModel.accountData.observe(this, Observer<Resource<Account>> {
+        viewModel.accountData.observe(this, Observer {
             when (it) {
                 is Success -> onAccountChanged(it.data)
                 is Error -> {
@@ -321,7 +319,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
                 }
             }
         })
-        viewModel.relationshipData.observe(this, Observer<Resource<Relationship>> {
+        viewModel.relationshipData.observe(this, Observer {
             val relation = it?.data
             if (relation != null) {
                 onRelationshipChanged(relation)
@@ -334,7 +332,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
             }
 
         })
-        viewModel.accountFieldData.observe(this, Observer<List<Either<IdentityProof, Field>>> {
+        viewModel.accountFieldData.observe(this, Observer {
             accountFieldAdapter.fields = it
             accountFieldAdapter.notifyDataSetChanged()
 
