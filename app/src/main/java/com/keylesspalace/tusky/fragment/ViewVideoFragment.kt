@@ -136,12 +136,12 @@ class ViewVideoFragment : ViewMediaFragment() {
 
             progressBar.hide()
             mp.isLooping = true
-            if (arguments!!.getBoolean(ARG_START_POSTPONED_TRANSITION)) {
+            if (requireArguments().getBoolean(ARG_START_POSTPONED_TRANSITION)) {
                 videoView.start()
             }
         }
 
-        if (arguments!!.getBoolean(ARG_START_POSTPONED_TRANSITION)) {
+        if (requireArguments().getBoolean(ARG_START_POSTPONED_TRANSITION)) {
             mediaActivity.onBringUp()
         }
     }
@@ -151,7 +151,7 @@ class ViewVideoFragment : ViewMediaFragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        toolbar = activity!!.toolbar
+        toolbar = requireActivity().toolbar
         mediaActivity = activity as ViewMediaActivity
         return inflater.inflate(R.layout.fragment_view_video, container, false)
     }

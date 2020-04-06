@@ -18,13 +18,9 @@ package com.keylesspalace.tusky
 import android.app.Application
 import android.content.Context
 import android.content.res.Configuration
-import android.util.Log
 import androidx.emoji.text.EmojiCompat
 import com.keylesspalace.tusky.util.LocaleManager
-import dagger.android.DispatchingAndroidInjector
-import dagger.android.HasAndroidInjector
 import de.c1710.filemojicompat.FileEmojiCompatConfig
-import javax.inject.Inject
 
 // override TuskyApplication for Robolectric tests, only initialize the necessary stuff
 class TuskyApplication : Application() {

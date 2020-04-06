@@ -11,6 +11,7 @@ import com.keylesspalace.tusky.fragment.SFragment
 import com.keylesspalace.tusky.network.MastodonApi
 import com.nhaarman.mockitokotlin2.mock
 import okhttp3.Request
+import okio.Timeout
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Before
@@ -98,6 +99,10 @@ class FilterTest {
                                 )
                         )
                 )
+            }
+
+            override fun timeout(): Timeout {
+                throw Error("not implemented")
             }
         })
 
