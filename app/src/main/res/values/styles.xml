@@ -67,7 +67,7 @@
 
         <item name="textColorDisabled">@color/textColorDisabled</item>
 
-        <item name="materialDrawerStyle">@style/Widget.MaterialDrawerStyle</item>
+        <item name="materialDrawerStyle">@style/TuskyDrawerStyle</item>
         <item name="materialDrawerHeaderStyle">@style/Widget.MaterialDrawerHeaderStyle</item>
 
         <item name="alertDialogTheme">@style/TuskyDialog</item>
@@ -139,6 +139,13 @@
     </style>
 
     <style name="TuskyBlackTheme" parent="TuskyBlackThemeBase" />
+
+    <style name="TuskyDrawerStyle" parent ="Widget.MaterialDrawerStyle">
+        <item name="materialDrawerBackground">?android:colorBackground</item>
+        <item name="materialDrawerPrimaryIcon">?iconColor</item>
+        <item name="materialDrawerSecondaryIcon">?iconColor</item>
+        <item name="materialDrawerDividerColor">?dividerColor</item>
+    </style>
 
     <!-- customize the shape of the avatars in account selection list -->
     <style name="BezelImageView">
