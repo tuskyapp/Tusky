@@ -65,7 +65,6 @@ import com.keylesspalace.tusky.adapter.OnEmojiSelectedListener
 import com.keylesspalace.tusky.components.compose.dialog.makeCaptionDialog
 import com.keylesspalace.tusky.components.compose.dialog.showAddPollDialog
 import com.keylesspalace.tusky.components.compose.view.ComposeOptionsListener
-import com.keylesspalace.tusky.components.compose.view.ComposeScheduleView
 import com.keylesspalace.tusky.db.AccountEntity
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.di.ViewModelFactory
@@ -74,8 +73,10 @@ import com.keylesspalace.tusky.entity.Emoji
 import com.keylesspalace.tusky.entity.NewPoll
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.util.*
-import com.mikepenz.google_material_typeface_library.GoogleMaterial
 import com.mikepenz.iconics.IconicsDrawable
+import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial
+import com.mikepenz.iconics.utils.colorInt
+import com.mikepenz.iconics.utils.sizeDp
 import kotlinx.android.parcel.Parcelize
 import kotlinx.android.synthetic.main.activity_compose.*
 import java.io.File
@@ -231,7 +232,7 @@ class ComposeActivity : BaseActivity(),
         if (replyingStatusAuthor != null) {
             composeReplyView.show()
             composeReplyView.text = getString(R.string.replying_to, replyingStatusAuthor)
-            val arrowDownIcon = IconicsDrawable(this, GoogleMaterial.Icon.gmd_arrow_drop_down).sizeDp(12)
+            val arrowDownIcon = IconicsDrawable(this, GoogleMaterial.Icon.gmd_arrow_drop_down).apply { sizeDp = 12 }
 
             ThemeUtils.setDrawableTint(this, arrowDownIcon, android.R.attr.textColorTertiary)
             composeReplyView.setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, arrowDownIcon, null)
@@ -244,7 +245,7 @@ class ComposeActivity : BaseActivity(),
                     composeReplyView.setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, arrowDownIcon, null)
                 } else {
                     composeReplyContentView.show()
-                    val arrowUpIcon = IconicsDrawable(this, GoogleMaterial.Icon.gmd_arrow_drop_up).sizeDp(12)
+                    val arrowUpIcon = IconicsDrawable(this, GoogleMaterial.Icon.gmd_arrow_drop_up).apply { sizeDp = 12 }
 
                     ThemeUtils.setDrawableTint(this, arrowUpIcon, android.R.attr.textColorTertiary)
                     composeReplyView.setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, arrowUpIcon, null)
@@ -364,13 +365,13 @@ class ComposeActivity : BaseActivity(),
 
         val textColor = ThemeUtils.getColor(this, android.R.attr.textColorTertiary)
 
-        val cameraIcon = IconicsDrawable(this, GoogleMaterial.Icon.gmd_camera_alt).color(textColor).sizeDp(18)
+        val cameraIcon = IconicsDrawable(this, GoogleMaterial.Icon.gmd_camera_alt).apply { colorInt = textColor; sizeDp = 18 }
         actionPhotoTake.setCompoundDrawablesRelativeWithIntrinsicBounds(cameraIcon, null, null, null)
 
-        val imageIcon = IconicsDrawable(this, GoogleMaterial.Icon.gmd_image).color(textColor).sizeDp(18)
+        val imageIcon = IconicsDrawable(this, GoogleMaterial.Icon.gmd_image).apply { colorInt = textColor; sizeDp = 18 }
         actionPhotoPick.setCompoundDrawablesRelativeWithIntrinsicBounds(imageIcon, null, null, null)
 
-        val pollIcon = IconicsDrawable(this, GoogleMaterial.Icon.gmd_poll).color(textColor).sizeDp(18)
+        val pollIcon = IconicsDrawable(this, GoogleMaterial.Icon.gmd_poll).apply { colorInt = textColor; sizeDp = 18 }
         addPollTextActionTextView.setCompoundDrawablesRelativeWithIntrinsicBounds(pollIcon, null, null, null)
 
         actionPhotoTake.setOnClickListener { initiateCameraApp() }

@@ -54,12 +54,13 @@ import com.keylesspalace.tusky.util.StatusDisplayOptions;
 import com.keylesspalace.tusky.util.TimestampUtils;
 import com.keylesspalace.tusky.viewdata.NotificationViewData;
 import com.keylesspalace.tusky.viewdata.StatusViewData;
-import com.mikepenz.iconics.utils.Utils;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+
+import at.connyduck.sparkbutton.helpers.Utils;
 
 public class NotificationsAdapter extends RecyclerView.Adapter {
 
@@ -140,7 +141,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
                 view.setLayoutParams(
                         new ViewGroup.LayoutParams(
                                 ViewGroup.LayoutParams.MATCH_PARENT,
-                                Utils.convertDpToPx(parent.getContext(), 24)
+                                Utils.dpToPx(parent.getContext(), 24)
                         )
                 );
                 return new RecyclerView.ViewHolder(view) {

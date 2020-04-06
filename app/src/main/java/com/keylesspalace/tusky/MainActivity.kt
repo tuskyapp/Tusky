@@ -12,19 +12,24 @@
  *
  * You should have received a copy of the GNU General Public License along with Tusky; if not,
  * see <http://www.gnu.org/licenses>. */
+
 package com.keylesspalace.tusky
 
+import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
+import android.content.res.ColorStateList
+import android.content.res.Configuration
 import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Bundle
-import android.os.Handler
 import android.util.Log
 import android.view.KeyEvent
+import android.view.MenuItem
 import android.view.View
 import android.widget.ImageView
+import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.core.content.pm.ShortcutManagerCompat
@@ -39,17 +44,12 @@ import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
 import com.google.android.material.tabs.TabLayoutMediator
 import com.google.android.material.tabs.TabLayoutMediator.TabConfigurationStrategy
-import com.keylesspalace.tusky.AccountActivity.Companion.getIntent
-import com.keylesspalace.tusky.LoginActivity.Companion.getIntent
-import com.keylesspalace.tusky.PreferencesActivity.Companion.newIntent
-import com.keylesspalace.tusky.StatusListActivity.Companion.newBookmarksIntent
-import com.keylesspalace.tusky.StatusListActivity.Companion.newFavouritesIntent
 import com.keylesspalace.tusky.appstore.*
 import com.keylesspalace.tusky.components.compose.ComposeActivity
 import com.keylesspalace.tusky.components.compose.ComposeActivity.Companion.canHandleMimeType
 import com.keylesspalace.tusky.components.conversation.ConversationsRepository
 import com.keylesspalace.tusky.components.scheduled.ScheduledTootActivity
-import com.keylesspalace.tusky.components.search.SearchActivity.Companion.getIntent
+import com.keylesspalace.tusky.components.search.SearchActivity
 import com.keylesspalace.tusky.db.AccountEntity
 import com.keylesspalace.tusky.entity.Account
 import com.keylesspalace.tusky.fragment.SFragment
@@ -58,23 +58,17 @@ import com.keylesspalace.tusky.interfaces.ActionButtonActivity
 import com.keylesspalace.tusky.interfaces.ReselectableFragment
 import com.keylesspalace.tusky.pager.MainPagerAdapter
 import com.keylesspalace.tusky.util.*
-import com.mikepenz.google_material_typeface_library.GoogleMaterial
-import com.mikepenz.materialdrawer.AccountHeader
-import com.mikepenz.materialdrawer.AccountHeaderBuilder
-import com.mikepenz.materialdrawer.Drawer
-import com.mikepenz.materialdrawer.DrawerBuilder
+import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial
+import com.mikepenz.materialdrawer.iconics.iconicsIcon
 import com.mikepenz.materialdrawer.model.*
-import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem
-import com.mikepenz.materialdrawer.model.interfaces.IProfile
-import com.mikepenz.materialdrawer.util.AbstractDrawerImageLoader
-import com.mikepenz.materialdrawer.util.DrawerImageLoader
-import com.uber.autodispose.AutoDispose
-import com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider
+import com.mikepenz.materialdrawer.model.interfaces.*
+import com.mikepenz.materialdrawer.util.*
+import com.mikepenz.materialdrawer.widget.AccountHeaderView
+import com.uber.autodispose.android.lifecycle.autoDispose
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
 import io.reactivex.android.schedulers.AndroidSchedulers
 import kotlinx.android.synthetic.main.activity_main.*
-import java.util.*
 import javax.inject.Inject
 
 class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInjector {
@@ -90,14 +84,14 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
     @Inject
     lateinit var conversationRepository: ConversationsRepository
 
-    private lateinit var header: AccountHeader
-    private lateinit var drawer: Drawer
+    private lateinit var header: AccountHeaderView
+    private lateinit var drawerToggle: ActionBarDrawerToggle
 
     private var notificationTabPosition = 0
 
     private var adapter: MainPagerAdapter? = null
 
-    private val emojiInitCallback: InitCallback = object : InitCallback() {
+    private val emojiInitCallback = object : InitCallback() {
         override fun onInitialized() {
             if (!isDestroyed) {
                 updateProfiles()
@@ -159,15 +153,18 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
             }
         }
         setContentView(R.layout.activity_main)
-        composeButton.setOnClickListener(View.OnClickListener { v: View? ->
+        composeButton.setOnClickListener {
             val composeIntent = Intent(applicationContext, ComposeActivity::class.java)
             startActivity(composeIntent)
-        })
-        setupDrawer()
+        }
+        setupDrawer(savedInstanceState)
 
         /* Fetch user info while we're doing other things. This has to be done after setting up the
-         * drawer, though, because its callback touches the header in the drawer. */fetchUserInfo()
+         * drawer, though, because its callback touches the header in the drawer. */
+        fetchUserInfo()
+
         setupTabs(showNotificationTab)
+
         val pageMargin = resources.getDimensionPixelSize(R.dimen.tab_page_margin)
         viewPager.setPageTransformer(MarginPageTransformer(pageMargin))
         tabLayout.addOnTabSelectedListener(object : OnTabSelectedListener {
@@ -178,11 +175,12 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
             }
 
             override fun onTabUnselected(tab: TabLayout.Tab) {}
+
             override fun onTabReselected(tab: TabLayout.Tab) {
-                    val fragment = adapter?.getFragment(tab.position)
-                    if (fragment is ReselectableFragment) {
-                        (fragment as ReselectableFragment).onReselect()
-                    }
+                val fragment = adapter?.getFragment(tab.position)
+                if (fragment is ReselectableFragment) {
+                    (fragment as ReselectableFragment).onReselect()
+                }
             }
         })
 
@@ -194,7 +192,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
         }
         eventHub.events
                 .observeOn(AndroidSchedulers.mainThread())
-                .`as`(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(this, Lifecycle.Event.ON_DESTROY)))
+                .autoDispose(this, Lifecycle.Event.ON_DESTROY)
                 .subscribe { event: Event? ->
                     if (event is ProfileEditedEvent) {
                         onFetchUserInfoSuccess(event.newProfileData)
@@ -214,8 +212,8 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
     }
 
     override fun onBackPressed() {
-        if (drawer.isDrawerOpen) {
-            drawer.closeDrawer()
+        if (mainDrawerLayout.isOpen) {
+            mainDrawerLayout.close()
         } else if (viewPager.currentItem != 0) {
             viewPager.currentItem = 0
         } else {
@@ -226,15 +224,15 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
     override fun onKeyDown(keyCode: Int, event: KeyEvent): Boolean {
         when (keyCode) {
             KeyEvent.KEYCODE_MENU -> {
-                if (drawer.isDrawerOpen) {
-                    drawer.closeDrawer()
+                if (mainDrawerLayout.isOpen) {
+                    mainDrawerLayout.close()
                 } else {
-                    drawer.openDrawer()
+                    mainDrawerLayout.open()
                 }
                 return true
             }
             KeyEvent.KEYCODE_SEARCH -> {
-                startActivityWithSlideInAnimation(getIntent(this))
+                startActivityWithSlideInAnimation(SearchActivity.getIntent(this))
                 return true
             }
         }
@@ -255,7 +253,9 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
 
     public override fun onPostCreate(savedInstanceState: Bundle?) {
         super.onPostCreate(savedInstanceState)
-        val intent = intent
+
+        drawerToggle.syncState()
+
         if (intent != null) {
             val statusUrl = intent.getStringExtra(STATUS_URL)
             if (statusUrl != null) {
@@ -279,36 +279,39 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
         finish()
     }
 
-    private fun setupDrawer() {
-        header = AccountHeaderBuilder()
-                .withActivity(this)
-                .withDividerBelowHeader(false)
-                .withHeaderBackgroundScaleType(ImageView.ScaleType.CENTER_CROP)
-                .withCurrentProfileHiddenInList(true)
-                .withOnAccountHeaderListener { view: View?, profile: IProfile<*>, current: Boolean -> handleProfileClick(profile, current) }
-                .addProfiles(
-                        ProfileSettingDrawerItem()
-                                .withIdentifier(DRAWER_ITEM_ADD_ACCOUNT)
-                                .withName(R.string.add_account_name)
-                                .withDescription(R.string.add_account_description)
-                                .withIcon(GoogleMaterial.Icon.gmd_add))
-                .build()
-        header.view
-                .findViewById<View>(R.id.material_drawer_account_header_current).contentDescription = getString(R.string.action_view_profile)
-        val background = header.headerBackgroundView
-        background.setColorFilter(ContextCompat.getColor(this, R.color.header_background_filter))
-        background.setBackgroundColor(ContextCompat.getColor(this, R.color.tusky_grey_10))
+    private fun setupDrawer(savedInstanceState: Bundle?) {
+
+        drawerToggle = ActionBarDrawerToggle(this, mainDrawerLayout, mainToolbar, com.mikepenz.materialdrawer.R.string.material_drawer_open, com.mikepenz.materialdrawer.R.string.material_drawer_close)
+
+        header = AccountHeaderView(this).apply {
+            headerBackgroundScaleType = ImageView.ScaleType.CENTER_CROP
+            currentHiddenInList = true
+            onAccountHeaderListener = { _: View?, profile: IProfile, current: Boolean -> handleProfileClick(profile, current) }
+            addProfile(ProfileSettingDrawerItem().apply {
+                identifier = DRAWER_ITEM_ADD_ACCOUNT
+                nameRes = R.string.add_account_name
+                descriptionRes = R.string.add_account_description
+                iconicsIcon = GoogleMaterial.Icon.gmd_add
+            }, 0)
+            attachToSliderView(mainDrawer)
+            dividerBelowHeader = false
+            closeDrawerOnProfileListClick = true
+        }
+
+        header.accountHeaderBackground.setColorFilter(ContextCompat.getColor(this, R.color.header_background_filter))
+        header.accountHeaderBackground.setBackgroundColor(ContextCompat.getColor(this, R.color.tusky_grey_10))
         val animateAvatars = PreferenceManager.getDefaultSharedPreferences(this)
                 .getBoolean("animateGifAvatars", false)
+
         DrawerImageLoader.init(object : AbstractDrawerImageLoader() {
-            override fun set(imageView: ImageView, uri: Uri, placeholder: Drawable, tag: String) {
+            override fun set(imageView: ImageView, uri: Uri, placeholder: Drawable, tag: String?) {
                 if (animateAvatars) {
-                    Glide.with(this@MainActivity)
+                    Glide.with(imageView.context)
                             .load(uri)
                             .placeholder(placeholder)
                             .into(imageView)
                 } else {
-                    Glide.with(this@MainActivity)
+                    Glide.with(imageView.context)
                             .asBitmap()
                             .load(uri)
                             .placeholder(placeholder)
@@ -317,80 +320,114 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
             }
 
             override fun cancel(imageView: ImageView) {
-                Glide.with(this@MainActivity).clear(imageView)
+                Glide.with(imageView.context).clear(imageView)
+            }
+
+            override fun placeholder(ctx: Context, tag: String?): Drawable {
+                if (tag == DrawerImageLoader.Tags.PROFILE.name || tag == DrawerImageLoader.Tags.PROFILE_DRAWER_ITEM.name) {
+                    return ctx.getDrawable(R.drawable.avatar_default)!!
+                }
+
+                return super.placeholder(ctx, tag)
             }
         })
-        val listItems: MutableList<IDrawerItem<*, *>> = ArrayList(11)
-        listItems.add(PrimaryDrawerItem().withIdentifier(DRAWER_ITEM_EDIT_PROFILE).withName(R.string.action_edit_profile).withSelectable(false).withIcon(GoogleMaterial.Icon.gmd_person))
-        listItems.add(PrimaryDrawerItem().withIdentifier(DRAWER_ITEM_FAVOURITES).withName(R.string.action_view_favourites).withSelectable(false).withIcon(GoogleMaterial.Icon.gmd_star))
-        listItems.add(PrimaryDrawerItem().withIdentifier(DRAWER_ITEM_BOOKMARKS).withName(R.string.action_view_bookmarks).withSelectable(false).withIcon(GoogleMaterial.Icon.gmd_bookmark))
-        listItems.add(PrimaryDrawerItem().withIdentifier(DRAWER_ITEM_LISTS).withName(R.string.action_lists).withSelectable(false).withIcon(GoogleMaterial.Icon.gmd_list))
-        listItems.add(PrimaryDrawerItem().withIdentifier(DRAWER_ITEM_SEARCH).withName(R.string.action_search).withSelectable(false).withIcon(GoogleMaterial.Icon.gmd_search))
-        listItems.add(PrimaryDrawerItem().withIdentifier(DRAWER_ITEM_SAVED_TOOT).withName(R.string.action_access_saved_toot).withSelectable(false).withIcon(R.drawable.ic_notebook).withIconTintingEnabled(true))
-        listItems.add(PrimaryDrawerItem().withIdentifier(DRAWER_ITEM_SCHEDULED_TOOT).withName(R.string.action_access_scheduled_toot).withSelectable(false).withIcon(R.drawable.ic_access_time).withIconTintingEnabled(true))
-        listItems.add(DividerDrawerItem())
-        listItems.add(SecondaryDrawerItem().withIdentifier(DRAWER_ITEM_ACCOUNT_SETTINGS).withName(R.string.action_view_account_preferences).withSelectable(false).withIcon(R.drawable.ic_account_settings).withIconTintingEnabled(true))
-        listItems.add(SecondaryDrawerItem().withIdentifier(DRAWER_ITEM_SETTINGS).withName(R.string.action_view_preferences).withSelectable(false).withIcon(GoogleMaterial.Icon.gmd_settings))
-        listItems.add(SecondaryDrawerItem().withIdentifier(DRAWER_ITEM_ABOUT).withName(R.string.about_title_activity).withSelectable(false).withIcon(GoogleMaterial.Icon.gmd_info))
-        listItems.add(SecondaryDrawerItem().withIdentifier(DRAWER_ITEM_LOG_OUT).withName(R.string.action_logout).withSelectable(false).withIcon(R.drawable.ic_logout).withIconTintingEnabled(true))
-        drawer = DrawerBuilder()
-                .withActivity(this)
-                .withAccountHeader(header)
-                .withHasStableIds(true)
-                .withSelectedItem(-1)
-                .withDrawerItems(listItems)
-                .withToolbar(mainToolbar)
-                .withOnDrawerItemClickListener { _: View?, _: Int, drawerItem: IDrawerItem<*, *>? ->
-                    if (drawerItem != null) {
-                        val drawerItemIdentifier = drawerItem.identifier
-                        if (drawerItemIdentifier == DRAWER_ITEM_EDIT_PROFILE) {
-                            val intent = Intent(this@MainActivity, EditProfileActivity::class.java)
-                            startActivityWithSlideInAnimation(intent)
-                        } else if (drawerItemIdentifier == DRAWER_ITEM_FAVOURITES) {
-                            val intent = newFavouritesIntent(this@MainActivity)
-                            startActivityWithSlideInAnimation(intent)
-                        } else if (drawerItemIdentifier == DRAWER_ITEM_BOOKMARKS) {
-                            val intent = newBookmarksIntent(this@MainActivity)
-                            startActivityWithSlideInAnimation(intent)
-                        } else if (drawerItemIdentifier == DRAWER_ITEM_SEARCH) {
-                            startActivityWithSlideInAnimation(getIntent(this))
-                        } else if (drawerItemIdentifier == DRAWER_ITEM_ACCOUNT_SETTINGS) {
-                            val intent = newIntent(this@MainActivity, PreferencesActivity.ACCOUNT_PREFERENCES)
-                            startActivityWithSlideInAnimation(intent)
-                        } else if (drawerItemIdentifier == DRAWER_ITEM_SETTINGS) {
-                            val intent = newIntent(this@MainActivity, PreferencesActivity.GENERAL_PREFERENCES)
-                            startActivityWithSlideInAnimation(intent)
-                        } else if (drawerItemIdentifier == DRAWER_ITEM_ABOUT) {
-                            val intent = Intent(this@MainActivity, AboutActivity::class.java)
-                            startActivityWithSlideInAnimation(intent)
-                        } else if (drawerItemIdentifier == DRAWER_ITEM_LOG_OUT) {
-                            logout()
-                        } else if (drawerItemIdentifier == DRAWER_ITEM_FOLLOW_REQUESTS) {
-                            val intent = Intent(this@MainActivity, AccountListActivity::class.java)
-                            intent.putExtra("type", AccountListActivity.Type.FOLLOW_REQUESTS)
-                            startActivityWithSlideInAnimation(intent)
-                        } else if (drawerItemIdentifier == DRAWER_ITEM_SAVED_TOOT) {
-                            val intent = Intent(this@MainActivity, SavedTootActivity::class.java)
-                            startActivityWithSlideInAnimation(intent)
-                        } else if (drawerItemIdentifier == DRAWER_ITEM_SCHEDULED_TOOT) {
-                            startActivityWithSlideInAnimation(ScheduledTootActivity.newIntent(this))
-                        } else if (drawerItemIdentifier == DRAWER_ITEM_LISTS) {
-                            startActivityWithSlideInAnimation(ListsActivity.newIntent(this))
-                        }
+
+        mainDrawer.apply {
+            addItems(
+                    PrimaryDrawerItem().apply { identifier = DRAWER_ITEM_EDIT_PROFILE; nameRes = R.string.action_edit_profile; isSelectable = false; iconicsIcon = GoogleMaterial.Icon.gmd_person },
+                    PrimaryDrawerItem().apply { identifier = DRAWER_ITEM_FAVOURITES; nameRes = R.string.action_view_favourites; isSelectable = false; iconicsIcon = GoogleMaterial.Icon.gmd_star },
+                    PrimaryDrawerItem().apply { identifier = DRAWER_ITEM_BOOKMARKS; nameRes = R.string.action_view_bookmarks; isSelectable = false; iconicsIcon = GoogleMaterial.Icon.gmd_bookmark },
+                    PrimaryDrawerItem().apply { identifier = DRAWER_ITEM_LISTS; nameRes = R.string.action_lists; isSelectable = false; iconicsIcon = GoogleMaterial.Icon.gmd_list },
+                    PrimaryDrawerItem().apply { identifier = DRAWER_ITEM_SEARCH; nameRes = R.string.action_search; isSelectable = false; iconicsIcon = GoogleMaterial.Icon.gmd_search },
+                    PrimaryDrawerItem().apply { identifier = DRAWER_ITEM_SAVED_TOOT; nameRes = R.string.action_access_saved_toot; isSelectable = false; iconRes = R.drawable.ic_notebook; isIconTinted = true },
+                    PrimaryDrawerItem().apply { identifier = DRAWER_ITEM_SCHEDULED_TOOT; nameRes = R.string.action_access_scheduled_toot; isSelectable = false; iconRes = R.drawable.ic_access_time; isIconTinted = true },
+                    DividerDrawerItem(),
+                    SecondaryDrawerItem().apply { identifier = DRAWER_ITEM_ACCOUNT_SETTINGS; nameRes = R.string.action_view_account_preferences; isSelectable = false; iconRes = R.drawable.ic_account_settings; isIconTinted = true },
+                    SecondaryDrawerItem().apply { identifier = DRAWER_ITEM_SETTINGS; nameRes = R.string.action_view_preferences; isSelectable = false; iconicsIcon = GoogleMaterial.Icon.gmd_settings },
+                    SecondaryDrawerItem().apply { identifier = DRAWER_ITEM_ABOUT; nameRes = R.string.about_title_activity; isSelectable = false; iconicsIcon = GoogleMaterial.Icon.gmd_info },
+                    SecondaryDrawerItem().apply { identifier = DRAWER_ITEM_LOG_OUT; nameRes = R.string.action_logout; isSelectable = false; iconRes = R.drawable.ic_logout; isIconTinted = true }
+            )
+            onDrawerItemClickListener = { _: View?, drawerItem: IDrawerItem<*>, _: Int ->
+                when (drawerItem.identifier) {
+                    DRAWER_ITEM_EDIT_PROFILE -> {
+                        val intent = Intent(context, EditProfileActivity::class.java)
+                        startActivityWithSlideInAnimation(intent)
                     }
-                    false
+                    DRAWER_ITEM_FAVOURITES -> {
+                        val intent = StatusListActivity.newFavouritesIntent(context)
+                        startActivityWithSlideInAnimation(intent)
+                    }
+                    DRAWER_ITEM_BOOKMARKS -> {
+                        val intent = StatusListActivity.newBookmarksIntent(context)
+                        startActivityWithSlideInAnimation(intent)
+                    }
+                    DRAWER_ITEM_SEARCH -> {
+                        startActivityWithSlideInAnimation(SearchActivity.getIntent(context))
+                    }
+                    DRAWER_ITEM_ACCOUNT_SETTINGS -> {
+                        val intent = PreferencesActivity.newIntent(context, PreferencesActivity.ACCOUNT_PREFERENCES)
+                        startActivityWithSlideInAnimation(intent)
+                    }
+                    DRAWER_ITEM_SETTINGS -> {
+                        val intent = PreferencesActivity.newIntent(context, PreferencesActivity.GENERAL_PREFERENCES)
+                        startActivityWithSlideInAnimation(intent)
+                    }
+                    DRAWER_ITEM_ABOUT -> {
+                        val intent = Intent(context, AboutActivity::class.java)
+                        startActivityWithSlideInAnimation(intent)
+                    }
+                    DRAWER_ITEM_LOG_OUT -> {
+                        logout()
+                    }
+                    DRAWER_ITEM_FOLLOW_REQUESTS -> {
+                        val intent = Intent(context, AccountListActivity::class.java)
+                        intent.putExtra("type", AccountListActivity.Type.FOLLOW_REQUESTS)
+                        startActivityWithSlideInAnimation(intent)
+                    }
+                    DRAWER_ITEM_SAVED_TOOT -> {
+                        val intent = Intent(context, SavedTootActivity::class.java)
+                        startActivityWithSlideInAnimation(intent)
+                    }
+                    DRAWER_ITEM_SCHEDULED_TOOT -> {
+                        startActivityWithSlideInAnimation(ScheduledTootActivity.newIntent(context))
+                    }
+                    DRAWER_ITEM_LISTS -> {
+                        startActivityWithSlideInAnimation(ListsActivity.newIntent(context))
+                    }
                 }
-                .build()
+                true
+            }
+            setSavedInstance(savedInstanceState)
+        }
+
         if (BuildConfig.DEBUG) {
-            val debugItem: IDrawerItem<*, *> = SecondaryDrawerItem()
-                    .withIdentifier(1337)
-                    .withName("debug")
-                    .withDisabledTextColor(Color.GREEN)
-                    .withSelectable(false)
-                    .withEnabled(false)
-            drawer.addItem(debugItem)
+            mainDrawer.addItems(
+                    SecondaryDrawerItem().apply {
+                        identifier = 1337
+                        nameText = "debug"
+                        isEnabled = false
+                        textColor = ColorStateList.valueOf(Color.GREEN)
+                        isSelectable = false
+                    }
+            )
         }
         EmojiCompat.get().registerInitCallback(emojiInitCallback)
+    }
+
+    override fun onConfigurationChanged(newConfig: Configuration) {
+        super.onConfigurationChanged(newConfig)
+        drawerToggle.onConfigurationChanged(newConfig)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (drawerToggle.onOptionsItemSelected(item)) {
+            return true
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(mainDrawer.saveInstanceState(outState))
     }
 
     private fun setupTabs(selectNotificationTab: Boolean) {
@@ -400,14 +437,14 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
         TabLayoutMediator(tabLayout, viewPager, TabConfigurationStrategy { _: TabLayout.Tab?, _: Int -> }).attach()
         tabLayout.removeAllTabs()
         for (i in tabs.indices) {
-            val tab = tabLayout!!.newTab()
+            val tab = tabLayout.newTab()
                     .setIcon(tabs[i].icon)
             if (tabs[i].id == LIST) {
                 tab.contentDescription = tabs[i].arguments[1]
             } else {
                 tab.setContentDescription(tabs[i].text)
             }
-            tabLayout!!.addTab(tab)
+            tabLayout.addTab(tab)
             if (tabs[i].id == NOTIFICATIONS) {
                 notificationTabPosition = i
                 if (selectNotificationTab) {
@@ -417,21 +454,19 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
         }
     }
 
-    private fun handleProfileClick(profile: IProfile<*>, current: Boolean): Boolean {
+    private fun handleProfileClick(profile: IProfile, current: Boolean): Boolean {
         val activeAccount = accountManager.activeAccount
 
         //open profile when active image was clicked
         if (current && activeAccount != null) {
-            val intent = getIntent(this, activeAccount.accountId)
+            val intent = AccountActivity.getIntent(this, activeAccount.accountId)
             startActivityWithSlideInAnimation(intent)
-            Handler().postDelayed({ drawer.closeDrawer() }, 100)
-            return true
+            return false
         }
         //open LoginActivity to add new account
         if (profile.identifier == DRAWER_ITEM_ADD_ACCOUNT) {
-            startActivityWithSlideInAnimation(getIntent(this, true))
-            Handler().postDelayed({ drawer.closeDrawer() }, 100)
-            return true
+            startActivityWithSlideInAnimation(LoginActivity.getIntent(this, true))
+            return false
         }
         //change Account
         changeAccount(profile.identifier, null)
@@ -455,13 +490,12 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
     }
 
     private fun logout() {
-        val activeAccount = accountManager.activeAccount
-        if (activeAccount != null) {
+        accountManager.activeAccount?.let { activeAccount ->
             AlertDialog.Builder(this)
                     .setTitle(R.string.action_logout)
                     .setMessage(getString(R.string.action_logout_confirm, activeAccount.fullName))
                     .setPositiveButton(android.R.string.yes) { _: DialogInterface?, _: Int ->
-                        NotificationHelper.deleteNotificationChannelsForAccount(accountManager.activeAccount!!, this@MainActivity)
+                        NotificationHelper.deleteNotificationChannelsForAccount(activeAccount, this@MainActivity)
                         cacheUpdater.clearForUser(activeAccount.id)
                         conversationRepository.deleteCacheForAccount(activeAccount.id)
                         removeShortcut(this, activeAccount)
@@ -471,7 +505,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
                         }
                         val intent: Intent
                         intent = if (newAccount == null) {
-                            getIntent(this@MainActivity, false)
+                            LoginActivity.getIntent(this@MainActivity, false)
                         } else {
                             Intent(this@MainActivity, MainActivity::class.java)
                         }
@@ -486,54 +520,58 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
     private fun fetchUserInfo() {
         mastodonApi.accountVerifyCredentials()
                 .observeOn(AndroidSchedulers.mainThread())
-                .`as`(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(this, Lifecycle.Event.ON_DESTROY)))
-                .subscribe({ me: Account -> onFetchUserInfoSuccess(me) }) { throwable: Throwable -> onFetchUserInfoFailure(throwable) }
+                .autoDispose(this, Lifecycle.Event.ON_DESTROY)
+                .subscribe(
+                        { userInfo ->
+                            onFetchUserInfoSuccess(userInfo)
+                        },
+                        { throwable ->
+                            Log.e(TAG, "Failed to fetch user info. " + throwable.message)
+                        }
+                )
     }
 
     private fun onFetchUserInfoSuccess(me: Account) {
-
-        // Add the header image and avatar from the account, into the navigation drawer header.
-        val background = header.headerBackgroundView
-        Glide.with(this@MainActivity)
+        Glide.with(this)
                 .asBitmap()
                 .load(me.header)
-                .into(background)
+                .into(header.accountHeaderBackground)
+
         accountManager.updateActiveAccount(me)
         NotificationHelper.createNotificationChannelsForAccount(accountManager.activeAccount!!, this)
 
         // Show follow requests in the menu, if this is a locked account.
-        if (me.locked && drawer.getDrawerItem(DRAWER_ITEM_FOLLOW_REQUESTS) == null) {
-            val followRequestsItem = PrimaryDrawerItem()
-                    .withIdentifier(DRAWER_ITEM_FOLLOW_REQUESTS)
-                    .withName(R.string.action_view_follow_requests)
-                    .withSelectable(false)
-                    .withIcon(GoogleMaterial.Icon.gmd_person_add)
-            drawer.addItemAtPosition(followRequestsItem, 4)
+        if (me.locked && mainDrawer.getDrawerItem(DRAWER_ITEM_FOLLOW_REQUESTS) == null) {
+            val followRequestsItem = PrimaryDrawerItem().apply {
+                identifier = DRAWER_ITEM_FOLLOW_REQUESTS
+                nameRes = R.string.action_view_follow_requests
+                isSelectable = false
+                iconicsIcon = GoogleMaterial.Icon.gmd_person_add
+            }
+            mainDrawer.addItemAtPosition(4, followRequestsItem)
         } else if (!me.locked) {
-            drawer.removeItem(DRAWER_ITEM_FOLLOW_REQUESTS)
+            mainDrawer.removeItems(DRAWER_ITEM_FOLLOW_REQUESTS)
         }
         updateProfiles()
         updateShortcut(this, accountManager.activeAccount!!)
     }
 
     private fun updateProfiles() {
-        val allAccounts = accountManager.getAllAccountsOrderedByActive()
-        val profiles: MutableList<IProfile<*>> = ArrayList(allAccounts.size + 1)
-        for (acc in allAccounts) {
-            var emojifiedName: CharSequence? = CustomEmojiHelper.emojifyString(acc.displayName, acc.emojis, header.view)
-            emojifiedName = EmojiCompat.get().process(emojifiedName!!)
-            profiles.add(
-                    ProfileDrawerItem()
-                            .withSetSelected(acc.isActive)
-                            .withName(emojifiedName)
-                            .withIcon(acc.profilePictureUrl)
-                            .withNameShown(true)
-                            .withIdentifier(acc.id)
-                            .withEmail(acc.fullName))
-        }
+        val profiles: MutableList<IProfile> = accountManager.getAllAccountsOrderedByActive().map { acc ->
+            val emojifiedName = EmojiCompat.get().process(CustomEmojiHelper.emojifyString(acc.displayName, acc.emojis, header))
+
+            ProfileDrawerItem().apply {
+                isSelected = acc.isActive
+                nameText = emojifiedName
+                iconUrl = acc.profilePictureUrl
+                isNameShown = true
+                identifier = acc.id
+                descriptionText = acc.fullName
+            }
+        }.toMutableList()
 
         // reuse the already existing "add account" item
-        for (profile in header.profiles) {
+        for (profile in header.profiles.orEmpty()) {
             if (profile.identifier == DRAWER_ITEM_ADD_ACCOUNT) {
                 profiles.add(profile)
                 break
@@ -544,9 +582,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
         header.setActiveProfile(accountManager.activeAccount!!.id)
     }
 
-    override fun getActionButton(): FloatingActionButton? {
-        return composeButton
-    }
+    override fun getActionButton(): FloatingActionButton? = composeButton
 
     override fun androidInjector() = androidInjector
 
@@ -566,8 +602,5 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
         private const val DRAWER_ITEM_FOLLOW_REQUESTS: Long = 10
         private const val DRAWER_ITEM_SCHEDULED_TOOT: Long = 11
         const val STATUS_URL = "statusUrl"
-        private fun onFetchUserInfoFailure(throwable: Throwable) {
-            Log.e(TAG, "Failed to fetch user info. " + throwable.message)
-        }
     }
 }
