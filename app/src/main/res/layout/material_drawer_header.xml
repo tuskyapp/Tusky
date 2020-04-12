@@ -5,7 +5,8 @@
     android:id="@+id/material_drawer_account_header"
     android:layout_width="match_parent"
     android:layout_height="@dimen/material_drawer_account_header_height"
-    android:clickable="true">
+    android:clickable="true"
+    tools:parentTag="androidx.constraintlayout.widget.ConstraintLayout">
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/material_drawer_account_header_background"
@@ -35,9 +36,9 @@
         android:elevation="2dp"
         android:focusable="true"
         android:scaleType="fitCenter"
-        app:materialDrawerMaskDrawable="@drawable/materialdrawer_shape_large"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/material_drawer_statusbar_guideline" />
+        app:layout_constraintTop_toBottomOf="@+id/material_drawer_statusbar_guideline"
+        app:materialDrawerMaskDrawable="@drawable/materialdrawer_shape_large" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/material_drawer_account_header_current_badge"
