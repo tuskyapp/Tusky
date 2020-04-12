@@ -152,6 +152,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
                 showNotificationTab = true
             }
         }
+        window.statusBarColor = Color.TRANSPARENT // don't draw a status bar, the DrawerLayout and the MaterialDrawerLayout have their own
         setContentView(R.layout.activity_main)
         composeButton.setOnClickListener {
             val composeIntent = Intent(applicationContext, ComposeActivity::class.java)
@@ -335,6 +336,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
         })
 
         mainDrawer.apply {
+            tintStatusBar = true
             addItems(
                     PrimaryDrawerItem().apply { identifier = DRAWER_ITEM_EDIT_PROFILE; nameRes = R.string.action_edit_profile; isSelectable = false; iconicsIcon = GoogleMaterial.Icon.gmd_person },
                     PrimaryDrawerItem().apply { identifier = DRAWER_ITEM_FAVOURITES; nameRes = R.string.action_view_favourites; isSelectable = false; iconicsIcon = GoogleMaterial.Icon.gmd_star },
