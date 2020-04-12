@@ -43,6 +43,7 @@
     <string name="title_saved_toot">Drafts</string>
     <string name="title_scheduled_toot">Scheduled toots</string>
     <string name="title_licenses">Licenses</string>
+    <string name="action_send_logs">Send logs</string>
 
     <string name="status_username_format">\@%s</string>
     <string name="status_boosted_format">%s boosted</string>
