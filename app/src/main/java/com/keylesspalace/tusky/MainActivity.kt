@@ -194,11 +194,9 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
                 .observeOn(AndroidSchedulers.mainThread())
                 .autoDispose(this, Lifecycle.Event.ON_DESTROY)
                 .subscribe { event: Event? ->
-                    if (event is ProfileEditedEvent) {
-                        onFetchUserInfoSuccess(event.newProfileData)
-                    }
-                    if (event is MainTabsChangedEvent) {
-                        setupTabs(false)
+                    when (event) {
+                        is ProfileEditedEvent -> onFetchUserInfoSuccess(event.newProfileData)
+                        is MainTabsChangedEvent -> setupTabs(false)
                     }
                 }
 
@@ -212,12 +210,16 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
     }
 
     override fun onBackPressed() {
-        if (mainDrawerLayout.isOpen) {
-            mainDrawerLayout.close()
-        } else if (viewPager.currentItem != 0) {
-            viewPager.currentItem = 0
-        } else {
-            super.onBackPressed()
+        when {
+            mainDrawerLayout.isOpen -> {
+                mainDrawerLayout.close()
+            }
+            viewPager.currentItem != 0 -> {
+                viewPager.currentItem = 0
+            }
+            else -> {
+                super.onBackPressed()
+            }
         }
     }
 
