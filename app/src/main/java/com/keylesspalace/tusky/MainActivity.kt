@@ -338,80 +338,112 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
         mainDrawer.apply {
             tintStatusBar = true
             addItems(
-                    PrimaryDrawerItem().apply { identifier = DRAWER_ITEM_EDIT_PROFILE; nameRes = R.string.action_edit_profile; isSelectable = false; iconicsIcon = GoogleMaterial.Icon.gmd_person },
-                    PrimaryDrawerItem().apply { identifier = DRAWER_ITEM_FAVOURITES; nameRes = R.string.action_view_favourites; isSelectable = false; iconicsIcon = GoogleMaterial.Icon.gmd_star },
-                    PrimaryDrawerItem().apply { identifier = DRAWER_ITEM_BOOKMARKS; nameRes = R.string.action_view_bookmarks; isSelectable = false; iconicsIcon = GoogleMaterial.Icon.gmd_bookmark },
-                    PrimaryDrawerItem().apply { identifier = DRAWER_ITEM_LISTS; nameRes = R.string.action_lists; isSelectable = false; iconicsIcon = GoogleMaterial.Icon.gmd_list },
-                    PrimaryDrawerItem().apply { identifier = DRAWER_ITEM_SEARCH; nameRes = R.string.action_search; isSelectable = false; iconicsIcon = GoogleMaterial.Icon.gmd_search },
-                    PrimaryDrawerItem().apply { identifier = DRAWER_ITEM_SAVED_TOOT; nameRes = R.string.action_access_saved_toot; isSelectable = false; iconRes = R.drawable.ic_notebook; isIconTinted = true },
-                    PrimaryDrawerItem().apply { identifier = DRAWER_ITEM_SCHEDULED_TOOT; nameRes = R.string.action_access_scheduled_toot; isSelectable = false; iconRes = R.drawable.ic_access_time; isIconTinted = true },
+                    primaryDrawerItem {
+                        identifier = DRAWER_ITEM_EDIT_PROFILE
+                        nameRes = R.string.action_edit_profile
+                        iconicsIcon = GoogleMaterial.Icon.gmd_person
+                        onClick = {
+                            val intent = Intent(context, EditProfileActivity::class.java)
+                            startActivityWithSlideInAnimation(intent)
+                        }
+                    },
+                    primaryDrawerItem {
+                        identifier = DRAWER_ITEM_FAVOURITES
+                        nameRes = R.string.action_view_favourites
+                        isSelectable = false
+                        iconicsIcon = GoogleMaterial.Icon.gmd_star
+                        onClick = {
+                            val intent = StatusListActivity.newFavouritesIntent(context)
+                            startActivityWithSlideInAnimation(intent)
+                        }
+                    },
+                    primaryDrawerItem {
+                        identifier = DRAWER_ITEM_BOOKMARKS
+                        nameRes = R.string.action_view_bookmarks
+                        iconicsIcon = GoogleMaterial.Icon.gmd_bookmark
+                        onClick = {
+                            val intent = StatusListActivity.newBookmarksIntent(context)
+                            startActivityWithSlideInAnimation(intent)
+                        }
+                    },
+                    primaryDrawerItem {
+                        identifier = DRAWER_ITEM_LISTS
+                        nameRes = R.string.action_lists
+                        iconicsIcon = GoogleMaterial.Icon.gmd_list
+                        onClick = {
+                            startActivityWithSlideInAnimation(ListsActivity.newIntent(context))
+                        }
+                    },
+                    primaryDrawerItem {
+                        identifier = DRAWER_ITEM_SEARCH
+                        nameRes = R.string.action_search
+                        iconicsIcon = GoogleMaterial.Icon.gmd_search
+                        onClick = {
+                            startActivityWithSlideInAnimation(SearchActivity.getIntent(context))
+                        }
+                    },
+                    primaryDrawerItem {
+                        identifier = DRAWER_ITEM_SAVED_TOOT
+                        nameRes = R.string.action_access_saved_toot
+                        iconRes = R.drawable.ic_notebook
+                        onClick = {
+                            val intent = Intent(context, SavedTootActivity::class.java)
+                            startActivityWithSlideInAnimation(intent)
+                        }
+                    },
+                    primaryDrawerItem {
+                        identifier = DRAWER_ITEM_SCHEDULED_TOOT
+                        nameRes = R.string.action_access_scheduled_toot
+                        iconRes = R.drawable.ic_access_time
+                        onClick = {
+                            startActivityWithSlideInAnimation(ScheduledTootActivity.newIntent(context))
+                        }
+                    },
                     DividerDrawerItem(),
-                    SecondaryDrawerItem().apply { identifier = DRAWER_ITEM_ACCOUNT_SETTINGS; nameRes = R.string.action_view_account_preferences; isSelectable = false; iconRes = R.drawable.ic_account_settings; isIconTinted = true },
-                    SecondaryDrawerItem().apply { identifier = DRAWER_ITEM_SETTINGS; nameRes = R.string.action_view_preferences; isSelectable = false; iconicsIcon = GoogleMaterial.Icon.gmd_settings },
-                    SecondaryDrawerItem().apply { identifier = DRAWER_ITEM_ABOUT; nameRes = R.string.about_title_activity; isSelectable = false; iconicsIcon = GoogleMaterial.Icon.gmd_info },
-                    SecondaryDrawerItem().apply { identifier = DRAWER_ITEM_LOG_OUT; nameRes = R.string.action_logout; isSelectable = false; iconRes = R.drawable.ic_logout; isIconTinted = true }
+                    secondaryDrawerItem {
+                        identifier = DRAWER_ITEM_ACCOUNT_SETTINGS
+                        nameRes = R.string.action_view_account_preferences
+                        iconRes = R.drawable.ic_account_settings
+                        onClick = {
+                            val intent = PreferencesActivity.newIntent(context, PreferencesActivity.ACCOUNT_PREFERENCES)
+                            startActivityWithSlideInAnimation(intent)
+                        }
+                    },
+                    secondaryDrawerItem {
+                        identifier = DRAWER_ITEM_SETTINGS
+                        nameRes = R.string.action_view_preferences
+                        iconicsIcon = GoogleMaterial.Icon.gmd_settings
+                        onClick = {
+                            val intent = PreferencesActivity.newIntent(context, PreferencesActivity.GENERAL_PREFERENCES)
+                            startActivityWithSlideInAnimation(intent)
+                        }
+                    },
+                    secondaryDrawerItem {
+                        identifier = DRAWER_ITEM_ABOUT
+                        nameRes = R.string.about_title_activity
+                        iconicsIcon = GoogleMaterial.Icon.gmd_info
+                        onClick = {
+                            val intent = Intent(context, AboutActivity::class.java)
+                            startActivityWithSlideInAnimation(intent)
+                        }
+                    },
+                    secondaryDrawerItem {
+                        identifier = DRAWER_ITEM_LOG_OUT
+                        nameRes = R.string.action_logout
+                        iconRes = R.drawable.ic_logout
+                        onClick = ::logout
+                    }
             )
-            onDrawerItemClickListener = { _: View?, drawerItem: IDrawerItem<*>, _: Int ->
-                when (drawerItem.identifier) {
-                    DRAWER_ITEM_EDIT_PROFILE -> {
-                        val intent = Intent(context, EditProfileActivity::class.java)
-                        startActivityWithSlideInAnimation(intent)
-                    }
-                    DRAWER_ITEM_FAVOURITES -> {
-                        val intent = StatusListActivity.newFavouritesIntent(context)
-                        startActivityWithSlideInAnimation(intent)
-                    }
-                    DRAWER_ITEM_BOOKMARKS -> {
-                        val intent = StatusListActivity.newBookmarksIntent(context)
-                        startActivityWithSlideInAnimation(intent)
-                    }
-                    DRAWER_ITEM_SEARCH -> {
-                        startActivityWithSlideInAnimation(SearchActivity.getIntent(context))
-                    }
-                    DRAWER_ITEM_ACCOUNT_SETTINGS -> {
-                        val intent = PreferencesActivity.newIntent(context, PreferencesActivity.ACCOUNT_PREFERENCES)
-                        startActivityWithSlideInAnimation(intent)
-                    }
-                    DRAWER_ITEM_SETTINGS -> {
-                        val intent = PreferencesActivity.newIntent(context, PreferencesActivity.GENERAL_PREFERENCES)
-                        startActivityWithSlideInAnimation(intent)
-                    }
-                    DRAWER_ITEM_ABOUT -> {
-                        val intent = Intent(context, AboutActivity::class.java)
-                        startActivityWithSlideInAnimation(intent)
-                    }
-                    DRAWER_ITEM_LOG_OUT -> {
-                        logout()
-                    }
-                    DRAWER_ITEM_FOLLOW_REQUESTS -> {
-                        val intent = Intent(context, AccountListActivity::class.java)
-                        intent.putExtra("type", AccountListActivity.Type.FOLLOW_REQUESTS)
-                        startActivityWithSlideInAnimation(intent)
-                    }
-                    DRAWER_ITEM_SAVED_TOOT -> {
-                        val intent = Intent(context, SavedTootActivity::class.java)
-                        startActivityWithSlideInAnimation(intent)
-                    }
-                    DRAWER_ITEM_SCHEDULED_TOOT -> {
-                        startActivityWithSlideInAnimation(ScheduledTootActivity.newIntent(context))
-                    }
-                    DRAWER_ITEM_LISTS -> {
-                        startActivityWithSlideInAnimation(ListsActivity.newIntent(context))
-                    }
-                }
-                true
-            }
             setSavedInstance(savedInstanceState)
         }
 
         if (BuildConfig.DEBUG) {
             mainDrawer.addItems(
-                    SecondaryDrawerItem().apply {
+                    secondaryDrawerItem {
                         identifier = 1337
                         nameText = "debug"
                         isEnabled = false
                         textColor = ColorStateList.valueOf(Color.GREEN)
-                        isSelectable = false
                     }
             )
         }
@@ -546,11 +578,15 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
 
         // Show follow requests in the menu, if this is a locked account.
         if (me.locked && mainDrawer.getDrawerItem(DRAWER_ITEM_FOLLOW_REQUESTS) == null) {
-            val followRequestsItem = PrimaryDrawerItem().apply {
+            val followRequestsItem = primaryDrawerItem {
                 identifier = DRAWER_ITEM_FOLLOW_REQUESTS
                 nameRes = R.string.action_view_follow_requests
-                isSelectable = false
                 iconicsIcon = GoogleMaterial.Icon.gmd_person_add
+                onClick = {
+                    val intent = Intent(this@MainActivity, AccountListActivity::class.java)
+                    intent.putExtra("type", AccountListActivity.Type.FOLLOW_REQUESTS)
+                    startActivityWithSlideInAnimation(intent)
+                }
             }
             mainDrawer.addItemAtPosition(4, followRequestsItem)
         } else if (!me.locked) {
@@ -608,3 +644,29 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
         const val STATUS_URL = "statusUrl"
     }
 }
+
+private inline fun primaryDrawerItem(block: PrimaryDrawerItem.() -> Unit): PrimaryDrawerItem {
+    return PrimaryDrawerItem()
+            .apply {
+                isSelectable = false
+                isIconTinted = true
+            }
+            .apply(block)
+}
+
+private inline fun secondaryDrawerItem(block: SecondaryDrawerItem.() -> Unit): SecondaryDrawerItem {
+    return SecondaryDrawerItem()
+            .apply {
+                isSelectable = false
+            }
+            .apply(block)
+}
+
+private var AbstractDrawerItem<*, *>.onClick: () -> Unit
+    get() = throw UnsupportedOperationException()
+    set(value) {
+        onDrawerItemClickListener = { _, _, _ ->
+            value()
+            true
+        }
+    }
