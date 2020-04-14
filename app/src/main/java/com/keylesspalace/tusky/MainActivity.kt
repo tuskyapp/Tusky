@@ -658,6 +658,7 @@ private inline fun secondaryDrawerItem(block: SecondaryDrawerItem.() -> Unit): S
     return SecondaryDrawerItem()
             .apply {
                 isSelectable = false
+                isIconTinted = true
             }
             .apply(block)
 }
