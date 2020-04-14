@@ -339,7 +339,6 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
             tintStatusBar = true
             addItems(
                     primaryDrawerItem {
-                        identifier = DRAWER_ITEM_EDIT_PROFILE
                         nameRes = R.string.action_edit_profile
                         iconicsIcon = GoogleMaterial.Icon.gmd_person
                         onClick = {
@@ -348,7 +347,6 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
                         }
                     },
                     primaryDrawerItem {
-                        identifier = DRAWER_ITEM_FAVOURITES
                         nameRes = R.string.action_view_favourites
                         isSelectable = false
                         iconicsIcon = GoogleMaterial.Icon.gmd_star
@@ -358,7 +356,6 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
                         }
                     },
                     primaryDrawerItem {
-                        identifier = DRAWER_ITEM_BOOKMARKS
                         nameRes = R.string.action_view_bookmarks
                         iconicsIcon = GoogleMaterial.Icon.gmd_bookmark
                         onClick = {
@@ -367,7 +364,6 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
                         }
                     },
                     primaryDrawerItem {
-                        identifier = DRAWER_ITEM_LISTS
                         nameRes = R.string.action_lists
                         iconicsIcon = GoogleMaterial.Icon.gmd_list
                         onClick = {
@@ -375,7 +371,6 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
                         }
                     },
                     primaryDrawerItem {
-                        identifier = DRAWER_ITEM_SEARCH
                         nameRes = R.string.action_search
                         iconicsIcon = GoogleMaterial.Icon.gmd_search
                         onClick = {
@@ -383,7 +378,6 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
                         }
                     },
                     primaryDrawerItem {
-                        identifier = DRAWER_ITEM_SAVED_TOOT
                         nameRes = R.string.action_access_saved_toot
                         iconRes = R.drawable.ic_notebook
                         onClick = {
@@ -392,7 +386,6 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
                         }
                     },
                     primaryDrawerItem {
-                        identifier = DRAWER_ITEM_SCHEDULED_TOOT
                         nameRes = R.string.action_access_scheduled_toot
                         iconRes = R.drawable.ic_access_time
                         onClick = {
@@ -401,7 +394,6 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
                     },
                     DividerDrawerItem(),
                     secondaryDrawerItem {
-                        identifier = DRAWER_ITEM_ACCOUNT_SETTINGS
                         nameRes = R.string.action_view_account_preferences
                         iconRes = R.drawable.ic_account_settings
                         onClick = {
@@ -410,7 +402,6 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
                         }
                     },
                     secondaryDrawerItem {
-                        identifier = DRAWER_ITEM_SETTINGS
                         nameRes = R.string.action_view_preferences
                         iconicsIcon = GoogleMaterial.Icon.gmd_settings
                         onClick = {
@@ -419,7 +410,6 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
                         }
                     },
                     secondaryDrawerItem {
-                        identifier = DRAWER_ITEM_ABOUT
                         nameRes = R.string.about_title_activity
                         iconicsIcon = GoogleMaterial.Icon.gmd_info
                         onClick = {
@@ -428,7 +418,6 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
                         }
                     },
                     secondaryDrawerItem {
-                        identifier = DRAWER_ITEM_LOG_OUT
                         nameRes = R.string.action_logout
                         iconRes = R.drawable.ic_logout
                         onClick = ::logout
@@ -440,7 +429,6 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
         if (BuildConfig.DEBUG) {
             mainDrawer.addItems(
                     secondaryDrawerItem {
-                        identifier = 1337
                         nameText = "debug"
                         isEnabled = false
                         textColor = ColorStateList.valueOf(Color.GREEN)
@@ -629,18 +617,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
     companion object {
         private const val TAG = "MainActivity" // logging tag
         private const val DRAWER_ITEM_ADD_ACCOUNT: Long = -13
-        private const val DRAWER_ITEM_EDIT_PROFILE: Long = 0
-        private const val DRAWER_ITEM_FAVOURITES: Long = 1
-        private const val DRAWER_ITEM_BOOKMARKS: Long = 2
-        private const val DRAWER_ITEM_LISTS: Long = 3
-        private const val DRAWER_ITEM_SEARCH: Long = 4
-        private const val DRAWER_ITEM_SAVED_TOOT: Long = 5
-        private const val DRAWER_ITEM_ACCOUNT_SETTINGS: Long = 6
-        private const val DRAWER_ITEM_SETTINGS: Long = 7
-        private const val DRAWER_ITEM_ABOUT: Long = 8
-        private const val DRAWER_ITEM_LOG_OUT: Long = 9
         private const val DRAWER_ITEM_FOLLOW_REQUESTS: Long = 10
-        private const val DRAWER_ITEM_SCHEDULED_TOOT: Long = 11
         const val STATUS_URL = "statusUrl"
     }
 }
