@@ -1,0 +1,8 @@
+Tusky v10.0
+
+- Orain tooten laster-markak egin ditzakezu eta zure laster-markak Tuskyn zerrendatu ditzakezu.
+- Orain tootak programa ditzakezu Tuskyrekin. Kontuan izan hautatzen duzun denborak gutxienez 5 minutu izan behar duela etorkizunean.
+- Orain zerrendak gehi ditzakezu pantaila nagusian.
+- Orain audioak argitara ditzakezu Tuskyrekin.
+
+Eta beste hainbat hobekuntza txiki eta akatsen zuzenketa!
