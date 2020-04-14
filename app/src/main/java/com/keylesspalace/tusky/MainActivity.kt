@@ -301,8 +301,8 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
             closeDrawerOnProfileListClick = true
         }
 
-        header.accountHeaderBackground.setColorFilter(ContextCompat.getColor(this, R.color.header_background_filter))
-        header.accountHeaderBackground.setBackgroundColor(ContextCompat.getColor(this, R.color.tusky_grey_10))
+        header.accountHeaderBackground.setColorFilter(ContextCompat.getColor(this, R.color.headerBackgroundFilter))
+        header.accountHeaderBackground.setBackgroundColor(ThemeUtils.getColor(this, R.attr.colorBackgroundAccent))
         val animateAvatars = PreferenceManager.getDefaultSharedPreferences(this)
                 .getBoolean("animateGifAvatars", false)
 
