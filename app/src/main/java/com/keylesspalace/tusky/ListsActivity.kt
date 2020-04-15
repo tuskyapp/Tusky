@@ -39,8 +39,12 @@ import com.keylesspalace.tusky.util.*
 import com.keylesspalace.tusky.viewmodel.ListsViewModel
 import com.keylesspalace.tusky.viewmodel.ListsViewModel.Event.*
 import com.keylesspalace.tusky.viewmodel.ListsViewModel.LoadingState.*
-import com.mikepenz.google_material_typeface_library.GoogleMaterial
 import com.mikepenz.iconics.IconicsDrawable
+import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial
+import com.mikepenz.iconics.utils.color
+import com.mikepenz.iconics.utils.colorInt
+import com.mikepenz.iconics.utils.sizeDp
+import com.mikepenz.iconics.utils.toIconicsColor
 import com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider.from
 import com.uber.autodispose.autoDispose
 import dagger.android.DispatchingAndroidInjector
@@ -235,7 +239,7 @@ class ListsActivity : BaseActivity(), Injectable, HasAndroidInjector {
                     .apply {
                         val context = nameTextView.context
                         val iconColor = ThemeUtils.getColor(context, android.R.attr.textColorTertiary)
-                        val icon = IconicsDrawable(context, GoogleMaterial.Icon.gmd_list).sizeDp(20).color(iconColor)
+                        val icon = IconicsDrawable(context, GoogleMaterial.Icon.gmd_list).apply { sizeDp = 20; colorInt = iconColor }
 
                         nameTextView.setCompoundDrawablesRelativeWithIntrinsicBounds(icon, null, null, null)
                     }

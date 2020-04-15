@@ -19,6 +19,8 @@
 
     <color name="favoriteButtonActiveColor">@color/tusky_orange</color>
 
+    <color name="headerBackgroundFilter">@color/header_background_filter_dark</color>
+
     <bool name="lightNavigationBar">false</bool>
 
 </resources>

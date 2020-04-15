@@ -21,7 +21,6 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewOutlineProvider;
 
-
 /**
  * override BezelImageView from MaterialDrawer library to provide custom outline
  */
@@ -38,7 +37,6 @@ public class BezelImageView extends com.mikepenz.materialdrawer.view.BezelImageV
     public BezelImageView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
     }
-
 
     @Override
     protected void onSizeChanged(int w, int h, int old_w, int old_h) {

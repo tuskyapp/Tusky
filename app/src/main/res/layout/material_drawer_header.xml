@@ -1,10 +1,12 @@
-<!-- this replaces the default material_drawer_header.xml from the MaterialDrawer library -->
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<!-- this replaces the default material_drawer_header.xml from the MaterialDrawer library to enable rounded avatars -->
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/material_drawer_account_header"
     android:layout_width="match_parent"
     android:layout_height="@dimen/material_drawer_account_header_height"
-    android:clickable="true">
+    android:clickable="true"
+    tools:parentTag="androidx.constraintlayout.widget.ConstraintLayout">
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/material_drawer_account_header_background"
@@ -25,63 +27,131 @@
 
     <com.keylesspalace.tusky.view.BezelImageView
         android:id="@+id/material_drawer_account_header_current"
+        style="@style/BezelImageView"
         android:layout_width="@dimen/material_drawer_account_header_selected"
         android:layout_height="@dimen/material_drawer_account_header_selected"
         android:layout_marginStart="@dimen/material_drawer_vertical_padding"
-        android:layout_marginLeft="@dimen/material_drawer_vertical_padding"
         android:layout_marginTop="@dimen/material_drawer_account_header_horizontal_top"
         android:clickable="true"
-        android:elevation="8dp"
+        android:elevation="2dp"
         android:focusable="true"
-        android:src="@drawable/avatar_default"
-        app:biv_maskDrawable="@drawable/materialdrawer_shape_large"
+        android:scaleType="fitCenter"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/material_drawer_statusbar_guideline" />
+        app:layout_constraintTop_toBottomOf="@+id/material_drawer_statusbar_guideline"
+        app:materialDrawerMaskDrawable="@drawable/materialdrawer_shape_large" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/material_drawer_account_header_current_badge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:elevation="4dp"
+        android:fontFamily="sans-serif"
+        android:gravity="center"
+        android:lines="1"
+        android:minWidth="20dp"
+        android:paddingLeft="1dp"
+        android:paddingRight="1dp"
+        android:singleLine="true"
+        android:textSize="@dimen/material_drawer_item_badge_text"
+        app:layout_constraintBottom_toBottomOf="@id/material_drawer_account_header_current"
+        app:layout_constraintStart_toStartOf="@id/material_drawer_account_header_current"
+        tools:text="99" />
 
     <com.keylesspalace.tusky.view.BezelImageView
         android:id="@+id/material_drawer_account_header_small_first"
+        style="@style/BezelImageView"
         android:layout_width="@dimen/material_drawer_account_header_secondary"
         android:layout_height="@dimen/material_drawer_account_header_secondary"
         android:layout_marginTop="@dimen/material_drawer_account_header_horizontal_top"
         android:layout_marginEnd="@dimen/material_drawer_vertical_padding"
-        android:layout_marginRight="@dimen/material_drawer_vertical_padding"
         android:clickable="true"
-        android:elevation="8dp"
+        android:elevation="2dp"
         android:focusable="true"
-        android:src="@drawable/avatar_default"
-        app:biv_maskDrawable="@drawable/materialdrawer_shape_small"
+        android:scaleType="fitCenter"
+        android:visibility="visible"
         app:layout_constraintEnd_toStartOf="@id/material_drawer_account_header_small_second"
         app:layout_constraintTop_toBottomOf="@+id/material_drawer_statusbar_guideline" />
 
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/material_drawer_account_header_small_first_badge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:elevation="4dp"
+        android:fontFamily="sans-serif"
+        android:gravity="center"
+        android:lines="1"
+        android:minWidth="20dp"
+        android:paddingLeft="1dp"
+        android:paddingRight="1dp"
+        android:singleLine="true"
+        android:textSize="@dimen/material_drawer_item_badge_small_text"
+        app:layout_constraintBottom_toBottomOf="@id/material_drawer_account_header_small_first"
+        app:layout_constraintStart_toStartOf="@id/material_drawer_account_header_small_first"
+        tools:text="99" />
+
     <com.keylesspalace.tusky.view.BezelImageView
         android:id="@+id/material_drawer_account_header_small_second"
+        style="@style/BezelImageView"
         android:layout_width="@dimen/material_drawer_account_header_secondary"
         android:layout_height="@dimen/material_drawer_account_header_secondary"
         android:layout_marginTop="@dimen/material_drawer_account_header_horizontal_top"
         android:layout_marginEnd="@dimen/material_drawer_vertical_padding"
-        android:layout_marginRight="@dimen/material_drawer_vertical_padding"
         android:clickable="true"
-        android:elevation="8dp"
+        android:elevation="2dp"
         android:focusable="true"
-        android:src="@drawable/avatar_default"
-        app:biv_maskDrawable="@drawable/materialdrawer_shape_small"
+        android:scaleType="fitCenter"
+        android:visibility="visible"
         app:layout_constraintEnd_toStartOf="@id/material_drawer_account_header_small_third"
         app:layout_constraintTop_toBottomOf="@+id/material_drawer_statusbar_guideline" />
 
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/material_drawer_account_header_small_second_badge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:elevation="4dp"
+        android:fontFamily="sans-serif"
+        android:gravity="center"
+        android:lines="1"
+        android:minWidth="20dp"
+        android:paddingLeft="1dp"
+        android:paddingRight="1dp"
+        android:singleLine="true"
+        android:textSize="@dimen/material_drawer_item_badge_small_text"
+        app:layout_constraintBottom_toBottomOf="@id/material_drawer_account_header_small_second"
+        app:layout_constraintStart_toStartOf="@id/material_drawer_account_header_small_second"
+        tools:text="99" />
+
     <com.keylesspalace.tusky.view.BezelImageView
         android:id="@+id/material_drawer_account_header_small_third"
+        style="@style/BezelImageView"
         android:layout_width="@dimen/material_drawer_account_header_secondary"
         android:layout_height="@dimen/material_drawer_account_header_secondary"
         android:layout_marginTop="@dimen/material_drawer_account_header_horizontal_top"
         android:layout_marginEnd="@dimen/material_drawer_vertical_padding"
-        android:layout_marginRight="@dimen/material_drawer_vertical_padding"
         android:clickable="true"
-        android:elevation="8dp"
+        android:elevation="2dp"
         android:focusable="true"
-        android:src="@drawable/avatar_default"
-        app:biv_maskDrawable="@drawable/materialdrawer_shape_small"
+        android:scaleType="fitCenter"
+        android:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/material_drawer_statusbar_guideline" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/material_drawer_account_header_small_third_badge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:elevation="4dp"
+        android:fontFamily="sans-serif"
+        android:gravity="center"
+        android:lines="1"
+        android:minWidth="20dp"
+        android:paddingLeft="1dp"
+        android:paddingRight="1dp"
+        android:singleLine="true"
+        android:textSize="@dimen/material_drawer_item_badge_small_text"
+        app:layout_constraintBottom_toBottomOf="@id/material_drawer_account_header_small_third"
+        app:layout_constraintStart_toStartOf="@id/material_drawer_account_header_small_third"
+        tools:text="99" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/material_drawer_text_guideline"
@@ -95,7 +165,6 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/material_drawer_vertical_padding"
-        android:layout_marginLeft="@dimen/material_drawer_vertical_padding"
         android:fontFamily="sans-serif-medium"
         android:lines="1"
         android:maxLines="1"
@@ -111,7 +180,6 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/material_drawer_vertical_padding"
-        android:layout_marginLeft="@dimen/material_drawer_vertical_padding"
         android:layout_marginBottom="@dimen/material_drawer_padding"
         android:fontFamily="sans-serif"
         android:lines="1"
@@ -127,8 +195,7 @@
         android:layout_width="@dimen/material_drawer_account_header_dropdown"
         android:layout_height="@dimen/material_drawer_account_header_dropdown"
         android:layout_marginEnd="@dimen/material_drawer_vertical_padding"
-        android:layout_marginRight="@dimen/material_drawer_vertical_padding"
         android:layout_marginBottom="@dimen/material_drawer_account_header_dropdown_margin_bottom"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+</merge>

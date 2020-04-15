@@ -35,8 +35,10 @@ import com.keylesspalace.tusky.entity.Filter
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.ThemeUtils
-import com.mikepenz.google_material_typeface_library.GoogleMaterial
 import com.mikepenz.iconics.IconicsDrawable
+import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial
+import com.mikepenz.iconics.utils.colorInt
+import com.mikepenz.iconics.utils.sizeRes
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -72,8 +74,6 @@ class AccountPreferencesFragment : PreferenceFragmentCompat(),
     private lateinit var publicFiltersPreference: Preference
     private lateinit var threadFiltersPreference: Preference
 
-    private val iconSize by lazy { resources.getDimensionPixelSize(R.dimen.preference_icon_size) }
-
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         addPreferencesFromResource(R.xml.account_preferences)
 
@@ -92,9 +92,9 @@ class AccountPreferencesFragment : PreferenceFragmentCompat(),
         publicFiltersPreference = requirePreference("publicFilters")
         threadFiltersPreference = requirePreference("threadFilters")
 
-        notificationPreference.icon = IconicsDrawable(notificationPreference.context, GoogleMaterial.Icon.gmd_notifications).sizePx(iconSize).color(ThemeUtils.getColor(notificationPreference.context, R.attr.iconColor))
+        notificationPreference.icon = IconicsDrawable(notificationPreference.context, GoogleMaterial.Icon.gmd_notifications).apply { sizeRes = R.dimen.preference_icon_size; colorInt = ThemeUtils.getColor(notificationPreference.context, R.attr.iconColor) }
         mutedUsersPreference.icon = getTintedIcon(R.drawable.ic_mute_24dp)
-        blockedUsersPreference.icon = IconicsDrawable(blockedUsersPreference.context, GoogleMaterial.Icon.gmd_block).sizePx(iconSize).color(ThemeUtils.getColor(blockedUsersPreference.context, R.attr.iconColor))
+        blockedUsersPreference.icon = IconicsDrawable(blockedUsersPreference.context, GoogleMaterial.Icon.gmd_block).apply { sizeRes = R.dimen.preference_icon_size; colorInt = ThemeUtils.getColor(blockedUsersPreference.context, R.attr.iconColor) }
         mutedDomainsPreference.icon = getTintedIcon(R.drawable.ic_mute_24dp)
 
         notificationPreference.onPreferenceClickListener = this

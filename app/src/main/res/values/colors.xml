@@ -26,7 +26,9 @@
 
     <color name="transparent_tusky_blue">#8c2b90d9</color>
     <color name="transparent_black">#8f000000</color>
-    <color name="header_background_filter">#44000000</color>
+    <color name="header_background_filter_dark">#44000000</color>
+    <color name="header_background_filter_light">#66FFFFFF</color>
+    <color name="transparent_statusbar_background">#44000000</color>
 
     <!-- colors used in the elephant friend drawables -->
     <color name="elephant_friend_border_color">#121419</color>

@@ -115,7 +115,7 @@ class FilterTest {
 
 
         activity.supportFragmentManager.beginTransaction()
-                .replace(R.id.activity_main, fragment, "fragment")
+                .replace(R.id.mainDrawerLayout, fragment, "fragment")
                 .commit()
 
         fragment.reloadFilters(false)
