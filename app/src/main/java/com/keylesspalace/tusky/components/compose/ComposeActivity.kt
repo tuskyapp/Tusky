@@ -147,10 +147,16 @@ class ComposeActivity : BaseActivity(),
 
         photoUploadUri = savedInstanceState?.getParcelable(PHOTO_UPLOAD_URI_KEY)
 
+        // Restore compose options between screen rotations
+        this.composeOptions = savedInstanceState?.getParcelable(COMPOSE_OPTIONS_EXTRA)
+
         /* If the composer is started up as a reply to another post, override the "starting" state
          * based on what the intent from the reply request passes. */
-        if (intent != null) {
+        if (this.composeOptions == null && intent != null) {
             this.composeOptions = intent.getParcelableExtra<ComposeOptions?>(COMPOSE_OPTIONS_EXTRA)
+        }
+
+        if (this.composeOptions != null) {
             viewModel.setup(composeOptions)
             setupReplyViews(composeOptions?.replyingStatusAuthor)
             val tootText = composeOptions?.tootText
@@ -473,6 +479,7 @@ class ComposeActivity : BaseActivity(),
 
     override fun onSaveInstanceState(outState: Bundle) {
         outState.putParcelable(PHOTO_UPLOAD_URI_KEY, photoUploadUri)
+        outState.putParcelable(COMPOSE_OPTIONS_EXTRA, composeOptions)
         super.onSaveInstanceState(outState)
     }
 
