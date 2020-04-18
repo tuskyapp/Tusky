@@ -1,0 +1,8 @@
+Tusky v10.0
+
+- Tülköket megjelölhetsz könyvjelzővel és ezeket listázhatod is.
+- Ütemezhetsz tülköket a Tuskyban. Az ütemezés legalább 5 perccel a jövőbe kell szóljon.
+- A fő képernyőhöz már listákat is hozzáadhatsz.
+- Posztolhatsz hangos csatolmányokat is.
+
+És sok egyéb apró fejlesztés és hibajavítás!
