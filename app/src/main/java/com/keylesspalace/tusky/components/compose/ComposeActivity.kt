@@ -907,19 +907,20 @@ class ComposeActivity : BaseActivity(),
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent): Boolean {
         Log.d(TAG, event.toString())
-        if (event.isCtrlPressed) {
-            if (keyCode == KeyEvent.KEYCODE_ENTER) {
-                // send toot by pressing CTRL + ENTER
-                this.onSendClicked()
+        if(event.action == KeyEvent.ACTION_DOWN) {
+            if (event.isCtrlPressed) {
+                if (keyCode == KeyEvent.KEYCODE_ENTER) {
+                    // send toot by pressing CTRL + ENTER
+                    this.onSendClicked()
+                    return true
+                }
+            }
+
+            if (keyCode == KeyEvent.KEYCODE_BACK) {
+                onBackPressed()
                 return true
             }
         }
-
-        if (keyCode == KeyEvent.KEYCODE_BACK) {
-            onBackPressed()
-            return true
-        }
-
         return super.onKeyDown(keyCode, event)
     }
 
