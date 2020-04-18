@@ -200,7 +200,8 @@ class ComposeViewModel
         return textChanged || contentWarningChanged || mediaChanged || pollChanged
     }
 
-    fun contentWarningChanged() {
+    fun contentWarningChanged(value: Boolean) {
+        showContentWarning.value = value
         contentWarningStateChanged = true
     }
 
