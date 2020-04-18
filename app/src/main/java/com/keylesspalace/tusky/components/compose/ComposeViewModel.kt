@@ -62,6 +62,8 @@ class ComposeViewModel
     private var inReplyToId: String? = null
     private var startingVisibility: Status.Visibility = Status.Visibility.UNKNOWN
 
+    private var contentWarningStateChanged: Boolean = false
+
     private val instance: MutableLiveData<InstanceEntity?> = MutableLiveData(null)
 
     val instanceParams: LiveData<ComposeInstanceParams> = instance.map { instance ->
@@ -196,6 +198,11 @@ class ComposeViewModel
         val pollChanged = poll.value != null
 
         return textChanged || contentWarningChanged || mediaChanged || pollChanged
+    }
+
+    fun contentWarningChanged(value: Boolean) {
+        showContentWarning.value = value
+        contentWarningStateChanged = true
     }
 
     fun deleteDraft() {
@@ -368,7 +375,9 @@ class ComposeViewModel
         if (contentWarning != null) {
             startingContentWarning = contentWarning
         }
-        showContentWarning.value = !contentWarning.isNullOrBlank()
+        if (!contentWarningStateChanged) {
+            showContentWarning.value = !contentWarning.isNullOrBlank()
+        }
 
         // recreate media list
         // when coming from SavedTootActivity

@@ -690,7 +690,7 @@ class ComposeActivity : BaseActivity(),
 
     private fun onContentWarningChanged() {
         val showWarning = composeContentWarningBar.isGone
-        viewModel.showContentWarning.value = showWarning
+        viewModel.contentWarningChanged(showWarning)
         updateVisibleCharactersLeft()
     }
 
