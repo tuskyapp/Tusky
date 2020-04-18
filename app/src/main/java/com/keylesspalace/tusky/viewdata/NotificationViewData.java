@@ -47,15 +47,13 @@ public abstract class NotificationViewData {
         private final Account account;
         @Nullable
         private final StatusViewData.Concrete statusViewData;
-        private final boolean isExpanded;
 
         public Concrete(Notification.Type type, String id, Account account,
-                        @Nullable StatusViewData.Concrete statusViewData, boolean isExpanded) {
+                        @Nullable StatusViewData.Concrete statusViewData) {
             this.type = type;
             this.id = id;
             this.account = account;
             this.statusViewData = statusViewData;
-            this.isExpanded = isExpanded;
         }
 
         public Notification.Type getType() {
@@ -75,10 +73,6 @@ public abstract class NotificationViewData {
             return statusViewData;
         }
 
-        public boolean isExpanded() {
-            return isExpanded;
-        }
-
         @Override
         public long getViewDataId() {
             return id.hashCode();
@@ -89,8 +83,7 @@ public abstract class NotificationViewData {
             if (this == o) return true;
             if (o == null || getClass() != o.getClass()) return false;
             Concrete concrete = (Concrete) o;
-            return isExpanded == concrete.isExpanded &&
-                    type == concrete.type &&
+            return type == concrete.type &&
                     Objects.equals(id, concrete.id) &&
                     account.getId().equals(concrete.account.getId()) &&
                     (statusViewData == concrete.statusViewData ||
@@ -101,7 +94,7 @@ public abstract class NotificationViewData {
         @Override
         public int hashCode() {
 
-            return Objects.hash(type, id, account, statusViewData, isExpanded);
+            return Objects.hash(type, id, account, statusViewData);
         }
     }
 
