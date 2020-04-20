@@ -77,6 +77,6 @@ fun Spanned.trimTrailingWhitespace(): Spanned {
     var i = length
     do {
         i--
-    } while (i >= 0 && Character.isWhitespace(get(i)))
+    } while (i >= 0 && get(i).isWhitespace())
     return subSequence(0, i + 1) as Spanned
 }
