@@ -29,6 +29,7 @@ import com.keylesspalace.tusky.entity.Emoji
 import com.keylesspalace.tusky.entity.Poll
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.json.SpannedTypeAdapter
+import com.keylesspalace.tusky.util.trimTrailingWhitespace
 import java.net.URLDecoder
 import java.net.URLEncoder
 import java.util.*
@@ -137,7 +138,7 @@ class Converters {
         if(spannedString == null) {
             return null
         }
-        return spannedString.parseAsHtml()
+        return spannedString.parseAsHtml().trimTrailingWhitespace()
     }
 
     @TypeConverter

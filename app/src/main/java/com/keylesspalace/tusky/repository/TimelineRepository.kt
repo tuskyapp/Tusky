@@ -1,5 +1,6 @@
 package com.keylesspalace.tusky.repository
 
+import android.text.Spanned
 import android.text.SpannedString
 import androidx.core.text.parseAsHtml
 import androidx.core.text.toHtml
@@ -13,6 +14,7 @@ import com.keylesspalace.tusky.repository.TimelineRequestMode.NETWORK
 import com.keylesspalace.tusky.util.Either
 import com.keylesspalace.tusky.util.dec
 import com.keylesspalace.tusky.util.inc
+import com.keylesspalace.tusky.util.trimTrailingWhitespace
 import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
 import java.io.IOException
@@ -214,7 +216,7 @@ class TimelineRepositoryImpl(
                     inReplyToId = status.inReplyToId,
                     inReplyToAccountId = status.inReplyToAccountId,
                     reblog = null,
-                    content = status.content?.parseAsHtml() ?: SpannedString(""),
+                    content = status.content?.parseAsHtml()?.trimTrailingWhitespace() ?: SpannedString(""),
                     createdAt = Date(status.createdAt),
                     emojis = emojis,
                     reblogsCount = status.reblogsCount,
@@ -269,7 +271,7 @@ class TimelineRepositoryImpl(
                     inReplyToId = status.inReplyToId,
                     inReplyToAccountId = status.inReplyToAccountId,
                     reblog = null,
-                    content = status.content?.parseAsHtml() ?: SpannedString(""),
+                    content = status.content?.parseAsHtml()?.trimTrailingWhitespace() ?: SpannedString(""),
                     createdAt = Date(status.createdAt),
                     emojis = emojis,
                     reblogsCount = status.reblogsCount,
