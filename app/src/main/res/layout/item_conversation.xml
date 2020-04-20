@@ -197,6 +197,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/status_media_preview_margin_top"
+        android:background="@drawable/media_preview_outline"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@id/status_display_name"
         app:layout_constraintTop_toBottomOf="@id/button_toggle_content"
@@ -310,8 +311,8 @@
 
         <TextView
             android:id="@+id/status_sensitive_media_warning"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:background="@drawable/media_warning_bg"
             android:gravity="center"
             android:lineSpacingMultiplier="1.2"
