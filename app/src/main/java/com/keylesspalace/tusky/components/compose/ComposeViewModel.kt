@@ -38,14 +38,7 @@ import io.reactivex.rxkotlin.Singles
 import java.util.*
 import javax.inject.Inject
 
-/**
- * Throw when trying to add an image when video is already present or the other way around
- */
-class VideoOrImageException : Exception()
-
-
-class ComposeViewModel
-@Inject constructor(
+class ComposeViewModel @Inject constructor(
         private val api: MastodonApi,
         private val accountManager: AccountManager,
         private val mediaUploader: MediaUploader,
@@ -78,10 +71,6 @@ class ComposeViewModel
     val markMediaAsSensitive =
             mutableLiveData(accountManager.activeAccount?.defaultMediaSensitivity ?: false)
 
-    fun toggleMarkSensitive() {
-        this.markMediaAsSensitive.value = !this.markMediaAsSensitive.value!!
-    }
-
     val statusVisibility = mutableLiveData(Status.Visibility.UNKNOWN)
     val showContentWarning = mutableLiveData(false)
     val setupComplete = mutableLiveData(false)
@@ -92,7 +81,6 @@ class ComposeViewModel
     val uploadError = MutableLiveData<Throwable>()
 
     private val mediaToDisposable = mutableMapOf<Long, Disposable>()
-
 
     init {
 
@@ -184,6 +172,10 @@ class ComposeViewModel
     fun removeMediaFromQueue(item: QueuedMedia) {
         mediaToDisposable[item.localId]?.dispose()
         media.value = media.value!!.withoutFirstWhich { it.localId == item.localId }
+    }
+
+    fun toggleMarkSensitive() {
+        this.markMediaAsSensitive.value = this.markMediaAsSensitive.value != true
     }
 
     fun didChange(content: String?, contentWarning: String?): Boolean {
@@ -303,7 +295,6 @@ class ComposeViewModel
         return completedCaptioningLiveData
     }
 
-
     fun searchAutocompleteSuggestions(token: String): List<ComposeAutoCompleteAdapter.AutocompleteResult> {
         when (token[0]) {
             '@' -> {
@@ -370,7 +361,6 @@ class ComposeViewModel
 
         inReplyToId = composeOptions?.inReplyToId
 
-
         val contentWarning = composeOptions?.contentWarning
         if (contentWarning != null) {
             startingContentWarning = contentWarning
@@ -398,15 +388,12 @@ class ComposeViewModel
                 Attachment.Type.VIDEO, Attachment.Type.GIFV -> QueuedMedia.Type.VIDEO
                 Attachment.Type.UNKNOWN, Attachment.Type.IMAGE -> QueuedMedia.Type.IMAGE
                 Attachment.Type.AUDIO -> QueuedMedia.Type.AUDIO
-                else -> QueuedMedia.Type.IMAGE
             }
             addUploadedMedia(a.id, mediaType, a.url.toUri(), a.description)
         }
 
-
         savedTootUid = composeOptions?.savedTootUid ?: 0
         startingText = composeOptions?.tootText
-
 
         val tootVisibility = composeOptions?.visibility ?: Status.Visibility.UNKNOWN
         if (tootVisibility.num != Status.Visibility.UNKNOWN.num) {
@@ -423,7 +410,6 @@ class ComposeViewModel
             }
             startingText = builder.toString()
         }
-
 
         scheduledAt.value = composeOptions?.scheduledAt
 
@@ -463,3 +449,8 @@ data class ComposeInstanceParams(
         val pollMaxLength: Int,
         val supportsScheduled: Boolean
 )
+
+/**
+ * Thrown when trying to add an image when video is already present or the other way around
+ */
+class VideoOrImageException : Exception()

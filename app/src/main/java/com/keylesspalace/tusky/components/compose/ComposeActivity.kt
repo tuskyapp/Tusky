@@ -150,7 +150,7 @@ class ComposeActivity : BaseActivity(),
         /* If the composer is started up as a reply to another post, override the "starting" state
          * based on what the intent from the reply request passes. */
         if (intent != null) {
-            this.composeOptions = intent.getParcelableExtra<ComposeOptions?>(COMPOSE_OPTIONS_EXTRA)
+            this.composeOptions = intent.getParcelableExtra(COMPOSE_OPTIONS_EXTRA)
             viewModel.setup(composeOptions)
             setupReplyViews(composeOptions?.replyingStatusAuthor)
             val tootText = composeOptions?.tootText
@@ -657,7 +657,6 @@ class ComposeActivity : BaseActivity(),
         }
     }
 
-
     private fun removePoll() {
         viewModel.poll.value = null
         pollPreview.hide()
@@ -1034,7 +1033,6 @@ class ComposeActivity : BaseActivity(),
             }
         }
 
-        @JvmStatic
         fun canHandleMimeType(mimeType: String?): Boolean {
             return mimeType != null && (mimeType.startsWith("image/") || mimeType.startsWith("video/") || mimeType.startsWith("audio/") || mimeType == "text/plain")
         }
