@@ -108,7 +108,6 @@ class ComposeActivity : BaseActivity(),
     @VisibleForTesting
     var maximumTootCharacters = DEFAULT_CHARACTER_LIMIT
 
-    private var composeOptions: ComposeOptions? = null
     private val viewModel: ComposeViewModel by viewModels { viewModelFactory }
 
     private var mediaCount = 0
@@ -148,15 +147,14 @@ class ComposeActivity : BaseActivity(),
 
         /* If the composer is started up as a reply to another post, override the "starting" state
          * based on what the intent from the reply request passes. */
-        if (intent != null) {
-            this.composeOptions = intent.getParcelableExtra(COMPOSE_OPTIONS_EXTRA)
+
+            val composeOptions: ComposeOptions? = intent.getParcelableExtra(COMPOSE_OPTIONS_EXTRA)
             viewModel.setup(composeOptions)
-            setupReplyViews(composeOptions?.replyingStatusAuthor)
+            setupReplyViews(composeOptions?.replyingStatusAuthor, composeOptions?.replyingStatusContent)
             val tootText = composeOptions?.tootText
             if (!tootText.isNullOrEmpty()) {
                 composeEditField.setText(tootText)
             }
-        }
 
         if (!TextUtils.isEmpty(composeOptions?.scheduledAt)) {
             composeScheduleView.setDateTime(composeOptions?.scheduledAt)
@@ -227,7 +225,7 @@ class ComposeActivity : BaseActivity(),
         }
     }
 
-    private fun setupReplyViews(replyingStatusAuthor: String?) {
+    private fun setupReplyViews(replyingStatusAuthor: String?, replyingStatusContent: String?) {
         if (replyingStatusAuthor != null) {
             composeReplyView.show()
             composeReplyView.text = getString(R.string.replying_to, replyingStatusAuthor)
@@ -251,7 +249,7 @@ class ComposeActivity : BaseActivity(),
                 }
             }
         }
-        composeOptions?.replyingStatusContent?.let { composeReplyContentView.text = it }
+        replyingStatusContent?.let { composeReplyContentView.text = it }
     }
 
     private fun setupContentWarningField(startingContentWarning: String?) {
