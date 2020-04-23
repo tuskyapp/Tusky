@@ -33,7 +33,7 @@
     <string name="title_follows">正在关注</string>
     <string name="title_followers">关注者</string>
     <string name="title_favourites">我的收藏</string>
-    <string name="title_mutes">被隐藏的用户</string>
+    <string name="title_mutes">被屏蔽的用户</string>
     <string name="title_blocks">被屏蔽的用户</string>
     <string name="title_follow_requests">关注请求</string>
     <string name="title_edit_profile">编辑个人资料</string>
@@ -476,4 +476,10 @@
         <item quantity="other">%d 秒</item>
     </plurals>
 
-</resources>
+<string name="action_reset_schedule">重置</string>
+    <string name="error_audio_upload_size">音频文件大小必须小于40M。</string>
+    <string name="title_bookmarks">书签</string>
+    <string name="title_domain_mutes">隐藏的域名</string>
+    <string name="title_scheduled_toot">定时嘟文</string>
+    <string name="action_bookmark">书签</string>
+    </resources>
