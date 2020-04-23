@@ -1,24 +1,24 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
-    <string name="error_generic">应用程序出现异常</string>
-    <string name="error_network">网络请求出错，请检查互联网连接并重试</string>
-    <string name="error_empty">内容不能为空</string>
+    <string name="error_generic">应用程序出现异常。</string>
+    <string name="error_network">网络请求出错，请检查互联网连接并重试!</string>
+    <string name="error_empty">内容不能为空。</string>
     <string name="error_invalid_domain">该域名无效</string>
-    <string name="error_failed_app_registration">无法连接此服务器</string>
-    <string name="error_no_web_browser_found">没有可用的浏览器</string>
-    <string name="error_authorization_unknown">认证过程出现未知错误</string>
-    <string name="error_authorization_denied">授权被拒绝</string>
-    <string name="error_retrieving_oauth_token">无法获取登录信息</string>
+    <string name="error_failed_app_registration">无法连接此服务器。</string>
+    <string name="error_no_web_browser_found">没有可用的浏览器。</string>
+    <string name="error_authorization_unknown">认证过程出现未知错误。</string>
+    <string name="error_authorization_denied">授权被拒绝。</string>
+    <string name="error_retrieving_oauth_token">无法获取登录信息。</string>
     <string name="error_compose_character_limit">嘟文太长了！</string>
-    <string name="error_image_upload_size">文件大小限制 8MB</string>
-    <string name="error_video_upload_size">视频文件大小限制 40MB</string>
-    <string name="error_media_upload_type">无法上传此类型的文件</string>
-    <string name="error_media_upload_opening">此文件无法打开</string>
-    <string name="error_media_upload_permission">需要授予 Tusky 读取媒体文件的权限</string>
-    <string name="error_media_download_permission">需要授予 Tusky 写入存储空间的权限</string>
-    <string name="error_media_upload_image_or_video">无法在嘟文中同时插入视频和图片</string>
-    <string name="error_media_upload_sending">媒体文件上传失败</string>
-    <string name="error_sender_account_gone">嘟文发送时出错</string>
+    <string name="error_image_upload_size">文件大小限制 8MB。</string>
+    <string name="error_video_upload_size">视频文件大小限制 40MB。</string>
+    <string name="error_media_upload_type">无法上传此类型的文件。</string>
+    <string name="error_media_upload_opening">此文件无法打开。</string>
+    <string name="error_media_upload_permission">需要授予 Tusky 读取媒体文件的权限。</string>
+    <string name="error_media_download_permission">需要授予 Tusky 写入存储空间的权限。</string>
+    <string name="error_media_upload_image_or_video">无法在嘟文中同时插入视频和图片。</string>
+    <string name="error_media_upload_sending">媒体文件上传失败。</string>
+    <string name="error_sender_account_gone">嘟文发送时出错。</string>
 
     <string name="title_home">主页</string>
     <string name="title_notifications">通知</string>
@@ -50,15 +50,15 @@
     <string name="status_content_show_more">展开</string>
     <string name="status_content_show_less">折叠</string>
 
-    <string name="message_empty">还没有内容</string>
-    <string name="footer_empty">还没有内容，向下拉动即可刷新</string>
+    <string name="message_empty">还没有内容。</string>
+    <string name="footer_empty">还没有内容，向下拉动即可刷新！</string>
 
     <string name="notification_reblog_format">%s 转嘟了你的嘟文</string>
     <string name="notification_favourite_format">%s 收藏了你的嘟文</string>
     <string name="notification_follow_format">%s 关注了你</string>
 
     <string name="report_username_format">举报用户 @%s 的滥用行为</string>
-    <string name="report_comment_hint">报告更多信息</string>
+    <string name="report_comment_hint">报告更多信息？</string>
 
     <string name="action_quick_reply">快速回复</string>
     <string name="action_reply">回复</string>
@@ -125,7 +125,7 @@
     <string name="title_links_dialog">链接</string>
     <string name="action_open_media_n">打开媒体文件 #%d</string>
 
-    <string name="download_image">正在下载 %1$s…</string>
+    <string name="download_image">正在下载 %1$s</string>
 
     <string name="action_copy_link">复制链接</string>
     <string name="action_open_as">打开为 %s</string>
@@ -142,9 +142,9 @@
     <string name="confirmation_unmuted">已取消隐藏</string>
 
     <string name="status_sent">已发送！</string>
-    <string name="status_sent_long">成功发布回复</string>
+    <string name="status_sent_long">成功发布回复.</string>
 
-    <string name="hint_domain">域名</string>
+    <string name="hint_domain">域名\?</string>
     <string name="hint_compose">有什么新鲜事？</string>
     <string name="hint_content_warning">内容提醒</string>
     <string name="hint_display_name">昵称</string>
@@ -157,7 +157,7 @@
     <string name="label_avatar">头像</string>
     <string name="label_header">标题</string>
 
-    <string name="link_whats_an_instance">需要帮助？</string>
+    <string name="link_whats_an_instance">什么是实例？</string>
 
     <string name="login_connection">正在连接…</string>
 
@@ -170,7 +170,7 @@
 
 
 
-    <string name="dialog_title_finishing_media_upload">正在结束上传…</string>
+    <string name="dialog_title_finishing_media_upload">正在结束上传</string>
     <string name="dialog_message_uploading_media">正在上传…</string>
     <string name="dialog_download_image">下载</string>
     <string name="dialog_message_cancel_follow_request">移除关注请求？</string>
@@ -382,7 +382,7 @@
 
     <string name="pref_title_absolute_time">嘟文显示精确时间</string>
 
-    <string name="label_remote_account">以下信息可能并不完整，要查看完整资料请使用浏览器打开</string>
+    <string name="label_remote_account">以下信息可能并不完整，要查看完整资料请使用浏览器打开。</string>
 
     <string name="unpin_action">取消置顶</string>
     <string name="pin_action">置顶</string>
@@ -482,4 +482,64 @@
     <string name="title_domain_mutes">隐藏的域名</string>
     <string name="title_scheduled_toot">定时嘟文</string>
     <string name="action_bookmark">书签</string>
+    <string name="action_edit">编辑</string>
+    <string name="action_view_bookmarks">书签</string>
+    <string name="action_view_domain_mutes">隐藏域名</string>
+    <string name="action_add_poll">新增投票</string>
+    <string name="action_mute_domain">隐藏</string>
+    <string name="action_access_scheduled_toot">定时嘟文</string>
+    <string name="action_schedule_toot">定时嘟文</string>
+    <string name="confirmation_domain_unmuted">%s 已解除静音</string>
+
+    <string name="mute_domain_warning">您确定要封锁 ％s 域名吗？您将不会在任何联邦时间轴或通知中看到该域名中的内容，并且来自该域名的关注者将被删除。</string>
+    <string name="mute_domain_warning_dialog_ok">隐藏整个域</string>
+    <string name="pref_title_animate_gif_avatars">动画GIF头像</string>
+    <string name="gradient_for_media">显示隐藏媒体的彩色渐变</string>
+
+    <string name="about_powered_by_tusky">由Tusky提供支持</string>
+    <string name="pref_title_alway_open_spoiler">始终扩展标有内容警告的嘟文</string>
+    <string name="filter_dialog_whole_word">整个单词</string>
+    <string name="filter_dialog_whole_word_description">如果关键字或缩写只有字母或数字，则只有在匹配整个单词时才会应用</string>
+    <string name="caption_notoemoji">Google正在使用的Emoji符号集</string>
+
+    <string name="description_status_bookmarked">已收藏</string>
+    <string name="description_poll">使用以下选项创建投票：%1$s, %2$s, %3$s, %4$s; %5$s</string>
+
+    <string name="select_list_title">选择清单</string>
+    <string name="list">清单</string>
+    <string name="compose_preview_image_description">图片 ％s 的动作</string>
+
+    <string name="button_continue">继续</string>
+    <string name="button_back">返回</string>
+    <string name="button_done">完成</string>
+    <string name="report_sent_success">"成功回报  @%s"</string>
+    <string name="hint_additional_info">附加留言</string>
+    <string name="report_remote_instance">转发到 %s</string>
+    <string name="failed_report">回报失败</string>
+    <string name="failed_fetch_statuses">无法获取状态</string>
+    <string name="report_description_1">该报告将发送给给您的服务器管理员。您可以在下面提供有关回报此帐户的原因的说明：</string>
+    <string name="report_description_remote_instance">该帐户来自其他服务器。向那里发送一份匿名的报告副本？</string>
+    <string name="title_accounts">账户</string>
+    <string name="failed_search">搜寻失败</string>
+
+    <string name="pref_title_show_notifications_filter">显示通知过滤器</string>
+
+
+    <string name="create_poll_title">投票</string>
+    <string name="poll_duration_5_min">5 分钟</string>
+    <string name="poll_duration_30_min">30 分钟</string>
+    <string name="poll_duration_1_hour">1 小时</string>
+    <string name="poll_duration_6_hours">6 小时</string>
+    <string name="poll_duration_1_day">1 天</string>
+    <string name="poll_duration_3_days">3 天</string>
+    <string name="poll_duration_7_days">7 天</string>
+    <string name="add_poll_choice">添加选择</string>
+    <string name="poll_allow_multiple_choices">多个选择</string>
+    <string name="poll_new_choice_hint">选择 %d</string>
+    <string name="edit_poll">编辑</string>
+    <string name="post_lookup_error_format">查找帖子时出错 %s</string>
+
+    <string name="no_saved_status">您没有草稿。</string>
+    <string name="no_scheduled_status">您没有任何预定状态。</string>
+    <string name="warning_scheduling_interval">Mastodon的最小调度间隔为5分钟。</string>
     </resources>
