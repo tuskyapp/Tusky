@@ -168,6 +168,11 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
 
         val pageMargin = resources.getDimensionPixelSize(R.dimen.tab_page_margin)
         viewPager.setPageTransformer(MarginPageTransformer(pageMargin))
+
+        val uswSwipeForTabs = PreferenceManager.getDefaultSharedPreferences(this)
+                .getBoolean("enableSwipeForTabs", true)
+        viewPager.isUserInputEnabled = uswSwipeForTabs
+
         tabLayout.addOnTabSelectedListener(object : OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab) {
                 if (tab.position == notificationTabPosition) {
