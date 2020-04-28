@@ -650,6 +650,6 @@ private var AbstractDrawerItem<*, *>.onClick: () -> Unit
     set(value) {
         onDrawerItemClickListener = { _, _, _ ->
             value()
-            true
+            false
         }
     }
