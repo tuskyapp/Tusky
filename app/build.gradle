@@ -98,7 +98,7 @@ project.tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
 ext.lifecycleVersion = "2.2.0"
 ext.roomVersion = '2.2.5'
 ext.retrofitVersion = '2.8.1'
-ext.okhttpVersion = '4.4.0'
+ext.okhttpVersion = '4.5.0'
 ext.glideVersion = '4.11.0'
 ext.daggerVersion = '2.27'
 ext.materialdrawerVersion = '8.0.1'
@@ -115,7 +115,7 @@ dependencies {
     implementation "androidx.recyclerview:recyclerview:1.1.0"
     implementation "androidx.exifinterface:exifinterface:1.2.0"
     implementation "androidx.cardview:cardview:1.0.0"
-    implementation "androidx.preference:preference:1.1.0"
+    implementation "androidx.preference:preference:1.1.1"
     implementation "androidx.sharetarget:sharetarget:1.0.0-rc01"
     implementation "androidx.emoji:emoji:1.0.0"
     implementation "androidx.emoji:emoji-appcompat:1.0.0"
@@ -143,7 +143,7 @@ dependencies {
     implementation "com.github.bumptech.glide:glide:$glideVersion"
     implementation "com.github.bumptech.glide:okhttp3-integration:$glideVersion"
 
-    implementation "io.reactivex.rxjava2:rxjava:2.2.16"
+    implementation "io.reactivex.rxjava2:rxjava:2.2.17"
     implementation "io.reactivex.rxjava2:rxandroid:2.1.1"
     implementation "io.reactivex.rxjava2:rxkotlin:2.4.0"
 
