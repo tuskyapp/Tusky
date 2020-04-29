@@ -139,6 +139,7 @@ class AccountsInListFragment : DialogFragment(), Injectable {
         if (state.searchResult == null) {
             searchAdapter.submitList(listOf())
             accountsSearchRecycler.hide()
+            accountsRecycler.show()
         } else {
             val listAccounts = state.accounts.asRightOrNull() ?: listOf()
             val newList = state.searchResult.map { acc ->
@@ -146,6 +147,7 @@ class AccountsInListFragment : DialogFragment(), Injectable {
             }
             searchAdapter.submitList(newList)
             accountsSearchRecycler.show()
+            accountsRecycler.hide()
         }
     }
 

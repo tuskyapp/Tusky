@@ -478,4 +478,10 @@
     <string name="description_status_bookmarked">Könyvjelzőzve</string>
     <string name="select_list_title">Lista kiválasztása</string>
     <string name="list">Lista</string>
+    <string name="error_audio_upload_size">A hangfájlok mérete 40MB-nál kisebb kell legyen.</string>
+    <string name="gradient_for_media">Színes átmenet mutatása rejtett médiánál</string>
+
+    <string name="no_saved_status">Nincs egy vázlatod sem.</string>
+    <string name="no_scheduled_status">Nincs egy ütemezett tülköd sem.</string>
+    <string name="warning_scheduling_interval">A Mastodonban a legrövidebb ütemezhető időintervallum 5 perc.</string>
     </resources>

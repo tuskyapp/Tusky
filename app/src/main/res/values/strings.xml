@@ -541,6 +541,7 @@
     <string name="failed_search">Failed to search</string>
 
     <string name="pref_title_show_notifications_filter">Show Notifications filter</string>
+    <string name="pref_title_enable_swipe_for_tabs">Enable swipe gesture to switch between tabs</string>
 
 
     <string name="create_poll_title">Poll</string>

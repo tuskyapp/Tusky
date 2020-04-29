@@ -473,4 +473,12 @@
     <string name="pref_title_public_filter_keywords">Denbora lerro publikoak</string>
     <string name="description_status_bookmarked">Laster-markatuta</string>
     <string name="poll_info_time_relative">%s geratzen da</string>
+    <string name="error_audio_upload_size">Audioak 40MB baino gutxiago izan behar ditu.</string>
+    <string name="gradient_for_media">Erakutsi degradatu koloretsuak ezkutuko multimedia-edukirako</string>
+
+    <string name="select_list_title">Aukeratu zerrenda</string>
+    <string name="list">Zerrenda</string>
+    <string name="no_saved_status">Ez duzu zirriborrorik.</string>
+    <string name="no_scheduled_status">Ez duzu tut programaturik.</string>
+    <string name="warning_scheduling_interval">Mastodonek gutxienez 5 minutuko programazio-tartea du.</string>
     </resources>
