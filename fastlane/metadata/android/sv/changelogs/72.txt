@@ -1,0 +1,2 @@
+Tusky v11.0
+https://github.com/tuskyapp/Tusky/releases
