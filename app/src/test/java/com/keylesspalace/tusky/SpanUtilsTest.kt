@@ -93,6 +93,38 @@ class SpanUtilsTest {
         }
     }
 
+    @RunWith(Parameterized::class)
+    class HighlightingTestsForTag(private val text: String,
+                                private val expectedStartIndex: Int,
+                                private val expectedEndIndex: Int) {
+        companion object {
+            @Parameterized.Parameters(name = "{0}")
+            @JvmStatic
+            fun data(): Iterable<Any> {
+                return listOf(
+                        arrayOf("#test", 0, 5),
+                        arrayOf(" #AfterSpace", 1, 12),
+                        arrayOf("#BeforeSpace ", 0, 12),
+                        arrayOf("@#after_at", 1, 10),
+                        arrayOf("あいうえお#after_hiragana", 5, 20),
+                        arrayOf("##DoubleHash", 1, 12),
+                        arrayOf("###TripleHash", 2, 13)
+                )
+            }
+        }
+
+        @Test
+        fun matchExpectations() {
+            val inputSpannable = FakeSpannable(text)
+            highlightSpans(inputSpannable, 0xffffff)
+            val spans = inputSpannable.spans
+            Assert.assertEquals(1, spans.size)
+            val span = spans.first()
+            Assert.assertEquals(expectedStartIndex, span.start)
+            Assert.assertEquals(expectedEndIndex, span.end)
+        }
+    }
+
     class FakeSpannable(private val text: String) : Spannable {
         val spans = mutableListOf<BoundedSpan>()
 
