@@ -12,7 +12,7 @@ import kotlin.math.max
  * @see <a href="https://github.com/tootsuite/mastodon/blob/master/app/models/tag.rb">
  *     Tag#HASHTAG_RE</a>.
  */
-private const val TAG_REGEX = "(?:^|[^/)\\w])#([\\w_]*[\\p{Alpha}_][\\w_]*)"
+private const val TAG_REGEX = "(?:^|[^/)A-Za-z0-9_])#([\\w_]*[\\p{Alpha}_][\\w_]*)"
 
 /**
  * @see <a href="https://github.com/tootsuite/mastodon/blob/master/app/models/account.rb">
@@ -30,10 +30,10 @@ private val STRICT_WEB_URL_PATTERN = Pattern.compile("(((?:(?i:http|https|rtsp):
 
 private val spanClasses = listOf(ForegroundColorSpan::class.java, URLSpan::class.java)
 private val finders = mapOf(
-    FoundMatchType.HTTP_URL to PatternFinder(':', HTTP_URL_REGEX, 5),
-    FoundMatchType.HTTPS_URL to PatternFinder(':', HTTPS_URL_REGEX, 6),
-    FoundMatchType.TAG to PatternFinder('#', TAG_REGEX, 1),
-    FoundMatchType.MENTION to PatternFinder('@', MENTION_REGEX, 1)
+    FoundMatchType.HTTP_URL to PatternFinder(':', HTTP_URL_REGEX, 5, Character::isWhitespace),
+    FoundMatchType.HTTPS_URL to PatternFinder(':', HTTPS_URL_REGEX, 6, Character::isWhitespace),
+    FoundMatchType.TAG to PatternFinder('#', TAG_REGEX, 1, ::isValidForTagPrefix),
+    FoundMatchType.MENTION to PatternFinder('@', MENTION_REGEX, 1, Character::isWhitespace) // TODO: We also need a proper validator for mentions
 )
 
 private enum class FoundMatchType {
@@ -49,7 +49,8 @@ private class FindCharsResult {
     var end: Int = -1
 }
 
-private class PatternFinder(val searchCharacter: Char, regex: String, val searchPrefixWidth: Int) {
+private class PatternFinder(val searchCharacter: Char, regex: String, val searchPrefixWidth: Int,
+                            val prefixValidator: (Int) -> Boolean) {
     val pattern: Pattern = Pattern.compile(regex, Pattern.CASE_INSENSITIVE)
 }
 
@@ -67,7 +68,7 @@ private fun findPattern(string: String, fromIndex: Int): FindCharsResult {
             val finder = finders[matchType]
             if (finder!!.searchCharacter == c
                     && ((i - fromIndex) < finder.searchPrefixWidth ||
-                            Character.isWhitespace(string.codePointAt(i - finder.searchPrefixWidth)))) {
+                            finder.prefixValidator(string.codePointAt(i - finder.searchPrefixWidth)))) {
                 result.matchType = matchType
                 result.start = max(0, i - finder.searchPrefixWidth)
                 findEndOfPattern(string, result, finder.pattern)
@@ -87,10 +88,22 @@ private fun findEndOfPattern(string: String, result: FindCharsResult, pattern: P
         // Once we have API level 26+, we can use named captures...
         val end = matcher.end()
         result.start = matcher.start()
-        if (Character.isWhitespace(string.codePointAt(result.start))) {
-            ++result.start
+        when (result.matchType) {
+            FoundMatchType.TAG -> {
+                if (isValidForTagPrefix(string.codePointAt(result.start))) {
+                    if (string[result.start] != '#' ||
+                            (string[result.start] == '#' && string[result.start + 1] == '#')) {
+                        ++result.start
+                    }
+                }
+            }
+            else -> {
+                if (Character.isWhitespace(string.codePointAt(result.start))) {
+                    ++result.start
+                }
+            }
         }
-        when(result.matchType) {
+        when (result.matchType) {
             FoundMatchType.HTTP_URL, FoundMatchType.HTTPS_URL -> {
                 // Preliminary url patterns are fast/permissive, now we'll do full validation
                 if (STRICT_WEB_URL_PATTERN.matcher(string.substring(result.start, end)).matches()) {
@@ -132,4 +145,17 @@ fun highlightSpans(text: Spannable, colour: Int) {
             start += finders[found.matchType]!!.searchPrefixWidth
         }
     }
+}
+
+private fun isWordCharacters(codePoint: Int): Boolean {
+    return (codePoint in 0x30..0x39) || // [0-9]
+            (codePoint in 0x41..0x5a) || // [A-Z]
+            (codePoint == 0x5f) || // _
+            (codePoint in 0x61..0x7a) // [a-z]
+}
+
+private fun isValidForTagPrefix(codePoint: Int): Boolean {
+    return !(isWordCharacters(codePoint) || // \w
+            (codePoint == 0x2f) || // /
+            (codePoint == 0x29)) // )
 }
