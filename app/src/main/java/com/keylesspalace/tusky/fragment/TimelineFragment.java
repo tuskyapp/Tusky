@@ -379,6 +379,10 @@ public class TimelineFragment extends SFragment implements
                 return filterContext.contains(Filter.PUBLIC);
             case FAVOURITES:
                 return (filterContext.contains(Filter.PUBLIC) || filterContext.contains(Filter.NOTIFICATIONS));
+            case USER:
+            case USER_WITH_REPLIES:
+            case USER_PINNED:
+                return filterContext.contains(Filter.ACCOUNT);
             default:
                 return false;
         }
@@ -872,7 +876,8 @@ public class TimelineFragment extends SFragment implements
             case Filter.HOME:
             case Filter.NOTIFICATIONS:
             case Filter.THREAD:
-            case Filter.PUBLIC: {
+            case Filter.PUBLIC:
+            case Filter.ACCOUNT: {
                 if (filterContextMatchesKind(kind, Collections.singletonList(key))) {
                     reloadFilters(true);
                 }
