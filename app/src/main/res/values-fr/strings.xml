@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='UTF-8'?>
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="error_generic">Une erreur s’est produite.</string>
     <string name="error_network">Une erreur réseau s’est produite ! Veuillez vérifier votre connexion puis réessayez !</string>
@@ -110,7 +110,7 @@
     <string name="action_mentions">Mentions</string>
     <string name="action_hashtags">Hashtags</string>
     <string name="action_open_reblogger">Afficher l’auteur·rice du partage</string>
-    <string name="action_open_reblogged_by">Montrer les partages</string>
+    <string name="action_open_reblogged_by">Afficher les boosts</string>
     <string name="action_open_faved_by">Montrer les favoris</string>
     <string name="title_hashtags_dialog">Hashtags</string>
     <string name="title_mentions_dialog">Mentions</string>
@@ -331,13 +331,13 @@
     <string name="unpin_action">Détacher</string>
     <string name="pin_action">Épingler</string>
     <plurals name="favs">
-	<item quantity="one"><b>%1$s</b> Favori</item>
-	<item quantity="other"><b>%1$s</b> Favoris</item>
-</plurals>
+        <item quantity="one"><b>%1$s</b> Favori</item>
+        <item quantity="other"><b>%1$s</b> Favoris</item>
+    </plurals>
     <plurals name="reblogs">
-	<item quantity="one"><b>%s</b> Partage</item>
-	<item quantity="other"><b>%s</b> Partages</item>
-</plurals>
+        <item quantity="one"><b>%s</b> Partage</item>
+        <item quantity="other"><b>%s</b> Partages</item>
+    </plurals>
     <string name="title_reblogged_by">Partagé par</string>
     <string name="title_favourited_by">Mis en favoris par</string>
     <string name="conversation_1_recipients">%1$s</string>
@@ -362,76 +362,56 @@
     <string name="description_visiblity_direct">        Direct
     </string>
     <string name="hint_list_name">Nom de la liste</string>
-<string name="edit_hashtag_title">Édition des hashtags</string>
+    <string name="edit_hashtag_title">Édition des hashtags</string>
     <string name="edit_hashtag_hint">Hashtags sans #</string>
     <string name="hashtag">Hashtag</string>
-
-
-<string name="notifications_clear">Effacer</string>
+    <string name="notifications_clear">Effacer</string>
     <string name="notifications_apply_filter">Filtrer</string>
     <string name="filter_apply">Appliquer</string>
-
     <string name="compose_shortcut_long_label">Rédiger un pouet</string>
     <string name="compose_shortcut_short_label">Écrire</string>
     <string name="pref_title_bot_overlay">Afficher l\'indicateur de robots</string>
-
     <string name="notification_clear_text">Nettoyer toutes les notifications de façon permanente \?</string>
-
-<string name="action_delete_and_redraft">Effacer et ré-écrire</string>
+    <string name="action_delete_and_redraft">Effacer et ré-écrire</string>
     <string name="dialog_redraft_toot_warning">Effacer et ré-écrire ce pouet \?</string>
-
     <plurals name="poll_info_votes">
-	<item quantity="one">%s voix</item>
-	<item quantity="other">%s voix</item>
-</plurals>
+        <item quantity="one">%s voix</item>
+        <item quantity="other">%s voix</item>
+    </plurals>
     <string name="poll_info_time_relative">%s restant</string>
     <string name="poll_info_time_absolute">Termine à %s</string>
     <string name="poll_info_closed">terminé</string>
     <string name="poll_vote">Voter</string>
-
-
-<string name="notification_poll_name">Sondages</string>
+    <string name="notification_poll_name">Sondages</string>
     <string name="pref_title_notification_filter_poll">Les sondages sont terminés</string>
     <string name="notification_poll_description">Notifications pour les sondages terminés</string>
-
-
     <string name="poll_ended_created">Un sondage que vous avez créé est terminé</string>
-
     <plurals name="poll_timespan_days">
-	<item quantity="one">%d jour</item>
-	<item quantity="other">%d jours</item>
-</plurals>
+        <item quantity="one">%d jour</item>
+        <item quantity="other">%d jours</item>
+    </plurals>
     <plurals name="poll_timespan_hours">
-	<item quantity="one">%d heure</item>
-	<item quantity="other">%d heures</item>
-</plurals>
+        <item quantity="one">%d heure</item>
+        <item quantity="other">%d heures</item>
+    </plurals>
     <plurals name="poll_timespan_minutes">
-	<item quantity="one">%d minute</item>
-	<item quantity="other">%d minutes</item>
-</plurals>
+        <item quantity="one">%d minute</item>
+        <item quantity="other">%d minutes</item>
+    </plurals>
     <plurals name="poll_timespan_seconds">
-	<item quantity="one">%d seconde</item>
-	<item quantity="other">%d secondes</item>
-</plurals>
-
-<string name="pref_title_animate_gif_avatars">Activer l’animation des avatars</string>
-
+        <item quantity="one">%d seconde</item>
+        <item quantity="other">%d secondes</item>
+    </plurals>
+    <string name="pref_title_animate_gif_avatars">Activer l’animation des avatars</string>
     <string name="compose_preview_image_description">Actions pour l’image %s</string>
-
     <string name="poll_info_format"> <!-- 15 votes • 1 heure restante --> %1$s • %2$s</string>
-
     <string name="poll_ended_voted">Un sondage auquel vous avez participé vient de se terminer</string>
-
     <string name="description_poll">Sondage avec des choix : %1$s, %2$s, %3$s, %4$s; %5$s</string>
-
-
     <string name="title_domain_mutes">Domaines cachés</string>
     <string name="action_view_domain_mutes">Domaines cachés</string>
     <string name="action_mute_domain">Masquer %s</string>
     <string name="confirmation_domain_unmuted">%s n’est plus masqué</string>
-
     <string name="mute_domain_warning_dialog_ok">Masquer le domaine entier</string>
-
     <string name="caption_notoemoji">L’ensemble d’émojis actuel de Google</string>
     <string name="button_continue">Continuer</string>
     <string name="button_back">Retour</string>
@@ -444,13 +424,11 @@
     <string name="mute_domain_warning">Êtes-vous sûr⋅e de vouloir bloquer %s en entier \? Vous ne verrez plus de contenu provenant de ce domaine, ni dans fils publics, ni dans vos notifications. Vos abonné·e·s utilisant ce domaine seront retiré·e·s.</string>
     <string name="button_done">Terminé</string>
     <string name="report_description_remote_instance">Le compte provient d’un autre serveur. Envoyez également une copie anonyme du rapport \?</string>
-
     <string name="pref_title_show_notifications_filter">Montrer le filtre des notifications</string>
-<string name="filter_dialog_whole_word">Mot entier</string>
+    <string name="filter_dialog_whole_word">Mot entier</string>
     <string name="filter_dialog_whole_word_description">Un mot-clé ou une phrase alphanumérique sera appliquée seulement s\'il ou elle correspond au mot entier</string>
     <string name="title_accounts">Comptes</string>
     <string name="failed_search">Échec de la recherche</string>
-
     <string name="pref_title_alway_open_spoiler">Toujours ouvrir les pouets avec un contenu sensible</string>
     <string name="action_add_poll">Ajouter un sondage</string>
     <string name="create_poll_title">Sondage</string>
@@ -465,15 +443,13 @@
     <string name="poll_allow_multiple_choices">Choix multiples</string>
     <string name="poll_new_choice_hint">Choix %d</string>
     <string name="edit_poll">Éditer</string>
-
-<string name="title_scheduled_toot">Pouets planifiés</string>
+    <string name="title_scheduled_toot">Pouets planifiés</string>
     <string name="action_edit">Éditer</string>
     <string name="action_access_scheduled_toot">Pouets planifiés</string>
     <string name="action_schedule_toot">Planifier le pouet</string>
     <string name="action_reset_schedule">Réinitialiser</string>
     <string name="post_lookup_error_format">Erreur lors de la récupération du message %s</string>
-
-<string name="about_powered_by_tusky">Propulsé par Tusky</string>
+    <string name="about_powered_by_tusky">Propulsé par Tusky</string>
     <string name="title_bookmarks">Marque-pages</string>
     <string name="action_bookmark">Ajouter aux marque-pages</string>
     <string name="action_view_bookmarks">Marque-pages</string>
@@ -482,10 +458,16 @@
     <string name="list">Liste</string>
     <string name="error_audio_upload_size">Les fichiers audio doivent être inférieurs à 40 Mo.</string>
     <string name="gradient_for_media">Afficher des dégradés en couleur pour les médias cachés</string>
-
     <string name="no_saved_status">Vous n’avez aucun brouillon.</string>
     <string name="no_scheduled_status">Vous n’avez aucun pouet planifié.</string>
-
-<string name="warning_scheduling_interval">L’intervalle minimum de planification sur Mastodon est de 5 minutes.</string>
-
+    <string name="warning_scheduling_interval">L’intervalle minimum de planification sur Mastodon est de 5 minutes.</string>
+    <string name="notification_follow_request_name">Demandes d\'abonnement</string>
+    <string name="dialog_block_warning">Bloquer @%s \?</string>
+    <string name="pref_title_confirm_reblogs">Afficher une boite de confirmation avant de booster</string>
+    <string name="pref_title_show_cards_in_timelines">Afficher des aperçus des liens dans les fils</string>
+    <string name="notification_follow_request_format">%s a demandé à vous suivre</string>
+    <plurals name="poll_info_people">
+        <item quantity="one">%s personne</item>
+        <item quantity="other">%s personnes</item>
+    </plurals>
 </resources>

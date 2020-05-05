@@ -1,10 +1,10 @@
-<?xml version='1.0' encoding='UTF-8'?>
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="error_generic">Ha ocurrido un error.</string>
     <string name="error_network">¡Se ha producido un error de red! ¡Por favor, comprueba tu conexión e inténtalo de nuevo!</string>
     <string name="error_empty">Este campo no puede estar vacío.</string>
     <string name="error_invalid_domain">Nombre de dominio incorrecto</string>
-    <string name="error_failed_app_registration">Fallo de autenticación con esta instancia.</string>
+    <string name="error_failed_app_registration">Inicio de sesión fallido.</string>
     <string name="error_no_web_browser_found">No se ha encontrado ningún navegador web.</string>
     <string name="error_authorization_unknown">Ocurrió un error de autorización no identificado.</string>
     <string name="error_authorization_denied">La autorización falló.</string>
@@ -300,64 +300,56 @@
         <item quantity="other">&lt;b&gt;%1$s&lt;/b&gt; Favoritos</item>
     </plurals>
     <plurals name="reblogs">
-	<item quantity="one">&lt;b&gt;%s&lt;/b&gt; Impulso</item>
-	<item quantity="other">&lt;b&gt;%s&lt;/b&gt; Impulsos</item>
-</plurals>
+        <item quantity="one">&lt;b&gt;%s&lt;/b&gt; Impulso</item>
+        <item quantity="other">&lt;b&gt;%s&lt;/b&gt; Impulsos</item>
+    </plurals>
     <string name="title_reblogged_by">Impulsado por</string>
     <string name="title_favourited_by">Marcado como favorito por</string>
     <string name="conversation_1_recipients">%1$s</string>
     <string name="conversation_2_recipients">%1$s y %2$s</string>
     <string name="conversation_more_recipients">%1$s, %2$s y %3$d más</string>
     <string name="max_tab_number_reached">máximo de %1$d pestañas alcanzadas</string>
-<string name="action_mentions">Menciones</string>
+    <string name="action_mentions">Menciones</string>
     <string name="action_open_faved_by">Mostrar favoritos</string>
-
     <string name="title_mentions_dialog">Menciones</string>
     <string name="download_media">Descargar multimedia</string>
     <string name="app_theme_system">Usar tema del sistema</string>
-
     <string name="pref_title_language">Idioma</string>
     <string name="action_unreblog">Dejar de impulsar</string>
     <string name="action_unfavourite">Eliminar favorito</string>
     <string name="pref_title_timeline_filters">Filtros</string>
-
     <string name="notification_poll_name">Encuestas</string>
     <string name="filter_dialog_remove_button">Eliminar</string>
     <string name="action_create_list">Crear una lista</string>
     <string name="action_rename_list">Renombrar la lista</string>
     <string name="action_add_to_list">Añadir cuenta a la lista</string>
     <string name="action_remove_from_list">Eliminar cuenta de la lista</string>
-
     <string name="description_status_favourited">Favoritos</string>
     <string name="description_visiblity_private">Seguidores</string>
     <string name="filter_apply">Aplicar</string>
-
     <string name="pref_title_bot_overlay">Mostrar indicador de bots</string>
-
     <string name="poll_vote">Votar</string>
-
     <plurals name="poll_timespan_days">
-	<item quantity="one">%d día</item>
-	<item quantity="other">%d días</item>
-</plurals>
+        <item quantity="one">%d día</item>
+        <item quantity="other">%d días</item>
+    </plurals>
     <plurals name="poll_timespan_hours">
-	<item quantity="one">%d hora</item>
-	<item quantity="other">%d horas</item>
-</plurals>
+        <item quantity="one">%d hora</item>
+        <item quantity="other">%d horas</item>
+    </plurals>
     <plurals name="poll_timespan_minutes">
-	<item quantity="one">%d minuto</item>
-	<item quantity="other">%d minutos</item>
-</plurals>
+        <item quantity="one">%d minuto</item>
+        <item quantity="other">%d minutos</item>
+    </plurals>
     <plurals name="poll_timespan_seconds">
-	<item quantity="one">%d segundo</item>
-	<item quantity="other">%d segundos</item>
-</plurals>
-
-<string name="poll_info_format"> <!-- 15 votos • queda 1 hora --> %1$s • %2$s</string>
+        <item quantity="one">%d segundo</item>
+        <item quantity="other">%d segundos</item>
+    </plurals>
+    <string name="poll_info_format"> <!-- 15 votos • queda 1 hora --> %1$s • %2$s</string>
     <plurals name="poll_info_votes">
-	<item quantity="one">%s voto</item>
-	<item quantity="other">%s votos</item>
-</plurals>
+        <item quantity="one">%s voto</item>
+        <item quantity="other">%s votos</item>
+    </plurals>
     <string name="poll_info_closed">cerrada</string>
     <string name="action_delete_and_redraft">Eliminar y editar</string>
     <string name="action_links">Enlaces</string>
@@ -365,22 +357,16 @@
     <string name="title_hashtags_dialog">Etiquetas</string>
     <string name="title_links_dialog">Enlaces</string>
     <string name="action_open_media_n">Abrir contenido #%d</string>
-
     <string name="downloading_media">Descargando contenido</string>
-
     <string name="dialog_redraft_toot_warning">¿Borrar y devolver a borradores este estado\?</string>
-
     <string name="pref_title_notification_filter_poll">encuestas que han terminado</string>
     <string name="notification_poll_description">Notificaciones sobre encuestas que han terminado</string>
-
-
     <string name="pref_title_public_filter_keywords">Cronologías públicas</string>
     <string name="pref_title_thread_filter_keywords">Conversaciones</string>
     <string name="filter_addition_dialog_title">Añadir filtro</string>
     <string name="filter_edit_dialog_title">Editar filtro</string>
     <string name="filter_dialog_update_button">Actualizar</string>
     <string name="filter_add_description">Frase para filtrar</string>
-
     <string name="error_create_list">No se pudo crear la lista</string>
     <string name="error_rename_list">No se pudo renombrar la lista</string>
     <string name="error_delete_list">No se pudo eliminar la lista</string>
@@ -395,7 +381,6 @@
     <string name="description_visiblity_unlisted">Sin listar</string>
     <string name="description_visiblity_direct">Directo</string>
     <string name="hint_list_name">Nombre de la lista</string>
-
     <string name="edit_hashtag_title">Editar etiqueta</string>
     <string name="edit_hashtag_hint">Etiqueta sin #</string>
     <string name="hashtag">Etiqueta</string>
@@ -405,30 +390,23 @@
     <string name="compose_shortcut_short_label">Componer</string>
     <string name="notification_clear_text">¿Estás seguro de que quieres eliminar permanentemente todas tus notificaciones\?</string>
     <string name="compose_preview_image_description">Acciones para la imagen %s</string>
-
     <string name="poll_info_time_relative">%s restante</string>
     <string name="poll_info_time_absolute">termina en %s</string>
     <string name="poll_ended_voted">Una encuesta en la que has votado ha terminado</string>
     <string name="poll_ended_created">Una encuesta que has creado ha terminado</string>
-
     <string name="action_open_reblogger">Abrir autor del impulso</string>
     <string name="action_open_reblogged_by">Mostrar impulsos</string>
-
     <string name="title_domain_mutes">Dominios ocultos</string>
     <string name="action_view_domain_mutes">Dominios ocultos</string>
     <string name="action_mute_domain">Silenciar %s</string>
     <string name="confirmation_domain_unmuted">%s visible</string>
-
     <string name="mute_domain_warning">¿Estás seguro de que quieres bloquear todo sobre %s\? No verás contenido de ese dominio ni en la cronología ni en tus notificaciones. Tus seguidores de ese dominio serán eliminados.</string>
     <string name="mute_domain_warning_dialog_ok">Ocultar dominio completo</string>
-
     <string name="pref_title_animate_gif_avatars">Animar avatares GIF</string>
-
     <string name="filter_dialog_whole_word">Toda palabra</string>
     <string name="filter_dialog_whole_word_description">Cuando la palabra o frase sea solo alfanumérica, solo se aplicará si coincide con toda la palabra</string>
     <string name="caption_notoemoji">Set de emojis actual de Google</string>
     <string name="description_poll">Encuesta con opciones: %1$s, %2$s, %3$s, %4$s; %5$s</string>
-
     <string name="button_continue">Continuar</string>
     <string name="button_back">Atrás</string>
     <string name="button_done">Hecho</string>
@@ -439,12 +417,10 @@
     <string name="failed_fetch_statuses">Fallo al obtener estados</string>
     <string name="report_description_1">El reporte será enviado a los moderadores de tu servidor. Puedes añadir una explicación de por qué estás reportando esta cuenta a continuación:</string>
     <string name="report_description_remote_instance">La cuenta es de otro servidor. ¿Enviar una copia anónima del reporte\?</string>
-
     <string name="pref_title_show_notifications_filter">Mostrar filtro de notificaciones</string>
-<string name="pref_title_alway_open_spoiler">Mostrar siempre estados marcados con avisos de contenido</string>
+    <string name="pref_title_alway_open_spoiler">Mostrar siempre estados marcados con avisos de contenido</string>
     <string name="title_accounts">Cuentas</string>
     <string name="failed_search">Error al buscar</string>
-
     <string name="action_add_poll">Añadir encuesta</string>
     <string name="create_poll_title">Encuesta</string>
     <string name="poll_duration_5_min">5 minutos</string>
@@ -458,15 +434,13 @@
     <string name="poll_allow_multiple_choices">Opciones múltiples</string>
     <string name="poll_new_choice_hint">Opción %d</string>
     <string name="edit_poll">Editar</string>
-
-<string name="title_scheduled_toot">Estados programados</string>
+    <string name="title_scheduled_toot">Estados programados</string>
     <string name="action_edit">Editar</string>
     <string name="action_access_scheduled_toot">Estados programados</string>
     <string name="action_schedule_toot">Programar estado</string>
     <string name="action_reset_schedule">Reiniciar</string>
     <string name="post_lookup_error_format">Error al buscar el post %s</string>
-
-<string name="about_powered_by_tusky">Potenciado por Tusky</string>
+    <string name="about_powered_by_tusky">Potenciado por Tusky</string>
     <string name="title_bookmarks">Marcadores</string>
     <string name="action_bookmark">Favorito</string>
     <string name="action_view_bookmarks">Marcadores</string>
@@ -474,10 +448,8 @@
     <string name="select_list_title">Seleccionar lista</string>
     <string name="list">Lista</string>
     <string name="error_audio_upload_size">Los ficheros de audio deben ser menores de 40MB.</string>
-    <string name="gradient_for_media">Mostrar degradados coloridos para el contenido multimedia oculto</string>
-
+    <string name="gradient_for_media">Mostrar degradados coloridos para el contenido multimedia oculto.</string>
     <string name="no_saved_status">No tienes ningún borrador.</string>
     <string name="no_scheduled_status">No tienes ningún estado programado.</string>
-
-<string name="warning_scheduling_interval">Mastodon tiene un intervalo de programación mínimo de 5 minutos.</string>
-    </resources>
+    <string name="warning_scheduling_interval">Mastodon tiene un intervalo de programación mínimo de 5 minutos.</string>
+</resources>
