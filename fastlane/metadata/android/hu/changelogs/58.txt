@@ -1,0 +1,12 @@
+Tusky v6.0
+
+- Az idővonalak szűrői szinkronizálódnak a szerverrel és bekerültek a fiók beállításaiba
+- A főképernyőn saját hashtaged lehet tabként
+- A listák szerkeszthetőek
+- Biztonság: TLS 1.0 és 1.1 eltávolítva, TLS 1.3 támogatása Android 6+-on
+- A szerkesztőnézet egyedi emojikat javasol a gépelés megkezdésekor
+- Új témabeállítás "rendszertéma követése"
+- Javított idővonalak
+- Új beállítások: Felülbírálható a rendszer nyelvbeállítása
+- Új fordítások: Cseh és Eszperantó
+- Rengeteg javítás
