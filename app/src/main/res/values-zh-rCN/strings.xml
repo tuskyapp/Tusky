@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='UTF-8'?>
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="error_generic">应用程序出现异常。</string>
     <string name="error_network">网络请求出错，请检查互联网连接并重试!</string>
@@ -19,7 +19,6 @@
     <string name="error_media_upload_image_or_video">无法在嘟文中同时插入视频和图片。</string>
     <string name="error_media_upload_sending">媒体文件上传失败。</string>
     <string name="error_sender_account_gone">嘟文发送时出错。</string>
-
     <string name="title_home">主页</string>
     <string name="title_notifications">通知</string>
     <string name="title_public_local">本站时间轴</string>
@@ -39,7 +38,6 @@
     <string name="title_edit_profile">编辑个人资料</string>
     <string name="title_saved_toot">草稿</string>
     <string name="title_licenses">开源协议</string>
-
     <string name="status_username_format">\@%s</string>
     <string name="status_boosted_format">%s 转嘟了</string>
     <string name="status_sensitive_media_title">敏感内容</string>
@@ -49,17 +47,13 @@
     <string name="status_content_warning_show_less">折叠内容</string>
     <string name="status_content_show_more">展开</string>
     <string name="status_content_show_less">折叠</string>
-
     <string name="message_empty">还没有内容。</string>
     <string name="footer_empty">还没有内容，向下拉动即可刷新！</string>
-
     <string name="notification_reblog_format">%s 转嘟了你的嘟文</string>
     <string name="notification_favourite_format">%s 收藏了你的嘟文</string>
     <string name="notification_follow_format">%s 关注了你</string>
-
     <string name="report_username_format">举报用户 @%s 的滥用行为</string>
     <string name="report_comment_hint">报告更多信息？</string>
-
     <string name="action_quick_reply">快速回复</string>
     <string name="action_reply">回复</string>
     <string name="action_reblog">转嘟</string>
@@ -119,57 +113,40 @@
     <string name="action_open_reblogger">打开转嘟用户主页</string>
     <string name="action_open_reblogged_by">显示转嘟</string>
     <string name="action_open_faved_by">显示收藏</string>
-
     <string name="title_hashtags_dialog">话题</string>
     <string name="title_mentions_dialog">提及</string>
     <string name="title_links_dialog">链接</string>
     <string name="action_open_media_n">打开媒体文件 #%d</string>
-
     <string name="download_image">正在下载 %1$s</string>
-
     <string name="action_copy_link">复制链接</string>
     <string name="action_open_as">打开为 %s</string>
     <string name="action_share_as">分享为 …</string>
     <string name="download_media">下载媒体文件</string>
     <string name="downloading_media">正在下载媒体文件</string>
-
     <string name="send_status_link_to">分享链接到…</string>
     <string name="send_status_content_to">分享嘟文到…</string>
     <string name="send_media_to">分享媒体到…</string>
-
     <string name="confirmation_reported">报告已发送！</string>
     <string name="confirmation_unblocked">已解除屏蔽</string>
     <string name="confirmation_unmuted">已取消隐藏</string>
-
     <string name="status_sent">已发送！</string>
     <string name="status_sent_long">成功发布回复.</string>
-
     <string name="hint_domain">域名\?</string>
     <string name="hint_compose">有什么新鲜事？</string>
     <string name="hint_content_warning">内容提醒</string>
     <string name="hint_display_name">昵称</string>
     <string name="hint_note">简介</string>
     <string name="hint_search">搜索…</string>
-
     <string name="search_no_results">没找到结果</string>
-
     <string name="label_quick_reply">回复…</string>
     <string name="label_avatar">头像</string>
     <string name="label_header">标题</string>
-
     <string name="link_whats_an_instance">什么是实例？</string>
-
     <string name="login_connection">正在连接…</string>
-
     <string name="dialog_whats_an_instance">请输入你帐号所在的 Mastodon 站点的域名，比如 pawoo.net，acg.mn，wxw.moe，<a href="https://instances.social">等等</a> 。
         \n\n还没有 Mastodon 帐号？你也可以输入想注册的 Mastodon 站点的域名，然后在该服务器创建新的帐号并授权 Tusky 登入。
         \n\n在 Mastodon 里，跨站互动和站内互动一样简单。可以前往 <a href="https://joinmastodon.org">https://joinmastodon.org</a> 了解更多信息。
     </string>
-
-
-
-
-
     <string name="dialog_title_finishing_media_upload">正在结束上传</string>
     <string name="dialog_message_uploading_media">正在上传…</string>
     <string name="dialog_download_image">下载</string>
@@ -177,12 +154,10 @@
     <string name="dialog_unfollow_warning">不再关注此用户？</string>
     <string name="dialog_delete_toot_warning">删除这条嘟文？</string>
     <string name="dialog_redraft_toot_warning">删除并重新编辑这条嘟文？</string>
-
     <string name="visibility_public">公开：所有人可见，并会出现在公共时间轴上</string>
     <string name="visibility_unlisted">不公开：所有人可见，但不会出现在公共时间轴上</string>
     <string name="visibility_private">仅关注者：只有经过你确认后关注你的用户可见</string>
     <string name="visibility_direct">私信：只有被提及的用户可见</string>
-
     <string name="pref_title_edit_notification_settings">通知设置</string>
     <string name="pref_title_notifications_enabled">通知</string>
     <string name="pref_title_notification_alerts">提醒</string>
@@ -199,13 +174,11 @@
     <string name="pref_title_app_theme">应用主题</string>
     <string name="pref_title_timelines">时间轴</string>
     <string name="pref_title_timeline_filters">过滤器</string>
-
     <string name="app_them_dark">黑夜</string>
     <string name="app_theme_light">白天</string>
     <string name="app_theme_black">暗色</string>
     <string name="app_theme_auto">自动切换</string>
     <string name="app_theme_system">跟随系统设定</string>
-
     <string name="pref_title_browser_settings">浏览器</string>
     <string name="pref_title_custom_tabs">使用 Chrome Custom Tabs</string>
     <string name="pref_title_hide_follow_button">浏览时自动隐藏发嘟按钮</string>
@@ -220,24 +193,19 @@
     <string name="pref_title_http_proxy_enable">启用 HTTP 代理</string>
     <string name="pref_title_http_proxy_server">HTTP 代理服务器</string>
     <string name="pref_title_http_proxy_port">HTTP 代理端口</string>
-
     <string name="pref_default_post_privacy">嘟文默认可见范围</string>
     <string name="pref_default_media_sensitivity">自动标记媒体为敏感内容</string>
     <string name="pref_publishing">发布（与服务器同步）</string>
     <string name="pref_failed_to_sync">同步设置失败</string>
-
     <string name="post_privacy_public">公开</string>
     <string name="post_privacy_unlisted">不公开</string>
     <string name="post_privacy_followers_only">仅关注者</string>
-
     <string name="pref_status_text_size">字体大小</string>
-
     <string name="status_text_size_smallest">最小</string>
     <string name="status_text_size_small">小</string>
     <string name="status_text_size_medium">标准</string>
     <string name="status_text_size_large">大</string>
     <string name="status_text_size_largest">最大</string>
-
     <string name="notification_mention_name">提及</string>
     <string name="notification_mention_descriptions">当有用户在嘟文中提及我时</string>
     <string name="notification_follow_name">关注</string>
@@ -248,21 +216,15 @@
     <string name="notification_favourite_description">当有用户收藏了我的嘟文时</string>
     <string name="notification_poll_name">投票</string>
     <string name="notification_poll_description">当我参与的投票结束时</string>
-
-
     <string name="notification_mention_format">%s 提及了你</string>
     <string name="notification_summary_large">%1$s, %2$s, %3$s 和 %4$d 人</string>
     <string name="notification_summary_medium">%1$s, %2$s, 和 %3$s</string>
     <string name="notification_summary_small">%1$s 和 %2$s</string>
     <string name="notification_title_summary">%d 个新互动</string>
-
     <string name="description_account_locked">锁嘟用户</string>
-
     <string name="about_title_activity">关于 Tusky</string>
     <string name="about_tusky_version">Tusky %s</string>
     <string name="about_tusky_license">Tusky 是基于 GNU General Public License Version 3 许可证开源的自由软件。完整的许可证协议：https://www.gnu.org/licenses/gpl-3.0.en.html</string>
-
-
     <!-- note to translators:
          * you should think of “free” as in “free speech,” not as in “free beer”.
            We sometimes call it “libre software,” borrowing the French or Spanish word for “free” as in freedom,
@@ -278,14 +240,11 @@
         https://github.com/tuskyapp/Tusky/issues
     </string>
     <string name="about_tusky_account">Tusky 官方帐号</string>
-
     <string name="status_share_content">分享嘟文内容</string>
     <string name="status_share_link">分享嘟文链接</string>
     <string name="status_media_images">照片</string>
     <string name="status_media_video">视频</string>
-
     <string name="state_follow_requested">已发送关注请求</string>
-
     <!--These are for timestamps on statuses. For example: "16s" or "2d"-->
     <string name="abbreviated_in_years">%d 年内</string>
     <string name="abbreviated_in_days">%d 天内</string>
@@ -297,13 +256,11 @@
     <string name="abbreviated_hours_ago">%d 小时前</string>
     <string name="abbreviated_minutes_ago">%d 分钟前</string>
     <string name="abbreviated_seconds_ago">%d 秒前</string>
-
     <string name="follows_you">关注了你</string>
     <string name="pref_title_alway_show_sensitive_media">总是显示所有敏感媒体内容</string>
     <string name="title_media">媒体</string>
     <string name="replying_to">回复 @%s</string>
     <string name="load_more_placeholder_text">加载更多</string>
-
     <string name="pref_title_public_filter_keywords">公共时间轴</string>
     <string name="pref_title_thread_filter_keywords">对话</string>
     <string name="filter_addition_dialog_title">添加新的过滤器</string>
@@ -311,10 +268,8 @@
     <string name="filter_dialog_remove_button">移除</string>
     <string name="filter_dialog_update_button">更新</string>
     <string name="filter_add_description">需要过滤的文字</string>
-
     <string name="add_account_name">添加帐号</string>
     <string name="add_account_description">添加新的 Mastodon 帐号</string>
-
     <string name="action_lists">列表</string>
     <string name="title_lists">列表</string>
     <string name="title_list_timeline">列表时间轴</string>
@@ -328,9 +283,7 @@
     <string name="hint_search_people_list">搜索已关注的用户</string>
     <string name="action_add_to_list">添加用户到列表</string>
     <string name="action_remove_from_list">从列表中移除用户</string>
-
     <string name="compose_active_account_description">以 %1$s 发布嘟文</string>
-
     <string name="error_failed_set_caption">设置图片标题失败</string>
     <string name="hint_describe_for_visually_impaired">为视觉障碍用户提供的描述\n(限制 %d 字)</string>
     <string name="action_set_caption">设置图片标题</string>
@@ -344,7 +297,6 @@
     <string name="send_toot_notification_cancel_title">发送已被取消</string>
     <string name="send_toot_notification_saved_content">嘟文已保存为草稿</string>
     <string name="action_compose_shortcut">发表嘟文</string>
-
     <string name="error_no_custom_emojis">当前实例 %s 没有自定义表情符号</string>
     <string name="copy_to_clipboard_success">已复制到剪贴板</string>
     <string name="emoji_style">表情符号风格</string>
@@ -361,49 +313,35 @@
     <string name="caption_blobmoji">Android 4.4–7.1 的黄馒头表情符号</string>
     <string name="caption_twemoji">Mastodon 使用的表情符号</string>
     <!-- string name="emoji_shortcode_format" translatable="false">:%s:</string -->
-
     <string name="download_failed">下载失败</string>
-
     <string name="profile_badge_bot_text">机器人</string>
     <string name="account_moved_description">%1$s 已迁移到：</string>
-
     <string name="reblog_private">转嘟（可见者不变）</string>
     <string name="unreblog_private">取消转嘟</string>
-
     <string name="license_description">Tusky 使用了以下开源项目的源码：</string>
     <string name="license_apache_2">以 Apache License 授权（详见下方）</string>
     <string name="license_cc_by_4">CC-BY 4.0</string>
     <string name="license_cc_by_sa_4">CC-BY-SA 4.0</string>
-
     <string name="profile_metadata_label">个人资料附加信息</string>
     <string name="profile_metadata_add">添加信息</string>
     <string name="profile_metadata_label_label">标签</string>
     <string name="profile_metadata_content_label">内容</string>
-
     <string name="pref_title_absolute_time">嘟文显示精确时间</string>
-
     <string name="label_remote_account">以下信息可能并不完整，要查看完整资料请使用浏览器打开。</string>
-
     <string name="unpin_action">取消置顶</string>
     <string name="pin_action">置顶</string>
-
     <plurals name="favs">
         <item quantity="other">&lt;b&gt;%1$s&lt;/b&gt; 次收藏</item>
     </plurals>
-
     <plurals name="reblogs">
         <item quantity="other">&lt;b&gt;%s&lt;/b&gt; 次转嘟</item>
     </plurals>
-
     <string name="title_reblogged_by">转嘟</string>
     <string name="title_favourited_by">收藏</string>
-
     <string name="conversation_1_recipients">%1$s</string>
     <string name="conversation_2_recipients">%1$s 和 %2$s</string>
     <string name="conversation_more_recipients">%1$s, %2$s 和 %3$d 等人</string>
     <string name="max_tab_number_reached">标签页不能超过 %1$d 个</string>
-
-
     <string name="description_status_media">
         媒体: %s
     </string>
@@ -431,22 +369,17 @@
     <string name="description_visiblity_direct">
         私信
     </string>
-
     <string name="hint_list_name">列表名</string>
-
     <string name="edit_hashtag_title">编辑话题</string>
     <string name="edit_hashtag_hint">话题名（不含前面的 # 号）</string>
     <string name="hashtag">话题</string>
     <string name="notifications_clear">清空</string>
     <string name="notifications_apply_filter">分类</string>
     <string name="filter_apply">应用</string>
-
     <string name="compose_shortcut_long_label">发表新嘟文</string>
     <string name="compose_shortcut_short_label">新嘟文</string>
     <string name="pref_title_bot_overlay">显示机器人标志</string>
-
     <string name="notification_clear_text">你确定要永久清空通知列表吗？</string>
-
     <string name="poll_info_format">
         <!-- 15 votes • 1 hour left -->
         %1$s • %2$s</string>
@@ -456,12 +389,9 @@
     <string name="poll_info_time_relative">剩余 %s</string>
     <string name="poll_info_time_absolute">%s 结束</string>
     <string name="poll_info_closed">已结束</string>
-
     <string name="poll_vote">投票</string>
-
     <string name="poll_ended_voted">你参与的投票已结束</string>
     <string name="poll_ended_created">你创建的投票已结束</string>
-
     <!--These are for timestamps on polls -->
     <plurals name="poll_timespan_days">
         <item quantity="other">%d 天</item>
@@ -475,8 +405,7 @@
     <plurals name="poll_timespan_seconds">
         <item quantity="other">%d 秒</item>
     </plurals>
-
-<string name="action_reset_schedule">重置</string>
+    <string name="action_reset_schedule">重置</string>
     <string name="error_audio_upload_size">音频文件大小必须小于40M。</string>
     <string name="title_bookmarks">书签</string>
     <string name="title_domain_mutes">隐藏的域名</string>
@@ -490,29 +419,24 @@
     <string name="action_access_scheduled_toot">定时嘟文</string>
     <string name="action_schedule_toot">定时嘟文</string>
     <string name="confirmation_domain_unmuted">%s 已解除静音</string>
-
     <string name="mute_domain_warning">您确定要封锁 ％s 域名吗？您将不会在任何联邦时间轴或通知中看到该域名中的内容，并且来自该域名的关注者将被删除。</string>
     <string name="mute_domain_warning_dialog_ok">隐藏整个域</string>
     <string name="pref_title_animate_gif_avatars">动画GIF头像</string>
     <string name="gradient_for_media">显示隐藏媒体的彩色渐变</string>
-
     <string name="about_powered_by_tusky">由Tusky提供支持</string>
     <string name="pref_title_alway_open_spoiler">始终扩展标有内容警告的嘟文</string>
     <string name="filter_dialog_whole_word">整个单词</string>
     <string name="filter_dialog_whole_word_description">如果关键字或缩写只有字母或数字，则只有在匹配整个单词时才会应用</string>
     <string name="caption_notoemoji">Google正在使用的Emoji符号集</string>
-
     <string name="description_status_bookmarked">已收藏</string>
     <string name="description_poll">使用以下选项创建投票：%1$s, %2$s, %3$s, %4$s; %5$s</string>
-
     <string name="select_list_title">选择清单</string>
     <string name="list">清单</string>
     <string name="compose_preview_image_description">图片 ％s 的动作</string>
-
     <string name="button_continue">继续</string>
     <string name="button_back">返回</string>
     <string name="button_done">完成</string>
-    <string name="report_sent_success">"成功回报  @%s"</string>
+    <string name="report_sent_success">成功回报 @%s</string>
     <string name="hint_additional_info">附加留言</string>
     <string name="report_remote_instance">转发到 %s</string>
     <string name="failed_report">回报失败</string>
@@ -521,10 +445,7 @@
     <string name="report_description_remote_instance">该帐户来自其他服务器。向那里发送一份匿名的报告副本？</string>
     <string name="title_accounts">账户</string>
     <string name="failed_search">搜寻失败</string>
-
     <string name="pref_title_show_notifications_filter">显示通知过滤器</string>
-
-
     <string name="create_poll_title">投票</string>
     <string name="poll_duration_5_min">5 分钟</string>
     <string name="poll_duration_30_min">30 分钟</string>
@@ -538,8 +459,7 @@
     <string name="poll_new_choice_hint">选择 %d</string>
     <string name="edit_poll">编辑</string>
     <string name="post_lookup_error_format">查找帖子时出错 %s</string>
-
     <string name="no_saved_status">您没有草稿。</string>
     <string name="no_scheduled_status">您没有任何预定状态。</string>
     <string name="warning_scheduling_interval">Mastodon的最小调度间隔为5分钟。</string>
-    </resources>
+</resources>

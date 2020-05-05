@@ -257,7 +257,7 @@
     <string name="abbreviated_minutes_ago">%dm</string>
     <string name="abbreviated_seconds_ago">%ds</string>
     <string name="follows_you">Vous suit</string>
-    <string name="pref_title_alway_show_sensitive_media">Toujours afficher le contenu sensible</string>
+    <string name="pref_title_alway_show_sensitive_media">Afficher toujours le contenu sensible</string>
     <string name="title_media">Média</string>
     <string name="replying_to">Réponse à @%s</string>
     <string name="load_more_placeholder_text">en charger plus</string>
@@ -406,7 +406,7 @@
     <string name="compose_preview_image_description">Actions pour l’image %s</string>
     <string name="poll_info_format"> <!-- 15 votes • 1 heure restante --> %1$s • %2$s</string>
     <string name="poll_ended_voted">Un sondage auquel vous avez participé vient de se terminer</string>
-    <string name="description_poll">Sondage avec des choix : %1$s, %2$s, %3$s, %4$s; %5$s</string>
+    <string name="description_poll">Sondage avec des choix : %1$s, %2$s, %3$s, %4$s ; %5$s</string>
     <string name="title_domain_mutes">Domaines cachés</string>
     <string name="action_view_domain_mutes">Domaines cachés</string>
     <string name="action_mute_domain">Masquer %s</string>
@@ -470,4 +470,9 @@
         <item quantity="one">%s personne</item>
         <item quantity="other">%s personnes</item>
     </plurals>
+    <string name="notification_follow_request_description">Notifications lors des demandes d’abonnement</string>
+    <string name="pref_title_notification_filter_follow_requests">demande d’abonnement</string>
+    <string name="dialog_mute_warning">Mettre en sourdine @%s \?</string>
+    <string name="action_unmute_conversation">Enlever la sourdine à la conversation</string>
+    <string name="action_mute_conversation">Silencer la conversation</string>
 </resources>

@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='UTF-8'?>
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="error_generic">Bir hata oluştu.</string>
     <string name="error_network">Bir ağ hatası oluştu! Lütfen bağlantınızı kontrol edin ve tekrar deneyin!</string>
@@ -236,7 +236,6 @@
     <string name="follows_you">Seni takip ediyor</string>
     <string name="pref_title_alway_show_sensitive_media">Her zaman hassas içerikleri göster</string>
     <string name="title_media">Medya</string>
-
     <string name="load_more_placeholder_text">daha fazla yükle</string>
     <string name="add_account_name">Hesap Ekle</string>
     <string name="add_account_description">Yeni Mastodon hesabı ekle</string>
@@ -288,20 +287,20 @@
     <string name="unpin_action">Sabitlemeyi kaldır</string>
     <string name="pin_action">Sabitle</string>
     <plurals name="favs">
-	<item quantity="one"><b>%1$s</b> Favori</item>
-	<item quantity="other"><b>%1$s</b> Favori</item>
-</plurals>
+        <item quantity="one"><b>%1$s</b> Favori</item>
+        <item quantity="other"><b>%1$s</b> Favori</item>
+    </plurals>
     <plurals name="reblogs">
-	<item quantity="one"><b>%s</b> Yineleme</item>
-	<item quantity="other"><b>%s</b> Yineleme</item>
-</plurals>
+        <item quantity="one"><b>%s</b> Yineleme</item>
+        <item quantity="other"><b>%s</b> Yineleme</item>
+    </plurals>
     <string name="title_reblogged_by">tarafından yinelendi</string>
     <string name="title_favourited_by">favoriledi</string>
     <string name="conversation_1_recipients">%1$s</string>
     <string name="conversation_2_recipients">%1$s ve %2$s</string>
     <string name="conversation_more_recipients">%1$s, %2$s ve %3$d daha fazlası</string>
     <string name="max_tab_number_reached">%1$d maksimum sekme sayısına ulaşıldı</string>
-<string name="title_domain_mutes">Gizlenmiş alan adları</string>
+    <string name="title_domain_mutes">Gizlenmiş alan adları</string>
     <string name="action_unreblog">Yinelemeyi kaldır</string>
     <string name="action_unfavourite">Favoriyi kaldır</string>
     <string name="action_view_domain_mutes">Gizlenmiş alan adları</string>
@@ -309,25 +308,18 @@
     <string name="action_links">Bağlantılar</string>
     <string name="action_hashtags">Hashtag\'ler</string>
     <string name="action_open_faved_by">Favorileri göster</string>
-
     <string name="title_hashtags_dialog">Hashtag\'ler</string>
     <string name="title_links_dialog">Bağlantılar</string>
     <string name="download_media">Medya indir</string>
     <string name="downloading_media">Medya indiriliyor</string>
-
     <string name="mute_domain_warning">%s alan adınından gelen her şeyi engellemek istediğinizden emin misiniz\? Bu alan adından gelen içeriği herhangi bir genel zaman çizelgesinde veya bildirimlerinizde göremezsiniz. Bu alan adındaki takipçileriniz de kaldırılacak.</string>
     <string name="pref_title_notification_filter_poll">anket sona erince</string>
     <string name="pref_title_timeline_filters">Filtreler</string>
-
     <string name="app_theme_system">Sistem tasarımını kullan</string>
-
     <string name="pref_title_language">Dil</string>
     <string name="pref_title_animate_gif_avatars">Hareketli GIF avatarları oynat</string>
-
     <string name="notification_poll_name">Anketler</string>
     <string name="notification_poll_description">Sona eren anketlerle ilgili bildirimler</string>
-
-
     <string name="pref_title_public_filter_keywords">Genel zaman çizelgesi</string>
     <string name="pref_title_thread_filter_keywords">Konuşmalar</string>
     <string name="filter_addition_dialog_title">Filtre ekle</string>
@@ -337,7 +329,6 @@
     <string name="filter_dialog_whole_word">Tüm kelime</string>
     <string name="filter_dialog_whole_word_description">Anahtar kelime veya kelime öbeği yalnızca alfasayısal olduğunda, yalnızca tüm sözcükle eşleşirse uygulanır</string>
     <string name="filter_add_description">Filtrelenecek ifade</string>
-
     <string name="error_create_list">Liste oluşturulamadı</string>
     <string name="error_rename_list">Liste yeniden adlandırılamadı</string>
     <string name="error_delete_list">Liste silinemedi</string>
@@ -348,9 +339,7 @@
     <string name="hint_search_people_list">Takip ettiğim kişilerde ara</string>
     <string name="action_add_to_list">Listeye hesap ekle</string>
     <string name="action_remove_from_list">Hesabı listeden kaldır</string>
-
     <string name="caption_notoemoji">Google\'ın mevcut emoji seti</string>
-
     <string name="description_status_media">Medya: %s</string>
     <string name="description_status_cw">İçerik uyarısı: %s</string>
     <string name="description_status_media_no_description_placeholder">Açıklama yok</string>
@@ -361,51 +350,43 @@
     <string name="description_visiblity_private">Takipçiler</string>
     <string name="description_visiblity_direct">Direkt</string>
     <string name="description_poll">Seçenekli anket: %1$s, %2$s, %3$s, %4$s; %5$s</string>
-
     <string name="hint_list_name">Liste adı</string>
-
     <string name="edit_hashtag_title">Hashtag\'i düzenle</string>
     <string name="edit_hashtag_hint"># olmadan hashtag</string>
     <string name="hashtag">Hashtag</string>
     <string name="notifications_clear">Temizle</string>
     <string name="notifications_apply_filter">Filtre</string>
     <string name="filter_apply">Uygula</string>
-
     <string name="compose_shortcut_long_label">İleti Oluştur</string>
     <string name="compose_shortcut_short_label">Oluştur</string>
-
     <string name="notification_clear_text">Tüm bildirimleri kalıcı olarak silmek istediğinden emin misin\?</string>
     <string name="compose_preview_image_description">%s görüntüsü için eylemler</string>
-
     <string name="poll_info_format"> <!-- 15 oy • 1 saat kaldı --> %1$s • %2$s</string>
     <plurals name="poll_info_votes">
-	<item quantity="one">%s oy</item>
-	<item quantity="other">%s oy</item>
-</plurals>
+        <item quantity="one">%s oy</item>
+        <item quantity="other">%s oy</item>
+    </plurals>
     <string name="poll_info_time_relative">%s kaldı</string>
     <string name="poll_info_closed">kapandı</string>
     <string name="poll_vote">Oy</string>
-
     <string name="poll_ended_voted">Oy verdiğin bir anket sona erdi</string>
     <string name="poll_ended_created">Oluşturduğun bir anket sona erdi</string>
-
     <plurals name="poll_timespan_days">
-	<item quantity="one">%d gün</item>
-	<item quantity="other">%d gün</item>
-</plurals>
+        <item quantity="one">%d gün</item>
+        <item quantity="other">%d gün</item>
+    </plurals>
     <plurals name="poll_timespan_hours">
-	<item quantity="one">%d saat</item>
-	<item quantity="other">%d saat</item>
-</plurals>
+        <item quantity="one">%d saat</item>
+        <item quantity="other">%d saat</item>
+    </plurals>
     <plurals name="poll_timespan_minutes">
-	<item quantity="one">%d dakika</item>
-	<item quantity="other">%d dakika</item>
-</plurals>
+        <item quantity="one">%d dakika</item>
+        <item quantity="other">%d dakika</item>
+    </plurals>
     <plurals name="poll_timespan_seconds">
-	<item quantity="one">%d saniye</item>
-	<item quantity="other">%d saniye</item>
-</plurals>
-
+        <item quantity="one">%d saniye</item>
+        <item quantity="other">%d saniye</item>
+    </plurals>
     <string name="button_continue">Devam</string>
     <string name="button_back">Geri</string>
     <string name="button_done">Tamam</string>
@@ -413,16 +394,14 @@
     <string name="hint_additional_info">Ek yorumlar</string>
     <string name="report_remote_instance">%s adresine ilet</string>
     <string name="failed_fetch_statuses">İletiler alınamadı</string>
-    <string name="report_description_1">"Bildirim sunucu yöneticinize gönderilecektir.  Bu hesabı neden bildirdiğinizle ilgili açıklama yapabilirsiniz:"</string>
+    <string name="report_description_1">Bildirim sunucu yöneticinize gönderilecektir. Bu hesabı neden bildirdiğinizle ilgili açıklama yapabilirsiniz:</string>
     <string name="report_description_remote_instance">Hesap başka bir sunucuda. Raporun anonim bir kopyasını da oraya gönderilsin mi\?</string>
-
     <string name="pref_title_show_notifications_filter">Bildirim filtresini göster</string>
-<string name="action_mentions">Bahsedenler</string>
+    <string name="action_mentions">Bahsedenler</string>
     <string name="action_open_reblogger">Yineleyen yayıncıyı aç</string>
     <string name="action_open_reblogged_by">Yinelemeleri aç</string>
     <string name="title_mentions_dialog">Bahsedenler</string>
     <string name="action_open_media_n">#%d medyayı aç</string>
-
     <string name="title_bookmarks">Yer imleri</string>
     <string name="title_scheduled_toot">Zamanlanmış iletiler</string>
     <string name="action_bookmark">Yerimi</string>
@@ -441,7 +420,6 @@
     <string name="list">Liste</string>
     <string name="title_accounts">Hesaplar</string>
     <string name="failed_search">Arama başarısız</string>
-
     <string name="create_poll_title">Anket</string>
     <string name="poll_duration_5_min">5 dakika</string>
     <string name="poll_duration_30_min">30 dakika</string>
@@ -456,18 +434,13 @@
     <string name="replying_to">Yanıtla @%s</string>
     <string name="profile_badge_bot_text">Bot</string>
     <string name="confirmation_domain_unmuted">%s gizleme</string>
-
     <string name="mute_domain_warning_dialog_ok">Alan adından herşeyi gizle</string>
-
     <string name="gradient_for_media">Gizli medya için renkli sansür uygula</string>
-
     <string name="pref_title_alway_open_spoiler">Hassas içerikleri göster</string>
     <string name="poll_info_time_absolute">bitiş %s</string>
     <string name="failed_report">Bildirilemedi</string>
     <string name="poll_new_choice_hint">Seçenek %d</string>
     <string name="post_lookup_error_format">%s ileti aranırken hata oluştu</string>
-
     <string name="no_saved_status">Hiç taslağınız yok.</string>
     <string name="no_scheduled_status">Hiç planlanmış durumun yok.</string>
-
 </resources>

@@ -22,7 +22,7 @@
     <string name="status_content_warning_show_more">Zeṛ ugar</string>
     <string name="status_content_warning_show_less">Zeṛ kra kan</string>
     <string name="message_empty">Ulac walu da.</string>
-    <string name="notification_follow_format">Yeṭafar-ik-id %s</string>
+    <string name="notification_follow_format">%s yeṭafar-ik-id</string>
     <string name="action_reply">Err</string>
     <string name="action_more">Ugar</string>
     <string name="action_compose">Azen</string>
@@ -137,7 +137,7 @@
     <string name="title_accounts">Imiḍanen</string>
     <string name="add_poll_choice">Rnu yiwen wefran</string>
     <string name="report_username_format">Ccetki ɣef @%s</string>
-    <string name="action_report">Ccetki</string>
+    <string name="action_report">Ccetki fell-as</string>
     <string name="action_reject">Ggami</string>
     <string name="download_image">Yessidired %1$s</string>
     <string name="send_media_to">Bḍu tugna s…</string>
@@ -243,8 +243,8 @@
     <string name="title_public_local">Adigan</string>
     <string name="title_licenses">Turagin</string>
     <string name="status_boosted_format">Yebḍa-t %s</string>
-    <string name="notification_reblog_format">Yebḍa %s tijewwiqt-ik·im</string>
-    <string name="notification_favourite_format">Yerna %s tijewwiqt-ik·im ɣer imenyafen-is</string>
+    <string name="notification_reblog_format">%s yebḍa tijewwiqt-ik·im</string>
+    <string name="notification_favourite_format">%s yerna tijewwiqt-ik·im ɣer ismenyafen-is</string>
     <string name="action_quick_reply">Tiririt taruradt</string>
     <string name="action_reblog">Bḍu</string>
     <string name="action_unreblog">Kkes beṭu</string>
