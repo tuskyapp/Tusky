@@ -67,9 +67,8 @@ class ConversationsFragment : SFragment(), StatusActionListener, Injectable, Res
                 showBotOverlay = preferences.getBoolean("showBotOverlay", true),
                 useBlurhash = preferences.getBoolean("useBlurhash", true),
                 cardViewMode = CardViewMode.NONE,
-                confirmReblogs = preferences.getBoolean("confirmReblogs", false)
+                confirmReblogs = preferences.getBoolean("confirmReblogs", true)
         )
-
 
         adapter = ConversationAdapter(statusDisplayOptions, this, ::onTopLoaded, viewModel::retry)
 
