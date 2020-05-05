@@ -441,7 +441,7 @@
     <string name="report_remote_instance">Verder naar %s</string>
     <string name="failed_report">Het rapporteren is mislukt</string>
     <string name="failed_fetch_statuses">Het ophalen van toots is mislukt</string>
-    <string name="report_description_1">De rapportage wordt naar de moderator(en) van jouw server gestuurd. Je kunt hieronder een uitleg geven waarom je dit account rapporteert:</string>
+    <string name="report_description_1">Dit rapport wordt naar jouw servermoderator(en) gestuurd. Hieronder kun je uitleggen waarom je het account wilt rapporteren:</string>
     <string name="report_description_remote_instance">Het account is van een andere server. Wil je ook een geanonimiseerde kopie van de rapportage daarnaartoe sturen\?</string>
 
     <string name="pref_title_show_notifications_filter">Meldingenfilter tonen</string>
