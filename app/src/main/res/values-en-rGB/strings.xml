@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="report_description_remote_instance">The account is from another server. Send an anonymised copy of the report there as well\?</string>
+    <string name="report_description_remote_instance">The account is from another server. Send an anonymised copy of the report there as well?</string>
     <string name="description_post_favourited">Favourited</string>
     <string name="title_favourited_by">Favourited by</string>
     <plurals name="favs">
-        <item quantity="one">&lt;b&gt;%1$s&lt;/b&gt; Favourite</item>
-        <item quantity="other">&lt;b&gt;%1$s&lt;/b&gt; Favourites</item>
+        <item quantity="one"><b>%1$s</b> Favourite</item>
+        <item quantity="other"><b>%1$s</b> Favourites</item>
     </plurals>
     <string name="notification_favourite_description">Notifications when your posts get marked as favourite</string>
     <string name="notification_favourite_name">Favourites</string>
