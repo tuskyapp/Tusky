@@ -79,7 +79,7 @@
             app:singleLineTitle="false" />
 
         <SwitchPreferenceCompat
-            android:defaultValue="false"
+            android:defaultValue="true"
             android:key="confirmReblogs"
             android:title="@string/pref_title_confirm_reblogs"
             app:singleLineTitle="false" />
