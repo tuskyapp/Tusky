@@ -485,4 +485,5 @@
     <string name="no_saved_status">Je hebt nog geen concepten.</string>
     <string name="no_scheduled_status">Je hebt nog geen ingeplande toots.</string>
 
-</resources>
+<string name="warning_scheduling_interval">Om in te plannen moet je in Mastodon een minimum interval van 5 minuten gebruiken.</string>
+    </resources>
