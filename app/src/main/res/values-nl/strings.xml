@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='UTF-8'?>
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="error_generic">Er deed zich een fout voor.</string>
     <string name="error_network">Er deed zich een netwerkfout voor! Controleer je verbinding en probeer opnieuw!</string>
@@ -42,7 +42,7 @@
     <string name="status_boosted_format">%s boostte</string>
     <string name="status_sensitive_media_title">Gevoelige inhoud</string>
     <string name="status_media_hidden_title">Verborgen media</string>
-    <string name="status_sensitive_media_directions">Klik om te bekijken</string>
+    <string name="status_sensitive_media_directions">Tik om te bekijken</string>
     <string name="status_content_warning_show_more">Meer tonen</string>
     <string name="status_content_warning_show_less">Minder tonen</string>
     <string name="status_content_show_more">Uitklappen</string>
@@ -142,11 +142,11 @@
     <string name="login_connection">Aan het verbinden…</string>
     <string name="dialog_whats_an_instance">Het adres of domein van elke Mastodonserver kan hier worden ingevoerd, zoals mastodon.social, mastodon.nl, octodon.social en <a href="https://instances.social">nog veel meer!</a> 
 \n 
-\nWanneer je nog geen account hebt, kun je de naam van de Mastodonserver waar jij je graag wil registeren invoeren, waarna je daar een account kunt aanmaken.
+\nWanneer je nog geen account hebt, kun je de naam van de Mastodonserver waar jij je graag wil registeren invoeren, waarna je daar een account kunt aanmaken. 
 \n 
 \nEen Mastodonserver (Engels: instance) is een computerserver waar jouw account zich bevindt (vergelijk het met een e-mailserver). Je kan eenvoudig mensen van andere servers volgen en met ze communiceren, alsof jullie met elkaar op dezelfde website zitten. 
 \n 
-\n Meer informatie kun je vinden op <a href="https://joinmastodon.org">joinmastodon.org</a>.</string>
+\n Meer informatie kun je vinden op <a href="https://joinmastodon.org">joinmastodon.org</a>. </string>
     <string name="dialog_title_finishing_media_upload">Uploaden media bijna voltooid</string>
     <string name="dialog_message_uploading_media">Aan het uploaden…</string>
     <string name="dialog_download_image">Downloaden</string>
@@ -335,11 +335,9 @@
     </string>
     <string name="description_visiblity_direct">        Direct
     </string>
-<string name="download_media">Media downloaden</string>
+    <string name="download_media">Media downloaden</string>
     <string name="downloading_media">Media aan het downloaden</string>
-
     <string name="pref_title_timeline_filters">Filters</string>
-
     <string name="pref_title_public_filter_keywords">Openbare tijdlijnen</string>
     <string name="pref_title_thread_filter_keywords">Gesprekken</string>
     <string name="filter_addition_dialog_title">Filter toevoegen</string>
@@ -347,7 +345,6 @@
     <string name="filter_dialog_remove_button">Verwijderen</string>
     <string name="filter_dialog_update_button">Bijwerken</string>
     <string name="filter_add_description">Zinsdeel om te filteren</string>
-
     <string name="error_create_list">Kon geen lijst aanmaken</string>
     <string name="error_rename_list">Kon de lijst niet hernoemen</string>
     <string name="error_delete_list">Kon de lijst niet verwijderen</string>
@@ -358,81 +355,59 @@
     <string name="hint_search_people_list">Naar mensen zoeken die je volgt</string>
     <string name="action_add_to_list">Account aan de lijst toevoegen</string>
     <string name="action_remove_from_list">Account uit de lijst verwijderen</string>
-
     <string name="hint_list_name">Naam van lijst</string>
-
     <string name="edit_hashtag_title">Hashtag bewerken</string>
     <string name="edit_hashtag_hint">Hashtag zonder #</string>
     <string name="hashtag">Hashtag</string>
-
-
-<string name="action_delete_and_redraft">Verwijderen en herschrijven</string>
+    <string name="action_delete_and_redraft">Verwijderen en herschrijven</string>
     <string name="dialog_redraft_toot_warning">Deze toot verwijderen en herschrijven\?</string>
-
-
     <string name="notifications_clear">Leegmaken</string>
     <string name="notifications_apply_filter">Filter</string>
     <string name="filter_apply">Toepassen</string>
-
     <string name="compose_shortcut_long_label">Toot schrijven</string>
     <string name="compose_shortcut_short_label">Schrijven</string>
     <string name="pref_title_bot_overlay">Botsindicator tonen</string>
-
     <string name="notification_clear_text">Weet je zeker dat je alle meldingen permanent wilt verwijderen\?</string>
-
     <string name="poll_info_format"> <!-- 15 votes • 1 hour left --> %1$s • %2$s</string>
     <plurals name="poll_info_votes">
-	<item quantity="one">%s stem</item>
-	<item quantity="other">%s stemmen</item>
-</plurals>
+        <item quantity="one">%s stem</item>
+        <item quantity="other">%s stemmen</item>
+    </plurals>
     <string name="poll_info_time_relative">%s over</string>
     <string name="poll_info_time_absolute">eindigt op %s</string>
     <string name="poll_info_closed">gesloten</string>
-
     <string name="poll_vote">Stemmen</string>
-
-
-<string name="pref_title_notification_filter_poll">er zijn polls zijn beëindigd</string>
+    <string name="pref_title_notification_filter_poll">er zijn polls zijn beëindigd</string>
     <string name="notification_poll_name">Polls</string>
     <string name="notification_poll_description">Meldingen over polls die zijn beëindigd</string>
-
-
     <string name="poll_ended_voted">Een poll waaraan jij hebt meegedaan is beëindigd</string>
     <string name="poll_ended_created">Een poll die jij hebt aangemaakt is beëindigd</string>
-
-
-<string name="title_domain_mutes">Verborgen domeinen</string>
+    <string name="title_domain_mutes">Verborgen domeinen</string>
     <string name="action_view_domain_mutes">Verborgen domeinen</string>
     <string name="action_mute_domain">%s negeren</string>
     <string name="confirmation_domain_unmuted">%s niet langer verborgen</string>
-
     <string name="mute_domain_warning_dialog_ok">Volledig domein verbergen</string>
-
     <string name="pref_title_animate_gif_avatars">GIF-avatars animeren</string>
-
     <string name="caption_notoemoji">Google\'s huidige emojiset</string>
     <string name="mute_domain_warning">Weet je zeker dat je alles van %s wilt blokkeren\? Je zult op alle openbare tijdlijnen en in jouw meldingen geen inhoud van dat domein zien. Jouw volgers van dat domein worden verwijderd.</string>
     <string name="description_poll">Poll met keuzes: %1$s, %2$s, %3$s, %4$s; %5$s</string>
-
     <string name="compose_preview_image_description">Acties voor afbeelding %s</string>
-
     <plurals name="poll_timespan_days">
-	<item quantity="one">%d dag</item>
-	<item quantity="other">%d dagen</item>
-</plurals>
+        <item quantity="one">%d dag</item>
+        <item quantity="other">%d dagen</item>
+    </plurals>
     <plurals name="poll_timespan_hours">
-	<item quantity="one">%d uur</item>
-	<item quantity="other">%d uur</item>
-</plurals>
+        <item quantity="one">%d uur</item>
+        <item quantity="other">%d uur</item>
+    </plurals>
     <plurals name="poll_timespan_minutes">
-	<item quantity="one">%d minuut</item>
-	<item quantity="other">%d minuten</item>
-</plurals>
+        <item quantity="one">%d minuut</item>
+        <item quantity="other">%d minuten</item>
+    </plurals>
     <plurals name="poll_timespan_seconds">
-	<item quantity="one">"%d  seconde"</item>
-	<item quantity="other">%d seconden</item>
-</plurals>
-
+        <item quantity="one">%d seconde</item>
+        <item quantity="other">%d seconden</item>
+    </plurals>
     <string name="button_continue">Doorgaan</string>
     <string name="button_back">Terug</string>
     <string name="button_done">Klaar</string>
@@ -441,11 +416,10 @@
     <string name="report_remote_instance">Verder naar %s</string>
     <string name="failed_report">Het rapporteren is mislukt</string>
     <string name="failed_fetch_statuses">Het ophalen van toots is mislukt</string>
-    <string name="report_description_1">De rapportage wordt naar de moderator(en) van jouw server gestuurd. Je kunt hieronder een uitleg geven waarom je dit account rapporteert:</string>
+    <string name="report_description_1">Deze rapportage wordt naar jouw servermoderator(en) gestuurd. Hieronder kun je uitleggen waarom je het account wilt rapporteren:</string>
     <string name="report_description_remote_instance">Het account is van een andere server. Wil je ook een geanonimiseerde kopie van de rapportage daarnaartoe sturen\?</string>
-
     <string name="pref_title_show_notifications_filter">Meldingenfilter tonen</string>
-<string name="filter_dialog_whole_word">Heel woord</string>
+    <string name="filter_dialog_whole_word">Heel woord</string>
     <string name="filter_dialog_whole_word_description">Wanneer het trefwoord of zinsdeel alfanumeriek is, wordt het alleen gefilterd wanneer het hele woord overeenkomt</string>
     <string name="poll_duration_5_min">5 minuten</string>
     <string name="poll_duration_30_min">30 minuten</string>
@@ -458,8 +432,7 @@
     <string name="poll_allow_multiple_choices">Meerdere keuzes</string>
     <string name="poll_new_choice_hint">Keuze %d</string>
     <string name="edit_poll">Bewerk</string>
-
-<string name="error_audio_upload_size">Geluidsbestanden moeten minder dan 40MB zijn.</string>
+    <string name="error_audio_upload_size">Geluidsbestanden moeten minder dan 40MB zijn.</string>
     <string name="title_bookmarks">Bladwijzers</string>
     <string name="title_scheduled_toot">Ingeplande toots</string>
     <string name="action_bookmark">Bladwijzer</string>
@@ -470,7 +443,6 @@
     <string name="action_schedule_toot">Ingeplande toot</string>
     <string name="action_reset_schedule">Herstellen</string>
     <string name="gradient_for_media">Wazige kleurovergangen voor verborgen media tonen</string>
-
     <string name="about_powered_by_tusky">Powered by Tusky</string>
     <string name="pref_title_alway_open_spoiler">Altijd toots met tekstwaarschuwingen uitklappen</string>
     <string name="description_status_bookmarked">Als bladwijzer toegevoegd</string>
@@ -478,11 +450,9 @@
     <string name="list">Lijst</string>
     <string name="title_accounts">Accounts</string>
     <string name="failed_search">Zoeken mislukt</string>
-
     <string name="create_poll_title">Poll</string>
     <string name="post_lookup_error_format">Fout tijdens opzoeken toot %s</string>
-
     <string name="no_saved_status">Je hebt nog geen concepten.</string>
     <string name="no_scheduled_status">Je hebt nog geen ingeplande toots.</string>
-
+    <string name="warning_scheduling_interval">Om in te plannen moet je in Mastodon een minimum interval van 5 minuten gebruiken.</string>
 </resources>

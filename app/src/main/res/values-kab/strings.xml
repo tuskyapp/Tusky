@@ -1,5 +1,6 @@
-<?xml version='1.0' encoding='UTF-8'?>
-<resources><string name="action_login">Qqen ɣer Maṣṭudun</string>
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="action_login">Qqen ɣer Maṣṭudun</string>
     <string name="title_favourites">Ismenyifen</string>
     <string name="title_saved_toot">Irewwayen</string>
     <string name="action_logout">Ffeɣ</string>
@@ -21,8 +22,7 @@
     <string name="status_content_warning_show_more">Zeṛ ugar</string>
     <string name="status_content_warning_show_less">Zeṛ kra kan</string>
     <string name="message_empty">Ulac walu da.</string>
-    <string name="notification_follow_format">Yeṭafar-ik-id %s</string>
-
+    <string name="notification_follow_format">%s yeṭafar-ik-id</string>
     <string name="action_reply">Err</string>
     <string name="action_more">Ugar</string>
     <string name="action_compose">Azen</string>
@@ -42,18 +42,15 @@
     <string name="action_mute">Sgugem</string>
     <string name="action_access_saved_toot">Irewwayen</string>
     <string name="action_open_faved_by">Sken-d ismenyifen</string>
-
     <string name="notification_favourite_name">Ismenyifen</string>
     <plurals name="favs">
-	<item quantity="one"><b>%1$s</b> n usmenyaf</item>
-	<item quantity="other"><b>%1$s</b> n ismenyifen</item>
-</plurals>
-
+        <item quantity="one"><b>%1$s</b> n usmenyaf</item>
+        <item quantity="other"><b>%1$s</b> n ismenyifen</item>
+    </plurals>
     <string name="no_saved_status">Ur tesɛiḍ ara irewwayen.</string>
     <string name="error_generic">Tella-d tucḍa.</string>
     <string name="title_notifications">Tilɣa</string>
     <string name="link_whats_an_instance">D acu i ttummant\?</string>
-
     <string name="title_bookmarks">Ticraḍ</string>
     <string name="action_bookmark">Rnu ɣer ticraḍ</string>
     <string name="action_view_bookmarks">Ticraḍ</string>
@@ -72,7 +69,6 @@
     <string name="hint_domain">Anta tummant\?</string>
     <string name="hint_compose">d-acu i gellan d amaynut\?</string>
     <string name="hint_search">Nadi…</string>
-
     <string name="label_quick_reply">Tiririn…</string>
     <string name="label_avatar">Tugna n umaɣnu</string>
     <string name="dialog_download_image">Sider</string>
@@ -89,25 +85,19 @@
     <string name="notification_summary_small">%1$s akked %2$s</string>
     <string name="about_tusky_version">Tusky %s</string>
     <string name="about_tusky_account">Amaɣnu n Tusky</string>
-
     <string name="status_media_images">Tugniwin</string>
     <string name="status_media_video">Tibidyutin</string>
-
     <string name="follows_you">Yeṭafaṛ-ik-id</string>
     <string name="filter_dialog_remove_button">Kkes</string>
     <string name="filter_dialog_update_button">Lqem</string>
     <string name="add_account_name">Rnu amiḍan</string>
     <string name="add_account_description">Rnu yiwen umiḍan amaynut n Maṣṭudun</string>
-
     <string name="action_compose_shortcut">Aru</string>
-
     <string name="error_no_custom_emojis">Tummant-ik·im %s ur tesɛi ara imujiyen udmawanen</string>
     <string name="action_open_toot">Ldi tijewwiqt</string>
     <string name="license_cc_by_4">CC-BY 4.0</string>
     <string name="license_cc_by_sa_4">CC-BY-SA 4.0</string>
-
     <string name="pin_action">Senṭeḍ</string>
-
     <string name="action_view_mutes">Imiḍanen yettwasgugmen</string>
     <string name="action_view_blocks">Imiḍan yettwacekklen</string>
     <string name="action_view_domain_mutes">Tiɣula yettwaffren</string>
@@ -115,14 +105,13 @@
     <string name="action_view_media">Taɣwalt</string>
     <string name="notifications_clear">Sfeḍ</string>
     <string name="title_mutes">Imiḍanen yettwasgugmen</string>
-    <string name="title_blocks">Imiḍanen yettwacekklen</string>
+    <string name="title_blocks">Imiḍan yettwacekklen</string>
     <string name="title_domain_mutes">Tiɣula yettwaffren</string>
     <string name="title_follow_requests">Isuturen n teḍfeṛt</string>
     <string name="pref_title_notifications_enabled">Tilɣa</string>
     <string name="title_media">Taywalt</string>
     <string name="action_remove">Kkes</string>
     <string name="compose_shortcut_short_label">Azen</string>
-
     <string name="edit_poll">Ẓreg</string>
     <string name="title_statuses_pinned">Yettwanṭḍen</string>
     <string name="action_add_media">Rnu amidya</string>
@@ -140,10 +129,8 @@
     <string name="action_edit_list">Ẓreg umuɣ-a</string>
     <string name="action_add_to_list">Rnu yiwen umiḍan ɣer wummuɣ</string>
     <string name="action_remove_from_list">Kkes amiḍan seg wumuɣ</string>
-
     <string name="profile_metadata_add">Rnu isefka</string>
     <string name="hint_list_name">Isem n wumuɣ</string>
-
     <string name="select_list_title">Fren tabdart</string>
     <string name="list">Umuɣ</string>
     <string name="notifications_apply_filter">Sizdeg</string>
@@ -153,15 +140,11 @@
     <string name="action_report">Ccetki fell-as</string>
     <string name="action_reject">Ggami</string>
     <string name="download_image">Yessidired %1$s</string>
-
     <string name="send_media_to">Bḍu tugna s…</string>
-
     <string name="login_connection">itteqqen…</string>
-
     <string name="dialog_message_uploading_media">Issalay…</string>
     <string name="pref_title_notification_filter_poll">fukken kran n wadɣaren</string>
     <string name="pref_title_timeline_filters">Imzizdigen</string>
-
     <string name="app_theme_auto">Akken yella yiṭij</string>
     <string name="pref_title_browser_settings">Iminig</string>
     <string name="pref_title_show_replies">Sken-d tiririyin</string>
@@ -171,20 +154,16 @@
     <string name="notification_poll_name">Adɣaren</string>
     <string name="notification_mention_format">Yuder-ik-id %s</string>
     <string name="description_account_locked">Yettwargel umiḍan</string>
-
     <string name="abbreviated_years_ago">%dis aya</string>
     <string name="abbreviated_days_ago">%dus aya</string>
     <string name="replying_to">Tettaraḍ-as i @%s</string>
     <string name="load_more_placeholder_text">awid ugar</string>
-
     <string name="pref_title_thread_filter_keywords">Idewenniyen</string>
     <string name="lock_account_label">Rgel amiḍan</string>
     <string name="performing_lookup_title">Yettnadi…</string>
     <string name="restart">Ales tanekra</string>
     <string name="download_failed">Tuccḍa n usider</string>
-
     <string name="account_moved_description">Igujj %1$s ɣer:</string>
-
     <string name="unpin_action">Kkes asenṭeḍ</string>
     <string name="conversation_1_recipients">%1$s</string>
     <string name="conversation_2_recipients">%1$s akked %2$s</string>
@@ -192,35 +171,31 @@
     <string name="compose_shortcut_long_label">Aru tijewwiqt</string>
     <string name="poll_info_format"> <!-- 15 n wadɣaren • 1 n wesrag id yeqqimen --> %1$s • %2$s</string>
     <plurals name="poll_info_votes">
-	<item quantity="one">%s n wedɣar</item>
-	<item quantity="other">%s n yedɣaren</item>
-</plurals>
+        <item quantity="one">%s n wedɣar</item>
+        <item quantity="other">%s n yedɣaren</item>
+    </plurals>
     <string name="poll_info_time_relative">%s id yugran</string>
     <string name="poll_info_time_absolute">ad ifak deg %s</string>
     <string name="poll_info_closed">ifuk</string>
-
     <string name="poll_vote">Dɣer</string>
-
     <string name="poll_ended_voted">Ifuk, tura kan, yiwen wedɣar t tteki-iḍ degs</string>
     <string name="poll_ended_created">Ifukk yiwen wedɣar id snulfaḍ</string>
-
     <plurals name="poll_timespan_days">
-	<item quantity="one">%d n wass</item>
-	<item quantity="other">%d n wussan</item>
-</plurals>
+        <item quantity="one">%d n wass</item>
+        <item quantity="other">%d n wussan</item>
+    </plurals>
     <plurals name="poll_timespan_hours">
-	<item quantity="one">%d wesrag</item>
-	<item quantity="other">%d n yisragen</item>
-</plurals>
+        <item quantity="one">%d wesrag</item>
+        <item quantity="other">%d n yisragen</item>
+    </plurals>
     <plurals name="poll_timespan_minutes">
-	<item quantity="one">%d n tasdidt</item>
-	<item quantity="other">%d n tisdidin</item>
-</plurals>
+        <item quantity="one">%d n tasdidt</item>
+        <item quantity="other">%d n tisdidin</item>
+    </plurals>
     <string name="button_continue">Kemmel</string>
     <string name="button_back">Uɣal</string>
     <string name="failed_report">Tella-d tuccḍa deg ccetki</string>
     <string name="failed_search">Tucḍa n unadi</string>
-
     <string name="create_poll_title">Assenqed</string>
     <string name="poll_duration_5_min">5 n tisdidin</string>
     <string name="poll_duration_30_min">30 n tisdidin</string>
@@ -230,12 +205,10 @@
     <string name="poll_duration_3_days">3 n wussan</string>
     <string name="poll_duration_7_days">7 n wussan</string>
     <string name="poll_new_choice_hint">Tafrant %d</string>
-
     <string name="title_follows">Ig ṭafaṛ</string>
     <string name="title_followers">Imeḍfaṛen</string>
     <string name="hint_search_people_list">Nadi ɣef medden i teṭafareḍ</string>
     <string name="description_visiblity_private">Imeḍfaṛen</string>
-
     <string name="action_links">Iseɣwan</string>
     <string name="action_mentions">Tibdarin</string>
     <string name="title_mentions_dialog">Tibdarin</string>
@@ -243,18 +216,14 @@
     <string name="confirmation_reported">Yettwaceyyaɛ!</string>
     <string name="status_sent">Yettwaceyyaɛ!</string>
     <string name="search_no_results">Ula d yiwen n ugmuḍ</string>
-
     <string name="post_privacy_followers_only">I yimeḍfaṛen kan</string>
-
     <string name="pref_status_text_size">Teɣzi n weḍṛis</string>
-
     <string name="about_powered_by_tusky">Yettwamdemmar s Tusky</string>
     <string name="about_project_site">Asmel Web n usenfaṛ:
 \n https://tusky.app</string>
     <string name="abbreviated_hours_ago">%dsr</string>
     <string name="abbreviated_minutes_ago">%dtsd</string>
     <string name="abbreviated_seconds_ago">%dtsn</string>
-
     <string name="compose_save_draft">Sekles amzun d arewway\?</string>
     <string name="later">Ticki</string>
     <string name="profile_badge_bot_text">Aṛubut</string>
@@ -263,22 +232,19 @@
     <string name="abbreviated_in_minutes">deg %dtsd</string>
     <string name="abbreviated_in_seconds">deg %dtsn</string>
     <plurals name="poll_timespan_seconds">
-	<item quantity="one">%d n tasint</item>
-	<item quantity="other">%d n tasinin</item>
-</plurals>
-
+        <item quantity="one">%d n tasint</item>
+        <item quantity="other">%d n tasinin</item>
+    </plurals>
     <string name="status_sensitive_media_title">Agbur amḥulfu</string>
     <string name="pref_default_media_sensitivity">Creḍ allal n teywalt amzun d amḥulfu</string>
     <string name="action_reset_schedule">Wennez tikkelt-nniḍen</string>
     <string name="error_media_upload_sending">Asali ur yeddi ara.</string>
     <string name="error_sender_account_gone">Tuccḍa deg tuzna n tijewwiqt.</string>
-
     <string name="title_public_local">Adigan</string>
     <string name="title_licenses">Turagin</string>
-
     <string name="status_boosted_format">Yebḍa-t %s</string>
-    <string name="notification_reblog_format">%s Y·Tebḍa tijewwiqt-ik·im</string>
-    <string name="notification_favourite_format">%s Y·Terna tijewwiqt-ik·im ɣer imenyafen-is</string>
+    <string name="notification_reblog_format">%s yebḍa tijewwiqt-ik·im</string>
+    <string name="notification_favourite_format">%s yerna tijewwiqt-ik·im ɣer ismenyafen-is</string>
     <string name="action_quick_reply">Tiririt taruradt</string>
     <string name="action_reblog">Bḍu</string>
     <string name="action_unreblog">Kkes beṭu</string>
@@ -291,12 +257,10 @@
     <string name="title_hashtags_dialog">Ihacṭagen</string>
     <string name="confirmation_unmuted">Aseqdac nni ur yettwasgugem ara tura</string>
     <string name="confirmation_domain_unmuted">%s ur yettwaffer ara</string>
-
     <string name="hint_note">Assisen</string>
     <string name="label_header">Tugna n yiɣef n umaɣnu</string>
-
     <string name="error_empty">Ur ilaq ara ad yili d ilem.</string>
     <string name="action_block">Cekkel</string>
     <string name="action_unblock">Kkes tacekkalt</string>
     <string name="confirmation_unblocked">Tettwakkes tacekkalt ɣef umiḍan-nni</string>
-    </resources>
+</resources>

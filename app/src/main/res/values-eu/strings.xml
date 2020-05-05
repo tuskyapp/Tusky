@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='UTF-8'?>
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="error_generic">Errorea gertatu da.</string>
     <string name="error_empty">Eremu hau ezin da hutsik egon.</string>
@@ -119,11 +119,13 @@
     <string name="label_header">Goiburua</string>
     <string name="link_whats_an_instance">Zer da instantzia?</string>
     <string name="login_connection">Konektatzen…</string>
-    <string name="dialog_whats_an_instance"> Sartu hemen helbidea edo mastodon.eus, mastodon.jalgi.eus, mastodon.social bezalako <a href="https://instances.social">edozein instantzia</a>,
-        \n\n Oraindik ez baduzu konturik, instantziaren izena sartu eta bertan kontua sortu dezakezu.
-\n\nInstantzia zure kontua dagoen gunea da, baino beste instantzietako erabiltzaileak zurean egongo balira bezala jarraitu ditzakezu.
-        \n\nInformazio gehiago <a href="https://joinmastodon.org">joinmastodon.org</a> helbidean topatuko duzu.
-    </string>
+    <string name="dialog_whats_an_instance">Sartu hemen helbidea edo mastodon.eus, mastodon.jalgi.eus, mastodon.social bezalako <a href="https://instances.social">edozein instantzia</a>, 
+\n
+\n Oraindik ez baduzu konturik, instantziaren izena sartu eta bertan kontua sortu dezakezu. 
+\n
+\nInstantzia zure kontua dagoen gunea da, baino beste instantzietako erabiltzaileak zurean egongo balira bezala jarraitu ditzakezu. 
+\n
+\nInformazio gehiago <a href="https://joinmastodon.org">joinmastodon.org</a> helbidean topatuko duzu. </string>
     <string name="dialog_title_finishing_media_upload">Mediaren igoera bukatzen</string>
     <string name="dialog_message_uploading_media">Igotzen…</string>
     <string name="dialog_download_image">Jaitsi</string>
@@ -275,7 +277,7 @@
     <string name="label_remote_account">Ondorengo edukiak erabiltzailearen informazioa erdizka erakutsi dezake. Profil osoa ikusteko nabigatzailean sakatu.</string>
     <string name="unpin_action">Desainguratu</string>
     <string name="pin_action">Ainguratu</string>
-<string name="error_network">Sareko errore bat sortu da! Zure konexioa ziurta ezazu berriro, mesedez!</string>
+    <string name="error_network">Sareko errore bat sortu da! Zure konexioa ziurta ezazu berriro, mesedez!</string>
     <string name="title_direct_messages">Mezu Zuzenak</string>
     <string name="title_tab_preferences">Kategoriak</string>
     <string name="title_statuses_pinned">Lotuta</string>
@@ -298,35 +300,25 @@
     <string name="action_mentions">Aipamenak</string>
     <string name="action_open_reblogged_by">Bultzadak erakutsi</string>
     <string name="action_open_faved_by">Gogokoak erakutsi</string>
-
     <string name="title_mentions_dialog">Aipamenak</string>
     <string name="title_links_dialog">Estekak</string>
     <string name="action_open_media_n">Ireki media #%d</string>
-
     <string name="action_open_as">%s bezala ireki</string>
     <string name="action_share_as">... bezala partekatu</string>
     <string name="download_media">Media jaisten</string>
     <string name="downloading_media">Media jaisten</string>
-
     <string name="confirmation_domain_unmuted">%s ez dago ezkutatua</string>
-
     <string name="dialog_redraft_toot_warning">Tut hau ezabatu eta zirriborro berria egin\?</string>
     <string name="mute_domain_warning">Ziur al zaude %s ezabatu nahi duzula\? Domeinu horretatik datorren edukia ez duzu denbora-lerro publikoetan edo jakinarazpenentan ikusiko. Domeinu horretan dituzun jarraitzaileak ezabatuko dira.</string>
     <string name="mute_domain_warning_dialog_ok">Domeinu osoa ezkutatu</string>
-
     <string name="pref_title_notification_filter_poll">Galdeketak bukatu dira</string>
     <string name="pref_title_timeline_filters">Iragazkiak</string>
-
     <string name="app_theme_system">Erabili sistemaren diseinua</string>
-
     <string name="pref_title_language">Hizkuntza</string>
     <string name="pref_title_bot_overlay">Botentzako erakuslea erakutsi</string>
     <string name="pref_title_animate_gif_avatars">GIF abatarrak animatu</string>
-
     <string name="notification_poll_name">Galdeketak</string>
     <string name="notification_poll_description">Bukatutako galdeketen jakinarazpenak</string>
-
-
     <string name="about_tusky_version">Tusky %s</string>
     <string name="action_hashtags">Traolak</string>
     <string name="title_hashtags_dialog">Traolak</string>
@@ -334,7 +326,6 @@
     <string name="abbreviated_hours_ago">%dh</string>
     <string name="abbreviated_minutes_ago">%dm</string>
     <string name="abbreviated_seconds_ago">%ds</string>
-
     <string name="pref_title_alway_open_spoiler">Beti zabaldu edukien abisuekin markatutako tootak</string>
     <string name="pref_title_thread_filter_keywords">Elkarrizketak</string>
     <string name="filter_addition_dialog_title">Gehitu iragazkia</string>
@@ -344,7 +335,6 @@
     <string name="filter_dialog_whole_word">Hitz osoa</string>
     <string name="filter_dialog_whole_word_description">Gako-hitza edo esaldia alfanumerikoa denean bakarrik, hitz osoarekin bat datorrenean bakarrik aplikatuko da</string>
     <string name="filter_add_description">Iragazteko esaldia</string>
-
     <string name="error_create_list">Ezin izan da zerrenda sortu</string>
     <string name="error_rename_list">Ezin izan da zerrendaren izena aldatu</string>
     <string name="error_delete_list">Ezin izan da zerrenda ezabatu</string>
@@ -355,31 +345,23 @@
     <string name="hint_search_people_list">Bilatu jarraitzen dituzun pertsonak</string>
     <string name="action_add_to_list">Gehitu kontua zerrendan</string>
     <string name="action_remove_from_list">Kendu kontua zerrendatik</string>
-
     <string name="caption_notoemoji">Google-ren egungo emoji multzoa</string>
-
     <string name="license_cc_by_4">CC-BY 4.0</string>
     <string name="license_cc_by_sa_4">CC-BY-SA 4.0</string>
-
     <plurals name="favs">
-	<item quantity="one">&lt;b&gt;%1$s&lt;/b&gt; Gogoko</item>
-	<item quantity="other">&lt;b&gt;%1$s&lt;/b&gt; Gogoko</item>
-</plurals>
-
+        <item quantity="one">&lt;b&gt;%1$s&lt;/b&gt; Gogoko</item>
+        <item quantity="other">&lt;b&gt;%1$s&lt;/b&gt; Gogoko</item>
+    </plurals>
     <plurals name="reblogs">
-	<item quantity="one">&lt;b&gt;%s&lt;/b&gt; Bultzada</item>
-	<item quantity="other">&lt;b&gt;%s&lt;/b&gt; Bultzada</item>
-</plurals>
-
+        <item quantity="one">&lt;b&gt;%s&lt;/b&gt; Bultzada</item>
+        <item quantity="other">&lt;b&gt;%s&lt;/b&gt; Bultzada</item>
+    </plurals>
     <string name="title_reblogged_by">Bultzatuta</string>
     <string name="title_favourited_by">Gogokoa</string>
-
     <string name="conversation_1_recipients">%1$s</string>
     <string name="conversation_2_recipients">%1$s eta %2$s</string>
     <string name="conversation_more_recipients">%1$s, %2$s eta %3$d gehiago</string>
     <string name="max_tab_number_reached">geienezko %1$d fitxa iritsita</string>
-
-
     <string name="description_status_media">Media: %s</string>
     <string name="description_status_cw">Edukiaren abisua: %s</string>
     <string name="description_status_media_no_description_placeholder">Deskribapenik ez</string>
@@ -390,52 +372,43 @@
     <string name="description_visiblity_private">Jarraitzaileak</string>
     <string name="description_visiblity_direct">Zuzena</string>
     <string name="description_poll">Inkestatu aukerekin: %1$s, %2$s, %3$s, %4$s; %5$s</string>
-
     <string name="hint_list_name">Zerrendaren izena</string>
-
     <string name="edit_hashtag_title">Editatu traola</string>
     <string name="edit_hashtag_hint">Traola # gabe</string>
     <string name="hashtag">Traola</string>
     <string name="notifications_clear">Garbitu</string>
     <string name="notifications_apply_filter">Iragazi</string>
     <string name="filter_apply">Aplikatu</string>
-
     <string name="compose_shortcut_long_label">Idatzi Toot-a</string>
     <string name="compose_shortcut_short_label">Idatzi</string>
-
     <string name="notification_clear_text">Ziur zaude jakinarazpen guztiak betirako garbitu nahi dituzula\?</string>
     <string name="compose_preview_image_description">%s irudiarentzako ekintzak</string>
-
     <string name="poll_info_format"> <!-- 15 boto • Ordu 1 geratzen da --> %1$s • %2$s</string>
     <plurals name="poll_info_votes">
-	<item quantity="one">Boto %s</item>
-	<item quantity="other">%s Boto</item>
-</plurals>
+        <item quantity="one">Boto %s</item>
+        <item quantity="other">%s Boto</item>
+    </plurals>
     <string name="poll_info_time_absolute">%s amaitzen da</string>
     <string name="poll_info_closed">itxita</string>
-
     <string name="poll_vote">Botatu</string>
-
     <string name="poll_ended_voted">Botoa eman duzun galdeketa amaitu da</string>
     <string name="poll_ended_created">Sortu duzun galdeketa amaitu da</string>
-
     <plurals name="poll_timespan_days">
-	<item quantity="one">Egun %d</item>
-	<item quantity="other">%d egun</item>
-</plurals>
+        <item quantity="one">Egun %d</item>
+        <item quantity="other">%d egun</item>
+    </plurals>
     <plurals name="poll_timespan_hours">
-	<item quantity="one">Ordu %d</item>
-	<item quantity="other">%d ordu</item>
-</plurals>
+        <item quantity="one">Ordu %d</item>
+        <item quantity="other">%d ordu</item>
+    </plurals>
     <plurals name="poll_timespan_minutes">
-	<item quantity="one">Minutu %d</item>
-	<item quantity="other">%d minutu</item>
-</plurals>
+        <item quantity="one">Minutu %d</item>
+        <item quantity="other">%d minutu</item>
+    </plurals>
     <plurals name="poll_timespan_seconds">
-	<item quantity="one">Segundu %d</item>
-	<item quantity="other">%d segundu</item>
-</plurals>
-
+        <item quantity="one">Segundu %d</item>
+        <item quantity="other">%d segundu</item>
+    </plurals>
     <string name="button_continue">Jarraitu</string>
     <string name="button_back">Itzuli</string>
     <string name="button_done">Eginda</string>
@@ -448,10 +421,7 @@
     <string name="report_description_remote_instance">Kontua beste zerbitzari batekoa da. Bidali txostenaren kopia anonimatua hara ere\?</string>
     <string name="title_accounts">Kontuak</string>
     <string name="failed_search">Bilaketa huts egin du</string>
-
     <string name="pref_title_show_notifications_filter">Erakutsi jakinarazpenen iragazkia</string>
-
-
     <string name="create_poll_title">Inkesta</string>
     <string name="poll_duration_5_min">5 minutu</string>
     <string name="poll_duration_30_min">30 minutu</string>
@@ -465,8 +435,7 @@
     <string name="poll_new_choice_hint">%d. aukera</string>
     <string name="edit_poll">Editatu</string>
     <string name="post_lookup_error_format">Errorea agertu da %s mezua bilatzean</string>
-
-<string name="title_bookmarks">Laster-markak</string>
+    <string name="title_bookmarks">Laster-markak</string>
     <string name="action_bookmark">Laster-marka</string>
     <string name="action_view_bookmarks">Laster-markak</string>
     <string name="action_open_reblogger">Ireki bultzadaren egilea</string>
@@ -475,10 +444,9 @@
     <string name="poll_info_time_relative">%s geratzen da</string>
     <string name="error_audio_upload_size">Audioak 40MB baino gutxiago izan behar ditu.</string>
     <string name="gradient_for_media">Erakutsi degradatu koloretsuak ezkutuko multimedia-edukirako</string>
-
     <string name="select_list_title">Aukeratu zerrenda</string>
     <string name="list">Zerrenda</string>
     <string name="no_saved_status">Ez duzu zirriborrorik.</string>
     <string name="no_scheduled_status">Ez duzu tut programaturik.</string>
     <string name="warning_scheduling_interval">Mastodonek gutxienez 5 minutuko programazio-tartea du.</string>
-    </resources>
+</resources>
