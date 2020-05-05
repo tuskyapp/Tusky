@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='UTF-8'?>
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="error_generic">Ein Fehler ist aufgetreten.</string>
     <string name="error_network">Ein Netzwerkfehler ist aufgetreten! Bitte überprüfen deine Internetverbindung und versuche es erneut!</string>
@@ -108,7 +108,7 @@
     <string name="action_add_tab">Tab hinzufügen</string>
     <string name="action_links">Verlinkungen</string>
     <string name="action_mentions">Erwähnungen</string>
-    <string name="action_hashtags">Hashtags</string>
+    <string name="action_hashtags">Hastags</string>
     <string name="action_open_reblogged_by">Boosts anzeigen</string>
     <string name="action_open_faved_by">Favoriten anzeigen</string>
     <string name="title_hashtags_dialog">Hashtags</string>
@@ -323,26 +323,21 @@
     <string name="hint_list_name">Name auflisten</string>
     <string name="download_media">Medien herunterladen</string>
     <string name="downloading_media">Medien werden heruntergeladen</string>
-
     <string name="filter_add_description">zu filternde Phrase</string>
-
     <string name="error_create_list">Liste konnte nicht erstellt werden</string>
     <string name="error_rename_list">Liste konnte nicht umbenannt werden</string>
     <string name="error_delete_list">Liste konnte nicht gelöscht werden</string>
     <string name="hint_search_people_list">Suche nach Leuten denen du folgst</string>
     <string name="action_remove_from_list">Von der Liste entfernen</string>
-
     <string name="edit_hashtag_title">Hashtag bearbeiten</string>
     <string name="edit_hashtag_hint">Hashtag ohne #</string>
     <string name="hashtag">Hashtag</string>
-
- <string name="action_open_reblogger">Öffne Autor des geteilten Beitrages</string>
+    <string name="action_open_reblogger">Öffne Autor des geteilten Beitrages</string>
     <string name="pref_title_public_filter_keywords">Öffentliche Zeitleisten</string>
     <plurals name="favs">
-	<item quantity="one">&lt;b&gt;%1$s&lt;/b&gt; Favorit</item>
-	<item quantity="other">&lt;b&gt;%1$s&lt;/b&gt; Favoriten</item>
-</plurals>
-
+        <item quantity="one">&lt;b&gt;%1$s&lt;/b&gt; Favorit</item>
+        <item quantity="other">&lt;b&gt;%1$s&lt;/b&gt; Favoriten</item>
+    </plurals>
     <string name="title_reblogged_by">Geteilt von</string>
     <string name="description_status_media">Medien: %s</string>
     <string name="description_status_cw">Inhaltswarnung: %s</string>
@@ -350,63 +345,50 @@
     <string name="description_visiblity_unlisted">Ungelistet</string>
     <string name="action_delete_and_redraft">Löschen und neu erstellen</string>
     <string name="dialog_redraft_toot_warning">Bist du dir sicher, dass du diesen Beitrag löschen und neu erstellen möchtest\?</string>
-
     <string name="pref_title_notification_filter_poll">Umfragen vorbei sind</string>
     <string name="notification_poll_name">Umfragen</string>
     <string name="notification_poll_description">Benachrichtigungen über beendete Umfragen</string>
-
-
     <string name="notifications_clear">Löschen</string>
     <string name="notifications_apply_filter">Filtern</string>
     <string name="filter_apply">Anwenden</string>
-
     <string name="compose_shortcut_long_label">Beitrag erstellen</string>
     <string name="compose_shortcut_short_label">Beitrag erstellen</string>
     <string name="pref_title_bot_overlay">Bot-Hinweis anzeigen</string>
-
     <string name="notification_clear_text">Bist du dir sicher, dass du alle deine Benachrichtigungen dauerhaft löschen möchtest\?</string>
-
     <string name="poll_info_format"> <!-- 15 votes • 1 hour left --> %1$s • %2$s</string>
     <plurals name="poll_info_votes">
-	<item quantity="one">%s Stimme</item>
-	<item quantity="other">%s Stimmen</item>
-</plurals>
+        <item quantity="one">%s Stimme</item>
+        <item quantity="other">%s Stimmen</item>
+    </plurals>
     <string name="poll_info_time_relative">%s verbleibend</string>
     <string name="poll_info_time_absolute">endet um %s</string>
     <string name="poll_info_closed">Geschlossen</string>
-
     <string name="poll_vote">Abstimmen</string>
-
     <string name="poll_ended_voted">Eine Umfrage, in der du abgestimmt hast, ist vorbei</string>
     <string name="poll_ended_created">Eine Umfrage, die du erstellt hast, ist vorbei</string>
-
     <plurals name="poll_timespan_days">
-	<item quantity="one">%d Tag</item>
-	<item quantity="other">%d Tage</item>
-</plurals>
+        <item quantity="one">%d Tag</item>
+        <item quantity="other">%d Tage</item>
+    </plurals>
     <plurals name="poll_timespan_hours">
-	<item quantity="one">%d Stunde</item>
-	<item quantity="other">%d Stunden</item>
-</plurals>
+        <item quantity="one">%d Stunde</item>
+        <item quantity="other">%d Stunden</item>
+    </plurals>
     <plurals name="poll_timespan_minutes">
-	<item quantity="one">%d Minute</item>
-	<item quantity="other">%d Minuten</item>
-</plurals>
+        <item quantity="one">%d Minute</item>
+        <item quantity="other">%d Minuten</item>
+    </plurals>
     <plurals name="poll_timespan_seconds">
-	<item quantity="one">%d Sekunde</item>
-	<item quantity="other">%d Sekunden</item>
-</plurals>
-
-<string name="title_domain_mutes">Versteckte Domains</string>
+        <item quantity="one">%d Sekunde</item>
+        <item quantity="other">%d Sekunden</item>
+    </plurals>
+    <string name="title_domain_mutes">Versteckte Domains</string>
     <string name="action_view_domain_mutes">Versteckte Domains</string>
     <string name="action_mute_domain">%s verstecken</string>
     <string name="confirmation_domain_unmuted">%s nicht mehr versteckt</string>
-
     <string name="mute_domain_warning">Bist du dir sicher, dass du die Domain %s blockieren willst\? Nach der Blockierung wirst du nichts mehr von dieser Domain in öffentlichen Zeitleisten oder Benachrichtigungen sehen. Deine Follower von dieser Domain werden entfernt.</string>
     <string name="mute_domain_warning_dialog_ok">Ganze Domain verbergen</string>
-
     <string name="pref_title_animate_gif_avatars">GIF-Avatare animieren</string>
-
     <string name="filter_dialog_whole_word">Ganzes Wort</string>
     <string name="filter_dialog_whole_word_description">Wenn das Schlagwort nur aus Buchstaben und Zahlen besteht, wird es nur angewendet, wenn es dem ganzen Wort entspricht</string>
     <string name="button_continue">Weiter</string>
@@ -418,9 +400,7 @@
     <string name="failed_report">Beim Melden ist ein Fehler aufgetreten</string>
     <string name="report_description_1">Der Bericht wird an die Moderatoren des Servers geschickt. Du kannst hier eine Erklärung angeben, warum du dieses Konto meldest:</string>
     <string name="report_description_remote_instance">Dieses Konto ist von einem anderen Server. Soll eine anonymisierte Kopie des Berichts auch dorthin geschickt werden\?</string>
-
     <string name="pref_title_show_notifications_filter">Benachrichtigungsfilter anzeigen</string>
-
     <string name="create_poll_title">Umfrage</string>
     <string name="poll_duration_5_min">5 Minuten</string>
     <string name="poll_duration_30_min">30 Minuten</string>
@@ -430,18 +410,14 @@
     <string name="poll_duration_3_days">3 Tage</string>
     <string name="poll_duration_7_days">7 Tage</string>
     <string name="edit_poll">Bearbeiten</string>
-
-<string name="about_tusky_version">Tusky Version %s</string>
+    <string name="about_tusky_version">Tusky Version %s</string>
     <string name="action_add_poll">Umfrage hinzufügen</string>
     <string name="pref_title_alway_open_spoiler">Beiträge mit Inhaltswarnungen immer ausklappen</string>
     <string name="description_poll">Umfrage mit den Möglichkeiten: %1$s, %2$s, %3$s, %4$s; %5$s</string>
-
     <string name="compose_preview_image_description">Aktionen für Bild %s</string>
-
     <string name="failed_fetch_statuses">Fehler beim Holen der Beiträge</string>
     <string name="title_accounts">Konten</string>
     <string name="failed_search">Fehler beim Suchen</string>
-
     <string name="add_poll_choice">Auswahlmöglichkeit hinzufügen</string>
     <string name="poll_allow_multiple_choices">Mehrere Möglichkeiten</string>
     <string name="poll_new_choice_hint">Möglichkeit %d</string>
@@ -455,20 +431,24 @@
     <string name="action_bookmark">Lesezeichen</string>
     <string name="action_view_bookmarks">Lesezeichen</string>
     <string name="gradient_for_media">Bunten Farbverlauf für versteckte Medien anzeigen</string>
-
     <string name="about_powered_by_tusky">Powered by Tusky</string>
     <plurals name="reblogs">
-	<item quantity="one"><b>%s</b> Boost</item>
-	<item quantity="other"><b>%s</b> Boosts</item>
-</plurals>
-
+        <item quantity="one"><b>%s</b> Boost</item>
+        <item quantity="other"><b>%s</b> Boosts</item>
+    </plurals>
     <string name="description_status_bookmarked">Als Lesezeichen gespeichert</string>
     <string name="select_list_title">Liste auswählen</string>
     <string name="list">Liste</string>
     <string name="post_lookup_error_format">Fehler beim Nachschlagen von Post %s</string>
-
     <string name="no_saved_status">Du hast keine Entwürfe.</string>
     <string name="no_scheduled_status">Du hast keine geplanten Beiträge.</string>
     <string name="warning_scheduling_interval">Das Datum des geplanten Toots muss mindestens 5 Minuten in der Zukunft liegen.</string>
-
+    <string name="notification_follow_request_description">Benachrichtigungen über neue Folgeanfragen</string>
+    <string name="pref_title_notification_filter_follow_requests">Neue Folgeanfragen</string>
+    <string name="notification_follow_request_name">Folgeanfragen</string>
+    <string name="dialog_mute_warning">Bist du dir sicher, dass du @%s stummschalten möchtest\?</string>
+    <string name="dialog_block_warning">Bist du dir sicher, dass du @%s blockieren möchtest\?</string>
+    <string name="action_unmute_conversation">Stummschaltung der Konversation aufheben</string>
+    <string name="action_mute_conversation">Konversation stummschalten</string>
+    <string name="notification_follow_request_format">%s möchte dir folgen</string>
 </resources>
