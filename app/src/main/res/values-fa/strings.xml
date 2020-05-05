@@ -481,4 +481,5 @@
     <string name="no_saved_status">هیچ پیش‌نویسی ندارید.</string>
     <string name="no_scheduled_status">هیچ وضعیت زمان‌بسته‌ای ندارید.</string>
 
-</resources>
+<string name="warning_scheduling_interval">ماستودون، بازهٔ زمان‌بندی‌ای با کمینهٔ ۵ دقیقه دارد.</string>
+    </resources>
