@@ -32,7 +32,7 @@
     <string name="title_follows">正在关注</string>
     <string name="title_followers">关注者</string>
     <string name="title_favourites">我的收藏</string>
-    <string name="title_mutes">被屏蔽的用户</string>
+    <string name="title_mutes">被隐藏的用户</string>
     <string name="title_blocks">被屏蔽的用户</string>
     <string name="title_follow_requests">关注请求</string>
     <string name="title_edit_profile">编辑个人资料</string>

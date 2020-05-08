@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='UTF-8'?>
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="error_generic">Ett fel har uppstått.</string>
     <string name="error_network">Ett nätverksfel inträffade! Kontrollera att du är ansluten till internet och försök igen! </string>
@@ -329,9 +329,9 @@
         <item quantity="other">&lt;b&gt;%1$s&lt;/b&gt; Favoriter</item>
     </plurals>
     <plurals name="reblogs">
-	<item quantity="one"><b>%s</b> Knuff</item>
-	<item quantity="other"><b>%s</b> Knuffar</item>
-</plurals>
+        <item quantity="one"><b>%s</b> Knuff</item>
+        <item quantity="other"><b>%s</b> Knuffar</item>
+    </plurals>
     <string name="title_reblogged_by">Knuffad av</string>
     <string name="title_favourited_by">Favoriserad av</string>
     <string name="conversation_1_recipients">%1$s</string>
@@ -356,79 +356,59 @@
     <string name="description_visiblity_direct">        Direkt
     </string>
     <string name="hint_list_name">Listnamn</string>
-<string name="download_media">Ladda ned media</string>
+    <string name="download_media">Ladda ned media</string>
     <string name="downloading_media">Laddar ned media</string>
-
     <string name="edit_hashtag_title">Redigera hashtag</string>
     <string name="edit_hashtag_hint">Hashtag utan #</string>
     <string name="hashtag">Hashtag</string>
-
-
-<string name="compose_shortcut_long_label">Skriv toot</string>
+    <string name="compose_shortcut_long_label">Skriv toot</string>
     <string name="compose_shortcut_short_label">Skriv</string>
-
-<string name="notifications_clear">Rensa</string>
+    <string name="notifications_clear">Rensa</string>
     <string name="notifications_apply_filter">Filtrera</string>
     <string name="filter_apply">Utför</string>
-
     <string name="pref_title_bot_overlay">Visa robotindikator</string>
-
     <string name="notification_clear_text">Är du säker på att du vill rensa dina aviseringar permanent\?</string>
-
-<string name="action_delete_and_redraft">Radera och skriv på nytt</string>
+    <string name="action_delete_and_redraft">Radera och skriv på nytt</string>
     <string name="dialog_redraft_toot_warning">Radera och skriv ny toot\?</string>
-
     <string name="poll_info_format"> <!-- 15 röster • 1 timme kvar --> %1$s • %2$s</string>
     <plurals name="poll_info_votes">
-	<item quantity="one">%s röst</item>
-	<item quantity="other">%s röster</item>
-</plurals>
+        <item quantity="one">%s röst</item>
+        <item quantity="other">%s röster</item>
+    </plurals>
     <string name="poll_info_time_relative">%s kvar</string>
     <string name="poll_info_time_absolute">avslutas vid %s</string>
     <string name="poll_info_closed">stängd</string>
-
     <string name="poll_vote">Rösta</string>
-
-
-<string name="pref_title_notification_filter_poll">omröstningar har avslutats</string>
+    <string name="pref_title_notification_filter_poll">omröstningar har avslutats</string>
     <string name="notification_poll_name">Omröstningar</string>
     <string name="notification_poll_description">Aviseringar när omröstningar har avslutats</string>
-
-
     <string name="poll_ended_voted">En omröstning där du har röstat är avslutad</string>
     <string name="poll_ended_created">En omröstning som du har skapat har avslutats</string>
-
     <plurals name="poll_timespan_days">
-	<item quantity="one">%d dag</item>
-	<item quantity="other">%d dagar</item>
-</plurals>
+        <item quantity="one">%d dag</item>
+        <item quantity="other">%d dagar</item>
+    </plurals>
     <plurals name="poll_timespan_hours">
-	<item quantity="one">%d timme</item>
-	<item quantity="other">%d timmar</item>
-</plurals>
+        <item quantity="one">%d timme</item>
+        <item quantity="other">%d timmar</item>
+    </plurals>
     <plurals name="poll_timespan_minutes">
-	<item quantity="one">%d minut</item>
-	<item quantity="other">%d minuter</item>
-</plurals>
+        <item quantity="one">%d minut</item>
+        <item quantity="other">%d minuter</item>
+    </plurals>
     <plurals name="poll_timespan_seconds">
-	<item quantity="one">%d sekund</item>
-	<item quantity="other">%d sekunder</item>
-</plurals>
-
-<string name="compose_preview_image_description">Åtgärder för bild %s</string>
-
+        <item quantity="one">%d sekund</item>
+        <item quantity="other">%d sekunder</item>
+    </plurals>
+    <string name="compose_preview_image_description">Åtgärder för bild %s</string>
     <string name="pref_title_animate_gif_avatars">Animera profil gifar</string>
-
     <string name="description_poll">Omröstning med valen: %1$s, %2$s, %3$s, %4$s; %5$s</string>
-
     <string name="title_domain_mutes">Dolda domäner</string>
     <string name="action_view_domain_mutes">Dolda domäner</string>
     <string name="action_mute_domain">Tysta %s</string>
     <string name="confirmation_domain_unmuted">%s inte tystad längre</string>
-
     <string name="mute_domain_warning">Är du säker på att du vill blockera allt från %s\? Du kommer inte kunna se något innehåll från denna domän i publika tidslinjer eller i dina notifieringar. Dina följare på domänen kommer inte att bli borttagna.</string>
     <string name="mute_domain_warning_dialog_ok">Dölj hela domänen</string>
-
     <string name="caption_notoemoji">Google\'s nuvarande emojis</string>
     <string name="button_continue">Fortsätt</string>
     <string name="button_back">Tillbaka</string>
@@ -440,14 +420,12 @@
     <string name="failed_fetch_statuses">Misslyckades att hämta status</string>
     <string name="report_description_1">Anmälan kommer att skickas till din servermoderator. Du kan beskriva varför du anmäler kontot nedan:</string>
     <string name="report_description_remote_instance">Kontot är från en annan server. Skicka en anonym kopia av anmälan dit också\?</string>
-
     <string name="pref_title_show_notifications_filter">Visa notifikationsfilter</string>
-<string name="filter_dialog_whole_word">Helt ord</string>
+    <string name="filter_dialog_whole_word">Helt ord</string>
     <string name="filter_dialog_whole_word_description">När nyckelordet eller frasen enbart är alfanumerisk, appliceras den om den matchar hela ordet</string>
     <string name="pref_title_alway_open_spoiler">Expandera alltid toots med innehållsvarningar</string>
     <string name="title_accounts">Konton</string>
     <string name="failed_search">Sökning misslyckades</string>
-
     <string name="action_add_poll">Skapa en omröstning</string>
     <string name="create_poll_title">Omröstning</string>
     <string name="poll_duration_5_min">5 minuter</string>
@@ -461,15 +439,13 @@
     <string name="poll_allow_multiple_choices">Flerval</string>
     <string name="poll_new_choice_hint">Val %d</string>
     <string name="edit_poll">Redigera</string>
-
-<string name="title_scheduled_toot">Schemalagda toots</string>
+    <string name="title_scheduled_toot">Schemalagda toots</string>
     <string name="action_edit">Ändra</string>
     <string name="action_access_scheduled_toot">Schemalagda toots</string>
     <string name="action_schedule_toot">Schemalägg toot</string>
     <string name="action_reset_schedule">Återställ</string>
     <string name="post_lookup_error_format">Fel vid uppslagning av status %s</string>
-
-<string name="title_bookmarks">Bokmärken</string>
+    <string name="title_bookmarks">Bokmärken</string>
     <string name="action_bookmark">Bokmärk</string>
     <string name="action_view_bookmarks">Bokmärken</string>
     <string name="about_powered_by_tusky">Drivs av Tusky</string>
@@ -477,10 +453,23 @@
     <string name="select_list_title">Välj lista</string>
     <string name="list">Lista</string>
     <string name="gradient_for_media">Visa färgglada gradienter för gömd media</string>
-
     <string name="no_scheduled_status">Du har inga schemalagda statusar.</string>
-
-<string name="error_audio_upload_size">Ljudfiler måste vara mindre än 40MB.</string>
+    <string name="error_audio_upload_size">Ljudfiler måste vara mindre än 40MB.</string>
     <string name="no_saved_status">Du har inga utkast.</string>
     <string name="warning_scheduling_interval">Mastodon har ett minimalt schemaläggningsintervall på 5 minuter.</string>
-    </resources>
+    <string name="action_mute_conversation">Tysta konversation</string>
+    <string name="pref_title_confirm_reblogs">Visa bekräftelse innan knuff</string>
+    <string name="pref_title_show_cards_in_timelines">Visa förhandsvisning av länkar i tidslinjen</string>
+    <string name="pref_title_enable_swipe_for_tabs">Aktivera sveprörelser för att växla mellan flikar</string>
+    <plurals name="poll_info_people">
+        <item quantity="one">%s person</item>
+        <item quantity="other">%s personer</item>
+    </plurals>
+    <string name="notification_follow_request_description">Aviseringar om följarförfrågningar</string>
+    <string name="notification_follow_request_name">Följförfrågningar</string>
+    <string name="pref_title_notification_filter_follow_requests">följförfrågan</string>
+    <string name="dialog_mute_warning">Tysta @%s\?</string>
+    <string name="dialog_block_warning">Blockera @%s\?</string>
+    <string name="action_unmute_conversation">Aktivera ljud på konversation</string>
+    <string name="notification_follow_request_format">%s vill följa dig</string>
+</resources>

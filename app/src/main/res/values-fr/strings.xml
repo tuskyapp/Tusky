@@ -187,7 +187,7 @@
     <string name="pref_title_language">Langue</string>
     <string name="pref_title_status_filter">Filtrage des fils</string>
     <string name="pref_title_status_tabs">Onglets</string>
-    <string name="pref_title_show_boosts">Montrer les partages</string>
+    <string name="pref_title_show_boosts">Afficher les boosts</string>
     <string name="pref_title_show_replies">Afficher les réponses</string>
     <string name="pref_title_show_media_preview">Montrer les miniatures des médias</string>
     <string name="pref_title_proxy_settings">Proxy</string>

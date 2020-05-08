@@ -181,7 +181,7 @@
     <string name="pref_title_hide_follow_button">Verberg zwevende tootknop tijdens scrollen</string>
     <string name="pref_title_language">Taal</string>
     <string name="pref_title_status_filter">Filteren</string>
-    <string name="pref_title_status_tabs">Tijdlijnen</string>
+    <string name="pref_title_status_tabs">Tabs</string>
     <string name="pref_title_show_boosts">Boosts tonen</string>
     <string name="pref_title_show_replies">Reacties tonen</string>
     <string name="pref_title_show_media_preview">Voorbeelden van media tonen</string>
