@@ -457,5 +457,19 @@
     <string name="error_audio_upload_size">Ljudfiler måste vara mindre än 40MB.</string>
     <string name="no_saved_status">Du har inga utkast.</string>
     <string name="warning_scheduling_interval">Mastodon har ett minimalt schemaläggningsintervall på 5 minuter.</string>
-    <string name="action_mute_conversation">Mute conversation</string>
+    <string name="action_mute_conversation">Tysta konversation</string>
+    <string name="pref_title_confirm_reblogs">Visa bekräftelse innan knuff</string>
+    <string name="pref_title_show_cards_in_timelines">Visa förhandsvisning av länkar i tidslinjen</string>
+    <string name="pref_title_enable_swipe_for_tabs">Aktivera sveprörelser för att växla mellan flikar</string>
+    <plurals name="poll_info_people">
+        <item quantity="one">%s person</item>
+        <item quantity="other">%s personer</item>
+    </plurals>
+    <string name="notification_follow_request_description">Aviseringar om följarförfrågningar</string>
+    <string name="notification_follow_request_name">Följförfrågningar</string>
+    <string name="pref_title_notification_filter_follow_requests">följförfrågan</string>
+    <string name="dialog_mute_warning">Tysta @%s\?</string>
+    <string name="dialog_block_warning">Blockera @%s\?</string>
+    <string name="action_unmute_conversation">Aktivera ljud på konversation</string>
+    <string name="notification_follow_request_format">%s vill följa dig</string>
 </resources>
