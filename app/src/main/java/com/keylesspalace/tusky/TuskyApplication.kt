@@ -18,6 +18,7 @@ package com.keylesspalace.tusky
 import android.app.Application
 import android.content.Context
 import android.content.res.Configuration
+import android.util.Log
 import androidx.emoji.text.EmojiCompat
 import androidx.preference.PreferenceManager
 import com.evernote.android.job.JobManager
@@ -29,6 +30,7 @@ import com.keylesspalace.tusky.util.ThemeUtils
 import com.uber.autodispose.AutoDisposePlugins
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
+import io.reactivex.plugins.RxJavaPlugins
 import org.conscrypt.Conscrypt
 import java.security.Security
 import javax.inject.Inject
@@ -64,6 +66,10 @@ class TuskyApplication : Application(), HasAndroidInjector {
         ThemeUtils.setAppNightMode(theme)
 
         JobManager.create(this).addJobCreator(notificationPullJobCreator)
+
+        RxJavaPlugins.setErrorHandler {
+            Log.w("RxJava", "undeliverable exception", it)
+        }
     }
 
     override fun attachBaseContext(base: Context) {
