@@ -73,5 +73,9 @@
         <Preference
             android:key="threadFilters"
             android:title="@string/pref_title_thread_filter_keywords" />
+
+        <Preference
+            android:key="accountFilters"
+            android:title="@string/title_accounts" />
     </PreferenceCategory>
 </androidx.preference.PreferenceScreen>
