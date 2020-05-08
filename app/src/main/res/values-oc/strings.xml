@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='UTF-8'?>
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="error_generic">S\'es produch una error.</string>
     <string name="error_empty">Aquò pot pas èsser void.</string>
@@ -286,32 +286,26 @@
     <string name="action_open_reblogger">Dobrir l’autor del partatge</string>
     <string name="action_open_reblogged_by">Mostrar los partatges</string>
     <string name="action_open_faved_by">Mostrar los favorits</string>
-
     <string name="title_hashtags_dialog">Etiquetas</string>
     <string name="title_mentions_dialog">Mencions</string>
     <string name="title_links_dialog">Ligams</string>
     <string name="action_open_media_n">Dobrir lo mèdia #%d</string>
-
     <string name="action_open_as">Dobrir coma %s</string>
     <string name="action_share_as">Partejar coma…</string>
     <string name="download_media">Telecargar lo mèdia</string>
     <string name="downloading_media">Telecargament del mèdia</string>
-
     <string name="label_avatar">Avatar</string>
     <string name="pref_title_timelines">Flux d’actualitats</string>
     <string name="pref_title_timeline_filters">Filtres</string>
-
     <string name="pref_title_language">Lenga</string>
     <string name="pref_title_proxy_settings">Servidor mandatari</string>
     <string name="pref_default_media_sensitivity">Totjorn marcar los mèdias coma sensibles</string>
     <string name="pref_failed_to_sync">Fracàs de la sincronizacion dels paramètres</string>
-
     <string name="about_tusky_version">Tusky %s</string>
     <string name="abbreviated_days_ago">%dd</string>
     <string name="abbreviated_hours_ago">%dh</string>
     <string name="abbreviated_minutes_ago">%dm</string>
     <string name="abbreviated_seconds_ago">%ds</string>
-
     <string name="pref_title_public_filter_keywords">Flux publics</string>
     <string name="pref_title_thread_filter_keywords">Discutidas</string>
     <string name="filter_addition_dialog_title">Ajustar un filtre</string>
@@ -319,7 +313,6 @@
     <string name="filter_dialog_remove_button">Suprimir</string>
     <string name="filter_dialog_update_button">Actualizar</string>
     <string name="filter_add_description">Frasa de filtrar</string>
-
     <string name="error_create_list">Creacion impossibla de la lista</string>
     <string name="error_rename_list">Impossible de renomenar la lista</string>
     <string name="error_delete_list">Supression impossibla de la lista</string>
@@ -330,31 +323,24 @@
     <string name="hint_search_people_list">Cercar lo monde que seguètz</string>
     <string name="action_add_to_list">Ajustar un compte a la lista</string>
     <string name="action_remove_from_list">Suprimir aqueste compte de la lista</string>
-
     <string name="hint_describe_for_visually_impaired">Descriure pels mal vesents
 \n(%d caractèrs maximum)</string>
     <string name="license_cc_by_4">CC-BY 4.0</string>
     <string name="license_cc_by_sa_4">CC-BY-SA 4.0</string>
-
     <plurals name="favs">
-	<item quantity="one"><b>%1$s</b> Favorit</item>
-	<item quantity="other"><b>%1$s</b> Favorits</item>
-</plurals>
-
+        <item quantity="one"><b>%1$s</b> Favorit</item>
+        <item quantity="other"><b>3%1$s</b>4 Favorits</item>
+    </plurals>
     <plurals name="reblogs">
-	<item quantity="one">&lt;b&gt;%s&lt;/b&gt; partatge</item>
-	<item quantity="other">&lt;b&gt;%s&lt;/b&gt; partatges</item>
-</plurals>
-
+        <item quantity="one">&lt;b&gt;%s&lt;/b&gt; partatge</item>
+        <item quantity="other">&lt;b&gt;%s&lt;/b&gt; partatges</item>
+    </plurals>
     <string name="title_reblogged_by">Partejat per</string>
     <string name="title_favourited_by">Aimat per</string>
-
     <string name="conversation_1_recipients">%1$s</string>
     <string name="conversation_2_recipients">%1$s e %2$s</string>
     <string name="conversation_more_recipients">%1$s, %2$s e %3$d mai</string>
     <string name="max_tab_number_reached">nombre maximum d’onglets %1$d atengut</string>
-
-
     <string name="description_status_media">Mèdia : %s</string>
     <string name="description_status_cw">Avertiment : %s</string>
     <string name="description_status_media_no_description_placeholder">Cap de descripcion</string>
@@ -364,73 +350,54 @@
     <string name="description_visiblity_unlisted">Pas listat</string>
     <string name="description_visiblity_private">Seguidors</string>
     <string name="description_visiblity_direct">Dirècte</string>
-
     <string name="hint_list_name">Nom de la lista</string>
-
     <string name="edit_hashtag_title">Modificar las etiquetas</string>
     <string name="edit_hashtag_hint">Etiquetas sens #</string>
     <string name="hashtag">Etiqueta</string>
-
     <string name="compose_shortcut_long_label">Escriure un tut</string>
     <string name="compose_shortcut_short_label">Escriure</string>
-
-<string name="action_delete_and_redraft">Suprimir e reformular</string>
+    <string name="action_delete_and_redraft">Suprimir e reformular</string>
     <string name="dialog_redraft_toot_warning">Suprimir e reformular aqueste tut \?</string>
-
     <string name="app_theme_system">Utilizar lo tèma sistèma</string>
-
     <string name="notifications_clear">Netejar</string>
     <string name="notifications_apply_filter">Filtrar</string>
     <string name="filter_apply">Aplicar</string>
-
     <string name="pref_title_bot_overlay">Mostrar coma indicator pels robòts</string>
-
     <string name="notification_clear_text">Netejar totas las notificacions d’un biais permanent \?</string>
-
     <plurals name="poll_info_votes">
-	<item quantity="one">%s vòte</item>
-	<item quantity="other">%s vòtes</item>
-</plurals>
+        <item quantity="one">%s vòte</item>
+        <item quantity="other">%s vòtes</item>
+    </plurals>
     <string name="poll_info_time_relative">%s restant</string>
     <string name="poll_info_time_absolute">S’acaba a %s</string>
     <string name="poll_info_closed">acabat</string>
     <string name="poll_vote">Votar</string>
-
-
-<string name="pref_title_notification_filter_poll">Los sondatges son tampats</string>
+    <string name="pref_title_notification_filter_poll">Los sondatges son tampats</string>
     <string name="notification_poll_name">Sondatges</string>
     <string name="notification_poll_description">Notificacion de sondatges tampats</string>
-
-
     <string name="poll_info_format"> <!-- 15 votes • 1 hour left --> %1$s • %2$s</string>
-
     <string name="poll_ended_voted">Un sondatge ont avètz votat es acabat</string>
     <string name="poll_ended_created">Un sondatge qu’avètz creat es acabat</string>
-
     <plurals name="poll_timespan_days">
-	<item quantity="one">%d jorn</item>
-	<item quantity="other">%d jorns</item>
-</plurals>
+        <item quantity="one">%d jorn</item>
+        <item quantity="other">%d jorns</item>
+    </plurals>
     <plurals name="poll_timespan_hours">
-	<item quantity="one">%d ora</item>
-	<item quantity="other">%d oras</item>
-</plurals>
+        <item quantity="one">%d ora</item>
+        <item quantity="other">%d oras</item>
+    </plurals>
     <plurals name="poll_timespan_minutes">
-	<item quantity="one">%d minuta</item>
-	<item quantity="other">%d minutas</item>
-</plurals>
+        <item quantity="one">%d minuta</item>
+        <item quantity="other">%d minutas</item>
+    </plurals>
     <plurals name="poll_timespan_seconds">
-	<item quantity="one">%d segonda</item>
-	<item quantity="other">%d segondas</item>
-</plurals>
-
-<string name="compose_preview_image_description">Accions per l’imatge %s</string>
-
+        <item quantity="one">%d segonda</item>
+        <item quantity="other">%d segondas</item>
+    </plurals>
+    <string name="compose_preview_image_description">Accions per l’imatge %s</string>
     <string name="pref_title_animate_gif_avatars">Activar l’animacion dels avatars</string>
-
     <string name="caption_notoemoji">Jòc d’emoji actuals de Google</string>
     <string name="description_poll">Sondatge amb opcion : %1$s, %2$s, %3$s, %4$s; %5$s</string>
-
     <string name="button_continue">Contunhar</string>
     <string name="button_back">Tornar</string>
     <string name="button_done">Acabat</string>
@@ -441,22 +408,18 @@
     <string name="failed_fetch_statuses">Recuperacion dels estatuts impossibla</string>
     <string name="report_description_1">Lo senhalament serà enviat a vòstre moderator de servidor. Podètz fornir una explicacion de perque senhalatz lo compte çai-jos :</string>
     <string name="report_description_remote_instance">Aqueste compte es en un autre servidor. Enviar una còpia anonimizada del senhalament \?</string>
-
-<string name="title_domain_mutes">Domenis resconduts</string>
+    <string name="title_domain_mutes">Domenis resconduts</string>
     <string name="action_view_domain_mutes">Domenis resconduts</string>
     <string name="action_mute_domain">Rescondre %s</string>
     <string name="confirmation_domain_unmuted">%s es pas mai rescondut</string>
-
     <string name="mute_domain_warning">Volètz vertadièrament blocar complètament %s \? Veiretz pas mai de contengut venent d’aqueste domeni, nimai los flux d’actualitat o las notificacion. Vòstres seguidors d’aqueste domeni seràn tirats.</string>
     <string name="mute_domain_warning_dialog_ok">Rescondre tot lo domeni</string>
-
     <string name="pref_title_show_notifications_filter">Mostrar lo filtre de las notificacions</string>
-<string name="filter_dialog_whole_word">Mot complèt</string>
+    <string name="filter_dialog_whole_word">Mot complèt</string>
     <string name="filter_dialog_whole_word_description">Quand un mot clau o una frasa es solament alfanumeric, serà pas qu’aplicat se correspond al mot complèt</string>
     <string name="pref_title_alway_open_spoiler">Totjorn desplegar los tuts marcats amb un avertiment de contengut</string>
     <string name="title_accounts">Comptes</string>
     <string name="failed_search">Fracàs de la recèrca</string>
-
     <string name="action_add_poll">Ajustar un sondatge</string>
     <string name="create_poll_title">Sondatge</string>
     <string name="poll_duration_5_min">5 minutas</string>
@@ -470,15 +433,13 @@
     <string name="poll_allow_multiple_choices">Opcions multiplas</string>
     <string name="poll_new_choice_hint">Opcion %d</string>
     <string name="edit_poll">Modificar</string>
-
-<string name="title_scheduled_toot">Tuts planificats</string>
+    <string name="title_scheduled_toot">Tuts planificats</string>
     <string name="action_edit">Modificar</string>
     <string name="action_access_scheduled_toot">Tuts planificats</string>
     <string name="action_schedule_toot">Planificar de tuts</string>
     <string name="action_reset_schedule">Escafar</string>
     <string name="post_lookup_error_format">Error en cercant la publicacion %s</string>
-
-<string name="about_powered_by_tusky">Propulsat per Tusky</string>
+    <string name="about_powered_by_tusky">Propulsat per Tusky</string>
     <string name="title_bookmarks">Marcapaginas</string>
     <string name="action_bookmark">Ajustar als marcapaginas</string>
     <string name="action_view_bookmarks">Marcapaginas</string>
@@ -487,9 +448,7 @@
     <string name="list">Lista</string>
     <string name="error_audio_upload_size">Los fichièrs àudio devon èsser inferiors a 40 Mo.</string>
     <string name="gradient_for_media">Mostrar los degradats de colors pels contenguts resconduts</string>
-
     <string name="no_saved_status">Avètz pas cap de borrolhon.</string>
     <string name="no_scheduled_status">Avètz pas cap de tut planificat.</string>
-
-<string name="warning_scheduling_interval">L’interval minimum de planificacion sus Mastodon e de 5 minutas.</string>
-    </resources>
+    <string name="warning_scheduling_interval">L’interval minimum de planificacion sus Mastodon e de 5 minutas.</string>
+</resources>

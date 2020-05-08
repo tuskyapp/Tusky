@@ -444,8 +444,8 @@
     <string name="pref_title_confirm_reblogs">Vis bekreftelsesdialog før boosting</string>
     <string name="pref_title_enable_swipe_for_tabs">Skru på sveiping for å bytte mellom faner</string>
     <plurals name="poll_info_people">
-        <item quantity="one"></item>
-        <item quantity="other"></item>
+        <item quantity="one">%s person</item>
+        <item quantity="other">%s personer</item>
     </plurals>
     <string name="notification_follow_request_description">Varsler om følgeforespørsler</string>
     <string name="notification_follow_request_name">Følgeforespørsler</string>
