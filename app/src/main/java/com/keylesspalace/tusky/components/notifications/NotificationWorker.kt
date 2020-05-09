@@ -13,7 +13,7 @@
  * You should have received a copy of the GNU Lesser General Public License along with Tusky. If
  * not, see <http://www.gnu.org/licenses/>. */
 
-package com.keylesspalace.tusky.util
+package com.keylesspalace.tusky.components.notifications
 
 import android.content.Context
 import android.util.Log
@@ -25,6 +25,7 @@ import com.keylesspalace.tusky.db.AccountEntity
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.entity.Notification
 import com.keylesspalace.tusky.network.MastodonApi
+import com.keylesspalace.tusky.util.isLessThan
 import java.io.IOException
 import javax.inject.Inject
 
