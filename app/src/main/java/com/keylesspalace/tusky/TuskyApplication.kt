@@ -22,6 +22,7 @@ import android.util.Log
 import androidx.emoji.text.EmojiCompat
 import androidx.preference.PreferenceManager
 import androidx.work.WorkManager
+import com.keylesspalace.tusky.components.notifications.NotificationWorkerFactory
 import com.keylesspalace.tusky.di.AppInjector
 import com.keylesspalace.tusky.util.*
 import com.uber.autodispose.AutoDisposePlugins
