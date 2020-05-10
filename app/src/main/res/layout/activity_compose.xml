@@ -9,7 +9,7 @@
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:background="@android:color/transparent">
 
@@ -26,7 +26,7 @@
             android:id="@+id/atButton"
             style="@style/TuskyImageButton"
             android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_height="wrap_content"
             android:layout_gravity="end"
             android:padding="8dp"
             android:text="@string/at_symbol"
@@ -38,7 +38,7 @@
             android:id="@+id/hashButton"
             style="@style/TuskyImageButton"
             android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_height="wrap_content"
             android:layout_gravity="end"
             android:padding="8dp"
             android:text="@string/hash_symbol"
