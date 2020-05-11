@@ -7,9 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.entity.Account
 import com.keylesspalace.tusky.interfaces.AccountActionListener
-import com.keylesspalace.tusky.util.CustomEmojiHelper
-import com.keylesspalace.tusky.util.loadAvatar
-import com.keylesspalace.tusky.util.visible
+import com.keylesspalace.tusky.util.*
 import kotlinx.android.synthetic.main.item_follow_request_notification.view.*
 
 internal class FollowRequestViewHolder(itemView: View, private val showHeader: Boolean) : RecyclerView.ViewHolder(itemView) {
@@ -20,7 +18,7 @@ internal class FollowRequestViewHolder(itemView: View, private val showHeader: B
     fun setupWithAccount(account: Account, formatter: BidiFormatter?) {
         id = account.id
         val wrappedName = formatter?.unicodeWrap(account.name) ?: account.name
-        val emojifiedName: CharSequence = CustomEmojiHelper.emojifyString(wrappedName, account.emojis, itemView)
+        val emojifiedName: CharSequence = emojifyString(wrappedName, account.emojis, itemView)
         itemView.displayNameTextView.text = emojifiedName
         if (showHeader) {
             itemView.notificationTextView?.text = itemView.context.getString(R.string.notification_follow_request_format, emojifiedName)

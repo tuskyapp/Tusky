@@ -12,7 +12,7 @@ import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.entity.Account;
 import com.keylesspalace.tusky.interfaces.AccountActionListener;
 import com.keylesspalace.tusky.interfaces.LinkListener;
-import com.keylesspalace.tusky.util.CustomEmojiHelper;
+import com.keylesspalace.tusky.util.CustomEmojiHelperKt;
 import com.keylesspalace.tusky.util.ImageLoadingHelper;
 
 public class AccountViewHolder extends RecyclerView.ViewHolder {
@@ -40,7 +40,7 @@ public class AccountViewHolder extends RecyclerView.ViewHolder {
         String format = username.getContext().getString(R.string.status_username_format);
         String formattedUsername = String.format(format, account.getUsername());
         username.setText(formattedUsername);
-        CharSequence emojifiedName = CustomEmojiHelper.emojifyString(account.getName(), account.getEmojis(), displayName);
+        CharSequence emojifiedName = CustomEmojiHelperKt.emojifyString(account.getName(), account.getEmojis(), displayName);
         displayName.setText(emojifiedName);
         int avatarRadius = avatar.getContext().getResources()
                 .getDimensionPixelSize(R.dimen.avatar_radius_48dp);

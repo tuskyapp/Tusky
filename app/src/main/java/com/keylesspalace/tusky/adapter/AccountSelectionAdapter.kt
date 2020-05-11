@@ -23,8 +23,7 @@ import android.widget.ArrayAdapter
 import androidx.preference.PreferenceManager
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.db.AccountEntity
-import com.keylesspalace.tusky.util.CustomEmojiHelper
-import com.keylesspalace.tusky.util.loadAvatar
+import com.keylesspalace.tusky.util.*
 import kotlinx.android.synthetic.main.item_autocomplete_account.view.*
 
 class AccountSelectionAdapter(context: Context) : ArrayAdapter<AccountEntity>(context, R.layout.item_autocomplete_account) {
@@ -43,7 +42,7 @@ class AccountSelectionAdapter(context: Context) : ArrayAdapter<AccountEntity>(co
             val displayName = view.display_name
             val avatar = view.avatar
             username.text = account.fullName
-            displayName.text = CustomEmojiHelper.emojifyString(account.displayName, account.emojis, displayName)
+            displayName.text = emojifyString(account.displayName, account.emojis, displayName)
 
             val avatarRadius = avatar.context.resources.getDimensionPixelSize(R.dimen.avatar_radius_42dp)
             val animateAvatar = PreferenceManager.getDefaultSharedPreferences(avatar.context)

@@ -46,7 +46,7 @@ import com.keylesspalace.tusky.interfaces.AccountActionListener;
 import com.keylesspalace.tusky.interfaces.LinkListener;
 import com.keylesspalace.tusky.interfaces.StatusActionListener;
 import com.keylesspalace.tusky.util.CardViewMode;
-import com.keylesspalace.tusky.util.CustomEmojiHelper;
+import com.keylesspalace.tusky.util.CustomEmojiHelperKt;
 import com.keylesspalace.tusky.util.ImageLoadingHelper;
 import com.keylesspalace.tusky.util.LinkHelper;
 import com.keylesspalace.tusky.util.SmartLengthInputFilter;
@@ -331,13 +331,13 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
             String format = context.getString(R.string.notification_follow_format);
             String wrappedDisplayName = bidiFormatter.unicodeWrap(account.getName());
             String wholeMessage = String.format(format, wrappedDisplayName);
-            CharSequence emojifiedMessage = CustomEmojiHelper.emojifyString(wholeMessage, account.getEmojis(), message);
+            CharSequence emojifiedMessage = CustomEmojiHelperKt.emojifyString(wholeMessage, account.getEmojis(), message);
             message.setText(emojifiedMessage);
 
             String username = context.getString(R.string.status_username_format, account.getUsername());
             usernameView.setText(username);
 
-            CharSequence emojifiedDisplayName = CustomEmojiHelper.emojifyString(wrappedDisplayName, account.getEmojis(), usernameView);
+            CharSequence emojifiedDisplayName = CustomEmojiHelperKt.emojifyString(wrappedDisplayName, account.getEmojis(), usernameView);
 
             displayNameView.setText(emojifiedDisplayName);
 
@@ -412,7 +412,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
         }
 
         private void setDisplayName(String name, List<Emoji> emojis) {
-            CharSequence emojifiedName = CustomEmojiHelper.emojifyString(name, emojis, displayName);
+            CharSequence emojifiedName = CustomEmojiHelperKt.emojifyString(name, emojis, displayName);
             displayName.setText(emojifiedName);
         }
 
@@ -496,7 +496,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
             final SpannableStringBuilder str = new SpannableStringBuilder(wholeMessage);
             str.setSpan(new StyleSpan(Typeface.BOLD), 0, displayName.length(),
                     Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-            CharSequence emojifiedText = CustomEmojiHelper.emojifyText(str, notificationViewData.getAccount().getEmojis(), message);
+            CharSequence emojifiedText = CustomEmojiHelperKt.emojifyText(str, notificationViewData.getAccount().getEmojis(), message);
             message.setText(emojifiedText);
 
             if (statusViewData != null) {
@@ -592,11 +592,11 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
                 statusContent.setFilters(NO_INPUT_FILTER);
             }
 
-            Spanned emojifiedText = CustomEmojiHelper.emojifyText(content, emojis, statusContent);
+            Spanned emojifiedText = CustomEmojiHelperKt.emojifyText(content, emojis, statusContent);
             LinkHelper.setClickableText(statusContent, emojifiedText, statusViewData.getMentions(), listener);
 
             Spanned emojifiedContentWarning =
-                    CustomEmojiHelper.emojifyString(statusViewData.getSpoilerText(), statusViewData.getStatusEmojis(), contentWarningDescriptionTextView);
+                    CustomEmojiHelperKt.emojifyString(statusViewData.getSpoilerText(), statusViewData.getStatusEmojis(), contentWarningDescriptionTextView);
             contentWarningDescriptionTextView.setText(emojifiedContentWarning);
         }
 
