@@ -312,7 +312,7 @@
                 <androidx.appcompat.widget.Toolbar
                     android:id="@+id/accountToolbar"
                     android:layout_width="match_parent"
-                    android:layout_height="?attr/actionBarSize"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="top"
                     android:background="@android:color/transparent"
                     app:contentInsetStartWithNavigation="0dp"
