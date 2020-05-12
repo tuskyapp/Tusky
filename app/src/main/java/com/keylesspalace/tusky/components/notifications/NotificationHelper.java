@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License along with Tusky; if not,
  * see <http://www.gnu.org/licenses>. */
 
-package com.keylesspalace.tusky.util;
+package com.keylesspalace.tusky.components.notifications;
 
 import android.app.NotificationChannel;
 import android.app.NotificationChannelGroup;
@@ -38,12 +38,15 @@ import androidx.core.app.RemoteInput;
 import androidx.core.app.TaskStackBuilder;
 import androidx.core.content.ContextCompat;
 import androidx.core.text.BidiFormatter;
+import androidx.work.Constraints;
+import androidx.work.NetworkType;
+import androidx.work.PeriodicWorkRequest;
+import androidx.work.WorkManager;
+import androidx.work.WorkRequest;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.FutureTarget;
-import com.evernote.android.job.JobManager;
-import com.evernote.android.job.JobRequest;
 import com.keylesspalace.tusky.BuildConfig;
 import com.keylesspalace.tusky.MainActivity;
 import com.keylesspalace.tusky.R;
@@ -65,6 +68,7 @@ import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Single;
 import io.reactivex.schedulers.Schedulers;
@@ -118,12 +122,11 @@ public class NotificationHelper {
     public static final String CHANNEL_FAVOURITE = "CHANNEL_FAVOURITE";
     public static final String CHANNEL_POLL = "CHANNEL_POLL";
 
-    /**
-     * time in minutes between notification checks
-     * note that this cannot be less than 15 minutes due to Android battery saving constraints
-     */
-    private static final int NOTIFICATION_CHECK_INTERVAL_MINUTES = 15;
 
+    /**
+     * WorkManager Tag
+     */
+    private static final String NOTIFICATION_PULL_TAG = "pullNotifications";
 
     /**
      * Takes a given Mastodon notification and either creates a new Android notification or updates
@@ -455,23 +458,27 @@ public class NotificationHelper {
 
     }
 
-    public static void enablePullNotifications() {
-        long checkInterval = 1000 * 60 * NOTIFICATION_CHECK_INTERVAL_MINUTES;
+    public static void enablePullNotifications(Context context) {
+        WorkManager workManager = WorkManager.getInstance(context);
+        workManager.cancelAllWorkByTag(NOTIFICATION_PULL_TAG);
 
-        new JobRequest.Builder(NotificationPullJobCreator.NOTIFICATIONS_JOB_TAG)
-                .setPeriodic(checkInterval)
-                .setUpdateCurrent(true)
-                .setRequiredNetworkType(JobRequest.NetworkType.CONNECTED)
-                .build()
-                .scheduleAsync();
+        WorkRequest workRequest = new PeriodicWorkRequest.Builder(
+                NotificationWorker.class,
+                PeriodicWorkRequest.MIN_PERIODIC_INTERVAL_MILLIS, TimeUnit.MILLISECONDS,
+                PeriodicWorkRequest.MIN_PERIODIC_FLEX_MILLIS, TimeUnit.MILLISECONDS
+        )
+                .addTag(NOTIFICATION_PULL_TAG)
+                .setConstraints(new Constraints.Builder().setRequiredNetworkType(NetworkType.CONNECTED).build())
+                .build();
 
-        Log.d(TAG, "enabled notification checks with "+ NOTIFICATION_CHECK_INTERVAL_MINUTES + "min interval");
+        workManager.enqueue(workRequest);
+
+        Log.d(TAG, "enabled notification checks with "+ PeriodicWorkRequest.MIN_PERIODIC_INTERVAL_MILLIS + "ms interval");
     }
 
-    public static void disablePullNotifications() {
-        JobManager.instance().cancelAllForTag(NotificationPullJobCreator.NOTIFICATIONS_JOB_TAG);
+    public static void disablePullNotifications(Context context) {
+        WorkManager.getInstance(context).cancelAllWorkByTag(NOTIFICATION_PULL_TAG);
         Log.d(TAG, "disabled notification checks");
-
     }
 
     public static void clearNotificationsForActiveAccount(@NonNull Context context, @NonNull AccountManager accountManager) {
@@ -486,8 +493,8 @@ public class NotificationHelper {
                 notificationManager.cancel((int) account.getId());
                 return true;
             })
-            .subscribeOn(Schedulers.io())
-            .subscribe();
+                    .subscribeOn(Schedulers.io())
+                    .subscribe();
         }
     }
 
@@ -525,7 +532,8 @@ public class NotificationHelper {
         }
     }
 
-    private static @Nullable String getChannelId(AccountEntity account, Notification notification) {
+    @Nullable
+    private static String getChannelId(AccountEntity account, Notification notification) {
         switch (notification.getType()) {
             case MENTION:
                 return CHANNEL_MENTION + account.getIdentifier();

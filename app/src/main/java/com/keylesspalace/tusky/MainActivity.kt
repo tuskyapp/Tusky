@@ -48,6 +48,7 @@ import com.keylesspalace.tusky.appstore.*
 import com.keylesspalace.tusky.components.compose.ComposeActivity
 import com.keylesspalace.tusky.components.compose.ComposeActivity.Companion.canHandleMimeType
 import com.keylesspalace.tusky.components.conversation.ConversationsRepository
+import com.keylesspalace.tusky.components.notifications.NotificationHelper
 import com.keylesspalace.tusky.components.scheduled.ScheduledTootActivity
 import com.keylesspalace.tusky.components.search.SearchActivity
 import com.keylesspalace.tusky.db.AccountEntity
@@ -192,9 +193,9 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
 
         // Setup push notifications
         if (NotificationHelper.areNotificationsEnabled(this, accountManager)) {
-            NotificationHelper.enablePullNotifications()
+            NotificationHelper.enablePullNotifications(this)
         } else {
-            NotificationHelper.disablePullNotifications()
+            NotificationHelper.disablePullNotifications(this)
         }
         eventHub.events
                 .observeOn(AndroidSchedulers.mainThread())
@@ -524,19 +525,18 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
                     .setTitle(R.string.action_logout)
                     .setMessage(getString(R.string.action_logout_confirm, activeAccount.fullName))
                     .setPositiveButton(android.R.string.yes) { _: DialogInterface?, _: Int ->
-                        NotificationHelper.deleteNotificationChannelsForAccount(activeAccount, this@MainActivity)
+                        NotificationHelper.deleteNotificationChannelsForAccount(activeAccount, this)
                         cacheUpdater.clearForUser(activeAccount.id)
                         conversationRepository.deleteCacheForAccount(activeAccount.id)
                         removeShortcut(this, activeAccount)
                         val newAccount = accountManager.logActiveAccountOut()
-                        if (!NotificationHelper.areNotificationsEnabled(this@MainActivity, accountManager)) {
-                            NotificationHelper.disablePullNotifications()
+                        if (!NotificationHelper.areNotificationsEnabled(this, accountManager)) {
+                            NotificationHelper.disablePullNotifications(this)
                         }
-                        val intent: Intent
-                        intent = if (newAccount == null) {
-                            LoginActivity.getIntent(this@MainActivity, false)
+                        val intent = if (newAccount == null) {
+                            LoginActivity.getIntent(this, false)
                         } else {
-                            Intent(this@MainActivity, MainActivity::class.java)
+                            Intent(this, MainActivity::class.java)
                         }
                         startActivity(intent)
                         finishWithoutSlideOutAnimation()

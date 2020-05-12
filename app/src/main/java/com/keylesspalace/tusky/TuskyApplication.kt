@@ -21,12 +21,10 @@ import android.content.res.Configuration
 import android.util.Log
 import androidx.emoji.text.EmojiCompat
 import androidx.preference.PreferenceManager
-import com.evernote.android.job.JobManager
+import androidx.work.WorkManager
+import com.keylesspalace.tusky.components.notifications.NotificationWorkerFactory
 import com.keylesspalace.tusky.di.AppInjector
-import com.keylesspalace.tusky.util.EmojiCompatFont
-import com.keylesspalace.tusky.util.LocaleManager
-import com.keylesspalace.tusky.util.NotificationPullJobCreator
-import com.keylesspalace.tusky.util.ThemeUtils
+import com.keylesspalace.tusky.util.*
 import com.uber.autodispose.AutoDisposePlugins
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
@@ -40,7 +38,7 @@ class TuskyApplication : Application(), HasAndroidInjector {
     @Inject
     lateinit var androidInjector: DispatchingAndroidInjector<Any>
     @Inject
-    lateinit var notificationPullJobCreator: NotificationPullJobCreator
+    lateinit var notificationWorkerFactory: NotificationWorkerFactory
 
     override fun onCreate() {
 
@@ -65,7 +63,12 @@ class TuskyApplication : Application(), HasAndroidInjector {
         val theme = preferences.getString("appTheme", ThemeUtils.APP_THEME_DEFAULT)
         ThemeUtils.setAppNightMode(theme)
 
-        JobManager.create(this).addJobCreator(notificationPullJobCreator)
+        WorkManager.initialize(
+                this,
+                androidx.work.Configuration.Builder()
+                        .setWorkerFactory(notificationWorkerFactory)
+                        .build()
+        )
 
         RxJavaPlugins.setErrorHandler {
             Log.w("RxJava", "undeliverable exception", it)

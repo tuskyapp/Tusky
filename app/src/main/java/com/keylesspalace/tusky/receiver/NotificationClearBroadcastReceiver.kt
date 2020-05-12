@@ -20,7 +20,7 @@ import android.content.Context
 import android.content.Intent
 
 import com.keylesspalace.tusky.db.AccountManager
-import com.keylesspalace.tusky.util.NotificationHelper
+import com.keylesspalace.tusky.components.notifications.NotificationHelper
 import dagger.android.AndroidInjection
 import javax.inject.Inject
 
