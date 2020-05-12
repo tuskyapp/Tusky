@@ -51,23 +51,19 @@ class ViewVideoFragment : ViewMediaFragment() {
     private lateinit var mediaController : MediaController
     private var isAudio = false
 
-    override fun setUserVisibleHint(isVisibleToUser: Boolean) {
-        // Start/pause/resume video playback as fragment is shown/hidden
-        super.setUserVisibleHint(isVisibleToUser)
-        if (videoView == null) {
-            return
-        }
+    override fun onPause() {
+        super.onPause()
+        handler.removeCallbacks(hideToolbar)
+        videoView.pause()
+        mediaController.hide()
+    }
 
-        if (isVisibleToUser) {
-            if (mediaActivity.isToolbarVisible) {
-                handler.postDelayed(hideToolbar, TOOLBAR_HIDE_DELAY_MS)
-            }
-            videoView.start()
-        } else {
-            handler.removeCallbacks(hideToolbar)
-            videoView.pause()
-            mediaController.hide()
+    override fun onResume() {
+        super.onResume()
+        if (mediaActivity.isToolbarVisible) {
+            handler.postDelayed(hideToolbar, TOOLBAR_HIDE_DELAY_MS)
         }
+        videoView.start()
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -170,7 +166,7 @@ class ViewVideoFragment : ViewMediaFragment() {
     }
 
     override fun onToolbarVisibilityChange(visible: Boolean) {
-        if (videoView == null || !userVisibleHint) {
+        if (videoView == null || !isResumed) {
             return
         }
 

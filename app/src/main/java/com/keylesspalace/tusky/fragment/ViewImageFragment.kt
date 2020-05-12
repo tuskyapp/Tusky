@@ -121,7 +121,7 @@ class ViewImageFragment : ViewMediaFragment() {
     }
 
     override fun onToolbarVisibilityChange(visible: Boolean) {
-        if (photoView == null || !userVisibleHint) {
+        if (photoView == null || !isResumed) {
             return
         }
         isDescriptionVisible = showingDescription && visible
