@@ -328,9 +328,7 @@
     <string name="description_visiblity_private">Følgere</string>
     <string name="description_visiblity_direct">Direkte</string>
     <string name="hint_list_name">Listenavn</string>
-    <string name="edit_hashtag_title">Endre emneord</string>
     <string name="edit_hashtag_hint">Emneord uten #</string>
-    <string name="hashtag">Emneord</string>
     <string name="notifications_clear">Slett</string>
     <string name="notifications_apply_filter">Filter</string>
     <string name="filter_apply">Bruk</string>

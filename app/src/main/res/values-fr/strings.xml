@@ -362,9 +362,7 @@
     <string name="description_visiblity_direct">        Direct
     </string>
     <string name="hint_list_name">Nom de la liste</string>
-    <string name="edit_hashtag_title">Édition des hashtags</string>
     <string name="edit_hashtag_hint">Hashtags sans #</string>
-    <string name="hashtag">Hashtag</string>
     <string name="notifications_clear">Effacer</string>
     <string name="notifications_apply_filter">Filtrer</string>
     <string name="filter_apply">Appliquer</string>

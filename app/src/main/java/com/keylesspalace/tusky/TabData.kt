@@ -45,7 +45,7 @@ fun createTabDataFromId(id: String, arguments: List<String> = emptyList()): TabD
         LOCAL -> TabData(LOCAL, R.string.title_public_local, R.drawable.ic_local_24dp, { TimelineFragment.newInstance(TimelineFragment.Kind.PUBLIC_LOCAL) })
         FEDERATED -> TabData(FEDERATED, R.string.title_public_federated, R.drawable.ic_public_24dp, { TimelineFragment.newInstance(TimelineFragment.Kind.PUBLIC_FEDERATED) })
         DIRECT -> TabData(DIRECT, R.string.title_direct_messages, R.drawable.ic_reblog_direct_24dp, { ConversationsFragment.newInstance() })
-        HASHTAG -> TabData(HASHTAG, R.string.hashtag, R.drawable.ic_hashtag, { args -> TimelineFragment.newInstance(TimelineFragment.Kind.TAG, args.getOrNull(0).orEmpty()) }, arguments)
+        HASHTAG -> TabData(HASHTAG, R.string.hashtags, R.drawable.ic_hashtag, { args -> TimelineFragment.newHashtagInstance(args) }, arguments)
         LIST -> TabData(LIST, R.string.list, R.drawable.ic_list, { args -> TimelineFragment.newInstance(TimelineFragment.Kind.LIST, args.getOrNull(0).orEmpty()) }, arguments)
         else -> throw IllegalArgumentException("unknown tab type")
     }

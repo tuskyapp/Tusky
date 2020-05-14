@@ -390,9 +390,7 @@
 
     <string name="hint_list_name">Lista neve</string>
 
-    <string name="edit_hashtag_title">Hashtag szerkesztése</string>
     <string name="edit_hashtag_hint">Hashtag # nélkül</string>
-    <string name="hashtag">Hashtag</string>
     <string name="notifications_clear">Törlés</string>
     <string name="notifications_apply_filter">Szűrés</string>
     <string name="filter_apply">Alkalmaz</string>

@@ -150,7 +150,7 @@ class TabPreferenceActivity : BaseActivity(), Injectable, ItemInteractionListene
         actionButton.isExpanded = false
 
         if (tab.id == HASHTAG) {
-            showEditHashtagDialog()
+            showAddHashtagDialog()
             return
         }
 
@@ -173,18 +173,26 @@ class TabPreferenceActivity : BaseActivity(), Injectable, ItemInteractionListene
     }
 
     override fun onActionChipClicked(tab: TabData) {
-        showEditHashtagDialog(tab)
+        showAddHashtagDialog(tab)
     }
 
-    private fun showEditHashtagDialog(tab: TabData? = null) {
+    override fun onChipClicked(tab: TabData, chipPosition: Int) {
+        val newArguments = tab.arguments.filterIndexed { i, _ -> i != chipPosition }
+        val newTab = tab.copy(arguments = newArguments)
+        val position = currentTabs.indexOf(tab)
+        currentTabs[position] = newTab
+
+        currentTabsAdapter.notifyItemChanged(position)
+    }
+
+    private fun showAddHashtagDialog(tab: TabData? = null) {
 
         val editText = AppCompatEditText(this)
         editText.setHint(R.string.edit_hashtag_hint)
         editText.setText("")
-        editText.append(tab?.arguments?.first().orEmpty())
 
         val dialog = AlertDialog.Builder(this)
-                .setTitle(R.string.edit_hashtag_title)
+                .setTitle(R.string.add_hashtag_title)
                 .setView(editText)
                 .setNegativeButton(android.R.string.cancel, null)
                 .setPositiveButton(R.string.action_save) { _, _ ->
@@ -194,7 +202,7 @@ class TabPreferenceActivity : BaseActivity(), Injectable, ItemInteractionListene
                         currentTabs.add(newTab)
                         currentTabsAdapter.notifyItemInserted(currentTabs.size - 1)
                     } else {
-                        val newTab = tab.copy(arguments = listOf(input))
+                        val newTab = tab.copy(arguments = tab.arguments + input)
                         val position = currentTabs.indexOf(tab)
                         currentTabs[position] = newTab
 
