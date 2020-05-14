@@ -18,7 +18,7 @@ internal class FollowRequestViewHolder(itemView: View, private val showHeader: B
     fun setupWithAccount(account: Account, formatter: BidiFormatter?) {
         id = account.id
         val wrappedName = formatter?.unicodeWrap(account.name) ?: account.name
-        val emojifiedName: CharSequence = emojifyString(wrappedName, account.emojis, itemView)
+        val emojifiedName: CharSequence = wrappedName.emojify(account.emojis, itemView)
         itemView.displayNameTextView.text = emojifiedName
         if (showHeader) {
             itemView.notificationTextView?.text = itemView.context.getString(R.string.notification_follow_request_format, emojifiedName)

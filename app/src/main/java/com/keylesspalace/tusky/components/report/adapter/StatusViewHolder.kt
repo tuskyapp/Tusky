@@ -89,7 +89,7 @@ class StatusViewHolder(
                 itemView.statusContentWarningButton.hide()
                 itemView.statusContentWarningDescription.hide()
             } else {
-                val emojiSpoiler = emojifyString(status.spoilerText, status.emojis, itemView.statusContentWarningDescription)
+                val emojiSpoiler = status.spoilerText.emojify(status.emojis, itemView.statusContentWarningDescription)
                 itemView.statusContentWarningDescription.text = emojiSpoiler
                 itemView.statusContentWarningDescription.show()
                 itemView.statusContentWarningButton.show()
@@ -122,7 +122,7 @@ class StatusViewHolder(
                                emojis: List<Emoji>,
                                listener: LinkListener) {
         if (expanded) {
-            val emojifiedText = emojifyText(content, emojis, itemView.statusContent)
+            val emojifiedText = content.emojify(emojis, itemView.statusContent)
             LinkHelper.setClickableText(itemView.statusContent, emojifiedText, mentions, listener)
         } else {
             LinkHelper.setClickableMentions(itemView.statusContent, mentions, listener)

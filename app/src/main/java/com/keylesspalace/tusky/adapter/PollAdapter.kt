@@ -77,7 +77,8 @@ class PollAdapter: RecyclerView.Adapter<PollViewHolder>() {
         when(mode) {
             RESULT -> {
                 val percent = calculatePercent(option.votesCount, votersCount, voteCount)
-                val emojifiedPollOptionText = emojifyText(buildDescription(option.title, percent, holder.resultTextView.context), emojis, holder.resultTextView)
+                val emojifiedPollOptionText = buildDescription(option.title, percent, holder.resultTextView.context)
+                        .emojify(emojis, holder.resultTextView)
                 holder.resultTextView.text =  EmojiCompat.get().process(emojifiedPollOptionText)
 
                 val level = percent * 100
@@ -86,7 +87,7 @@ class PollAdapter: RecyclerView.Adapter<PollViewHolder>() {
 
             }
             SINGLE -> {
-                val emojifiedPollOptionText = emojifyString(option.title, emojis, holder.radioButton)
+                val emojifiedPollOptionText = option.title.emojify(emojis, holder.radioButton)
                 holder.radioButton.text = EmojiCompat.get().process(emojifiedPollOptionText)
                 holder.radioButton.isChecked = option.selected
                 holder.radioButton.setOnClickListener {
@@ -97,7 +98,7 @@ class PollAdapter: RecyclerView.Adapter<PollViewHolder>() {
                 }
             }
             MULTIPLE -> {
-                val emojifiedPollOptionText = emojifyString(option.title, emojis, holder.checkBox)
+                val emojifiedPollOptionText = option.title.emojify(emojis, holder.checkBox)
                 holder.checkBox.text = EmojiCompat.get().process(emojifiedPollOptionText)
                 holder.checkBox.isChecked = option.selected
                 holder.checkBox.setOnCheckedChangeListener { _, isChecked ->

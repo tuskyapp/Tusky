@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.entity.Account;
 import com.keylesspalace.tusky.interfaces.AccountActionListener;
-import com.keylesspalace.tusky.util.CustomEmojiHelperKt;
+import com.keylesspalace.tusky.util.CustomEmojiHelper;
 import com.keylesspalace.tusky.util.ImageLoadingHelper;
 
 public class MutesAdapter extends AccountAdapter {
@@ -71,7 +71,7 @@ public class MutesAdapter extends AccountAdapter {
 
         void setupWithAccount(Account account) {
             id = account.getId();
-            CharSequence emojifiedName = CustomEmojiHelperKt.emojifyString(account.getName(), account.getEmojis(), displayName);
+            CharSequence emojifiedName = CustomEmojiHelper.emojify(account.getName(), account.getEmojis(), displayName);
             displayName.setText(emojifiedName);
             String format = username.getContext().getString(R.string.status_username_format);
             String formattedUsername = String.format(format, account.getUsername());

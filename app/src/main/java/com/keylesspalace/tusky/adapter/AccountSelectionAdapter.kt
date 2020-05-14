@@ -42,7 +42,7 @@ class AccountSelectionAdapter(context: Context) : ArrayAdapter<AccountEntity>(co
             val displayName = view.display_name
             val avatar = view.avatar
             username.text = account.fullName
-            displayName.text = emojifyString(account.displayName, account.emojis, displayName)
+            displayName.text = account.displayName.emojify(account.emojis, displayName)
 
             val avatarRadius = avatar.context.resources.getDimensionPixelSize(R.dimen.avatar_radius_42dp)
             val animateAvatar = PreferenceManager.getDefaultSharedPreferences(avatar.context)

@@ -1,5 +1,4 @@
-/* Copyright 2017 Andrew Dawson
- * Copyright 2020 a1batross
+/* Copyright 2020 Tusky Contributors
  * 
  * This file is a part of Tusky.
  *
@@ -14,6 +13,7 @@
  * You should have received a copy of the GNU General Public License along with Tusky; if not,
  * see <http://www.gnu.org/licenses>. */
 
+@file:JvmName("CustomEmojiHelper")
 package com.keylesspalace.tusky.util
 
 import android.graphics.Bitmap
@@ -22,8 +22,6 @@ import android.graphics.Paint
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.text.SpannableStringBuilder
-import android.text.Spanned
-import android.text.SpannedString
 import android.text.style.ReplacementSpan
 import android.view.View
 
@@ -35,7 +33,6 @@ import com.keylesspalace.tusky.entity.Emoji
 
 import java.lang.ref.WeakReference
 import java.util.regex.Pattern
-import androidx.preference.PreferenceManager
 
 /**
  * replaces emoji shortcodes in a text with EmojiSpans
@@ -44,34 +41,30 @@ import androidx.preference.PreferenceManager
  * @param view a reference to the a view the emojis will be shown in (should be the TextView, but parents of the TextView are also acceptable)
  * @return the text with the shortcodes replaced by EmojiSpans
 */
-fun emojifyText(text: Spanned, emojis: List<Emoji>?, view: View) : Spanned {
-    if (emojis != null && emojis.isNotEmpty()) {
-        val builder = SpannableStringBuilder(text)
-        for (emoji in emojis) {
-            val pattern = StringBuilder(":").append(emoji.shortcode).append(":")
-            val matcher = Pattern.compile(pattern.toString(), Pattern.LITERAL)
-                .matcher(text)
-            while(matcher.find()) {
-                val span = EmojiSpan(WeakReference<View>(view))
-                builder.setSpan(span, matcher.start(), matcher.end(), 0);
-                Glide.with(view)
-                    .asBitmap()
-                    .load(emoji.url)
-                    .into(span.getTarget())
-            }
+fun CharSequence.emojify(emojis: List<Emoji>?, view: View) : CharSequence {
+    if(emojis.isNullOrEmpty())
+        return this
+
+    val builder = SpannableStringBuilder.valueOf(this)
+
+    emojis.forEach { (shortcode, url) ->
+        val matcher = Pattern.compile(":$shortcode:", Pattern.LITERAL)
+            .matcher(this)
+
+        while(matcher.find()) {
+            val span = EmojiSpan(WeakReference(view))
+
+            builder.setSpan(span, matcher.start(), matcher.end(), 0);
+            Glide.with(view)
+                .asBitmap()
+                .load(url)
+                .into(span.getTarget())
         }
-        
-        return builder
     }
-    
-    return text
+    return builder
 }
 
-fun emojifyString(string: String, emojis: List<Emoji>?, view: View) : Spanned {
-    return emojifyText(SpannedString(string), emojis, view)
-}
-
-public class EmojiSpan(val viewWeakReference: WeakReference<View>) : ReplacementSpan() {
+class EmojiSpan(val viewWeakReference: WeakReference<View>) : ReplacementSpan() {
     var imageDrawable: Drawable? = null
     
     override fun getSize(paint: Paint, text: CharSequence, start: Int, end: Int, fm: Paint.FontMetricsInt?) : Int {
@@ -89,27 +82,25 @@ public class EmojiSpan(val viewWeakReference: WeakReference<View>) : Replacement
     }
     
     override fun draw(canvas: Canvas, text: CharSequence, start: Int, end: Int, x: Float, top: Int, y: Int, bottom: Int, paint: Paint) {
-        if (imageDrawable == null)
-            return
-        
-        canvas.save()
-        
-        val emojiSize = (paint.textSize * 1.1).toInt()
-        imageDrawable!!.setBounds(0, 0, emojiSize, emojiSize)
-        
-        var transY = bottom - imageDrawable!!.bounds.bottom
-        transY -= paint.fontMetricsInt.descent / 2;
-        
-        canvas.translate(x, transY.toFloat())
-        imageDrawable!!.draw(canvas)
-        canvas.restore()
+        imageDrawable?.let { drawable ->
+            canvas.save()
+
+            val emojiSize = (paint.textSize * 1.1).toInt()
+            drawable.setBounds(0, 0, emojiSize, emojiSize)
+
+            var transY = bottom - drawable.bounds.bottom
+            transY -= paint.fontMetricsInt.descent / 2;
+
+            canvas.translate(x, transY.toFloat())
+            drawable.draw(canvas)
+            canvas.restore()
+        }
     }
     
     fun getTarget(): Target<Bitmap> {
         return object : CustomTarget<Bitmap>() {
             override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
-                val view = viewWeakReference.get()
-                if (view != null) {
+                viewWeakReference.get()?.let { view ->
                     imageDrawable = BitmapDrawable(view.context.resources, resource)
                     view.invalidate()
                 }

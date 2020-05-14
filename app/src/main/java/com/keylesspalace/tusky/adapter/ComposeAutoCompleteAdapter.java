@@ -31,7 +31,7 @@ import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.entity.Account;
 import com.keylesspalace.tusky.entity.Emoji;
 import com.keylesspalace.tusky.entity.HashTag;
-import com.keylesspalace.tusky.util.CustomEmojiHelperKt;
+import com.keylesspalace.tusky.util.CustomEmojiHelper;
 import com.keylesspalace.tusky.util.ImageLoadingHelper;
 
 import java.util.ArrayList;
@@ -146,7 +146,7 @@ public class ComposeAutoCompleteAdapter extends BaseAdapter
                             account.getUsername()
                     );
                     accountViewHolder.username.setText(formattedUsername);
-                    CharSequence emojifiedName = CustomEmojiHelperKt.emojifyString(account.getName(),
+                    CharSequence emojifiedName = CustomEmojiHelper.emojify(account.getName(),
                             account.getEmojis(), accountViewHolder.displayName);
                     accountViewHolder.displayName.setText(emojifiedName);
 

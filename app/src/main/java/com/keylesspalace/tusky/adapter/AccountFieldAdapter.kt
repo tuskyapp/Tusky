@@ -55,10 +55,10 @@ class AccountFieldAdapter(private val linkListener: LinkListener) : RecyclerView
             viewHolder.valueTextView.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0,  R.drawable.ic_check_circle, 0)
         } else {
             val field = proofOrField.asRight()
-            val emojifiedName = emojifyString(field.name, emojis, viewHolder.nameTextView)
+            val emojifiedName = field.name.emojify(emojis, viewHolder.nameTextView)
             viewHolder.nameTextView.text = emojifiedName
 
-            val emojifiedValue = emojifyText(field.value, emojis, viewHolder.valueTextView)
+            val emojifiedValue = field.value.emojify(emojis, viewHolder.valueTextView)
             LinkHelper.setClickableText(viewHolder.valueTextView, emojifiedValue, null, linkListener)
 
             if(field.verifiedAt != null) {
