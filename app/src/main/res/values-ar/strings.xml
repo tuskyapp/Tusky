@@ -287,7 +287,7 @@
     <string name="send_toot_notification_channel_name">إرسال التبويقات</string>
     <string name="send_toot_notification_cancel_title">أُلغيَ الإرسال</string>
     <string name="send_toot_notification_saved_content">تم الاحتفاظ بنسخة مِن التبويق في مسوداتك</string>
-    <string name="action_compose_shortcut">تحرير</string>
+    <string name="action_compose_shortcut">حرر</string>
     <string name="error_no_custom_emojis">لا يحتوي مثيل خادومكم %s على أية حزمة إيموجي مخصصة</string>
     <string name="copy_to_clipboard_success">تم نسخه إلى الحافظة</string>
     <string name="emoji_style">نوع الإيموجي</string>
@@ -369,7 +369,7 @@
     <string name="poll_ended_created">لقد انتهى استطلاع رأي قمتَ بإنشائه</string>
     <string name="pref_title_notification_filter_poll">تنتهي استطلاعات الرأي</string>
     <plurals name="favs">
-        <item quantity="zero"><b>%1$s</b>"  مفضلة"</item>
+        <item quantity="zero"><b>%1$s</b> مفضلة</item>
         <item quantity="one"><b>%1$s</b> مفضلة</item>
         <item quantity="two"><b>%1$s</b> مفضلتين</item>
         <item quantity="few"><b>%1$s</b> مفضلة</item>
@@ -480,17 +480,17 @@
     <string name="pref_title_confirm_reblogs">أظهر نافذة لطلب التأكيد قبل المشاركة</string>
     <string name="pref_title_show_cards_in_timelines">أظهر معاينات الروابط على الخيوط</string>
     <plurals name="poll_info_people">
-        <item quantity="zero">%s شخص</item>
-        <item quantity="one">%s شخص</item>
-        <item quantity="two">%s شخصان</item>
-        <item quantity="few">%s أشخاص</item>
-        <item quantity="many">%s أشخاص</item>
-        <item quantity="other">%s أشخاص</item>
+        <item quantity="zero"></item>
+        <item quantity="one"></item>
+        <item quantity="two"></item>
+        <item quantity="few"></item>
+        <item quantity="many"></item>
+        <item quantity="other"></item>
     </plurals>
     <string name="notification_follow_request_description">إشعارات عن طلبات المتابعة</string>
     <string name="notification_follow_request_name">طلبات المتابَعة</string>
     <string name="dialog_mute_warning">أتريد كتم @%s؟</string>
-    <string name="dialog_block_warning">احجب @%s؟</string>
+    <string name="dialog_block_warning">"احجب  @%s؟"</string>
     <string name="action_unmute_conversation">ألغِ كتم المحادثة</string>
     <string name="action_mute_conversation">اكتم المحادثة</string>
     <string name="notification_follow_request_format">%s طلبَ متابعتك</string>

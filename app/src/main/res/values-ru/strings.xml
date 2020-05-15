@@ -129,7 +129,7 @@
     <string name="confirmation_reported">Отправить!</string>
     <string name="confirmation_unblocked">Пользователь разблокирован</string>
     <string name="confirmation_unmuted">Глушение снято</string>
-    <string name="status_sent">Отправить!</string>
+    <string name="status_sent">Отправлено!</string>
     <string name="status_sent_long">Ответ успешно отправлен.</string>
     <string name="hint_domain">Какой узел?</string>
     <string name="hint_compose">Что происходит?</string>
@@ -482,10 +482,10 @@
     <string name="pref_title_show_cards_in_timelines">Показывать предосмотр ссылок в лентах</string>
     <string name="pref_title_enable_swipe_for_tabs">Включить переключение между вкладками смахиванием</string>
     <plurals name="poll_info_people">
-        <item quantity="one">%s человек</item>
-        <item quantity="few">%s человека</item>
-        <item quantity="many">%s человек</item>
-        <item quantity="other">%s человек</item>
+        <item quantity="one"></item>
+        <item quantity="few"></item>
+        <item quantity="many"></item>
+        <item quantity="other"></item>
     </plurals>
     <string name="notification_follow_request_description">Уведомления о запросах на подписку</string>
     <string name="notification_follow_request_name">Запросы на подписку</string>

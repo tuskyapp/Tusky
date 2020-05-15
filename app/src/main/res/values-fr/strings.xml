@@ -48,7 +48,8 @@
     <string name="status_content_show_more">Déplier</string>
     <string name="status_content_show_less">Replier</string>
     <string name="message_empty">Rien ici.</string>
-    <string name="footer_empty">Il n’y a aucun pouet ici pour l’instant. Glissez vers le bas pour actualiser !</string>
+    <string name="footer_empty">Il n’y a aucun pouet pour le moment.
+\nGlissez vers le bas pour actualiser !</string>
     <string name="notification_reblog_format">%s a partagé votre pouet</string>
     <string name="notification_favourite_format">%s a ajouté votre pouet à ses favoris</string>
     <string name="notification_follow_format">%s vous suit</string>
@@ -109,7 +110,7 @@
     <string name="action_links">Liens</string>
     <string name="action_mentions">Mentions</string>
     <string name="action_hashtags">Hashtags</string>
-    <string name="action_open_reblogger">Afficher l’auteur·rice du boost</string>
+    <string name="action_open_reblogger">Afficher l’auteur·rice du partage</string>
     <string name="action_open_reblogged_by">Afficher les boosts</string>
     <string name="action_open_faved_by">Montrer les favoris</string>
     <string name="title_hashtags_dialog">Hashtags</string>
@@ -187,7 +188,7 @@
     <string name="pref_title_language">Langue</string>
     <string name="pref_title_status_filter">Filtrage des fils</string>
     <string name="pref_title_status_tabs">Onglets</string>
-    <string name="pref_title_show_boosts">Afficher les boosts</string>
+    <string name="pref_title_show_boosts">Montrer les partages</string>
     <string name="pref_title_show_replies">Afficher les réponses</string>
     <string name="pref_title_show_media_preview">Montrer les miniatures des médias</string>
     <string name="pref_title_proxy_settings">Proxy</string>
@@ -461,7 +462,7 @@
     <string name="no_saved_status">Vous n’avez aucun brouillon.</string>
     <string name="no_scheduled_status">Vous n’avez aucun pouet planifié.</string>
     <string name="warning_scheduling_interval">L’intervalle minimum de planification sur Mastodon est de 5 minutes.</string>
-    <string name="notification_follow_request_name">Demandes de suivi</string>
+    <string name="notification_follow_request_name">Demandes d\'abonnement</string>
     <string name="dialog_block_warning">Bloquer @%s \?</string>
     <string name="pref_title_confirm_reblogs">Afficher une boite de confirmation avant de booster</string>
     <string name="pref_title_show_cards_in_timelines">Afficher des aperçus des liens dans les fils</string>

@@ -10,7 +10,7 @@
     <string name="action_search">खोज</string>
     <string name="about_title_activity">के बारे में</string>
     <string name="title_statuses_with_replies">उत्तरों के साथ</string>
-    <string name="title_followers">अनुगामी</string>
+    <string name="title_followers">फॉलोअर्स</string>
     <string name="action_reply">उत्तर दें</string>
     <string name="action_follow">फॉलो</string>
     <string name="action_unfollow">अनफॉलो</string>

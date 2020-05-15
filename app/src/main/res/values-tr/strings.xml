@@ -168,7 +168,7 @@
     <string name="pref_title_hide_follow_button">Kaydırırken yeni ileti düğmesi gizlensin</string>
     <string name="pref_title_status_filter">Zaman çizelgesi filtreleme</string>
     <string name="pref_title_status_tabs">Sekmeler</string>
-    <string name="pref_title_show_boosts">Yinelemeleri aç</string>
+    <string name="pref_title_show_boosts">Yinelemeleri göster</string>
     <string name="pref_title_show_replies">Yanıtları göster</string>
     <string name="pref_title_show_media_preview">Medya önizlemelerini göster</string>
     <string name="pref_title_proxy_settings">Ağ Vekili</string>
@@ -394,7 +394,7 @@
     <string name="hint_additional_info">Ek yorumlar</string>
     <string name="report_remote_instance">%s adresine ilet</string>
     <string name="failed_fetch_statuses">İletiler alınamadı</string>
-    <string name="report_description_1">Bildirim sunucu yöneticinize gönderilecektir. Bu hesabı neden bildirdiğinizle ilgili açıklama yapabilirsiniz:</string>
+    <string name="report_description_1">"Bildirim sunucu yöneticinize gönderilecektir.  Bu hesabı neden bildirdiğinizle ilgili açıklama yapabilirsiniz:"</string>
     <string name="report_description_remote_instance">Hesap başka bir sunucuda. Raporun anonim bir kopyasını da oraya gönderilsin mi\?</string>
     <string name="pref_title_show_notifications_filter">Bildirim filtresini göster</string>
     <string name="action_mentions">Bahsedenler</string>

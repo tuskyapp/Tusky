@@ -146,7 +146,7 @@
 \n 
 \nEen Mastodonserver (Engels: instance) is een computerserver waar jouw account zich bevindt (vergelijk het met een e-mailserver). Je kan eenvoudig mensen van andere servers volgen en met ze communiceren, alsof jullie met elkaar op dezelfde website zitten. 
 \n 
-\n Meer informatie kun je vinden op <a href="https://joinmastodon.org">joinmastodon.org</a>. </string>
+\n Meer informatie kun je vinden op <a href="https://joinmastodon.org">joinmastodon.org</a>.</string>
     <string name="dialog_title_finishing_media_upload">Uploaden media bijna voltooid</string>
     <string name="dialog_message_uploading_media">Aan het uploaden…</string>
     <string name="dialog_download_image">Downloaden</string>
@@ -157,7 +157,7 @@
     <string name="visibility_unlisted">Minder openbaar: niet op openbare tijdlijnen tonen</string>
     <string name="visibility_private">Alleen volgers: alleen aan jouw volgers tonen</string>
     <string name="visibility_direct">Direct: alleen aan vermelde gebruikers tonen</string>
-    <string name="pref_title_edit_notification_settings">Meldingen</string>
+    <string name="pref_title_edit_notification_settings">Meldingen bewerken</string>
     <string name="pref_title_notifications_enabled">Meldingen</string>
     <string name="pref_title_notification_alerts">Waarschuwen met</string>
     <string name="pref_title_notification_alert_sound">geluid</string>
@@ -181,7 +181,7 @@
     <string name="pref_title_hide_follow_button">Verberg zwevende tootknop tijdens scrollen</string>
     <string name="pref_title_language">Taal</string>
     <string name="pref_title_status_filter">Filteren</string>
-    <string name="pref_title_status_tabs">Tabs</string>
+    <string name="pref_title_status_tabs">Tijdlijnen</string>
     <string name="pref_title_show_boosts">Boosts tonen</string>
     <string name="pref_title_show_replies">Reacties tonen</string>
     <string name="pref_title_show_media_preview">Voorbeelden van media tonen</string>
@@ -405,7 +405,7 @@
         <item quantity="other">%d minuten</item>
     </plurals>
     <plurals name="poll_timespan_seconds">
-        <item quantity="one">%d seconde</item>
+        <item quantity="one">"%d  seconde"</item>
         <item quantity="other">%d seconden</item>
     </plurals>
     <string name="button_continue">Doorgaan</string>

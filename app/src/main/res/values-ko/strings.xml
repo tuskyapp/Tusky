@@ -71,7 +71,7 @@
     <string name="action_block">차단</string>
     <string name="action_unblock">차단 해제</string>
     <string name="action_hide_reblogs">이 유저의 부스트 숨기기</string>
-    <string name="action_show_reblogs">부스트 보이기</string>
+    <string name="action_show_reblogs">이 유저의 부스트 보이기</string>
     <string name="action_report">신고</string>
     <string name="action_delete">삭제</string>
     <string name="action_delete_and_redraft">지우고 다시 쓰기</string>
@@ -146,7 +146,7 @@
     <string name="label_header">헤더</string>
     <string name="link_whats_an_instance">인스턴스가 무엇인가요\?</string>
     <string name="login_connection">연결 중…</string>
-    <string name="dialog_whats_an_instance">인스턴스의 도메인 주소나 IP주소를 입력하실 수 있습니다. mastodon.social, icosahedron.website, social.tchncs.de 등이 있으며, 그 외에도 <a href="https://instances.social">더 많은 인스턴스</a>가 당신을 기다리고 있습니다! 
+    <string name="dialog_whats_an_instance">인스턴스의 도메인 주소나 IP주소를 입력하실 수 있습니다. pawoo.net, twingyeo.kr, qdon.space 등이 있으며, 그 외에도 &lt;a href=“https://instances.social”&gt;더 많은 인스턴스&lt;/a&gt;가 당신을 기다리고 있습니다! 
 \n
 \n 
 \n만약 계정이 없으시다면, 인스턴스 주소를 입력하신 후에 계정을 만드실 수 있습니다. 
@@ -369,7 +369,7 @@
     <string name="description_status_favourited">즐겨찾기함</string>
     <string name="description_visiblity_public">공개</string>
     <string name="description_visiblity_unlisted">타임라인에 비표시</string>
-    <string name="description_visiblity_private">팔로워</string>
+    <string name="description_visiblity_private">비공개</string>
     <string name="description_visiblity_direct">다이렉트</string>
     <string name="description_poll">투표 선택지: %1$s, %2$s, %3$s, %4$s, %5$s</string>
     <string name="hint_list_name">리스트 이름</string>

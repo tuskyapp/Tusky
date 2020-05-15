@@ -104,7 +104,7 @@
     <string name="action_search">搜尋</string>
     <string name="action_access_saved_toot">草稿</string>
     <string name="action_toggle_visibility">設定嘟文可見範圍</string>
-    <string name="action_content_warning">敏感內容警告</string>
+    <string name="action_content_warning">設定敏感內容警告</string>
     <string name="action_emoji_keyboard">插入表情符號</string>
     <string name="action_add_tab">新增標籤頁</string>
     <string name="action_links">連結</string>

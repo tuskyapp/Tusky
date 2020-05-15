@@ -147,7 +147,7 @@
     <string name="visibility_private">Privado: Postar apenas para seguidores</string>
     <string name="visibility_direct">Direto: Postar apenas para usuários mencionados</string>
     <string name="pref_title_edit_notification_settings">Editar notificações</string>
-    <string name="pref_title_notifications_enabled">Editar notificações</string>
+    <string name="pref_title_notifications_enabled">Notificações</string>
     <string name="pref_title_notification_alerts">Alertas</string>
     <string name="pref_title_notification_alert_sound">Notificar com som</string>
     <string name="pref_title_notification_alert_vibrate">Notificar com vibração</string>
@@ -449,5 +449,5 @@
     <string name="no_scheduled_status">Sem toots agendados.</string>
     <string name="error_audio_upload_size">Áudios devem ser menores que 40MB.</string>
     <string name="no_saved_status">Sem rascunhos.</string>
-    <string name="warning_scheduling_interval">Mastodon possui um intervalo mínimo de agendamento de 5 minutos.</string>
+    <string name="warning_scheduling_interval">Mastodon possui um intervalo mínimo de 5 minutos para agendar.</string>
 </resources>
