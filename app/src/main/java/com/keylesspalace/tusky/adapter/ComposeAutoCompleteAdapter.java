@@ -146,7 +146,7 @@ public class ComposeAutoCompleteAdapter extends BaseAdapter
                             account.getUsername()
                     );
                     accountViewHolder.username.setText(formattedUsername);
-                    CharSequence emojifiedName = CustomEmojiHelper.emojifyString(account.getName(),
+                    CharSequence emojifiedName = CustomEmojiHelper.emojify(account.getName(),
                             account.getEmojis(), accountViewHolder.displayName);
                     accountViewHolder.displayName.setText(emojifiedName);
 
