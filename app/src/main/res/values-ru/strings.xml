@@ -31,7 +31,7 @@
     <string name="title_statuses_pinned">Закреплённые</string>
     <string name="title_follows">Подписки</string>
     <string name="title_followers">Подписчики</string>
-    <string name="title_favourites">Избранное</string>
+    <string name="title_favourites">Отметки «нравится»</string>
     <string name="title_mutes">Список глушения</string>
     <string name="title_blocks">Список блокировки</string>
     <string name="title_follow_requests">Запросы на подписку</string>
@@ -129,7 +129,7 @@
     <string name="confirmation_reported">Отправить!</string>
     <string name="confirmation_unblocked">Пользователь разблокирован</string>
     <string name="confirmation_unmuted">Глушение снято</string>
-    <string name="status_sent">Отправлено!</string>
+    <string name="status_sent">Отправить!</string>
     <string name="status_sent_long">Ответ успешно отправлен.</string>
     <string name="hint_domain">Какой узел?</string>
     <string name="hint_compose">Что происходит?</string>
@@ -350,9 +350,10 @@
     <string name="unpin_action">Открепить</string>
     <string name="pin_action">Закрепить</string>
     <plurals name="favs">
-        <item quantity="one">&lt;b&gt;%1$s&lt;/b&gt; Понравилось</item>
-        <item quantity="few">&lt;b&gt;%1$s&lt;/b&gt; Понравилось</item>
-        <item quantity="many">&lt;b&gt;%1$s&lt;/b&gt; Понравилось</item>
+        <item quantity="one"><b>%1$s</b> Понравилось</item>
+        <item quantity="few"><b>%1$s</b> Понравились</item>
+        <item quantity="many"><b>%1$s</b> Понравилось</item>
+        <item quantity="other"><b>%1$s</b> Понравилось</item>
     </plurals>
     <plurals name="reblogs">
         <item quantity="one">&lt;b&gt;%s&lt;/b&gt; Продвинул(а)</item>

@@ -107,7 +107,7 @@
     <string name="status_sent_long">Responsa ben enviada.</string>
     <string name="hint_domain">Quina instància ?</string>
     <string name="hint_compose">A de qué pensatz ?</string>
-    <string name="hint_content_warning">Avis de contengut</string>
+    <string name="hint_content_warning">Avís de contengut</string>
     <string name="hint_display_name">Nom visible</string>
     <string name="hint_note">Biografia</string>
     <string name="hint_search">Cercar…</string>

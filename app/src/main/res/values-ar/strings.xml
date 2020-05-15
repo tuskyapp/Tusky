@@ -369,7 +369,7 @@
     <string name="poll_ended_created">لقد انتهى استطلاع رأي قمتَ بإنشائه</string>
     <string name="pref_title_notification_filter_poll">تنتهي استطلاعات الرأي</string>
     <plurals name="favs">
-        <item quantity="zero"><b>%1$s</b> مفضلة</item>
+        <item quantity="zero"><b>%1$s</b>"  مفضلة"</item>
         <item quantity="one"><b>%1$s</b> مفضلة</item>
         <item quantity="two"><b>%1$s</b> مفضلتين</item>
         <item quantity="few"><b>%1$s</b> مفضلة</item>

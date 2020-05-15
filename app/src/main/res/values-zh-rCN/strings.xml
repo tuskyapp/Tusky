@@ -126,7 +126,7 @@
     <string name="send_status_link_to">分享链接到…</string>
     <string name="send_status_content_to">分享嘟文到…</string>
     <string name="send_media_to">分享媒体到…</string>
-    <string name="confirmation_reported">报告已发送！</string>
+    <string name="confirmation_reported">已发送！</string>
     <string name="confirmation_unblocked">已解除屏蔽</string>
     <string name="confirmation_unmuted">已取消隐藏</string>
     <string name="status_sent">已发送！</string>
@@ -413,7 +413,7 @@
     <string name="action_bookmark">书签</string>
     <string name="action_edit">编辑</string>
     <string name="action_view_bookmarks">书签</string>
-    <string name="action_view_domain_mutes">隐藏域名</string>
+    <string name="action_view_domain_mutes">隐藏的域名</string>
     <string name="action_add_poll">新增投票</string>
     <string name="action_mute_domain">隐藏</string>
     <string name="action_access_scheduled_toot">定时嘟文</string>

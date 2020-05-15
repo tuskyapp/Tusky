@@ -4,7 +4,7 @@
     <string name="error_network">¡Se ha producido un error de red! ¡Por favor, comprueba tu conexión e inténtalo de nuevo!</string>
     <string name="error_empty">Este campo no puede estar vacío.</string>
     <string name="error_invalid_domain">Nombre de dominio incorrecto</string>
-    <string name="error_failed_app_registration">Inicio de sesión fallido.</string>
+    <string name="error_failed_app_registration">Fallo de autenticación con esta instancia.</string>
     <string name="error_no_web_browser_found">No se ha encontrado ningún navegador web.</string>
     <string name="error_authorization_unknown">Ocurrió un error de autorización no identificado.</string>
     <string name="error_authorization_denied">La autorización falló.</string>
@@ -448,7 +448,7 @@
     <string name="select_list_title">Seleccionar lista</string>
     <string name="list">Lista</string>
     <string name="error_audio_upload_size">Los ficheros de audio deben ser menores de 40MB.</string>
-    <string name="gradient_for_media">Mostrar degradados coloridos para el contenido multimedia oculto.</string>
+    <string name="gradient_for_media">Mostrar degradados coloridos para el contenido multimedia oculto</string>
     <string name="no_saved_status">No tienes ningún borrador.</string>
     <string name="no_scheduled_status">No tienes ningún estado programado.</string>
     <string name="warning_scheduling_interval">Mastodon tiene un intervalo de programación mínimo de 5 minutos.</string>

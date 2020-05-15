@@ -109,7 +109,7 @@
     <string name="action_links">Liens</string>
     <string name="action_mentions">Mentions</string>
     <string name="action_hashtags">Hashtags</string>
-    <string name="action_open_reblogger">Afficher l’auteur·rice du partage</string>
+    <string name="action_open_reblogger">Afficher l’auteur·rice du boost</string>
     <string name="action_open_reblogged_by">Afficher les boosts</string>
     <string name="action_open_faved_by">Montrer les favoris</string>
     <string name="title_hashtags_dialog">Hashtags</string>
@@ -461,7 +461,7 @@
     <string name="no_saved_status">Vous n’avez aucun brouillon.</string>
     <string name="no_scheduled_status">Vous n’avez aucun pouet planifié.</string>
     <string name="warning_scheduling_interval">L’intervalle minimum de planification sur Mastodon est de 5 minutes.</string>
-    <string name="notification_follow_request_name">Demandes d\'abonnement</string>
+    <string name="notification_follow_request_name">Demandes de suivi</string>
     <string name="dialog_block_warning">Bloquer @%s \?</string>
     <string name="pref_title_confirm_reblogs">Afficher une boite de confirmation avant de booster</string>
     <string name="pref_title_show_cards_in_timelines">Afficher des aperçus des liens dans les fils</string>

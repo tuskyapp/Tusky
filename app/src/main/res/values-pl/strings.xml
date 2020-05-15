@@ -59,7 +59,7 @@
     <string name="action_block">Zablokuj</string>
     <string name="action_unblock">Odblokuj</string>
     <string name="action_hide_reblogs">Ukryj podbicia</string>
-    <string name="action_show_reblogs">Pokaż podbicia</string>
+    <string name="action_show_reblogs">Pokazuj podbicia</string>
     <string name="action_report">Zgłoś</string>
     <string name="action_delete">Usuń</string>
     <string name="action_send">Wyślij</string>
@@ -458,4 +458,5 @@
     <string name="no_saved_status">Nie masz żadnych szkiców.</string>
     <string name="no_scheduled_status">Nie masz żadnych zaplanowanych wpisów.</string>
     <string name="warning_scheduling_interval">Mastodon umożliwia wysłanie minimalnie 5 minut od zaplanowania.</string>
+    <string name="notification_follow_request_name">Prośby o możliwość śledzenia</string>
 </resources>
