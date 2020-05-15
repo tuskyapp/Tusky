@@ -103,7 +103,7 @@
     <string name="action_search">Serĉi</string>
     <string name="action_access_saved_toot">Malnetoj</string>
     <string name="action_toggle_visibility">Videblo de la mesaĝo</string>
-    <string name="action_content_warning">Tikla enhavo</string>
+    <string name="action_content_warning">Enhava averto</string>
     <string name="action_emoji_keyboard">Klavaro de emoĝioj</string>
     <string name="action_add_tab">Aldoni langeton</string>
     <string name="action_links">Ligiloj</string>
@@ -428,12 +428,12 @@
     <string name="create_poll_title">Baloto</string>
     <string name="poll_duration_5_min">5 minutoj</string>
     <string name="poll_duration_30_min">30 minutoj</string>
-    <string name="poll_duration_1_hour">1 horo</string>
+    <string name="poll_duration_1_hour">1 horoj</string>
     <string name="poll_duration_6_hours">6 horoj</string>
     <string name="poll_duration_1_day">1 tago</string>
     <string name="poll_duration_3_days">3 tagoj</string>
     <string name="poll_duration_7_days">7 tagoj</string>
-    <string name="add_poll_choice">Aldoni elekton</string>
+    <string name="add_poll_choice">Aldoni epekton</string>
     <string name="poll_allow_multiple_choices">Multaj elektoj</string>
     <string name="poll_new_choice_hint">Elekton %d</string>
     <string name="edit_poll">Redaktigi</string>
@@ -454,4 +454,5 @@
     <string name="gradient_for_media">Montri buntajn transirojn por kaŝitaj aŭdovidaĵoj</string>
     <string name="no_saved_status">Vi ne havas iun ajn malneton.</string>
     <string name="no_scheduled_status">Vi ne havas iun ajn planitan mesaĝon.</string>
+    <string name="notification_follow_request_name">Petoj de sekvado</string>
 </resources>

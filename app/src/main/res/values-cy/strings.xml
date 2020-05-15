@@ -29,8 +29,8 @@
     <string name="title_followers">Dilynwyr</string>
     <string name="title_favourites">Ffefrynnau</string>
     <string name="title_mutes">Defnyddwyr mud</string>
-    <string name="title_blocks">Defnyddwyr wedi\'u blocio</string>
-    <string name="title_follow_requests">Dilyn Ceisiadau</string>
+    <string name="title_blocks">Defnyddwyr wediu blocio</string>
+    <string name="title_follow_requests">Dilyn ceisiadau</string>
     <string name="title_edit_profile">Golygu\'ch Proffil</string>
     <string name="title_saved_toot">Drafftiau</string>
     <string name="title_licenses">Trwyddedau</string>
@@ -289,4 +289,5 @@
     <string name="action_add_tab">Ychwanegu Tab</string>
     <string name="action_links">Cysylltiadau</string>
     <string name="title_links_dialog">Cysylltiadau</string>
+    <string name="action_open_reblogged_by">Dangos hybiadau</string>
 </resources>

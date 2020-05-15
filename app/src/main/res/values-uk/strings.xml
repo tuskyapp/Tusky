@@ -105,4 +105,7 @@
     <string name="status_content_warning_show_more">Розгорнути</string>
     <string name="status_sensitive_media_directions">Натисніть для перегляду</string>
     <string name="status_media_hidden_title">Медіа приховано</string>
+    <string name="hint_content_warning">Попередження про контент</string>
+    <string name="edit_poll">Змінити</string>
+    <string name="compose_shortcut_short_label">Написати</string>
 </resources>

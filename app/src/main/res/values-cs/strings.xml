@@ -335,9 +335,9 @@
         <item quantity="other">&lt;b&gt;%1$s&lt;/b&gt; oblíbení</item>
     </plurals>
     <plurals name="reblogs">
-        <item quantity="one">&lt;b&gt;%s&lt;/b&gt; boost</item>
-        <item quantity="few">&lt;b&gt;%s&lt;/b&gt; boost</item>
-        <item quantity="other">&lt;b&gt;%s&lt;/b&gt; boostů</item>
+        <item quantity="one"><b>%s</b> boost</item>
+        <item quantity="few"><b>%s</b> boost</item>
+        <item quantity="other"><b>%s</b> boostu</item>
     </plurals>
     <string name="title_reblogged_by">Boostnuto uživatelem</string>
     <string name="title_favourited_by">Oblíbeno uživatelem</string>
@@ -356,10 +356,8 @@
     <string name="description_status_favourited">        Oblíbený
     </string>
     <string name="description_visiblity_public">Veřejný</string>
-    <string name="description_visiblity_unlisted">        Neuvedený
-    </string>
-    <string name="description_visiblity_private">        Pro sledující
-    </string>
+    <string name="description_visiblity_unlisted">Neuvedené</string>
+    <string name="description_visiblity_private">Sledující</string>
     <string name="description_visiblity_direct">        Přímý
     </string>
     <string name="hint_list_name">Název seznamu</string>
@@ -428,7 +426,7 @@
     <string name="report_remote_instance">Přeposlat na %s</string>
     <string name="failed_report">Nahlášení selhalo</string>
     <string name="failed_fetch_statuses">Stahování tootů neuspělo</string>
-    <string name="report_description_1">Nahlášení bude zasláno moderátorovi vašeho serveru. Níže můžete uvést, proč tento účet nahlašujete:</string>
+    <string name="report_description_1">Nahlášení bude zasláno moderátorům vašeho serveru. Níže můžete uvést, proč tento účet nahlašujete:</string>
     <string name="report_description_remote_instance">Tento účet je z jiného serveru. Chcete na něj také poslat anonymizovanou kopii\?</string>
     <string name="pref_title_show_notifications_filter">Zobrazit filtr oznámení</string>
     <string name="create_poll_title">Anketa</string>

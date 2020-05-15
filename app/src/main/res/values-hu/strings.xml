@@ -33,15 +33,15 @@
     <string name="title_followers">Követő</string>
     <string name="title_favourites">Kedvencek</string>
     <string name="title_mutes">Némított felhasználók</string>
-    <string name="title_blocks">Letiltott felhasználók</string>
+    <string name="title_blocks">Blokkolt felhasználók</string>
     <string name="title_follow_requests">Követési kérelmek</string>
     <string name="title_edit_profile">Profilod szerkesztése</string>
     <string name="title_saved_toot">Piszkozatok</string>
     <string name="title_licenses">Licencek</string>
     <string name="status_username_format">\@%s</string>
-    <string name="status_boosted_format">%s megtolta</string>
-    <string name="status_sensitive_media_title">Szenzitív tartalom</string>
-    <string name="status_media_hidden_title">Rejtett média</string>
+    <string name="status_boosted_format">%s reblogolta</string>
+    <string name="status_sensitive_media_title">Kényes tartalom</string>
+    <string name="status_media_hidden_title">Média elrejtve</string>
     <string name="status_sensitive_media_directions">Kattints a megnézéshez</string>
     <string name="status_content_warning_show_more">Mutass többet</string>
     <string name="status_content_warning_show_less">Mutass kevesebbet</string>
@@ -49,18 +49,18 @@
     <string name="status_content_show_less">Összecsukás</string>
     <string name="message_empty">Nincs itt semmi.</string>
     <string name="footer_empty">Üres tartalom. Húzd le a frissítéshez!</string>
-    <string name="notification_reblog_format">%s megtolta a tülködet</string>
-    <string name="notification_favourite_format">%s kedvencnek jelölte tülködet</string>
-    <string name="notification_follow_format">%s követ</string>
-    <string name="report_username_format">\@%s bejelentése</string>
+    <string name="notification_reblog_format">%s rebloggolta tülkölésed</string>
+    <string name="notification_favourite_format">%s kedvencnek jelölte tülkölésed</string>
+    <string name="notification_follow_format">%s követett</string>
+    <string name="report_username_format">\@%s jelentése</string>
     <string name="report_comment_hint">Egyéb megjegyzés?</string>
     <string name="action_quick_reply">Gyors válasz</string>
     <string name="action_reply">Válasz</string>
-    <string name="action_reblog">Megtolás</string>
+    <string name="action_reblog">Rebloggol</string>
     <string name="action_favourite">Kedvenc</string>
     <string name="action_more">Több</string>
-    <string name="action_compose">Szerkesztés</string>
-    <string name="action_login">Bejelentkezés Mastodonnal</string>
+    <string name="action_compose">Szerkeszt</string>
+    <string name="action_login">Bejelentkezés Mastodon-al</string>
     <string name="action_logout">Kijelentkezés</string>
     <string name="action_logout_confirm">Biztosan ki szeretnél jelentkezni a következőből: %1$s?</string>
     <string name="action_follow">Követés</string>
@@ -118,8 +118,8 @@
     <string name="send_status_link_to">Tülk URL megosztása…</string>
     <string name="send_status_content_to">Tülk megosztása…</string>
     <string name="confirmation_reported">Elküldve!</string>
-    <string name="confirmation_unblocked">Felhasználó letiltása feloldva</string>
-    <string name="confirmation_unmuted">Felhasználó némítása feloldva</string>
+    <string name="confirmation_unblocked">Felhasználó deblokkolva</string>
+    <string name="confirmation_unmuted">Felhasználó kinémítva</string>
     <string name="status_sent">Elküldve!</string>
     <string name="status_sent_long">Válasz sikeresen elküldve.</string>
     <string name="hint_domain">Mely szerver\?</string>
@@ -201,7 +201,7 @@
     <string name="notification_boost_description">Értesítések tülkjeid megtolása esetén</string>
     <string name="notification_favourite_name">Kedvencek</string>
     <string name="notification_favourite_description">Értesítések mikor tülkjeidet kedvencnek jelölik</string>
-    <string name="notification_mention_format">%s megemlített téged</string>
+    <string name="notification_mention_format">%s megemített téged</string>
     <string name="notification_summary_large">%1$s, %2$s, %3$s és még %4$d</string>
     <string name="notification_summary_medium">%1$s, %2$s meg %3$s</string>
     <string name="notification_summary_small">%1$s és %2$s</string>
@@ -379,8 +379,8 @@
     <string name="compose_preview_image_description">Műveletek a %s képpel</string>
     <string name="poll_info_format"> <!-- 15 szavazat • 1 óra maradt --> %1$s • %2$s</string>
     <plurals name="poll_info_votes">
-        <item quantity="one">%s szavazat</item>
-        <item quantity="other">%s szavazat</item>
+        <item quantity="one"></item>
+        <item quantity="other"></item>
     </plurals>
     <string name="poll_info_time_relative">%s maradt</string>
     <string name="poll_info_time_absolute">vége %s</string>
@@ -449,4 +449,5 @@
     <string name="no_saved_status">Nincs egy vázlatod sem.</string>
     <string name="no_scheduled_status">Nincs egy ütemezett tülköd sem.</string>
     <string name="warning_scheduling_interval">A Mastodonban a legrövidebb ütemezhető időintervallum 5 perc.</string>
+    <string name="notification_follow_request_name">Követési kérelmek</string>
 </resources>
