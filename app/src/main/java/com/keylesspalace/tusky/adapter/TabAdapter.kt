@@ -99,6 +99,11 @@ class TabAdapter(private var data: List<TabData>,
             if (data[position].id == HASHTAG) {
                 holder.itemView.chipGroup.show()
 
+                /*
+                 * The chip group will always contain the actionChip (it is defined in the xml layout).
+                 * The other dynamic chips are inserted in front of the actionChip.
+                 * This code tries to reuse already added chips to reduce the number of Views created.
+                 */
                 data[position].arguments.forEachIndexed { i, arg ->
 
                     val chip = holder.itemView.chipGroup.getChildAt(i).takeUnless { it.id == R.id.actionChip } as Chip?
