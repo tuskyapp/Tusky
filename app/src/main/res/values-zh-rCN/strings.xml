@@ -436,7 +436,7 @@
     <string name="button_continue">继续</string>
     <string name="button_back">返回</string>
     <string name="button_done">完成</string>
-    <string name="report_sent_success">"成功回报  @%s"</string>
+    <string name="report_sent_success">成功回报 @%s</string>
     <string name="hint_additional_info">附加留言</string>
     <string name="report_remote_instance">转发到 %s</string>
     <string name="failed_report">回报失败</string>
