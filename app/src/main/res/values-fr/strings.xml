@@ -48,7 +48,7 @@
     <string name="status_content_show_more">Déplier</string>
     <string name="status_content_show_less">Replier</string>
     <string name="message_empty">Rien ici.</string>
-    <string name="footer_empty">Il n’y a aucun pouet pour le moment.\nGlissez vers le bas pour actualiser !</string>
+    <string name="footer_empty">Il n’y a aucun pouet ici pour l’instant. Glissez vers le bas pour actualiser !</string>
     <string name="notification_reblog_format">%s a partagé votre pouet</string>
     <string name="notification_favourite_format">%s a ajouté votre pouet à ses favoris</string>
     <string name="notification_follow_format">%s vous suit</string>
@@ -475,4 +475,5 @@
     <string name="dialog_mute_warning">Mettre en sourdine @%s \?</string>
     <string name="action_unmute_conversation">Enlever la sourdine à la conversation</string>
     <string name="action_mute_conversation">Silencer la conversation</string>
+    <string name="pref_title_enable_swipe_for_tabs">Activer les gestes de glissement pour passer d’un onglet à l’autre</string>
 </resources>
