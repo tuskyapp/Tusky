@@ -394,9 +394,7 @@
         Для упомянутых
     </string>
     <string name="hint_list_name">Название списка</string>
-    <string name="edit_hashtag_title">Изм. хэштег</string>
     <string name="edit_hashtag_hint">Хэштег без #</string>
-    <string name="hashtag">Хэштег</string>
     <string name="notifications_clear">Очистить</string>
     <string name="notifications_apply_filter">Фильтр</string>
     <string name="filter_apply">Применить</string>

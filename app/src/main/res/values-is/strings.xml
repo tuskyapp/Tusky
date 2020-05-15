@@ -428,9 +428,7 @@
 
     <string name="hint_list_name">Heiti á lista</string>
 
-    <string name="edit_hashtag_title">Breyta myllumerki</string>
     <string name="edit_hashtag_hint">Myllumerki án #</string>
-    <string name="hashtag">Myllumerki</string>
     <string name="select_list_title">Veldu lista</string>
     <string name="list">Listi</string>
     <string name="notifications_clear">Hreinsa</string>

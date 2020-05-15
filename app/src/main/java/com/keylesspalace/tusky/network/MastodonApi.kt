@@ -76,6 +76,7 @@ interface MastodonApi {
     @GET("api/v1/timelines/tag/{hashtag}")
     fun hashtagTimeline(
             @Path("hashtag") hashtag: String,
+            @Query("any[]") any: List<String>?,
             @Query("local") local: Boolean?,
             @Query("max_id") maxId: String?,
             @Query("since_id") sinceId: String?,

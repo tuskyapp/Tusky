@@ -358,9 +358,7 @@
     <string name="hint_list_name">Listnamn</string>
     <string name="download_media">Ladda ned media</string>
     <string name="downloading_media">Laddar ned media</string>
-    <string name="edit_hashtag_title">Redigera hashtag</string>
     <string name="edit_hashtag_hint">Hashtag utan #</string>
-    <string name="hashtag">Hashtag</string>
     <string name="compose_shortcut_long_label">Skriv toot</string>
     <string name="compose_shortcut_short_label">Skriv</string>
     <string name="notifications_clear">Rensa</string>

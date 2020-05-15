@@ -364,9 +364,7 @@
     <string name="description_visiblity_direct">        Přímý
     </string>
     <string name="hint_list_name">Název seznamu</string>
-    <string name="edit_hashtag_title">Upravit hashtag</string>
     <string name="edit_hashtag_hint">Hashtag bez #</string>
-    <string name="hashtag">Hashtag</string>
 <string name="compose_shortcut_long_label">Napsat toot</string>
     <string name="compose_shortcut_short_label">Napsat</string>
 

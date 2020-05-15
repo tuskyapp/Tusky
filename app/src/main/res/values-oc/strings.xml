@@ -351,9 +351,7 @@
     <string name="description_visiblity_private">Seguidors</string>
     <string name="description_visiblity_direct">Dirècte</string>
     <string name="hint_list_name">Nom de la lista</string>
-    <string name="edit_hashtag_title">Modificar las etiquetas</string>
     <string name="edit_hashtag_hint">Etiquetas sens #</string>
-    <string name="hashtag">Etiqueta</string>
     <string name="compose_shortcut_long_label">Escriure un tut</string>
     <string name="compose_shortcut_short_label">Escriure</string>
     <string name="action_delete_and_redraft">Suprimir e reformular</string>

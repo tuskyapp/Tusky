@@ -359,9 +359,7 @@
 <string name="download_media">Scarica media</string>
     <string name="downloading_media">Scaricando media</string>
 
-    <string name="edit_hashtag_title">Modifica hashtag</string>
     <string name="edit_hashtag_hint">Hashtag senza #</string>
-    <string name="hashtag">Hashtag</string>
 
 
 <string name="compose_shortcut_long_label">Componi Toot</string>

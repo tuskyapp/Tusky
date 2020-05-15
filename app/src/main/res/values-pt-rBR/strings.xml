@@ -356,9 +356,7 @@
     <string name="description_visiblity_unlisted">Não-listado</string>
     <string name="description_visiblity_direct">Direta</string>
     <string name="hint_list_name">Nome da lista</string>
-    <string name="edit_hashtag_title">Editar hashtag</string>
     <string name="edit_hashtag_hint">Hashtag sem #</string>
-    <string name="hashtag">Hashtag</string>
     <string name="notifications_clear">Limpar</string>
     <string name="notifications_apply_filter">Filtro</string>
     <string name="filter_apply">Salvar</string>

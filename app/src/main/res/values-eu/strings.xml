@@ -373,9 +373,7 @@
     <string name="description_visiblity_direct">Zuzena</string>
     <string name="description_poll">Inkestatu aukerekin: %1$s, %2$s, %3$s, %4$s; %5$s</string>
     <string name="hint_list_name">Zerrendaren izena</string>
-    <string name="edit_hashtag_title">Editatu traola</string>
     <string name="edit_hashtag_hint">Traola # gabe</string>
-    <string name="hashtag">Traola</string>
     <string name="notifications_clear">Garbitu</string>
     <string name="notifications_apply_filter">Iragazi</string>
     <string name="filter_apply">Aplikatu</string>
