@@ -18,13 +18,16 @@ package com.keylesspalace.tusky
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
+import android.widget.FrameLayout
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.AppCompatEditText
+import androidx.core.view.updatePadding
 import androidx.lifecycle.Lifecycle
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import at.connyduck.sparkbutton.helpers.Utils
 import com.keylesspalace.tusky.adapter.ItemInteractionListener
 import com.keylesspalace.tusky.adapter.ListSelectionAdapter
 import com.keylesspalace.tusky.adapter.TabAdapter
@@ -187,13 +190,18 @@ class TabPreferenceActivity : BaseActivity(), Injectable, ItemInteractionListene
 
     private fun showAddHashtagDialog(tab: TabData? = null) {
 
+        val frameLayout = FrameLayout(this)
+        val padding = Utils.dpToPx(this, 8)
+        frameLayout.updatePadding(left = padding, right = padding)
+
         val editText = AppCompatEditText(this)
         editText.setHint(R.string.edit_hashtag_hint)
         editText.setText("")
+        frameLayout.addView(editText)
 
         val dialog = AlertDialog.Builder(this)
                 .setTitle(R.string.add_hashtag_title)
-                .setView(editText)
+                .setView(frameLayout)
                 .setNegativeButton(android.R.string.cancel, null)
                 .setPositiveButton(R.string.action_save) { _, _ ->
                     val input = editText.text.toString().trim()
