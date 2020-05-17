@@ -1,0 +1,10 @@
+Tusky v11.0
+
+- Notificações de seguidores pendentes quando a conta está trancada! FINALMENTE, POVO!
+- Novas funcionalidades na aba de preferências:
+   - desativar o gesto que alterna entre abas
+   - diálogo de confirmação antes de dar boost
+   - mostrar ou não prévia de links nas linhas alheias
+- Conversas agora podem ser silenciadas
+- Enquetes agora serão calculadas por número de votantes, o que facilitará o entendimento das enquetes de múltiplas opções
+- E algumas correções a mais

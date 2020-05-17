@@ -5,5 +5,5 @@ Tusky v9.0
 - Nowa opcja w Ustawieniach konta która zawsze rozwija ostrzeżenia o zawartości
 - Awatary w szufladzie nawigacji mają teraz kształt zaokrąglonego kwadratu
 - Teraz możliwe jest zgłaszanie osób nawet wtedy, kiedy nic jeszcze nie wysyłali.
-- Tusky nie pozwoli na połączenia bez zabezpieczeń (cleartext) na Androidzie 6+
+- Tusky nie pozwoli na połączenia przez cleartext na Androidzie 6+
 - Wiele innych małych ulepszeń i poprawek
