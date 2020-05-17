@@ -332,9 +332,7 @@
     <string name="description_visiblity_private">Sledilci</string>
     <string name="description_visiblity_direct">Neposredno</string>
     <string name="hint_list_name">Ime seznama</string>
-    <string name="edit_hashtag_title">Uredi ključnik</string>
     <string name="edit_hashtag_hint">Ključnik brez #</string>
-    <string name="hashtag">Ključnik</string>
     <string name="notifications_clear">Počisti</string>
     <string name="notifications_apply_filter">Filter</string>
     <string name="filter_apply">Uporabi</string>

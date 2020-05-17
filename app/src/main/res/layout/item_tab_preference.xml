@@ -26,10 +26,10 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:paddingTop="8dp"
-        android:paddingBottom="8dp"
         android:layout_weight="1"
         android:drawablePadding="12dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
         android:textColor="?android:attr/textColorSecondary"
         android:textSize="?attr/status_text_large"
         app:layout_constraintBottom_toTopOf="@id/chipGroup"
@@ -57,9 +57,7 @@
         android:id="@+id/chipGroup"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
         android:layout_marginBottom="8dp"
-        android:paddingTop="8dp"
         app:layout_constraintBottom_toBottomOf="parent">
 
         <com.google.android.material.chip.Chip
@@ -68,7 +66,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:checkable="false"
-            tools:text="add hashtag" />
+            android:text="@string/add_hashtag_title"
+            app:chipIcon="@drawable/ic_plus_24dp"
+            app:chipSurfaceColor="@color/tusky_blue" />
 
     </com.google.android.material.chip.ChipGroup>
 

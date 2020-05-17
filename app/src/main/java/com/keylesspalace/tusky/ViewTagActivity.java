@@ -28,6 +28,8 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.keylesspalace.tusky.fragment.TimelineFragment;
 
+import java.util.Collections;
+
 import javax.inject.Inject;
 
 import dagger.android.AndroidInjector;
@@ -65,7 +67,7 @@ public class ViewTagActivity extends BottomSheetActivity implements HasAndroidIn
         }
 
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        Fragment fragment = TimelineFragment.newInstance(TimelineFragment.Kind.TAG, hashtag);
+        Fragment fragment = TimelineFragment.newHashtagInstance(Collections.singletonList(hashtag));
         fragmentTransaction.replace(R.id.fragment_container, fragment);
         fragmentTransaction.commit();
     }

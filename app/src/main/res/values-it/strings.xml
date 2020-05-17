@@ -358,10 +358,11 @@
     <string name="hint_list_name">Nome della lista</string>
     <string name="download_media">Scarica media</string>
     <string name="downloading_media">Scaricando media</string>
-    <string name="edit_hashtag_title">Modifica hashtag</string>
-    <string name="edit_hashtag_hint">Hashtag senza #</string>
-    <string name="hashtag">Hashtag</string>
+
     <string name="compose_shortcut_long_label">Componi Toot</string>
+
+    <string name="edit_hashtag_hint">Hashtag senza #</string>
+
     <string name="compose_shortcut_short_label">Componi</string>
     <string name="notifications_clear">Pulisci</string>
     <string name="notifications_apply_filter">Filtra</string>

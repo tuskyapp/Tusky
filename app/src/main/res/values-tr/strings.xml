@@ -351,9 +351,7 @@
     <string name="description_visiblity_direct">Direkt</string>
     <string name="description_poll">Seçenekli anket: %1$s, %2$s, %3$s, %4$s; %5$s</string>
     <string name="hint_list_name">Liste adı</string>
-    <string name="edit_hashtag_title">Hashtag\'i düzenle</string>
     <string name="edit_hashtag_hint"># olmadan hashtag</string>
-    <string name="hashtag">Hashtag</string>
     <string name="notifications_clear">Temizle</string>
     <string name="notifications_apply_filter">Filtre</string>
     <string name="filter_apply">Uygula</string>
