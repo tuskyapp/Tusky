@@ -39,9 +39,9 @@
     <string name="status_sensitive_media_directions">Naciśnij, aby wyświetlić</string>
     <string name="status_content_warning_show_more">Pokaż więcej</string>
     <string name="status_content_warning_show_less">Ukryj</string>
-    <string name="footer_empty">Pusto tutaj. Pociągnij, aby odświeżyć!</string>
-    <string name="notification_reblog_format">%s podbił(-a) Twój wpis</string>
-    <string name="notification_favourite_format">%s dodał Twój wpis do ulubionych</string>
+    <string name="footer_empty">Pusto! Pociągnij, aby odświeżyć.</string>
+    <string name="notification_reblog_format">%s podbił Twój post</string>
+    <string name="notification_favourite_format">%s dodał Twój post do ulubionych</string>
     <string name="notification_follow_format">%s zaczął Cię śledzić</string>
     <string name="report_username_format">Zgłoś @%s</string>
     <string name="report_comment_hint">Dodatkowe komentarze?</string>
@@ -68,7 +68,7 @@
     <string name="action_close">Zamknij</string>
     <string name="action_view_profile">Profil</string>
     <string name="action_view_preferences">Preferencje</string>
-    <string name="action_view_favourites">Ulubione</string>
+    <string name="action_view_favourites">Polubione</string>
     <string name="action_view_mutes">Wyciszeni użytkownicy</string>
     <string name="action_view_blocks">Zablokowani użytkownicy</string>
     <string name="action_view_follow_requests">Prośby o możliwość śledzenia</string>
@@ -100,7 +100,7 @@
     <string name="confirmation_reported">Wyślij!</string>
     <string name="confirmation_unblocked">Odblokowano użytkownika</string>
     <string name="confirmation_unmuted">Cofnięto wyciszenie użytkownika</string>
-    <string name="status_sent">Wysłano!</string>
+    <string name="status_sent">Wyślij!</string>
     <string name="status_sent_long">Pomyślnie wysłano odpowiedź.</string>
     <string name="hint_domain">Jaka instancja?</string>
     <string name="hint_compose">Co Ci chodzi po głowie?</string>
@@ -179,7 +179,7 @@
     <string name="notification_boost_name">Podbicia</string>
     <string name="notification_boost_description">Powiadomienia o podbiciu wpisów</string>
     <string name="notification_favourite_name">Ulubione</string>
-    <string name="notification_favourite_description">Powiadomienia o polubieniu twoich wpisów</string>
+    <string name="notification_favourite_description">Powiadomienia o dodaniu wpisów do ulubionych</string>
     <string name="notification_mention_format">%s wspomniał o Tobie</string>
     <string name="notification_summary_large">%1$s, %2$s, %3$s i %4$d innych</string>
     <string name="notification_summary_medium">%1$s, %2$s, i %3$s</string>
@@ -201,8 +201,8 @@
         https://github.com/tuskyapp/Tusky/issues
     </string>
     <string name="about_tusky_account">Profil Tusky’ego</string>
-    <string name="status_share_content">Udostępnij zawartość wpisu</string>
-    <string name="status_share_link">Udostępnij link do wpisu</string>
+    <string name="status_share_content">Udostępnij zawartość postu</string>
+    <string name="status_share_link">Udostępnij link do postu</string>
     <string name="status_media_images">Obrazy</string>
     <string name="status_media_video">Wideo</string>
     <string name="state_follow_requested">Wysłano prośbę o możliwość śledzenia</string>
@@ -287,13 +287,13 @@
     <string name="title_tab_preferences">Zakładki</string>
     <string name="title_domain_mutes">Ukryte domeny</string>
     <string name="status_username_format">\@%s</string>
-    <string name="action_unreblog">Cofnij podbicie</string>
+    <string name="action_unreblog">Usuń podbicie</string>
     <string name="action_view_domain_mutes">Ukryte domeny</string>
     <string name="action_add_poll">Dodaj głosowanie</string>
     <string name="action_mute_domain">Wycisz %s</string>
     <string name="action_add_tab">Dodaj zakładkę</string>
     <string name="action_open_reblogger">Otwórz konto osoby podbijającej</string>
-    <string name="action_open_reblogged_by">Pokaż podbicia</string>
+    <string name="action_open_reblogged_by">Pokazuj podbicia</string>
     <string name="action_open_media_n">Otwórz media #%d</string>
     <string name="download_media">Pobierz media</string>
     <string name="downloading_media">Pobieranie mediów</string>
@@ -421,7 +421,7 @@
     <string name="report_remote_instance">Wyślij zgłoszenie do %s</string>
     <string name="failed_report">Zgłoszenie nie powiodło się</string>
     <string name="failed_fetch_statuses">Pobieranie wpisów nie powiodło się</string>
-    <string name="report_description_1">Zgłoszenie zostanie przesłane do moderatora twojego serwera. Możesz podać przyczynę zgłoszenia tego konta poniżej:</string>
+    <string name="report_description_1">Zgłoszenie zostanie przesłąne do moderatora twojego serwera. Możesz podać przyczynę zgłoszenia tego konta poniżej:</string>
     <string name="report_description_remote_instance">To konto jest na innym serwerze. Czy przesłać anonimizowaną kopię zgłoszenia na ten serwer\?</string>
     <string name="title_accounts">Konta</string>
     <string name="failed_search">Wyszukiwanie nie powidło się</string>
@@ -455,5 +455,6 @@
     <string name="gradient_for_media">Pokaż kolorowe gradienty dla ukrytych mediów</string>
     <string name="no_saved_status">Nie masz żadnych szkiców.</string>
     <string name="no_scheduled_status">Nie masz żadnych zaplanowanych wpisów.</string>
-    <string name="warning_scheduling_interval">Mastodon umożliwia wysłanie minimalnie 5 minut od zaplanowania.</string>
+    <string name="warning_scheduling_interval">Mastodon umożliwia wysłanie minimalnie 5 minut od zaplanowania</string>
+    <string name="notification_follow_request_name">Prośby o możliwość śledzenia</string>
 </resources>

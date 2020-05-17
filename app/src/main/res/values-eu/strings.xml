@@ -30,7 +30,7 @@
     <string name="title_favourites">Gogokoenak</string>
     <string name="title_mutes">Isilduak</string>
     <string name="title_blocks">Blokeatuak</string>
-    <string name="title_follow_requests">Eskakizunak</string>
+    <string name="title_follow_requests">Eskariak</string>
     <string name="title_edit_profile">Profila editatu</string>
     <string name="title_saved_toot">Zirriborroak</string>
     <string name="title_licenses">Lizentziak</string>
@@ -109,12 +109,12 @@
     <string name="status_sent_long">Erantzuna ongi bidali da.</string>
     <string name="hint_domain">Zein instantzia\?</string>
     <string name="hint_compose">Zer duzu buruan?</string>
-    <string name="hint_content_warning">Eduki-abisua</string>
+    <string name="hint_content_warning">Edukiaren abisua</string>
     <string name="hint_display_name">Agertuko den izena</string>
     <string name="hint_note">Biografia</string>
     <string name="hint_search">Bilatu…</string>
     <string name="search_no_results">Emaitzarik ez</string>
-    <string name="label_quick_reply">Erantzun…</string>
+    <string name="label_quick_reply">Erantzuna…</string>
     <string name="label_avatar">Irudia</string>
     <string name="label_header">Goiburua</string>
     <string name="link_whats_an_instance">Zer da instantzia?</string>
@@ -126,11 +126,11 @@
 \nInstantzia zure kontua dagoen gunea da, baino beste instantzietako erabiltzaileak zurean egongo balira bezala jarraitu ditzakezu. 
 \n
 \nInformazio gehiago <a href="https://joinmastodon.org">joinmastodon.org</a> helbidean topatuko duzu. </string>
-    <string name="dialog_title_finishing_media_upload">Mediaren igoera bukatzen</string>
+    <string name="dialog_title_finishing_media_upload">Multimedia igoera bukatzen</string>
     <string name="dialog_message_uploading_media">Igotzen…</string>
     <string name="dialog_download_image">Jaitsi</string>
-    <string name="dialog_message_cancel_follow_request">Jarraipen-eskaerari uko egin\?</string>
-    <string name="dialog_unfollow_warning">Kontu honi jarraitzeari utzi\?</string>
+    <string name="dialog_message_cancel_follow_request">Lagun eskaera ezeztatu\?</string>
+    <string name="dialog_unfollow_warning">Kontu hau jarraitzeari utzi\?</string>
     <string name="dialog_delete_toot_warning">Tut hau ezabatu\?</string>
     <string name="visibility_public">Publikoa: Istorio publikoetan erakutsi</string>
     <string name="visibility_unlisted">Ezkutukoa: Ez erakutsi istorio publikoetan</string>
@@ -175,20 +175,20 @@
     <string name="post_privacy_unlisted">Zerrendatu gabea</string>
     <string name="post_privacy_followers_only">Jarraitzaileak soilik</string>
     <string name="pref_status_text_size">Status testuaren tamaina</string>
-    <string name="status_text_size_smallest">Txikiena</string>
+    <string name="status_text_size_smallest">Oso txikia</string>
     <string name="status_text_size_small">Txikia</string>
     <string name="status_text_size_medium">Erdikoa</string>
     <string name="status_text_size_large">Handia</string>
-    <string name="status_text_size_largest">Handiena</string>
+    <string name="status_text_size_largest">Oso handia</string>
     <string name="notification_mention_name">Aipamen berriak</string>
     <string name="notification_mention_descriptions">Aipamen berrien jakinarazpenak</string>
-    <string name="notification_follow_name">Jarraitzaile berriak</string>
+    <string name="notification_follow_name">Jarritzaile berriak</string>
     <string name="notification_follow_description">Jarraitzaile berrien jakinarazpenak</string>
     <string name="notification_boost_name">Bultzadak</string>
     <string name="notification_boost_description">Bultzatutako zure tuten jakinarazpenak</string>
     <string name="notification_favourite_name">Gogokoak</string>
     <string name="notification_favourite_description">Zure tutak gogoko bezala ezartzerakoan jakinarazpenak</string>
-    <string name="notification_mention_format">%s-(e)k aipatu zaitu</string>
+    <string name="notification_mention_format">%s-k aipatu zaitu</string>
     <string name="notification_summary_large">%1$s, %2$s, %3$s eta beste %4$d</string>
     <string name="notification_summary_medium">%1$s, %2$s eta %3$s</string>
     <string name="notification_summary_small">%1$s eta %2$s</string>
@@ -412,7 +412,7 @@
     <string name="button_done">Eginda</string>
     <string name="report_sent_success">\@%s jakinarazi duzu arrakastaz</string>
     <string name="hint_additional_info">Iruzkin gehigarriak</string>
-    <string name="report_remote_instance">%s(r)i birbidali</string>
+    <string name="report_remote_instance">%s-(r)i birbidali</string>
     <string name="failed_report">Txostena huts egin du</string>
     <string name="failed_fetch_statuses">Egoeren eskuratzea huts egin du</string>
     <string name="report_description_1">Txostena zure zerbitzariaren moderatzaileari bidaliko zaio. Jarraian, kontu honen zergatia salatzen duzun azalpena eman dezakezu:</string>
@@ -432,7 +432,7 @@
     <string name="poll_allow_multiple_choices">Aukera anitzak</string>
     <string name="poll_new_choice_hint">%d. aukera</string>
     <string name="edit_poll">Editatu</string>
-    <string name="post_lookup_error_format">Errorea agertu da %s mezua bilatzean</string>
+    <string name="post_lookup_error_format">Errorea %s mezua bilatzean</string>
     <string name="title_bookmarks">Laster-markak</string>
     <string name="action_bookmark">Laster-marka</string>
     <string name="action_view_bookmarks">Laster-markak</string>
@@ -447,4 +447,5 @@
     <string name="no_saved_status">Ez duzu zirriborrorik.</string>
     <string name="no_scheduled_status">Ez duzu tut programaturik.</string>
     <string name="warning_scheduling_interval">Mastodonek gutxienez 5 minutuko programazio-tartea du.</string>
+    <string name="notification_follow_request_name">Eskariak</string>
 </resources>

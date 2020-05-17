@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='UTF-8'?>
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="error_generic">Vyskytla se chyba.</string>
     <string name="error_network">Vyskytla se chyba sítě! Prosím zkontrolujte své připojení a zkuste to znovu!</string>
@@ -330,15 +330,15 @@
     <string name="unpin_action">Odepnout</string>
     <string name="pin_action">Připnout</string>
     <plurals name="favs">
-	<item quantity="one">&lt;b&gt;%1$s&lt;/b&gt; oblíbení</item>
-	<item quantity="few">&lt;b&gt;%1$s&lt;/b&gt; oblíbení</item>
-	<item quantity="other">&lt;b&gt;%1$s&lt;/b&gt; oblíbení</item>
-</plurals>
+        <item quantity="one">&lt;b&gt;%1$s&lt;/b&gt; oblíbení</item>
+        <item quantity="few">&lt;b&gt;%1$s&lt;/b&gt; oblíbení</item>
+        <item quantity="other">&lt;b&gt;%1$s&lt;/b&gt; oblíbení</item>
+    </plurals>
     <plurals name="reblogs">
-	<item quantity="one">&lt;b&gt;%s&lt;/b&gt; boost</item>
-	<item quantity="few">&lt;b&gt;%s&lt;/b&gt; boost</item>
-	<item quantity="other">&lt;b&gt;%s&lt;/b&gt; boostů</item>
-</plurals>
+        <item quantity="one"><b>%s</b> boost</item>
+        <item quantity="few"><b>%s</b> boost</item>
+        <item quantity="other"><b>%s</b> boostu</item>
+    </plurals>
     <string name="title_reblogged_by">Boostnuto uživatelem</string>
     <string name="title_favourited_by">Oblíbeno uživatelem</string>
     <string name="conversation_1_recipients">%1$s</string>
@@ -355,86 +355,68 @@
     </string>
     <string name="description_status_favourited">        Oblíbený
     </string>
-    <string name="description_visiblity_public">        Veřejný
-    </string>
-    <string name="description_visiblity_unlisted">        Neuvedený
-    </string>
-    <string name="description_visiblity_private">        Pro sledující
-    </string>
+    <string name="description_visiblity_public">Veřejný</string>
+    <string name="description_visiblity_unlisted">Neuvedené</string>
+    <string name="description_visiblity_private">Sledující</string>
     <string name="description_visiblity_direct">        Přímý
     </string>
     <string name="hint_list_name">Název seznamu</string>
     <string name="edit_hashtag_hint">Hashtag bez #</string>
-<string name="compose_shortcut_long_label">Napsat toot</string>
-    <string name="compose_shortcut_short_label">Napsat</string>
 
-<string name="notifications_clear">Vymazat</string>
+    <string name="compose_shortcut_long_label">Napsat toot</string>
+
+    <string name="compose_shortcut_short_label">Napsat</string>
+    <string name="notifications_clear">Vymazat</string>
     <string name="notifications_apply_filter">Filtrovat</string>
     <string name="filter_apply">Použít</string>
-
     <string name="pref_title_bot_overlay">Zobrazovat indikátor pro roboty</string>
-
-<string name="notification_clear_text">Jste si jistý/á, že chcete trvale vymazat všechna vaše oznámení\?</string>
-
-<string name="action_delete_and_redraft">Smazat a přepsat</string>
+    <string name="notification_clear_text">Jste si jistý/á, že chcete trvale vymazat všechna vaše oznámení\?</string>
+    <string name="action_delete_and_redraft">Smazat a přepsat</string>
     <string name="dialog_redraft_toot_warning">Smazat a přepsat tento toot\?</string>
-
     <string name="poll_info_format"> <!-- 15 votes • 1 hour left --> %1$s • %2$s</string>
     <plurals name="poll_info_votes">
-	<item quantity="one">%s hlas</item>
-	<item quantity="few">%s hlasy</item>
-	<item quantity="other">%s hlasů</item>
-</plurals>
+        <item quantity="one">%s hlas</item>
+        <item quantity="few">%s hlasy</item>
+        <item quantity="other">%s hlasů</item>
+    </plurals>
     <string name="poll_info_time_relative">zbývá %s</string>
     <string name="poll_info_time_absolute">končí v %s</string>
     <string name="poll_info_closed">uzavřena</string>
-
     <string name="poll_vote">Hlasovat</string>
-
-
-<string name="pref_title_notification_filter_poll">skončí ankety</string>
+    <string name="pref_title_notification_filter_poll">skončí ankety</string>
     <string name="notification_poll_name">Ankety</string>
     <string name="notification_poll_description">Oznámení o anketách, které skončily</string>
-
-
     <string name="compose_preview_image_description">Akce pro obrázek %s</string>
-
     <string name="poll_ended_voted">Anketa, ve které jste hlasoval/a, skončila</string>
     <string name="poll_ended_created">Anketa, kterou jste vytvořil/a, skončila</string>
-
     <plurals name="poll_timespan_days">
-	<item quantity="one">%d den</item>
-	<item quantity="few">%d dny</item>
-	<item quantity="other">%d dní</item>
-</plurals>
+        <item quantity="one">%d den</item>
+        <item quantity="few">%d dny</item>
+        <item quantity="other">%d dní</item>
+    </plurals>
     <plurals name="poll_timespan_hours">
-	<item quantity="one">%d hodina</item>
-	<item quantity="few">%d hodiny</item>
-	<item quantity="other">%d hodin</item>
-</plurals>
+        <item quantity="one">%d hodina</item>
+        <item quantity="few">%d hodiny</item>
+        <item quantity="other">%d hodin</item>
+    </plurals>
     <plurals name="poll_timespan_minutes">
-	<item quantity="one">%d minuta</item>
-	<item quantity="few">%d minuty</item>
-	<item quantity="other">%d minut</item>
-</plurals>
+        <item quantity="one">%d minuta</item>
+        <item quantity="few">%d minuty</item>
+        <item quantity="other">%d minut</item>
+    </plurals>
     <plurals name="poll_timespan_seconds">
-	<item quantity="one">%d sekunda</item>
-	<item quantity="few">%d sekundy</item>
-	<item quantity="other">%d sekund</item>
-</plurals>
-
-<string name="pref_title_animate_gif_avatars">Animovat avatary GIF</string>
-
+        <item quantity="one">%d sekunda</item>
+        <item quantity="few">%d sekundy</item>
+        <item quantity="other">%d sekund</item>
+    </plurals>
+    <string name="pref_title_animate_gif_avatars">Animovat avatary GIF</string>
     <string name="description_poll">Anketa s volbami: %1$s, %2$s, %3$s, %4$s; %5$s</string>
-
     <string name="title_domain_mutes">Skryté domény</string>
     <string name="action_view_domain_mutes">Skryté domény</string>
     <string name="action_mute_domain">Skrýt doménu %s</string>
     <string name="confirmation_domain_unmuted">Doména %s odkryta</string>
-
     <string name="mute_domain_warning">Jste si jistý/á, že chcete zablokovat vše z domény %s\? Z této domény neuvidíte obsah v žádné veřejné časové ose ani v oznámeních. Vaši sledující z této domény budou odstraněni.</string>
     <string name="mute_domain_warning_dialog_ok">Skrýt celou doménu</string>
-
     <string name="caption_notoemoji">Aktuální sada emoji od Googlu</string>
     <string name="button_continue">Pokračovat</string>
     <string name="button_back">Zpět</string>
@@ -444,11 +426,10 @@
     <string name="report_remote_instance">Přeposlat na %s</string>
     <string name="failed_report">Nahlášení selhalo</string>
     <string name="failed_fetch_statuses">Stahování tootů neuspělo</string>
-    <string name="report_description_1">Nahlášení bude zasláno moderátorovi vašeho serveru. Níže můžete uvést, proč tento účet nahlašujete:</string>
+    <string name="report_description_1">Nahlášení bude zasláno moderátorům vašeho serveru. Níže můžete uvést, proč tento účet nahlašujete:</string>
     <string name="report_description_remote_instance">Tento účet je z jiného serveru. Chcete na něj také poslat anonymizovanou kopii\?</string>
-
     <string name="pref_title_show_notifications_filter">Zobrazit filtr oznámení</string>
-<string name="create_poll_title">Anketa</string>
+    <string name="create_poll_title">Anketa</string>
     <string name="poll_duration_5_min">5 minut</string>
     <string name="poll_duration_30_min">30 minut</string>
     <string name="poll_duration_1_hour">1 hodinu</string>
@@ -460,8 +441,7 @@
     <string name="poll_allow_multiple_choices">Lze zvolit více možností</string>
     <string name="poll_new_choice_hint">Možnost %d</string>
     <string name="edit_poll">Upravit</string>
-
-<string name="title_scheduled_toot">Plánované tooty</string>
+    <string name="title_scheduled_toot">Plánované tooty</string>
     <string name="action_edit">Upravit</string>
     <string name="action_add_poll">Přidat anketu</string>
     <string name="action_access_scheduled_toot">Plánované tooty</string>
@@ -472,7 +452,5 @@
     <string name="filter_dialog_whole_word_description">Je-li klíčové slovo nebo fráze pouze alfanumerická, bude použita pouze, pokud odpovídá celému slovu</string>
     <string name="title_accounts">Účty</string>
     <string name="failed_search">Hledání selhalo</string>
-
     <string name="post_lookup_error_format">Chyba při hledání příspěvku %s</string>
-
 </resources>

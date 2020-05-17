@@ -30,7 +30,7 @@
     <string name="title_statuses_with_replies">嘟文和回覆</string>
     <string name="title_statuses_pinned">已置頂</string>
     <string name="title_follows">正在關注</string>
-    <string name="title_followers">關注者</string>
+    <string name="title_followers">僅關注者</string>
     <string name="title_favourites">我的收藏</string>
     <string name="title_mutes">被靜音的使用者</string>
     <string name="title_blocks">被封鎖的使用者</string>
@@ -61,7 +61,7 @@
     <string name="action_favourite">收藏</string>
     <string name="action_unfavourite">取消收藏</string>
     <string name="action_more">更多</string>
-    <string name="action_compose">發表新嘟文</string>
+    <string name="action_compose">新嘟文</string>
     <string name="action_login">登入 Mastodon 帳號</string>
     <string name="action_logout">登出</string>
     <string name="action_logout_confirm">確定要登出 %1$s 嗎？</string>
@@ -104,7 +104,7 @@
     <string name="action_search">搜尋</string>
     <string name="action_access_saved_toot">草稿</string>
     <string name="action_toggle_visibility">設定嘟文可見範圍</string>
-    <string name="action_content_warning">敏感內容警告</string>
+    <string name="action_content_warning">設定敏感內容警告</string>
     <string name="action_emoji_keyboard">插入表情符號</string>
     <string name="action_add_tab">新增標籤頁</string>
     <string name="action_links">連結</string>
@@ -129,7 +129,7 @@
     <string name="confirmation_reported">已檢舉！</string>
     <string name="confirmation_unblocked">已解除封鎖</string>
     <string name="confirmation_unmuted">已解除靜音</string>
-    <string name="status_sent">已發送！</string>
+    <string name="status_sent">已檢舉！</string>
     <string name="status_sent_long">成功送出回覆</string>
     <string name="hint_domain">域名</string>
     <string name="hint_compose">有什麼新鮮事？</string>
@@ -292,7 +292,7 @@
     <string name="send_toot_notification_channel_name">嘟文發送中</string>
     <string name="send_toot_notification_cancel_title">發送已被取消</string>
     <string name="send_toot_notification_saved_content">嘟文已儲存為草稿</string>
-    <string name="action_compose_shortcut">撰寫嘟文</string>
+    <string name="action_compose_shortcut">新嘟文</string>
     <string name="error_no_custom_emojis">當前站點 %s 沒有自訂表情符號</string>
     <string name="copy_to_clipboard_success">已複製到剪貼簿</string>
     <string name="emoji_style">表情符號風格</string>

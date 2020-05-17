@@ -4,7 +4,7 @@
     <string name="error_network">¡Se ha producido un error de red! ¡Por favor, comprueba tu conexión e inténtalo de nuevo!</string>
     <string name="error_empty">Este campo no puede estar vacío.</string>
     <string name="error_invalid_domain">Nombre de dominio incorrecto</string>
-    <string name="error_failed_app_registration">Inicio de sesión fallido.</string>
+    <string name="error_failed_app_registration">Fallo de autenticación con esta instancia.</string>
     <string name="error_no_web_browser_found">No se ha encontrado ningún navegador web.</string>
     <string name="error_authorization_unknown">Ocurrió un error de autorización no identificado.</string>
     <string name="error_authorization_denied">La autorización falló.</string>
@@ -39,7 +39,7 @@
     <string name="title_saved_toot">Borradores</string>
     <string name="title_licenses">Licencias</string>
     <string name="status_username_format">\@%s</string>
-    <string name="status_boosted_format">%s impulsó</string>
+    <string name="status_boosted_format">%s compartió</string>
     <string name="status_sensitive_media_title">Contenido sensible</string>
     <string name="status_media_hidden_title">Material oculto</string>
     <string name="status_sensitive_media_directions">Pulsa para ver</string>
@@ -49,18 +49,18 @@
     <string name="status_content_show_less">Ocultar</string>
     <string name="message_empty">Nada aquí.</string>
     <string name="footer_empty">Nada por aquí. ¡Arrastra hacia abajo para recargar!</string>
-    <string name="notification_reblog_format">%s impulsó tu estado</string>
-    <string name="notification_favourite_format">%s marcó como favorito tu estado</string>
+    <string name="notification_reblog_format">%s compartió</string>
+    <string name="notification_favourite_format">%s marcó favorito</string>
     <string name="notification_follow_format">%s te siguió</string>
     <string name="report_username_format">Reportar @%s</string>
     <string name="report_comment_hint">¿Información adicional?</string>
     <string name="action_quick_reply">Respuesta rápida</string>
     <string name="action_reply">Responder</string>
-    <string name="action_reblog">Impulsar</string>
+    <string name="action_reblog">Compartir</string>
     <string name="action_favourite">Favorito</string>
     <string name="action_more">Más</string>
     <string name="action_compose">Redactar</string>
-    <string name="action_login">Iniciar sesión con Mastodon</string>
+    <string name="action_login">Iniciar sesión</string>
     <string name="action_logout">Cerrar sesión</string>
     <string name="action_logout_confirm">¿Seguro que quiere cerrar la sesión de %1$s?</string>
     <string name="action_follow">Seguir</string>
@@ -109,7 +109,7 @@
     <string name="action_open_as">Abrir como %s</string>
     <string name="action_share_as">Compartir como…</string>
     <string name="send_status_link_to">Compartir URL…</string>
-    <string name="send_status_content_to">Compartir estado…</string>
+    <string name="send_status_content_to">Compartir contenido…</string>
     <string name="send_media_to">Compartir medios a…</string>
     <string name="confirmation_reported">¡Enviado!</string>
     <string name="confirmation_unblocked">El usuario ya no está bloqueado</string>
@@ -142,7 +142,7 @@
     <string name="dialog_download_image">Descargar</string>
     <string name="dialog_message_cancel_follow_request">¿Cancelar petición de amistad?</string>
     <string name="dialog_unfollow_warning">¿Dejar de seguir esta cuenta?</string>
-    <string name="dialog_delete_toot_warning">¿Eliminar este estado\?</string>
+    <string name="dialog_delete_toot_warning">¿Eliminar este toot\?</string>
     <string name="visibility_public">Público: Mostrar en historias públicas</string>
     <string name="visibility_unlisted">Oculto: No mostrar en historias públicas</string>
     <string name="visibility_private">Privado: Sólo visible para seguidores</string>
@@ -170,7 +170,7 @@
     <string name="pref_title_hide_follow_button">Ocultar botón de redacción al bajar</string>
     <string name="pref_title_status_filter">Filtros de cronología</string>
     <string name="pref_title_status_tabs">Pestañas</string>
-    <string name="pref_title_show_boosts">Mostrar impulsos</string>
+    <string name="pref_title_show_boosts">Mostrar compartidos</string>
     <string name="pref_title_show_replies">Mostrar respuestas</string>
     <string name="pref_title_show_media_preview">Previsualizar multimedia</string>
     <string name="pref_title_proxy_settings">Proxy</string>
@@ -258,7 +258,7 @@
     <string name="lock_account_label_description">Tendrá que admitir los seguidores manualmente</string>
     <string name="compose_save_draft">¿Guardar borrador?</string>
     <string name="send_toot_notification_title">Enviando estado…</string>
-    <string name="send_toot_notification_error_title">Error al enviar el estado</string>
+    <string name="send_toot_notification_error_title">Error enviando estado</string>
     <string name="send_toot_notification_channel_name">Enviando estados</string>
     <string name="send_toot_notification_cancel_title">Envío cancelado</string>
     <string name="send_toot_notification_saved_content">Una copia del estado se ha guardado en borradores</string>
@@ -358,7 +358,7 @@
     <string name="title_links_dialog">Enlaces</string>
     <string name="action_open_media_n">Abrir contenido #%d</string>
     <string name="downloading_media">Descargando contenido</string>
-    <string name="dialog_redraft_toot_warning">¿Borrar y devolver a borradores este estado\?</string>
+    <string name="dialog_redraft_toot_warning">¿Borrar y devolver a borradores este toot\?</string>
     <string name="pref_title_notification_filter_poll">encuestas que han terminado</string>
     <string name="notification_poll_description">Notificaciones sobre encuestas que han terminado</string>
     <string name="pref_title_public_filter_keywords">Cronologías públicas</string>
@@ -402,7 +402,7 @@
     <string name="mute_domain_warning_dialog_ok">Ocultar dominio completo</string>
     <string name="pref_title_animate_gif_avatars">Animar avatares GIF</string>
     <string name="filter_dialog_whole_word">Toda palabra</string>
-    <string name="filter_dialog_whole_word_description">Cuando la palabra o frase sea solo alfanumérica, solo se aplicará si coincide con toda la palabra</string>
+    <string name="filter_dialog_whole_word_description">Cuando la palabra o frase sea solo alfanumérica, solo se aplicará si coincide con toda la palabra.</string>
     <string name="caption_notoemoji">Set de emojis actual de Google</string>
     <string name="description_poll">Encuesta con opciones: %1$s, %2$s, %3$s, %4$s; %5$s</string>
     <string name="button_continue">Continuar</string>
@@ -413,7 +413,7 @@
     <string name="report_remote_instance">Reenviar a %s</string>
     <string name="failed_report">Reporte fallido</string>
     <string name="failed_fetch_statuses">Fallo al obtener estados</string>
-    <string name="report_description_1">El reporte será enviado a los moderadores de tu servidor. Puedes añadir una explicación de por qué estás reportando esta cuenta a continuación:</string>
+    <string name="report_description_1">El reporte será enviado a un moderador de tu servidor. Puedes añadir una explicación de por qué estás reportando esta cuenta a continuación:</string>
     <string name="report_description_remote_instance">La cuenta es de otro servidor. ¿Enviar una copia anónima del reporte\?</string>
     <string name="pref_title_show_notifications_filter">Mostrar filtro de notificaciones</string>
     <string name="pref_title_alway_open_spoiler">Mostrar siempre estados marcados con avisos de contenido</string>
@@ -439,15 +439,16 @@
     <string name="action_reset_schedule">Reiniciar</string>
     <string name="post_lookup_error_format">Error al buscar el post %s</string>
     <string name="about_powered_by_tusky">Potenciado por Tusky</string>
-    <string name="title_bookmarks">Marcadores</string>
+    <string name="title_bookmarks">Favoritos</string>
     <string name="action_bookmark">Favorito</string>
-    <string name="action_view_bookmarks">Marcadores</string>
+    <string name="action_view_bookmarks">Favoritos</string>
     <string name="description_status_bookmarked">Marcado como favorito</string>
     <string name="select_list_title">Seleccionar lista</string>
     <string name="list">Lista</string>
     <string name="error_audio_upload_size">Los ficheros de audio deben ser menores de 40MB.</string>
-    <string name="gradient_for_media">Mostrar degradados coloridos para el contenido multimedia oculto.</string>
+    <string name="gradient_for_media">Mostrar degradados coloridos para el contenido multimedia oculto</string>
     <string name="no_saved_status">No tienes ningún borrador.</string>
     <string name="no_scheduled_status">No tienes ningún estado programado.</string>
     <string name="warning_scheduling_interval">Mastodon tiene un intervalo de programación mínimo de 5 minutos.</string>
+    <string name="notification_follow_request_name">Solicitudes</string>
 </resources>

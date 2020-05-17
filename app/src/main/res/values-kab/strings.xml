@@ -99,13 +99,13 @@
     <string name="license_cc_by_sa_4">CC-BY-SA 4.0</string>
     <string name="pin_action">Senṭeḍ</string>
     <string name="action_view_mutes">Imiḍanen yettwasgugmen</string>
-    <string name="action_view_blocks">Imiḍan yettwacekklen</string>
+    <string name="action_view_blocks">Imiḍan yettusḥebsen</string>
     <string name="action_view_domain_mutes">Tiɣula yettwaffren</string>
     <string name="action_view_follow_requests">Isuturen n teḍfeṛt</string>
     <string name="action_view_media">Taɣwalt</string>
     <string name="notifications_clear">Sfeḍ</string>
     <string name="title_mutes">Imiḍanen yettwasgugmen</string>
-    <string name="title_blocks">Imiḍan yettwacekklen</string>
+    <string name="title_blocks">Imiḍan yettusḥebsen</string>
     <string name="title_domain_mutes">Tiɣula yettwaffren</string>
     <string name="title_follow_requests">Isuturen n teḍfeṛt</string>
     <string name="pref_title_notifications_enabled">Tilɣa</string>

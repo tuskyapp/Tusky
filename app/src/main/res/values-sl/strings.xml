@@ -7,14 +7,14 @@
     <string name="error_no_web_browser_found">Spletnega brskalnika ni bilo mogoče najti.</string>
     <string name="error_authorization_denied">Pooblastitev je bila zavrnjena.</string>
     <string name="error_retrieving_oauth_token">Ni bilo mogoče pridobiti žetona za prijavo.</string>
-    <string name="error_compose_character_limit">Status je predolg!</string>
+    <string name="error_compose_character_limit">Stanje je predolgo!</string>
     <string name="error_image_upload_size">Datoteka mora biti manjša od 8 MB.</string>
     <string name="error_video_upload_size">Video datoteke morajo biti manjše od 40 MB.</string>
     <string name="error_media_upload_type">Te vrste datoteke ni mogoče poslati.</string>
     <string name="error_media_upload_opening">Te datoteke ni bilo mogoče odpreti.</string>
     <string name="error_media_upload_permission">Potrebno je dovoljenje za branje medijev.</string>
     <string name="error_media_download_permission">Potrebno je dovoljenje za shranjevanje medijev.</string>
-    <string name="error_media_upload_image_or_video">Slike in videoposnetki ne morejo biti dodani istemu statusu.</string>
+    <string name="error_media_upload_image_or_video">Slike in videoposnetki ne morejo biti dodani istemu stanju.</string>
     <string name="error_media_upload_sending">Prenos ni uspel.</string>
     <string name="error_sender_account_gone">Napaka pri pošiljanju tuta.</string>
     <string name="title_home">Domov</string>
@@ -32,12 +32,12 @@
     <string name="title_favourites">Priljubljene</string>
     <string name="title_mutes">Utišani uporabniki</string>
     <string name="title_blocks">Blokirani uporabniki</string>
-    <string name="title_follow_requests">Prošnje za sledenje</string>
+    <string name="title_follow_requests">Zahteve za Sledenje</string>
     <string name="title_edit_profile">Uredi svoj profil</string>
     <string name="title_saved_toot">Osnutki</string>
     <string name="title_licenses">Licence</string>
     <string name="status_username_format">\@%s</string>
-    <string name="status_boosted_format">%s spodbudil</string>
+    <string name="status_boosted_format">% spodbudil</string>
     <string name="status_sensitive_media_title">Občutljiva vsebina</string>
     <string name="status_media_hidden_title">Medij je skrit</string>
     <string name="status_sensitive_media_directions">Kliknite za ogled</string>
@@ -305,10 +305,10 @@
     <string name="unpin_action">Odpni</string>
     <string name="pin_action">Pripni</string>
     <plurals name="favs">
-        <item quantity="one">&lt;b&gt;%1$s&lt;/b&gt; Priljubljena</item>
-        <item quantity="two">&lt;b&gt;%1$s&lt;/b&gt; Priljubljeni</item>
-        <item quantity="few">&lt;b&gt;%1$s&lt;/b&gt; Priljubljene</item>
-        <item quantity="other">&lt;b&gt;%1$s&lt;/b&gt; Priljubljenih</item>
+        <item quantity="one"></item>
+        <item quantity="two"></item>
+        <item quantity="few"></item>
+        <item quantity="other"></item>
     </plurals>
     <plurals name="reblogs">
         <item quantity="one">&lt;b&gt;%s&lt;/b&gt; Spodbuda</item>
@@ -434,7 +434,7 @@
     <string name="poll_allow_multiple_choices">Več izbir</string>
     <string name="poll_new_choice_hint">Izbira %d</string>
     <string name="edit_poll">Uredi</string>
-    <string name="title_scheduled_toot">Napovedani tuti</string>
+    <string name="title_scheduled_toot">Načrtovani tuti</string>
     <string name="action_edit">Uredi</string>
     <string name="action_access_scheduled_toot">Napovedani tuti</string>
     <string name="action_reset_schedule">Ponastavi</string>

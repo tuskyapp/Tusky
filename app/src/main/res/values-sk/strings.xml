@@ -1,5 +1,6 @@
-<?xml version='1.0' encoding='UTF-8'?>
-<resources><string name="action_login">Prihlásiť sa účtom Mastodon</string>
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="action_login">Prihlásiť sa účtom Mastodon</string>
     <string name="title_saved_toot">Koncepty</string>
     <string name="action_logout">Odhlásiť sa</string>
     <string name="action_view_preferences">Nastavenia</string>
@@ -16,7 +17,6 @@
     <string name="title_followers">Sledujúci</string>
     <string name="title_bookmarks">Záložky</string>
     <string name="title_licenses">Licencie</string>
-
     <string name="status_username_format">\@%s</string>
     <string name="status_sensitive_media_title">Citlivý obsah</string>
     <string name="status_sensitive_media_directions">Kliknite pre zobrazenie</string>
@@ -24,12 +24,10 @@
     <string name="status_content_warning_show_less">Zobraziť menej</string>
     <string name="status_content_show_more">Rozbaliť</string>
     <string name="status_content_show_less">Zabaliť</string>
-
     <string name="report_username_format">Nahlásiť používateľa @%s</string>
     <string name="action_quick_reply">Rýchla odpoveď</string>
     <string name="action_reply">Odpovedať</string>
     <string name="link_whats_an_instance">Čo je server\?</string>
-
     <string name="title_favourites">Obľúbené</string>
     <string name="about_title_activity">O aplikácii</string>
     <string name="error_network">Vyskytla sa chyba v sieti! Prosím skontrolujte svoje pripojenie a skúste to znova!</string>
@@ -56,28 +54,22 @@
     <string name="action_mentions">Zmienky</string>
     <string name="action_hashtags">Hashtagy</string>
     <string name="action_open_faved_by">Zobraziť obľúbené</string>
-
     <string name="title_hashtags_dialog">Hashtagy</string>
     <string name="title_mentions_dialog">Zmienky</string>
     <string name="title_links_dialog">Odkazy</string>
     <string name="action_open_media_n">Otvoriť médium #%d</string>
-
     <string name="download_image">Sťahovanie %1$s</string>
-
     <string name="action_copy_link">Kopírovať odkaz</string>
     <string name="action_open_as">Otvoriť ako %s</string>
     <string name="confirmation_reported">Odoslané!</string>
     <string name="confirmation_unblocked">Používateľ bol odblokovaný</string>
     <string name="status_sent">Odoslané!</string>
     <string name="status_sent_long">Odpoveď bola úspešne odoslaná.</string>
-
     <string name="hint_domain">Ktorý server\?</string>
     <string name="hint_display_name">Zobrazované meno</string>
     <string name="hint_note">O vás</string>
     <string name="hint_search">Hľadať…</string>
-
     <string name="search_no_results">Žiadne výsledky</string>
-
     <string name="label_quick_reply">Odpovedať…</string>
     <string name="dialog_message_uploading_media">Nahrávanie…</string>
     <string name="dialog_download_image">Stiahnuť</string>
@@ -88,7 +80,6 @@
     <string name="error_compose_character_limit">Toot je príliš dlhý!</string>
     <string name="error_media_upload_type">Tento typ súboru nemôže byť nahraný.</string>
     <string name="error_sender_account_gone">Chyba pri odosielaní tootu.</string>
-
     <string name="title_view_thread">Toot</string>
     <string name="notification_favourite_format">%s si obľúbil/a váš toot</string>
     <string name="action_send">TOOT</string>
@@ -118,13 +109,15 @@
     <string name="profile_badge_bot_text">Robot</string>
     <string name="license_cc_by_4">CC-BY 4.0</string>
     <string name="license_cc_by_sa_4">CC-BY-SA 4.0</string>
-
     <string name="profile_metadata_label">Metadáta profilu</string>
     <string name="profile_metadata_add">pridať dáta</string>
     <string name="profile_metadata_content_label">Obsah</string>
-
     <string name="conversation_1_recipients">%1$s</string>
     <string name="conversation_2_recipients">%1$s a %2$s</string>
     <string name="description_status_media_no_description_placeholder">Žiadny popis</string>
     <string name="description_visiblity_public">Verejný</string>
-    </resources>
+    <string name="action_reblog">Podporiť</string>
+    <string name="action_unreblog">Prestať podporovať</string>
+    <string name="description_visiblity_private">Sledujúci</string>
+    <string name="post_privacy_public">Verejný</string>
+</resources>

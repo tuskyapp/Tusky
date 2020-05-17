@@ -103,7 +103,7 @@
     <string name="confirmation_reported">Enviat !</string>
     <string name="confirmation_unblocked">Utilizaire desblocat</string>
     <string name="confirmation_unmuted">Utilizaire sortit del silenci</string>
-    <string name="status_sent">Enviat !</string>
+    <string name="status_sent">Enviat !</string>
     <string name="status_sent_long">Responsa ben enviada.</string>
     <string name="hint_domain">Quina instància ?</string>
     <string name="hint_compose">A de qué pensatz ?</string>
@@ -310,7 +310,7 @@
     <string name="pref_title_thread_filter_keywords">Discutidas</string>
     <string name="filter_addition_dialog_title">Ajustar un filtre</string>
     <string name="filter_edit_dialog_title">Modificar un filtre</string>
-    <string name="filter_dialog_remove_button">Suprimir</string>
+    <string name="filter_dialog_remove_button">Levar</string>
     <string name="filter_dialog_update_button">Actualizar</string>
     <string name="filter_add_description">Frasa de filtrar</string>
     <string name="error_create_list">Creacion impossibla de la lista</string>
@@ -329,11 +329,11 @@
     <string name="license_cc_by_sa_4">CC-BY-SA 4.0</string>
     <plurals name="favs">
         <item quantity="one"><b>%1$s</b> Favorit</item>
-        <item quantity="other"><b>3%1$s</b>4 Favorits</item>
+        <item quantity="other"><b>%1$s</b> Favorits</item>
     </plurals>
     <plurals name="reblogs">
-        <item quantity="one">&lt;b&gt;%s&lt;/b&gt; partatge</item>
-        <item quantity="other">&lt;b&gt;%s&lt;/b&gt; partatges</item>
+        <item quantity="one"></item>
+        <item quantity="other"></item>
     </plurals>
     <string name="title_reblogged_by">Partejat per</string>
     <string name="title_favourited_by">Aimat per</string>
@@ -403,7 +403,7 @@
     <string name="hint_additional_info">Comentaris suplementaris</string>
     <string name="report_remote_instance">Transferir a %s</string>
     <string name="failed_report">Fracàs del senhalament</string>
-    <string name="failed_fetch_statuses">Recuperacion dels estatuts impossibla</string>
+    <string name="failed_fetch_statuses">Recuperacion dels estatuts imoossibla</string>
     <string name="report_description_1">Lo senhalament serà enviat a vòstre moderator de servidor. Podètz fornir una explicacion de perque senhalatz lo compte çai-jos :</string>
     <string name="report_description_remote_instance">Aqueste compte es en un autre servidor. Enviar una còpia anonimizada del senhalament \?</string>
     <string name="title_domain_mutes">Domenis resconduts</string>
@@ -416,7 +416,7 @@
     <string name="filter_dialog_whole_word">Mot complèt</string>
     <string name="filter_dialog_whole_word_description">Quand un mot clau o una frasa es solament alfanumeric, serà pas qu’aplicat se correspond al mot complèt</string>
     <string name="pref_title_alway_open_spoiler">Totjorn desplegar los tuts marcats amb un avertiment de contengut</string>
-    <string name="title_accounts">Comptes</string>
+    <string name="title_accounts">Totjorn desplegar los tuts marcats amb un avertiment de contengut</string>
     <string name="failed_search">Fracàs de la recèrca</string>
     <string name="action_add_poll">Ajustar un sondatge</string>
     <string name="create_poll_title">Sondatge</string>
@@ -449,4 +449,5 @@
     <string name="no_saved_status">Avètz pas cap de borrolhon.</string>
     <string name="no_scheduled_status">Avètz pas cap de tut planificat.</string>
     <string name="warning_scheduling_interval">L’interval minimum de planificacion sus Mastodon e de 5 minutas.</string>
+    <string name="notification_follow_request_name">Demandas d’abonament</string>
 </resources>

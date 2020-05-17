@@ -30,9 +30,9 @@
     <string name="title_statuses_with_replies">嘟文和回复</string>
     <string name="title_statuses_pinned">已置顶</string>
     <string name="title_follows">正在关注</string>
-    <string name="title_followers">关注者</string>
+    <string name="title_followers">仅关注者</string>
     <string name="title_favourites">我的收藏</string>
-    <string name="title_mutes">被隐藏的用户</string>
+    <string name="title_mutes">被屏蔽的用户</string>
     <string name="title_blocks">被屏蔽的用户</string>
     <string name="title_follow_requests">关注请求</string>
     <string name="title_edit_profile">编辑个人资料</string>
@@ -47,13 +47,13 @@
     <string name="status_content_warning_show_less">折叠内容</string>
     <string name="status_content_show_more">展开</string>
     <string name="status_content_show_less">折叠</string>
-    <string name="message_empty">还没有内容。</string>
-    <string name="footer_empty">还没有内容，向下拉动即可刷新！</string>
+    <string name="message_empty">还没有内容</string>
+    <string name="footer_empty">还没有内容，向下拉动即可刷新</string>
     <string name="notification_reblog_format">%s 转嘟了你的嘟文</string>
     <string name="notification_favourite_format">%s 收藏了你的嘟文</string>
     <string name="notification_follow_format">%s 关注了你</string>
-    <string name="report_username_format">举报用户 @%s 的滥用行为</string>
-    <string name="report_comment_hint">报告更多信息？</string>
+    <string name="report_username_format">报告用户 @%s 的滥用行为</string>
+    <string name="report_comment_hint">报告更多信息</string>
     <string name="action_quick_reply">快速回复</string>
     <string name="action_reply">回复</string>
     <string name="action_reblog">转嘟</string>
@@ -71,7 +71,7 @@
     <string name="action_unblock">取消屏蔽</string>
     <string name="action_hide_reblogs">隐藏转嘟</string>
     <string name="action_show_reblogs">显示转嘟</string>
-    <string name="action_report">举报</string>
+    <string name="action_report">报告</string>
     <string name="action_delete">删除</string>
     <string name="action_delete_and_redraft">删除并重新编辑</string>
     <string name="action_send">嘟嘟</string>
@@ -81,7 +81,7 @@
     <string name="action_view_profile">个人资料</string>
     <string name="action_view_preferences">设置</string>
     <string name="action_view_account_preferences">帐户设置</string>
-    <string name="action_view_favourites">我的收藏</string>
+    <string name="action_view_favourites">收藏</string>
     <string name="action_view_mutes">被隐藏的用户</string>
     <string name="action_view_blocks">被屏蔽的用户</string>
     <string name="action_view_follow_requests">关注请求</string>
@@ -117,7 +117,7 @@
     <string name="title_mentions_dialog">提及</string>
     <string name="title_links_dialog">链接</string>
     <string name="action_open_media_n">打开媒体文件 #%d</string>
-    <string name="download_image">正在下载 %1$s</string>
+    <string name="download_image">正在下载 %1$s…</string>
     <string name="action_copy_link">复制链接</string>
     <string name="action_open_as">打开为 %s</string>
     <string name="action_share_as">分享为 …</string>
@@ -130,7 +130,7 @@
     <string name="confirmation_unblocked">已解除屏蔽</string>
     <string name="confirmation_unmuted">已取消隐藏</string>
     <string name="status_sent">已发送！</string>
-    <string name="status_sent_long">成功发布回复.</string>
+    <string name="status_sent_long">成功发布回复</string>
     <string name="hint_domain">域名\?</string>
     <string name="hint_compose">有什么新鲜事？</string>
     <string name="hint_content_warning">内容提醒</string>
@@ -147,7 +147,7 @@
         \n\n还没有 Mastodon 帐号？你也可以输入想注册的 Mastodon 站点的域名，然后在该服务器创建新的帐号并授权 Tusky 登入。
         \n\n在 Mastodon 里，跨站互动和站内互动一样简单。可以前往 <a href="https://joinmastodon.org">https://joinmastodon.org</a> 了解更多信息。
     </string>
-    <string name="dialog_title_finishing_media_upload">正在结束上传</string>
+    <string name="dialog_title_finishing_media_upload">正在结束上传…</string>
     <string name="dialog_message_uploading_media">正在上传…</string>
     <string name="dialog_download_image">下载</string>
     <string name="dialog_message_cancel_follow_request">移除关注请求？</string>
@@ -296,7 +296,7 @@
     <string name="send_toot_notification_channel_name">嘟文发送中</string>
     <string name="send_toot_notification_cancel_title">发送已被取消</string>
     <string name="send_toot_notification_saved_content">嘟文已保存为草稿</string>
-    <string name="action_compose_shortcut">发表嘟文</string>
+    <string name="action_compose_shortcut">发表新嘟文</string>
     <string name="error_no_custom_emojis">当前实例 %s 没有自定义表情符号</string>
     <string name="copy_to_clipboard_success">已复制到剪贴板</string>
     <string name="emoji_style">表情符号风格</string>
@@ -375,7 +375,7 @@
     <string name="notifications_apply_filter">分类</string>
     <string name="filter_apply">应用</string>
     <string name="compose_shortcut_long_label">发表新嘟文</string>
-    <string name="compose_shortcut_short_label">新嘟文</string>
+    <string name="compose_shortcut_short_label">发表嘟文</string>
     <string name="pref_title_bot_overlay">显示机器人标志</string>
     <string name="notification_clear_text">你确定要永久清空通知列表吗？</string>
     <string name="poll_info_format">
@@ -406,13 +406,13 @@
     <string name="action_reset_schedule">重置</string>
     <string name="error_audio_upload_size">音频文件大小必须小于40M。</string>
     <string name="title_bookmarks">书签</string>
-    <string name="title_domain_mutes">隐藏的域名</string>
+    <string name="title_domain_mutes">隐藏域名</string>
     <string name="title_scheduled_toot">定时嘟文</string>
     <string name="action_bookmark">书签</string>
     <string name="action_edit">编辑</string>
     <string name="action_view_bookmarks">书签</string>
     <string name="action_view_domain_mutes">隐藏域名</string>
-    <string name="action_add_poll">新增投票</string>
+    <string name="action_add_poll">新增意见调查</string>
     <string name="action_mute_domain">隐藏</string>
     <string name="action_access_scheduled_toot">定时嘟文</string>
     <string name="action_schedule_toot">定时嘟文</string>
@@ -460,4 +460,5 @@
     <string name="no_saved_status">您没有草稿。</string>
     <string name="no_scheduled_status">您没有任何预定状态。</string>
     <string name="warning_scheduling_interval">Mastodon的最小调度间隔为5分钟。</string>
+    <string name="notification_follow_request_name">关注请求</string>
 </resources>

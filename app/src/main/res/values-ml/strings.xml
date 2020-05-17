@@ -1,7 +1,7 @@
-<?xml version='1.0' encoding='UTF-8'?>
-<resources><string name="action_login">മസ്റ്റഡോൺ വഴി പ്രവേശിക്കുക</string>
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="action_login">മസ്റ്റഡോൺ വഴി പ്രവേശിക്കുക</string>
     <string name="link_whats_an_instance">എന്താണ് ഒരു ഇൻസ്റ്റൻസ്\?</string>
-
     <string name="title_favourites">പ്രിയപ്പെട്ടവ</string>
     <string name="title_saved_toot">കരടുകൾ</string>
     <string name="action_logout">പുറത്തിറങ്ങുക</string>
@@ -31,7 +31,6 @@
     <string name="error_media_upload_image_or_video">ചിത്രങ്ങളും ചലച്ചിത്രങ്ങളും ഒരുമിച്ച് ഒരു സ്റ്റാറ്റസിലേക്ക് ചേർക്കാനാവില്ല.</string>
     <string name="error_media_upload_sending">അപ്‌ലോഡ് പരാജയപ്പെട്ടു.</string>
     <string name="error_sender_account_gone">ടൂട്ട് അയയ്ക്കുന്നതിൽ പിഴവ്.</string>
-
     <string name="title_home">പൂമുഖം</string>
     <string name="title_notifications">അറിയിപ്പുകൾ</string>
     <string name="title_public_local">ലോക്കൽ</string>
@@ -46,7 +45,7 @@
     <string name="title_followers">പിന്തുടരുന്നവർ</string>
     <string name="title_mutes">നിശ്ശബ്ദരാക്കിയ ഉപയോക്താക്കൾ</string>
     <string name="title_blocks">തടയപ്പെട്ട ഉപയോക്താക്കൾ</string>
-    <string name="title_follow_requests">പിന്തുടരാനുള്ള അപേക്ഷകൾ</string>
+    <string name="title_follow_requests">പിന്‍തുടരുവാനുള്ള അഭ്യര്‍ത്ഥനകള്‍</string>
     <string name="title_edit_profile">പ്രൊഫൈൽ തിരുത്തുക</string>
     <string name="action_reply">മറുപടി</string>
     <string name="action_reblog">ബൂസ്റ്റ്</string>
@@ -55,8 +54,8 @@
     <string name="action_unfavourite">ഇഷ്ടപ്പെട്ടവയിൽ നിന്നും കളയുക</string>
     <string name="action_more">കൂടുതൽ</string>
     <string name="action_follow">പിന്തുടരുക</string>
-    <string name="action_unfollow">പിന്‍തുടരുന്നത് അവസാനിപ്പിക്കുക</string>
+    <string name="action_unfollow">പിരിയുക</string>
     <string name="action_retry">വീണ്ടും ശ്രമിക്കുക</string>
     <string name="action_view_follow_requests">പിന്‍തുടരുവാനുള്ള അഭ്യര്‍ത്ഥനകള്‍</string>
     <string name="title_domain_mutes">മറയ്ക്കപ്പെട്ട ഡൊമൈനുകൾ</string>
-    </resources>
+</resources>

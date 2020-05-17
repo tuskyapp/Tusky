@@ -129,11 +129,11 @@
     <string name="confirmation_reported">已檢舉！</string>
     <string name="confirmation_unblocked">已解除封鎖</string>
     <string name="confirmation_unmuted">已解除靜音</string>
-    <string name="status_sent">已發送！</string>
+    <string name="status_sent">已檢舉！</string>
     <string name="status_sent_long">成功送出回覆</string>
     <string name="hint_domain">域名</string>
     <string name="hint_compose">有什麼新鮮事？</string>
-    <string name="hint_content_warning">敏感內容警告</string>
+    <string name="hint_content_warning">設定敏感內容警告</string>
     <string name="hint_display_name">暱稱</string>
     <string name="hint_note">簡介</string>
     <string name="hint_search">搜尋…</string>
@@ -143,7 +143,7 @@
     <string name="label_header">標題</string>
     <string name="link_whats_an_instance">什麼是站點？</string>
     <string name="login_connection">正在連線…</string>
-    <string name="dialog_whats_an_instance">請輸入你帳號所在的 Mastodon 站點的域名或地址</string>
+    <string name="dialog_whats_an_instance">"請輸入你帳號所在的 Mastodon 站點的域名或地址 "</string>
     <string name="dialog_title_finishing_media_upload">正在完成上傳…</string>
     <string name="dialog_message_uploading_media">正在上傳…</string>
     <string name="dialog_download_image">下載</string>
@@ -359,9 +359,7 @@
     <string name="description_visiblity_unlisted">
         不公開
     </string>
-    <string name="description_visiblity_private">
-        僅關注者
-    </string>
+    <string name="description_visiblity_private">僅關注者</string>
     <string name="description_visiblity_direct">
         私信
     </string>
@@ -399,4 +397,5 @@
     <plurals name="poll_timespan_seconds">
         <item quantity="other">%d 秒</item>
     </plurals>
+    <string name="notification_follow_request_name">關注請求</string>
 </resources>

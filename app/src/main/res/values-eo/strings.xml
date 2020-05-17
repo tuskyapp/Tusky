@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='UTF-8'?>
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="error_generic">Eraro okazis.</string>
     <string name="error_network">Reta eraro okazis! Bonvolu kontroli vian konekton kaj klopodi denove!</string>
@@ -103,7 +103,7 @@
     <string name="action_search">Serĉi</string>
     <string name="action_access_saved_toot">Malnetoj</string>
     <string name="action_toggle_visibility">Videblo de la mesaĝo</string>
-    <string name="action_content_warning">Tikla enhavo</string>
+    <string name="action_content_warning">Enhava averto</string>
     <string name="action_emoji_keyboard">Klavaro de emoĝioj</string>
     <string name="action_add_tab">Aldoni langeton</string>
     <string name="action_links">Ligiloj</string>
@@ -355,15 +355,12 @@
     <string name="description_visiblity_private">        Sekvantoj
     </string>
     <string name="description_visiblity_direct">        Rekta    </string>
-
     <string name="hint_list_name">Nomo de la listo</string>
-<string name="action_delete_and_redraft">Forigi kaj reskribi</string>
+    <string name="action_delete_and_redraft">Forigi kaj reskribi</string>
     <string name="dialog_redraft_toot_warning">Ĉu forigi kaj reskribi ĉi-tiun mesaĝon\?</string>
-
     <string name="pref_title_notification_filter_poll">enketoj finiĝis</string>
     <string name="pref_title_bot_overlay">Montri indikilon por robotoj</string>
     <string name="pref_title_animate_gif_avatars">Moviĝi GIF profilbildojn</string>
-
     <string name="notification_poll_name">Enketoj</string>
     <string name="notification_poll_description">Sciigoj pri enketoj kiuj finiĝis</string>
 
@@ -371,55 +368,45 @@
     <string name="notifications_clear">Viŝi</string>
     <string name="notifications_apply_filter">Filtri</string>
     <string name="filter_apply">Apliki</string>
-
     <string name="compose_shortcut_long_label">Verki mesaĝon</string>
     <string name="compose_shortcut_short_label">Verki</string>
-
     <string name="notification_clear_text">Ĉu vi certas ke vi volas porĉiame viŝi ĉiujn viajn sciigojn\?</string>
     <string name="compose_preview_image_description">Agoj por bildo %s</string>
-
     <string name="poll_info_format"> <!-- 15 votes • 1 hour left --> %1$s • %2$s</string>
     <plurals name="poll_info_votes">
-	<item quantity="one">%s voĉdono</item>
-	<item quantity="other">%s voĉdonoj</item>
-</plurals>
+        <item quantity="one">%s voĉdono</item>
+        <item quantity="other">%s voĉdonoj</item>
+    </plurals>
     <string name="poll_info_time_relative">%s restas</string>
     <string name="poll_info_time_absolute">finiĝos je %s</string>
     <string name="poll_info_closed">finiĝita</string>
-
     <string name="poll_vote">Voĉdoni</string>
-
     <string name="poll_ended_voted">Enketo al kiu vi voĉdonis finiĝis</string>
     <string name="poll_ended_created">Enketo kiun vi kreis finiĝis</string>
-
     <plurals name="poll_timespan_days">
-	<item quantity="one">%s tago</item>
-	<item quantity="other">%s tagoj</item>
-</plurals>
+        <item quantity="one">%s tago</item>
+        <item quantity="other">%s tagoj</item>
+    </plurals>
     <plurals name="poll_timespan_hours">
-	<item quantity="one">%s horo</item>
-	<item quantity="other">%s horoj</item>
-</plurals>
+        <item quantity="one">%s horo</item>
+        <item quantity="other">%s horoj</item>
+    </plurals>
     <plurals name="poll_timespan_minutes">
-	<item quantity="one">%d minuto</item>
-	<item quantity="other">%d minutoj</item>
-</plurals>
+        <item quantity="one">%d minuto</item>
+        <item quantity="other">%d minutoj</item>
+    </plurals>
     <plurals name="poll_timespan_seconds">
-	<item quantity="one">%d sekundo</item>
-	<item quantity="other">%d sekundoj</item>
-</plurals>
-
-<string name="title_domain_mutes">Kaŝitaj domajnoj</string>
+        <item quantity="one">%d sekundo</item>
+        <item quantity="other">%d sekundoj</item>
+    </plurals>
+    <string name="title_domain_mutes">Kaŝitaj domajnoj</string>
     <string name="action_view_domain_mutes">Kaŝitaj domajnoj</string>
     <string name="action_mute_domain">Silentigi %s</string>
     <string name="confirmation_domain_unmuted">%s malsilentigita</string>
-
     <string name="mute_domain_warning">Ĉu vi certas ke vi volas tute bloki %s\? Vi ne vidos enhavon de tiu domajno en publika tempolinio aŭ en viaj sciigoj. Viaj sekvantoj de tiu domajno estos forigitaj.</string>
     <string name="mute_domain_warning_dialog_ok">Kaŝi la tutan domajnon</string>
-
     <string name="caption_notoemoji">La aktuala emoĝiaro de Google</string>
     <string name="description_poll">Balotenketo kun elektoj: %1$s, %2$s, %3$s, %4$s; %5$s</string>
-
     <string name="button_continue">Daŭrigi</string>
     <string name="button_back">Reveni</string>
     <string name="button_done">Farita</string>
@@ -430,29 +417,26 @@
     <string name="failed_fetch_statuses">Venigo de statusoj malsukcesis</string>
     <string name="report_description_1">La signalo estos sendita al la kontrolantoj de via servilo. Vi povas doni klarigon pri kial vi signalas ĉi tiun konton sube:</string>
     <string name="report_description_remote_instance">La konto estas en alia servilo. Ĉu sendi sennomigitan kopion de la signalo ankaŭ tien\?</string>
-
     <string name="pref_title_show_notifications_filter">Montri filtrilon de Sciigoj</string>
-<string name="filter_dialog_whole_word">Tuta vorto</string>
+    <string name="filter_dialog_whole_word">Tuta vorto</string>
     <string name="filter_dialog_whole_word_description">Kiam ĉefvorto aŭ frazo estas nur litercifera, tio aplikos nur se ĝi kongruas la tutan vorton</string>
     <string name="title_accounts">Kontoj</string>
     <string name="failed_search">Serĉo malsukcesis</string>
-
     <string name="action_add_poll">Aldoni baloton</string>
     <string name="pref_title_alway_open_spoiler">Ĉiam pligrandigi tootoj markiĝita per enhavaj avertoj</string>
     <string name="create_poll_title">Baloto</string>
     <string name="poll_duration_5_min">5 minutoj</string>
     <string name="poll_duration_30_min">30 minutoj</string>
-    <string name="poll_duration_1_hour">1 horo</string>
+    <string name="poll_duration_1_hour">1 horoj</string>
     <string name="poll_duration_6_hours">6 horoj</string>
     <string name="poll_duration_1_day">1 tago</string>
     <string name="poll_duration_3_days">3 tagoj</string>
     <string name="poll_duration_7_days">7 tagoj</string>
-    <string name="add_poll_choice">Aldoni elekton</string>
+    <string name="add_poll_choice">Aldoni epekton</string>
     <string name="poll_allow_multiple_choices">Multaj elektoj</string>
     <string name="poll_new_choice_hint">Elekton %d</string>
     <string name="edit_poll">Redaktigi</string>
-
-<string name="title_bookmarks">Legosignoj</string>
+    <string name="title_bookmarks">Legosignoj</string>
     <string name="title_scheduled_toot">Planitaj mesaĝoj</string>
     <string name="action_bookmark">Aldoni al la legosignoj</string>
     <string name="action_edit">Redakti</string>
@@ -465,10 +449,9 @@
     <string name="select_list_title">Elekti la liston</string>
     <string name="list">Listo</string>
     <string name="post_lookup_error_format">Eraro dum elserĉo de la mesaĝo %s</string>
-
-<string name="error_audio_upload_size">Aŭdia dosiero devas esti malpli ol 40MB.</string>
+    <string name="error_audio_upload_size">Aŭdia dosiero devas esti malpli ol 40MB.</string>
     <string name="gradient_for_media">Montri buntajn transirojn por kaŝitaj aŭdovidaĵoj</string>
-
     <string name="no_saved_status">Vi ne havas iun ajn malneton.</string>
     <string name="no_scheduled_status">Vi ne havas iun ajn planitan mesaĝon.</string>
-    </resources>
+    <string name="notification_follow_request_name">Petoj de sekvado</string>
+</resources>

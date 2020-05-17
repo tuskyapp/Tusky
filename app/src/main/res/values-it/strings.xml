@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='UTF-8'?>
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="error_generic">Si è verificato un errore.</string>
     <string name="error_network">Si è verificato un errore di rete! Per favore controlla la tua connessione e riprova!</string>
@@ -34,7 +34,7 @@
     <string name="title_favourites">Preferiti</string>
     <string name="title_mutes">Utenti silenziati</string>
     <string name="title_blocks">Utenti bloccati</string>
-    <string name="title_follow_requests">Richieste di Seguire</string>
+    <string name="title_follow_requests">Richieste di seguirti</string>
     <string name="title_edit_profile">Modifica il tuo profilo</string>
     <string name="title_saved_toot">Bozze</string>
     <string name="title_licenses">Licenze</string>
@@ -146,7 +146,7 @@
 \n
 \nUn\'istanza è il luogo dove l\'account è custodito, ma puoi facilmente comunicare e seguire gente su altre istanze come se fossero sullo stesso sito. 
 \n
-\nPiù info possono essere trovate su <a href="https://joinmastodon.org">joinmastodon.org</a>. </string>
+\nPiù info possono essere trovate su <a href="https://joinmastodon.org">joinmastodon.org</a>.</string>
     <string name="dialog_title_finishing_media_upload">Terminando il caricamento dei media</string>
     <string name="dialog_message_uploading_media">Caricamento…</string>
     <string name="dialog_download_image">Scarica</string>
@@ -324,9 +324,9 @@
     <string name="unpin_action">Non fissare</string>
     <string name="pin_action">Fissa</string>
     <plurals name="favs">
-	<item quantity="one"><b>%1$s</b> Mi piace</item>
-	<item quantity="other"><b>%1$s</b> Mi piace</item>
-</plurals>
+        <item quantity="one"><b>%1$s</b> Mi piace</item>
+        <item quantity="other"><b>%1$s</b> Mi piace</item>
+    </plurals>
     <plurals name="reblogs">
         <item quantity="one">&lt;b&gt;%s&lt;/b&gt; Boost</item>
         <item quantity="other">&lt;b&gt;%s&lt;/b&gt; Boost</item>
@@ -356,55 +356,42 @@
     <string name="description_visiblity_direct">        Diretti
     </string>
     <string name="hint_list_name">Nome della lista</string>
-<string name="download_media">Scarica media</string>
+    <string name="download_media">Scarica media</string>
     <string name="downloading_media">Scaricando media</string>
+
+    <string name="compose_shortcut_long_label">Componi Toot</string>
 
     <string name="edit_hashtag_hint">Hashtag senza #</string>
 
-
-<string name="compose_shortcut_long_label">Componi Toot</string>
     <string name="compose_shortcut_short_label">Componi</string>
-
-<string name="notifications_clear">Pulisci</string>
+    <string name="notifications_clear">Pulisci</string>
     <string name="notifications_apply_filter">Filtra</string>
     <string name="filter_apply">Applica</string>
-
     <string name="pref_title_bot_overlay">Mostra indicatore per bot</string>
-
-<string name="notification_clear_text">Sei sicuro di voler permanentemente eliminare tutte le tue notifiche\?</string>
-
-<string name="action_delete_and_redraft">Cancella e riscrivi</string>
+    <string name="notification_clear_text">Sei sicuro di voler permanentemente eliminare tutte le tue notifiche\?</string>
+    <string name="action_delete_and_redraft">Cancella e riscrivi</string>
     <string name="dialog_redraft_toot_warning">Cancellare e riscrivere questo toot\?</string>
-
     <plurals name="poll_info_votes">
-	<item quantity="one">%s voto</item>
-	<item quantity="other">%s voti</item>
-</plurals>
+        <item quantity="one">%s voto</item>
+        <item quantity="other">%s voti</item>
+    </plurals>
     <string name="poll_info_time_relative">%s rimasti</string>
     <string name="poll_info_time_absolute">termina alle %s</string>
     <string name="poll_info_closed">terminato</string>
     <string name="poll_vote">Vota</string>
-
-
-<string name="title_domain_mutes">Domini nascosti</string>
+    <string name="title_domain_mutes">Domini nascosti</string>
     <string name="action_view_domain_mutes">Domini nascosti</string>
     <string name="action_mute_domain">Silenzia %s</string>
     <string name="confirmation_domain_unmuted">%s mostrati</string>
-
     <string name="mute_domain_warning">Sei sicuro di voler bloccare tutto %s\? Non vedrai nessun contenuto da quel dominio in nessuna timeline pubblica o nelle tue notifiche. I tuoi seguaci che stanno in quel dominio saranno rimossi.</string>
     <string name="mute_domain_warning_dialog_ok">Nascondi l\'intero dominio</string>
-
     <string name="pref_title_notification_filter_poll">Le votazioni sono finite</string>
     <string name="pref_title_animate_gif_avatars">Mostra le animazioni delle GIF negli avatar</string>
-
     <string name="notification_poll_name">Votazioni</string>
     <string name="notification_poll_description">Notifiche sulle votazioni che sono concluse</string>
-
-
     <string name="filter_dialog_whole_word">Parola intera</string>
     <string name="filter_dialog_whole_word_description">Quando la parola chiave o la frase sono composte da soli caratteri alfanumerici, sarà applicata solo se corrisponde alla parola completa</string>
     <string name="caption_notoemoji">Insieme di emoji di Google</string>
-
     <string name="title_bookmarks">Segnalibri</string>
     <string name="action_bookmark">Segnalibro</string>
     <string name="action_edit">Modifica</string>
@@ -414,31 +401,27 @@
     <string name="pref_title_alway_open_spoiler">Espandi sempre i toot segnalati come contenuto sensibile</string>
     <string name="description_status_bookmarked">Messo nei segnalibri</string>
     <string name="description_poll">Sondaggio con scelte: %1$s, %2$s, %3$s, %4$s; %5$s</string>
-
     <string name="select_list_title">Scegli lista</string>
     <string name="list">Lista</string>
     <string name="compose_preview_image_description">Azioni per l\'immagine %s</string>
-
     <string name="poll_ended_voted">Un sondaggio che hai votato è terminato</string>
     <string name="poll_ended_created">Un sondaggio che hai creato è terminato</string>
-
     <plurals name="poll_timespan_days">
-	<item quantity="one">%d giorno</item>
-	<item quantity="other">%d giorni</item>
-</plurals>
+        <item quantity="one">%d giorno</item>
+        <item quantity="other">%d giorni</item>
+    </plurals>
     <plurals name="poll_timespan_hours">
-	<item quantity="one">%d ora</item>
-	<item quantity="other">%d ore</item>
-</plurals>
+        <item quantity="one">%d ora</item>
+        <item quantity="other">%d ore</item>
+    </plurals>
     <plurals name="poll_timespan_minutes">
-	<item quantity="one">%d minuto</item>
-	<item quantity="other">%d minuti</item>
-</plurals>
+        <item quantity="one">%d minuto</item>
+        <item quantity="other">%d minuti</item>
+    </plurals>
     <plurals name="poll_timespan_seconds">
-	<item quantity="one">%d secondo</item>
-	<item quantity="other">%d secondi</item>
-</plurals>
-
+        <item quantity="one">%d secondo</item>
+        <item quantity="other">%d secondi</item>
+    </plurals>
     <string name="button_continue">Continua</string>
     <string name="button_back">Indietro</string>
     <string name="button_done">Fatto</string>
@@ -451,10 +434,7 @@
     <string name="report_description_remote_instance">L\'utente è su un altro server. Mandare una copia della segnalazione anche lì\?</string>
     <string name="title_accounts">Utenti</string>
     <string name="failed_search">Errore durante la ricerca</string>
-
     <string name="pref_title_show_notifications_filter">Mostra il filtro delle notifiche</string>
-
-
     <string name="create_poll_title">Sondaggio</string>
     <string name="poll_duration_5_min">5 minuti</string>
     <string name="poll_duration_30_min">30 minuti</string>
@@ -468,10 +448,9 @@
     <string name="poll_new_choice_hint">Scelta %d</string>
     <string name="edit_poll">Modifica</string>
     <string name="post_lookup_error_format">Errore nella ricerca del post %s</string>
-
-<string name="title_scheduled_toot">Toot programmati</string>
+    <string name="title_scheduled_toot">Toot programmati</string>
     <string name="action_access_scheduled_toot">Toot programmati</string>
     <string name="action_schedule_toot">Programma un toot</string>
     <string name="action_reset_schedule">RIpristina</string>
     <string name="poll_info_format"> <!-- 15 votes • 1 hour left --> %1$s • %2$s</string>
-    </resources>
+</resources>

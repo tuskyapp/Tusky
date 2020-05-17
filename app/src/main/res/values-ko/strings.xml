@@ -26,17 +26,17 @@
     <string name="title_direct_messages">다이렉트 메시지</string>
     <string name="title_tab_preferences">탭</string>
     <string name="title_view_thread">툿</string>
-    <string name="title_statuses">게시물</string>
+    <string name="title_statuses">툿</string>
     <string name="title_statuses_with_replies">툿과 답장</string>
-    <string name="title_statuses_pinned">고정됨</string>
+    <string name="title_statuses_pinned">고정된 툿</string>
     <string name="title_follows">팔로우</string>
     <string name="title_followers">팔로워</string>
     <string name="title_favourites">즐겨찾기</string>
     <string name="title_mutes">뮤트한 유저</string>
-    <string name="title_blocks">차단한 유저</string>
+    <string name="title_blocks">블록한 유저</string>
     <string name="title_domain_mutes">숨긴 도메인</string>
     <string name="title_follow_requests">팔로우 요청</string>
-    <string name="title_edit_profile">프로필 편집</string>
+    <string name="title_edit_profile">프로필 수정</string>
     <string name="title_saved_toot">임시 저장</string>
     <string name="title_licenses">라이선스</string>
     <string name="status_username_format">\@%s</string>
@@ -100,7 +100,7 @@
     <string name="action_open_drawer">메뉴 열기</string>
     <string name="action_save">저장</string>
     <string name="action_edit_profile">프로필 편집</string>
-    <string name="action_edit_own_profile">편집</string>
+    <string name="action_edit_own_profile">수정</string>
     <string name="action_undo">실행 취소</string>
     <string name="action_accept">수락</string>
     <string name="action_reject">거절</string>
@@ -114,7 +114,7 @@
     <string name="action_mentions">멘션</string>
     <string name="action_hashtags">해시태그</string>
     <string name="action_open_reblogger">부스트한 유저의 프로필로 이동</string>
-    <string name="action_open_reblogged_by">부스트한 유저 보이기</string>
+    <string name="action_open_reblogged_by">부스트 보이기</string>
     <string name="action_open_faved_by">즐겨찾기한 유저 보이기</string>
     <string name="title_hashtags_dialog">해시태그</string>
     <string name="title_mentions_dialog">멘션</string>
@@ -122,7 +122,7 @@
     <string name="action_open_media_n">%d번째 미디어 열기</string>
     <string name="download_image">%1$s 다운로드 중</string>
     <string name="action_copy_link">링크 복사</string>
-    <string name="action_share_as">어떤 계정으로 공유할까요\?</string>
+    <string name="action_share_as">공유</string>
     <string name="download_media">다운로드</string>
     <string name="downloading_media">미디어 다운로드 중</string>
     <string name="send_status_link_to">툿 URL 공유</string>
@@ -145,22 +145,27 @@
     <string name="label_avatar">아바타</string>
     <string name="label_header">헤더</string>
     <string name="link_whats_an_instance">인스턴스가 무엇인가요\?</string>
-    <string name="login_connection">연결 중…</string>
-    <string name="dialog_whats_an_instance">"인스턴스의 도메인 주소나 IP주소를 입력하실 수 있습니다. pawoo.net, twingyeo.kr, qdon.space 등이 있으며, 그 외에도 &lt;a href=“https://instances.social”&gt;더 많은 인스턴스&lt;/a&gt;가 당신을 기다리고 있습니다! 
+    <string name="login_connection">연결 중...</string>
+    <string name="dialog_whats_an_instance">인스턴스의 도메인 주소나 IP주소를 입력하실 수 있습니다. mastodon.social, icosahedron.website, social.tchncs.de 등이 있으며, 그 외에도 <a href="https://instances.social">더 많은 인스턴스</a>가 당신을 기다리고 있습니다! 
 \n
+\n 
 \n만약 계정이 없으시다면, 인스턴스 주소를 입력하신 후에 계정을 만드실 수 있습니다. 
+\n
 \n 
+\n
 \n여러분이 어느 인스턴스에 가입하시더라도, 다른 인스턴스에 있는 유저들과 문제 없이 소통하실 수 있습니다. 
+\n
 \n 
-\n자세한 사항은 &lt;a href=“https://joinmastodon.org”&gt;joinmastodon.org&lt;/a&gt;을 참조하세요. "<a href="https://instances.social">more!</a>
-        \n\nIf you don\'t yet have an account, you can enter the name of the instance you\'d like to
-        join and create an account there.\n\nAn instance is a single place where your account is
-        hosted, but you can easily communicate with and follow folks on other instances as though
-        you were on the same site.
-        \n\nMore info can be found at <a href="https://joinmastodon.org">joinmastodon.org</a>.
-    </string>
+\n
+\n자세한 사항은 &lt;a href=“https://joinmastodon.org”&gt;joinmastodon.org&lt;/a&gt;을 참조하세요. <a href="https://instances.social">more!</a> 
+\n
+\nIf you don\'t yet have an account, you can enter the name of the instance you\'d like to join and create an account there.
+\n
+\nAn instance is a single place where your account is hosted, but you can easily communicate with and follow folks on other instances as though you were on the same site. 
+\n
+\nMore info can be found at <a href="https://joinmastodon.org">joinmastodon.org</a>. </string>
     <string name="dialog_title_finishing_media_upload">미디어 업로드 완료</string>
-    <string name="dialog_message_uploading_media">업로드 중…</string>
+    <string name="dialog_message_uploading_media">업로드 중...</string>
     <string name="dialog_download_image">다운로드</string>
     <string name="dialog_message_cancel_follow_request">팔로우 요청을 취소하시겠습니까\?</string>
     <string name="dialog_unfollow_warning">이 계정을 팔로우 해제하시겠습니까\?</string>
@@ -235,7 +240,7 @@
     <string name="notification_mention_format">%s님이 당신을 멘션했습니다</string>
     <string name="notification_summary_large">%1$s님, %2$s님, %3$s님 외 %4$d명</string>
     <string name="notification_summary_medium">%1$s님, %2$s님, %3$s님</string>
-    <string name="notification_summary_small">%1$s와 %2$s</string>
+    <string name="notification_summary_small">%1$s, %2$s</string>
     <string name="notification_title_summary">%d개의 새로운 알림이 있습니다</string>
     <string name="description_account_locked">계정 잠김</string>
     <string name="about_title_activity">이 앱에 관하여</string>
@@ -258,11 +263,11 @@
     <string name="status_media_video">비디오</string>
     <string name="state_follow_requested">팔로우 요청함</string>
     <!--These are for timestamps on statuses. For example: "16s" or "2d"-->
-    <string name="abbreviated_in_years">%d년 후</string>
-    <string name="abbreviated_in_days">%d일 후</string>
-    <string name="abbreviated_in_hours">%d시간 후</string>
-    <string name="abbreviated_in_minutes">%d분 후</string>
-    <string name="abbreviated_in_seconds">%d초 후</string>
+    <string name="abbreviated_in_years">%d년 전</string>
+    <string name="abbreviated_in_days">%d일 전</string>
+    <string name="abbreviated_in_hours">%d시간 전</string>
+    <string name="abbreviated_in_minutes">%d분 전</string>
+    <string name="abbreviated_in_seconds">%d초 전</string>
     <string name="abbreviated_years_ago">%d년</string>
     <string name="abbreviated_days_ago">%d일</string>
     <string name="abbreviated_hours_ago">%d시간</string>
@@ -316,7 +321,7 @@
     <string name="copy_to_clipboard_success">클립보드에 복사되었습니다</string>
     <string name="emoji_style">이모지 스타일</string>
     <string name="system_default">시스템 기본</string>
-    <string name="download_fonts">시스템 기본 외의 이모지를 설정하시려면 우선 다운로드해야 합니다</string>
+    <string name="download_fonts">시스템 기본 외에서 선택하시려면 우선 다운로드해야 합니다</string>
     <string name="performing_lookup_title">탐색하고 있습니다…</string>
     <string name="expand_collapse_all_statuses">모두 보이기/줄이기</string>
     <string name="action_open_toot">툿 열기</string>
@@ -366,7 +371,7 @@
     <string name="description_visiblity_unlisted">타임라인에 비표시</string>
     <string name="description_visiblity_private">비공개</string>
     <string name="description_visiblity_direct">다이렉트</string>
-    <string name="description_poll">투표 선택지: %1$s, %2$s, %3$s, %4$s, %5$s</string>
+    <string name="description_poll">투표: %1$s, %2$s, %3$s, %4$s; %5$s</string>
     <string name="hint_list_name">리스트 이름</string>
     <string name="edit_hashtag_hint">#를 제외한 해시태그</string>
     <string name="notifications_clear">알림 지우기</string>
@@ -427,4 +432,5 @@
     <string name="poll_allow_multiple_choices">여러 항목 선택 가능</string>
     <string name="poll_new_choice_hint">%d번 항목</string>
     <string name="edit_poll">수정</string>
+    <string name="action_edit">수정</string>
 </resources>

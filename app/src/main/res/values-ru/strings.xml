@@ -133,7 +133,7 @@
     <string name="status_sent_long">Ответ успешно отправлен.</string>
     <string name="hint_domain">Какой узел?</string>
     <string name="hint_compose">Что происходит?</string>
-    <string name="hint_content_warning">Предупреждение о содержании</string>
+    <string name="hint_content_warning">Предупреждение о контенте</string>
     <string name="hint_display_name">Отображаемое имя</string>
     <string name="hint_note">О себе</string>
     <string name="hint_search">Поиск…</string>
@@ -160,16 +160,16 @@
     <string name="visibility_private">Приватный: Показать только подписчикам</string>
     <string name="visibility_direct">Направленный: Показать только упомянутым</string>
     <string name="pref_title_edit_notification_settings">Уведомления</string>
-    <string name="pref_title_notifications_enabled">Push-уведомления</string>
+    <string name="pref_title_notifications_enabled">Уведомления</string>
     <string name="pref_title_notification_alerts">Предупреждения</string>
     <string name="pref_title_notification_alert_sound">Звуковые уведомления</string>
     <string name="pref_title_notification_alert_vibrate">Использовать вибрацию</string>
     <string name="pref_title_notification_alert_light">Световые уведомления</string>
-    <string name="pref_title_notification_filters">Уведомлять когда</string>
+    <string name="pref_title_notification_filters">Уведомлять когда…</string>
     <string name="pref_title_notification_filter_mentions">упомянули</string>
     <string name="pref_title_notification_filter_follows">подписались</string>
     <string name="pref_title_notification_filter_reblogs">мой пост продвинули</string>
-    <string name="pref_title_notification_filter_favourites">мои посты понравились</string>
+    <string name="pref_title_notification_filter_favourites">мой пост понравился</string>
     <string name="pref_title_appearance_settings">Внешний вид</string>
     <string name="pref_title_app_theme">Тема</string>
     <string name="pref_title_timelines">Ленты</string>
@@ -180,12 +180,12 @@
     <string name="app_theme_auto">Автоматическая (по времени)</string>
     <string name="app_theme_system">Как в системе</string>
     <string name="pref_title_browser_settings">Браузер</string>
-    <string name="pref_title_custom_tabs">Исп. встроенный веб-браузер</string>
+    <string name="pref_title_custom_tabs">Использовать Chrome Custom Tabs</string>
     <string name="pref_title_hide_follow_button">Скрывать кнопку создания поста при прокрутке ленты</string>
     <string name="pref_title_language">Язык</string>
     <string name="pref_title_status_filter">Фильтрация ленты</string>
-    <string name="pref_title_status_tabs">Фильтры</string>
-    <string name="pref_title_show_boosts">Показывать продвижения</string>
+    <string name="pref_title_status_tabs">Вкладки</string>
+    <string name="pref_title_show_boosts">Показать продвижения</string>
     <string name="pref_title_show_replies">Показывать ответы</string>
     <string name="pref_title_show_media_preview">Предзагрузка медиаконтента</string>
     <string name="pref_title_proxy_settings">Прокси</string>
@@ -350,9 +350,10 @@
     <string name="unpin_action">Открепить</string>
     <string name="pin_action">Закрепить</string>
     <plurals name="favs">
-        <item quantity="one">&lt;b&gt;%1$s&lt;/b&gt; Понравилось</item>
-        <item quantity="few">&lt;b&gt;%1$s&lt;/b&gt; Понравилось</item>
-        <item quantity="many">&lt;b&gt;%1$s&lt;/b&gt; Понравилось</item>
+        <item quantity="one"><b>%1$s</b> Понравилось</item>
+        <item quantity="few"><b>%1$s</b> Понравилось</item>
+        <item quantity="many"><b>%1$s</b> Понравилось</item>
+        <item quantity="other"><b>%1$s</b> Понравилось</item>
     </plurals>
     <plurals name="reblogs">
         <item quantity="one">&lt;b&gt;%s&lt;/b&gt; Продвинул(а)</item>
@@ -475,4 +476,21 @@
     <string name="no_saved_status">У вас нет черновиков.</string>
     <string name="no_scheduled_status">У вас нет запланированный постов.</string>
     <string name="warning_scheduling_interval">Минимальный интервал планирования в Mastodon составляет 5 минут.</string>
+    <string name="pref_title_confirm_reblogs">Показвать диалог подтверждения перед продвижением</string>
+    <string name="pref_title_show_cards_in_timelines">Показывать предосмотр ссылок в лентах</string>
+    <string name="pref_title_enable_swipe_for_tabs">Включить переключение между вкладками смахиванием</string>
+    <plurals name="poll_info_people">
+        <item quantity="one">%s человек</item>
+        <item quantity="few">%s человека</item>
+        <item quantity="many">%s человек</item>
+        <item quantity="other">%s человек</item>
+    </plurals>
+    <string name="notification_follow_request_description">Уведомления о запросах на подписку</string>
+    <string name="notification_follow_request_name">Запросы на подписку</string>
+    <string name="pref_title_notification_filter_follow_requests">подписка запрошена</string>
+    <string name="dialog_mute_warning">Заглушить @%s\?</string>
+    <string name="dialog_block_warning">Заблокировать @%s\?</string>
+    <string name="action_unmute_conversation">Показать обсуждение</string>
+    <string name="action_mute_conversation">Заглушить обсуждение</string>
+    <string name="notification_follow_request_format">запрос на подписку от %s</string>
 </resources>

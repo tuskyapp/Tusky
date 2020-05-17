@@ -18,7 +18,7 @@
     <string name="error_media_download_permission">Er is toestemming nodig om media op te slaan.</string>
     <string name="error_media_upload_image_or_video">Afbeeldingen en video\'s kunnen niet allebei aan dezelfde toot worden toegevoegd.</string>
     <string name="error_media_upload_sending">Uploaden mislukt.</string>
-    <string name="error_sender_account_gone">Fout tijdens verzenden toot.</string>
+    <string name="error_sender_account_gone">Fout tijdens verzenden toot</string>
     <string name="title_home">Start</string>
     <string name="title_notifications">Meldingen</string>
     <string name="title_public_local">Lokaal</string>
@@ -42,7 +42,7 @@
     <string name="status_boosted_format">%s boostte</string>
     <string name="status_sensitive_media_title">Gevoelige inhoud</string>
     <string name="status_media_hidden_title">Verborgen media</string>
-    <string name="status_sensitive_media_directions">Tik om te bekijken</string>
+    <string name="status_sensitive_media_directions">Klik om te bekijken</string>
     <string name="status_content_warning_show_more">Meer tonen</string>
     <string name="status_content_warning_show_less">Minder tonen</string>
     <string name="status_content_show_more">Uitklappen</string>
@@ -53,7 +53,7 @@
     <string name="notification_favourite_format">%s markeerde jouw toot als favoriet</string>
     <string name="notification_follow_format">%s volgt jou</string>
     <string name="report_username_format">Rapporteer @%s</string>
-    <string name="report_comment_hint">Extra opmerkingen\?</string>
+    <string name="report_comment_hint">Extra opmerkingen</string>
     <string name="action_quick_reply">Snelle reactie</string>
     <string name="action_reply">Reageren</string>
     <string name="action_reblog">Boosten</string>
@@ -61,7 +61,7 @@
     <string name="action_favourite">Als favoriet markeren</string>
     <string name="action_unfavourite">Favoriet verwijderen</string>
     <string name="action_more">Meer</string>
-    <string name="action_compose">Schrijf een toot</string>
+    <string name="action_compose">Schrijven</string>
     <string name="action_login">Aanmelden</string>
     <string name="action_logout">Afmelden</string>
     <string name="action_logout_confirm">Ben je er zeker van dat je het account %1$s wil afmelden?</string>
@@ -120,8 +120,8 @@
     <string name="action_copy_link">Link kopiëren</string>
     <string name="action_open_as">Als %s openen</string>
     <string name="action_share_as">Delen als …</string>
-    <string name="send_status_link_to">Link van de toot delen met…</string>
-    <string name="send_status_content_to">Inhoud van de toot delen met…</string>
+    <string name="send_status_link_to">Link van de toot delen</string>
+    <string name="send_status_content_to">Inhoud van de toot delen</string>
     <string name="send_media_to">Media delen met …</string>
     <string name="confirmation_reported">Verzonden!</string>
     <string name="confirmation_unblocked">Gebruiker is gedeblokkeerd</string>
@@ -133,22 +133,22 @@
     <string name="hint_content_warning">Waarschuwingstekst</string>
     <string name="hint_display_name">Weergavenaam</string>
     <string name="hint_note">Bio</string>
-    <string name="hint_search">Zoeken…</string>
+    <string name="hint_search">Zoeken</string>
     <string name="search_no_results">Geen resultaten</string>
     <string name="label_quick_reply">Reageren…</string>
     <string name="label_avatar">Avatar</string>
     <string name="label_header">Omslagfoto</string>
     <string name="link_whats_an_instance">Wat is een Mastodonserver?</string>
-    <string name="login_connection">Aan het verbinden…</string>
+    <string name="login_connection">Aan het verbinden</string>
     <string name="dialog_whats_an_instance">Het adres of domein van elke Mastodonserver kan hier worden ingevoerd, zoals mastodon.social, mastodon.nl, octodon.social en <a href="https://instances.social">nog veel meer!</a> 
 \n 
-\nWanneer je nog geen account hebt, kun je de naam van de Mastodonserver waar jij je graag wil registeren invoeren, waarna je daar een account kunt aanmaken. 
+\n Wanneer je nog geen account hebt, kun je de naam van de Mastodonserver waar jij je graag wil registeren invoeren, waarna je daar een account kunt aanmaken.
 \n 
-\nEen Mastodonserver (Engels: instance) is een computerserver waar jouw account zich bevindt (vergelijk het met een e-mailserver). Je kan eenvoudig mensen van andere servers volgen en met ze communiceren, alsof jullie met elkaar op dezelfde website zitten. 
+\n Een Mastodonserver (Engels: instance) is een computerserver waar jouw account zich bevindt (vergelijk het met een e-mailserver). Je kan eenvoudig mensen van andere servers volgen en met ze communiceren, alsof jullie met elkaar op dezelfde website zitten. 
 \n 
-\n Meer informatie kun je vinden op <a href="https://joinmastodon.org">joinmastodon.org</a>. </string>
+\n Meer informatie kun je vinden op <a href="https://joinmastodon.org">joinmastodon.org</a>.</string>
     <string name="dialog_title_finishing_media_upload">Uploaden media bijna voltooid</string>
-    <string name="dialog_message_uploading_media">Aan het uploaden…</string>
+    <string name="dialog_message_uploading_media">Aan het uploaden</string>
     <string name="dialog_download_image">Downloaden</string>
     <string name="dialog_message_cancel_follow_request">Het volgverzoek intrekken?</string>
     <string name="dialog_unfollow_warning">Dit account ontvolgen?</string>
@@ -181,7 +181,7 @@
     <string name="pref_title_hide_follow_button">Verberg zwevende tootknop tijdens scrollen</string>
     <string name="pref_title_language">Taal</string>
     <string name="pref_title_status_filter">Filteren</string>
-    <string name="pref_title_status_tabs">Tabs</string>
+    <string name="pref_title_status_tabs">Tijdlijnen</string>
     <string name="pref_title_show_boosts">Boosts tonen</string>
     <string name="pref_title_show_replies">Reacties tonen</string>
     <string name="pref_title_show_media_preview">Voorbeelden van media tonen</string>
@@ -368,8 +368,8 @@
     <string name="notification_clear_text">Weet je zeker dat je alle meldingen permanent wilt verwijderen\?</string>
     <string name="poll_info_format"> <!-- 15 votes • 1 hour left --> %1$s • %2$s</string>
     <plurals name="poll_info_votes">
-        <item quantity="one">%s stem</item>
-        <item quantity="other">%s stemmen</item>
+        <item quantity="one"></item>
+        <item quantity="other"></item>
     </plurals>
     <string name="poll_info_time_relative">%s over</string>
     <string name="poll_info_time_absolute">eindigt op %s</string>
@@ -391,19 +391,19 @@
     <string name="description_poll">Poll met keuzes: %1$s, %2$s, %3$s, %4$s; %5$s</string>
     <string name="compose_preview_image_description">Acties voor afbeelding %s</string>
     <plurals name="poll_timespan_days">
-        <item quantity="one">%d dag</item>
-        <item quantity="other">%d dagen</item>
+        <item quantity="one"></item>
+        <item quantity="other"></item>
     </plurals>
     <plurals name="poll_timespan_hours">
-        <item quantity="one">%d uur</item>
-        <item quantity="other">%d uur</item>
+        <item quantity="one"></item>
+        <item quantity="other"></item>
     </plurals>
     <plurals name="poll_timespan_minutes">
-        <item quantity="one">%d minuut</item>
-        <item quantity="other">%d minuten</item>
+        <item quantity="one"></item>
+        <item quantity="other"></item>
     </plurals>
     <plurals name="poll_timespan_seconds">
-        <item quantity="one">%d seconde</item>
+        <item quantity="one">"%d  seconde"</item>
         <item quantity="other">%d seconden</item>
     </plurals>
     <string name="button_continue">Doorgaan</string>
@@ -414,7 +414,7 @@
     <string name="report_remote_instance">Verder naar %s</string>
     <string name="failed_report">Het rapporteren is mislukt</string>
     <string name="failed_fetch_statuses">Het ophalen van toots is mislukt</string>
-    <string name="report_description_1">Deze rapportage wordt naar jouw servermoderator(en) gestuurd. Hieronder kun je uitleggen waarom je het account wilt rapporteren:</string>
+    <string name="report_description_1">Deze rapportage wordt naar jouw servermoderator(en) gestuurd. Je kunt een uitleg geven over waarom je het account hieronder wilt rapporteren:</string>
     <string name="report_description_remote_instance">Het account is van een andere server. Wil je ook een geanonimiseerde kopie van de rapportage daarnaartoe sturen\?</string>
     <string name="pref_title_show_notifications_filter">Meldingenfilter tonen</string>
     <string name="filter_dialog_whole_word">Heel woord</string>

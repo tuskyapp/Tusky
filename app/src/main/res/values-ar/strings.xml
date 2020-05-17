@@ -4,7 +4,7 @@
     <string name="error_network">حدث خطأ في الشبكة! يرجى التحقق من اتصالك ثم أعد المحاولة!</string>
     <string name="error_empty">لا يجب أن يترك هذا الحقل فارغا.</string>
     <string name="error_invalid_domain">اسم النطاق الذي قمتَ بإدخاله غير صالح</string>
-    <string name="error_failed_app_registration">اخفقت المصادقة مع مثيل الخادم هذا.</string>
+    <string name="error_failed_app_registration">أخففت المصادقة مع مثيل الخادم هذا.</string>
     <string name="error_no_web_browser_found">تعذر العثور على متصفح ويب صالح للإستعمال.</string>
     <string name="error_authorization_unknown">لقد وقع هناك خطأ مجهول في التصريح.</string>
     <string name="error_authorization_denied">تم رفض التصريح.</string>
@@ -287,7 +287,7 @@
     <string name="send_toot_notification_channel_name">إرسال التبويقات</string>
     <string name="send_toot_notification_cancel_title">أُلغيَ الإرسال</string>
     <string name="send_toot_notification_saved_content">تم الاحتفاظ بنسخة مِن التبويق في مسوداتك</string>
-    <string name="action_compose_shortcut">تحرير</string>
+    <string name="action_compose_shortcut">حرر</string>
     <string name="error_no_custom_emojis">لا يحتوي مثيل خادومكم %s على أية حزمة إيموجي مخصصة</string>
     <string name="copy_to_clipboard_success">تم نسخه إلى الحافظة</string>
     <string name="emoji_style">نوع الإيموجي</string>
@@ -478,9 +478,9 @@
     <string name="pref_title_confirm_reblogs">أظهر نافذة لطلب التأكيد قبل المشاركة</string>
     <string name="pref_title_show_cards_in_timelines">أظهر معاينات الروابط على الخيوط</string>
     <plurals name="poll_info_people">
-        <item quantity="zero">%s شخص</item>
-        <item quantity="one">%s شخص</item>
-        <item quantity="two">%s شخصان</item>
+        <item quantity="zero">لا شخص</item>
+        <item quantity="one">شخص واحد</item>
+        <item quantity="two">شخصان</item>
         <item quantity="few">%s أشخاص</item>
         <item quantity="many">%s أشخاص</item>
         <item quantity="other">%s أشخاص</item>
@@ -488,7 +488,7 @@
     <string name="notification_follow_request_description">إشعارات عن طلبات المتابعة</string>
     <string name="notification_follow_request_name">طلبات المتابَعة</string>
     <string name="dialog_mute_warning">أتريد كتم @%s؟</string>
-    <string name="dialog_block_warning">احجب @%s؟</string>
+    <string name="dialog_block_warning">حجب @%s؟</string>
     <string name="action_unmute_conversation">ألغِ كتم المحادثة</string>
     <string name="action_mute_conversation">اكتم المحادثة</string>
     <string name="notification_follow_request_format">%s طلبَ متابعتك</string>

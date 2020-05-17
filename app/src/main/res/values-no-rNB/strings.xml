@@ -14,7 +14,7 @@
     <string name="error_video_upload_size">Videofiler må være mindre enn 40MB.</string>
     <string name="error_media_upload_type">Den filtypen kan ikke lastes opp.</string>
     <string name="error_media_upload_opening">Den filen kunne ikke åpnes.</string>
-    <string name="error_media_upload_permission">Trenger tillatelse for å lese media.</string>
+    <string name="error_media_upload_permission">Trenger tillatelse til å lese media.</string>
     <string name="error_media_download_permission">Trenger tillatelse for å lagre media.</string>
     <string name="error_media_upload_image_or_video">Bilder og videoer kan ikke kobles til samme status.</string>
     <string name="error_media_upload_sending">Opplastingen feilet.</string>
@@ -34,12 +34,12 @@
     <string name="title_favourites">Favoritter</string>
     <string name="title_mutes">Dempede brukere</string>
     <string name="title_blocks">Blokkerte brukere</string>
-    <string name="title_follow_requests">Forespørsler om følging</string>
+    <string name="title_follow_requests">Forespørsler om følgen</string>
     <string name="title_edit_profile">Endre profilen din</string>
     <string name="title_saved_toot">Kladder</string>
     <string name="title_licenses">Lisenser</string>
     <string name="status_username_format">\@%s</string>
-    <string name="status_boosted_format">%s boostet</string>
+    <string name="status_boosted_format">%s boosted</string>
     <string name="status_sensitive_media_title">Sensitivt innhold</string>
     <string name="status_media_hidden_title">Media skjult</string>
     <string name="status_sensitive_media_directions">Klikk for å vise</string>
@@ -67,7 +67,7 @@
     <string name="action_logout_confirm">Er du sikker på at du vil logge ut fra kontoen %1$s\?</string>
     <string name="action_follow">Følg</string>
     <string name="action_unfollow">Slutt å følge</string>
-    <string name="action_block">Blokker bruker</string>
+    <string name="action_block">Blokker</string>
     <string name="action_unblock">Fjern blokkering</string>
     <string name="action_hide_reblogs">Skjul boosts</string>
     <string name="action_show_reblogs">Vis boosts</string>
@@ -91,7 +91,7 @@
     <string name="action_share">Del</string>
     <string name="action_mute">Demp bruker</string>
     <string name="action_unmute">Fjern demping</string>
-    <string name="action_mention">Nevn i ny toot</string>
+    <string name="action_mention">Nevn</string>
     <string name="action_hide_media">Skjul media</string>
     <string name="action_open_drawer">Åpne skuff</string>
     <string name="action_save">Lagre</string>
@@ -148,7 +148,7 @@
 \n 
 \nEn instans er en sted hvor kontoen din er registrert, men du kan enkelt kommunisere med og følge brukere på andre instanser som om dere er på den samme instansen. 
 \n 
-\nMer informasjon finner du på <a href="https://joinmastodon.org">joinmastodon.org</a>. </string>
+\nMer informasjon finner du på <a href="https://joinmastodon.org">joinmastodon.org</a>.</string>
     <string name="dialog_title_finishing_media_upload">Mediaopplasting er ferdig</string>
     <string name="dialog_message_uploading_media">Laster opp…</string>
     <string name="dialog_download_image">Last ned</string>
@@ -171,7 +171,7 @@
     <string name="pref_title_notification_filter_reblogs">tootene mine blir boostet</string>
     <string name="pref_title_notification_filter_favourites">tootene mine blir favorisert</string>
     <string name="pref_title_appearance_settings">Utseende</string>
-    <string name="pref_title_app_theme">Applikasjonstema</string>
+    <string name="pref_title_app_theme">Apptema</string>
     <string name="pref_title_timelines">Tidslinjer</string>
     <string name="pref_title_timeline_filters">Filtre</string>
     <string name="pref_title_browser_settings">Nettleser</string>
@@ -334,14 +334,14 @@
     <string name="filter_apply">Bruk</string>
     <string name="compose_shortcut_long_label">Skriv Toot</string>
     <string name="compose_shortcut_short_label">Skriv</string>
-    <string name="pref_title_bot_overlay">Marker robotkontoer</string>
+    <string name="pref_title_bot_overlay">Vis at konto er en robot</string>
     <string name="notification_clear_text">Er du sikker på at du vil slette alle varsler\?</string>
     <string name="action_delete_and_redraft">Slett og skriv på nytt</string>
     <string name="dialog_redraft_toot_warning">Vil du slette dette tottet og skrive det på nytt\?</string>
     <string name="poll_info_format"> <!-- 15 votes • 1 hour left --> %1$s • %2$s</string>
     <plurals name="poll_info_votes">
-        <item quantity="one">%s stemme</item>
-        <item quantity="other">%s stemmer</item>
+        <item quantity="one"></item>
+        <item quantity="other"></item>
     </plurals>
     <string name="poll_info_time_relative">%s igjen</string>
     <string name="poll_info_time_absolute">avsluttes %s</string>
@@ -419,7 +419,7 @@
     <string name="add_poll_choice">Legg til valg</string>
     <string name="poll_allow_multiple_choices">Flere valg</string>
     <string name="poll_new_choice_hint">Valg %d</string>
-    <string name="edit_poll">Endre</string>
+    <string name="edit_poll">Rediger</string>
     <string name="title_scheduled_toot">Planlagte toots</string>
     <string name="action_edit">Rediger</string>
     <string name="action_access_scheduled_toot">Planlagte toots</string>
@@ -446,7 +446,7 @@
         <item quantity="other">%s personer</item>
     </plurals>
     <string name="notification_follow_request_description">Varsler om følgeforespørsler</string>
-    <string name="notification_follow_request_name">Følgeforespørsler</string>
+    <string name="notification_follow_request_name">Forespørsler om følging</string>
     <string name="pref_title_notification_filter_follow_requests">følging forespurt</string>
     <string name="dialog_mute_warning">Dempe @%s\?</string>
     <string name="dialog_block_warning">Blokkere @%s\?</string>
