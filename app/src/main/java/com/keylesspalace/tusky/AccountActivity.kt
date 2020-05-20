@@ -64,6 +64,8 @@ import dagger.android.HasAndroidInjector
 import kotlinx.android.synthetic.main.activity_account.*
 import kotlinx.android.synthetic.main.view_account_moved.*
 import java.text.NumberFormat
+import java.text.SimpleDateFormat
+import java.util.Locale
 import javax.inject.Inject
 import kotlin.math.abs
 
@@ -369,9 +371,16 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
         accountFieldAdapter.emojis = account.emojis ?: emptyList()
         accountFieldAdapter.notifyDataSetChanged()
 
-
         accountLockedImageView.visible(account.locked)
         accountBadgeTextView.visible(account.bot)
+
+        if (account.createdAt != null) {
+            accountJoinTextView.visible(true)
+            val date = SimpleDateFormat("MMMM yyyy", Locale.getDefault()).format(account.createdAt)
+            accountJoinTextView.text = getString(R.string.profile_badge_join_text, date)
+        } else {
+            accountJoinTextView.visible(false)
+        }
 
         updateAccountAvatar()
         updateToolbar()

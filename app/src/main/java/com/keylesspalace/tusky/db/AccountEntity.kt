@@ -23,6 +23,7 @@ import com.keylesspalace.tusky.TabData
 import com.keylesspalace.tusky.defaultTabs
 
 import com.keylesspalace.tusky.entity.Emoji
+import com.keylesspalace.tusky.entity.SafeDate
 import com.keylesspalace.tusky.entity.Status
 
 @Entity(indices = [Index(value = ["domain", "accountId"],
@@ -55,7 +56,8 @@ data class AccountEntity(@field:PrimaryKey(autoGenerate = true) var id: Long,
                          var activeNotifications: String = "[]",
                          var emojis: List<Emoji> = emptyList(),
                          var tabPreferences: List<TabData> = defaultTabs(),
-                         var notificationsFilter: String = "[\"follow_request\"]") {
+                         var notificationsFilter: String = "[\"follow_request\"]",
+                         var createdAt: SafeDate = SafeDate.UnknownDate) {
 
     val identifier: String
         get() = "$domain:$accountId"

@@ -449,4 +449,5 @@
     <string name="no_saved_status">Sem rascunhos.</string>
     <string name="warning_scheduling_interval">Mastodon possui um intervalo mínimo de agendamento de 5 minutos.</string>
     <string name="notification_follow_request_name">Solicitações de seguidor</string>
+    <string name="profile_badge_join_text">Ingressou em %1$s</string>
 </resources>

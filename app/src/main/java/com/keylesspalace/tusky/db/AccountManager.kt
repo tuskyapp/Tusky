@@ -17,6 +17,8 @@ package com.keylesspalace.tusky.db
 
 import android.util.Log
 import com.keylesspalace.tusky.entity.Account
+import com.keylesspalace.tusky.entity.SafeDate.KnownDate
+import com.keylesspalace.tusky.entity.SafeDate.UnknownDate
 import com.keylesspalace.tusky.entity.Status
 import java.util.*
 import javax.inject.Inject
@@ -122,6 +124,7 @@ class AccountManager @Inject constructor(db: AppDatabase) {
             it.defaultPostPrivacy = account.source?.privacy ?: Status.Visibility.PUBLIC
             it.defaultMediaSensitivity = account.source?.sensitive ?: false
             it.emojis = account.emojis ?: emptyList()
+            it.createdAt = account.createdAt?.let(::KnownDate) ?: UnknownDate
 
             Log.d(TAG, "updateActiveAccount: saving account with id " + it.id)
             it.id = accountDao.insertOrReplace(it)

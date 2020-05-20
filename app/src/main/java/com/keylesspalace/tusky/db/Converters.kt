@@ -27,6 +27,7 @@ import com.keylesspalace.tusky.createTabDataFromId
 import com.keylesspalace.tusky.entity.Attachment
 import com.keylesspalace.tusky.entity.Emoji
 import com.keylesspalace.tusky.entity.Poll
+import com.keylesspalace.tusky.entity.SafeDate
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.json.SpannedTypeAdapter
 import com.keylesspalace.tusky.util.trimTrailingWhitespace
@@ -151,4 +152,15 @@ class Converters {
         return gson.fromJson(pollJson, Poll::class.java)
     }
 
+    @TypeConverter
+    fun safeDateToJson(safeDate: SafeDate?): String? = when(safeDate) {
+        is SafeDate.KnownDate -> gson.toJson(safeDate.date)
+        else -> null
+    }
+
+    @TypeConverter
+    fun jsonToSafeDate(safeDateJson: String?): SafeDate = safeDateJson
+            ?.let { gson.fromJson(it, Date::class.java) }
+            ?.let { SafeDate.KnownDate(it) }
+            ?: SafeDate.UnknownDate
 }

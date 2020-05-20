@@ -36,8 +36,8 @@ data class Account(
         val bot: Boolean = false,
         val emojis: List<Emoji>? = emptyList(),  // nullable for backward compatibility
         val fields: List<Field>? = emptyList(),  //nullable for backward compatibility
-        val moved: Account? = null
-
+        val moved: Account? = null,
+        @SerializedName("created_at") val createdAt: Date? = null
 ) {
 
     val name: String
