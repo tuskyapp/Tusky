@@ -173,6 +173,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
         val uswSwipeForTabs = PreferenceManager.getDefaultSharedPreferences(this)
                 .getBoolean("enableSwipeForTabs", true)
         viewPager.isUserInputEnabled = uswSwipeForTabs
+        if (uswSwipeForTabs) viewPager.reduceHorizontalScrollSensibility()
 
         tabLayout.addOnTabSelectedListener(object : OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab) {

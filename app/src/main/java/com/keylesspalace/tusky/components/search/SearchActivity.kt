@@ -28,6 +28,7 @@ import com.keylesspalace.tusky.BottomSheetActivity
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.components.search.adapter.SearchPagerAdapter
 import com.keylesspalace.tusky.di.ViewModelFactory
+import com.keylesspalace.tusky.util.reduceHorizontalScrollSensibility
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
 import kotlinx.android.synthetic.main.activity_search.*
@@ -57,6 +58,7 @@ class SearchActivity : BottomSheetActivity(), HasAndroidInjector {
 
     private fun setupPages() {
         pages.adapter = SearchPagerAdapter(this)
+        pages.reduceHorizontalScrollSensibility()
 
         TabLayoutMediator(tabs, pages) {
             tab, position ->
