@@ -255,7 +255,7 @@
         android:importantForAccessibility="noHideDescendants"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@id/status_display_name"
-        app:layout_constraintTop_toBottomOf="@id/button_toggle_content"
+        app:layout_constraintTop_toBottomOf="@id/status_card_view"
         tools:visibility="visible">
 
         <com.keylesspalace.tusky.view.MediaPreviewImageView
