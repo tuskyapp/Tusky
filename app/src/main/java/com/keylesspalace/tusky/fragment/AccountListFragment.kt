@@ -23,6 +23,7 @@ import android.view.ViewGroup
 import androidx.lifecycle.Lifecycle
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.MergeAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import com.keylesspalace.tusky.AccountActivity
@@ -30,6 +31,7 @@ import com.keylesspalace.tusky.AccountListActivity.Type
 import com.keylesspalace.tusky.BaseActivity
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.adapter.*
+import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.entity.Account
 import com.keylesspalace.tusky.entity.Relationship
@@ -55,6 +57,8 @@ class AccountListFragment : BaseFragment(), AccountActionListener, Injectable {
 
     @Inject
     lateinit var api: MastodonApi
+    @Inject
+    lateinit var accountManager: AccountManager
 
     private lateinit var type: Type
     private var id: String? = null
@@ -86,10 +90,17 @@ class AccountListFragment : BaseFragment(), AccountActionListener, Injectable {
         adapter = when (type) {
             Type.BLOCKS -> BlocksAdapter(this)
             Type.MUTES -> MutesAdapter(this)
-            Type.FOLLOW_REQUESTS -> FollowRequestsAdapter(this)
+            Type.FOLLOW_REQUESTS -> {
+                val headerAdapter = FollowRequestsHeaderAdapter(accountManager.activeAccount!!.domain, arguments?.get(ARG_ACCOUNT_LOCKED) == true)
+                val followRequestsAdapter = FollowRequestsAdapter(this)
+                recyclerView.adapter = MergeAdapter(headerAdapter, followRequestsAdapter)
+                followRequestsAdapter
+            }
             else -> FollowAdapter(this)
         }
-        recyclerView.adapter = adapter
+        if(recyclerView.adapter == null) {
+            recyclerView.adapter = adapter
+        }
 
         scrollListener = object : EndlessOnScrollListener(layoutManager) {
             override fun onLoadMore(totalItemsCount: Int, view: RecyclerView) {
@@ -361,12 +372,14 @@ class AccountListFragment : BaseFragment(), AccountActionListener, Injectable {
         private const val TAG = "AccountList" // logging tag
         private const val ARG_TYPE = "type"
         private const val ARG_ID = "id"
+        private const val ARG_ACCOUNT_LOCKED = "acc_locked"
 
-        fun newInstance(type: Type, id: String? = null): AccountListFragment {
+        fun newInstance(type: Type, id: String? = null, accountLocked: Boolean = false): AccountListFragment {
             return AccountListFragment().apply {
                 arguments = Bundle(2).apply {
                     putSerializable(ARG_TYPE, type)
                     putString(ARG_ID, id)
+                    putBoolean(ARG_ACCOUNT_LOCKED, accountLocked)
                 }
             }
         }

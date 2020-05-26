@@ -92,6 +92,8 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
 
     private var adapter: MainPagerAdapter? = null
 
+    private var accountLocked: Boolean = false
+
     private val emojiInitCallback = object : InitCallback() {
         override fun onInitialized() {
             if (!isDestroyed) {
@@ -370,6 +372,14 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
                         }
                     },
                     primaryDrawerItem {
+                        nameRes = R.string.action_view_follow_requests
+                        iconicsIcon = GoogleMaterial.Icon.gmd_person_add
+                        onClick = {
+                            val intent = AccountListActivity.newIntent(context, AccountListActivity.Type.FOLLOW_REQUESTS, accountLocked = accountLocked)
+                            startActivityWithSlideInAnimation(intent)
+                        }
+                    },
+                    primaryDrawerItem {
                         nameRes = R.string.action_lists
                         iconicsIcon = GoogleMaterial.Icon.gmd_list
                         onClick = {
@@ -569,22 +579,8 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
         accountManager.updateActiveAccount(me)
         NotificationHelper.createNotificationChannelsForAccount(accountManager.activeAccount!!, this)
 
-        // Show follow requests in the menu, if this is a locked account.
-        if (me.locked && mainDrawer.getDrawerItem(DRAWER_ITEM_FOLLOW_REQUESTS) == null) {
-            val followRequestsItem = primaryDrawerItem {
-                identifier = DRAWER_ITEM_FOLLOW_REQUESTS
-                nameRes = R.string.action_view_follow_requests
-                iconicsIcon = GoogleMaterial.Icon.gmd_person_add
-                onClick = {
-                    val intent = Intent(this@MainActivity, AccountListActivity::class.java)
-                    intent.putExtra("type", AccountListActivity.Type.FOLLOW_REQUESTS)
-                    startActivityWithSlideInAnimation(intent)
-                }
-            }
-            mainDrawer.addItemAtPosition(4, followRequestsItem)
-        } else if (!me.locked) {
-            mainDrawer.removeItems(DRAWER_ITEM_FOLLOW_REQUESTS)
-        }
+        accountLocked = me.locked
+
         updateProfiles()
         updateShortcut(this, accountManager.activeAccount!!)
     }
@@ -622,7 +618,6 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
     companion object {
         private const val TAG = "MainActivity" // logging tag
         private const val DRAWER_ITEM_ADD_ACCOUNT: Long = -13
-        private const val DRAWER_ITEM_FOLLOW_REQUESTS: Long = 10
         const val STATUS_URL = "statusUrl"
     }
 }
