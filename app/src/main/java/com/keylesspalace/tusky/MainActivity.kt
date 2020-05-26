@@ -33,6 +33,7 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.core.content.pm.ShortcutManagerCompat
+import androidx.core.view.forEach
 import androidx.emoji.text.EmojiCompat
 import androidx.emoji.text.EmojiCompat.InitCallback
 import androidx.lifecycle.Lifecycle
@@ -40,10 +41,6 @@ import androidx.preference.PreferenceManager
 import androidx.viewpager2.widget.MarginPageTransformer
 import com.bumptech.glide.Glide
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.android.material.tabs.TabLayout
-import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
-import com.google.android.material.tabs.TabLayoutMediator
-import com.google.android.material.tabs.TabLayoutMediator.TabConfigurationStrategy
 import com.keylesspalace.tusky.appstore.*
 import com.keylesspalace.tusky.components.compose.ComposeActivity
 import com.keylesspalace.tusky.components.compose.ComposeActivity.Companion.canHandleMimeType
@@ -53,13 +50,17 @@ import com.keylesspalace.tusky.components.scheduled.ScheduledTootActivity
 import com.keylesspalace.tusky.components.search.SearchActivity
 import com.keylesspalace.tusky.db.AccountEntity
 import com.keylesspalace.tusky.entity.Account
+import com.keylesspalace.tusky.fragment.NotificationsFragment
 import com.keylesspalace.tusky.fragment.SFragment
 import com.keylesspalace.tusky.interfaces.AccountSelectionListener
 import com.keylesspalace.tusky.interfaces.ActionButtonActivity
 import com.keylesspalace.tusky.interfaces.ReselectableFragment
 import com.keylesspalace.tusky.pager.MainPagerAdapter
 import com.keylesspalace.tusky.util.*
+import com.mikepenz.iconics.IconicsDrawable
 import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial
+import com.mikepenz.iconics.utils.colorInt
+import com.mikepenz.iconics.utils.sizeDp
 import com.mikepenz.materialdrawer.iconics.iconicsIcon
 import com.mikepenz.materialdrawer.model.*
 import com.mikepenz.materialdrawer.model.interfaces.*
@@ -165,31 +166,53 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
          * drawer, though, because its callback touches the header in the drawer. */
         fetchUserInfo()
 
+        mainToolbar.menu.apply {
+            add("Refresh")
+                    .setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER)
+            add("Search").apply {
+                setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM)
+                icon = IconicsDrawable(this@MainActivity, GoogleMaterial.Icon.gmd_search).apply {
+                    sizeDp = 20
+                    // TODO: hardcoded
+                    colorInt = ContextCompat.getColor(this@MainActivity, R.color.white)
+                }
+                setOnMenuItemClickListener {
+                    startActivity(SearchActivity.getIntent(this@MainActivity))
+                    true
+                }
+            }
+        }
+
+        // TODO: also a hack
+        mainToolbar.setTitle(R.string.title_home)
+        val clearNotificationsItem = mainToolbar.menu.add("Clear notifications")
+                .setVisible(false)
+        val filternotificationsItem = mainToolbar.menu.add("Filter")
+                .setVisible(false)
+
         setupTabs(showNotificationTab)
 
         val pageMargin = resources.getDimensionPixelSize(R.dimen.tab_page_margin)
         viewPager.setPageTransformer(MarginPageTransformer(pageMargin))
-
-        val uswSwipeForTabs = PreferenceManager.getDefaultSharedPreferences(this)
-                .getBoolean("enableSwipeForTabs", true)
-        viewPager.isUserInputEnabled = uswSwipeForTabs
-
-        tabLayout.addOnTabSelectedListener(object : OnTabSelectedListener {
-            override fun onTabSelected(tab: TabLayout.Tab) {
-                if (tab.position == notificationTabPosition) {
-                    NotificationHelper.clearNotificationsForActiveAccount(this@MainActivity, accountManager)
-                }
+        viewPager.isUserInputEnabled = false
+        bottomNav.setOnNavigationItemSelectedListener { item ->
+            viewPager.setCurrentItem(item.order, false)
+            mainToolbar.title = item.title
+            if (adapter?.getFragment(item.order) is NotificationsFragment) {
+                clearNotificationsItem.isVisible = true
+                filternotificationsItem.isVisible = true
+            } else {
+                clearNotificationsItem.isVisible = false
+                filternotificationsItem.isVisible = false
             }
-
-            override fun onTabUnselected(tab: TabLayout.Tab) {}
-
-            override fun onTabReselected(tab: TabLayout.Tab) {
-                val fragment = adapter?.getFragment(tab.position)
-                if (fragment is ReselectableFragment) {
-                    (fragment as ReselectableFragment).onReselect()
-                }
+            true
+        }
+        bottomNav.setOnNavigationItemReselectedListener { item ->
+            val fragment = adapter?.getFragment(item.order)
+            if (fragment is ReselectableFragment) {
+                (fragment as ReselectableFragment).onReselect()
             }
-        })
+        }
 
         // Setup push notifications
         if (NotificationHelper.areNotificationsEnabled(this, accountManager)) {
@@ -464,23 +487,16 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
         val tabs = accountManager.activeAccount!!.tabPreferences
         adapter = MainPagerAdapter(tabs, this)
         viewPager.adapter = adapter
-        TabLayoutMediator(tabLayout, viewPager, TabConfigurationStrategy { _: TabLayout.Tab?, _: Int -> }).attach()
-        tabLayout.removeAllTabs()
+
+        bottomNav.menu.forEach { bottomNav.menu.removeItem(it.itemId) }
         for (i in tabs.indices) {
-            val tab = tabLayout.newTab()
-                    .setIcon(tabs[i].icon)
-            if (tabs[i].id == LIST) {
-                tab.contentDescription = tabs[i].arguments[1]
+            val descr = if (tabs[i].id == LIST) {
+                tabs[i].arguments[1]
             } else {
-                tab.setContentDescription(tabs[i].text)
+                getString(tabs[i].text)
             }
-            tabLayout.addTab(tab)
-            if (tabs[i].id == NOTIFICATIONS) {
-                notificationTabPosition = i
-                if (selectNotificationTab) {
-                    tab.select()
-                }
-            }
+            bottomNav.menu.add(0, i, i, descr)
+                    .setIcon(tabs[i].icon)
         }
     }
 

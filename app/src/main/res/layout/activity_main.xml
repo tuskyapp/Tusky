@@ -13,6 +13,7 @@
         tools:context="com.keylesspalace.tusky.MainActivity">
 
         <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/appbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:elevation="@dimen/actionbar_elevation"
@@ -22,17 +23,8 @@
                 android:id="@+id/mainToolbar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:contentInsetStartWithNavigation="0dp">
-
-                <com.google.android.material.tabs.TabLayout
-                    android:id="@+id/tabLayout"
-                    style="@style/TuskyTabAppearance"
-                    android:layout_width="match_parent"
-                    android:layout_height="?attr/actionBarSize"
-                    app:tabGravity="fill"
-                    app:tabMaxWidth="0dp"
-                    app:tabMode="fixed"
-                    app:tabUnboundedRipple="false" />
+                app:contentInsetStartWithNavigation="0dp"
+                app:layout_scrollFlags="scroll|enterAlways">
 
             </androidx.appcompat.widget.Toolbar>
 
@@ -42,21 +34,30 @@
             android:id="@+id/viewPager"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@id/tabLayout"
+            android:layout_below="@id/appbar"
             android:background="?attr/windowBackgroundColor"
             app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
+        <!-- Positioned with hacks for now -->
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/composeButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="16dp"
+            android:layout_gravity="bottom|end"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginBottom="68dp"
             android:contentDescription="@string/action_compose"
-            app:layout_anchor="@id/viewPager"
-            app:layout_anchorGravity="bottom|end"
             app:srcCompat="@drawable/ic_create_24dp" />
 
         <include layout="@layout/item_status_bottom_sheet" />
+
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/bottomNav"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            app:labelVisibilityMode="unlabeled" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
