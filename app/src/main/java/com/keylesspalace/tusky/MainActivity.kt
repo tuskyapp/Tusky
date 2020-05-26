@@ -31,6 +31,7 @@ import android.view.View
 import android.widget.ImageView
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AlertDialog
+import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.content.ContextCompat
 import androidx.core.content.pm.ShortcutManagerCompat
 import androidx.emoji.text.EmojiCompat
@@ -89,8 +90,6 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
     private lateinit var drawerToggle: ActionBarDrawerToggle
 
     private var notificationTabPosition = 0
-
-    private var adapter: MainPagerAdapter? = null
 
     private val emojiInitCallback = object : InitCallback() {
         override fun onInitialized() {
@@ -167,29 +166,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
 
         setupTabs(showNotificationTab)
 
-        val pageMargin = resources.getDimensionPixelSize(R.dimen.tab_page_margin)
-        viewPager.setPageTransformer(MarginPageTransformer(pageMargin))
 
-        val uswSwipeForTabs = PreferenceManager.getDefaultSharedPreferences(this)
-                .getBoolean("enableSwipeForTabs", true)
-        viewPager.isUserInputEnabled = uswSwipeForTabs
-
-        tabLayout.addOnTabSelectedListener(object : OnTabSelectedListener {
-            override fun onTabSelected(tab: TabLayout.Tab) {
-                if (tab.position == notificationTabPosition) {
-                    NotificationHelper.clearNotificationsForActiveAccount(this@MainActivity, accountManager)
-                }
-            }
-
-            override fun onTabUnselected(tab: TabLayout.Tab) {}
-
-            override fun onTabReselected(tab: TabLayout.Tab) {
-                val fragment = adapter?.getFragment(tab.position)
-                if (fragment is ReselectableFragment) {
-                    (fragment as ReselectableFragment).onReselect()
-                }
-            }
-        })
 
         // Setup push notifications
         if (NotificationHelper.areNotificationsEnabled(this, accountManager)) {
@@ -461,20 +438,37 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
     }
 
     private fun setupTabs(selectNotificationTab: Boolean) {
+        val preferences = PreferenceManager.getDefaultSharedPreferences(this)
+
+        val activeTabLayout = if(preferences.getString("mainNavPosition", "top") == "bottom") {
+            val actionBarSize = ThemeUtils.getDimension(this, R.attr.actionBarSize)
+            val fabMargin = resources.getDimensionPixelSize(R.dimen.fabMargin)
+            (composeButton.layoutParams as CoordinatorLayout.LayoutParams).bottomMargin = actionBarSize + fabMargin
+            mainToolbar.hide()
+            bottomTabLayout
+        } else {
+            bottomNav.hide()
+            (viewPager.layoutParams as CoordinatorLayout.LayoutParams).bottomMargin = 0
+            (composeButton.layoutParams as CoordinatorLayout.LayoutParams).anchorId = R.id.viewPager
+            tabLayout
+        }
+
         val tabs = accountManager.activeAccount!!.tabPreferences
-        adapter = MainPagerAdapter(tabs, this)
+
+        val adapter = MainPagerAdapter(tabs, this)
         viewPager.adapter = adapter
-        TabLayoutMediator(tabLayout, viewPager, TabConfigurationStrategy { _: TabLayout.Tab?, _: Int -> }).attach()
-        tabLayout.removeAllTabs()
+        TabLayoutMediator(activeTabLayout, viewPager, TabConfigurationStrategy { _: TabLayout.Tab?, _: Int -> }).attach()
+        activeTabLayout.removeAllTabs()
         for (i in tabs.indices) {
-            val tab = tabLayout.newTab()
+            val tab = activeTabLayout.newTab()
                     .setIcon(tabs[i].icon)
             if (tabs[i].id == LIST) {
                 tab.contentDescription = tabs[i].arguments[1]
             } else {
                 tab.setContentDescription(tabs[i].text)
             }
-            tabLayout.addTab(tab)
+            activeTabLayout.addTab(tab)
+
             if (tabs[i].id == NOTIFICATIONS) {
                 notificationTabPosition = i
                 if (selectNotificationTab) {
@@ -482,6 +476,30 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
                 }
             }
         }
+
+        val pageMargin = resources.getDimensionPixelSize(R.dimen.tab_page_margin)
+        viewPager.setPageTransformer(MarginPageTransformer(pageMargin))
+
+        val uswSwipeForTabs = preferences.getBoolean("enableSwipeForTabs", true)
+        viewPager.isUserInputEnabled = uswSwipeForTabs
+
+        activeTabLayout.addOnTabSelectedListener(object : OnTabSelectedListener {
+            override fun onTabSelected(tab: TabLayout.Tab) {
+                if (tab.position == notificationTabPosition) {
+                    NotificationHelper.clearNotificationsForActiveAccount(this@MainActivity, accountManager)
+                }
+            }
+
+            override fun onTabUnselected(tab: TabLayout.Tab) {}
+
+            override fun onTabReselected(tab: TabLayout.Tab) {
+                val fragment = adapter.getFragment(tab.position)
+                if (fragment is ReselectableFragment) {
+                    (fragment as ReselectableFragment).onReselect()
+                }
+            }
+        })
+
     }
 
     private fun handleProfileClick(profile: IProfile, current: Boolean): Boolean {

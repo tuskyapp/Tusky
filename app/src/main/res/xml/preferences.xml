@@ -36,6 +36,14 @@
             android:summary="%s"
             android:title="@string/pref_status_text_size" />
 
+        <ListPreference
+            android:defaultValue="top"
+            android:entries="@array/pref_main_nav_position_options"
+            android:entryValues="@array/pref_main_nav_position_values"
+            android:key="mainNavPosition"
+            android:summary="%s"
+            android:title="@string/pref_main_nav_position" />
+
         <SwitchPreferenceCompat
             android:defaultValue="false"
             android:key="fabHide"

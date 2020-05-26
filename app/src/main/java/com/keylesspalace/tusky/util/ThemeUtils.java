@@ -16,6 +16,7 @@
 package com.keylesspalace.tusky.util;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
@@ -49,6 +50,13 @@ public class ThemeUtils {
         } else {
             return Color.BLACK;
         }
+    }
+
+    public static int getDimension(@NonNull Context context, @AttrRes int attribute) {
+        TypedArray array = context.obtainStyledAttributes(new int[] { attribute });
+        int dimen = array.getDimensionPixelSize(0, -1);
+        array.recycle();
+        return dimen;
     }
 
     /** this can be replaced with drawableTint in xml once minSdkVersion >= 23 */
