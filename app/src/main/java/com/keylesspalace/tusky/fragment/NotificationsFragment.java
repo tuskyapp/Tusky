@@ -288,7 +288,7 @@ public class NotificationsFragment extends SFragment implements
     private void updateFilterVisibility() {
         CoordinatorLayout.LayoutParams params =
                 (CoordinatorLayout.LayoutParams) swipeRefreshLayout.getLayoutParams();
-        if (showNotificationsFilter && !showingError && !notifications.isEmpty()) {
+        if (showNotificationsFilter && !showingError) {
             appBarOptions.setExpanded(true, false);
             appBarOptions.setVisibility(View.VISIBLE);
             //Set content behaviour to hide filter on scroll
