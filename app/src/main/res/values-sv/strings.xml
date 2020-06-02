@@ -470,4 +470,6 @@
     <string name="dialog_block_warning">Blockera @%s\?</string>
     <string name="action_unmute_conversation">Aktivera ljud på konversation</string>
     <string name="notification_follow_request_format">%s vill följa dig</string>
+    <string name="add_hashtag_title">Lägg till hashtag</string>
+    <string name="hashtags">Hashtaggar</string>
 </resources>
