@@ -32,7 +32,7 @@
     <string name="title_favourites">Favoritos</string>
     <string name="title_mutes">Usuários silenciados</string>
     <string name="title_blocks">Usuários bloqueados</string>
-    <string name="title_follow_requests">Solicitações de seguidor</string>
+    <string name="title_follow_requests">Seguidores pendentes</string>
     <string name="title_edit_profile">Editar seu perfil</string>
     <string name="title_saved_toot">Rascunhos</string>
     <string name="title_licenses">Licenças</string>
@@ -50,7 +50,7 @@
     <string name="report_comment_hint">Comentários adicionais?</string>
     <string name="action_quick_reply">Resposta rápida</string>
     <string name="action_reply">Responder</string>
-    <string name="action_reblog">Compartilhar</string>
+    <string name="action_reblog">Dar boost</string>
     <string name="action_unreblog">Desfazer boost</string>
     <string name="action_favourite">Favoritar</string>
     <string name="action_unfavourite">Desfavoritar</string>
@@ -76,7 +76,7 @@
     <string name="action_view_favourites">Favoritos</string>
     <string name="action_view_mutes">Usuários silenciados</string>
     <string name="action_view_blocks">Usuários bloqueados</string>
-    <string name="action_view_follow_requests">Solicitações de seguidor</string>
+    <string name="action_view_follow_requests">Seguidores pendentes</string>
     <string name="action_view_media">Mídia</string>
     <string name="action_open_in_web">Abrir no navegador</string>
     <string name="action_add_media">Adicionar mídia</string>
@@ -447,6 +447,22 @@
     <string name="no_scheduled_status">Sem toots agendados.</string>
     <string name="error_audio_upload_size">Áudios devem ser menores que 40MB.</string>
     <string name="no_saved_status">Sem rascunhos.</string>
-    <string name="warning_scheduling_interval">Mastodon possui um intervalo mínimo de agendamento de 5 minutos.</string>
-    <string name="notification_follow_request_name">Solicitações de seguidor</string>
+    <string name="warning_scheduling_interval">Mastodon possui um intervalo mínimo de 5 minutos para agendar.</string>
+    <string name="notification_follow_request_name">Seguidores pendentes</string>
+    <string name="notification_follow_request_format">%s quer te seguir</string>
+    <string name="action_mute_conversation">Silenciar conversa</string>
+    <string name="action_unmute_conversation">Desfazer silêncio</string>
+    <string name="dialog_block_warning">Bloquear @%s\?</string>
+    <string name="dialog_mute_warning">Silenciar @%s\?</string>
+    <string name="pref_title_notification_filter_follow_requests">pedirem para me seguir</string>
+    <string name="notification_follow_request_description">Notificações sobre seguidores pendentes</string>
+    <plurals name="poll_info_people">
+        <item quantity="one">%s pessoa</item>
+        <item quantity="other">%s pessoas</item>
+    </plurals>
+    <string name="pref_title_enable_swipe_for_tabs">Ativar deslizar para alternar entre abas</string>
+    <string name="pref_title_show_cards_in_timelines">Mostrar prévias de links nas linhas</string>
+    <string name="pref_title_confirm_reblogs">Solicitar confirmação antes de dar boost</string>
+    <string name="hashtags">Hashtags</string>
+    <string name="add_hashtag_title">Adicionar hashtag</string>
 </resources>
