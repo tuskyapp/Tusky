@@ -4,16 +4,16 @@
     <string name="error_empty">Això no pot estar buit.</string>
     <string name="error_invalid_domain">El domini introduït no és vàlid</string>
     <string name="error_failed_app_registration">L\'autenticació en aquesta instància ha fallat.</string>
-    <string name="error_no_web_browser_found">No s\'ha trobat cap navegador web per a usar.</string>
+    <string name="error_no_web_browser_found">No s\'ha trobat cap navegador web per a utilitzar.</string>
     <string name="error_authorization_unknown">S\'ha produït un error d\'autorització no identificat.</string>
     <string name="error_authorization_denied">S\'ha denegat l\'autorització.</string>
-    <string name="error_retrieving_oauth_token">L\'obtenció del testimoni d\'inici de sessió ha fallat.</string>
+    <string name="error_retrieving_oauth_token">L\'obtenció del token d\'inici de sessió ha fallat.</string>
     <string name="error_compose_character_limit">L\'estat és massa llarg!</string>
     <string name="error_image_upload_size">El fitxer ha de ser inferior a 8MB.</string>
     <string name="error_media_upload_type">Aquest tipus de fitxer no es pot pujar.</string>
     <string name="error_media_upload_opening">Aquest tipus de fitxer no es pot obrir.</string>
     <string name="error_media_upload_permission">Cal permís d\'accés al emmagatzematge.</string>
-    <string name="error_media_download_permission">Cal permís d\'escriptura en el mitjà.</string>
+    <string name="error_media_download_permission">Cal permís d\'escriptura en el dispositiu.</string>
     <string name="error_media_upload_image_or_video">No es poden adjuntar imatges i vídeos en el mateix estat.</string>
     <string name="error_media_upload_sending">La pujada ha fallat.</string>
     <string name="title_home">Inici</string>
@@ -202,15 +202,15 @@
     <string name="title_direct_messages">Missatges directes</string>
     <string name="message_empty">No hi ha res aquí.</string>
     <string name="action_unreblog">Elimina l\'impuls</string>
-    <string name="error_network">S\'ha produït un error de connexió! Comprova la connexió!</string>
-    <string name="error_video_upload_size">Els fitxers de vídeo han de tenir menys de 40 MB.</string>
+    <string name="error_network">S\'ha produït un error de connexió! Comprova la connexió i torna-ho a provar!</string>
+    <string name="error_video_upload_size">Els fitxers de vídeo han de pesar menys de 40 MB.</string>
     <string name="status_media_hidden_title">Multimèdia amagada</string>
     <string name="status_content_show_less">Amaga</string>
     <string name="action_logout_confirm">Estàs segur de tancar la sessió de %1$s\?</string>
     <string name="action_hide_reblogs">Amaga els impulsos</string>
     <string name="action_show_reblogs">Mostra els impulsos</string>
     <string name="action_delete_and_redraft">Elimina i reecririu</string>
-    <string name="action_open_drawer">Open drawer</string>
+    <string name="action_open_drawer">Calaix obert</string>
     <string name="action_toggle_visibility">Visibilitat del toot</string>
     <string name="action_content_warning">Contingut sensible</string>
     <string name="action_add_tab">Afegeix una pestanya</string>
@@ -226,7 +226,7 @@
     <string name="send_media_to">Compartir la imatge a …</string>
     <string name="status_sent">Enviat!</string>
     <string name="state_follow_requested">Petició de seguiment enviada</string>
-    <string name="title_statuses_with_replies">Amb resposta</string>
+    <string name="title_statuses_with_replies">Amb respostes</string>
     <string name="action_emoji_keyboard">Teclat d\'emojis</string>
     <string name="action_open_media_n">Obrir el media #%d</string>
     <string name="action_open_as">Obrir com %s</string>
@@ -351,7 +351,6 @@
     <string name="description_visiblity_private">Seguidors</string>
     <string name="description_visiblity_direct">Directe</string>
     <string name="hint_list_name">Nom de la llista</string>
-
     <string name="edit_hashtag_hint">Hashtag sense #</string>
     <string name="notifications_clear">Netejar</string>
     <string name="notifications_apply_filter">Filtrar</string>
@@ -445,8 +444,24 @@
     <string name="post_lookup_error_format">S\'ha produït un error en cercar la publicació %s</string>
     <string name="gradient_for_media">Mostra degradats de colors per a contingut multimèdia ocult</string>
     <string name="no_scheduled_status">No tens cap estat planificat.</string>
-    <string name="error_audio_upload_size">Els fitxers d\'àudio han de ser més petits de 40MB.</string>
+    <string name="error_audio_upload_size">Els fitxers d\'àudio han de ser més petits que 40MB.</string>
     <string name="no_saved_status">No tens cap esborrany.</string>
     <string name="warning_scheduling_interval">L\'interval mínim de planificació a Mastodon és de 5 minuts.</string>
     <string name="notification_follow_request_name">Peticions de seguiment</string>
+    <string name="pref_title_confirm_reblogs">Mostra el diàleg de confirmació abans de promoure</string>
+    <string name="pref_title_show_cards_in_timelines">Mostra les previsualitzacions dels enllaços en els fils</string>
+    <string name="pref_title_enable_swipe_for_tabs">Habilita el gest de desplaçament per despleçar-te entre pestanyes</string>
+    <plurals name="poll_info_people">
+        <item quantity="one">%s persona</item>
+        <item quantity="other">%s persones</item>
+    </plurals>
+    <string name="hashtags">Hashtags</string>
+    <string name="add_hashtag_title">Afegir hashtag</string>
+    <string name="notification_follow_request_description">Notificacions sobre sol·licituds de seguiment</string>
+    <string name="pref_title_notification_filter_follow_requests">sol·licitació de seguiment</string>
+    <string name="dialog_mute_warning">Silenciar @%s\?</string>
+    <string name="dialog_block_warning">Bloquejar @%s\?</string>
+    <string name="action_unmute_conversation">No silenciar la conversació</string>
+    <string name="action_mute_conversation">Conversació muda</string>
+    <string name="notification_follow_request_format">%s ha sol·licitat seguir-te</string>
 </resources>
