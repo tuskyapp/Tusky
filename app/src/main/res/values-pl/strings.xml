@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="error_generic">Wystąpił błąd.</string>
-    <string name="error_empty">To nie może pozostać puste.</string>
+    <string name="error_empty">To pole nie może być puste.</string>
     <string name="error_invalid_domain">Wprowadzono nieprawidłową domenę</string>
     <string name="error_failed_app_registration">Nie udało się uwierzytelnić z tą instancją.</string>
     <string name="error_no_web_browser_found">Nie znaleziono przeglądarki internetowej.</string>
@@ -293,7 +293,7 @@
     <string name="action_mute_domain">Wycisz %s</string>
     <string name="action_add_tab">Dodaj zakładkę</string>
     <string name="action_open_reblogger">Otwórz konto osoby podbijającej</string>
-    <string name="action_open_reblogged_by">Pokazuj podbicia</string>
+    <string name="action_open_reblogged_by">Pokaż podbicia</string>
     <string name="action_open_media_n">Otwórz media #%d</string>
     <string name="download_media">Pobierz media</string>
     <string name="downloading_media">Pobieranie mediów</string>
@@ -368,7 +368,7 @@
     <string name="description_status_reblogged">Podbity</string>
     <string name="description_status_favourited">Polubiony</string>
     <string name="description_visiblity_public">Publiczny</string>
-    <string name="description_visiblity_unlisted">Niewidoczny</string>
+    <string name="description_visiblity_unlisted">Niewidoczne</string>
     <string name="description_visiblity_private">Śledzący</string>
     <string name="description_visiblity_direct">Bezpośrednio</string>
     <string name="description_poll">Głosowanie z opcjami: %1$s, %2$s, %3$s, %4$s; %5$s</string>
@@ -457,4 +457,10 @@
     <string name="no_scheduled_status">Nie masz żadnych zaplanowanych wpisów.</string>
     <string name="warning_scheduling_interval">Mastodon umożliwia wysłanie minimalnie 5 minut od zaplanowania</string>
     <string name="notification_follow_request_name">Prośby o możliwość śledzenia</string>
+    <string name="pref_title_confirm_reblogs">Pytaj o potwierdzenie przed podbiciem</string>
+    <string name="add_hashtag_title">Dodaj hashtag</string>
+    <string name="dialog_mute_warning">Wyciszyć @%s\?</string>
+    <string name="dialog_block_warning">Zablokować @%s\?</string>
+    <string name="action_unmute_conversation">Cofnij wyciszenie rozmowy</string>
+    <string name="action_mute_conversation">Wycisz rozmowę</string>
 </resources>

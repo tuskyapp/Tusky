@@ -9,8 +9,8 @@
     <string name="action_edit_profile">Ẓreg amaɣnu</string>
     <string name="action_search">Nadi</string>
     <string name="about_title_activity">Ɣef</string>
-    <string name="action_lists">Umuɣen</string>
-    <string name="title_lists">Umuɣen</string>
+    <string name="action_lists">Tabdart</string>
+    <string name="title_lists">Tabdarin</string>
     <string name="error_compose_character_limit">Tijewwiqt-ik aṭas i ɣuzzifet!</string>
     <string name="title_home">Agejdan</string>
     <string name="title_tab_preferences">Iccaren</string>
@@ -123,16 +123,16 @@
     <string name="status_share_link">Bḍu aseɣwen ɣer tijewwiqt</string>
     <string name="filter_addition_dialog_title">Rnu amsizdeg</string>
     <string name="filter_edit_dialog_title">Ẓreg amsizdeg</string>
-    <string name="action_create_list">Snulfu-d umuɣ</string>
-    <string name="action_rename_list">Snifel isem n wumuɣ</string>
-    <string name="action_delete_list">Kkes umuɣ-a</string>
-    <string name="action_edit_list">Ẓreg umuɣ-a</string>
-    <string name="action_add_to_list">Rnu yiwen umiḍan ɣer wummuɣ</string>
-    <string name="action_remove_from_list">Kkes amiḍan seg wumuɣ</string>
+    <string name="action_create_list">Snulfu-d tabdart</string>
+    <string name="action_rename_list">Snifel isem n tabdart</string>
+    <string name="action_delete_list">Kkes tabdart-a</string>
+    <string name="action_edit_list">Ẓreg tabdart-a</string>
+    <string name="action_add_to_list">Rnu yiwen umiḍan ɣer tabdart</string>
+    <string name="action_remove_from_list">Kkes amiḍan seg tabdart</string>
     <string name="profile_metadata_add">Rnu isefka</string>
-    <string name="hint_list_name">Isem n wumuɣ</string>
+    <string name="hint_list_name">Isem n tebdart</string>
     <string name="select_list_title">Fren tabdart</string>
-    <string name="list">Umuɣ</string>
+    <string name="list">Tabdart</string>
     <string name="notifications_apply_filter">Sizdeg</string>
     <string name="title_accounts">Imiḍanen</string>
     <string name="add_poll_choice">Rnu yiwen wefran</string>
@@ -207,7 +207,7 @@
     <string name="poll_new_choice_hint">Tafrant %d</string>
     <string name="title_follows">Ig ṭafaṛ</string>
     <string name="title_followers">Imeḍfaṛen</string>
-    <string name="hint_search_people_list">Nadi ɣef medden i teṭafareḍ</string>
+    <string name="hint_search_people_list">Nadi ɣef medden ar at ḍfereḍ</string>
     <string name="description_visiblity_private">Imeḍfaṛen</string>
     <string name="action_links">Iseɣwan</string>
     <string name="action_mentions">Tibdarin</string>
@@ -263,4 +263,8 @@
     <string name="action_block">Cekkel</string>
     <string name="action_unblock">Kkes tacekkalt</string>
     <string name="confirmation_unblocked">Tettwakkes tacekkalt ɣef umiḍan-nni</string>
+    <plurals name="poll_info_people">
+        <item quantity="one">%s n wemdan</item>
+        <item quantity="other">%s n yemdanen</item>
+    </plurals>
 </resources>

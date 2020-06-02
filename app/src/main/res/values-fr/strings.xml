@@ -69,7 +69,7 @@
     <string name="action_unfollow">Ne plus suivre</string>
     <string name="action_block">Bloquer</string>
     <string name="action_unblock">Débloquer</string>
-    <string name="action_hide_reblogs">Cacher les boosts</string>
+    <string name="action_hide_reblogs">Cacher les partages</string>
     <string name="action_show_reblogs">Montrer les boosts</string>
     <string name="action_report">Signaler</string>
     <string name="action_delete">Supprimer</string>
@@ -369,7 +369,7 @@
     <string name="compose_shortcut_long_label">Rédiger un pouet</string>
     <string name="compose_shortcut_short_label">Écrire</string>
     <string name="pref_title_bot_overlay">Afficher l\'indicateur de robots</string>
-    <string name="notification_clear_text">"Nettoyer toutes les notifications de façon permanente\? "</string>
+    <string name="notification_clear_text">Désirez-vous nettoyer toutes vos notifications de façon permanente \?</string>
     <string name="action_delete_and_redraft">Effacer et ré-écrire</string>
     <string name="dialog_redraft_toot_warning">Effacer et ré-écrire ce pouet \?</string>
     <plurals name="poll_info_votes">
@@ -449,7 +449,7 @@
     <string name="post_lookup_error_format">Erreur lors de la récupération du message %s</string>
     <string name="about_powered_by_tusky">Propulsé par Tusky</string>
     <string name="title_bookmarks">Signets</string>
-    <string name="action_bookmark">Marquer comme signet</string>
+    <string name="action_bookmark">Ajouter aux marque-pages</string>
     <string name="action_view_bookmarks">Marque-pages</string>
     <string name="description_status_bookmarked">Ajouté aux marque-pages</string>
     <string name="select_list_title">Sélectionner la liste</string>
@@ -474,4 +474,6 @@
     <string name="action_unmute_conversation">Enlever la sourdine à la conversation</string>
     <string name="action_mute_conversation">Silencer la conversation</string>
     <string name="pref_title_enable_swipe_for_tabs">Activer les gestes de glissement pour passer d’un onglet à l’autre</string>
+    <string name="hashtags">Hashtags</string>
+    <string name="add_hashtag_title">Ajouter hashtag</string>
 </resources>

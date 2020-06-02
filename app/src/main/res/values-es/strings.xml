@@ -402,7 +402,7 @@
     <string name="mute_domain_warning_dialog_ok">Ocultar dominio completo</string>
     <string name="pref_title_animate_gif_avatars">Animar avatares GIF</string>
     <string name="filter_dialog_whole_word">Toda palabra</string>
-    <string name="filter_dialog_whole_word_description">Cuando la palabra o frase sea solo alfanumérica, solo se aplicará si coincide con toda la palabra.</string>
+    <string name="filter_dialog_whole_word_description">Cuando la palabra o frase sea solo alfanumérica, solo se aplicará si coincide con toda la palabra</string>
     <string name="caption_notoemoji">Set de emojis actual de Google</string>
     <string name="description_poll">Encuesta con opciones: %1$s, %2$s, %3$s, %4$s; %5$s</string>
     <string name="button_continue">Continuar</string>
@@ -451,4 +451,9 @@
     <string name="no_scheduled_status">No tienes ningún estado programado.</string>
     <string name="warning_scheduling_interval">Mastodon tiene un intervalo de programación mínimo de 5 minutos.</string>
     <string name="notification_follow_request_name">Solicitudes</string>
+    <string name="dialog_block_warning">Bloquear @%s\?</string>
+    <string name="dialog_mute_warning">Silenciar @%s\?</string>
+    <string name="action_mute_conversation">Silenciar conversación</string>
+    <string name="action_unmute_conversation">Dejar de silenciar conversación</string>
+    <string name="notification_follow_request_description">Notificaciones de solicitudes</string>
 </resources>

@@ -114,7 +114,7 @@
     <string name="action_mentions">멘션</string>
     <string name="action_hashtags">해시태그</string>
     <string name="action_open_reblogger">부스트한 유저의 프로필로 이동</string>
-    <string name="action_open_reblogged_by">부스트 보이기</string>
+    <string name="action_open_reblogged_by">이 유저의 부스트 보이기</string>
     <string name="action_open_faved_by">즐겨찾기한 유저 보이기</string>
     <string name="title_hashtags_dialog">해시태그</string>
     <string name="title_mentions_dialog">멘션</string>
@@ -132,7 +132,7 @@
     <string name="confirmation_unblocked">차단이 해제됨</string>
     <string name="confirmation_unmuted">뮤트가 해제됨</string>
     <string name="confirmation_domain_unmuted">%s 숨김 해제됨</string>
-    <string name="status_sent">보냈습니다!</string>
+    <string name="status_sent">신고를 보냈습니다!</string>
     <string name="status_sent_long">답장을 보냈습니다.</string>
     <string name="hint_domain">인스턴스 주소</string>
     <string name="hint_compose">지금 무엇을 하고 있나요\?</string>
@@ -240,7 +240,7 @@
     <string name="notification_mention_format">%s님이 당신을 멘션했습니다</string>
     <string name="notification_summary_large">%1$s님, %2$s님, %3$s님 외 %4$d명</string>
     <string name="notification_summary_medium">%1$s님, %2$s님, %3$s님</string>
-    <string name="notification_summary_small">%1$s, %2$s</string>
+    <string name="notification_summary_small">%1$s님, %2$s님</string>
     <string name="notification_title_summary">%d개의 새로운 알림이 있습니다</string>
     <string name="description_account_locked">계정 잠김</string>
     <string name="about_title_activity">이 앱에 관하여</string>
@@ -371,7 +371,7 @@
     <string name="description_visiblity_unlisted">타임라인에 비표시</string>
     <string name="description_visiblity_private">비공개</string>
     <string name="description_visiblity_direct">다이렉트</string>
-    <string name="description_poll">투표: %1$s, %2$s, %3$s, %4$s; %5$s</string>
+    <string name="description_poll">투표 선택지: %1$s, %2$s, %3$s, %4$s, %5$s</string>
     <string name="hint_list_name">리스트 이름</string>
     <string name="edit_hashtag_hint">#를 제외한 해시태그</string>
     <string name="notifications_clear">알림 지우기</string>

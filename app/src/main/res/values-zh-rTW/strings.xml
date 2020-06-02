@@ -20,7 +20,7 @@
     <string name="error_media_upload_sending">媒體檔案上傳失敗</string>
     <string name="error_sender_account_gone">嘟文發送時出錯</string>
     <string name="title_home">主頁</string>
-    <string name="title_notifications">通知</string>
+    <string name="title_notifications">通知設定</string>
     <string name="title_public_local">本站時間軸</string>
     <string name="title_public_federated">跨站公開時間軸</string>
     <string name="title_direct_messages">私信</string>
@@ -30,7 +30,7 @@
     <string name="title_statuses_with_replies">嘟文和回覆</string>
     <string name="title_statuses_pinned">已置頂</string>
     <string name="title_follows">正在關注</string>
-    <string name="title_followers">僅關注者</string>
+    <string name="title_followers">關注者</string>
     <string name="title_favourites">我的收藏</string>
     <string name="title_mutes">被靜音的使用者</string>
     <string name="title_blocks">被封鎖的使用者</string>
@@ -104,7 +104,7 @@
     <string name="action_search">搜尋</string>
     <string name="action_access_saved_toot">草稿</string>
     <string name="action_toggle_visibility">設定嘟文可見範圍</string>
-    <string name="action_content_warning">設定敏感內容警告</string>
+    <string name="action_content_warning">敏感內容警告</string>
     <string name="action_emoji_keyboard">插入表情符號</string>
     <string name="action_add_tab">新增標籤頁</string>
     <string name="action_links">連結</string>

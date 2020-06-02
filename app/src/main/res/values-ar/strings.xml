@@ -211,7 +211,7 @@
     <string name="notification_favourite_name">المفضلة</string>
     <string name="notification_favourite_description">الإشعار عندما يقوم أحدهم بإضافة تبويقاتك إلى مفضلاته</string>
     <string name="notification_mention_format">%s أشار إليك</string>
-    <string name="notification_summary_large">%1$s, %2$s, %3$s و %4$d أخرى</string>
+    <string name="notification_summary_large">%1$s, %2$s, %3$s و %4$d آخرون</string>
     <string name="notification_summary_medium">%1$s, %2$s, و %3$s</string>
     <string name="notification_summary_small">%1$s و %2$s</string>
     <string name="notification_title_summary">%d تفاعلات جديدة</string>
@@ -492,4 +492,6 @@
     <string name="action_unmute_conversation">ألغِ كتم المحادثة</string>
     <string name="action_mute_conversation">اكتم المحادثة</string>
     <string name="notification_follow_request_format">%s طلبَ متابعتك</string>
+    <string name="hashtags">الوسوم</string>
+    <string name="add_hashtag_title">إضافة وسم</string>
 </resources>

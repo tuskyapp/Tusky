@@ -108,4 +108,6 @@
     <string name="hint_content_warning">Попередження про контент</string>
     <string name="edit_poll">Змінити</string>
     <string name="compose_shortcut_short_label">Написати</string>
+    <string name="action_unmute_conversation">Скасувати приглушення бесіди</string>
+    <string name="action_mute_conversation">Приглушити бесіду</string>
 </resources>

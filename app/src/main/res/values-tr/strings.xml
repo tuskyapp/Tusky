@@ -184,7 +184,7 @@
     <string name="post_privacy_unlisted">Liste dışı</string>
     <string name="post_privacy_followers_only">Sadece takipçiler</string>
     <string name="pref_status_text_size">Durum metin boyutu</string>
-    <string name="status_text_size_smallest">En küçük</string>
+    <string name="status_text_size_smallest">Çok küçük</string>
     <string name="status_text_size_small">Küçük</string>
     <string name="status_text_size_medium">Orta</string>
     <string name="status_text_size_large">Büyük</string>
@@ -392,7 +392,7 @@
     <string name="hint_additional_info">Ek Yorumlar</string>
     <string name="report_remote_instance">%s adresine ilet</string>
     <string name="failed_fetch_statuses">Durumlar getirilemedi</string>
-    <string name="report_description_1">"Bildirim sunucu yöneticinize gönderilecektir.  Bu hesabı neden bildirdiğinle ilgili açıklama yapabilirsin:"</string>
+    <string name="report_description_1">"Bildirim sunucu yöneticinize gönderilecektir.  Bu hesabı neden bildirdiğinizle ilgili açıklama yapabilirsiniz:"</string>
     <string name="report_description_remote_instance">Hesap başka bir sunucudan. Raporun anonim bir kopyasını da oraya gönderilsin mi\?</string>
     <string name="pref_title_show_notifications_filter">Bildirim filtresini göster</string>
     <string name="action_mentions">Bahsedenler</string>
