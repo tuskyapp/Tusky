@@ -69,7 +69,7 @@
     <string name="action_unfollow">Ne plus suivre</string>
     <string name="action_block">Bloquer</string>
     <string name="action_unblock">Débloquer</string>
-    <string name="action_hide_reblogs">Cacher les boosts</string>
+    <string name="action_hide_reblogs">Cacher les partages</string>
     <string name="action_show_reblogs">Montrer les boosts</string>
     <string name="action_report">Signaler</string>
     <string name="action_delete">Supprimer</string>
@@ -449,7 +449,7 @@
     <string name="post_lookup_error_format">Erreur lors de la récupération du message %s</string>
     <string name="about_powered_by_tusky">Propulsé par Tusky</string>
     <string name="title_bookmarks">Signets</string>
-    <string name="action_bookmark">Marquer comme signet</string>
+    <string name="action_bookmark">Ajouter aux marque-pages</string>
     <string name="action_view_bookmarks">Marque-pages</string>
     <string name="description_status_bookmarked">Ajouté aux marque-pages</string>
     <string name="select_list_title">Sélectionner la liste</string>

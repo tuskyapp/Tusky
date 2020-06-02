@@ -340,8 +340,8 @@
     <string name="dialog_redraft_toot_warning">Vil du slette dette tottet og skrive det på nytt\?</string>
     <string name="poll_info_format"> <!-- 15 votes • 1 hour left --> %1$s • %2$s</string>
     <plurals name="poll_info_votes">
-        <item quantity="one"></item>
-        <item quantity="other"></item>
+        <item quantity="one"/>
+        <item quantity="other"/>
     </plurals>
     <string name="poll_info_time_relative">%s igjen</string>
     <string name="poll_info_time_absolute">avsluttes %s</string>
@@ -442,8 +442,8 @@
     <string name="pref_title_confirm_reblogs">Vis bekreftelsesdialog før boosting</string>
     <string name="pref_title_enable_swipe_for_tabs">Skru på sveiping for å bytte mellom faner</string>
     <plurals name="poll_info_people">
-        <item quantity="one">%s person</item>
-        <item quantity="other">%s personer</item>
+        <item quantity="one"></item>
+        <item quantity="other"></item>
     </plurals>
     <string name="notification_follow_request_description">Varsler om følgeforespørsler</string>
     <string name="notification_follow_request_name">Forespørsler om følging</string>

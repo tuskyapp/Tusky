@@ -101,7 +101,7 @@
     <string name="action_add_tab">Adicionar aba</string>
     <string name="action_links">Links</string>
     <string name="action_mentions">Menções</string>
-    <string name="action_open_reblogged_by">Mostrar boosts</string>
+    <string name="action_open_reblogged_by">Mostrar compartilhamentos</string>
     <string name="action_open_faved_by">Mostrar favoritos</string>
     <string name="title_mentions_dialog">Menções</string>
     <string name="title_links_dialog">Links</string>

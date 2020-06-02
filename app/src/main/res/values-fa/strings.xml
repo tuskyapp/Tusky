@@ -26,7 +26,7 @@
     <string name="title_statuses">پست‌ها</string>
     <string name="title_statuses_with_replies">با پاسخ‌</string>
     <string name="title_follows">دنبال شونده‌ها</string>
-    <string name="title_followers">پی‌گیر</string>
+    <string name="title_followers">پیروان</string>
     <string name="title_favourites">علاقه‌مندی‌ها</string>
     <string name="title_mutes">کاربرهای بی‌صدا</string>
     <string name="title_blocks">کاربرهای مسدود شده</string>
@@ -195,9 +195,7 @@
     <string name="notification_title_summary">%d برهم‌کنش جدید</string>
     <string name="description_account_locked">حساب قفل‌شده</string>
     <string name="about_title_activity">درباره</string>
-    <string name="about_tusky_license">Tusky یک برنامه آزاد و متن‌باز است که تحت مجوز GNU General Public License Version 3. منتشر شده است.
-\n شما می‌توانید مجوز را از اینجا ببینید:
-\n https://www.gnu.org/licenses/gpl-3.0.en.html</string>
+    <string name="about_tusky_license">تاسکی نرم‌افزاری آزاد است که تحت نگارش ۳ از پروانهٔ جامع همگانی گنو منتشر شده است. پروانه را می‌توانید از این‌جا ببینید: https://www.gnu.org/licenses/gpl-3.0.en.html</string>
     <!-- note to translators:
          * you should think of “free” as in “free speech,” not as in “free beer”.
            We sometimes call it “libre software,” borrowing the French or Spanish word for “free” as in freedom,
@@ -226,7 +224,7 @@
     <string name="replying_to">در حال پاسخ به @%s</string>
     <string name="load_more_placeholder_text">بارگیری بیش‌تر</string>
     <string name="add_account_name">افزودن حساب</string>
-    <string name="add_account_description">افزودن حساب ماستودون جدید</string>
+    <string name="add_account_description">افزودن حساب جدید ماستودون</string>
     <string name="action_lists">لیست‌ها</string>
     <string name="title_lists">فهرست‌ها</string>
     <string name="title_list_timeline">خط زمانی فهرست</string>
@@ -237,7 +235,7 @@
     <string name="action_remove">برداشتن</string>
     <string name="lock_account_label">قفل حساب</string>
     <string name="lock_account_label_description">نیاز دارد پی‌گیرانتان را به صورت دستی تأیید کنید</string>
-    <string name="compose_save_draft">ذخیره به عنوان پیش‌نویس</string>
+    <string name="compose_save_draft">ذخیرهٔ پیش‌نویس؟</string>
     <string name="send_toot_notification_title">در حال فرستادن بوق…</string>
     <string name="send_toot_notification_error_title">خطای فرستادن بوق</string>
     <string name="send_toot_notification_channel_name">در حال فرستادن بوق‌ها</string>
@@ -431,7 +429,7 @@
     <string name="filter_dialog_whole_word_description">هنگامی که کلیدواژه یا عبارت، فقط حروف‌عددی باشد، فقط اگر با تمام واژه مطابق باشد، اعمال خواهد شد</string>
     <string name="filter_add_description">عبارت پالایش</string>
     <string name="poll_info_format"> <!-- 15 votes • 1 hour left --> %1$s • %2$s</string>
-    <string name="report_description_1">گزارش به ناظم‌های کارسازتان ارسال خواهد شد. می‌توانید توضیحی در باب چرایی گزارش این حساب در زیر بنویسید:</string>
+    <string name="report_description_1">گزارش به ناظر کارسازتان ارسال خواهد شد. می‌توانید توضیحی در باب چرایی گزارش این حساب در زیر بنویسید:</string>
     <string name="report_description_remote_instance">این حساب از کارسازی دیگر است. رونوشتی ناشناس از گزارش، به آن‌جا نیز ارسال شود؟</string>
     <string name="post_lookup_error_format">خطا در یافتن فرستهٔ %s</string>
     <string name="about_powered_by_tusky">قدرت‌گرفته از تاسکی</string>

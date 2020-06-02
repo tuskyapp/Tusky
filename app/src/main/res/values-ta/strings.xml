@@ -123,7 +123,7 @@
     <string name="visibility_unlisted">அனைவருக்கும் காட்டாதே</string>
     <string name="visibility_private">பின்பற்றுபவர்களுக்கு மட்டும் காண்பி</string>
     <string name="visibility_direct">குறிபிடபட்டுள்ள பயனர்களுக்கு மட்டும் காண்பி</string>
-    <string name="pref_title_edit_notification_settings">அறிவிப்புகளை திருத்த</string>
+    <string name="pref_title_edit_notification_settings">அறிவிப்புகள்</string>
     <string name="pref_title_notifications_enabled">அறிவிப்புகள்</string>
     <string name="pref_title_notification_alerts">எச்சரிக்கைகள்</string>
     <string name="pref_title_notification_alert_sound">ஒலி மூலம் தெரிவிக்கவும்</string>
@@ -259,7 +259,7 @@
     <string name="unpin_action">விடுவி</string>
     <string name="pin_action">பொருத்து</string>
     <string name="action_view_account_preferences">கணக்கரின் முன்னுரிமைகள்</string>
-    <string name="error_network">பிணைய பிழை ஏற்பட்டது! உங்கள் இணைப்பைச் சரிபார்த்து மீண்டும் முயற்சிக்கவும்!</string>
+    <string name="error_network">"பிணைய பிழை ஏற்பட்டது!  உங்கள் இணைப்பைச் சரிபார்த்து மீண்டும் முயற்சிக்கவும்!"</string>
     <string name="error_video_upload_size">காணொளி 40MB க்கும் குறைவாக இருக்க வேண்டும்.</string>
     <string name="error_sender_account_gone">டூத் அனுப்ப இயலவில்லை</string>
     <string name="title_direct_messages">நேரடி தகவல்</string>
