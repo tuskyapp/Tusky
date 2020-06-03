@@ -76,7 +76,7 @@
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@id/status_avatar"
         app:layout_constraintEnd_toEndOf="@id/status_avatar"
-        tools:src="@color/accent"
+        tools:src="#000"
         tools:visibility="visible" />
 
     <androidx.emoji.widget.EmojiTextView
@@ -303,11 +303,11 @@
             android:alpha="0.7"
             android:contentDescription="@null"
             android:padding="@dimen/status_sensitive_media_button_padding"
-            android:tint="@color/white"
             android:visibility="gone"
             app:layout_constraintLeft_toLeftOf="@+id/status_media_preview_container"
             app:layout_constraintTop_toTopOf="@+id/status_media_preview_container"
-            app:srcCompat="@drawable/ic_eye_24dp" />
+            app:srcCompat="@drawable/ic_eye_24dp"
+            app:tint="@color/white" />
 
         <TextView
             android:id="@+id/status_sensitive_media_warning"
