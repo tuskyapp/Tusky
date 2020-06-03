@@ -17,12 +17,12 @@
 # keep setters in Views so that animations can still work.
 # see http://proguard.sourceforge.net/manual/examples.html#beans
 -keepclassmembers public class * extends android.view.View {
-   void set*(***);
-   *** get*();
+    void set*(***);
+    *** get*();
 }
 # We want to keep methods in Activity that could be used in the XML attribute onClick
 -keepclassmembers class * extends android.app.Activity {
-   public void *(android.view.View);
+    public void *(android.view.View);
 }
 # For enumeration classes, see http://proguard.sourceforge.net/manual/examples.html#enumerations
 -keepclassmembers enum * {
@@ -30,42 +30,18 @@
     public static ** valueOf(java.lang.String);
 }
 -keepclassmembers class * implements android.os.Parcelable {
-  public static final android.os.Parcelable$Creator CREATOR;
-}
--keepclassmembers class **.R$* {
-    public static <fields>;
+    public static final ** CREATOR;
 }
 
 # TUSKY SPECIFIC OPTIONS
 
-## for okhttp
--dontwarn javax.annotation.**
--keepnames class okhttp3.internal.publicsuffix.PublicSuffixDatabase
--dontwarn org.codehaus.mojo.animal_sniffer.*
--dontwarn okhttp3.internal.platform.ConscryptPlatform
-
-##for keep
--dontwarn android.arch.util.paging.CountedDataSource
--dontwarn android.arch.persistence.room.paging.LimitOffsetDataSource
-
-## for retrofit
--dontwarn retrofit2.**
--keep class retrofit2.** { *; }
--keepattributes Signature
--keepattributes Exceptions
--keepattributes *Annotation*
-
--keepclasseswithmembers class * {
-    @retrofit2.http.* <methods>;
-}
-
--keep class com.keylesspalace.tusky.entity.** { *; }
+# keep members of our model classes, they are used in json de/serialization
+-keepclassmembers class com.keylesspalace.tusky.entity.* { *; }
 
 -keep public enum com.keylesspalace.tusky.entity.*$** {
     **[] $VALUES;
     public *;
 }
-
 
 # preserve line numbers for crash reporting
 -keepattributes SourceFile,LineNumberTable
@@ -87,17 +63,7 @@
     static void throwUninitializedPropertyAccessException(java.lang.String);
 }
 
--dontwarn com.google.errorprone.annotations.*
-
 # without this emoji font downloading fails with AbstractMethodError
 -keep class * extends android.os.AsyncTask {
     public *;
-}
-
-# Glide
--keep public class * implements com.bumptech.glide.module.GlideModule
--keep public class * extends com.bumptech.glide.module.AppGlideModule
--keep public enum com.bumptech.glide.load.ImageHeaderParser$** {
-  **[] $VALUES;
-  public *;
 }
