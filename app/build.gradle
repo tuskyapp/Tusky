@@ -100,7 +100,7 @@ ext.roomVersion = '2.2.5'
 ext.retrofitVersion = '2.9.0'
 ext.okhttpVersion = '4.7.2'
 ext.glideVersion = '4.11.0'
-ext.daggerVersion = '2.28'
+ext.daggerVersion = '2.27'
 ext.materialdrawerVersion = '8.0.3'
 
 // if libraries are changed here, they should also be changed in LicenseActivity
