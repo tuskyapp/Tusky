@@ -125,12 +125,12 @@
                         android:layout_height="16sp"
                         android:layout_marginStart="4dp"
                         android:contentDescription="@string/description_account_locked"
-                        android:tint="?android:textColorSecondary"
                         android:visibility="gone"
                         app:layout_constraintBottom_toBottomOf="@+id/accountUsernameTextView"
                         app:layout_constraintStart_toEndOf="@+id/accountUsernameTextView"
                         app:layout_constraintTop_toTopOf="@+id/accountUsernameTextView"
                         app:srcCompat="@drawable/ic_reblog_private_24dp"
+                        app:tint="?android:textColorSecondary"
                         tools:visibility="visible" />
 
                     <TextView
