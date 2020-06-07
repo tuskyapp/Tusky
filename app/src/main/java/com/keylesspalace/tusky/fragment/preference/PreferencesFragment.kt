@@ -28,10 +28,6 @@ import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial
 import com.mikepenz.iconics.utils.colorInt
 import com.mikepenz.iconics.utils.sizePx
 
-fun PreferenceFragmentCompat.requirePreference(key: String): Preference {
-    return findPreference(key)!!
-}
-
 class PreferencesFragment : PreferenceFragmentCompat() {
 
     private val iconSize by lazy { resources.getDimensionPixelSize(R.dimen.preference_icon_size) }

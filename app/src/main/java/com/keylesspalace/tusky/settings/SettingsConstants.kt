@@ -35,7 +35,6 @@ object PrefKeys {
     const val HTTP_PROXY_SERVER = "httpProxyServer"
     const val HTTP_PROXY_PORT = "httpProxyPort"
 
-
     const val DEFAULT_POST_PRIVACY = "defaultPostPrivacy"
     const val DEFAULT_MEDIA_SENSITIVITY = "defaultMediaSensitivity"
     const val MEDIA_PREVIEW_ENABLED = "mediaPreviewEnabled"
