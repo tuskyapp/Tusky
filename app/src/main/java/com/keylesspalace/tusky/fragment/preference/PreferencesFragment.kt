@@ -35,7 +35,7 @@ class PreferencesFragment : PreferenceFragmentCompat() {
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         val context = requireContext()
-        preferenceScreen = makePreferenceScreen(this) {
+        makePreferenceScreen {
             preferenceCategory(R.string.pref_title_appearance_settings) {
                 listPreference {
                     setDefaultValue(AppTheme.NIGHT.value)

@@ -56,7 +56,7 @@ class AccountPreferencesFragment : PreferenceFragmentCompat(), Injectable {
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         val context = requireContext()
-        preferenceScreen = makePreferenceScreen(this) {
+        makePreferenceScreen {
             preference {
                 setTitle(R.string.pref_title_edit_notification_settings)
                 icon = IconicsDrawable(context, GoogleMaterial.Icon.gmd_notifications).apply {

@@ -28,7 +28,7 @@ class ProxyPreferencesFragment : PreferenceFragmentCompat() {
     private var pendingRestart = false
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
-        preferenceScreen = makePreferenceScreen(this) {
+        makePreferenceScreen {
             switchPreference {
                 setTitle(R.string.pref_title_http_proxy_enable)
                 isIconSpaceReserved = false

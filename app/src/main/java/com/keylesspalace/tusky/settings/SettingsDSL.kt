@@ -11,44 +11,50 @@ class PreferenceParent(
 )
 
 inline fun PreferenceParent.preference(builder: Preference.() -> Unit): Preference {
-    val pref = Preference(context).also(builder)
+    val pref = Preference(context)
     addPref(pref)
+    builder(pref)
     return pref
 }
 
 inline fun PreferenceParent.listPreference(builder: ListPreference.() -> Unit): ListPreference {
-    val pref = ListPreference(context).also(builder)
+    val pref = ListPreference(context)
     addPref(pref)
+    builder(pref)
     return pref
 }
 
 inline fun PreferenceParent.emojiPreference(builder: EmojiPreference.() -> Unit): EmojiPreference {
-    val pref = EmojiPreference(context).also(builder)
+    val pref = EmojiPreference(context)
     addPref(pref)
+    builder(pref)
     return pref
 }
 
 inline fun PreferenceParent.switchPreference(
         builder: SwitchPreference.() -> Unit
 ): SwitchPreference {
-    val pref = SwitchPreference(context).also(builder)
+    val pref = SwitchPreference(context)
     addPref(pref)
+    builder(pref)
     return pref
 }
 
 inline fun PreferenceParent.editTextPreference(
         builder: EditTextPreference.() -> Unit
 ): EditTextPreference {
-    val pref = EditTextPreference(context).also(builder)
+    val pref = EditTextPreference(context)
     addPref(pref)
+    builder(pref)
     return pref
 }
 
 inline fun PreferenceParent.checkBoxPreference(
         builder: CheckBoxPreference.() -> Unit
 ): CheckBoxPreference {
-    val pref = CheckBoxPreference(context).also(builder)
+    val pref = CheckBoxPreference(context)
     addPref(pref)
+    builder(pref)
     return pref
 }
 
@@ -63,11 +69,15 @@ inline fun PreferenceParent.preferenceCategory(
     builder(newParent, category)
 }
 
-inline fun makePreferenceScreen(fragment: PreferenceFragmentCompat,
-                                builder: PreferenceParent.() -> Unit): PreferenceScreen {
-    val context = fragment.requireContext()
-    val screen = fragment.preferenceManager.createPreferenceScreen(context)
+inline fun PreferenceFragmentCompat.makePreferenceScreen(
+        builder: PreferenceParent.() -> Unit
+): PreferenceScreen {
+    val context = requireContext()
+    val screen = preferenceManager.createPreferenceScreen(context)
     val parent = PreferenceParent(context) { screen.addPreference(it) }
+    // For some functions (like dependencies) it's much easier for us if we attach screen first
+    // and change it later
+    preferenceScreen = screen
     builder(parent)
     return screen
 }

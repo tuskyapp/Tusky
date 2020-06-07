@@ -36,8 +36,7 @@ class NotificationPreferencesFragment : PreferenceFragmentCompat(), Injectable {
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         val activeAccount = accountManager.activeAccount ?: return
         val context = requireContext()
-
-        preferenceScreen = makePreferenceScreen(this) {
+        makePreferenceScreen {
             switchPreference {
                 setTitle(R.string.pref_title_notifications_enabled)
                 key = PrefKeys.NOTIFICATIONS_ENABLED

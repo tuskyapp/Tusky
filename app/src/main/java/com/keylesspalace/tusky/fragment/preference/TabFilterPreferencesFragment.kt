@@ -25,7 +25,7 @@ import com.keylesspalace.tusky.settings.preferenceCategory
 
 class TabFilterPreferencesFragment : PreferenceFragmentCompat() {
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
-        preferenceScreen = makePreferenceScreen(this) {
+        makePreferenceScreen {
             preferenceCategory(R.string.title_home) { category ->
                 category.isIconSpaceReserved = false
 
