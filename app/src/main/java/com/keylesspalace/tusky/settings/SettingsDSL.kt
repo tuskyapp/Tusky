@@ -10,20 +10,30 @@ class PreferenceParent(
         val addPref: (pref: Preference) -> Unit
 )
 
-inline fun PreferenceParent.preference(builder: Preference.() -> Unit) {
-    addPref(Preference(context).also(builder))
+inline fun PreferenceParent.preference(builder: Preference.() -> Unit): Preference {
+    val pref = Preference(context).also(builder)
+    addPref(pref)
+    return pref
 }
 
-inline fun PreferenceParent.listPreference(builder: ListPreference.() -> Unit) {
-    addPref(ListPreference(context).also(builder))
+inline fun PreferenceParent.listPreference(builder: ListPreference.() -> Unit): ListPreference {
+    val pref = ListPreference(context).also(builder)
+    addPref(pref)
+    return pref
 }
 
-inline fun PreferenceParent.emojiPreference(builder: EmojiPreference.() -> Unit) {
-    addPref(EmojiPreference(context).also(builder))
+inline fun PreferenceParent.emojiPreference(builder: EmojiPreference.() -> Unit): EmojiPreference {
+    val pref = EmojiPreference(context).also(builder)
+    addPref(pref)
+    return pref
 }
 
-inline fun PreferenceParent.switchPreference(builder: SwitchPreference.() -> Unit) {
-    addPref(SwitchPreference(context).also(builder))
+inline fun PreferenceParent.switchPreference(
+        builder: SwitchPreference.() -> Unit
+): SwitchPreference {
+    val pref = SwitchPreference(context).also(builder)
+    addPref(pref)
+    return pref
 }
 
 inline fun PreferenceParent.preferenceCategory(
