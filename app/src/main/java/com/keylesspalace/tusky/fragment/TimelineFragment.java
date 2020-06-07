@@ -18,6 +18,7 @@ package com.keylesspalace.tusky.fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -75,6 +76,7 @@ import com.keylesspalace.tusky.repository.TimelineRepository;
 import com.keylesspalace.tusky.repository.TimelineRequestMode;
 import com.keylesspalace.tusky.util.CardViewMode;
 import com.keylesspalace.tusky.util.Either;
+import com.keylesspalace.tusky.util.HttpHeaderLink;
 import com.keylesspalace.tusky.util.LinkHelper;
 import com.keylesspalace.tusky.util.ListStatusAccessibilityDelegate;
 import com.keylesspalace.tusky.util.ListUtils;
@@ -163,6 +165,10 @@ public class TimelineFragment extends SFragment implements
     private Kind kind;
     private String id;
     private List<String> tags;
+    /**
+     * For some timeline kinds we must use LINK headers and not just status ids.
+     */
+    private String nextId;
     private LinearLayoutManager layoutManager;
     private EndlessOnScrollListener scrollListener;
     private boolean filterRemoveReplies;
@@ -232,7 +238,7 @@ public class TimelineFragment extends SFragment implements
                 || kind == Kind.LIST) {
             id = arguments.getString(ID_ARG);
         }
-        if(kind == Kind.TAG) {
+        if (kind == Kind.TAG) {
             tags = arguments.getStringArrayList(HASHTAGS_ARG);
         }
 
@@ -963,13 +969,17 @@ public class TimelineFragment extends SFragment implements
         updateAdapter();
 
         String bottomId = null;
-        final ListIterator<Either<Placeholder, Status>> iterator =
-                this.statuses.listIterator(this.statuses.size());
-        while (iterator.hasPrevious()) {
-            Either<Placeholder, Status> previous = iterator.previous();
-            if (previous.isRight()) {
-                bottomId = previous.asRight().getId();
-                break;
+        if (kind == Kind.FAVOURITES || kind == Kind.BOOKMARKS) {
+            bottomId = this.nextId;
+        } else {
+            final ListIterator<Either<Placeholder, Status>> iterator =
+                    this.statuses.listIterator(this.statuses.size());
+            while (iterator.hasPrevious()) {
+                Either<Placeholder, Status> previous = iterator.previous();
+                if (previous.isRight()) {
+                    bottomId = previous.asRight().getId();
+                    break;
+                }
             }
         }
         sendFetchTimelineRequest(bottomId, null, null, FetchEnd.BOTTOM, -1);
@@ -1050,6 +1060,14 @@ public class TimelineFragment extends SFragment implements
                 @Override
                 public void onResponse(@NonNull Call<List<Status>> call, @NonNull Response<List<Status>> response) {
                     if (response.isSuccessful()) {
+                        @Nullable
+                        String newNextId = extractNextId(response);
+                        if (newNextId != null) {
+                            // when we reach the bottom of the list, we won't have a new link. If
+                            // we blindly write `null` here we will start loading from the top
+                            // again.
+                            nextId = newNextId;
+                        }
                         onFetchTimelineSuccess(liftStatusList(response.body()), fetchEnd, pos);
                     } else {
                         onFetchTimelineFailure(new Exception(response.message()), fetchEnd, pos);
@@ -1066,6 +1084,24 @@ public class TimelineFragment extends SFragment implements
             callList.add(listCall);
             listCall.enqueue(callback);
         }
+    }
+
+    @Nullable
+    private String extractNextId(Response<?> response) {
+        String linkHeader = response.headers().get("Link");
+        if (linkHeader == null) {
+            return null;
+        }
+        List<HttpHeaderLink> links = HttpHeaderLink.parse(linkHeader);
+        HttpHeaderLink nextHeader = HttpHeaderLink.findByRelationType(links, "next");
+        if (nextHeader == null) {
+            return null;
+        }
+        Uri nextLink = nextHeader.uri;
+        if (nextLink == null) {
+            return null;
+        }
+        return nextLink.getQueryParameter("max_id");
     }
 
     private void onFetchTimelineSuccess(List<Either<Placeholder, Status>> statuses,
