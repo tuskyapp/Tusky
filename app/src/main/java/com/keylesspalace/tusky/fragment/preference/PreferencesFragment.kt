@@ -46,7 +46,7 @@ class PreferencesFragment : PreferenceFragmentCompat() {
                     setEntries(R.array.app_theme_names)
                     entryValues = AppTheme.stringValues()
                     key = PrefKeys.APP_THEME
-                    summary = "%s"
+                    setSummaryProvider { entry }
                     setTitle(R.string.pref_title_app_theme)
                     icon = makeIcon(GoogleMaterial.Icon.gmd_palette)
                 }
@@ -65,7 +65,7 @@ class PreferencesFragment : PreferenceFragmentCompat() {
                     setEntries(R.array.language_entries)
                     setEntryValues(R.array.language_values)
                     key = PrefKeys.LANGUAGE
-                    summary = "%s"
+                    setSummaryProvider { entry }
                     setTitle(R.string.pref_title_language)
                     icon = makeIcon(GoogleMaterial.Icon.gmd_translate)
                 }
@@ -75,7 +75,7 @@ class PreferencesFragment : PreferenceFragmentCompat() {
                     setEntries(R.array.status_text_size_names)
                     setEntryValues(R.array.status_text_size_values)
                     key = PrefKeys.STATUS_TEXT_SIZE
-                    summary = "%s"
+                    setSummaryProvider { entry }
                     setTitle(R.string.pref_status_text_size)
                     icon = makeIcon(GoogleMaterial.Icon.gmd_format_size)
                 }
@@ -174,9 +174,8 @@ class PreferencesFragment : PreferenceFragmentCompat() {
             }
 
             preferenceCategory(R.string.pref_title_proxy_settings) {
-                preference {
+                httpProxyPref = preference {
                     setTitle(R.string.pref_title_http_proxy_settings)
-                    summary = "%s"
                     setOnPreferenceClickListener {
                         activity?.let { activity ->
                             val intent = PreferencesActivity.newIntent(activity, PreferencesActivity.PROXY_PREFERENCES)
@@ -185,7 +184,6 @@ class PreferencesFragment : PreferenceFragmentCompat() {
                         }
                         true
                     }
-                    httpProxyPref = this
                 }
             }
         }

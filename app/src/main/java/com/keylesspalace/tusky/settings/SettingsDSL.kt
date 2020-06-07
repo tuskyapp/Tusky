@@ -36,15 +36,31 @@ inline fun PreferenceParent.switchPreference(
     return pref
 }
 
+inline fun PreferenceParent.editTextPreference(
+        builder: EditTextPreference.() -> Unit
+): EditTextPreference {
+    val pref = EditTextPreference(context).also(builder)
+    addPref(pref)
+    return pref
+}
+
+inline fun PreferenceParent.checkBoxPreference(
+        builder: CheckBoxPreference.() -> Unit
+): CheckBoxPreference {
+    val pref = CheckBoxPreference(context).also(builder)
+    addPref(pref)
+    return pref
+}
+
 inline fun PreferenceParent.preferenceCategory(
         @StringRes title: Int,
-        builder: PreferenceParent.() -> Unit
+        builder: PreferenceParent.(PreferenceCategory) -> Unit
 ) {
     val category = PreferenceCategory(context)
     addPref(category)
     category.setTitle(title)
     val newParent = PreferenceParent(context) { category.addPreference(it) }
-    builder(newParent)
+    builder(newParent, category)
 }
 
 inline fun makePreferenceScreen(fragment: PreferenceFragmentCompat,

@@ -13,6 +13,9 @@ enum class AppTheme(val value: String) {
 }
 
 object PrefKeys {
+    // Note: not all of these keys are actually used as SharedPreferences keys but we must give
+    // each preference a key for it to work.
+
     const val APP_THEME = "appTheme"
     const val EMOJI = "emojiCompat"
     const val FAB_HIDE = "fabHide"
@@ -38,4 +41,17 @@ object PrefKeys {
     const val MEDIA_PREVIEW_ENABLED = "mediaPreviewEnabled"
     const val ALWAYS_SHOW_SENSITIVE_MEDIA = "alwaysShowSensitiveMedia"
     const val ALWAYS_OPEN_SPOILER = "alwaysOpenSpoiler"
+
+    const val NOTIFICATIONS_ENABLED = "notificationsEnabled"
+    const val NOTIFICATION_ALERT_LIGHT = "notificationAlertLight"
+    const val NOTIFICATION_ALERT_VIBRATE = "notificationAlertVibrate"
+    const val NOTIFICATION_ALERT_SOUND = "notificationAlertSound"
+    const val NOTIFICATION_FILTER_POLLS = "notificationFilterPolls"
+    const val NOTIFICATION_FILTER_FAVS = "notificationFilterFavourites"
+    const val NOTIFICATION_FILTER_REBLOGS = "notificationFilterReblogs"
+    const val NOTIFICATION_FILTER_FOLLOW_REQUESTS = "notificationFilterFollowRequests"
+    const val NOTIFICATIONS_FILTER_FOLLOWS = "notificationFilterFollows"
+
+    const val TAB_FILTER_HOME_REPLIES = "tabFilterHomeBoosts"
+    const val TAB_FILTER_HOME_BOOSTS = "tabFilterHomeReplies"
 }
