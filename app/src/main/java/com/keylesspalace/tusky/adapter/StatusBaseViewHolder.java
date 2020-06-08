@@ -977,7 +977,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
                 status.getAttachments().size() == 0 &&
                 status.getCard() != null &&
                 !TextUtils.isEmpty(status.getCard().getUrl()) &&
-                !status.isCollapsed()) {
+                (!status.isCollapsible() || !status.isCollapsed())) {
             final Card card = status.getCard();
             cardView.setVisibility(View.VISIBLE);
             cardTitle.setText(card.getTitle());
