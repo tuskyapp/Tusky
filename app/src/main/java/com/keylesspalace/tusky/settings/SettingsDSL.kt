@@ -12,22 +12,22 @@ class PreferenceParent(
 
 inline fun PreferenceParent.preference(builder: Preference.() -> Unit): Preference {
     val pref = Preference(context)
-    addPref(pref)
     builder(pref)
+    addPref(pref)
     return pref
 }
 
 inline fun PreferenceParent.listPreference(builder: ListPreference.() -> Unit): ListPreference {
     val pref = ListPreference(context)
-    addPref(pref)
     builder(pref)
+    addPref(pref)
     return pref
 }
 
 inline fun PreferenceParent.emojiPreference(builder: EmojiPreference.() -> Unit): EmojiPreference {
     val pref = EmojiPreference(context)
-    addPref(pref)
     builder(pref)
+    addPref(pref)
     return pref
 }
 
@@ -35,8 +35,8 @@ inline fun PreferenceParent.switchPreference(
         builder: SwitchPreference.() -> Unit
 ): SwitchPreference {
     val pref = SwitchPreference(context)
-    addPref(pref)
     builder(pref)
+    addPref(pref)
     return pref
 }
 
@@ -44,8 +44,8 @@ inline fun PreferenceParent.editTextPreference(
         builder: EditTextPreference.() -> Unit
 ): EditTextPreference {
     val pref = EditTextPreference(context)
-    addPref(pref)
     builder(pref)
+    addPref(pref)
     return pref
 }
 
@@ -53,8 +53,8 @@ inline fun PreferenceParent.checkBoxPreference(
         builder: CheckBoxPreference.() -> Unit
 ): CheckBoxPreference {
     val pref = CheckBoxPreference(context)
-    addPref(pref)
     builder(pref)
+    addPref(pref)
     return pref
 }
 
