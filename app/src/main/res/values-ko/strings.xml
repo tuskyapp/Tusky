@@ -140,7 +140,7 @@
     <string name="label_quick_reply">답장</string>
     <string name="label_avatar">아바타</string>
     <string name="label_header">헤더</string>
-    <string name="link_whats_an_instance">인스턴스가 무엇인가요\?</string>
+    <string name="link_whats_an_instance">인스턴스가 무엇인가요?</string>
     <string name="login_connection">연결 중...</string>
     <string name="dialog_whats_an_instance">인스턴스의 도메인 주소나 IP주소를 입력하실 수 있습니다. mastodon.social, icosahedron.website, social.tchncs.de 등이 있으며, 그 외에도 <a href="https://instances.social">더 많은 인스턴스</a>가 당신을 기다리고 있습니다! \u0020
 \n \u0020
