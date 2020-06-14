@@ -60,7 +60,10 @@ import com.keylesspalace.tusky.interfaces.ActionButtonActivity
 import com.keylesspalace.tusky.interfaces.ReselectableFragment
 import com.keylesspalace.tusky.pager.MainPagerAdapter
 import com.keylesspalace.tusky.util.*
+import com.mikepenz.iconics.IconicsDrawable
 import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial
+import com.mikepenz.iconics.utils.colorInt
+import com.mikepenz.iconics.utils.sizeDp
 import com.mikepenz.materialdrawer.iconics.iconicsIcon
 import com.mikepenz.materialdrawer.model.*
 import com.mikepenz.materialdrawer.model.interfaces.*
@@ -90,6 +93,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
     private lateinit var drawerToggle: ActionBarDrawerToggle
 
     private var notificationTabPosition = 0
+    private var onTabSelectedListener: OnTabSelectedListener? = null
 
     private val emojiInitCallback = object : InitCallback() {
         override fun onInitialized() {
@@ -158,6 +162,19 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
             val composeIntent = Intent(applicationContext, ComposeActivity::class.java)
             startActivity(composeIntent)
         }
+
+        mainToolbar.menu.add(R.string.action_search).apply {
+            setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM)
+            icon = IconicsDrawable(this@MainActivity, GoogleMaterial.Icon.gmd_search).apply {
+                sizeDp = 20
+                colorInt = ThemeUtils.getColor(this@MainActivity, android.R.attr.textColorPrimary)
+            }
+            setOnMenuItemClickListener {
+                startActivity(SearchActivity.getIntent(this@MainActivity))
+                true
+            }
+        }
+
         setupDrawer(savedInstanceState)
 
         /* Fetch user info while we're doing other things. This has to be done after setting up the
@@ -165,8 +182,6 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
         fetchUserInfo()
 
         setupTabs(showNotificationTab)
-
-
 
         // Setup push notifications
         if (NotificationHelper.areNotificationsEnabled(this, accountManager)) {
@@ -354,13 +369,6 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
                         }
                     },
                     primaryDrawerItem {
-                        nameRes = R.string.action_search
-                        iconicsIcon = GoogleMaterial.Icon.gmd_search
-                        onClick = {
-                            startActivityWithSlideInAnimation(SearchActivity.getIntent(context))
-                        }
-                    },
-                    primaryDrawerItem {
                         nameRes = R.string.action_access_saved_toot
                         iconRes = R.drawable.ic_notebook
                         onClick = {
@@ -444,7 +452,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
             val actionBarSize = ThemeUtils.getDimension(this, R.attr.actionBarSize)
             val fabMargin = resources.getDimensionPixelSize(R.dimen.fabMargin)
             (composeButton.layoutParams as CoordinatorLayout.LayoutParams).bottomMargin = actionBarSize + fabMargin
-            mainToolbar.hide()
+            tabLayout.hide()
             bottomTabLayout
         } else {
             bottomNav.hide()
@@ -483,11 +491,17 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
         val uswSwipeForTabs = preferences.getBoolean("enableSwipeForTabs", true)
         viewPager.isUserInputEnabled = uswSwipeForTabs
 
-        activeTabLayout.addOnTabSelectedListener(object : OnTabSelectedListener {
+        onTabSelectedListener?.let {
+            activeTabLayout.removeOnTabSelectedListener(it)
+        }
+
+        onTabSelectedListener = object : OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab) {
                 if (tab.position == notificationTabPosition) {
                     NotificationHelper.clearNotificationsForActiveAccount(this@MainActivity, accountManager)
                 }
+
+                mainToolbar.title = tabs[tab.position].title(this@MainActivity)
             }
 
             override fun onTabUnselected(tab: TabLayout.Tab) {}
@@ -498,7 +512,11 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
                     (fragment as ReselectableFragment).onReselect()
                 }
             }
-        })
+        }.also {
+            activeTabLayout.addOnTabSelectedListener(it)
+        }
+
+        mainToolbar.title = tabs[0].title(this@MainActivity)
 
     }
 
