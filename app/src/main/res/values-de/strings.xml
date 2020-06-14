@@ -330,9 +330,7 @@
     <string name="hint_search_people_list">Suche nach Leuten denen du folgst</string>
     <string name="action_remove_from_list">Von der Liste entfernen</string>
     <string name="edit_hashtag_hint">Hashtag ohne #</string>
-
     <string name="action_open_reblogger">Öffne Autor des geteilten Beitrages</string>
-
     <string name="pref_title_public_filter_keywords">Öffentliche Zeitleisten</string>
     <plurals name="favs">
         <item quantity="one">&lt;b&gt;%1$s&lt;/b&gt; Favorit</item>
@@ -432,10 +430,7 @@
     <string name="action_view_bookmarks">Lesezeichen</string>
     <string name="gradient_for_media">Bunten Farbverlauf für versteckte Medien anzeigen</string>
     <string name="about_powered_by_tusky">Powered by Tusky</string>
-    <plurals name="reblogs">
-        <item quantity="one"></item>
-        <item quantity="other"></item>
-    </plurals>
+
     <string name="description_status_bookmarked">Als Lesezeichen gespeichert</string>
     <string name="select_list_title">Liste auswählen</string>
     <string name="list">Liste</string>
@@ -451,4 +446,6 @@
     <string name="action_unmute_conversation">Stummschaltung der Konversation aufheben</string>
     <string name="action_mute_conversation">Konversation stummschalten</string>
     <string name="notification_follow_request_format">"%s  möchte dir folgen"</string>
+    <string name="hashtags">Hashtags</string>
+    <string name="add_hashtag_title">Hashtag hinzufügen</string>
 </resources>

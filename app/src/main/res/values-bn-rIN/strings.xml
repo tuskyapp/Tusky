@@ -357,7 +357,6 @@
     <string name="description_visiblity_direct">সরাসরি</string>
     <string name="description_poll">পছন্দগুলি সহ নর্বাচন: %1$s, %2$s, %3$s, %4$s; %5$s</string>
     <string name="hint_list_name">নামের তালিকা</string>
-
     <string name="edit_hashtag_hint"># ছাড়া হ্যাশট্যাগ</string>
     <string name="notifications_clear">পরিষ্কার</string>
     <string name="notifications_apply_filter">ফিল্টার</string>
@@ -367,33 +366,14 @@
     <string name="notification_clear_text">আপনি কি আপনার সমস্ত বিজ্ঞপ্তি স্থায়ীভাবে মুছে ফেলতে চান\?</string>
     <string name="compose_preview_image_description">ছবি %s এর জন্য ক্রিয়া</string>
     <string name="poll_info_format"> <!-- ১৫ ভোট • ১ ঘন্টা বাকি --> %1$s • %2$s</string>
-    <plurals name="poll_info_votes">
-        <item quantity="one"></item>
-        <item quantity="other"></item>
-    </plurals>
+
     <string name="poll_info_time_relative">%s বাকি</string>
     <string name="poll_info_time_absolute">%s এ শেষ হবে</string>
     <string name="poll_info_closed">বন্ধ</string>
     <string name="poll_vote">ভোট</string>
     <string name="poll_ended_voted">আপনি ভোট দিয়েছেন যে নির্বাচন এ সেটি শেষ হয়েছে</string>
     <string name="poll_ended_created">আপনি তৈরি একটি নির্বাচন শেষ হয়েছে</string>
-    <!--These are for timestamps on polls -->
-    <plurals name="poll_timespan_days">
-        <item quantity="one">%d দিন</item>
-        <item quantity="other">%d দিন</item>
-    </plurals>
-    <plurals name="poll_timespan_hours">
-        <item quantity="one"></item>
-        <item quantity="other"></item>
-    </plurals>
-    <plurals name="poll_timespan_minutes">
-        <item quantity="one"></item>
-        <item quantity="other"></item>
-    </plurals>
-    <plurals name="poll_timespan_seconds">
-        <item quantity="one"></item>
-        <item quantity="other"></item>
-    </plurals>
+
     <string name="button_continue">চালিয়ে যান</string>
     <string name="button_back">পিছনে যান</string>
     <string name="button_done">সম্পন্ন</string>

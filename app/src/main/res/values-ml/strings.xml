@@ -58,4 +58,5 @@
     <string name="action_retry">വീണ്ടും ശ്രമിക്കുക</string>
     <string name="action_view_follow_requests">പിന്‍തുടരുവാനുള്ള അഭ്യര്‍ത്ഥനകള്‍</string>
     <string name="title_domain_mutes">മറയ്ക്കപ്പെട്ട ഡൊമൈനുകൾ</string>
+    <string name="description_visiblity_private">പിന്തുടരുന്നവർ</string>
 </resources>

@@ -15,61 +15,53 @@
 
 package com.keylesspalace.tusky.fragment.preference
 
-import android.content.SharedPreferences
 import android.os.Bundle
-import androidx.preference.EditTextPreference
 import androidx.preference.PreferenceFragmentCompat
 import com.keylesspalace.tusky.R
+import com.keylesspalace.tusky.settings.PrefKeys
+import com.keylesspalace.tusky.settings.editTextPreference
+import com.keylesspalace.tusky.settings.makePreferenceScreen
+import com.keylesspalace.tusky.settings.switchPreference
 import kotlin.system.exitProcess
 
-class ProxyPreferencesFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedPreferenceChangeListener {
-
+class ProxyPreferencesFragment : PreferenceFragmentCompat() {
     private var pendingRestart = false
 
-    private lateinit var sharedPreferences: SharedPreferences
-
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
-        addPreferencesFromResource(R.xml.http_proxy_preferences)
+        makePreferenceScreen {
+            switchPreference {
+                setTitle(R.string.pref_title_http_proxy_enable)
+                isIconSpaceReserved = false
+                key = PrefKeys.HTTP_PROXY_ENABLED
+                setDefaultValue(false)
+            }
 
-        sharedPreferences = preferenceManager.sharedPreferences
+            editTextPreference {
+                setTitle(R.string.pref_title_http_proxy_server)
+                key = PrefKeys.HTTP_PROXY_SERVER
+                isIconSpaceReserved = false
+                setSummaryProvider { text }
+            }
 
-    }
+            editTextPreference {
+                setTitle(R.string.pref_title_http_proxy_port)
+                key = PrefKeys.HTTP_PROXY_PORT
+                isIconSpaceReserved = false
+                setSummaryProvider { text }
+            }
+        }
 
-    override fun onResume() {
-        super.onResume()
-
-        sharedPreferences.registerOnSharedPreferenceChangeListener(this)
-
-        updateSummary("httpProxyServer")
-        updateSummary("httpProxyPort")
     }
 
     override fun onPause() {
         super.onPause()
-
-        sharedPreferences.unregisterOnSharedPreferenceChangeListener(this)
-
         if (pendingRestart) {
             pendingRestart = false
             exitProcess(0)
         }
     }
 
-    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String) {
-        updateSummary (key)
-    }
-
-    private fun updateSummary(key: String) {
-        when (key) {
-            "httpProxyServer", "httpProxyPort" -> {
-                val editTextPreference = requirePreference(key) as EditTextPreference
-                editTextPreference.summary = editTextPreference.text
-            }
-        }
-    }
-
     companion object {
-
         fun newInstance(): ProxyPreferencesFragment {
             return ProxyPreferencesFragment()
         }

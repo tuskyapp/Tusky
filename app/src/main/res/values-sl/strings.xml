@@ -37,7 +37,6 @@
     <string name="title_saved_toot">Osnutki</string>
     <string name="title_licenses">Licence</string>
     <string name="status_username_format">\@%s</string>
-    <string name="status_boosted_format">% spodbudil</string>
     <string name="status_sensitive_media_title">Občutljiva vsebina</string>
     <string name="status_media_hidden_title">Medij je skrit</string>
     <string name="status_sensitive_media_directions">Kliknite za ogled</string>
@@ -284,7 +283,7 @@
     <string name="restart_emoji">Če želite uveljaviti te spremembe, morate znova zagnati Tusky</string>
     <string name="later">Kasneje</string>
     <string name="restart">Znova zaženi</string>
-    <string name="caption_systememoji">Privzeti komplet emotikonov vaše naprave</string>
+    <string name="caption_systememoji">"Privzeti komplet emotikonov vaše naprave "</string>
     <string name="caption_blobmoji">Blob emotikoni so znani od Android 4.4-7.1</string>
     <string name="caption_twemoji">Mastodonov privzeti komplet emotikonov</string>
     <string name="download_failed">Prenos ni uspel</string>
@@ -304,12 +303,7 @@
     <string name="label_remote_account">Spodnje informacije lahko nepopolno odražajo profil uporabnika. Pritisnite, da odprete polni profil v brskalniku.</string>
     <string name="unpin_action">Odpni</string>
     <string name="pin_action">Pripni</string>
-    <plurals name="favs">
-        <item quantity="one"></item>
-        <item quantity="two"></item>
-        <item quantity="few"></item>
-        <item quantity="other"></item>
-    </plurals>
+
     <plurals name="reblogs">
         <item quantity="one">&lt;b&gt;%s&lt;/b&gt; Spodbuda</item>
         <item quantity="two">&lt;b&gt;%s&lt;/b&gt; Spodbudi</item>

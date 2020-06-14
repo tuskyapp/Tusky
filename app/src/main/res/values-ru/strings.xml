@@ -474,7 +474,7 @@
     <string name="gradient_for_media">Показывать цветные градиенты для скрытых медиа</string>
     <string name="post_lookup_error_format">Ошибка поиска поста %s</string>
     <string name="no_saved_status">У вас нет черновиков.</string>
-    <string name="no_scheduled_status">У вас нет запланированный постов.</string>
+    <string name="no_scheduled_status">У вас нет запланированных постов.</string>
     <string name="warning_scheduling_interval">Минимальный интервал планирования в Mastodon составляет 5 минут.</string>
     <string name="pref_title_confirm_reblogs">Показвать диалог подтверждения перед продвижением</string>
     <string name="pref_title_show_cards_in_timelines">Показывать предосмотр ссылок в лентах</string>

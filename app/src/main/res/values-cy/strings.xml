@@ -290,4 +290,5 @@
     <string name="action_links">Cysylltiadau</string>
     <string name="title_links_dialog">Cysylltiadau</string>
     <string name="action_open_reblogged_by">Dangos hybiadau</string>
+    <string name="notification_follow_request_name">Dilyn ceisiadau</string>
 </resources>

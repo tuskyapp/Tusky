@@ -340,8 +340,8 @@
     <string name="dialog_redraft_toot_warning">Vil du slette dette tottet og skrive det på nytt\?</string>
     <string name="poll_info_format"> <!-- 15 votes • 1 hour left --> %1$s • %2$s</string>
     <plurals name="poll_info_votes">
-        <item quantity="one"></item>
-        <item quantity="other"></item>
+        <item quantity="one">%s stemme</item>
+        <item quantity="other">%s stemmer</item>
     </plurals>
     <string name="poll_info_time_relative">%s igjen</string>
     <string name="poll_info_time_absolute">avsluttes %s</string>
@@ -452,5 +452,6 @@
     <string name="dialog_block_warning">Blokkere @%s\?</string>
     <string name="action_unmute_conversation">Fjern demping av samtale</string>
     <string name="action_mute_conversation">Demp samtale</string>
-    <string name="notification_follow_request_format">% ba om å få følge deg</string>
+    <string name="hashtags">Stikkord</string>
+    <string name="add_hashtag_title">Legg til stikkord</string>
 </resources>

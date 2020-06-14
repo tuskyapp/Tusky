@@ -164,7 +164,7 @@
     <string name="pref_title_http_proxy_port">Pòrt del servidor proxy HTTP</string>
     <string name="pref_default_post_privacy">Privacitat predeterminada dels tuts</string>
     <string name="pref_publishing">Publicacion</string>
-    <string name="post_privacy_public">Publica</string>
+    <string name="post_privacy_public">Public</string>
     <string name="post_privacy_unlisted">Pas listada</string>
     <string name="post_privacy_followers_only">Seguidors solament</string>
     <string name="pref_status_text_size">Talha de text de l\'estatut</string>
@@ -332,8 +332,8 @@
         <item quantity="other"><b>%1$s</b> Favorits</item>
     </plurals>
     <plurals name="reblogs">
-        <item quantity="one"></item>
-        <item quantity="other"></item>
+        <item quantity="one"/>
+        <item quantity="other"/>
     </plurals>
     <string name="title_reblogged_by">Partejat per</string>
     <string name="title_favourited_by">Aimat per</string>

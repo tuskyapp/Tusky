@@ -29,7 +29,7 @@
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@id/account_avatar"
         app:layout_constraintEnd_toEndOf="@id/account_avatar"
-        tools:src="@color/accent"
+        tools:src="#000"
         tools:visibility="visible" />
 
     <androidx.emoji.widget.EmojiTextView

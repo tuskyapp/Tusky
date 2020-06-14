@@ -158,7 +158,7 @@
     <string name="pref_title_notification_filter_follows">me siguen</string>
     <string name="pref_title_notification_filter_reblogs">mis posts son impulsados</string>
     <string name="pref_title_notification_filter_favourites">me dan favorito</string>
-    <string name="pref_title_appearance_settings">Interfaz</string>
+    <string name="pref_title_appearance_settings">Apariencia</string>
     <string name="pref_title_app_theme">Tema</string>
     <string name="pref_title_timelines">Cronologia</string>
     <string name="app_them_dark">Oscuro</string>
@@ -402,7 +402,7 @@
     <string name="mute_domain_warning_dialog_ok">Ocultar dominio completo</string>
     <string name="pref_title_animate_gif_avatars">Animar avatares GIF</string>
     <string name="filter_dialog_whole_word">Toda palabra</string>
-    <string name="filter_dialog_whole_word_description">Cuando la palabra o frase sea solo alfanumérica, solo se aplicará si coincide con toda la palabra.</string>
+    <string name="filter_dialog_whole_word_description">Cuando la palabra o frase sea solo alfanumérica, solo se aplicará si coincide con toda la palabra</string>
     <string name="caption_notoemoji">Set de emojis actual de Google</string>
     <string name="description_poll">Encuesta con opciones: %1$s, %2$s, %3$s, %4$s; %5$s</string>
     <string name="button_continue">Continuar</string>
@@ -451,4 +451,20 @@
     <string name="no_scheduled_status">No tienes ningún estado programado.</string>
     <string name="warning_scheduling_interval">Mastodon tiene un intervalo de programación mínimo de 5 minutos.</string>
     <string name="notification_follow_request_name">Solicitudes</string>
+    <string name="dialog_block_warning">Bloquear @%s\?</string>
+    <string name="dialog_mute_warning">Silenciar @%s\?</string>
+    <string name="action_mute_conversation">Silenciar conversación</string>
+    <string name="action_unmute_conversation">Dejar de silenciar conversación</string>
+    <string name="notification_follow_request_description">Notificaciones de solicitudes</string>
+    <string name="pref_title_notification_filter_follow_requests">solicitud de seguimiento</string>
+    <string name="pref_title_confirm_reblogs">Mostrar diálogo de confirmación antes de impulsar</string>
+    <string name="pref_title_show_cards_in_timelines">Mostrar previsualización de enlaces en la cronología</string>
+    <string name="pref_title_enable_swipe_for_tabs">Habilitar gesto de deslizar para alternar entre pestañas</string>
+    <plurals name="poll_info_people">
+        <item quantity="one">%s persona</item>
+        <item quantity="other">%s personas</item>
+    </plurals>
+    <string name="hashtags">Etiquetas</string>
+    <string name="add_hashtag_title">Añadir etiqueta</string>
+    <string name="notification_follow_request_format">%s solicita seguirte</string>
 </resources>

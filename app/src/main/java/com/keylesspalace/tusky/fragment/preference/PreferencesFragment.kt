@@ -20,58 +20,187 @@ import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import com.keylesspalace.tusky.PreferencesActivity
 import com.keylesspalace.tusky.R
+import com.keylesspalace.tusky.settings.*
 import com.keylesspalace.tusky.util.ThemeUtils
 import com.keylesspalace.tusky.util.getNonNullString
 import com.mikepenz.iconics.IconicsDrawable
 import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial
 import com.mikepenz.iconics.utils.colorInt
-import com.mikepenz.iconics.utils.sizeRes
-
-fun PreferenceFragmentCompat.requirePreference(key: String): Preference {
-    return findPreference(key)!!
-}
+import com.mikepenz.iconics.utils.sizePx
 
 class PreferencesFragment : PreferenceFragmentCompat() {
 
+    private val iconSize by lazy { resources.getDimensionPixelSize(R.dimen.preference_icon_size) }
+    private var httpProxyPref: Preference? = null
+
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
+        val context = requireContext()
+        makePreferenceScreen {
+            preferenceCategory(R.string.pref_title_appearance_settings) {
+                listPreference {
+                    setDefaultValue(AppTheme.NIGHT.value)
+                    setEntries(R.array.app_theme_names)
+                    entryValues = AppTheme.stringValues()
+                    key = PrefKeys.APP_THEME
+                    setSummaryProvider { entry }
+                    setTitle(R.string.pref_title_app_theme)
+                    icon = makeIcon(GoogleMaterial.Icon.gmd_palette)
+                }
 
-        addPreferencesFromResource(R.xml.preferences)
+                emojiPreference {
+                    setDefaultValue("system_default")
+                    setIcon(R.drawable.ic_emoji_24dp)
+                    key = PrefKeys.EMOJI
+                    setSummary(R.string.system_default)
+                    setTitle(R.string.emoji_style)
+                    icon = makeIcon(GoogleMaterial.Icon.gmd_sentiment_satisfied)
+                }
 
-        val themePreference: Preference = requirePreference("appTheme")
-        themePreference.icon = IconicsDrawable(themePreference.context, GoogleMaterial.Icon.gmd_palette).apply { sizeRes = R.dimen.preference_icon_size; colorInt = ThemeUtils.getColor(themePreference.context, R.attr.iconColor) }
+                listPreference {
+                    setDefaultValue("default")
+                    setEntries(R.array.language_entries)
+                    setEntryValues(R.array.language_values)
+                    key = PrefKeys.LANGUAGE
+                    setSummaryProvider { entry }
+                    setTitle(R.string.pref_title_language)
+                    icon = makeIcon(GoogleMaterial.Icon.gmd_translate)
+                }
 
-        val emojiPreference: Preference = requirePreference("emojiCompat")
-        emojiPreference.icon = IconicsDrawable(emojiPreference.context, GoogleMaterial.Icon.gmd_sentiment_satisfied).apply { sizeRes = R.dimen.preference_icon_size; colorInt = ThemeUtils.getColor(themePreference.context, R.attr.iconColor) }
+                listPreference {
+                    setDefaultValue("medium")
+                    setEntries(R.array.status_text_size_names)
+                    setEntryValues(R.array.status_text_size_values)
+                    key = PrefKeys.STATUS_TEXT_SIZE
+                    setSummaryProvider { entry }
+                    setTitle(R.string.pref_status_text_size)
+                    icon = makeIcon(GoogleMaterial.Icon.gmd_format_size)
+                }
 
-        val textSizePreference: Preference = requirePreference("statusTextSize")
-        textSizePreference.icon = IconicsDrawable(textSizePreference.context, GoogleMaterial.Icon.gmd_format_size).apply { sizeRes = R.dimen.preference_icon_size; colorInt = ThemeUtils.getColor(themePreference.context, R.attr.iconColor) }
+                listPreference {
+                    setDefaultValue("top")
+                    setEntries(R.array.pref_main_nav_position_options)
+                    setEntryValues(R.array.pref_main_nav_position_values)
+                    key = PrefKeys.MAIN_NAV_POSITION
+                    setSummaryProvider { entry }
+                    setTitle(R.string.pref_main_nav_position)
+                }
 
-        val timelineFilterPreferences: Preference = requirePreference("timelineFilterPreferences")
-        timelineFilterPreferences.setOnPreferenceClickListener {
-            activity?.let { activity ->
-                val intent = PreferencesActivity.newIntent(activity, PreferencesActivity.TAB_FILTER_PREFERENCES)
-                activity.startActivity(intent)
-                activity.overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
+                switchPreference {
+                    setDefaultValue(false)
+                    key = PrefKeys.FAB_HIDE
+                    setTitle(R.string.pref_title_hide_follow_button)
+                    isSingleLineTitle = false
+                }
+
+                switchPreference {
+                    setDefaultValue(false)
+                    key = PrefKeys.ABSOLUTE_TIME_VIEW
+                    setTitle(R.string.pref_title_absolute_time)
+                    isSingleLineTitle = false
+                }
+
+                switchPreference {
+                    setDefaultValue(true)
+                    key = PrefKeys.SHOW_BOT_OVERLAY
+                    setTitle(R.string.pref_title_bot_overlay)
+                    isSingleLineTitle = false
+                    icon = ThemeUtils.getTintedDrawable(
+                            context,
+                            R.drawable.ic_bot_24dp,
+                            R.attr.iconColor
+                    )
+                }
+
+                switchPreference {
+                    setDefaultValue(false)
+                    key = PrefKeys.ANIMATE_GIF_AVATARS
+                    setTitle(R.string.pref_title_animate_gif_avatars)
+                    isSingleLineTitle = false
+                }
+
+                switchPreference {
+                    setDefaultValue(true)
+                    key = PrefKeys.USE_BLURHASH
+                    setTitle(R.string.pref_title_gradient_for_media)
+                    isSingleLineTitle = false
+                }
+
+                switchPreference {
+                    setDefaultValue(true)
+                    key = PrefKeys.SHOW_NOTIFICATIONS_FILTER
+                    setTitle(R.string.pref_title_show_notifications_filter)
+                    isSingleLineTitle = false
+                    setOnPreferenceClickListener {
+                        activity?.let { activity ->
+                            val intent = PreferencesActivity.newIntent(activity, PreferencesActivity.TAB_FILTER_PREFERENCES)
+                            activity.startActivity(intent)
+                            activity.overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
+                        }
+                        true
+                    }
+                }
+
+                switchPreference {
+                    setDefaultValue(false)
+                    key = PrefKeys.SHOW_CARDS_IN_TIMELINES
+                    setTitle(R.string.pref_title_confirm_reblogs)
+                    isSingleLineTitle = false
+                }
+
+                switchPreference {
+                    setDefaultValue(true)
+                    key = PrefKeys.ENABLE_SWIPE_FOR_TABS
+                    setTitle(R.string.pref_title_enable_swipe_for_tabs)
+                    isSingleLineTitle = false
+                }
             }
-            true
+
+            preferenceCategory(R.string.pref_title_browser_settings) {
+                switchPreference {
+                    setDefaultValue(false)
+                    key = PrefKeys.CUSTOM_TABS
+                    setTitle(R.string.pref_title_custom_tabs)
+                    isSingleLineTitle = false
+                }
+            }
+
+            preferenceCategory(R.string.pref_title_timeline_filters) {
+                preference {
+                    setTitle(R.string.pref_title_status_tabs)
+                    setOnPreferenceClickListener {
+                        activity?.let { activity ->
+                            val intent = PreferencesActivity.newIntent(activity, PreferencesActivity.TAB_FILTER_PREFERENCES)
+                            activity.startActivity(intent)
+                            activity.overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
+                        }
+                        true
+                    }
+                }
+            }
+
+            preferenceCategory(R.string.pref_title_proxy_settings) {
+                httpProxyPref = preference {
+                    setTitle(R.string.pref_title_http_proxy_settings)
+                    setOnPreferenceClickListener {
+                        activity?.let { activity ->
+                            val intent = PreferencesActivity.newIntent(activity, PreferencesActivity.PROXY_PREFERENCES)
+                            activity.startActivity(intent)
+                            activity.overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
+                        }
+                        true
+                    }
+                }
+            }
+        }
+    }
+
+    private fun makeIcon(icon: GoogleMaterial.Icon): IconicsDrawable {
+        val context = requireContext()
+        return IconicsDrawable(context, icon).apply {
+            sizePx = iconSize
+            colorInt = ThemeUtils.getColor(context, R.attr.iconColor)
         }
 
-        val httpProxyPreferences: Preference = requirePreference("httpProxyPreferences")
-        httpProxyPreferences.setOnPreferenceClickListener {
-            activity?.let { activity ->
-                val intent = PreferencesActivity.newIntent(activity, PreferencesActivity.PROXY_PREFERENCES)
-                activity.startActivity(intent)
-                activity.overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
-            }
-            true
-        }
-
-        val languagePreference: Preference = requirePreference("language")
-        languagePreference.icon = IconicsDrawable(languagePreference.context, GoogleMaterial.Icon.gmd_translate).apply { sizeRes = R.dimen.preference_icon_size; colorInt = ThemeUtils.getColor(themePreference.context, R.attr.iconColor) }
-
-        val botIndicatorPreference = requirePreference("showBotOverlay")
-
-        botIndicatorPreference.icon = ThemeUtils.getTintedDrawable(requireContext(), R.drawable.ic_bot_24dp, R.attr.iconColor)
     }
 
     override fun onResume() {
@@ -80,28 +209,23 @@ class PreferencesFragment : PreferenceFragmentCompat() {
     }
 
     private fun updateHttpProxySummary() {
-
-        val httpProxyPref: Preference = requirePreference("httpProxyPreferences")
-
         val sharedPreferences = preferenceManager.sharedPreferences
-
-        val httpProxyEnabled = sharedPreferences.getBoolean("httpProxyEnabled", false)
-
-        val httpServer = sharedPreferences.getNonNullString("httpProxyServer", "")
+        val httpProxyEnabled = sharedPreferences.getBoolean(PrefKeys.HTTP_PROXY_ENABLED, false)
+        val httpServer = sharedPreferences.getNonNullString(PrefKeys.HTTP_PROXY_SERVER, "")
 
         try {
-            val httpPort = sharedPreferences.getNonNullString("httpProxyPort", "-1").toInt()
+            val httpPort = sharedPreferences.getNonNullString(PrefKeys.HTTP_PROXY_PORT, "-1")
+                    .toInt()
 
             if (httpProxyEnabled && httpServer.isNotBlank() && httpPort > 0 && httpPort < 65535) {
-                httpProxyPref.summary = "$httpServer:$httpPort"
+                httpProxyPref?.summary = "$httpServer:$httpPort"
                 return
             }
         } catch (e: NumberFormatException) {
             // user has entered wrong port, fall back to empty summary
         }
 
-        httpProxyPref.summary = ""
-
+        httpProxyPref?.summary = ""
     }
 
     companion object {

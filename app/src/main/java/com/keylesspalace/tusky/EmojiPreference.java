@@ -43,6 +43,18 @@ public class EmojiPreference extends Preference {
 
     private boolean updated, currentNeedsUpdate;
 
+    public EmojiPreference(Context context) {
+        super(context);
+
+        // Find out which font is currently active
+        this.selected = EmojiCompatFont.byId(PreferenceManager
+                .getDefaultSharedPreferences(context)
+                .getInt(FONT_PREFERENCE, 0));
+        // We'll use this later to determine if anything has changed
+        this.original = this.selected;
+
+        setSummary(selected.getDisplay(context));
+    }
 
     public EmojiPreference(Context context, AttributeSet attrs) {
         super(context, attrs);

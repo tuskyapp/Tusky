@@ -16,80 +16,148 @@
 package com.keylesspalace.tusky.fragment.preference
 
 import android.os.Bundle
-import android.view.View
-import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
-import androidx.preference.SwitchPreferenceCompat
 import com.keylesspalace.tusky.R
+import com.keylesspalace.tusky.components.notifications.NotificationHelper
+import com.keylesspalace.tusky.db.AccountEntity
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.di.Injectable
-import com.keylesspalace.tusky.components.notifications.NotificationHelper
+import com.keylesspalace.tusky.settings.PrefKeys
+import com.keylesspalace.tusky.settings.makePreferenceScreen
+import com.keylesspalace.tusky.settings.preferenceCategory
+import com.keylesspalace.tusky.settings.switchPreference
 import javax.inject.Inject
 
-class NotificationPreferencesFragment : PreferenceFragmentCompat(), Preference.OnPreferenceChangeListener, Injectable {
+class NotificationPreferencesFragment : PreferenceFragmentCompat(), Injectable {
 
     @Inject
     lateinit var accountManager: AccountManager
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
-        addPreferencesFromResource(R.xml.notification_preferences)
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        val activeAccount = accountManager.activeAccount
-
-        if (activeAccount != null) {
-            for (pair in mapOf(
-                    "notificationsEnabled" to activeAccount.notificationsEnabled,
-                    "notificationFilterMentions" to activeAccount.notificationsMentioned,
-                    "notificationFilterFollows" to activeAccount.notificationsFollowed,
-                    "notificationFilterFollowRequests" to activeAccount.notificationsFollowRequested,
-                    "notificationFilterReblogs" to activeAccount.notificationsReblogged,
-                    "notificationFilterFavourites" to activeAccount.notificationsFavorited,
-                    "notificationFilterPolls" to activeAccount.notificationsPolls,
-                    "notificationAlertSound" to activeAccount.notificationSound,
-                    "notificationAlertVibrate" to activeAccount.notificationVibration,
-                    "notificationAlertLight" to activeAccount.notificationLight
-            )) {
-                (requirePreference(pair.key) as SwitchPreferenceCompat).apply {
-                    isChecked = pair.value
-                    onPreferenceChangeListener = this@NotificationPreferencesFragment
+        val activeAccount = accountManager.activeAccount ?: return
+        val context = requireContext()
+        makePreferenceScreen {
+            switchPreference {
+                setTitle(R.string.pref_title_notifications_enabled)
+                key = PrefKeys.NOTIFICATIONS_ENABLED
+                isIconSpaceReserved = false
+                isChecked = activeAccount.notificationsEnabled
+                setOnPreferenceChangeListener { _, newValue ->
+                    updateAccount { it.notificationsEnabled = newValue as Boolean }
+                    if (NotificationHelper.areNotificationsEnabled(context, accountManager)) {
+                        NotificationHelper.enablePullNotifications(context)
+                    } else {
+                        NotificationHelper.disablePullNotifications(context)
+                    }
+                    true
                 }
             }
-        }
-    }
 
-    override fun onPreferenceChange(preference: Preference, newValue: Any): Boolean {
+            preferenceCategory(R.string.pref_title_notification_filters) { category ->
+                category.dependency = PrefKeys.NOTIFICATIONS_ENABLED
+                category.isIconSpaceReserved = false
 
-        val activeAccount = accountManager.activeAccount
-
-        if (activeAccount != null) {
-            when (preference.key) {
-                "notificationsEnabled" -> {
-                    activeAccount.notificationsEnabled = newValue as Boolean
-                    if (NotificationHelper.areNotificationsEnabled(preference.context, accountManager)) {
-                        NotificationHelper.enablePullNotifications(preference.context)
-                    } else {
-                        NotificationHelper.disablePullNotifications(preference.context)
+                switchPreference {
+                    setTitle(R.string.pref_title_notification_filter_follows)
+                    key = PrefKeys.NOTIFICATIONS_FILTER_FOLLOWS
+                    isIconSpaceReserved = false
+                    isChecked = activeAccount.notificationsFollowed
+                    setOnPreferenceChangeListener { _, newValue ->
+                        updateAccount { it.notificationsFollowed = newValue as Boolean }
+                        true
                     }
                 }
-                "notificationFilterMentions" -> activeAccount.notificationsMentioned = newValue as Boolean
-                "notificationFilterFollows" -> activeAccount.notificationsFollowed = newValue as Boolean
-                "notificationFilterFollowRequests" -> activeAccount.notificationsFollowRequested = newValue as Boolean
-                "notificationFilterReblogs" -> activeAccount.notificationsReblogged = newValue as Boolean
-                "notificationFilterFavourites" -> activeAccount.notificationsFavorited = newValue as Boolean
-                "notificationFilterPolls" -> activeAccount.notificationsPolls = newValue as Boolean
-                "notificationAlertSound" -> activeAccount.notificationSound = newValue as Boolean
-                "notificationAlertVibrate" -> activeAccount.notificationVibration = newValue as Boolean
-                "notificationAlertLight" -> activeAccount.notificationLight = newValue as Boolean
-            }
-            accountManager.saveAccount(activeAccount)
-            return true
-        }
 
-        return false
+                switchPreference {
+                    setTitle(R.string.pref_title_notification_filter_follow_requests)
+                    key = PrefKeys.NOTIFICATION_FILTER_FOLLOW_REQUESTS
+                    isIconSpaceReserved = false
+                    isChecked = activeAccount.notificationsFollowRequested
+                    setOnPreferenceChangeListener { _, newValue ->
+                        updateAccount { it.notificationsFollowRequested = newValue as Boolean }
+                        true
+                    }
+                }
+
+                switchPreference {
+                    setTitle(R.string.pref_title_notification_filter_reblogs)
+                    key = PrefKeys.NOTIFICATION_FILTER_REBLOGS
+                    isIconSpaceReserved = false
+                    isChecked = activeAccount.notificationsReblogged
+                    setOnPreferenceChangeListener { _, newValue ->
+                        updateAccount { it.notificationsReblogged = newValue as Boolean }
+                        true
+                    }
+                }
+
+                switchPreference {
+                    setTitle(R.string.pref_title_notification_filter_favourites)
+                    key = PrefKeys.NOTIFICATION_FILTER_FAVS
+                    isIconSpaceReserved = false
+                    isChecked = activeAccount.notificationsFavorited
+                    setOnPreferenceChangeListener { _, newValue ->
+                        updateAccount { it.notificationsFavorited = newValue as Boolean }
+                        true
+                    }
+                }
+
+                switchPreference {
+                    setTitle(R.string.pref_title_notification_filter_poll)
+                    key = PrefKeys.NOTIFICATION_FILTER_POLLS
+                    isIconSpaceReserved = false
+                    isChecked = activeAccount.notificationsPolls
+                    setOnPreferenceChangeListener { _, newValue ->
+                        updateAccount { it.notificationsPolls = newValue as Boolean }
+                        true
+                    }
+                }
+            }
+
+            preferenceCategory(R.string.pref_title_notification_alerts) { category ->
+                category.dependency = PrefKeys.NOTIFICATIONS_ENABLED
+                category.isIconSpaceReserved = false
+
+                switchPreference {
+                    setTitle(R.string.pref_title_notification_alert_sound)
+                    key = PrefKeys.NOTIFICATION_ALERT_SOUND
+                    isIconSpaceReserved = false
+                    isChecked = activeAccount.notificationSound
+                    setOnPreferenceChangeListener { _, newValue ->
+                        updateAccount { it.notificationSound = newValue as Boolean }
+                        true
+                    }
+                }
+
+                switchPreference {
+                    setTitle(R.string.pref_title_notification_alert_vibrate)
+                    key = PrefKeys.NOTIFICATION_ALERT_VIBRATE
+                    isIconSpaceReserved = false
+                    isChecked = activeAccount.notificationVibration
+                    setOnPreferenceChangeListener { _, newValue ->
+                        updateAccount { it.notificationVibration = newValue as Boolean }
+                        true
+                    }
+                }
+
+                switchPreference {
+                    setTitle(R.string.pref_title_notification_alert_light)
+                    key = PrefKeys.NOTIFICATION_ALERT_LIGHT
+                    isIconSpaceReserved = false
+                    isChecked = activeAccount.notificationLight
+                    setOnPreferenceChangeListener { _, newValue ->
+                        updateAccount { it.notificationLight = newValue as Boolean }
+                        true
+                    }
+                }
+            }
+        }
+    }
+
+    private inline fun updateAccount(changer: (AccountEntity) -> Unit) {
+        accountManager.activeAccount?.let { account ->
+            changer(account)
+            accountManager.saveAccount(account)
+        }
     }
 
     companion object {

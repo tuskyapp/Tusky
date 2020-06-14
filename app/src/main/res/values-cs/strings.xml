@@ -362,9 +362,7 @@
     </string>
     <string name="hint_list_name">Název seznamu</string>
     <string name="edit_hashtag_hint">Hashtag bez #</string>
-
     <string name="compose_shortcut_long_label">Napsat toot</string>
-
     <string name="compose_shortcut_short_label">Napsat</string>
     <string name="notifications_clear">Vymazat</string>
     <string name="notifications_apply_filter">Filtrovat</string>
@@ -426,7 +424,7 @@
     <string name="report_remote_instance">Přeposlat na %s</string>
     <string name="failed_report">Nahlášení selhalo</string>
     <string name="failed_fetch_statuses">Stahování tootů neuspělo</string>
-    <string name="report_description_1">Nahlášení bude zasláno moderátorům vašeho serveru. Níže můžete uvést, proč tento účet nahlašujete:</string>
+    <string name="report_description_1">Nahlášení bude zasláno moderátorovi vašeho serveru. Níže můžete uvést, proč tento účet nahlašujete:</string>
     <string name="report_description_remote_instance">Tento účet je z jiného serveru. Chcete na něj také poslat anonymizovanou kopii\?</string>
     <string name="pref_title_show_notifications_filter">Zobrazit filtr oznámení</string>
     <string name="create_poll_title">Anketa</string>

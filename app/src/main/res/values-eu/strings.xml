@@ -119,7 +119,7 @@
     <string name="label_header">Goiburua</string>
     <string name="link_whats_an_instance">Zer da instantzia?</string>
     <string name="login_connection">Konektatzen…</string>
-    <string name="dialog_whats_an_instance">Sartu hemen helbidea edo mastodon.eus, mastodon.jalgi.eus, mastodon.social bezalako <a href="https://instances.social">edozein instantzia</a>, 
+    <string name="dialog_whats_an_instance"> Sartu hemen helbidea edo mastodon.eus, mastodon.jalgi.eus, mastodon.social bezalako <a href="https://instances.social">edozein instantzia</a>, 
 \n
 \n Oraindik ez baduzu konturik, instantziaren izena sartu eta bertan kontua sortu dezakezu. 
 \n
@@ -388,7 +388,7 @@
     </plurals>
     <string name="poll_info_time_absolute">%s amaitzen da</string>
     <string name="poll_info_closed">itxita</string>
-    <string name="poll_vote">Botatu</string>
+    <string name="poll_vote">Bozkatu</string>
     <string name="poll_ended_voted">Botoa eman duzun galdeketa amaitu da</string>
     <string name="poll_ended_created">Sortu duzun galdeketa amaitu da</string>
     <plurals name="poll_timespan_days">
@@ -448,4 +448,9 @@
     <string name="no_scheduled_status">Ez duzu tut programaturik.</string>
     <string name="warning_scheduling_interval">Mastodonek gutxienez 5 minutuko programazio-tartea du.</string>
     <string name="notification_follow_request_name">Eskariak</string>
+    <string name="notification_follow_request_description">Jarraitzeko eskaereri buruzko jakinarazpenak</string>
+    <string name="dialog_mute_warning">\@%s isildu\?</string>
+    <string name="dialog_block_warning">\@%s blokeatu\?</string>
+    <string name="action_mute_conversation">Elkarrizketa isildu</string>
+    <string name="notification_follow_request_format">%s -k zu jarraitzeko eskatu dizu</string>
 </resources>

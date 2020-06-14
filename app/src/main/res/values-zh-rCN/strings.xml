@@ -413,11 +413,9 @@
     <string name="action_view_bookmarks">书签</string>
     <string name="action_view_domain_mutes">隐藏域名</string>
     <string name="action_add_poll">新增意见调查</string>
-    <string name="action_mute_domain">隐藏</string>
     <string name="action_access_scheduled_toot">定时嘟文</string>
     <string name="action_schedule_toot">定时嘟文</string>
     <string name="confirmation_domain_unmuted">%s 已解除静音</string>
-    <string name="mute_domain_warning">您确定要封锁 ％s 域名吗？您将不会在任何联邦时间轴或通知中看到该域名中的内容，并且来自该域名的关注者将被删除。</string>
     <string name="mute_domain_warning_dialog_ok">隐藏整个域</string>
     <string name="pref_title_animate_gif_avatars">动画GIF头像</string>
     <string name="gradient_for_media">显示隐藏媒体的彩色渐变</string>
@@ -430,11 +428,10 @@
     <string name="description_poll">使用以下选项创建投票：%1$s, %2$s, %3$s, %4$s; %5$s</string>
     <string name="select_list_title">选择清单</string>
     <string name="list">清单</string>
-    <string name="compose_preview_image_description">图片 ％s 的动作</string>
     <string name="button_continue">继续</string>
     <string name="button_back">返回</string>
     <string name="button_done">完成</string>
-    <string name="report_sent_success">成功回报 @%s</string>
+    <string name="report_sent_success">"成功回报  @%s"</string>
     <string name="hint_additional_info">附加留言</string>
     <string name="report_remote_instance">转发到 %s</string>
     <string name="failed_report">回报失败</string>
