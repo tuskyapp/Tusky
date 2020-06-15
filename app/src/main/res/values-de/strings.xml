@@ -446,4 +446,12 @@
     <string name="notification_follow_request_format">"%s  möchte dir folgen"</string>
     <string name="hashtags">Hashtags</string>
     <string name="add_hashtag_title">Hashtag hinzufügen</string>
+    <string name="pref_title_confirm_reblogs">Bestätigungsdialog vor dem Teilen eines Beitrags</string>
+    <string name="pref_title_show_cards_in_timelines">Linkvorschauen in Timelines anzeigen</string>
+    <string name="pref_title_enable_swipe_for_tabs">Wischgeste zum Wechseln zwischen Tabs</string>
+    <plurals name="poll_info_people">
+        <item quantity="one">%s Person</item>
+        <item quantity="other">%s Personen</item>
+    </plurals>
+    <string name="pref_title_gradient_for_media">Farbverlauf für versteckte Medien anzeigen</string>
 </resources>
