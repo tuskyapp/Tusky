@@ -225,7 +225,6 @@
     <string name="pref_title_show_boosts">แสดงบูสต์</string>
     <string name="pref_title_status_tabs">แท็บ</string>
     <string name="pref_title_status_filter">คัดกรองไทม์ไลน์</string>
-    <string name="gradient_for_media">แสดงสื่อที่ซ่อนไว้แบบไล่หลากสี</string>
     <string name="pref_title_animate_gif_avatars">อวตาร GIF เคลื่อนไหวได้</string>
     <string name="pref_title_bot_overlay">แสดงสัญลักษณ์ว่าเป็นบอต</string>
     <string name="pref_title_language">ภาษา</string>

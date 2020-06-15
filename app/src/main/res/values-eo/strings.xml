@@ -363,7 +363,6 @@
     <string name="pref_title_animate_gif_avatars">Moviĝi GIF profilbildojn</string>
     <string name="notification_poll_name">Enketoj</string>
     <string name="notification_poll_description">Sciigoj pri enketoj kiuj finiĝis</string>
-
     <string name="edit_hashtag_hint">Kradvortoj sen #</string>
     <string name="notifications_clear">Viŝi</string>
     <string name="notifications_apply_filter">Filtri</string>
@@ -450,7 +449,6 @@
     <string name="list">Listo</string>
     <string name="post_lookup_error_format">Eraro dum elserĉo de la mesaĝo %s</string>
     <string name="error_audio_upload_size">Aŭdia dosiero devas esti malpli ol 40MB.</string>
-    <string name="gradient_for_media">Montri buntajn transirojn por kaŝitaj aŭdovidaĵoj</string>
     <string name="no_saved_status">Vi ne havas iun ajn malneton.</string>
     <string name="no_scheduled_status">Vi ne havas iun ajn planitan mesaĝon.</string>
     <string name="notification_follow_request_name">Petoj de sekvado</string>

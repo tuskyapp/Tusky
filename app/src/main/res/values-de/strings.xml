@@ -428,9 +428,7 @@
     <string name="title_bookmarks">Lesezeichen</string>
     <string name="action_bookmark">Lesezeichen</string>
     <string name="action_view_bookmarks">Lesezeichen</string>
-    <string name="gradient_for_media">Bunten Farbverlauf für versteckte Medien anzeigen</string>
     <string name="about_powered_by_tusky">Powered by Tusky</string>
-
     <string name="description_status_bookmarked">Als Lesezeichen gespeichert</string>
     <string name="select_list_title">Liste auswählen</string>
     <string name="list">Liste</string>

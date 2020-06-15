@@ -471,7 +471,6 @@
     <string name="select_list_title">Выбрать список</string>
     <string name="list">Список</string>
     <string name="error_audio_upload_size">Аудиофайлы должны быть меньше 40МБ.</string>
-    <string name="gradient_for_media">Показывать цветные градиенты для скрытых медиа</string>
     <string name="post_lookup_error_format">Ошибка поиска поста %s</string>
     <string name="no_saved_status">У вас нет черновиков.</string>
     <string name="no_scheduled_status">У вас нет запланированных постов.</string>

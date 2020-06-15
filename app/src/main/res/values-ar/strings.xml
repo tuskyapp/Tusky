@@ -468,7 +468,6 @@
     <string name="description_status_bookmarked">أضيف إلى الفواصل المرجعية</string>
     <string name="select_list_title">اختر قائمة</string>
     <string name="list">القائمة</string>
-    <string name="gradient_for_media">اظهر ألوانا متدرّجة للوسائط المخفية</string>
     <string name="no_saved_status">ليس لديك أية مسودات.</string>
     <string name="no_scheduled_status">ليس لديك أية منشورات مُبرمَجة للنشر.</string>
     <string name="error_audio_upload_size">يجب أن يكون حجم الملفات الصوتية أقل مِن 40 ميغابايت.</string>

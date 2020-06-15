@@ -418,7 +418,6 @@
     <string name="confirmation_domain_unmuted">%s 已解除静音</string>
     <string name="mute_domain_warning_dialog_ok">隐藏整个域</string>
     <string name="pref_title_animate_gif_avatars">动画GIF头像</string>
-    <string name="gradient_for_media">显示隐藏媒体的彩色渐变</string>
     <string name="about_powered_by_tusky">由Tusky提供支持</string>
     <string name="pref_title_alway_open_spoiler">始终扩展标有内容警告的嘟文</string>
     <string name="filter_dialog_whole_word">整个单词</string>

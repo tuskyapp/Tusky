@@ -455,7 +455,6 @@
     <string name="select_list_title">Sélectionner la liste</string>
     <string name="list">Liste</string>
     <string name="error_audio_upload_size">Les fichiers audio doivent être inférieurs à 40 Mo.</string>
-    <string name="gradient_for_media">Afficher des dégradés en couleur pour les médias cachés</string>
     <string name="no_saved_status">Vous n’avez aucun brouillon.</string>
     <string name="no_scheduled_status">Vous n’avez aucun pouet planifié.</string>
     <string name="warning_scheduling_interval">L’intervalle minimum de planification sur Mastodon est de 5 minutes.</string>
