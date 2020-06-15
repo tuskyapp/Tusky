@@ -440,7 +440,6 @@
     <string name="action_access_scheduled_toot">Ingeplande toots</string>
     <string name="action_schedule_toot">Ingeplande toot</string>
     <string name="action_reset_schedule">Herstellen</string>
-    <string name="gradient_for_media">Wazige kleurovergangen voor verborgen media tonen</string>
     <string name="about_powered_by_tusky">Powered by Tusky</string>
     <string name="pref_title_alway_open_spoiler">Altijd toots met tekstwaarschuwingen uitklappen</string>
     <string name="description_status_bookmarked">Als bladwijzer toegevoegd</string>

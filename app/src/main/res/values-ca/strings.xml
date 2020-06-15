@@ -442,7 +442,6 @@
     <string name="select_list_title">Seleccionar la llista</string>
     <string name="list">Llista</string>
     <string name="post_lookup_error_format">S\'ha produït un error en cercar la publicació %s</string>
-    <string name="gradient_for_media">Mostra degradats de colors per a contingut multimèdia ocult</string>
     <string name="no_scheduled_status">No tens cap estat planificat.</string>
     <string name="error_audio_upload_size">Els fitxers d\'àudio han de ser més petits que 40MB.</string>
     <string name="no_saved_status">No tens cap esborrany.</string>

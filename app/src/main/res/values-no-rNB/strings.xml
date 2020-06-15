@@ -433,7 +433,6 @@
     <string name="description_status_bookmarked">Bokmerke lagt til</string>
     <string name="select_list_title">Velg liste</string>
     <string name="list">Liste</string>
-    <string name="gradient_for_media">Vis fargegradienter for skjult media</string>
     <string name="no_scheduled_status">Du har ingen planlagte statuser.</string>
     <string name="no_saved_status">Du har ikke lagret noen kladder.</string>
     <string name="error_audio_upload_size">Lydfiler må være mindre enn 40MB.</string>
@@ -454,4 +453,6 @@
     <string name="action_mute_conversation">Demp samtale</string>
     <string name="hashtags">Stikkord</string>
     <string name="add_hashtag_title">Legg til stikkord</string>
+    <string name="notification_follow_request_format">%s ønsker å følge deg</string>
+    <string name="pref_title_gradient_for_media">Vis fargerike gradienter for skjult media</string>
 </resources>

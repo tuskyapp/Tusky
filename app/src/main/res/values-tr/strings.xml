@@ -433,7 +433,6 @@
     <string name="profile_badge_bot_text">Alt Metin</string>
     <string name="confirmation_domain_unmuted">%s gizleme</string>
     <string name="mute_domain_warning_dialog_ok">Alan adından herşeyi gizle</string>
-    <string name="gradient_for_media">Gizli medya için renkli degradeleri göster</string>
     <string name="pref_title_alway_open_spoiler">Hassas içerikleri göster</string>
     <string name="poll_info_time_absolute">bitiş %s</string>
     <string name="failed_report">Bildirilemedi</string>

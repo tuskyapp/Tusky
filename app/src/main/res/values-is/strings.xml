@@ -206,7 +206,6 @@
     <string name="pref_title_language">Tungumál</string>
     <string name="pref_title_bot_overlay">Birta merki á róbótum</string>
     <string name="pref_title_animate_gif_avatars">Sýna hreyfingar GIF-auðkennismynda</string>
-    <string name="gradient_for_media">Sýna skæra litstigla í stað falins myndefnis</string>
     <string name="pref_title_status_filter">Síun tímalínu</string>
     <string name="pref_title_status_tabs">Flipar</string>
     <string name="pref_title_show_boosts">Sýna endurbirtingar</string>
@@ -345,7 +344,6 @@
     <string name="label_remote_account">Ekki er víst að upplýsingarnar hér að neðan endurspegli notandasniðið að fullu. Opnaðu fullt notandasnið í vafra.</string>
     <string name="unpin_action">Losa</string>
     <string name="pin_action">Festa</string>
-
     <string name="title_reblogged_by">Endurbirt af</string>
     <string name="title_favourited_by">Sett í eftirlæti af</string>
     <string name="conversation_1_recipients">%1$s</string>
@@ -364,7 +362,6 @@
     <string name="description_visiblity_direct">Beint</string>
     <string name="description_poll">Könnun með valkostunum: %1$s, %2$s, %3$s, %4$s; %5$s</string>
     <string name="hint_list_name">Heiti á lista</string>
-
     <string name="edit_hashtag_hint">Myllumerki án #</string>
     <string name="select_list_title">Veldu lista</string>
     <string name="list">Listi</string>

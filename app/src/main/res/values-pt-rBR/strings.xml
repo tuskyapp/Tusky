@@ -4,8 +4,8 @@
     <string name="error_empty">Não pode estar vazio.</string>
     <string name="error_invalid_domain">Instância inválida</string>
     <string name="error_failed_app_registration">Falha ao autenticar com esta instância.</string>
-    <string name="error_no_web_browser_found">Navegador não foi encontrado.</string>
-    <string name="error_authorization_unknown">Ocorreu um erro não-identificado de autorização.</string>
+    <string name="error_no_web_browser_found">Nenhum navegador foi encontrado.</string>
+    <string name="error_authorization_unknown">Ocorreu um erro não identificado de autorização.</string>
     <string name="error_authorization_denied">Autorização negada.</string>
     <string name="error_retrieving_oauth_token">Falha ao adquirir token de entrada.</string>
     <string name="error_compose_character_limit">O toot é muito longo!</string>
@@ -443,7 +443,6 @@
     <string name="description_status_bookmarked">Salvo</string>
     <string name="select_list_title">Selecionar lista</string>
     <string name="list">Lista</string>
-    <string name="gradient_for_media">Mostrar blur em mídias ocultas</string>
     <string name="no_scheduled_status">Sem toots agendados.</string>
     <string name="error_audio_upload_size">Áudios devem ser menores que 40MB.</string>
     <string name="no_saved_status">Sem rascunhos.</string>
