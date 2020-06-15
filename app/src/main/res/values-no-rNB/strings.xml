@@ -454,4 +454,6 @@
     <string name="action_mute_conversation">Demp samtale</string>
     <string name="hashtags">Stikkord</string>
     <string name="add_hashtag_title">Legg til stikkord</string>
+    <string name="notification_follow_request_format">%s ønsker å følge deg</string>
+    <string name="pref_title_gradient_for_media">Vis fargerike gradienter for skjult media</string>
 </resources>
