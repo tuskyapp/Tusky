@@ -492,4 +492,7 @@
     <string name="action_unmute_conversation">Показать обсуждение</string>
     <string name="action_mute_conversation">Заглушить обсуждение</string>
     <string name="notification_follow_request_format">запрос на подписку от %s</string>
+    <string name="hashtags">Тэги</string>
+    <string name="add_hashtag_title">Добавить тэг</string>
+    <string name="pref_title_gradient_for_media">Отображать цветные градиенты для скрытых изображений</string>
 </resources>
