@@ -22,12 +22,12 @@
     <string name="status_content_warning_show_more">Zeṛ ugar</string>
     <string name="status_content_warning_show_less">Zeṛ kra kan</string>
     <string name="message_empty">Ulac walu da.</string>
-    <string name="notification_follow_format">%s yeṭafar-ik-id</string>
+    <string name="notification_follow_format">%s yeṭṭafar-ik·ikem-id</string>
     <string name="action_reply">Err</string>
     <string name="action_more">Ugar</string>
     <string name="action_compose">Azen</string>
     <string name="action_follow">Ḍfeṛ</string>
-    <string name="action_unfollow">Ur ṭafaṛ ara</string>
+    <string name="action_unfollow">Ur ṭṭafar ara</string>
     <string name="action_edit">Ẓreg</string>
     <string name="action_delete">Kkes</string>
     <string name="action_delete_and_redraft">Kkes tɛiwdeḍ tira</string>
@@ -87,7 +87,7 @@
     <string name="about_tusky_account">Amaɣnu n Tusky</string>
     <string name="status_media_images">Tugniwin</string>
     <string name="status_media_video">Tibidyutin</string>
-    <string name="follows_you">Yeṭafaṛ-ik-id</string>
+    <string name="follows_you">Yeṭṭafar-ik·ikem-id</string>
     <string name="filter_dialog_remove_button">Kkes</string>
     <string name="filter_dialog_update_button">Lqem</string>
     <string name="add_account_name">Rnu amiḍan</string>
@@ -136,8 +136,8 @@
     <string name="notifications_apply_filter">Sizdeg</string>
     <string name="title_accounts">Imiḍanen</string>
     <string name="add_poll_choice">Rnu yiwen wefran</string>
-    <string name="report_username_format">Ccetki ɣef @%s</string>
-    <string name="action_report">Ccetki fell-as</string>
+    <string name="report_username_format">Cetki ɣef @%s</string>
+    <string name="action_report">Cetki fell-as</string>
     <string name="action_reject">Ggami</string>
     <string name="download_image">Yessidired %1$s</string>
     <string name="send_media_to">Bḍu tugna s…</string>
@@ -194,7 +194,7 @@
     </plurals>
     <string name="button_continue">Kemmel</string>
     <string name="button_back">Uɣal</string>
-    <string name="failed_report">Tella-d tuccḍa deg ccetki</string>
+    <string name="failed_report">Tella-d tuccḍa deg cetki</string>
     <string name="failed_search">Tucḍa n unadi</string>
     <string name="create_poll_title">Assenqed</string>
     <string name="poll_duration_5_min">5 n tisdidin</string>
@@ -205,7 +205,7 @@
     <string name="poll_duration_3_days">3 n wussan</string>
     <string name="poll_duration_7_days">7 n wussan</string>
     <string name="poll_new_choice_hint">Tafrant %d</string>
-    <string name="title_follows">Ig ṭafaṛ</string>
+    <string name="title_follows">Ig ṭṭafar</string>
     <string name="title_followers">Imeḍfaṛen</string>
     <string name="hint_search_people_list">Nadi ɣef medden ar at ḍfereḍ</string>
     <string name="description_visiblity_private">Imeḍfaṛen</string>
@@ -213,7 +213,7 @@
     <string name="action_mentions">Tibdarin</string>
     <string name="title_mentions_dialog">Tibdarin</string>
     <string name="title_links_dialog">Iseɣwan</string>
-    <string name="confirmation_reported">Yettwaceyyaɛ!</string>
+    <string name="confirmation_reported">Yettwaceyyeɛ!</string>
     <string name="status_sent">Yettwaceyyaɛ!</string>
     <string name="search_no_results">Ula d yiwen n ugmuḍ</string>
     <string name="post_privacy_followers_only">I yimeḍfaṛen kan</string>
@@ -267,4 +267,5 @@
         <item quantity="one">%s n wemdan</item>
         <item quantity="other">%s n yemdanen</item>
     </plurals>
+    <string name="report_remote_instance">Bren-it ɣer %s</string>
 </resources>

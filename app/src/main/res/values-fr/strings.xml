@@ -404,7 +404,7 @@
     <string name="compose_preview_image_description">Actions pour l’image %s</string>
     <string name="poll_info_format"> <!-- 15 votes • 1 heure restante --> %1$s • %2$s</string>
     <string name="poll_ended_voted">Un sondage auquel vous avez participé vient de se terminer</string>
-    <string name="description_poll">Sondage avec des choix : %1$s, %2$s, %3$s, %4$s; %5$s</string>
+    <string name="description_poll">Sondage avec des choix : %1$s, %2$s, %3$s, %4$s ; %5$s</string>
     <string name="title_domain_mutes">Domaines cachés</string>
     <string name="action_view_domain_mutes">Domaines cachés</string>
     <string name="action_mute_domain">Masquer %s</string>
@@ -476,4 +476,5 @@
     <string name="pref_title_enable_swipe_for_tabs">Activer les gestes de glissement pour passer d’un onglet à l’autre</string>
     <string name="hashtags">Hashtags</string>
     <string name="add_hashtag_title">Ajouter hashtag</string>
+    <string name="pref_title_gradient_for_media">Afficher des dégradés en couleur pour les médias cachés</string>
 </resources>
