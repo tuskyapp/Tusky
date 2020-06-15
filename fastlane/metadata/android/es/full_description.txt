@@ -1,0 +1,12 @@
+Tusky es un cliente ligero para Mastodon, un servidor de red social gratuito y de código abierto.
+
+• Material Design
+• La mayoría de las API de Mastodon están implementadas
+• Soporte de múltiples cuentas
+• Tema oscuro y claro con la posibilidad de cambiar automáticamente según la hora del día
+• Borradores - crear los toots y guárdalos para más adelante.
+• Elige entre diferentes estilos de emojis
+• Optimizado para todos los tamaños de pantalla.
+• Completamente de código abierto: sin dependencias no libres como los servicios de Google
+
+Para obtener más información sobre Mastodon, visite https://joinmastodon.org/

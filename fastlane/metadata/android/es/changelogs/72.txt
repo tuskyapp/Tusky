@@ -1,0 +1,9 @@
+Tusky v11.0
+
+- Notificaciones sobre nuevas solicitudes de seguimiento cuando su cuenta está bloqueada
+- Nuevas funciones que se pueden alternar en la pantalla de Preferencias:
+    - deshabilitar deslizar entre pestañas
+    - muestra un diálogo de confirmación antes de dar un toque
+    - Mostrar vistas previas de enlaces en líneas de tiempo
+- Las conversaciones ahora se pueden silenciar
+- Los resultados de la encuesta ahora se calcularán en función de la cantidad de votantes y no de la cantidad t
