@@ -76,6 +76,15 @@ class PreferencesFragment : PreferenceFragmentCompat() {
                     icon = makeIcon(GoogleMaterial.Icon.gmd_format_size)
                 }
 
+                listPreference {
+                    setDefaultValue("top")
+                    setEntries(R.array.pref_main_nav_position_options)
+                    setEntryValues(R.array.pref_main_nav_position_values)
+                    key = PrefKeys.MAIN_NAV_POSITION
+                    setSummaryProvider { entry }
+                    setTitle(R.string.pref_main_nav_position)
+                }
+
                 switchPreference {
                     setDefaultValue(false)
                     key = PrefKeys.FAB_HIDE

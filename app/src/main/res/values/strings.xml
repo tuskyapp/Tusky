@@ -252,6 +252,11 @@
     <string name="pref_publishing">Publishing (synced with server)</string>
     <string name="pref_failed_to_sync">Failed to sync settings</string>
 
+    <string name="pref_main_nav_position">Main navigation position</string>
+    <string name="pref_main_nav_position_option_top">Top</string>
+    <string name="pref_main_nav_position_option_bottom">Bottom</string>
+
+
     <string name="post_privacy_public">Public</string>
     <string name="post_privacy_unlisted">Unlisted</string>
     <string name="post_privacy_followers_only">Followers-only</string>

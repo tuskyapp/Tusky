@@ -21,6 +21,7 @@ object PrefKeys {
     const val FAB_HIDE = "fabHide"
     const val LANGUAGE = "language"
     const val STATUS_TEXT_SIZE = "statusTextSize"
+    const val MAIN_NAV_POSITION = "mainNavPosition"
     const val ABSOLUTE_TIME_VIEW = "absoluteTimeView"
     const val SHOW_BOT_OVERLAY = "showBotOverlay"
     const val ANIMATE_GIF_AVATARS = "animateGifAvatars"

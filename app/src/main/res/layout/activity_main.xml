@@ -22,19 +22,17 @@
                 android:id="@+id/mainToolbar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:contentInsetStartWithNavigation="0dp">
+                app:contentInsetStartWithNavigation="0dp"
+                app:layout_scrollFlags="scroll|enterAlways" />
 
-                <com.google.android.material.tabs.TabLayout
-                    android:id="@+id/tabLayout"
-                    style="@style/TuskyTabAppearance"
-                    android:layout_width="match_parent"
-                    android:layout_height="?attr/actionBarSize"
-                    app:tabGravity="fill"
-                    app:tabMaxWidth="0dp"
-                    app:tabMode="fixed"
-                    app:tabUnboundedRipple="false" />
-
-            </androidx.appcompat.widget.Toolbar>
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/tabLayout"
+                style="@style/TuskyTabAppearance"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:tabGravity="fill"
+                app:tabMaxWidth="0dp"
+                app:tabMode="fixed" />
 
         </com.google.android.material.appbar.AppBarLayout>
 
@@ -42,15 +40,32 @@
             android:id="@+id/viewPager"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@id/tabLayout"
+            android:layout_marginBottom="?attr/actionBarSize"
             android:background="?attr/windowBackgroundColor"
             app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+        <com.google.android.material.bottomappbar.BottomAppBar
+            android:id="@+id/bottomNav"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            app:contentInsetStart="0dp"
+            app:fabAlignmentMode="end">
+
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/bottomTabLayout"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:tabIndicator="@null"
+                app:tabMode="fixed" />
+
+        </com.google.android.material.bottomappbar.BottomAppBar>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/composeButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="16dp"
+            android:layout_margin="@dimen/fabMargin"
             android:contentDescription="@string/action_compose"
             app:layout_anchor="@id/viewPager"
             app:layout_anchorGravity="bottom|end"
