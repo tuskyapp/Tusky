@@ -203,25 +203,22 @@ class ComposeActivity : BaseActivity(),
                     for (uri in uriList) {
                         pickMedia(uri)
                     }
-                } else if (type == "text/plain") {
-                    val action = intent.action
-                    if (action != null && action == Intent.ACTION_SEND) {
-                        val subject = intent.getStringExtra(Intent.EXTRA_SUBJECT)
-                        val text = intent.getStringExtra(Intent.EXTRA_TEXT)
-                        val shareBody = text ?: subject
+                } else if (type == "text/plain" && intent.action == Intent.ACTION_SEND) {
 
-                        if (shareBody != null) {
-                            if (!subject.isNullOrBlank() && subject !in shareBody) {
-                                composeContentWarningField.setText(subject)
-                                viewModel.showContentWarning.value = true
-                            }
+                    val subject = intent.getStringExtra(Intent.EXTRA_SUBJECT)
+                    val text = intent.getStringExtra(Intent.EXTRA_TEXT).orEmpty()
+                    val shareBody = if (!subject.isNullOrBlank() && subject !in text) {
+                        subject + '\n' + text
+                    } else {
+                        text
+                    }
 
-                            val start = composeEditField.selectionStart.coerceAtLeast(0)
-                            val end = composeEditField.selectionEnd.coerceAtLeast(0)
-                            val left = min(start, end)
-                            val right = max(start, end)
-                            composeEditField.text.replace(left, right, shareBody, 0, shareBody.length)
-                        }
+                    if (shareBody.isNotBlank()) {
+                        val start = composeEditField.selectionStart.coerceAtLeast(0)
+                        val end = composeEditField.selectionEnd.coerceAtLeast(0)
+                        val left = min(start, end)
+                        val right = max(start, end)
+                        composeEditField.text.replace(left, right, shareBody, 0, shareBody.length)
                     }
                 }
             }
