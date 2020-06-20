@@ -493,4 +493,5 @@
     <string name="notification_follow_request_format">%s طلبَ متابعتك</string>
     <string name="hashtags">الوسوم</string>
     <string name="add_hashtag_title">إضافة وسم</string>
+    <string name="pref_title_gradient_for_media">اظهر ألوانا متدرّجة للوسائط المخفية</string>
 </resources>
