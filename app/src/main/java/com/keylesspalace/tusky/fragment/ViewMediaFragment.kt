@@ -17,18 +17,20 @@ package com.keylesspalace.tusky.fragment
 
 import android.os.Bundle
 import android.text.TextUtils
-import android.widget.TextView
-
 import com.keylesspalace.tusky.ViewMediaActivity
 import com.keylesspalace.tusky.entity.Attachment
-import com.keylesspalace.tusky.util.visible
 
 abstract class ViewMediaFragment : BaseFragment() {
     private var toolbarVisibiltyDisposable: Function0<Boolean>? = null
 
-    abstract fun setupMediaView(url: String, previewUrl: String?)
+    abstract fun setupMediaView(
+            url: String,
+            previewUrl: String?,
+            description: String?,
+            showingDescription: Boolean
+    )
+
     abstract fun onToolbarVisibilityChange(visible: Boolean)
-    abstract val descriptionView: TextView
 
     protected var showingDescription = false
     protected var isDescriptionVisible = false
@@ -36,6 +38,7 @@ abstract class ViewMediaFragment : BaseFragment() {
     companion object {
         @JvmStatic
         protected val ARG_START_POSTPONED_TRANSITION = "startPostponedTransition"
+
         @JvmStatic
         protected val ARG_ATTACHMENT = "attach"
         @JvmStatic
@@ -74,13 +77,10 @@ abstract class ViewMediaFragment : BaseFragment() {
 
     protected fun finalizeViewSetup(url: String, previewUrl: String?, description: String?) {
         val mediaActivity = activity as ViewMediaActivity
-        setupMediaView(url, previewUrl)
 
-        descriptionView.text = description ?: ""
         showingDescription = !TextUtils.isEmpty(description)
         isDescriptionVisible = showingDescription
-
-        descriptionView.visible(showingDescription && mediaActivity.isToolbarVisible)
+        setupMediaView(url, previewUrl, description, showingDescription && mediaActivity.isToolbarVisible)
 
         toolbarVisibiltyDisposable = (activity as ViewMediaActivity)
                 .addToolbarVisibilityListener { isVisible ->

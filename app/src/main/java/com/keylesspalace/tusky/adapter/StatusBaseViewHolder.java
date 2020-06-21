@@ -753,7 +753,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             itemView.setAccessibilityDelegate(null);
         } else {
             if (payloads instanceof List)
-                for (Object item : (List) payloads) {
+                for (Object item : (List<?>) payloads) {
                     if (Key.KEY_CREATED.equals(item)) {
                         setCreatedAt(status.getCreatedAt(), statusDisplayOptions);
                     }

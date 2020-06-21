@@ -24,18 +24,54 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/mediaDescription"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#60000000"
-        android:hyphenationFrequency="full"
-        android:lineSpacingMultiplier="1.1"
-        android:padding="8dp"
-        android:textAlignment="center"
-        android:textColor="#eee"
-        android:textSize="?attr/status_text_medium"
-        app:layout_constraintBottom_toBottomOf="parent"
-        tools:text="Some media description" />
+    <!--    This should be inside CoordinatorLayout for two reasons:
 
+            1. TouchImageView really wants some constraints ans has no size otherwise
+            2. We don't want sheet to overlap with appbar but the only way to do it with autosizing
+            is to gibe parent some margin. -->
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="70dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:id="@+id/captionSheet"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/description_bg_expanded"
+            android:orientation="vertical"
+            app:behavior_peekHeight="90dp"
+            app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_gravity="center_horizontal"
+                android:importantForAccessibility="no"
+                android:src="@drawable/ic_drag_indicator_horiz_24dp" />
+
+            <androidx.core.widget.NestedScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/mediaDescription"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hyphenationFrequency="full"
+                    android:lineSpacingMultiplier="1.1"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp"
+                    android:paddingBottom="8dp"
+                    android:textAlignment="center"
+                    android:textColor="#eee"
+                    android:textSize="?attr/status_text_medium"
+                    tools:text="Some media description which might get quite long so that it won't easily fit in one line" />
+            </androidx.core.widget.NestedScrollView>
+        </LinearLayout>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

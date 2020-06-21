@@ -23,7 +23,6 @@ import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.*
 import android.widget.ImageView
-import android.widget.TextView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
@@ -57,16 +56,22 @@ class ViewImageFragment : ViewMediaFragment() {
     @Volatile
     private var startedTransition = false
 
-    override lateinit var descriptionView: TextView
     override fun onAttach(context: Context) {
         super.onAttach(context)
         photoActionsListener = context as PhotoActionsListener
     }
 
+
     @SuppressLint("ClickableViewAccessibility")
-    override fun setupMediaView(url: String, previewUrl: String?) {
-        descriptionView = mediaDescription
+    override fun setupMediaView(
+            url: String,
+            previewUrl: String?,
+            description: String?,
+            showingDescription: Boolean
+    ) {
         photoView.transitionName = url
+        mediaDescription.text = description
+        captionSheet.visible(showingDescription)
         attacher = PhotoViewAttacher(photoView).apply {
             // This prevents conflicts with ViewPager
             setAllowParentInterceptOnEdge(true)
@@ -176,10 +181,10 @@ class ViewImageFragment : ViewMediaFragment() {
         }
         isDescriptionVisible = showingDescription && visible
         val alpha = if (isDescriptionVisible) 1.0f else 0.0f
-        descriptionView.animate().alpha(alpha)
+        captionSheet.animate().alpha(alpha)
                 .setListener(object : AnimatorListenerAdapter() {
                     override fun onAnimationEnd(animation: Animator) {
-                        descriptionView.visible(isDescriptionVisible)
+                        captionSheet.visible(isDescriptionVisible)
                         animation.removeListener(this)
                     }
                 })

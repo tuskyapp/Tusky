@@ -26,7 +26,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.MediaController
-import android.widget.TextView
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.ViewMediaActivity
 import com.keylesspalace.tusky.entity.Attachment
@@ -47,7 +46,6 @@ class ViewVideoFragment : ViewMediaFragment() {
     }
     private lateinit var mediaActivity: ViewMediaActivity
     private val TOOLBAR_HIDE_DELAY_MS = 3000L
-    override lateinit var descriptionView : TextView
     private lateinit var mediaController : MediaController
     private var isAudio = false
 
@@ -71,8 +69,14 @@ class ViewVideoFragment : ViewMediaFragment() {
     }
 
     @SuppressLint("ClickableViewAccessibility")
-    override fun setupMediaView(url: String, previewUrl: String?) {
-        descriptionView = mediaDescription
+    override fun setupMediaView(
+            url: String,
+            previewUrl: String?,
+            description: String?,
+            showingDescription: Boolean
+    ) {
+        mediaDescription.text = description
+        mediaDescription.visible(showingDescription)
 
         videoView.transitionName = url
         videoView.setVideoPath(url)
@@ -178,14 +182,14 @@ class ViewVideoFragment : ViewMediaFragment() {
         val alpha = if (isDescriptionVisible) 1.0f else 0.0f
         if (isDescriptionVisible) {
             // If to be visible, need to make visible immediately and animate alpha
-            descriptionView.alpha = 0.0f
-            descriptionView.visible(isDescriptionVisible)
+            mediaDescription.alpha = 0.0f
+            mediaDescription.visible(isDescriptionVisible)
         }
 
-        descriptionView.animate().alpha(alpha)
+        mediaDescription.animate().alpha(alpha)
                 .setListener(object : AnimatorListenerAdapter() {
                     override fun onAnimationEnd(animation: Animator) {
-                        descriptionView.visible(isDescriptionVisible)
+                        mediaDescription.visible(isDescriptionVisible)
                         animation.removeListener(this)
                     }
                 })
