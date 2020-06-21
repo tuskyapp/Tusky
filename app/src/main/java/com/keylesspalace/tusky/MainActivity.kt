@@ -488,8 +488,8 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
         val pageMargin = resources.getDimensionPixelSize(R.dimen.tab_page_margin)
         viewPager.setPageTransformer(MarginPageTransformer(pageMargin))
 
-        val uswSwipeForTabs = preferences.getBoolean("enableSwipeForTabs", true)
-        viewPager.isUserInputEnabled = uswSwipeForTabs
+        val enableSwipeForTabs = preferences.getBoolean("enableSwipeForTabs", true)
+        viewPager.isUserInputEnabled = enableSwipeForTabs
 
         onTabSelectedListener?.let {
             activeTabLayout.removeOnTabSelectedListener(it)
@@ -516,7 +516,8 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
             activeTabLayout.addOnTabSelectedListener(it)
         }
 
-        mainToolbar.title = tabs[0].title(this@MainActivity)
+        val activeTabPosition = if (selectNotificationTab) notificationTabPosition else 0
+        mainToolbar.title = tabs[activeTabPosition].title(this@MainActivity)
 
     }
 
