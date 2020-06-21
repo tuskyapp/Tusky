@@ -1,0 +1,9 @@
+Tusky v11.0
+
+- Notifications à propos des nouvelles demandes d’abonnement lorsque votre compte est verrouillé
+- Nouvelles fonctionalités activables via l’écran Préférences :
+- désactiver le pivotement entre onglets
+- afficher une boîte de dialogue de confirmation avant de booster un pouet
+- afficher les aperçus des liens dans les fils
+- Possibilité de mettre en sourdine les conversations
+- Les résultats des sondages seront désormais calculés en fonction du nombre des sond·é·s
