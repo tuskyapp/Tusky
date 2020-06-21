@@ -21,9 +21,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.drawable.Drawable
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.ImageView
 import android.widget.TextView
 import com.bumptech.glide.Glide
@@ -31,7 +29,6 @@ import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
-import com.github.chrisbanes.photoview.PhotoViewAttacher
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.entity.Attachment
 import com.keylesspalace.tusky.util.hide
@@ -48,11 +45,11 @@ class ViewImageFragment : ViewMediaFragment() {
         fun onPhotoTap()
     }
 
-    private lateinit var attacher: PhotoViewAttacher
     private lateinit var photoActionsListener: PhotoActionsListener
     private lateinit var toolbar: View
     private var transition = BehaviorSubject.create<Unit>()
     private var shouldStartTransition = false
+
     // Volatile: Image requests happen on background thread and we want to see updates to it
     // immediately on another thread. Atomic is an overkill for such thing.
     @Volatile
@@ -67,23 +64,6 @@ class ViewImageFragment : ViewMediaFragment() {
     override fun setupMediaView(url: String, previewUrl: String?) {
         descriptionView = mediaDescription
         photoView.transitionName = url
-        attacher = PhotoViewAttacher(photoView).apply {
-            // Clicking outside the photo closes the viewer.
-            setOnOutsidePhotoTapListener { photoActionsListener.onDismiss() }
-            setOnClickListener { onMediaTap() }
-
-            /* A vertical swipe motion also closes the viewer. This is especially useful when the photo
-             * mostly fills the screen so clicking outside is difficult. */
-            setOnSingleFlingListener { _, _, velocityX, velocityY ->
-                var result = false
-                if (abs(velocityY) > abs(velocityX)) {
-                    photoActionsListener.onDismiss()
-                    result = true
-                }
-                result
-            }
-        }
-
         startedTransition = false
         loadImageFromNetwork(url, previewUrl, photoView)
     }
@@ -94,8 +74,64 @@ class ViewImageFragment : ViewMediaFragment() {
         return inflater.inflate(R.layout.fragment_view_image, container, false)
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val gestureDetector = GestureDetector(requireContext(), object : GestureDetector.SimpleOnGestureListener() {
+            override fun onSingleTapConfirmed(e: MotionEvent?): Boolean {
+                onMediaTap()
+                return true
+            }
+        })
+
+        var lastY = 0f
+        photoView.setOnTouchListener { _, event ->
+            // This part is for scaling/translating on vertical move.
+            // We use raw coordinates to get the correct ones during scaling
+            var result = true
+
+            gestureDetector.onTouchEvent(event)
+
+            if (event.action == MotionEvent.ACTION_DOWN) {
+                lastY = event.rawY
+            } else if (!photoView.isZoomed && event.action == MotionEvent.ACTION_MOVE) {
+                val diff = event.rawY - lastY
+                // This code is to prevent transformations during page scrolling
+                // If we are already translating or we reached the threshold, then transform.
+                if (photoView.translationY != 0f || abs(diff) > 40) {
+                    photoView.translationY += (diff)
+                    val scale = (-abs(photoView.translationY) / 720 + 1).coerceAtLeast(0.5f)
+                    photoView.scaleY = scale
+                    photoView.scaleX = scale
+                    lastY = event.rawY
+                }
+                return@setOnTouchListener true
+            } else if (event.action == MotionEvent.ACTION_UP || event.action == MotionEvent.ACTION_CANCEL) {
+                onGestureEnd()
+            } else if (event.pointerCount >= 2 || photoView.canScrollHorizontally(1) && photoView.canScrollHorizontally(-1)) {
+                // Starting from here is adapted code from TouchImageView to play nice with pager.
+
+                // Can scroll horizontally checks if there's still a part of the image.
+                // That can be scrolled until you reach the edge multi-touch event.
+                val parent = view.parent
+                result = when (event.action) {
+                    MotionEvent.ACTION_DOWN, MotionEvent.ACTION_MOVE -> {
+                        // Disallow RecyclerView to intercept touch events.
+                        parent.requestDisallowInterceptTouchEvent(true)
+                        // Disable touch on view
+                        false
+                    }
+                    MotionEvent.ACTION_UP -> {
+                        // Allow RecyclerView to intercept touch events.
+                        parent.requestDisallowInterceptTouchEvent(false)
+                        true
+                    }
+                    else -> true
+                }
+            }
+            result
+        }
 
         val arguments = this.requireArguments()
         val attachment = arguments.getParcelable<Attachment>(ARG_ATTACHMENT)
@@ -114,6 +150,14 @@ class ViewImageFragment : ViewMediaFragment() {
         }
 
         finalizeViewSetup(url, attachment?.previewUrl, description)
+    }
+
+    private fun onGestureEnd() {
+        if (abs(photoView.translationY) > 180) {
+            photoActionsListener.onDismiss()
+        } else {
+            photoView.animate().translationY(0f).scaleX(1f).scaleY(1f).start()
+        }
     }
 
     private fun onMediaTap() {
@@ -155,7 +199,6 @@ class ViewImageFragment : ViewMediaFragment() {
                                 .load(previewUrl)
                                 .dontAnimate()
                                 .onlyRetrieveFromCache(true)
-                                .centerInside()
                                 .addListener(ImageRequestListener(true, isThumnailRequest = true)))
                     else it
                 }
@@ -164,7 +207,6 @@ class ViewImageFragment : ViewMediaFragment() {
                         .centerInside()
                         .addListener(ImageRequestListener(false, isThumnailRequest = false))
                 )
-                .centerInside()
                 .addListener(ImageRequestListener(true, isThumnailRequest = false))
                 .into(photoView)
     }
@@ -225,13 +267,7 @@ class ViewImageFragment : ViewMediaFragment() {
                 // another branch. take() will unsubscribe after we have it to not leak menmory
                 transition
                         .take(1)
-                        .subscribe {
-                            target.onResourceReady(resource, null)
-                            // It's needed. Don't ask why, I don't know, setImageDrawable() should
-                            // do it by itself but somehow it doesn't work automatically.
-                            // Just do it. If you don't, image will jump around when touched.
-                            attacher.update()
-                        }
+                        .subscribe { target.onResourceReady(resource, null) }
             }
             return true
         }

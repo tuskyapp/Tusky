@@ -159,7 +159,7 @@ dependencies {
 
     implementation "com.github.connyduck:sparkbutton:4.0.0"
 
-    implementation "com.github.chrisbanes:PhotoView:2.3.0"
+    implementation 'com.github.MikeOrtiz:TouchImageView:3.0.1'
 
     implementation "com.mikepenz:materialdrawer:$materialdrawerVersion"
     implementation "com.mikepenz:materialdrawer-iconics:$materialdrawerVersion"
