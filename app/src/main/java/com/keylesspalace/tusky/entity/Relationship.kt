@@ -24,5 +24,6 @@ data class Relationship (
     val blocking: Boolean,
     val muting: Boolean,
     val requested: Boolean,
-    @SerializedName("showing_reblogs") val showingReblogs: Boolean
+    @SerializedName("showing_reblogs") val showingReblogs: Boolean,
+    @SerializedName("domain_blocking") val blockingDomain: Boolean
 )
