@@ -81,6 +81,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
     private var followState: FollowState = FollowState.NOT_FOLLOWING
     private var blocking: Boolean = false
     private var muting: Boolean = false
+    private var blockingDomain: Boolean = false
     private var showingReblogs: Boolean = false
     private var loadedAccount: Account? = null
 
@@ -528,6 +529,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
         }
         blocking = relation.blocking
         muting = relation.muting
+        blockingDomain = relation.blockingDomain
         showingReblogs = relation.showingReblogs
 
         accountFollowsYouTextView.visible(relation.followedBy)
@@ -626,7 +628,11 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
                     // If we can't get the domain, there's no way we can mute it anyway...
                     menu.removeItem(R.id.action_mute_domain)
                 } else {
-                    muteDomain.title = getString(R.string.action_mute_domain, domain)
+                    if (blockingDomain) {
+                        muteDomain.title = getString(R.string.action_unmute_domain, domain)
+                    } else {
+                        muteDomain.title = getString(R.string.action_mute_domain, domain)
+                    }
                 }
             }
 
@@ -671,12 +677,16 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
                 .show()
     }
 
-    private fun showMuteDomainWarningDialog(instance: String) {
-        AlertDialog.Builder(this)
-                .setMessage(getString(R.string.mute_domain_warning, instance))
-                .setPositiveButton(getString(R.string.mute_domain_warning_dialog_ok)) { _, _ -> viewModel.muteDomain(instance) }
-                .setNegativeButton(android.R.string.cancel, null)
-                .show()
+    private fun toggleBlockDomain(instance: String) {
+        if(blockingDomain) {
+            viewModel.unblockDomain(instance)
+        } else {
+            AlertDialog.Builder(this)
+                    .setMessage(getString(R.string.mute_domain_warning, instance))
+                    .setPositiveButton(getString(R.string.mute_domain_warning_dialog_ok)) { _, _ -> viewModel.blockDomain(instance) }
+                    .setNegativeButton(android.R.string.cancel, null)
+                    .show()
+        }
     }
 
     private fun toggleBlock() {
@@ -757,7 +767,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
                 return true
             }
             R.id.action_mute_domain -> {
-                showMuteDomainWarningDialog(domain)
+                toggleBlockDomain(domain)
                 return true
             }
             R.id.action_show_reblogs -> {

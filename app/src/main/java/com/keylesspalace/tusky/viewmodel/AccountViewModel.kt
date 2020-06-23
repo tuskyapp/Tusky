@@ -156,18 +156,41 @@ class AccountViewModel @Inject constructor(
         }
     }
 
-    fun muteDomain(instance: String) {
+    fun blockDomain(instance: String) {
         mastodonApi.blockDomain(instance).enqueue(object: Callback<Any> {
             override fun onResponse(call: Call<Any>, response: Response<Any>) {
                 if (response.isSuccessful) {
                     eventHub.dispatch(DomainMuteEvent(instance))
+                    val relation = relationshipData.value?.data
+                    if(relation != null) {
+                        relationshipData.postValue(Success(relation.copy(blockingDomain = true)))
+                    }
                 } else {
-                    Log.e(TAG, String.format("Error muting %s", instance))
+                    Log.e(TAG, "Error muting %s".format(instance))
                 }
             }
 
             override fun onFailure(call: Call<Any>, t: Throwable) {
-                Log.e(TAG, String.format("Error muting %s", instance), t)
+                Log.e(TAG, "Error muting %s".format(instance), t)
+            }
+        })
+    }
+
+    fun unblockDomain(instance: String) {
+        mastodonApi.unblockDomain(instance).enqueue(object: Callback<Any> {
+            override fun onResponse(call: Call<Any>, response: Response<Any>) {
+                if (response.isSuccessful) {
+                    val relation = relationshipData.value?.data
+                    if(relation != null) {
+                        relationshipData.postValue(Success(relation.copy(blockingDomain = false)))
+                    }
+                } else {
+                    Log.e(TAG, "Error unmuting %s".format(instance))
+                }
+            }
+
+            override fun onFailure(call: Call<Any>, t: Throwable) {
+                Log.e(TAG, "Error unmuting %s".format(instance), t)
             }
         })
     }
