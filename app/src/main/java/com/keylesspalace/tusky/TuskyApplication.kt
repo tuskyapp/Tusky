@@ -22,6 +22,8 @@ import android.util.Log
 import androidx.emoji.text.EmojiCompat
 import androidx.preference.PreferenceManager
 import androidx.work.WorkManager
+import com.github.piasy.biv.BigImageViewer
+import com.github.piasy.biv.loader.glide.GlideCustomImageLoader
 import com.keylesspalace.tusky.components.notifications.NotificationWorkerFactory
 import com.keylesspalace.tusky.di.AppInjector
 import com.keylesspalace.tusky.util.*
@@ -73,6 +75,8 @@ class TuskyApplication : Application(), HasAndroidInjector {
         RxJavaPlugins.setErrorHandler {
             Log.w("RxJava", "undeliverable exception", it)
         }
+
+        BigImageViewer.initialize(GlideCustomImageLoader.with(this))
     }
 
     override fun attachBaseContext(base: Context) {

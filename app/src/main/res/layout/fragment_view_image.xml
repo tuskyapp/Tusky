@@ -7,10 +7,12 @@
     android:clickable="true"
     android:focusable="true">
 
-    <com.ortiz.touchview.TouchImageView
+    <com.github.piasy.biv.view.BigImageView
         android:id="@+id/photoView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        app:initScaleType="fitCenter"
+        app:optimizeDisplay="false" />
 
     <ProgressBar
         android:id="@+id/progressBar"

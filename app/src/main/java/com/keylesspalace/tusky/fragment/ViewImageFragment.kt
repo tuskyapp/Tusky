@@ -20,15 +20,18 @@ import android.animation.AnimatorListenerAdapter
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.drawable.Drawable
+import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.*
-import android.widget.ImageView
 import android.widget.TextView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
+import com.github.piasy.biv.loader.ImageLoader
+import com.github.piasy.biv.view.GlideImageViewFactory
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.entity.Attachment
 import com.keylesspalace.tusky.util.hide
@@ -36,9 +39,12 @@ import com.keylesspalace.tusky.util.visible
 import io.reactivex.subjects.BehaviorSubject
 import kotlinx.android.synthetic.main.activity_view_media.*
 import kotlinx.android.synthetic.main.fragment_view_image.*
+import java.io.File
+import java.lang.Exception
 import kotlin.math.abs
 
-class ViewImageFragment : ViewMediaFragment() {
+
+class ViewImageFragment : ViewMediaFragment(), ImageLoader.Callback, View.OnTouchListener {
     interface PhotoActionsListener {
         fun onBringUp()
         fun onDismiss()
@@ -47,7 +53,6 @@ class ViewImageFragment : ViewMediaFragment() {
 
     private lateinit var photoActionsListener: PhotoActionsListener
     private lateinit var toolbar: View
-    private var transition = BehaviorSubject.create<Unit>()
     private var shouldStartTransition = false
 
     // Volatile: Image requests happen on background thread and we want to see updates to it
@@ -65,73 +70,73 @@ class ViewImageFragment : ViewMediaFragment() {
         descriptionView = mediaDescription
         photoView.transitionName = url
         startedTransition = false
-        loadImageFromNetwork(url, previewUrl, photoView)
+        loadImageFromNetwork(url, previewUrl)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         toolbar = requireActivity().toolbar
-        this.transition = BehaviorSubject.create()
         return inflater.inflate(R.layout.fragment_view_image, container, false)
+    }
+
+    private var lastY = 0.0f
+    private var swipeStartedWithOneFinger = false
+    private lateinit var gestureDetector : GestureDetector
+
+    override fun onTouch(v: View, event: MotionEvent): Boolean {
+        // This part is for scaling/translating on vertical move.
+        // We use raw coordinates to get the correct ones during scaling
+        gestureDetector.onTouchEvent(event)
+
+        if(event.pointerCount != 1) {
+            swipeStartedWithOneFinger = false
+            return false
+        }
+
+        var result = false
+
+        when(event.action) {
+            MotionEvent.ACTION_DOWN -> {
+                swipeStartedWithOneFinger = true
+                lastY = event.rawY
+            }
+            MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> {
+                onGestureEnd()
+                swipeStartedWithOneFinger = false
+            }
+            MotionEvent.ACTION_MOVE -> {
+                if(swipeStartedWithOneFinger && photoView.ssiv.scale <= photoView.ssiv.minScale) {
+                    val diff = event.rawY - lastY
+                    // This code is to prevent transformations during page scrolling
+                    // If we are already translating or we reached the threshold, then transform.
+                    if (photoView.translationY != 0f || abs(diff) > 40) {
+                        photoView.translationY += (diff)
+                        val scale = (-abs(photoView.translationY) / 720 + 1).coerceAtLeast(0.5f)
+                        photoView.scaleY = scale
+                        photoView.scaleX = scale
+                        lastY = event.rawY
+                    }
+                    result = true
+                }
+            }
+        }
+
+        return result
     }
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val gestureDetector = GestureDetector(requireContext(), object : GestureDetector.SimpleOnGestureListener() {
+        gestureDetector = GestureDetector(requireContext(), object : GestureDetector.SimpleOnGestureListener() {
             override fun onSingleTapConfirmed(e: MotionEvent?): Boolean {
                 onMediaTap()
                 return true
             }
         })
 
-        var lastY = 0f
-        photoView.setOnTouchListener { _, event ->
-            // This part is for scaling/translating on vertical move.
-            // We use raw coordinates to get the correct ones during scaling
-            var result = true
-
-            gestureDetector.onTouchEvent(event)
-
-            if (event.action == MotionEvent.ACTION_DOWN) {
-                lastY = event.rawY
-            } else if (!photoView.isZoomed && event.action == MotionEvent.ACTION_MOVE) {
-                val diff = event.rawY - lastY
-                // This code is to prevent transformations during page scrolling
-                // If we are already translating or we reached the threshold, then transform.
-                if (photoView.translationY != 0f || abs(diff) > 40) {
-                    photoView.translationY += (diff)
-                    val scale = (-abs(photoView.translationY) / 720 + 1).coerceAtLeast(0.5f)
-                    photoView.scaleY = scale
-                    photoView.scaleX = scale
-                    lastY = event.rawY
-                }
-                return@setOnTouchListener true
-            } else if (event.action == MotionEvent.ACTION_UP || event.action == MotionEvent.ACTION_CANCEL) {
-                onGestureEnd()
-            } else if (event.pointerCount >= 2 || photoView.canScrollHorizontally(1) && photoView.canScrollHorizontally(-1)) {
-                // Starting from here is adapted code from TouchImageView to play nice with pager.
-
-                // Can scroll horizontally checks if there's still a part of the image.
-                // That can be scrolled until you reach the edge multi-touch event.
-                val parent = view.parent
-                result = when (event.action) {
-                    MotionEvent.ACTION_DOWN, MotionEvent.ACTION_MOVE -> {
-                        // Disallow RecyclerView to intercept touch events.
-                        parent.requestDisallowInterceptTouchEvent(true)
-                        // Disable touch on view
-                        false
-                    }
-                    MotionEvent.ACTION_UP -> {
-                        // Allow RecyclerView to intercept touch events.
-                        parent.requestDisallowInterceptTouchEvent(false)
-                        true
-                    }
-                    else -> true
-                }
-            }
-            result
-        }
+        // photoView.setOnTouchListener(this)
+        photoView.setImageLoaderCallback(this)
+        photoView.setImageViewFactory(GlideImageViewFactory())
 
         val arguments = this.requireArguments()
         val attachment = arguments.getParcelable<Attachment>(ARG_ATTACHMENT)
@@ -181,99 +186,37 @@ class ViewImageFragment : ViewMediaFragment() {
     }
 
     override fun onDestroyView() {
-        Glide.with(this).clear(photoView)
-        transition.onComplete()
         super.onDestroyView()
+        photoView.ssiv?.recycle()
     }
 
-    private fun loadImageFromNetwork(url: String, previewUrl: String?, photoView: ImageView) {
-        val glide = Glide.with(this)
-        // Request image from the any cache
-        glide
-                .load(url)
-                .dontAnimate()
-                .onlyRetrieveFromCache(true)
-                .let {
-                    if (previewUrl != null)
-                        it.thumbnail(glide
-                                .load(previewUrl)
-                                .dontAnimate()
-                                .onlyRetrieveFromCache(true)
-                                .addListener(ImageRequestListener(true, isThumnailRequest = true)))
-                    else it
-                }
-                //Request image from the network on fail load image from cache
-                .error(glide.load(url)
-                        .centerInside()
-                        .addListener(ImageRequestListener(false, isThumnailRequest = false))
-                )
-                .addListener(ImageRequestListener(true, isThumnailRequest = false))
-                .into(photoView)
+    private fun loadImageFromNetwork(url: String, previewUrl: String?) {
+        photoView.showImage(Uri.parse(previewUrl), Uri.parse(url))
     }
 
-    /**
-     * We start transition as soon as we think reasonable but we must take care about couple of
-     * things>
-     *  - Do not change image in the middle of transition. It messes up the view.
-     *  - Do not transition for the views which don't require it. Starting transition from
-     *      multiple fragments does weird things
-     *  - Do not wait to transition until the image loads from network
-     *
-     * Preview, cached image, network image, x - failed, o - succeeded
-     * P C N - start transition after...
-     * x x x - the cache fails
-     * x x o - the cache fails
-     * x o o - the cache succeeds
-     * o x o - the preview succeeds. Do not start on cache.
-     * o o o - the preview succeeds. Do not start on cache.
-     *
-     * So start transition after the first success or after anything with the cache
-     *
-     * @param isCacheRequest - is this listener for request image from cache or from the network
-     */
-    private inner class ImageRequestListener(
-            private val isCacheRequest: Boolean,
-            private val isThumnailRequest: Boolean) : RequestListener<Drawable> {
+    override fun onSuccess(image: File?) {
+        progressBar?.hide() // Always hide the progress bar on success
+        photoActionsListener.onBringUp()
+        photoView.ssiv?.setOnTouchListener(this)
+    }
 
-        override fun onLoadFailed(e: GlideException?, model: Any, target: Target<Drawable>,
-                                  isFirstResource: Boolean): Boolean {
-            // If cache for full image failed complete transition
-            if (isCacheRequest && !isThumnailRequest && shouldStartTransition
-                    && !startedTransition) {
-                photoActionsListener.onBringUp()
-            }
-            // Hide progress bar only on fail request from internet
-            if (!isCacheRequest) progressBar?.hide()
-            // We don't want to overwrite preview with null when main image fails to load
-            return !isCacheRequest
-        }
+    override fun onFail(error: Exception?) {
+        progressBar?.hide()
+        photoActionsListener.onBringUp()
+    }
 
-        @SuppressLint("CheckResult")
-        override fun onResourceReady(resource: Drawable, model: Any, target: Target<Drawable>,
-                                     dataSource: DataSource, isFirstResource: Boolean): Boolean {
-            progressBar?.hide() // Always hide the progress bar on success
+    override fun onCacheHit(imageType: Int, image: File?) {
+    }
 
-            if (!startedTransition || !shouldStartTransition) {
-                // Set this right away so that we don't have to concurrent post() requests
-                startedTransition = true
-                // post() because load() replaces image with null. Sometimes after we set
-                // the thumbnail.
-                photoView.post {
-                    target.onResourceReady(resource, null)
-                    if (shouldStartTransition) photoActionsListener.onBringUp()
-                }
-            } else {
-                // This wait for transition. If there's no transition then we should hit
-                // another branch. take() will unsubscribe after we have it to not leak menmory
-                transition
-                        .take(1)
-                        .subscribe { target.onResourceReady(resource, null) }
-            }
-            return true
-        }
+    override fun onCacheMiss(imageType: Int, image: File?) {
+    }
+
+    override fun onFinish() {
+    }
+
+    override fun onProgress(progress: Int) {
     }
 
     override fun onTransitionEnd() {
-        this.transition.onNext(Unit)
     }
 }

@@ -33,9 +33,11 @@ import at.connyduck.sparkbutton.helpers.Utils
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
+import com.github.piasy.biv.loader.glide.GlideCustomImageLoader
+import com.github.piasy.biv.view.BigImageView
+import com.github.piasy.biv.view.GlideImageViewFactory
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.util.withLifecycleContext
-import com.ortiz.touchview.TouchImageView
 
 // https://github.com/tootsuite/mastodon/blob/1656663/app/models/media_attachment.rb#L94
 private const val MEDIA_DESCRIPTION_CHARACTER_LIMIT = 420
@@ -50,9 +52,9 @@ fun <T> T.makeCaptionDialog(existingDescription: String?,
     dialogLayout.setPadding(padding, padding, padding, padding)
 
     dialogLayout.orientation = LinearLayout.VERTICAL
-    val imageView = TouchImageView(this).apply {
-        maxZoom = 6f
-    }
+    val imageView = BigImageView(this)
+    // imageView.ssiv.maxScale = 6f
+    imageView.setImageViewFactory(GlideImageViewFactory())
 
     val displayMetrics = DisplayMetrics()
     windowManager.defaultDisplay.getMetrics(displayMetrics)
@@ -98,17 +100,8 @@ fun <T> T.makeCaptionDialog(existingDescription: String?,
 
     // Load the image and manually set it into the ImageView because it doesn't have a fixed
     // size. Maybe we should limit the size of CustomTarget
-    Glide.with(this)
-            .load(previewUri)
-            .into(object : CustomTarget<Drawable>() {
-                override fun onLoadCleared(placeholder: Drawable?) {}
-
-                override fun onResourceReady(resource: Drawable, transition: Transition<in Drawable>?) {
-                    imageView.setImageDrawable(resource)
-                }
-            })
+    imageView.showImage(previewUri)
 }
-
 
 private fun Activity.showFailedCaptionMessage() {
     Toast.makeText(this, R.string.error_failed_set_caption, Toast.LENGTH_SHORT).show()
