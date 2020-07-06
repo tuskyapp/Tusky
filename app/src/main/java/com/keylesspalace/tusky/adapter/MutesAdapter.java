@@ -83,7 +83,7 @@ public class MutesAdapter extends AccountAdapter {
 
         void setupActionListener(final AccountActionListener listener) {
             unmute.setOnClickListener(v -> listener.onMute(false, id, getAdapterPosition()));
-            avatar.setOnClickListener(v -> listener.onViewAccount(id));
+            itemView.setOnClickListener(v -> listener.onViewAccount(id));
         }
     }
 }

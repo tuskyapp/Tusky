@@ -350,7 +350,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
         }
 
         void setupButtons(final NotificationActionListener listener, final String accountId) {
-            avatar.setOnClickListener(v -> listener.onViewAccount(accountId));
+            itemView.setOnClickListener(v -> listener.onViewAccount(accountId));
         }
     }
 
