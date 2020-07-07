@@ -103,7 +103,7 @@ public class BlocksAdapter extends AccountAdapter {
                     listener.onBlock(false, id, position);
                 }
             });
-            avatar.setOnClickListener(v -> listener.onViewAccount(id));
+            itemView.setOnClickListener(v -> listener.onViewAccount(id));
         }
     }
 }

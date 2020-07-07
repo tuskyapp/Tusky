@@ -44,6 +44,6 @@ internal class FollowRequestViewHolder(itemView: View, private val showHeader: B
                 listener.onRespondToFollowRequest(false, id, position)
             }
         }
-        itemView.avatar.setOnClickListener { listener.onViewAccount(id) }
+        itemView.setOnClickListener { listener.onViewAccount(id) }
     }
 }
