@@ -317,9 +317,11 @@ interface MastodonApi {
             @Path("id") accountId: String
     ): Call<Relationship>
 
+    @FormUrlEncoded
     @POST("api/v1/accounts/{id}/mute")
     fun muteAccount(
-            @Path("id") accountId: String
+            @Path("id") accountId: String,
+            @Field("notifications") notifications: Boolean
     ): Call<Relationship>
 
     @POST("api/v1/accounts/{id}/unmute")

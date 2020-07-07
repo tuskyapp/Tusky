@@ -148,12 +148,12 @@ class AccountViewModel @Inject constructor(
         }
     }
 
-    fun changeMuteState() {
-        if (relationshipData.value?.data?.muting == true) {
-            changeRelationship(RelationShipAction.UNMUTE)
-        } else {
-            changeRelationship(RelationShipAction.MUTE)
-        }
+    fun muteAccount(notifications: Boolean) {
+        changeRelationship(RelationShipAction.MUTE, notifications)
+    }
+
+    fun unmuteAccount() {
+        changeRelationship(RelationShipAction.UNMUTE)
     }
 
     fun blockDomain(instance: String) {
@@ -203,7 +203,10 @@ class AccountViewModel @Inject constructor(
         }
     }
 
-    private fun changeRelationship(relationshipAction: RelationShipAction, showReblogs: Boolean = true) {
+    /**
+     * @param parameter showReblogs if RelationShipAction.FOLLOW, notifications if MUTE
+     */
+    private fun changeRelationship(relationshipAction: RelationShipAction, parameter: Boolean? = null) {
         val relation = relationshipData.value?.data
         val account = accountData.value?.data
 
@@ -254,11 +257,11 @@ class AccountViewModel @Inject constructor(
         }
 
         val call = when (relationshipAction) {
-            RelationShipAction.FOLLOW -> mastodonApi.followAccount(accountId, showReblogs)
+            RelationShipAction.FOLLOW -> mastodonApi.followAccount(accountId, parameter ?: true)
             RelationShipAction.UNFOLLOW -> mastodonApi.unfollowAccount(accountId)
             RelationShipAction.BLOCK -> mastodonApi.blockAccount(accountId)
             RelationShipAction.UNBLOCK -> mastodonApi.unblockAccount(accountId)
-            RelationShipAction.MUTE -> mastodonApi.muteAccount(accountId)
+            RelationShipAction.MUTE -> mastodonApi.muteAccount(accountId, parameter ?: true)
             RelationShipAction.UNMUTE -> mastodonApi.unmuteAccount(accountId)
         }
 

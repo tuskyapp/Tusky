@@ -26,6 +26,8 @@ import android.net.Uri
 import android.os.Environment
 import android.util.Log
 import android.view.View
+import android.widget.CheckBox
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.PopupMenu
@@ -55,6 +57,7 @@ import com.keylesspalace.tusky.interfaces.StatusActionListener
 import com.keylesspalace.tusky.util.CardViewMode
 import com.keylesspalace.tusky.util.NetworkState
 import com.keylesspalace.tusky.util.StatusDisplayOptions
+import com.keylesspalace.tusky.view.showMuteAccountDialog
 import com.keylesspalace.tusky.viewdata.AttachmentViewData
 import com.keylesspalace.tusky.viewdata.StatusViewData
 import com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider.from
@@ -371,11 +374,11 @@ class SearchStatusesFragment : SearchFragment<Pair<Status, StatusViewData.Concre
     }
 
     private fun onMute(accountId: String, accountUsername: String) {
-        AlertDialog.Builder(requireContext())
-                .setMessage(getString(R.string.dialog_mute_warning, accountUsername))
-                .setPositiveButton(android.R.string.ok) { _, _ -> viewModel.muteAccount(accountId) }
-                .setNegativeButton(android.R.string.cancel, null)
-                .show()
+        showMuteAccountDialog(
+            this.requireActivity(),
+            accountUsername,
+            { notifications -> viewModel.muteAccount(accountId, notifications) }
+        )
     }
 
     private fun accountIsInMentions(account: AccountEntity?, mentions: Array<Mention>): Boolean {
