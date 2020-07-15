@@ -11,15 +11,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?attr/colorSurface"
-        app:elevation="0dp"
-        app:layout_behavior="com.keylesspalace.tusky.util.AppBarLayoutNoEmptyScrollBehavior">
+        app:elevation="0dp">
 
         <LinearLayout
             android:id="@+id/topButtonsLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_scrollFlags="scroll|enterAlways">
+            android:orientation="horizontal">
 
             <Button
                 android:id="@+id/buttonClear"
