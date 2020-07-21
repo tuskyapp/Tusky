@@ -181,7 +181,7 @@
 \nhttps://github.com/tuskyapp/Tusky/issues</string>
     <string name="about_project_site">เว็บไซต์โปรเจกต์:
 \nhttps://tusky.app</string>
-    <string name="about_tusky_license">Tusky คือซอฟต์แวร์เสรีและโอเพนซอร์ส &lt;!-- --&gt; ภายใต้สัญญาอนุญาต GNU General Public License Version 3 &lt;!-- --&gt;ดูสัญญาที่ : https://www.gnu.org/licenses/gpl-3.0.ja.html</string>
+    <string name="about_tusky_license">Tusky คือซอฟต์แวร์เสรีและโอเพนซอร์ส ภายใต้สัญญาอนุญาต GNU General Public License Version 3 ดูสัญญาที่ : https://www.gnu.org/licenses/gpl-3.0.ja.html</string>
     <string name="about_powered_by_tusky">ขับเคลื่อนด้วย Tusky</string>
     <string name="about_tusky_version">Tusky %s</string>
     <string name="description_account_locked">บัญชีไม่สาธารณะ</string>
@@ -206,7 +206,7 @@
     <string name="status_text_size_large">ใหญ่</string>
     <string name="status_text_size_medium">กลาง</string>
     <string name="status_text_size_small">เล็ก</string>
-    <string name="status_text_size_smallest">เล็กสุด</string>
+    <string name="status_text_size_smallest">เล็กมาก</string>
     <string name="pref_status_text_size">ขนาดอักษร Toot</string>
     <string name="post_privacy_followers_only">เฉพาะผู้ติดตาม</string>
     <string name="post_privacy_unlisted">ไม่อยู่ในรายการ</string>
@@ -214,7 +214,7 @@
     <string name="pref_failed_to_sync">ซิงค์การตั้งค่าล้มเหลว</string>
     <string name="pref_publishing">กำลังเผยแพร่ (synced with server)</string>
     <string name="pref_default_media_sensitivity">ใส่เครื่องหมายว่าเป็นสื่ออ่อนไหวเสมอ</string>
-    <string name="pref_default_post_privacy">ความเป็นส่วนตัวโพสต์ปริยาย</string>
+    <string name="pref_default_post_privacy">ค่าปริยายความเป็นส่วนตัวของโพสต์</string>
     <string name="pref_title_http_proxy_port">พอร์ตพร็อกซี่ HTTP</string>
     <string name="pref_title_http_proxy_server">เซิร์ฟเวอร์พร็อกซี่ HTTP</string>
     <string name="pref_title_http_proxy_enable">เปิดใช้งานพร็อกซี่ HTTP</string>
@@ -268,19 +268,13 @@
     <string name="dialog_download_image">ดาวน์โหลด</string>
     <string name="dialog_message_uploading_media">กำลังอัปโหลด…</string>
     <string name="dialog_title_finishing_media_upload">กำลังอัปโหลดสื่อใกล้เสร็จ</string>
-    <string name="dialog_whats_an_instance">"ใส่ที่อยู่หรือโดเมนของ Instance ได้ที่นี่ เช่น mastodon.social icosahedron.website social.tchncs.de และ &lt;a href=\"https://instances.social\"&gt;อีกมากมาย!&lt;/a&gt;
-\n
-\nถ้ายังไม่มีบัญชี สามารถใส่ชื่อ Instance ที่ต้องการจะร่วมแล้วสร้างบัญชีที่นั่น
-\n
-\nInstance คือที่ที่หนึ่งไว้โฮสต์บัญชีคุณ แต่คุณยังสามารถสื่อสาร ติดตามบุคคลบน Instance อื่นได้เหมือนอยู่บนไซต์เดียวกัน
-\n
-\nพบข้อมูลเพิ่มเติมได้ที่ &lt;a href=\"https://joinmastodon.org\"&gt;joinmastodon.org&lt;/a&gt; "<a href="https://instances.social">more!</a>
-        \n\nIf you don\'t yet have an account, you can enter the name of the instance you\'d like to
-        join and create an account there.\n\nAn instance is a single place where your account is
-        hosted, but you can easily communicate with and follow folks on other instances as though
-        you were on the same site.
-        \n\nMore info can be found at <a href="https://joinmastodon.org">joinmastodon.org</a>.
-    </string>
+    <string name="dialog_whats_an_instance">ใส่ที่อยู่หรือโดเมนของ Instance ได้ที่นี่ เช่น mastodon.social icosahedron.website social.tchncs.de และ <a href="https://instances.social">อีกมากมาย!</a>
+\n 
+\nถ้ายังไม่มีบัญชี สามารถใส่ชื่อ Instance ที่ต้องการจะร่วมแล้วสร้างบัญชีที่นั่น 
+\n 
+\nInstance คือที่ที่หนึ่งไว้โฮสต์บัญชีคุณ แต่คุณยังสามารถสื่อสาร ติดตามบุคคลบน Instance อื่นได้เหมือนอยู่บนไซต์เดียวกัน 
+\n 
+\nพบข้อมูลเพิ่มเติมได้ที่ <a href="https://joinmastodon.org">joinmastodon.org</a> </string>
     <string name="label_header">ภาพหัวบน</string>
     <string name="login_connection">กำลังเชื่อมต่อ…</string>
     <string name="label_avatar">อวตาร</string>
@@ -326,7 +320,7 @@
     <string name="action_access_saved_toot">ฉบับร่าง</string>
     <string name="action_reject">ปฏิเสธ</string>
     <string name="action_accept">ยอมรับ</string>
-    <string name="action_undo">ย้อนการกระทำ</string>
+    <string name="action_undo">ยกเลิก</string>
     <string name="action_edit_own_profile">แก้ไข</string>
     <string name="action_save">บันทึก</string>
     <string name="action_open_drawer">เปิดเมนู</string>
@@ -397,7 +391,7 @@
     <string name="title_follow_requests">คำขอติดตาม</string>
     <string name="title_domain_mutes">โดเมนที่ซ่อนไว้</string>
     <string name="title_blocks">ผู้ใช้ที่ถูกบล็อก</string>
-    <string name="title_mutes">ผู้ใช้ที่ทำให้เป็นใบ้</string>
+    <string name="title_mutes">ผู้ใช้ที่ปิดเสียงไว้</string>
     <string name="title_bookmarks">คั่นหน้า</string>
     <string name="title_followers">ผู้ติดตาม</string>
     <string name="title_follows">ติดตาม</string>
@@ -453,4 +447,9 @@
     <string name="post_lookup_error_format">การค้นหาโพสต์ %s เกิดข้อผิดผลาด</string>
     <string name="edit_poll">แก้ไข</string>
     <string name="poll_new_choice_hint">ตัวเลือกที่ %d</string>
+    <string name="pref_main_nav_position_option_bottom">ล่าง</string>
+    <string name="pref_main_nav_position_option_top">บน</string>
+    <string name="pref_main_nav_position">ตำแหน่งการนำทางหลัก</string>
+    <string name="pref_title_gradient_for_media">แสดงการไล่ระดับสีสันสำหรับสื่อที่ถูกซ่อนไว้</string>
+    <string name="action_unmute_domain">เลิกปิดเสียง %s</string>
 </resources>
