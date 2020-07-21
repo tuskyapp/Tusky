@@ -471,4 +471,9 @@
     <string name="notification_follow_request_format">%s vill följa dig</string>
     <string name="add_hashtag_title">Lägg till hashtag</string>
     <string name="hashtags">Hashtaggar</string>
+    <string name="pref_main_nav_position_option_top">Topp</string>
+    <string name="pref_main_nav_position_option_bottom">Botten</string>
+    <string name="pref_main_nav_position">Standard navigationsposition</string>
+    <string name="pref_title_gradient_for_media">Visa färgglada gradienter för gömd media</string>
+    <string name="action_unmute_domain">Ta bort tystad %s</string>
 </resources>
