@@ -145,7 +145,7 @@
     <string name="dialog_message_uploading_media">Issalay…</string>
     <string name="pref_title_notification_filter_poll">fukken kran n wadɣaren</string>
     <string name="pref_title_timeline_filters">Imzizdigen</string>
-    <string name="app_theme_auto">Akken yella yiṭij</string>
+    <string name="app_theme_auto">Awurman akken yella yiṭij</string>
     <string name="pref_title_browser_settings">Iminig</string>
     <string name="pref_title_show_replies">Sken-d tiririyin</string>
     <string name="pref_title_http_proxy_settings">Apṛuksi HTTP</string>
@@ -268,4 +268,5 @@
         <item quantity="other">%s n yemdanen</item>
     </plurals>
     <string name="report_remote_instance">Bren-it ɣer %s</string>
+    <string name="pref_title_app_theme">Asentel n wesnas</string>
 </resources>
