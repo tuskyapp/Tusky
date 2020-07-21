@@ -10,8 +10,8 @@
     <string name="error_authorization_denied">L\'autorizzazione è stata negata.</string>
     <string name="error_retrieving_oauth_token">Errore nell\'acquisizione del token di accesso.</string>
     <string name="error_compose_character_limit">Lo stato è troppo lungo!</string>
-    <string name="error_image_upload_size">La dimensione dei file immagine deve essere inferiore a 8MB.</string>
-    <string name="error_video_upload_size">La dimensione dei file video deve essere inferiore a 40MB.</string>
+    <string name="error_image_upload_size">La dimensione dei file immagine deve essere inferiore a 8 MB.</string>
+    <string name="error_video_upload_size">La dimensione dei file video deve essere inferiore a 40 MB.</string>
     <string name="error_media_upload_type">Questo tipo di file non può essere caricato.</string>
     <string name="error_media_upload_opening">Questo file non può essere aperto.</string>
     <string name="error_media_upload_permission">Il permesso di lettura della scheda sd è richiesto.</string>
@@ -240,16 +240,16 @@
     <string name="status_media_video">Video</string>
     <string name="state_follow_requested">In attesa di approvazione</string>
     <!--These are for timestamps on statuses. For example: "16s" or "2d"-->
-    <string name="abbreviated_in_years">in %da</string>
-    <string name="abbreviated_in_days">in %dg</string>
-    <string name="abbreviated_in_hours">in %do</string>
-    <string name="abbreviated_in_minutes">in %dm</string>
-    <string name="abbreviated_in_seconds">in %ds</string>
-    <string name="abbreviated_years_ago">%da</string>
-    <string name="abbreviated_days_ago">%dg</string>
-    <string name="abbreviated_hours_ago">%do</string>
-    <string name="abbreviated_minutes_ago">%dm</string>
-    <string name="abbreviated_seconds_ago">%ds</string>
+    <string name="abbreviated_in_years">in %d a</string>
+    <string name="abbreviated_in_days">in %d g</string>
+    <string name="abbreviated_in_hours">in %d o</string>
+    <string name="abbreviated_in_minutes">in %d min</string>
+    <string name="abbreviated_in_seconds">in %d s</string>
+    <string name="abbreviated_years_ago">%d a</string>
+    <string name="abbreviated_days_ago">%d g</string>
+    <string name="abbreviated_hours_ago">%d o</string>
+    <string name="abbreviated_minutes_ago">%d min</string>
+    <string name="abbreviated_seconds_ago">%d s</string>
     <string name="follows_you">Seguono te</string>
     <string name="pref_title_alway_show_sensitive_media">Mostra sempre tutto il contenuto sensibile</string>
     <string name="title_media">Media</string>
@@ -358,11 +358,8 @@
     <string name="hint_list_name">Nome della lista</string>
     <string name="download_media">Scarica media</string>
     <string name="downloading_media">Scaricando media</string>
-
     <string name="compose_shortcut_long_label">Componi Toot</string>
-
     <string name="edit_hashtag_hint">Hashtag senza #</string>
-
     <string name="compose_shortcut_short_label">Componi</string>
     <string name="notifications_clear">Pulisci</string>
     <string name="notifications_apply_filter">Filtra</string>
@@ -451,6 +448,20 @@
     <string name="title_scheduled_toot">Toot programmati</string>
     <string name="action_access_scheduled_toot">Toot programmati</string>
     <string name="action_schedule_toot">Programma un toot</string>
-    <string name="action_reset_schedule">RIpristina</string>
+    <string name="action_reset_schedule">Ripristina</string>
     <string name="poll_info_format"> <!-- 15 votes • 1 hour left --> %1$s • %2$s</string>
+    <string name="no_saved_status">Non hai bozze.</string>
+    <plurals name="poll_info_people">
+        <item quantity="one">%s persona</item>
+        <item quantity="other">%s persone</item>
+    </plurals>
+    <string name="hashtags">Hashtag</string>
+    <string name="add_hashtag_title">Aggiungi hashtag</string>
+    <string name="dialog_mute_warning">Silenziare @%s\?</string>
+    <string name="dialog_block_warning">Bloccare @%s\?</string>
+    <string name="action_unmute_domain">Smetti di silenziare %s</string>
+    <string name="action_unmute_conversation">Smetti di silenziare conversazione</string>
+    <string name="action_mute_conversation">Silenzia conversazione</string>
+    <string name="notification_follow_request_format">%s ha chiesto di seguirti</string>
+    <string name="error_audio_upload_size">La dimensione dei file audio deve essere inferiore a 40 MB.</string>
 </resources>
