@@ -462,4 +462,10 @@
     <string name="dialog_block_warning">Zablokować @%s\?</string>
     <string name="action_unmute_conversation">Cofnij wyciszenie rozmowy</string>
     <string name="action_mute_conversation">Wycisz rozmowę</string>
+    <plurals name="poll_info_people">
+        <item quantity="one">%s osoba</item>
+        <item quantity="few">%s osoby</item>
+        <item quantity="many">%s osób</item>
+        <item quantity="other">%s osób</item>
+    </plurals>
 </resources>

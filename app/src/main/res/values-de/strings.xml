@@ -8,10 +8,10 @@
     <string name="error_no_web_browser_found">Kein Webbrowser gefunden.</string>
     <string name="error_authorization_unknown">Ein undefinierbarer Autorisierungsfehler ist aufgetreten.</string>
     <string name="error_authorization_denied">Autorisierung fehlgeschlagen.</string>
-    <string name="error_retrieving_oauth_token">Es konnte kein Login-Token abgerufen werden.</string>
+    <string name="error_retrieving_oauth_token">Es konnte kein Anmeldungstoken abgerufen werden.</string>
     <string name="error_compose_character_limit">Der Beitrag ist zu lang!</string>
-    <string name="error_image_upload_size">Die Datei muss kleiner als 8MB sein.</string>
-    <string name="error_video_upload_size">Videodateien müssen kleiner als 40MB sein.</string>
+    <string name="error_image_upload_size">Die Datei muss kleiner als 8 MB sein.</string>
+    <string name="error_video_upload_size">Videodateien müssen kleiner als 40 MB sein.</string>
     <string name="error_media_upload_type">Dieser Dateityp darf nicht hochgeladen werden.</string>
     <string name="error_media_upload_opening">Die Datei konnte nicht geöffnet werden.</string>
     <string name="error_media_upload_permission">Leseberechtigung für die Mediendatei wird benötigt.</string>
@@ -63,8 +63,8 @@
     <string name="action_more">Mehr</string>
     <string name="action_compose">Schreiben</string>
     <string name="action_login">Anmelden mit Mastodon</string>
-    <string name="action_logout">Ausloggen</string>
-    <string name="action_logout_confirm">Bist du sicher, dass du dich aus dem Konto %1$s ausloggen möchtest?</string>
+    <string name="action_logout">Abmelden</string>
+    <string name="action_logout_confirm">Bist du sicher, dass du dich aus dem Konto %1$s abmelden möchtest\?</string>
     <string name="action_follow">Folgen</string>
     <string name="action_unfollow">Entfolgen</string>
     <string name="action_block">Blockieren</string>
@@ -92,7 +92,7 @@
     <string name="action_mute">Stummschalten</string>
     <string name="action_unmute">Lautschalten</string>
     <string name="action_mention">Erwähnen</string>
-    <string name="action_hide_media">Verstecke Medien</string>
+    <string name="action_hide_media">Medien verstecken</string>
     <string name="action_open_drawer">Drawer öffnen</string>
     <string name="action_save">Speichern</string>
     <string name="action_edit_profile">Profil bearbeiten</string>
@@ -138,7 +138,7 @@
     <string name="label_avatar">Profilbild</string>
     <string name="label_header">Titelbild</string>
     <string name="link_whats_an_instance">Was ist eine Instanz?</string>
-    <string name="login_connection">Verbinden…</string>
+    <string name="login_connection">Verbinden …</string>
     <string name="dialog_whats_an_instance">Die Adresse einer Instanz oder Domain kann
         hier eingegeben werden, wie z.B. mastodon.social, icosahedron.website, social.tchncs.de, und
         <a href="https://instances.social">mehr!</a>
@@ -149,7 +149,7 @@
         \n\nWeitere Informationen gibt es auf <a href="https://joinmastodon.org">joinmastodon.org</a>.
     </string>
     <string name="dialog_title_finishing_media_upload">Stelle Medienupload fertig</string>
-    <string name="dialog_message_uploading_media">Lade hoch…</string>
+    <string name="dialog_message_uploading_media">Lade hoch …</string>
     <string name="dialog_download_image">Herunterladen</string>
     <string name="dialog_message_cancel_follow_request">Folgeanfrage zurückziehen?</string>
     <string name="dialog_unfollow_warning">Willst du diesem Profil wirklich nicht mehr folgen?</string>
@@ -220,18 +220,15 @@
     <string name="notification_title_summary">%d neue Interaktionen</string>
     <string name="description_account_locked">Gesperrtes Profil</string>
     <string name="about_title_activity">Über</string>
-    <string name="about_tusky_license">Tusky ist freie Open-Source-Software.
-        Es ist lizenziert unter der GNU General Public License Version 3.
-        Du kannst dir die Lizenz hier anschauen: https://www.gnu.org/licenses/gpl-3.0.de.html</string>
+    <string name="about_tusky_license">Tusky ist freie eine quelloffene Software. Es ist lizenziert unter der GNU General Public License Version 3. Du kannst dir die Lizenz hier anschauen: https://www.gnu.org/licenses/gpl-3.0.de.html</string>
     <!-- note to translators:
          * you should think of “free” as in “free speech,” not as in “free beer”.
            We sometimes call it “libre software,” borrowing the French or Spanish word for “free” as in freedom,
            to show we do not mean the software is gratis. Source: https://www.gnu.org/philosophy/free-sw.html
          * the url can be changed to link to the localized version of the license.
     -->
-    <string name="about_project_site">        Webseite des Projekts:\n
-        https://tusky.app
-    </string>
+    <string name="about_project_site">Website des Projekts:
+\n https://tusky.app</string>
     <string name="about_bug_feature_request_site">        Fehlermeldungen &amp; Verbesserungsvorschläge:\n
         https://github.com/tuskyapp/Tusky/issues
     </string>
@@ -407,7 +404,7 @@
     <string name="poll_duration_1_day">1 Tag</string>
     <string name="poll_duration_3_days">3 Tage</string>
     <string name="poll_duration_7_days">7 Tage</string>
-    <string name="edit_poll">Editieren</string>
+    <string name="edit_poll">Bearbeiten</string>
     <string name="about_tusky_version">Tusky %s</string>
     <string name="action_add_poll">Umfrage hinzufügen</string>
     <string name="pref_title_alway_open_spoiler">Beiträge mit Inhaltswarnungen immer ausklappen</string>
@@ -424,11 +421,11 @@
     <string name="action_access_scheduled_toot">Geplante Beiträge</string>
     <string name="action_schedule_toot">Plane Beitrag</string>
     <string name="action_reset_schedule">Zurücksetzen</string>
-    <string name="error_audio_upload_size">Audiodateien müssen kleiner als 40MB sein.</string>
+    <string name="error_audio_upload_size">Audiodateien müssen kleiner als 40 MB sein.</string>
     <string name="title_bookmarks">Lesezeichen</string>
     <string name="action_bookmark">Lesezeichen</string>
     <string name="action_view_bookmarks">Lesezeichen</string>
-    <string name="about_powered_by_tusky">Powered by Tusky</string>
+    <string name="about_powered_by_tusky">Angetrieben durch Tusky</string>
     <string name="description_status_bookmarked">Als Lesezeichen gespeichert</string>
     <string name="select_list_title">Liste auswählen</string>
     <string name="list">Liste</string>
@@ -454,4 +451,17 @@
         <item quantity="other">%s Personen</item>
     </plurals>
     <string name="pref_title_gradient_for_media">Farbverlauf für versteckte Medien anzeigen</string>
+    <string name="abbreviated_seconds_ago">%d Sek.</string>
+    <string name="abbreviated_hours_ago">%d St.</string>
+    <string name="abbreviated_years_ago">%d J.</string>
+    <string name="abbreviated_in_days">in %d T.</string>
+    <string name="abbreviated_in_years">in %d J.</string>
+    <string name="abbreviated_minutes_ago">%d Min.</string>
+    <string name="abbreviated_days_ago">%d T.</string>
+    <string name="abbreviated_in_seconds">in %d Sek.</string>
+    <string name="abbreviated_in_minutes">in %d Min.</string>
+    <string name="abbreviated_in_hours">in %d St.</string>
+    <string name="pref_main_nav_position_option_bottom">Unten</string>
+    <string name="pref_main_nav_position_option_top">Oben</string>
+    <string name="action_unmute_domain">%s nicht mehr verstecken</string>
 </resources>

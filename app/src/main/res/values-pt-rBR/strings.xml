@@ -3,11 +3,11 @@
     <string name="error_generic">Ocorreu um erro.</string>
     <string name="error_empty">Não pode estar vazio.</string>
     <string name="error_invalid_domain">Instância inválida</string>
-    <string name="error_failed_app_registration">Falha ao autenticar com esta instância.</string>
+    <string name="error_failed_app_registration">Erro ao autenticar com esta instância.</string>
     <string name="error_no_web_browser_found">Nenhum navegador foi encontrado.</string>
     <string name="error_authorization_unknown">Ocorreu um erro não identificado de autorização.</string>
     <string name="error_authorization_denied">Autorização negada.</string>
-    <string name="error_retrieving_oauth_token">Falha ao adquirir token de entrada.</string>
+    <string name="error_retrieving_oauth_token">Erro ao adquirir token de entrada.</string>
     <string name="error_compose_character_limit">O toot é muito longo!</string>
     <string name="error_image_upload_size">O arquivo deve ser menor que 8MB.</string>
     <string name="error_video_upload_size">Vídeos devem ser menores que 40MB.</string>
@@ -16,7 +16,7 @@
     <string name="error_media_upload_permission">Permissão para ler mídia é necessária.</string>
     <string name="error_media_download_permission">Permissão para armazenar mídia é necessária.</string>
     <string name="error_media_upload_image_or_video">Imagens e vídeos não podem ser anexados no mesmo toot.</string>
-    <string name="error_media_upload_sending">Falha no envio.</string>
+    <string name="error_media_upload_sending">Erro ao enviar.</string>
     <string name="error_sender_account_gone">Erro ao enviar toot.</string>
     <string name="title_home">Página inicial</string>
     <string name="title_notifications">Editar notificações</string>
@@ -142,20 +142,20 @@
     <string name="dialog_message_cancel_follow_request">Recusar o seguidor pendente\?</string>
     <string name="dialog_unfollow_warning">Deixar de seguir esta conta?</string>
     <string name="dialog_delete_toot_warning">Excluir este toot?</string>
-    <string name="visibility_public">Público: Postar em timelines públicas</string>
-    <string name="visibility_unlisted">Não-listado: Não postar em timelines públicas</string>
-    <string name="visibility_private">Privado: Postar apenas para seguidores</string>
-    <string name="visibility_direct">Direto: Postar para apenas usuários mencionados</string>
-    <string name="pref_title_edit_notification_settings">Editar Notificações</string>
+    <string name="visibility_public">Público: Postar em linhas públicas</string>
+    <string name="visibility_unlisted">Não-listado: Não postar em linhas públicas</string>
+    <string name="visibility_private">Privado: Postar só para seguidores</string>
+    <string name="visibility_direct">Direto: Postar só para mencionados</string>
+    <string name="pref_title_edit_notification_settings">Editar notificações</string>
     <string name="pref_title_notifications_enabled">Notificações</string>
     <string name="pref_title_notification_alerts">Alertas</string>
     <string name="pref_title_notification_alert_sound">Notificar com som</string>
     <string name="pref_title_notification_alert_vibrate">Notificar com vibração</string>
     <string name="pref_title_notification_alert_light">Notificar com luz</string>
     <string name="pref_title_notification_filters">Notifique-me quando</string>
-    <string name="pref_title_notification_filter_mentions">mencionado</string>
-    <string name="pref_title_notification_filter_follows">seguido</string>
-    <string name="pref_title_notification_filter_reblogs">minhas postagens forem compartilhadas</string>
+    <string name="pref_title_notification_filter_mentions">me mencionarem</string>
+    <string name="pref_title_notification_filter_follows">me seguirem</string>
+    <string name="pref_title_notification_filter_reblogs">derem boosts nos meus toots</string>
     <string name="pref_title_notification_filter_favourites">favoritarem meus toots</string>
     <string name="pref_title_appearance_settings">Aparência</string>
     <string name="pref_title_app_theme">Temas</string>
@@ -167,7 +167,7 @@
     <string name="app_theme_system">Usar o tema do sistema</string>
     <string name="pref_title_browser_settings">Navegador</string>
     <string name="pref_title_custom_tabs">Usar abas do Chrome</string>
-    <string name="pref_title_hide_follow_button">Esconder compositor ao rolar a página</string>
+    <string name="pref_title_hide_follow_button">Ocultar compositor ao rolar a tela</string>
     <string name="pref_title_status_filter">Filtro da linha do tempo</string>
     <string name="pref_title_status_tabs">Abas</string>
     <string name="pref_title_show_boosts">Mostrar boosts</string>
@@ -181,10 +181,10 @@
     <string name="pref_default_post_privacy">Privacidade padrão dos toots</string>
     <string name="pref_default_media_sensitivity">Sempre marcar mídia como sensível</string>
     <string name="pref_publishing">Publicação</string>
-    <string name="pref_failed_to_sync">Falha ao sincronizar configurações</string>
+    <string name="pref_failed_to_sync">Erro ao sincronizar configurações</string>
     <string name="post_privacy_public">Público</string>
     <string name="post_privacy_unlisted">Não-listado</string>
-    <string name="pref_status_text_size">Tamanho da fonte dos toots</string>
+    <string name="pref_status_text_size">Tamanho da fonte</string>
     <string name="status_text_size_smallest">Menor</string>
     <string name="status_text_size_small">Pequeno</string>
     <string name="status_text_size_medium">Médio</string>
@@ -217,8 +217,8 @@
     -->
     <string name="about_project_site">Site do projeto:\n
             https://tusky.app</string>
-    <string name="about_bug_feature_request_site">Reporte bugs &amp; requisite funcionalidades:\n
-            https://github.com/tuskyapp/Tusky/issues</string>
+    <string name="about_bug_feature_request_site">Reporte bugs e solicite funcionalidades:
+\n https://github.com/tuskyapp/Tusky/issues</string>
     <string name="about_tusky_account">Perfil do Tusky</string>
     <string name="status_share_content">Compartilhar conteúdo do toot</string>
     <string name="status_share_link">Compartilhar link do toot</string>
@@ -236,10 +236,10 @@
     <string name="abbreviated_hours_ago">%dh</string>
     <string name="abbreviated_minutes_ago">%dm</string>
     <string name="abbreviated_seconds_ago">%ds</string>
-    <string name="follows_you">Segue você</string>
+    <string name="follows_you">Te segue</string>
     <string name="pref_title_alway_show_sensitive_media">Sempre mostrar mídia sensível</string>
     <string name="title_media">Mídia</string>
-    <string name="replying_to">Respondendo a @%s</string>
+    <string name="replying_to">Respondendo @%s</string>
     <string name="load_more_placeholder_text">carregar mais</string>
     <string name="add_account_name">Adicionar conta</string>
     <string name="add_account_description">Adicionar nova conta Mastodon</string>
@@ -247,7 +247,7 @@
     <string name="title_lists">Listas</string>
     <string name="title_list_timeline">Linha da lista</string>
     <string name="compose_active_account_description">Usando a conta %1$s</string>
-    <string name="error_failed_set_caption">Falha ao incluir descrição</string>
+    <string name="error_failed_set_caption">Erro ao incluir descrição</string>
     <string name="action_set_caption">Descrever</string>
     <string name="action_remove">Remover</string>
     <string name="lock_account_label">Trancar conta</string>
@@ -267,18 +267,18 @@
     <string name="performing_lookup_title">Realizando consulta…</string>
     <string name="expand_collapse_all_statuses">Expandir/Ocultar todos os toots</string>
     <string name="action_open_toot">Abrir toot</string>
-    <string name="restart_required">É preciso reiniciar o aplicativo</string>
-    <string name="restart_emoji">É preciso reiniciar o Tusky para aplicar essas mudanças</string>
+    <string name="restart_required">É necessário reiniciar o aplicativo</string>
+    <string name="restart_emoji">É necessário reiniciar o Tusky para aplicar essas mudanças</string>
     <string name="later">Depois</string>
     <string name="restart">Reiniciar</string>
     <string name="caption_systememoji">Pacote de emojis padrão do seu dispositivo</string>
     <string name="caption_blobmoji">Emojis padrão do Android da versão 4.4 até 7.1</string>
     <string name="caption_twemoji">Pacote de emojis padrão do Mastodon</string>
-    <string name="download_failed">O download falhou</string>
+    <string name="download_failed">Erro ao baixar</string>
     <string name="profile_badge_bot_text">Robô</string>
     <string name="account_moved_description">%1$s mudou-se para:</string>
     <string name="reblog_private">Dar boost para audiência original</string>
-    <string name="unreblog_private">Retirar compartilhamento</string>
+    <string name="unreblog_private">Desfazer boost</string>
     <string name="license_description">O Tusky contém código e recursos dos seguintes projetos de código aberto:</string>
     <string name="license_apache_2">Licenciado sob a licença Apache (cópia abaixo)</string>
     <string name="profile_metadata_label">Metadados do perfil</string>
@@ -306,17 +306,17 @@
     <string name="download_media">Baixar mídia</string>
     <string name="downloading_media">Baixando mídia</string>
     <string name="dialog_redraft_toot_warning">Excluir e rascunhar este toot\?</string>
-    <string name="pref_title_notification_filter_poll">Enquetes terminaram</string>
+    <string name="pref_title_notification_filter_poll">enquetes terminarem</string>
     <string name="pref_title_timeline_filters">Filtros</string>
     <string name="pref_title_language">Idioma</string>
-    <string name="post_privacy_followers_only">Apenas para seguidores</string>
+    <string name="post_privacy_followers_only">Só para seguidores</string>
     <string name="notification_poll_name">Enquetes</string>
     <string name="notification_poll_description">Notificar enquetes que já terminaram</string>
-    <string name="pref_title_public_filter_keywords">Timelines públicas</string>
+    <string name="pref_title_public_filter_keywords">Linhas públicas</string>
     <string name="pref_title_thread_filter_keywords">Conversas</string>
     <string name="filter_addition_dialog_title">Criar filtro</string>
     <string name="filter_edit_dialog_title">Editar filtro</string>
-    <string name="filter_dialog_remove_button">Remover</string>
+    <string name="filter_dialog_remove_button">Excluir</string>
     <string name="filter_dialog_update_button">Atualizar</string>
     <string name="filter_add_description">Frase para filtrar</string>
     <string name="error_create_list">Não foi possível criar lista</string>
@@ -354,7 +354,7 @@
     <string name="description_status_reblogged">Você deu boost</string>
     <string name="description_status_favourited">Favoritado</string>
     <string name="description_visiblity_unlisted">Não-listado</string>
-    <string name="description_visiblity_direct">Direta</string>
+    <string name="description_visiblity_direct">Direto</string>
     <string name="hint_list_name">Nome da lista</string>
     <string name="edit_hashtag_hint">Hashtag sem #</string>
     <string name="notifications_clear">Limpar</string>
@@ -365,12 +365,12 @@
     <string name="pref_title_bot_overlay">Mostrar indicador de robôs</string>
     <string name="notification_clear_text">Você tem certeza de que quer limpar permanentemente todas as suas notificações\?</string>
     <string name="compose_preview_image_description">Opções para imagem %s</string>
-    <string name="poll_info_format"> <!-- 15 votes • 1 hour left --> %1$s • %2$s</string>
+    <string name="poll_info_format"> <!-- 15 votos • 1 hora restante --> %1$s • %2$s</string>
     <plurals name="poll_info_votes">
         <item quantity="one">%s voto</item>
         <item quantity="other">%s votos</item>
     </plurals>
-    <string name="poll_info_time_relative">%s restando</string>
+    <string name="poll_info_time_relative">%s restante</string>
     <string name="poll_info_time_absolute">termina em %s</string>
     <string name="poll_info_closed">Terminou</string>
     <string name="poll_vote">Votar</string>
@@ -401,8 +401,8 @@
     <string name="report_sent_success">\@%s denunciado com sucesso</string>
     <string name="hint_additional_info">Comentários adicionais</string>
     <string name="report_remote_instance">Encaminhar para %s</string>
-    <string name="failed_report">Falha na denúncia</string>
-    <string name="failed_fetch_statuses">Falha ao carregar toots</string>
+    <string name="failed_report">Erro ao denunciar</string>
+    <string name="failed_fetch_statuses">Erro ao carregar toots</string>
     <string name="report_description_1">A denúncia será enviada aos moderadores da instância. Você pode explicar por que você denunciou a conta:</string>
     <string name="report_description_remote_instance">A conta está em outra instância. Enviar uma cópia anônima da denúncia para lá\?</string>
     <string name="title_domain_mutes">Instâncias bloqueadas</string>
@@ -453,7 +453,7 @@
     <string name="action_unmute_conversation">Desfazer silêncio</string>
     <string name="dialog_block_warning">Bloquear @%s\?</string>
     <string name="dialog_mute_warning">Silenciar @%s\?</string>
-    <string name="pref_title_notification_filter_follow_requests">pedirem para me seguir</string>
+    <string name="pref_title_notification_filter_follow_requests">quiserem me seguir</string>
     <string name="notification_follow_request_description">Notificar sobre seguidores pendentes</string>
     <plurals name="poll_info_people">
         <item quantity="one">%s pessoa</item>
