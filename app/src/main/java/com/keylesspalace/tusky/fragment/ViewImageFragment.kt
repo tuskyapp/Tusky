@@ -118,7 +118,8 @@ class ViewImageFragment : ViewMediaFragment() {
                     swipeStartedWithOneFinger = false
                 }
                 MotionEvent.ACTION_MOVE -> {
-                    if(swipeStartedWithOneFinger && photoView.ssiv.scale <= photoView.ssiv.minScale) {
+                    if(swipeStartedWithOneFinger &&
+                            (photoView.ssiv == null || photoView.ssiv.scale <= photoView.ssiv.minScale)) {
                         val diff = event.rawY - lastY
                         // This code is to prevent transformations during page scrolling
                         // If we are already translating or we reached the threshold, then transform.
@@ -149,7 +150,6 @@ class ViewImageFragment : ViewMediaFragment() {
             }
         })
 
-        // photoView.setOnTouchListener(this)
         photoView.setImageLoaderCallback(imageLoaderCallback)
         photoView.setImageViewFactory(GlideImageViewFactory())
 
@@ -266,10 +266,8 @@ class ViewImageFragment : ViewMediaFragment() {
         override fun onSuccess(image: File?) {
             if(!showingPreview) {
                 progressBar?.hide()
-                photoView.ssiv?.let {
-                    it.orientation = SubsamplingScaleImageView.ORIENTATION_USE_EXIF
-                    it.setOnTouchListener(imageOnTouchListener)
-                }
+                photoView.ssiv?.orientation = SubsamplingScaleImageView.ORIENTATION_USE_EXIF
+                photoView.mainView?.setOnTouchListener(imageOnTouchListener)
             }
         }
 
