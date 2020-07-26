@@ -35,9 +35,11 @@ import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
 import com.github.piasy.biv.loader.glide.GlideCustomImageLoader
 import com.github.piasy.biv.view.BigImageView
+import com.github.piasy.biv.loader.ImageLoader
 import com.github.piasy.biv.view.GlideImageViewFactory
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.util.withLifecycleContext
+import java.io.File
 
 // https://github.com/tootsuite/mastodon/blob/1656663/app/models/media_attachment.rb#L94
 private const val MEDIA_DESCRIPTION_CHARACTER_LIMIT = 420
@@ -53,8 +55,19 @@ fun <T> T.makeCaptionDialog(existingDescription: String?,
 
     dialogLayout.orientation = LinearLayout.VERTICAL
     val imageView = BigImageView(this)
-    // imageView.ssiv.maxScale = 6f
     imageView.setImageViewFactory(GlideImageViewFactory())
+    imageView.setImageLoaderCallback(object : ImageLoader.Callback {
+        override fun onSuccess(image: File?) {
+            imageView.ssiv?.let { it.maxScale = 6f }
+        }
+        override fun onFail(error: Exception?) {}
+        override fun onStart() {}
+        override fun onCacheHit(imageType: Int, image: File?) {}
+        override fun onCacheMiss(imageType: Int, image: File?) {}
+        override fun onFinish() {}
+        override fun onProgress(progress: Int) {}
+    })
+    imageView.showImage(previewUri)
 
     val displayMetrics = DisplayMetrics()
     windowManager.defaultDisplay.getMetrics(displayMetrics)
@@ -97,10 +110,6 @@ fun <T> T.makeCaptionDialog(existingDescription: String?,
             WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
 
     dialog.show()
-
-    // Load the image and manually set it into the ImageView because it doesn't have a fixed
-    // size. Maybe we should limit the size of CustomTarget
-    imageView.showImage(previewUri)
 }
 
 private fun Activity.showFailedCaptionMessage() {
