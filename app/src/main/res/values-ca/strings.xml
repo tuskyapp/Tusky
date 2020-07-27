@@ -463,4 +463,13 @@
     <string name="action_unmute_conversation">No silenciar la conversació</string>
     <string name="action_mute_conversation">Conversació muda</string>
     <string name="notification_follow_request_format">%s ha sol·licitat seguir-te</string>
+    <string name="pref_main_nav_position_option_bottom">A baix</string>
+    <string name="pref_main_nav_position_option_top">A dalt</string>
+    <string name="pref_main_nav_position">Posició de navegació principal</string>
+    <string name="pref_title_gradient_for_media">Mostra els degradats de colors per als mitjans ocults</string>
+    <string name="dialog_mute_hide_notifications">Amagar notificacions</string>
+    <string name="action_unmute_domain">Deixar de silenciar %s</string>
+    <string name="action_mute_notifications_desc">Desactivar les notificacions per %s</string>
+    <string name="action_unmute_notifications_desc">Activar les notificacions per %s</string>
+    <string name="action_unmute_desc">Notificar %s</string>
 </resources>
