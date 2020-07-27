@@ -77,6 +77,8 @@
         <item name="minTouchTargetSize">32dp</item> <!-- this affects RadioButton size -->
         <item name="elevationOverlayEnabled">false</item> <!-- disable the automatic tinting of surfaces with elevation in dark mode -->
 
+        <item name="swipeRefreshLayoutProgressSpinnerBackgroundColor">?attr/colorSurface</item>
+
     </style>
 
     <style name="ViewMediaActivity.AppBarLayout" parent="ThemeOverlay.AppCompat">

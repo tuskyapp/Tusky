@@ -59,8 +59,6 @@ class ScheduledTootActivity : BaseActivity(), ScheduledTootActionListener, Injec
 
         swipeRefreshLayout.setOnRefreshListener(this::refreshStatuses)
         swipeRefreshLayout.setColorSchemeResources(R.color.tusky_blue)
-        swipeRefreshLayout.setProgressBackgroundColorSchemeColor(
-                ThemeUtils.getColor(this, android.R.attr.colorBackground))
 
         scheduledTootList.setHasFixedSize(true)
         scheduledTootList.layoutManager = LinearLayoutManager(this)

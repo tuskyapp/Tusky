@@ -353,8 +353,6 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
             swipeToRefreshLayout.isRefreshing = isRefreshing == true
         })
         swipeToRefreshLayout.setColorSchemeResources(R.color.tusky_blue)
-        swipeToRefreshLayout.setProgressBackgroundColorSchemeColor(ThemeUtils.getColor(this,
-                android.R.attr.colorBackground))
     }
 
     private fun onAccountChanged(account: Account?) {
