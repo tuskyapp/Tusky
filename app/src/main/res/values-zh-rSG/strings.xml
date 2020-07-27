@@ -133,7 +133,7 @@
     <string name="status_sent_long">成功发布回复</string>
     <string name="hint_domain">域名</string>
     <string name="hint_compose">有什么新鲜事？</string>
-    <string name="hint_content_warning">设置内容提醒信息</string>
+    <string name="hint_content_warning">内容提醒</string>
     <string name="hint_display_name">昵称</string>
     <string name="hint_note">简介</string>
     <string name="hint_search">搜索…</string>
@@ -370,7 +370,6 @@
         私信
     </string>
     <string name="hint_list_name">列表名</string>
-
     <string name="edit_hashtag_hint">话题名（不含前面的 # 号）</string>
     <string name="notifications_clear">清空</string>
     <string name="notifications_apply_filter">分类</string>

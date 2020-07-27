@@ -59,7 +59,7 @@
     <string name="action_block">Zablokuj</string>
     <string name="action_unblock">Odblokuj</string>
     <string name="action_hide_reblogs">Ukryj podbicia</string>
-    <string name="action_show_reblogs">Pokaż podbicia</string>
+    <string name="action_show_reblogs">Pokazuj podbicia</string>
     <string name="action_report">Zgłoś</string>
     <string name="action_delete">Usuń</string>
     <string name="action_send">Wyślij</string>
@@ -291,7 +291,7 @@
     <string name="action_view_domain_mutes">Ukryte domeny</string>
     <string name="action_add_poll">Dodaj głosowanie</string>
     <string name="action_mute_domain">Wycisz %s</string>
-    <string name="action_add_tab">Dodaj zakładkę</string>
+    <string name="action_add_tab">Dodaj zakłądkę</string>
     <string name="action_open_reblogger">Otwórz konto osoby podbijającej</string>
     <string name="action_open_reblogged_by">Pokaż podbicia</string>
     <string name="action_open_media_n">Otwórz media #%d</string>
@@ -401,7 +401,8 @@
     <plurals name="poll_timespan_hours">
         <item quantity="one">%d godzina</item>
         <item quantity="few">%d godziny</item>
-        <item quantity="many">%d godzin</item>
+        <item quantity="many"/>
+        <item quantity="other"/>
     </plurals>
     <plurals name="poll_timespan_minutes">
         <item quantity="one">%d minuta</item>
@@ -434,7 +435,7 @@
     <string name="poll_duration_1_day">1 dzień</string>
     <string name="poll_duration_3_days">3 dni</string>
     <string name="poll_duration_7_days">7 dni</string>
-    <string name="add_poll_choice">Dodaj opcję</string>
+    <string name="add_poll_choice">Dodaj wybór</string>
     <string name="poll_allow_multiple_choices">Kilka opcji</string>
     <string name="poll_new_choice_hint">Opcja %d</string>
     <string name="edit_poll">Edytuj</string>
@@ -454,7 +455,7 @@
     <string name="error_audio_upload_size">Pliki audio muszą być mniejsze niż 40MB.</string>
     <string name="no_saved_status">Nie masz żadnych szkiców.</string>
     <string name="no_scheduled_status">Nie masz żadnych zaplanowanych wpisów.</string>
-    <string name="warning_scheduling_interval">Mastodon umożliwia wysłanie minimalnie 5 minut od zaplanowania</string>
+    <string name="warning_scheduling_interval">Mastodon umożliwia wysłanie minimalnie 5 minut od zaplanowania.</string>
     <string name="notification_follow_request_name">Prośby o możliwość śledzenia</string>
     <string name="pref_title_confirm_reblogs">Pytaj o potwierdzenie przed podbiciem</string>
     <string name="add_hashtag_title">Dodaj hashtag</string>

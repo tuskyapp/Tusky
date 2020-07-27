@@ -259,7 +259,7 @@
     <string name="unpin_action">விடுவி</string>
     <string name="pin_action">பொருத்து</string>
     <string name="action_view_account_preferences">கணக்கரின் முன்னுரிமைகள்</string>
-    <string name="error_network">"பிணைய பிழை ஏற்பட்டது!  உங்கள் இணைப்பைச் சரிபார்த்து மீண்டும் முயற்சிக்கவும்!"</string>
+    <string name="error_network">பிணைய பிழை ஏற்பட்டது! உங்கள் இணைப்பைச் சரிபார்த்து மீண்டும் முயற்சிக்கவும்!</string>
     <string name="error_video_upload_size">காணொளி 40MB க்கும் குறைவாக இருக்க வேண்டும்.</string>
     <string name="error_sender_account_gone">டூத் அனுப்ப இயலவில்லை</string>
     <string name="title_direct_messages">நேரடி தகவல்</string>

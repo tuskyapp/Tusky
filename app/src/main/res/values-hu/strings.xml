@@ -33,7 +33,7 @@
     <string name="title_followers">Követő</string>
     <string name="title_favourites">Kedvencek</string>
     <string name="title_mutes">Némított felhasználók</string>
-    <string name="title_blocks">Blokkolt felhasználók</string>
+    <string name="title_blocks">Letiltott felhasználók</string>
     <string name="title_follow_requests">Követési kérelmek</string>
     <string name="title_edit_profile">Profilod szerkesztése</string>
     <string name="title_saved_toot">Piszkozatok</string>

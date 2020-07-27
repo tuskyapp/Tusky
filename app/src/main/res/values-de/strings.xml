@@ -451,7 +451,7 @@
         <item quantity="other">%s Personen</item>
     </plurals>
     <string name="pref_title_gradient_for_media">Farbverlauf für versteckte Medien anzeigen</string>
-    <string name="abbreviated_seconds_ago">%d Sek.</string>
+    <string name="abbreviated_seconds_ago">%dS</string>
     <string name="abbreviated_hours_ago">%d St.</string>
     <string name="abbreviated_years_ago">%d J.</string>
     <string name="abbreviated_in_days">in %d T.</string>

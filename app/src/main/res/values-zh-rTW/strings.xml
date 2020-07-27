@@ -30,7 +30,7 @@
     <string name="title_statuses_with_replies">嘟文和回覆</string>
     <string name="title_statuses_pinned">已置頂</string>
     <string name="title_follows">正在關注</string>
-    <string name="title_followers">關注者</string>
+    <string name="title_followers">僅關注者</string>
     <string name="title_favourites">我的收藏</string>
     <string name="title_mutes">被靜音的使用者</string>
     <string name="title_blocks">被封鎖的使用者</string>

@@ -3,7 +3,7 @@
     <string name="error_generic">Bir hata oluştu.</string>
     <string name="error_network">Bir ağ hatası oluştu! Lütfen bağlantınızı kontrol edin ve tekrar deneyin!</string>
     <string name="error_empty">Bu alan boş bırakılamaz.</string>
-    <string name="error_invalid_domain">Girilen etki alanı geçersiz.</string>
+    <string name="error_invalid_domain">Girilen alan adı geçersiz.</string>
     <string name="error_failed_app_registration">Kimliği bu sunucuda doğrulayamadı.</string>
     <string name="error_no_web_browser_found">Kullanılabilen tarayıcı bulunmadı.</string>
     <string name="error_authorization_unknown">Açıklanmayan kimlik doğrulama hata oluştu.</string>
@@ -184,7 +184,7 @@
     <string name="post_privacy_unlisted">Liste dışı</string>
     <string name="post_privacy_followers_only">Sadece takipçiler</string>
     <string name="pref_status_text_size">Durum metin boyutu</string>
-    <string name="status_text_size_smallest">Çok küçük</string>
+    <string name="status_text_size_smallest">En küçük</string>
     <string name="status_text_size_small">Küçük</string>
     <string name="status_text_size_medium">Orta</string>
     <string name="status_text_size_large">Büyük</string>
