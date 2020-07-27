@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="title_tab_preferences">ⵉⵛⵛⴰⵔⴻⵏ</string>
+    <string name="action_view_account_preferences">ⵉⵖⴻⵡⵡⴰⵕⴻⵏ ⵏ ⵓⵎⵉⴸⴰⵏ</string>
+    <string name="action_view_preferences">ⵉⵖⴻⵡⵡⴰⵕⴻⵏ</string>
+    <string name="pref_title_proxy_settings">ⴰⵒⵕⵓⴽⵙⵉ</string>
+    <string name="action_view_blocks">ⵉⵎⵙⴻⵇⴷⴰⵛⴻⵏ ⵜⵙⵡⴰⵃⵍⴻⵎ</string>
+</resources>

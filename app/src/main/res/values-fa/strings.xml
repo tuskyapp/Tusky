@@ -340,7 +340,7 @@
     <string name="license_cc_by_sa_4">نگارش ۴ CC-BY-SA</string>
     <plurals name="favs">
         <item quantity="one"><b>%1$s</b> پسند</item>
-        <item quantity="other"><b>%1$s</b> پسند</item>
+        <item quantity="other"></item>
     </plurals>
     <plurals name="reblogs">
         <item quantity="one"><b>%s</b> تقویت</item>

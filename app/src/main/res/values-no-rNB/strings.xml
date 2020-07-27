@@ -87,7 +87,7 @@
     <string name="action_view_media">Media</string>
     <string name="action_open_in_web">Åpne i nettleser</string>
     <string name="action_add_media">Legg til media</string>
-    <string name="action_photo_take">Ta et bilde</string>
+    <string name="action_photo_take">Ta bilde</string>
     <string name="action_share">Del</string>
     <string name="action_mute">Demp bruker</string>
     <string name="action_unmute">Fjern demping</string>
@@ -210,7 +210,7 @@
 \n https://github.com/tuskyapp/Tusky/issues</string>
     <string name="about_tusky_account">Tuskys Mastodon-profil</string>
     <string name="status_share_content">Del inneholdet i tootet</string>
-    <string name="status_share_link">Del link til tootet</string>
+    <string name="status_share_link">Del link til toot</string>
     <string name="status_media_images">Bilder</string>
     <string name="status_media_video">Video</string>
     <string name="state_follow_requested">Forespørsel sendt</string>
@@ -297,7 +297,7 @@
     <string name="license_cc_by_4">CC-BY 4.0</string>
     <string name="license_cc_by_sa_4">CC-BY-SA 4.0</string>
     <string name="profile_metadata_label">Profilmetadata</string>
-    <string name="profile_metadata_add">legg til profilmetadata</string>
+    <string name="profile_metadata_add">legg til data</string>
     <string name="profile_metadata_label_label">Ledetekst</string>
     <string name="profile_metadata_content_label">Innhold</string>
     <string name="pref_title_absolute_time">Bruk absolutt tid</string>
@@ -324,7 +324,7 @@
     <string name="description_status_reblogged">Reblogged</string>
     <string name="description_status_favourited">Favorisert</string>
     <string name="description_visiblity_public">Offentlig</string>
-    <string name="description_visiblity_unlisted">Ikke offentlige tidslinjer</string>
+    <string name="description_visiblity_unlisted">Ikke listet</string>
     <string name="description_visiblity_private">Følgere</string>
     <string name="description_visiblity_direct">Direkte</string>
     <string name="hint_list_name">Listenavn</string>
@@ -459,4 +459,8 @@
     <string name="pref_main_nav_position_option_top">Topp</string>
     <string name="pref_main_nav_position">Plassering av hovednavigasjon</string>
     <string name="action_unmute_domain">Fjern demping av %s</string>
+    <string name="dialog_mute_hide_notifications">Skjul varsler</string>
+    <string name="action_mute_notifications_desc">Demp varsler fra %s</string>
+    <string name="action_unmute_notifications_desc">Fjern demping av varsler fra %s</string>
+    <string name="action_unmute_desc">Fjern demping av %s</string>
 </resources>
