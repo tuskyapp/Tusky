@@ -36,7 +36,7 @@ interface TimelineCases {
     fun reblog(status: Status, reblog: Boolean): Single<Status>
     fun favourite(status: Status, favourite: Boolean): Single<Status>
     fun bookmark(status: Status, bookmark: Boolean): Single<Status>
-    fun mute(id: String)
+    fun mute(id: String, notifications: Boolean)
     fun block(id: String)
     fun delete(id: String): Single<DeletedStatus>
     fun pin(status: Status, pin: Boolean)
@@ -107,8 +107,8 @@ class TimelineCasesImpl(
         }
     }
 
-    override fun mute(id: String) {
-        val call = mastodonApi.muteAccount(id)
+    override fun mute(id: String, notifications: Boolean) {
+        val call = mastodonApi.muteAccount(id, notifications)
         call.enqueue(object : Callback<Relationship> {
             override fun onResponse(call: Call<Relationship>, response: Response<Relationship>) {}
 

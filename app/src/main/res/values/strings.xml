@@ -108,6 +108,9 @@
     <string name="action_share">Share</string>
     <string name="action_mute">Mute</string>
     <string name="action_unmute">Unmute</string>
+    <string name="action_unmute_desc">Unmute %s</string>
+    <string name="action_unmute_notifications_desc">Unmute notifications from %s</string>
+    <string name="action_mute_notifications_desc">Mute notifications from %s</string>
     <string name="action_mute_domain">Mute %s</string>
     <string name="action_unmute_domain">Unmute %s</string>
     <string name="action_mute_conversation">Mute conversation</string>
@@ -199,6 +202,7 @@
     <string name="mute_domain_warning_dialog_ok">Hide entire domain</string>
     <string name="dialog_block_warning">Block @%s?</string>
     <string name="dialog_mute_warning">Mute @%s?</string>
+    <string name="dialog_mute_hide_notifications">Hide notifications</string>
 
     <string name="visibility_public">Public: Post to public timelines</string>
     <string name="visibility_unlisted">Unlisted: Do not show in public timelines</string>

@@ -23,6 +23,7 @@ data class Relationship (
     @SerializedName("followed_by") val followedBy: Boolean,
     val blocking: Boolean,
     val muting: Boolean,
+    @SerializedName("muting_notifications") val mutingNotifications: Boolean,
     val requested: Boolean,
     @SerializedName("showing_reblogs") val showingReblogs: Boolean,
     @SerializedName("domain_blocking") val blockingDomain: Boolean

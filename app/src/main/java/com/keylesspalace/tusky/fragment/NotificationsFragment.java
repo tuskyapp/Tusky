@@ -823,7 +823,7 @@ public class NotificationsFragment extends SFragment implements
     }
 
     @Override
-    public void onMute(boolean mute, String id, int position) {
+    public void onMute(boolean mute, String id, int position, boolean notifications) {
         // No muting from notifications yet
     }
 
