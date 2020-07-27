@@ -33,9 +33,9 @@ import at.connyduck.sparkbutton.helpers.Utils
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
+import com.github.chrisbanes.photoview.PhotoView
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.util.withLifecycleContext
-import com.ortiz.touchview.TouchImageView
 
 // https://github.com/tootsuite/mastodon/blob/1656663/app/models/media_attachment.rb#L94
 private const val MEDIA_DESCRIPTION_CHARACTER_LIMIT = 420
@@ -50,8 +50,8 @@ fun <T> T.makeCaptionDialog(existingDescription: String?,
     dialogLayout.setPadding(padding, padding, padding, padding)
 
     dialogLayout.orientation = LinearLayout.VERTICAL
-    val imageView = TouchImageView(this).apply {
-        maxZoom = 6f
+    val imageView = PhotoView(this).apply {
+        maximumScale = 6f
     }
 
     val displayMetrics = DisplayMetrics()
