@@ -421,11 +421,8 @@ public class TimelineFragment extends SFragment implements
     private void setupSwipeRefreshLayout() {
         swipeRefreshLayout.setEnabled(isSwipeToRefreshEnabled);
         if (isSwipeToRefreshEnabled) {
-            Context context = swipeRefreshLayout.getContext();
             swipeRefreshLayout.setOnRefreshListener(this);
             swipeRefreshLayout.setColorSchemeResources(R.color.tusky_blue);
-            swipeRefreshLayout.setProgressBackgroundColorSchemeColor(ThemeUtils.getColor(context,
-                    android.R.attr.colorBackground));
         }
     }
 

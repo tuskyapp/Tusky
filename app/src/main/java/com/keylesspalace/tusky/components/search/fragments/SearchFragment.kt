@@ -58,9 +58,6 @@ abstract class SearchFragment<T> : Fragment(),
     private fun setupSwipeRefreshLayout() {
         swipeRefreshLayout.setOnRefreshListener(this)
         swipeRefreshLayout.setColorSchemeResources(R.color.tusky_blue)
-        swipeRefreshLayout.setProgressBackgroundColorSchemeColor(
-                ThemeUtils.getColor(swipeRefreshLayout.context, android.R.attr.colorBackground)
-        )
     }
 
     private fun subscribeObservables() {

@@ -102,7 +102,6 @@ class ConversationsFragment : SFragment(), StatusActionListener, Injectable, Res
             viewModel.refresh()
         }
         swipeRefreshLayout.setColorSchemeResources(R.color.tusky_blue)
-        swipeRefreshLayout.setProgressBackgroundColorSchemeColor(ThemeUtils.getColor(swipeRefreshLayout.context, android.R.attr.colorBackground))
     }
 
     private fun onTopLoaded() {

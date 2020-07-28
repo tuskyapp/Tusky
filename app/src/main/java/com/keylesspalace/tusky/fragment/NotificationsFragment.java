@@ -223,7 +223,6 @@ public class NotificationsFragment extends SFragment implements
 
         swipeRefreshLayout.setOnRefreshListener(this);
         swipeRefreshLayout.setColorSchemeResources(R.color.tusky_blue);
-        swipeRefreshLayout.setProgressBackgroundColorSchemeColor(ThemeUtils.getColor(context, android.R.attr.colorBackground));
 
         loadNotificationsFilter();
 
