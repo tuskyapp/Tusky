@@ -21,9 +21,11 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.drawable.Drawable
 import android.os.Bundle
-import android.view.*
+import android.view.LayoutInflater
+import android.view.MotionEvent
+import android.view.View
+import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.TextView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
@@ -57,16 +59,52 @@ class ViewImageFragment : ViewMediaFragment() {
     @Volatile
     private var startedTransition = false
 
-    override lateinit var descriptionView: TextView
     override fun onAttach(context: Context) {
         super.onAttach(context)
         photoActionsListener = context as PhotoActionsListener
     }
 
-    @SuppressLint("ClickableViewAccessibility")
-    override fun setupMediaView(url: String, previewUrl: String?) {
-        descriptionView = mediaDescription
+
+    override fun setupMediaView(
+            url: String,
+            previewUrl: String?,
+            description: String?,
+            showingDescription: Boolean
+    ) {
         photoView.transitionName = url
+        mediaDescription.text = description
+        captionSheet.visible(showingDescription)
+
+        startedTransition = false
+        loadImageFromNetwork(url, previewUrl, photoView)
+    }
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        toolbar = requireActivity().toolbar
+        this.transition = BehaviorSubject.create()
+        return inflater.inflate(R.layout.fragment_view_image, container, false)
+    }
+
+    @SuppressLint("ClickableViewAccessibility")
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        val arguments = this.requireArguments()
+        val attachment = arguments.getParcelable<Attachment>(ARG_ATTACHMENT)
+        this.shouldStartTransition = arguments.getBoolean(ARG_START_POSTPONED_TRANSITION)
+        val url: String?
+        var description: String? = null
+
+        if (attachment != null) {
+            url = attachment.url
+            description = attachment.description
+        } else {
+            url = arguments.getString(ARG_AVATAR_URL)
+            if (url == null) {
+                throw IllegalArgumentException("attachment or avatar url has to be set")
+            }
+        }
+
         attacher = PhotoViewAttacher(photoView).apply {
             // This prevents conflicts with ViewPager
             setAllowParentInterceptOnEdge(true)
@@ -87,20 +125,11 @@ class ViewImageFragment : ViewMediaFragment() {
             }
         }
 
-        val gestureDetector = GestureDetector(requireContext(), object : GestureDetector.SimpleOnGestureListener() {
-            override fun onSingleTapConfirmed(e: MotionEvent?): Boolean {
-                onMediaTap()
-                return true
-            }
-        })
-
         var lastY = 0f
 
         photoView.setOnTouchListener { v, event ->
             // This part is for scaling/translating on vertical move.
             // We use raw coordinates to get the correct ones during scaling
-
-            gestureDetector.onTouchEvent(event)
 
             if (event.action == MotionEvent.ACTION_DOWN) {
                 lastY = event.rawY
@@ -125,36 +154,6 @@ class ViewImageFragment : ViewMediaFragment() {
             attacher.onTouch(v, event)
         }
 
-        startedTransition = false
-        loadImageFromNetwork(url, previewUrl, photoView)
-    }
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        toolbar = requireActivity().toolbar
-        this.transition = BehaviorSubject.create()
-        return inflater.inflate(R.layout.fragment_view_image, container, false)
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-
-        val arguments = this.requireArguments()
-        val attachment = arguments.getParcelable<Attachment>(ARG_ATTACHMENT)
-        this.shouldStartTransition = arguments.getBoolean(ARG_START_POSTPONED_TRANSITION)
-        val url: String?
-        var description: String? = null
-
-        if (attachment != null) {
-            url = attachment.url
-            description = attachment.description
-        } else {
-            url = arguments.getString(ARG_AVATAR_URL)
-            if (url == null) {
-                throw IllegalArgumentException("attachment or avatar url has to be set")
-            }
-        }
-
         finalizeViewSetup(url, attachment?.previewUrl, description)
     }
 
@@ -176,10 +175,10 @@ class ViewImageFragment : ViewMediaFragment() {
         }
         isDescriptionVisible = showingDescription && visible
         val alpha = if (isDescriptionVisible) 1.0f else 0.0f
-        descriptionView.animate().alpha(alpha)
+        captionSheet.animate().alpha(alpha)
                 .setListener(object : AnimatorListenerAdapter() {
                     override fun onAnimationEnd(animation: Animator) {
-                        descriptionView.visible(isDescriptionVisible)
+                        captionSheet.visible(isDescriptionVisible)
                         animation.removeListener(this)
                     }
                 })
