@@ -205,6 +205,7 @@ class ViewImageFragment : ViewMediaFragment() {
                                 .load(previewUrl)
                                 .dontAnimate()
                                 .onlyRetrieveFromCache(true)
+                                .centerInside()
                                 .addListener(ImageRequestListener(true, isThumnailRequest = true)))
                     else it
                 }
@@ -213,6 +214,7 @@ class ViewImageFragment : ViewMediaFragment() {
                         .centerInside()
                         .addListener(ImageRequestListener(false, isThumnailRequest = false))
                 )
+                .centerInside()
                 .addListener(ImageRequestListener(true, isThumnailRequest = false))
                 .into(photoView)
     }
