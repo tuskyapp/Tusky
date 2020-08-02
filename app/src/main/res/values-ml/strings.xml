@@ -68,7 +68,6 @@
     <string name="status_sensitive_media_directions">തുറന്ന് കാണുവാൻ</string>
     <string name="status_media_hidden_title">മറയ്ക്കപ്പെട്ട മീഡിയ</string>
     <string name="status_sensitive_media_title">സെൻസിറ്റീവ് ഉള്ളടക്കം</string>
-    <string name="status_boosted_format">ബൂസ്റ്റഡ്</string>
     <string name="title_licenses">അനുവാദം</string>
     <string name="title_scheduled_toot">മുന്‍നിശ്ചയിച്ച ടൂറ്റ്‌സ്</string>
     <string name="title_bookmarks">ബുക് മാർക്ക്</string>
@@ -97,8 +96,5 @@
     <string name="action_quick_reply">പെട്ടന്നുള്ള മറുപടി</string>
     <string name="report_comment_hint">കൂടുതൽ പറയാൻ ഉണ്ടോ\?</string>
     <string name="report_username_format">അറിയിക്കുക @%s</string>
-    <string name="notification_follow_request_format">പിന്തുടരാൻ അപേക്ഷിക്കുന്നു</string>
     <string name="notification_follow_format">%s നിങ്ങളെ പിന്തുടരുന്നു</string>
-    <string name="notification_favourite_format">നിങ്ങളുടെ ടൂറ്റ്‌സ് ഫാവ്</string>
-    <string name="notification_reblog_format">നിങ്ങളുടെ ടൂറ്റ്‌സ് ബൂസ്റ്റ് ചെയ്യപ്പെട്ടു</string>
 </resources>

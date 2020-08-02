@@ -8,7 +8,7 @@
     <string name="notification_title_summary">%d tương tác mới</string>
     <string name="notification_summary_small">%1$s và %2$s</string>
     <string name="notification_summary_medium">%1$s, %2$s, và %3$s</string>
-    <string name="notification_summary_large">%1$s, %2$s, %3$s và 4$d người khác</string>
+    <string name="notification_summary_large">%1$s, %2$s, %3$s và %4$d người khác</string>
     <string name="notification_mention_format">%s nhắc tới bạn</string>
     <string name="notification_mention_name">Lượt nhắc mới</string>
     <string name="notification_follow_request_format">%s yêu cầu theo dõi bạn</string>
@@ -126,7 +126,6 @@
     <string name="action_mention">Nhắc tới</string>
     <string name="action_unmute_conversation">Bỏ ẩn cuộc trò chuyện</string>
     <string name="action_mute_conversation">Ẩn cuộc trò chuyện</string>
-    <string name="action_unmute_domain">Bỏ ẩn</string>
     <string name="action_mute_domain">Ẩn %s</string>
     <string name="action_unmute">Bỏ ẩn</string>
     <string name="action_mute">Ẩn</string>
