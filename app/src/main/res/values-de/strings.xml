@@ -407,7 +407,7 @@
     <string name="edit_poll">Editieren</string>
     <string name="about_tusky_version">Tusky %s</string>
     <string name="action_add_poll">Umfrage hinzufügen</string>
-    <string name="pref_title_alway_open_spoiler">Immer Beiträge ausklappen, die mit Inhaltswarnungen versehen wurden</string>
+    <string name="pref_title_alway_open_spoiler">Beiträge mit Inhaltswarnungen immer ausklappen</string>
     <string name="description_poll">Umfrage mit den Möglichkeiten: %1$s, %2$s, %3$s, %4$s; %5$s</string>
     <string name="compose_preview_image_description">Aktionen für Bild %s</string>
     <string name="failed_fetch_statuses">Fehler beim Holen der Beiträge</string>
@@ -465,8 +465,8 @@
     <string name="pref_main_nav_position_option_top">Oben</string>
     <string name="action_unmute_domain">%s nicht mehr verstecken</string>
     <plurals name="reblogs">
-        <item quantity="one"></item>
-        <item quantity="other"></item>
+        <item quantity="one"/>
+        <item quantity="other"/>
     </plurals>
     <string name="pref_main_nav_position">Hauptnavigations-Position</string>
     <string name="dialog_mute_hide_notifications">Benachrichtigungen ausblenden</string>
