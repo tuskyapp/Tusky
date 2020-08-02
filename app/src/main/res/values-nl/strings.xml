@@ -133,7 +133,7 @@
     <string name="hint_content_warning">Waarschuwingstekst</string>
     <string name="hint_display_name">Weergavenaam</string>
     <string name="hint_note">Bio</string>
-    <string name="hint_search">Zoeken…</string>
+    <string name="hint_search">Zoeken</string>
     <string name="search_no_results">Geen resultaten</string>
     <string name="label_quick_reply">Reageren…</string>
     <string name="label_avatar">Avatar</string>

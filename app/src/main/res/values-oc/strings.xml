@@ -269,7 +269,7 @@
     <string name="label_remote_account">Las informacions çai-jos son pas lo rebat del perfil complèt de l’utilizaire. Tocatz per dobrir lo perfil complèt dins lo navigador.</string>
     <string name="unpin_action">Tirar del perfil</string>
     <string name="pin_action">Penjar</string>
-    <string name="error_network">Una error ret se’s producha ! Mercés de verificar la connexion e tornar ensajar !</string>
+    <string name="error_network">Una error ret se’s prochuda ! Mercés de verificar la connexion e tornar ensajar !</string>
     <string name="title_public_local">Local</string>
     <string name="title_direct_messages">Messatges dirèctes</string>
     <string name="title_tab_preferences">Onglets</string>

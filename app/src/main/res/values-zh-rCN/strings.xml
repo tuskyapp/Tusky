@@ -6,7 +6,7 @@
     <string name="error_invalid_domain">该域名无效</string>
     <string name="error_failed_app_registration">无法连接此服务器。</string>
     <string name="error_no_web_browser_found">没有可用的浏览器。</string>
-    <string name="error_authorization_unknown">认证过程出现未知错误。</string>
+    <string name="error_authorization_unknown">认证过程出现未知错误</string>
     <string name="error_authorization_denied">授权被拒绝。</string>
     <string name="error_retrieving_oauth_token">无法获取登录信息。</string>
     <string name="error_compose_character_limit">嘟文太长了！</string>
@@ -15,12 +15,12 @@
     <string name="error_media_upload_type">无法上传此类型的文件。</string>
     <string name="error_media_upload_opening">此文件无法打开。</string>
     <string name="error_media_upload_permission">需要授予 Tusky 读取媒体文件的权限。</string>
-    <string name="error_media_download_permission">需要授予 Tusky 写入存储空间的权限。</string>
-    <string name="error_media_upload_image_or_video">无法在嘟文中同时插入视频和图片。</string>
-    <string name="error_media_upload_sending">媒体文件上传失败。</string>
+    <string name="error_media_download_permission">需要授予 Tusky 写入存储空间的权限</string>
+    <string name="error_media_upload_image_or_video">无法在嘟文中同时插入视频和图片</string>
+    <string name="error_media_upload_sending">媒体文件上传失败</string>
     <string name="error_sender_account_gone">嘟文发送时出错。</string>
     <string name="title_home">主页</string>
-    <string name="title_notifications">通知</string>
+    <string name="title_notifications">通知设置</string>
     <string name="title_public_local">本站时间轴</string>
     <string name="title_public_federated">跨站公共时间轴</string>
     <string name="title_direct_messages">私信</string>
@@ -32,7 +32,7 @@
     <string name="title_follows">正在关注</string>
     <string name="title_followers">仅关注者</string>
     <string name="title_favourites">我的收藏</string>
-    <string name="title_mutes">被屏蔽的用户</string>
+    <string name="title_mutes">被隐藏的用户</string>
     <string name="title_blocks">被屏蔽的用户</string>
     <string name="title_follow_requests">关注请求</string>
     <string name="title_edit_profile">编辑个人资料</string>
@@ -47,12 +47,12 @@
     <string name="status_content_warning_show_less">折叠内容</string>
     <string name="status_content_show_more">展开</string>
     <string name="status_content_show_less">折叠</string>
-    <string name="message_empty">还没有内容</string>
+    <string name="message_empty">还没有内容。</string>
     <string name="footer_empty">还没有内容，向下拉动即可刷新</string>
     <string name="notification_reblog_format">%s 转嘟了你的嘟文</string>
     <string name="notification_favourite_format">%s 收藏了你的嘟文</string>
     <string name="notification_follow_format">%s 关注了你</string>
-    <string name="report_username_format">报告用户 @%s 的滥用行为</string>
+    <string name="report_username_format">举报用户 @%s 的滥用行为</string>
     <string name="report_comment_hint">报告更多信息</string>
     <string name="action_quick_reply">快速回复</string>
     <string name="action_reply">回复</string>
@@ -61,7 +61,7 @@
     <string name="action_favourite">收藏</string>
     <string name="action_unfavourite">取消收藏</string>
     <string name="action_more">更多</string>
-    <string name="action_compose">发表新嘟文</string>
+    <string name="action_compose">发表嘟文</string>
     <string name="action_login">登录 Mastodon 帐号</string>
     <string name="action_logout">退出登录</string>
     <string name="action_logout_confirm">确定要退出帐号 %1$s 吗？</string>
@@ -104,7 +104,7 @@
     <string name="action_search">搜索</string>
     <string name="action_access_saved_toot">草稿</string>
     <string name="action_toggle_visibility">设置嘟文可见范围</string>
-    <string name="action_content_warning">设置内容提醒信息</string>
+    <string name="action_content_warning">内容提醒</string>
     <string name="action_emoji_keyboard">插入表情符号</string>
     <string name="action_add_tab">添加标签页</string>
     <string name="action_links">链接</string>
@@ -126,7 +126,7 @@
     <string name="send_status_link_to">分享链接到…</string>
     <string name="send_status_content_to">分享嘟文到…</string>
     <string name="send_media_to">分享媒体到…</string>
-    <string name="confirmation_reported">报告已发送！</string>
+    <string name="confirmation_reported">已发送！</string>
     <string name="confirmation_unblocked">已解除屏蔽</string>
     <string name="confirmation_unmuted">已取消隐藏</string>
     <string name="status_sent">已发送！</string>
@@ -296,7 +296,7 @@
     <string name="send_toot_notification_channel_name">嘟文发送中</string>
     <string name="send_toot_notification_cancel_title">发送已被取消</string>
     <string name="send_toot_notification_saved_content">嘟文已保存为草稿</string>
-    <string name="action_compose_shortcut">发表新嘟文</string>
+    <string name="action_compose_shortcut">发表嘟文</string>
     <string name="error_no_custom_emojis">当前实例 %s 没有自定义表情符号</string>
     <string name="copy_to_clipboard_success">已复制到剪贴板</string>
     <string name="emoji_style">表情符号风格</string>
@@ -455,6 +455,6 @@
     <string name="post_lookup_error_format">查找帖子时出错 %s</string>
     <string name="no_saved_status">您没有草稿。</string>
     <string name="no_scheduled_status">您没有任何预定状态。</string>
-    <string name="warning_scheduling_interval">Mastodon的最小调度间隔为5分钟。</string>
+    <string name="warning_scheduling_interval">Mastodon的最小调度间隔为5分钟</string>
     <string name="notification_follow_request_name">关注请求</string>
 </resources>

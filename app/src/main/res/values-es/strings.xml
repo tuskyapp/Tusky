@@ -471,4 +471,5 @@
     <string name="pref_main_nav_position">Posición de navegación principal</string>
     <string name="pref_title_gradient_for_media">Mostrar degradados colorido para los medios ocultos</string>
     <string name="action_unmute_domain">Dejar de silenciar %s</string>
+    <string name="action_unmute_desc">Dejar de silenciar a %s</string>
 </resources>

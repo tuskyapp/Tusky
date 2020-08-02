@@ -197,7 +197,7 @@
     <string name="pref_publishing">Beiträge</string>
     <string name="pref_failed_to_sync">Fehler beim Synchronisieren</string>
     <string name="post_privacy_public">Öffentlich</string>
-    <string name="post_privacy_unlisted">Nicht gelistet</string>
+    <string name="post_privacy_unlisted">Ungelistet</string>
     <string name="post_privacy_followers_only">Nur Folgende</string>
     <string name="pref_status_text_size">Schriftgröße</string>
     <string name="status_text_size_smallest">Kleiner</string>
@@ -451,7 +451,7 @@
         <item quantity="other">%s Personen</item>
     </plurals>
     <string name="pref_title_gradient_for_media">Farbverlauf für versteckte Medien anzeigen</string>
-    <string name="abbreviated_seconds_ago">%dS</string>
+    <string name="abbreviated_seconds_ago">%d Sek.</string>
     <string name="abbreviated_hours_ago">%d St.</string>
     <string name="abbreviated_years_ago">%d J.</string>
     <string name="abbreviated_in_days">in %d T.</string>
@@ -464,4 +464,13 @@
     <string name="pref_main_nav_position_option_bottom">Unten</string>
     <string name="pref_main_nav_position_option_top">Oben</string>
     <string name="action_unmute_domain">%s nicht mehr verstecken</string>
+    <plurals name="reblogs">
+        <item quantity="one"><b>%s</b> Boost</item>
+        <item quantity="other"><b>%s</b> Boosts</item>
+    </plurals>
+    <string name="pref_main_nav_position">Hauptnavigations-Position</string>
+    <string name="dialog_mute_hide_notifications">Benachrichtigungen ausblenden</string>
+    <string name="action_mute_notifications_desc">Benachrichtigungen stummschalten von %s</string>
+    <string name="action_unmute_notifications_desc">Benachrichtigungs-Ton einschalten von %s</string>
+    <string name="action_unmute_desc">Ton einschalten %s</string>
 </resources>

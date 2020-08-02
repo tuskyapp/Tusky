@@ -244,12 +244,12 @@
     <string name="abbreviated_in_days">in %d g</string>
     <string name="abbreviated_in_hours">in %d o</string>
     <string name="abbreviated_in_minutes">in %d min</string>
-    <string name="abbreviated_in_seconds">in %d s</string>
+    <string name="abbreviated_in_seconds">in %ds</string>
     <string name="abbreviated_years_ago">%d a</string>
-    <string name="abbreviated_days_ago">%d g</string>
+    <string name="abbreviated_days_ago">%dg</string>
     <string name="abbreviated_hours_ago">%do</string>
     <string name="abbreviated_minutes_ago">%dm</string>
-    <string name="abbreviated_seconds_ago">%d s</string>
+    <string name="abbreviated_seconds_ago">%ds</string>
     <string name="follows_you">Seguono te</string>
     <string name="pref_title_alway_show_sensitive_media">Mostra sempre tutto il contenuto sensibile</string>
     <string name="title_media">Media</string>
