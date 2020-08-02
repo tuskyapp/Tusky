@@ -1,0 +1,12 @@
+Tusky là ứng dụng di động nhỏ gọn dành cho Mastodon, một mạng xã hội tự do và mã nguồn mở.
+
+• Thiết kế tinh tế
+• Thực thi hầu hết Mastodon API
+• Hỗ trợ đăng nhập nhiều tài khoản
+• Giao diện sáng hoặc tối, tự động kích hoạt dựa theo thời gian của thiết bị
+• Viết và lưu nháp tút
+• Tùy chọn nhiều bộ Emoji khác nhau
+• Tối ưu hóa cho mọi kích cỡ màn hình
+• Mã nguồn mở hoàn toàn
+
+Để tìm hiểu thêm Mastodon, truy cập https://joinmastodon.org/
