@@ -142,7 +142,7 @@
     <string name="pref_title_notification_filter_mentions">wspomniano o mnie</string>
     <string name="pref_title_notification_filter_follows">zaczęto mnie śledzić</string>
     <string name="pref_title_notification_filter_reblogs">moje wpisy zostaną podbite</string>
-    <string name="pref_title_notification_filter_favourites">moje posty zostaną dodane do ulubionych</string>
+    <string name="pref_title_notification_filter_favourites">moje wpisy zostaną polubione</string>
     <string name="pref_title_appearance_settings">Wygląd</string>
     <string name="pref_title_app_theme">Motyw</string>
     <string name="app_them_dark">Ciemny</string>
@@ -435,7 +435,7 @@
     <string name="poll_duration_1_day">1 dzień</string>
     <string name="poll_duration_3_days">3 dni</string>
     <string name="poll_duration_7_days">7 dni</string>
-    <string name="add_poll_choice">Dodaj wybór</string>
+    <string name="add_poll_choice">Dodaj opcję</string>
     <string name="poll_allow_multiple_choices">Kilka opcji</string>
     <string name="poll_new_choice_hint">Opcja %d</string>
     <string name="edit_poll">Edytuj</string>

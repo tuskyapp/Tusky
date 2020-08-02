@@ -54,7 +54,7 @@
     <string name="action_favourite">مورد علاقه</string>
     <string name="action_more">بیشتر</string>
     <string name="action_compose">ایجاد</string>
-    <string name="action_login">ورود با ماستودون</string>
+    <string name="action_login">با ماستودون وارد شو</string>
     <string name="action_logout">خروج</string>
     <string name="action_logout_confirm">آیا از خارج شدن از این حساب %1s اطمینان دارید؟</string>
     <string name="action_follow">دنبال کن</string>
@@ -341,7 +341,7 @@
     <string name="license_cc_by_sa_4">نگارش ۴ CC-BY-SA</string>
     <plurals name="favs">
         <item quantity="one"><b>%1$s</b> پسند</item>
-        <item quantity="other"/>
+        <item quantity="other"><b>%1$s</b> پسند</item>
     </plurals>
     <plurals name="reblogs">
         <item quantity="one"><b>%s</b> تقویت</item>

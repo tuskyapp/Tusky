@@ -423,4 +423,8 @@
     <string name="dialog_mute_hide_notifications">বিজ্ঞপ্তি লুকাও</string>
     <string name="dialog_mute_warning">নিঃশব্দ @%s\?</string>
     <string name="dialog_block_warning">অবরুদ্ধ @%s\?</string>
+    <plurals name="poll_timespan_days">
+        <item quantity="one"></item>
+        <item quantity="other"></item>
+    </plurals>
 </resources>
