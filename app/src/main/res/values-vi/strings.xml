@@ -305,11 +305,11 @@
     <string name="abbreviated_in_days">in %d ngày</string>
     <string name="abbreviated_in_years">in %d năm</string>
     <string name="state_follow_requested">Yêu cầu theo dõi</string>
-    <string name="status_media_video"/>
-    <string name="status_media_images"/>
-    <string name="status_share_link"/>
-    <string name="status_share_content"/>
-    <string name="about_tusky_account"/>
+    <string name="status_media_video">Video</string>
+    <string name="status_media_images">Hình ảnh</string>
+    <string name="status_share_link">Chia sẻ URL tút</string>
+    <string name="status_share_content">Chia sẻ nội dung tút</string>
+    <string name="about_tusky_account">Trang cá nhân Tusky</string>
     <string name="pref_title_confirm_reblogs">Hiện xác nhận trước khi chia sẻ</string>
     <string name="pref_title_show_cards_in_timelines">Hiện xem trước của link</string>
     <string name="warning_scheduling_interval">Mastodon giới hạn tối thiểu 5 phút.</string>
@@ -450,4 +450,9 @@
     <string name="add_account_name">Thêm tài khoản</string>
     <string name="filter_add_description">Thêm mô tả</string>
     <string name="filter_dialog_whole_word_description">Khi từ khóa là chữ và số, nó sẽ chỉ được áp dụng nếu nó phù hợp với toàn bộ từ</string>
+    <string name="description_status_media">Media: %s</string>
+    <string name="dialog_mute_hide_notifications">Ẩn thông báo</string>
+    <string name="action_mute_notifications_desc">Ẩn thông báo từ %s</string>
+    <string name="action_unmute_notifications_desc">Bỏ ẩn thông báo từ %s</string>
+    <string name="action_unmute_desc">Bỏ ẩn %s</string>
 </resources>
