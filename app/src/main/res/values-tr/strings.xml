@@ -361,8 +361,8 @@
     <string name="compose_preview_image_description">%s görüntüsü için eylemler</string>
     <string name="poll_info_format"> <!-- 15 oy • 1 saat kaldı --> %1$s • %2$s</string>
     <plurals name="poll_info_votes">
-        <item quantity="one"/>
-        <item quantity="other"/>
+        <item quantity="one">%s oy</item>
+        <item quantity="other">%s oy</item>
     </plurals>
     <string name="poll_info_time_relative">%s kaldı</string>
     <string name="poll_info_closed">kapalı</string>
@@ -370,16 +370,16 @@
     <string name="poll_ended_voted">Oy verdiğin bir anket sona erdi</string>
     <string name="poll_ended_created">Oluşturduğun bir anket sona erdi</string>
     <plurals name="poll_timespan_days">
-        <item quantity="one"/>
-        <item quantity="other"/>
+        <item quantity="one">%d gün</item>
+        <item quantity="other">%d gün</item>
     </plurals>
     <plurals name="poll_timespan_hours">
         <item quantity="one">%d saat</item>
         <item quantity="other">%d saat</item>
     </plurals>
     <plurals name="poll_timespan_minutes">
-        <item quantity="one"/>
-        <item quantity="other"/>
+        <item quantity="one">%d dakika</item>
+        <item quantity="other">%d dakika</item>
     </plurals>
     <plurals name="poll_timespan_seconds">
         <item quantity="one">%d saniye</item>
@@ -442,4 +442,25 @@
     <string name="no_scheduled_status">Planlanmış durumunuz yok.</string>
     <string name="reblog_private">Kendi kitlenize yükseltin</string>
     <string name="hashtags">Hashtag\'ler</string>
+    <string name="pref_title_confirm_reblogs">Yinelemeden önce onay iletişim kutusunu göster</string>
+    <string name="pref_title_show_cards_in_timelines">Bağlantı önizlemelerini zaman çizelgesinde göster</string>
+    <string name="pref_title_enable_swipe_for_tabs">Sekmeler arasında geçiş yapmak için kaydırma hareketini etkinleştir</string>
+    <plurals name="poll_info_people">
+        <item quantity="one">%s kişi</item>
+        <item quantity="other">%s kişi</item>
+    </plurals>
+    <string name="add_hashtag_title">Hashtag ekle</string>
+    <string name="notification_follow_request_description">Takip istekleri ile ilgili bildirimler</string>
+    <string name="notification_follow_request_name">Takip istekleri</string>
+    <string name="pref_main_nav_position_option_bottom">Alt</string>
+    <string name="pref_main_nav_position_option_top">Üst</string>
+    <string name="dialog_mute_hide_notifications">Bildirimleri gizle</string>
+    <string name="dialog_mute_warning">\@%s sessize al\?</string>
+    <string name="dialog_block_warning">\@%s engellensin mi\?</string>
+    <string name="action_unmute_domain">%s senini aç</string>
+    <string name="action_mute_notifications_desc">%s gelen bildirimleri yoksay</string>
+    <string name="action_unmute_notifications_desc">%s kullanıcısından gelen bildirimleri yoksay</string>
+    <string name="action_unmute_desc">%s sesini aç</string>
+    <string name="notification_follow_request_format">%s seni takip etmek istiyor</string>
+    <string name="error_audio_upload_size">Ses dosyaları 40 MB\'tan büyük olamaz.</string>
 </resources>
