@@ -1,2 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <string name="title_lists">Liostaichean</string>
+    <string name="action_lists">Liostaichean</string>
+    <string name="about_title_activity">Mu dheidhinn</string>
+    <string name="action_reset_schedule">Ath-shuidhich</string>
+    <string name="action_search">Lorg</string>
+    <string name="action_view_account_preferences">Roighainnean cunntais</string>
+    <string name="action_view_preferences">Roighainnean</string>
+    <string name="action_logout">Clàraich a-mach</string>
+    <string name="title_saved_toot">Dreachdan</string>
+    <string name="title_favourites">Prìomhaich</string>
+    <string name="link_whats_an_instance">Dè a th ’ann an àite\?</string>
+    <string name="edit_poll">Deasaich</string>
+    <string name="filter_edit_dialog_title">Deasaich sìoltachan</string>
+    <string name="action_edit_list">Deasaich an liosta</string>
+    <string name="pref_title_edit_notification_settings">Fiosan</string>
+    <string name="action_edit_own_profile">Deasaich</string>
+    <string name="action_edit">Deasaich</string>
+    <string name="title_edit_profile">Deasaich do phròifil</string>
+    <string name="action_edit_profile">Deasaich pròifil</string>
+    <string name="hint_display_name">Ainm scrion</string>
+    <string name="hint_content_warning">Rabhadh susbaint</string>
+    <string name="hint_compose">Dè tha dol\?</string>
+    <string name="hint_note">Sgeul-beatha</string>
+    <string name="label_quick_reply">Freagairt…</string>
+    <string name="hint_search">Lorg…</string>
+    <string name="action_login">Clàraich a-steach le Mastodon</string>
+</resources>

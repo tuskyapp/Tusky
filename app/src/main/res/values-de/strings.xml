@@ -18,7 +18,7 @@
     <string name="error_media_download_permission">Schreibberechtigung für Mediendateien wird benötigt.</string>
     <string name="error_media_upload_image_or_video">Bilder und Videos können nicht beide gleichzeitig an einen Beitrag angehängt werden.</string>
     <string name="error_media_upload_sending">Die Mediendatei konnte nicht hochgeladen werden.</string>
-    <string name="error_sender_account_gone">Fehler beim Senden des Status</string>
+    <string name="error_sender_account_gone">Fehler beim Senden des Status.</string>
     <string name="title_home">Start</string>
     <string name="title_notifications">Benachrichtigungen</string>
     <string name="title_public_local">Lokal</string>
@@ -227,7 +227,7 @@
            to show we do not mean the software is gratis. Source: https://www.gnu.org/philosophy/free-sw.html
          * the url can be changed to link to the localized version of the license.
     -->
-    <string name="about_project_site">Website des Projekts:
+    <string name="about_project_site">Webseite des Projekts:
 \n https://tusky.app</string>
     <string name="about_bug_feature_request_site">        Fehlermeldungen &amp; Verbesserungsvorschläge:\n
         https://github.com/tuskyapp/Tusky/issues
@@ -404,7 +404,7 @@
     <string name="poll_duration_1_day">1 Tag</string>
     <string name="poll_duration_3_days">3 Tage</string>
     <string name="poll_duration_7_days">7 Tage</string>
-    <string name="edit_poll">Bearbeiten</string>
+    <string name="edit_poll">Editieren</string>
     <string name="about_tusky_version">Tusky %s</string>
     <string name="action_add_poll">Umfrage hinzufügen</string>
     <string name="pref_title_alway_open_spoiler">Beiträge mit Inhaltswarnungen immer ausklappen</string>
@@ -451,11 +451,11 @@
         <item quantity="other">%s Personen</item>
     </plurals>
     <string name="pref_title_gradient_for_media">Farbverlauf für versteckte Medien anzeigen</string>
-    <string name="abbreviated_seconds_ago">%dS</string>
-    <string name="abbreviated_hours_ago">%d St.</string>
+    <string name="abbreviated_seconds_ago">%d Sek.</string>
+    <string name="abbreviated_hours_ago">%dS</string>
     <string name="abbreviated_years_ago">%d J.</string>
     <string name="abbreviated_in_days">in %d T.</string>
-    <string name="abbreviated_in_years">in %d J.</string>
+    <string name="abbreviated_in_years">in %d J.</string>
     <string name="abbreviated_minutes_ago">%d Min.</string>
     <string name="abbreviated_days_ago">%d T.</string>
     <string name="abbreviated_in_seconds">in %d Sek.</string>
@@ -464,4 +464,13 @@
     <string name="pref_main_nav_position_option_bottom">Unten</string>
     <string name="pref_main_nav_position_option_top">Oben</string>
     <string name="action_unmute_domain">%s nicht mehr verstecken</string>
+    <plurals name="reblogs">
+        <item quantity="one"/>
+        <item quantity="other"/>
+    </plurals>
+    <string name="pref_main_nav_position">Hauptnavigations-Position</string>
+    <string name="dialog_mute_hide_notifications">Benachrichtigungen ausblenden</string>
+    <string name="action_mute_notifications_desc">Benachrichtigungen stummschalten von %s</string>
+    <string name="action_unmute_notifications_desc">Benachrichtigungs-Ton einschalten von %s</string>
+    <string name="action_unmute_desc">Ton einschalten %s</string>
 </resources>

@@ -26,7 +26,7 @@
     <string name="title_statuses">پست‌ها</string>
     <string name="title_statuses_with_replies">با پاسخ‌</string>
     <string name="title_follows">دنبال شونده‌ها</string>
-    <string name="title_followers">پیروان</string>
+    <string name="title_followers">پی‌گیر</string>
     <string name="title_favourites">علاقه‌مندی‌ها</string>
     <string name="title_mutes">کاربرهای بی‌صدا</string>
     <string name="title_blocks">کاربرهای مسدود شده</string>
@@ -54,7 +54,7 @@
     <string name="action_favourite">مورد علاقه</string>
     <string name="action_more">بیشتر</string>
     <string name="action_compose">ایجاد</string>
-    <string name="action_login">ورود با ماستودون</string>
+    <string name="action_login">با ماستودون وارد شو</string>
     <string name="action_logout">خروج</string>
     <string name="action_logout_confirm">آیا از خارج شدن از این حساب %1s اطمینان دارید؟</string>
     <string name="action_follow">دنبال کن</string>
@@ -195,7 +195,8 @@
     <string name="notification_title_summary">%d برهم‌کنش جدید</string>
     <string name="description_account_locked">حساب قفل‌شده</string>
     <string name="about_title_activity">درباره</string>
-    <string name="about_tusky_license">تاسکی نرم‌افزاری آزاد است که تحت نگارش ۳ از پروانهٔ جامع همگانی گنو منتشر شده است. پروانه را می‌توانید از این‌جا ببینید: https://www.gnu.org/licenses/gpl-3.0.en.html</string>
+    <string name="about_tusky_license">تاسکی نرم‌افزاری آزاد است که تحت نگارش ۳ از پروانهٔ جامع همگانی گنو منتشر شده است. پروانه را می‌توانید از این‌جا ببینید:
+\nhttps://www.gnu.org/licenses/gpl-3.0.en.html</string>
     <!-- note to translators:
          * you should think of “free” as in “free speech,” not as in “free beer”.
            We sometimes call it “libre software,” borrowing the French or Spanish word for “free” as in freedom,
@@ -340,7 +341,7 @@
     <string name="license_cc_by_sa_4">نگارش ۴ CC-BY-SA</string>
     <plurals name="favs">
         <item quantity="one"><b>%1$s</b> پسند</item>
-        <item quantity="other"></item>
+        <item quantity="other"><b>%1$s</b> پسند</item>
     </plurals>
     <plurals name="reblogs">
         <item quantity="one"><b>%s</b> تقویت</item>
@@ -359,7 +360,7 @@
     <string name="description_status_favourited">پسندیده</string>
     <string name="description_visiblity_public">عمومی</string>
     <string name="description_visiblity_unlisted">فهرست‌نشده</string>
-    <string name="description_visiblity_private">دنبال‌کنندگان</string>
+    <string name="description_visiblity_private">پی‌گیران</string>
     <string name="description_visiblity_direct">مستقیم</string>
     <string name="description_poll">نظرسنجی با انتخاب‌ها: %1$s، %2$s، %3$s، %4$s؛ %5$s</string>
     <string name="hint_list_name">نام فهرست</string>

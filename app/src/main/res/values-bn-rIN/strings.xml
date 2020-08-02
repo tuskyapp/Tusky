@@ -419,4 +419,12 @@
     <string name="notification_follow_request_format">%s আপনাকে অনুসরণ করার জন্য অনুরোধ করেছে</string>
     <string name="title_bookmarks">বুকমার্কগুলি</string>
     <string name="error_audio_upload_size">অডিও ফাইলগুলি অবশ্যই ৪০MB এর চেয়ে কম হওয়া উচিত।</string>
+    <string name="pref_title_notification_filter_follow_requests">অনুরোধ অনুসরণ করো</string>
+    <string name="dialog_mute_hide_notifications">বিজ্ঞপ্তি লুকাও</string>
+    <string name="dialog_mute_warning">নিঃশব্দ @%s\?</string>
+    <string name="dialog_block_warning">অবরুদ্ধ @%s\?</string>
+    <plurals name="poll_timespan_days">
+        <item quantity="one"></item>
+        <item quantity="other"></item>
+    </plurals>
 </resources>

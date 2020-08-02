@@ -451,4 +451,8 @@
     <string name="pref_main_nav_position">ตำแหน่งการนำทางหลัก</string>
     <string name="pref_title_gradient_for_media">แสดงการไล่ระดับสีสันสำหรับสื่อที่ถูกซ่อนไว้</string>
     <string name="action_unmute_domain">เลิกปิดเสียง %s</string>
+    <string name="action_unmute_desc">เลิกปิดเสียง %s</string>
+    <string name="action_unmute_notifications_desc">เลิกปิดเสียงการแจ้งเตือนจาก %s</string>
+    <string name="dialog_mute_hide_notifications">ซ่อนการแจ้งเตือน</string>
+    <string name="action_mute_notifications_desc">ปิดเสียงการแจ้งเตือนจาก %s</string>
 </resources>

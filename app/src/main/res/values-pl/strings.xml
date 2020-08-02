@@ -59,7 +59,7 @@
     <string name="action_block">Zablokuj</string>
     <string name="action_unblock">Odblokuj</string>
     <string name="action_hide_reblogs">Ukryj podbicia</string>
-    <string name="action_show_reblogs">Pokazuj podbicia</string>
+    <string name="action_show_reblogs">Pokaż podbicia</string>
     <string name="action_report">Zgłoś</string>
     <string name="action_delete">Usuń</string>
     <string name="action_send">Wyślij</string>
@@ -435,7 +435,7 @@
     <string name="poll_duration_1_day">1 dzień</string>
     <string name="poll_duration_3_days">3 dni</string>
     <string name="poll_duration_7_days">7 dni</string>
-    <string name="add_poll_choice">Dodaj wybór</string>
+    <string name="add_poll_choice">Dodaj opcję</string>
     <string name="poll_allow_multiple_choices">Kilka opcji</string>
     <string name="poll_new_choice_hint">Opcja %d</string>
     <string name="edit_poll">Edytuj</string>

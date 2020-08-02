@@ -33,7 +33,7 @@
     <string name="title_followers">Követő</string>
     <string name="title_favourites">Kedvencek</string>
     <string name="title_mutes">Némított felhasználók</string>
-    <string name="title_blocks">Letiltott felhasználók</string>
+    <string name="title_blocks">Blokkolt felhasználók</string>
     <string name="title_follow_requests">Követési kérelmek</string>
     <string name="title_edit_profile">Profilod szerkesztése</string>
     <string name="title_saved_toot">Piszkozatok</string>
@@ -372,13 +372,13 @@
     <string name="notifications_apply_filter">Szűrés</string>
     <string name="filter_apply">Alkalmaz</string>
     <string name="compose_shortcut_long_label">Tülk Szerkesztése</string>
-    <string name="compose_shortcut_short_label">Szerkesztés</string>
+    <string name="compose_shortcut_short_label">Szerkeszt</string>
     <string name="notification_clear_text">Biztos, hogy minden értesítésedet véglegesen törlöd\?</string>
     <string name="compose_preview_image_description">Műveletek a %s képpel</string>
     <string name="poll_info_format"> <!-- 15 szavazat • 1 óra maradt --> %1$s • %2$s</string>
     <plurals name="poll_info_votes">
-        <item quantity="one"/>
-        <item quantity="other"/>
+        <item quantity="one">%s szavazat</item>
+        <item quantity="other">%s szavazat</item>
     </plurals>
     <string name="poll_info_time_relative">%s maradt</string>
     <string name="poll_info_time_absolute">vége %s</string>
@@ -447,4 +447,29 @@
     <string name="no_scheduled_status">Nincs egy ütemezett tülköd sem.</string>
     <string name="warning_scheduling_interval">A Mastodonban a legrövidebb ütemezhető időintervallum 5 perc.</string>
     <string name="notification_follow_request_name">Követési kérelmek</string>
+    <string name="pref_title_confirm_reblogs">Jóváhagyó ablak mutatása megtolás előtt</string>
+    <string name="pref_title_show_cards_in_timelines">Link előnézet mutatása idővonalakon</string>
+    <string name="pref_title_enable_swipe_for_tabs">Tabok közötti váltás engedélyezése csúsztatással</string>
+    <plurals name="poll_info_people">
+        <item quantity="one"/>
+        <item quantity="other"/>
+    </plurals>
+    <string name="hashtags">Hashtagek</string>
+    <string name="add_hashtag_title">Hashtag hozzáadása</string>
+    <string name="notification_follow_request_description">Értesítések követési kérelmekről</string>
+    <string name="pref_main_nav_position_option_bottom">Lent</string>
+    <string name="pref_main_nav_position_option_top">Fent</string>
+    <string name="pref_main_nav_position">Fő navigálási pozíció</string>
+    <string name="pref_title_gradient_for_media">Színes homály mutatása rejtett médiánál</string>
+    <string name="pref_title_notification_filter_follow_requests">követési kérelem</string>
+    <string name="dialog_mute_hide_notifications">Értesítések elrejtése</string>
+    <string name="dialog_block_warning">Letiltsuk @%s fiókot\?</string>
+    <string name="dialog_mute_warning">Elnémítsuk @%s fiókot\?</string>
+    <string name="action_unmute_conversation">Beszélgetés némításának feloldása</string>
+    <string name="action_mute_conversation">Beszélgetés némítása</string>
+    <string name="action_unmute_domain">Némítás feloldása %s</string>
+    <string name="action_mute_notifications_desc">Értesítések némítása tőle %s</string>
+    <string name="action_unmute_desc">Némítás feloldása %s</string>
+    <string name="action_unmute_notifications_desc">Értesítések némításának feloldása tőle %s</string>
+    <string name="notification_follow_request_format">%s kéri, hogy követhessen</string>
 </resources>

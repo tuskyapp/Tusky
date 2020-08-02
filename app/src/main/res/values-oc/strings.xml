@@ -329,11 +329,11 @@
     <string name="license_cc_by_sa_4">CC-BY-SA 4.0</string>
     <plurals name="favs">
         <item quantity="one"><b>%1$s</b> Favorit</item>
-        <item quantity="other"><b>%1$s</b> Favorits</item>
+        <item quantity="other"><b>3%1$s</b>4 Favorits</item>
     </plurals>
     <plurals name="reblogs">
-        <item quantity="one"/>
-        <item quantity="other"/>
+        <item quantity="one"><b>%s</b> partatge</item>
+        <item quantity="other"><b>%s</b> partatges</item>
     </plurals>
     <string name="title_reblogged_by">Partejat per</string>
     <string name="title_favourited_by">Aimat per</string>
@@ -416,7 +416,7 @@
     <string name="filter_dialog_whole_word">Mot complèt</string>
     <string name="filter_dialog_whole_word_description">Quand un mot clau o una frasa es solament alfanumeric, serà pas qu’aplicat se correspond al mot complèt</string>
     <string name="pref_title_alway_open_spoiler">Totjorn desplegar los tuts marcats amb un avertiment de contengut</string>
-    <string name="title_accounts">Totjorn desplegar los tuts marcats amb un avertiment de contengut</string>
+    <string name="title_accounts">Comptes</string>
     <string name="failed_search">Fracàs de la recèrca</string>
     <string name="action_add_poll">Ajustar un sondatge</string>
     <string name="create_poll_title">Sondatge</string>

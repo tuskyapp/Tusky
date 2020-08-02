@@ -494,8 +494,12 @@
     <string name="hashtags">الوسوم</string>
     <string name="add_hashtag_title">إضافة وسم</string>
     <string name="pref_title_gradient_for_media">اظهر ألوانا متدرّجة للوسائط المخفية</string>
-    <string name="pref_main_nav_position">موضع التنقل الرئيسي</string>
+    <string name="pref_main_nav_position">موضع شريط التنقل الرئيسي</string>
     <string name="pref_main_nav_position_option_bottom">الأسفل</string>
     <string name="pref_main_nav_position_option_top">الأعلى</string>
     <string name="action_unmute_domain">إلغاء كتم %s</string>
+    <string name="dialog_mute_hide_notifications">أخفِ الإشعارات</string>
+    <string name="action_mute_notifications_desc">اكتم إشعارات %s</string>
+    <string name="action_unmute_notifications_desc">إلغاء كتم إشعارات %s</string>
+    <string name="action_unmute_desc">إلغاء كتم %s</string>
 </resources>

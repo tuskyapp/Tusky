@@ -48,7 +48,8 @@
     <string name="status_content_show_more">Déplier</string>
     <string name="status_content_show_less">Replier</string>
     <string name="message_empty">Rien ici.</string>
-    <string name="footer_empty">Il n’y a aucun pouet ici pour l’instant. Glissez vers le bas pour actualiser !</string>
+    <string name="footer_empty">Il n’y a aucun pouet pour le moment.
+\nGlissez vers le bas pour actualiser !</string>
     <string name="notification_reblog_format">%s a boosté votre pouet</string>
     <string name="notification_favourite_format">%s a ajouté votre pouet à ses favoris</string>
     <string name="notification_follow_format">%s vous suit</string>
@@ -248,14 +249,14 @@
     <!--These are for timestamps on statuses. For example: "16s" or "2d"-->
     <string name="abbreviated_in_years">en %d a</string>
     <string name="abbreviated_in_days">en %d j</string>
-    <string name="abbreviated_in_hours">en %d h</string>
-    <string name="abbreviated_in_minutes">en %d min</string>
+    <string name="abbreviated_in_hours">en %dh</string>
+    <string name="abbreviated_in_minutes">en %dm</string>
     <string name="abbreviated_in_seconds">en %d s</string>
-    <string name="abbreviated_years_ago">%d a</string>
-    <string name="abbreviated_days_ago">%d j</string>
+    <string name="abbreviated_years_ago">%da</string>
+    <string name="abbreviated_days_ago">%dj</string>
     <string name="abbreviated_hours_ago">%d h</string>
     <string name="abbreviated_minutes_ago">%d min</string>
-    <string name="abbreviated_seconds_ago">%d s</string>
+    <string name="abbreviated_seconds_ago">%ds</string>
     <string name="follows_you">Vous suit</string>
     <string name="pref_title_alway_show_sensitive_media">Toujours afficher le contenu sensible</string>
     <string name="title_media">Média</string>

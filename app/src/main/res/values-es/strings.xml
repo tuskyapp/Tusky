@@ -3,7 +3,7 @@
     <string name="error_generic">Ha ocurrido un error.</string>
     <string name="error_network">¡Se ha producido un error de red! ¡Por favor, comprueba tu conexión e inténtalo de nuevo!</string>
     <string name="error_empty">Este campo no puede estar vacío.</string>
-    <string name="error_invalid_domain">Nombre de dominio incorrecto</string>
+    <string name="error_invalid_domain">Nombre de dominio no válido</string>
     <string name="error_failed_app_registration">Fallo de autenticación con esta instancia.</string>
     <string name="error_no_web_browser_found">No se ha encontrado ningún navegador web.</string>
     <string name="error_authorization_unknown">Ocurrió un error de autorización no identificado.</string>
@@ -440,7 +440,7 @@
     <string name="post_lookup_error_format">Error al buscar el post %s</string>
     <string name="about_powered_by_tusky">Potenciado por Tusky</string>
     <string name="title_bookmarks">Favoritos</string>
-    <string name="action_bookmark">Favorito</string>
+    <string name="action_bookmark">Marcador</string>
     <string name="action_view_bookmarks">Favoritos</string>
     <string name="description_status_bookmarked">Marcado como favorito</string>
     <string name="select_list_title">Seleccionar lista</string>
@@ -471,4 +471,8 @@
     <string name="pref_main_nav_position">Posición de navegación principal</string>
     <string name="pref_title_gradient_for_media">Mostrar degradados colorido para los medios ocultos</string>
     <string name="action_unmute_domain">Dejar de silenciar %s</string>
+    <string name="action_unmute_desc">Dejar de silenciar a %s</string>
+    <string name="dialog_mute_hide_notifications">Ocultar notificaciones</string>
+    <string name="action_mute_notifications_desc">Silenciar notificaciones desde %s</string>
+    <string name="action_unmute_notifications_desc">Dejar de silenciar notificaciones desde %s</string>
 </resources>

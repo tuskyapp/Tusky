@@ -497,6 +497,10 @@
     <string name="pref_title_gradient_for_media">Отображать цветные градиенты для скрытых изображений</string>
     <string name="pref_main_nav_position_option_bottom">Снизу</string>
     <string name="pref_main_nav_position_option_top">Сверху</string>
-    <string name="pref_main_nav_position">Расположение панели навигации</string>
+    <string name="pref_main_nav_position">Основная позиция в навигации</string>
     <string name="action_unmute_domain">Отменить глушение %s</string>
+    <string name="dialog_mute_hide_notifications">Скрыть уведомления</string>
+    <string name="action_mute_notifications_desc">Заблокировать уведомления от %s</string>
+    <string name="action_unmute_notifications_desc">Получать уведомления от %s</string>
+    <string name="action_unmute_desc">Разблокировать %s</string>
 </resources>
