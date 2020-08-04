@@ -170,7 +170,7 @@ class ViewImageFragment : ViewMediaFragment() {
     }
 
     override fun onToolbarVisibilityChange(visible: Boolean) {
-        if (photoView == null || !userVisibleHint) {
+        if (photoView == null || !userVisibleHint || captionSheet == null) {
             return
         }
         isDescriptionVisible = showingDescription && visible
@@ -178,7 +178,7 @@ class ViewImageFragment : ViewMediaFragment() {
         captionSheet.animate().alpha(alpha)
                 .setListener(object : AnimatorListenerAdapter() {
                     override fun onAnimationEnd(animation: Animator) {
-                        captionSheet.visible(isDescriptionVisible)
+                        captionSheet?.visible(isDescriptionVisible)
                         animation.removeListener(this)
                     }
                 })
