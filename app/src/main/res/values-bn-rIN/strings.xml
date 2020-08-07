@@ -137,7 +137,7 @@
     <string name="label_quick_reply">উত্তর…</string>
     <string name="label_avatar">অবতার</string>
     <string name="label_header">হেডার</string>
-    <string name="link_whats_an_instance">ইনস্ট্যান্স কি\?</string>
+    <string name="link_whats_an_instance">ইনস্ট্যান্স কি?</string>
     <string name="login_connection">সংযুক্ত হচ্ছে …</string>
     <string name="dialog_whats_an_instance">কোনও উদাহরণের ঠিকানা বা ডোমেন এখানে প্রবেশ করা যেতে পারে যেমন mastodon.social, icosahedron.website, social.tchncs.de, এবং <a href="https://instances.social"> আরও! </a> 
 \n 
