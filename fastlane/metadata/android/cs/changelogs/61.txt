@@ -4,4 +4,4 @@ Tusky v7.0
 - Nová tlačítka pro filtrování v záložce oznámení a smazání všech oznámení
 - Smažte a přepište své vlastní tooty
 - Nový indikátor na obrázku profilu, který ukazuje, jestli je účet robot (může být vypnut v nastavení)
-- Nové překlady: norština (bokmål) a slovinština.
+- Nové překlady: norština (bokmål) a slovinština
