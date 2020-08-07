@@ -28,6 +28,7 @@ object PrefKeys {
     const val USE_BLURHASH = "useBlurhash"
     const val SHOW_NOTIFICATIONS_FILTER = "showNotificationsFilter"
     const val SHOW_CARDS_IN_TIMELINES = "showCardsInTimelines"
+    const val CONFIRM_REBLOGS = "confirmReblogs"
     const val ENABLE_SWIPE_FOR_TABS = "enableSwipeForTabs"
 
     const val CUSTOM_TABS = "customTabs"
