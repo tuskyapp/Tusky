@@ -1,0 +1,8 @@
+Tusky v12.0
+
+- Fanene kan nå flyttes til bunnen av applikasjonen
+- Når en bruker dempes kan du også velge å dempe varslinger fra brukeren
+- Du kan følge så mange stikkord du ønsker i en enkelt stikkordfane
+- Forbedret måten mediabeskrivelser fungerer på slik at de også fungerer på veldig lange beskrivelser
+    
+Komplett endringslogg: https://github.com/tuskyapp/Tusky/releases
