@@ -54,13 +54,13 @@
     <string name="visibility_unlisted">Neamhliostaithe: Ná taispeáin in amlínte poiblí</string>
     <string name="visibility_public">Poiblí: Post chuig amlínte poiblí</string>
     <string name="dialog_mute_hide_notifications">Folaigh fógraí</string>
-    <string name="dialog_block_warning">Bloc @%1$s\?</string>
+    <string name="dialog_block_warning">Bloc @%1$s?</string>
     <string name="mute_domain_warning_dialog_ok">Folaigh an fearann iomlán</string>
     <string name="mute_domain_warning">An bhfuil tú cinnte gur mhaith leat gach %1$s a bhac\? Ní fheicfidh tú inneachar ón bhfearann sin in aon amlíne poiblí ar bith ná i do chuid fógraí. Bainfear do chuid leantóirí ón bhfearann sin.</string>
     <string name="dialog_redraft_post_warning">Scrios agus athdhréachtaigh an postáil seo\?</string>
     <string name="dialog_delete_post_warning">Scrios an postáil seo\?</string>
-    <string name="dialog_unfollow_warning">An cuntas seo a scaoileadh\?</string>
-    <string name="dialog_message_cancel_follow_request">An iarraidh seo a leanas a chúlghairm\?</string>
+    <string name="dialog_unfollow_warning">An cuntas seo a scaoileadh?</string>
+    <string name="dialog_message_cancel_follow_request">An iarraidh seo a leanas a chúlghairm?</string>
     <string name="dialog_download_image">Íoslódáil</string>
     <string name="dialog_message_uploading_media">Uaslódáil…</string>
     <string name="dialog_title_finishing_media_upload">Uaslódáil Meáin Críochnaithe</string>
@@ -72,7 +72,7 @@
     <string name="hint_note">Bith</string>
     <string name="hint_display_name">Ainm taispeána</string>
     <string name="hint_content_warning">Rabhadh ábhair</string>
-    <string name="hint_compose">Cad atá ag tarlú\?</string>
+    <string name="hint_compose">Cad atá ag tarlú?</string>
     <string name="hint_domain">Cén ásc\?</string>
     <string name="confirmation_domain_unmuted">%1$s neamhcheangailte</string>
     <string name="confirmation_unmuted">Úsáideoir gan trácht</string>
@@ -230,7 +230,7 @@
     <string name="action_unreblog">Cealaigh athchraoladh</string>
     <string name="action_reply">Freagra</string>
     <string name="action_quick_reply">Freagra Tapa</string>
-    <string name="report_comment_hint">Tuairimí Breise\?</string>
+    <string name="report_comment_hint">Tuairimí Breise?</string>
     <string name="report_username_format">Tuairiscigh @%1$s</string>
     <string name="notification_follow_request_format">D’iarr %1$s tú a leanúint</string>
     <string name="notification_follow_format">lean %1$s thú</string>
@@ -281,7 +281,7 @@
     <string name="description_poll">Vótaíocht le roghanna: %1$s, %2$s, %3$s, %4$s; %5$s</string>
     <string name="list">Liosta</string>
     <string name="compose_shortcut_long_label">Scríobh postáil</string>
-    <string name="notification_clear_text">An bhfuil tú cinnte gur mhaith leat do chuid fógraí go léir a ghlanadh go buan\?</string>
+    <string name="notification_clear_text">An bhfuil tú cinnte gur mhaith leat do chuid fógraí go léir a ghlanadh go buan?</string>
     <string name="poll_ended_created">Tá deireadh le vótaíocht a chruthaigh tú</string>
     <plurals name="poll_timespan_minutes">
         <item quantity="one">%1$d nóiméad fágtha</item>
@@ -304,6 +304,10 @@
     <string name="action_remove_from_list">Bain cuntas ón liosta</string>
     <string name="compose_active_account_description">Postáil le cuntas %1$s</string>
     <plurals name="hint_describe_for_visually_impaired">
+        <item quantity="one"></item>
+        <item quantity="two"></item>
+        <item quantity="few"></item>
+        <item quantity="many"></item>
         <item quantity="other">Déan cur síos ar dhaoine lagamhairc
 \n(teorainn carachtar %1$d)</item>
     </plurals>
@@ -311,7 +315,7 @@
     <string name="action_remove">Bain</string>
     <string name="lock_account_label">Cuntas glasála</string>
     <string name="lock_account_label_description">Éileofar ort leantóirí a cheadú de láimh</string>
-    <string name="compose_save_draft">Sábháil dréacht\?</string>
+    <string name="compose_save_draft">Sábháil dréacht?</string>
     <string name="send_post_notification_title">Postáil á sheoladh…</string>
     <string name="send_post_notification_error_title">Earráid le postáil a sheoladh</string>
     <string name="send_post_notification_channel_name">Postálacha a Sheoladh</string>
@@ -424,7 +428,7 @@
     <string name="hint_additional_info">Tuairimí Breise</string>
     <string name="report_remote_instance">Seol ar aghaidh chuig %1$s</string>
     <string name="failed_report">Theip ar thuairisciú</string>
-    <string name="report_description_remote_instance">Is ó fhreastalaí eile an cuntas. Seol cóip gan ainm den tuarascáil ansin freisin\?</string>
+    <string name="report_description_remote_instance">Is ó fhreastalaí eile an cuntas. Seol cóip gan ainm den tuarascáil ansin freisin?</string>
     <string name="title_accounts">Cuntais</string>
     <string name="failed_search">Theip ar chuardach</string>
     <string name="pref_title_enable_swipe_for_tabs">Cumasaigh gotha swipe aistriú idir cluaisíní</string>
@@ -451,7 +455,7 @@
     <string name="action_mute_domain">Balbhaigh %1$s</string>
     <string name="action_unmute_domain">Unmute %1$s</string>
     <string name="action_unmute_conversation">Comhrá unmute</string>
-    <string name="dialog_mute_warning">Tost @%1$s\?</string>
+    <string name="dialog_mute_warning">Tost @%1$s?</string>
     <string name="pref_title_post_tabs">Cluaisíní</string>
     <string name="abbreviated_in_years">in %1$dy</string>
     <string name="abbreviated_in_days">in %1$dd</string>
