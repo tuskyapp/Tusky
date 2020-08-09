@@ -238,7 +238,7 @@
     <string name="send_toot_notification_channel_name">Mandadís dels tuts</string>
     <string name="send_toot_notification_cancel_title">Mandadís anullat</string>
     <string name="send_toot_notification_saved_content">Una còpia del tut es estat salvat dins los borrolhons</string>
-    <string name="action_compose_shortcut">Escriure</string>
+    <string name="action_compose_shortcut">Redactar</string>
     <string name="error_no_custom_emojis">L’instància %s es pas compatibla amb los emoji personalizats</string>
     <string name="copy_to_clipboard_success">Copiat al quichapapièr</string>
     <string name="emoji_style">Estil dels Emoji</string>
@@ -310,7 +310,7 @@
     <string name="pref_title_thread_filter_keywords">Discutidas</string>
     <string name="filter_addition_dialog_title">Ajustar un filtre</string>
     <string name="filter_edit_dialog_title">Modificar un filtre</string>
-    <string name="filter_dialog_remove_button">Levar</string>
+    <string name="filter_dialog_remove_button">Suprimir</string>
     <string name="filter_dialog_update_button">Actualizar</string>
     <string name="filter_add_description">Frasa de filtrar</string>
     <string name="error_create_list">Creacion impossibla de la lista</string>

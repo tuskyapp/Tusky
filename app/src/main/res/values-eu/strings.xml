@@ -136,7 +136,7 @@
     <string name="visibility_unlisted">Ezkutukoa: Ez erakutsi istorio publikoetan</string>
     <string name="visibility_private">Pribatua: Jarraitzaileentzat soilik ikusgai</string>
     <string name="visibility_direct">Zuzena: Aipatutako kontuentzat bakarrik ikusgai</string>
-    <string name="pref_title_edit_notification_settings">Editatu jakinarazpenak</string>
+    <string name="pref_title_edit_notification_settings">Jakinarazpenak</string>
     <string name="pref_title_notifications_enabled">Jakinarazpenak</string>
     <string name="pref_title_notification_alerts">Alertak</string>
     <string name="pref_title_notification_alert_sound">Soinuarekin jakinarazi</string>
@@ -148,12 +148,12 @@
     <string name="pref_title_notification_filter_reblogs">Bultzatzen naute</string>
     <string name="pref_title_notification_filter_favourites">Nire argitarapenak gustokoak izan dira</string>
     <string name="pref_title_appearance_settings">Interfazea</string>
-    <string name="pref_title_app_theme">Aplikazioaren gaia</string>
+    <string name="pref_title_app_theme">Gaia</string>
     <string name="pref_title_timelines">Denbora-lerroak</string>
     <string name="app_them_dark">Iluna</string>
     <string name="app_theme_light">Argia</string>
     <string name="app_theme_black">Beltza</string>
-    <string name="app_theme_auto">Automatikoa iluntzean</string>
+    <string name="app_theme_auto">Automatikoa</string>
     <string name="pref_title_browser_settings">Nabigatzailea</string>
     <string name="pref_title_custom_tabs">Chromeko fitxa pertsonalizatuak erabili</string>
     <string name="pref_title_hide_follow_button">Ezkutatu idazteko botoia mugitzean</string>
@@ -172,7 +172,7 @@
     <string name="pref_publishing">Argitaratzeak (zerbitzariarekin sinkronizatua)</string>
     <string name="pref_failed_to_sync">Aukerak sinkronizatzean akatsa</string>
     <string name="post_privacy_public">Publikoa</string>
-    <string name="post_privacy_unlisted">Zerrendatu gabea</string>
+    <string name="post_privacy_unlisted">Zerrendagabetuta</string>
     <string name="post_privacy_followers_only">Jarraitzaileak soilik</string>
     <string name="pref_status_text_size">Status testuaren tamaina</string>
     <string name="status_text_size_smallest">Oso txikia</string>
@@ -396,8 +396,8 @@
         <item quantity="other">%d egun</item>
     </plurals>
     <plurals name="poll_timespan_hours">
-        <item quantity="one">Ordu %d</item>
-        <item quantity="other">%d ordu</item>
+        <item quantity="one"></item>
+        <item quantity="other"></item>
     </plurals>
     <plurals name="poll_timespan_minutes">
         <item quantity="one">Minutu %d</item>

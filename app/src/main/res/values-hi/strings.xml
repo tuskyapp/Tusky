@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="action_login">मास्टोडन के साथ लॉगिन करें।</string>
+    <string name="action_login">हिंदी</string>
     <string name="title_favourites">पसंदीदा</string>
     <string name="title_saved_toot">ड्राफ्ट</string>
     <string name="action_logout">लॉग आउट</string>

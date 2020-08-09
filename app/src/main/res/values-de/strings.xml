@@ -197,7 +197,7 @@
     <string name="pref_publishing">Beiträge</string>
     <string name="pref_failed_to_sync">Fehler beim Synchronisieren</string>
     <string name="post_privacy_public">Öffentlich</string>
-    <string name="post_privacy_unlisted">Ungelistet</string>
+    <string name="post_privacy_unlisted">Nicht gelistet</string>
     <string name="post_privacy_followers_only">Nur Folgende</string>
     <string name="pref_status_text_size">Schriftgröße</string>
     <string name="status_text_size_smallest">Kleiner</string>
@@ -263,12 +263,12 @@
     <string name="error_failed_set_caption">Fehler beim Speichern der Beschreibung</string>
     <string name="hint_describe_for_visually_impaired">Für Menschen mit Sehbehinderung beschreiben\n(%d Zeichen)</string>
     <string name="action_set_caption">Beschreibung eingeben</string>
-    <string name="action_remove">Entfernen</string>
+    <string name="action_remove">entfernen</string>
     <string name="lock_account_label">Gesperrtes Profil</string>
     <string name="lock_account_label_description">Wer dir folgen möchte, muss um deine Erlaubnis bitten</string>
     <string name="compose_save_draft">Entwurf speichern?</string>
     <string name="send_toot_notification_title">Beitrag senden…</string>
-    <string name="send_toot_notification_error_title">Fehler beim Senden</string>
+    <string name="send_toot_notification_error_title">Fehler beim senden</string>
     <string name="send_toot_notification_channel_name">Beiträge senden</string>
     <string name="send_toot_notification_cancel_title">Senden abgebrochen</string>
     <string name="send_toot_notification_saved_content">Eine Kopie des Beitrags wurde in deinen Entwürfen gespeichert</string>
@@ -277,7 +277,7 @@
     <string name="copy_to_clipboard_success">In die Zwischenablage kopiert</string>
     <string name="emoji_style">Emoji-Stil</string>
     <string name="system_default">System-Standard</string>
-    <string name="download_fonts">Du musst diese Emoji-Sets zunächst herunterladen</string>
+    <string name="download_fonts">Du musst diese Emoji-Sets zunächst herunterladen.</string>
     <string name="performing_lookup_title">Nachschlagen…</string>
     <string name="expand_collapse_all_statuses">Alle Beiträge aus-/einklappen</string>
     <string name="action_open_toot">Beitrag öffnen</string>
@@ -314,7 +314,7 @@
     <string name="description_status_media_no_description_placeholder">        Keine Beschreibung    </string>
     <string name="description_status_favourited">Favorisiert    </string>
     <string name="description_visiblity_public">Öffentlich    </string>
-    <string name="description_visiblity_private">Folgende</string>
+    <string name="description_visiblity_private">Follower</string>
     <string name="description_visiblity_direct">Direkt    </string>
     <string name="hint_list_name">Name auflisten</string>
     <string name="download_media">Medien herunterladen</string>
@@ -446,8 +446,8 @@
     <string name="pref_title_show_cards_in_timelines">Linkvorschauen in Timelines anzeigen</string>
     <string name="pref_title_enable_swipe_for_tabs">Wischgeste zum Wechseln zwischen Tabs</string>
     <plurals name="poll_info_people">
-        <item quantity="one">%s Person</item>
-        <item quantity="other">%s Personen</item>
+        <item quantity="one"/>
+        <item quantity="other"/>
     </plurals>
     <string name="pref_title_gradient_for_media">Farbverlauf für versteckte Medien anzeigen</string>
     <string name="abbreviated_seconds_ago">%d Sek.</string>
@@ -462,10 +462,10 @@
     <string name="abbreviated_in_hours">in %d St.</string>
     <string name="pref_main_nav_position_option_bottom">Unten</string>
     <string name="pref_main_nav_position_option_top">Oben</string>
-    <string name="action_unmute_domain">%s nicht mehr verstecken</string>
+    <string name="action_unmute_domain">Ton einschalten %s</string>
     <plurals name="reblogs">
-        <item quantity="one"><b>%s</b> Boost</item>
-        <item quantity="other"><b>%s</b> Boosts</item>
+        <item quantity="one"/>
+        <item quantity="other"/>
     </plurals>
     <string name="pref_main_nav_position">Hauptnavigations-Position</string>
     <string name="dialog_mute_hide_notifications">Benachrichtigungen ausblenden</string>

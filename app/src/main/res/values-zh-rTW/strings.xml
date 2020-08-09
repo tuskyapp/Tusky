@@ -424,4 +424,5 @@
     <string name="report_description_remote_instance">該帳戶來自其他伺服器。向那裡發送一份匿名的報告副本？</string>
     <string name="pref_title_show_notifications_filter">顯示通知過濾器</string>
     <string name="hashtags">話題</string>
+    <string name="notification_follow_request_name">關注請求</string>
 </resources>
