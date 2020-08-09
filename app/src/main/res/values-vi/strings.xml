@@ -454,4 +454,5 @@
     <string name="action_mute_notifications_desc">Ẩn thông báo từ %s</string>
     <string name="action_unmute_notifications_desc">Bỏ ẩn thông báo từ %s</string>
     <string name="action_unmute_desc">Bỏ ẩn %s</string>
+    <string name="action_unmute_domain">Bỏ ẩn %s</string>
 </resources>
