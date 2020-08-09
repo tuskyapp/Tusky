@@ -243,11 +243,11 @@
     <string name="abbreviated_in_years">in %d a</string>
     <string name="abbreviated_in_days">in %d g</string>
     <string name="abbreviated_in_hours">in %do</string>
-    <string name="abbreviated_in_minutes">in %dm</string>
-    <string name="abbreviated_in_seconds">in %d s</string>
-    <string name="abbreviated_years_ago">%da</string>
-    <string name="abbreviated_days_ago">%dg</string>
-    <string name="abbreviated_hours_ago">%d o</string>
+    <string name="abbreviated_in_minutes">in %d min</string>
+    <string name="abbreviated_in_seconds">in %ds</string>
+    <string name="abbreviated_years_ago">%d a</string>
+    <string name="abbreviated_days_ago">%d g</string>
+    <string name="abbreviated_hours_ago">%do</string>
     <string name="abbreviated_minutes_ago">%dm</string>
     <string name="abbreviated_seconds_ago">%ds</string>
     <string name="follows_you">Seguono te</string>
@@ -351,8 +351,7 @@
     </string>
     <string name="description_visiblity_unlisted">        Non elencato
     </string>
-    <string name="description_visiblity_private">        Seguaci
-    </string>
+    <string name="description_visiblity_private">Ti seguono</string>
     <string name="description_visiblity_direct">        Diretti
     </string>
     <string name="hint_list_name">Nome della lista</string>

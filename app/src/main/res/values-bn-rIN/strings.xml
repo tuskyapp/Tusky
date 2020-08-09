@@ -48,7 +48,7 @@
     <string name="status_content_show_more">বিস্তৃত</string>
     <string name="status_content_show_less">বন্ধ</string>
     <string name="message_empty">এখানে কিছুই নেই।</string>
-    <string name="footer_empty">এখানে কিছু নেই। রিফ্রেশ করতে নিচে টানুন!</string>
+    <string name="footer_empty">এখানে কিছু নেই. রিফ্রেশ করতে নিচে টানুন!</string>
     <string name="notification_reblog_format">%s সমর্থন দিয়েছে</string>
     <string name="notification_favourite_format">%s আপনার টুট পছন্দ করেছে</string>
     <string name="notification_follow_format">%s আপনাকে অনুসরণ করেছেন</string>
@@ -136,7 +136,7 @@
     <string name="hint_content_warning">সতর্কবার্তা</string>
     <string name="hint_display_name">প্রদর্শন নাম</string>
     <string name="hint_note">জীবনী</string>
-    <string name="hint_search">অনুসন্ধান…</string>
+    <string name="hint_search">অনুসন্ধান</string>
     <string name="search_no_results">কোন ফলাফল নেই</string>
     <string name="label_quick_reply">উত্তর…</string>
     <string name="label_avatar">অবতার</string>
@@ -424,7 +424,45 @@
     <string name="dialog_mute_warning">নিঃশব্দ @%s\?</string>
     <string name="dialog_block_warning">অবরুদ্ধ @%s\?</string>
     <plurals name="poll_timespan_days">
-        <item quantity="one"></item>
-        <item quantity="other"></item>
+        <item quantity="one">%d দিন</item>
+        <item quantity="other">%d দিন</item>
     </plurals>
+    <string name="pref_title_gradient_for_media">লুকানো মিডিয়ার জন্য রঙিন গ্রেডিয়েন্ট ব্যবহার করি</string>
+    <string name="action_unmute_conversation">আলাপ বন্ধ করো</string>
+    <string name="action_mute_conversation">আলাপ বন্ধ করো</string>
+    <string name="action_unmute_domain">আনমিউট %s</string>
+    <string name="action_mute_notifications_desc">%s থেকে বিজ্ঞপ্তি বন্ধ করো</string>
+    <string name="action_unmute_notifications_desc">%s থেকে বিজ্ঞপ্তি বন্ধ করো</string>
+    <string name="action_unmute_desc">আনমিউট %s</string>
+    <string name="notification_follow_request_name">অনুরোধ অনুসরণ করুন</string>
+    <string name="pref_title_confirm_reblogs">বুস্ট করার আগে নিশ্চিত করো</string>
+    <plurals name="poll_timespan_seconds">
+        <item quantity="one">%d সেকেন্ড</item>
+        <item quantity="other">%d সেকেন্ড</item>
+    </plurals>
+    <plurals name="poll_timespan_minutes">
+        <item quantity="one">%d মিনিট</item>
+        <item quantity="other">%d মিনিট</item>
+    </plurals>
+    <plurals name="poll_timespan_hours">
+        <item quantity="one">%d ঘন্টা</item>
+        <item quantity="other">%d ঘন্টা</item>
+    </plurals>
+    <plurals name="poll_info_people">
+        <item quantity="one">%s জন</item>
+        <item quantity="other">%s জন</item>
+    </plurals>
+    <plurals name="poll_info_votes">
+        <item quantity="one">%sটি ভোট</item>
+        <item quantity="other">%sটি ভোট</item>
+    </plurals>
+    <string name="list">তালিকা</string>
+    <string name="select_list_title">তালিকা নির্বাচন করো</string>
+    <string name="hashtags">হ্যাশট্যাগ</string>
+    <string name="add_hashtag_title">হ্যাশট্যাগ যোগ করো</string>
+    <string name="description_status_bookmarked">বুকমার্ককৃত</string>
+    <string name="notification_follow_request_description">অনুসরণ রিকোয়েস্টের বিজ্ঞপ্তি</string>
+    <string name="pref_main_nav_position_option_bottom">সবচেয়ে শেষ</string>
+    <string name="pref_main_nav_position_option_top">সর্বপ্রথম</string>
+    <string name="pref_main_nav_position">মূল ন্যাভিগেশন জায়গা</string>
 </resources>

@@ -4,7 +4,7 @@
     <string name="error_network">Vyskytla se chyba sítě! Prosím zkontrolujte své připojení a zkuste to znovu!</string>
     <string name="error_empty">Tohle nemůže být prázdné.</string>
     <string name="error_invalid_domain">Neplatná doména zadána</string>
-    <string name="error_failed_app_registration">Autentikace s tímto serverem neuspělo.</string>
+    <string name="error_failed_app_registration">Autentizace s tímto serverem neuspěla.</string>
     <string name="error_no_web_browser_found">Nelze najít webový prohlížeč k použití.</string>
     <string name="error_authorization_unknown">Vyskytla se neidentifikovaná chyba autorizace.</string>
     <string name="error_authorization_denied">Autorizace byla zamítnuta.</string>
@@ -34,7 +34,7 @@
     <string name="title_favourites">Oblíbené</string>
     <string name="title_mutes">Skrytí uživatelé</string>
     <string name="title_blocks">Blokovaní uživatelé</string>
-    <string name="title_follow_requests">Požadavky o sledování</string>
+    <string name="title_follow_requests">Žádosti o sledování</string>
     <string name="title_edit_profile">Upravit váš profil</string>
     <string name="title_saved_toot">Koncepty</string>
     <string name="title_licenses">Licence</string>
@@ -70,7 +70,7 @@
     <string name="action_block">Blokovat</string>
     <string name="action_unblock">Odblokovat</string>
     <string name="action_hide_reblogs">Skrýt boosty</string>
-    <string name="action_show_reblogs">Zobrazit boosty</string>
+    <string name="action_show_reblogs">Zobrazi boosty</string>
     <string name="action_report">Nahlásit</string>
     <string name="action_delete">Smazat</string>
     <string name="action_send">TOOTNOUT</string>
@@ -78,12 +78,12 @@
     <string name="action_retry">Zkusit znovu</string>
     <string name="action_close">Zavřít</string>
     <string name="action_view_profile">Profil</string>
-    <string name="action_view_preferences">Nastavení</string>
+    <string name="action_view_preferences">Předvolby</string>
     <string name="action_view_account_preferences">Nastavení účtu</string>
-    <string name="action_view_favourites">Oblíbené</string>
+    <string name="action_view_favourites">Oblíbení</string>
     <string name="action_view_mutes">Skrytí uživatelé</string>
     <string name="action_view_blocks">Blokovaní uživatelé</string>
-    <string name="action_view_follow_requests">Požadavky o sledování</string>
+    <string name="action_view_follow_requests">Žádosti o sledování</string>
     <string name="action_view_media">Média</string>
     <string name="action_open_in_web">Otevřít v prohlížeči</string>
     <string name="action_add_media">Přidat média</string>
@@ -330,9 +330,9 @@
     <string name="unpin_action">Odepnout</string>
     <string name="pin_action">Připnout</string>
     <plurals name="favs">
-        <item quantity="one">&lt;b&gt;%1$s&lt;/b&gt; oblíbení</item>
-        <item quantity="few">&lt;b&gt;%1$s&lt;/b&gt; oblíbení</item>
-        <item quantity="other">&lt;b&gt;%1$s&lt;/b&gt; oblíbení</item>
+        <item quantity="one"><b>%1$s</b> oblíbení</item>
+        <item quantity="few"><b>%1$s</b> oblíbení</item>
+        <item quantity="other"><b>%1$s</b> oblíbení</item>
     </plurals>
     <plurals name="reblogs">
         <item quantity="one"><b>%s</b> boost</item>
@@ -356,8 +356,8 @@
     <string name="description_status_favourited">        Oblíbený
     </string>
     <string name="description_visiblity_public">Veřejný</string>
-    <string name="description_visiblity_unlisted">Neuvedené</string>
-    <string name="description_visiblity_private">Sledující</string>
+    <string name="description_visiblity_unlisted">Neuvedený</string>
+    <string name="description_visiblity_private">Pro sledující</string>
     <string name="description_visiblity_direct">        Přímý
     </string>
     <string name="hint_list_name">Název seznamu</string>
@@ -371,13 +371,13 @@
     <string name="notification_clear_text">Jste si jistý/á, že chcete trvale vymazat všechna vaše oznámení\?</string>
     <string name="action_delete_and_redraft">Smazat a přepsat</string>
     <string name="dialog_redraft_toot_warning">Smazat a přepsat tento toot\?</string>
-    <string name="poll_info_format"> <!-- 15 votes • 1 hour left --> %1$s • %2$s</string>
+    <string name="poll_info_format"> <!-- 15 hlasů • 1 hodin do konce --> %1$s • %2$s</string>
     <plurals name="poll_info_votes">
         <item quantity="one">%s hlas</item>
         <item quantity="few">%s hlasy</item>
         <item quantity="other">%s hlasů</item>
     </plurals>
-    <string name="poll_info_time_relative">zbývá %s</string>
+    <string name="poll_info_time_relative">Zbývá %s</string>
     <string name="poll_info_time_absolute">končí v %s</string>
     <string name="poll_info_closed">uzavřena</string>
     <string name="poll_vote">Hlasovat</string>
@@ -424,7 +424,7 @@
     <string name="report_remote_instance">Přeposlat na %s</string>
     <string name="failed_report">Nahlášení selhalo</string>
     <string name="failed_fetch_statuses">Stahování tootů neuspělo</string>
-    <string name="report_description_1">Nahlášení bude zasláno moderátorům vašeho serveru. Níže můžete uvést, proč tento účet nahlašujete:</string>
+    <string name="report_description_1">Nahlášení bude zasláno moderátorovi vašeho serveru. Níže můžete uvést, proč tento účet nahlašujete:</string>
     <string name="report_description_remote_instance">Tento účet je z jiného serveru. Chcete na něj také poslat anonymizovanou kopii\?</string>
     <string name="pref_title_show_notifications_filter">Zobrazit filtr oznámení</string>
     <string name="create_poll_title">Anketa</string>
@@ -454,7 +454,7 @@
     <string name="notification_follow_request_description">Upozornění na žádosti o sledování</string>
     <string name="notification_follow_request_name">Žádosti o sledování</string>
     <string name="pref_main_nav_position_option_bottom">Dole</string>
-    <string name="pref_title_gradient_for_media">Ukázat barevné čtverečky místo skrytých médií</string>
+    <string name="pref_title_gradient_for_media">Zobrazení barevných prechodů pro skrytí citlivého obsahu</string>
     <string name="dialog_mute_hide_notifications">Skrýt notifikace</string>
     <string name="action_unmute_conversation">Zrušit ztlumení konverzace</string>
     <string name="action_mute_conversation">Ztlumit konverzaci</string>
@@ -466,7 +466,7 @@
     <string name="warning_scheduling_interval">Mastodon neumožňuje pracovat s intervalem menším než 5 minut.</string>
     <string name="no_scheduled_status">Zatím zde nemáte žádné naplánované statusy.</string>
     <string name="no_saved_status">Zatím zde nejsou žádné koncepty.</string>
-    <string name="pref_title_enable_swipe_for_tabs">Možnost přetahování prstem pro přechod mezi kartami</string>
+    <string name="pref_title_enable_swipe_for_tabs">Možnost přetahování prstem pro přechod mezi kartam</string>
     <string name="list">Seznam</string>
     <string name="add_hashtag_title">Přidat hashtag</string>
     <string name="description_status_bookmarked">Uloženo do Záložek</string>
@@ -482,9 +482,9 @@
     <string name="action_unmute_desc">Odkrýt %s</string>
     <string name="dialog_mute_warning">Ztišit @%s\?</string>
     <plurals name="poll_info_people">
-        <item quantity="one"></item>
-        <item quantity="few"></item>
-        <item quantity="other"></item>
+        <item quantity="one">%s osoba</item>
+        <item quantity="few">%s osoby</item>
+        <item quantity="other">%s osob</item>
     </plurals>
     <string name="notification_follow_request_format">%s požádal/a aby vás mohl/a sledovat</string>
     <string name="pref_title_confirm_reblogs">Zobrazit dialogové okno s potvrzením při boostování</string>

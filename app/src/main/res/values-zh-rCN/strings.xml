@@ -4,19 +4,19 @@
     <string name="error_network">网络请求出错，请检查互联网连接并重试!</string>
     <string name="error_empty">内容不能为空。</string>
     <string name="error_invalid_domain">该域名无效</string>
-    <string name="error_failed_app_registration">无法连接此服务器</string>
-    <string name="error_no_web_browser_found">没有可用的浏览器</string>
+    <string name="error_failed_app_registration">无法连接此服务器。</string>
+    <string name="error_no_web_browser_found">没有可用的浏览器。</string>
     <string name="error_authorization_unknown">认证过程出现未知错误。</string>
     <string name="error_authorization_denied">授权被拒绝。</string>
-    <string name="error_retrieving_oauth_token">无法获取登录信息</string>
+    <string name="error_retrieving_oauth_token">无法获取登录令牌。</string>
     <string name="error_compose_character_limit">嘟文太长了！</string>
-    <string name="error_image_upload_size">文件大小限制 8MB</string>
-    <string name="error_video_upload_size">视频文件大小限制 40MB</string>
-    <string name="error_media_upload_type">无法上传此类型的文件</string>
-    <string name="error_media_upload_opening">此文件无法打开</string>
-    <string name="error_media_upload_permission">需要授予 Tusky 读取媒体文件的权限</string>
+    <string name="error_image_upload_size">文件大小限制 8MB。</string>
+    <string name="error_video_upload_size">视频文件大小限制 40MB。</string>
+    <string name="error_media_upload_type">无法上传此类型的文件。</string>
+    <string name="error_media_upload_opening">此文件无法打开。</string>
+    <string name="error_media_upload_permission">需要授予 Tusky 读取媒体文件的权限。</string>
     <string name="error_media_download_permission">需要授予 Tusky 写入存储空间的权限。</string>
-    <string name="error_media_upload_image_or_video">无法在嘟文中同时插入视频和图片</string>
+    <string name="error_media_upload_image_or_video">无法在嘟文中同时插入视频和图片。</string>
     <string name="error_media_upload_sending">媒体文件上传失败。</string>
     <string name="error_sender_account_gone">嘟文发送时出错。</string>
     <string name="title_home">主页</string>
@@ -48,12 +48,12 @@
     <string name="status_content_show_more">展开</string>
     <string name="status_content_show_less">折叠</string>
     <string name="message_empty">还没有内容。</string>
-    <string name="footer_empty">还没有内容，向下拉动即可刷新</string>
+    <string name="footer_empty">还没有内容，向下拉动即可刷新！</string>
     <string name="notification_reblog_format">%s 转嘟了你的嘟文</string>
     <string name="notification_favourite_format">%s 收藏了你的嘟文</string>
     <string name="notification_follow_format">%s 关注了你</string>
     <string name="report_username_format">报告用户 @%s 的滥用行为</string>
-    <string name="report_comment_hint">报告更多信息</string>
+    <string name="report_comment_hint">是否有更多信息需报告？</string>
     <string name="action_quick_reply">快速回复</string>
     <string name="action_reply">回复</string>
     <string name="action_reblog">转嘟</string>
@@ -141,7 +141,7 @@
     <string name="label_quick_reply">回复…</string>
     <string name="label_avatar">头像</string>
     <string name="label_header">标题</string>
-    <string name="link_whats_an_instance">什么是实例？</string>
+    <string name="link_whats_an_instance">需要帮助？</string>
     <string name="login_connection">正在连接…</string>
     <string name="dialog_whats_an_instance">请输入你帐号所在的 Mastodon 站点的域名，比如 pawoo.net，acg.mn，wxw.moe，<a href="https://instances.social">等等</a> 。
         \n\n还没有 Mastodon 帐号？你也可以输入想注册的 Mastodon 站点的域名，然后在该服务器创建新的帐号并授权 Tusky 登入。
@@ -327,7 +327,7 @@
     <string name="profile_metadata_label_label">标签</string>
     <string name="profile_metadata_content_label">内容</string>
     <string name="pref_title_absolute_time">嘟文显示精确时间</string>
-    <string name="label_remote_account">以下信息可能并不完整，要查看完整资料请使用浏览器打开</string>
+    <string name="label_remote_account">以下信息可能并不完整，要查看完整资料请使用浏览器打开。</string>
     <string name="unpin_action">取消置顶</string>
     <string name="pin_action">置顶</string>
     <plurals name="favs">
@@ -430,7 +430,7 @@
     <string name="button_continue">继续</string>
     <string name="button_back">返回</string>
     <string name="button_done">完成</string>
-    <string name="report_sent_success">"成功回报  @%s"</string>
+    <string name="report_sent_success">成功报告 @%s</string>
     <string name="hint_additional_info">附加留言</string>
     <string name="report_remote_instance">转发到 %s</string>
     <string name="failed_report">回报失败</string>
@@ -455,7 +455,33 @@
     <string name="post_lookup_error_format">查找帖子时出错 %s</string>
     <string name="no_saved_status">您没有草稿。</string>
     <string name="no_scheduled_status">您没有任何预定状态。</string>
-    <string name="warning_scheduling_interval">Mastodon的最小调度间隔为5分钟。</string>
+    <string name="warning_scheduling_interval">Mastodon的最小预定时间为5分钟。</string>
     <string name="notification_follow_request_name">关注请求</string>
     <string name="hashtags">话题</string>
+    <string name="pref_title_confirm_reblogs">在转嘟前显示确认对话框</string>
+    <string name="pref_title_show_cards_in_timelines">在时间轴上显示链接预览</string>
+    <string name="pref_title_enable_swipe_for_tabs">启用划动手势以切换标签页</string>
+    <plurals name="poll_info_people">
+        <item quantity="one">%s 个人</item>
+        <item quantity="other"></item>
+    </plurals>
+    <string name="compose_preview_image_description">处理图片 %s</string>
+    <string name="add_hashtag_title">添加话题名</string>
+    <string name="notification_follow_request_description">关注请求的通知</string>
+    <string name="pref_main_nav_position_option_bottom">底部</string>
+    <string name="pref_main_nav_position_option_top">顶部</string>
+    <string name="pref_title_gradient_for_media">为隐藏的媒体文件显示彩色模糊预览</string>
+    <string name="pref_title_notification_filter_follow_requests">有关注申请</string>
+    <string name="dialog_mute_hide_notifications">隐藏通知</string>
+    <string name="dialog_mute_warning">确定隐藏 @%s？</string>
+    <string name="dialog_block_warning">确定屏蔽 @%s？</string>
+    <string name="mute_domain_warning">确定要完全屏蔽 %s 吗？您将不能在公共时间轴和通知内看见来自此域名的内容。您在此域名上的关注者将会被移除。</string>
+    <string name="action_unmute_conversation">取消隐藏本会话的通知</string>
+    <string name="action_mute_conversation">隐藏本会话的通知</string>
+    <string name="action_unmute_domain">取消隐藏 %s</string>
+    <string name="action_mute_domain">隐藏 %s</string>
+    <string name="action_mute_notifications_desc">隐藏来自 %s 的通知</string>
+    <string name="action_unmute_notifications_desc">取消隐藏来自 %s 的通知</string>
+    <string name="action_unmute_desc">取消隐藏 %s</string>
+    <string name="notification_follow_request_format">%s 请求关注你</string>
 </resources>

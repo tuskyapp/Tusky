@@ -434,7 +434,7 @@
     <string name="add_poll_choice">Aldoni epekton</string>
     <string name="poll_allow_multiple_choices">Multaj elektoj</string>
     <string name="poll_new_choice_hint">Elekton %d</string>
-    <string name="edit_poll">Redaktigi</string>
+    <string name="edit_poll">Redakti</string>
     <string name="title_bookmarks">Legosignoj</string>
     <string name="title_scheduled_toot">Planitaj mesaĝoj</string>
     <string name="action_bookmark">Aldoni al la legosignoj</string>

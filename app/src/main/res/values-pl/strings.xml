@@ -142,7 +142,7 @@
     <string name="pref_title_notification_filter_mentions">wspomniano o mnie</string>
     <string name="pref_title_notification_filter_follows">zaczęto mnie śledzić</string>
     <string name="pref_title_notification_filter_reblogs">moje wpisy zostaną podbite</string>
-    <string name="pref_title_notification_filter_favourites">moje wpisy zostaną polubione</string>
+    <string name="pref_title_notification_filter_favourites">moje posty zostaną dodane do ulubionych</string>
     <string name="pref_title_appearance_settings">Wygląd</string>
     <string name="pref_title_app_theme">Motyw</string>
     <string name="app_them_dark">Ciemny</string>
@@ -178,7 +178,7 @@
     <string name="notification_follow_description">Powiadomienia o nowych śledzących</string>
     <string name="notification_boost_name">Podbicia</string>
     <string name="notification_boost_description">Powiadomienia o podbiciu wpisów</string>
-    <string name="notification_favourite_name">Ulubione</string>
+    <string name="notification_favourite_name">Polubione</string>
     <string name="notification_favourite_description">Powiadomienia o dodaniu wpisów do ulubionych</string>
     <string name="notification_mention_format">%s wspomniał o Tobie</string>
     <string name="notification_summary_large">%1$s, %2$s, %3$s i %4$d innych</string>
@@ -378,7 +378,7 @@
     <string name="notifications_apply_filter">Filtr</string>
     <string name="filter_apply">Zastosuj</string>
     <string name="compose_shortcut_long_label">Stwórz wpis</string>
-    <string name="compose_shortcut_short_label">Nowy wpis</string>
+    <string name="compose_shortcut_short_label">Napisz</string>
     <string name="notification_clear_text">Czy jesteś pewien/pewna, że chcesz wyczyścić wszystkie swoje powiadomienia\?</string>
     <string name="compose_preview_image_description">Opcje dla obrazu %s</string>
     <string name="poll_info_format"> <!-- 15 głosów • pozostała 1 godzina --> %1$s • %2$s</string>

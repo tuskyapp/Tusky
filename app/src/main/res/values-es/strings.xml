@@ -3,7 +3,7 @@
     <string name="error_generic">Ha ocurrido un error.</string>
     <string name="error_network">¡Se ha producido un error de red! ¡Por favor, comprueba tu conexión e inténtalo de nuevo!</string>
     <string name="error_empty">Este campo no puede estar vacío.</string>
-    <string name="error_invalid_domain">Nombre de dominio no válido</string>
+    <string name="error_invalid_domain">Nombre de dominio incorrecto</string>
     <string name="error_failed_app_registration">Fallo de autenticación con esta instancia.</string>
     <string name="error_no_web_browser_found">No se ha encontrado ningún navegador web.</string>
     <string name="error_authorization_unknown">Ocurrió un error de autorización no identificado.</string>
@@ -68,7 +68,7 @@
     <string name="action_block">Bloquear</string>
     <string name="action_unblock">Desbloquear</string>
     <string name="action_hide_reblogs">Ocultar impulsos</string>
-    <string name="action_show_reblogs">Mostrar impulsos</string>
+    <string name="action_show_reblogs">Mostrar compartidos</string>
     <string name="action_report">Reportar</string>
     <string name="action_delete">Borrar</string>
     <string name="action_send">Enviar</string>
@@ -148,7 +148,7 @@
     <string name="visibility_private">Privado: Sólo visible para seguidores</string>
     <string name="visibility_direct">Directo: Sólo visible para cuentas mencionadas</string>
     <string name="pref_title_edit_notification_settings">Editar notificaciones</string>
-    <string name="pref_title_notifications_enabled">Notificaciones</string>
+    <string name="pref_title_notifications_enabled">Editar notificaciones</string>
     <string name="pref_title_notification_alerts">Alertas</string>
     <string name="pref_title_notification_alert_sound">Notificar con sonido</string>
     <string name="pref_title_notification_alert_vibrate">Notificar con vibración</string>
@@ -385,7 +385,7 @@
     <string name="notifications_clear">Limpiar</string>
     <string name="notifications_apply_filter">Filtro</string>
     <string name="compose_shortcut_long_label">Componer toot</string>
-    <string name="compose_shortcut_short_label">Componer</string>
+    <string name="compose_shortcut_short_label">Redactar</string>
     <string name="notification_clear_text">¿Estás seguro de que quieres eliminar permanentemente todas tus notificaciones\?</string>
     <string name="compose_preview_image_description">Acciones para la imagen %s</string>
     <string name="poll_info_time_relative">%s restante</string>
@@ -393,7 +393,7 @@
     <string name="poll_ended_voted">Una encuesta en la que has votado ha terminado</string>
     <string name="poll_ended_created">Una encuesta que has creado ha terminado</string>
     <string name="action_open_reblogger">Abrir autor del impulso</string>
-    <string name="action_open_reblogged_by">Mostrar impulsos</string>
+    <string name="action_open_reblogged_by">Mostrar compartidos</string>
     <string name="title_domain_mutes">Dominios ocultos</string>
     <string name="action_view_domain_mutes">Dominios ocultos</string>
     <string name="action_mute_domain">Silenciar %s</string>

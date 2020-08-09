@@ -46,7 +46,7 @@
     <string name="action_reblog">Retooteja</string>
     <string name="action_favourite">Preferit</string>
     <string name="action_more">Més</string>
-    <string name="action_compose">Redacta</string>
+    <string name="action_compose">Escriure</string>
     <string name="action_login">Inicia sessió amb Mastodon</string>
     <string name="action_logout">Tanca la sessió</string>
     <string name="action_follow">Segueix</string>
@@ -90,7 +90,7 @@
     <string name="confirmation_unmuted">Usuari sense silenciar</string>
     <string name="hint_domain">Quina instància?</string>
     <string name="hint_compose">Què està passant?</string>
-    <string name="hint_content_warning">Avís de contingut</string>
+    <string name="hint_content_warning">Contingut sensible</string>
     <string name="hint_display_name">Nom visible</string>
     <string name="hint_note">Biografia</string>
     <string name="hint_search">Cerca…</string>
@@ -206,7 +206,7 @@
     <string name="error_video_upload_size">Els fitxers de vídeo han de pesar menys de 40 MB.</string>
     <string name="status_media_hidden_title">Multimèdia amagada</string>
     <string name="status_content_show_less">Amaga</string>
-    <string name="action_logout_confirm">Estàs segur de tancar la sessió de %1$s\?</string>
+    <string name="action_logout_confirm">Estas segur de tancar la sessió de %1$s\?</string>
     <string name="action_hide_reblogs">Amaga els impulsos</string>
     <string name="action_show_reblogs">Mostra els impulsos</string>
     <string name="action_delete_and_redraft">Elimina i reecririu</string>
@@ -229,7 +229,7 @@
     <string name="title_statuses_with_replies">Amb respostes</string>
     <string name="action_emoji_keyboard">Teclat d\'emojis</string>
     <string name="action_open_media_n">Obrir el media #%d</string>
-    <string name="action_open_as">Obrir com %s</string>
+    <string name="action_open_as">Obre com a %s</string>
     <string name="downloading_media">Descarregant media</string>
     <string name="status_sent_long">Resposta enviada correctament.</string>
     <string name="label_quick_reply">Resposta …</string>
@@ -418,7 +418,7 @@
     <string name="failed_search">Cerca fallida</string>
     <string name="poll_duration_1_hour">1 hora</string>
     <string name="poll_duration_6_hours">6 hores</string>
-    <string name="edit_poll">Modificar</string>
+    <string name="edit_poll">Edita</string>
     <string name="action_add_poll">Afegeix una enquesta</string>
     <string name="create_poll_title">Enquesta</string>
     <string name="poll_duration_5_min">5 minuts</string>
@@ -471,5 +471,5 @@
     <string name="action_unmute_domain">Deixar de silenciar %s</string>
     <string name="action_mute_notifications_desc">Desactivar les notificacions per %s</string>
     <string name="action_unmute_notifications_desc">Activar les notificacions per %s</string>
-    <string name="action_unmute_desc">Notificar %s</string>
+    <string name="action_unmute_desc">Deixar de silenciar %s</string>
 </resources>

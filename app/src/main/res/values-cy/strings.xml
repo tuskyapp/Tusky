@@ -292,4 +292,12 @@
     <string name="action_open_reblogged_by">Dangos hybiadau</string>
     <string name="notification_follow_request_name">Dilyn ceisiadau</string>
     <string name="action_bookmark">Nod tudalen</string>
+    <string name="action_edit">Golygu</string>
+    <string name="edit_poll">Golygu</string>
+    <string name="compose_shortcut_short_label">Creu</string>
+    <string name="description_visiblity_private">Dilynwyr</string>
+    <string name="description_visiblity_unlisted">Heb ei restru</string>
+    <string name="conversation_2_recipients">%1$s a %2$s</string>
+    <string name="filter_dialog_remove_button">Dileu</string>
+    <string name="description_visiblity_public">Cyhoeddus</string>
 </resources>

@@ -133,7 +133,7 @@
     <string name="status_sent_long">成功发布回复</string>
     <string name="hint_domain">域名</string>
     <string name="hint_compose">有什么新鲜事？</string>
-    <string name="hint_content_warning">内容提醒</string>
+    <string name="hint_content_warning">设置内容提醒信息</string>
     <string name="hint_display_name">昵称</string>
     <string name="hint_note">简介</string>
     <string name="hint_search">搜索…</string>
@@ -158,7 +158,7 @@
     <string name="visibility_unlisted">不公开：所有人可见，但不会出现在公共时间轴上</string>
     <string name="visibility_private">仅关注者：只有经过你确认后关注你的用户可见</string>
     <string name="visibility_direct">私信：只有被提及的用户可见</string>
-    <string name="pref_title_edit_notification_settings">通知设置</string>
+    <string name="pref_title_edit_notification_settings">通知</string>
     <string name="pref_title_notifications_enabled">通知</string>
     <string name="pref_title_notification_alerts">提醒</string>
     <string name="pref_title_notification_alert_sound">通知铃声</string>

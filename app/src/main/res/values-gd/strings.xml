@@ -2,7 +2,7 @@
 <resources>
     <string name="title_lists">Liostaichean</string>
     <string name="action_lists">Liostaichean</string>
-    <string name="about_title_activity">Mu dheidhinn</string>
+    <string name="about_title_activity">Mu Dheidhinn</string>
     <string name="action_reset_schedule">Ath-shuidhich</string>
     <string name="action_search">Lorg</string>
     <string name="action_view_account_preferences">Roighainnean cunntais</string>

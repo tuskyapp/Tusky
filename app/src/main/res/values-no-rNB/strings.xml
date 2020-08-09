@@ -353,7 +353,7 @@
     <string name="app_theme_auto">Automatisk ved solnedgang</string>
     <string name="app_theme_system">Bruk systeminnstillinger</string>
     <string name="post_privacy_public">Offentlig</string>
-    <string name="post_privacy_unlisted">Ikke offentlige tidslinjer</string>
+    <string name="post_privacy_unlisted">Ikke listet</string>
     <string name="post_privacy_followers_only">Kun følgere</string>
     <string name="status_text_size_smallest">Minste</string>
     <string name="status_text_size_small">Liten</string>

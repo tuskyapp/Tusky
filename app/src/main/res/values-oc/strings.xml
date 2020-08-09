@@ -107,7 +107,7 @@
     <string name="status_sent_long">Responsa ben enviada.</string>
     <string name="hint_domain">Quina instància ?</string>
     <string name="hint_compose">A de qué pensatz ?</string>
-    <string name="hint_content_warning">Avis de contengut</string>
+    <string name="hint_content_warning">Avís de contengut</string>
     <string name="hint_display_name">Nom visible</string>
     <string name="hint_note">Biografia</string>
     <string name="hint_search">Cercar…</string>
@@ -164,8 +164,8 @@
     <string name="pref_title_http_proxy_port">Pòrt del servidor proxy HTTP</string>
     <string name="pref_default_post_privacy">Privacitat predeterminada dels tuts</string>
     <string name="pref_publishing">Publicacion</string>
-    <string name="post_privacy_public">Public</string>
-    <string name="post_privacy_unlisted">Pas listada</string>
+    <string name="post_privacy_public">Publica</string>
+    <string name="post_privacy_unlisted">Pas listat</string>
     <string name="post_privacy_followers_only">Seguidors solament</string>
     <string name="pref_status_text_size">Talha de text de l\'estatut</string>
     <string name="status_text_size_smallest">Mendre</string>
@@ -238,7 +238,7 @@
     <string name="send_toot_notification_channel_name">Mandadís dels tuts</string>
     <string name="send_toot_notification_cancel_title">Mandadís anullat</string>
     <string name="send_toot_notification_saved_content">Una còpia del tut es estat salvat dins los borrolhons</string>
-    <string name="action_compose_shortcut">Escriure</string>
+    <string name="action_compose_shortcut">Redactar</string>
     <string name="error_no_custom_emojis">L’instància %s es pas compatibla amb los emoji personalizats</string>
     <string name="copy_to_clipboard_success">Copiat al quichapapièr</string>
     <string name="emoji_style">Estil dels Emoji</string>
@@ -310,7 +310,7 @@
     <string name="pref_title_thread_filter_keywords">Discutidas</string>
     <string name="filter_addition_dialog_title">Ajustar un filtre</string>
     <string name="filter_edit_dialog_title">Modificar un filtre</string>
-    <string name="filter_dialog_remove_button">Levar</string>
+    <string name="filter_dialog_remove_button">Suprimir</string>
     <string name="filter_dialog_update_button">Actualizar</string>
     <string name="filter_add_description">Frasa de filtrar</string>
     <string name="error_create_list">Creacion impossibla de la lista</string>

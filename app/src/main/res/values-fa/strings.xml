@@ -14,7 +14,7 @@
     <string name="error_media_upload_type">این نوع از پرونده نمی‌تواند بارگذاری شود.</string>
     <string name="error_media_upload_opening">پرونده باز نشد.</string>
     <string name="error_media_upload_permission">مجوز برای خواندن رسانه نیاز است.</string>
-    <string name="error_media_download_permission">اجازه ذخیره رسانه نیاز است.</string>
+    <string name="error_media_download_permission">اجازه ذخیره رسانه نیاز است</string>
     <string name="error_media_upload_image_or_video">تصاویر و فیلم‌ها هر دو نمی‌توانند به یک وضعیت ضمیمه شوند.</string>
     <string name="error_media_upload_sending">بارگذاری ناموفق بود.</string>
     <string name="error_sender_account_gone">خطا در ارسال بوق.</string>
@@ -54,7 +54,7 @@
     <string name="action_favourite">مورد علاقه</string>
     <string name="action_more">بیشتر</string>
     <string name="action_compose">ایجاد</string>
-    <string name="action_login">با ماستودون وارد شو</string>
+    <string name="action_login">ورود با ماستودون</string>
     <string name="action_logout">خروج</string>
     <string name="action_logout_confirm">آیا از خارج شدن از این حساب %1s اطمینان دارید؟</string>
     <string name="action_follow">دنبال کن</string>
@@ -79,7 +79,7 @@
     <string name="action_view_media">رسانه</string>
     <string name="action_open_in_web">گشودن در مرورگر</string>
     <string name="action_add_media">افزودن رسانه</string>
-    <string name="action_photo_take">گرفتن عکس</string>
+    <string name="action_photo_take">عکس بگیر</string>
     <string name="action_share">هم‌رسانی</string>
     <string name="action_mute">خموش</string>
     <string name="action_unmute">گویا</string>
@@ -336,7 +336,7 @@
     <string name="hint_search_people_list">جست‌وجو برای دنبال‌شوندگانتان</string>
     <string name="action_add_to_list">افزودن حساب به فهرست</string>
     <string name="action_remove_from_list">حذف حساب از فهرست</string>
-    <string name="caption_notoemoji">مجموعه شکلک‌های جاری گوگل</string>
+    <string name="caption_notoemoji">مجموعهٔ اموجی کنونی گوگل</string>
     <string name="license_cc_by_4">نگارش ۴ CC-BY</string>
     <string name="license_cc_by_sa_4">نگارش ۴ CC-BY-SA</string>
     <plurals name="favs">
@@ -360,7 +360,7 @@
     <string name="description_status_favourited">پسندیده</string>
     <string name="description_visiblity_public">عمومی</string>
     <string name="description_visiblity_unlisted">فهرست‌نشده</string>
-    <string name="description_visiblity_private">پی‌گیران</string>
+    <string name="description_visiblity_private">پیروان</string>
     <string name="description_visiblity_direct">مستقیم</string>
     <string name="description_poll">نظرسنجی با انتخاب‌ها: %1$s، %2$s، %3$s، %4$s؛ %5$s</string>
     <string name="hint_list_name">نام فهرست</string>
@@ -402,7 +402,7 @@
     <string name="button_back">بازگشت</string>
     <string name="button_done">اتمام</string>
     <string name="report_sent_success">\@%s با موفّقیت گزارش شد</string>
-    <string name="hint_additional_info">نظرات اضافی</string>
+    <string name="hint_additional_info">نظرات بیشتر</string>
     <string name="report_remote_instance">هدایت به %s</string>
     <string name="failed_report">شکست در گزارش</string>
     <string name="failed_fetch_statuses">شکست در واکشی وضعیت‌ها</string>

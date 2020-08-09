@@ -33,7 +33,7 @@
     <string name="title_followers">Követő</string>
     <string name="title_favourites">Kedvencek</string>
     <string name="title_mutes">Némított felhasználók</string>
-    <string name="title_blocks">Blokkolt felhasználók</string>
+    <string name="title_blocks">Letiltott felhasználók</string>
     <string name="title_follow_requests">Követési kérelmek</string>
     <string name="title_edit_profile">Profilod szerkesztése</string>
     <string name="title_saved_toot">Piszkozatok</string>
@@ -372,13 +372,13 @@
     <string name="notifications_apply_filter">Szűrés</string>
     <string name="filter_apply">Alkalmaz</string>
     <string name="compose_shortcut_long_label">Tülk Szerkesztése</string>
-    <string name="compose_shortcut_short_label">Szerkeszt</string>
+    <string name="compose_shortcut_short_label">Szerkesztés</string>
     <string name="notification_clear_text">Biztos, hogy minden értesítésedet véglegesen törlöd\?</string>
     <string name="compose_preview_image_description">Műveletek a %s képpel</string>
     <string name="poll_info_format"> <!-- 15 szavazat • 1 óra maradt --> %1$s • %2$s</string>
     <plurals name="poll_info_votes">
-        <item quantity="one">%s szavazat</item>
-        <item quantity="other">%s szavazat</item>
+        <item quantity="one"/>
+        <item quantity="other"/>
     </plurals>
     <string name="poll_info_time_relative">%s maradt</string>
     <string name="poll_info_time_absolute">vége %s</string>
@@ -448,7 +448,7 @@
     <string name="warning_scheduling_interval">A Mastodonban a legrövidebb ütemezhető időintervallum 5 perc.</string>
     <string name="notification_follow_request_name">Követési kérelmek</string>
     <string name="pref_title_confirm_reblogs">Jóváhagyó ablak mutatása megtolás előtt</string>
-    <string name="pref_title_show_cards_in_timelines">Link előnézet mutatása idővonalakon</string>
+    <string name="pref_title_show_cards_in_timelines">Hivatkozás előnézetének mutatása idővonalakon</string>
     <string name="pref_title_enable_swipe_for_tabs">Tabok közötti váltás engedélyezése csúsztatással</string>
     <plurals name="poll_info_people">
         <item quantity="one"/>

@@ -146,7 +146,7 @@
     <string name="visibility_unlisted">Não-listado: Não postar em linhas públicas</string>
     <string name="visibility_private">Privado: Postar só para seguidores</string>
     <string name="visibility_direct">Direto: Postar só para mencionados</string>
-    <string name="pref_title_edit_notification_settings">Editar Notificações</string>
+    <string name="pref_title_edit_notification_settings">Editar notificações</string>
     <string name="pref_title_notifications_enabled">Notificações</string>
     <string name="pref_title_notification_alerts">Alertas</string>
     <string name="pref_title_notification_alert_sound">Notificar com som</string>
