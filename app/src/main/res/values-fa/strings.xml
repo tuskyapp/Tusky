@@ -14,7 +14,7 @@
     <string name="error_media_upload_type">این نوع از پرونده نمی‌تواند بارگذاری شود.</string>
     <string name="error_media_upload_opening">پرونده باز نشد.</string>
     <string name="error_media_upload_permission">مجوز برای خواندن رسانه نیاز است.</string>
-    <string name="error_media_download_permission">اجازه ذخیره رسانه نیاز است.</string>
+    <string name="error_media_download_permission">اجازه ذخیره رسانه نیاز است</string>
     <string name="error_media_upload_image_or_video">تصاویر و فیلم‌ها هر دو نمی‌توانند به یک وضعیت ضمیمه شوند.</string>
     <string name="error_media_upload_sending">بارگذاری ناموفق بود.</string>
     <string name="error_sender_account_gone">خطا در ارسال بوق.</string>
@@ -54,7 +54,7 @@
     <string name="action_favourite">مورد علاقه</string>
     <string name="action_more">بیشتر</string>
     <string name="action_compose">ایجاد</string>
-    <string name="action_login">با ماستودون وارد شو</string>
+    <string name="action_login">ورود با ماستودون</string>
     <string name="action_logout">خروج</string>
     <string name="action_logout_confirm">آیا از خارج شدن از این حساب %1s اطمینان دارید؟</string>
     <string name="action_follow">دنبال کن</string>
@@ -195,8 +195,8 @@
     <string name="notification_title_summary">%d برهم‌کنش جدید</string>
     <string name="description_account_locked">حساب قفل‌شده</string>
     <string name="about_title_activity">درباره</string>
-    <string name="about_tusky_license">تاسکی نرم‌افزاری آزاد است که تحت نگارش ۳ از پروانهٔ جامع همگانی گنو منتشر شده است. پروانه را می‌توانید از این‌جا ببینید:
-\nhttps://www.gnu.org/licenses/gpl-3.0.en.html</string>
+    <string name="about_tusky_license">تاسکی نرم‌افزاری آزاد است که تحت نگارش ۳ از پروانهٔ جامع همگانی گنو منتشر شده است. پروانه را می‌توانید از این‌جا ببینید: 
+\n https://www.gnu.org/licenses/gpl-3.0.en.html</string>
     <!-- note to translators:
          * you should think of “free” as in “free speech,” not as in “free beer”.
            We sometimes call it “libre software,” borrowing the French or Spanish word for “free” as in freedom,

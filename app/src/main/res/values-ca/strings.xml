@@ -115,7 +115,7 @@
     <string name="visibility_unlisted">Sense llistar: no és visible a les cronologies públiques</string>
     <string name="visibility_private">Només seguidors: només és visible per al teus seguidors</string>
     <string name="visibility_direct">Directa: només és visible per als usuaris mencionats</string>
-    <string name="pref_title_edit_notification_settings">Notificacions</string>
+    <string name="pref_title_edit_notification_settings">Edita les notificacions</string>
     <string name="pref_title_notifications_enabled">Notificacions</string>
     <string name="pref_title_notification_alerts">Alertes</string>
     <string name="pref_title_notification_alert_sound">Notifica amb un so</string>
@@ -201,7 +201,7 @@
     <string name="action_edit_own_profile">Edita</string>
     <string name="title_direct_messages">Missatges directes</string>
     <string name="message_empty">No hi ha res aquí.</string>
-    <string name="action_unreblog">Elimina l\'impuls</string>
+    <string name="action_unreblog">Elimineu els preferits</string>
     <string name="error_network">S\'ha produït un error de connexió! Comprova la connexió i torna-ho a provar!</string>
     <string name="error_video_upload_size">Els fitxers de vídeo han de pesar menys de 40 MB.</string>
     <string name="status_media_hidden_title">Multimèdia amagada</string>
@@ -223,7 +223,7 @@
     <string name="title_links_dialog">Enllaç</string>
     <string name="action_share_as">Compartir com …</string>
     <string name="download_media">Descargar el multimedia</string>
-    <string name="send_media_to">Compartir la imatge a …</string>
+    <string name="send_media_to">Comparteix la imatge a …</string>
     <string name="status_sent">Enviat!</string>
     <string name="state_follow_requested">Petició de seguiment enviada</string>
     <string name="title_statuses_with_replies">Amb respostes</string>
@@ -231,7 +231,7 @@
     <string name="action_open_media_n">Obrir el media #%d</string>
     <string name="action_open_as">Obrir com %s</string>
     <string name="downloading_media">Descarregant media</string>
-    <string name="status_sent_long">Resposta enviada correctament.</string>
+    <string name="status_sent_long">Resposta enviada correctament</string>
     <string name="label_quick_reply">Resposta …</string>
     <string name="dialog_message_cancel_follow_request">Revocar la petició de seguiment\?</string>
     <string name="dialog_delete_toot_warning">Vols eliminar aquest toot\?</string>
@@ -374,16 +374,16 @@
         <item quantity="other">%d dies</item>
     </plurals>
     <plurals name="poll_timespan_hours">
-        <item quantity="one">%d hora</item>
-        <item quantity="other">%d hores</item>
+        <item quantity="one"></item>
+        <item quantity="other"></item>
     </plurals>
     <plurals name="poll_timespan_minutes">
         <item quantity="one">%d minut</item>
         <item quantity="other">%d minuts</item>
     </plurals>
     <plurals name="poll_timespan_seconds">
-        <item quantity="one">%d segon</item>
-        <item quantity="other">%d segons</item>
+        <item quantity="one"></item>
+        <item quantity="other"></item>
     </plurals>
     <string name="description_status_cw">Advertència: %s</string>
     <string name="title_statuses_pinned">Toot fixat</string>
@@ -418,7 +418,7 @@
     <string name="failed_search">Cerca fallida</string>
     <string name="poll_duration_1_hour">1 hora</string>
     <string name="poll_duration_6_hours">6 hores</string>
-    <string name="edit_poll">Modificar</string>
+    <string name="edit_poll">Edita</string>
     <string name="action_add_poll">Afegeix una enquesta</string>
     <string name="create_poll_title">Enquesta</string>
     <string name="poll_duration_5_min">5 minuts</string>
@@ -451,8 +451,8 @@
     <string name="pref_title_show_cards_in_timelines">Mostra les previsualitzacions dels enllaços en els fils</string>
     <string name="pref_title_enable_swipe_for_tabs">Habilita el gest de desplaçament per despleçar-te entre pestanyes</string>
     <plurals name="poll_info_people">
-        <item quantity="one">%s persona</item>
-        <item quantity="other">%s persones</item>
+        <item quantity="one"></item>
+        <item quantity="other"></item>
     </plurals>
     <string name="hashtags">Hashtags</string>
     <string name="add_hashtag_title">Afegir hashtag</string>
@@ -470,6 +470,6 @@
     <string name="dialog_mute_hide_notifications">Amagar notificacions</string>
     <string name="action_unmute_domain">Deixar de silenciar %s</string>
     <string name="action_mute_notifications_desc">Desactivar les notificacions per %s</string>
-    <string name="action_unmute_notifications_desc">Activar les notificacions per %s</string>
+    <string name="action_unmute_notifications_desc">Desactivar les notificacions per %s</string>
     <string name="action_unmute_desc">Notificar %s</string>
 </resources>

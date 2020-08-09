@@ -371,7 +371,7 @@
     <string name="notification_clear_text">Jste si jistý/á, že chcete trvale vymazat všechna vaše oznámení\?</string>
     <string name="action_delete_and_redraft">Smazat a přepsat</string>
     <string name="dialog_redraft_toot_warning">Smazat a přepsat tento toot\?</string>
-    <string name="poll_info_format"> <!-- 15 votes • 1 hour left --> %1$s • %2$s</string>
+    <string name="poll_info_format"> <!-- 15 hlasů • 1 hodin do konce --> %1$s • %2$s</string>
     <plurals name="poll_info_votes">
         <item quantity="one">%s hlas</item>
         <item quantity="few">%s hlasy</item>

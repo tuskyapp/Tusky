@@ -16,7 +16,7 @@
     <string name="error_media_upload_opening">No pudo abrirse el fichero.</string>
     <string name="error_media_upload_permission">Se requiere permiso para acceder al almacenamiento.</string>
     <string name="error_media_download_permission">Se requiere permiso para descargar al almacenamiento.</string>
-    <string name="error_media_upload_image_or_video">No se pueden adjuntar imágenes y vídeos en el mismo estado.</string>
+    <string name="error_media_upload_image_or_video">No se pueden adjuntar imágenes y vídeos en el mismo estado</string>
     <string name="error_media_upload_sending">La subida falló.</string>
     <string name="error_sender_account_gone">Error al enviar estado.</string>
     <string name="title_home">Inicio</string>

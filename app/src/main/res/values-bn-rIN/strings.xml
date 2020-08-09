@@ -424,7 +424,7 @@
     <string name="dialog_mute_warning">নিঃশব্দ @%s\?</string>
     <string name="dialog_block_warning">অবরুদ্ধ @%s\?</string>
     <plurals name="poll_timespan_days">
-        <item quantity="one"></item>
-        <item quantity="other"></item>
+        <item quantity="one">%d দিন</item>
+        <item quantity="other">%d দিন</item>
     </plurals>
 </resources>

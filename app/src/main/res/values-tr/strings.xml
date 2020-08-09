@@ -124,7 +124,7 @@
     <string name="hint_search">Ara…</string>
     <string name="search_no_results">Sonuç bulunamadı</string>
     <string name="label_quick_reply">Yanıt…</string>
-    <string name="label_avatar">Ava</string>
+    <string name="label_avatar">Simge</string>
     <string name="label_header">Başlık</string>
     <string name="link_whats_an_instance">Sunucu nedir?</string>
     <string name="login_connection">Bağlantı kuruluyor…</string>
@@ -139,7 +139,7 @@
     <string name="dialog_message_uploading_media">Yükleniyor…</string>
     <string name="dialog_download_image">İndir</string>
     <string name="dialog_message_cancel_follow_request">Takip isteğini iptal et\?</string>
-    <string name="dialog_unfollow_warning">Takibi bırak\?</string>
+    <string name="dialog_unfollow_warning">Takibi bırakmak istiyor musun\?</string>
     <string name="dialog_delete_toot_warning">Bu iletiyi silmek istiyor musunuz\?</string>
     <string name="visibility_public">Genel: Herkese açık zaman çizelgesinde göster</string>
     <string name="visibility_unlisted">Liste dışı: Herkese açık zaman çizelgelerinde gösterme</string>
@@ -308,7 +308,7 @@
     <string name="action_links">Bağlantılar</string>
     <string name="action_hashtags">Hashtag\'ler</string>
     <string name="action_open_faved_by">Favorileri göster</string>
-    <string name="title_hashtags_dialog">Hashtags\'ler</string>
+    <string name="title_hashtags_dialog">Hashtag\'ler</string>
     <string name="title_links_dialog">Bağlantılar</string>
     <string name="download_media">Medya indir</string>
     <string name="downloading_media">Medya indiriliyor</string>
@@ -336,7 +336,7 @@
     <string name="action_rename_list">Listeyi yeniden adlandır</string>
     <string name="action_delete_list">Listeyi sil</string>
     <string name="action_edit_list">Listeyi düzenle</string>
-    <string name="hint_search_people_list">Takip ettiğiniz kişileri ara</string>
+    <string name="hint_search_people_list">Takip ettiğim kişileri ara</string>
     <string name="action_add_to_list">Listeye hesap ekle</string>
     <string name="action_remove_from_list">Hesabı listeden kaldır</string>
     <string name="caption_notoemoji">Google\'ın mevcut emoji seti</string>

@@ -372,13 +372,13 @@
     <string name="notifications_apply_filter">Szűrés</string>
     <string name="filter_apply">Alkalmaz</string>
     <string name="compose_shortcut_long_label">Tülk Szerkesztése</string>
-    <string name="compose_shortcut_short_label">Szerkeszt</string>
+    <string name="compose_shortcut_short_label">Szerkesztés</string>
     <string name="notification_clear_text">Biztos, hogy minden értesítésedet véglegesen törlöd\?</string>
     <string name="compose_preview_image_description">Műveletek a %s képpel</string>
     <string name="poll_info_format"> <!-- 15 szavazat • 1 óra maradt --> %1$s • %2$s</string>
     <plurals name="poll_info_votes">
-        <item quantity="one">%s szavazat</item>
-        <item quantity="other">%s szavazat</item>
+        <item quantity="one"/>
+        <item quantity="other"/>
     </plurals>
     <string name="poll_info_time_relative">%s maradt</string>
     <string name="poll_info_time_absolute">vége %s</string>
