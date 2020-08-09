@@ -4,4 +4,4 @@ Tusky v7.0
 - Nowy przycisk dla filtrowania powiadomień i usuwania wszystkich powiadomień
 - Możesz usunąć i napisać ponownie własne wpisy
 - Przy ikonach kont ustawionych jako bot pojawia się mała ikonka robota (opcję można wyłączyć w preferencjach)
-- Nowe tłumaczenia: Norweski Bokmål i Słoweński.
+- Nowe tłumaczenia: Norweski Bokmål i Słoweński
