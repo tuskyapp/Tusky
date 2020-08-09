@@ -427,4 +427,11 @@
         <item quantity="one">%d দিন</item>
         <item quantity="other">%d দিন</item>
     </plurals>
+    <string name="pref_title_gradient_for_media">লুকানো মিডিয়ার জন্য রঙিন গ্রেডিয়েন্ট ব্যবহার করি</string>
+    <string name="action_unmute_conversation">আলাপ বন্ধ করো</string>
+    <string name="action_mute_conversation">আলাপ বন্ধ করো</string>
+    <string name="action_unmute_domain">আনমিউট %s</string>
+    <string name="action_mute_notifications_desc">%s থেকে বিজ্ঞপ্তি বন্ধ করো</string>
+    <string name="action_unmute_notifications_desc">%s থেকে বিজ্ঞপ্তি বন্ধ করো</string>
+    <string name="action_unmute_desc">আনমিউট %s</string>
 </resources>
