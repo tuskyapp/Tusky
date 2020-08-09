@@ -454,7 +454,7 @@
     <string name="notification_follow_request_description">Upozornění na žádosti o sledování</string>
     <string name="notification_follow_request_name">Žádosti o sledování</string>
     <string name="pref_main_nav_position_option_bottom">Dole</string>
-    <string name="pref_title_gradient_for_media">Ukázat barevné čtverečky místo skrytých médií</string>
+    <string name="pref_title_gradient_for_media">Zobrazení barevných prechodů pro skrytí citlivého obsahu</string>
     <string name="dialog_mute_hide_notifications">Skrýt notifikace</string>
     <string name="action_unmute_conversation">Zrušit ztlumení konverzace</string>
     <string name="action_mute_conversation">Ztlumit konverzaci</string>
@@ -482,9 +482,9 @@
     <string name="action_unmute_desc">Odkrýt %s</string>
     <string name="dialog_mute_warning">Ztišit @%s\?</string>
     <plurals name="poll_info_people">
-        <item quantity="one"></item>
-        <item quantity="few"></item>
-        <item quantity="other"></item>
+        <item quantity="one">%s osoba</item>
+        <item quantity="few">%s osoby</item>
+        <item quantity="other">%s osob</item>
     </plurals>
     <string name="notification_follow_request_format">%s požádal/a aby vás mohl/a sledovat</string>
     <string name="pref_title_confirm_reblogs">Zobrazit dialogové okno s potvrzením při boostování</string>
