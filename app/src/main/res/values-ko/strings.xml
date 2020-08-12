@@ -114,7 +114,7 @@
     <string name="action_mentions">멘션</string>
     <string name="action_hashtags">해시태그</string>
     <string name="action_open_reblogger">부스트한 유저의 프로필로 이동</string>
-    <string name="action_open_reblogged_by">이 유저의 부스트 보이기</string>
+    <string name="action_open_reblogged_by">부스트 보이기</string>
     <string name="action_open_faved_by">즐겨찾기한 유저 보이기</string>
     <string name="title_hashtags_dialog">해시태그</string>
     <string name="title_mentions_dialog">멘션</string>
@@ -378,7 +378,7 @@
     <string name="notifications_apply_filter">필터</string>
     <string name="filter_apply">적용</string>
     <string name="compose_shortcut_long_label">툿 작성하기</string>
-    <string name="compose_shortcut_short_label">작성</string>
+    <string name="compose_shortcut_short_label">글쓰기</string>
     <string name="notification_clear_text">모든 알림을 영구적으로 삭제하시겠습니까\?</string>
     <string name="compose_preview_image_description">이미지 %s에 대한 작업</string>
     <string name="poll_info_format"> <!-- 15 명 참여 • 1 시간 남음 --> %1$s • %2$s</string>

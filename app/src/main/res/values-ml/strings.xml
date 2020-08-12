@@ -97,4 +97,6 @@
     <string name="report_comment_hint">കൂടുതൽ പറയാൻ ഉണ്ടോ\?</string>
     <string name="report_username_format">അറിയിക്കുക @%s</string>
     <string name="notification_follow_format">%s നിങ്ങളെ പിന്തുടരുന്നു</string>
+    <string name="notification_favourite_name">ഇഷ്ടപ്പെട്ടത്</string>
+    <string name="title_media">മാധ്യമം</string>
 </resources>

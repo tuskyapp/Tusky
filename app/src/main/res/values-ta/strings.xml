@@ -25,7 +25,7 @@
     <string name="title_follows">பின்பற்றுகிறீர்</string>
     <string name="title_followers">தொடர்பவர்கள்</string>
     <string name="title_favourites">பிடித்தவைகள்</string>
-    <string name="title_mutes">ஒதுக்கப்பட்ட பயனர்கள்</string>
+    <string name="title_mutes">ஒலி நீக்கபட்ட பயனர்கள்</string>
     <string name="title_blocks">தடைசெய்யபட்ட பயனர்கள்</string>
     <string name="title_follow_requests">பின்பற்ற கோரிக்கை</string>
     <string name="title_edit_profile">சுயவிவரத்தை திருத்த</string>
@@ -63,7 +63,7 @@
     <string name="action_close">மூடு</string>
     <string name="action_view_profile">சுயவிவரம்</string>
     <string name="action_view_preferences">முன்னுரிமைகள்</string>
-    <string name="action_view_favourites">விரும்பியவை</string>
+    <string name="action_view_favourites">பிடித்தவைகள்</string>
     <string name="action_view_mutes">ஒலி நீக்கபட்ட பயனர்கள்</string>
     <string name="action_view_blocks">தடைசெய்யபட்ட பயனர்கள்</string>
     <string name="action_view_follow_requests">பின்பற்ற கோரிக்கை</string>

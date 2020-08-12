@@ -54,7 +54,7 @@
     <string name="action_favourite">مورد علاقه</string>
     <string name="action_more">بیشتر</string>
     <string name="action_compose">ایجاد</string>
-    <string name="action_login">ورود با ماستودون</string>
+    <string name="action_login">با ماستودون وارد شو</string>
     <string name="action_logout">خروج</string>
     <string name="action_logout_confirm">آیا از خارج شدن از این حساب %1s اطمینان دارید؟</string>
     <string name="action_follow">دنبال کن</string>
@@ -99,7 +99,7 @@
     <string name="action_emoji_keyboard">صفحه‌کلید اموجی</string>
     <string name="download_image">در حال بارگیری %1$s</string>
     <string name="action_copy_link">رونوشت از پیوند</string>
-    <string name="send_status_link_to">هم‌رسانی نشانی بوق با</string>
+    <string name="send_status_link_to">هم‌رسانی نشانی بوق با…</string>
     <string name="send_status_content_to">هم‌رسانی بوق با…</string>
     <string name="send_media_to">هم‌رسانی رسانه با…</string>
     <string name="confirmation_reported">فرستاده شد!</string>
@@ -130,7 +130,7 @@
     <string name="dialog_message_uploading_media">در حال بارگذاری…</string>
     <string name="dialog_download_image">بارگیری</string>
     <string name="dialog_message_cancel_follow_request">لغو درخواست پیگیری؟</string>
-    <string name="dialog_unfollow_warning">لغو پیگیری این حساب؟</string>
+    <string name="dialog_unfollow_warning">لغو دنبال کردن این حساب</string>
     <string name="dialog_delete_toot_warning">حذف این بوق؟</string>
     <string name="visibility_public">عمومی:پست به خط زمانی عمومی</string>
     <string name="visibility_unlisted">فهرست‌نشده: نشان ندادن در خط زمانی‌های عمومی</string>
@@ -150,7 +150,7 @@
     <string name="pref_title_appearance_settings">ظاهر</string>
     <string name="pref_title_app_theme">زمینهٔ کاره</string>
     <string name="pref_title_timelines">خط‌ زمانی‌ها</string>
-    <string name="app_them_dark">روشن</string>
+    <string name="app_them_dark">تاریک</string>
     <string name="app_theme_light">روشن</string>
     <string name="app_theme_black">سیاه</string>
     <string name="app_theme_auto">خودکار در غروب</string>
@@ -174,7 +174,7 @@
     <string name="post_privacy_public">عمومی</string>
     <string name="post_privacy_unlisted">فهرست‌نشده</string>
     <string name="post_privacy_followers_only">فقط پی‌گیران</string>
-    <string name="pref_status_text_size">اندازهٔ متن وضعیت</string>
+    <string name="pref_status_text_size">اندازه متن وضعیت</string>
     <string name="status_text_size_smallest">کوچک‌ترین</string>
     <string name="status_text_size_small">کوچک</string>
     <string name="status_text_size_medium">متوسط</string>
@@ -195,8 +195,8 @@
     <string name="notification_title_summary">%d تعاملات جدید</string>
     <string name="description_account_locked">حساب قفل شد</string>
     <string name="about_title_activity">درباره</string>
-    <string name="about_tusky_license">تاسکی نرم‌افزاری آزاد است که تحت نگارش ۳ از پروانهٔ جامع همگانی گنو منتشر شده است. پروانه را می‌توانید از این‌جا ببینید: 
-\n https://www.gnu.org/licenses/gpl-3.0.en.html</string>
+    <string name="about_tusky_license">تاسکی نرم‌افزاری آزاد است که تحت نگارش ۳ از پروانهٔ جامع همگانی گنو منتشر شده است. پروانه را می‌توانید از این‌جا ببینید:
+\nhttps://www.gnu.org/licenses/gpl-3.0.en.html</string>
     <!-- note to translators:
          * you should think of “free” as in “free speech,” not as in “free beer”.
            We sometimes call it “libre software,” borrowing the French or Spanish word for “free” as in freedom,
@@ -237,7 +237,7 @@
     <string name="lock_account_label">قفل حساب</string>
     <string name="lock_account_label_description">نیاز دارد پی‌گیرانتان را به صورت دستی تأیید کنید</string>
     <string name="compose_save_draft">ذخیره به عنوان پیش‌نویس؟</string>
-    <string name="send_toot_notification_title">فرستادن بوق</string>
+    <string name="send_toot_notification_title">فرستادن بوق…</string>
     <string name="send_toot_notification_error_title">خطای فرستادن بوق</string>
     <string name="send_toot_notification_channel_name">در حال فرستادن بوق‌ها</string>
     <string name="send_toot_notification_cancel_title">فرستادن لغو شد</string>
@@ -279,7 +279,7 @@
     <string name="title_statuses_pinned">سنجاق‌شده‌ها</string>
     <string name="title_domain_mutes">دامنه‌های پنهان</string>
     <string name="status_username_format">\@%s</string>
-    <string name="message_empty">چیزی اینجا نیست.</string>
+    <string name="message_empty">چیزی این‌جا نیست.</string>
     <string name="action_unreblog">برداشتن تقویت</string>
     <string name="action_unfavourite">حذف پسند</string>
     <string name="action_delete_and_redraft">حذف و بازنویسی</string>
@@ -323,7 +323,7 @@
     <string name="pref_title_thread_filter_keywords">گفت‌وگوها</string>
     <string name="filter_addition_dialog_title">افزودن پالایه</string>
     <string name="filter_edit_dialog_title">ویرایش پالایه</string>
-    <string name="filter_dialog_remove_button">برداشتن</string>
+    <string name="filter_dialog_remove_button">پاک کردن</string>
     <string name="filter_dialog_update_button">به‌روز رسانی</string>
     <string name="filter_dialog_whole_word">تمام واژه</string>
     <string name="error_create_list">ناتوانی در ایجاد فهرست</string>
@@ -370,7 +370,7 @@
     <string name="filter_apply">اعمال</string>
     <string name="compose_shortcut_long_label">ایجاد بوق</string>
     <string name="compose_shortcut_short_label">ایجاد</string>
-    <string name="notification_clear_text">مطمئنید می‌خواهید تمام آگاهی‌هایتان را برای همیشه پاک کنید؟</string>
+    <string name="notification_clear_text">مطمئنید که به طور دائمی می‌خواهید اعلان‌ها را پاک کنید؟</string>
     <string name="compose_preview_image_description">کنش‌ها برای تصاویر</string>
     <plurals name="poll_info_votes">
         <item quantity="one">%s رأی</item>

@@ -429,7 +429,7 @@
     <string name="add_poll_choice">Voeg keuze toe</string>
     <string name="poll_allow_multiple_choices">Meerdere keuzes</string>
     <string name="poll_new_choice_hint">Keuze %d</string>
-    <string name="edit_poll">Bewerk</string>
+    <string name="edit_poll">Bewerken</string>
     <string name="error_audio_upload_size">Geluidsbestanden moeten minder dan 40MB zijn.</string>
     <string name="title_bookmarks">Bladwijzers</string>
     <string name="title_scheduled_toot">Ingeplande toots</string>

@@ -53,7 +53,7 @@
     <string name="notification_favourite_format">%s 收藏了你的嘟文</string>
     <string name="notification_follow_format">%s 关注了你</string>
     <string name="report_username_format">报告用户 @%s 的滥用行为</string>
-    <string name="report_comment_hint">是否有更多信息需报告？</string>
+    <string name="report_comment_hint">报告更多信息</string>
     <string name="action_quick_reply">快速回复</string>
     <string name="action_reply">回复</string>
     <string name="action_reblog">转嘟</string>
@@ -141,7 +141,7 @@
     <string name="label_quick_reply">回复…</string>
     <string name="label_avatar">头像</string>
     <string name="label_header">标题</string>
-    <string name="link_whats_an_instance">需要帮助？</string>
+    <string name="link_whats_an_instance">什么是实例？</string>
     <string name="login_connection">正在连接…</string>
     <string name="dialog_whats_an_instance">请输入你帐号所在的 Mastodon 站点的域名，比如 pawoo.net，acg.mn，wxw.moe，<a href="https://instances.social">等等</a> 。 
 \n
@@ -433,7 +433,7 @@
     <string name="button_continue">继续</string>
     <string name="button_back">返回</string>
     <string name="button_done">完成</string>
-    <string name="report_sent_success">"成功回报  @%s"</string>
+    <string name="report_sent_success">成功回报 @%s</string>
     <string name="hint_additional_info">附加留言</string>
     <string name="report_remote_instance">转发到 %s</string>
     <string name="failed_report">回报失败</string>

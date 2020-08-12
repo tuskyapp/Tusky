@@ -46,7 +46,7 @@
     <string name="action_reblog">Retooteja</string>
     <string name="action_favourite">Preferit</string>
     <string name="action_more">Més</string>
-    <string name="action_compose">Escriure</string>
+    <string name="action_compose">Redacta</string>
     <string name="action_login">Inicia sessió amb Mastodon</string>
     <string name="action_logout">Tanca la sessió</string>
     <string name="action_follow">Segueix</string>
@@ -223,7 +223,7 @@
     <string name="title_links_dialog">Enllaç</string>
     <string name="action_share_as">Compartir com …</string>
     <string name="download_media">Descargar el multimedia</string>
-    <string name="send_media_to">Comparteix la imatge a …</string>
+    <string name="send_media_to">Compartir la imatge a …</string>
     <string name="status_sent">Enviat!</string>
     <string name="state_follow_requested">Petició de seguiment enviada</string>
     <string name="title_statuses_with_replies">Amb respostes</string>
@@ -231,7 +231,7 @@
     <string name="action_open_media_n">Obrir el media #%d</string>
     <string name="action_open_as">Obre com a %s</string>
     <string name="downloading_media">Descarregant media</string>
-    <string name="status_sent_long">Resposta enviada correctament.</string>
+    <string name="status_sent_long">Resposta enviada correctament</string>
     <string name="label_quick_reply">Resposta …</string>
     <string name="dialog_message_cancel_follow_request">Revocar la petició de seguiment\?</string>
     <string name="dialog_delete_toot_warning">Vols eliminar aquest toot\?</string>
@@ -361,8 +361,8 @@
     <string name="notification_clear_text">Vols netejar totes les notificacions permanentment\?</string>
     <string name="poll_info_format"> <!-- 15 vots • queda 1 hora --> %1$s • %2$s</string>
     <plurals name="poll_info_votes">
-        <item quantity="one">%s vots</item>
-        <item quantity="other">%s vots</item>
+        <item quantity="one"></item>
+        <item quantity="other"></item>
     </plurals>
     <string name="poll_info_time_relative">%s restants</string>
     <string name="poll_info_time_absolute">Acaba a %s</string>
@@ -370,12 +370,12 @@
     <string name="poll_ended_voted">L\'enquesta on has votat està tancada</string>
     <string name="poll_ended_created">La enquesta que heu creat ha finalitzat</string>
     <plurals name="poll_timespan_days">
-        <item quantity="one"></item>
-        <item quantity="other"></item>
+        <item quantity="one">%d dia</item>
+        <item quantity="other">%d dies</item>
     </plurals>
     <plurals name="poll_timespan_hours">
-        <item quantity="one"></item>
-        <item quantity="other"></item>
+        <item quantity="one">%d hora</item>
+        <item quantity="other">%d hores</item>
     </plurals>
     <plurals name="poll_timespan_minutes">
         <item quantity="one">%d minut</item>
@@ -451,8 +451,8 @@
     <string name="pref_title_show_cards_in_timelines">Mostra les previsualitzacions dels enllaços en els fils</string>
     <string name="pref_title_enable_swipe_for_tabs">Habilita el gest de desplaçament per despleçar-te entre pestanyes</string>
     <plurals name="poll_info_people">
-        <item quantity="one"></item>
-        <item quantity="other"></item>
+        <item quantity="one">%s persona</item>
+        <item quantity="other">%s persones</item>
     </plurals>
     <string name="hashtags">Hashtags</string>
     <string name="add_hashtag_title">Afegir hashtag</string>

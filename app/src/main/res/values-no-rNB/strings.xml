@@ -297,7 +297,7 @@
     <string name="license_cc_by_4">CC-BY 4.0</string>
     <string name="license_cc_by_sa_4">CC-BY-SA 4.0</string>
     <string name="profile_metadata_label">Profilmetadata</string>
-    <string name="profile_metadata_add">legg til profilmetadata</string>
+    <string name="profile_metadata_add">legg til data</string>
     <string name="profile_metadata_label_label">Ledetekst</string>
     <string name="profile_metadata_content_label">Innhold</string>
     <string name="pref_title_absolute_time">Bruk absolutt tid</string>
