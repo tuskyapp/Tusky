@@ -223,7 +223,7 @@
     <string name="title_links_dialog">Enllaç</string>
     <string name="action_share_as">Compartir com …</string>
     <string name="download_media">Descargar el multimedia</string>
-    <string name="send_media_to">Compartir la imatge a …</string>
+    <string name="send_media_to">Comparteix la imatge a …</string>
     <string name="status_sent">Enviat!</string>
     <string name="state_follow_requested">Petició de seguiment enviada</string>
     <string name="title_statuses_with_replies">Amb respostes</string>
@@ -298,7 +298,7 @@
     <string name="send_toot_notification_channel_name">Enviant toots</string>
     <string name="send_toot_notification_cancel_title">Envio anul·lat</string>
     <string name="send_toot_notification_saved_content">Una copia del toot s\'ha guardat a esborranys</string>
-    <string name="action_compose_shortcut">Escriure</string>
+    <string name="action_compose_shortcut">Redacta</string>
     <string name="error_no_custom_emojis">La teva instància %s no te emojis personalitzats</string>
     <string name="copy_to_clipboard_success">Copia al porta papers</string>
     <string name="emoji_style">Estil dels emojis</string>
@@ -361,7 +361,7 @@
     <string name="notification_clear_text">Vols netejar totes les notificacions permanentment\?</string>
     <string name="poll_info_format"> <!-- 15 vots • queda 1 hora --> %1$s • %2$s</string>
     <plurals name="poll_info_votes">
-        <item quantity="one">%s vot</item>
+        <item quantity="one">%s vots</item>
         <item quantity="other">%s vots</item>
     </plurals>
     <string name="poll_info_time_relative">%s restants</string>
@@ -370,12 +370,12 @@
     <string name="poll_ended_voted">L\'enquesta on has votat està tancada</string>
     <string name="poll_ended_created">La enquesta que heu creat ha finalitzat</string>
     <plurals name="poll_timespan_days">
-        <item quantity="one">%d dia</item>
-        <item quantity="other">%d dies</item>
+        <item quantity="one"></item>
+        <item quantity="other"></item>
     </plurals>
     <plurals name="poll_timespan_hours">
-        <item quantity="one">%d hora</item>
-        <item quantity="other">%d hores</item>
+        <item quantity="one"></item>
+        <item quantity="other"></item>
     </plurals>
     <plurals name="poll_timespan_minutes">
         <item quantity="one">%d minut</item>
@@ -451,8 +451,8 @@
     <string name="pref_title_show_cards_in_timelines">Mostra les previsualitzacions dels enllaços en els fils</string>
     <string name="pref_title_enable_swipe_for_tabs">Habilita el gest de desplaçament per despleçar-te entre pestanyes</string>
     <plurals name="poll_info_people">
-        <item quantity="one">%s persona</item>
-        <item quantity="other">%s persones</item>
+        <item quantity="one"></item>
+        <item quantity="other"></item>
     </plurals>
     <string name="hashtags">Hashtags</string>
     <string name="add_hashtag_title">Afegir hashtag</string>

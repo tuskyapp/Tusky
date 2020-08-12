@@ -117,7 +117,7 @@
     <string name="title_mentions_dialog">提及</string>
     <string name="title_links_dialog">链接</string>
     <string name="action_open_media_n">打开媒体文件 #%d</string>
-    <string name="download_image">正在下载 %1$s…</string>
+    <string name="download_image">下载中 %1$s</string>
     <string name="action_copy_link">复制链接</string>
     <string name="action_open_as">打开为 %s</string>
     <string name="action_share_as">分享为 …</string>
@@ -143,11 +143,14 @@
     <string name="label_header">标题</string>
     <string name="link_whats_an_instance">需要帮助？</string>
     <string name="login_connection">正在连接…</string>
-    <string name="dialog_whats_an_instance">请输入你帐号所在的 Mastodon 站点的域名，比如 pawoo.net，acg.mn，wxw.moe，<a href="https://instances.social">等等</a> 。
-        \n\n还没有 Mastodon 帐号？你也可以输入想注册的 Mastodon 站点的域名，然后在该服务器创建新的帐号并授权 Tusky 登入。
-        \n\n在 Mastodon 里，跨站互动和站内互动一样简单。可以前往 <a href="https://joinmastodon.org">https://joinmastodon.org</a> 了解更多信息。
-    </string>
-    <string name="dialog_title_finishing_media_upload">正在结束上传…</string>
+    <string name="dialog_whats_an_instance">请输入你帐号所在的 Mastodon 站点的域名，比如 pawoo.net，acg.mn，wxw.moe，<a href="https://instances.social">等等</a> 。 
+\n
+\n还没有 Mastodon 帐号？你也可以输入想注册的 Mastodon 站点的域名，然后在该服务器创建新的帐号并授权 Tusky 登入。 
+\n
+\n在 Mastodon 里，跨站互动和站内互动一样简单。
+\n
+\n可以前往 <a href="https://joinmastodon.org">https://joinmastodon.org</a> 了解更多信息。 </string>
+    <string name="dialog_title_finishing_media_upload">正在完成上传</string>
     <string name="dialog_message_uploading_media">正在上传…</string>
     <string name="dialog_download_image">下载</string>
     <string name="dialog_message_cancel_follow_request">移除关注请求？</string>
@@ -430,7 +433,7 @@
     <string name="button_continue">继续</string>
     <string name="button_back">返回</string>
     <string name="button_done">完成</string>
-    <string name="report_sent_success">成功报告 @%s</string>
+    <string name="report_sent_success">"成功回报  @%s"</string>
     <string name="hint_additional_info">附加留言</string>
     <string name="report_remote_instance">转发到 %s</string>
     <string name="failed_report">回报失败</string>
@@ -463,7 +466,7 @@
     <string name="pref_title_enable_swipe_for_tabs">启用划动手势以切换标签页</string>
     <plurals name="poll_info_people">
         <item quantity="one">%s 个人</item>
-        <item quantity="other"></item>
+        <item quantity="other"/>
     </plurals>
     <string name="compose_preview_image_description">处理图片 %s</string>
     <string name="add_hashtag_title">添加话题名</string>
@@ -484,4 +487,5 @@
     <string name="action_unmute_notifications_desc">取消隐藏来自 %s 的通知</string>
     <string name="action_unmute_desc">取消隐藏 %s</string>
     <string name="notification_follow_request_format">%s 请求关注你</string>
+    <string name="pref_main_nav_position">导航栏位置</string>
 </resources>

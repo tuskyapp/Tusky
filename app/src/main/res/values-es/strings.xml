@@ -16,11 +16,11 @@
     <string name="error_media_upload_opening">No pudo abrirse el fichero.</string>
     <string name="error_media_upload_permission">Se requiere permiso para acceder al almacenamiento.</string>
     <string name="error_media_download_permission">Se requiere permiso para descargar al almacenamiento.</string>
-    <string name="error_media_upload_image_or_video">No se pueden adjuntar imágenes y vídeos en el mismo estado.</string>
+    <string name="error_media_upload_image_or_video">No se pueden adjuntar imágenes y vídeos en el mismo estado</string>
     <string name="error_media_upload_sending">La subida falló.</string>
-    <string name="error_sender_account_gone">Error al enviar estado.</string>
+    <string name="error_sender_account_gone">Error al publicar.</string>
     <string name="title_home">Inicio</string>
-    <string name="title_notifications">Notificaciones</string>
+    <string name="title_notifications">Editar notificaciones</string>
     <string name="title_public_local">Local</string>
     <string name="title_public_federated">Federada</string>
     <string name="title_direct_messages">Mensajes Directos</string>
@@ -116,7 +116,7 @@
     <string name="confirmation_unmuted">El usuario ya no está silenciado</string>
     <string name="status_sent">¡Enviada!</string>
     <string name="status_sent_long">Respuesta enviada correctamente.</string>
-    <string name="hint_domain">¿Qué instancia\?</string>
+    <string name="hint_domain">Indique la instancia</string>
     <string name="hint_compose">¿En qué estás pensando?</string>
     <string name="hint_content_warning">Aviso de contenido</string>
     <string name="hint_display_name">Nombre</string>
@@ -156,7 +156,7 @@
     <string name="pref_title_notification_filters">Notificar cuando</string>
     <string name="pref_title_notification_filter_mentions">me mencionan</string>
     <string name="pref_title_notification_filter_follows">me siguen</string>
-    <string name="pref_title_notification_filter_reblogs">mis posts son impulsados</string>
+    <string name="pref_title_notification_filter_reblogs">me comparten</string>
     <string name="pref_title_notification_filter_favourites">me dan favorito</string>
     <string name="pref_title_appearance_settings">Apariencia</string>
     <string name="pref_title_app_theme">Tema</string>
@@ -170,7 +170,7 @@
     <string name="pref_title_hide_follow_button">Ocultar botón de redacción al bajar</string>
     <string name="pref_title_status_filter">Filtros de cronología</string>
     <string name="pref_title_status_tabs">Pestañas</string>
-    <string name="pref_title_show_boosts">Mostrar compartidos</string>
+    <string name="pref_title_show_boosts">Mostrar impulsos</string>
     <string name="pref_title_show_replies">Mostrar respuestas</string>
     <string name="pref_title_show_media_preview">Previsualizar multimedia</string>
     <string name="pref_title_proxy_settings">Proxy</string>
@@ -281,8 +281,8 @@
     <string name="download_failed">Descarga fallida</string>
     <string name="profile_badge_bot_text">Bot</string>
     <string name="account_moved_description">%1$s se trasladó a:</string>
-    <string name="reblog_private">Impulsar a la audiencia original</string>
-    <string name="unreblog_private">Dejar de impulsar</string>
+    <string name="reblog_private">Volver a compartir</string>
+    <string name="unreblog_private">Dejar de compartir</string>
     <string name="license_description">Tusky contiene código y recursos de los siguientes proyectos:</string>
     <string name="license_apache_2">Licenciado bajo Apache License (texto bajo la lista)</string>
     <string name="license_cc_by_4">CC BY 4.0</string>
@@ -300,8 +300,8 @@
         <item quantity="other">&lt;b&gt;%1$s&lt;/b&gt; Favoritos</item>
     </plurals>
     <plurals name="reblogs">
-        <item quantity="one">&lt;b&gt;%s&lt;/b&gt; Impulso</item>
-        <item quantity="other">&lt;b&gt;%s&lt;/b&gt; Impulsos</item>
+        <item quantity="one"><b>%s</b> Impulso</item>
+        <item quantity="other"><b>%s</b> Impulsos</item>
     </plurals>
     <string name="title_reblogged_by">Impulsado por</string>
     <string name="title_favourited_by">Marcado como favorito por</string>
@@ -324,7 +324,7 @@
     <string name="action_rename_list">Renombrar la lista</string>
     <string name="action_add_to_list">Añadir cuenta a la lista</string>
     <string name="action_remove_from_list">Eliminar cuenta de la lista</string>
-    <string name="description_status_favourited">Favoritos</string>
+    <string name="description_status_favourited">1Favoritos</string>
     <string name="description_visiblity_private">Seguidores</string>
     <string name="filter_apply">Aplicar</string>
     <string name="pref_title_bot_overlay">Mostrar indicador de bots</string>

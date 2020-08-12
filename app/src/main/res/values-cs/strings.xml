@@ -371,7 +371,7 @@
     <string name="notification_clear_text">Jste si jistý/á, že chcete trvale vymazat všechna vaše oznámení\?</string>
     <string name="action_delete_and_redraft">Smazat a přepsat</string>
     <string name="dialog_redraft_toot_warning">Smazat a přepsat tento toot\?</string>
-    <string name="poll_info_format"> <!-- 15 hlasů • 1 hodin do konce --> %1$s • %2$s</string>
+    <string name="poll_info_format"> <!-- 15 votes • 1 hour left --> %1$s • %2$s</string>
     <plurals name="poll_info_votes">
         <item quantity="one">%s hlas</item>
         <item quantity="few">%s hlasy</item>
@@ -424,7 +424,7 @@
     <string name="report_remote_instance">Přeposlat na %s</string>
     <string name="failed_report">Nahlášení selhalo</string>
     <string name="failed_fetch_statuses">Stahování tootů neuspělo</string>
-    <string name="report_description_1">Nahlášení bude zasláno moderátorovi vašeho serveru. Níže můžete uvést, proč tento účet nahlašujete:</string>
+    <string name="report_description_1">Nahlášení bude zasláno moderátorům vašeho serveru. Níže můžete uvést, proč tento účet nahlašujete:</string>
     <string name="report_description_remote_instance">Tento účet je z jiného serveru. Chcete na něj také poslat anonymizovanou kopii\?</string>
     <string name="pref_title_show_notifications_filter">Zobrazit filtr oznámení</string>
     <string name="create_poll_title">Anketa</string>
@@ -482,9 +482,9 @@
     <string name="action_unmute_desc">Odkrýt %s</string>
     <string name="dialog_mute_warning">Ztišit @%s\?</string>
     <plurals name="poll_info_people">
-        <item quantity="one">%s osoba</item>
-        <item quantity="few">%s osoby</item>
-        <item quantity="other">%s osob</item>
+        <item quantity="one"></item>
+        <item quantity="few"></item>
+        <item quantity="other"></item>
     </plurals>
     <string name="notification_follow_request_format">%s požádal/a aby vás mohl/a sledovat</string>
     <string name="pref_title_confirm_reblogs">Zobrazit dialogové okno s potvrzením při boostování</string>
