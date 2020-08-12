@@ -48,7 +48,7 @@
     <string name="status_content_show_more">বিস্তৃত</string>
     <string name="status_content_show_less">বন্ধ</string>
     <string name="message_empty">এখানে কিছুই নেই।</string>
-    <string name="footer_empty">এখানে কিছু নেই. রিফ্রেশ করতে নিচে টানুন!</string>
+    <string name="footer_empty">এখানে কিছু নেই। রিফ্রেশ করতে নিচে টানুন!</string>
     <string name="notification_reblog_format">%s সমর্থন দিয়েছে</string>
     <string name="notification_favourite_format">%s আপনার টুট পছন্দ করেছে</string>
     <string name="notification_follow_format">%s আপনাকে অনুসরণ করেছেন</string>
