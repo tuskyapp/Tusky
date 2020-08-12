@@ -51,11 +51,12 @@
     <string name="send_post_notification_channel_name">টুট পাঠানো হচ্ছে</string>
     <string name="send_post_notification_error_title">টুট পাঠাতে গিয়ে একটি ত্রুটি ঘটেছে</string>
     <string name="send_post_notification_title">টুট পাঠানো হচ্ছে …</string>
-    <string name="compose_save_draft">ড্রাফট সংরক্ষণ\?</string>
+    <string name="compose_save_draft">ড্রাফট সংরক্ষণ?</string>
     <string name="lock_account_label_description">অনুসারী অনুমোদন করার জন্য আপনাকে প্রয়োজন</string>
     <string name="lock_account_label">অ্যাকাউন্ট লক করুন</string>
     <string name="action_set_caption">ক্যাপশন সেট করুন</string>
     <plurals name="hint_describe_for_visually_impaired">
+        <item quantity="one"></item>
         <item quantity="other">দৃষ্টি প্রতিবন্ধী জন্য বর্ণনা করুন
 \n(%1$d অক্ষর সীমা)</item>
     </plurals>
@@ -164,8 +165,8 @@
     <string name="visibility_public">সর্বজনীন: পাবলিক টাইমলাইনে পোস্ট কর</string>
     <string name="dialog_redraft_post_warning">এই টুট টি মুছে ফেলবেন এবং পুনরায় ড্রাফট করবেন?</string>
     <string name="dialog_delete_post_warning">এই টুট টি মুছে ফেলবেন?</string>
-    <string name="dialog_unfollow_warning">এই অ্যাকাউন্টটি অনুসরণ করবেন না\?</string>
-    <string name="dialog_message_cancel_follow_request">অনুসরণ অনুরোধ প্রত্যাহার\?</string>
+    <string name="dialog_unfollow_warning">এই অ্যাকাউন্টটি অনুসরণ করবেন না?</string>
+    <string name="dialog_message_cancel_follow_request">অনুসরণ অনুরোধ প্রত্যাহার?</string>
     <string name="dialog_download_image">ডাউনলোড</string>
     <string name="dialog_message_uploading_media">আপলোড হচ্ছে …</string>
     <string name="dialog_title_finishing_media_upload">মিডিয়া আপলোড সমাপ্ত করা হচ্ছে</string>
@@ -187,7 +188,7 @@
 \n \u0020
 \nMore info can be found at <a href="https://joinmastodon.org">joinmastodon.org</a>. </string>
     <string name="login_connection">সংযুক্ত হচ্ছে …</string>
-    <string name="link_whats_an_instance">ইনস্ট্যান্স কি\?</string>
+    <string name="link_whats_an_instance">ইনস্ট্যান্স কি?</string>
     <string name="label_header">হেডার</string>
     <string name="label_avatar">অবতার</string>
     <string name="label_quick_reply">উত্তর…</string>
@@ -196,8 +197,8 @@
     <string name="hint_note">জীবনী</string>
     <string name="hint_display_name">প্রদর্শন নাম</string>
     <string name="hint_content_warning">সতর্কবার্তা</string>
-    <string name="hint_compose">কি হচ্ছে\?</string>
-    <string name="hint_domain">কোন ইনস্ট্যান্স\?</string>
+    <string name="hint_compose">কি হচ্ছে?</string>
+    <string name="hint_domain">কোন ইনস্ট্যান্স?</string>
     <string name="confirmation_unmuted">ব্যবহারকারী সশব্দ</string>
     <string name="confirmation_unblocked">ব্যবহারকারী অবরোধ মুক্ত</string>
     <string name="confirmation_reported">পাঠানো হয়েছে!</string>
@@ -273,7 +274,7 @@
     <string name="action_reblog">সমর্থন</string>
     <string name="action_reply">উত্তর</string>
     <string name="action_quick_reply">দ্রুত উত্তর</string>
-    <string name="report_comment_hint">অতিরিক্ত মন্তব্যগুলি\?</string>
+    <string name="report_comment_hint">অতিরিক্ত মন্তব্যগুলি?</string>
     <string name="report_username_format">রিপোর্ট @%1$s</string>
     <string name="footer_empty">এখানে কিছু নেই. রিফ্রেশ করতে নিচে টানুন!</string>
     <string name="message_empty">এখানে কিছুই নেই।</string>
@@ -310,8 +311,8 @@
     <string name="pref_title_enable_swipe_for_tabs">ট্যাবের মাঝে সোয়াইপ সংকেত চালু করো</string>
     <string name="notification_follow_request_description">অনুসরণ রিকোয়েস্টের বিজ্ঞপ্তি</string>
     <string name="notification_follow_request_name">অনুরোধ অনুসরণ করুন</string>
-    <string name="dialog_mute_warning">নিঃশব্দ @%1$s\?</string>
-    <string name="dialog_block_warning">অবরুদ্ধ @%1$s\?</string>
+    <string name="dialog_mute_warning">নিঃশব্দ @%1$s?</string>
+    <string name="dialog_block_warning">অবরুদ্ধ @%1$s?</string>
     <string name="action_unmute_conversation">আলাপ বন্ধ করো</string>
     <string name="action_mute_conversation">আলাপ বন্ধ করো</string>
     <string name="warning_scheduling_interval">মাস্টোডনের সর্বনিম্ন ৫ মিনিটের সময়সূচীর বিরতি আছে।</string>
@@ -350,11 +351,11 @@
     <string name="filter_dialog_whole_word_description">যখন শব্দ বা বাক্যাংশটি শুধুমাত্র আলফানিউমেরিক হয় তখন এটি শুধুমাত্র তখনই প্রয়োগ করা হবে যদি এটি সম্পূর্ণ শব্দটির সাথে মেলে</string>
     <string name="filter_dialog_whole_word">সম্পূর্ণ শব্দ</string>
     <string name="mute_domain_warning_dialog_ok">পুরো ডোমেইন লুকান</string>
-    <string name="mute_domain_warning">আপনি কি সব %1$s ব্লক করতে চান\? আপনি যে ডোমেন থেকে কোনও পাবলিক টাইমলাইনে বা আপনার বিজ্ঞপ্তিগুলিতে সামগ্রী দেখতে পাবেন না। আপনার অনুসরণকারীদের সরানো হবে।</string>
+    <string name="mute_domain_warning">আপনি কি সব %1$s ব্লক করতে চান? আপনি যে ডোমেন থেকে কোনও পাবলিক টাইমলাইনে বা আপনার বিজ্ঞপ্তিগুলিতে সামগ্রী দেখতে পাবেন না। আপনার অনুসরণকারীদের সরানো হবে।</string>
     <string name="action_mute_domain">নিঃশব্দ %1$s</string>
     <string name="action_view_domain_mutes">গোপন ডোমেইনগুলি</string>
     <string name="title_domain_mutes">গোপন ডোমেইনগুলি</string>
-    <string name="report_description_remote_instance">এই একাউন্ট তা একটি অন্য সার্ভারের। রিপোর্ট এর সঙ্গে একটি বেনামি কপি ওখানে পাঠাতে চান\?</string>
+    <string name="report_description_remote_instance">এই একাউন্ট তা একটি অন্য সার্ভারের। রিপোর্ট এর সঙ্গে একটি বেনামি কপি ওখানে পাঠাতে চান?</string>
     <string name="report_description_1">রিপোর্ট আপনার সার্ভার মডারেটরে পাঠানো হবে। আপনি নীচের এই অ্যাকাউন্টটি কেন প্রতিবেদন করছেন তা ব্যাখ্যা করতে পারেন:</string>
     <string name="failed_fetch_posts">স্টেটাসগুলি আনতে ব্যর্থ</string>
     <string name="failed_report">রিপোর্ট করতে ব্যর্থ হয়েছে</string>
@@ -371,7 +372,7 @@
     <string name="poll_info_time_absolute">\'%1$s এ শেষ হবে\'</string>
     <string name="poll_info_format"> <!-- 15 votes • 1 hour left --> %1$s • %2$s</string>
     <string name="compose_preview_image_description">ছবি %1$s এর জন্য ক্রিয়া</string>
-    <string name="notification_clear_text">আপনি কি আপনার সমস্ত বিজ্ঞপ্তি স্থায়ীভাবে মুছে ফেলতে চান\?</string>
+    <string name="notification_clear_text">আপনি কি আপনার সমস্ত বিজ্ঞপ্তি স্থায়ীভাবে মুছে ফেলতে চান?</string>
     <string name="compose_shortcut_short_label">রচনা</string>
     <string name="compose_shortcut_long_label">টুট রচনা করুন</string>
     <string name="filter_apply">প্রয়োগ</string>
