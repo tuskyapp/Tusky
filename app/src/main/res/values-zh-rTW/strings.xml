@@ -104,7 +104,7 @@
     <string name="action_search">搜尋</string>
     <string name="action_access_saved_toot">草稿</string>
     <string name="action_toggle_visibility">設定嘟文可見範圍</string>
-    <string name="action_content_warning">設定敏感內容警告</string>
+    <string name="action_content_warning">敏感內容警告</string>
     <string name="action_emoji_keyboard">插入表情符號</string>
     <string name="action_add_tab">新增標籤頁</string>
     <string name="action_links">連結</string>
@@ -143,7 +143,7 @@
     <string name="label_header">標題</string>
     <string name="link_whats_an_instance">什麼是站點？</string>
     <string name="login_connection">正在連線…</string>
-    <string name="dialog_whats_an_instance">"請輸入你帳號所在的 Mastodon 站點的域名或地址 "</string>
+    <string name="dialog_whats_an_instance">請輸入你帳號所在的 Mastodon 站點的域名或地址</string>
     <string name="dialog_title_finishing_media_upload">正在完成上傳…</string>
     <string name="dialog_message_uploading_media">正在上傳…</string>
     <string name="dialog_download_image">下載</string>

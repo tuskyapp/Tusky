@@ -31,12 +31,12 @@
     <string name="title_statuses_pinned">পিন করা</string>
     <string name="title_follows">অনুসরণ</string>
     <string name="title_followers">অনুগামিবৃন্দ</string>
-    <string name="title_favourites">প্রিয়গুলি</string>
+    <string name="title_favourites">প্রিয়গুলো</string>
     <string name="title_mutes">শব্দ বন্ধ ব্যবহারকারী</string>
     <string name="title_blocks">অবরুদ্ধ ব্যবহারকারী</string>
     <string name="title_follow_requests">অনুরোধ অনুসরণ করুন</string>
     <string name="title_edit_profile">আপনার প্রোফাইল সম্পাদনা করুন</string>
-    <string name="title_saved_toot">ড্রাফটগুলি</string>
+    <string name="title_saved_toot">খসড়াগুলো</string>
     <string name="title_licenses">লাইসেন্সগুলি</string>
     <string name="status_username_format">\@%s</string>
     <string name="status_boosted_format">%s সমর্থন দিয়েছে</string>
@@ -62,8 +62,8 @@
     <string name="action_unfavourite">পছন্দ সরান</string>
     <string name="action_more">অধিক</string>
     <string name="action_compose">রচনা</string>
-    <string name="action_login">ম্যাস্টোডোন সঙ্গে লগইন করুন</string>
-    <string name="action_logout">প্রস্থান</string>
+    <string name="action_login">মাস্টোডনের সঙ্গে লগইন করো</string>
+    <string name="action_logout">লগ আউট</string>
     <string name="action_logout_confirm">আপনি কি অ্যাকাউন্ট %1$s থেকে লগ আউট করতে চান\?</string>
     <string name="action_follow">অনুসরণ কর</string>
     <string name="action_unfollow">অনুসরণ করা বন্ধ করুন</string>
@@ -80,8 +80,8 @@
     <string name="action_close">বদ্ধ</string>
     <string name="action_view_profile">প্রোফাইল</string>
     <string name="action_view_preferences">পছন্দসমূহ</string>
-    <string name="action_view_account_preferences">অ্যাকাউন্ট পছন্দসমূহ</string>
-    <string name="action_view_favourites">প্রিয়গুলি</string>
+    <string name="action_view_account_preferences">অ্যাকাউন্টের পছন্দসমূহ</string>
+    <string name="action_view_favourites">প্রিয়গুলো</string>
     <string name="action_view_mutes">শব্দ বন্ধ ব্যবহারকারী</string>
     <string name="action_view_blocks">অবরুদ্ধ ব্যবহারকারী</string>
     <string name="action_view_follow_requests">অনুরোধ অনুসরণ করুন</string>
@@ -96,7 +96,7 @@
     <string name="action_hide_media">মিডিয়া লুকান</string>
     <string name="action_open_drawer">ড্রয়ার খুলুন</string>
     <string name="action_save">সংরক্ষণ</string>
-    <string name="action_edit_profile">প্রোফাইল সম্পাদনা করুন</string>
+    <string name="action_edit_profile">প্রোফাইল সম্পাদনা করো</string>
     <string name="action_edit_own_profile">সম্পাদন</string>
     <string name="action_undo">বাতিল</string>
     <string name="action_accept">গ্রহণ</string>
@@ -136,20 +136,20 @@
     <string name="hint_content_warning">সতর্কবার্তা</string>
     <string name="hint_display_name">প্রদর্শন নাম</string>
     <string name="hint_note">জীবনী</string>
-    <string name="hint_search">অনুসন্ধান</string>
+    <string name="hint_search">অনুসন্ধান…</string>
     <string name="search_no_results">কোন ফলাফল নেই</string>
-    <string name="label_quick_reply">উত্তর…</string>
+    <string name="label_quick_reply">উত্তর</string>
     <string name="label_avatar">অবতার</string>
     <string name="label_header">হেডার</string>
     <string name="link_whats_an_instance">ইনস্ট্যান্স কি\?</string>
     <string name="login_connection">সংযুক্ত হচ্ছে …</string>
-    <string name="dialog_whats_an_instance">কোনও উদাহরণের ঠিকানা বা ডোমেন এখানে প্রবেশ করা যেতে পারে যেমন mastodon.social, icosahedron.website, social.tchncs.de, এবং <a href="https://instances.social"> আরও! </a>
+    <string name="dialog_whats_an_instance"><a href="https://instances.social">more!</a> 
 \n
-\nআপনার যদি এখনো অ্যাকাউন্ট না থাকে তবে আপনি যে ইনস্ট্যান্সটিতে যোগ দিতে চান সেটির নামটি প্রবেশ করতে এবং সেখানে একটি অ্যাকাউন্ট তৈরি করতে পারেন।
+\nIf you don\'t yet have an account, you can enter the name of the instance you\'d like to join and create an account there.
 \n
-\nএকটি ইনস্ট্যান্স একটি একক স্থান যেখানে আপনার অ্যাকাউন্ট হোস্ট করা হয়, তবে আপনি সহজেই যোগাযোগ করতে পারেন এবং অন্যান্য ক্ষেত্রে যেমন আপনি একই সাইটে ছিলেন তা অনুসরণ করতে পারেন।
+\nAn instance is a single place where your account is hosted, but you can easily communicate with and follow folks on other instances as though you were on the same site. 
 \n
-\nআরো তথ্য <a href="https://joinmastodon.org"> joinmastodon.org </a> এ পাওয়া যেতে পারে। </string>
+\nMore info can be found at <a href="https://joinmastodon.org">joinmastodon.org</a>. </string>
     <string name="dialog_title_finishing_media_upload">মিডিয়া আপলোড সমাপ্ত করা হচ্ছে</string>
     <string name="dialog_message_uploading_media">আপলোড হচ্ছে …</string>
     <string name="dialog_download_image">ডাউনলোড</string>
@@ -217,18 +217,18 @@
     <string name="notification_follow_description">নতুন অনুসরণকারী সম্পর্কে বিজ্ঞপ্তি</string>
     <string name="notification_boost_name">সমর্থনগুলি</string>
     <string name="notification_boost_description">আপনার টুটগুলি সমর্থন হলে বিজ্ঞপ্তিগুলি</string>
-    <string name="notification_favourite_name">প্রিয়গুলি</string>
+    <string name="notification_favourite_name">প্রিয়গুলো</string>
     <string name="notification_favourite_description">আপনার টুটগুলি প্রিয় হিসাবে চিহ্নিত পেতে বিজ্ঞপ্তি</string>
     <string name="notification_poll_name">নির্বাচনগুলি</string>
     <string name="notification_poll_description">শেষ হয়েছে যে নির্বাচনগুলির সম্পর্কে বিজ্ঞপ্তি</string>
     <string name="notification_mention_format">%s আপনাকে উল্লিখিত করেছে</string>
     <string name="notification_summary_large">%1$s,%2$s,%3$s এবং %4$d আরো অন্য জন</string>
     <string name="notification_summary_medium">%1$s, %2$s, আর %3$s</string>
-    <string name="notification_summary_small">%1$s আর %2$s</string>
+    <string name="notification_summary_small">%1$s এবং %2$s</string>
     <string name="notification_title_summary">%d নতুন মিথস্ক্রিয়া</string>
     <string name="description_account_locked">লক অ্যাকাউন্ট</string>
     <string name="about_title_activity">সম্পর্কিত</string>
-    <string name="about_tusky_version">টাস্কি %s</string>
+    <string name="about_tusky_version">টাসকি %s</string>
     <string name="about_tusky_license">টাস্কি মুক্ত এবং ওপেন সোর্স সফ্টওয়্যার। এটি GNU জেনারেল পাবলিক লাইসেন্স সংস্করণ 3 এর অধীনে লাইসেন্সযুক্ত। আপনি এখানে লাইসেন্স দেখতে পারেন: https://www.gnu.org/licenses/gpl-3.0.en.html</string>
     <!-- note to translators:
          * you should think of “free” as in “free speech,” not as in “free beer”.
@@ -266,7 +266,7 @@
     <string name="pref_title_thread_filter_keywords">কথাবার্তা</string>
     <string name="filter_addition_dialog_title">ফিল্টার যোগ করুন</string>
     <string name="filter_edit_dialog_title">ফিল্টার সম্পাদনা করুন</string>
-    <string name="filter_dialog_remove_button">সরান</string>
+    <string name="filter_dialog_remove_button">সরাও</string>
     <string name="filter_dialog_update_button">আপডেট</string>
     <string name="filter_add_description">বাক্য ফিল্টার কর</string>
     <string name="add_account_name">অ্যাকাউন্ট যোগ করুন</string>
@@ -337,8 +337,8 @@
         <item quantity="other">&lt;b&gt;%1$s&lt;/b&gt; পছন্দসই</item>
     </plurals>
     <plurals name="reblogs">
-        <item quantity="one">&lt;b&gt;%s&lt;/b&gt; সমর্থন</item>
-        <item quantity="other">&lt;b&gt;%s&lt;/b&gt; সমর্থনগুলি</item>
+        <item quantity="one"><b>%s</b> বুস্ট</item>
+        <item quantity="other"><b>%s</b> বুস্ট</item>
     </plurals>
     <string name="title_reblogged_by">দ্বারা সর্মথন</string>
     <string name="title_favourited_by">দ্বারা পছন্দ</string>
@@ -372,8 +372,8 @@
     <string name="poll_vote">ভোট</string>
     <string name="poll_ended_voted">আপনি ভোট দিয়েছেন যে নির্বাচন এ সেটি শেষ হয়েছে</string>
     <string name="poll_ended_created">আপনি তৈরি একটি নির্বাচন শেষ হয়েছে</string>
-    <string name="button_continue">চালিয়ে যান</string>
-    <string name="button_back">পিছনে যান</string>
+    <string name="button_continue">চালিয়ে যাও</string>
+    <string name="button_back">পিছাও</string>
     <string name="button_done">সম্পন্ন</string>
     <string name="report_sent_success">%s এ সফলভাবে রিপোর্ট করা হয়েছে</string>
     <string name="hint_additional_info">অতিরিক্ত মন্তব্যগুলি</string>
@@ -465,4 +465,9 @@
     <string name="pref_main_nav_position_option_bottom">সবচেয়ে শেষ</string>
     <string name="pref_main_nav_position_option_top">সর্বপ্রথম</string>
     <string name="pref_main_nav_position">মূল ন্যাভিগেশন জায়গা</string>
+    <string name="pref_title_enable_swipe_for_tabs">ট্যাবের মাঝে সোয়াইপ সংকেত চালু করো</string>
+    <string name="pref_title_show_cards_in_timelines">টাইমলাইনে লিঙ্ক প্রিভিউ দেখাও</string>
+    <string name="no_scheduled_status">তোমার কোনো সময়সূচীত স্ট্যাটাস নেই।</string>
+    <string name="no_saved_status">তোমার কোনো খসড়া নেই।</string>
+    <string name="warning_scheduling_interval">মাস্টোডনের সর্বনিম্ন ৫ মিনিটের সময়সূচীর বিরতি আছে।</string>
 </resources>

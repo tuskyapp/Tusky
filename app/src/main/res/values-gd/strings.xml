@@ -26,4 +26,21 @@
     <string name="label_quick_reply">Freagairt…</string>
     <string name="hint_search">Lorg…</string>
     <string name="action_login">Clàraich a-steach le Mastodon</string>
+    <string name="action_send_public">TÙT!</string>
+    <string name="action_emoji_keyboard">Meur-chlàr emoji</string>
+    <string name="action_unfollow">Sguir a leantainn</string>
+    <string name="action_follow">Leantainn</string>
+    <string name="action_more">Tuilleadh</string>
+    <string name="action_retry">Ath-ghairm</string>
+    <string name="action_close">Dùin</string>
+    <string name="action_send">TÙT</string>
+    <string name="action_delete">Cuir às</string>
+    <string name="action_delete_and_redraft">Cuir às agus ath-sgrìobhadh</string>
+    <string name="action_report">Thoir cunntas air</string>
+    <string name="action_unblock">Dì-bhac</string>
+    <string name="action_hide_reblogs">Cuir am falach boosts</string>
+    <string name="action_show_reblogs">Seall boosts</string>
+    <string name="action_block">Caisg</string>
+    <string name="action_compose">Dèan-sgrìobhaiche</string>
+    <string name="action_logout_confirm">Tuilleadh</string>
 </resources>

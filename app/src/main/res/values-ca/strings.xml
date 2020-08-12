@@ -46,7 +46,7 @@
     <string name="action_reblog">Retooteja</string>
     <string name="action_favourite">Preferit</string>
     <string name="action_more">Més</string>
-    <string name="action_compose">Escriure</string>
+    <string name="action_compose">Redacta</string>
     <string name="action_login">Inicia sessió amb Mastodon</string>
     <string name="action_logout">Tanca la sessió</string>
     <string name="action_follow">Segueix</string>
@@ -231,7 +231,7 @@
     <string name="action_open_media_n">Obrir el media #%d</string>
     <string name="action_open_as">Obre com a %s</string>
     <string name="downloading_media">Descarregant media</string>
-    <string name="status_sent_long">Resposta enviada correctament.</string>
+    <string name="status_sent_long">Resposta enviada correctament</string>
     <string name="label_quick_reply">Resposta …</string>
     <string name="dialog_message_cancel_follow_request">Revocar la petició de seguiment\?</string>
     <string name="dialog_delete_toot_warning">Vols eliminar aquest toot\?</string>
@@ -298,7 +298,7 @@
     <string name="send_toot_notification_channel_name">Enviant toots</string>
     <string name="send_toot_notification_cancel_title">Envio anul·lat</string>
     <string name="send_toot_notification_saved_content">Una copia del toot s\'ha guardat a esborranys</string>
-    <string name="action_compose_shortcut">Escriure</string>
+    <string name="action_compose_shortcut">Redacta</string>
     <string name="error_no_custom_emojis">La teva instància %s no te emojis personalitzats</string>
     <string name="copy_to_clipboard_success">Copia al porta papers</string>
     <string name="emoji_style">Estil dels emojis</string>
@@ -361,8 +361,8 @@
     <string name="notification_clear_text">Vols netejar totes les notificacions permanentment\?</string>
     <string name="poll_info_format"> <!-- 15 vots • queda 1 hora --> %1$s • %2$s</string>
     <plurals name="poll_info_votes">
-        <item quantity="one">%s vot</item>
-        <item quantity="other">%s vots</item>
+        <item quantity="one"></item>
+        <item quantity="other"></item>
     </plurals>
     <string name="poll_info_time_relative">%s restants</string>
     <string name="poll_info_time_absolute">Acaba a %s</string>

@@ -61,7 +61,7 @@
     <string name="action_favourite">收藏</string>
     <string name="action_unfavourite">取消收藏</string>
     <string name="action_more">更多</string>
-    <string name="action_compose">发表新嘟文</string>
+    <string name="action_compose">发表嘟文</string>
     <string name="action_login">登录 Mastodon 帐号</string>
     <string name="action_logout">退出登录</string>
     <string name="action_logout_confirm">确定要退出帐号 %1$s 吗？</string>
@@ -133,7 +133,7 @@
     <string name="status_sent_long">成功发布回复</string>
     <string name="hint_domain">域名</string>
     <string name="hint_compose">有什么新鲜事？</string>
-    <string name="hint_content_warning">设置内容提醒信息</string>
+    <string name="hint_content_warning">内容提醒</string>
     <string name="hint_display_name">昵称</string>
     <string name="hint_note">简介</string>
     <string name="hint_search">搜索…</string>

@@ -59,7 +59,7 @@
     <string name="action_block">Zablokuj</string>
     <string name="action_unblock">Odblokuj</string>
     <string name="action_hide_reblogs">Ukryj podbicia</string>
-    <string name="action_show_reblogs">Pokaż podbicia</string>
+    <string name="action_show_reblogs">Pokazuj podbicia</string>
     <string name="action_report">Zgłoś</string>
     <string name="action_delete">Usuń</string>
     <string name="action_send">Wyślij</string>
@@ -178,7 +178,7 @@
     <string name="notification_follow_description">Powiadomienia o nowych śledzących</string>
     <string name="notification_boost_name">Podbicia</string>
     <string name="notification_boost_description">Powiadomienia o podbiciu wpisów</string>
-    <string name="notification_favourite_name">Polubione</string>
+    <string name="notification_favourite_name">Ulubione</string>
     <string name="notification_favourite_description">Powiadomienia o dodaniu wpisów do ulubionych</string>
     <string name="notification_mention_format">%s wspomniał o Tobie</string>
     <string name="notification_summary_large">%1$s, %2$s, %3$s i %4$d innych</string>
@@ -239,7 +239,7 @@
     <string name="send_toot_notification_channel_name">Wysyłanie wpisów</string>
     <string name="send_toot_notification_cancel_title">Anulowano wysyłanie</string>
     <string name="send_toot_notification_saved_content">Kopia wpisu została zapisana jako szkic</string>
-    <string name="action_compose_shortcut">Wyślij</string>
+    <string name="action_compose_shortcut">Napisz</string>
     <string name="error_no_custom_emojis">Twoja instancja %s nie używa żadnych niestandardowych emoji</string>
     <string name="copy_to_clipboard_success">Skopiowano do schowka</string>
     <string name="emoji_style">Styl emoji</string>
@@ -378,7 +378,7 @@
     <string name="notifications_apply_filter">Filtr</string>
     <string name="filter_apply">Zastosuj</string>
     <string name="compose_shortcut_long_label">Stwórz wpis</string>
-    <string name="compose_shortcut_short_label">Napisz</string>
+    <string name="compose_shortcut_short_label">Nowy wpis</string>
     <string name="notification_clear_text">Czy jesteś pewien/pewna, że chcesz wyczyścić wszystkie swoje powiadomienia\?</string>
     <string name="compose_preview_image_description">Opcje dla obrazu %s</string>
     <string name="poll_info_format"> <!-- 15 głosów • pozostała 1 godzina --> %1$s • %2$s</string>

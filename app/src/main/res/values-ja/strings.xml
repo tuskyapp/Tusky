@@ -19,7 +19,7 @@
     <string name="error_media_upload_sending">アップロードに失敗しました。</string>
     <string name="error_sender_account_gone">トゥート送信時のエラーです。</string>
     <string name="title_home">ホーム</string>
-    <string name="title_notifications">通知</string>
+    <string name="title_notifications">プッシュ通知</string>
     <string name="title_public_local">ローカル</string>
     <string name="title_public_federated">連合</string>
     <string name="title_direct_messages">ダイレクトメッセージ</string>

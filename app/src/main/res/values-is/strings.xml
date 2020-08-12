@@ -430,4 +430,5 @@
     <string name="error_audio_upload_size">Hljóðskrár verða að vera minni en 40MB.</string>
     <string name="warning_scheduling_interval">Mastodon er með 5 mínútna lágmarksbil fyrir áætlaðar aðgerðir.</string>
     <string name="notification_follow_request_name">Fylgjendabeiðnir</string>
+    <string name="hashtags">Myllumerki</string>
 </resources>
