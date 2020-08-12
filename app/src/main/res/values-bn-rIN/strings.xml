@@ -31,12 +31,12 @@
     <string name="title_statuses_pinned">পিন করা</string>
     <string name="title_follows">অনুসরণ</string>
     <string name="title_followers">অনুগামিবৃন্দ</string>
-    <string name="title_favourites">প্রিয়গুলি</string>
+    <string name="title_favourites">প্রিয়গুলো</string>
     <string name="title_mutes">শব্দ বন্ধ ব্যবহারকারী</string>
     <string name="title_blocks">অবরুদ্ধ ব্যবহারকারী</string>
     <string name="title_follow_requests">অনুরোধ অনুসরণ করুন</string>
     <string name="title_edit_profile">আপনার প্রোফাইল সম্পাদনা করুন</string>
-    <string name="title_saved_toot">ড্রাফটগুলি</string>
+    <string name="title_saved_toot">খসড়াগুলো</string>
     <string name="title_licenses">লাইসেন্সগুলি</string>
     <string name="status_username_format">\@%s</string>
     <string name="status_boosted_format">%s সমর্থন দিয়েছে</string>
@@ -62,8 +62,8 @@
     <string name="action_unfavourite">পছন্দ সরান</string>
     <string name="action_more">অধিক</string>
     <string name="action_compose">রচনা</string>
-    <string name="action_login">ম্যাস্টোডোন সঙ্গে লগইন করুন</string>
-    <string name="action_logout">প্রস্থান</string>
+    <string name="action_login">মাস্টোডনের সঙ্গে লগইন করো</string>
+    <string name="action_logout">লগ আউট</string>
     <string name="action_logout_confirm">আপনি কি অ্যাকাউন্ট %1$s থেকে লগ আউট করতে চান\?</string>
     <string name="action_follow">অনুসরণ কর</string>
     <string name="action_unfollow">অনুসরণ করা বন্ধ করুন</string>
@@ -80,7 +80,7 @@
     <string name="action_close">বদ্ধ</string>
     <string name="action_view_profile">প্রোফাইল</string>
     <string name="action_view_preferences">পছন্দসমূহ</string>
-    <string name="action_view_account_preferences">অ্যাকাউন্ট পছন্দসমূহ</string>
+    <string name="action_view_account_preferences">অ্যাকাউন্টের পছন্দসমূহ</string>
     <string name="action_view_favourites">প্রিয়গুলি</string>
     <string name="action_view_mutes">শব্দ বন্ধ ব্যবহারকারী</string>
     <string name="action_view_blocks">অবরুদ্ধ ব্যবহারকারী</string>
@@ -96,7 +96,7 @@
     <string name="action_hide_media">মিডিয়া লুকান</string>
     <string name="action_open_drawer">ড্রয়ার খুলুন</string>
     <string name="action_save">সংরক্ষণ</string>
-    <string name="action_edit_profile">প্রোফাইল সম্পাদনা করুন</string>
+    <string name="action_edit_profile">প্রোফাইল সম্পাদনা করো</string>
     <string name="action_edit_own_profile">সম্পাদন</string>
     <string name="action_undo">বাতিল</string>
     <string name="action_accept">গ্রহণ</string>
@@ -136,7 +136,7 @@
     <string name="hint_content_warning">সতর্কবার্তা</string>
     <string name="hint_display_name">প্রদর্শন নাম</string>
     <string name="hint_note">জীবনী</string>
-    <string name="hint_search">অনুসন্ধান</string>
+    <string name="hint_search">অনুসন্ধান…</string>
     <string name="search_no_results">কোন ফলাফল নেই</string>
     <string name="label_quick_reply">উত্তর…</string>
     <string name="label_avatar">অবতার</string>
@@ -266,7 +266,7 @@
     <string name="pref_title_thread_filter_keywords">কথাবার্তা</string>
     <string name="filter_addition_dialog_title">ফিল্টার যোগ করুন</string>
     <string name="filter_edit_dialog_title">ফিল্টার সম্পাদনা করুন</string>
-    <string name="filter_dialog_remove_button">সরান</string>
+    <string name="filter_dialog_remove_button">সরাও</string>
     <string name="filter_dialog_update_button">আপডেট</string>
     <string name="filter_add_description">বাক্য ফিল্টার কর</string>
     <string name="add_account_name">অ্যাকাউন্ট যোগ করুন</string>
@@ -337,8 +337,8 @@
         <item quantity="other">&lt;b&gt;%1$s&lt;/b&gt; পছন্দসই</item>
     </plurals>
     <plurals name="reblogs">
-        <item quantity="one"></item>
-        <item quantity="other"></item>
+        <item quantity="one"><b>%s</b> বুস্ট</item>
+        <item quantity="other"><b>%s</b> বুস্ট</item>
     </plurals>
     <string name="title_reblogged_by">দ্বারা সর্মথন</string>
     <string name="title_favourited_by">দ্বারা পছন্দ</string>
@@ -372,8 +372,8 @@
     <string name="poll_vote">ভোট</string>
     <string name="poll_ended_voted">আপনি ভোট দিয়েছেন যে নির্বাচন এ সেটি শেষ হয়েছে</string>
     <string name="poll_ended_created">আপনি তৈরি একটি নির্বাচন শেষ হয়েছে</string>
-    <string name="button_continue">চালিয়ে যান</string>
-    <string name="button_back">পিছনে যান</string>
+    <string name="button_continue">চালিয়ে যাও</string>
+    <string name="button_back">পিছাও</string>
     <string name="button_done">সম্পন্ন</string>
     <string name="report_sent_success">%s এ সফলভাবে রিপোর্ট করা হয়েছে</string>
     <string name="hint_additional_info">অতিরিক্ত মন্তব্যগুলি</string>
@@ -465,4 +465,9 @@
     <string name="pref_main_nav_position_option_bottom">সবচেয়ে শেষ</string>
     <string name="pref_main_nav_position_option_top">সর্বপ্রথম</string>
     <string name="pref_main_nav_position">মূল ন্যাভিগেশন জায়গা</string>
+    <string name="pref_title_enable_swipe_for_tabs">ট্যাবের মাঝে সোয়াইপ সংকেত চালু করো</string>
+    <string name="pref_title_show_cards_in_timelines">টাইমলাইনে লিঙ্ক প্রিভিউ দেখাও</string>
+    <string name="no_scheduled_status">তোমার কোনো সময়সূচীত স্ট্যাটাস নেই।</string>
+    <string name="no_saved_status">তোমার কোনো খসড়া নেই।</string>
+    <string name="warning_scheduling_interval">মাস্টোডনের সর্বনিম্ন ৫ মিনিটের সময়সূচীর বিরতি আছে।</string>
 </resources>
