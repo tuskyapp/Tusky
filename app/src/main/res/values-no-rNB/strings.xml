@@ -297,7 +297,7 @@
     <string name="license_cc_by_4">CC-BY 4.0</string>
     <string name="license_cc_by_sa_4">CC-BY-SA 4.0</string>
     <string name="profile_metadata_label">Profilmetadata</string>
-    <string name="profile_metadata_add">legg til data</string>
+    <string name="profile_metadata_add">legg til profilmetadata</string>
     <string name="profile_metadata_label_label">Ledetekst</string>
     <string name="profile_metadata_content_label">Innhold</string>
     <string name="pref_title_absolute_time">Bruk absolutt tid</string>
@@ -441,8 +441,8 @@
     <string name="pref_title_confirm_reblogs">Vis bekreftelsesdialog før boosting</string>
     <string name="pref_title_enable_swipe_for_tabs">Skru på sveiping for å bytte mellom faner</string>
     <plurals name="poll_info_people">
-        <item quantity="one">%s person</item>
-        <item quantity="other">%s personer</item>
+        <item quantity="one"/>
+        <item quantity="other"/>
     </plurals>
     <string name="notification_follow_request_description">Varsler om følgeforespørsler</string>
     <string name="notification_follow_request_name">Forespørsler om følging</string>

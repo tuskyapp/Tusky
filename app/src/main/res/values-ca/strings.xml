@@ -46,7 +46,7 @@
     <string name="action_reblog">Retooteja</string>
     <string name="action_favourite">Preferit</string>
     <string name="action_more">Més</string>
-    <string name="action_compose">Redacta</string>
+    <string name="action_compose">Escriure</string>
     <string name="action_login">Inicia sessió amb Mastodon</string>
     <string name="action_logout">Tanca la sessió</string>
     <string name="action_follow">Segueix</string>
@@ -298,7 +298,7 @@
     <string name="send_toot_notification_channel_name">Enviant toots</string>
     <string name="send_toot_notification_cancel_title">Envio anul·lat</string>
     <string name="send_toot_notification_saved_content">Una copia del toot s\'ha guardat a esborranys</string>
-    <string name="action_compose_shortcut">Redacta</string>
+    <string name="action_compose_shortcut">Escriure</string>
     <string name="error_no_custom_emojis">La teva instància %s no te emojis personalitzats</string>
     <string name="copy_to_clipboard_success">Copia al porta papers</string>
     <string name="emoji_style">Estil dels emojis</string>
@@ -361,8 +361,8 @@
     <string name="notification_clear_text">Vols netejar totes les notificacions permanentment\?</string>
     <string name="poll_info_format"> <!-- 15 vots • queda 1 hora --> %1$s • %2$s</string>
     <plurals name="poll_info_votes">
-        <item quantity="one"></item>
-        <item quantity="other"></item>
+        <item quantity="one"/>
+        <item quantity="other"/>
     </plurals>
     <string name="poll_info_time_relative">%s restants</string>
     <string name="poll_info_time_absolute">Acaba a %s</string>
@@ -374,8 +374,8 @@
         <item quantity="other">%d dies</item>
     </plurals>
     <plurals name="poll_timespan_hours">
-        <item quantity="one">%d hora</item>
-        <item quantity="other">%d hores</item>
+        <item quantity="one"/>
+        <item quantity="other"/>
     </plurals>
     <plurals name="poll_timespan_minutes">
         <item quantity="one">%d minut</item>
@@ -451,8 +451,8 @@
     <string name="pref_title_show_cards_in_timelines">Mostra les previsualitzacions dels enllaços en els fils</string>
     <string name="pref_title_enable_swipe_for_tabs">Habilita el gest de desplaçament per despleçar-te entre pestanyes</string>
     <plurals name="poll_info_people">
-        <item quantity="one">%s persona</item>
-        <item quantity="other">%s persones</item>
+        <item quantity="one"></item>
+        <item quantity="other"></item>
     </plurals>
     <string name="hashtags">Hashtags</string>
     <string name="add_hashtag_title">Afegir hashtag</string>

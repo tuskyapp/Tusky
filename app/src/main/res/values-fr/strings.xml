@@ -48,8 +48,9 @@
     <string name="status_content_show_more">Déplier</string>
     <string name="status_content_show_less">Replier</string>
     <string name="message_empty">Rien ici.</string>
-    <string name="footer_empty">Il n’y a aucun pouet ici pour l’instant. Glissez vers le bas pour actualiser !</string>
-    <string name="notification_reblog_format">%s a partagé votre pouet</string>
+    <string name="footer_empty">Il n’y a aucun pouet pour le moment.
+\nGlissez vers le bas pour actualiser !</string>
+    <string name="notification_reblog_format">%s a boosté votre pouet</string>
     <string name="notification_favourite_format">%s a ajouté votre pouet à ses favoris</string>
     <string name="notification_follow_format">%s vous suit</string>
     <string name="report_username_format">Signaler @%s</string>
@@ -57,7 +58,7 @@
     <string name="action_quick_reply">Réponse rapide</string>
     <string name="action_reply">Répondre</string>
     <string name="action_reblog">Booster</string>
-    <string name="action_unreblog">Annuler le partage</string>
+    <string name="action_unreblog">Supprimer le boost</string>
     <string name="action_favourite">Favori</string>
     <string name="action_unfavourite">Supprimer le favori</string>
     <string name="action_more">Plus</string>
@@ -161,7 +162,7 @@
     <string name="visibility_unlisted">Non listé : ne pas afficher dans les fils publics</string>
     <string name="visibility_private">Abonné·e·s uniquement : seul·e·s vos abonné·e·s verront vos statuts</string>
     <string name="visibility_direct">Direct : n’envoyer qu’aux personnes mentionnées</string>
-    <string name="pref_title_edit_notification_settings">Modifier les notifications</string>
+    <string name="pref_title_edit_notification_settings">Notifications</string>
     <string name="pref_title_notifications_enabled">Notifications</string>
     <string name="pref_title_notification_alerts">Alertes</string>
     <string name="pref_title_notification_alert_sound">Notifier avec un son</string>
@@ -170,7 +171,7 @@
     <string name="pref_title_notification_filters">Me notifier lorsque</string>
     <string name="pref_title_notification_filter_mentions">on me mentionne</string>
     <string name="pref_title_notification_filter_follows">on me suit</string>
-    <string name="pref_title_notification_filter_reblogs">mes pouets sont boostés</string>
+    <string name="pref_title_notification_filter_reblogs">mes messages sont boostés</string>
     <string name="pref_title_notification_filter_favourites">mes messages sont mis en favoris</string>
     <string name="pref_title_appearance_settings">Apparence</string>
     <string name="pref_title_app_theme">Thème de l’application</string>
@@ -187,7 +188,7 @@
     <string name="pref_title_language">Langue</string>
     <string name="pref_title_status_filter">Filtrage des fils</string>
     <string name="pref_title_status_tabs">Onglets</string>
-    <string name="pref_title_show_boosts">Montrer les partages</string>
+    <string name="pref_title_show_boosts">Montrer les boosts</string>
     <string name="pref_title_show_replies">Afficher les réponses</string>
     <string name="pref_title_show_media_preview">Montrer les miniatures des médias</string>
     <string name="pref_title_proxy_settings">Proxy</string>
@@ -200,7 +201,7 @@
     <string name="pref_publishing">Publication</string>
     <string name="pref_failed_to_sync">Échec de synchronisation des paramètres</string>
     <string name="post_privacy_public">Public</string>
-    <string name="post_privacy_unlisted">Non listé</string>
+    <string name="post_privacy_unlisted">Non-listé</string>
     <string name="post_privacy_followers_only">Abonné·e·s uniquement</string>
     <string name="pref_status_text_size">Taille du texte pour les statuts</string>
     <string name="status_text_size_smallest">Plus petit</string>
@@ -213,7 +214,7 @@
     <string name="notification_follow_name">Nouveaux abonnés</string>
     <string name="notification_follow_description">Notifications pour les nouveaux abonnés</string>
     <string name="notification_boost_name">Boosts</string>
-    <string name="notification_boost_description">Notifications quand vos pouets sont boostés</string>
+    <string name="notification_boost_description">Notifications quand vos pouets sont partagés</string>
     <string name="notification_favourite_name">Favoris</string>
     <string name="notification_favourite_description">Notifications quand vos pouets sont mis en favoris</string>
     <string name="notification_mention_format">%s vous a mentionné</string>
@@ -246,15 +247,15 @@
     <string name="status_media_video">Vidéo</string>
     <string name="state_follow_requested">Demande de suivi effectuée</string>
     <!--These are for timestamps on statuses. For example: "16s" or "2d"-->
-    <string name="abbreviated_in_years">en %d a</string>
+    <string name="abbreviated_in_years">en %da</string>
     <string name="abbreviated_in_days">en %d j</string>
-    <string name="abbreviated_in_hours">en %d h</string>
+    <string name="abbreviated_in_hours">en %dh</string>
     <string name="abbreviated_in_minutes">en %d min</string>
     <string name="abbreviated_in_seconds">en %ds</string>
-    <string name="abbreviated_years_ago">%d a</string>
+    <string name="abbreviated_years_ago">%da</string>
     <string name="abbreviated_days_ago">%d j</string>
     <string name="abbreviated_hours_ago">%d h</string>
-    <string name="abbreviated_minutes_ago">%dm</string>
+    <string name="abbreviated_minutes_ago">%d min</string>
     <string name="abbreviated_seconds_ago">%ds</string>
     <string name="follows_you">Vous suit</string>
     <string name="pref_title_alway_show_sensitive_media">Toujours afficher le contenu sensible</string>
@@ -265,7 +266,7 @@
     <string name="pref_title_thread_filter_keywords">Conversations</string>
     <string name="filter_addition_dialog_title">Ajouter un filtre</string>
     <string name="filter_edit_dialog_title">Modifier un filtre</string>
-    <string name="filter_dialog_remove_button">Supprimer</string>
+    <string name="filter_dialog_remove_button">Supprimer le média</string>
     <string name="filter_dialog_update_button">Mettre à jour</string>
     <string name="filter_add_description">Phrase à filtrer</string>
     <string name="add_account_name">Ajouter un compte</string>
@@ -316,7 +317,7 @@
     <string name="download_failed">Échec du téléchargement</string>
     <string name="profile_badge_bot_text">Robot</string>
     <string name="account_moved_description">%1$s a déménagé vers :</string>
-    <string name="reblog_private">Booster vers l’audience originale</string>
+    <string name="reblog_private">Partager à l’audience originale</string>
     <string name="unreblog_private">Ne plus booster</string>
     <string name="license_description">Tusky contient du code et des ressources issus des projets open source suivants :</string>
     <string name="license_apache_2">Sous licence Apache (copie ci-dessous)</string>
@@ -371,7 +372,7 @@
     <string name="pref_title_bot_overlay">Afficher l\'indicateur de robots</string>
     <string name="notification_clear_text">Désirez-vous nettoyer toutes vos notifications de façon permanente \?</string>
     <string name="action_delete_and_redraft">Effacer et ré-écrire</string>
-    <string name="dialog_redraft_toot_warning">Effacer et ré-écrire ce pouet \?</string>
+    <string name="dialog_redraft_toot_warning">Effacer et ré-écrire ce pouet\?</string>
     <plurals name="poll_info_votes">
         <item quantity="one">%s voix</item>
         <item quantity="other">%s voix</item>
@@ -397,8 +398,8 @@
         <item quantity="other">%d minutes</item>
     </plurals>
     <plurals name="poll_timespan_seconds">
-        <item quantity="one">%d seconde</item>
-        <item quantity="other">%d secondes</item>
+        <item quantity="one"></item>
+        <item quantity="other"></item>
     </plurals>
     <string name="pref_title_animate_gif_avatars">Activer l’animation des avatars</string>
     <string name="compose_preview_image_description">Actions pour l’image %s</string>
@@ -440,10 +441,10 @@
     <string name="add_poll_choice">Ajouter un choix</string>
     <string name="poll_allow_multiple_choices">Choix multiples</string>
     <string name="poll_new_choice_hint">Choix %d</string>
-    <string name="edit_poll">Modifier</string>
+    <string name="edit_poll">Éditer</string>
     <string name="title_scheduled_toot">Pouets programmés</string>
     <string name="action_edit">Éditer</string>
-    <string name="action_access_scheduled_toot">Pouets planifiés</string>
+    <string name="action_access_scheduled_toot">Pouets programmés</string>
     <string name="action_schedule_toot">Planifier le pouet</string>
     <string name="action_reset_schedule">Réinitialiser</string>
     <string name="post_lookup_error_format">Erreur lors de la récupération du message %s</string>
@@ -457,8 +458,8 @@
     <string name="error_audio_upload_size">Les fichiers audio doivent être inférieurs à 40 Mo.</string>
     <string name="no_saved_status">Vous n’avez aucun brouillon.</string>
     <string name="no_scheduled_status">Vous n’avez aucun pouet planifié.</string>
-    <string name="warning_scheduling_interval">L’intervalle minimum de planification sur Mastodon est de 5 minutes.</string>
-    <string name="notification_follow_request_name">Demandes d\'abonnement</string>
+    <string name="warning_scheduling_interval">L’intervalle minimum de planification sur Mastodon est de5 minutes.</string>
+    <string name="notification_follow_request_name">Demandes de suivi</string>
     <string name="dialog_block_warning">Bloquer @%s \?</string>
     <string name="pref_title_confirm_reblogs">Afficher une boite de confirmation avant de booster</string>
     <string name="pref_title_show_cards_in_timelines">Afficher des aperçus des liens dans les fils</string>
@@ -475,7 +476,7 @@
     <string name="pref_title_enable_swipe_for_tabs">Activer les gestes de glissement pour passer d’un onglet à l’autre</string>
     <string name="hashtags">Hashtags</string>
     <string name="add_hashtag_title">Ajouter hashtag</string>
-    <string name="pref_title_gradient_for_media">Afficher des dégradés colorés pour les médias cachés</string>
+    <string name="pref_title_gradient_for_media">Afficher des dégradés en couleur pour les médias cachés</string>
     <string name="pref_main_nav_position_option_bottom">Bas</string>
     <string name="pref_main_nav_position_option_top">Haut</string>
     <string name="pref_main_nav_position">Position de navigation principale</string>
