@@ -62,7 +62,8 @@
         <item>Türkçe</item>
         <item>Русский</item>
         <item>العربية</item>
-        <item>বাংলা</item>
+        <item>বাংলা (বাংলাদেশ)</item>
+        <item>বাংলা (ভারত)</item>
         <item>فارسی</item>
         <item>हिंदी</item>
         <item>தமிழ்</item>
@@ -104,6 +105,7 @@
         <item>tr</item>
         <item>ru</item>
         <item>ar</item>
+        <item>bn-bd</item>
         <item>bn-in</item>
         <item>fa</item>
         <item>hi</item>
