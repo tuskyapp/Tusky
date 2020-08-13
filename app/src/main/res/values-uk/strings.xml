@@ -45,7 +45,7 @@
     <string name="hint_search">Пошук…</string>
     <string name="hint_note">Про себе</string>
     <string name="hint_compose">Що відбувається\?</string>
-    <string name="status_sent">Надіслано!</string>
+    <string name="status_sent">Надіслати!</string>
     <string name="confirmation_reported">Надіслати!</string>
     <string name="action_share_as">Поділитися як …</string>
     <string name="action_open_as">Відкрити як %s</string>
@@ -106,7 +106,7 @@
     <string name="status_sensitive_media_directions">Натисніть для перегляду</string>
     <string name="status_media_hidden_title">Медіа приховано</string>
     <string name="hint_content_warning">Попередження про контент</string>
-    <string name="edit_poll">Змінити</string>
+    <string name="edit_poll">Редагувати</string>
     <string name="compose_shortcut_short_label">Написати</string>
     <string name="action_unmute_conversation">Скасувати приглушення бесіди</string>
     <string name="action_mute_conversation">Приглушити бесіду</string>

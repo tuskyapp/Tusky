@@ -101,7 +101,7 @@
     <string name="action_copy_link">Lotura kopiatu</string>
     <string name="send_status_link_to">Tutaren URLa partekatu…</string>
     <string name="send_status_content_to">Tuta partekatu…</string>
-    <string name="send_media_to">Partekatu multimedia hona…</string>
+    <string name="send_media_to">Partekatu media hona…</string>
     <string name="confirmation_reported">Bidalia!</string>
     <string name="confirmation_unblocked">Erabiltzailea desblokeatuta</string>
     <string name="confirmation_unmuted">Erabiltzailea isil gabetua</string>
@@ -120,18 +120,18 @@
     <string name="link_whats_an_instance">Zer da instantzia?</string>
     <string name="login_connection">Konektatzen…</string>
     <string name="dialog_whats_an_instance"> Sartu hemen helbidea edo mastodon.eus, mastodon.jalgi.eus, mastodon.social bezalako <a href="https://instances.social">edozein instantzia</a>, 
-\n 
+\n
 \n Oraindik ez baduzu konturik, instantziaren izena sartu eta bertan kontua sortu dezakezu. 
-\n 
+\n
 \nInstantzia zure kontua dagoen gunea da, baino beste instantzietako erabiltzaileak zurean egongo balira bezala jarraitu ditzakezu. 
-\n 
+\n
 \nInformazio gehiago <a href="https://joinmastodon.org">joinmastodon.org</a> helbidean topatuko duzu. </string>
     <string name="dialog_title_finishing_media_upload">Multimedia igoera bukatzen</string>
     <string name="dialog_message_uploading_media">Igotzen…</string>
     <string name="dialog_download_image">Jaitsi</string>
     <string name="dialog_message_cancel_follow_request">Lagun eskaera ezeztatu\?</string>
     <string name="dialog_unfollow_warning">Kontu hau jarraitzeari utzi\?</string>
-    <string name="dialog_delete_toot_warning">Tuta ezabatu\?</string>
+    <string name="dialog_delete_toot_warning">Tut hau ezabatu\?</string>
     <string name="visibility_public">Publikoa: Istorio publikoetan erakutsi</string>
     <string name="visibility_unlisted">Ezkutukoa: Ez erakutsi istorio publikoetan</string>
     <string name="visibility_private">Pribatua: Jarraitzaileentzat soilik ikusgai</string>
@@ -148,7 +148,7 @@
     <string name="pref_title_notification_filter_reblogs">Bultzatzen naute</string>
     <string name="pref_title_notification_filter_favourites">Nire mezuak gogoko ditu</string>
     <string name="pref_title_appearance_settings">Interfazea</string>
-    <string name="pref_title_app_theme">Aplikazioaren gaia</string>
+    <string name="pref_title_app_theme">Gaia</string>
     <string name="pref_title_timelines">Denbora lerroak</string>
     <string name="app_them_dark">Iluna</string>
     <string name="app_theme_light">Argia</string>
@@ -166,16 +166,16 @@
     <string name="pref_title_http_proxy_settings">HTTP proxya</string>
     <string name="pref_title_http_proxy_enable">HTTP proxya gaitu</string>
     <string name="pref_title_http_proxy_server">HTTP proxyaren zerbitzaria</string>
-    <string name="pref_title_http_proxy_port">HTTP Proxy-aren portua</string>
+    <string name="pref_title_http_proxy_port">HTTP proxyaren portua</string>
     <string name="pref_default_post_privacy">Argitarapenen aurrezarritako pribatutasuna</string>
     <string name="pref_default_media_sensitivity">Media eduki-mingarri gisa beti markatu</string>
     <string name="pref_publishing">Argitaratzeak (zerbitzariarekin sinkronizatua)</string>
     <string name="pref_failed_to_sync">Aukerak sinkronizatzean akatsa</string>
     <string name="post_privacy_public">Publiko</string>
-    <string name="post_privacy_unlisted">Zerrendatu gabea</string>
+    <string name="post_privacy_unlisted">Ezkutukoa</string>
     <string name="post_privacy_followers_only">Pribatua</string>
     <string name="pref_status_text_size">Status testuaren tamaina</string>
-    <string name="status_text_size_smallest">Txikiena</string>
+    <string name="status_text_size_smallest">Oso txikia</string>
     <string name="status_text_size_small">Txikia</string>
     <string name="status_text_size_medium">Erdikoa</string>
     <string name="status_text_size_large">Handia</string>

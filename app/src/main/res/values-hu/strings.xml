@@ -30,7 +30,7 @@
     <string name="title_statuses_with_replies">Válaszokkal</string>
     <string name="title_statuses_pinned">Rögzített</string>
     <string name="title_follows">Követett</string>
-    <string name="title_followers">Követő</string>
+    <string name="title_followers">Követők</string>
     <string name="title_favourites">Kedvencek</string>
     <string name="title_mutes">Némított felhasználók</string>
     <string name="title_blocks">Letiltott felhasználók</string>
@@ -60,7 +60,7 @@
     <string name="action_favourite">Kedvenc</string>
     <string name="action_more">Több</string>
     <string name="action_compose">Szerkeszt</string>
-    <string name="action_login">Bejelentkezés Mastodon-al</string>
+    <string name="action_login">Bejelentkezés Mastodonnal</string>
     <string name="action_logout">Kijelentkezés</string>
     <string name="action_logout_confirm">Biztosan ki szeretnél jelentkezni a következőből: %1$s?</string>
     <string name="action_follow">Követés</string>

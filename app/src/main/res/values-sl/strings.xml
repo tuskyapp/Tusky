@@ -283,7 +283,7 @@
     <string name="restart_emoji">Če želite uveljaviti te spremembe, morate znova zagnati Tusky</string>
     <string name="later">Kasneje</string>
     <string name="restart">Znova zaženi</string>
-    <string name="caption_systememoji">Privzeti komplet emotikonov vaše naprave</string>
+    <string name="caption_systememoji">"Privzeti komplet emotikonov vaše naprave "</string>
     <string name="caption_blobmoji">Blob emotikoni so znani od Android 4.4-7.1</string>
     <string name="caption_twemoji">Mastodonov privzeti komplet emotikonov</string>
     <string name="download_failed">Prenos ni uspel</string>
@@ -434,4 +434,5 @@
     <string name="action_schedule_toot">Napovej tut</string>
     <string name="post_lookup_error_format">Napaka pri iskanju objave %s</string>
     <string name="about_powered_by_tusky">Poganja ga Tusky</string>
+    <string name="status_boosted_format">% spodbudil</string>
 </resources>

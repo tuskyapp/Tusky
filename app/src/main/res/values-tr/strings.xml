@@ -6,7 +6,7 @@
     <string name="error_invalid_domain">Girilen alan alanı geçersiz</string>
     <string name="error_failed_app_registration">Bu sunucuyla kimlik doğrulanamadı.</string>
     <string name="error_no_web_browser_found">Kullanılabilir web tarayıcısı bulunamadı.</string>
-    <string name="error_authorization_unknown">Tanımlanamayan bir yetkilendirme hatası oluştu.</string>
+    <string name="error_authorization_unknown">Açıklanmayan kimlik doğrulama hata oluştu.</string>
     <string name="error_authorization_denied">Kimlik doğrulama reddedildi.</string>
     <string name="error_retrieving_oauth_token">Giriş belirteci alınırken hata oluştu.</string>
     <string name="error_compose_character_limit">Durum çok uzun!</string>
@@ -40,7 +40,7 @@
     <string name="title_licenses">Lisanslar</string>
     <string name="status_username_format">\@%s</string>
     <string name="status_boosted_format">%s yükseltti</string>
-    <string name="status_sensitive_media_title">Hassas içerik</string>
+    <string name="status_sensitive_media_title">Hasas Medya</string>
     <string name="status_media_hidden_title">Medya gizlendi</string>
     <string name="status_sensitive_media_directions">Görmek için taklayın</string>
     <string name="status_content_warning_show_more">Daha Fazla Göster</string>
@@ -88,7 +88,7 @@
     <string name="action_photo_take">Fotoğraf çek</string>
     <string name="action_share">Paylaş</string>
     <string name="action_mute">Sessize al</string>
-    <string name="action_unmute">Sesini aç</string>
+    <string name="action_unmute">Sesizden kaldır</string>
     <string name="action_mention">Bahset</string>
     <string name="action_hide_media">Medyayı gizle</string>
     <string name="action_open_drawer">Çekmece aç</string>
@@ -119,7 +119,7 @@
     <string name="hint_domain">Hangi sunucu?</string>
     <string name="hint_compose">Neler oluyor?</string>
     <string name="hint_content_warning">İçerik uyarısı</string>
-    <string name="hint_display_name">Görüntülenecek isim</string>
+    <string name="hint_display_name">Görünen ad</string>
     <string name="hint_note">Biyo</string>
     <string name="hint_search">Ara…</string>
     <string name="search_no_results">Sonuç bulunamadı</string>
@@ -205,7 +205,7 @@
     <string name="description_account_locked">Kitli Hesap</string>
     <string name="about_title_activity">Hakkında</string>
     <string name="about_tusky_version">Tusky %s</string>
-    <string name="about_tusky_license">Tusky özgür ve açık kaynak bir yazılımdır. GNU Genel Kamu Lisansı sürüm 3 altında lisanslanmıştır. Lisansı buradan görüntüleyebilirsiniz: https://www.gnu.org/licenses/gpl-3.0.en.html</string>
+    <string name="about_tusky_license">Özgür ve açık kaynak yazılım Tusky. GNU Genel Kamu Lisansı sürüm 3 altında lisanslanmıştır. Lisansı buradan görüntüleyebilirsiniz: https://www.gnu.org/licenses/gpl-3.0.en.html</string>
     <!-- note to translators:
          * you should think of “free” as in “free speech,” not as in “free beer”.
            We sometimes call it “libre software,” borrowing the French or Spanish word for “free” as in freedom,
@@ -247,8 +247,8 @@
 \n(%d karakter limiti)</string>
     <string name="action_set_caption">Başlık belirle</string>
     <string name="action_remove">Kaldır</string>
-    <string name="lock_account_label">Hesabı kilitle</string>
-    <string name="lock_account_label_description">Takipçileri elle onaylamanızı gerektirir</string>
+    <string name="lock_account_label">Hesabı Kilitle</string>
+    <string name="lock_account_label_description">Aktif edilirse takipçileri elle onaylamanız gerekir</string>
     <string name="compose_save_draft">Taslaklara kaydedilsin mi\?</string>
     <string name="send_toot_notification_title">Durum gönderiliyor…</string>
     <string name="send_toot_notification_error_title">Durum gönderilirken hata oluştu</string>
@@ -278,7 +278,7 @@
     <string name="license_apache_2">Apache Lisansı altında lisanslanmıştır (aşağıdaki kopyası)</string>
     <string name="license_cc_by_4">CC-BY 4.0</string>
     <string name="license_cc_by_sa_4">CC-BY-SA 4.0</string>
-    <string name="profile_metadata_label">Profil Meta verisi</string>
+    <string name="profile_metadata_label">Profil meta verisi</string>
     <string name="profile_metadata_add">veri ekle</string>
     <string name="profile_metadata_label_label">Etiket</string>
     <string name="profile_metadata_content_label">İçerik</string>
@@ -327,7 +327,7 @@
     <string name="filter_dialog_remove_button">Kaldır</string>
     <string name="filter_dialog_update_button">Güncelle</string>
     <string name="filter_dialog_whole_word">Tüm kelime</string>
-    <string name="filter_dialog_whole_word_description">Anahtar kelime veya kelime öbeği yalnızca alfanümerik olduğunda, yalnızca tüm kelimeyle eşleşirse uygulanır.</string>
+    <string name="filter_dialog_whole_word_description">Anahtar kelime veya kelime öbeği yalnızca alfasayısal olduğunda, yalnızca tüm sözcükle eşleşirse uygulanır</string>
     <string name="filter_add_description">Filtrelenecek ifade</string>
     <string name="error_create_list">Liste oluşturulamadı</string>
     <string name="error_rename_list">Liste yeniden adlandırılamadı</string>
@@ -338,7 +338,7 @@
     <string name="action_edit_list">Listeyi düzenle</string>
     <string name="hint_search_people_list">Takip ettiğim kişilerde ara</string>
     <string name="action_add_to_list">Listeye hesap ekle</string>
-    <string name="action_remove_from_list">Listeden hesabı kaldır</string>
+    <string name="action_remove_from_list">Hesabı listeden kaldır</string>
     <string name="caption_notoemoji">Google\'ın mevcut ifade paketi</string>
     <string name="description_status_media">Medya: %s</string>
     <string name="description_status_cw">İçerik uyarısı: %s</string>

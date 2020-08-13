@@ -44,7 +44,7 @@
     <string name="title_follows">പിന്തുടരലുകൾ</string>
     <string name="title_followers">പിന്തുടരുന്നവർ</string>
     <string name="title_mutes">നിശ്ശബ്ദരാക്കിയ ഉപയോക്താക്കൾ</string>
-    <string name="title_blocks">നിരോധിച്ച ഉപയോഗതാക്കൾ</string>
+    <string name="title_blocks">തടയപ്പെട്ട ഉപയോക്താക്കൾ</string>
     <string name="title_follow_requests">പിന്‍തുടരുവാനുള്ള അഭ്യര്‍ത്ഥനകള്‍</string>
     <string name="title_edit_profile">പ്രൊഫൈൽ തിരുത്തുക</string>
     <string name="action_reply">മറുപടി</string>
@@ -74,7 +74,7 @@
     <string name="action_reset_schedule">പുനഃക്രമീകരിക്കുക</string>
     <string name="action_open_in_web">ബ്രൗസറിൽ തുറക്കുക</string>
     <string name="action_view_media">മാധ്യമം</string>
-    <string name="action_view_domain_mutes">മറച്ചുവെച്ച ഡൊമൈനുകൾ</string>
+    <string name="action_view_domain_mutes">മറയ്ക്കപ്പെട്ട ഡൊമൈനുകൾ</string>
     <string name="action_view_blocks">നിരോധിച്ച ഉപയോഗതാക്കൾ</string>
     <string name="action_view_mutes">നിശ്ശബ്ദമാക്കിയ ഉപയോഗതാക്കൾ</string>
     <string name="action_view_bookmarks">ബൂക്കമാർക്ക്</string>
