@@ -1,0 +1,9 @@
+Tusky 12.0
+
+- Cải thiện giao diện - giờ bạn có thể chuyển tab lên trên
+- Khi ẩn ai đó, bạn có thể chọn ẩn thông báo từ họ hay không
+- Tab Hashtag giờ đã hiện tất cả hashtag
+- Cải thiện phần mô tả đa phương tiện
+- Thêm ngôn ngữ: Irish, Hindi, Vietnamese và Thai
+    
+Full changelog: https://github.com/tuskyapp/Tusky/releases
