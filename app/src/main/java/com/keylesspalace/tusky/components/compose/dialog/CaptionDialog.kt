@@ -68,7 +68,9 @@ fun <T> T.makeCaptionDialog(existingDescription: String?,
     dialogLayout.addView(input)
     (input.layoutParams as LinearLayout.LayoutParams).setMargins(margin, margin, margin, margin)
     input.setLines(2)
-    input.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_FLAG_CAP_SENTENCES
+    input.inputType = (InputType.TYPE_CLASS_TEXT
+        or InputType.TYPE_TEXT_FLAG_MULTI_LINE
+        or InputType.TYPE_TEXT_FLAG_CAP_SENTENCES)
     input.setText(existingDescription)
     input.filters = arrayOf(InputFilter.LengthFilter(MEDIA_DESCRIPTION_CHARACTER_LIMIT))
 
