@@ -16,7 +16,7 @@
     <string name="error_media_upload_opening">Die Datei konnte nicht geöffnet werden.</string>
     <string name="error_media_upload_permission">Eine Leseberechtigung wird für das Hochladen der Mediendatei benötigt.</string>
     <string name="error_media_download_permission">Eine Berechtigung wird zum Speichern des Mediums benötigt.</string>
-    <string name="error_media_upload_image_or_video">Bilder und Videos können beide nicht an den Beitrag angehängt werden.</string>
+    <string name="error_media_upload_image_or_video">Bilder und Videos können nicht beide gleichzeitig an einen Beitrag angehängt werden.</string>
     <string name="error_media_upload_sending">Die Mediendatei konnte nicht hochgeladen werden.</string>
     <string name="error_sender_account_gone">Fehler beim Senden des Status</string>
     <string name="title_home">Start</string>
@@ -220,7 +220,7 @@
     <string name="notification_title_summary">%d neue Interaktionen</string>
     <string name="description_account_locked">Gesperrtes Profil</string>
     <string name="about_title_activity">Über</string>
-    <string name="about_tusky_license">Tusky ist freie eine quelloffene Software. Es ist lizenziert unter der GNU General Public License Version 3. Du kannst dir die Lizenz hier anschauen: https://www.gnu.org/licenses/gpl-3.0.de.html</string>
+    <string name="about_tusky_license">Tusky ist freie und quelloffene Software. Es ist lizenziert unter der GNU General Public License Version 3. Du kannst dir die Lizenz hier anschauen: https://www.gnu.org/licenses/gpl-3.0.de.html</string>
     <!-- note to translators:
          * you should think of “free” as in “free speech,” not as in “free beer”.
            We sometimes call it “libre software,” borrowing the French or Spanish word for “free” as in freedom,
@@ -326,7 +326,7 @@
     <string name="hint_search_people_list">Suche nach Leuten denen du folgst</string>
     <string name="action_remove_from_list">Von der Liste entfernen</string>
     <string name="edit_hashtag_hint">Hashtag ohne #</string>
-    <string name="action_open_reblogger">Open boost author</string>
+    <string name="action_open_reblogger">Öffne Autor des geteilten Beitrages</string>
     <string name="pref_title_public_filter_keywords">Öffentliche Zeitleisten</string>
     <plurals name="favs">
         <item quantity="one"><b>%1$s</b> Favorit</item>
@@ -361,8 +361,8 @@
     <string name="poll_ended_voted">Eine Umfrage in der du abgestimmt hast ist vorbei</string>
     <string name="poll_ended_created">Eine Umfrage, die du erstellt hast, ist vorbei</string>
     <plurals name="poll_timespan_days">
-        <item quantity="one"></item>
-        <item quantity="other"></item>
+        <item quantity="one">%d Tag</item>
+        <item quantity="other">%d Tage</item>
     </plurals>
     <plurals name="poll_timespan_hours">
         <item quantity="one"/>
@@ -464,8 +464,8 @@
     <string name="pref_main_nav_position_option_top">Oben</string>
     <string name="action_unmute_domain">Ton einschalten %s</string>
     <plurals name="reblogs">
-        <item quantity="one"></item>
-        <item quantity="other"></item>
+        <item quantity="one"><b>%s</b> Boost</item>
+        <item quantity="other"><b>%s</b> Boosts</item>
     </plurals>
     <string name="pref_main_nav_position">Hauptnavigations-Position</string>
     <string name="dialog_mute_hide_notifications">Benachrichtigungen ausblenden</string>
