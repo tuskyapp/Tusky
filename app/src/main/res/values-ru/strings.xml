@@ -97,7 +97,7 @@
     <string name="action_open_drawer">Нарисовать</string>
     <string name="action_save">Сохранить</string>
     <string name="action_edit_profile">Редактировать профиль</string>
-    <string name="action_edit_own_profile">Редактировать</string>
+    <string name="action_edit_own_profile">Изменить</string>
     <string name="action_undo">Отменить</string>
     <string name="action_accept">Принять</string>
     <string name="action_reject">Отклонить</string>
@@ -160,7 +160,7 @@
     <string name="visibility_private">Приватный: Показать только подписчикам</string>
     <string name="visibility_direct">Направленный: Показать только упомянутым</string>
     <string name="pref_title_edit_notification_settings">Уведомления</string>
-    <string name="pref_title_notifications_enabled">Уведомления</string>
+    <string name="pref_title_notifications_enabled">Push-уведомления</string>
     <string name="pref_title_notification_alerts">Предупреждения</string>
     <string name="pref_title_notification_alert_sound">Звуковые уведомления</string>
     <string name="pref_title_notification_alert_vibrate">Использовать вибрацию</string>
@@ -168,7 +168,7 @@
     <string name="pref_title_notification_filters">Уведомлять когда…</string>
     <string name="pref_title_notification_filter_mentions">упомянули</string>
     <string name="pref_title_notification_filter_follows">подписались</string>
-    <string name="pref_title_notification_filter_reblogs">мой пост продвинули</string>
+    <string name="pref_title_notification_filter_reblogs">мои посты продвинули</string>
     <string name="pref_title_notification_filter_favourites">мой пост понравился</string>
     <string name="pref_title_appearance_settings">Внешний вид</string>
     <string name="pref_title_app_theme">Тема</string>
@@ -184,8 +184,8 @@
     <string name="pref_title_hide_follow_button">Скрывать кнопку создания поста при прокрутке ленты</string>
     <string name="pref_title_language">Язык</string>
     <string name="pref_title_status_filter">Фильтрация ленты</string>
-    <string name="pref_title_status_tabs">Вкладки</string>
-    <string name="pref_title_show_boosts">Показать продвижения</string>
+    <string name="pref_title_status_tabs">Фильтры</string>
+    <string name="pref_title_show_boosts">Показывать продвижения</string>
     <string name="pref_title_show_replies">Показывать ответы</string>
     <string name="pref_title_show_media_preview">Предзагрузка медиаконтента</string>
     <string name="pref_title_proxy_settings">Прокси</string>
@@ -493,11 +493,11 @@
     <string name="action_mute_conversation">Заглушить обсуждение</string>
     <string name="notification_follow_request_format">запрос на подписку от %s</string>
     <string name="hashtags">Хэштеги</string>
-    <string name="add_hashtag_title">Добавить хэштег</string>
+    <string name="add_hashtag_title">Добавить тэг</string>
     <string name="pref_title_gradient_for_media">Отображать цветные градиенты для скрытых изображений</string>
     <string name="pref_main_nav_position_option_bottom">Снизу</string>
     <string name="pref_main_nav_position_option_top">Сверху</string>
-    <string name="pref_main_nav_position">Расположение панели навигации</string>
+    <string name="pref_main_nav_position">Основная позиция в навигации</string>
     <string name="action_unmute_domain">Отменить глушение %s</string>
     <string name="dialog_mute_hide_notifications">Скрыть уведомления</string>
     <string name="action_mute_notifications_desc">Заблокировать уведомления от %s</string>

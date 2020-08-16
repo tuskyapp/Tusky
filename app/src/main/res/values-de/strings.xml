@@ -18,7 +18,7 @@
     <string name="error_media_download_permission">Eine Berechtigung wird zum Speichern des Mediums benötigt.</string>
     <string name="error_media_upload_image_or_video">Bilder und Videos können beide nicht an den Beitrag angehängt werden.</string>
     <string name="error_media_upload_sending">Die Mediendatei konnte nicht hochgeladen werden.</string>
-    <string name="error_sender_account_gone">Fehler beim Senden des Status.</string>
+    <string name="error_sender_account_gone">Fehler beim Senden des Status</string>
     <string name="title_home">Start</string>
     <string name="title_notifications">Benachrichtigungen</string>
     <string name="title_public_local">Lokal</string>
@@ -108,7 +108,7 @@
     <string name="action_add_tab">Tab hinzufügen</string>
     <string name="action_links">Verlinkungen</string>
     <string name="action_mentions">Erwähnungen</string>
-    <string name="action_hashtags">Hastags</string>
+    <string name="action_hashtags">Hashtags</string>
     <string name="action_open_reblogged_by">Boosts anzeigen</string>
     <string name="action_open_faved_by">Favoriten anzeigen</string>
     <string name="title_hashtags_dialog">Hashtags</string>

@@ -25,7 +25,7 @@
     <string name="title_public_federated">Federada</string>
     <string name="title_direct_messages">Mensajes Directos</string>
     <string name="title_tab_preferences">Pestañas</string>
-    <string name="title_view_thread">Publicación</string>
+    <string name="title_view_thread">Estado</string>
     <string name="title_statuses">Estados</string>
     <string name="title_statuses_with_replies">Con respuestas</string>
     <string name="title_statuses_pinned">Fijado</string>
@@ -170,7 +170,7 @@
     <string name="pref_title_hide_follow_button">Ocultar botón de redacción al bajar</string>
     <string name="pref_title_status_filter">Filtros de cronología</string>
     <string name="pref_title_status_tabs">Pestañas</string>
-    <string name="pref_title_show_boosts">Mostrar impulsos</string>
+    <string name="pref_title_show_boosts">Mostrar compartidos</string>
     <string name="pref_title_show_replies">Mostrar respuestas</string>
     <string name="pref_title_show_media_preview">Previsualizar multimedia</string>
     <string name="pref_title_proxy_settings">Proxy</string>
@@ -300,8 +300,8 @@
         <item quantity="other">&lt;b&gt;%1$s&lt;/b&gt; Favoritos</item>
     </plurals>
     <plurals name="reblogs">
-        <item quantity="one"><b>%s</b> Boost</item>
-        <item quantity="other"><b>%s</b> Boosts</item>
+        <item quantity="one"><b>%s</b> Impulso</item>
+        <item quantity="other"><b>%s</b> Impulsos</item>
     </plurals>
     <string name="title_reblogged_by">Impulsado por</string>
     <string name="title_favourited_by">Marcado como favorito por</string>
@@ -315,7 +315,7 @@
     <string name="download_media">Descargar multimedia</string>
     <string name="app_theme_system">Usar tema del sistema</string>
     <string name="pref_title_language">Idioma</string>
-    <string name="action_unreblog">Dejar de compartir</string>
+    <string name="action_unreblog">Eliminar compartido</string>
     <string name="action_unfavourite">Eliminar favorito</string>
     <string name="pref_title_timeline_filters">Filtros</string>
     <string name="notification_poll_name">Encuestas</string>
@@ -330,20 +330,20 @@
     <string name="pref_title_bot_overlay">Mostrar indicador de bots</string>
     <string name="poll_vote">Votar</string>
     <plurals name="poll_timespan_days">
-        <item quantity="one">%d día</item>
-        <item quantity="other">%d dias</item>
+        <item quantity="one"/>
+        <item quantity="other"/>
     </plurals>
     <plurals name="poll_timespan_hours">
-        <item quantity="one">%d hora</item>
-        <item quantity="other">%d horas</item>
+        <item quantity="one"/>
+        <item quantity="other"/>
     </plurals>
     <plurals name="poll_timespan_minutes">
-        <item quantity="one">%d minuto</item>
-        <item quantity="other">%d minutos</item>
+        <item quantity="one"/>
+        <item quantity="other"/>
     </plurals>
     <plurals name="poll_timespan_seconds">
-        <item quantity="one">%d segundo</item>
-        <item quantity="other">%d segundos</item>
+        <item quantity="one"/>
+        <item quantity="other"/>
     </plurals>
     <string name="poll_info_format"> <!-- 15 votos • queda 1 hora --> %1$s • %2$s</string>
     <plurals name="poll_info_votes">

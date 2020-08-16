@@ -29,8 +29,8 @@
     <string name="title_statuses">Tülkölés</string>
     <string name="title_statuses_with_replies">Válaszokkal</string>
     <string name="title_statuses_pinned">Rögzített</string>
-    <string name="title_follows">Követett</string>
-    <string name="title_followers">Követők</string>
+    <string name="title_follows">Követ</string>
+    <string name="title_followers">Követő</string>
     <string name="title_favourites">Kedvencek</string>
     <string name="title_mutes">Némított felhasználók</string>
     <string name="title_blocks">Blokkolt felhasználók</string>
@@ -41,7 +41,7 @@
     <string name="status_username_format">\@%s</string>
     <string name="status_boosted_format">%s reblogolta</string>
     <string name="status_sensitive_media_title">Kényes tartalom</string>
-    <string name="status_media_hidden_title">Média elrejtve</string>
+    <string name="status_media_hidden_title">Rejtett média</string>
     <string name="status_sensitive_media_directions">Kattints a megnézéshez</string>
     <string name="status_content_warning_show_more">Mutass többet</string>
     <string name="status_content_warning_show_less">Mutass kevesebbet</string>
@@ -49,7 +49,7 @@
     <string name="status_content_show_less">Összecsukás</string>
     <string name="message_empty">Nincs itt semmi.</string>
     <string name="footer_empty">Üres tartalom. Húzd le a frissítéshez!</string>
-    <string name="notification_reblog_format">%s rebloggolta tülkölésed</string>
+    <string name="notification_reblog_format">%s megolta a tülködet</string>
     <string name="notification_favourite_format">%s kedvencnek jelölte tülkölésed</string>
     <string name="notification_follow_format">%s követett</string>
     <string name="report_username_format">\@%s jelentése</string>
@@ -60,12 +60,12 @@
     <string name="action_favourite">Kedvenc</string>
     <string name="action_more">Több</string>
     <string name="action_compose">Szerkeszt</string>
-    <string name="action_login">Bejelentkezés Mastodon-al</string>
+    <string name="action_login">Bejelentkezés Mastodonnal</string>
     <string name="action_logout">Kijelentkezés</string>
     <string name="action_logout_confirm">Biztosan ki szeretnél jelentkezni a következőből: %1$s?</string>
     <string name="action_follow">Követ</string>
-    <string name="action_unfollow">Követőktől eltávolít</string>
-    <string name="action_block">Letiltás</string>
+    <string name="action_unfollow">Követés vége</string>
+    <string name="action_block">Blokkol</string>
     <string name="action_unblock">Letiltás feloldása</string>
     <string name="action_hide_reblogs">Reblogok elrejtése</string>
     <string name="action_show_reblogs">Megtolások mutatása</string>
@@ -73,7 +73,7 @@
     <string name="action_delete">Törlés</string>
     <string name="action_send">TÜLK</string>
     <string name="action_send_public">TÜLK!</string>
-    <string name="action_retry">Próbáld újra</string>
+    <string name="action_retry">Próbálja újra</string>
     <string name="action_close">Bezár</string>
     <string name="action_view_profile">Profil</string>
     <string name="action_view_preferences">Beállítások</string>
@@ -119,7 +119,7 @@
     <string name="send_status_content_to">Tülk megosztása…</string>
     <string name="confirmation_reported">Elküldve!</string>
     <string name="confirmation_unblocked">Felhasználó deblokkolva</string>
-    <string name="confirmation_unmuted">Felhasználó némítása feloldva</string>
+    <string name="confirmation_unmuted">Felhasználó kinémítva</string>
     <string name="status_sent">Elküldve!</string>
     <string name="status_sent_long">Válasz sikeresen elküldve.</string>
     <string name="hint_domain">Mely szerver\?</string>
@@ -158,10 +158,10 @@
     <string name="pref_title_notification_alert_vibrate">Értesítés rezgéssel</string>
     <string name="pref_title_notification_alert_light">Értesítés fénnyel</string>
     <string name="pref_title_notification_filters">Értesítsen, ha</string>
-    <string name="pref_title_notification_filter_mentions">említettek</string>
+    <string name="pref_title_notification_filter_mentions">említett</string>
     <string name="pref_title_notification_filter_follows">bekövettek</string>
     <string name="pref_title_notification_filter_reblogs">tülkömet megtolták</string>
-    <string name="pref_title_notification_filter_favourites">tülkömet kedvenccé tették</string>
+    <string name="pref_title_notification_filter_favourites">posztjaimat kedvencé teszik</string>
     <string name="pref_title_appearance_settings">Megjelenés</string>
     <string name="pref_title_timelines">Idővonalak</string>
     <string name="app_them_dark">Sötét</string>
@@ -169,13 +169,13 @@
     <string name="app_theme_black">Fekete</string>
     <string name="app_theme_auto">Automatikus naplementekor</string>
     <string name="pref_title_browser_settings">Böngésző</string>
-    <string name="pref_title_custom_tabs">Link megnyitása appon belül</string>
+    <string name="pref_title_custom_tabs">Linkek megnyitása applikáción belül</string>
     <string name="pref_title_hide_follow_button">Szerkesztés elrejtése görgetés közben</string>
     <string name="pref_title_status_filter">Idővonal szűrése</string>
     <string name="pref_title_status_tabs">Fülek</string>
-    <string name="pref_title_show_boosts">Megtolások mutatása</string>
+    <string name="pref_title_show_boosts">Rebloggolások mutatása</string>
     <string name="pref_title_show_replies">Válaszok mutatása</string>
-    <string name="pref_title_show_media_preview">Média előnézet letöltése</string>
+    <string name="pref_title_show_media_preview">Média előnézet mutatása</string>
     <string name="pref_title_proxy_settings">Proxy</string>
     <string name="pref_title_http_proxy_settings">HTTP proxy</string>
     <string name="pref_title_http_proxy_enable">HTTP proxy engedélyezése</string>
@@ -200,7 +200,7 @@
     <string name="notification_boost_name">Megtolások</string>
     <string name="notification_boost_description">Értesítések tülkjeid megtolása esetén</string>
     <string name="notification_favourite_name">Kedvencek</string>
-    <string name="notification_favourite_description">Értesítések mikor tülkjeidet kedvencnek jelölik</string>
+    <string name="notification_favourite_description">Értesítések mikor Tülköléseid kedvencnek jelölik</string>
     <string name="notification_mention_format">%s megemített téged</string>
     <string name="notification_summary_large">%1$s, %2$s, %3$s és még %4$d</string>
     <string name="notification_summary_medium">%1$s, %2$s meg %3$s</string>
@@ -301,7 +301,7 @@
     <string name="abbreviated_days_ago">%dn</string>
     <string name="abbreviated_hours_ago">%dó</string>
     <string name="abbreviated_minutes_ago">%dp</string>
-    <string name="abbreviated_seconds_ago">%dmp</string>
+    <string name="abbreviated_seconds_ago">%dm</string>
     <string name="replying_to">Válasz @%s részére</string>
     <string name="pref_title_public_filter_keywords">Nyilvános idővonalak</string>
     <string name="pref_title_thread_filter_keywords">Beszélgetések</string>
@@ -372,13 +372,13 @@
     <string name="notifications_apply_filter">Szűrés</string>
     <string name="filter_apply">Alkalmaz</string>
     <string name="compose_shortcut_long_label">Tülk Szerkesztése</string>
-    <string name="compose_shortcut_short_label">Szerkeszt</string>
+    <string name="compose_shortcut_short_label">Szerkesztés</string>
     <string name="notification_clear_text">Biztos, hogy minden értesítésedet véglegesen törlöd\?</string>
     <string name="compose_preview_image_description">Műveletek a %s képpel</string>
     <string name="poll_info_format"> <!-- 15 szavazat • 1 óra maradt --> %1$s • %2$s</string>
     <plurals name="poll_info_votes">
-        <item quantity="one"/>
-        <item quantity="other"/>
+        <item quantity="one">%s szavazat</item>
+        <item quantity="other">%s szavazat</item>
     </plurals>
     <string name="poll_info_time_relative">%s maradt</string>
     <string name="poll_info_time_absolute">vége %s</string>
@@ -391,8 +391,8 @@
         <item quantity="other"/>
     </plurals>
     <plurals name="poll_timespan_hours">
-        <item quantity="one">%d óra</item>
-        <item quantity="other">%d óra</item>
+        <item quantity="one"/>
+        <item quantity="other"/>
     </plurals>
     <plurals name="poll_timespan_minutes">
         <item quantity="one"/>

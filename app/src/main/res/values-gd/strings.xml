@@ -2,7 +2,7 @@
 <resources>
     <string name="title_lists">Liostaichean</string>
     <string name="action_lists">Liostaichean</string>
-    <string name="about_title_activity">Mu Dheidhinn</string>
+    <string name="about_title_activity">Mu dheidhinn</string>
     <string name="action_reset_schedule">Ath-shuidhich</string>
     <string name="action_search">Lorg</string>
     <string name="action_view_account_preferences">Roighainnean cunntais</string>
@@ -26,10 +26,10 @@
     <string name="label_quick_reply">Freagairt…</string>
     <string name="hint_search">Lorg</string>
     <string name="action_login">Clàraich a-steach le Mastodon</string>
-    <string name="action_send_public">TÙT!</string>
+    <string name="action_send_public">SEINN!</string>
     <string name="action_emoji_keyboard">Meur-chlàr emoji</string>
     <string name="action_unfollow">Sguir a leantainn</string>
-    <string name="action_follow">Leantainn</string>
+    <string name="action_follow">Lean</string>
     <string name="action_more">Tuilleadh</string>
     <string name="action_retry">Ath-ghairm</string>
     <string name="action_close">Dùin</string>
@@ -45,4 +45,8 @@
     <string name="action_logout_confirm">A bheil thu cinnteach gu bheil thu airson clàradh a-mach a \'cunntas\?</string>
     <string name="action_content_warning">Rabhadh susbaint</string>
     <string name="action_compose_shortcut">Dèan-sgrìobhaiche</string>
+    <string name="compose_shortcut_short_label">Dèan-sgrìobhaiche</string>
+    <string name="pref_title_show_boosts">Seall boosts</string>
+    <string name="action_open_reblogged_by">Seall boosts</string>
+    <string name="action_access_saved_toot">Dreachdan</string>
 </resources>

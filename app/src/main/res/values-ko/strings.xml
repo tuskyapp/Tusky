@@ -30,7 +30,7 @@
     <string name="title_statuses_with_replies">툿과 답장</string>
     <string name="title_statuses_pinned">고정된 툿</string>
     <string name="title_follows">팔로우</string>
-    <string name="title_followers">팔로워</string>
+    <string name="title_followers">비공개</string>
     <string name="title_favourites">즐겨찾기</string>
     <string name="title_mutes">뮤트한 유저</string>
     <string name="title_blocks">블록한 유저</string>
@@ -65,13 +65,13 @@
     <string name="action_compose">작성</string>
     <string name="action_login">마스토돈에 로그인</string>
     <string name="action_logout">로그아웃</string>
-    <string name="action_logout_confirm">정말로 계정 %1$s에서 로그아웃하시겠습니까\?</string>
+    <string name="action_logout_confirm">정말로 %1$s에서 로그아웃하시겠습니까\?</string>
     <string name="action_follow">팔로우</string>
     <string name="action_unfollow">팔로우 해제</string>
     <string name="action_block">차단</string>
     <string name="action_unblock">차단 해제</string>
     <string name="action_hide_reblogs">이 유저의 부스트 숨기기</string>
-    <string name="action_show_reblogs">부스트 보이기</string>
+    <string name="action_show_reblogs">부스트한 유저 보이기</string>
     <string name="action_report">신고</string>
     <string name="action_delete">삭제</string>
     <string name="action_delete_and_redraft">지우고 다시 쓰기</string>
@@ -114,7 +114,7 @@
     <string name="action_mentions">멘션</string>
     <string name="action_hashtags">해시태그</string>
     <string name="action_open_reblogger">부스트한 유저의 프로필로 이동</string>
-    <string name="action_open_reblogged_by">부스트 보이기</string>
+    <string name="action_open_reblogged_by">이 유저의 부스트 보이기</string>
     <string name="action_open_faved_by">즐겨찾기한 유저 보이기</string>
     <string name="title_hashtags_dialog">해시태그</string>
     <string name="title_mentions_dialog">멘션</string>
@@ -145,7 +145,7 @@
     <string name="label_avatar">아바타</string>
     <string name="label_header">헤더</string>
     <string name="link_whats_an_instance">인스턴스가 무엇인가요\?</string>
-    <string name="login_connection">연결 중...</string>
+    <string name="login_connection">연결 중…</string>
     <string name="dialog_whats_an_instance">인스턴스의 도메인 주소나 IP주소를 입력하실 수 있습니다. pawoo.net, twingyeo.kr, qdon.space 등이 있으며, 그 외에도 &lt;a href=“https://instances.social”&gt;더 많은 인스턴스&lt;/a&gt;가 당신을 기다리고 있습니다! 
 \n
 \n 
@@ -206,7 +206,7 @@
     <string name="pref_title_animate_gif_avatars">GIF 아바타 애니메이션 보이기</string>
     <string name="pref_title_status_filter">타임라인 필터링</string>
     <string name="pref_title_status_tabs">탭</string>
-    <string name="pref_title_show_boosts">부스트한 유저 보이기</string>
+    <string name="pref_title_show_boosts">부스트 보이기</string>
     <string name="pref_title_show_replies">답장 보이기</string>
     <string name="pref_title_show_media_preview">미디어 미리보기 다운로드</string>
     <string name="pref_title_proxy_settings">프록시</string>
@@ -316,7 +316,7 @@
     <string name="send_toot_notification_channel_name">툿을 보내고 있습니다</string>
     <string name="send_toot_notification_cancel_title">보내기 취소됨</string>
     <string name="send_toot_notification_saved_content">복사본이 임시 저장에 저장되었습니다</string>
-    <string name="action_compose_shortcut">글쓰기</string>
+    <string name="action_compose_shortcut">작성</string>
     <string name="error_no_custom_emojis">이 인스턴스 %s 은(는) 커스텀 이모지가 없습니다.</string>
     <string name="copy_to_clipboard_success">클립보드에 복사되었습니다</string>
     <string name="emoji_style">이모지 스타일</string>
@@ -379,9 +379,9 @@
     <string name="filter_apply">적용</string>
     <string name="compose_shortcut_long_label">툿 작성하기</string>
     <string name="compose_shortcut_short_label">작성</string>
-    <string name="notification_clear_text">모든 알림을 영구적으로 삭제하시겠습니까\?</string>
-    <string name="compose_preview_image_description">이미지 %s에 대한 작업</string>
-    <string name="poll_info_format"> <!-- 15 명 참여 • 1 시간 남음 --> %1$s • %2$s</string>
+    <string name="notification_clear_text">모든 알림을 영구적으로 지우시겠습니까\?</string>
+    <string name="compose_preview_image_description">이미지 %s를...</string>
+    <string name="poll_info_format"><!-- 15 votes • 1 hour left --> %1$s • %2$s</string>
     <plurals name="poll_info_votes">
         <item quantity="other">%s 명 참여</item>
     </plurals>
@@ -433,4 +433,5 @@
     <string name="poll_new_choice_hint">%d번 항목</string>
     <string name="edit_poll">수정</string>
     <string name="action_edit">수정</string>
+    <string name="hashtags">해시태그</string>
 </resources>

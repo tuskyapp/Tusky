@@ -242,11 +242,11 @@
     <!--These are for timestamps on statuses. For example: "16s" or "2d"-->
     <string name="abbreviated_in_years">in %da</string>
     <string name="abbreviated_in_days">in %d g</string>
-    <string name="abbreviated_in_hours">in %do</string>
+    <string name="abbreviated_in_hours">in %d o</string>
     <string name="abbreviated_in_minutes">in %dm</string>
     <string name="abbreviated_in_seconds">in %d s</string>
     <string name="abbreviated_years_ago">%d a</string>
-    <string name="abbreviated_days_ago">%d g</string>
+    <string name="abbreviated_days_ago">%dg</string>
     <string name="abbreviated_hours_ago">%d o</string>
     <string name="abbreviated_minutes_ago">%d min</string>
     <string name="abbreviated_seconds_ago">%d s</string>
@@ -351,7 +351,7 @@
     </string>
     <string name="description_visiblity_unlisted">        Non elencato
     </string>
-    <string name="description_visiblity_private">Seguaci</string>
+    <string name="description_visiblity_private">Ti seguono</string>
     <string name="description_visiblity_direct">        Diretti
     </string>
     <string name="hint_list_name">Nome della lista</string>
@@ -368,8 +368,8 @@
     <string name="action_delete_and_redraft">Cancella e riscrivi</string>
     <string name="dialog_redraft_toot_warning">Cancellare e riscrivere questo toot\?</string>
     <plurals name="poll_info_votes">
-        <item quantity="one"></item>
-        <item quantity="other"></item>
+        <item quantity="one"/>
+        <item quantity="other"/>
     </plurals>
     <string name="poll_info_time_relative">%s rimasti</string>
     <string name="poll_info_time_absolute">termina alle %s</string>
@@ -458,7 +458,7 @@
     <string name="add_hashtag_title">Aggiungi hashtag</string>
     <string name="dialog_mute_warning">Silenziare @%s\?</string>
     <string name="dialog_block_warning">Bloccare @%s\?</string>
-    <string name="action_unmute_domain">Smetti di silenziare %s</string>
+    <string name="action_unmute_domain">Non silenziare più %s</string>
     <string name="action_unmute_conversation">Smetti di silenziare conversazione</string>
     <string name="action_mute_conversation">Silenzia conversazione</string>
     <string name="notification_follow_request_format">%s ha chiesto di seguirti</string>

@@ -133,7 +133,7 @@
     <string name="hint_content_warning">Tekstwaarschuwing</string>
     <string name="hint_display_name">Weergavenaam</string>
     <string name="hint_note">Bio</string>
-    <string name="hint_search">Zoeken</string>
+    <string name="hint_search">Zoeken…</string>
     <string name="search_no_results">Geen resultaten</string>
     <string name="label_quick_reply">Reageren…</string>
     <string name="label_avatar">Avatar</string>
@@ -429,7 +429,7 @@
     <string name="add_poll_choice">Voeg keuze toe</string>
     <string name="poll_allow_multiple_choices">Meerdere keuzes</string>
     <string name="poll_new_choice_hint">Keuze %d</string>
-    <string name="edit_poll">Bewerk</string>
+    <string name="edit_poll">Bewerken</string>
     <string name="error_audio_upload_size">Geluidsbestanden moeten minder dan 40MB zijn.</string>
     <string name="title_bookmarks">Bladwijzers</string>
     <string name="title_scheduled_toot">Ingeplande toots</string>
@@ -452,4 +452,5 @@
     <string name="no_saved_status">Je hebt nog geen concepten.</string>
     <string name="no_scheduled_status">Je hebt nog geen ingeplande toots.</string>
     <string name="warning_scheduling_interval">Om in te plannen moet je in Mastodon een minimum interval van 5 minuten gebruiken.</string>
+    <string name="notification_follow_request_name">Volgverzoeken</string>
 </resources>

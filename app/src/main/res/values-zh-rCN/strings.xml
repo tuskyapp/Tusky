@@ -20,7 +20,7 @@
     <string name="error_media_upload_sending">媒体文件上传失败。</string>
     <string name="error_sender_account_gone">嘟文发送时出错。</string>
     <string name="title_home">主页</string>
-    <string name="title_notifications">通知设置</string>
+    <string name="title_notifications">通知</string>
     <string name="title_public_local">本站时间轴</string>
     <string name="title_public_federated">跨站公共时间轴</string>
     <string name="title_direct_messages">私信</string>
@@ -53,7 +53,7 @@
     <string name="notification_favourite_format">%s 收藏了你的嘟文</string>
     <string name="notification_follow_format">%s 关注了你</string>
     <string name="report_username_format">报告用户 @%s 的滥用行为</string>
-    <string name="report_comment_hint">报告更多信息</string>
+    <string name="report_comment_hint">是否有更多信息需报告？</string>
     <string name="action_quick_reply">快速回复</string>
     <string name="action_reply">回复</string>
     <string name="action_reblog">转嘟</string>
@@ -141,13 +141,15 @@
     <string name="label_quick_reply">回复…</string>
     <string name="label_avatar">头像</string>
     <string name="label_header">标题</string>
-    <string name="link_whats_an_instance">什么是实例？</string>
+    <string name="link_whats_an_instance">需要帮助？</string>
     <string name="login_connection">正在连接…</string>
     <string name="dialog_whats_an_instance">请输入你帐号所在的 Mastodon 站点的域名，比如 pawoo.net，acg.mn，wxw.moe，<a href="https://instances.social">等等</a> 。 
 \n
 \n还没有 Mastodon 帐号？你也可以输入想注册的 Mastodon 站点的域名，然后在该服务器创建新的帐号并授权 Tusky 登入。 
 \n
-\n在 Mastodon 里，跨站互动和站内互动一样简单。可以前往 <a href="https://joinmastodon.org">https://joinmastodon.org</a> 了解更多信息。 </string>
+\n在 Mastodon 里，你的账户储存在一个实例中，但跨站互动和站内互动一样简单。
+\n
+\n可以前往 <a href="https://joinmastodon.org">https://joinmastodon.org</a> 了解更多信息。 </string>
     <string name="dialog_title_finishing_media_upload">正在结束上传</string>
     <string name="dialog_message_uploading_media">正在上传…</string>
     <string name="dialog_download_image">下载</string>
@@ -181,7 +183,7 @@
     <string name="app_theme_auto">自动切换</string>
     <string name="app_theme_system">跟随系统设定</string>
     <string name="pref_title_browser_settings">浏览器</string>
-    <string name="pref_title_custom_tabs">使用 Chrome Custom Tabs</string>
+    <string name="pref_title_custom_tabs">使用 Chrome 自定义标签页</string>
     <string name="pref_title_hide_follow_button">浏览时自动隐藏发嘟按钮</string>
     <string name="pref_title_language">界面语言</string>
     <string name="pref_title_status_filter">时间轴过滤</string>
@@ -431,7 +433,7 @@
     <string name="button_continue">继续</string>
     <string name="button_back">返回</string>
     <string name="button_done">完成</string>
-    <string name="report_sent_success">成功报告 @%s</string>
+    <string name="report_sent_success">成功回报 @%s</string>
     <string name="hint_additional_info">附加留言</string>
     <string name="report_remote_instance">转发到 %s</string>
     <string name="failed_report">回报失败</string>
@@ -455,13 +457,13 @@
     <string name="edit_poll">编辑</string>
     <string name="post_lookup_error_format">查找帖子时出错 %s</string>
     <string name="no_saved_status">您没有草稿。</string>
-    <string name="no_scheduled_status">您没有任何预定状态。</string>
+    <string name="no_scheduled_status">您没有任何定时嘟文。</string>
     <string name="warning_scheduling_interval">Mastodon的最小预定时间为5分钟。</string>
     <string name="notification_follow_request_name">关注请求</string>
     <string name="hashtags">话题</string>
-    <string name="pref_title_confirm_reblogs">在转嘟前显示确认对话框</string>
+    <string name="pref_title_confirm_reblogs">转嘟前提示确认</string>
     <string name="pref_title_show_cards_in_timelines">在时间轴上显示链接预览</string>
-    <string name="pref_title_enable_swipe_for_tabs">启用划动手势以切换标签页</string>
+    <string name="pref_title_enable_swipe_for_tabs">滑动切换标签页</string>
     <plurals name="poll_info_people">
         <item quantity="one">%s 个人</item>
         <item quantity="other"/>

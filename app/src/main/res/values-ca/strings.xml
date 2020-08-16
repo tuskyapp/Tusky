@@ -46,7 +46,7 @@
     <string name="action_reblog">Retooteja</string>
     <string name="action_favourite">Preferit</string>
     <string name="action_more">Més</string>
-    <string name="action_compose">Redacta</string>
+    <string name="action_compose">Escriure</string>
     <string name="action_login">Inicia sessió amb Mastodon</string>
     <string name="action_logout">Tanca la sessió</string>
     <string name="action_follow">Segueix</string>
@@ -223,7 +223,7 @@
     <string name="title_links_dialog">Enllaç</string>
     <string name="action_share_as">Comparteix com a…</string>
     <string name="download_media">Baixa el fitxer</string>
-    <string name="send_media_to">Compartir la imatge a …</string>
+    <string name="send_media_to">Comparteix la imatge a …</string>
     <string name="status_sent">Enviat!</string>
     <string name="state_follow_requested">Follow requested</string>
     <string name="title_statuses_with_replies">Amb respostes</string>
@@ -370,20 +370,20 @@
     <string name="poll_ended_voted">L\'enquesta on has votat està tancada</string>
     <string name="poll_ended_created">La enquesta que heu creat ha finalitzat</string>
     <plurals name="poll_timespan_days">
-        <item quantity="one"></item>
-        <item quantity="other"></item>
+        <item quantity="one"/>
+        <item quantity="other"/>
     </plurals>
     <plurals name="poll_timespan_hours">
         <item quantity="one"/>
         <item quantity="other"/>
     </plurals>
     <plurals name="poll_timespan_minutes">
-        <item quantity="one"></item>
-        <item quantity="other"></item>
+        <item quantity="one"/>
+        <item quantity="other"/>
     </plurals>
     <plurals name="poll_timespan_seconds">
-        <item quantity="one"></item>
-        <item quantity="other"></item>
+        <item quantity="one"/>
+        <item quantity="other"/>
     </plurals>
     <string name="description_status_cw">Advertència: %s</string>
     <string name="title_statuses_pinned">Toot fixat</string>
@@ -451,8 +451,8 @@
     <string name="pref_title_show_cards_in_timelines">Mostra les previsualitzacions dels enllaços en els fils</string>
     <string name="pref_title_enable_swipe_for_tabs">Habilita el gest de desplaçament per despleçar-te entre pestanyes</string>
     <plurals name="poll_info_people">
-        <item quantity="one"></item>
-        <item quantity="other"></item>
+        <item quantity="one"/>
+        <item quantity="other"/>
     </plurals>
     <string name="hashtags">Hashtags</string>
     <string name="add_hashtag_title">Afegir hashtag</string>

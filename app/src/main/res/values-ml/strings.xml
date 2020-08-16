@@ -44,20 +44,20 @@
     <string name="title_follows">പിന്തുടരലുകൾ</string>
     <string name="title_followers">പിന്തുടരുന്നവർ</string>
     <string name="title_mutes">നിശ്ശബ്ദരാക്കിയ ഉപയോക്താക്കൾ</string>
-    <string name="title_blocks">നിരോധിച്ച ഉപയോഗതാക്കൾ</string>
+    <string name="title_blocks">തടയപ്പെട്ട ഉപയോക്താക്കൾ</string>
     <string name="title_follow_requests">പിന്തുടാനുള്ള അപേക്ഷകൾ</string>
     <string name="title_edit_profile">പ്രൊഫൈൽ തിരുത്തുക</string>
     <string name="action_reply">മറുപടി</string>
     <string name="action_reblog">ബൂസ്റ്റ്</string>
     <string name="action_unreblog">ബൂസ്റ്റ് പിൻവലിക്കുക</string>
     <string name="action_favourite">ഇഷ്ടപ്പെട്ടവ</string>
-    <string name="action_unfavourite">ഇഷ്ടപ്പെട്ടവ ഒഴിവാക്കുക</string>
+    <string name="action_unfavourite">ഇഷ്ടപ്പെട്ടവയിൽ നിന്നും കളയുക</string>
     <string name="action_more">കൂടുതൽ</string>
     <string name="action_follow">പിന്തുടരുക</string>
-    <string name="action_unfollow">പിരിയുക</string>
+    <string name="action_unfollow">പിന്‍തുടരുന്നത് അവസാനിപ്പിക്കുക</string>
     <string name="action_retry">വീണ്ടും ശ്രമിക്കുക</string>
     <string name="action_view_follow_requests">പിന്തുടാനുള്ള അപേക്ഷകൾ</string>
-    <string name="title_domain_mutes">മറയ്ക്കപ്പെട്ട ഡൊമൈനുകൾ</string>
+    <string name="title_domain_mutes">മറച്ചുവെച്ച ഡൊമൈനുകൾ</string>
     <string name="description_visiblity_private">പിന്തുടരുന്നവർ</string>
     <string name="footer_empty">പുതിയത് ലഭിക്കാൻ താഴേക്ക് വലിക്കുക</string>
     <string name="message_empty">ലഭ്യമല്ല</string>
@@ -99,4 +99,5 @@
     <string name="notification_follow_format">%s നിങ്ങളെ പിന്തുടരുന്നു</string>
     <string name="notification_favourite_name">ഇഷ്ടപ്പെട്ടത്</string>
     <string name="title_media">മാധ്യമം</string>
+    <string name="action_open_reblogged_by">ബൂട്ട്‌സ് കാണിക്കുക</string>
 </resources>
