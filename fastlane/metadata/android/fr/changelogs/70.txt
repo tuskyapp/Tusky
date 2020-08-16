@@ -5,4 +5,4 @@ Tusky v10.0
 - Vous pouvez maintenant ajouter des listes à l'écran principal.
 - Vous pouvez désormais publier des pièces jointes audio avec Tusky.
 
-Et beaucoup d'autres petites améliorations et corrections de bugs!
+Et beaucoup d'autres petites améliorations et corrections de bugs !
