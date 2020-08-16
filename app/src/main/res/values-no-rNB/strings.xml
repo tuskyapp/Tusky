@@ -49,7 +49,7 @@
     <string name="status_content_show_less">Kollaps</string>
     <string name="message_empty">Her er det ingenting.</string>
     <string name="footer_empty">Her er det ingenting. Dra ned for å oppdatere!</string>
-    <string name="notification_reblog_format">%s boostet tootet ditt</string>
+    <string name="notification_reblog_format">%s boosted tootet ditt</string>
     <string name="notification_favourite_format">%s favoriserte tootet ditt</string>
     <string name="notification_follow_format">%s fulgte deg</string>
     <string name="report_username_format">Rapporter @%s</string>
@@ -173,7 +173,7 @@
     <string name="pref_title_appearance_settings">Utseende</string>
     <string name="pref_title_app_theme">Apptema</string>
     <string name="pref_title_timelines">Tidslinjer</string>
-    <string name="pref_title_timeline_filters">Filtre</string>
+    <string name="pref_title_timeline_filters">Filtere</string>
     <string name="pref_title_browser_settings">Nettleser</string>
     <string name="pref_title_custom_tabs">Bruke Chrome tilpassede faner</string>
     <string name="pref_title_hide_follow_button">Skjul skriv-knappen under scrolling</string>
@@ -191,7 +191,7 @@
     <string name="pref_default_media_sensitivity">Marker alltid media som sensitivt</string>
     <string name="pref_publishing">Publisering (synkronisert med server)</string>
     <string name="pref_failed_to_sync">Synkronisering av innstillinger feilet</string>
-    <string name="pref_status_text_size">Tekststørrelse</string>
+    <string name="pref_status_text_size">Størrelse på statustekst</string>
     <string name="notification_follow_name">Nye følgere</string>
     <string name="notification_follow_description">Varsler om nye følgere</string>
     <string name="notification_boost_name">Boosts</string>
@@ -250,7 +250,7 @@
     <string name="hint_search_people_list">Søk etter personer du følger</string>
     <string name="action_add_to_list">Legg til konto i listen</string>
     <string name="action_remove_from_list">Slett konto fra listen</string>
-    <string name="pref_default_post_privacy">Standard synlighet for toots</string>
+    <string name="pref_default_post_privacy">Standard proxy-personvern</string>
     <string name="notification_mention_name">Nye omtaler</string>
     <string name="notification_mention_descriptions">Varsler om nye omtaler</string>
     <string name="about_tusky_license">Tusky er fri og åpen kildekode. Applikasjonen er lisensiert under GNU General Public License versjon 3. Du kan se lisensen her: https://www.gnu.org/licenses/gpl-3.0.en.html</string>
@@ -297,7 +297,7 @@
     <string name="license_cc_by_4">CC-BY 4.0</string>
     <string name="license_cc_by_sa_4">CC-BY-SA 4.0</string>
     <string name="profile_metadata_label">Profilmetadata</string>
-    <string name="profile_metadata_add">legg til profilmetadata</string>
+    <string name="profile_metadata_add">legg til data</string>
     <string name="profile_metadata_label_label">Ledetekst</string>
     <string name="profile_metadata_content_label">Innhold</string>
     <string name="pref_title_absolute_time">Bruk absolutt tid</string>
@@ -340,8 +340,8 @@
     <string name="dialog_redraft_toot_warning">Vil du slette dette tottet og skrive det på nytt\?</string>
     <string name="poll_info_format"> <!-- 15 votes • 1 hour left --> %1$s • %2$s</string>
     <plurals name="poll_info_votes">
-        <item quantity="one">%s stemme</item>
-        <item quantity="other">%s stemmer</item>
+        <item quantity="one"/>
+        <item quantity="other"/>
     </plurals>
     <string name="poll_info_time_relative">%s igjen</string>
     <string name="poll_info_time_absolute">avsluttes %s</string>
@@ -353,7 +353,7 @@
     <string name="app_theme_auto">Automatisk ved solnedgang</string>
     <string name="app_theme_system">Bruk systeminnstillinger</string>
     <string name="post_privacy_public">Offentlig</string>
-    <string name="post_privacy_unlisted">Ikke offentlige tidslinjer</string>
+    <string name="post_privacy_unlisted">Ikke listet</string>
     <string name="post_privacy_followers_only">Kun følgere</string>
     <string name="status_text_size_smallest">Minste</string>
     <string name="status_text_size_small">Liten</string>
@@ -378,8 +378,8 @@
         <item quantity="other">%d minutter</item>
     </plurals>
     <plurals name="poll_timespan_seconds">
-        <item quantity="one">%d sekund</item>
-        <item quantity="other">%d sekunder</item>
+        <item quantity="one"/>
+        <item quantity="other"/>
     </plurals>
     <string name="compose_preview_image_description">Handlinger for bilde %s</string>
     <string name="pref_title_animate_gif_avatars">Animer GIF-avatarer</string>
@@ -441,8 +441,8 @@
     <string name="pref_title_confirm_reblogs">Vis bekreftelsesdialog før boosting</string>
     <string name="pref_title_enable_swipe_for_tabs">Skru på sveiping for å bytte mellom faner</string>
     <plurals name="poll_info_people">
-        <item quantity="one"/>
-        <item quantity="other"/>
+        <item quantity="one">%s person</item>
+        <item quantity="other">%s personer</item>
     </plurals>
     <string name="notification_follow_request_description">Varsler om følgeforespørsler</string>
     <string name="notification_follow_request_name">Forespørsler om følging</string>

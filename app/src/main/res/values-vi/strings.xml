@@ -191,7 +191,7 @@
     <string name="title_statuses_with_replies">Tương tác</string>
     <string name="title_statuses">Tút</string>
     <string name="title_view_thread">Tút</string>
-    <string name="title_tab_preferences">Tabs</string>
+    <string name="title_tab_preferences">Xếp Tab</string>
     <string name="title_direct_messages">Tin nhắn</string>
     <string name="title_public_federated">Thế giới</string>
     <string name="title_public_local">Cộng đồng</string>
@@ -384,11 +384,11 @@
     <string name="description_status_reblogged">Đã chia sẻ</string>
     <string name="description_status_media_no_description_placeholder">Không có mô tả</string>
     <string name="description_status_cw">Nội dung nhạy cảm: %s</string>
-    <string name="max_tab_number_reached">mở rộng tối đa %1$d tab</string>
+    <string name="max_tab_number_reached">tối đa %1$d tab</string>
     <string name="conversation_more_recipients">%1$s, %2$s và %3$d người nữa</string>
     <string name="conversation_2_recipients">%1$s và %2$s</string>
     <string name="conversation_1_recipients">%1$s</string>
-    <string name="title_favourited_by">Thích bởi</string>
+    <string name="title_favourited_by">Những người thích tút này</string>
     <string name="title_reblogged_by">Những người chia sẻ tút này</string>
     <plurals name="reblogs">
         <item quantity="other"><b>%s</b> lượt chia sẻ</item>

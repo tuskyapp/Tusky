@@ -3,7 +3,7 @@
     <string name="error_generic">Ha ocurrido un error.</string>
     <string name="error_network">¡Se ha producido un error de red! ¡Por favor, comprueba tu conexión e inténtalo de nuevo!</string>
     <string name="error_empty">Este campo no puede estar vacío.</string>
-    <string name="error_invalid_domain">Nombre de dominio incorrecto</string>
+    <string name="error_invalid_domain">Nombre de dominio no válido</string>
     <string name="error_failed_app_registration">Fallo de autenticación con esta instancia.</string>
     <string name="error_no_web_browser_found">No se ha encontrado ningún navegador web.</string>
     <string name="error_authorization_unknown">Ocurrió un error de autorización no identificado.</string>
@@ -18,9 +18,9 @@
     <string name="error_media_download_permission">Se requiere permiso para descargar al almacenamiento.</string>
     <string name="error_media_upload_image_or_video">No se pueden adjuntar imágenes y vídeos en el mismo estado.</string>
     <string name="error_media_upload_sending">La subida falló.</string>
-    <string name="error_sender_account_gone">Error al enviar estado.</string>
+    <string name="error_sender_account_gone">Error al publicar.</string>
     <string name="title_home">Inicio</string>
-    <string name="title_notifications">Notificaciones</string>
+    <string name="title_notifications">Editar notificaciones</string>
     <string name="title_public_local">Local</string>
     <string name="title_public_federated">Federada</string>
     <string name="title_direct_messages">Mensajes Directos</string>
@@ -39,7 +39,7 @@
     <string name="title_saved_toot">Borradores</string>
     <string name="title_licenses">Licencias</string>
     <string name="status_username_format">\@%s</string>
-    <string name="status_boosted_format">%s compartió</string>
+    <string name="status_boosted_format">%s impulsó</string>
     <string name="status_sensitive_media_title">Contenido sensible</string>
     <string name="status_media_hidden_title">Material oculto</string>
     <string name="status_sensitive_media_directions">Pulsa para ver</string>
@@ -49,7 +49,7 @@
     <string name="status_content_show_less">Ocultar</string>
     <string name="message_empty">Nada aquí.</string>
     <string name="footer_empty">Nada por aquí. ¡Arrastra hacia abajo para recargar!</string>
-    <string name="notification_reblog_format">%s compartió tu toot</string>
+    <string name="notification_reblog_format">%s impulsó tu toot</string>
     <string name="notification_favourite_format">%s marcó favorito</string>
     <string name="notification_follow_format">%s te siguió</string>
     <string name="report_username_format">Reportar @%s</string>
@@ -67,7 +67,7 @@
     <string name="action_unfollow">Dejar de seguir</string>
     <string name="action_block">Bloquear</string>
     <string name="action_unblock">Desbloquear</string>
-    <string name="action_hide_reblogs">Ocultar impulsos</string>
+    <string name="action_hide_reblogs">Ocultar compartidos</string>
     <string name="action_show_reblogs">Mostrar compartidos</string>
     <string name="action_report">Reportar</string>
     <string name="action_delete">Borrar</string>
@@ -116,7 +116,7 @@
     <string name="confirmation_unmuted">El usuario ya no está silenciado</string>
     <string name="status_sent">¡Enviada!</string>
     <string name="status_sent_long">Respuesta enviada correctamente.</string>
-    <string name="hint_domain">¿Qué instancia\?</string>
+    <string name="hint_domain">Indique la instancia</string>
     <string name="hint_compose">¿En qué estás pensando?</string>
     <string name="hint_content_warning">Aviso de contenido</string>
     <string name="hint_display_name">Nombre</string>
@@ -147,8 +147,8 @@
     <string name="visibility_unlisted">Oculto: No mostrar en historias públicas</string>
     <string name="visibility_private">Privado: Sólo visible para seguidores</string>
     <string name="visibility_direct">Directo: Sólo visible para cuentas mencionadas</string>
-    <string name="pref_title_edit_notification_settings">Editar notificaciones</string>
-    <string name="pref_title_notifications_enabled">Editar notificaciones</string>
+    <string name="pref_title_edit_notification_settings">Notificaciones</string>
+    <string name="pref_title_notifications_enabled">Notificaciones</string>
     <string name="pref_title_notification_alerts">Alertas</string>
     <string name="pref_title_notification_alert_sound">Notificar con sonido</string>
     <string name="pref_title_notification_alert_vibrate">Notificar con vibración</string>
@@ -196,7 +196,7 @@
     <string name="notification_follow_name">Nuevos seguidores</string>
     <string name="notification_follow_description">Notificaciones de nuevos seguidores</string>
     <string name="notification_boost_name">Impulsos</string>
-    <string name="notification_boost_description">Notificaciones de estados que fueron compartidos</string>
+    <string name="notification_boost_description">Notificaciones de estados que fueron impulsados</string>
     <string name="notification_favourite_name">Favoritos</string>
     <string name="notification_favourite_description">Notificaciones de estados que recibieron favorito</string>
     <string name="notification_mention_format">%s te mencionó</string>
@@ -259,7 +259,7 @@
     <string name="compose_save_draft">¿Guardar borrador?</string>
     <string name="send_toot_notification_title">Enviando estado…</string>
     <string name="send_toot_notification_error_title">Error enviando estado</string>
-    <string name="send_toot_notification_channel_name">Enviando estado</string>
+    <string name="send_toot_notification_channel_name">Enviando estados</string>
     <string name="send_toot_notification_cancel_title">Envío cancelado</string>
     <string name="send_toot_notification_saved_content">Una copia del estado se ha guardado en borradores</string>
     <string name="action_compose_shortcut">Redactar</string>
@@ -281,8 +281,8 @@
     <string name="download_failed">Descarga fallida</string>
     <string name="profile_badge_bot_text">Bot</string>
     <string name="account_moved_description">%1$s se trasladó a:</string>
-    <string name="reblog_private">Impulsar a la audiencia original</string>
-    <string name="unreblog_private">Dejar de impulsar</string>
+    <string name="reblog_private">Volver a compartir</string>
+    <string name="unreblog_private">Dejar de compartir</string>
     <string name="license_description">Tusky contiene código y recursos de los siguientes proyectos:</string>
     <string name="license_apache_2">Licenciado bajo Apache License (texto bajo la lista)</string>
     <string name="license_cc_by_4">CC BY 4.0</string>
@@ -300,8 +300,8 @@
         <item quantity="other">&lt;b&gt;%1$s&lt;/b&gt; Favoritos</item>
     </plurals>
     <plurals name="reblogs">
-        <item quantity="one"><b>%s</b> Boost</item>
-        <item quantity="other"><b>%s</b> Boosts</item>
+        <item quantity="one"><b>%s</b> Impulso</item>
+        <item quantity="other"><b>%s</b> Impulsos</item>
     </plurals>
     <string name="title_reblogged_by">Impulsado por</string>
     <string name="title_favourited_by">Marcado como favorito por</string>
@@ -324,26 +324,26 @@
     <string name="action_rename_list">Renombrar la lista</string>
     <string name="action_add_to_list">Añadir cuenta a la lista</string>
     <string name="action_remove_from_list">Eliminar cuenta de la lista</string>
-    <string name="description_status_favourited">Favoritos</string>
+    <string name="description_status_favourited">1Favoritos</string>
     <string name="description_visiblity_private">Seguidores</string>
     <string name="filter_apply">Aplicar</string>
     <string name="pref_title_bot_overlay">Mostrar indicador de bots</string>
     <string name="poll_vote">Votar</string>
     <plurals name="poll_timespan_days">
-        <item quantity="one">%d día</item>
-        <item quantity="other">%d dias</item>
+        <item quantity="one"/>
+        <item quantity="other"/>
     </plurals>
     <plurals name="poll_timespan_hours">
-        <item quantity="one">%d hora</item>
-        <item quantity="other">%d horas</item>
+        <item quantity="one"/>
+        <item quantity="other"/>
     </plurals>
     <plurals name="poll_timespan_minutes">
-        <item quantity="one">%d minuto</item>
-        <item quantity="other">%d minutos</item>
+        <item quantity="one"/>
+        <item quantity="other"/>
     </plurals>
     <plurals name="poll_timespan_seconds">
-        <item quantity="one">%d segundo</item>
-        <item quantity="other">%d segundos</item>
+        <item quantity="one"/>
+        <item quantity="other"/>
     </plurals>
     <string name="poll_info_format"> <!-- 15 votos • queda 1 hora --> %1$s • %2$s</string>
     <plurals name="poll_info_votes">
@@ -393,7 +393,7 @@
     <string name="poll_ended_voted">Una encuesta en la que has votado ha terminado</string>
     <string name="poll_ended_created">Una encuesta que has creado ha terminado</string>
     <string name="action_open_reblogger">Abrir autor del impulso</string>
-    <string name="action_open_reblogged_by">Mostrar compartidos</string>
+    <string name="action_open_reblogged_by">Mostrar impulsos</string>
     <string name="title_domain_mutes">Dominios ocultos</string>
     <string name="action_view_domain_mutes">Dominios ocultos</string>
     <string name="action_mute_domain">Silenciar %s</string>
@@ -402,7 +402,7 @@
     <string name="mute_domain_warning_dialog_ok">Ocultar dominio completo</string>
     <string name="pref_title_animate_gif_avatars">Animar avatares GIF</string>
     <string name="filter_dialog_whole_word">Toda palabra</string>
-    <string name="filter_dialog_whole_word_description">Cuando la palabra o frase sea solo alfanumérica, solo se aplicará si coincide con toda la palabra</string>
+    <string name="filter_dialog_whole_word_description">Cuando la palabra o frase sea solo alfanumérica, solo se aplicará si coincide con toda la palabra.</string>
     <string name="caption_notoemoji">Set de emojis actual de Google</string>
     <string name="description_poll">Encuesta con opciones: %1$s, %2$s, %3$s, %4$s; %5$s</string>
     <string name="button_continue">Continuar</string>
@@ -439,9 +439,9 @@
     <string name="action_reset_schedule">Reiniciar</string>
     <string name="post_lookup_error_format">Error al buscar el post %s</string>
     <string name="about_powered_by_tusky">Potenciado por Tusky</string>
-    <string name="title_bookmarks">Favoritos</string>
+    <string name="title_bookmarks">Marcadores</string>
     <string name="action_bookmark">Marcador</string>
-    <string name="action_view_bookmarks">Marcadores</string>
+    <string name="action_view_bookmarks">Favoritos</string>
     <string name="description_status_bookmarked">Marcado como favorito</string>
     <string name="select_list_title">Seleccionar lista</string>
     <string name="list">Lista</string>

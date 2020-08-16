@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="action_login">मास्टोडन के साथ लॉगिन करें।</string>
+    <string name="action_login">मास्टोडन के साथ लॉगिन करें</string>
     <string name="title_favourites">पसंदीदा</string>
     <string name="title_saved_toot">ड्राफ्ट</string>
     <string name="action_logout">लॉग आउट</string>
@@ -10,13 +10,13 @@
     <string name="action_search">खोज</string>
     <string name="about_title_activity">के बारे में</string>
     <string name="title_statuses_with_replies">उत्तरों के साथ</string>
-    <string name="title_followers">फॉलोअर्स</string>
+    <string name="title_followers">अनुगामी</string>
     <string name="action_reply">उत्तर दें</string>
-    <string name="action_follow">फ़ॉलो</string>
-    <string name="action_unfollow">अनफ़ॉलो</string>
+    <string name="action_follow">फॉलो</string>
+    <string name="action_unfollow">अनफॉलो</string>
     <string name="action_block">ब्लॉक</string>
     <string name="action_unblock">अनब्लॉक</string>
-    <string name="action_hide_reblogs">बूस्ट छिपाएं</string>
+    <string name="action_hide_reblogs">बूस्ट हटाएं</string>
     <string name="action_show_reblogs">बूस्ट दिखाएं</string>
     <string name="action_report">रिपोर्ट करें</string>
     <string name="action_edit">एडिट करें</string>
@@ -37,7 +37,7 @@
     <string name="error_audio_upload_size">ऑडियो फाइलें 40 एमबी से कम होनी चाहिए।</string>
     <string name="error_generic">एक त्रुटि हुई।</string>
     <string name="action_reset_schedule">रीसेट</string>
-    <string name="error_video_upload_size">वीडियो फ़ाइलें 40 एमबी से कम होनी चाहिए।</string>
+    <string name="error_video_upload_size">वीडियो फ़ाइलें 40MB से कम होनी चाहिए।</string>
     <string name="error_retrieving_oauth_token">लॉगिन टोकन प्राप्त करने में विफल।</string>
     <string name="error_authorization_denied">प्राधिकरण करने के से इनकार कर दिया।</string>
     <string name="error_authorization_unknown">एक अज्ञात प्राधिकरण त्रुटि हुई।</string>
@@ -52,8 +52,8 @@
     <string name="edit_poll">संपादित करें</string>
     <string name="pref_title_notification_filter_poll">जनमत खत्म हो गया हैं</string>
     <string name="action_add_poll">जनमत शुरू करें</string>
-    <string name="create_poll_title">जनमत</string>
-    <string name="title_accounts">खाते</string>
+    <string name="create_poll_title">पोल</string>
+    <string name="title_accounts">खाता</string>
     <string name="button_done">पूर्ण</string>
     <string name="button_back">पीछे</string>
     <string name="button_continue">जारी रखें</string>
@@ -96,14 +96,14 @@
     <string name="pref_title_show_replies">जवाब दिखाएँ</string>
     <string name="pref_title_status_tabs">टैब्स</string>
     <string name="pref_title_gradient_for_media">छिपे हुए मीडिया के लिए रंगीन ग्रेडिएंट दिखाएं</string>
-    <string name="pref_title_bot_overlay">बॉट के लिए संकेतक दिखाएं</string>
+    <string name="pref_title_bot_overlay">बॉट्स के लिए संकेतक दिखाएं</string>
     <string name="pref_title_language">भाषा</string>
     <string name="pref_title_hide_follow_button">स्क्रॉल करते समय कंपोज बटन को छिपाएं</string>
     <string name="pref_title_custom_tabs">क्रोम कस्टम टैब का उपयोग करें</string>
     <string name="pref_title_browser_settings">ब्राउज़र</string>
     <string name="app_theme_system">सिस्टम डिज़ाइन का उपयोग करें</string>
     <string name="app_theme_auto">सूर्यास्त के समय स्वचालित</string>
-    <string name="app_theme_black">काला</string>
+    <string name="app_theme_black">Black</string>
     <string name="app_them_dark">अंधकार</string>
     <string name="pref_title_timeline_filters">फिल्टर</string>
     <string name="pref_title_appearance_settings">दिखावट</string>
@@ -127,7 +127,7 @@
     <string name="label_avatar">अवतार</string>
     <string name="label_quick_reply">जवाब दें…</string>
     <string name="search_no_results">कोई परिणाम नहीं</string>
-    <string name="hint_search">खोज…</string>
+    <string name="hint_search">खोज</string>
     <string name="hint_note">जीवनी</string>
     <string name="hint_display_name">प्रदर्शित होने वाला नाम</string>
     <string name="hint_content_warning">विषय वस्तु चेतावनी</string>
@@ -190,7 +190,7 @@
     <string name="title_view_thread">टूट</string>
     <string name="title_scheduled_toot">अनुसूचित टूट</string>
     <string name="title_domain_mutes">छिपे हुए डोमेन</string>
-    <string name="title_mutes">म्यूट किए गए उपयोगकर्ता</string>
+    <string name="title_mutes">म्यूट किए गए उपयोगकर्ताओं</string>
     <string name="title_bookmarks">बुकमार्क</string>
     <string name="title_tab_preferences">टैब्स</string>
     <string name="title_direct_messages">सीधे संदेश</string>
@@ -212,8 +212,8 @@
         <item quantity="other">%d सेकेंड</item>
     </plurals>
     <plurals name="poll_timespan_minutes">
-        <item quantity="one">%d मिनट</item>
-        <item quantity="other">%d मिनट</item>
+        <item quantity="one"></item>
+        <item quantity="other"></item>
     </plurals>
     <plurals name="poll_timespan_hours">
         <item quantity="one">%d घंटा</item>
@@ -298,8 +298,8 @@
         <item quantity="other"><b>%s</b> ने बढ़ावा दिया</item>
     </plurals>
     <plurals name="favs">
-        <item quantity="one"><b>%1$s</b> ने पसंद किया</item>
-        <item quantity="other"><b>%1$s</b> ने पसंद किया</item>
+        <item quantity="one"></item>
+        <item quantity="other"></item>
     </plurals>
     <string name="pin_action">पिन</string>
     <string name="unpin_action">अनपिन</string>
@@ -307,7 +307,7 @@
     <string name="pref_title_absolute_time">पूर्ण समय का उपयोग करें</string>
     <string name="profile_metadata_content_label">विषय वस्तु</string>
     <string name="profile_metadata_label_label">लेबल</string>
-    <string name="license_apache_2">अपाचे लाइसेंस के तहत लाइसेंस प्राप्त (प्रतिलिपि नीचे उपलब्ध)</string>
+    <string name="license_apache_2">"अपाचे लाइसेंस के तहत लाइसेंस प्राप्त (प्रतिलिपि  नीचे उपलब्ध)"</string>
     <string name="account_moved_description">%1$s यहां चले गए हैं:</string>
     <string name="profile_badge_bot_text">बोट</string>
     <string name="caption_notoemoji">गूगल का इमोजी सेट</string>
@@ -322,7 +322,7 @@
     <string name="send_toot_notification_saved_content">टूट की एक प्रति आपके ड्राफ्ट में सहेज ली गई है</string>
     <string name="send_toot_notification_error_title">टूट भेजने में त्रुटि</string>
     <string name="filter_dialog_remove_button">हटाएँ</string>
-    <string name="action_remove">हटाएँ</string>
+    <string name="action_remove">हटा दें</string>
     <string name="hint_describe_for_visually_impaired">दृष्टिहीन लोगों के लिए वर्णन करें
 \n(%d वर्ण सीमा)</string>
     <string name="error_failed_set_caption">कैप्शन सेट करने में विफल</string>
@@ -344,7 +344,7 @@
     <string name="pref_title_thread_filter_keywords">संवाद</string>
     <string name="replying_to">\@%s को जवाब दे रहे है</string>
     <string name="title_media">मीडिया</string>
-    <string name="pref_title_alway_show_sensitive_media">संवेदनशील विषय वस्तु हमेशा दिखाए</string>
+    <string name="pref_title_alway_show_sensitive_media">संवेदनशील विषय वस्तु</string>
     <string name="follows_you">आपको फॉलो करते है</string>
     <string name="pref_title_notification_filter_follow_requests">फ़ॉलो करने का अनुरोध किया</string>
     <string name="state_follow_requested">फ़ॉलो करने का अनुरोध किया हुआ</string>
@@ -406,4 +406,6 @@
     <string name="action_view_follow_requests">फ़ॉलो अनुरोध</string>
     <string name="notification_follow_request_format">%s ने आपको फ़ॉलो करने का अनुरोध किया</string>
     <string name="notification_follow_format">%s ने आपको फ़ॉलो किया</string>
+    <string name="pref_title_show_boosts">बूस्ट दिखाएं</string>
+    <string name="action_open_reblogged_by">बूस्ट दिखाएं</string>
 </resources>

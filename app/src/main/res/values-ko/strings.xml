@@ -30,7 +30,7 @@
     <string name="title_statuses_with_replies">툿과 답장</string>
     <string name="title_statuses_pinned">고정된 툿</string>
     <string name="title_follows">팔로우</string>
-    <string name="title_followers">팔로워</string>
+    <string name="title_followers">비공개</string>
     <string name="title_favourites">즐겨찾기</string>
     <string name="title_mutes">뮤트한 유저</string>
     <string name="title_blocks">블록한 유저</string>
@@ -65,13 +65,13 @@
     <string name="action_compose">작성</string>
     <string name="action_login">마스토돈에 로그인</string>
     <string name="action_logout">로그아웃</string>
-    <string name="action_logout_confirm">정말로 계정 %1$s에서 로그아웃하시겠습니까\?</string>
+    <string name="action_logout_confirm">정말로 %1$s에서 로그아웃하시겠습니까\?</string>
     <string name="action_follow">팔로우</string>
     <string name="action_unfollow">팔로우 해제</string>
     <string name="action_block">차단</string>
     <string name="action_unblock">차단 해제</string>
     <string name="action_hide_reblogs">이 유저의 부스트 숨기기</string>
-    <string name="action_show_reblogs">이 유저의 부스트 보이기</string>
+    <string name="action_show_reblogs">부스트한 유저 보이기</string>
     <string name="action_report">신고</string>
     <string name="action_delete">삭제</string>
     <string name="action_delete_and_redraft">지우고 다시 쓰기</string>
@@ -119,7 +119,7 @@
     <string name="title_hashtags_dialog">해시태그</string>
     <string name="title_mentions_dialog">멘션</string>
     <string name="title_links_dialog">링크</string>
-    <string name="action_open_media_n">%d번째 미디어 열기</string>
+    <string name="action_open_media_n">미디어 #%d 열기</string>
     <string name="download_image">%1$s 다운로드 중</string>
     <string name="action_copy_link">링크 복사</string>
     <string name="action_share_as">공유</string>
@@ -145,24 +145,24 @@
     <string name="label_avatar">아바타</string>
     <string name="label_header">헤더</string>
     <string name="link_whats_an_instance">인스턴스가 무엇인가요\?</string>
-    <string name="login_connection">연결 중...</string>
-    <string name="dialog_whats_an_instance">인스턴스의 도메인 주소나 IP주소를 입력하실 수 있습니다. mastodon.social, icosahedron.website, social.tchncs.de 등이 있으며, 그 외에도 <a href="https://instances.social">더 많은 인스턴스</a>가 당신을 기다리고 있습니다! 
-\n 
+    <string name="login_connection">연결 중…</string>
+    <string name="dialog_whats_an_instance">인스턴스의 도메인 주소나 IP주소를 입력하실 수 있습니다. pawoo.net, twingyeo.kr, qdon.space 등이 있으며, 그 외에도 &lt;a href=“https://instances.social”&gt;더 많은 인스턴스&lt;/a&gt;가 당신을 기다리고 있습니다! 
+\n
 \n 
 \n만약 계정이 없으시다면, 인스턴스 주소를 입력하신 후에 계정을 만드실 수 있습니다. 
+\n
 \n 
-\n 
-\n 
+\n
 \n여러분이 어느 인스턴스에 가입하시더라도, 다른 인스턴스에 있는 유저들과 문제 없이 소통하실 수 있습니다. 
+\n
 \n 
-\n 
-\n 
+\n
 \n자세한 사항은 &lt;a href=“https://joinmastodon.org”&gt;joinmastodon.org&lt;/a&gt;을 참조하세요. <a href="https://instances.social">more!</a> 
-\n 
-\nIf you don\'t yet have an account, you can enter the name of the instance you\'d like to join and create an account there. 
-\n 
+\n
+\nIf you don\'t yet have an account, you can enter the name of the instance you\'d like to join and create an account there.
+\n
 \nAn instance is a single place where your account is hosted, but you can easily communicate with and follow folks on other instances as though you were on the same site. 
-\n 
+\n
 \nMore info can be found at <a href="https://joinmastodon.org">joinmastodon.org</a>. </string>
     <string name="dialog_title_finishing_media_upload">미디어 업로드 완료</string>
     <string name="dialog_message_uploading_media">업로드 중...</string>
@@ -316,7 +316,7 @@
     <string name="send_toot_notification_channel_name">툿을 보내고 있습니다</string>
     <string name="send_toot_notification_cancel_title">보내기 취소됨</string>
     <string name="send_toot_notification_saved_content">복사본이 임시 저장에 저장되었습니다</string>
-    <string name="action_compose_shortcut">글쓰기</string>
+    <string name="action_compose_shortcut">작성</string>
     <string name="error_no_custom_emojis">이 인스턴스 %s 은(는) 커스텀 이모지가 없습니다.</string>
     <string name="copy_to_clipboard_success">클립보드에 복사되었습니다</string>
     <string name="emoji_style">이모지 스타일</string>
@@ -378,10 +378,10 @@
     <string name="notifications_apply_filter">필터</string>
     <string name="filter_apply">적용</string>
     <string name="compose_shortcut_long_label">툿 작성하기</string>
-    <string name="compose_shortcut_short_label">글쓰기</string>
-    <string name="notification_clear_text">모든 알림을 영구적으로 삭제하시겠습니까\?</string>
-    <string name="compose_preview_image_description">이미지 %s에 대한 작업</string>
-    <string name="poll_info_format"> <!-- 15 명 참여 • 1 시간 남음 --> %1$s • %2$s</string>
+    <string name="compose_shortcut_short_label">작성</string>
+    <string name="notification_clear_text">모든 알림을 영구적으로 지우시겠습니까\?</string>
+    <string name="compose_preview_image_description">이미지 %s를...</string>
+    <string name="poll_info_format"><!-- 15 votes • 1 hour left --> %1$s • %2$s</string>
     <plurals name="poll_info_votes">
         <item quantity="other">%s 명 참여</item>
     </plurals>
@@ -433,4 +433,5 @@
     <string name="poll_new_choice_hint">%d번 항목</string>
     <string name="edit_poll">수정</string>
     <string name="action_edit">수정</string>
+    <string name="hashtags">해시태그</string>
 </resources>

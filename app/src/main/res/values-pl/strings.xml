@@ -59,7 +59,7 @@
     <string name="action_block">Zablokuj</string>
     <string name="action_unblock">Odblokuj</string>
     <string name="action_hide_reblogs">Ukryj podbicia</string>
-    <string name="action_show_reblogs">Pokaż podbicia</string>
+    <string name="action_show_reblogs">Pokazuj podbicia</string>
     <string name="action_report">Zgłoś</string>
     <string name="action_delete">Usuń</string>
     <string name="action_send">Wyślij</string>
@@ -100,7 +100,7 @@
     <string name="confirmation_reported">Wyślij!</string>
     <string name="confirmation_unblocked">Odblokowano użytkownika</string>
     <string name="confirmation_unmuted">Cofnięto wyciszenie użytkownika</string>
-    <string name="status_sent">Wyślij!</string>
+    <string name="status_sent">Wysłano!</string>
     <string name="status_sent_long">Pomyślnie wysłano odpowiedź.</string>
     <string name="hint_domain">Jaka instancja?</string>
     <string name="hint_compose">Co Ci chodzi po głowie?</string>
@@ -141,8 +141,8 @@
     <string name="pref_title_notification_filters">Powiadom mnie, gdy</string>
     <string name="pref_title_notification_filter_mentions">wspomniano o mnie</string>
     <string name="pref_title_notification_filter_follows">zaczęto mnie śledzić</string>
-    <string name="pref_title_notification_filter_reblogs">moje wpisy zostaną podbite</string>
-    <string name="pref_title_notification_filter_favourites">moje posty zostaną dodane do ulubionych</string>
+    <string name="pref_title_notification_filter_reblogs">moje posty zostaną podbite</string>
+    <string name="pref_title_notification_filter_favourites">moje wpisy zostaną polubione</string>
     <string name="pref_title_appearance_settings">Wygląd</string>
     <string name="pref_title_app_theme">Motyw</string>
     <string name="app_them_dark">Ciemny</string>
@@ -154,7 +154,7 @@
     <string name="pref_title_hide_follow_button">Ukryj przycisk śledzenia podczas przewijania</string>
     <string name="pref_title_status_filter">Filtrowanie osi czasu</string>
     <string name="pref_title_status_tabs">Karty</string>
-    <string name="pref_title_show_boosts">Pokazuj podbicia</string>
+    <string name="pref_title_show_boosts">Pokaż podbicia</string>
     <string name="pref_title_show_replies">Pokazuj odpowiedzi</string>
     <string name="pref_title_show_media_preview">Pokazuj podgląd zawartości multimedialnej</string>
     <string name="pref_title_http_proxy_settings">Proxy HTTP</string>
@@ -239,7 +239,7 @@
     <string name="send_toot_notification_channel_name">Wysyłanie wpisów</string>
     <string name="send_toot_notification_cancel_title">Anulowano wysyłanie</string>
     <string name="send_toot_notification_saved_content">Kopia wpisu została zapisana jako szkic</string>
-    <string name="action_compose_shortcut">Wyślij</string>
+    <string name="action_compose_shortcut">Napisz</string>
     <string name="error_no_custom_emojis">Twoja instancja %s nie używa żadnych niestandardowych emoji</string>
     <string name="copy_to_clipboard_success">Skopiowano do schowka</string>
     <string name="emoji_style">Styl emoji</string>
@@ -378,14 +378,15 @@
     <string name="notifications_apply_filter">Filtr</string>
     <string name="filter_apply">Zastosuj</string>
     <string name="compose_shortcut_long_label">Stwórz wpis</string>
-    <string name="compose_shortcut_short_label">Napisz</string>
+    <string name="compose_shortcut_short_label">Nowy wpis</string>
     <string name="notification_clear_text">Czy jesteś pewien/pewna, że chcesz wyczyścić wszystkie swoje powiadomienia\?</string>
     <string name="compose_preview_image_description">Opcje dla obrazu %s</string>
-    <string name="poll_info_format"> <!-- 15 głosów • pozostała 1 godzina --> %1$s • %2$s</string>
+    <string name="poll_info_format"> <!-- 15 votes • 1 hour left --> %1$s • %2$s</string>
     <plurals name="poll_info_votes">
         <item quantity="one">%s głos</item>
         <item quantity="few">%s głosy</item>
-        <item quantity="many">%s głosów</item>
+        <item quantity="many"/>
+        <item quantity="other"/>
     </plurals>
     <string name="poll_info_time_relative">Zostało %s</string>
     <string name="poll_info_time_absolute">kończy się %s</string>
@@ -399,8 +400,8 @@
         <item quantity="many">%d dni</item>
     </plurals>
     <plurals name="poll_timespan_hours">
-        <item quantity="one">%d godzina</item>
-        <item quantity="few">%d godziny</item>
+        <item quantity="one"/>
+        <item quantity="few"/>
         <item quantity="many"/>
         <item quantity="other"/>
     </plurals>
@@ -455,7 +456,7 @@
     <string name="error_audio_upload_size">Pliki audio muszą być mniejsze niż 40MB.</string>
     <string name="no_saved_status">Nie masz żadnych szkiców.</string>
     <string name="no_scheduled_status">Nie masz żadnych zaplanowanych wpisów.</string>
-    <string name="warning_scheduling_interval">Mastodon umożliwia wysłanie minimalnie 5 minut od zaplanowania.</string>
+    <string name="warning_scheduling_interval">Mastodon umożliwia wysłanie minimalnie 5 minut od zaplanowania</string>
     <string name="notification_follow_request_name">Prośby o możliwość śledzenia</string>
     <string name="pref_title_confirm_reblogs">Pytaj o potwierdzenie przed podbiciem</string>
     <string name="add_hashtag_title">Dodaj hashtag</string>

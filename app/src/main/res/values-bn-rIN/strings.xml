@@ -76,7 +76,7 @@
     <string name="action_delete_and_redraft">মুছুন এবং পুনরায় ড্রাফট কর</string>
     <string name="action_send">টুট</string>
     <string name="action_send_public">টুট!</string>
-    <string name="action_retry">পুনরায় চেষ্টা কর</string>
+    <string name="action_retry">পুনরায় চেষ্টা করা</string>
     <string name="action_close">বদ্ধ</string>
     <string name="action_view_profile">প্রোফাইল</string>
     <string name="action_view_preferences">পছন্দসমূহ</string>
@@ -102,7 +102,7 @@
     <string name="action_accept">গ্রহণ</string>
     <string name="action_reject">প্রত্যাখ্যান</string>
     <string name="action_search">অনুসন্ধান</string>
-    <string name="action_access_saved_toot">ড্রাফটগুলি</string>
+    <string name="action_access_saved_toot">খসড়াগুলো</string>
     <string name="action_toggle_visibility">টুট দৃশ্যমানতা</string>
     <string name="action_content_warning">সতর্কবার্তা</string>
     <string name="action_emoji_keyboard">ইমোজি কীবোর্ড</string>
@@ -143,13 +143,13 @@
     <string name="label_header">হেডার</string>
     <string name="link_whats_an_instance">ইনস্ট্যান্স কি\?</string>
     <string name="login_connection">সংযুক্ত হচ্ছে …</string>
-    <string name="dialog_whats_an_instance"><a href="https://instances.social">more!</a> 
-\n
-\nIf you don\'t yet have an account, you can enter the name of the instance you\'d like to join and create an account there.
-\n
-\nAn instance is a single place where your account is hosted, but you can easily communicate with and follow folks on other instances as though you were on the same site. 
-\n
-\nMore info can be found at <a href="https://joinmastodon.org">joinmastodon.org</a>. </string>
+    <string name="dialog_whats_an_instance">কোনও উদাহরণের ঠিকানা বা ডোমেন এখানে প্রবেশ করা যেতে পারে যেমন mastodon.social, icosahedron.website, social.tchncs.de, এবং <a href="https://instances.social"> আরও! </a> 
+\n 
+\nআপনার যদি এখনো অ্যাকাউন্ট না থাকে তবে আপনি যে ইনস্ট্যান্সটিতে যোগ দিতে চান সেটির নামটি প্রবেশ করতে এবং সেখানে একটি অ্যাকাউন্ট তৈরি করতে পারেন। 
+\n 
+\nএকটি ইনস্ট্যান্স একটি একক স্থান যেখানে আপনার অ্যাকাউন্ট হোস্ট করা হয়, তবে আপনি সহজেই যোগাযোগ করতে পারেন এবং অন্যান্য ক্ষেত্রে যেমন আপনি একই সাইটে ছিলেন তা অনুসরণ করতে পারেন। 
+\n 
+\nআরো তথ্য <a href="https://joinmastodon.org"> joinmastodon.org </a> এ পাওয়া যেতে পারে। </string>
     <string name="dialog_title_finishing_media_upload">মিডিয়া আপলোড সমাপ্ত করা হচ্ছে</string>
     <string name="dialog_message_uploading_media">আপলোড হচ্ছে …</string>
     <string name="dialog_download_image">ডাউনলোড</string>
@@ -228,7 +228,7 @@
     <string name="notification_title_summary">%d নতুন মিথস্ক্রিয়া</string>
     <string name="description_account_locked">লক অ্যাকাউন্ট</string>
     <string name="about_title_activity">সম্পর্কিত</string>
-    <string name="about_tusky_version">টাসকি %s</string>
+    <string name="about_tusky_version">টাস্কি %s</string>
     <string name="about_tusky_license">টাস্কি মুক্ত এবং ওপেন সোর্স সফ্টওয়্যার। এটি GNU জেনারেল পাবলিক লাইসেন্স সংস্করণ 3 এর অধীনে লাইসেন্সযুক্ত। আপনি এখানে লাইসেন্স দেখতে পারেন: https://www.gnu.org/licenses/gpl-3.0.en.html</string>
     <!-- note to translators:
          * you should think of “free” as in “free speech,” not as in “free beer”.
@@ -333,8 +333,8 @@
     <string name="unpin_action">আনপিন</string>
     <string name="pin_action">পিন</string>
     <plurals name="favs">
-        <item quantity="one">&lt;b&gt;%1$s&lt;/b&gt; প্রিয়</item>
-        <item quantity="other">&lt;b&gt;%1$s&lt;/b&gt; পছন্দসই</item>
+        <item quantity="one"/>
+        <item quantity="other"/>
     </plurals>
     <plurals name="reblogs">
         <item quantity="one"><b>%s</b> বুস্ট</item>
@@ -343,7 +343,7 @@
     <string name="title_reblogged_by">দ্বারা সর্মথন</string>
     <string name="title_favourited_by">দ্বারা পছন্দ</string>
     <string name="conversation_1_recipients">%1$s</string>
-    <string name="conversation_2_recipients">%1$s এবং %2$s</string>
+    <string name="conversation_2_recipients">%1$s আর %2$s</string>
     <string name="conversation_more_recipients">%1$s, %2$s এবং %3$d আরো অন্য জন</string>
     <string name="max_tab_number_reached">সর্বাধিক %1$d টি ট্যাব পৌঁছেছে</string>
     <string name="description_status_media">মিডিয়া: %s</string>
