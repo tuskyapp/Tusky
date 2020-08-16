@@ -174,7 +174,7 @@ class ViewVideoFragment : ViewMediaFragment() {
     }
 
     override fun onToolbarVisibilityChange(visible: Boolean) {
-        if (videoView == null || !userVisibleHint) {
+        if (videoView == null || mediaDescription == null || !userVisibleHint) {
             return
         }
 
