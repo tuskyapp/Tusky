@@ -3,7 +3,7 @@
     <string name="error_generic">خطایی رخ داد.</string>
     <string name="error_empty">این نمی‌تواند خالی باشد.</string>
     <string name="error_invalid_domain">دامنه وارد شده نامعتبر است</string>
-    <string name="error_failed_app_registration">احراز هویت با سرور ناموفق بود</string>
+    <string name="error_failed_app_registration">اهراز هویت با نمونه شکست خورد.</string>
     <string name="error_no_web_browser_found">مرورگری برای استفاده یافت نشد.</string>
     <string name="error_authorization_unknown">خطای احراز هویت ناشناس رخ داده است.</string>
     <string name="error_authorization_denied">هویت احراز نشد.</string>
@@ -14,7 +14,7 @@
     <string name="error_media_upload_type">این نوع از پرونده نمی‌تواند بارگذاری شود.</string>
     <string name="error_media_upload_opening">پرونده باز نشد.</string>
     <string name="error_media_upload_permission">مجوز برای خواندن رسانه نیاز است.</string>
-    <string name="error_media_download_permission">اجازه ذخیره رسانه نیاز است</string>
+    <string name="error_media_download_permission">نیاز به اجازهٔ ذخیرهٔ رسانه است.</string>
     <string name="error_media_upload_image_or_video">تصاویر و فیلم‌ها هر دو نمی‌توانند به یک وضعیت ضمیمه شوند.</string>
     <string name="error_media_upload_sending">بارگذاری ناموفق بود.</string>
     <string name="error_sender_account_gone">خطا در ارسال بوق.</string>
@@ -54,7 +54,7 @@
     <string name="action_favourite">مورد علاقه</string>
     <string name="action_more">بیش‌تر</string>
     <string name="action_compose">ایجاد</string>
-    <string name="action_login">با ماستودون وارد شو</string>
+    <string name="action_login">ورود با ماستودون</string>
     <string name="action_logout">خروج</string>
     <string name="action_logout_confirm">مطمئنید می‌خواهید از حساب %1s خارج شوید؟</string>
     <string name="action_follow">پیگیری</string>
@@ -99,8 +99,8 @@
     <string name="action_emoji_keyboard">صفحه کلیک شکلک</string>
     <string name="download_image">درحال دریافت %1$s</string>
     <string name="action_copy_link">کپی لینک</string>
-    <string name="send_status_link_to">هم‌رسانی نشانی بوق با</string>
-    <string name="send_status_content_to">هم‌رسانی بوق با</string>
+    <string name="send_status_link_to">هم‌رسانی نشانی بوق با…</string>
+    <string name="send_status_content_to">هم‌رسانی بوق با…</string>
     <string name="send_media_to">هم‌رسانی رسانه با…</string>
     <string name="confirmation_reported">فرستاده شد!</string>
     <string name="confirmation_unblocked">کاربر رفع انسداد شد</string>
@@ -195,8 +195,7 @@
     <string name="notification_title_summary">%d تعاملات جدید</string>
     <string name="description_account_locked">حساب قفل شد</string>
     <string name="about_title_activity">درباره</string>
-    <string name="about_tusky_license">تاسکی نرم‌افزاری آزاد است که تحت نگارش ۳ از پروانهٔ جامع همگانی گنو منتشر شده است. پروانه را می‌توانید از این‌جا ببینید:
-\nhttps://www.gnu.org/licenses/gpl-3.0.en.html</string>
+    <string name="about_tusky_license">تاسکی نرم‌افزاری آزاد است که تحت نگارش ۳ از پروانهٔ جامع همگانی گنو منتشر شده است. پروانه را می‌توانید از این‌جا ببینید: https://www.gnu.org/licenses/gpl-3.0.en.html</string>
     <!-- note to translators:
          * you should think of “free” as in “free speech,” not as in “free beer”.
            We sometimes call it “libre software,” borrowing the French or Spanish word for “free” as in freedom,
@@ -237,7 +236,7 @@
     <string name="lock_account_label">قفل حساب</string>
     <string name="lock_account_label_description">می‌گذاردپیروانتان را به صورت دستی تأیید کنید</string>
     <string name="compose_save_draft">ذخیره به عنوان پیش‌نویس؟</string>
-    <string name="send_toot_notification_title">فرستادن بوق</string>
+    <string name="send_toot_notification_title">در حال فرستادن بوق…</string>
     <string name="send_toot_notification_error_title">خطای فرستادن بوق</string>
     <string name="send_toot_notification_channel_name">در حال فرستادن بوق‌ها</string>
     <string name="send_toot_notification_cancel_title">فرستادن لغو شد</string>
@@ -383,8 +382,8 @@
     <string name="poll_ended_voted">یک نظرسنجی که در آن رای داده‌اید پایان یافته است</string>
     <string name="poll_ended_created">یک نظرسنجی ساخته‌اید پایان یافته است</string>
     <plurals name="poll_timespan_days">
-        <item quantity="one"/>
-        <item quantity="other"/>
+        <item quantity="one">%d روز</item>
+        <item quantity="other">%d روز</item>
     </plurals>
     <plurals name="poll_timespan_hours">
         <item quantity="one">%d ساعت</item>
@@ -392,7 +391,7 @@
     </plurals>
     <plurals name="poll_timespan_minutes">
         <item quantity="one">%d دقیقه</item>
-        <item quantity="other"/>
+        <item quantity="other">%d دقیقه</item>
     </plurals>
     <string name="button_continue">ادامه</string>
     <string name="button_back">قبل</string>
@@ -461,4 +460,13 @@
         <item quantity="one">%d ثانیه</item>
         <item quantity="other">%d ثانیه</item>
     </plurals>
+    <string name="pref_main_nav_position_option_bottom">پایین</string>
+    <string name="pref_main_nav_position_option_top">بالا</string>
+    <string name="pref_main_nav_position">موقعیت ناوبری اصلی</string>
+    <string name="pref_title_gradient_for_media">نمایش گرادیان‌های رنگی برای رسانه‌های نهفته</string>
+    <string name="dialog_mute_hide_notifications">نهفتن آگاهی‌ها</string>
+    <string name="action_unmute_domain">ناخموشی %s</string>
+    <string name="action_mute_notifications_desc">خموشی آگاهی‌ها از %s</string>
+    <string name="action_unmute_notifications_desc">ناخموشی آگاهی‌ها از %s</string>
+    <string name="action_unmute_desc">ناخموشی %s</string>
 </resources>
