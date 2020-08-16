@@ -4,7 +4,7 @@
     <string name="error_network">网络请求出错，请检查互联网连接并重试!</string>
     <string name="error_empty">内容不能为空。</string>
     <string name="error_invalid_domain">该域名无效</string>
-    <string name="error_failed_app_registration">无法连接此服务器。</string>
+    <string name="error_failed_app_registration">无法连接此服务器</string>
     <string name="error_no_web_browser_found">没有可用的浏览器。</string>
     <string name="error_authorization_unknown">认证过程出现未知错误。</string>
     <string name="error_authorization_denied">授权被拒绝。</string>
@@ -71,7 +71,7 @@
     <string name="action_unblock">取消屏蔽</string>
     <string name="action_hide_reblogs">隐藏转嘟</string>
     <string name="action_show_reblogs">显示转嘟</string>
-    <string name="action_report">举报</string>
+    <string name="action_report">报告</string>
     <string name="action_delete">删除</string>
     <string name="action_delete_and_redraft">删除并重新编辑</string>
     <string name="action_send">嘟嘟</string>
@@ -117,7 +117,7 @@
     <string name="title_mentions_dialog">提及</string>
     <string name="title_links_dialog">链接</string>
     <string name="action_open_media_n">打开媒体文件 #%d</string>
-    <string name="download_image">正在下载 %1$s…</string>
+    <string name="download_image">下载中 %1$s</string>
     <string name="action_copy_link">复制链接</string>
     <string name="action_open_as">打开为 %s</string>
     <string name="action_share_as">分享为 …</string>
@@ -141,14 +141,14 @@
     <string name="label_quick_reply">回复…</string>
     <string name="label_avatar">头像</string>
     <string name="label_header">标题</string>
-    <string name="link_whats_an_instance">需要帮助？</string>
+    <string name="link_whats_an_instance">什么是实例？</string>
     <string name="login_connection">正在连接…</string>
     <string name="dialog_whats_an_instance">请输入你帐号所在的 Mastodon 站点的域名，比如 pawoo.net，acg.mn，wxw.moe，<a href="https://instances.social">等等</a> 。 
 \n
 \n还没有 Mastodon 帐号？你也可以输入想注册的 Mastodon 站点的域名，然后在该服务器创建新的帐号并授权 Tusky 登入。 
 \n
 \n在 Mastodon 里，跨站互动和站内互动一样简单。可以前往 <a href="https://joinmastodon.org">https://joinmastodon.org</a> 了解更多信息。 </string>
-    <string name="dialog_title_finishing_media_upload">正在结束上传…</string>
+    <string name="dialog_title_finishing_media_upload">正在结束上传</string>
     <string name="dialog_message_uploading_media">正在上传…</string>
     <string name="dialog_download_image">下载</string>
     <string name="dialog_message_cancel_follow_request">移除关注请求？</string>
@@ -328,7 +328,7 @@
     <string name="profile_metadata_label_label">标签</string>
     <string name="profile_metadata_content_label">内容</string>
     <string name="pref_title_absolute_time">嘟文显示精确时间</string>
-    <string name="label_remote_account">以下信息可能并不完整，要查看完整资料请使用浏览器打开</string>
+    <string name="label_remote_account">以下信息可能并不完整，要查看完整资料请使用浏览器打开。</string>
     <string name="unpin_action">取消置顶</string>
     <string name="pin_action">置顶</string>
     <plurals name="favs">

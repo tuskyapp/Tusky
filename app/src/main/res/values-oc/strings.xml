@@ -52,7 +52,7 @@
     <string name="action_reblog">Partejar</string>
     <string name="action_favourite">Aimar</string>
     <string name="action_more">Mai</string>
-    <string name="action_compose">Redactar</string>
+    <string name="action_compose">Escriure</string>
     <string name="action_login">Començar la session amb Mastodon</string>
     <string name="action_logout">Tampar la session</string>
     <string name="action_logout_confirm">Volètz vertadièrament vos desconnectar del compte %1$s ?</string>
@@ -93,7 +93,7 @@
     <string name="action_search">Cercar</string>
     <string name="action_access_saved_toot">Borrolhons</string>
     <string name="action_toggle_visibility">Visibilitat del tut</string>
-    <string name="action_content_warning">Avís de contengut</string>
+    <string name="action_content_warning">Avis de contengut</string>
     <string name="action_emoji_keyboard">Clavièr Emoji</string>
     <string name="download_image">Telecargament %1$s</string>
     <string name="action_copy_link">Copiar lo ligam</string>
@@ -103,7 +103,7 @@
     <string name="confirmation_reported">Enviat !</string>
     <string name="confirmation_unblocked">Utilizaire desblocat</string>
     <string name="confirmation_unmuted">Utilizaire sortit del silenci</string>
-    <string name="status_sent">Enviat !</string>
+    <string name="status_sent">Enviat !</string>
     <string name="status_sent_long">Responsa ben enviada.</string>
     <string name="hint_domain">Quina instància ?</string>
     <string name="hint_compose">A de qué pensatz ?</string>
@@ -164,8 +164,8 @@
     <string name="pref_title_http_proxy_port">Pòrt del servidor proxy HTTP</string>
     <string name="pref_default_post_privacy">Privacitat predeterminada dels tuts</string>
     <string name="pref_publishing">Publicacion</string>
-    <string name="post_privacy_public">Public</string>
-    <string name="post_privacy_unlisted">Pas listada</string>
+    <string name="post_privacy_public">Publica</string>
+    <string name="post_privacy_unlisted">Pas listat</string>
     <string name="post_privacy_followers_only">Seguidors solament</string>
     <string name="pref_status_text_size">Talha de text de l\'estatut</string>
     <string name="status_text_size_smallest">Mendre</string>
@@ -229,7 +229,7 @@
     <string name="compose_active_account_description">Publicar amb lo compte %1$s</string>
     <string name="error_failed_set_caption">Fracàs en apondre una legenda</string>
     <string name="action_set_caption">Apondre una legenda</string>
-    <string name="action_remove">Levar</string>
+    <string name="action_remove">Suprimir</string>
     <string name="lock_account_label">Clavar lo compte</string>
     <string name="lock_account_label_description">Demanda que validetz manualament los seguidors</string>
     <string name="compose_save_draft">Salvar lo borrolhon ?</string>
@@ -238,7 +238,7 @@
     <string name="send_toot_notification_channel_name">Mandadís dels tuts</string>
     <string name="send_toot_notification_cancel_title">Mandadís anullat</string>
     <string name="send_toot_notification_saved_content">Una còpia del tut es estat salvat dins los borrolhons</string>
-    <string name="action_compose_shortcut">Redactar</string>
+    <string name="action_compose_shortcut">Escriure</string>
     <string name="error_no_custom_emojis">L’instància %s es pas compatibla amb los emoji personalizats</string>
     <string name="copy_to_clipboard_success">Copiat al quichapapièr</string>
     <string name="emoji_style">Estil dels Emoji</string>
@@ -310,7 +310,7 @@
     <string name="pref_title_thread_filter_keywords">Discutidas</string>
     <string name="filter_addition_dialog_title">Ajustar un filtre</string>
     <string name="filter_edit_dialog_title">Modificar un filtre</string>
-    <string name="filter_dialog_remove_button">Suprimir</string>
+    <string name="filter_dialog_remove_button">Levar</string>
     <string name="filter_dialog_update_button">Actualizar</string>
     <string name="filter_add_description">Frasa de filtrar</string>
     <string name="error_create_list">Creacion impossibla de la lista</string>
@@ -329,7 +329,7 @@
     <string name="license_cc_by_sa_4">CC-BY-SA 4.0</string>
     <plurals name="favs">
         <item quantity="one"><b>%1$s</b> Favorit</item>
-        <item quantity="other"><b>3%1$s</b>4 Favorits</item>
+        <item quantity="other"><b>%1$s</b> Favorits</item>
     </plurals>
     <plurals name="reblogs">
         <item quantity="one"><b>%s</b> partatge</item>
@@ -403,7 +403,7 @@
     <string name="hint_additional_info">Comentaris suplementaris</string>
     <string name="report_remote_instance">Transferir a %s</string>
     <string name="failed_report">Fracàs del senhalament</string>
-    <string name="failed_fetch_statuses">Recuperacion dels estatuts impossibla</string>
+    <string name="failed_fetch_statuses">Recuperacion dels estatuts imoossibla</string>
     <string name="report_description_1">Lo senhalament serà enviat a vòstre moderator de servidor. Podètz fornir una explicacion de perque senhalatz lo compte çai-jos :</string>
     <string name="report_description_remote_instance">Aqueste compte es en un autre servidor. Enviar una còpia anonimizada del senhalament \?</string>
     <string name="title_domain_mutes">Domenis resconduts</string>
@@ -416,7 +416,7 @@
     <string name="filter_dialog_whole_word">Mot complèt</string>
     <string name="filter_dialog_whole_word_description">Quand un mot clau o una frasa es solament alfanumeric, serà pas qu’aplicat se correspond al mot complèt</string>
     <string name="pref_title_alway_open_spoiler">Totjorn desplegar los tuts marcats amb un avertiment de contengut</string>
-    <string name="title_accounts">Comptes</string>
+    <string name="title_accounts">Totjorn desplegar los tuts marcats amb un avertiment de contengut</string>
     <string name="failed_search">Fracàs de la recèrca</string>
     <string name="action_add_poll">Ajustar un sondatge</string>
     <string name="create_poll_title">Sondatge</string>
@@ -449,4 +449,5 @@
     <string name="no_scheduled_status">Avètz pas cap de tut planificat.</string>
     <string name="warning_scheduling_interval">L’interval minimum de planificacion sus Mastodon e de 5 minutas.</string>
     <string name="notification_follow_request_name">Demandas d’abonament</string>
+    <string name="hashtags">Etiquetas</string>
 </resources>

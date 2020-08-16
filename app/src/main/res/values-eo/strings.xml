@@ -103,7 +103,7 @@
     <string name="action_search">Serĉi</string>
     <string name="action_access_saved_toot">Malnetoj</string>
     <string name="action_toggle_visibility">Videblo de la mesaĝo</string>
-    <string name="action_content_warning">Enhava averto</string>
+    <string name="action_content_warning">Tikla enhavo</string>
     <string name="action_emoji_keyboard">Klavaro de emoĝioj</string>
     <string name="action_add_tab">Aldoni langeton</string>
     <string name="action_links">Ligiloj</string>
@@ -364,7 +364,7 @@
     <string name="notification_poll_name">Enketoj</string>
     <string name="notification_poll_description">Sciigoj pri enketoj kiuj finiĝis</string>
     <string name="edit_hashtag_hint">Kradvortoj sen #</string>
-    <string name="notifications_clear">Viŝi</string>
+    <string name="notifications_clear">Purigi</string>
     <string name="notifications_apply_filter">Filtri</string>
     <string name="filter_apply">Apliki</string>
     <string name="compose_shortcut_long_label">Verki mesaĝon</string>
@@ -426,7 +426,7 @@
     <string name="create_poll_title">Baloto</string>
     <string name="poll_duration_5_min">5 minutoj</string>
     <string name="poll_duration_30_min">30 minutoj</string>
-    <string name="poll_duration_1_hour">1 horo</string>
+    <string name="poll_duration_1_hour">1 horoj</string>
     <string name="poll_duration_6_hours">6 horoj</string>
     <string name="poll_duration_1_day">1 tago</string>
     <string name="poll_duration_3_days">3 tagoj</string>
@@ -434,10 +434,10 @@
     <string name="add_poll_choice">Aldoni epekton</string>
     <string name="poll_allow_multiple_choices">Multaj elektoj</string>
     <string name="poll_new_choice_hint">Elekton %d</string>
-    <string name="edit_poll">Redakti</string>
+    <string name="edit_poll">Redaktigi</string>
     <string name="title_bookmarks">Legosignoj</string>
     <string name="title_scheduled_toot">Planitaj mesaĝoj</string>
-    <string name="action_bookmark">Aldoni al la legosignoj</string>
+    <string name="action_bookmark">Aldoni al legosignoj</string>
     <string name="action_edit">Redakti</string>
     <string name="action_view_bookmarks">Legosignoj</string>
     <string name="action_access_scheduled_toot">Planitaj mesaĝoj</string>

@@ -46,7 +46,7 @@
     <string name="status_content_show_less">Strni</string>
     <string name="message_empty">Tukaj ni ničesar.</string>
     <string name="footer_empty">Tukaj ni ničesar. Potegnite navzdol za osvežitev!</string>
-    <string name="notification_reblog_format">%s je spodbudil tvoj tut</string>
+    <string name="notification_reblog_format">% je spodbudil tvoj tut</string>
     <string name="notification_favourite_format">%s je vzljubil vaš tut</string>
     <string name="notification_follow_format">%s vam sledi</string>
     <string name="report_username_format">Prijavi @%s</string>
@@ -131,7 +131,7 @@
     <string name="label_avatar">Podoba</string>
     <string name="label_header">Glava</string>
     <string name="login_connection">Povezovanje…</string>
-    <string name="error_failed_app_registration">Overitev s tem vozliščem ni uspela.</string>
+    <string name="error_failed_app_registration">Overitev s to instanco ni uspela.</string>
     <string name="error_authorization_unknown">Prišlo je do neznane napake pri pooblastitvi.</string>
     <string name="action_unfavourite">Odstrani priljubljene</string>
     <string name="action_unmute">Prekini utišanje</string>
@@ -140,7 +140,7 @@
     <string name="confirmation_unblocked">Odblokiran uporabnik</string>
     <string name="confirmation_unmuted">Prekinjeno utišanje uporabnika</string>
     <string name="hint_domain">Katero vozlišče\?</string>
-    <string name="link_whats_an_instance">Kaj je vozlišče\?</string>
+    <string name="link_whats_an_instance">Kaj je instanca\?</string>
     <string name="dialog_whats_an_instance">Tu lahko vnesete naslov ali domeno katerega koli vozlišča, na primer mastodon.social, icosahedron.website, social.tchncs.de in <a href="https://instances.social"> več! </a>
 \n
 \nČe še nimate računa, lahko vnesete ime vozlišča, kateremu bi se radi pridružili, in tam ustvarite račun.
@@ -435,4 +435,10 @@
     <string name="post_lookup_error_format">Napaka pri iskanju objave %s</string>
     <string name="about_powered_by_tusky">Poganja ga Tusky</string>
     <string name="status_boosted_format">% spodbudil</string>
+    <plurals name="favs">
+        <item quantity="one"><b>%1$s</b> Priljubljena</item>
+        <item quantity="two"><b>%1$s</b> Priljubljeni</item>
+        <item quantity="few"><b>%1$s</b> Priljubljene</item>
+        <item quantity="other"><b>%1$s</b> Priljubljenih</item>
+    </plurals>
 </resources>

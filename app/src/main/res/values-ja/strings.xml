@@ -19,7 +19,7 @@
     <string name="error_media_upload_sending">アップロードに失敗しました。</string>
     <string name="error_sender_account_gone">トゥート送信時のエラーです。</string>
     <string name="title_home">ホーム</string>
-    <string name="title_notifications">通知</string>
+    <string name="title_notifications">プッシュ通知</string>
     <string name="title_public_local">ローカル</string>
     <string name="title_public_federated">連合</string>
     <string name="title_direct_messages">ダイレクトメッセージ</string>
@@ -131,9 +131,9 @@
     <string name="label_header">ヘッダー</string>
     <string name="link_whats_an_instance">インスタンスとは？</string>
     <string name="login_connection">接続中…</string>
-    <string name="dialog_whats_an_instance">mastodon.social, mstdn.jp, pawoo.netや<!-- --><a href="https://instances.social">その他</a><!-- -->のような、あらゆるインスタンスのアドレスやドメインを入力できます。 
+    <string name="dialog_whats_an_instance">mastodon.social, icosahedron.website, social.tchncs.deや<a href="https://instances.social">その他</a>のような、あらゆるインスタンスのアドレスやドメインを入力できます。 
 \n
-\nまだアカウントをお持ちでない場合は、参加したいインスタンスの名前を入力することで<!-- -->そのインスタンスにアカウントを作成できます。 
+\nまだアカウントをお持ちでない場合は、参加したいインスタンスの名前を入力することそのインスタンスにアカウントを作成できます。 
 \n
 \nインスタンスはあなたのアカウントが提供される単独の場所ですが、<!-- -->他のインスタンスのユーザーとあたかも同じ場所にいるように簡単にコミュニケーションをとったりフォローしたりできます。 
 \n

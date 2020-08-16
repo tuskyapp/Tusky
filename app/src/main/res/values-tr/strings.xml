@@ -2,7 +2,7 @@
 <resources>
     <string name="error_generic">Bir hata oluştu.</string>
     <string name="error_network">Bir ağ hatası oluştu! Lütfen bağlantınızı kontrol edin ve tekrar deneyin!</string>
-    <string name="error_empty">Bu alan boş bırakılamaz.</string>
+    <string name="error_empty">Bu alan boş bırakılmaz.</string>
     <string name="error_invalid_domain">Girilen alan alanı geçersiz</string>
     <string name="error_failed_app_registration">Bu sunucuyla kimlik doğrulanamadı.</string>
     <string name="error_no_web_browser_found">Kullanılabilir web tarayıcısı bulunamadı.</string>
@@ -10,7 +10,7 @@
     <string name="error_authorization_denied">Kimlik doğrulama reddedildi.</string>
     <string name="error_retrieving_oauth_token">Giriş belirteci alınırken hata oluştu.</string>
     <string name="error_compose_character_limit">Durum çok uzun!</string>
-    <string name="error_image_upload_size">Dosya 8 MB\'dan küçük olmalıdır.</string>
+    <string name="error_image_upload_size">Dosya 8 MB\'dan küçük olmalı.</string>
     <string name="error_video_upload_size">Video dosyaları 40 MB’dan küçük olmalıdır.</string>
     <string name="error_media_upload_type">Bu biçimdeki dosyalar yüklenmez.</string>
     <string name="error_media_upload_opening">Dosya açılamadı.</string>
@@ -120,11 +120,11 @@
     <string name="hint_compose">Neler oluyor?</string>
     <string name="hint_content_warning">İçerik uyarısı</string>
     <string name="hint_display_name">Görünen ad</string>
-    <string name="hint_note">Biyo</string>
+    <string name="hint_note">Hakkında</string>
     <string name="hint_search">Ara…</string>
     <string name="search_no_results">Sonuç bulunamadı</string>
     <string name="label_quick_reply">Yanıt…</string>
-    <string name="label_avatar">Avatar</string>
+    <string name="label_avatar">Simge</string>
     <string name="label_header">Başlık</string>
     <string name="link_whats_an_instance">Sunucunuz nedir\?</string>
     <string name="login_connection">Bağlantı kuruluyor…</string>
@@ -168,7 +168,7 @@
     <string name="pref_title_hide_follow_button">Kaydırırken durum oluştur düğmesi gizlensin</string>
     <string name="pref_title_status_filter">Zaman çizelgesi filtreleme</string>
     <string name="pref_title_status_tabs">Sekmeler</string>
-    <string name="pref_title_show_boosts">Boostları göster</string>
+    <string name="pref_title_show_boosts">Yükseltilenleri göster</string>
     <string name="pref_title_show_replies">Yanıtları göster</string>
     <string name="pref_title_show_media_preview">Medya önizlemelerini indir</string>
     <string name="pref_title_proxy_settings">Proxy</string>
@@ -278,7 +278,7 @@
     <string name="license_apache_2">Apache Lisansı altında lisanslanmıştır (aşağıdaki kopyası)</string>
     <string name="license_cc_by_4">CC-BY 4.0</string>
     <string name="license_cc_by_sa_4">CC-BY-SA 4.0</string>
-    <string name="profile_metadata_label">Profil meta verisi</string>
+    <string name="profile_metadata_label">Profil Meta verisi</string>
     <string name="profile_metadata_add">veri ekle</string>
     <string name="profile_metadata_label_label">Etiket</string>
     <string name="profile_metadata_content_label">İçerik</string>
@@ -336,7 +336,7 @@
     <string name="action_rename_list">Listeyi yeniden adlandır</string>
     <string name="action_delete_list">Listeyi sil</string>
     <string name="action_edit_list">Listeyi düzenle</string>
-    <string name="hint_search_people_list">Takip ettiğim kişilerde ara</string>
+    <string name="hint_search_people_list">Takip ettiğim kişileri ara</string>
     <string name="action_add_to_list">Listeye hesap ekle</string>
     <string name="action_remove_from_list">Hesabı listeden kaldır</string>
     <string name="caption_notoemoji">Google\'ın mevcut ifade paketi</string>

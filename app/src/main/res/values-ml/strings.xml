@@ -2,7 +2,7 @@
 <resources>
     <string name="action_login">മസ്റ്റഡോൺ വഴി പ്രവേശിക്കുക</string>
     <string name="link_whats_an_instance">എന്താണ് ഒരു ഇൻസ്റ്റൻസ്\?</string>
-    <string name="title_favourites">പ്രിയപ്പെട്ടവ</string>
+    <string name="title_favourites">ഇഷ്ടപ്പെട്ടത്</string>
     <string name="title_saved_toot">കരടുകൾ</string>
     <string name="action_logout">പുറത്തിറങ്ങുക</string>
     <string name="action_view_preferences">മുൻഗണനകൾ</string>
@@ -44,8 +44,8 @@
     <string name="title_follows">പിന്തുടരലുകൾ</string>
     <string name="title_followers">പിന്തുടരുന്നവർ</string>
     <string name="title_mutes">നിശ്ശബ്ദരാക്കിയ ഉപയോക്താക്കൾ</string>
-    <string name="title_blocks">തടയപ്പെട്ട ഉപയോക്താക്കൾ</string>
-    <string name="title_follow_requests">പിന്‍തുടരുവാനുള്ള അഭ്യര്‍ത്ഥനകള്‍</string>
+    <string name="title_blocks">നിരോധിച്ച ഉപയോഗതാക്കൾ</string>
+    <string name="title_follow_requests">പിന്തുടാനുള്ള അപേക്ഷകൾ</string>
     <string name="title_edit_profile">പ്രൊഫൈൽ തിരുത്തുക</string>
     <string name="action_reply">മറുപടി</string>
     <string name="action_reblog">ബൂസ്റ്റ്</string>
@@ -56,7 +56,7 @@
     <string name="action_follow">പിന്തുടരുക</string>
     <string name="action_unfollow">പിരിയുക</string>
     <string name="action_retry">വീണ്ടും ശ്രമിക്കുക</string>
-    <string name="action_view_follow_requests">പിന്‍തുടരുവാനുള്ള അഭ്യര്‍ത്ഥനകള്‍</string>
+    <string name="action_view_follow_requests">പിന്തുടാനുള്ള അപേക്ഷകൾ</string>
     <string name="title_domain_mutes">മറയ്ക്കപ്പെട്ട ഡൊമൈനുകൾ</string>
     <string name="description_visiblity_private">പിന്തുടരുന്നവർ</string>
     <string name="footer_empty">പുതിയത് ലഭിക്കാൻ താഴേക്ക് വലിക്കുക</string>
@@ -70,13 +70,13 @@
     <string name="status_sensitive_media_title">സെൻസിറ്റീവ് ഉള്ളടക്കം</string>
     <string name="title_licenses">അനുവാദം</string>
     <string name="title_scheduled_toot">മുന്‍നിശ്ചയിച്ച ടൂറ്റ്‌സ്</string>
-    <string name="title_bookmarks">ബുക് മാർക്ക്</string>
+    <string name="title_bookmarks">ബൂക്കമാർക്ക്</string>
     <string name="action_reset_schedule">പുനഃക്രമീകരിക്കുക</string>
     <string name="action_open_in_web">ബ്രൗസറിൽ തുറക്കുക</string>
     <string name="action_view_media">മാധ്യമം</string>
-    <string name="action_view_domain_mutes">മറയ്ക്കപ്പെട്ട ഡൊമൈനുകൾ</string>
-    <string name="action_view_blocks">നിരോധിച്ച ഉപയോഗതാക്കൾ</string>
-    <string name="action_view_mutes">നിശ്ശബ്ദമാക്കിയ ഉപയോഗതാക്കൾ</string>
+    <string name="action_view_domain_mutes">മറച്ചുവെച്ച ഡൊമൈനുകൾ</string>
+    <string name="action_view_blocks">തടയപ്പെട്ട ഉപയോക്താക്കൾ</string>
+    <string name="action_view_mutes">നിശ്ശബ്ദരാക്കിയ ഉപയോക്താക്കൾ</string>
     <string name="action_view_bookmarks">ബൂക്കമാർക്ക്</string>
     <string name="action_view_favourites">ഇഷ്ടപ്പെട്ടത്</string>
     <string name="action_view_profile">പ്രൊഫൈൽ</string>
