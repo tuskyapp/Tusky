@@ -20,7 +20,7 @@
     <string name="error_sender_account_gone">Erro ao enviar toot.</string>
     <string name="title_home">Página inicial</string>
     <string name="title_notifications">Notificações</string>
-    <string name="title_public_local">Linha local</string>
+    <string name="title_public_local">Local</string>
     <string name="title_public_federated">Linha global</string>
     <string name="title_direct_messages">Mensagens Diretas</string>
     <string name="title_tab_preferences">Editar abas</string>
@@ -40,14 +40,14 @@
     <string name="status_sensitive_media_title">Mídia sensível</string>
     <string name="status_media_hidden_title">Mídia sensível</string>
     <string name="status_sensitive_media_directions">Toque para ver</string>
-    <string name="status_content_warning_show_more">Expandir</string>
+    <string name="status_content_warning_show_more">Mostrar mais</string>
     <string name="status_content_warning_show_less">Ocultar</string>
     <string name="footer_empty">Nada aqui. Arraste para atualizar!</string>
     <string name="notification_reblog_format">%s deu boost no teu toot</string>
     <string name="notification_favourite_format">%s favoritou teu toot</string>
     <string name="notification_follow_format">%s te seguiu</string>
     <string name="report_username_format">Denunciar @%s</string>
-    <string name="report_comment_hint">Comentários adicionais aqui</string>
+    <string name="report_comment_hint">Comentários adicionais\?</string>
     <string name="action_quick_reply">Resposta rápida</string>
     <string name="action_reply">Responder</string>
     <string name="action_reblog">Dar boost</string>
@@ -180,7 +180,7 @@
     <string name="pref_title_http_proxy_port">Porta do proxy HTTP</string>
     <string name="pref_default_post_privacy">Privacidade padrão dos toots</string>
     <string name="pref_default_media_sensitivity">Sempre marcar mídia como sensível</string>
-    <string name="pref_publishing">Publicação</string>
+    <string name="pref_publishing">Publicação (sincronizada com o servidor)</string>
     <string name="pref_failed_to_sync">Erro ao sincronizar configurações</string>
     <string name="post_privacy_public">Público</string>
     <string name="post_privacy_unlisted">Não-listado</string>
@@ -310,7 +310,7 @@
     <string name="pref_title_language">Idioma</string>
     <string name="post_privacy_followers_only">Privado</string>
     <string name="notification_poll_name">Enquetes</string>
-    <string name="notification_poll_description">Notificar sobre enquetes que já terminaram</string>
+    <string name="notification_poll_description">Notificações sobre as pesquisas que terminaram</string>
     <string name="pref_title_public_filter_keywords">Linhas públicas</string>
     <string name="pref_title_thread_filter_keywords">Conversas</string>
     <string name="filter_addition_dialog_title">Criar filtro</string>
@@ -396,7 +396,7 @@
     <string name="caption_notoemoji">Pacote de emojis atual do Google</string>
     <string name="button_continue">Continuar</string>
     <string name="button_back">Voltar</string>
-    <string name="button_done">Ok</string>
+    <string name="button_done">Concluído</string>
     <string name="report_sent_success">\@%s denunciado com sucesso</string>
     <string name="hint_additional_info">Comentários adicionais</string>
     <string name="report_remote_instance">Encaminhar para %s</string>
@@ -470,4 +470,6 @@
     <string name="dialog_mute_hide_notifications">Ocultar notificações</string>
     <string name="action_unmute_domain">Desbloquear %s</string>
     <string name="action_unmute_desc">Dessilenciar %s</string>
+    <string name="action_mute_notifications_desc">Silencie notificações de %s</string>
+    <string name="action_unmute_notifications_desc">Receba notificações de %s</string>
 </resources>
