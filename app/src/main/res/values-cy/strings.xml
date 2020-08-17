@@ -170,7 +170,7 @@
     <string name="notification_mention_name">Crybwylliadau newydd</string>
     <string name="notification_mention_descriptions">Hysbysiadau am grybwylliadau newydd</string>
     <string name="notification_follow_name">Dilynwyr newydd</string>
-    <string name="notification_follow_description">Hysbysiadau am ddilynwyr newydd </string>
+    <string name="notification_follow_description">Hysbysiadau am ddilynwyr newydd</string>
     <string name="notification_boost_name">Hybiau</string>
     <string name="notification_boost_description">Hysbysiadau pan gaiff eich negeseuon eu hybu</string>
     <string name="notification_favourite_name">Ffefrynnau</string>
