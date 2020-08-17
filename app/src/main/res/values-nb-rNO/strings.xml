@@ -51,7 +51,7 @@
     <string name="notification_favourite_format">%1$s favoriserte innlegget ditt</string>
     <string name="notification_follow_format">%1$s følger deg</string>
     <string name="report_username_format">Rapporter @%1$s</string>
-    <string name="report_comment_hint">Ytterligere kommentarer\?</string>
+    <string name="report_comment_hint">Ytterligere kommentarer?</string>
     <string name="action_quick_reply">Hurtigsvar</string>
     <string name="action_reply">Svar</string>
     <string name="action_reblog">Del</string>
@@ -126,8 +126,8 @@
     <string name="confirmation_reported">Sendt!</string>
     <string name="confirmation_unblocked">Fjernet blokkering av bruker</string>
     <string name="confirmation_unmuted">Fjernet demping av bruker</string>
-    <string name="hint_domain">Hvilken instanse\?</string>
-    <string name="hint_compose">Hva skjer\?</string>
+    <string name="hint_domain">Hvilken instanse?</string>
+    <string name="hint_compose">Hva skjer?</string>
     <string name="hint_content_warning">Innholdsadvarsel</string>
     <string name="hint_display_name">Visningsnavn</string>
     <string name="hint_note">Biografi</string>
@@ -148,7 +148,7 @@
     <string name="dialog_title_finishing_media_upload">Opplasting av media er ferdig</string>
     <string name="dialog_message_uploading_media">Laster opp…</string>
     <string name="dialog_download_image">Last ned</string>
-    <string name="dialog_message_cancel_follow_request">Trekk tilbake følgeforespørselen\?</string>
+    <string name="dialog_message_cancel_follow_request">Trekk tilbake følgeforespørselen?</string>
     <string name="dialog_unfollow_warning">Slutt å følge denne kontoen?</string>
     <string name="dialog_delete_post_warning">Slett dette innlegget?</string>
     <string name="visibility_public">Offentlig: Vis i offentlige tidslinjer</string>
@@ -299,8 +299,8 @@
     <string name="unpin_action">Fjern feste</string>
     <string name="pin_action">Fest</string>
     <plurals name="favs">
-        <item quantity="one">&lt;b&gt;%1$s&lt;/b&gt; Favoritt</item>
-        <item quantity="other">&lt;b&gt;%1$s&lt;/b&gt; Favoritter</item>
+        <item quantity="one"><b>%1$s</b> Favoritt</item>
+        <item quantity="other"><b>%1$s</b> Favoritter</item>
     </plurals>
     <plurals name="reblogs">
         <item quantity="one">Delt <b>%1$s</b> gang</item>
@@ -328,7 +328,7 @@
     <string name="compose_shortcut_long_label">Skriv innlegg</string>
     <string name="compose_shortcut_short_label">Skriv</string>
     <string name="pref_title_bot_overlay">Vis robotindikator</string>
-    <string name="notification_clear_text">Er du sikker på at du vil slette alle varsler\?</string>
+    <string name="notification_clear_text">Er du sikker på at du vil slette alle varsler?</string>
     <string name="action_delete_and_redraft">Slett og skriv på nytt</string>
     <string name="dialog_redraft_post_warning">Vil du slette denne tuten og skrive den på nytt?</string>
     <string name="poll_info_format"> <!-- 15 votes • 1 hour left --> %1$s • %2$s</string>
@@ -385,7 +385,7 @@
     <string name="failed_report">Klarte ikke å rapportere</string>
     <string name="failed_fetch_posts">Klarte ikke å hente innlegg</string>
     <string name="report_description_1">Rapporten vil bli sendt til instansmoderatoren. Under kan du skrive en forklaring på hvorfor du rapporterer denne kontoen:</string>
-    <string name="report_description_remote_instance">Kontoen tilhører en annen instans. Vil du også sende en anonymisert kopi av rapporten dit\?</string>
+    <string name="report_description_remote_instance">Kontoen tilhører en annen instans. Vil du også sende en anonymisert kopi av rapporten dit?</string>
     <string name="title_domain_mutes">Skjulte domener</string>
     <string name="action_view_domain_mutes">Skjulte domener</string>
     <string name="action_mute_domain">Demp %1$s</string>
@@ -435,8 +435,8 @@
     </plurals>
     <string name="notification_follow_request_description">Varsler om følgeforespørsler</string>
     <string name="notification_follow_request_name">Følgeforespørsler</string>
-    <string name="dialog_mute_warning">Dempe @%1$s\?</string>
-    <string name="dialog_block_warning">Blokkere @%1$s\?</string>
+    <string name="dialog_mute_warning">Dempe @%1$s?</string>
+    <string name="dialog_block_warning">Blokkere @%1$s?</string>
     <string name="action_unmute_conversation">Fjern demping av samtale</string>
     <string name="action_mute_conversation">Demp samtale</string>
     <string name="hashtags">Stikkord</string>
