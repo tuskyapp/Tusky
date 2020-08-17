@@ -348,9 +348,10 @@
         <item quantity="other"><b>%1$s</b> polubień</item>
     </plurals>
     <plurals name="reblogs">
-        <item quantity="one">&lt;b&gt;%1$s&lt;/b&gt; podbicie</item>
-        <item quantity="few">&lt;b&gt;%1$s&lt;/b&gt; podbicia</item>
-        <item quantity="many">&lt;b&gt;%1$s&lt;/b&gt; podbić</item>
+        <item quantity="one"><b>%1$s</b> podbicie</item>
+        <item quantity="few"><b>%1$s</b> podbicia</item>
+        <item quantity="many"><b>%1$s</b> podbić</item>
+        <item quantity="other"><b>%1$s</b> podbić</item>
     </plurals>
     <string name="title_reblogged_by">Podbite przez</string>
     <string name="title_favourited_by">Polubione przez</string>
@@ -374,7 +375,7 @@
     <string name="filter_apply">Zastosuj</string>
     <string name="compose_shortcut_long_label">Stwórz wpis</string>
     <string name="compose_shortcut_short_label">Nowy wpis</string>
-    <string name="notification_clear_text">Czy jesteś pewien/pewna, że chcesz wyczyścić wszystkie swoje powiadomienia\?</string>
+    <string name="notification_clear_text">Czy jesteś pewien/pewna, że chcesz wyczyścić wszystkie swoje powiadomienia?</string>
     <string name="compose_preview_image_description">Opcje dla obrazu %1$s</string>
     <string name="poll_info_format"> <!-- 15 votes • 1 hour left --> %1$s • %2$s</string>
     <plurals name="poll_info_votes">
@@ -421,7 +422,7 @@
     <string name="failed_report">Zgłoszenie nie powiodło się</string>
     <string name="failed_fetch_posts">Pobieranie wpisów nie powiodło się</string>
     <string name="report_description_1">Zgłoszenie zostanie przesłąne do moderatora twojego serwera. Możesz podać przyczynę zgłoszenia tego konta poniżej:</string>
-    <string name="report_description_remote_instance">To konto jest na innym serwerze. Czy przesłać anonimizowaną kopię zgłoszenia na ten serwer\?</string>
+    <string name="report_description_remote_instance">To konto jest na innym serwerze. Czy przesłać anonimizowaną kopię zgłoszenia na ten serwer?</string>
     <string name="title_accounts">Konta</string>
     <string name="failed_search">Wyszukiwanie nie powidło się</string>
     <string name="create_poll_title">Głosowanie</string>
@@ -455,8 +456,8 @@
     <string name="notification_follow_request_name">Prośby o obserwację</string>
     <string name="pref_title_confirm_reblogs">Pytaj o potwierdzenie przed podbiciem</string>
     <string name="add_hashtag_title">Dodaj hashtag</string>
-    <string name="dialog_mute_warning">Wyciszyć @%1$s\?</string>
-    <string name="dialog_block_warning">Zablokować @%1$s\?</string>
+    <string name="dialog_mute_warning">Wyciszyć @%1$s?</string>
+    <string name="dialog_block_warning">Zablokować @%1$s?</string>
     <string name="action_unmute_conversation">Cofnij wyciszenie rozmowy</string>
     <string name="action_mute_conversation">Wycisz rozmowę</string>
     <plurals name="poll_info_people">
