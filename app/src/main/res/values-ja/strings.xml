@@ -292,10 +292,10 @@
     <string name="unpin_action">固定表示を解除</string>
     <string name="pin_action">プロフィールに固定</string>
     <plurals name="favs">
-        <item quantity="other">&lt;b&gt;%1$s&lt;/b&gt; お気に入り</item>
+        <item quantity="other"><b>%1$s</b> お気に入り</item>
     </plurals>
     <plurals name="reblogs">
-        <item quantity="other">&lt;b&gt;%1$s&lt;/b&gt; ブースト</item>
+        <item quantity="other"><b>%1$s</b> ブースト</item>
     </plurals>
     <string name="title_reblogged_by">ブーストした人物</string>
     <string name="title_favourited_by">お気に入りした人物</string>
