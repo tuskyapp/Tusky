@@ -71,6 +71,7 @@ class AccountPreferencesFragment : PreferenceFragmentCompat(), Injectable {
 
             preference {
                 setTitle(R.string.title_tab_preferences)
+                icon = getTintedIcon(R.drawable.ic_tabs)
                 setOnPreferenceClickListener {
                     val intent = Intent(context, TabPreferenceActivity::class.java)
                     activity?.startActivity(intent)
