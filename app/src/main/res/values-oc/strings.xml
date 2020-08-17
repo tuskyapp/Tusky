@@ -348,7 +348,7 @@
     <string name="notifications_apply_filter">Filtrar</string>
     <string name="filter_apply">Aplicar</string>
     <string name="pref_title_bot_overlay">Mostrar coma indicator pels robòts</string>
-    <string name="notification_clear_text">Netejar totas las notificacions d’un biais permanent \?</string>
+    <string name="notification_clear_text">Netejar totas las notificacions d’un biais permanent ?</string>
     <plurals name="poll_info_votes">
         <item quantity="one">%1$s vòte</item>
         <item quantity="other">%1$s votes</item>
@@ -390,12 +390,12 @@
     <string name="failed_report">Fracàs del senhalament</string>
     <string name="failed_fetch_posts">Recuperacion dels estatuts impossibla</string>
     <string name="report_description_1">Lo senhalament serà enviat a vòstres moderators de servidor. Podètz fornir una explicacion de perque senhalatz lo compte çai-jos :</string>
-    <string name="report_description_remote_instance">Aqueste compte es en un autre servidor. Enviar una còpia anonimizada del senhalament \?</string>
+    <string name="report_description_remote_instance">Aqueste compte es en un autre servidor. Enviar una còpia anonimizada del senhalament ?</string>
     <string name="title_domain_mutes">Domenis resconduts</string>
     <string name="action_view_domain_mutes">Domenis resconduts</string>
     <string name="action_mute_domain">Rescondre %1$s</string>
     <string name="confirmation_domain_unmuted">%1$s es pas mai rescondut</string>
-    <string name="mute_domain_warning">Volètz vertadièrament blocar complètament %1$s \? Veiretz pas mai de contengut venent d’aqueste domeni, nimai los flux d’actualitat o las notificacion. Vòstres seguidors d’aqueste domeni seràn tirats.</string>
+    <string name="mute_domain_warning">Volètz vertadièrament blocar complètament %1$s ? Veiretz pas mai de contengut venent d’aqueste domeni, nimai los flux d’actualitat o las notificacion. Vòstres seguidors d’aqueste domeni seràn tirats.</string>
     <string name="mute_domain_warning_dialog_ok">Rescondre tot lo domeni</string>
     <string name="filter_dialog_whole_word">Mot complèt</string>
     <string name="filter_dialog_whole_word_description">Quand un mot clau o una frasa es solament alfanumeric, serà pas qu’aplicat se correspond al mot complèt</string>
