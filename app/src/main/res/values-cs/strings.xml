@@ -217,9 +217,7 @@
     <string name="description_account_locked">Uzamčený účet</string>
     <string name="about_title_activity">O této aplikaci</string>
     <string name="about_tusky_version">Tusky %1$s</string>
-    <string name="about_tusky_license">Tusky je svobodný a otevřený software.
-        Je dostupný pod licencí GNU General Public License, verze 3.
-        Licenci můžete zobrazit zde: https://www.gnu.org/licenses/gpl-3.0.en.html</string>
+    <string name="about_tusky_license">Tusky je svobodný a otevřený software. Je dostupný pod licencí GNU General Public License, verze 3. Licenci můžete zobrazit zde: https://www.gnu.org/licenses/gpl-3.0.en.html</string>
     <!-- note to translators:
          * you should think of “free” as in “free speech,” not as in “free beer”.
            We sometimes call it “libre software,” borrowing the French or Spanish word for “free” as in freedom,
@@ -354,7 +352,7 @@
     <string name="notifications_apply_filter">Filtrovat</string>
     <string name="filter_apply">Použít</string>
     <string name="pref_title_bot_overlay">Zobrazovat indikátor pro roboty</string>
-    <string name="notification_clear_text">Jste si jistý/á, že chcete trvale vymazat všechna vaše oznámení\?</string>
+    <string name="notification_clear_text">Jste si jistý/á, že chcete trvale vymazat všechna vaše oznámení?</string>
     <string name="action_delete_and_redraft">Smazat a přepsat</string>
     <string name="dialog_redraft_post_warning">Smazat a přepsat tento příspěvek?</string>
     <string name="poll_info_format"> \u0020<!-- 15 hlasů • 1 hodina do konce --> \u0020%1$s • %2$s</string>
@@ -392,7 +390,7 @@
     <string name="action_view_domain_mutes">Skryté domény</string>
     <string name="action_mute_domain">Skrýt doménu %1$s</string>
     <string name="confirmation_domain_unmuted">Skrytí domény %1$s bylo zrušeno</string>
-    <string name="mute_domain_warning">Jste si jistý/á, že chcete zablokovat vše z domény %1$s\? Z této domény neuvidíte obsah v žádné veřejné časové ose ani v oznámeních. Vaši sledující z této domény budou odstraněni.</string>
+    <string name="mute_domain_warning">Jste si jistý/á, že chcete zablokovat vše z domény %1$s? Z této domény neuvidíte obsah v žádné veřejné časové ose ani v oznámeních. Vaši sledující z této domény budou odstraněni.</string>
     <string name="mute_domain_warning_dialog_ok">Skrýt celou doménu</string>
     <string name="caption_notoemoji">Aktuální sada emoji od Googlu</string>
     <string name="button_continue">Pokračovat</string>
@@ -451,7 +449,7 @@
     <string name="pref_main_nav_position">Umístění hlavní navigační lišty</string>
     <string name="hashtags">Hashtagy</string>
     <string name="about_powered_by_tusky">Powered by Tusky</string>
-    <string name="dialog_block_warning">Zablokovat @%1$s\?</string>
+    <string name="dialog_block_warning">Zablokovat @%1$s?</string>
     <string name="pref_main_nav_position_option_top">Nahoře</string>
     <string name="action_unmute_domain">Zrušit skrytí domény %1$s</string>
     <string name="action_unmute_desc">Zrušit skrytí %1$s</string>
