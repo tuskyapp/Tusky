@@ -93,7 +93,7 @@
     <string name="send_post_content_to">Toot உள்ளடக்கத்தை பகிர…</string>
     <string name="send_media_to">Mediaவை பகிர…</string>
     <string name="confirmation_reported">அனுப்பு!</string>
-    <string name="confirmation_unblocked">பயனர்  முடக்கம் நீக்கப்பட்டது</string>
+    <string name="confirmation_unblocked">பயனர் முடக்கம் நீக்கப்பட்டது</string>
     <string name="confirmation_unmuted">பயனர் ஒலிக்க செய்யபட்டது</string>
     <string name="hint_domain">எந்த instance(களம்)?</string>
     <string name="hint_compose">என்ன நடக்கிறது?</string>
@@ -221,7 +221,7 @@
     <string name="send_post_notification_cancel_title">Toot அனுப்பபல் நீக்கபட்டது</string>
     <string name="send_post_notification_saved_content">நகலெடுக்கபட்ட toot வரைவில் சேமிக்கபட்டது</string>
     <string name="action_compose_shortcut">எழுது</string>
-    <string name="error_no_custom_emojis">தங்கள் %1$s instance(களம்)-ல் எந்தவொரு custom emojis-ம் இல்லை </string>
+    <string name="error_no_custom_emojis">தங்கள் %1$s instance(களம்)-ல் எந்தவொரு custom emojis-ம் இல்லை</string>
     <string name="emoji_style">Emoji பாணி</string>
     <string name="system_default">அமைப்பின் இயல்புநிலை</string>
     <string name="download_fonts">தாங்கள் முதலில் இந்த Emoji sets-னை பதிவிறக்கவேண்டும்</string>
@@ -240,14 +240,14 @@
     <string name="account_moved_description">%1$s கணக்கு நகர்த்தபட்டது இதற்க்கு:</string>
     <string name="reblog_private">அசலான பார்வையாளர்களுக்கு மட்டும் மேலேற்று</string>
     <string name="unreblog_private">மேலேற்றத்தை தவிர்</string>
-    <string name="license_description">Tusky கொண்டுள்ள நிரல்  மற்றும் துணுக்குகள் பின்வரும் திறந்த மூல திட்டங்கள்:</string>
+    <string name="license_description">Tusky கொண்டுள்ள நிரல் மற்றும் துணுக்குகள் பின்வரும் திறந்த மூல திட்டங்கள்:</string>
     <string name="license_apache_2">Apache License (copy below)-ன் கீழ் உரிமமளிக்கப்பட்டுள்ளது</string>
-    <string name="profile_metadata_label">சுயவிவர  மேனிலை தரவு</string>
+    <string name="profile_metadata_label">சுயவிவர மேனிலை தரவு</string>
     <string name="profile_metadata_add">தகவலை இணைக்க</string>
     <string name="profile_metadata_label_label">விவரத்துணுக்கு</string>
     <string name="profile_metadata_content_label">உள்ளடக்கம்</string>
     <string name="pref_title_absolute_time">Absolute நேரத்தை பயன்படுத்து</string>
-    <string name="label_remote_account">கீழுள்ள தகவல் பயனரின் சுயவிவரத்தின்  பிரதிபலிப்பு முழுமையடையாது. முழு சுயவிவரத்தை உலாவில் திறக்க அழுத்தவும்.</string>
+    <string name="label_remote_account">கீழுள்ள தகவல் பயனரின் சுயவிவரத்தின் பிரதிபலிப்பு முழுமையடையாது. முழு சுயவிவரத்தை உலாவில் திறக்க அழுத்தவும்.</string>
     <string name="unpin_action">விடுவி</string>
     <string name="pin_action">பொருத்து</string>
     <string name="action_view_account_preferences">கணக்கரின் முன்னுரிமைகள்</string>
