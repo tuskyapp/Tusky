@@ -154,9 +154,7 @@
     <string name="description_account_locked">Compte blocat</string>
     <string name="about_title_activity">Quant a</string>
     <string name="about_tusky_version">Tusky %1$s</string>
-    <string name="about_tusky_license">Tusky és programari gratuït, lliure i de codi obert.
-        Està llicenciat en els termes de la Llicència Pública General GNU versió 3.
-        Podeu trobar les llicència aquí: https://www.gnu.org/licenses/gpl-3.0.ca.html</string>
+    <string name="about_tusky_license">Tusky és programari gratuït, lliure i de codi obert. Està llicenciat en els termes de la Llicència Pública General GNU versió 3. Podeu trobar les llicència aquí: https://www.gnu.org/licenses/gpl-3.0.ca.html</string>
     <!-- note to translators: the url can be changed to link to the localized version of the license -->
     <string name="about_project_site">Lloc web del projecte:
 \n https://tusky.app</string>
@@ -223,7 +221,7 @@
     <string name="action_open_as">Obre com a %1$s</string>
     <string name="downloading_media">S\'està Descarregant media</string>
     <string name="label_quick_reply">Resposta …</string>
-    <string name="dialog_message_cancel_follow_request">Revocar la petició de seguiment\?</string>
+    <string name="dialog_message_cancel_follow_request">Revocar la petició de seguiment?</string>
     <string name="dialog_delete_post_warning">Vols eliminar aquest toot?</string>
     <string name="dialog_redraft_post_warning">Vols eliminar i reescriure aquesta publicació\?</string>
     <string name="pref_title_app_theme">Tema</string>
@@ -283,7 +281,7 @@
     <string name="action_remove">Eliminar</string>
     <string name="lock_account_label">Protegir el compte</string>
     <string name="lock_account_label_description">S\'haurà d\'admetre els seguidors manualment</string>
-    <string name="compose_save_draft">Guardar l\'esborrany\?</string>
+    <string name="compose_save_draft">Guardar l\'esborrany?</string>
     <string name="send_post_notification_title">S\'està publicant…</string>
     <string name="send_post_notification_error_title">Error en publicar</string>
     <string name="send_post_notification_channel_name">S\'esatan enviant les publicacions</string>
@@ -348,7 +346,7 @@
     <string name="compose_shortcut_long_label">Escriure una publicació</string>
     <string name="compose_shortcut_short_label">Escriure</string>
     <string name="pref_title_bot_overlay">Mostra l\'indicador dels bots</string>
-    <string name="notification_clear_text">Vols netejar totes les notificacions permanentment\?</string>
+    <string name="notification_clear_text">Vols netejar totes les notificacions permanentment?</string>
     <string name="poll_info_format"> <!-- 15 vots • queda 1 hora --> %1$s • %2$s</string>
     <plurals name="poll_info_votes">
         <item quantity="one">%1$s vot</item>
@@ -384,10 +382,10 @@
     <string name="failed_fetch_posts">Error obtenint els estats</string>
     <string name="report_description_1">L\'informe s\'enviarà al moderador del teu servidor. Pots afegir una explicació del motiu d\'aquest informe del compte a sota:</string>
     <string name="title_accounts">Comptes</string>
-    <string name="mute_domain_warning">Estàs segur que vols bloquejar tot de %1$s\? No veuràs cap contingut de domini ni en els fils públics ni a les teves notificacions. Els teus seguidors d\'aquest domini seran eliminats.</string>
+    <string name="mute_domain_warning">Estàs segur que vols bloquejar tot de %1$s? No veuràs cap contingut de domini ni en els fils públics ni a les teves notificacions. Els teus seguidors d\'aquest domini seran eliminats.</string>
     <string name="filter_dialog_whole_word_description">Quan la paraula o la frase siguin només alfanumèrica , només s\'aplicarà si coincideix amb tota la paraula</string>
     <string name="report_sent_success">\@%1$s reportat satisfactoriament</string>
-    <string name="report_description_remote_instance">El compte és d\'un altre servidor. Enviar, igualment, una copia anònima del report\?</string>
+    <string name="report_description_remote_instance">El compte és d\'un altre servidor. Enviar, igualment, una copia anònima del report?</string>
     <string name="failed_search">Cerca fallida</string>
     <string name="duration_1_hour">1 hora</string>
     <string name="duration_6_hours">6 hores</string>
@@ -430,8 +428,8 @@
     <string name="hashtags">Hashtags</string>
     <string name="add_hashtag_title">Afegir hashtag</string>
     <string name="notification_follow_request_description">Notificacions sobre sol·licituds de seguiment</string>
-    <string name="dialog_mute_warning">Silenciar @%1$s\?</string>
-    <string name="dialog_block_warning">Bloquejar @%1$s\?</string>
+    <string name="dialog_mute_warning">Silenciar @%1$s?</string>
+    <string name="dialog_block_warning">Bloquejar @%1$s?</string>
     <string name="action_unmute_conversation">No silenciar la conversació</string>
     <string name="action_mute_conversation">Silencia la conversa</string>
     <string name="notification_follow_request_format">%1$s ha sol·licitat seguir-te</string>
