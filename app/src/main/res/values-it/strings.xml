@@ -215,9 +215,7 @@
     <string name="description_account_locked">Account bloccato</string>
     <string name="about_title_activity">A proposito</string>
     <string name="about_tusky_version">Tusky %1$s</string>
-    <string name="about_tusky_license">Tusky è un programma libero ed open source.
-		È distribuito con licenza GNU General Public License Version 3.
-		Puoi leggere la licenza qui: https://www.gnu.org/licenses/gpl-3.0.en.html</string>
+    <string name="about_tusky_license">Tusky è un programma libero ed open source. È distribuito con licenza GNU General Public License Version 3. Puoi leggere la licenza qui: https://www.gnu.org/licenses/gpl-3.0.en.html</string>
     <!-- note to translators:
          * you should think of “free” as in “free speech,” not as in “free beer”.
            We sometimes call it “libre software,” borrowing the French or Spanish word for “free” as in freedom,
@@ -353,7 +351,7 @@
     <string name="notifications_apply_filter">Filtra</string>
     <string name="filter_apply">Applica</string>
     <string name="pref_title_bot_overlay">Mostra indicatore bot</string>
-    <string name="notification_clear_text">Sei sicuro di voler permanentemente eliminare tutte le tue notifiche\?</string>
+    <string name="notification_clear_text">Sei sicuro di voler permanentemente eliminare tutte le tue notifiche?</string>
     <string name="action_delete_and_redraft">Cancella e riscrivi</string>
     <string name="dialog_redraft_post_warning">Cancellare e riscrivere questo post?</string>
     <plurals name="poll_info_votes">
@@ -368,7 +366,7 @@
     <string name="action_view_domain_mutes">Domini nascosti</string>
     <string name="action_mute_domain">Silenzia %1$s</string>
     <string name="confirmation_domain_unmuted">%1$s mostrati</string>
-    <string name="mute_domain_warning">Sei sicuro di voler bloccare tutto %1$s\? Non vedrai nessun contenuto da quel dominio in nessuna timeline pubblica o nelle tue notifiche. I tuoi seguaci che stanno in quel dominio saranno rimossi.</string>
+    <string name="mute_domain_warning">Sei sicuro di voler bloccare tutto %1$s? Non vedrai nessun contenuto da quel dominio in nessuna timeline pubblica o nelle tue notifiche. I tuoi seguaci che stanno in quel dominio saranno rimossi.</string>
     <string name="mute_domain_warning_dialog_ok">Nascondi l\'intero dominio</string>
     <string name="pref_title_animate_gif_avatars">Riproduci avatar animati</string>
     <string name="notification_poll_name">Risultati del sondaggio</string>
@@ -419,7 +417,7 @@
     <string name="failed_report">Segnalazione fallita</string>
     <string name="failed_fetch_posts">Scaricamento dei post fallito</string>
     <string name="report_description_1">La segnalazione sarà inviata al moderatore del tuo server. Puoi spiegare perché stai segnalando l\'utente qui sotto:</string>
-    <string name="report_description_remote_instance">L\'utente è su un altro server. Mandare una copia della segnalazione anche lì\?</string>
+    <string name="report_description_remote_instance">L\'utente è su un altro server. Mandare una copia della segnalazione anche lì?</string>
     <string name="title_accounts">Utenti</string>
     <string name="failed_search">Errore durante la ricerca</string>
     <string name="create_poll_title">Sondaggio</string>
@@ -448,8 +446,8 @@
     </plurals>
     <string name="hashtags">Hashtag</string>
     <string name="add_hashtag_title">Aggiungi hashtag</string>
-    <string name="dialog_mute_warning">Silenziare @%1$s\?</string>
-    <string name="dialog_block_warning">Bloccare @%1$s\?</string>
+    <string name="dialog_mute_warning">Silenziare @%1$s?</string>
+    <string name="dialog_block_warning">Bloccare @%1$s?</string>
     <string name="action_unmute_domain">Smetti di silenziare %1$s</string>
     <string name="action_unmute_conversation">Smetti di silenziare la conversazione</string>
     <string name="action_mute_conversation">Silenzia conversazione</string>
