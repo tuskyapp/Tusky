@@ -112,7 +112,7 @@
     <string name="visibility_private">केवल फ़ॉलोअर के लिए : केवल फ़ॉलोअर के लिए पोस्ट करें</string>
     <string name="visibility_unlisted">असूचीबद्ध: सार्वजनिक टाइमलाइन में न दिखाएं</string>
     <string name="visibility_public">सार्वजनिक: सार्वजनिक टाइमलाइन पर पोस्ट करें</string>
-    <string name="dialog_mute_warning">म्यूट @%1$s\?</string>
+    <string name="dialog_mute_warning">म्यूट @%1$s?</string>
     <string name="mute_domain_warning_dialog_ok">संपूर्ण डोमेन छिपाएं</string>
     <string name="dialog_download_image">डाउनलोड</string>
     <string name="dialog_message_uploading_media">अपलोड हो रहा है…</string>
@@ -125,7 +125,7 @@
     <string name="hint_note">जीवनी</string>
     <string name="hint_display_name">प्रदर्शित होने वाला नाम</string>
     <string name="hint_content_warning">विषय वस्तु चेतावनी</string>
-    <string name="hint_compose">क्या हो रहा है\?</string>
+    <string name="hint_compose">क्या हो रहा है?</string>
     <string name="confirmation_reported">भेज दिया!</string>
     <string name="downloading_media">मीडिया डाउनलोड हो रहा है</string>
     <string name="download_media">मीडिया डाउनलोड करें</string>
@@ -166,7 +166,7 @@
     <string name="action_bookmark">बुकमार्क</string>
     <string name="action_reblog">बढ़ावा दें</string>
     <string name="action_quick_reply">तुरंत जवाब</string>
-    <string name="report_comment_hint">अतिरिक्त टिप्पणियां\?</string>
+    <string name="report_comment_hint">अतिरिक्त टिप्पणियां?</string>
     <string name="report_username_format">रिपोर्ट @%1$s</string>
     <string name="notification_favourite_format">%1$s ने आपके टूट को पसंद किया</string>
     <string name="notification_reblog_format">%1$s ने आपके टूट को बढावा दिया</string>
@@ -237,7 +237,7 @@
     <string name="send_post_notification_cancel_title">भेजना रद्द हो गया</string>
     <string name="send_post_notification_channel_name">टूट भेज रहे</string>
     <string name="send_post_notification_title">टूट भेज रहे…</string>
-    <string name="compose_save_draft">लिखने को सुरक्षित करें\?</string>
+    <string name="compose_save_draft">लिखने को सुरक्षित करें?</string>
     <string name="lock_account_label">खाता लॉक करें</string>
     <string name="action_set_caption">कैप्शन सेट करें</string>
     <string name="add_account_name">खाता जोड़ो</string>
@@ -252,14 +252,14 @@
     <string name="post_lookup_error_format">%1$s पोस्ट खोजने में त्रुटि</string>
     <string name="pref_title_enable_swipe_for_tabs">टैब के बीच स्विच करने के लिए स्वाइप जेस्चर को सक्षम करें</string>
     <string name="failed_search">खोज करने में विफल</string>
-    <string name="report_description_remote_instance">खाता किसी अन्य सर्वर से है। रिपोर्ट की अनाम प्रति वहां भी भेजें\?</string>
+    <string name="report_description_remote_instance">खाता किसी अन्य सर्वर से है। रिपोर्ट की अनाम प्रति वहां भी भेजें?</string>
     <string name="report_description_1">रिपोर्ट आपके सर्वर मॉडरेटर को भेजी जाएगी। आप इस बारे में स्पष्टीकरण दे सकते हैं कि आप इस खाते को रिपोर्ट क्यों कर रहे हैं:</string>
     <string name="failed_report">रिपोर्ट करने में विफल</string>
     <string name="report_remote_instance">%1$s को आगे भेजें</string>
     <string name="hint_additional_info">अतिरिक्त टिप्पणियां</string>
     <string name="report_sent_success">\@%1$s सफलतापूर्वक रिपोर्ट किए गए</string>
     <string name="compose_preview_image_description">तस्वीरों के लिए क्रिया %1$s</string>
-    <string name="notification_clear_text">क्या आप अपनी सभी सूचनाओं को स्थायी रूप से साफ़ करना चाहते हैं\?</string>
+    <string name="notification_clear_text">क्या आप अपनी सभी सूचनाओं को स्थायी रूप से साफ़ करना चाहते हैं?</string>
     <string name="compose_shortcut_long_label">टूट लिखें</string>
     <string name="filter_apply">लागू करें</string>
     <string name="notifications_apply_filter">फ़िल्टर</string>
@@ -299,6 +299,7 @@
     <string name="filter_dialog_remove_button">हटाएँ</string>
     <string name="action_remove">हटा दें</string>
     <plurals name="hint_describe_for_visually_impaired">
+        <item quantity="one"></item>
         <item quantity="other">दृष्टिहीन लोगों के लिए वर्णन करें
 \n(%1$d वर्ण सीमा)</item>
     </plurals>
@@ -345,7 +346,7 @@
     <string name="pref_title_app_theme">एप्लिकेशन थीम</string>
     <string name="pref_title_notification_alerts">सूचनाएं</string>
     <string name="dialog_mute_hide_notifications">सूचनाएं छिपाएं</string>
-    <string name="dialog_block_warning">ब्लॉक @%1$s\?</string>
+    <string name="dialog_block_warning">ब्लॉक @%1$s?</string>
     <string name="dialog_title_finishing_media_upload">मीडिया अपलोड समाप्त हो रहा</string>
     <string name="confirmation_unmuted">उपयोगकर्ता अनम्यूट किए गए</string>
     <string name="confirmation_unblocked">उपयोगकर्ता अनब्लॉक किए गए</string>
@@ -371,8 +372,8 @@
     <string name="notification_follow_description">नए फ़ॉलोअर की सूचनाएं</string>
     <string name="notification_follow_name">नए फ़ॉलोअर</string>
     <string name="post_privacy_followers_only">केवल फ़ॉलोअर के लिए</string>
-    <string name="dialog_unfollow_warning">इस खाते को अनफ़ॉलो करें\?</string>
-    <string name="dialog_message_cancel_follow_request">फ़ॉलो अनुरोध को रद्द करें\?</string>
+    <string name="dialog_unfollow_warning">इस खाते को अनफ़ॉलो करें?</string>
+    <string name="dialog_message_cancel_follow_request">फ़ॉलो अनुरोध को रद्द करें?</string>
     <string name="action_view_follow_requests">फ़ॉलो अनुरोध</string>
     <string name="notification_follow_request_format">%1$s ने आपको फ़ॉलो करने का अनुरोध किया</string>
     <string name="notification_follow_format">%1$s ने आपको फ़ॉलो किया</string>
