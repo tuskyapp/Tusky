@@ -122,7 +122,7 @@
     <string name="label_quick_reply">Yanıt…</string>
     <string name="label_avatar">Profil Görseli</string>
     <string name="label_header">Başlık</string>
-    <string name="link_whats_an_instance">Sunucu nedir\?</string>
+    <string name="link_whats_an_instance">Sunucu nedir?</string>
     <string name="login_connection">Bağlantı kuruluyor…</string>
     <string name="dialog_whats_an_instance">Mastodon gibi herhangi bir adresi veya etki alanını buraya girilebilirsiniz. örneğin: https://mastodon.social, https://mastodon.online, https://qoto.org vb. <a href="https://instances.social">daha fazlası!</a> \u0020 
 \n \u0020 
@@ -134,7 +134,7 @@
     <string name="dialog_title_finishing_media_upload">Medya yüklemesi tamamlanıyor</string>
     <string name="dialog_message_uploading_media">Yükleniyor…</string>
     <string name="dialog_download_image">İndir</string>
-    <string name="dialog_message_cancel_follow_request">Takip isteğini iptal et\?</string>
+    <string name="dialog_message_cancel_follow_request">Takip isteğini iptal et?</string>
     <string name="dialog_unfollow_warning">Takibi bırakmak istiyor musunuz?</string>
     <string name="dialog_delete_post_warning">Bu durumu silmek istiyor musunuz?</string>
     <string name="visibility_public">Herkese Açık: Herkese açık ağ akışında göster</string>
@@ -243,7 +243,7 @@
     <string name="action_remove">Kaldır</string>
     <string name="lock_account_label">Hesabı Kilitle</string>
     <string name="lock_account_label_description">Takipçileri elle onaylamanız gerekir</string>
-    <string name="compose_save_draft">Taslaklara kaydedilsin mi\?</string>
+    <string name="compose_save_draft">Taslaklara kaydedilsin mi?</string>
     <string name="send_post_notification_title">Gönderi gönderiliyor…</string>
     <string name="send_post_notification_error_title">Gönderi yayınlanırken hata oluştu</string>
     <string name="send_post_notification_channel_name">Gönderiler Yayınlanıyor</string>
@@ -347,7 +347,7 @@
     <string name="filter_apply">Uygula</string>
     <string name="compose_shortcut_long_label">Yayın Oluştur</string>
     <string name="compose_shortcut_short_label">Oluştur</string>
-    <string name="notification_clear_text">Tüm bildirimleri kalıcı olarak silmek istediğinizden emin misiniz\?</string>
+    <string name="notification_clear_text">Tüm bildirimleri kalıcı olarak silmek istediğinizden emin misiniz?</string>
     <string name="compose_preview_image_description">%1$s görüntüsü için eylemler</string>
     <string name="poll_info_format"> \u0020<!-- 15 oy • 1 saat kaldı --> \u0020%1$s • %2$s</string>
     <plurals name="poll_info_votes">
@@ -382,7 +382,7 @@
     <string name="report_remote_instance">%1$s adresine ilet</string>
     <string name="failed_fetch_posts">Yayınlar getirilemedi</string>
     <string name="report_description_1">Rapor, sunucunuzun moderatörlerine gönderilecektir. Bu hesabı neden raporladığınızı aşağıya açıklayabilirsiniz:</string>
-    <string name="report_description_remote_instance">Hesap başka bir sunucudan. Raporun anonim bir kopyasını da oraya gönderilsin mi\?</string>
+    <string name="report_description_remote_instance">Hesap başka bir sunucudan. Raporun anonim bir kopyasını da oraya gönderilsin mi?</string>
     <string name="action_mentions">Bahsedenler</string>
     <string name="action_open_reblogger">Gönderi yazanını aç</string>
     <string name="action_open_reblogged_by">Yeniden paylaşımları göster</string>
@@ -443,8 +443,8 @@
     <string name="pref_main_nav_position_option_bottom">Alt</string>
     <string name="pref_main_nav_position_option_top">Üst</string>
     <string name="dialog_mute_hide_notifications">Bildirimleri gizle</string>
-    <string name="dialog_mute_warning">\@%1$s sessize al\?</string>
-    <string name="dialog_block_warning">\@%1$s engellensin mi\?</string>
+    <string name="dialog_mute_warning">\@%1$s sessize al?</string>
+    <string name="dialog_block_warning">\@%1$s engellensin mi?</string>
     <string name="action_unmute_domain">%1$s alan adının sesini aç</string>
     <string name="action_unmute_desc">%1$s sesini aç</string>
     <string name="notification_follow_request_format">%1$s seni takip etmek istiyor</string>
