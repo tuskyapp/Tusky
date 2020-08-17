@@ -59,6 +59,7 @@ import com.keylesspalace.tusky.interfaces.AccountSelectionListener
 import com.keylesspalace.tusky.interfaces.ActionButtonActivity
 import com.keylesspalace.tusky.interfaces.ReselectableFragment
 import com.keylesspalace.tusky.pager.MainPagerAdapter
+import com.keylesspalace.tusky.settings.PrefKeys
 import com.keylesspalace.tusky.util.*
 import com.mikepenz.iconics.IconicsDrawable
 import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial
@@ -94,6 +95,8 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
 
     private var notificationTabPosition = 0
     private var onTabSelectedListener: OnTabSelectedListener? = null
+
+    private val preferences by lazy { PreferenceManager.getDefaultSharedPreferences(this) }
 
     private val emojiInitCallback = object : InitCallback() {
         override fun onInitialized() {
@@ -163,6 +166,9 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
             startActivity(composeIntent)
         }
 
+        val hideTopToolbar = preferences.getBoolean(PrefKeys.HIDE_TOP_TOOLBAR, false)
+        mainToolbar.visible(!hideTopToolbar)
+
         mainToolbar.menu.add(R.string.action_search).apply {
             setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM)
             icon = IconicsDrawable(this@MainActivity, GoogleMaterial.Icon.gmd_search).apply {
@@ -175,7 +181,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
             }
         }
 
-        setupDrawer(savedInstanceState)
+        setupDrawer(savedInstanceState, addSearchButton = hideTopToolbar)
 
         /* Fetch user info while we're doing other things. This has to be done after setting up the
          * drawer, though, because its callback touches the header in the drawer. */
@@ -280,7 +286,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
         finish()
     }
 
-    private fun setupDrawer(savedInstanceState: Bundle?) {
+    private fun setupDrawer(savedInstanceState: Bundle?, addSearchButton: Boolean) {
 
         drawerToggle = ActionBarDrawerToggle(this, mainDrawerLayout, mainToolbar, com.mikepenz.materialdrawer.R.string.material_drawer_open, com.mikepenz.materialdrawer.R.string.material_drawer_close)
 
@@ -301,8 +307,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
 
         header.accountHeaderBackground.setColorFilter(ContextCompat.getColor(this, R.color.headerBackgroundFilter))
         header.accountHeaderBackground.setBackgroundColor(ThemeUtils.getColor(this, R.attr.colorBackgroundAccent))
-        val animateAvatars = PreferenceManager.getDefaultSharedPreferences(this)
-                .getBoolean("animateGifAvatars", false)
+        val animateAvatars = preferences.getBoolean("animateGifAvatars", false)
 
         DrawerImageLoader.init(object : AbstractDrawerImageLoader() {
             override fun set(imageView: ImageView, uri: Uri, placeholder: Drawable, tag: String?) {
@@ -414,6 +419,18 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
                         onClick = ::logout
                     }
             )
+
+            if(addSearchButton) {
+                mainDrawer.addItemsAtPosition(4,
+                        primaryDrawerItem {
+                            nameRes = R.string.action_search
+                            iconicsIcon = GoogleMaterial.Icon.gmd_search
+                            onClick = {
+                                startActivityWithSlideInAnimation(SearchActivity.getIntent(context))
+                            }
+                        })
+            }
+
             setSavedInstance(savedInstanceState)
         }
 
@@ -446,7 +463,6 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
     }
 
     private fun setupTabs(selectNotificationTab: Boolean) {
-        val preferences = PreferenceManager.getDefaultSharedPreferences(this)
 
         val activeTabLayout = if(preferences.getString("mainNavPosition", "top") == "bottom") {
             val actionBarSize = ThemeUtils.getDimension(this, R.attr.actionBarSize)

@@ -87,6 +87,12 @@ class PreferencesFragment : PreferenceFragmentCompat() {
 
                 switchPreference {
                     setDefaultValue(false)
+                    key = PrefKeys.HIDE_TOP_TOOLBAR
+                    setTitle(R.string.pref_title_hide_top_toolbar)
+                }
+
+                switchPreference {
+                    setDefaultValue(false)
                     key = PrefKeys.FAB_HIDE
                     setTitle(R.string.pref_title_hide_follow_button)
                     isSingleLineTitle = false
