@@ -200,9 +200,7 @@
     <string name="description_account_locked">Cuenta protegida</string>
     <string name="about_title_activity">Acerca de</string>
     <string name="about_tusky_version">Tusky %1$s</string>
-    <string name="about_tusky_license">Tusky es un software libre y de código abierto.
-        Está licenciado bajo la licencia \"GNU General Public License Version 3\".
-        Puedes leer sobre la misma en: https://www.gnu.org/licenses/gpl-3.0.en.html</string>
+    <string name="about_tusky_license">Tusky es un software libre y de código abierto. Está licenciado bajo la licencia \"GNU General Public License Version 3\". Puedes leer sobre la misma en: https://www.gnu.org/licenses/gpl-3.0.en.html</string>
     <!-- note to translators:
          * you should think of “free” as in “free speech,” not as in “free beer”.
            We sometimes call it “libre software,” borrowing the French or Spanish word for “free” as in freedom,
@@ -382,7 +380,7 @@
     <string name="notifications_apply_filter">Filtro</string>
     <string name="compose_shortcut_long_label">Escribir publicación</string>
     <string name="compose_shortcut_short_label">Redactar</string>
-    <string name="notification_clear_text">¿Estás seguro de que quieres eliminar permanentemente todas tus notificaciones\?</string>
+    <string name="notification_clear_text">¿Estás seguro de que quieres eliminar permanentemente todas tus notificaciones?</string>
     <string name="compose_preview_image_description">Acciones para la imagen %1$s</string>
     <string name="poll_info_time_absolute">termina en %1$s</string>
     <string name="poll_ended_voted">Una encuesta en la que has votado ha terminado</string>
@@ -393,7 +391,7 @@
     <string name="action_view_domain_mutes">Dominios ocultos</string>
     <string name="action_mute_domain">Silenciar a %1$s</string>
     <string name="confirmation_domain_unmuted">%1$s visible</string>
-    <string name="mute_domain_warning">¿Estás seguro de que quieres bloquear todo sobre %1$s\? No verás contenido de ese dominio ni en la cronología ni en tus notificaciones. Tus seguidores de ese dominio serán eliminados.</string>
+    <string name="mute_domain_warning">¿Estás seguro de que quieres bloquear todo sobre %1$s? No verás contenido de ese dominio ni en la cronología ni en tus notificaciones. Tus seguidores de ese dominio serán eliminados.</string>
     <string name="mute_domain_warning_dialog_ok">Ocultar dominio completo</string>
     <string name="pref_title_animate_gif_avatars">Animar avatares GIF</string>
     <string name="filter_dialog_whole_word">Toda palabra</string>
@@ -409,7 +407,7 @@
     <string name="failed_report">Reporte fallido</string>
     <string name="failed_fetch_posts">Fallo al obtener estados</string>
     <string name="report_description_1">El reporte será enviado a los moderadores de tu servidor. Puedes añadir una explicación de por qué estás reportando esta cuenta a continuación:</string>
-    <string name="report_description_remote_instance">La cuenta es de otro servidor. ¿Enviar una copia anónima del reporte\?</string>
+    <string name="report_description_remote_instance">La cuenta es de otro servidor. ¿Enviar una copia anónima del reporte?</string>
     <string name="pref_title_alway_open_spoiler">Mostrar siempre publicaciones marcadas con avisos de contenido</string>
     <string name="title_accounts">Cuentas</string>
     <string name="failed_search">Error al buscar</string>
