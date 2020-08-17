@@ -216,9 +216,7 @@
     <string name="description_account_locked">Ŝlosita konto</string>
     <string name="about_title_activity">Pri</string>
     <string name="about_tusky_version">Tusky %1$s</string>
-    <string name="about_tusky_license">Tusky estas libera kaj malfermitkoda programo.
-        Ĝi estas publikigita laŭ la permesilo «GNU General Public License Version 3».
-        Vi povas vidi la permesilon ĉi tie: https://www.gnu.org/licenses/gpl-3.0.en.html</string>
+    <string name="about_tusky_license">Tusky estas libera kaj malfermitkoda programo. Ĝi estas publikigita laŭ la permesilo «GNU General Public License Version 3». Vi povas vidi la permesilon ĉi tie: https://www.gnu.org/licenses/gpl-3.0.en.html</string>
     <!-- note to translators:
          * you should think of “free” as in “free speech,” not as in “free beer”.
            We sometimes call it “libre software,” borrowing the French or Spanish word for “free” as in freedom,
@@ -320,12 +318,12 @@
     <string name="unpin_action">Depingli</string>
     <string name="pin_action">Alpingli</string>
     <plurals name="favs">
-        <item quantity="one">&lt;b&gt;%1$s&lt;/b&gt; Stelumo</item>
-        <item quantity="other">&lt;b&gt;%1$s&lt;/b&gt; Stelumoj</item>
+        <item quantity="one"><b>%1$s</b> Stelumo</item>
+        <item quantity="other"><b>%1$s</b> Stelumoj</item>
     </plurals>
     <plurals name="reblogs">
-        <item quantity="one">&lt;b&gt;%1$s&lt;/b&gt; Diskonigo</item>
-        <item quantity="other">&lt;b&gt;%1$s&lt;/b&gt; Diskonigoj</item>
+        <item quantity="one"><b>%1$s</b> Diskonigo</item>
+        <item quantity="other"><b>%1$s</b> Diskonigoj</item>
     </plurals>
     <string name="title_reblogged_by">Diskonigita de</string>
     <string name="title_favourited_by">Stelumita de</string>
@@ -383,7 +381,7 @@
     <string name="failed_report">Signalo malsukcesis</string>
     <string name="failed_fetch_posts">Venigo de statusoj malsukcesis</string>
     <string name="report_description_1">La signalo estos sendita al la kontrolantoj de via servilo. Vi povas doni klarigon pri kial vi signalas ĉi tiun konton sube:</string>
-    <string name="report_description_remote_instance">La konto estas en alia servilo. Ĉu sendi sennomigitan kopion de la signalo ankaŭ tien\?</string>
+    <string name="report_description_remote_instance">La konto estas en alia servilo. Ĉu sendi sennomigitan kopion de la signalo ankaŭ tien?</string>
     <string name="filter_dialog_whole_word">Tuta vorto</string>
     <string name="filter_dialog_whole_word_description">Ŝlosilvorto aŭ frazo litercifera aplikiĝos, nur se ĝi kongruas kun la tuta vorto</string>
     <string name="title_accounts">Kontoj</string>
