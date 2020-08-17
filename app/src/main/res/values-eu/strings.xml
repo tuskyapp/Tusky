@@ -12,7 +12,7 @@
     <string name="error_media_upload_type">Ez da fitxategi mota hau onartzen.</string>
     <string name="error_media_upload_opening">Ezin izan da fitxategi hau ireki.</string>
     <string name="error_media_upload_permission">Memoriara sartzeko baimena behar da.</string>
-    <string name="error_media_download_permission">Memoriara deskargatzeko  baimena behar da.</string>
+    <string name="error_media_download_permission">Memoriara deskargatzeko baimena behar da.</string>
     <string name="error_media_upload_image_or_video">Ezin dira bideoak eta irudiak tut berean gehitu.</string>
     <string name="error_media_upload_sending">Akatsa igotzerakoan.</string>
     <string name="error_sender_account_gone">Akatsa tuta bidaltzerakoan.</string>
@@ -126,7 +126,7 @@
     <string name="dialog_message_uploading_media">Igotzen…</string>
     <string name="dialog_download_image">Jaitsi</string>
     <string name="dialog_message_cancel_follow_request">Jarraipenaren eskakizunari uko egin\?</string>
-    <string name="dialog_unfollow_warning">Kontu hau jarraitzeari utzi\?</string>
+    <string name="dialog_unfollow_warning">Kontu hau jarraitzeari utzi?</string>
     <string name="dialog_delete_post_warning">Tut hau ezabatu\?</string>
     <string name="visibility_public">Publikoa: Istorio publikoetan erakutsi</string>
     <string name="visibility_unlisted">Ezkutukoa: Ez erakutsi istorio publikoetan</string>
@@ -189,9 +189,7 @@
     </plurals>
     <string name="description_account_locked">Kontu babestua</string>
     <string name="about_title_activity">Honi buruz</string>
-    <string name="about_tusky_license">Tusky software libre eta kode askekoa da.
-        \"GNU General Public License Version 3\" lizentziapean zabaldua.
-        Lizentzia hontaz gehiago irakurtzeko: https://www.gnu.org/licenses/gpl-3.0.en.html</string>
+    <string name="about_tusky_license">Tusky software libre eta kode askekoa da. \"GNU General Public License Version 3\" lizentziapean zabaldua. Lizentzia hontaz gehiago irakurtzeko: https://www.gnu.org/licenses/gpl-3.0.en.html</string>
     <!-- note to translators:
          * you should think of “free” as in “free speech,” not as in “free beer”.
            We sometimes call it “libre software,” borrowing the French or Spanish word for “free” as in freedom,
@@ -227,7 +225,9 @@
     <string name="title_lists">Zerrendak</string>
     <string name="compose_active_account_description">%1$s kontuarekin tut egiten</string>
     <plurals name="hint_describe_for_visually_impaired">
-        <item quantity="other">Ikusmen urritasuna dutenentzat deskribapena\n(%1$d karaktereko muga)</item>
+        <item quantity="one"></item>
+        <item quantity="other">Ikusmen urritasuna dutenentzat deskribapena
+\n(%1$d karaktereko muga)</item>
     </plurals>
     <string name="action_set_caption">Gehitu deskribapena</string>
     <string name="action_remove">Ezabatu</string>
@@ -368,7 +368,7 @@
     <string name="filter_apply">Aplikatu</string>
     <string name="compose_shortcut_long_label">Idatzi tuta</string>
     <string name="compose_shortcut_short_label">Idatzi</string>
-    <string name="notification_clear_text">Ziur zaude jakinarazpen guztiak betirako garbitu nahi dituzula\?</string>
+    <string name="notification_clear_text">Ziur zaude jakinarazpen guztiak betirako garbitu nahi dituzula?</string>
     <string name="compose_preview_image_description">%1$s irudiarentzako ekintzak</string>
     <string name="poll_info_format"> \u0020<!-- 15 boto • Ordu 1 geratzen da --> \u0020%1$s • %2$s</string>
     <plurals name="poll_info_votes">
@@ -401,7 +401,7 @@
     <string name="failed_report">Txostenak huts egin du</string>
     <string name="failed_fetch_posts">Huts egin du tutak eskuratzean</string>
     <string name="report_description_1">Txostena zure zerbitzariaren moderatzaileari bidaliko zaio. Jarraian, kontu honen zergatia salatzen duzun azalpena eman dezakezu:</string>
-    <string name="report_description_remote_instance">Kontua beste zerbitzari batekoa da. Bidali txostenaren kopia anonimatua hara ere\?</string>
+    <string name="report_description_remote_instance">Kontua beste zerbitzari batekoa da. Bidali txostenaren kopia anonimatua hara ere?</string>
     <string name="title_accounts">Kontuak</string>
     <string name="failed_search">Bilaketak huts egin du</string>
     <string name="create_poll_title">Inkesta</string>
@@ -430,8 +430,8 @@
     <string name="warning_scheduling_interval">Mastodonek gutxienez 5 minutuko programazio-tartea du.</string>
     <string name="notification_follow_request_name">Eskakizunak</string>
     <string name="notification_follow_request_description">Jarraitzeko eskaereri buruzko jakinarazpenak</string>
-    <string name="dialog_mute_warning">\@%1$s isildu\?</string>
-    <string name="dialog_block_warning">\@%1$s blokeatu\?</string>
+    <string name="dialog_mute_warning">\@%1$s isildu?</string>
+    <string name="dialog_block_warning">\@%1$s blokeatu?</string>
     <string name="action_mute_conversation">Mututu elkarrizketa</string>
     <string name="notification_follow_request_format">%1$s-(e)k zu jarraitzeko eskatu du</string>
     <string name="hashtags">Traolak</string>
