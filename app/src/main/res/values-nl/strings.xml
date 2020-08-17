@@ -297,12 +297,12 @@
     <string name="unpin_action">Losmaken</string>
     <string name="pin_action">Vastmaken</string>
     <plurals name="favs">
-        <item quantity="one">&lt;b&gt;%1$s&lt;/b&gt; favoriet</item>
-        <item quantity="other">&lt;b&gt;%1$s&lt;/b&gt; favorieten</item>
+        <item quantity="one"><b>%1$s</b> favoriet</item>
+        <item quantity="other"><b>%1$s</b> favorieten</item>
     </plurals>
     <plurals name="reblogs">
-        <item quantity="one">&lt;b&gt;%1$s&lt;/b&gt; boost</item>
-        <item quantity="other">&lt;b&gt;%1$s&lt;/b&gt; boosts</item>
+        <item quantity="one"><b>%1$s</b> boost</item>
+        <item quantity="other"><b>%1$s</b> boosts</item>
     </plurals>
     <string name="title_reblogged_by">Geboost door</string>
     <string name="title_favourited_by">Als favoriet gemarkeerd door</string>
@@ -347,7 +347,7 @@
     <string name="compose_shortcut_long_label">Bericht schrijven</string>
     <string name="compose_shortcut_short_label">Schrijven</string>
     <string name="pref_title_bot_overlay">Indicator voor bots tonen</string>
-    <string name="notification_clear_text">Weet je zeker dat je alle meldingen permanent wilt verwijderen\?</string>
+    <string name="notification_clear_text">Weet je zeker dat je alle meldingen permanent wilt verwijderen?</string>
     <string name="poll_info_format"> \u0020<!-- 15 votes • 1 hour left --> \u0020%1$s • %2$s</string>
     <plurals name="poll_info_votes">
         <item quantity="one">%1$s stem</item>
@@ -367,7 +367,7 @@
     <string name="mute_domain_warning_dialog_ok">Volledig domein verbergen</string>
     <string name="pref_title_animate_gif_avatars">GIF-profielfoto\'s animeren</string>
     <string name="caption_notoemoji">Google\'s huidige emojiset</string>
-    <string name="mute_domain_warning">Weet je zeker dat je alles van %1$s wilt blokkeren\? Je zult op alle openbare tijdlijnen en in jouw meldingen geen inhoud van dat domein zien. Jouw volgers van dat domein worden verwijderd.</string>
+    <string name="mute_domain_warning">Weet je zeker dat je alles van %1$s wilt blokkeren? Je zult op alle openbare tijdlijnen en in jouw meldingen geen inhoud van dat domein zien. Jouw volgers van dat domein worden verwijderd.</string>
     <string name="description_poll">Poll met keuzes: %1$s, %2$s, %3$s, %4$s; %5$s</string>
     <string name="compose_preview_image_description">Acties voor afbeelding %1$s</string>
     <plurals name="poll_timespan_days">
