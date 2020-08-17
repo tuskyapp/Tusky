@@ -51,7 +51,7 @@
     <string name="notification_favourite_format">%1$s আপনার টুট পছন্দ করেছে</string>
     <string name="notification_follow_format">%1$s আপনাকে অনুসরণ করেছেন</string>
     <string name="report_username_format">রিপোর্ট @%1$s</string>
-    <string name="report_comment_hint">অতিরিক্ত মন্তব্যগুলি\?</string>
+    <string name="report_comment_hint">অতিরিক্ত মন্তব্যগুলি?</string>
     <string name="action_quick_reply">দ্রুত উত্তর</string>
     <string name="action_reply">উত্তর</string>
     <string name="action_reblog">সমর্থন</string>
@@ -127,8 +127,8 @@
     <string name="confirmation_reported">পাঠানো হয়েছে!</string>
     <string name="confirmation_unblocked">ব্যবহারকারী অবরোধ মুক্ত</string>
     <string name="confirmation_unmuted">ব্যবহারকারী সশব্দ</string>
-    <string name="hint_domain">কোন ইনস্ট্যান্স\?</string>
-    <string name="hint_compose">কি হচ্ছে\?</string>
+    <string name="hint_domain">কোন ইনস্ট্যান্স?</string>
+    <string name="hint_compose">কি হচ্ছে?</string>
     <string name="hint_content_warning">সতর্কবার্তা</string>
     <string name="hint_display_name">প্রদর্শন নাম</string>
     <string name="hint_note">জীবনী</string>
@@ -149,8 +149,8 @@
     <string name="dialog_title_finishing_media_upload">মিডিয়া আপলোড সমাপ্ত করা হচ্ছে</string>
     <string name="dialog_message_uploading_media">আপলোড হচ্ছে …</string>
     <string name="dialog_download_image">ডাউনলোড</string>
-    <string name="dialog_message_cancel_follow_request">অনুসরণ অনুরোধ প্রত্যাহার\?</string>
-    <string name="dialog_unfollow_warning">এই অ্যাকাউন্টটি অনুসরণ করবেন না\?</string>
+    <string name="dialog_message_cancel_follow_request">অনুসরণ অনুরোধ প্রত্যাহার?</string>
+    <string name="dialog_unfollow_warning">এই অ্যাকাউন্টটি অনুসরণ করবেন না?</string>
     <string name="dialog_delete_post_warning">এই টুট টি মুছে ফেলবেন\?</string>
     <string name="dialog_redraft_post_warning">এই টুট টি মুছে ফেলবেন এবং পুনরায় ড্রাফট করবেন\?</string>
     <string name="visibility_public">সর্বজনীন: পাবলিক টাইমলাইনে পোস্ট কর</string>
@@ -276,6 +276,7 @@
     <string name="action_remove_from_list">তালিকা থেকে অ্যাকাউন্ট সরান</string>
     <string name="compose_active_account_description">অ্যাকাউন্ট %1$s থেকে পোস্ট করা হচ্ছে</string>
     <plurals name="hint_describe_for_visually_impaired">
+        <item quantity="one"></item>
         <item quantity="other">দৃষ্টি প্রতিবন্ধী জন্য বর্ণনা করুন
 \n(%1$d অক্ষর সীমা)</item>
     </plurals>
@@ -283,7 +284,7 @@
     <string name="action_remove">সরান</string>
     <string name="lock_account_label">অ্যাকাউন্ট লক করুন</string>
     <string name="lock_account_label_description">অনুসারী অনুমোদন করার জন্য আপনাকে প্রয়োজন</string>
-    <string name="compose_save_draft">ড্রাফট সংরক্ষণ\?</string>
+    <string name="compose_save_draft">ড্রাফট সংরক্ষণ?</string>
     <string name="send_post_notification_title">টুট পাঠানো হচ্ছে …</string>
     <string name="send_post_notification_error_title">টুট পাঠাতে গিয়ে একটি ত্রুটি ঘটেছে</string>
     <string name="send_post_notification_channel_name">টুট পাঠানো হচ্ছে</string>
@@ -352,7 +353,7 @@
     <string name="filter_apply">প্রয়োগ</string>
     <string name="compose_shortcut_long_label">টুট রচনা করুন</string>
     <string name="compose_shortcut_short_label">রচনা</string>
-    <string name="notification_clear_text">আপনি কি আপনার সমস্ত বিজ্ঞপ্তি স্থায়ীভাবে মুছে ফেলতে চান\?</string>
+    <string name="notification_clear_text">আপনি কি আপনার সমস্ত বিজ্ঞপ্তি স্থায়ীভাবে মুছে ফেলতে চান?</string>
     <string name="compose_preview_image_description">ছবি %1$s এর জন্য ক্রিয়া</string>
     <string name="poll_info_format"> <!-- ১৫ ভোট • ১ ঘন্টা বাকি --> %1$s • %2$s</string>
     <string name="poll_info_time_absolute">%1$s এ শেষ হবে</string>
@@ -369,12 +370,12 @@
     <string name="failed_report">রিপোর্ট করতে ব্যর্থ হয়েছে</string>
     <string name="failed_fetch_posts">স্টেটাসগুলি আনতে ব্যর্থ</string>
     <string name="report_description_1">রিপোর্ট আপনার সার্ভার মডারেটরে পাঠানো হবে। আপনি নীচের এই অ্যাকাউন্টটি কেন প্রতিবেদন করছেন তা ব্যাখ্যা করতে পারেন:</string>
-    <string name="report_description_remote_instance">এই একাউন্ট তা একটি অন্য সার্ভারের। রিপোর্ট এর সঙ্গে একটি বেনামি কপি ওখানে পাঠাতে চান\?</string>
+    <string name="report_description_remote_instance">এই একাউন্ট তা একটি অন্য সার্ভারের। রিপোর্ট এর সঙ্গে একটি বেনামি কপি ওখানে পাঠাতে চান?</string>
     <string name="title_domain_mutes">গোপন ডোমেইনগুলি</string>
     <string name="action_view_domain_mutes">গোপন ডোমেইনগুলি</string>
     <string name="action_mute_domain">নিঃশব্দ %1$s</string>
     <string name="confirmation_domain_unmuted">%1$s লুকোনো না</string>
-    <string name="mute_domain_warning">আপনি কি সব %1$s ব্লক করতে চান\? আপনি যে ডোমেন থেকে কোনও পাবলিক টাইমলাইনে বা আপনার বিজ্ঞপ্তিগুলিতে সামগ্রী দেখতে পাবেন না। আপনার অনুসরণকারীদের সরানো হবে।</string>
+    <string name="mute_domain_warning">আপনি কি সব %1$s ব্লক করতে চান? আপনি যে ডোমেন থেকে কোনও পাবলিক টাইমলাইনে বা আপনার বিজ্ঞপ্তিগুলিতে সামগ্রী দেখতে পাবেন না। আপনার অনুসরণকারীদের সরানো হবে।</string>
     <string name="mute_domain_warning_dialog_ok">পুরো ডোমেইন লুকান</string>
     <string name="filter_dialog_whole_word">সম্পূর্ণ শব্দ</string>
     <string name="filter_dialog_whole_word_description">যখন শব্দ বা বাক্যাংশটি শুধুমাত্র আলফানিউমেরিক হয় তখন এটি শুধুমাত্র তখনই প্রয়োগ করা হবে যদি এটি সম্পূর্ণ শব্দটির সাথে মেলে</string>
@@ -406,8 +407,8 @@
     <string name="notification_follow_request_format">%1$s আপনাকে অনুসরণ করার জন্য অনুরোধ করেছে</string>
     <string name="title_bookmarks">বুকমার্কগুলি</string>
     <string name="dialog_mute_hide_notifications">বিজ্ঞপ্তি লুকাও</string>
-    <string name="dialog_mute_warning">নিঃশব্দ @%1$s\?</string>
-    <string name="dialog_block_warning">অবরুদ্ধ @%1$s\?</string>
+    <string name="dialog_mute_warning">নিঃশব্দ @%1$s?</string>
+    <string name="dialog_block_warning">অবরুদ্ধ @%1$s?</string>
     <plurals name="poll_timespan_days">
         <item quantity="one">%1$d দিন বাকি</item>
         <item quantity="other">%1$d দিন বাকি</item>
