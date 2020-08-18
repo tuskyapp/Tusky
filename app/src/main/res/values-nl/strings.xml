@@ -395,8 +395,8 @@
         <item quantity="other"/>
     </plurals>
     <plurals name="poll_timespan_hours">
-        <item quantity="one"/>
-        <item quantity="other"/>
+        <item quantity="one">%d uur</item>
+        <item quantity="other">%d uur</item>
     </plurals>
     <plurals name="poll_timespan_minutes">
         <item quantity="one"/>

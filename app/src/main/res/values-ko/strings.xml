@@ -6,7 +6,7 @@
     <string name="error_invalid_domain">도메인이 올바르지 않습니다</string>
     <string name="error_failed_app_registration">해당 인스턴스에 대한 인증에 실패했습니다.</string>
     <string name="error_no_web_browser_found">사용 가능한 웹 브라우저를 찾을 수 없습니다.</string>
-    <string name="error_authorization_unknown">알 수 없는 인증 오류입니다.</string>
+    <string name="error_authorization_unknown">알 수 없는 인증 오류가 발생했습니다.</string>
     <string name="error_authorization_denied">인증이 거부되었습니다.</string>
     <string name="error_retrieving_oauth_token">로그인 토큰을 받아올 수 없습니다.</string>
     <string name="error_compose_character_limit">게시물 길이가 너무 깁니다!</string>
@@ -36,7 +36,7 @@
     <string name="title_blocks">블록한 유저</string>
     <string name="title_domain_mutes">숨긴 도메인</string>
     <string name="title_follow_requests">팔로우 요청</string>
-    <string name="title_edit_profile">프로필 수정</string>
+    <string name="title_edit_profile">프로필 편집</string>
     <string name="title_saved_toot">임시 저장</string>
     <string name="title_licenses">라이선스</string>
     <string name="status_username_format">\@%s</string>
@@ -52,7 +52,7 @@
     <string name="footer_empty">게시물이 없습니다. 아래로 당겨서 새로고침하세요!</string>
     <string name="notification_reblog_format">%s님이 부스트 했습니다</string>
     <string name="notification_favourite_format">%s님이 즐겨찾기 했습니다</string>
-    <string name="notification_follow_format">%s님이 나를 팔로우 했습니다.</string>
+    <string name="notification_follow_format">%s님이 나를 팔로우 했습니다</string>
     <string name="report_username_format">\@%s 신고</string>
     <string name="report_comment_hint">코멘트</string>
     <string name="action_quick_reply">빠른 답장</string>
@@ -132,7 +132,7 @@
     <string name="confirmation_unblocked">차단이 해제됨</string>
     <string name="confirmation_unmuted">뮤트가 해제됨</string>
     <string name="confirmation_domain_unmuted">%s 숨김 해제됨</string>
-    <string name="status_sent">신고를 보냈습니다!</string>
+    <string name="status_sent">보냈습니다!</string>
     <string name="status_sent_long">답장을 보냈습니다.</string>
     <string name="hint_domain">인스턴스 주소</string>
     <string name="hint_compose">지금 무엇을 하고 있나요\?</string>
@@ -145,7 +145,7 @@
     <string name="label_avatar">아바타</string>
     <string name="label_header">헤더</string>
     <string name="link_whats_an_instance">인스턴스가 무엇인가요\?</string>
-    <string name="login_connection">연결 중…</string>
+    <string name="login_connection">연결 중...</string>
     <string name="dialog_whats_an_instance">인스턴스의 도메인 주소나 IP주소를 입력하실 수 있습니다. mastodon.social, icosahedron.website, social.tchncs.de 등이 있으며, 그 외에도 <a href="https://instances.social">더 많은 인스턴스</a>가 당신을 기다리고 있습니다! 
 \n
 \n만약 계정이 없으시다면, 인스턴스 주소를 입력하신 후에 계정을 만드실 수 있습니다. 
@@ -163,7 +163,7 @@
     <string name="mute_domain_warning">정말로 %s 전체를 숨기시겠습니까\? 모든 공개 타임라인과 알림에서 해당 도메인에서 작성된 컨텐츠를 보지 못합니다. 해당 도메인 팔로워와의 관계가 사라집니다.</string>
     <string name="mute_domain_warning_dialog_ok">도메인 전체를 숨기기</string>
     <string name="visibility_public">공개: 공개 타임라인에 표시</string>
-    <string name="visibility_unlisted">비표시: 공개 타임라인에 표시하지 않음</string>
+    <string name="visibility_unlisted">"비표시: 공개 타임라인에 표시하지 않음 "</string>
     <string name="visibility_private">비공개: 팔로워에게만 공개</string>
     <string name="visibility_direct">다이렉트: 멘션한 사용자에게만 공개</string>
     <string name="pref_title_edit_notification_settings">알림</string>
@@ -227,8 +227,8 @@
     <string name="notification_poll_name">투표</string>
     <string name="notification_poll_description">투표가 종료되었을 때 알림</string>
     <string name="notification_mention_format">%s님이 당신을 멘션했습니다</string>
-    <string name="notification_summary_large">%1$s님, %2$s님, %3$s님 외 %4$d명</string>
-    <string name="notification_summary_medium">%1$s, %2$s, %3$s</string>
+    <string name="notification_summary_large">%1$s, %2$s, %3$s, 그 외 %4$d개</string>
+    <string name="notification_summary_medium">%1$s님, %2$s님, %3$s님</string>
     <string name="notification_summary_small">%1$s와 %2$s</string>
     <string name="notification_title_summary">%d개의 새로운 알림이 있습니다</string>
     <string name="description_account_locked">계정 잠김</string>
@@ -305,12 +305,12 @@
     <string name="send_toot_notification_channel_name">툿을 보내고 있습니다</string>
     <string name="send_toot_notification_cancel_title">보내기 취소됨</string>
     <string name="send_toot_notification_saved_content">복사본이 임시 저장에 저장되었습니다</string>
-    <string name="action_compose_shortcut">작성</string>
+    <string name="action_compose_shortcut">글쓰기</string>
     <string name="error_no_custom_emojis">이 인스턴스 %s 은(는) 커스텀 이모지가 없습니다.</string>
     <string name="copy_to_clipboard_success">클립보드에 복사되었습니다</string>
     <string name="emoji_style">이모지 스타일</string>
     <string name="system_default">시스템 기본</string>
-    <string name="download_fonts">시스템 기본 외에서 선택하시려면 우선 다운로드해야 합니다</string>
+    <string name="download_fonts">시스템 기본 외의 이모지를 설정하시려면 우선 다운로드해야 합니다</string>
     <string name="performing_lookup_title">탐색하고 있습니다…</string>
     <string name="expand_collapse_all_statuses">모두 보이기/줄이기</string>
     <string name="action_open_toot">툿 열기</string>
@@ -358,7 +358,7 @@
     <string name="description_status_favourited">즐겨찾기함</string>
     <string name="description_visiblity_public">공개</string>
     <string name="description_visiblity_unlisted">타임라인에 비표시</string>
-    <string name="description_visiblity_private">팔로워</string>
+    <string name="description_visiblity_private">비공개</string>
     <string name="description_visiblity_direct">다이렉트</string>
     <string name="description_poll">투표 선택지: %1$s, %2$s, %3$s, %4$s, %5$s</string>
     <string name="hint_list_name">리스트 이름</string>
@@ -367,10 +367,10 @@
     <string name="notifications_apply_filter">필터</string>
     <string name="filter_apply">적용</string>
     <string name="compose_shortcut_long_label">툿 작성하기</string>
-    <string name="compose_shortcut_short_label">글쓰기</string>
+    <string name="compose_shortcut_short_label">작성</string>
     <string name="notification_clear_text">모든 알림을 영구적으로 지우시겠습니까\?</string>
-    <string name="compose_preview_image_description">이미지 %s에 대한 작업</string>
-    <string name="poll_info_format"><!-- 15 votes • 1 hour left --> %1$s • %2$s</string>
+    <string name="compose_preview_image_description">이미지 %s를...</string>
+    <string name="poll_info_format"> <!-- 15 명 참여 • 1 시간 남음 --> %1$s • %2$s</string>
     <plurals name="poll_info_votes">
         <item quantity="other">%s 명 참여</item>
     </plurals>
