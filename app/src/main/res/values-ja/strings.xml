@@ -118,7 +118,7 @@
     <string name="confirmation_unblocked">ブロックを解除しました</string>
     <string name="confirmation_unmuted">ミュートを解除しました</string>
     <string name="status_sent">送信しました！</string>
-    <string name="status_sent_long">返信しました．</string>
+    <string name="status_sent_long">返信しました。</string>
     <string name="hint_domain">インスタンス</string>
     <string name="hint_compose">今なにしてる？</string>
     <string name="hint_content_warning">注意書き</string>
@@ -446,4 +446,14 @@
     <string name="pref_title_enable_swipe_for_tabs">タブ間の切り替えにスワイプのジェスチャーを有効化</string>
     <string name="pref_title_show_cards_in_timelines">リンクのプレビューをタイムラインに表示</string>
     <string name="pref_title_confirm_reblogs">ブーストする前に確認ダイアログを表示</string>
+    <string name="edit_hashtag_hint">ハッシュタグ (#をつけない)</string>
+    <string name="select_list_title">リストを選択</string>
+    <string name="poll_info_format"> <!-- 15 votes • 1 hour left --> %1$s • %2$s</string>
+    <string name="poll_info_time_absolute">%sに終了</string>
+    <string name="hint_additional_info">追加コメント</string>
+    <string name="report_remote_instance">%sに転送</string>
+    <string name="failed_report">通報に失敗しました</string>
+    <plurals name="poll_info_people">
+        <item quantity="other">%s人</item>
+    </plurals>
 </resources>
