@@ -10,8 +10,8 @@
     <string name="error_authorization_denied">Authentification refusée.</string>
     <string name="error_retrieving_oauth_token">Impossible de récupérer le jeton d’authentification.</string>
     <string name="error_compose_character_limit">Votre pouet est trop long !</string>
-    <string name="error_image_upload_size">Le fichier doit être moins de 8 Mo.</string>
-    <string name="error_video_upload_size">Les fichiers vidéos doivent être moins de 40 Mo.</string>
+    <string name="error_image_upload_size">Le fichier doit avoir moins de 8 Mo.</string>
+    <string name="error_video_upload_size">Les fichiers vidéos doivent avoir moins de 40 Mo.</string>
     <string name="error_media_upload_type">Ce type de fichier ne peut pas être téléversé.</string>
     <string name="error_media_upload_opening">Le fichier ne peut pas être ouvert.</string>
     <string name="error_media_upload_permission">Permission requise pour lire le média.</string>
@@ -331,7 +331,7 @@
     <string name="unpin_action">Détacher</string>
     <string name="pin_action">Épingler</string>
     <plurals name="favs">
-        <item quantity="one"><b>%1$s</b> Favoris</item>
+        <item quantity="one"><b>%1$s</b> Favori</item>
         <item quantity="other"><b>%1$s</b> Favoris</item>
     </plurals>
     <plurals name="reblogs">
@@ -393,8 +393,8 @@
         <item quantity="other">%s heures</item>
     </plurals>
     <plurals name="poll_timespan_minutes">
-        <item quantity="one"></item>
-        <item quantity="other"></item>
+        <item quantity="one">%d minute</item>
+        <item quantity="other">%d minutes</item>
     </plurals>
     <plurals name="poll_timespan_seconds">
         <item quantity="one">%s seconde</item>
@@ -454,7 +454,7 @@
     <string name="description_status_bookmarked">Ajouté aux marque-pages</string>
     <string name="select_list_title">Sélectionner la liste</string>
     <string name="list">Liste</string>
-    <string name="error_audio_upload_size">Les fichiers audio doivent être moins de 40 Mo.</string>
+    <string name="error_audio_upload_size">Les fichiers audio doivent avoir moins de 40 Mo.</string>
     <string name="no_saved_status">Vous n’avez aucun brouillon.</string>
     <string name="no_scheduled_status">Vous n’avez aucun pouet planifié.</string>
     <string name="warning_scheduling_interval">L’intervalle minimum de planification sur Mastodon est de 5 minutes.</string>

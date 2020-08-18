@@ -97,7 +97,7 @@
     <string name="action_save">Speichern</string>
     <string name="action_edit_profile">Profil bearbeiten</string>
     <string name="action_edit_own_profile">Bearbeiten</string>
-    <string name="action_undo">rückgängig machen</string>
+    <string name="action_undo">Rückgängig machen</string>
     <string name="action_accept">Akzeptieren</string>
     <string name="action_reject">Ablehnen</string>
     <string name="action_search">Suche</string>
