@@ -34,12 +34,12 @@
     <string name="title_favourites">Favoris</string>
     <string name="title_mutes">Comptes masqués</string>
     <string name="title_blocks">Comptes bloqués</string>
-    <string name="title_follow_requests">Demandes d\'abonnement</string>
+    <string name="title_follow_requests">Demandes d’abonnement</string>
     <string name="title_edit_profile">Modifier votre profil</string>
     <string name="title_saved_toot">Brouillons</string>
     <string name="title_licenses">Licences</string>
     <string name="status_username_format">\@%s</string>
-    <string name="status_boosted_format">%s a partagé</string>
+    <string name="status_boosted_format">%s a boosté</string>
     <string name="status_sensitive_media_title">Contenu sensible</string>
     <string name="status_media_hidden_title">Média caché</string>
     <string name="status_sensitive_media_directions">Cliquer pour voir</string>
@@ -61,7 +61,7 @@
     <string name="action_favourite">Favori</string>
     <string name="action_unfavourite">Supprimer le favori</string>
     <string name="action_more">Plus</string>
-    <string name="action_compose">Ecrire</string>
+    <string name="action_compose">Écrire</string>
     <string name="action_login">Se connecter à Mastodon</string>
     <string name="action_logout">Déconnexion</string>
     <string name="action_logout_confirm">Êtes-vous certain·e· de vouloir déconnecter le compte %1$s ?</string>
@@ -69,7 +69,7 @@
     <string name="action_unfollow">Ne plus suivre</string>
     <string name="action_block">Bloquer</string>
     <string name="action_unblock">Débloquer</string>
-    <string name="action_hide_reblogs">Cacher les partages</string>
+    <string name="action_hide_reblogs">Cacher les boosts</string>
     <string name="action_show_reblogs">Afficher les boosts</string>
     <string name="action_report">Signaler</string>
     <string name="action_delete">Supprimer</string>
@@ -83,7 +83,7 @@
     <string name="action_view_favourites">Favoris</string>
     <string name="action_view_mutes">Comptes masqués</string>
     <string name="action_view_blocks">Comptes bloqués</string>
-    <string name="action_view_follow_requests">Demandes de suivi</string>
+    <string name="action_view_follow_requests">Demandes d’abonnement</string>
     <string name="action_view_media">Média</string>
     <string name="action_open_in_web">Ouvrir dans votre navigateur</string>
     <string name="action_add_media">Ajouter un média</string>
@@ -169,8 +169,8 @@
     <string name="pref_title_notification_alert_light">Notifier avec une lumière</string>
     <string name="pref_title_notification_filters">Me notifier lorsque</string>
     <string name="pref_title_notification_filter_mentions">on me mentionne</string>
-    <string name="pref_title_notification_filter_follows">on me suit</string>
-    <string name="pref_title_notification_filter_reblogs">mes pouets sont boostés</string>
+    <string name="pref_title_notification_filter_follows">On me suit</string>
+    <string name="pref_title_notification_filter_reblogs">Mes pouets sont boostés</string>
     <string name="pref_title_notification_filter_favourites">mes pouets sont mis en favoris</string>
     <string name="pref_title_appearance_settings">Apparence</string>
     <string name="pref_title_app_theme">Thème de l’application</string>
@@ -212,7 +212,7 @@
     <string name="notification_mention_descriptions">Notifications pour les nouvelles mentions</string>
     <string name="notification_follow_name">Nouveaux abonnés</string>
     <string name="notification_follow_description">Notifications pour les nouveaux abonnés</string>
-    <string name="notification_boost_name">Partages</string>
+    <string name="notification_boost_name">Boosts</string>
     <string name="notification_boost_description">Notifications quand vos pouets sont boostés</string>
     <string name="notification_favourite_name">Favoris</string>
     <string name="notification_favourite_description">Notifications quand vos pouets sont mis en favoris</string>
@@ -244,7 +244,7 @@
     <string name="status_share_link">Partager le lien du pouet</string>
     <string name="status_media_images">Images</string>
     <string name="status_media_video">Vidéo</string>
-    <string name="state_follow_requested">Demande de suivi effectuée</string>
+    <string name="state_follow_requested">Demande d’abonnement effectuée</string>
     <!--These are for timestamps on statuses. For example: "16s" or "2d"-->
     <string name="abbreviated_in_years">en %da</string>
     <string name="abbreviated_in_days">en %dj</string>
@@ -255,7 +255,7 @@
     <string name="abbreviated_days_ago">%dj</string>
     <string name="abbreviated_hours_ago">%d h</string>
     <string name="abbreviated_minutes_ago">%dm</string>
-    <string name="abbreviated_seconds_ago">%d s</string>
+    <string name="abbreviated_seconds_ago">%ds</string>
     <string name="follows_you">Vous suit</string>
     <string name="pref_title_alway_show_sensitive_media">Toujours afficher le contenu sensible</string>
     <string name="title_media">Média</string>
@@ -316,8 +316,8 @@
     <string name="download_failed">Échec du téléchargement</string>
     <string name="profile_badge_bot_text">Robot</string>
     <string name="account_moved_description">%1$s a déménagé vers :</string>
-    <string name="reblog_private">Partager à l’audience originale</string>
-    <string name="unreblog_private">Ne plus booster</string>
+    <string name="reblog_private">Booster vers l’audience originale</string>
+    <string name="unreblog_private">Annuler le boost</string>
     <string name="license_description">Tusky contient du code et des ressources issus des projets open source suivants :</string>
     <string name="license_apache_2">Sous licence Apache (copie ci-dessous)</string>
     <string name="license_cc_by_4">CC-BY 4.0</string>
@@ -338,7 +338,7 @@
         <item quantity="one"><b>%s</b> Boost</item>
         <item quantity="other"><b>%s</b> Boosts</item>
     </plurals>
-    <string name="title_reblogged_by">Partagé par</string>
+    <string name="title_reblogged_by">Boosté par</string>
     <string name="title_favourited_by">Mis en favoris par</string>
     <string name="conversation_1_recipients">%1$s</string>
     <string name="conversation_2_recipients">%1$s et %2$s</string>
@@ -366,8 +366,8 @@
     <string name="notifications_clear">Nettoyer</string>
     <string name="notifications_apply_filter">Filtrer</string>
     <string name="filter_apply">Appliquer</string>
-    <string name="compose_shortcut_long_label">Ecrire un pouet</string>
-    <string name="compose_shortcut_short_label">Ecrire</string>
+    <string name="compose_shortcut_long_label">Écrire un pouet</string>
+    <string name="compose_shortcut_short_label">Écrire</string>
     <string name="pref_title_bot_overlay">Afficher l\'indicateur de robots</string>
     <string name="notification_clear_text">Désirez-vous nettoyer toutes vos notifications de façon permanente \?</string>
     <string name="action_delete_and_redraft">Effacer et ré-écrire</string>
@@ -404,7 +404,7 @@
     <string name="compose_preview_image_description">Actions pour l’image %s</string>
     <string name="poll_info_format"> <!-- 15 votes • 1 heure restante --> %1$s • %2$s</string>
     <string name="poll_ended_voted">Un sondage auquel vous avez participé vient de se terminer</string>
-    <string name="description_poll">Sondage avec des choix : %1$s, %2$s, %3$s, %4$s; %5$s</string>
+    <string name="description_poll">Sondage avec des choix : %1$s, %2$s, %3$s, %4$s ; %5$s</string>
     <string name="title_domain_mutes">Domaines cachés</string>
     <string name="action_view_domain_mutes">Domaines cachés</string>
     <string name="action_mute_domain">Masquer %s</string>
@@ -424,7 +424,7 @@
     <string name="report_description_remote_instance">Le compte provient d’un autre serveur. Envoyez également une copie anonyme du rapport \?</string>
     <string name="pref_title_show_notifications_filter">Montrer le filtre des notifications</string>
     <string name="filter_dialog_whole_word">Mot entier</string>
-    <string name="filter_dialog_whole_word_description">Un mot clé alphanumérique sera appliqué seulement s\'il correspond au mot entier.</string>
+    <string name="filter_dialog_whole_word_description">Un mot-clé ou une phrase alphanumérique sera appliqué·e seulement s’il ou elle correspond au mot entier</string>
     <string name="title_accounts">Comptes</string>
     <string name="failed_search">Échec de la recherche</string>
     <string name="pref_title_alway_open_spoiler">Toujours ouvrir les pouets avec un contenu sensible</string>
@@ -448,10 +448,10 @@
     <string name="action_reset_schedule">Réinitialiser</string>
     <string name="post_lookup_error_format">Erreur lors de la recherche du post %s</string>
     <string name="about_powered_by_tusky">Propulsé par Tusky</string>
-    <string name="title_bookmarks">Marque-pages</string>
+    <string name="title_bookmarks">Signets</string>
     <string name="action_bookmark">Marquer comme signet</string>
-    <string name="action_view_bookmarks">Marque-pages</string>
-    <string name="description_status_bookmarked">Ajouté aux marque-pages</string>
+    <string name="action_view_bookmarks">Signets</string>
+    <string name="description_status_bookmarked">Ajouté aux signets</string>
     <string name="select_list_title">Sélectionner la liste</string>
     <string name="list">Liste</string>
     <string name="error_audio_upload_size">Les fichiers audio doivent avoir moins de 40 Mo.</string>
@@ -467,8 +467,8 @@
         <item quantity="one">%s personne</item>
         <item quantity="other">%s personnes</item>
     </plurals>
-    <string name="notification_follow_request_description">Notifications lors des demandes d’abonnement</string>
-    <string name="pref_title_notification_filter_follow_requests">demande d’abonnement</string>
+    <string name="notification_follow_request_description">Notifications à propos des demandes d’abonnement</string>
+    <string name="pref_title_notification_filter_follow_requests">Demande d’abonnement</string>
     <string name="dialog_mute_warning">Mettre en sourdine @%s \?</string>
     <string name="action_unmute_conversation">Enlever la sourdine à la conversation</string>
     <string name="action_mute_conversation">Silencer la conversation</string>
