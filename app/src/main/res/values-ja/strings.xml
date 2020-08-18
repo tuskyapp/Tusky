@@ -19,7 +19,7 @@
     <string name="error_media_upload_sending">アップロードに失敗しました。</string>
     <string name="error_sender_account_gone">トゥート送信時のエラーです。</string>
     <string name="title_home">ホーム</string>
-    <string name="title_notifications">プッシュ通知</string>
+    <string name="title_notifications">通知</string>
     <string name="title_public_local">ローカル</string>
     <string name="title_public_federated">連合</string>
     <string name="title_direct_messages">ダイレクトメッセージ</string>
@@ -76,7 +76,7 @@
     <string name="action_close">閉じる</string>
     <string name="action_view_profile">プロフィール</string>
     <string name="action_view_preferences">設定</string>
-    <string name="action_view_account_preferences">アカウントの設定</string>
+    <string name="action_view_account_preferences">アカウント設定</string>
     <string name="action_view_favourites">お気に入り</string>
     <string name="action_view_mutes">ミュートしたユーザー</string>
     <string name="action_view_blocks">ブロックしたユーザー</string>
@@ -118,8 +118,8 @@
     <string name="confirmation_unblocked">ブロックを解除しました</string>
     <string name="confirmation_unmuted">ミュートを解除しました</string>
     <string name="status_sent">送信しました！</string>
-    <string name="status_sent_long">返信に成功しました</string>
-    <string name="hint_domain">どのインスタンス？</string>
+    <string name="status_sent_long">返信しました．</string>
+    <string name="hint_domain">インスタンス</string>
     <string name="hint_compose">今なにしてる？</string>
     <string name="hint_content_warning">注意書き</string>
     <string name="hint_display_name">表示名</string>
@@ -131,11 +131,11 @@
     <string name="label_header">ヘッダー</string>
     <string name="link_whats_an_instance">インスタンスとは？</string>
     <string name="login_connection">接続中…</string>
-    <string name="dialog_whats_an_instance">mastodon.social, icosahedron.website, social.tchncs.deや<a href="https://instances.social">その他</a>のような、あらゆるインスタンスのアドレスやドメインを入力できます。 
+    <string name="dialog_whats_an_instance">mastodon.social, mstdn.jp, pawoo.net や<a href="https://instances.social">その他</a>のような、あらゆるインスタンスのアドレスやドメインを入力できます。 
 \n
-\nまだアカウントをお持ちでない場合は、参加したいインスタンスの名前を入力することで<!-- -->そのインスタンスにアカウントを作成できます。 
+\nまだアカウントをお持ちでない場合は、参加したいインスタンスの名前を入力し、そのインスタンスでアカウントを作成できます。 
 \n
-\nインスタンスはあなたのアカウントが提供される単独の場所ですが、<!-- -->他のインスタンスのユーザーとあたかも同じ場所にいるように簡単にコミュニケーションをとったりフォローしたりできます。 
+\nあなたのアカウントは1つのインスタンスで提供されますが、他のインスタンスのユーザーともあたかも同じ場所にいるように簡単にコミュニケーションをとったりフォローしたりできます。 
 \n
 \nさらに詳しい情報は<a href="https://joinmastodon.org">joinmastodon.org</a>でご覧いただけます。 </string>
     <string name="dialog_title_finishing_media_upload">メディアをアップロードしています</string>
@@ -149,7 +149,7 @@
     <string name="visibility_private">フォロワー限定：フォロワーだけに公開</string>
     <string name="visibility_direct">ダイレクト：返信先のユーザーだけに公開</string>
     <string name="pref_title_edit_notification_settings">通知を設定</string>
-    <string name="pref_title_notifications_enabled">プッシュ通知</string>
+    <string name="pref_title_notifications_enabled">通知</string>
     <string name="pref_title_notification_alerts">通知時の動作</string>
     <string name="pref_title_notification_alert_sound">着信音を鳴らす</string>
     <string name="pref_title_notification_alert_vibrate">バイブレーションする</string>
@@ -169,7 +169,7 @@
     <string name="app_theme_auto">日没による自動設定</string>
     <string name="pref_title_browser_settings">ブラウザ</string>
     <string name="pref_title_custom_tabs">Chrome Custom Tabsを使用する</string>
-    <string name="pref_title_hide_follow_button">スクロール中はフォローボタンを隠す</string>
+    <string name="pref_title_hide_follow_button">スクロール中は投稿ボタンを隠す</string>
     <string name="pref_title_language">言語</string>
     <string name="pref_title_status_filter">タイムラインのフィルタリング</string>
     <string name="pref_title_status_tabs">タブ</string>
@@ -243,7 +243,7 @@
     <string name="abbreviated_minutes_ago">%d分前</string>
     <string name="abbreviated_seconds_ago">%d秒前</string>
     <string name="follows_you">あなたをフォロー中</string>
-    <string name="pref_title_alway_show_sensitive_media">閲覧注意のコンテンツを常に表示</string>
+    <string name="pref_title_alway_show_sensitive_media">閲覧注意のメディアを常に表示</string>
     <string name="title_media">メディア</string>
     <string name="replying_to">\@%sに返信</string>
     <string name="load_more_placeholder_text">さらに読み込む</string>
@@ -254,7 +254,7 @@
     <string name="action_lists">リスト</string>
     <string name="title_lists">リスト</string>
     <string name="title_list_timeline">リストタイムライン</string>
-    <string name="error_rename_list">リスト名を変更できませんでした。</string>
+    <string name="error_rename_list">リスト名を変更できませんでした</string>
     <string name="action_rename_list">リスト名の変更</string>
     <string name="compose_active_account_description">%1$sで投稿</string>
     <string name="error_failed_set_caption">説明の設定に失敗しました</string>
@@ -360,8 +360,8 @@
     <string name="dialog_redraft_toot_warning">このトゥートを削除し、下書きに戻しますか？</string>
     <string name="filter_dialog_remove_button">削除</string>
     <string name="filter_dialog_update_button">更新</string>
-    <string name="error_create_list">リストを作成できませんでした。</string>
-    <string name="error_delete_list">リストを削除できませんでした。</string>
+    <string name="error_create_list">リストを作成できませんでした</string>
+    <string name="error_delete_list">リストを削除できませんでした</string>
     <string name="action_create_list">リストの作成</string>
     <string name="action_delete_list">リストの削除</string>
     <string name="action_edit_list">リストの編集</string>
@@ -402,4 +402,45 @@
     <string name="description_visiblity_private">フォロワー</string>
     <string name="conversation_2_recipients">%1$sさん、%2$sさん</string>
     <string name="notification_follow_request_name">フォローリクエスト</string>
+    <string name="action_unmute_desc">%sさんのミュートを解除</string>
+    <string name="notification_follow_request_format">%sさんがあなたにフォローリクエストしました</string>
+    <string name="report_sent_success">\@%sさんを通報しました</string>
+    <string name="no_scheduled_status">予約した投稿はありません。</string>
+    <string name="no_saved_status">下書きはありません。</string>
+    <string name="poll_new_choice_hint">項目 %d</string>
+    <string name="report_description_remote_instance">このアカウントは外部のサーバーにあります。匿名化された通報の複製をそちらにも送信しますか？</string>
+    <string name="report_description_1">通報をサーバーのモデレーターに送信します。以下にこのアカウントを通報理由を入力できます:</string>
+    <string name="failed_fetch_statuses">投稿を取得できませんでした</string>
+    <string name="button_done">完了</string>
+    <string name="button_back">戻る</string>
+    <string name="button_continue">続ける</string>
+    <string name="compose_shortcut_short_label">投稿</string>
+    <string name="compose_shortcut_long_label">新規トゥート</string>
+    <string name="list">リスト</string>
+    <string name="hashtags">ハッシュタグ</string>
+    <string name="add_hashtag_title">ハッシュタグを追加</string>
+    <string name="description_status_media_no_description_placeholder">説明なし</string>
+    <string name="description_status_media">メディア: %s</string>
+    <string name="conversation_more_recipients">%1$sさん、%2$sさんと他%3$d人</string>
+    <string name="conversation_1_recipients">%1$sさん</string>
+    <string name="filter_add_description">フィルターする語句</string>
+    <string name="filter_dialog_whole_word_description">キーワードや語句が英数字のみの場合、単語全体と一致する場合のみ適用されます</string>
+    <string name="notification_follow_request_description">フォローリクエストについての通知</string>
+    <string name="pref_main_nav_position_option_bottom">下部</string>
+    <string name="pref_main_nav_position_option_top">上部</string>
+    <string name="pref_main_nav_position">メインナビゲーションの位置</string>
+    <string name="pref_title_gradient_for_media">非表示のメディアを色付きのぼかしで表示する</string>
+    <string name="pref_title_notification_filter_follow_requests">フォローリクエスト</string>
+    <string name="dialog_mute_hide_notifications">通知を非表示</string>
+    <string name="dialog_mute_warning">\@%sさんをミュートしますか？</string>
+    <string name="dialog_block_warning">\@%sさんをブロックしますか？</string>
+    <string name="pref_title_alway_open_spoiler">閲覧注意としてマークされたトゥートを常に展開する</string>
+    <string name="action_open_media_n">メディア #%d を開く</string>
+    <string name="action_open_faved_by">お気に入りを表示</string>
+    <string name="action_open_reblogger">ブーストしたユーザーを開く</string>
+    <string name="action_unmute_conversation">会話のミュートを解除</string>
+    <string name="action_mute_conversation">会話をミュート</string>
+    <string name="action_unmute_domain">%sのミュートを解除</string>
+    <string name="action_mute_notifications_desc">%sさんからの通知をミュート</string>
+    <string name="action_unmute_notifications_desc">%sさんからの通知のミュートを解除</string>
 </resources>
