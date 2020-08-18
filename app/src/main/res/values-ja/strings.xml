@@ -456,5 +456,5 @@
     <plurals name="poll_info_people">
         <item quantity="other">%s人</item>
     </plurals>
-    <string name="warning_scheduling_interval">Mastodonにおける予約までの最少間隔は5分です。</string>
+    <string name="warning_scheduling_interval">Mastodonにおける予約までの最小間隔は5分です。</string>
 </resources>
