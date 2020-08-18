@@ -119,8 +119,8 @@
     <string name="action_copy_link">Link kopieren</string>
     <string name="action_open_as">Öffnen als %s</string>
     <string name="action_share_as">Teilen als …</string>
-    <string name="send_status_link_to">Beitragslink teilen</string>
-    <string name="send_status_content_to">Beitragsinhalt teilen</string>
+    <string name="send_status_link_to">Beitragslink teilen…</string>
+    <string name="send_status_content_to">Beitragsinhalt teilen…</string>
     <string name="send_media_to">Mediendatei teilen…</string>
     <string name="confirmation_reported">Gesendet!</string>
     <string name="confirmation_unblocked">entblockt</string>
@@ -132,7 +132,7 @@
     <string name="hint_content_warning">Inhaltswarnung</string>
     <string name="hint_display_name">Anzeigename</string>
     <string name="hint_note">Über mich</string>
-    <string name="hint_search">Mastodon durchsuchen</string>
+    <string name="hint_search">Mastodon durchsuchen…</string>
     <string name="search_no_results">Keine Ergebnisse</string>
     <string name="label_quick_reply">Antworten…</string>
     <string name="label_avatar">Profilbild</string>
@@ -365,8 +365,8 @@
         <item quantity="other">%d Tage</item>
     </plurals>
     <plurals name="poll_timespan_hours">
-        <item quantity="one"/>
-        <item quantity="other"/>
+        <item quantity="one">%d Stunde</item>
+        <item quantity="other">%d Stunden</item>
     </plurals>
     <plurals name="poll_timespan_minutes">
         <item quantity="one">%d Minute</item>
@@ -424,7 +424,7 @@
     <string name="title_bookmarks">Lesezeichen</string>
     <string name="action_bookmark">Lesezeichen</string>
     <string name="action_view_bookmarks">Lesezeichen</string>
-    <string name="about_powered_by_tusky">Powered by Tusky</string>
+    <string name="about_powered_by_tusky">Angetrieben durch Tusky</string>
     <string name="description_status_bookmarked">Als Lesezeichen gespeichert</string>
     <string name="select_list_title">Liste auswählen</string>
     <string name="list">Liste</string>
@@ -439,7 +439,7 @@
     <string name="dialog_block_warning">Bist du dir sicher, dass du @%s blockieren möchtest\?</string>
     <string name="action_unmute_conversation">Stummschaltung der Konversation aufheben</string>
     <string name="action_mute_conversation">Konversation stummschalten</string>
-    <string name="notification_follow_request_format">"%s  möchte dir folgen"</string>
+    <string name="notification_follow_request_format">%s möchte dir folgen</string>
     <string name="hashtags">Hashtags</string>
     <string name="add_hashtag_title">Hashtag hinzufügen</string>
     <string name="pref_title_confirm_reblogs">Bestätigungsdialog vor dem Teilen eines Beitrags</string>

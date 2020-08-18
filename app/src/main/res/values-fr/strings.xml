@@ -371,7 +371,7 @@
     <string name="pref_title_bot_overlay">Afficher l\'indicateur de robots</string>
     <string name="notification_clear_text">Désirez-vous nettoyer toutes vos notifications de façon permanente \?</string>
     <string name="action_delete_and_redraft">Effacer et ré-écrire</string>
-    <string name="dialog_redraft_toot_warning">Effacer et ré-écrire ce pouet \?</string>
+    <string name="dialog_redraft_toot_warning">Effacer et ré-écrire ce pouet \?</string>
     <plurals name="poll_info_votes">
         <item quantity="one">%s vote</item>
         <item quantity="other">%s votes</item>

@@ -373,7 +373,7 @@
     <string name="compose_preview_image_description">کنش‌ها برای تصاویر</string>
     <plurals name="poll_info_votes">
         <item quantity="one">%s رای</item>
-        <item quantity="other"/>
+        <item quantity="other">%s رای</item>
     </plurals>
     <string name="poll_info_time_relative">%s باقی مانده</string>
     <string name="poll_info_time_absolute">پایان یافته در %s</string>

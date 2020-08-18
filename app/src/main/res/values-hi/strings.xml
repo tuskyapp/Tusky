@@ -307,7 +307,7 @@
     <string name="pref_title_absolute_time">पूर्ण समय का उपयोग करें</string>
     <string name="profile_metadata_content_label">विषय वस्तु</string>
     <string name="profile_metadata_label_label">लेबल</string>
-    <string name="license_apache_2">"अपाचे लाइसेंस के तहत लाइसेंस प्राप्त (प्रतिलिपि  नीचे उपलब्ध)"</string>
+    <string name="license_apache_2">अपाचे लाइसेंस के तहत लाइसेंस प्राप्त (प्रतिलिपि नीचे उपलब्ध)</string>
     <string name="account_moved_description">%1$s यहां चले गए हैं:</string>
     <string name="profile_badge_bot_text">बोट</string>
     <string name="caption_notoemoji">गूगल का इमोजी सेट</string>
