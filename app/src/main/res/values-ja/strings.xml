@@ -424,7 +424,7 @@
     <string name="conversation_more_recipients">%1$sさん、%2$sさんと他%3$d人</string>
     <string name="conversation_1_recipients">%1$sさん</string>
     <string name="filter_add_description">フィルターする語句</string>
-    <string name="filter_dialog_whole_word_description">キーワードや語句が英数字のみの場合、単語全体と一致する場合のみ適用されます</string>
+    <string name="filter_dialog_whole_word_description">キーワードまたは語句が英数字のみである時、単語全体と一致する場合のみ適用されます</string>
     <string name="notification_follow_request_description">フォローリクエストについての通知</string>
     <string name="pref_main_nav_position_option_bottom">下部</string>
     <string name="pref_main_nav_position_option_top">上部</string>
@@ -456,4 +456,5 @@
     <plurals name="poll_info_people">
         <item quantity="other">%s人</item>
     </plurals>
+    <string name="warning_scheduling_interval">Mastodonにおける予約までの最少間隔は5分です。</string>
 </resources>
