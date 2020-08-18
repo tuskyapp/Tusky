@@ -27,4 +27,7 @@
     <string name="action_login">ⵇⵇⴻⵏ ⵖⴻⵔ ⵎⴰⵚⵟⵓⴷⵓⵏ</string>
     <string name="link_whats_an_instance">ⴸ ⴰⵛⵓ ⵓ ⵜⵙⵓⵎⵎⴰⵏⵜ\?</string>
     <string name="notification_favourite_name">ⵉⵙⵎⴻⵏⵢⵉⴼⴻⵏ</string>
+    <string name="action_remove">ⴽⴽⴻⵙ</string>
+    <string name="action_access_saved_toot">ⵉⵔⴻⵡⵡⴰⵢⴻⵏ</string>
+    <string name="title_blocks">ⵉⵎⵙⴻⵇⴷⴰⵛⴻⵏ ⵜⵙⵡⴰⵃⵍⴻⵎ</string>
 </resources>

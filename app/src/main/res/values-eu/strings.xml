@@ -453,4 +453,10 @@
     <string name="action_mute_conversation">Elkarrizketa isildu</string>
     <string name="notification_follow_request_format">%s -k zu jarraitzeko eskatu dizu</string>
     <string name="hashtags">Traolak</string>
+    <string name="dialog_mute_hide_notifications">Ez erakutsi jakinarazpenak</string>
+    <string name="action_unmute_desc">Desmututu %s</string>
+    <plurals name="poll_info_people">
+        <item quantity="one">Pertsona %s</item>
+        <item quantity="other">%s pertsona</item>
+    </plurals>
 </resources>

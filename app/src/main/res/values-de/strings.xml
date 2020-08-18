@@ -123,7 +123,7 @@
     <string name="send_status_content_to">Beitragsinhalt teilen…</string>
     <string name="send_media_to">Mediendatei teilen…</string>
     <string name="confirmation_reported">Gesendet!</string>
-    <string name="confirmation_unblocked">entblockt</string>
+    <string name="confirmation_unblocked">Entblockt</string>
     <string name="confirmation_unmuted">Stummschaltung aufgehoben</string>
     <string name="status_sent">Gesendet!</string>
     <string name="status_sent_long">Antwort erfolgreich gesendet.</string>

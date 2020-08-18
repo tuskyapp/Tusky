@@ -403,9 +403,9 @@
     </plurals>
     <plurals name="poll_timespan_hours">
         <item quantity="one">%d godzina</item>
-        <item quantity="few">%d godzin</item>
-        <item quantity="many">%d godzin</item>
-        <item quantity="other">%d godzin</item>
+        <item quantity="few"></item>
+        <item quantity="many"></item>
+        <item quantity="other"></item>
     </plurals>
     <plurals name="poll_timespan_minutes">
         <item quantity="one">%d minuta</item>
