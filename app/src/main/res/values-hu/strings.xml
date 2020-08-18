@@ -185,7 +185,7 @@
     <string name="pref_default_media_sensitivity">Minden médiát jelölj meg érzékenynek</string>
     <string name="pref_failed_to_sync">A beállítások szinkronizálása nem sikerült</string>
     <string name="post_privacy_public">Nyilvános</string>
-    <string name="post_privacy_unlisted">Unlisted</string>
+    <string name="post_privacy_unlisted">Listázatlan</string>
     <string name="post_privacy_followers_only">Csak követőknek</string>
     <string name="pref_status_text_size">Státusz szöveg mérete</string>
     <string name="status_text_size_smallest">Legkisebb</string>
@@ -283,7 +283,7 @@
     <string name="action_open_media_n">Média megnyitása: #%d</string>
     <string name="download_media">Média letöltése</string>
     <string name="downloading_media">Média letöltése</string>
-    <string name="send_media_to">Média megosztása következővel:</string>
+    <string name="send_media_to">Média megosztása következővel…</string>
     <string name="dialog_redraft_toot_warning">Törlöd és újraírod ezt a tülköt\?</string>
     <string name="pref_title_notification_filter_poll">befejeződött a szavazás</string>
     <string name="pref_title_timeline_filters">Szűrők</string>
@@ -331,7 +331,7 @@
     <string name="pref_title_animate_gif_avatars">GIF profilképek animálása</string>
     <string name="abbreviated_in_seconds">%dmp múlva</string>
     <string name="filter_dialog_whole_word">Teljes szó</string>
-    <string name="filter_dialog_whole_word_description">Ha a kulcsszó csak alfanumerikus karakterekből áll, csak teljes szóra fog illeszkedni.</string>
+    <string name="filter_dialog_whole_word_description">Ha a kulcsszó csak alfanumerikus karakterekből áll, csak teljes szóra fog illeszkedni</string>
     <string name="title_list_timeline">Lista idővonal</string>
     <string name="hint_search_people_list">Általad követettek keresése</string>
     <string name="action_add_to_list">Fiók hozzáadása a listához</string>
@@ -350,8 +350,8 @@
     <string name="unpin_action">Kitűzés eltávolítása</string>
     <string name="pin_action">Kitűzés</string>
     <plurals name="favs">
-        <item quantity="one"/>
-        <item quantity="other"/>
+        <item quantity="one"><b>%1$s</b> Kedvenc</item>
+        <item quantity="other"><b>%1$s</b> Kedvenc</item>
     </plurals>
     <plurals name="reblogs">
         <item quantity="one">&lt;b&gt;%s&lt;/b&gt; Megtolás</item>
@@ -387,20 +387,20 @@
     <string name="poll_ended_voted">Egy szavazás véget ért, melyben részt vettél</string>
     <string name="poll_ended_created">Egy szavazás véget ért, melyet te hoztál létre</string>
     <plurals name="poll_timespan_days">
-        <item quantity="one"/>
-        <item quantity="other"/>
+        <item quantity="one">%d nap</item>
+        <item quantity="other">%d nap</item>
     </plurals>
     <plurals name="poll_timespan_hours">
-        <item quantity="one"/>
-        <item quantity="other"/>
+        <item quantity="one">%d óra</item>
+        <item quantity="other">%d óra</item>
     </plurals>
     <plurals name="poll_timespan_minutes">
-        <item quantity="one"/>
-        <item quantity="other"/>
+        <item quantity="one">%d perc</item>
+        <item quantity="other">%d perc</item>
     </plurals>
     <plurals name="poll_timespan_seconds">
-        <item quantity="one"/>
-        <item quantity="other"/>
+        <item quantity="one">%d másodperc</item>
+        <item quantity="other">%d másodperc</item>
     </plurals>
     <string name="button_continue">Folytatás</string>
     <string name="button_back">Vissza</string>
