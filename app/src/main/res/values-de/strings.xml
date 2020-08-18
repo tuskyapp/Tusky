@@ -111,7 +111,7 @@
     <string name="action_hashtags">Hashtags</string>
     <string name="action_open_reblogged_by">Boosts anzeigen</string>
     <string name="action_open_faved_by">Favoriten anzeigen</string>
-    <string name="title_hashtags_dialog">Hastags</string>
+    <string name="title_hashtags_dialog">Hashtags</string>
     <string name="title_mentions_dialog">Erwähnungen</string>
     <string name="title_links_dialog">Verlinkungen</string>
     <string name="action_open_media_n">Medium #%d öffnen</string>
