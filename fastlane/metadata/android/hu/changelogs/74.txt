@@ -1,0 +1,8 @@
+Tusky v12.0
+
+- Továbbfejlesztett kezelői felület - a füleket alulra is rakhatod
+- Ha egy felhasználót némítasz, külön dönthetsz arról, hogy a tőle érkező értesítéseket némítsd-e
+- Az új hashtag fülön annyi hashtaget követhetsz, amennyit csak akarsz
+- Továbbfejlesztettük a média leírások megjelenítését, így ez már nagyon hosszú leírásokra is jól működik
+    
+Összes változás: https://github.com/tuskyapp/Tusky/releases
