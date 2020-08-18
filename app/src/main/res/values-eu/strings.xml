@@ -99,7 +99,7 @@
     <string name="action_emoji_keyboard">Emoji teklatua</string>
     <string name="download_image">%1$s jaisten</string>
     <string name="action_copy_link">Lotura kopiatu</string>
-    <string name="send_status_link_to">Tutaren URL-a partekatu…</string>
+    <string name="send_status_link_to">Tutaren URLa partekatu…</string>
     <string name="send_status_content_to">Tuta partekatu…</string>
     <string name="send_media_to">Partekatu multimedia hona…</string>
     <string name="confirmation_reported">Bidalia!</string>
@@ -412,7 +412,7 @@
     <string name="button_done">Eginda</string>
     <string name="report_sent_success">\@%s jakinarazi duzu arrakastaz</string>
     <string name="hint_additional_info">Iruzkin gehigarriak</string>
-    <string name="report_remote_instance">%s-(r)i birbidali</string>
+    <string name="report_remote_instance">%s(r)i birbidali</string>
     <string name="failed_report">Txostena huts egin du</string>
     <string name="failed_fetch_statuses">Egoeren eskuratzea huts egin du</string>
     <string name="report_description_1">Txostena zure zerbitzariaren moderatzaileari bidaliko zaio. Jarraian, kontu honen zergatia salatzen duzun azalpena eman dezakezu:</string>
@@ -432,7 +432,7 @@
     <string name="poll_allow_multiple_choices">Aukera anitzak</string>
     <string name="poll_new_choice_hint">%d. aukera</string>
     <string name="edit_poll">Editatu</string>
-    <string name="post_lookup_error_format">Errorea %s mezua bilatzean</string>
+    <string name="post_lookup_error_format">Errorea agertu da %s mezua bilatzean</string>
     <string name="title_bookmarks">Laster-markak</string>
     <string name="action_bookmark">Laster-marka</string>
     <string name="action_view_bookmarks">Laster-markak</string>
@@ -452,4 +452,5 @@
     <string name="dialog_block_warning">\@%s blokeatu\?</string>
     <string name="action_mute_conversation">Elkarrizketa isildu</string>
     <string name="notification_follow_request_format">%s -k zu jarraitzeko eskatu dizu</string>
+    <string name="hashtags">Traolak</string>
 </resources>

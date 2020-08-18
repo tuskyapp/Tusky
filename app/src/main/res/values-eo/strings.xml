@@ -103,7 +103,7 @@
     <string name="action_search">Serĉi</string>
     <string name="action_access_saved_toot">Malnetoj</string>
     <string name="action_toggle_visibility">Videblo de la mesaĝo</string>
-    <string name="action_content_warning">Tikla enhavo</string>
+    <string name="action_content_warning">Enhava averto</string>
     <string name="action_emoji_keyboard">Klavaro de emoĝioj</string>
     <string name="action_add_tab">Aldoni langeton</string>
     <string name="action_links">Ligiloj</string>
@@ -369,34 +369,34 @@
     <string name="filter_apply">Apliki</string>
     <string name="compose_shortcut_long_label">Verki mesaĝon</string>
     <string name="compose_shortcut_short_label">Verki</string>
-    <string name="notification_clear_text">Ĉu vi certas ke vi volas porĉiame viŝi ĉiujn viajn sciigojn\?</string>
+    <string name="notification_clear_text">Ĉu vi certas ke vi volas proĉiame viŝi ĉiujn viajn sciigojn\?</string>
     <string name="compose_preview_image_description">Agoj por bildo %s</string>
     <string name="poll_info_format"> <!-- 15 votes • 1 hour left --> %1$s • %2$s</string>
     <plurals name="poll_info_votes">
-        <item quantity="one">%s voĉdono</item>
-        <item quantity="other">%s voĉdonoj</item>
+        <item quantity="one"></item>
+        <item quantity="other"></item>
     </plurals>
     <string name="poll_info_time_relative">%s restas</string>
     <string name="poll_info_time_absolute">finiĝos je %s</string>
     <string name="poll_info_closed">finiĝita</string>
     <string name="poll_vote">Voĉdoni</string>
     <string name="poll_ended_voted">Enketo al kiu vi voĉdonis finiĝis</string>
-    <string name="poll_ended_created">Enketo kiun vi kreis finiĝis</string>
+    <string name="poll_ended_created">Enketo kiu vi kreis finiĝis</string>
     <plurals name="poll_timespan_days">
-        <item quantity="one">%s tago</item>
-        <item quantity="other">%s tagoj</item>
+        <item quantity="one"></item>
+        <item quantity="other"></item>
     </plurals>
     <plurals name="poll_timespan_hours">
-        <item quantity="one">%s horo</item>
-        <item quantity="other">%s horoj</item>
+        <item quantity="one"></item>
+        <item quantity="other"></item>
     </plurals>
     <plurals name="poll_timespan_minutes">
-        <item quantity="one">%d minuto</item>
-        <item quantity="other">%d minutoj</item>
+        <item quantity="one"></item>
+        <item quantity="other"></item>
     </plurals>
     <plurals name="poll_timespan_seconds">
-        <item quantity="one">%d sekundo</item>
-        <item quantity="other">%d sekundoj</item>
+        <item quantity="one"></item>
+        <item quantity="other"></item>
     </plurals>
     <string name="title_domain_mutes">Kaŝitaj domajnoj</string>
     <string name="action_view_domain_mutes">Kaŝitaj domajnoj</string>
@@ -405,7 +405,7 @@
     <string name="mute_domain_warning">Ĉu vi certas ke vi volas tute bloki %s\? Vi ne vidos enhavon de tiu domajno en publika tempolinio aŭ en viaj sciigoj. Viaj sekvantoj de tiu domajno estos forigitaj.</string>
     <string name="mute_domain_warning_dialog_ok">Kaŝi la tutan domajnon</string>
     <string name="caption_notoemoji">La aktuala emoĝiaro de Google</string>
-    <string name="description_poll">Balotenketo kun elektoj: %1$s, %2$s, %3$s, %4$s; %5$s</string>
+    <string name="description_poll">Balotenketo kun elektoj: %s, %s, %s, %s; %s</string>
     <string name="button_continue">Daŭrigi</string>
     <string name="button_back">Reveni</string>
     <string name="button_done">Farita</string>
@@ -452,4 +452,5 @@
     <string name="no_saved_status">Vi ne havas iun ajn malneton.</string>
     <string name="no_scheduled_status">Vi ne havas iun ajn planitan mesaĝon.</string>
     <string name="notification_follow_request_name">Petoj de sekvado</string>
+    <string name="hashtags">Kradvortoj</string>
 </resources>

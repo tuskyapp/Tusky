@@ -46,9 +46,9 @@
     <string name="action_reblog">Retooteja</string>
     <string name="action_favourite">Preferit</string>
     <string name="action_more">Més</string>
-    <string name="action_compose">Escriure</string>
+    <string name="action_compose">Redacta</string>
     <string name="action_login">Inicia sessió amb Mastodon</string>
-    <string name="action_logout">Tanca la sessió</string>
+    <string name="action_logout">Tanca sessió</string>
     <string name="action_follow">Segueix</string>
     <string name="action_unfollow">Deixa de seguir</string>
     <string name="action_block">Bloca</string>
@@ -206,15 +206,15 @@
     <string name="error_video_upload_size">Els fitxers de vídeo han de pesar menys de 40 MB.</string>
     <string name="status_media_hidden_title">Multimèdia amagada</string>
     <string name="status_content_show_less">Amaga</string>
-    <string name="action_logout_confirm">Estas segur de tancar la sessió de %1$s\?</string>
-    <string name="action_hide_reblogs">Amaga els impulsos</string>
+    <string name="action_logout_confirm">Estàs segur de tancar la sessió de %1$s\?</string>
+    <string name="action_hide_reblogs">Amaga els retoots</string>
     <string name="action_show_reblogs">Mostra els impulsos</string>
     <string name="action_delete_and_redraft">Elimina i reecririu</string>
     <string name="action_open_drawer">Open drawer</string>
     <string name="action_toggle_visibility">Visibilitat del toot</string>
     <string name="action_content_warning">Contingut sensible</string>
     <string name="action_add_tab">Afegeix una pestanya</string>
-    <string name="action_links">Enllaç</string>
+    <string name="action_links">Enllaços</string>
     <string name="action_mentions">Mencions</string>
     <string name="action_hashtags">Hashtags</string>
     <string name="action_open_faved_by">Mostra els preferits</string>
@@ -223,7 +223,7 @@
     <string name="title_links_dialog">Enllaç</string>
     <string name="action_share_as">Comparteix com a…</string>
     <string name="download_media">Baixa el fitxer</string>
-    <string name="send_media_to">Comparteix la imatge a …</string>
+    <string name="send_media_to">Compartir la imatge a …</string>
     <string name="status_sent">Enviat!</string>
     <string name="state_follow_requested">Follow requested</string>
     <string name="title_statuses_with_replies">Amb respostes</string>
@@ -438,7 +438,7 @@
     <string name="action_schedule_toot">Programa el toot</string>
     <string name="action_reset_schedule">Reinicia</string>
     <string name="about_powered_by_tusky">Desenvolupat per Tusky</string>
-    <string name="description_status_bookmarked">Afegit a les adreces d\'interès</string>
+    <string name="description_status_bookmarked">Afegit a les adreces d\'interès.</string>
     <string name="select_list_title">Seleccionar la llista</string>
     <string name="list">Llista</string>
     <string name="post_lookup_error_format">S\'ha produït un error en cercar la publicació %s</string>
@@ -451,8 +451,8 @@
     <string name="pref_title_show_cards_in_timelines">Mostra les previsualitzacions dels enllaços en els fils</string>
     <string name="pref_title_enable_swipe_for_tabs">Habilita el gest de desplaçament per despleçar-te entre pestanyes</string>
     <plurals name="poll_info_people">
-        <item quantity="one"/>
-        <item quantity="other"/>
+        <item quantity="one">%s persona</item>
+        <item quantity="other">%s persones</item>
     </plurals>
     <string name="hashtags">Hashtags</string>
     <string name="add_hashtag_title">Afegir hashtag</string>

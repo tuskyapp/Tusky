@@ -61,7 +61,7 @@
     <string name="action_block">Blocar</string>
     <string name="action_unblock">Quitar de blocar</string>
     <string name="action_hide_reblogs">Rescondre los partatges</string>
-    <string name="action_show_reblogs">Mostrar los partatges</string>
+    <string name="action_show_reblogs">Mostrar los retuts</string>
     <string name="action_report">Denonciar</string>
     <string name="action_delete">Escafar</string>
     <string name="action_send">TUT</string>
@@ -74,7 +74,7 @@
     <string name="action_view_mutes">Utilizaires silenciats</string>
     <string name="action_view_blocks">Utilizaires blocats</string>
     <string name="action_view_follow_requests">Demandas d’abonament</string>
-    <string name="action_view_media">Muèdia</string>
+    <string name="action_view_media">Mèdia</string>
     <string name="action_open_in_web">Dobrir al navegador</string>
     <string name="action_add_media">Ajustar un mèdia</string>
     <string name="action_photo_take">Prendre una fotografia</string>
@@ -100,7 +100,7 @@
     <string name="send_status_link_to">Partejar l\'URL del tut amb…</string>
     <string name="send_status_content_to">Partejar vòstre tut amb…</string>
     <string name="send_media_to">Partejar l’imatge amb…</string>
-    <string name="confirmation_reported">Enviat !</string>
+    <string name="confirmation_reported">Enviat !</string>
     <string name="confirmation_unblocked">Utilizaire desblocat</string>
     <string name="confirmation_unmuted">Utilizaire sortit del silenci</string>
     <string name="status_sent">Enviat !</string>
@@ -130,11 +130,11 @@
     <string name="dialog_unfollow_warning">Volètz quitar de seguir aqueste compte ?</string>
     <string name="dialog_delete_toot_warning">Suprimir aqueste tut \?</string>
     <string name="visibility_public">Publica : es visibla a la cronologia publica</string>
-    <string name="visibility_unlisted">Pas-listada : es pas visibla a las cronologias publicas</string>
+    <string name="visibility_unlisted">Pas listada :es pas visibla a las cronologias publicas</string>
     <string name="visibility_private">Solament seguidors : pas que visibla pels vòstres seguidors</string>
     <string name="visibility_direct">Dirècta : pas que visibla al monde mencionats</string>
     <string name="pref_title_edit_notification_settings">Modificar las notificacions</string>
-    <string name="pref_title_notifications_enabled">Notificacions</string>
+    <string name="pref_title_notifications_enabled">Modificar las notificacions</string>
     <string name="pref_title_notification_alerts">Alèrtas</string>
     <string name="pref_title_notification_alert_sound">Notificar amb un son</string>
     <string name="pref_title_notification_alert_vibrate">Notificra amb una vibracion</string>
@@ -269,7 +269,7 @@
     <string name="label_remote_account">Las informacions çai-jos son pas lo rebat del perfil complèt de l’utilizaire. Tocatz per dobrir lo perfil complèt dins lo navigador.</string>
     <string name="unpin_action">Tirar del perfil</string>
     <string name="pin_action">Penjar</string>
-    <string name="error_network">Una error ret se’s producha ! Mercés de verificar la connexion e tornar ensajar !</string>
+    <string name="error_network">Una error ret se’s prochuda ! Mercés de verificar la connexion e tornar ensajar !</string>
     <string name="title_public_local">Local</string>
     <string name="title_direct_messages">Messatges dirèctes</string>
     <string name="title_tab_preferences">Onglets</string>
@@ -284,7 +284,7 @@
     <string name="action_mentions">Mencions</string>
     <string name="action_hashtags">Etiquetas</string>
     <string name="action_open_reblogger">Dobrir l’autor del partatge</string>
-    <string name="action_open_reblogged_by">Mostrar los partatges</string>
+    <string name="action_open_reblogged_by">Mostrar los retuts</string>
     <string name="action_open_faved_by">Mostrar los favorits</string>
     <string name="title_hashtags_dialog">Etiquetas</string>
     <string name="title_mentions_dialog">Mencions</string>
@@ -310,10 +310,10 @@
     <string name="pref_title_thread_filter_keywords">Discutidas</string>
     <string name="filter_addition_dialog_title">Ajustar un filtre</string>
     <string name="filter_edit_dialog_title">Modificar un filtre</string>
-    <string name="filter_dialog_remove_button">Levar</string>
+    <string name="filter_dialog_remove_button">Suprimir</string>
     <string name="filter_dialog_update_button">Actualizar</string>
     <string name="filter_add_description">Frasa de filtrar</string>
-    <string name="error_create_list">Creacion impossibla de la lista</string>
+    <string name="error_create_list">Creacion impossibla de la lsita</string>
     <string name="error_rename_list">Impossible de renomenar la lista</string>
     <string name="error_delete_list">Supression impossibla de la lista</string>
     <string name="action_create_list">Crear una lista</string>
@@ -332,8 +332,8 @@
         <item quantity="other"><b>%1$s</b> Favorits</item>
     </plurals>
     <plurals name="reblogs">
-        <item quantity="one"><b>%s</b> partatge</item>
-        <item quantity="other"><b>%s</b> partatges</item>
+        <item quantity="one"></item>
+        <item quantity="other"></item>
     </plurals>
     <string name="title_reblogged_by">Partejat per</string>
     <string name="title_favourited_by">Aimat per</string>
@@ -347,7 +347,7 @@
     <string name="description_status_reblogged">Repartajat</string>
     <string name="description_status_favourited">Mes en favorit</string>
     <string name="description_visiblity_public">Public</string>
-    <string name="description_visiblity_unlisted">Pas listat</string>
+    <string name="description_visiblity_unlisted">Pas listada</string>
     <string name="description_visiblity_private">Seguidors</string>
     <string name="description_visiblity_direct">Dirècte</string>
     <string name="hint_list_name">Nom de la lista</string>
@@ -363,8 +363,8 @@
     <string name="pref_title_bot_overlay">Mostrar coma indicator pels robòts</string>
     <string name="notification_clear_text">Netejar totas las notificacions d’un biais permanent \?</string>
     <plurals name="poll_info_votes">
-        <item quantity="one">%s vòte</item>
-        <item quantity="other">%s vòtes</item>
+        <item quantity="one"></item>
+        <item quantity="other"></item>
     </plurals>
     <string name="poll_info_time_relative">%s restant</string>
     <string name="poll_info_time_absolute">S’acaba a %s</string>
@@ -377,20 +377,20 @@
     <string name="poll_ended_voted">Un sondatge ont avètz votat es acabat</string>
     <string name="poll_ended_created">Un sondatge qu’avètz creat es acabat</string>
     <plurals name="poll_timespan_days">
-        <item quantity="one">%d jorn</item>
-        <item quantity="other">%d jorns</item>
+        <item quantity="one"></item>
+        <item quantity="other"></item>
     </plurals>
     <plurals name="poll_timespan_hours">
-        <item quantity="one">%d ora</item>
-        <item quantity="other">%d oras</item>
+        <item quantity="one"></item>
+        <item quantity="other"></item>
     </plurals>
     <plurals name="poll_timespan_minutes">
-        <item quantity="one">%d minuta</item>
-        <item quantity="other">%d minutas</item>
+        <item quantity="one"></item>
+        <item quantity="other"></item>
     </plurals>
     <plurals name="poll_timespan_seconds">
-        <item quantity="one">%d segonda</item>
-        <item quantity="other">%d segondas</item>
+        <item quantity="one"></item>
+        <item quantity="other"></item>
     </plurals>
     <string name="compose_preview_image_description">Accions per l’imatge %s</string>
     <string name="pref_title_animate_gif_avatars">Activar l’animacion dels avatars</string>

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="error_generic">Hiba történt.</string>
-    <string name="error_network">Hálózati hiba történt! Kérjük, ellenőrizd a kapcsolatot, és próbáld meg újra!</string>
+    <string name="error_network">Hálózati hiba történt! Kérjük, ellenőrizze a kapcsolatot, és próbálja meg újra!</string>
     <string name="error_empty">Ez nem lehet üres.</string>
-    <string name="error_invalid_domain">Helytelen domain</string>
+    <string name="error_invalid_domain">Helytelen domén</string>
     <string name="error_failed_app_registration">Sikertelen bejelentkezés ezen a példányon.</string>
     <string name="error_no_web_browser_found">Nem található használható böngésző.</string>
     <string name="error_authorization_unknown">Azonosítatlan engedélyezési hiba történt.</string>
@@ -11,29 +11,29 @@
     <string name="error_retrieving_oauth_token">Bejelentkezési token megszerzése sikertelen.</string>
     <string name="error_compose_character_limit">Túl hosszú a tülkölés!</string>
     <string name="error_image_upload_size">A fájlnak kisebbnek kell lennie, mint 8MB.</string>
-    <string name="error_video_upload_size">A videó fájlnak kisebbnek kell lennie, mint 40MB.</string>
+    <string name="error_video_upload_size">A video fájlnak kisebbnek kell lennie, mint 40MB.</string>
     <string name="error_media_upload_type">Ilyen típusú fájlt nem lehet feltölteni.</string>
     <string name="error_media_upload_opening">Fájl megnyitása sikertelen.</string>
     <string name="error_media_upload_permission">Média olvasási engedély szükséges.</string>
     <string name="error_media_download_permission">Média tárolási engedély szükséges.</string>
     <string name="error_media_upload_image_or_video">Képek és videók egyszerre nem csatolhatók ugyanazon tülköléshez.</string>
     <string name="error_media_upload_sending">Feltöltés sikertelen.</string>
-    <string name="error_sender_account_gone">Nem sikerült elküldeni a tülköt.</string>
+    <string name="error_sender_account_gone">A tülk elküldése nem sikerult.</string>
     <string name="title_home">Kezdőlap</string>
     <string name="title_notifications">Értesítések</string>
     <string name="title_public_local">Helyi</string>
-    <string name="title_public_federated">Föderációs</string>
+    <string name="title_public_federated">Egyesített</string>
     <string name="title_direct_messages">Közvetlen üzenetek</string>
     <string name="title_tab_preferences">Fülek</string>
     <string name="title_view_thread">Tülk</string>
-    <string name="title_statuses">Tülkölés</string>
+    <string name="title_statuses">Posztok</string>
     <string name="title_statuses_with_replies">Válaszokkal</string>
     <string name="title_statuses_pinned">Rögzített</string>
     <string name="title_follows">Követ</string>
     <string name="title_followers">Követő</string>
     <string name="title_favourites">Kedvencek</string>
     <string name="title_mutes">Némított felhasználók</string>
-    <string name="title_blocks">Blokkolt felhasználók</string>
+    <string name="title_blocks">Letiltott felhasználók</string>
     <string name="title_follow_requests">Követési kérelmek</string>
     <string name="title_edit_profile">Profilod szerkesztése</string>
     <string name="title_saved_toot">Piszkozatok</string>
@@ -50,7 +50,7 @@
     <string name="message_empty">Nincs itt semmi.</string>
     <string name="footer_empty">Üres tartalom. Húzd le a frissítéshez!</string>
     <string name="notification_reblog_format">%s megolta a tülködet</string>
-    <string name="notification_favourite_format">%s kedvencnek jelölte tülkölésed</string>
+    <string name="notification_favourite_format">%s kedvencnek jelölte tülködet</string>
     <string name="notification_follow_format">%s követett</string>
     <string name="report_username_format">\@%s jelentése</string>
     <string name="report_comment_hint">Egyéb megjegyzés?</string>
@@ -60,12 +60,12 @@
     <string name="action_favourite">Kedvenc</string>
     <string name="action_more">Több</string>
     <string name="action_compose">Szerkeszt</string>
-    <string name="action_login">Bejelentkezés Mastodonnal</string>
+    <string name="action_login">Bejelentkezés Mastodon-al</string>
     <string name="action_logout">Kijelentkezés</string>
     <string name="action_logout_confirm">Biztosan ki szeretnél jelentkezni a következőből: %1$s?</string>
     <string name="action_follow">Követ</string>
     <string name="action_unfollow">Követés vége</string>
-    <string name="action_block">Blokkol</string>
+    <string name="action_block">Letiltás</string>
     <string name="action_unblock">Letiltás feloldása</string>
     <string name="action_hide_reblogs">Reblogok elrejtése</string>
     <string name="action_show_reblogs">Megtolások mutatása</string>
@@ -87,7 +87,7 @@
     <string name="action_add_media">Média csatolása</string>
     <string name="action_photo_take">Kép készítése</string>
     <string name="action_share">Megoszt</string>
-    <string name="action_mute">Némít</string>
+    <string name="action_mute">Némítás</string>
     <string name="action_unmute">Némítás feloldása</string>
     <string name="action_mention">Megemlítés</string>
     <string name="action_hide_media">Média elrejtése</string>
@@ -95,7 +95,7 @@
     <string name="action_save">Mentés</string>
     <string name="action_edit_profile">Profil szerkesztése</string>
     <string name="action_edit_own_profile">Szerkesztés</string>
-    <string name="action_undo">Visszavonás</string>
+    <string name="action_undo">Visszavon</string>
     <string name="action_accept">Elfogad</string>
     <string name="action_reject">Elutasít</string>
     <string name="action_search">Keresés</string>
@@ -108,7 +108,7 @@
     <string name="action_mentions">Említések</string>
     <string name="action_hashtags">Címkék</string>
     <string name="action_open_faved_by">Kedvencek megjelenítése</string>
-    <string name="title_hashtags_dialog">Hashtagek</string>
+    <string name="title_hashtags_dialog">Címkék</string>
     <string name="title_mentions_dialog">Említések</string>
     <string name="title_links_dialog">Linkek</string>
     <string name="download_image">%1$s letöltése</string>
@@ -123,8 +123,8 @@
     <string name="status_sent">Elküldve!</string>
     <string name="status_sent_long">Válasz sikeresen elküldve.</string>
     <string name="hint_domain">Mely szerver\?</string>
-    <string name="hint_compose">Mi jár a fejedben\?</string>
-    <string name="hint_content_warning">Tartalom figyelmeztetés</string>
+    <string name="hint_compose">Mire gondolsz\?</string>
+    <string name="hint_content_warning">Tartalom Figyelmeztető</string>
     <string name="hint_display_name">Megjelenítési név</string>
     <string name="hint_note">Bemutatkozás</string>
     <string name="hint_search">Keresés…</string>
@@ -147,11 +147,11 @@
     <string name="dialog_message_cancel_follow_request">Visszavonod a követési kérelmet?</string>
     <string name="dialog_unfollow_warning">Követés megszüntetése?</string>
     <string name="dialog_delete_toot_warning">Törlöd ezt a tülköt?</string>
-    <string name="visibility_public">Nyilvános: Tülkölés nyilvános idővonalra</string>
+    <string name="visibility_public">Nyilvános: Nyilvános idővonalra való posztolás</string>
     <string name="visibility_unlisted">Listázatlan: Nem jelenik meg a nyilvános idővonalon</string>
     <string name="visibility_private">Csak követőknek: Tülkölés csak követőknek</string>
     <string name="visibility_direct">Közvetlen: Tülkölés csak a megemlített felhasználóknak</string>
-    <string name="pref_title_edit_notification_settings">Értesítések</string>
+    <string name="pref_title_edit_notification_settings">Értesítések szerkesztése</string>
     <string name="pref_title_notifications_enabled">Értesítések</string>
     <string name="pref_title_notification_alerts">Figyelmeztetések</string>
     <string name="pref_title_notification_alert_sound">Értesítés hanggal</string>
@@ -162,7 +162,7 @@
     <string name="pref_title_notification_filter_follows">bekövettek</string>
     <string name="pref_title_notification_filter_reblogs">tülkömet megtolták</string>
     <string name="pref_title_notification_filter_favourites">posztjaimat kedvencé teszik</string>
-    <string name="pref_title_appearance_settings">Megjelenés</string>
+    <string name="pref_title_appearance_settings">Kinézet</string>
     <string name="pref_title_timelines">Idővonalak</string>
     <string name="app_them_dark">Sötét</string>
     <string name="app_theme_light">Világos</string>
@@ -170,7 +170,7 @@
     <string name="app_theme_auto">Automatikus naplementekor</string>
     <string name="pref_title_browser_settings">Böngésző</string>
     <string name="pref_title_custom_tabs">Linkek megnyitása applikáción belül</string>
-    <string name="pref_title_hide_follow_button">Szerkesztés elrejtése görgetés közben</string>
+    <string name="pref_title_hide_follow_button">Szerkesztési gomb elérejtése görgetés közben</string>
     <string name="pref_title_status_filter">Idővonal szűrése</string>
     <string name="pref_title_status_tabs">Fülek</string>
     <string name="pref_title_show_boosts">Rebloggolások mutatása</string>
@@ -181,13 +181,13 @@
     <string name="pref_title_http_proxy_enable">HTTP proxy engedélyezése</string>
     <string name="pref_title_http_proxy_server">HTTP proxy szerver</string>
     <string name="pref_title_http_proxy_port">HTTP Proxy port</string>
-    <string name="pref_default_post_privacy">Tülkök alapértelmezett láthatósága</string>
+    <string name="pref_default_post_privacy">Alapértelmezett poszt láthatóság</string>
     <string name="pref_default_media_sensitivity">Minden média szenzitívnek jelölése</string>
     <string name="pref_failed_to_sync">A beállítások szinkronizálása nem sikerült</string>
     <string name="post_privacy_public">Nyilvános</string>
-    <string name="post_privacy_unlisted">Listázatlan</string>
+    <string name="post_privacy_unlisted">Unlisted</string>
     <string name="post_privacy_followers_only">Csak követőknek</string>
-    <string name="pref_status_text_size">Tülkölés szövegmérete</string>
+    <string name="pref_status_text_size">Státusz szöveg mérete</string>
     <string name="status_text_size_smallest">Legkisebb</string>
     <string name="status_text_size_small">Kicsi</string>
     <string name="status_text_size_medium">Közepes</string>
@@ -197,10 +197,10 @@
     <string name="notification_mention_descriptions">Értesítések új említések esetén</string>
     <string name="notification_follow_name">Új követők</string>
     <string name="notification_follow_description">Értesítések az új követők esetén</string>
-    <string name="notification_boost_name">Megtolások</string>
+    <string name="notification_boost_name">Rebloggok</string>
     <string name="notification_boost_description">Értesítések tülkjeid megtolása esetén</string>
     <string name="notification_favourite_name">Kedvencek</string>
-    <string name="notification_favourite_description">Értesítések mikor Tülköléseid kedvencnek jelölik</string>
+    <string name="notification_favourite_description">Értesítések mikor tülkjeidet kedvencnek jelölik</string>
     <string name="notification_mention_format">%s megemített téged</string>
     <string name="notification_summary_large">%1$s, %2$s, %3$s és még %4$d</string>
     <string name="notification_summary_medium">%1$s, %2$s meg %3$s</string>
@@ -239,7 +239,7 @@
     <string name="lock_account_label">Fiók lezárása</string>
     <string name="compose_save_draft">Elmented a vázlatot?</string>
     <string name="send_toot_notification_title">Tülk elküldése…</string>
-    <string name="send_toot_notification_error_title">A tülk elküldése nem sikerült</string>
+    <string name="send_toot_notification_error_title">A tülk elküldése nem sikerult</string>
     <string name="send_toot_notification_channel_name">Tülkök elküldése</string>
     <string name="send_toot_notification_cancel_title">Küldés megszakítva</string>
     <string name="send_toot_notification_saved_content">A tülk másolatát elmentettük a vázlataid közé</string>
@@ -277,7 +277,7 @@
     <string name="description_status_media_no_description_placeholder">        Nincs leírás
     </string>
     <string name="description_visiblity_public">Nyilvános    </string>
-    <string name="description_visiblity_private">Követő</string>
+    <string name="description_visiblity_private">Követők</string>
     <string name="action_unfavourite">Kedvenc eltávolítása</string>
     <string name="action_delete_and_redraft">Törlés és újrafogalmazás</string>
     <string name="action_open_media_n">Média megnyitása: #%d</string>
@@ -292,7 +292,7 @@
     <string name="pref_publishing">Közzététel (szerverrel szinkronizált)</string>
     <string name="notification_poll_name">Szavazások</string>
     <string name="notification_poll_description">Értesítés a befejezett szavazásokról</string>
-    <string name="about_tusky_license">Tusky ingyenes és nyílt forráskódú szoftver. A GNU General Public License Version 3 érvényes rá, amit itt tekinthetsz meg: https://www.gnu.org/licenses/gpl-3.0.en.html</string>
+    <string name="about_tusky_license">Tusky ingyenes és szabad forráskódú szoftver. A GNU General Public License Version 3 érvényes rá, amit itt tekinthets meg: https://www.gnu.org/licenses/gpl-3.0.en.html</string>
     <string name="abbreviated_in_years">%dé múlva</string>
     <string name="abbreviated_in_days">%dn múlva</string>
     <string name="abbreviated_in_hours">%dó múlva</string>
@@ -331,7 +331,7 @@
     <string name="pref_title_animate_gif_avatars">GIF profilképek animálása</string>
     <string name="abbreviated_in_seconds">%dmp múlva</string>
     <string name="filter_dialog_whole_word">Teljes szó</string>
-    <string name="filter_dialog_whole_word_description">Ha a kulcsszó csak alfanumerikus karakterekből áll, csak teljes szóra fog illeszkedni</string>
+    <string name="filter_dialog_whole_word_description">Ha a kulcsszó csak alfanumerikus karakterekből áll, csak teljes szóra fog illeszkedni.</string>
     <string name="title_list_timeline">Lista idővonal</string>
     <string name="hint_search_people_list">Általad követettek keresése</string>
     <string name="action_add_to_list">Fiók hozzáadása a listához</string>
@@ -377,8 +377,8 @@
     <string name="compose_preview_image_description">Műveletek a %s képpel</string>
     <string name="poll_info_format"> <!-- 15 szavazat • 1 óra maradt --> %1$s • %2$s</string>
     <plurals name="poll_info_votes">
-        <item quantity="one">%s szavazat</item>
-        <item quantity="other">%s szavazat</item>
+        <item quantity="one"/>
+        <item quantity="other"/>
     </plurals>
     <string name="poll_info_time_relative">%s maradt</string>
     <string name="poll_info_time_absolute">vége %s</string>
@@ -399,8 +399,8 @@
         <item quantity="other"/>
     </plurals>
     <plurals name="poll_timespan_seconds">
-        <item quantity="one">%d másodperc</item>
-        <item quantity="other">%d másodperc</item>
+        <item quantity="one"/>
+        <item quantity="other"/>
     </plurals>
     <string name="button_continue">Folytatás</string>
     <string name="button_back">Vissza</string>
@@ -469,7 +469,7 @@
     <string name="action_mute_conversation">Beszélgetés némítása</string>
     <string name="action_unmute_domain">Némítás vége %s</string>
     <string name="action_mute_notifications_desc">Értesítések némítása tőle %s</string>
-    <string name="action_unmute_desc">Némítás feloldása %s</string>
+    <string name="action_unmute_desc">Némítás vége %s</string>
     <string name="action_unmute_notifications_desc">Értesítések némításának feloldása tőle %s</string>
     <string name="notification_follow_request_format">%s kéri, hogy követhessen</string>
 </resources>

@@ -5,13 +5,13 @@
     <string name="error_empty">Ce champ ne peut pas être vide.</string>
     <string name="error_invalid_domain">Le domaine saisi est invalide</string>
     <string name="error_failed_app_registration">Échec d’authentification auprès de l’instance.</string>
-    <string name="error_no_web_browser_found">Impossible de trouver un navigateur web.</string>
+    <string name="error_no_web_browser_found">Impossible de trouver un navigateur web à utiliser.</string>
     <string name="error_authorization_unknown">Une erreur d’autorisation inconnue s’est produite.</string>
     <string name="error_authorization_denied">Authentification refusée.</string>
     <string name="error_retrieving_oauth_token">Impossible de récupérer le jeton d’authentification.</string>
     <string name="error_compose_character_limit">Votre pouet est trop long !</string>
-    <string name="error_image_upload_size">Le fichier doit faire moins de 8 Mo.</string>
-    <string name="error_video_upload_size">Les fichiers vidéos doivent faire moins de 40 Mo.</string>
+    <string name="error_image_upload_size">Le fichier doit être moins de 8 Mo.</string>
+    <string name="error_video_upload_size">Les fichiers vidéos doivent être moins de 40 Mo.</string>
     <string name="error_media_upload_type">Ce type de fichier ne peut pas être téléversé.</string>
     <string name="error_media_upload_opening">Le fichier ne peut pas être ouvert.</string>
     <string name="error_media_upload_permission">Permission requise pour lire le média.</string>
@@ -39,7 +39,7 @@
     <string name="title_saved_toot">Brouillons</string>
     <string name="title_licenses">Licences</string>
     <string name="status_username_format">\@%s</string>
-    <string name="status_boosted_format">%s a partagé</string>
+    <string name="status_boosted_format">%s a boosté</string>
     <string name="status_sensitive_media_title">Contenu sensible</string>
     <string name="status_media_hidden_title">Média caché</string>
     <string name="status_sensitive_media_directions">Cliquer pour voir</string>
@@ -48,8 +48,7 @@
     <string name="status_content_show_more">Déplier</string>
     <string name="status_content_show_less">Replier</string>
     <string name="message_empty">Rien ici.</string>
-    <string name="footer_empty">Il n’y a aucun pouet pour le moment.
-\nGlissez vers le bas pour actualiser !</string>
+    <string name="footer_empty">Il n’y a aucun pouet pour le moment. Glissez vers le bas pour actualiser !</string>
     <string name="notification_reblog_format">%s a boosté votre pouet</string>
     <string name="notification_favourite_format">%s a ajouté votre pouet à ses favoris</string>
     <string name="notification_follow_format">%s vous suit</string>
@@ -71,7 +70,7 @@
     <string name="action_block">Bloquer</string>
     <string name="action_unblock">Débloquer</string>
     <string name="action_hide_reblogs">Cacher les boosts</string>
-    <string name="action_show_reblogs">Afficher les boosts</string>
+    <string name="action_show_reblogs">Montrer les boosts</string>
     <string name="action_report">Signaler</string>
     <string name="action_delete">Supprimer</string>
     <string name="action_send">POUET</string>
@@ -80,7 +79,7 @@
     <string name="action_close">Fermer</string>
     <string name="action_view_profile">Profil</string>
     <string name="action_view_preferences">Préférences</string>
-    <string name="action_view_account_preferences">Préférences du compte</string>
+    <string name="action_view_account_preferences">Préférences de compte</string>
     <string name="action_view_favourites">Favoris</string>
     <string name="action_view_mutes">Comptes masqués</string>
     <string name="action_view_blocks">Comptes bloqués</string>
@@ -97,7 +96,7 @@
     <string name="action_open_drawer">Ouvrir le menu</string>
     <string name="action_save">Sauvegarder</string>
     <string name="action_edit_profile">Modifier le profil</string>
-    <string name="action_edit_own_profile">Éditer</string>
+    <string name="action_edit_own_profile">Modifier</string>
     <string name="action_undo">Annuler</string>
     <string name="action_accept">Accepter</string>
     <string name="action_reject">Refuser</string>
@@ -111,7 +110,7 @@
     <string name="action_mentions">Mentions</string>
     <string name="action_hashtags">Hashtags</string>
     <string name="action_open_reblogger">Afficher l’auteur·rice du partage</string>
-    <string name="action_open_reblogged_by">Montrer les partages</string>
+    <string name="action_open_reblogged_by">Montrer les boosts</string>
     <string name="action_open_faved_by">Montrer les favoris</string>
     <string name="title_hashtags_dialog">Hashtags</string>
     <string name="title_mentions_dialog">Mentions</string>
@@ -213,7 +212,7 @@
     <string name="notification_mention_descriptions">Notifications pour les nouvelles mentions</string>
     <string name="notification_follow_name">Nouveaux abonnés</string>
     <string name="notification_follow_description">Notifications pour les nouveaux abonnés</string>
-    <string name="notification_boost_name">Boosts</string>
+    <string name="notification_boost_name">Remonter</string>
     <string name="notification_boost_description">Notifications quand vos pouets sont partagés</string>
     <string name="notification_favourite_name">Favoris</string>
     <string name="notification_favourite_description">Notifications quand vos pouets sont mis en favoris</string>
@@ -249,11 +248,11 @@
     <!--These are for timestamps on statuses. For example: "16s" or "2d"-->
     <string name="abbreviated_in_years">en %da</string>
     <string name="abbreviated_in_days">en %dj</string>
-    <string name="abbreviated_in_hours">en %dh</string>
+    <string name="abbreviated_in_hours">en %d h</string>
     <string name="abbreviated_in_minutes">en %dm</string>
     <string name="abbreviated_in_seconds">en %ds</string>
-    <string name="abbreviated_years_ago">%da</string>
-    <string name="abbreviated_days_ago">%d j</string>
+    <string name="abbreviated_years_ago">%d a</string>
+    <string name="abbreviated_days_ago">%dj</string>
     <string name="abbreviated_hours_ago">%d h</string>
     <string name="abbreviated_minutes_ago">%dm</string>
     <string name="abbreviated_seconds_ago">%d s</string>
@@ -332,7 +331,7 @@
     <string name="unpin_action">Détacher</string>
     <string name="pin_action">Épingler</string>
     <plurals name="favs">
-        <item quantity="one"><b>%1$s</b> Favori</item>
+        <item quantity="one"><b>%1$s</b> Favoris</item>
         <item quantity="other"><b>%1$s</b> Favoris</item>
     </plurals>
     <plurals name="reblogs">
@@ -357,25 +356,25 @@
     </string>
     <string name="description_visiblity_public">        Public
     </string>
-    <string name="description_visiblity_unlisted">Non-listé</string>
+    <string name="description_visiblity_unlisted">Non listé</string>
     <string name="description_visiblity_private">        Abonné·e·s
     </string>
     <string name="description_visiblity_direct">        Direct
     </string>
     <string name="hint_list_name">Nom de la liste</string>
     <string name="edit_hashtag_hint">Hastags sans #</string>
-    <string name="notifications_clear">Nettoyer</string>
+    <string name="notifications_clear">Effacer</string>
     <string name="notifications_apply_filter">Filtrer</string>
     <string name="filter_apply">Appliquer</string>
     <string name="compose_shortcut_long_label">Rédiger un pouet</string>
-    <string name="compose_shortcut_short_label">Ecrire</string>
+    <string name="compose_shortcut_short_label">Écrire</string>
     <string name="pref_title_bot_overlay">Afficher l\'indicateur de robots</string>
     <string name="notification_clear_text">Désirez-vous nettoyer toutes vos notifications de façon permanente \?</string>
     <string name="action_delete_and_redraft">Effacer et ré-écrire</string>
-    <string name="dialog_redraft_toot_warning">"Effacer et ré-écrire ce pouet\? "</string>
+    <string name="dialog_redraft_toot_warning">Effacer et ré-écrire ce pouet \?</string>
     <plurals name="poll_info_votes">
-        <item quantity="one"/>
-        <item quantity="other"/>
+        <item quantity="one">%s vote</item>
+        <item quantity="other">%s votes</item>
     </plurals>
     <string name="poll_info_time_relative">%s restant</string>
     <string name="poll_info_time_absolute">Termina à %s</string>
@@ -383,29 +382,29 @@
     <string name="poll_vote">Voter</string>
     <string name="notification_poll_name">Sondages</string>
     <string name="pref_title_notification_filter_poll">Les sondages sont clos</string>
-    <string name="notification_poll_description">Notifications à propos des sondages clos</string>
+    <string name="notification_poll_description">Notifications sur les sondages terminés</string>
     <string name="poll_ended_created">Un sondage que vous avez créé est terminé</string>
     <plurals name="poll_timespan_days">
-        <item quantity="one"/>
-        <item quantity="other"/>
+        <item quantity="one">%s jour</item>
+        <item quantity="other">%s jours</item>
     </plurals>
     <plurals name="poll_timespan_hours">
-        <item quantity="one"/>
-        <item quantity="other"/>
+        <item quantity="one">%s heure</item>
+        <item quantity="other">%s heures</item>
     </plurals>
     <plurals name="poll_timespan_minutes">
-        <item quantity="one">%d minute</item>
-        <item quantity="other">%d minutes</item>
+        <item quantity="one"></item>
+        <item quantity="other"></item>
     </plurals>
     <plurals name="poll_timespan_seconds">
-        <item quantity="one"/>
-        <item quantity="other"/>
+        <item quantity="one">%s seconde</item>
+        <item quantity="other">%s secondes</item>
     </plurals>
     <string name="pref_title_animate_gif_avatars">Activer l’animation des avatars</string>
     <string name="compose_preview_image_description">Actions pour l’image %s</string>
     <string name="poll_info_format"> <!-- 15 votes • 1 heure restante --> %1$s • %2$s</string>
     <string name="poll_ended_voted">Un sondage auquel vous avez participé vient de se terminer</string>
-    <string name="description_poll">Sondage avec des choix : %1$s, %2$s, %3$s, %4$s; %5$s</string>
+    <string name="description_poll">Sondage avec des choix : %1$s, %2$s, %3$s, %4$s ; %5$s</string>
     <string name="title_domain_mutes">Domaines cachés</string>
     <string name="action_view_domain_mutes">Domaines cachés</string>
     <string name="action_mute_domain">Masquer %s</string>
@@ -442,20 +441,20 @@
     <string name="poll_allow_multiple_choices">Choix multiples</string>
     <string name="poll_new_choice_hint">Choix %d</string>
     <string name="edit_poll">Éditer</string>
-    <string name="title_scheduled_toot">Pouets planifiés</string>
+    <string name="title_scheduled_toot">Pouets programmés</string>
     <string name="action_edit">Éditer</string>
     <string name="action_access_scheduled_toot">Pouets planifiés</string>
     <string name="action_schedule_toot">Planifier le pouet</string>
     <string name="action_reset_schedule">Réinitialiser</string>
     <string name="post_lookup_error_format">Erreur lors de la recherche du post %s</string>
     <string name="about_powered_by_tusky">Propulsé par Tusky</string>
-    <string name="title_bookmarks">Signets</string>
+    <string name="title_bookmarks">Marque-pages</string>
     <string name="action_bookmark">Marquer comme signet</string>
     <string name="action_view_bookmarks">Signets</string>
     <string name="description_status_bookmarked">Ajouté aux marque-pages</string>
     <string name="select_list_title">Sélectionner la liste</string>
     <string name="list">Liste</string>
-    <string name="error_audio_upload_size">Les fichiers audio doivent être inférieurs à 40 Mo.</string>
+    <string name="error_audio_upload_size">Les fichiers audio doivent être moins de 40 Mo.</string>
     <string name="no_saved_status">Vous n’avez aucun brouillon.</string>
     <string name="no_scheduled_status">Vous n’avez aucun pouet planifié.</string>
     <string name="warning_scheduling_interval">L’intervalle minimum de planification sur Mastodon est de 5 minutes.</string>
@@ -465,8 +464,8 @@
     <string name="pref_title_show_cards_in_timelines">Afficher des aperçus des liens dans les fils</string>
     <string name="notification_follow_request_format">%s a demandé à vous suivre</string>
     <plurals name="poll_info_people">
-        <item quantity="one"/>
-        <item quantity="other"/>
+        <item quantity="one">%s personne</item>
+        <item quantity="other">%s personnes</item>
     </plurals>
     <string name="notification_follow_request_description">Notifications lors des demandes d’abonnement</string>
     <string name="pref_title_notification_filter_follow_requests">demande d’abonnement</string>
@@ -484,5 +483,5 @@
     <string name="dialog_mute_hide_notifications">Cacher les notifications</string>
     <string name="action_mute_notifications_desc">Silencier les notifications de %s</string>
     <string name="action_unmute_notifications_desc">Ne plus silencier les notifications de %s</string>
-    <string name="action_unmute_desc">Ne plus silencier %s</string>
+    <string name="action_unmute_desc">Ne plus masquer %s</string>
 </resources>

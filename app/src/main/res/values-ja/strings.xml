@@ -100,7 +100,7 @@
     <string name="action_search">検索</string>
     <string name="action_access_saved_toot">下書き</string>
     <string name="action_toggle_visibility">トゥートの公開範囲</string>
-    <string name="action_content_warning">閲覧注意</string>
+    <string name="action_content_warning">注意書き</string>
     <string name="action_emoji_keyboard">絵文字キーボード</string>
     <string name="action_add_tab">タブの追加</string>
     <string name="action_links">リンク</string>
@@ -131,11 +131,11 @@
     <string name="label_header">ヘッダー</string>
     <string name="link_whats_an_instance">インスタンスとは？</string>
     <string name="login_connection">接続中…</string>
-    <string name="dialog_whats_an_instance">mastodon.social, mstdn.jp, pawoo.net や<a href="https://instances.social">その他</a>のような、あらゆるインスタンスのアドレスやドメインを入力できます。 
+    <string name="dialog_whats_an_instance">mastodon.social, icosahedron.website, social.tchncs.deや<a href="https://instances.social">その他</a>のような、あらゆるインスタンスのアドレスやドメインを入力できます。 
 \n
-\nまだアカウントをお持ちでない場合は、参加したいインスタンスの名前を入力し、そのインスタンスでアカウントを作成できます。 
+\nまだアカウントをお持ちでない場合は、参加したいインスタンスの名前を入力することそのインスタンスにアカウントを作成できます。 
 \n
-\nあなたのアカウントは1つのインスタンスで提供されますが、他のインスタンスのユーザーともあたかも同じ場所にいるように簡単にコミュニケーションをとったりフォローしたりできます。 
+\nインスタンスはあなたのアカウントが提供される単独の場所ですが、<!-- -->他のインスタンスのユーザーとあたかも同じ場所にいるように簡単にコミュニケーションをとったりフォローしたりできます。 
 \n
 \nさらに詳しい情報は<a href="https://joinmastodon.org">joinmastodon.org</a>でご覧いただけます。 </string>
     <string name="dialog_title_finishing_media_upload">メディアをアップロードしています</string>
@@ -148,7 +148,7 @@
     <string name="visibility_unlisted">未収載：公開タイムラインには表示しない</string>
     <string name="visibility_private">フォロワー限定：フォロワーだけに公開</string>
     <string name="visibility_direct">ダイレクト：返信先のユーザーだけに公開</string>
-    <string name="pref_title_edit_notification_settings">通知を設定</string>
+    <string name="pref_title_edit_notification_settings">通知</string>
     <string name="pref_title_notifications_enabled">通知</string>
     <string name="pref_title_notification_alerts">通知時の動作</string>
     <string name="pref_title_notification_alert_sound">着信音を鳴らす</string>
@@ -260,7 +260,7 @@
     <string name="error_failed_set_caption">説明の設定に失敗しました</string>
     <string name="hint_describe_for_visually_impaired">視覚障害者のための説明 (%d文字まで)</string>
     <string name="action_set_caption">説明を設定</string>
-    <string name="action_remove">削除</string>
+    <string name="action_remove">消去</string>
     <string name="lock_account_label">アカウントをロック</string>
     <string name="lock_account_label_description">フォロワーを手動で承認する必要があります</string>
     <string name="compose_save_draft">下書きを保存しますか？</string>
@@ -269,7 +269,7 @@
     <string name="send_toot_notification_channel_name">トゥートの送信</string>
     <string name="send_toot_notification_cancel_title">送信がキャンセルされました</string>
     <string name="send_toot_notification_saved_content">トゥートのコピーが下書きに保存されました</string>
-    <string name="action_compose_shortcut">投稿</string>
+    <string name="action_compose_shortcut">新規投稿</string>
     <string name="error_no_custom_emojis">インスタンス %s にはカスタム絵文字がありません</string>
     <string name="copy_to_clipboard_success">クリップボードにコピーされました</string>
     <string name="emoji_style">絵文字スタイル</string>
@@ -354,7 +354,7 @@
     <string name="notification_poll_description">投票の集計が完了したときの通知</string>
     <string name="pref_title_thread_filter_keywords">会話</string>
     <string name="caption_notoemoji">Googleの現在の絵文字セットです</string>
-    <string name="action_add_poll">投票を追加</string>
+    <string name="action_add_poll">投票</string>
     <string name="action_mentions">返信</string>
     <string name="title_mentions_dialog">返信</string>
     <string name="dialog_redraft_toot_warning">このトゥートを削除し、下書きに戻しますか？</string>

@@ -143,7 +143,7 @@
     <string name="label_header">標題</string>
     <string name="link_whats_an_instance">什麼是站點？</string>
     <string name="login_connection">正在連線…</string>
-    <string name="dialog_whats_an_instance">"請輸入你帳號所在的 Mastodon 站點的域名或地址 "</string>
+    <string name="dialog_whats_an_instance">請輸入你帳號所在的 Mastodon 站點的域名或地址</string>
     <string name="dialog_title_finishing_media_upload">正在完成上傳…</string>
     <string name="dialog_message_uploading_media">正在上傳…</string>
     <string name="dialog_download_image">下載</string>

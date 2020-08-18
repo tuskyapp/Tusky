@@ -21,8 +21,8 @@
     <string name="error_sender_account_gone">En feil oppsto under sending av tootet.</string>
     <string name="title_home">Hjem</string>
     <string name="title_notifications">Varsler</string>
-    <string name="title_public_local">Lokal tidslinje</string>
-    <string name="title_public_federated">Forent tidslinje</string>
+    <string name="title_public_local">Lokal</string>
+    <string name="title_public_federated">Forent</string>
     <string name="title_direct_messages">Direktemeldinger</string>
     <string name="title_tab_preferences">Faner</string>
     <string name="title_view_thread">Toot</string>
@@ -51,7 +51,7 @@
     <string name="footer_empty">Her er det ingenting. Dra ned for å oppdatere!</string>
     <string name="notification_reblog_format">%s boosted tootet ditt</string>
     <string name="notification_favourite_format">%s favoriserte tootet ditt</string>
-    <string name="notification_follow_format">%s fulgte deg</string>
+    <string name="notification_follow_format">%s følger deg</string>
     <string name="report_username_format">Rapporter @%s</string>
     <string name="report_comment_hint">Ytterligere kommentarer\?</string>
     <string name="action_quick_reply">Hurtigsvar</string>
@@ -89,7 +89,7 @@
     <string name="action_add_media">Legg til media</string>
     <string name="action_photo_take">Ta bilde</string>
     <string name="action_share">Del</string>
-    <string name="action_mute">Demp bruker</string>
+    <string name="action_mute">Demp</string>
     <string name="action_unmute">Fjern demping</string>
     <string name="action_mention">Nevn</string>
     <string name="action_hide_media">Skjul media</string>
@@ -142,23 +142,23 @@
     <string name="label_header">Overskrift</string>
     <string name="link_whats_an_instance">Hva er en instans\?</string>
     <string name="login_connection">Kobler til…</string>
-    <string name="dialog_whats_an_instance">Adressen eller domenet til en instans kan skrives inn her, for eksempel mastodon.social, icosahedron.website, social.tchncs.de, og <a href="https://instances.social">flere!</a>! 
-\n 
-\nHvis du ikke har en konto, kan du skrive inn navnet på instansen du ønsker å opprette en konto på her. 
-\n 
-\nEn instans er en sted hvor kontoen din er registrert, men du kan enkelt kommunisere med og følge brukere på andre instanser som om dere er på den samme instansen. 
-\n 
-\nMer informasjon finner du på <a href="https://joinmastodon.org">joinmastodon.org</a>.</string>
-    <string name="dialog_title_finishing_media_upload">Mediaopplasting er ferdig</string>
+    <string name="dialog_whats_an_instance"><a href="https://instances.social">more!</a> 
+\n
+\nIf you don\'t yet have an account, you can enter the name of the instance you\'d like to join and create an account there.
+\n
+\nAn instance is a single place where your account is hosted, but you can easily communicate with and follow folks on other instances as though you were on the same site. 
+\n
+\nMore info can be found at <a href="https://joinmastodon.org">joinmastodon.org</a>. </string>
+    <string name="dialog_title_finishing_media_upload">Media opplasting er ferdig</string>
     <string name="dialog_message_uploading_media">Laster opp…</string>
     <string name="dialog_download_image">Last ned</string>
-    <string name="dialog_message_cancel_follow_request">Trekk tilbake forespørsel\?</string>
+    <string name="dialog_message_cancel_follow_request">Trekk tilbake følgeforespørselen\?</string>
     <string name="dialog_unfollow_warning">Slutte å følge denne kontoen\?</string>
     <string name="dialog_delete_toot_warning">Slette dette tootet\?</string>
-    <string name="visibility_public">Vis i offentlige tidslinjer</string>
-    <string name="visibility_unlisted">Ikke vis i offentlige tidslinjer</string>
-    <string name="visibility_private">Vis bare til følgere</string>
-    <string name="visibility_direct">Vis bare til nevnte brukere</string>
+    <string name="visibility_public">Offentlig: Vis i offentlig tidslinjer</string>
+    <string name="visibility_unlisted">Ikke oppført: Ikke vis i offentlige tidslinjer</string>
+    <string name="visibility_private">Bare følgere: Vis bare til følgere</string>
+    <string name="visibility_direct">Direkte: Vis bare til nevnte brukere</string>
     <string name="pref_title_edit_notification_settings">Varsler</string>
     <string name="pref_title_notifications_enabled">Varsler</string>
     <string name="pref_title_notification_alerts">Varsling</string>
@@ -186,10 +186,10 @@
     <string name="pref_title_proxy_settings">Proxy</string>
     <string name="pref_title_http_proxy_settings">HTTP-proxy</string>
     <string name="pref_title_http_proxy_enable">Skru på HTTP-proxy</string>
-    <string name="pref_title_http_proxy_server">Serveradresse</string>
-    <string name="pref_title_http_proxy_port">Serverport</string>
+    <string name="pref_title_http_proxy_server">HTTP-proxyserver</string>
+    <string name="pref_title_http_proxy_port">HTTP-proxyport</string>
     <string name="pref_default_media_sensitivity">Marker alltid media som sensitivt</string>
-    <string name="pref_publishing">Publisering (synkronisert med server)</string>
+    <string name="pref_publishing">Publiserer (synkronisert med server)</string>
     <string name="pref_failed_to_sync">Synkronisering av innstillinger feilet</string>
     <string name="pref_status_text_size">Størrelse på statustekst</string>
     <string name="notification_follow_name">Nye følgere</string>
@@ -199,7 +199,7 @@
     <string name="notification_favourite_name">Favoritter</string>
     <string name="notification_favourite_description">Varsler når tootene dine blir favorisert</string>
     <string name="notification_mention_format">%s nevnte deg</string>
-    <string name="notification_summary_large">%1$s, %2$s, %3$s og %4$d andre</string>
+    <string name="notification_summary_large">%1$s, %2$s, %3$s og %4$d anre</string>
     <string name="notification_summary_medium">%1$s, %2$s, og %3$s</string>
     <string name="notification_summary_small">%1$s og %2$s</string>
     <string name="notification_title_summary">%d nye interaksjoner</string>
@@ -329,7 +329,7 @@
     <string name="description_visiblity_direct">Direkte</string>
     <string name="hint_list_name">Listenavn</string>
     <string name="edit_hashtag_hint">Emneord uten #</string>
-    <string name="notifications_clear">Slett</string>
+    <string name="notifications_clear">Fjern</string>
     <string name="notifications_apply_filter">Filter</string>
     <string name="filter_apply">Bruk</string>
     <string name="compose_shortcut_long_label">Skriv Toot</string>
@@ -353,7 +353,7 @@
     <string name="app_theme_auto">Automatisk ved solnedgang</string>
     <string name="app_theme_system">Bruk systeminnstillinger</string>
     <string name="post_privacy_public">Offentlig</string>
-    <string name="post_privacy_unlisted">Ikke listet</string>
+    <string name="post_privacy_unlisted">Ikke offentlige tidslinjer</string>
     <string name="post_privacy_followers_only">Kun følgere</string>
     <string name="status_text_size_smallest">Minste</string>
     <string name="status_text_size_small">Liten</string>
@@ -366,16 +366,16 @@
     <string name="poll_ended_voted">En avstemming du har stemt på er avsluttet</string>
     <string name="poll_ended_created">En avstemming du opprettet er avsluttet</string>
     <plurals name="poll_timespan_days">
-        <item quantity="one">%d dag</item>
-        <item quantity="other">%d dager</item>
+        <item quantity="one"></item>
+        <item quantity="other"></item>
     </plurals>
     <plurals name="poll_timespan_hours">
-        <item quantity="one">%d time</item>
-        <item quantity="other">%d timer</item>
+        <item quantity="one"></item>
+        <item quantity="other"></item>
     </plurals>
     <plurals name="poll_timespan_minutes">
-        <item quantity="one">%d minutt</item>
-        <item quantity="other">%d minutter</item>
+        <item quantity="one"></item>
+        <item quantity="other"></item>
     </plurals>
     <plurals name="poll_timespan_seconds">
         <item quantity="one"/>
@@ -419,7 +419,7 @@
     <string name="add_poll_choice">Legg til valg</string>
     <string name="poll_allow_multiple_choices">Flere valg</string>
     <string name="poll_new_choice_hint">Valg %d</string>
-    <string name="edit_poll">Rediger</string>
+    <string name="edit_poll">Endre</string>
     <string name="title_scheduled_toot">Planlagte toots</string>
     <string name="action_edit">Rediger</string>
     <string name="action_access_scheduled_toot">Planlagte toots</string>
@@ -441,8 +441,8 @@
     <string name="pref_title_confirm_reblogs">Vis bekreftelsesdialog før boosting</string>
     <string name="pref_title_enable_swipe_for_tabs">Skru på sveiping for å bytte mellom faner</string>
     <plurals name="poll_info_people">
-        <item quantity="one">%s person</item>
-        <item quantity="other">%s personer</item>
+        <item quantity="one"/>
+        <item quantity="other"/>
     </plurals>
     <string name="notification_follow_request_description">Varsler om følgeforespørsler</string>
     <string name="notification_follow_request_name">Forespørsler om følging</string>

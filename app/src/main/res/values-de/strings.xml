@@ -59,7 +59,7 @@
     <string name="action_reblog">Teilen</string>
     <string name="action_unreblog">Boost entfernen</string>
     <string name="action_favourite">Favorisieren</string>
-    <string name="action_unfavourite">Favorisierung entfernen</string>
+    <string name="action_unfavourite">Favoriten entfernen</string>
     <string name="action_more">Mehr</string>
     <string name="action_compose">Schreiben</string>
     <string name="action_login">Anmelden mit Mastodon</string>
@@ -97,7 +97,7 @@
     <string name="action_save">Speichern</string>
     <string name="action_edit_profile">Profil bearbeiten</string>
     <string name="action_edit_own_profile">Bearbeiten</string>
-    <string name="action_undo">Rückgängig machen</string>
+    <string name="action_undo">rückgängig machen</string>
     <string name="action_accept">Akzeptieren</string>
     <string name="action_reject">Ablehnen</string>
     <string name="action_search">Suche</string>
@@ -111,7 +111,7 @@
     <string name="action_hashtags">Hashtags</string>
     <string name="action_open_reblogged_by">Boosts anzeigen</string>
     <string name="action_open_faved_by">Favoriten anzeigen</string>
-    <string name="title_hashtags_dialog">Hashtags</string>
+    <string name="title_hashtags_dialog">Hastags</string>
     <string name="title_mentions_dialog">Erwähnungen</string>
     <string name="title_links_dialog">Verlinkungen</string>
     <string name="action_open_media_n">Medium #%d öffnen</string>
@@ -123,7 +123,7 @@
     <string name="send_status_content_to">Beitragsinhalt teilen</string>
     <string name="send_media_to">Mediendatei teilen…</string>
     <string name="confirmation_reported">Gesendet!</string>
-    <string name="confirmation_unblocked">Entblockt</string>
+    <string name="confirmation_unblocked">entblockt</string>
     <string name="confirmation_unmuted">Stummschaltung aufgehoben</string>
     <string name="status_sent">Gesendet!</string>
     <string name="status_sent_long">Antwort erfolgreich gesendet.</string>
@@ -158,7 +158,7 @@
     <string name="visibility_unlisted">Ungelistet: Nicht in der öffentlichen Timeline sichtbar</string>
     <string name="visibility_private">Nur Folgende: Nur für Folgende sichtbar</string>
     <string name="visibility_direct">Direkt: Nur für Erwähnte sichtbar</string>
-    <string name="pref_title_edit_notification_settings">Benachrichtigungen</string>
+    <string name="pref_title_edit_notification_settings">Benachrichtigungseinstellungen</string>
     <string name="pref_title_notifications_enabled">Benachrichtigungen</string>
     <string name="pref_title_notification_alerts">Benachrichtigungen</string>
     <string name="pref_title_notification_alert_sound">Benachrichtige mit Sound</string>
@@ -286,10 +286,10 @@
     <string name="later">Später</string>
     <string name="restart">Neustarten</string>
     <string name="caption_systememoji">Die Standard-Emojis deines Geräts</string>
-    <string name="caption_blobmoji">Die Blob–Emojis aus Android 4.4–7.1</string>
+    <string name="caption_blobmoji">Die Blob-Emojis aus Android 4.4-7.1</string>
     <string name="caption_twemoji">Die Standard-Emojis von Mastodon</string>
     <string name="caption_notoemoji">Die aktuellen Emojis von Google</string>
-    <string name="download_failed">Download fehlgeschlagen.</string>
+    <string name="download_failed">Download fehlgeschlagen</string>
     <string name="profile_badge_bot_text">Bot</string>
     <string name="account_moved_description">%1$s ist umgezogen auf:</string>
     <string name="reblog_private">An ursprüngliches Publikum teilen</string>
@@ -381,7 +381,7 @@
     <string name="action_mute_domain">%s verstecken</string>
     <string name="confirmation_domain_unmuted">%s nicht mehr versteckt</string>
     <string name="mute_domain_warning">Bist du dir sicher, dass du die Domain %s blockieren willst\? Nach der Blockierung wirst du nichts mehr von dieser Domain in öffentlichen Zeitleisten oder Benachrichtigungen sehen. Deine Follower von dieser Domain werden entfernt.</string>
-    <string name="mute_domain_warning_dialog_ok">Ganze Domain verbergen</string>
+    <string name="mute_domain_warning_dialog_ok">ganze Domain verbergen</string>
     <string name="pref_title_animate_gif_avatars">GIF-Avatare animieren</string>
     <string name="filter_dialog_whole_word">Ganzes Wort</string>
     <string name="filter_dialog_whole_word_description">Wenn das Schlagwort nur aus Buchstaben und Zahlen besteht, wird es nur angewendet, wenn es dem ganzen Wort entspricht</string>
