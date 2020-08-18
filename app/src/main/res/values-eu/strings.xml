@@ -2,7 +2,7 @@
 <resources>
     <string name="error_generic">Errorea gertatu da.</string>
     <string name="error_empty">Eremu hau ezin da hutsik egon.</string>
-    <string name="error_invalid_domain">Domeinu baliogabea sartu da</string>
+    <string name="error_invalid_domain">Domeinu izen okerra.</string>
     <string name="error_failed_app_registration">Akatsa saioa hasterakoan.</string>
     <string name="error_no_web_browser_found">Ez da web nabigatzailerik aurkitu.</string>
     <string name="error_authorization_unknown">Identifikatu gabeko baimentza akatsa gertatu da.</string>
@@ -99,15 +99,15 @@
     <string name="action_emoji_keyboard">Emoji teklatua</string>
     <string name="download_image">%1$s jaisten</string>
     <string name="action_copy_link">Lotura kopiatu</string>
-    <string name="send_status_link_to">Tutaren URL-a partekatu…</string>
+    <string name="send_status_link_to">Tutaren URLa partekatu…</string>
     <string name="send_status_content_to">Tuta partekatu…</string>
-    <string name="send_media_to">Partekatu multimedia hona…</string>
+    <string name="send_media_to">Partekatu media hona…</string>
     <string name="confirmation_reported">Bidalia!</string>
-    <string name="confirmation_unblocked">Erabiltzailea ez dago blokeatuta iada.</string>
-    <string name="confirmation_unmuted">Iada erabiltzailea ez dago mutututa.</string>
+    <string name="confirmation_unblocked">Erabiltzailea desblokeatuta</string>
+    <string name="confirmation_unmuted">Iada erabiltzailea ez dago isilarazia.</string>
     <string name="status_sent">Bidalia!</string>
     <string name="status_sent_long">Erantzuna ongi bidali da.</string>
-    <string name="hint_domain">Zein instantzia\?</string>
+    <string name="hint_domain">Instantzia hautatu</string>
     <string name="hint_compose">Zer duzu buruan?</string>
     <string name="hint_content_warning">Edukiaren abisua</string>
     <string name="hint_display_name">Agertuko den izena</string>
@@ -130,7 +130,7 @@
     <string name="dialog_message_uploading_media">Igotzen…</string>
     <string name="dialog_download_image">Jaitsi</string>
     <string name="dialog_message_cancel_follow_request">Jarraipen-eskaerari uko egin\?</string>
-    <string name="dialog_unfollow_warning">Kontu honi jarraitzeari utzi\?</string>
+    <string name="dialog_unfollow_warning">Kontu hau jarraitzeari utzi\?</string>
     <string name="dialog_delete_toot_warning">Tuta ezabatu\?</string>
     <string name="visibility_public">Publikoa: Istorio publikoetan erakutsi</string>
     <string name="visibility_unlisted">Ezkutukoa: Ez erakutsi istorio publikoetan</string>
@@ -142,7 +142,7 @@
     <string name="pref_title_notification_alert_sound">Soinuarekin jakinarazi</string>
     <string name="pref_title_notification_alert_vibrate">Bibrazioarekin jakinarazi</string>
     <string name="pref_title_notification_alert_light">Led-arekin jakinarazi</string>
-    <string name="pref_title_notification_filters">Noiz jakinarazi</string>
+    <string name="pref_title_notification_filters">Noiz jakinarazi:</string>
     <string name="pref_title_notification_filter_mentions">Aipatzen naute</string>
     <string name="pref_title_notification_filter_follows">Jarraitzen didate</string>
     <string name="pref_title_notification_filter_reblogs">Bultzatzen naute</string>
@@ -156,37 +156,37 @@
     <string name="app_theme_auto">Automatikoa</string>
     <string name="pref_title_browser_settings">Nabigatzailea</string>
     <string name="pref_title_custom_tabs">Chromeko fitxak erabili</string>
-    <string name="pref_title_hide_follow_button">Ezkutatu idazteko botoia mugitzean</string>
+    <string name="pref_title_hide_follow_button">Tut egiteko botoia ezkutatu beherantz joaterakoan.</string>
     <string name="pref_title_status_filter">Denbora-lerro filtroak</string>
     <string name="pref_title_status_tabs">Fitxak</string>
     <string name="pref_title_show_boosts">Bultzadak erakutsi</string>
     <string name="pref_title_show_replies">Erakutsi erantzunak</string>
     <string name="pref_title_show_media_preview">Jaitsi mediaren aurreikuspenak</string>
     <string name="pref_title_proxy_settings">Proxya</string>
-    <string name="pref_title_http_proxy_settings">HTTP proxya</string>
-    <string name="pref_title_http_proxy_enable">HTTP proxya gaitu</string>
-    <string name="pref_title_http_proxy_server">HTTP proxyaren zerbitzaria</string>
+    <string name="pref_title_http_proxy_settings">HTTP Proxy-a</string>
+    <string name="pref_title_http_proxy_enable">HTTP Proxy-a gaitu</string>
+    <string name="pref_title_http_proxy_server">HTTP Proxy-aren zerbitzaria</string>
     <string name="pref_title_http_proxy_port">HTTP Proxy-aren portua</string>
-    <string name="pref_default_post_privacy">Argitarapenen aurrezarritako pribatutasuna</string>
-    <string name="pref_default_media_sensitivity">Media eduki-mingarri gisa beti markatu</string>
-    <string name="pref_publishing">Argitaratzeak (zerbitzariarekin sinkronizatua)</string>
+    <string name="pref_default_post_privacy">Aurrezarritako ikusgarritasuna</string>
+    <string name="pref_default_media_sensitivity">Beti markatu multimedia eduki mingarri gisa</string>
+    <string name="pref_publishing">Bidalketak</string>
     <string name="pref_failed_to_sync">Aukerak sinkronizatzean akatsa</string>
-    <string name="post_privacy_public">Publikoa</string>
-    <string name="post_privacy_unlisted">Zerrendatu gabea</string>
-    <string name="post_privacy_followers_only">Pribatua</string>
-    <string name="pref_status_text_size">Testuaren tamaina</string>
-    <string name="status_text_size_smallest">Txikiena</string>
+    <string name="post_privacy_public">Publiko</string>
+    <string name="post_privacy_unlisted">Zerrendagabetuta</string>
+    <string name="post_privacy_followers_only">Jarraitzaileak soilik</string>
+    <string name="pref_status_text_size">Status testuaren tamaina</string>
+    <string name="status_text_size_smallest">Oso txikia</string>
     <string name="status_text_size_small">Txikia</string>
     <string name="status_text_size_medium">Erdikoa</string>
     <string name="status_text_size_large">Handia</string>
-    <string name="status_text_size_largest">Oso handia</string>
+    <string name="status_text_size_largest">Handiena</string>
     <string name="notification_mention_name">Aipamen berriak</string>
     <string name="notification_mention_descriptions">Aipamen berrien jakinarazpenak</string>
     <string name="notification_follow_name">Jarritzaile berriak</string>
     <string name="notification_follow_description">Jarraitzaile berrien jakinarazpenak</string>
     <string name="notification_boost_name">Bultzadak</string>
     <string name="notification_boost_description">Bultzatutako tuten jakinarazpenak</string>
-    <string name="notification_favourite_name">Gogokoenak</string>
+    <string name="notification_favourite_name">Gogokoak</string>
     <string name="notification_favourite_description">Zure tutak gogoko bezala ezartzerakoan jakinarazpenak</string>
     <string name="notification_mention_format">%s-(e)k aipatu zaitu</string>
     <string name="notification_summary_large">%1$s, %2$s, %3$s eta beste %4$d</string>
@@ -211,7 +211,7 @@
 \n https://github.com/tuskyapp/Tusky/issues</string>
     <string name="about_tusky_account">Tuskyren profila</string>
     <string name="status_share_content">Partekatu tutaren edukia</string>
-    <string name="status_share_link">Partekatu lotura</string>
+    <string name="status_share_link">Partekatu tutaren lotura</string>
     <string name="status_media_images">Irudiak</string>
     <string name="status_media_video">Bideoak</string>
     <string name="state_follow_requested">Eskaera bidalita</string>
@@ -387,8 +387,8 @@
         <item quantity="other"/>
     </plurals>
     <string name="poll_info_time_absolute">%s amaitzen da</string>
-    <string name="poll_info_closed">itxita</string>
-    <string name="poll_vote">Bozkatu</string>
+    <string name="poll_info_closed">Itxita</string>
+    <string name="poll_vote">Botatu</string>
     <string name="poll_ended_voted">Botoa eman duzun galdeketa amaitu da</string>
     <string name="poll_ended_created">Sortu duzun galdeketa amaitu da</string>
     <plurals name="poll_timespan_days">
@@ -396,8 +396,8 @@
         <item quantity="other">%d egun</item>
     </plurals>
     <plurals name="poll_timespan_hours">
-        <item quantity="one"/>
-        <item quantity="other"/>
+        <item quantity="one">Ordu %d</item>
+        <item quantity="other">%d ordu</item>
     </plurals>
     <plurals name="poll_timespan_minutes">
         <item quantity="one"/>
@@ -412,7 +412,7 @@
     <string name="button_done">Eginda</string>
     <string name="report_sent_success">\@%s jakinarazi duzu arrakastaz</string>
     <string name="hint_additional_info">Iruzkin gehigarriak</string>
-    <string name="report_remote_instance">%s-(r)i birbidali</string>
+    <string name="report_remote_instance">%s(r)i birbidali</string>
     <string name="failed_report">Txostena huts egin du</string>
     <string name="failed_fetch_statuses">Egoeren eskuratzea huts egin du</string>
     <string name="report_description_1">Txostena zure zerbitzariaren moderatzaileari bidaliko zaio. Jarraian, kontu honen zergatia salatzen duzun azalpena eman dezakezu:</string>
@@ -432,7 +432,7 @@
     <string name="poll_allow_multiple_choices">Aukera anitzak</string>
     <string name="poll_new_choice_hint">%d. aukera</string>
     <string name="edit_poll">Editatu</string>
-    <string name="post_lookup_error_format">Errorea %s mezua bilatzean</string>
+    <string name="post_lookup_error_format">Errorea agertu da %s mezua bilatzean</string>
     <string name="title_bookmarks">Laster-markak</string>
     <string name="action_bookmark">Laster-marka</string>
     <string name="action_view_bookmarks">Laster-markak</string>
@@ -446,10 +446,17 @@
     <string name="no_saved_status">Ez duzu zirriborrorik.</string>
     <string name="no_scheduled_status">Ez duzu tut programaturik.</string>
     <string name="warning_scheduling_interval">Mastodonek gutxienez 5 minutuko programazio-tartea du.</string>
-    <string name="notification_follow_request_name">Eskariak</string>
+    <string name="notification_follow_request_name">Eskakizunak</string>
     <string name="notification_follow_request_description">Jarraitzeko eskaereri buruzko jakinarazpenak</string>
     <string name="dialog_mute_warning">\@%s isildu\?</string>
     <string name="dialog_block_warning">\@%s blokeatu\?</string>
     <string name="action_mute_conversation">Elkarrizketa isildu</string>
     <string name="notification_follow_request_format">%s -k zu jarraitzeko eskatu dizu</string>
+    <string name="hashtags">Traolak</string>
+    <string name="dialog_mute_hide_notifications">Ez erakutsi jakinarazpenak</string>
+    <string name="action_unmute_desc">Desmututu %s</string>
+    <plurals name="poll_info_people">
+        <item quantity="one">Pertsona %s</item>
+        <item quantity="other">%s pertsona</item>
+    </plurals>
 </resources>

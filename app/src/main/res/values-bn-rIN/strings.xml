@@ -138,7 +138,7 @@
     <string name="hint_note">জীবনী</string>
     <string name="hint_search">অনুসন্ধান…</string>
     <string name="search_no_results">কোন ফলাফল নেই</string>
-    <string name="label_quick_reply">উত্তর</string>
+    <string name="label_quick_reply">উত্তর…</string>
     <string name="label_avatar">অবতার</string>
     <string name="label_header">হেডার</string>
     <string name="link_whats_an_instance">ইনস্ট্যান্স কি\?</string>
@@ -333,8 +333,8 @@
     <string name="unpin_action">আনপিন</string>
     <string name="pin_action">পিন</string>
     <plurals name="favs">
-        <item quantity="one"/>
-        <item quantity="other"/>
+        <item quantity="one"><b>%1$s</b> প্রিয়</item>
+        <item quantity="other"><b>%1$s</b> পছন্দসই</item>
     </plurals>
     <plurals name="reblogs">
         <item quantity="one"><b>%s</b> বুস্ট</item>
@@ -343,7 +343,7 @@
     <string name="title_reblogged_by">দ্বারা সর্মথন</string>
     <string name="title_favourited_by">দ্বারা পছন্দ</string>
     <string name="conversation_1_recipients">%1$s</string>
-    <string name="conversation_2_recipients">%1$s আর %2$s</string>
+    <string name="conversation_2_recipients">%1$s এবং %2$s</string>
     <string name="conversation_more_recipients">%1$s, %2$s এবং %3$d আরো অন্য জন</string>
     <string name="max_tab_number_reached">সর্বাধিক %1$d টি ট্যাব পৌঁছেছে</string>
     <string name="description_status_media">মিডিয়া: %s</string>

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="error_generic">Wystąpił błąd.</string>
-    <string name="error_empty">To pole nie może być puste.</string>
-    <string name="error_invalid_domain">Wprowadzono nieprawidłową domenę</string>
+    <string name="error_empty">To nie może pozostać puste.</string>
+    <string name="error_invalid_domain">Wprowadzono nieprawidłową domenę.</string>
     <string name="error_failed_app_registration">Nie udało się uwierzytelnić z tą instancją.</string>
     <string name="error_no_web_browser_found">Nie znaleziono przeglądarki internetowej.</string>
     <string name="error_authorization_unknown">Wystąpił nieokreślony błąd podczas próby autoryzacji.</string>
@@ -39,8 +39,8 @@
     <string name="status_sensitive_media_directions">Naciśnij, aby wyświetlić</string>
     <string name="status_content_warning_show_more">Pokaż więcej</string>
     <string name="status_content_warning_show_less">Ukryj</string>
-    <string name="footer_empty">Pusto! Pociągnij, aby odświeżyć.</string>
-    <string name="notification_reblog_format">%s podbił Twój post</string>
+    <string name="footer_empty">Pusto tutaj. Pociągnij, aby odświeżyć!</string>
+    <string name="notification_reblog_format">%s podbił(-a) Twój wpis</string>
     <string name="notification_favourite_format">%s dodał Twój post do ulubionych</string>
     <string name="notification_follow_format">%s zaczął Cię śledzić</string>
     <string name="report_username_format">Zgłoś @%s</string>
@@ -59,7 +59,7 @@
     <string name="action_block">Zablokuj</string>
     <string name="action_unblock">Odblokuj</string>
     <string name="action_hide_reblogs">Ukryj podbicia</string>
-    <string name="action_show_reblogs">Pokazuj podbicia</string>
+    <string name="action_show_reblogs">Pokaż podbicia</string>
     <string name="action_report">Zgłoś</string>
     <string name="action_delete">Usuń</string>
     <string name="action_send">Wyślij</string>
@@ -72,7 +72,7 @@
     <string name="action_view_mutes">Wyciszeni użytkownicy</string>
     <string name="action_view_blocks">Zablokowani użytkownicy</string>
     <string name="action_view_follow_requests">Prośby o możliwość śledzenia</string>
-    <string name="action_view_media">Treści multimedialne</string>
+    <string name="action_view_media">Zawartość multimedialna</string>
     <string name="action_open_in_web">Otwórz w przeglądarce</string>
     <string name="action_add_media">Dodaj treści multimedialne</string>
     <string name="action_photo_take">Wykonaj zdjęcie</string>
@@ -100,7 +100,7 @@
     <string name="confirmation_reported">Wyślij!</string>
     <string name="confirmation_unblocked">Odblokowano użytkownika</string>
     <string name="confirmation_unmuted">Cofnięto wyciszenie użytkownika</string>
-    <string name="status_sent">Wysłano!</string>
+    <string name="status_sent">Wyślij!</string>
     <string name="status_sent_long">Pomyślnie wysłano odpowiedź.</string>
     <string name="hint_domain">Jaka instancja?</string>
     <string name="hint_compose">Co Ci chodzi po głowie?</string>
@@ -130,9 +130,9 @@
     <string name="dialog_unfollow_warning">Czy chcesz przestać śledzić to konto?</string>
     <string name="visibility_public">Publiczne: Opublikuj na publicznych osiach czasu</string>
     <string name="visibility_unlisted">Niepubliczne: Nie wyświetlaj na publicznych osiach czasu</string>
-    <string name="visibility_private">Tylko dla śledzących: Wpis widoczny tylko dla osób, które Cię śledzą</string>
-    <string name="visibility_direct">Bezpośrednio: Widoczny tylko dla wspomnianych</string>
-    <string name="pref_title_edit_notification_settings">Edytuj powiadomienia</string>
+    <string name="visibility_private">Tylko śledzeni: Wyświetlaj tylko śledzonym</string>
+    <string name="visibility_direct">Bezpośrednio: Widoczne tylko dla wspomnianych</string>
+    <string name="pref_title_edit_notification_settings">Powiadomienia</string>
     <string name="pref_title_notifications_enabled">Powiadomienia</string>
     <string name="pref_title_notification_alerts">Alerty</string>
     <string name="pref_title_notification_alert_sound">Powiadamiaj dźwiękiem</string>
@@ -141,8 +141,8 @@
     <string name="pref_title_notification_filters">Powiadom mnie, gdy</string>
     <string name="pref_title_notification_filter_mentions">wspomniano o mnie</string>
     <string name="pref_title_notification_filter_follows">zaczęto mnie śledzić</string>
-    <string name="pref_title_notification_filter_reblogs">moje posty zostaną podbite</string>
-    <string name="pref_title_notification_filter_favourites">moje wpisy zostaną polubione</string>
+    <string name="pref_title_notification_filter_reblogs">moje wpisy zostaną podbite</string>
+    <string name="pref_title_notification_filter_favourites">moje posty zostaną dodane do ulubionych</string>
     <string name="pref_title_appearance_settings">Wygląd</string>
     <string name="pref_title_app_theme">Motyw</string>
     <string name="app_them_dark">Ciemny</string>
@@ -153,7 +153,7 @@
     <string name="pref_title_custom_tabs">Używaj niestandardowych kart Chrome</string>
     <string name="pref_title_hide_follow_button">Ukryj przycisk śledzenia podczas przewijania</string>
     <string name="pref_title_status_filter">Filtrowanie osi czasu</string>
-    <string name="pref_title_status_tabs">Karty</string>
+    <string name="pref_title_status_tabs">Zakładki</string>
     <string name="pref_title_show_boosts">Pokaż podbicia</string>
     <string name="pref_title_show_replies">Pokazuj odpowiedzi</string>
     <string name="pref_title_show_media_preview">Pokazuj podgląd zawartości multimedialnej</string>
@@ -164,8 +164,8 @@
     <string name="pref_default_post_privacy">Domyślne ustawienia prywatności wpisów</string>
     <string name="pref_publishing">Publikowanie</string>
     <string name="post_privacy_public">Publiczne</string>
-    <string name="post_privacy_unlisted">Niewidoczne</string>
-    <string name="post_privacy_followers_only">Tylko dla śledzących</string>
+    <string name="post_privacy_unlisted">Niewypisane</string>
+    <string name="post_privacy_followers_only">Tylko dla śledzonych</string>
     <string name="pref_status_text_size">Rozmiar tekstu wpisów</string>
     <string name="status_text_size_smallest">Najmniejszy</string>
     <string name="status_text_size_small">Mały</string>
@@ -201,7 +201,7 @@
         https://github.com/tuskyapp/Tusky/issues
     </string>
     <string name="about_tusky_account">Profil Tusky’ego</string>
-    <string name="status_share_content">Udostępnij zawartość postu</string>
+    <string name="status_share_content">Udostępnij zawartość wpisu</string>
     <string name="status_share_link">Udostępnij link do postu</string>
     <string name="status_media_images">Obrazy</string>
     <string name="status_media_video">Wideo</string>
@@ -239,7 +239,7 @@
     <string name="send_toot_notification_channel_name">Wysyłanie wpisów</string>
     <string name="send_toot_notification_cancel_title">Anulowano wysyłanie</string>
     <string name="send_toot_notification_saved_content">Kopia wpisu została zapisana jako szkic</string>
-    <string name="action_compose_shortcut">Napisz</string>
+    <string name="action_compose_shortcut">Nowy wpis</string>
     <string name="error_no_custom_emojis">Twoja instancja %s nie używa żadnych niestandardowych emoji</string>
     <string name="copy_to_clipboard_success">Skopiowano do schowka</string>
     <string name="emoji_style">Styl emoji</string>
@@ -265,7 +265,7 @@
     <string name="profile_metadata_add">dodaj dane</string>
     <string name="profile_metadata_label_label">Nazwa</string>
     <string name="profile_metadata_content_label">Zawartość</string>
-    <string name="error_network">Wystąpił problem z łącznością! Sprawdź swoje połączenie internetowe i spróbuj ponownie!</string>
+    <string name="error_network">Problem z łącznością. Sprawdź swoje połączenie internetowe i spróbuj ponownie.</string>
     <string name="error_video_upload_size">Pliki wideo muszą być mniejsze niż 40MB.</string>
     <string name="title_direct_messages">Wiadomości bezpośrednie</string>
     <string name="title_statuses_pinned">Przypięte</string>
@@ -287,7 +287,7 @@
     <string name="title_tab_preferences">Zakładki</string>
     <string name="title_domain_mutes">Ukryte domeny</string>
     <string name="status_username_format">\@%s</string>
-    <string name="action_unreblog">Usuń podbicie</string>
+    <string name="action_unreblog">Cofnij podbicie</string>
     <string name="action_view_domain_mutes">Ukryte domeny</string>
     <string name="action_add_poll">Dodaj głosowanie</string>
     <string name="action_mute_domain">Wycisz %s</string>
@@ -311,9 +311,9 @@
     <string name="pref_title_bot_overlay">Pokaż oznaczenie dla botów</string>
     <string name="pref_title_animate_gif_avatars">Animuj avatary GIF</string>
     <string name="pref_title_proxy_settings">Proxy</string>
-    <string name="pref_default_media_sensitivity">Zawsze oznaczaj zawartość multimedialną jako wrażliwą</string>
+    <string name="pref_default_media_sensitivity">Zawsze</string>
     <string name="pref_failed_to_sync">Synchronizacja ustawień nie powiodła się</string>
-    <string name="notification_poll_name">Głosowania</string>
+    <string name="notification_poll_name">Ankiety</string>
     <string name="notification_poll_description">Powiadomienia o głosowaniach, które zostały zakończone</string>
     <string name="about_tusky_version">Tusky %s</string>
     <string name="pref_title_alway_open_spoiler">Nie ukrywaj zawartości multimedialnej oznaczonej jako wrażliwa</string>
@@ -324,7 +324,7 @@
     <string name="filter_dialog_remove_button">Usuń</string>
     <string name="filter_dialog_update_button">Aktualizuj</string>
     <string name="filter_dialog_whole_word">Całe słowo</string>
-    <string name="filter_dialog_whole_word_description">Jeśli słowo lub fraza składa się jedynie z liter lub cyfr, filtr będzie zastosowany tylko do pełnych wystąpień</string>
+    <string name="filter_dialog_whole_word_description">Kiedy słowo kluczowe lub fraza jest tylko alfanumeryczna, filtr będzie zastosowany jeśli pasuje do całego słowa</string>
     <string name="filter_add_description">Fraza, która ma być filtrowana</string>
     <string name="error_create_list">Tworzenie listy nie powiodło się</string>
     <string name="error_rename_list">Zmiana nazwy listy nie powiodła się</string>
@@ -347,9 +347,10 @@
     <string name="unpin_action">Odepnij z profilu</string>
     <string name="pin_action">Przypnij do profilu</string>
     <plurals name="favs">
-        <item quantity="one">&lt;b&gt;%1$s&lt;/b&gt; polubienie</item>
-        <item quantity="few">&lt;b&gt;%1$s&lt;/b&gt; polubienia</item>
-        <item quantity="many">&lt;b&gt;%1$s&lt;/b&gt; polubień</item>
+        <item quantity="one"/>
+        <item quantity="few"/>
+        <item quantity="many"/>
+        <item quantity="other"/>
     </plurals>
     <plurals name="reblogs">
         <item quantity="one">&lt;b&gt;%s&lt;/b&gt; podbicie</item>
@@ -384,36 +385,39 @@
     <string name="poll_info_format"> <!-- 15 votes • 1 hour left --> %1$s • %2$s</string>
     <plurals name="poll_info_votes">
         <item quantity="one">%s głos</item>
-        <item quantity="few">%s głosy</item>
-        <item quantity="many"/>
-        <item quantity="other"/>
+        <item quantity="few">%s głos</item>
+        <item quantity="many">%s głos</item>
+        <item quantity="other">%s głos</item>
     </plurals>
     <string name="poll_info_time_relative">Zostało %s</string>
     <string name="poll_info_time_absolute">kończy się %s</string>
     <string name="poll_info_closed">zakończone</string>
     <string name="poll_vote">Głosuj</string>
     <string name="poll_ended_voted">Głosowanie w którym brałeś(-aś) udział zakończyła się</string>
-    <string name="poll_ended_created">Głosowanie, które stworzyłeś(-aś), zakończyła się</string>
+    <string name="poll_ended_created">Ankieta, którą stworzyłeś(aś), zakończyła się</string>
     <plurals name="poll_timespan_days">
         <item quantity="one">%d dzień</item>
         <item quantity="few">%d dni</item>
         <item quantity="many">%d dni</item>
+        <item quantity="other">%d dni</item>
     </plurals>
     <plurals name="poll_timespan_hours">
-        <item quantity="one"/>
-        <item quantity="few"/>
-        <item quantity="many"/>
-        <item quantity="other"/>
+        <item quantity="one">%d godzina</item>
+        <item quantity="few"></item>
+        <item quantity="many"></item>
+        <item quantity="other"></item>
     </plurals>
     <plurals name="poll_timespan_minutes">
         <item quantity="one">%d minuta</item>
         <item quantity="few">%d minuty</item>
-        <item quantity="many">%d minut</item>
+        <item quantity="many">%d minuty</item>
+        <item quantity="other">%d minuty</item>
     </plurals>
     <plurals name="poll_timespan_seconds">
         <item quantity="one">%d sekunda</item>
-        <item quantity="few">%d sekundy</item>
+        <item quantity="few">%d sekund</item>
         <item quantity="many">%d sekund</item>
+        <item quantity="other">%d sekund</item>
     </plurals>
     <string name="button_continue">Kontynuuj</string>
     <string name="button_back">Wstecz</string>
@@ -436,8 +440,8 @@
     <string name="poll_duration_1_day">1 dzień</string>
     <string name="poll_duration_3_days">3 dni</string>
     <string name="poll_duration_7_days">7 dni</string>
-    <string name="add_poll_choice">Dodaj opcję</string>
-    <string name="poll_allow_multiple_choices">Kilka opcji</string>
+    <string name="add_poll_choice">Dodaj wybór</string>
+    <string name="poll_allow_multiple_choices">Kilka wyborów</string>
     <string name="poll_new_choice_hint">Opcja %d</string>
     <string name="edit_poll">Edytuj</string>
     <string name="title_scheduled_toot">Zaplanowane wpisy</string>
@@ -456,7 +460,7 @@
     <string name="error_audio_upload_size">Pliki audio muszą być mniejsze niż 40MB.</string>
     <string name="no_saved_status">Nie masz żadnych szkiców.</string>
     <string name="no_scheduled_status">Nie masz żadnych zaplanowanych wpisów.</string>
-    <string name="warning_scheduling_interval">Mastodon umożliwia wysłanie minimalnie 5 minut od zaplanowania</string>
+    <string name="warning_scheduling_interval">Mastodon umożliwia wysłanie minimalnie 5 minut od zaplanowania.</string>
     <string name="notification_follow_request_name">Prośby o możliwość śledzenia</string>
     <string name="pref_title_confirm_reblogs">Pytaj o potwierdzenie przed podbiciem</string>
     <string name="add_hashtag_title">Dodaj hashtag</string>
@@ -470,4 +474,5 @@
         <item quantity="many">%s osób</item>
         <item quantity="other">%s osób</item>
     </plurals>
+    <string name="hashtags">Hashtagi</string>
 </resources>

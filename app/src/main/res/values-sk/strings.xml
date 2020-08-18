@@ -120,4 +120,6 @@
     <string name="action_unreblog">Prestať podporovať</string>
     <string name="description_visiblity_private">Sledujúci</string>
     <string name="post_privacy_public">Verejný</string>
+    <string name="action_view_bookmarks">Záložky</string>
+    <string name="notification_summary_small">%1$s a %2$s</string>
 </resources>

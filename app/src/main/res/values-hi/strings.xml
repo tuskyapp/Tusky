@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="action_login">मास्टोडन के साथ लॉगिन करें</string>
+    <string name="action_login">हिंदी</string>
     <string name="title_favourites">पसंदीदा</string>
-    <string name="title_saved_toot">ड्राफ्ट</string>
+    <string name="title_saved_toot">प्रारूप</string>
     <string name="action_logout">लॉग आउट</string>
     <string name="action_view_preferences">पसंद</string>
     <string name="action_view_account_preferences">खाता प्राथमिकताएं</string>
@@ -12,11 +12,11 @@
     <string name="title_statuses_with_replies">उत्तरों के साथ</string>
     <string name="title_followers">अनुगामी</string>
     <string name="action_reply">उत्तर दें</string>
-    <string name="action_follow">फॉलो</string>
-    <string name="action_unfollow">अनफॉलो</string>
+    <string name="action_follow">फ़ॉलो</string>
+    <string name="action_unfollow">अनफ़ॉलो</string>
     <string name="action_block">ब्लॉक</string>
     <string name="action_unblock">अनब्लॉक</string>
-    <string name="action_hide_reblogs">बूस्ट हटाएं</string>
+    <string name="action_hide_reblogs">बूस्ट छिपाएं</string>
     <string name="action_show_reblogs">बूस्ट दिखाएं</string>
     <string name="action_report">रिपोर्ट करें</string>
     <string name="action_edit">एडिट करें</string>
@@ -27,7 +27,7 @@
     <string name="action_retry">पुनः प्रयास करें</string>
     <string name="action_close">बंद करें</string>
     <string name="action_view_profile">प्रोफाइल</string>
-    <string name="description_visiblity_private">फॉलोअर्स</string>
+    <string name="description_visiblity_private">अनुगामी</string>
     <string name="error_image_upload_size">फ़ाइल 8 एमबी से कम होनी चाहिए।</string>
     <string name="error_media_upload_sending">अपलोड विफल रहा।</string>
     <string name="error_media_download_permission">मीडिया को स्टोर करने की अनुमति आवश्यक है।</string>
@@ -152,7 +152,7 @@
     <string name="action_toggle_visibility">टूट दृश्यता</string>
     <string name="action_access_scheduled_toot">अनुसूचित टूट</string>
     <string name="action_accept">स्वीकार करें</string>
-    <string name="action_access_saved_toot">प्रारूप</string>
+    <string name="action_access_saved_toot">ड्राफ्ट</string>
     <string name="action_reject">अस्वीकार करें</string>
     <string name="action_undo">पूर्ववत करें</string>
     <string name="action_edit_own_profile">संपादित करें</string>
@@ -170,7 +170,7 @@
     <string name="action_add_media">ऐड मीडिया</string>
     <string name="action_open_in_web">ब्राउज़र में खोलें</string>
     <string name="action_view_media">मीडिया</string>
-    <string name="error_sender_account_gone">टूट भेजने में त्रुटि।</string>
+    <string name="error_sender_account_gone">टोट भेजने में त्रुटि।</string>
     <string name="action_bookmark">बुकमार्क</string>
     <string name="action_reblog">बढ़ावा दें</string>
     <string name="action_quick_reply">तुरंत जवाब</string>
@@ -190,7 +190,7 @@
     <string name="title_view_thread">टूट</string>
     <string name="title_scheduled_toot">अनुसूचित टूट</string>
     <string name="title_domain_mutes">छिपे हुए डोमेन</string>
-    <string name="title_mutes">म्यूट किए गए उपयोगकर्ताओं</string>
+    <string name="title_mutes">म्यूट किए गए उपयोगकर्ता</string>
     <string name="title_bookmarks">बुकमार्क</string>
     <string name="title_tab_preferences">टैब्स</string>
     <string name="title_direct_messages">सीधे संदेश</string>
@@ -208,12 +208,12 @@
     <string name="poll_duration_30_min">30 मिनिट</string>
     <string name="poll_duration_5_min">5 मिनट</string>
     <plurals name="poll_timespan_seconds">
-        <item quantity="one">%d सेकेंड</item>
-        <item quantity="other">%d सेकेंड</item>
+        <item quantity="one"/>
+        <item quantity="other"/>
     </plurals>
     <plurals name="poll_timespan_minutes">
-        <item quantity="one"></item>
-        <item quantity="other"></item>
+        <item quantity="one"/>
+        <item quantity="other"/>
     </plurals>
     <plurals name="poll_timespan_hours">
         <item quantity="one">%d घंटा</item>
@@ -298,8 +298,8 @@
         <item quantity="other"><b>%s</b> ने बढ़ावा दिया</item>
     </plurals>
     <plurals name="favs">
-        <item quantity="one"></item>
-        <item quantity="other"></item>
+        <item quantity="one"/>
+        <item quantity="other"/>
     </plurals>
     <string name="pin_action">पिन</string>
     <string name="unpin_action">अनपिन</string>
@@ -307,7 +307,7 @@
     <string name="pref_title_absolute_time">पूर्ण समय का उपयोग करें</string>
     <string name="profile_metadata_content_label">विषय वस्तु</string>
     <string name="profile_metadata_label_label">लेबल</string>
-    <string name="license_apache_2">"अपाचे लाइसेंस के तहत लाइसेंस प्राप्त (प्रतिलिपि  नीचे उपलब्ध)"</string>
+    <string name="license_apache_2">अपाचे लाइसेंस के तहत लाइसेंस प्राप्त (प्रतिलिपि नीचे उपलब्ध)</string>
     <string name="account_moved_description">%1$s यहां चले गए हैं:</string>
     <string name="profile_badge_bot_text">बोट</string>
     <string name="caption_notoemoji">गूगल का इमोजी सेट</string>

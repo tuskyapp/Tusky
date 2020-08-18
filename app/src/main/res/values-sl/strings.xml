@@ -47,9 +47,9 @@
     <string name="message_empty">Tukaj ni ničesar.</string>
     <string name="footer_empty">Tukaj ni ničesar. Potegnite navzdol za osvežitev!</string>
     <string name="notification_reblog_format">% je spodbudil tvoj tut</string>
-    <string name="notification_favourite_format">%s je vzljubil vaš tut</string>
-    <string name="notification_follow_format">%s vam sledi</string>
-    <string name="report_username_format">Prijavi @%s</string>
+    <string name="notification_favourite_format">% je vzljubil vaš tut</string>
+    <string name="notification_follow_format">% vam sledi</string>
+    <string name="report_username_format">Prijavi @%</string>
     <string name="report_comment_hint">Dodatni komentarji\?</string>
     <string name="action_quick_reply">Hiter odgovor</string>
     <string name="action_reply">Odgovori</string>
@@ -65,7 +65,7 @@
     <string name="action_unfollow">Prenehaj slediti</string>
     <string name="action_block">Blokiraj</string>
     <string name="action_unblock">Odblokiraj</string>
-    <string name="action_hide_reblogs">Skrij spodbude</string>
+    <string name="action_hide_reblogs">Skirj spodbude</string>
     <string name="action_show_reblogs">Prikaži spodbude</string>
     <string name="action_report">Prijavi</string>
     <string name="action_delete">Izbriši</string>
@@ -198,7 +198,7 @@
     <string name="notification_follow_description">Obvestila o novih sledilcih</string>
     <string name="notification_boost_name">Spodbude</string>
     <string name="notification_boost_description">Obvestila, ko so vaši tuti spodbujeni</string>
-    <string name="notification_favourite_name">Priljubljeni</string>
+    <string name="notification_favourite_name">Priljubljene</string>
     <string name="notification_favourite_description">Obvestila, ko so vaši tuti vzljubljeni</string>
     <string name="notification_mention_format">%s vas je omenil-a</string>
     <string name="notification_summary_large">%1$s, %2$s, %3$s in %4$d ostali</string>
@@ -283,7 +283,7 @@
     <string name="restart_emoji">Če želite uveljaviti te spremembe, morate znova zagnati Tusky</string>
     <string name="later">Kasneje</string>
     <string name="restart">Znova zaženi</string>
-    <string name="caption_systememoji">Privzeti komplet emotikonov vaše naprave</string>
+    <string name="caption_systememoji">"Privzeti komplet emotikonov vaše naprave "</string>
     <string name="caption_blobmoji">Blob emotikoni so znani od Android 4.4-7.1</string>
     <string name="caption_twemoji">Mastodonov privzeti komplet emotikonov</string>
     <string name="download_failed">Prenos ni uspel</string>
@@ -436,9 +436,9 @@
     <string name="about_powered_by_tusky">Poganja ga Tusky</string>
     <string name="status_boosted_format">%s spodbudil</string>
     <plurals name="favs">
-        <item quantity="one"><b>%1$s</b> Priljubljena</item>
-        <item quantity="two"><b>%1$s</b> Priljubljeni</item>
-        <item quantity="few"><b>%1$s</b> Priljubljene</item>
-        <item quantity="other"><b>%1$s</b> Priljubljenih</item>
+        <item quantity="one"/>
+        <item quantity="two"/>
+        <item quantity="few"/>
+        <item quantity="other"/>
     </plurals>
 </resources>

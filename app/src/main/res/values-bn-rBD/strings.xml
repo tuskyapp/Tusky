@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="conversation_1_recipients">%1$s</string>
-    <string name="abbreviated_seconds_ago">%ds</string>
+    <string name="abbreviated_seconds_ago">%dসে</string>
     <string name="description_poll">পছন্দগুলি সহ নর্বাচন: %1$s, %2$s, %3$s, %4$s; %5$s</string>
     <string name="description_visiblity_direct">সরাসরি</string>
     <string name="description_visiblity_private">অনুগামিবৃন্দ</string>
@@ -299,7 +299,7 @@
     <string name="title_mutes">শব্দ বন্ধ ব্যবহারকারী</string>
     <string name="abbreviated_days_ago">%dদি</string>
     <string name="abbreviated_minutes_ago">%dমা</string>
-    <string name="abbreviated_hours_ago">%dh</string>
+    <string name="abbreviated_hours_ago">%dঘ</string>
     <string name="abbreviated_years_ago">%dব</string>
     <string name="status_boosted_format">%s বুস্টকৃত</string>
     <string name="status_username_format">\@%s</string>
