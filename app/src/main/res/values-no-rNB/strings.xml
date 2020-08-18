@@ -366,20 +366,20 @@
     <string name="poll_ended_voted">En avstemming du har stemt på er avsluttet</string>
     <string name="poll_ended_created">En avstemming du opprettet er avsluttet</string>
     <plurals name="poll_timespan_days">
-        <item quantity="one"/>
-        <item quantity="other"/>
+        <item quantity="one">%d dag</item>
+        <item quantity="other">%d dager</item>
     </plurals>
     <plurals name="poll_timespan_hours">
-        <item quantity="one"/>
-        <item quantity="other"/>
+        <item quantity="one">%d time</item>
+        <item quantity="other">%d timer</item>
     </plurals>
     <plurals name="poll_timespan_minutes">
-        <item quantity="one"/>
-        <item quantity="other"/>
+        <item quantity="one">%d minutt</item>
+        <item quantity="other">%d minutter</item>
     </plurals>
     <plurals name="poll_timespan_seconds">
-        <item quantity="one"/>
-        <item quantity="other"/>
+        <item quantity="one">%d sekund</item>
+        <item quantity="other">%d sekunder</item>
     </plurals>
     <string name="compose_preview_image_description">Handlinger for bilde %s</string>
     <string name="pref_title_animate_gif_avatars">Animer GIF-avatarer</string>
@@ -441,8 +441,8 @@
     <string name="pref_title_confirm_reblogs">Vis bekreftelsesdialog før boosting</string>
     <string name="pref_title_enable_swipe_for_tabs">Skru på sveiping for å bytte mellom faner</string>
     <plurals name="poll_info_people">
-        <item quantity="one"/>
-        <item quantity="other"/>
+        <item quantity="one">%s person</item>
+        <item quantity="other">%s personer</item>
     </plurals>
     <string name="notification_follow_request_description">Varsler om følgeforespørsler</string>
     <string name="notification_follow_request_name">Forespørsler om følging</string>
@@ -463,4 +463,5 @@
     <string name="action_mute_notifications_desc">Demp varsler fra %s</string>
     <string name="action_unmute_notifications_desc">Fjern demping av varsler fra %s</string>
     <string name="action_unmute_desc">Fjern demping av %s</string>
+    <string name="pref_title_hide_top_toolbar">Skjul tittelen på den øverste verktøylinjen</string>
 </resources>
