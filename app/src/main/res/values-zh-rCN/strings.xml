@@ -4,23 +4,23 @@
     <string name="error_network">网络请求出错，请检查互联网连接并重试!</string>
     <string name="error_empty">内容不能为空。</string>
     <string name="error_invalid_domain">该域名无效</string>
-    <string name="error_failed_app_registration">无法连接此服务器</string>
-    <string name="error_no_web_browser_found">没有可用的浏览器。</string>
-    <string name="error_authorization_unknown">认证过程出现未知错误。</string>
-    <string name="error_authorization_denied">授权被拒绝。</string>
-    <string name="error_retrieving_oauth_token">无法获取登录令牌。</string>
+    <string name="error_failed_app_registration">无法连接此服务器。</string>
+    <string name="error_no_web_browser_found">没有可用的浏览器</string>
+    <string name="error_authorization_unknown">认证过程出现未知错误</string>
+    <string name="error_authorization_denied">授权被拒绝</string>
+    <string name="error_retrieving_oauth_token">无法获取登录信息</string>
     <string name="error_compose_character_limit">嘟文太长了！</string>
-    <string name="error_image_upload_size">文件大小限制 8MB。</string>
-    <string name="error_video_upload_size">视频文件大小限制 40MB。</string>
-    <string name="error_media_upload_type">无法上传此类型的文件。</string>
-    <string name="error_media_upload_opening">此文件无法打开。</string>
-    <string name="error_media_upload_permission">需要授予 Tusky 读取媒体文件的权限。</string>
-    <string name="error_media_download_permission">需要授予 Tusky 写入存储空间的权限。</string>
-    <string name="error_media_upload_image_or_video">无法在嘟文中同时插入视频和图片。</string>
-    <string name="error_media_upload_sending">媒体文件上传失败。</string>
-    <string name="error_sender_account_gone">嘟文发送时出错。</string>
+    <string name="error_image_upload_size">文件大小限制 8MB</string>
+    <string name="error_video_upload_size">视频文件大小限制 40MB</string>
+    <string name="error_media_upload_type">无法上传此类型的文件</string>
+    <string name="error_media_upload_opening">此文件无法打开</string>
+    <string name="error_media_upload_permission">需要授予 Tusky 读取媒体文件的权限</string>
+    <string name="error_media_download_permission">需要授予 Tusky 写入存储空间的权限</string>
+    <string name="error_media_upload_image_or_video">无法在嘟文中同时插入视频和图片</string>
+    <string name="error_media_upload_sending">媒体文件上传失败</string>
+    <string name="error_sender_account_gone">嘟文发送时出错</string>
     <string name="title_home">主页</string>
-    <string name="title_notifications">通知</string>
+    <string name="title_notifications">通知设置</string>
     <string name="title_public_local">本站时间轴</string>
     <string name="title_public_federated">跨站公共时间轴</string>
     <string name="title_direct_messages">私信</string>
@@ -47,12 +47,12 @@
     <string name="status_content_warning_show_less">折叠内容</string>
     <string name="status_content_show_more">展开</string>
     <string name="status_content_show_less">折叠</string>
-    <string name="message_empty">还没有内容。</string>
-    <string name="footer_empty">还没有内容，向下拉动即可刷新！</string>
+    <string name="message_empty">还没有内容</string>
+    <string name="footer_empty">还没有内容，向下拉动即可刷新</string>
     <string name="notification_reblog_format">%s 转嘟了你的嘟文</string>
     <string name="notification_favourite_format">%s 收藏了你的嘟文</string>
     <string name="notification_follow_format">%s 关注了你</string>
-    <string name="report_username_format">报告用户 @%s 的滥用行为</string>
+    <string name="report_username_format">举报用户 @%s 的滥用行为</string>
     <string name="report_comment_hint">是否有更多信息需报告？</string>
     <string name="action_quick_reply">快速回复</string>
     <string name="action_reply">回复</string>
@@ -71,7 +71,7 @@
     <string name="action_unblock">取消屏蔽</string>
     <string name="action_hide_reblogs">隐藏转嘟</string>
     <string name="action_show_reblogs">显示转嘟</string>
-    <string name="action_report">报告</string>
+    <string name="action_report">举报</string>
     <string name="action_delete">删除</string>
     <string name="action_delete_and_redraft">删除并重新编辑</string>
     <string name="action_send">嘟嘟</string>
@@ -130,7 +130,7 @@
     <string name="confirmation_unblocked">已解除屏蔽</string>
     <string name="confirmation_unmuted">已取消隐藏</string>
     <string name="status_sent">已发送！</string>
-    <string name="status_sent_long">成功发布回复.</string>
+    <string name="status_sent_long">成功发布回复</string>
     <string name="hint_domain">域名</string>
     <string name="hint_compose">有什么新鲜事？</string>
     <string name="hint_content_warning">内容提醒</string>
@@ -147,10 +147,10 @@
 \n
 \n还没有 Mastodon 帐号？你也可以输入想注册的 Mastodon 站点的域名，然后在该服务器创建新的帐号并授权 Tusky 登入。 
 \n
-\n在 Mastodon 里，你的账户储存在一个实例中，但跨站互动和站内互动一样简单。
+\n在 Mastodon 里，跨站互动和站内互动一样简单。
 \n
 \n可以前往 <a href="https://joinmastodon.org">https://joinmastodon.org</a> 了解更多信息。 </string>
-    <string name="dialog_title_finishing_media_upload">正在结束上传</string>
+    <string name="dialog_title_finishing_media_upload">正在结束上传…</string>
     <string name="dialog_message_uploading_media">正在上传…</string>
     <string name="dialog_download_image">下载</string>
     <string name="dialog_message_cancel_follow_request">移除关注请求？</string>
@@ -414,14 +414,14 @@
     <string name="action_bookmark">书签</string>
     <string name="action_edit">编辑</string>
     <string name="action_view_bookmarks">书签</string>
-    <string name="action_view_domain_mutes">隐藏的域名</string>
+    <string name="action_view_domain_mutes">隐藏域名</string>
     <string name="action_add_poll">新增意见调查</string>
     <string name="action_access_scheduled_toot">定时嘟文</string>
     <string name="action_schedule_toot">定时嘟文</string>
     <string name="confirmation_domain_unmuted">%s 已解除静音</string>
     <string name="mute_domain_warning_dialog_ok">隐藏整个域</string>
     <string name="pref_title_animate_gif_avatars">动画GIF头像</string>
-    <string name="about_powered_by_tusky">由Tusky提供支持</string>
+    <string name="about_powered_by_tusky">Powered by Tusky</string>
     <string name="pref_title_alway_open_spoiler">始终扩展标有内容警告的嘟文</string>
     <string name="filter_dialog_whole_word">整个单词</string>
     <string name="filter_dialog_whole_word_description">如果关键字或缩写只有字母或数字，则只有在匹配整个单词时才会应用</string>
@@ -457,13 +457,13 @@
     <string name="edit_poll">编辑</string>
     <string name="post_lookup_error_format">查找帖子时出错 %s</string>
     <string name="no_saved_status">您没有草稿。</string>
-    <string name="no_scheduled_status">您没有任何定时嘟文。</string>
+    <string name="no_scheduled_status">您没有任何预定状态。</string>
     <string name="warning_scheduling_interval">Mastodon的最小预定时间为5分钟。</string>
     <string name="notification_follow_request_name">关注请求</string>
     <string name="hashtags">话题</string>
     <string name="pref_title_confirm_reblogs">在转嘟前提示确认</string>
     <string name="pref_title_show_cards_in_timelines">在时间轴上显示链接预览</string>
-    <string name="pref_title_enable_swipe_for_tabs">滑动切换标签页</string>
+    <string name="pref_title_enable_swipe_for_tabs">启用划动手势以切换标签页</string>
     <plurals name="poll_info_people">
         <item quantity="one">%s 个人</item>
         <item quantity="other"/>

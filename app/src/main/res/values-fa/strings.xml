@@ -29,7 +29,7 @@
     <string name="title_followers">پیرو</string>
     <string name="title_favourites">پسندها</string>
     <string name="title_mutes">کاربرهای بی‌صدا</string>
-    <string name="title_blocks">کاربران مسدود</string>
+    <string name="title_blocks">کاربرهای مسدود شده</string>
     <string name="title_follow_requests">درخواست‌های پی‌گیری</string>
     <string name="title_edit_profile">ویرایش نمایه‌تان</string>
     <string name="title_saved_toot">پیش‌نویس</string>
@@ -94,9 +94,9 @@
     <string name="action_reject">رد</string>
     <string name="action_search">جستجو</string>
     <string name="action_access_saved_toot">پیش‌نویس</string>
-    <string name="action_toggle_visibility">نمایش بوق</string>
+    <string name="action_toggle_visibility">نمایانی بوق</string>
     <string name="action_content_warning">هشدار محتوی</string>
-    <string name="action_emoji_keyboard">صفحه‌کلید اموجی</string>
+    <string name="action_emoji_keyboard">صفحه کلیک شکلک</string>
     <string name="download_image">درحال دریافت %1$s</string>
     <string name="action_copy_link">کپی لینک</string>
     <string name="send_status_link_to">هم‌رسانی نشانی بوق با…</string>
@@ -127,7 +127,7 @@
 \n 
 \nاطّلاعات بیش‌تر می‌تواند در <a href="https://joinmastodon.org">joinmastodon.org</a> پیدا شود. </string>
     <string name="dialog_title_finishing_media_upload">پایان بارگذاری رسانه</string>
-    <string name="dialog_message_uploading_media">در حال بارگذاری</string>
+    <string name="dialog_message_uploading_media">در حال بارگذاری…</string>
     <string name="dialog_download_image">بارگیری</string>
     <string name="dialog_message_cancel_follow_request">درخواست دنبال کردن را لغو می‌کنید؟</string>
     <string name="dialog_unfollow_warning">لغو دنبال کردن این حساب</string>
@@ -137,23 +137,23 @@
     <string name="visibility_private">تنها دنبال‌کنندگان:پست فقط به دنبال‌کنندگان</string>
     <string name="visibility_direct">مستقیم:پست فقط برای کاربران صدا زده شده</string>
     <string name="pref_title_edit_notification_settings">ویرایش اعلان‌ها</string>
-    <string name="pref_title_notifications_enabled">آگاهی‌ها</string>
+    <string name="pref_title_notifications_enabled">اعلان‌ها</string>
     <string name="pref_title_notification_alerts">هشدارها</string>
     <string name="pref_title_notification_alert_sound">اعلان با صدا</string>
     <string name="pref_title_notification_alert_vibrate">آگاهی با لرزش</string>
     <string name="pref_title_notification_alert_light">اعلان با نور</string>
     <string name="pref_title_notification_filters">به من اطلاع بده زمانی که</string>
-    <string name="pref_title_notification_filter_mentions">صدازده‌ها</string>
-    <string name="pref_title_notification_filter_follows">دنبال شدن</string>
+    <string name="pref_title_notification_filter_mentions">اشاره شدن</string>
+    <string name="pref_title_notification_filter_follows">دنبال‌شده</string>
     <string name="pref_title_notification_filter_reblogs">پست‌های تقویت شده من</string>
-    <string name="pref_title_notification_filter_favourites">پست‌های پسندیده شدهٔ من</string>
+    <string name="pref_title_notification_filter_favourites">پسند بوق‌هایم</string>
     <string name="pref_title_appearance_settings">ظاهر</string>
     <string name="pref_title_app_theme">تم برنامه</string>
-    <string name="pref_title_timelines">خط‌های زمانی</string>
+    <string name="pref_title_timelines">خط‌ زمانی‌ها</string>
     <string name="app_them_dark">روشن</string>
-    <string name="app_theme_light">روشن</string>
-    <string name="app_theme_black">تیره</string>
-    <string name="app_theme_auto">خودکار برحسب غروب خورشید</string>
+    <string name="app_theme_light">سیاه</string>
+    <string name="app_theme_black">سیاه</string>
+    <string name="app_theme_auto">خودکار در غروب</string>
     <string name="pref_title_browser_settings">مرورگر</string>
     <string name="pref_title_custom_tabs">استفاده از زبانه‌های سفارشی کروم</string>
     <string name="pref_title_hide_follow_button">پنهان کردن دکمه ایجاد هنگام پیمایش</string>
@@ -161,13 +161,13 @@
     <string name="pref_title_status_tabs">زبانه‌ها</string>
     <string name="pref_title_show_boosts">نمایش بازبوق‌ها</string>
     <string name="pref_title_show_replies">نمایش پاسخ‌ها</string>
-    <string name="pref_title_show_media_preview">بارگیری پیش‌نمایش‌های رسانه</string>
+    <string name="pref_title_show_media_preview">بارگیری پیش‌نمایش رسانه</string>
     <string name="pref_title_proxy_settings">پراکسی</string>
-    <string name="pref_title_http_proxy_settings">پیشکار HTTP</string>
+    <string name="pref_title_http_proxy_settings">پراکسی HTTP</string>
     <string name="pref_title_http_proxy_enable">فعال‌سازی پراکسی HTTP</string>
     <string name="pref_title_http_proxy_server">کارساز پیشکار HTTP</string>
     <string name="pref_title_http_proxy_port">درگاه پیشکار HTTP</string>
-    <string name="pref_default_post_privacy">حریم خصوصی پیش‌فرض پست</string>
+    <string name="pref_default_post_privacy">محرمانگی پیش‌گزیدهٔ فرسته</string>
     <string name="pref_default_media_sensitivity">همواره رسانه را به عنوان حساس نشانه‌گذاری کن</string>
     <string name="pref_publishing">در حال انتشار (همگام با کارساز)</string>
     <string name="pref_failed_to_sync">ناتوانی در هم‌گام‌سازی تنظیمات</string>
@@ -208,7 +208,7 @@
 \n https://github.com/tuskyapp/Tusky/issues</string>
     <string name="about_tusky_account">نمایه Tusky</string>
     <string name="status_share_content">هم‌رسانی محتوی بوق</string>
-    <string name="status_share_link">هم‌رسانی پیوند بوق</string>
+    <string name="status_share_link">هم‌رسانی لینک بوق</string>
     <string name="status_media_images">تصویرها</string>
     <string name="status_media_video">فیلم</string>
     <string name="state_follow_requested">تقاضای پیگیری شد</string>
@@ -218,14 +218,14 @@
     <string name="abbreviated_in_hours">در % dh</string>
     <string name="abbreviated_in_minutes">در %dm</string>
     <string name="abbreviated_in_seconds">در %ds</string>
-    <string name="follows_you">پیگیرتان است</string>
+    <string name="follows_you">شما را دنبال می‌کند</string>
     <string name="pref_title_alway_show_sensitive_media">همیشه مطالب حساس را نشان بده</string>
     <string name="title_media">رسانه</string>
-    <string name="replying_to">در حال پاسخ به @%s</string>
+    <string name="replying_to">پاسخ دادن به @%s</string>
     <string name="load_more_placeholder_text">بارگیری بیشتر</string>
     <string name="add_account_name">افزودن حساب</string>
     <string name="add_account_description">افزودن حساب جدید ماستودون</string>
-    <string name="action_lists">لیست‌ها</string>
+    <string name="action_lists">فهرست‌ها</string>
     <string name="title_lists">لیست‌ها</string>
     <string name="title_list_timeline">لیست خط زمانی</string>
     <string name="compose_active_account_description">پست با حساب %1$s</string>
@@ -235,21 +235,21 @@
     <string name="action_remove">حذف</string>
     <string name="lock_account_label">قفل حساب</string>
     <string name="lock_account_label_description">به شما امکان می‌دهد بصورت دستی دنبال‌کنندگان را تایید کنید</string>
-    <string name="compose_save_draft">ذخیره به عنوان پیش‌نویس</string>
+    <string name="compose_save_draft">ذخیره به عنوان پیش‌نویس؟</string>
     <string name="send_toot_notification_title">در حال فرستادن بوق…</string>
     <string name="send_toot_notification_error_title">خطای فرستادن بوق</string>
     <string name="send_toot_notification_channel_name">در حال فرستادن بوق‌ها</string>
     <string name="send_toot_notification_cancel_title">فرستادن لغو شد</string>
     <string name="send_toot_notification_saved_content">رونوشتیی از بوق در پیش‌نویس‌هایتان ذخیره شد</string>
     <string name="action_compose_shortcut">ایجاد</string>
-    <string name="error_no_custom_emojis">نمونه‌تان %s هیچ اموجی سفارشی‌ای ندارد</string>
+    <string name="error_no_custom_emojis">سرور شما %s هیچ شکلک سفارشی ندارد</string>
     <string name="copy_to_clipboard_success">به کلیپ بورد کپی شد</string>
-    <string name="emoji_style">سبک اموجی</string>
+    <string name="emoji_style">قالب شکلک</string>
     <string name="system_default">پیشفرض سیستم</string>
-    <string name="download_fonts">نخست باید این اموجی‌ها را بارگیری کنید</string>
+    <string name="download_fonts">شما ابتدا باید این شکلک‌ها را دریافت کنید</string>
     <string name="performing_lookup_title">اجرای جستجو</string>
     <string name="expand_collapse_all_statuses">باز/بستن همه وضعیت‌ها</string>
-    <string name="action_open_toot">گشودن بوق</string>
+    <string name="action_open_toot">بوق را باز کن</string>
     <string name="restart_required">برنامه به شروع مجدد نیاز دارد</string>
     <string name="restart_emoji">شما برای اعمال این تغییرات به شروع مجدد برنامه نیاز دارید</string>
     <string name="later">بعداً</string>
@@ -259,7 +259,7 @@
     <string name="caption_twemoji">شکلک‌های استاندارد ماستدون تنظیم شدند</string>
     <string name="download_failed">شکست در بارگیری</string>
     <string name="profile_badge_bot_text">بات</string>
-    <string name="account_moved_description">%1$s جابجا شد به:</string>
+    <string name="account_moved_description">%1$s منتقل شد به:</string>
     <string name="reblog_private">تقویت برای مخاطب اصلی</string>
     <string name="unreblog_private">لغو تقویت</string>
     <string name="license_description">Tusky شامل کد و دارایی‌های پروژه‌های منبع‌باز زیر است:</string>
@@ -296,7 +296,7 @@
     <string name="title_mentions_dialog">اشاره‌ها</string>
     <string name="title_links_dialog">پیوندها</string>
     <string name="action_open_media_n">بازکردن رسانه #%d</string>
-    <string name="action_open_as">باز کردن به عنوان %s</string>
+    <string name="action_open_as">گشودن به عنوان %s</string>
     <string name="action_share_as">هم‌رسانی به عنوان …</string>
     <string name="download_media">بارگیری رسانه</string>
     <string name="downloading_media">در حال بارگیری رسانه</string>
@@ -305,7 +305,7 @@
     <string name="mute_domain_warning_dialog_ok">نهفتن تمام دامنه</string>
     <string name="pref_title_notification_filter_poll">پایان نظرسنجی‌ها</string>
     <string name="pref_title_timeline_filters">صافی‌ها</string>
-    <string name="app_theme_system">استفاده از طراحی سامانه</string>
+    <string name="app_theme_system">استفاده از طرح سیستم</string>
     <string name="pref_title_language">زبان</string>
     <string name="pref_title_bot_overlay">نمایش نشان برای بات‌ها</string>
     <string name="pref_title_animate_gif_avatars">پویانمایی آواتار gif</string>
@@ -320,7 +320,7 @@
     <string name="pref_title_alway_open_spoiler">همواره بوق‌هایی که دارای محتوای حساس هستند را گسترش بده</string>
     <string name="pref_title_public_filter_keywords">خط زمانی عمومی</string>
     <string name="pref_title_thread_filter_keywords">گفتگوها</string>
-    <string name="filter_addition_dialog_title">افزودن پالایه</string>
+    <string name="filter_addition_dialog_title">افزودن صافی</string>
     <string name="filter_edit_dialog_title">ویرایش صافی</string>
     <string name="filter_dialog_remove_button">برداشتن</string>
     <string name="filter_dialog_update_button">به‌روزرسانی</string>
@@ -343,8 +343,8 @@
         <item quantity="other"><b>%1$s</b> پسند</item>
     </plurals>
     <plurals name="reblogs">
-        <item quantity="one"/>
-        <item quantity="other"/>
+        <item quantity="one"><b>%s</b> بازبوق</item>
+        <item quantity="other"><b>%s</b> بازبوق</item>
     </plurals>
     <string name="title_reblogged_by">بازبوق توسط</string>
     <string name="title_favourited_by">پسننده‌شده توسط</string>
@@ -373,12 +373,12 @@
     <string name="compose_preview_image_description">کنش‌ها برای تصاویر</string>
     <plurals name="poll_info_votes">
         <item quantity="one">%s رای</item>
-        <item quantity="other"></item>
+        <item quantity="other"/>
     </plurals>
     <string name="poll_info_time_relative">%s باقی مانده</string>
     <string name="poll_info_time_absolute">پایان یافته در %s</string>
     <string name="poll_info_closed">بسته شده</string>
-    <string name="poll_vote">رأی</string>
+    <string name="poll_vote">رای</string>
     <string name="poll_ended_voted">یک نظرسنجی که در آن رأی دادید، تمام شد</string>
     <string name="poll_ended_created">یک نظرسنجی که ساختید، تمام شد</string>
     <plurals name="poll_timespan_days">
@@ -418,7 +418,7 @@
     <string name="edit_poll">ویرایش</string>
     <string name="title_scheduled_toot">بوق‌های زمان‌بسته</string>
     <string name="action_edit">ویرایش</string>
-    <string name="action_access_scheduled_toot">بوق‌های زمان‌بسته</string>
+    <string name="action_access_scheduled_toot">بوق‌های زمان‌بندی‌شده</string>
     <string name="action_schedule_toot">بوق زمان‌بسته</string>
     <string name="action_reset_schedule">بازنشانی</string>
     <string name="mute_domain_warning">مطمئنید می‌خواهید تمام %s را مسدود کنید؟ محتوای آن دامنه را در هیچ‌یک از خط زمانی‌ها یا در آگاهی‌هایتان نخواهید دید. پیروانتان از آن دامنه، برداشته خواهند شد.</string>

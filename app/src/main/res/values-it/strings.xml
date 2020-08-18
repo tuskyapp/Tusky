@@ -141,11 +141,11 @@
     <string name="link_whats_an_instance">Cos\'è un\'istanza?</string>
     <string name="login_connection">Connessione…</string>
     <string name="dialog_whats_an_instance">L\'indirizzo o il dominio di qualsiasi istanza può essere inserito qui, come mastodon.social, icosahedron.website, social.tchncs.de, e <a href="https://instances.social">altro!</a> 
-\n 
-\nSe non hai ancora un account, puoi inserire il nome di un\'istanza alla quale vuoi iscriverti e creare un account. 
-\n 
+\n
+\nSe non hai ancora un account, puoi inserire il nome di un\'istanza alla quale vuoi iscriverti e creare un account.
+\n
 \nUn\'istanza è il luogo dove l\'account è custodito, ma puoi facilmente comunicare e seguire gente su altre istanze come se fossero sullo stesso sito. 
-\n 
+\n
 \nPiù info possono essere trovate su <a href="https://joinmastodon.org">joinmastodon.org</a>.</string>
     <string name="dialog_title_finishing_media_upload">Terminando il caricamento dei media</string>
     <string name="dialog_message_uploading_media">Caricamento…</string>
@@ -240,12 +240,12 @@
     <string name="status_media_video">Video</string>
     <string name="state_follow_requested">In attesa di approvazione</string>
     <!--These are for timestamps on statuses. For example: "16s" or "2d"-->
-    <string name="abbreviated_in_years">in %da</string>
-    <string name="abbreviated_in_days">in %d g</string>
-    <string name="abbreviated_in_hours">in %d o</string>
-    <string name="abbreviated_in_minutes">in %dm</string>
-    <string name="abbreviated_in_seconds">in %d s</string>
-    <string name="abbreviated_years_ago">%d a</string>
+    <string name="abbreviated_in_years">in %d a</string>
+    <string name="abbreviated_in_days">in %dg</string>
+    <string name="abbreviated_in_hours">in %do</string>
+    <string name="abbreviated_in_minutes">in %d min</string>
+    <string name="abbreviated_in_seconds">in %ds</string>
+    <string name="abbreviated_years_ago">%da</string>
     <string name="abbreviated_days_ago">%dg</string>
     <string name="abbreviated_hours_ago">%d o</string>
     <string name="abbreviated_minutes_ago">%d min</string>
@@ -351,7 +351,7 @@
     </string>
     <string name="description_visiblity_unlisted">        Non elencato
     </string>
-    <string name="description_visiblity_private">Ti seguono</string>
+    <string name="description_visiblity_private">Seguaci</string>
     <string name="description_visiblity_direct">        Diretti
     </string>
     <string name="hint_list_name">Nome della lista</string>
@@ -379,14 +379,14 @@
     <string name="action_view_domain_mutes">Domini nascosti</string>
     <string name="action_mute_domain">Silenzia %s</string>
     <string name="confirmation_domain_unmuted">%s mostrati</string>
-    <string name="mute_domain_warning">Sei sicuro di voler bloccare tutto %s\? Non vedrai nessun contenuto da quel dominio in nessuna timeline pubblica o nelle tue notifiche. I tuoi seguaci che stanno in quel dominio saranno rimossi.</string>
+    <string name="mute_domain_warning">Sei sicuro di voler bloccare tutto %s\? Non vedrai nessun contenuto da quel dominio in nessuna timeline pubblica o nelle tue notifiche. I tuoi seguaci che stanno in quel dominio saranno rimossi</string>
     <string name="mute_domain_warning_dialog_ok">Nascondi l\'intero dominio</string>
     <string name="pref_title_notification_filter_poll">Le votazioni sono finite</string>
     <string name="pref_title_animate_gif_avatars">Mostra le animazioni delle GIF negli avatar</string>
     <string name="notification_poll_name">Votazioni</string>
     <string name="notification_poll_description">Notifiche sulle votazioni che sono concluse</string>
     <string name="filter_dialog_whole_word">Parola intera</string>
-    <string name="filter_dialog_whole_word_description">Quando la parola chiave o la frase sono composte da caratteri alfanumerici, sara\' applicata solo se corrisponde alla parola completa</string>
+    <string name="filter_dialog_whole_word_description">Quando la parola chiave o la frase sono composte da soli caratteri alfanumerici, sarà applicata solo se corrisponde alla parola completa</string>
     <string name="caption_notoemoji">Insieme di emoji di Google</string>
     <string name="title_bookmarks">Segnalibri</string>
     <string name="action_bookmark">Segnalibro</string>
@@ -395,7 +395,7 @@
     <string name="action_add_poll">Aggiungi sondaggio</string>
     <string name="about_powered_by_tusky">Fatto con Tusky</string>
     <string name="pref_title_alway_open_spoiler">Espandi sempre i toot segnalati come contenuto sensibile</string>
-    <string name="description_status_bookmarked">Messo nei segnalibri</string>
+    <string name="description_status_bookmarked">Messo nei segalibri</string>
     <string name="description_poll">Sondaggio con scelte: %1$s, %2$s, %3$s, %4$s; %5$s</string>
     <string name="select_list_title">Scegli lista</string>
     <string name="list">Lista</string>
@@ -447,7 +447,7 @@
     <string name="title_scheduled_toot">Toot programmati</string>
     <string name="action_access_scheduled_toot">Toot programmati</string>
     <string name="action_schedule_toot">Programma un toot</string>
-    <string name="action_reset_schedule">Ripristina</string>
+    <string name="action_reset_schedule">RIpristina</string>
     <string name="poll_info_format"> <!-- 15 votes • 1 hour left --> %1$s • %2$s</string>
     <string name="no_saved_status">Non hai bozze.</string>
     <plurals name="poll_info_people">

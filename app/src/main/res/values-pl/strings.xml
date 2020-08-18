@@ -39,8 +39,8 @@
     <string name="status_sensitive_media_directions">Naciśnij, aby wyświetlić</string>
     <string name="status_content_warning_show_more">Pokaż więcej</string>
     <string name="status_content_warning_show_less">Ukryj</string>
-    <string name="footer_empty">Pusto! Pociągnij, aby odświeżyć.</string>
-    <string name="notification_reblog_format">%s podbił Twój post</string>
+    <string name="footer_empty">Pusto tutaj. Pociągnij, aby odświeżyć!</string>
+    <string name="notification_reblog_format">%s podbił(-a) Twój wpis</string>
     <string name="notification_favourite_format">%s dodał Twój post do ulubionych</string>
     <string name="notification_follow_format">%s zaczął Cię śledzić</string>
     <string name="report_username_format">Zgłoś @%s</string>
@@ -141,8 +141,8 @@
     <string name="pref_title_notification_filters">Powiadom mnie, gdy</string>
     <string name="pref_title_notification_filter_mentions">wspomniano o mnie</string>
     <string name="pref_title_notification_filter_follows">zaczęto mnie śledzić</string>
-    <string name="pref_title_notification_filter_reblogs">moje posty zostaną podbite</string>
-    <string name="pref_title_notification_filter_favourites">moje wpisy zostaną polubione</string>
+    <string name="pref_title_notification_filter_reblogs">moje wpisy zostaną podbite</string>
+    <string name="pref_title_notification_filter_favourites">moje posty zostaną dodane do ulubionych</string>
     <string name="pref_title_appearance_settings">Wygląd</string>
     <string name="pref_title_app_theme">Motyw</string>
     <string name="app_them_dark">Ciemny</string>
@@ -164,8 +164,8 @@
     <string name="pref_default_post_privacy">Domyślne ustawienia prywatności wpisów</string>
     <string name="pref_publishing">Publikowanie</string>
     <string name="post_privacy_public">Publiczne</string>
-    <string name="post_privacy_unlisted">Niewidoczne</string>
-    <string name="post_privacy_followers_only">Tylko dla śledzących</string>
+    <string name="post_privacy_unlisted">Niewypisane</string>
+    <string name="post_privacy_followers_only">Tylko dla śledzonych</string>
     <string name="pref_status_text_size">Rozmiar tekstu wpisów</string>
     <string name="status_text_size_smallest">Najmniejszy</string>
     <string name="status_text_size_small">Mały</string>
@@ -178,7 +178,7 @@
     <string name="notification_follow_description">Powiadomienia o nowych śledzących</string>
     <string name="notification_boost_name">Podbicia</string>
     <string name="notification_boost_description">Powiadomienia o podbiciu wpisów</string>
-    <string name="notification_favourite_name">Polubione</string>
+    <string name="notification_favourite_name">Ulubione</string>
     <string name="notification_favourite_description">Powiadomienia o dodaniu wpisów do ulubionych</string>
     <string name="notification_mention_format">%s wspomniał o Tobie</string>
     <string name="notification_summary_large">%1$s, %2$s, %3$s i %4$d innych</string>
@@ -311,7 +311,7 @@
     <string name="pref_title_bot_overlay">Pokaż oznaczenie dla botów</string>
     <string name="pref_title_animate_gif_avatars">Animuj avatary GIF</string>
     <string name="pref_title_proxy_settings">Proxy</string>
-    <string name="pref_default_media_sensitivity">Zawsze oznaczaj zawartość multimedialną jako wrażliwą</string>
+    <string name="pref_default_media_sensitivity">Zawsze</string>
     <string name="pref_failed_to_sync">Synchronizacja ustawień nie powiodła się</string>
     <string name="notification_poll_name">Ankiety</string>
     <string name="notification_poll_description">Powiadomienia o głosowaniach, które zostały zakończone</string>
@@ -347,10 +347,10 @@
     <string name="unpin_action">Odepnij z profilu</string>
     <string name="pin_action">Przypnij do profilu</string>
     <plurals name="favs">
-        <item quantity="one"></item>
-        <item quantity="few"></item>
-        <item quantity="many"></item>
-        <item quantity="other"></item>
+        <item quantity="one"/>
+        <item quantity="few"/>
+        <item quantity="many"/>
+        <item quantity="other"/>
     </plurals>
     <plurals name="reblogs">
         <item quantity="one">&lt;b&gt;%s&lt;/b&gt; podbicie</item>
@@ -385,9 +385,9 @@
     <string name="poll_info_format"> <!-- 15 votes • 1 hour left --> %1$s • %2$s</string>
     <plurals name="poll_info_votes">
         <item quantity="one">%s głos</item>
-        <item quantity="few">%s głosy</item>
-        <item quantity="many"/>
-        <item quantity="other"/>
+        <item quantity="few"></item>
+        <item quantity="many"></item>
+        <item quantity="other"></item>
     </plurals>
     <string name="poll_info_time_relative">Zostało %s</string>
     <string name="poll_info_time_absolute">kończy się %s</string>
@@ -398,20 +398,20 @@
     <plurals name="poll_timespan_days">
         <item quantity="one">%d dzień</item>
         <item quantity="few">%d dni</item>
-        <item quantity="many"></item>
-        <item quantity="other"></item>
-    </plurals>
-    <plurals name="poll_timespan_hours">
-        <item quantity="one"/>
-        <item quantity="few"/>
         <item quantity="many"/>
         <item quantity="other"/>
+    </plurals>
+    <plurals name="poll_timespan_hours">
+        <item quantity="one">%d godzina</item>
+        <item quantity="few">%d godzin</item>
+        <item quantity="many"></item>
+        <item quantity="other"></item>
     </plurals>
     <plurals name="poll_timespan_minutes">
         <item quantity="one">%d minuta</item>
         <item quantity="few">%d minuty</item>
-        <item quantity="many"></item>
-        <item quantity="other"></item>
+        <item quantity="many"/>
+        <item quantity="other"/>
     </plurals>
     <plurals name="poll_timespan_seconds">
         <item quantity="one">%d sekunda</item>

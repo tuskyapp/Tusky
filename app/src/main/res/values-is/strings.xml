@@ -23,7 +23,7 @@
     <string name="error_retrieving_oauth_token">Mistókst að fá innskráningarteikn.</string>
     <string name="error_compose_character_limit">Stöðufærslan er of löng!</string>
     <string name="error_image_upload_size">Skráin verður að vera minni en 8MB.</string>
-    <string name="error_video_upload_size">Myndskeiðasskrár verða að vera minni en 40MB.</string>
+    <string name="error_video_upload_size">Myndskeiðaskrár verða að vera minni en 40MB.</string>
     <string name="error_media_upload_type">Þessa tegund skrár er ekki hægt að senda inn.</string>
     <string name="error_media_upload_opening">Ekki var hægt að opna skrána.</string>
     <string name="error_media_upload_permission">Krafist er heimilda til að lesa gögn.</string>
@@ -60,7 +60,7 @@
     <string name="status_content_warning_show_less">Sýna minna</string>
     <string name="status_content_show_more">Fletta út</string>
     <string name="status_content_show_less">Fella saman</string>
-    <string name="message_empty">Ekkert hér</string>
+    <string name="message_empty">Ekkert hér.</string>
     <string name="footer_empty">Ekkert hér. Togaðu niður til að endurhlaða!</string>
     <string name="notification_reblog_format">%s endurbirti tístið þitt</string>
     <string name="notification_favourite_format">%s setti tíst frá þér í eftirlæti</string>
@@ -153,7 +153,7 @@
     <string name="hint_content_warning">Aðvörun vegna efnis</string>
     <string name="hint_display_name">Birtingarnafn</string>
     <string name="hint_note">Æviágrip</string>
-    <string name="hint_search">Leita…</string>
+    <string name="hint_search">Leita...</string>
     <string name="search_no_results">Engar niðurstöður</string>
     <string name="label_quick_reply">Svara…</string>
     <string name="label_avatar">Auðkennismynd</string>
@@ -343,7 +343,7 @@
     <string name="pref_title_absolute_time">Nota algildan tíma</string>
     <string name="label_remote_account">Ekki er víst að upplýsingarnar hér að neðan endurspegli notandasniðið að fullu. Opnaðu fullt notandasnið í vafra.</string>
     <string name="unpin_action">Losa</string>
-    <string name="pin_action">Festa</string>
+    <string name="pin_action">Pin</string>
     <string name="title_reblogged_by">Endurbirt af</string>
     <string name="title_favourited_by">Sett í eftirlæti af</string>
     <string name="conversation_1_recipients">%1$s</string>
@@ -384,20 +384,20 @@
     <string name="poll_ended_voted">Könnun sem þú tókst þátt í er lokið</string>
     <string name="poll_ended_created">Könnuninni þinni er lokið</string>
     <plurals name="poll_timespan_days">
-        <item quantity="one">%d dagur</item>
-        <item quantity="other">%d dagar</item>
+        <item quantity="one"/>
+        <item quantity="other"/>
     </plurals>
     <plurals name="poll_timespan_hours">
-        <item quantity="one">%d klukkustund</item>
-        <item quantity="other">%d klukkustundir</item>
+        <item quantity="one"/>
+        <item quantity="other"/>
     </plurals>
     <plurals name="poll_timespan_minutes">
-        <item quantity="one">%d mínúta</item>
-        <item quantity="other">%d mínútur</item>
+        <item quantity="one"/>
+        <item quantity="other"/>
     </plurals>
     <plurals name="poll_timespan_seconds">
-        <item quantity="one">%d sekúnda</item>
-        <item quantity="other">%d sekúndur</item>
+        <item quantity="one"/>
+        <item quantity="other"/>
     </plurals>
     <string name="button_continue">Halda áfram</string>
     <string name="button_back">Til baka</string>
@@ -432,7 +432,11 @@
     <string name="notification_follow_request_name">Fylgjendabeiðnir</string>
     <string name="hashtags">Myllumerki</string>
     <plurals name="favs">
-        <item quantity="one"><b>%1$s</b> Eftirlæti</item>
-        <item quantity="other"><b>%1$s</b> Eftirlæti</item>
+        <item quantity="one"></item>
+        <item quantity="other"></item>
+    </plurals>
+    <plurals name="reblogs">
+        <item quantity="one"><b>%s</b> Endurbirting</item>
+        <item quantity="other"><b>%s</b> Endurbirtingar</item>
     </plurals>
 </resources>

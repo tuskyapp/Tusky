@@ -52,7 +52,7 @@
     <string name="footer_empty">게시물이 없습니다. 아래로 당겨서 새로고침하세요!</string>
     <string name="notification_reblog_format">%s님이 부스트 했습니다</string>
     <string name="notification_favourite_format">%s님이 즐겨찾기 했습니다</string>
-    <string name="notification_follow_format">%s님이 나를 팔로우 했습니다</string>
+    <string name="notification_follow_format">%s님이 나를 팔로우 했습니다.</string>
     <string name="report_username_format">\@%s 신고</string>
     <string name="report_comment_hint">코멘트</string>
     <string name="action_quick_reply">빠른 답장</string>
@@ -114,7 +114,7 @@
     <string name="action_mentions">멘션</string>
     <string name="action_hashtags">해시태그</string>
     <string name="action_open_reblogger">부스트한 유저의 프로필로 이동</string>
-    <string name="action_open_reblogged_by">이 유저의 부스트 보이기</string>
+    <string name="action_open_reblogged_by">부스트 보이기</string>
     <string name="action_open_faved_by">즐겨찾기한 유저 보이기</string>
     <string name="title_hashtags_dialog">해시태그</string>
     <string name="title_mentions_dialog">멘션</string>
@@ -145,19 +145,14 @@
     <string name="label_avatar">아바타</string>
     <string name="label_header">헤더</string>
     <string name="link_whats_an_instance">인스턴스가 무엇인가요\?</string>
-    <string name="login_connection">연결 중...</string>
-    <string name="dialog_whats_an_instance">인스턴스의 도메인 주소나 IP주소를 입력하실 수 있습니다. pawoo.net, twingyeo.kr, qdon.space 등이 있으며, 그 외에도 &lt;a href=“https://instances.social”&gt;더 많은 인스턴스&lt;/a&gt;가 당신을 기다리고 있습니다! 
+    <string name="login_connection">연결 중…</string>
+    <string name="dialog_whats_an_instance">"인스턴스의 도메인 주소나 IP주소를 입력하실 수 있습니다. mastodon.social, pawoo.net, twingyeo.kr 등이 있으며, 그 외에도 &lt;a href=“https://instances.social”&gt;더 많은 인스턴스&lt;/a&gt;가 당신을 기다리고 있습니다! 
 \n
-\n 
 \n만약 계정이 없으시다면, 인스턴스 주소를 입력하신 후에 계정을 만드실 수 있습니다. 
-\n
 \n 
-\n
 \n여러분이 어느 인스턴스에 가입하시더라도, 다른 인스턴스에 있는 유저들과 문제 없이 소통하실 수 있습니다. 
-\n
 \n 
-\n
-\n자세한 사항은 &lt;a href=“https://joinmastodon.org”&gt;joinmastodon.org&lt;/a&gt;을 참조하세요. <a href="https://instances.social">more!</a> 
+\n자세한 사항은 &lt;a href=“https://joinmastodon.org”&gt;joinmastodon.org\"&lt;/a&gt;을 참조하세요. "<a href="https://instances.social">more!</a> 
 \n
 \nIf you don\'t yet have an account, you can enter the name of the instance you\'d like to join and create an account there.
 \n
@@ -174,7 +169,7 @@
     <string name="mute_domain_warning">정말로 %s 전체를 숨기시겠습니까\? 모든 공개 타임라인과 알림에서 해당 도메인에서 작성된 컨텐츠를 보지 못합니다. 해당 도메인 팔로워와의 관계가 사라집니다.</string>
     <string name="mute_domain_warning_dialog_ok">도메인 전체를 숨기기</string>
     <string name="visibility_public">공개: 공개 타임라인에 표시</string>
-    <string name="visibility_unlisted">"비표시: 공개 타임라인에 표시하지 않음 "</string>
+    <string name="visibility_unlisted">비표시: 공개 타임라인에 표시하지 않음</string>
     <string name="visibility_private">비공개: 팔로워에게만 공개</string>
     <string name="visibility_direct">다이렉트: 멘션한 사용자에게만 공개</string>
     <string name="pref_title_edit_notification_settings">알림</string>
@@ -240,7 +235,7 @@
     <string name="notification_mention_format">%s님이 당신을 멘션했습니다</string>
     <string name="notification_summary_large">%1$s님, %2$s님, %3$s님 외 %4$d명</string>
     <string name="notification_summary_medium">%1$s, %2$s, %3$s</string>
-    <string name="notification_summary_small">%1$s님, %2$s님</string>
+    <string name="notification_summary_small">%1$s와 %2$s</string>
     <string name="notification_title_summary">%d개의 새로운 알림이 있습니다</string>
     <string name="description_account_locked">계정 잠김</string>
     <string name="about_title_activity">이 앱에 관하여</string>
@@ -378,10 +373,10 @@
     <string name="notifications_apply_filter">필터</string>
     <string name="filter_apply">적용</string>
     <string name="compose_shortcut_long_label">툿 작성하기</string>
-    <string name="compose_shortcut_short_label">작성</string>
+    <string name="compose_shortcut_short_label">글쓰기</string>
     <string name="notification_clear_text">모든 알림을 영구적으로 지우시겠습니까\?</string>
     <string name="compose_preview_image_description">이미지 %s에 대한 작업</string>
-    <string name="poll_info_format"> <!-- 15 명 참여 • 1 시간 남음 --> %1$s • %2$s</string>
+    <string name="poll_info_format"><!-- 15 votes • 1 hour left --> %1$s • %2$s</string>
     <plurals name="poll_info_votes">
         <item quantity="other">%s 명 참여</item>
     </plurals>
@@ -434,4 +429,5 @@
     <string name="edit_poll">수정</string>
     <string name="action_edit">수정</string>
     <string name="hashtags">해시태그</string>
+    <string name="notification_follow_request_name">팔로우 요청</string>
 </resources>

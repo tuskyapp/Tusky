@@ -3,7 +3,7 @@
     <string name="error_generic">Ha ocurrido un error.</string>
     <string name="error_network">¡Se ha producido un error de red! ¡Por favor, comprueba tu conexión e inténtalo de nuevo!</string>
     <string name="error_empty">Este campo no puede estar vacío.</string>
-    <string name="error_invalid_domain">Nombre de dominio no válido</string>
+    <string name="error_invalid_domain">Nombre de dominio incorrecto</string>
     <string name="error_failed_app_registration">Fallo de autenticación con esta instancia.</string>
     <string name="error_no_web_browser_found">No se ha encontrado ningún navegador web.</string>
     <string name="error_authorization_unknown">Ocurrió un error de autorización no identificado.</string>
@@ -20,7 +20,7 @@
     <string name="error_media_upload_sending">La subida falló.</string>
     <string name="error_sender_account_gone">Error al publicar.</string>
     <string name="title_home">Inicio</string>
-    <string name="title_notifications">Editar notificaciones</string>
+    <string name="title_notifications">Notificaciones</string>
     <string name="title_public_local">Local</string>
     <string name="title_public_federated">Federada</string>
     <string name="title_direct_messages">Mensajes Directos</string>
@@ -68,7 +68,7 @@
     <string name="action_block">Bloquear</string>
     <string name="action_unblock">Desbloquear</string>
     <string name="action_hide_reblogs">Ocultar impulsos</string>
-    <string name="action_show_reblogs">Mostrar compartidos</string>
+    <string name="action_show_reblogs">Mostrar impulsos</string>
     <string name="action_report">Reportar</string>
     <string name="action_delete">Borrar</string>
     <string name="action_send">Enviar</string>
@@ -148,7 +148,7 @@
     <string name="visibility_private">Privado: Sólo visible para seguidores</string>
     <string name="visibility_direct">Directo: Sólo visible para cuentas mencionadas</string>
     <string name="pref_title_edit_notification_settings">Notificaciones</string>
-    <string name="pref_title_notifications_enabled">Notificaciones</string>
+    <string name="pref_title_notifications_enabled">Editar notificaciones</string>
     <string name="pref_title_notification_alerts">Alertas</string>
     <string name="pref_title_notification_alert_sound">Notificar con sonido</string>
     <string name="pref_title_notification_alert_vibrate">Notificar con vibración</string>
@@ -156,7 +156,7 @@
     <string name="pref_title_notification_filters">Notificar cuando</string>
     <string name="pref_title_notification_filter_mentions">me mencionan</string>
     <string name="pref_title_notification_filter_follows">me siguen</string>
-    <string name="pref_title_notification_filter_reblogs">me comparten</string>
+    <string name="pref_title_notification_filter_reblogs">mis posts son impulsados</string>
     <string name="pref_title_notification_filter_favourites">me dan favorito</string>
     <string name="pref_title_appearance_settings">Apariencia</string>
     <string name="pref_title_app_theme">Tema</string>
@@ -315,7 +315,7 @@
     <string name="download_media">Descargar multimedia</string>
     <string name="app_theme_system">Usar tema del sistema</string>
     <string name="pref_title_language">Idioma</string>
-    <string name="action_unreblog">Eliminar compartido</string>
+    <string name="action_unreblog">Dejar de impulsar</string>
     <string name="action_unfavourite">Eliminar favorito</string>
     <string name="pref_title_timeline_filters">Filtros</string>
     <string name="notification_poll_name">Encuestas</string>
@@ -393,7 +393,7 @@
     <string name="poll_ended_voted">Una encuesta en la que has votado ha terminado</string>
     <string name="poll_ended_created">Una encuesta que has creado ha terminado</string>
     <string name="action_open_reblogger">Abrir autor del impulso</string>
-    <string name="action_open_reblogged_by">Mostrar impulsos</string>
+    <string name="action_open_reblogged_by">Mostrar compartidos</string>
     <string name="title_domain_mutes">Dominios ocultos</string>
     <string name="action_view_domain_mutes">Dominios ocultos</string>
     <string name="action_mute_domain">Silenciar %s</string>
@@ -439,7 +439,7 @@
     <string name="action_reset_schedule">Reiniciar</string>
     <string name="post_lookup_error_format">Error al buscar el post %s</string>
     <string name="about_powered_by_tusky">Potenciado por Tusky</string>
-    <string name="title_bookmarks">Marcadores</string>
+    <string name="title_bookmarks">Favoritos</string>
     <string name="action_bookmark">Marcador</string>
     <string name="action_view_bookmarks">Favoritos</string>
     <string name="description_status_bookmarked">Marcado como favorito</string>
