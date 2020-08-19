@@ -274,4 +274,8 @@
     <string name="action_open_reblogged_by">மேலேற்றத்தை காண்பி</string>
     <string name="edit_poll">திருத்த</string>
     <string name="action_edit">திருத்த</string>
+    <string name="conversation_2_recipients">%1$s மற்றும் %2$s</string>
+    <string name="description_visiblity_private">பின்பற்றுபவர்கள்</string>
+    <string name="description_visiblity_unlisted">பட்டியலிடப்படாதவர்களுக்கு</string>
+    <string name="description_visiblity_public">அனைவருக்கும்</string>
 </resources>

@@ -400,7 +400,7 @@
     <plurals name="poll_timespan_minutes">
         <item quantity="one">%d minuta</item>
         <item quantity="few">%d minut</item>
-        <item quantity="other"></item>
+        <item quantity="other"/>
     </plurals>
     <plurals name="poll_timespan_seconds">
         <item quantity="one"/>
