@@ -330,7 +330,7 @@
     <string name="profile_metadata_label_label">标签</string>
     <string name="profile_metadata_content_label">内容</string>
     <string name="pref_title_absolute_time">嘟文显示精确时间</string>
-    <string name="label_remote_account">以下信息可能并不完整，要查看完整资料请使用浏览器打开</string>
+    <string name="label_remote_account">以下信息可能并不完整，要查看完整资料请使用浏览器打开。</string>
     <string name="unpin_action">取消置顶</string>
     <string name="pin_action">置顶</string>
     <plurals name="favs">
@@ -433,7 +433,7 @@
     <string name="button_continue">继续</string>
     <string name="button_back">返回</string>
     <string name="button_done">完成</string>
-    <string name="report_sent_success">成功回报 @%s</string>
+    <string name="report_sent_success">成功报告 @%s</string>
     <string name="hint_additional_info">附加留言</string>
     <string name="report_remote_instance">转发到 %s</string>
     <string name="failed_report">回报失败</string>
