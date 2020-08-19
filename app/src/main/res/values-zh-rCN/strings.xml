@@ -143,7 +143,7 @@
     <string name="label_header">标题</string>
     <string name="link_whats_an_instance">什么是实例？</string>
     <string name="login_connection">正在连接…</string>
-    <string name="dialog_whats_an_instance">请输入你帐号所在的 Mastodon 站点的域名，比如 pawoo.net，acg.mn，wxw.moe，<a href="https://instances.social">等等</a> 。 
+    <string name="dialog_whats_an_instance">请输入你帐号所在的 Mastodon 站点的域名，比如 mastodon.social，icosahedron.website，social.tchncs.de，<a href="https://instances.social">等等</a> 。 
 \n
 \n还没有 Mastodon 帐号？你也可以输入想注册的 Mastodon 站点的域名，然后在该服务器创建新的帐号并授权 Tusky 登入。 
 \n
