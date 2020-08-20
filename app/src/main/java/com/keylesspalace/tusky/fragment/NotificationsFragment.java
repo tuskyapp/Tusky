@@ -1204,7 +1204,8 @@ public class NotificationsFragment extends SFragment implements
             if (isAdded()) {
                 adapter.notifyItemRangeInserted(position, count);
                 Context context = getContext();
-                if (position == 0 && context != null && adapter.getItemCount() > 0) {
+                // scroll up when new items at the top are loaded while being at the start
+                if (position == 0 && context != null && adapter.getItemCount() != count) {
                     recyclerView.scrollBy(0, Utils.dpToPx(context, -30));
                 }
             }
