@@ -203,8 +203,8 @@ class AccountPreferencesFragment : PreferenceFragmentCompat(), Injectable {
                 preference {
                     setTitle(R.string.pref_title_public_filter_keywords)
                     setOnPreferenceClickListener {
-                        launchFilterActivity(Filter.THREAD,
-                                R.string.pref_title_thread_filter_keywords)
+                        launchFilterActivity(Filter.PUBLIC,
+                                R.string.pref_title_public_filter_keywords)
                         true
                     }
                 }
