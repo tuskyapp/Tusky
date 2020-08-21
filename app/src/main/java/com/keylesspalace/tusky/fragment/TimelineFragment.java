@@ -1405,7 +1405,9 @@ public class TimelineFragment extends SFragment implements
             if (isAdded()) {
                 adapter.notifyItemRangeInserted(position, count);
                 Context context = getContext();
-                if (position == 0 && context != null) {
+                // scroll up when new items at the top are loaded while being in the first position
+                // https://github.com/tuskyapp/Tusky/pull/1905#issuecomment-677819724
+                if (position == 0 && context != null && adapter.getItemCount() != count) {
                     if (isSwipeToRefreshEnabled)
                         recyclerView.scrollBy(0, Utils.dpToPx(context, -30));
                     else
