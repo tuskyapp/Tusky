@@ -1205,6 +1205,7 @@ public class NotificationsFragment extends SFragment implements
                 adapter.notifyItemRangeInserted(position, count);
                 Context context = getContext();
                 // scroll up when new items at the top are loaded while being at the start
+                // https://github.com/tuskyapp/Tusky/pull/1905#issuecomment-677819724
                 if (position == 0 && context != null && adapter.getItemCount() != count) {
                     recyclerView.scrollBy(0, Utils.dpToPx(context, -30));
                 }
