@@ -54,6 +54,6 @@ object PrefKeys {
     const val NOTIFICATION_FILTER_FOLLOW_REQUESTS = "notificationFilterFollowRequests"
     const val NOTIFICATIONS_FILTER_FOLLOWS = "notificationFilterFollows"
 
-    const val TAB_FILTER_HOME_REPLIES = "tabFilterHomeBoosts"
-    const val TAB_FILTER_HOME_BOOSTS = "tabFilterHomeReplies"
+    const val TAB_FILTER_HOME_REPLIES = "tabFilterHomeReplies"
+    const val TAB_FILTER_HOME_BOOSTS = "tabFilterHomeBoosts"
 }
