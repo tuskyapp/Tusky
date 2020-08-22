@@ -2,7 +2,7 @@
 <resources>
     <string name="error_generic">Wystąpił błąd.</string>
     <string name="error_empty">To nie może pozostać puste.</string>
-    <string name="error_invalid_domain">Wprowadzono nieprawidłową domenę.</string>
+    <string name="error_invalid_domain">Wprowadzono nieprawidłową domenę</string>
     <string name="error_failed_app_registration">Nie udało się uwierzytelnić z tą instancją.</string>
     <string name="error_no_web_browser_found">Nie znaleziono przeglądarki internetowej.</string>
     <string name="error_authorization_unknown">Wystąpił nieokreślony błąd podczas próby autoryzacji.</string>
@@ -34,7 +34,7 @@
     <string name="title_saved_toot">Szkice</string>
     <string name="title_licenses">Licencje</string>
     <string name="status_boosted_format">%s podbił</string>
-    <string name="status_sensitive_media_title"><b>Wrażliwe treści</b>\nDotknij, aby wyświetlić</string>
+    <string name="status_sensitive_media_title">Wrażliwe treści</string>
     <string name="status_media_hidden_title">Ukryto zawartość multimedialną</string>
     <string name="status_sensitive_media_directions">Naciśnij, aby wyświetlić</string>
     <string name="status_content_warning_show_more">Pokaż więcej</string>
@@ -114,15 +114,13 @@
     <string name="label_header">Nagłówek</string>
     <string name="link_whats_an_instance">Czym jest instancja?</string>
     <string name="login_connection">Łączenie…</string>
-    <string name="dialog_whats_an_instance">Tutaj można wprowadzić domenę lub adres instancji,
-        np. mastodon.social, icosahedron.website, social.tchncs.de, i
-        <a href="https://instances.social">wiele więcej!</a>
-        \n\nJeżeli nie posiadasz jeszcze konta, wprowadź tu nazwę instancji, na której chcesz się zarejestrować.
-        Instancja jest miejscem, na którym znajduje się twoje konto,
-        lecz komunikując się z innymi serwerami, działa tak,
-        jakby były jednym portalem.
-        Więcej informacji można znaleźć na <a href="https://joinmastodon.org">joinmastodon.org</a>.
-    </string>
+    <string name="dialog_whats_an_instance">Tutaj można wprowadzić domenę lub adres instancji, np. mastodon.social, icosahedron.website, social.tchncs.de, i <a href="https://instances.social">wiele więcej!</a> 
+\n
+\nJeżeli nie posiadasz jeszcze konta, wprowadź tu nazwę instancji, na której chcesz się zarejestrować.
+\n
+\nInstancja jest miejscem, na którym znajduje się twoje konto, lecz komunikując się z innymi serwerami, działa tak, jakby były jednym portalem.
+\n
+\nWięcej informacji można znaleźć na <a href="https://joinmastodon.org">joinmastodon.org</a>. </string>
     <string name="dialog_title_finishing_media_upload">Kończenie wysyłania treści</string>
     <string name="dialog_message_uploading_media">Wysyłanie…</string>
     <string name="dialog_download_image">Pobierz</string>
@@ -265,7 +263,7 @@
     <string name="profile_metadata_add">dodaj dane</string>
     <string name="profile_metadata_label_label">Nazwa</string>
     <string name="profile_metadata_content_label">Zawartość</string>
-    <string name="error_network">Problem z łącznością. Sprawdź swoje połączenie internetowe i spróbuj ponownie.</string>
+    <string name="error_network">Wystąpił problem z łącznością! Sprawdź swoje połączenie internetowe i spróbuj ponownie!</string>
     <string name="error_video_upload_size">Pliki wideo muszą być mniejsze niż 40MB.</string>
     <string name="title_direct_messages">Wiadomości bezpośrednie</string>
     <string name="title_statuses_pinned">Przypięte</string>
@@ -316,7 +314,7 @@
     <string name="notification_poll_name">Ankiety</string>
     <string name="notification_poll_description">Powiadomienia o głosowaniach, które zostały zakończone</string>
     <string name="about_tusky_version">Tusky %s</string>
-    <string name="pref_title_alway_open_spoiler">Nie ukrywaj zawartości multimedialnej oznaczonej jako wrażliwa</string>
+    <string name="pref_title_alway_open_spoiler">Zawsze rozwijaj wpisy z ostrzeżeniami o zawartości</string>
     <string name="pref_title_public_filter_keywords">Publiczne osi czasu</string>
     <string name="pref_title_thread_filter_keywords">Konwersacje</string>
     <string name="filter_addition_dialog_title">Dodaj filtr</string>
@@ -347,10 +345,10 @@
     <string name="unpin_action">Odepnij z profilu</string>
     <string name="pin_action">Przypnij do profilu</string>
     <plurals name="favs">
-        <item quantity="one"/>
-        <item quantity="few"/>
-        <item quantity="many"/>
-        <item quantity="other"/>
+        <item quantity="one"><b>%1$s</b> polubienie</item>
+        <item quantity="few"><b>%1$s</b> polubienia</item>
+        <item quantity="many"><b>%1$s</b> polubień</item>
+        <item quantity="other"><b>%1$s</b> polubień</item>
     </plurals>
     <plurals name="reblogs">
         <item quantity="one">&lt;b&gt;%s&lt;/b&gt; podbicie</item>
@@ -385,9 +383,9 @@
     <string name="poll_info_format"> <!-- 15 votes • 1 hour left --> %1$s • %2$s</string>
     <plurals name="poll_info_votes">
         <item quantity="one">%s głos</item>
-        <item quantity="few">%s głos</item>
-        <item quantity="many">%s głos</item>
-        <item quantity="other">%s głos</item>
+        <item quantity="few">%s głosy</item>
+        <item quantity="many">%s głosów</item>
+        <item quantity="other">%s głosów</item>
     </plurals>
     <string name="poll_info_time_relative">Zostało %s</string>
     <string name="poll_info_time_absolute">kończy się %s</string>
@@ -403,15 +401,15 @@
     </plurals>
     <plurals name="poll_timespan_hours">
         <item quantity="one">%d godzina</item>
-        <item quantity="few"></item>
-        <item quantity="many"></item>
-        <item quantity="other"></item>
+        <item quantity="few">%d godziny</item>
+        <item quantity="many">%d godzin</item>
+        <item quantity="other">%d godzin</item>
     </plurals>
     <plurals name="poll_timespan_minutes">
         <item quantity="one">%d minuta</item>
         <item quantity="few">%d minuty</item>
-        <item quantity="many">%d minuty</item>
-        <item quantity="other">%d minuty</item>
+        <item quantity="many">%d minut</item>
+        <item quantity="other">%d minut</item>
     </plurals>
     <plurals name="poll_timespan_seconds">
         <item quantity="one">%d sekunda</item>
@@ -475,4 +473,13 @@
         <item quantity="other">%s osób</item>
     </plurals>
     <string name="hashtags">Hashtagi</string>
+    <string name="pref_title_show_cards_in_timelines">Pokazuj podglądy linków na osiach czasu</string>
+    <string name="pref_title_gradient_for_media">Pokazuj kolorowe gradienty dla ukrytej zawartości multimedialnej</string>
+    <string name="dialog_mute_hide_notifications">Ukryj powiadomienia</string>
+    <string name="action_unmute_domain">Cofnij wyciszenie %s</string>
+    <string name="action_mute_notifications_desc">Wycisz powiadomienia od %s</string>
+    <string name="action_unmute_desc">Cofnij wyciszenie %s</string>
+    <string name="pref_title_hide_top_toolbar">Ukryj tytuł górnego paska narzędzi</string>
+    <string name="pref_main_nav_position_option_bottom">Dół</string>
+    <string name="pref_main_nav_position_option_top">Góra</string>
 </resources>
