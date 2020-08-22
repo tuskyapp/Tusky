@@ -373,8 +373,8 @@
     <string name="action_delete_and_redraft">Effacer et ré-écrire</string>
     <string name="dialog_redraft_toot_warning">Effacer et ré-écrire ce pouet \?</string>
     <plurals name="poll_info_votes">
-        <item quantity="one">%s vote</item>
-        <item quantity="other">%s votes</item>
+        <item quantity="one"/>
+        <item quantity="other"/>
     </plurals>
     <string name="poll_info_time_relative">%s restant</string>
     <string name="poll_info_time_absolute">Termina à %s</string>
@@ -385,12 +385,12 @@
     <string name="notification_poll_description">Notifications pour les sondages terminés</string>
     <string name="poll_ended_created">Un sondage que vous avez créé est terminé</string>
     <plurals name="poll_timespan_days">
-        <item quantity="one">%s jour</item>
-        <item quantity="other">%s jours</item>
+        <item quantity="one">%d jour</item>
+        <item quantity="other">%d jours</item>
     </plurals>
     <plurals name="poll_timespan_hours">
-        <item quantity="one">%s heure</item>
-        <item quantity="other">%s heures</item>
+        <item quantity="one">%d heure</item>
+        <item quantity="other">%d heures</item>
     </plurals>
     <plurals name="poll_timespan_minutes">
         <item quantity="one">%d minute</item>
@@ -464,8 +464,8 @@
     <string name="pref_title_show_cards_in_timelines">Afficher des aperçus des liens dans les fils</string>
     <string name="notification_follow_request_format">%s a demandé à vous suivre</string>
     <plurals name="poll_info_people">
-        <item quantity="one">%s personne</item>
-        <item quantity="other">%s personnes</item>
+        <item quantity="one"/>
+        <item quantity="other"/>
     </plurals>
     <string name="notification_follow_request_description">Notifications à propos des demandes d’abonnement</string>
     <string name="pref_title_notification_filter_follow_requests">Demande d’abonnement</string>

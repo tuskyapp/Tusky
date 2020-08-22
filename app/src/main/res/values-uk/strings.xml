@@ -45,8 +45,8 @@
     <string name="hint_search">Пошук…</string>
     <string name="hint_note">Про себе</string>
     <string name="hint_compose">Що відбувається\?</string>
-    <string name="status_sent">Надіслано!</string>
-    <string name="confirmation_reported">Надіслати!</string>
+    <string name="status_sent">Надіслати!</string>
+    <string name="confirmation_reported">Надіслано!</string>
     <string name="action_share_as">Поділитися як …</string>
     <string name="action_open_as">Відкрити як %s</string>
     <string name="action_copy_link">Копіювати посилання</string>
@@ -62,7 +62,7 @@
     <string name="action_reject">Відмовити</string>
     <string name="action_accept">Прийняти</string>
     <string name="action_undo">Скасувати</string>
-    <string name="action_edit_own_profile">Редагувати</string>
+    <string name="action_edit_own_profile">Змінити</string>
     <string name="action_save">Зберегти</string>
     <string name="action_mention">Згадати</string>
     <string name="action_mute_domain">Заглушити %s</string>
@@ -110,4 +110,10 @@
     <string name="compose_shortcut_short_label">Написати</string>
     <string name="action_unmute_conversation">Скасувати приглушення бесіди</string>
     <string name="action_mute_conversation">Приглушити бесіду</string>
+    <string name="title_scheduled_toot">Заплановані пости</string>
+    <string name="description_visiblity_private">Підписники</string>
+    <string name="action_compose_shortcut">Написати</string>
+    <string name="title_media">Медіа</string>
+    <string name="pref_title_notifications_enabled">Сповіщення</string>
+    <string name="pref_title_edit_notification_settings">Сповіщення</string>
 </resources>

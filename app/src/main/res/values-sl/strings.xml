@@ -441,4 +441,6 @@
         <item quantity="few"/>
         <item quantity="other"/>
     </plurals>
+    <string name="hashtags">Ključniki</string>
+    <string name="notification_follow_request_name">Zahteve za Sledenje</string>
 </resources>

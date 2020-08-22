@@ -377,16 +377,16 @@
     <string name="poll_ended_voted">Un sondatge ont avètz votat es acabat</string>
     <string name="poll_ended_created">Un sondatge qu’avètz creat es acabat</string>
     <plurals name="poll_timespan_days">
-        <item quantity="one"/>
-        <item quantity="other"/>
+        <item quantity="one">%d jorn</item>
+        <item quantity="other">%d jorns</item>
     </plurals>
     <plurals name="poll_timespan_hours">
-        <item quantity="one"/>
-        <item quantity="other"/>
+        <item quantity="one">%d ora</item>
+        <item quantity="other">%d oras</item>
     </plurals>
     <plurals name="poll_timespan_minutes">
-        <item quantity="one"/>
-        <item quantity="other"/>
+        <item quantity="one">%d minuta</item>
+        <item quantity="other">%d minutas</item>
     </plurals>
     <plurals name="poll_timespan_seconds">
         <item quantity="one"/>

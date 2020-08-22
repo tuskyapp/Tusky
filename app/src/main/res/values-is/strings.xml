@@ -432,8 +432,8 @@
     <string name="notification_follow_request_name">Fylgjendabeiðnir</string>
     <string name="hashtags">Myllumerki</string>
     <plurals name="favs">
-        <item quantity="one"></item>
-        <item quantity="other"></item>
+        <item quantity="one"><b>%1$s</b> Eftirlæti</item>
+        <item quantity="other"><b>%1$s</b> Eftirlæti</item>
     </plurals>
     <plurals name="reblogs">
         <item quantity="one"><b>%s</b> Endurbirting</item>

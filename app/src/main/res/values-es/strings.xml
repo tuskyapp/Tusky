@@ -347,8 +347,8 @@
     </plurals>
     <string name="poll_info_format"> <!-- 15 votos • queda 1 hora --> %1$s • %2$s</string>
     <plurals name="poll_info_votes">
-        <item quantity="one"/>
-        <item quantity="other"/>
+        <item quantity="one">%s voto</item>
+        <item quantity="other">%s votos</item>
     </plurals>
     <string name="poll_info_closed">cerrada</string>
     <string name="action_delete_and_redraft">Eliminar y editar</string>
@@ -439,9 +439,9 @@
     <string name="action_reset_schedule">Reiniciar</string>
     <string name="post_lookup_error_format">Error al buscar el post %s</string>
     <string name="about_powered_by_tusky">Potenciado por Tusky</string>
-    <string name="title_bookmarks">Favoritos</string>
+    <string name="title_bookmarks">Marcadores</string>
     <string name="action_bookmark">Marcador</string>
-    <string name="action_view_bookmarks">Favoritos</string>
+    <string name="action_view_bookmarks">Marcadores</string>
     <string name="description_status_bookmarked">Marcado como favorito</string>
     <string name="select_list_title">Seleccionar lista</string>
     <string name="list">Lista</string>
