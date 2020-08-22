@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="error_generic">应用程序出现异常</string>
-    <string name="error_network">网络请求出错，请检查互联网连接并重试</string>
-    <string name="error_empty">内容不能为空</string>
+    <string name="error_generic">应用程序出现异常。</string>
+    <string name="error_network">网络请求出错，请检查互联网连接并重试！</string>
+    <string name="error_empty">内容不能为空。</string>
     <string name="error_invalid_domain">该域名无效</string>
     <string name="error_failed_app_registration">无法连接此服务器。</string>
     <string name="error_no_web_browser_found">没有可用的浏览器。</string>
@@ -30,7 +30,7 @@
     <string name="title_statuses_with_replies">嘟文和回复</string>
     <string name="title_statuses_pinned">已置顶</string>
     <string name="title_follows">正在关注</string>
-    <string name="title_followers">仅关注者</string>
+    <string name="title_followers">关注者</string>
     <string name="title_favourites">收藏</string>
     <string name="title_mutes">被隐藏的用户</string>
     <string name="title_blocks">被屏蔽的用户</string>
@@ -47,7 +47,7 @@
     <string name="status_content_warning_show_less">折叠内容</string>
     <string name="status_content_show_more">展开</string>
     <string name="status_content_show_less">折叠</string>
-    <string name="message_empty">还没有内容</string>
+    <string name="message_empty">还没有内容。</string>
     <string name="footer_empty">还没有内容，向下拉动即可刷新！</string>
     <string name="notification_reblog_format">%s 转嘟了你的嘟文</string>
     <string name="notification_favourite_format">%s 收藏了你的嘟文</string>
@@ -71,7 +71,7 @@
     <string name="action_unblock">取消屏蔽</string>
     <string name="action_hide_reblogs">隐藏转嘟</string>
     <string name="action_show_reblogs">显示转嘟</string>
-    <string name="action_report">报告</string>
+    <string name="action_report">举报</string>
     <string name="action_delete">删除</string>
     <string name="action_delete_and_redraft">删除并重新编辑</string>
     <string name="action_send">嘟嘟</string>
@@ -104,7 +104,7 @@
     <string name="action_search">搜索</string>
     <string name="action_access_saved_toot">草稿</string>
     <string name="action_toggle_visibility">设置嘟文可见范围</string>
-    <string name="action_content_warning">设置内容提醒信息</string>
+    <string name="action_content_warning">设置内容提醒</string>
     <string name="action_emoji_keyboard">插入表情符号</string>
     <string name="action_add_tab">添加标签页</string>
     <string name="action_links">链接</string>
@@ -131,7 +131,7 @@
     <string name="confirmation_unmuted">已取消隐藏</string>
     <string name="status_sent">已发送！</string>
     <string name="status_sent_long">成功发送回复。</string>
-    <string name="hint_domain">域名\?</string>
+    <string name="hint_domain">域名</string>
     <string name="hint_compose">有什么新鲜事？</string>
     <string name="hint_content_warning">内容提醒</string>
     <string name="hint_display_name">昵称</string>
@@ -415,7 +415,7 @@
     <string name="action_view_domain_mutes">隐藏域名</string>
     <string name="action_add_poll">新增意见调查</string>
     <string name="action_access_scheduled_toot">定时嘟文</string>
-    <string name="action_schedule_toot">定时嘟文</string>
+    <string name="action_schedule_toot">预订嘟文</string>
     <string name="confirmation_domain_unmuted">%s 已解除静音</string>
     <string name="mute_domain_warning_dialog_ok">隐藏整个域</string>
     <string name="pref_title_animate_gif_avatars">动画GIF头像</string>
@@ -455,7 +455,7 @@
     <string name="edit_poll">编辑</string>
     <string name="post_lookup_error_format">查找帖子时出错 %s</string>
     <string name="no_saved_status">您没有草稿。</string>
-    <string name="no_scheduled_status">您没有任何预定状态。</string>
+    <string name="no_scheduled_status">您没有任何定时嘟文。</string>
     <string name="warning_scheduling_interval">Mastodon的最小预订时间为5分钟。</string>
     <string name="notification_follow_request_name">关注请求</string>
     <string name="hashtags">话题</string>
@@ -476,7 +476,7 @@
     <string name="dialog_mute_hide_notifications">隐藏通知</string>
     <string name="dialog_mute_warning">确定隐藏 @%s？</string>
     <string name="dialog_block_warning">确定屏蔽 @%s？</string>
-    <string name="mute_domain_warning">确定要完全屏蔽 %s 吗？您将不能在公共时间轴和通知内看见来自此域名的内容。您在此域名上的关注者将会被移除。</string>
+    <string name="mute_domain_warning">确定要完全屏蔽 %s 吗？您将不能在公共时间轴和通知内看见来自此域名的内容，且您在此域名上的关注者将会被移除。</string>
     <string name="action_unmute_conversation">取消隐藏本会话的通知</string>
     <string name="action_mute_conversation">隐藏本会话的通知</string>
     <string name="action_unmute_domain">取消隐藏 %s</string>
