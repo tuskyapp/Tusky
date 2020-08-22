@@ -5,4 +5,4 @@ Tusky v10.0
 - Ara podeu afegir llistes a la pantalla principal.
 - Ja podeu publicar fitxers adjunts d'àudio amb Tusky.
 
-I moltes altres petites millores i solucions d’errors.
+I moltes altres petites millores i solucions d’errors!
