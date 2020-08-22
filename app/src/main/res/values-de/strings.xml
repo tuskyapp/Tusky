@@ -20,7 +20,7 @@
     <string name="error_media_upload_sending">Die Mediendatei konnte nicht hochgeladen werden.</string>
     <string name="error_sender_account_gone">Fehler beim Senden des Status</string>
     <string name="title_home">Start</string>
-    <string name="title_notifications">Benachrichtigungseinstellungen</string>
+    <string name="title_notifications">Benachrichtigungen</string>
     <string name="title_public_local">Lokal</string>
     <string name="title_public_federated">Föderiert</string>
     <string name="title_direct_messages">Direktnachrichten</string>

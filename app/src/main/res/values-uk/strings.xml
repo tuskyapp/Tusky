@@ -45,7 +45,7 @@
     <string name="hint_search">Пошук…</string>
     <string name="hint_note">Про себе</string>
     <string name="hint_compose">Що відбувається\?</string>
-    <string name="status_sent">Надіслати!</string>
+    <string name="status_sent">Надіслано!</string>
     <string name="confirmation_reported">Надіслано!</string>
     <string name="action_share_as">Поділитися як …</string>
     <string name="action_open_as">Відкрити як %s</string>
