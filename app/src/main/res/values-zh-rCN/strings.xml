@@ -462,10 +462,6 @@
     <string name="pref_title_confirm_reblogs">转嘟前提示确认</string>
     <string name="pref_title_show_cards_in_timelines">在时间轴上显示链接预览</string>
     <string name="pref_title_enable_swipe_for_tabs">滑动切换标签页</string>
-    <plurals name="poll_info_people">
-        <item quantity="one">%s 个人</item>
-        <item quantity="other"/>
-    </plurals>
     <string name="compose_preview_image_description">处理图片 %s</string>
     <string name="add_hashtag_title">添加话题名</string>
     <string name="notification_follow_request_description">关注请求的通知</string>

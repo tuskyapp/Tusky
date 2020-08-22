@@ -42,7 +42,6 @@
     <string name="action_show_reblogs">Seall boosts</string>
     <string name="action_block">Caisg</string>
     <string name="action_compose">Dèan-sgrìobhaiche</string>
-    <string name="action_logout_confirm">Tuilleadh</string>
     <string name="action_content_warning">Rabhadh susbaint</string>
     <string name="action_compose_shortcut">Dèan-sgrìobhaiche</string>
     <string name="compose_shortcut_short_label">Dèan-sgrìobhaiche</string>

@@ -450,16 +450,6 @@
         <item quantity="other">%s Personen</item>
     </plurals>
     <string name="pref_title_gradient_for_media">Farbverlauf für versteckte Medien anzeigen</string>
-    <string name="abbreviated_seconds_ago">%dS</string>
-    <string name="abbreviated_hours_ago">%dS</string>
-    <string name="abbreviated_years_ago">%dJ</string>
-    <string name="abbreviated_in_days">in %d T.</string>
-    <string name="abbreviated_in_years">in %d J.</string>
-    <string name="abbreviated_minutes_ago">%d Min.</string>
-    <string name="abbreviated_days_ago">%d T.</string>
-    <string name="abbreviated_in_seconds">in %d Sek.</string>
-    <string name="abbreviated_in_minutes">in %d Min.</string>
-    <string name="abbreviated_in_hours">in %d St.</string>
     <string name="pref_main_nav_position_option_bottom">Unten</string>
     <string name="pref_main_nav_position_option_top">Oben</string>
     <string name="action_unmute_domain">Ton einschalten %s</string>

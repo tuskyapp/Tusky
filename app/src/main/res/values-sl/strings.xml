@@ -49,7 +49,7 @@
     <string name="notification_reblog_format">% je spodbudil tvoj tut</string>
     <string name="notification_favourite_format">% je vzljubil vaš tut</string>
     <string name="notification_follow_format">% vam sledi</string>
-    <string name="report_username_format">Prijavi @%</string>
+    <string name="report_username_format">Prijavi @%s</string>
     <string name="report_comment_hint">Dodatni komentarji\?</string>
     <string name="action_quick_reply">Hiter odgovor</string>
     <string name="action_reply">Odgovori</string>
@@ -435,12 +435,6 @@
     <string name="post_lookup_error_format">Napaka pri iskanju objave %s</string>
     <string name="about_powered_by_tusky">Poganja ga Tusky</string>
     <string name="status_boosted_format">%s spodbudil</string>
-    <plurals name="favs">
-        <item quantity="one"/>
-        <item quantity="two"/>
-        <item quantity="few"/>
-        <item quantity="other"/>
-    </plurals>
     <string name="hashtags">Ključniki</string>
     <string name="notification_follow_request_name">Zahteve za Sledenje</string>
 </resources>

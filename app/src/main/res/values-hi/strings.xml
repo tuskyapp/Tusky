@@ -207,14 +207,6 @@
     <string name="poll_duration_1_hour">1 घंटा</string>
     <string name="poll_duration_30_min">30 मिनिट</string>
     <string name="poll_duration_5_min">5 मिनट</string>
-    <plurals name="poll_timespan_seconds">
-        <item quantity="one"/>
-        <item quantity="other"/>
-    </plurals>
-    <plurals name="poll_timespan_minutes">
-        <item quantity="one"/>
-        <item quantity="other"/>
-    </plurals>
     <plurals name="poll_timespan_hours">
         <item quantity="one">%d घंटा</item>
         <item quantity="other">%d घंटे</item>
@@ -296,10 +288,6 @@
     <plurals name="reblogs">
         <item quantity="one"><b>%s</b> ने बढ़ावा दिया</item>
         <item quantity="other"><b>%s</b> ने बढ़ावा दिया</item>
-    </plurals>
-    <plurals name="favs">
-        <item quantity="one"/>
-        <item quantity="other"/>
     </plurals>
     <string name="pin_action">पिन</string>
     <string name="unpin_action">अनपिन</string>
