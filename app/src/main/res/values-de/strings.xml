@@ -351,8 +351,8 @@
     <string name="notification_clear_text">Bist du dir sicher, dass du alle deine Benachrichtigungen dauerhaft löschen möchtest\?</string>
     <string name="poll_info_format">" %1$s • %2$s"</string>
     <plurals name="poll_info_votes">
-        <item quantity="one"></item>
-        <item quantity="other"></item>
+        <item quantity="one">%s Stimme</item>
+        <item quantity="other">%s Stimmen</item>
     </plurals>
     <string name="poll_info_time_relative">%s verbleibend</string>
     <string name="poll_info_time_absolute">endet um %s</string>
@@ -369,12 +369,12 @@
         <item quantity="other">%d Stunden</item>
     </plurals>
     <plurals name="poll_timespan_minutes">
-        <item quantity="one"></item>
-        <item quantity="other"></item>
+        <item quantity="one">%d Minute</item>
+        <item quantity="other">%d Minuten</item>
     </plurals>
     <plurals name="poll_timespan_seconds">
-        <item quantity="one"></item>
-        <item quantity="other"></item>
+        <item quantity="one">%d Sekunde</item>
+        <item quantity="other">%d Sekunden</item>
     </plurals>
     <string name="title_domain_mutes">Versteckte Domains</string>
     <string name="action_view_domain_mutes">Versteckte Domains</string>
