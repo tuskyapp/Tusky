@@ -49,4 +49,6 @@
     <string name="pref_title_show_boosts">Seall boosts</string>
     <string name="action_open_reblogged_by">Seall boosts</string>
     <string name="action_access_saved_toot">Dreachdan</string>
+    <string name="action_view_favourites">Prìomhaich</string>
+    <string name="pref_title_notifications_enabled">Fiosan</string>
 </resources>

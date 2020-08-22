@@ -347,8 +347,8 @@
     </plurals>
     <string name="poll_info_format"> <!-- 15 votos • queda 1 hora --> %1$s • %2$s</string>
     <plurals name="poll_info_votes">
-        <item quantity="one"/>
-        <item quantity="other"/>
+        <item quantity="one">%s voto</item>
+        <item quantity="other">%s votos</item>
     </plurals>
     <string name="poll_info_closed">cerrada</string>
     <string name="action_delete_and_redraft">Eliminar y editar</string>

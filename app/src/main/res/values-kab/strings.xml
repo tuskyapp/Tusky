@@ -274,4 +274,5 @@
     <string name="title_scheduled_toot">Tijewwiqin yettwasɣawsen</string>
     <string name="pref_title_show_boosts">Sken-d beṭuyat</string>
     <string name="hashtags">Ihacṭagen</string>
+    <string name="notification_follow_request_name">Isuturen n teḍfeṛt</string>
 </resources>

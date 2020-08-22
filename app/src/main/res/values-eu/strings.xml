@@ -400,8 +400,8 @@
         <item quantity="other">%d ordu</item>
     </plurals>
     <plurals name="poll_timespan_minutes">
-        <item quantity="one"/>
-        <item quantity="other"/>
+        <item quantity="one">Minutu %d</item>
+        <item quantity="other">%d minutu</item>
     </plurals>
     <plurals name="poll_timespan_seconds">
         <item quantity="one">Segundu %d</item>

@@ -20,7 +20,7 @@
     <string name="error_media_upload_sending">媒體檔案上傳失敗</string>
     <string name="error_sender_account_gone">嘟文發送時出錯</string>
     <string name="title_home">主頁</string>
-    <string name="title_notifications">通知設定</string>
+    <string name="title_notifications">通知</string>
     <string name="title_public_local">本站時間軸</string>
     <string name="title_public_federated">跨站公開時間軸</string>
     <string name="title_direct_messages">私信</string>
@@ -126,7 +126,7 @@
     <string name="send_status_link_to">分享連結到…</string>
     <string name="send_status_content_to">分享嘟文到…</string>
     <string name="send_media_to">分享媒體到…</string>
-    <string name="confirmation_reported">已檢舉！</string>
+    <string name="confirmation_reported">已發送！</string>
     <string name="confirmation_unblocked">已解除封鎖</string>
     <string name="confirmation_unmuted">已解除靜音</string>
     <string name="status_sent">已發送！</string>
@@ -156,7 +156,7 @@
     <string name="visibility_private">僅關注者：只有經過你確認後關注你的使用者可見</string>
     <string name="visibility_direct">私信：只有被提及的使用者可見</string>
     <string name="pref_title_edit_notification_settings">通知設定</string>
-    <string name="pref_title_notifications_enabled">通知</string>
+    <string name="pref_title_notifications_enabled">通知設定</string>
     <string name="pref_title_notification_alerts">提醒</string>
     <string name="pref_title_notification_alert_sound">通知鈴聲</string>
     <string name="pref_title_notification_alert_vibrate">振動</string>
@@ -292,7 +292,7 @@
     <string name="send_toot_notification_channel_name">嘟文發送中</string>
     <string name="send_toot_notification_cancel_title">發送已被取消</string>
     <string name="send_toot_notification_saved_content">嘟文已儲存為草稿</string>
-    <string name="action_compose_shortcut">新嘟文</string>
+    <string name="action_compose_shortcut">撰寫嘟文</string>
     <string name="error_no_custom_emojis">當前站點 %s 沒有自訂表情符號</string>
     <string name="copy_to_clipboard_success">已複製到剪貼簿</string>
     <string name="emoji_style">表情符號風格</string>
@@ -425,4 +425,5 @@
     <string name="pref_title_show_notifications_filter">顯示通知過濾器</string>
     <string name="hashtags">話題</string>
     <string name="notification_follow_request_name">關注請求</string>
+    <string name="edit_poll">編輯</string>
 </resources>

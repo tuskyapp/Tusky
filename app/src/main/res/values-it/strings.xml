@@ -368,8 +368,8 @@
     <string name="action_delete_and_redraft">Cancella e riscrivi</string>
     <string name="dialog_redraft_toot_warning">Cancellare e riscrivere questo toot\?</string>
     <plurals name="poll_info_votes">
-        <item quantity="one"/>
-        <item quantity="other"/>
+        <item quantity="one">%s voto</item>
+        <item quantity="other">%s voti</item>
     </plurals>
     <string name="poll_info_time_relative">%s rimasti</string>
     <string name="poll_info_time_absolute">termina alle %s</string>
@@ -464,4 +464,5 @@
     <string name="notification_follow_request_format">%s ha chiesto di seguirti</string>
     <string name="error_audio_upload_size">La dimensione dei file audio deve essere inferiore a 40 MB.</string>
     <string name="action_unmute_desc">Smetti di silenziare %s</string>
+    <string name="notification_follow_request_name">Richieste di seguirti</string>
 </resources>

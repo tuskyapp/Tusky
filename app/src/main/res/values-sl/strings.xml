@@ -436,9 +436,10 @@
     <string name="about_powered_by_tusky">Poganja ga Tusky</string>
     <string name="status_boosted_format">%s spodbudil</string>
     <plurals name="favs">
-        <item quantity="one"/>
-        <item quantity="two"/>
-        <item quantity="few"/>
-        <item quantity="other"/>
+        <item quantity="one"></item>
+        <item quantity="two"></item>
+        <item quantity="few"></item>
+        <item quantity="other"></item>
     </plurals>
+    <string name="hashtags">Ključniki</string>
 </resources>
