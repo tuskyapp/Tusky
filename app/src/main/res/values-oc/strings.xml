@@ -381,8 +381,8 @@
         <item quantity="other">%d jorns</item>
     </plurals>
     <plurals name="poll_timespan_hours">
-        <item quantity="one"/>
-        <item quantity="other"/>
+        <item quantity="one">%d ora</item>
+        <item quantity="other">%d oras</item>
     </plurals>
     <plurals name="poll_timespan_minutes">
         <item quantity="one">%d minuta</item>

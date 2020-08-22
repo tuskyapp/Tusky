@@ -436,10 +436,11 @@
     <string name="about_powered_by_tusky">Poganja ga Tusky</string>
     <string name="status_boosted_format">%s spodbudil</string>
     <plurals name="favs">
-        <item quantity="one"></item>
-        <item quantity="two"></item>
-        <item quantity="few"></item>
-        <item quantity="other"></item>
+        <item quantity="one"/>
+        <item quantity="two"/>
+        <item quantity="few"/>
+        <item quantity="other"/>
     </plurals>
     <string name="hashtags">Ključniki</string>
+    <string name="notification_follow_request_name">Zahteve za Sledenje</string>
 </resources>
