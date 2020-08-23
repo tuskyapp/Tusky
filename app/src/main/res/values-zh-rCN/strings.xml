@@ -322,7 +322,7 @@
         <item quantity="other">&lt;b&gt;%1$s&lt;/b&gt; 次喜欢</item>
     </plurals>
     <plurals name="reblogs">
-        <item quantity="other">&lt;b&gt;%1$s&lt;/b&gt; 次转嘟</item>
+        <item quantity="other"><b>%1$s</b> 次转嘟</item>
     </plurals>
     <string name="title_reblogged_by">转嘟</string>
     <string name="title_favourited_by">喜欢</string>
