@@ -9,4 +9,4 @@ Tusky, ücretsiz ve açık kaynaklı bir sosyal ağ sunucusu olan Mastodon için
 • Tüm ekran boyutları için optimize edilmiş arayüz
 • Tamamen açık kaynak - Google hizmet servisi gibi özgür olmayan bağımlılıklar yok
 
-Mastodon hakkında daha fazla bilgi edinmek için https://joinmastodon.org/ adresini ziyaret edin
+Mastodon hakkında daha fazla bilgi edinmek için https://joinmastodon.org/ adresini ziyaret edin.
