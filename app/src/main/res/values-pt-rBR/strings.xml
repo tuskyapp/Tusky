@@ -135,7 +135,7 @@
     <string name="dialog_title_finishing_media_upload">Envio de mídia terminando</string>
     <string name="dialog_message_uploading_media">Enviando…</string>
     <string name="dialog_download_image">Baixar</string>
-    <string name="dialog_message_cancel_follow_request">Cancelar solicitação para seguir\?</string>
+    <string name="dialog_message_cancel_follow_request">Cancelar solicitação para seguir?</string>
     <string name="dialog_unfollow_warning">Deixar de seguir esta conta?</string>
     <string name="dialog_delete_post_warning">Excluir este toot?</string>
     <string name="visibility_public">Público: Postar em linhas públicas</string>
@@ -353,7 +353,7 @@
     <string name="compose_shortcut_long_label">Compor toot</string>
     <string name="compose_shortcut_short_label">Compor</string>
     <string name="pref_title_bot_overlay">Mostrar indicador de robôs</string>
-    <string name="notification_clear_text">Tem certeza de que deseja limpar permanentemente todas as suas notificações\?</string>
+    <string name="notification_clear_text">Tem certeza de que deseja limpar permanentemente todas as suas notificações?</string>
     <string name="compose_preview_image_description">Opções para imagem %1$s</string>
     <string name="poll_info_format"> <!-- 15 votos • 1 hora restante --> %1$s • %2$s</string>
     <plurals name="poll_info_votes">
@@ -398,12 +398,12 @@
     <string name="failed_report">Erro ao denunciar</string>
     <string name="failed_fetch_posts">Erro ao carregar toots</string>
     <string name="report_description_1">A denúncia será enviada aos moderadores da instância. Explique por que denunciou a conta:</string>
-    <string name="report_description_remote_instance">A conta está em outra instância. Enviar uma cópia anônima da denúncia para lá\?</string>
+    <string name="report_description_remote_instance">A conta está em outra instância. Enviar uma cópia anônima da denúncia para lá?</string>
     <string name="title_domain_mutes">Instâncias bloqueadas</string>
     <string name="action_view_domain_mutes">Instâncias bloqueadas</string>
     <string name="action_mute_domain">Bloquear %1$s</string>
     <string name="confirmation_domain_unmuted">%1$s desbloqueada</string>
-    <string name="mute_domain_warning">Tem certeza de que deseja bloquear tudo de %1$s\? Você não verá mais o conteúdo desta instância em nenhuma linha do tempo pública ou nas suas notificações. Seus seguidores desta instância serão removidos.</string>
+    <string name="mute_domain_warning">Tem certeza de que deseja bloquear tudo de %1$s? Você não verá mais o conteúdo desta instância em nenhuma linha do tempo pública ou nas suas notificações. Seus seguidores desta instância serão removidos.</string>
     <string name="mute_domain_warning_dialog_ok">Bloquear instância</string>
     <string name="filter_dialog_whole_word">Toda palavra</string>
     <string name="filter_dialog_whole_word_description">Se for apenas alfanumérico, só se aplicará se combinar com a palavra inteira</string>
@@ -443,8 +443,8 @@
     <string name="notification_follow_request_format">%1$s quer te seguir</string>
     <string name="action_mute_conversation">Silenciar conversa</string>
     <string name="action_unmute_conversation">Dessilenciar conversa</string>
-    <string name="dialog_block_warning">Bloquear @%1$s\?</string>
-    <string name="dialog_mute_warning">Silenciar @%1$s\?</string>
+    <string name="dialog_block_warning">Bloquear @%1$s?</string>
+    <string name="dialog_mute_warning">Silenciar @%1$s?</string>
     <string name="notification_follow_request_description">Notificações sobre seguidores pendentes</string>
     <plurals name="poll_info_people">
         <item quantity="one">%1$s pessoa</item>
@@ -502,7 +502,7 @@
     <string name="pref_title_animate_custom_emojis">Animar emojis personalizados</string>
     <string name="dialog_delete_conversation_warning">Excluir esta conversa\?</string>
     <string name="action_delete_conversation">Excluir conversa</string>
-    <string name="dialog_delete_list_warning">Deseja excluir a lista %1$s\?</string>
+    <string name="dialog_delete_list_warning">Deseja excluir a lista %1$s?</string>
     <string name="action_unbookmark">Remover do Salvos</string>
     <string name="pref_title_confirm_favourites">Solicitar confirmação antes de favoritar</string>
     <string name="duration_30_days">30 dias</string>
