@@ -1,30 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:parentTag="androidx.cardview.widget.CardView"
+    tools:layout_height="wrap_content"
     tools:layout_width="match_parent"
-    tools:layout_height="wrap_content">
+    tools:parentTag="com.google.android.material.card.MaterialCardView">
 
     <LinearLayout
-        android:padding="8dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?attr/selectableItemBackgroundBorderless"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:padding="8dp">
+
         <TextView
             android:id="@+id/licenseCardName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="sans-serif-medium"/>
+            android:fontFamily="sans-serif-medium"
+            android:textColor="?android:attr/textColorSecondary" />
+
         <TextView
             android:id="@+id/licenseCardLicense"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:textColor="?android:attr/textColorTertiary" />
+
         <TextView
             android:id="@+id/licenseCardLink"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/tusky_blue"/>
+            android:textColor="@color/tusky_blue" />
     </LinearLayout>
 
 </merge>
