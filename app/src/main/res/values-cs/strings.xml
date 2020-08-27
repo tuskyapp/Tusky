@@ -332,7 +332,7 @@
     <plurals name="favs">
         <item quantity="one"><b>%1$s</b> oblíbení</item>
         <item quantity="few"><b>%1$s</b> oblíbení</item>
-        <item quantity="other"></item>
+        <item quantity="other"/>
     </plurals>
     <plurals name="reblogs">
         <item quantity="one"><b>%s</b> boost</item>
@@ -393,9 +393,9 @@
         <item quantity="other">%d dní</item>
     </plurals>
     <plurals name="poll_timespan_hours">
-        <item quantity="one">%d hodina</item>
-        <item quantity="few">%d hodiny</item>
-        <item quantity="other">%d hodin</item>
+        <item quantity="one"></item>
+        <item quantity="few"></item>
+        <item quantity="other"></item>
     </plurals>
     <plurals name="poll_timespan_minutes">
         <item quantity="one">%d minuta</item>
@@ -482,9 +482,9 @@
     <string name="action_unmute_desc">Odkrýt %s</string>
     <string name="dialog_mute_warning">Ztišit @%s\?</string>
     <plurals name="poll_info_people">
-        <item quantity="one"></item>
-        <item quantity="few"></item>
-        <item quantity="other"></item>
+        <item quantity="one"/>
+        <item quantity="few"/>
+        <item quantity="other"/>
     </plurals>
     <string name="notification_follow_request_format">%s požádal/a aby vás mohl/a sledovat</string>
     <string name="pref_title_confirm_reblogs">Zobrazit dialogové okno s potvrzením při boostování</string>

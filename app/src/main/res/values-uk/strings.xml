@@ -45,7 +45,7 @@
     <string name="hint_search">Пошук…</string>
     <string name="hint_note">Про себе</string>
     <string name="hint_compose">Що відбувається\?</string>
-    <string name="status_sent">Надіслано!</string>
+    <string name="status_sent">Надіслати!</string>
     <string name="confirmation_reported">Надіслано!</string>
     <string name="action_share_as">Поділитися як …</string>
     <string name="action_open_as">Відкрити як %s</string>
@@ -116,4 +116,7 @@
     <string name="title_media">Медіа</string>
     <string name="pref_title_notifications_enabled">Сповіщення</string>
     <string name="pref_title_edit_notification_settings">Сповіщення</string>
+    <string name="title_blocks">Заблоковані користувачі</string>
+    <string name="notification_favourite_name">Вподобане</string>
+    <string name="notification_follow_request_name">Запити на підписку</string>
 </resources>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="error_generic">Ein Fehler ist aufgetreten.</string>
-    <string name="error_network">Ein Netzwerkfehler ist aufgetreten! Bitte überprüfen deine Internetverbindung und versuche es erneut!</string>
+    <string name="error_network">Ein Netzwerkfehler ist aufgetreten! Bitte überprüfen Sie Ihre Internetverbindung und versuchen Sie es erneut!</string>
     <string name="error_empty">Dies darf nicht leer sein.</string>
     <string name="error_invalid_domain">Ungültige Domain angegeben</string>
     <string name="error_failed_app_registration">Authentifizieren mit dieser Instanz fehlgeschlagen.</string>
@@ -36,7 +36,7 @@
     <string name="title_blocks">Blockierte Profile</string>
     <string name="title_follow_requests">Folgeanfragen</string>
     <string name="title_edit_profile">Dein Profil bearbeiten</string>
-    <string name="title_saved_toot">Gespeicherte Beiträge</string>
+    <string name="title_saved_toot">Entwürfe</string>
     <string name="title_licenses">Lizenzen</string>
     <string name="status_username_format">\@%s</string>
     <string name="status_boosted_format">%s teilte</string>
@@ -123,7 +123,7 @@
     <string name="send_status_content_to">Beitragsinhalt teilen…</string>
     <string name="send_media_to">Mediendatei teilen…</string>
     <string name="confirmation_reported">Gesendet!</string>
-    <string name="confirmation_unblocked">Entblockt</string>
+    <string name="confirmation_unblocked">entblockt</string>
     <string name="confirmation_unmuted">Stummschaltung aufgehoben</string>
     <string name="status_sent">Gesendet!</string>
     <string name="status_sent_long">Antwort erfolgreich gesendet.</string>
@@ -158,7 +158,7 @@
     <string name="visibility_unlisted">Ungelistet: Nicht in der öffentlichen Timeline sichtbar</string>
     <string name="visibility_private">Nur Folgende: Nur für Folgende sichtbar</string>
     <string name="visibility_direct">Direkt: Nur für Erwähnte sichtbar</string>
-    <string name="pref_title_edit_notification_settings">Benachrichtigungseinstellungen</string>
+    <string name="pref_title_edit_notification_settings">Benachrichtigungen</string>
     <string name="pref_title_notifications_enabled">Benachrichtigungen</string>
     <string name="pref_title_notification_alerts">Benachrichtigungen</string>
     <string name="pref_title_notification_alert_sound">Benachrichtige mit Sound</string>
@@ -359,7 +359,7 @@
     <string name="poll_info_closed">Geschlossen</string>
     <string name="poll_vote">Abstimmen</string>
     <string name="poll_ended_voted">Eine Umfrage in der du abgestimmt hast ist vorbei</string>
-    <string name="poll_ended_created">Eine Umfrage, die du erstellt hast, ist vorbei</string>
+    <string name="poll_ended_created">Eine Umfrage die du erstellt hast ist vorbei</string>
     <plurals name="poll_timespan_days">
         <item quantity="one">%d Tag</item>
         <item quantity="other">%d Tage</item>
@@ -462,7 +462,7 @@
     <string name="action_mute_notifications_desc">Benachrichtigungen stummschalten von %s</string>
     <string name="action_unmute_notifications_desc">Benachrichtigungs-Ton einschalten von %s</string>
     <string name="action_unmute_desc">%s nicht mehr verstecken</string>
-    <string name="abbreviated_seconds_ago">%dS</string>
+    <string name="abbreviated_seconds_ago">%d Sek.</string>
     <string name="abbreviated_hours_ago">%d St.</string>
     <string name="abbreviated_in_days">in %d T.</string>
     <string name="abbreviated_years_ago">%d J.</string>

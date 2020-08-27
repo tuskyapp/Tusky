@@ -401,7 +401,11 @@
         <item quantity="other"><b>%1$s</b> ने पसंद किया</item>
     </plurals>
     <plurals name="poll_timespan_minutes">
-        <item quantity="one">%d मिनट</item>
-        <item quantity="other">%d मिनट</item>
+        <item quantity="one"></item>
+        <item quantity="other"></item>
+    </plurals>
+    <plurals name="poll_timespan_seconds">
+        <item quantity="one">%d सेकेंड</item>
+        <item quantity="other">%d सेकेंड</item>
     </plurals>
 </resources>

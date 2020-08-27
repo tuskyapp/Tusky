@@ -30,7 +30,7 @@
     <string name="title_statuses_with_replies">嘟文和回覆</string>
     <string name="title_statuses_pinned">已置頂</string>
     <string name="title_follows">正在關注</string>
-    <string name="title_followers">僅關注者</string>
+    <string name="title_followers">關注者</string>
     <string name="title_favourites">我的收藏</string>
     <string name="title_mutes">被靜音的使用者</string>
     <string name="title_blocks">被封鎖的使用者</string>
@@ -61,7 +61,7 @@
     <string name="action_favourite">收藏</string>
     <string name="action_unfavourite">取消收藏</string>
     <string name="action_more">更多</string>
-    <string name="action_compose">發表新嘟文</string>
+    <string name="action_compose">新嘟文</string>
     <string name="action_login">登入 Mastodon 帳號</string>
     <string name="action_logout">登出</string>
     <string name="action_logout_confirm">確定要登出 %1$s 嗎？</string>
@@ -129,7 +129,7 @@
     <string name="confirmation_reported">已發送！</string>
     <string name="confirmation_unblocked">已解除封鎖</string>
     <string name="confirmation_unmuted">已解除靜音</string>
-    <string name="status_sent">已發送！</string>
+    <string name="status_sent">已檢舉！</string>
     <string name="status_sent_long">成功送出回覆</string>
     <string name="hint_domain">域名</string>
     <string name="hint_compose">有什麼新鮮事？</string>
@@ -359,7 +359,7 @@
     <string name="description_visiblity_unlisted">
         不公開
     </string>
-    <string name="description_visiblity_private">僅關注者</string>
+    <string name="description_visiblity_private">關注者</string>
     <string name="description_visiblity_direct">
         私信
     </string>
@@ -369,7 +369,7 @@
     <string name="notifications_apply_filter">分類</string>
     <string name="filter_apply">應用</string>
     <string name="compose_shortcut_long_label">發表新嘟文</string>
-    <string name="compose_shortcut_short_label">新嘟文</string>
+    <string name="compose_shortcut_short_label">發表新嘟文</string>
     <string name="pref_title_bot_overlay">顯示機器人標誌</string>
     <string name="notification_clear_text">你確定要永久清空通知列表嗎？</string>
     <string name="poll_info_format">
@@ -400,4 +400,5 @@
     <string name="notification_follow_request_name">關注請求</string>
     <string name="hashtags">話題</string>
     <string name="edit_poll">編輯</string>
+    <string name="action_edit">編輯</string>
 </resources>

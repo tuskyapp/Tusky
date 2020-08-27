@@ -29,12 +29,12 @@
     <string name="action_send_public">TÚT!</string>
     <string name="action_emoji_keyboard">Meur-chlàr emoji</string>
     <string name="action_unfollow">Sguir a leantainn</string>
-    <string name="action_follow">Leantainn</string>
+    <string name="action_follow">Lean</string>
     <string name="action_more">Tuilleadh</string>
     <string name="action_retry">Ath-ghairm</string>
     <string name="action_close">Dùin</string>
     <string name="action_send">TÙT</string>
-    <string name="action_delete">Sguab às</string>
+    <string name="action_delete">Cuir às</string>
     <string name="action_delete_and_redraft">Cuir às agus ath-sgrìobhadh</string>
     <string name="action_report">Thoir cunntas air</string>
     <string name="action_unblock">Dì-bhac</string>
@@ -50,4 +50,6 @@
     <string name="action_access_saved_toot">Dreachdan</string>
     <string name="action_view_favourites">Prìomhaich</string>
     <string name="pref_title_notifications_enabled">Fiosan</string>
+    <string name="title_notifications">Fiosan</string>
+    <string name="notification_favourite_name">Prìomhaich</string>
 </resources>

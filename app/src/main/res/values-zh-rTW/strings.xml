@@ -30,7 +30,7 @@
     <string name="title_statuses_with_replies">嘟文和回覆</string>
     <string name="title_statuses_pinned">已置頂</string>
     <string name="title_follows">正在關注</string>
-    <string name="title_followers">僅關注者</string>
+    <string name="title_followers">關注者</string>
     <string name="title_favourites">我的收藏</string>
     <string name="title_mutes">被靜音的使用者</string>
     <string name="title_blocks">被封鎖的使用者</string>
@@ -143,7 +143,7 @@
     <string name="label_header">標題</string>
     <string name="link_whats_an_instance">什麼是站點？</string>
     <string name="login_connection">正在連線…</string>
-    <string name="dialog_whats_an_instance">"請輸入你帳號所在的 Mastodon 站點的域名或地址 "</string>
+    <string name="dialog_whats_an_instance">請輸入你帳號所在的 Mastodon 站點的域名或地址</string>
     <string name="dialog_title_finishing_media_upload">正在完成上傳…</string>
     <string name="dialog_message_uploading_media">正在上傳…</string>
     <string name="dialog_download_image">下載</string>
@@ -156,7 +156,7 @@
     <string name="visibility_private">僅關注者：只有經過你確認後關注你的使用者可見</string>
     <string name="visibility_direct">私信：只有被提及的使用者可見</string>
     <string name="pref_title_edit_notification_settings">通知設定</string>
-    <string name="pref_title_notifications_enabled">通知設定</string>
+    <string name="pref_title_notifications_enabled">通知</string>
     <string name="pref_title_notification_alerts">提醒</string>
     <string name="pref_title_notification_alert_sound">通知鈴聲</string>
     <string name="pref_title_notification_alert_vibrate">振動</string>
@@ -292,7 +292,7 @@
     <string name="send_toot_notification_channel_name">嘟文發送中</string>
     <string name="send_toot_notification_cancel_title">發送已被取消</string>
     <string name="send_toot_notification_saved_content">嘟文已儲存為草稿</string>
-    <string name="action_compose_shortcut">撰寫嘟文</string>
+    <string name="action_compose_shortcut">發表新嘟文</string>
     <string name="error_no_custom_emojis">當前站點 %s 沒有自訂表情符號</string>
     <string name="copy_to_clipboard_success">已複製到剪貼簿</string>
     <string name="emoji_style">表情符號風格</string>
@@ -407,7 +407,7 @@
     <string name="mute_domain_warning_dialog_ok">隱藏整個域名</string>
     <string name="pref_title_animate_gif_avatars">GIF 動畫大頭貼</string>
     <string name="about_tusky_version">Tusky %s</string>
-    <string name="filter_dialog_whole_word">整個文字</string>
+    <string name="filter_dialog_whole_word">整個單詞</string>
     <string name="filter_dialog_whole_word_description">如果關鍵字或短語僅為字母或數字，則只有在匹配整個單詞時才會應用</string>
     <string name="caption_notoemoji">Google 正在使用的 Emoji 符號集</string>
     <string name="description_poll">使用以下選項創建投票：%1$s, %2$s, %3$s, %4$s; %5$s</string>
@@ -426,4 +426,5 @@
     <string name="hashtags">話題</string>
     <string name="notification_follow_request_name">關注請求</string>
     <string name="edit_poll">編輯</string>
+    <string name="action_edit">編輯</string>
 </resources>

@@ -396,14 +396,14 @@
     <plurals name="poll_timespan_days">
         <item quantity="one">%d dzień</item>
         <item quantity="few">%d dni</item>
-        <item quantity="many">%d dni</item>
-        <item quantity="other">%d dni</item>
+        <item quantity="many"></item>
+        <item quantity="other"></item>
     </plurals>
     <plurals name="poll_timespan_hours">
         <item quantity="one">%d godzina</item>
-        <item quantity="few">%d godziny</item>
-        <item quantity="many">%d godzin</item>
-        <item quantity="other">%d godzin</item>
+        <item quantity="few">%d godzin</item>
+        <item quantity="many"></item>
+        <item quantity="other"></item>
     </plurals>
     <plurals name="poll_timespan_minutes">
         <item quantity="one">%d minuta</item>
