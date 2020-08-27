@@ -87,7 +87,7 @@
     <string name="action_view_follow_requests">关注请求</string>
     <string name="action_view_media">媒体</string>
     <string name="action_open_in_web">在浏览器中打开</string>
-    <string name="action_add_media">从相册中选择</string>
+    <string name="action_add_media">添加媒体</string>
     <string name="action_photo_take">拍照</string>
     <string name="action_share">分享</string>
     <string name="action_mute">隐藏</string>
@@ -164,7 +164,7 @@
     <string name="pref_title_edit_notification_settings">通知</string>
     <string name="pref_title_notifications_enabled">通知</string>
     <string name="pref_title_notification_alerts">提醒</string>
-    <string name="pref_title_notification_alert_sound">通知铃声</string>
+    <string name="pref_title_notification_alert_sound">铃声</string>
     <string name="pref_title_notification_alert_vibrate">振动</string>
     <string name="pref_title_notification_alert_light">呼吸灯</string>
     <string name="pref_title_notification_filters">事件</string>
@@ -177,9 +177,9 @@
     <string name="pref_title_app_theme">应用主题</string>
     <string name="pref_title_timelines">时间轴</string>
     <string name="pref_title_timeline_filters">过滤器</string>
-    <string name="app_them_dark">黑夜</string>
-    <string name="app_theme_light">白天</string>
-    <string name="app_theme_black">暗色</string>
+    <string name="app_them_dark">暗色</string>
+    <string name="app_theme_light">亮色</string>
+    <string name="app_theme_black">黑色</string>
     <string name="app_theme_auto">自动切换</string>
     <string name="app_theme_system">跟随系统设定</string>
     <string name="pref_title_browser_settings">浏览器</string>
@@ -220,8 +220,8 @@
     <string name="notification_poll_name">投票</string>
     <string name="notification_poll_description">当我参与的投票结束时</string>
     <string name="notification_mention_format">%s 提及了你</string>
-    <string name="notification_summary_large">%1$s, %2$s, %3$s 和 %4$d 人</string>
-    <string name="notification_summary_medium">%1$s, %2$s, 和 %3$s</string>
+    <string name="notification_summary_large">%1$s，%2$s，%3$s 和 %4$d 等人</string>
+    <string name="notification_summary_medium">%1$s，%2$s 和 %3$s</string>
     <string name="notification_summary_small">%1$s 和 %2$s</string>
     <string name="notification_title_summary">%d 个新互动</string>
     <string name="description_account_locked">锁嘟用户</string>
@@ -245,7 +245,7 @@
     <string name="about_tusky_account">Tusky 官方帐号</string>
     <string name="status_share_content">分享嘟文内容</string>
     <string name="status_share_link">分享嘟文链接</string>
-    <string name="status_media_images">照片</string>
+    <string name="status_media_images">图片</string>
     <string name="status_media_video">视频</string>
     <string name="state_follow_requested">已发送关注请求</string>
     <!--These are for timestamps on statuses. For example: "16s" or "2d"-->
@@ -288,7 +288,8 @@
     <string name="action_remove_from_list">从列表中移除用户</string>
     <string name="compose_active_account_description">以 %1$s 发布嘟文</string>
     <string name="error_failed_set_caption">设置图片标题失败</string>
-    <string name="hint_describe_for_visually_impaired">为视觉障碍用户提供的描述\n(限制 %d 字)</string>
+    <string name="hint_describe_for_visually_impaired">为视觉障碍用户提供的描述
+\n（限制 %d 字）</string>
     <string name="action_set_caption">设置图片标题</string>
     <string name="action_remove">移除</string>
     <string name="lock_account_label">保护你的帐户（锁嘟）</string>
@@ -297,9 +298,9 @@
     <string name="send_toot_notification_title">正在发送…</string>
     <string name="send_toot_notification_error_title">发送失败</string>
     <string name="send_toot_notification_channel_name">嘟文发送中</string>
-    <string name="send_toot_notification_cancel_title">发送已被取消</string>
+    <string name="send_toot_notification_cancel_title">已取消发送</string>
     <string name="send_toot_notification_saved_content">嘟文已保存为草稿</string>
-    <string name="action_compose_shortcut">发表新嘟文</string>
+    <string name="action_compose_shortcut">发表嘟文</string>
     <string name="error_no_custom_emojis">当前实例 %s 没有自定义表情符号</string>
     <string name="copy_to_clipboard_success">已复制到剪贴板</string>
     <string name="emoji_style">表情符号风格</string>
@@ -343,14 +344,10 @@
     <string name="title_favourited_by">收藏</string>
     <string name="conversation_1_recipients">%1$s</string>
     <string name="conversation_2_recipients">%1$s 和 %2$s</string>
-    <string name="conversation_more_recipients">%1$s, %2$s 和 %3$d 等人</string>
+    <string name="conversation_more_recipients">%1$s，%2$s 和 %3$d 等人</string>
     <string name="max_tab_number_reached">标签页不能超过 %1$d 个</string>
-    <string name="description_status_media">
-        媒体: %s
-    </string>
-    <string name="description_status_cw">
-        内容提醒: %s
-    </string>
+    <string name="description_status_media">媒体：%s</string>
+    <string name="description_status_cw">内容提醒：%s</string>
     <string name="description_status_media_no_description_placeholder">
         没有媒体描述信息
     </string>
@@ -366,7 +363,7 @@
     <string name="description_visiblity_unlisted">
         不公开
     </string>
-    <string name="description_visiblity_private">关注者</string>
+    <string name="description_visiblity_private">仅关注者</string>
     <string name="description_visiblity_direct">
         私信
     </string>
@@ -375,8 +372,8 @@
     <string name="notifications_clear">清空</string>
     <string name="notifications_apply_filter">分类</string>
     <string name="filter_apply">应用</string>
-    <string name="compose_shortcut_long_label">发表新嘟文</string>
-    <string name="compose_shortcut_short_label">发表新嘟文</string>
+    <string name="compose_shortcut_long_label">发表嘟文</string>
+    <string name="compose_shortcut_short_label">发表嘟文</string>
     <string name="pref_title_bot_overlay">显示机器人标志</string>
     <string name="notification_clear_text">你确定要永久清空通知列表吗？</string>
     <string name="poll_info_format">
@@ -407,27 +404,27 @@
     <string name="action_reset_schedule">重置</string>
     <string name="error_audio_upload_size">音频文件大小必须小于40M。</string>
     <string name="title_bookmarks">书签</string>
-    <string name="title_domain_mutes">隐藏域名</string>
+    <string name="title_domain_mutes">隐藏的域名</string>
     <string name="title_scheduled_toot">定时嘟文</string>
     <string name="action_bookmark">书签</string>
     <string name="action_edit">编辑</string>
     <string name="action_view_bookmarks">书签</string>
-    <string name="action_view_domain_mutes">隐藏域名</string>
+    <string name="action_view_domain_mutes">隐藏的域名</string>
     <string name="action_add_poll">新增投票</string>
     <string name="action_access_scheduled_toot">定时嘟文</string>
     <string name="action_schedule_toot">预订嘟文</string>
-    <string name="confirmation_domain_unmuted">%s 已解除静音</string>
-    <string name="mute_domain_warning_dialog_ok">隐藏整个域</string>
+    <string name="confirmation_domain_unmuted">%s 已取消隐藏</string>
+    <string name="mute_domain_warning_dialog_ok">隐藏来自该域名的所有嘟文</string>
     <string name="pref_title_animate_gif_avatars">动画GIF头像</string>
     <string name="about_powered_by_tusky">由Tusky提供支持</string>
     <string name="pref_title_alway_open_spoiler">始终扩展标有内容警告的嘟文</string>
     <string name="filter_dialog_whole_word">整个单词</string>
     <string name="filter_dialog_whole_word_description">如果关键字或缩写只有字母或数字，则只有在匹配整个单词时才会应用</string>
-    <string name="caption_notoemoji">Google正在使用的Emoji符号集</string>
-    <string name="description_status_bookmarked">已收藏</string>
-    <string name="description_poll">使用以下选项创建投票：%1$s, %2$s, %3$s, %4$s; %5$s</string>
-    <string name="select_list_title">选择清单</string>
-    <string name="list">清单</string>
+    <string name="caption_notoemoji">Google正在使用的表情符号</string>
+    <string name="description_status_bookmarked">被加入书签</string>
+    <string name="description_poll">使用以下选项创建投票：%1$s，%2$s，%3$s，%4$s；%5$s</string>
+    <string name="select_list_title">选择列表</string>
+    <string name="list">列表</string>
     <string name="button_continue">继续</string>
     <string name="button_back">返回</string>
     <string name="button_done">完成</string>
@@ -439,7 +436,7 @@
     <string name="report_description_1">该报告将发送给给您的服务器管理员。您可以在下面提供有关回报此帐户的原因的说明：</string>
     <string name="report_description_remote_instance">该帐户来自其他服务器。向那里发送一份匿名的报告副本？</string>
     <string name="title_accounts">账户</string>
-    <string name="failed_search">搜寻失败</string>
+    <string name="failed_search">搜索失败</string>
     <string name="pref_title_show_notifications_filter">显示通知过滤器</string>
     <string name="create_poll_title">投票</string>
     <string name="poll_duration_5_min">5 分钟</string>
@@ -450,10 +447,10 @@
     <string name="poll_duration_3_days">3 天</string>
     <string name="poll_duration_7_days">7 天</string>
     <string name="add_poll_choice">添加选择</string>
-    <string name="poll_allow_multiple_choices">多个选择</string>
+    <string name="poll_allow_multiple_choices">多项选择</string>
     <string name="poll_new_choice_hint">选择 %d</string>
     <string name="edit_poll">编辑</string>
-    <string name="post_lookup_error_format">查找帖子时出错 %s</string>
+    <string name="post_lookup_error_format">查找嘟文时出错 %s</string>
     <string name="no_saved_status">您没有草稿。</string>
     <string name="no_scheduled_status">您没有任何定时嘟文。</string>
     <string name="warning_scheduling_interval">Mastodon的最小预订时间为5分钟。</string>
@@ -473,16 +470,16 @@
     <string name="dialog_mute_warning">确定隐藏 @%s？</string>
     <string name="dialog_block_warning">确定屏蔽 @%s？</string>
     <string name="mute_domain_warning">确定要完全屏蔽 %s 吗？您将不能在公共时间轴和通知内看见来自此域名的内容，且您在此域名上的关注者将会被移除。</string>
-    <string name="action_unmute_conversation">取消隐藏本会话的通知</string>
-    <string name="action_mute_conversation">隐藏本会话的通知</string>
+    <string name="action_unmute_conversation">取消隐藏会话</string>
+    <string name="action_mute_conversation">隐藏会话</string>
     <string name="action_unmute_domain">取消隐藏 %s</string>
     <string name="action_mute_domain">隐藏 %s</string>
     <string name="action_mute_notifications_desc">隐藏来自 %s 的通知</string>
     <string name="action_unmute_notifications_desc">取消隐藏来自 %s 的通知</string>
     <string name="action_unmute_desc">取消隐藏 %s</string>
     <string name="notification_follow_request_format">%s 请求关注你</string>
-    <string name="pref_main_nav_position">主导航位置</string>
-    <string name="pref_title_hide_top_toolbar">隐藏顶部工具栏的标题</string>
+    <string name="pref_main_nav_position">导航栏位置</string>
+    <string name="pref_title_hide_top_toolbar">隐藏顶部工具栏标题</string>
     <plurals name="poll_info_people">
         <item quantity="one">%s 人</item>
         <item quantity="other"></item>
