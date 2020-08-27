@@ -381,8 +381,8 @@
         <item quantity="other">%d jorns</item>
     </plurals>
     <plurals name="poll_timespan_hours">
-        <item quantity="one"></item>
-        <item quantity="other"></item>
+        <item quantity="one"/>
+        <item quantity="other"/>
     </plurals>
     <plurals name="poll_timespan_minutes">
         <item quantity="one">%d minuta</item>
@@ -450,4 +450,8 @@
     <string name="warning_scheduling_interval">L’interval minimum de planificacion sus Mastodon e de 5 minutas.</string>
     <string name="notification_follow_request_name">Demandas d’abonament</string>
     <string name="hashtags">Etiquetas</string>
+    <string name="action_mute_notifications_desc">Desactivar las notificacions per %s</string>
+    <string name="action_unmute_notifications_desc">Activar las notificacions per %s</string>
+    <string name="action_unmute_desc">Amagar pas mai a %s</string>
+    <string name="notification_follow_request_format">%s a demandat a vos seguir</string>
 </resources>
