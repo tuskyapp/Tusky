@@ -330,8 +330,8 @@
     <string name="pref_title_bot_overlay">Mostrar indicador de bots</string>
     <string name="poll_vote">Votar</string>
     <plurals name="poll_timespan_days">
-        <item quantity="one"/>
-        <item quantity="other"/>
+        <item quantity="one">%d día</item>
+        <item quantity="other">%d días</item>
     </plurals>
     <plurals name="poll_timespan_hours">
         <item quantity="one"/>
@@ -439,7 +439,7 @@
     <string name="action_reset_schedule">Reiniciar</string>
     <string name="post_lookup_error_format">Error al buscar el post %s</string>
     <string name="about_powered_by_tusky">Potenciado por Tusky</string>
-    <string name="title_bookmarks">Marcadores</string>
+    <string name="title_bookmarks">Favoritos</string>
     <string name="action_bookmark">Marcador</string>
     <string name="action_view_bookmarks">Marcadores</string>
     <string name="description_status_bookmarked">Marcado como favorito</string>

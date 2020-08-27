@@ -81,7 +81,7 @@
     <string name="action_view_profile">个人资料</string>
     <string name="action_view_preferences">设置</string>
     <string name="action_view_account_preferences">帐户设置</string>
-    <string name="action_view_favourites">我的收藏</string>
+    <string name="action_view_favourites">收藏</string>
     <string name="action_view_mutes">被隐藏的用户</string>
     <string name="action_view_blocks">被屏蔽的用户</string>
     <string name="action_view_follow_requests">关注请求</string>
@@ -215,7 +215,7 @@
     <string name="notification_follow_description">当有用户关注我时</string>
     <string name="notification_boost_name">转嘟</string>
     <string name="notification_boost_description">当有用户转嘟了我的嘟文时</string>
-    <string name="notification_favourite_name">我的收藏</string>
+    <string name="notification_favourite_name">收藏</string>
     <string name="notification_favourite_description">当有用户收藏了我的嘟文时</string>
     <string name="notification_poll_name">投票</string>
     <string name="notification_poll_description">当我参与的投票结束时</string>
@@ -413,7 +413,7 @@
     <string name="action_edit">编辑</string>
     <string name="action_view_bookmarks">书签</string>
     <string name="action_view_domain_mutes">隐藏域名</string>
-    <string name="action_add_poll">新增意见调查</string>
+    <string name="action_add_poll">新增投票</string>
     <string name="action_access_scheduled_toot">定时嘟文</string>
     <string name="action_schedule_toot">预订嘟文</string>
     <string name="confirmation_domain_unmuted">%s 已解除静音</string>
@@ -483,4 +483,8 @@
     <string name="notification_follow_request_format">%s 请求关注你</string>
     <string name="pref_main_nav_position">主导航位置</string>
     <string name="pref_title_hide_top_toolbar">隐藏顶部工具栏的标题</string>
+    <plurals name="poll_info_people">
+        <item quantity="one">%s 人</item>
+        <item quantity="other"></item>
+    </plurals>
 </resources>

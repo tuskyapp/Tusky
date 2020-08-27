@@ -464,4 +464,8 @@
     <string name="action_mute_notifications_desc">خموشی آگاهی‌ها از %s</string>
     <string name="action_unmute_notifications_desc">ناخموشی آگاهی‌ها از %s</string>
     <string name="action_unmute_desc">ناخموشی %s</string>
+    <plurals name="poll_info_votes">
+        <item quantity="one">%s رای</item>
+        <item quantity="other"></item>
+    </plurals>
 </resources>

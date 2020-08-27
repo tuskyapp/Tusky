@@ -476,4 +476,8 @@
     <string name="action_mute_notifications_desc">Silencier les notifications de %s</string>
     <string name="action_unmute_notifications_desc">Ne plus silencier les notifications de %s</string>
     <string name="action_unmute_desc">Ne plus masquer %s</string>
+    <plurals name="poll_info_people">
+        <item quantity="one">%s personne</item>
+        <item quantity="other">%s personnes</item>
+    </plurals>
 </resources>

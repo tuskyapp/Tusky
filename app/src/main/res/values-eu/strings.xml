@@ -383,8 +383,8 @@
     <string name="compose_preview_image_description">%s irudiarentzako ekintzak</string>
     <string name="poll_info_format"> <!-- 15 boto • Ordu 1 geratzen da --> %1$s • %2$s</string>
     <plurals name="poll_info_votes">
-        <item quantity="one"/>
-        <item quantity="other"/>
+        <item quantity="one">Boto %s</item>
+        <item quantity="other">%s Boto</item>
     </plurals>
     <string name="poll_info_time_absolute">%s amaitzen da</string>
     <string name="poll_info_closed">Itxita</string>
@@ -400,8 +400,8 @@
         <item quantity="other">%d ordu</item>
     </plurals>
     <plurals name="poll_timespan_minutes">
-        <item quantity="one">Minutu %d</item>
-        <item quantity="other">%d minutu</item>
+        <item quantity="one"/>
+        <item quantity="other"/>
     </plurals>
     <plurals name="poll_timespan_seconds">
         <item quantity="one">Segundu %d</item>
@@ -456,7 +456,7 @@
     <string name="dialog_mute_hide_notifications">Ez erakutsi jakinarazpenak</string>
     <string name="action_unmute_desc">Desmututu %s</string>
     <plurals name="poll_info_people">
-        <item quantity="one">Pertsona %s</item>
-        <item quantity="other">%s pertsona</item>
+        <item quantity="one"/>
+        <item quantity="other"/>
     </plurals>
 </resources>

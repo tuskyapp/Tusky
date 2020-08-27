@@ -330,12 +330,12 @@
     <string name="pref_title_absolute_time">Utilitzar el temps absolut</string>
     <string name="label_remote_account">La informació de sota pot mostrar el perfil incomplert de l\'usuari. Clica per obrir el perfil complert al navegador.</string>
     <plurals name="favs">
-        <item quantity="one"></item>
-        <item quantity="other"></item>
+        <item quantity="one"><b>%1$s</b> Favorit</item>
+        <item quantity="other"><b>%1$s</b> Favorits</item>
     </plurals>
     <plurals name="reblogs">
-        <item quantity="one"></item>
-        <item quantity="other"></item>
+        <item quantity="one"/>
+        <item quantity="other"/>
     </plurals>
     <string name="title_reblogged_by">Impulsat per</string>
     <string name="title_favourited_by">Marcat favorit per</string>
