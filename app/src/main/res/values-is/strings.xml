@@ -153,7 +153,7 @@
     <string name="hint_content_warning">Aðvörun vegna efnis</string>
     <string name="hint_display_name">Birtingarnafn</string>
     <string name="hint_note">Æviágrip</string>
-    <string name="hint_search">Leita...</string>
+    <string name="hint_search">Leita…</string>
     <string name="search_no_results">Engar niðurstöður</string>
     <string name="label_quick_reply">Svara…</string>
     <string name="label_avatar">Auðkennismynd</string>
@@ -422,5 +422,21 @@
     <plurals name="reblogs">
         <item quantity="one"><b>%s</b> Endurbirting</item>
         <item quantity="other"><b>%s</b> Endurbirtingar</item>
+    </plurals>
+    <plurals name="poll_timespan_seconds">
+        <item quantity="one">%d sekúnda</item>
+        <item quantity="other">%d sekúndur</item>
+    </plurals>
+    <plurals name="poll_timespan_minutes">
+        <item quantity="one">%d mínúta</item>
+        <item quantity="other">%d mínútur</item>
+    </plurals>
+    <plurals name="poll_timespan_hours">
+        <item quantity="one">%d klukkustund</item>
+        <item quantity="other">%d klukkustundir</item>
+    </plurals>
+    <plurals name="poll_timespan_days">
+        <item quantity="one">%d dagur</item>
+        <item quantity="other">%d dagar</item>
     </plurals>
 </resources>
