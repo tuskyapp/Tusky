@@ -332,8 +332,8 @@
         <item quantity="other"><b>3%1$s</b>4 Favorits</item>
     </plurals>
     <plurals name="reblogs">
-        <item quantity="one"/>
-        <item quantity="other"/>
+        <item quantity="one"><b>%s</b> partatge</item>
+        <item quantity="other"><b>%s</b> partatges</item>
     </plurals>
     <string name="title_reblogged_by">Partejat per</string>
     <string name="title_favourited_by">Aimat per</string>
@@ -363,8 +363,8 @@
     <string name="pref_title_bot_overlay">Mostrar coma indicator pels robòts</string>
     <string name="notification_clear_text">Netejar totas las notificacions d’un biais permanent \?</string>
     <plurals name="poll_info_votes">
-        <item quantity="one"/>
-        <item quantity="other"/>
+        <item quantity="one">%s vòte</item>
+        <item quantity="other">%s votes</item>
     </plurals>
     <string name="poll_info_time_relative">%s restant</string>
     <string name="poll_info_time_absolute">S’acaba a %s</string>
@@ -381,8 +381,8 @@
         <item quantity="other">%d jorns</item>
     </plurals>
     <plurals name="poll_timespan_hours">
-        <item quantity="one"/>
-        <item quantity="other"/>
+        <item quantity="one">%d ora</item>
+        <item quantity="other">%d oras</item>
     </plurals>
     <plurals name="poll_timespan_minutes">
         <item quantity="one">%d minuta</item>
