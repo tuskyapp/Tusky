@@ -28,6 +28,7 @@ import com.keylesspalace.tusky.components.report.fragments.ReportStatusesFragmen
 import com.keylesspalace.tusky.components.search.fragments.SearchAccountsFragment
 import com.keylesspalace.tusky.components.search.fragments.SearchHashtagsFragment
 import com.keylesspalace.tusky.components.search.fragments.SearchStatusesFragment
+import com.keylesspalace.tusky.fragment.preference.PreferencesFragment
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
@@ -84,5 +85,8 @@ abstract class FragmentBuildersModule {
 
     @ContributesAndroidInjector
     abstract fun searchHashtagsFragment(): SearchHashtagsFragment
+
+    @ContributesAndroidInjector
+    abstract fun preferencesFragment(): PreferencesFragment
 
 }
