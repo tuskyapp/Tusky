@@ -171,7 +171,8 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
         val hideTopToolbar = preferences.getBoolean(PrefKeys.HIDE_TOP_TOOLBAR, false)
         mainToolbar.visible(!hideTopToolbar)
 
-        mainToolbar.navigationIcon = FixedSizeDrawable(getDrawable(R.drawable.avatar_default), Utils.dpToPx(this, 36), Utils.dpToPx(this, 36))
+        val navIconSize = resources.getDimensionPixelSize(R.dimen.avatar_toolbar_nav_icon_size)
+        mainToolbar.navigationIcon = FixedSizeDrawable(getDrawable(R.drawable.avatar_default), navIconSize, navIconSize)
 
         mainToolbar.menu.add(R.string.action_search).apply {
             setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM)
@@ -611,9 +612,11 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
                 .load(me.header)
                 .into(header.accountHeaderBackground)
 
+        val navIconSize = resources.getDimensionPixelSize(R.dimen.avatar_toolbar_nav_icon_size)
+
         Glide.with(this)
                 .asDrawable()
-                .override(Utils.dpToPx(this, 36))
+                .override(navIconSize)
                 .load(me.avatar)
                 .transform(
                         RoundedCorners(resources.getDimensionPixelSize(R.dimen.avatar_radius_36dp))
