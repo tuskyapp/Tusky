@@ -55,15 +55,13 @@
     public static *** v(...);
     public static *** i(...);
 }
+-assumenosideeffects class java.lang.String {
+    public static java.lang.String format(...);
+}
 
 # remove some kotlin overhead
 -assumenosideeffects class kotlin.jvm.internal.Intrinsics {
     static void checkParameterIsNotNull(java.lang.Object, java.lang.String);
     static void checkExpressionValueIsNotNull(java.lang.Object, java.lang.String);
     static void throwUninitializedPropertyAccessException(java.lang.String);
-}
-
-# without this emoji font downloading fails with AbstractMethodError
--keep class * extends android.os.AsyncTask {
-    public *;
 }
