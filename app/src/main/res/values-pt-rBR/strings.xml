@@ -67,7 +67,7 @@
     <string name="action_show_reblogs">Mostrar boosts</string>
     <string name="action_report">Denunciar</string>
     <string name="action_delete">Excluir</string>
-    <string name="action_send">TOOT</string>
+    <string name="action_send">TOOT!</string>
     <string name="action_send_public">TOOT!</string>
     <string name="action_retry">Tentar novamente</string>
     <string name="action_close">Fechar</string>

@@ -20,7 +20,7 @@
     <string name="error_media_upload_sending">媒体文件上传失败</string>
     <string name="error_sender_account_gone">嘟文发送时出错</string>
     <string name="title_home">主页</string>
-    <string name="title_notifications">通知设置</string>
+    <string name="title_notifications">通知</string>
     <string name="title_public_local">本站时间轴</string>
     <string name="title_public_federated">跨站公共时间轴</string>
     <string name="title_direct_messages">私信</string>
@@ -159,7 +159,7 @@
     <string name="visibility_private">仅关注者：只有经过你确认后关注你的用户可见</string>
     <string name="visibility_direct">私信：只有被提及的用户可见</string>
     <string name="pref_title_edit_notification_settings">通知设置</string>
-    <string name="pref_title_notifications_enabled">通知设置</string>
+    <string name="pref_title_notifications_enabled">通知</string>
     <string name="pref_title_notification_alerts">提醒</string>
     <string name="pref_title_notification_alert_sound">通知铃声</string>
     <string name="pref_title_notification_alert_vibrate">振动</string>
@@ -404,4 +404,5 @@
     <string name="hashtags">话题</string>
     <string name="action_edit">编辑</string>
     <string name="edit_poll">编辑</string>
+    <string name="notification_follow_request_name">关注请求</string>
 </resources>

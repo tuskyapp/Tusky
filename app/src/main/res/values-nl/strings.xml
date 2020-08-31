@@ -368,8 +368,8 @@
     <string name="notification_clear_text">Weet je zeker dat je alle meldingen permanent wilt verwijderen\?</string>
     <string name="poll_info_format"> <!-- 15 votes • 1 hour left --> %1$s • %2$s</string>
     <plurals name="poll_info_votes">
-        <item quantity="one"/>
-        <item quantity="other"/>
+        <item quantity="one">%s stem</item>
+        <item quantity="other">%s stemmen</item>
     </plurals>
     <string name="poll_info_time_relative">%s over</string>
     <string name="poll_info_time_absolute">eindigt op %s</string>
@@ -403,8 +403,8 @@
         <item quantity="other">%d minuten</item>
     </plurals>
     <plurals name="poll_timespan_seconds">
-        <item quantity="one"/>
-        <item quantity="other"/>
+        <item quantity="one">%d seconde</item>
+        <item quantity="other">%d seconden</item>
     </plurals>
     <string name="button_continue">Doorgaan</string>
     <string name="button_back">Terug</string>

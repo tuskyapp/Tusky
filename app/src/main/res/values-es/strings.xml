@@ -16,7 +16,7 @@
     <string name="error_media_upload_opening">No pudo abrirse el fichero.</string>
     <string name="error_media_upload_permission">Se requiere permiso para acceder al almacenamiento.</string>
     <string name="error_media_download_permission">Se requiere permiso para descargar al almacenamiento.</string>
-    <string name="error_media_upload_image_or_video">No se pueden adjuntar imágenes y vídeos en el mismo estado</string>
+    <string name="error_media_upload_image_or_video">No se pueden adjuntar imágenes y vídeos en el mismo estado.</string>
     <string name="error_media_upload_sending">La subida falló.</string>
     <string name="error_sender_account_gone">Error al publicar.</string>
     <string name="title_home">Inicio</string>
@@ -330,8 +330,8 @@
     <string name="pref_title_bot_overlay">Mostrar indicador de bots</string>
     <string name="poll_vote">Votar</string>
     <plurals name="poll_timespan_days">
-        <item quantity="one"/>
-        <item quantity="other"/>
+        <item quantity="one">%d día</item>
+        <item quantity="other">%d días</item>
     </plurals>
     <plurals name="poll_timespan_hours">
         <item quantity="one"/>

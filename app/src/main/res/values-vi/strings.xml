@@ -82,7 +82,7 @@
     <string name="hint_note">Tiểu sử</string>
     <string name="hint_display_name">Tên hiển thị</string>
     <string name="hint_content_warning">Nội dung nhạy cảm</string>
-    <string name="hint_compose">Chuyện gì đang xảy ra\?</string>
+    <string name="hint_compose">Bạn đang nghĩ về điều gì\?</string>
     <string name="hint_domain">Bạn ở máy chủ nào\?</string>
     <string name="status_sent_long">Trả lời đã được gửi đi.</string>
     <string name="status_sent">Đã đăng!</string>
@@ -178,7 +178,7 @@
     <string name="status_boosted_format">%s chia sẻ</string>
     <string name="status_username_format">\@%s</string>
     <string name="title_licenses">Giấy phép</string>
-    <string name="title_scheduled_toot">Tút đã lên lịch</string>
+    <string name="title_scheduled_toot">Lịch đăng</string>
     <string name="title_edit_profile">Chỉnh sửa trang cá nhân</string>
     <string name="title_follow_requests">Yêu cầu theo dõi</string>
     <string name="title_domain_mutes">Máy chủ đã ẩn</string>
@@ -191,7 +191,7 @@
     <string name="title_statuses_with_replies">Tương tác</string>
     <string name="title_statuses">Tút</string>
     <string name="title_view_thread">Tút</string>
-    <string name="title_tab_preferences">Xếp Tab</string>
+    <string name="title_tab_preferences">Xếp tab</string>
     <string name="title_direct_messages">Tin nhắn</string>
     <string name="title_public_federated">Thế giới</string>
     <string name="title_public_local">Cộng đồng</string>
@@ -212,7 +212,7 @@
     <string name="pref_title_hide_follow_button">Ẩn nút viết tút khi xem bảng tin</string>
     <string name="pref_title_custom_tabs">Sử dụng tab Chrome</string>
     <string name="pref_title_browser_settings">Trình duyệt</string>
-    <string name="app_theme_system">Sử dụng mặc định của thiết bị</string>
+    <string name="app_theme_system">Mặc định của thiết bị</string>
     <string name="app_theme_auto">Tự động khi trời tối</string>
     <string name="app_theme_black">Đen</string>
     <string name="app_theme_light">Sáng</string>
@@ -306,8 +306,8 @@
     <string name="state_follow_requested">Yêu cầu theo dõi</string>
     <string name="status_media_video">Video</string>
     <string name="status_media_images">Hình ảnh</string>
-    <string name="status_share_link">Chia sẻ URL tút</string>
-    <string name="status_share_content">Chia sẻ nội dung tút</string>
+    <string name="status_share_link">URL tút</string>
+    <string name="status_share_content">Nội dung của tút</string>
     <string name="about_tusky_account">Trang cá nhân Tusky</string>
     <string name="pref_title_confirm_reblogs">Hiện xác nhận trước khi chia sẻ</string>
     <string name="pref_title_show_cards_in_timelines">Hiện xem trước của link</string>
@@ -455,4 +455,5 @@
     <string name="action_unmute_notifications_desc">Bỏ ẩn thông báo từ %s</string>
     <string name="action_unmute_desc">Bỏ ẩn %s</string>
     <string name="action_unmute_domain">Bỏ ẩn %s</string>
+    <string name="pref_title_hide_top_toolbar">Ẩn tên tab</string>
 </resources>

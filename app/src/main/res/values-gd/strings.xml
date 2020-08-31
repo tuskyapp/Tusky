@@ -34,7 +34,7 @@
     <string name="action_retry">Ath-ghairm</string>
     <string name="action_close">Dùin</string>
     <string name="action_send">TÙT</string>
-    <string name="action_delete">Sguab às</string>
+    <string name="action_delete">Cuir às</string>
     <string name="action_delete_and_redraft">Cuir às agus ath-sgrìobhadh</string>
     <string name="action_report">Thoir cunntas air</string>
     <string name="action_unblock">Dì-bhac</string>
@@ -50,4 +50,6 @@
     <string name="action_access_saved_toot">Dreachdan</string>
     <string name="action_view_favourites">Prìomhaich</string>
     <string name="pref_title_notifications_enabled">Fiosan</string>
+    <string name="title_notifications">Fiosan</string>
+    <string name="notification_favourite_name">Prìomhaich</string>
 </resources>

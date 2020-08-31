@@ -396,4 +396,16 @@
     <string name="notification_follow_format">%s ने आपको फ़ॉलो किया</string>
     <string name="pref_title_show_boosts">बूस्ट दिखाएं</string>
     <string name="action_open_reblogged_by">बूस्ट दिखाएं</string>
+    <plurals name="favs">
+        <item quantity="one"><b>%1$s</b> ने पसंद किया</item>
+        <item quantity="other"><b>%1$s</b> ने पसंद किया</item>
+    </plurals>
+    <plurals name="poll_timespan_minutes">
+        <item quantity="one"></item>
+        <item quantity="other"></item>
+    </plurals>
+    <plurals name="poll_timespan_seconds">
+        <item quantity="one">%d सेकेंड</item>
+        <item quantity="other">%d सेकेंड</item>
+    </plurals>
 </resources>

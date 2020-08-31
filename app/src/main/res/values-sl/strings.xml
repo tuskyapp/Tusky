@@ -437,4 +437,10 @@
     <string name="status_boosted_format">%s spodbudil</string>
     <string name="hashtags">Ključniki</string>
     <string name="notification_follow_request_name">Zahteve za Sledenje</string>
+    <plurals name="favs">
+        <item quantity="one"><b>%1$s</b> Priljubljena</item>
+        <item quantity="two"><b>%1$s</b> Priljubljeni</item>
+        <item quantity="few"><b>%1$s</b> Priljubljene</item>
+        <item quantity="other"><b>%1$s</b> Priljubljenih</item>
+    </plurals>
 </resources>

@@ -332,8 +332,8 @@
         <item quantity="other"><b>3%1$s</b>4 Favorits</item>
     </plurals>
     <plurals name="reblogs">
-        <item quantity="one"/>
-        <item quantity="other"/>
+        <item quantity="one"><b>%s</b> partatge</item>
+        <item quantity="other"><b>%s</b> partatges</item>
     </plurals>
     <string name="title_reblogged_by">Partejat per</string>
     <string name="title_favourited_by">Aimat per</string>
@@ -363,8 +363,8 @@
     <string name="pref_title_bot_overlay">Mostrar coma indicator pels robòts</string>
     <string name="notification_clear_text">Netejar totas las notificacions d’un biais permanent \?</string>
     <plurals name="poll_info_votes">
-        <item quantity="one"/>
-        <item quantity="other"/>
+        <item quantity="one">%s vòte</item>
+        <item quantity="other">%s votes</item>
     </plurals>
     <string name="poll_info_time_relative">%s restant</string>
     <string name="poll_info_time_absolute">S’acaba a %s</string>
@@ -389,8 +389,8 @@
         <item quantity="other">%d minutas</item>
     </plurals>
     <plurals name="poll_timespan_seconds">
-        <item quantity="one"/>
-        <item quantity="other"/>
+        <item quantity="one">%d segonda</item>
+        <item quantity="other">%d segondas</item>
     </plurals>
     <string name="compose_preview_image_description">Accions per l’imatge %s</string>
     <string name="pref_title_animate_gif_avatars">Activar l’animacion dels avatars</string>
@@ -450,4 +450,8 @@
     <string name="warning_scheduling_interval">L’interval minimum de planificacion sus Mastodon e de 5 minutas.</string>
     <string name="notification_follow_request_name">Demandas d’abonament</string>
     <string name="hashtags">Etiquetas</string>
+    <string name="action_mute_notifications_desc">Desactivar las notificacions per %s</string>
+    <string name="action_unmute_notifications_desc">Activar las notificacions per %s</string>
+    <string name="action_unmute_desc">Amagar pas mai a %s</string>
+    <string name="notification_follow_request_format">%s a demandat a vos seguir</string>
 </resources>
