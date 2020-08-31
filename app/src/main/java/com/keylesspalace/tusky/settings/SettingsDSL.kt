@@ -3,7 +3,7 @@ package com.keylesspalace.tusky.settings
 import android.content.Context
 import androidx.annotation.StringRes
 import androidx.preference.*
-import com.keylesspalace.tusky.EmojiPreference
+import com.keylesspalace.tusky.components.preference.EmojiPreference
 import okhttp3.OkHttpClient
 
 class PreferenceParent(

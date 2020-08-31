@@ -1,4 +1,4 @@
-package com.keylesspalace.tusky
+package com.keylesspalace.tusky.components.preference
 
 import android.app.AlarmManager
 import android.app.PendingIntent
@@ -12,6 +12,8 @@ import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.preference.Preference
 import androidx.preference.PreferenceManager
+import com.keylesspalace.tusky.R
+import com.keylesspalace.tusky.SplashActivity
 import com.keylesspalace.tusky.util.EmojiCompatFont
 import com.keylesspalace.tusky.util.EmojiCompatFont.Companion.FONTS
 import io.reactivex.functions.Action

@@ -13,7 +13,7 @@
  * You should have received a copy of the GNU General Public License along with Tusky; if not,
  * see <http://www.gnu.org/licenses>. */
 
-package com.keylesspalace.tusky.fragment.preference
+package com.keylesspalace.tusky.components.preference
 
 import android.content.Intent
 import android.graphics.drawable.Drawable

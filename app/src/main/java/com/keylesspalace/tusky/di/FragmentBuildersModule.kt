@@ -20,15 +20,15 @@ import com.keylesspalace.tusky.AccountsInListFragment
 import com.keylesspalace.tusky.components.conversation.ConversationsFragment
 import com.keylesspalace.tusky.components.instancemute.fragment.InstanceListFragment
 import com.keylesspalace.tusky.fragment.*
-import com.keylesspalace.tusky.fragment.preference.AccountPreferencesFragment
-import com.keylesspalace.tusky.fragment.preference.NotificationPreferencesFragment
+import com.keylesspalace.tusky.components.preference.AccountPreferencesFragment
+import com.keylesspalace.tusky.components.preference.NotificationPreferencesFragment
 import com.keylesspalace.tusky.components.report.fragments.ReportDoneFragment
 import com.keylesspalace.tusky.components.report.fragments.ReportNoteFragment
 import com.keylesspalace.tusky.components.report.fragments.ReportStatusesFragment
 import com.keylesspalace.tusky.components.search.fragments.SearchAccountsFragment
 import com.keylesspalace.tusky.components.search.fragments.SearchHashtagsFragment
 import com.keylesspalace.tusky.components.search.fragments.SearchStatusesFragment
-import com.keylesspalace.tusky.fragment.preference.PreferencesFragment
+import com.keylesspalace.tusky.components.preference.PreferencesFragment
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 

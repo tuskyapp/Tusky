@@ -13,12 +13,11 @@
  * You should have received a copy of the GNU General Public License along with Tusky; if not,
  * see <http://www.gnu.org/licenses>. */
 
-package com.keylesspalace.tusky.fragment.preference
+package com.keylesspalace.tusky.components.preference
 
 import android.os.Bundle
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
-import com.keylesspalace.tusky.PreferencesActivity
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.settings.*
