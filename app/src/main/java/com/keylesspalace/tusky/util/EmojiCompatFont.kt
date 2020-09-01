@@ -10,10 +10,6 @@ import com.keylesspalace.tusky.R
 import de.c1710.filemojicompat.FileEmojiCompatConfig
 import io.reactivex.Observable
 import io.reactivex.ObservableEmitter
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.Disposable
-import io.reactivex.functions.Action
-import io.reactivex.functions.Consumer
 import io.reactivex.schedulers.Schedulers
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -40,8 +36,6 @@ class EmojiCompatFont(
         val url: String,
         // The version is stored as a String in the x.xx.xx format (to be able to compare versions)
         val version: String) {
-
-    private var downloadDisposable: Disposable? = null
 
     private val versionCode = getVersionCode(version)
 
@@ -177,11 +171,8 @@ class EmojiCompatFont(
     }
 
     fun downloadFontFile(context: Context,
-                         okHttpClient: OkHttpClient,
-                         onNext: Consumer<Float>,
-                         onError: Consumer<Throwable>,
-                         onComplete: Action) {
-        Observable.create { emitter: ObservableEmitter<Float> ->
+                         okHttpClient: OkHttpClient): Observable<Float> {
+        return Observable.create { emitter: ObservableEmitter<Float> ->
             // It is possible (and very likely) that the file does not exist yet
             val downloadFile = getFontFile(context)!!
             if (!downloadFile.exists()) {
@@ -240,17 +231,14 @@ class EmojiCompatFont(
 
         }
                 .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(onNext, onError, onComplete)
-                .also { downloadDisposable = it }
+
     }
 
     /**
-     * cancels the current font download, if one is running
+     * Deletes the downloaded file, if it exists. Should be called when a download gets cancelled.
      */
-    fun cancelDownload(context: Context) {
+    fun deleteDownloadedFile(context: Context) {
         getFontFile(context)?.deleteIfExists()
-        downloadDisposable?.dispose()
     }
 
     override fun toString(): String {

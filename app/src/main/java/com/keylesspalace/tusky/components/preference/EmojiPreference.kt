@@ -16,8 +16,8 @@ import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.SplashActivity
 import com.keylesspalace.tusky.util.EmojiCompatFont
 import com.keylesspalace.tusky.util.EmojiCompatFont.Companion.FONTS
-import io.reactivex.functions.Action
-import io.reactivex.functions.Consumer
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.Disposable
 import okhttp3.OkHttpClient
 import kotlin.system.exitProcess
 
@@ -34,6 +34,8 @@ class EmojiPreference(
     private val radioButtons = mutableListOf<RadioButton>()
     private var updated = false
     private var currentNeedsUpdate = false
+
+    private val downloadDisposables = MutableList<Disposable?>(FONTS.size) { null }
 
     override fun onAttachedToHierarchy(preferenceManager: PreferenceManager) {
         super.onAttachedToHierarchy(preferenceManager)
@@ -97,34 +99,39 @@ class EmojiPreference(
         progressBar.visibility = View.VISIBLE
         progressBar.progress = 0
         cancel.visibility = View.VISIBLE
-        font.downloadFontFile(
-                context,
-                okHttpClient,
-                Consumer { progress ->
-                    // The progress is returned as a float between 0 and 1, or -1 if it could not determined
-                    if (progress >= 0) {
-                        progressBar.isIndeterminate = false
-                        val max = progressBar.max.toFloat()
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                            progressBar.setProgress((max * progress).toInt(), true)
-                        } else {
-                            progressBar.progress = (max * progress).toInt()
+        font.downloadFontFile(context, okHttpClient)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        { progress ->
+                            // The progress is returned as a float between 0 and 1, or -1 if it could not determined
+                            if (progress >= 0) {
+                                progressBar.isIndeterminate = false
+                                val max = progressBar.max.toFloat()
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                                    progressBar.setProgress((max * progress).toInt(), true)
+                                } else {
+                                    progressBar.progress = (max * progress).toInt()
+                                }
+                            } else {
+                                progressBar.isIndeterminate = true
+                            }
+                        },
+                        {
+                            Toast.makeText(context, R.string.download_failed, Toast.LENGTH_SHORT).show()
+                            updateItem(font, container)
+                        },
+                        {
+                            finishDownload(font, container)
                         }
-                    } else {
-                        progressBar.isIndeterminate = true
-                    }
-                },
-                Consumer {
-                    Toast.makeText(context, R.string.download_failed, Toast.LENGTH_SHORT).show()
-                    updateItem(font, container)
-                },
-                Action { finishDownload(font, container) }
-        )
+                ).also { downloadDisposables[font.id] = it }
+
 
     }
 
     private fun cancelDownload(font: EmojiCompatFont, container: View) {
-        font.cancelDownload(container.context)
+        font.deleteDownloadedFile(container.context)
+        downloadDisposables[font.id]?.dispose()
+        downloadDisposables[font.id] = null
         updateItem(font, container)
     }
 
