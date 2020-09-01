@@ -125,35 +125,35 @@ class EmojiCompatFont(
         existingFontFileCache?.let {
             return it
         }
-            // If we call this on the system default font, just return nothing...
-            if (this === SYSTEM_DEFAULT) {
-                existingFontFileCache = emptyList()
-                return emptyList()
-            }
+        // If we call this on the system default font, just return nothing...
+        if (this === SYSTEM_DEFAULT) {
+            existingFontFileCache = emptyList()
+            return emptyList()
+        }
 
-            val directory = File(context.getExternalFilesDir(null), DIRECTORY)
-            // It will search for old versions using a regex that matches the font's name plus
-            // (if present) a version code. No version code will be regarded as version 0.
-            val fontRegex = "$name(\\d+(\\.\\d+)*)?\\.ttf".toPattern()
-            val ttfFilter = FilenameFilter { _, name: String -> name.endsWith(".ttf") }
-            val foundFontFiles = directory.listFiles(ttfFilter).orEmpty()
-            Log.d(TAG, String.format("loadExistingFontFiles: %d other font files found",
-                    foundFontFiles.size))
+        val directory = File(context.getExternalFilesDir(null), DIRECTORY)
+        // It will search for old versions using a regex that matches the font's name plus
+        // (if present) a version code. No version code will be regarded as version 0.
+        val fontRegex = "$name(\\d+(\\.\\d+)*)?\\.ttf".toPattern()
+        val ttfFilter = FilenameFilter { _, name: String -> name.endsWith(".ttf") }
+        val foundFontFiles = directory.listFiles(ttfFilter).orEmpty()
+        Log.d(TAG, String.format("loadExistingFontFiles: %d other font files found",
+                foundFontFiles.size))
 
-            return foundFontFiles.map { file ->
-                val matcher = fontRegex.matcher(file.name)
-                val versionCode = if (matcher.matches()) {
-                    val version = matcher.group(1)
-                    getVersionCode(version)
-                } else {
-                    listOf(0)
-                }
-                Pair(file, versionCode)
-            }.sortedWith(
-                    Comparator<Pair<File, List<Int>>> { a, b -> compareVersions(a.second, b.second) }
-            ).also {
-                existingFontFileCache = it
+        return foundFontFiles.map { file ->
+            val matcher = fontRegex.matcher(file.name)
+            val versionCode = if (matcher.matches()) {
+                val version = matcher.group(1)
+                getVersionCode(version)
+            } else {
+                listOf(0)
             }
+            Pair(file, versionCode)
+        }.sortedWith(
+                Comparator<Pair<File, List<Int>>> { a, b -> compareVersions(a.second, b.second) }
+        ).also {
+            existingFontFileCache = it
+        }
     }
 
     /**

@@ -101,6 +101,7 @@ class EmojiPreference(
                 context,
                 okHttpClient,
                 Consumer { progress ->
+                    // The progress is returned as a float between 0 and 1, or -1 if it could not determined
                     if (progress >= 0) {
                         progressBar.isIndeterminate = false
                         val max = progressBar.max.toFloat()
