@@ -36,8 +36,8 @@ interface ItemInteractionListener {
     fun onTabRemoved(position: Int)
     fun onStartDelete(viewHolder: RecyclerView.ViewHolder)
     fun onStartDrag(viewHolder: RecyclerView.ViewHolder)
-    fun onActionChipClicked(tab: TabData)
-    fun onChipClicked(tab: TabData, chipPosition: Int)
+    fun onActionChipClicked(tab: TabData, tabPosition: Int)
+    fun onChipClicked(tab: TabData, tabPosition: Int, chipPosition: Int)
 }
 
 class TabAdapter(private var data: List<TabData>,
@@ -62,16 +62,17 @@ class TabAdapter(private var data: List<TabData>,
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val context = holder.itemView.context
-        if (!small && data[position].id == LIST) {
-            holder.itemView.textView.text = data[position].arguments.getOrNull(1).orEmpty()
+        val tab = data[position]
+        if (!small && tab.id == LIST) {
+            holder.itemView.textView.text = tab.arguments.getOrNull(1).orEmpty()
         } else {
-            holder.itemView.textView.setText(data[position].text)
+            holder.itemView.textView.setText(tab.text)
         }
-        val iconDrawable = ThemeUtils.getTintedDrawable(context, data[position].icon, android.R.attr.textColorSecondary)
+        val iconDrawable = ThemeUtils.getTintedDrawable(context, tab.icon, android.R.attr.textColorSecondary)
         holder.itemView.textView.setCompoundDrawablesRelativeWithIntrinsicBounds(iconDrawable, null, null, null)
         if (small) {
             holder.itemView.textView.setOnClickListener {
-                listener.onTabAdded(data[position])
+                listener.onTabAdded(tab)
             }
         }
         holder.itemView.imageView?.setOnTouchListener { _, event ->
@@ -96,7 +97,7 @@ class TabAdapter(private var data: List<TabData>,
 
         if (!small) {
 
-            if (data[position].id == HASHTAG) {
+            if (tab.id == HASHTAG) {
                 holder.itemView.chipGroup.show()
 
                 /*
@@ -104,34 +105,33 @@ class TabAdapter(private var data: List<TabData>,
                  * The other dynamic chips are inserted in front of the actionChip.
                  * This code tries to reuse already added chips to reduce the number of Views created.
                  */
-                data[position].arguments.forEachIndexed { i, arg ->
+                tab.arguments.forEachIndexed { i, arg ->
 
                     val chip = holder.itemView.chipGroup.getChildAt(i).takeUnless { it.id == R.id.actionChip } as Chip?
                             ?: Chip(context).apply {
-                                text = arg
                                 holder.itemView.chipGroup.addView(this, holder.itemView.chipGroup.size - 1)
                             }
 
                     chip.text = arg
 
-                    if(data[position].arguments.size <= 1) {
+                    if(tab.arguments.size <= 1) {
                         chip.chipIcon = null
                         chip.setOnClickListener(null)
                     } else {
                         val cancelIcon = ThemeUtils.getTintedDrawable(context, R.drawable.ic_cancel_24dp, android.R.attr.textColorPrimary)
                         chip.chipIcon = cancelIcon
                         chip.setOnClickListener {
-                            listener.onChipClicked(data[position], i)
+                            listener.onChipClicked(tab, holder.adapterPosition, i)
                         }
                     }
                 }
 
-                while(holder.itemView.chipGroup.size - 1 > data[position].arguments.size) {
-                    holder.itemView.chipGroup.removeViewAt(data[position].arguments.size - 1)
+                while(holder.itemView.chipGroup.size - 1 > tab.arguments.size) {
+                    holder.itemView.chipGroup.removeViewAt(tab.arguments.size)
                 }
 
                 holder.itemView.actionChip.setOnClickListener {
-                    listener.onActionChipClicked(data[position])
+                    listener.onActionChipClicked(tab, holder.adapterPosition)
                 }
 
             } else {
@@ -140,9 +140,7 @@ class TabAdapter(private var data: List<TabData>,
         }
     }
 
-    override fun getItemCount(): Int {
-        return data.size
-    }
+    override fun getItemCount() = data.size
 
     fun setRemoveButtonVisible(enabled: Boolean) {
         if (removeButtonEnabled != enabled) {
