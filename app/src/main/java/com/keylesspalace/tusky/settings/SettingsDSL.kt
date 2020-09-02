@@ -3,7 +3,8 @@ package com.keylesspalace.tusky.settings
 import android.content.Context
 import androidx.annotation.StringRes
 import androidx.preference.*
-import com.keylesspalace.tusky.EmojiPreference
+import com.keylesspalace.tusky.components.preference.EmojiPreference
+import okhttp3.OkHttpClient
 
 class PreferenceParent(
         val context: Context,
@@ -24,8 +25,8 @@ inline fun PreferenceParent.listPreference(builder: ListPreference.() -> Unit): 
     return pref
 }
 
-inline fun PreferenceParent.emojiPreference(builder: EmojiPreference.() -> Unit): EmojiPreference {
-    val pref = EmojiPreference(context)
+inline fun PreferenceParent.emojiPreference(okHttpClient: OkHttpClient, builder: EmojiPreference.() -> Unit): EmojiPreference {
+    val pref = EmojiPreference(context, okHttpClient)
     builder(pref)
     addPref(pref)
     return pref
