@@ -78,7 +78,7 @@ class TabPreferenceActivity : BaseActivity(), Injectable, ItemInteractionListene
             setDisplayShowHomeEnabled(true)
         }
 
-        currentTabs = (accountManager.activeAccount?.tabPreferences ?: emptyList()).toMutableList()
+        currentTabs = accountManager.activeAccount?.tabPreferences.orEmpty().toMutableList()
         currentTabsAdapter = TabAdapter(currentTabs, false, this, currentTabs.size <= MIN_TAB_COUNT)
         currentTabsRecyclerView.adapter = currentTabsAdapter
         currentTabsRecyclerView.layoutManager = LinearLayoutManager(this)
@@ -175,20 +175,20 @@ class TabPreferenceActivity : BaseActivity(), Injectable, ItemInteractionListene
         saveTabs()
     }
 
-    override fun onActionChipClicked(tab: TabData) {
-        showAddHashtagDialog(tab)
+    override fun onActionChipClicked(tab: TabData, tabPosition: Int) {
+        showAddHashtagDialog(tab, tabPosition)
     }
 
-    override fun onChipClicked(tab: TabData, chipPosition: Int) {
+    override fun onChipClicked(tab: TabData, tabPosition: Int, chipPosition: Int) {
         val newArguments = tab.arguments.filterIndexed { i, _ -> i != chipPosition }
         val newTab = tab.copy(arguments = newArguments)
-        val position = currentTabs.indexOf(tab)
-        currentTabs[position] = newTab
+        currentTabs[tabPosition] = newTab
+        saveTabs()
 
-        currentTabsAdapter.notifyItemChanged(position)
+        currentTabsAdapter.notifyItemChanged(tabPosition)
     }
 
-    private fun showAddHashtagDialog(tab: TabData? = null) {
+    private fun showAddHashtagDialog(tab: TabData? = null, tabPosition: Int = 0) {
 
         val frameLayout = FrameLayout(this)
         val padding = Utils.dpToPx(this, 8)
@@ -211,10 +211,9 @@ class TabPreferenceActivity : BaseActivity(), Injectable, ItemInteractionListene
                         currentTabsAdapter.notifyItemInserted(currentTabs.size - 1)
                     } else {
                         val newTab = tab.copy(arguments = tab.arguments + input)
-                        val position = currentTabs.indexOf(tab)
-                        currentTabs[position] = newTab
+                        currentTabs[tabPosition] = newTab
 
-                        currentTabsAdapter.notifyItemChanged(position)
+                        currentTabsAdapter.notifyItemChanged(tabPosition)
                     }
 
                     updateAvailableTabs()
