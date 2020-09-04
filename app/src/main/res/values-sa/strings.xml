@@ -18,11 +18,11 @@
     <string name="error_authorization_denied">प्रमाणीकरणं निषिद्धम् ।</string>
     <string name="error_authorization_unknown">अज्ञातः प्रमाणीकरणदोषो जातः ।</string>
     <string name="error_no_web_browser_found">प्रयोजनार्थं जालसञ्चारकं न लब्धम् ।</string>
-    <string name="error_failed_app_registration">"तया व्यक्त्या प्रमाणीकरणं विफलं जातम्  ।"</string>
+    <string name="error_failed_app_registration">तया व्यक्त्या प्रमाणीकरणं विफलं जातम् ।</string>
     <string name="error_invalid_domain">अवैधानिकप्रदेशः प्रविष्टः</string>
     <string name="error_empty">नैतद्रिक्तं भवितुमर्हति ।</string>
-    <string name="error_network">दोषो जातः । कृपया भवतोऽन्तर्जालीयसम्पर्कं परीक्ष्य पुनश्च यतताम् ।</string>
-    <string name="error_generic">दोषो जातः</string>
+    <string name="error_network">दोषो जातः । कृपया भवतोऽन्तर्जालीयसम्पर्कं परीक्ष्य पुनश्च यतताम् !</string>
+    <string name="error_generic">दोषो जातः ।</string>
     <string name="footer_empty">न किमप्यत्र । नवीकरणार्थमाकृष्यताम् !</string>
     <string name="message_empty">न किमप्यत्र ।</string>
     <string name="status_content_show_less">संनिपत्यताम्</string>
