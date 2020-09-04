@@ -133,7 +133,7 @@
     <string name="dialog_unfollow_warning">ناپیگیری این حساب؟</string>
     <string name="dialog_delete_toot_warning">حذف این بوق؟</string>
     <string name="visibility_public">عمومی: فرستادن به خط زمانی‌های عمومی</string>
-    <string name="visibility_unlisted">خارج از لیست: در خط زمانی عمومی نشان نده</string>
+    <string name="visibility_unlisted">فهرست‌نشده: نشان ندادن در خط زمانی‌های عمومی</string>
     <string name="visibility_private">تنها دنبال‌کنندگان:پست فقط به دنبال‌کنندگان</string>
     <string name="visibility_direct">مستقیم: فرستادن فقط برای کاربران اشاره‌شده</string>
     <string name="pref_title_edit_notification_settings">آگاهی‌ها</string>
@@ -172,7 +172,7 @@
     <string name="pref_publishing">در حال انتشار (همگام با کارساز)</string>
     <string name="pref_failed_to_sync">ناتوانی در هم‌گام‌سازی تنظیمات</string>
     <string name="post_privacy_public">عمومی</string>
-    <string name="post_privacy_unlisted">لیست‌نشده</string>
+    <string name="post_privacy_unlisted">فهرست‌نشده</string>
     <string name="post_privacy_followers_only">فقط پی‌گیران</string>
     <string name="pref_status_text_size">اندازهٔ متن وضعیت</string>
     <string name="status_text_size_smallest">کوچک‌ترین</string>
@@ -226,7 +226,7 @@
     <string name="add_account_name">افزودن حساب</string>
     <string name="add_account_description">افزودن حساب ماستودون جدید</string>
     <string name="action_lists">فهرست‌ها</string>
-    <string name="title_lists">لیست‌ها</string>
+    <string name="title_lists">فهرست‌ها</string>
     <string name="title_list_timeline">خط زمانی فهرست</string>
     <string name="compose_active_account_description">در حال فرستادن با حساب %1$s</string>
     <string name="error_failed_set_caption">شکست در تنظیم عنوان</string>
@@ -417,7 +417,7 @@
     <string name="action_access_scheduled_toot">بوق‌های زمان‌بسته</string>
     <string name="action_schedule_toot">بوق زمان‌بسته</string>
     <string name="action_reset_schedule">بازنشانی</string>
-    <string name="mute_domain_warning">مطمئنید می‌خواهید تمام %s را مسدود کنید؟ محتوای آن دامنه را در هیچ‌یک از خط زمانی‌ها یا در آگاهی‌هایتان نخواهید دید. پیروانتان از آن دامنه، برداشته خواهند شد.</string>
+    <string name="mute_domain_warning">مطمئنید می‌خواهید تمام %s را مسدود کنید؟ محتوای آن دامنه را در هیچ‌یک از خط زمانی‌ها یا در آگاهی‌هایتان نخواهید دید. پی‌گیرانتان از آن دامنه، برداشته خواهند شد.</string>
     <string name="filter_dialog_whole_word_description">هنگامی که کلیدواژه یا عبارت، فقط حروف‌عددی باشد، فقط اگر با تمام واژه مطابق باشد، اعمال خواهد شد</string>
     <string name="filter_add_description">عبارت پالایش</string>
     <string name="poll_info_format"> .<!-- ۱۵ رأی • ۱ ساعت مانده --> %1$s • %2$s</string>

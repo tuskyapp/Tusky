@@ -470,4 +470,5 @@
     <string name="no_scheduled_status">তোমার কোনো সময়সূচীত স্ট্যাটাস নেই।</string>
     <string name="no_saved_status">তোমার কোনো খসড়া নেই।</string>
     <string name="warning_scheduling_interval">মাস্টোডনের সর্বনিম্ন ৫ মিনিটের সময়সূচীর বিরতি আছে।</string>
+    <string name="pref_title_hide_top_toolbar">শীর্ষস্থানীয় সরঞ্জামদণ্ডের শিরোনামটি লুকান</string>
 </resources>
