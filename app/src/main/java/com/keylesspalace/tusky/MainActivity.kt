@@ -81,6 +81,7 @@ import com.uber.autodispose.android.lifecycle.autoDispose
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
 import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
 
@@ -227,8 +228,10 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
                     }
                 }
 
-        // Flush old media that was cached for sharing
-        deleteStaleCachedMedia(applicationContext.getExternalFilesDir("Tusky"))
+        Schedulers.io().scheduleDirect {
+            // Flush old media that was cached for sharing
+            deleteStaleCachedMedia(applicationContext.getExternalFilesDir("Tusky"))
+        }
     }
 
     override fun onResume() {
