@@ -77,7 +77,7 @@
     <string name="action_reblog">प्रकाश्यताम्</string>
     <string name="action_reply">प्रत्युत्तरं दीयताम्</string>
     <string name="action_quick_reply">त्वरितप्रत्युत्तरं दीयताम्</string>
-    <string name="report_comment_hint">अन्यटिप्पण्यः \?</string>
+    <string name="report_comment_hint">अन्यटिप्पण्यः ?</string>
     <string name="report_username_format">आवेद्यताम् @%1$s</string>
     <string name="notification_follow_request_format">%1$s तवाऽनुसरणार्थंं न्यवेदयत्</string>
     <string name="action_add_media">सामग्र्यः युज्यन्ताम्</string>
@@ -145,7 +145,7 @@
     <string name="confirmation_unblocked">निरवरोधः कृतः</string>
     <string name="confirmation_reported">प्रेषितम्!</string>
     <string name="login_connection">सम्पर्कः क्रियते…</string>
-    <string name="link_whats_an_instance">किं नाम विशिष्टस्थलम्\?</string>
+    <string name="link_whats_an_instance">किं नाम विशिष्टस्थलम्?</string>
     <string name="label_header">शीर्षः</string>
     <string name="label_avatar">अवतारः</string>
     <string name="label_quick_reply">प्रत्युत्तरम् …</string>
@@ -154,8 +154,8 @@
     <string name="hint_note">विवरणम्</string>
     <string name="hint_display_name">नाम</string>
     <string name="hint_content_warning">विषयप्रत्यादेशः</string>
-    <string name="hint_compose">किं वर्तमानमस्ति \?</string>
-    <string name="hint_domain">किं विशिष्टस्थलम् \?</string>
+    <string name="hint_compose">किं वर्तमानमस्ति ?</string>
+    <string name="hint_domain">किं विशिष्टस्थलम् ?</string>
     <string name="confirmation_domain_unmuted">%1$s अनावृतः</string>
     <string name="pref_title_notification_filters">अहं ज्ञप्यतां यदा</string>
     <string name="pref_title_notification_alert_light">ज्योत्या ज्ञप्यताम्</string>
@@ -169,10 +169,10 @@
     <string name="visibility_unlisted">अनिर्दिष्टः = सार्वजनिकसमयतालिकायां मा प्रकट्यताम्</string>
     <string name="visibility_public">सार्वजनिकः‍‍‍‍= प्रकट्यतां सार्वजनिकसमयतालिकासु</string>
     <string name="dialog_mute_hide_notifications">ज्ञापनसूचनाः छाद्यन्ताम्</string>
-    <string name="dialog_mute_warning">निःशब्दं क्रियताम् @%1$s\?</string>
-    <string name="dialog_block_warning">किल अवरुध्यताम् @%1$s\?</string>
+    <string name="dialog_mute_warning">निःशब्दं क्रियताम् @%1$s?</string>
+    <string name="dialog_block_warning">किल अवरुध्यताम् @%1$s?</string>
     <string name="mute_domain_warning_dialog_ok">प्रदेशः छाद्यताम्</string>
-    <string name="mute_domain_warning">निश्चियेन सर्वमेव निषिद्धं भवेदेतस्य जनस्य %1$s \? कोऽपि विषयो न द्रष्टुं शक्यते तत्प्रदेशात् कस्यामपि समयतालिकायामुत वा ते सूचनापेटिकायाम् । भवदनुसर्तारः तस्मात्प्रदेशान्निष्क्रियन्ते ।</string>
+    <string name="mute_domain_warning">निश्चियेन सर्वमेव निषिद्धं भवेदेतस्य जनस्य %1$s ? कोऽपि विषयो न द्रष्टुं शक्यते तत्प्रदेशात् कस्यामपि समयतालिकायामुत वा ते सूचनापेटिकायाम् । भवदनुसर्तारः तस्मात्प्रदेशान्निष्क्रियन्ते ।</string>
     <string name="dialog_redraft_post_warning">विनश्य पुनः लिख्यताम् \?</string>
     <string name="dialog_delete_post_warning">दौत्यमेतन्नश्यताम्\?</string>
     <string name="dialog_unfollow_warning">व्यक्तित्वविवरणलेखायाः अनुसरणम् अपाकरणीयं किम् ?</string>
@@ -193,7 +193,7 @@
     <string name="error_delete_list">सूचिर्नष्टुमशक्या</string>
     <string name="error_rename_list">पुनः सूचिनामकरणं कर्तुमशक्यम्</string>
     <string name="error_create_list">सूचिनिर्माणं कर्तुमशक्यम्</string>
-    <string name="dialog_message_cancel_follow_request">अनुसरणानुरोधो नश्यताम् \?</string>
+    <string name="dialog_message_cancel_follow_request">अनुसरणानुरोधो नश्यताम् ?</string>
     <string name="title_lists">सूचयः</string>
     <string name="action_lists">सूचयः</string>
     <string name="add_account_description">नवमास्टोडोनलेखा युज्यताम्</string>
@@ -309,12 +309,13 @@
     <string name="send_post_notification_channel_name">प्रेष्यमाणानि</string>
     <string name="send_post_notification_error_title">दौत्यप्रेषणे दोषः</string>
     <string name="send_post_notification_title">दौत्यं प्रेष्यमाणम्…</string>
-    <string name="compose_save_draft">रक्षणीयम् \?</string>
+    <string name="compose_save_draft">रक्षणीयम् ?</string>
     <string name="lock_account_label_description">स्वयमेवाऽनुसर्तॄणां कृतेऽनुमतिर्दातव्या</string>
     <string name="lock_account_label">लेखा अवरुध्यताम्</string>
     <string name="action_remove">नश्यताम्</string>
     <string name="action_set_caption">शीर्षकवाक्यं लिख्यताम्</string>
     <plurals name="hint_describe_for_visually_impaired">
+        <item quantity="one"></item>
         <item quantity="other">दृष्ट्यां येषां समस्याऽस्ति तेषांं कृते विवरणम्
 \n(%1$d परिमिता न्यूनाक्षरसङ्ख्या)</item>
     </plurals>
@@ -371,7 +372,7 @@
     <string name="pref_title_enable_swipe_for_tabs">सारणहावभावस्य संयुतनं पीठिकापरिवर्तनार्थं कार्यम्</string>
     <string name="failed_search">अन्वेषणे विफलता जाता</string>
     <string name="title_accounts">व्यक्तित्वविवरणलेखाः</string>
-    <string name="report_description_remote_instance">अन्यजालवितारकादियं व्यक्तित्वविवरणलेखा । आवेदनस्य रक्षितप्रतिलिपिरपि प्रेष्यतां वा \?</string>
+    <string name="report_description_remote_instance">अन्यजालवितारकादियं व्यक्तित्वविवरणलेखा । आवेदनस्य रक्षितप्रतिलिपिरपि प्रेष्यतां वा ?</string>
     <string name="report_description_1">आवेदनमिदं जालवितारकाय प्रेष्यते । स्वीयविवरणमस्मिन् विषयेऽधो लेखितुं शक्नोषि-:</string>
     <string name="failed_fetch_posts">दौत्यानि गृहीतुं विफलता</string>
     <string name="failed_report">आवेदनप्रेषणे विफलता</string>
@@ -412,7 +413,7 @@
     </plurals>
     <string name="poll_info_format"> <!-- 15 मतानि • 1 शेषघटिकाः --> %1$s • %2$s</string>
     <string name="compose_preview_image_description">चित्राणां कृते प्रवृत्तिः %1$s</string>
-    <string name="notification_clear_text">किं नूनमेव सर्वाः सूचनाः स्थायित्वेन मार्जनीयाः \?</string>
+    <string name="notification_clear_text">किं नूनमेव सर्वाः सूचनाः स्थायित्वेन मार्जनीयाः ?</string>
     <string name="compose_shortcut_short_label">लिख्यताम्</string>
     <string name="compose_shortcut_long_label">दौत्यं लिख्यताम्</string>
     <string name="filter_apply">स्थाप्यताम्</string>
@@ -548,4 +549,5 @@
     <string name="send_account_username_to">लेखायाः उपभोक्तृनाम्नः संविभागं कुरुताम् अस्मै…</string>
     <string name="confirmation_hashtag_unfollowed">#%1$s अनुसरणम् अपाकृतम्</string>
     <string name="send_account_link_to">लेखायाः निरपेक्ष-सार्वत्रिक-वस्तुसङ्केतस्य संविभागं कुरुताम् अस्मै…</string>
+    <string name="post_lookup_error_format"></string>
 </resources>
