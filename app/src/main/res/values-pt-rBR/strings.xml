@@ -180,7 +180,7 @@
     <string name="pref_title_http_proxy_port">Porta do proxy HTTP</string>
     <string name="pref_default_post_privacy">Privacidade padrão dos toots</string>
     <string name="pref_default_media_sensitivity">Sempre marcar mídia como sensível</string>
-    <string name="pref_publishing">Publicação (sincronizada com o servidor)</string>
+    <string name="pref_publishing">Toots (sincronizado com instância)</string>
     <string name="pref_failed_to_sync">Erro ao sincronizar configurações</string>
     <string name="post_privacy_public">Público</string>
     <string name="post_privacy_unlisted">Não-listado</string>
