@@ -113,7 +113,6 @@ class EditProfileActivity : BaseActivity(), Injectable {
         addFieldButton.setOnClickListener {
             accountFieldEditAdapter.addField()
             if(accountFieldEditAdapter.itemCount >= MAX_ACCOUNT_FIELDS) {
-                it.isEnabled = false
                 it.isVisible = false
             }
 
