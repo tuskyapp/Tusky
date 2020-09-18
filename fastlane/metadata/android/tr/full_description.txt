@@ -2,11 +2,11 @@ Tusky, ücretsiz ve açık kaynaklı bir sosyal ağ sunucusu olan Mastodon için
 
 • Materyal Tasarım
 • Çoğu Mastodon API'si uygulandı
-• Çoklu Hesap desteği
+• Çoklu hesap desteği
 • Gün içinde karanlık ve aydınlık tema arasında otomatik geçiş imkanı
-• Taslak - ileti oluşturun ve daha sonra kullanmak üzere saklayın
-• Farklı emoji stilleri arasında seçim yapma imkanı
+• Taslak - toot oluşturun ve daha sonra kullanmak üzere saklayın
+• Farklı ifade stilleri arasında seçim yapma imkanı
 • Tüm ekran boyutları için optimize edilmiş arayüz
-• Tamamen açık kaynak - Google hizmet servisi gibi özgür olmayan bağımlılıklar yok
+• Tamamen açık kaynak - Google servisleri gibi özgür olmayan bağımlılıklar yok
 
-Mastodon hakkında daha fazla bilgi edinmek için https://joinmastodon.org/ adresini ziyaret edin.
+Mastodon hakkında daha fazla bilgi edinmek için https://joinmastodon.org/ adresini ziyaret edin

@@ -1,0 +1,8 @@
+Tusky v10.0
+
+- Artık durumları yer imlerine ekleyebilir ve yer imlerinizi Tusky'de listeleyebilirsiniz.
+- Artık Tusky ile tootları planlayabilirsiniz. Seçtiğiniz zamanın gelecekte en az 5 dakika olması gerektiğini unutmayın.
+- Artık ana ekrana listeler ekleyebilirsiniz.
+- Artık Tusky ile ses ekleri gönderebilirsiniz.
+
+Ve diğer birçok küçük iyileştirme ve hata düzeltmesi!
