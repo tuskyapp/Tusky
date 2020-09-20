@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName
 import java.util.*
 
 /**
- * API type for saving scroll a position in timeline.
+ * API type for saving the scroll position of a timeline.
  */
 data class Marker(
         @SerializedName("last_read_id")

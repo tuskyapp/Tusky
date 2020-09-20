@@ -15,8 +15,7 @@ class NotificationFetcher @Inject constructor(
         private val notifier: Notifier
 ) {
     fun fetchAndShow() {
-        val accountList = accountManager.getAllAccountsOrderedByActive()
-        for (account in accountList) {
+        for (account in accountManager.getAllAccountsOrderedByActive()) {
             if (account.notificationsEnabled) {
                 try {
                     val notifications = fetchNotifications(account)
