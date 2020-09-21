@@ -1,0 +1,10 @@
+Tusky v6.0
+
+- Zaman çizelgesi filtreleri hesap tercihlerine taşındı ve sunucuyla eşitlendi
+- Artık ana arayüzde sekme olarak özel hashtag'e sahip olabilirsiniz
+- Listeler artık düzenlenebilir
+- Güvenlik: TLS 1.0 ve TLS 1.1 desteği kaldırıldı
+- Oluşturma görünümü artık yazmaya başladığınızda özel ifadeler önerecektir
+- Yeni tema ayarı "sistem temasını izle"
+- Geliştirilmiş zaman çizelgesi erişilebilirliği
+- Tusky artık bilinmeyen bildirimleri görmezden gelecek ve artık çökmeyecek
