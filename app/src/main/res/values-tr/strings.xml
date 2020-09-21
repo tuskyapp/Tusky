@@ -391,7 +391,7 @@
     <string name="report_sent_success">\@%s başarıyla bildirildi</string>
     <string name="hint_additional_info">Ek Yorumlar</string>
     <string name="report_remote_instance">%s adresine ilet</string>
-    <string name="failed_fetch_statuses">Durumlar getirilemedi</string>
+    <string name="failed_fetch_statuses">İletiler akınamadı</string>
     <string name="report_description_1">Bildirim sunucu yöneticinize gönderilecektir. Bu hesabı neden bildirdiğinizle ilgili açıklama yapabilirsiniz:</string>
     <string name="report_description_remote_instance">Hesap başka bir sunucudan. Raporun anonim bir kopyasını da oraya gönderilsin mi\?</string>
     <string name="pref_title_show_notifications_filter">Bildirim filtresini göster</string>
