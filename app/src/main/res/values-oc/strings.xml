@@ -366,7 +366,6 @@
         <item quantity="one">%s vòte</item>
         <item quantity="other">%s votes</item>
     </plurals>
-    <string name="poll_info_time_relative">%s restant</string>
     <string name="poll_info_time_absolute">S’acaba a %s</string>
     <string name="poll_info_closed">acabat</string>
     <string name="poll_vote">Votar</string>
@@ -377,20 +376,20 @@
     <string name="poll_ended_voted">Un sondatge ont avètz votat es acabat</string>
     <string name="poll_ended_created">Un sondatge qu’avètz creat es acabat</string>
     <plurals name="poll_timespan_days">
-        <item quantity="one">%d jorn</item>
-        <item quantity="other">%d jorns</item>
+        <item quantity="one">%d jorn restant</item>
+        <item quantity="other">%d jorns restant</item>
     </plurals>
     <plurals name="poll_timespan_hours">
-        <item quantity="one">%d ora</item>
-        <item quantity="other">%d oras</item>
+        <item quantity="one">%d ora restant</item>
+        <item quantity="other">%d oras restant</item>
     </plurals>
     <plurals name="poll_timespan_minutes">
-        <item quantity="one">%d minuta</item>
-        <item quantity="other">%d minutas</item>
+        <item quantity="one">%d minuta restant</item>
+        <item quantity="other">%d minutas restant</item>
     </plurals>
     <plurals name="poll_timespan_seconds">
-        <item quantity="one">%d segonda</item>
-        <item quantity="other">%d segondas</item>
+        <item quantity="one">%d segonda restant</item>
+        <item quantity="other">%d segondas restant</item>
     </plurals>
     <string name="compose_preview_image_description">Accions per l’imatge %s</string>
     <string name="pref_title_animate_gif_avatars">Activar l’animacion dels avatars</string>

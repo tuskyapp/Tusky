@@ -377,7 +377,6 @@
         <item quantity="one">%s atkvæði</item>
         <item quantity="other">%s atkvæði</item>
     </plurals>
-    <string name="poll_info_time_relative">%s eftir</string>
     <string name="poll_info_time_absolute">lýkur %s</string>
     <string name="poll_info_closed">lokað</string>
     <string name="poll_vote">Greiða atkvæði</string>
@@ -424,19 +423,19 @@
         <item quantity="other"><b>%s</b> Endurbirtingar</item>
     </plurals>
     <plurals name="poll_timespan_seconds">
-        <item quantity="one">%d sekúnda</item>
-        <item quantity="other">%d sekúndur</item>
+        <item quantity="one">%d sekúnda eftir</item>
+        <item quantity="other">%d sekúndur eftir</item>
     </plurals>
     <plurals name="poll_timespan_minutes">
-        <item quantity="one">%d mínúta</item>
-        <item quantity="other">%d mínútur</item>
+        <item quantity="one">%d mínúta eftir</item>
+        <item quantity="other">%d mínútur eftir</item>
     </plurals>
     <plurals name="poll_timespan_hours">
-        <item quantity="one">%d klukkustund</item>
-        <item quantity="other">%d klukkustundir</item>
+        <item quantity="one">%d klukkustund eftir</item>
+        <item quantity="other">%d klukkustundir eftir</item>
     </plurals>
     <plurals name="poll_timespan_days">
-        <item quantity="one">%d dagur</item>
-        <item quantity="other">%d dagar</item>
+        <item quantity="one">%d dagur eftir</item>
+        <item quantity="other">%d dagar eftir</item>
     </plurals>
 </resources>

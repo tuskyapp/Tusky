@@ -338,23 +338,22 @@
     <string name="hint_additional_info">Thêm ghi chú</string>
     <string name="report_sent_success">Đã gửi báo cáo @%s</string>
     <plurals name="poll_timespan_seconds">
-        <item quantity="other">%d giây</item>
+        <item quantity="other">%d giây nữa kết thúc</item>
     </plurals>
     <plurals name="poll_timespan_minutes">
-        <item quantity="other">%d phút</item>
+        <item quantity="other">%d phút nữa kết thúc</item>
     </plurals>
     <plurals name="poll_timespan_hours">
-        <item quantity="other">%d giờ</item>
+        <item quantity="other">%d giờ nữa kết thúc</item>
     </plurals>
     <plurals name="poll_timespan_days">
-        <item quantity="other">%d ngày</item>
+        <item quantity="other">%d ngày nữa kết thúc</item>
     </plurals>
     <string name="poll_ended_created">Cuộc bình chọn bạn tạo đã kết thúc</string>
     <string name="poll_ended_voted">Một cuộc bình chọn mà bạn tham gia đã kết thúc</string>
     <string name="poll_vote">Bình chọn</string>
     <string name="poll_info_closed">Kết thúc</string>
     <string name="poll_info_time_absolute">kết thúc lúc %s</string>
-    <string name="poll_info_time_relative">%s nữa kết thúc</string>
     <plurals name="poll_info_people">
         <item quantity="other">%s người</item>
     </plurals>

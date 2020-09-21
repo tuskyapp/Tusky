@@ -174,23 +174,22 @@
         <item quantity="one">%s n wedɣar</item>
         <item quantity="other">%s n yedɣaren</item>
     </plurals>
-    <string name="poll_info_time_relative">%s id yugran</string>
     <string name="poll_info_time_absolute">ad ifak deg %s</string>
     <string name="poll_info_closed">ifuk</string>
     <string name="poll_vote">Dɣer</string>
     <string name="poll_ended_voted">Ifuk, tura kan, yiwen wedɣar t tteki-iḍ degs</string>
     <string name="poll_ended_created">Ifukk yiwen wedɣar id snulfaḍ</string>
     <plurals name="poll_timespan_days">
-        <item quantity="one">%d n wass</item>
-        <item quantity="other">%d n wussan</item>
+        <item quantity="one">%d n wass id yugran</item>
+        <item quantity="other">%d n wussan id yugran</item>
     </plurals>
     <plurals name="poll_timespan_hours">
-        <item quantity="one">%d wesrag</item>
-        <item quantity="other">%d n yisragen</item>
+        <item quantity="one">%d wesrag id yugran</item>
+        <item quantity="other">%d n yisragen id yugran</item>
     </plurals>
     <plurals name="poll_timespan_minutes">
-        <item quantity="one">%d n tasdidt</item>
-        <item quantity="other">%d n tisdidin</item>
+        <item quantity="one">%d n tasdidt id yugran</item>
+        <item quantity="other">%d n tisdidin id yugran</item>
     </plurals>
     <string name="button_continue">Kemmel</string>
     <string name="button_back">Uɣal</string>
@@ -232,8 +231,8 @@
     <string name="abbreviated_in_minutes">deg %dtsd</string>
     <string name="abbreviated_in_seconds">deg %dtsn</string>
     <plurals name="poll_timespan_seconds">
-        <item quantity="one">%d n tasint</item>
-        <item quantity="other">%d n tasinin</item>
+        <item quantity="one">%d n tasint id yugran</item>
+        <item quantity="other">%d n tasinin id yugran</item>
     </plurals>
     <string name="status_sensitive_media_title">Agbur amḥulfu</string>
     <string name="pref_default_media_sensitivity">Creḍ allal n teywalt amzun d amḥulfu</string>

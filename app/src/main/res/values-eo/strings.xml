@@ -376,28 +376,12 @@
         <item quantity="one"/>
         <item quantity="other"/>
     </plurals>
-    <string name="poll_info_time_relative">%s restas</string>
     <string name="poll_info_time_absolute">finiĝos je %s</string>
     <string name="poll_info_closed">finiĝita</string>
     <string name="poll_vote">Voĉdoni</string>
     <string name="poll_ended_voted">Enketo al kiu vi voĉdonis finiĝis</string>
     <string name="poll_ended_created">Enketo kiu vi kreis finiĝis</string>
-    <plurals name="poll_timespan_days">
-        <item quantity="one"/>
-        <item quantity="other"/>
-    </plurals>
-    <plurals name="poll_timespan_hours">
-        <item quantity="one"/>
-        <item quantity="other"/>
-    </plurals>
-    <plurals name="poll_timespan_minutes">
-        <item quantity="one"/>
-        <item quantity="other"/>
-    </plurals>
-    <plurals name="poll_timespan_seconds">
-        <item quantity="one"/>
-        <item quantity="other"/>
-    </plurals>
+
     <string name="title_domain_mutes">Kaŝitaj domajnoj</string>
     <string name="action_view_domain_mutes">Kaŝitaj domajnoj</string>
     <string name="action_mute_domain">Silentigi %s</string>

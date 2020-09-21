@@ -24,23 +24,22 @@
     <string name="button_back">ย้อนกลับ</string>
     <string name="button_continue">ต่อไป</string>
     <plurals name="poll_timespan_seconds">
-        <item quantity="other">%d วินาที</item>
+        <item quantity="other">เหลืออีก %d วินาที</item>
     </plurals>
     <plurals name="poll_timespan_minutes">
-        <item quantity="other">%d นาที</item>
+        <item quantity="other">เหลืออีก %d นาที</item>
     </plurals>
     <plurals name="poll_timespan_hours">
-        <item quantity="other">%d ชั่วโมง</item>
+        <item quantity="other">เหลืออีก %d ชั่วโมง</item>
     </plurals>
     <plurals name="poll_timespan_days">
-        <item quantity="other">%d วัน</item>
+        <item quantity="other">เหลืออีก %d วัน</item>
     </plurals>
     <string name="poll_ended_created">โพลที่คุณสร้างสิ้นสุดลงแล้ว</string>
     <string name="poll_ended_voted">โพลที่คุณโหวตสิ้นสุดลงแล้ว</string>
     <string name="poll_vote">โหวต</string>
     <string name="poll_info_closed">สิ้นสุดแล้ว</string>
     <string name="poll_info_time_absolute">จบที่ %s</string>
-    <string name="poll_info_time_relative">เหลืออีก %s</string>
     <plurals name="poll_info_people">
         <item quantity="other">%s คน</item>
     </plurals>
