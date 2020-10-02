@@ -37,18 +37,21 @@ class PollAdapter: RecyclerView.Adapter<PollViewHolder>() {
     private var votersCount: Int? = null
     private var mode = RESULT
     private var emojis: List<Emoji> = emptyList()
+    private var resultClickListener: View.OnClickListener? = null
 
     fun setup(
             options: List<PollOptionViewData>,
             voteCount: Int,
             votersCount: Int?,
             emojis: List<Emoji>,
-            mode: Int) {
+            mode: Int,
+            resultClickListener: View.OnClickListener?) {
         this.pollOptions = options
         this.voteCount = voteCount
         this.votersCount = votersCount
         this.emojis = emojis
         this.mode = mode
+        this.resultClickListener = resultClickListener
         notifyDataSetChanged()
     }
 
@@ -84,7 +87,7 @@ class PollAdapter: RecyclerView.Adapter<PollViewHolder>() {
                 val level = percent * 100
 
                 holder.resultTextView.background.level = level
-
+                holder.resultTextView.setOnClickListener(resultClickListener)
             }
             SINGLE -> {
                 val emojifiedPollOptionText = option.title.emojify(emojis, holder.radioButton)
