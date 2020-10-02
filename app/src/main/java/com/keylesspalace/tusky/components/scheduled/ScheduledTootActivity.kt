@@ -30,7 +30,6 @@ import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.entity.ScheduledStatus
 import com.keylesspalace.tusky.util.Status
-import com.keylesspalace.tusky.util.ThemeUtils
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.show
 import kotlinx.android.synthetic.main.activity_scheduled_toot.*
@@ -124,6 +123,7 @@ class ScheduledTootActivity : BaseActivity(), ScheduledTootActionListener, Injec
 
     override fun edit(item: ScheduledStatus) {
         val intent = ComposeActivity.startIntent(this, ComposeActivity.ComposeOptions(
+                scheduledTootUid = item.id,
                 tootText = item.params.text,
                 contentWarning = item.params.spoilerText,
                 mediaAttachments = item.mediaAttachments,

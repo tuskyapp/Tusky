@@ -19,6 +19,7 @@ import android.net.Uri
 import android.util.Log
 import androidx.core.net.toUri
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import com.keylesspalace.tusky.adapter.ComposeAutoCompleteAdapter
@@ -33,6 +34,7 @@ import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.service.ServiceClient
 import com.keylesspalace.tusky.service.TootToSend
 import com.keylesspalace.tusky.util.*
+import io.reactivex.Observable.empty
 import io.reactivex.disposables.Disposable
 import io.reactivex.rxkotlin.Singles
 import java.util.*
@@ -58,7 +60,7 @@ class ComposeViewModel
     private var replyingStatusContent: String? = null
     internal var startingText: String? = null
     private var savedTootUid: Int = 0
-    private var scheduledTootUid: Int = 0
+    private var scheduledTootUid: String? = null
     private var startingContentWarning: String = ""
     private var inReplyToId: String? = null
     private var startingVisibility: Status.Visibility = Status.Visibility.UNKNOWN
@@ -241,7 +243,14 @@ class ComposeViewModel
             content: String,
             spoilerText: String
     ): LiveData<Unit> {
-        return media
+
+        val deletionObservable = if (isEditingScheduledToot()) {
+            api.deleteScheduledStatus(scheduledTootUid.toString()).toObservable().map { Unit }
+        } else {
+            empty()
+        }.toLiveData()
+
+        val sendObservable = media
                 .filter { items -> items.all { it.uploadPercent == -1 } }
                 .map {
                     val mediaIds = ArrayList<String>()
@@ -273,11 +282,17 @@ class ComposeViewModel
                             retries = 0
                     )
 
-                    if (isEditingScheduledToot())
-                        api.deleteScheduledStatus(scheduledTootUid.toString())
-
                     serviceClient.sendToot(tootToSend)
                 }
+
+        val result = MediatorLiveData<Unit>()
+
+        result.addSource(deletionObservable) { value -> result.setValue(value) }
+        result.addSource(sendObservable) { value -> result.setValue(value) }
+
+        return result
+
+
     }
 
     fun updateDescription(localId: Long, description: String): LiveData<Boolean> {
@@ -410,7 +425,7 @@ class ComposeViewModel
 
 
         savedTootUid = composeOptions?.savedTootUid ?: 0
-        scheduledTootUid = composeOptions?.scheduledTootUid ?: 0
+        scheduledTootUid = composeOptions?.scheduledTootUid
         startingText = composeOptions?.tootText
 
 
@@ -452,7 +467,7 @@ class ComposeViewModel
     }
 
     private fun isEditingScheduledToot(): Boolean {
-        return scheduledTootUid > 0
+        return !scheduledTootUid.isNullOrEmpty()
     }
 
     private companion object {
