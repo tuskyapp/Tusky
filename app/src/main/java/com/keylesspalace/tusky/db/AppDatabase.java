@@ -363,6 +363,7 @@ public abstract class AppDatabase extends RoomDatabase {
                             "`poll` TEXT," +
                             "`failedToSend` INTEGER NOT NULL)"
             );
+            database.execSQL("ALTER TABLE `AccountEntity` ADD COLUMN `notificationsStreamingEnabled` INTEGER NOT NULL DEFAULT 1");
         }
     };
 }

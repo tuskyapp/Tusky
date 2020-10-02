@@ -167,6 +167,8 @@
 
         <service android:name=".service.SendTootService" />
 
+        <service android:name=".service.StreamingService" />
+
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.fileprovider"

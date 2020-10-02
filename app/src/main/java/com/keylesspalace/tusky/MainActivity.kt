@@ -67,6 +67,7 @@ import com.keylesspalace.tusky.interfaces.ActionButtonActivity
 import com.keylesspalace.tusky.interfaces.ReselectableFragment
 import com.keylesspalace.tusky.pager.MainPagerAdapter
 import com.keylesspalace.tusky.settings.PrefKeys
+import com.keylesspalace.tusky.service.StreamingService
 import com.keylesspalace.tusky.util.*
 import com.mikepenz.iconics.IconicsDrawable
 import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial
@@ -213,8 +214,15 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
 
         // Setup push notifications
         if (NotificationHelper.areNotificationsEnabled(this, accountManager)) {
-            NotificationHelper.enablePullNotifications(this)
+            if(accountManager.areNotificationsStreamingEnabled()) {
+                NotificationHelper.disablePullNotifications(this)
+                StreamingService.startStreaming(this)
+            } else {
+                StreamingService.stopStreaming(this)
+                NotificationHelper.enablePullNotifications(this)
+            }
         } else {
+            StreamingService.stopStreaming(this)
             NotificationHelper.disablePullNotifications(this)
         }
         eventHub.events

@@ -19,6 +19,7 @@ import android.content.Context
 import com.keylesspalace.tusky.service.SendTootService
 import com.keylesspalace.tusky.service.ServiceClient
 import com.keylesspalace.tusky.service.ServiceClientImpl
+import com.keylesspalace.tusky.service.StreamingService
 import dagger.Module
 import dagger.Provides
 import dagger.android.ContributesAndroidInjector
@@ -27,6 +28,9 @@ import dagger.android.ContributesAndroidInjector
 abstract class ServicesModule {
     @ContributesAndroidInjector
     abstract fun contributesSendTootService(): SendTootService
+
+    @ContributesAndroidInjector
+    abstract fun contributesStreamingService(): StreamingService
 
     @Module
     companion object {

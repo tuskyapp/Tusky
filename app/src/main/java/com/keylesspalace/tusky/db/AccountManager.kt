@@ -184,6 +184,10 @@ class AccountManager @Inject constructor(db: AppDatabase) {
         return accounts.any { it.notificationsEnabled }
     }
 
+    fun areNotificationsStreamingEnabled() : Boolean {
+        return accounts.any { it.notificationsStreamingEnabled }
+    }
+
     /**
      * Finds an account by its database id
      * @param accountId the id of the account
