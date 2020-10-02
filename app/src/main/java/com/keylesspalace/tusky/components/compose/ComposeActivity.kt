@@ -994,6 +994,7 @@ class ComposeActivity : BaseActivity(),
     @Parcelize
     data class ComposeOptions(
             // Let's keep fields var until all consumers are Kotlin
+            var scheduledTootUid: Int? = null,
             var savedTootUid: Int? = null,
             var tootText: String? = null,
             var mediaUrls: List<String>? = null,

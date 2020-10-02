@@ -58,6 +58,7 @@ class ComposeViewModel
     private var replyingStatusContent: String? = null
     internal var startingText: String? = null
     private var savedTootUid: Int = 0
+    private var scheduledTootUid: Int = 0
     private var startingContentWarning: String = ""
     private var inReplyToId: String? = null
     private var startingVisibility: Status.Visibility = Status.Visibility.UNKNOWN
@@ -271,6 +272,10 @@ class ComposeViewModel
                             idempotencyKey = randomAlphanumericString(16),
                             retries = 0
                     )
+
+                    if (isEditingScheduledToot())
+                        api.deleteScheduledStatus(scheduledTootUid.toString())
+
                     serviceClient.sendToot(tootToSend)
                 }
     }
@@ -405,6 +410,7 @@ class ComposeViewModel
 
 
         savedTootUid = composeOptions?.savedTootUid ?: 0
+        scheduledTootUid = composeOptions?.scheduledTootUid ?: 0
         startingText = composeOptions?.tootText
 
 
@@ -443,6 +449,10 @@ class ComposeViewModel
 
     fun updateScheduledAt(newScheduledAt: String?) {
         scheduledAt.value = newScheduledAt
+    }
+
+    private fun isEditingScheduledToot(): Boolean {
+        return scheduledTootUid > 0
     }
 
     private companion object {
