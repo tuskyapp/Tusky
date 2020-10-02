@@ -372,7 +372,6 @@
     <string name="notification_clear_text">Désirez-vous nettoyer toutes vos notifications de façon permanente \?</string>
     <string name="action_delete_and_redraft">Effacer et ré-écrire</string>
     <string name="dialog_redraft_toot_warning">Effacer et ré-écrire ce pouet \?</string>
-    <string name="poll_info_time_relative">%s restant</string>
     <string name="poll_info_time_absolute">Termina à %s</string>
     <string name="poll_info_closed">Terminé</string>
     <string name="poll_vote">Voter</string>
@@ -381,20 +380,20 @@
     <string name="notification_poll_description">Notifications pour les sondages terminés</string>
     <string name="poll_ended_created">Un sondage que vous avez créé est terminé</string>
     <plurals name="poll_timespan_days">
-        <item quantity="one">%d jour</item>
-        <item quantity="other">%d jours</item>
+        <item quantity="one">%d jour restant</item>
+        <item quantity="other">%d jours restant</item>
     </plurals>
     <plurals name="poll_timespan_hours">
-        <item quantity="one">%d heure</item>
-        <item quantity="other">%d heures</item>
+        <item quantity="one">%d heure restant</item>
+        <item quantity="other">%d heures restant</item>
     </plurals>
     <plurals name="poll_timespan_minutes">
-        <item quantity="one">%d minute</item>
-        <item quantity="other">%d minutes</item>
+        <item quantity="one">%d minute restant</item>
+        <item quantity="other">%d minutes restant</item>
     </plurals>
     <plurals name="poll_timespan_seconds">
-        <item quantity="one">%d seconde</item>
-        <item quantity="other">%d secondes</item>
+        <item quantity="one">%d seconde restant</item>
+        <item quantity="other">%d secondes restant</item>
     </plurals>
     <string name="pref_title_animate_gif_avatars">Activer l’animation des avatars</string>
     <string name="compose_preview_image_description">Actions pour l’image %s</string>

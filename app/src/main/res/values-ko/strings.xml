@@ -374,7 +374,6 @@
     <plurals name="poll_info_votes">
         <item quantity="other">%s 명 참여</item>
     </plurals>
-    <string name="poll_info_time_relative">%s 남음</string>
     <string name="poll_info_time_absolute">%s에 종료</string>
     <string name="poll_info_closed">마감됨</string>
     <string name="poll_vote">투표</string>
@@ -382,16 +381,16 @@
     <string name="poll_ended_created">당신이 시작한 투표가 종료되었습니다</string>
     <!--These are for timestamps on polls -->
     <plurals name="poll_timespan_days">
-        <item quantity="other">%d일</item>
+        <item quantity="other">%d일 남음</item>
     </plurals>
     <plurals name="poll_timespan_hours">
-        <item quantity="other">%d시간</item>
+        <item quantity="other">%d시간 남음</item>
     </plurals>
     <plurals name="poll_timespan_minutes">
-        <item quantity="other">%d분</item>
+        <item quantity="other">%d분 남음</item>
     </plurals>
     <plurals name="poll_timespan_seconds">
-        <item quantity="other">%d초</item>
+        <item quantity="other">%d초 남음</item>
     </plurals>
     <string name="button_continue">다음</string>
     <string name="button_back">이전</string>

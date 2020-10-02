@@ -354,27 +354,26 @@
         <item quantity="one">%s Stimme</item>
         <item quantity="other">%s Stimmen</item>
     </plurals>
-    <string name="poll_info_time_relative">%s verbleibend</string>
     <string name="poll_info_time_absolute">endet um %s</string>
     <string name="poll_info_closed">Geschlossen</string>
     <string name="poll_vote">Abstimmen</string>
     <string name="poll_ended_voted">Eine Umfrage in der du abgestimmt hast ist vorbei</string>
     <string name="poll_ended_created">Eine Umfrage die du erstellt hast ist vorbei</string>
     <plurals name="poll_timespan_days">
-        <item quantity="one">%d Tag</item>
-        <item quantity="other">%d Tage</item>
+        <item quantity="one">%d Tag verbleibend</item>
+        <item quantity="other">%d Tage verbleibend</item>
     </plurals>
     <plurals name="poll_timespan_hours">
-        <item quantity="one">%d Stunde</item>
-        <item quantity="other">%d Stunden</item>
+        <item quantity="one">%d Stunde verbleibend</item>
+        <item quantity="other">%d Stunden verbleibend</item>
     </plurals>
     <plurals name="poll_timespan_minutes">
-        <item quantity="one">%d Minute</item>
-        <item quantity="other">%d Minuten</item>
+        <item quantity="one">%d Minute verbleibend</item>
+        <item quantity="other">%d Minuten verbleibend</item>
     </plurals>
     <plurals name="poll_timespan_seconds">
-        <item quantity="one">%d Sekunde</item>
-        <item quantity="other">%d Sekunden</item>
+        <item quantity="one">%d Sekunde verbleibend</item>
+        <item quantity="other">%d Sekunden verbleibend</item>
     </plurals>
     <string name="title_domain_mutes">Versteckte Domains</string>
     <string name="action_view_domain_mutes">Versteckte Domains</string>

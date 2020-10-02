@@ -392,20 +392,16 @@
     <string name="poll_ended_voted">Botoa eman duzun galdeketa amaitu da</string>
     <string name="poll_ended_created">Sortu duzun galdeketa amaitu da</string>
     <plurals name="poll_timespan_days">
-        <item quantity="one">Egun %d</item>
-        <item quantity="other">%d egun</item>
+        <item quantity="one">Egun %d geratzen da</item>
+        <item quantity="other">%d egun geratzen da</item>
     </plurals>
     <plurals name="poll_timespan_hours">
-        <item quantity="one">Ordu %d</item>
-        <item quantity="other">%d ordu</item>
-    </plurals>
-    <plurals name="poll_timespan_minutes">
-        <item quantity="one"/>
-        <item quantity="other"/>
+        <item quantity="one">Ordu %d geratzen da</item>
+        <item quantity="other">%d ordu geratzen da</item>
     </plurals>
     <plurals name="poll_timespan_seconds">
-        <item quantity="one">Segundu %d</item>
-        <item quantity="other">%d segundu</item>
+        <item quantity="one">Segundu %d geratzen da</item>
+        <item quantity="other">%d segundu geratzen da</item>
     </plurals>
     <string name="button_continue">Jarraitu</string>
     <string name="button_back">Itzuli</string>
@@ -439,7 +435,6 @@
     <string name="action_open_reblogger">Ireki bultzadaren egilea</string>
     <string name="pref_title_public_filter_keywords">Denbora lerro publikoak</string>
     <string name="description_status_bookmarked">Laster-markatuta</string>
-    <string name="poll_info_time_relative">%s geratzen da</string>
     <string name="error_audio_upload_size">Audioak 40MB baino gutxiago izan behar ditu.</string>
     <string name="select_list_title">Aukeratu zerrenda</string>
     <string name="list">Zerrenda</string>

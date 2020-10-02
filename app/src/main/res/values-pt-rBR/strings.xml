@@ -369,27 +369,26 @@
         <item quantity="one">%s voto</item>
         <item quantity="other">%s votos</item>
     </plurals>
-    <string name="poll_info_time_relative">%s restante</string>
     <string name="poll_info_time_absolute">termina em %s</string>
     <string name="poll_info_closed">Terminou</string>
     <string name="poll_vote">Votar</string>
     <string name="poll_ended_voted">Uma enquete que você votou terminou</string>
     <string name="poll_ended_created">Sua enquete terminou</string>
     <plurals name="poll_timespan_days">
-        <item quantity="one">%d dia</item>
-        <item quantity="other">%d dias</item>
+        <item quantity="one">%d dia restante</item>
+        <item quantity="other">%d dias restante</item>
     </plurals>
     <plurals name="poll_timespan_hours">
-        <item quantity="one">%d hora</item>
-        <item quantity="other">%d horas</item>
+        <item quantity="one">%d hora restante</item>
+        <item quantity="other">%d horas restante</item>
     </plurals>
     <plurals name="poll_timespan_minutes">
-        <item quantity="one">%d minuto</item>
-        <item quantity="other">%d minutos</item>
+        <item quantity="one">%d minuto restante</item>
+        <item quantity="other">%d minutos restante</item>
     </plurals>
     <plurals name="poll_timespan_seconds">
-        <item quantity="one">%d segundo</item>
-        <item quantity="other">%d segundos</item>
+        <item quantity="one">%d segundo restante</item>
+        <item quantity="other">%d segundos restante</item>
     </plurals>
     <string name="pref_title_animate_gif_avatars">Reproduzir GIFs</string>
     <string name="description_poll">Enquete com as opções: %1$s, %2$s, %3$s, %4$s; %5$s</string>

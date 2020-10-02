@@ -371,7 +371,6 @@
         <item quantity="one">%s voto</item>
         <item quantity="other">%s voti</item>
     </plurals>
-    <string name="poll_info_time_relative">%s rimasti</string>
     <string name="poll_info_time_absolute">termina alle %s</string>
     <string name="poll_info_closed">terminato</string>
     <string name="poll_vote">Vota</string>
@@ -403,16 +402,16 @@
     <string name="poll_ended_voted">Un sondaggio che hai votato è terminato</string>
     <string name="poll_ended_created">Un sondaggio che hai creato è terminato</string>
     <plurals name="poll_timespan_days">
-        <item quantity="one">%d giorno</item>
-        <item quantity="other">%d giorni</item>
+        <item quantity="one">%d giorno rimasti</item>
+        <item quantity="other">%d giorni rimasti</item>
     </plurals>
     <plurals name="poll_timespan_hours">
-        <item quantity="one">%d ora</item>
-        <item quantity="other">%d ore</item>
+        <item quantity="one">%d ora rimasti</item>
+        <item quantity="other">%d ore rimasti</item>
     </plurals>
     <plurals name="poll_timespan_minutes">
-        <item quantity="one">%d minuto</item>
-        <item quantity="other">%d minuti</item>
+        <item quantity="one">%d minuto rimasti</item>
+        <item quantity="other">%d minuti rimasti</item>
     </plurals>
     <plurals name="poll_timespan_seconds">
         <item quantity="one">%d secondo</item>
