@@ -287,11 +287,6 @@ class ComposeViewModel
                     serviceClient.sendToot(tootToSend)
                 }
 
-        val result = MediatorLiveData<Unit>()
-
-        result.addSource(deletionObservable) { value -> result.setValue(value) }
-        result.addSource(sendObservable) { value -> result.setValue(value) }
-
         return combineLiveData(deletionObservable, sendObservable) { _, _ -> Unit }
 
 
