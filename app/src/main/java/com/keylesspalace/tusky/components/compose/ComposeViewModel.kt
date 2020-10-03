@@ -22,6 +22,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
+import androidx.work.impl.utils.LiveDataUtils
 import com.keylesspalace.tusky.adapter.ComposeAutoCompleteAdapter
 import com.keylesspalace.tusky.components.compose.ComposeActivity.QueuedMedia
 import com.keylesspalace.tusky.components.search.SearchType
@@ -291,7 +292,7 @@ class ComposeViewModel
         result.addSource(deletionObservable) { value -> result.setValue(value) }
         result.addSource(sendObservable) { value -> result.setValue(value) }
 
-        return result
+        return combineLiveData(deletionObservable, sendObservable) { _, _ -> Unit }
 
 
     }
