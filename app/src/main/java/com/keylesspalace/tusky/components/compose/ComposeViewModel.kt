@@ -96,6 +96,7 @@ class ComposeViewModel
 
     private val mediaToDisposable = mutableMapOf<Long, Disposable>()
 
+    private val isEditingScheduledToot get() = !scheduledTootUid.isNullOrEmpty()
 
     init {
 
@@ -244,7 +245,7 @@ class ComposeViewModel
             spoilerText: String
     ): LiveData<Unit> {
 
-        val deletionObservable = if (isEditingScheduledToot()) {
+        val deletionObservable = if (isEditingScheduledToot) {
             api.deleteScheduledStatus(scheduledTootUid.toString()).toObservable().map { Unit }
         } else {
             empty()
@@ -464,10 +465,6 @@ class ComposeViewModel
 
     fun updateScheduledAt(newScheduledAt: String?) {
         scheduledAt.value = newScheduledAt
-    }
-
-    private fun isEditingScheduledToot(): Boolean {
-        return !scheduledTootUid.isNullOrEmpty()
     }
 
     private companion object {
