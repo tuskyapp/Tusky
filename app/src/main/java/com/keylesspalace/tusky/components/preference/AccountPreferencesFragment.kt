@@ -197,6 +197,21 @@ class AccountPreferencesFragment : PreferenceFragmentCompat(), Injectable {
                 }
             }
 
+            preferenceCategory(R.string.pref_title_other) {
+                switchPreference {
+                    key = PrefKeys.LIVE_NOTIFICATIONS
+                    setTitle(R.string.pref_title_live_notifications)
+                    setSummary(R.string.pref_summary_live_notifications)
+                    isSingleLineTitle = false
+                    isChecked = accountManager.activeAccount?.notificationsStreamingEnabled ?: false
+                    setOnPreferenceChangeListener { _, newValue ->
+                        updateAccount { it.notificationsStreamingEnabled = newValue as Boolean }
+                        eventHub.dispatch(PreferenceChangedEvent(key))
+                        true
+                    }
+                }
+            }
+
             preferenceCategory(R.string.pref_title_timeline_filters) {
                 preference {
                     setTitle(R.string.pref_title_public_filter_keywords)
