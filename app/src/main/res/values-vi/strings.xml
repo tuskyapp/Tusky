@@ -48,7 +48,7 @@
     <string name="action_reset_schedule">Làm tươi</string>
     <string name="action_search">Tìm kiếm</string>
     <string name="action_edit_profile">Trang cá nhân</string>
-    <string name="action_view_account_preferences">Tài khoản</string>
+    <string name="action_view_account_preferences">Riêng bạn</string>
     <string name="action_view_preferences">Cài đặt</string>
     <string name="action_logout">Đăng xuất</string>
     <string name="button_done">Xong</string>
@@ -67,11 +67,11 @@
     <string name="dialog_message_uploading_media">Đang tải…</string>
     <string name="dialog_title_finishing_media_upload">Đã tải xong tập tin</string>
     <string name="dialog_whats_an_instance">Bạn phải nhập một tên miền, ví dụ mastodon.social, icosahedron.website, social.tchncs.de, và <a href="https://instances.social">nhiều hơn nữa!</a> 
-\n
-\nNếu chưa có tài khoản, bạn phải tạo tài khoản trước ở đó.
-\n
-\nMột máy chủ là một cộng đồng nơi mà tài khoản của bạn lưu trữ trên đó, nhưng bạn cũng có thể giao tiếp và theo dõi với mọi người trên các máy chủ khác một cách dễ dàng. 
-\n
+\n 
+\nNếu chưa có tài khoản, bạn phải tạo tài khoản trước ở đó. 
+\n 
+\nMáy chủ, nói cách khác là một cộng đồng nơi mà tài khoản của bạn lưu trữ trên đó, nhưng bạn vẫn có thể giao tiếp và theo dõi mọi người trên các máy chủ khác một cách dễ dàng. 
+\n 
 \nTham khảo thêm tại <a href="https://joinmastodon.org">joinmastodon.org</a>. </string>
     <string name="login_connection">Đang kết nối…</string>
     <string name="label_header">Ảnh bìa</string>
@@ -207,10 +207,10 @@
     <string name="pref_title_status_filter">Lọc bảng tin</string>
     <string name="pref_title_gradient_for_media">Che mờ nội dung nhạy cảm</string>
     <string name="pref_title_animate_gif_avatars">Hiện ảnh đại diện GIF</string>
-    <string name="pref_title_bot_overlay">Hiện tút từ tài khoản Bot</string>
+    <string name="pref_title_bot_overlay">Hiện icon cho tài khoản Bot</string>
     <string name="pref_title_language">Ngôn ngữ</string>
     <string name="pref_title_hide_follow_button">Ẩn nút viết tút khi xem bảng tin</string>
-    <string name="pref_title_custom_tabs">Sử dụng tab Chrome</string>
+    <string name="pref_title_custom_tabs">Mở luôn trong app</string>
     <string name="pref_title_browser_settings">Trình duyệt</string>
     <string name="app_theme_system">Mặc định của thiết bị</string>
     <string name="app_theme_auto">Tự động khi trời tối</string>
@@ -298,7 +298,7 @@
     <string name="abbreviated_hours_ago">%d giờ</string>
     <string name="abbreviated_days_ago">%d ngày</string>
     <string name="abbreviated_years_ago">%d năm</string>
-    <string name="abbreviated_in_seconds">in %ds</string>
+    <string name="abbreviated_in_seconds">%ds</string>
     <string name="abbreviated_in_minutes">%d phút</string>
     <string name="abbreviated_in_hours">in %d giờ</string>
     <string name="abbreviated_in_days">in %d ngày</string>
@@ -326,35 +326,34 @@
     <string name="poll_duration_30_min">30 phút</string>
     <string name="poll_duration_5_min">5 phút</string>
     <string name="create_poll_title">Bình chọn</string>
-    <string name="pref_title_enable_swipe_for_tabs">Sử dụng thao tác cử chỉ để chuyển qua lại giữa các tab</string>
+    <string name="pref_title_enable_swipe_for_tabs">Vuốt để chuyển qua lại giữa các tab</string>
     <string name="pref_title_show_notifications_filter">Hiện bộ lọc thông báo</string>
     <string name="failed_search">Không thể tìm thấy</string>
     <string name="title_accounts">Người</string>
-    <string name="report_description_remote_instance">Tài khoản này thuộc máy chủ khác. Gửi báo cáo ẩn danh\?</string>
-    <string name="report_description_1">Báo cáo này sẽ được gửi tới kiểm duyệt viên máy chủ của bạn. Hãy cung cấp nội dung vì sao bạn báo cáo người này bên dưới:</string>
+    <string name="report_description_remote_instance">Tài khoản này thuộc máy chủ khác. Gửi luôn cho máy chủ đó\?</string>
+    <string name="report_description_1">Báo cáo này sẽ được gửi tới kiểm duyệt viên. Hãy cho biết lý do vì sao bạn báo cáo người này bên dưới:</string>
     <string name="failed_fetch_statuses">Không tải được tút</string>
     <string name="failed_report">Báo cáo thất bại</string>
-    <string name="report_remote_instance">Dời sang %s</string>
+    <string name="report_remote_instance">Gửi cho %s</string>
     <string name="hint_additional_info">Thêm ghi chú</string>
     <string name="report_sent_success">Đã gửi báo cáo @%s</string>
     <plurals name="poll_timespan_seconds">
-        <item quantity="other">%d giây</item>
+        <item quantity="other">%d giây nữa kết thúc</item>
     </plurals>
     <plurals name="poll_timespan_minutes">
-        <item quantity="other">%d phút</item>
+        <item quantity="other">%d phút nữa kết thúc</item>
     </plurals>
     <plurals name="poll_timespan_hours">
-        <item quantity="other">%d giờ</item>
+        <item quantity="other">%d giờ nữa kết thúc</item>
     </plurals>
     <plurals name="poll_timespan_days">
-        <item quantity="other">%d ngày</item>
+        <item quantity="other">%d ngày nữa kết thúc</item>
     </plurals>
     <string name="poll_ended_created">Cuộc bình chọn bạn tạo đã kết thúc</string>
     <string name="poll_ended_voted">Một cuộc bình chọn mà bạn tham gia đã kết thúc</string>
     <string name="poll_vote">Bình chọn</string>
     <string name="poll_info_closed">Kết thúc</string>
     <string name="poll_info_time_absolute">kết thúc lúc %s</string>
-    <string name="poll_info_time_relative">%s nữa kết thúc</string>
     <plurals name="poll_info_people">
         <item quantity="other">%s người</item>
     </plurals>
@@ -371,7 +370,7 @@
     <string name="list">Danh sách</string>
     <string name="select_list_title">Chọn danh sách</string>
     <string name="hashtags">Hashtag</string>
-    <string name="edit_hashtag_hint">Hashtag mà không #</string>
+    <string name="edit_hashtag_hint">Không cần dấu #</string>
     <string name="add_hashtag_title">Thêm hashtag</string>
     <string name="hint_list_name">Tên danh sách</string>
     <string name="description_poll">Những lựa chọn: %1$s, %2$s, %3$s, %4$s; %5$s</string>
@@ -409,7 +408,7 @@
     <string name="license_apache_2">Licensed under the Apache License (sao chép bên dưới)</string>
     <string name="license_description">Tusky có sử dụng mã nguồn từ những dự án mã nguồn mở sau:</string>
     <string name="unreblog_private">Hủy chia sẻ</string>
-    <string name="reblog_private">Chia sẻ với người đăng</string>
+    <string name="reblog_private">Chia sẻ công khai</string>
     <string name="account_moved_description">%1$s đã dời sang:</string>
     <string name="profile_badge_bot_text">Tài khoản Bot</string>
     <string name="download_failed">Tải về thất bại</string>
@@ -455,5 +454,5 @@
     <string name="action_unmute_notifications_desc">Bỏ ẩn thông báo từ %s</string>
     <string name="action_unmute_desc">Bỏ ẩn %s</string>
     <string name="action_unmute_domain">Bỏ ẩn %s</string>
-    <string name="pref_title_hide_top_toolbar">Ẩn tên tab</string>
+    <string name="pref_title_hide_top_toolbar">Ẩn tiêu đề tab</string>
 </resources>

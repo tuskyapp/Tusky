@@ -382,7 +382,6 @@
     <plurals name="poll_info_votes">
         <item quantity="other">%s 次投票</item>
     </plurals>
-    <string name="poll_info_time_relative">剩余 %s</string>
     <string name="poll_info_time_absolute">%s 结束</string>
     <string name="poll_info_closed">已结束</string>
     <string name="poll_vote">投票</string>
@@ -390,16 +389,16 @@
     <string name="poll_ended_created">你创建的投票已结束</string>
     <!--These are for timestamps on polls -->
     <plurals name="poll_timespan_days">
-        <item quantity="other">%d 天</item>
+        <item quantity="other">剩余 %d 天</item>
     </plurals>
     <plurals name="poll_timespan_hours">
-        <item quantity="other">%d 小时</item>
+        <item quantity="other">剩余 %d 小时</item>
     </plurals>
     <plurals name="poll_timespan_minutes">
-        <item quantity="other">%d 分钟</item>
+        <item quantity="other">剩余 %d 分钟</item>
     </plurals>
     <plurals name="poll_timespan_seconds">
-        <item quantity="other">%d 秒</item>
+        <item quantity="other">剩余 %d 秒</item>
     </plurals>
     <string name="hashtags">话题</string>
     <string name="action_edit">编辑</string>

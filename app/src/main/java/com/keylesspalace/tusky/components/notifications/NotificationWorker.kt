@@ -16,82 +16,35 @@
 package com.keylesspalace.tusky.components.notifications
 
 import android.content.Context
-import android.util.Log
 import androidx.work.ListenableWorker
 import androidx.work.Worker
 import androidx.work.WorkerFactory
 import androidx.work.WorkerParameters
-import com.keylesspalace.tusky.db.AccountEntity
-import com.keylesspalace.tusky.db.AccountManager
-import com.keylesspalace.tusky.entity.Notification
-import com.keylesspalace.tusky.network.MastodonApi
-import com.keylesspalace.tusky.util.isLessThan
-import java.io.IOException
 import javax.inject.Inject
 
 class NotificationWorker(
-        private val context: Context,
+        context: Context,
         params: WorkerParameters,
-        private val mastodonApi: MastodonApi,
-        private val accountManager: AccountManager
+        private val notificationsFetcher: NotificationFetcher
 ) : Worker(context, params) {
 
     override fun doWork(): Result {
-        val accountList = accountManager.getAllAccountsOrderedByActive()
-        for (account in accountList) {
-            if (account.notificationsEnabled) {
-                try {
-                    Log.d(TAG, "getting Notifications for " + account.fullName)
-                    val notificationsResponse = mastodonApi.notificationsWithAuth(
-                            String.format("Bearer %s", account.accessToken),
-                            account.domain
-                    ).execute()
-                    val notifications = notificationsResponse.body()
-                    if (notificationsResponse.isSuccessful && notifications != null) {
-                        onNotificationsReceived(account, notifications)
-                    } else {
-                        Log.w(TAG, "error receiving notifications")
-                    }
-                } catch (e: IOException) {
-                    Log.w(TAG, "error receiving notifications", e)
-                }
-            }
-        }
+        notificationsFetcher.fetchAndShow()
         return Result.success()
     }
-
-    private fun onNotificationsReceived(account: AccountEntity, notificationList: List<Notification>) {
-        val newId = account.lastNotificationId
-        var newestId = ""
-        var isFirstOfBatch = true
-        notificationList.reversed().forEach { notification ->
-            val currentId = notification.id
-            if (newestId.isLessThan(currentId)) {
-                newestId = currentId
-            }
-            if (newId.isLessThan(currentId)) {
-                NotificationHelper.make(context, notification, account, isFirstOfBatch)
-                isFirstOfBatch = false
-            }
-        }
-        account.lastNotificationId = newestId
-        accountManager.saveAccount(account)
-    }
-
-    companion object {
-        private const val TAG = "NotificationWorker"
-    }
-
 }
 
 class NotificationWorkerFactory @Inject constructor(
-        val api: MastodonApi,
-        val accountManager: AccountManager
-): WorkerFactory() {
+        private val notificationsFetcher: NotificationFetcher
+) : WorkerFactory() {
 
-    override fun createWorker(appContext: Context, workerClassName: String, workerParameters: WorkerParameters): ListenableWorker? {
-        if(workerClassName == NotificationWorker::class.java.name) {
-            return NotificationWorker(appContext, workerParameters, api, accountManager)
+    override fun createWorker(
+            appContext: Context,
+            workerClassName: String,
+            workerParameters: WorkerParameters
+    ): ListenableWorker? {
+        if (workerClassName == NotificationWorker::class.java.name) {
+            return NotificationWorker(appContext, workerParameters, notificationsFetcher)
         }
         return null
     }

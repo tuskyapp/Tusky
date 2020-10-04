@@ -1,0 +1,8 @@
+Tusky v12.0
+
+- Geliştirilmiş ana arayüz - artık sekmeleri aşağıya taşıyabilirsiniz
+- Bir kullanıcıyı sustururken, artık bildirimlerini devre dışı bırakıp bırakmayacağınıza da karar verebilirsiniz
+- Artık tek bir hashtag sekmesinden istediğiniz kadar hashtag'i takip edebilirsiniz
+- Medya açıklamalarının görüntülenme şekli iyileştirildi, böylece süper uzun açıklamalarla bile çalışıyor
+    
+Tam değişiklik günlüğü: https://github.com/tuskyapp/Tusky/releases

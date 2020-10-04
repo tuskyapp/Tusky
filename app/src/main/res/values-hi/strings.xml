@@ -208,17 +208,16 @@
     <string name="poll_duration_30_min">30 मिनिट</string>
     <string name="poll_duration_5_min">5 मिनट</string>
     <plurals name="poll_timespan_hours">
-        <item quantity="one">%d घंटा</item>
-        <item quantity="other">%d घंटे</item>
+        <item quantity="one">%d घंटा शेष</item>
+        <item quantity="other">%d घंटे शेष</item>
     </plurals>
     <plurals name="poll_timespan_days">
-        <item quantity="one">%d दिन</item>
-        <item quantity="other">%d दिन</item>
+        <item quantity="one">%d दिन शेष</item>
+        <item quantity="other">%d दिन शेष</item>
     </plurals>
     <string name="poll_ended_created">आपके द्वारा बनाया गया एक जनमत समाप्त हो गया है</string>
     <string name="poll_ended_voted">आपके द्वारा मतदान किया गया जनमत समाप्त हो गया है</string>
     <string name="poll_info_time_absolute">%s समाप्त होगा</string>
-    <string name="poll_info_time_relative">%s शेष</string>
     <plurals name="poll_info_people">
         <item quantity="one">%s व्यक्ति</item>
         <item quantity="other">%s लोग</item>
@@ -400,12 +399,8 @@
         <item quantity="one"><b>%1$s</b> ने पसंद किया</item>
         <item quantity="other"><b>%1$s</b> ने पसंद किया</item>
     </plurals>
-    <plurals name="poll_timespan_minutes">
-        <item quantity="one"></item>
-        <item quantity="other"></item>
-    </plurals>
     <plurals name="poll_timespan_seconds">
-        <item quantity="one">%d सेकेंड</item>
-        <item quantity="other">%d सेकेंड</item>
+        <item quantity="one">%d सेकेंड शेष</item>
+        <item quantity="other">%d सेकेंड शेष</item>
     </plurals>
 </resources>

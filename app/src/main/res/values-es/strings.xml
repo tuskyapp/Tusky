@@ -116,7 +116,7 @@
     <string name="confirmation_unmuted">El usuario ya no está silenciado</string>
     <string name="status_sent">¡Enviado!</string>
     <string name="status_sent_long">Respuesta enviada correctamente.</string>
-    <string name="hint_domain">Indique la instancia</string>
+    <string name="hint_domain">¿Qué instancia\?</string>
     <string name="hint_compose">¿En qué estás pensando?</string>
     <string name="hint_content_warning">Aviso de contenido</string>
     <string name="hint_display_name">Nombre</string>
@@ -300,8 +300,8 @@
         <item quantity="other">&lt;b&gt;%1$s&lt;/b&gt; Favoritos</item>
     </plurals>
     <plurals name="reblogs">
-        <item quantity="one"><b>%s</b> Boost</item>
-        <item quantity="other"><b>%s</b> Boosts</item>
+        <item quantity="one"><b>%s</b> impulso</item>
+        <item quantity="other"><b>%s</b> impulsos</item>
     </plurals>
     <string name="title_reblogged_by">Impulsado por</string>
     <string name="title_favourited_by">Marcado como favorito por</string>
@@ -330,20 +330,20 @@
     <string name="pref_title_bot_overlay">Mostrar indicador de bots</string>
     <string name="poll_vote">Votar</string>
     <plurals name="poll_timespan_days">
-        <item quantity="one">%d día</item>
-        <item quantity="other">%d días</item>
+        <item quantity="one">%d día restante</item>
+        <item quantity="other">%d días restante</item>
     </plurals>
     <plurals name="poll_timespan_hours">
-        <item quantity="one"/>
-        <item quantity="other"/>
+        <item quantity="one">%d hora restante</item>
+        <item quantity="other">%d horas restante</item>
     </plurals>
     <plurals name="poll_timespan_minutes">
-        <item quantity="one">%d minuto</item>
-        <item quantity="other">%d minutos</item>
+        <item quantity="one">%d minuto restante</item>
+        <item quantity="other">%d minutos restante</item>
     </plurals>
     <plurals name="poll_timespan_seconds">
-        <item quantity="one">%d segundo</item>
-        <item quantity="other">%d segundos</item>
+        <item quantity="one">%d segundo restante</item>
+        <item quantity="other">%d segundos restante</item>
     </plurals>
     <string name="poll_info_format"> <!-- 15 votos • queda 1 hora --> %1$s • %2$s</string>
     <plurals name="poll_info_votes">
@@ -388,7 +388,6 @@
     <string name="compose_shortcut_short_label">Redactar</string>
     <string name="notification_clear_text">¿Estás seguro de que quieres eliminar permanentemente todas tus notificaciones\?</string>
     <string name="compose_preview_image_description">Acciones para la imagen %s</string>
-    <string name="poll_info_time_relative">%s restante</string>
     <string name="poll_info_time_absolute">termina en %s</string>
     <string name="poll_ended_voted">Una encuesta en la que has votado ha terminado</string>
     <string name="poll_ended_created">Una encuesta que has creado ha terminado</string>
@@ -475,4 +474,5 @@
     <string name="dialog_mute_hide_notifications">Ocultar notificaciones</string>
     <string name="action_mute_notifications_desc">Silenciar notificaciones desde %s</string>
     <string name="action_unmute_notifications_desc">Dejar de silenciar notificaciones desde %s</string>
+    <string name="pref_title_hide_top_toolbar">Ocultar el título de la barra de herramientas superior</string>
 </resources>

@@ -425,7 +425,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
                     }
             )
 
-            if(addSearchButton) {
+            if (addSearchButton) {
                 mainDrawer.addItemsAtPosition(4,
                         primaryDrawerItem {
                             nameRes = R.string.action_search
@@ -457,7 +457,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
 
     private fun setupTabs(selectNotificationTab: Boolean) {
 
-        val activeTabLayout = if(preferences.getString("mainNavPosition", "top") == "bottom") {
+        val activeTabLayout = if (preferences.getString("mainNavPosition", "top") == "bottom") {
             val actionBarSize = ThemeUtils.getDimension(this, R.attr.actionBarSize)
             val fabMargin = resources.getDimensionPixelSize(R.dimen.fabMargin)
             (composeButton.layoutParams as CoordinatorLayout.LayoutParams).bottomMargin = actionBarSize + fabMargin
@@ -621,10 +621,11 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
                 .transform(
                         RoundedCorners(resources.getDimensionPixelSize(R.dimen.avatar_radius_36dp))
                 )
-                .into(object : CustomTarget<Drawable>(){
+                .into(object : CustomTarget<Drawable>() {
                     override fun onResourceReady(resource: Drawable, transition: Transition<in Drawable>?) {
                         mainToolbar.navigationIcon = resource
                     }
+
                     override fun onLoadCleared(placeholder: Drawable?) {
                         mainToolbar.navigationIcon = placeholder
                     }

@@ -1,1 +1,1 @@
-Mastodon için çoklu hesap istemcisi
+Mastodon sosyal ağı için çok hesaplı bir istemci

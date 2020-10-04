@@ -175,7 +175,7 @@ dependencies {
     testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:2.2.0"
 
     androidTestImplementation "androidx.test.espresso:espresso-core:3.2.0"
-    androidTestImplementation "android.arch.persistence.room:testing:1.1.1"
+    androidTestImplementation "androidx.room:room-testing:$roomVersion"
     androidTestImplementation "androidx.test.ext:junit:1.1.1"
 
     debugImplementation "im.dino:dbinspector:4.0.0@aar"

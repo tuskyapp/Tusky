@@ -99,11 +99,19 @@ interface MastodonApi {
             @Query("exclude_types[]") excludes: Set<Notification.Type>?
     ): Call<List<Notification>>
 
+    @GET("api/v1/markers")
+    fun markersWithAuth(
+            @Header("Authorization") auth: String,
+            @Header(DOMAIN_HEADER) domain: String,
+            @Query("timeline[]") timelines: List<String>
+    ): Single<Map<String, Marker>>
+
     @GET("api/v1/notifications")
     fun notificationsWithAuth(
             @Header("Authorization") auth: String,
-            @Header(DOMAIN_HEADER) domain: String
-    ): Call<List<Notification>>
+            @Header(DOMAIN_HEADER) domain: String,
+            @Query("since_id") sinceId: String?
+    ): Single<List<Notification>>
 
     @POST("api/v1/notifications/clear")
     fun clearNotifications(): Call<ResponseBody>

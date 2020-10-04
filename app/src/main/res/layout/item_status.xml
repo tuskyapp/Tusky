@@ -476,6 +476,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="6dp"
+        android:textSize="?attr/status_text_medium"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@id/status_display_name"
         app:layout_constraintTop_toBottomOf="@id/status_poll_button"

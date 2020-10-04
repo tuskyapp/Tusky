@@ -1008,7 +1008,8 @@ class ComposeActivity : BaseActivity(),
             var mediaAttachments: List<Attachment>? = null,
             var scheduledAt: String? = null,
             var sensitive: Boolean? = null,
-            var poll: NewPoll? = null
+            var poll: NewPoll? = null,
+            var modifiedInitialState: Boolean? = null
     ) : Parcelable
 
     companion object {

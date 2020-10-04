@@ -30,6 +30,7 @@ import android.widget.ImageView
 import androidx.activity.viewModels
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -112,7 +113,7 @@ class EditProfileActivity : BaseActivity(), Injectable {
         addFieldButton.setOnClickListener {
             accountFieldEditAdapter.addField()
             if(accountFieldEditAdapter.itemCount >= MAX_ACCOUNT_FIELDS) {
-                it.isEnabled = false
+                it.isVisible = false
             }
 
             scrollView.post{
