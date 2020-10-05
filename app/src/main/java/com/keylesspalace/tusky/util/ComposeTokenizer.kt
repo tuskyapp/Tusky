@@ -57,7 +57,7 @@ class ComposeTokenizer : MultiAutoCompleteTextView.Tokenizer {
                 }
 
                 j--
-                character2 = if (i == 0) ' ' else text[i - 1]
+                character2 = if (j == 0) ' ' else text[j - 1]
             }
             if(character2 == '@') {
                 i = j
