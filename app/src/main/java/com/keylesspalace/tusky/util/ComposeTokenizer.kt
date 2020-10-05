@@ -48,16 +48,20 @@ class ComposeTokenizer : MultiAutoCompleteTextView.Tokenizer {
         // caught domain name, try search username
         // don't ask me about this code
         if(i > 3 && character == '@') {
-            i--
-            character = text[i - 1]
+            var j = i - 1
+            var character2 = text[i - 1]
 
-            while(i > 0 && character != '@') {
-                if(!isMentionOrHashtagAllowedCharacter(character)) {
-                    return cursor
+            while(j > 0 && character2 != '@') {
+                if(!isMentionOrHashtagAllowedCharacter(character2)) {
+                    break
                 }
 
-                i--
-                character = if (i == 0) ' ' else text[i - 1]
+                j--
+                character2 = if (i == 0) ' ' else text[i - 1]
+            }
+            if(character2 == '@') {
+                i = j
+                character = character2
             }
         }
 
