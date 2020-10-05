@@ -18,23 +18,51 @@ package com.keylesspalace.tusky.util
 import android.text.SpannableString
 import android.text.Spanned
 import android.text.TextUtils
+import android.util.Log
 import android.widget.MultiAutoCompleteTextView
 
 class ComposeTokenizer : MultiAutoCompleteTextView.Tokenizer {
+
+    private fun isMentionOrHashtagAllowedCharacter(character: Char) : Boolean {
+        return Character.isLetterOrDigit(character) || character == '_' // simple usernames
+                || character == '-' // extended usernames
+                || character == '.' // domain dot
+    }
+
     override fun findTokenStart(text: CharSequence, cursor: Int): Int {
         if (cursor == 0) {
             return cursor
         }
         var i = cursor
         var character = text[i - 1]
-        while (i > 0 && character != '@' && character != '#' && character != ':') {
-            // See SpanUtils.MENTION_REGEX
-            if (!Character.isLetterOrDigit(character) && character != '_') {
+
+        while(i > 0 && !(character == '@' || character == '#' || character == ':')) {
+            if(!isMentionOrHashtagAllowedCharacter(character)) {
                 return cursor
             }
+
             i--
             character = if (i == 0) ' ' else text[i - 1]
         }
+
+        // caught domain name, try search username
+        // don't ask me about this code
+        if(i > 3 && character == '@') {
+            i--
+            character = text[i - 1]
+
+            while(i > 0 && character != '@') {
+                if(!isMentionOrHashtagAllowedCharacter(character)) {
+                    return cursor
+                }
+
+                i--
+                character = if (i == 0) ' ' else text[i - 1]
+            }
+        }
+
+        // Log.d("Tokenizer", "Stopped search at ${character} ${text.substring(i)}")
+
         if (i < 1
                 || (character != '@' && character != '#' && character != ':')
                 || i > 1 && !Character.isWhitespace(text[i - 2])) {
