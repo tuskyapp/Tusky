@@ -213,8 +213,6 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
 
         setupTabs(showNotificationTab)
 
-        initPullNotifications()
-
         eventHub.events
                 .observeOn(AndroidSchedulers.mainThread())
                 .autoDispose(this, Lifecycle.Event.ON_DESTROY)
@@ -245,8 +243,8 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
     private fun initPullNotifications() {
         if (NotificationHelper.areNotificationsEnabled(this, accountManager)) {
             if(accountManager.areNotificationsStreamingEnabled()) {
-                NotificationHelper.disablePullNotifications(this)
                 StreamingService.startStreaming(this)
+                NotificationHelper.disablePullNotifications(this)
             } else {
                 StreamingService.stopStreaming(this)
                 NotificationHelper.enablePullNotifications(this)
@@ -632,9 +630,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
                         conversationRepository.deleteCacheForAccount(activeAccount.id)
                         removeShortcut(this, activeAccount)
                         val newAccount = accountManager.logActiveAccountOut()
-                        if (!NotificationHelper.areNotificationsEnabled(this, accountManager)) {
-                            NotificationHelper.disablePullNotifications(this)
-                        }
+                        initPullNotifications()
                         val intent = if (newAccount == null) {
                             LoginActivity.getIntent(this, false)
                         } else {
@@ -671,6 +667,8 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
 
         accountManager.updateActiveAccount(me)
         NotificationHelper.createNotificationChannelsForAccount(accountManager.activeAccount!!, this)
+
+        initPullNotifications()
 
         // Show follow requests in the menu, if this is a locked account.
         if (me.locked && mainDrawer.getDrawerItem(DRAWER_ITEM_FOLLOW_REQUESTS) == null) {
