@@ -49,7 +49,7 @@ class ComposeTokenizer : MultiAutoCompleteTextView.Tokenizer {
         // don't ask me about this code
         if(i > 3 && character == '@') {
             var j = i - 1
-            var character2 = text[i - 1]
+            var character2 = text[i - 2]
 
             while(j > 0 && character2 != '@') {
                 if(!isMentionOrHashtagAllowedCharacter(character2)) {
