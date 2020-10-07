@@ -682,17 +682,15 @@ class ComposeActivity : BaseActivity(),
     }
 
     private fun updateVisibleCharactersLeft() {
-        var remainingLength = maximumTootCharacters - calculateTextLength();
+        val remainingLength = maximumTootCharacters - calculateTextLength();
         composeCharactersLeftView.text = String.format(Locale.getDefault(), "%d", remainingLength)
 
-        if(remainingLength < 0) {
-            val textColor = ThemeUtils.getColor(this, android.R.attr.colorError)
-            composeCharactersLeftView.setTextColor(textColor)
+        val textColor = if (remainingLength < 0) {
+            ContextCompat.getColor(this, R.color.tusky_red)
+        } else {
+            ThemeUtils.getColor(this, android.R.attr.textColorTertiary)
         }
-        else {
-            val textColor = ThemeUtils.getColor(this, android.R.attr.textColorTertiary)
-            composeCharactersLeftView.setTextColor(textColor)
-        }
+        composeCharactersLeftView.setTextColor(textColor)
     }
 
     private fun onContentWarningChanged() {
