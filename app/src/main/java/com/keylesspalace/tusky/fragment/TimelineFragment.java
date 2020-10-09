@@ -1209,7 +1209,7 @@ public class TimelineFragment extends SFragment implements
             if (status != null
                     && ((status.getInReplyToId() != null && filterRemoveReplies)
                     || (status.getReblog() != null && filterRemoveReblogs)
-                    || shouldFilterStatus(status))) {
+                    || shouldFilterStatus(status.getActionableStatus()))) {
                 it.remove();
             }
         }
