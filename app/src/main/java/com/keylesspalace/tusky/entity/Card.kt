@@ -26,7 +26,8 @@ data class Card(
         val image: String,
         val type: String,
         val width: Int,
-        val height: Int
+        val height: Int,
+        val blurhash: String?
 ) {
 
     override fun hashCode(): Int {

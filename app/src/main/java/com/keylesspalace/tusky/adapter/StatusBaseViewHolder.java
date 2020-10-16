@@ -26,6 +26,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.RequestBuilder;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.GranularRoundedCorners;
 import com.google.android.material.button.MaterialButton;
@@ -734,7 +735,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             }
 
             if (cardView != null) {
-                setupCard(status, statusDisplayOptions.cardViewMode());
+                setupCard(status, statusDisplayOptions.cardViewMode(), statusDisplayOptions);
             }
 
             setupButtons(listener, status.getSenderId(), status.getContent().toString(),
@@ -977,7 +978,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         return pollDescription.getContext().getString(R.string.poll_info_format, votesText, pollDurationInfo);
     }
 
-    protected void setupCard(StatusViewData.Concrete status, CardViewMode cardViewMode) {
+    protected void setupCard(StatusViewData.Concrete status, CardViewMode cardViewMode, StatusDisplayOptions statusDisplayOptions) {
         if (cardViewMode != CardViewMode.NONE &&
                 status.getAttachments().size() == 0 &&
                 status.getCard() != null &&
@@ -999,7 +1000,10 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
 
             cardUrl.setText(card.getUrl());
 
-            if (!TextUtils.isEmpty(card.getImage())) {
+            // Statuses from other activitypub sources can be marked sensitive even if there's no media,
+            // so let's blur the preview in that case
+            // If media previews are disabled, show placeholder for cards as well
+            if (statusDisplayOptions.mediaPreviewEnabled() && !status.isSensitive() && !TextUtils.isEmpty(card.getImage())) {
 
                 int topLeftRadius = 0;
                 int topRightRadius = 0;
@@ -1030,12 +1034,29 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
                     bottomLeftRadius = radius;
                 }
 
+                RequestBuilder<Drawable> builder = Glide.with(cardImage).load(card.getImage());
+                if (statusDisplayOptions.useBlurhash() && !TextUtils.isEmpty(card.getBlurhash())) {
+                    builder = builder.placeholder(decodeBlurHash(card.getBlurhash()));
+                }
+                builder.transform(
+                        new CenterCrop(),
+                        new GranularRoundedCorners(topLeftRadius, topRightRadius, bottomRightRadius, bottomLeftRadius)
+                )
+                        .into(cardImage);
+            } else if (statusDisplayOptions.useBlurhash() && !TextUtils.isEmpty(card.getBlurhash())) {
+                int radius = cardImage.getContext().getResources()
+                        .getDimensionPixelSize(R.dimen.card_radius);
 
-                Glide.with(cardImage)
-                        .load(card.getImage())
+                cardView.setOrientation(LinearLayout.HORIZONTAL);
+                cardImage.getLayoutParams().height = ViewGroup.LayoutParams.MATCH_PARENT;
+                cardImage.getLayoutParams().width = cardImage.getContext().getResources()
+                        .getDimensionPixelSize(R.dimen.card_image_horizontal_width);
+                cardInfo.getLayoutParams().height = ViewGroup.LayoutParams.WRAP_CONTENT;
+                cardInfo.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
+                Glide.with(cardImage).load(decodeBlurHash(card.getBlurhash()))
                         .transform(
                                 new CenterCrop(),
-                                new GranularRoundedCorners(topLeftRadius, topRightRadius, bottomRightRadius, bottomLeftRadius)
+                                new GranularRoundedCorners(radius, 0, 0, radius)
                         )
                         .into(cardImage);
             } else {
