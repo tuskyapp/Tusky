@@ -106,7 +106,7 @@ class StatusDetailedViewHolder extends StatusBaseViewHolder {
                                    StatusDisplayOptions statusDisplayOptions,
                                    @Nullable Object payloads) {
         super.setupWithStatus(status, listener, statusDisplayOptions, payloads);
-        setupCard(status, CardViewMode.FULL_WIDTH); // Always show card for detailed status
+        setupCard(status, CardViewMode.FULL_WIDTH, statusDisplayOptions); // Always show card for detailed status
         if (payloads == null) {
             setReblogAndFavCount(status.getReblogsCount(), status.getFavouritesCount(), listener);
 
