@@ -407,7 +407,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
 
 
             accountAvatarImageView.setOnClickListener { avatarView ->
-                val intent = ViewMediaActivity.newAvatarIntent(avatarView.context, account.avatar)
+                val intent = ViewMediaActivity.newSingleImageIntent(avatarView.context, account.avatar)
 
                 avatarView.transitionName = account.avatar
                 val options = ActivityOptionsCompat.makeSceneTransitionAnimation(this, avatarView, account.avatar)

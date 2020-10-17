@@ -68,7 +68,7 @@ class ViewMediaActivity : BaseActivity(), ViewImageFragment.PhotoActionsListener
     companion object {
         private const val EXTRA_ATTACHMENTS = "attachments"
         private const val EXTRA_ATTACHMENT_INDEX = "index"
-        private const val EXTRA_AVATAR_URL = "avatar"
+        private const val EXTRA_SINGLE_IMAGE_URL = "single_image"
         private const val TAG = "ViewMediaActivity"
 
         @JvmStatic
@@ -79,9 +79,10 @@ class ViewMediaActivity : BaseActivity(), ViewImageFragment.PhotoActionsListener
             return intent
         }
 
-        fun newAvatarIntent(context: Context, url: String): Intent {
+        @JvmStatic
+        fun newSingleImageIntent(context: Context, url: String): Intent {
             val intent = Intent(context, ViewMediaActivity::class.java)
-            intent.putExtra(EXTRA_AVATAR_URL, url)
+            intent.putExtra(EXTRA_SINGLE_IMAGE_URL, url)
             return intent
         }
     }
@@ -117,7 +118,7 @@ class ViewMediaActivity : BaseActivity(), ViewImageFragment.PhotoActionsListener
             ImagePagerAdapter(this, realAttachs, initialPosition)
 
         } else {
-            val avatarUrl = intent.getStringExtra(EXTRA_AVATAR_URL)
+            val avatarUrl = intent.getStringExtra(EXTRA_SINGLE_IMAGE_URL)
                     ?: throw IllegalArgumentException("attachment list or avatar url has to be set")
 
             AvatarImagePagerAdapter(this, avatarUrl)

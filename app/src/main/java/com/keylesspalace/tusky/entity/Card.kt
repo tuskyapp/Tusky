@@ -18,6 +18,8 @@ package com.keylesspalace.tusky.entity
 import android.text.Spanned
 import com.google.gson.annotations.SerializedName
 
+const val TYPE_PHOTO = "photo"
+
 data class Card(
         val url: String,
         val title: Spanned,
@@ -27,7 +29,8 @@ data class Card(
         val type: String,
         val width: Int,
         val height: Int,
-        val blurhash: String?
+        val blurhash: String?,
+        val embed_url: String?
 ) {
 
     override fun hashCode(): Int {
