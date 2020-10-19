@@ -339,9 +339,9 @@ class TabPreferenceActivity : BaseActivity(), Injectable, ItemInteractionListene
 
     override fun onBackPressed() {
         if (actionButton.isVisible) {
-            toggleFab(false)
-        } else {
             super.onBackPressed()
+        } else {
+            toggleFab(false)
         }
     }
 
