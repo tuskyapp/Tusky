@@ -49,7 +49,6 @@ import androidx.core.view.inputmethod.InputConnectionCompat
 import androidx.core.view.inputmethod.InputContentInfoCompat
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
-import androidx.lifecycle.Observer
 import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -150,7 +149,7 @@ class ComposeActivity : BaseActivity(),
         /* If the composer is started up as a reply to another post, override the "starting" state
          * based on what the intent from the reply request passes. */
         if (intent != null) {
-            this.composeOptions = intent.getParcelableExtra<ComposeOptions?>(COMPOSE_OPTIONS_EXTRA)
+            this.composeOptions = intent.getParcelableExtra(COMPOSE_OPTIONS_EXTRA)
             viewModel.setup(composeOptions)
             setupReplyViews(composeOptions?.replyingStatusAuthor)
             val tootText = composeOptions?.tootText
@@ -682,7 +681,7 @@ class ComposeActivity : BaseActivity(),
     }
 
     private fun updateVisibleCharactersLeft() {
-        val remainingLength = maximumTootCharacters - calculateTextLength();
+        val remainingLength = maximumTootCharacters - calculateTextLength()
         composeCharactersLeftView.text = String.format(Locale.getDefault(), "%d", remainingLength)
 
         val textColor = if (remainingLength < 0) {
@@ -749,7 +748,7 @@ class ComposeActivity : BaseActivity(),
                     this, getString(R.string.dialog_title_finishing_media_upload),
                     getString(R.string.dialog_message_uploading_media), true, true)
 
-            viewModel.sendStatus(contentText, spoilerText).observe(this, Observer {
+            viewModel.sendStatus(contentText, spoilerText).observe(this, {
                 finishingUploadDialog?.dismiss()
                 deleteDraftAndFinish()
             })

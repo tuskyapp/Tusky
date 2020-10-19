@@ -41,10 +41,8 @@ import com.keylesspalace.tusky.viewmodel.ListsViewModel.Event.*
 import com.keylesspalace.tusky.viewmodel.ListsViewModel.LoadingState.*
 import com.mikepenz.iconics.IconicsDrawable
 import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial
-import com.mikepenz.iconics.utils.color
 import com.mikepenz.iconics.utils.colorInt
 import com.mikepenz.iconics.utils.sizeDp
-import com.mikepenz.iconics.utils.toIconicsColor
 import com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider.from
 import com.uber.autodispose.autoDispose
 import dagger.android.DispatchingAndroidInjector

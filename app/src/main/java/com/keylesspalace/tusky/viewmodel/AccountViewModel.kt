@@ -30,9 +30,8 @@ class AccountViewModel @Inject constructor(
 
     val accountFieldData = combineOptionalLiveData(accountData, identityProofData) { accountRes, identityProofs ->
         identityProofs.orEmpty().map { Either.Left<IdentityProof, Field>(it) }
-                .plus(accountRes?.data?.fields.orEmpty().map { Either.Right<IdentityProof, Field>(it) })
+                .plus(accountRes?.data?.fields.orEmpty().map { Either.Right(it) })
     }
-
 
     private val callList: MutableList<Call<*>> = mutableListOf()
     private val disposable: Disposable = eventHub.events

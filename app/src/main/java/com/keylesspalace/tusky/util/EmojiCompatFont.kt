@@ -143,9 +143,9 @@ class EmojiCompatFont(
                 listOf(0)
             }
             Pair(file, versionCode)
-        }.sortedWith(
-                Comparator<Pair<File, List<Int>>> { a, b -> compareVersions(a.second, b.second) }
-        ).also {
+        }.sortedWith { a, b ->
+            compareVersions(a.second, b.second)
+        }.also {
             existingFontFileCache = it
         }
     }

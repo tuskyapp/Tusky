@@ -23,8 +23,6 @@ import androidx.core.app.ActivityOptionsCompat
 import androidx.core.view.ViewCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
-import androidx.paging.PagedList
 import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -43,7 +41,10 @@ import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.entity.Attachment
 import com.keylesspalace.tusky.entity.Status
-import com.keylesspalace.tusky.util.*
+import com.keylesspalace.tusky.util.CardViewMode
+import com.keylesspalace.tusky.util.StatusDisplayOptions
+import com.keylesspalace.tusky.util.hide
+import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.viewdata.AttachmentViewData
 import kotlinx.android.synthetic.main.fragment_report_statuses.*
 import javax.inject.Inject
@@ -129,11 +130,11 @@ class ReportStatusesFragment : Fragment(), Injectable, AdapterHandler {
         recyclerView.adapter = adapter
         (recyclerView.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
 
-        viewModel.statuses.observe(viewLifecycleOwner, Observer<PagedList<Status>> {
+        viewModel.statuses.observe(viewLifecycleOwner) {
             adapter.submitList(it)
-        })
+        }
 
-        viewModel.networkStateAfter.observe(viewLifecycleOwner, Observer {
+        viewModel.networkStateAfter.observe(viewLifecycleOwner) {
             if (it?.status == com.keylesspalace.tusky.util.Status.RUNNING)
                 progressBarBottom.show()
             else
@@ -141,9 +142,9 @@ class ReportStatusesFragment : Fragment(), Injectable, AdapterHandler {
 
             if (it?.status == com.keylesspalace.tusky.util.Status.FAILED)
                 showError(it.msg)
-        })
+        }
 
-        viewModel.networkStateBefore.observe(viewLifecycleOwner, Observer {
+        viewModel.networkStateBefore.observe(viewLifecycleOwner) {
             if (it?.status == com.keylesspalace.tusky.util.Status.RUNNING)
                 progressBarTop.show()
             else
@@ -151,9 +152,9 @@ class ReportStatusesFragment : Fragment(), Injectable, AdapterHandler {
 
             if (it?.status == com.keylesspalace.tusky.util.Status.FAILED)
                 showError(it.msg)
-        })
+        }
 
-        viewModel.networkStateRefresh.observe(viewLifecycleOwner, Observer {
+        viewModel.networkStateRefresh.observe(viewLifecycleOwner) {
             if (it?.status == com.keylesspalace.tusky.util.Status.RUNNING && !swipeRefreshLayout.isRefreshing)
                 progressBarLoading.show()
             else
@@ -163,7 +164,7 @@ class ReportStatusesFragment : Fragment(), Injectable, AdapterHandler {
                 swipeRefreshLayout.isRefreshing = false
             if (it?.status == com.keylesspalace.tusky.util.Status.FAILED)
                 showError(it.msg)
-        })
+        }
     }
 
     private fun showError(@Suppress("UNUSED_PARAMETER") msg: String?) {
