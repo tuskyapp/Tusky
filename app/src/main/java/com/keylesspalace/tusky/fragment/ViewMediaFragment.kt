@@ -42,7 +42,7 @@ abstract class ViewMediaFragment : BaseFragment() {
         @JvmStatic
         protected val ARG_ATTACHMENT = "attach"
         @JvmStatic
-        protected val ARG_AVATAR_URL = "avatarUrl"
+        protected val ARG_SINGLE_IMAGE_URL = "singleImageUrl"
 
         @JvmStatic
         fun newInstance(attachment: Attachment, shouldStartPostponedTransition: Boolean): ViewMediaFragment {
@@ -62,10 +62,10 @@ abstract class ViewMediaFragment : BaseFragment() {
         }
 
         @JvmStatic
-        fun newAvatarInstance(avatarUrl: String): ViewMediaFragment {
+        fun newSingleImageInstance(imageUrl: String): ViewMediaFragment {
             val arguments = Bundle(2)
             val fragment = ViewImageFragment()
-            arguments.putString(ARG_AVATAR_URL, avatarUrl)
+            arguments.putString(ARG_SINGLE_IMAGE_URL, imageUrl)
             arguments.putBoolean(ARG_START_POSTPONED_TRANSITION, true)
 
             fragment.arguments = arguments

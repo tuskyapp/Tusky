@@ -46,7 +46,7 @@ import com.bumptech.glide.request.FutureTarget
 import com.keylesspalace.tusky.BuildConfig.APPLICATION_ID
 import com.keylesspalace.tusky.entity.Attachment
 import com.keylesspalace.tusky.fragment.ViewImageFragment
-import com.keylesspalace.tusky.pager.AvatarImagePagerAdapter
+import com.keylesspalace.tusky.pager.SingleImagePagerAdapter
 import com.keylesspalace.tusky.pager.ImagePagerAdapter
 import com.keylesspalace.tusky.util.getTemporaryMediaFilename
 import com.keylesspalace.tusky.viewdata.AttachmentViewData
@@ -92,6 +92,7 @@ class ViewMediaActivity : BaseActivity(), ViewImageFragment.PhotoActionsListener
 
     private var attachments: ArrayList<AttachmentViewData>? = null
     private val toolbarVisibilityListeners = mutableListOf<ToolbarVisibilityListener>()
+    private var imageUrl: String? = null
 
     fun addToolbarVisibilityListener(listener: ToolbarVisibilityListener): Function0<Boolean> {
         this.toolbarVisibilityListeners.add(listener)
@@ -118,10 +119,10 @@ class ViewMediaActivity : BaseActivity(), ViewImageFragment.PhotoActionsListener
             ImagePagerAdapter(this, realAttachs, initialPosition)
 
         } else {
-            val avatarUrl = intent.getStringExtra(EXTRA_SINGLE_IMAGE_URL)
-                    ?: throw IllegalArgumentException("attachment list or avatar url has to be set")
+            imageUrl = intent.getStringExtra(EXTRA_SINGLE_IMAGE_URL)
+                    ?: throw IllegalArgumentException("attachment list or image url has to be set")
 
-            AvatarImagePagerAdapter(this, avatarUrl)
+            SingleImagePagerAdapter(this, imageUrl!!)
         }
 
         viewPager.adapter = adapter
@@ -162,11 +163,10 @@ class ViewMediaActivity : BaseActivity(), ViewImageFragment.PhotoActionsListener
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        if (attachments != null) {
-            menuInflater.inflate(R.menu.view_media_toolbar, menu)
-            return true
-        }
-        return false
+        menuInflater.inflate(R.menu.view_media_toolbar, menu)
+        // We don't support 'open status' from single image views
+        menu?.findItem(R.id.action_open_status)?.isVisible = (attachments != null)
+        return true
     }
 
     override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
@@ -214,7 +214,7 @@ class ViewMediaActivity : BaseActivity(), ViewImageFragment.PhotoActionsListener
     }
 
     private fun downloadMedia() {
-        val url = attachments!![viewPager.currentItem].attachment.url
+        val url = imageUrl ?: attachments!![viewPager.currentItem].attachment.url
         val filename = Uri.parse(url).lastPathSegment
         Toast.makeText(applicationContext, resources.getString(R.string.download_image, filename), Toast.LENGTH_SHORT).show()
 
@@ -241,8 +241,9 @@ class ViewMediaActivity : BaseActivity(), ViewImageFragment.PhotoActionsListener
     }
 
     private fun copyLink() {
+        val url = imageUrl ?: attachments!![viewPager.currentItem].attachment.url
         val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-        clipboard.setPrimaryClip(ClipData.newPlainText(null, attachments!![viewPager.currentItem].attachment.url))
+        clipboard.setPrimaryClip(ClipData.newPlainText(null, url))
     }
 
     private fun shareMedia() {
@@ -252,13 +253,17 @@ class ViewMediaActivity : BaseActivity(), ViewImageFragment.PhotoActionsListener
             return
         }
 
-        val attachment = attachments!![viewPager.currentItem].attachment
-        when (attachment.type) {
-            Attachment.Type.IMAGE -> shareImage(directory, attachment.url)
-            Attachment.Type.AUDIO,
-            Attachment.Type.VIDEO,
-            Attachment.Type.GIFV -> shareMediaFile(directory, attachment.url)
-            else -> Log.e(TAG, "Unknown media format for sharing.")
+        if (imageUrl != null) {
+            shareImage(directory, imageUrl!!)
+        } else {
+            val attachment = attachments!![viewPager.currentItem].attachment
+            when (attachment.type) {
+                Attachment.Type.IMAGE -> shareImage(directory, attachment.url)
+                Attachment.Type.AUDIO,
+                Attachment.Type.VIDEO,
+                Attachment.Type.GIFV -> shareMediaFile(directory, attachment.url)
+                else -> Log.e(TAG, "Unknown media format for sharing.")
+            }
         }
     }
 
