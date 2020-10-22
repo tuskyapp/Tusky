@@ -31,6 +31,7 @@ import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.GranularRoundedCorners;
 import com.google.android.material.button.MaterialButton;
 import com.keylesspalace.tusky.R;
+import com.keylesspalace.tusky.ViewMediaActivity;
 import com.keylesspalace.tusky.entity.Attachment;
 import com.keylesspalace.tusky.entity.Attachment.Focus;
 import com.keylesspalace.tusky.entity.Attachment.MetaData;
@@ -1069,7 +1070,15 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
                 cardImage.setImageResource(R.drawable.card_image_placeholder);
             }
 
-            cardView.setOnClickListener(v -> LinkHelper.openLink(card.getUrl(), v.getContext()));
+            View.OnClickListener visitLink = v -> LinkHelper.openLink(card.getUrl(), v.getContext());
+            View.OnClickListener openImage = v -> cardView.getContext().startActivity(ViewMediaActivity.newSingleImageIntent(cardView.getContext(), card.getEmbed_url()));
+
+            cardInfo.setOnClickListener(visitLink);
+            // View embedded photos in our image viewer instead of opening the browser
+            cardImage.setOnClickListener(card.getType().equals(Card.TYPE_PHOTO) && !TextUtils.isEmpty(card.getEmbed_url()) ?
+                    openImage :
+                    visitLink);
+
             cardView.setClipToOutline(true);
         } else {
             cardView.setVisibility(View.GONE);

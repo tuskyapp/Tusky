@@ -5,14 +5,14 @@ import androidx.fragment.app.FragmentActivity
 import com.keylesspalace.tusky.ViewMediaAdapter
 import com.keylesspalace.tusky.fragment.ViewMediaFragment
 
-class AvatarImagePagerAdapter(
+class SingleImagePagerAdapter(
         activity: FragmentActivity,
-        private val avatarUrl: String
+        private val imageUrl: String
 ) : ViewMediaAdapter(activity) {
 
     override fun createFragment(position: Int): Fragment {
         return if (position == 0) {
-            ViewMediaFragment.newAvatarInstance(avatarUrl)
+            ViewMediaFragment.newSingleImageInstance(imageUrl)
         } else {
             throw IllegalStateException()
         }
