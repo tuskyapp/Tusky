@@ -18,8 +18,6 @@ package com.keylesspalace.tusky.entity
 import android.text.Spanned
 import com.google.gson.annotations.SerializedName
 
-const val TYPE_PHOTO = "photo"
-
 data class Card(
         val url: String,
         val title: Spanned,
@@ -45,4 +43,7 @@ data class Card(
         return account?.url == this.url
     }
 
+    companion object {
+        const val TYPE_PHOTO = "photo"
+    }
 }

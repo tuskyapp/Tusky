@@ -36,7 +36,6 @@ import com.keylesspalace.tusky.entity.Attachment;
 import com.keylesspalace.tusky.entity.Attachment.Focus;
 import com.keylesspalace.tusky.entity.Attachment.MetaData;
 import com.keylesspalace.tusky.entity.Card;
-import com.keylesspalace.tusky.entity.CardKt;
 import com.keylesspalace.tusky.entity.Emoji;
 import com.keylesspalace.tusky.entity.Status;
 import com.keylesspalace.tusky.interfaces.StatusActionListener;
@@ -1071,15 +1070,14 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
                 cardImage.setImageResource(R.drawable.card_image_placeholder);
             }
 
+            View.OnClickListener visitLink = v -> LinkHelper.openLink(card.getUrl(), v.getContext());
+            View.OnClickListener openImage = v -> cardView.getContext().startActivity(ViewMediaActivity.newSingleImageIntent(cardView.getContext(), card.getEmbed_url()));
+
+            cardInfo.setOnClickListener(visitLink);
             // View embedded photos in our image viewer instead of opening the browser
-            if (card.getType().equals(CardKt.TYPE_PHOTO) && !TextUtils.isEmpty(card.getEmbed_url())) {
-                cardImage.setOnClickListener(v ->  {
-                    cardView.getContext().startActivity(ViewMediaActivity.newSingleImageIntent(cardView.getContext(), card.getEmbed_url()));
-                });
-                cardInfo.setOnClickListener(v -> LinkHelper.openLink(card.getUrl(), v.getContext()));
-            } else {
-                cardView.setOnClickListener(v -> LinkHelper.openLink(card.getUrl(), v.getContext()));
-            }
+            cardImage.setOnClickListener(card.getType().equals(Card.TYPE_PHOTO) && !TextUtils.isEmpty(card.getEmbed_url()) ?
+                    openImage :
+                    visitLink);
 
             cardView.setClipToOutline(true);
         } else {
