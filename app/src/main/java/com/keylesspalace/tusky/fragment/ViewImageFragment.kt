@@ -158,6 +158,9 @@ class ViewImageFragment : ViewMediaFragment() {
     }
 
     private fun onGestureEnd() {
+        if (photoView == null) {
+            return
+        }
         if (abs(photoView.translationY) > 180) {
             photoActionsListener.onDismiss()
         } else {
