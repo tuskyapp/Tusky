@@ -737,9 +737,11 @@ class ComposeActivity : BaseActivity(),
             composeEditField.error = getString(R.string.error_empty)
             enableButtons(true)
         } else if (characterCount <= maximumTootCharacters) {
-            finishingUploadDialog = ProgressDialog.show(
-                    this, getString(R.string.dialog_title_finishing_media_upload),
-                    getString(R.string.dialog_message_uploading_media), true, true)
+            if (viewModel.media.value!!.isNotEmpty()) {
+                finishingUploadDialog = ProgressDialog.show(
+                        this, getString(R.string.dialog_title_finishing_media_upload),
+                        getString(R.string.dialog_message_uploading_media), true, true)
+            }
 
             viewModel.sendStatus(contentText, spoilerText).observe(this, Observer {
                 finishingUploadDialog?.dismiss()
