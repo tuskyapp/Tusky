@@ -36,6 +36,7 @@ import com.keylesspalace.tusky.service.ServiceClient
 import com.keylesspalace.tusky.service.TootToSend
 import com.keylesspalace.tusky.util.*
 import io.reactivex.Observable.empty
+import io.reactivex.Observable.just
 import io.reactivex.disposables.Disposable
 import io.reactivex.rxkotlin.Singles
 import java.util.*
@@ -249,7 +250,7 @@ class ComposeViewModel
         val deletionObservable = if (isEditingScheduledToot) {
             api.deleteScheduledStatus(scheduledTootUid.toString()).toObservable().map { Unit }
         } else {
-            empty()
+            just(Unit)
         }.toLiveData()
 
         val sendObservable = media
