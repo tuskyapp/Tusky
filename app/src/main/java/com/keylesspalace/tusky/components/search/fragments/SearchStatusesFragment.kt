@@ -26,8 +26,6 @@ import android.net.Uri
 import android.os.Environment
 import android.util.Log
 import android.view.View
-import android.widget.CheckBox
-import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.PopupMenu
@@ -376,9 +374,10 @@ class SearchStatusesFragment : SearchFragment<Pair<Status, StatusViewData.Concre
     private fun onMute(accountId: String, accountUsername: String) {
         showMuteAccountDialog(
             this.requireActivity(),
-            accountUsername,
-            { notifications -> viewModel.muteAccount(accountId, notifications) }
-        )
+            accountUsername
+        ) { notifications ->
+            viewModel.muteAccount(accountId, notifications)
+        }
     }
 
     private fun accountIsInMentions(account: AccountEntity?, mentions: Array<Mention>): Boolean {

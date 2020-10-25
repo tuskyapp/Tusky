@@ -20,7 +20,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.activity.viewModels
-import androidx.lifecycle.Observer
 import com.keylesspalace.tusky.BottomSheetActivity
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.components.report.adapter.ReportPagerAdapter
@@ -77,7 +76,7 @@ class ReportActivity : BottomSheetActivity(), HasAndroidInjector {
     }
 
     private fun subscribeObservables() {
-        viewModel.navigation.observe(this, Observer { screen ->
+        viewModel.navigation.observe(this) { screen ->
             if (screen != null) {
                 viewModel.navigated()
                 when (screen) {
@@ -88,14 +87,14 @@ class ReportActivity : BottomSheetActivity(), HasAndroidInjector {
                     Screen.Finish -> closeScreen()
                 }
             }
-        })
+        }
 
-        viewModel.checkUrl.observe(this, Observer {
+        viewModel.checkUrl.observe(this) {
             if (!it.isNullOrBlank()) {
                 viewModel.urlChecked()
                 viewUrl(it)
             }
-        })
+        }
     }
 
     private fun showPreviousScreen() {

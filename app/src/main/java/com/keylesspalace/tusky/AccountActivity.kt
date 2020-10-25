@@ -34,7 +34,6 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityOptionsCompat
 import androidx.core.content.ContextCompat
 import androidx.emoji.text.EmojiCompat
-import androidx.lifecycle.Observer
 import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager2.widget.MarginPageTransformer
@@ -311,7 +310,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
      * Subscribe to data loaded at the view model
      */
     private fun subscribeObservables() {
-        viewModel.accountData.observe(this, Observer {
+        viewModel.accountData.observe(this) {
             when (it) {
                 is Success -> onAccountChanged(it.data)
                 is Error -> {
@@ -320,8 +319,8 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
                             .show()
                 }
             }
-        })
-        viewModel.relationshipData.observe(this, Observer {
+        }
+        viewModel.relationshipData.observe(this) {
             val relation = it?.data
             if (relation != null) {
                 onRelationshipChanged(relation)
@@ -333,8 +332,8 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
                         .show()
             }
 
-        })
-        viewModel.accountFieldData.observe(this, Observer {
+        }
+        viewModel.accountFieldData.observe(this, {
             accountFieldAdapter.fields = it
             accountFieldAdapter.notifyDataSetChanged()
 
@@ -349,7 +348,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
             viewModel.refresh()
             adapter.refreshContent()
         }
-        viewModel.isRefreshing.observe(this, Observer { isRefreshing ->
+        viewModel.isRefreshing.observe(this, { isRefreshing ->
             swipeToRefreshLayout.isRefreshing = isRefreshing == true
         })
         swipeToRefreshLayout.setColorSchemeResources(R.color.tusky_blue)
@@ -705,9 +704,10 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
             loadedAccount?.let {
                 showMuteAccountDialog(
                     this,
-                    it.username,
-                    { notifications -> viewModel.muteAccount(notifications) }
-                )
+                    it.username
+                ) { notifications ->
+                    viewModel.muteAccount(notifications)
+                }
             }
         } else {
             viewModel.unmuteAccount()

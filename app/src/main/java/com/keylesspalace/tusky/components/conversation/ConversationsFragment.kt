@@ -21,8 +21,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
-import androidx.paging.PagedList
 import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -36,7 +34,10 @@ import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.fragment.SFragment
 import com.keylesspalace.tusky.interfaces.ReselectableFragment
 import com.keylesspalace.tusky.interfaces.StatusActionListener
-import com.keylesspalace.tusky.util.*
+import com.keylesspalace.tusky.util.CardViewMode
+import com.keylesspalace.tusky.util.NetworkState
+import com.keylesspalace.tusky.util.StatusDisplayOptions
+import com.keylesspalace.tusky.util.hide
 import kotlinx.android.synthetic.main.fragment_timeline.*
 import javax.inject.Inject
 
@@ -83,21 +84,21 @@ class ConversationsFragment : SFragment(), StatusActionListener, Injectable, Res
 
         initSwipeToRefresh()
 
-        viewModel.conversations.observe(viewLifecycleOwner, Observer<PagedList<ConversationEntity>> {
+        viewModel.conversations.observe(viewLifecycleOwner) {
             adapter.submitList(it)
-        })
-        viewModel.networkState.observe(viewLifecycleOwner, Observer {
+        }
+        viewModel.networkState.observe(viewLifecycleOwner) {
             adapter.setNetworkState(it)
-        })
+        }
 
         viewModel.load()
 
     }
 
     private fun initSwipeToRefresh() {
-        viewModel.refreshState.observe(viewLifecycleOwner, Observer {
+        viewModel.refreshState.observe(viewLifecycleOwner) {
             swipeRefreshLayout.isRefreshing = it == NetworkState.LOADING
-        })
+        }
         swipeRefreshLayout.setOnRefreshListener {
             viewModel.refresh()
         }
