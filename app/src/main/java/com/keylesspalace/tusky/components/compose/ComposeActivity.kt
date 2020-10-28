@@ -1028,7 +1028,7 @@ class ComposeActivity : BaseActivity(),
         private const val MEDIA_TAKE_PHOTO_RESULT = 2
         private const val PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 1
 
-        private const val COMPOSE_OPTIONS_EXTRA = "COMPOSE_OPTIONS"
+        internal const val COMPOSE_OPTIONS_EXTRA = "COMPOSE_OPTIONS"
         private const val PHOTO_UPLOAD_URI_KEY = "PHOTO_UPLOAD_URI"
 
         // Mastodon only counts URLs as this long in terms of status character limits
