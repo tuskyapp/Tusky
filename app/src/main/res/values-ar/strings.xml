@@ -383,36 +383,36 @@
     </plurals>
     <string name="pref_title_bot_overlay">إظهار علامة البوتات</string>
     <plurals name="poll_timespan_days">
-        <item quantity="zero">%d أيام </item>
-        <item quantity="one">%d يوم</item>
-        <item quantity="two">%d يومين</item>
-        <item quantity="few">%d أيام</item>
-        <item quantity="many">%d أيام</item>
-        <item quantity="other">%d أيام</item>
+        <item quantity="zero">%d أيام متبقية</item>
+        <item quantity="one">%d يوم متبقي</item>
+        <item quantity="two">%d يومين متبقيين</item>
+        <item quantity="few">%d أيام متبقية</item>
+        <item quantity="many">%d أيام متبقية</item>
+        <item quantity="other">%d أيام متبقية</item>
     </plurals>
     <plurals name="poll_timespan_hours">
-        <item quantity="zero">%d ساعات</item>
-        <item quantity="one">%d ساعة</item>
-        <item quantity="two">%d ساعتين</item>
-        <item quantity="few">%d ساعات</item>
-        <item quantity="many">%d ساعات</item>
-        <item quantity="other">%d ساعات</item>
+        <item quantity="zero">%d ساعات متبقية</item>
+        <item quantity="one">%d ساعة متبقية</item>
+        <item quantity="two">%d ساعتان متبقيتان</item>
+        <item quantity="few">%d ساعات متبقية</item>
+        <item quantity="many">%d ساعات متبقية</item>
+        <item quantity="other">%d ساعات متبقية</item>
     </plurals>
     <plurals name="poll_timespan_minutes">
-        <item quantity="zero">%d دقائق</item>
-        <item quantity="one">%d دقيقة</item>
-        <item quantity="two">%d دقيقتين</item>
-        <item quantity="few">%d دقائق</item>
-        <item quantity="many">%d دقائق</item>
-        <item quantity="other">%d دقائق</item>
+        <item quantity="zero">%d دقائق متبقية</item>
+        <item quantity="one">%d دقيقة متبقية</item>
+        <item quantity="two">%d دقيقتان متبقيتان</item>
+        <item quantity="few">%d دقائق متبقية</item>
+        <item quantity="many">%d دقائق متبقية</item>
+        <item quantity="other">%d دقائق متبقية</item>
     </plurals>
     <plurals name="poll_timespan_seconds">
-        <item quantity="zero">%d ثوان</item>
-        <item quantity="one">%d ثانية</item>
-        <item quantity="two">%d ثانيتين</item>
-        <item quantity="few">%d ثوان</item>
-        <item quantity="many">%d ثوان</item>
-        <item quantity="other">%d ثوان</item>
+        <item quantity="zero">%d ثوان متبقية</item>
+        <item quantity="one">%d ثانية متبقية</item>
+        <item quantity="two">%d ثانيتان متبقيتان</item>
+        <item quantity="few">%d ثوان متبقية</item>
+        <item quantity="many">%d ثوان متبقية</item>
+        <item quantity="other">%d ثوان متبقية</item>
     </plurals>
     <string name="compose_preview_image_description">إجراءات على الصورة %s</string>
     <string name="caption_notoemoji">حزمة الإيموجي الحالية لـ غوغل</string>
