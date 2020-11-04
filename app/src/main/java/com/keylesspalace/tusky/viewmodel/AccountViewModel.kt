@@ -11,10 +11,12 @@ import com.keylesspalace.tusky.entity.IdentityProof
 import com.keylesspalace.tusky.entity.Relationship
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.*
+import io.reactivex.Single
 import io.reactivex.disposables.Disposable
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class AccountViewModel @Inject constructor(
@@ -25,6 +27,8 @@ class AccountViewModel @Inject constructor(
 
     val accountData = MutableLiveData<Resource<Account>>()
     val relationshipData = MutableLiveData<Resource<Relationship>>()
+
+    val noteSaved = MutableLiveData<Boolean>()
 
     private val identityProofData = MutableLiveData<List<IdentityProof>>()
 
@@ -46,6 +50,8 @@ class AccountViewModel @Inject constructor(
 
     lateinit var accountId: String
     var isSelf = false
+
+    private var noteDisposable: Disposable? = null
 
     private fun obtainAccount(reload: Boolean = false) {
         if (accountData.value == null || reload) {
@@ -269,11 +275,30 @@ class AccountViewModel @Inject constructor(
 
     }
 
+    fun noteChanged(newNote: String) {
+        noteSaved.postValue(false)
+        noteDisposable?.dispose()
+        noteDisposable = Single.timer(1500, TimeUnit.MILLISECONDS)
+                .flatMap {
+                    mastodonApi.updateAccountNote(accountId, newNote)
+                }
+                .doOnSuccess {
+                    noteSaved.postValue(true)
+                }
+                .delay(4, TimeUnit.SECONDS)
+                .subscribe({
+                    noteSaved.postValue(false)
+                }, {
+                    Log.e(TAG, "Error updating note", it)
+                })
+    }
+
     override fun onCleared() {
         callList.forEach {
             it.cancel()
         }
         disposable.dispose()
+        noteDisposable?.dispose()
     }
 
     fun refresh() {

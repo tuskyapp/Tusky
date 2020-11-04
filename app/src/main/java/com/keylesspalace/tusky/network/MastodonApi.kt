@@ -571,4 +571,11 @@ interface MastodonApi {
             @Query("following") following: Boolean? = null
     ): Single<SearchResult>
 
+    @FormUrlEncoded
+    @POST("api/v1/accounts/{id}/note")
+    fun updateAccountNote(
+            @Path("id") accountId: String,
+            @Field("comment") note: String
+    ): Single<Relationship>
+
 }
