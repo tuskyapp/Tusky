@@ -15,17 +15,14 @@
 
 package com.keylesspalace.tusky.network
 
+import android.util.Log
 import com.keylesspalace.tusky.appstore.*
 import com.keylesspalace.tusky.entity.DeletedStatus
 import com.keylesspalace.tusky.entity.Poll
-import com.keylesspalace.tusky.entity.Relationship
 import com.keylesspalace.tusky.entity.Status
 import io.reactivex.Single
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 import java.lang.IllegalStateException
 
 /**
@@ -108,24 +105,23 @@ class TimelineCasesImpl(
     }
 
     override fun mute(id: String, notifications: Boolean) {
-        val call = mastodonApi.muteAccount(id, notifications)
-        call.enqueue(object : Callback<Relationship> {
-            override fun onResponse(call: Call<Relationship>, response: Response<Relationship>) {}
-
-            override fun onFailure(call: Call<Relationship>, t: Throwable) {}
-        })
-        eventHub.dispatch(MuteEvent(id))
+        mastodonApi.muteAccount(id, notifications)
+                .subscribe({
+                    eventHub.dispatch(MuteEvent(id))
+                }, { t ->
+                    Log.w("Failed to mute account", t)
+                })
+                .addTo(cancelDisposable)
     }
 
     override fun block(id: String) {
-        val call = mastodonApi.blockAccount(id)
-        call.enqueue(object : Callback<Relationship> {
-            override fun onResponse(call: Call<Relationship>, response: Response<Relationship>) {}
-
-            override fun onFailure(call: Call<Relationship>, t: Throwable) {}
-        })
-        eventHub.dispatch(BlockEvent(id))
-
+        mastodonApi.blockAccount(id)
+                .subscribe({
+                    eventHub.dispatch(BlockEvent(id))
+                }, { t ->
+                    Log.w("Failed to block account", t)
+                })
+                .addTo(cancelDisposable)
     }
 
     override fun delete(id: String): Single<DeletedStatus> {

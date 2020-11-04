@@ -12,7 +12,9 @@ import com.keylesspalace.tusky.entity.Relationship
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.*
 import io.reactivex.Single
+import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
+import io.reactivex.rxkotlin.addTo
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -37,49 +39,41 @@ class AccountViewModel @Inject constructor(
                 .plus(accountRes?.data?.fields.orEmpty().map { Either.Right(it) })
     }
 
-    private val callList: MutableList<Call<*>> = mutableListOf()
-    private val disposable: Disposable = eventHub.events
-            .subscribe { event ->
-                if (event is ProfileEditedEvent && event.newProfileData.id == accountData.value?.data?.id) {
-                    accountData.postValue(Success(event.newProfileData))
-                }
-            }
-
     val isRefreshing = MutableLiveData<Boolean>().apply { value = false }
     private var isDataLoading = false
 
     lateinit var accountId: String
     var isSelf = false
 
+    private val disposables = CompositeDisposable()
     private var noteDisposable: Disposable? = null
+
+    init {
+        eventHub.events
+                .subscribe { event ->
+                    if (event is ProfileEditedEvent && event.newProfileData.id == accountData.value?.data?.id) {
+                        accountData.postValue(Success(event.newProfileData))
+                    }
+                }.addTo(disposables)
+    }
 
     private fun obtainAccount(reload: Boolean = false) {
         if (accountData.value == null || reload) {
             isDataLoading = true
             accountData.postValue(Loading())
 
-            val call = mastodonApi.account(accountId)
-            call.enqueue(object : Callback<Account> {
-                override fun onResponse(call: Call<Account>,
-                                        response: Response<Account>) {
-                    if (response.isSuccessful) {
-                        accountData.postValue(Success(response.body()))
-                    } else {
+            mastodonApi.account(accountId)
+                    .subscribe({ account ->
+                        accountData.postValue(Success(account))
+                        isDataLoading = false
+                        isRefreshing.postValue(false)
+                    }, {t ->
+                        Log.w(TAG, "failed obtaining account", t)
                         accountData.postValue(Error())
-                    }
-                    isDataLoading = false
-                    isRefreshing.postValue(false)
-                }
-
-                override fun onFailure(call: Call<Account>, t: Throwable) {
-                    Log.w(TAG, "failed obtaining account", t)
-                    accountData.postValue(Error())
-                    isDataLoading = false
-                    isRefreshing.postValue(false)
-                }
-            })
-
-            callList.add(call)
+                        isDataLoading = false
+                        isRefreshing.postValue(false)
+                    })
+                    .addTo(disposables)
         }
     }
 
@@ -88,51 +82,27 @@ class AccountViewModel @Inject constructor(
 
             relationshipData.postValue(Loading())
 
-            val ids = listOf(accountId)
-            val call = mastodonApi.relationships(ids)
-            call.enqueue(object : Callback<List<Relationship>> {
-                override fun onResponse(call: Call<List<Relationship>>,
-                                        response: Response<List<Relationship>>) {
-                    val relationships = response.body()
-                    if (response.isSuccessful && relationships != null && relationships.getOrNull(0) != null) {
-                        val relationship = relationships[0]
-                        relationshipData.postValue(Success(relationship))
-                    } else {
+            mastodonApi.relationships(listOf(accountId))
+                    .subscribe({ relationships ->
+                        relationshipData.postValue(Success(relationships[0]))
+                    }, { t ->
+                        Log.w(TAG, "failed obtaining relationships", t)
                         relationshipData.postValue(Error())
-                    }
-                }
-
-                override fun onFailure(call: Call<List<Relationship>>, t: Throwable) {
-                    Log.w(TAG, "failed obtaining relationships", t)
-                    relationshipData.postValue(Error())
-                }
-            })
-
-            callList.add(call)
+                    })
+                    .addTo(disposables)
         }
     }
 
     private fun obtainIdentityProof(reload: Boolean = false) {
         if (identityProofData.value == null || reload) {
 
-            val call = mastodonApi.identityProofs(accountId)
-            call.enqueue(object : Callback<List<IdentityProof>> {
-                override fun onResponse(call: Call<List<IdentityProof>>,
-                                        response: Response<List<IdentityProof>>) {
-                    val proofs = response.body()
-                    if (response.isSuccessful && proofs != null ) {
+            mastodonApi.identityProofs(accountId)
+                    .subscribe({ proofs ->
                         identityProofData.postValue(proofs)
-                    } else {
-                        identityProofData.postValue(emptyList())
-                    }
-                }
-
-                override fun onFailure(call: Call<List<IdentityProof>>, t: Throwable) {
-                    Log.w(TAG, "failed obtaining identity proofs", t)
-                }
-            })
-
-            callList.add(call)
+                    }, { t ->
+                        Log.w(TAG, "failed obtaining identity proofs", t)
+                    })
+                    .addTo(disposables)
         }
     }
 
@@ -235,11 +205,15 @@ class AccountViewModel @Inject constructor(
             relationshipData.postValue(Loading(newRelation))
         }
 
-        val callback = object : Callback<Relationship> {
-            override fun onResponse(call: Call<Relationship>,
-                                    response: Response<Relationship>) {
-                val relationship = response.body()
-                if (response.isSuccessful && relationship != null) {
+        when (relationshipAction) {
+            RelationShipAction.FOLLOW -> mastodonApi.followAccount(accountId, parameter ?: true)
+            RelationShipAction.UNFOLLOW -> mastodonApi.unfollowAccount(accountId)
+            RelationShipAction.BLOCK -> mastodonApi.blockAccount(accountId)
+            RelationShipAction.UNBLOCK -> mastodonApi.unblockAccount(accountId)
+            RelationShipAction.MUTE -> mastodonApi.muteAccount(accountId, parameter ?: true)
+            RelationShipAction.UNMUTE -> mastodonApi.unmuteAccount(accountId)
+        }.subscribe(
+                { relationship ->
                     relationshipData.postValue(Success(relationship))
 
                     when (relationshipAction) {
@@ -249,30 +223,12 @@ class AccountViewModel @Inject constructor(
                         else -> {
                         }
                     }
-
-                } else {
+                },
+                {
                     relationshipData.postValue(Error(relation))
                 }
-
-            }
-
-            override fun onFailure(call: Call<Relationship>, t: Throwable) {
-                relationshipData.postValue(Error(relation))
-            }
-        }
-
-        val call = when (relationshipAction) {
-            RelationShipAction.FOLLOW -> mastodonApi.followAccount(accountId, parameter ?: true)
-            RelationShipAction.UNFOLLOW -> mastodonApi.unfollowAccount(accountId)
-            RelationShipAction.BLOCK -> mastodonApi.blockAccount(accountId)
-            RelationShipAction.UNBLOCK -> mastodonApi.unblockAccount(accountId)
-            RelationShipAction.MUTE -> mastodonApi.muteAccount(accountId, parameter ?: true)
-            RelationShipAction.UNMUTE -> mastodonApi.unmuteAccount(accountId)
-        }
-
-        call.enqueue(callback)
-        callList.add(call)
-
+        )
+                .addTo(disposables)
     }
 
     fun noteChanged(newNote: String) {
@@ -294,10 +250,7 @@ class AccountViewModel @Inject constructor(
     }
 
     override fun onCleared() {
-        callList.forEach {
-            it.cancel()
-        }
-        disposable.dispose()
+        disposables.dispose()
         noteDisposable?.dispose()
     }
 
