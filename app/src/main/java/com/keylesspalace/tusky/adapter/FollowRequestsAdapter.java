@@ -53,7 +53,7 @@ public class FollowRequestsAdapter extends AccountAdapter {
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position) {
         if (getItemViewType(position) == VIEW_TYPE_ACCOUNT) {
             FollowRequestViewHolder holder = (FollowRequestViewHolder) viewHolder;
-            holder.setupWithAccount(accountList.get(position), null);
+            holder.setupWithAccount(accountList.get(position));
             holder.setupActionListener(accountActionListener);
         }
     }

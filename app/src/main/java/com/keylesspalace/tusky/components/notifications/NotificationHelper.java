@@ -37,7 +37,6 @@ import androidx.core.app.NotificationManagerCompat;
 import androidx.core.app.RemoteInput;
 import androidx.core.app.TaskStackBuilder;
 import androidx.core.content.ContextCompat;
-import androidx.core.text.BidiFormatter;
 import androidx.work.Constraints;
 import androidx.work.NetworkType;
 import androidx.work.PeriodicWorkRequest;
@@ -58,6 +57,7 @@ import com.keylesspalace.tusky.entity.PollOption;
 import com.keylesspalace.tusky.entity.Status;
 import com.keylesspalace.tusky.receiver.NotificationClearBroadcastReceiver;
 import com.keylesspalace.tusky.receiver.SendStatusBroadcastReceiver;
+import com.keylesspalace.tusky.util.StringUtils;
 import com.keylesspalace.tusky.viewdata.PollViewDataKt;
 
 import org.json.JSONArray;
@@ -145,7 +145,6 @@ public class NotificationHelper {
 
         String rawCurrentNotifications = account.getActiveNotifications();
         JSONArray currentNotifications;
-        BidiFormatter bidiFormatter = BidiFormatter.getInstance();
 
         try {
             currentNotifications = new JSONArray(rawCurrentNotifications);
@@ -174,7 +173,7 @@ public class NotificationHelper {
 
         notificationId++;
 
-        builder.setContentTitle(titleForType(context, body, bidiFormatter, account))
+        builder.setContentTitle(titleForType(context, body, account))
                 .setContentText(bodyForType(body, context));
 
         if (body.getType() == Notification.Type.MENTION || body.getType() == Notification.Type.POLL) {
@@ -243,7 +242,7 @@ public class NotificationHelper {
         if (currentNotifications.length() != 1) {
             try {
                 String title = context.getString(R.string.notification_title_summary, currentNotifications.length());
-                String text = joinNames(context, currentNotifications, bidiFormatter);
+                String text = joinNames(context, currentNotifications);
                 summaryBuilder.setContentTitle(title)
                         .setContentText(text);
             } catch (JSONException e) {
@@ -573,36 +572,36 @@ public class NotificationHelper {
         }
     }
 
-    private static String wrapItemAt(JSONArray array, int index, BidiFormatter bidiFormatter) throws JSONException {
-        return bidiFormatter.unicodeWrap(array.get(index).toString());
+    private static String wrapItemAt(JSONArray array, int index) throws JSONException {
+        return StringUtils.unicodeWrap(array.get(index).toString());
     }
 
     @Nullable
-    private static String joinNames(Context context, JSONArray array, BidiFormatter bidiFormatter) throws JSONException {
+    private static String joinNames(Context context, JSONArray array) throws JSONException {
         if (array.length() > 3) {
             int length = array.length();
             return String.format(context.getString(R.string.notification_summary_large),
-                    wrapItemAt(array, length - 1, bidiFormatter),
-                    wrapItemAt(array, length - 2, bidiFormatter),
-                    wrapItemAt(array, length - 3, bidiFormatter),
+                    wrapItemAt(array, length - 1),
+                    wrapItemAt(array, length - 2),
+                    wrapItemAt(array, length - 3),
                     length - 3);
         } else if (array.length() == 3) {
             return String.format(context.getString(R.string.notification_summary_medium),
-                    wrapItemAt(array, 2, bidiFormatter),
-                    wrapItemAt(array, 1, bidiFormatter),
-                    wrapItemAt(array, 0, bidiFormatter));
+                    wrapItemAt(array, 2),
+                    wrapItemAt(array, 1),
+                    wrapItemAt(array, 0));
         } else if (array.length() == 2) {
             return String.format(context.getString(R.string.notification_summary_small),
-                    wrapItemAt(array, 1, bidiFormatter),
-                    wrapItemAt(array, 0, bidiFormatter));
+                    wrapItemAt(array, 1),
+                    wrapItemAt(array, 0));
         }
 
         return null;
     }
 
     @Nullable
-    private static String titleForType(Context context, Notification notification, BidiFormatter bidiFormatter, AccountEntity account) {
-        String accountName = bidiFormatter.unicodeWrap(notification.getAccount().getName());
+    private static String titleForType(Context context, Notification notification, AccountEntity account) {
+        String accountName = StringUtils.unicodeWrap(notification.getAccount().getName());
         switch (notification.getType()) {
             case MENTION:
                 return String.format(context.getString(R.string.notification_mention_format),

@@ -20,7 +20,7 @@
         android:gravity="center_vertical"
         android:maxLines="1"
         android:paddingStart="28dp"
-        android:textColor="?android:textColorTertiary"
+        android:textColor="?android:textColorSecondary"
         android:textSize="?attr/status_text_medium"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
