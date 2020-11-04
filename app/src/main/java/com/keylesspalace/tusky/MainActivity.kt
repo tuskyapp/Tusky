@@ -47,6 +47,7 @@ import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
 import com.google.android.material.tabs.TabLayoutMediator
 import com.keylesspalace.tusky.appstore.*
+import com.keylesspalace.tusky.components.announcements.AnnouncementsActivity
 import com.keylesspalace.tusky.components.compose.ComposeActivity
 import com.keylesspalace.tusky.components.compose.ComposeActivity.Companion.canHandleMimeType
 import com.keylesspalace.tusky.components.conversation.ConversationsRepository
@@ -67,6 +68,7 @@ import com.mikepenz.iconics.IconicsDrawable
 import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial
 import com.mikepenz.iconics.utils.colorInt
 import com.mikepenz.iconics.utils.sizeDp
+import com.mikepenz.materialdrawer.holder.StringHolder
 import com.mikepenz.materialdrawer.iconics.iconicsIcon
 import com.mikepenz.materialdrawer.model.*
 import com.mikepenz.materialdrawer.model.interfaces.*
@@ -190,6 +192,8 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
         /* Fetch user info while we're doing other things. This has to be done after setting up the
          * drawer, though, because its callback touches the header in the drawer. */
         fetchUserInfo()
+
+        fetchAnnouncements()
 
         setupTabs(showNotificationTab)
 
@@ -390,6 +394,14 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
                         iconRes = R.drawable.ic_access_time
                         onClick = {
                             startActivityWithSlideInAnimation(ScheduledTootActivity.newIntent(context))
+                        }
+                    },
+                    primaryDrawerItem {
+                        identifier = DRAWER_ITEM_ANNOUNCEMENTS
+                        nameRes = R.string.title_announcements
+                        iconRes = R.drawable.ic_bullhorn_24dp
+                        onClick = {
+                            startActivityWithSlideInAnimation(AnnouncementsActivity.newIntent(context))
                         }
                     },
                     DividerDrawerItem(),
@@ -653,6 +665,21 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
         updateShortcut(this, accountManager.activeAccount!!)
     }
 
+    private fun fetchAnnouncements() {
+        mastodonApi.listAnnouncements(false)
+                .observeOn(AndroidSchedulers.mainThread())
+                .autoDispose(this, Lifecycle.Event.ON_DESTROY)
+                .subscribe(
+                        { announcements ->
+                            val unreadCount = announcements.count { !it.read }
+                            mainDrawer.updateBadge(DRAWER_ITEM_ANNOUNCEMENTS, StringHolder(if (unreadCount == 0) null else unreadCount.toString()))
+                        },
+                        {
+                            Log.w(TAG, "Failed to fetch announcements.", it)
+                        }
+                )
+    }
+
     private fun updateProfiles() {
         val profiles: MutableList<IProfile> = accountManager.getAllAccountsOrderedByActive().map { acc ->
             val emojifiedName = EmojiCompat.get().process(acc.displayName.emojify(acc.emojis, header))
@@ -687,6 +714,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
         private const val TAG = "MainActivity" // logging tag
         private const val DRAWER_ITEM_ADD_ACCOUNT: Long = -13
         private const val DRAWER_ITEM_FOLLOW_REQUESTS: Long = 10
+        private const val DRAWER_ITEM_ANNOUNCEMENTS: Long = 14
         const val STATUS_URL = "statusUrl"
     }
 }
