@@ -45,7 +45,7 @@
     <string name="footer_empty">Edukirik ez. Arrastatu behera birkargatzeko!</string>
     <string name="notification_reblog_format">%s-(e)k zure tuta bultzatu du</string>
     <string name="notification_favourite_format">%s-(e)k zure tuta gogoko du</string>
-    <string name="notification_follow_format">%s-(e)k jarraitu dizu</string>
+    <string name="notification_follow_format">%s(e)k jarraitu zaitu</string>
     <string name="report_username_format">\@%s salatu</string>
     <string name="report_comment_hint">Informazio gehigarria?</string>
     <string name="action_quick_reply">Erantzun azkarra</string>
@@ -75,7 +75,7 @@
     <string name="action_view_favourites">Gogokoak</string>
     <string name="action_view_mutes">Isilduak</string>
     <string name="action_view_blocks">Blokeatuak</string>
-    <string name="action_view_follow_requests">Eskariak</string>
+    <string name="action_view_follow_requests">Eskakizunak</string>
     <string name="action_view_media">Multimedia</string>
     <string name="action_open_in_web">Nabigatzailean ireki</string>
     <string name="action_add_media">Multimedia erantsi</string>
@@ -129,7 +129,7 @@
     <string name="dialog_title_finishing_media_upload">Mediaren igoera bukatzen</string>
     <string name="dialog_message_uploading_media">Igotzen…</string>
     <string name="dialog_download_image">Jaitsi</string>
-    <string name="dialog_message_cancel_follow_request">Jarraipen-eskaerari uko egin\?</string>
+    <string name="dialog_message_cancel_follow_request">Jarraipen-eskakizunari uko egin\?</string>
     <string name="dialog_unfollow_warning">Kontu hau jarraitzeari utzi\?</string>
     <string name="dialog_delete_toot_warning">Tuta ezabatu\?</string>
     <string name="visibility_public">Publikoa: Istorio publikoetan erakutsi</string>
@@ -156,7 +156,7 @@
     <string name="app_theme_auto">Automatikoa</string>
     <string name="pref_title_browser_settings">Nabigatzailea</string>
     <string name="pref_title_custom_tabs">Chromeko fitxak erabili</string>
-    <string name="pref_title_hide_follow_button">Tut egiteko botoia ezkutatu beherantz joaterakoan.</string>
+    <string name="pref_title_hide_follow_button">Tut egiteko botoia ezkutatu beherantz joaterakoan</string>
     <string name="pref_title_status_filter">Denbora-lerro filtroak</string>
     <string name="pref_title_status_tabs">Fitxak</string>
     <string name="pref_title_show_boosts">Bultzadak erakutsi</string>
@@ -279,7 +279,7 @@
     <string name="pin_action">Ainguratu</string>
     <string name="error_network">Sareko errore bat sortu da! Zure konexioa ziurta ezazu berriro, mesedez!</string>
     <string name="title_direct_messages">Mezu Zuzenak</string>
-    <string name="title_tab_preferences">Kategoriak</string>
+    <string name="title_tab_preferences">Fitxak</string>
     <string name="title_statuses_pinned">Lotuta</string>
     <string name="title_domain_mutes">Ezkutuko domeinuak</string>
     <string name="title_scheduled_toot">Programatutako tutak</string>
@@ -291,7 +291,7 @@
     <string name="action_delete_and_redraft">Ezabatu eta zirriborroa berriro egin</string>
     <string name="action_view_domain_mutes">Ezkutuko domeinuak</string>
     <string name="action_add_poll">Galdeketa gehitu</string>
-    <string name="action_mute_domain">%s isilarazi</string>
+    <string name="action_mute_domain">Mututu %s</string>
     <string name="action_access_scheduled_toot">Programatutako tutak</string>
     <string name="action_schedule_toot">Tuta programatu</string>
     <string name="action_reset_schedule">Berrezarri</string>
@@ -361,7 +361,7 @@
     <string name="conversation_1_recipients">%1$s</string>
     <string name="conversation_2_recipients">%1$s eta %2$s</string>
     <string name="conversation_more_recipients">%1$s, %2$s eta %3$d gehiago</string>
-    <string name="max_tab_number_reached">geienezko %1$d fitxa iritsita</string>
+    <string name="max_tab_number_reached">gehienezko %1$d fitxa iritsita</string>
     <string name="description_status_media">Media: %s</string>
     <string name="description_status_cw">Edukiaren abisua: %s</string>
     <string name="description_status_media_no_description_placeholder">Deskribapenik ez</string>
@@ -445,13 +445,31 @@
     <string name="notification_follow_request_description">Jarraitzeko eskaereri buruzko jakinarazpenak</string>
     <string name="dialog_mute_warning">\@%s isildu\?</string>
     <string name="dialog_block_warning">\@%s blokeatu\?</string>
-    <string name="action_mute_conversation">Elkarrizketa isildu</string>
-    <string name="notification_follow_request_format">%s -k zu jarraitzeko eskatu dizu</string>
+    <string name="action_mute_conversation">Mututu elkarrizketa</string>
+    <string name="notification_follow_request_format">%s(e)k zu jarraitzeko eskatu dizu</string>
     <string name="hashtags">Traolak</string>
     <string name="dialog_mute_hide_notifications">Ez erakutsi jakinarazpenak</string>
     <string name="action_unmute_desc">Desmututu %s</string>
     <plurals name="poll_info_people">
-        <item quantity="one"/>
-        <item quantity="other"/>
+        <item quantity="one">Pertsona %1</item>
+        <item quantity="other">%2 pertsona</item>
     </plurals>
+    <string name="pref_title_hide_top_toolbar">Ezkutatu goiko tresna-barraren izenburua</string>
+    <string name="pref_title_confirm_reblogs">Erakutsi berrespen-abisua tuta bultzatu aurretik</string>
+    <string name="pref_title_show_cards_in_timelines">Erakutsi esteken aurrebista denbora-lerroetan</string>
+    <string name="pref_title_enable_swipe_for_tabs">Gaitu pasatze-keinua fitxetan zehar aldatzeko</string>
+    <plurals name="poll_timespan_minutes">
+        <item quantity="one">Minutu %d faltan</item>
+        <item quantity="other">%d minutu faltan</item>
+    </plurals>
+    <string name="add_hashtag_title">Gehitu traola</string>
+    <string name="pref_main_nav_position_option_bottom">Azpia</string>
+    <string name="pref_main_nav_position_option_top">Goia</string>
+    <string name="pref_main_nav_position">Nabigatze posizio nagusia</string>
+    <string name="pref_title_gradient_for_media">Erakutsi gradiente koloretsua ezkutuko mediarentzako</string>
+    <string name="pref_title_notification_filter_follow_requests">jarraipena-eskaera</string>
+    <string name="action_unmute_conversation">Desmututu elkarrizketa</string>
+    <string name="action_unmute_domain">Desmututu %s</string>
+    <string name="action_mute_notifications_desc">Mututu %s(r)en jakinarazpenak</string>
+    <string name="action_unmute_notifications_desc">Desmututu %s(r)en jakinarazpenak</string>
 </resources>

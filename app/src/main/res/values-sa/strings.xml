@@ -397,8 +397,8 @@
     <string name="button_back">पूर्वम्</string>
     <string name="button_continue">निरन्तरम्</string>
     <plurals name="poll_timespan_seconds">
-        <item quantity="one">%d क्षणः शेषम्</item>
-        <item quantity="other">%d क्षणौ शेषम्</item>
+        <item quantity="one">%d क्षणम्</item>
+        <item quantity="other">%d क्षणे</item>
     </plurals>
     <plurals name="poll_timespan_minutes">
         <item quantity="one">%d निमेषः शेषम्</item>
