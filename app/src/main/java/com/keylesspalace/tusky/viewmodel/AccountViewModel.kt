@@ -2,7 +2,6 @@ package com.keylesspalace.tusky.viewmodel
 
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import com.keylesspalace.tusky.appstore.*
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.entity.Account
@@ -12,9 +11,7 @@ import com.keylesspalace.tusky.entity.Relationship
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.*
 import io.reactivex.Single
-import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
-import io.reactivex.rxkotlin.addTo
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -25,7 +22,7 @@ class AccountViewModel @Inject constructor(
         private val mastodonApi: MastodonApi,
         private val eventHub: EventHub,
         private val accountManager: AccountManager
-) : ViewModel() {
+) : RxAwareViewModel() {
 
     val accountData = MutableLiveData<Resource<Account>>()
     val relationshipData = MutableLiveData<Resource<Relationship>>()
@@ -45,7 +42,6 @@ class AccountViewModel @Inject constructor(
     lateinit var accountId: String
     var isSelf = false
 
-    private val disposables = CompositeDisposable()
     private var noteDisposable: Disposable? = null
 
     init {
@@ -54,7 +50,7 @@ class AccountViewModel @Inject constructor(
                     if (event is ProfileEditedEvent && event.newProfileData.id == accountData.value?.data?.id) {
                         accountData.postValue(Success(event.newProfileData))
                     }
-                }.addTo(disposables)
+                }.autoDispose()
     }
 
     private fun obtainAccount(reload: Boolean = false) {
@@ -73,7 +69,7 @@ class AccountViewModel @Inject constructor(
                         isDataLoading = false
                         isRefreshing.postValue(false)
                     })
-                    .addTo(disposables)
+                    .autoDispose()
         }
     }
 
@@ -89,7 +85,7 @@ class AccountViewModel @Inject constructor(
                         Log.w(TAG, "failed obtaining relationships", t)
                         relationshipData.postValue(Error())
                     })
-                    .addTo(disposables)
+                    .autoDispose()
         }
     }
 
@@ -102,7 +98,7 @@ class AccountViewModel @Inject constructor(
                     }, { t ->
                         Log.w(TAG, "failed obtaining identity proofs", t)
                     })
-                    .addTo(disposables)
+                    .autoDispose()
         }
     }
 
@@ -228,7 +224,7 @@ class AccountViewModel @Inject constructor(
                     relationshipData.postValue(Error(relation))
                 }
         )
-                .addTo(disposables)
+                .autoDispose()
     }
 
     fun noteChanged(newNote: String) {
@@ -250,7 +246,7 @@ class AccountViewModel @Inject constructor(
     }
 
     override fun onCleared() {
-        disposables.dispose()
+        super.onCleared()
         noteDisposable?.dispose()
     }
 
