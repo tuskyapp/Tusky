@@ -86,7 +86,44 @@ class AnnouncementsViewModel @Inject constructor(
     fun addReaction(announcementId: String, name: String) {
         mastodonApi.addAnnouncementReaction(announcementId, name)
                 .subscribe({
-                    load()
+                    announcementsMutable.postValue(
+                            Success(
+                                    announcements.value!!.data!!.map { announcement ->
+                                        if (announcement.id == announcementId) {
+                                            announcement.copy(
+                                                    reactions = if (announcement.reactions.find { reaction -> reaction.name == name } != null) {
+                                                        announcement.reactions.map { reaction ->
+                                                            if (reaction.name == name) {
+                                                                reaction.copy(
+                                                                        count = reaction.count + 1,
+                                                                        me = true
+                                                                )
+                                                            } else {
+                                                                reaction
+                                                            }
+                                                        }
+                                                    } else {
+                                                        listOf(
+                                                                *announcement.reactions.toTypedArray(),
+                                                                emojis.value!!.find { emoji -> emoji.shortcode == name }
+                                                                        !!.run {
+                                                                            Announcement.Reaction(
+                                                                                    name,
+                                                                                    1,
+                                                                                    true,
+                                                                                    url,
+                                                                                    staticUrl
+                                                                            )
+                                                                        }
+                                                        )
+                                                    }
+                                            )
+                                        } else {
+                                            announcement
+                                        }
+                                    }
+                            )
+                    )
                 }, {
                     Log.w(TAG, "Failed to add reaction to the announcement.", it)
                 })
@@ -96,7 +133,32 @@ class AnnouncementsViewModel @Inject constructor(
     fun removeReaction(announcementId: String, name: String) {
         mastodonApi.removeAnnouncementReaction(announcementId, name)
                 .subscribe({
-                    load()
+                    announcementsMutable.postValue(
+                            Success(
+                                    announcements.value!!.data!!.map { announcement ->
+                                        if (announcement.id == announcementId) {
+                                            announcement.copy(
+                                                    reactions = announcement.reactions.mapNotNull { reaction ->
+                                                        if (reaction.name == name) {
+                                                            if (reaction.count > 1) {
+                                                                reaction.copy(
+                                                                        count = reaction.count - 1,
+                                                                        me = false
+                                                                )
+                                                            } else {
+                                                                null
+                                                            }
+                                                        } else {
+                                                            reaction
+                                                        }
+                                                    }
+                                            )
+                                        } else {
+                                            announcement
+                                        }
+                                    }
+                            )
+                    )
                 }, {
                     Log.w(TAG, "Failed to remove reaction from the announcement.", it)
                 })

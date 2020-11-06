@@ -32,7 +32,7 @@ data class Announcement(
         val statuses: Array<Status>,
         val tags: Array<HashTag>,
         val emojis: List<Emoji>,
-        val reactions: ArrayList<Reaction>
+        val reactions: List<Reaction>
 ) {
 
     override fun equals(other: Any?): Boolean {
