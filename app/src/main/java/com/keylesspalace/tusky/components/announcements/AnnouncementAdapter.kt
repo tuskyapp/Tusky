@@ -37,7 +37,7 @@ interface AnnouncementActionListener {
 }
 
 class AnnouncementAdapter(
-        private var items: List<Announcement>,
+        private var items: List<Announcement> = emptyList(),
         private val listener: AnnouncementActionListener
 ) : RecyclerView.Adapter<AnnouncementAdapter.AnnouncementViewHolder>() {
 

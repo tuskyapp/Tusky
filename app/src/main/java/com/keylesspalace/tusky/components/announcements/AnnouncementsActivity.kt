@@ -44,7 +44,7 @@ class AnnouncementsActivity : BaseActivity(), AnnouncementActionListener, OnEmoj
 
     private val viewModel: AnnouncementsViewModel by viewModels { viewModelFactory }
 
-    private val adapter = AnnouncementAdapter(listOf(), this)
+    private val adapter = AnnouncementAdapter(emptyList(), this)
 
     private val picker by lazy { EmojiPicker(this) }
     private val pickerDialog by lazy {
