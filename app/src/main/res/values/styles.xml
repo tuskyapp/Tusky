@@ -79,6 +79,7 @@
 
         <item name="swipeRefreshLayoutProgressSpinnerBackgroundColor">?attr/colorSurface</item>
 
+        <item name="chipStyle">@style/Widget.MaterialComponents.Chip.Choice</item>
     </style>
 
     <style name="ViewMediaActivity.AppBarLayout" parent="ThemeOverlay.AppCompat">
