@@ -8,6 +8,7 @@
         android:id="@+id/text"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:lineSpacingMultiplier="1.1"
         android:padding="8dp"
         android:textSize="?attr/status_text_medium"
         app:layout_constraintEnd_toEndOf="parent"
