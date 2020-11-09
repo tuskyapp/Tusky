@@ -68,6 +68,8 @@ import com.mikepenz.iconics.IconicsDrawable
 import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial
 import com.mikepenz.iconics.utils.colorInt
 import com.mikepenz.iconics.utils.sizeDp
+import com.mikepenz.materialdrawer.holder.BadgeStyle
+import com.mikepenz.materialdrawer.holder.ColorHolder
 import com.mikepenz.materialdrawer.holder.StringHolder
 import com.mikepenz.materialdrawer.iconics.iconicsIcon
 import com.mikepenz.materialdrawer.model.*
@@ -402,6 +404,10 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
                         iconRes = R.drawable.ic_bullhorn_24dp
                         onClick = {
                             startActivityWithSlideInAnimation(AnnouncementsActivity.newIntent(context))
+                        }
+                        badgeStyle = BadgeStyle().apply {
+                            textColor = ColorHolder.fromColor(ThemeUtils.getColor(this@MainActivity, R.attr.colorOnPrimary))
+                            color = ColorHolder.fromColor(ThemeUtils.getColor(this@MainActivity, R.attr.colorPrimary))
                         }
                     },
                     DividerDrawerItem(),
