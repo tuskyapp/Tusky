@@ -148,9 +148,6 @@ class AnnouncementsActivity : BaseActivity(), AnnouncementActionListener, OnEmoj
     }
 
     companion object {
-        @JvmStatic
-        fun newIntent(context: Context): Intent {
-            return Intent(context, AnnouncementsActivity::class.java)
-        }
+        fun newIntent(context: Context) = Intent(context, AnnouncementsActivity::class.java)
     }
 }
