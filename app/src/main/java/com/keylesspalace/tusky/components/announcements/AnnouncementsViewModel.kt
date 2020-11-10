@@ -18,6 +18,8 @@ package com.keylesspalace.tusky.components.announcements
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.keylesspalace.tusky.appstore.AnnouncementReadEvent
+import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.db.AppDatabase
 import com.keylesspalace.tusky.db.InstanceEntity
@@ -32,7 +34,8 @@ import javax.inject.Inject
 class AnnouncementsViewModel @Inject constructor(
         accountManager: AccountManager,
         private val appDatabase: AppDatabase,
-        private val mastodonApi: MastodonApi
+        private val mastodonApi: MastodonApi,
+        private val eventHub: EventHub
 ) : RxAwareViewModel() {
 
     private val announcementsMutable = MutableLiveData<Resource<List<Announcement>>>()
@@ -77,6 +80,19 @@ class AnnouncementsViewModel @Inject constructor(
         mastodonApi.listAnnouncements()
                 .subscribe({
                     announcementsMutable.postValue(Success(it))
+                    it.filter { announcement -> !announcement.read }
+                            .forEach { announcement ->
+                                mastodonApi.dismissAnnouncement(announcement.id)
+                                        .subscribe(
+                                                {
+                                                    eventHub.dispatch(AnnouncementReadEvent(announcement.id))
+                                                },
+                                                { throwable ->
+                                                    Log.d(TAG, "Failed to mark announcement as read.", throwable)
+                                                }
+                                        )
+                                        .autoDispose()
+                            }
                 }, {
                     announcementsMutable.postValue(Error(cause = it))
                 })

@@ -101,6 +101,8 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
     private var notificationTabPosition = 0
     private var onTabSelectedListener: OnTabSelectedListener? = null
 
+    private var unreadAnnouncementsCount = 0
+
     private val preferences by lazy { PreferenceManager.getDefaultSharedPreferences(this) }
 
     private val emojiInitCallback = object : InitCallback() {
@@ -212,6 +214,10 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
                     when (event) {
                         is ProfileEditedEvent -> onFetchUserInfoSuccess(event.newProfileData)
                         is MainTabsChangedEvent -> setupTabs(false)
+                        is AnnouncementReadEvent -> {
+                            unreadAnnouncementsCount--
+                            updateAnnouncementsBadge()
+                        }
                     }
                 }
 
@@ -677,13 +683,17 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
                 .autoDispose(this, Lifecycle.Event.ON_DESTROY)
                 .subscribe(
                         { announcements ->
-                            val unreadCount = announcements.count { !it.read }
-                            mainDrawer.updateBadge(DRAWER_ITEM_ANNOUNCEMENTS, StringHolder(if (unreadCount == 0) null else unreadCount.toString()))
+                            unreadAnnouncementsCount = announcements.count { !it.read }
+                            updateAnnouncementsBadge()
                         },
                         {
                             Log.w(TAG, "Failed to fetch announcements.", it)
                         }
                 )
+    }
+
+    private fun updateAnnouncementsBadge() {
+        mainDrawer.updateBadge(DRAWER_ITEM_ANNOUNCEMENTS, StringHolder(if (unreadAnnouncementsCount == 0) null else unreadAnnouncementsCount.toString()))
     }
 
     private fun updateProfiles() {

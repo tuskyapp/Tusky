@@ -518,6 +518,11 @@ interface MastodonApi {
             @Query("with_dismissed") withDismissed: Boolean = true
     ): Single<List<Announcement>>
 
+    @POST("api/v1/announcements/{id}/dismiss")
+    fun dismissAnnouncement(
+            @Path("id") announcementId: String
+    ): Single<ResponseBody>
+
     @PUT("api/v1/announcements/{id}/reactions/{name}")
     fun addAnnouncementReaction(
             @Path("id") announcementId: String,
