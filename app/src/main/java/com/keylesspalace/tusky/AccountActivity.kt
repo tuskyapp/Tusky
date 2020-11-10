@@ -132,7 +132,6 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
 
         if (viewModel.isSelf) {
             updateButtons()
-            accountNoteTextInputLayout.hide()
             saveNoteInfo.hide()
         } else {
             saveNoteInfo.visibility = View.INVISIBLE
