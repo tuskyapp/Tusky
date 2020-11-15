@@ -31,7 +31,7 @@
     <string name="title_statuses_pinned">已置頂</string>
     <string name="title_follows">正在關注</string>
     <string name="title_followers">關注者</string>
-    <string name="title_favourites">我的收藏</string>
+    <string name="title_favourites">我的最愛</string>
     <string name="title_mutes">被靜音的使用者</string>
     <string name="title_blocks">被封鎖的使用者</string>
     <string name="title_follow_requests">關注請求</string>
@@ -426,4 +426,6 @@
     <string name="notification_follow_request_name">關注請求</string>
     <string name="edit_poll">編輯</string>
     <string name="action_edit">編輯</string>
+    <string name="title_bookmarks">書籤</string>
+    <string name="error_audio_upload_size">音檔必需小於40MB。</string>
 </resources>

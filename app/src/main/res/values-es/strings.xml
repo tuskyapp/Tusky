@@ -72,7 +72,7 @@
     <string name="action_report">Reportar</string>
     <string name="action_delete">Borrar</string>
     <string name="action_send">Enviar</string>
-    <string name="action_send_public">Publicar</string>
+    <string name="action_send_public">¡Publicar!</string>
     <string name="action_retry">Reintentar</string>
     <string name="action_close">Cerrar</string>
     <string name="action_view_profile">Perfil</string>
