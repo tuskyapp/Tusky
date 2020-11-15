@@ -617,7 +617,13 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
                                 final String accountId,
                                 final String statusContent,
                                 StatusDisplayOptions statusDisplayOptions) {
-        avatar.setOnClickListener(v -> listener.onViewAccount(accountId));
+        View.OnClickListener profileButtonClickListener = button -> {
+            listener.onViewAccount(accountId);
+        };
+
+        avatar.setOnClickListener(profileButtonClickListener);
+        displayName.setOnClickListener(profileButtonClickListener);
+
         replyButton.setOnClickListener(v -> {
             int position = getAdapterPosition();
             if (position != RecyclerView.NO_POSITION) {
