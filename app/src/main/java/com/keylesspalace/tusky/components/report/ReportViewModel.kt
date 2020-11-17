@@ -100,7 +100,7 @@ class ReportViewModel @Inject constructor(
         val ids = listOf(accountId)
         muteStateMutable.value = Loading()
         blockStateMutable.value = Loading()
-        mastodonApi.relationshipsObservable(ids)
+        mastodonApi.relationships(ids)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
@@ -129,9 +129,9 @@ class ReportViewModel @Inject constructor(
     fun toggleMute() {
         val alreadyMuted = muteStateMutable.value?.data == true
         if (alreadyMuted) {
-            mastodonApi.unmuteAccountObservable(accountId)
+            mastodonApi.unmuteAccount(accountId)
         } else {
-            mastodonApi.muteAccountObservable(accountId)
+            mastodonApi.muteAccount(accountId)
         }
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -154,9 +154,9 @@ class ReportViewModel @Inject constructor(
     fun toggleBlock() {
         val alreadyBlocked = blockStateMutable.value?.data == true
         if (alreadyBlocked) {
-            mastodonApi.unblockAccountObservable(accountId)
+            mastodonApi.unblockAccount(accountId)
         } else {
-            mastodonApi.blockAccountObservable(accountId)
+            mastodonApi.blockAccount(accountId)
         }
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
