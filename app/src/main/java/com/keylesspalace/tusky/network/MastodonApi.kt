@@ -513,6 +513,28 @@ interface MastodonApi {
             @Field("choices[]") choices: List<Int>
     ): Single<Poll>
 
+    @GET("api/v1/announcements")
+    fun listAnnouncements(
+            @Query("with_dismissed") withDismissed: Boolean = true
+    ): Single<List<Announcement>>
+
+    @POST("api/v1/announcements/{id}/dismiss")
+    fun dismissAnnouncement(
+            @Path("id") announcementId: String
+    ): Single<ResponseBody>
+
+    @PUT("api/v1/announcements/{id}/reactions/{name}")
+    fun addAnnouncementReaction(
+            @Path("id") announcementId: String,
+            @Path("name") name: String
+    ): Single<ResponseBody>
+
+    @DELETE("api/v1/announcements/{id}/reactions/{name}")
+    fun removeAnnouncementReaction(
+            @Path("id") announcementId: String,
+            @Path("name") name: String
+    ): Single<ResponseBody>
+
     @FormUrlEncoded
     @POST("api/v1/reports")
     fun reportObservable(
