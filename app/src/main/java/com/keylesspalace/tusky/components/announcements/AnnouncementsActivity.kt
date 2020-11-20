@@ -79,7 +79,7 @@ class AnnouncementsActivity : BaseActivity(), AnnouncementActionListener, OnEmoj
         announcementsList.addItemDecoration(divider)
         announcementsList.adapter = adapter
 
-        viewModel.announcements.observe(this, Observer {
+        viewModel.announcements.observe(this) {
             when (it) {
                 is Success -> {
                     progressBar.hide()
@@ -104,11 +104,11 @@ class AnnouncementsActivity : BaseActivity(), AnnouncementActionListener, OnEmoj
                     errorMessageView.show()
                 }
             }
-        })
+        }
 
-        viewModel.emojis.observe(this, Observer {
+        viewModel.emojis.observe(this) {
             picker.adapter = EmojiAdapter(it, this)
-        })
+        }
 
         viewModel.load()
         progressBar.show()
