@@ -392,6 +392,7 @@ public class TimelineFragment extends SFragment implements
         // home, notifications, public, thread
         switch (kind) {
             case HOME:
+            case LIST:
                 return filterContext.contains(Filter.HOME);
             case PUBLIC_FEDERATED:
             case PUBLIC_LOCAL:
