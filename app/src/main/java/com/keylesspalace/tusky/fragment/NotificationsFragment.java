@@ -797,6 +797,7 @@ public class NotificationsFragment extends SFragment implements
     private void loadNotificationsFilter() {
         AccountEntity account = accountManager.getActiveAccount();
         if (account != null) {
+            notificationFilter.clear();
             notificationFilter.addAll(NotificationTypeConverterKt.deserialize(
                     account.getNotificationsFilter()));
         }
@@ -1273,6 +1274,12 @@ public class NotificationsFragment extends SFragment implements
     @Override
     public void onResume() {
         super.onResume();
+        String rawAccountNotificationFilter = accountManager.getActiveAccount().getNotificationsFilter();
+        Set<Notification.Type> accountNotificationFilter = NotificationTypeConverterKt.deserialize(rawAccountNotificationFilter);
+        if (!notificationFilter.equals(accountNotificationFilter)) {
+            loadNotificationsFilter();
+            fullyRefreshWithProgressBar(true);
+        }
         startUpdateTimestamp();
     }
 
