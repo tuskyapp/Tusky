@@ -3,6 +3,7 @@ package com.keylesspalace.tusky.adapter;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.text.method.LinkMovementMethod;
 import android.view.View;
@@ -10,11 +11,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.entity.Status;
 import com.keylesspalace.tusky.interfaces.StatusActionListener;
+import com.keylesspalace.tusky.settings.PrefKeys;
 import com.keylesspalace.tusky.util.CardViewMode;
 import com.keylesspalace.tusky.util.LinkHelper;
 import com.keylesspalace.tusky.util.StatusDisplayOptions;
@@ -52,13 +55,18 @@ class StatusDetailedViewHolder extends StatusBaseViewHolder {
 
     private void setReblogAndFavCount(int reblogCount, int favCount, StatusActionListener listener) {
 
-        if (reblogCount > 0) {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(itemView.getContext());
+
+        // If wellbeing mode is enabled, favs and boosts should not be visible.
+        boolean wellbeingEnabled = preferences.getBoolean(PrefKeys.WELLBEING_MODE, false);
+
+        if (reblogCount > 0 && !wellbeingEnabled) {
             reblogs.setText(getReblogsText(reblogs.getContext(), reblogCount));
             reblogs.setVisibility(View.VISIBLE);
         } else {
             reblogs.setVisibility(View.GONE);
         }
-        if (favCount > 0) {
+        if (favCount > 0 && !wellbeingEnabled) {
             favourites.setText(getFavsText(favourites.getContext(), favCount));
             favourites.setVisibility(View.VISIBLE);
         } else {
