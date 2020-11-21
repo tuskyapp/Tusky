@@ -465,4 +465,5 @@
     <string name="abbreviated_hours_ago">%d St.</string>
     <string name="abbreviated_in_days">in %d T.</string>
     <string name="abbreviated_years_ago">%d J.</string>
+    <string name="pref_title_wellbeing_mode">Wellbeing Modus</string>
 </resources>
