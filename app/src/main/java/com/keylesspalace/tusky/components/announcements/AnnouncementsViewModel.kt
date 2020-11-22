@@ -51,7 +51,7 @@ class AnnouncementsViewModel @Inject constructor(
                         .map<Either<InstanceEntity, Instance>> { Either.Left(it) }
                         .onErrorResumeNext(
                                 mastodonApi.getInstance()
-                                        .map { Either.Right<InstanceEntity, Instance>(it) }
+                                        .map { Either.Right(it) }
                         )
         ) { emojis, either ->
             either.asLeftOrNull()?.copy(emojiList = emojis)

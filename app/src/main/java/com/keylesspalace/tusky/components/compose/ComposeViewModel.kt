@@ -19,10 +19,8 @@ import android.net.Uri
 import android.util.Log
 import androidx.core.net.toUri
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
-import androidx.work.impl.utils.LiveDataUtils
 import com.keylesspalace.tusky.adapter.ComposeAutoCompleteAdapter
 import com.keylesspalace.tusky.components.compose.ComposeActivity.QueuedMedia
 import com.keylesspalace.tusky.components.search.SearchType
@@ -35,7 +33,6 @@ import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.service.ServiceClient
 import com.keylesspalace.tusky.service.TootToSend
 import com.keylesspalace.tusky.util.*
-import io.reactivex.Observable.empty
 import io.reactivex.Observable.just
 import io.reactivex.disposables.Disposable
 import io.reactivex.rxkotlin.Singles

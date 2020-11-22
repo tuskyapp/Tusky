@@ -54,7 +54,7 @@ fun CharSequence.emojify(emojis: List<Emoji>?, view: View) : CharSequence {
         while(matcher.find()) {
             val span = EmojiSpan(WeakReference(view))
 
-            builder.setSpan(span, matcher.start(), matcher.end(), 0);
+            builder.setSpan(span, matcher.start(), matcher.end(), 0)
             Glide.with(view)
                 .asBitmap()
                 .load(url)
@@ -89,7 +89,7 @@ class EmojiSpan(val viewWeakReference: WeakReference<View>) : ReplacementSpan() 
             drawable.setBounds(0, 0, emojiSize, emojiSize)
 
             var transY = bottom - drawable.bounds.bottom
-            transY -= paint.fontMetricsInt.descent / 2;
+            transY -= paint.fontMetricsInt.descent / 2
 
             canvas.translate(x, transY.toFloat())
             drawable.draw(canvas)
