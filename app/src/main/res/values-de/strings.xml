@@ -466,4 +466,11 @@
     <string name="abbreviated_in_days">in %d T.</string>
     <string name="abbreviated_years_ago">%d J.</string>
     <string name="pref_title_wellbeing_mode">Wellbeing Modus</string>
+    <string name="wellbeing_mode_notice">Informationen, die dein mentales Wohlbefinden beeinflussen könnten, werden versteckt. Das beinhaltet\n\n
+        - Benachrichtigungen über favorisierte/geteilte Beiträge, sowie "Jemand folgt dir" Benachrichtigungen\n
+        - Anzahl der Favoriten/Teilungen von Beiträgen\n
+        - Statistiken zu Followern auf Profilen\n
+        Push-Benachrichtigungen sind nicht betroffen, aber du kannst diese manuell überprüfen.
+    </string>
+    <string name="review_notifications">Benachrichtigungen überprüfen</string>
 </resources>

@@ -15,9 +15,14 @@
 
 package com.keylesspalace.tusky.components.preference
 
+import android.app.AlertDialog
+import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
+import androidx.preference.SwitchPreference
+import com.keylesspalace.tusky.BuildConfig
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.di.Injectable
@@ -206,21 +211,54 @@ class PreferencesFragment : PreferenceFragmentCompat(), Injectable {
                     title = getString(R.string.pref_title_wellbeing_mode)
                     setDefaultValue(false)
                     key = PrefKeys.WELLBEING_MODE
-                    setOnPreferenceChangeListener { _, value ->
+                    setOnPreferenceChangeListener { pref, value ->
                         accountManager.activeAccount?.let { account ->
                             val notificationFilter = deserialize(account.notificationsFilter).toMutableSet()
 
                             if (value == true) {
-                                notificationFilter.add(Notification.Type.FAVOURITE)
-                                notificationFilter.add(Notification.Type.FOLLOW)
-                                notificationFilter.add(Notification.Type.REBLOG)
+                                AlertDialog.Builder(context).setMessage(getString(R.string.wellbeing_mode_notice))
+                                        .setCancelable(true)
+                                        .setPositiveButton(R.string.action_accept, null)
+                                        .setNeutralButton(R.string.review_notifications) { _, _ ->
+                                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                                val intent = Intent()
+                                                intent.action = "android.settings.APP_NOTIFICATION_SETTINGS"
+                                                intent.putExtra("android.provider.extra.APP_PACKAGE", BuildConfig.APPLICATION_ID)
+                                                startActivity(intent)
+                                            } else {
+                                                activity?.let {
+                                                    val intent = PreferencesActivity.newIntent(it, PreferencesActivity.NOTIFICATION_PREFERENCES)
+                                                    it.startActivity(intent)
+                                                    it.overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
+                                                }
+                                            }
+                                        }
+                                        .setNegativeButton(R.string.action_undo) { _, _ ->
+                                            (pref as SwitchPreference).isChecked = false
+                                        }
+                                        .setOnDismissListener {
+                                            if ((pref as SwitchPreference).isChecked) {
+                                                notificationFilter.add(Notification.Type.FAVOURITE)
+                                                notificationFilter.add(Notification.Type.FOLLOW)
+                                                notificationFilter.add(Notification.Type.REBLOG)
+                                            } else {
+                                                notificationFilter.remove(Notification.Type.FAVOURITE)
+                                                notificationFilter.remove(Notification.Type.FOLLOW)
+                                                notificationFilter.remove(Notification.Type.REBLOG)
+                                            }
+
+                                            account.notificationsFilter = serialize(notificationFilter)
+                                            accountManager.saveAccount(account)
+                                        }
+                                        .show()
                             } else {
                                 notificationFilter.remove(Notification.Type.FAVOURITE)
                                 notificationFilter.remove(Notification.Type.FOLLOW)
                                 notificationFilter.remove(Notification.Type.REBLOG)
+
+                                account.notificationsFilter = serialize(notificationFilter)
+                                accountManager.saveAccount(account)
                             }
-                            account.notificationsFilter = serialize(notificationFilter)
-                            accountManager.saveAccount(account)
                         }
                         true
                     }

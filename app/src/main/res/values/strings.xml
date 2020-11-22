@@ -578,5 +578,12 @@
     <string name="pref_title_wellbeing_mode">Wellbeing Mode</string>
     <string name="account_note_hint">Your private note about this account</string>
     <string name="account_note_saved">Saved!</string>
+    <string name="wellbeing_mode_notice">Some information that might affect your mental wellbeing will be hidden. This includes:\n\n
+        - Favorite/Boost/Follow notifications\n
+        - Favorite/Boost count on toots\n
+        - Follower/Post stats on profiles\n\n
+        Push-notifications will not be affected, but you can review your notification preferences manually.
+    </string>
+    <string name="review_notifications">Review Notifications</string>
 
 </resources>
