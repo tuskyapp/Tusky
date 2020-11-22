@@ -38,6 +38,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.preference.PreferenceManager
 import androidx.viewpager2.widget.MarginPageTransformer
 import com.bumptech.glide.Glide
+import com.bumptech.glide.RequestManager
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.target.FixedSizeDrawable
@@ -105,6 +106,8 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
 
     private val preferences by lazy { PreferenceManager.getDefaultSharedPreferences(this) }
 
+    private lateinit var glide: RequestManager
+
     private val emojiInitCallback = object : InitCallback() {
         override fun onInitialized() {
             if (!isDestroyed) {
@@ -168,6 +171,9 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
         }
         window.statusBarColor = Color.TRANSPARENT // don't draw a status bar, the DrawerLayout and the MaterialDrawerLayout have their own
         setContentView(R.layout.activity_main)
+
+        glide = Glide.with(this)
+
         composeButton.setOnClickListener {
             val composeIntent = Intent(applicationContext, ComposeActivity::class.java)
             startActivity(composeIntent)
@@ -328,13 +334,11 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
         DrawerImageLoader.init(object : AbstractDrawerImageLoader() {
             override fun set(imageView: ImageView, uri: Uri, placeholder: Drawable, tag: String?) {
                 if (animateAvatars) {
-                    Glide.with(imageView.context)
-                            .load(uri)
+                    glide.load(uri)
                             .placeholder(placeholder)
                             .into(imageView)
                 } else {
-                    Glide.with(imageView.context)
-                            .asBitmap()
+                    glide.asBitmap()
                             .load(uri)
                             .placeholder(placeholder)
                             .into(imageView)
@@ -342,7 +346,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
             }
 
             override fun cancel(imageView: ImageView) {
-                Glide.with(imageView.context).clear(imageView)
+                glide.clear(imageView)
             }
 
             override fun placeholder(ctx: Context, tag: String?): Drawable {
@@ -630,15 +634,13 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
     }
 
     private fun onFetchUserInfoSuccess(me: Account) {
-        Glide.with(this)
-                .asBitmap()
+        glide.asBitmap()
                 .load(me.header)
                 .into(header.accountHeaderBackground)
 
         val navIconSize = resources.getDimensionPixelSize(R.dimen.avatar_toolbar_nav_icon_size)
 
-        Glide.with(this)
-                .asDrawable()
+        glide.asDrawable()
                 .override(navIconSize)
                 .load(me.avatar)
                 .transform(
