@@ -10,11 +10,11 @@ import org.junit.runners.Parameterized
 class SpanUtilsTest {
     @Test
     fun matchesMixedSpans() {
-        val input = "one #one two: @two three : https://thr.ee/meh?foo=bar&wat=@at#hmm four #four five @five"
+        val input = "one #one two: @two three : https://thr.ee/meh?foo=bar&wat=@at#hmm four #four five @five ろく#six"
         val inputSpannable = FakeSpannable(input)
         highlightSpans(inputSpannable, 0xffffff)
         val spans = inputSpannable.spans
-        Assert.assertEquals(5, spans.size)
+        Assert.assertEquals(6, spans.size)
     }
 
     @Test
@@ -90,6 +90,38 @@ class SpanUtilsTest {
             val middleSpan = spans.single { span -> span.start > 0 && span.end < inputSpannable.lastIndex }
             Assert.assertEquals(begin.length + 1, middleSpan.start)
             Assert.assertEquals(inputSpannable.length - end.length - 1, middleSpan.end)
+        }
+    }
+
+    @RunWith(Parameterized::class)
+    class HighlightingTestsForTag(private val text: String,
+                                private val expectedStartIndex: Int,
+                                private val expectedEndIndex: Int) {
+        companion object {
+            @Parameterized.Parameters(name = "{0}")
+            @JvmStatic
+            fun data(): Iterable<Any> {
+                return listOf(
+                        arrayOf("#test", 0, 5),
+                        arrayOf(" #AfterSpace", 1, 12),
+                        arrayOf("#BeforeSpace ", 0, 12),
+                        arrayOf("@#after_at", 1, 10),
+                        arrayOf("あいうえお#after_hiragana", 5, 20),
+                        arrayOf("##DoubleHash", 1, 12),
+                        arrayOf("###TripleHash", 2, 13)
+                )
+            }
+        }
+
+        @Test
+        fun matchExpectations() {
+            val inputSpannable = FakeSpannable(text)
+            highlightSpans(inputSpannable, 0xffffff)
+            val spans = inputSpannable.spans
+            Assert.assertEquals(1, spans.size)
+            val span = spans.first()
+            Assert.assertEquals(expectedStartIndex, span.start)
+            Assert.assertEquals(expectedEndIndex, span.end)
         }
     }
 

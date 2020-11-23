@@ -23,6 +23,7 @@ import android.graphics.Color
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter
 import android.os.Bundle
+import android.text.Editable
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -34,7 +35,6 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityOptionsCompat
 import androidx.core.content.ContextCompat
 import androidx.emoji.text.EmojiCompat
-import androidx.lifecycle.Observer
 import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager2.widget.MarginPageTransformer
@@ -58,6 +58,7 @@ import com.keylesspalace.tusky.interfaces.LinkListener
 import com.keylesspalace.tusky.interfaces.ReselectableFragment
 import com.keylesspalace.tusky.pager.AccountPagerAdapter
 import com.keylesspalace.tusky.util.*
+import com.keylesspalace.tusky.view.showMuteAccountDialog
 import com.keylesspalace.tusky.viewmodel.AccountViewModel
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
@@ -81,6 +82,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
     private var followState: FollowState = FollowState.NOT_FOLLOWING
     private var blocking: Boolean = false
     private var muting: Boolean = false
+    private var blockingDomain: Boolean = false
     private var showingReblogs: Boolean = false
     private var loadedAccount: Account? = null
 
@@ -130,6 +132,9 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
 
         if (viewModel.isSelf) {
             updateButtons()
+            saveNoteInfo.hide()
+        } else {
+            saveNoteInfo.visibility = View.INVISIBLE
         }
     }
 
@@ -309,7 +314,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
      * Subscribe to data loaded at the view model
      */
     private fun subscribeObservables() {
-        viewModel.accountData.observe(this, Observer {
+        viewModel.accountData.observe(this) {
             when (it) {
                 is Success -> onAccountChanged(it.data)
                 is Error -> {
@@ -318,8 +323,8 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
                             .show()
                 }
             }
-        })
-        viewModel.relationshipData.observe(this, Observer {
+        }
+        viewModel.relationshipData.observe(this) {
             val relation = it?.data
             if (relation != null) {
                 onRelationshipChanged(relation)
@@ -331,12 +336,14 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
                         .show()
             }
 
-        })
-        viewModel.accountFieldData.observe(this, Observer {
+        }
+        viewModel.accountFieldData.observe(this, {
             accountFieldAdapter.fields = it
             accountFieldAdapter.notifyDataSetChanged()
-
         })
+        viewModel.noteSaved.observe(this) {
+            saveNoteInfo.visible(it, View.INVISIBLE)
+        }
     }
 
     /**
@@ -347,12 +354,10 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
             viewModel.refresh()
             adapter.refreshContent()
         }
-        viewModel.isRefreshing.observe(this, Observer { isRefreshing ->
+        viewModel.isRefreshing.observe(this, { isRefreshing ->
             swipeToRefreshLayout.isRefreshing = isRefreshing == true
         })
         swipeToRefreshLayout.setColorSchemeResources(R.color.tusky_blue)
-        swipeToRefreshLayout.setProgressBackgroundColorSchemeColor(ThemeUtils.getColor(this,
-                android.R.attr.colorBackground))
     }
 
     private fun onAccountChanged(account: Account?) {
@@ -360,9 +365,9 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
 
         val usernameFormatted = getString(R.string.status_username_format, account.username)
         accountUsernameTextView.text = usernameFormatted
-        accountDisplayNameTextView.text = CustomEmojiHelper.emojifyString(account.name, account.emojis, accountDisplayNameTextView)
+        accountDisplayNameTextView.text = account.name.emojify(account.emojis, accountDisplayNameTextView)
 
-        val emojifiedNote = CustomEmojiHelper.emojifyText(account.note, account.emojis, accountNoteTextView)
+        val emojifiedNote = account.note.emojify(account.emojis, accountNoteTextView)
         LinkHelper.setClickableText(accountNoteTextView, emojifiedNote, null, this)
 
        // accountFieldAdapter.fields = account.fields ?: emptyList()
@@ -381,7 +386,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
         invalidateOptionsMenu()
 
         accountMuteButton.setOnClickListener {
-            viewModel.changeMuteState()
+            viewModel.unmuteAccount()
             updateMuteButton()
         }
     }
@@ -407,7 +412,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
 
 
             accountAvatarImageView.setOnClickListener { avatarView ->
-                val intent = ViewMediaActivity.newAvatarIntent(avatarView.context, account.avatar)
+                val intent = ViewMediaActivity.newSingleImageIntent(avatarView.context, account.avatar)
 
                 avatarView.transitionName = account.avatar
                 val options = ActivityOptionsCompat.makeSceneTransitionAnimation(this, avatarView, account.avatar)
@@ -423,7 +428,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
     private fun updateToolbar() {
         loadedAccount?.let { account ->
 
-            val emojifiedName = CustomEmojiHelper.emojifyString(account.name, account.emojis, accountToolbar)
+            val emojifiedName = account.name.emojify(account.emojis, accountToolbar)
 
             try {
                 supportActionBar?.title = EmojiCompat.get().process(emojifiedName)
@@ -528,11 +533,25 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
         }
         blocking = relation.blocking
         muting = relation.muting
+        blockingDomain = relation.blockingDomain
         showingReblogs = relation.showingReblogs
 
         accountFollowsYouTextView.visible(relation.followedBy)
 
+        accountNoteTextInputLayout.visible(relation.note != null)
+        accountNoteTextInputLayout.editText?.setText(relation.note)
+
+        // add the listener late to avoid it firing on the first change
+        accountNoteTextInputLayout.editText?.removeTextChangedListener(noteWatcher)
+        accountNoteTextInputLayout.editText?.addTextChangedListener(noteWatcher)
+
         updateButtons()
+    }
+
+    private val noteWatcher = object: DefaultTextWatcher() {
+        override fun afterTextChanged(s: Editable) {
+            viewModel.noteChanged(s.toString())
+        }
     }
 
     private fun updateFollowButton() {
@@ -626,7 +645,11 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
                     // If we can't get the domain, there's no way we can mute it anyway...
                     menu.removeItem(R.id.action_mute_domain)
                 } else {
-                    muteDomain.title = getString(R.string.action_mute_domain, domain)
+                    if (blockingDomain) {
+                        muteDomain.title = getString(R.string.action_unmute_domain, domain)
+                    } else {
+                        muteDomain.title = getString(R.string.action_mute_domain, domain)
+                    }
                 }
             }
 
@@ -671,12 +694,16 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
                 .show()
     }
 
-    private fun showMuteDomainWarningDialog(instance: String) {
-        AlertDialog.Builder(this)
-                .setMessage(getString(R.string.mute_domain_warning, instance))
-                .setPositiveButton(getString(R.string.mute_domain_warning_dialog_ok)) { _, _ -> viewModel.muteDomain(instance) }
-                .setNegativeButton(android.R.string.cancel, null)
-                .show()
+    private fun toggleBlockDomain(instance: String) {
+        if(blockingDomain) {
+            viewModel.unblockDomain(instance)
+        } else {
+            AlertDialog.Builder(this)
+                    .setMessage(getString(R.string.mute_domain_warning, instance))
+                    .setPositiveButton(getString(R.string.mute_domain_warning_dialog_ok)) { _, _ -> viewModel.blockDomain(instance) }
+                    .setNegativeButton(android.R.string.cancel, null)
+                    .show()
+        }
     }
 
     private fun toggleBlock() {
@@ -693,13 +720,16 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
 
     private fun toggleMute() {
         if (viewModel.relationshipData.value?.data?.muting != true) {
-            AlertDialog.Builder(this)
-                    .setMessage(getString(R.string.dialog_mute_warning, loadedAccount?.username))
-                    .setPositiveButton(android.R.string.ok) { _, _ -> viewModel.changeMuteState() }
-                    .setNegativeButton(android.R.string.cancel, null)
-                    .show()
+            loadedAccount?.let {
+                showMuteAccountDialog(
+                    this,
+                    it.username
+                ) { notifications ->
+                    viewModel.muteAccount(notifications)
+                }
+            }
         } else {
-            viewModel.changeMuteState()
+            viewModel.unmuteAccount()
         }
     }
 
@@ -757,7 +787,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
                 return true
             }
             R.id.action_mute_domain -> {
-                showMuteDomainWarningDialog(domain)
+                toggleBlockDomain(domain)
                 return true
             }
             R.id.action_show_reblogs -> {

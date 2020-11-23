@@ -1,0 +1,11 @@
+Tusky v11.0
+
+- Értesítés új követési kérelemről akkor is, amikor a fiókod zárolva van
+- Új funkciók, melyek a beállításokban kapcsolhatóak:
+   - tabok közötti váltás csúsztatással
+   - megerősítés mutatása megtolás előtt
+   - link előnézet megjelenítése idővonalakon
+- Beszélgetések elnémíthatóak
+- A szavazások eredményét a szavazók száma alapján számoljuk a szavazatok száma helyett, így a többválaszos szavazások értelmezése könnyebb
+- Rengeteg hibajavítás (pl. tülkök írása)
+- Javított fordítás

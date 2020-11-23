@@ -1,0 +1,8 @@
+Tusky 11.0
+
+- Thông báo yêu cầu theo dõi mới
+- Thêm tính năng trong màn hình Cài Đặt
+- Có thể ẩn cuộc đối thoại
+- Cải thiện thuật toán Bình Chọn
+- Sửa lỗi liên quan khi viết tút
+- Cải thiện bản dịch

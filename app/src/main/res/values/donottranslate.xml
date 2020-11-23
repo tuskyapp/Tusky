@@ -46,6 +46,7 @@
         <item>Español</item>
         <item>Euskara</item>
         <item>Français</item>
+        <item>Gaeilge</item>
         <item>íslenska</item>
         <item>Italiano</item>
         <item>Magyar</item>
@@ -57,12 +58,16 @@
         <item>Slovenščina</item>
         <item>Svenska</item>
         <item>Taqbaylit</item>
+        <item>Tiếng Việt</item>
         <item>Türkçe</item>
         <item>Русский</item>
         <item>العربية</item>
-        <item>বাংলা</item>
+        <item>বাংলা (বাংলাদেশ)</item>
+        <item>বাংলা (ভারত)</item>
         <item>فارسی</item>
+        <item>हिंदी</item>
         <item>தமிழ்</item>
+        <item>ภาษาไทย</item>
         <item>한국어</item>
         <item>中文(台灣)</item>
         <item>中文(新加坡)</item>
@@ -84,6 +89,7 @@
         <item>es</item>
         <item>eu</item>
         <item>fr</item>
+        <item>ga</item>
         <item>is</item>
         <item>it</item>
         <item>hu</item>
@@ -95,12 +101,16 @@
         <item>sl</item>
         <item>sv</item>
         <item>kab</item>
+        <item>vi</item>
         <item>tr</item>
         <item>ru</item>
         <item>ar</item>
+        <item>bn-bd</item>
         <item>bn-in</item>
         <item>fa</item>
+        <item>hi</item>
         <item>ta</item>
+        <item>th</item>
         <item>ko</item>
         <item>zh-TW</item>
         <item>zh-SG</item>
@@ -110,6 +120,15 @@
         <item>ja</item>
     </string-array>
 
+    <string-array name="pref_main_nav_position_options">
+        <item>@string/pref_main_nav_position_option_top</item>
+        <item>@string/pref_main_nav_position_option_bottom</item>
+    </string-array>
+
+    <string-array name="pref_main_nav_position_values">
+        <item>top</item>
+        <item>bottom</item>
+    </string-array>
 
     <string name="description_status" translatable="false">
         <!-- Display name, cw?, content?, poll? relative date, reposted by?, reposted?, favorited?, bookmarked?, username, media?; visibility, fav number?, reblog number?-->

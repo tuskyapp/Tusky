@@ -86,7 +86,7 @@ public class BlocksAdapter extends AccountAdapter {
 
         void setupWithAccount(Account account) {
             id = account.getId();
-            CharSequence emojifiedName = CustomEmojiHelper.emojifyString(account.getName(), account.getEmojis(), displayName);
+            CharSequence emojifiedName = CustomEmojiHelper.emojify(account.getName(), account.getEmojis(), displayName);
             displayName.setText(emojifiedName);
             String format = username.getContext().getString(R.string.status_username_format);
             String formattedUsername = String.format(format, account.getUsername());
@@ -103,7 +103,7 @@ public class BlocksAdapter extends AccountAdapter {
                     listener.onBlock(false, id, position);
                 }
             });
-            avatar.setOnClickListener(v -> listener.onViewAccount(id));
+            itemView.setOnClickListener(v -> listener.onViewAccount(id));
         }
     }
 }

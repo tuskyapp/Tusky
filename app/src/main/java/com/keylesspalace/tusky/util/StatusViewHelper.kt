@@ -285,8 +285,7 @@ class StatusViewHelper(private val itemView: View) {
             if (useAbsoluteTime) {
                 context.getString(R.string.poll_info_time_absolute, getAbsoluteTime(poll.expiresAt))
             } else {
-                val pollDuration = TimestampUtils.formatPollDuration(context, poll.expiresAt!!.time, timestamp)
-                context.getString(R.string.poll_info_time_relative, pollDuration)
+                TimestampUtils.formatPollDuration(context, poll.expiresAt!!.time, timestamp)
             }
         }
 
@@ -302,7 +301,7 @@ class StatusViewHelper(private val itemView: View) {
                 val percent = calculatePercent(options[i].votesCount, poll.votersCount, poll.votesCount)
 
                 val pollOptionText = buildDescription(options[i].title, percent, pollResults[i].context)
-                pollResults[i].text = CustomEmojiHelper.emojifyText(pollOptionText, emojis, pollResults[i])
+                pollResults[i].text = pollOptionText.emojify(emojis, pollResults[i])
                 pollResults[i].visibility = View.VISIBLE
 
                 val level = percent * 100

@@ -29,6 +29,7 @@ import androidx.core.graphics.drawable.IconCompat
 import com.bumptech.glide.Glide
 import com.keylesspalace.tusky.MainActivity
 import com.keylesspalace.tusky.R
+import com.keylesspalace.tusky.components.notifications.NotificationHelper
 import com.keylesspalace.tusky.db.AccountEntity
 import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers

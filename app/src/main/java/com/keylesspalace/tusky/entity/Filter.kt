@@ -30,6 +30,7 @@ data class Filter (
         const val NOTIFICATIONS = "notifications"
         const val PUBLIC = "public"
         const val THREAD = "thread"
+        const val ACCOUNT = "account"
     }
 
     override fun hashCode(): Int {

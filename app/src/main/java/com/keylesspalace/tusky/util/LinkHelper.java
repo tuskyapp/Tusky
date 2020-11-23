@@ -68,10 +68,10 @@ public class LinkHelper {
      * @param mentions any '@' mentions which are known to be in the content
      * @param listener to notify about particular spans that are clicked
      */
-    public static void setClickableText(TextView view, Spanned content,
+    public static void setClickableText(TextView view, CharSequence content,
                                         @Nullable Status.Mention[] mentions, final LinkListener listener) {
-        SpannableStringBuilder builder = new SpannableStringBuilder(content);
-        URLSpan[] urlSpans = content.getSpans(0, content.length(), URLSpan.class);
+        SpannableStringBuilder builder = SpannableStringBuilder.valueOf(content);
+        URLSpan[] urlSpans = builder.getSpans(0, content.length(), URLSpan.class);
         for (URLSpan span : urlSpans) {
             int start = builder.getSpanStart(span);
             int end = builder.getSpanEnd(span);

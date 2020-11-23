@@ -25,6 +25,8 @@ import androidx.room.Room
 import com.keylesspalace.tusky.TuskyApplication
 import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.appstore.EventHubImpl
+import com.keylesspalace.tusky.components.notifications.Notifier
+import com.keylesspalace.tusky.components.notifications.SystemNotifier
 import com.keylesspalace.tusky.db.AppDatabase
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.network.TimelineCases
@@ -79,7 +81,11 @@ class AppModule {
                         AppDatabase.MIGRATION_16_17, AppDatabase.MIGRATION_17_18, AppDatabase.MIGRATION_18_19,
                         AppDatabase.MIGRATION_19_20, AppDatabase.MIGRATION_20_21, AppDatabase.MIGRATION_21_22,
                         AppDatabase.MIGRATION_22_23)
-        .build()
+                .build()
     }
+
+    @Provides
+    @Singleton
+    fun notifier(context: Context): Notifier = SystemNotifier(context)
 
 }

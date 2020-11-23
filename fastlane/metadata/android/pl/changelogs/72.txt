@@ -1,0 +1,11 @@
+Tusky v11.0
+
+- Powiadomienia o nowych prośbach o obserwowanie kiedy Twoje konto jest zablokowane
+- Nowe funkcje, które mogą być zmienione w ekranie Ustawień:
+	- wyłącz przesuwanie pomiędzy kartami
+	- pokaż potwierdzenie przed podbiciem
+	- pokaż podgląd linku na osi czasu
+- Rozmowy mogą być teraz wyciszone
+- Wyniki ankiet są teraz przeliczane na podstawie liczby głosujących, a nie łącznej liczbie wszystkich głosów
+- Dużo poprawek błędów, większość z nich dotyczy wpisów
+- Poprawiono tłumaczenia

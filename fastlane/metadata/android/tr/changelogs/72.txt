@@ -1,0 +1,10 @@
+Tusky v11.0
+
+- Hesabınız kilitlendiğinde yeni takip istekleriyle ilgili bildirimler
+Tercihler ekranından değiştirilebilen yeni özellikler:
+   - sekmeler arası kaydırmayı kapat
+   - durumu boost etmeden önce onay iletişim kutusu göster
+   - zaman çizelgesinde bağlantı önizlemeleri göster
+- Konuşmalar artık sessize alınabilir
+- Sonuçlar, çok oylu anketlerin anlaşılmasını kolaylaştıran toplam oy sayısına göre değil, oy veren sayısına göre hesaplanacaktır
+- Çoğu durumla ilgili hata birçok düzeltmesi

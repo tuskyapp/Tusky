@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='UTF-8'?>
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="error_generic">エラーが発生しました。</string>
     <string name="error_empty">本文なしでは投稿できません。</string>
@@ -76,7 +76,7 @@
     <string name="action_close">閉じる</string>
     <string name="action_view_profile">プロフィール</string>
     <string name="action_view_preferences">設定</string>
-    <string name="action_view_account_preferences">アカウントの設定</string>
+    <string name="action_view_account_preferences">アカウント設定</string>
     <string name="action_view_favourites">お気に入り</string>
     <string name="action_view_mutes">ミュートしたユーザー</string>
     <string name="action_view_blocks">ブロックしたユーザー</string>
@@ -100,7 +100,7 @@
     <string name="action_search">検索</string>
     <string name="action_access_saved_toot">下書き</string>
     <string name="action_toggle_visibility">トゥートの公開範囲</string>
-    <string name="action_content_warning">閲覧注意</string>
+    <string name="action_content_warning">注意書き</string>
     <string name="action_emoji_keyboard">絵文字キーボード</string>
     <string name="action_add_tab">タブの追加</string>
     <string name="action_links">リンク</string>
@@ -110,7 +110,7 @@
     <string name="download_image">%1$s をダウンロードしています</string>
     <string name="action_copy_link">リンクをコピー</string>
     <string name="action_open_as">%s として開く</string>
-    <string name="action_share_as">… として共有</string>
+    <string name="action_share_as">共有先…</string>
     <string name="send_status_link_to">トゥートのURLを共有…</string>
     <string name="send_status_content_to">トゥートを共有…</string>
     <string name="send_media_to">メディアを共有…</string>
@@ -118,8 +118,8 @@
     <string name="confirmation_unblocked">ブロックを解除しました</string>
     <string name="confirmation_unmuted">ミュートを解除しました</string>
     <string name="status_sent">送信しました！</string>
-    <string name="status_sent_long">返信に成功しました</string>
-    <string name="hint_domain">どのインスタンス？</string>
+    <string name="status_sent_long">返信しました。</string>
+    <string name="hint_domain">インスタンス</string>
     <string name="hint_compose">今なにしてる？</string>
     <string name="hint_content_warning">注意書き</string>
     <string name="hint_display_name">表示名</string>
@@ -131,15 +131,13 @@
     <string name="label_header">ヘッダー</string>
     <string name="link_whats_an_instance">インスタンスとは？</string>
     <string name="login_connection">接続中…</string>
-    <string name="dialog_whats_an_instance">mastodon.social, mstdn.jp, pawoo.netや<!--
-        --><a href="https://instances.social">その他</a><!--
-        -->のような、あらゆるインスタンスのアドレスやドメインを入力できます。
-        \n\nまだアカウントをお持ちでない場合は、参加したいインスタンスの名前を入力することで<!--
-        -->そのインスタンスにアカウントを作成できます。
-        \n\nインスタンスはあなたのアカウントが提供される単独の場所ですが、<!--
-        -->他のインスタンスのユーザーとあたかも同じ場所にいるように簡単にコミュニケーションをとったりフォローしたりできます。
-        \n\nさらに詳しい情報は<a href="https://joinmastodon.org">joinmastodon.org</a>でご覧いただけます。
-    </string>
+    <string name="dialog_whats_an_instance">mastodon.social, icosahedron.website, social.tchncs.deや<a href="https://instances.social">その他</a> のような、あらゆるインスタンスのアドレスやドメインを入力できます。 
+\n 
+\nまだアカウントをお持ちでない場合は、参加したいインスタンスの名前を入力することで そのインスタンスにアカウントを作成できます。 
+\n 
+\nインスタンスはあなたのアカウントが提供される単独の場所ですが、他のインスタンスのユーザーとあたかも同じ場所にいるように簡単にコミュニケーションをとったりフォローしたりできます。 
+\n 
+\nさらに詳しい情報は<a href="https://joinmastodon.org">joinmastodon.org</a>でご覧いただけます。 </string>
     <string name="dialog_title_finishing_media_upload">メディアをアップロードしています</string>
     <string name="dialog_message_uploading_media">アップロード中…</string>
     <string name="dialog_download_image">ダウンロード</string>
@@ -150,8 +148,8 @@
     <string name="visibility_unlisted">未収載：公開タイムラインには表示しない</string>
     <string name="visibility_private">フォロワー限定：フォロワーだけに公開</string>
     <string name="visibility_direct">ダイレクト：返信先のユーザーだけに公開</string>
-    <string name="pref_title_edit_notification_settings">通知を設定</string>
-    <string name="pref_title_notifications_enabled">プッシュ通知</string>
+    <string name="pref_title_edit_notification_settings">通知</string>
+    <string name="pref_title_notifications_enabled">通知</string>
     <string name="pref_title_notification_alerts">通知時の動作</string>
     <string name="pref_title_notification_alert_sound">着信音を鳴らす</string>
     <string name="pref_title_notification_alert_vibrate">バイブレーションする</string>
@@ -171,7 +169,7 @@
     <string name="app_theme_auto">日没による自動設定</string>
     <string name="pref_title_browser_settings">ブラウザ</string>
     <string name="pref_title_custom_tabs">Chrome Custom Tabsを使用する</string>
-    <string name="pref_title_hide_follow_button">スクロール中はフォローボタンを隠す</string>
+    <string name="pref_title_hide_follow_button">スクロール中は投稿ボタンを隠す</string>
     <string name="pref_title_language">言語</string>
     <string name="pref_title_status_filter">タイムラインのフィルタリング</string>
     <string name="pref_title_status_tabs">タブ</string>
@@ -245,7 +243,7 @@
     <string name="abbreviated_minutes_ago">%d分前</string>
     <string name="abbreviated_seconds_ago">%d秒前</string>
     <string name="follows_you">あなたをフォロー中</string>
-    <string name="pref_title_alway_show_sensitive_media">閲覧注意のコンテンツを常に表示</string>
+    <string name="pref_title_alway_show_sensitive_media">閲覧注意のメディアを常に表示</string>
     <string name="title_media">メディア</string>
     <string name="replying_to">\@%sに返信</string>
     <string name="load_more_placeholder_text">さらに読み込む</string>
@@ -256,7 +254,7 @@
     <string name="action_lists">リスト</string>
     <string name="title_lists">リスト</string>
     <string name="title_list_timeline">リストタイムライン</string>
-    <string name="error_rename_list">リスト名を変更できませんでした。</string>
+    <string name="error_rename_list">リスト名を変更できませんでした</string>
     <string name="action_rename_list">リスト名の変更</string>
     <string name="compose_active_account_description">%1$sで投稿</string>
     <string name="error_failed_set_caption">説明の設定に失敗しました</string>
@@ -271,7 +269,7 @@
     <string name="send_toot_notification_channel_name">トゥートの送信</string>
     <string name="send_toot_notification_cancel_title">送信がキャンセルされました</string>
     <string name="send_toot_notification_saved_content">トゥートのコピーが下書きに保存されました</string>
-    <string name="action_compose_shortcut">投稿</string>
+    <string name="action_compose_shortcut">新規投稿</string>
     <string name="error_no_custom_emojis">インスタンス %s にはカスタム絵文字がありません</string>
     <string name="copy_to_clipboard_success">クリップボードにコピーされました</string>
     <string name="emoji_style">絵文字スタイル</string>
@@ -320,67 +318,57 @@
     <string name="description_visiblity_direct">        ダイレクト
     </string>
     <string name="hint_list_name">リスト名</string>
-<string name="error_network">ネットワークエラーが発生しました！接続を確認してもう一度試してください！</string>
+    <string name="error_network">ネットワークエラーが発生しました！接続を確認してもう一度試してください！</string>
     <string name="status_username_format">\@%s</string>
     <string name="action_unreblog">ブーストを解除</string>
     <string name="action_unfavourite">お気に入りを解除</string>
     <string name="action_open_reblogged_by">ブーストを表示</string>
     <string name="download_media">メディアをダウンロード</string>
     <string name="downloading_media">メディアをダウンロード中</string>
-
     <string name="app_theme_system">システムの設定を利用</string>
-
     <string name="notifications_clear">通知を削除</string>
     <string name="notifications_apply_filter">フィルター</string>
     <string name="notification_clear_text">すべての通知を完全に削除してよろしいですか？</string>
     <plurals name="poll_info_votes">
-	<item quantity="other">%s票</item>
-</plurals>
-    <string name="poll_info_time_relative">残り%s</string>
+        <item quantity="other">%s票</item>
+    </plurals>
     <string name="poll_vote">投票</string>
-
     <plurals name="poll_timespan_days">
-	<item quantity="other">%d日</item>
-</plurals>
+        <item quantity="other">残り%d日</item>
+    </plurals>
     <plurals name="poll_timespan_hours">
-	<item quantity="other">%d時間</item>
-</plurals>
+        <item quantity="other">残り%d時間</item>
+    </plurals>
     <plurals name="poll_timespan_minutes">
-	<item quantity="other">%d分</item>
-</plurals>
+        <item quantity="other">残り%d分</item>
+    </plurals>
     <plurals name="poll_timespan_seconds">
-	<item quantity="other">%d秒</item>
-</plurals>
-
+        <item quantity="other">残り%d秒</item>
+    </plurals>
     <string name="title_domain_mutes">非表示のドメイン</string>
     <string name="action_view_domain_mutes">非表示のドメイン</string>
     <string name="action_mute_domain">%sをミュート</string>
     <string name="pref_title_notification_filter_poll">投票の集計が完了した</string>
     <string name="notification_poll_name">投票</string>
     <string name="notification_poll_description">投票の集計が完了したときの通知</string>
-
-
     <string name="pref_title_thread_filter_keywords">会話</string>
     <string name="caption_notoemoji">Googleの現在の絵文字セットです</string>
-
-    <string name="action_add_poll">投票を追加</string>
+    <string name="action_add_poll">投票</string>
     <string name="action_mentions">返信</string>
     <string name="title_mentions_dialog">返信</string>
     <string name="dialog_redraft_toot_warning">このトゥートを削除し、下書きに戻しますか？</string>
     <string name="filter_dialog_remove_button">削除</string>
     <string name="filter_dialog_update_button">更新</string>
-    <string name="error_create_list">リストを作成できませんでした。</string>
-    <string name="error_delete_list">リストを削除できませんでした。</string>
+    <string name="error_create_list">リストを作成できませんでした</string>
+    <string name="error_delete_list">リストを削除できませんでした</string>
     <string name="action_create_list">リストの作成</string>
     <string name="action_delete_list">リストの削除</string>
     <string name="action_edit_list">リストの編集</string>
     <string name="hint_search_people_list">フォロワーを検索</string>
     <string name="action_add_to_list">リストにアカウントを追加</string>
     <string name="action_remove_from_list">リストからアカウントを削除</string>
-
     <string name="poll_ended_voted">参加した投票の結果がでました</string>
     <string name="poll_ended_created">作成した投票の結果がでました</string>
-
     <string name="create_poll_title">投票</string>
     <string name="poll_duration_5_min">5分</string>
     <string name="poll_duration_30_min">30分</string>
@@ -392,23 +380,15 @@
     <string name="add_poll_choice">選択肢を追加</string>
     <string name="poll_allow_multiple_choices">複数選択可</string>
     <string name="edit_poll">編集</string>
-
-<string name="pref_title_bot_overlay">ボットマークを表示</string>
+    <string name="pref_title_bot_overlay">ボットマークを表示</string>
     <string name="pref_title_animate_gif_avatars">GIFアバターを動かす</string>
-
     <string name="pref_title_public_filter_keywords">公開タイムライン</string>
     <string name="description_status_cw">閲覧注意：%s</string>
-    <string name="edit_hashtag_title">ハッシュタグの編集</string>
-    <string name="hashtag">ハッシュタグ</string>
     <string name="filter_apply">適用</string>
-
     <string name="poll_info_closed">投票終了</string>
     <string name="title_accounts">アカウント</string>
     <string name="failed_search">検索に失敗しました</string>
-
     <string name="pref_title_show_notifications_filter">通知フィルターを表示</string>
-
-
     <string name="action_reset_schedule">リセット</string>
     <string name="error_audio_upload_size">音声ファイルは40MB未満にしてください。</string>
     <string name="title_bookmarks">ブックマーク</string>
@@ -418,4 +398,62 @@
     <string name="title_scheduled_toot">予約トゥート</string>
     <string name="action_access_scheduled_toot">予約トゥート</string>
     <string name="action_schedule_toot">予約トゥート</string>
-    </resources>
+    <string name="description_visiblity_private">フォロワー</string>
+    <string name="conversation_2_recipients">%1$sさん、%2$sさん</string>
+    <string name="notification_follow_request_name">フォローリクエスト</string>
+    <string name="action_unmute_desc">%sさんのミュートを解除</string>
+    <string name="notification_follow_request_format">%sさんがあなたにフォローリクエストしました</string>
+    <string name="report_sent_success">\@%sさんを通報しました</string>
+    <string name="no_scheduled_status">予約した投稿はありません。</string>
+    <string name="no_saved_status">下書きはありません。</string>
+    <string name="poll_new_choice_hint">項目 %d</string>
+    <string name="report_description_remote_instance">このアカウントは外部のサーバーにあります。匿名化された通報の複製をそちらにも送信しますか？</string>
+    <string name="report_description_1">通報をサーバーのモデレーターに送信します。以下にこのアカウントを通報理由を入力できます:</string>
+    <string name="failed_fetch_statuses">投稿を取得できませんでした</string>
+    <string name="button_done">完了</string>
+    <string name="button_back">戻る</string>
+    <string name="button_continue">続ける</string>
+    <string name="compose_shortcut_short_label">投稿</string>
+    <string name="compose_shortcut_long_label">新規トゥート</string>
+    <string name="list">リスト</string>
+    <string name="hashtags">ハッシュタグ</string>
+    <string name="add_hashtag_title">ハッシュタグを追加</string>
+    <string name="description_status_media_no_description_placeholder">説明なし</string>
+    <string name="description_status_media">メディア: %s</string>
+    <string name="conversation_more_recipients">%1$sさん、%2$sさんと他%3$d人</string>
+    <string name="conversation_1_recipients">%1$sさん</string>
+    <string name="filter_add_description">フィルターする語句</string>
+    <string name="filter_dialog_whole_word_description">キーワードまたは語句が英数字のみである時、単語全体と一致する場合のみ適用されます</string>
+    <string name="notification_follow_request_description">フォローリクエストについての通知</string>
+    <string name="pref_main_nav_position_option_bottom">下部</string>
+    <string name="pref_main_nav_position_option_top">上部</string>
+    <string name="pref_main_nav_position">メインナビゲーションの位置</string>
+    <string name="pref_title_gradient_for_media">非表示のメディアを色付きのぼかしで表示する</string>
+    <string name="pref_title_notification_filter_follow_requests">フォローリクエスト</string>
+    <string name="dialog_mute_hide_notifications">通知を非表示</string>
+    <string name="dialog_mute_warning">\@%sさんをミュートしますか？</string>
+    <string name="dialog_block_warning">\@%sさんをブロックしますか？</string>
+    <string name="pref_title_alway_open_spoiler">閲覧注意としてマークされたトゥートを常に展開する</string>
+    <string name="action_open_media_n">メディア #%d を開く</string>
+    <string name="action_open_faved_by">お気に入りを表示</string>
+    <string name="action_open_reblogger">ブーストしたユーザーを開く</string>
+    <string name="action_unmute_conversation">会話のミュートを解除</string>
+    <string name="action_mute_conversation">会話をミュート</string>
+    <string name="action_unmute_domain">%sのミュートを解除</string>
+    <string name="action_mute_notifications_desc">%sさんからの通知をミュート</string>
+    <string name="action_unmute_notifications_desc">%sさんからの通知のミュートを解除</string>
+    <string name="pref_title_enable_swipe_for_tabs">タブ間の切り替えにスワイプのジェスチャーを有効化</string>
+    <string name="pref_title_show_cards_in_timelines">リンクのプレビューをタイムラインに表示</string>
+    <string name="pref_title_confirm_reblogs">ブーストする前に確認ダイアログを表示</string>
+    <string name="edit_hashtag_hint">ハッシュタグ (#をつけない)</string>
+    <string name="select_list_title">リストを選択</string>
+    <string name="poll_info_format"> <!-- 15 votes • 1 hour left --> %1$s • %2$s</string>
+    <string name="poll_info_time_absolute">%sに終了</string>
+    <string name="hint_additional_info">追加コメント</string>
+    <string name="report_remote_instance">%sに転送</string>
+    <string name="failed_report">通報に失敗しました</string>
+    <plurals name="poll_info_people">
+        <item quantity="other">%s人</item>
+    </plurals>
+    <string name="warning_scheduling_interval">Mastodonにおける予約までの最小間隔は5分です。</string>
+</resources>

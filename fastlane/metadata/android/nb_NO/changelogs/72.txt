@@ -1,0 +1,11 @@
+Tusky v11.0
+
+- Varsel om nye følgere når kontoen din er låst og nye følgere må godkjennes
+- Ny funksjonalitet som kan skrus av og på i innstillinger:
+   - Sveiping mellom faner
+   - Bekreftelsesdialog før boosting av et toot
+   - Forhåndsvisning av linker i tidslinjer
+- Samtaler kan nå bli dempet
+- Resultatet av avstemninger vil bli kalkulert basert på antall personer som har stemt og ikke på antall stemmer
+- Mange feilfikser, de fleste relatert til skriving av toots
+- Oppdaterte oversettelser

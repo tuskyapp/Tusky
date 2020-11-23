@@ -19,6 +19,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import androidx.paging.PagedList
+import com.keylesspalace.tusky.appstore.BlockEvent
+import com.keylesspalace.tusky.appstore.EventHub
+import com.keylesspalace.tusky.appstore.MuteEvent
 import com.keylesspalace.tusky.components.report.adapter.StatusesRepository
 import com.keylesspalace.tusky.components.report.model.StatusViewState
 import com.keylesspalace.tusky.entity.Relationship
@@ -31,6 +34,7 @@ import javax.inject.Inject
 
 class ReportViewModel @Inject constructor(
         private val mastodonApi: MastodonApi,
+        private val eventHub: EventHub,
         private val statusesRepository: StatusesRepository) : RxAwareViewModel() {
 
     private val navigationMutable = MutableLiveData<Screen>()
@@ -96,7 +100,7 @@ class ReportViewModel @Inject constructor(
         val ids = listOf(accountId)
         muteStateMutable.value = Loading()
         blockStateMutable.value = Loading()
-        mastodonApi.relationshipsObservable(ids)
+        mastodonApi.relationships(ids)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
@@ -123,16 +127,21 @@ class ReportViewModel @Inject constructor(
     }
 
     fun toggleMute() {
-        if (muteStateMutable.value?.data == true) {
-            mastodonApi.unmuteAccountObservable(accountId)
+        val alreadyMuted = muteStateMutable.value?.data == true
+        if (alreadyMuted) {
+            mastodonApi.unmuteAccount(accountId)
         } else {
-            mastodonApi.muteAccountObservable(accountId)
+            mastodonApi.muteAccount(accountId)
         }
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                         { relationship ->
-                            muteStateMutable.value = Success(relationship?.muting == true)
+                            val muting = relationship?.muting == true
+                            muteStateMutable.value = Success(muting)
+                            if (muting) {
+                                eventHub.dispatch(MuteEvent(accountId))
+                            }
                         },
                         { error ->
                             muteStateMutable.value = Error(false, error.message)
@@ -143,16 +152,21 @@ class ReportViewModel @Inject constructor(
     }
 
     fun toggleBlock() {
-        if (blockStateMutable.value?.data == true) {
-            mastodonApi.unblockAccountObservable(accountId)
+        val alreadyBlocked = blockStateMutable.value?.data == true
+        if (alreadyBlocked) {
+            mastodonApi.unblockAccount(accountId)
         } else {
-            mastodonApi.blockAccountObservable(accountId)
+            mastodonApi.blockAccount(accountId)
         }
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                         { relationship ->
-                            blockStateMutable.value = Success(relationship?.blocking == true)
+                            val blocking = relationship?.blocking == true
+                            blockStateMutable.value = Success(blocking)
+                            if (blocking) {
+                                eventHub.dispatch(BlockEvent(accountId))
+                            }
                         },
                         { error ->
                             blockStateMutable.value = Error(false, error.message)

@@ -37,9 +37,8 @@ import com.github.chrisbanes.photoview.PhotoView
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.util.withLifecycleContext
 
-// https://github.com/tootsuite/mastodon/blob/1656663/app/models/media_attachment.rb#L94
-private const val MEDIA_DESCRIPTION_CHARACTER_LIMIT = 420
-
+// https://github.com/tootsuite/mastodon/blob/c6904c0d3766a2ea8a81ab025c127169ecb51373/app/models/media_attachment.rb#L32
+private const val MEDIA_DESCRIPTION_CHARACTER_LIMIT = 1500
 
 fun <T> T.makeCaptionDialog(existingDescription: String?,
                             previewUri: Uri,
@@ -51,8 +50,7 @@ fun <T> T.makeCaptionDialog(existingDescription: String?,
 
     dialogLayout.orientation = LinearLayout.VERTICAL
     val imageView = PhotoView(this).apply {
-        // If it seems a lot, try opening an image of A4 format or similar
-        maximumScale = 6.0f
+        maximumScale = 6f
     }
 
     val displayMetrics = DisplayMetrics()
@@ -70,7 +68,9 @@ fun <T> T.makeCaptionDialog(existingDescription: String?,
     dialogLayout.addView(input)
     (input.layoutParams as LinearLayout.LayoutParams).setMargins(margin, margin, margin, margin)
     input.setLines(2)
-    input.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_FLAG_CAP_SENTENCES
+    input.inputType = (InputType.TYPE_CLASS_TEXT
+        or InputType.TYPE_TEXT_FLAG_MULTI_LINE
+        or InputType.TYPE_TEXT_FLAG_CAP_SENTENCES)
     input.setText(existingDescription)
     input.filters = arrayOf(InputFilter.LengthFilter(MEDIA_DESCRIPTION_CHARACTER_LIMIT))
 

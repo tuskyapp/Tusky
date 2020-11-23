@@ -188,7 +188,6 @@ class AccountMediaFragment : BaseFragment(), RefreshableFragment, Injectable {
                 refresh()
             }
             swipeRefreshLayout.setColorSchemeResources(R.color.tusky_blue)
-            swipeRefreshLayout.setProgressBackgroundColorSchemeColor(ThemeUtils.getColor(view.context, android.R.attr.colorBackground))
         }
         statusView.visibility = View.GONE
 

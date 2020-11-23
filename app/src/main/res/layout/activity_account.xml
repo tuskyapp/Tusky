@@ -125,12 +125,12 @@
                         android:layout_height="16sp"
                         android:layout_marginStart="4dp"
                         android:contentDescription="@string/description_account_locked"
-                        android:tint="?android:textColorSecondary"
                         android:visibility="gone"
                         app:layout_constraintBottom_toBottomOf="@+id/accountUsernameTextView"
                         app:layout_constraintStart_toEndOf="@+id/accountUsernameTextView"
                         app:layout_constraintTop_toTopOf="@+id/accountUsernameTextView"
                         app:srcCompat="@drawable/ic_reblog_private_24dp"
+                        app:tint="?android:textColorSecondary"
                         tools:visibility="visible" />
 
                     <TextView
@@ -168,16 +168,43 @@
                         app:barrierDirection="bottom"
                         app:constraint_referenced_ids="accountFollowsYouTextView,accountBadgeTextView" />
 
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/accountNoteTextInputLayout"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:visibility="gone"
+                        app:layout_constraintTop_toBottomOf="@id/labelBarrier"
+                        tools:visibility="visible">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/account_note_hint" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <TextView
+                        android:id="@+id/saveNoteInfo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/account_note_saved"
+                        android:textColor="@color/tusky_blue"
+                        android:visibility="gone"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/accountNoteTextInputLayout" />
+
                     <androidx.emoji.widget.EmojiTextView
                         android:id="@+id/accountNoteTextView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:hyphenationFrequency="full"
                         android:lineSpacingMultiplier="1.1"
-                        android:paddingTop="10dp"
+                        android:paddingTop="2dp"
                         android:textColor="?android:textColorTertiary"
                         android:textSize="?attr/status_text_medium"
-                        app:layout_constraintTop_toBottomOf="@id/labelBarrier"
+                        app:layout_constraintTop_toBottomOf="@id/saveNoteInfo"
                         tools:text="This is a test description. Descriptions can be quite looooong." />
 
                     <androidx.recyclerview.widget.RecyclerView
@@ -244,6 +271,7 @@
                             android:text="@string/title_statuses"
                             android:textColor="@color/account_tab_font_color"
                             android:textSize="?attr/status_text_medium" />
+
                     </LinearLayout>
 
                     <LinearLayout
@@ -312,7 +340,7 @@
                 <androidx.appcompat.widget.Toolbar
                     android:id="@+id/accountToolbar"
                     android:layout_width="match_parent"
-                    android:layout_height="?attr/actionBarSize"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="top"
                     android:background="@android:color/transparent"
                     app:contentInsetStartWithNavigation="0dp"

@@ -24,6 +24,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.SimpleItemAnimator
 import com.google.android.material.snackbar.Snackbar
 import com.keylesspalace.tusky.AccountActivity
 import com.keylesspalace.tusky.AccountListActivity.Type
@@ -48,8 +49,8 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.io.IOException
+import java.util.HashMap
 import javax.inject.Inject
-
 
 class AccountListFragment : BaseFragment(), AccountActionListener, Injectable {
 
@@ -80,6 +81,7 @@ class AccountListFragment : BaseFragment(), AccountActionListener, Injectable {
         recyclerView.setHasFixedSize(true)
         val layoutManager = LinearLayoutManager(view.context)
         recyclerView.layoutManager = layoutManager
+        (recyclerView.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
 
         recyclerView.addItemDecoration(DividerItemDecoration(view.context, DividerItemDecoration.VERTICAL))
 
@@ -112,50 +114,45 @@ class AccountListFragment : BaseFragment(), AccountActionListener, Injectable {
         }
     }
 
-    override fun onMute(mute: Boolean, id: String, position: Int) {
-        val callback = object : Callback<Relationship> {
-            override fun onResponse(call: Call<Relationship>, response: Response<Relationship>) {
-                if (response.isSuccessful) {
-                    onMuteSuccess(mute, id, position)
-                } else {
-                    onMuteFailure(mute, id)
-                }
-            }
-
-            override fun onFailure(call: Call<Relationship>, t: Throwable) {
-                onMuteFailure(mute, id)
-            }
-        }
-
-        val call = if (!mute) {
+    override fun onMute(mute: Boolean, id: String, position: Int, notifications: Boolean) {
+        if (!mute) {
             api.unmuteAccount(id)
         } else {
-            api.muteAccount(id)
+            api.muteAccount(id, notifications)
         }
-        callList.add(call)
-        call.enqueue(callback)
+                .autoDispose(from(this))
+                .subscribe({
+                    onMuteSuccess(mute, id, position, notifications)
+                }, {
+                    onMuteFailure(mute, id, notifications)
+                })
     }
 
-    private fun onMuteSuccess(muted: Boolean, id: String, position: Int) {
+    private fun onMuteSuccess(muted: Boolean, id: String, position: Int, notifications: Boolean) {
+        val mutesAdapter = adapter as MutesAdapter
         if (muted) {
+            mutesAdapter.updateMutingNotifications(id, notifications, position)
             return
         }
-        val mutesAdapter = adapter as MutesAdapter
         val unmutedUser = mutesAdapter.removeItem(position)
 
         if (unmutedUser != null) {
             Snackbar.make(recyclerView, R.string.confirmation_unmuted, Snackbar.LENGTH_LONG)
                     .setAction(R.string.action_undo) {
                         mutesAdapter.addItem(unmutedUser, position)
-                        onMute(true, id, position)
+                        onMute(true, id, position, notifications)
                     }
                     .show()
         }
     }
 
-    private fun onMuteFailure(mute: Boolean, accountId: String) {
+    private fun onMuteFailure(mute: Boolean, accountId: String, notifications: Boolean) {
         val verb = if (mute) {
-            "mute"
+            if (notifications) {
+                "mute (notifications = true)"
+            } else {
+                "mute (notifications = false)"
+            }
         } else {
             "unmute"
         }
@@ -163,27 +160,17 @@ class AccountListFragment : BaseFragment(), AccountActionListener, Injectable {
     }
 
     override fun onBlock(block: Boolean, id: String, position: Int) {
-        val cb = object : Callback<Relationship> {
-            override fun onResponse(call: Call<Relationship>, response: Response<Relationship>) {
-                if (response.isSuccessful) {
-                    onBlockSuccess(block, id, position)
-                } else {
-                    onBlockFailure(block, id)
-                }
-            }
-
-            override fun onFailure(call: Call<Relationship>, t: Throwable) {
-                onBlockFailure(block, id)
-            }
-        }
-
-        val call = if (!block) {
+        if (!block) {
             api.unblockAccount(id)
         } else {
             api.blockAccount(id)
         }
-        callList.add(call)
-        call.enqueue(cb)
+                .autoDispose(from(this))
+                .subscribe({
+                    onBlockSuccess(block, id, position)
+                }, {
+                    onBlockFailure(block, id)
+                })
     }
 
     private fun onBlockSuccess(blocked: Boolean, id: String, position: Int) {
@@ -321,6 +308,10 @@ class AccountListFragment : BaseFragment(), AccountActionListener, Injectable {
             adapter.update(accounts)
         }
 
+        if (adapter is MutesAdapter) {
+            fetchRelationships(accounts.map { it.id })
+        }
+
         bottomId = fromId
 
         fetching = false
@@ -335,6 +326,25 @@ class AccountListFragment : BaseFragment(), AccountActionListener, Injectable {
         } else {
             messageView.hide()
         }
+    }
+
+    private fun fetchRelationships(ids: List<String>) {
+        api.relationships(ids)
+                .autoDispose(from(this))
+                .subscribe(::onFetchRelationshipsSuccess) {
+                    onFetchRelationshipsFailure(ids)
+                }
+    }
+
+    private fun onFetchRelationshipsSuccess(relationships: List<Relationship>) {
+        val mutesAdapter = adapter as MutesAdapter
+        val mutingNotificationsMap = HashMap<String, Boolean>()
+        relationships.map { mutingNotificationsMap.put(it.id, it.mutingNotifications) }
+        mutesAdapter.updateMutingNotificationsMap(mutingNotificationsMap)
+    }
+
+    private fun onFetchRelationshipsFailure(ids: List<String>) {
+        Log.e(TAG, "Fetch failure for relationships of accounts: $ids")
     }
 
     private fun onFetchAccountsFailure(throwable: Throwable) {

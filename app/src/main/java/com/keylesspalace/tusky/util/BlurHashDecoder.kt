@@ -87,7 +87,7 @@ object BlurHashDecoder {
             numCompX: Int, numCompY: Int,
             colors: Array<FloatArray>
     ): Bitmap {
-        val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
+        val imageArray = IntArray(width * height)
         for (y in 0 until height) {
             for (x in 0 until width) {
                 var r = 0f
@@ -102,10 +102,10 @@ object BlurHashDecoder {
                         b += color[2] * basis
                     }
                 }
-                bitmap.setPixel(x, y, Color.rgb(linearToSrgb(r), linearToSrgb(g), linearToSrgb(b)))
+                imageArray[x + width * y] = Color.rgb(linearToSrgb(r), linearToSrgb(g), linearToSrgb(b))
             }
         }
-        return bitmap
+        return Bitmap.createBitmap(imageArray, width, height, Bitmap.Config.ARGB_8888)
     }
 
     private fun linearToSrgb(value: Float): Int {

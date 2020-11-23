@@ -1,0 +1,8 @@
+Tusky v10.0
+
+- Ara podeu marcar els estatuts de les adreces i enumerar les adreces d'interès a Tusky.
+- Ara podeu programar toots amb Tusky. Tingueu en compte que el temps que seleccioneu ha de ser d'almenys 5 minuts en el futur.
+- Ara podeu afegir llistes a la pantalla principal.
+- Ja podeu publicar fitxers adjunts d'àudio amb Tusky.
+
+I moltes altres petites millores i solucions d’errors.

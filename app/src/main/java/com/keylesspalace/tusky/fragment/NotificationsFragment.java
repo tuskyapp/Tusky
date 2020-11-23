@@ -79,7 +79,6 @@ import com.keylesspalace.tusky.util.ListUtils;
 import com.keylesspalace.tusky.util.NotificationTypeConverterKt;
 import com.keylesspalace.tusky.util.PairedList;
 import com.keylesspalace.tusky.util.StatusDisplayOptions;
-import com.keylesspalace.tusky.util.ThemeUtils;
 import com.keylesspalace.tusky.util.ViewDataUtils;
 import com.keylesspalace.tusky.view.BackgroundMessageView;
 import com.keylesspalace.tusky.view.EndlessOnScrollListener;
@@ -223,7 +222,6 @@ public class NotificationsFragment extends SFragment implements
 
         swipeRefreshLayout.setOnRefreshListener(this);
         swipeRefreshLayout.setColorSchemeResources(R.color.tusky_blue);
-        swipeRefreshLayout.setProgressBackgroundColorSchemeColor(ThemeUtils.getColor(context, android.R.attr.colorBackground));
 
         loadNotificationsFilter();
 
@@ -288,7 +286,7 @@ public class NotificationsFragment extends SFragment implements
     private void updateFilterVisibility() {
         CoordinatorLayout.LayoutParams params =
                 (CoordinatorLayout.LayoutParams) swipeRefreshLayout.getLayoutParams();
-        if (showNotificationsFilter && !showingError && !notifications.isEmpty()) {
+        if (showNotificationsFilter && !showingError) {
             appBarOptions.setExpanded(true, false);
             appBarOptions.setVisibility(View.VISIBLE);
             //Set content behaviour to hide filter on scroll
@@ -823,7 +821,7 @@ public class NotificationsFragment extends SFragment implements
     }
 
     @Override
-    public void onMute(boolean mute, String id, int position) {
+    public void onMute(boolean mute, String id, int position, boolean notifications) {
         // No muting from notifications yet
     }
 
@@ -1206,7 +1204,9 @@ public class NotificationsFragment extends SFragment implements
             if (isAdded()) {
                 adapter.notifyItemRangeInserted(position, count);
                 Context context = getContext();
-                if (position == 0 && context != null) {
+                // scroll up when new items at the top are loaded while being at the start
+                // https://github.com/tuskyapp/Tusky/pull/1905#issuecomment-677819724
+                if (position == 0 && context != null && adapter.getItemCount() != count) {
                     recyclerView.scrollBy(0, Utils.dpToPx(context, -30));
                 }
             }

@@ -1,1 +1,1 @@
-Klient do sieci społecznościowej Mastodon umożliwiający korzystanie z kilku kont
+Klient do sieci Mastodon wspierający kilka kont na raz

@@ -20,6 +20,7 @@ import android.app.DownloadManager;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -29,6 +30,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.CheckBox;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -60,6 +63,7 @@ import com.keylesspalace.tusky.entity.PollOption;
 import com.keylesspalace.tusky.entity.Status;
 import com.keylesspalace.tusky.network.MastodonApi;
 import com.keylesspalace.tusky.network.TimelineCases;
+import com.keylesspalace.tusky.view.MuteAccountDialog;
 import com.keylesspalace.tusky.viewdata.AttachmentViewData;
 
 import java.util.ArrayList;
@@ -70,6 +74,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.inject.Inject;
+
+import kotlin.Unit;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import retrofit2.Call;
@@ -331,11 +337,14 @@ public abstract class SFragment extends BaseFragment implements Injectable {
     }
 
     private void onMute(String accountId, String accountUsername) {
-        new AlertDialog.Builder(requireContext())
-                .setMessage(getString(R.string.dialog_mute_warning, accountUsername))
-                .setPositiveButton(android.R.string.ok, (__, ___) -> timelineCases.mute(accountId))
-                .setNegativeButton(android.R.string.cancel, null)
-                .show();
+        MuteAccountDialog.showMuteAccountDialog(
+            this.getActivity(),
+            accountUsername,
+            (notifications) -> {
+                timelineCases.mute(accountId, notifications);
+                return Unit.INSTANCE;
+            }
+        );
     }
 
     private void onBlock(String accountId, String accountUsername) {
@@ -448,6 +457,7 @@ public abstract class SFragment extends BaseFragment implements Injectable {
                                         composeOptions.setContentWarning(deletedStatus.getSpoilerText());
                                         composeOptions.setMediaAttachments(deletedStatus.getAttachments());
                                         composeOptions.setSensitive(deletedStatus.getSensitive());
+                                        composeOptions.setModifiedInitialState(true);
                                         if (deletedStatus.getPoll() != null) {
                                             composeOptions.setPoll(deletedStatus.getPoll().toNewPoll(deletedStatus.getCreatedAt()));
                                         }

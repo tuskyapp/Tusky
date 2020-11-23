@@ -40,7 +40,7 @@ public class AccountViewHolder extends RecyclerView.ViewHolder {
         String format = username.getContext().getString(R.string.status_username_format);
         String formattedUsername = String.format(format, account.getUsername());
         username.setText(formattedUsername);
-        CharSequence emojifiedName = CustomEmojiHelper.emojifyString(account.getName(), account.getEmojis(), displayName);
+        CharSequence emojifiedName = CustomEmojiHelper.emojify(account.getName(), account.getEmojis(), displayName);
         displayName.setText(emojifiedName);
         int avatarRadius = avatar.getContext().getResources()
                 .getDimensionPixelSize(R.dimen.avatar_radius_48dp);

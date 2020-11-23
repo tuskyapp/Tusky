@@ -19,7 +19,6 @@ import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.content.res.ColorStateList
-import android.content.res.Configuration
 import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.net.Uri
@@ -29,8 +28,8 @@ import android.view.KeyEvent
 import android.view.MenuItem
 import android.view.View
 import android.widget.ImageView
-import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AlertDialog
+import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.content.ContextCompat
 import androidx.core.content.pm.ShortcutManagerCompat
 import androidx.emoji.text.EmojiCompat
@@ -39,15 +38,22 @@ import androidx.lifecycle.Lifecycle
 import androidx.preference.PreferenceManager
 import androidx.viewpager2.widget.MarginPageTransformer
 import com.bumptech.glide.Glide
+import com.bumptech.glide.RequestManager
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.bumptech.glide.request.target.CustomTarget
+import com.bumptech.glide.request.target.FixedSizeDrawable
+import com.bumptech.glide.request.transition.Transition
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
 import com.google.android.material.tabs.TabLayoutMediator
-import com.google.android.material.tabs.TabLayoutMediator.TabConfigurationStrategy
 import com.keylesspalace.tusky.appstore.*
+import com.keylesspalace.tusky.components.announcements.AnnouncementsActivity
 import com.keylesspalace.tusky.components.compose.ComposeActivity
 import com.keylesspalace.tusky.components.compose.ComposeActivity.Companion.canHandleMimeType
 import com.keylesspalace.tusky.components.conversation.ConversationsRepository
+import com.keylesspalace.tusky.components.notifications.NotificationHelper
+import com.keylesspalace.tusky.components.preference.PreferencesActivity
 import com.keylesspalace.tusky.components.scheduled.ScheduledTootActivity
 import com.keylesspalace.tusky.components.search.SearchActivity
 import com.keylesspalace.tusky.db.AccountEntity
@@ -57,8 +63,15 @@ import com.keylesspalace.tusky.interfaces.AccountSelectionListener
 import com.keylesspalace.tusky.interfaces.ActionButtonActivity
 import com.keylesspalace.tusky.interfaces.ReselectableFragment
 import com.keylesspalace.tusky.pager.MainPagerAdapter
+import com.keylesspalace.tusky.settings.PrefKeys
 import com.keylesspalace.tusky.util.*
+import com.mikepenz.iconics.IconicsDrawable
 import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial
+import com.mikepenz.iconics.utils.colorInt
+import com.mikepenz.iconics.utils.sizeDp
+import com.mikepenz.materialdrawer.holder.BadgeStyle
+import com.mikepenz.materialdrawer.holder.ColorHolder
+import com.mikepenz.materialdrawer.holder.StringHolder
 import com.mikepenz.materialdrawer.iconics.iconicsIcon
 import com.mikepenz.materialdrawer.model.*
 import com.mikepenz.materialdrawer.model.interfaces.*
@@ -85,11 +98,15 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
     lateinit var conversationRepository: ConversationsRepository
 
     private lateinit var header: AccountHeaderView
-    private lateinit var drawerToggle: ActionBarDrawerToggle
 
     private var notificationTabPosition = 0
+    private var onTabSelectedListener: OnTabSelectedListener? = null
 
-    private var adapter: MainPagerAdapter? = null
+    private var unreadAnnouncementsCount = 0
+
+    private val preferences by lazy { PreferenceManager.getDefaultSharedPreferences(this) }
+
+    private lateinit var glide: RequestManager
 
     private val emojiInitCallback = object : InitCallback() {
         override fun onInitialized() {
@@ -154,47 +171,47 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
         }
         window.statusBarColor = Color.TRANSPARENT // don't draw a status bar, the DrawerLayout and the MaterialDrawerLayout have their own
         setContentView(R.layout.activity_main)
+
+        glide = Glide.with(this)
+
         composeButton.setOnClickListener {
             val composeIntent = Intent(applicationContext, ComposeActivity::class.java)
             startActivity(composeIntent)
         }
-        setupDrawer(savedInstanceState)
+
+        val hideTopToolbar = preferences.getBoolean(PrefKeys.HIDE_TOP_TOOLBAR, false)
+        mainToolbar.visible(!hideTopToolbar)
+
+        val navIconSize = resources.getDimensionPixelSize(R.dimen.avatar_toolbar_nav_icon_size)
+        mainToolbar.navigationIcon = FixedSizeDrawable(getDrawable(R.drawable.avatar_default), navIconSize, navIconSize)
+
+        mainToolbar.menu.add(R.string.action_search).apply {
+            setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM)
+            icon = IconicsDrawable(this@MainActivity, GoogleMaterial.Icon.gmd_search).apply {
+                sizeDp = 20
+                colorInt = ThemeUtils.getColor(this@MainActivity, android.R.attr.textColorPrimary)
+            }
+            setOnMenuItemClickListener {
+                startActivity(SearchActivity.getIntent(this@MainActivity))
+                true
+            }
+        }
+
+        setupDrawer(savedInstanceState, addSearchButton = hideTopToolbar)
 
         /* Fetch user info while we're doing other things. This has to be done after setting up the
          * drawer, though, because its callback touches the header in the drawer. */
         fetchUserInfo()
 
+        fetchAnnouncements()
+
         setupTabs(showNotificationTab)
-
-        val pageMargin = resources.getDimensionPixelSize(R.dimen.tab_page_margin)
-        viewPager.setPageTransformer(MarginPageTransformer(pageMargin))
-
-        val uswSwipeForTabs = PreferenceManager.getDefaultSharedPreferences(this)
-                .getBoolean("enableSwipeForTabs", true)
-        viewPager.isUserInputEnabled = uswSwipeForTabs
-
-        tabLayout.addOnTabSelectedListener(object : OnTabSelectedListener {
-            override fun onTabSelected(tab: TabLayout.Tab) {
-                if (tab.position == notificationTabPosition) {
-                    NotificationHelper.clearNotificationsForActiveAccount(this@MainActivity, accountManager)
-                }
-            }
-
-            override fun onTabUnselected(tab: TabLayout.Tab) {}
-
-            override fun onTabReselected(tab: TabLayout.Tab) {
-                val fragment = adapter?.getFragment(tab.position)
-                if (fragment is ReselectableFragment) {
-                    (fragment as ReselectableFragment).onReselect()
-                }
-            }
-        })
 
         // Setup push notifications
         if (NotificationHelper.areNotificationsEnabled(this, accountManager)) {
-            NotificationHelper.enablePullNotifications()
+            NotificationHelper.enablePullNotifications(this)
         } else {
-            NotificationHelper.disablePullNotifications()
+            NotificationHelper.disablePullNotifications(this)
         }
         eventHub.events
                 .observeOn(AndroidSchedulers.mainThread())
@@ -203,6 +220,10 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
                     when (event) {
                         is ProfileEditedEvent -> onFetchUserInfoSuccess(event.newProfileData)
                         is MainTabsChangedEvent -> setupTabs(false)
+                        is AnnouncementReadEvent -> {
+                            unreadAnnouncementsCount--
+                            updateAnnouncementsBadge()
+                        }
                     }
                 }
 
@@ -262,8 +283,6 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
     public override fun onPostCreate(savedInstanceState: Bundle?) {
         super.onPostCreate(savedInstanceState)
 
-        drawerToggle.syncState()
-
         if (intent != null) {
             val statusUrl = intent.getStringExtra(STATUS_URL)
             if (statusUrl != null) {
@@ -287,9 +306,11 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
         finish()
     }
 
-    private fun setupDrawer(savedInstanceState: Bundle?) {
+    private fun setupDrawer(savedInstanceState: Bundle?, addSearchButton: Boolean) {
 
-        drawerToggle = ActionBarDrawerToggle(this, mainDrawerLayout, mainToolbar, com.mikepenz.materialdrawer.R.string.material_drawer_open, com.mikepenz.materialdrawer.R.string.material_drawer_close)
+        mainToolbar.setNavigationOnClickListener {
+            mainDrawerLayout.open()
+        }
 
         header = AccountHeaderView(this).apply {
             headerBackgroundScaleType = ImageView.ScaleType.CENTER_CROP
@@ -308,19 +329,16 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
 
         header.accountHeaderBackground.setColorFilter(ContextCompat.getColor(this, R.color.headerBackgroundFilter))
         header.accountHeaderBackground.setBackgroundColor(ThemeUtils.getColor(this, R.attr.colorBackgroundAccent))
-        val animateAvatars = PreferenceManager.getDefaultSharedPreferences(this)
-                .getBoolean("animateGifAvatars", false)
+        val animateAvatars = preferences.getBoolean("animateGifAvatars", false)
 
         DrawerImageLoader.init(object : AbstractDrawerImageLoader() {
             override fun set(imageView: ImageView, uri: Uri, placeholder: Drawable, tag: String?) {
                 if (animateAvatars) {
-                    Glide.with(imageView.context)
-                            .load(uri)
+                    glide.load(uri)
                             .placeholder(placeholder)
                             .into(imageView)
                 } else {
-                    Glide.with(imageView.context)
-                            .asBitmap()
+                    glide.asBitmap()
                             .load(uri)
                             .placeholder(placeholder)
                             .into(imageView)
@@ -328,7 +346,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
             }
 
             override fun cancel(imageView: ImageView) {
-                Glide.with(imageView.context).clear(imageView)
+                glide.clear(imageView)
             }
 
             override fun placeholder(ctx: Context, tag: String?): Drawable {
@@ -376,13 +394,6 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
                         }
                     },
                     primaryDrawerItem {
-                        nameRes = R.string.action_search
-                        iconicsIcon = GoogleMaterial.Icon.gmd_search
-                        onClick = {
-                            startActivityWithSlideInAnimation(SearchActivity.getIntent(context))
-                        }
-                    },
-                    primaryDrawerItem {
                         nameRes = R.string.action_access_saved_toot
                         iconRes = R.drawable.ic_notebook
                         onClick = {
@@ -395,6 +406,18 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
                         iconRes = R.drawable.ic_access_time
                         onClick = {
                             startActivityWithSlideInAnimation(ScheduledTootActivity.newIntent(context))
+                        }
+                    },
+                    primaryDrawerItem {
+                        identifier = DRAWER_ITEM_ANNOUNCEMENTS
+                        nameRes = R.string.title_announcements
+                        iconRes = R.drawable.ic_bullhorn_24dp
+                        onClick = {
+                            startActivityWithSlideInAnimation(AnnouncementsActivity.newIntent(context))
+                        }
+                        badgeStyle = BadgeStyle().apply {
+                            textColor = ColorHolder.fromColor(ThemeUtils.getColor(this@MainActivity, R.attr.colorOnPrimary))
+                            color = ColorHolder.fromColor(ThemeUtils.getColor(this@MainActivity, R.attr.colorPrimary))
                         }
                     },
                     DividerDrawerItem(),
@@ -428,6 +451,18 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
                         onClick = ::logout
                     }
             )
+
+            if (addSearchButton) {
+                mainDrawer.addItemsAtPosition(4,
+                        primaryDrawerItem {
+                            nameRes = R.string.action_search
+                            iconicsIcon = GoogleMaterial.Icon.gmd_search
+                            onClick = {
+                                startActivityWithSlideInAnimation(SearchActivity.getIntent(context))
+                            }
+                        })
+            }
+
             setSavedInstance(savedInstanceState)
         }
 
@@ -443,37 +478,41 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
         EmojiCompat.get().registerInitCallback(emojiInitCallback)
     }
 
-    override fun onConfigurationChanged(newConfig: Configuration) {
-        super.onConfigurationChanged(newConfig)
-        drawerToggle.onConfigurationChanged(newConfig)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (drawerToggle.onOptionsItemSelected(item)) {
-            return true
-        }
-        return super.onOptionsItemSelected(item)
-    }
-
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(mainDrawer.saveInstanceState(outState))
     }
 
     private fun setupTabs(selectNotificationTab: Boolean) {
+
+        val activeTabLayout = if (preferences.getString("mainNavPosition", "top") == "bottom") {
+            val actionBarSize = ThemeUtils.getDimension(this, R.attr.actionBarSize)
+            val fabMargin = resources.getDimensionPixelSize(R.dimen.fabMargin)
+            (composeButton.layoutParams as CoordinatorLayout.LayoutParams).bottomMargin = actionBarSize + fabMargin
+            tabLayout.hide()
+            bottomTabLayout
+        } else {
+            bottomNav.hide()
+            (viewPager.layoutParams as CoordinatorLayout.LayoutParams).bottomMargin = 0
+            (composeButton.layoutParams as CoordinatorLayout.LayoutParams).anchorId = R.id.viewPager
+            tabLayout
+        }
+
         val tabs = accountManager.activeAccount!!.tabPreferences
-        adapter = MainPagerAdapter(tabs, this)
+
+        val adapter = MainPagerAdapter(tabs, this)
         viewPager.adapter = adapter
-        TabLayoutMediator(tabLayout, viewPager, TabConfigurationStrategy { _: TabLayout.Tab?, _: Int -> }).attach()
-        tabLayout.removeAllTabs()
+        TabLayoutMediator(activeTabLayout, viewPager) { _: TabLayout.Tab?, _: Int -> }.attach()
+        activeTabLayout.removeAllTabs()
         for (i in tabs.indices) {
-            val tab = tabLayout.newTab()
+            val tab = activeTabLayout.newTab()
                     .setIcon(tabs[i].icon)
             if (tabs[i].id == LIST) {
                 tab.contentDescription = tabs[i].arguments[1]
             } else {
                 tab.setContentDescription(tabs[i].text)
             }
-            tabLayout.addTab(tab)
+            activeTabLayout.addTab(tab)
+
             if (tabs[i].id == NOTIFICATIONS) {
                 notificationTabPosition = i
                 if (selectNotificationTab) {
@@ -481,6 +520,41 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
                 }
             }
         }
+
+        val pageMargin = resources.getDimensionPixelSize(R.dimen.tab_page_margin)
+        viewPager.setPageTransformer(MarginPageTransformer(pageMargin))
+
+        val enableSwipeForTabs = preferences.getBoolean("enableSwipeForTabs", true)
+        viewPager.isUserInputEnabled = enableSwipeForTabs
+
+        onTabSelectedListener?.let {
+            activeTabLayout.removeOnTabSelectedListener(it)
+        }
+
+        onTabSelectedListener = object : OnTabSelectedListener {
+            override fun onTabSelected(tab: TabLayout.Tab) {
+                if (tab.position == notificationTabPosition) {
+                    NotificationHelper.clearNotificationsForActiveAccount(this@MainActivity, accountManager)
+                }
+
+                mainToolbar.title = tabs[tab.position].title(this@MainActivity)
+            }
+
+            override fun onTabUnselected(tab: TabLayout.Tab) {}
+
+            override fun onTabReselected(tab: TabLayout.Tab) {
+                val fragment = adapter.getFragment(tab.position)
+                if (fragment is ReselectableFragment) {
+                    (fragment as ReselectableFragment).onReselect()
+                }
+            }
+        }.also {
+            activeTabLayout.addOnTabSelectedListener(it)
+        }
+
+        val activeTabPosition = if (selectNotificationTab) notificationTabPosition else 0
+        mainToolbar.title = tabs[activeTabPosition].title(this@MainActivity)
+
     }
 
     private fun handleProfileClick(profile: IProfile, current: Boolean): Boolean {
@@ -524,19 +598,18 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
                     .setTitle(R.string.action_logout)
                     .setMessage(getString(R.string.action_logout_confirm, activeAccount.fullName))
                     .setPositiveButton(android.R.string.yes) { _: DialogInterface?, _: Int ->
-                        NotificationHelper.deleteNotificationChannelsForAccount(activeAccount, this@MainActivity)
+                        NotificationHelper.deleteNotificationChannelsForAccount(activeAccount, this)
                         cacheUpdater.clearForUser(activeAccount.id)
                         conversationRepository.deleteCacheForAccount(activeAccount.id)
                         removeShortcut(this, activeAccount)
                         val newAccount = accountManager.logActiveAccountOut()
-                        if (!NotificationHelper.areNotificationsEnabled(this@MainActivity, accountManager)) {
-                            NotificationHelper.disablePullNotifications()
+                        if (!NotificationHelper.areNotificationsEnabled(this, accountManager)) {
+                            NotificationHelper.disablePullNotifications(this)
                         }
-                        val intent: Intent
-                        intent = if (newAccount == null) {
-                            LoginActivity.getIntent(this@MainActivity, false)
+                        val intent = if (newAccount == null) {
+                            LoginActivity.getIntent(this, false)
                         } else {
-                            Intent(this@MainActivity, MainActivity::class.java)
+                            Intent(this, MainActivity::class.java)
                         }
                         startActivity(intent)
                         finishWithoutSlideOutAnimation()
@@ -561,10 +634,27 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
     }
 
     private fun onFetchUserInfoSuccess(me: Account) {
-        Glide.with(this)
-                .asBitmap()
+        glide.asBitmap()
                 .load(me.header)
                 .into(header.accountHeaderBackground)
+
+        val navIconSize = resources.getDimensionPixelSize(R.dimen.avatar_toolbar_nav_icon_size)
+
+        glide.asDrawable()
+                .override(navIconSize)
+                .load(me.avatar)
+                .transform(
+                        RoundedCorners(resources.getDimensionPixelSize(R.dimen.avatar_radius_36dp))
+                )
+                .into(object : CustomTarget<Drawable>() {
+                    override fun onResourceReady(resource: Drawable, transition: Transition<in Drawable>?) {
+                        mainToolbar.navigationIcon = resource
+                    }
+
+                    override fun onLoadCleared(placeholder: Drawable?) {
+                        mainToolbar.navigationIcon = placeholder
+                    }
+                })
 
         accountManager.updateActiveAccount(me)
         NotificationHelper.createNotificationChannelsForAccount(accountManager.activeAccount!!, this)
@@ -589,9 +679,28 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
         updateShortcut(this, accountManager.activeAccount!!)
     }
 
+    private fun fetchAnnouncements() {
+        mastodonApi.listAnnouncements(false)
+                .observeOn(AndroidSchedulers.mainThread())
+                .autoDispose(this, Lifecycle.Event.ON_DESTROY)
+                .subscribe(
+                        { announcements ->
+                            unreadAnnouncementsCount = announcements.count { !it.read }
+                            updateAnnouncementsBadge()
+                        },
+                        {
+                            Log.w(TAG, "Failed to fetch announcements.", it)
+                        }
+                )
+    }
+
+    private fun updateAnnouncementsBadge() {
+        mainDrawer.updateBadge(DRAWER_ITEM_ANNOUNCEMENTS, StringHolder(if (unreadAnnouncementsCount == 0) null else unreadAnnouncementsCount.toString()))
+    }
+
     private fun updateProfiles() {
         val profiles: MutableList<IProfile> = accountManager.getAllAccountsOrderedByActive().map { acc ->
-            val emojifiedName = EmojiCompat.get().process(CustomEmojiHelper.emojifyString(acc.displayName, acc.emojis, header))
+            val emojifiedName = EmojiCompat.get().process(acc.displayName.emojify(acc.emojis, header))
 
             ProfileDrawerItem().apply {
                 isSelected = acc.isActive
@@ -623,6 +732,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
         private const val TAG = "MainActivity" // logging tag
         private const val DRAWER_ITEM_ADD_ACCOUNT: Long = -13
         private const val DRAWER_ITEM_FOLLOW_REQUESTS: Long = 10
+        private const val DRAWER_ITEM_ANNOUNCEMENTS: Long = 14
         const val STATUS_URL = "statusUrl"
     }
 }
