@@ -52,6 +52,7 @@ import com.keylesspalace.tusky.components.announcements.AnnouncementsActivity
 import com.keylesspalace.tusky.components.compose.ComposeActivity
 import com.keylesspalace.tusky.components.compose.ComposeActivity.Companion.canHandleMimeType
 import com.keylesspalace.tusky.components.conversation.ConversationsRepository
+import com.keylesspalace.tusky.components.drafts.DraftsActivity
 import com.keylesspalace.tusky.components.notifications.NotificationHelper
 import com.keylesspalace.tusky.components.preference.PreferencesActivity
 import com.keylesspalace.tusky.components.scheduled.ScheduledTootActivity
@@ -397,7 +398,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
                         nameRes = R.string.action_access_saved_toot
                         iconRes = R.drawable.ic_notebook
                         onClick = {
-                            val intent = Intent(context, SavedTootActivity::class.java)
+                            val intent = DraftsActivity.newIntent(context)
                             startActivityWithSlideInAnimation(intent)
                         }
                     },
