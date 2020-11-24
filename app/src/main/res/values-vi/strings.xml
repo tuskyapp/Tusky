@@ -455,4 +455,8 @@
     <string name="action_unmute_desc">Bỏ ẩn %s</string>
     <string name="action_unmute_domain">Bỏ ẩn %s</string>
     <string name="pref_title_hide_top_toolbar">Ẩn tiêu đề tab</string>
+    <string name="account_note_saved">Đã lưu!</string>
+    <string name="account_note_hint">Chú thích của bạn về người này</string>
+    <string name="no_announcements">Chưa có thông báo.</string>
+    <string name="title_announcements">Thông báo</string>
 </resources>
