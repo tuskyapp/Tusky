@@ -101,7 +101,7 @@
     <string name="action_accept">Akzeptieren</string>
     <string name="action_reject">Ablehnen</string>
     <string name="action_search">Suche</string>
-    <string name="action_access_saved_toot">Gespeicherte Beiträge</string>
+    <string name="action_access_saved_toot">Entwürfe</string>
     <string name="action_toggle_visibility">Beitragssichtbarkeit</string>
     <string name="action_content_warning">Inhaltswarnung</string>
     <string name="action_emoji_keyboard">Emoji</string>
@@ -465,4 +465,9 @@
     <string name="abbreviated_hours_ago">%d St.</string>
     <string name="abbreviated_in_days">in %d T.</string>
     <string name="abbreviated_years_ago">%d J.</string>
+    <string name="account_note_saved">Gespeichert!</string>
+    <string name="account_note_hint">Private Notiz über diesen Account</string>
+    <string name="pref_title_hide_top_toolbar">Titel der Hauptnavigation verstecken</string>
+    <string name="no_announcements">Im Moment gibt es keine Ankündigungen.</string>
+    <string name="title_announcements">Ankündigungen</string>
 </resources>
