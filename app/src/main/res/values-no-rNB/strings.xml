@@ -465,4 +465,6 @@
     <string name="pref_title_hide_top_toolbar">Skjul tittelen på den øverste verktøylinjen</string>
     <string name="account_note_saved">Lagret!</string>
     <string name="account_note_hint">Ditt private notat om denne kontoen</string>
+    <string name="no_announcements">Det er ingen kunngjøringer.</string>
+    <string name="title_announcements">Kunngjøringer</string>
 </resources>
