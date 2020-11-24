@@ -369,7 +369,6 @@
     <string name="pref_title_show_cards_in_timelines">जालस्थानप्रदर्शनं समयतालिकायां दर्शयतु</string>
     <string name="warning_scheduling_interval">मास्टोडोने पञ्चनिमेषपरिमितो न्यूनतमः कालबद्धसमयः ।</string>
     <string name="no_scheduled_status">न ते कालबद्धदौत्यानि सन्ति ।</string>
-    <string name="post_lookup_error_format">प्रकटनान्वेषणे विफलता</string>
     <string name="edit_poll">सम्पाद्यताम्</string>
     <string name="poll_new_choice_hint">मतम् %d</string>
     <string name="poll_allow_multiple_choices">बहूनि मतानि</string>
