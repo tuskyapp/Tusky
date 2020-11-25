@@ -51,6 +51,7 @@ android {
     productFlavors {
         blue {}
         green {
+            resValue "string", "app_name", APP_NAME + " Test"
             applicationIdSuffix ".test"
             versionNameSuffix "-" + getGitSha()
         }
