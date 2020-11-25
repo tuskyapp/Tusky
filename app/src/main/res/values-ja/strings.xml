@@ -332,19 +332,18 @@
     <plurals name="poll_info_votes">
         <item quantity="other">%s票</item>
     </plurals>
-    <string name="poll_info_time_relative">残り%s</string>
     <string name="poll_vote">投票</string>
     <plurals name="poll_timespan_days">
-        <item quantity="other">%d日</item>
+        <item quantity="other">残り%d日</item>
     </plurals>
     <plurals name="poll_timespan_hours">
-        <item quantity="other">%d時間</item>
+        <item quantity="other">残り%d時間</item>
     </plurals>
     <plurals name="poll_timespan_minutes">
-        <item quantity="other">%d分</item>
+        <item quantity="other">残り%d分</item>
     </plurals>
     <plurals name="poll_timespan_seconds">
-        <item quantity="other">%d秒</item>
+        <item quantity="other">残り%d秒</item>
     </plurals>
     <string name="title_domain_mutes">非表示のドメイン</string>
     <string name="action_view_domain_mutes">非表示のドメイン</string>

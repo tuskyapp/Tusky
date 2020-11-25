@@ -373,7 +373,6 @@
         <item quantity="one">%s röst</item>
         <item quantity="other">%s röster</item>
     </plurals>
-    <string name="poll_info_time_relative">%s kvar</string>
     <string name="poll_info_time_absolute">avslutas vid %s</string>
     <string name="poll_info_closed">stängd</string>
     <string name="poll_vote">Rösta</string>
@@ -383,20 +382,20 @@
     <string name="poll_ended_voted">En omröstning där du har röstat är avslutad</string>
     <string name="poll_ended_created">En omröstning som du har skapat har avslutats</string>
     <plurals name="poll_timespan_days">
-        <item quantity="one">%d dag</item>
-        <item quantity="other">%d dagar</item>
+        <item quantity="one">%d dag kvar</item>
+        <item quantity="other">%d dagar kvar</item>
     </plurals>
     <plurals name="poll_timespan_hours">
-        <item quantity="one">%d timme</item>
-        <item quantity="other">%d timmar</item>
+        <item quantity="one">%d timme kvar</item>
+        <item quantity="other">%d timmar kvar</item>
     </plurals>
     <plurals name="poll_timespan_minutes">
-        <item quantity="one">%d minut</item>
-        <item quantity="other">%d minuter</item>
+        <item quantity="one">%d minut kvar</item>
+        <item quantity="other">%d minuter kvar</item>
     </plurals>
     <plurals name="poll_timespan_seconds">
-        <item quantity="one">%d sekund</item>
-        <item quantity="other">%d sekunder</item>
+        <item quantity="one">%d sekund kvar</item>
+        <item quantity="other">%d sekunder kvar</item>
     </plurals>
     <string name="compose_preview_image_description">Åtgärder för bild %s</string>
     <string name="pref_title_animate_gif_avatars">Animera profil gifar</string>
@@ -477,4 +476,8 @@
     <string name="pref_title_gradient_for_media">Visa färgglada gradienter för gömd media</string>
     <string name="action_unmute_domain">Ta bort tystad %s</string>
     <string name="action_unmute_desc">Ta bort tystad %s</string>
+    <string name="pref_title_hide_top_toolbar">Dölj titeln i övre verktygsfältet</string>
+    <string name="dialog_mute_hide_notifications">Dölj aviseringar</string>
+    <string name="action_mute_notifications_desc">Tysta aviseringar från %s</string>
+    <string name="action_unmute_notifications_desc">Aktivera aviseringar från %s</string>
 </resources>

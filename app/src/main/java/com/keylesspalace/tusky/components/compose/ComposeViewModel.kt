@@ -33,6 +33,7 @@ import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.service.ServiceClient
 import com.keylesspalace.tusky.service.TootToSend
 import com.keylesspalace.tusky.util.*
+import io.reactivex.Observable.just
 import io.reactivex.disposables.Disposable
 import io.reactivex.rxkotlin.Singles
 import java.util.*
@@ -58,11 +59,13 @@ class ComposeViewModel
     private var replyingStatusContent: String? = null
     internal var startingText: String? = null
     private var savedTootUid: Int = 0
+    private var scheduledTootUid: String? = null
     private var startingContentWarning: String = ""
     private var inReplyToId: String? = null
     private var startingVisibility: Status.Visibility = Status.Visibility.UNKNOWN
 
     private var contentWarningStateChanged: Boolean = false
+    private var modifiedInitialState: Boolean = false
 
     private val instance: MutableLiveData<InstanceEntity?> = MutableLiveData(null)
 
@@ -93,6 +96,7 @@ class ComposeViewModel
 
     private val mediaToDisposable = mutableMapOf<Long, Disposable>()
 
+    private val isEditingScheduledToot get() = !scheduledTootUid.isNullOrEmpty()
 
     init {
 
@@ -197,7 +201,7 @@ class ComposeViewModel
         val mediaChanged = !media.value.isNullOrEmpty()
         val pollChanged = poll.value != null
 
-        return textChanged || contentWarningChanged || mediaChanged || pollChanged
+        return modifiedInitialState || textChanged || contentWarningChanged || mediaChanged || pollChanged
     }
 
     fun contentWarningChanged(value: Boolean) {
@@ -240,7 +244,14 @@ class ComposeViewModel
             content: String,
             spoilerText: String
     ): LiveData<Unit> {
-        return media
+
+        val deletionObservable = if (isEditingScheduledToot) {
+            api.deleteScheduledStatus(scheduledTootUid.toString()).toObservable().map { Unit }
+        } else {
+            just(Unit)
+        }.toLiveData()
+
+        val sendObservable = media
                 .filter { items -> items.all { it.uploadPercent == -1 } }
                 .map {
                     val mediaIds = ArrayList<String>()
@@ -271,8 +282,13 @@ class ComposeViewModel
                             idempotencyKey = randomAlphanumericString(16),
                             retries = 0
                     )
+
                     serviceClient.sendToot(tootToSend)
                 }
+
+        return combineLiveData(deletionObservable, sendObservable) { _, _ -> Unit }
+
+
     }
 
     fun updateDescription(localId: Long, description: String): LiveData<Boolean> {
@@ -369,7 +385,7 @@ class ComposeViewModel
                 preferredVisibility.num.coerceAtLeast(replyVisibility.num))
 
         inReplyToId = composeOptions?.inReplyToId
-
+        modifiedInitialState = composeOptions?.modifiedInitialState == true
 
         val contentWarning = composeOptions?.contentWarning
         if (contentWarning != null) {
@@ -405,6 +421,7 @@ class ComposeViewModel
 
 
         savedTootUid = composeOptions?.savedTootUid ?: 0
+        scheduledTootUid = composeOptions?.scheduledTootUid
         startingText = composeOptions?.tootText
 
 

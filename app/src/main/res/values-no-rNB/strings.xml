@@ -343,7 +343,6 @@
         <item quantity="one">%s stemme</item>
         <item quantity="other">%s stemmer</item>
     </plurals>
-    <string name="poll_info_time_relative">%s igjen</string>
     <string name="poll_info_time_absolute">avsluttes %s</string>
     <string name="poll_info_closed">stengt</string>
     <string name="poll_vote">Stem</string>
@@ -366,20 +365,20 @@
     <string name="poll_ended_voted">En avstemming du har stemt på er avsluttet</string>
     <string name="poll_ended_created">En avstemming du opprettet er avsluttet</string>
     <plurals name="poll_timespan_days">
-        <item quantity="one">%d dag</item>
-        <item quantity="other">%d dager</item>
+        <item quantity="one">%d dag igjen</item>
+        <item quantity="other">%d dager igjen</item>
     </plurals>
     <plurals name="poll_timespan_hours">
-        <item quantity="one">%d time</item>
-        <item quantity="other">%d timer</item>
+        <item quantity="one">%d time igjen</item>
+        <item quantity="other">%d timer igjen</item>
     </plurals>
     <plurals name="poll_timespan_minutes">
-        <item quantity="one">%d minutt</item>
-        <item quantity="other">%d minutter</item>
+        <item quantity="one">%d minutt igjen</item>
+        <item quantity="other">%d minutter igjen</item>
     </plurals>
     <plurals name="poll_timespan_seconds">
-        <item quantity="one">%d sekund</item>
-        <item quantity="other">%d sekunder</item>
+        <item quantity="one">%d sekund igjen</item>
+        <item quantity="other">%d sekunder igjen</item>
     </plurals>
     <string name="compose_preview_image_description">Handlinger for bilde %s</string>
     <string name="pref_title_animate_gif_avatars">Animer GIF-avatarer</string>
@@ -464,4 +463,8 @@
     <string name="action_unmute_notifications_desc">Fjern demping av varsler fra %s</string>
     <string name="action_unmute_desc">Fjern demping av %s</string>
     <string name="pref_title_hide_top_toolbar">Skjul tittelen på den øverste verktøylinjen</string>
+    <string name="account_note_saved">Lagret!</string>
+    <string name="account_note_hint">Ditt private notat om denne kontoen</string>
+    <string name="no_announcements">Det er ingen kunngjøringer.</string>
+    <string name="title_announcements">Kunngjøringer</string>
 </resources>

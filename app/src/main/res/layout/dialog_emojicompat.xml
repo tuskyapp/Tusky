@@ -1,33 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     android:paddingTop="16dp">
 
-    <LinearLayout
-        android:id="@+id/emoji_font_list"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintTop_toTopOf="parent">
+    <include
+        android:id="@+id/item_blobmoji"
+        layout="@layout/item_emoji_pref" />
 
-        <include
-            android:id="@+id/item_blobmoji"
-            layout="@layout/item_emoji_pref" />
+    <include
+        android:id="@+id/item_twemoji"
+        layout="@layout/item_emoji_pref" />
 
-        <include
-            android:id="@+id/item_twemoji"
-            layout="@layout/item_emoji_pref" />
+    <include
+        android:id="@+id/item_notoemoji"
+        layout="@layout/item_emoji_pref" />
 
-        <include
-            android:id="@+id/item_notoemoji"
-            layout="@layout/item_emoji_pref" />
-
-        <include
-            android:id="@+id/item_nomoji"
-            layout="@layout/item_emoji_pref" />
-    </LinearLayout>
+    <include
+        android:id="@+id/item_nomoji"
+        layout="@layout/item_emoji_pref" />
 
     <TextView
         android:id="@+id/emoji_download_label"
@@ -39,9 +31,6 @@
         android:paddingEnd="24dp"
         android:paddingBottom="8dp"
         android:text="@string/download_fonts"
-        android:textColor="?android:attr/textColorSecondary"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/emoji_font_list" />
+        android:textColor="?android:attr/textColorSecondary" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

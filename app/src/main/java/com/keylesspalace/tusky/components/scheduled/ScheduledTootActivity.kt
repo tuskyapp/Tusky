@@ -19,7 +19,6 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -30,7 +29,6 @@ import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.entity.ScheduledStatus
 import com.keylesspalace.tusky.util.Status
-import com.keylesspalace.tusky.util.ThemeUtils
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.show
 import kotlinx.android.synthetic.main.activity_scheduled_toot.*
@@ -68,11 +66,11 @@ class ScheduledTootActivity : BaseActivity(), ScheduledTootActionListener, Injec
 
         viewModel = ViewModelProvider(this, viewModelFactory)[ScheduledTootViewModel::class.java]
 
-        viewModel.data.observe(this, Observer {
+        viewModel.data.observe(this) {
             adapter.submitList(it)
-        })
+        }
 
-        viewModel.networkState.observe(this, Observer { (status) ->
+        viewModel.networkState.observe(this) { (status) ->
             when(status) {
                 Status.SUCCESS -> {
                     progressBar.hide()
@@ -103,9 +101,7 @@ class ScheduledTootActivity : BaseActivity(), ScheduledTootActionListener, Injec
                     }
                 }
             }
-
-        })
-
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -124,6 +120,7 @@ class ScheduledTootActivity : BaseActivity(), ScheduledTootActionListener, Injec
 
     override fun edit(item: ScheduledStatus) {
         val intent = ComposeActivity.startIntent(this, ComposeActivity.ComposeOptions(
+                scheduledTootUid = item.id,
                 tootText = item.params.text,
                 contentWarning = item.params.spoilerText,
                 mediaAttachments = item.mediaAttachments,

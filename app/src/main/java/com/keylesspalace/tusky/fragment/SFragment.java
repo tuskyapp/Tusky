@@ -457,6 +457,7 @@ public abstract class SFragment extends BaseFragment implements Injectable {
                                         composeOptions.setContentWarning(deletedStatus.getSpoilerText());
                                         composeOptions.setMediaAttachments(deletedStatus.getAttachments());
                                         composeOptions.setSensitive(deletedStatus.getSensitive());
+                                        composeOptions.setModifiedInitialState(true);
                                         if (deletedStatus.getPoll() != null) {
                                             composeOptions.setPoll(deletedStatus.getPoll().toNewPoll(deletedStatus.getCreatedAt()));
                                         }

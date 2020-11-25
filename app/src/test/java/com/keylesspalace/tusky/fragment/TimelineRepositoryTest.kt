@@ -1,10 +1,8 @@
 package com.keylesspalace.tusky.fragment
 
 import android.text.SpannableString
-import android.text.SpannedString
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.google.gson.Gson
-import com.keylesspalace.tusky.SpanUtilsTest
 import com.keylesspalace.tusky.db.AccountEntity
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.db.TimelineDao
@@ -26,8 +24,7 @@ import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.mockito.ArgumentMatchers.any
-import org.mockito.ArgumentMatchers.anyInt
+import org.mockito.ArgumentMatchers.*
 import org.mockito.Mock
 import org.mockito.MockitoAnnotations
 import org.robolectric.annotation.Config
@@ -97,6 +94,7 @@ class TimelineRepositoryTest {
                     null
             )
         }
+        verify(timelineDao).cleanup(anyLong())
         verifyNoMoreInteractions(timelineDao)
     }
 
@@ -131,6 +129,7 @@ class TimelineRepositoryTest {
         }
         verify(timelineDao).removeAllPlaceholdersBetween(account.id, response.first().id,
                 response.last().id)
+        verify(timelineDao).cleanup(anyLong())
         verifyNoMoreInteractions(timelineDao)
     }
 
@@ -160,6 +159,7 @@ class TimelineRepositoryTest {
             )
         }
         verify(timelineDao).insertStatusIfNotThere(placeholder.toEntity(account.id))
+        verify(timelineDao).cleanup(anyLong())
         verifyNoMoreInteractions(timelineDao)
     }
 
@@ -203,6 +203,7 @@ class TimelineRepositoryTest {
         }
         verify(timelineDao).removeAllPlaceholdersBetween(account.id, response.first().id,
                 response.last().id)
+        verify(timelineDao).cleanup(anyLong())
         verifyNoMoreInteractions(timelineDao)
     }
 
@@ -249,6 +250,7 @@ class TimelineRepositoryTest {
         verify(timelineDao).removeAllPlaceholdersBetween(account.id, response.first().id,
                 response.last().id)
         verify(timelineDao).insertStatusIfNotThere(placeholder.toEntity(account.id))
+        verify(timelineDao).cleanup(anyLong())
         verifyNoMoreInteractions(timelineDao)
     }
 

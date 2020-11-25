@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.Observer
 import androidx.paging.PagedList
 import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -61,11 +60,11 @@ abstract class SearchFragment<T> : Fragment(),
     }
 
     private fun subscribeObservables() {
-        data.observe(viewLifecycleOwner, Observer {
+        data.observe(viewLifecycleOwner) {
             adapter.submitList(it)
-        })
+        }
 
-        networkStateRefresh.observe(viewLifecycleOwner, Observer {
+        networkStateRefresh.observe(viewLifecycleOwner) {
 
             searchProgressBar.visible(it == NetworkState.LOADING)
 
@@ -73,17 +72,16 @@ abstract class SearchFragment<T> : Fragment(),
                 showError()
             }
             checkNoData()
+        }
 
-        })
-
-        networkState.observe(viewLifecycleOwner, Observer {
+        networkState.observe(viewLifecycleOwner) {
 
             progressBarBottom.visible(it == NetworkState.LOADING)
 
             if (it.status == Status.FAILED) {
                 showError()
             }
-        })
+        }
     }
 
     private fun checkNoData() {

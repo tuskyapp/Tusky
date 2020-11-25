@@ -17,7 +17,7 @@ fun showMuteAccountDialog(
     (view.findViewById(R.id.warning) as TextView).text =
         activity.getString(R.string.dialog_mute_warning, accountUsername)
     val checkbox: CheckBox = view.findViewById(R.id.checkbox)
-    checkbox.setChecked(true)
+    checkbox.isChecked = true
 
     AlertDialog.Builder(activity)
             .setView(view)

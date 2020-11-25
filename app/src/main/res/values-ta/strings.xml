@@ -278,4 +278,5 @@
     <string name="description_visiblity_private">பின்பற்றுபவர்கள்</string>
     <string name="description_visiblity_unlisted">பட்டியலிடப்படாதவர்களுக்கு</string>
     <string name="description_visiblity_public">அனைவருக்கும்</string>
+    <string name="compose_shortcut_short_label">எழுது</string>
 </resources>

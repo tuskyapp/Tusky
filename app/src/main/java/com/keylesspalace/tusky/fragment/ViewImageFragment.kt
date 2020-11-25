@@ -99,9 +99,9 @@ class ViewImageFragment : ViewMediaFragment() {
             url = attachment.url
             description = attachment.description
         } else {
-            url = arguments.getString(ARG_AVATAR_URL)
+            url = arguments.getString(ARG_SINGLE_IMAGE_URL)
             if (url == null) {
-                throw IllegalArgumentException("attachment or avatar url has to be set")
+                throw IllegalArgumentException("attachment or image url has to be set")
             }
         }
 
@@ -158,6 +158,9 @@ class ViewImageFragment : ViewMediaFragment() {
     }
 
     private fun onGestureEnd() {
+        if (photoView == null) {
+            return
+        }
         if (abs(photoView.translationY) > 180) {
             photoActionsListener.onDismiss()
         } else {

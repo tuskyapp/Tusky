@@ -26,5 +26,6 @@ data class Relationship (
     @SerializedName("muting_notifications") val mutingNotifications: Boolean,
     val requested: Boolean,
     @SerializedName("showing_reblogs") val showingReblogs: Boolean,
-    @SerializedName("domain_blocking") val blockingDomain: Boolean
+    @SerializedName("domain_blocking") val blockingDomain: Boolean,
+    val note: String? // nullable for backward compatibility / feature detection
 )

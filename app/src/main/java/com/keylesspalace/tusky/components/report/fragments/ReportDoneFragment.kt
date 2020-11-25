@@ -22,7 +22,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.components.report.ReportViewModel
 import com.keylesspalace.tusky.components.report.Screen
@@ -55,7 +54,7 @@ class ReportDoneFragment : Fragment(), Injectable {
     }
 
     private fun subscribeObservables() {
-        viewModel.muteState.observe(viewLifecycleOwner, Observer {
+        viewModel.muteState.observe(viewLifecycleOwner) {
             if (it !is Loading) {
                 buttonMute.show()
                 progressMute.show()
@@ -68,9 +67,9 @@ class ReportDoneFragment : Fragment(), Injectable {
                 true -> R.string.action_unmute
                 else -> R.string.action_mute
             })
-        })
+        }
 
-        viewModel.blockState.observe(viewLifecycleOwner, Observer {
+        viewModel.blockState.observe(viewLifecycleOwner) {
             if (it !is Loading) {
                 buttonBlock.show()
                 progressBlock.show()
@@ -83,7 +82,7 @@ class ReportDoneFragment : Fragment(), Injectable {
                 true -> R.string.action_unblock
                 else -> R.string.action_block
             })
-        })
+        }
 
     }
 

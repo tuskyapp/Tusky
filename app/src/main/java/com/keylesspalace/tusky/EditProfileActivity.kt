@@ -30,8 +30,8 @@ import android.widget.ImageView
 import androidx.activity.viewModels
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.FitCenter
@@ -40,8 +40,6 @@ import com.google.android.material.snackbar.Snackbar
 import com.keylesspalace.tusky.adapter.AccountFieldEditAdapter
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.di.ViewModelFactory
-import com.keylesspalace.tusky.entity.Account
-import com.keylesspalace.tusky.entity.Instance
 import com.keylesspalace.tusky.util.*
 import com.keylesspalace.tusky.viewmodel.EditProfileViewModel
 import com.mikepenz.iconics.IconicsDrawable
@@ -112,7 +110,7 @@ class EditProfileActivity : BaseActivity(), Injectable {
         addFieldButton.setOnClickListener {
             accountFieldEditAdapter.addField()
             if(accountFieldEditAdapter.itemCount >= MAX_ACCOUNT_FIELDS) {
-                it.isEnabled = false
+                it.isVisible = false
             }
 
             scrollView.post{
@@ -122,7 +120,7 @@ class EditProfileActivity : BaseActivity(), Injectable {
 
         viewModel.obtainProfile()
 
-        viewModel.profileData.observe(this, Observer<Resource<Account>> { profileRes ->
+        viewModel.profileData.observe(this) { profileRes ->
             when (profileRes) {
                 is Success -> {
                     val me = profileRes.data
@@ -163,10 +161,10 @@ class EditProfileActivity : BaseActivity(), Injectable {
 
                 }
             }
-        })
+        }
 
         viewModel.obtainInstance()
-        viewModel.instanceData.observe(this, Observer<Resource<Instance>> { result ->
+        viewModel.instanceData.observe(this) { result ->
             when (result) {
                 is Success -> {
                     val instance = result.data
@@ -175,12 +173,12 @@ class EditProfileActivity : BaseActivity(), Injectable {
                     }
                 }
             }
-        })
+        }
 
         observeImage(viewModel.avatarData, avatarPreview, avatarProgressBar, true)
         observeImage(viewModel.headerData, headerPreview, headerProgressBar, false)
 
-        viewModel.saveData.observe(this, Observer<Resource<Nothing>> {
+        viewModel.saveData.observe(this, {
             when(it) {
                 is Success -> {
                     finish()
@@ -215,7 +213,7 @@ class EditProfileActivity : BaseActivity(), Injectable {
                              imageView: ImageView,
                              progressBar: View,
                              roundedCorners: Boolean) {
-        liveData.observe(this, Observer<Resource<Bitmap>> {
+        liveData.observe(this, {
 
             when (it) {
                 is Success -> {

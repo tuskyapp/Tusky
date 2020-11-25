@@ -13,7 +13,7 @@
  * You should have received a copy of the GNU General Public License along with Tusky; if not,
  * see <http://www.gnu.org/licenses>. */
 
-package com.keylesspalace.tusky
+package com.keylesspalace.tusky.components.preference
 
 import android.content.Context
 import android.content.Intent
@@ -23,9 +23,11 @@ import android.util.Log
 import android.view.MenuItem
 import androidx.fragment.app.Fragment
 import androidx.preference.PreferenceManager
+import com.keylesspalace.tusky.BaseActivity
+import com.keylesspalace.tusky.MainActivity
+import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.appstore.PreferenceChangedEvent
-import com.keylesspalace.tusky.fragment.preference.*
 import com.keylesspalace.tusky.settings.PrefKeys
 import com.keylesspalace.tusky.util.ThemeUtils
 import com.keylesspalace.tusky.util.getNonNullString

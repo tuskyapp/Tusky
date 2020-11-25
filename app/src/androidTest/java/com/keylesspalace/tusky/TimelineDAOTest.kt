@@ -78,46 +78,39 @@ class TimelineDAOTest {
     fun cleanup() {
         val now = System.currentTimeMillis()
         val oldDate = now - TimelineRepository.CLEANUP_INTERVAL - 20_000
-        val oldByThisAccount = makeStatus(
+        val oldThisAccount = makeStatus(
                 statusId = 5,
                 createdAt = oldDate
         )
-        val oldByAnotherAccount = makeStatus(
+        val oldAnotherAccount = makeStatus(
                 statusId = 10,
                 createdAt = oldDate,
-                authorServerId = "100"
+                accountId = 2
         )
-        val oldForAnotherAccount = makeStatus(
-                accountId = 2,
-                statusId = 20,
-                authorServerId = "200",
-                createdAt = oldDate
-        )
-        val recentByThisAccount = makeStatus(
+        val recentThisAccount = makeStatus(
                 statusId = 30,
                 createdAt = System.currentTimeMillis()
         )
-        val recentByAnotherAccount = makeStatus(
+        val recentAnotherAccount = makeStatus(
                 statusId = 60,
                 createdAt = System.currentTimeMillis(),
-                authorServerId = "200"
-                )
+                accountId = 2
+        )
 
-        for ((status, author, reblogAuthor) in listOf(oldByThisAccount, oldByAnotherAccount,
-                oldForAnotherAccount, recentByThisAccount, recentByAnotherAccount)) {
+        for ((status, author, reblogAuthor) in listOf(oldThisAccount, oldAnotherAccount, recentThisAccount, recentAnotherAccount)) {
             timelineDao.insertInTransaction(status, author, reblogAuthor)
         }
 
-        timelineDao.cleanup(1, "20",  now - TimelineRepository.CLEANUP_INTERVAL)
+        timelineDao.cleanup(now - TimelineRepository.CLEANUP_INTERVAL)
 
         assertEquals(
-                listOf(recentByAnotherAccount, recentByThisAccount, oldByThisAccount),
+                listOf(recentThisAccount),
                 timelineDao.getStatusesForAccount(1, null, null, 100).blockingGet()
                         .map { it.toTriple() }
         )
 
         assertEquals(
-                listOf(oldForAnotherAccount),
+                listOf(recentAnotherAccount),
                 timelineDao.getStatusesForAccount(2, null, null, 100).blockingGet()
                         .map { it.toTriple() }
         )
@@ -217,7 +210,8 @@ class TimelineDAOTest {
                 application = "application$accountId",
                 reblogServerId = if (reblog) (statusId * 100).toString() else null,
                 reblogAccountId = reblogAuthor?.serverId,
-                poll = null
+                poll = null,
+                muted = false
         )
         return Triple(status, author, reblogAuthor)
     }
@@ -246,7 +240,8 @@ class TimelineDAOTest {
                 application = null,
                 reblogServerId = null,
                 reblogAccountId = null,
-                poll = null
+                poll = null,
+                muted = false
         )
     }
 

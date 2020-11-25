@@ -16,6 +16,8 @@
 
 package com.keylesspalace.tusky
 
+import android.content.Intent
+import android.os.Looper.getMainLooper
 import android.text.SpannedString
 import android.widget.EditText
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -40,6 +42,7 @@ import org.junit.runner.RunWith
 import org.mockito.Mockito.`when`
 import org.mockito.Mockito.mock
 import org.robolectric.Robolectric
+import org.robolectric.Shadows.shadowOf
 import org.robolectric.annotation.Config
 import org.robolectric.fakes.RoboMenuItem
 
@@ -75,7 +78,8 @@ class ComposeActivityTest {
             notificationVibration = true,
             notificationLight = true
     )
-    var instanceResponseCallback: (()->Instance)? = null
+    private var instanceResponseCallback: (()->Instance)? = null
+    private var composeOptions: ComposeActivity.ComposeOptions? = null
 
     @Before
     fun setupActivity() {
@@ -114,6 +118,9 @@ class ComposeActivityTest {
                 mock(SaveTootHelper::class.java),
                 dbMock
         )
+        activity.intent = Intent(activity, ComposeActivity::class.java).apply {
+            putExtra(ComposeActivity.COMPOSE_OPTIONS_EXTRA, composeOptions)
+        }
 
         val viewModelFactoryMock = mock(ViewModelFactory::class.java)
         `when`(viewModelFactoryMock.create(ComposeViewModel::class.java)).thenReturn(viewModel)
@@ -139,6 +146,14 @@ class ComposeActivityTest {
     }
 
     @Test
+    fun whenModifiedInitialState_andCloseButtonPressed_notFinish() {
+        composeOptions = ComposeActivity.ComposeOptions(modifiedInitialState = true)
+        setupActivity()
+        clickUp()
+        assertFalse(activity.isFinishing)
+    }
+
+    @Test
     fun whenBackButtonPressedAndEmpty_finish() {
         clickBack()
         assertTrue(activity.isFinishing)
@@ -153,6 +168,14 @@ class ComposeActivityTest {
     }
 
     @Test
+    fun whenModifiedInitialState_andBackButtonPressed_notFinish() {
+        composeOptions = ComposeActivity.ComposeOptions(modifiedInitialState = true)
+        setupActivity()
+        clickBack()
+        assertFalse(activity.isFinishing)
+    }
+
+    @Test
     fun whenMaximumTootCharsIsNull_defaultLimitIsUsed() {
         instanceResponseCallback = { getInstanceWithMaximumTootCharacters(null) }
         setupActivity()
@@ -164,6 +187,7 @@ class ComposeActivityTest {
         val customMaximum = 1000
         instanceResponseCallback = { getInstanceWithMaximumTootCharacters(customMaximum) }
         setupActivity()
+        shadowOf(getMainLooper()).idle()
         assertEquals(customMaximum, activity.maximumTootCharacters)
     }
 
@@ -209,7 +233,7 @@ class ComposeActivityTest {
             editor.setSelection(caretIndex)
             activity.prependSelectedWordsWith(insertText)
             // Text should be inserted at caret
-            assertEquals("Unexpected value at ${caretIndex}", insertText, editor.text.substring(caretIndex, caretIndex + insertText.length))
+            assertEquals("Unexpected value at $caretIndex", insertText, editor.text.substring(caretIndex, caretIndex + insertText.length))
 
             // Caret should be placed after inserted text
             assertEquals(caretIndex + insertText.length, editor.selectionStart)

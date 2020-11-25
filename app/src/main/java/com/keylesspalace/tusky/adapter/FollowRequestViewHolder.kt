@@ -1,13 +1,19 @@
 package com.keylesspalace.tusky.adapter
 
+import android.graphics.Typeface
+import android.text.SpannableStringBuilder
+import android.text.Spanned
+import android.text.style.StyleSpan
 import android.view.View
-import androidx.core.text.BidiFormatter
 import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.RecyclerView
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.entity.Account
 import com.keylesspalace.tusky.interfaces.AccountActionListener
-import com.keylesspalace.tusky.util.*
+import com.keylesspalace.tusky.util.emojify
+import com.keylesspalace.tusky.util.loadAvatar
+import com.keylesspalace.tusky.util.unicodeWrap
+import com.keylesspalace.tusky.util.visible
 import kotlinx.android.synthetic.main.item_follow_request_notification.view.*
 
 internal class FollowRequestViewHolder(itemView: View, private val showHeader: Boolean) : RecyclerView.ViewHolder(itemView) {
@@ -15,13 +21,16 @@ internal class FollowRequestViewHolder(itemView: View, private val showHeader: B
     private val animateAvatar: Boolean = PreferenceManager.getDefaultSharedPreferences(itemView.context)
             .getBoolean("animateGifAvatars", false)
 
-    fun setupWithAccount(account: Account, formatter: BidiFormatter?) {
+    fun setupWithAccount(account: Account) {
         id = account.id
-        val wrappedName = formatter?.unicodeWrap(account.name) ?: account.name
+        val wrappedName = account.name.unicodeWrap()
         val emojifiedName: CharSequence = wrappedName.emojify(account.emojis, itemView)
         itemView.displayNameTextView.text = emojifiedName
         if (showHeader) {
-            itemView.notificationTextView?.text = itemView.context.getString(R.string.notification_follow_request_format, emojifiedName)
+            val wholeMessage: String = itemView.context.getString(R.string.notification_follow_request_format, wrappedName)
+            itemView.notificationTextView?.text = SpannableStringBuilder(wholeMessage).apply {
+                setSpan(StyleSpan(Typeface.BOLD), 0, wrappedName.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+            }.emojify(account.emojis, itemView)
         }
         itemView.notificationTextView?.visible(showHeader)
         val format = itemView.context.getString(R.string.status_username_format)

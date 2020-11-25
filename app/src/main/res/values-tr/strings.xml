@@ -6,17 +6,17 @@
     <string name="error_invalid_domain">Girilen alan alanı geçersiz</string>
     <string name="error_failed_app_registration">Kimlik doğrulama başarısız oldu.</string>
     <string name="error_no_web_browser_found">Kullanılabilir web tarayıcısı bulunamadı.</string>
-    <string name="error_authorization_unknown">Açıklanmayan kimlik doğrulama hata oluştu.</string>
-    <string name="error_authorization_denied">Kimlik doğrulama reddedildi.</string>
+    <string name="error_authorization_unknown">Tanımlanamayan bir yetkilendirme hatası oluştu.</string>
+    <string name="error_authorization_denied">Yetkilendirme reddedildi.</string>
     <string name="error_retrieving_oauth_token">Giriş belirteci alınırken hata oluştu.</string>
     <string name="error_compose_character_limit">Durum çok uzun!</string>
-    <string name="error_image_upload_size">Dosya 8 MB\'dan küçük olmalıdır.</string>
-    <string name="error_video_upload_size">Video dosyaları 40 MB’dan küçük olmalıdır.</string>
+    <string name="error_image_upload_size">Dosya 8 MB\'dan küçük olmalı.</string>
+    <string name="error_video_upload_size">Video dosyaları 40 MB’dan küçük olmalı.</string>
     <string name="error_media_upload_type">Bu biçimdeki dosyalar yüklenmez.</string>
     <string name="error_media_upload_opening">Dosya açılamadı.</string>
-    <string name="error_media_upload_permission">Medyayı okumak için izin gerekiyor.</string>
-    <string name="error_media_download_permission">Medya kaydetme izni gerekiyor.</string>
-    <string name="error_media_upload_image_or_video">Aynı iletiye hem video hem resim eklenemez.</string>
+    <string name="error_media_upload_permission">Medya okuma izni gerekli.</string>
+    <string name="error_media_download_permission">Medya kaydetme izni gerekli.</string>
+    <string name="error_media_upload_image_or_video">Görüntüler ve videolar aynı duruma eklenemez.</string>
     <string name="error_media_upload_sending">Yükleme başarısız oldu.</string>
     <string name="error_sender_account_gone">Toot gönderilirken hata oluştu.</string>
     <string name="title_home">Ana sayfa</string>
@@ -25,7 +25,7 @@
     <string name="title_public_federated">Birleşmiş</string>
     <string name="title_direct_messages">Direkt Mesajlar</string>
     <string name="title_tab_preferences">Sekmeler</string>
-    <string name="title_view_thread">Dizi</string>
+    <string name="title_view_thread">Toot</string>
     <string name="title_statuses">Gönderiler</string>
     <string name="title_statuses_with_replies">Yanıtlar ile</string>
     <string name="title_statuses_pinned">Sabitlenmiş</string>
@@ -49,8 +49,8 @@
     <string name="status_content_show_less">Daralt</string>
     <string name="message_empty">Burada hiçbir şey yok.</string>
     <string name="footer_empty">Henüz hiç ileti yoktur. Yenilemek için aşağıya çek!</string>
-    <string name="notification_reblog_format">%s iletini yükseltti</string>
-    <string name="notification_favourite_format">%s durumunu favorilerine ekledi</string>
+    <string name="notification_reblog_format">%s tootunuzu boost etti</string>
+    <string name="notification_favourite_format">%s tootunuzu favorilerine ekledi</string>
     <string name="notification_follow_format">%s seni takip etti</string>
     <string name="report_username_format">\@%s bildir</string>
     <string name="report_comment_hint">Daha fazla yorum?</string>
@@ -61,7 +61,7 @@
     <string name="action_more">Daha fazla</string>
     <string name="action_compose">Oluştur</string>
     <string name="action_login">Mastodon ile giriş yap</string>
-    <string name="action_logout">Çıkış Yap</string>
+    <string name="action_logout">Oturumu Kapat</string>
     <string name="action_logout_confirm">Bu %1$s oturumu sonlandırmak istediğinizden emin misiniz\?</string>
     <string name="action_follow">Takip et</string>
     <string name="action_unfollow">Takibi bırak</string>
@@ -116,7 +116,7 @@
     <string name="confirmation_unmuted">Kullanıcının sesi açıldı</string>
     <string name="status_sent">İletildi!</string>
     <string name="status_sent_long">Yanıt başarıyla gönderildi.</string>
-    <string name="hint_domain">Sunucu giriniz</string>
+    <string name="hint_domain">Hangi örnek\?</string>
     <string name="hint_compose">Neler oluyor?</string>
     <string name="hint_content_warning">İçerik uyarı</string>
     <string name="hint_display_name">Görünen ad</string>
@@ -198,7 +198,7 @@
     <string name="notification_favourite_name">Favoriler</string>
     <string name="notification_favourite_description">Tootların favori olarak işaretlendiğinde</string>
     <string name="notification_mention_format">%s senden bahsetti</string>
-    <string name="notification_summary_large">%1$s, %2$s, %3$s ve %4$d daha</string>
+    <string name="notification_summary_large">%1$s, %2$s, %3$s ve %4$d diğer</string>
     <string name="notification_summary_medium">%1$s, %2$s ve %3$s</string>
     <string name="notification_summary_small">%1$s ve %2$s</string>
     <string name="notification_title_summary">%d yeni etkileşim</string>
@@ -250,13 +250,13 @@
     <string name="lock_account_label">Hesabı Kilitle</string>
     <string name="lock_account_label_description">Takipçileri elle onaylamanız gerekir</string>
     <string name="compose_save_draft">Taslaklara kaydedilsin mi\?</string>
-    <string name="send_toot_notification_title">Durum gönderiliyor…</string>
-    <string name="send_toot_notification_error_title">Durum gönderilirken hata oluştu</string>
-    <string name="send_toot_notification_channel_name">Toot gönderiliyor</string>
+    <string name="send_toot_notification_title">Toot gönderiliyor…</string>
+    <string name="send_toot_notification_error_title">Toot gönderilirken hata oluştu</string>
+    <string name="send_toot_notification_channel_name">Toot Gönderiliyor</string>
     <string name="send_toot_notification_cancel_title">Gönderme iptal edildi</string>
     <string name="send_toot_notification_saved_content">Tootun bir kopyası taslaklara kaydedildi</string>
     <string name="action_compose_shortcut">Oluştur</string>
-    <string name="error_no_custom_emojis">%s sunucunuzun herhangi bir özel ifadeye sahip değil</string>
+    <string name="error_no_custom_emojis">%s örneğinizin herhangi bir özel ifadesi yok</string>
     <string name="copy_to_clipboard_success">Panoya kopyalandı</string>
     <string name="emoji_style">İfade stili</string>
     <string name="system_default">Sistem varsayılanı</string>
@@ -327,7 +327,7 @@
     <string name="filter_dialog_remove_button">Kaldır</string>
     <string name="filter_dialog_update_button">Güncelle</string>
     <string name="filter_dialog_whole_word">Tüm dünya</string>
-    <string name="filter_dialog_whole_word_description">Anahtar kelime veya kelime öbeği yalnızca alfanümerik olduğunda, yalnızca tüm kelimeyle eşleşirse uygulanır.</string>
+    <string name="filter_dialog_whole_word_description">Bir anahtar kelime veya kelime öbeği sadece alfanümerik olduğunda, yalnızca tüm kelimeyle eşleşirse uygulanır</string>
     <string name="filter_add_description">Filtrelenecek ifade</string>
     <string name="error_create_list">Liste oluşturulamadı</string>
     <string name="error_rename_list">Liste yeniden adlandırılamadı</string>
@@ -361,29 +361,28 @@
     <string name="compose_preview_image_description">%s görüntüsü için eylemler</string>
     <string name="poll_info_format"> <!-- 15 oy • 1 saat kaldı --> %1$s • %2$s</string>
     <plurals name="poll_info_votes">
-        <item quantity="one"/>
-        <item quantity="other"/>
+        <item quantity="one">%s oy</item>
+        <item quantity="other">%s oy</item>
     </plurals>
-    <string name="poll_info_time_relative">%s kaldı</string>
     <string name="poll_info_closed">kapandı</string>
     <string name="poll_vote">Oy</string>
     <string name="poll_ended_voted">Oy verdiğin bir anket sona erdi</string>
     <string name="poll_ended_created">Oluşturduğun bir anket sona erdi</string>
     <plurals name="poll_timespan_days">
-        <item quantity="one"/>
-        <item quantity="other"/>
+        <item quantity="one">%d gün kaldı</item>
+        <item quantity="other">%d gün kaldı</item>
     </plurals>
     <plurals name="poll_timespan_hours">
-        <item quantity="one">%d saat</item>
-        <item quantity="other">%d saat</item>
+        <item quantity="one">%d saat kaldı</item>
+        <item quantity="other">%d saat kaldı</item>
     </plurals>
     <plurals name="poll_timespan_minutes">
-        <item quantity="one"/>
-        <item quantity="other"/>
+        <item quantity="one">%d dakika kaldı</item>
+        <item quantity="other">%d dakika kaldı</item>
     </plurals>
     <plurals name="poll_timespan_seconds">
-        <item quantity="one">%d saniye</item>
-        <item quantity="other">%d saniye</item>
+        <item quantity="one">%d saniye kaldı</item>
+        <item quantity="other">%d saniye kaldı</item>
     </plurals>
     <string name="button_continue">Devam</string>
     <string name="button_back">Geri</string>
@@ -402,7 +401,7 @@
     <string name="action_open_media_n">#%d medyayı aç</string>
     <string name="title_bookmarks">Yer imleri</string>
     <string name="title_scheduled_toot">Zamanlanmış iletiler</string>
-    <string name="action_bookmark">Yerimi</string>
+    <string name="action_bookmark">Yer imi</string>
     <string name="action_edit">Düzenle</string>
     <string name="action_delete_and_redraft">Sil ve düzenle</string>
     <string name="action_view_bookmarks">Yer imleri</string>
@@ -433,8 +432,8 @@
     <string name="profile_badge_bot_text">Alt Metin</string>
     <string name="confirmation_domain_unmuted">%s alan adını gizleme</string>
     <string name="mute_domain_warning_dialog_ok">Alan adından her şeyi gizle</string>
-    <string name="pref_title_alway_open_spoiler">Hassas içerikleri göster</string>
-    <string name="poll_info_time_absolute">%s sona eriyor</string>
+    <string name="pref_title_alway_open_spoiler">Her zaman içerik uyarılarıyla işaretlenmiş alanları genişlet</string>
+    <string name="poll_info_time_absolute">%s içinde sona erecek</string>
     <string name="failed_report">Bildirilemedi</string>
     <string name="poll_new_choice_hint">Seçenek %d</string>
     <string name="post_lookup_error_format">%s gönderisi aranırken hata oluştu</string>
@@ -446,8 +445,8 @@
     <string name="pref_title_show_cards_in_timelines">Bağlantı önizlemelerini zaman çizelgesinde göster</string>
     <string name="pref_title_enable_swipe_for_tabs">Sekmeler arasında geçiş yapmak için kaydırma hareketini etkinleştir</string>
     <plurals name="poll_info_people">
-        <item quantity="one"/>
-        <item quantity="other"/>
+        <item quantity="one">%s kişi</item>
+        <item quantity="other">%s kişi</item>
     </plurals>
     <string name="add_hashtag_title">Hashtag ekle</string>
     <string name="notification_follow_request_description">Takip istekleri ile ilgili bildirimler</string>
@@ -462,12 +461,13 @@
     <string name="action_unmute_notifications_desc">%s kullanıcısından gelen bildirimleri yoksay</string>
     <string name="action_unmute_desc">%s sesini aç</string>
     <string name="notification_follow_request_format">%s seni takip etmek istiyor</string>
-    <string name="error_audio_upload_size">Ses dosyaları 40 MB\'dan büyük olamaz.</string>
+    <string name="error_audio_upload_size">Ses dosyaları 40 MB\'dan küçük olmalı.</string>
     <string name="action_unmute_conversation">Sohbetin sesini aç</string>
     <string name="pref_title_notification_filter_follow_requests">takip istendi</string>
     <string name="action_mute_conversation">Sohbeti sessize al</string>
     <string name="pref_main_nav_position">Ana gezinti konumu</string>
     <string name="pref_title_gradient_for_media">Gizli medya için renkli gradyanlar göster</string>
-    <string name="error_failed_set_caption">Başlık ayarlama başarısız oldu</string>
+    <string name="error_failed_set_caption">Başlık ayarlanamadı</string>
     <string name="warning_scheduling_interval">Mastodon\'un minimum 5 dakikalık zamanlama aralığı vardır.</string>
+    <string name="pref_title_hide_top_toolbar">Üst araç çubuğunun başlığını gizle</string>
 </resources>

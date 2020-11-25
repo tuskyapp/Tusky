@@ -1,6 +1,5 @@
 package com.keylesspalace.tusky.repository
 
-import android.text.Spanned
 import android.text.SpannedString
 import androidx.core.text.parseAsHtml
 import androidx.core.text.toHtml
@@ -184,14 +183,10 @@ class TimelineRepositoryImpl(
     }
 
     private fun cleanup() {
-        Single.fromCallable {
+        Schedulers.io().scheduleDirect {
             val olderThan = System.currentTimeMillis() - TimelineRepository.CLEANUP_INTERVAL
-            for (account in accountManager.getAllAccountsOrderedByActive()) {
-                timelineDao.cleanup(account.id, account.accountId, olderThan)
-            }
+            timelineDao.cleanup(olderThan)
         }
-                .subscribeOn(Schedulers.io())
-                .subscribe()
     }
 
     private fun TimelineStatusWithAccount.toStatus(): TimelineStatus {

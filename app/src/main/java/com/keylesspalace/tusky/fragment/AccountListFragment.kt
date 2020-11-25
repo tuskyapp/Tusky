@@ -52,7 +52,6 @@ import java.io.IOException
 import java.util.HashMap
 import javax.inject.Inject
 
-
 class AccountListFragment : BaseFragment(), AccountActionListener, Injectable {
 
     @Inject
@@ -116,27 +115,17 @@ class AccountListFragment : BaseFragment(), AccountActionListener, Injectable {
     }
 
     override fun onMute(mute: Boolean, id: String, position: Int, notifications: Boolean) {
-        val callback = object : Callback<Relationship> {
-            override fun onResponse(call: Call<Relationship>, response: Response<Relationship>) {
-                if (response.isSuccessful) {
-                    onMuteSuccess(mute, id, position, notifications)
-                } else {
-                    onMuteFailure(mute, id, notifications)
-                }
-            }
-
-            override fun onFailure(call: Call<Relationship>, t: Throwable) {
-                onMuteFailure(mute, id, notifications)
-            }
-        }
-
-        val call = if (!mute) {
+        if (!mute) {
             api.unmuteAccount(id)
         } else {
             api.muteAccount(id, notifications)
         }
-        callList.add(call)
-        call.enqueue(callback)
+                .autoDispose(from(this))
+                .subscribe({
+                    onMuteSuccess(mute, id, position, notifications)
+                }, {
+                    onMuteFailure(mute, id, notifications)
+                })
     }
 
     private fun onMuteSuccess(muted: Boolean, id: String, position: Int, notifications: Boolean) {
@@ -171,27 +160,17 @@ class AccountListFragment : BaseFragment(), AccountActionListener, Injectable {
     }
 
     override fun onBlock(block: Boolean, id: String, position: Int) {
-        val cb = object : Callback<Relationship> {
-            override fun onResponse(call: Call<Relationship>, response: Response<Relationship>) {
-                if (response.isSuccessful) {
-                    onBlockSuccess(block, id, position)
-                } else {
-                    onBlockFailure(block, id)
-                }
-            }
-
-            override fun onFailure(call: Call<Relationship>, t: Throwable) {
-                onBlockFailure(block, id)
-            }
-        }
-
-        val call = if (!block) {
+        if (!block) {
             api.unblockAccount(id)
         } else {
             api.blockAccount(id)
         }
-        callList.add(call)
-        call.enqueue(cb)
+                .autoDispose(from(this))
+                .subscribe({
+                    onBlockSuccess(block, id, position)
+                }, {
+                    onBlockFailure(block, id)
+                })
     }
 
     private fun onBlockSuccess(blocked: Boolean, id: String, position: Int) {
@@ -350,29 +329,16 @@ class AccountListFragment : BaseFragment(), AccountActionListener, Injectable {
     }
 
     private fun fetchRelationships(ids: List<String>) {
-        val callback = object : Callback<List<Relationship>> {
-            override fun onResponse(call: Call<List<Relationship>>, response: Response<List<Relationship>>) {
-                val body = response.body()
-                if (response.isSuccessful && body != null) {
-                    onFetchRelationshipsSuccess(body)
-                } else {
+        api.relationships(ids)
+                .autoDispose(from(this))
+                .subscribe(::onFetchRelationshipsSuccess) {
                     onFetchRelationshipsFailure(ids)
                 }
-            }
-
-            override fun onFailure(call: Call<List<Relationship>>, t: Throwable) {
-                onFetchRelationshipsFailure(ids)
-            }
-        }
-
-        val call = api.relationships(ids)
-        callList.add(call)
-        call.enqueue(callback)
     }
 
     private fun onFetchRelationshipsSuccess(relationships: List<Relationship>) {
         val mutesAdapter = adapter as MutesAdapter
-        var mutingNotificationsMap = HashMap<String, Boolean>()
+        val mutingNotificationsMap = HashMap<String, Boolean>()
         relationships.map { mutingNotificationsMap.put(it.id, it.mutingNotifications) }
         mutesAdapter.updateMutingNotificationsMap(mutingNotificationsMap)
     }

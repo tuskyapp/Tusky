@@ -189,7 +189,7 @@ class ViewVideoFragment : ViewMediaFragment() {
         mediaDescription.animate().alpha(alpha)
                 .setListener(object : AnimatorListenerAdapter() {
                     override fun onAnimationEnd(animation: Animator) {
-                        mediaDescription.visible(isDescriptionVisible)
+                        mediaDescription?.visible(isDescriptionVisible)
                         animation.removeListener(this)
                     }
                 })

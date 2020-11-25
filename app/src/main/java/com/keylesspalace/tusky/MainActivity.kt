@@ -19,7 +19,6 @@ import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.content.res.ColorStateList
-import android.content.res.Configuration
 import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.net.Uri
@@ -29,7 +28,6 @@ import android.view.KeyEvent
 import android.view.MenuItem
 import android.view.View
 import android.widget.ImageView
-import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AlertDialog
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.content.ContextCompat
@@ -40,16 +38,22 @@ import androidx.lifecycle.Lifecycle
 import androidx.preference.PreferenceManager
 import androidx.viewpager2.widget.MarginPageTransformer
 import com.bumptech.glide.Glide
+import com.bumptech.glide.RequestManager
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.bumptech.glide.request.target.CustomTarget
+import com.bumptech.glide.request.target.FixedSizeDrawable
+import com.bumptech.glide.request.transition.Transition
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
 import com.google.android.material.tabs.TabLayoutMediator
-import com.google.android.material.tabs.TabLayoutMediator.TabConfigurationStrategy
 import com.keylesspalace.tusky.appstore.*
+import com.keylesspalace.tusky.components.announcements.AnnouncementsActivity
 import com.keylesspalace.tusky.components.compose.ComposeActivity
 import com.keylesspalace.tusky.components.compose.ComposeActivity.Companion.canHandleMimeType
 import com.keylesspalace.tusky.components.conversation.ConversationsRepository
 import com.keylesspalace.tusky.components.notifications.NotificationHelper
+import com.keylesspalace.tusky.components.preference.PreferencesActivity
 import com.keylesspalace.tusky.components.scheduled.ScheduledTootActivity
 import com.keylesspalace.tusky.components.search.SearchActivity
 import com.keylesspalace.tusky.db.AccountEntity
@@ -65,6 +69,9 @@ import com.mikepenz.iconics.IconicsDrawable
 import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial
 import com.mikepenz.iconics.utils.colorInt
 import com.mikepenz.iconics.utils.sizeDp
+import com.mikepenz.materialdrawer.holder.BadgeStyle
+import com.mikepenz.materialdrawer.holder.ColorHolder
+import com.mikepenz.materialdrawer.holder.StringHolder
 import com.mikepenz.materialdrawer.iconics.iconicsIcon
 import com.mikepenz.materialdrawer.model.*
 import com.mikepenz.materialdrawer.model.interfaces.*
@@ -74,6 +81,7 @@ import com.uber.autodispose.android.lifecycle.autoDispose
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
 import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
 
@@ -91,12 +99,15 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
     lateinit var conversationRepository: ConversationsRepository
 
     private lateinit var header: AccountHeaderView
-    private lateinit var drawerToggle: ActionBarDrawerToggle
 
     private var notificationTabPosition = 0
     private var onTabSelectedListener: OnTabSelectedListener? = null
 
+    private var unreadAnnouncementsCount = 0
+
     private val preferences by lazy { PreferenceManager.getDefaultSharedPreferences(this) }
+
+    private lateinit var glide: RequestManager
 
     private val emojiInitCallback = object : InitCallback() {
         override fun onInitialized() {
@@ -108,7 +119,9 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if (accountManager.activeAccount == null) {
+
+        val activeAccount = accountManager.activeAccount
+        if (activeAccount == null) {
             // will be redirected to LoginActivity by BaseActivity
             return
         }
@@ -161,6 +174,9 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
         }
         window.statusBarColor = Color.TRANSPARENT // don't draw a status bar, the DrawerLayout and the MaterialDrawerLayout have their own
         setContentView(R.layout.activity_main)
+
+        glide = Glide.with(this)
+
         composeButton.setOnClickListener {
             val composeIntent = Intent(applicationContext, ComposeActivity::class.java)
             startActivity(composeIntent)
@@ -168,6 +184,8 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
 
         val hideTopToolbar = preferences.getBoolean(PrefKeys.HIDE_TOP_TOOLBAR, false)
         mainToolbar.visible(!hideTopToolbar)
+
+        loadDrawerAvatar(activeAccount.profilePictureUrl, true)
 
         mainToolbar.menu.add(R.string.action_search).apply {
             setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM)
@@ -187,6 +205,8 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
          * drawer, though, because its callback touches the header in the drawer. */
         fetchUserInfo()
 
+        fetchAnnouncements()
+
         setupTabs(showNotificationTab)
 
         // Setup push notifications
@@ -202,11 +222,17 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
                     when (event) {
                         is ProfileEditedEvent -> onFetchUserInfoSuccess(event.newProfileData)
                         is MainTabsChangedEvent -> setupTabs(false)
+                        is AnnouncementReadEvent -> {
+                            unreadAnnouncementsCount--
+                            updateAnnouncementsBadge()
+                        }
                     }
                 }
 
-        // Flush old media that was cached for sharing
-        deleteStaleCachedMedia(applicationContext.getExternalFilesDir("Tusky"))
+        Schedulers.io().scheduleDirect {
+            // Flush old media that was cached for sharing
+            deleteStaleCachedMedia(applicationContext.getExternalFilesDir("Tusky"))
+        }
     }
 
     override fun onResume() {
@@ -261,8 +287,6 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
     public override fun onPostCreate(savedInstanceState: Bundle?) {
         super.onPostCreate(savedInstanceState)
 
-        drawerToggle.syncState()
-
         if (intent != null) {
             val statusUrl = intent.getStringExtra(STATUS_URL)
             if (statusUrl != null) {
@@ -288,7 +312,9 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
 
     private fun setupDrawer(savedInstanceState: Bundle?, addSearchButton: Boolean) {
 
-        drawerToggle = ActionBarDrawerToggle(this, mainDrawerLayout, mainToolbar, com.mikepenz.materialdrawer.R.string.material_drawer_open, com.mikepenz.materialdrawer.R.string.material_drawer_close)
+        mainToolbar.setNavigationOnClickListener {
+            mainDrawerLayout.open()
+        }
 
         header = AccountHeaderView(this).apply {
             headerBackgroundScaleType = ImageView.ScaleType.CENTER_CROP
@@ -312,13 +338,11 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
         DrawerImageLoader.init(object : AbstractDrawerImageLoader() {
             override fun set(imageView: ImageView, uri: Uri, placeholder: Drawable, tag: String?) {
                 if (animateAvatars) {
-                    Glide.with(imageView.context)
-                            .load(uri)
+                    glide.load(uri)
                             .placeholder(placeholder)
                             .into(imageView)
                 } else {
-                    Glide.with(imageView.context)
-                            .asBitmap()
+                    glide.asBitmap()
                             .load(uri)
                             .placeholder(placeholder)
                             .into(imageView)
@@ -326,7 +350,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
             }
 
             override fun cancel(imageView: ImageView) {
-                Glide.with(imageView.context).clear(imageView)
+                glide.clear(imageView)
             }
 
             override fun placeholder(ctx: Context, tag: String?): Drawable {
@@ -388,6 +412,18 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
                             startActivityWithSlideInAnimation(ScheduledTootActivity.newIntent(context))
                         }
                     },
+                    primaryDrawerItem {
+                        identifier = DRAWER_ITEM_ANNOUNCEMENTS
+                        nameRes = R.string.title_announcements
+                        iconRes = R.drawable.ic_bullhorn_24dp
+                        onClick = {
+                            startActivityWithSlideInAnimation(AnnouncementsActivity.newIntent(context))
+                        }
+                        badgeStyle = BadgeStyle().apply {
+                            textColor = ColorHolder.fromColor(ThemeUtils.getColor(this@MainActivity, R.attr.colorOnPrimary))
+                            color = ColorHolder.fromColor(ThemeUtils.getColor(this@MainActivity, R.attr.colorPrimary))
+                        }
+                    },
                     DividerDrawerItem(),
                     secondaryDrawerItem {
                         nameRes = R.string.action_view_account_preferences
@@ -420,7 +456,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
                     }
             )
 
-            if(addSearchButton) {
+            if (addSearchButton) {
                 mainDrawer.addItemsAtPosition(4,
                         primaryDrawerItem {
                             nameRes = R.string.action_search
@@ -446,25 +482,13 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
         EmojiCompat.get().registerInitCallback(emojiInitCallback)
     }
 
-    override fun onConfigurationChanged(newConfig: Configuration) {
-        super.onConfigurationChanged(newConfig)
-        drawerToggle.onConfigurationChanged(newConfig)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (drawerToggle.onOptionsItemSelected(item)) {
-            return true
-        }
-        return super.onOptionsItemSelected(item)
-    }
-
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(mainDrawer.saveInstanceState(outState))
     }
 
     private fun setupTabs(selectNotificationTab: Boolean) {
 
-        val activeTabLayout = if(preferences.getString("mainNavPosition", "top") == "bottom") {
+        val activeTabLayout = if (preferences.getString("mainNavPosition", "top") == "bottom") {
             val actionBarSize = ThemeUtils.getDimension(this, R.attr.actionBarSize)
             val fabMargin = resources.getDimensionPixelSize(R.dimen.fabMargin)
             (composeButton.layoutParams as CoordinatorLayout.LayoutParams).bottomMargin = actionBarSize + fabMargin
@@ -481,7 +505,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
 
         val adapter = MainPagerAdapter(tabs, this)
         viewPager.adapter = adapter
-        TabLayoutMediator(activeTabLayout, viewPager, TabConfigurationStrategy { _: TabLayout.Tab?, _: Int -> }).attach()
+        TabLayoutMediator(activeTabLayout, viewPager) { _: TabLayout.Tab?, _: Int -> }.attach()
         activeTabLayout.removeAllTabs()
         for (i in tabs.indices) {
             val tab = activeTabLayout.newTab()
@@ -614,10 +638,11 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
     }
 
     private fun onFetchUserInfoSuccess(me: Account) {
-        Glide.with(this)
-                .asBitmap()
+        glide.asBitmap()
                 .load(me.header)
                 .into(header.accountHeaderBackground)
+
+        loadDrawerAvatar(me.avatar, false)
 
         accountManager.updateActiveAccount(me)
         NotificationHelper.createNotificationChannelsForAccount(accountManager.activeAccount!!, this)
@@ -640,6 +665,55 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
         }
         updateProfiles()
         updateShortcut(this, accountManager.activeAccount!!)
+    }
+
+    private fun loadDrawerAvatar(avatarUrl: String, showPlaceholder: Boolean) {
+        val navIconSize = resources.getDimensionPixelSize(R.dimen.avatar_toolbar_nav_icon_size)
+
+        glide.asDrawable()
+            .load(avatarUrl)
+            .transform(
+                RoundedCorners(resources.getDimensionPixelSize(R.dimen.avatar_radius_36dp))
+            )
+            .apply {
+                if (showPlaceholder) {
+                    placeholder(R.drawable.avatar_default)
+                }
+            }
+            .into(object : CustomTarget<Drawable>(navIconSize, navIconSize) {
+
+                override fun onLoadStarted(placeholder: Drawable?) {
+                    if(placeholder != null) {
+                        mainToolbar.navigationIcon = FixedSizeDrawable(placeholder, navIconSize, navIconSize)
+                    }
+                }
+                override fun onResourceReady(resource: Drawable, transition: Transition<in Drawable>?) {
+                    mainToolbar.navigationIcon = resource
+                }
+
+                override fun onLoadCleared(placeholder: Drawable?) {
+                    mainToolbar.navigationIcon = placeholder
+                }
+            })
+    }
+
+    private fun fetchAnnouncements() {
+        mastodonApi.listAnnouncements(false)
+                .observeOn(AndroidSchedulers.mainThread())
+                .autoDispose(this, Lifecycle.Event.ON_DESTROY)
+                .subscribe(
+                        { announcements ->
+                            unreadAnnouncementsCount = announcements.count { !it.read }
+                            updateAnnouncementsBadge()
+                        },
+                        {
+                            Log.w(TAG, "Failed to fetch announcements.", it)
+                        }
+                )
+    }
+
+    private fun updateAnnouncementsBadge() {
+        mainDrawer.updateBadge(DRAWER_ITEM_ANNOUNCEMENTS, StringHolder(if (unreadAnnouncementsCount == 0) null else unreadAnnouncementsCount.toString()))
     }
 
     private fun updateProfiles() {
@@ -676,6 +750,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
         private const val TAG = "MainActivity" // logging tag
         private const val DRAWER_ITEM_ADD_ACCOUNT: Long = -13
         private const val DRAWER_ITEM_FOLLOW_REQUESTS: Long = 10
+        private const val DRAWER_ITEM_ANNOUNCEMENTS: Long = 14
         const val STATUS_URL = "statusUrl"
     }
 }

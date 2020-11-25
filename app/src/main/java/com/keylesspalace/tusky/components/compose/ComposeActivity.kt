@@ -49,9 +49,7 @@ import androidx.core.view.inputmethod.InputConnectionCompat
 import androidx.core.view.inputmethod.InputContentInfoCompat
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
-import androidx.lifecycle.Observer
 import androidx.preference.PreferenceManager
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.transition.TransitionManager
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -150,7 +148,7 @@ class ComposeActivity : BaseActivity(),
         /* If the composer is started up as a reply to another post, override the "starting" state
          * based on what the intent from the reply request passes. */
         if (intent != null) {
-            this.composeOptions = intent.getParcelableExtra<ComposeOptions?>(COMPOSE_OPTIONS_EXTRA)
+            this.composeOptions = intent.getParcelableExtra(COMPOSE_OPTIONS_EXTRA)
             viewModel.setup(composeOptions)
             setupReplyViews(composeOptions?.replyingStatusAuthor)
             val tootText = composeOptions?.tootText
@@ -302,7 +300,7 @@ class ComposeActivity : BaseActivity(),
             }
             viewModel.media.observe { media ->
                 mediaAdapter.submitList(media)
-                if(media.size != mediaCount) {
+                if (media.size != mediaCount) {
                     mediaCount = media.size
                     composeMediaPreviewBar.visible(media.isNotEmpty())
                     updateSensitiveMediaToggle(viewModel.markMediaAsSensitive.value != false, viewModel.showContentWarning.value != false)
@@ -312,8 +310,8 @@ class ComposeActivity : BaseActivity(),
                 pollPreview.visible(poll != null)
                 poll?.let(pollPreview::setPoll)
             }
-            viewModel.scheduledAt.observe {scheduledAt ->
-                if(scheduledAt == null) {
+            viewModel.scheduledAt.observe { scheduledAt ->
+                if (scheduledAt == null) {
                     composeScheduleView.resetSchedule()
                 } else {
                     composeScheduleView.setDateTime(scheduledAt)
@@ -345,7 +343,6 @@ class ComposeActivity : BaseActivity(),
         scheduleBehavior = BottomSheetBehavior.from(composeScheduleView)
         emojiBehavior = BottomSheetBehavior.from(emojiView)
 
-        emojiView.layoutManager = GridLayoutManager(this, 3, GridLayoutManager.HORIZONTAL, false)
         enableButton(composeEmojiButton, clickable = false, colorActive = false)
 
         // Setup the interface buttons.
@@ -553,7 +550,7 @@ class ComposeActivity : BaseActivity(),
     }
 
     private fun onScheduleClick() {
-        if(viewModel.scheduledAt.value == null) {
+        if (viewModel.scheduledAt.value == null) {
             composeScheduleView.openPickDateDialog()
         } else {
             showScheduleView()
@@ -682,7 +679,15 @@ class ComposeActivity : BaseActivity(),
     }
 
     private fun updateVisibleCharactersLeft() {
-        composeCharactersLeftView.text = String.format(Locale.getDefault(), "%d", maximumTootCharacters - calculateTextLength())
+        val remainingLength = maximumTootCharacters - calculateTextLength()
+        composeCharactersLeftView.text = String.format(Locale.getDefault(), "%d", remainingLength)
+
+        val textColor = if (remainingLength < 0) {
+            ContextCompat.getColor(this, R.color.tusky_red)
+        } else {
+            ThemeUtils.getColor(this, android.R.attr.textColorTertiary)
+        }
+        composeCharactersLeftView.setTextColor(textColor)
     }
 
     private fun onContentWarningChanged() {
@@ -708,9 +713,9 @@ class ComposeActivity : BaseActivity(),
         // Verify the returned content's type is of the correct MIME type
         val supported = inputContentInfo.description.hasMimeType("image/*")
 
-        if(supported) {
+        if (supported) {
             val lacksPermission = (flags and InputConnectionCompat.INPUT_CONTENT_GRANT_READ_URI_PERMISSION) != 0
-            if(lacksPermission) {
+            if (lacksPermission) {
                 try {
                     inputContentInfo.requestPermission()
                 } catch (e: Exception) {
@@ -737,11 +742,13 @@ class ComposeActivity : BaseActivity(),
             composeEditField.error = getString(R.string.error_empty)
             enableButtons(true)
         } else if (characterCount <= maximumTootCharacters) {
-            finishingUploadDialog = ProgressDialog.show(
-                    this, getString(R.string.dialog_title_finishing_media_upload),
-                    getString(R.string.dialog_message_uploading_media), true, true)
+            if (viewModel.media.value!!.isNotEmpty()) {
+                finishingUploadDialog = ProgressDialog.show(
+                        this, getString(R.string.dialog_title_finishing_media_upload),
+                        getString(R.string.dialog_message_uploading_media), true, true)
+            }
 
-            viewModel.sendStatus(contentText, spoilerText).observe(this, Observer {
+            viewModel.sendStatus(contentText, spoilerText).observe(this, {
                 finishingUploadDialog?.dismiss()
                 deleteDraftAndFinish()
             })
@@ -762,7 +769,7 @@ class ComposeActivity : BaseActivity(),
                         Snackbar.LENGTH_SHORT).apply {
 
                 }
-                bar.setAction(R.string.action_retry) { onMediaPick()}
+                bar.setAction(R.string.action_retry) { onMediaPick() }
                 //necessary so snackbar is shown over everything
                 bar.view.elevation = resources.getDimension(R.dimen.compose_activity_snackbar_elevation)
                 bar.show()
@@ -904,7 +911,7 @@ class ComposeActivity : BaseActivity(),
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent): Boolean {
         Log.d(TAG, event.toString())
-        if(event.action == KeyEvent.ACTION_DOWN) {
+        if (event.action == KeyEvent.ACTION_DOWN) {
             if (event.isCtrlPressed) {
                 if (keyCode == KeyEvent.KEYCODE_ENTER) {
                     // send toot by pressing CTRL + ENTER
@@ -994,6 +1001,7 @@ class ComposeActivity : BaseActivity(),
     @Parcelize
     data class ComposeOptions(
             // Let's keep fields var until all consumers are Kotlin
+            var scheduledTootUid: String? = null,
             var savedTootUid: Int? = null,
             var tootText: String? = null,
             var mediaUrls: List<String>? = null,
@@ -1008,7 +1016,8 @@ class ComposeActivity : BaseActivity(),
             var mediaAttachments: List<Attachment>? = null,
             var scheduledAt: String? = null,
             var sensitive: Boolean? = null,
-            var poll: NewPoll? = null
+            var poll: NewPoll? = null,
+            var modifiedInitialState: Boolean? = null
     ) : Parcelable
 
     companion object {
@@ -1017,7 +1026,7 @@ class ComposeActivity : BaseActivity(),
         private const val MEDIA_TAKE_PHOTO_RESULT = 2
         private const val PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 1
 
-        private const val COMPOSE_OPTIONS_EXTRA = "COMPOSE_OPTIONS"
+        internal const val COMPOSE_OPTIONS_EXTRA = "COMPOSE_OPTIONS"
         private const val PHOTO_UPLOAD_URI_KEY = "PHOTO_UPLOAD_URI"
 
         // Mastodon only counts URLs as this long in terms of status character limits

@@ -50,4 +50,6 @@
     <dimen name="adaptive_bitmap_outer_size">108dp</dimen>
 
     <dimen name="fabMargin">16dp</dimen>
+
+    <dimen name="avatar_toolbar_nav_icon_size">36dp</dimen>
 </resources>

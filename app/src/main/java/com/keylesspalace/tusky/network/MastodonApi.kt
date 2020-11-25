@@ -99,11 +99,19 @@ interface MastodonApi {
             @Query("exclude_types[]") excludes: Set<Notification.Type>?
     ): Call<List<Notification>>
 
+    @GET("api/v1/markers")
+    fun markersWithAuth(
+            @Header("Authorization") auth: String,
+            @Header(DOMAIN_HEADER) domain: String,
+            @Query("timeline[]") timelines: List<String>
+    ): Single<Map<String, Marker>>
+
     @GET("api/v1/notifications")
     fun notificationsWithAuth(
             @Header("Authorization") auth: String,
-            @Header(DOMAIN_HEADER) domain: String
-    ): Call<List<Notification>>
+            @Header(DOMAIN_HEADER) domain: String,
+            @Query("since_id") sinceId: String?
+    ): Single<List<Notification>>
 
     @POST("api/v1/notifications/clear")
     fun clearNotifications(): Call<ResponseBody>
@@ -261,7 +269,7 @@ interface MastodonApi {
     @GET("api/v1/accounts/{id}")
     fun account(
             @Path("id") accountId: String
-    ): Call<Account>
+    ): Single<Account>
 
     /**
      * Method to fetch statuses for the specified account.
@@ -300,44 +308,44 @@ interface MastodonApi {
     fun followAccount(
             @Path("id") accountId: String,
             @Field("reblogs") showReblogs: Boolean
-    ): Call<Relationship>
+    ): Single<Relationship>
 
     @POST("api/v1/accounts/{id}/unfollow")
     fun unfollowAccount(
             @Path("id") accountId: String
-    ): Call<Relationship>
+    ): Single<Relationship>
 
     @POST("api/v1/accounts/{id}/block")
     fun blockAccount(
             @Path("id") accountId: String
-    ): Call<Relationship>
+    ): Single<Relationship>
 
     @POST("api/v1/accounts/{id}/unblock")
     fun unblockAccount(
             @Path("id") accountId: String
-    ): Call<Relationship>
+    ): Single<Relationship>
 
     @FormUrlEncoded
     @POST("api/v1/accounts/{id}/mute")
     fun muteAccount(
             @Path("id") accountId: String,
-            @Field("notifications") notifications: Boolean
-    ): Call<Relationship>
+            @Field("notifications") notifications: Boolean? = null
+    ): Single<Relationship>
 
     @POST("api/v1/accounts/{id}/unmute")
     fun unmuteAccount(
             @Path("id") accountId: String
-    ): Call<Relationship>
+    ): Single<Relationship>
 
     @GET("api/v1/accounts/relationships")
     fun relationships(
             @Query("id[]") accountIds: List<String>
-    ): Call<List<Relationship>>
+    ): Single<List<Relationship>>
 
     @GET("api/v1/accounts/{id}/identity_proofs")
     fun identityProofs(
             @Path("id") accountId: String
-    ): Call<List<IdentityProof>>
+    ): Single<List<IdentityProof>>
 
     @GET("api/v1/blocks")
     fun blocks(
@@ -505,30 +513,27 @@ interface MastodonApi {
             @Field("choices[]") choices: List<Int>
     ): Single<Poll>
 
-    @POST("api/v1/accounts/{id}/block")
-    fun blockAccountObservable(
-            @Path("id") accountId: String
-    ): Single<Relationship>
+    @GET("api/v1/announcements")
+    fun listAnnouncements(
+            @Query("with_dismissed") withDismissed: Boolean = true
+    ): Single<List<Announcement>>
 
-    @POST("api/v1/accounts/{id}/unblock")
-    fun unblockAccountObservable(
-            @Path("id") accountId: String
-    ): Single<Relationship>
+    @POST("api/v1/announcements/{id}/dismiss")
+    fun dismissAnnouncement(
+            @Path("id") announcementId: String
+    ): Single<ResponseBody>
 
-    @POST("api/v1/accounts/{id}/mute")
-    fun muteAccountObservable(
-            @Path("id") accountId: String
-    ): Single<Relationship>
+    @PUT("api/v1/announcements/{id}/reactions/{name}")
+    fun addAnnouncementReaction(
+            @Path("id") announcementId: String,
+            @Path("name") name: String
+    ): Single<ResponseBody>
 
-    @POST("api/v1/accounts/{id}/unmute")
-    fun unmuteAccountObservable(
-            @Path("id") accountId: String
-    ): Single<Relationship>
-
-    @GET("api/v1/accounts/relationships")
-    fun relationshipsObservable(
-            @Query("id[]") accountIds: List<String>
-    ): Single<List<Relationship>>
+    @DELETE("api/v1/announcements/{id}/reactions/{name}")
+    fun removeAnnouncementReaction(
+            @Path("id") announcementId: String,
+            @Path("name") name: String
+    ): Single<ResponseBody>
 
     @FormUrlEncoded
     @POST("api/v1/reports")
@@ -562,5 +567,12 @@ interface MastodonApi {
             @Query("offset") offset: Int? = null,
             @Query("following") following: Boolean? = null
     ): Single<SearchResult>
+
+    @FormUrlEncoded
+    @POST("api/v1/accounts/{id}/note")
+    fun updateAccountNote(
+            @Path("id") accountId: String,
+            @Field("comment") note: String
+    ): Single<Relationship>
 
 }

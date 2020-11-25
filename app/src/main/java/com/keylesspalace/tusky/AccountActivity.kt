@@ -23,6 +23,7 @@ import android.graphics.Color
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter
 import android.os.Bundle
+import android.text.Editable
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -34,7 +35,6 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityOptionsCompat
 import androidx.core.content.ContextCompat
 import androidx.emoji.text.EmojiCompat
-import androidx.lifecycle.Observer
 import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager2.widget.MarginPageTransformer
@@ -132,6 +132,9 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
 
         if (viewModel.isSelf) {
             updateButtons()
+            saveNoteInfo.hide()
+        } else {
+            saveNoteInfo.visibility = View.INVISIBLE
         }
     }
 
@@ -311,7 +314,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
      * Subscribe to data loaded at the view model
      */
     private fun subscribeObservables() {
-        viewModel.accountData.observe(this, Observer {
+        viewModel.accountData.observe(this) {
             when (it) {
                 is Success -> onAccountChanged(it.data)
                 is Error -> {
@@ -320,8 +323,8 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
                             .show()
                 }
             }
-        })
-        viewModel.relationshipData.observe(this, Observer {
+        }
+        viewModel.relationshipData.observe(this) {
             val relation = it?.data
             if (relation != null) {
                 onRelationshipChanged(relation)
@@ -333,12 +336,14 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
                         .show()
             }
 
-        })
-        viewModel.accountFieldData.observe(this, Observer {
+        }
+        viewModel.accountFieldData.observe(this, {
             accountFieldAdapter.fields = it
             accountFieldAdapter.notifyDataSetChanged()
-
         })
+        viewModel.noteSaved.observe(this) {
+            saveNoteInfo.visible(it, View.INVISIBLE)
+        }
     }
 
     /**
@@ -349,7 +354,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
             viewModel.refresh()
             adapter.refreshContent()
         }
-        viewModel.isRefreshing.observe(this, Observer { isRefreshing ->
+        viewModel.isRefreshing.observe(this, { isRefreshing ->
             swipeToRefreshLayout.isRefreshing = isRefreshing == true
         })
         swipeToRefreshLayout.setColorSchemeResources(R.color.tusky_blue)
@@ -407,7 +412,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
 
 
             accountAvatarImageView.setOnClickListener { avatarView ->
-                val intent = ViewMediaActivity.newAvatarIntent(avatarView.context, account.avatar)
+                val intent = ViewMediaActivity.newSingleImageIntent(avatarView.context, account.avatar)
 
                 avatarView.transitionName = account.avatar
                 val options = ActivityOptionsCompat.makeSceneTransitionAnimation(this, avatarView, account.avatar)
@@ -533,7 +538,20 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
 
         accountFollowsYouTextView.visible(relation.followedBy)
 
+        accountNoteTextInputLayout.visible(relation.note != null)
+        accountNoteTextInputLayout.editText?.setText(relation.note)
+
+        // add the listener late to avoid it firing on the first change
+        accountNoteTextInputLayout.editText?.removeTextChangedListener(noteWatcher)
+        accountNoteTextInputLayout.editText?.addTextChangedListener(noteWatcher)
+
         updateButtons()
+    }
+
+    private val noteWatcher = object: DefaultTextWatcher() {
+        override fun afterTextChanged(s: Editable) {
+            viewModel.noteChanged(s.toString())
+        }
     }
 
     private fun updateFollowButton() {
@@ -705,9 +723,10 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
             loadedAccount?.let {
                 showMuteAccountDialog(
                     this,
-                    it.username,
-                    { notifications -> viewModel.muteAccount(notifications) }
-                )
+                    it.username
+                ) { notifications ->
+                    viewModel.muteAccount(notifications)
+                }
             }
         } else {
             viewModel.unmuteAccount()

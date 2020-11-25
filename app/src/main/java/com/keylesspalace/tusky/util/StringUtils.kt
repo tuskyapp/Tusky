@@ -80,3 +80,12 @@ fun Spanned.trimTrailingWhitespace(): Spanned {
     } while (i >= 0 && get(i).isWhitespace())
     return subSequence(0, i + 1) as Spanned
 }
+
+/**
+ * BidiFormatter.unicodeWrap is insufficient in some cases (see #1921)
+ * So we force isolation manually
+ * https://unicode.org/reports/tr9/#Explicit_Directional_Isolates
+ */
+fun CharSequence.unicodeWrap(): String {
+    return "\u2068${this}\u2069"
+}
