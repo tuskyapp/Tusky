@@ -41,6 +41,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.RequestManager
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.target.CustomTarget
+import com.bumptech.glide.request.target.FixedSizeDrawable
 import com.bumptech.glide.request.transition.Transition
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.tabs.TabLayout
@@ -184,7 +185,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
         val hideTopToolbar = preferences.getBoolean(PrefKeys.HIDE_TOP_TOOLBAR, false)
         mainToolbar.visible(!hideTopToolbar)
 
-        loadDrawerAvatar(activeAccount.profilePictureUrl)
+        loadDrawerAvatar(activeAccount.profilePictureUrl, true)
 
         mainToolbar.menu.add(R.string.action_search).apply {
             setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM)
@@ -641,7 +642,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
                 .load(me.header)
                 .into(header.accountHeaderBackground)
 
-        loadDrawerAvatar(me.avatar)
+        loadDrawerAvatar(me.avatar, false)
 
         accountManager.updateActiveAccount(me)
         NotificationHelper.createNotificationChannelsForAccount(accountManager.activeAccount!!, this)
@@ -666,17 +667,26 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
         updateShortcut(this, accountManager.activeAccount!!)
     }
 
-    private fun loadDrawerAvatar(avatarUrl: String) {
-
+    private fun loadDrawerAvatar(avatarUrl: String, showPlaceholder: Boolean) {
         val navIconSize = resources.getDimensionPixelSize(R.dimen.avatar_toolbar_nav_icon_size)
 
         glide.asDrawable()
-            .override(navIconSize)
             .load(avatarUrl)
             .transform(
                 RoundedCorners(resources.getDimensionPixelSize(R.dimen.avatar_radius_36dp))
             )
-            .into(object : CustomTarget<Drawable>() {
+            .apply {
+                if (showPlaceholder) {
+                    placeholder(R.drawable.avatar_default)
+                }
+            }
+            .into(object : CustomTarget<Drawable>(navIconSize, navIconSize) {
+
+                override fun onLoadStarted(placeholder: Drawable?) {
+                    if(placeholder != null) {
+                        mainToolbar.navigationIcon = FixedSizeDrawable(placeholder, navIconSize, navIconSize)
+                    }
+                }
                 override fun onResourceReady(resource: Drawable, transition: Transition<in Drawable>?) {
                     mainToolbar.navigationIcon = resource
                 }
