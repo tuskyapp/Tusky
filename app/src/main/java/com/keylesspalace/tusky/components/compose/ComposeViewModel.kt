@@ -22,9 +22,11 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import com.keylesspalace.tusky.components.compose.ComposeActivity.QueuedMedia
+import com.keylesspalace.tusky.components.drafts.DraftHelper
 import com.keylesspalace.tusky.components.search.SearchType
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.db.AppDatabase
+import com.keylesspalace.tusky.db.DraftAttachment
 import com.keylesspalace.tusky.db.InstanceEntity
 import com.keylesspalace.tusky.entity.*
 import com.keylesspalace.tusky.entity.Status
@@ -43,7 +45,7 @@ class ComposeViewModel @Inject constructor(
         private val accountManager: AccountManager,
         private val mediaUploader: MediaUploader,
         private val serviceClient: ServiceClient,
-        private val saveTootHelper: SaveTootHelper,
+        private val draftHelper: DraftHelper,
         private val db: AppDatabase
 ) : RxAwareViewModel() {
 
@@ -202,29 +204,28 @@ class ComposeViewModel @Inject constructor(
     }
 
     fun deleteDraft() {
-        saveTootHelper.deleteDraft(this.savedTootUid)
+        draftHelper.deleteDraft(this.savedTootUid)
     }
 
     fun saveDraft(content: String, contentWarning: String) {
-        val mediaUris = mutableListOf<String>()
-        val mediaDescriptions = mutableListOf<String?>()
-        for (item in media.value!!) {
-            mediaUris.add(item.uri.toString())
-            mediaDescriptions.add(item.description)
-        }
-        saveTootHelper.saveToot(
-                content,
-                contentWarning,
-                null,
-                mediaUris,
-                mediaDescriptions,
-                savedTootUid,
-                inReplyToId,
-                replyingStatusContent,
-                replyingStatusAuthor,
-                statusVisibility.value!!,
-                poll.value
-        )
+
+        draftHelper.saveDraft(
+                accountId = accountManager.activeAccount?.id!!,
+                inReplyToId = inReplyToId,
+                content = content,
+                contentWarning = contentWarning,
+                sensitive = markMediaAsSensitive.value!!,
+                visibility = statusVisibility.value!!,
+                attachments = media.value?.map { media ->
+                    DraftAttachment(
+                            path = media.uri.toString(),
+                            description = media.description,
+                            type = media.type
+                    )
+                }.orEmpty(),
+                poll = poll.value,
+                failedToSend = false
+        ).subscribe()
     }
 
     /**

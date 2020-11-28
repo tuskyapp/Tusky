@@ -36,7 +36,7 @@
     <string name="title_blocks">Utenti bloccati</string>
     <string name="title_follow_requests">Richieste di seguirti</string>
     <string name="title_edit_profile">Modifica il tuo profilo</string>
-    <string name="title_saved_toot">Bozze</string>
+    <string name="title_drafts">Bozze</string>
     <string name="title_licenses">Licenze</string>
     <string name="status_username_format">\@%s</string>
     <string name="status_boosted_format">%s ha boostato</string>

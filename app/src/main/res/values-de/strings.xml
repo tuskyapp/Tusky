@@ -36,7 +36,7 @@
     <string name="title_blocks">Blockierte Profile</string>
     <string name="title_follow_requests">Folgeanfragen</string>
     <string name="title_edit_profile">Dein Profil bearbeiten</string>
-    <string name="title_saved_toot">Entwürfe</string>
+    <string name="title_drafts">Entwürfe</string>
     <string name="title_licenses">Lizenzen</string>
     <string name="status_username_format">\@%s</string>
     <string name="status_boosted_format">%s teilte</string>

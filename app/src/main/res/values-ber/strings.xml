@@ -16,7 +16,7 @@
     <string name="action_search">ⵏⴰⴸⵉ</string>
     <string name="action_edit_profile">ⵣⵔⴻⴳ ⴰⵎⴰⵖⵏⵓ</string>
     <string name="action_logout">ⴼⴼⴻⵖ</string>
-    <string name="title_saved_toot">ⵉⵔⴻⵡⵡⴰⵢⴻⵏ</string>
+    <string name="title_drafts">ⵉⵔⴻⵡⵡⴰⵢⴻⵏ</string>
     <string name="title_favourites">ⵉⵙⵎⴻⵏⵢⵉⴼⴻⵏ</string>
     <string name="button_back">ⵓⵖⴰⵍ</string>
     <string name="button_continue">ⴽⴻⵎⵎⴻⵍ</string>

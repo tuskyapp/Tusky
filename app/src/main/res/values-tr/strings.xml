@@ -36,7 +36,7 @@
     <string name="title_blocks">Engellenmiş kullanıcılar</string>
     <string name="title_follow_requests">Takip Etme İstekleri</string>
     <string name="title_edit_profile">Profili düzeltme</string>
-    <string name="title_saved_toot">Taslaklar</string>
+    <string name="title_drafts">Taslaklar</string>
     <string name="title_licenses">Lisanslar</string>
     <string name="status_username_format">\@%s</string>
     <string name="status_boosted_format">%s yineledi</string>

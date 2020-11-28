@@ -32,7 +32,7 @@
     <string name="title_blocks">کاربران مسدود</string>
     <string name="title_follow_requests">درخواست‌های پی‌گیری</string>
     <string name="title_edit_profile">ویرایش نمایه‌تان</string>
-    <string name="title_saved_toot">پیش‌نویس‌ها</string>
+    <string name="title_drafts">پیش‌نویس‌ها</string>
     <string name="title_licenses">پروانه‌ها</string>
     <string name="status_boosted_format">%s تقویت کرد</string>
     <string name="status_sensitive_media_title">محتوای حسّاس</string>

@@ -36,7 +36,7 @@
     <string name="title_blocks">الحسابات المحظورة</string>
     <string name="title_follow_requests">طلبات المتابعة</string>
     <string name="title_edit_profile">عدل ملفك التعريفي</string>
-    <string name="title_saved_toot">المسودات</string>
+    <string name="title_drafts">المسودات</string>
     <string name="title_licenses">الرّخص</string>
     <string name="status_username_format">\@%s</string>
     <string name="status_boosted_format">شارَكَه %s</string>

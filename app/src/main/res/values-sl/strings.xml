@@ -34,7 +34,7 @@
     <string name="title_blocks">Blokirani uporabniki</string>
     <string name="title_follow_requests">Zahteve za Sledenje</string>
     <string name="title_edit_profile">Uredi svoj profil</string>
-    <string name="title_saved_toot">Osnutki</string>
+    <string name="title_drafts">Osnutki</string>
     <string name="title_licenses">Licence</string>
     <string name="status_username_format">\@%s</string>
     <string name="status_sensitive_media_title">Občutljiva vsebina</string>

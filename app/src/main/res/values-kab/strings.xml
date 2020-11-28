@@ -2,7 +2,7 @@
 <resources>
     <string name="action_login">Qqen ɣer Maṣṭudun</string>
     <string name="title_favourites">Ismenyifen</string>
-    <string name="title_saved_toot">Irewwayen</string>
+    <string name="title_drafts">Irewwayen</string>
     <string name="action_logout">Ffeɣ</string>
     <string name="action_view_preferences">Iɣewwaṛen</string>
     <string name="action_view_account_preferences">Iɣewwaṛen n umiḍan</string>

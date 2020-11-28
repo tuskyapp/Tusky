@@ -36,7 +36,7 @@
     <string name="title_blocks">Geblokkeerde gebruikers</string>
     <string name="title_follow_requests">Volgverzoeken</string>
     <string name="title_edit_profile">Profiel bewerken</string>
-    <string name="title_saved_toot">Concepten</string>
+    <string name="title_drafts">Concepten</string>
     <string name="title_licenses">Licenties</string>
     <string name="status_username_format">\@%s</string>
     <string name="status_boosted_format">%s boostte</string>

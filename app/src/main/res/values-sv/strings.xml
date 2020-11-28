@@ -36,7 +36,7 @@
     <string name="title_blocks">Blockerade användare</string>
     <string name="title_follow_requests">Följarförfrågningar</string>
     <string name="title_edit_profile">Ändra din profil</string>
-    <string name="title_saved_toot">Utkast</string>
+    <string name="title_drafts">Utkast</string>
     <string name="title_licenses">Licenser</string>
     <string name="status_username_format">\@%s</string>
     <string name="status_boosted_format">%s knuffade</string>

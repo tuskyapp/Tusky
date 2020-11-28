@@ -36,7 +36,7 @@
     <string name="title_blocks">Список блокировки</string>
     <string name="title_follow_requests">Запросы на подписку</string>
     <string name="title_edit_profile">Редактировать профиль</string>
-    <string name="title_saved_toot">Черновики</string>
+    <string name="title_drafts">Черновики</string>
     <string name="title_licenses">Лицензии</string>
     <string name="status_username_format">\@%s</string>
     <string name="status_boosted_format">%s продвинул(а)</string>

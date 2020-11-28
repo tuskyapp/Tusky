@@ -31,6 +31,7 @@ import android.widget.ImageView
 import androidx.appcompat.app.AlertDialog
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.content.ContextCompat
+import androidx.core.content.edit
 import androidx.core.content.pm.ShortcutManagerCompat
 import androidx.emoji.text.EmojiCompat
 import androidx.emoji.text.EmojiCompat.InitCallback
@@ -58,6 +59,7 @@ import com.keylesspalace.tusky.components.preference.PreferencesActivity
 import com.keylesspalace.tusky.components.scheduled.ScheduledTootActivity
 import com.keylesspalace.tusky.components.search.SearchActivity
 import com.keylesspalace.tusky.db.AccountEntity
+import com.keylesspalace.tusky.db.AppDatabase
 import com.keylesspalace.tusky.entity.Account
 import com.keylesspalace.tusky.fragment.SFragment
 import com.keylesspalace.tusky.interfaces.AccountSelectionListener
@@ -98,6 +100,9 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
 
     @Inject
     lateinit var conversationRepository: ConversationsRepository
+
+    @Inject
+    lateinit var appDb: AppDatabase
 
     private lateinit var header: AccountHeaderView
 
@@ -234,6 +239,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
             // Flush old media that was cached for sharing
             deleteStaleCachedMedia(applicationContext.getExternalFilesDir("Tusky"))
         }
+        draftWarning()
     }
 
     override fun onResume() {
@@ -741,6 +747,29 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
         header.clear()
         header.profiles = profiles
         header.setActiveProfile(accountManager.activeAccount!!.id)
+    }
+
+    private fun draftWarning() {
+        val sharedPrefsKey = "show_draft_warning"
+        appDb.tootDao().savedTootCount()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .autoDispose(this, Lifecycle.Event.ON_DESTROY)
+                .subscribe { draftCount ->
+                    val showDraftWarning = preferences.getBoolean(sharedPrefsKey, true)
+                    if (draftCount > 0 && showDraftWarning) {
+                        AlertDialog.Builder(this)
+                                .setMessage(R.string.new_drafts_warning)
+                                .setNegativeButton("Don't show again") { _, _ ->
+                                    preferences.edit(commit = true) {
+                                        putBoolean(sharedPrefsKey, false)
+                                    }
+                                }
+                                .setPositiveButton(android.R.string.ok, null)
+                                .show()
+                    }
+                }
+
     }
 
     override fun getActionButton(): FloatingActionButton? = composeButton

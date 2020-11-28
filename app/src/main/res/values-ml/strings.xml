@@ -3,7 +3,7 @@
     <string name="action_login">മസ്റ്റഡോൺ വഴി പ്രവേശിക്കുക</string>
     <string name="link_whats_an_instance">എന്താണ് ഒരു ഇൻസ്റ്റൻസ്\?</string>
     <string name="title_favourites">പ്രിയപ്പെട്ടവ</string>
-    <string name="title_saved_toot">കരടുകൾ</string>
+    <string name="title_drafts">കരടുകൾ</string>
     <string name="action_logout">പുറത്തിറങ്ങുക</string>
     <string name="action_view_preferences">മുൻഗണനകൾ</string>
     <string name="action_view_account_preferences">അക്കൗണ്ട് മുൻഗണനകൾ</string>

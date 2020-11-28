@@ -66,6 +66,9 @@ android {
     androidExtensions {
         experimental = true
     }
+    buildFeatures {
+        viewBinding true
+    }
     testOptions {
         unitTests {
             returnDefaultValues = true

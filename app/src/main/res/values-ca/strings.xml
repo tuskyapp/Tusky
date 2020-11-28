@@ -29,7 +29,7 @@
     <string name="title_blocks">Usuaris blocats</string>
     <string name="title_follow_requests">Peticions de seguiment</string>
     <string name="title_edit_profile">Edita el perfil</string>
-    <string name="title_saved_toot">Esborranys</string>
+    <string name="title_drafts">Esborranys</string>
     <string name="status_username_format">\@%s</string>
     <string name="status_boosted_format">%s tootejat</string>
     <string name="status_sensitive_media_title">Contingut sensible</string>

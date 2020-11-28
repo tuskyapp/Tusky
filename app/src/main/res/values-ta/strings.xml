@@ -29,7 +29,7 @@
     <string name="title_blocks">தடைசெய்யபட்ட பயனர்கள்</string>
     <string name="title_follow_requests">பின்பற்ற கோரிக்கை</string>
     <string name="title_edit_profile">சுயவிவரத்தை திருத்த</string>
-    <string name="title_saved_toot">வரைவுகள்</string>
+    <string name="title_drafts">வரைவுகள்</string>
     <string name="status_boosted_format">%s மேலேற்றப்பட்டது</string>
     <string name="status_sensitive_media_title">உணர்ச்சிகரமான உள்ளடக்கம்</string>
     <string name="status_media_hidden_title">ஊடகம் மறைக்கப்பட்டது</string>

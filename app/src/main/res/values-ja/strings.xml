@@ -35,7 +35,7 @@
     <string name="title_blocks">ブロックしたユーザー</string>
     <string name="title_follow_requests">フォローリクエスト</string>
     <string name="title_edit_profile">プロフィールを編集</string>
-    <string name="title_saved_toot">下書き</string>
+    <string name="title_drafts">下書き</string>
     <string name="title_licenses">ライセンス</string>
     <string name="status_boosted_format">%sさんがブーストしました</string>
     <string name="status_sensitive_media_title">閲覧注意</string>

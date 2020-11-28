@@ -28,9 +28,9 @@ import androidx.annotation.NonNull;
  * DB version & declare DAO
  */
 
-@Database(entities = {TootEntity.class, AccountEntity.class, InstanceEntity.class, TimelineStatusEntity.class,
+@Database(entities = { TootEntity.class, DraftEntity.class, AccountEntity.class, InstanceEntity.class, TimelineStatusEntity.class,
                 TimelineAccountEntity.class,  ConversationEntity.class
-        }, version = 23)
+        }, version = 24)
 public abstract class AppDatabase extends RoomDatabase {
 
     public abstract TootDao tootDao();
@@ -38,6 +38,7 @@ public abstract class AppDatabase extends RoomDatabase {
     public abstract InstanceDao instanceDao();
     public abstract ConversationsDao conversationDao();
     public abstract TimelineDao timelineDao();
+    public abstract DraftDao draftDao();
 
     public static final Migration MIGRATION_2_3 = new Migration(2, 3) {
         @Override
@@ -46,7 +47,6 @@ public abstract class AppDatabase extends RoomDatabase {
             database.execSQL("INSERT INTO TootEntity2 SELECT * FROM TootEntity;");
             database.execSQL("DROP TABLE TootEntity;");
             database.execSQL("ALTER TABLE TootEntity2 RENAME TO TootEntity;");
-
         }
     };
 
@@ -340,4 +340,22 @@ public abstract class AppDatabase extends RoomDatabase {
         }
     };
 
+    public static final Migration MIGRATION_23_24 = new Migration(23, 24) {
+        @Override
+        public void migrate(@NonNull SupportSQLiteDatabase database) {
+            database.execSQL(
+                    "CREATE TABLE IF NOT EXISTS `DraftEntity` (" +
+                            "`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
+                            "`accountId` INTEGER NOT NULL, " +
+                            "`inReplyToId` TEXT," +
+                            "`content` TEXT," +
+                            "`contentWarning` TEXT," +
+                            "`sensitive` INTEGER NOT NULL," +
+                            "`visibility` INTEGER," +
+                            "`attachments` TEXT NOT NULL," +
+                            "`poll` TEXT," +
+                            "`failedToSend` INTEGER NOT NULL)"
+            );
+        }
+    };
 }

@@ -35,9 +35,6 @@
 
         </activity>
         <activity
-            android:name=".SavedTootActivity"
-            android:configChanges="orientation|screenSize|keyboardHidden" />
-        <activity
             android:name=".LoginActivity"
             android:windowSoftInputMode="adjustResize">
             <intent-filter>
@@ -147,6 +144,7 @@
         <activity android:name=".components.scheduled.ScheduledTootActivity" />
         <activity android:name=".components.announcements.AnnouncementsActivity" />
         <activity android:name=".components.drafts.DraftsActivity" />
+        <activity android:name=".SavedTootActivity" />
 
         <receiver android:name=".receiver.NotificationClearBroadcastReceiver" />
         <receiver

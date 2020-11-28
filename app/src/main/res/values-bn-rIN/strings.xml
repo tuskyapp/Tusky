@@ -36,7 +36,7 @@
     <string name="title_blocks">অবরুদ্ধ ব্যবহারকারী</string>
     <string name="title_follow_requests">অনুরোধ অনুসরণ করুন</string>
     <string name="title_edit_profile">আপনার প্রোফাইল সম্পাদনা করুন</string>
-    <string name="title_saved_toot">খসড়াগুলো</string>
+    <string name="title_drafts">খসড়াগুলো</string>
     <string name="title_licenses">লাইসেন্সগুলি</string>
     <string name="status_username_format">\@%s</string>
     <string name="status_boosted_format">%s সমর্থন দিয়েছে</string>

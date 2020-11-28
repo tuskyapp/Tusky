@@ -31,7 +31,7 @@
     <string name="title_blocks">Utilizaires blocats</string>
     <string name="title_follow_requests">Demandas d’abonament</string>
     <string name="title_edit_profile">Modificar lo perfil</string>
-    <string name="title_saved_toot">Borrolhons</string>
+    <string name="title_drafts">Borrolhons</string>
     <string name="title_licenses">Licéncias</string>
     <string name="status_boosted_format">%s partejat</string>
     <string name="status_sensitive_media_title">Contengut sensible</string>

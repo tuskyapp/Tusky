@@ -36,7 +36,7 @@
     <string name="title_blocks">Blokitaj uzantoj</string>
     <string name="title_follow_requests">Petoj de sekvado</string>
     <string name="title_edit_profile">Redakti vian profilon</string>
-    <string name="title_saved_toot">Malnetoj</string>
+    <string name="title_drafts">Malnetoj</string>
     <string name="title_licenses">Permesiloj</string>
     <string name="status_username_format">\@%s</string>
     <string name="status_boosted_format">%s diskonigis</string>

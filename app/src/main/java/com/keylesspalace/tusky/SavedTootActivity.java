@@ -89,7 +89,7 @@ public final class SavedTootActivity extends BaseActivity implements SavedTootAd
         setSupportActionBar(toolbar);
         ActionBar bar = getSupportActionBar();
         if (bar != null) {
-            bar.setTitle(getString(R.string.title_saved_toot));
+            bar.setTitle(getString(R.string.title_drafts));
             bar.setDisplayHomeAsUpEnabled(true);
             bar.setDisplayShowHomeEnabled(true);
         }

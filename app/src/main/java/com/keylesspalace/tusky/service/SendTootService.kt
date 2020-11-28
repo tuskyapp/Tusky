@@ -18,6 +18,7 @@ import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.appstore.StatusComposedEvent
 import com.keylesspalace.tusky.appstore.StatusScheduledEvent
+import com.keylesspalace.tusky.components.drafts.DraftHelper
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.db.AppDatabase
 import com.keylesspalace.tusky.di.Injectable
@@ -25,7 +26,6 @@ import com.keylesspalace.tusky.entity.NewPoll
 import com.keylesspalace.tusky.entity.NewStatus
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.network.MastodonApi
-import com.keylesspalace.tusky.util.SaveTootHelper
 import dagger.android.AndroidInjection
 import kotlinx.android.parcel.Parcelize
 import retrofit2.Call
@@ -46,9 +46,8 @@ class SendTootService : Service(), Injectable {
     lateinit var eventHub: EventHub
     @Inject
     lateinit var database: AppDatabase
-
     @Inject
-    lateinit var saveTootHelper: SaveTootHelper
+    lateinit var draftHelper: DraftHelper
 
     private val tootsToSend = ConcurrentHashMap<Int, TootToSend>()
     private val sendCalls = ConcurrentHashMap<Int, Call<Status>>()
@@ -161,7 +160,8 @@ class SendTootService : Service(), Injectable {
                 if (response.isSuccessful) {
                     // If the status was loaded from a draft, delete the draft and associated media files.
                     if (tootToSend.savedTootUid != 0) {
-                        saveTootHelper.deleteDraft(tootToSend.savedTootUid)
+                        draftHelper.deleteDraft(tootToSend.savedTootUid)
+                                .subscribe()
                     }
 
                     if (scheduled) {
@@ -245,17 +245,17 @@ class SendTootService : Service(), Injectable {
 
     private fun saveTootToDrafts(toot: TootToSend) {
 
-        saveTootHelper.saveToot(toot.text,
-                toot.warningText,
-                toot.savedJsonUrls,
-                toot.mediaUris,
-                toot.mediaDescriptions,
-                toot.savedTootUid,
-                toot.inReplyToId,
-                toot.replyingStatusContent,
-                toot.replyingStatusAuthorUsername,
-                Status.Visibility.byString(toot.visibility),
-                toot.poll)
+        draftHelper.saveDraft(
+                accountId = toot.accountId,
+                inReplyToId = toot.inReplyToId,
+                content = toot.text,
+                contentWarning = toot.warningText,
+                sensitive = toot.sensitive,
+                visibility = Status.Visibility.byString(toot.visibility),
+                attachments = emptyList(),
+                poll = toot.poll,
+                failedToSend = true
+        ).subscribe()
     }
 
     private fun cancelSendingIntent(tootId: Int): PendingIntent {

@@ -136,18 +136,21 @@
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/composeMediaPreviewBar"
-                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:scrollbars="none" />
+                android:scrollbars="none"
+                android:visibility="gone" />
 
             <com.keylesspalace.tusky.components.compose.view.PollPreviewView
                 android:id="@+id/pollPreview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:minWidth="@dimen/poll_preview_min_width"
                 android:visibility="gone"
                 tools:visibility="visible" />
+
         </LinearLayout>
+
     </androidx.core.widget.NestedScrollView>
 
     <LinearLayout
@@ -239,9 +242,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
+        android:animateLayoutChanges="true"
         android:background="?attr/colorSurface"
         android:elevation="12dp"
-        android:animateLayoutChanges="true"
         android:gravity="center_vertical"
         android:paddingStart="8dp"
         android:paddingTop="4dp"
