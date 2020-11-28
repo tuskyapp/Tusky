@@ -29,11 +29,9 @@ import com.keylesspalace.tusky.util.EmojiCompatFont
 import com.keylesspalace.tusky.util.LocaleManager
 import com.keylesspalace.tusky.util.ThemeUtils
 import com.uber.autodispose.AutoDisposePlugins
-import dagger.Lazy
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
 import io.reactivex.plugins.RxJavaPlugins
-import io.reactivex.schedulers.Schedulers
 import org.conscrypt.Conscrypt
 import java.security.Security
 import javax.inject.Inject
@@ -44,7 +42,7 @@ class TuskyApplication : Application(), HasAndroidInjector {
     lateinit var androidInjector: DispatchingAndroidInjector<Any>
 
     @Inject
-    lateinit var notificationWorkerFactory: Lazy<NotificationWorkerFactory>
+    lateinit var notificationWorkerFactory: NotificationWorkerFactory
 
     override fun onCreate() {
         // Uncomment me to get StrictMode violation logs
@@ -82,15 +80,12 @@ class TuskyApplication : Application(), HasAndroidInjector {
             Log.w("RxJava", "undeliverable exception", it)
         }
 
-        // This will initialize the whole network stack and cache so we don't wan to wait for it
-        Schedulers.computation().scheduleDirect {
-            WorkManager.initialize(
-                    this,
-                    androidx.work.Configuration.Builder()
-                            .setWorkerFactory(notificationWorkerFactory.get())
-                            .build()
-            )
-        }
+        WorkManager.initialize(
+                this,
+                androidx.work.Configuration.Builder()
+                        .setWorkerFactory(notificationWorkerFactory)
+                        .build()
+        )
     }
 
     override fun attachBaseContext(base: Context) {
