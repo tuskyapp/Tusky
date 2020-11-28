@@ -470,4 +470,8 @@
     </plurals>
     <string name="pref_title_hide_top_toolbar">نهفتن عنوان نوارابزار بالایی</string>
     <string name="compose_preview_image_description">کنش‌ها برای تصویر %s</string>
+    <string name="account_note_saved">ذخیره شد!</string>
+    <string name="account_note_hint">یادداشت خصوصیتان دربارهٔ این حساب</string>
+    <string name="no_announcements">هیچ اعلامیه‌ای وجود ندارد.</string>
+    <string name="title_announcements">اعلامیه‌ها</string>
 </resources>

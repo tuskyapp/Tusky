@@ -82,6 +82,7 @@ import com.uber.autodispose.android.lifecycle.autoDispose
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
 import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
 
@@ -119,7 +120,9 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if (accountManager.activeAccount == null) {
+
+        val activeAccount = accountManager.activeAccount
+        if (activeAccount == null) {
             // will be redirected to LoginActivity by BaseActivity
             return
         }
@@ -183,8 +186,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
         val hideTopToolbar = preferences.getBoolean(PrefKeys.HIDE_TOP_TOOLBAR, false)
         mainToolbar.visible(!hideTopToolbar)
 
-        val navIconSize = resources.getDimensionPixelSize(R.dimen.avatar_toolbar_nav_icon_size)
-        mainToolbar.navigationIcon = FixedSizeDrawable(getDrawable(R.drawable.avatar_default), navIconSize, navIconSize)
+        loadDrawerAvatar(activeAccount.profilePictureUrl, true)
 
         mainToolbar.menu.add(R.string.action_search).apply {
             setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM)
@@ -228,8 +230,10 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
                     }
                 }
 
-        // Flush old media that was cached for sharing
-        deleteStaleCachedMedia(applicationContext.getExternalFilesDir("Tusky"))
+        Schedulers.io().scheduleDirect {
+            // Flush old media that was cached for sharing
+            deleteStaleCachedMedia(applicationContext.getExternalFilesDir("Tusky"))
+        }
     }
 
     override fun onResume() {
@@ -639,23 +643,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
                 .load(me.header)
                 .into(header.accountHeaderBackground)
 
-        val navIconSize = resources.getDimensionPixelSize(R.dimen.avatar_toolbar_nav_icon_size)
-
-        glide.asDrawable()
-                .override(navIconSize)
-                .load(me.avatar)
-                .transform(
-                        RoundedCorners(resources.getDimensionPixelSize(R.dimen.avatar_radius_36dp))
-                )
-                .into(object : CustomTarget<Drawable>() {
-                    override fun onResourceReady(resource: Drawable, transition: Transition<in Drawable>?) {
-                        mainToolbar.navigationIcon = resource
-                    }
-
-                    override fun onLoadCleared(placeholder: Drawable?) {
-                        mainToolbar.navigationIcon = placeholder
-                    }
-                })
+        loadDrawerAvatar(me.avatar, false)
 
         accountManager.updateActiveAccount(me)
         NotificationHelper.createNotificationChannelsForAccount(accountManager.activeAccount!!, this)
@@ -678,6 +666,36 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
         }
         updateProfiles()
         updateShortcut(this, accountManager.activeAccount!!)
+    }
+
+    private fun loadDrawerAvatar(avatarUrl: String, showPlaceholder: Boolean) {
+        val navIconSize = resources.getDimensionPixelSize(R.dimen.avatar_toolbar_nav_icon_size)
+
+        glide.asDrawable()
+            .load(avatarUrl)
+            .transform(
+                RoundedCorners(resources.getDimensionPixelSize(R.dimen.avatar_radius_36dp))
+            )
+            .apply {
+                if (showPlaceholder) {
+                    placeholder(R.drawable.avatar_default)
+                }
+            }
+            .into(object : CustomTarget<Drawable>(navIconSize, navIconSize) {
+
+                override fun onLoadStarted(placeholder: Drawable?) {
+                    if(placeholder != null) {
+                        mainToolbar.navigationIcon = FixedSizeDrawable(placeholder, navIconSize, navIconSize)
+                    }
+                }
+                override fun onResourceReady(resource: Drawable, transition: Transition<in Drawable>?) {
+                    mainToolbar.navigationIcon = resource
+                }
+
+                override fun onLoadCleared(placeholder: Drawable?) {
+                    mainToolbar.navigationIcon = placeholder
+                }
+            })
     }
 
     private fun fetchAnnouncements() {
