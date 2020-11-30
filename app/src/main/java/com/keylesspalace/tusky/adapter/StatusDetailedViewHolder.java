@@ -58,7 +58,7 @@ class StatusDetailedViewHolder extends StatusBaseViewHolder {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(itemView.getContext());
 
         // If wellbeing mode is enabled, favs and boosts should not be visible.
-        boolean wellbeingEnabled = preferences.getBoolean(PrefKeys.WELLBEING_MODE, false);
+        boolean wellbeingEnabled = preferences.getBoolean(PrefKeys.WELLBEING_DISABLE_STATS_POSTS, false);
 
         if (reblogCount > 0 && !wellbeingEnabled) {
             reblogs.setText(getReblogsText(reblogs.getContext(), reblogCount));
