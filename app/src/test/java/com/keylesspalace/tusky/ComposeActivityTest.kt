@@ -17,6 +17,7 @@
 package com.keylesspalace.tusky
 
 import android.content.Intent
+import android.os.Looper.getMainLooper
 import android.text.SpannedString
 import android.widget.EditText
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -41,6 +42,7 @@ import org.junit.runner.RunWith
 import org.mockito.Mockito.`when`
 import org.mockito.Mockito.mock
 import org.robolectric.Robolectric
+import org.robolectric.Shadows.shadowOf
 import org.robolectric.annotation.Config
 import org.robolectric.fakes.RoboMenuItem
 
@@ -76,8 +78,8 @@ class ComposeActivityTest {
             notificationVibration = true,
             notificationLight = true
     )
-    var instanceResponseCallback: (()->Instance)? = null
-    var composeOptions: ComposeActivity.ComposeOptions? = null
+    private var instanceResponseCallback: (()->Instance)? = null
+    private var composeOptions: ComposeActivity.ComposeOptions? = null
 
     @Before
     fun setupActivity() {
@@ -185,6 +187,7 @@ class ComposeActivityTest {
         val customMaximum = 1000
         instanceResponseCallback = { getInstanceWithMaximumTootCharacters(customMaximum) }
         setupActivity()
+        shadowOf(getMainLooper()).idle()
         assertEquals(customMaximum, activity.maximumTootCharacters)
     }
 
@@ -230,7 +233,7 @@ class ComposeActivityTest {
             editor.setSelection(caretIndex)
             activity.prependSelectedWordsWith(insertText)
             // Text should be inserted at caret
-            assertEquals("Unexpected value at ${caretIndex}", insertText, editor.text.substring(caretIndex, caretIndex + insertText.length))
+            assertEquals("Unexpected value at $caretIndex", insertText, editor.text.substring(caretIndex, caretIndex + insertText.length))
 
             // Caret should be placed after inserted text
             assertEquals(caretIndex + insertText.length, editor.selectionStart)

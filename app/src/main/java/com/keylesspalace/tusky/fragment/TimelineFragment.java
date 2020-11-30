@@ -83,7 +83,6 @@ import com.keylesspalace.tusky.util.ListUtils;
 import com.keylesspalace.tusky.util.PairedList;
 import com.keylesspalace.tusky.util.StatusDisplayOptions;
 import com.keylesspalace.tusky.util.StringUtils;
-import com.keylesspalace.tusky.util.ThemeUtils;
 import com.keylesspalace.tusky.util.ViewDataUtils;
 import com.keylesspalace.tusky.view.BackgroundMessageView;
 import com.keylesspalace.tusky.view.EndlessOnScrollListener;
@@ -392,6 +391,7 @@ public class TimelineFragment extends SFragment implements
         // home, notifications, public, thread
         switch (kind) {
             case HOME:
+            case LIST:
                 return filterContext.contains(Filter.HOME);
             case PUBLIC_FEDERATED:
             case PUBLIC_LOCAL:

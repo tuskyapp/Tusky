@@ -22,7 +22,6 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.PopupWindow
 import androidx.activity.viewModels
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.keylesspalace.tusky.BaseActivity
@@ -79,7 +78,7 @@ class AnnouncementsActivity : BaseActivity(), AnnouncementActionListener, OnEmoj
         announcementsList.addItemDecoration(divider)
         announcementsList.adapter = adapter
 
-        viewModel.announcements.observe(this, Observer {
+        viewModel.announcements.observe(this) {
             when (it) {
                 is Success -> {
                     progressBar.hide()
@@ -104,11 +103,11 @@ class AnnouncementsActivity : BaseActivity(), AnnouncementActionListener, OnEmoj
                     errorMessageView.show()
                 }
             }
-        })
+        }
 
-        viewModel.emojis.observe(this, Observer {
+        viewModel.emojis.observe(this) {
             picker.adapter = EmojiAdapter(it, this)
-        })
+        }
 
         viewModel.load()
         progressBar.show()

@@ -295,7 +295,7 @@ public class NotificationHelper {
                 .setSmallIcon(R.drawable.ic_notify)
                 .setContentIntent(summary ? summaryResultPendingIntent : eventResultPendingIntent)
                 .setDeleteIntent(deletePendingIntent)
-                .setColor(BuildConfig.DEBUG ? Color.parseColor("#19A341") : ContextCompat.getColor(context, R.color.tusky_blue))
+                .setColor(BuildConfig.FLAVOR == "green" ? Color.parseColor("#19A341") : ContextCompat.getColor(context, R.color.tusky_blue))
                 .setGroup(account.getAccountId())
                 .setAutoCancel(true)
                 .setShortcutId(Long.toString(account.getId()))
