@@ -228,6 +228,18 @@ class PreferencesFragment : PreferenceFragmentCompat(), Injectable {
                         true
                     }
                 }
+
+                switchPreference {
+                    title = getString(R.string.wellbeing_hide_stats_posts)
+                    setDefaultValue(false)
+                    key = PrefKeys.WELLBEING_HIDE_STATS_POSTS
+                }
+
+                switchPreference {
+                    title = getString(R.string.wellbeing_hide_stats_profile)
+                    setDefaultValue(false)
+                    key = PrefKeys.WELLBEING_HIDE_STATS_PROFILE
+                }
             }
 
             preferenceCategory(R.string.pref_title_proxy_settings) {

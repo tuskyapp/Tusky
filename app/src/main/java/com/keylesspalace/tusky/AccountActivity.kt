@@ -189,7 +189,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
 
         // If wellbeing mode is enabled, follow stats and posts count should be hidden
         val preferences = PreferenceManager.getDefaultSharedPreferences(this)
-        val wellbeingEnabled = preferences.getBoolean(PrefKeys.WELLBEING_DISABLE_STATS_PROFILE, false)
+        val wellbeingEnabled = preferences.getBoolean(PrefKeys.WELLBEING_HIDE_STATS_PROFILE, false)
 
         if (wellbeingEnabled) {
             accountStatuses.hide()
@@ -548,7 +548,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
 
         // If wellbeing mode is enabled, "follows you" text should not be visible
         val preferences = PreferenceManager.getDefaultSharedPreferences(this)
-        val wellbeingEnabled = preferences.getBoolean(PrefKeys.WELLBEING_DISABLE_STATS_PROFILE, false)
+        val wellbeingEnabled = preferences.getBoolean(PrefKeys.WELLBEING_HIDE_STATS_PROFILE, false)
 
         accountFollowsYouTextView.visible(relation.followedBy && !wellbeingEnabled)
 

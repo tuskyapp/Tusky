@@ -586,5 +586,7 @@
     </string>
     <string name="review_notifications">Review Notifications</string>
     <string name="limit_notifications">Limit timeline notifications</string>
+    <string name="wellbeing_hide_stats_posts">Hide quantitative stats on posts</string>
+    <string name="wellbeing_hide_stats_profile">Hide quantitative stats on profiles</string>
 
 </resources>

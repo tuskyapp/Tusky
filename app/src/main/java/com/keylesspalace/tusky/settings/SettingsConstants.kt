@@ -34,8 +34,8 @@ object PrefKeys {
 
     const val CUSTOM_TABS = "customTabs"
     const val WELLBEING_LIMITED_NOTIFICATIONS = "wellbeingModeLimitedNotifications"
-    const val WELLBEING_DISABLE_STATS_POSTS = "wellbeingDisableStatsPosts"
-    const val WELLBEING_DISABLE_STATS_PROFILE = "wellbeingDisableStatsProfile"
+    const val WELLBEING_HIDE_STATS_POSTS = "wellbeingHideStatsPosts"
+    const val WELLBEING_HIDE_STATS_PROFILE = "wellbeingHideStatsProfile"
 
     const val HTTP_PROXY_ENABLED = "httpProxyEnabled"
     const val HTTP_PROXY_SERVER = "httpProxyServer"
