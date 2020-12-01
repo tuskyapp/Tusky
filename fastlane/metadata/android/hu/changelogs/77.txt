@@ -1,0 +1,10 @@
+Tusky v13.0
+
+- privát profilmegjegyzések támogatása (Mastodon 3.2.0 funkció)
+- adminisztrátori közlemények támogatása (Mastodon 3.1.0 funkció)
+
+- az éppen használt fiókod avatarja mostantól látszik az eszköztáron
+- az idővonalon egy profilra kattintva előjön a felhasználó profiloldala
+
+- rengeteg hibajavítás és apró fejlesztés
+- javított fordítások
