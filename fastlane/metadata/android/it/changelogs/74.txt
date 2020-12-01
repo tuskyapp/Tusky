@@ -1,0 +1,8 @@
+Tusky v12.0
+
+- Interfaccia principale migliorata - ora puoi spostare le schede in basso
+- Quando si disattiva l'audio di un utente, ora è possibile anche decidere se disattivare l'audio delle sue notifiche
+- Ora puoi seguire tutti gli hashtag che desideri in una singola scheda hashtag
+- Migliorata la modalità di visualizzazione delle descrizioni dei media in modo che funzioni anche per descrizioni molto lunghe
+
+Log delle modifiche completo: https://github.com/tuskyapp/Tusky/releases
