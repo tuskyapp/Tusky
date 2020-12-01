@@ -1,0 +1,10 @@
+Tusky v13.0
+
+- støtte for profilnotater (Mastodon 3.2.0-funksjonalitet)
+- støtte for administratorkunngjøringer (Mastodon 3.1.0-funksjonalitet)
+
+- avataren som tilhører valgt konto vil nå vises på hovedverktøylinjen
+- trykk på en brukers visningsnavn i tidslinjen vil åpne profilen til brukeren
+
+- mange feilrettinger og mindre forbedringer
+- forbedrede oversettelser
