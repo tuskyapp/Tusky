@@ -164,9 +164,9 @@
     <string name="pref_title_notification_alert_vibrate">Sciigi per vibro</string>
     <string name="pref_title_notification_alert_light">Sciigi per lumo</string>
     <string name="pref_title_notification_filters">Sciigi al mi kiam</string>
-    <string name="pref_title_notification_filter_mentions">menciita</string>
-    <string name="pref_title_notification_filter_follows">sekvita</string>
-    <string name="pref_title_notification_filter_reblogs">viaj mesaĝoj estas diskonigitaj</string>
+    <string name="pref_title_notification_filter_mentions">iu mencias min</string>
+    <string name="pref_title_notification_filter_follows">iu sekvas min</string>
+    <string name="pref_title_notification_filter_reblogs">miaj mesaĝoj estas diskonigitaj</string>
     <string name="pref_title_notification_filter_favourites">miaj mesaĝoj estas stelumitaj</string>
     <string name="pref_title_appearance_settings">Aspekto</string>
     <string name="pref_title_app_theme">Temo de la apo</string>
@@ -363,7 +363,7 @@
     <string name="pref_title_animate_gif_avatars">Moviĝi GIF profilbildojn</string>
     <string name="notification_poll_name">Enketoj</string>
     <string name="notification_poll_description">Sciigoj pri enketoj kiuj finiĝis</string>
-    <string name="edit_hashtag_hint">Kradvortoj sen #</string>
+    <string name="edit_hashtag_hint">Kradvorto sen #</string>
     <string name="notifications_clear">Viŝi</string>
     <string name="notifications_apply_filter">Filtri</string>
     <string name="filter_apply">Apliki</string>
@@ -373,15 +373,14 @@
     <string name="compose_preview_image_description">Agoj por bildo %s</string>
     <string name="poll_info_format"> <!-- 15 votes • 1 hour left --> %1$s • %2$s</string>
     <plurals name="poll_info_votes">
-        <item quantity="one"/>
-        <item quantity="other"/>
+        <item quantity="one">%s voĉdono</item>
+        <item quantity="other">%s voĉdonoj</item>
     </plurals>
     <string name="poll_info_time_absolute">finiĝos je %s</string>
     <string name="poll_info_closed">finiĝita</string>
     <string name="poll_vote">Voĉdoni</string>
     <string name="poll_ended_voted">Enketo al kiu vi voĉdonis finiĝis</string>
     <string name="poll_ended_created">Enketo kiu vi kreis finiĝis</string>
-
     <string name="title_domain_mutes">Kaŝitaj domajnoj</string>
     <string name="action_view_domain_mutes">Kaŝitaj domajnoj</string>
     <string name="action_mute_domain">Silentigi %s</string>
@@ -437,4 +436,42 @@
     <string name="no_scheduled_status">Vi ne havas iun ajn planitan mesaĝon.</string>
     <string name="notification_follow_request_name">Petoj de sekvado</string>
     <string name="hashtags">Kradvortoj</string>
+    <plurals name="poll_info_people">
+        <item quantity="one">%s homo</item>
+        <item quantity="other">%s homoj</item>
+    </plurals>
+    <string name="add_hashtag_title">Aldoni kradvorton</string>
+    <string name="notification_follow_request_description">Sciigoj pri petoj de sekvado</string>
+    <string name="pref_title_gradient_for_media">Montri buntajn transirojn por kaŝitaj aŭdovidaĵoj</string>
+    <string name="dialog_mute_hide_notifications">Kaŝi la sciigojn</string>
+    <string name="dialog_mute_warning">Silentigi @%s\?</string>
+    <string name="dialog_block_warning">Bloki @%s\?</string>
+    <string name="action_unmute_conversation">Malsilentigi la konversacion</string>
+    <string name="action_mute_conversation">Silentigi la konversacion</string>
+    <string name="action_unmute_domain">Malsilentigi %s</string>
+    <string name="action_mute_notifications_desc">Silentigi sciigojn de %s</string>
+    <string name="action_unmute_notifications_desc">Malsilentigi sciigojn de %s</string>
+    <string name="action_unmute_desc">Malsilentigi %s</string>
+    <string name="notification_follow_request_format">%s petis sekvi vin</string>
+    <string name="title_announcements">Anoncoj</string>
+    <plurals name="poll_timespan_minutes">
+        <item quantity="one">%d minuto restas</item>
+        <item quantity="other">%d minutoj restas</item>
+    </plurals>
+    <plurals name="poll_timespan_seconds">
+        <item quantity="one">%d sekundo restas</item>
+        <item quantity="other">%d sekundoj restas</item>
+    </plurals>
+    <plurals name="poll_timespan_hours">
+        <item quantity="one">%d horo restas</item>
+        <item quantity="other">%d horoj restas</item>
+    </plurals>
+    <plurals name="poll_timespan_days">
+        <item quantity="one">%d tago restas</item>
+        <item quantity="other">%d tagoj restas</item>
+    </plurals>
+    <string name="pref_main_nav_position">Pozicio de la ĉefa naviga breto</string>
+    <string name="pref_title_notification_filter_follow_requests">iu petas sekvi min</string>
+    <string name="pref_main_nav_position_option_bottom">Malsupro</string>
+    <string name="pref_main_nav_position_option_top">Supro</string>
 </resources>
