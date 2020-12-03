@@ -15,20 +15,24 @@
 
 package com.keylesspalace.tusky.components.announcements
 
+import android.content.SharedPreferences
 import android.view.ContextThemeWrapper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.core.view.size
+import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.entity.Announcement
 import com.keylesspalace.tusky.entity.Emoji
+import com.keylesspalace.tusky.settings.PrefKeys
 import com.keylesspalace.tusky.util.emojify
 import kotlinx.android.synthetic.main.item_announcement.view.*
+
 
 interface AnnouncementActionListener {
     fun openReactionPicker(announcementId: String, target: View)
@@ -66,6 +70,17 @@ class AnnouncementAdapter(
 
         fun bind(item: Announcement) {
             text.text = item.content
+
+            val preferences: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(itemView.context)
+            val wellbeingEnabled = preferences.getBoolean(PrefKeys.WELLBEING_HIDE_STATS_POSTS, false)
+
+            // If wellbeing mode is enabled, announcement badge counts should not be shown.
+            if (wellbeingEnabled) {
+                // Since reactions are not visible in wellbeing mode,
+                // we shouldn't be able to add any ourselves.
+                addReactionChip.visibility = View.GONE
+                return
+            }
 
             item.reactions.forEachIndexed { i, reaction ->
                 (chips.getChildAt(i)?.takeUnless { it.id == R.id.addReactionChip } as Chip?
