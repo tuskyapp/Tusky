@@ -475,4 +475,8 @@
     <string name="action_mute_notifications_desc">Silenciar notificaciones desde %s</string>
     <string name="action_unmute_notifications_desc">Dejar de silenciar notificaciones desde %s</string>
     <string name="pref_title_hide_top_toolbar">Ocultar el título de la barra de herramientas superior</string>
+    <string name="account_note_saved">¡Guardado!</string>
+    <string name="account_note_hint">Tu nota privada acerca de esta cuenta</string>
+    <string name="no_announcements">No hay anuncios.</string>
+    <string name="title_announcements">Anuncios</string>
 </resources>
