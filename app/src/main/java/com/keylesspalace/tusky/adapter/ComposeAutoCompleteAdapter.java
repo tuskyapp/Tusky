@@ -40,6 +40,7 @@ import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.emoji.widget.EmojiTextView;
 
 /**
  * Created by charlag on 12/11/17.
@@ -201,6 +202,7 @@ public class ComposeAutoCompleteAdapter extends BaseAdapter
                         );
                         emojiViewHolder.shortcode.setText(formattedShortcode);
                         emojiViewHolder.preview.setVisibility(View.VISIBLE);
+                        emojiViewHolder.string_preview.setVisibility(View.GONE);
                         Glide.with(emojiViewHolder.preview)
                                 .load(emoji.getUrl())
                                 .into(emojiViewHolder.preview);
@@ -210,7 +212,9 @@ public class ComposeAutoCompleteAdapter extends BaseAdapter
                                 R.string.emoji_shortcode_format,
                                 emoji.getAliases().get(0)
                         );
-                        emojiViewHolder.shortcode.setText(formattedShortcode + " " + emoji.getEmoji());
+                        emojiViewHolder.shortcode.setText(formattedShortcode);
+                        emojiViewHolder.string_preview.setText(emoji.getEmoji());
+                        emojiViewHolder.string_preview.setVisibility(View.VISIBLE);
                         emojiViewHolder.preview.setVisibility(View.GONE);
                     }
                 }
@@ -336,10 +340,12 @@ public class ComposeAutoCompleteAdapter extends BaseAdapter
     private class EmojiViewHolder {
         final TextView shortcode;
         final ImageView preview;
+        final EmojiTextView string_preview;
 
         private EmojiViewHolder(View view) {
             shortcode = view.findViewById(R.id.shortcode);
             preview = view.findViewById(R.id.preview);
+            string_preview = view.findViewById(R.id.string_preview);
         }
     }
 }

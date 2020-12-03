@@ -7,6 +7,20 @@
     android:orientation="horizontal"
     android:padding="8dp">
 
+    <androidx.emoji.widget.EmojiTextView
+        android:id="@+id/string_preview"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="4dp"
+        android:layout_marginBottom="4dp"
+        android:contentDescription="@null"
+        android:padding="4dp"
+        android:textColor="?android:textColorPrimary"
+        android:textSize="?attr/status_text_large"
+        tools:text=":smiley:" />
+
     <ImageView
         android:id="@+id/preview"
         android:layout_width="40dp"
