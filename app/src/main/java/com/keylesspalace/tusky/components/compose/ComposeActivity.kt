@@ -150,7 +150,7 @@ class ComposeActivity : BaseActivity(),
          * based on what the intent from the reply request passes. */
         if (intent != null) {
             this.composeOptions = intent.getParcelableExtra(COMPOSE_OPTIONS_EXTRA)
-            viewModel.setup(composeOptions)
+            viewModel.setup(composeOptions, resources)
             setupReplyViews(composeOptions?.replyingStatusAuthor)
             val tootText = composeOptions?.tootText
             if (!tootText.isNullOrEmpty()) {

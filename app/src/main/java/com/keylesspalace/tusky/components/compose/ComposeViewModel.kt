@@ -15,12 +15,16 @@
 
 package com.keylesspalace.tusky.components.compose
 
+import android.content.res.Resources
 import android.net.Uri
 import android.util.Log
 import androidx.core.net.toUri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
+import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.adapter.ComposeAutoCompleteAdapter
 import com.keylesspalace.tusky.components.compose.ComposeActivity.QueuedMedia
 import com.keylesspalace.tusky.components.search.SearchType
@@ -36,6 +40,7 @@ import com.keylesspalace.tusky.util.*
 import io.reactivex.Observable.just
 import io.reactivex.disposables.Disposable
 import io.reactivex.rxkotlin.Singles
+import java.io.InputStreamReader
 import java.util.*
 import javax.inject.Inject
 
@@ -357,6 +362,14 @@ class ComposeViewModel
                         resultsInside.add(ComposeAutoCompleteAdapter.EmojiResult(emoji))
                     }
                 }
+                for ((alias, emoji) in builtinEmoji!!) {
+                    val shortcode = alias.toLowerCase(Locale.ROOT)
+                    if (shortcode.startsWith(incomplete)) {
+                        results.add(ComposeAutoCompleteAdapter.EmojiResult(emoji))
+                    } else if (shortcode.indexOf(incomplete, 1) != -1) {
+                        resultsInside.add(ComposeAutoCompleteAdapter.EmojiResult(emoji))
+                    }
+                }
                 if (results.isNotEmpty() && resultsInside.isNotEmpty()) {
                     results.add(ComposeAutoCompleteAdapter.ResultSeparator())
                 }
@@ -377,7 +390,7 @@ class ComposeViewModel
         super.onCleared()
     }
 
-    fun setup(composeOptions: ComposeActivity.ComposeOptions?) {
+    fun setup(composeOptions: ComposeActivity.ComposeOptions?, resources: Resources) {
         val preferredVisibility = accountManager.activeAccount!!.defaultPostPrivacy
 
         val replyVisibility = composeOptions?.replyVisibility ?: Status.Visibility.UNKNOWN
@@ -452,6 +465,7 @@ class ComposeViewModel
         }
         replyingStatusContent = composeOptions?.replyingStatusContent
         replyingStatusAuthor = composeOptions?.replyingStatusAuthor
+        initializeBuiltinEmoji(resources)
     }
 
     fun updatePoll(newPoll: NewPoll) {
@@ -464,8 +478,23 @@ class ComposeViewModel
 
     private companion object {
         const val TAG = "ComposeViewModel"
-    }
+        private var builtinEmoji: MutableMap<String, BuiltinEmoji>? = null
 
+        fun initializeBuiltinEmoji(resources: Resources) {
+            if (builtinEmoji != null) {
+                return
+            }
+
+            builtinEmoji = mutableMapOf()
+            InputStreamReader(resources.openRawResource(R.raw.emoji)).use { reader ->
+                Gson().fromJson<List<BuiltinEmoji>>(reader, object : TypeToken<List<BuiltinEmoji>>() {}.type).forEach { emoji ->
+                    emoji.aliases.forEach {
+                        builtinEmoji!![it] = emoji
+                    }
+                }
+            }
+        }
+    }
 }
 
 fun <T> mutableLiveData(default: T) = MutableLiveData<T>().apply { value = default }

@@ -31,6 +31,7 @@ import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.entity.Account;
 import com.keylesspalace.tusky.entity.Emoji;
 import com.keylesspalace.tusky.entity.HashTag;
+import com.keylesspalace.tusky.util.BuiltinEmoji;
 import com.keylesspalace.tusky.util.CustomEmojiHelper;
 import com.keylesspalace.tusky.util.ImageLoadingHelper;
 
@@ -192,15 +193,26 @@ public class ComposeAutoCompleteAdapter extends BaseAdapter
 
                 EmojiResult emojiResult = ((EmojiResult) getItem(position));
                 if (emojiResult != null) {
-                    Emoji emoji = emojiResult.emoji;
-                    String formattedShortcode = context.getString(
-                            R.string.emoji_shortcode_format,
-                            emoji.getShortcode()
-                    );
-                    emojiViewHolder.shortcode.setText(formattedShortcode);
-                    Glide.with(emojiViewHolder.preview)
-                            .load(emoji.getUrl())
-                            .into(emojiViewHolder.preview);
+                    if (emojiResult.emoji != null) {
+                        Emoji emoji = emojiResult.emoji;
+                        String formattedShortcode = context.getString(
+                                R.string.emoji_shortcode_format,
+                                emoji.getShortcode()
+                        );
+                        emojiViewHolder.shortcode.setText(formattedShortcode);
+                        emojiViewHolder.preview.setVisibility(View.VISIBLE);
+                        Glide.with(emojiViewHolder.preview)
+                                .load(emoji.getUrl())
+                                .into(emojiViewHolder.preview);
+                    } else if (emojiResult.builtinEmoji != null) {
+                        BuiltinEmoji emoji = emojiResult.builtinEmoji;
+                        String formattedShortcode = context.getString(
+                                R.string.emoji_shortcode_format,
+                                emoji.getAliases().get(0)
+                        );
+                        emojiViewHolder.shortcode.setText(formattedShortcode + " " + emoji.getEmoji());
+                        emojiViewHolder.preview.setVisibility(View.GONE);
+                    }
                 }
                 break;
 
@@ -227,7 +239,11 @@ public class ComposeAutoCompleteAdapter extends BaseAdapter
     }
 
     private static String formatEmoji(EmojiResult result) {
-        return String.format(":%s:", result.emoji.getShortcode());
+        if (result.builtinEmoji != null) {
+            return String.format(":%s:", result.builtinEmoji.getAliases().get(0));
+        } else {
+            return String.format(":%s:", result.emoji.getShortcode());
+        }
     }
 
     @Override
@@ -283,10 +299,19 @@ public class ComposeAutoCompleteAdapter extends BaseAdapter
     }
 
     public final static class EmojiResult extends AutocompleteResult {
+        @Nullable
         private final Emoji emoji;
+        @Nullable
+        private final BuiltinEmoji builtinEmoji;
 
         public EmojiResult(Emoji emoji) {
             this.emoji = emoji;
+            this.builtinEmoji = null;
+        }
+
+        public EmojiResult(BuiltinEmoji emoji) {
+            this.emoji = null;
+            this.builtinEmoji = emoji;
         }
     }
 
