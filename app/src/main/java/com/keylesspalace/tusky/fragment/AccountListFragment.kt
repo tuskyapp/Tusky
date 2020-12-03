@@ -330,6 +330,7 @@ class AccountListFragment : BaseFragment(), AccountActionListener, Injectable {
 
     private fun fetchRelationships(ids: List<String>) {
         api.relationships(ids)
+                .observeOn(AndroidSchedulers.mainThread())
                 .autoDispose(from(this))
                 .subscribe(::onFetchRelationshipsSuccess) {
                     onFetchRelationshipsFailure(ids)
