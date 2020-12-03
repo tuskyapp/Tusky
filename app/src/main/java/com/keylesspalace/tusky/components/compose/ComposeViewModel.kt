@@ -16,6 +16,7 @@
 package com.keylesspalace.tusky.components.compose
 
 import android.content.res.Resources
+import android.graphics.Paint
 import android.net.Uri
 import android.util.Log
 import androidx.core.net.toUri
@@ -42,6 +43,7 @@ import io.reactivex.disposables.Disposable
 import io.reactivex.rxkotlin.Singles
 import java.io.InputStreamReader
 import java.util.*
+import java.util.concurrent.Executors
 import javax.inject.Inject
 
 /**
@@ -349,25 +351,32 @@ class ComposeViewModel
                 }
             }
             ':' -> {
-                val emojiList = emoji.value ?: return emptyList()
-
+                val emojiList = emoji.value
                 val incomplete = token.substring(1).toLowerCase(Locale.ROOT)
                 val results = ArrayList<ComposeAutoCompleteAdapter.AutocompleteResult>()
                 val resultsInside = ArrayList<ComposeAutoCompleteAdapter.AutocompleteResult>()
-                for (emoji in emojiList) {
-                    val shortcode = emoji.shortcode.toLowerCase(Locale.ROOT)
-                    if (shortcode.startsWith(incomplete)) {
-                        results.add(ComposeAutoCompleteAdapter.EmojiResult(emoji))
-                    } else if (shortcode.indexOf(incomplete, 1) != -1) {
-                        resultsInside.add(ComposeAutoCompleteAdapter.EmojiResult(emoji))
+
+                // Search custom emoji
+                if (emojiList != null) {
+                    for (emoji in emojiList) {
+                        val shortcode = emoji.shortcode.toLowerCase(Locale.ROOT)
+                        if (shortcode.startsWith(incomplete)) {
+                            results.add(ComposeAutoCompleteAdapter.EmojiResult(emoji))
+                        } else if (shortcode.indexOf(incomplete, 1) != -1) {
+                            resultsInside.add(ComposeAutoCompleteAdapter.EmojiResult(emoji))
+                        }
                     }
                 }
-                for ((alias, emoji) in builtinEmoji!!) {
-                    val shortcode = alias.toLowerCase(Locale.ROOT)
-                    if (shortcode.startsWith(incomplete)) {
-                        results.add(ComposeAutoCompleteAdapter.EmojiResult(emoji))
-                    } else if (shortcode.indexOf(incomplete, 1) != -1) {
-                        resultsInside.add(ComposeAutoCompleteAdapter.EmojiResult(emoji))
+
+                // Search builtin emoji
+                if (builtinEmoji != null) {
+                    for ((alias, emoji) in builtinEmoji!!) {
+                        val shortcode = alias.toLowerCase(Locale.ROOT)
+                        if (shortcode.startsWith(incomplete)) {
+                            results.add(ComposeAutoCompleteAdapter.EmojiResult(emoji))
+                        } else if (shortcode.indexOf(incomplete, 1) != -1) {
+                            resultsInside.add(ComposeAutoCompleteAdapter.EmojiResult(emoji))
+                        }
                     }
                 }
                 if (results.isNotEmpty() && resultsInside.isNotEmpty()) {
@@ -478,20 +487,27 @@ class ComposeViewModel
 
     private companion object {
         const val TAG = "ComposeViewModel"
-        private var builtinEmoji: MutableMap<String, BuiltinEmoji>? = null
+        private var builtinEmoji: Map<String, BuiltinEmoji>? = null
 
         fun initializeBuiltinEmoji(resources: Resources) {
             if (builtinEmoji != null) {
                 return
             }
 
-            builtinEmoji = mutableMapOf()
-            InputStreamReader(resources.openRawResource(R.raw.emoji)).use { reader ->
-                Gson().fromJson<List<BuiltinEmoji>>(reader, object : TypeToken<List<BuiltinEmoji>>() {}.type).forEach { emoji ->
-                    emoji.aliases.forEach {
-                        builtinEmoji!![it] = emoji
+            Executors.newSingleThreadExecutor().execute {
+                val paint = Paint()
+                val emojiMap = mutableMapOf<String, BuiltinEmoji>()
+                InputStreamReader(resources.openRawResource(R.raw.emoji)).use { reader ->
+                    Gson().fromJson<List<BuiltinEmoji>>(reader, object : TypeToken<List<BuiltinEmoji>>() {}.type).filter {
+                        // Filter out unsupported emoji
+                        paint.hasGlyph(it.emoji)
+                    }.forEach { emoji ->
+                        emoji.aliases.forEach {
+                            emojiMap[it] = emoji
+                        }
                     }
                 }
+                builtinEmoji = emojiMap
             }
         }
     }
