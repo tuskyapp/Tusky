@@ -244,7 +244,7 @@ public class ComposeAutoCompleteAdapter extends BaseAdapter
 
     private static String formatEmoji(EmojiResult result) {
         if (result.builtinEmoji != null) {
-            return String.format(":%s:", result.builtinEmoji.getAliases().get(0));
+            return result.builtinEmoji.getEmoji();
         } else {
             return String.format(":%s:", result.emoji.getShortcode());
         }
