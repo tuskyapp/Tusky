@@ -36,4 +36,6 @@
         tools:src="@drawable/elephant_error"
         tools:visibility="visible" />
 
+    <include layout="@layout/item_status_bottom_sheet" />
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
