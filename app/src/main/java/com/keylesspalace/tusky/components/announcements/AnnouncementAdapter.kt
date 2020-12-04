@@ -27,10 +27,12 @@ import com.google.android.material.chip.ChipGroup
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.entity.Announcement
 import com.keylesspalace.tusky.entity.Emoji
+import com.keylesspalace.tusky.interfaces.LinkListener
+import com.keylesspalace.tusky.util.LinkHelper
 import com.keylesspalace.tusky.util.emojify
 import kotlinx.android.synthetic.main.item_announcement.view.*
 
-interface AnnouncementActionListener {
+interface AnnouncementActionListener: LinkListener {
     fun openReactionPicker(announcementId: String, target: View)
     fun addReaction(announcementId: String, name: String)
     fun removeReaction(announcementId: String, name: String)
@@ -59,13 +61,12 @@ class AnnouncementAdapter(
     }
 
     inner class AnnouncementViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
-
         private val text: TextView = view.text
         private val chips: ChipGroup = view.chipGroup
         private val addReactionChip: Chip = view.addReactionChip
 
         fun bind(item: Announcement) {
-            text.text = item.content
+            LinkHelper.setClickableText(text, item.content, null, listener)
 
             item.reactions.forEachIndexed { i, reaction ->
                 (chips.getChildAt(i)?.takeUnless { it.id == R.id.addReactionChip } as Chip?
