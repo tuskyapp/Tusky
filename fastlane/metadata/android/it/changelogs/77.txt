@@ -1,0 +1,10 @@
+Tusky v13.0
+
+- supporto per le note del profilo (funzionalità di Mastodon 3.2.0)
+- supporto per gli annunci dell'amministratore (funzionalità di Mastodon 3.1.0)
+
+- l'avatar del tuo account selezionato verrà ora mostrato nella barra degli strumenti principale
+- facendo clic sul nome visualizzato in una sequenza temporale si aprirà ora la pagina del profilo di quell'utente
+
+- molte correzioni di bug e piccoli miglioramenti
+- traduzioni migliorate

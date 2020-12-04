@@ -1,0 +1,8 @@
+Tusky v10.0
+
+- Ora puoi contrassegnare gli stati ed elencare i tuoi segnalibri in Tusky.
+- Ora puoi programmare i tuoi toot con Tusky. Tieni presente che il tempo selezionato deve essere di almeno 5 minuti in futuro.
+- Ora puoi aggiungere elenchi alla schermata principale.
+- Ora puoi pubblicare allegati audio con Tusky.
+
+E molti altri piccoli miglioramenti e correzioni di bug!
