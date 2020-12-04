@@ -414,8 +414,8 @@
         <item quantity="other">%d minuti rimasti</item>
     </plurals>
     <plurals name="poll_timespan_seconds">
-        <item quantity="one">%d secondo</item>
-        <item quantity="other">%d secondi</item>
+        <item quantity="one">%d secondo rimasto</item>
+        <item quantity="other">%d secondi rimasti</item>
     </plurals>
     <string name="button_continue">Continua</string>
     <string name="button_back">Indietro</string>
@@ -464,4 +464,22 @@
     <string name="error_audio_upload_size">La dimensione dei file audio deve essere inferiore a 40 MB.</string>
     <string name="action_unmute_desc">Smetti di silenziare %s</string>
     <string name="notification_follow_request_name">Richieste di seguirti</string>
+    <string name="account_note_saved">Salvato!</string>
+    <string name="account_note_hint">La tua nota privata su questo account</string>
+    <string name="pref_title_hide_top_toolbar">Nascondi il titolo della barra degli strumenti in alto</string>
+    <string name="pref_title_confirm_reblogs">Mostra la finestra di dialogo di conferma prima del boosting</string>
+    <string name="pref_title_show_cards_in_timelines">Mostra le anteprime dei collegamenti nelle sequenze temporali</string>
+    <string name="warning_scheduling_interval">Mastodon ha un intervallo minimo di programmazione di 5 minuti.</string>
+    <string name="no_announcements">Non ci sono annunci.</string>
+    <string name="no_scheduled_status">Non hai stati pianificati.</string>
+    <string name="pref_title_enable_swipe_for_tabs">Abilita il gesto di scorrimento per passare da una scheda all\'altra</string>
+    <string name="notification_follow_request_description">Notifiche sulle richieste di essere seguiti</string>
+    <string name="pref_main_nav_position_option_bottom">Parte inferiore</string>
+    <string name="pref_main_nav_position_option_top">In cima</string>
+    <string name="pref_main_nav_position">Posizione di navigazione principale</string>
+    <string name="pref_title_gradient_for_media">Mostra sfumature colorate per i media nascosti</string>
+    <string name="dialog_mute_hide_notifications">Nascondi notifiche</string>
+    <string name="action_mute_notifications_desc">Disattiva le notifiche da %s</string>
+    <string name="action_unmute_notifications_desc">Riattiva le notifiche da %s</string>
+    <string name="title_announcements">Annunci</string>
 </resources>

@@ -39,7 +39,7 @@
     <string name="error_no_web_browser_found">Không tìm thấy trình duyệt web.</string>
     <string name="error_invalid_domain">Tài khoản không đúng</string>
     <string name="error_empty">Không được để trống.</string>
-    <string name="error_network">Không có Internet! Xin kiểm tra kết nối và thử lại!</string>
+    <string name="error_network">Rớt mạng! Xin kiểm tra kết nối và thử lại!</string>
     <string name="error_generic">Đã có lỗi xảy ra.</string>
     <string name="error_failed_app_registration">Máy chủ này không cấp quyền truy cập.</string>
     <string name="title_lists">Danh sách</string>
@@ -131,7 +131,7 @@
     <string name="action_mute">Ẩn</string>
     <string name="action_share">Chia sẻ</string>
     <string name="action_photo_take">Chụp hình</string>
-    <string name="action_add_poll">Tạo bình chọn</string>
+    <string name="action_add_poll">Tạo vău</string>
     <string name="action_add_media">Thêm tệp</string>
     <string name="action_open_in_web">Mở trong trình duyệt</string>
     <string name="action_view_media">Bộ sưu tập</string>
@@ -174,7 +174,7 @@
     <string name="status_content_warning_show_more">Mở rộng</string>
     <string name="status_sensitive_media_directions">Hiển thị</string>
     <string name="status_media_hidden_title">Nội dung bị ẩn</string>
-    <string name="status_sensitive_media_title">Nội dung nhạy cảm</string>
+    <string name="status_sensitive_media_title">Nhạy cảm</string>
     <string name="status_boosted_format">%s chia sẻ</string>
     <string name="status_username_format">\@%s</string>
     <string name="title_licenses">Giấy phép</string>
@@ -221,7 +221,7 @@
     <string name="pref_title_timelines">Bảng tin</string>
     <string name="pref_title_app_theme">Chủ đề</string>
     <string name="pref_title_appearance_settings">Giao diện</string>
-    <string name="pref_title_notification_filter_poll">cuộc bình chọn kết thúc</string>
+    <string name="pref_title_notification_filter_poll">vău đã kết thúc</string>
     <string name="pref_title_notification_filter_favourites">tút được thích</string>
     <string name="pref_title_notification_filter_reblogs">tút được chia sẻ</string>
     <string name="pref_title_notification_filter_follow_requests">yêu cầu theo dõi</string>
@@ -278,8 +278,8 @@
     <string name="about_powered_by_tusky">Powered by Tusky</string>
     <string name="about_tusky_version">Tusky %s</string>
     <string name="description_account_locked">Tài khoản bị khóa</string>
-    <string name="notification_poll_description">Thông báo khi những cuộc bình chọn kết thúc</string>
-    <string name="notification_poll_name">Bình chọn</string>
+    <string name="notification_poll_description">Thông báo khi những vău kết thúc</string>
+    <string name="notification_poll_name">Vău</string>
     <string name="notification_favourite_description">Thông báo khi ai đó thích tút của bạn</string>
     <string name="notification_favourite_name">Lượt thích</string>
     <string name="filter_dialog_whole_word">Toàn bộ câu</string>
@@ -315,9 +315,9 @@
     <string name="no_scheduled_status">Bạn không có tút đã lên lịch.</string>
     <string name="no_saved_status">Bạn không có bản nháp nào.</string>
     <string name="edit_poll">Sửa</string>
-    <string name="poll_new_choice_hint">Lựa chọn %d</string>
-    <string name="poll_allow_multiple_choices">Cho phép chọn nhiều lựa chọn</string>
-    <string name="add_poll_choice">Thêm lựa chọn</string>
+    <string name="poll_new_choice_hint">Bình chọn %d</string>
+    <string name="poll_allow_multiple_choices">Cho phép vău nhiều bình chọn</string>
+    <string name="add_poll_choice">Thêm bình chọn</string>
     <string name="poll_duration_7_days">7 ngày</string>
     <string name="poll_duration_3_days">3 ngày</string>
     <string name="poll_duration_1_day">1 ngày</string>
@@ -325,7 +325,7 @@
     <string name="poll_duration_1_hour">1 giờ</string>
     <string name="poll_duration_30_min">30 phút</string>
     <string name="poll_duration_5_min">5 phút</string>
-    <string name="create_poll_title">Bình chọn</string>
+    <string name="create_poll_title">Vău</string>
     <string name="pref_title_enable_swipe_for_tabs">Vuốt để chuyển qua lại giữa các tab</string>
     <string name="pref_title_show_notifications_filter">Hiện bộ lọc thông báo</string>
     <string name="failed_search">Không thể tìm thấy</string>
@@ -349,18 +349,18 @@
     <plurals name="poll_timespan_days">
         <item quantity="other">%d ngày nữa kết thúc</item>
     </plurals>
-    <string name="poll_ended_created">Cuộc bình chọn bạn tạo đã kết thúc</string>
-    <string name="poll_ended_voted">Cuộc bình chọn bạn tham gia đã kết thúc</string>
-    <string name="poll_vote">Bình chọn</string>
+    <string name="poll_ended_created">Vău bạn tạo đã kết thúc</string>
+    <string name="poll_ended_voted">Vău mà bạn tham gia đã kết thúc</string>
+    <string name="poll_vote">Vău</string>
     <string name="poll_info_closed">Kết thúc</string>
     <string name="poll_info_time_absolute">kết thúc lúc %s</string>
     <plurals name="poll_info_people">
         <item quantity="other">%s người</item>
     </plurals>
     <plurals name="poll_info_votes">
-        <item quantity="other">%s phiếu</item>
+        <item quantity="other">%s vău</item>
     </plurals>
-    <string name="poll_info_format"> <!-- 15 phiếu • 1 tiếng nữa kết thúc --> %1$s • %2$s</string>
+    <string name="poll_info_format"> <!-- 15 vău • 1 tiếng nữa kết thúc --> %1$s • %2$s</string>
     <string name="compose_preview_image_description">Mô tả cho hình %s</string>
     <string name="compose_shortcut_short_label">Viết</string>
     <string name="compose_shortcut_long_label">Viết tút</string>
@@ -373,7 +373,7 @@
     <string name="edit_hashtag_hint">Không cần dấu #</string>
     <string name="add_hashtag_title">Thêm hashtag</string>
     <string name="hint_list_name">Tên danh sách</string>
-    <string name="description_poll">Những lựa chọn: %1$s, %2$s, %3$s, %4$s; %5$s</string>
+    <string name="description_poll">Lượt bình chọn: %1$s, %2$s, %3$s, %4$s; %5$s</string>
     <string name="description_visiblity_direct">Tin nhắn</string>
     <string name="description_visiblity_private">Người theo dõi</string>
     <string name="description_visiblity_unlisted">Mở</string>

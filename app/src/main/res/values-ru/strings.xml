@@ -500,4 +500,9 @@
     <string name="action_mute_notifications_desc">Заблокировать уведомления от %s</string>
     <string name="action_unmute_notifications_desc">Получать уведомления от %s</string>
     <string name="action_unmute_desc">Разблокировать %s</string>
+    <string name="account_note_saved">Сохранено!</string>
+    <string name="account_note_hint">Ваша личная заметка об этой учётной записи</string>
+    <string name="pref_title_hide_top_toolbar">Скрыть заголовок в верхней панели</string>
+    <string name="no_announcements">Объявлений нет.</string>
+    <string name="title_announcements">Объявления</string>
 </resources>
