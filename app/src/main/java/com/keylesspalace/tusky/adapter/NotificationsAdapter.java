@@ -37,6 +37,7 @@ import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.entity.Account;
 import com.keylesspalace.tusky.entity.Emoji;
@@ -508,7 +509,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
                                 R.color.tusky_blue), PorterDuff.Mode.SRC_ATOP);
                     }
 
-                    String format = context.getString(R.string.notification_subscription_format);
+                    format = context.getString(R.string.notification_subscription_format);
                     break;
                 }
             }
