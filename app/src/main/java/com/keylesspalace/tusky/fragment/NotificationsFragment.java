@@ -179,7 +179,10 @@ public class NotificationsFragment extends SFragment implements
         @Override
         public NotificationViewData apply(Either<Placeholder, Notification> input) {
             if (input.isRight()) {
-                Notification notification = input.asRight();
+                Notification notification = Notification.rewriteToStatusTypeIfNeeded(
+                        input.asRight(), accountManager.getActiveAccount().getAccountId()
+                );
+
                 return ViewDataUtils.notificationToViewData(
                         notification,
                         alwaysShowSensitiveMedia,

@@ -32,7 +32,8 @@ data class Notification(
         FAVOURITE("favourite"),
         FOLLOW("follow"),
         FOLLOW_REQUEST("follow_request"),
-        POLL("poll");
+        POLL("poll"),
+        STATUS("status");
 
         companion object {
 
@@ -44,7 +45,7 @@ data class Notification(
                 }
                 return UNKNOWN
             }
-            val asList = listOf(MENTION, REBLOG, FAVOURITE, FOLLOW, FOLLOW_REQUEST, POLL)
+            val asList = listOf(MENTION, REBLOG, FAVOURITE, FOLLOW, FOLLOW_REQUEST, POLL, STATUS)
         }
 
         override fun toString(): String {
@@ -72,4 +73,20 @@ data class Notification(
         }
 
     }
+    
+    companion object {
+
+        // for Pleroma compatibility that uses Mention type
+        @JvmStatic
+        fun rewriteToStatusTypeIfNeeded(body: Notification, accountId: String) : Notification {
+            if (body.type == Type.MENTION
+                    && body.status != null) {
+                return if (body.status.mentions.any {
+                    it.id == accountId
+                }) body else body.copy(type = Type.STATUS)
+            }
+            return body
+        }
+    }
+
 }

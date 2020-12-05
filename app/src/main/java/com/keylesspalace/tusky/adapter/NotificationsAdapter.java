@@ -198,8 +198,12 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
                             holder.setUsername(statusViewData.getNickname());
                             holder.setCreatedAt(statusViewData.getCreatedAt());
 
-                            holder.setAvatars(concreteNotificaton.getStatusViewData().getAvatar(),
-                                    concreteNotificaton.getAccount().getAvatar());
+                            if(concreteNotificaton.getType() == Notification.Type.STATUS) {
+                                holder.setAvatar(statusViewData.getAvatar(), statusViewData.isBot());
+                            } else {
+                                holder.setAvatars(statusViewData.getAvatar(),
+                                        concreteNotificaton.getAccount().getAvatar());
+                            }
                         }
 
                         holder.setMessage(concreteNotificaton, statusListener);
@@ -267,6 +271,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
                 case POLL: {
                     return VIEW_TYPE_STATUS;
                 }
+                case STATUS:
                 case FAVOURITE:
                 case REBLOG: {
                     return VIEW_TYPE_STATUS_NOTIFICATION;
@@ -373,6 +378,10 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
         private StatusViewData.Concrete statusViewData;
         private SimpleDateFormat shortSdf;
         private SimpleDateFormat longSdf;
+        
+        private int avatarRadius48dp;
+        private int avatarRadius36dp;
+        private int avatarRadius24dp;
 
         StatusNotificationViewHolder(View itemView, StatusDisplayOptions statusDisplayOptions) {
             super(itemView);
@@ -398,6 +407,10 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
             statusContent.setOnClickListener(this);
             shortSdf = new SimpleDateFormat("HH:mm:ss", Locale.getDefault());
             longSdf = new SimpleDateFormat("MM/dd HH:mm:ss", Locale.getDefault());
+            
+            this.avatarRadius48dp = itemView.getContext().getResources().getDimensionPixelSize(R.dimen.avatar_radius_48dp);
+            this.avatarRadius36dp = itemView.getContext().getResources().getDimensionPixelSize(R.dimen.avatar_radius_36dp);
+            this.avatarRadius24dp = itemView.getContext().getResources().getDimensionPixelSize(R.dimen.avatar_radius_24dp);
         }
 
         private void showNotificationContent(boolean show) {
@@ -488,6 +501,16 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
                     format = context.getString(R.string.notification_reblog_format);
                     break;
                 }
+                case STATUS: {
+                    icon = ContextCompat.getDrawable(context, R.drawable.ic_home_24dp);
+                    if (icon != null) {
+                        icon.setColorFilter(ContextCompat.getColor(context,
+                                R.color.tusky_blue), PorterDuff.Mode.SRC_ATOP);
+                    }
+
+                    String format = context.getString(R.string.notification_subscription_format);
+                    break;
+                }
             }
             message.setCompoundDrawablesWithIntrinsicBounds(icon, null, null, null);
             String wholeMessage = String.format(format, displayName);
@@ -526,19 +549,34 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
             this.notificationId = notificationId;
         }
 
-        void setAvatars(@Nullable String statusAvatarUrl, @Nullable String notificationAvatarUrl) {
-
-            int statusAvatarRadius = statusAvatar.getContext().getResources()
-                    .getDimensionPixelSize(R.dimen.avatar_radius_36dp);
+        void setAvatar(@Nullable String statusAvatarUrl, boolean isBot) {
+            statusAvatar.setPaddingRelative(0, 0, 0, 0);
 
             ImageLoadingHelper.loadAvatar(statusAvatarUrl,
-                    statusAvatar, statusAvatarRadius, statusDisplayOptions.animateAvatars());
+                    statusAvatar, avatarRadius48dp, statusDisplayOptions.animateAvatars());
 
-            int notificationAvatarRadius = statusAvatar.getContext().getResources()
-                    .getDimensionPixelSize(R.dimen.avatar_radius_24dp);
+            if (statusDisplayOptions.showBotOverlay() && isBot) {
+                notificationAvatar.setVisibility(View.VISIBLE);
+                notificationAvatar.setBackgroundColor(0x50ffffff);
+                Glide.with(notificationAvatar)
+                        .load(R.drawable.ic_bot_24dp)
+                        .into(notificationAvatar);
 
+            } else {
+                notificationAvatar.setVisibility(View.GONE);
+            }
+        }
+
+        void setAvatars(@Nullable String statusAvatarUrl, @Nullable String notificationAvatarUrl) {
+            int padding = Utils.dpToPx(statusAvatar.getContext(), 12);
+            statusAvatar.setPaddingRelative(0, 0, padding, padding);
+
+            ImageLoadingHelper.loadAvatar(statusAvatarUrl,
+                    statusAvatar, avatarRadius36dp, statusDisplayOptions.animateAvatars());
+
+            notificationAvatar.setVisibility(View.VISIBLE);
             ImageLoadingHelper.loadAvatar(notificationAvatarUrl, notificationAvatar,
-                    notificationAvatarRadius, statusDisplayOptions.animateAvatars());
+                avatarRadius24dp, statusDisplayOptions.animateAvatars());
         }
 
         @Override
