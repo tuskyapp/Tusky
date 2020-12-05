@@ -307,7 +307,8 @@ interface MastodonApi {
     @POST("api/v1/accounts/{id}/follow")
     fun followAccount(
             @Path("id") accountId: String,
-            @Field("reblogs") showReblogs: Boolean
+            @Field("reblogs") showReblogs: Boolean? = null,
+            @Field("notify") notify: Boolean? = null
     ): Single<Relationship>
 
     @POST("api/v1/accounts/{id}/unfollow")
@@ -346,6 +347,16 @@ interface MastodonApi {
     fun identityProofs(
             @Path("id") accountId: String
     ): Single<List<IdentityProof>>
+
+    @POST("api/v1/pleroma/accounts/{id}/subscribe")
+    fun subscribeAccount(
+        @Path("id") accountId: String
+    ): Single<Relationship>
+
+    @POST("api/v1/pleroma/accounts/{id}/unsubscribe")
+    fun unsubscribeAccount(
+        @Path("id") accountId: String
+    ): Single<Relationship>
 
     @GET("api/v1/blocks")
     fun blocks(
