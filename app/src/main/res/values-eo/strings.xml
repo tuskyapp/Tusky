@@ -461,7 +461,7 @@
     <string name="pref_title_enable_swipe_for_tabs">Ebligi ŝovumadon por ŝanĝi inter la langetoj</string>
     <string name="warning_scheduling_interval">Mastodon havas minimuman intervalon de planado de 5 minutoj.</string>
     <string name="post_media_attachments">Kunsendaĵoj</string>
-    <string name="dialog_delete_list_warning">Ĉu vi vere volas forigi la liston %1$s\?</string>
+    <string name="dialog_delete_list_warning">Ĉu vi vere volas forigi la liston %1$s?</string>
     <string name="post_media_audio">Aŭdaĵo</string>
     <string name="action_subscribe_account">Aboni</string>
     <string name="draft_deleted">Malneto forigita</string>
