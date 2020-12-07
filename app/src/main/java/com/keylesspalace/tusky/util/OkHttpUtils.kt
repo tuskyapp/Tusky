@@ -1,4 +1,4 @@
-/* Copyright 2017 Andrew Dawson
+/* Copyright 2020 Tusky Contributors
  *
  * This file is part of Tusky.
  *
@@ -13,57 +13,42 @@
  * You should have received a copy of the GNU Lesser General Public License along with Tusky. If
  * not, see <http://www.gnu.org/licenses/>. */
 
-package com.keylesspalace.tusky.util;
+package com.keylesspalace.tusky.util
 
-import android.content.Context;
-import android.content.SharedPreferences;
-import android.os.Build;
+import android.content.Context
+import android.os.Build
+import androidx.preference.PreferenceManager
+import com.keylesspalace.tusky.BuildConfig
+import okhttp3.Cache
+import okhttp3.Interceptor
+import okhttp3.OkHttpClient
+import java.net.InetSocketAddress
+import java.net.Proxy
+import java.util.concurrent.TimeUnit
 
-import androidx.annotation.NonNull;
-import androidx.preference.PreferenceManager;
-
-import com.keylesspalace.tusky.BuildConfig;
-
-import java.net.InetSocketAddress;
-import java.net.Proxy;
-import java.util.concurrent.TimeUnit;
-
-import okhttp3.Cache;
-import okhttp3.Interceptor;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-
-public class OkHttpUtils {
-
-    @NonNull
-    public static OkHttpClient.Builder getCompatibleClientBuilder(@NonNull Context context) {
-
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-
-        boolean httpProxyEnabled = preferences.getBoolean("httpProxyEnabled", false);
-        String httpServer = preferences.getString("httpProxyServer", "");
-        int httpPort;
-        try {
-            httpPort = Integer.parseInt(preferences.getString("httpProxyPort", "-1"));
-        } catch (NumberFormatException e) {
+object OkHttpUtils {
+    fun getCompatibleClientBuilder(context: Context): OkHttpClient.Builder {
+        val preferences = PreferenceManager.getDefaultSharedPreferences(context)
+        val httpProxyEnabled = preferences.getBoolean("httpProxyEnabled", false)
+        val httpServer = preferences.getString("httpProxyServer", "")
+        val httpPort = try {
+            preferences.getString("httpProxyPort", "-1")!!.toInt()
+        } catch (e: NumberFormatException) {
             // user has entered wrong port, fall back to no proxy
-            httpPort = -1;
+            -1
         }
+        val cacheSize = 25 * 1024 * 1024 // 25 MiB
+        val builder = OkHttpClient.Builder()
+            .addInterceptor(userAgentInterceptor)
+            .readTimeout(30, TimeUnit.SECONDS)
+            .writeTimeout(30, TimeUnit.SECONDS)
+            .cache(Cache(context.cacheDir, cacheSize.toLong()))
 
-        int cacheSize = 25*1024*1024; // 25 MiB
-
-        OkHttpClient.Builder builder = new OkHttpClient.Builder()
-                .addInterceptor(getUserAgentInterceptor())
-                .readTimeout(30, TimeUnit.SECONDS)
-                .writeTimeout(30, TimeUnit.SECONDS)
-                .cache(new Cache(context.getCacheDir(), cacheSize));
-
-        if (httpProxyEnabled && !httpServer.isEmpty() && (httpPort > 0) && (httpPort < 65535)) {
-            InetSocketAddress address = InetSocketAddress.createUnresolved(httpServer, httpPort);
-            builder.proxy(new Proxy(Proxy.Type.HTTP, address));
+        if (httpProxyEnabled && !httpServer!!.isEmpty() && httpPort > 0 && httpPort < 65535) {
+            val address = InetSocketAddress.createUnresolved(httpServer, httpPort)
+            builder.proxy(Proxy(Proxy.Type.HTTP, address))
         }
-
-        return builder;
+        return builder
     }
 
     /**
@@ -71,17 +56,15 @@ public class OkHttpUtils {
      * Example:
      * User-Agent: Tusky/1.1.2 Android/5.0.2
      */
-    @NonNull
-    private static Interceptor getUserAgentInterceptor() {
-        return chain -> {
-            Request originalRequest = chain.request();
-            Request requestWithUserAgent = originalRequest.newBuilder()
-                    .header("User-Agent", "Tusky/"+ BuildConfig.VERSION_NAME+" Android/"+Build.VERSION.RELEASE)
-                    .build();
-            return chain.proceed(requestWithUserAgent);
-        };
-    }
-
+    private val userAgentInterceptor: Interceptor
+        get() = Interceptor { chain: Interceptor.Chain ->
+            val originalRequest = chain.request()
+            val requestWithUserAgent = originalRequest.newBuilder()
+                .header(
+                    "User-Agent",
+                    "Tusky/" + BuildConfig.VERSION_NAME + " Android/" + Build.VERSION.RELEASE
+                )
+                .build()
+            chain.proceed(requestWithUserAgent)
+        }
 }
-
-
