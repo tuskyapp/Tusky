@@ -74,19 +74,13 @@ data class Notification(
 
     }
     
-    companion object {
-
-        // for Pleroma compatibility that uses Mention type
-        @JvmStatic
-        fun rewriteToStatusTypeIfNeeded(body: Notification, accountId: String) : Notification {
-            if (body.type == Type.MENTION
-                    && body.status != null) {
-                return if (body.status.mentions.any {
-                    it.id == accountId
-                }) body else body.copy(type = Type.STATUS)
-            }
-            return body
+    // for Pleroma compatibility that uses Mention type
+    fun rewriteToStatusTypeIfNeeded(accountId: String) : Notification {
+        if (type == Type.MENTION && status != null) {
+            return if (status.mentions.any {
+                it.id == accountId
+            }) this else copy(type = Type.STATUS)
         }
+        return this
     }
-
 }

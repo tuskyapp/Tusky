@@ -138,7 +138,7 @@ public class NotificationHelper {
      */
 
     public static void make(final Context context, Notification body, AccountEntity account, boolean isFirstOfBatch) {
-        body = Notification.rewriteToStatusTypeIfNeeded(body, account.getAccountId());
+        body = body.rewriteToStatusTypeIfNeeded(account.getAccountId());
 
         if (!filterNotification(account, body, context)) {
             return;
