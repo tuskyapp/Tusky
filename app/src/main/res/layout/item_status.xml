@@ -167,9 +167,9 @@
         android:foreground="?attr/selectableItemBackground"
         android:minHeight="80dp"
         android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@id/status_display_name"
         app:layout_constraintTop_toBottomOf="@+id/button_toggle_content"
-        app:layout_constraintEnd_toEndOf="parent"
         tools:visibility="gone">
 
         <ImageView
@@ -398,6 +398,7 @@
             android:importantForAccessibility="no"
             android:textSize="?attr/status_text_medium"
             android:visibility="gone"
+            app:drawableTint="?android:attr/textColorTertiary"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -411,6 +412,7 @@
             android:importantForAccessibility="no"
             android:textSize="?attr/status_text_medium"
             android:visibility="gone"
+            app:drawableTint="?android:attr/textColorTertiary"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/status_media_label_0" />
 
@@ -424,6 +426,7 @@
             android:importantForAccessibility="no"
             android:textSize="?attr/status_text_medium"
             android:visibility="gone"
+            app:drawableTint="?android:attr/textColorTertiary"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/status_media_label_1" />
 
@@ -437,6 +440,7 @@
             android:importantForAccessibility="no"
             android:textSize="?attr/status_text_medium"
             android:visibility="gone"
+            app:drawableTint="?android:attr/textColorTertiary"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/status_media_label_2" />
 
