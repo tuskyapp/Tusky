@@ -63,6 +63,7 @@ fun okhttpClient(context: Context): OkHttpClient.Builder {
     }
 
     // trust the new Let's Encrypt root certificate that is not available on Android < 7.1.1
+    // new cert https://letsencrypt.org/certs/isrgrootx1.pem
     // see https://letsencrypt.org/2020/11/06/own-two-feet.html
     // see https://stackoverflow.com/questions/64844311/certpathvalidatorexception-connecting-to-a-lets-encrypt-host-on-android-m-or-ea
     if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
