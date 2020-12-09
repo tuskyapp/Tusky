@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/hashtag"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="16dp"
     android:textSize="?attr/status_text_medium"
-    android:textStyle="normal|bold" />
+    android:textStyle="normal|bold"
+    app:drawableStartCompat="@drawable/ic_list"
+    app:drawableTint="?attr/iconColor" />

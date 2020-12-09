@@ -20,8 +20,8 @@ android {
         applicationId APP_ID
         minSdkVersion 21
         targetSdkVersion 29
-        versionCode 76
-        versionName "13.0 beta 1"
+        versionCode 77
+        versionName "13.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
 
@@ -51,6 +51,7 @@ android {
     productFlavors {
         blue {}
         green {
+            resValue "string", "app_name", APP_NAME + " Test"
             applicationIdSuffix ".test"
             versionNameSuffix "-" + getGitSha()
         }

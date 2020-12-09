@@ -23,7 +23,6 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.DrawableRes
-import androidx.appcompat.content.res.AppCompatResources
 import com.bumptech.glide.Glide
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.entity.Attachment
@@ -220,9 +219,7 @@ class StatusViewHelper(private val itemView: View) {
 
         // Set the icon next to the label.
         val drawableId = getLabelIcon(attachments[0].type)
-        val drawable = AppCompatResources.getDrawable(context, drawableId)
-        ThemeUtils.setDrawableTint(context, drawable!!, android.R.attr.textColorTertiary)
-        mediaLabel.setCompoundDrawablesWithIntrinsicBounds(drawable, null, null, null)
+        mediaLabel.setCompoundDrawablesWithIntrinsicBounds(drawableId, 0, 0, 0)
 
         mediaLabel.setOnClickListener { listener.onViewMedia(null, 0) }
     }

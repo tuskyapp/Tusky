@@ -1,1 +1,1 @@
-Un client multi-utente per il social network Mastodon
+Un client multi account per il social network Mastodon

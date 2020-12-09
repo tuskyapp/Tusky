@@ -532,8 +532,7 @@ class ComposeActivity : BaseActivity(),
             Status.Visibility.UNLISTED -> R.drawable.ic_lock_open_24dp
             else -> R.drawable.ic_lock_open_24dp
         }
-        val drawable = ThemeUtils.getTintedDrawable(this, iconRes, android.R.attr.textColorTertiary)
-        composeToggleVisibilityButton.setImageDrawable(drawable)
+        composeToggleVisibilityButton.setImageResource(iconRes)
     }
 
     private fun showComposeOptions() {

@@ -22,7 +22,6 @@ import android.widget.TextView
 import androidx.core.widget.TextViewCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.keylesspalace.tusky.R
-import com.keylesspalace.tusky.util.ThemeUtils
 
 class PreviewPollOptionsAdapter: RecyclerView.Adapter<PreviewViewHolder>() {
 
@@ -55,9 +54,7 @@ class PreviewPollOptionsAdapter: RecyclerView.Adapter<PreviewViewHolder>() {
             R.drawable.ic_radio_button_unchecked_18dp
         }
 
-        val iconDrawable = ThemeUtils.getTintedDrawable(textView.context, iconId, android.R.attr.textColorTertiary)
-
-        TextViewCompat.setCompoundDrawablesRelativeWithIntrinsicBounds(textView, iconDrawable, null, null, null)
+        TextViewCompat.setCompoundDrawablesRelativeWithIntrinsicBounds(textView, iconId, 0, 0, 0)
 
         textView.text = options[position]
 
