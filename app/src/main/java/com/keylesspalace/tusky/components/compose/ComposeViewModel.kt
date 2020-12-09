@@ -239,7 +239,7 @@ class ComposeViewModel @Inject constructor(
     ): LiveData<Unit> {
 
         val deletionObservable = if (isEditingScheduledToot) {
-            api.deleteScheduledStatus(scheduledTootUid.toString()).toObservable().map { Unit }
+            api.deleteScheduledStatus(scheduledTootUid.toString()).toObservable().map {  }
         } else {
             just(Unit)
         }.toLiveData()
@@ -279,9 +279,7 @@ class ComposeViewModel @Inject constructor(
                     serviceClient.sendToot(tootToSend)
                 }
 
-        return combineLiveData(deletionObservable, sendObservable) { _, _ -> Unit }
-
-
+        return combineLiveData(deletionObservable, sendObservable) { _, _ ->  }
     }
 
     fun updateDescription(localId: Long, description: String): LiveData<Boolean> {
