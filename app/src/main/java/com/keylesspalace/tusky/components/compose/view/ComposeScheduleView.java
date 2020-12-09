@@ -26,13 +26,13 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.ContextCompat;
 
 import com.google.android.material.datepicker.CalendarConstraints;
 import com.google.android.material.datepicker.DateValidatorPointForward;
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.fragment.TimePickerFragment;
-import com.keylesspalace.tusky.util.ThemeUtils;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -106,7 +106,7 @@ public class ComposeScheduleView extends ConstraintLayout {
     }
 
     private void setEditIcons() {
-        Drawable icon = ThemeUtils.getTintedDrawable(getContext(), R.drawable.ic_create_24dp, android.R.attr.textColorTertiary);
+        Drawable icon = ContextCompat.getDrawable(getContext(), R.drawable.ic_create_24dp);
         if (icon == null) {
             return;
         }

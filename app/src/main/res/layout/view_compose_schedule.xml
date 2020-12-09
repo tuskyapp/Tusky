@@ -23,6 +23,7 @@
         android:paddingBottom="16dp"
         android:textColor="?android:textColorTertiary"
         android:textSize="?attr/status_text_medium"
+        app:drawableTint="?android:attr/textColorTertiary"
         app:layout_constraintBottom_toTopOf="@id/invalidScheduleWarning"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1"
@@ -39,11 +40,11 @@
         android:paddingBottom="16dp"
         android:textColor="?android:textColorTertiary"
         android:textSize="?attr/status_text_medium"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1"
         app:layout_constraintStart_toStartOf="parent"
-        tools:text="@string/warning_scheduling_interval"
-        android:visibility="gone" />
+        tools:text="@string/warning_scheduling_interval" />
 
 </merge>

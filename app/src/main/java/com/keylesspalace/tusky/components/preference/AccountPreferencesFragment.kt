@@ -16,10 +16,10 @@
 package com.keylesspalace.tusky.components.preference
 
 import android.content.Intent
-import android.graphics.drawable.Drawable
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import androidx.annotation.DrawableRes
 import androidx.preference.PreferenceFragmentCompat
 import com.google.android.material.snackbar.Snackbar
 import com.keylesspalace.tusky.*
@@ -71,7 +71,7 @@ class AccountPreferencesFragment : PreferenceFragmentCompat(), Injectable {
 
             preference {
                 setTitle(R.string.title_tab_preferences)
-                icon = getTintedIcon(R.drawable.ic_tabs)
+                setIcon(R.drawable.ic_tabs)
                 setOnPreferenceClickListener {
                     val intent = Intent(context, TabPreferenceActivity::class.java)
                     activity?.startActivity(intent)
@@ -83,7 +83,7 @@ class AccountPreferencesFragment : PreferenceFragmentCompat(), Injectable {
 
             preference {
                 setTitle(R.string.action_view_mutes)
-                icon = getTintedIcon(R.drawable.ic_mute_24dp)
+                setIcon(R.drawable.ic_mute_24dp)
                 setOnPreferenceClickListener {
                     val intent = Intent(context, AccountListActivity::class.java)
                     intent.putExtra("type", AccountListActivity.Type.MUTES)
@@ -112,7 +112,7 @@ class AccountPreferencesFragment : PreferenceFragmentCompat(), Injectable {
 
             preference {
                 setTitle(R.string.title_domain_mutes)
-                icon = getTintedIcon(R.drawable.ic_mute_24dp)
+                setIcon(R.drawable.ic_mute_24dp)
                 setOnPreferenceClickListener {
                     val intent = Intent(context, InstanceListActivity::class.java)
                     activity?.startActivity(intent)
@@ -132,11 +132,9 @@ class AccountPreferencesFragment : PreferenceFragmentCompat(), Injectable {
                     val visibility = accountManager.activeAccount?.defaultPostPrivacy
                             ?: Status.Visibility.PUBLIC
                     value = visibility.serverString()
-                    icon = getIconForVisibility(visibility)
+                    setIcon(getIconForVisibility(visibility))
                     setOnPreferenceChangeListener { _, newValue ->
-                        icon = getIconForVisibility(
-                                Status.Visibility.byString(newValue as String)
-                        )
+                        setIcon(getIconForVisibility(Status.Visibility.byString(newValue as String)))
                         syncWithServer(visibility = newValue)
                         eventHub.dispatch(PreferenceChangedEvent(key))
                         true
@@ -151,9 +149,9 @@ class AccountPreferencesFragment : PreferenceFragmentCompat(), Injectable {
                     val sensitivity = accountManager.activeAccount?.defaultMediaSensitivity
                             ?: false
                     setDefaultValue(sensitivity)
-                    icon = getIconForSensitivity(sensitivity)
+                    setIcon(getIconForSensitivity(sensitivity))
                     setOnPreferenceChangeListener { _, newValue ->
-                        icon = getIconForSensitivity(newValue as Boolean)
+                        setIcon(getIconForSensitivity(newValue as Boolean))
                         syncWithServer(sensitive = newValue)
                         eventHub.dispatch(PreferenceChangedEvent(key))
                         true
@@ -303,30 +301,24 @@ class AccountPreferencesFragment : PreferenceFragmentCompat(), Injectable {
         }
     }
 
-    private fun getIconForVisibility(visibility: Status.Visibility): Drawable? {
-        val drawableId = when (visibility) {
+    @DrawableRes
+    private fun getIconForVisibility(visibility: Status.Visibility): Int {
+        return when (visibility) {
             Status.Visibility.PRIVATE -> R.drawable.ic_lock_outline_24dp
 
             Status.Visibility.UNLISTED -> R.drawable.ic_lock_open_24dp
 
             else -> R.drawable.ic_public_24dp
         }
-
-        return getTintedIcon(drawableId)
     }
 
-    private fun getIconForSensitivity(sensitive: Boolean): Drawable? {
-        val drawableId = if (sensitive) {
+    @DrawableRes
+    private fun getIconForSensitivity(sensitive: Boolean): Int {
+        return if (sensitive) {
             R.drawable.ic_hide_media_24dp
         } else {
             R.drawable.ic_eye_24dp
         }
-
-        return getTintedIcon(drawableId)
-    }
-
-    private fun getTintedIcon(iconId: Int): Drawable? {
-        return ThemeUtils.getTintedDrawable(requireContext(), iconId, R.attr.iconColor)
     }
 
     private fun launchFilterActivity(filterContext: String, titleResource: Int) {
