@@ -15,14 +15,12 @@
 
 package com.keylesspalace.tusky.components.announcements
 
-import android.content.SharedPreferences
 import android.view.ContextThemeWrapper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.core.view.size
-import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
@@ -30,7 +28,6 @@ import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.entity.Announcement
 import com.keylesspalace.tusky.entity.Emoji
 import com.keylesspalace.tusky.interfaces.LinkListener
-import com.keylesspalace.tusky.settings.PrefKeys
 import com.keylesspalace.tusky.util.LinkHelper
 import com.keylesspalace.tusky.util.emojify
 import kotlinx.android.synthetic.main.item_announcement.view.*
@@ -44,7 +41,8 @@ interface AnnouncementActionListener: LinkListener {
 
 class AnnouncementAdapter(
         private var items: List<Announcement> = emptyList(),
-        private val listener: AnnouncementActionListener
+        private val listener: AnnouncementActionListener,
+        private val wellbeingEnabled: Boolean = false
 ) : RecyclerView.Adapter<AnnouncementAdapter.AnnouncementViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AnnouncementViewHolder {
@@ -71,9 +69,6 @@ class AnnouncementAdapter(
 
         fun bind(item: Announcement) {
             LinkHelper.setClickableText(text, item.content, null, listener)
-
-            val preferences: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(itemView.context)
-            val wellbeingEnabled = preferences.getBoolean(PrefKeys.WELLBEING_HIDE_STATS_POSTS, false)
 
             // If wellbeing mode is enabled, announcement badge counts should not be shown.
             if (wellbeingEnabled) {
