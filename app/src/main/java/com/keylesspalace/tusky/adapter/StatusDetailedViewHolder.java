@@ -3,7 +3,6 @@ package com.keylesspalace.tusky.adapter;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.text.method.LinkMovementMethod;
 import android.view.View;
@@ -11,13 +10,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
-import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.entity.Status;
 import com.keylesspalace.tusky.interfaces.StatusActionListener;
-import com.keylesspalace.tusky.settings.PrefKeys;
 import com.keylesspalace.tusky.util.CardViewMode;
 import com.keylesspalace.tusky.util.LinkHelper;
 import com.keylesspalace.tusky.util.StatusDisplayOptions;
@@ -55,18 +52,13 @@ class StatusDetailedViewHolder extends StatusBaseViewHolder {
 
     private void setReblogAndFavCount(int reblogCount, int favCount, StatusActionListener listener) {
 
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(itemView.getContext());
-
-        // If wellbeing mode is enabled, favs and boosts should not be visible.
-        boolean wellbeingEnabled = preferences.getBoolean(PrefKeys.WELLBEING_HIDE_STATS_POSTS, false);
-
-        if (reblogCount > 0 && !wellbeingEnabled) {
+        if (reblogCount > 0) {
             reblogs.setText(getReblogsText(reblogs.getContext(), reblogCount));
             reblogs.setVisibility(View.VISIBLE);
         } else {
             reblogs.setVisibility(View.GONE);
         }
-        if (favCount > 0 && !wellbeingEnabled) {
+        if (favCount > 0) {
             favourites.setText(getFavsText(favourites.getContext(), favCount));
             favourites.setVisibility(View.VISIBLE);
         } else {
@@ -116,7 +108,12 @@ class StatusDetailedViewHolder extends StatusBaseViewHolder {
         super.setupWithStatus(status, listener, statusDisplayOptions, payloads);
         setupCard(status, CardViewMode.FULL_WIDTH, statusDisplayOptions); // Always show card for detailed status
         if (payloads == null) {
-            setReblogAndFavCount(status.getReblogsCount(), status.getFavouritesCount(), listener);
+
+            if (!statusDisplayOptions.hideStats()) {
+                setReblogAndFavCount(status.getReblogsCount(), status.getFavouritesCount(), listener);
+            } else {
+                hideQuantitativeStats();
+            }
 
             setApplication(status.getApplication());
 
@@ -181,5 +178,11 @@ class StatusDetailedViewHolder extends StatusBaseViewHolder {
                 null,
                 null
         );
+    }
+
+    private void hideQuantitativeStats() {
+        reblogs.setVisibility(View.GONE);
+        favourites.setVisibility(View.GONE);
+        infoDivider.setVisibility(View.GONE);
     }
 }

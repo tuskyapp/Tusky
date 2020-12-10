@@ -41,6 +41,7 @@ import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.entity.Attachment
 import com.keylesspalace.tusky.entity.Status
+import com.keylesspalace.tusky.settings.PrefKeys
 import com.keylesspalace.tusky.util.CardViewMode
 import com.keylesspalace.tusky.util.StatusDisplayOptions
 import com.keylesspalace.tusky.util.hide
@@ -118,7 +119,8 @@ class ReportStatusesFragment : Fragment(), Injectable, AdapterHandler {
                 showBotOverlay = false,
                 useBlurhash = preferences.getBoolean("useBlurhash", true),
                 cardViewMode = CardViewMode.NONE,
-                confirmReblogs = preferences.getBoolean("confirmReblogs", true)
+                confirmReblogs = preferences.getBoolean("confirmReblogs", true),
+                hideStats = preferences.getBoolean(PrefKeys.WELLBEING_HIDE_STATS_POSTS, false)
         )
 
         adapter = StatusesAdapter(statusDisplayOptions,

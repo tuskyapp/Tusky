@@ -71,6 +71,7 @@ import com.keylesspalace.tusky.interfaces.AccountActionListener;
 import com.keylesspalace.tusky.interfaces.ActionButtonActivity;
 import com.keylesspalace.tusky.interfaces.ReselectableFragment;
 import com.keylesspalace.tusky.interfaces.StatusActionListener;
+import com.keylesspalace.tusky.settings.PrefKeys;
 import com.keylesspalace.tusky.util.CardViewMode;
 import com.keylesspalace.tusky.util.Either;
 import com.keylesspalace.tusky.util.HttpHeaderLink;
@@ -249,7 +250,8 @@ public class NotificationsFragment extends SFragment implements
                 preferences.getBoolean("showBotOverlay", true),
                 preferences.getBoolean("useBlurhash", true),
                 CardViewMode.NONE,
-                preferences.getBoolean("confirmReblogs", true)
+                preferences.getBoolean("confirmReblogs", true),
+                preferences.getBoolean(PrefKeys.WELLBEING_HIDE_STATS_POSTS, false)
         );
 
         adapter = new NotificationsAdapter(accountManager.getActiveAccount().getAccountId(),
