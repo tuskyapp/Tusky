@@ -49,7 +49,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.io.IOException
-import java.util.HashMap
+import java.util.*
 import javax.inject.Inject
 
 class AccountListFragment : BaseFragment(), AccountActionListener, Injectable {
@@ -330,6 +330,7 @@ class AccountListFragment : BaseFragment(), AccountActionListener, Injectable {
 
     private fun fetchRelationships(ids: List<String>) {
         api.relationships(ids)
+                .observeOn(AndroidSchedulers.mainThread())
                 .autoDispose(from(this))
                 .subscribe(::onFetchRelationshipsSuccess) {
                     onFetchRelationshipsFailure(ids)

@@ -20,13 +20,12 @@ import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
+import android.util.TypedValue;
+
 import androidx.annotation.AttrRes;
 import androidx.annotation.ColorInt;
-import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDelegate;
-import android.util.TypedValue;
 
 /**
  * Provides runtime compatibility to obtain theme information and re-theme views, especially where
@@ -57,17 +56,6 @@ public class ThemeUtils {
         int dimen = array.getDimensionPixelSize(0, -1);
         array.recycle();
         return dimen;
-    }
-
-    /** this can be replaced with drawableTint in xml once minSdkVersion >= 23 */
-    @Nullable
-    public static Drawable getTintedDrawable(@NonNull Context context, @DrawableRes int drawableId, @AttrRes int colorAttr) {
-        Drawable drawable = context.getDrawable(drawableId);
-        if(drawable == null) {
-            return null;
-        }
-        setDrawableTint(context, drawable, colorAttr);
-        return drawable;
     }
 
     public static void setDrawableTint(Context context, Drawable drawable, @AttrRes int attribute) {

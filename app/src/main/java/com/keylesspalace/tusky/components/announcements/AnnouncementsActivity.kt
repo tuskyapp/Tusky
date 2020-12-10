@@ -24,8 +24,9 @@ import android.widget.PopupWindow
 import androidx.activity.viewModels
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.keylesspalace.tusky.BaseActivity
+import com.keylesspalace.tusky.BottomSheetActivity
 import com.keylesspalace.tusky.R
+import com.keylesspalace.tusky.ViewTagActivity
 import com.keylesspalace.tusky.adapter.EmojiAdapter
 import com.keylesspalace.tusky.adapter.OnEmojiSelectedListener
 import com.keylesspalace.tusky.di.Injectable
@@ -36,7 +37,7 @@ import kotlinx.android.synthetic.main.activity_announcements.*
 import kotlinx.android.synthetic.main.toolbar_basic.*
 import javax.inject.Inject
 
-class AnnouncementsActivity : BaseActivity(), AnnouncementActionListener, OnEmojiSelectedListener, Injectable {
+class AnnouncementsActivity : BottomSheetActivity(), AnnouncementActionListener, OnEmojiSelectedListener, Injectable {
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
@@ -144,6 +145,24 @@ class AnnouncementsActivity : BaseActivity(), AnnouncementActionListener, OnEmoj
 
     override fun removeReaction(announcementId: String, name: String) {
         viewModel.removeReaction(announcementId, name)
+    }
+
+    override fun onViewTag(tag: String?) {
+        val intent = Intent(this, ViewTagActivity::class.java)
+        intent.putExtra("hashtag", tag)
+        startActivityWithSlideInAnimation(intent)
+    }
+
+    override fun onViewAccount(id: String?) {
+        if (id != null) {
+            viewAccount(id)
+        }
+    }
+
+    override fun onViewUrl(url: String?) {
+        if (url != null) {
+            viewUrl(url)
+        }
     }
 
     companion object {

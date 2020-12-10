@@ -39,7 +39,7 @@
     <string name="error_no_web_browser_found">Không tìm thấy trình duyệt web.</string>
     <string name="error_invalid_domain">Tài khoản không đúng</string>
     <string name="error_empty">Không được để trống.</string>
-    <string name="error_network">Không có Internet! Xin kiểm tra kết nối và thử lại!</string>
+    <string name="error_network">Rớt mạng! Xin kiểm tra kết nối và thử lại!</string>
     <string name="error_generic">Đã có lỗi xảy ra.</string>
     <string name="error_failed_app_registration">Máy chủ này không cấp quyền truy cập.</string>
     <string name="title_lists">Danh sách</string>
@@ -48,7 +48,7 @@
     <string name="action_reset_schedule">Làm tươi</string>
     <string name="action_search">Tìm kiếm</string>
     <string name="action_edit_profile">Trang cá nhân</string>
-    <string name="action_view_account_preferences">Riêng bạn</string>
+    <string name="action_view_account_preferences">Tài khoản</string>
     <string name="action_view_preferences">Cài đặt</string>
     <string name="action_logout">Đăng xuất</string>
     <string name="button_done">Xong</string>
@@ -97,7 +97,7 @@
     <string name="download_media">Tải về</string>
     <string name="action_share_as">Chia sẻ với tư cách …</string>
     <string name="action_open_as">Mở với tư cách %s</string>
-    <string name="action_copy_link">Sao chép URL</string>
+    <string name="action_copy_link">Chép URL</string>
     <string name="download_image">Đang tải %1$s</string>
     <string name="action_open_media_n">Mở tập tin #%d</string>
     <string name="title_links_dialog">Links</string>
@@ -174,7 +174,7 @@
     <string name="status_content_warning_show_more">Mở rộng</string>
     <string name="status_sensitive_media_directions">Hiển thị</string>
     <string name="status_media_hidden_title">Nội dung bị ẩn</string>
-    <string name="status_sensitive_media_title">Nội dung nhạy cảm</string>
+    <string name="status_sensitive_media_title">Nhạy cảm</string>
     <string name="status_boosted_format">%s chia sẻ</string>
     <string name="status_username_format">\@%s</string>
     <string name="title_licenses">Giấy phép</string>
@@ -236,7 +236,7 @@
     <string name="pref_title_edit_notification_settings">Thông báo</string>
     <string name="visibility_direct">Nhắn tin: Chỉ người được nhắc tới mới thấy</string>
     <string name="visibility_private">Người theo dõi: Ai đã theo dõi mới xem được</string>
-    <string name="visibility_unlisted">Mở: Công khai, không hiện trên bảng tin</string>
+    <string name="visibility_unlisted">Riêng tư: Không hiện trên bảng tin</string>
     <string name="visibility_public">Công khai: Mọi người đều có thể thấy</string>
     <string name="dialog_mute_warning">Ẩn @%s\?</string>
     <string name="dialog_block_warning">Chặn @%s\?</string>
@@ -253,20 +253,20 @@
     <string name="status_text_size_smallest">Nhỏ</string>
     <string name="pref_status_text_size">Kích thức phông chữ</string>
     <string name="post_privacy_followers_only">Người theo dõi</string>
-    <string name="post_privacy_unlisted">Mở</string>
+    <string name="post_privacy_unlisted">Riêng tư</string>
     <string name="post_privacy_public">Công khai</string>
     <string name="pref_main_nav_position_option_bottom">Dưới màn hình</string>
     <string name="pref_main_nav_position_option_top">Trên màn hình</string>
     <string name="pref_main_nav_position">Vị trí menu</string>
     <string name="pref_failed_to_sync">Đồng bộ hoá thất bại</string>
     <string name="pref_publishing">Đăng (đồng bộ với máy chủ)</string>
-    <string name="pref_default_media_sensitivity">Luôn đánh dấu nội dung là nhạy cảm</string>
+    <string name="pref_default_media_sensitivity">Tài khoản nhạy cảm</string>
     <string name="pref_default_post_privacy">Trạng thái tút mặc định</string>
-    <string name="pref_title_http_proxy_server">HTTP proxy server</string>
-    <string name="pref_title_http_proxy_port">HTTP proxy port</string>
-    <string name="pref_title_http_proxy_enable">Bật HTTP proxy</string>
-    <string name="pref_title_http_proxy_settings">HTTP proxy</string>
-    <string name="pref_title_proxy_settings">Proxy</string>
+    <string name="pref_title_http_proxy_server">Máy chủ proxy</string>
+    <string name="pref_title_http_proxy_port">Cổng</string>
+    <string name="pref_title_http_proxy_enable">Bật proxy</string>
+    <string name="pref_title_http_proxy_settings">Dùng proxy</string>
+    <string name="pref_title_proxy_settings">Vượt tường lửa</string>
     <string name="notification_boost_description">Thông báo khi của bạn được chia sẻ</string>
     <string name="notification_boost_name">Chia sẻ</string>
     <string name="notification_follow_request_description">Thông báo về lượt yêu cầu theo dõi</string>
@@ -278,7 +278,7 @@
     <string name="about_powered_by_tusky">Powered by Tusky</string>
     <string name="about_tusky_version">Tusky %s</string>
     <string name="description_account_locked">Tài khoản bị khóa</string>
-    <string name="notification_poll_description">Thông báo khi những cuộc bình chọn kết thúc</string>
+    <string name="notification_poll_description">Thông báo khi một cuộc bình chọn kết thúc</string>
     <string name="notification_poll_name">Bình chọn</string>
     <string name="notification_favourite_description">Thông báo khi ai đó thích tút của bạn</string>
     <string name="notification_favourite_name">Lượt thích</string>
@@ -326,7 +326,7 @@
     <string name="poll_duration_30_min">30 phút</string>
     <string name="poll_duration_5_min">5 phút</string>
     <string name="create_poll_title">Bình chọn</string>
-    <string name="pref_title_enable_swipe_for_tabs">Vuốt để chuyển qua lại giữa các tab</string>
+    <string name="pref_title_enable_swipe_for_tabs">Vuốt qua lại giữa các tab</string>
     <string name="pref_title_show_notifications_filter">Hiện bộ lọc thông báo</string>
     <string name="failed_search">Không thể tìm thấy</string>
     <string name="title_accounts">Người</string>
@@ -350,7 +350,7 @@
         <item quantity="other">%d ngày nữa kết thúc</item>
     </plurals>
     <string name="poll_ended_created">Cuộc bình chọn bạn tạo đã kết thúc</string>
-    <string name="poll_ended_voted">Cuộc bình chọn bạn tham gia đã kết thúc</string>
+    <string name="poll_ended_voted">Cuộc bình chọn của bạn đã kết thúc</string>
     <string name="poll_vote">Bình chọn</string>
     <string name="poll_info_closed">Kết thúc</string>
     <string name="poll_info_time_absolute">kết thúc lúc %s</string>
@@ -358,9 +358,9 @@
         <item quantity="other">%s người</item>
     </plurals>
     <plurals name="poll_info_votes">
-        <item quantity="other">%s phiếu</item>
+        <item quantity="other">%s người</item>
     </plurals>
-    <string name="poll_info_format"> <!-- 15 phiếu • 1 tiếng nữa kết thúc --> %1$s • %2$s</string>
+    <string name="poll_info_format"> <!-- 15 người • 1 tiếng nữa kết thúc --> %1$s • %2$s</string>
     <string name="compose_preview_image_description">Mô tả cho hình %s</string>
     <string name="compose_shortcut_short_label">Viết</string>
     <string name="compose_shortcut_long_label">Viết tút</string>
@@ -373,10 +373,10 @@
     <string name="edit_hashtag_hint">Không cần dấu #</string>
     <string name="add_hashtag_title">Thêm hashtag</string>
     <string name="hint_list_name">Tên danh sách</string>
-    <string name="description_poll">Những lựa chọn: %1$s, %2$s, %3$s, %4$s; %5$s</string>
+    <string name="description_poll">Lượt bình chọn: %1$s, %2$s, %3$s, %4$s; %5$s</string>
     <string name="description_visiblity_direct">Tin nhắn</string>
     <string name="description_visiblity_private">Người theo dõi</string>
-    <string name="description_visiblity_unlisted">Mở</string>
+    <string name="description_visiblity_unlisted">Riêng tư</string>
     <string name="description_visiblity_public">Công khai</string>
     <string name="description_status_bookmarked">Đã lưu</string>
     <string name="description_status_favourited">Đã thích</string>
@@ -456,7 +456,7 @@
     <string name="action_unmute_domain">Bỏ ẩn %s</string>
     <string name="pref_title_hide_top_toolbar">Ẩn tiêu đề tab</string>
     <string name="account_note_saved">Đã lưu!</string>
-    <string name="account_note_hint">Chú thích của bạn về người này</string>
+    <string name="account_note_hint">Ghi chú của bạn</string>
     <string name="no_announcements">Chưa có thông báo.</string>
-    <string name="title_announcements">Thông báo</string>
+    <string name="title_announcements">Tin tức</string>
 </resources>

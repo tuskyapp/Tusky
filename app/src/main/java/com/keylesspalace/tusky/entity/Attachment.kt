@@ -28,7 +28,7 @@ import kotlinx.android.parcel.Parcelize
 data class Attachment(
         val id: String,
         val url: String,
-        @SerializedName("preview_url") val previewUrl: String,
+        @SerializedName("preview_url") val previewUrl: String?, // can be null for e.g. audio attachments
         val meta: MetaData?,
         val type: Type,
         val description: String?,

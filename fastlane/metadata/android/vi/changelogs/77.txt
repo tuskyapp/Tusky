@@ -1,0 +1,8 @@
+Tusky v13.0
+
+- Hỗ trợ ghi chú về một ai đó (tính năng Mastodon 3.2.0)
+- Hỗ trợ hiện thông báo máy chủ (tính năng Mastodon 3.1.0)
+- Ảnh đại diện của tài khoản từ giờ sẽ hiện trên thanh menu chính
+- Nhấn vào tên ai đó trên bảng tin sẽ chuyển tới trang cá nhân của họ
+- Sửa lỗi linh tinh và cải thiện hiệu năng
+- Trau dồi bản dịch
