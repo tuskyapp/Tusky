@@ -481,4 +481,8 @@
         <item quantity="one">%s 人</item>
         <item quantity="other"/>
     </plurals>
+    <string name="no_announcements">本站暂无公告。</string>
+    <string name="title_announcements">公告</string>
+    <string name="account_note_saved">已保存</string>
+    <string name="account_note_hint">此账号的备注</string>
 </resources>
