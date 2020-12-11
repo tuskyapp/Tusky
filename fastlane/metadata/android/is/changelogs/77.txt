@@ -1,0 +1,10 @@
+Tusky útg. 13.0
+
+- stuðningur við minnispunkta í sniðum (Mastodon 3.2.0 eiginleiki)
+- stuðningur við tilkynningar frá stjórnendum (Mastodon 3.1.0 eiginleiki)
+
+- auðkennismynd úr völdum aðgangi birist núna í aðalverkfærastikunni
+- smellt á birtingarnafn á tímalínu opnar núna notandasniðssíðu þess notanda
+
+- hellingur að villulagfæringum og minni betrumbótum
+- bættar þýðingar
