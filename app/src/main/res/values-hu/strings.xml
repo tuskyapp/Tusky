@@ -26,7 +26,7 @@
     <string name="title_direct_messages">Közvetlen üzenetek</string>
     <string name="title_tab_preferences">Fülek</string>
     <string name="title_view_thread">Tülk</string>
-    <string name="title_statuses">Posztok</string>
+    <string name="title_statuses">Tülkök</string>
     <string name="title_statuses_with_replies">Válaszokkal</string>
     <string name="title_statuses_pinned">Rögzített</string>
     <string name="title_follows">Követett</string>
@@ -198,7 +198,7 @@
     <string name="notification_follow_name">Új követők</string>
     <string name="notification_follow_description">Értesítések új követőkről</string>
     <string name="notification_boost_name">Megtolások</string>
-    <string name="notification_boost_description">Értesítések posztjaid megtolása esetén</string>
+    <string name="notification_boost_description">Értesítések tülkjeid megtolása esetén</string>
     <string name="notification_favourite_name">Kedvencek</string>
     <string name="notification_favourite_description">Értesítések mikor tülkjeidet kedvencnek jelölik</string>
     <string name="notification_mention_format">%s megemlített téged</string>
@@ -433,7 +433,7 @@
     <string name="action_access_scheduled_toot">Időzített tülkök</string>
     <string name="action_schedule_toot">Tülk Időzítése</string>
     <string name="action_reset_schedule">Visszaállítás</string>
-    <string name="post_lookup_error_format">Nem találjuk ezt a posztot %s</string>
+    <string name="post_lookup_error_format">Nem találjuk ezt a tülköt %s</string>
     <string name="title_bookmarks">Könyvjelzők</string>
     <string name="action_bookmark">Könyvjelzőzés</string>
     <string name="action_view_bookmarks">Könyvjelzők</string>
