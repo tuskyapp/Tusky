@@ -15,6 +15,7 @@
 
 package com.keylesspalace.tusky.adapter
 
+import android.content.res.ColorStateList
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
@@ -68,8 +69,7 @@ class TabAdapter(private var data: List<TabData>,
         } else {
             holder.itemView.textView.setText(tab.text)
         }
-        val iconDrawable = ThemeUtils.getTintedDrawable(context, tab.icon, android.R.attr.textColorSecondary)
-        holder.itemView.textView.setCompoundDrawablesRelativeWithIntrinsicBounds(iconDrawable, null, null, null)
+        holder.itemView.textView.setCompoundDrawablesRelativeWithIntrinsicBounds(tab.icon, 0, 0, 0)
         if (small) {
             holder.itemView.textView.setOnClickListener {
                 listener.onTabAdded(tab)
@@ -110,6 +110,7 @@ class TabAdapter(private var data: List<TabData>,
                     val chip = holder.itemView.chipGroup.getChildAt(i).takeUnless { it.id == R.id.actionChip } as Chip?
                             ?: Chip(context).apply {
                                 holder.itemView.chipGroup.addView(this, holder.itemView.chipGroup.size - 1)
+                                chipIconTint = ColorStateList.valueOf(ThemeUtils.getColor(context, android.R.attr.textColorPrimary))
                             }
 
                     chip.text = arg
@@ -118,8 +119,7 @@ class TabAdapter(private var data: List<TabData>,
                         chip.chipIcon = null
                         chip.setOnClickListener(null)
                     } else {
-                        val cancelIcon = ThemeUtils.getTintedDrawable(context, R.drawable.ic_cancel_24dp, android.R.attr.textColorPrimary)
-                        chip.chipIcon = cancelIcon
+                        chip.setChipIconResource(R.drawable.ic_cancel_24dp)
                         chip.setOnClickListener {
                             listener.onChipClicked(tab, holder.adapterPosition, i)
                         }

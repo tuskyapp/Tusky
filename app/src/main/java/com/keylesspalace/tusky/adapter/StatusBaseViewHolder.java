@@ -57,7 +57,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-import java.util.Objects;
 
 import at.connyduck.sparkbutton.SparkButton;
 import at.connyduck.sparkbutton.helpers.Utils;
@@ -566,9 +565,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
 
                 // Set the icon next to the label.
                 int drawableId = getLabelIcon(attachments.get(0).getType());
-                Drawable drawable = Objects.requireNonNull(context.getDrawable(drawableId));
-                ThemeUtils.setDrawableTint(context, drawable, android.R.attr.textColorTertiary);
-                mediaLabel.setCompoundDrawablesWithIntrinsicBounds(drawable, null, null, null);
+                mediaLabel.setCompoundDrawablesWithIntrinsicBounds(drawableId, 0, 0, 0);
 
                 setAttachmentClickListener(mediaLabel, listener, i, attachment, false);
             } else {

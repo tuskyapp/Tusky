@@ -480,4 +480,8 @@
     <string name="dialog_mute_hide_notifications">Dölj aviseringar</string>
     <string name="action_mute_notifications_desc">Tysta aviseringar från %s</string>
     <string name="action_unmute_notifications_desc">Aktivera aviseringar från %s</string>
+    <string name="account_note_saved">Sparat!</string>
+    <string name="account_note_hint">Din privata notering om detta kontot</string>
+    <string name="no_announcements">Det finns inga meddelanden.</string>
+    <string name="title_announcements">Meddelanden</string>
 </resources>

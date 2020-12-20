@@ -22,7 +22,6 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.entity.MastoList
-import com.keylesspalace.tusky.util.ThemeUtils
 import kotlinx.android.synthetic.main.item_picker_list.view.*
 
 class ListSelectionAdapter(context: Context) : ArrayAdapter<MastoList>(context, R.layout.item_autocomplete_hashtag) {
@@ -34,10 +33,7 @@ class ListSelectionAdapter(context: Context) : ArrayAdapter<MastoList>(context, 
                 ?: layoutInflater.inflate(R.layout.item_picker_list, parent, false)
 
         getItem(position)?.let { list ->
-            val title = view.title
-            title.text = list.title
-            val icon = ThemeUtils.getTintedDrawable(context, R.drawable.ic_list, R.attr.iconColor)
-            title.setCompoundDrawablesRelativeWithIntrinsicBounds(icon, null, null, null)
+            view.title.text = list.title
         }
 
         return view

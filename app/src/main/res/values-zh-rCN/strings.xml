@@ -477,8 +477,8 @@
     <string name="notification_follow_request_format">%s 请求关注你</string>
     <string name="pref_main_nav_position">导航栏位置</string>
     <string name="pref_title_hide_top_toolbar">隐藏顶部工具栏标题</string>
-    <plurals name="poll_info_people">
-        <item quantity="one">%s 人</item>
-        <item quantity="other"/>
-    </plurals>
+    <string name="no_announcements">本站暂无公告。</string>
+    <string name="title_announcements">公告</string>
+    <string name="account_note_saved">已保存</string>
+    <string name="account_note_hint">此账号的备注</string>
 </resources>
