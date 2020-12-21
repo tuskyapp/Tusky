@@ -33,7 +33,7 @@
     <string name="title_followers">Követő</string>
     <string name="title_favourites">Kedvencek</string>
     <string name="title_mutes">Némított felhasználók</string>
-    <string name="title_blocks">Blokkolt felhasználók</string>
+    <string name="title_blocks">Letiltott felhasználók</string>
     <string name="title_follow_requests">Követési kérelmek</string>
     <string name="title_edit_profile">Profilod szerkesztése</string>
     <string name="title_saved_toot">Piszkozatok</string>
@@ -65,8 +65,8 @@
     <string name="action_logout_confirm">Biztosan ki szeretnél jelentkezni a következőből: %1$s?</string>
     <string name="action_follow">Követés</string>
     <string name="action_unfollow">Követés vége</string>
-    <string name="action_block">Blokkolás</string>
-    <string name="action_unblock">Blokkolás feloldása</string>
+    <string name="action_block">Letiltás</string>
+    <string name="action_unblock">Letiltás feloldása</string>
     <string name="action_hide_reblogs">Megtolások elrejtése</string>
     <string name="action_show_reblogs">Megtolások mutatása</string>
     <string name="action_report">Bejelentés</string>
@@ -80,7 +80,7 @@
     <string name="action_view_account_preferences">Fiókbeállítások</string>
     <string name="action_view_favourites">Kedvencek</string>
     <string name="action_view_mutes">Némított felhasználók</string>
-    <string name="action_view_blocks">Blokkolt felhasználók</string>
+    <string name="action_view_blocks">Letiltott felhasználók</string>
     <string name="action_view_follow_requests">Követési kérelmek</string>
     <string name="action_view_media">Média</string>
     <string name="action_open_in_web">Megnyitás böngészőben</string>
@@ -118,7 +118,7 @@
     <string name="send_status_link_to">Tülk URL megosztása…</string>
     <string name="send_status_content_to">Tülk megosztása…</string>
     <string name="confirmation_reported">Elküldve!</string>
-    <string name="confirmation_unblocked">Felhasználó blokkolása feloldva</string>
+    <string name="confirmation_unblocked">Felhasználó letiltása feloldva</string>
     <string name="confirmation_unmuted">Felhasználó némítása feloldva</string>
     <string name="status_sent">Elküldve!</string>
     <string name="status_sent_long">Válasz sikeresen elküldve.</string>
@@ -462,7 +462,7 @@
     <string name="pref_title_gradient_for_media">Színes homály mutatása rejtett médiánál</string>
     <string name="pref_title_notification_filter_follow_requests">követni szeretnének</string>
     <string name="dialog_mute_hide_notifications">Értesítések elrejtése</string>
-    <string name="dialog_block_warning">Blokkolod: @%s\?</string>
+    <string name="dialog_block_warning">Letiltod: @%s\?</string>
     <string name="dialog_mute_warning">Elnémítsuk @%s fiókot\?</string>
     <string name="action_unmute_conversation">Beszélgetés némításának feloldása</string>
     <string name="action_mute_conversation">Beszélgetés némítása</string>
