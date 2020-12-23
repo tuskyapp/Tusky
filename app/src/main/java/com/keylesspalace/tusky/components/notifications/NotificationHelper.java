@@ -121,7 +121,7 @@ public class NotificationHelper {
     public static final String CHANNEL_BOOST = "CHANNEL_BOOST";
     public static final String CHANNEL_FAVOURITE = "CHANNEL_FAVOURITE";
     public static final String CHANNEL_POLL = "CHANNEL_POLL";
-
+    public static final String CHANNEL_SUBSCRIPTIONS = "CHANNEL_SUBSCRIPTIONS";
 
     /**
      * WorkManager Tag
@@ -138,6 +138,7 @@ public class NotificationHelper {
      */
 
     public static void make(final Context context, Notification body, AccountEntity account, boolean isFirstOfBatch) {
+        body = body.rewriteToStatusTypeIfNeeded(account.getAccountId());
 
         if (!filterNotification(account, body, context)) {
             return;
@@ -355,6 +356,7 @@ public class NotificationHelper {
                     CHANNEL_BOOST + account.getIdentifier(),
                     CHANNEL_FAVOURITE + account.getIdentifier(),
                     CHANNEL_POLL + account.getIdentifier(),
+                    CHANNEL_SUBSCRIPTIONS + account.getIdentifier(),
             };
             int[] channelNames = {
                     R.string.notification_mention_name,
@@ -362,7 +364,8 @@ public class NotificationHelper {
                     R.string.notification_follow_request_name,
                     R.string.notification_boost_name,
                     R.string.notification_favourite_name,
-                    R.string.notification_poll_name
+                    R.string.notification_poll_name,
+                    R.string.notification_subscription_name,
             };
             int[] channelDescriptions = {
                     R.string.notification_mention_descriptions,
@@ -370,7 +373,8 @@ public class NotificationHelper {
                     R.string.notification_follow_request_description,
                     R.string.notification_boost_description,
                     R.string.notification_favourite_description,
-                    R.string.notification_poll_description
+                    R.string.notification_poll_description,
+                    R.string.notification_subscription_description,
             };
 
             List<NotificationChannel> channels = new ArrayList<>(6);
@@ -516,6 +520,8 @@ public class NotificationHelper {
         switch (notification.getType()) {
             case MENTION:
                 return account.getNotificationsMentioned();
+            case STATUS:
+                return account.getNotificationsSubscriptions();
             case FOLLOW:
                 return account.getNotificationsFollowed();
             case FOLLOW_REQUEST:
@@ -536,6 +542,8 @@ public class NotificationHelper {
         switch (notification.getType()) {
             case MENTION:
                 return CHANNEL_MENTION + account.getIdentifier();
+            case STATUS:
+                return CHANNEL_SUBSCRIPTIONS + account.getIdentifier();
             case FOLLOW:
                 return CHANNEL_FOLLOW + account.getIdentifier();
             case FOLLOW_REQUEST:
@@ -606,6 +614,9 @@ public class NotificationHelper {
             case MENTION:
                 return String.format(context.getString(R.string.notification_mention_format),
                         accountName);
+            case STATUS:
+                return String.format(context.getString(R.string.notification_subscription_format),
+                        accountName);
             case FOLLOW:
                 return String.format(context.getString(R.string.notification_follow_format),
                         accountName);
@@ -636,6 +647,7 @@ public class NotificationHelper {
             case MENTION:
             case FAVOURITE:
             case REBLOG:
+            case STATUS:
                 if (!TextUtils.isEmpty(notification.getStatus().getSpoilerText())) {
                     return notification.getStatus().getSpoilerText();
                 } else {
