@@ -470,12 +470,4 @@
     <string name="pref_title_hide_top_toolbar">Titel der Hauptnavigation verstecken</string>
     <string name="no_announcements">Im Moment gibt es keine Ankündigungen.</string>
     <string name="title_announcements">Ankündigungen</string>
-    <string name="pref_title_wellbeing_mode">Wohlbefinden</string>
-    <string name="wellbeing_mode_notice">Informationen, die dein mentales Wohlbefinden beeinflussen könnten, werden versteckt. Das beinhaltet\n\n
-        - Benachrichtigungen über favorisierte/geteilte Beiträge, sowie "Jemand folgt dir" Benachrichtigungen\n
-        - Anzahl der Favoriten/Teilungen von Beiträgen\n
-        - Statistiken zu Followern auf Profilen\n
-        Push-Benachrichtigungen sind nicht betroffen, aber du kannst diese manuell überprüfen.
-    </string>
-    <string name="review_notifications">Benachrichtigungen überprüfen</string>
 </resources>
