@@ -32,6 +32,7 @@ import com.keylesspalace.tusky.util.LinkHelper
 import com.keylesspalace.tusky.util.emojify
 import kotlinx.android.synthetic.main.item_announcement.view.*
 
+
 interface AnnouncementActionListener: LinkListener {
     fun openReactionPicker(announcementId: String, target: View)
     fun addReaction(announcementId: String, name: String)
@@ -40,7 +41,8 @@ interface AnnouncementActionListener: LinkListener {
 
 class AnnouncementAdapter(
         private var items: List<Announcement> = emptyList(),
-        private val listener: AnnouncementActionListener
+        private val listener: AnnouncementActionListener,
+        private val wellbeingEnabled: Boolean = false
 ) : RecyclerView.Adapter<AnnouncementAdapter.AnnouncementViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AnnouncementViewHolder {
@@ -67,6 +69,14 @@ class AnnouncementAdapter(
 
         fun bind(item: Announcement) {
             LinkHelper.setClickableText(text, item.content, null, listener)
+
+            // If wellbeing mode is enabled, announcement badge counts should not be shown.
+            if (wellbeingEnabled) {
+                // Since reactions are not visible in wellbeing mode,
+                // we shouldn't be able to add any ourselves.
+                addReactionChip.visibility = View.GONE
+                return
+            }
 
             item.reactions.forEachIndexed { i, reaction ->
                 (chips.getChildAt(i)?.takeUnless { it.id == R.id.addReactionChip } as Chip?

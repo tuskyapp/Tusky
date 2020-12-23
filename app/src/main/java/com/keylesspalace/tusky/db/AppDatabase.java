@@ -15,14 +15,14 @@
 
 package com.keylesspalace.tusky.db;
 
-import com.keylesspalace.tusky.TabDataKt;
-import com.keylesspalace.tusky.components.conversation.ConversationEntity;
-
-import androidx.sqlite.db.SupportSQLiteDatabase;
+import androidx.annotation.NonNull;
 import androidx.room.Database;
 import androidx.room.RoomDatabase;
 import androidx.room.migration.Migration;
-import androidx.annotation.NonNull;
+import androidx.sqlite.db.SupportSQLiteDatabase;
+
+import com.keylesspalace.tusky.TabDataKt;
+import com.keylesspalace.tusky.components.conversation.ConversationEntity;
 
 /**
  * DB version & declare DAO

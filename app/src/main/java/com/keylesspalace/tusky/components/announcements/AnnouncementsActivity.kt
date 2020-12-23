@@ -17,18 +17,23 @@ package com.keylesspalace.tusky.components.announcements
 
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
 import android.widget.PopupWindow
 import androidx.activity.viewModels
+import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.keylesspalace.tusky.*
+import com.keylesspalace.tusky.BottomSheetActivity
+import com.keylesspalace.tusky.R
+import com.keylesspalace.tusky.ViewTagActivity
 import com.keylesspalace.tusky.adapter.EmojiAdapter
 import com.keylesspalace.tusky.adapter.OnEmojiSelectedListener
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.di.ViewModelFactory
+import com.keylesspalace.tusky.settings.PrefKeys
 import com.keylesspalace.tusky.util.*
 import com.keylesspalace.tusky.view.EmojiPicker
 import kotlinx.android.synthetic.main.activity_announcements.*
@@ -42,7 +47,7 @@ class AnnouncementsActivity : BottomSheetActivity(), AnnouncementActionListener,
 
     private val viewModel: AnnouncementsViewModel by viewModels { viewModelFactory }
 
-    private val adapter = AnnouncementAdapter(emptyList(), this)
+    private lateinit var adapter: AnnouncementAdapter
 
     private val picker by lazy { EmojiPicker(this) }
     private val pickerDialog by lazy {
@@ -75,6 +80,12 @@ class AnnouncementsActivity : BottomSheetActivity(), AnnouncementActionListener,
         announcementsList.layoutManager = LinearLayoutManager(this)
         val divider = DividerItemDecoration(this, DividerItemDecoration.VERTICAL)
         announcementsList.addItemDecoration(divider)
+
+        val preferences: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
+        val wellbeingEnabled = preferences.getBoolean(PrefKeys.WELLBEING_HIDE_STATS_POSTS, false)
+
+        adapter = AnnouncementAdapter(emptyList(), this, wellbeingEnabled)
+
         announcementsList.adapter = adapter
 
         viewModel.announcements.observe(this) {

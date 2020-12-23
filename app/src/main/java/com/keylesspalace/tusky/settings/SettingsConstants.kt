@@ -33,6 +33,9 @@ object PrefKeys {
     const val ENABLE_SWIPE_FOR_TABS = "enableSwipeForTabs"
 
     const val CUSTOM_TABS = "customTabs"
+    const val WELLBEING_LIMITED_NOTIFICATIONS = "wellbeingModeLimitedNotifications"
+    const val WELLBEING_HIDE_STATS_POSTS = "wellbeingHideStatsPosts"
+    const val WELLBEING_HIDE_STATS_PROFILE = "wellbeingHideStatsProfile"
 
     const val HTTP_PROXY_ENABLED = "httpProxyEnabled"
     const val HTTP_PROXY_SERVER = "httpProxyServer"

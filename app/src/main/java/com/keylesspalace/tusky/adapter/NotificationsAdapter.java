@@ -254,7 +254,8 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
                 statusDisplayOptions.showBotOverlay(),
                 statusDisplayOptions.useBlurhash(),
                 CardViewMode.NONE,
-                statusDisplayOptions.confirmReblogs()
+                statusDisplayOptions.confirmReblogs(),
+                statusDisplayOptions.hideStats()
         );
     }
 
