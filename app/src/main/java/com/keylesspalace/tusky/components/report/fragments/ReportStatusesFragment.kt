@@ -16,13 +16,11 @@
 package com.keylesspalace.tusky.components.report.fragments
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.core.app.ActivityOptionsCompat
 import androidx.core.view.ViewCompat
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
 import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -49,7 +47,7 @@ import com.keylesspalace.tusky.viewdata.AttachmentViewData
 import kotlinx.android.synthetic.main.fragment_report_statuses.*
 import javax.inject.Inject
 
-class ReportStatusesFragment : Fragment(), Injectable, AdapterHandler {
+class ReportStatusesFragment : Fragment(R.layout.fragment_report_statuses), Injectable, AdapterHandler {
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
@@ -57,10 +55,9 @@ class ReportStatusesFragment : Fragment(), Injectable, AdapterHandler {
     @Inject
     lateinit var accountManager: AccountManager
 
-    private val viewModel: ReportViewModel by viewModels({ requireActivity() }) { viewModelFactory }
+    private val viewModel: ReportViewModel by activityViewModels { viewModelFactory }
 
     private lateinit var adapter: StatusesAdapter
-    private lateinit var layoutManager: LinearLayoutManager
 
     private var snackbarErrorRetry: Snackbar? = null
 
@@ -86,12 +83,6 @@ class ReportStatusesFragment : Fragment(), Injectable, AdapterHandler {
             }
 
         }
-    }
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_report_statuses, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -125,8 +116,7 @@ class ReportStatusesFragment : Fragment(), Injectable, AdapterHandler {
                 viewModel.statusViewState, this)
 
         recyclerView.addItemDecoration(DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL))
-        layoutManager = LinearLayoutManager(requireContext())
-        recyclerView.layoutManager = layoutManager
+        recyclerView.layoutManager = LinearLayoutManager(requireContext())
         recyclerView.adapter = adapter
         (recyclerView.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
 

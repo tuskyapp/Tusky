@@ -16,12 +16,10 @@
 package com.keylesspalace.tusky.components.report.fragments
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
 import com.google.android.material.snackbar.Snackbar
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.components.report.ReportViewModel
@@ -33,18 +31,12 @@ import kotlinx.android.synthetic.main.fragment_report_note.*
 import java.io.IOException
 import javax.inject.Inject
 
-class ReportNoteFragment : Fragment(), Injectable {
+class ReportNoteFragment : Fragment(R.layout.fragment_report_note), Injectable {
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
 
-    private val viewModel: ReportViewModel by viewModels({ requireActivity() }) { viewModelFactory }
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_report_note, container, false)
-    }
+    private val viewModel: ReportViewModel by activityViewModels { viewModelFactory }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         fillViews()

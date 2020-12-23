@@ -28,7 +28,6 @@ import androidx.recyclerview.widget.SimpleItemAnimator
 import com.keylesspalace.tusky.AccountActivity
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.ViewTagActivity
-import com.keylesspalace.tusky.db.AppDatabase
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.fragment.SFragment
@@ -45,8 +44,6 @@ class ConversationsFragment : SFragment(), StatusActionListener, Injectable, Res
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
-    @Inject
-    lateinit var db: AppDatabase
 
     private val viewModel: ConversationsViewModel by viewModels { viewModelFactory }
 
