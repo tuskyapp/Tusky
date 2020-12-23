@@ -205,7 +205,7 @@ class PreferencesFragment : PreferenceFragmentCompat(), Injectable {
                     setDefaultValue(false)
                     key = PrefKeys.WELLBEING_LIMITED_NOTIFICATIONS
                     setOnPreferenceChangeListener { _, value ->
-                        accountManager.activeAccount?.let { account ->
+                        for (account in accountManager.accounts) {
                             val notificationFilter = deserialize(account.notificationsFilter).toMutableSet()
 
                             if (value == true) {
