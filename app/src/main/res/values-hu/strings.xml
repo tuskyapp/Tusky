@@ -3,37 +3,37 @@
     <string name="error_generic">Hiba történt.</string>
     <string name="error_network">Hálózati hiba történt! Kérjük, ellenőrizd a kapcsolatot, és próbálja meg újra!</string>
     <string name="error_empty">Ez nem lehet üres.</string>
-    <string name="error_invalid_domain">Helytelen domén</string>
-    <string name="error_failed_app_registration">Sikertelen bejelentkezés ezen a szerveren.</string>
+    <string name="error_invalid_domain">Helytelen domain</string>
+    <string name="error_failed_app_registration">Sikertelen hitelesítés ezen a példányon.</string>
     <string name="error_no_web_browser_found">Nem található használható böngésző.</string>
     <string name="error_authorization_unknown">Azonosítatlan engedélyezési hiba történt.</string>
     <string name="error_authorization_denied">Engedély megtagadva.</string>
     <string name="error_retrieving_oauth_token">Bejelentkezési token megszerzése sikertelen.</string>
     <string name="error_compose_character_limit">Túl hosszú a tülkölés!</string>
-    <string name="error_image_upload_size">A fájlnak kisebbnek kell lennie, mint 8MB.</string>
-    <string name="error_video_upload_size">A video fájlnak kisebbnek kell lennie, mint 40MB.</string>
+    <string name="error_image_upload_size">A fájlnak kisebbnek kell lennie, mint 8 MB.</string>
+    <string name="error_video_upload_size">A videofájloknak kisebbnek kell lenniük, mint 40 MB.</string>
     <string name="error_media_upload_type">Ilyen típusú fájlt nem lehet feltölteni.</string>
     <string name="error_media_upload_opening">Fájl megnyitása sikertelen.</string>
     <string name="error_media_upload_permission">Média olvasási engedély szükséges.</string>
     <string name="error_media_download_permission">Média tárolási engedély szükséges.</string>
     <string name="error_media_upload_image_or_video">Képek és videók egyszerre nem csatolhatók ugyanazon tülköléshez.</string>
     <string name="error_media_upload_sending">Feltöltés sikertelen.</string>
-    <string name="error_sender_account_gone">Nem sikerült elküldeni a tülköt..</string>
+    <string name="error_sender_account_gone">Nem sikerült elküldeni a tülköt.</string>
     <string name="title_home">Kezdőlap</string>
     <string name="title_notifications">Értesítések</string>
     <string name="title_public_local">Helyi</string>
-    <string name="title_public_federated">Föderáció</string>
+    <string name="title_public_federated">Föderációs</string>
     <string name="title_direct_messages">Közvetlen üzenetek</string>
     <string name="title_tab_preferences">Fülek</string>
     <string name="title_view_thread">Tülk</string>
-    <string name="title_statuses">Posztok</string>
+    <string name="title_statuses">Tülkök</string>
     <string name="title_statuses_with_replies">Válaszokkal</string>
     <string name="title_statuses_pinned">Rögzített</string>
     <string name="title_follows">Követett</string>
     <string name="title_followers">Követő</string>
     <string name="title_favourites">Kedvencek</string>
     <string name="title_mutes">Némított felhasználók</string>
-    <string name="title_blocks">Blokkolt felhasználók</string>
+    <string name="title_blocks">Letiltott felhasználók</string>
     <string name="title_follow_requests">Követési kérelmek</string>
     <string name="title_edit_profile">Profilod szerkesztése</string>
     <string name="title_drafts">Piszkozatok</string>
@@ -122,7 +122,7 @@
     <string name="confirmation_unmuted">Felhasználó némítása feloldva</string>
     <string name="status_sent">Elküldve!</string>
     <string name="status_sent_long">Válasz sikeresen elküldve.</string>
-    <string name="hint_domain">Melyik szerver\?</string>
+    <string name="hint_domain">Melyik példány\?</string>
     <string name="hint_compose">Mi jár a fejedben\?</string>
     <string name="hint_content_warning">Tartalom figyelmeztetés</string>
     <string name="hint_display_name">Megjelenítési név</string>
@@ -134,11 +134,11 @@
     <string name="label_header">Fejléc</string>
     <string name="link_whats_an_instance">Mi az a szerver\?</string>
     <string name="login_connection">Csatlakozás…</string>
-    <string name="dialog_whats_an_instance">Bármely szerver címét beírhatod ide, mint mastodon.social, icosahedron.website, social.tchncs.de, és <a href="https://instances.social">mások!</a> 
+    <string name="dialog_whats_an_instance">Bármely példány címét vagy domain nevét beírhatod ide, mint a mastodon.social, az icosahedron.website, a social.tchncs.de és <a href="https://instances.social">mások!</a> 
 \n 
-\nHa még nincs fiókod, beírhatod a címét ide annak a szervernek amelyhez csatlakoznál, majd azon létrehozhatsz egy fiókot. 
+\nHa még nincs fiókod, beírhatod annak a példánynak a címét, amelyhez csatlakoznál, majd azon létrehozhatsz egy fiókot. 
 \n 
-\nA szerver az a hely ahol a fiókadataidat tárolják, de ettől még ugyanúgy kommunikálhatsz más szervereken lévő emberekkel, mintha ugyanazon az oldalon lennétek. 
+\nA példány az a hely, ahol a fiókadataidat tárolják, de ettől még ugyanúgy kommunikálhatsz más példányokon lévő emberekkel, mintha ugyanazon az oldalon lennétek. 
 \n 
 \nTöbb információt találhatsz itt: <a href="https://joinmastodon.org">joinmastodon.org</a>. </string>
     <string name="dialog_title_finishing_media_upload">Média feltöltés befejezése</string>
@@ -198,7 +198,7 @@
     <string name="notification_follow_name">Új követők</string>
     <string name="notification_follow_description">Értesítések új követőkről</string>
     <string name="notification_boost_name">Megtolások</string>
-    <string name="notification_boost_description">Értesítések posztjaid megtolása esetén</string>
+    <string name="notification_boost_description">Értesítések tülkjeid megtolása esetén</string>
     <string name="notification_favourite_name">Kedvencek</string>
     <string name="notification_favourite_description">Értesítések mikor tülkjeidet kedvencnek jelölik</string>
     <string name="notification_mention_format">%s megemlített téged</string>
@@ -236,7 +236,7 @@
     <string name="action_lists">Listák</string>
     <string name="title_lists">Listák</string>
     <string name="action_remove">Törlés</string>
-    <string name="lock_account_label">Fiók lezárása</string>
+    <string name="lock_account_label">Fiók zárolása</string>
     <string name="compose_save_draft">Elmented a vázlatot?</string>
     <string name="send_toot_notification_title">Tülk elküldése…</string>
     <string name="send_toot_notification_error_title">A tülk elküldése nem sikerült</string>
@@ -433,7 +433,7 @@
     <string name="action_access_scheduled_toot">Időzített tülkök</string>
     <string name="action_schedule_toot">Tülk Időzítése</string>
     <string name="action_reset_schedule">Visszaállítás</string>
-    <string name="post_lookup_error_format">Nem találjuk ezt a posztot %s</string>
+    <string name="post_lookup_error_format">Nem találjuk ezt a tülköt %s</string>
     <string name="title_bookmarks">Könyvjelzők</string>
     <string name="action_bookmark">Könyvjelzőzés</string>
     <string name="action_view_bookmarks">Könyvjelzők</string>
@@ -441,7 +441,7 @@
     <string name="description_status_bookmarked">Könyvjelzőzve</string>
     <string name="select_list_title">Lista kiválasztása</string>
     <string name="list">Lista</string>
-    <string name="error_audio_upload_size">A hangfájlok mérete 40MB-nál kisebb kell legyen.</string>
+    <string name="error_audio_upload_size">A hangfájloknak kisebbnek kell lenniük, mint 40 MB.</string>
     <string name="no_saved_status">Nincs egy vázlatod sem.</string>
     <string name="no_scheduled_status">Nincs egy ütemezett tülköd sem.</string>
     <string name="warning_scheduling_interval">A Mastodonban a legrövidebb ütemezhető időintervallum 5 perc.</string>
@@ -462,7 +462,7 @@
     <string name="pref_title_gradient_for_media">Színes homály mutatása rejtett médiánál</string>
     <string name="pref_title_notification_filter_follow_requests">követni szeretnének</string>
     <string name="dialog_mute_hide_notifications">Értesítések elrejtése</string>
-    <string name="dialog_block_warning">Letiltsuk @%s -t\?</string>
+    <string name="dialog_block_warning">Letiltod: @%s\?</string>
     <string name="dialog_mute_warning">Elnémítsuk @%s fiókot\?</string>
     <string name="action_unmute_conversation">Beszélgetés némításának feloldása</string>
     <string name="action_mute_conversation">Beszélgetés némítása</string>

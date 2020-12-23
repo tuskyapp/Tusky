@@ -150,8 +150,8 @@
     <string name="pref_title_appearance_settings">ظاهر</string>
     <string name="pref_title_app_theme">زمینهٔ کاره</string>
     <string name="pref_title_timelines">خط‌ زمانی‌ها</string>
-    <string name="app_them_dark">روشن</string>
-    <string name="app_theme_light">سیاه</string>
+    <string name="app_them_dark">تاریک</string>
+    <string name="app_theme_light">روشن</string>
     <string name="app_theme_black">سیاه</string>
     <string name="app_theme_auto">خودکار در غروب</string>
     <string name="pref_title_browser_settings">مرورگر</string>

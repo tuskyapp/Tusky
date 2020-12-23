@@ -415,8 +415,8 @@
     <string name="notification_follow_request_name">Fylgjendabeiðnir</string>
     <string name="hashtags">Myllumerki</string>
     <plurals name="favs">
-        <item quantity="one"><b>%1$s</b> Eftirlæti</item>
-        <item quantity="other"><b>%1$s</b> Eftirlæti</item>
+        <item quantity="one"><b>%1$s</b> eftirlæti</item>
+        <item quantity="other"><b>%1$s</b> eftirlæti</item>
     </plurals>
     <plurals name="reblogs">
         <item quantity="one"><b>%s</b> Endurbirting</item>
@@ -438,4 +438,33 @@
         <item quantity="one">%d dagur eftir</item>
         <item quantity="other">%d dagar eftir</item>
     </plurals>
+    <string name="account_note_saved">Vistað!</string>
+    <string name="account_note_hint">Þí eigin einkaathugasemd um þennan aðgang</string>
+    <string name="pref_title_hide_top_toolbar">Fela titil á verkfærastikunni efst</string>
+    <string name="pref_title_confirm_reblogs">Birta staðfestingarglugga áður en endurbirting fer fram</string>
+    <string name="pref_title_show_cards_in_timelines">Birta forskoðun tengla á tímalínum</string>
+    <string name="no_announcements">Það eru engar tilkynningar.</string>
+    <string name="pref_title_enable_swipe_for_tabs">Virkja strokuhreyfingu til að skipta milli flipa</string>
+    <plurals name="poll_info_people">
+        <item quantity="one">%s aðili</item>
+        <item quantity="other">%s aðilar</item>
+    </plurals>
+    <string name="add_hashtag_title">Bæta við myllumerki</string>
+    <string name="notification_follow_request_description">Tilkynningar um fylgjendabeiðnir</string>
+    <string name="pref_main_nav_position_option_bottom">Neðst</string>
+    <string name="pref_main_nav_position_option_top">Efst</string>
+    <string name="pref_main_nav_position">Aðalstaða leiðsagnar</string>
+    <string name="pref_title_gradient_for_media">Birta litstigla í stað falins myndefnis</string>
+    <string name="pref_title_notification_filter_follow_requests">beiðni um að fylgja</string>
+    <string name="dialog_mute_hide_notifications">Fela tilkynningar</string>
+    <string name="dialog_mute_warning">Þagga niður í @%s\?</string>
+    <string name="dialog_block_warning">Loka á @%s\?</string>
+    <string name="action_unmute_conversation">Hætta að þagga niður í samtölum</string>
+    <string name="action_mute_conversation">Þagga niður í samtölum</string>
+    <string name="action_unmute_domain">Afþagga %s</string>
+    <string name="action_mute_notifications_desc">Þagga tilkynningar frá %s</string>
+    <string name="action_unmute_notifications_desc">Afþagga tilkynningar frá %s</string>
+    <string name="action_unmute_desc">Afþagga %s</string>
+    <string name="notification_follow_request_format">%s bað um að fylgjast með þér</string>
+    <string name="title_announcements">Tilkynningar</string>
 </resources>

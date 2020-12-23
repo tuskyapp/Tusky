@@ -15,14 +15,14 @@
 
 package com.keylesspalace.tusky.db;
 
-import com.keylesspalace.tusky.TabDataKt;
-import com.keylesspalace.tusky.components.conversation.ConversationEntity;
-
-import androidx.sqlite.db.SupportSQLiteDatabase;
+import androidx.annotation.NonNull;
 import androidx.room.Database;
 import androidx.room.RoomDatabase;
 import androidx.room.migration.Migration;
-import androidx.annotation.NonNull;
+import androidx.sqlite.db.SupportSQLiteDatabase;
+
+import com.keylesspalace.tusky.TabDataKt;
+import com.keylesspalace.tusky.components.conversation.ConversationEntity;
 
 /**
  * DB version & declare DAO
@@ -30,7 +30,7 @@ import androidx.annotation.NonNull;
 
 @Database(entities = { TootEntity.class, DraftEntity.class, AccountEntity.class, InstanceEntity.class, TimelineStatusEntity.class,
                 TimelineAccountEntity.class,  ConversationEntity.class
-        }, version = 24)
+        }, version = 25)
 public abstract class AppDatabase extends RoomDatabase {
 
     public abstract TootDao tootDao();
@@ -339,8 +339,15 @@ public abstract class AppDatabase extends RoomDatabase {
             database.execSQL("ALTER TABLE `TimelineStatusEntity` ADD COLUMN `muted` INTEGER");
         }
     };
-
+    
     public static final Migration MIGRATION_23_24 = new Migration(23, 24) {
+        @Override
+        public void migrate(@NonNull SupportSQLiteDatabase database) {
+            database.execSQL("ALTER TABLE `AccountEntity` ADD COLUMN `notificationsSubscriptions` INTEGER NOT NULL DEFAULT 1");
+        }
+    };
+
+    public static final Migration MIGRATION_24_25 = new Migration(24, 25) {
         @Override
         public void migrate(@NonNull SupportSQLiteDatabase database) {
             database.execSQL(

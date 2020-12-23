@@ -450,10 +450,7 @@
     <string name="hashtags">Traolak</string>
     <string name="dialog_mute_hide_notifications">Ez erakutsi jakinarazpenak</string>
     <string name="action_unmute_desc">Desmututu %s</string>
-    <plurals name="poll_info_people">
-        <item quantity="one">Pertsona %1</item>
-        <item quantity="other">%2 pertsona</item>
-    </plurals>
+
     <string name="pref_title_hide_top_toolbar">Ezkutatu goiko tresna-barraren izenburua</string>
     <string name="pref_title_confirm_reblogs">Erakutsi berrespen-abisua tuta bultzatu aurretik</string>
     <string name="pref_title_show_cards_in_timelines">Erakutsi esteken aurrebista denbora-lerroetan</string>

@@ -475,11 +475,7 @@
     <string name="action_unmute_notifications_desc">Odkrýt oznámení od %s</string>
     <string name="action_unmute_desc">Odkrýt %s</string>
     <string name="dialog_mute_warning">Ztišit @%s\?</string>
-    <plurals name="poll_info_people">
-        <item quantity="one"/>
-        <item quantity="few"/>
-        <item quantity="other"/>
-    </plurals>
+
     <string name="notification_follow_request_format">%s požádal/a aby vás mohl/a sledovat</string>
     <string name="pref_title_confirm_reblogs">Zobrazit dialogové okno s potvrzením při boostování</string>
 </resources>

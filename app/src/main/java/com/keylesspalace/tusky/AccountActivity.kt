@@ -84,6 +84,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
     private var muting: Boolean = false
     private var blockingDomain: Boolean = false
     private var showingReblogs: Boolean = false
+    private var subscribing: Boolean = false
     private var loadedAccount: Account? = null
 
     private var animateAvatar: Boolean = false
@@ -116,7 +117,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
         loadResources()
         makeNotificationBarTransparent()
         setContentView(R.layout.activity_account)
-        
+
         // Obtain information to fill out the profile.
         viewModel.setAccountInfo(intent.getStringExtra(KEY_ACCOUNT_ID)!!)
 
@@ -159,7 +160,6 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
         accountMuteButton.hide()
         accountFollowsYouTextView.hide()
 
-
         // setup the RecyclerView for the account fields
         accountFieldList.isNestedScrollingEnabled = false
         accountFieldList.layoutManager = LinearLayoutManager(this)
@@ -185,7 +185,6 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
             poorTabView.isPressed = true
             accountTabLayout.postDelayed({ poorTabView.isPressed = false }, 300)
         }
-
     }
 
     /**
@@ -374,7 +373,6 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
         accountFieldAdapter.emojis = account.emojis ?: emptyList()
         accountFieldAdapter.notifyDataSetChanged()
 
-
         accountLockedImageView.visible(account.locked)
         accountBadgeTextView.visible(account.bot)
 
@@ -538,6 +536,20 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
 
         accountFollowsYouTextView.visible(relation.followedBy)
 
+        // because subscribing is Pleroma extension, enable it __only__ when we have non-null subscribing field
+        // it's also now supported in Mastodon 3.3.0rc but called notifying and use different API call
+        if(!viewModel.isSelf && followState == FollowState.FOLLOWING
+            && (relation.subscribing != null || relation.notifying != null)) {
+            accountSubscribeButton.show()
+            accountSubscribeButton.setOnClickListener {
+                viewModel.changeSubscribingState()
+            }
+            if(relation.notifying != null)
+                subscribing = relation.notifying
+            else if(relation.subscribing != null)
+                subscribing = relation.subscribing
+        }
+
         accountNoteTextInputLayout.visible(relation.note != null)
         accountNoteTextInputLayout.editText?.setText(relation.note)
 
@@ -574,6 +586,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
                 accountFollowButton.setText(R.string.action_unfollow)
             }
         }
+        updateSubscribeButton()
     }
 
     private fun updateMuteButton() {
@@ -581,6 +594,18 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
             accountMuteButton.setIconResource(R.drawable.ic_unmute_24dp)
         } else {
             accountMuteButton.hide()
+        }
+    }
+
+    private fun updateSubscribeButton() {
+        if(followState != FollowState.FOLLOWING) {
+            accountSubscribeButton.hide()
+        }
+
+        if(subscribing) {
+            accountSubscribeButton.setIconResource(R.drawable.ic_notifications_active_24dp)
+        } else {
+            accountSubscribeButton.setIconResource(R.drawable.ic_notifications_24dp)
         }
     }
 
@@ -595,6 +620,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
             if (blocking || viewModel.isSelf) {
                 accountFloatingActionButton.hide()
                 accountMuteButton.hide()
+                accountSubscribeButton.hide()
             } else {
                 accountFloatingActionButton.show()
                 if (muting)
@@ -608,6 +634,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
             accountFloatingActionButton.hide()
             accountFollowButton.hide()
             accountMuteButton.hide()
+            accountSubscribeButton.hide()
         }
     }
 
