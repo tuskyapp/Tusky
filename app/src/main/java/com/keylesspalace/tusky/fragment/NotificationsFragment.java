@@ -180,7 +180,9 @@ public class NotificationsFragment extends SFragment implements
         @Override
         public NotificationViewData apply(Either<Placeholder, Notification> input) {
             if (input.isRight()) {
-                Notification notification = input.asRight();
+                Notification notification = input.asRight()
+                        .rewriteToStatusTypeIfNeeded(accountManager.getActiveAccount().getAccountId());
+
                 return ViewDataUtils.notificationToViewData(
                         notification,
                         alwaysShowSensitiveMedia,
@@ -772,6 +774,8 @@ public class NotificationsFragment extends SFragment implements
                 return getString(R.string.notification_follow_request_name);
             case POLL:
                 return getString(R.string.notification_poll_name);
+            case STATUS:
+                return getString(R.string.notification_subscription_name);
             default:
                 return "Unknown";
         }

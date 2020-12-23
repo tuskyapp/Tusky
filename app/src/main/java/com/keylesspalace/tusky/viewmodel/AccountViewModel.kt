@@ -126,6 +126,16 @@ class AccountViewModel @Inject constructor(
     fun unmuteAccount() {
         changeRelationship(RelationShipAction.UNMUTE)
     }
+    
+    fun changeSubscribingState() {
+        val relationship = relationshipData.value?.data
+        if(relationship?.notifying == true /* Mastodon 3.3.0rc1 */
+            || relationship?.subscribing == true /* Pleroma */ ) {
+            changeRelationship(RelationShipAction.UNSUBSCRIBE)
+        } else {
+            changeRelationship(RelationShipAction.SUBSCRIBE)
+        }
+    }
 
     fun blockDomain(instance: String) {
         mastodonApi.blockDomain(instance).enqueue(object: Callback<Any> {
@@ -180,6 +190,7 @@ class AccountViewModel @Inject constructor(
     private fun changeRelationship(relationshipAction: RelationShipAction, parameter: Boolean? = null) {
         val relation = relationshipData.value?.data
         val account = accountData.value?.data
+        val isMastodon = relationshipData.value?.data?.notifying != null
 
         if (relation != null && account != null) {
             // optimistically post new state for faster response
@@ -197,17 +208,37 @@ class AccountViewModel @Inject constructor(
                 RelationShipAction.UNBLOCK -> relation.copy(blocking = false)
                 RelationShipAction.MUTE -> relation.copy(muting = true)
                 RelationShipAction.UNMUTE -> relation.copy(muting = false)
+                RelationShipAction.SUBSCRIBE -> {
+                    if(isMastodon)
+                        relation.copy(notifying = true)
+                    else relation.copy(subscribing = true)
+                }
+                RelationShipAction.UNSUBSCRIBE -> {
+                    if(isMastodon)
+                        relation.copy(notifying = false)
+                    else relation.copy(subscribing = false)
+                }
             }
             relationshipData.postValue(Loading(newRelation))
         }
 
         when (relationshipAction) {
-            RelationShipAction.FOLLOW -> mastodonApi.followAccount(accountId, parameter ?: true)
+            RelationShipAction.FOLLOW -> mastodonApi.followAccount(accountId, showReblogs = parameter ?: true)
             RelationShipAction.UNFOLLOW -> mastodonApi.unfollowAccount(accountId)
             RelationShipAction.BLOCK -> mastodonApi.blockAccount(accountId)
             RelationShipAction.UNBLOCK -> mastodonApi.unblockAccount(accountId)
             RelationShipAction.MUTE -> mastodonApi.muteAccount(accountId, parameter ?: true)
             RelationShipAction.UNMUTE -> mastodonApi.unmuteAccount(accountId)
+            RelationShipAction.SUBSCRIBE -> {
+                if(isMastodon)
+                    mastodonApi.followAccount(accountId, notify = true)
+                else mastodonApi.subscribeAccount(accountId)
+            }
+            RelationShipAction.UNSUBSCRIBE -> {
+                if(isMastodon)
+                    mastodonApi.followAccount(accountId, notify = false)
+                else mastodonApi.unsubscribeAccount(accountId)
+            }
         }.subscribe(
                 { relationship ->
                     relationshipData.postValue(Success(relationship))
@@ -263,7 +294,6 @@ class AccountViewModel @Inject constructor(
             if (!isSelf)
                 obtainRelationship(isReload)
         }
-
     }
 
     fun setAccountInfo(accountId: String) {
@@ -273,7 +303,7 @@ class AccountViewModel @Inject constructor(
     }
 
     enum class RelationShipAction {
-        FOLLOW, UNFOLLOW, BLOCK, UNBLOCK, MUTE, UNMUTE
+        FOLLOW, UNFOLLOW, BLOCK, UNBLOCK, MUTE, UNMUTE, SUBSCRIBE, UNSUBSCRIBE
     }
 
     companion object {

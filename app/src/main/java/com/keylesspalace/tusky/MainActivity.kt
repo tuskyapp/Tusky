@@ -139,11 +139,8 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
                 }
             }
             val accountRequested = accountId != -1L
-            if (accountRequested) {
-                val account = accountManager.activeAccount
-                if (account == null || accountId != account.id) {
-                    accountManager.setActiveAccount(accountId)
-                }
+            if (accountRequested && accountId != activeAccount.id) {
+                accountManager.setActiveAccount(accountId)
             }
             if (canHandleMimeType(intent.type)) {
                 // Sharing to Tusky from an external app
@@ -155,8 +152,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
                     showAccountChooserDialog(getString(R.string.action_share_as), true, object : AccountSelectionListener {
                         override fun onAccountSelected(account: AccountEntity) {
                             val requestedId = account.id
-                            val activeAccount = accountManager.activeAccount
-                            if (activeAccount != null && requestedId == activeAccount.id) {
+                            if (requestedId == activeAccount.id) {
                                 // The correct account is already active
                                 forwardShare(intent)
                             } else {

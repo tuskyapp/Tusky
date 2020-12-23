@@ -1,0 +1,8 @@
+Tusky útg. 12.0
+
+- Bætt aðalviðmót - hægt að færa flipa neðst
+- Þegar þaggað er niður í notanda er núna hægt að ákveða hvort líka sé þaggað niður í tilkynningum frá honum
+- Nú er hægt að fylgjast með eins mörgum myllumerkjum og maður vill í hverjum myllumerkis-flipa
+- Bett leið við að birta lýsingar á myndefni, þannig að núna virka mjög langar lýsingar
+    
+Full breytingaskrá: https://github.com/tuskyapp/Tusky/releases
