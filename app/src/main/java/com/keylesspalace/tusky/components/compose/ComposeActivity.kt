@@ -833,7 +833,6 @@ class ComposeActivity : BaseActivity(),
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?) {
         super.onActivityResult(requestCode, resultCode, intent)
-
         if (resultCode == Activity.RESULT_OK && requestCode == MEDIA_PICK_RESULT && intent != null) {
             if(intent.data != null){
                 // Single media, upload it and done.
