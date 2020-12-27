@@ -846,7 +846,7 @@ class ComposeActivity : BaseActivity(),
                 }else{
                     // if not grater then 4, upload all multiple media.
                     for (i in 0 until count) {
-                            val imageUri: Uri = clipData.getItemAt(i).getUri()
+                            val imageUri = clipData.getItemAt(i).getUri()
                             pickMedia(imageUri)
                         }
                     }
