@@ -1,11 +1,9 @@
 package com.keylesspalace.tusky.components.search.fragments
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.LiveData
 import androidx.paging.PagedList
 import androidx.paging.PagedListAdapter
@@ -26,13 +24,13 @@ import com.keylesspalace.tusky.util.*
 import kotlinx.android.synthetic.main.fragment_search.*
 import javax.inject.Inject
 
-abstract class SearchFragment<T> : Fragment(),
+abstract class SearchFragment<T> : Fragment(R.layout.fragment_search),
         LinkListener, Injectable, SwipeRefreshLayout.OnRefreshListener {
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
 
-    protected val viewModel: SearchViewModel by viewModels({ requireActivity() }) { viewModelFactory }
+    protected val viewModel: SearchViewModel by activityViewModels { viewModelFactory }
 
     private var snackbarErrorRetry: Snackbar? = null
 
@@ -43,12 +41,7 @@ abstract class SearchFragment<T> : Fragment(),
     abstract val data: LiveData<PagedList<T>>
     protected lateinit var adapter: PagedListAdapter<T, *>
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_search, container, false)
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
         initAdapter()
         setupSwipeRefreshLayout()
         subscribeObservables()
