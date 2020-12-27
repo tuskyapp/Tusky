@@ -839,11 +839,10 @@ class ComposeActivity : BaseActivity(),
                 pickMedia(intent.data!!)
             }else if(intent.clipData != null){
                 val clipData = intent.clipData!!
-                val count: Int = clipData.itemCount
+                val count = clipData.itemCount
                 if(mediaCount + count > 4){
                     // check if exist media + upcoming media > 4, then prob error message.
-                    val errorMessage = getString(R.string.error_upload_over_four_media)
-                    Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, R.string.error_upload_over_four_media, Toast.LENGTH_SHORT).show()
                 }else{
                     // if not grater then 4, upload all multiple media.
                     for (i in 0 until count) {
