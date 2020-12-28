@@ -110,6 +110,7 @@ class ComposeActivity : BaseActivity(),
     private var composeOptions: ComposeOptions? = null
     private val viewModel: ComposeViewModel by viewModels { viewModelFactory }
 
+    private val maxUploadMediaNumber = 4
     private var mediaCount = 0
 
     public override fun onCreate(savedInstanceState: Bundle?) {
@@ -840,9 +841,9 @@ class ComposeActivity : BaseActivity(),
             }else if(intent.clipData != null){
                 val clipData = intent.clipData!!
                 val count = clipData.itemCount
-                if(mediaCount + count > 4){
+                if(mediaCount + count > maxUploadMediaNumber){
                     // check if exist media + upcoming media > 4, then prob error message.
-                    Toast.makeText(this, R.string.error_upload_over_four_media, Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, getString(R.string.error_upload_max_media_reached, maxUploadMediaNumber), Toast.LENGTH_SHORT).show()
                 }else{
                     // if not grater then 4, upload all multiple media.
                     for (i in 0 until count) {
