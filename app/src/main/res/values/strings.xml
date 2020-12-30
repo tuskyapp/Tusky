@@ -591,5 +591,6 @@
     <string name="limit_notifications">Limit timeline notifications</string>
     <string name="wellbeing_hide_stats_posts">Hide quantitative stats on posts</string>
     <string name="wellbeing_hide_stats_profile">Hide quantitative stats on profiles</string>
+    <string name="error_upload_max_media_reached">You cannot upload more than %1$d media attachments.</string>
 
 </resources>
