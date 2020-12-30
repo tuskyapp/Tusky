@@ -217,6 +217,9 @@ class ComposeActivity : BaseActivity(),
                         val left = min(start, end)
                         val right = max(start, end)
                         composeEditField.text.replace(left, right, shareBody, 0, shareBody.length)
+                        // move edittext cursor to first when shareBody parsed
+                        composeEditField.text.insert(0, "\n")
+                        composeEditField.setSelection(0)
                     }
                 }
             }
