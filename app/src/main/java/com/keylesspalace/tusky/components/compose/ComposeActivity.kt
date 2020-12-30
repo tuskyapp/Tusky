@@ -110,6 +110,7 @@ class ComposeActivity : BaseActivity(),
     private var composeOptions: ComposeOptions? = null
     private val viewModel: ComposeViewModel by viewModels { viewModelFactory }
 
+    private val maxUploadMediaNumber = 4
     private var mediaCount = 0
 
     public override fun onCreate(savedInstanceState: Bundle?) {
@@ -810,6 +811,7 @@ class ComposeActivity : BaseActivity(),
         val mimeTypes = arrayOf("image/*", "video/*", "audio/*")
         intent.type = "*/*"
         intent.putExtra(Intent.EXTRA_MIME_TYPES, mimeTypes)
+        intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
         startActivityForResult(intent, MEDIA_PICK_RESULT)
     }
 
@@ -836,7 +838,23 @@ class ComposeActivity : BaseActivity(),
     override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?) {
         super.onActivityResult(requestCode, resultCode, intent)
         if (resultCode == Activity.RESULT_OK && requestCode == MEDIA_PICK_RESULT && intent != null) {
-            pickMedia(intent.data!!)
+            if(intent.data != null){
+                // Single media, upload it and done.
+                pickMedia(intent.data!!)
+            }else if(intent.clipData != null){
+                val clipData = intent.clipData!!
+                val count = clipData.itemCount
+                if(mediaCount + count > maxUploadMediaNumber){
+                    // check if exist media + upcoming media > 4, then prob error message.
+                    Toast.makeText(this, getString(R.string.error_upload_max_media_reached, maxUploadMediaNumber), Toast.LENGTH_SHORT).show()
+                }else{
+                    // if not grater then 4, upload all multiple media.
+                    for (i in 0 until count) {
+                            val imageUri = clipData.getItemAt(i).getUri()
+                            pickMedia(imageUri)
+                        }
+                    }
+            }
         } else if (resultCode == Activity.RESULT_OK && requestCode == MEDIA_TAKE_PHOTO_RESULT) {
             pickMedia(photoUploadUri!!)
         }
