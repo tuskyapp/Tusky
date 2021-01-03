@@ -370,6 +370,7 @@
     <string name="action_remove">لابردن</string>
     <string name="action_set_caption">دانانی سەردێڕ</string>
     <plurals name="hint_describe_for_visually_impaired">
+        <item quantity="one"></item>
         <item quantity="other">وەسف بکە بۆ بینایی داڕماو
 \n(%1$d سنوری کاراکتەر)</item>
     </plurals>
