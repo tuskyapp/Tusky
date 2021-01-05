@@ -19,10 +19,14 @@ import android.os.Bundle
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import com.keylesspalace.tusky.R
+import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.di.Injectable
+import com.keylesspalace.tusky.entity.Notification
 import com.keylesspalace.tusky.settings.*
 import com.keylesspalace.tusky.util.ThemeUtils
+import com.keylesspalace.tusky.util.deserialize
 import com.keylesspalace.tusky.util.getNonNullString
+import com.keylesspalace.tusky.util.serialize
 import com.mikepenz.iconics.IconicsDrawable
 import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial
 import com.mikepenz.iconics.utils.colorInt
@@ -34,6 +38,9 @@ class PreferencesFragment : PreferenceFragmentCompat(), Injectable {
 
     @Inject
     lateinit var okhttpclient: OkHttpClient
+
+    @Inject
+    lateinit var accountManager: AccountManager
 
     private val iconSize by lazy { resources.getDimensionPixelSize(R.dimen.preference_icon_size) }
     private var httpProxyPref: Preference? = null
@@ -189,6 +196,45 @@ class PreferencesFragment : PreferenceFragmentCompat(), Injectable {
                         }
                         true
                     }
+                }
+            }
+
+            preferenceCategory(R.string.pref_title_wellbeing_mode) {
+                switchPreference {
+                    title = getString(R.string.limit_notifications)
+                    setDefaultValue(false)
+                    key = PrefKeys.WELLBEING_LIMITED_NOTIFICATIONS
+                    setOnPreferenceChangeListener { _, value ->
+                        for (account in accountManager.accounts) {
+                            val notificationFilter = deserialize(account.notificationsFilter).toMutableSet()
+
+                            if (value == true) {
+                                notificationFilter.add(Notification.Type.FAVOURITE)
+                                notificationFilter.add(Notification.Type.FOLLOW)
+                                notificationFilter.add(Notification.Type.REBLOG)
+                            } else {
+                                notificationFilter.remove(Notification.Type.FAVOURITE)
+                                notificationFilter.remove(Notification.Type.FOLLOW)
+                                notificationFilter.remove(Notification.Type.REBLOG)
+                            }
+
+                            account.notificationsFilter = serialize(notificationFilter)
+                            accountManager.saveAccount(account)
+                        }
+                        true
+                    }
+                }
+
+                switchPreference {
+                    title = getString(R.string.wellbeing_hide_stats_posts)
+                    setDefaultValue(false)
+                    key = PrefKeys.WELLBEING_HIDE_STATS_POSTS
+                }
+
+                switchPreference {
+                    title = getString(R.string.wellbeing_hide_stats_profile)
+                    setDefaultValue(false)
+                    key = PrefKeys.WELLBEING_HIDE_STATS_PROFILE
                 }
             }
 

@@ -20,11 +20,12 @@ import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
+import android.util.TypedValue;
+
 import androidx.annotation.AttrRes;
 import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatDelegate;
-import android.util.TypedValue;
 
 /**
  * Provides runtime compatibility to obtain theme information and re-theme views, especially where

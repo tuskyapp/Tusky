@@ -16,13 +16,11 @@
 package com.keylesspalace.tusky.components.report.fragments
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.core.app.ActivityOptionsCompat
 import androidx.core.view.ViewCompat
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
 import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -41,6 +39,7 @@ import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.entity.Attachment
 import com.keylesspalace.tusky.entity.Status
+import com.keylesspalace.tusky.settings.PrefKeys
 import com.keylesspalace.tusky.util.CardViewMode
 import com.keylesspalace.tusky.util.StatusDisplayOptions
 import com.keylesspalace.tusky.util.hide
@@ -49,7 +48,7 @@ import com.keylesspalace.tusky.viewdata.AttachmentViewData
 import kotlinx.android.synthetic.main.fragment_report_statuses.*
 import javax.inject.Inject
 
-class ReportStatusesFragment : Fragment(), Injectable, AdapterHandler {
+class ReportStatusesFragment : Fragment(R.layout.fragment_report_statuses), Injectable, AdapterHandler {
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
@@ -57,10 +56,9 @@ class ReportStatusesFragment : Fragment(), Injectable, AdapterHandler {
     @Inject
     lateinit var accountManager: AccountManager
 
-    private val viewModel: ReportViewModel by viewModels({ requireActivity() }) { viewModelFactory }
+    private val viewModel: ReportViewModel by activityViewModels { viewModelFactory }
 
     private lateinit var adapter: StatusesAdapter
-    private lateinit var layoutManager: LinearLayoutManager
 
     private var snackbarErrorRetry: Snackbar? = null
 
@@ -88,12 +86,6 @@ class ReportStatusesFragment : Fragment(), Injectable, AdapterHandler {
         }
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_report_statuses, container, false)
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         handleClicks()
         initStatusesView()
@@ -118,15 +110,15 @@ class ReportStatusesFragment : Fragment(), Injectable, AdapterHandler {
                 showBotOverlay = false,
                 useBlurhash = preferences.getBoolean("useBlurhash", true),
                 cardViewMode = CardViewMode.NONE,
-                confirmReblogs = preferences.getBoolean("confirmReblogs", true)
+                confirmReblogs = preferences.getBoolean("confirmReblogs", true),
+                hideStats = preferences.getBoolean(PrefKeys.WELLBEING_HIDE_STATS_POSTS, false)
         )
 
         adapter = StatusesAdapter(statusDisplayOptions,
                 viewModel.statusViewState, this)
 
         recyclerView.addItemDecoration(DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL))
-        layoutManager = LinearLayoutManager(requireContext())
-        recyclerView.layoutManager = layoutManager
+        recyclerView.layoutManager = LinearLayoutManager(requireContext())
         recyclerView.adapter = adapter
         (recyclerView.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
 

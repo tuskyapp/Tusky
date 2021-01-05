@@ -57,6 +57,7 @@ import com.keylesspalace.tusky.interfaces.ActionButtonActivity
 import com.keylesspalace.tusky.interfaces.LinkListener
 import com.keylesspalace.tusky.interfaces.ReselectableFragment
 import com.keylesspalace.tusky.pager.AccountPagerAdapter
+import com.keylesspalace.tusky.settings.PrefKeys
 import com.keylesspalace.tusky.util.*
 import com.keylesspalace.tusky.view.showMuteAccountDialog
 import com.keylesspalace.tusky.viewmodel.AccountViewModel
@@ -185,6 +186,17 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
             poorTabView.isPressed = true
             accountTabLayout.postDelayed({ poorTabView.isPressed = false }, 300)
         }
+
+        // If wellbeing mode is enabled, follow stats and posts count should be hidden
+        val preferences = PreferenceManager.getDefaultSharedPreferences(this)
+        val wellbeingEnabled = preferences.getBoolean(PrefKeys.WELLBEING_HIDE_STATS_PROFILE, false)
+
+        if (wellbeingEnabled) {
+            accountStatuses.hide()
+            accountFollowers.hide()
+            accountFollowing.hide()
+        }
+
     }
 
     /**
@@ -199,8 +211,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
 
         val pageTitles = arrayOf(getString(R.string.title_statuses), getString(R.string.title_statuses_with_replies), getString(R.string.title_statuses_pinned), getString(R.string.title_media))
 
-        TabLayoutMediator(accountTabLayout, accountFragmentViewPager) {
-            tab, position ->
+        TabLayoutMediator(accountTabLayout, accountFragmentViewPager) { tab, position ->
             tab.text = pageTitles[position]
         }.attach()
 
@@ -534,7 +545,11 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
         blockingDomain = relation.blockingDomain
         showingReblogs = relation.showingReblogs
 
-        accountFollowsYouTextView.visible(relation.followedBy)
+        // If wellbeing mode is enabled, "follows you" text should not be visible
+        val preferences = PreferenceManager.getDefaultSharedPreferences(this)
+        val wellbeingEnabled = preferences.getBoolean(PrefKeys.WELLBEING_HIDE_STATS_PROFILE, false)
+
+        accountFollowsYouTextView.visible(relation.followedBy && !wellbeingEnabled)
 
         // because subscribing is Pleroma extension, enable it __only__ when we have non-null subscribing field
         // it's also now supported in Mastodon 3.3.0rc but called notifying and use different API call
@@ -749,8 +764,8 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
         if (viewModel.relationshipData.value?.data?.muting != true) {
             loadedAccount?.let {
                 showMuteAccountDialog(
-                    this,
-                    it.username
+                        this,
+                        it.username
                 ) { notifications ->
                     viewModel.muteAccount(notifications)
                 }

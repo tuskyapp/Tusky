@@ -35,7 +35,8 @@ class AccountManager @Inject constructor(db: AppDatabase) {
     @Volatile
     var activeAccount: AccountEntity? = null
 
-    private var accounts: MutableList<AccountEntity> = mutableListOf()
+    var accounts: MutableList<AccountEntity> = mutableListOf()
+        private set
     private val accountDao: AccountDao = db.accountDao()
 
     init {
