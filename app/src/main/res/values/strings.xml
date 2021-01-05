@@ -588,5 +588,6 @@
         but they will be removed in a future update!
     </string>
     <string name="old_drafts">Old Drafts</string>
+    <string name="drafts_failed_loading_reply">Failed loading Reply information</string>
 
 </resources>

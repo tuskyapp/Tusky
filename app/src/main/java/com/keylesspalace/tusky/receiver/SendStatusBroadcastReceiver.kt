@@ -60,7 +60,6 @@ class SendStatusBroadcastReceiver : BroadcastReceiver() {
 
         val notificationManager = NotificationManagerCompat.from(context)
 
-
         if (intent.action == NotificationHelper.REPLY_ACTION) {
 
             val message = getReplyMessage(intent)
@@ -89,22 +88,23 @@ class SendStatusBroadcastReceiver : BroadcastReceiver() {
                 val sendIntent = SendTootService.sendTootIntent(
                         context,
                         TootToSend(
-                                text,
-                                spoiler,
-                                visibility.serverString(),
-                                false,
-                                emptyList(),
-                                emptyList(),
-                                emptyList(),
-                                null,
-                                citedStatusId,
-                                null,
-                                null,
-                                null,
-                                null, account.id,
-                                0,
-                                randomAlphanumericString(16),
-                                0
+                                text = text,
+                                warningText = spoiler,
+                                visibility = visibility.serverString(),
+                                sensitive = false,
+                                mediaIds = emptyList(),
+                                mediaUris = emptyList(),
+                                mediaDescriptions = emptyList(),
+                                scheduledAt = null,
+                                inReplyToId = citedStatusId,
+                                poll = null,
+                                replyingStatusContent = null,
+                                replyingStatusAuthorUsername = null,
+                                accountId = account.id,
+                                savedTootUid = -1,
+                                draftId = -1,
+                                idempotencyKey = randomAlphanumericString(16),
+                                retries = 0
                         )
                 )
 

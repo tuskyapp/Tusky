@@ -120,7 +120,7 @@ class ScheduledTootActivity : BaseActivity(), ScheduledTootActionListener, Injec
 
     override fun edit(item: ScheduledStatus) {
         val intent = ComposeActivity.startIntent(this, ComposeActivity.ComposeOptions(
-                scheduledTootUid = item.id,
+                scheduledTootId = item.id,
                 tootText = item.params.text,
                 contentWarning = item.params.spoilerText,
                 mediaAttachments = item.mediaAttachments,

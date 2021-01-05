@@ -20,20 +20,21 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import io.reactivex.Completable
+import io.reactivex.Single
 
 @Dao
 interface DraftDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertOrReplace(draft: DraftEntity)
+    fun insertOrReplace(draft: DraftEntity): Completable
 
     @Query("SELECT * FROM DraftEntity WHERE accountId = :accountId ORDER BY id ASC")
     fun loadDrafts(accountId: Long): DataSource.Factory<Int, DraftEntity>
 
     @Query("DELETE FROM DraftEntity WHERE id = :id")
-    fun delete(id: Int): Int
+    fun delete(id: Int): Completable
 
     @Query("SELECT * FROM DraftEntity WHERE id = :id")
-    fun find(id: Int): DraftEntity?
-
+    fun find(id: Int): Single<DraftEntity?>
 }

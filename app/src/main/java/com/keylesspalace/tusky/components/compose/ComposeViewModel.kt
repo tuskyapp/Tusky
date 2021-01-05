@@ -26,7 +26,6 @@ import com.keylesspalace.tusky.components.drafts.DraftHelper
 import com.keylesspalace.tusky.components.search.SearchType
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.db.AppDatabase
-import com.keylesspalace.tusky.db.DraftAttachment
 import com.keylesspalace.tusky.db.InstanceEntity
 import com.keylesspalace.tusky.entity.*
 import com.keylesspalace.tusky.entity.Status
@@ -53,7 +52,8 @@ class ComposeViewModel @Inject constructor(
     private var replyingStatusContent: String? = null
     internal var startingText: String? = null
     private var savedTootUid: Int = 0
-    private var scheduledTootUid: String? = null
+    private var draftId: Int = 0
+    private var scheduledTootId: String? = null
     private var startingContentWarning: String = ""
     private var inReplyToId: String? = null
     private var startingVisibility: Status.Visibility = Status.Visibility.UNKNOWN
@@ -86,7 +86,7 @@ class ComposeViewModel @Inject constructor(
 
     private val mediaToDisposable = mutableMapOf<Long, Disposable>()
 
-    private val isEditingScheduledToot get() = !scheduledTootUid.isNullOrEmpty()
+    private val isEditingScheduledToot get() = !scheduledTootId.isNullOrEmpty()
 
     init {
 
@@ -209,20 +209,23 @@ class ComposeViewModel @Inject constructor(
 
     fun saveDraft(content: String, contentWarning: String) {
 
+        val mediaUris = ArrayList<String>()
+        val mediaDescriptions = ArrayList<String?>()
+        for (item in media.value!!) {
+            mediaUris.add(item.uri.toString())
+            mediaDescriptions.add(item.description)
+        }
+
         draftHelper.saveDraft(
+                draftId = draftId,
                 accountId = accountManager.activeAccount?.id!!,
                 inReplyToId = inReplyToId,
                 content = content,
                 contentWarning = contentWarning,
                 sensitive = markMediaAsSensitive.value!!,
                 visibility = statusVisibility.value!!,
-                attachments = media.value?.map { media ->
-                    DraftAttachment(
-                            path = media.uri.toString(),
-                            description = media.description,
-                            type = media.type
-                    )
-                }.orEmpty(),
+                mediaUris = mediaUris,
+                mediaDescriptions = mediaDescriptions,
                 poll = poll.value,
                 failedToSend = false
         ).subscribe()
@@ -239,7 +242,7 @@ class ComposeViewModel @Inject constructor(
     ): LiveData<Unit> {
 
         val deletionObservable = if (isEditingScheduledToot) {
-            api.deleteScheduledStatus(scheduledTootUid.toString()).toObservable().map {  }
+            api.deleteScheduledStatus(scheduledTootId.toString()).toObservable().map {  }
         } else {
             just(Unit)
         }.toLiveData()
@@ -250,28 +253,30 @@ class ComposeViewModel @Inject constructor(
                     val mediaIds = ArrayList<String>()
                     val mediaUris = ArrayList<Uri>()
                     val mediaDescriptions = ArrayList<String>()
+                    val mediaTypes = ArrayList<QueuedMedia.Type>()
                     for (item in media.value!!) {
                         mediaIds.add(item.id!!)
                         mediaUris.add(item.uri)
                         mediaDescriptions.add(item.description ?: "")
+                        mediaTypes.add(item.type)
                     }
 
                     val tootToSend = TootToSend(
-                            content,
-                            spoilerText,
-                            statusVisibility.value!!.serverString(),
-                            mediaUris.isNotEmpty() && (markMediaAsSensitive.value!! || showContentWarning.value!!),
-                            mediaIds,
-                            mediaUris.map { it.toString() },
-                            mediaDescriptions,
+                            text = content,
+                            warningText = spoilerText,
+                            visibility = statusVisibility.value!!.serverString(),
+                            sensitive = mediaUris.isNotEmpty() && (markMediaAsSensitive.value!! || showContentWarning.value!!),
+                            mediaIds = mediaIds,
+                            mediaUris = mediaUris.map { it.toString() },
+                            mediaDescriptions = mediaDescriptions,
                             scheduledAt = scheduledAt.value,
                             inReplyToId = inReplyToId,
                             poll = poll.value,
                             replyingStatusContent = null,
                             replyingStatusAuthorUsername = null,
-                            savedJsonUrls = null,
                             accountId = accountManager.activeAccount!!.id,
-                            savedTootUid = 0,
+                            savedTootUid = savedTootUid,
+                            draftId = draftId,
                             idempotencyKey = randomAlphanumericString(16),
                             retries = 0
                     )
@@ -387,10 +392,11 @@ class ComposeViewModel @Inject constructor(
         }
 
         // recreate media list
-        // when coming from SavedTootActivity
         val loadedDraftMediaUris = composeOptions?.mediaUrls
         val loadedDraftMediaDescriptions: List<String?>? = composeOptions?.mediaDescriptions
+        val draftAttachments = composeOptions?.draftAttachments
         if (loadedDraftMediaUris != null && loadedDraftMediaDescriptions != null) {
+            // when coming from SavedTootActivity
             loadedDraftMediaUris.zip(loadedDraftMediaDescriptions)
                     .forEach { (uri, description) ->
                         pickMedia(uri.toUri()).observeForever { errorOrItem ->
@@ -399,8 +405,17 @@ class ComposeViewModel @Inject constructor(
                             }
                         }
                     }
+        } else if (draftAttachments != null) {
+            // when coming from DraftActivity
+            draftAttachments.forEach { attachment ->
+                        pickMedia(attachment.uri).observeForever { errorOrItem ->
+                            if (errorOrItem.isRight() && attachment.description != null) {
+                                updateDescription(errorOrItem.asRight().localId, attachment.description)
+                            }
+                        }
+                    }
         } else composeOptions?.mediaAttachments?.forEach { a ->
-            // when coming from redraft
+            // when coming from redraft or ScheduledTootActivity
             val mediaType = when (a.type) {
                 Attachment.Type.VIDEO, Attachment.Type.GIFV -> QueuedMedia.Type.VIDEO
                 Attachment.Type.UNKNOWN, Attachment.Type.IMAGE -> QueuedMedia.Type.IMAGE
@@ -410,7 +425,8 @@ class ComposeViewModel @Inject constructor(
         }
 
         savedTootUid = composeOptions?.savedTootUid ?: 0
-        scheduledTootUid = composeOptions?.scheduledTootUid
+        draftId = composeOptions?.draftId ?: 0
+        scheduledTootId = composeOptions?.scheduledTootId
         startingText = composeOptions?.tootText
 
         val tootVisibility = composeOptions?.visibility ?: Status.Visibility.UNKNOWN

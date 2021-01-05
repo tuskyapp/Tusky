@@ -147,6 +147,11 @@ interface MastodonApi {
             @Path("id") statusId: String
     ): Call<Status>
 
+    @GET("api/v1/statuses/{id}")
+    fun statusSingle(
+            @Path("id") statusId: String
+    ): Single<Status>
+
     @GET("api/v1/statuses/{id}/context")
     fun statusContext(
             @Path("id") statusId: String

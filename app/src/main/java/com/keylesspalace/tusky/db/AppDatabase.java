@@ -358,7 +358,7 @@ public abstract class AppDatabase extends RoomDatabase {
                             "`content` TEXT," +
                             "`contentWarning` TEXT," +
                             "`sensitive` INTEGER NOT NULL," +
-                            "`visibility` INTEGER," +
+                            "`visibility` INTEGER NOT NULL," +
                             "`attachments` TEXT NOT NULL," +
                             "`poll` TEXT," +
                             "`failedToSend` INTEGER NOT NULL)"

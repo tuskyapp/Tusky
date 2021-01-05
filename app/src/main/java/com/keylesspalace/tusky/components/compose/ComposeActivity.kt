@@ -63,6 +63,7 @@ import com.keylesspalace.tusky.components.compose.dialog.makeCaptionDialog
 import com.keylesspalace.tusky.components.compose.dialog.showAddPollDialog
 import com.keylesspalace.tusky.components.compose.view.ComposeOptionsListener
 import com.keylesspalace.tusky.db.AccountEntity
+import com.keylesspalace.tusky.db.DraftAttachment
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.entity.Attachment
@@ -997,8 +998,9 @@ class ComposeActivity : BaseActivity(),
     @Parcelize
     data class ComposeOptions(
             // Let's keep fields var until all consumers are Kotlin
-            var scheduledTootUid: String? = null,
+            var scheduledTootId: String? = null,
             var savedTootUid: Int? = null,
+            var draftId: Int? = null,
             var tootText: String? = null,
             var mediaUrls: List<String>? = null,
             var mediaDescriptions: List<String>? = null,
@@ -1010,6 +1012,7 @@ class ComposeActivity : BaseActivity(),
             var replyingStatusAuthor: String? = null,
             var replyingStatusContent: String? = null,
             var mediaAttachments: List<Attachment>? = null,
+            var draftAttachments: List<DraftAttachment>? = null,
             var scheduledAt: String? = null,
             var sensitive: Boolean? = null,
             var poll: NewPoll? = null,

@@ -26,6 +26,7 @@ import com.keylesspalace.tusky.entity.NewPoll
 import com.keylesspalace.tusky.entity.NewStatus
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.network.MastodonApi
+import com.keylesspalace.tusky.util.SaveTootHelper
 import dagger.android.AndroidInjection
 import kotlinx.android.parcel.Parcelize
 import retrofit2.Call
@@ -48,6 +49,8 @@ class SendTootService : Service(), Injectable {
     lateinit var database: AppDatabase
     @Inject
     lateinit var draftHelper: DraftHelper
+    @Inject
+    lateinit var saveTootHelper: SaveTootHelper
 
     private val tootsToSend = ConcurrentHashMap<Int, TootToSend>()
     private val sendCalls = ConcurrentHashMap<Int, Call<Status>>()
@@ -160,7 +163,10 @@ class SendTootService : Service(), Injectable {
                 if (response.isSuccessful) {
                     // If the status was loaded from a draft, delete the draft and associated media files.
                     if (tootToSend.savedTootUid != 0) {
-                        draftHelper.deleteDraft(tootToSend.savedTootUid)
+                        saveTootHelper.deleteDraft(tootToSend.savedTootUid)
+                    }
+                    if (tootToSend.draftId != 0) {
+                        draftHelper.deleteDraft(tootToSend.draftId)
                                 .subscribe()
                     }
 
@@ -246,13 +252,15 @@ class SendTootService : Service(), Injectable {
     private fun saveTootToDrafts(toot: TootToSend) {
 
         draftHelper.saveDraft(
+                draftId = toot.draftId,
                 accountId = toot.accountId,
                 inReplyToId = toot.inReplyToId,
                 content = toot.text,
                 contentWarning = toot.warningText,
                 sensitive = toot.sensitive,
                 visibility = Status.Visibility.byString(toot.visibility),
-                attachments = emptyList(),
+                mediaUris = toot.mediaUris,
+                mediaDescriptions = toot.mediaDescriptions,
                 poll = toot.poll,
                 failedToSend = true
         ).subscribe()
@@ -323,9 +331,9 @@ data class TootToSend(
         val poll: NewPoll?,
         val replyingStatusContent: String?,
         val replyingStatusAuthorUsername: String?,
-        val savedJsonUrls: List<String>?,
         val accountId: Long,
         val savedTootUid: Int,
+        val draftId: Int,
         val idempotencyKey: String,
         var retries: Int
 ) : Parcelable

@@ -25,10 +25,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.keylesspalace.tusky.R
-import com.keylesspalace.tusky.components.compose.ComposeActivity
 import com.keylesspalace.tusky.db.DraftAttachment
 
-class DraftMediaAdapter : ListAdapter<DraftAttachment, DraftMediaAdapter.DraftMediaViewHolder>(
+class DraftMediaAdapter(
+        private val attachmentClick: () -> Unit
+) : ListAdapter<DraftAttachment, DraftMediaAdapter.DraftMediaViewHolder>(
         object: DiffUtil.ItemCallback<DraftAttachment>() {
             override fun areItemsTheSame(oldItem: DraftAttachment, newItem: DraftAttachment): Boolean {
                 return oldItem == newItem
@@ -47,11 +48,11 @@ class DraftMediaAdapter : ListAdapter<DraftAttachment, DraftMediaAdapter.DraftMe
 
     override fun onBindViewHolder(holder: DraftMediaViewHolder, position: Int) {
         getItem(position)?.let { attachment ->
-            if (attachment.type == ComposeActivity.QueuedMedia.Type.AUDIO) {
+            if (attachment.type == DraftAttachment.Type.AUDIO) {
                 holder.imageView.setImageResource(R.drawable.ic_music_box_preview_24dp)
             } else {
                 Glide.with(holder.itemView.context)
-                        .load(attachment.path)
+                        .load(attachment.uri)
                         .diskCacheStrategy(DiskCacheStrategy.NONE)
                         .dontAnimate()
                         .into(holder.imageView)
@@ -72,6 +73,9 @@ class DraftMediaAdapter : ListAdapter<DraftAttachment, DraftMediaAdapter.DraftMe
             layoutParams.setMargins(margin, 0, margin, marginBottom)
             imageView.layoutParams = layoutParams
             imageView.scaleType = ImageView.ScaleType.CENTER_CROP
+            imageView.setOnClickListener {
+                attachmentClick()
+            }
         }
     }
 }

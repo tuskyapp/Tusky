@@ -21,13 +21,18 @@ import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.db.AppDatabase
 import com.keylesspalace.tusky.db.DraftEntity
+import com.keylesspalace.tusky.entity.Status
+import com.keylesspalace.tusky.network.MastodonApi
 import io.reactivex.Observable
+import io.reactivex.Single
 import javax.inject.Inject
 
 class DraftsViewModel @Inject constructor(
     val eventHub: EventHub,
     val database: AppDatabase,
-    val accountManager: AccountManager
+    val accountManager: AccountManager,
+    val api: MastodonApi,
+    val draftHelper: DraftHelper
 ) : ViewModel() {
 
     val drafts = database.draftDao().loadDrafts(accountManager.activeAccount?.id!!).toLiveData(pageSize = 20)
@@ -38,7 +43,12 @@ class DraftsViewModel @Inject constructor(
     }
 
     fun deleteDraft(draft: DraftEntity) {
-        database.draftDao().delete(draft.id)
+        draftHelper.deleteDraft(draft)
+                .subscribe()
+    }
+
+    fun getToot(tootId: String): Single<Status> {
+        return api.statusSingle(tootId)
     }
 
 }

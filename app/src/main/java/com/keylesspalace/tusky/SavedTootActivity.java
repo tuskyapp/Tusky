@@ -166,6 +166,7 @@ public final class SavedTootActivity extends BaseActivity implements SavedTootAd
         ComposeOptions composeOptions = new ComposeOptions(
                 /*scheduledTootUid*/null,
                 item.getUid(),
+                /*drafId*/null,
                 item.getText(),
                 jsonUrls,
                 descriptions,
@@ -177,6 +178,7 @@ public final class SavedTootActivity extends BaseActivity implements SavedTootAd
                 item.getInReplyToUsername(),
                 item.getInReplyToText(),
                 /*mediaAttachments*/null,
+                /*draftAttachments*/null,
                 /*scheduledAt*/null,
                 /*sensitive*/null,
                 /*poll*/null,

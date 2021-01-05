@@ -30,6 +30,13 @@ public final class SaveTootHelper {
         this.context = context;
     }
 
+    public void deleteDraft(int tootId) {
+        TootEntity item = tootDao.find(tootId);
+        if (item != null) {
+            deleteDraft(item);
+        }
+    }
+
     public void deleteDraft(@NonNull TootEntity item) {
         // Delete any media files associated with the status.
         ArrayList<String> uris = gson.fromJson(item.getUrls(),

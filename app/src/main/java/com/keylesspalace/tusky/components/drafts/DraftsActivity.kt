@@ -18,12 +18,16 @@ package com.keylesspalace.tusky.components.drafts
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.LinearLayout
 import androidx.activity.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.snackbar.Snackbar
 import com.keylesspalace.tusky.BaseActivity
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.SavedTootActivity
@@ -36,6 +40,7 @@ import com.keylesspalace.tusky.util.show
 import com.uber.autodispose.android.lifecycle.autoDispose
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import retrofit2.HttpException
 import javax.inject.Inject
 
 class DraftsActivity: BaseActivity(), DraftActionListener {
@@ -46,6 +51,7 @@ class DraftsActivity: BaseActivity(), DraftActionListener {
     private val viewModel: DraftsViewModel by viewModels { viewModelFactory }
 
     private lateinit var binding: ActivityDraftsBinding
+    private lateinit var bottomSheet: BottomSheetBehavior<LinearLayout>
 
     private var oldDraftsButton: MenuItem? = null
 
@@ -70,6 +76,8 @@ class DraftsActivity: BaseActivity(), DraftActionListener {
         binding.draftsRecyclerView.adapter = adapter
         binding.draftsRecyclerView.layoutManager = LinearLayoutManager(this)
         binding.draftsRecyclerView.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
+
+        bottomSheet = BottomSheetBehavior.from(binding.bottomSheet.root)
 
         viewModel.drafts.observe(this) { draftList ->
             if (draftList.isEmpty()) {
@@ -113,11 +121,58 @@ class DraftsActivity: BaseActivity(), DraftActionListener {
 
     override fun onOpenDraft(draft: DraftEntity) {
 
+        if (draft.inReplyToId != null) {
+            bottomSheet.state = BottomSheetBehavior.STATE_COLLAPSED
+            viewModel.getToot(draft.inReplyToId)
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .autoDispose(this)
+                    .subscribe({ status ->
+                        val composeOptions = ComposeActivity.ComposeOptions(
+                                draftId = draft.id,
+                                tootText = draft.content,
+                                contentWarning = draft.contentWarning,
+                                inReplyToId = draft.inReplyToId,
+                                replyingStatusContent = status.content.toString(),
+                                replyingStatusAuthor = status.account.localUsername,
+                                draftAttachments = draft.attachments,
+                                poll = draft.poll,
+                                sensitive = draft.sensitive,
+                                visibility = draft.visibility
+                        )
+
+                        bottomSheet.state = BottomSheetBehavior.STATE_HIDDEN
+
+                        startActivity(ComposeActivity.startIntent(this, composeOptions))
+
+                    }, { throwable ->
+
+                        bottomSheet.state = BottomSheetBehavior.STATE_HIDDEN
+
+                        Log.w(TAG, "failed loading reply information", throwable)
+
+                        if (throwable is HttpException && throwable.code() == 404) {
+                            // the original status to which a reply was drafted has been deleted
+                            // let's open the ComposeActivity without reply information
+                            openDraftWithoutReply(draft)
+                        } else {
+                            Snackbar.make(binding.root, getString(R.string.drafts_failed_loading_reply), Snackbar.LENGTH_SHORT)
+                                    .show()
+                        }
+                    })
+        } else {
+            openDraftWithoutReply(draft)
+        }
+    }
+
+    private fun openDraftWithoutReply(draft: DraftEntity) {
         val composeOptions = ComposeActivity.ComposeOptions(
-                savedTootUid = draft.id,
+                draftId = draft.id,
                 tootText = draft.content,
                 contentWarning = draft.contentWarning,
-                inReplyToId = draft.inReplyToId
+                draftAttachments = draft.attachments,
+                poll = draft.poll,
+                sensitive = draft.sensitive,
+                visibility = draft.visibility
         )
 
         startActivity(ComposeActivity.startIntent(this, composeOptions))
@@ -128,7 +183,8 @@ class DraftsActivity: BaseActivity(), DraftActionListener {
     }
 
     companion object {
+        const val TAG = "DraftsActivity"
+
         fun newIntent(context: Context) = Intent(context, DraftsActivity::class.java)
     }
-
 }

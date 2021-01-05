@@ -13,14 +13,13 @@ import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.visible
 
-
 interface DraftActionListener {
     fun onOpenDraft(draft: DraftEntity)
     fun onDeleteDraft(draft: DraftEntity)
 }
 
 class DraftsAdapter(
-        val listener: DraftActionListener
+        private val listener: DraftActionListener
 ): PagedListAdapter<DraftEntity, BindingViewHolder<ItemDraftBinding>>(
         object: DiffUtil.ItemCallback<DraftEntity>() {
             override fun areItemsTheSame(oldItem: DraftEntity, newItem: DraftEntity): Boolean {
@@ -30,7 +29,6 @@ class DraftsAdapter(
             override fun areContentsTheSame(oldItem: DraftEntity, newItem: DraftEntity): Boolean {
                 return oldItem == newItem
             }
-
         }
 ) {
 
@@ -38,10 +36,16 @@ class DraftsAdapter(
 
         val binding = ItemDraftBinding.inflate(LayoutInflater.from(parent.context), parent, false)
 
-        binding.draftMediaPreview.layoutManager = LinearLayoutManager(binding.root.context, RecyclerView.HORIZONTAL, false)
-        binding.draftMediaPreview.adapter = DraftMediaAdapter()
+        val viewHolder = BindingViewHolder(binding)
 
-        return BindingViewHolder(binding)
+        binding.draftMediaPreview.layoutManager = LinearLayoutManager(binding.root.context, RecyclerView.HORIZONTAL, false)
+        binding.draftMediaPreview.adapter = DraftMediaAdapter {
+            getItem(viewHolder.adapterPosition)?.let { draft ->
+                listener.onOpenDraft(draft)
+            }
+        }
+
+        return viewHolder
     }
 
     override fun onBindViewHolder(holder: BindingViewHolder<ItemDraftBinding>, position: Int) {
