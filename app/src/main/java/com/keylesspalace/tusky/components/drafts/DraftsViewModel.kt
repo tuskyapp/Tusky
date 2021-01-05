@@ -17,7 +17,6 @@ package com.keylesspalace.tusky.components.drafts
 
 import androidx.lifecycle.ViewModel
 import androidx.paging.toLiveData
-import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.db.AppDatabase
 import com.keylesspalace.tusky.db.DraftEntity
@@ -28,7 +27,6 @@ import io.reactivex.Single
 import javax.inject.Inject
 
 class DraftsViewModel @Inject constructor(
-    val eventHub: EventHub,
     val database: AppDatabase,
     val accountManager: AccountManager,
     val api: MastodonApi,

@@ -209,9 +209,9 @@ class ComposeViewModel @Inject constructor(
 
     fun saveDraft(content: String, contentWarning: String) {
 
-        val mediaUris = ArrayList<String>()
-        val mediaDescriptions = ArrayList<String?>()
-        for (item in media.value!!) {
+        val mediaUris: MutableList<String> = mutableListOf()
+        val mediaDescriptions: MutableList<String?> = mutableListOf()
+        media.value?.forEach { item ->
             mediaUris.add(item.uri.toString())
             mediaDescriptions.add(item.description)
         }
@@ -365,13 +365,6 @@ class ComposeViewModel @Inject constructor(
         }
     }
 
-    override fun onCleared() {
-        for (uploadDisposable in mediaToDisposable.values) {
-            uploadDisposable.dispose()
-        }
-        super.onCleared()
-    }
-
     fun setup(composeOptions: ComposeActivity.ComposeOptions?) {
         val preferredVisibility = accountManager.activeAccount!!.defaultPostPrivacy
 
@@ -463,6 +456,13 @@ class ComposeViewModel @Inject constructor(
 
     fun updateScheduledAt(newScheduledAt: String?) {
         scheduledAt.value = newScheduledAt
+    }
+
+    override fun onCleared() {
+        for (uploadDisposable in mediaToDisposable.values) {
+            uploadDisposable.dispose()
+        }
+        super.onCleared()
     }
 
     private companion object {

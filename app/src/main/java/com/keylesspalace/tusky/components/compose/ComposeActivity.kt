@@ -30,7 +30,6 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Parcelable
 import android.provider.MediaStore
-import android.text.TextUtils
 import android.util.Log
 import android.view.KeyEvent
 import android.view.MenuItem
@@ -81,7 +80,6 @@ import java.io.File
 import java.io.IOException
 import java.util.*
 import javax.inject.Inject
-import kotlin.collections.ArrayList
 import kotlin.math.max
 import kotlin.math.min
 
@@ -148,16 +146,16 @@ class ComposeActivity : BaseActivity(),
         /* If the composer is started up as a reply to another post, override the "starting" state
          * based on what the intent from the reply request passes. */
 
-            val composeOptions: ComposeOptions? = intent.getParcelableExtra(COMPOSE_OPTIONS_EXTRA)
+        val composeOptions: ComposeOptions? = intent.getParcelableExtra(COMPOSE_OPTIONS_EXTRA)
 
-            viewModel.setup(composeOptions)
-            setupReplyViews(composeOptions?.replyingStatusAuthor, composeOptions?.replyingStatusContent)
-            val tootText = composeOptions?.tootText
-            if (!tootText.isNullOrEmpty()) {
-                composeEditField.setText(tootText)
-            }
+        viewModel.setup(composeOptions)
+        setupReplyViews(composeOptions?.replyingStatusAuthor, composeOptions?.replyingStatusContent)
+        val tootText = composeOptions?.tootText
+        if (!tootText.isNullOrEmpty()) {
+            composeEditField.setText(tootText)
+        }
 
-        if (!TextUtils.isEmpty(composeOptions?.scheduledAt)) {
+        if (!composeOptions?.scheduledAt.isNullOrEmpty()) {
             composeScheduleView.setDateTime(composeOptions?.scheduledAt)
         }
 
@@ -168,38 +166,24 @@ class ComposeActivity : BaseActivity(),
         viewModel.setupComplete.value = true
     }
 
-    private fun applyShareIntent(intent: Intent?, savedInstanceState: Bundle?) {
-        if (intent != null && savedInstanceState == null) {
+    private fun applyShareIntent(intent: Intent, savedInstanceState: Bundle?) {
+        if (savedInstanceState == null) {
             /* Get incoming images being sent through a share action from another app. Only do this
              * when savedInstanceState is null, otherwise both the images from the intent and the
              * instance state will be re-queued. */
-            val type = intent.type
-            if (type != null) {
+            intent.type?.also { type ->
                 if (type.startsWith("image/") || type.startsWith("video/") || type.startsWith("audio/")) {
-                    val uriList = ArrayList<Uri>()
-                    if (intent.action != null) {
-                        when (intent.action) {
-                            Intent.ACTION_SEND -> {
-                                val uri = intent.getParcelableExtra<Uri>(Intent.EXTRA_STREAM)
-                                if (uri != null) {
-                                    uriList.add(uri)
-                                }
-                            }
-                            Intent.ACTION_SEND_MULTIPLE -> {
-                                val list = intent.getParcelableArrayListExtra<Uri>(
-                                        Intent.EXTRA_STREAM)
-                                if (list != null) {
-                                    for (uri in list) {
-                                        if (uri != null) {
-                                            uriList.add(uri)
-                                        }
-                                    }
-                                }
+                    when (intent.action) {
+                        Intent.ACTION_SEND -> {
+                            intent.getParcelableExtra<Uri>(Intent.EXTRA_STREAM)?.let { uri ->
+                                pickMedia(uri)
                             }
                         }
-                    }
-                    for (uri in uriList) {
-                        pickMedia(uri)
+                        Intent.ACTION_SEND_MULTIPLE -> {
+                            intent.getParcelableArrayListExtra<Uri>(Intent.EXTRA_STREAM)?.forEach { uri ->
+                                pickMedia(uri)
+                            }
+                        }
                     }
                 } else if (type == "text/plain" && intent.action == Intent.ACTION_SEND) {
 
@@ -845,10 +829,10 @@ class ComposeActivity : BaseActivity(),
                 }else{
                     // if not grater then 4, upload all multiple media.
                     for (i in 0 until count) {
-                            val imageUri = clipData.getItemAt(i).getUri()
-                            pickMedia(imageUri)
-                        }
+                        val imageUri = clipData.getItemAt(i).getUri()
+                        pickMedia(imageUri)
                     }
+                }
             }
         } else if (resultCode == Activity.RESULT_OK && requestCode == MEDIA_TAKE_PHOTO_RESULT) {
             pickMedia(photoUploadUri!!)
