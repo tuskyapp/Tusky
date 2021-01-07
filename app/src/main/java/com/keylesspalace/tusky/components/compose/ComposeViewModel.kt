@@ -116,7 +116,7 @@ class ComposeViewModel @Inject constructor(
                 .autoDispose()
     }
 
-    fun pickMedia(uri: Uri): LiveData<Either<Throwable, QueuedMedia>> {
+    fun pickMedia(uri: Uri, description: String? = null): LiveData<Either<Throwable, QueuedMedia>> {
         // We are not calling .toLiveData() here because we don't want to stop the process when
         // the Activity goes away temporarily (like on screen rotation).
         val liveData = MutableLiveData<Either<Throwable, QueuedMedia>>()
@@ -128,7 +128,7 @@ class ComposeViewModel @Inject constructor(
                             && mediaItems[0].type == QueuedMedia.Type.IMAGE) {
                         throw VideoOrImageException()
                     } else {
-                        addMediaToQueue(type, uri, size)
+                        addMediaToQueue(type, uri, size, description)
                     }
                 }
                 .subscribe({ queuedMedia ->
@@ -140,8 +140,19 @@ class ComposeViewModel @Inject constructor(
         return liveData
     }
 
-    private fun addMediaToQueue(type: QueuedMedia.Type, uri: Uri, mediaSize: Long): QueuedMedia {
-        val mediaItem = QueuedMedia(System.currentTimeMillis(), uri, type, mediaSize)
+    private fun addMediaToQueue(
+            type: QueuedMedia.Type,
+            uri: Uri,
+            mediaSize: Long,
+            description: String? = null
+    ): QueuedMedia {
+        val mediaItem = QueuedMedia(
+                localId = System.currentTimeMillis(),
+                uri = uri,
+                type = type,
+                mediaSize = mediaSize,
+                description = description
+        )
         media.value = media.value!! + mediaItem
         mediaToDisposable[mediaItem.localId] = mediaUploader
                 .uploadMedia(mediaItem)
@@ -405,13 +416,7 @@ class ComposeViewModel @Inject constructor(
                     }
         } else if (draftAttachments != null) {
             // when coming from DraftActivity
-            draftAttachments.forEach { attachment ->
-                        pickMedia(attachment.uri).observeForever { errorOrItem ->
-                            if (errorOrItem.isRight() && attachment.description != null) {
-                                updateDescription(errorOrItem.asRight().localId, attachment.description)
-                            }
-                        }
-                    }
+            draftAttachments.forEach { attachment -> pickMedia(attachment.uri, attachment.description) }
         } else composeOptions?.mediaAttachments?.forEach { a ->
             // when coming from redraft or ScheduledTootActivity
             val mediaType = when (a.type) {

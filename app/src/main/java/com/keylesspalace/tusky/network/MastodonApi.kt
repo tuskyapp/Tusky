@@ -124,7 +124,8 @@ interface MastodonApi {
     @Multipart
     @POST("api/v1/media")
     fun uploadMedia(
-            @Part file: MultipartBody.Part
+            @Part file: MultipartBody.Part,
+            @Part description: MultipartBody.Part? = null
     ): Single<Attachment>
 
     @FormUrlEncoded
