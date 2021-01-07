@@ -366,6 +366,11 @@ class ComposeViewModel @Inject constructor(
     }
 
     fun setup(composeOptions: ComposeActivity.ComposeOptions?) {
+
+        if (setupComplete.value == true) {
+            return
+        }
+
         val preferredVisibility = accountManager.activeAccount!!.defaultPostPrivacy
 
         val replyVisibility = composeOptions?.replyVisibility ?: Status.Visibility.UNKNOWN
