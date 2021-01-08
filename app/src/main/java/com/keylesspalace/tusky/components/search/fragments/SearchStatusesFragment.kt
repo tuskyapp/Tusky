@@ -377,8 +377,8 @@ class SearchStatusesFragment : SearchFragment<Pair<Status, StatusViewData.Concre
         showMuteAccountDialog(
             this.requireActivity(),
             accountUsername
-        ) { notifications ->
-            viewModel.muteAccount(accountId, notifications)
+        ) { notifications, duration ->
+            viewModel.muteAccount(accountId, notifications, duration)
         }
     }
 

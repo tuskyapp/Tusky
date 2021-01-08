@@ -22,4 +22,17 @@
               app:buttonTint="@color/compound_button_color"
               android:text="@string/dialog_mute_hide_notifications"/>
 
+    <TextView
+        android:id="@+id/duration_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingTop="20dp"
+        android:text="@string/label_duration" />
+
+    <Spinner
+        android:id="@+id/duration"
+        android:entries="@array/mute_duration_names"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
 </LinearLayout>
