@@ -24,11 +24,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.accessibility.AccessibilityManager;
 import android.widget.ProgressBar;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.arch.core.util.Function;
+import androidx.core.content.ContextCompat;
 import androidx.core.util.Pair;
 import androidx.core.widget.ContentLoadingProgressBar;
 import androidx.lifecycle.Lifecycle;
@@ -95,6 +97,7 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
@@ -1471,9 +1474,21 @@ public class TimelineFragment extends SFragment implements
         }
     };
 
+    AccessibilityManager a11yManager;
+    boolean talkBackWasEnabled;
+
     @Override
     public void onResume() {
         super.onResume();
+        a11yManager = Objects.requireNonNull(
+                ContextCompat.getSystemService(requireContext(), AccessibilityManager.class)
+        );
+        boolean wasEnabled = this.talkBackWasEnabled;
+        talkBackWasEnabled = a11yManager.isEnabled();
+        Log.d(TAG, "talkback was enabled: " + wasEnabled + ", now " + talkBackWasEnabled);
+        if (talkBackWasEnabled && !wasEnabled) {
+            this.adapter.notifyDataSetChanged();
+        }
         startUpdateTimestamp();
     }
 
