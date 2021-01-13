@@ -603,4 +603,5 @@
     </string>
     <string name="old_drafts">Old Drafts</string>
     <string name="drafts_failed_loading_reply">Failed loading Reply information</string>
+    <string name="draft_deleted">Draft deleted</string>
 </resources>

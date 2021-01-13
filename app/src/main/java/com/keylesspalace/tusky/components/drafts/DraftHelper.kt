@@ -30,6 +30,7 @@ import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.util.IOUtils
 import io.reactivex.Completable
 import io.reactivex.Single
+import io.reactivex.schedulers.Schedulers
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
@@ -110,24 +111,29 @@ class DraftHelper @Inject constructor(
 
         }.flatMapCompletable { draft ->
             draftDao.insertOrReplace(draft)
-        }
+        }.subscribeOn(Schedulers.io())
     }
 
-    fun deleteDraft(draftId: Int): Completable {
+    fun deleteDraftAndAttachments(draftId: Int): Completable {
         return draftDao.find(draftId)
                 .flatMapCompletable { draft ->
-                    deleteDraft(draft)
+                    deleteDraftAndAttachments(draft)
                 }
     }
 
-    fun deleteDraft(draft: DraftEntity): Completable {
+    fun deleteDraftAndAttachments(draft: DraftEntity): Completable {
+        return deleteAttachments(draft)
+                .andThen(draftDao.delete(draft.id))
+    }
+
+    fun deleteAttachments(draft: DraftEntity): Completable {
         return Completable.fromCallable {
             draft.attachments.forEach { attachment ->
                 if (context.contentResolver.delete(attachment.uri, null, null) == 0) {
                     Log.e("DraftHelper", "Did not delete file ${attachment.uriString}")
                 }
             }
-        }.andThen(draftDao.delete(draft.id))
+        }.subscribeOn(Schedulers.io())
     }
 
     private fun Uri.isNotInFolder(folder: File): Boolean {

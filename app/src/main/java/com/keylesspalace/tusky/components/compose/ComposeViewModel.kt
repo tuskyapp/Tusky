@@ -45,6 +45,7 @@ class ComposeViewModel @Inject constructor(
         private val mediaUploader: MediaUploader,
         private val serviceClient: ServiceClient,
         private val draftHelper: DraftHelper,
+        private val saveTootHelper: SaveTootHelper,
         private val db: AppDatabase
 ) : RxAwareViewModel() {
 
@@ -215,7 +216,13 @@ class ComposeViewModel @Inject constructor(
     }
 
     fun deleteDraft() {
-        draftHelper.deleteDraft(this.savedTootUid)
+        if (savedTootUid != 0) {
+            saveTootHelper.deleteDraft(savedTootUid)
+        }
+        if (draftId != 0) {
+            draftHelper.deleteDraftAndAttachments(draftId)
+                    .subscribe()
+        }
     }
 
     fun saveDraft(content: String, contentWarning: String) {

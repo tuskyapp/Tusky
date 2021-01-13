@@ -180,6 +180,11 @@ class DraftsActivity: BaseActivity(), DraftActionListener {
 
     override fun onDeleteDraft(draft: DraftEntity) {
         viewModel.deleteDraft(draft)
+        Snackbar.make(binding.root, getString(R.string.draft_deleted), Snackbar.LENGTH_LONG)
+                .setAction(R.string.action_undo) {
+                    viewModel.restoreDraft(draft)
+                }
+                .show()
     }
 
     companion object {

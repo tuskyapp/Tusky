@@ -166,7 +166,7 @@ class SendTootService : Service(), Injectable {
                         saveTootHelper.deleteDraft(tootToSend.savedTootUid)
                     }
                     if (tootToSend.draftId != 0) {
-                        draftHelper.deleteDraft(tootToSend.draftId)
+                        draftHelper.deleteDraftAndAttachments(tootToSend.draftId)
                                 .subscribe()
                     }
 

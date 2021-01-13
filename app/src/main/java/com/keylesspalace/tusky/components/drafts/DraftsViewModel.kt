@@ -35,18 +35,35 @@ class DraftsViewModel @Inject constructor(
 
     val drafts = database.draftDao().loadDrafts(accountManager.activeAccount?.id!!).toLiveData(pageSize = 20)
 
+    private val deletedDrafts: MutableList<DraftEntity> = mutableListOf()
+
     fun showOldDraftsButton(): Observable<Boolean> {
         return database.tootDao().savedTootCount()
                 .map { count -> count > 0 }
     }
 
     fun deleteDraft(draft: DraftEntity) {
-        draftHelper.deleteDraft(draft)
+        // this does not immediately delete media files to avoid unnecessary file operations
+        // in case the user decides to restore the draft
+        database.draftDao().delete(draft.id)
                 .subscribe()
+        deletedDrafts.add(draft)
+    }
+
+    fun restoreDraft(draft: DraftEntity) {
+        database.draftDao().insertOrReplace(draft)
+                .subscribe()
+        deletedDrafts.remove(draft)
     }
 
     fun getToot(tootId: String): Single<Status> {
         return api.statusSingle(tootId)
+    }
+
+    override fun onCleared() {
+        deletedDrafts.forEach {
+            draftHelper.deleteAttachments(it).subscribe()
+        }
     }
 
 }
