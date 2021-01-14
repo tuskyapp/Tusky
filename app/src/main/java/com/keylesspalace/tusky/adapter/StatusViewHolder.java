@@ -66,8 +66,7 @@ public class StatusViewHolder extends StatusBaseViewHolder {
             if (rebloggedByDisplayName == null) {
                 hideStatusInfo();
             } else {
-                CharSequence emojifiedText = CustomEmojiHelper.emojify(rebloggedByDisplayName, status.getRebloggedByAccountEmojis(), statusInfo);
-                setRebloggedByDisplayName(StringUtils.unicodeWrap(emojifiedText));
+                setRebloggedByDisplayName(StringUtils.unicodeWrap(rebloggedByDisplayName), status);
                 statusInfo.setOnClickListener(v -> listener.onOpenReblog(getAdapterPosition()));
             }
 
@@ -76,10 +75,11 @@ public class StatusViewHolder extends StatusBaseViewHolder {
 
     }
 
-    private void setRebloggedByDisplayName(final CharSequence name) {
+    private void setRebloggedByDisplayName(final CharSequence name, final StatusViewData.Concrete status) {
         Context context = statusInfo.getContext();
         CharSequence boostedText = context.getString(R.string.status_boosted_format, name);
-        statusInfo.setText(boostedText);
+        CharSequence emojifiedText = CustomEmojiHelper.emojify(boostedText, status.getRebloggedByAccountEmojis(), statusInfo);
+        statusInfo.setText(emojifiedText);
         statusInfo.setVisibility(View.VISIBLE);
     }
 
