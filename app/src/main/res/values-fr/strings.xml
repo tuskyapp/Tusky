@@ -94,7 +94,7 @@
     <string name="action_mention">Mentionner</string>
     <string name="action_hide_media">Cacher les médias</string>
     <string name="action_open_drawer">Ouvrir le menu</string>
-    <string name="action_save">Sauvegarder</string>
+    <string name="action_save">Enregistrer</string>
     <string name="action_edit_profile">Modifier le profil</string>
     <string name="action_edit_own_profile">Modifier</string>
     <string name="action_undo">Annuler</string>
@@ -488,4 +488,21 @@
     <string name="account_note_hint">Votre note privée sur ce compte</string>
     <string name="no_announcements">Il n’y a pas d’annonce.</string>
     <string name="title_announcements">Annonces</string>
+    <string name="wellbeing_mode_notice">Certaines informations susceptibles d\'affecter votre bien-être mental seront cachées. Il s\'agit :
+\n
+\n - des notifications de favoris, de partage et de suivi
+\n - du compte des favoris/partages sur les pouets
+\n - des statistiques sur les profils
+\n
+\n Les notifications \"push\" ne seront pas affectées, mais vous pouvez revoir vos préférences de notification manuellement.</string>
+    <string name="pref_title_notification_filter_subscriptions">une personne à laquelle je suis abonné a publié un nouveau pouet</string>
+    <string name="notification_subscription_format">%s vient de publier</string>
+    <string name="review_notifications">Examiner les notifications</string>
+    <string name="notification_subscription_name">Nouveau pouets</string>
+    <string name="error_upload_max_media_reached">Vous ne pouvez pas téléverser plus de %1$d pièces jointes.</string>
+    <string name="pref_title_wellbeing_mode">Bien-être</string>
+    <string name="notification_subscription_description">Notifications quand quelqu\'un que vous suivez publie un nouveau pouet</string>
+    <string name="limit_notifications">Limiter les notifications de la timeline</string>
+    <string name="wellbeing_hide_stats_profile">Cacher les statistiques quantitatives sur les profils</string>
+    <string name="wellbeing_hide_stats_posts">Cacher les statistiques quantitatives sur les publications</string>
 </resources>
