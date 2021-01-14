@@ -479,4 +479,20 @@
     <string name="account_note_hint">Tu nota privada acerca de esta cuenta</string>
     <string name="no_announcements">No hay anuncios.</string>
     <string name="title_announcements">Anuncios</string>
+    <string name="notification_subscription_format">% recién publicado</string>
+    <string name="error_upload_max_media_reached">No puedes cargar más de %1$d archivos adjuntos multimedia.</string>
+    <string name="wellbeing_hide_stats_profile">Esconder las estadísticas cuantitativas de los perfiles</string>
+    <string name="wellbeing_hide_stats_posts">Esconder las estadísticas cuantitativas de las publicaciones</string>
+    <string name="review_notifications">Revisar Notificaciones</string>
+    <string name="pref_title_wellbeing_mode">Bienestar</string>
+    <string name="notification_subscription_description">Notificaciones cuando alguien al que estoy suscrito publicó un nuevo toot</string>
+    <string name="notification_subscription_name">Nuevos toots</string>
+    <string name="pref_title_notification_filter_subscriptions">alguien al que estoy suscrito publicó un nuevo toot</string>
+    <string name="wellbeing_mode_notice">Alguna información que podría afectar tu bienestar mental va a ser oculta. Esto incluye:
+\n
+\n- Favoritos/impulsar/Notificaciones de Follow
+\n- Favoritos/Conteo de Impulsos en toots
+\n- Seguidor/Publicar estadísticas en perfiles
+\n
+\nLas notificaciones Push no serán afectadas, pero puedes revisar manualmente tus referencias de notificaciones.</string>
 </resources>
