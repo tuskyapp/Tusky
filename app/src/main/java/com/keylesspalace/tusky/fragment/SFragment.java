@@ -63,6 +63,7 @@ import com.keylesspalace.tusky.entity.PollOption;
 import com.keylesspalace.tusky.entity.Status;
 import com.keylesspalace.tusky.network.MastodonApi;
 import com.keylesspalace.tusky.network.TimelineCases;
+import com.keylesspalace.tusky.util.LinkHelper;
 import com.keylesspalace.tusky.view.MuteAccountDialog;
 import com.keylesspalace.tusky.viewdata.AttachmentViewData;
 
@@ -395,10 +396,9 @@ public abstract class SFragment extends BaseFragment implements Injectable {
                 }
                 break;
             }
+            default:
             case UNKNOWN: {
-                /* Intentionally do nothing. This case is here is to handle when new attachment
-                 * types are added to the API before code is added here to handle them. So, the
-                 * best fallback is to just show the preview and ignore requests to view them. */
+                LinkHelper.openLink(active.getUrl(), getContext());
                 break;
             }
         }

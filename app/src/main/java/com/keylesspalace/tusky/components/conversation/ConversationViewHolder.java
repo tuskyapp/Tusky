@@ -83,7 +83,7 @@ public class ConversationViewHolder extends StatusBaseViewHolder {
         setBookmarked(status.getBookmarked());
         List<Attachment> attachments = status.getAttachments();
         boolean sensitive = status.getSensitive();
-        if (statusDisplayOptions.mediaPreviewEnabled() && !hasAudioAttachment(attachments)) {
+        if (statusDisplayOptions.mediaPreviewEnabled() && hasPreviewableAttachment(attachments)) {
             setMediaPreviews(attachments, sensitive, listener, status.getShowingHiddenContent(),
                     statusDisplayOptions.useBlurhash());
 
