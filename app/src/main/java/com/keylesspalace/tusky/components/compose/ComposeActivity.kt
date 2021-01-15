@@ -102,6 +102,7 @@ class ComposeActivity : BaseActivity(),
     // this only exists when a status is trying to be sent, but uploads are still occurring
     private var finishingUploadDialog: ProgressDialog? = null
     private var photoUploadUri: Uri? = null
+
     @VisibleForTesting
     var maximumTootCharacters = DEFAULT_CHARACTER_LIMIT
 
@@ -817,16 +818,16 @@ class ComposeActivity : BaseActivity(),
     override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?) {
         super.onActivityResult(requestCode, resultCode, intent)
         if (resultCode == Activity.RESULT_OK && requestCode == MEDIA_PICK_RESULT && intent != null) {
-            if(intent.data != null){
+            if (intent.data != null) {
                 // Single media, upload it and done.
                 pickMedia(intent.data!!)
-            }else if(intent.clipData != null){
+            } else if (intent.clipData != null) {
                 val clipData = intent.clipData!!
                 val count = clipData.itemCount
-                if(mediaCount + count > maxUploadMediaNumber){
+                if (mediaCount + count > maxUploadMediaNumber) {
                     // check if exist media + upcoming media > 4, then prob error message.
                     Toast.makeText(this, getString(R.string.error_upload_max_media_reached, maxUploadMediaNumber), Toast.LENGTH_SHORT).show()
-                }else{
+                } else {
                     // if not grater then 4, upload all multiple media.
                     for (i in 0 until count) {
                         val imageUri = clipData.getItemAt(i).getUri()

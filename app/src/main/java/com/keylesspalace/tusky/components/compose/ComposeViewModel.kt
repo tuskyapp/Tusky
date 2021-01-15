@@ -107,7 +107,7 @@ class ComposeViewModel @Inject constructor(
                 .onErrorResumeNext(
                         db.instanceDao().loadMetadataForInstance(accountManager.activeAccount?.domain!!)
                 )
-                .subscribe ({ instanceEntity ->
+                .subscribe({ instanceEntity ->
                     emoji.postValue(instanceEntity.emojiList)
                     instance.postValue(instanceEntity)
                 }, { throwable ->
@@ -157,7 +157,7 @@ class ComposeViewModel @Inject constructor(
         media.value = media.value!! + mediaItem
         mediaToDisposable[mediaItem.localId] = mediaUploader
                 .uploadMedia(mediaItem)
-                .subscribe ({ event ->
+                .subscribe({ event ->
                     val item = media.value?.find { it.localId == mediaItem.localId }
                             ?: return@subscribe
                     val newMediaItem = when (event) {
@@ -260,7 +260,7 @@ class ComposeViewModel @Inject constructor(
     ): LiveData<Unit> {
 
         val deletionObservable = if (isEditingScheduledToot) {
-            api.deleteScheduledStatus(scheduledTootId.toString()).toObservable().map {  }
+            api.deleteScheduledStatus(scheduledTootId.toString()).toObservable().map { }
         } else {
             just(Unit)
         }.toLiveData()
@@ -302,7 +302,7 @@ class ComposeViewModel @Inject constructor(
                     serviceClient.sendToot(tootToSend)
                 }
 
-        return combineLiveData(deletionObservable, sendObservable) { _, _ ->  }
+        return combineLiveData(deletionObservable, sendObservable) { _, _ -> }
     }
 
     fun updateDescription(localId: Long, description: String): LiveData<Boolean> {

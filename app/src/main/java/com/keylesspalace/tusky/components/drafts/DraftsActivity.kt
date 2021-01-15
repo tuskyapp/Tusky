@@ -43,7 +43,7 @@ import io.reactivex.schedulers.Schedulers
 import retrofit2.HttpException
 import javax.inject.Inject
 
-class DraftsActivity: BaseActivity(), DraftActionListener {
+class DraftsActivity : BaseActivity(), DraftActionListener {
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory

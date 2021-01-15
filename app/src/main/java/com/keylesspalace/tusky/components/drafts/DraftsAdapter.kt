@@ -35,8 +35,8 @@ interface DraftActionListener {
 
 class DraftsAdapter(
         private val listener: DraftActionListener
-): PagedListAdapter<DraftEntity, BindingViewHolder<ItemDraftBinding>>(
-        object: DiffUtil.ItemCallback<DraftEntity>() {
+) : PagedListAdapter<DraftEntity, BindingViewHolder<ItemDraftBinding>>(
+        object : DiffUtil.ItemCallback<DraftEntity>() {
             override fun areItemsTheSame(oldItem: DraftEntity, newItem: DraftEntity): Boolean {
                 return oldItem.id == newItem.id
             }
