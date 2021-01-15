@@ -124,8 +124,8 @@
     <string name="action_open_drawer">Mở ngăn kéo</string>
     <string name="action_hide_media">Làm mờ hình ảnh</string>
     <string name="action_mention">Nhắc tới</string>
-    <string name="action_unmute_conversation">Bỏ ẩn cuộc trò chuyện</string>
-    <string name="action_mute_conversation">Ẩn cuộc trò chuyện</string>
+    <string name="action_unmute_conversation">Mở lại thông báo</string>
+    <string name="action_mute_conversation">Tắt thông báo</string>
     <string name="action_mute_domain">Ẩn %s</string>
     <string name="action_unmute">Bỏ ẩn</string>
     <string name="action_mute">Ẩn</string>
@@ -171,7 +171,7 @@
     <string name="status_content_show_less">Thu gọn</string>
     <string name="status_content_show_more">Xem thêm</string>
     <string name="status_content_warning_show_less">Thu gọn</string>
-    <string name="status_content_warning_show_more">Mở rộng</string>
+    <string name="status_content_warning_show_more">Xem thêm</string>
     <string name="status_sensitive_media_directions">Hiển thị</string>
     <string name="status_media_hidden_title">Nội dung bị ẩn</string>
     <string name="status_sensitive_media_title">Nhạy cảm</string>
@@ -318,13 +318,13 @@
     <string name="poll_new_choice_hint">Lựa chọn %d</string>
     <string name="poll_allow_multiple_choices">Cho phép chọn nhiều lựa chọn</string>
     <string name="add_poll_choice">Thêm lựa chọn</string>
-    <string name="poll_duration_7_days">7 ngày</string>
-    <string name="poll_duration_3_days">3 ngày</string>
-    <string name="poll_duration_1_day">1 ngày</string>
-    <string name="poll_duration_6_hours">6 giờ</string>
-    <string name="poll_duration_1_hour">1 giờ</string>
-    <string name="poll_duration_30_min">30 phút</string>
-    <string name="poll_duration_5_min">5 phút</string>
+    <string name="duration_7_days">7 ngày</string>
+    <string name="duration_3_days">3 ngày</string>
+    <string name="duration_1_day">1 ngày</string>
+    <string name="duration_6_hours">6 giờ</string>
+    <string name="duration_1_hour">1 giờ</string>
+    <string name="duration_30_min">30 phút</string>
+    <string name="duration_5_min">5 phút</string>
     <string name="create_poll_title">Bình chọn</string>
     <string name="pref_title_enable_swipe_for_tabs">Vuốt qua lại giữa các tab</string>
     <string name="pref_title_show_notifications_filter">Hiện bộ lọc thông báo</string>
@@ -459,4 +459,21 @@
     <string name="account_note_hint">Ghi chú của bạn</string>
     <string name="no_announcements">Chưa có thông báo.</string>
     <string name="title_announcements">Tin tức</string>
+    <string name="wellbeing_hide_stats_profile">Ẩn số liệu trên trang cá nhân</string>
+    <string name="wellbeing_hide_stats_posts">Ẩn tương tác trên tút</string>
+    <string name="limit_notifications">Hạn chế thông báo trên bảng tin</string>
+    <string name="review_notifications">Chọn loại thông báo</string>
+    <string name="wellbeing_mode_notice">Các thông tin ảnh hưởng tới tâm lý hành vi của bạn sẽ bị ẩn. Bao gồm:
+\n
+\n - Thông báo Lượt thích/Chia sẻ/Theo dõi
+\n - Số Lượt thích/Chia sẻ của tút
+\n - Số Người theo dõi/Tút trên trang cá nhân
+\n
+\nThông báo đẩy sẽ không ảnh hưởng, bạn có thể tự thiết lập trong phần cài đặt điện thoại của bạn.</string>
+    <string name="pref_title_wellbeing_mode">Cai nghiện</string>
+    <string name="notification_subscription_description">Thông báo khi người bạn đăng ký theo dõi đăng tút mới</string>
+    <string name="notification_subscription_name">Tút mới</string>
+    <string name="pref_title_notification_filter_subscriptions">người tôi đăng ký theo dõi đăng tút mới</string>
+    <string name="notification_subscription_format">%s vừa đăng tút</string>
+    <string name="error_upload_max_media_reached">Bạn không thể đính kèm quá %1$d tệp.</string>
 </resources>
