@@ -467,4 +467,21 @@
     <string name="account_note_hint">Ditt private notat om denne kontoen</string>
     <string name="no_announcements">Det er ingen kunngjøringer.</string>
     <string name="title_announcements">Kunngjøringer</string>
+    <string name="wellbeing_hide_stats_profile">Skjul kvantitativ informasjon på profiler</string>
+    <string name="wellbeing_hide_stats_posts">Skjul kvantitativ informasjon på toots</string>
+    <string name="limit_notifications">Begrens tidslinjevarsler</string>
+    <string name="review_notifications">Se over varsler</string>
+    <string name="wellbeing_mode_notice">Informasjon som kan påvirke ditt mentale velvære vil bli skjult. Dette inkluderer:
+\n
+\n - Varsler om favorisering, boosts og følgere
+\n - Antall favoriseringer og boots på toots
+\n - Antall følgere og toots på profiler
+\n
+\n Push-varsler vil ikke påvirkes, men du kan se over dine varselinnstillinger manuelt.</string>
+    <string name="pref_title_wellbeing_mode">Velvære</string>
+    <string name="notification_subscription_description">Varsler når noen jeg følger publiserer en ny toot</string>
+    <string name="notification_subscription_name">Nye toots</string>
+    <string name="pref_title_notification_filter_subscriptions">noen jeg følger publiserer en ny toot</string>
+    <string name="notification_subscription_format">%s tootet akkurat</string>
+    <string name="error_upload_max_media_reached">Du kan ikke laste opp flere enn %1$d mediavedlegg.</string>
 </resources>
