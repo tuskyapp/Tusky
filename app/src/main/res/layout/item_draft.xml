@@ -62,8 +62,10 @@
         android:layout_margin="12dp"
         android:contentDescription="@string/action_delete"
         android:padding="4dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0"
         app:srcCompat="@drawable/ic_clear_24dp" />
 
     <androidx.recyclerview.widget.RecyclerView
@@ -79,10 +81,10 @@
         android:id="@+id/draftPoll"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:minWidth="@dimen/poll_preview_min_width"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
+        android:minWidth="@dimen/poll_preview_min_width"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/draftMediaPreview" />
 
