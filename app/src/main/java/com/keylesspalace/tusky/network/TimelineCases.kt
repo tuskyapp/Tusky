@@ -33,7 +33,7 @@ interface TimelineCases {
     fun reblog(status: Status, reblog: Boolean): Single<Status>
     fun favourite(status: Status, favourite: Boolean): Single<Status>
     fun bookmark(status: Status, bookmark: Boolean): Single<Status>
-    fun mute(id: String, notifications: Boolean)
+    fun mute(id: String, notifications: Boolean, duration: Int)
     fun block(id: String)
     fun delete(id: String): Single<DeletedStatus>
     fun pin(status: Status, pin: Boolean)
@@ -104,8 +104,8 @@ class TimelineCasesImpl(
         }
     }
 
-    override fun mute(id: String, notifications: Boolean) {
-        mastodonApi.muteAccount(id, notifications)
+    override fun mute(id: String, notifications: Boolean, duration: Int) {
+        mastodonApi.muteAccount(id, notifications, duration)
                 .subscribe({
                     eventHub.dispatch(MuteEvent(id))
                 }, { t ->

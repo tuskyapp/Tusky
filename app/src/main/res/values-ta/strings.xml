@@ -265,9 +265,9 @@
     <string name="title_direct_messages">நேரடி தகவல்</string>
     <string name="title_tab_preferences">பட்டைகள்</string>
     <string name="title_statuses_pinned">பொருத்தப்பட்டது</string>
-    <string name="poll_duration_1_day">1 நாள்</string>
-    <string name="poll_duration_3_days">3 நாட்கள்</string>
-    <string name="poll_duration_7_days">7 நாட்கள்</string>
+    <string name="duration_1_day">1 நாள்</string>
+    <string name="duration_3_days">3 நாட்கள்</string>
+    <string name="duration_7_days">7 நாட்கள்</string>
     <string name="add_poll_choice">விருப்பத்தைச் சேர்</string>
     <string name="notification_follow_request_name">பின்பற்ற கோரிக்கை</string>
     <string name="filter_dialog_remove_button">நீக்கு</string>

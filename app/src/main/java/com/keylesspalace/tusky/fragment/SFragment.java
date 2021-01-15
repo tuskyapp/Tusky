@@ -340,8 +340,8 @@ public abstract class SFragment extends BaseFragment implements Injectable {
         MuteAccountDialog.showMuteAccountDialog(
             this.getActivity(),
             accountUsername,
-            (notifications) -> {
-                timelineCases.mute(accountId, notifications);
+            (notifications, duration) -> {
+                timelineCases.mute(accountId, notifications, duration);
                 return Unit.INSTANCE;
             }
         );
