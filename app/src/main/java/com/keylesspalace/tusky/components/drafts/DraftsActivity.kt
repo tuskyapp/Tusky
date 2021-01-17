@@ -22,6 +22,7 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.LinearLayout
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -153,6 +154,7 @@ class DraftsActivity : BaseActivity(), DraftActionListener {
                         if (throwable is HttpException && throwable.code() == 404) {
                             // the original status to which a reply was drafted has been deleted
                             // let's open the ComposeActivity without reply information
+                            Toast.makeText(this, getString(R.string.drafts_toot_reply_removed), Toast.LENGTH_LONG).show()
                             openDraftWithoutReply(draft)
                         } else {
                             Snackbar.make(binding.root, getString(R.string.drafts_failed_loading_reply), Snackbar.LENGTH_SHORT)

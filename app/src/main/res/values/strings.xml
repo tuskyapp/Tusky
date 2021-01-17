@@ -606,4 +606,5 @@
     <string name="old_drafts">Old Drafts</string>
     <string name="drafts_failed_loading_reply">Failed loading Reply information</string>
     <string name="draft_deleted">Draft deleted</string>
+    <string name="drafts_toot_reply_removed">The Toot you drafted a reply to has been removed</string>
 </resources>
