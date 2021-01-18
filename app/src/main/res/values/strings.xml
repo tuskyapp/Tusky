@@ -594,5 +594,6 @@
     <string name="wellbeing_hide_stats_posts">Hide quantitative stats on posts</string>
     <string name="wellbeing_hide_stats_profile">Hide quantitative stats on profiles</string>
     <string name="error_upload_max_media_reached">You cannot upload more than %1$d media attachments.</string>
+    <string name="dialog_delete_list_warning">Do you really want to delete the list %s?</string>
 
 </resources>
