@@ -228,7 +228,8 @@ class StatusViewHelper(private val itemView: View) {
         return when (type) {
             Attachment.Type.IMAGE -> context.getString(R.string.status_media_images)
             Attachment.Type.GIFV, Attachment.Type.VIDEO -> context.getString(R.string.status_media_video)
-            else -> context.getString(R.string.status_media_images)
+            Attachment.Type.AUDIO -> context.getString(R.string.status_media_audio)
+            else -> context.getString(R.string.status_media_attachments)
         }
     }
 
@@ -237,7 +238,8 @@ class StatusViewHelper(private val itemView: View) {
         return when (type) {
             Attachment.Type.IMAGE -> R.drawable.ic_photo_24dp
             Attachment.Type.GIFV, Attachment.Type.VIDEO -> R.drawable.ic_videocam_24dp
-            else -> R.drawable.ic_photo_24dp
+            Attachment.Type.AUDIO -> R.drawable.ic_music_box_24dp
+            else -> R.drawable.ic_attach_file_24dp
         }
     }
 
