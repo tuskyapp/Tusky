@@ -130,9 +130,7 @@ class ListsActivity : BaseActivity(), Injectable, HasAndroidInjector {
                         else R.string.action_rename_list) { _, _ ->
                     onPickedDialogName(editText.text, list?.id)
                 }
-                .setNegativeButton(android.R.string.cancel) { d, _ ->
-                    d.dismiss()
-                }
+                .setNegativeButton(android.R.string.cancel, null)
                 .show()
 
         val positiveButton = dialog.getButton(Dialog.BUTTON_POSITIVE)
@@ -149,9 +147,7 @@ class ListsActivity : BaseActivity(), Injectable, HasAndroidInjector {
                 .setPositiveButton(R.string.action_delete){ _, _ ->
                     viewModel.deleteList(list.id)
                 }
-                .setNegativeButton(android.R.string.cancel) { d, _ ->
-                    d.dismiss()
-                }
+                .setNegativeButton(android.R.string.cancel, null)
                 .show()
     }
 
