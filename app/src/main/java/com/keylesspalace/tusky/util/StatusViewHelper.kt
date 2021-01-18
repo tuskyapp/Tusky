@@ -229,7 +229,7 @@ class StatusViewHelper(private val itemView: View) {
             Attachment.Type.IMAGE -> context.getString(R.string.status_media_images)
             Attachment.Type.GIFV, Attachment.Type.VIDEO -> context.getString(R.string.status_media_video)
             Attachment.Type.AUDIO -> context.getString(R.string.status_media_audio)
-            else -> context.getString(R.string.status_media_images)
+            else -> context.getString(R.string.status_media_attachments)
         }
     }
 

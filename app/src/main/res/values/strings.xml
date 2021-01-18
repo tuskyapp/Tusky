@@ -327,6 +327,7 @@
     <string name="status_media_images">Images</string>
     <string name="status_media_video">Video</string>
     <string name="status_media_audio">Audio</string>
+    <string name="status_media_attachments">Attachments</string>
 
     <string name="state_follow_requested">Follow requested</string>
 
