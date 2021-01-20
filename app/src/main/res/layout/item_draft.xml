@@ -4,6 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginBottom="8dp"
+    android:background="?attr/selectableItemBackground"
     android:paddingTop="4dp"
     android:paddingBottom="4dp">
 
@@ -70,10 +72,12 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/draftMediaPreview"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/content" />
 
@@ -83,9 +87,9 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
         android:minWidth="@dimen/poll_preview_min_width"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/draftMediaPreview" />
+        app:layout_constraintTop_toBottomOf="@id/draftMediaPreview"
+        app:layout_goneMarginEnd="8dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
