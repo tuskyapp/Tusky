@@ -3,7 +3,7 @@
     <string name="action_login">Skrá inn með Mastodon</string>
     <string name="link_whats_an_instance">Hvað er tilvik\?</string>
     <string name="title_favourites">Eftirlæti</string>
-    <string name="title_saved_toot">Drög</string>
+    <string name="title_drafts">Drög</string>
     <string name="action_logout">Skrá út</string>
     <string name="action_view_preferences">Kjörstillingar</string>
     <string name="action_view_account_preferences">Eiginleikar tengingar</string>

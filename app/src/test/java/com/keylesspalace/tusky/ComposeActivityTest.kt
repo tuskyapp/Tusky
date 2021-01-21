@@ -13,7 +13,6 @@
  * You should have received a copy of the GNU General Public License along with Tusky; if not,
  * see <http://www.gnu.org/licenses>. */
 
-
 package com.keylesspalace.tusky
 
 import android.content.Intent
@@ -25,6 +24,7 @@ import com.keylesspalace.tusky.components.compose.ComposeActivity
 import com.keylesspalace.tusky.components.compose.ComposeViewModel
 import com.keylesspalace.tusky.components.compose.DEFAULT_CHARACTER_LIMIT
 import com.keylesspalace.tusky.components.compose.MediaUploader
+import com.keylesspalace.tusky.components.drafts.DraftHelper
 import com.keylesspalace.tusky.db.*
 import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.entity.Account
@@ -115,6 +115,7 @@ class ComposeActivityTest {
                 accountManagerMock,
                 mock(MediaUploader::class.java),
                 mock(ServiceClient::class.java),
+                mock(DraftHelper::class.java),
                 mock(SaveTootHelper::class.java),
                 dbMock
         )

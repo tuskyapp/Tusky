@@ -37,7 +37,7 @@
     <string name="title_domain_mutes">숨긴 도메인</string>
     <string name="title_follow_requests">팔로우 요청</string>
     <string name="title_edit_profile">프로필 편집</string>
-    <string name="title_saved_toot">임시 저장</string>
+    <string name="title_drafts">임시 저장</string>
     <string name="title_licenses">라이선스</string>
     <string name="status_username_format">\@%s</string>
     <string name="status_boosted_format">%s님이 부스트 했습니다</string>

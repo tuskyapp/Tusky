@@ -177,7 +177,7 @@
     <string name="action_view_account_preferences">Roghanna Cuntais</string>
     <string name="action_view_preferences">Sainroghanna</string>
     <string name="action_logout">Logáil Amach</string>
-    <string name="title_saved_toot">Dréachtaí</string>
+    <string name="title_drafts">Dréachtaí</string>
     <string name="title_favourites">Roghaí</string>
     <string name="error_failed_app_registration">Theip ar fhíordheimhniú leis an gcás sin.</string>
     <string name="link_whats_an_instance">Cad is sampla ann\?</string>

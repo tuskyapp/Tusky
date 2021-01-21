@@ -36,7 +36,7 @@
     <string name="status_username_format">\@%s</string>
     <string name="title_licenses">अनुज्ञापत्राणि</string>
     <string name="title_scheduled_toot">कालबद्धदौत्यानि</string>
-    <string name="title_saved_toot">लेखविकर्षाः</string>
+    <string name="title_drafts">लेखविकर्षाः</string>
     <string name="title_edit_profile">स्वीयव्यक्तिविवरणं सम्पाद्यताम्</string>
     <string name="title_follow_requests">अनुसरणार्थमनुरोधाः</string>
     <string name="title_domain_mutes">प्रच्छन्नप्रदेशाः</string>

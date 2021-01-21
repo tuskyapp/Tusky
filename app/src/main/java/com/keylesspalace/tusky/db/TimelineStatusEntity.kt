@@ -26,7 +26,7 @@ import com.keylesspalace.tusky.entity.Status
         // Avoiding rescanning status table when accounts table changes. Recommended by Room(c).
         indices = [Index("authorServerId", "timelineUserId")]
 )
-@TypeConverters(TootEntity.Converters::class)
+@TypeConverters(Converters::class)
 data class TimelineStatusEntity(
         val serverId: String, // id never flips: we need it for sorting so it's a real id
         val url: String?,

@@ -36,7 +36,7 @@
     <string name="title_blocks">Blokovaní uživatelé</string>
     <string name="title_follow_requests">Žádosti o sledování</string>
     <string name="title_edit_profile">Upravit váš profil</string>
-    <string name="title_saved_toot">Koncepty</string>
+    <string name="title_drafts">Koncepty</string>
     <string name="title_licenses">Licence</string>
     <string name="status_username_format">\@%s</string>
     <string name="status_boosted_format">%s boostnul/a</string>

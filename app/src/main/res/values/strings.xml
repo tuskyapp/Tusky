@@ -40,7 +40,7 @@
     <string name="title_domain_mutes">Hidden domains</string>
     <string name="title_follow_requests">Follow Requests</string>
     <string name="title_edit_profile">Edit your profile</string>
-    <string name="title_saved_toot">Drafts</string>
+    <string name="title_drafts">Drafts</string>
     <string name="title_scheduled_toot">Scheduled toots</string>
     <string name="title_announcements">Announcements</string>
     <string name="title_licenses">Licenses</string>
@@ -585,6 +585,7 @@
     <string name="pref_title_wellbeing_mode">Wellbeing</string>
     <string name="account_note_hint">Your private note about this account</string>
     <string name="account_note_saved">Saved!</string>
+
     <string name="wellbeing_mode_notice">Some information that might affect your mental wellbeing will be hidden. This includes:\n\n
         - Favorite/Boost/Follow notifications\n
         - Favorite/Boost count on toots\n
@@ -598,4 +599,15 @@
     <string name="error_upload_max_media_reached">You cannot upload more than %1$d media attachments.</string>
     <string name="dialog_delete_list_warning">Do you really want to delete the list %s?</string>
 
+    <string name="drafts_toot_failed_to_send">This toot failed to send!</string>
+
+    <string name="new_drafts_warning">
+        The draft feature in Tusky has been completely redesigned to be faster, more user friendly and less buggy.\n
+        You can still access your old drafts via a button on the new drafts screen,
+        but they will be removed in a future update!
+    </string>
+    <string name="old_drafts">Old Drafts</string>
+    <string name="drafts_failed_loading_reply">Failed loading Reply information</string>
+    <string name="draft_deleted">Draft deleted</string>
+    <string name="drafts_toot_reply_removed">The Toot you drafted a reply to has been removed</string>
 </resources>

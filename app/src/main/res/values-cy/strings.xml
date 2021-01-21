@@ -32,7 +32,7 @@
     <string name="title_blocks">Defnyddwyr wedi\'u blocio</string>
     <string name="title_follow_requests">Dilyn ceisiadau</string>
     <string name="title_edit_profile">Golygu\'ch Proffil</string>
-    <string name="title_saved_toot">Drafftiau</string>
+    <string name="title_drafts">Drafftiau</string>
     <string name="title_licenses">Trwyddedau</string>
     <string name="status_boosted_format">%s wedi\'u hybu</string>
     <string name="status_sensitive_media_title">Cynnwys sensitif</string>

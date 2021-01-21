@@ -36,7 +36,7 @@
     <string name="title_blocks">Blokkerte brukere</string>
     <string name="title_follow_requests">Forespørsler om følgen</string>
     <string name="title_edit_profile">Endre profilen din</string>
-    <string name="title_saved_toot">Kladder</string>
+    <string name="title_drafts">Kladder</string>
     <string name="title_licenses">Lisenser</string>
     <string name="status_username_format">\@%s</string>
     <string name="status_boosted_format">%s boosted</string>

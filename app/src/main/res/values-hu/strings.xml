@@ -36,7 +36,7 @@
     <string name="title_blocks">Letiltott felhasználók</string>
     <string name="title_follow_requests">Követési kérelmek</string>
     <string name="title_edit_profile">Profilod szerkesztése</string>
-    <string name="title_saved_toot">Piszkozatok</string>
+    <string name="title_drafts">Piszkozatok</string>
     <string name="title_licenses">Licenszek</string>
     <string name="status_username_format">\@%s</string>
     <string name="status_boosted_format">%s megtolta</string>

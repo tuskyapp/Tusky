@@ -36,7 +36,7 @@
     <string name="title_blocks">Comptes bloqués</string>
     <string name="title_follow_requests">Demandes d’abonnement</string>
     <string name="title_edit_profile">Modifier votre profil</string>
-    <string name="title_saved_toot">Brouillons</string>
+    <string name="title_drafts">Brouillons</string>
     <string name="title_licenses">Licences</string>
     <string name="status_username_format">\@%s</string>
     <string name="status_boosted_format">%s a partagé</string>

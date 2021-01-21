@@ -36,7 +36,7 @@
     <string name="title_blocks">Bloqueados</string>
     <string name="title_follow_requests">Solicitudes</string>
     <string name="title_edit_profile">Editar tu perfil</string>
-    <string name="title_saved_toot">Borradores</string>
+    <string name="title_drafts">Borradores</string>
     <string name="title_licenses">Licencias</string>
     <string name="status_username_format">\@%s</string>
     <string name="status_boosted_format">%s compartió</string>

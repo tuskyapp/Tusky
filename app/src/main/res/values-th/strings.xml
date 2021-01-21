@@ -431,7 +431,7 @@
     <string name="action_view_account_preferences">ตั้งค่าบัญชี</string>
     <string name="action_view_preferences">ตั้งค่า</string>
     <string name="action_logout">ออกจากระบบ</string>
-    <string name="title_saved_toot">ฉบับร่าง</string>
+    <string name="title_drafts">ฉบับร่าง</string>
     <string name="title_favourites">ชื่นชอบ</string>
     <string name="error_failed_app_registration">การยืนยันตัวตนกับเซิร์ฟเวอร์นั้นล้มเหลว</string>
     <string name="link_whats_an_instance">Instance คือ\?</string>

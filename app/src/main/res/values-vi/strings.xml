@@ -197,7 +197,7 @@
     <string name="title_public_local">Cộng đồng</string>
     <string name="title_notifications">Thông báo</string>
     <string name="title_home">Bảng tin</string>
-    <string name="title_saved_toot">Nháp</string>
+    <string name="title_drafts">Nháp</string>
     <string name="title_favourites">Lượt thích</string>
     <string name="link_whats_an_instance">Máy chủ là gì\?</string>
     <string name="pref_title_show_media_preview">Tải xem trước hình ảnh</string>
