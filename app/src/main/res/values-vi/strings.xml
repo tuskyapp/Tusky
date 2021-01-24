@@ -188,7 +188,7 @@
     <string name="title_followers">Người theo dõi</string>
     <string name="title_follows">Theo dõi</string>
     <string name="title_statuses_pinned">Ghim</string>
-    <string name="title_statuses_with_replies">Tương tác</string>
+    <string name="title_statuses_with_replies">Rép</string>
     <string name="title_statuses">Tút</string>
     <string name="title_view_thread">Tút</string>
     <string name="title_tab_preferences">Xếp tab</string>
@@ -456,7 +456,7 @@
     <string name="action_unmute_domain">Bỏ ẩn %s</string>
     <string name="pref_title_hide_top_toolbar">Ẩn tiêu đề tab</string>
     <string name="account_note_saved">Đã lưu!</string>
-    <string name="account_note_hint">Ghi chú của bạn</string>
+    <string name="account_note_hint">Thêm ghi chú</string>
     <string name="no_announcements">Chưa có thông báo.</string>
     <string name="title_announcements">Tin tức</string>
     <string name="wellbeing_hide_stats_profile">Ẩn số liệu trên trang cá nhân</string>
@@ -476,4 +476,16 @@
     <string name="pref_title_notification_filter_subscriptions">người tôi đăng ký theo dõi đăng tút mới</string>
     <string name="notification_subscription_format">%s vừa đăng tút</string>
     <string name="error_upload_max_media_reached">Bạn không thể đính kèm quá %1$d tệp.</string>
+    <string name="duration_indefinite">Không giới hạn</string>
+    <string name="label_duration">Độ dài</string>
+    <string name="dialog_delete_list_warning">Bạn thật sự muốn xóa danh sách %s\?</string>
+    <string name="status_media_attachments">Đính kèm</string>
+    <string name="status_media_audio">Âm thanh</string>
+    <string name="drafts_toot_reply_removed">Tút bạn lên lịch đã bị hủy bỏ</string>
+    <string name="old_drafts">Tút lên lịch cũ</string>
+    <string name="draft_deleted">Tút lên lịch đã xóa</string>
+    <string name="drafts_failed_loading_reply">Chưa tải được bình luận</string>
+    <string name="new_drafts_warning">Tính năng lên lịch đăng tút của Tusky sẽ được thiết kế lại hoàn toàn để nhanh hơn, thân thiện và ít lỗi hơn.
+\nBạn vẫn có thể xem lại bản nháp cũ nhưng chúng sẽ bị xóa bỏ trong bản cập nhật tương lai!</string>
+    <string name="drafts_toot_failed_to_send">Đăng tút không thành công!</string>
 </resources>
