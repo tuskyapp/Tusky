@@ -495,4 +495,17 @@
 \n- Seguidor/Publicar estadísticas en perfiles
 \n
 \nLas notificaciones Push no serán afectadas, pero puedes revisar manualmente tus referencias de notificaciones.</string>
+    <string name="drafts_toot_reply_removed">El toot al que redactaste una respuesta ha sido eliminado</string>
+    <string name="draft_deleted">Borrador eliminado</string>
+    <string name="drafts_failed_loading_reply">Error al cargar la información de respuesta</string>
+    <string name="old_drafts">Borradores antiguos</string>
+    <string name="new_drafts_warning">La función de borrador en Tusky se ha rediseñado por completo para que sea más rápida, más fácil de usar y con menos errores.
+\nAún puede acceder a sus borradores antiguos a través de un botón en la pantalla de borradores nuevos, ¡pero se eliminarán en una actualización futura!</string>
+    <string name="drafts_toot_failed_to_send">¡Este toot no se pudo enviar!</string>
+    <string name="dialog_delete_list_warning">¿Realmente quieres eliminar la lista %s\?</string>
+    <string name="duration_indefinite">Indefinido</string>
+    <string name="label_duration">Duración</string>
+    <string name="status_media_attachments">Adjuntos</string>
+    <string name="status_media_audio">Audio</string>
+    <string name="limit_notifications">Limitar notificaciones de cronología</string>
 </resources>
