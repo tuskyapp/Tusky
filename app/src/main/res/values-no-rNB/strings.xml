@@ -484,4 +484,16 @@
     <string name="pref_title_notification_filter_subscriptions">noen jeg følger publiserer en ny toot</string>
     <string name="notification_subscription_format">%s tootet akkurat</string>
     <string name="error_upload_max_media_reached">Du kan ikke laste opp flere enn %1$d mediavedlegg.</string>
+    <string name="duration_indefinite">Uendelig</string>
+    <string name="label_duration">Varighet</string>
+    <string name="dialog_delete_list_warning">Er du sikker på at du vil slette listen %s\?</string>
+    <string name="status_media_attachments">Vedlegg</string>
+    <string name="status_media_audio">Lyd</string>
+    <string name="drafts_toot_reply_removed">Tootet du kladdet et svar til har blitt fjernet</string>
+    <string name="draft_deleted">Kladd slettet</string>
+    <string name="drafts_failed_loading_reply">Lasting av svarinformasjon feilet</string>
+    <string name="old_drafts">Gamle kladder</string>
+    <string name="new_drafts_warning">KladdfunksjonaLiteten i Tusky er skrevet om og er nå kjappere, mer brukervennlig, og med færre feil.
+\nGamle kladder er fortsatt tilgjengelige via en knapp på den nye kladdskjermen, men de vil bli fjernet i en fremtidig oppdatering!</string>
+    <string name="drafts_toot_failed_to_send">Sending av toot feilet!</string>
 </resources>
