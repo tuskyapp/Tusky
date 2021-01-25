@@ -115,7 +115,6 @@
     <string name="title_licenses">مۆڵەتەکان</string>
     <string name="title_announcements">ڕاگه یه نراوەکان</string>
     <string name="title_scheduled_toot">توتی خشتەکراو</string>
-    <string name="title_saved_toot">ڕەشنووسەکان</string>
     <string name="title_edit_profile">دەستکاری پرۆفایلەکەت بکە</string>
     <string name="title_follow_requests">بەدواداچونی داواکاریەکان بکە</string>
     <string name="title_domain_mutes">دۆمەینە شاراوەکان</string>
@@ -262,13 +261,6 @@
     <string name="poll_new_choice_hint">هەڵبژاردنی %d</string>
     <string name="poll_allow_multiple_choices">چەند هەڵبژاردنێک</string>
     <string name="add_poll_choice">زیادکردنی هەڵبژاردن</string>
-    <string name="poll_duration_7_days">٧ ڕۆژ</string>
-    <string name="poll_duration_3_days">٣ ڕۆژ</string>
-    <string name="poll_duration_1_day">١ ڕۆژ</string>
-    <string name="poll_duration_6_hours">٦ کاتژمێر</string>
-    <string name="poll_duration_1_hour">١ کاتژمێر</string>
-    <string name="poll_duration_30_min">٣٠ خولەک</string>
-    <string name="poll_duration_5_min">٥ خولەک</string>
     <string name="create_poll_title">ڕاپرسی</string>
     <string name="pref_title_enable_swipe_for_tabs">چالاککردنی ئاماژەکردنی لێدانی چالاک بۆ گۆڕین لە نێوان خشتەبەندەکان</string>
     <string name="license_description">تاسکی کۆد و سەرمایەکانی تێدایە لەم پڕۆژە کراوەی سەرچاوە:</string>
