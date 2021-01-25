@@ -19,7 +19,6 @@ import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Build;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.method.LinkMovementMethod;
@@ -31,6 +30,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.browser.customtabs.CustomTabColorSchemeParams;
 import androidx.browser.customtabs.CustomTabsIntent;
 import androidx.preference.PreferenceManager;
 
@@ -229,18 +229,20 @@ public class LinkHelper {
      */
     public static void openLinkInCustomTab(Uri uri, Context context) {
         int toolbarColor = ThemeUtils.getColor(context, R.attr.colorSurface);
+        int navigationbarColor = ThemeUtils.getColor(context, android.R.attr.navigationBarColor);
+        int navigationbarDividerColor = ThemeUtils.getColor(context, R.attr.dividerColor);
 
-        CustomTabsIntent.Builder customTabsIntentBuilder = new CustomTabsIntent.Builder()
+        CustomTabColorSchemeParams colorSchemeParams = new CustomTabColorSchemeParams.Builder()
                 .setToolbarColor(toolbarColor)
-                .setShowTitle(true);
+                .setNavigationBarColor(navigationbarColor)
+                .setNavigationBarDividerColor(navigationbarDividerColor)
+                .build();
 
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1) {
-            customTabsIntentBuilder.setNavigationBarColor(
-                    ThemeUtils.getColor(context, android.R.attr.navigationBarColor)
-            );
-        }
+        CustomTabsIntent customTabsIntent = new CustomTabsIntent.Builder()
+                .setDefaultColorSchemeParams(colorSchemeParams)
+                .setShowTitle(true)
+                .build();
 
-        CustomTabsIntent customTabsIntent = customTabsIntentBuilder.build();
         try {
             customTabsIntent.launchUrl(context, uri);
         } catch (ActivityNotFoundException e) {
