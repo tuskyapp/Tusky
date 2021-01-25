@@ -57,7 +57,7 @@ class DraftsViewModel @Inject constructor(
     }
 
     fun getToot(tootId: String): Single<Status> {
-        return api.statusSingle(tootId)
+        return api.status(tootId)
     }
 
     override fun onCleared() {
