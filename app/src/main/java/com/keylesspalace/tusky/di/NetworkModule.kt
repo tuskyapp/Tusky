@@ -73,7 +73,7 @@ class NetworkModule {
                 /**
                  * Add a custom User-Agent that contains Tusky, Android and OkHttp Version to all requests
                  * Example:
-                 * User-Agent: Tusky/1.1.2 Android/5.0.2 OkHttp
+                 * User-Agent: Tusky/1.1.2 Android/5.0.2 OkHttp/4.9.0
                  * */
                 val requestWithUserAgent = chain.request().newBuilder()
                     .header(
