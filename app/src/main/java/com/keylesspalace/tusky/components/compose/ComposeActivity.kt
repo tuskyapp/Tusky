@@ -30,7 +30,7 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Parcelable
 import android.provider.MediaStore
-import android.util.Log
+ import android.util.Log
 import android.view.KeyEvent
 import android.view.MenuItem
 import android.view.View
@@ -202,6 +202,9 @@ class ComposeActivity : BaseActivity(),
                         val left = min(start, end)
                         val right = max(start, end)
                         composeEditField.text.replace(left, right, shareBody, 0, shareBody.length)
+                        // move edittext cursor to first when shareBody parsed
+                        composeEditField.text.insert(0, "\n")
+                        composeEditField.setSelection(0)
                     }
                 }
             }
