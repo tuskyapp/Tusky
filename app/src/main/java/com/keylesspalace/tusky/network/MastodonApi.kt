@@ -124,7 +124,8 @@ interface MastodonApi {
     @Multipart
     @POST("api/v1/media")
     fun uploadMedia(
-            @Part file: MultipartBody.Part
+            @Part file: MultipartBody.Part,
+            @Part description: MultipartBody.Part? = null
     ): Single<Attachment>
 
     @FormUrlEncoded
@@ -146,6 +147,11 @@ interface MastodonApi {
     fun status(
             @Path("id") statusId: String
     ): Call<Status>
+
+    @GET("api/v1/statuses/{id}")
+    fun statusSingle(
+            @Path("id") statusId: String
+    ): Single<Status>
 
     @GET("api/v1/statuses/{id}/context")
     fun statusContext(
@@ -330,7 +336,8 @@ interface MastodonApi {
     @POST("api/v1/accounts/{id}/mute")
     fun muteAccount(
             @Path("id") accountId: String,
-            @Field("notifications") notifications: Boolean? = null
+            @Field("notifications") notifications: Boolean? = null,
+            @Field("duration") duration: Int? = null
     ): Single<Relationship>
 
     @POST("api/v1/accounts/{id}/unmute")

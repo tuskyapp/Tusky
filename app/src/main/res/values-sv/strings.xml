@@ -36,7 +36,7 @@
     <string name="title_blocks">Blockerade användare</string>
     <string name="title_follow_requests">Följarförfrågningar</string>
     <string name="title_edit_profile">Ändra din profil</string>
-    <string name="title_saved_toot">Utkast</string>
+    <string name="title_drafts">Utkast</string>
     <string name="title_licenses">Licenser</string>
     <string name="status_username_format">\@%s</string>
     <string name="status_boosted_format">%s knuffade</string>
@@ -425,13 +425,13 @@
     <string name="failed_search">Sökning misslyckades</string>
     <string name="action_add_poll">Skapa en omröstning</string>
     <string name="create_poll_title">Omröstning</string>
-    <string name="poll_duration_5_min">5 minuter</string>
-    <string name="poll_duration_30_min">30 minuter</string>
-    <string name="poll_duration_1_hour">1 timme</string>
-    <string name="poll_duration_6_hours">6 timmar</string>
-    <string name="poll_duration_1_day">1 dag</string>
-    <string name="poll_duration_3_days">3 dagar</string>
-    <string name="poll_duration_7_days">7 dagar</string>
+    <string name="duration_5_min">5 minuter</string>
+    <string name="duration_30_min">30 minuter</string>
+    <string name="duration_1_hour">1 timme</string>
+    <string name="duration_6_hours">6 timmar</string>
+    <string name="duration_1_day">1 dag</string>
+    <string name="duration_3_days">3 dagar</string>
+    <string name="duration_7_days">7 dagar</string>
     <string name="add_poll_choice">Lägg till alternativ</string>
     <string name="poll_allow_multiple_choices">Flerval</string>
     <string name="poll_new_choice_hint">Val %d</string>
@@ -484,4 +484,20 @@
     <string name="account_note_hint">Din privata notering om detta kontot</string>
     <string name="no_announcements">Det finns inga meddelanden.</string>
     <string name="title_announcements">Meddelanden</string>
+    <string name="notification_subscription_description">Aviseringar när någon du följer skrivit en ny toot</string>
+    <string name="notification_subscription_name">Nya toots</string>
+    <string name="pref_title_notification_filter_subscriptions">någon som jag följer har skrivit en ny toot</string>
+    <string name="notification_subscription_format">%s skrev precis</string>
+    <string name="wellbeing_hide_stats_profile">Dölj kvantitativ information på profiler</string>
+    <string name="wellbeing_hide_stats_posts">Dölj kvantitativ information på inlägg</string>
+    <string name="limit_notifications">Begränsa tidslinje aviseringar</string>
+    <string name="review_notifications">Ändra aviseringar</string>
+    <string name="wellbeing_mode_notice">Information som kan påverka ditt välmående kommer att döljas. Detta inkluderar:
+\n
+\n- Favorisering/Knuff/Följaraviseringar
+\n- Favorisering/Antal knuffar
+\n- Följare/Inlägg på profiler
+\n
+\nPush-aviseringar påverkas inte, men du ändra dina aviseringinställningar manuellt.</string>
+    <string name="pref_title_wellbeing_mode">Välmående</string>
 </resources>

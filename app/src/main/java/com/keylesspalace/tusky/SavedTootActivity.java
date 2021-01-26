@@ -89,7 +89,7 @@ public final class SavedTootActivity extends BaseActivity implements SavedTootAd
         setSupportActionBar(toolbar);
         ActionBar bar = getSupportActionBar();
         if (bar != null) {
-            bar.setTitle(getString(R.string.title_saved_toot));
+            bar.setTitle(getString(R.string.title_drafts));
             bar.setDisplayHomeAsUpEnabled(true);
             bar.setDisplayShowHomeEnabled(true);
         }
@@ -166,6 +166,7 @@ public final class SavedTootActivity extends BaseActivity implements SavedTootAd
         ComposeOptions composeOptions = new ComposeOptions(
                 /*scheduledTootUid*/null,
                 item.getUid(),
+                /*drafId*/null,
                 item.getText(),
                 jsonUrls,
                 descriptions,
@@ -177,6 +178,7 @@ public final class SavedTootActivity extends BaseActivity implements SavedTootAd
                 item.getInReplyToUsername(),
                 item.getInReplyToText(),
                 /*mediaAttachments*/null,
+                /*draftAttachments*/null,
                 /*scheduledAt*/null,
                 /*sensitive*/null,
                 /*poll*/null,

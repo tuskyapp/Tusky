@@ -36,7 +36,7 @@
     <string name="title_blocks">Bloqueados</string>
     <string name="title_follow_requests">Solicitudes</string>
     <string name="title_edit_profile">Editar tu perfil</string>
-    <string name="title_saved_toot">Borradores</string>
+    <string name="title_drafts">Borradores</string>
     <string name="title_licenses">Licencias</string>
     <string name="status_username_format">\@%s</string>
     <string name="status_boosted_format">%s compartió</string>
@@ -420,13 +420,13 @@
     <string name="failed_search">Error al buscar</string>
     <string name="action_add_poll">Añadir encuesta</string>
     <string name="create_poll_title">Encuesta</string>
-    <string name="poll_duration_5_min">5 minutos</string>
-    <string name="poll_duration_30_min">30 minutos</string>
-    <string name="poll_duration_1_hour">1 hora</string>
-    <string name="poll_duration_6_hours">6 horas</string>
-    <string name="poll_duration_1_day">1 día</string>
-    <string name="poll_duration_3_days">3 días</string>
-    <string name="poll_duration_7_days">7 días</string>
+    <string name="duration_5_min">5 minutos</string>
+    <string name="duration_30_min">30 minutos</string>
+    <string name="duration_1_hour">1 hora</string>
+    <string name="duration_6_hours">6 horas</string>
+    <string name="duration_1_day">1 día</string>
+    <string name="duration_3_days">3 días</string>
+    <string name="duration_7_days">7 días</string>
     <string name="add_poll_choice">Añadir opción</string>
     <string name="poll_allow_multiple_choices">Opciones múltiples</string>
     <string name="poll_new_choice_hint">Opción %d</string>
@@ -479,4 +479,33 @@
     <string name="account_note_hint">Tu nota privada acerca de esta cuenta</string>
     <string name="no_announcements">No hay anuncios.</string>
     <string name="title_announcements">Anuncios</string>
+    <string name="notification_subscription_format">% recién publicado</string>
+    <string name="error_upload_max_media_reached">No puedes cargar más de %1$d archivos adjuntos multimedia.</string>
+    <string name="wellbeing_hide_stats_profile">Esconder las estadísticas cuantitativas de los perfiles</string>
+    <string name="wellbeing_hide_stats_posts">Esconder las estadísticas cuantitativas de las publicaciones</string>
+    <string name="review_notifications">Revisar Notificaciones</string>
+    <string name="pref_title_wellbeing_mode">Bienestar</string>
+    <string name="notification_subscription_description">Notificaciones cuando alguien al que estoy suscrito publicó un nuevo toot</string>
+    <string name="notification_subscription_name">Nuevos toots</string>
+    <string name="pref_title_notification_filter_subscriptions">alguien al que estoy suscrito publicó un nuevo toot</string>
+    <string name="wellbeing_mode_notice">Alguna información que podría afectar tu bienestar mental va a ser oculta. Esto incluye:
+\n
+\n- Favoritos/impulsar/Notificaciones de Follow
+\n- Favoritos/Conteo de Impulsos en toots
+\n- Seguidor/Publicar estadísticas en perfiles
+\n
+\nLas notificaciones Push no serán afectadas, pero puedes revisar manualmente tus referencias de notificaciones.</string>
+    <string name="drafts_toot_reply_removed">El toot al que redactaste una respuesta ha sido eliminado</string>
+    <string name="draft_deleted">Borrador eliminado</string>
+    <string name="drafts_failed_loading_reply">Error al cargar la información de respuesta</string>
+    <string name="old_drafts">Borradores antiguos</string>
+    <string name="new_drafts_warning">La función de borrador en Tusky se ha rediseñado por completo para que sea más rápida, más fácil de usar y con menos errores.
+\nAún puede acceder a sus borradores antiguos a través de un botón en la pantalla de borradores nuevos, ¡pero se eliminarán en una actualización futura!</string>
+    <string name="drafts_toot_failed_to_send">¡Este toot no se pudo enviar!</string>
+    <string name="dialog_delete_list_warning">¿Realmente quieres eliminar la lista %s\?</string>
+    <string name="duration_indefinite">Indefinido</string>
+    <string name="label_duration">Duración</string>
+    <string name="status_media_attachments">Adjuntos</string>
+    <string name="status_media_audio">Audio</string>
+    <string name="limit_notifications">Limitar notificaciones de cronología</string>
 </resources>

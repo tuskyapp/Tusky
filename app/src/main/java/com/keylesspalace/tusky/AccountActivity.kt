@@ -766,8 +766,8 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
                 showMuteAccountDialog(
                         this,
                         it.username
-                ) { notifications ->
-                    viewModel.muteAccount(notifications)
+                ) { notifications, duration ->
+                    viewModel.muteAccount(notifications, duration)
                 }
             }
         } else {

@@ -36,7 +36,7 @@
     <string name="title_blocks">Comptes bloqués</string>
     <string name="title_follow_requests">Demandes d’abonnement</string>
     <string name="title_edit_profile">Modifier votre profil</string>
-    <string name="title_saved_toot">Brouillons</string>
+    <string name="title_drafts">Brouillons</string>
     <string name="title_licenses">Licences</string>
     <string name="status_username_format">\@%s</string>
     <string name="status_boosted_format">%s a partagé</string>
@@ -94,7 +94,7 @@
     <string name="action_mention">Mentionner</string>
     <string name="action_hide_media">Cacher les médias</string>
     <string name="action_open_drawer">Ouvrir le menu</string>
-    <string name="action_save">Sauvegarder</string>
+    <string name="action_save">Enregistrer</string>
     <string name="action_edit_profile">Modifier le profil</string>
     <string name="action_edit_own_profile">Modifier</string>
     <string name="action_undo">Annuler</string>
@@ -425,13 +425,13 @@
     <string name="pref_title_alway_open_spoiler">Toujours ouvrir les pouets avec un contenu sensible</string>
     <string name="action_add_poll">Ajouter un sondage</string>
     <string name="create_poll_title">Sondage</string>
-    <string name="poll_duration_5_min">5 minutes</string>
-    <string name="poll_duration_30_min">30 minutes</string>
-    <string name="poll_duration_1_hour">1 heure</string>
-    <string name="poll_duration_6_hours">6 heures</string>
-    <string name="poll_duration_1_day">1 jour</string>
-    <string name="poll_duration_3_days">3 jours</string>
-    <string name="poll_duration_7_days">7 jours</string>
+    <string name="duration_5_min">5 minutes</string>
+    <string name="duration_30_min">30 minutes</string>
+    <string name="duration_1_hour">1 heure</string>
+    <string name="duration_6_hours">6 heures</string>
+    <string name="duration_1_day">1 jour</string>
+    <string name="duration_3_days">3 jours</string>
+    <string name="duration_7_days">7 jours</string>
     <string name="add_poll_choice">Ajouter un choix</string>
     <string name="poll_allow_multiple_choices">Choix multiples</string>
     <string name="poll_new_choice_hint">Choix %d</string>
@@ -488,4 +488,21 @@
     <string name="account_note_hint">Votre note privée sur ce compte</string>
     <string name="no_announcements">Il n’y a pas d’annonce.</string>
     <string name="title_announcements">Annonces</string>
+    <string name="wellbeing_mode_notice">Certaines informations susceptibles d\'affecter votre bien-être mental seront cachées. Il s\'agit :
+\n
+\n - des notifications de favoris, de partage et de suivi
+\n - du compte des favoris/partages sur les pouets
+\n - des statistiques sur les profils
+\n
+\n Les notifications \"push\" ne seront pas affectées, mais vous pouvez revoir vos préférences de notification manuellement.</string>
+    <string name="pref_title_notification_filter_subscriptions">une personne à laquelle je suis abonné a publié un nouveau pouet</string>
+    <string name="notification_subscription_format">%s vient de publier</string>
+    <string name="review_notifications">Examiner les notifications</string>
+    <string name="notification_subscription_name">Nouveau pouets</string>
+    <string name="error_upload_max_media_reached">Vous ne pouvez pas téléverser plus de %1$d pièces jointes.</string>
+    <string name="pref_title_wellbeing_mode">Bien-être</string>
+    <string name="notification_subscription_description">Notifications quand quelqu\'un que vous suivez publie un nouveau pouet</string>
+    <string name="limit_notifications">Limiter les notifications de la timeline</string>
+    <string name="wellbeing_hide_stats_profile">Cacher les statistiques quantitatives sur les profils</string>
+    <string name="wellbeing_hide_stats_posts">Cacher les statistiques quantitatives sur les publications</string>
 </resources>

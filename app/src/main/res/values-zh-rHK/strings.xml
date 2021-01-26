@@ -36,7 +36,7 @@
     <string name="title_blocks">被封鎖的使用者</string>
     <string name="title_follow_requests">關注請求</string>
     <string name="title_edit_profile">編輯個人資料</string>
-    <string name="title_saved_toot">草稿</string>
+    <string name="title_drafts">草稿</string>
     <string name="title_licenses">開源授權</string>
     <string name="status_username_format">\@%s</string>
     <string name="status_boosted_format">%s 轉嘟了</string>

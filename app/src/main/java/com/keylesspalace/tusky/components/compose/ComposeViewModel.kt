@@ -21,8 +21,8 @@ import androidx.core.net.toUri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
-import com.keylesspalace.tusky.adapter.ComposeAutoCompleteAdapter
 import com.keylesspalace.tusky.components.compose.ComposeActivity.QueuedMedia
+import com.keylesspalace.tusky.components.drafts.DraftHelper
 import com.keylesspalace.tusky.components.search.SearchType
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.db.AppDatabase
@@ -39,18 +39,12 @@ import io.reactivex.rxkotlin.Singles
 import java.util.*
 import javax.inject.Inject
 
-/**
- * Throw when trying to add an image when video is already present or the other way around
- */
-class VideoOrImageException : Exception()
-
-
-class ComposeViewModel
-@Inject constructor(
+class ComposeViewModel @Inject constructor(
         private val api: MastodonApi,
         private val accountManager: AccountManager,
         private val mediaUploader: MediaUploader,
         private val serviceClient: ServiceClient,
+        private val draftHelper: DraftHelper,
         private val saveTootHelper: SaveTootHelper,
         private val db: AppDatabase
 ) : RxAwareViewModel() {
@@ -59,7 +53,8 @@ class ComposeViewModel
     private var replyingStatusContent: String? = null
     internal var startingText: String? = null
     private var savedTootUid: Int = 0
-    private var scheduledTootUid: String? = null
+    private var draftId: Int = 0
+    private var scheduledTootId: String? = null
     private var startingContentWarning: String = ""
     private var inReplyToId: String? = null
     private var startingVisibility: Status.Visibility = Status.Visibility.UNKNOWN
@@ -81,10 +76,6 @@ class ComposeViewModel
     val markMediaAsSensitive =
             mutableLiveData(accountManager.activeAccount?.defaultMediaSensitivity ?: false)
 
-    fun toggleMarkSensitive() {
-        this.markMediaAsSensitive.value = !this.markMediaAsSensitive.value!!
-    }
-
     val statusVisibility = mutableLiveData(Status.Visibility.UNKNOWN)
     val showContentWarning = mutableLiveData(false)
     val setupComplete = mutableLiveData(false)
@@ -96,7 +87,7 @@ class ComposeViewModel
 
     private val mediaToDisposable = mutableMapOf<Long, Disposable>()
 
-    private val isEditingScheduledToot get() = !scheduledTootUid.isNullOrEmpty()
+    private val isEditingScheduledToot get() = !scheduledTootId.isNullOrEmpty()
 
     init {
 
@@ -116,7 +107,7 @@ class ComposeViewModel
                 .onErrorResumeNext(
                         db.instanceDao().loadMetadataForInstance(accountManager.activeAccount?.domain!!)
                 )
-                .subscribe ({ instanceEntity ->
+                .subscribe({ instanceEntity ->
                     emoji.postValue(instanceEntity.emojiList)
                     instance.postValue(instanceEntity)
                 }, { throwable ->
@@ -126,7 +117,7 @@ class ComposeViewModel
                 .autoDispose()
     }
 
-    fun pickMedia(uri: Uri): LiveData<Either<Throwable, QueuedMedia>> {
+    fun pickMedia(uri: Uri, description: String? = null): LiveData<Either<Throwable, QueuedMedia>> {
         // We are not calling .toLiveData() here because we don't want to stop the process when
         // the Activity goes away temporarily (like on screen rotation).
         val liveData = MutableLiveData<Either<Throwable, QueuedMedia>>()
@@ -138,7 +129,7 @@ class ComposeViewModel
                             && mediaItems[0].type == QueuedMedia.Type.IMAGE) {
                         throw VideoOrImageException()
                     } else {
-                        addMediaToQueue(type, uri, size)
+                        addMediaToQueue(type, uri, size, description)
                     }
                 }
                 .subscribe({ queuedMedia ->
@@ -150,12 +141,23 @@ class ComposeViewModel
         return liveData
     }
 
-    private fun addMediaToQueue(type: QueuedMedia.Type, uri: Uri, mediaSize: Long): QueuedMedia {
-        val mediaItem = QueuedMedia(System.currentTimeMillis(), uri, type, mediaSize)
+    private fun addMediaToQueue(
+            type: QueuedMedia.Type,
+            uri: Uri,
+            mediaSize: Long,
+            description: String? = null
+    ): QueuedMedia {
+        val mediaItem = QueuedMedia(
+                localId = System.currentTimeMillis(),
+                uri = uri,
+                type = type,
+                mediaSize = mediaSize,
+                description = description
+        )
         media.value = media.value!! + mediaItem
         mediaToDisposable[mediaItem.localId] = mediaUploader
                 .uploadMedia(mediaItem)
-                .subscribe ({ event ->
+                .subscribe({ event ->
                     val item = media.value?.find { it.localId == mediaItem.localId }
                             ?: return@subscribe
                     val newMediaItem = when (event) {
@@ -190,6 +192,10 @@ class ComposeViewModel
         media.value = media.value!!.withoutFirstWhich { it.localId == item.localId }
     }
 
+    fun toggleMarkSensitive() {
+        this.markMediaAsSensitive.value = this.markMediaAsSensitive.value != true
+    }
+
     fun didChange(content: String?, contentWarning: String?): Boolean {
 
         val textChanged = !(content.isNullOrEmpty()
@@ -210,29 +216,37 @@ class ComposeViewModel
     }
 
     fun deleteDraft() {
-        saveTootHelper.deleteDraft(this.savedTootUid)
+        if (savedTootUid != 0) {
+            saveTootHelper.deleteDraft(savedTootUid)
+        }
+        if (draftId != 0) {
+            draftHelper.deleteDraftAndAttachments(draftId)
+                    .subscribe()
+        }
     }
 
     fun saveDraft(content: String, contentWarning: String) {
-        val mediaUris = mutableListOf<String>()
-        val mediaDescriptions = mutableListOf<String?>()
-        for (item in media.value!!) {
+
+        val mediaUris: MutableList<String> = mutableListOf()
+        val mediaDescriptions: MutableList<String?> = mutableListOf()
+        media.value?.forEach { item ->
             mediaUris.add(item.uri.toString())
             mediaDescriptions.add(item.description)
         }
-        saveTootHelper.saveToot(
-                content,
-                contentWarning,
-                null,
-                mediaUris,
-                mediaDescriptions,
-                savedTootUid,
-                inReplyToId,
-                replyingStatusContent,
-                replyingStatusAuthor,
-                statusVisibility.value!!,
-                poll.value
-        )
+
+        draftHelper.saveDraft(
+                draftId = draftId,
+                accountId = accountManager.activeAccount?.id!!,
+                inReplyToId = inReplyToId,
+                content = content,
+                contentWarning = contentWarning,
+                sensitive = markMediaAsSensitive.value!!,
+                visibility = statusVisibility.value!!,
+                mediaUris = mediaUris,
+                mediaDescriptions = mediaDescriptions,
+                poll = poll.value,
+                failedToSend = false
+        ).subscribe()
     }
 
     /**
@@ -246,7 +260,7 @@ class ComposeViewModel
     ): LiveData<Unit> {
 
         val deletionObservable = if (isEditingScheduledToot) {
-            api.deleteScheduledStatus(scheduledTootUid.toString()).toObservable().map { Unit }
+            api.deleteScheduledStatus(scheduledTootId.toString()).toObservable().map { }
         } else {
             just(Unit)
         }.toLiveData()
@@ -257,28 +271,30 @@ class ComposeViewModel
                     val mediaIds = ArrayList<String>()
                     val mediaUris = ArrayList<Uri>()
                     val mediaDescriptions = ArrayList<String>()
+                    val mediaTypes = ArrayList<QueuedMedia.Type>()
                     for (item in media.value!!) {
                         mediaIds.add(item.id!!)
                         mediaUris.add(item.uri)
                         mediaDescriptions.add(item.description ?: "")
+                        mediaTypes.add(item.type)
                     }
 
                     val tootToSend = TootToSend(
-                            content,
-                            spoilerText,
-                            statusVisibility.value!!.serverString(),
-                            mediaUris.isNotEmpty() && (markMediaAsSensitive.value!! || showContentWarning.value!!),
-                            mediaIds,
-                            mediaUris.map { it.toString() },
-                            mediaDescriptions,
+                            text = content,
+                            warningText = spoilerText,
+                            visibility = statusVisibility.value!!.serverString(),
+                            sensitive = mediaUris.isNotEmpty() && (markMediaAsSensitive.value!! || showContentWarning.value!!),
+                            mediaIds = mediaIds,
+                            mediaUris = mediaUris.map { it.toString() },
+                            mediaDescriptions = mediaDescriptions,
                             scheduledAt = scheduledAt.value,
                             inReplyToId = inReplyToId,
                             poll = poll.value,
                             replyingStatusContent = null,
                             replyingStatusAuthorUsername = null,
-                            savedJsonUrls = null,
                             accountId = accountManager.activeAccount!!.id,
-                            savedTootUid = 0,
+                            savedTootUid = savedTootUid,
+                            draftId = draftId,
                             idempotencyKey = randomAlphanumericString(16),
                             retries = 0
                     )
@@ -286,9 +302,7 @@ class ComposeViewModel
                     serviceClient.sendToot(tootToSend)
                 }
 
-        return combineLiveData(deletionObservable, sendObservable) { _, _ -> Unit }
-
-
+        return combineLiveData(deletionObservable, sendObservable) { _, _ -> }
     }
 
     fun updateDescription(localId: Long, description: String): LiveData<Boolean> {
@@ -318,7 +332,6 @@ class ComposeViewModel
         })
         return completedCaptioningLiveData
     }
-
 
     fun searchAutocompleteSuggestions(token: String): List<ComposeAutoCompleteAdapter.AutocompleteResult> {
         when (token[0]) {
@@ -370,14 +383,12 @@ class ComposeViewModel
         }
     }
 
-    override fun onCleared() {
-        for (uploadDisposable in mediaToDisposable.values) {
-            uploadDisposable.dispose()
-        }
-        super.onCleared()
-    }
-
     fun setup(composeOptions: ComposeActivity.ComposeOptions?) {
+
+        if (setupComplete.value == true) {
+            return
+        }
+
         val preferredVisibility = accountManager.activeAccount!!.defaultPostPrivacy
 
         val replyVisibility = composeOptions?.replyVisibility ?: Status.Visibility.UNKNOWN
@@ -385,6 +396,7 @@ class ComposeViewModel
                 preferredVisibility.num.coerceAtLeast(replyVisibility.num))
 
         inReplyToId = composeOptions?.inReplyToId
+
         modifiedInitialState = composeOptions?.modifiedInitialState == true
 
         val contentWarning = composeOptions?.contentWarning
@@ -396,10 +408,11 @@ class ComposeViewModel
         }
 
         // recreate media list
-        // when coming from SavedTootActivity
         val loadedDraftMediaUris = composeOptions?.mediaUrls
         val loadedDraftMediaDescriptions: List<String?>? = composeOptions?.mediaDescriptions
+        val draftAttachments = composeOptions?.draftAttachments
         if (loadedDraftMediaUris != null && loadedDraftMediaDescriptions != null) {
+            // when coming from SavedTootActivity
             loadedDraftMediaUris.zip(loadedDraftMediaDescriptions)
                     .forEach { (uri, description) ->
                         pickMedia(uri.toUri()).observeForever { errorOrItem ->
@@ -408,22 +421,23 @@ class ComposeViewModel
                             }
                         }
                     }
+        } else if (draftAttachments != null) {
+            // when coming from DraftActivity
+            draftAttachments.forEach { attachment -> pickMedia(attachment.uri, attachment.description) }
         } else composeOptions?.mediaAttachments?.forEach { a ->
-            // when coming from redraft
+            // when coming from redraft or ScheduledTootActivity
             val mediaType = when (a.type) {
                 Attachment.Type.VIDEO, Attachment.Type.GIFV -> QueuedMedia.Type.VIDEO
                 Attachment.Type.UNKNOWN, Attachment.Type.IMAGE -> QueuedMedia.Type.IMAGE
                 Attachment.Type.AUDIO -> QueuedMedia.Type.AUDIO
-                else -> QueuedMedia.Type.IMAGE
             }
             addUploadedMedia(a.id, mediaType, a.url.toUri(), a.description)
         }
 
-
         savedTootUid = composeOptions?.savedTootUid ?: 0
-        scheduledTootUid = composeOptions?.scheduledTootUid
+        draftId = composeOptions?.draftId ?: 0
+        scheduledTootId = composeOptions?.scheduledTootId
         startingText = composeOptions?.tootText
-
 
         val tootVisibility = composeOptions?.visibility ?: Status.Visibility.UNKNOWN
         if (tootVisibility.num != Status.Visibility.UNKNOWN.num) {
@@ -440,7 +454,6 @@ class ComposeViewModel
             }
             startingText = builder.toString()
         }
-
 
         scheduledAt.value = composeOptions?.scheduledAt
 
@@ -462,6 +475,13 @@ class ComposeViewModel
         scheduledAt.value = newScheduledAt
     }
 
+    override fun onCleared() {
+        for (uploadDisposable in mediaToDisposable.values) {
+            uploadDisposable.dispose()
+        }
+        super.onCleared()
+    }
+
     private companion object {
         const val TAG = "ComposeViewModel"
     }
@@ -480,3 +500,8 @@ data class ComposeInstanceParams(
         val pollMaxLength: Int,
         val supportsScheduled: Boolean
 )
+
+/**
+ * Thrown when trying to add an image when video is already present or the other way around
+ */
+class VideoOrImageException : Exception()

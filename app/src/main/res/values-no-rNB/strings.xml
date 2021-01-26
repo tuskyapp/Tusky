@@ -36,7 +36,7 @@
     <string name="title_blocks">Blokkerte brukere</string>
     <string name="title_follow_requests">Forespørsler om følgen</string>
     <string name="title_edit_profile">Endre profilen din</string>
-    <string name="title_saved_toot">Kladder</string>
+    <string name="title_drafts">Kladder</string>
     <string name="title_licenses">Lisenser</string>
     <string name="status_username_format">\@%s</string>
     <string name="status_boosted_format">%s boosted</string>
@@ -408,13 +408,13 @@
     <string name="pref_title_alway_open_spoiler">Ekspander alltid toots markert med innholdsadvarsel</string>
     <string name="action_add_poll">Legg til avstemming</string>
     <string name="create_poll_title">Avstemming</string>
-    <string name="poll_duration_5_min">5 minutter</string>
-    <string name="poll_duration_30_min">30 minutter</string>
-    <string name="poll_duration_1_hour">1 time</string>
-    <string name="poll_duration_6_hours">6 timer</string>
-    <string name="poll_duration_1_day">1 dag</string>
-    <string name="poll_duration_3_days">3 dager</string>
-    <string name="poll_duration_7_days">7 dager</string>
+    <string name="duration_5_min">5 minutter</string>
+    <string name="duration_30_min">30 minutter</string>
+    <string name="duration_1_hour">1 time</string>
+    <string name="duration_6_hours">6 timer</string>
+    <string name="duration_1_day">1 dag</string>
+    <string name="duration_3_days">3 dager</string>
+    <string name="duration_7_days">7 dager</string>
     <string name="add_poll_choice">Legg til valg</string>
     <string name="poll_allow_multiple_choices">Flere valg</string>
     <string name="poll_new_choice_hint">Valg %d</string>
@@ -467,4 +467,33 @@
     <string name="account_note_hint">Ditt private notat om denne kontoen</string>
     <string name="no_announcements">Det er ingen kunngjøringer.</string>
     <string name="title_announcements">Kunngjøringer</string>
+    <string name="wellbeing_hide_stats_profile">Skjul kvantitativ informasjon på profiler</string>
+    <string name="wellbeing_hide_stats_posts">Skjul kvantitativ informasjon på toots</string>
+    <string name="limit_notifications">Begrens tidslinjevarsler</string>
+    <string name="review_notifications">Se over varsler</string>
+    <string name="wellbeing_mode_notice">Informasjon som kan påvirke ditt mentale velvære vil bli skjult. Dette inkluderer:
+\n
+\n - Varsler om favorisering, boosts og følgere
+\n - Antall favoriseringer og boots på toots
+\n - Antall følgere og toots på profiler
+\n
+\n Push-varsler vil ikke påvirkes, men du kan se over dine varselinnstillinger manuelt.</string>
+    <string name="pref_title_wellbeing_mode">Velvære</string>
+    <string name="notification_subscription_description">Varsler når noen jeg følger publiserer en ny toot</string>
+    <string name="notification_subscription_name">Nye toots</string>
+    <string name="pref_title_notification_filter_subscriptions">noen jeg følger publiserer en ny toot</string>
+    <string name="notification_subscription_format">%s tootet akkurat</string>
+    <string name="error_upload_max_media_reached">Du kan ikke laste opp flere enn %1$d mediavedlegg.</string>
+    <string name="duration_indefinite">Uendelig</string>
+    <string name="label_duration">Varighet</string>
+    <string name="dialog_delete_list_warning">Er du sikker på at du vil slette listen %s\?</string>
+    <string name="status_media_attachments">Vedlegg</string>
+    <string name="status_media_audio">Lyd</string>
+    <string name="drafts_toot_reply_removed">Tootet du kladdet et svar til har blitt fjernet</string>
+    <string name="draft_deleted">Kladd slettet</string>
+    <string name="drafts_failed_loading_reply">Lasting av svarinformasjon feilet</string>
+    <string name="old_drafts">Gamle kladder</string>
+    <string name="new_drafts_warning">KladdfunksjonaLiteten i Tusky er skrevet om og er nå kjappere, mer brukervennlig, og med færre feil.
+\nGamle kladder er fortsatt tilgjengelige via en knapp på den nye kladdskjermen, men de vil bli fjernet i en fremtidig oppdatering!</string>
+    <string name="drafts_toot_failed_to_send">Sending av toot feilet!</string>
 </resources>

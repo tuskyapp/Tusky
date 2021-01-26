@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="add_poll_choice">เพิ่มตัวเลือก</string>
-    <string name="poll_duration_7_days">7 วัน</string>
-    <string name="poll_duration_3_days">3 วัน</string>
-    <string name="poll_duration_1_day">1 วัน</string>
-    <string name="poll_duration_6_hours">6 ชั่วโมง</string>
-    <string name="poll_duration_1_hour">1 ชั่วโมง</string>
-    <string name="poll_duration_30_min">30 นาที</string>
-    <string name="poll_duration_5_min">5 นาที</string>
+    <string name="duration_7_days">7 วัน</string>
+    <string name="duration_3_days">3 วัน</string>
+    <string name="duration_1_day">1 วัน</string>
+    <string name="duration_6_hours">6 ชั่วโมง</string>
+    <string name="duration_1_hour">1 ชั่วโมง</string>
+    <string name="duration_30_min">30 นาที</string>
+    <string name="duration_5_min">5 นาที</string>
     <string name="create_poll_title">โพล</string>
     <string name="pref_title_enable_swipe_for_tabs">เปิดใช้งานการเลื่อนนิ้วเพื่อสลับระหว่างแท็บ</string>
     <string name="pref_title_show_notifications_filter">แสดงตัวกรองการแจ้งเตือน</string>
@@ -431,7 +431,7 @@
     <string name="action_view_account_preferences">ตั้งค่าบัญชี</string>
     <string name="action_view_preferences">ตั้งค่า</string>
     <string name="action_logout">ออกจากระบบ</string>
-    <string name="title_saved_toot">ฉบับร่าง</string>
+    <string name="title_drafts">ฉบับร่าง</string>
     <string name="title_favourites">ชื่นชอบ</string>
     <string name="error_failed_app_registration">การยืนยันตัวตนกับเซิร์ฟเวอร์นั้นล้มเหลว</string>
     <string name="link_whats_an_instance">Instance คือ\?</string>
