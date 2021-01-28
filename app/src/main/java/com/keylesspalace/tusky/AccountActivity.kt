@@ -801,10 +801,6 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            android.R.id.home -> {
-                onBackPressed()
-                return true
-            }
             R.id.action_mention -> {
                 mention()
                 return true

@@ -8,7 +8,6 @@ import android.text.SpannableStringBuilder
 import android.text.method.LinkMovementMethod
 import android.text.style.URLSpan
 import android.text.util.Linkify
-import android.view.MenuItem
 import android.widget.TextView
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.util.CustomURLSpan
@@ -48,16 +47,6 @@ class AboutActivity : BottomSheetActivity(), Injectable {
             startActivityWithSlideInAnimation(Intent(this, LicenseActivity::class.java))
         }
 
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            android.R.id.home -> {
-                onBackPressed()
-                return true
-            }
-        }
-        return super.onOptionsItemSelected(item)
     }
 
 }

@@ -19,7 +19,6 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.view.MenuItem
 import android.view.View
 import android.widget.PopupWindow
 import androidx.activity.viewModels
@@ -121,16 +120,6 @@ class AnnouncementsActivity : BottomSheetActivity(), AnnouncementActionListener,
 
         viewModel.load()
         progressBar.show()
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            android.R.id.home -> {
-                onBackPressed()
-                return true
-            }
-        }
-        return super.onOptionsItemSelected(item)
     }
 
     private fun refreshAnnouncements() {

@@ -21,7 +21,6 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
@@ -135,7 +134,7 @@ class ListsActivity : BaseActivity(), Injectable, HasAndroidInjector {
 
         val positiveButton = dialog.getButton(Dialog.BUTTON_POSITIVE)
         editText.onTextChanged { s, _, _, _ ->
-            positiveButton.isEnabled = !s.isBlank()
+            positiveButton.isEnabled = s.isNotBlank()
         }
         editText.setText(list?.title)
         editText.text?.let { editText.setSelection(it.length) }
@@ -217,14 +216,6 @@ class ListsActivity : BaseActivity(), Injectable, HasAndroidInjector {
     }
 
     override fun androidInjector() = dispatchingAndroidInjector
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == android.R.id.home) {
-            onBackPressed()
-            return true
-        }
-        return false
-    }
 
     private object ListsDiffer : DiffUtil.ItemCallback<MastoList>() {
         override fun areItemsTheSame(oldItem: MastoList, newItem: MastoList): Boolean {

@@ -20,7 +20,6 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
-import android.view.MenuItem
 import androidx.activity.viewModels
 import androidx.appcompat.widget.SearchView
 import com.google.android.material.tabs.TabLayoutMediator
@@ -82,17 +81,7 @@ class SearchActivity : BottomSheetActivity(), HasAndroidInjector {
         return true
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            android.R.id.home -> {
-                onBackPressed()
-                return true
-            }
-        }
-        return super.onOptionsItemSelected(item)
-    }
-
-    private fun getPageTitle(position: Int): CharSequence? {
+    private fun getPageTitle(position: Int): CharSequence {
         return when (position) {
             0 -> getString(R.string.title_statuses)
             1 -> getString(R.string.title_accounts)

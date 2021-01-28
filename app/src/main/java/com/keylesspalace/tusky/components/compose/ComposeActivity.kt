@@ -30,9 +30,8 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Parcelable
 import android.provider.MediaStore
- import android.util.Log
+import android.util.Log
 import android.view.KeyEvent
-import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
@@ -885,15 +884,6 @@ class ComposeActivity : BaseActivity(),
         }
         composeContentWarningButton.drawable.colorFilter = PorterDuffColorFilter(color, PorterDuff.Mode.SRC_IN)
 
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == android.R.id.home) {
-            handleCloseButton()
-            return true
-        }
-
-        return super.onOptionsItemSelected(item)
     }
 
     override fun onBackPressed() {

@@ -23,7 +23,6 @@ import android.net.Uri
 import android.os.Bundle
 import android.text.method.LinkMovementMethod
 import android.util.Log
-import android.view.MenuItem
 import android.view.View
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
@@ -109,14 +108,6 @@ class LoginActivity : BaseActivity(), Injectable {
         if(isAdditionalLogin()) {
             overridePendingTransition(R.anim.slide_from_left, R.anim.slide_to_right)
         }
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == android.R.id.home) {
-            onBackPressed()
-            return true
-        }
-        return super.onOptionsItemSelected(item)
     }
 
     /**

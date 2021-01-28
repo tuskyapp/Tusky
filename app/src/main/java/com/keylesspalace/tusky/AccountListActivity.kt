@@ -18,7 +18,6 @@ package com.keylesspalace.tusky
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.view.MenuItem
 import com.keylesspalace.tusky.fragment.AccountListFragment
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
@@ -66,16 +65,6 @@ class AccountListActivity : BaseActivity(), HasAndroidInjector {
                 .beginTransaction()
                 .replace(R.id.fragment_container, AccountListFragment.newInstance(type, id))
                 .commit()
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            android.R.id.home -> {
-                onBackPressed()
-                return true
-            }
-        }
-        return super.onOptionsItemSelected(item)
     }
 
     override fun androidInjector() = dispatchingAndroidInjector

@@ -1,7 +1,6 @@
 package com.keylesspalace.tusky
 
 import android.os.Bundle
-import android.view.MenuItem
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
@@ -205,14 +204,4 @@ class FiltersActivity: BaseActivity() {
         }
     }
 
-    // Activate back arrow in toolbar
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            android.R.id.home -> {
-                onBackPressed()
-                return true
-            }
-        }
-        return super.onOptionsItemSelected(item)
-    }
 }

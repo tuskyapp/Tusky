@@ -20,7 +20,6 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
-import android.view.MenuItem
 import androidx.fragment.app.Fragment
 import androidx.preference.PreferenceManager
 import com.keylesspalace.tusky.BaseActivity
@@ -99,16 +98,6 @@ class PreferencesActivity : BaseActivity(), SharedPreferences.OnSharedPreference
     override fun onPause() {
         super.onPause()
         PreferenceManager.getDefaultSharedPreferences(this).unregisterOnSharedPreferenceChangeListener(this)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            android.R.id.home -> {
-                onBackPressed()
-                return true
-            }
-        }
-        return super.onOptionsItemSelected(item)
     }
 
     private fun saveInstanceState(outState: Bundle) {
