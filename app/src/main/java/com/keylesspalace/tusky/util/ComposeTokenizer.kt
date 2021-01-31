@@ -35,6 +35,7 @@ class ComposeTokenizer : MultiAutoCompleteTextView.Tokenizer {
         var i = cursor
         var character = text[i - 1]
 
+        // go up to first illegal character or character we're looking for (@, # or :)
         while(i > 0 && !(character == '@' || character == '#' || character == ':')) {
             if(!isMentionOrHashtagAllowedCharacter(character)) {
                 return cursor
@@ -44,12 +45,12 @@ class ComposeTokenizer : MultiAutoCompleteTextView.Tokenizer {
             character = if (i == 0) ' ' else text[i - 1]
         }
 
-        // caught domain name, try search username
-        // don't ask me about this code
+        // maybe caught domain name? try search username
         if(i > 2 && character == '@') {
             var j = i - 1
             var character2 = text[i - 2]
 
+            // again go up to first illegal character or tag "@"
             while(j > 0 && character2 != '@') {
                 if(!isMentionOrHashtagAllowedCharacter(character2)) {
                     break
@@ -58,6 +59,8 @@ class ComposeTokenizer : MultiAutoCompleteTextView.Tokenizer {
                 j--
                 character2 = if (j == 0) ' ' else text[j - 1]
             }
+
+            // found mention symbol, override cursor
             if(character2 == '@') {
                 i = j
                 character = character2
