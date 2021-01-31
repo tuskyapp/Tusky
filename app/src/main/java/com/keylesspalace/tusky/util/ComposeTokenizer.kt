@@ -18,7 +18,6 @@ package com.keylesspalace.tusky.util
 import android.text.SpannableString
 import android.text.Spanned
 import android.text.TextUtils
-import android.util.Log
 import android.widget.MultiAutoCompleteTextView
 
 class ComposeTokenizer : MultiAutoCompleteTextView.Tokenizer {
@@ -47,7 +46,7 @@ class ComposeTokenizer : MultiAutoCompleteTextView.Tokenizer {
 
         // caught domain name, try search username
         // don't ask me about this code
-        if(i > 3 && character == '@') {
+        if(i > 2 && character == '@') {
             var j = i - 1
             var character2 = text[i - 2]
 
