@@ -38,9 +38,6 @@ interface DraftDao {
     @Query("DELETE FROM DraftEntity WHERE id = :id")
     fun delete(id: Int): Completable
 
-    @Query("DELETE FROM DraftEntity WHERE accountId = :accountId")
-    fun deleteAll(accountId: Long): Completable
-
     @Query("SELECT * FROM DraftEntity WHERE id = :id")
     fun find(id: Int): Single<DraftEntity?>
 
