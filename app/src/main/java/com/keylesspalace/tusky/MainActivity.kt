@@ -68,7 +68,6 @@ import com.keylesspalace.tusky.interfaces.ReselectableFragment
 import com.keylesspalace.tusky.pager.MainPagerAdapter
 import com.keylesspalace.tusky.settings.PrefKeys
 import com.keylesspalace.tusky.service.StreamingService
-import com.keylesspalace.tusky.settings.PrefKeys
 import com.keylesspalace.tusky.util.*
 import com.mikepenz.iconics.IconicsDrawable
 import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial
@@ -223,6 +222,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
                         is AnnouncementReadEvent -> {
                             unreadAnnouncementsCount--
                             updateAnnouncementsBadge()
+                        }
                         is PreferenceChangedEvent -> {
                             when(event.preferenceKey) {
                                 PrefKeys.LIVE_NOTIFICATIONS -> {

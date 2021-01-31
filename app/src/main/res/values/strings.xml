@@ -613,6 +613,7 @@
 
     <string name="streaming_notification_name">Live notifications</string>
     <string name="streaming_notification_description">Running live notifications for: </string>
+    <string name="pref_title_other">Other</string>
     <string name="pref_title_live_notifications">Live notifications</string>
     <string name="pref_summary_live_notifications">May slightly increase power consumption</string>
 
