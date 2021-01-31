@@ -271,12 +271,10 @@ class ComposeViewModel @Inject constructor(
                     val mediaIds = ArrayList<String>()
                     val mediaUris = ArrayList<Uri>()
                     val mediaDescriptions = ArrayList<String>()
-                    val mediaTypes = ArrayList<QueuedMedia.Type>()
                     for (item in media.value!!) {
                         mediaIds.add(item.id!!)
                         mediaUris.add(item.uri)
                         mediaDescriptions.add(item.description ?: "")
-                        mediaTypes.add(item.type)
                     }
 
                     val tootToSend = TootToSend(
