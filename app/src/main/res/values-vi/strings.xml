@@ -420,7 +420,7 @@
     <string name="later">Để sau</string>
     <string name="restart_emoji">Bạn cần khởi động lại Tusky để áp dụng các thiết lập</string>
     <string name="restart_required">Yêu cầu khởi động lại ứng dụng</string>
-    <string name="action_open_toot">Mở tút</string>
+    <string name="action_open_toot">Xem tút</string>
     <string name="expand_collapse_all_statuses">Mở rộng/Thu gọn toàn bộ tút</string>
     <string name="performing_lookup_title">Đang tìm kiếm…</string>
     <string name="download_fonts">Bạn cần tải về bộ emoji này trước</string>
@@ -458,7 +458,7 @@
     <string name="account_note_saved">Đã lưu!</string>
     <string name="account_note_hint">Thêm ghi chú</string>
     <string name="no_announcements">Chưa có thông báo.</string>
-    <string name="title_announcements">Tin tức</string>
+    <string name="title_announcements">Có gì mới\?</string>
     <string name="wellbeing_hide_stats_profile">Ẩn số liệu trên trang cá nhân</string>
     <string name="wellbeing_hide_stats_posts">Ẩn tương tác trên tút</string>
     <string name="limit_notifications">Hạn chế thông báo trên bảng tin</string>
