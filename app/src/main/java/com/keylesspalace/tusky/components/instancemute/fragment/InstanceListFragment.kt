@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -14,7 +15,6 @@ import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.components.instancemute.adapter.DomainMutesAdapter
 import com.keylesspalace.tusky.components.instancemute.interfaces.InstanceActionListener
 import com.keylesspalace.tusky.di.Injectable
-import com.keylesspalace.tusky.fragment.BaseFragment
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.HttpHeaderLink
 import com.keylesspalace.tusky.util.hide
@@ -30,7 +30,7 @@ import retrofit2.Response
 import java.io.IOException
 import javax.inject.Inject
 
-class InstanceListFragment: BaseFragment(), Injectable, InstanceActionListener {
+class InstanceListFragment: Fragment(R.layout.fragment_instance_list), Injectable, InstanceActionListener {
     @Inject
     lateinit var api: MastodonApi
 
@@ -38,10 +38,6 @@ class InstanceListFragment: BaseFragment(), Injectable, InstanceActionListener {
     private var bottomId: String? = null
     private var adapter = DomainMutesAdapter(this)
     private lateinit var scrollListener: EndlessOnScrollListener
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        return inflater.inflate(R.layout.fragment_instance_list, container, false)
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

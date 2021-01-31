@@ -56,14 +56,7 @@ interface MastodonApi {
             @Query("max_id") maxId: String?,
             @Query("since_id") sinceId: String?,
             @Query("limit") limit: Int?
-    ): Call<List<Status>>
-
-    @GET("api/v1/timelines/home")
-    fun homeTimelineSingle(
-            @Query("max_id") maxId: String?,
-            @Query("since_id") sinceId: String?,
-            @Query("limit") limit: Int?
-    ): Single<List<Status>>
+    ): Single<Response<List<Status>>>
 
     @GET("api/v1/timelines/public")
     fun publicTimeline(
@@ -71,7 +64,7 @@ interface MastodonApi {
             @Query("max_id") maxId: String?,
             @Query("since_id") sinceId: String?,
             @Query("limit") limit: Int?
-    ): Call<List<Status>>
+    ): Single<Response<List<Status>>>
 
     @GET("api/v1/timelines/tag/{hashtag}")
     fun hashtagTimeline(
@@ -81,7 +74,7 @@ interface MastodonApi {
             @Query("max_id") maxId: String?,
             @Query("since_id") sinceId: String?,
             @Query("limit") limit: Int?
-    ): Call<List<Status>>
+    ): Single<Response<List<Status>>>
 
     @GET("api/v1/timelines/list/{listId}")
     fun listTimeline(
@@ -89,7 +82,7 @@ interface MastodonApi {
             @Query("max_id") maxId: String?,
             @Query("since_id") sinceId: String?,
             @Query("limit") limit: Int?
-    ): Call<List<Status>>
+    ): Single<Response<List<Status>>>
 
     @GET("api/v1/notifications")
     fun notifications(
@@ -97,7 +90,7 @@ interface MastodonApi {
             @Query("since_id") sinceId: String?,
             @Query("limit") limit: Int?,
             @Query("exclude_types[]") excludes: Set<Notification.Type>?
-    ): Call<List<Notification>>
+    ): Single<Response<List<Notification>>>
 
     @GET("api/v1/markers")
     fun markersWithAuth(
@@ -114,12 +107,7 @@ interface MastodonApi {
     ): Single<List<Notification>>
 
     @POST("api/v1/notifications/clear")
-    fun clearNotifications(): Call<ResponseBody>
-
-    @GET("api/v1/notifications/{id}")
-    fun notification(
-            @Path("id") notificationId: String
-    ): Call<Notification>
+    fun clearNotifications(): Single<ResponseBody>
 
     @Multipart
     @POST("api/v1/media")
@@ -146,17 +134,12 @@ interface MastodonApi {
     @GET("api/v1/statuses/{id}")
     fun status(
             @Path("id") statusId: String
-    ): Call<Status>
-
-    @GET("api/v1/statuses/{id}")
-    fun statusSingle(
-            @Path("id") statusId: String
     ): Single<Status>
 
     @GET("api/v1/statuses/{id}/context")
     fun statusContext(
             @Path("id") statusId: String
-    ): Call<StatusContext>
+    ): Single<StatusContext>
 
     @GET("api/v1/statuses/{id}/reblogged_by")
     fun statusRebloggedBy(
@@ -295,7 +278,7 @@ interface MastodonApi {
             @Query("exclude_replies") excludeReplies: Boolean?,
             @Query("only_media") onlyMedia: Boolean?,
             @Query("pinned") pinned: Boolean?
-    ): Call<List<Status>>
+    ): Single<Response<List<Status>>>
 
     @GET("api/v1/accounts/{id}/followers")
     fun accountFollowers(
@@ -398,14 +381,14 @@ interface MastodonApi {
             @Query("max_id") maxId: String?,
             @Query("since_id") sinceId: String?,
             @Query("limit") limit: Int?
-    ): Call<List<Status>>
+    ): Single<Response<List<Status>>>
 
     @GET("api/v1/bookmarks")
     fun bookmarks(
             @Query("max_id") maxId: String?,
             @Query("since_id") sinceId: String?,
             @Query("limit") limit: Int?
-    ): Call<List<Status>>
+    ): Single<Response<List<Status>>>
 
     @GET("api/v1/follow_requests")
     fun followRequests(
@@ -415,20 +398,10 @@ interface MastodonApi {
     @POST("api/v1/follow_requests/{id}/authorize")
     fun authorizeFollowRequest(
             @Path("id") accountId: String
-    ): Call<Relationship>
-
-    @POST("api/v1/follow_requests/{id}/reject")
-    fun rejectFollowRequest(
-            @Path("id") accountId: String
-    ): Call<Relationship>
-
-    @POST("api/v1/follow_requests/{id}/authorize")
-    fun authorizeFollowRequestObservable(
-            @Path("id") accountId: String
     ): Single<Relationship>
 
     @POST("api/v1/follow_requests/{id}/reject")
-    fun rejectFollowRequestObservable(
+    fun rejectFollowRequest(
             @Path("id") accountId: String
     ): Single<Relationship>
 

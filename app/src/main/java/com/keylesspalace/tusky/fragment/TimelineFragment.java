@@ -101,12 +101,11 @@ import javax.inject.Inject;
 
 import at.connyduck.sparkbutton.helpers.Utils;
 import io.reactivex.Observable;
+import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import kotlin.Unit;
 import kotlin.collections.CollectionsKt;
 import kotlin.jvm.functions.Function1;
-import retrofit2.Call;
-import retrofit2.Callback;
 import retrofit2.Response;
 
 import static com.uber.autodispose.AutoDispose.autoDisposable;
@@ -1004,7 +1003,7 @@ public class TimelineFragment extends SFragment implements
         }
     }
 
-    private Call<List<Status>> getFetchCallByTimelineType(String fromId, String uptoId) {
+    private Single<Response<List<Status>>> getFetchCallByTimelineType(String fromId, String uptoId) {
         MastodonApi api = mastodonApi;
         switch (kind) {
             default:
@@ -1051,37 +1050,31 @@ public class TimelineFragment extends SFragment implements
                     .observeOn(AndroidSchedulers.mainThread())
                     .as(autoDisposable(from(this, Lifecycle.Event.ON_DESTROY)))
                     .subscribe(
-                            (result) -> onFetchTimelineSuccess(result, fetchEnd, pos),
-                            (err) -> onFetchTimelineFailure(new Exception(err), fetchEnd, pos)
+                            result -> onFetchTimelineSuccess(result, fetchEnd, pos),
+                            err -> onFetchTimelineFailure(err, fetchEnd, pos)
                     );
         } else {
-            Callback<List<Status>> callback = new Callback<List<Status>>() {
-                @Override
-                public void onResponse(@NonNull Call<List<Status>> call, @NonNull Response<List<Status>> response) {
-                    if (response.isSuccessful()) {
-                        @Nullable
-                        String newNextId = extractNextId(response);
-                        if (newNextId != null) {
-                            // when we reach the bottom of the list, we won't have a new link. If
-                            // we blindly write `null` here we will start loading from the top
-                            // again.
-                            nextId = newNextId;
-                        }
-                        onFetchTimelineSuccess(liftStatusList(response.body()), fetchEnd, pos);
-                    } else {
-                        onFetchTimelineFailure(new Exception(response.message()), fetchEnd, pos);
-                    }
-                }
-
-                @Override
-                public void onFailure(@NonNull Call<List<Status>> call, @NonNull Throwable t) {
-                    onFetchTimelineFailure((Exception) t, fetchEnd, pos);
-                }
-            };
-
-            Call<List<Status>> listCall = getFetchCallByTimelineType(maxId, sinceId);
-            callList.add(listCall);
-            listCall.enqueue(callback);
+            getFetchCallByTimelineType(maxId, sinceId)
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .as(autoDisposable(from(this, Lifecycle.Event.ON_DESTROY)))
+                    .subscribe(
+                            response -> {
+                                if (response.isSuccessful()) {
+                                    @Nullable
+                                    String newNextId = extractNextId(response);
+                                    if (newNextId != null) {
+                                        // when we reach the bottom of the list, we won't have a new link. If
+                                        // we blindly write `null` here we will start loading from the top
+                                        // again.
+                                        nextId = newNextId;
+                                    }
+                                    onFetchTimelineSuccess(liftStatusList(response.body()), fetchEnd, pos);
+                                } else {
+                                    onFetchTimelineFailure(new Exception(response.message()), fetchEnd, pos);
+                                }
+                            },
+                            err -> onFetchTimelineFailure(err, fetchEnd, pos)
+                    );
         }
     }
 
@@ -1158,7 +1151,7 @@ public class TimelineFragment extends SFragment implements
         }
     }
 
-    private void onFetchTimelineFailure(Exception exception, FetchEnd fetchEnd, int position) {
+    private void onFetchTimelineFailure(Throwable throwable, FetchEnd fetchEnd, int position) {
         if (isAdded()) {
             swipeRefreshLayout.setRefreshing(false);
             topProgressBar.hide();
@@ -1177,7 +1170,7 @@ public class TimelineFragment extends SFragment implements
             } else if (this.statuses.isEmpty()) {
                 swipeRefreshLayout.setEnabled(false);
                 this.statusView.setVisibility(View.VISIBLE);
-                if (exception instanceof IOException) {
+                if (throwable instanceof IOException) {
                     this.statusView.setup(R.drawable.elephant_offline, R.string.error_network, __ -> {
                         this.progressBar.setVisibility(View.VISIBLE);
                         this.onRefresh();
@@ -1192,7 +1185,7 @@ public class TimelineFragment extends SFragment implements
                 }
             }
 
-            Log.e(TAG, "Fetch Failure: " + exception.getMessage());
+            Log.e(TAG, "Fetch Failure: " + throwable.getMessage());
             updateBottomLoadingState(fetchEnd);
             progressBar.setVisibility(View.GONE);
         }
