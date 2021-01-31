@@ -18,7 +18,6 @@ package com.keylesspalace.tusky;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.view.MenuItem;
 import android.view.View;
 
 import androidx.annotation.Nullable;
@@ -116,17 +115,6 @@ public final class SavedTootActivity extends BaseActivity implements SavedTootAd
     protected void onPause() {
         super.onPause();
         if (asyncTask != null) asyncTask.cancel(true);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home: {
-                onBackPressed();
-                return true;
-            }
-        }
-        return super.onOptionsItemSelected(item);
     }
 
     private void fetchToots() {

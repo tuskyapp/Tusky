@@ -30,7 +30,7 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Parcelable
 import android.provider.MediaStore
- import android.util.Log
+import android.util.Log
 import android.view.KeyEvent
 import android.view.MenuItem
 import android.view.View

@@ -1,7 +1,6 @@
 package com.keylesspalace.tusky.components.instancemute
 
 import android.os.Bundle
-import android.view.MenuItem
 import com.keylesspalace.tusky.BaseActivity
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.components.instancemute.fragment.InstanceListFragment
@@ -30,16 +29,6 @@ class InstanceListActivity: BaseActivity(), HasAndroidInjector {
                 .beginTransaction()
                 .replace(R.id.fragment_container, InstanceListFragment())
                 .commit()
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            android.R.id.home -> {
-                onBackPressed()
-                return true
-            }
-        }
-        return super.onOptionsItemSelected(item)
     }
 
     override fun androidInjector() = androidInjector

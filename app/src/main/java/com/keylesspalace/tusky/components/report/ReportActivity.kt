@@ -18,7 +18,6 @@ package com.keylesspalace.tusky.components.report
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.view.MenuItem
 import androidx.activity.viewModels
 import com.keylesspalace.tusky.BottomSheetActivity
 import com.keylesspalace.tusky.R
@@ -29,7 +28,6 @@ import dagger.android.HasAndroidInjector
 import kotlinx.android.synthetic.main.activity_report.*
 import kotlinx.android.synthetic.main.toolbar_basic.*
 import javax.inject.Inject
-
 
 class ReportActivity : BottomSheetActivity(), HasAndroidInjector {
 
@@ -118,16 +116,6 @@ class ReportActivity : BottomSheetActivity(), HasAndroidInjector {
 
     private fun showStatusesPage() {
         wizard.currentItem = 0
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            android.R.id.home -> {
-                closeScreen()
-                return true
-            }
-        }
-        return super.onOptionsItemSelected(item)
     }
 
     companion object {

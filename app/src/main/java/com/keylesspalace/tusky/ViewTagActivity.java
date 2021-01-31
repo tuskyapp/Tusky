@@ -18,7 +18,6 @@ package com.keylesspalace.tusky;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.MenuItem;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
@@ -70,17 +69,6 @@ public class ViewTagActivity extends BottomSheetActivity implements HasAndroidIn
         Fragment fragment = TimelineFragment.newHashtagInstance(Collections.singletonList(hashtag));
         fragmentTransaction.replace(R.id.fragment_container, fragment);
         fragmentTransaction.commit();
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home: {
-                onBackPressed();
-                return true;
-            }
-        }
-        return super.onOptionsItemSelected(item);
     }
 
     @Override
