@@ -30,7 +30,7 @@ import com.keylesspalace.tusky.components.conversation.ConversationEntity;
 
 @Database(entities = { TootEntity.class, DraftEntity.class, AccountEntity.class, InstanceEntity.class, TimelineStatusEntity.class,
                 TimelineAccountEntity.class,  ConversationEntity.class
-        }, version = 25)
+        }, version = 26)
 public abstract class AppDatabase extends RoomDatabase {
 
     public abstract TootDao tootDao();
@@ -363,7 +363,13 @@ public abstract class AppDatabase extends RoomDatabase {
                             "`poll` TEXT," +
                             "`failedToSend` INTEGER NOT NULL)"
             );
-            database.execSQL("ALTER TABLE `AccountEntity` ADD COLUMN `notificationsStreamingEnabled` INTEGER NOT NULL DEFAULT 1");
         }
     };
+
+    public static final Migration MIGRATION_25_26 = new Migration(25, 26) {
+        @Override
+        public void migrate(@NonNull SupportSQLiteDatabase database) {
+            database.execSQL("ALTER TABLE `AccountEntity` ADD COLUMN `notificationsStreamingEnabled` INTEGER NOT NULL DEFAULT 1");
+        }
+    }
 }
