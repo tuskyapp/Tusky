@@ -67,8 +67,6 @@ class ComposeTokenizer : MultiAutoCompleteTextView.Tokenizer {
             }
         }
 
-        // Log.d("Tokenizer", "Stopped search at ${character} ${text.substring(i)}")
-
         if (i < 1
                 || (character != '@' && character != '#' && character != ':')
                 || i > 1 && !Character.isWhitespace(text[i - 2])) {
