@@ -457,7 +457,7 @@
     <string name="drafts_post_reply_removed">โพสต์ที่คุณได้ร่างตอบไว้ ถูกลบแลัว</string>
     <string name="draft_deleted">ลบฉบับร่างแล้ว</string>
     <string name="drafts_failed_loading_reply">ล้มเหลวในการโหลดข้อมูลตอบกลับ</string>
-    <string name="dialog_delete_list_warning">คุณต้องการลบลิสต์ %1$s ใช่ไหม\?</string>
+    <string name="dialog_delete_list_warning">คุณต้องการลบลิสต์ %1$s ใช่ไหม?</string>
     <plurals name="error_upload_max_media_reached">
         <item quantity="other">คุณไม่สามารถอัปโหลดไฟล์แนบมากกว่า %1$d ได้</item>
     </plurals>
