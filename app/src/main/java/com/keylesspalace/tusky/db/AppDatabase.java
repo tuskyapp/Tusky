@@ -371,5 +371,5 @@ public abstract class AppDatabase extends RoomDatabase {
         public void migrate(@NonNull SupportSQLiteDatabase database) {
             database.execSQL("ALTER TABLE `AccountEntity` ADD COLUMN `notificationsStreamingEnabled` INTEGER NOT NULL DEFAULT 1");
         }
-    }
+    };
 }
