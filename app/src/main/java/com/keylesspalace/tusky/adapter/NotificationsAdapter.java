@@ -232,7 +232,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
                 case VIEW_TYPE_FOLLOW_REQUEST: {
                     if (payloadForHolder == null) {
                         FollowRequestViewHolder holder = (FollowRequestViewHolder) viewHolder;
-                        holder.setupWithAccount(concreteNotificaton.getAccount());
+                        holder.setupWithAccount(concreteNotificaton.getAccount(), statusDisplayOptions.animateAvatars(), statusDisplayOptions.animateEmojis());
                         holder.setupActionListener(accountActionListener);
                     }
                 }
@@ -255,7 +255,8 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
                 statusDisplayOptions.useBlurhash(),
                 CardViewMode.NONE,
                 statusDisplayOptions.confirmReblogs(),
-                statusDisplayOptions.hideStats()
+                statusDisplayOptions.hideStats(),
+                statusDisplayOptions.animateEmojis()
         );
     }
 
@@ -336,13 +337,17 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
             String format = context.getString(R.string.notification_follow_format);
             String wrappedDisplayName = StringUtils.unicodeWrap(account.getName());
             String wholeMessage = String.format(format, wrappedDisplayName);
-            CharSequence emojifiedMessage = CustomEmojiHelper.emojify(wholeMessage, account.getEmojis(), message);
+            CharSequence emojifiedMessage = CustomEmojiHelper.emojify(
+                    wholeMessage, account.getEmojis(), message, statusDisplayOptions.animateEmojis()
+            );
             message.setText(emojifiedMessage);
 
             String username = context.getString(R.string.status_username_format, account.getUsername());
             usernameView.setText(username);
 
-            CharSequence emojifiedDisplayName = CustomEmojiHelper.emojify(wrappedDisplayName, account.getEmojis(), usernameView);
+            CharSequence emojifiedDisplayName = CustomEmojiHelper.emojify(
+                    wrappedDisplayName, account.getEmojis(), usernameView, statusDisplayOptions.animateEmojis()
+            );
 
             displayNameView.setText(emojifiedDisplayName);
 
@@ -425,7 +430,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
         }
 
         private void setDisplayName(String name, List<Emoji> emojis) {
-            CharSequence emojifiedName = CustomEmojiHelper.emojify(name, emojis, displayName);
+            CharSequence emojifiedName = CustomEmojiHelper.emojify(name, emojis, displayName, statusDisplayOptions.animateEmojis());
             displayName.setText(emojifiedName);
         }
 
@@ -519,7 +524,9 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
             final SpannableStringBuilder str = new SpannableStringBuilder(wholeMessage);
             str.setSpan(new StyleSpan(Typeface.BOLD), 0, displayName.length(),
                     Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-            CharSequence emojifiedText = CustomEmojiHelper.emojify(str, notificationViewData.getAccount().getEmojis(), message);
+            CharSequence emojifiedText = CustomEmojiHelper.emojify(
+                    str, notificationViewData.getAccount().getEmojis(), message, statusDisplayOptions.animateEmojis()
+            );
             message.setText(emojifiedText);
 
             if (statusViewData != null) {
@@ -630,11 +637,17 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
                 statusContent.setFilters(NO_INPUT_FILTER);
             }
 
-            CharSequence emojifiedText = CustomEmojiHelper.emojify(content, emojis, statusContent);
+            CharSequence emojifiedText = CustomEmojiHelper.emojify(
+                    content, emojis, statusContent, statusDisplayOptions.animateEmojis()
+            );
             LinkHelper.setClickableText(statusContent, emojifiedText, statusViewData.getMentions(), listener);
 
-            CharSequence emojifiedContentWarning =
-                    CustomEmojiHelper.emojify(statusViewData.getSpoilerText(), statusViewData.getStatusEmojis(), contentWarningDescriptionTextView);
+            CharSequence emojifiedContentWarning = CustomEmojiHelper.emojify(
+                    statusViewData.getSpoilerText(),
+                    statusViewData.getStatusEmojis(),
+                    contentWarningDescriptionTextView,
+                    statusDisplayOptions.animateEmojis()
+            );
             contentWarningDescriptionTextView.setText(emojifiedContentWarning);
         }
 

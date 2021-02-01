@@ -243,7 +243,7 @@ class StatusViewHelper(private val itemView: View) {
         }
     }
 
-    fun setupPollReadonly(poll: PollViewData?, emojis: List<Emoji>, useAbsoluteTime: Boolean) {
+    fun setupPollReadonly(poll: PollViewData?, emojis: List<Emoji>, statusDisplayOptions: StatusDisplayOptions) {
         val pollResults = listOf<TextView>(
                 itemView.findViewById(R.id.status_poll_option_result_0),
                 itemView.findViewById(R.id.status_poll_option_result_1),
@@ -261,10 +261,10 @@ class StatusViewHelper(private val itemView: View) {
             val timestamp = System.currentTimeMillis()
 
 
-            setupPollResult(poll, emojis, pollResults)
+            setupPollResult(poll, emojis, pollResults, statusDisplayOptions.animateEmojis)
 
             pollDescription.visibility = View.VISIBLE
-            pollDescription.text = getPollInfoText(timestamp, poll, pollDescription, useAbsoluteTime)
+            pollDescription.text = getPollInfoText(timestamp, poll, pollDescription, statusDisplayOptions.useAbsoluteTime)
         }
     }
 
@@ -292,7 +292,7 @@ class StatusViewHelper(private val itemView: View) {
     }
 
 
-    private fun setupPollResult(poll: PollViewData, emojis: List<Emoji>, pollResults: List<TextView>) {
+    private fun setupPollResult(poll: PollViewData, emojis: List<Emoji>, pollResults: List<TextView>, animateEmojis: Boolean) {
         val options = poll.options
 
         for (i in 0 until Status.MAX_POLL_OPTIONS) {
@@ -300,7 +300,7 @@ class StatusViewHelper(private val itemView: View) {
                 val percent = calculatePercent(options[i].votesCount, poll.votersCount, poll.votesCount)
 
                 val pollOptionText = buildDescription(options[i].title, percent, pollResults[i].context)
-                pollResults[i].text = pollOptionText.emojify(emojis, pollResults[i])
+                pollResults[i].text = pollOptionText.emojify(emojis, pollResults[i], animateEmojis)
                 pollResults[i].visibility = View.VISIBLE
 
                 val level = percent * 100

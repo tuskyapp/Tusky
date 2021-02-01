@@ -78,7 +78,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
 
     private val viewModel: AccountViewModel by viewModels { viewModelFactory }
 
-    private val accountFieldAdapter = AccountFieldAdapter(this)
+    private lateinit var accountFieldAdapter : AccountFieldAdapter
 
     private var followState: FollowState = FollowState.NOT_FOLLOWING
     private var blocking: Boolean = false
@@ -89,6 +89,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
     private var loadedAccount: Account? = null
 
     private var animateAvatar: Boolean = false
+    private var animateEmojis: Boolean = false
 
     // fields for scroll animation
     private var hideFab: Boolean = false
@@ -124,6 +125,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
 
         val sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this)
         animateAvatar = sharedPrefs.getBoolean("animateGifAvatars", false)
+        animateEmojis = sharedPrefs.getBoolean(PrefKeys.ANIMATE_CUSTOM_EMOJIS, false)
         hideFab = sharedPrefs.getBoolean("fabHide", false)
 
         setupToolbar()
@@ -162,6 +164,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
         accountFollowsYouTextView.hide()
 
         // setup the RecyclerView for the account fields
+        accountFieldAdapter = AccountFieldAdapter(this, animateEmojis)
         accountFieldList.isNestedScrollingEnabled = false
         accountFieldList.layoutManager = LinearLayoutManager(this)
         accountFieldList.adapter = accountFieldAdapter
@@ -375,9 +378,9 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
 
         val usernameFormatted = getString(R.string.status_username_format, account.username)
         accountUsernameTextView.text = usernameFormatted
-        accountDisplayNameTextView.text = account.name.emojify(account.emojis, accountDisplayNameTextView)
+        accountDisplayNameTextView.text = account.name.emojify(account.emojis, accountDisplayNameTextView, animateEmojis)
 
-        val emojifiedNote = account.note.emojify(account.emojis, accountNoteTextView)
+        val emojifiedNote = account.note.emojify(account.emojis, accountNoteTextView, animateEmojis)
         LinkHelper.setClickableText(accountNoteTextView, emojifiedNote, null, this)
 
        // accountFieldAdapter.fields = account.fields ?: emptyList()
@@ -437,7 +440,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
     private fun updateToolbar() {
         loadedAccount?.let { account ->
 
-            val emojifiedName = account.name.emojify(account.emojis, accountToolbar)
+            val emojifiedName = account.name.emojify(account.emojis, accountToolbar, animateEmojis)
 
             try {
                 supportActionBar?.title = EmojiCompat.get().process(emojifiedName)

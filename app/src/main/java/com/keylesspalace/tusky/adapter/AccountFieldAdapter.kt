@@ -29,7 +29,7 @@ import com.keylesspalace.tusky.interfaces.LinkListener
 import com.keylesspalace.tusky.util.*
 import kotlinx.android.synthetic.main.item_account_field.view.*
 
-class AccountFieldAdapter(private val linkListener: LinkListener) : RecyclerView.Adapter<AccountFieldAdapter.ViewHolder>() {
+class AccountFieldAdapter(private val linkListener: LinkListener, private val animateEmojis: Boolean) : RecyclerView.Adapter<AccountFieldAdapter.ViewHolder>() {
 
     var emojis: List<Emoji> = emptyList()
     var fields: List<Either<IdentityProof, Field>> = emptyList()
@@ -55,10 +55,10 @@ class AccountFieldAdapter(private val linkListener: LinkListener) : RecyclerView
             viewHolder.valueTextView.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0,  R.drawable.ic_check_circle, 0)
         } else {
             val field = proofOrField.asRight()
-            val emojifiedName = field.name.emojify(emojis, viewHolder.nameTextView)
+            val emojifiedName = field.name.emojify(emojis, viewHolder.nameTextView, animateEmojis)
             viewHolder.nameTextView.text = emojifiedName
 
-            val emojifiedValue = field.value.emojify(emojis, viewHolder.valueTextView)
+            val emojifiedValue = field.value.emojify(emojis, viewHolder.valueTextView, animateEmojis)
             LinkHelper.setClickableText(viewHolder.valueTextView, emojifiedValue, null, linkListener)
 
             if(field.verifiedAt != null) {

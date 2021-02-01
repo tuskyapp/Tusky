@@ -20,7 +20,6 @@ import android.graphics.Canvas
 import android.graphics.Paint
 import android.graphics.drawable.*
 import android.text.SpannableString
-import android.text.Spanned
 import android.text.style.ReplacementSpan
 import android.view.View
 
@@ -42,13 +41,11 @@ import com.keylesspalace.tusky.settings.PrefKeys
  * @param view a reference to the a view the emojis will be shown in (should be the TextView, but parents of the TextView are also acceptable)
  * @return the text with the shortcodes replaced by EmojiSpans
 */
-fun CharSequence.emojify(emojis: List<Emoji>?, view: View) : CharSequence {
+fun CharSequence.emojify(emojis: List<Emoji>?, view: View, animate: Boolean) : CharSequence {
     if(emojis.isNullOrEmpty())
         return this
 
     val builder = SpannableString.valueOf(this)
-    val pm = PreferenceManager.getDefaultSharedPreferences(view.context)
-    val animate = pm.getBoolean(PrefKeys.ANIMATE_CUSTOM_EMOJIS, false)
 
     emojis.forEach { (shortcode, url) ->
         val matcher = Pattern.compile(":$shortcode:", Pattern.LITERAL)
