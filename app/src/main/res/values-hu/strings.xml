@@ -119,7 +119,7 @@
     <string name="confirmation_unblocked">Felhasználó letiltása feloldva</string>
     <string name="confirmation_unmuted">Felhasználó némítása feloldva</string>
     <string name="hint_domain">Melyik példány?</string>
-    <string name="hint_compose">Mi jár a fejedben\?</string>
+    <string name="hint_compose">Mi jár a fejedben?</string>
     <string name="hint_content_warning">Tartalom figyelmeztetés</string>
     <string name="hint_display_name">Megjelenítési név</string>
     <string name="hint_note">Bemutatkozás</string>
@@ -229,7 +229,7 @@
     <string name="title_lists">Listák</string>
     <string name="action_remove">Törlés</string>
     <string name="lock_account_label">Fiók zárolása</string>
-    <string name="compose_save_draft">Elmented a piszkozatot\?</string>
+    <string name="compose_save_draft">Elmented a piszkozatot?</string>
     <string name="send_post_notification_title">Bejegyzés küldése…</string>
     <string name="send_post_notification_error_title">A bejegyzés elküldése sikertelen</string>
     <string name="send_post_notification_channel_name">Bejegyzések elküldése</string>
