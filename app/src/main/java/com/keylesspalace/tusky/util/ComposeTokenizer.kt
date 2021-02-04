@@ -21,20 +21,52 @@ import android.text.TextUtils
 import android.widget.MultiAutoCompleteTextView
 
 class ComposeTokenizer : MultiAutoCompleteTextView.Tokenizer {
+
+    private fun isMentionOrHashtagAllowedCharacter(character: Char) : Boolean {
+        return Character.isLetterOrDigit(character) || character == '_' // simple usernames
+                || character == '-' // extended usernames
+                || character == '.' // domain dot
+    }
+
     override fun findTokenStart(text: CharSequence, cursor: Int): Int {
         if (cursor == 0) {
             return cursor
         }
         var i = cursor
         var character = text[i - 1]
-        while (i > 0 && character != '@' && character != '#' && character != ':') {
-            // See SpanUtils.MENTION_REGEX
-            if (!Character.isLetterOrDigit(character) && character != '_') {
+
+        // go up to first illegal character or character we're looking for (@, # or :)
+        while(i > 0 && !(character == '@' || character == '#' || character == ':')) {
+            if(!isMentionOrHashtagAllowedCharacter(character)) {
                 return cursor
             }
+
             i--
             character = if (i == 0) ' ' else text[i - 1]
         }
+
+        // maybe caught domain name? try search username
+        if(i > 2 && character == '@') {
+            var j = i - 1
+            var character2 = text[i - 2]
+
+            // again go up to first illegal character or tag "@"
+            while(j > 0 && character2 != '@') {
+                if(!isMentionOrHashtagAllowedCharacter(character2)) {
+                    break
+                }
+
+                j--
+                character2 = if (j == 0) ' ' else text[j - 1]
+            }
+
+            // found mention symbol, override cursor
+            if(character2 == '@') {
+                i = j
+                character = character2
+            }
+        }
+
         if (i < 1
                 || (character != '@' && character != '#' && character != ':')
                 || i > 1 && !Character.isWhitespace(text[i - 2])) {
