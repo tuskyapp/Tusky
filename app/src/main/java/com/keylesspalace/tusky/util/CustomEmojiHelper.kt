@@ -19,7 +19,7 @@ package com.keylesspalace.tusky.util
 import android.graphics.Canvas
 import android.graphics.Paint
 import android.graphics.drawable.*
-import android.text.SpannableString
+import android.text.SpannableStringBuilder
 import android.text.style.ReplacementSpan
 import android.view.View
 
@@ -45,7 +45,7 @@ fun CharSequence.emojify(emojis: List<Emoji>?, view: View, animate: Boolean) : C
     if(emojis.isNullOrEmpty())
         return this
 
-    val builder = SpannableString.valueOf(this)
+    val builder = SpannableStringBuilder.valueOf(this)
 
     emojis.forEach { (shortcode, url) ->
         val matcher = Pattern.compile(":$shortcode:", Pattern.LITERAL)
