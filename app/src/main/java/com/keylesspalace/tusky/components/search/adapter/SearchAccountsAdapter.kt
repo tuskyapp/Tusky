@@ -25,7 +25,7 @@ import com.keylesspalace.tusky.adapter.AccountViewHolder
 import com.keylesspalace.tusky.entity.Account
 import com.keylesspalace.tusky.interfaces.LinkListener
 
-class SearchAccountsAdapter(private val linkListener: LinkListener)
+class SearchAccountsAdapter(private val linkListener: LinkListener, private val animateAvatars: Boolean, private val animateEmojis: Boolean)
     : PagedListAdapter<Account, RecyclerView.ViewHolder>(ACCOUNT_COMPARATOR) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -37,7 +37,7 @@ class SearchAccountsAdapter(private val linkListener: LinkListener)
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         getItem(position)?.let { item ->
             (holder as AccountViewHolder).apply {
-                setupWithAccount(item)
+                setupWithAccount(item, animateAvatars, animateEmojis)
                 setupLinkListener(linkListener)
             }
         }

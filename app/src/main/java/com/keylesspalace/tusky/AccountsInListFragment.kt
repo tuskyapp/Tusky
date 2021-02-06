@@ -31,6 +31,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.entity.Account
+import com.keylesspalace.tusky.settings.PrefKeys
 import com.keylesspalace.tusky.util.*
 import com.keylesspalace.tusky.viewmodel.AccountsInListViewModel
 import com.keylesspalace.tusky.viewmodel.State
@@ -71,7 +72,9 @@ class AccountsInListFragment : DialogFragment(), Injectable {
     private val searchAdapter = SearchAdapter()
 
     private val radius by lazy { resources.getDimensionPixelSize(R.dimen.avatar_radius_48dp) }
-    private val animateAvatar by lazy { PreferenceManager.getDefaultSharedPreferences(requireContext()).getBoolean("animateGifAvatars", false) }
+    private val pm by lazy { PreferenceManager.getDefaultSharedPreferences(requireContext()) }
+    private val animateAvatar by lazy { pm.getBoolean(PrefKeys.ANIMATE_GIF_AVATARS, false) }
+    private val animateEmojis by lazy { pm.getBoolean(PrefKeys.ANIMATE_CUSTOM_EMOJIS, false) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -209,7 +212,7 @@ class AccountsInListFragment : DialogFragment(), Injectable {
             }
 
             fun bind(account: Account) {
-                displayNameTextView.text = account.name.emojify(account.emojis, displayNameTextView)
+                displayNameTextView.text = account.name.emojify(account.emojis, displayNameTextView, animateEmojis)
                 usernameTextView.text = account.username
                 loadAvatar(account.avatar, avatar, radius, animateAvatar)
             }
@@ -252,7 +255,7 @@ class AccountsInListFragment : DialogFragment(), Injectable {
             override val containerView = itemView
 
             fun bind(account: Account, inAList: Boolean) {
-                displayNameTextView.text = account.name.emojify(account.emojis, displayNameTextView)
+                displayNameTextView.text = account.name.emojify(account.emojis, displayNameTextView, animateEmojis)
                 usernameTextView.text = account.username
                 loadAvatar(account.avatar, avatar, radius, animateAvatar)
 

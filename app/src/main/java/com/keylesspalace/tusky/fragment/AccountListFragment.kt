@@ -20,6 +20,7 @@ import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
+import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -35,6 +36,7 @@ import com.keylesspalace.tusky.entity.Account
 import com.keylesspalace.tusky.entity.Relationship
 import com.keylesspalace.tusky.interfaces.AccountActionListener
 import com.keylesspalace.tusky.network.MastodonApi
+import com.keylesspalace.tusky.settings.PrefKeys
 import com.keylesspalace.tusky.util.HttpHeaderLink
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.show
@@ -78,11 +80,15 @@ class AccountListFragment : Fragment(R.layout.fragment_account_list), AccountAct
 
         recyclerView.addItemDecoration(DividerItemDecoration(view.context, DividerItemDecoration.VERTICAL))
 
+        val pm = PreferenceManager.getDefaultSharedPreferences(view.context)
+        val animateAvatar = pm.getBoolean(PrefKeys.ANIMATE_GIF_AVATARS, false)
+        val animateEmojis = pm.getBoolean(PrefKeys.ANIMATE_CUSTOM_EMOJIS, false)
+
         adapter = when (type) {
-            Type.BLOCKS -> BlocksAdapter(this)
-            Type.MUTES -> MutesAdapter(this)
-            Type.FOLLOW_REQUESTS -> FollowRequestsAdapter(this)
-            else -> FollowAdapter(this)
+            Type.BLOCKS -> BlocksAdapter(this, animateAvatar, animateEmojis)
+            Type.MUTES -> MutesAdapter(this, animateAvatar, animateEmojis)
+            Type.FOLLOW_REQUESTS -> FollowRequestsAdapter(this, animateAvatar, animateEmojis)
+            else -> FollowAdapter(this, animateAvatar, animateEmojis)
         }
         recyclerView.adapter = adapter
 

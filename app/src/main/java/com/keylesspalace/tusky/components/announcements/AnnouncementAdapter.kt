@@ -42,7 +42,8 @@ interface AnnouncementActionListener: LinkListener {
 class AnnouncementAdapter(
         private var items: List<Announcement> = emptyList(),
         private val listener: AnnouncementActionListener,
-        private val wellbeingEnabled: Boolean = false
+        private val wellbeingEnabled: Boolean = false,
+        private val animateEmojis: Boolean = false
 ) : RecyclerView.Adapter<AnnouncementAdapter.AnnouncementViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AnnouncementViewHolder {
@@ -99,7 +100,8 @@ class AnnouncementAdapter(
                                                     reaction.staticUrl ?: "",
                                                     null
                                             )),
-                                            this
+                                            this,
+                                            animateEmojis
                                     )
 
                             isChecked = reaction.me

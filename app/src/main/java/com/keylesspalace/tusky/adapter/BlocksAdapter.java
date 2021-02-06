@@ -34,8 +34,8 @@ import com.keylesspalace.tusky.util.ImageLoadingHelper;
 
 public class BlocksAdapter extends AccountAdapter {
 
-    public BlocksAdapter(AccountActionListener accountActionListener) {
-        super(accountActionListener);
+    public BlocksAdapter(AccountActionListener accountActionListener, boolean animateAvatar, boolean animateEmojis) {
+        super(accountActionListener, animateAvatar, animateEmojis);
     }
 
     @NonNull
@@ -60,7 +60,7 @@ public class BlocksAdapter extends AccountAdapter {
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position) {
         if (getItemViewType(position) == VIEW_TYPE_ACCOUNT) {
             BlockedUserViewHolder holder = (BlockedUserViewHolder) viewHolder;
-            holder.setupWithAccount(accountList.get(position));
+            holder.setupWithAccount(accountList.get(position), animateAvatar, animateEmojis);
             holder.setupActionListener(accountActionListener);
         }
     }
@@ -71,7 +71,6 @@ public class BlocksAdapter extends AccountAdapter {
         private TextView displayName;
         private ImageButton unblock;
         private String id;
-        private boolean animateAvatar;
 
         BlockedUserViewHolder(View itemView) {
             super(itemView);
@@ -79,14 +78,12 @@ public class BlocksAdapter extends AccountAdapter {
             username = itemView.findViewById(R.id.blocked_user_username);
             displayName = itemView.findViewById(R.id.blocked_user_display_name);
             unblock = itemView.findViewById(R.id.blocked_user_unblock);
-            animateAvatar = PreferenceManager.getDefaultSharedPreferences(itemView.getContext())
-                    .getBoolean("animateGifAvatars", false);
 
         }
 
-        void setupWithAccount(Account account) {
+        void setupWithAccount(Account account, boolean animateAvatar, boolean animateEmojis) {
             id = account.getId();
-            CharSequence emojifiedName = CustomEmojiHelper.emojify(account.getName(), account.getEmojis(), displayName);
+            CharSequence emojifiedName = CustomEmojiHelper.emojify(account.getName(), account.getEmojis(), displayName, animateEmojis);
             displayName.setText(emojifiedName);
             String format = username.getContext().getString(R.string.status_username_format);
             String formattedUsername = String.format(format, account.getUsername());

@@ -69,6 +69,7 @@ import com.keylesspalace.tusky.entity.Attachment
 import com.keylesspalace.tusky.entity.Emoji
 import com.keylesspalace.tusky.entity.NewPoll
 import com.keylesspalace.tusky.entity.Status
+import com.keylesspalace.tusky.settings.PrefKeys
 import com.keylesspalace.tusky.util.*
 import com.mikepenz.iconics.IconicsDrawable
 import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial
@@ -160,7 +161,7 @@ class ComposeActivity : BaseActivity(),
             composeScheduleView.setDateTime(composeOptions?.scheduledAt)
         }
 
-        setupComposeField(viewModel.startingText)
+        setupComposeField(preferences, viewModel.startingText)
         setupContentWarningField(composeOptions?.contentWarning)
         setupPollView()
         applyShareIntent(intent, savedInstanceState)
@@ -245,13 +246,18 @@ class ComposeActivity : BaseActivity(),
         composeContentWarningField.onTextChanged { _, _, _, _ -> updateVisibleCharactersLeft() }
     }
 
-    private fun setupComposeField(startingText: String?) {
+    private fun setupComposeField(preferences: SharedPreferences, startingText: String?) {
         composeEditField.setOnCommitContentListener(this)
 
         composeEditField.setOnKeyListener { _, keyCode, event -> this.onKeyDown(keyCode, event) }
 
         composeEditField.setAdapter(
-                ComposeAutoCompleteAdapter(this))
+                ComposeAutoCompleteAdapter(
+                        this,
+                        preferences.getBoolean(PrefKeys.ANIMATE_GIF_AVATARS, false),
+                        preferences.getBoolean(PrefKeys.ANIMATE_CUSTOM_EMOJIS, false)
+                )
+        )
         composeEditField.setTokenizer(ComposeTokenizer())
 
         composeEditField.setText(startingText)

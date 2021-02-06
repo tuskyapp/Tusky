@@ -82,8 +82,9 @@ class AnnouncementsActivity : BottomSheetActivity(), AnnouncementActionListener,
 
         val preferences: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
         val wellbeingEnabled = preferences.getBoolean(PrefKeys.WELLBEING_HIDE_STATS_POSTS, false)
+        val animateEmojis = preferences.getBoolean(PrefKeys.ANIMATE_CUSTOM_EMOJIS, false)
 
-        adapter = AnnouncementAdapter(emptyList(), this, wellbeingEnabled)
+        adapter = AnnouncementAdapter(emptyList(), this, wellbeingEnabled, animateEmojis)
 
         announcementsList.adapter = adapter
 

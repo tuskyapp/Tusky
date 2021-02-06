@@ -252,7 +252,8 @@ public class NotificationsFragment extends SFragment implements
                 preferences.getBoolean("useBlurhash", true),
                 CardViewMode.NONE,
                 preferences.getBoolean("confirmReblogs", true),
-                preferences.getBoolean(PrefKeys.WELLBEING_HIDE_STATS_POSTS, false)
+                preferences.getBoolean(PrefKeys.WELLBEING_HIDE_STATS_POSTS, false),
+                preferences.getBoolean(PrefKeys.ANIMATE_CUSTOM_EMOJIS, false)
         );
 
         adapter = new NotificationsAdapter(accountManager.getActiveAccount().getAccountId(),

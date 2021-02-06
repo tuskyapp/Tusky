@@ -174,6 +174,13 @@ class PreferencesFragment : PreferenceFragmentCompat(), Injectable {
                     setTitle(R.string.pref_title_enable_swipe_for_tabs)
                     isSingleLineTitle = false
                 }
+
+                switchPreference {
+                    setDefaultValue(false)
+                    key = PrefKeys.ANIMATE_CUSTOM_EMOJIS
+                    setTitle(R.string.pref_title_animate_custom_emojis)
+                    isSingleLineTitle = false
+                }
             }
 
             preferenceCategory(R.string.pref_title_browser_settings) {

@@ -27,8 +27,8 @@ import com.keylesspalace.tusky.interfaces.AccountActionListener;
 /** Both for follows and following lists. */
 public class FollowAdapter extends AccountAdapter {
 
-    public FollowAdapter(AccountActionListener accountActionListener) {
-        super(accountActionListener);
+    public FollowAdapter(AccountActionListener accountActionListener, boolean animateAvatar, boolean animateEmojis) {
+        super(accountActionListener, animateAvatar, animateEmojis);
     }
 
     @NonNull
@@ -53,7 +53,7 @@ public class FollowAdapter extends AccountAdapter {
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position) {
         if (getItemViewType(position) == VIEW_TYPE_ACCOUNT) {
             AccountViewHolder holder = (AccountViewHolder) viewHolder;
-            holder.setupWithAccount(accountList.get(position));
+            holder.setupWithAccount(accountList.get(position), animateAvatar, animateEmojis);
             holder.setupActionListener(accountActionListener);
         }
     }
