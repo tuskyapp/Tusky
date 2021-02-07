@@ -496,4 +496,5 @@
     <string name="new_drafts_warning">KladdfunksjonaLiteten i Tusky er skrevet om og er nå kjappere, mer brukervennlig, og med færre feil.
 \nGamle kladder er fortsatt tilgjengelige via en knapp på den nye kladdskjermen, men de vil bli fjernet i en fremtidig oppdatering!</string>
     <string name="drafts_toot_failed_to_send">Sending av toot feilet!</string>
+    <string name="pref_title_animate_custom_emojis">Animer egendefinerte emojis</string>
 </resources>

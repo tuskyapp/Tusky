@@ -134,7 +134,7 @@
     <string name="action_add_poll">Tạo bình chọn</string>
     <string name="action_add_media">Thêm tệp</string>
     <string name="action_open_in_web">Mở trong trình duyệt</string>
-    <string name="action_view_media">Bộ sưu tập</string>
+    <string name="action_view_media">Thư viện</string>
     <string name="action_view_follow_requests">Yêu cầu theo dõi</string>
     <string name="action_view_domain_mutes">Máy chủ đã ẩn</string>
     <string name="action_view_blocks">Người dùng đã chặn</string>
@@ -289,7 +289,7 @@
     <string name="pref_title_public_filter_keywords">Cộng đồng</string>
     <string name="load_more_placeholder_text">xem thêm</string>
     <string name="replying_to">Trả lời @%s</string>
-    <string name="title_media">Bộ sưu tập</string>
+    <string name="title_media">Thư viện</string>
     <string name="pref_title_alway_open_spoiler">Luôn hiện nội dung bị ẩn</string>
     <string name="pref_title_alway_show_sensitive_media">Luôn hiện nội dung nhạy cảm</string>
     <string name="follows_you">Đang theo dõi bạn</string>
