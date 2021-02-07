@@ -32,9 +32,13 @@ interface DraftDao {
     @Query("SELECT * FROM DraftEntity WHERE accountId = :accountId ORDER BY id ASC")
     fun loadDrafts(accountId: Long): DataSource.Factory<Int, DraftEntity>
 
+    @Query("SELECT * FROM DraftEntity WHERE accountId = :accountId")
+    fun loadDraftsSingle(accountId: Long): Single<List<DraftEntity>>
+
     @Query("DELETE FROM DraftEntity WHERE id = :id")
     fun delete(id: Int): Completable
 
     @Query("SELECT * FROM DraftEntity WHERE id = :id")
     fun find(id: Int): Single<DraftEntity?>
+
 }

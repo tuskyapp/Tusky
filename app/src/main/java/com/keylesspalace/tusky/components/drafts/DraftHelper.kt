@@ -29,6 +29,7 @@ import com.keylesspalace.tusky.entity.NewPoll
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.util.IOUtils
 import io.reactivex.Completable
+import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
 import java.io.File
@@ -124,6 +125,15 @@ class DraftHelper @Inject constructor(
     fun deleteDraftAndAttachments(draft: DraftEntity): Completable {
         return deleteAttachments(draft)
                 .andThen(draftDao.delete(draft.id))
+    }
+
+    fun deleteAllDraftsAndAttachmentsForAccount(accountId: Long) {
+        draftDao.loadDraftsSingle(accountId)
+                .flatMapObservable { Observable.fromIterable(it) }
+                .flatMapCompletable { draft ->
+                    deleteDraftAndAttachments(draft)
+                }.subscribeOn(Schedulers.io())
+                .subscribe()
     }
 
     fun deleteAttachments(draft: DraftEntity): Completable {

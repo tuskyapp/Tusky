@@ -53,6 +53,7 @@ import com.keylesspalace.tusky.components.announcements.AnnouncementsActivity
 import com.keylesspalace.tusky.components.compose.ComposeActivity
 import com.keylesspalace.tusky.components.compose.ComposeActivity.Companion.canHandleMimeType
 import com.keylesspalace.tusky.components.conversation.ConversationsRepository
+import com.keylesspalace.tusky.components.drafts.DraftHelper
 import com.keylesspalace.tusky.components.drafts.DraftsActivity
 import com.keylesspalace.tusky.components.notifications.NotificationHelper
 import com.keylesspalace.tusky.components.preference.PreferencesActivity
@@ -103,6 +104,9 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
 
     @Inject
     lateinit var appDb: AppDatabase
+
+    @Inject
+    lateinit var draftHelper: DraftHelper
 
     private lateinit var header: AccountHeaderView
 
@@ -611,6 +615,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
                         NotificationHelper.deleteNotificationChannelsForAccount(activeAccount, this)
                         cacheUpdater.clearForUser(activeAccount.id)
                         conversationRepository.deleteCacheForAccount(activeAccount.id)
+                        draftHelper.deleteAllDraftsAndAttachmentsForAccount(activeAccount.id)
                         removeShortcut(this, activeAccount)
                         val newAccount = accountManager.logActiveAccountOut()
                         if (!NotificationHelper.areNotificationsEnabled(this, accountManager)) {
