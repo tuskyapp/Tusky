@@ -237,12 +237,12 @@
     <string name="title_lists">Listák</string>
     <string name="action_remove">Törlés</string>
     <string name="lock_account_label">Fiók zárolása</string>
-    <string name="compose_save_draft">Elmented a vázlatot?</string>
+    <string name="compose_save_draft">Elmented a piszkozatot\?</string>
     <string name="send_toot_notification_title">Tülk elküldése…</string>
     <string name="send_toot_notification_error_title">A tülk elküldése nem sikerült</string>
     <string name="send_toot_notification_channel_name">Tülkök elküldése</string>
     <string name="send_toot_notification_cancel_title">Küldés megszakítva</string>
-    <string name="send_toot_notification_saved_content">A tülk másolatát elmentettük a vázlataid közé</string>
+    <string name="send_toot_notification_saved_content">A tülk másolatát elmentettük a piszkozataid közé</string>
     <string name="action_compose_shortcut">Szerkesztés</string>
     <string name="error_no_custom_emojis">A %s szervernek nincsenek egyedi emoji-jai</string>
     <string name="copy_to_clipboard_success">Vágólapra másolva</string>
@@ -442,7 +442,7 @@
     <string name="select_list_title">Lista kiválasztása</string>
     <string name="list">Lista</string>
     <string name="error_audio_upload_size">A hangfájloknak kisebbnek kell lenniük, mint 40 MB.</string>
-    <string name="no_saved_status">Nincs egy vázlatod sem.</string>
+    <string name="no_saved_status">Nincs egy piszkozatod sem.</string>
     <string name="no_scheduled_status">Nincs egy ütemezett tülköd sem.</string>
     <string name="warning_scheduling_interval">A Mastodonban a legrövidebb ütemezhető időintervallum 5 perc.</string>
     <string name="notification_follow_request_name">Követési kérelmek</string>
@@ -476,4 +476,33 @@
     <string name="account_note_hint">Saját, mások számára nem látható megjegyzés erről a fiókról</string>
     <string name="no_announcements">Nincsenek közlemények.</string>
     <string name="title_announcements">Közlemények</string>
+    <string name="drafts_toot_reply_removed">A Tülköt, melyre válaszul piszkozatot készítettél törölték</string>
+    <string name="draft_deleted">Piszkozat törölve</string>
+    <string name="drafts_failed_loading_reply">Nem sikerült a Válasz információit betölteni</string>
+    <string name="old_drafts">Régi Piszkozatok</string>
+    <string name="new_drafts_warning">A Tusky piszkozat funkcióját teljesen újraterveztük, hogy gyorsabb, felhasználóbarátabb és hibamentesebb legyen.
+\nTovábbra is elérheted a régi piszkozataidat egy gombbal az új piszkozatok képernyőjén, de ezeket egy későbbi frissítésben el fogjuk törölni!</string>
+    <string name="drafts_toot_failed_to_send">Ez a tülk nem küldődött el!</string>
+    <string name="dialog_delete_list_warning">Tényleg le akarod törölni a %s listát\?</string>
+    <string name="error_upload_max_media_reached">Nem tölthetsz fel %1$d médiacsatolmányból többet.</string>
+    <string name="wellbeing_hide_stats_profile">Profilok mérőszámainak elrejtése</string>
+    <string name="wellbeing_hide_stats_posts">Tülkök mérőszámainak elrejtése</string>
+    <string name="limit_notifications">Idővonali értesítések korlátozása</string>
+    <string name="review_notifications">Értesítések Áttekintése</string>
+    <string name="wellbeing_mode_notice">Pár információ, ami befolyásolhatja a mentális egészségedet rejtve marad. Ilyenek pl.:
+\n
+\n - Kedvenc/Megtolás/Bekövetés értesítései
+\n - Kedvenc/Megtolás számlálók a tülkökön
+\n - Követő/Tülk statisztikák a profilokon
+\n
+\nA Push-értesítéseket ez nem befolyásolja, de kézzel átállíthatod az értesítési beállításaidat.</string>
+    <string name="duration_indefinite">Végtelen</string>
+    <string name="label_duration">Időtartam</string>
+    <string name="status_media_attachments">Csatolmányok</string>
+    <string name="status_media_audio">Audio</string>
+    <string name="notification_subscription_description">Értesítések általam követett személy új tülkjeiről</string>
+    <string name="notification_subscription_name">Új tülkök</string>
+    <string name="pref_title_notification_filter_subscriptions">valaki, akit követek újat tülkölt</string>
+    <string name="notification_subscription_format">%s épp tülkölt</string>
+    <string name="pref_title_wellbeing_mode">Jóllét</string>
 </resources>
