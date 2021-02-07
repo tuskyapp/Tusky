@@ -59,11 +59,17 @@ class DraftHelper @Inject constructor(
     ): Completable {
         return Single.fromCallable {
 
-            val draftDirectory = context.getExternalFilesDir("Tusky")
+            val externalFilesDir = context.getExternalFilesDir("Tusky")
 
-            if (draftDirectory == null || !(draftDirectory.exists())) {
+            if (externalFilesDir == null || !(externalFilesDir.exists())) {
                 Log.e("DraftHelper", "Error obtaining directory to save media.")
                 throw Exception()
+            }
+
+            val draftDirectory = File(externalFilesDir, "Drafts")
+
+            if (!draftDirectory.exists()) {
+                draftDirectory.mkdir()
             }
 
             val uris = mediaUris.map { uriString ->
