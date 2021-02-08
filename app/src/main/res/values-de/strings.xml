@@ -470,4 +470,22 @@
     <string name="pref_title_hide_top_toolbar">Titel der Hauptnavigation verstecken</string>
     <string name="no_announcements">Im Moment gibt es keine Ankündigungen.</string>
     <string name="title_announcements">Ankündigungen</string>
+    <string name="drafts_toot_reply_removed">Der Beitrag auf den du antworten willst wurde gelöscht</string>
+    <string name="draft_deleted">Entwurf gelöscht</string>
+    <string name="old_drafts">Alte Entwürfe</string>
+    <string name="new_drafts_warning">Das \"Entwürfe\"-Feature in Tusky wurde komplett neu gestaltet um schneller und benutzerfreundlicher zu sein.
+\nDu kannst deine alten Entwürfe noch hinter einem Button bei den neuen Entwürfen finden, aber sie werden mit einem zukünftigen Update gelöscht!</string>
+    <string name="drafts_toot_failed_to_send">Dieser Beitrag konnte nicht gesendet werden!</string>
+    <string name="dialog_delete_list_warning">Willst du die Liste %s wirklich löschen\?</string>
+    <string name="error_upload_max_media_reached">Du kannst nicht mehr als %1$d Anhänge hochladen.</string>
+    <string name="pref_title_wellbeing_mode">Wohlbefinden</string>
+    <string name="label_duration">Dauer</string>
+    <string name="duration_indefinite">Für immer</string>
+    <string name="status_media_attachments">Anhänge</string>
+    <string name="status_media_audio">Audio</string>
+    <string name="notification_subscription_description">Benachrichtigungen, wenn jemand, den ich abonniert habe, etwas Neues veröffentlicht</string>
+    <string name="notification_subscription_name">Neue Beiträge</string>
+    <string name="pref_title_animate_custom_emojis">GIF-Emojis animieren</string>
+    <string name="pref_title_notification_filter_subscriptions">Jemand, den ich abonniert habe, etwas Neues veröffentlicht</string>
+    <string name="notification_subscription_format">% hat gerade etwas gepostet</string>
 </resources>
