@@ -1,0 +1,9 @@
+Tusky v14.0
+
+- Add option to be notified when a followed user posts - click the bell icon on their profile! (Mastodon 3.3.0 feature)
+- New Drafts implementation: The draft feature in Tusky has been completely redesigned to be faster, more user friendly and less buggy.
+- Wellbeing mode: A new wellbeing mode that allows you to limit certain Tusky features has been added. You can enable the feature in the Preferences.
+- Animated emoji support: Tusky can now animate custom emojis. The feature is off by default, you can enable it in the Preferences.
+- Support for timed mutes: It is now possible to mute users for only a certain time.
+- a lot of bug fixes and small improvements, especially for Pleroma compatibility
+- improved translations
