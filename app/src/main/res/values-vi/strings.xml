@@ -352,7 +352,7 @@
     <string name="poll_ended_created">Cuộc bình chọn bạn tạo đã kết thúc</string>
     <string name="poll_ended_voted">Cuộc bình chọn của bạn đã kết thúc</string>
     <string name="poll_vote">Bình chọn</string>
-    <string name="poll_info_closed">Kết thúc</string>
+    <string name="poll_info_closed">xong</string>
     <string name="poll_info_time_absolute">kết thúc lúc %s</string>
     <plurals name="poll_info_people">
         <item quantity="other">%s người</item>
@@ -488,4 +488,5 @@
     <string name="new_drafts_warning">Tính năng lên lịch đăng tút của Tusky sẽ được thiết kế lại hoàn toàn để nhanh hơn, thân thiện và ít lỗi hơn.
 \nBạn vẫn có thể xem lại bản nháp cũ nhưng chúng sẽ bị xóa bỏ trong bản cập nhật tương lai!</string>
     <string name="drafts_toot_failed_to_send">Đăng tút không thành công!</string>
+    <string name="pref_title_animate_custom_emojis">Emoji động</string>
 </resources>
