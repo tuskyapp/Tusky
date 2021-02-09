@@ -36,7 +36,7 @@
     <string name="title_blocks">Utenti bloccati</string>
     <string name="title_follow_requests">Richieste di seguirti</string>
     <string name="title_edit_profile">Modifica il tuo profilo</string>
-    <string name="title_saved_toot">Bozze</string>
+    <string name="title_drafts">Bozze</string>
     <string name="title_licenses">Licenze</string>
     <string name="status_username_format">\@%s</string>
     <string name="status_boosted_format">%s ha boostato</string>
@@ -431,13 +431,13 @@
     <string name="failed_search">Errore durante la ricerca</string>
     <string name="pref_title_show_notifications_filter">Mostra il filtro delle notifiche</string>
     <string name="create_poll_title">Sondaggio</string>
-    <string name="poll_duration_5_min">5 minuti</string>
-    <string name="poll_duration_30_min">30 minuti</string>
-    <string name="poll_duration_1_hour">1 ora</string>
-    <string name="poll_duration_6_hours">6 ore</string>
-    <string name="poll_duration_1_day">1 giorno</string>
-    <string name="poll_duration_3_days">3 giorni</string>
-    <string name="poll_duration_7_days">7 giorni</string>
+    <string name="duration_5_min">5 minuti</string>
+    <string name="duration_30_min">30 minuti</string>
+    <string name="duration_1_hour">1 ora</string>
+    <string name="duration_6_hours">6 ore</string>
+    <string name="duration_1_day">1 giorno</string>
+    <string name="duration_3_days">3 giorni</string>
+    <string name="duration_7_days">7 giorni</string>
     <string name="add_poll_choice">Aggiungi scelta</string>
     <string name="poll_allow_multiple_choices">Scelte multiple</string>
     <string name="poll_new_choice_hint">Scelta %d</string>
@@ -468,7 +468,7 @@
     <string name="account_note_hint">La tua nota privata su questo account</string>
     <string name="pref_title_hide_top_toolbar">Nascondi il titolo della barra degli strumenti in alto</string>
     <string name="pref_title_confirm_reblogs">Mostra la finestra di dialogo di conferma prima del boosting</string>
-    <string name="pref_title_show_cards_in_timelines">Mostra le anteprime dei collegamenti nelle sequenze temporali</string>
+    <string name="pref_title_show_cards_in_timelines">Mostra le anteprime dei collegamenti nelle timelines</string>
     <string name="warning_scheduling_interval">Mastodon ha un intervallo minimo di programmazione di 5 minuti.</string>
     <string name="no_announcements">Non ci sono annunci.</string>
     <string name="no_scheduled_status">Non hai stati pianificati.</string>
@@ -483,4 +483,14 @@
     <string name="action_unmute_notifications_desc">Riattiva le notifiche da %s</string>
     <string name="title_announcements">Annunci</string>
     <string name="pref_title_notification_filter_follow_requests">Richieste di seguirti</string>
+    <string name="wellbeing_hide_stats_profile">Nascondi statistiche quantitative sui profili</string>
+    <string name="wellbeing_hide_stats_posts">Nascondi le statistiche quantitative sui post</string>
+    <string name="limit_notifications">Limita le notifiche della timeline</string>
+    <string name="review_notifications">Revisiona le notifiche</string>
+    <string name="pref_title_wellbeing_mode">Benessere</string>
+    <string name="notification_subscription_description">Notifiche di quando qualcuno a cui sei iscritto ha pubblicato un nuovo toot</string>
+    <string name="notification_subscription_name">Nuovi toots</string>
+    <string name="pref_title_notification_filter_subscriptions">qualcuno a cui sono iscritto ha pubblicato un nuovo toot</string>
+    <string name="notification_subscription_format">%s appena pubblicato</string>
+    <string name="error_upload_max_media_reached">Non puoi caricare più di %1$d allegati multimediali.</string>
 </resources>

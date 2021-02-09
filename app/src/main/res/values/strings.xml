@@ -40,7 +40,7 @@
     <string name="title_domain_mutes">Hidden domains</string>
     <string name="title_follow_requests">Follow Requests</string>
     <string name="title_edit_profile">Edit your profile</string>
-    <string name="title_saved_toot">Drafts</string>
+    <string name="title_drafts">Drafts</string>
     <string name="title_scheduled_toot">Scheduled toots</string>
     <string name="title_announcements">Announcements</string>
     <string name="title_licenses">Licenses</string>
@@ -62,6 +62,7 @@
     <string name="notification_favourite_format">%s favorited your toot</string>
     <string name="notification_follow_format">%s followed you</string>
     <string name="notification_follow_request_format">%s requested to follow you</string>
+    <string name="notification_subscription_format">%s just posted</string>
 
     <string name="report_username_format">Report @%s</string>
     <string name="report_comment_hint">Additional comments?</string>
@@ -223,6 +224,7 @@
     <string name="pref_title_notification_filter_reblogs">my posts are boosted</string>
     <string name="pref_title_notification_filter_favourites">my posts are favorited</string>
     <string name="pref_title_notification_filter_poll">polls have ended</string>
+    <string name="pref_title_notification_filter_subscriptions">somebody I\'m subscribed to published a new toot</string>
     <string name="pref_title_appearance_settings">Appearance</string>
     <string name="pref_title_app_theme">App Theme</string>
     <string name="pref_title_timelines">Timelines</string>
@@ -241,6 +243,7 @@
     <string name="pref_title_bot_overlay">Show indicator for bots</string>
     <string name="pref_title_animate_gif_avatars">Animate GIF avatars</string>
     <string name="pref_title_gradient_for_media">Show colorful gradients for hidden media</string>
+    <string name="pref_title_animate_custom_emojis">Animate custom emojis</string>
 
     <string name="pref_title_status_filter">Timeline filtering</string>
     <string name="pref_title_status_tabs">Tabs</string>
@@ -287,7 +290,8 @@
     <string name="notification_favourite_description">Notifications when your toots get marked as favorite</string>
     <string name="notification_poll_name">Polls</string>
     <string name="notification_poll_description">Notifications about polls that have ended</string>
-
+    <string name="notification_subscription_name">New toots</string>
+    <string name="notification_subscription_description">Notifications when somebody you\'re subscribed to published a new toot</string>
 
     <string name="notification_mention_format">%s mentioned you</string>
     <string name="notification_summary_large">%1$s, %2$s, %3$s and %4$d others</string>
@@ -323,6 +327,8 @@
     <string name="status_share_link">Share link to toot</string>
     <string name="status_media_images">Images</string>
     <string name="status_media_video">Video</string>
+    <string name="status_media_audio">Audio</string>
+    <string name="status_media_attachments">Attachments</string>
 
     <string name="state_follow_requested">Follow requested</string>
 
@@ -555,13 +561,15 @@
 
 
     <string name="create_poll_title">Poll</string>
-    <string name="poll_duration_5_min">5 minutes</string>
-    <string name="poll_duration_30_min">30 minutes</string>
-    <string name="poll_duration_1_hour">1 hour</string>
-    <string name="poll_duration_6_hours">6 hours</string>
-    <string name="poll_duration_1_day">1 day</string>
-    <string name="poll_duration_3_days">3 days</string>
-    <string name="poll_duration_7_days">7 days</string>
+    <string name="label_duration">Duration</string>
+    <string name="duration_indefinite">Indefinite</string>
+    <string name="duration_5_min">5 minutes</string>
+    <string name="duration_30_min">30 minutes</string>
+    <string name="duration_1_hour">1 hour</string>
+    <string name="duration_6_hours">6 hours</string>
+    <string name="duration_1_day">1 day</string>
+    <string name="duration_3_days">3 days</string>
+    <string name="duration_7_days">7 days</string>
     <string name="add_poll_choice">Add choice</string>
     <string name="poll_allow_multiple_choices">Multiple choices</string>
     <string name="poll_new_choice_hint">Choice %d</string>
@@ -575,7 +583,32 @@
     <string name="pref_title_show_cards_in_timelines">Show link previews in timelines</string>
     <string name="pref_title_confirm_reblogs">Show confirmation dialog before boosting</string>
     <string name="pref_title_hide_top_toolbar">Hide the title of the top toolbar</string>
+    <string name="pref_title_wellbeing_mode">Wellbeing</string>
     <string name="account_note_hint">Your private note about this account</string>
     <string name="account_note_saved">Saved!</string>
 
+    <string name="wellbeing_mode_notice">Some information that might affect your mental wellbeing will be hidden. This includes:\n\n
+        - Favorite/Boost/Follow notifications\n
+        - Favorite/Boost count on toots\n
+        - Follower/Post stats on profiles\n\n
+        Push-notifications will not be affected, but you can review your notification preferences manually.
+    </string>
+    <string name="review_notifications">Review Notifications</string>
+    <string name="limit_notifications">Limit timeline notifications</string>
+    <string name="wellbeing_hide_stats_posts">Hide quantitative stats on posts</string>
+    <string name="wellbeing_hide_stats_profile">Hide quantitative stats on profiles</string>
+    <string name="error_upload_max_media_reached">You cannot upload more than %1$d media attachments.</string>
+    <string name="dialog_delete_list_warning">Do you really want to delete the list %s?</string>
+    <string name="drafts_toot_failed_to_send">This toot failed to send!</string>
+
+
+    <string name="new_drafts_warning">
+        The draft feature in Tusky has been completely redesigned to be faster, more user friendly and less buggy.\n
+        You can still access your old drafts via a button on the new drafts screen,
+        but they will be removed in a future update!
+    </string>
+    <string name="old_drafts">Old Drafts</string>
+    <string name="drafts_failed_loading_reply">Failed loading Reply information</string>
+    <string name="draft_deleted">Draft deleted</string>
+    <string name="drafts_toot_reply_removed">The Toot you drafted a reply to has been removed</string>
 </resources>

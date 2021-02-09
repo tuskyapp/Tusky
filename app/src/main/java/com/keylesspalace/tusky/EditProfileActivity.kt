@@ -296,10 +296,6 @@ class EditProfileActivity : BaseActivity(), Injectable {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            android.R.id.home -> {
-                onBackPressed()
-                return true
-            }
             R.id.action_save -> {
                 save()
                 return true

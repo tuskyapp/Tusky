@@ -34,7 +34,7 @@
     <string name="title_blocks">Usuários bloqueados</string>
     <string name="title_follow_requests">Seguidores pendentes</string>
     <string name="title_edit_profile">Editar perfil</string>
-    <string name="title_saved_toot">Rascunhos</string>
+    <string name="title_drafts">Rascunhos</string>
     <string name="title_licenses">Licenças</string>
     <string name="status_boosted_format">%s deu boost</string>
     <string name="status_sensitive_media_title">Mídia sensível</string>
@@ -236,7 +236,7 @@
     <string name="abbreviated_hours_ago">%dh</string>
     <string name="abbreviated_minutes_ago">%dm</string>
     <string name="abbreviated_seconds_ago">%ds</string>
-    <string name="follows_you">Te segue</string>
+    <string name="follows_you">te segue</string>
     <string name="pref_title_alway_show_sensitive_media">Sempre mostrar mídia sensível</string>
     <string name="title_media">Mídia</string>
     <string name="replying_to">Respondendo @%s</string>
@@ -417,13 +417,13 @@
     <string name="title_accounts">Contas</string>
     <string name="failed_search">Erro ao pesquisar</string>
     <string name="create_poll_title">Enquete</string>
-    <string name="poll_duration_5_min">5 minutos</string>
-    <string name="poll_duration_30_min">30 minutos</string>
-    <string name="poll_duration_1_hour">1 hora</string>
-    <string name="poll_duration_6_hours">6 horas</string>
-    <string name="poll_duration_1_day">1 dia</string>
-    <string name="poll_duration_3_days">3 dias</string>
-    <string name="poll_duration_7_days">7 dias</string>
+    <string name="duration_5_min">5 minutos</string>
+    <string name="duration_30_min">30 minutos</string>
+    <string name="duration_1_hour">1 hora</string>
+    <string name="duration_6_hours">6 horas</string>
+    <string name="duration_1_day">1 dia</string>
+    <string name="duration_3_days">3 dias</string>
+    <string name="duration_7_days">7 dias</string>
     <string name="add_poll_choice">Adicionar opção</string>
     <string name="poll_allow_multiple_choices">Múltiplas opções</string>
     <string name="poll_new_choice_hint">Opção %d</string>
@@ -472,4 +472,37 @@
     <string name="action_mute_notifications_desc">Silencie notificações de %s</string>
     <string name="action_unmute_notifications_desc">Dessilencie notificações de %s</string>
     <string name="pref_title_hide_top_toolbar">Ocultar o título da barra superior de tarefas</string>
+    <string name="notification_subscription_description">Notificar sobre toots de quem me interessa</string>
+    <string name="pref_title_notification_filter_subscriptions">quem me interessa tootar</string>
+    <string name="drafts_failed_loading_reply">Erro ao carregar toot para responder</string>
+    <string name="drafts_toot_failed_to_send">Erro ao enviar o toot!</string>
+    <string name="drafts_toot_reply_removed">O toot em que se rascunhou uma resposta foi excluído</string>
+    <string name="draft_deleted">Rascunho excluído</string>
+    <string name="new_drafts_warning">A função de rascunhos no Tusky foi totalmente redesenhada para ser mais rápida, mais fácil e com menos erros.
+\nÉ possível acessar rascunhos antigos através de um botão na tela de novos rascunhos, mas serão removidos numa futura atualização!</string>
+    <string name="old_drafts">Rascunhos antigos</string>
+    <string name="dialog_delete_list_warning">Deseja excluir esta lista\?</string>
+    <string name="error_upload_max_media_reached">Não é possível anexar mais de %1$d arquivos de mídia.</string>
+    <string name="wellbeing_hide_stats_profile">Ocultar status dos perfis</string>
+    <string name="wellbeing_hide_stats_posts">Ocultar status dos toots</string>
+    <string name="limit_notifications">Limitar notificações da linha do tempo</string>
+    <string name="review_notifications">Revisar notificações</string>
+    <string name="wellbeing_mode_notice">Algumas informações que podem afetar seu bem-estar serão ocultadas. Isso inclui:
+\n
+\n- Notificações de favoritos, boosts e seguidores
+\n- Número de favoritos e boosts nos toots
+\n- Status de toots e seguidores nos perfis
+\n
+\nNotificações push não serão afetadas, mas é possível revisar sua preferência manualmente.</string>
+    <string name="account_note_saved">Salvo!</string>
+    <string name="account_note_hint">Nota pessoal sobre esta conta aqui</string>
+    <string name="pref_title_wellbeing_mode">Bem-estar</string>
+    <string name="no_announcements">Sem comunicados.</string>
+    <string name="duration_indefinite">Indefinido</string>
+    <string name="label_duration">Duração</string>
+    <string name="status_media_attachments">Anexos</string>
+    <string name="status_media_audio">Áudio</string>
+    <string name="notification_subscription_name">Novos toots</string>
+    <string name="notification_subscription_format">%s recém tootou</string>
+    <string name="title_announcements">Comunicados</string>
 </resources>

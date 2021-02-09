@@ -2,7 +2,7 @@
 <resources>
     <string name="action_login">Qqen ɣer Maṣṭudun</string>
     <string name="title_favourites">Ismenyifen</string>
-    <string name="title_saved_toot">Irewwayen</string>
+    <string name="title_drafts">Irewwayen</string>
     <string name="action_logout">Ffeɣ</string>
     <string name="action_view_preferences">Iɣewwaṛen</string>
     <string name="action_view_account_preferences">Iɣewwaṛen n umiḍan</string>
@@ -196,13 +196,13 @@
     <string name="failed_report">Tella-d tuccḍa deg cetki</string>
     <string name="failed_search">Tucḍa n unadi</string>
     <string name="create_poll_title">Assenqed</string>
-    <string name="poll_duration_5_min">5 n tisdidin</string>
-    <string name="poll_duration_30_min">30 n tisdidin</string>
-    <string name="poll_duration_1_hour">1 n usrag</string>
-    <string name="poll_duration_6_hours">6 n isragen</string>
-    <string name="poll_duration_1_day">1 n wass</string>
-    <string name="poll_duration_3_days">3 n wussan</string>
-    <string name="poll_duration_7_days">7 n wussan</string>
+    <string name="duration_5_min">5 n tisdidin</string>
+    <string name="duration_30_min">30 n tisdidin</string>
+    <string name="duration_1_hour">1 n usrag</string>
+    <string name="duration_6_hours">6 n isragen</string>
+    <string name="duration_1_day">1 n wass</string>
+    <string name="duration_3_days">3 n wussan</string>
+    <string name="duration_7_days">7 n wussan</string>
     <string name="poll_new_choice_hint">Tafrant %d</string>
     <string name="title_follows">Ig ṭṭafar</string>
     <string name="title_followers">Imeḍfaṛen</string>

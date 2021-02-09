@@ -145,8 +145,6 @@
         android:layout_marginRight="14dp"
         android:layout_marginBottom="14dp"
         android:contentDescription="@string/action_view_profile"
-        android:paddingRight="12dp"
-        android:paddingBottom="12dp"
         android:scaleType="centerCrop"
         tools:ignore="RtlHardcoded,RtlSymmetry"
         tools:src="@drawable/avatar_default" />

@@ -8,7 +8,7 @@
     <string name="action_view_account_preferences">Roighainnean cunntais</string>
     <string name="action_view_preferences">Roighainnean</string>
     <string name="action_logout">Clàraich a-mach</string>
-    <string name="title_saved_toot">Dreachd</string>
+    <string name="title_drafts">Dreachd</string>
     <string name="title_favourites">Prìomhaich</string>
     <string name="link_whats_an_instance">Dè a th ’ann an àite\?</string>
     <string name="edit_poll">Deasaich</string>

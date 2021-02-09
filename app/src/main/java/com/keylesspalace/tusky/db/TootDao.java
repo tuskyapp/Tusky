@@ -16,11 +16,11 @@
 package com.keylesspalace.tusky.db;
 
 import androidx.room.Dao;
-import androidx.room.Insert;
-import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 
 import java.util.List;
+
+import io.reactivex.Observable;
 
 /**
  * Created by cto3543 on 28/06/2017.
@@ -30,8 +30,6 @@ import java.util.List;
 
 @Dao
 public interface TootDao {
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insertOrReplace(TootEntity users);
 
     @Query("SELECT * FROM TootEntity ORDER BY uid DESC")
     List<TootEntity> loadAll();
@@ -41,4 +39,7 @@ public interface TootDao {
 
     @Query("SELECT * FROM TootEntity WHERE uid = :uid")
     TootEntity find(int uid);
+
+    @Query("SELECT COUNT(*) FROM TootEntity")
+    Observable<Integer> savedTootCount();
 }

@@ -18,7 +18,6 @@ package com.keylesspalace.tusky
 import android.os.Bundle
 import androidx.annotation.RawRes
 import android.util.Log
-import android.view.MenuItem
 import android.widget.TextView
 import com.keylesspalace.tusky.util.IOUtils
 import kotlinx.android.extensions.CacheImplementation
@@ -46,16 +45,6 @@ class LicenseActivity : BaseActivity() {
 
         loadFileIntoTextView(R.raw.apache, licenseApacheTextView)
 
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            android.R.id.home -> {
-                onBackPressed()
-                return true
-            }
-        }
-        return super.onOptionsItemSelected(item)
     }
 
     private fun loadFileIntoTextView(@RawRes fileId: Int, textView: TextView) {

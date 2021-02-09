@@ -24,11 +24,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.accessibility.AccessibilityManager;
 import android.widget.ProgressBar;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.arch.core.util.Function;
+import androidx.core.content.ContextCompat;
 import androidx.core.util.Pair;
 import androidx.core.widget.ContentLoadingProgressBar;
 import androidx.lifecycle.Lifecycle;
@@ -74,6 +76,7 @@ import com.keylesspalace.tusky.network.MastodonApi;
 import com.keylesspalace.tusky.repository.Placeholder;
 import com.keylesspalace.tusky.repository.TimelineRepository;
 import com.keylesspalace.tusky.repository.TimelineRequestMode;
+import com.keylesspalace.tusky.settings.PrefKeys;
 import com.keylesspalace.tusky.util.CardViewMode;
 import com.keylesspalace.tusky.util.Either;
 import com.keylesspalace.tusky.util.HttpHeaderLink;
@@ -83,7 +86,6 @@ import com.keylesspalace.tusky.util.ListUtils;
 import com.keylesspalace.tusky.util.PairedList;
 import com.keylesspalace.tusky.util.StatusDisplayOptions;
 import com.keylesspalace.tusky.util.StringUtils;
-import com.keylesspalace.tusky.util.ThemeUtils;
 import com.keylesspalace.tusky.util.ViewDataUtils;
 import com.keylesspalace.tusky.view.BackgroundMessageView;
 import com.keylesspalace.tusky.view.EndlessOnScrollListener;
@@ -95,18 +97,18 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 
 import at.connyduck.sparkbutton.helpers.Utils;
 import io.reactivex.Observable;
+import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import kotlin.Unit;
 import kotlin.collections.CollectionsKt;
 import kotlin.jvm.functions.Function1;
-import retrofit2.Call;
-import retrofit2.Callback;
 import retrofit2.Response;
 
 import static com.uber.autodispose.AutoDispose.autoDisposable;
@@ -252,7 +254,9 @@ public class TimelineFragment extends SFragment implements
                 preferences.getBoolean("showCardsInTimelines", false) ?
                         CardViewMode.INDENTED :
                         CardViewMode.NONE,
-                preferences.getBoolean("confirmReblogs", true)
+                preferences.getBoolean("confirmReblogs", true),
+                preferences.getBoolean(PrefKeys.WELLBEING_HIDE_STATS_POSTS, false),
+                preferences.getBoolean(PrefKeys.ANIMATE_CUSTOM_EMOJIS, false)
         );
         adapter = new TimelineAdapter(dataSource, statusDisplayOptions, this);
 
@@ -1003,7 +1007,7 @@ public class TimelineFragment extends SFragment implements
         }
     }
 
-    private Call<List<Status>> getFetchCallByTimelineType(String fromId, String uptoId) {
+    private Single<Response<List<Status>>> getFetchCallByTimelineType(String fromId, String uptoId) {
         MastodonApi api = mastodonApi;
         switch (kind) {
             default:
@@ -1050,37 +1054,31 @@ public class TimelineFragment extends SFragment implements
                     .observeOn(AndroidSchedulers.mainThread())
                     .as(autoDisposable(from(this, Lifecycle.Event.ON_DESTROY)))
                     .subscribe(
-                            (result) -> onFetchTimelineSuccess(result, fetchEnd, pos),
-                            (err) -> onFetchTimelineFailure(new Exception(err), fetchEnd, pos)
+                            result -> onFetchTimelineSuccess(result, fetchEnd, pos),
+                            err -> onFetchTimelineFailure(err, fetchEnd, pos)
                     );
         } else {
-            Callback<List<Status>> callback = new Callback<List<Status>>() {
-                @Override
-                public void onResponse(@NonNull Call<List<Status>> call, @NonNull Response<List<Status>> response) {
-                    if (response.isSuccessful()) {
-                        @Nullable
-                        String newNextId = extractNextId(response);
-                        if (newNextId != null) {
-                            // when we reach the bottom of the list, we won't have a new link. If
-                            // we blindly write `null` here we will start loading from the top
-                            // again.
-                            nextId = newNextId;
-                        }
-                        onFetchTimelineSuccess(liftStatusList(response.body()), fetchEnd, pos);
-                    } else {
-                        onFetchTimelineFailure(new Exception(response.message()), fetchEnd, pos);
-                    }
-                }
-
-                @Override
-                public void onFailure(@NonNull Call<List<Status>> call, @NonNull Throwable t) {
-                    onFetchTimelineFailure((Exception) t, fetchEnd, pos);
-                }
-            };
-
-            Call<List<Status>> listCall = getFetchCallByTimelineType(maxId, sinceId);
-            callList.add(listCall);
-            listCall.enqueue(callback);
+            getFetchCallByTimelineType(maxId, sinceId)
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .as(autoDisposable(from(this, Lifecycle.Event.ON_DESTROY)))
+                    .subscribe(
+                            response -> {
+                                if (response.isSuccessful()) {
+                                    @Nullable
+                                    String newNextId = extractNextId(response);
+                                    if (newNextId != null) {
+                                        // when we reach the bottom of the list, we won't have a new link. If
+                                        // we blindly write `null` here we will start loading from the top
+                                        // again.
+                                        nextId = newNextId;
+                                    }
+                                    onFetchTimelineSuccess(liftStatusList(response.body()), fetchEnd, pos);
+                                } else {
+                                    onFetchTimelineFailure(new Exception(response.message()), fetchEnd, pos);
+                                }
+                            },
+                            err -> onFetchTimelineFailure(err, fetchEnd, pos)
+                    );
         }
     }
 
@@ -1157,7 +1155,7 @@ public class TimelineFragment extends SFragment implements
         }
     }
 
-    private void onFetchTimelineFailure(Exception exception, FetchEnd fetchEnd, int position) {
+    private void onFetchTimelineFailure(Throwable throwable, FetchEnd fetchEnd, int position) {
         if (isAdded()) {
             swipeRefreshLayout.setRefreshing(false);
             topProgressBar.hide();
@@ -1176,7 +1174,7 @@ public class TimelineFragment extends SFragment implements
             } else if (this.statuses.isEmpty()) {
                 swipeRefreshLayout.setEnabled(false);
                 this.statusView.setVisibility(View.VISIBLE);
-                if (exception instanceof IOException) {
+                if (throwable instanceof IOException) {
                     this.statusView.setup(R.drawable.elephant_offline, R.string.error_network, __ -> {
                         this.progressBar.setVisibility(View.VISIBLE);
                         this.onRefresh();
@@ -1191,7 +1189,7 @@ public class TimelineFragment extends SFragment implements
                 }
             }
 
-            Log.e(TAG, "Fetch Failure: " + exception.getMessage());
+            Log.e(TAG, "Fetch Failure: " + throwable.getMessage());
             updateBottomLoadingState(fetchEnd);
             progressBar.setVisibility(View.GONE);
         }
@@ -1476,9 +1474,21 @@ public class TimelineFragment extends SFragment implements
         }
     };
 
+    AccessibilityManager a11yManager;
+    boolean talkBackWasEnabled;
+
     @Override
     public void onResume() {
         super.onResume();
+        a11yManager = Objects.requireNonNull(
+                ContextCompat.getSystemService(requireContext(), AccessibilityManager.class)
+        );
+        boolean wasEnabled = this.talkBackWasEnabled;
+        talkBackWasEnabled = a11yManager.isEnabled();
+        Log.d(TAG, "talkback was enabled: " + wasEnabled + ", now " + talkBackWasEnabled);
+        if (talkBackWasEnabled && !wasEnabled) {
+            this.adapter.notifyDataSetChanged();
+        }
         startUpdateTimestamp();
     }
 

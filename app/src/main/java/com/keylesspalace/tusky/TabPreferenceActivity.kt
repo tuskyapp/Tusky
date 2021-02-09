@@ -18,7 +18,6 @@ package com.keylesspalace.tusky
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
-import android.view.MenuItem
 import android.view.View
 import android.widget.FrameLayout
 import androidx.appcompat.app.AlertDialog
@@ -343,14 +342,6 @@ class TabPreferenceActivity : BaseActivity(), Injectable, ItemInteractionListene
         } else {
             toggleFab(false)
         }
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == android.R.id.home) {
-            onBackPressed()
-            return true
-        }
-        return false
     }
 
     override fun onPause() {

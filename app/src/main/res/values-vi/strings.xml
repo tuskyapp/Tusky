@@ -124,8 +124,8 @@
     <string name="action_open_drawer">Mở ngăn kéo</string>
     <string name="action_hide_media">Làm mờ hình ảnh</string>
     <string name="action_mention">Nhắc tới</string>
-    <string name="action_unmute_conversation">Bỏ ẩn cuộc trò chuyện</string>
-    <string name="action_mute_conversation">Ẩn cuộc trò chuyện</string>
+    <string name="action_unmute_conversation">Mở lại thông báo</string>
+    <string name="action_mute_conversation">Tắt thông báo</string>
     <string name="action_mute_domain">Ẩn %s</string>
     <string name="action_unmute">Bỏ ẩn</string>
     <string name="action_mute">Ẩn</string>
@@ -134,7 +134,7 @@
     <string name="action_add_poll">Tạo bình chọn</string>
     <string name="action_add_media">Thêm tệp</string>
     <string name="action_open_in_web">Mở trong trình duyệt</string>
-    <string name="action_view_media">Bộ sưu tập</string>
+    <string name="action_view_media">Thư viện</string>
     <string name="action_view_follow_requests">Yêu cầu theo dõi</string>
     <string name="action_view_domain_mutes">Máy chủ đã ẩn</string>
     <string name="action_view_blocks">Người dùng đã chặn</string>
@@ -171,7 +171,7 @@
     <string name="status_content_show_less">Thu gọn</string>
     <string name="status_content_show_more">Xem thêm</string>
     <string name="status_content_warning_show_less">Thu gọn</string>
-    <string name="status_content_warning_show_more">Mở rộng</string>
+    <string name="status_content_warning_show_more">Xem thêm</string>
     <string name="status_sensitive_media_directions">Hiển thị</string>
     <string name="status_media_hidden_title">Nội dung bị ẩn</string>
     <string name="status_sensitive_media_title">Nhạy cảm</string>
@@ -188,7 +188,7 @@
     <string name="title_followers">Người theo dõi</string>
     <string name="title_follows">Theo dõi</string>
     <string name="title_statuses_pinned">Ghim</string>
-    <string name="title_statuses_with_replies">Tương tác</string>
+    <string name="title_statuses_with_replies">Rép</string>
     <string name="title_statuses">Tút</string>
     <string name="title_view_thread">Tút</string>
     <string name="title_tab_preferences">Xếp tab</string>
@@ -197,7 +197,7 @@
     <string name="title_public_local">Cộng đồng</string>
     <string name="title_notifications">Thông báo</string>
     <string name="title_home">Bảng tin</string>
-    <string name="title_saved_toot">Nháp</string>
+    <string name="title_drafts">Nháp</string>
     <string name="title_favourites">Lượt thích</string>
     <string name="link_whats_an_instance">Máy chủ là gì\?</string>
     <string name="pref_title_show_media_preview">Tải xem trước hình ảnh</string>
@@ -289,7 +289,7 @@
     <string name="pref_title_public_filter_keywords">Cộng đồng</string>
     <string name="load_more_placeholder_text">xem thêm</string>
     <string name="replying_to">Trả lời @%s</string>
-    <string name="title_media">Bộ sưu tập</string>
+    <string name="title_media">Thư viện</string>
     <string name="pref_title_alway_open_spoiler">Luôn hiện nội dung bị ẩn</string>
     <string name="pref_title_alway_show_sensitive_media">Luôn hiện nội dung nhạy cảm</string>
     <string name="follows_you">Đang theo dõi bạn</string>
@@ -318,13 +318,13 @@
     <string name="poll_new_choice_hint">Lựa chọn %d</string>
     <string name="poll_allow_multiple_choices">Cho phép chọn nhiều lựa chọn</string>
     <string name="add_poll_choice">Thêm lựa chọn</string>
-    <string name="poll_duration_7_days">7 ngày</string>
-    <string name="poll_duration_3_days">3 ngày</string>
-    <string name="poll_duration_1_day">1 ngày</string>
-    <string name="poll_duration_6_hours">6 giờ</string>
-    <string name="poll_duration_1_hour">1 giờ</string>
-    <string name="poll_duration_30_min">30 phút</string>
-    <string name="poll_duration_5_min">5 phút</string>
+    <string name="duration_7_days">7 ngày</string>
+    <string name="duration_3_days">3 ngày</string>
+    <string name="duration_1_day">1 ngày</string>
+    <string name="duration_6_hours">6 giờ</string>
+    <string name="duration_1_hour">1 giờ</string>
+    <string name="duration_30_min">30 phút</string>
+    <string name="duration_5_min">5 phút</string>
     <string name="create_poll_title">Bình chọn</string>
     <string name="pref_title_enable_swipe_for_tabs">Vuốt qua lại giữa các tab</string>
     <string name="pref_title_show_notifications_filter">Hiện bộ lọc thông báo</string>
@@ -352,7 +352,7 @@
     <string name="poll_ended_created">Cuộc bình chọn bạn tạo đã kết thúc</string>
     <string name="poll_ended_voted">Cuộc bình chọn của bạn đã kết thúc</string>
     <string name="poll_vote">Bình chọn</string>
-    <string name="poll_info_closed">Kết thúc</string>
+    <string name="poll_info_closed">xong</string>
     <string name="poll_info_time_absolute">kết thúc lúc %s</string>
     <plurals name="poll_info_people">
         <item quantity="other">%s người</item>
@@ -420,7 +420,7 @@
     <string name="later">Để sau</string>
     <string name="restart_emoji">Bạn cần khởi động lại Tusky để áp dụng các thiết lập</string>
     <string name="restart_required">Yêu cầu khởi động lại ứng dụng</string>
-    <string name="action_open_toot">Mở tút</string>
+    <string name="action_open_toot">Xem tút</string>
     <string name="expand_collapse_all_statuses">Mở rộng/Thu gọn toàn bộ tút</string>
     <string name="performing_lookup_title">Đang tìm kiếm…</string>
     <string name="download_fonts">Bạn cần tải về bộ emoji này trước</string>
@@ -456,7 +456,37 @@
     <string name="action_unmute_domain">Bỏ ẩn %s</string>
     <string name="pref_title_hide_top_toolbar">Ẩn tiêu đề tab</string>
     <string name="account_note_saved">Đã lưu!</string>
-    <string name="account_note_hint">Ghi chú của bạn</string>
+    <string name="account_note_hint">Thêm ghi chú</string>
     <string name="no_announcements">Chưa có thông báo.</string>
-    <string name="title_announcements">Tin tức</string>
+    <string name="title_announcements">Có gì mới\?</string>
+    <string name="wellbeing_hide_stats_profile">Ẩn số liệu trên trang cá nhân</string>
+    <string name="wellbeing_hide_stats_posts">Ẩn tương tác trên tút</string>
+    <string name="limit_notifications">Hạn chế thông báo trên bảng tin</string>
+    <string name="review_notifications">Chọn loại thông báo</string>
+    <string name="wellbeing_mode_notice">Các thông tin ảnh hưởng tới tâm lý hành vi của bạn sẽ bị ẩn. Bao gồm:
+\n
+\n - Thông báo Lượt thích/Chia sẻ/Theo dõi
+\n - Số Lượt thích/Chia sẻ của tút
+\n - Số Người theo dõi/Tút trên trang cá nhân
+\n
+\nThông báo đẩy sẽ không ảnh hưởng, bạn có thể tự thiết lập trong phần cài đặt điện thoại của bạn.</string>
+    <string name="pref_title_wellbeing_mode">Cai nghiện</string>
+    <string name="notification_subscription_description">Thông báo khi người bạn đăng ký theo dõi đăng tút mới</string>
+    <string name="notification_subscription_name">Tút mới</string>
+    <string name="pref_title_notification_filter_subscriptions">người tôi đăng ký theo dõi đăng tút mới</string>
+    <string name="notification_subscription_format">%s vừa đăng tút</string>
+    <string name="error_upload_max_media_reached">Bạn không thể đính kèm quá %1$d tệp.</string>
+    <string name="duration_indefinite">Không giới hạn</string>
+    <string name="label_duration">Độ dài</string>
+    <string name="dialog_delete_list_warning">Bạn thật sự muốn xóa danh sách %s\?</string>
+    <string name="status_media_attachments">Đính kèm</string>
+    <string name="status_media_audio">Âm thanh</string>
+    <string name="drafts_toot_reply_removed">Tút bạn lên lịch đã bị hủy bỏ</string>
+    <string name="old_drafts">Tút lên lịch cũ</string>
+    <string name="draft_deleted">Tút lên lịch đã xóa</string>
+    <string name="drafts_failed_loading_reply">Chưa tải được bình luận</string>
+    <string name="new_drafts_warning">Tính năng lên lịch đăng tút của Tusky sẽ được thiết kế lại hoàn toàn để nhanh hơn, thân thiện và ít lỗi hơn.
+\nBạn vẫn có thể xem lại bản nháp cũ nhưng chúng sẽ bị xóa bỏ trong bản cập nhật tương lai!</string>
+    <string name="drafts_toot_failed_to_send">Đăng tút không thành công!</string>
+    <string name="pref_title_animate_custom_emojis">Emoji động</string>
 </resources>

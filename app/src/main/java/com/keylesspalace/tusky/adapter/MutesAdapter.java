@@ -23,8 +23,8 @@ import java.util.HashMap;
 public class MutesAdapter extends AccountAdapter {
     private HashMap<String, Boolean> mutingNotificationsMap;
 
-    public MutesAdapter(AccountActionListener accountActionListener) {
-        super(accountActionListener);
+    public MutesAdapter(AccountActionListener accountActionListener, boolean animateAvatar, boolean animateEmojis) {
+        super(accountActionListener, animateAvatar, animateEmojis);
         mutingNotificationsMap = new HashMap<String, Boolean>();
     }
 
@@ -51,7 +51,7 @@ public class MutesAdapter extends AccountAdapter {
         if (getItemViewType(position) == VIEW_TYPE_ACCOUNT) {
             MutedUserViewHolder holder = (MutedUserViewHolder) viewHolder;
             Account account = accountList.get(position);
-            holder.setupWithAccount(account, mutingNotificationsMap.get(account.getId()));
+            holder.setupWithAccount(account, mutingNotificationsMap.get(account.getId()), animateAvatar, animateEmojis);
             holder.setupActionListener(accountActionListener);
         }
     }
@@ -73,7 +73,6 @@ public class MutesAdapter extends AccountAdapter {
         private ImageButton unmute;
         private ImageButton muteNotifications;
         private String id;
-        private boolean animateAvatar;
         private boolean notifications;
 
         MutedUserViewHolder(View itemView) {
@@ -83,13 +82,11 @@ public class MutesAdapter extends AccountAdapter {
             displayName = itemView.findViewById(R.id.muted_user_display_name);
             unmute = itemView.findViewById(R.id.muted_user_unmute);
             muteNotifications = itemView.findViewById(R.id.muted_user_mute_notifications);
-            animateAvatar = PreferenceManager.getDefaultSharedPreferences(itemView.getContext())
-                    .getBoolean("animateGifAvatars", false);
         }
 
-        void setupWithAccount(Account account, Boolean mutingNotifications) {
+        void setupWithAccount(Account account, Boolean mutingNotifications, boolean animateAvatar, boolean animateEmojis) {
             id = account.getId();
-            CharSequence emojifiedName = CustomEmojiHelper.emojify(account.getName(), account.getEmojis(), displayName);
+            CharSequence emojifiedName = CustomEmojiHelper.emojify(account.getName(), account.getEmojis(), displayName, animateEmojis);
             displayName.setText(emojifiedName);
             String format = username.getContext().getString(R.string.status_username_format);
             String formattedUsername = String.format(format, account.getUsername());

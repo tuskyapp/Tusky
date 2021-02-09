@@ -52,7 +52,9 @@ import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.entity.Status.Mention
 import com.keylesspalace.tusky.interfaces.AccountSelectionListener
 import com.keylesspalace.tusky.interfaces.StatusActionListener
+import com.keylesspalace.tusky.settings.PrefKeys
 import com.keylesspalace.tusky.util.CardViewMode
+import com.keylesspalace.tusky.util.LinkHelper
 import com.keylesspalace.tusky.util.NetworkState
 import com.keylesspalace.tusky.util.StatusDisplayOptions
 import com.keylesspalace.tusky.view.showMuteAccountDialog
@@ -84,7 +86,9 @@ class SearchStatusesFragment : SearchFragment<Pair<Status, StatusViewData.Concre
                 showBotOverlay = preferences.getBoolean("showBotOverlay", true),
                 useBlurhash = preferences.getBoolean("useBlurhash", true),
                 cardViewMode = CardViewMode.NONE,
-                confirmReblogs = preferences.getBoolean("confirmReblogs", true)
+                confirmReblogs = preferences.getBoolean("confirmReblogs", true),
+                hideStats = preferences.getBoolean(PrefKeys.WELLBEING_HIDE_STATS_POSTS, false),
+                animateEmojis = preferences.getBoolean(PrefKeys.ANIMATE_CUSTOM_EMOJIS, false)
         )
 
         searchRecyclerView.addItemDecoration(DividerItemDecoration(searchRecyclerView.context, DividerItemDecoration.VERTICAL))
@@ -141,6 +145,7 @@ class SearchStatusesFragment : SearchFragment<Pair<Status, StatusViewData.Concre
                     }
                 }
                 Attachment.Type.UNKNOWN -> {
+                    LinkHelper.openLink(actionable.attachments[attachmentIndex].url, context)
                 }
             }
 
@@ -375,8 +380,8 @@ class SearchStatusesFragment : SearchFragment<Pair<Status, StatusViewData.Concre
         showMuteAccountDialog(
             this.requireActivity(),
             accountUsername
-        ) { notifications ->
-            viewModel.muteAccount(accountId, notifications)
+        ) { notifications, duration ->
+            viewModel.muteAccount(accountId, notifications, duration)
         }
     }
 

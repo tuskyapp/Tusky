@@ -43,6 +43,10 @@
     public *;
 }
 
+-keep enum com.keylesspalace.tusky.db.DraftAttachment$Type {
+    public *;
+}
+
 # preserve line numbers for crash reporting
 -keepattributes SourceFile,LineNumberTable
 -renamesourcefileattribute SourceFile

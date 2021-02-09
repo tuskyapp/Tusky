@@ -13,7 +13,7 @@
  * You should have received a copy of the GNU General Public License along with Tusky; if not,
  * see <http://www.gnu.org/licenses>. */
 
-package com.keylesspalace.tusky.adapter;
+package com.keylesspalace.tusky.components.compose;
 
 import android.content.Context;
 import android.preference.PreferenceManager;
@@ -53,11 +53,15 @@ public class ComposeAutoCompleteAdapter extends BaseAdapter
 
     private final ArrayList<AutocompleteResult> resultList;
     private final AutocompletionProvider autocompletionProvider;
+    private final boolean animateAvatar;
+    private final boolean animateEmojis;
 
-    public ComposeAutoCompleteAdapter(AutocompletionProvider autocompletionProvider) {
+    public ComposeAutoCompleteAdapter(AutocompletionProvider autocompletionProvider, boolean animateAvatar, boolean animateEmojis) {
         super();
         resultList = new ArrayList<>();
         this.autocompletionProvider = autocompletionProvider;
+        this.animateAvatar = animateAvatar;
+        this.animateEmojis = animateEmojis;
     }
 
     @Override
@@ -147,14 +151,11 @@ public class ComposeAutoCompleteAdapter extends BaseAdapter
                     );
                     accountViewHolder.username.setText(formattedUsername);
                     CharSequence emojifiedName = CustomEmojiHelper.emojify(account.getName(),
-                            account.getEmojis(), accountViewHolder.displayName);
+                            account.getEmojis(), accountViewHolder.displayName, animateEmojis);
                     accountViewHolder.displayName.setText(emojifiedName);
 
                     int avatarRadius = accountViewHolder.avatar.getContext().getResources()
                             .getDimensionPixelSize(R.dimen.avatar_radius_42dp);
-
-                    boolean animateAvatar = PreferenceManager.getDefaultSharedPreferences(accountViewHolder.avatar.getContext())
-                            .getBoolean("animateGifAvatars", false);
 
                     ImageLoadingHelper.loadAvatar(
                             account.getAvatar(),

@@ -16,11 +16,9 @@
 @file:JvmName("CustomEmojiHelper")
 package com.keylesspalace.tusky.util
 
-import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Paint
-import android.graphics.drawable.BitmapDrawable
-import android.graphics.drawable.Drawable
+import android.graphics.drawable.*
 import android.text.SpannableStringBuilder
 import android.text.style.ReplacementSpan
 import android.view.View
@@ -33,6 +31,8 @@ import com.keylesspalace.tusky.entity.Emoji
 
 import java.lang.ref.WeakReference
 import java.util.regex.Pattern
+import androidx.preference.PreferenceManager
+import com.keylesspalace.tusky.settings.PrefKeys
 
 /**
  * replaces emoji shortcodes in a text with EmojiSpans
@@ -41,7 +41,7 @@ import java.util.regex.Pattern
  * @param view a reference to the a view the emojis will be shown in (should be the TextView, but parents of the TextView are also acceptable)
  * @return the text with the shortcodes replaced by EmojiSpans
 */
-fun CharSequence.emojify(emojis: List<Emoji>?, view: View) : CharSequence {
+fun CharSequence.emojify(emojis: List<Emoji>?, view: View, animate: Boolean) : CharSequence {
     if(emojis.isNullOrEmpty())
         return this
 
@@ -56,9 +56,9 @@ fun CharSequence.emojify(emojis: List<Emoji>?, view: View) : CharSequence {
 
             builder.setSpan(span, matcher.start(), matcher.end(), 0)
             Glide.with(view)
-                .asBitmap()
+                .asDrawable()
                 .load(url)
-                .into(span.getTarget())
+                .into(span.getTarget(animate))
         }
     }
     return builder
@@ -97,11 +97,29 @@ class EmojiSpan(val viewWeakReference: WeakReference<View>) : ReplacementSpan() 
         }
     }
     
-    fun getTarget(): Target<Bitmap> {
-        return object : CustomTarget<Bitmap>() {
-            override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
+    fun getTarget(animate : Boolean): Target<Drawable> {
+        return object : CustomTarget<Drawable>() {
+            override fun onResourceReady(resource: Drawable, transition: Transition<in Drawable>?) {
                 viewWeakReference.get()?.let { view ->
-                    imageDrawable = BitmapDrawable(view.context.resources, resource)
+                    if(animate && resource is Animatable) {
+                        val callback = resource.callback
+
+                        resource.callback = object: Drawable.Callback {
+                            override fun unscheduleDrawable(p0: Drawable, p1: Runnable) {
+                                callback?.unscheduleDrawable(p0, p1)
+                            }
+                            override fun scheduleDrawable(p0: Drawable, p1: Runnable, p2: Long) {
+                                callback?.scheduleDrawable(p0, p1, p2)
+                            }
+                            override fun invalidateDrawable(p0: Drawable) {
+                                callback?.invalidateDrawable(p0)
+                                view.invalidate()
+                            }
+                        }
+                        resource.start()
+                    }
+
+                    imageDrawable = resource
                     view.invalidate()
                 }
             }

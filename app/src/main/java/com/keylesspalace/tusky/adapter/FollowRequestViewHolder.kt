@@ -10,27 +10,24 @@ import androidx.recyclerview.widget.RecyclerView
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.entity.Account
 import com.keylesspalace.tusky.interfaces.AccountActionListener
-import com.keylesspalace.tusky.util.emojify
-import com.keylesspalace.tusky.util.loadAvatar
-import com.keylesspalace.tusky.util.unicodeWrap
-import com.keylesspalace.tusky.util.visible
+import com.keylesspalace.tusky.util.*
 import kotlinx.android.synthetic.main.item_follow_request_notification.view.*
 
-internal class FollowRequestViewHolder(itemView: View, private val showHeader: Boolean) : RecyclerView.ViewHolder(itemView) {
+internal class FollowRequestViewHolder(
+        itemView: View,
+        private val showHeader: Boolean) : RecyclerView.ViewHolder(itemView) {
     private var id: String? = null
-    private val animateAvatar: Boolean = PreferenceManager.getDefaultSharedPreferences(itemView.context)
-            .getBoolean("animateGifAvatars", false)
 
-    fun setupWithAccount(account: Account) {
+    fun setupWithAccount(account: Account, animateAvatar: Boolean, animateEmojis: Boolean) {
         id = account.id
         val wrappedName = account.name.unicodeWrap()
-        val emojifiedName: CharSequence = wrappedName.emojify(account.emojis, itemView)
+        val emojifiedName: CharSequence = wrappedName.emojify(account.emojis, itemView, animateEmojis)
         itemView.displayNameTextView.text = emojifiedName
         if (showHeader) {
             val wholeMessage: String = itemView.context.getString(R.string.notification_follow_request_format, wrappedName)
             itemView.notificationTextView?.text = SpannableStringBuilder(wholeMessage).apply {
                 setSpan(StyleSpan(Typeface.BOLD), 0, wrappedName.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
-            }.emojify(account.emojis, itemView)
+            }.emojify(account.emojis, itemView, animateEmojis)
         }
         itemView.notificationTextView?.visible(showHeader)
         val format = itemView.context.getString(R.string.status_username_format)

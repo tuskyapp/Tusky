@@ -17,10 +17,10 @@ package com.keylesspalace.tusky.fragment
 
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
+import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -36,6 +36,7 @@ import com.keylesspalace.tusky.entity.Account
 import com.keylesspalace.tusky.entity.Relationship
 import com.keylesspalace.tusky.interfaces.AccountActionListener
 import com.keylesspalace.tusky.network.MastodonApi
+import com.keylesspalace.tusky.settings.PrefKeys
 import com.keylesspalace.tusky.util.HttpHeaderLink
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.show
@@ -45,14 +46,12 @@ import com.uber.autodispose.autoDispose
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import kotlinx.android.synthetic.main.fragment_account_list.*
-import retrofit2.Call
-import retrofit2.Callback
 import retrofit2.Response
 import java.io.IOException
-import java.util.HashMap
+import java.util.*
 import javax.inject.Inject
 
-class AccountListFragment : BaseFragment(), AccountActionListener, Injectable {
+class AccountListFragment : Fragment(R.layout.fragment_account_list), AccountActionListener, Injectable {
 
     @Inject
     lateinit var api: MastodonApi
@@ -71,10 +70,6 @@ class AccountListFragment : BaseFragment(), AccountActionListener, Injectable {
         id = arguments?.getString(ARG_ID)
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        return inflater.inflate(R.layout.fragment_account_list, container, false)
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -85,11 +80,15 @@ class AccountListFragment : BaseFragment(), AccountActionListener, Injectable {
 
         recyclerView.addItemDecoration(DividerItemDecoration(view.context, DividerItemDecoration.VERTICAL))
 
+        val pm = PreferenceManager.getDefaultSharedPreferences(view.context)
+        val animateAvatar = pm.getBoolean(PrefKeys.ANIMATE_GIF_AVATARS, false)
+        val animateEmojis = pm.getBoolean(PrefKeys.ANIMATE_CUSTOM_EMOJIS, false)
+
         adapter = when (type) {
-            Type.BLOCKS -> BlocksAdapter(this)
-            Type.MUTES -> MutesAdapter(this)
-            Type.FOLLOW_REQUESTS -> FollowRequestsAdapter(this)
-            else -> FollowAdapter(this)
+            Type.BLOCKS -> BlocksAdapter(this, animateAvatar, animateEmojis)
+            Type.MUTES -> MutesAdapter(this, animateAvatar, animateEmojis)
+            Type.FOLLOW_REQUESTS -> FollowRequestsAdapter(this, animateAvatar, animateEmojis)
+            else -> FollowAdapter(this, animateAvatar, animateEmojis)
         }
         recyclerView.adapter = adapter
 
@@ -202,41 +201,28 @@ class AccountListFragment : BaseFragment(), AccountActionListener, Injectable {
     override fun onRespondToFollowRequest(accept: Boolean, accountId: String,
                                           position: Int) {
 
-        val callback = object : Callback<Relationship> {
-            override fun onResponse(call: Call<Relationship>, response: Response<Relationship>) {
-                if (response.isSuccessful) {
-                    onRespondToFollowRequestSuccess(position)
-                } else {
-                    onRespondToFollowRequestFailure(accept, accountId)
-                }
-            }
-
-            override fun onFailure(call: Call<Relationship>, t: Throwable) {
-                onRespondToFollowRequestFailure(accept, accountId)
-            }
-        }
-
-        val call = if (accept) {
+        if (accept) {
             api.authorizeFollowRequest(accountId)
         } else {
             api.rejectFollowRequest(accountId)
-        }
-        callList.add(call)
-        call.enqueue(callback)
+        }.observeOn(AndroidSchedulers.mainThread())
+                .autoDispose(from(this, Lifecycle.Event.ON_DESTROY))
+                .subscribe({
+                    onRespondToFollowRequestSuccess(position)
+                }, { throwable ->
+                    val verb = if (accept) {
+                        "accept"
+                    } else {
+                        "reject"
+                    }
+                    Log.e(TAG, "Failed to $verb account id $accountId.", throwable)
+                })
+
     }
 
     private fun onRespondToFollowRequestSuccess(position: Int) {
         val followRequestsAdapter = adapter as FollowRequestsAdapter
         followRequestsAdapter.removeItem(position)
-    }
-
-    private fun onRespondToFollowRequestFailure(accept: Boolean, accountId: String) {
-        val verb = if (accept) {
-            "accept"
-        } else {
-            "reject"
-        }
-        Log.e(TAG, "Failed to $verb account id $accountId.")
     }
 
     private fun getFetchCallByListType(fromId: String?): Single<Response<List<Account>>> {

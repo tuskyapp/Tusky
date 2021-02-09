@@ -181,8 +181,10 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
 
     protected abstract int getMediaPreviewHeight(Context context);
 
-    protected void setDisplayName(String name, List<Emoji> customEmojis) {
-        CharSequence emojifiedName = CustomEmojiHelper.emojify(name, customEmojis, displayName);
+    protected void setDisplayName(String name, List<Emoji> customEmojis, StatusDisplayOptions statusDisplayOptions) {
+        CharSequence emojifiedName = CustomEmojiHelper.emojify(
+                name, customEmojis, displayName, statusDisplayOptions.animateEmojis()
+        );
         displayName.setText(emojifiedName);
     }
 
@@ -206,7 +208,9 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
                                         final StatusActionListener listener) {
         boolean sensitive = !TextUtils.isEmpty(spoilerText);
         if (sensitive) {
-            CharSequence emojiSpoiler = CustomEmojiHelper.emojify(spoilerText, emojis, contentWarningDescription);
+            CharSequence emojiSpoiler = CustomEmojiHelper.emojify(
+                    spoilerText, emojis, contentWarningDescription, statusDisplayOptions.animateEmojis()
+            );
             contentWarningDescription.setText(emojiSpoiler);
             contentWarningDescription.setVisibility(View.VISIBLE);
             contentWarningButton.setVisibility(View.VISIBLE);
@@ -245,7 +249,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
                                 StatusDisplayOptions statusDisplayOptions,
                                 final StatusActionListener listener) {
         if (expanded) {
-            CharSequence emojifiedText = CustomEmojiHelper.emojify(content, emojis, this.content);
+            CharSequence emojifiedText = CustomEmojiHelper.emojify(content, emojis, this.content, statusDisplayOptions.animateEmojis());
             LinkHelper.setClickableText(this.content, emojifiedText, mentions, listener);
             for (int i = 0; i < mediaLabels.length; ++i) {
                 updateMediaLabel(i, sensitive, expanded);
@@ -533,7 +537,6 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
     @DrawableRes
     private static int getLabelIcon(Attachment.Type type) {
         switch (type) {
-            default:
             case IMAGE:
                 return R.drawable.ic_photo_24dp;
             case GIFV:
@@ -541,6 +544,8 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
                 return R.drawable.ic_videocam_24dp;
             case AUDIO:
                 return R.drawable.ic_music_box_24dp;
+            default:
+                return R.drawable.ic_attach_file_24dp;
         }
     }
 
@@ -708,7 +713,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
                                    StatusDisplayOptions statusDisplayOptions,
                                    @Nullable Object payloads) {
         if (payloads == null) {
-            setDisplayName(status.getUserFullName(), status.getAccountEmojis());
+            setDisplayName(status.getUserFullName(), status.getAccountEmojis(), statusDisplayOptions);
             setUsername(status.getNickname());
             setCreatedAt(status.getCreatedAt(), statusDisplayOptions);
             setIsReply(status.getInReplyToId() != null);
@@ -718,7 +723,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             setBookmarked(status.isBookmarked());
             List<Attachment> attachments = status.getAttachments();
             boolean sensitive = status.isSensitive();
-            if (statusDisplayOptions.mediaPreviewEnabled() && !hasAudioAttachment(attachments)) {
+            if (statusDisplayOptions.mediaPreviewEnabled() && hasPreviewableAttachment(attachments)) {
                 setMediaPreviews(attachments, sensitive, listener, status.isShowingContent(), statusDisplayOptions.useBlurhash());
 
                 if (attachments.size() == 0) {
@@ -767,13 +772,13 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         }
     }
 
-    protected static boolean hasAudioAttachment(List<Attachment> attachments) {
+    protected static boolean hasPreviewableAttachment(List<Attachment> attachments) {
         for (Attachment attachment : attachments) {
-            if (attachment.getType() == Attachment.Type.AUDIO) {
-                return true;
+            if (attachment.getType() == Attachment.Type.AUDIO || attachment.getType() == Attachment.Type.UNKNOWN) {
+                return false;
             }
         }
-        return false;
+        return true;
     }
 
     private void setDescriptionForStatus(@NonNull StatusViewData.Concrete status,
@@ -926,12 +931,28 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
                     listener.onViewThread(position);
                 }
             };
-            pollAdapter.setup(poll.getOptions(), poll.getVotesCount(), poll.getVotersCount(), emojis, PollAdapter.RESULT, viewThreadListener);
+            pollAdapter.setup(
+                    poll.getOptions(),
+                    poll.getVotesCount(),
+                    poll.getVotersCount(),
+                    emojis,
+                    PollAdapter.RESULT,
+                    viewThreadListener,
+                    statusDisplayOptions.animateEmojis()
+            );
 
             pollButton.setVisibility(View.GONE);
         } else {
             // voting possible
-            pollAdapter.setup(poll.getOptions(), poll.getVotesCount(), poll.getVotersCount(), emojis, poll.getMultiple() ? PollAdapter.MULTIPLE : PollAdapter.SINGLE, null);
+            pollAdapter.setup(
+                    poll.getOptions(),
+                    poll.getVotesCount(),
+                    poll.getVotersCount(),
+                    emojis,
+                    poll.getMultiple() ? PollAdapter.MULTIPLE : PollAdapter.SINGLE,
+                    null,
+                    statusDisplayOptions.animateEmojis()
+            );
 
             pollButton.setVisibility(View.VISIBLE);
 

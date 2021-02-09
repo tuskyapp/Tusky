@@ -20,7 +20,6 @@ import android.app.DownloadManager;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -30,8 +29,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.CheckBox;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -41,14 +38,14 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.core.app.ActivityOptionsCompat;
 import androidx.core.view.ViewCompat;
+import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Lifecycle;
-import androidx.preference.PreferenceManager;
 
 import com.keylesspalace.tusky.BaseActivity;
 import com.keylesspalace.tusky.BottomSheetActivity;
 import com.keylesspalace.tusky.MainActivity;
-import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.PostLookupFallbackBehavior;
+import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.ViewMediaActivity;
 import com.keylesspalace.tusky.ViewTagActivity;
 import com.keylesspalace.tusky.components.compose.ComposeActivity;
@@ -63,6 +60,7 @@ import com.keylesspalace.tusky.entity.PollOption;
 import com.keylesspalace.tusky.entity.Status;
 import com.keylesspalace.tusky.network.MastodonApi;
 import com.keylesspalace.tusky.network.TimelineCases;
+import com.keylesspalace.tusky.util.LinkHelper;
 import com.keylesspalace.tusky.view.MuteAccountDialog;
 import com.keylesspalace.tusky.viewdata.AttachmentViewData;
 
@@ -75,9 +73,8 @@ import java.util.regex.Pattern;
 
 import javax.inject.Inject;
 
-import kotlin.Unit;
-
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import kotlin.Unit;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -91,7 +88,7 @@ import static com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvid
  * adapters. I feel like the profile pages and thread viewer, which I haven't made yet, will also
  * overlap functionality. So, I'm momentarily leaving it and hopefully working on those will clear
  * up what needs to be where. */
-public abstract class SFragment extends BaseFragment implements Injectable {
+public abstract class SFragment extends Fragment implements Injectable {
 
     protected abstract void removeItem(int position);
 
@@ -102,7 +99,7 @@ public abstract class SFragment extends BaseFragment implements Injectable {
     private static List<Filter> filters;
     private boolean filterRemoveRegex;
     private Matcher filterRemoveRegexMatcher;
-    private static Matcher alphanumeric = Pattern.compile("^\\w+$").matcher("");
+    private static final Matcher alphanumeric = Pattern.compile("^\\w+$").matcher("");
 
     @Inject
     public MastodonApi mastodonApi;
@@ -340,8 +337,8 @@ public abstract class SFragment extends BaseFragment implements Injectable {
         MuteAccountDialog.showMuteAccountDialog(
             this.getActivity(),
             accountUsername,
-            (notifications) -> {
-                timelineCases.mute(accountId, notifications);
+            (notifications, duration) -> {
+                timelineCases.mute(accountId, notifications, duration);
                 return Unit.INSTANCE;
             }
         );
@@ -395,10 +392,9 @@ public abstract class SFragment extends BaseFragment implements Injectable {
                 }
                 break;
             }
+            default:
             case UNKNOWN: {
-                /* Intentionally do nothing. This case is here is to handle when new attachment
-                 * types are added to the API before code is added here to handle them. So, the
-                 * best fallback is to just show the preview and ignore requests to view them. */
+                LinkHelper.openLink(active.getUrl(), getContext());
                 break;
             }
         }

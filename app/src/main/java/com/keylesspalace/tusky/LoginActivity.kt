@@ -20,14 +20,13 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
 import android.text.method.LinkMovementMethod
 import android.util.Log
-import android.view.MenuItem
 import android.view.View
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
+import androidx.browser.customtabs.CustomTabColorSchemeParams
 import androidx.browser.customtabs.CustomTabsIntent
 import com.bumptech.glide.Glide
 import com.keylesspalace.tusky.di.Injectable
@@ -109,14 +108,6 @@ class LoginActivity : BaseActivity(), Injectable {
         if(isAdditionalLogin()) {
             overridePendingTransition(R.anim.slide_from_left, R.anim.slide_to_right)
         }
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == android.R.id.home) {
-            onBackPressed()
-            return true
-        }
-        return super.onOptionsItemSelected(item)
     }
 
     /**
@@ -346,16 +337,19 @@ class LoginActivity : BaseActivity(), Injectable {
         private fun openInCustomTab(uri: Uri, context: Context): Boolean {
 
             val toolbarColor = ThemeUtils.getColor(context, R.attr.colorSurface)
-            val customTabsIntentBuilder = CustomTabsIntent.Builder()
+            val navigationbarColor = ThemeUtils.getColor(context, android.R.attr.navigationBarColor)
+            val navigationbarDividerColor = ThemeUtils.getColor(context, R.attr.dividerColor)
+
+            val colorSchemeParams = CustomTabColorSchemeParams.Builder()
                     .setToolbarColor(toolbarColor)
+                    .setNavigationBarColor(navigationbarColor)
+                    .setNavigationBarDividerColor(navigationbarDividerColor)
+                    .build()
 
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1) {
-                customTabsIntentBuilder.setNavigationBarColor(
-                        ThemeUtils.getColor(context, android.R.attr.navigationBarColor)
-                )
-            }
+            val customTabsIntent = CustomTabsIntent.Builder()
+                    .setDefaultColorSchemeParams(colorSchemeParams)
+                    .build()
 
-            val customTabsIntent = customTabsIntentBuilder.build()
             try {
                 customTabsIntent.launchUrl(context, uri)
             } catch (e: ActivityNotFoundException) {

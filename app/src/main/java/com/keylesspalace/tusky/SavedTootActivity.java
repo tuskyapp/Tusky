@@ -18,7 +18,6 @@ package com.keylesspalace.tusky;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.view.MenuItem;
 import android.view.View;
 
 import androidx.annotation.Nullable;
@@ -89,7 +88,7 @@ public final class SavedTootActivity extends BaseActivity implements SavedTootAd
         setSupportActionBar(toolbar);
         ActionBar bar = getSupportActionBar();
         if (bar != null) {
-            bar.setTitle(getString(R.string.title_saved_toot));
+            bar.setTitle(getString(R.string.title_drafts));
             bar.setDisplayHomeAsUpEnabled(true);
             bar.setDisplayShowHomeEnabled(true);
         }
@@ -116,17 +115,6 @@ public final class SavedTootActivity extends BaseActivity implements SavedTootAd
     protected void onPause() {
         super.onPause();
         if (asyncTask != null) asyncTask.cancel(true);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home: {
-                onBackPressed();
-                return true;
-            }
-        }
-        return super.onOptionsItemSelected(item);
     }
 
     private void fetchToots() {
@@ -166,6 +154,7 @@ public final class SavedTootActivity extends BaseActivity implements SavedTootAd
         ComposeOptions composeOptions = new ComposeOptions(
                 /*scheduledTootUid*/null,
                 item.getUid(),
+                /*drafId*/null,
                 item.getText(),
                 jsonUrls,
                 descriptions,
@@ -177,6 +166,7 @@ public final class SavedTootActivity extends BaseActivity implements SavedTootAd
                 item.getInReplyToUsername(),
                 item.getInReplyToText(),
                 /*mediaAttachments*/null,
+                /*draftAttachments*/null,
                 /*scheduledAt*/null,
                 /*sensitive*/null,
                 /*poll*/null,

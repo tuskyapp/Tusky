@@ -30,7 +30,6 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Parcelable
 import android.provider.MediaStore
-import android.text.TextUtils
 import android.util.Log
 import android.view.KeyEvent
 import android.view.MenuItem
@@ -57,19 +56,20 @@ import com.google.android.material.snackbar.Snackbar
 import com.keylesspalace.tusky.BaseActivity
 import com.keylesspalace.tusky.BuildConfig
 import com.keylesspalace.tusky.R
-import com.keylesspalace.tusky.adapter.ComposeAutoCompleteAdapter
 import com.keylesspalace.tusky.adapter.EmojiAdapter
 import com.keylesspalace.tusky.adapter.OnEmojiSelectedListener
 import com.keylesspalace.tusky.components.compose.dialog.makeCaptionDialog
 import com.keylesspalace.tusky.components.compose.dialog.showAddPollDialog
 import com.keylesspalace.tusky.components.compose.view.ComposeOptionsListener
 import com.keylesspalace.tusky.db.AccountEntity
+import com.keylesspalace.tusky.db.DraftAttachment
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.entity.Attachment
 import com.keylesspalace.tusky.entity.Emoji
 import com.keylesspalace.tusky.entity.NewPoll
 import com.keylesspalace.tusky.entity.Status
+import com.keylesspalace.tusky.settings.PrefKeys
 import com.keylesspalace.tusky.util.*
 import com.mikepenz.iconics.IconicsDrawable
 import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial
@@ -81,7 +81,6 @@ import java.io.File
 import java.io.IOException
 import java.util.*
 import javax.inject.Inject
-import kotlin.collections.ArrayList
 import kotlin.math.max
 import kotlin.math.min
 
@@ -104,12 +103,13 @@ class ComposeActivity : BaseActivity(),
     // this only exists when a status is trying to be sent, but uploads are still occurring
     private var finishingUploadDialog: ProgressDialog? = null
     private var photoUploadUri: Uri? = null
+
     @VisibleForTesting
     var maximumTootCharacters = DEFAULT_CHARACTER_LIMIT
 
-    private var composeOptions: ComposeOptions? = null
     private val viewModel: ComposeViewModel by viewModels { viewModelFactory }
 
+    private val maxUploadMediaNumber = 4
     private var mediaCount = 0
 
     public override fun onCreate(savedInstanceState: Bundle?) {
@@ -147,59 +147,45 @@ class ComposeActivity : BaseActivity(),
 
         /* If the composer is started up as a reply to another post, override the "starting" state
          * based on what the intent from the reply request passes. */
-        if (intent != null) {
-            this.composeOptions = intent.getParcelableExtra(COMPOSE_OPTIONS_EXTRA)
-            viewModel.setup(composeOptions)
-            setupReplyViews(composeOptions?.replyingStatusAuthor)
-            val tootText = composeOptions?.tootText
-            if (!tootText.isNullOrEmpty()) {
-                composeEditField.setText(tootText)
-            }
+
+        val composeOptions: ComposeOptions? = intent.getParcelableExtra(COMPOSE_OPTIONS_EXTRA)
+
+        viewModel.setup(composeOptions)
+        setupReplyViews(composeOptions?.replyingStatusAuthor, composeOptions?.replyingStatusContent)
+        val tootText = composeOptions?.tootText
+        if (!tootText.isNullOrEmpty()) {
+            composeEditField.setText(tootText)
         }
 
-        if (!TextUtils.isEmpty(composeOptions?.scheduledAt)) {
+        if (!composeOptions?.scheduledAt.isNullOrEmpty()) {
             composeScheduleView.setDateTime(composeOptions?.scheduledAt)
         }
 
-        setupComposeField(viewModel.startingText)
+        setupComposeField(preferences, viewModel.startingText)
         setupContentWarningField(composeOptions?.contentWarning)
         setupPollView()
         applyShareIntent(intent, savedInstanceState)
         viewModel.setupComplete.value = true
     }
 
-    private fun applyShareIntent(intent: Intent?, savedInstanceState: Bundle?) {
-        if (intent != null && savedInstanceState == null) {
+    private fun applyShareIntent(intent: Intent, savedInstanceState: Bundle?) {
+        if (savedInstanceState == null) {
             /* Get incoming images being sent through a share action from another app. Only do this
              * when savedInstanceState is null, otherwise both the images from the intent and the
              * instance state will be re-queued. */
-            val type = intent.type
-            if (type != null) {
+            intent.type?.also { type ->
                 if (type.startsWith("image/") || type.startsWith("video/") || type.startsWith("audio/")) {
-                    val uriList = ArrayList<Uri>()
-                    if (intent.action != null) {
-                        when (intent.action) {
-                            Intent.ACTION_SEND -> {
-                                val uri = intent.getParcelableExtra<Uri>(Intent.EXTRA_STREAM)
-                                if (uri != null) {
-                                    uriList.add(uri)
-                                }
-                            }
-                            Intent.ACTION_SEND_MULTIPLE -> {
-                                val list = intent.getParcelableArrayListExtra<Uri>(
-                                        Intent.EXTRA_STREAM)
-                                if (list != null) {
-                                    for (uri in list) {
-                                        if (uri != null) {
-                                            uriList.add(uri)
-                                        }
-                                    }
-                                }
+                    when (intent.action) {
+                        Intent.ACTION_SEND -> {
+                            intent.getParcelableExtra<Uri>(Intent.EXTRA_STREAM)?.let { uri ->
+                                pickMedia(uri)
                             }
                         }
-                    }
-                    for (uri in uriList) {
-                        pickMedia(uri)
+                        Intent.ACTION_SEND_MULTIPLE -> {
+                            intent.getParcelableArrayListExtra<Uri>(Intent.EXTRA_STREAM)?.forEach { uri ->
+                                pickMedia(uri)
+                            }
+                        }
                     }
                 } else if (type == "text/plain" && intent.action == Intent.ACTION_SEND) {
 
@@ -217,13 +203,16 @@ class ComposeActivity : BaseActivity(),
                         val left = min(start, end)
                         val right = max(start, end)
                         composeEditField.text.replace(left, right, shareBody, 0, shareBody.length)
+                        // move edittext cursor to first when shareBody parsed
+                        composeEditField.text.insert(0, "\n")
+                        composeEditField.setSelection(0)
                     }
                 }
             }
         }
     }
 
-    private fun setupReplyViews(replyingStatusAuthor: String?) {
+    private fun setupReplyViews(replyingStatusAuthor: String?, replyingStatusContent: String?) {
         if (replyingStatusAuthor != null) {
             composeReplyView.show()
             composeReplyView.text = getString(R.string.replying_to, replyingStatusAuthor)
@@ -247,7 +236,7 @@ class ComposeActivity : BaseActivity(),
                 }
             }
         }
-        composeOptions?.replyingStatusContent?.let { composeReplyContentView.text = it }
+        replyingStatusContent?.let { composeReplyContentView.text = it }
     }
 
     private fun setupContentWarningField(startingContentWarning: String?) {
@@ -257,13 +246,18 @@ class ComposeActivity : BaseActivity(),
         composeContentWarningField.onTextChanged { _, _, _, _ -> updateVisibleCharactersLeft() }
     }
 
-    private fun setupComposeField(startingText: String?) {
+    private fun setupComposeField(preferences: SharedPreferences, startingText: String?) {
         composeEditField.setOnCommitContentListener(this)
 
         composeEditField.setOnKeyListener { _, keyCode, event -> this.onKeyDown(keyCode, event) }
 
         composeEditField.setAdapter(
-                ComposeAutoCompleteAdapter(this))
+                ComposeAutoCompleteAdapter(
+                        this,
+                        preferences.getBoolean(PrefKeys.ANIMATE_GIF_AVATARS, false),
+                        preferences.getBoolean(PrefKeys.ANIMATE_CUSTOM_EMOJIS, false)
+                )
+        )
         composeEditField.setTokenizer(ComposeTokenizer())
 
         composeEditField.setText(startingText)
@@ -650,7 +644,6 @@ class ComposeActivity : BaseActivity(),
         }
     }
 
-
     private fun removePoll() {
         viewModel.poll.value = null
         pollPreview.hide()
@@ -807,6 +800,7 @@ class ComposeActivity : BaseActivity(),
         val mimeTypes = arrayOf("image/*", "video/*", "audio/*")
         intent.type = "*/*"
         intent.putExtra(Intent.EXTRA_MIME_TYPES, mimeTypes)
+        intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
         startActivityForResult(intent, MEDIA_PICK_RESULT)
     }
 
@@ -833,7 +827,23 @@ class ComposeActivity : BaseActivity(),
     override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?) {
         super.onActivityResult(requestCode, resultCode, intent)
         if (resultCode == Activity.RESULT_OK && requestCode == MEDIA_PICK_RESULT && intent != null) {
-            pickMedia(intent.data!!)
+            if (intent.data != null) {
+                // Single media, upload it and done.
+                pickMedia(intent.data!!)
+            } else if (intent.clipData != null) {
+                val clipData = intent.clipData!!
+                val count = clipData.itemCount
+                if (mediaCount + count > maxUploadMediaNumber) {
+                    // check if exist media + upcoming media > 4, then prob error message.
+                    Toast.makeText(this, getString(R.string.error_upload_max_media_reached, maxUploadMediaNumber), Toast.LENGTH_SHORT).show()
+                } else {
+                    // if not grater then 4, upload all multiple media.
+                    for (i in 0 until count) {
+                        val imageUri = clipData.getItemAt(i).getUri()
+                        pickMedia(imageUri)
+                    }
+                }
+            }
         } else if (resultCode == Activity.RESULT_OK && requestCode == MEDIA_TAKE_PHOTO_RESULT) {
             pickMedia(photoUploadUri!!)
         }
@@ -1000,8 +1010,9 @@ class ComposeActivity : BaseActivity(),
     @Parcelize
     data class ComposeOptions(
             // Let's keep fields var until all consumers are Kotlin
-            var scheduledTootUid: String? = null,
+            var scheduledTootId: String? = null,
             var savedTootUid: Int? = null,
+            var draftId: Int? = null,
             var tootText: String? = null,
             var mediaUrls: List<String>? = null,
             var mediaDescriptions: List<String>? = null,
@@ -1013,6 +1024,7 @@ class ComposeActivity : BaseActivity(),
             var replyingStatusAuthor: String? = null,
             var replyingStatusContent: String? = null,
             var mediaAttachments: List<Attachment>? = null,
+            var draftAttachments: List<DraftAttachment>? = null,
             var scheduledAt: String? = null,
             var sensitive: Boolean? = null,
             var poll: NewPoll? = null,
@@ -1039,7 +1051,6 @@ class ComposeActivity : BaseActivity(),
             }
         }
 
-        @JvmStatic
         fun canHandleMimeType(mimeType: String?): Boolean {
             return mimeType != null && (mimeType.startsWith("image/") || mimeType.startsWith("video/") || mimeType.startsWith("audio/") || mimeType == "text/plain")
         }

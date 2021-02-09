@@ -18,7 +18,6 @@ package com.keylesspalace.tusky
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.view.MenuItem
 import androidx.fragment.app.commit
 
 import com.keylesspalace.tusky.fragment.TimelineFragment
@@ -64,14 +63,6 @@ class StatusListActivity : BottomSheetActivity(), HasAndroidInjector {
             replace(R.id.fragment_container, fragment)
         }
 
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == android.R.id.home){
-            onBackPressed()
-            return true
-        }
-        return super.onOptionsItemSelected(item)
     }
 
     override fun androidInjector() = dispatchingAndroidInjector

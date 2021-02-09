@@ -18,12 +18,13 @@ package com.keylesspalace.tusky.fragment
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.core.app.ActivityOptionsCompat
 import androidx.core.view.ViewCompat
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -34,14 +35,17 @@ import com.keylesspalace.tusky.entity.Attachment
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.interfaces.RefreshableFragment
 import com.keylesspalace.tusky.network.MastodonApi
+import com.keylesspalace.tusky.util.LinkHelper
 import com.keylesspalace.tusky.util.ThemeUtils
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.view.SquareImageView
 import com.keylesspalace.tusky.viewdata.AttachmentViewData
+import com.uber.autodispose.android.lifecycle.autoDispose
+import io.reactivex.SingleObserver
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.fragment_timeline.*
-import retrofit2.Call
-import retrofit2.Callback
 import retrofit2.Response
 import java.io.IOException
 import java.util.*
@@ -53,7 +57,7 @@ import javax.inject.Inject
  * Fragment with multiple columns of media previews for the specified account.
  */
 
-class AccountMediaFragment : BaseFragment(), RefreshableFragment, Injectable {
+class AccountMediaFragment : Fragment(R.layout.fragment_timeline), RefreshableFragment, Injectable {
     companion object {
         @JvmStatic
         fun newInstance(accountId: String, enableSwipeToRefresh:Boolean=true): AccountMediaFragment {
@@ -77,14 +81,13 @@ class AccountMediaFragment : BaseFragment(), RefreshableFragment, Injectable {
     lateinit var api: MastodonApi
 
     private val adapter = MediaGridAdapter()
-    private var currentCall: Call<List<Status>>? = null
     private val statuses = mutableListOf<Status>()
     private var fetchingStatus = FetchingStatus.NOT_FETCHING
 
     private lateinit var accountId: String
 
-    private val callback = object : Callback<List<Status>> {
-        override fun onFailure(call: Call<List<Status>>?, t: Throwable?) {
+    private val callback = object : SingleObserver<Response<List<Status>>> {
+        override fun onError(t: Throwable) {
             fetchingStatus = FetchingStatus.NOT_FETCHING
 
             if (isAdded) {
@@ -106,7 +109,7 @@ class AccountMediaFragment : BaseFragment(), RefreshableFragment, Injectable {
             Log.d(TAG, "Failed to fetch account media", t)
         }
 
-        override fun onResponse(call: Call<List<Status>>, response: Response<List<Status>>) {
+        override fun onSuccess(response: Response<List<Status>>) {
             fetchingStatus = FetchingStatus.NOT_FETCHING
             if (isAdded) {
                 swipeRefreshLayout.isRefreshing = false
@@ -127,22 +130,23 @@ class AccountMediaFragment : BaseFragment(), RefreshableFragment, Injectable {
 
                     if (statuses.isEmpty()) {
                         statusView.show()
-                        statusView.setup(R.drawable.elephant_friend_empty, R.string.message_empty,
-                                null)
+                        statusView.setup(R.drawable.elephant_friend_empty, R.string.message_empty)
                     }
                 }
             }
         }
+
+        override fun onSubscribe(d: Disposable) {}
     }
 
-    private val bottomCallback = object : Callback<List<Status>> {
-        override fun onFailure(call: Call<List<Status>>?, t: Throwable?) {
+    private val bottomCallback = object : SingleObserver<Response<List<Status>>> {
+        override fun onError(t: Throwable) {
             fetchingStatus = FetchingStatus.NOT_FETCHING
 
             Log.d(TAG, "Failed to fetch account media", t)
         }
 
-        override fun onResponse(call: Call<List<Status>>, response: Response<List<Status>>) {
+        override fun onSuccess(response: Response<List<Status>>) {
             fetchingStatus = FetchingStatus.NOT_FETCHING
             val body = response.body()
             body?.let { fetched ->
@@ -159,16 +163,13 @@ class AccountMediaFragment : BaseFragment(), RefreshableFragment, Injectable {
             }
         }
 
+        override fun onSubscribe(d: Disposable) { }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         isSwipeToRefreshEnabled = arguments?.getBoolean(ARG_ENABLE_SWIPE_TO_REFRESH,true) == true
         accountId =  arguments?.getString(ACCOUNT_ID_ARG)!!
-    }
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_timeline, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -201,8 +202,10 @@ class AccountMediaFragment : BaseFragment(), RefreshableFragment, Injectable {
                         statuses.lastOrNull()?.let { (id) ->
                             Log.d(TAG, "Requesting statuses with max_id: ${id}, (bottom)")
                             fetchingStatus = FetchingStatus.FETCHING_BOTTOM
-                            currentCall = api.accountStatuses(accountId, id, null, null, null, true, null)
-                            currentCall?.enqueue(bottomCallback)
+                            api.accountStatuses(accountId, id, null, null, null, true, null)
+                                    .observeOn(AndroidSchedulers.mainThread())
+                                    .autoDispose(this@AccountMediaFragment, Lifecycle.Event.ON_DESTROY)
+                                    .subscribe(bottomCallback)
                         }
                     }
                 }
@@ -215,14 +218,15 @@ class AccountMediaFragment : BaseFragment(), RefreshableFragment, Injectable {
     private fun refresh() {
         statusView.hide()
         if (fetchingStatus != FetchingStatus.NOT_FETCHING) return
-        currentCall = if (statuses.isEmpty()) {
+        if (statuses.isEmpty()) {
             fetchingStatus = FetchingStatus.INITIAL_FETCHING
             api.accountStatuses(accountId, null, null, null, null, true, null)
         } else {
             fetchingStatus = FetchingStatus.REFRESHING
             api.accountStatuses(accountId, null, statuses[0].id, null, null, true, null)
-        }
-        currentCall?.enqueue(callback)
+        }.observeOn(AndroidSchedulers.mainThread())
+                .autoDispose(this, Lifecycle.Event.ON_DESTROY)
+                .subscribe(callback)
 
         if (!isSwipeToRefreshEnabled)
             topProgressBar?.show()
@@ -234,8 +238,10 @@ class AccountMediaFragment : BaseFragment(), RefreshableFragment, Injectable {
         }
         if (fetchingStatus == FetchingStatus.NOT_FETCHING && statuses.isEmpty()) {
             fetchingStatus = FetchingStatus.INITIAL_FETCHING
-            currentCall = api.accountStatuses(accountId, null, null, null, null, true, null)
-            currentCall?.enqueue(callback)
+            api.accountStatuses(accountId, null, null, null, null, true, null)
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .autoDispose(this@AccountMediaFragment, Lifecycle.Event.ON_DESTROY)
+                    .subscribe(callback)
         }
         else if (needToRefresh)
             refresh()
@@ -260,10 +266,8 @@ class AccountMediaFragment : BaseFragment(), RefreshableFragment, Injectable {
                 }
             }
             Attachment.Type.UNKNOWN -> {
-            }/* Intentionally do nothing. This case is here is to handle when new attachment
-                 * types are added to the API before code is added here to handle them. So, the
-                 * best fallback is to just show the preview and ignore requests to view them. */
-
+                LinkHelper.openLink(items[currentIndex].attachment.url, context)
+            }
         }
     }
 
@@ -339,6 +343,5 @@ class AccountMediaFragment : BaseFragment(), RefreshableFragment, Injectable {
         else
             needToRefresh = true
     }
-
 
 }

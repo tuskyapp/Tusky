@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="action_login">Prihlásiť sa účtom Mastodon</string>
-    <string name="title_saved_toot">Koncepty</string>
+    <string name="title_drafts">Koncepty</string>
     <string name="action_logout">Odhlásiť sa</string>
     <string name="action_view_preferences">Nastavenia</string>
     <string name="action_view_account_preferences">Nastavenia účtu</string>

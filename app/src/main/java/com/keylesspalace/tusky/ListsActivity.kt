@@ -21,7 +21,6 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
@@ -130,17 +129,25 @@ class ListsActivity : BaseActivity(), Injectable, HasAndroidInjector {
                         else R.string.action_rename_list) { _, _ ->
                     onPickedDialogName(editText.text, list?.id)
                 }
-                .setNegativeButton(android.R.string.cancel) { d, _ ->
-                    d.dismiss()
-                }
+                .setNegativeButton(android.R.string.cancel, null)
                 .show()
 
         val positiveButton = dialog.getButton(Dialog.BUTTON_POSITIVE)
         editText.onTextChanged { s, _, _, _ ->
-            positiveButton.isEnabled = !s.isBlank()
+            positiveButton.isEnabled = s.isNotBlank()
         }
         editText.setText(list?.title)
         editText.text?.let { editText.setSelection(it.length) }
+    }
+
+    private fun showListDeleteDialog(list: MastoList) {
+        AlertDialog.Builder(this)
+                .setMessage(getString(R.string.dialog_delete_list_warning, list.title))
+                .setPositiveButton(R.string.action_delete){ _, _ ->
+                    viewModel.deleteList(list.id)
+                }
+                .setNegativeButton(android.R.string.cancel, null)
+                .show()
     }
 
 
@@ -199,7 +206,7 @@ class ListsActivity : BaseActivity(), Injectable, HasAndroidInjector {
                 when (item.itemId) {
                     R.id.list_edit -> openListSettings(list)
                     R.id.list_rename -> renameListDialog(list)
-                    R.id.list_delete -> viewModel.deleteList(list.id)
+                    R.id.list_delete -> showListDeleteDialog(list)
                     else -> return@setOnMenuItemClickListener false
                 }
                 true
@@ -209,14 +216,6 @@ class ListsActivity : BaseActivity(), Injectable, HasAndroidInjector {
     }
 
     override fun androidInjector() = dispatchingAndroidInjector
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == android.R.id.home) {
-            onBackPressed()
-            return true
-        }
-        return false
-    }
 
     private object ListsDiffer : DiffUtil.ItemCallback<MastoList>() {
         override fun areItemsTheSame(oldItem: MastoList, newItem: MastoList): Boolean {

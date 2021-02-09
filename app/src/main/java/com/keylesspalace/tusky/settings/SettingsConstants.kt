@@ -31,8 +31,12 @@ object PrefKeys {
     const val SHOW_CARDS_IN_TIMELINES = "showCardsInTimelines"
     const val CONFIRM_REBLOGS = "confirmReblogs"
     const val ENABLE_SWIPE_FOR_TABS = "enableSwipeForTabs"
+    const val ANIMATE_CUSTOM_EMOJIS = "animateCustomEmojis"
 
     const val CUSTOM_TABS = "customTabs"
+    const val WELLBEING_LIMITED_NOTIFICATIONS = "wellbeingModeLimitedNotifications"
+    const val WELLBEING_HIDE_STATS_POSTS = "wellbeingHideStatsPosts"
+    const val WELLBEING_HIDE_STATS_PROFILE = "wellbeingHideStatsProfile"
 
     const val HTTP_PROXY_ENABLED = "httpProxyEnabled"
     const val HTTP_PROXY_SERVER = "httpProxyServer"
@@ -53,6 +57,7 @@ object PrefKeys {
     const val NOTIFICATION_FILTER_REBLOGS = "notificationFilterReblogs"
     const val NOTIFICATION_FILTER_FOLLOW_REQUESTS = "notificationFilterFollowRequests"
     const val NOTIFICATIONS_FILTER_FOLLOWS = "notificationFilterFollows"
+    const val NOTIFICATION_FILTER_SUBSCRIPTIONS = "notificationFilterSubscriptions"
 
     const val TAB_FILTER_HOME_REPLIES = "tabFilterHomeReplies"
     const val TAB_FILTER_HOME_BOOSTS = "tabFilterHomeBoosts"

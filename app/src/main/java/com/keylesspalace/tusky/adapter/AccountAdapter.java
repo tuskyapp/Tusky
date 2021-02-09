@@ -33,10 +33,14 @@ public abstract class AccountAdapter extends RecyclerView.Adapter {
     List<Account> accountList;
     AccountActionListener accountActionListener;
     private boolean bottomLoading;
+    protected final boolean animateEmojis;
+    protected final boolean animateAvatar;
 
-    AccountAdapter(AccountActionListener accountActionListener) {
+    AccountAdapter(AccountActionListener accountActionListener, boolean animateAvatar, boolean animateEmojis) {
         this.accountList = new ArrayList<>();
         this.accountActionListener = accountActionListener;
+        this.animateAvatar = animateAvatar;
+        this.animateEmojis = animateEmojis;
         bottomLoading = false;
     }
 

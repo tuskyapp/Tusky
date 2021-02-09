@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="add_poll_choice">เพิ่มตัวเลือก</string>
-    <string name="poll_duration_7_days">7 วัน</string>
-    <string name="poll_duration_3_days">3 วัน</string>
-    <string name="poll_duration_1_day">1 วัน</string>
-    <string name="poll_duration_6_hours">6 ชั่วโมง</string>
-    <string name="poll_duration_1_hour">1 ชั่วโมง</string>
-    <string name="poll_duration_30_min">30 นาที</string>
-    <string name="poll_duration_5_min">5 นาที</string>
+    <string name="duration_7_days">7 วัน</string>
+    <string name="duration_3_days">3 วัน</string>
+    <string name="duration_1_day">1 วัน</string>
+    <string name="duration_6_hours">6 ชั่วโมง</string>
+    <string name="duration_1_hour">1 ชั่วโมง</string>
+    <string name="duration_30_min">30 นาที</string>
+    <string name="duration_5_min">5 นาที</string>
     <string name="create_poll_title">โพล</string>
     <string name="pref_title_enable_swipe_for_tabs">เปิดใช้งานการเลื่อนนิ้วเพื่อสลับระหว่างแท็บ</string>
     <string name="pref_title_show_notifications_filter">แสดงตัวกรองการแจ้งเตือน</string>
@@ -431,7 +431,7 @@
     <string name="action_view_account_preferences">ตั้งค่าบัญชี</string>
     <string name="action_view_preferences">ตั้งค่า</string>
     <string name="action_logout">ออกจากระบบ</string>
-    <string name="title_saved_toot">ฉบับร่าง</string>
+    <string name="title_drafts">ฉบับร่าง</string>
     <string name="title_favourites">ชื่นชอบ</string>
     <string name="error_failed_app_registration">การยืนยันตัวตนกับเซิร์ฟเวอร์นั้นล้มเหลว</string>
     <string name="link_whats_an_instance">Instance คือ\?</string>
@@ -455,4 +455,37 @@
     <string name="dialog_mute_hide_notifications">ซ่อนการแจ้งเตือน</string>
     <string name="action_mute_notifications_desc">ปิดเสียงการแจ้งเตือนจาก %s</string>
     <string name="pref_title_hide_top_toolbar">ซ่อนหัวข้อของแถบเครื่องมือด้านบน</string>
+    <string name="drafts_toot_failed_to_send">ล้มเหลวในการส่งโพสต์นี้!</string>
+    <string name="wellbeing_mode_notice">ข้อมูลบางอย่างที่อาจส่งผลต่อสุขภาพจิตของคุณจะถูกซ่อนไว้ซึ่งรวมถึง:
+\n
+\n- การแจ้งเตือน ชื่นชอบ/ดัน/ติดตาม
+\n- จำนวนการ ชื่นชอบ/ดัน บนโพสต์ 
+\n- สถิติ ผู้ติดตาม/โพสต์ ในโปรไฟล์
+\n
+\n การแจ้งเตือนแบบพุชจะไม่ได้รับผลกระทบ แต่คุณสามารถตรวจสอบการตั้งค่าการแจ้งเตือนได้ด้วยตนเอง</string>
+    <string name="limit_notifications">แจ้งเตือน Limit timeline</string>
+    <string name="review_notifications">แจ้งเตือน Review</string>
+    <string name="pref_title_notification_filter_subscriptions">ใครบางคนที่ฉันได้ติดตาม ได้เผยแพร่โพสต์ใหม่</string>
+    <string name="new_drafts_warning">ฟีเจอร์ฉบับร่างใน Tusky ได้รับการออกแบบใหม่ทั้งหมดเพื่อให้เร็วขึ้นเป็นมิตรกับผู้ใช้มากขึ้นและบั๊กน้อยลง
+\n คุณยังสามารถเข้าถึงฉบับร่างเก่าผ่านปุ่มในหน้าฉบับร่างใหม่ แต่จะถูกลบออกในการอัปเดตในอนาคต!</string>
+    <string name="wellbeing_hide_stats_profile">ซ่อนสถิติเชิงปริมาณในโปรไฟล์</string>
+    <string name="wellbeing_hide_stats_posts">ซ่อนสถิติเชิงปริมาณของโพสต์</string>
+    <string name="pref_title_wellbeing_mode">สุขภาวะ</string>
+    <string name="account_note_hint">บันทึกส่วนตัวของคุณเกี่ยวกับบัญชีนี้</string>
+    <string name="notification_subscription_description">แจ้งเตือน เมื่อคนที่คุณติดตาม ได้เผยแพร่โพสต์ใหม่</string>
+    <string name="drafts_toot_reply_removed">โพสต์ที่คุณได้ร่างตอบไว้ ถูกลบแลัว</string>
+    <string name="draft_deleted">ลบฉบับร่างแล้ว</string>
+    <string name="drafts_failed_loading_reply">ล้มเหลวในการโหลดข้อมูลตอบกลับ</string>
+    <string name="old_drafts">ฉบับร่างเก่า</string>
+    <string name="dialog_delete_list_warning">คุณต้องการลบลิสต์ %s ใช่ไหม\?</string>
+    <string name="error_upload_max_media_reached">คุณไม่สามารถอัปโหลดไฟล์แนบมากกว่า %1$d ได้</string>
+    <string name="account_note_saved">บันทึกแล้ว!</string>
+    <string name="no_announcements">ไม่มีประกาศ</string>
+    <string name="duration_indefinite">ไม่มีกำหนด</string>
+    <string name="label_duration">ระยะเวลา</string>
+    <string name="status_media_attachments">ไฟล์แนบ</string>
+    <string name="status_media_audio">เสียง</string>
+    <string name="notification_subscription_name">โพสต์ใหม่</string>
+    <string name="notification_subscription_format">%s พึ่งโพสต์</string>
+    <string name="title_announcements">ประกาศ</string>
 </resources>

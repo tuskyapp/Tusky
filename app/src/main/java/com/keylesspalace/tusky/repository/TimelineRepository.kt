@@ -66,9 +66,9 @@ class TimelineRepositoryImpl(
                                        sinceIdMinusOne: String?, limit: Int,
                                        accountId: Long, requestMode: TimelineRequestMode
     ): Single<out List<TimelineStatus>> {
-        return mastodonApi.homeTimelineSingle(maxId, sinceIdMinusOne, limit + 1)
-                .map { statuses ->
-                    this.saveStatusesToDb(accountId, statuses, maxId, sinceId)
+        return mastodonApi.homeTimeline(maxId, sinceIdMinusOne, limit + 1)
+                .map { response ->
+                    this.saveStatusesToDb(accountId, response.body().orEmpty(), maxId, sinceId)
                 }
                 .flatMap { statuses ->
                     this.addFromDbIfNeeded(accountId, statuses, maxId, sinceId, limit, requestMode)
@@ -85,7 +85,7 @@ class TimelineRepositoryImpl(
     private fun addFromDbIfNeeded(accountId: Long, statuses: List<Either<Placeholder, Status>>,
                                   maxId: String?, sinceId: String?, limit: Int,
                                   requestMode: TimelineRequestMode
-    ): Single<List<TimelineStatus>>? {
+    ): Single<List<TimelineStatus>> {
         return if (requestMode != NETWORK && statuses.size < 2) {
             val newMaxID = if (statuses.isEmpty()) {
                 maxId

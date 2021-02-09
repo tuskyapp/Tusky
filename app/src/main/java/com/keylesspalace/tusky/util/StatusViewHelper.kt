@@ -228,7 +228,8 @@ class StatusViewHelper(private val itemView: View) {
         return when (type) {
             Attachment.Type.IMAGE -> context.getString(R.string.status_media_images)
             Attachment.Type.GIFV, Attachment.Type.VIDEO -> context.getString(R.string.status_media_video)
-            else -> context.getString(R.string.status_media_images)
+            Attachment.Type.AUDIO -> context.getString(R.string.status_media_audio)
+            else -> context.getString(R.string.status_media_attachments)
         }
     }
 
@@ -237,11 +238,12 @@ class StatusViewHelper(private val itemView: View) {
         return when (type) {
             Attachment.Type.IMAGE -> R.drawable.ic_photo_24dp
             Attachment.Type.GIFV, Attachment.Type.VIDEO -> R.drawable.ic_videocam_24dp
-            else -> R.drawable.ic_photo_24dp
+            Attachment.Type.AUDIO -> R.drawable.ic_music_box_24dp
+            else -> R.drawable.ic_attach_file_24dp
         }
     }
 
-    fun setupPollReadonly(poll: PollViewData?, emojis: List<Emoji>, useAbsoluteTime: Boolean) {
+    fun setupPollReadonly(poll: PollViewData?, emojis: List<Emoji>, statusDisplayOptions: StatusDisplayOptions) {
         val pollResults = listOf<TextView>(
                 itemView.findViewById(R.id.status_poll_option_result_0),
                 itemView.findViewById(R.id.status_poll_option_result_1),
@@ -259,10 +261,10 @@ class StatusViewHelper(private val itemView: View) {
             val timestamp = System.currentTimeMillis()
 
 
-            setupPollResult(poll, emojis, pollResults)
+            setupPollResult(poll, emojis, pollResults, statusDisplayOptions.animateEmojis)
 
             pollDescription.visibility = View.VISIBLE
-            pollDescription.text = getPollInfoText(timestamp, poll, pollDescription, useAbsoluteTime)
+            pollDescription.text = getPollInfoText(timestamp, poll, pollDescription, statusDisplayOptions.useAbsoluteTime)
         }
     }
 
@@ -290,7 +292,7 @@ class StatusViewHelper(private val itemView: View) {
     }
 
 
-    private fun setupPollResult(poll: PollViewData, emojis: List<Emoji>, pollResults: List<TextView>) {
+    private fun setupPollResult(poll: PollViewData, emojis: List<Emoji>, pollResults: List<TextView>, animateEmojis: Boolean) {
         val options = poll.options
 
         for (i in 0 until Status.MAX_POLL_OPTIONS) {
@@ -298,7 +300,7 @@ class StatusViewHelper(private val itemView: View) {
                 val percent = calculatePercent(options[i].votesCount, poll.votersCount, poll.votesCount)
 
                 val pollOptionText = buildDescription(options[i].title, percent, pollResults[i].context)
-                pollResults[i].text = pollOptionText.emojify(emojis, pollResults[i])
+                pollResults[i].text = pollOptionText.emojify(emojis, pollResults[i], animateEmojis)
                 pollResults[i].visibility = View.VISIBLE
 
                 val level = percent * 100
