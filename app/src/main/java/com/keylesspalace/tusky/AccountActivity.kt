@@ -622,8 +622,10 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
 
         if(subscribing) {
             accountSubscribeButton.setIconResource(R.drawable.ic_notifications_active_24dp)
+            accountSubscribeButton.contentDescription = getString(R.string.action_unsubscribe_account)
         } else {
             accountSubscribeButton.setIconResource(R.drawable.ic_notifications_24dp)
+            accountSubscribeButton.contentDescription = getString(R.string.action_subscribe_account)
         }
     }
 
