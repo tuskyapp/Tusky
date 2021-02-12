@@ -18,7 +18,6 @@ package com.keylesspalace.tusky.components.compose
 import android.Manifest
 import android.app.Activity
 import android.app.ProgressDialog
-import android.app.TimePickerDialog
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
@@ -61,6 +60,7 @@ import com.keylesspalace.tusky.adapter.OnEmojiSelectedListener
 import com.keylesspalace.tusky.components.compose.dialog.makeCaptionDialog
 import com.keylesspalace.tusky.components.compose.dialog.showAddPollDialog
 import com.keylesspalace.tusky.components.compose.view.ComposeOptionsListener
+import com.keylesspalace.tusky.components.compose.view.ComposeScheduleView
 import com.keylesspalace.tusky.db.AccountEntity
 import com.keylesspalace.tusky.db.DraftAttachment
 import com.keylesspalace.tusky.di.Injectable
@@ -90,7 +90,7 @@ class ComposeActivity : BaseActivity(),
         OnEmojiSelectedListener,
         Injectable,
         InputConnectionCompat.OnCommitContentListener,
-        TimePickerDialog.OnTimeSetListener {
+        ComposeScheduleView.OnTimeSetListener {
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
@@ -348,6 +348,7 @@ class ComposeActivity : BaseActivity(),
         composeHideMediaButton.setOnClickListener { toggleHideMedia() }
         composeScheduleButton.setOnClickListener { onScheduleClick() }
         composeScheduleView.setResetOnClickListener { resetSchedule() }
+        composeScheduleView.setListener(this)
         atButton.setOnClickListener { atButtonClicked() }
         hashButton.setOnClickListener { hashButtonClicked() }
 
@@ -992,9 +993,8 @@ class ComposeActivity : BaseActivity(),
         }
     }
 
-    override fun onTimeSet(view: TimePicker, hourOfDay: Int, minute: Int) {
-        composeScheduleView.onTimeSet(hourOfDay, minute)
-        viewModel.updateScheduledAt(composeScheduleView.time)
+    override fun onTimeSet(time: String) {
+        viewModel.updateScheduledAt(time)
         if (verifyScheduledTime()) {
             scheduleBehavior.state = BottomSheetBehavior.STATE_HIDDEN
         } else {
