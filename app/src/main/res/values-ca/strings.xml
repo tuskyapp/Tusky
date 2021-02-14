@@ -324,6 +324,7 @@
     </plurals>
     <plurals name="reblogs">
         <item quantity="one"><b>%1$s</b> impuls</item>
+        <item quantity="many"></item>
         <item quantity="other"><b>%1$s</b> impulsos</item>
     </plurals>
     <string name="title_reblogged_by">Impulsat per</string>
@@ -450,18 +451,22 @@
     <string name="label_duration">Durada</string>
     <plurals name="poll_timespan_seconds">
         <item quantity="one">falta %1$d segon</item>
+        <item quantity="many"></item>
         <item quantity="other">falten %1$d segons</item>
     </plurals>
     <plurals name="poll_timespan_minutes">
         <item quantity="one">falta %1$d minut</item>
+        <item quantity="many"></item>
         <item quantity="other">falten %1$d minuts</item>
     </plurals>
     <plurals name="poll_timespan_hours">
         <item quantity="one">falta %1$d hora</item>
+        <item quantity="many"></item>
         <item quantity="other">falten %1$d hores</item>
     </plurals>
     <plurals name="poll_timespan_days">
         <item quantity="one">falta %1$d dia</item>
+        <item quantity="many"></item>
         <item quantity="other">falten %1$d dies</item>
     </plurals>
     <string name="post_media_attachments">Adjuncions</string>
@@ -475,7 +480,7 @@
     <string name="draft_deleted">S\'ha eliminat l\'esborrany</string>
     <string name="drafts_failed_loading_reply">No s\'ha pogut carregar la informació de la resposta</string>
     <string name="drafts_post_failed_to_send">No s\'ha pogut publicar!</string>
-    <string name="dialog_delete_list_warning">Segur que voleu esborrar la llista %1$s\?</string>
+    <string name="dialog_delete_list_warning">Segur que voleu esborrar la llista %1$s?</string>
     <plurals name="error_upload_max_media_reached">
         <item quantity="one">No podeu penjar més de %1$d fitxers adjunts multimèdia.</item>
         <item quantity="many"></item>
