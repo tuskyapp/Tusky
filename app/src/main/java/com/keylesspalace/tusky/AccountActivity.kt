@@ -568,11 +568,12 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
                 subscribing = relation.subscribing
         }
 
+        // remove the listener so it doesn't fire on non-user changes
+        accountNoteTextInputLayout.editText?.removeTextChangedListener(noteWatcher)
+
         accountNoteTextInputLayout.visible(relation.note != null)
         accountNoteTextInputLayout.editText?.setText(relation.note)
 
-        // add the listener late to avoid it firing on the first change
-        accountNoteTextInputLayout.editText?.removeTextChangedListener(noteWatcher)
         accountNoteTextInputLayout.editText?.addTextChangedListener(noteWatcher)
 
         updateButtons()
