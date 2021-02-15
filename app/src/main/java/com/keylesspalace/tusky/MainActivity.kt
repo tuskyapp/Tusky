@@ -699,7 +699,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
                     }
                 }
                 override fun onResourceReady(resource: Drawable, transition: Transition<in Drawable>?) {
-                    mainToolbar.navigationIcon = resource
+                    mainToolbar.navigationIcon = FixedSizeDrawable(resource, navIconSize, navIconSize)
                 }
 
                 override fun onLoadCleared(placeholder: Drawable?) {
