@@ -694,7 +694,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
             .into(object : CustomTarget<Drawable>(navIconSize, navIconSize) {
 
                 override fun onLoadStarted(placeholder: Drawable?) {
-                    if(placeholder != null) {
+                    if (placeholder != null) {
                         mainToolbar.navigationIcon = FixedSizeDrawable(placeholder, navIconSize, navIconSize)
                     }
                 }
@@ -703,7 +703,9 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
                 }
 
                 override fun onLoadCleared(placeholder: Drawable?) {
-                    mainToolbar.navigationIcon = placeholder
+                    if (placeholder != null) {
+                        mainToolbar.navigationIcon = FixedSizeDrawable(placeholder, navIconSize, navIconSize)
+                    }
                 }
             })
     }
