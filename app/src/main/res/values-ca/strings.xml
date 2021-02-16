@@ -2,20 +2,20 @@
 <resources>
     <string name="error_generic">S\'ha produït un error.</string>
     <string name="error_empty">Això no pot estar buit.</string>
-    <string name="error_invalid_domain">El domini introduït no és vàlid</string>
-    <string name="error_failed_app_registration">L\'autenticació en aquesta instància ha fallat.</string>
+    <string name="error_invalid_domain">El domini que s\'ha introduït no és vàlid</string>
+    <string name="error_failed_app_registration">Ha fallat l\'autenticació en aquesta instància.</string>
     <string name="error_no_web_browser_found">No s\'ha trobat cap navegador web per a utilitzar.</string>
     <string name="error_authorization_unknown">S\'ha produït un error d\'autorització no identificat.</string>
     <string name="error_authorization_denied">S\'ha denegat l\'autorització.</string>
-    <string name="error_retrieving_oauth_token">L\'obtenció del token d\'inici de sessió ha fallat.</string>
+    <string name="error_retrieving_oauth_token">Ha fallat l\'obtenció del token d\'inici de sessió.</string>
     <string name="error_compose_character_limit">L\'estat és massa llarg!</string>
-    <string name="error_image_upload_size">El fitxer ha de ser inferior a 8MB.</string>
-    <string name="error_media_upload_type">Aquest tipus de fitxer no es pot pujar.</string>
-    <string name="error_media_upload_opening">Aquest tipus de fitxer no es pot obrir.</string>
-    <string name="error_media_upload_permission">Cal permís d\'accés al emmagatzematge.</string>
-    <string name="error_media_download_permission">Cal permís d\'escriptura en el dispositiu.</string>
+    <string name="error_image_upload_size">El fitxer ha de ser d\'una mida menor de 8MB.</string>
+    <string name="error_media_upload_type">No es pot pujar aquest tipus de fitxer.</string>
+    <string name="error_media_upload_opening">No es pot obrir aquest tipus de fitxer.</string>
+    <string name="error_media_upload_permission">Cal permís d\'accés a l\'emmagatzematge.</string>
+    <string name="error_media_download_permission">Cal permís d\'escriptura a l\'emmagatzematge.</string>
     <string name="error_media_upload_image_or_video">No es poden adjuntar imatges i vídeos en el mateix estat.</string>
-    <string name="error_media_upload_sending">La pujada ha fallat.</string>
+    <string name="error_media_upload_sending">Ha fallat la pujada.</string>
     <string name="title_home">Inici</string>
     <string name="title_notifications">Notificacions</string>
     <string name="title_public_local">Local</string>
@@ -107,7 +107,7 @@
         , però pots comunicar-te fàcilment i seguir amics d\'altres instàncies com si fossiu en el mateix lloc.
         \n\nTens més informació a <a href="https://joinmastodon.org">joinmastodon.org</a>.
     </string>
-    <string name="dialog_title_finishing_media_upload">S\'està finalitzant la pujada de materila multimèdia</string>
+    <string name="dialog_title_finishing_media_upload">S\'està finalitzant la pujada de material multimèdia</string>
     <string name="dialog_message_uploading_media">S\'està pujant…</string>
     <string name="dialog_download_image">Baixa</string>
     <string name="dialog_unfollow_warning">Vols deixar de seguir aquest compte?</string>
@@ -191,7 +191,7 @@
     <string name="replying_to">En resposta a @%s</string>
     <string name="load_more_placeholder_text">carrega\'n més</string>
     <string name="poll_vote">Vota</string>
-    <string name="error_sender_account_gone">S\'ha produït un error en enviar el toot.</string>
+    <string name="error_sender_account_gone">S\'ha produït un error en enviar el tut.</string>
     <string name="title_tab_preferences">Pestanyes</string>
     <string name="title_licenses">Llicències</string>
     <string name="status_content_show_more">Amplia</string>
@@ -202,15 +202,15 @@
     <string name="title_direct_messages">Missatges directes</string>
     <string name="message_empty">No hi ha res aquí.</string>
     <string name="action_unreblog">Elimina l\'impuls</string>
-    <string name="error_network">S\'ha produït un error de connexió! Comprova la connexió i torna-ho a provar!</string>
-    <string name="error_video_upload_size">Els fitxers de vídeo han de pesar menys de 40 MB.</string>
+    <string name="error_network">S\'ha produït un error de connexió! Comproveu la connexió i torneu-ho a provar!</string>
+    <string name="error_video_upload_size">Els fitxers de vídeo han de ser de mida menor de 40 MB.</string>
     <string name="status_media_hidden_title">Multimèdia amagada</string>
     <string name="status_content_show_less">Amaga</string>
     <string name="action_logout_confirm">Estàs segur de tancar la sessió de %1$s\?</string>
     <string name="action_hide_reblogs">Amaga els retoots</string>
     <string name="action_show_reblogs">Mostra els impulsos</string>
     <string name="action_delete_and_redraft">Elimina i reecririu</string>
-    <string name="action_open_drawer">Open drawer</string>
+    <string name="action_open_drawer">Obre el menú</string>
     <string name="action_toggle_visibility">Visibilitat del toot</string>
     <string name="action_content_warning">Contingut sensible</string>
     <string name="action_add_tab">Afegir una pestanya</string>
@@ -225,7 +225,7 @@
     <string name="download_media">Baixa el fitxer</string>
     <string name="send_media_to">Compartir la imatge a …</string>
     <string name="status_sent">Enviat!</string>
-    <string name="state_follow_requested">Follow requested</string>
+    <string name="state_follow_requested">S\'ha enviat la petició de seguiment</string>
     <string name="title_statuses_with_replies">Amb respostes</string>
     <string name="action_emoji_keyboard">Teclat d\'emojis</string>
     <string name="action_open_media_n">Obrir el media #%d</string>
@@ -334,8 +334,8 @@
         <item quantity="other"><b>%1$s</b> Favorits</item>
     </plurals>
     <plurals name="reblogs">
-        <item quantity="one"/>
-        <item quantity="other"/>
+        <item quantity="one"><b>%s</b> impuls</item>
+        <item quantity="other"><b>%s</b> impulsos</item>
     </plurals>
     <string name="title_reblogged_by">Impulsat per</string>
     <string name="title_favourited_by">Marcat favorit per</string>
@@ -361,7 +361,7 @@
     <string name="notification_clear_text">Vols netejar totes les notificacions permanentment\?</string>
     <string name="poll_info_format"> <!-- 15 vots • queda 1 hora --> %1$s • %2$s</string>
     <plurals name="poll_info_votes">
-        <item quantity="one">%s vots</item>
+        <item quantity="one">%s vot</item>
         <item quantity="other">%s vots</item>
     </plurals>
     <string name="poll_info_time_absolute">Acaba a %s</string>
@@ -421,13 +421,13 @@
     <string name="action_schedule_toot">Programar el toot</string>
     <string name="action_reset_schedule">Reiniciar</string>
     <string name="about_powered_by_tusky">Desenvolupat per Tusky</string>
-    <string name="description_status_bookmarked">Afegit a les adreces d\'interès.</string>
+    <string name="description_status_bookmarked">S\'ha afegit a les adreces d\'interès</string>
     <string name="select_list_title">Seleccionar la llista</string>
     <string name="list">Llista</string>
     <string name="post_lookup_error_format">S\'ha produït un error en cercar la publicació %s</string>
     <string name="no_scheduled_status">No tens cap estat planificat.</string>
-    <string name="error_audio_upload_size">Els fitxers d\'àudio han de ser més petits que 40MB.</string>
-    <string name="no_saved_status">No tens cap esborrany</string>
+    <string name="error_audio_upload_size">Els fitxers d\'àudio han de ser de mida menor de 40MB.</string>
+    <string name="no_saved_status">No teniu cap esborrany.</string>
     <string name="warning_scheduling_interval">L\'interval mínim de planificació a Mastodon és de 5 minuts.</string>
     <string name="notification_follow_request_name">Peticions de seguiment</string>
     <string name="pref_title_confirm_reblogs">Mostra el diàleg de confirmació abans de promoure</string>
@@ -455,4 +455,46 @@
     <string name="action_mute_notifications_desc">Desactivar les notificacions per %s</string>
     <string name="action_unmute_notifications_desc">Activar les notificacions per %s</string>
     <string name="action_unmute_desc">Deixar de silenciar %s</string>
+    <string name="review_notifications">Revisió d\'avisos</string>
+    <string name="account_note_saved">S\'ha desat!</string>
+    <string name="account_note_hint">Les vostres notes quant a aquest compte</string>
+    <string name="pref_title_wellbeing_mode">Benestar</string>
+    <string name="pref_title_hide_top_toolbar">Amaga el títol de la barra d\'eines superior</string>
+    <string name="no_announcements">No hi ha cap avís.</string>
+    <string name="duration_indefinite">Indefinit</string>
+    <string name="label_duration">Durada</string>
+    <plurals name="poll_timespan_seconds">
+        <item quantity="one">falta %d segon</item>
+        <item quantity="other">falten %d segons</item>
+    </plurals>
+    <plurals name="poll_timespan_minutes">
+        <item quantity="one">falta %d minut</item>
+        <item quantity="other">falten %d minuts</item>
+    </plurals>
+    <plurals name="poll_timespan_hours">
+        <item quantity="one">falta %d hora</item>
+        <item quantity="other">falten %d hores</item>
+    </plurals>
+    <plurals name="poll_timespan_days">
+        <item quantity="one">falta %d dia</item>
+        <item quantity="other">falten %d dies</item>
+    </plurals>
+    <string name="status_media_attachments">Adjuncions</string>
+    <string name="status_media_audio">Àudio</string>
+    <string name="notification_subscription_description">Notificacions quan algú a qui esteu subscrit publica un tut nou</string>
+    <string name="notification_subscription_name">Tuts nous</string>
+    <string name="pref_title_animate_custom_emojis">emojis personalitzats animats</string>
+    <string name="pref_title_notification_filter_subscriptions">algú a qui estic subscrit acaba de publicar un tut nou</string>
+    <string name="notification_subscription_format">%s acaba de fer una publicació</string>
+    <string name="title_announcements">Avisos</string>
+    <string name="drafts_toot_reply_removed">S\'ha esborrat el tut del qual en vau fer un esborrany de resposta</string>
+    <string name="draft_deleted">S\'ha eliminat l\'esborrany</string>
+    <string name="drafts_failed_loading_reply">No s\'ha pogut carregar la informació de la resposta</string>
+    <string name="old_drafts">Esborranys antics</string>
+    <string name="drafts_toot_failed_to_send">No s\'ha pogut enviar aquest tut!</string>
+    <string name="dialog_delete_list_warning">Segur que voleu esborrar la llista %s\?</string>
+    <string name="error_upload_max_media_reached">No podeu pujar més de %1$d adjunts multimèdia.</string>
+    <string name="wellbeing_hide_stats_profile">Amaga les estadístiques quantitatives dels perfils</string>
+    <string name="wellbeing_hide_stats_posts">Amaga les estadístiques quantitatives de les publicacions</string>
+    <string name="limit_notifications">Limita les notificacions de la cronologia</string>
 </resources>
