@@ -4,4 +4,4 @@ Tusky v14.0
 - Ny og forbedret kladd-funksjonalitet.
 - Velværemodus: Kan brukes til å begrense utvalgt funksjonalitet i Tusky. Du kan aktivere velværemodus i innstillinger.
 - Støtte for animerte emojis. Dette er skrudd av som standard, men du kan skru det på i innstillinger.
-- Tidsbestemt demping. Det er mulig å dempe brukere i en angitt periode.
+- Komplett endringelogg: https://github.com/tuskyapp/Tusky/releases
