@@ -661,14 +661,6 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
         menuInflater.inflate(R.menu.account_toolbar, menu)
 
         if (!viewModel.isSelf) {
-            val follow = menu.findItem(R.id.action_follow)
-            follow.title = if (followState == FollowState.NOT_FOLLOWING) {
-                getString(R.string.action_follow)
-            } else {
-                getString(R.string.action_unfollow)
-            }
-
-            follow.isVisible = followState != FollowState.REQUESTED
 
             val block = menu.findItem(R.id.action_block)
             block.title = if (blocking) {
@@ -712,8 +704,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
             }
 
         } else {
-            // It shouldn't be possible to block, follow, mute or report yourself.
-            menu.removeItem(R.id.action_follow)
+            // It shouldn't be possible to block, mute or report yourself.
             menu.removeItem(R.id.action_block)
             menu.removeItem(R.id.action_mute)
             menu.removeItem(R.id.action_mute_domain)
@@ -805,19 +796,11 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.action_mention -> {
-                mention()
-                return true
-            }
             R.id.action_open_in_web -> {
                 // If the account isn't loaded yet, eat the input.
                 if (loadedAccount != null) {
                     LinkHelper.openLink(loadedAccount?.url, this)
                 }
-                return true
-            }
-            R.id.action_follow -> {
-                viewModel.changeFollowState()
                 return true
             }
             R.id.action_block -> {
