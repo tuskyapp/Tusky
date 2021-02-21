@@ -497,4 +497,6 @@
 \nGamle kladder er fortsatt tilgjengelige via en knapp på den nye kladdskjermen, men de vil bli fjernet i en fremtidig oppdatering!</string>
     <string name="drafts_toot_failed_to_send">Sending av toot feilet!</string>
     <string name="pref_title_animate_custom_emojis">Animer egendefinerte emojis</string>
+    <string name="action_unsubscribe_account">Avslutt abonnementet</string>
+    <string name="action_subscribe_account">Abonner</string>
 </resources>
