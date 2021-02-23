@@ -611,4 +611,7 @@
     <string name="drafts_failed_loading_reply">Failed loading Reply information</string>
     <string name="draft_deleted">Draft deleted</string>
     <string name="drafts_toot_reply_removed">The Toot you drafted a reply to has been removed</string>
+
+    <string name="action_subscribe_account">Subscribe</string>
+    <string name="action_unsubscribe_account">Unsubscribe</string>
 </resources>

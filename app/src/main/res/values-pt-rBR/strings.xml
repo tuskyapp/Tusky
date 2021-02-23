@@ -481,7 +481,6 @@
     <string name="new_drafts_warning">A função de rascunhos no Tusky foi totalmente redesenhada para ser mais rápida, mais fácil e com menos erros.
 \nÉ possível acessar rascunhos antigos através de um botão na tela de novos rascunhos, mas serão removidos numa futura atualização!</string>
     <string name="old_drafts">Rascunhos antigos</string>
-    <string name="dialog_delete_list_warning">Deseja excluir esta lista\?</string>
     <string name="error_upload_max_media_reached">Não é possível anexar mais de %1$d arquivos de mídia.</string>
     <string name="wellbeing_hide_stats_profile">Ocultar status dos perfis</string>
     <string name="wellbeing_hide_stats_posts">Ocultar status dos toots</string>

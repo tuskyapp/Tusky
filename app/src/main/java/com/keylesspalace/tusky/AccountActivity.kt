@@ -568,11 +568,12 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
                 subscribing = relation.subscribing
         }
 
+        // remove the listener so it doesn't fire on non-user changes
+        accountNoteTextInputLayout.editText?.removeTextChangedListener(noteWatcher)
+
         accountNoteTextInputLayout.visible(relation.note != null)
         accountNoteTextInputLayout.editText?.setText(relation.note)
 
-        // add the listener late to avoid it firing on the first change
-        accountNoteTextInputLayout.editText?.removeTextChangedListener(noteWatcher)
         accountNoteTextInputLayout.editText?.addTextChangedListener(noteWatcher)
 
         updateButtons()
@@ -622,8 +623,10 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
 
         if(subscribing) {
             accountSubscribeButton.setIconResource(R.drawable.ic_notifications_active_24dp)
+            accountSubscribeButton.contentDescription = getString(R.string.action_unsubscribe_account)
         } else {
             accountSubscribeButton.setIconResource(R.drawable.ic_notifications_24dp)
+            accountSubscribeButton.contentDescription = getString(R.string.action_subscribe_account)
         }
     }
 
@@ -660,14 +663,6 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
         menuInflater.inflate(R.menu.account_toolbar, menu)
 
         if (!viewModel.isSelf) {
-            val follow = menu.findItem(R.id.action_follow)
-            follow.title = if (followState == FollowState.NOT_FOLLOWING) {
-                getString(R.string.action_follow)
-            } else {
-                getString(R.string.action_unfollow)
-            }
-
-            follow.isVisible = followState != FollowState.REQUESTED
 
             val block = menu.findItem(R.id.action_block)
             block.title = if (blocking) {
@@ -711,8 +706,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
             }
 
         } else {
-            // It shouldn't be possible to block, follow, mute or report yourself.
-            menu.removeItem(R.id.action_follow)
+            // It shouldn't be possible to block, mute or report yourself.
             menu.removeItem(R.id.action_block)
             menu.removeItem(R.id.action_mute)
             menu.removeItem(R.id.action_mute_domain)
@@ -804,19 +798,11 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.action_mention -> {
-                mention()
-                return true
-            }
             R.id.action_open_in_web -> {
                 // If the account isn't loaded yet, eat the input.
                 if (loadedAccount != null) {
                     LinkHelper.openLink(loadedAccount?.url, this)
                 }
-                return true
-            }
-            R.id.action_follow -> {
-                viewModel.changeFollowState()
                 return true
             }
             R.id.action_block -> {

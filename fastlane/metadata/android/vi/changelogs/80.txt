@@ -1,0 +1,9 @@
+Tusky v14.0
+
+- Thông báo khi người bạn theo dõi đăng tút - click vào biểu tượng cái chuông trên trang cá nhân của họ! (Mastodon 3.3.0)
+- Tút Nháp: được thiết kế lại toàn bộ, giúp nhanh hơn, dễ dùng hơn và ít lỗi hơn.
+- Chế độ Cai Nghiện: cho phép bạn giới hạn một số tính năng của Tusky.
+- Hỗ trợ Emoji động: cho phép xem emoji động trong Tusky.
+- Ẩn Có Thời Hạn: có thể chặn người nào đó trong khoảng thời gian cho trước.
+- Sửa các lỗi vặt, đặc biệt là sự tương thích Pleroma.
+- Cải thiện bản dịch
