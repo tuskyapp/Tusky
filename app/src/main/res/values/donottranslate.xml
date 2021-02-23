@@ -60,12 +60,15 @@
         <item>Taqbaylit</item>
         <item>Tiếng Việt</item>
         <item>Türkçe</item>
+        <item>български</item>
         <item>Русский</item>
         <item>العربية</item>
+        <item>کوردیی ناوەندی</item>
         <item>বাংলা (বাংলাদেশ)</item>
         <item>বাংলা (ভারত)</item>
         <item>فارسی</item>
         <item>हिंदी</item>
+        <item>संस्कृतम्</item>
         <item>தமிழ்</item>
         <item>ภาษาไทย</item>
         <item>한국어</item>
@@ -103,12 +106,15 @@
         <item>kab</item>
         <item>vi</item>
         <item>tr</item>
+        <item>bg</item>
         <item>ru</item>
         <item>ar</item>
+        <item>ckb</item>
         <item>bn-bd</item>
         <item>bn-in</item>
         <item>fa</item>
         <item>hi</item>
+        <item>sa</item>
         <item>ta</item>
         <item>th</item>
         <item>ko</item>
