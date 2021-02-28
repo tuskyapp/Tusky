@@ -22,39 +22,35 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import androidx.preference.PreferenceManager
 import com.keylesspalace.tusky.R
+import com.keylesspalace.tusky.databinding.ItemAutocompleteAccountBinding
 import com.keylesspalace.tusky.db.AccountEntity
 import com.keylesspalace.tusky.settings.PrefKeys
 import com.keylesspalace.tusky.util.*
-import kotlinx.android.synthetic.main.item_autocomplete_account.view.*
 
 class AccountSelectionAdapter(context: Context) : ArrayAdapter<AccountEntity>(context, R.layout.item_autocomplete_account) {
-    override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
-        var view = convertView
 
-        if (convertView == null) {
-            val layoutInflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-            view = layoutInflater.inflate(R.layout.item_autocomplete_account, parent, false)
+    override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
+        val binding = if (convertView == null) {
+            ItemAutocompleteAccountBinding.inflate(LayoutInflater.from(context), parent, false)
+        } else {
+            ItemAutocompleteAccountBinding.bind(convertView)
         }
-        view!!
 
         val account = getItem(position)
         if (account != null) {
-            val username = view.username
-            val displayName = view.display_name
-            val avatar = view.avatar
-            val pm = PreferenceManager.getDefaultSharedPreferences(avatar.context)
+            val pm = PreferenceManager.getDefaultSharedPreferences(binding.avatar.context)
             val animateEmojis = pm.getBoolean(PrefKeys.ANIMATE_CUSTOM_EMOJIS, false)
 
-            username.text = account.fullName
-            displayName.text = account.displayName.emojify(account.emojis, displayName, animateEmojis)
+            binding.username.text = account.fullName
+            binding.displayName.text = account.displayName.emojify(account.emojis, binding.displayName, animateEmojis)
 
-            val avatarRadius = avatar.context.resources.getDimensionPixelSize(R.dimen.avatar_radius_42dp)
+            val avatarRadius = context.resources.getDimensionPixelSize(R.dimen.avatar_radius_42dp)
             val animateAvatar = pm.getBoolean("animateGifAvatars", false)
 
-            loadAvatar(account.profilePictureUrl, avatar, avatarRadius, animateAvatar)
+            loadAvatar(account.profilePictureUrl, binding.avatar, avatarRadius, animateAvatar)
 
         }
 
-        return view
+        return binding.root
     }
 }

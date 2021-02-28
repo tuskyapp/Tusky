@@ -39,6 +39,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.keylesspalace.tusky.R;
+import com.keylesspalace.tusky.databinding.ItemFollowRequestBinding;
 import com.keylesspalace.tusky.entity.Account;
 import com.keylesspalace.tusky.entity.Emoji;
 import com.keylesspalace.tusky.entity.Notification;
@@ -125,9 +126,8 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
                 return new FollowViewHolder(view, statusDisplayOptions);
             }
             case VIEW_TYPE_FOLLOW_REQUEST: {
-                View view = inflater
-                        .inflate(R.layout.item_follow_request_notification, parent, false);
-                return new FollowRequestViewHolder(view, true);
+                ItemFollowRequestBinding binding = ItemFollowRequestBinding.inflate(inflater, parent, false);
+                return new FollowRequestViewHolder(binding, true);
             }
             case VIEW_TYPE_PLACEHOLDER: {
                 View view = inflater
@@ -233,7 +233,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
                     if (payloadForHolder == null) {
                         FollowRequestViewHolder holder = (FollowRequestViewHolder) viewHolder;
                         holder.setupWithAccount(concreteNotificaton.getAccount(), statusDisplayOptions.animateAvatars(), statusDisplayOptions.animateEmojis());
-                        holder.setupActionListener(accountActionListener);
+                        holder.setupActionListener(accountActionListener, concreteNotificaton.getAccount().getId());
                     }
                 }
                 default:

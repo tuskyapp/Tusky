@@ -18,13 +18,11 @@ package com.keylesspalace.tusky.components.scheduled
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageButton
-import android.widget.TextView
 import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.RecyclerView
-import com.keylesspalace.tusky.R
+import com.keylesspalace.tusky.databinding.ItemScheduledTootBinding
 import com.keylesspalace.tusky.entity.ScheduledStatus
+import com.keylesspalace.tusky.util.BindingHolder
 
 interface ScheduledTootActionListener {
     fun edit(item: ScheduledStatus)
@@ -33,7 +31,7 @@ interface ScheduledTootActionListener {
 
 class ScheduledTootAdapter(
         val listener: ScheduledTootActionListener
-) : PagedListAdapter<ScheduledStatus, ScheduledTootAdapter.TootViewHolder>(
+) : PagedListAdapter<ScheduledStatus, BindingHolder<ItemScheduledTootBinding>>(
         object: DiffUtil.ItemCallback<ScheduledStatus>(){
             override fun areItemsTheSame(oldItem: ScheduledStatus, newItem: ScheduledStatus): Boolean {
                 return oldItem.id == newItem.id
@@ -46,40 +44,24 @@ class ScheduledTootAdapter(
         }
 ) {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TootViewHolder {
-        val view = LayoutInflater.from(parent.context)
-                .inflate(R.layout.item_scheduled_toot, parent, false)
-        return TootViewHolder(view)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BindingHolder<ItemScheduledTootBinding> {
+        val binding = ItemScheduledTootBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return BindingHolder(binding)
     }
 
-    override fun onBindViewHolder(viewHolder: TootViewHolder, position: Int) {
-        getItem(position)?.let{
-            viewHolder.bind(it)
-        }
-    }
-
-
-    inner class TootViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-
-        private val text: TextView = view.findViewById(R.id.text)
-        private val edit: ImageButton = view.findViewById(R.id.edit)
-        private val delete: ImageButton = view.findViewById(R.id.delete)
-
-        fun bind(item: ScheduledStatus) {
-            edit.isEnabled = true
-            delete.isEnabled = true
-            text.text = item.params.text
-            edit.setOnClickListener { v: View ->
+    override fun onBindViewHolder(holder: BindingHolder<ItemScheduledTootBinding>, position: Int) {
+        getItem(position)?.let{ item ->
+            holder.binding.edit.isEnabled = true
+            holder.binding.delete.isEnabled = true
+            holder.binding.text.text = item.params.text
+            holder.binding.edit.setOnClickListener { v: View ->
                 v.isEnabled = false
                 listener.edit(item)
             }
-            delete.setOnClickListener { v: View ->
+            holder.binding.delete.setOnClickListener { v: View ->
                 v.isEnabled = false
                 listener.delete(item)
             }
-
         }
-
     }
-
 }

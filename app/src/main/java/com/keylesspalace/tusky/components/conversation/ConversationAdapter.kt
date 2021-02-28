@@ -1,3 +1,18 @@
+/* Copyright 2021 Tusky Contributors
+ *
+ * This file is a part of Tusky.
+ *
+ * This program is free software; you can redistribute it and/or modify it under the terms of the
+ * GNU General Public License as published by the Free Software Foundation; either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * Tusky is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even
+ * the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
+ * Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with Tusky; if not,
+ * see <http://www.gnu.org/licenses>. */
+
 package com.keylesspalace.tusky.components.conversation
 
 import android.view.LayoutInflater
@@ -10,6 +25,7 @@ import androidx.recyclerview.widget.ListUpdateCallback
 import androidx.recyclerview.widget.RecyclerView
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.adapter.NetworkStateViewHolder
+import com.keylesspalace.tusky.databinding.ItemNetworkStateBinding
 import com.keylesspalace.tusky.interfaces.StatusActionListener
 import com.keylesspalace.tusky.util.NetworkState
 import com.keylesspalace.tusky.util.StatusDisplayOptions
@@ -49,11 +65,15 @@ class ConversationAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(viewType, parent, false)
         return when (viewType) {
-            R.layout.item_network_state -> NetworkStateViewHolder(view, retryCallback)
-            R.layout.item_conversation -> ConversationViewHolder(view, statusDisplayOptions,
-                    listener)
+            R.layout.item_network_state -> {
+                val binding = ItemNetworkStateBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+                NetworkStateViewHolder(binding, retryCallback)
+            }
+            R.layout.item_conversation -> {
+                val view = LayoutInflater.from(parent.context).inflate(viewType, parent, false)
+                ConversationViewHolder(view, statusDisplayOptions, listener)
+            }
             else -> throw IllegalArgumentException("unknown view type $viewType")
         }
     }

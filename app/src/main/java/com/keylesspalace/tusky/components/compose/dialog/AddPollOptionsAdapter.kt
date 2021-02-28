@@ -13,17 +13,16 @@
  * You should have received a copy of the GNU General Public License along with Tusky; if not,
  * see <http://www.gnu.org/licenses>. */
 
-package com.keylesspalace.tusky.adapter
+package com.keylesspalace.tusky.components.compose.dialog
 
 import android.text.InputFilter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageButton
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.textfield.TextInputEditText
-import com.google.android.material.textfield.TextInputLayout
 import com.keylesspalace.tusky.R
+import com.keylesspalace.tusky.databinding.ItemAddPollOptionBinding
+import com.keylesspalace.tusky.util.BindingHolder
 import com.keylesspalace.tusky.util.onTextChanged
 import com.keylesspalace.tusky.util.visible
 
@@ -32,7 +31,7 @@ class AddPollOptionsAdapter(
         private val maxOptionLength: Int,
         private val onOptionRemoved: (Boolean) -> Unit,
         private val onOptionChanged: (Boolean) -> Unit
-): RecyclerView.Adapter<ViewHolder>() {
+): RecyclerView.Adapter<BindingHolder<ItemAddPollOptionBinding>>() {
 
     val pollOptions: List<String>
         get() = options.toList()
@@ -42,11 +41,12 @@ class AddPollOptionsAdapter(
         notifyItemInserted(options.size - 1)
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val holder = ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_add_poll_option, parent, false))
-        holder.editText.filters = arrayOf(InputFilter.LengthFilter(maxOptionLength))
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BindingHolder<ItemAddPollOptionBinding> {
+        val binding = ItemAddPollOptionBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val holder = BindingHolder(binding)
+        binding.optionEditText.filters = arrayOf(InputFilter.LengthFilter(maxOptionLength))
 
-        holder.editText.onTextChanged { s, _, _, _ ->
+        binding.optionEditText.onTextChanged { s, _, _, _ ->
             val pos = holder.adapterPosition
             if(pos != RecyclerView.NO_POSITION) {
                 options[pos] = s.toString()
@@ -59,15 +59,15 @@ class AddPollOptionsAdapter(
 
     override fun getItemCount() = options.size
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.editText.setText(options[position])
+    override fun onBindViewHolder(holder: BindingHolder<ItemAddPollOptionBinding>, position: Int) {
+        holder.binding.optionEditText.setText(options[position])
 
-        holder.textInputLayout.hint = holder.textInputLayout.context.getString(R.string.poll_new_choice_hint, position + 1)
+        holder.binding.optionTextInputLayout.hint = holder.binding.root.context.getString(R.string.poll_new_choice_hint, position + 1)
 
-        holder.deleteButton.visible(position > 1, View.INVISIBLE)
+        holder.binding.deleteButton.visible(position > 1, View.INVISIBLE)
 
-        holder.deleteButton.setOnClickListener {
-            holder.editText.clearFocus()
+        holder.binding.deleteButton.setOnClickListener {
+            holder.binding.optionEditText.clearFocus()
             options.removeAt(holder.adapterPosition)
             notifyItemRemoved(holder.adapterPosition)
             onOptionRemoved(validateInput())
@@ -81,12 +81,4 @@ class AddPollOptionsAdapter(
 
         return true
     }
-
-}
-
-
-class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
-    val textInputLayout: TextInputLayout = itemView.findViewById(R.id.optionTextInputLayout)
-    val editText: TextInputEditText = itemView.findViewById(R.id.optionEditText)
-    val deleteButton: ImageButton = itemView.findViewById(R.id.deleteButton)
 }
