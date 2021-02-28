@@ -316,7 +316,7 @@
     <string name="description_visiblity_public">Öffentlich    </string>
     <string name="description_visiblity_private">Folgende</string>
     <string name="description_visiblity_direct">Direkt    </string>
-    <string name="hint_list_name">Name auflisten</string>
+    <string name="hint_list_name">Listenname</string>
     <string name="download_media">Medien herunterladen</string>
     <string name="downloading_media">Medien werden heruntergeladen</string>
     <string name="filter_add_description">zu filternde Phrase</string>
