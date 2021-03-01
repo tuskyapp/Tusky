@@ -1,0 +1,7 @@
+Tusky v7.0
+
+- Support for displaying polls, voting and poll notifications
+- New buttons to filter the notification tab and to delete all notifications
+- delete & redraft your own toots
+- new indicator that shows if an account is a bot on the profile image (can be turned off in the preferences)
+- New translations: Norwegian Bokmål and Slovenian.

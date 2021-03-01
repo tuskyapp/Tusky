@@ -1,0 +1,9 @@
+Tusky v11.
+
+- Notifications about new follow requests when your account is locked
+- New features that can be toggled on the Preferences screen:
+   - disable swiping between tabs
+   - show a confirmation dialog before boosting a toot
+   - show link previews in timelines
+- Conversations can now be muted
+- https://github.com/tuskyapp/Tusky/releases
