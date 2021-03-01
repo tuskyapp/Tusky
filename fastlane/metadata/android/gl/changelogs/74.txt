@@ -1,0 +1,8 @@
+Tusky v12.0
+
+- Melloras na interface - podes mover lapela á zona inferior
+- Ao acalar unha usuaria, agora tamén podes decidir se acalas as súas notificacións
+- Podes seguir cantos cancelos queiras nunha única lapela de cancelos
+- Melloras no xeito en que se mostran as descricións do multimedia, útil para descricións moi longas
+...
+Rexistro completo dos cambios en https://github.com/tuskyapp/Tusky/releases
