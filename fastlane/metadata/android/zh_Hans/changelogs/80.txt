@@ -1,0 +1,7 @@
+Tusky v14.0
+
+- 点击账号详情页的铃铛即可在该用户发送了新嘟文时得到通知！（Mastodon 3.3.0 新功能）
+- Tusky 的草稿功能已被重新设计，它现在更快、更友好，Bug也更少了。
+- 添加了健康模式，可限制特定的一些Tusky功能。
+- Tusky 现在可显示动态自定义Emoji。
+完整更新日志：https://github.com/tuskyapp/Tusky/releases
