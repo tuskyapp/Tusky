@@ -439,7 +439,7 @@
         <item quantity="other">%d dagar eftir</item>
     </plurals>
     <string name="account_note_saved">Vistað!</string>
-    <string name="account_note_hint">Þí eigin einkaathugasemd um þennan aðgang</string>
+    <string name="account_note_hint">Þín eigin einkaathugasemd um þennan aðgang</string>
     <string name="pref_title_hide_top_toolbar">Fela titil á verkfærastikunni efst</string>
     <string name="pref_title_confirm_reblogs">Birta staðfestingarglugga áður en endurbirting fer fram</string>
     <string name="pref_title_show_cards_in_timelines">Birta forskoðun tengla á tímalínum</string>
@@ -459,12 +459,44 @@
     <string name="dialog_mute_hide_notifications">Fela tilkynningar</string>
     <string name="dialog_mute_warning">Þagga niður í @%s\?</string>
     <string name="dialog_block_warning">Loka á @%s\?</string>
-    <string name="action_unmute_conversation">Hætta að þagga niður í samtölum</string>
-    <string name="action_mute_conversation">Þagga niður í samtölum</string>
+    <string name="action_unmute_conversation">Hætta að þagga niður í samtali</string>
+    <string name="action_mute_conversation">Þagga niður í samtali</string>
     <string name="action_unmute_domain">Afþagga %s</string>
     <string name="action_mute_notifications_desc">Þagga tilkynningar frá %s</string>
     <string name="action_unmute_notifications_desc">Afþagga tilkynningar frá %s</string>
     <string name="action_unmute_desc">Afþagga %s</string>
     <string name="notification_follow_request_format">%s bað um að fylgjast með þér</string>
     <string name="title_announcements">Tilkynningar</string>
+    <string name="new_drafts_warning">Gerð draga í Tusky hefur verið endurhönnuð til að verða fljótlegri, notendavænni og gallalaus.
+\n Þú getur áfram nýtt eldri drög í gegnum sérstakan hnapp í glugganum fyrir drög, en sá eiginleiki verður fjarlægður í framtíðaruppfærslu!</string>
+    <string name="wellbeing_mode_notice">Sumar upplýsingar sem gætu haft áhrif á andlega vellíðan þína verða faldar. Þetta hefur áhrif á:
+\n
+\n - Eftirlæti/Endurbirtingar/Tilkynningar um fylgjendabeiðnir
+\n - Eftirlæti/Talningu á endurbirtingum tísta
+\n - Fylgjendur/Tölfræði færslna í notendasniðum
+\n
+\n Þetta hefur ekki áhrif á ýti-tilkynningar, en þú getur yfirfarið handvirkt kjörstillingar þínar varðandi tilkynningar.</string>
+    <string name="action_unsubscribe_account">Segja upp áskrift</string>
+    <string name="action_subscribe_account">Gerast áskrifandi</string>
+    <string name="pref_title_animate_custom_emojis">Hreyfa sérsniðin tjáningartákn</string>
+    <string name="drafts_toot_reply_removed">Tístið sem þú gerðir drög að svari við hefur veriið fjarlægt</string>
+    <string name="draft_deleted">Eyddi drögum</string>
+    <string name="drafts_failed_loading_reply">Mistókst að hlaða inn svarupplýsingum</string>
+    <string name="old_drafts">Eldri drög</string>
+    <string name="drafts_toot_failed_to_send">Mistókst að senda þetta tíst!</string>
+    <string name="status_media_attachments">Viðhengi</string>
+    <string name="status_media_audio">Hljóð</string>
+    <string name="dialog_delete_list_warning">Ertu viss um að þú viljir eyða %s listanum\?</string>
+    <string name="duration_indefinite">Ótiltekið</string>
+    <string name="label_duration">Tímalengd</string>
+    <string name="error_upload_max_media_reached">Þú getur ekki sent inn fleiri en %1$d myndefnisviðhengi.</string>
+    <string name="wellbeing_hide_stats_profile">Fela magntölfræði notendasniða</string>
+    <string name="wellbeing_hide_stats_posts">Fela magntölfræði færslna</string>
+    <string name="limit_notifications">Takmarka tilkynningar á tímalínu</string>
+    <string name="review_notifications">Yfirfara tilkynningar</string>
+    <string name="pref_title_wellbeing_mode">Vellíðan</string>
+    <string name="notification_subscription_description">Tilkynningar þegar einhver sem þú ert áskrifandi að hefur birt nýtt tíst</string>
+    <string name="notification_subscription_name">Ný tíst</string>
+    <string name="pref_title_notification_filter_subscriptions">einhver sem ég er áskrifandi að birti nýtt tíst</string>
+    <string name="notification_subscription_format">%s sendi inn rétt í þessu</string>
 </resources>
