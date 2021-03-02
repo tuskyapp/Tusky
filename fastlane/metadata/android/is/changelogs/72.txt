@@ -1,0 +1,11 @@
+Tusky útg. 11.0
+
+- Tilkynningar um nýjar fylgjendabeiðnir þegar aðgangur þinn er í lás
+- Nýir eiginleikar sem hægt er að víxla af/á í kjörstillingum:
+   - strokur milli flipa óvirkar
+   - staðfesting áður en tíst er endurbirt
+   - birta forskoðun tengla á tímalínum
+- Hægt er að þagga niður í samtölum
+- Niðurstöður kannana reiknast núna út frá fjölda kjósenda en ekki atkvæðum 
+- Margar villur lagaðar, flestar varðandi samningu tísta
+- Bættar þýðingar

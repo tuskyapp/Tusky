@@ -1,0 +1,7 @@
+Tusky útg. 14.0
+
+- Fáðu tilkynningu þegar notandi sem þú fylgir birtir færslu - smelltu á bjöllutáknið í sniðinu hans! (Mastodon 3.3.0 eiginleiki)
+- Gerð draga í Tusky hefur verið endurhönnuð til að verða fljótlegri, notendavænni og gallalaus.
+- Bætt hefur verið við sérstökum vellíðunarham til að takmarka ákveðna eiginleika Tusky.
+- Tusky getur núna hreyft sérsniðin tjáningartákn.
+Full breytingaskrá: https://github.com/tuskyapp/Tusky/releases
