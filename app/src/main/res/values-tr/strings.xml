@@ -201,7 +201,9 @@
     <string name="notification_summary_large">%1$s, %2$s, %3$s ve %4$d diğer</string>
     <string name="notification_summary_medium">%1$s, %2$s ve %3$s</string>
     <string name="notification_summary_small">%1$s ve %2$s</string>
-    <string name="notification_title_summary">%d yeni etkileşim</string>
+    <plurals name="notification_title_summary">
+        <item quantity="other">%d yeni etkileşim</item>
+    </plurals>
     <string name="description_account_locked">Kitli Hesap</string>
     <string name="about_title_activity">Hakkında</string>
     <string name="about_tusky_version">Tusky %s</string>
@@ -299,7 +301,9 @@
     <string name="conversation_1_recipients">%1$s</string>
     <string name="conversation_2_recipients">%1$s ve %2$s</string>
     <string name="conversation_more_recipients">%1$s, %2$s ve %3$d daha fazlası</string>
-    <string name="max_tab_number_reached">%1$d maksimum sekme sayısına ulaşıldı</string>
+    <plurals name="max_tab_number_reached">
+        <item quantity="other">%1$d maksimum sekme sayısına ulaşıldı</item>
+    </plurals>
     <string name="title_domain_mutes">Gizli alanadları</string>
     <string name="action_unreblog">Boostu kaldır</string>
     <string name="action_unfavourite">Favoriyi kaldır</string>

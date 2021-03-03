@@ -230,7 +230,9 @@
     <string name="notification_summary_large">%1$s, %2$s, %3$s, 그 외 %4$d개</string>
     <string name="notification_summary_medium">%1$s님, %2$s님, %3$s님</string>
     <string name="notification_summary_small">%1$s와 %2$s</string>
-    <string name="notification_title_summary">%d개의 새로운 알림이 있습니다</string>
+    <plurals name="notification_title_summary">
+        <item quantity="other">%d개의 새로운 알림이 있습니다</item>
+    </plurals>
     <string name="description_account_locked">계정 잠김</string>
     <string name="about_title_activity">이 앱에 관하여</string>
     <string name="about_tusky_version">Tusky %s</string>
@@ -350,7 +352,9 @@
     <string name="conversation_1_recipients">%1$s</string>
     <string name="conversation_2_recipients">%1$s와 %2$s</string>
     <string name="conversation_more_recipients">%1$s, %2$s 외 %3$d명</string>
-    <string name="max_tab_number_reached">최대 탭 수 %1$d에 도달했습니다</string>
+    <plurals name="max_tab_number_reached">
+        <item quantity="other">최대 탭 수 %1$d에 도달했습니다</item>
+    </plurals>
     <string name="description_status_media">미디어: %s</string>
     <string name="description_status_cw">열람주의: %s</string>
     <string name="description_status_media_no_description_placeholder">설명 없음</string>

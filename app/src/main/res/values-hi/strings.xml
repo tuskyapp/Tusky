@@ -280,7 +280,9 @@
     <string name="description_visiblity_unlisted">असूचीबद्ध</string>
     <string name="description_visiblity_public">सार्वजनिक</string>
     <string name="description_status_cw">विषय वस्तु चेतावनी: %s</string>
-    <string name="max_tab_number_reached">अधिकतम %1$d टैब तक पहुंच गऐ</string>
+    <plurals name="max_tab_number_reached">
+        <item quantity="other">अधिकतम %1$d टैब तक पहुंच गऐ</item>
+    </plurals>
     <string name="conversation_more_recipients">%1$s, %2$s तथा %3$d अन्य लोग</string>
     <string name="conversation_2_recipients">%1$s तथा %2$s</string>
     <string name="conversation_1_recipients">%1$s</string>

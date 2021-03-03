@@ -12,7 +12,9 @@
     <string name="description_status_media_no_description_placeholder">বর্ণনা নাই</string>
     <string name="description_status_cw">সতর্কবার্তা: %s</string>
     <string name="description_status_media">মিডিয়া: %s</string>
-    <string name="max_tab_number_reached">সর্বাধিক %1$d টি ট্যাব পৌঁছেছে</string>
+    <plurals name="max_tab_number_reached">
+        <item quantity="other">সর্বাধিক %1$d টি ট্যাব পৌঁছেছে</item>
+    </plurals>
     <string name="title_favourited_by">দ্বারা পছন্দ</string>
     <string name="title_reblogged_by">দ্বারা সর্মথন</string>
     <string name="pin_action">পিন</string>

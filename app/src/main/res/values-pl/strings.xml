@@ -182,7 +182,9 @@
     <string name="notification_summary_large">%1$s, %2$s, %3$s i %4$d innych</string>
     <string name="notification_summary_medium">%1$s, %2$s, i %3$s</string>
     <string name="notification_summary_small">%1$s i %2$s</string>
-    <string name="notification_title_summary">%d nowych powiadomień</string>
+    <plurals name="notification_title_summary">
+        <item quantity="other">%d nowych powiadomień</item>
+    </plurals>
     <string name="description_account_locked">Konto zablokowane</string>
     <string name="about_title_activity">O programie</string>
     <string name="about_tusky_license">Tusky jest wolnym i otwartoźródłowym oprogramowaniem. Jest on dostępny na licencji GNU General Public License w wersji trzeciej. Możesz przeczytać przetłumaczoną treść licencji <a href="https://web.archive.org/web/20171024013739/http://itlaw.computerworld.pl/wp-content/uploads/2008/03/powszechna-licencja-publiczna-gnu_v2.pdf">tutaj</a></string>
@@ -360,7 +362,9 @@
     <string name="conversation_1_recipients">%1$s</string>
     <string name="conversation_2_recipients">%1$s i %2$s</string>
     <string name="conversation_more_recipients">%1$s, %2$s i %3$d innych</string>
-    <string name="max_tab_number_reached">maksymalna liczba zakładek (%1$d) osiągnięta</string>
+    <plurals name="max_tab_number_reached">
+        <item quantity="other">maksymalna liczba zakładek (%1$d) osiągnięta</item>
+    </plurals>
     <string name="description_status_media">Media: %s</string>
     <string name="description_status_cw">Ostrzeżenie o zawartości: %s</string>
     <string name="description_status_media_no_description_placeholder">Brak opisu</string>

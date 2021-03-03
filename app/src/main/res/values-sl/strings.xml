@@ -204,7 +204,9 @@
     <string name="notification_summary_large">%1$s, %2$s, %3$s in %4$d ostali</string>
     <string name="notification_summary_medium">%1$s, %2$s in %3$s</string>
     <string name="notification_summary_small">%1$s in %2$s</string>
-    <string name="notification_title_summary">%d novih interakcij</string>
+    <plurals name="notification_title_summary">
+        <item quantity="other">%d novih interakcij</item>
+    </plurals>
     <string name="description_account_locked">Zaklenjen račun</string>
     <string name="about_title_activity">O aplikaciji</string>
     <string name="about_tusky_version">Tusky %s</string>
@@ -314,7 +316,9 @@
     <string name="conversation_1_recipients">%1$s</string>
     <string name="conversation_2_recipients">%1$s in %2$s</string>
     <string name="conversation_more_recipients">%1$s, %2$s in %3$d več</string>
-    <string name="max_tab_number_reached">doseženih maksimalnih %1$d zavihkov</string>
+    <plurals name="max_tab_number_reached">
+        <item quantity="other">doseženih maksimalnih %1$d zavihkov</item>
+    </plurals>
     <string name="description_status_media">Mediji: %s</string>
     <string name="description_status_cw">Opozorila o vsebini: %s</string>
     <string name="description_status_media_no_description_placeholder">Brez opisa</string>

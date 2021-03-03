@@ -185,7 +185,9 @@
     <string name="notification_summary_large">%1$s, %2$s, %3$s e %4$d mai</string>
     <string name="notification_summary_medium">%1$s, %2$s e %3$s</string>
     <string name="notification_summary_small">%1$s e %2$s</string>
-    <string name="notification_title_summary">%d interaccions nòvas</string>
+    <plurals name="notification_title_summary">
+        <item quantity="other">%d interaccions nòvas</item>
+    </plurals>
     <string name="description_account_locked">Compte blocat</string>
     <string name="about_title_activity">A prepaus</string>
     <string name="about_tusky_license">Tusky es programa gratuït, liure e de còdi dobèrt.
@@ -340,7 +342,9 @@
     <string name="conversation_1_recipients">%1$s</string>
     <string name="conversation_2_recipients">%1$s e %2$s</string>
     <string name="conversation_more_recipients">%1$s, %2$s e %3$d mai</string>
-    <string name="max_tab_number_reached">nombre maximum d’onglets %1$d atengut</string>
+    <plurals name="max_tab_number_reached">
+        <item quantity="other">nombre maximum d’onglets %1$d atengut</item>
+    </plurals>
     <string name="description_status_media">Mèdia : %s</string>
     <string name="description_status_cw">Avertiment : %s</string>
     <string name="description_status_media_no_description_placeholder">Cap de descripcion</string>

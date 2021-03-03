@@ -223,7 +223,9 @@
     <string name="notification_summary_large">%1$s，%2$s，%3$s 和 %4$d 等人</string>
     <string name="notification_summary_medium">%1$s，%2$s 和 %3$s</string>
     <string name="notification_summary_small">%1$s 和 %2$s</string>
-    <string name="notification_title_summary">%d 个新互动</string>
+    <plurals name="notification_title_summary">
+        <item quantity="other">%d 个新互动</item>
+    </plurals>
     <string name="description_account_locked">锁嘟用户</string>
     <string name="about_title_activity">关于 Tusky</string>
     <string name="about_tusky_version">Tusky %s</string>
@@ -345,7 +347,9 @@
     <string name="conversation_1_recipients">%1$s</string>
     <string name="conversation_2_recipients">%1$s 和 %2$s</string>
     <string name="conversation_more_recipients">%1$s，%2$s 和 %3$d 等人</string>
-    <string name="max_tab_number_reached">标签页不能超过 %1$d 个</string>
+    <plurals name="max_tab_number_reached">
+        <item quantity="other">标签页不能超过 %1$d 个</item>
+    </plurals>
     <string name="description_status_media">媒体：%s</string>
     <string name="description_status_cw">内容提醒：%s</string>
     <string name="description_status_media_no_description_placeholder">
@@ -491,7 +495,9 @@
 \n 旧草稿依然可以通过新草稿页面的按钮查看，但他们将在未来版本中移除！</string>
     <string name="drafts_toot_failed_to_send">嘟文发送失败！</string>
     <string name="dialog_delete_list_warning">确认删除列表 %s？</string>
-    <string name="error_upload_max_media_reached">最多只可上传 %1$d 个媒体附件</string>
+    <plurals name="error_upload_max_media_reached">
+        <item quantity="other">最多只可上传 %1$d 个媒体附件</item>
+    </plurals>
     <string name="wellbeing_hide_stats_profile">隐藏账号的统计信息</string>
     <string name="review_notifications">反馈通知</string>
     <string name="wellbeing_hide_stats_posts">隐藏嘟文的统计信息</string>
@@ -507,8 +513,7 @@
     <string name="duration_indefinite">永久</string>
     <string name="label_duration">持续时间</string>
     <plurals name="poll_info_people">
-        <item quantity="one">%s 人</item>
-        <item quantity="other"></item>
+        <item quantity="other">%s 人</item>
     </plurals>
     <string name="status_media_attachments">附件</string>
     <string name="status_media_audio">音频</string>

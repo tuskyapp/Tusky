@@ -215,7 +215,9 @@
     <string name="notification_summary_large">%1$s, %2$s, %3$s en %4$d anderen</string>
     <string name="notification_summary_medium">%1$s, %2$s en %3$s</string>
     <string name="notification_summary_small">%1$s en %2$s</string>
-    <string name="notification_title_summary">%d nieuwe interacties</string>
+    <plurals name="notification_title_summary">
+        <item quantity="other">%d nieuwe interacties</item>
+    </plurals>
     <string name="description_account_locked">Besloten account</string>
     <string name="about_title_activity">Over</string>
     <string name="about_tusky_version">Tusky %s</string>
@@ -316,7 +318,9 @@
     <string name="conversation_1_recipients">%1$s</string>
     <string name="conversation_2_recipients">%1$s en %2$s</string>
     <string name="conversation_more_recipients">%1$s, %2$s en %3$d meer</string>
-    <string name="max_tab_number_reached">maximum van %1$d tabs bereikt</string>
+    <plurals name="max_tab_number_reached">
+        <item quantity="other">maximum van %1$d tabs bereikt</item>
+    </plurals>
     <string name="description_status_media">        Media: %s
     </string>
     <string name="description_status_cw">        Inhoudswaarschuwing: %s

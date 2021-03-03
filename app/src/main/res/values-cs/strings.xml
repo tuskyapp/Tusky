@@ -220,7 +220,9 @@
     <string name="notification_summary_large">%1$s, %2$s, %3$s a dalších %4$d</string>
     <string name="notification_summary_medium">%1$s, %2$s a %3$s</string>
     <string name="notification_summary_small">%1$s a %2$s</string>
-    <string name="notification_title_summary">%d nových interakcí</string>
+    <plurals name="notification_title_summary">
+        <item quantity="other">%d nových interakcí</item>
+    </plurals>
     <string name="description_account_locked">Uzamčený účet</string>
     <string name="about_title_activity">O této aplikaci</string>
     <string name="about_tusky_version">Tusky %s</string>
@@ -344,7 +346,9 @@
     <string name="conversation_1_recipients">%1$s</string>
     <string name="conversation_2_recipients">%1$s a %2$s</string>
     <string name="conversation_more_recipients">%1$s, %2$s a %3$d další</string>
-    <string name="max_tab_number_reached">bylo dosaženo maxima %1$d panelů</string>
+    <plurals name="max_tab_number_reached">
+        <item quantity="other">bylo dosaženo maxima %1$d panelů</item>
+    </plurals>
     <string name="description_status_media">        Média %s
     </string>
     <string name="description_status_cw">        Varování o obsahu: %s

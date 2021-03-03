@@ -223,7 +223,9 @@
     <string name="notification_summary_large">%1$s, %2$s, %3$s 和 %4$d 人</string>
     <string name="notification_summary_medium">%1$s, %2$s, 和 %3$s</string>
     <string name="notification_summary_small">%1$s 和 %2$s</string>
-    <string name="notification_title_summary">%d 個新互動</string>
+    <plurals name="notification_title_summary">
+        <item quantity="other">%d 個新互動</item>
+    </plurals>
     <string name="description_account_locked">鎖嘟用戶</string>
     <string name="about_title_activity">關於 Tusky</string>
     <string name="about_tusky_license">Tusky 是基於 GNU General Public License Version 3 許可證開源的自由軟體完整的許可證協議：https://www.gnu.org/licenses/gpl-3.0.en.html</string>
@@ -343,7 +345,9 @@
     <string name="conversation_1_recipients">%1$s</string>
     <string name="conversation_2_recipients">%1$s 和 %2$s</string>
     <string name="conversation_more_recipients">%1$s, %2$s 和 %3$d 等人</string>
-    <string name="max_tab_number_reached">標籤頁不能超過 %1$d 個</string>
+    <plurals name="max_tab_number_reached">
+        <item quantity="other">標籤頁不能超過 %1$d 個</item>
+    </plurals>
     <string name="description_status_media">
         媒體: %s
     </string>
@@ -449,8 +453,7 @@
 \n推播通知不會受到影響，但你可以手動檢查你的通知設定。</string>
     <string name="pref_title_wellbeing_mode">數位健康</string>
     <plurals name="poll_info_people">
-        <item quantity="one">%s 人</item>
-        <item quantity="other"></item>
+        <item quantity="other">%s 人</item>
     </plurals>
     <string name="notification_subscription_format">%s 剛剛發了新嘟文</string>
     <string name="notification_follow_request_format">%s 請求關注你</string>
@@ -472,7 +475,9 @@
     <string name="duration_5_min">5 分鐘</string>
     <string name="duration_indefinite">無限期</string>
     <string name="label_duration">期間</string>
-    <string name="error_upload_max_media_reached">你無法上傳超過 %1$d 媒體附件。</string>
+    <plurals name="error_upload_max_media_reached">
+        <item quantity="other">你無法上傳超過 %1$d 媒體附件。</item>
+    </plurals>
     <string name="notification_subscription_description">當你關注的人發布新嘟文時通知</string>
     <string name="notification_subscription_name">新嘟文</string>
     <string name="pref_title_notification_filter_subscriptions">我關注的人有新嘟文</string>

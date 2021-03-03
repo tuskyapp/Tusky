@@ -216,7 +216,9 @@
     <string name="notification_summary_large">%1$s, %2$s, %3$s e %4$d altri</string>
     <string name="notification_summary_medium">%1$s, %2$s e %3$s</string>
     <string name="notification_summary_small">%1$s e %2$s</string>
-    <string name="notification_title_summary">%d nuove interazioni</string>
+    <plurals name="notification_title_summary">
+        <item quantity="other">%d nuove interazioni</item>
+    </plurals>
     <string name="description_account_locked">Account bloccato</string>
     <string name="about_title_activity">A proposito</string>
     <string name="about_tusky_version">Tusky %s</string>
@@ -336,7 +338,9 @@
     <string name="conversation_1_recipients">%1$s</string>
     <string name="conversation_2_recipients">%1$s e %2$s</string>
     <string name="conversation_more_recipients">%1$s, %2$s ed altri %3$d</string>
-    <string name="max_tab_number_reached">limite massimo di %1$d tab raggiunto</string>
+    <plurals name="max_tab_number_reached">
+        <item quantity="other">limite massimo di %1$d tab raggiunto</item>
+    </plurals>
     <string name="description_status_media">        Media: %s
     </string>
     <string name="description_status_cw">        Contenuto sensibile: %s
@@ -492,5 +496,7 @@
     <string name="notification_subscription_name">Nuovi toots</string>
     <string name="pref_title_notification_filter_subscriptions">qualcuno a cui sono iscritto ha pubblicato un nuovo toot</string>
     <string name="notification_subscription_format">%s appena pubblicato</string>
-    <string name="error_upload_max_media_reached">Non puoi caricare più di %1$d allegati multimediali.</string>
+    <plurals name="error_upload_max_media_reached">
+        <item quantity="other">Non puoi caricare più di %1$d allegati multimediali.</item>
+    </plurals>
 </resources>

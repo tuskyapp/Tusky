@@ -225,7 +225,9 @@
     <string name="notification_summary_large">%1$s,%2$s,%3$s এবং %4$d আরো অন্য জন</string>
     <string name="notification_summary_medium">%1$s, %2$s, আর %3$s</string>
     <string name="notification_summary_small">%1$s আর %2$s</string>
-    <string name="notification_title_summary">%d নতুন মিথস্ক্রিয়া</string>
+    <plurals name="notification_title_summary">
+        <item quantity="other">%d নতুন মিথস্ক্রিয়া</item>
+    </plurals>
     <string name="description_account_locked">লক অ্যাকাউন্ট</string>
     <string name="about_title_activity">সম্পর্কিত</string>
     <string name="about_tusky_version">টাস্কি %s</string>
@@ -345,7 +347,9 @@
     <string name="conversation_1_recipients">%1$s</string>
     <string name="conversation_2_recipients">%1$s এবং %2$s</string>
     <string name="conversation_more_recipients">%1$s, %2$s এবং %3$d আরো অন্য জন</string>
-    <string name="max_tab_number_reached">সর্বাধিক %1$d টি ট্যাব পৌঁছেছে</string>
+    <plurals name="max_tab_number_reached">
+        <item quantity="other">সর্বাধিক %1$d টি ট্যাব পৌঁছেছে</item>
+    </plurals>
     <string name="description_status_media">মিডিয়া: %s</string>
     <string name="description_status_cw">সতর্কবার্তা: %s</string>
     <string name="description_status_media_no_description_placeholder">বর্ণনা নাই</string>

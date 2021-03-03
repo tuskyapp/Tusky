@@ -217,7 +217,9 @@
     <string name="notification_summary_large">%1$s, %2$s, %3$s och %4$d andra</string>
     <string name="notification_summary_medium">%1$s, %2$s, och %3$s</string>
     <string name="notification_summary_small">%1$s och %2$s</string>
-    <string name="notification_title_summary">%d nya interaktioner</string>
+    <plurals name="notification_title_summary">
+        <item quantity="other">%d nya interaktioner</item>
+    </plurals>
     <string name="description_account_locked">Låst konto</string>
     <string name="about_title_activity">Om</string>
     <string name="about_tusky_version">Tusky %s</string>
@@ -337,7 +339,9 @@
     <string name="conversation_1_recipients">%1$s</string>
     <string name="conversation_2_recipients">%1$s och %2$s</string>
     <string name="conversation_more_recipients">%1$s, %2$s och %3$d mer</string>
-    <string name="max_tab_number_reached">max antal flikar %1$d uppnådd</string>
+    <plurals name="max_tab_number_reached">
+        <item quantity="other">max antal flikar %1$d uppnådd</item>
+    </plurals>
     <string name="description_status_media">        Media: %s
     </string>
     <string name="description_status_cw">Innehållsvarning: %s</string>

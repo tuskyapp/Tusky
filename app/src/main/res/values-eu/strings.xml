@@ -192,7 +192,9 @@
     <string name="notification_summary_large">%1$s, %2$s, %3$s eta beste %4$d</string>
     <string name="notification_summary_medium">%1$s, %2$s eta %3$s</string>
     <string name="notification_summary_small">%1$s eta %2$s</string>
-    <string name="notification_title_summary">%d interakzio berri</string>
+    <plurals name="notification_title_summary">
+        <item quantity="other">%d interakzio berri</item>
+    </plurals>
     <string name="description_account_locked">Kontu babestua</string>
     <string name="about_title_activity">Honi buruz</string>
     <string name="about_tusky_license">Tusky software libre eta kode askekoa da.
@@ -361,7 +363,9 @@
     <string name="conversation_1_recipients">%1$s</string>
     <string name="conversation_2_recipients">%1$s eta %2$s</string>
     <string name="conversation_more_recipients">%1$s, %2$s eta %3$d gehiago</string>
-    <string name="max_tab_number_reached">gehienezko %1$d fitxa iritsita</string>
+    <plurals name="max_tab_number_reached">
+        <item quantity="other">gehienezko %1$d fitxa iritsita</item>
+    </plurals>
     <string name="description_status_media">Media: %s</string>
     <string name="description_status_cw">Edukiaren abisua: %s</string>
     <string name="description_status_media_no_description_placeholder">Deskribapenik ez</string>

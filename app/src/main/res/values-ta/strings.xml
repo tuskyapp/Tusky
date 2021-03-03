@@ -171,7 +171,9 @@
     <string name="notification_summary_large">%1$s, %2$s, %3$s மற்றும் %4$d மற்றவர்கள்</string>
     <string name="notification_summary_medium">%1$s, %2$s, மற்றும் %3$s</string>
     <string name="notification_summary_small">%1$s மற்றும் %2$s</string>
-    <string name="notification_title_summary">%d புதிய ஊடாடுதல்</string>
+    <plurals name="notification_title_summary">
+        <item quantity="other">%d புதிய ஊடாடுதல்</item>
+    </plurals>
     <string name="description_account_locked">கணக்கு மூடப்பட்டது</string>
     <string name="about_title_activity">பற்றி</string>
     <string name="about_tusky_version">Tusky(டஸ்கி) %s</string>

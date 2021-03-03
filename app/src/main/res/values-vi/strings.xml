@@ -5,7 +5,9 @@
     <string name="send_toot_notification_cancel_title">Hủy đăng</string>
     <string name="send_toot_notification_channel_name">Đăng Tút</string>
     <string name="send_toot_notification_title">Đang đăng…</string>
-    <string name="notification_title_summary">%d tương tác mới</string>
+    <plurals name="notification_title_summary">
+        <item quantity="other">%d tương tác mới</item>
+    </plurals>
     <string name="notification_summary_small">%1$s và %2$s</string>
     <string name="notification_summary_medium">%1$s, %2$s, và %3$s</string>
     <string name="notification_summary_large">%1$s, %2$s, %3$s và %4$d người khác</string>
@@ -383,7 +385,9 @@
     <string name="description_status_reblogged">Đã chia sẻ</string>
     <string name="description_status_media_no_description_placeholder">Không có mô tả</string>
     <string name="description_status_cw">Nội dung nhạy cảm: %s</string>
-    <string name="max_tab_number_reached">tối đa %1$d tab</string>
+    <plurals name="max_tab_number_reached">
+        <item quantity="other">tối đa %1$d tab</item>
+    </plurals>
     <string name="conversation_more_recipients">%1$s, %2$s và %3$d người nữa</string>
     <string name="conversation_2_recipients">%1$s và %2$s</string>
     <string name="conversation_1_recipients">%1$s</string>
@@ -475,7 +479,9 @@
     <string name="notification_subscription_name">Tút mới</string>
     <string name="pref_title_notification_filter_subscriptions">người tôi đăng ký theo dõi đăng tút mới</string>
     <string name="notification_subscription_format">%s vừa đăng tút</string>
-    <string name="error_upload_max_media_reached">Bạn không thể đính kèm quá %1$d tệp.</string>
+    <plurals name="error_upload_max_media_reached">
+        <item quantity="other">Bạn không thể đính kèm quá %1$d tệp.</item>
+    </plurals>
     <string name="duration_indefinite">Vĩnh viễn</string>
     <string name="label_duration">Thời hạn</string>
     <string name="dialog_delete_list_warning">Bạn thật sự muốn xóa danh sách %s\?</string>

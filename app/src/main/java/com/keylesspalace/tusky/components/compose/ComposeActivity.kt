@@ -836,7 +836,7 @@ class ComposeActivity : BaseActivity(),
                 val count = clipData.itemCount
                 if (mediaCount + count > maxUploadMediaNumber) {
                     // check if exist media + upcoming media > 4, then prob error message.
-                    Toast.makeText(this, getString(R.string.error_upload_max_media_reached, maxUploadMediaNumber), Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, resources.getQuantityString(R.plurals.error_upload_max_media_reached, maxUploadMediaNumber, maxUploadMediaNumber), Toast.LENGTH_SHORT).show()
                 } else {
                     // if not grater then 4, upload all multiple media.
                     for (i in 0 until count) {
