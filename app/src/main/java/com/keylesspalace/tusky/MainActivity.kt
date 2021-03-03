@@ -173,8 +173,8 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
                         }
                     })
                 }
-            } else if (accountRequested) {
-                // user clicked a notification, show notification tab and switch user if necessary
+            } else if (accountRequested && savedInstanceState == null) {
+                // user clicked a notification, show notification tab
                 showNotificationTab = true
             }
         }
@@ -684,7 +684,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
         glide.asDrawable()
             .load(avatarUrl)
             .transform(
-                RoundedCorners(resources.getDimensionPixelSize(R.dimen.avatar_radius_36dp))
+                    RoundedCorners(resources.getDimensionPixelSize(R.dimen.avatar_radius_36dp))
             )
             .apply {
                 if (showPlaceholder) {
@@ -698,6 +698,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
                         mainToolbar.navigationIcon = FixedSizeDrawable(placeholder, navIconSize, navIconSize)
                     }
                 }
+
                 override fun onResourceReady(resource: Drawable, transition: Transition<in Drawable>?) {
                     mainToolbar.navigationIcon = FixedSizeDrawable(resource, navIconSize, navIconSize)
                 }
