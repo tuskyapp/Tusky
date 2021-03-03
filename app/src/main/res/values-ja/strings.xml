@@ -456,4 +456,6 @@
         <item quantity="other">%s人</item>
     </plurals>
     <string name="warning_scheduling_interval">Mastodonにおける予約までの最小間隔は5分です。</string>
+    <string name="notification_subscription_format">%sさんがトゥートしました</string>
+    <string name="title_announcements">お知らせ</string>
 </resources>
