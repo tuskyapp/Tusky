@@ -384,7 +384,9 @@
     <string name="compose_active_account_description">Posting with account %1$s</string>
 
     <string name="error_failed_set_caption">Failed to set caption</string>
-    <string name="hint_describe_for_visually_impaired">Describe for visually impaired\n(%d character limit)</string>
+    <plurals name="hint_describe_for_visually_impaired">
+        <item quantity="other">Describe for visually impaired\n(%d character limit)</item>
+    </plurals>
     <string name="action_set_caption">Set caption</string>
     <string name="action_remove">Remove</string>
     <string name="lock_account_label">Lock account</string>

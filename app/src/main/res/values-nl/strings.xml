@@ -261,7 +261,9 @@
     <string name="title_list_timeline">Tijdlijn lijst</string>
     <string name="compose_active_account_description">Aan het publiceren met account %1$s</string>
     <string name="error_failed_set_caption">Toevoegen van beschrijving mislukt</string>
-    <string name="hint_describe_for_visually_impaired">Omschrijf dit voor mensen met een visuele beperking\n(tekenlimiet is %d)</string>
+    <plurals name="hint_describe_for_visually_impaired">
+        <item quantity="other">Omschrijf dit voor mensen met een visuele beperking\n(tekenlimiet is %d)</item>
+    </plurals>
     <string name="action_set_caption">Beschrijving toevoegen</string>
     <string name="action_remove">Verwijderen</string>
     <string name="lock_account_label">Account besloten maken</string>

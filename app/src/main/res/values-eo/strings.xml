@@ -283,7 +283,9 @@
     <string name="action_remove_from_list">Forigi konton el la listo</string>
     <string name="compose_active_account_description">Afiŝi per konto %1$s</string>
     <string name="error_failed_set_caption">Redakto de apudskribo malsukcesis</string>
-    <string name="hint_describe_for_visually_impaired">Priskribi por misvidantaj homoj\n(%d signoj maksimume)</string>
+    <plurals name="hint_describe_for_visually_impaired">
+        <item quantity="other">Priskribi por misvidantaj homoj\n(%d signoj maksimume)</item>
+    </plurals>
     <string name="action_set_caption">Redakti apudskribon</string>
     <string name="action_remove">Forigi</string>
     <string name="lock_account_label">Ŝlosi konton</string>

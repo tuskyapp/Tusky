@@ -437,8 +437,10 @@
     <string name="lock_account_label">Tài khoản riêng tư</string>
     <string name="action_remove">Hủy bỏ</string>
     <string name="action_set_caption">Mô tả</string>
-    <string name="hint_describe_for_visually_impaired">Mô tả dành cho người khiếm thị
-\n(giới hạn %d chữ)</string>
+    <plurals name="hint_describe_for_visually_impaired">
+        <item quantity="other">Mô tả dành cho người khiếm thị
+\n(giới hạn %d chữ)</item>
+    </plurals>
     <string name="compose_active_account_description">Đăng bằng tài khoản %1$s</string>
     <string name="action_add_to_list">Thêm tài khoản vào danh sách</string>
     <string name="action_remove_from_list">Xóa tài khoản khỏi danh sách</string>

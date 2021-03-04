@@ -63,8 +63,8 @@ fun <T> T.makeCaptionDialog(existingDescription: String?,
     (imageView.layoutParams as LinearLayout.LayoutParams).setMargins(0, margin, 0, 0)
 
     val input = EditText(this)
-    input.hint = getString(R.string.hint_describe_for_visually_impaired,
-            MEDIA_DESCRIPTION_CHARACTER_LIMIT)
+    input.hint = resources.getQuantityString(R.plurals.hint_describe_for_visually_impaired,
+            MEDIA_DESCRIPTION_CHARACTER_LIMIT, MEDIA_DESCRIPTION_CHARACTER_LIMIT)
     dialogLayout.addView(input)
     (input.layoutParams as LinearLayout.LayoutParams).setMargins(margin, margin, margin, margin)
     input.setLines(2)

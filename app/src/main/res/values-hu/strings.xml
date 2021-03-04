@@ -342,8 +342,10 @@
     <string name="action_remove_from_list">Fiók eltávolítása a listából</string>
     <string name="compose_active_account_description">Tülkölés %1$s fiókkal</string>
     <string name="error_failed_set_caption">Cím beállítása nem sikerült</string>
-    <string name="hint_describe_for_visually_impaired">Leírás látássérülteknek
-\n(%d karakter korlát)</string>
+    <plurals name="hint_describe_for_visually_impaired">
+        <item quantity="other">Leírás látássérülteknek
+\n(%d karakter korlát)</item>
+    </plurals>
     <string name="action_set_caption">Cím beállítása</string>
     <string name="lock_account_label_description">Minden követődet külön engedélyezned kell</string>
     <string name="expand_collapse_all_statuses">Minden tülk kibontása/összecsukása</string>

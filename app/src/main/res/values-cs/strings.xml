@@ -287,7 +287,9 @@
     <string name="action_remove_from_list">Odstranit účet ze seznamu</string>
     <string name="compose_active_account_description">Píšete s účtem %1$s</string>
     <string name="error_failed_set_caption">Nastavení popisku selhalo</string>
-    <string name="hint_describe_for_visually_impaired">Popis pro zrakově postižené\n(limit %d znaků)</string>
+    <plurals name="hint_describe_for_visually_impaired">
+        <item quantity="other">Popis pro zrakově postižené\n(limit %d znaků)</item>
+    </plurals>
     <string name="action_set_caption">Nastavit popisek</string>
     <string name="action_remove">Odstranit</string>
     <string name="lock_account_label">Uzamknout účet</string>

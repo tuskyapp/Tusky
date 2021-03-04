@@ -330,8 +330,10 @@
     <string name="lock_account_label">लेखा अवरुध्यताम्</string>
     <string name="action_remove">नश्यताम्</string>
     <string name="action_set_caption">शीर्षकवाक्यं लिख्यताम्</string>
-    <string name="hint_describe_for_visually_impaired">दृष्ट्यां येषां समस्याऽस्ति तेषांं कृते विवरणम्
-\n(%d परिमिता न्यूनाक्षरसङ्ख्या)</string>
+    <plurals name="hint_describe_for_visually_impaired">
+        <item quantity="other">दृष्ट्यां येषां समस्याऽस्ति तेषांं कृते विवरणम्
+\n(%d परिमिता न्यूनाक्षरसङ्ख्या)</item>
+    </plurals>
     <string name="error_failed_set_caption">शीर्षकवाक्यं लेखितुमशक्यम्</string>
     <string name="compose_active_account_description">%1$s लेखया प्रकटनं क्रियते</string>
     <string name="action_remove_from_list">सूच्याः लेखा नश्यताम्</string>

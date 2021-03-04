@@ -264,7 +264,9 @@
     <string name="action_add_to_list">Ein Konto zu einer Liste hinzufügen</string>
     <string name="compose_active_account_description">verfassen mit %1$s</string>
     <string name="error_failed_set_caption">Fehler beim Speichern der Beschreibung</string>
-    <string name="hint_describe_for_visually_impaired">Für Menschen mit Sehbehinderung beschreiben\n(%d Zeichen)</string>
+    <plurals name="hint_describe_for_visually_impaired">
+        <item quantity="other">Für Menschen mit Sehbehinderung beschreiben\n(%d Zeichen)</item>
+    </plurals>
     <string name="action_set_caption">Beschreibung eingeben</string>
     <string name="action_remove">Entfernen</string>
     <string name="lock_account_label">Gesperrtes Profil</string>

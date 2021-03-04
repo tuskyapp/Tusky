@@ -261,8 +261,10 @@
     <string name="abbreviated_in_years">om %dy</string>
     <string name="compose_active_account_description">Poster med konto %1$s</string>
     <string name="error_failed_set_caption">Klarte ikke å sette bildetekst</string>
-    <string name="hint_describe_for_visually_impaired">Beskriv for de med nedsatt synsevne
-\n(maks %d tegn)</string>
+    <plurals name="hint_describe_for_visually_impaired">
+        <item quantity="other">Beskriv for de med nedsatt synsevne
+\n(maks %d tegn)</item>
+    </plurals>
     <string name="action_set_caption">Sett bildetekst</string>
     <string name="action_remove">Slett</string>
     <string name="lock_account_label">Lås konto</string>

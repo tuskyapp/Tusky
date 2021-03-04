@@ -323,8 +323,10 @@
     <string name="action_remove_from_list">Bain cuntas ón liosta</string>
     <string name="compose_active_account_description">Postáil le cuntas %1$s</string>
     <string name="error_failed_set_caption">Theip ar an bhfotheideal a shocrú</string>
-    <string name="hint_describe_for_visually_impaired">Déan cur síos ar dhaoine lagamhairc
-\n(teorainn carachtar %d)</string>
+    <plurals name="hint_describe_for_visually_impaired">
+        <item quantity="other">Déan cur síos ar dhaoine lagamhairc
+\n(teorainn carachtar %d)</item>
+    </plurals>
     <string name="action_set_caption">Socraigh fotheideal</string>
     <string name="action_remove">Bain</string>
     <string name="lock_account_label">Cuntas glasála</string>

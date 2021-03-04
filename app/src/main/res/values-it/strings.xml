@@ -281,7 +281,9 @@
     <string name="action_remove_from_list">Rimuovi un account dalla lista</string>
     <string name="compose_active_account_description">Pubblicando con l\'account %1$s</string>
     <string name="error_failed_set_caption">Impostazione del sottotitolo non riuscita</string>
-    <string name="hint_describe_for_visually_impaired">Descrivi per ipovedenti\n(limite di %d caratteri)</string>
+    <plurals name="hint_describe_for_visually_impaired">
+        <item quantity="other">Descrivi per ipovedenti\n(limite di %d caratteri)</item>
+    </plurals>
     <string name="action_set_caption">Inserisci descrizione</string>
     <string name="action_remove">Rimuovi</string>
     <string name="lock_account_label">Blocca account</string>

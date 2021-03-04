@@ -388,8 +388,10 @@
     <string name="lock_account_label">داخستنی ئەژمێر</string>
     <string name="action_remove">لابردن</string>
     <string name="action_set_caption">دانانی سەردێڕ</string>
-    <string name="hint_describe_for_visually_impaired">وەسف بکە بۆ بینایی داڕماو
-\n(%d سنوری کاراکتەر)</string>
+    <plurals name="hint_describe_for_visually_impaired">
+        <item quantity="other">وەسف بکە بۆ بینایی داڕماو
+\n(%d سنوری کاراکتەر)</item>
+    </plurals>
     <string name="error_failed_set_caption">دانانی سەردێڕ شکستی هێنا</string>
     <string name="compose_active_account_description">بڵاوکردنەوە بە هەژماری %1$s</string>
     <string name="action_remove_from_list">لابردنی ئەژمێر لە لیستەکە</string>

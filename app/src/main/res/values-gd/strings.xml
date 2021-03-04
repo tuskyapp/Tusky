@@ -247,8 +247,10 @@
     <string name="lock_account_label_description">Feumaidh tu gabhail ri luchd-leantainn ùr a làimh</string>
     <string name="lock_account_label">Glais an cunntas</string>
     <string name="action_set_caption">Suidhidh am fo-thiotal</string>
-    <string name="hint_describe_for_visually_impaired">Mìnich e dhan fheadhainn air a bheil cion-lèirsinn
-\n(%d caractar(an) air a char as fhaide)</string>
+    <plurals name="hint_describe_for_visually_impaired">
+        <item quantity="other">Mìnich e dhan fheadhainn air a bheil cion-lèirsinn
+\n(%d caractar(an) air a char as fhaide)</item>
+    </plurals>
     <string name="error_failed_set_caption">Cha deach leinn am fo-thiotal a shuidheachadh</string>
     <string name="compose_active_account_description">A’ postadh leis a’ chunntas %1$s</string>
     <string name="action_remove_from_list">Thoir an cunntas air falbh on liosta</string>
