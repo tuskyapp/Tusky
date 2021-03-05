@@ -298,7 +298,7 @@ fun Account.toEntity(accountId: Long, gson: Gson): TimelineAccountEntity {
             timelineUserId = accountId,
             localUsername = localUsername,
             username = username,
-            displayName = displayName.orEmpty(),
+            displayName = name,
             url = url,
             avatar = avatar,
             emojis = gson.toJson(emojis),
