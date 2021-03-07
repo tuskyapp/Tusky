@@ -7,13 +7,13 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.appstore.PreferenceChangedEvent
+import com.keylesspalace.tusky.databinding.ActivityFiltersBinding
+import com.keylesspalace.tusky.databinding.DialogFilterBinding
 import com.keylesspalace.tusky.entity.Filter
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.show
-import kotlinx.android.synthetic.main.activity_filters.*
-import kotlinx.android.synthetic.main.dialog_filter.*
-import kotlinx.android.synthetic.main.toolbar_basic.*
+import com.keylesspalace.tusky.util.viewBinding
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
@@ -28,13 +28,28 @@ class FiltersActivity: BaseActivity() {
     @Inject
     lateinit var eventHub: EventHub
 
+    private val binding by viewBinding(ActivityFiltersBinding::inflate)
+
     private lateinit var context : String
     private lateinit var filters: MutableList<Filter>
-    private lateinit var dialog: AlertDialog
 
-    companion object {
-        const val FILTERS_CONTEXT = "filters_context"
-        const val FILTERS_TITLE = "filters_title"
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        setContentView(binding.root)
+        setSupportActionBar(binding.includedToolbar.toolbar)
+        supportActionBar?.run {
+            // Back button
+            setDisplayHomeAsUpEnabled(true)
+            setDisplayShowHomeEnabled(true)
+        }
+        binding.addFilterButton.setOnClickListener {
+            showAddFilterDialog()
+        }
+
+        title = intent?.getStringExtra(FILTERS_TITLE)
+        context = intent?.getStringExtra(FILTERS_CONTEXT)!!
+        loadFilters()
     }
 
     private fun updateFilter(filter: Filter, itemIndex: Int) {
@@ -101,52 +116,51 @@ class FiltersActivity: BaseActivity() {
     }
 
     private fun showAddFilterDialog() {
-        dialog = AlertDialog.Builder(this@FiltersActivity)
+        val binding = DialogFilterBinding.inflate(layoutInflater)
+        binding.phraseWholeWord.isChecked = true
+        AlertDialog.Builder(this@FiltersActivity)
                 .setTitle(R.string.filter_addition_dialog_title)
-                .setView(R.layout.dialog_filter)
+                .setView(binding.root)
                 .setPositiveButton(android.R.string.ok){ _, _ ->
-                    createFilter(dialog.phraseEditText.text.toString(), dialog.phraseWholeWord.isChecked)
+                    createFilter(binding.phraseEditText.text.toString(), binding.phraseWholeWord.isChecked)
                 }
                 .setNeutralButton(android.R.string.cancel, null)
-                .create()
-        dialog.show()
-        dialog.phraseWholeWord.isChecked = true
+                .show()
     }
 
     private fun setupEditDialogForItem(itemIndex: Int) {
-        dialog = AlertDialog.Builder(this@FiltersActivity)
+        val binding = DialogFilterBinding.inflate(layoutInflater)
+        val filter = filters[itemIndex]
+        binding.phraseEditText.setText(filter.phrase)
+        binding.phraseWholeWord.isChecked = filter.wholeWord
+
+        AlertDialog.Builder(this@FiltersActivity)
                 .setTitle(R.string.filter_edit_dialog_title)
-                .setView(R.layout.dialog_filter)
+                .setView(binding.root)
                 .setPositiveButton(R.string.filter_dialog_update_button) { _, _ ->
                     val oldFilter = filters[itemIndex]
-                    val newFilter = Filter(oldFilter.id, dialog.phraseEditText.text.toString(), oldFilter.context,
-                            oldFilter.expiresAt, oldFilter.irreversible, dialog.phraseWholeWord.isChecked)
+                    val newFilter = Filter(oldFilter.id, binding.phraseEditText.text.toString(), oldFilter.context,
+                            oldFilter.expiresAt, oldFilter.irreversible, binding.phraseWholeWord.isChecked)
                     updateFilter(newFilter, itemIndex)
                 }
                 .setNegativeButton(R.string.filter_dialog_remove_button) { _, _ ->
                     deleteFilter(itemIndex)
                 }
                 .setNeutralButton(android.R.string.cancel, null)
-                .create()
-        dialog.show()
-
-        // Need to show the dialog before referencing any elements from its view
-        val filter = filters[itemIndex]
-        dialog.phraseEditText.setText(filter.phrase)
-        dialog.phraseWholeWord.isChecked = filter.wholeWord
+                .show()
     }
 
     private fun refreshFilterDisplay() {
-        filtersView.adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, filters.map { filter -> filter.phrase })
-        filtersView.onItemClickListener = AdapterView.OnItemClickListener { _, _, position, _ -> setupEditDialogForItem(position) }
+        binding.filtersView.adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, filters.map { filter -> filter.phrase })
+        binding.filtersView.onItemClickListener = AdapterView.OnItemClickListener { _, _, position, _ -> setupEditDialogForItem(position) }
     }
 
     private fun loadFilters() {
 
-        filterMessageView.hide()
-        filtersView.hide()
-        addFilterButton.hide()
-        filterProgressBar.show()
+        binding.filterMessageView.hide()
+        binding.filtersView.hide()
+        binding.addFilterButton.hide()
+        binding.filterProgressBar.show()
 
         api.getFilters().enqueue(object : Callback<List<Filter>> {
             override fun onResponse(call: Call<List<Filter>>, response: Response<List<Filter>>) {
@@ -156,52 +170,33 @@ class FiltersActivity: BaseActivity() {
                     filters = filterResponse.filter { filter -> filter.context.contains(context) }.toMutableList()
                     refreshFilterDisplay()
 
-                    filtersView.show()
-                    addFilterButton.show()
-                    filterProgressBar.hide()
+                    binding.filtersView.show()
+                    binding.addFilterButton.show()
+                    binding.filterProgressBar.hide()
                 } else {
-                    filterProgressBar.hide()
-                    filterMessageView.show()
-                    filterMessageView.setup(R.drawable.elephant_error,
+                    binding.filterProgressBar.hide()
+                    binding.filterMessageView.show()
+                    binding.filterMessageView.setup(R.drawable.elephant_error,
                             R.string.error_generic) { loadFilters() }
                 }
             }
 
             override fun onFailure(call: Call<List<Filter>>, t: Throwable) {
-                filterProgressBar.hide()
-                filterMessageView.show()
+                binding.filterProgressBar.hide()
+                binding.filterMessageView.show()
                 if (t is IOException) {
-                    filterMessageView.setup(R.drawable.elephant_offline,
+                    binding.filterMessageView.setup(R.drawable.elephant_offline,
                             R.string.error_network) { loadFilters() }
                 } else {
-                    filterMessageView.setup(R.drawable.elephant_error,
+                    binding.filterMessageView.setup(R.drawable.elephant_error,
                             R.string.error_generic) { loadFilters() }
                 }
             }
         })
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        setContentView(R.layout.activity_filters)
-        setupToolbarBackArrow()
-        addFilterButton.setOnClickListener {
-            showAddFilterDialog()
-        }
-
-        title = intent?.getStringExtra(FILTERS_TITLE)
-        context = intent?.getStringExtra(FILTERS_CONTEXT)!!
-        loadFilters()
+    companion object {
+        const val FILTERS_CONTEXT = "filters_context"
+        const val FILTERS_TITLE = "filters_title"
     }
-
-    private fun setupToolbarBackArrow() {
-        setSupportActionBar(toolbar)
-        supportActionBar?.run {
-            // Back button
-            setDisplayHomeAsUpEnabled(true)
-            setDisplayShowHomeEnabled(true)
-        }
-    }
-
 }

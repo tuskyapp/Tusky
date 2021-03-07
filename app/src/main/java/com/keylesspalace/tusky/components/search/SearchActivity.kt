@@ -26,10 +26,11 @@ import com.google.android.material.tabs.TabLayoutMediator
 import com.keylesspalace.tusky.BottomSheetActivity
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.components.search.adapter.SearchPagerAdapter
+import com.keylesspalace.tusky.databinding.ActivitySearchBinding
 import com.keylesspalace.tusky.di.ViewModelFactory
+import com.keylesspalace.tusky.util.viewBinding
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
-import kotlinx.android.synthetic.main.activity_search.*
 import javax.inject.Inject
 
 class SearchActivity : BottomSheetActivity(), HasAndroidInjector {
@@ -41,10 +42,12 @@ class SearchActivity : BottomSheetActivity(), HasAndroidInjector {
 
     private val viewModel: SearchViewModel by viewModels { viewModelFactory }
 
+    private val binding by viewBinding(ActivitySearchBinding::inflate)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_search)
-        setSupportActionBar(toolbar)
+        setContentView(binding.root)
+        setSupportActionBar(binding.toolbar)
         supportActionBar?.apply {
             setDisplayHomeAsUpEnabled(true)
             setDisplayShowHomeEnabled(true)
@@ -55,9 +58,9 @@ class SearchActivity : BottomSheetActivity(), HasAndroidInjector {
     }
 
     private fun setupPages() {
-        pages.adapter = SearchPagerAdapter(this)
+        binding.pages.adapter = SearchPagerAdapter(this)
 
-        TabLayoutMediator(tabs, pages) {
+        TabLayoutMediator(binding.tabs, binding.pages) {
             tab, position ->
             tab.text = getPageTitle(position)
         }.attach()
