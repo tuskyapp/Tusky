@@ -57,9 +57,9 @@
     <string name="action_mentions">Згадки</string>
     <string name="action_links">Посилання</string>
     <string name="action_content_warning">Попередження про вміст</string>
-    <string name="action_access_scheduled_toot">Заплановані дописи</string>
+    <string name="action_access_scheduled_toot">Заплановані дмухи</string>
     <string name="action_access_saved_toot">Чернетки</string>
-    <string name="action_reject">Відмовити</string>
+    <string name="action_reject">Відхилити</string>
     <string name="action_accept">Прийняти</string>
     <string name="action_undo">Скасувати</string>
     <string name="action_edit_own_profile">Змінити</string>
@@ -174,4 +174,5 @@
     <string name="action_unmute_notifications_desc">Не глушити сповіщення від %s</string>
     <string name="notification_subscription_format">%s щойно опубліковано</string>
     <string name="title_announcements">Оголошення</string>
+    <string name="action_open_drawer">Намалювати</string>
 </resources>
