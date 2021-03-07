@@ -52,7 +52,7 @@ public final class ViewDataUtils {
                 .setSensitive(visibleStatus.getSensitive())
                 .setIsShowingSensitiveContent(alwaysShowSensitiveMedia || !visibleStatus.getSensitive())
                 .setSpoilerText(visibleStatus.getSpoilerText())
-                .setRebloggedByUsername(status.getReblog() == null ? null : status.getAccount().getDisplayName())
+                .setRebloggedByUsername(status.getReblog() == null ? null : status.getAccount().getName())
                 .setUserFullName(visibleStatus.getAccount().getName())
                 .setVisibility(visibleStatus.getVisibility())
                 .setSenderId(visibleStatus.getAccount().getId())
