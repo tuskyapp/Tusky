@@ -256,27 +256,27 @@ class EmojiCompatFont(
         private const val CHUNK_SIZE = 4096L
 
         // The system font gets some special behavior...
-        private val SYSTEM_DEFAULT = EmojiCompatFont("system-default",
+        val SYSTEM_DEFAULT = EmojiCompatFont("system-default",
                 "System Default",
                 R.string.caption_systememoji,
                 R.drawable.ic_emoji_34dp,
                 "",
                 "0")
-        private val BLOBMOJI = EmojiCompatFont("Blobmoji",
+        val BLOBMOJI = EmojiCompatFont("Blobmoji",
                 "Blobmoji",
                 R.string.caption_blobmoji,
                 R.drawable.ic_blobmoji,
                 "https://tusky.app/hosted/emoji/BlobmojiCompat.ttf",
                 "12.0.0"
         )
-        private val TWEMOJI = EmojiCompatFont("Twemoji",
+        val TWEMOJI = EmojiCompatFont("Twemoji",
                 "Twemoji",
                 R.string.caption_twemoji,
                 R.drawable.ic_twemoji,
                 "https://tusky.app/hosted/emoji/TwemojiCompat.ttf",
                 "12.0.0"
         )
-        private val NOTOEMOJI = EmojiCompatFont("NotoEmoji",
+        val NOTOEMOJI = EmojiCompatFont("NotoEmoji",
                 "Noto Emoji",
                 R.string.caption_notoemoji,
                 R.drawable.ic_notoemoji,
