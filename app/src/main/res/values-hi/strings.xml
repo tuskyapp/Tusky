@@ -280,7 +280,9 @@
     <string name="description_visiblity_unlisted">असूचीबद्ध</string>
     <string name="description_visiblity_public">सार्वजनिक</string>
     <string name="description_status_cw">विषय वस्तु चेतावनी: %s</string>
-    <string name="max_tab_number_reached">अधिकतम %1$d टैब तक पहुंच गऐ</string>
+    <plurals name="max_tab_number_reached">
+        <item quantity="other">अधिकतम %1$d टैब तक पहुंच गऐ</item>
+    </plurals>
     <string name="conversation_more_recipients">%1$s, %2$s तथा %3$d अन्य लोग</string>
     <string name="conversation_2_recipients">%1$s तथा %2$s</string>
     <string name="conversation_1_recipients">%1$s</string>
@@ -310,8 +312,10 @@
     <string name="send_toot_notification_error_title">टूट भेजने में त्रुटि</string>
     <string name="filter_dialog_remove_button">हटाएँ</string>
     <string name="action_remove">हटा दें</string>
-    <string name="hint_describe_for_visually_impaired">दृष्टिहीन लोगों के लिए वर्णन करें
-\n(%d वर्ण सीमा)</string>
+    <plurals name="hint_describe_for_visually_impaired">
+        <item quantity="other">दृष्टिहीन लोगों के लिए वर्णन करें
+\n(%d वर्ण सीमा)</item>
+    </plurals>
     <string name="error_failed_set_caption">कैप्शन सेट करने में विफल</string>
     <string name="compose_active_account_description">%1$s खाते के साथ पोस्ट कर रहे</string>
     <string name="action_remove_from_list">सूची से खाता निकालें</string>

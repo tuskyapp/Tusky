@@ -200,7 +200,9 @@
     <string name="description_status_media_no_description_placeholder">Sen descrición</string>
     <string name="description_status_cw">Aviso sobre o contido: %s</string>
     <string name="description_status_media">Multimedia: %s</string>
-    <string name="max_tab_number_reached">acadouse o máximo de %1$d lapelas</string>
+    <plurals name="max_tab_number_reached">
+        <item quantity="other">acadouse o máximo de %1$d lapelas</item>
+    </plurals>
     <string name="conversation_more_recipients">%1$s, %2$s e %3$d máis</string>
     <string name="conversation_2_recipients">%1$s e %2$s</string>
     <string name="title_favourited_by">Favorecido por</string>
@@ -257,8 +259,10 @@
     <string name="lock_account_label">Bloquear conta</string>
     <string name="action_remove">Eliminar</string>
     <string name="action_set_caption">Escribir descrición</string>
-    <string name="hint_describe_for_visually_impaired">Describe para persoas con problemas de visión
-\n(%d caracteres como máximo)</string>
+    <plurals name="hint_describe_for_visually_impaired">
+        <item quantity="other">Describe para persoas con problemas de visión
+\n(%d caracteres como máximo)</item>
+    </plurals>
     <string name="error_failed_set_caption">Fallou establecemento do texto</string>
     <string name="compose_active_account_description">Publicar coa conta %1$s</string>
     <string name="action_remove_from_list">Eliminar conta da listaxe</string>
@@ -318,7 +322,9 @@
     <string name="about_tusky_version">Tusky %s</string>
     <string name="about_title_activity">Acerca de</string>
     <string name="description_account_locked">Conta bloqueada</string>
-    <string name="notification_title_summary">%d novas interaccións</string>
+    <plurals name="notification_title_summary">
+        <item quantity="other">%d novas interaccións</item>
+    </plurals>
     <string name="notification_summary_small">%1$s e %2$s</string>
     <string name="notification_summary_medium">%1$s, %2$s, e %3$s</string>
     <string name="notification_summary_large">%1$s, %2$s, %3$s e %4$d outras</string>
@@ -435,7 +441,9 @@
 \nAínda podes acceder aos antigos borradores a través do botón na pantalla de novos borradores, pero eliminarémolo en futuras actualizacións!</string>
     <string name="drafts_toot_failed_to_send">Fallou o envío do toot!</string>
     <string name="dialog_delete_list_warning">Tes a certeza de querer eliminar a listaxe %s\?</string>
-    <string name="error_upload_max_media_reached">Non podes subir máis de %1$d anexos multimedia.</string>
+    <plurals name="error_upload_max_media_reached">
+        <item quantity="other">Non podes subir máis de %1$d anexos multimedia.</item>
+    </plurals>
     <string name="wellbeing_hide_stats_profile">Agochar estatísticas cuantitativas nos perfís</string>
     <string name="wellbeing_hide_stats_posts">Agochar estatísticas cuantitativas nas publicacións</string>
     <string name="limit_notifications">Limitar notificacións da cronoloxía</string>

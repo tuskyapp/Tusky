@@ -214,7 +214,9 @@
     <string name="notification_summary_large">%1$s, %2$s, %3$s و %4$d آخرون</string>
     <string name="notification_summary_medium">%1$s, %2$s, و %3$s</string>
     <string name="notification_summary_small">%1$s و %2$s</string>
-    <string name="notification_title_summary">%d تفاعلات جديدة</string>
+    <plurals name="notification_title_summary">
+        <item quantity="other">%d تفاعلات جديدة</item>
+    </plurals>
     <string name="description_account_locked">حساب مقفل</string>
     <string name="about_title_activity">عن التطبيق</string>
     <string name="about_tusky_version">توسكي %s</string>
@@ -275,8 +277,10 @@
     <string name="action_remove_from_list">إزالة الحساب مِن القائمة</string>
     <string name="compose_active_account_description">النشر بواسطة حساب %1$s</string>
     <string name="error_failed_set_caption">تعذرت عملية إضافة الشرح</string>
-    <string name="hint_describe_for_visually_impaired">وصف لضعاف البصر
-\n(%d أحرف على أقصى تقدير)</string>
+    <plurals name="hint_describe_for_visually_impaired">
+        <item quantity="other">وصف لضعاف البصر
+\n(%d أحرف على أقصى تقدير)</item>
+    </plurals>
     <string name="action_set_caption">إضافة شرح</string>
     <string name="action_remove">حذف</string>
     <string name="lock_account_label">تجميد الحساب</string>
@@ -325,7 +329,9 @@
     <string name="conversation_1_recipients">%1$s</string>
     <string name="conversation_2_recipients">%1$s و %2$s</string>
     <string name="conversation_more_recipients">%1$s و %2$s و %3$d آخَرون</string>
-    <string name="max_tab_number_reached">لقد بلغت الحد الأقصى مِن الألسنة %1$d</string>
+    <plurals name="max_tab_number_reached">
+        <item quantity="other">لقد بلغت الحد الأقصى مِن الألسنة %1$d</item>
+    </plurals>
     <string name="description_status_media">الوسائط: %s    </string>
     <string name="description_status_cw">تحذير عن المحتوى: %s    </string>
     <string name="description_status_media_no_description_placeholder">مِن دون وصف    </string>

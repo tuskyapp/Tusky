@@ -186,8 +186,10 @@
     <string name="compose_save_draft">Зберегти чернетку\?</string>
     <string name="lock_account_label_description">Вимагає затвердження підписників власноруч</string>
     <string name="action_set_caption">Додати підпис</string>
-    <string name="hint_describe_for_visually_impaired">Опис для людей з порушеннями зору
-\n(до %d символів)</string>
+    <plurals name="hint_describe_for_visually_impaired">
+        <item quantity="other">Опис для людей з порушеннями зору
+            \n(до %d символів)</item>
+    </plurals>
     <string name="error_failed_set_caption">Не вдалося додати підпис</string>
     <string name="action_unsubscribe_account">Відписатися</string>
     <string name="action_subscribe_account">Підписатися</string>
@@ -329,7 +331,9 @@
     <string name="about_powered_by_tusky">Створено Tusky</string>
     <string name="about_tusky_version">Tusky %s</string>
     <string name="description_account_locked">Заблокований обліковий запис</string>
-    <string name="notification_title_summary">%d нових взаємодій</string>
+    <plurals name="notification_title_summary">
+        <item quantity="other">%d нових взаємодій</item>
+    </plurals>
     <string name="conversation_more_recipients">%1$s, %2$s та ще %3$d</string>
     <string name="conversation_2_recipients">%1$s та %2$s</string>
     <string name="conversation_1_recipients">%1$s</string>
@@ -456,7 +460,9 @@
 \n Ви все ще можете отримати доступ до своїх старих чернеток за допомогою кнопки на екрані нових чернеток, але вони будуть вилучені в майбутньому оновленні!</string>
     <string name="drafts_toot_failed_to_send">Не вдалося надіслати цей дмух!</string>
     <string name="dialog_delete_list_warning">Ви дійсно хочете видалити список %s\?</string>
-    <string name="error_upload_max_media_reached">Ви не можете завантажити більше %1$d медіавкладень.</string>
+    <plurals name="error_upload_max_media_reached">
+        <item quantity="other">Ви не можете завантажити більше %1$d медіавкладень.</item>
+    </plurals>
     <string name="wellbeing_hide_stats_profile">Приховати кількісну статистику профілів</string>
     <string name="wellbeing_hide_stats_posts">Приховати кількісну статистику дописів</string>
     <string name="limit_notifications">Обмеження сповіщень стрічки</string>
@@ -493,7 +499,9 @@
     <string name="description_visiblity_direct">Безпосередньо</string>
     <string name="description_status_bookmarked">Додано до закладок</string>
     <string name="description_status_reblogged">Просунуто</string>
-    <string name="max_tab_number_reached">досягнено обмеження %1$d вкладок</string>
+    <plurals name="max_tab_number_reached">
+        <item quantity="other">досягнено обмеження %1$d вкладок</item>
+    </plurals>
     <plurals name="reblogs">
         <item quantity="one"><b>%s</b> просування</item>
         <item quantity="few"><b>%s</b> просування</item>

@@ -74,7 +74,9 @@
     <string name="duration_5_min">5 mionaidean</string>
     <string name="duration_indefinite">Gun chrìoch</string>
     <string name="label_duration">Faide</string>
-    <string name="error_upload_max_media_reached">Chan urrainn dhut barrachd air %1$d ceanglacha(i)n meadhain a luchdadh suas.</string>
+    <plurals name="error_upload_max_media_reached">
+        <item quantity="other">Chan urrainn dhut barrachd air %1$d ceanglacha(i)n meadhain a luchdadh suas.</item>
+    </plurals>
     <string name="wellbeing_hide_stats_profile">Falaich an stadastaireachd àireamhail air pròifilean</string>
     <string name="wellbeing_hide_stats_posts">Falaich an stadastaireachd àireamhail air postaichean</string>
     <string name="limit_notifications">Cuingich na brathan mun loidhne-ama</string>
@@ -184,7 +186,9 @@
     <string name="description_status_media_no_description_placeholder">Gun tuairisgeul</string>
     <string name="description_status_cw">Rabhadh susbainte: %s</string>
     <string name="description_status_media">Meadhan: %s</string>
-    <string name="max_tab_number_reached">ràinig thu na tha ceadaichte dhe %1$d taba(ichean)</string>
+    <plurals name="max_tab_number_reached">
+        <item quantity="other">ràinig thu na tha ceadaichte dhe %1$d taba(ichean)</item>
+    </plurals>
     <string name="conversation_more_recipients">%1$s, %2$s ’s %3$d eile</string>
     <string name="conversation_1_recipients">%1$s</string>
     <string name="title_favourited_by">’Na annsachd aig</string>
@@ -243,8 +247,10 @@
     <string name="lock_account_label_description">Feumaidh tu gabhail ri luchd-leantainn ùr a làimh</string>
     <string name="lock_account_label">Glais an cunntas</string>
     <string name="action_set_caption">Suidhidh am fo-thiotal</string>
-    <string name="hint_describe_for_visually_impaired">Mìnich e dhan fheadhainn air a bheil cion-lèirsinn
-\n(%d caractar(an) air a char as fhaide)</string>
+    <plurals name="hint_describe_for_visually_impaired">
+        <item quantity="other">Mìnich e dhan fheadhainn air a bheil cion-lèirsinn
+\n(%d caractar(an) air a char as fhaide)</item>
+    </plurals>
     <string name="error_failed_set_caption">Cha deach leinn am fo-thiotal a shuidheachadh</string>
     <string name="compose_active_account_description">A’ postadh leis a’ chunntas %1$s</string>
     <string name="action_remove_from_list">Thoir an cunntas air falbh on liosta</string>
@@ -325,7 +331,9 @@
     <string name="about_powered_by_tusky">Le cumhachd Tusky</string>
     <string name="about_tusky_version">Tusky %s</string>
     <string name="description_account_locked">Cunntas glaiste</string>
-    <string name="notification_title_summary">%d eadar-ghabhail(ean) ùr(a)</string>
+    <plurals name="notification_title_summary">
+        <item quantity="other">%d eadar-ghabhail(ean) ùr(a)</item>
+    </plurals>
     <string name="notification_summary_small">%1$s ’s %2$s</string>
     <string name="notification_summary_medium">%1$s, %2$s ’s %3$s</string>
     <string name="notification_summary_large">%1$s, %2$s, %3$s ’s %4$d eile</string>

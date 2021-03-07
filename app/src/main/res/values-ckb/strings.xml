@@ -234,7 +234,9 @@
         <item quantity="other">%d کاژێرماوە</item>
     </plurals>
     <string name="filter_dialog_whole_word_description">کاتێک وشەکە یان دەستەواژەکە تەنها ئەبجەدییە، تەنها ئەگەر لەگەڵ هەموو وشەکە یەکبێت کاری پێدەکرێت</string>
-    <string name="error_upload_max_media_reached">ناتوانیت زیاتر لە %1$d هاوپێچی میدیا باربکەیت.</string>
+    <plurals name="error_upload_max_media_reached">
+        <item quantity="other">ناتوانیت زیاتر لە %1$d هاوپێچی میدیا باربکەیت.</item>
+    </plurals>
     <string name="wellbeing_hide_stats_profile">شاردنەوەی زانیاری چەندێتی لەسەر پرۆفایلەکان</string>
     <string name="wellbeing_hide_stats_posts">شاردنەوەی زانیاری چەندێتی لە بابەتەکان</string>
     <string name="limit_notifications">سنووردارکردنی ئاگانامەکانی تایم لاین</string>
@@ -327,7 +329,9 @@
     <string name="description_status_media_no_description_placeholder">هیچ وەسفێک</string>
     <string name="description_status_cw">ئاگاداری ناوەڕۆک: %s</string>
     <string name="description_status_media">میدیا: %s</string>
-    <string name="max_tab_number_reached">بەرزترین رێژەی خشتەبەندەکانی %1$d گەیشت</string>
+    <plurals name="max_tab_number_reached">
+        <item quantity="other">بەرزترین رێژەی خشتەبەندەکانی %1$d گەیشت</item>
+    </plurals>
     <string name="conversation_more_recipients">%1$s, %2$s و %3$d زیاتر</string>
     <string name="conversation_2_recipients">%1$s و %2$s</string>
     <string name="conversation_1_recipients">%1$s</string>
@@ -384,8 +388,10 @@
     <string name="lock_account_label">داخستنی ئەژمێر</string>
     <string name="action_remove">لابردن</string>
     <string name="action_set_caption">دانانی سەردێڕ</string>
-    <string name="hint_describe_for_visually_impaired">وەسف بکە بۆ بینایی داڕماو
-\n(%d سنوری کاراکتەر)</string>
+    <plurals name="hint_describe_for_visually_impaired">
+        <item quantity="other">وەسف بکە بۆ بینایی داڕماو
+\n(%d سنوری کاراکتەر)</item>
+    </plurals>
     <string name="error_failed_set_caption">دانانی سەردێڕ شکستی هێنا</string>
     <string name="compose_active_account_description">بڵاوکردنەوە بە هەژماری %1$s</string>
     <string name="action_remove_from_list">لابردنی ئەژمێر لە لیستەکە</string>
@@ -442,7 +448,9 @@
     <string name="about_tusky_version">توسکی %s</string>
     <string name="about_title_activity">سەبارەت</string>
     <string name="description_account_locked">هەژماری داخراو</string>
-    <string name="notification_title_summary">%d چالاکی نوێ</string>
+    <plurals name="notification_title_summary">
+        <item quantity="other">%d چالاکی نوێ</item>
+    </plurals>
     <string name="notification_summary_small">%1$s و %2$s</string>
     <string name="notification_summary_medium">%1$s و %2$s و %3$s</string>
     <string name="notification_summary_large">%1$s, %2$s, %3$s و %4$d ئەوانی تر</string>

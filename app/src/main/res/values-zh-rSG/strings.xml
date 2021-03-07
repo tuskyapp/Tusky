@@ -220,7 +220,9 @@
     <string name="notification_summary_large">%1$s, %2$s, %3$s 和 %4$d 人</string>
     <string name="notification_summary_medium">%1$s, %2$s, 和 %3$s</string>
     <string name="notification_summary_small">%1$s 和 %2$s</string>
-    <string name="notification_title_summary">%d 个新互动</string>
+    <plurals name="notification_title_summary">
+        <item quantity="other">%d 个新互动</item>
+    </plurals>
     <string name="description_account_locked">锁嘟用户</string>
     <string name="about_title_activity">关于 Tusky</string>
     <string name="about_tusky_version">Tusky %s</string>
@@ -285,7 +287,9 @@
     <string name="action_remove_from_list">从列表中移除用户</string>
     <string name="compose_active_account_description">以 %1$s 发布嘟文</string>
     <string name="error_failed_set_caption">设置图片标题失败</string>
-    <string name="hint_describe_for_visually_impaired">为视觉障碍用户提供的描述\n(限制 %d 字)</string>
+    <plurals name="hint_describe_for_visually_impaired">
+        <item quantity="other">为视觉障碍用户提供的描述\n(限制 %d 字)</item>
+    </plurals>
     <string name="action_set_caption">设置图片标题</string>
     <string name="action_remove">移除</string>
     <string name="lock_account_label">保护你的帐户（锁嘟）</string>
@@ -341,7 +345,9 @@
     <string name="conversation_1_recipients">%1$s</string>
     <string name="conversation_2_recipients">%1$s 和 %2$s</string>
     <string name="conversation_more_recipients">%1$s, %2$s 和 %3$d 等人</string>
-    <string name="max_tab_number_reached">标签页不能超过 %1$d 个</string>
+    <plurals name="max_tab_number_reached">
+        <item quantity="other">标签页不能超过 %1$d 个</item>
+    </plurals>
     <string name="description_status_media">
         媒体: %s
     </string>

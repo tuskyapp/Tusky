@@ -220,7 +220,9 @@
     <string name="notification_summary_large">%1$s, %2$s, %3$s и %4$d других</string>
     <string name="notification_summary_medium">%1$s, %2$s, и %3$s</string>
     <string name="notification_summary_small">%1$s и %2$s</string>
-    <string name="notification_title_summary">Новых событий: %d</string>
+    <plurals name="notification_title_summary">
+        <item quantity="other">Новых событий: %d</item>
+    </plurals>
     <string name="description_account_locked">Закрытый аккаунт</string>
     <string name="about_title_activity">О приложении</string>
     <string name="about_tusky_version">Tusky %s</string>
@@ -305,7 +307,9 @@
     <string name="action_remove_from_list">Удалить аккаунт из списка</string>
     <string name="compose_active_account_description">Отправка от имени %1$s</string>
     <string name="error_failed_set_caption">Не удалось добавить подпись</string>
-    <string name="hint_describe_for_visually_impaired">Описание для слабовидящих\n(не более %d символов)</string>
+    <plurals name="hint_describe_for_visually_impaired">
+        <item quantity="other">Описание для слабовидящих\n(не более %d символов)</item>
+    </plurals>
     <string name="action_set_caption">Добавить подпись</string>
     <string name="action_remove">Удалить</string>
     <string name="lock_account_label">Закрыть аккаунт</string>
@@ -366,7 +370,9 @@
     <string name="conversation_1_recipients">%1$s</string>
     <string name="conversation_2_recipients">%1$s и %2$s</string>
     <string name="conversation_more_recipients">%1$s, %2$s и ещё %3$d</string>
-    <string name="max_tab_number_reached">достигнут лимит в %1$d вкладок</string>
+    <plurals name="max_tab_number_reached">
+        <item quantity="other">достигнут лимит в %1$d вкладок</item>
+    </plurals>
     <string name="description_status_media">
         Медиафайл: %s
     </string>

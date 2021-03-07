@@ -297,7 +297,10 @@
     <string name="notification_summary_large">%1$s, %2$s, %3$s and %4$d others</string>
     <string name="notification_summary_medium">%1$s, %2$s, and %3$s</string>
     <string name="notification_summary_small">%1$s and %2$s</string>
-    <string name="notification_title_summary">%d new interactions</string>
+    <plurals name="notification_title_summary">
+        <item quantity="one">%d new interaction</item>
+        <item quantity="other">%d new interactions</item>
+    </plurals>
 
     <string name="description_account_locked">Locked Account</string>
 
@@ -381,7 +384,9 @@
     <string name="compose_active_account_description">Posting with account %1$s</string>
 
     <string name="error_failed_set_caption">Failed to set caption</string>
-    <string name="hint_describe_for_visually_impaired">Describe for visually impaired\n(%d character limit)</string>
+    <plurals name="hint_describe_for_visually_impaired">
+        <item quantity="other">Describe for visually impaired\n(%d character limit)</item>
+    </plurals>
     <string name="action_set_caption">Set caption</string>
     <string name="action_remove">Remove</string>
     <string name="lock_account_label">Lock account</string>
@@ -452,8 +457,10 @@
     <string name="conversation_1_recipients">%1$s</string>
     <string name="conversation_2_recipients">%1$s and %2$s</string>
     <string name="conversation_more_recipients">%1$s, %2$s and %3$d more</string>
-    <string name="max_tab_number_reached">maximum of %1$d tabs reached</string>
-
+    <plurals name="max_tab_number_reached">
+        <item quantity="one">maximum of %1$d tab reached</item>
+        <item quantity="other">maximum of %1$d tabs reached</item>
+    </plurals>
 
     <string name="description_status_media">
         Media: %s
@@ -597,7 +604,10 @@
     <string name="limit_notifications">Limit timeline notifications</string>
     <string name="wellbeing_hide_stats_posts">Hide quantitative stats on posts</string>
     <string name="wellbeing_hide_stats_profile">Hide quantitative stats on profiles</string>
-    <string name="error_upload_max_media_reached">You cannot upload more than %1$d media attachments.</string>
+    <plurals name="error_upload_max_media_reached">
+        <item quantity="one">You cannot upload more than %1$d media attachment.</item>
+        <item quantity="other">You cannot upload more than %1$d media attachments.</item>
+    </plurals>
     <string name="dialog_delete_list_warning">Do you really want to delete the list %s?</string>
     <string name="drafts_toot_failed_to_send">This toot failed to send!</string>
 
