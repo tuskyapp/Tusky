@@ -23,7 +23,6 @@
               android:text="@string/dialog_mute_hide_notifications"/>
 
     <TextView
-        android:id="@+id/duration_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingTop="20dp"

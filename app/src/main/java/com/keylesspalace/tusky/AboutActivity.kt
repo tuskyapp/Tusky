@@ -9,19 +9,20 @@ import android.text.method.LinkMovementMethod
 import android.text.style.URLSpan
 import android.text.util.Linkify
 import android.widget.TextView
+import com.keylesspalace.tusky.databinding.ActivityAboutBinding
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.util.CustomURLSpan
 import com.keylesspalace.tusky.util.hide
-import kotlinx.android.synthetic.main.activity_about.*
-import kotlinx.android.synthetic.main.toolbar_basic.*
 
 class AboutActivity : BottomSheetActivity(), Injectable {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_about)
 
-        setSupportActionBar(toolbar)
+        val binding = ActivityAboutBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        setSupportActionBar(binding.includedToolbar.toolbar)
         supportActionBar?.run {
             setDisplayHomeAsUpEnabled(true)
             setDisplayShowHomeEnabled(true)
@@ -29,26 +30,24 @@ class AboutActivity : BottomSheetActivity(), Injectable {
 
         setTitle(R.string.about_title_activity)
 
-        versionTextView.text = getString(R.string.about_app_version, getString(R.string.app_name), BuildConfig.VERSION_NAME)
+        binding.versionTextView.text = getString(R.string.about_app_version, getString(R.string.app_name), BuildConfig.VERSION_NAME)
 
         if(BuildConfig.CUSTOM_INSTANCE.isBlank()) {
-            aboutPoweredByTusky.hide()
+            binding.aboutPoweredByTusky.hide()
         }
 
-        aboutLicenseInfoTextView.setClickableTextWithoutUnderlines(R.string.about_tusky_license)
-        aboutWebsiteInfoTextView.setClickableTextWithoutUnderlines(R.string.about_project_site)
-        aboutBugsFeaturesInfoTextView.setClickableTextWithoutUnderlines(R.string.about_bug_feature_request_site)
+        binding.aboutLicenseInfoTextView.setClickableTextWithoutUnderlines(R.string.about_tusky_license)
+        binding.aboutWebsiteInfoTextView.setClickableTextWithoutUnderlines(R.string.about_project_site)
+        binding.aboutBugsFeaturesInfoTextView.setClickableTextWithoutUnderlines(R.string.about_bug_feature_request_site)
 
-        tuskyProfileButton.setOnClickListener {
+        binding.tuskyProfileButton.setOnClickListener {
             viewUrl(BuildConfig.SUPPORT_ACCOUNT_URL)
         }
 
-        aboutLicensesButton.setOnClickListener {
+        binding.aboutLicensesButton.setOnClickListener {
             startActivityWithSlideInAnimation(Intent(this, LicenseActivity::class.java))
         }
-
     }
-
 }
 
 private fun TextView.setClickableTextWithoutUnderlines(@StringRes textId: Int) {
@@ -73,5 +72,4 @@ private fun TextView.setClickableTextWithoutUnderlines(@StringRes textId: Int) {
     setText(builder)
     linksClickable = true
     movementMethod = LinkMovementMethod.getInstance()
-
 }

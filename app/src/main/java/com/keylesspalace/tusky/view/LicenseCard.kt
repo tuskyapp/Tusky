@@ -17,12 +17,13 @@ package com.keylesspalace.tusky.view
 
 import android.content.Context
 import android.util.AttributeSet
+import android.view.LayoutInflater
 import com.google.android.material.card.MaterialCardView
 import com.keylesspalace.tusky.R
+import com.keylesspalace.tusky.databinding.CardLicenseBinding
 import com.keylesspalace.tusky.util.LinkHelper
 import com.keylesspalace.tusky.util.ThemeUtils
 import com.keylesspalace.tusky.util.hide
-import kotlinx.android.synthetic.main.card_license.view.*
 
 class LicenseCard
 @JvmOverloads constructor(
@@ -32,7 +33,7 @@ class LicenseCard
 ) : MaterialCardView(context, attrs, defStyleAttr) {
 
     init {
-        inflate(context, R.layout.card_license, this)
+        val binding = CardLicenseBinding.inflate(LayoutInflater.from(context), this)
 
         setCardBackgroundColor(ThemeUtils.getColor(context, R.attr.colorSurface))
 
@@ -43,12 +44,12 @@ class LicenseCard
         val link: String? = a.getString(R.styleable.LicenseCard_link)
         a.recycle()
 
-        licenseCardName.text = name
-        licenseCardLicense.text = license
+        binding.licenseCardName.text = name
+        binding.licenseCardLicense.text = license
         if(link.isNullOrBlank()) {
-            licenseCardLink.hide()
+            binding.licenseCardLink.hide()
         } else {
-            licenseCardLink.text = link
+            binding.licenseCardLink.text = link
             setOnClickListener { LinkHelper.openLink(link, context) }
         }
 

@@ -19,23 +19,20 @@ import android.os.Bundle
 import androidx.annotation.RawRes
 import android.util.Log
 import android.widget.TextView
+import com.keylesspalace.tusky.databinding.ActivityLicenseBinding
 import com.keylesspalace.tusky.util.IOUtils
-import kotlinx.android.extensions.CacheImplementation
-import kotlinx.android.extensions.ContainerOptions
-import kotlinx.android.synthetic.main.activity_license.*
-import kotlinx.android.synthetic.main.toolbar_basic.*
 import java.io.BufferedReader
 import java.io.IOException
 import java.io.InputStreamReader
 
 class LicenseActivity : BaseActivity() {
 
-    @ContainerOptions(cache = CacheImplementation.NO_CACHE)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_license)
+        val binding = ActivityLicenseBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        setSupportActionBar(toolbar)
+        setSupportActionBar(binding.includedToolbar.toolbar)
         supportActionBar?.run {
             setDisplayHomeAsUpEnabled(true)
             setDisplayShowHomeEnabled(true)
@@ -43,7 +40,7 @@ class LicenseActivity : BaseActivity() {
 
         setTitle(R.string.title_licenses)
 
-        loadFileIntoTextView(R.raw.apache, licenseApacheTextView)
+        loadFileIntoTextView(R.raw.apache, binding.licenseApacheTextView)
 
     }
 
@@ -67,7 +64,5 @@ class LicenseActivity : BaseActivity() {
         IOUtils.closeQuietly(br)
 
         textView.text = sb.toString()
-
     }
-
 }
