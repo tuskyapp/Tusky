@@ -475,6 +475,7 @@ public abstract class StatusViewData {
             application = viewData.application;
             statusEmojis = viewData.getStatusEmojis();
             accountEmojis = viewData.getAccountEmojis();
+            rebloggedByAccountEmojis = viewData.getRebloggedByAccountEmojis();
             card = viewData.getCard();
             isCollapsible = viewData.isCollapsible();
             isCollapsed = viewData.isCollapsed();

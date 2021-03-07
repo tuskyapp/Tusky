@@ -28,12 +28,12 @@ import com.keylesspalace.tusky.MainActivity
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.appstore.PreferenceChangedEvent
+import com.keylesspalace.tusky.databinding.ActivityPreferencesBinding
 import com.keylesspalace.tusky.settings.PrefKeys
 import com.keylesspalace.tusky.util.ThemeUtils
 import com.keylesspalace.tusky.util.getNonNullString
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
-import kotlinx.android.synthetic.main.toolbar_basic.*
 import javax.inject.Inject
 
 class PreferencesActivity : BaseActivity(), SharedPreferences.OnSharedPreferenceChangeListener,
@@ -48,12 +48,12 @@ class PreferencesActivity : BaseActivity(), SharedPreferences.OnSharedPreference
     private var restartActivitiesOnExit: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
-
         super.onCreate(savedInstanceState)
 
-        setContentView(R.layout.activity_preferences)
+        val binding = ActivityPreferencesBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        setSupportActionBar(toolbar)
+        setSupportActionBar(binding.includedToolbar.toolbar)
         supportActionBar?.run {
             setDisplayHomeAsUpEnabled(true)
             setDisplayShowHomeEnabled(true)

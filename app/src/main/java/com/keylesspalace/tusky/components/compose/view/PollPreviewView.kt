@@ -17,11 +17,12 @@ package com.keylesspalace.tusky.components.compose.view
 
 import android.content.Context
 import android.util.AttributeSet
+import android.view.LayoutInflater
 import android.widget.LinearLayout
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.adapter.PreviewPollOptionsAdapter
+import com.keylesspalace.tusky.databinding.ViewPollPreviewBinding
 import com.keylesspalace.tusky.entity.NewPoll
-import kotlinx.android.synthetic.main.view_poll_preview.view.*
 
 class PollPreviewView @JvmOverloads constructor(
         context: Context?,
@@ -29,11 +30,11 @@ class PollPreviewView @JvmOverloads constructor(
         defStyleAttr: Int = 0)
     : LinearLayout(context, attrs, defStyleAttr) {
 
-    val adapter = PreviewPollOptionsAdapter()
+    private val adapter = PreviewPollOptionsAdapter()
+
+    private val binding = ViewPollPreviewBinding.inflate(LayoutInflater.from(context), this)
 
     init {
-        inflate(context, R.layout.view_poll_preview, this)
-
         orientation = VERTICAL
 
         setBackgroundResource(R.drawable.card_frame)
@@ -42,8 +43,7 @@ class PollPreviewView @JvmOverloads constructor(
 
         setPadding(padding, padding, padding, padding)
 
-        pollPreviewOptions.adapter = adapter
-
+        binding.pollPreviewOptions.adapter = adapter
     }
 
     fun setPoll(poll: NewPoll){
@@ -52,13 +52,11 @@ class PollPreviewView @JvmOverloads constructor(
         val pollDurationId = resources.getIntArray(R.array.poll_duration_values).indexOfLast {
             it <= poll.expiresIn
         }
-        pollDurationPreview.text = resources.getStringArray(R.array.poll_duration_names)[pollDurationId]
-
+        binding.pollDurationPreview.text = resources.getStringArray(R.array.poll_duration_names)[pollDurationId]
     }
 
     override fun setOnClickListener(l: OnClickListener?) {
         super.setOnClickListener(l)
         adapter.setOnClickListener(l)
     }
-
 }

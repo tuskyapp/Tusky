@@ -5,7 +5,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <include layout="@layout/toolbar_basic" />
+    <include
+        android:id="@+id/includedToolbar"
+        layout="@layout/toolbar_basic" />
 
     <ProgressBar
         android:id="@+id/progressBar"

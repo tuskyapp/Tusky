@@ -481,4 +481,40 @@
     <string name="title_announcements">公告</string>
     <string name="account_note_saved">已保存</string>
     <string name="account_note_hint">此账号的备注</string>
+    <string name="action_unsubscribe_account">取消关注</string>
+    <string name="action_subscribe_account">关注</string>
+    <string name="drafts_toot_reply_removed">该草稿回复的原嘟文已被删除</string>
+    <string name="draft_deleted">草稿已删除</string>
+    <string name="drafts_failed_loading_reply">加载回复信息失败</string>
+    <string name="old_drafts">旧草稿</string>
+    <string name="new_drafts_warning">Tusky 的草稿功能已被重新设计，现在它更快、更友好，Bug也更少。
+\n 旧草稿依然可以通过新草稿页面的按钮查看，但他们将在未来版本中移除！</string>
+    <string name="drafts_toot_failed_to_send">嘟文发送失败！</string>
+    <string name="dialog_delete_list_warning">确认删除列表 %s？</string>
+    <string name="error_upload_max_media_reached">最多只可上传 %1$d 个媒体附件</string>
+    <string name="wellbeing_hide_stats_profile">隐藏账号的统计信息</string>
+    <string name="review_notifications">反馈通知</string>
+    <string name="wellbeing_hide_stats_posts">隐藏嘟文的统计信息</string>
+    <string name="limit_notifications">限制时间线通知</string>
+    <string name="wellbeing_mode_notice">一些可能影响您精神状态的信息将被隐藏，这些信息包括：
+\n
+\n - 收藏、转发、关注通知
+\n - 收藏、转发数
+\n - 账号的已关注数量、嘟文数量
+\n
+\n 推送通知不会被影响，但可以在通知设置中手动禁用。</string>
+    <string name="pref_title_wellbeing_mode">健康模式</string>
+    <string name="duration_indefinite">永久</string>
+    <string name="label_duration">持续时间</string>
+    <plurals name="poll_info_people">
+        <item quantity="one">%s 人</item>
+        <item quantity="other"></item>
+    </plurals>
+    <string name="status_media_attachments">附件</string>
+    <string name="status_media_audio">音频</string>
+    <string name="notification_subscription_description">当有我关注的用户发送了新嘟文时</string>
+    <string name="notification_subscription_name">新嘟文</string>
+    <string name="pref_title_animate_custom_emojis">显示动态自定义Emoji</string>
+    <string name="pref_title_notification_filter_subscriptions">关注的人发送了新嘟文</string>
+    <string name="notification_subscription_format">%s 发送了新嘟文</string>
 </resources>

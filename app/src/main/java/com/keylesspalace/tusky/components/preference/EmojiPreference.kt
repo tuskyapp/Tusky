@@ -8,14 +8,23 @@ import android.os.Build
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
-import android.widget.*
+import android.widget.RadioButton
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.preference.Preference
 import androidx.preference.PreferenceManager
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.SplashActivity
+import com.keylesspalace.tusky.databinding.DialogEmojicompatBinding
+import com.keylesspalace.tusky.databinding.ItemEmojiPrefBinding
 import com.keylesspalace.tusky.util.EmojiCompatFont
+import com.keylesspalace.tusky.util.EmojiCompatFont.Companion.BLOBMOJI
 import com.keylesspalace.tusky.util.EmojiCompatFont.Companion.FONTS
+import com.keylesspalace.tusky.util.EmojiCompatFont.Companion.NOTOEMOJI
+import com.keylesspalace.tusky.util.EmojiCompatFont.Companion.SYSTEM_DEFAULT
+import com.keylesspalace.tusky.util.EmojiCompatFont.Companion.TWEMOJI
+import com.keylesspalace.tusky.util.hide
+import com.keylesspalace.tusky.util.show
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import okhttp3.OkHttpClient
@@ -50,94 +59,85 @@ class EmojiPreference(
     }
 
     override fun onClick() {
-        val view = LayoutInflater.from(context).inflate(R.layout.dialog_emojicompat, null)
-        viewIds.forEachIndexed { index, viewId ->
-            setupItem(view.findViewById(viewId), FONTS[index])
-        }
+        val binding = DialogEmojicompatBinding.inflate(LayoutInflater.from(context))
+
+        setupItem(BLOBMOJI, binding.itemBlobmoji)
+        setupItem(TWEMOJI, binding.itemTwemoji)
+        setupItem(NOTOEMOJI, binding.itemNotoemoji)
+        setupItem(SYSTEM_DEFAULT, binding.itemNomoji)
+
         AlertDialog.Builder(context)
-                .setView(view)
+                .setView(binding.root)
                 .setPositiveButton(android.R.string.ok) { _, _ -> onDialogOk() }
                 .setNegativeButton(android.R.string.cancel, null)
                 .show()
     }
 
-    private fun setupItem(container: View, font: EmojiCompatFont) {
-        val title: TextView = container.findViewById(R.id.emojicompat_name)
-        val caption: TextView = container.findViewById(R.id.emojicompat_caption)
-        val thumb: ImageView = container.findViewById(R.id.emojicompat_thumb)
-        val download: ImageButton = container.findViewById(R.id.emojicompat_download)
-        val cancel: ImageButton = container.findViewById(R.id.emojicompat_download_cancel)
-        val radio: RadioButton = container.findViewById(R.id.emojicompat_radio)
-
+    private fun setupItem(font: EmojiCompatFont, binding: ItemEmojiPrefBinding) {
         // Initialize all the views
-        title.text = font.getDisplay(container.context)
-        caption.setText(font.caption)
-        thumb.setImageResource(font.img)
+        binding.emojiName.text = font.getDisplay(context)
+        binding.emojiCaption.setText(font.caption)
+        binding.emojiThumbnail.setImageResource(font.img)
 
         // There needs to be a list of all the radio buttons in order to uncheck them when one is selected
-        radioButtons.add(radio)
-        updateItem(font, container)
+        radioButtons.add(binding.emojiRadioButton)
+        updateItem(font, binding)
 
         // Set actions
-        download.setOnClickListener { startDownload(font, container) }
-        cancel.setOnClickListener { cancelDownload(font, container) }
-        radio.setOnClickListener { radioButton: View -> select(font, radioButton as RadioButton) }
-        container.setOnClickListener { containerView: View ->
-            select(font, containerView.findViewById(R.id.emojicompat_radio))
+        binding.emojiDownload.setOnClickListener { startDownload(font, binding) }
+        binding.emojiDownloadCancel.setOnClickListener { cancelDownload(font, binding) }
+        binding.emojiRadioButton.setOnClickListener { radioButton: View -> select(font, radioButton as RadioButton) }
+        binding.root.setOnClickListener {
+            select(font, binding.emojiRadioButton)
         }
     }
 
-    private fun startDownload(font: EmojiCompatFont, container: View) {
-        val download: ImageButton = container.findViewById(R.id.emojicompat_download)
-        val caption: TextView = container.findViewById(R.id.emojicompat_caption)
-        val progressBar: ProgressBar = container.findViewById(R.id.emojicompat_progress)
-        val cancel: ImageButton = container.findViewById(R.id.emojicompat_download_cancel)
-
+    private fun startDownload(font: EmojiCompatFont, binding: ItemEmojiPrefBinding) {
         // Switch to downloading style
-        download.visibility = View.GONE
-        caption.visibility = View.INVISIBLE
-        progressBar.visibility = View.VISIBLE
-        progressBar.progress = 0
-        cancel.visibility = View.VISIBLE
+        binding.emojiDownload.hide()
+        binding.emojiCaption.visibility = View.INVISIBLE
+        binding.emojiProgress.show()
+        binding.emojiProgress.progress = 0
+        binding.emojiDownloadCancel.show()
         font.downloadFontFile(context, okHttpClient)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                         { progress ->
                             // The progress is returned as a float between 0 and 1, or -1 if it could not determined
                             if (progress >= 0) {
-                                progressBar.isIndeterminate = false
-                                val max = progressBar.max.toFloat()
+                                binding.emojiProgress.isIndeterminate = false
+                                val max = binding.emojiProgress.max.toFloat()
                                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                                    progressBar.setProgress((max * progress).toInt(), true)
+                                    binding.emojiProgress.setProgress((max * progress).toInt(), true)
                                 } else {
-                                    progressBar.progress = (max * progress).toInt()
+                                    binding.emojiProgress.progress = (max * progress).toInt()
                                 }
                             } else {
-                                progressBar.isIndeterminate = true
+                                binding.emojiProgress.isIndeterminate = true
                             }
                         },
                         {
                             Toast.makeText(context, R.string.download_failed, Toast.LENGTH_SHORT).show()
-                            updateItem(font, container)
+                            updateItem(font, binding)
                         },
                         {
-                            finishDownload(font, container)
+                            finishDownload(font, binding)
                         }
                 ).also { downloadDisposables[font.id] = it }
 
 
     }
 
-    private fun cancelDownload(font: EmojiCompatFont, container: View) {
-        font.deleteDownloadedFile(container.context)
+    private fun cancelDownload(font: EmojiCompatFont, binding: ItemEmojiPrefBinding) {
+        font.deleteDownloadedFile(context)
         downloadDisposables[font.id]?.dispose()
         downloadDisposables[font.id] = null
-        updateItem(font, container)
+        updateItem(font, binding)
     }
 
-    private fun finishDownload(font: EmojiCompatFont, container: View) {
-        select(font, container.findViewById(R.id.emojicompat_radio))
-        updateItem(font, container)
+    private fun finishDownload(font: EmojiCompatFont, binding: ItemEmojiPrefBinding) {
+        select(font, binding.emojiRadioButton)
+        updateItem(font, binding)
         // Set the flag to restart the app (because an update has been downloaded)
         if (selected === original && currentNeedsUpdate) {
             updated = true
@@ -153,54 +153,43 @@ class EmojiPreference(
      */
     private fun select(font: EmojiCompatFont, radio: RadioButton) {
         selected = font
-        // Uncheck all the other buttons
-        for (other in radioButtons) {
-            if (other !== radio) {
-                other.isChecked = false
-            }
+        radioButtons.forEach { radioButton ->
+            radioButton.isChecked = radioButton == radio
         }
-        radio.isChecked = true
     }
 
     /**
      * Called when a "consistent" state is reached, i.e. it's not downloading the font
      *
      * @param font      The font to be displayed
-     * @param container The ConstraintLayout containing the item
+     * @param binding The ItemEmojiPrefBinding to show the item in
      */
-    private fun updateItem(font: EmojiCompatFont, container: View) {
-        // Assignments
-        val download: ImageButton = container.findViewById(R.id.emojicompat_download)
-        val caption: TextView = container.findViewById(R.id.emojicompat_caption)
-        val progress: ProgressBar = container.findViewById(R.id.emojicompat_progress)
-        val cancel: ImageButton = container.findViewById(R.id.emojicompat_download_cancel)
-        val radio: RadioButton = container.findViewById(R.id.emojicompat_radio)
-
+    private fun updateItem(font: EmojiCompatFont, binding: ItemEmojiPrefBinding) {
         // There's no download going on
-        progress.visibility = View.GONE
-        cancel.visibility = View.GONE
-        caption.visibility = View.VISIBLE
+        binding.emojiProgress.hide()
+        binding.emojiDownloadCancel.hide()
+        binding.emojiCaption.show()
         if (font.isDownloaded(context)) {
             // Make it selectable
-            download.visibility = View.GONE
-            radio.visibility = View.VISIBLE
-            container.isClickable = true
+            binding.emojiDownload.hide()
+            binding.emojiRadioButton.show()
+            binding.root.isClickable = true
         } else {
             // Make it downloadable
-            download.visibility = View.VISIBLE
-            radio.visibility = View.GONE
-            container.isClickable = false
+            binding.emojiDownload.show()
+            binding.emojiRadioButton.hide()
+            binding.root.isClickable = false
         }
 
         // Select it if necessary
         if (font === selected) {
-            radio.isChecked = true
+            binding.emojiRadioButton.isChecked = true
             // Update available
             if (!font.isDownloaded(context)) {
                 currentNeedsUpdate = true
             }
         } else {
-            radio.isChecked = false
+            binding.emojiRadioButton.isChecked = false
         }
     }
 
@@ -246,13 +235,5 @@ class EmojiPreference(
 
     companion object {
         private const val TAG = "EmojiPreference"
-
-        // Please note that this array must sorted in the same way as the fonts.
-        private val viewIds = intArrayOf(
-                R.id.item_nomoji,
-                R.id.item_blobmoji,
-                R.id.item_twemoji,
-                R.id.item_notoemoji
-        )
     }
 }

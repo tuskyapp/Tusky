@@ -1,0 +1,9 @@
+Tusky v9.0
+
+- Podes crear Enquisas desde Tusky
+- Busca mellorada
+- Nova opción nas Preferencias da Conta para despregar avisos de contido
+- Os avatares na caixa de navegación agora son cadrados con bordo redondeado
+- Xa podes denunciar usuarias incluso se nunca publicaron
+- Tusky rexeitará conectar sobre conexións sen cifrar en Android 6+
+- Múltiples melloras e corrección de fallos
