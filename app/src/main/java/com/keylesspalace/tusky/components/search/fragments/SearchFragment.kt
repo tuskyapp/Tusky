@@ -17,11 +17,11 @@ import com.keylesspalace.tusky.BottomSheetActivity
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.ViewTagActivity
 import com.keylesspalace.tusky.components.search.SearchViewModel
+import com.keylesspalace.tusky.databinding.FragmentSearchBinding
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.interfaces.LinkListener
 import com.keylesspalace.tusky.util.*
-import kotlinx.android.synthetic.main.fragment_search.*
 import javax.inject.Inject
 
 abstract class SearchFragment<T> : Fragment(R.layout.fragment_search),
@@ -31,6 +31,8 @@ abstract class SearchFragment<T> : Fragment(R.layout.fragment_search),
     lateinit var viewModelFactory: ViewModelFactory
 
     protected val viewModel: SearchViewModel by activityViewModels { viewModelFactory }
+
+    protected val binding by viewBinding(FragmentSearchBinding::bind)
 
     private var snackbarErrorRetry: Snackbar? = null
 
@@ -48,8 +50,8 @@ abstract class SearchFragment<T> : Fragment(R.layout.fragment_search),
     }
 
     private fun setupSwipeRefreshLayout() {
-        swipeRefreshLayout.setOnRefreshListener(this)
-        swipeRefreshLayout.setColorSchemeResources(R.color.tusky_blue)
+        binding.swipeRefreshLayout.setOnRefreshListener(this)
+        binding.swipeRefreshLayout.setColorSchemeResources(R.color.tusky_blue)
     }
 
     private fun subscribeObservables() {
@@ -59,7 +61,7 @@ abstract class SearchFragment<T> : Fragment(R.layout.fragment_search),
 
         networkStateRefresh.observe(viewLifecycleOwner) {
 
-            searchProgressBar.visible(it == NetworkState.LOADING)
+            binding.searchProgressBar.visible(it == NetworkState.LOADING)
 
             if (it.status == Status.FAILED) {
                 showError()
@@ -69,7 +71,7 @@ abstract class SearchFragment<T> : Fragment(R.layout.fragment_search),
 
         networkState.observe(viewLifecycleOwner) {
 
-            progressBarBottom.visible(it == NetworkState.LOADING)
+            binding.progressBarBottom.visible(it == NetworkState.LOADING)
 
             if (it.status == Status.FAILED) {
                 showError()
@@ -82,24 +84,25 @@ abstract class SearchFragment<T> : Fragment(R.layout.fragment_search),
     }
 
     private fun initAdapter() {
-        searchRecyclerView.addItemDecoration(DividerItemDecoration(searchRecyclerView.context, DividerItemDecoration.VERTICAL))
-        searchRecyclerView.layoutManager = LinearLayoutManager(searchRecyclerView.context)
+        binding.searchRecyclerView.addItemDecoration(DividerItemDecoration(binding.searchRecyclerView.context, DividerItemDecoration.VERTICAL))
+        binding.searchRecyclerView.layoutManager = LinearLayoutManager(binding.searchRecyclerView.context)
         adapter = createAdapter()
-        searchRecyclerView.adapter = adapter
-        searchRecyclerView.setHasFixedSize(true)
-        (searchRecyclerView.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
+        binding.searchRecyclerView.adapter = adapter
+        binding.searchRecyclerView.setHasFixedSize(true)
+        (binding.searchRecyclerView.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
     }
 
     private fun showNoData(isEmpty: Boolean) {
-        if (isEmpty && networkStateRefresh.value == NetworkState.LOADED)
-            searchNoResultsText.show()
-        else
-            searchNoResultsText.hide()
+        if (isEmpty && networkStateRefresh.value == NetworkState.LOADED) {
+            binding.searchNoResultsText.show()
+        } else {
+            binding.searchNoResultsText.hide()
+        }
     }
 
     private fun showError() {
         if (snackbarErrorRetry?.isShown != true) {
-            snackbarErrorRetry = Snackbar.make(layoutRoot, R.string.failed_search, Snackbar.LENGTH_INDEFINITE)
+            snackbarErrorRetry = Snackbar.make(binding.root, R.string.failed_search, Snackbar.LENGTH_INDEFINITE)
             snackbarErrorRetry?.setAction(R.string.action_retry) {
                 snackbarErrorRetry = null
                 viewModel.retryAllSearches()
@@ -122,8 +125,8 @@ abstract class SearchFragment<T> : Fragment(R.layout.fragment_search),
     override fun onRefresh() {
 
         // Dismissed here because the RecyclerView bottomProgressBar is shown as soon as the retry begins.
-        swipeRefreshLayout.post {
-            swipeRefreshLayout.isRefreshing = false
+        binding.swipeRefreshLayout.post {
+            binding.swipeRefreshLayout.isRefreshing = false
         }
         viewModel.retryAllSearches()
     }

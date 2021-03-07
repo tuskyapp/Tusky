@@ -28,14 +28,17 @@ import android.view.ViewGroup
 import android.widget.MediaController
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.ViewMediaActivity
+import com.keylesspalace.tusky.databinding.FragmentViewVideoBinding
 import com.keylesspalace.tusky.entity.Attachment
 import com.keylesspalace.tusky.util.hide
+import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.util.visible
 import com.keylesspalace.tusky.view.ExposedPlayPauseVideoView
-import kotlinx.android.synthetic.main.activity_view_media.*
-import kotlinx.android.synthetic.main.fragment_view_video.*
 
 class ViewVideoFragment : ViewMediaFragment() {
+
+    private val binding by viewBinding(FragmentViewVideoBinding::bind)
+
     private lateinit var toolbar: View
     private val handler = Handler(Looper.getMainLooper())
     private val hideToolbar = Runnable {
@@ -52,7 +55,7 @@ class ViewVideoFragment : ViewMediaFragment() {
     override fun setUserVisibleHint(isVisibleToUser: Boolean) {
         // Start/pause/resume video playback as fragment is shown/hidden
         super.setUserVisibleHint(isVisibleToUser)
-        if (videoView == null) {
+        if (binding.videoView == null) {
             return
         }
 
@@ -60,10 +63,10 @@ class ViewVideoFragment : ViewMediaFragment() {
             if (mediaActivity.isToolbarVisible) {
                 handler.postDelayed(hideToolbar, TOOLBAR_HIDE_DELAY_MS)
             }
-            videoView.start()
+            binding.videoView.start()
         } else {
             handler.removeCallbacks(hideToolbar)
-            videoView.pause()
+            binding.videoView.pause()
             mediaController.hide()
         }
     }
@@ -75,11 +78,11 @@ class ViewVideoFragment : ViewMediaFragment() {
             description: String?,
             showingDescription: Boolean
     ) {
-        mediaDescription.text = description
-        mediaDescription.visible(showingDescription)
+        binding.mediaDescription.text = description
+        binding.mediaDescription.visible(showingDescription)
 
-        videoView.transitionName = url
-        videoView.setVideoPath(url)
+        binding.videoView.transitionName = url
+        binding.videoView.setVideoPath(url)
         mediaController = object : MediaController(mediaActivity) {
             override fun show(timeout: Int) {
                 // We're doing manual auto-close management.
@@ -100,10 +103,10 @@ class ViewVideoFragment : ViewMediaFragment() {
             }
         }
 
-        mediaController.setMediaPlayer(videoView)
-        videoView.setMediaController(mediaController)
-        videoView.requestFocus()
-        videoView.setPlayPauseListener(object: ExposedPlayPauseVideoView.PlayPauseListener {
+        mediaController.setMediaPlayer(binding.videoView)
+        binding.videoView.setMediaController(mediaController)
+        binding.videoView.requestFocus()
+        binding.videoView.setPlayPauseListener(object: ExposedPlayPauseVideoView.PlayPauseListener {
             override fun onPause() {
                 handler.removeCallbacks(hideToolbar)
             }
@@ -117,31 +120,31 @@ class ViewVideoFragment : ViewMediaFragment() {
                 }
             }
         })
-        videoView.setOnPreparedListener { mp ->
-            val containerWidth = videoContainer.measuredWidth.toFloat()
-            val containerHeight = videoContainer.measuredHeight.toFloat()
+        binding.videoView.setOnPreparedListener { mp ->
+            val containerWidth = binding.videoContainer.measuredWidth.toFloat()
+            val containerHeight = binding.videoContainer.measuredHeight.toFloat()
             val videoWidth = mp.videoWidth.toFloat()
             val videoHeight = mp.videoHeight.toFloat()
 
             if(containerWidth/containerHeight > videoWidth/videoHeight) {
-                videoView.layoutParams.height = ViewGroup.LayoutParams.MATCH_PARENT
-                videoView.layoutParams.width = ViewGroup.LayoutParams.WRAP_CONTENT
+                binding.videoView.layoutParams.height = ViewGroup.LayoutParams.MATCH_PARENT
+                binding.videoView.layoutParams.width = ViewGroup.LayoutParams.WRAP_CONTENT
             } else {
-                videoView.layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT
-                videoView.layoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT
+                binding.videoView.layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT
+                binding.videoView.layoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT
             }
 
             // Wait until the media is loaded before accepting taps as we don't want toolbar to
             // be hidden until then.
-            videoView.setOnTouchListener { _, _ ->
+            binding.videoView.setOnTouchListener { _, _ ->
                 mediaActivity.onPhotoTap()
                 false
             }
 
-            progressBar.hide()
+            binding.progressBar.hide()
             mp.isLooping = true
             if (requireArguments().getBoolean(ARG_START_POSTPONED_TRANSITION)) {
-                videoView.start()
+                binding.videoView.start()
             }
         }
 
@@ -155,8 +158,8 @@ class ViewVideoFragment : ViewMediaFragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        toolbar = requireActivity().toolbar
         mediaActivity = activity as ViewMediaActivity
+        toolbar = mediaActivity.toolbar
         return inflater.inflate(R.layout.fragment_view_video, container, false)
     }
 
@@ -174,7 +177,7 @@ class ViewVideoFragment : ViewMediaFragment() {
     }
 
     override fun onToolbarVisibilityChange(visible: Boolean) {
-        if (videoView == null || mediaDescription == null || !userVisibleHint) {
+        if (binding.videoView == null || binding.mediaDescription == null || !userVisibleHint) {
             return
         }
 
@@ -182,20 +185,20 @@ class ViewVideoFragment : ViewMediaFragment() {
         val alpha = if (isDescriptionVisible) 1.0f else 0.0f
         if (isDescriptionVisible) {
             // If to be visible, need to make visible immediately and animate alpha
-            mediaDescription.alpha = 0.0f
-            mediaDescription.visible(isDescriptionVisible)
+            binding.mediaDescription.alpha = 0.0f
+            binding.mediaDescription.visible(isDescriptionVisible)
         }
 
-        mediaDescription.animate().alpha(alpha)
+        binding.mediaDescription.animate().alpha(alpha)
                 .setListener(object : AnimatorListenerAdapter() {
                     override fun onAnimationEnd(animation: Animator) {
-                        mediaDescription?.visible(isDescriptionVisible)
+                        binding.mediaDescription?.visible(isDescriptionVisible)
                         animation.removeListener(this)
                     }
                 })
                 .start()
 
-        if (visible && videoView.isPlaying && !isAudio) {
+        if (visible && binding.videoView.isPlaying && !isAudio) {
             hideToolbarAfterDelay(TOOLBAR_HIDE_DELAY_MS)
         } else {
             handler.removeCallbacks(hideToolbar)

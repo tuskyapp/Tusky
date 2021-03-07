@@ -28,6 +28,7 @@ import androidx.recyclerview.widget.SimpleItemAnimator
 import com.keylesspalace.tusky.AccountActivity
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.ViewTagActivity
+import com.keylesspalace.tusky.databinding.FragmentTimelineBinding
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.fragment.SFragment
@@ -47,6 +48,8 @@ class ConversationsFragment : SFragment(), StatusActionListener, Injectable, Res
     lateinit var viewModelFactory: ViewModelFactory
 
     private val viewModel: ConversationsViewModel by viewModels { viewModelFactory }
+
+    private val binding by viewBinding(FragmentTimelineBinding::bind)
 
     private lateinit var adapter: ConversationAdapter
 
@@ -73,14 +76,14 @@ class ConversationsFragment : SFragment(), StatusActionListener, Injectable, Res
 
         adapter = ConversationAdapter(statusDisplayOptions, this, ::onTopLoaded, viewModel::retry)
 
-        recyclerView.addItemDecoration(DividerItemDecoration(view.context, DividerItemDecoration.VERTICAL))
+        binding.recyclerView.addItemDecoration(DividerItemDecoration(view.context, DividerItemDecoration.VERTICAL))
         layoutManager = LinearLayoutManager(view.context)
-        recyclerView.layoutManager = layoutManager
-        recyclerView.adapter = adapter
-        (recyclerView.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
+        binding.recyclerView.layoutManager = layoutManager
+        binding.recyclerView.adapter = adapter
+        (binding.recyclerView.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
 
-        progressBar.hide()
-        statusView.hide()
+        binding.progressBar.hide()
+        binding.statusView.hide()
 
         initSwipeToRefresh()
 
@@ -97,16 +100,16 @@ class ConversationsFragment : SFragment(), StatusActionListener, Injectable, Res
 
     private fun initSwipeToRefresh() {
         viewModel.refreshState.observe(viewLifecycleOwner) {
-            swipeRefreshLayout.isRefreshing = it == NetworkState.LOADING
+            binding.swipeRefreshLayout.isRefreshing = it == NetworkState.LOADING
         }
-        swipeRefreshLayout.setOnRefreshListener {
+        binding.swipeRefreshLayout.setOnRefreshListener {
             viewModel.refresh()
         }
-        swipeRefreshLayout.setColorSchemeResources(R.color.tusky_blue)
+        binding.swipeRefreshLayout.setColorSchemeResources(R.color.tusky_blue)
     }
 
     private fun onTopLoaded() {
-        recyclerView.scrollToPosition(0)
+        binding.recyclerView.scrollToPosition(0)
     }
 
     override fun onReblog(reblog: Boolean, position: Int) {
@@ -183,7 +186,7 @@ class ConversationsFragment : SFragment(), StatusActionListener, Injectable, Res
     private fun jumpToTop() {
         if (isAdded) {
             layoutManager?.scrollToPosition(0)
-            recyclerView.stopScroll()
+            binding.recyclerView.stopScroll()
         }
     }
 

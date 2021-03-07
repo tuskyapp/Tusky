@@ -24,10 +24,10 @@ import com.google.android.material.snackbar.Snackbar
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.components.report.ReportViewModel
 import com.keylesspalace.tusky.components.report.Screen
+import com.keylesspalace.tusky.databinding.FragmentReportNoteBinding
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.util.*
-import kotlinx.android.synthetic.main.fragment_report_note.*
 import java.io.IOException
 import javax.inject.Inject
 
@@ -38,6 +38,8 @@ class ReportNoteFragment : Fragment(R.layout.fragment_report_note), Injectable {
 
     private val viewModel: ReportViewModel by activityViewModels { viewModelFactory }
 
+    private val binding by viewBinding(FragmentReportNoteBinding::bind)
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         fillViews()
         handleChanges()
@@ -46,29 +48,29 @@ class ReportNoteFragment : Fragment(R.layout.fragment_report_note), Injectable {
     }
 
     private fun handleChanges() {
-        editNote.doAfterTextChanged {
+        binding.editNote.doAfterTextChanged {
             viewModel.reportNote = it?.toString() ?: ""
         }
-        checkIsNotifyRemote.setOnCheckedChangeListener { _, isChecked ->
+        binding.checkIsNotifyRemote.setOnCheckedChangeListener { _, isChecked ->
             viewModel.isRemoteNotify = isChecked
         }
     }
 
     private fun fillViews() {
-        editNote.setText(viewModel.reportNote)
+        binding.editNote.setText(viewModel.reportNote)
 
         if (viewModel.isRemoteAccount){
-            checkIsNotifyRemote.show()
-            reportDescriptionRemoteInstance.show()
+            binding.checkIsNotifyRemote.show()
+            binding.reportDescriptionRemoteInstance.show()
         }
         else{
-            checkIsNotifyRemote.hide()
-            reportDescriptionRemoteInstance.hide()
+            binding.checkIsNotifyRemote.hide()
+            binding.reportDescriptionRemoteInstance.hide()
         }
 
         if (viewModel.isRemoteAccount)
-            checkIsNotifyRemote.text = getString(R.string.report_remote_instance, viewModel.remoteServer)
-        checkIsNotifyRemote.isChecked = viewModel.isRemoteNotify
+            binding.checkIsNotifyRemote.text = getString(R.string.report_remote_instance, viewModel.remoteServer)
+        binding.checkIsNotifyRemote.isChecked = viewModel.isRemoteNotify
     }
 
     private fun subscribeObservables() {
@@ -83,13 +85,13 @@ class ReportNoteFragment : Fragment(R.layout.fragment_report_note), Injectable {
     }
 
     private fun showError(error: Throwable?) {
-        editNote.isEnabled = true
-        checkIsNotifyRemote.isEnabled = true
-        buttonReport.isEnabled = true
-        buttonBack.isEnabled = true
-        progressBar.hide()
+        binding.editNote.isEnabled = true
+        binding.checkIsNotifyRemote.isEnabled = true
+        binding.buttonReport.isEnabled = true
+        binding.buttonBack.isEnabled = true
+        binding.progressBar.hide()
 
-        Snackbar.make(buttonBack, if (error is IOException) R.string.error_network else R.string.error_generic, Snackbar.LENGTH_LONG)
+        Snackbar.make(binding.buttonBack, if (error is IOException) R.string.error_network else R.string.error_generic, Snackbar.LENGTH_LONG)
                 .apply {
                     setAction(R.string.action_retry) {
                         sendReport()
@@ -103,19 +105,19 @@ class ReportNoteFragment : Fragment(R.layout.fragment_report_note), Injectable {
     }
 
     private fun showLoading() {
-        buttonReport.isEnabled = false
-        buttonBack.isEnabled = false
-        editNote.isEnabled = false
-        checkIsNotifyRemote.isEnabled = false
-        progressBar.show()
+        binding.buttonReport.isEnabled = false
+        binding.buttonBack.isEnabled = false
+        binding.editNote.isEnabled = false
+        binding.checkIsNotifyRemote.isEnabled = false
+        binding.progressBar.show()
     }
 
     private fun handleClicks() {
-        buttonBack.setOnClickListener {
+        binding.buttonBack.setOnClickListener {
             viewModel.navigateTo(Screen.Back)
         }
 
-        buttonReport.setOnClickListener {
+        binding.buttonReport.setOnClickListener {
             sendReport()
         }
     }
@@ -123,5 +125,4 @@ class ReportNoteFragment : Fragment(R.layout.fragment_report_note), Injectable {
     companion object {
         fun newInstance() = ReportNoteFragment()
     }
-
 }

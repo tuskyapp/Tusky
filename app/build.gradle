@@ -125,6 +125,7 @@ dependencies {
     implementation "androidx.emoji:emoji-appcompat:1.1.0"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion"
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycleVersion"
+    implementation "androidx.lifecycle:lifecycle-common-java8:$lifecycleVersion"
     implementation "androidx.lifecycle:lifecycle-reactivestreams-ktx:$lifecycleVersion"
     implementation "androidx.constraintlayout:constraintlayout:2.0.4"
     implementation "androidx.paging:paging-runtime-ktx:2.1.2"
