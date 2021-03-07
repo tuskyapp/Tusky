@@ -63,5 +63,4 @@ class PreviewPollOptionsAdapter: RecyclerView.Adapter<PreviewViewHolder>() {
 
 }
 
-
 class PreviewViewHolder(itemView: View): RecyclerView.ViewHolder(itemView)

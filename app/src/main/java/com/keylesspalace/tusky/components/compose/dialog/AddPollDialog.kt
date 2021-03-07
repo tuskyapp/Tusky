@@ -22,7 +22,6 @@ import android.view.LayoutInflater
 import android.view.WindowManager
 import androidx.appcompat.app.AlertDialog
 import com.keylesspalace.tusky.R
-import com.keylesspalace.tusky.adapter.AddPollOptionsAdapter
 import com.keylesspalace.tusky.databinding.DialogAddPollBinding
 import com.keylesspalace.tusky.entity.NewPoll
 

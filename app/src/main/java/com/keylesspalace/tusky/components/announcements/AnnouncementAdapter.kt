@@ -19,19 +19,17 @@ import android.view.ContextThemeWrapper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.core.view.size
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.chip.Chip
-import com.google.android.material.chip.ChipGroup
 import com.keylesspalace.tusky.R
+import com.keylesspalace.tusky.databinding.ItemAnnouncementBinding
 import com.keylesspalace.tusky.entity.Announcement
 import com.keylesspalace.tusky.entity.Emoji
 import com.keylesspalace.tusky.interfaces.LinkListener
+import com.keylesspalace.tusky.util.BindingHolder
 import com.keylesspalace.tusky.util.LinkHelper
 import com.keylesspalace.tusky.util.emojify
-import kotlinx.android.synthetic.main.item_announcement.view.*
-
 
 interface AnnouncementActionListener: LinkListener {
     fun openReactionPicker(announcementId: String, target: View)
@@ -44,16 +42,74 @@ class AnnouncementAdapter(
         private val listener: AnnouncementActionListener,
         private val wellbeingEnabled: Boolean = false,
         private val animateEmojis: Boolean = false
-) : RecyclerView.Adapter<AnnouncementAdapter.AnnouncementViewHolder>() {
+) : RecyclerView.Adapter<BindingHolder<ItemAnnouncementBinding>>() {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AnnouncementViewHolder {
-        val view = LayoutInflater.from(parent.context)
-                .inflate(R.layout.item_announcement, parent, false)
-        return AnnouncementViewHolder(view)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BindingHolder<ItemAnnouncementBinding> {
+        val binding = ItemAnnouncementBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return BindingHolder(binding)
     }
 
-    override fun onBindViewHolder(viewHolder: AnnouncementViewHolder, position: Int) {
-        viewHolder.bind(items[position])
+    override fun onBindViewHolder(holder: BindingHolder<ItemAnnouncementBinding>, position: Int) {
+        val item = items[position]
+
+        val text = holder.binding.text
+        val chips = holder.binding.chipGroup
+        val addReactionChip = holder.binding.addReactionChip
+
+        LinkHelper.setClickableText(text, item.content, null, listener)
+
+        // If wellbeing mode is enabled, announcement badge counts should not be shown.
+        if (wellbeingEnabled) {
+            // Since reactions are not visible in wellbeing mode,
+            // we shouldn't be able to add any ourselves.
+            addReactionChip.visibility = View.GONE
+            return
+        }
+
+        item.reactions.forEachIndexed { i, reaction ->
+            (chips.getChildAt(i)?.takeUnless { it.id == R.id.addReactionChip } as Chip?
+                    ?: Chip(ContextThemeWrapper(chips.context, R.style.Widget_MaterialComponents_Chip_Choice)).apply {
+                        isCheckable = true
+                        checkedIcon = null
+                        chips.addView(this, i)
+                    })
+                    .apply {
+                        val emojiText = if (reaction.url == null) {
+                            reaction.name
+                        } else {
+                            context.getString(R.string.emoji_shortcode_format, reaction.name)
+                        }
+                        this.text = ("$emojiText ${reaction.count}")
+                                .emojify(
+                                        listOf(Emoji(
+                                                reaction.name,
+                                                reaction.url ?: "",
+                                                reaction.staticUrl ?: "",
+                                                null
+                                        )),
+                                        this,
+                                        animateEmojis
+                                )
+
+                        isChecked = reaction.me
+
+                        setOnClickListener {
+                            if (reaction.me) {
+                                listener.removeReaction(item.id, reaction.name)
+                            } else {
+                                listener.addReaction(item.id, reaction.name)
+                            }
+                        }
+                    }
+        }
+
+        while (chips.size - 1 > item.reactions.size) {
+            chips.removeViewAt(item.reactions.size)
+        }
+
+        addReactionChip.setOnClickListener {
+            listener.openReactionPicker(item.id, it)
+        }
     }
 
     override fun getItemCount() = items.size
@@ -61,68 +117,5 @@ class AnnouncementAdapter(
     fun updateList(items: List<Announcement>) {
         this.items = items
         notifyDataSetChanged()
-    }
-
-    inner class AnnouncementViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
-        private val text: TextView = view.text
-        private val chips: ChipGroup = view.chipGroup
-        private val addReactionChip: Chip = view.addReactionChip
-
-        fun bind(item: Announcement) {
-            LinkHelper.setClickableText(text, item.content, null, listener)
-
-            // If wellbeing mode is enabled, announcement badge counts should not be shown.
-            if (wellbeingEnabled) {
-                // Since reactions are not visible in wellbeing mode,
-                // we shouldn't be able to add any ourselves.
-                addReactionChip.visibility = View.GONE
-                return
-            }
-
-            item.reactions.forEachIndexed { i, reaction ->
-                (chips.getChildAt(i)?.takeUnless { it.id == R.id.addReactionChip } as Chip?
-                        ?: Chip(ContextThemeWrapper(view.context, R.style.Widget_MaterialComponents_Chip_Choice)).apply {
-                            isCheckable = true
-                            checkedIcon = null
-                            chips.addView(this, i)
-                        })
-                        .apply {
-                            val emojiText = if (reaction.url == null) {
-                                reaction.name
-                            } else {
-                                view.context.getString(R.string.emoji_shortcode_format, reaction.name)
-                            }
-                            text = ("$emojiText ${reaction.count}")
-                                    .emojify(
-                                            listOf(Emoji(
-                                                    reaction.name,
-                                                    reaction.url ?: "",
-                                                    reaction.staticUrl ?: "",
-                                                    null
-                                            )),
-                                            this,
-                                            animateEmojis
-                                    )
-
-                            isChecked = reaction.me
-
-                            setOnClickListener {
-                                if (reaction.me) {
-                                    listener.removeReaction(item.id, reaction.name)
-                                } else {
-                                    listener.addReaction(item.id, reaction.name)
-                                }
-                            }
-                        }
-            }
-
-            while (chips.size - 1 > item.reactions.size) {
-                chips.removeViewAt(item.reactions.size)
-            }
-
-            addReactionChip.setOnClickListener {
-                listener.openReactionPicker(item.id, it)
-            }
-        }
     }
 }

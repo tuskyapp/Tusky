@@ -15,48 +15,44 @@
 
 package com.keylesspalace.tusky.adapter
 
-import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.ImageView
+import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.keylesspalace.tusky.R
+import com.keylesspalace.tusky.databinding.ItemEmojiButtonBinding
 import com.keylesspalace.tusky.entity.Emoji
+import com.keylesspalace.tusky.util.BindingHolder
 import java.util.*
 
-class EmojiAdapter(emojiList: List<Emoji>, private val onEmojiSelectedListener: OnEmojiSelectedListener) : RecyclerView.Adapter<EmojiAdapter.EmojiHolder>() {
-    private val emojiList : List<Emoji>
+class EmojiAdapter(
+        emojiList: List<Emoji>,
+        private val onEmojiSelectedListener: OnEmojiSelectedListener
+) : RecyclerView.Adapter<BindingHolder<ItemEmojiButtonBinding>>() {
 
-    init {
-        this.emojiList = emojiList.filter { emoji -> emoji.visibleInPicker == null || emoji.visibleInPicker }
-                .sortedBy { it.shortcode.toLowerCase(Locale.ROOT) }
+    private val emojiList : List<Emoji> = emojiList.filter { emoji -> emoji.visibleInPicker == null || emoji.visibleInPicker }
+            .sortedBy { it.shortcode.toLowerCase(Locale.ROOT) }
+
+    override fun getItemCount() = emojiList.size
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BindingHolder<ItemEmojiButtonBinding> {
+        val binding = ItemEmojiButtonBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return BindingHolder(binding)
     }
 
-    override fun getItemCount(): Int {
-        return emojiList.size
-    }
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EmojiHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_emoji_button, parent, false) as ImageView
-        return EmojiHolder(view)
-    }
-
-    override fun onBindViewHolder(viewHolder: EmojiHolder, position: Int) {
+    override fun onBindViewHolder(holder: BindingHolder<ItemEmojiButtonBinding>, position: Int) {
         val emoji = emojiList[position]
+        val emojiImageView = holder.binding.root
 
-        Glide.with(viewHolder.emojiImageView)
+        Glide.with(emojiImageView)
                 .load(emoji.url)
-                .into(viewHolder.emojiImageView)
+                .into(emojiImageView)
 
-        viewHolder.emojiImageView.setOnClickListener {
+        emojiImageView.setOnClickListener {
             onEmojiSelectedListener.onEmojiSelected(emoji.shortcode)
         }
 
-        viewHolder.emojiImageView.contentDescription = emoji.shortcode
+        emojiImageView.contentDescription = emoji.shortcode
     }
-
-    class EmojiHolder(val emojiImageView: ImageView) : RecyclerView.ViewHolder(emojiImageView)
-
 }
 
 interface OnEmojiSelectedListener {
