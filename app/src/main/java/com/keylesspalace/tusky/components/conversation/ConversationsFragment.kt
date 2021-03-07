@@ -39,7 +39,7 @@ import com.keylesspalace.tusky.util.CardViewMode
 import com.keylesspalace.tusky.util.NetworkState
 import com.keylesspalace.tusky.util.StatusDisplayOptions
 import com.keylesspalace.tusky.util.hide
-import kotlinx.android.synthetic.main.fragment_timeline.*
+import com.keylesspalace.tusky.util.viewBinding
 import javax.inject.Inject
 
 class ConversationsFragment : SFragment(), StatusActionListener, Injectable, ReselectableFragment {
