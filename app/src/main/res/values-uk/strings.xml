@@ -139,12 +139,15 @@
     <string name="title_domain_mutes">Приховані домени</string>
     <string name="title_mutes">Заглушені користувачі</string>
     <string name="title_statuses">Дописи</string>
-    <string name="title_view_thread">Поширити</string>
+    <string name="title_view_thread">Дмухнути</string>
     <string name="title_tab_preferences">Вкладки</string>
     <string name="error_media_upload_sending">Завантаження не вдалося.</string>
-    <string name="error_retrieving_oauth_token">Не вдалося отримати токін авторизації.</string>
+    <string name="error_retrieving_oauth_token">Не вдалося отримати токен входу.</string>
     <string name="error_authorization_denied">Авторизація була відхилина.</string>
-    <string name="error_authorization_unknown">Сталася помилка неопізнаної авторизації.</string>
-    <string name="error_failed_app_registration">Помилка входу з цією інстанцією.</string>
+    <string name="error_authorization_unknown">Сталася помилка невпізнання авторизації.</string>
+    <string name="error_failed_app_registration">Помилка автентифікації цього сервера.</string>
     <string name="error_invalid_domain">Введено недійсний домен</string>
+    <string name="action_open_reblogged_by">Показати просування</string>
+    <string name="pref_title_show_boosts">Показати просування</string>
+    <string name="pref_title_status_tabs">Вкладки</string>
 </resources>
