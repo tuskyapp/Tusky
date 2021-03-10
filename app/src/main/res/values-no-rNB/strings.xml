@@ -203,6 +203,7 @@
     <string name="notification_summary_medium">%1$s, %2$s, og %3$s</string>
     <string name="notification_summary_small">%1$s og %2$s</string>
     <plurals name="notification_title_summary">
+        <item quantity="one">%d ny interaksjon</item>
         <item quantity="other">%d nye interaksjoner</item>
     </plurals>
     <string name="description_account_locked">Låst konto</string>
@@ -322,6 +323,7 @@
     <string name="conversation_2_recipients">%1$s og %2$s</string>
     <string name="conversation_more_recipients">%1$s, %2$s og %3$d fler</string>
     <plurals name="max_tab_number_reached">
+        <item quantity="one">grensen på %1$d fane er nådd</item>
         <item quantity="other">grensen på %1$d faner er nådd</item>
     </plurals>
     <string name="description_status_media">Media: %s</string>
@@ -490,6 +492,7 @@
     <string name="pref_title_notification_filter_subscriptions">noen jeg følger publiserer en ny toot</string>
     <string name="notification_subscription_format">%s tootet akkurat</string>
     <plurals name="error_upload_max_media_reached">
+        <item quantity="one">Du kan ikke laste opp flere enn %1$d mediavedlegg.</item>
         <item quantity="other">Du kan ikke laste opp flere enn %1$d mediavedlegg.</item>
     </plurals>
     <string name="duration_indefinite">Uendelig</string>

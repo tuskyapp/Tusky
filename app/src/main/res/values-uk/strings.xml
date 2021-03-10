@@ -332,6 +332,9 @@
     <string name="about_tusky_version">Tusky %s</string>
     <string name="description_account_locked">Заблокований обліковий запис</string>
     <plurals name="notification_title_summary">
+        <item quantity="one">%d нова взаємодія</item>
+        <item quantity="few">%d нові взаємодії</item>
+        <item quantity="many">%d нових взаємодій</item>
         <item quantity="other">%d нових взаємодій</item>
     </plurals>
     <string name="conversation_more_recipients">%1$s, %2$s та ще %3$d</string>
@@ -430,7 +433,7 @@
 \n
 \nДокладніше на <a href="https://joinmastodon.org">joinmastodon.org</a>. </string>
     <string name="link_whats_an_instance">Що таке сервер\?</string>
-    <string name="hint_domain">Що таке сервер\?</string>
+    <string name="hint_domain">Котрий сервер\?</string>
     <string name="label_header">Заголовок</string>
     <string name="label_avatar">Аватар</string>
     <string name="label_quick_reply">Відповісти…</string>
@@ -461,7 +464,10 @@
     <string name="drafts_toot_failed_to_send">Не вдалося надіслати цей дмух!</string>
     <string name="dialog_delete_list_warning">Ви дійсно хочете видалити список %s\?</string>
     <plurals name="error_upload_max_media_reached">
-        <item quantity="other">Ви не можете завантажити більше %1$d медіавкладень.</item>
+        <item quantity="one">Ви не можете завантажити більше ніж %1$d медіавкладення.</item>
+        <item quantity="few">Ви не можете завантажити більше ніж %1$d медіавкладення.</item>
+        <item quantity="many">Ви не можете завантажити більше ніж %1$d медіавкладень.</item>
+        <item quantity="other">Ви не можете завантажити більше ніж %1$d медіавкладень.</item>
     </plurals>
     <string name="wellbeing_hide_stats_profile">Приховати кількісну статистику профілів</string>
     <string name="wellbeing_hide_stats_posts">Приховати кількісну статистику дописів</string>
@@ -500,6 +506,9 @@
     <string name="description_status_bookmarked">Додано до закладок</string>
     <string name="description_status_reblogged">Просунуто</string>
     <plurals name="max_tab_number_reached">
+        <item quantity="one">досягнено обмеження %1$d вкладка</item>
+        <item quantity="few">досягнено обмеження %1$d вкладки</item>
+        <item quantity="many">досягнено обмеження %1$d вкладок</item>
         <item quantity="other">досягнено обмеження %1$d вкладок</item>
     </plurals>
     <plurals name="reblogs">
