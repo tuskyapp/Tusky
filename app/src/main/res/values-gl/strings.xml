@@ -201,6 +201,7 @@
     <string name="description_status_cw">Aviso sobre o contido: %s</string>
     <string name="description_status_media">Multimedia: %s</string>
     <plurals name="max_tab_number_reached">
+        <item quantity="one">acadouse o máximo de %1$d lapela</item>
         <item quantity="other">acadouse o máximo de %1$d lapelas</item>
     </plurals>
     <string name="conversation_more_recipients">%1$s, %2$s e %3$d máis</string>
@@ -323,6 +324,7 @@
     <string name="about_title_activity">Acerca de</string>
     <string name="description_account_locked">Conta bloqueada</string>
     <plurals name="notification_title_summary">
+        <item quantity="one">%d nova interacción</item>
         <item quantity="other">%d novas interaccións</item>
     </plurals>
     <string name="notification_summary_small">%1$s e %2$s</string>
@@ -442,6 +444,7 @@
     <string name="drafts_toot_failed_to_send">Fallou o envío do toot!</string>
     <string name="dialog_delete_list_warning">Tes a certeza de querer eliminar a listaxe %s\?</string>
     <plurals name="error_upload_max_media_reached">
+        <item quantity="one">Non podes subir máis de %1$d anexo multimedia.</item>
         <item quantity="other">Non podes subir máis de %1$d anexos multimedia.</item>
     </plurals>
     <string name="wellbeing_hide_stats_profile">Agochar estatísticas cuantitativas nos perfís</string>
