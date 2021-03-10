@@ -193,6 +193,7 @@
     <string name="notification_summary_medium">%1$s، %2$s و %3$s</string>
     <string name="notification_summary_small">%1$s و %2$s</string>
     <plurals name="notification_title_summary">
+        <item quantity="one">%d برهم‌کنش جدید</item>
         <item quantity="other">%d برهم‌کنش جدید</item>
     </plurals>
     <string name="description_account_locked">حساب قفل‌شده</string>
@@ -357,6 +358,7 @@
     <string name="conversation_2_recipients">%1$s و %2$s</string>
     <string name="conversation_more_recipients">%1$s، %2$s و %3$d بیش‌تر</string>
     <plurals name="max_tab_number_reached">
+        <item quantity="one">رسیده به بیشینهٔ %1$d زبانه</item>
         <item quantity="other">رسیده به بیشینهٔ %1$d زبانه</item>
     </plurals>
     <string name="description_status_media">رسانه: %s</string>
@@ -480,4 +482,22 @@
     <string name="account_note_hint">یادداشت خصوصیتان دربارهٔ این حساب</string>
     <string name="no_announcements">هیچ اعلامیه‌ای وجود ندارد.</string>
     <string name="title_announcements">اعلامیه‌ها</string>
+    <string name="action_unsubscribe_account">عدم اشتراک</string>
+    <string name="action_subscribe_account">اشتراک</string>
+    <string name="draft_deleted">پیش‌نویس حذف شد</string>
+    <string name="old_drafts">پیش‌نویس‌های قدیمی</string>
+    <string name="drafts_toot_failed_to_send">فرستادن این بوق شکست خورد!</string>
+    <string name="wellbeing_hide_stats_profile">نهفتن آمار کمی روی نمایه‌ها</string>
+    <string name="wellbeing_hide_stats_posts">نهفتن آمار کمی روی فرسته‌ها</string>
+    <string name="limit_notifications">محدود کردن آگاهی‌های خط‌زمانی</string>
+    <string name="review_notifications">بازبینی آگاهی‌ها</string>
+    <string name="pref_title_wellbeing_mode">سلامتی</string>
+    <string name="label_duration">طول</string>
+    <string name="status_media_attachments">پیوست‌ها</string>
+    <string name="status_media_audio">صدا</string>
+    <string name="notification_subscription_description">آگاهی‌ها هنگام انتشار بوقی جدید از کسی که مشترکش هستید</string>
+    <string name="notification_subscription_name">بوق‌های جدید</string>
+    <string name="pref_title_animate_custom_emojis">اموجی‌های شخصی متحرّک</string>
+    <string name="pref_title_notification_filter_subscriptions">کسی که مشترکش شده‌ام، بوقی جدید منتشر کرد</string>
+    <string name="notification_subscription_format">%s چیزی فرستاد</string>
 </resources>
