@@ -161,7 +161,7 @@ class ViewImageFragment : ViewMediaFragment() {
     }
 
     private fun onGestureEnd() {
-        if (binding.photoView == null) {
+        if (_binding == null) {
             return
         }
         if (abs(binding.photoView.translationY) > 180) {
@@ -176,7 +176,7 @@ class ViewImageFragment : ViewMediaFragment() {
     }
 
     override fun onToolbarVisibilityChange(visible: Boolean) {
-        if (binding.photoView == null || !userVisibleHint || binding.captionSheet == null) {
+        if (_binding == null || !userVisibleHint ) {
             return
         }
         isDescriptionVisible = showingDescription && visible
@@ -184,7 +184,9 @@ class ViewImageFragment : ViewMediaFragment() {
         binding.captionSheet.animate().alpha(alpha)
                 .setListener(object : AnimatorListenerAdapter() {
                     override fun onAnimationEnd(animation: Animator) {
-                        binding.captionSheet?.visible(isDescriptionVisible)
+                        if (_binding != null) {
+                            binding.captionSheet.visible(isDescriptionVisible)
+                        }
                         animation.removeListener(this)
                     }
                 })
@@ -257,7 +259,7 @@ class ViewImageFragment : ViewMediaFragment() {
                 photoActionsListener.onBringUp()
             }
             // Hide progress bar only on fail request from internet
-            if (!isCacheRequest) binding.progressBar?.hide()
+            if (!isCacheRequest && _binding != null) binding.progressBar.hide()
             // We don't want to overwrite preview with null when main image fails to load
             return !isCacheRequest
         }
@@ -265,7 +267,9 @@ class ViewImageFragment : ViewMediaFragment() {
         @SuppressLint("CheckResult")
         override fun onResourceReady(resource: Drawable, model: Any, target: Target<Drawable>,
                                      dataSource: DataSource, isFirstResource: Boolean): Boolean {
-            binding.progressBar?.hide() // Always hide the progress bar on success
+            if (_binding != null) {
+                binding.progressBar.hide() // Always hide the progress bar on success
+            }
 
             if (!startedTransition || !shouldStartTransition) {
                 // Set this right away so that we don't have to concurrent post() requests
