@@ -32,12 +32,10 @@ import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import com.github.chrisbanes.photoview.PhotoViewAttacher
-import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.ViewMediaActivity
 import com.keylesspalace.tusky.databinding.FragmentViewImageBinding
 import com.keylesspalace.tusky.entity.Attachment
 import com.keylesspalace.tusky.util.hide
-import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.util.visible
 import io.reactivex.subjects.BehaviorSubject
 import kotlin.math.abs
@@ -49,7 +47,8 @@ class ViewImageFragment : ViewMediaFragment() {
         fun onPhotoTap()
     }
 
-    private val binding by viewBinding(FragmentViewImageBinding::bind)
+    private var _binding: FragmentViewImageBinding? = null
+    private val binding get() = _binding!!
 
     private lateinit var attacher: PhotoViewAttacher
     private lateinit var photoActionsListener: PhotoActionsListener
@@ -85,7 +84,8 @@ class ViewImageFragment : ViewMediaFragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         toolbar = (requireActivity() as ViewMediaActivity).toolbar
         this.transition = BehaviorSubject.create()
-        return inflater.inflate(R.layout.fragment_view_image, container, false)
+        _binding = FragmentViewImageBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -194,6 +194,7 @@ class ViewImageFragment : ViewMediaFragment() {
     override fun onDestroyView() {
         Glide.with(this).clear(binding.photoView)
         transition.onComplete()
+        _binding = null
         super.onDestroyView()
     }
 

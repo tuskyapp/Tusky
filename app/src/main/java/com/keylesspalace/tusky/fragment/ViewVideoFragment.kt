@@ -26,18 +26,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.MediaController
-import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.ViewMediaActivity
 import com.keylesspalace.tusky.databinding.FragmentViewVideoBinding
 import com.keylesspalace.tusky.entity.Attachment
 import com.keylesspalace.tusky.util.hide
-import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.util.visible
 import com.keylesspalace.tusky.view.ExposedPlayPauseVideoView
 
 class ViewVideoFragment : ViewMediaFragment() {
 
-    private val binding by viewBinding(FragmentViewVideoBinding::bind)
+    private var _binding: FragmentViewVideoBinding? = null
+    private val binding get() = _binding!!
 
     private lateinit var toolbar: View
     private val handler = Handler(Looper.getMainLooper())
@@ -55,7 +54,7 @@ class ViewVideoFragment : ViewMediaFragment() {
     override fun setUserVisibleHint(isVisibleToUser: Boolean) {
         // Start/pause/resume video playback as fragment is shown/hidden
         super.setUserVisibleHint(isVisibleToUser)
-        if (binding.videoView == null) {
+        if (_binding == null) {
             return
         }
 
@@ -160,7 +159,8 @@ class ViewVideoFragment : ViewMediaFragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         mediaActivity = activity as ViewMediaActivity
         toolbar = mediaActivity.toolbar
-        return inflater.inflate(R.layout.fragment_view_video, container, false)
+        _binding = FragmentViewVideoBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -177,7 +177,7 @@ class ViewVideoFragment : ViewMediaFragment() {
     }
 
     override fun onToolbarVisibilityChange(visible: Boolean) {
-        if (binding.videoView == null || binding.mediaDescription == null || !userVisibleHint) {
+        if (_binding == null || !userVisibleHint) {
             return
         }
 
@@ -192,7 +192,9 @@ class ViewVideoFragment : ViewMediaFragment() {
         binding.mediaDescription.animate().alpha(alpha)
                 .setListener(object : AnimatorListenerAdapter() {
                     override fun onAnimationEnd(animation: Animator) {
-                        binding.mediaDescription?.visible(isDescriptionVisible)
+                        if (_binding != null) {
+                            binding.mediaDescription.visible(isDescriptionVisible)
+                        }
                         animation.removeListener(this)
                     }
                 })
@@ -206,5 +208,10 @@ class ViewVideoFragment : ViewMediaFragment() {
     }
 
     override fun onTransitionEnd() {
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }
