@@ -23,11 +23,10 @@ import com.keylesspalace.tusky.components.search.adapter.SearchAccountsAdapter
 import com.keylesspalace.tusky.entity.Account
 import com.keylesspalace.tusky.settings.PrefKeys
 import com.keylesspalace.tusky.util.NetworkState
-import kotlinx.android.synthetic.main.fragment_search.*
 
 class SearchAccountsFragment : SearchFragment<Account>() {
     override fun createAdapter(): PagedListAdapter<Account, *> {
-        val preferences = PreferenceManager.getDefaultSharedPreferences(searchRecyclerView.context)
+        val preferences = PreferenceManager.getDefaultSharedPreferences(binding.searchRecyclerView.context)
 
         return SearchAccountsAdapter(
                 this,
@@ -46,5 +45,4 @@ class SearchAccountsFragment : SearchFragment<Account>() {
     companion object {
         fun newInstance() = SearchAccountsFragment()
     }
-
 }

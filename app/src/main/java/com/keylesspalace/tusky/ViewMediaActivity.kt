@@ -69,6 +69,9 @@ class ViewMediaActivity : BaseActivity(), ViewImageFragment.PhotoActionsListener
 
     private val binding by viewBinding(ActivityViewMediaBinding::inflate)
 
+    val toolbar: View
+        get() = binding.toolbar
+
     var isToolbarVisible = true
         private set
 
