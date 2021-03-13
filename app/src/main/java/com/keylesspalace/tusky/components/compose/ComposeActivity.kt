@@ -76,10 +76,10 @@ import com.mikepenz.iconics.IconicsDrawable
 import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial
 import com.mikepenz.iconics.utils.colorInt
 import com.mikepenz.iconics.utils.sizeDp
-import kotlinx.android.parcel.Parcelize
+import kotlinx.parcelize.Parcelize
 import java.io.File
 import java.io.IOException
-import java.util.*
+import java.util.Locale
 import javax.inject.Inject
 import kotlin.math.max
 import kotlin.math.min
