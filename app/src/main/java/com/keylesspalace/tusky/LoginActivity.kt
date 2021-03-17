@@ -128,11 +128,6 @@ class LoginActivity : BaseActivity(), Injectable {
             return
         }
 
-        if (shouldRickRoll(this, domain)) {
-            rickRoll(this)
-            return
-        }
-
         val callback = object : Callback<AppCredentials> {
             override fun onResponse(call: Call<AppCredentials>,
                                     response: Response<AppCredentials>) {
