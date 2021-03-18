@@ -19,6 +19,10 @@ Tusky is a beautiful Android client for [Mastodon](https://github.com/tootsuite/
 - Optimized for all screen sizes
 - Completely open-source - no non-free dependencies like Google services
 
+## Restrictions
+
+Tusky will not work for [spinster.xyz](https://spinster.xyz) instance. This is not censorship, but rather a choice by this house who will facilitate our services to.
+
 ### Testing
 
 The nightly build from master is [available on Google Play](https://play.google.com/store/apps/details?id=com.keylesspalace.tusky.test). 
