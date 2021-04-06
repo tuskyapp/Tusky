@@ -500,4 +500,21 @@
     <string name="pref_title_animate_custom_emojis">اموجی‌های شخصی متحرّک</string>
     <string name="pref_title_notification_filter_subscriptions">کسی که مشترکش شده‌ام، بوقی جدید منتشر کرد</string>
     <string name="notification_subscription_format">%s چیزی فرستاد</string>
+    <string name="drafts_toot_reply_removed">بوقی که پاسخی به آن را پیش‌نویس کردید، برداشته شده</string>
+    <string name="drafts_failed_loading_reply">شکست در بار کردن اطّلاعات پاسخ</string>
+    <string name="wellbeing_mode_notice">برخی اطّلاعات که ممکن است روی سلامتی ذهنیتان تأثیر بگذارد، پنهان خواهند شد. همچون:
+\n
+\n - آگاهی‌های برگزیدن، تقویت و پی‌گیری
+\n - شمار برگزیدن و تقویت بوق‌ها
+\n - آمار پی‌گیر و فرسته روی نمایه‌ها
+\n
+\n فرستادن آگاهی‌ها تأثیر نمی‌پذیرد، ولی می‌توانید ترجیحات آگاهیتان را به صورت دستی بازبینی کنید.</string>
+    <string name="new_drafts_warning">ویژگی پیش‌نویس در تاسکی به صورت کامل بازطرّاحی شده تا سریع‌تر، کاربرپسندتر و کم‌مشکل‌تر باشد.
+\n همجنان می‌توانید از طریق دکمه‌ای دز صفحهٔ پیش‌نویس‌های جدید، به پیش‌نویس‌های قدیمیتان دسترسی داشته باشید، ولی در به‌روز رسانی آینده برداشته خواهند شد!</string>
+    <string name="dialog_delete_list_warning">واقعاً می‌خواهید فهرست %s را حذف کنید؟</string>
+    <plurals name="error_upload_max_media_reached">
+        <item quantity="one">نمی‌توانید بیش از %1$d رسانه بارگذارید.</item>
+        <item quantity="other">نمی‌توانید بیش از %1$d رسانه بارگذارید.</item>
+    </plurals>
+    <string name="duration_indefinite">نامعیّن</string>
 </resources>
