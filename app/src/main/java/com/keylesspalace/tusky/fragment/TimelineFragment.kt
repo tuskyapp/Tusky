@@ -14,115 +14,91 @@
  * see <http://www.gnu.org/licenses>. */
 package com.keylesspalace.tusky.fragment
 
-import kotlin.collections.first
-import com.keylesspalace.tusky.AccountListActivity.Companion.newIntent
-import com.keylesspalace.tusky.util.dec
-import com.keylesspalace.tusky.util.isEmpty
-import kotlin.collections.last
-import com.keylesspalace.tusky.util.inc
-import kotlin.collections.map
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener
-import com.keylesspalace.tusky.interfaces.StatusActionListener
-import com.keylesspalace.tusky.di.Injectable
-import com.keylesspalace.tusky.interfaces.ReselectableFragment
-import com.keylesspalace.tusky.interfaces.RefreshableFragment
-import javax.inject.Inject
-import com.keylesspalace.tusky.appstore.EventHub
-import com.keylesspalace.tusky.repository.TimelineRepository
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import androidx.recyclerview.widget.RecyclerView
-import android.widget.ProgressBar
-import androidx.core.widget.ContentLoadingProgressBar
-import com.keylesspalace.tusky.view.BackgroundMessageView
-import com.keylesspalace.tusky.adapter.TimelineAdapter
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.keylesspalace.tusky.view.EndlessOnScrollListener
-import com.keylesspalace.tusky.util.PairedList
-import com.keylesspalace.tusky.util.Either
-import com.keylesspalace.tusky.viewdata.StatusViewData
-import com.keylesspalace.tusky.util.ViewDataUtils
 import android.os.Bundle
-import com.keylesspalace.tusky.util.StatusDisplayOptions
-import com.keylesspalace.tusky.util.CardViewMode
-import com.keylesspalace.tusky.settings.PrefKeys
-import android.view.LayoutInflater
-import android.view.ViewGroup
-import com.keylesspalace.tusky.R
-import com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider.from
-import com.keylesspalace.tusky.repository.TimelineRequestMode
-import io.reactivex.android.schedulers.AndroidSchedulers
-import com.uber.autodispose.AutoDispose
-import com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider
-import com.keylesspalace.tusky.util.ListStatusAccessibilityDelegate
-import com.keylesspalace.tusky.util.StatusProvider
-import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.recyclerview.widget.SimpleItemAnimator
-import com.keylesspalace.tusky.interfaces.ActionButtonActivity
-import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.uber.autodispose.ObservableSubscribeProxy
-import com.keylesspalace.tusky.appstore.FavoriteEvent
-import com.keylesspalace.tusky.appstore.ReblogEvent
-import com.keylesspalace.tusky.appstore.BookmarkEvent
-import com.keylesspalace.tusky.appstore.MuteConversationEvent
-import com.keylesspalace.tusky.appstore.UnfollowEvent
-import com.keylesspalace.tusky.appstore.BlockEvent
-import com.keylesspalace.tusky.appstore.MuteEvent
-import com.keylesspalace.tusky.appstore.DomainMuteEvent
-import com.keylesspalace.tusky.appstore.StatusDeletedEvent
-import com.keylesspalace.tusky.appstore.StatusComposedEvent
-import com.keylesspalace.tusky.appstore.PreferenceChangedEvent
-import com.uber.autodispose.SingleSubscribeProxy
-import com.keylesspalace.tusky.entity.Poll
-import android.content.Intent
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
-import com.keylesspalace.tusky.AccountListActivity
-import com.keylesspalace.tusky.BaseActivity
-import com.keylesspalace.tusky.util.LinkHelper
-import com.keylesspalace.tusky.util.Either.Left
-import com.keylesspalace.tusky.network.MastodonApi
-import com.keylesspalace.tusky.util.HttpHeaderLink
-import com.keylesspalace.tusky.util.Either.Right
-import androidx.recyclerview.widget.ListUpdateCallback
-import androidx.recyclerview.widget.AsyncListDiffer
-import androidx.recyclerview.widget.AsyncDifferConfig
+import android.view.ViewGroup
 import android.view.accessibility.AccessibilityManager
+import android.widget.ProgressBar
 import androidx.arch.core.util.Function
 import androidx.core.content.ContextCompat
 import androidx.core.util.Pair
-import androidx.lifecycle.Lifecycle
+import androidx.core.widget.ContentLoadingProgressBar
 import androidx.preference.PreferenceManager
-import kotlin.jvm.JvmOverloads
+import androidx.recyclerview.widget.AsyncDifferConfig
+import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.ListUpdateCallback
+import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.SimpleItemAnimator
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener
 import at.connyduck.sparkbutton.helpers.Utils
+import com.keylesspalace.tusky.AccountListActivity
+import com.keylesspalace.tusky.AccountListActivity.Companion.newIntent
+import com.keylesspalace.tusky.BaseActivity
+import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.adapter.StatusBaseViewHolder
+import com.keylesspalace.tusky.adapter.TimelineAdapter
+import com.keylesspalace.tusky.appstore.BlockEvent
+import com.keylesspalace.tusky.appstore.BookmarkEvent
+import com.keylesspalace.tusky.appstore.DomainMuteEvent
 import com.keylesspalace.tusky.appstore.Event
+import com.keylesspalace.tusky.appstore.EventHub
+import com.keylesspalace.tusky.appstore.FavoriteEvent
+import com.keylesspalace.tusky.appstore.MuteConversationEvent
+import com.keylesspalace.tusky.appstore.MuteEvent
+import com.keylesspalace.tusky.appstore.PreferenceChangedEvent
+import com.keylesspalace.tusky.appstore.ReblogEvent
+import com.keylesspalace.tusky.appstore.StatusComposedEvent
+import com.keylesspalace.tusky.appstore.StatusDeletedEvent
+import com.keylesspalace.tusky.appstore.UnfollowEvent
 import com.keylesspalace.tusky.db.AccountManager
+import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.entity.Filter
+import com.keylesspalace.tusky.entity.Poll
 import com.keylesspalace.tusky.entity.Status
+import com.keylesspalace.tusky.interfaces.ActionButtonActivity
+import com.keylesspalace.tusky.interfaces.RefreshableFragment
+import com.keylesspalace.tusky.interfaces.ReselectableFragment
+import com.keylesspalace.tusky.interfaces.StatusActionListener
 import com.keylesspalace.tusky.repository.Placeholder
+import com.keylesspalace.tusky.repository.TimelineRepository
+import com.keylesspalace.tusky.repository.TimelineRequestMode
+import com.keylesspalace.tusky.settings.PrefKeys
+import com.keylesspalace.tusky.util.CardViewMode
+import com.keylesspalace.tusky.util.Either
+import com.keylesspalace.tusky.util.Either.Left
+import com.keylesspalace.tusky.util.Either.Right
+import com.keylesspalace.tusky.util.HttpHeaderLink
+import com.keylesspalace.tusky.util.LinkHelper
+import com.keylesspalace.tusky.util.ListStatusAccessibilityDelegate
+import com.keylesspalace.tusky.util.PairedList
+import com.keylesspalace.tusky.util.StatusDisplayOptions
+import com.keylesspalace.tusky.util.StatusProvider
+import com.keylesspalace.tusky.util.ViewDataUtils
+import com.keylesspalace.tusky.util.dec
+import com.keylesspalace.tusky.util.inc
+import com.keylesspalace.tusky.util.isEmpty
+import com.keylesspalace.tusky.view.BackgroundMessageView
+import com.keylesspalace.tusky.view.EndlessOnScrollListener
+import com.keylesspalace.tusky.viewdata.StatusViewData
+import com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider.from
 import com.uber.autodispose.autoDispose
 import io.reactivex.Observable
 import io.reactivex.Single
-import io.reactivex.functions.Consumer
+import io.reactivex.android.schedulers.AndroidSchedulers
 import retrofit2.Response
 import java.io.IOException
-import java.lang.Exception
 import java.util.ArrayList
 import java.util.Objects
 import java.util.concurrent.TimeUnit
+import javax.inject.Inject
 
 class TimelineFragment : SFragment(), OnRefreshListener, StatusActionListener, Injectable, ReselectableFragment, RefreshableFragment {
-    private var isSwipeToRefreshEnabled = true
-    private var isNeedRefresh = false
-
-    enum class Kind {
-        HOME, PUBLIC_LOCAL, PUBLIC_FEDERATED, TAG, USER, USER_PINNED, USER_WITH_REPLIES, FAVOURITES, LIST, BOOKMARKS
-    }
-
-    private enum class FetchEnd {
-        TOP, BOTTOM, MIDDLE
-    }
 
     @Inject
     lateinit var eventHub: EventHub
@@ -133,6 +109,9 @@ class TimelineFragment : SFragment(), OnRefreshListener, StatusActionListener, I
     @Inject
     lateinit var accountManager: AccountManager
 
+    private var isSwipeToRefreshEnabled = true
+    private var isNeedRefresh = false
+
     private var eventRegistered = false
     private var swipeRefreshLayout: SwipeRefreshLayout? = null
     private var recyclerView: RecyclerView? = null
@@ -142,7 +121,7 @@ class TimelineFragment : SFragment(), OnRefreshListener, StatusActionListener, I
     private var adapter: TimelineAdapter? = null
     private var kind: Kind? = null
     private var id: String? = null
-    private var tags: List<String>? = null
+    private var tags: List<String> = emptyList()
 
     /**
      * For some timeline kinds we must use LINK headers and not just status ids.
@@ -158,6 +137,7 @@ class TimelineFragment : SFragment(), OnRefreshListener, StatusActionListener, I
     private var alwaysShowSensitiveMedia = false
     private var alwaysOpenSpoiler = false
     private var initialUpdateFailed = false
+
     private val statuses = PairedList<Either<Placeholder, Status>, StatusViewData>(Function<Either<Placeholder, Status>?, StatusViewData> { input ->
         val status = input.asRightOrNull()
         if (status != null) {
@@ -180,7 +160,7 @@ class TimelineFragment : SFragment(), OnRefreshListener, StatusActionListener, I
             id = arguments.getString(ID_ARG)
         }
         if (kind == Kind.TAG) {
-            tags = arguments.getStringArrayList(HASHTAGS_ARG)
+            tags = arguments.getStringArrayList(HASHTAGS_ARG)!!
         }
         val preferences = PreferenceManager.getDefaultSharedPreferences(activity)
         val statusDisplayOptions = StatusDisplayOptions(
@@ -232,7 +212,7 @@ class TimelineFragment : SFragment(), OnRefreshListener, StatusActionListener, I
     private fun tryCache() {
         // Request timeline from disk to make it quick, then replace it with timeline from
         // the server to update it
-        timelineRepo!!.getStatuses(null, null, null, LOAD_AT_ONCE,
+        timelineRepo.getStatuses(null, null, null, LOAD_AT_ONCE,
                 TimelineRequestMode.DISK)
                 .observeOn(AndroidSchedulers.mainThread())
                 .autoDispose(from(this))
@@ -257,7 +237,7 @@ class TimelineFragment : SFragment(), OnRefreshListener, StatusActionListener, I
             return
         }
         val topId = statuses.first { obj: Either<*, *>? -> obj!!.isRight() }!!.asRight().id
-        timelineRepo!!.getStatuses(topId, null, null, LOAD_AT_ONCE,
+        timelineRepo.getStatuses(topId, null, null, LOAD_AT_ONCE,
                 TimelineRequestMode.NETWORK)
                 .observeOn(AndroidSchedulers.mainThread())
                 .autoDispose(from(this))
@@ -292,7 +272,7 @@ class TimelineFragment : SFragment(), OnRefreshListener, StatusActionListener, I
                             }
                             bottomLoading = false
                         },
-                        Consumer { e: Throwable? ->
+                        { e: Throwable? ->
                             initialUpdateFailed = true
                             // Indicate that we are not loading anymore
                             progressBar!!.visibility = View.GONE
@@ -371,7 +351,8 @@ class TimelineFragment : SFragment(), OnRefreshListener, StatusActionListener, I
         super.onActivityCreated(savedInstanceState)
 
         /* This is delayed until onActivityCreated solely because MainActivity.composeButton isn't
-         * guaranteed to be set until then. */if (actionButtonPresent()) {
+         * guaranteed to be set until then. */
+        if (actionButtonPresent()) {
             /* Use a modified scroll listener that both loads more statuses as it goes, and hides
              * the follow button on down-scroll. */
             val preferences = PreferenceManager.getDefaultSharedPreferences(context)
@@ -408,7 +389,7 @@ class TimelineFragment : SFragment(), OnRefreshListener, StatusActionListener, I
         }
         recyclerView!!.addOnScrollListener(scrollListener!!)
         if (!eventRegistered) {
-            eventHub!!.events
+            eventHub.events
                     .observeOn(AndroidSchedulers.mainThread())
                     .autoDispose(from(this))
                     .subscribe { event: Event? ->
@@ -491,7 +472,7 @@ class TimelineFragment : SFragment(), OnRefreshListener, StatusActionListener, I
     }
 
     override fun onReblog(reblog: Boolean, position: Int) {
-        val status = statuses[position]!!.asRight()
+        val status = statuses[position].asRight()
         timelineCases.reblog(status, reblog)
                 .observeOn(AndroidSchedulers.mainThread())
                 .autoDispose(from(this))
@@ -622,8 +603,8 @@ class TimelineFragment : SFragment(), OnRefreshListener, StatusActionListener, I
     override fun onLoadMore(position: Int) {
         //check bounds before accessing list,
         if (statuses.size >= position && position > 0) {
-            val fromStatus = statuses[position - 1]!!.asRightOrNull()
-            val toStatus = statuses[position + 1]!!.asRightOrNull()
+            val fromStatus = statuses[position - 1].asRightOrNull()
+            val toStatus = statuses[position + 1].asRightOrNull()
             val maxMinusOne = if (statuses.size > position + 1 && statuses[position + 2]!!.isRight()) statuses[position + 1]!!.asRight().id else null
             if (fromStatus == null || toStatus == null) {
                 Log.e(TAG, "Failed to load more at $position, wrong placeholder position")
@@ -631,7 +612,7 @@ class TimelineFragment : SFragment(), OnRefreshListener, StatusActionListener, I
             }
             sendFetchTimelineRequest(fromStatus.id, toStatus.id, maxMinusOne,
                     FetchEnd.MIDDLE, position)
-            val (id1) = statuses[position]!!.asLeft()
+            val (id1) = statuses[position].asLeft()
             val newViewData: StatusViewData = StatusViewData.Placeholder(id1, true)
             statuses.setPairedItem(position, newViewData)
             updateAdapter()
@@ -665,16 +646,16 @@ class TimelineFragment : SFragment(), OnRefreshListener, StatusActionListener, I
     }
 
     override fun onViewMedia(position: Int, attachmentIndex: Int, view: View?) {
-        val status = statuses[position]!!.asRightOrNull() ?: return
+        val status = statuses.getOrNull(position)?.asRightOrNull() ?: return
         super.viewMedia(attachmentIndex, status, view)
     }
 
     override fun onViewThread(position: Int) {
-        super.viewThread(statuses[position]!!.asRight())
+        super.viewThread(statuses[position].asRight())
     }
 
     override fun onViewTag(tag: String) {
-        if (kind == Kind.TAG && tags!!.size == 1 && tags!!.contains(tag)) {
+        if (kind == Kind.TAG && tags.size == 1 && tags.contains(tag)) {
             // If already viewing a tag page, then ignore any request to view that tag again.
             return
         }
@@ -827,8 +808,8 @@ class TimelineFragment : SFragment(), OnRefreshListener, StatusActionListener, I
             Kind.PUBLIC_FEDERATED -> api.publicTimeline(null, fromId, uptoId, LOAD_AT_ONCE)
             Kind.PUBLIC_LOCAL -> api.publicTimeline(true, fromId, uptoId, LOAD_AT_ONCE)
             Kind.TAG -> {
-                val firstHashtag = tags!![0]
-                val additionalHashtags = tags!!.subList(1, tags!!.size)
+                val firstHashtag = tags[0]
+                val additionalHashtags = tags.subList(1, tags.size)
                 api.hashtagTimeline(firstHashtag, additionalHashtags, null, fromId, uptoId, LOAD_AT_ONCE)
             }
             Kind.USER -> api.accountStatuses(id!!, fromId, uptoId, LOAD_AT_ONCE, true, null, null)
@@ -853,12 +834,12 @@ class TimelineFragment : SFragment(), OnRefreshListener, StatusActionListener, I
             } else {
                 TimelineRequestMode.NETWORK
             }
-            timelineRepo!!.getStatuses(maxId, sinceId, sinceIdMinusOne, LOAD_AT_ONCE, mode)
+            timelineRepo.getStatuses(maxId, sinceId, sinceIdMinusOne, LOAD_AT_ONCE, mode)
                     .observeOn(AndroidSchedulers.mainThread())
                     .autoDispose(from(this))
                     .subscribe(
                             { result: List<Either<Placeholder, Status>> -> onFetchTimelineSuccess(result.toMutableList(), fetchEnd, pos) },
-                            Consumer { err: Throwable -> onFetchTimelineFailure(err, fetchEnd, pos) }
+                            { err: Throwable -> onFetchTimelineFailure(err, fetchEnd, pos) }
                     )
         } else {
             getFetchCallByTimelineType(maxId, sinceId)
@@ -911,7 +892,7 @@ class TimelineFragment : SFragment(), OnRefreshListener, StatusActionListener, I
                     this.statuses.removeAt(this.statuses.size - 1)
                     updateAdapter()
                 }
-                if (!statuses.isEmpty() && !statuses[statuses.size - 1]!!.isRight()) {
+                if (!statuses.isEmpty() && !statuses[statuses.size - 1].isRight()) {
                     // Removing placeholder if it's the last one from the cache
                     statuses.removeAt(statuses.size - 1)
                 }
@@ -989,7 +970,7 @@ class TimelineFragment : SFragment(), OnRefreshListener, StatusActionListener, I
     private fun filterStatuses(statuses: MutableList<Either<Placeholder, Status>>) {
         val it = statuses.iterator()
         while (it.hasNext()) {
-            val status = it.next()!!.asRightOrNull()
+            val status = it.next().asRightOrNull()
             if (status != null
                     && (status.inReplyToId != null && filterRemoveReplies
                             || status.reblog != null && filterRemoveReblogs
@@ -1015,8 +996,8 @@ class TimelineFragment : SFragment(), OnRefreshListener, StatusActionListener, I
             val newIndex = newStatuses.indexOf(statuses[0])
             if (newIndex == -1) {
                 if (index == -1 && fullFetch) {
-                    val placeholderId = newStatuses.last { obj: Either<*, *>? -> obj!!.isRight() }!!.asRight().id.inc()
-                    newStatuses.add(Left<Placeholder, Status>(Placeholder(placeholderId)))
+                    val placeholderId = newStatuses.last { obj: Either<*, *>? -> obj!!.isRight() }.asRight().id.inc()
+                    newStatuses.add(Left(Placeholder(placeholderId)))
                 }
                 statuses.addAll(0, newStatuses)
             } else {
@@ -1083,7 +1064,7 @@ class TimelineFragment : SFragment(), OnRefreshListener, StatusActionListener, I
 
     private fun findStatusOrReblogPositionById(statusId: String): Int {
         for (i in statuses.indices) {
-            val status = statuses[i]!!.asRightOrNull()
+            val status = statuses.getOrNull(i)?.asRightOrNull()
             if (status != null
                     && (statusId == status.id || (status.reblog != null
                             && statusId == status.reblog.id))) {
@@ -1094,6 +1075,7 @@ class TimelineFragment : SFragment(), OnRefreshListener, StatusActionListener, I
     }
 
     private val statusLifter: Function1<Status, Either<Placeholder, Status>> = { value -> Right(value) }
+
     private fun findStatusAndPosition(position: Int, status: Status): Pair<StatusViewData.Concrete, Int>? {
         val statusToUpdate: StatusViewData.Concrete
         val positionToUpdate: Int
@@ -1186,6 +1168,7 @@ class TimelineFragment : SFragment(), OnRefreshListener, StatusActionListener, I
     }
     private val differ = AsyncListDiffer(listUpdateCallback,
             AsyncDifferConfig.Builder(diffCallback).build())
+
     private val dataSource: TimelineAdapter.AdapterDataSource<StatusViewData> = object : TimelineAdapter.AdapterDataSource<StatusViewData> {
         override fun getItemCount(): Int {
             return differ.currentList.size
@@ -1195,8 +1178,10 @@ class TimelineFragment : SFragment(), OnRefreshListener, StatusActionListener, I
             return differ.currentList[pos]
         }
     }
+
     var a11yManager: AccessibilityManager? = null
     var talkBackWasEnabled = false
+
     override fun onResume() {
         super.onResume()
         a11yManager = Objects.requireNonNull(
@@ -1223,7 +1208,7 @@ class TimelineFragment : SFragment(), OnRefreshListener, StatusActionListener, I
             Observable.interval(1, TimeUnit.MINUTES)
                     .observeOn(AndroidSchedulers.mainThread())
                     .autoDispose(from(this))
-                    .subscribe { interval: Long? -> updateAdapter() }
+                    .subscribe { updateAdapter() }
         }
     }
 
@@ -1235,14 +1220,22 @@ class TimelineFragment : SFragment(), OnRefreshListener, StatusActionListener, I
         if (isAdded) onRefresh() else isNeedRefresh = true
     }
 
+    enum class Kind {
+        HOME, PUBLIC_LOCAL, PUBLIC_FEDERATED, TAG, USER, USER_PINNED, USER_WITH_REPLIES, FAVOURITES, LIST, BOOKMARKS
+    }
+
+    private enum class FetchEnd {
+        TOP, BOTTOM, MIDDLE
+    }
+
     companion object {
         private const val TAG = "TimelineF" // logging tag
         private const val KIND_ARG = "kind"
         private const val ID_ARG = "id"
-        private const val HASHTAGS_ARG = "hastags"
-        private const val ARG_ENABLE_SWIPE_TO_REFRESH = "arg.enable.swipe.to.refresh"
+        private const val HASHTAGS_ARG = "hashtags"
+        private const val ARG_ENABLE_SWIPE_TO_REFRESH = "enableSwipeToRefresh"
         private const val LOAD_AT_ONCE = 30
-        @JvmOverloads
+
         fun newInstance(kind: Kind, hashtagOrId: String? = null, enableSwipeToRefresh: Boolean = true): TimelineFragment {
             val fragment = TimelineFragment()
             val arguments = Bundle(3)
