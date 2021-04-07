@@ -20,11 +20,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.accessibility.AccessibilityManager
-import android.widget.ProgressBar
 import androidx.arch.core.util.Function
 import androidx.core.content.ContextCompat
 import androidx.core.util.Pair
-import androidx.core.widget.ContentLoadingProgressBar
 import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.AsyncDifferConfig
 import androidx.recyclerview.widget.AsyncListDiffer
@@ -34,7 +32,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.ListUpdateCallback
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener
 import at.connyduck.sparkbutton.helpers.Utils
 import com.keylesspalace.tusky.AccountListActivity
@@ -56,6 +53,7 @@ import com.keylesspalace.tusky.appstore.ReblogEvent
 import com.keylesspalace.tusky.appstore.StatusComposedEvent
 import com.keylesspalace.tusky.appstore.StatusDeletedEvent
 import com.keylesspalace.tusky.appstore.UnfollowEvent
+import com.keylesspalace.tusky.databinding.FragmentTimelineBinding
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.entity.Filter
@@ -81,9 +79,11 @@ import com.keylesspalace.tusky.util.StatusDisplayOptions
 import com.keylesspalace.tusky.util.StatusProvider
 import com.keylesspalace.tusky.util.ViewDataUtils
 import com.keylesspalace.tusky.util.dec
+import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.inc
 import com.keylesspalace.tusky.util.isEmpty
-import com.keylesspalace.tusky.view.BackgroundMessageView
+import com.keylesspalace.tusky.util.show
+import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.view.EndlessOnScrollListener
 import com.keylesspalace.tusky.viewdata.StatusViewData
 import com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider.from
@@ -109,19 +109,18 @@ class TimelineFragment : SFragment(), OnRefreshListener, StatusActionListener, I
     @Inject
     lateinit var accountManager: AccountManager
 
+    private val binding by viewBinding(FragmentTimelineBinding::bind)
+
+    private var kind: Kind? = null
+    private var id: String? = null
+    private var tags: List<String> = emptyList()
+
+    private var adapter: TimelineAdapter? = null
+
     private var isSwipeToRefreshEnabled = true
     private var isNeedRefresh = false
 
     private var eventRegistered = false
-    private var swipeRefreshLayout: SwipeRefreshLayout? = null
-    private var recyclerView: RecyclerView? = null
-    private var progressBar: ProgressBar? = null
-    private var topProgressBar: ContentLoadingProgressBar? = null
-    private var statusView: BackgroundMessageView? = null
-    private var adapter: TimelineAdapter? = null
-    private var kind: Kind? = null
-    private var id: String? = null
-    private var tags: List<String> = emptyList()
 
     /**
      * For some timeline kinds we must use LINK headers and not just status ids.
@@ -180,25 +179,24 @@ class TimelineFragment : SFragment(), OnRefreshListener, StatusActionListener, I
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        val rootView = inflater.inflate(R.layout.fragment_timeline, container, false)
-        recyclerView = rootView.findViewById(R.id.recyclerView)
-        swipeRefreshLayout = rootView.findViewById(R.id.swipeRefreshLayout)
-        progressBar = rootView.findViewById(R.id.progressBar)
-        statusView = rootView.findViewById(R.id.statusView)
-        topProgressBar = rootView.findViewById(R.id.topProgressBar)
+        return inflater.inflate(R.layout.fragment_timeline, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         setupSwipeRefreshLayout()
         setupRecyclerView()
         updateAdapter()
         setupTimelinePreferences()
         if (statuses.isEmpty()) {
-            progressBar!!.setVisibility(View.VISIBLE)
+            binding.progressBar.show()
             bottomLoading = true
             sendInitialRequest()
         } else {
-            progressBar!!.setVisibility(View.GONE)
-            if (isNeedRefresh) onRefresh()
+            binding.progressBar.hide()
+            if (isNeedRefresh) {
+                onRefresh()
+            }
         }
-        return rootView
     }
 
     private fun sendInitialRequest() {
@@ -224,7 +222,7 @@ class TimelineFragment : SFragment(), OnRefreshListener, StatusActionListener, I
                         this.statuses.clear()
                         this.statuses.addAll(statuses)
                         updateAdapter()
-                        progressBar!!.visibility = View.GONE
+                        binding.progressBar.hide()
                         // Request statuses including current top to refresh all of them
                     }
                     updateCurrent()
@@ -275,8 +273,8 @@ class TimelineFragment : SFragment(), OnRefreshListener, StatusActionListener, I
                         { e: Throwable? ->
                             initialUpdateFailed = true
                             // Indicate that we are not loading anymore
-                            progressBar!!.visibility = View.GONE
-                            swipeRefreshLayout!!.isRefreshing = false
+                            binding.progressBar.visibility = View.GONE
+                            binding.swipeRefreshLayout.isRefreshing = false
                         })
     }
 
@@ -300,31 +298,27 @@ class TimelineFragment : SFragment(), OnRefreshListener, StatusActionListener, I
     }
 
     private fun setupSwipeRefreshLayout() {
-        swipeRefreshLayout!!.isEnabled = isSwipeToRefreshEnabled
-        if (isSwipeToRefreshEnabled) {
-            swipeRefreshLayout!!.setOnRefreshListener(this)
-            swipeRefreshLayout!!.setColorSchemeResources(R.color.tusky_blue)
-        }
+        binding.swipeRefreshLayout.isEnabled = isSwipeToRefreshEnabled
+        binding.swipeRefreshLayout.setOnRefreshListener(this)
+        binding.swipeRefreshLayout.setColorSchemeResources(R.color.tusky_blue)
     }
 
     private fun setupRecyclerView() {
-        recyclerView!!.setAccessibilityDelegateCompat(
-                ListStatusAccessibilityDelegate(recyclerView!!, this, object : StatusProvider {
+        binding.recyclerView.setAccessibilityDelegateCompat(
+                ListStatusAccessibilityDelegate(binding.recyclerView, this, object : StatusProvider {
                     override fun getStatus(pos: Int): StatusViewData? {
                         return statuses.getPairedItemOrNull(pos)
                     }
                 }))
-        val context = recyclerView!!.context
-        recyclerView!!.setHasFixedSize(true)
+        binding.recyclerView.setHasFixedSize(true)
         layoutManager = LinearLayoutManager(context)
-        recyclerView!!.layoutManager = layoutManager
-        val divider = DividerItemDecoration(
-                context, layoutManager!!.orientation)
-        recyclerView!!.addItemDecoration(divider)
+        binding.recyclerView.layoutManager = layoutManager
+        val divider = DividerItemDecoration(context, RecyclerView.VERTICAL)
+        binding.recyclerView.addItemDecoration(divider)
 
         // CWs are expanded without animation, buttons animate itself, we don't need it basically
-        (recyclerView!!.itemAnimator as SimpleItemAnimator?)!!.supportsChangeAnimations = false
-        recyclerView!!.adapter = adapter
+        (binding.recyclerView.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
+        binding.recyclerView.adapter = adapter
     }
 
     private fun deleteStatusById(id: String) {
@@ -343,8 +337,8 @@ class TimelineFragment : SFragment(), OnRefreshListener, StatusActionListener, I
     }
 
     private fun showNothing() {
-        statusView!!.visibility = View.VISIBLE
-        statusView!!.setup(R.drawable.elephant_friend_empty, R.string.message_empty, null)
+        binding.statusView.show()
+        binding.statusView.setup(R.drawable.elephant_friend_empty, R.string.message_empty, null)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -387,7 +381,7 @@ class TimelineFragment : SFragment(), OnRefreshListener, StatusActionListener, I
                 }
             }
         }
-        recyclerView!!.addOnScrollListener(scrollListener!!)
+        binding.recyclerView.addOnScrollListener(scrollListener!!)
         if (!eventRegistered) {
             eventHub.events
                     .observeOn(AndroidSchedulers.mainThread())
@@ -438,8 +432,8 @@ class TimelineFragment : SFragment(), OnRefreshListener, StatusActionListener, I
     }
 
     override fun onRefresh() {
-        if (isSwipeToRefreshEnabled) swipeRefreshLayout!!.isEnabled = true
-        statusView!!.visibility = View.GONE
+        binding.swipeRefreshLayout.isEnabled = isSwipeToRefreshEnabled
+        binding.statusView.hide()
         isNeedRefresh = false
         if (initialUpdateFailed) {
             updateCurrent()
@@ -796,7 +790,7 @@ class TimelineFragment : SFragment(), OnRefreshListener, StatusActionListener, I
     private fun jumpToTop() {
         if (isAdded) {
             layoutManager!!.scrollToPosition(0)
-            recyclerView!!.stopScroll()
+            binding.recyclerView.stopScroll()
             scrollListener!!.reset()
         }
     }
@@ -825,11 +819,12 @@ class TimelineFragment : SFragment(), OnRefreshListener, StatusActionListener, I
     private fun sendFetchTimelineRequest(maxId: String?, sinceId: String?,
                                          sinceIdMinusOne: String?,
                                          fetchEnd: FetchEnd, pos: Int) {
-        if (isAdded && (fetchEnd == FetchEnd.TOP || fetchEnd == FetchEnd.BOTTOM && maxId == null && progressBar!!.visibility != View.VISIBLE) && !isSwipeToRefreshEnabled) topProgressBar!!.show()
+        if (isAdded && (fetchEnd == FetchEnd.TOP || fetchEnd == FetchEnd.BOTTOM && maxId == null && binding.progressBar.visibility != View.VISIBLE) && !isSwipeToRefreshEnabled) {
+            binding.topProgressBar.show()
+        }
         if (kind == Kind.HOME) {
-            val mode: TimelineRequestMode
             // allow getting old statuses/fallbacks for network only for for bottom loading
-            mode = if (fetchEnd == FetchEnd.BOTTOM) {
+            val mode = if (fetchEnd == FetchEnd.BOTTOM) {
                 TimelineRequestMode.ANY
             } else {
                 TimelineRequestMode.NETWORK
@@ -892,7 +887,7 @@ class TimelineFragment : SFragment(), OnRefreshListener, StatusActionListener, I
                     this.statuses.removeAt(this.statuses.size - 1)
                     updateAdapter()
                 }
-                if (!statuses.isEmpty() && !statuses[statuses.size - 1].isRight()) {
+                if (statuses.isNotEmpty() && !statuses[statuses.size - 1].isRight()) {
                     // Removing placeholder if it's the last one from the cache
                     statuses.removeAt(statuses.size - 1)
                 }
@@ -910,23 +905,23 @@ class TimelineFragment : SFragment(), OnRefreshListener, StatusActionListener, I
             }
         }
         if (isAdded) {
-            topProgressBar!!.hide()
+            binding.topProgressBar.hide()
             updateBottomLoadingState(fetchEnd)
-            progressBar!!.visibility = View.GONE
-            swipeRefreshLayout!!.isRefreshing = false
-            swipeRefreshLayout!!.isEnabled = true
+            binding.progressBar.hide()
+            binding.swipeRefreshLayout.isRefreshing = false
+            binding.swipeRefreshLayout.isEnabled = true
             if (this.statuses.size == 0) {
                 showNothing()
             } else {
-                statusView!!.visibility = View.GONE
+                binding.statusView.hide()
             }
         }
     }
 
     private fun onFetchTimelineFailure(throwable: Throwable, fetchEnd: FetchEnd, position: Int) {
         if (isAdded) {
-            swipeRefreshLayout!!.isRefreshing = false
-            topProgressBar!!.hide()
+            binding.swipeRefreshLayout.isRefreshing = false
+            binding.topProgressBar.hide()
             if (fetchEnd == FetchEnd.MIDDLE && !statuses[position]!!.isRight()) {
                 var placeholder = statuses[position]!!.asLeftOrNull()
                 val newViewData: StatusViewData
@@ -939,25 +934,23 @@ class TimelineFragment : SFragment(), OnRefreshListener, StatusActionListener, I
                 statuses.setPairedItem(position, newViewData)
                 updateAdapter()
             } else if (statuses.isEmpty()) {
-                swipeRefreshLayout!!.isEnabled = false
-                statusView!!.visibility = View.VISIBLE
+                binding.swipeRefreshLayout.isEnabled = false
+                binding.statusView.visibility = View.VISIBLE
                 if (throwable is IOException) {
-                    statusView!!.setup(R.drawable.elephant_offline, R.string.error_network) {
-                        progressBar!!.visibility = View.VISIBLE
+                    binding.statusView.setup(R.drawable.elephant_offline, R.string.error_network) {
+                        binding.progressBar.visibility = View.VISIBLE
                         onRefresh()
-                        Unit
                     }
                 } else {
-                    statusView!!.setup(R.drawable.elephant_error, R.string.error_generic) {
-                        progressBar!!.visibility = View.VISIBLE
+                    binding.statusView.setup(R.drawable.elephant_error, R.string.error_generic) {
+                        binding.progressBar.visibility = View.VISIBLE
                         onRefresh()
-                        Unit
                     }
                 }
             }
             Log.e(TAG, "Fetch Failure: " + throwable.message)
             updateBottomLoadingState(fetchEnd)
-            progressBar!!.visibility = View.GONE
+            binding.progressBar.hide()
         }
     }
 
@@ -1149,7 +1142,9 @@ class TimelineFragment : SFragment(), OnRefreshListener, StatusActionListener, I
                 // scroll up when new items at the top are loaded while being in the first position
                 // https://github.com/tuskyapp/Tusky/pull/1905#issuecomment-677819724
                 if (position == 0 && context != null && adapter!!.itemCount != count) {
-                    if (isSwipeToRefreshEnabled) recyclerView!!.scrollBy(0, Utils.dpToPx(context, -30)) else recyclerView!!.scrollToPosition(0)
+                    if (isSwipeToRefreshEnabled) {
+                        binding.recyclerView.scrollBy(0, Utils.dpToPx(context, -30))
+                    } else binding.recyclerView.scrollToPosition(0)
                 }
             }
         }
@@ -1217,7 +1212,11 @@ class TimelineFragment : SFragment(), OnRefreshListener, StatusActionListener, I
     }
 
     override fun refreshContent() {
-        if (isAdded) onRefresh() else isNeedRefresh = true
+        if (isAdded) {
+            onRefresh()
+        } else {
+            isNeedRefresh = true
+        }
     }
 
     enum class Kind {
