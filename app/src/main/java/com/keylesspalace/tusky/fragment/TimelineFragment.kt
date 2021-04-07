@@ -1,4 +1,4 @@
-/* Copyright 2017 Andrew Dawson
+/* Copyright 2021 Tusky Contributors
  *
  * This file is a part of Tusky.
  *
@@ -12,6 +12,7 @@
  *
  * You should have received a copy of the GNU General Public License along with Tusky; if not,
  * see <http://www.gnu.org/licenses>. */
+
 package com.keylesspalace.tusky.fragment
 
 import android.os.Bundle
@@ -20,9 +21,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.accessibility.AccessibilityManager
-import androidx.arch.core.util.Function
 import androidx.core.content.ContextCompat
 import androidx.core.util.Pair
+import androidx.lifecycle.Lifecycle
 import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.AsyncDifferConfig
 import androidx.recyclerview.widget.AsyncListDiffer
@@ -81,7 +82,6 @@ import com.keylesspalace.tusky.util.ViewDataUtils
 import com.keylesspalace.tusky.util.dec
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.inc
-import com.keylesspalace.tusky.util.isEmpty
 import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.view.EndlessOnScrollListener
@@ -93,8 +93,6 @@ import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import retrofit2.Response
 import java.io.IOException
-import java.util.ArrayList
-import java.util.Objects
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -115,7 +113,7 @@ class TimelineFragment : SFragment(), OnRefreshListener, StatusActionListener, I
     private var id: String? = null
     private var tags: List<String> = emptyList()
 
-    private var adapter: TimelineAdapter? = null
+    private lateinit var adapter: TimelineAdapter
 
     private var isSwipeToRefreshEnabled = true
     private var isNeedRefresh = false
@@ -137,7 +135,7 @@ class TimelineFragment : SFragment(), OnRefreshListener, StatusActionListener, I
     private var alwaysOpenSpoiler = false
     private var initialUpdateFailed = false
 
-    private val statuses = PairedList<Either<Placeholder, Status>, StatusViewData>(Function<Either<Placeholder, Status>?, StatusViewData> { input ->
+    private val statuses = PairedList<Either<Placeholder, Status>, StatusViewData> { input ->
         val status = input.asRightOrNull()
         if (status != null) {
             ViewDataUtils.statusToViewData(
@@ -149,18 +147,21 @@ class TimelineFragment : SFragment(), OnRefreshListener, StatusActionListener, I
             val (id1) = input.asLeft()
             StatusViewData.Placeholder(id1, false)
         }
-    })
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val arguments = requireArguments()
         kind = Kind.valueOf(arguments.getString(KIND_ARG)!!)
         if (kind == Kind.USER || kind == Kind.USER_PINNED || kind == Kind.USER_WITH_REPLIES || kind == Kind.LIST) {
-            id = arguments.getString(ID_ARG)
+            id = arguments.getString(ID_ARG)!!
         }
         if (kind == Kind.TAG) {
             tags = arguments.getStringArrayList(HASHTAGS_ARG)!!
         }
+
+        isSwipeToRefreshEnabled = arguments.getBoolean(ARG_ENABLE_SWIPE_TO_REFRESH, true)
+
         val preferences = PreferenceManager.getDefaultSharedPreferences(activity)
         val statusDisplayOptions = StatusDisplayOptions(
                 preferences.getBoolean("animateGifAvatars", false),
@@ -174,11 +175,9 @@ class TimelineFragment : SFragment(), OnRefreshListener, StatusActionListener, I
                 preferences.getBoolean(PrefKeys.ANIMATE_CUSTOM_EMOJIS, false)
         )
         adapter = TimelineAdapter(dataSource, statusDisplayOptions, this)
-        isSwipeToRefreshEnabled = arguments.getBoolean(ARG_ENABLE_SWIPE_TO_REFRESH, true)
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_timeline, container, false)
     }
 
@@ -210,8 +209,7 @@ class TimelineFragment : SFragment(), OnRefreshListener, StatusActionListener, I
     private fun tryCache() {
         // Request timeline from disk to make it quick, then replace it with timeline from
         // the server to update it
-        timelineRepo.getStatuses(null, null, null, LOAD_AT_ONCE,
-                TimelineRequestMode.DISK)
+        timelineRepo.getStatuses(null, null, null, LOAD_AT_ONCE, TimelineRequestMode.DISK)
                 .observeOn(AndroidSchedulers.mainThread())
                 .autoDispose(from(this))
                 .subscribe { statuses: List<Either<Placeholder, Status>> ->
@@ -234,7 +232,7 @@ class TimelineFragment : SFragment(), OnRefreshListener, StatusActionListener, I
         if (statuses.isEmpty()) {
             return
         }
-        val topId = statuses.first { obj: Either<*, *>? -> obj!!.isRight() }!!.asRight().id
+        val topId = statuses.first { status -> status.isRight() }!!.asRight().id
         timelineRepo.getStatuses(topId, null, null, LOAD_AT_ONCE,
                 TimelineRequestMode.NETWORK)
                 .observeOn(AndroidSchedulers.mainThread())
@@ -244,7 +242,7 @@ class TimelineFragment : SFragment(), OnRefreshListener, StatusActionListener, I
 
                             initialUpdateFailed = false
                             // When cached timeline is too old, we would replace it with nothing
-                            if (!statuses.isEmpty()) {
+                            if (statuses.isNotEmpty()) {
                                 val mutableStatuses = statuses.toMutableList()
                                 filterStatuses(mutableStatuses)
                                 if (!this.statuses.isEmpty()) {
@@ -252,14 +250,14 @@ class TimelineFragment : SFragment(), OnRefreshListener, StatusActionListener, I
                                     val iterator = this.statuses.iterator()
                                     while (iterator.hasNext()) {
                                         val item = iterator.next()
-                                        if (item!!.isRight()) {
+                                        if (item.isRight()) {
                                             val (id1) = item.asRight()
-                                            if (id1.length < topId.length || id1.compareTo(topId) < 0) {
+                                            if (id1.length < topId.length || id1 < topId) {
                                                 iterator.remove()
                                             }
                                         } else {
                                             val (id1) = item.asLeft()
-                                            if (id1.length < topId.length || id1.compareTo(topId) < 0) {
+                                            if (id1.length < topId.length || id1 < topId) {
                                                 iterator.remove()
                                             }
                                         }
@@ -270,10 +268,11 @@ class TimelineFragment : SFragment(), OnRefreshListener, StatusActionListener, I
                             }
                             bottomLoading = false
                         },
-                        { e: Throwable? ->
+                        { t: Throwable? ->
+                            Log.d(TAG, "Failed updating timeline", t)
                             initialUpdateFailed = true
                             // Indicate that we are not loading anymore
-                            binding.progressBar.visibility = View.GONE
+                            binding.progressBar.hide()
                             binding.swipeRefreshLayout.isRefreshing = false
                         })
     }
@@ -281,11 +280,11 @@ class TimelineFragment : SFragment(), OnRefreshListener, StatusActionListener, I
     private fun setupTimelinePreferences() {
         alwaysShowSensitiveMedia = accountManager.activeAccount!!.alwaysShowSensitiveMedia
         alwaysOpenSpoiler = accountManager.activeAccount!!.alwaysOpenSpoiler
-        val preferences = PreferenceManager.getDefaultSharedPreferences(context)
-        var filter = preferences.getBoolean("tabFilterHomeReplies", true)
-        filterRemoveReplies = kind == Kind.HOME && !filter
-        filter = preferences.getBoolean("tabFilterHomeBoosts", true)
-        filterRemoveReblogs = kind == Kind.HOME && !filter
+        if (kind == Kind.HOME) {
+            val preferences = PreferenceManager.getDefaultSharedPreferences(context)
+            filterRemoveReplies = !preferences.getBoolean("tabFilterHomeReplies", true)
+            filterRemoveReblogs = !preferences.getBoolean("tabFilterHomeBoosts", true)
+        }
         reloadFilters(false)
     }
 
@@ -324,19 +323,18 @@ class TimelineFragment : SFragment(), OnRefreshListener, StatusActionListener, I
     private fun deleteStatusById(id: String) {
         for (i in statuses.indices) {
             val either = statuses[i]
-            if (either!!.isRight()
-                    && id == either.asRight().id) {
+            if (either.isRight() && id == either.asRight().id) {
                 statuses.remove(either)
                 updateAdapter()
                 break
             }
         }
-        if (statuses.size == 0) {
-            showNothing()
+        if (statuses.isEmpty()) {
+            showEmptyView()
         }
     }
 
-    private fun showNothing() {
+    private fun showEmptyView() {
         binding.statusView.show()
         binding.statusView.setup(R.drawable.elephant_friend_empty, R.string.message_empty, null)
     }
@@ -346,16 +344,15 @@ class TimelineFragment : SFragment(), OnRefreshListener, StatusActionListener, I
 
         /* This is delayed until onActivityCreated solely because MainActivity.composeButton isn't
          * guaranteed to be set until then. */
-        if (actionButtonPresent()) {
+        scrollListener = if (actionButtonPresent()) {
             /* Use a modified scroll listener that both loads more statuses as it goes, and hides
              * the follow button on down-scroll. */
             val preferences = PreferenceManager.getDefaultSharedPreferences(context)
             hideFab = preferences.getBoolean("fabHide", false)
-            scrollListener = object : EndlessOnScrollListener(layoutManager) {
+            object : EndlessOnScrollListener(layoutManager) {
                 override fun onScrolled(view: RecyclerView, dx: Int, dy: Int) {
                     super.onScrolled(view, dx, dy)
-                    val activity = activity as ActionButtonActivity?
-                    val composeButton = activity!!.actionButton
+                    val composeButton = (activity as ActionButtonActivity).actionButton
                     if (composeButton != null) {
                         if (hideFab) {
                             if (dy > 0 && composeButton.isShown) {
@@ -375,13 +372,15 @@ class TimelineFragment : SFragment(), OnRefreshListener, StatusActionListener, I
             }
         } else {
             // Just use the basic scroll listener to load more statuses.
-            scrollListener = object : EndlessOnScrollListener(layoutManager) {
+            object : EndlessOnScrollListener(layoutManager) {
                 override fun onLoadMore(totalItemsCount: Int, view: RecyclerView) {
                     this@TimelineFragment.onLoadMore()
                 }
             }
+        }.also {
+            binding.recyclerView.addOnScrollListener(it)
         }
-        binding.recyclerView.addOnScrollListener(scrollListener!!)
+
         if (!eventRegistered) {
             eventHub.events
                     .observeOn(AndroidSchedulers.mainThread())
@@ -394,7 +393,7 @@ class TimelineFragment : SFragment(), OnRefreshListener, StatusActionListener, I
                         } else if (event is BookmarkEvent) {
                             handleBookmarkEvent(event)
                         } else if (event is MuteConversationEvent) {
-                            handleMuteConversationEvent(event)
+                            fullyRefresh()
                         } else if (event is UnfollowEvent) {
                             if (kind == Kind.HOME) {
                                 val id = event.accountId
@@ -446,10 +445,10 @@ class TimelineFragment : SFragment(), OnRefreshListener, StatusActionListener, I
         var secondOrNull: String? = null
         for (i in statuses.indices) {
             val status = statuses[i]
-            if (status!!.isRight()) {
+            if (status.isRight()) {
                 firstOrNull = status.asRight().id
-                if (i + 1 < statuses.size && statuses[i + 1]!!.isRight()) {
-                    secondOrNull = statuses[i + 1]!!.asRight().id
+                if (i + 1 < statuses.size && statuses[i + 1].isRight()) {
+                    secondOrNull = statuses[i + 1].asRight().id
                 }
                 break
             }
@@ -462,7 +461,7 @@ class TimelineFragment : SFragment(), OnRefreshListener, StatusActionListener, I
     }
 
     override fun onReply(position: Int) {
-        super.reply(statuses[position]!!.asRight())
+        super.reply(statuses[position].asRight())
     }
 
     override fun onReblog(reblog: Boolean, position: Int) {
@@ -471,8 +470,8 @@ class TimelineFragment : SFragment(), OnRefreshListener, StatusActionListener, I
                 .observeOn(AndroidSchedulers.mainThread())
                 .autoDispose(from(this))
                 .subscribe(
-                        { newStatus: Status? -> setRebloggedForStatus(position, status, reblog) }
-                ) { err: Throwable? -> Log.d(TAG, "Failed to reblog status " + status.id, err) }
+                        { newStatus: Status -> setRebloggedForStatus(position, newStatus, reblog) }
+                ) { t: Throwable? -> Log.d(TAG, "Failed to reblog status " + status.id, t) }
     }
 
     private fun setRebloggedForStatus(position: Int, status: Status, reblog: Boolean) {
@@ -489,13 +488,14 @@ class TimelineFragment : SFragment(), OnRefreshListener, StatusActionListener, I
     }
 
     override fun onFavourite(favourite: Boolean, position: Int) {
-        val status = statuses[position]!!.asRight()
+        val status = statuses[position].asRight()
         timelineCases.favourite(status, favourite)
                 .observeOn(AndroidSchedulers.mainThread())
                 .autoDispose(from(this))
                 .subscribe(
-                        { newStatus: Status -> setFavouriteForStatus(position, newStatus, favourite) }
-                ) { err: Throwable? -> Log.d(TAG, "Failed to favourite status " + status.id, err) }
+                        { newStatus: Status -> setFavouriteForStatus(position, newStatus, favourite) },
+                        { t: Throwable? -> Log.d(TAG, "Failed to favourite status " + status.id, t) }
+                )
     }
 
     private fun setFavouriteForStatus(position: Int, status: Status, favourite: Boolean) {
@@ -512,13 +512,14 @@ class TimelineFragment : SFragment(), OnRefreshListener, StatusActionListener, I
     }
 
     override fun onBookmark(bookmark: Boolean, position: Int) {
-        val status = statuses[position]!!.asRight()
+        val status = statuses[position].asRight()
         timelineCases.bookmark(status, bookmark)
                 .observeOn(AndroidSchedulers.mainThread())
                 .autoDispose(from(this))
                 .subscribe(
-                        { newStatus: Status -> setBookmarkForStatus(position, newStatus, bookmark) }
-                ) { err: Throwable? -> Log.d(TAG, "Failed to favourite status " + status.id, err) }
+                        { newStatus: Status -> setBookmarkForStatus(position, newStatus, bookmark) },
+                        { t: Throwable? -> Log.d(TAG, "Failed to favourite status " + status.id, t) }
+                )
     }
 
     private fun setBookmarkForStatus(position: Int, status: Status, bookmark: Boolean) {
@@ -535,18 +536,16 @@ class TimelineFragment : SFragment(), OnRefreshListener, StatusActionListener, I
     }
 
     override fun onVoteInPoll(position: Int, choices: List<Int>) {
-        val status = statuses[position]!!.asRight()
+        val status = statuses[position].asRight()
         val votedPoll = status.actionableStatus.poll!!.votedCopy(choices)
         setVoteForPoll(position, status, votedPoll)
         timelineCases.voteInPoll(status, choices)
                 .observeOn(AndroidSchedulers.mainThread())
                 .autoDispose(from(this))
                 .subscribe(
-                        { newPoll: Poll -> setVoteForPoll(position, status, newPoll) }
-                ) { t: Throwable? ->
-                    Log.d(TAG,
-                            "Failed to vote in poll: " + status.id, t)
-                }
+                        { newPoll: Poll -> setVoteForPoll(position, status, newPoll) },
+                        { t: Throwable? -> Log.d(TAG, "Failed to vote in poll: " + status.id, t) }
+                )
     }
 
     private fun setVoteForPoll(position: Int, status: Status, newPoll: Poll) {
@@ -559,11 +558,11 @@ class TimelineFragment : SFragment(), OnRefreshListener, StatusActionListener, I
     }
 
     override fun onMore(view: View, position: Int) {
-        super.more(statuses[position]!!.asRight(), view, position)
+        super.more(statuses[position].asRight(), view, position)
     }
 
     override fun onOpenReblog(position: Int) {
-        super.openReblog(statuses[position]!!.asRight())
+        super.openReblog(statuses[position].asRight())
     }
 
     override fun onExpandedChange(expanded: Boolean, position: Int) {
@@ -583,15 +582,15 @@ class TimelineFragment : SFragment(), OnRefreshListener, StatusActionListener, I
     }
 
     override fun onShowReblogs(position: Int) {
-        val statusId = statuses[position]!!.asRight().id
+        val statusId = statuses[position].asRight().id
         val intent = newIntent(requireContext(), AccountListActivity.Type.REBLOGGED, statusId)
-        (activity as BaseActivity?)!!.startActivityWithSlideInAnimation(intent)
+        (activity as BaseActivity).startActivityWithSlideInAnimation(intent)
     }
 
     override fun onShowFavs(position: Int) {
-        val statusId = statuses[position]!!.asRight().id
+        val statusId = statuses[position].asRight().id
         val intent = newIntent(requireContext(), AccountListActivity.Type.FAVOURITED, statusId)
-        (activity as BaseActivity?)!!.startActivityWithSlideInAnimation(intent)
+        (activity as BaseActivity).startActivityWithSlideInAnimation(intent)
     }
 
     override fun onLoadMore(position: Int) {
@@ -599,7 +598,7 @@ class TimelineFragment : SFragment(), OnRefreshListener, StatusActionListener, I
         if (statuses.size >= position && position > 0) {
             val fromStatus = statuses[position - 1].asRightOrNull()
             val toStatus = statuses[position + 1].asRightOrNull()
-            val maxMinusOne = if (statuses.size > position + 1 && statuses[position + 2]!!.isRight()) statuses[position + 1]!!.asRight().id else null
+            val maxMinusOne = if (statuses.size > position + 1 && statuses[position + 2].isRight()) statuses[position + 1].asRight().id else null
             if (fromStatus == null || toStatus == null) {
                 Log.e(TAG, "Failed to load more at $position, wrong placeholder position")
                 return
@@ -673,9 +672,9 @@ class TimelineFragment : SFragment(), OnRefreshListener, StatusActionListener, I
             }
             "mediaPreviewEnabled" -> {
                 val enabled = accountManager.activeAccount!!.mediaPreviewEnabled
-                val oldMediaPreviewEnabled = adapter!!.mediaPreviewEnabled
+                val oldMediaPreviewEnabled = adapter.mediaPreviewEnabled
                 if (enabled != oldMediaPreviewEnabled) {
-                    adapter!!.mediaPreviewEnabled = enabled
+                    adapter.mediaPreviewEnabled = enabled
                     fullyRefresh()
                 }
             }
@@ -683,7 +682,7 @@ class TimelineFragment : SFragment(), OnRefreshListener, StatusActionListener, I
                 val filter = sharedPreferences.getBoolean("tabFilterHomeReplies", true)
                 val oldRemoveReplies = filterRemoveReplies
                 filterRemoveReplies = kind == Kind.HOME && !filter
-                if (adapter!!.itemCount > 1 && oldRemoveReplies != filterRemoveReplies) {
+                if (adapter.itemCount > 1 && oldRemoveReplies != filterRemoveReplies) {
                     fullyRefresh()
                 }
             }
@@ -691,7 +690,7 @@ class TimelineFragment : SFragment(), OnRefreshListener, StatusActionListener, I
                 val filter = sharedPreferences.getBoolean("tabFilterHomeBoosts", true)
                 val oldRemoveReblogs = filterRemoveReblogs
                 filterRemoveReblogs = kind == Kind.HOME && !filter
-                if (adapter!!.itemCount > 1 && oldRemoveReblogs != filterRemoveReblogs) {
+                if (adapter.itemCount > 1 && oldRemoveReblogs != filterRemoveReblogs) {
                     fullyRefresh()
                 }
             }
@@ -701,7 +700,6 @@ class TimelineFragment : SFragment(), OnRefreshListener, StatusActionListener, I
                 }
             }
             "alwaysShowSensitiveMedia" -> {
-
                 //it is ok if only newly loaded statuses are affected, no need to fully refresh
                 alwaysShowSensitiveMedia = accountManager.activeAccount!!.alwaysShowSensitiveMedia
             }
@@ -717,7 +715,7 @@ class TimelineFragment : SFragment(), OnRefreshListener, StatusActionListener, I
         // using iterator to safely remove items while iterating
         val iterator = statuses.iterator()
         while (iterator.hasNext()) {
-            val status = iterator.next()!!.asRightOrNull()
+            val status = iterator.next().asRightOrNull()
             if (status != null &&
                     (status.account.id == accountId || status.actionableStatus.account.id == accountId)) {
                 iterator.remove()
@@ -730,7 +728,7 @@ class TimelineFragment : SFragment(), OnRefreshListener, StatusActionListener, I
         // using iterator to safely remove items while iterating
         val iterator = statuses.iterator()
         while (iterator.hasNext()) {
-            val status = iterator.next()!!.asRightOrNull()
+            val status = iterator.next().asRightOrNull()
             if (status != null && LinkHelper.getDomain(status.account.url) == instance) {
                 iterator.remove()
             }
@@ -742,7 +740,7 @@ class TimelineFragment : SFragment(), OnRefreshListener, StatusActionListener, I
         if (didLoadEverythingBottom || bottomLoading) {
             return
         }
-        if (statuses.size == 0) {
+        if (statuses.isEmpty()) {
             sendInitialRequest()
             return
         }
@@ -787,14 +785,6 @@ class TimelineFragment : SFragment(), OnRefreshListener, StatusActionListener, I
                 activity is ActionButtonActivity
     }
 
-    private fun jumpToTop() {
-        if (isAdded) {
-            layoutManager!!.scrollToPosition(0)
-            binding.recyclerView.stopScroll()
-            scrollListener!!.reset()
-        }
-    }
-
     private fun getFetchCallByTimelineType(fromId: String?, uptoId: String?): Single<Response<List<Status>>> {
         val api = mastodonApi
         return when (kind) {
@@ -834,7 +824,7 @@ class TimelineFragment : SFragment(), OnRefreshListener, StatusActionListener, I
                     .autoDispose(from(this))
                     .subscribe(
                             { result: List<Either<Placeholder, Status>> -> onFetchTimelineSuccess(result.toMutableList(), fetchEnd, pos) },
-                            { err: Throwable -> onFetchTimelineFailure(err, fetchEnd, pos) }
+                            { t: Throwable -> onFetchTimelineFailure(t, fetchEnd, pos) }
                     )
         } else {
             getFetchCallByTimelineType(maxId, sinceId)
@@ -855,7 +845,7 @@ class TimelineFragment : SFragment(), OnRefreshListener, StatusActionListener, I
                                     onFetchTimelineFailure(Exception(response.message()), fetchEnd, pos)
                                 }
                             }
-                    ) { err: Throwable -> onFetchTimelineFailure(err, fetchEnd, pos) }
+                    ) { t: Throwable -> onFetchTimelineFailure(t, fetchEnd, pos) }
         }
     }
 
@@ -883,7 +873,7 @@ class TimelineFragment : SFragment(), OnRefreshListener, StatusActionListener, I
             }
             FetchEnd.BOTTOM -> {
                 if (!this.statuses.isEmpty()
-                        && !this.statuses[this.statuses.size - 1]!!.isRight()) {
+                        && !this.statuses[this.statuses.size - 1].isRight()) {
                     this.statuses.removeAt(this.statuses.size - 1)
                     updateAdapter()
                 }
@@ -911,7 +901,7 @@ class TimelineFragment : SFragment(), OnRefreshListener, StatusActionListener, I
             binding.swipeRefreshLayout.isRefreshing = false
             binding.swipeRefreshLayout.isEnabled = true
             if (this.statuses.size == 0) {
-                showNothing()
+                showEmptyView()
             } else {
                 binding.statusView.hide()
             }
@@ -922,11 +912,11 @@ class TimelineFragment : SFragment(), OnRefreshListener, StatusActionListener, I
         if (isAdded) {
             binding.swipeRefreshLayout.isRefreshing = false
             binding.topProgressBar.hide()
-            if (fetchEnd == FetchEnd.MIDDLE && !statuses[position]!!.isRight()) {
-                var placeholder = statuses[position]!!.asLeftOrNull()
+            if (fetchEnd == FetchEnd.MIDDLE && !statuses[position].isRight()) {
+                var placeholder = statuses[position].asLeftOrNull()
                 val newViewData: StatusViewData
                 if (placeholder == null) {
-                    val (id1) = statuses[position - 1]!!.asRight()
+                    val (id1) = statuses[position - 1].asRight()
                     val newId = id1.dec()
                     placeholder = Placeholder(newId)
                 }
@@ -974,7 +964,7 @@ class TimelineFragment : SFragment(), OnRefreshListener, StatusActionListener, I
     }
 
     private fun updateStatuses(newStatuses: MutableList<Either<Placeholder, Status>>, fullFetch: Boolean) {
-        if (isEmpty(newStatuses)) {
+        if (newStatuses.isEmpty()) {
             updateAdapter()
             return
         }
@@ -989,7 +979,7 @@ class TimelineFragment : SFragment(), OnRefreshListener, StatusActionListener, I
             val newIndex = newStatuses.indexOf(statuses[0])
             if (newIndex == -1) {
                 if (index == -1 && fullFetch) {
-                    val placeholderId = newStatuses.last { obj: Either<*, *>? -> obj!!.isRight() }.asRight().id.inc()
+                    val placeholderId = newStatuses.last { status -> status.isRight() }.asRight().id.inc()
                     newStatuses.add(Left(Placeholder(placeholderId)))
                 }
                 statuses.addAll(0, newStatuses)
@@ -1004,23 +994,20 @@ class TimelineFragment : SFragment(), OnRefreshListener, StatusActionListener, I
 
     private fun removeConsecutivePlaceholders() {
         for (i in 0 until statuses.size - 1) {
-            if (statuses[i]!!.isLeft() && statuses[i + 1]!!.isLeft()) {
+            if (statuses[i].isLeft() && statuses[i + 1].isLeft()) {
                 statuses.removeAt(i)
             }
         }
     }
 
     private fun addItems(newStatuses: List<Either<Placeholder, Status>?>) {
-        if (isEmpty(newStatuses)) {
+        if (newStatuses.isEmpty()) {
             return
         }
-        var last: Either<Placeholder, Status>? = null
-        for (i in statuses.indices.reversed()) {
-            if (statuses[i]!!.isRight()) {
-                last = statuses[i]
-                break
-            }
+        val last = statuses.last { status ->
+            status.isRight()
         }
+
         // I was about to replace findStatus with indexOf but it is incorrect to compare value
         // types by ID anyway and we should change equals() for Status, I think, so this makes sense
         if (last != null && !newStatuses.contains(last)) {
@@ -1034,16 +1021,16 @@ class TimelineFragment : SFragment(), OnRefreshListener, StatusActionListener, I
      * For certain requests we don't want to see placeholders, they will be removed some other way
      */
     private fun clearPlaceholdersForResponse(statuses: MutableList<Either<Placeholder, Status>>) {
-        statuses.removeAll<Either<Placeholder, Status>?> { obj: Either<*, *>? -> obj!!.isLeft() }
+        statuses.removeAll{ status -> status.isLeft() }
     }
 
     private fun replacePlaceholderWithStatuses(newStatuses: MutableList<Either<Placeholder, Status>>,
                                                fullFetch: Boolean, pos: Int) {
         val placeholder = statuses[pos]
-        if (placeholder!!.isLeft()) {
+        if (placeholder.isLeft()) {
             statuses.removeAt(pos)
         }
-        if (isEmpty(newStatuses)) {
+        if (newStatuses.isEmpty()) {
             updateAdapter()
             return
         }
@@ -1092,26 +1079,22 @@ class TimelineFragment : SFragment(), OnRefreshListener, StatusActionListener, I
     private fun handleReblogEvent(reblogEvent: ReblogEvent) {
         val pos = findStatusOrReblogPositionById(reblogEvent.statusId)
         if (pos < 0) return
-        val status = statuses[pos]!!.asRight()
+        val status = statuses[pos].asRight()
         setRebloggedForStatus(pos, status, reblogEvent.reblog)
     }
 
     private fun handleFavEvent(favEvent: FavoriteEvent) {
         val pos = findStatusOrReblogPositionById(favEvent.statusId)
         if (pos < 0) return
-        val status = statuses[pos]!!.asRight()
+        val status = statuses[pos].asRight()
         setFavouriteForStatus(pos, status, favEvent.favourite)
     }
 
     private fun handleBookmarkEvent(bookmarkEvent: BookmarkEvent) {
         val pos = findStatusOrReblogPositionById(bookmarkEvent.statusId)
         if (pos < 0) return
-        val status = statuses[pos]!!.asRight()
+        val status = statuses[pos].asRight()
         setBookmarkForStatus(pos, status, bookmarkEvent.bookmark)
-    }
-
-    private fun handleMuteConversationEvent(event: MuteConversationEvent) {
-        fullyRefresh()
     }
 
     private fun handleStatusComposeEvent(status: Status) {
@@ -1137,11 +1120,11 @@ class TimelineFragment : SFragment(), OnRefreshListener, StatusActionListener, I
     private val listUpdateCallback: ListUpdateCallback = object : ListUpdateCallback {
         override fun onInserted(position: Int, count: Int) {
             if (isAdded) {
-                adapter!!.notifyItemRangeInserted(position, count)
+                adapter.notifyItemRangeInserted(position, count)
                 val context = context
                 // scroll up when new items at the top are loaded while being in the first position
                 // https://github.com/tuskyapp/Tusky/pull/1905#issuecomment-677819724
-                if (position == 0 && context != null && adapter!!.itemCount != count) {
+                if (position == 0 && context != null && adapter.itemCount != count) {
                     if (isSwipeToRefreshEnabled) {
                         binding.recyclerView.scrollBy(0, Utils.dpToPx(context, -30))
                     } else binding.recyclerView.scrollToPosition(0)
@@ -1150,15 +1133,15 @@ class TimelineFragment : SFragment(), OnRefreshListener, StatusActionListener, I
         }
 
         override fun onRemoved(position: Int, count: Int) {
-            adapter!!.notifyItemRangeRemoved(position, count)
+            adapter.notifyItemRangeRemoved(position, count)
         }
 
         override fun onMoved(fromPosition: Int, toPosition: Int) {
-            adapter!!.notifyItemMoved(fromPosition, toPosition)
+            adapter.notifyItemMoved(fromPosition, toPosition)
         }
 
         override fun onChanged(position: Int, count: Int, payload: Any?) {
-            adapter!!.notifyItemRangeChanged(position, count, payload)
+            adapter.notifyItemRangeChanged(position, count, payload)
         }
     }
     private val differ = AsyncListDiffer(listUpdateCallback,
@@ -1174,19 +1157,17 @@ class TimelineFragment : SFragment(), OnRefreshListener, StatusActionListener, I
         }
     }
 
-    var a11yManager: AccessibilityManager? = null
-    var talkBackWasEnabled = false
+    private var talkBackWasEnabled = false
 
     override fun onResume() {
         super.onResume()
-        a11yManager = Objects.requireNonNull(
-                ContextCompat.getSystemService(requireContext(), AccessibilityManager::class.java)
-        )
+        val a11yManager = ContextCompat.getSystemService(requireContext(), AccessibilityManager::class.java)
+
         val wasEnabled = talkBackWasEnabled
-        talkBackWasEnabled = a11yManager!!.isEnabled() == true
+        talkBackWasEnabled = a11yManager?.isEnabled == true
         Log.d(TAG, "talkback was enabled: $wasEnabled, now $talkBackWasEnabled")
         if (talkBackWasEnabled && !wasEnabled) {
-            adapter!!.notifyDataSetChanged()
+            adapter.notifyDataSetChanged()
         }
         startUpdateTimestamp()
     }
@@ -1202,13 +1183,17 @@ class TimelineFragment : SFragment(), OnRefreshListener, StatusActionListener, I
         if (!useAbsoluteTime) {
             Observable.interval(1, TimeUnit.MINUTES)
                     .observeOn(AndroidSchedulers.mainThread())
-                    .autoDispose(from(this))
+                    .autoDispose(from(this, Lifecycle.Event.ON_PAUSE))
                     .subscribe { updateAdapter() }
         }
     }
 
     override fun onReselect() {
-        jumpToTop()
+        if (isAdded) {
+            layoutManager!!.scrollToPosition(0)
+            binding.recyclerView.stopScroll()
+            scrollListener!!.reset()
+        }
     }
 
     override fun refreshContent() {
@@ -1273,14 +1258,14 @@ class TimelineFragment : SFragment(), OnRefreshListener, StatusActionListener, I
             }
 
             override fun areContentsTheSame(oldItem: StatusViewData, newItem: StatusViewData): Boolean {
-                return false //Items are different always. It allows to refresh timestamp on every view holder update
+                return false // Items are different always. It allows to refresh timestamp on every view holder update
             }
 
             override fun getChangePayload(oldItem: StatusViewData, newItem: StatusViewData): Any? {
                 return if (oldItem.deepEquals(newItem)) {
-                    //If items are equal - update timestamp only
+                    // If items are equal - update timestamp only
                     listOf(StatusBaseViewHolder.Key.KEY_CREATED)
-                } else  // If items are different - update a whole view holder
+                } else  // If items are different - update the whole view holder
                     null
             }
         }
