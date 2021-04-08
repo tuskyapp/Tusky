@@ -863,6 +863,7 @@ public class NotificationsFragment extends SFragment implements
                     adapter.setMediaPreviewEnabled(enabled);
                     fullyRefresh();
                 }
+                break;
             }
             case "showNotificationsFilter": {
                 if (isAdded()) {
@@ -870,6 +871,7 @@ public class NotificationsFragment extends SFragment implements
                     updateFilterVisibility();
                     fullyRefreshWithProgressBar(true);
                 }
+                break;
             }
         }
     }

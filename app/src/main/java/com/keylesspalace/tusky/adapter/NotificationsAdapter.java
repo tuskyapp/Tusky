@@ -235,6 +235,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
                         holder.setupWithAccount(concreteNotificaton.getAccount(), statusDisplayOptions.animateAvatars(), statusDisplayOptions.animateEmojis());
                         holder.setupActionListener(accountActionListener, concreteNotificaton.getAccount().getId());
                     }
+                    break;
                 }
                 default:
             }
