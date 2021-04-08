@@ -1,0 +1,8 @@
+Tusky v10.0
+
+- Vous pouvez maintenant marquer les statuts et lister vos signets dans Tusky.
+- Vous pouvez maintenant programmer des pouets avec Tusky. Notez que l'heure que vous sélectionnez doit être d'au moins 5 minutes dans le futur.
+- Vous pouvez maintenant ajouter des listes à l'écran principal.
+- Vous pouvez désormais publier des pièces jointes audio avec Tusky.
+
+Et beaucoup d'autres petites améliorations et corrections de bugs !

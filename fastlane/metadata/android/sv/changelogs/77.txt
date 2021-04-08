@@ -1,0 +1,10 @@
+Tusky v13.0
+
+- support for profile notes (Mastodon 3.2.0 feature)
+- support for admin announcements (Mastodon 3.1.0 feature)
+
+- the avatar of your selected account will now be shown in the main toolbar
+- clicking the display name in a timeline will now open the profile page of that user
+
+- a lot of bug fixes and small improvements
+- improved translations

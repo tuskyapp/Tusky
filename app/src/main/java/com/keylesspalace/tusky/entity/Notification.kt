@@ -15,7 +15,10 @@
 
 package com.keylesspalace.tusky.entity
 
-import com.google.gson.*
+import com.google.gson.JsonDeserializationContext
+import com.google.gson.JsonDeserializer
+import com.google.gson.JsonElement
+import com.google.gson.JsonParseException
 import com.google.gson.annotations.JsonAdapter
 
 data class Notification(
@@ -32,7 +35,8 @@ data class Notification(
         FAVOURITE("favourite"),
         FOLLOW("follow"),
         FOLLOW_REQUEST("follow_request"),
-        POLL("poll");
+        POLL("poll"),
+        STATUS("status");
 
         companion object {
 
@@ -44,7 +48,7 @@ data class Notification(
                 }
                 return UNKNOWN
             }
-            val asList = listOf(MENTION, REBLOG, FAVOURITE, FOLLOW, FOLLOW_REQUEST, POLL)
+            val asList = listOf(MENTION, REBLOG, FAVOURITE, FOLLOW, FOLLOW_REQUEST, POLL, STATUS)
         }
 
         override fun toString(): String {
@@ -71,5 +75,15 @@ data class Notification(
             return Type.byString(json.asString)
         }
 
+    }
+    
+    // for Pleroma compatibility that uses Mention type
+    fun rewriteToStatusTypeIfNeeded(accountId: String) : Notification {
+        if (type == Type.MENTION && status != null) {
+            return if (status.mentions.any {
+                it.id == accountId
+            }) this else copy(type = Type.STATUS)
+        }
+        return this
     }
 }

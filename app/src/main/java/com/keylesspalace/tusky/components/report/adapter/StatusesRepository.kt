@@ -21,7 +21,6 @@ import androidx.paging.toLiveData
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.BiListing
-import com.keylesspalace.tusky.util.Listing
 import io.reactivex.disposables.CompositeDisposable
 import java.util.concurrent.Executors
 import javax.inject.Inject

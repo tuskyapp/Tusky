@@ -52,15 +52,17 @@ import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.entity.Status.Mention
 import com.keylesspalace.tusky.interfaces.AccountSelectionListener
 import com.keylesspalace.tusky.interfaces.StatusActionListener
+import com.keylesspalace.tusky.settings.PrefKeys
 import com.keylesspalace.tusky.util.CardViewMode
+import com.keylesspalace.tusky.util.LinkHelper
 import com.keylesspalace.tusky.util.NetworkState
 import com.keylesspalace.tusky.util.StatusDisplayOptions
+import com.keylesspalace.tusky.view.showMuteAccountDialog
 import com.keylesspalace.tusky.viewdata.AttachmentViewData
 import com.keylesspalace.tusky.viewdata.StatusViewData
 import com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider.from
 import com.uber.autodispose.autoDispose
 import io.reactivex.android.schedulers.AndroidSchedulers
-import kotlinx.android.synthetic.main.fragment_search.*
 
 class SearchStatusesFragment : SearchFragment<Pair<Status, StatusViewData.Concrete>>(), StatusActionListener {
 
@@ -75,7 +77,7 @@ class SearchStatusesFragment : SearchFragment<Pair<Status, StatusViewData.Concre
         get() = super.adapter as SearchStatusesAdapter
 
     override fun createAdapter(): PagedListAdapter<Pair<Status, StatusViewData.Concrete>, *> {
-        val preferences = PreferenceManager.getDefaultSharedPreferences(searchRecyclerView.context)
+        val preferences = PreferenceManager.getDefaultSharedPreferences(binding.searchRecyclerView.context)
         val statusDisplayOptions = StatusDisplayOptions(
                 animateAvatars = preferences.getBoolean("animateGifAvatars", false),
                 mediaPreviewEnabled = viewModel.mediaPreviewEnabled,
@@ -83,14 +85,15 @@ class SearchStatusesFragment : SearchFragment<Pair<Status, StatusViewData.Concre
                 showBotOverlay = preferences.getBoolean("showBotOverlay", true),
                 useBlurhash = preferences.getBoolean("useBlurhash", true),
                 cardViewMode = CardViewMode.NONE,
-                confirmReblogs = preferences.getBoolean("confirmReblogs", true)
+                confirmReblogs = preferences.getBoolean("confirmReblogs", true),
+                hideStats = preferences.getBoolean(PrefKeys.WELLBEING_HIDE_STATS_POSTS, false),
+                animateEmojis = preferences.getBoolean(PrefKeys.ANIMATE_CUSTOM_EMOJIS, false)
         )
 
-        searchRecyclerView.addItemDecoration(DividerItemDecoration(searchRecyclerView.context, DividerItemDecoration.VERTICAL))
-        searchRecyclerView.layoutManager = LinearLayoutManager(searchRecyclerView.context)
+        binding.searchRecyclerView.addItemDecoration(DividerItemDecoration(binding.searchRecyclerView.context, DividerItemDecoration.VERTICAL))
+        binding.searchRecyclerView.layoutManager = LinearLayoutManager(binding.searchRecyclerView.context)
         return SearchStatusesAdapter(statusDisplayOptions, this)
     }
-
 
     override fun onContentHiddenChange(isShowing: Boolean, position: Int) {
         searchAdapter.getItem(position)?.let {
@@ -140,6 +143,7 @@ class SearchStatusesFragment : SearchFragment<Pair<Status, StatusViewData.Concre
                     }
                 }
                 Attachment.Type.UNKNOWN -> {
+                    LinkHelper.openLink(actionable.attachments[attachmentIndex].url, context)
                 }
             }
 
@@ -371,11 +375,12 @@ class SearchStatusesFragment : SearchFragment<Pair<Status, StatusViewData.Concre
     }
 
     private fun onMute(accountId: String, accountUsername: String) {
-        AlertDialog.Builder(requireContext())
-                .setMessage(getString(R.string.dialog_mute_warning, accountUsername))
-                .setPositiveButton(android.R.string.ok) { _, _ -> viewModel.muteAccount(accountId) }
-                .setNegativeButton(android.R.string.cancel, null)
-                .show()
+        showMuteAccountDialog(
+            this.requireActivity(),
+            accountUsername
+        ) { notifications, duration ->
+            viewModel.muteAccount(accountId, notifications, duration)
+        }
     }
 
     private fun accountIsInMentions(account: AccountEntity?, mentions: Array<Mention>): Boolean {
@@ -479,5 +484,4 @@ class SearchStatusesFragment : SearchFragment<Pair<Status, StatusViewData.Concre
                     .show()
         }
     }
-
 }

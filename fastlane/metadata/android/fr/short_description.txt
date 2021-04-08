@@ -1,1 +1,1 @@
-Un client multi-comptes pour le réseau social Mastodon
+Un client multi-compte pour le réseau social Mastodon

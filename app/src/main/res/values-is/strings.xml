@@ -3,7 +3,7 @@
     <string name="action_login">Skrá inn með Mastodon</string>
     <string name="link_whats_an_instance">Hvað er tilvik\?</string>
     <string name="title_favourites">Eftirlæti</string>
-    <string name="title_saved_toot">Drög</string>
+    <string name="title_drafts">Drög</string>
     <string name="action_logout">Skrá út</string>
     <string name="action_view_preferences">Kjörstillingar</string>
     <string name="action_view_account_preferences">Eiginleikar tengingar</string>
@@ -60,7 +60,7 @@
     <string name="status_content_warning_show_less">Sýna minna</string>
     <string name="status_content_show_more">Fletta út</string>
     <string name="status_content_show_less">Fella saman</string>
-    <string name="message_empty">Ekkert hér</string>
+    <string name="message_empty">Ekkert hér.</string>
     <string name="footer_empty">Ekkert hér. Togaðu niður til að endurhlaða!</string>
     <string name="notification_reblog_format">%s endurbirti tístið þitt</string>
     <string name="notification_favourite_format">%s setti tíst frá þér í eftirlæti</string>
@@ -206,7 +206,6 @@
     <string name="pref_title_language">Tungumál</string>
     <string name="pref_title_bot_overlay">Birta merki á róbótum</string>
     <string name="pref_title_animate_gif_avatars">Sýna hreyfingar GIF-auðkennismynda</string>
-    <string name="gradient_for_media">Sýna skæra litstigla í stað falins myndefnis</string>
     <string name="pref_title_status_filter">Síun tímalínu</string>
     <string name="pref_title_status_tabs">Flipar</string>
     <string name="pref_title_show_boosts">Sýna endurbirtingar</string>
@@ -244,7 +243,9 @@
     <string name="notification_summary_large">%1$s, %2$s, %3$s og %4$d til viðbótar</string>
     <string name="notification_summary_medium">%1$s, %2$s og %3$s</string>
     <string name="notification_summary_small">%1$s og %2$s</string>
-    <string name="notification_title_summary">%d nýjar aðgerðir</string>
+    <plurals name="notification_title_summary">
+        <item quantity="other">%d nýjar aðgerðir</item>
+    </plurals>
     <string name="description_account_locked">Læstur notandaaðgangur</string>
     <string name="about_tusky_version">Tusky %s</string>
     <string name="about_powered_by_tusky">Keyrir á Tusky</string>
@@ -299,8 +300,10 @@
     <string name="action_remove_from_list">Fjarlægja notandaaðganginn af listanum</string>
     <string name="compose_active_account_description">Sendi með notandaaðgangnum %1$s</string>
     <string name="error_failed_set_caption">Ekki tókst að setja skýringatexta</string>
-    <string name="hint_describe_for_visually_impaired">Lýstu þessu fyrir sjónskerta
-\n(hámark %d stafir)</string>
+    <plurals name="hint_describe_for_visually_impaired">
+        <item quantity="other">Lýstu þessu fyrir sjónskerta
+\n(hámark %d stafir)</item>
+    </plurals>
     <string name="action_set_caption">Setja skýringatexta</string>
     <string name="action_remove">Fjarlægja</string>
     <string name="lock_account_label">Læsa notandaaðgangi</string>
@@ -344,21 +347,15 @@
     <string name="pref_title_absolute_time">Nota algildan tíma</string>
     <string name="label_remote_account">Ekki er víst að upplýsingarnar hér að neðan endurspegli notandasniðið að fullu. Opnaðu fullt notandasnið í vafra.</string>
     <string name="unpin_action">Losa</string>
-    <string name="pin_action">Festa</string>
-    <plurals name="favs">
-        <item quantity="one"></item>
-        <item quantity="other"></item>
-    </plurals>
-    <plurals name="reblogs">
-        <item quantity="one"></item>
-        <item quantity="other"></item>
-    </plurals>
+    <string name="pin_action">Pin</string>
     <string name="title_reblogged_by">Endurbirt af</string>
     <string name="title_favourited_by">Sett í eftirlæti af</string>
     <string name="conversation_1_recipients">%1$s</string>
     <string name="conversation_2_recipients">%1$s og %2$s</string>
     <string name="conversation_more_recipients">%1$s, %2$s og %3$d til viðbótar</string>
-    <string name="max_tab_number_reached">hámarksfjölda %1$d flipa náð</string>
+    <plurals name="max_tab_number_reached">
+        <item quantity="other">hámarksfjölda %1$d flipa náð</item>
+    </plurals>
     <string name="description_status_media">Myndefni: %s</string>
     <string name="description_status_cw">Aðvörun vegna efnis: %s</string>
     <string name="description_status_media_no_description_placeholder">Engin lýsing</string>
@@ -371,7 +368,6 @@
     <string name="description_visiblity_direct">Beint</string>
     <string name="description_poll">Könnun með valkostunum: %1$s, %2$s, %3$s, %4$s; %5$s</string>
     <string name="hint_list_name">Heiti á lista</string>
-
     <string name="edit_hashtag_hint">Myllumerki án #</string>
     <string name="select_list_title">Veldu lista</string>
     <string name="list">Listi</string>
@@ -387,28 +383,11 @@
         <item quantity="one">%s atkvæði</item>
         <item quantity="other">%s atkvæði</item>
     </plurals>
-    <string name="poll_info_time_relative">%s eftir</string>
     <string name="poll_info_time_absolute">lýkur %s</string>
     <string name="poll_info_closed">lokað</string>
     <string name="poll_vote">Greiða atkvæði</string>
     <string name="poll_ended_voted">Könnun sem þú tókst þátt í er lokið</string>
     <string name="poll_ended_created">Könnuninni þinni er lokið</string>
-    <plurals name="poll_timespan_days">
-        <item quantity="one">%d dagur</item>
-        <item quantity="other">%d dagar</item>
-    </plurals>
-    <plurals name="poll_timespan_hours">
-        <item quantity="one">%d klukkustund</item>
-        <item quantity="other">%d klukkustundir</item>
-    </plurals>
-    <plurals name="poll_timespan_minutes">
-        <item quantity="one">%d mínúta</item>
-        <item quantity="other">%d mínútur</item>
-    </plurals>
-    <plurals name="poll_timespan_seconds">
-        <item quantity="one">%d sekúnda</item>
-        <item quantity="other">%d sekúndur</item>
-    </plurals>
     <string name="button_continue">Halda áfram</string>
     <string name="button_back">Til baka</string>
     <string name="button_done">Lokið</string>
@@ -423,13 +402,13 @@
     <string name="failed_search">Tókst ekki að leita</string>
     <string name="pref_title_show_notifications_filter">Birta tilkynningasíu</string>
     <string name="create_poll_title">Athuga</string>
-    <string name="poll_duration_5_min">5 mínútur</string>
-    <string name="poll_duration_30_min">30 mínútur</string>
-    <string name="poll_duration_1_hour">1 klukkustund</string>
-    <string name="poll_duration_6_hours">6 klukkustundir</string>
-    <string name="poll_duration_1_day">1 dagur</string>
-    <string name="poll_duration_3_days">3 dagar</string>
-    <string name="poll_duration_7_days">7 dagar</string>
+    <string name="duration_5_min">5 mínútur</string>
+    <string name="duration_30_min">30 mínútur</string>
+    <string name="duration_1_hour">1 klukkustund</string>
+    <string name="duration_6_hours">6 klukkustundir</string>
+    <string name="duration_1_day">1 dagur</string>
+    <string name="duration_3_days">3 dagar</string>
+    <string name="duration_7_days">7 dagar</string>
     <string name="add_poll_choice">Bæta við valkosti</string>
     <string name="poll_allow_multiple_choices">Margir valkostir</string>
     <string name="poll_new_choice_hint">Valkostur %d</string>
@@ -440,4 +419,92 @@
     <string name="error_audio_upload_size">Hljóðskrár verða að vera minni en 40MB.</string>
     <string name="warning_scheduling_interval">Mastodon er með 5 mínútna lágmarksbil fyrir áætlaðar aðgerðir.</string>
     <string name="notification_follow_request_name">Fylgjendabeiðnir</string>
+    <string name="hashtags">Myllumerki</string>
+    <plurals name="favs">
+        <item quantity="one"><b>%1$s</b> eftirlæti</item>
+        <item quantity="other"><b>%1$s</b> eftirlæti</item>
+    </plurals>
+    <plurals name="reblogs">
+        <item quantity="one"><b>%s</b> Endurbirting</item>
+        <item quantity="other"><b>%s</b> Endurbirtingar</item>
+    </plurals>
+    <plurals name="poll_timespan_seconds">
+        <item quantity="one">%d sekúnda eftir</item>
+        <item quantity="other">%d sekúndur eftir</item>
+    </plurals>
+    <plurals name="poll_timespan_minutes">
+        <item quantity="one">%d mínúta eftir</item>
+        <item quantity="other">%d mínútur eftir</item>
+    </plurals>
+    <plurals name="poll_timespan_hours">
+        <item quantity="one">%d klukkustund eftir</item>
+        <item quantity="other">%d klukkustundir eftir</item>
+    </plurals>
+    <plurals name="poll_timespan_days">
+        <item quantity="one">%d dagur eftir</item>
+        <item quantity="other">%d dagar eftir</item>
+    </plurals>
+    <string name="account_note_saved">Vistað!</string>
+    <string name="account_note_hint">Þín eigin einkaathugasemd um þennan aðgang</string>
+    <string name="pref_title_hide_top_toolbar">Fela titil á verkfærastikunni efst</string>
+    <string name="pref_title_confirm_reblogs">Birta staðfestingarglugga áður en endurbirting fer fram</string>
+    <string name="pref_title_show_cards_in_timelines">Birta forskoðun tengla á tímalínum</string>
+    <string name="no_announcements">Það eru engar tilkynningar.</string>
+    <string name="pref_title_enable_swipe_for_tabs">Virkja strokuhreyfingu til að skipta milli flipa</string>
+    <plurals name="poll_info_people">
+        <item quantity="one">%s aðili</item>
+        <item quantity="other">%s aðilar</item>
+    </plurals>
+    <string name="add_hashtag_title">Bæta við myllumerki</string>
+    <string name="notification_follow_request_description">Tilkynningar um fylgjendabeiðnir</string>
+    <string name="pref_main_nav_position_option_bottom">Neðst</string>
+    <string name="pref_main_nav_position_option_top">Efst</string>
+    <string name="pref_main_nav_position">Aðalstaða leiðsagnar</string>
+    <string name="pref_title_gradient_for_media">Birta litstigla í stað falins myndefnis</string>
+    <string name="pref_title_notification_filter_follow_requests">beiðni um að fylgja</string>
+    <string name="dialog_mute_hide_notifications">Fela tilkynningar</string>
+    <string name="dialog_mute_warning">Þagga niður í @%s\?</string>
+    <string name="dialog_block_warning">Loka á @%s\?</string>
+    <string name="action_unmute_conversation">Hætta að þagga niður í samtali</string>
+    <string name="action_mute_conversation">Þagga niður í samtali</string>
+    <string name="action_unmute_domain">Afþagga %s</string>
+    <string name="action_mute_notifications_desc">Þagga tilkynningar frá %s</string>
+    <string name="action_unmute_notifications_desc">Afþagga tilkynningar frá %s</string>
+    <string name="action_unmute_desc">Afþagga %s</string>
+    <string name="notification_follow_request_format">%s bað um að fylgjast með þér</string>
+    <string name="title_announcements">Tilkynningar</string>
+    <string name="new_drafts_warning">Gerð draga í Tusky hefur verið endurhönnuð til að verða fljótlegri, notendavænni og gallalaus.
+\n Þú getur áfram nýtt eldri drög í gegnum sérstakan hnapp í glugganum fyrir drög, en sá eiginleiki verður fjarlægður í framtíðaruppfærslu!</string>
+    <string name="wellbeing_mode_notice">Sumar upplýsingar sem gætu haft áhrif á andlega vellíðan þína verða faldar. Þetta hefur áhrif á:
+\n
+\n - Eftirlæti/Endurbirtingar/Tilkynningar um fylgjendabeiðnir
+\n - Eftirlæti/Talningu á endurbirtingum tísta
+\n - Fylgjendur/Tölfræði færslna í notendasniðum
+\n
+\n Þetta hefur ekki áhrif á ýti-tilkynningar, en þú getur yfirfarið handvirkt kjörstillingar þínar varðandi tilkynningar.</string>
+    <string name="action_unsubscribe_account">Segja upp áskrift</string>
+    <string name="action_subscribe_account">Gerast áskrifandi</string>
+    <string name="pref_title_animate_custom_emojis">Hreyfa sérsniðin tjáningartákn</string>
+    <string name="drafts_toot_reply_removed">Tístið sem þú gerðir drög að svari við hefur veriið fjarlægt</string>
+    <string name="draft_deleted">Eyddi drögum</string>
+    <string name="drafts_failed_loading_reply">Mistókst að hlaða inn svarupplýsingum</string>
+    <string name="old_drafts">Eldri drög</string>
+    <string name="drafts_toot_failed_to_send">Mistókst að senda þetta tíst!</string>
+    <string name="status_media_attachments">Viðhengi</string>
+    <string name="status_media_audio">Hljóð</string>
+    <string name="dialog_delete_list_warning">Ertu viss um að þú viljir eyða %s listanum\?</string>
+    <string name="duration_indefinite">Ótiltekið</string>
+    <string name="label_duration">Tímalengd</string>
+    <plurals name="error_upload_max_media_reached">
+        <item quantity="other">Þú getur ekki sent inn fleiri en %1$d myndefnisviðhengi.</item>
+    </plurals>
+    <string name="wellbeing_hide_stats_profile">Fela magntölfræði notendasniða</string>
+    <string name="wellbeing_hide_stats_posts">Fela magntölfræði færslna</string>
+    <string name="limit_notifications">Takmarka tilkynningar á tímalínu</string>
+    <string name="review_notifications">Yfirfara tilkynningar</string>
+    <string name="pref_title_wellbeing_mode">Vellíðan</string>
+    <string name="notification_subscription_description">Tilkynningar þegar einhver sem þú ert áskrifandi að hefur birt nýtt tíst</string>
+    <string name="notification_subscription_name">Ný tíst</string>
+    <string name="pref_title_notification_filter_subscriptions">einhver sem ég er áskrifandi að birti nýtt tíst</string>
+    <string name="notification_subscription_format">%s sendi inn rétt í þessu</string>
 </resources>

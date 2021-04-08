@@ -15,17 +15,14 @@
 
 package com.keylesspalace.tusky.network
 
+import android.util.Log
 import com.keylesspalace.tusky.appstore.*
 import com.keylesspalace.tusky.entity.DeletedStatus
 import com.keylesspalace.tusky.entity.Poll
-import com.keylesspalace.tusky.entity.Relationship
 import com.keylesspalace.tusky.entity.Status
 import io.reactivex.Single
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 import java.lang.IllegalStateException
 
 /**
@@ -36,7 +33,7 @@ interface TimelineCases {
     fun reblog(status: Status, reblog: Boolean): Single<Status>
     fun favourite(status: Status, favourite: Boolean): Single<Status>
     fun bookmark(status: Status, bookmark: Boolean): Single<Status>
-    fun mute(id: String)
+    fun mute(id: String, notifications: Boolean, duration: Int)
     fun block(id: String)
     fun delete(id: String): Single<DeletedStatus>
     fun pin(status: Status, pin: Boolean)
@@ -107,25 +104,24 @@ class TimelineCasesImpl(
         }
     }
 
-    override fun mute(id: String) {
-        val call = mastodonApi.muteAccount(id)
-        call.enqueue(object : Callback<Relationship> {
-            override fun onResponse(call: Call<Relationship>, response: Response<Relationship>) {}
-
-            override fun onFailure(call: Call<Relationship>, t: Throwable) {}
-        })
-        eventHub.dispatch(MuteEvent(id))
+    override fun mute(id: String, notifications: Boolean, duration: Int) {
+        mastodonApi.muteAccount(id, notifications, duration)
+                .subscribe({
+                    eventHub.dispatch(MuteEvent(id))
+                }, { t ->
+                    Log.w("Failed to mute account", t)
+                })
+                .addTo(cancelDisposable)
     }
 
     override fun block(id: String) {
-        val call = mastodonApi.blockAccount(id)
-        call.enqueue(object : Callback<Relationship> {
-            override fun onResponse(call: Call<Relationship>, response: Response<Relationship>) {}
-
-            override fun onFailure(call: Call<Relationship>, t: Throwable) {}
-        })
-        eventHub.dispatch(BlockEvent(id))
-
+        mastodonApi.blockAccount(id)
+                .subscribe({
+                    eventHub.dispatch(BlockEvent(id))
+                }, { t ->
+                    Log.w("Failed to block account", t)
+                })
+                .addTo(cancelDisposable)
     }
 
     override fun delete(id: String): Single<DeletedStatus> {

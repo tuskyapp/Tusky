@@ -18,8 +18,8 @@ package com.keylesspalace.tusky
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.view.MenuItem
 import androidx.fragment.app.commit
+import com.keylesspalace.tusky.databinding.ActivityStatuslistBinding
 
 import com.keylesspalace.tusky.fragment.TimelineFragment
 import com.keylesspalace.tusky.fragment.TimelineFragment.Kind
@@ -28,9 +28,6 @@ import javax.inject.Inject
 
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
-import kotlinx.android.extensions.CacheImplementation
-import kotlinx.android.extensions.ContainerOptions
-import kotlinx.android.synthetic.main.toolbar_basic.*
 
 class StatusListActivity : BottomSheetActivity(), HasAndroidInjector {
 
@@ -40,12 +37,12 @@ class StatusListActivity : BottomSheetActivity(), HasAndroidInjector {
     private val kind: Kind
         get() = Kind.valueOf(intent.getStringExtra(EXTRA_KIND)!!)
 
-    @ContainerOptions(cache = CacheImplementation.NO_CACHE)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_statuslist)
+        val binding = ActivityStatuslistBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        setSupportActionBar(toolbar)
+        setSupportActionBar(binding.includedToolbar.toolbar)
 
         val title = if(kind == Kind.FAVOURITES) {
             R.string.title_favourites
@@ -64,14 +61,6 @@ class StatusListActivity : BottomSheetActivity(), HasAndroidInjector {
             replace(R.id.fragment_container, fragment)
         }
 
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == android.R.id.home){
-            onBackPressed()
-            return true
-        }
-        return super.onOptionsItemSelected(item)
     }
 
     override fun androidInjector() = dispatchingAndroidInjector

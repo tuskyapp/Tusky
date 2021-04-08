@@ -18,7 +18,7 @@ private const val TAG_REGEX = "(?:^|[^/)A-Za-z0-9_])#([\\w_]*[\\p{Alpha}_][\\w_]
  * @see <a href="https://github.com/tootsuite/mastodon/blob/master/app/models/account.rb">
  *     Account#MENTION_RE</a>
  */
-private const val MENTION_REGEX = "(?:^|[^/[:word:]])@([a-z0-9_]+(?:@[a-z0-9\\.\\-]+[a-z0-9]+)?)"
+private const val MENTION_REGEX = "(?:^|[^/[:word:]])@([a-z0-9_-]+(?:@[a-z0-9\\.\\-]+[a-z0-9]+)?)"
 
 private const val HTTP_URL_REGEX = "(?:(^|\\b)http://[^\\s]+)"
 private const val HTTPS_URL_REGEX = "(?:(^|\\b)https://[^\\s]+)"

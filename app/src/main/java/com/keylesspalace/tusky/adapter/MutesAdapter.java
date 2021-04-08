@@ -8,7 +8,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.preference.PreferenceManager;
+import androidx.core.view.ViewCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.keylesspalace.tusky.R;
@@ -17,10 +17,14 @@ import com.keylesspalace.tusky.interfaces.AccountActionListener;
 import com.keylesspalace.tusky.util.CustomEmojiHelper;
 import com.keylesspalace.tusky.util.ImageLoadingHelper;
 
-public class MutesAdapter extends AccountAdapter {
+import java.util.HashMap;
 
-    public MutesAdapter(AccountActionListener accountActionListener) {
-        super(accountActionListener);
+public class MutesAdapter extends AccountAdapter {
+    private HashMap<String, Boolean> mutingNotificationsMap;
+
+    public MutesAdapter(AccountActionListener accountActionListener, boolean animateAvatar, boolean animateEmojis) {
+        super(accountActionListener, animateAvatar, animateEmojis);
+        mutingNotificationsMap = new HashMap<String, Boolean>();
     }
 
     @NonNull
@@ -45,19 +49,30 @@ public class MutesAdapter extends AccountAdapter {
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position) {
         if (getItemViewType(position) == VIEW_TYPE_ACCOUNT) {
             MutedUserViewHolder holder = (MutedUserViewHolder) viewHolder;
-            holder.setupWithAccount(accountList.get(position));
+            Account account = accountList.get(position);
+            holder.setupWithAccount(account, mutingNotificationsMap.get(account.getId()), animateAvatar, animateEmojis);
             holder.setupActionListener(accountActionListener);
         }
     }
 
+    public void updateMutingNotifications(String id, boolean mutingNotifications, int position) {
+        mutingNotificationsMap.put(id, mutingNotifications);
+        notifyItemChanged(position);
+    }
+
+    public void updateMutingNotificationsMap(HashMap<String, Boolean> newMutingNotificationsMap) {
+        mutingNotificationsMap.putAll(newMutingNotificationsMap);
+        notifyDataSetChanged();
+    }
 
     static class MutedUserViewHolder extends RecyclerView.ViewHolder {
         private ImageView avatar;
         private TextView username;
         private TextView displayName;
         private ImageButton unmute;
+        private ImageButton muteNotifications;
         private String id;
-        private boolean animateAvatar;
+        private boolean notifications;
 
         MutedUserViewHolder(View itemView) {
             super(itemView);
@@ -65,13 +80,12 @@ public class MutesAdapter extends AccountAdapter {
             username = itemView.findViewById(R.id.muted_user_username);
             displayName = itemView.findViewById(R.id.muted_user_display_name);
             unmute = itemView.findViewById(R.id.muted_user_unmute);
-            animateAvatar = PreferenceManager.getDefaultSharedPreferences(itemView.getContext())
-                    .getBoolean("animateGifAvatars", false);
+            muteNotifications = itemView.findViewById(R.id.muted_user_mute_notifications);
         }
 
-        void setupWithAccount(Account account) {
+        void setupWithAccount(Account account, Boolean mutingNotifications, boolean animateAvatar, boolean animateEmojis) {
             id = account.getId();
-            CharSequence emojifiedName = CustomEmojiHelper.emojify(account.getName(), account.getEmojis(), displayName);
+            CharSequence emojifiedName = CustomEmojiHelper.emojify(account.getName(), account.getEmojis(), displayName, animateEmojis);
             displayName.setText(emojifiedName);
             String format = username.getContext().getString(R.string.status_username_format);
             String formattedUsername = String.format(format, account.getUsername());
@@ -79,11 +93,39 @@ public class MutesAdapter extends AccountAdapter {
             int avatarRadius = avatar.getContext().getResources()
                     .getDimensionPixelSize(R.dimen.avatar_radius_48dp);
             ImageLoadingHelper.loadAvatar(account.getAvatar(), avatar, avatarRadius, animateAvatar);
+
+            String unmuteString = unmute.getContext().getString(R.string.action_unmute_desc, formattedUsername);
+            unmute.setContentDescription(unmuteString);
+            ViewCompat.setTooltipText(unmute, unmuteString);
+
+            if (mutingNotifications == null) {
+                muteNotifications.setEnabled(false);
+                notifications = true;
+            } else {
+                muteNotifications.setEnabled(true);
+                notifications = mutingNotifications;
+            }
+
+            if (notifications) {
+                muteNotifications.setImageResource(R.drawable.ic_notifications_24dp);
+                String unmuteNotificationsString = muteNotifications.getContext()
+                    .getString(R.string.action_unmute_notifications_desc, formattedUsername);
+                muteNotifications.setContentDescription(unmuteNotificationsString);
+                ViewCompat.setTooltipText(muteNotifications, unmuteNotificationsString);
+            } else {
+                muteNotifications.setImageResource(R.drawable.ic_notifications_off_24dp);
+                String muteNotificationsString = muteNotifications.getContext()
+                    .getString(R.string.action_mute_notifications_desc, formattedUsername);
+                muteNotifications.setContentDescription(muteNotificationsString);
+                ViewCompat.setTooltipText(muteNotifications, muteNotificationsString);
+            }
         }
 
         void setupActionListener(final AccountActionListener listener) {
-            unmute.setOnClickListener(v -> listener.onMute(false, id, getAdapterPosition()));
-            avatar.setOnClickListener(v -> listener.onViewAccount(id));
+            unmute.setOnClickListener(v -> listener.onMute(false, id, getAdapterPosition(), false));
+            muteNotifications.setOnClickListener(
+                v -> listener.onMute(true, id, getAdapterPosition(), !notifications));
+            itemView.setOnClickListener(v -> listener.onViewAccount(id));
         }
     }
 }

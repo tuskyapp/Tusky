@@ -18,12 +18,22 @@ package com.keylesspalace.tusky.components.search.fragments
 import androidx.lifecycle.LiveData
 import androidx.paging.PagedList
 import androidx.paging.PagedListAdapter
+import androidx.preference.PreferenceManager
 import com.keylesspalace.tusky.components.search.adapter.SearchAccountsAdapter
 import com.keylesspalace.tusky.entity.Account
+import com.keylesspalace.tusky.settings.PrefKeys
 import com.keylesspalace.tusky.util.NetworkState
 
 class SearchAccountsFragment : SearchFragment<Account>() {
-    override fun createAdapter(): PagedListAdapter<Account, *> = SearchAccountsAdapter(this)
+    override fun createAdapter(): PagedListAdapter<Account, *> {
+        val preferences = PreferenceManager.getDefaultSharedPreferences(binding.searchRecyclerView.context)
+
+        return SearchAccountsAdapter(
+                this,
+                preferences.getBoolean(PrefKeys.ANIMATE_GIF_AVATARS, false),
+                preferences.getBoolean(PrefKeys.ANIMATE_CUSTOM_EMOJIS, false)
+        )
+    }
 
     override val networkStateRefresh: LiveData<NetworkState>
         get() = viewModel.networkStateAccountRefresh
@@ -35,5 +45,4 @@ class SearchAccountsFragment : SearchFragment<Account>() {
     companion object {
         fun newInstance() = SearchAccountsFragment()
     }
-
 }

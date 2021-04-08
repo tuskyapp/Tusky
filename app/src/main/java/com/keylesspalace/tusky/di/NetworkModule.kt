@@ -16,6 +16,8 @@
 package com.keylesspalace.tusky.di
 
 import android.content.Context
+import android.content.SharedPreferences
+import android.os.Build
 import android.text.Spanned
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
@@ -24,14 +26,20 @@ import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.json.SpannedTypeAdapter
 import com.keylesspalace.tusky.network.InstanceSwitchAuthInterceptor
 import com.keylesspalace.tusky.network.MastodonApi
-import com.keylesspalace.tusky.util.OkHttpUtils
+import com.keylesspalace.tusky.util.getNonNullString
 import dagger.Module
 import dagger.Provides
+import okhttp3.Cache
+import okhttp3.OkHttp
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.create
+import java.net.InetSocketAddress
+import java.net.Proxy
+import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
 /**
@@ -53,9 +61,37 @@ class NetworkModule {
     @Singleton
     fun providesHttpClient(
             accountManager: AccountManager,
-            context: Context
+            context: Context,
+            preferences: SharedPreferences
     ): OkHttpClient {
-        return OkHttpUtils.getCompatibleClientBuilder(context)
+        val httpProxyEnabled = preferences.getBoolean("httpProxyEnabled", false)
+        val httpServer = preferences.getNonNullString("httpProxyServer", "")
+        val httpPort = preferences.getNonNullString("httpProxyPort", "-1").toIntOrNull() ?: -1
+        val cacheSize = 25 * 1024 * 1024L // 25 MiB
+        val builder = OkHttpClient.Builder()
+            .addInterceptor { chain ->
+                /**
+                 * Add a custom User-Agent that contains Tusky, Android and OkHttp Version to all requests
+                 * Example:
+                 * User-Agent: Tusky/1.1.2 Android/5.0.2 OkHttp/4.9.0
+                 * */
+                val requestWithUserAgent = chain.request().newBuilder()
+                    .header(
+                        "User-Agent",
+                        "Tusky/${BuildConfig.VERSION_NAME} Android/${Build.VERSION.RELEASE} OkHttp/${OkHttp.VERSION}"
+                    )
+                    .build()
+                chain.proceed(requestWithUserAgent)
+            }
+            .readTimeout(30, TimeUnit.SECONDS)
+            .writeTimeout(30, TimeUnit.SECONDS)
+            .cache(Cache(context.cacheDir, cacheSize))
+
+        if (httpProxyEnabled && httpServer.isNotEmpty() && httpPort > 0 && httpPort < 65535) {
+            val address = InetSocketAddress.createUnresolved(httpServer, httpPort)
+            builder.proxy(Proxy(Proxy.Type.HTTP, address))
+        }
+        return builder
                 .apply {
                     addInterceptor(InstanceSwitchAuthInterceptor(accountManager))
                     if (BuildConfig.DEBUG) {
@@ -81,5 +117,5 @@ class NetworkModule {
 
     @Provides
     @Singleton
-    fun providesApi(retrofit: Retrofit): MastodonApi = retrofit.create(MastodonApi::class.java)
+    fun providesApi(retrofit: Retrofit): MastodonApi = retrofit.create()
 }

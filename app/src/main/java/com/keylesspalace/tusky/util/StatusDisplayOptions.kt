@@ -14,5 +14,9 @@ data class StatusDisplayOptions(
         @get:JvmName("cardViewMode")
         val cardViewMode: CardViewMode,
         @get:JvmName("confirmReblogs")
-        val confirmReblogs: Boolean
+        val confirmReblogs: Boolean,
+        @get:JvmName("hideStats")
+        val hideStats: Boolean,
+        @get:JvmName("animateEmojis")
+        val animateEmojis: Boolean
 )

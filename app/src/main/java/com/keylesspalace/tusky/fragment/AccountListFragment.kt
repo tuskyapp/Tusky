@@ -17,14 +17,15 @@ package com.keylesspalace.tusky.fragment
 
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
+import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.MergeAdapter
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.SimpleItemAnimator
 import com.google.android.material.snackbar.Snackbar
 import com.keylesspalace.tusky.AccountActivity
 import com.keylesspalace.tusky.AccountListActivity.Type
@@ -32,33 +33,35 @@ import com.keylesspalace.tusky.BaseActivity
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.adapter.*
 import com.keylesspalace.tusky.db.AccountManager
+import com.keylesspalace.tusky.databinding.FragmentAccountListBinding
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.entity.Account
 import com.keylesspalace.tusky.entity.Relationship
 import com.keylesspalace.tusky.interfaces.AccountActionListener
 import com.keylesspalace.tusky.network.MastodonApi
+import com.keylesspalace.tusky.settings.PrefKeys
 import com.keylesspalace.tusky.util.HttpHeaderLink
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.show
+import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.view.EndlessOnScrollListener
 import com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider.from
 import com.uber.autodispose.autoDispose
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
-import kotlinx.android.synthetic.main.fragment_account_list.*
-import retrofit2.Call
-import retrofit2.Callback
 import retrofit2.Response
 import java.io.IOException
+import java.util.*
 import javax.inject.Inject
 
-
-class AccountListFragment : BaseFragment(), AccountActionListener, Injectable {
+class AccountListFragment : Fragment(R.layout.fragment_account_list), AccountActionListener, Injectable {
 
     @Inject
     lateinit var api: MastodonApi
     @Inject
     lateinit var accountManager: AccountManager
+
+    private val binding by viewBinding(FragmentAccountListBinding::bind)
 
     private lateinit var type: Type
     private var id: String? = null
@@ -74,32 +77,33 @@ class AccountListFragment : BaseFragment(), AccountActionListener, Injectable {
         id = arguments?.getString(ARG_ID)
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        return inflater.inflate(R.layout.fragment_account_list, container, false)
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        recyclerView.setHasFixedSize(true)
+        binding.recyclerView.setHasFixedSize(true)
         val layoutManager = LinearLayoutManager(view.context)
-        recyclerView.layoutManager = layoutManager
+        binding.recyclerView.layoutManager = layoutManager
+        (binding.recyclerView.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
 
-        recyclerView.addItemDecoration(DividerItemDecoration(view.context, DividerItemDecoration.VERTICAL))
+        binding.recyclerView.addItemDecoration(DividerItemDecoration(view.context, DividerItemDecoration.VERTICAL))
+
+        val pm = PreferenceManager.getDefaultSharedPreferences(view.context)
+        val animateAvatar = pm.getBoolean(PrefKeys.ANIMATE_GIF_AVATARS, false)
+        val animateEmojis = pm.getBoolean(PrefKeys.ANIMATE_CUSTOM_EMOJIS, false)
 
         adapter = when (type) {
-            Type.BLOCKS -> BlocksAdapter(this)
-            Type.MUTES -> MutesAdapter(this)
+            Type.BLOCKS -> BlocksAdapter(this, animateAvatar, animateEmojis)
+            Type.MUTES -> MutesAdapter(this, animateAvatar, animateEmojis)
             Type.FOLLOW_REQUESTS -> {
                 val headerAdapter = FollowRequestsHeaderAdapter(accountManager.activeAccount!!.domain, arguments?.get(ARG_ACCOUNT_LOCKED) == true)
-                val followRequestsAdapter = FollowRequestsAdapter(this)
-                recyclerView.adapter = MergeAdapter(headerAdapter, followRequestsAdapter)
+                val followRequestsAdapter = FollowRequestsAdapter(this, animateAvatar, animateEmojis)
+                binding.recyclerView.adapter = MergeAdapter(headerAdapter, followRequestsAdapter)
                 followRequestsAdapter
             }
-            else -> FollowAdapter(this)
+            else -> FollowAdapter(this, animateAvatar, animateEmojis)
         }
-        if(recyclerView.adapter == null) {
-            recyclerView.adapter = adapter
+        if (binding.recyclerView.adapter == null) {
+            binding.recyclerView.adapter = adapter
         }
 
         scrollListener = object : EndlessOnScrollListener(layoutManager) {
@@ -111,7 +115,7 @@ class AccountListFragment : BaseFragment(), AccountActionListener, Injectable {
             }
         }
 
-        recyclerView.addOnScrollListener(scrollListener)
+        binding.recyclerView.addOnScrollListener(scrollListener)
 
         fetchAccounts()
     }
@@ -123,50 +127,45 @@ class AccountListFragment : BaseFragment(), AccountActionListener, Injectable {
         }
     }
 
-    override fun onMute(mute: Boolean, id: String, position: Int) {
-        val callback = object : Callback<Relationship> {
-            override fun onResponse(call: Call<Relationship>, response: Response<Relationship>) {
-                if (response.isSuccessful) {
-                    onMuteSuccess(mute, id, position)
-                } else {
-                    onMuteFailure(mute, id)
-                }
-            }
-
-            override fun onFailure(call: Call<Relationship>, t: Throwable) {
-                onMuteFailure(mute, id)
-            }
-        }
-
-        val call = if (!mute) {
+    override fun onMute(mute: Boolean, id: String, position: Int, notifications: Boolean) {
+        if (!mute) {
             api.unmuteAccount(id)
         } else {
-            api.muteAccount(id)
+            api.muteAccount(id, notifications)
         }
-        callList.add(call)
-        call.enqueue(callback)
+                .autoDispose(from(this))
+                .subscribe({
+                    onMuteSuccess(mute, id, position, notifications)
+                }, {
+                    onMuteFailure(mute, id, notifications)
+                })
     }
 
-    private fun onMuteSuccess(muted: Boolean, id: String, position: Int) {
+    private fun onMuteSuccess(muted: Boolean, id: String, position: Int, notifications: Boolean) {
+        val mutesAdapter = adapter as MutesAdapter
         if (muted) {
+            mutesAdapter.updateMutingNotifications(id, notifications, position)
             return
         }
-        val mutesAdapter = adapter as MutesAdapter
         val unmutedUser = mutesAdapter.removeItem(position)
 
         if (unmutedUser != null) {
-            Snackbar.make(recyclerView, R.string.confirmation_unmuted, Snackbar.LENGTH_LONG)
+            Snackbar.make(binding.recyclerView, R.string.confirmation_unmuted, Snackbar.LENGTH_LONG)
                     .setAction(R.string.action_undo) {
                         mutesAdapter.addItem(unmutedUser, position)
-                        onMute(true, id, position)
+                        onMute(true, id, position, notifications)
                     }
                     .show()
         }
     }
 
-    private fun onMuteFailure(mute: Boolean, accountId: String) {
+    private fun onMuteFailure(mute: Boolean, accountId: String, notifications: Boolean) {
         val verb = if (mute) {
-            "mute"
+            if (notifications) {
+                "mute (notifications = true)"
+            } else {
+                "mute (notifications = false)"
+            }
         } else {
             "unmute"
         }
@@ -174,27 +173,17 @@ class AccountListFragment : BaseFragment(), AccountActionListener, Injectable {
     }
 
     override fun onBlock(block: Boolean, id: String, position: Int) {
-        val cb = object : Callback<Relationship> {
-            override fun onResponse(call: Call<Relationship>, response: Response<Relationship>) {
-                if (response.isSuccessful) {
-                    onBlockSuccess(block, id, position)
-                } else {
-                    onBlockFailure(block, id)
-                }
-            }
-
-            override fun onFailure(call: Call<Relationship>, t: Throwable) {
-                onBlockFailure(block, id)
-            }
-        }
-
-        val call = if (!block) {
+        if (!block) {
             api.unblockAccount(id)
         } else {
             api.blockAccount(id)
         }
-        callList.add(call)
-        call.enqueue(cb)
+                .autoDispose(from(this))
+                .subscribe({
+                    onBlockSuccess(block, id, position)
+                }, {
+                    onBlockFailure(block, id)
+                })
     }
 
     private fun onBlockSuccess(blocked: Boolean, id: String, position: Int) {
@@ -205,7 +194,7 @@ class AccountListFragment : BaseFragment(), AccountActionListener, Injectable {
         val unblockedUser = blocksAdapter.removeItem(position)
 
         if (unblockedUser != null) {
-            Snackbar.make(recyclerView, R.string.confirmation_unblocked, Snackbar.LENGTH_LONG)
+            Snackbar.make(binding.recyclerView, R.string.confirmation_unblocked, Snackbar.LENGTH_LONG)
                     .setAction(R.string.action_undo) {
                         blocksAdapter.addItem(unblockedUser, position)
                         onBlock(true, id, position)
@@ -226,41 +215,28 @@ class AccountListFragment : BaseFragment(), AccountActionListener, Injectable {
     override fun onRespondToFollowRequest(accept: Boolean, accountId: String,
                                           position: Int) {
 
-        val callback = object : Callback<Relationship> {
-            override fun onResponse(call: Call<Relationship>, response: Response<Relationship>) {
-                if (response.isSuccessful) {
-                    onRespondToFollowRequestSuccess(position)
-                } else {
-                    onRespondToFollowRequestFailure(accept, accountId)
-                }
-            }
-
-            override fun onFailure(call: Call<Relationship>, t: Throwable) {
-                onRespondToFollowRequestFailure(accept, accountId)
-            }
-        }
-
-        val call = if (accept) {
+        if (accept) {
             api.authorizeFollowRequest(accountId)
         } else {
             api.rejectFollowRequest(accountId)
-        }
-        callList.add(call)
-        call.enqueue(callback)
+        }.observeOn(AndroidSchedulers.mainThread())
+                .autoDispose(from(this, Lifecycle.Event.ON_DESTROY))
+                .subscribe({
+                    onRespondToFollowRequestSuccess(position)
+                }, { throwable ->
+                    val verb = if (accept) {
+                        "accept"
+                    } else {
+                        "reject"
+                    }
+                    Log.e(TAG, "Failed to $verb account id $accountId.", throwable)
+                })
+
     }
 
     private fun onRespondToFollowRequestSuccess(position: Int) {
         val followRequestsAdapter = adapter as FollowRequestsAdapter
         followRequestsAdapter.removeItem(position)
-    }
-
-    private fun onRespondToFollowRequestFailure(accept: Boolean, accountId: String) {
-        val verb = if (accept) {
-            "accept"
-        } else {
-            "reject"
-        }
-        Log.e(TAG, "Failed to $verb account id $accountId.")
     }
 
     private fun getFetchCallByListType(fromId: String?): Single<Response<List<Account>>> {
@@ -298,7 +274,7 @@ class AccountListFragment : BaseFragment(), AccountActionListener, Injectable {
         fetching = true
 
         if (fromId != null) {
-            recyclerView.post { adapter.setBottomLoading(true) }
+            binding.recyclerView.post { adapter.setBottomLoading(true) }
         }
 
         getFetchCallByListType(fromId)
@@ -332,20 +308,44 @@ class AccountListFragment : BaseFragment(), AccountActionListener, Injectable {
             adapter.update(accounts)
         }
 
+        if (adapter is MutesAdapter) {
+            fetchRelationships(accounts.map { it.id })
+        }
+
         bottomId = fromId
 
         fetching = false
 
         if (adapter.itemCount == 0) {
-            messageView.show()
-            messageView.setup(
+            binding.messageView.show()
+            binding.messageView.setup(
                     R.drawable.elephant_friend_empty,
                     R.string.message_empty,
                     null
             )
         } else {
-            messageView.hide()
+            binding.messageView.hide()
         }
+    }
+
+    private fun fetchRelationships(ids: List<String>) {
+        api.relationships(ids)
+                .observeOn(AndroidSchedulers.mainThread())
+                .autoDispose(from(this))
+                .subscribe(::onFetchRelationshipsSuccess) {
+                    onFetchRelationshipsFailure(ids)
+                }
+    }
+
+    private fun onFetchRelationshipsSuccess(relationships: List<Relationship>) {
+        val mutesAdapter = adapter as MutesAdapter
+        val mutingNotificationsMap = HashMap<String, Boolean>()
+        relationships.map { mutingNotificationsMap.put(it.id, it.mutingNotifications) }
+        mutesAdapter.updateMutingNotificationsMap(mutingNotificationsMap)
+    }
+
+    private fun onFetchRelationshipsFailure(ids: List<String>) {
+        Log.e(TAG, "Fetch failure for relationships of accounts: $ids")
     }
 
     private fun onFetchAccountsFailure(throwable: Throwable) {
@@ -353,15 +353,15 @@ class AccountListFragment : BaseFragment(), AccountActionListener, Injectable {
         Log.e(TAG, "Fetch failure", throwable)
 
         if (adapter.itemCount == 0) {
-            messageView.show()
+            binding.messageView.show()
             if (throwable is IOException) {
-                messageView.setup(R.drawable.elephant_offline, R.string.error_network) {
-                    messageView.hide()
+                binding.messageView.setup(R.drawable.elephant_offline, R.string.error_network) {
+                    binding.messageView.hide()
                     this.fetchAccounts(null)
                 }
             } else {
-                messageView.setup(R.drawable.elephant_error, R.string.error_generic) {
-                    messageView.hide()
+                binding.messageView.setup(R.drawable.elephant_error, R.string.error_generic) {
+                    binding.messageView.hide()
                     this.fetchAccounts(null)
                 }
             }
@@ -384,5 +384,4 @@ class AccountListFragment : BaseFragment(), AccountActionListener, Injectable {
             }
         }
     }
-
 }

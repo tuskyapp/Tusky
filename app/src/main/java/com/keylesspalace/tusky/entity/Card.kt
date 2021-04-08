@@ -26,7 +26,9 @@ data class Card(
         val image: String,
         val type: String,
         val width: Int,
-        val height: Int
+        val height: Int,
+        val blurhash: String?,
+        val embed_url: String?
 ) {
 
     override fun hashCode(): Int {
@@ -41,4 +43,7 @@ data class Card(
         return account?.url == this.url
     }
 
+    companion object {
+        const val TYPE_PHOTO = "photo"
+    }
 }

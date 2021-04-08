@@ -1,0 +1,8 @@
+Tusky 10.0
+
+- Bạn có thể lưu tút với Tusky.
+- Bạn có thể lên lịch đăng tút với Tusky.
+- Bạn có thể thêm danh sách.
+- Bạn có thể đăng tập tin âm thanh với Tusky.
+
+Nhiều cải thiện nhỏ và sửa lỗi khác!

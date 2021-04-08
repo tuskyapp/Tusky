@@ -1,0 +1,9 @@
+Tusky v.12.0
+
+- Interface principal melhorada - agora você pode mover as abas para baixo!
+- Ao silenciar um usuário, você poderá decidir se deve silenciar as notificações também
+- Agora dá para acompanhar quantas hashtags quiser em uma única aba!
+- A exibição da descrição de mídia foi melhorada e funcionará até com descrições super longas
+Não se esqueça de descrever suas mídias para tornar o fediverso mais inclusivo!
+
+Changelog completo: https://github.com/tuskyapp/Tusky/releases

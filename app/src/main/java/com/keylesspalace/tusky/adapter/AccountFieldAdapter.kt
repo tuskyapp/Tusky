@@ -19,60 +19,57 @@ import android.text.method.LinkMovementMethod
 import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.view.View
-import android.widget.TextView
 import com.keylesspalace.tusky.R
+import com.keylesspalace.tusky.databinding.ItemAccountFieldBinding
 import com.keylesspalace.tusky.entity.Emoji
 import com.keylesspalace.tusky.entity.Field
 import com.keylesspalace.tusky.entity.IdentityProof
 import com.keylesspalace.tusky.interfaces.LinkListener
 import com.keylesspalace.tusky.util.*
-import kotlinx.android.synthetic.main.item_account_field.view.*
 
-class AccountFieldAdapter(private val linkListener: LinkListener) : RecyclerView.Adapter<AccountFieldAdapter.ViewHolder>() {
+class AccountFieldAdapter(
+        private val linkListener: LinkListener,
+        private val animateEmojis: Boolean
+) : RecyclerView.Adapter<BindingHolder<ItemAccountFieldBinding>>() {
 
     var emojis: List<Emoji> = emptyList()
     var fields: List<Either<IdentityProof, Field>> = emptyList()
 
     override fun getItemCount() = fields.size
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_account_field, parent, false)
-        return ViewHolder(view)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BindingHolder<ItemAccountFieldBinding> {
+        val binding = ItemAccountFieldBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return BindingHolder(binding)
     }
 
-    override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: BindingHolder<ItemAccountFieldBinding>, position: Int) {
         val proofOrField = fields[position]
+        val nameTextView = holder.binding.accountFieldName
+        val valueTextView = holder.binding.accountFieldValue
 
         if(proofOrField.isLeft()) {
             val identityProof = proofOrField.asLeft()
 
-            viewHolder.nameTextView.text = identityProof.provider
-            viewHolder.valueTextView.text = LinkHelper.createClickableText(identityProof.username, identityProof.profileUrl)
+            nameTextView.text = identityProof.provider
+            valueTextView.text = LinkHelper.createClickableText(identityProof.username, identityProof.profileUrl)
 
-            viewHolder.valueTextView.movementMethod = LinkMovementMethod.getInstance()
+            valueTextView.movementMethod = LinkMovementMethod.getInstance()
 
-            viewHolder.valueTextView.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0,  R.drawable.ic_check_circle, 0)
+            valueTextView.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0,  R.drawable.ic_check_circle, 0)
         } else {
             val field = proofOrField.asRight()
-            val emojifiedName = field.name.emojify(emojis, viewHolder.nameTextView)
-            viewHolder.nameTextView.text = emojifiedName
+            val emojifiedName = field.name.emojify(emojis, nameTextView, animateEmojis)
+            nameTextView.text = emojifiedName
 
-            val emojifiedValue = field.value.emojify(emojis, viewHolder.valueTextView)
-            LinkHelper.setClickableText(viewHolder.valueTextView, emojifiedValue, null, linkListener)
+            val emojifiedValue = field.value.emojify(emojis, valueTextView, animateEmojis)
+            LinkHelper.setClickableText(valueTextView, emojifiedValue, null, linkListener)
 
             if(field.verifiedAt != null) {
-                viewHolder.valueTextView.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0,  R.drawable.ic_check_circle, 0)
+                valueTextView.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0,  R.drawable.ic_check_circle, 0)
             } else {
-                viewHolder.valueTextView.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, 0, 0 )
+                valueTextView.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, 0, 0 )
             }
         }
 
     }
-
-    class ViewHolder(rootView: View) : RecyclerView.ViewHolder(rootView) {
-        val nameTextView: TextView = rootView.accountFieldName
-        val valueTextView: TextView = rootView.accountFieldValue
-    }
-
 }

@@ -15,86 +15,78 @@
 
 package com.keylesspalace.tusky.components.report.fragments
 
-
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
+import androidx.fragment.app.activityViewModels
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.components.report.ReportViewModel
 import com.keylesspalace.tusky.components.report.Screen
+import com.keylesspalace.tusky.databinding.FragmentReportDoneBinding
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.util.Loading
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.show
-import kotlinx.android.synthetic.main.fragment_report_done.*
+import com.keylesspalace.tusky.util.viewBinding
 import javax.inject.Inject
 
-
-class ReportDoneFragment : Fragment(), Injectable {
+class ReportDoneFragment : Fragment(R.layout.fragment_report_done), Injectable {
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
 
-    private val viewModel: ReportViewModel by viewModels({ requireActivity() }) { viewModelFactory }
+    private val viewModel: ReportViewModel by activityViewModels { viewModelFactory }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_report_done, container, false)
-    }
+    private val binding by viewBinding(FragmentReportDoneBinding::bind)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        textReported.text = getString(R.string.report_sent_success, viewModel.accountUserName)
+        binding.textReported.text = getString(R.string.report_sent_success, viewModel.accountUserName)
         handleClicks()
         subscribeObservables()
     }
 
     private fun subscribeObservables() {
-        viewModel.muteState.observe(viewLifecycleOwner, Observer {
+        viewModel.muteState.observe(viewLifecycleOwner) {
             if (it !is Loading) {
-                buttonMute.show()
-                progressMute.show()
+                binding.buttonMute.show()
+                binding.progressMute.show()
             } else {
-                buttonMute.hide()
-                progressMute.hide()
+                binding.buttonMute.hide()
+                binding.progressMute.hide()
             }
 
-            buttonMute.setText(when (it.data) {
+            binding.buttonMute.setText(when (it.data) {
                 true -> R.string.action_unmute
                 else -> R.string.action_mute
             })
-        })
+        }
 
-        viewModel.blockState.observe(viewLifecycleOwner, Observer {
+        viewModel.blockState.observe(viewLifecycleOwner) {
             if (it !is Loading) {
-                buttonBlock.show()
-                progressBlock.show()
+                binding.buttonBlock.show()
+                binding.progressBlock.show()
             }
-            else{
-                buttonBlock.hide()
-                progressBlock.hide()
+            else {
+                binding.buttonBlock.hide()
+                binding.progressBlock.hide()
             }
-            buttonBlock.setText(when (it.data) {
+            binding.buttonBlock.setText(when (it.data) {
                 true -> R.string.action_unblock
                 else -> R.string.action_block
             })
-        })
+        }
 
     }
 
     private fun handleClicks() {
-        buttonDone.setOnClickListener {
+        binding.buttonDone.setOnClickListener {
             viewModel.navigateTo(Screen.Finish)
         }
-        buttonBlock.setOnClickListener {
+        binding.buttonBlock.setOnClickListener {
             viewModel.toggleBlock()
         }
-        buttonMute.setOnClickListener {
+        binding.buttonMute.setOnClickListener {
             viewModel.toggleMute()
         }
     }
@@ -102,5 +94,4 @@ class ReportDoneFragment : Fragment(), Injectable {
     companion object {
         fun newInstance() = ReportDoneFragment()
     }
-
 }

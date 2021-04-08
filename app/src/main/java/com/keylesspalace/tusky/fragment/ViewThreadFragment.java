@@ -55,14 +55,13 @@ import com.keylesspalace.tusky.di.Injectable;
 import com.keylesspalace.tusky.entity.Filter;
 import com.keylesspalace.tusky.entity.Poll;
 import com.keylesspalace.tusky.entity.Status;
-import com.keylesspalace.tusky.entity.StatusContext;
 import com.keylesspalace.tusky.interfaces.StatusActionListener;
 import com.keylesspalace.tusky.network.MastodonApi;
+import com.keylesspalace.tusky.settings.PrefKeys;
 import com.keylesspalace.tusky.util.CardViewMode;
 import com.keylesspalace.tusky.util.ListStatusAccessibilityDelegate;
 import com.keylesspalace.tusky.util.PairedList;
 import com.keylesspalace.tusky.util.StatusDisplayOptions;
-import com.keylesspalace.tusky.util.ThemeUtils;
 import com.keylesspalace.tusky.util.ViewDataUtils;
 import com.keylesspalace.tusky.view.ConversationLineItemDecoration;
 import com.keylesspalace.tusky.viewdata.StatusViewData;
@@ -75,9 +74,6 @@ import java.util.Locale;
 import javax.inject.Inject;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 import static com.uber.autodispose.AutoDispose.autoDisposable;
 import static com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider.from;
@@ -127,6 +123,7 @@ public final class ViewThreadFragment extends SFragment implements
         thisThreadsStatusId = getArguments().getString("id");
         SharedPreferences preferences =
                 PreferenceManager.getDefaultSharedPreferences(getActivity());
+
         StatusDisplayOptions statusDisplayOptions = new StatusDisplayOptions(
                 preferences.getBoolean("animateGifAvatars", false),
                 accountManager.getActiveAccount().getMediaPreviewEnabled(),
@@ -136,7 +133,9 @@ public final class ViewThreadFragment extends SFragment implements
                 preferences.getBoolean("showCardsInTimelines", false) ?
                         CardViewMode.INDENTED :
                         CardViewMode.NONE,
-                preferences.getBoolean("confirmReblogs", true)
+                preferences.getBoolean("confirmReblogs", true),
+                preferences.getBoolean(PrefKeys.WELLBEING_HIDE_STATS_POSTS, false),
+                preferences.getBoolean(PrefKeys.ANIMATE_CUSTOM_EMOJIS, false)
         );
         adapter = new ThreadAdapter(statusDisplayOptions, this);
     }
@@ -150,8 +149,6 @@ public final class ViewThreadFragment extends SFragment implements
         swipeRefreshLayout = rootView.findViewById(R.id.swipeRefreshLayout);
         swipeRefreshLayout.setOnRefreshListener(this);
         swipeRefreshLayout.setColorSchemeResources(R.color.tusky_blue);
-        swipeRefreshLayout.setProgressBackgroundColorSchemeColor(
-                ThemeUtils.getColor(context, android.R.attr.colorBackground));
 
         recyclerView = rootView.findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
@@ -463,49 +460,32 @@ public final class ViewThreadFragment extends SFragment implements
     }
 
     private void sendStatusRequest(final String id) {
-        Call<Status> call = mastodonApi.status(id);
-        call.enqueue(new Callback<Status>() {
-            @Override
-            public void onResponse(@NonNull Call<Status> call, @NonNull Response<Status> response) {
-                if (response.isSuccessful()) {
-                    int position = setStatus(response.body());
-                    recyclerView.scrollToPosition(position);
-                } else {
-                    onThreadRequestFailure(id);
-                }
-            }
-
-            @Override
-            public void onFailure(@NonNull Call<Status> call, @NonNull Throwable t) {
-                onThreadRequestFailure(id);
-            }
-        });
-        callList.add(call);
+        mastodonApi.status(id)
+                .observeOn(AndroidSchedulers.mainThread())
+                .as(autoDisposable(from(this, Lifecycle.Event.ON_DESTROY)))
+                .subscribe(
+                        status -> {
+                            int position = setStatus(status);
+                            recyclerView.scrollToPosition(position);
+                        },
+                        throwable -> onThreadRequestFailure(id, throwable)
+                );
     }
 
     private void sendThreadRequest(final String id) {
-        Call<StatusContext> call = mastodonApi.statusContext(id);
-        call.enqueue(new Callback<StatusContext>() {
-            @Override
-            public void onResponse(@NonNull Call<StatusContext> call, @NonNull Response<StatusContext> response) {
-                StatusContext context = response.body();
-                if (response.isSuccessful() && context != null) {
-                    swipeRefreshLayout.setRefreshing(false);
-                    setContext(context.getAncestors(), context.getDescendants());
-                } else {
-                    onThreadRequestFailure(id);
-                }
-            }
-
-            @Override
-            public void onFailure(@NonNull Call<StatusContext> call, @NonNull Throwable t) {
-                onThreadRequestFailure(id);
-            }
-        });
-        callList.add(call);
+        mastodonApi.statusContext(id)
+                .observeOn(AndroidSchedulers.mainThread())
+                .as(autoDisposable(from(this, Lifecycle.Event.ON_DESTROY)))
+                .subscribe(
+                        context -> {
+                            swipeRefreshLayout.setRefreshing(false);
+                            setContext(context.getAncestors(), context.getDescendants());
+                        },
+                        throwable -> onThreadRequestFailure(id, throwable)
+                );
     }
 
-    private void onThreadRequestFailure(final String id) {
+    private void onThreadRequestFailure(final String id, final Throwable throwable) {
         View view = getView();
         swipeRefreshLayout.setRefreshing(false);
         if (view != null) {
@@ -516,7 +496,7 @@ public final class ViewThreadFragment extends SFragment implements
                     })
                     .show();
         } else {
-            Log.e(TAG, "Couldn't display thread fetch error message");
+            Log.e(TAG, "Network request failed", throwable);
         }
     }
 

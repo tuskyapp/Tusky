@@ -38,14 +38,14 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.core.app.ActivityOptionsCompat;
 import androidx.core.view.ViewCompat;
+import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Lifecycle;
-import androidx.preference.PreferenceManager;
 
 import com.keylesspalace.tusky.BaseActivity;
 import com.keylesspalace.tusky.BottomSheetActivity;
 import com.keylesspalace.tusky.MainActivity;
-import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.PostLookupFallbackBehavior;
+import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.ViewMediaActivity;
 import com.keylesspalace.tusky.ViewTagActivity;
 import com.keylesspalace.tusky.components.compose.ComposeActivity;
@@ -60,6 +60,8 @@ import com.keylesspalace.tusky.entity.PollOption;
 import com.keylesspalace.tusky.entity.Status;
 import com.keylesspalace.tusky.network.MastodonApi;
 import com.keylesspalace.tusky.network.TimelineCases;
+import com.keylesspalace.tusky.util.LinkHelper;
+import com.keylesspalace.tusky.view.MuteAccountDialog;
 import com.keylesspalace.tusky.viewdata.AttachmentViewData;
 
 import java.util.ArrayList;
@@ -72,6 +74,7 @@ import java.util.regex.Pattern;
 import javax.inject.Inject;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import kotlin.Unit;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -85,7 +88,7 @@ import static com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvid
  * adapters. I feel like the profile pages and thread viewer, which I haven't made yet, will also
  * overlap functionality. So, I'm momentarily leaving it and hopefully working on those will clear
  * up what needs to be where. */
-public abstract class SFragment extends BaseFragment implements Injectable {
+public abstract class SFragment extends Fragment implements Injectable {
 
     protected abstract void removeItem(int position);
 
@@ -96,7 +99,7 @@ public abstract class SFragment extends BaseFragment implements Injectable {
     private static List<Filter> filters;
     private boolean filterRemoveRegex;
     private Matcher filterRemoveRegexMatcher;
-    private static Matcher alphanumeric = Pattern.compile("^\\w+$").matcher("");
+    private static final Matcher alphanumeric = Pattern.compile("^\\w+$").matcher("");
 
     @Inject
     public MastodonApi mastodonApi;
@@ -331,11 +334,14 @@ public abstract class SFragment extends BaseFragment implements Injectable {
     }
 
     private void onMute(String accountId, String accountUsername) {
-        new AlertDialog.Builder(requireContext())
-                .setMessage(getString(R.string.dialog_mute_warning, accountUsername))
-                .setPositiveButton(android.R.string.ok, (__, ___) -> timelineCases.mute(accountId))
-                .setNegativeButton(android.R.string.cancel, null)
-                .show();
+        MuteAccountDialog.showMuteAccountDialog(
+            this.getActivity(),
+            accountUsername,
+            (notifications, duration) -> {
+                timelineCases.mute(accountId, notifications, duration);
+                return Unit.INSTANCE;
+            }
+        );
     }
 
     private void onBlock(String accountId, String accountUsername) {
@@ -386,10 +392,9 @@ public abstract class SFragment extends BaseFragment implements Injectable {
                 }
                 break;
             }
+            default:
             case UNKNOWN: {
-                /* Intentionally do nothing. This case is here is to handle when new attachment
-                 * types are added to the API before code is added here to handle them. So, the
-                 * best fallback is to just show the preview and ignore requests to view them. */
+                LinkHelper.openLink(active.getUrl(), getContext());
                 break;
             }
         }
@@ -448,6 +453,7 @@ public abstract class SFragment extends BaseFragment implements Injectable {
                                         composeOptions.setContentWarning(deletedStatus.getSpoilerText());
                                         composeOptions.setMediaAttachments(deletedStatus.getAttachments());
                                         composeOptions.setSensitive(deletedStatus.getSensitive());
+                                        composeOptions.setModifiedInitialState(true);
                                         if (deletedStatus.getPoll() != null) {
                                             composeOptions.setPoll(deletedStatus.getPoll().toNewPoll(deletedStatus.getCreatedAt()));
                                         }

@@ -1,0 +1,7 @@
+Tusky v14.0
+
+- Értesítést kaphatsz, amikor egy követett felhasználó tülköl - csak kattints a csengő ikonra a profilján! (Mastodon 3.3.0 funkció)
+- A Tusky piszkozat funkcióját teljesen újraterveztük, hogy gyorsabb, felhasználóbarátabb, hibamentesebb legyen.
+- Az új jóllét üzemmód lehetővé teszi, hogy bizonyos Tusky funkciókat korlátozz.
+- A Tusky mostantól képes animálni az egyedi emojikat is.
+Összes változás: https://github.com/tuskyapp/Tusky/releases

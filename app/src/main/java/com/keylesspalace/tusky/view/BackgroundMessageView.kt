@@ -3,14 +3,14 @@ package com.keylesspalace.tusky.view
 import android.content.Context
 import android.util.AttributeSet
 import android.view.Gravity
+import android.view.LayoutInflater
 import android.view.View
 import android.widget.LinearLayout
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import com.keylesspalace.tusky.R
+import com.keylesspalace.tusky.databinding.ViewBackgroundMessageBinding
 import com.keylesspalace.tusky.util.visible
-import kotlinx.android.synthetic.main.view_background_message.view.*
-
 
 /**
  * This view is used for screens with downloadable content which may fail.
@@ -22,8 +22,9 @@ class BackgroundMessageView @JvmOverloads constructor(
         defStyleAttr: Int = 0
 ) : LinearLayout(context, attrs, defStyleAttr) {
 
+    private val binding = ViewBackgroundMessageBinding.inflate(LayoutInflater.from(context), this)
+
     init {
-        View.inflate(context, R.layout.view_background_message, this)
         gravity = Gravity.CENTER_HORIZONTAL
         orientation = VERTICAL
 
@@ -36,11 +37,14 @@ class BackgroundMessageView @JvmOverloads constructor(
      * Setup image, message and button.
      * If [clickListener] is `null` then the button will be hidden.
      */
-    fun setup(@DrawableRes imageRes: Int, @StringRes messageRes: Int,
-              clickListener: ((v: View) -> Unit)? = null) {
-        messageTextView.setText(messageRes)
-        imageView.setImageResource(imageRes)
-        button.setOnClickListener(clickListener)
-        button.visible(clickListener != null)
+    fun setup(
+            @DrawableRes imageRes: Int,
+            @StringRes messageRes: Int,
+            clickListener: ((v: View) -> Unit)? = null
+    ) {
+        binding.messageTextView.setText(messageRes)
+        binding.imageView.setImageResource(imageRes)
+        binding.button.setOnClickListener(clickListener)
+        binding.button.visible(clickListener != null)
     }
 }

@@ -18,19 +18,16 @@ package com.keylesspalace.tusky.components.report
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.view.MenuItem
 import androidx.activity.viewModels
-import androidx.lifecycle.Observer
 import com.keylesspalace.tusky.BottomSheetActivity
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.components.report.adapter.ReportPagerAdapter
+import com.keylesspalace.tusky.databinding.ActivityReportBinding
 import com.keylesspalace.tusky.di.ViewModelFactory
+import com.keylesspalace.tusky.util.viewBinding
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
-import kotlinx.android.synthetic.main.activity_report.*
-import kotlinx.android.synthetic.main.toolbar_basic.*
 import javax.inject.Inject
-
 
 class ReportActivity : BottomSheetActivity(), HasAndroidInjector {
 
@@ -41,6 +38,8 @@ class ReportActivity : BottomSheetActivity(), HasAndroidInjector {
     lateinit var viewModelFactory: ViewModelFactory
 
     private val viewModel: ReportViewModel by viewModels { viewModelFactory }
+
+    private val binding by viewBinding(ActivityReportBinding::inflate)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,9 +52,9 @@ class ReportActivity : BottomSheetActivity(), HasAndroidInjector {
         viewModel.init(accountId, accountUserName, intent?.getStringExtra(STATUS_ID))
 
 
-        setContentView(R.layout.activity_report)
+        setContentView(binding.root)
 
-        setSupportActionBar(toolbar)
+        setSupportActionBar(binding.includedToolbar.toolbar)
 
         supportActionBar?.apply {
             title = getString(R.string.report_username_format, viewModel.accountUserName)
@@ -72,12 +71,12 @@ class ReportActivity : BottomSheetActivity(), HasAndroidInjector {
     }
 
     private fun initViewPager() {
-        wizard.isUserInputEnabled = false
-        wizard.adapter = ReportPagerAdapter(this)
+        binding.wizard.isUserInputEnabled = false
+        binding.wizard.adapter = ReportPagerAdapter(this)
     }
 
     private fun subscribeObservables() {
-        viewModel.navigation.observe(this, Observer { screen ->
+        viewModel.navigation.observe(this) { screen ->
             if (screen != null) {
                 viewModel.navigated()
                 when (screen) {
@@ -88,29 +87,29 @@ class ReportActivity : BottomSheetActivity(), HasAndroidInjector {
                     Screen.Finish -> closeScreen()
                 }
             }
-        })
+        }
 
-        viewModel.checkUrl.observe(this, Observer {
+        viewModel.checkUrl.observe(this) {
             if (!it.isNullOrBlank()) {
                 viewModel.urlChecked()
                 viewUrl(it)
             }
-        })
+        }
     }
 
     private fun showPreviousScreen() {
-        when (wizard.currentItem) {
+        when (binding.wizard.currentItem) {
             0 -> closeScreen()
             1 -> showStatusesPage()
         }
     }
 
     private fun showDonePage() {
-        wizard.currentItem = 2
+        binding.wizard.currentItem = 2
     }
 
     private fun showNotesPage() {
-        wizard.currentItem = 1
+        binding.wizard.currentItem = 1
     }
 
     private fun closeScreen() {
@@ -118,17 +117,7 @@ class ReportActivity : BottomSheetActivity(), HasAndroidInjector {
     }
 
     private fun showStatusesPage() {
-        wizard.currentItem = 0
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            android.R.id.home -> {
-                closeScreen()
-                return true
-            }
-        }
-        return super.onOptionsItemSelected(item)
+        binding.wizard.currentItem = 0
     }
 
     companion object {

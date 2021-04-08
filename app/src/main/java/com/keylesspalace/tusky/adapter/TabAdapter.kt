@@ -15,134 +15,142 @@
 
 package com.keylesspalace.tusky.adapter
 
+import android.content.res.ColorStateList
 import android.view.LayoutInflater
 import android.view.MotionEvent
-import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.size
 import androidx.recyclerview.widget.RecyclerView
+import androidx.viewbinding.ViewBinding
 import com.google.android.material.chip.Chip
 import com.keylesspalace.tusky.HASHTAG
 import com.keylesspalace.tusky.LIST
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.TabData
+import com.keylesspalace.tusky.databinding.ItemTabPreferenceBinding
+import com.keylesspalace.tusky.databinding.ItemTabPreferenceSmallBinding
+import com.keylesspalace.tusky.util.BindingHolder
 import com.keylesspalace.tusky.util.ThemeUtils
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.show
-import kotlinx.android.synthetic.main.item_tab_preference.view.*
 
 interface ItemInteractionListener {
     fun onTabAdded(tab: TabData)
     fun onTabRemoved(position: Int)
     fun onStartDelete(viewHolder: RecyclerView.ViewHolder)
     fun onStartDrag(viewHolder: RecyclerView.ViewHolder)
-    fun onActionChipClicked(tab: TabData)
-    fun onChipClicked(tab: TabData, chipPosition: Int)
+    fun onActionChipClicked(tab: TabData, tabPosition: Int)
+    fun onChipClicked(tab: TabData, tabPosition: Int, chipPosition: Int)
 }
 
 class TabAdapter(private var data: List<TabData>,
                  private val small: Boolean,
                  private val listener: ItemInteractionListener,
-                 private var removeButtonEnabled: Boolean = false) : RecyclerView.Adapter<TabAdapter.ViewHolder>() {
+                 private var removeButtonEnabled: Boolean = false
+) : RecyclerView.Adapter<BindingHolder<ViewBinding>>() {
 
     fun updateData(newData: List<TabData>) {
         this.data = newData
         notifyDataSetChanged()
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val layoutId = if (small) {
-            R.layout.item_tab_preference_small
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BindingHolder<ViewBinding> {
+        val binding = if (small) {
+            ItemTabPreferenceSmallBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         } else {
-            R.layout.item_tab_preference
+            ItemTabPreferenceBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         }
-        val view = LayoutInflater.from(parent.context).inflate(layoutId, parent, false)
-        return ViewHolder(view)
+        return BindingHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: BindingHolder<ViewBinding>, position: Int) {
         val context = holder.itemView.context
-        if (!small && data[position].id == LIST) {
-            holder.itemView.textView.text = data[position].arguments.getOrNull(1).orEmpty()
-        } else {
-            holder.itemView.textView.setText(data[position].text)
-        }
-        val iconDrawable = ThemeUtils.getTintedDrawable(context, data[position].icon, android.R.attr.textColorSecondary)
-        holder.itemView.textView.setCompoundDrawablesRelativeWithIntrinsicBounds(iconDrawable, null, null, null)
+        val tab = data[position]
+
         if (small) {
-            holder.itemView.textView.setOnClickListener {
-                listener.onTabAdded(data[position])
+            val binding = holder.binding as ItemTabPreferenceSmallBinding
+
+            binding.textView.setText(tab.text)
+
+            binding.textView.setCompoundDrawablesRelativeWithIntrinsicBounds(tab.icon, 0, 0, 0)
+
+            binding.textView.setOnClickListener {
+                listener.onTabAdded(tab)
             }
-        }
-        holder.itemView.imageView?.setOnTouchListener { _, event ->
-            if (event.action == MotionEvent.ACTION_DOWN) {
-                listener.onStartDrag(holder)
-                true
+
+        } else {
+            val binding = holder.binding as ItemTabPreferenceBinding
+
+            if (tab.id == LIST) {
+                binding.textView.text = tab.arguments.getOrNull(1).orEmpty()
             } else {
-                false
+                binding.textView.setText(tab.text)
             }
-        }
-        holder.itemView.removeButton?.setOnClickListener {
-            listener.onTabRemoved(holder.adapterPosition)
-        }
-        if (holder.itemView.removeButton != null) {
-            holder.itemView.removeButton.isEnabled = removeButtonEnabled
+
+            binding.textView.setCompoundDrawablesRelativeWithIntrinsicBounds(tab.icon, 0, 0, 0)
+
+            binding.imageView.setOnTouchListener { _, event ->
+                if (event.action == MotionEvent.ACTION_DOWN) {
+                    listener.onStartDrag(holder)
+                    true
+                } else {
+                    false
+                }
+            }
+            binding.removeButton.setOnClickListener {
+                listener.onTabRemoved(holder.adapterPosition)
+            }
+            binding.removeButton.isEnabled = removeButtonEnabled
             ThemeUtils.setDrawableTint(
                     holder.itemView.context,
-                    holder.itemView.removeButton.drawable,
+                    binding.removeButton.drawable,
                     (if (removeButtonEnabled) android.R.attr.textColorTertiary else R.attr.textColorDisabled)
             )
-        }
 
-        if (!small) {
-
-            if (data[position].id == HASHTAG) {
-                holder.itemView.chipGroup.show()
+            if (tab.id == HASHTAG) {
+                binding.chipGroup.show()
 
                 /*
                  * The chip group will always contain the actionChip (it is defined in the xml layout).
                  * The other dynamic chips are inserted in front of the actionChip.
                  * This code tries to reuse already added chips to reduce the number of Views created.
                  */
-                data[position].arguments.forEachIndexed { i, arg ->
+                tab.arguments.forEachIndexed { i, arg ->
 
-                    val chip = holder.itemView.chipGroup.getChildAt(i).takeUnless { it.id == R.id.actionChip } as Chip?
+                    val chip = binding.chipGroup.getChildAt(i).takeUnless { it.id == R.id.actionChip } as Chip?
                             ?: Chip(context).apply {
-                                text = arg
-                                holder.itemView.chipGroup.addView(this, holder.itemView.chipGroup.size - 1)
+                                binding.chipGroup.addView(this, binding.chipGroup.size - 1)
+                                chipIconTint = ColorStateList.valueOf(ThemeUtils.getColor(context, android.R.attr.textColorPrimary))
                             }
 
                     chip.text = arg
 
-                    if(data[position].arguments.size <= 1) {
+                    if(tab.arguments.size <= 1) {
                         chip.chipIcon = null
                         chip.setOnClickListener(null)
                     } else {
-                        val cancelIcon = ThemeUtils.getTintedDrawable(context, R.drawable.ic_cancel_24dp, android.R.attr.textColorPrimary)
-                        chip.chipIcon = cancelIcon
+                        chip.setChipIconResource(R.drawable.ic_cancel_24dp)
                         chip.setOnClickListener {
-                            listener.onChipClicked(data[position], i)
+                            listener.onChipClicked(tab, holder.adapterPosition, i)
                         }
                     }
                 }
 
-                while(holder.itemView.chipGroup.size - 1 > data[position].arguments.size) {
-                    holder.itemView.chipGroup.removeViewAt(data[position].arguments.size - 1)
+                while(binding.chipGroup.size - 1 > tab.arguments.size) {
+                    binding.chipGroup.removeViewAt(tab.arguments.size)
                 }
 
-                holder.itemView.actionChip.setOnClickListener {
-                    listener.onActionChipClicked(data[position])
+                binding.actionChip.setOnClickListener {
+                    listener.onActionChipClicked(tab, holder.adapterPosition)
                 }
 
             } else {
-                holder.itemView.chipGroup.hide()
+                binding.chipGroup.hide()
             }
         }
     }
 
-    override fun getItemCount(): Int {
-        return data.size
-    }
+    override fun getItemCount() = data.size
 
     fun setRemoveButtonVisible(enabled: Boolean) {
         if (removeButtonEnabled != enabled) {
@@ -150,6 +158,4 @@ class TabAdapter(private var data: List<TabData>,
             notifyDataSetChanged()
         }
     }
-
-    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 }

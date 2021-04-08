@@ -1,6 +1,5 @@
 package com.keylesspalace.tusky.repository
 
-import android.text.Spanned
 import android.text.SpannedString
 import androidx.core.text.parseAsHtml
 import androidx.core.text.toHtml
@@ -67,9 +66,9 @@ class TimelineRepositoryImpl(
                                        sinceIdMinusOne: String?, limit: Int,
                                        accountId: Long, requestMode: TimelineRequestMode
     ): Single<out List<TimelineStatus>> {
-        return mastodonApi.homeTimelineSingle(maxId, sinceIdMinusOne, limit + 1)
-                .map { statuses ->
-                    this.saveStatusesToDb(accountId, statuses, maxId, sinceId)
+        return mastodonApi.homeTimeline(maxId, sinceIdMinusOne, limit + 1)
+                .map { response ->
+                    this.saveStatusesToDb(accountId, response.body().orEmpty(), maxId, sinceId)
                 }
                 .flatMap { statuses ->
                     this.addFromDbIfNeeded(accountId, statuses, maxId, sinceId, limit, requestMode)
@@ -86,7 +85,7 @@ class TimelineRepositoryImpl(
     private fun addFromDbIfNeeded(accountId: Long, statuses: List<Either<Placeholder, Status>>,
                                   maxId: String?, sinceId: String?, limit: Int,
                                   requestMode: TimelineRequestMode
-    ): Single<List<TimelineStatus>>? {
+    ): Single<List<TimelineStatus>> {
         return if (requestMode != NETWORK && statuses.size < 2) {
             val newMaxID = if (statuses.isEmpty()) {
                 maxId
@@ -184,14 +183,10 @@ class TimelineRepositoryImpl(
     }
 
     private fun cleanup() {
-        Single.fromCallable {
+        Schedulers.io().scheduleDirect {
             val olderThan = System.currentTimeMillis() - TimelineRepository.CLEANUP_INTERVAL
-            for (account in accountManager.getAllAccountsOrderedByActive()) {
-                timelineDao.cleanup(account.id, account.accountId, olderThan)
-            }
+            timelineDao.cleanup(olderThan)
         }
-                .subscribeOn(Schedulers.io())
-                .subscribe()
     }
 
     private fun TimelineStatusWithAccount.toStatus(): TimelineStatus {
@@ -303,7 +298,7 @@ fun Account.toEntity(accountId: Long, gson: Gson): TimelineAccountEntity {
             timelineUserId = accountId,
             localUsername = localUsername,
             username = username,
-            displayName = displayName.orEmpty(),
+            displayName = name,
             url = url,
             avatar = avatar,
             emojis = gson.toJson(emojis),

@@ -1,0 +1,9 @@
+Tusky v11.0
+
+- Notificacions sobre les noves sol·licituds de seguiment quan el vostre compte està bloquejat
+- Noves funcions que es poden commutar a la pantalla de Preferències:
+    - desactiva el desplaçament entre pestanyes
+    - mostreu un diàleg de confirmació abans de fer augmentar el punt de mira
+    - mostra les previsualitzacions d'enllaços en els terminis
+- Ara es poden silenciar les converses
+- més informació al changelog

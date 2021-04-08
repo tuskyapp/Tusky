@@ -36,7 +36,7 @@
     <string name="title_blocks">Список блокировки</string>
     <string name="title_follow_requests">Запросы на подписку</string>
     <string name="title_edit_profile">Редактировать профиль</string>
-    <string name="title_saved_toot">Черновики</string>
+    <string name="title_drafts">Черновики</string>
     <string name="title_licenses">Лицензии</string>
     <string name="status_username_format">\@%s</string>
     <string name="status_boosted_format">%s продвинул(а)</string>
@@ -70,7 +70,7 @@
     <string name="action_block">Заблокировать</string>
     <string name="action_unblock">Разблокировать</string>
     <string name="action_hide_reblogs">Скрыть продвижения</string>
-    <string name="action_show_reblogs">Показать продвижения</string>
+    <string name="action_show_reblogs">Показывать продвижения</string>
     <string name="action_report">Пожаловаться</string>
     <string name="action_delete">Удалить</string>
     <string name="action_delete_and_redraft">Удалить и исправить</string>
@@ -97,7 +97,7 @@
     <string name="action_open_drawer">Нарисовать</string>
     <string name="action_save">Сохранить</string>
     <string name="action_edit_profile">Редактировать профиль</string>
-    <string name="action_edit_own_profile">Редактировать</string>
+    <string name="action_edit_own_profile">Изменить</string>
     <string name="action_undo">Отменить</string>
     <string name="action_accept">Принять</string>
     <string name="action_reject">Отклонить</string>
@@ -111,7 +111,7 @@
     <string name="action_mentions">Упоминания</string>
     <string name="action_hashtags">Хэштеги</string>
     <string name="action_open_reblogger">Перейти к автору</string>
-    <string name="action_open_reblogged_by">Показать продвижения</string>
+    <string name="action_open_reblogged_by">Показывать продвижения</string>
     <string name="action_open_faved_by">Показать, кому нравится</string>
     <string name="title_hashtags_dialog">Хэштеги</string>
     <string name="title_mentions_dialog">Упоминания</string>
@@ -133,7 +133,7 @@
     <string name="status_sent_long">Ответ успешно отправлен.</string>
     <string name="hint_domain">Какой узел?</string>
     <string name="hint_compose">Что происходит?</string>
-    <string name="hint_content_warning">Предупреждение о контенте</string>
+    <string name="hint_content_warning">Предупреждение о содержании</string>
     <string name="hint_display_name">Отображаемое имя</string>
     <string name="hint_note">О себе</string>
     <string name="hint_search">Поиск…</string>
@@ -159,8 +159,8 @@
     <string name="visibility_unlisted">Скрытый: Не показывать в лентах</string>
     <string name="visibility_private">Приватный: Показать только подписчикам</string>
     <string name="visibility_direct">Направленный: Показать только упомянутым</string>
-    <string name="pref_title_edit_notification_settings">Уведомления</string>
-    <string name="pref_title_notifications_enabled">Уведомления</string>
+    <string name="pref_title_edit_notification_settings">Push-уведомления</string>
+    <string name="pref_title_notifications_enabled">Push-уведомления</string>
     <string name="pref_title_notification_alerts">Предупреждения</string>
     <string name="pref_title_notification_alert_sound">Звуковые уведомления</string>
     <string name="pref_title_notification_alert_vibrate">Использовать вибрацию</string>
@@ -168,7 +168,7 @@
     <string name="pref_title_notification_filters">Уведомлять когда…</string>
     <string name="pref_title_notification_filter_mentions">упомянули</string>
     <string name="pref_title_notification_filter_follows">подписались</string>
-    <string name="pref_title_notification_filter_reblogs">мой пост продвинули</string>
+    <string name="pref_title_notification_filter_reblogs">мои посты продвинули</string>
     <string name="pref_title_notification_filter_favourites">мой пост понравился</string>
     <string name="pref_title_appearance_settings">Внешний вид</string>
     <string name="pref_title_app_theme">Тема</string>
@@ -180,12 +180,12 @@
     <string name="app_theme_auto">Автоматическая (по времени)</string>
     <string name="app_theme_system">Как в системе</string>
     <string name="pref_title_browser_settings">Браузер</string>
-    <string name="pref_title_custom_tabs">Использовать Chrome Custom Tabs</string>
+    <string name="pref_title_custom_tabs">Исп. встроенный веб-браузер</string>
     <string name="pref_title_hide_follow_button">Скрывать кнопку создания поста при прокрутке ленты</string>
     <string name="pref_title_language">Язык</string>
     <string name="pref_title_status_filter">Фильтрация ленты</string>
-    <string name="pref_title_status_tabs">Вкладки</string>
-    <string name="pref_title_show_boosts">Показать продвижения</string>
+    <string name="pref_title_status_tabs">Фильтры</string>
+    <string name="pref_title_show_boosts">Показывать продвижения</string>
     <string name="pref_title_show_replies">Показывать ответы</string>
     <string name="pref_title_show_media_preview">Предзагрузка медиаконтента</string>
     <string name="pref_title_proxy_settings">Прокси</string>
@@ -220,7 +220,9 @@
     <string name="notification_summary_large">%1$s, %2$s, %3$s и %4$d других</string>
     <string name="notification_summary_medium">%1$s, %2$s, и %3$s</string>
     <string name="notification_summary_small">%1$s и %2$s</string>
-    <string name="notification_title_summary">Новых событий: %d</string>
+    <plurals name="notification_title_summary">
+        <item quantity="other">Новых событий: %d</item>
+    </plurals>
     <string name="description_account_locked">Закрытый аккаунт</string>
     <string name="about_title_activity">О приложении</string>
     <string name="about_tusky_version">Tusky %s</string>
@@ -305,7 +307,9 @@
     <string name="action_remove_from_list">Удалить аккаунт из списка</string>
     <string name="compose_active_account_description">Отправка от имени %1$s</string>
     <string name="error_failed_set_caption">Не удалось добавить подпись</string>
-    <string name="hint_describe_for_visually_impaired">Описание для слабовидящих\n(не более %d символов)</string>
+    <plurals name="hint_describe_for_visually_impaired">
+        <item quantity="other">Описание для слабовидящих\n(не более %d символов)</item>
+    </plurals>
     <string name="action_set_caption">Добавить подпись</string>
     <string name="action_remove">Удалить</string>
     <string name="lock_account_label">Закрыть аккаунт</string>
@@ -366,7 +370,9 @@
     <string name="conversation_1_recipients">%1$s</string>
     <string name="conversation_2_recipients">%1$s и %2$s</string>
     <string name="conversation_more_recipients">%1$s, %2$s и ещё %3$d</string>
-    <string name="max_tab_number_reached">достигнут лимит в %1$d вкладок</string>
+    <plurals name="max_tab_number_reached">
+        <item quantity="other">достигнут лимит в %1$d вкладок</item>
+    </plurals>
     <string name="description_status_media">
         Медиафайл: %s
     </string>
@@ -388,9 +394,7 @@
     <string name="description_visiblity_unlisted">
         Скрытый
     </string>
-    <string name="description_visiblity_private">
-        Для подписчиков
-    </string>
+    <string name="description_visiblity_private">Подписчики</string>
     <string name="description_visiblity_direct">
         Для упомянутых
     </string>
@@ -412,7 +416,6 @@
         <item quantity="many">%s голосов</item>
         <item quantity="other">%s голосов</item>
     </plurals>
-    <string name="poll_info_time_relative">%s</string>
     <string name="poll_info_time_absolute">завершится %s</string>
     <string name="poll_info_closed">завершён</string>
     <string name="poll_vote">Голосовать</string>
@@ -447,19 +450,19 @@
     <string name="title_accounts">Аккаунты</string>
     <string name="failed_search">Поиск завершился ошибкой</string>
     <string name="create_poll_title">Опрос</string>
-    <string name="poll_duration_5_min">5 минут</string>
-    <string name="poll_duration_30_min">30 минут</string>
-    <string name="poll_duration_1_hour">1 час</string>
-    <string name="poll_duration_6_hours">6 часов</string>
-    <string name="poll_duration_1_day">1 день</string>
-    <string name="poll_duration_3_days">3 дня</string>
-    <string name="poll_duration_7_days">7 дней</string>
+    <string name="duration_5_min">5 минут</string>
+    <string name="duration_30_min">30 минут</string>
+    <string name="duration_1_hour">1 час</string>
+    <string name="duration_6_hours">6 часов</string>
+    <string name="duration_1_day">1 день</string>
+    <string name="duration_3_days">3 дня</string>
+    <string name="duration_7_days">7 дней</string>
     <string name="add_poll_choice">Добавить</string>
     <string name="poll_allow_multiple_choices">Множественный выбор</string>
     <string name="poll_new_choice_hint">Вариант %d</string>
     <string name="edit_poll">Изменить</string>
     <string name="title_scheduled_toot">Отложенные записи</string>
-    <string name="action_edit">Изменить</string>
+    <string name="action_edit">Редактировать</string>
     <string name="action_access_scheduled_toot">Отложенные записи</string>
     <string name="action_schedule_toot">Отложить запись</string>
     <string name="action_reset_schedule">Сброс</string>
@@ -471,7 +474,6 @@
     <string name="select_list_title">Выбрать список</string>
     <string name="list">Список</string>
     <string name="error_audio_upload_size">Аудиофайлы должны быть меньше 40МБ.</string>
-    <string name="gradient_for_media">Показывать цветные градиенты для скрытых медиа</string>
     <string name="post_lookup_error_format">Ошибка поиска поста %s</string>
     <string name="no_saved_status">У вас нет черновиков.</string>
     <string name="no_scheduled_status">У вас нет запланированный постов.</string>
@@ -491,6 +493,34 @@
     <string name="dialog_mute_warning">Заглушить @%s\?</string>
     <string name="dialog_block_warning">Заблокировать @%s\?</string>
     <string name="action_unmute_conversation">Показать обсуждение</string>
-    <string name="action_mute_conversation">Заглушить обсуждение</string>
+    <string name="action_mute_conversation">Скрыть обсуждение</string>
     <string name="notification_follow_request_format">запрос на подписку от %s</string>
+    <string name="hashtags">Тэги</string>
+    <string name="add_hashtag_title">Добавить тэг</string>
+    <string name="pref_title_gradient_for_media">Отображать цветные градиенты для скрытых изображений</string>
+    <string name="pref_main_nav_position_option_bottom">Снизу</string>
+    <string name="pref_main_nav_position_option_top">Сверху</string>
+    <string name="pref_main_nav_position">Расположение панели навигации</string>
+    <string name="action_unmute_domain">Отменить глушение %s</string>
+    <string name="dialog_mute_hide_notifications">Скрыть уведомления</string>
+    <string name="action_mute_notifications_desc">Заблокировать уведомления от %s</string>
+    <string name="action_unmute_notifications_desc">Получать уведомления от %s</string>
+    <string name="action_unmute_desc">Разблокировать %s</string>
+    <string name="account_note_saved">Сохранено!</string>
+    <string name="account_note_hint">Ваша личная заметка об этой учётной записи</string>
+    <string name="pref_title_hide_top_toolbar">Скрыть заголовок в верхней панели</string>
+    <string name="no_announcements">Объявлений нет.</string>
+    <string name="title_announcements">Объявления</string>
+    <string name="wellbeing_mode_notice">"Некоторая информация, которая может повлиять на ваше психическое благополучие, будет скрыта. Это включает в себя:
+\n
+\n - Избранное/Продвижение/Уведомления подписок
+\n  - Избранное/Продвижение счета на тутах
+\n  - Статистика подписчиков/публикаций в профилях
+\n
+\n На push-уведомления это не повлияет, но вы можете просмотреть настройки уведомлений вручную."</string>
+    <string name="pref_title_wellbeing_mode">Благосостояние</string>
+    <string name="duration_indefinite">Неопределённая</string>
+    <string name="label_duration">Продолжительность</string>
+    <string name="status_media_attachments">Вложения</string>
+    <string name="status_media_audio">Аудио</string>
 </resources>

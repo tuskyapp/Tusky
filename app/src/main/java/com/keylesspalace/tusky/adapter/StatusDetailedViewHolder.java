@@ -106,9 +106,14 @@ class StatusDetailedViewHolder extends StatusBaseViewHolder {
                                    StatusDisplayOptions statusDisplayOptions,
                                    @Nullable Object payloads) {
         super.setupWithStatus(status, listener, statusDisplayOptions, payloads);
-        setupCard(status, CardViewMode.FULL_WIDTH); // Always show card for detailed status
+        setupCard(status, CardViewMode.FULL_WIDTH, statusDisplayOptions); // Always show card for detailed status
         if (payloads == null) {
-            setReblogAndFavCount(status.getReblogsCount(), status.getFavouritesCount(), listener);
+
+            if (!statusDisplayOptions.hideStats()) {
+                setReblogAndFavCount(status.getReblogsCount(), status.getFavouritesCount(), listener);
+            } else {
+                hideQuantitativeStats();
+            }
 
             setApplication(status.getApplication());
 
@@ -173,5 +178,11 @@ class StatusDetailedViewHolder extends StatusBaseViewHolder {
                 null,
                 null
         );
+    }
+
+    private void hideQuantitativeStats() {
+        reblogs.setVisibility(View.GONE);
+        favourites.setVisibility(View.GONE);
+        infoDivider.setVisibility(View.GONE);
     }
 }

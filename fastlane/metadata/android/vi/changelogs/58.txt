@@ -1,0 +1,10 @@
+Tusky 6.0
+
+- Tùy chỉnh hashtag
+- Chỉnh sửa danh sách
+- Bảo mật
+- Gợi ý emoji
+- Cài đặt chủ đề mới
+- Bỏ qua các thông chưa biết
+- Thiết lập ngôn ngữ khác
+- Bản dịch mới: Czech và Esperanto

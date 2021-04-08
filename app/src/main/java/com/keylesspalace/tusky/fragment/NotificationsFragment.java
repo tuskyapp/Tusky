@@ -71,6 +71,7 @@ import com.keylesspalace.tusky.interfaces.AccountActionListener;
 import com.keylesspalace.tusky.interfaces.ActionButtonActivity;
 import com.keylesspalace.tusky.interfaces.ReselectableFragment;
 import com.keylesspalace.tusky.interfaces.StatusActionListener;
+import com.keylesspalace.tusky.settings.PrefKeys;
 import com.keylesspalace.tusky.util.CardViewMode;
 import com.keylesspalace.tusky.util.Either;
 import com.keylesspalace.tusky.util.HttpHeaderLink;
@@ -79,7 +80,6 @@ import com.keylesspalace.tusky.util.ListUtils;
 import com.keylesspalace.tusky.util.NotificationTypeConverterKt;
 import com.keylesspalace.tusky.util.PairedList;
 import com.keylesspalace.tusky.util.StatusDisplayOptions;
-import com.keylesspalace.tusky.util.ThemeUtils;
 import com.keylesspalace.tusky.util.ViewDataUtils;
 import com.keylesspalace.tusky.view.BackgroundMessageView;
 import com.keylesspalace.tusky.view.EndlessOnScrollListener;
@@ -102,13 +102,11 @@ import at.connyduck.sparkbutton.helpers.Utils;
 import io.reactivex.Observable;
 import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
 import kotlin.Unit;
 import kotlin.collections.CollectionsKt;
 import kotlin.jvm.functions.Function1;
-import okhttp3.ResponseBody;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 import static com.keylesspalace.tusky.util.StringUtils.isLessThan;
 import static com.uber.autodispose.AutoDispose.autoDisposable;
@@ -125,8 +123,9 @@ public class NotificationsFragment extends SFragment implements
     private static final int LOAD_AT_ONCE = 30;
     private int maxPlaceholderId = 0;
 
+    private final Set<Notification.Type> notificationFilter = new HashSet<>();
 
-    private Set<Notification.Type> notificationFilter = new HashSet<>();
+    private final CompositeDisposable disposables = new CompositeDisposable();
 
     private enum FetchEnd {
         TOP,
@@ -180,7 +179,9 @@ public class NotificationsFragment extends SFragment implements
         @Override
         public NotificationViewData apply(Either<Placeholder, Notification> input) {
             if (input.isRight()) {
-                Notification notification = input.asRight();
+                Notification notification = input.asRight()
+                        .rewriteToStatusTypeIfNeeded(accountManager.getActiveAccount().getAccountId());
+
                 return ViewDataUtils.notificationToViewData(
                         notification,
                         alwaysShowSensitiveMedia,
@@ -223,7 +224,6 @@ public class NotificationsFragment extends SFragment implements
 
         swipeRefreshLayout.setOnRefreshListener(this);
         swipeRefreshLayout.setColorSchemeResources(R.color.tusky_blue);
-        swipeRefreshLayout.setProgressBackgroundColorSchemeColor(ThemeUtils.getColor(context, android.R.attr.colorBackground));
 
         loadNotificationsFilter();
 
@@ -251,7 +251,9 @@ public class NotificationsFragment extends SFragment implements
                 preferences.getBoolean("showBotOverlay", true),
                 preferences.getBoolean("useBlurhash", true),
                 CardViewMode.NONE,
-                preferences.getBoolean("confirmReblogs", true)
+                preferences.getBoolean("confirmReblogs", true),
+                preferences.getBoolean(PrefKeys.WELLBEING_HIDE_STATS_POSTS, false),
+                preferences.getBoolean(PrefKeys.ANIMATE_CUSTOM_EMOJIS, false)
         );
 
         adapter = new NotificationsAdapter(accountManager.getActiveAccount().getAccountId(),
@@ -288,7 +290,7 @@ public class NotificationsFragment extends SFragment implements
     private void updateFilterVisibility() {
         CoordinatorLayout.LayoutParams params =
                 (CoordinatorLayout.LayoutParams) swipeRefreshLayout.getLayoutParams();
-        if (showNotificationsFilter && !showingError && !notifications.isEmpty()) {
+        if (showNotificationsFilter && !showingError) {
             appBarOptions.setExpanded(true, false);
             appBarOptions.setVisibility(View.VISIBLE);
             //Set content behaviour to hide filter on scroll
@@ -683,32 +685,21 @@ public class NotificationsFragment extends SFragment implements
         updateAdapter();
 
         //Execute clear notifications request
-        Call<ResponseBody> call = mastodonApi.clearNotifications();
-        call.enqueue(new Callback<ResponseBody>() {
-            @Override
-            public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
-                if (isAdded()) {
-                    if (!response.isSuccessful()) {
-                        //Reload notifications on failure
-                        fullyRefreshWithProgressBar(true);
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(@NonNull Call<ResponseBody> call, @NonNull Throwable t) {
-                //Reload notifications on failure
-                fullyRefreshWithProgressBar(true);
-            }
-        });
-        callList.add(call);
+        mastodonApi.clearNotifications()
+                .observeOn(AndroidSchedulers.mainThread())
+                .as(autoDisposable(from(this, Lifecycle.Event.ON_DESTROY)))
+                .subscribe(
+                        response -> {
+                            // nothing to do
+                        },
+                        throwable -> {
+                            //Reload notifications on failure
+                            fullyRefreshWithProgressBar(true);
+                        });
     }
 
     private void resetNotificationsLoad() {
-        for (Call callItem : callList) {
-            callItem.cancel();
-        }
-        callList.clear();
+        disposables.clear();
         bottomLoading = false;
         topLoading = false;
 
@@ -772,6 +763,8 @@ public class NotificationsFragment extends SFragment implements
                 return getString(R.string.notification_follow_request_name);
             case POLL:
                 return getString(R.string.notification_poll_name);
+            case STATUS:
+                return getString(R.string.notification_subscription_name);
             default:
                 return "Unknown";
         }
@@ -799,6 +792,7 @@ public class NotificationsFragment extends SFragment implements
     private void loadNotificationsFilter() {
         AccountEntity account = accountManager.getActiveAccount();
         if (account != null) {
+            notificationFilter.clear();
             notificationFilter.addAll(NotificationTypeConverterKt.deserialize(
                     account.getNotificationsFilter()));
         }
@@ -823,7 +817,7 @@ public class NotificationsFragment extends SFragment implements
     }
 
     @Override
-    public void onMute(boolean mute, String id, int position) {
+    public void onMute(boolean mute, String id, int position, boolean notifications) {
         // No muting from notifications yet
     }
 
@@ -835,8 +829,8 @@ public class NotificationsFragment extends SFragment implements
     @Override
     public void onRespondToFollowRequest(boolean accept, String id, int position) {
         Single<Relationship> request = accept ?
-                mastodonApi.authorizeFollowRequestObservable(id) :
-                mastodonApi.rejectFollowRequestObservable(id);
+                mastodonApi.authorizeFollowRequest(id) :
+                mastodonApi.rejectFollowRequest(id);
         request.observeOn(AndroidSchedulers.mainThread())
                 .as(autoDisposable(from(this, Lifecycle.Event.ON_DESTROY)))
                 .subscribe(
@@ -954,27 +948,20 @@ public class NotificationsFragment extends SFragment implements
             bottomLoading = true;
         }
 
-        Call<List<Notification>> call = mastodonApi.notifications(fromId, uptoId, LOAD_AT_ONCE, showNotificationsFilter ? notificationFilter : null);
-
-        call.enqueue(new Callback<List<Notification>>() {
-            @Override
-            public void onResponse(@NonNull Call<List<Notification>> call,
-                                   @NonNull Response<List<Notification>> response) {
-                if (response.isSuccessful()) {
-                    String linkHeader = response.headers().get("Link");
-                    onFetchNotificationsSuccess(response.body(), linkHeader, fetchEnd, pos);
-                } else {
-                    onFetchNotificationsFailure(new Exception(response.message()), fetchEnd, pos);
-                }
-            }
-
-            @Override
-            public void onFailure(@NonNull Call<List<Notification>> call, @NonNull Throwable t) {
-                if (!call.isCanceled())
-                    onFetchNotificationsFailure((Exception) t, fetchEnd, pos);
-            }
-        });
-        callList.add(call);
+        Disposable notificationCall = mastodonApi.notifications(fromId, uptoId, LOAD_AT_ONCE, showNotificationsFilter ? notificationFilter : null)
+        .observeOn(AndroidSchedulers.mainThread())
+                .as(autoDisposable(from(this, Lifecycle.Event.ON_DESTROY)))
+                .subscribe(
+                        response -> {
+                            if (response.isSuccessful()) {
+                                String linkHeader = response.headers().get("Link");
+                                onFetchNotificationsSuccess(response.body(), linkHeader, fetchEnd, pos);
+                            } else {
+                                onFetchNotificationsFailure(new Exception(response.message()), fetchEnd, pos);
+                            }
+                        },
+                        throwable -> onFetchNotificationsFailure(throwable, fetchEnd, pos));
+        disposables.add(notificationCall);
     }
 
     private void onFetchNotificationsSuccess(List<Notification> notifications, String linkHeader,
@@ -1033,7 +1020,7 @@ public class NotificationsFragment extends SFragment implements
         progressBar.setVisibility(View.GONE);
     }
 
-    private void onFetchNotificationsFailure(Exception exception, FetchEnd fetchEnd, int position) {
+    private void onFetchNotificationsFailure(Throwable throwable, FetchEnd fetchEnd, int position) {
         swipeRefreshLayout.setRefreshing(false);
         if (fetchEnd == FetchEnd.MIDDLE && !notifications.get(position).isRight()) {
             Placeholder placeholder = notifications.get(position).asLeft();
@@ -1045,7 +1032,7 @@ public class NotificationsFragment extends SFragment implements
             this.statusView.setVisibility(View.VISIBLE);
             swipeRefreshLayout.setEnabled(false);
             this.showingError = true;
-            if (exception instanceof IOException) {
+            if (throwable instanceof IOException) {
                 this.statusView.setup(R.drawable.elephant_offline, R.string.error_network, __ -> {
                     this.progressBar.setVisibility(View.VISIBLE);
                     this.onRefresh();
@@ -1060,7 +1047,7 @@ public class NotificationsFragment extends SFragment implements
             }
             updateFilterVisibility();
         }
-        Log.e(TAG, "Fetch failure: " + exception.getMessage());
+        Log.e(TAG, "Fetch failure: " + throwable.getMessage());
 
         if (fetchEnd == FetchEnd.TOP) {
             topLoading = false;
@@ -1206,7 +1193,9 @@ public class NotificationsFragment extends SFragment implements
             if (isAdded()) {
                 adapter.notifyItemRangeInserted(position, count);
                 Context context = getContext();
-                if (position == 0 && context != null) {
+                // scroll up when new items at the top are loaded while being at the start
+                // https://github.com/tuskyapp/Tusky/pull/1905#issuecomment-677819724
+                if (position == 0 && context != null && adapter.getItemCount() != count) {
                     recyclerView.scrollBy(0, Utils.dpToPx(context, -30));
                 }
             }
@@ -1273,6 +1262,12 @@ public class NotificationsFragment extends SFragment implements
     @Override
     public void onResume() {
         super.onResume();
+        String rawAccountNotificationFilter = accountManager.getActiveAccount().getNotificationsFilter();
+        Set<Notification.Type> accountNotificationFilter = NotificationTypeConverterKt.deserialize(rawAccountNotificationFilter);
+        if (!notificationFilter.equals(accountNotificationFilter)) {
+            loadNotificationsFilter();
+            fullyRefreshWithProgressBar(true);
+        }
         startUpdateTimestamp();
     }
 

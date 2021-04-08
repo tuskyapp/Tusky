@@ -1,0 +1,8 @@
+Tusky v12.0
+
+- Amélioration de l'interface principale - vous pouvez maintenant déplacer les onglets vers le bas
+- Lorsque vous mettez un utilisateur en sourdine, vous pouvez désormais décider de désactiver ses notifications
+- Vous pouvez maintenant suivre autant de hashtags que vous le souhaitez dans un seul onglet hashtag
+- La description des médias s'affiche correctement quelque soit sa taille
+    
+Historique complet : https://github.com/tuskyapp/Tusky/releases

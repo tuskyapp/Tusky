@@ -17,7 +17,6 @@ package com.keylesspalace.tusky.components.compose.view;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
-import android.os.Bundle;
 import android.util.AttributeSet;
 import android.widget.Button;
 import android.widget.TextView;
@@ -26,13 +25,14 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.ContextCompat;
 
 import com.google.android.material.datepicker.CalendarConstraints;
 import com.google.android.material.datepicker.DateValidatorPointForward;
 import com.google.android.material.datepicker.MaterialDatePicker;
+import com.google.android.material.timepicker.MaterialTimePicker;
+import com.google.android.material.timepicker.TimeFormat;
 import com.keylesspalace.tusky.R;
-import com.keylesspalace.tusky.fragment.TimePickerFragment;
-import com.keylesspalace.tusky.util.ThemeUtils;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -43,6 +43,12 @@ import java.util.Locale;
 import java.util.TimeZone;
 
 public class ComposeScheduleView extends ConstraintLayout {
+
+    public interface OnTimeSetListener {
+        void onTimeSet(String time);
+    }
+
+    private OnTimeSetListener listener;
 
     private DateFormat dateFormat;
     private DateFormat timeFormat;
@@ -92,6 +98,10 @@ public class ComposeScheduleView extends ConstraintLayout {
         setEditIcons();
     }
 
+    public void setListener(OnTimeSetListener listener) {
+        this.listener = listener;
+    }
+
     private void setScheduledDateTime() {
         if (scheduleDateTime == null) {
             scheduledDateTimeView.setText("");
@@ -106,7 +116,7 @@ public class ComposeScheduleView extends ConstraintLayout {
     }
 
     private void setEditIcons() {
-        Drawable icon = ThemeUtils.getTintedDrawable(getContext(), R.drawable.ic_create_24dp, android.R.attr.textColorTertiary);
+        Drawable icon = ContextCompat.getDrawable(getContext(), R.drawable.ic_create_24dp);
         if (icon == null) {
             return;
         }
@@ -144,13 +154,20 @@ public class ComposeScheduleView extends ConstraintLayout {
     }
 
     private void openPickTimeDialog() {
-        TimePickerFragment picker = new TimePickerFragment();
+        MaterialTimePicker.Builder pickerBuilder = new MaterialTimePicker.Builder();
         if (scheduleDateTime != null) {
-            Bundle args = new Bundle();
-            args.putInt(TimePickerFragment.PICKER_TIME_HOUR, scheduleDateTime.get(Calendar.HOUR_OF_DAY));
-            args.putInt(TimePickerFragment.PICKER_TIME_MINUTE, scheduleDateTime.get(Calendar.MINUTE));
-            picker.setArguments(args);
+            pickerBuilder.setHour(scheduleDateTime.get(Calendar.HOUR_OF_DAY))
+                    .setMinute(scheduleDateTime.get(Calendar.MINUTE));
         }
+        if (android.text.format.DateFormat.is24HourFormat(this.getContext())) {
+            pickerBuilder.setTimeFormat(TimeFormat.CLOCK_24H);
+        } else {
+            pickerBuilder.setTimeFormat(TimeFormat.CLOCK_12H);
+        }
+
+        MaterialTimePicker picker = pickerBuilder.build();
+        picker.addOnPositiveButtonClickListener(v -> onTimeSet(picker.getHour(), picker.getMinute()));
+
         picker.show(((AppCompatActivity) getContext()).getSupportFragmentManager(), "time_picker");
     }
 
@@ -200,11 +217,14 @@ public class ComposeScheduleView extends ConstraintLayout {
         openPickTimeDialog();
     }
 
-    public void onTimeSet(int hourOfDay, int minute) {
+    private void onTimeSet(int hourOfDay, int minute) {
         initializeSuggestedTime();
         scheduleDateTime.set(Calendar.HOUR_OF_DAY, hourOfDay);
         scheduleDateTime.set(Calendar.MINUTE, minute);
         setScheduledDateTime();
+        if (listener != null) {
+            listener.onTimeSet(getTime());
+        }
     }
 
     public String getTime() {

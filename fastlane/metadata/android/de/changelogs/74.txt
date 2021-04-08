@@ -1,0 +1,8 @@
+Tusky v12.0
+
+- Verbessertes Interface - die Hauptnavigation kann jetzt auch unten angezeigt werden
+- Entscheide beim stummschalten eines Benutzers jetzt auch, ob du Benachrichtigungen stummschalten willst
+- Es ist jetzt möglich, beliebig vielen Hashtags in einem Hashtag-Tab zu folgen
+- Verbesserte Bildbeschreibungen, vorallem bei langen Texten
+
+Ganzer Changelog: https://github.com/tuskyapp/Tusky/releases

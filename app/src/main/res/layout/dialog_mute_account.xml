@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_height="match_parent"
+              android:layout_width="match_parent"
+              android:orientation="vertical"
+              android:paddingTop="20dp"
+              android:paddingLeft="20dp"
+              android:paddingRight="20dp">
+
+    <TextView android:id="@+id/warning"
+              android:layout_height="wrap_content"
+              android:layout_width="wrap_content"
+              android:paddingBottom="20dp"
+              tools:text="@string/dialog_mute_warning"/>
+
+    <CheckBox android:id="@+id/checkbox"
+              android:layout_height="wrap_content"
+              android:layout_width="wrap_content"
+              android:textColor="@color/textColorTertiary"
+              app:buttonTint="@color/compound_button_color"
+              android:text="@string/dialog_mute_hide_notifications"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingTop="20dp"
+        android:text="@string/label_duration" />
+
+    <Spinner
+        android:id="@+id/duration"
+        android:entries="@array/mute_duration_names"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+</LinearLayout>

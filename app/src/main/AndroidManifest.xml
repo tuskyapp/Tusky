@@ -36,7 +36,7 @@
         </activity>
         <activity
             android:name=".SavedTootActivity"
-            android:configChanges="orientation|screenSize|keyboardHidden"/>
+            android:configChanges="orientation|screenSize|keyboardHidden" />
         <activity
             android:name=".LoginActivity"
             android:windowSoftInputMode="adjustResize">
@@ -105,7 +105,7 @@
         <activity
             android:name=".components.compose.ComposeActivity"
             android:theme="@style/TuskyDialogActivityTheme"
-            android:windowSoftInputMode="stateVisible|adjustResize"/>
+            android:windowSoftInputMode="stateVisible|adjustResize" />
         <activity
             android:name=".ViewThreadActivity"
             android:configChanges="orientation|screenSize" />
@@ -117,7 +117,7 @@
             android:name=".AccountActivity"
             android:configChanges="orientation|screenSize|keyboardHidden|screenLayout|smallestScreenSize" />
         <activity android:name=".EditProfileActivity" />
-        <activity android:name=".PreferencesActivity" />
+        <activity android:name=".components.preference.PreferencesActivity" />
         <activity android:name=".StatusListActivity" />
         <activity android:name=".AccountListActivity" />
         <activity android:name=".AboutActivity" />
@@ -145,6 +145,8 @@
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
         <activity android:name=".components.instancemute.InstanceListActivity" />
         <activity android:name=".components.scheduled.ScheduledTootActivity" />
+        <activity android:name=".components.announcements.AnnouncementsActivity" />
+        <activity android:name=".components.drafts.DraftsActivity" />
 
         <receiver android:name=".receiver.NotificationClearBroadcastReceiver" />
         <receiver
@@ -180,7 +182,7 @@
             android:name="androidx.work.impl.WorkManagerInitializer"
             android:authorities="${applicationId}.workmanager-init"
             android:exported="false"
-            tools:node="remove"/>
+            tools:node="remove" />
     </application>
 
 </manifest>

@@ -173,7 +173,13 @@ class MediaUploaderImpl(
 
             val body = MultipartBody.Part.createFormData("file", filename, fileBody)
 
-            val uploadDisposable = mastodonApi.uploadMedia(body)
+            val description = if (media.description != null) {
+                MultipartBody.Part.createFormData("description", media.description)
+            } else {
+                null
+            }
+
+            val uploadDisposable = mastodonApi.uploadMedia(body, description)
                     .subscribe({ attachment ->
                         emitter.onNext(UploadEvent.FinishedEvent(attachment))
                         emitter.onComplete()

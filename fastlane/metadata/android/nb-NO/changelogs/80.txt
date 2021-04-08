@@ -1,0 +1,7 @@
+Tusky v14.0
+
+- Mulighet for å bli varslet dersom en bruker du følger publiserer en ny toot - trykk på bjelle-ikonet på profilen deres (krever Mastodon 3.3.0)
+- Ny og forbedret kladd-funksjonalitet.
+- Velværemodus: Kan brukes til å begrense utvalgt funksjonalitet i Tusky. Du kan aktivere velværemodus i innstillinger.
+- Støtte for animerte emojis. Dette er skrudd av som standard, men du kan skru det på i innstillinger.
+- Komplett endringelogg: https://github.com/tuskyapp/Tusky/releases

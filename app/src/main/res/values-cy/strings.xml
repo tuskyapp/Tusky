@@ -29,10 +29,10 @@
     <string name="title_followers">Dilynwyr</string>
     <string name="title_favourites">Ffefrynnau</string>
     <string name="title_mutes">Defnyddwyr mud</string>
-    <string name="title_blocks">Defnyddwyr wediu blocio</string>
+    <string name="title_blocks">Defnyddwyr wedi\'u blocio</string>
     <string name="title_follow_requests">Dilyn ceisiadau</string>
     <string name="title_edit_profile">Golygu\'ch Proffil</string>
-    <string name="title_saved_toot">Drafftiau</string>
+    <string name="title_drafts">Drafftiau</string>
     <string name="title_licenses">Trwyddedau</string>
     <string name="status_boosted_format">%s wedi\'u hybu</string>
     <string name="status_sensitive_media_title">Cynnwys sensitif</string>
@@ -137,7 +137,7 @@
     <string name="visibility_unlisted">Heb restru: Peidio â dangos ar ffrydiau cyhoeddus</string>
     <string name="visibility_private">Dilynwyr yn Unig: Postio i ddilynwyr yn unig</string>
     <string name="visibility_direct">Uniongyrchol: Postio i ddefnyddwyr y soniwyd amdanynt yn unig</string>
-    <string name="pref_title_edit_notification_settings">Golygu Hysbysiadau </string>
+    <string name="pref_title_edit_notification_settings">Hysbysiadau</string>
     <string name="pref_title_notifications_enabled">Hysbysiadau</string>
     <string name="pref_title_notification_alerts">Negeseuon pwysig</string>
     <string name="pref_title_notification_alert_sound">Cael hysbysiad sŵn </string>
@@ -190,7 +190,9 @@
     <string name="notification_summary_large">%1$s, %2$s, %3$s a %4$d eraill</string>
     <string name="notification_summary_medium">%1$s, %2$s, a %3$s</string>
     <string name="notification_summary_small">%1$s a %2$s</string>
-    <string name="notification_title_summary">%d rhyngweithiad newydd</string>
+    <plurals name="notification_title_summary">
+        <item quantity="other">%d rhyngweithiad newydd</item>
+    </plurals>
     <string name="description_account_locked">Cyfrif wedi\'i gloi </string>
     <string name="about_title_activity">Amdano</string>
     <string name="about_tusky_license">Mae Tusky yn feddalwedd ffynhonnell agored barn rydd.
@@ -290,4 +292,14 @@
     <string name="action_links">Cysylltiadau</string>
     <string name="title_links_dialog">Cysylltiadau</string>
     <string name="action_open_reblogged_by">Dangos hybiadau</string>
+    <string name="notification_follow_request_name">Dilyn ceisiadau</string>
+    <string name="action_bookmark">Nod tudalen</string>
+    <string name="action_edit">Golygu</string>
+    <string name="edit_poll">Golygu</string>
+    <string name="compose_shortcut_short_label">Creu</string>
+    <string name="description_visiblity_private">Dilynwyr</string>
+    <string name="description_visiblity_unlisted">Heb ei restru</string>
+    <string name="conversation_2_recipients">%1$s a %2$s</string>
+    <string name="filter_dialog_remove_button">Dileu</string>
+    <string name="description_visiblity_public">Cyhoeddus</string>
 </resources>

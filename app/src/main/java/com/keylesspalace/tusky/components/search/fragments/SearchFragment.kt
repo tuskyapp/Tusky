@@ -1,13 +1,10 @@
 package com.keylesspalace.tusky.components.search.fragments
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.Observer
 import androidx.paging.PagedList
 import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -20,20 +17,22 @@ import com.keylesspalace.tusky.BottomSheetActivity
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.ViewTagActivity
 import com.keylesspalace.tusky.components.search.SearchViewModel
+import com.keylesspalace.tusky.databinding.FragmentSearchBinding
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.interfaces.LinkListener
 import com.keylesspalace.tusky.util.*
-import kotlinx.android.synthetic.main.fragment_search.*
 import javax.inject.Inject
 
-abstract class SearchFragment<T> : Fragment(),
+abstract class SearchFragment<T> : Fragment(R.layout.fragment_search),
         LinkListener, Injectable, SwipeRefreshLayout.OnRefreshListener {
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
 
-    protected val viewModel: SearchViewModel by viewModels({ requireActivity() }) { viewModelFactory }
+    protected val viewModel: SearchViewModel by activityViewModels { viewModelFactory }
+
+    protected val binding by viewBinding(FragmentSearchBinding::bind)
 
     private var snackbarErrorRetry: Snackbar? = null
 
@@ -44,49 +43,40 @@ abstract class SearchFragment<T> : Fragment(),
     abstract val data: LiveData<PagedList<T>>
     protected lateinit var adapter: PagedListAdapter<T, *>
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_search, container, false)
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
         initAdapter()
         setupSwipeRefreshLayout()
         subscribeObservables()
     }
 
     private fun setupSwipeRefreshLayout() {
-        swipeRefreshLayout.setOnRefreshListener(this)
-        swipeRefreshLayout.setColorSchemeResources(R.color.tusky_blue)
-        swipeRefreshLayout.setProgressBackgroundColorSchemeColor(
-                ThemeUtils.getColor(swipeRefreshLayout.context, android.R.attr.colorBackground)
-        )
+        binding.swipeRefreshLayout.setOnRefreshListener(this)
+        binding.swipeRefreshLayout.setColorSchemeResources(R.color.tusky_blue)
     }
 
     private fun subscribeObservables() {
-        data.observe(viewLifecycleOwner, Observer {
+        data.observe(viewLifecycleOwner) {
             adapter.submitList(it)
-        })
+        }
 
-        networkStateRefresh.observe(viewLifecycleOwner, Observer {
+        networkStateRefresh.observe(viewLifecycleOwner) {
 
-            searchProgressBar.visible(it == NetworkState.LOADING)
+            binding.searchProgressBar.visible(it == NetworkState.LOADING)
 
             if (it.status == Status.FAILED) {
                 showError()
             }
             checkNoData()
+        }
 
-        })
+        networkState.observe(viewLifecycleOwner) {
 
-        networkState.observe(viewLifecycleOwner, Observer {
-
-            progressBarBottom.visible(it == NetworkState.LOADING)
+            binding.progressBarBottom.visible(it == NetworkState.LOADING)
 
             if (it.status == Status.FAILED) {
                 showError()
             }
-        })
+        }
     }
 
     private fun checkNoData() {
@@ -94,24 +84,25 @@ abstract class SearchFragment<T> : Fragment(),
     }
 
     private fun initAdapter() {
-        searchRecyclerView.addItemDecoration(DividerItemDecoration(searchRecyclerView.context, DividerItemDecoration.VERTICAL))
-        searchRecyclerView.layoutManager = LinearLayoutManager(searchRecyclerView.context)
+        binding.searchRecyclerView.addItemDecoration(DividerItemDecoration(binding.searchRecyclerView.context, DividerItemDecoration.VERTICAL))
+        binding.searchRecyclerView.layoutManager = LinearLayoutManager(binding.searchRecyclerView.context)
         adapter = createAdapter()
-        searchRecyclerView.adapter = adapter
-        searchRecyclerView.setHasFixedSize(true)
-        (searchRecyclerView.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
+        binding.searchRecyclerView.adapter = adapter
+        binding.searchRecyclerView.setHasFixedSize(true)
+        (binding.searchRecyclerView.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
     }
 
     private fun showNoData(isEmpty: Boolean) {
-        if (isEmpty && networkStateRefresh.value == NetworkState.LOADED)
-            searchNoResultsText.show()
-        else
-            searchNoResultsText.hide()
+        if (isEmpty && networkStateRefresh.value == NetworkState.LOADED) {
+            binding.searchNoResultsText.show()
+        } else {
+            binding.searchNoResultsText.hide()
+        }
     }
 
     private fun showError() {
         if (snackbarErrorRetry?.isShown != true) {
-            snackbarErrorRetry = Snackbar.make(layoutRoot, R.string.failed_search, Snackbar.LENGTH_INDEFINITE)
+            snackbarErrorRetry = Snackbar.make(binding.root, R.string.failed_search, Snackbar.LENGTH_INDEFINITE)
             snackbarErrorRetry?.setAction(R.string.action_retry) {
                 snackbarErrorRetry = null
                 viewModel.retryAllSearches()
@@ -134,8 +125,8 @@ abstract class SearchFragment<T> : Fragment(),
     override fun onRefresh() {
 
         // Dismissed here because the RecyclerView bottomProgressBar is shown as soon as the retry begins.
-        swipeRefreshLayout.post {
-            swipeRefreshLayout.isRefreshing = false
+        binding.swipeRefreshLayout.post {
+            binding.swipeRefreshLayout.isRefreshing = false
         }
         viewModel.retryAllSearches()
     }

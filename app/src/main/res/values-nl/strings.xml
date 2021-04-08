@@ -18,7 +18,7 @@
     <string name="error_media_download_permission">Er is toestemming nodig om media op te slaan.</string>
     <string name="error_media_upload_image_or_video">Afbeeldingen en video\'s kunnen niet allebei aan dezelfde toot worden toegevoegd.</string>
     <string name="error_media_upload_sending">Uploaden mislukt.</string>
-    <string name="error_sender_account_gone">Fout tijdens verzenden toot</string>
+    <string name="error_sender_account_gone">Fout tijdens verzenden toot,</string>
     <string name="title_home">Start</string>
     <string name="title_notifications">Meldingen</string>
     <string name="title_public_local">Lokaal</string>
@@ -36,7 +36,7 @@
     <string name="title_blocks">Geblokkeerde gebruikers</string>
     <string name="title_follow_requests">Volgverzoeken</string>
     <string name="title_edit_profile">Profiel bewerken</string>
-    <string name="title_saved_toot">Concepten</string>
+    <string name="title_drafts">Concepten</string>
     <string name="title_licenses">Licenties</string>
     <string name="status_username_format">\@%s</string>
     <string name="status_boosted_format">%s boostte</string>
@@ -61,7 +61,7 @@
     <string name="action_favourite">Als favoriet markeren</string>
     <string name="action_unfavourite">Favoriet verwijderen</string>
     <string name="action_more">Meer</string>
-    <string name="action_compose">Schrijven</string>
+    <string name="action_compose">Toot schrijven</string>
     <string name="action_login">Aanmelden</string>
     <string name="action_logout">Afmelden</string>
     <string name="action_logout_confirm">Ben je er zeker van dat je het account %1$s wil afmelden?</string>
@@ -121,7 +121,7 @@
     <string name="action_open_as">Als %s openen</string>
     <string name="action_share_as">Delen als …</string>
     <string name="send_status_link_to">Link van de toot delen</string>
-    <string name="send_status_content_to">Inhoud van de toot delen</string>
+    <string name="send_status_content_to">Inhoud van de toot delen met…</string>
     <string name="send_media_to">Media delen met …</string>
     <string name="confirmation_reported">Verzonden!</string>
     <string name="confirmation_unblocked">Gebruiker is gedeblokkeerd</string>
@@ -130,7 +130,7 @@
     <string name="status_sent_long">Reactie succesvol verzonden.</string>
     <string name="hint_domain">Welke Mastodonserver?</string>
     <string name="hint_compose">Wat wil je kwijt?</string>
-    <string name="hint_content_warning">Waarschuwingstekst</string>
+    <string name="hint_content_warning">Tekstwaarschuwing</string>
     <string name="hint_display_name">Weergavenaam</string>
     <string name="hint_note">Bio</string>
     <string name="hint_search">Zoeken</string>
@@ -139,16 +139,16 @@
     <string name="label_avatar">Avatar</string>
     <string name="label_header">Omslagfoto</string>
     <string name="link_whats_an_instance">Wat is een Mastodonserver?</string>
-    <string name="login_connection">Aan het verbinden</string>
+    <string name="login_connection">Aan het verbinden…</string>
     <string name="dialog_whats_an_instance">Het adres of domein van elke Mastodonserver kan hier worden ingevoerd, zoals mastodon.social, mastodon.nl, octodon.social en <a href="https://instances.social">nog veel meer!</a> 
 \n 
-\n Wanneer je nog geen account hebt, kun je de naam van de Mastodonserver waar jij je graag wil registeren invoeren, waarna je daar een account kunt aanmaken.
+\nWanneer je nog geen account hebt, kun je de naam van de Mastodonserver waar jij je graag wil registeren invoeren, waarna je daar een account kunt aanmaken. 
 \n 
-\n Een Mastodonserver (Engels: instance) is een computerserver waar jouw account zich bevindt (vergelijk het met een e-mailserver). Je kan eenvoudig mensen van andere servers volgen en met ze communiceren, alsof jullie met elkaar op dezelfde website zitten. 
+\nEen Mastodonserver (Engels: instance) is een computerserver waar jouw account zich bevindt (vergelijk het met een e-mailserver). Je kan eenvoudig mensen van andere servers volgen en met ze communiceren, alsof jullie met elkaar op dezelfde website zitten. 
 \n 
-\n Meer informatie kun je vinden op <a href="https://joinmastodon.org">joinmastodon.org</a>.</string>
+\n Meer informatie kun je vinden op <a href="https://joinmastodon.org">joinmastodon.org</a>. </string>
     <string name="dialog_title_finishing_media_upload">Uploaden media bijna voltooid</string>
-    <string name="dialog_message_uploading_media">Aan het uploaden</string>
+    <string name="dialog_message_uploading_media">Aan het uploaden…</string>
     <string name="dialog_download_image">Downloaden</string>
     <string name="dialog_message_cancel_follow_request">Het volgverzoek intrekken?</string>
     <string name="dialog_unfollow_warning">Dit account ontvolgen?</string>
@@ -215,7 +215,9 @@
     <string name="notification_summary_large">%1$s, %2$s, %3$s en %4$d anderen</string>
     <string name="notification_summary_medium">%1$s, %2$s en %3$s</string>
     <string name="notification_summary_small">%1$s en %2$s</string>
-    <string name="notification_title_summary">%d nieuwe interacties</string>
+    <plurals name="notification_title_summary">
+        <item quantity="other">%d nieuwe interacties</item>
+    </plurals>
     <string name="description_account_locked">Besloten account</string>
     <string name="about_title_activity">Over</string>
     <string name="about_tusky_version">Tusky %s</string>
@@ -259,7 +261,9 @@
     <string name="title_list_timeline">Tijdlijn lijst</string>
     <string name="compose_active_account_description">Aan het publiceren met account %1$s</string>
     <string name="error_failed_set_caption">Toevoegen van beschrijving mislukt</string>
-    <string name="hint_describe_for_visually_impaired">Omschrijf dit voor mensen met een visuele beperking\n(tekenlimiet is %d)</string>
+    <plurals name="hint_describe_for_visually_impaired">
+        <item quantity="other">Omschrijf dit voor mensen met een visuele beperking\n(tekenlimiet is %d)</item>
+    </plurals>
     <string name="action_set_caption">Beschrijving toevoegen</string>
     <string name="action_remove">Verwijderen</string>
     <string name="lock_account_label">Account besloten maken</string>
@@ -316,7 +320,9 @@
     <string name="conversation_1_recipients">%1$s</string>
     <string name="conversation_2_recipients">%1$s en %2$s</string>
     <string name="conversation_more_recipients">%1$s, %2$s en %3$d meer</string>
-    <string name="max_tab_number_reached">maximum van %1$d tabs bereikt</string>
+    <plurals name="max_tab_number_reached">
+        <item quantity="other">maximum van %1$d tabs bereikt</item>
+    </plurals>
     <string name="description_status_media">        Media: %s
     </string>
     <string name="description_status_cw">        Inhoudswaarschuwing: %s
@@ -368,10 +374,9 @@
     <string name="notification_clear_text">Weet je zeker dat je alle meldingen permanent wilt verwijderen\?</string>
     <string name="poll_info_format"> <!-- 15 votes • 1 hour left --> %1$s • %2$s</string>
     <plurals name="poll_info_votes">
-        <item quantity="one"></item>
-        <item quantity="other"></item>
+        <item quantity="one">%s stem</item>
+        <item quantity="other">%s stemmen</item>
     </plurals>
-    <string name="poll_info_time_relative">%s over</string>
     <string name="poll_info_time_absolute">eindigt op %s</string>
     <string name="poll_info_closed">gesloten</string>
     <string name="poll_vote">Stemmen</string>
@@ -388,23 +393,23 @@
     <string name="pref_title_animate_gif_avatars">GIF-avatars animeren</string>
     <string name="caption_notoemoji">Google\'s huidige emojiset</string>
     <string name="mute_domain_warning">Weet je zeker dat je alles van %s wilt blokkeren\? Je zult op alle openbare tijdlijnen en in jouw meldingen geen inhoud van dat domein zien. Jouw volgers van dat domein worden verwijderd.</string>
-    <string name="description_poll">Poll met keuzes: %1$s, %2$s, %3$s, %4$s; %5$s</string>
+    <string name="description_poll">Poll met keuzes: %s, %s, %s, %s; %s</string>
     <string name="compose_preview_image_description">Acties voor afbeelding %s</string>
     <plurals name="poll_timespan_days">
-        <item quantity="one"></item>
-        <item quantity="other"></item>
+        <item quantity="one">%d dag over</item>
+        <item quantity="other">%d dagen over</item>
     </plurals>
     <plurals name="poll_timespan_hours">
-        <item quantity="one"></item>
-        <item quantity="other"></item>
+        <item quantity="one">%d uur over</item>
+        <item quantity="other">%d uur over</item>
     </plurals>
     <plurals name="poll_timespan_minutes">
-        <item quantity="one"></item>
-        <item quantity="other"></item>
+        <item quantity="one">%d minuut over</item>
+        <item quantity="other">%d minuten over</item>
     </plurals>
     <plurals name="poll_timespan_seconds">
-        <item quantity="one">"%d  seconde"</item>
-        <item quantity="other">%d seconden</item>
+        <item quantity="one">%d seconde over</item>
+        <item quantity="other">%d seconden over</item>
     </plurals>
     <string name="button_continue">Doorgaan</string>
     <string name="button_back">Terug</string>
@@ -414,22 +419,22 @@
     <string name="report_remote_instance">Verder naar %s</string>
     <string name="failed_report">Het rapporteren is mislukt</string>
     <string name="failed_fetch_statuses">Het ophalen van toots is mislukt</string>
-    <string name="report_description_1">Deze rapportage wordt naar jouw servermoderator(en) gestuurd. Je kunt een uitleg geven over waarom je het account hieronder wilt rapporteren:</string>
+    <string name="report_description_1">Deze rapportage wordt naar jouw servermoderator(en) gestuurd. Je kunt hieronder een uitleg geven over waarom je het account wilt rapporteren:</string>
     <string name="report_description_remote_instance">Het account is van een andere server. Wil je ook een geanonimiseerde kopie van de rapportage daarnaartoe sturen\?</string>
     <string name="pref_title_show_notifications_filter">Meldingenfilter tonen</string>
     <string name="filter_dialog_whole_word">Heel woord</string>
     <string name="filter_dialog_whole_word_description">Wanneer het trefwoord of zinsdeel alfanumeriek is, wordt het alleen gefilterd wanneer het hele woord overeenkomt</string>
-    <string name="poll_duration_5_min">5 minuten</string>
-    <string name="poll_duration_30_min">30 minuten</string>
-    <string name="poll_duration_1_hour">1 uur</string>
-    <string name="poll_duration_6_hours">6 uur</string>
-    <string name="poll_duration_1_day">1 dag</string>
-    <string name="poll_duration_3_days">3 dagen</string>
-    <string name="poll_duration_7_days">7 dagen</string>
+    <string name="duration_5_min">5 minuten</string>
+    <string name="duration_30_min">30 minuten</string>
+    <string name="duration_1_hour">1 uur</string>
+    <string name="duration_6_hours">6 uur</string>
+    <string name="duration_1_day">1 dag</string>
+    <string name="duration_3_days">3 dagen</string>
+    <string name="duration_7_days">7 dagen</string>
     <string name="add_poll_choice">Voeg keuze toe</string>
     <string name="poll_allow_multiple_choices">Meerdere keuzes</string>
     <string name="poll_new_choice_hint">Keuze %d</string>
-    <string name="edit_poll">Bewerk</string>
+    <string name="edit_poll">Bewerken</string>
     <string name="error_audio_upload_size">Geluidsbestanden moeten minder dan 40MB zijn.</string>
     <string name="title_bookmarks">Bladwijzers</string>
     <string name="title_scheduled_toot">Ingeplande toots</string>
@@ -440,7 +445,6 @@
     <string name="action_access_scheduled_toot">Ingeplande toots</string>
     <string name="action_schedule_toot">Ingeplande toot</string>
     <string name="action_reset_schedule">Herstellen</string>
-    <string name="gradient_for_media">Wazige kleurovergangen voor verborgen media tonen</string>
     <string name="about_powered_by_tusky">Powered by Tusky</string>
     <string name="pref_title_alway_open_spoiler">Altijd toots met tekstwaarschuwingen uitklappen</string>
     <string name="description_status_bookmarked">Als bladwijzer toegevoegd</string>
@@ -450,7 +454,9 @@
     <string name="failed_search">Zoeken mislukt</string>
     <string name="create_poll_title">Poll</string>
     <string name="post_lookup_error_format">Fout tijdens opzoeken toot %s</string>
-    <string name="no_saved_status">Je hebt nog geen concepten.</string>
-    <string name="no_scheduled_status">Je hebt nog geen ingeplande toots.</string>
+    <string name="no_saved_status">Je hebt nog geen concepten</string>
+    <string name="no_scheduled_status">Je hebt nog geen ingeplande toots</string>
     <string name="warning_scheduling_interval">Om in te plannen moet je in Mastodon een minimum interval van 5 minuten gebruiken.</string>
+    <string name="notification_follow_request_name">Volgverzoeken</string>
+    <string name="hashtags">Hashtags</string>
 </resources>

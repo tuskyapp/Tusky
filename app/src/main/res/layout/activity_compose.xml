@@ -136,18 +136,21 @@
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/composeMediaPreviewBar"
-                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:scrollbars="none" />
+                android:scrollbars="none"
+                android:visibility="gone" />
 
             <com.keylesspalace.tusky.components.compose.view.PollPreviewView
                 android:id="@+id/pollPreview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:minWidth="@dimen/poll_preview_min_width"
                 android:visibility="gone"
                 tools:visibility="visible" />
+
         </LinearLayout>
+
     </androidx.core.widget.NestedScrollView>
 
     <LinearLayout
@@ -193,14 +196,12 @@
             android:textSize="?attr/status_text_medium" />
     </LinearLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
+    <com.keylesspalace.tusky.view.EmojiPicker
         android:id="@+id/emojiView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?attr/colorSurface"
-        android:clipToPadding="false"
         android:elevation="12dp"
-        android:orientation="vertical"
         android:paddingStart="16dp"
         android:paddingTop="8dp"
         android:paddingEnd="16dp"
@@ -241,9 +242,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
+        android:animateLayoutChanges="true"
         android:background="?attr/colorSurface"
         android:elevation="12dp"
-        android:animateLayoutChanges="true"
         android:gravity="center_vertical"
         android:paddingStart="8dp"
         android:paddingTop="4dp"
@@ -258,8 +259,8 @@
             android:layout_marginEnd="4dp"
             android:contentDescription="@string/action_add_media"
             android:padding="4dp"
-            android:tooltipText="@string/action_add_media"
-            app:srcCompat="@drawable/ic_attach_file_24dp" />
+            app:srcCompat="@drawable/ic_attach_file_24dp"
+            app:tooltipText="@string/action_add_media" />
 
         <ImageButton
             android:id="@+id/composeToggleVisibilityButton"
@@ -269,7 +270,8 @@
             android:layout_marginEnd="4dp"
             android:contentDescription="@string/action_toggle_visibility"
             android:padding="4dp"
-            android:tooltipText="@string/action_toggle_visibility"
+            android:tint="?android:attr/textColorTertiary"
+            app:tooltipText="@string/action_toggle_visibility"
             tools:src="@drawable/ic_public_24dp" />
 
         <ImageButton
@@ -280,7 +282,7 @@
             android:layout_marginEnd="4dp"
             android:contentDescription="@string/action_hide_media"
             android:padding="4dp"
-            android:tooltipText="@string/action_hide_media"
+            app:tooltipText="@string/action_hide_media"
             tools:src="@drawable/ic_eye_24dp" />
 
         <ImageButton
@@ -291,8 +293,8 @@
             android:layout_marginEnd="4dp"
             android:contentDescription="@string/action_content_warning"
             android:padding="4dp"
-            android:tooltipText="@string/action_content_warning"
-            app:srcCompat="@drawable/ic_cw_24dp" />
+            app:srcCompat="@drawable/ic_cw_24dp"
+            app:tooltipText="@string/action_content_warning" />
 
         <ImageButton
             android:id="@+id/composeEmojiButton"
@@ -302,8 +304,8 @@
             android:layout_marginEnd="4dp"
             android:contentDescription="@string/action_emoji_keyboard"
             android:padding="4dp"
-            android:tooltipText="@string/action_emoji_keyboard"
-            app:srcCompat="@drawable/ic_emoji_24dp" />
+            app:srcCompat="@drawable/ic_emoji_24dp"
+            app:tooltipText="@string/action_emoji_keyboard" />
 
         <ImageButton
             android:id="@+id/composeScheduleButton"
@@ -313,8 +315,8 @@
             android:layout_marginEnd="4dp"
             android:contentDescription="@string/action_schedule_toot"
             android:padding="4dp"
-            android:tooltipText="@string/action_schedule_toot"
-            app:srcCompat="@drawable/ic_access_time" />
+            app:srcCompat="@drawable/ic_access_time"
+            app:tooltipText="@string/action_schedule_toot" />
 
         <Space
             android:layout_width="0dp"
@@ -327,6 +329,7 @@
             android:layout_height="wrap_content"
             android:textColor="?android:textColorTertiary"
             android:textSize="?attr/status_text_medium"
+            android:textStyle="bold"
             tools:text="500" />
 
         <com.keylesspalace.tusky.components.compose.view.TootButton

@@ -15,35 +15,40 @@
 
 package com.keylesspalace.tusky
 
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
-import android.view.MenuItem
+import android.view.View
 import android.widget.FrameLayout
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.AppCompatEditText
+import androidx.core.view.isVisible
 import androidx.core.view.updatePadding
 import androidx.lifecycle.Lifecycle
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.transition.TransitionManager
 import at.connyduck.sparkbutton.helpers.Utils
+import com.google.android.material.transition.MaterialArcMotion
+import com.google.android.material.transition.MaterialContainerTransform
 import com.keylesspalace.tusky.adapter.ItemInteractionListener
 import com.keylesspalace.tusky.adapter.ListSelectionAdapter
 import com.keylesspalace.tusky.adapter.TabAdapter
 import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.appstore.MainTabsChangedEvent
+import com.keylesspalace.tusky.databinding.ActivityTabPreferenceBinding
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.onTextChanged
+import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.util.visible
 import com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider.from
 import com.uber.autodispose.autoDispose
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
-import kotlinx.android.synthetic.main.activity_tab_preference.*
-import kotlinx.android.synthetic.main.toolbar_basic.*
 import java.util.regex.Pattern
 import javax.inject.Inject
 
@@ -53,6 +58,8 @@ class TabPreferenceActivity : BaseActivity(), Injectable, ItemInteractionListene
     lateinit var mastodonApi: MastodonApi
     @Inject
     lateinit var eventHub: EventHub
+
+    private val binding by viewBinding(ActivityTabPreferenceBinding::inflate)
 
     private lateinit var currentTabs: MutableList<TabData>
     private lateinit var currentTabsAdapter: TabAdapter
@@ -68,9 +75,9 @@ class TabPreferenceActivity : BaseActivity(), Injectable, ItemInteractionListene
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        setContentView(R.layout.activity_tab_preference)
+        setContentView(binding.root)
 
-        setSupportActionBar(toolbar)
+        setSupportActionBar(binding.includedToolbar.toolbar)
 
         supportActionBar?.apply {
             setTitle(R.string.title_tab_preferences)
@@ -78,15 +85,15 @@ class TabPreferenceActivity : BaseActivity(), Injectable, ItemInteractionListene
             setDisplayShowHomeEnabled(true)
         }
 
-        currentTabs = (accountManager.activeAccount?.tabPreferences ?: emptyList()).toMutableList()
+        currentTabs = accountManager.activeAccount?.tabPreferences.orEmpty().toMutableList()
         currentTabsAdapter = TabAdapter(currentTabs, false, this, currentTabs.size <= MIN_TAB_COUNT)
-        currentTabsRecyclerView.adapter = currentTabsAdapter
-        currentTabsRecyclerView.layoutManager = LinearLayoutManager(this)
-        currentTabsRecyclerView.addItemDecoration(DividerItemDecoration(this, LinearLayoutManager.VERTICAL))
+        binding.currentTabsRecyclerView.adapter = currentTabsAdapter
+        binding.currentTabsRecyclerView.layoutManager = LinearLayoutManager(this)
+        binding.currentTabsRecyclerView.addItemDecoration(DividerItemDecoration(this, LinearLayoutManager.VERTICAL))
 
         addTabAdapter = TabAdapter(listOf(createTabDataFromId(DIRECT)), true, this)
-        addTabRecyclerView.adapter = addTabAdapter
-        addTabRecyclerView.layoutManager = LinearLayoutManager(this)
+        binding.addTabRecyclerView.adapter = addTabAdapter
+        binding.addTabRecyclerView.layoutManager = LinearLayoutManager(this)
 
         touchHelper = ItemTouchHelper(object : ItemTouchHelper.Callback() {
             override fun getMovementFlags(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder): Int {
@@ -127,21 +134,19 @@ class TabPreferenceActivity : BaseActivity(), Injectable, ItemInteractionListene
             }
         })
 
-        touchHelper.attachToRecyclerView(currentTabsRecyclerView)
+        touchHelper.attachToRecyclerView(binding.currentTabsRecyclerView)
 
-
-        actionButton.setOnClickListener {
-            actionButton.isExpanded = true
+        binding.actionButton.setOnClickListener {
+            toggleFab(true)
         }
 
-        scrim.setOnClickListener {
-            actionButton.isExpanded = false
+        binding.scrim.setOnClickListener {
+            toggleFab(false)
         }
 
-        maxTabsInfo.text = getString(R.string.max_tab_number_reached, MAX_TAB_COUNT)
+        binding.maxTabsInfo.text = resources.getQuantityString(R.plurals.max_tab_number_reached, MAX_TAB_COUNT, MAX_TAB_COUNT)
 
         updateAvailableTabs()
-
     }
 
     override fun onTabAdded(tab: TabData) {
@@ -150,7 +155,7 @@ class TabPreferenceActivity : BaseActivity(), Injectable, ItemInteractionListene
             return
         }
 
-        actionButton.isExpanded = false
+        toggleFab(false)
 
         if (tab.id == HASHTAG) {
             showAddHashtagDialog()
@@ -175,20 +180,36 @@ class TabPreferenceActivity : BaseActivity(), Injectable, ItemInteractionListene
         saveTabs()
     }
 
-    override fun onActionChipClicked(tab: TabData) {
-        showAddHashtagDialog(tab)
+    override fun onActionChipClicked(tab: TabData, tabPosition: Int) {
+        showAddHashtagDialog(tab, tabPosition)
     }
 
-    override fun onChipClicked(tab: TabData, chipPosition: Int) {
+    override fun onChipClicked(tab: TabData, tabPosition: Int, chipPosition: Int) {
         val newArguments = tab.arguments.filterIndexed { i, _ -> i != chipPosition }
         val newTab = tab.copy(arguments = newArguments)
-        val position = currentTabs.indexOf(tab)
-        currentTabs[position] = newTab
+        currentTabs[tabPosition] = newTab
+        saveTabs()
 
-        currentTabsAdapter.notifyItemChanged(position)
+        currentTabsAdapter.notifyItemChanged(tabPosition)
     }
 
-    private fun showAddHashtagDialog(tab: TabData? = null) {
+    private fun toggleFab(expand: Boolean) {
+        val transition = MaterialContainerTransform().apply {
+            startView = if (expand) binding.actionButton else binding.sheet
+            val endView: View = if (expand) binding.sheet else binding.actionButton
+            this.endView = endView
+            addTarget(endView)
+            scrimColor = Color.TRANSPARENT
+            setPathMotion(MaterialArcMotion())
+        }
+
+        TransitionManager.beginDelayedTransition(binding.root, transition)
+        binding.actionButton.visible(!expand)
+        binding.sheet.visible(expand)
+        binding.scrim.visible(expand)
+    }
+
+    private fun showAddHashtagDialog(tab: TabData? = null, tabPosition: Int = 0) {
 
         val frameLayout = FrameLayout(this)
         val padding = Utils.dpToPx(this, 8)
@@ -211,10 +232,9 @@ class TabPreferenceActivity : BaseActivity(), Injectable, ItemInteractionListene
                         currentTabsAdapter.notifyItemInserted(currentTabs.size - 1)
                     } else {
                         val newTab = tab.copy(arguments = tab.arguments + input)
-                        val position = currentTabs.indexOf(tab)
-                        currentTabs[position] = newTab
+                        currentTabs[tabPosition] = newTab
 
-                        currentTabsAdapter.notifyItemChanged(position)
+                        currentTabsAdapter.notifyItemChanged(tabPosition)
                     }
 
                     updateAvailableTabs()
@@ -292,7 +312,7 @@ class TabPreferenceActivity : BaseActivity(), Injectable, ItemInteractionListene
 
         addTabAdapter.updateData(addableTabs)
 
-        maxTabsInfo.visible(addableTabs.size == 0 || currentTabs.size >= MAX_TAB_COUNT)
+        binding.maxTabsInfo.visible(addableTabs.size == 0 || currentTabs.size >= MAX_TAB_COUNT)
         currentTabsAdapter.setRemoveButtonVisible(currentTabs.size > MIN_TAB_COUNT)
     }
 
@@ -319,19 +339,11 @@ class TabPreferenceActivity : BaseActivity(), Injectable, ItemInteractionListene
     }
 
     override fun onBackPressed() {
-        if (actionButton.isExpanded) {
-            actionButton.isExpanded = false
-        } else {
+        if (binding.actionButton.isVisible) {
             super.onBackPressed()
+        } else {
+            toggleFab(false)
         }
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == android.R.id.home) {
-            onBackPressed()
-            return true
-        }
-        return false
     }
 
     override fun onPause() {

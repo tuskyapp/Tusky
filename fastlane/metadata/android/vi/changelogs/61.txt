@@ -1,0 +1,7 @@
+Tusky 7.0
+
+- Hỗ trợ hiển thị bình chọn
+- Thêm nút mới trên tab
+- xóa và viết lại tút
+- Hiển thị danh tính Bot
+- Bản dịch mới: Norwegian Bokmål và Slovenian.

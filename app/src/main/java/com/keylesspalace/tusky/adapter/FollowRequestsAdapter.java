@@ -23,12 +23,13 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.keylesspalace.tusky.R;
+import com.keylesspalace.tusky.databinding.ItemFollowRequestBinding;
 import com.keylesspalace.tusky.interfaces.AccountActionListener;
 
 public class FollowRequestsAdapter extends AccountAdapter {
 
-    public FollowRequestsAdapter(AccountActionListener accountActionListener) {
-        super(accountActionListener);
+    public FollowRequestsAdapter(AccountActionListener accountActionListener, boolean animateAvatar, boolean animateEmojis) {
+        super(accountActionListener, animateAvatar, animateEmojis);
     }
 
     @NonNull
@@ -37,9 +38,8 @@ public class FollowRequestsAdapter extends AccountAdapter {
         switch (viewType) {
             default:
             case VIEW_TYPE_ACCOUNT: {
-                View view = LayoutInflater.from(parent.getContext())
-                        .inflate(R.layout.item_follow_request, parent, false);
-                return new FollowRequestViewHolder(view, false);
+                ItemFollowRequestBinding binding = ItemFollowRequestBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
+                return new FollowRequestViewHolder(binding, false);
             }
             case VIEW_TYPE_FOOTER: {
                 View view = LayoutInflater.from(parent.getContext())
@@ -53,8 +53,8 @@ public class FollowRequestsAdapter extends AccountAdapter {
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position) {
         if (getItemViewType(position) == VIEW_TYPE_ACCOUNT) {
             FollowRequestViewHolder holder = (FollowRequestViewHolder) viewHolder;
-            holder.setupWithAccount(accountList.get(position), null);
-            holder.setupActionListener(accountActionListener);
+            holder.setupWithAccount(accountList.get(position), animateAvatar, animateEmojis);
+            holder.setupActionListener(accountActionListener, accountList.get(position).getId());
         }
     }
 }

@@ -27,8 +27,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.interfaces.StatusActionListener;
+import com.keylesspalace.tusky.util.CustomEmojiHelper;
 import com.keylesspalace.tusky.util.SmartLengthInputFilter;
 import com.keylesspalace.tusky.util.StatusDisplayOptions;
+import com.keylesspalace.tusky.util.StringUtils;
 import com.keylesspalace.tusky.viewdata.StatusViewData;
 
 import at.connyduck.sparkbutton.helpers.Utils;
@@ -64,7 +66,7 @@ public class StatusViewHolder extends StatusBaseViewHolder {
             if (rebloggedByDisplayName == null) {
                 hideStatusInfo();
             } else {
-                setRebloggedByDisplayName(rebloggedByDisplayName);
+                setRebloggedByDisplayName(rebloggedByDisplayName, status, statusDisplayOptions);
                 statusInfo.setOnClickListener(v -> listener.onOpenReblog(getAdapterPosition()));
             }
 
@@ -73,10 +75,16 @@ public class StatusViewHolder extends StatusBaseViewHolder {
 
     }
 
-    private void setRebloggedByDisplayName(final String name) {
+    private void setRebloggedByDisplayName(final CharSequence name,
+                                           final StatusViewData.Concrete status,
+                                           final StatusDisplayOptions statusDisplayOptions) {
         Context context = statusInfo.getContext();
-        String boostedText = context.getString(R.string.status_boosted_format, name);
-        statusInfo.setText(boostedText);
+        CharSequence wrappedName = StringUtils.unicodeWrap(name);
+        CharSequence boostedText = context.getString(R.string.status_boosted_format, wrappedName);
+        CharSequence emojifiedText = CustomEmojiHelper.emojify(
+                boostedText, status.getRebloggedByAccountEmojis(), statusInfo, statusDisplayOptions.animateEmojis()
+        );
+        statusInfo.setText(emojifiedText);
         statusInfo.setVisibility(View.VISIBLE);
     }
 

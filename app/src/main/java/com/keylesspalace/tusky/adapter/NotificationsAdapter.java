@@ -35,10 +35,11 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
-import androidx.core.text.BidiFormatter;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.keylesspalace.tusky.R;
+import com.keylesspalace.tusky.databinding.ItemFollowRequestBinding;
 import com.keylesspalace.tusky.entity.Account;
 import com.keylesspalace.tusky.entity.Emoji;
 import com.keylesspalace.tusky.entity.Notification;
@@ -51,6 +52,7 @@ import com.keylesspalace.tusky.util.ImageLoadingHelper;
 import com.keylesspalace.tusky.util.LinkHelper;
 import com.keylesspalace.tusky.util.SmartLengthInputFilter;
 import com.keylesspalace.tusky.util.StatusDisplayOptions;
+import com.keylesspalace.tusky.util.StringUtils;
 import com.keylesspalace.tusky.util.TimestampUtils;
 import com.keylesspalace.tusky.viewdata.NotificationViewData;
 import com.keylesspalace.tusky.viewdata.StatusViewData;
@@ -86,7 +88,6 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
     private StatusActionListener statusListener;
     private NotificationActionListener notificationActionListener;
     private AccountActionListener accountActionListener;
-    private BidiFormatter bidiFormatter;
     private AdapterDataSource<NotificationViewData> dataSource;
 
     public NotificationsAdapter(String accountId,
@@ -102,7 +103,6 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
         this.statusListener = statusListener;
         this.notificationActionListener = notificationActionListener;
         this.accountActionListener = accountActionListener;
-        bidiFormatter = BidiFormatter.getInstance();
     }
 
     @NonNull
@@ -126,9 +126,8 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
                 return new FollowViewHolder(view, statusDisplayOptions);
             }
             case VIEW_TYPE_FOLLOW_REQUEST: {
-                View view = inflater
-                        .inflate(R.layout.item_follow_request_notification, parent, false);
-                return new FollowRequestViewHolder(view, true);
+                ItemFollowRequestBinding binding = ItemFollowRequestBinding.inflate(inflater, parent, false);
+                return new FollowRequestViewHolder(binding, true);
             }
             case VIEW_TYPE_PLACEHOLDER: {
                 View view = inflater
@@ -200,11 +199,15 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
                             holder.setUsername(statusViewData.getNickname());
                             holder.setCreatedAt(statusViewData.getCreatedAt());
 
-                            holder.setAvatars(concreteNotificaton.getStatusViewData().getAvatar(),
-                                    concreteNotificaton.getAccount().getAvatar());
+                            if(concreteNotificaton.getType() == Notification.Type.STATUS) {
+                                holder.setAvatar(statusViewData.getAvatar(), statusViewData.isBot());
+                            } else {
+                                holder.setAvatars(statusViewData.getAvatar(),
+                                        concreteNotificaton.getAccount().getAvatar());
+                            }
                         }
 
-                        holder.setMessage(concreteNotificaton, statusListener, bidiFormatter);
+                        holder.setMessage(concreteNotificaton, statusListener);
                         holder.setupButtons(notificationActionListener,
                                 concreteNotificaton.getAccount().getId(),
                                 concreteNotificaton.getId());
@@ -221,7 +224,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
                 case VIEW_TYPE_FOLLOW: {
                     if (payloadForHolder == null) {
                         FollowViewHolder holder = (FollowViewHolder) viewHolder;
-                        holder.setMessage(concreteNotificaton.getAccount(), bidiFormatter);
+                        holder.setMessage(concreteNotificaton.getAccount());
                         holder.setupButtons(notificationActionListener, concreteNotificaton.getAccount().getId());
                     }
                     break;
@@ -229,8 +232,8 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
                 case VIEW_TYPE_FOLLOW_REQUEST: {
                     if (payloadForHolder == null) {
                         FollowRequestViewHolder holder = (FollowRequestViewHolder) viewHolder;
-                        holder.setupWithAccount(concreteNotificaton.getAccount(), bidiFormatter);
-                        holder.setupActionListener(accountActionListener);
+                        holder.setupWithAccount(concreteNotificaton.getAccount(), statusDisplayOptions.animateAvatars(), statusDisplayOptions.animateEmojis());
+                        holder.setupActionListener(accountActionListener, concreteNotificaton.getAccount().getId());
                     }
                 }
                 default:
@@ -251,7 +254,9 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
                 statusDisplayOptions.showBotOverlay(),
                 statusDisplayOptions.useBlurhash(),
                 CardViewMode.NONE,
-                statusDisplayOptions.confirmReblogs()
+                statusDisplayOptions.confirmReblogs(),
+                statusDisplayOptions.hideStats(),
+                statusDisplayOptions.animateEmojis()
         );
     }
 
@@ -269,6 +274,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
                 case POLL: {
                     return VIEW_TYPE_STATUS;
                 }
+                case STATUS:
                 case FAVOURITE:
                 case REBLOG: {
                     return VIEW_TYPE_STATUS_NOTIFICATION;
@@ -325,19 +331,23 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
             this.statusDisplayOptions = statusDisplayOptions;
         }
 
-        void setMessage(Account account, BidiFormatter bidiFormatter) {
+        void setMessage(Account account) {
             Context context = message.getContext();
 
             String format = context.getString(R.string.notification_follow_format);
-            String wrappedDisplayName = bidiFormatter.unicodeWrap(account.getName());
+            String wrappedDisplayName = StringUtils.unicodeWrap(account.getName());
             String wholeMessage = String.format(format, wrappedDisplayName);
-            CharSequence emojifiedMessage = CustomEmojiHelper.emojify(wholeMessage, account.getEmojis(), message);
+            CharSequence emojifiedMessage = CustomEmojiHelper.emojify(
+                    wholeMessage, account.getEmojis(), message, statusDisplayOptions.animateEmojis()
+            );
             message.setText(emojifiedMessage);
 
             String username = context.getString(R.string.status_username_format, account.getUsername());
             usernameView.setText(username);
 
-            CharSequence emojifiedDisplayName = CustomEmojiHelper.emojify(wrappedDisplayName, account.getEmojis(), usernameView);
+            CharSequence emojifiedDisplayName = CustomEmojiHelper.emojify(
+                    wrappedDisplayName, account.getEmojis(), usernameView, statusDisplayOptions.animateEmojis()
+            );
 
             displayNameView.setText(emojifiedDisplayName);
 
@@ -350,7 +360,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
         }
 
         void setupButtons(final NotificationActionListener listener, final String accountId) {
-            avatar.setOnClickListener(v -> listener.onViewAccount(accountId));
+            itemView.setOnClickListener(v -> listener.onViewAccount(accountId));
         }
     }
 
@@ -375,6 +385,10 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
         private StatusViewData.Concrete statusViewData;
         private SimpleDateFormat shortSdf;
         private SimpleDateFormat longSdf;
+        
+        private int avatarRadius48dp;
+        private int avatarRadius36dp;
+        private int avatarRadius24dp;
 
         StatusNotificationViewHolder(View itemView, StatusDisplayOptions statusDisplayOptions) {
             super(itemView);
@@ -400,6 +414,10 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
             statusContent.setOnClickListener(this);
             shortSdf = new SimpleDateFormat("HH:mm:ss", Locale.getDefault());
             longSdf = new SimpleDateFormat("MM/dd HH:mm:ss", Locale.getDefault());
+            
+            this.avatarRadius48dp = itemView.getContext().getResources().getDimensionPixelSize(R.dimen.avatar_radius_48dp);
+            this.avatarRadius36dp = itemView.getContext().getResources().getDimensionPixelSize(R.dimen.avatar_radius_36dp);
+            this.avatarRadius24dp = itemView.getContext().getResources().getDimensionPixelSize(R.dimen.avatar_radius_24dp);
         }
 
         private void showNotificationContent(boolean show) {
@@ -412,7 +430,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
         }
 
         private void setDisplayName(String name, List<Emoji> emojis) {
-            CharSequence emojifiedName = CustomEmojiHelper.emojify(name, emojis, displayName);
+            CharSequence emojifiedName = CustomEmojiHelper.emojify(name, emojis, displayName, statusDisplayOptions.animateEmojis());
             displayName.setText(emojifiedName);
         }
 
@@ -459,10 +477,10 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
             }
         }
 
-        void setMessage(NotificationViewData.Concrete notificationViewData, LinkListener listener, BidiFormatter bidiFormatter) {
+        void setMessage(NotificationViewData.Concrete notificationViewData, LinkListener listener) {
             this.statusViewData = notificationViewData.getStatusViewData();
 
-            String displayName = bidiFormatter.unicodeWrap(notificationViewData.getAccount().getName());
+            String displayName = StringUtils.unicodeWrap(notificationViewData.getAccount().getName());
             Notification.Type type = notificationViewData.getType();
 
             Context context = message.getContext();
@@ -490,13 +508,25 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
                     format = context.getString(R.string.notification_reblog_format);
                     break;
                 }
+                case STATUS: {
+                    icon = ContextCompat.getDrawable(context, R.drawable.ic_home_24dp);
+                    if (icon != null) {
+                        icon.setColorFilter(ContextCompat.getColor(context,
+                                R.color.tusky_blue), PorterDuff.Mode.SRC_ATOP);
+                    }
+
+                    format = context.getString(R.string.notification_subscription_format);
+                    break;
+                }
             }
             message.setCompoundDrawablesWithIntrinsicBounds(icon, null, null, null);
             String wholeMessage = String.format(format, displayName);
             final SpannableStringBuilder str = new SpannableStringBuilder(wholeMessage);
             str.setSpan(new StyleSpan(Typeface.BOLD), 0, displayName.length(),
                     Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-            CharSequence emojifiedText = CustomEmojiHelper.emojify(str, notificationViewData.getAccount().getEmojis(), message);
+            CharSequence emojifiedText = CustomEmojiHelper.emojify(
+                    str, notificationViewData.getAccount().getEmojis(), message, statusDisplayOptions.animateEmojis()
+            );
             message.setText(emojifiedText);
 
             if (statusViewData != null) {
@@ -528,19 +558,34 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
             this.notificationId = notificationId;
         }
 
-        void setAvatars(@Nullable String statusAvatarUrl, @Nullable String notificationAvatarUrl) {
-
-            int statusAvatarRadius = statusAvatar.getContext().getResources()
-                    .getDimensionPixelSize(R.dimen.avatar_radius_36dp);
+        void setAvatar(@Nullable String statusAvatarUrl, boolean isBot) {
+            statusAvatar.setPaddingRelative(0, 0, 0, 0);
 
             ImageLoadingHelper.loadAvatar(statusAvatarUrl,
-                    statusAvatar, statusAvatarRadius, statusDisplayOptions.animateAvatars());
+                    statusAvatar, avatarRadius48dp, statusDisplayOptions.animateAvatars());
 
-            int notificationAvatarRadius = statusAvatar.getContext().getResources()
-                    .getDimensionPixelSize(R.dimen.avatar_radius_24dp);
+            if (statusDisplayOptions.showBotOverlay() && isBot) {
+                notificationAvatar.setVisibility(View.VISIBLE);
+                notificationAvatar.setBackgroundColor(0x50ffffff);
+                Glide.with(notificationAvatar)
+                        .load(R.drawable.ic_bot_24dp)
+                        .into(notificationAvatar);
 
+            } else {
+                notificationAvatar.setVisibility(View.GONE);
+            }
+        }
+
+        void setAvatars(@Nullable String statusAvatarUrl, @Nullable String notificationAvatarUrl) {
+            int padding = Utils.dpToPx(statusAvatar.getContext(), 12);
+            statusAvatar.setPaddingRelative(0, 0, padding, padding);
+
+            ImageLoadingHelper.loadAvatar(statusAvatarUrl,
+                    statusAvatar, avatarRadius36dp, statusDisplayOptions.animateAvatars());
+
+            notificationAvatar.setVisibility(View.VISIBLE);
             ImageLoadingHelper.loadAvatar(notificationAvatarUrl, notificationAvatar,
-                    notificationAvatarRadius, statusDisplayOptions.animateAvatars());
+                avatarRadius24dp, statusDisplayOptions.animateAvatars());
         }
 
         @Override
@@ -592,11 +637,17 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
                 statusContent.setFilters(NO_INPUT_FILTER);
             }
 
-            CharSequence emojifiedText = CustomEmojiHelper.emojify(content, emojis, statusContent);
+            CharSequence emojifiedText = CustomEmojiHelper.emojify(
+                    content, emojis, statusContent, statusDisplayOptions.animateEmojis()
+            );
             LinkHelper.setClickableText(statusContent, emojifiedText, statusViewData.getMentions(), listener);
 
-            CharSequence emojifiedContentWarning =
-                    CustomEmojiHelper.emojify(statusViewData.getSpoilerText(), statusViewData.getStatusEmojis(), contentWarningDescriptionTextView);
+            CharSequence emojifiedContentWarning = CustomEmojiHelper.emojify(
+                    statusViewData.getSpoilerText(),
+                    statusViewData.getStatusEmojis(),
+                    contentWarningDescriptionTextView,
+                    statusDisplayOptions.animateEmojis()
+            );
             contentWarningDescriptionTextView.setText(emojifiedContentWarning);
         }
 

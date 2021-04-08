@@ -21,7 +21,6 @@ import com.keylesspalace.tusky.entity.Status
 import java.util.*
 import javax.inject.Inject
 import javax.inject.Singleton
-import kotlin.Comparator
 
 /**
  * This class caches the account database and handles all account related operations
@@ -36,7 +35,8 @@ class AccountManager @Inject constructor(db: AppDatabase) {
     @Volatile
     var activeAccount: AccountEntity? = null
 
-    private var accounts: MutableList<AccountEntity> = mutableListOf()
+    var accounts: MutableList<AccountEntity> = mutableListOf()
+        private set
     private val accountDao: AccountDao = db.accountDao()
 
     init {
@@ -63,7 +63,7 @@ class AccountManager @Inject constructor(db: AppDatabase) {
             accountDao.insertOrReplace(it)
         }
 
-        val maxAccountId = accounts.maxBy { it.id }?.id ?: 0
+        val maxAccountId = accounts.maxByOrNull { it.id }?.id ?: 0
         val newAccountId = maxAccountId + 1
         activeAccount = AccountEntity(id = newAccountId, domain = domain.toLowerCase(Locale.ROOT), accessToken = accessToken, isActive = true)
 
@@ -166,13 +166,13 @@ class AccountManager @Inject constructor(db: AppDatabase) {
      */
     fun getAllAccountsOrderedByActive(): List<AccountEntity> {
         val accountsCopy = accounts.toMutableList()
-        accountsCopy.sortWith(Comparator { l, r ->
+        accountsCopy.sortWith { l, r ->
             when {
                 l.isActive && !r.isActive -> -1
                 r.isActive && !l.isActive -> 1
                 else -> 0
             }
-        })
+        }
 
         return accountsCopy
     }

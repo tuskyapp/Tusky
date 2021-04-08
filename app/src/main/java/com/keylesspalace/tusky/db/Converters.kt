@@ -24,10 +24,7 @@ import com.google.gson.reflect.TypeToken
 import com.keylesspalace.tusky.TabData
 import com.keylesspalace.tusky.components.conversation.ConversationAccountEntity
 import com.keylesspalace.tusky.createTabDataFromId
-import com.keylesspalace.tusky.entity.Attachment
-import com.keylesspalace.tusky.entity.Emoji
-import com.keylesspalace.tusky.entity.Poll
-import com.keylesspalace.tusky.entity.Status
+import com.keylesspalace.tusky.entity.*
 import com.keylesspalace.tusky.json.SpannedTypeAdapter
 import com.keylesspalace.tusky.util.trimTrailingWhitespace
 import java.net.URLDecoder
@@ -151,4 +148,23 @@ class Converters {
         return gson.fromJson(pollJson, Poll::class.java)
     }
 
+    @TypeConverter
+    fun newPollToJson(newPoll: NewPoll?): String? {
+        return gson.toJson(newPoll)
+    }
+
+    @TypeConverter
+    fun jsonToNewPoll(newPollJson: String?): NewPoll? {
+        return gson.fromJson(newPollJson, NewPoll::class.java)
+    }
+
+    @TypeConverter
+    fun draftAttachmentListToJson(draftAttachments: List<DraftAttachment>?): String? {
+        return gson.toJson(draftAttachments)
+    }
+
+    @TypeConverter
+    fun jsonToDraftAttachmentList(draftAttachmentListJson: String?): List<DraftAttachment>? {
+        return gson.fromJson(draftAttachmentListJson, object : TypeToken<List<DraftAttachment>>() {}.type)
+    }
 }

@@ -22,7 +22,6 @@ public class AccountViewHolder extends RecyclerView.ViewHolder {
     private ImageView avatarInset;
     private String accountId;
     private boolean showBotOverlay;
-    private boolean animateAvatar;
 
     public AccountViewHolder(View itemView) {
         super(itemView);
@@ -32,15 +31,14 @@ public class AccountViewHolder extends RecyclerView.ViewHolder {
         avatarInset = itemView.findViewById(R.id.account_avatar_inset);
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(itemView.getContext());
         showBotOverlay = sharedPrefs.getBoolean("showBotOverlay", true);
-        animateAvatar = sharedPrefs.getBoolean("animateGifAvatars", false);
     }
 
-    public void setupWithAccount(Account account) {
+    public void setupWithAccount(Account account, boolean animateAvatar, boolean animateEmojis) {
         accountId = account.getId();
         String format = username.getContext().getString(R.string.status_username_format);
         String formattedUsername = String.format(format, account.getUsername());
         username.setText(formattedUsername);
-        CharSequence emojifiedName = CustomEmojiHelper.emojify(account.getName(), account.getEmojis(), displayName);
+        CharSequence emojifiedName = CustomEmojiHelper.emojify(account.getName(), account.getEmojis(), displayName, animateEmojis);
         displayName.setText(emojifiedName);
         int avatarRadius = avatar.getContext().getResources()
                 .getDimensionPixelSize(R.dimen.avatar_radius_48dp);

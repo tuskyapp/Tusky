@@ -1,0 +1,9 @@
+Tusky v9.0
+
+- Tạo bình chọn
+- Cải thiện tìm kiếm
+- Cài đặt mở rộng nội dung nhạy cảm
+- Thêm bo viền cho ảnh đại diện
+- Thêm tính năng báo cáo
+- Fix cleartext connections trên Android 6+
+- Cải thiện và sửa lỗi

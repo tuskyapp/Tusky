@@ -6,7 +6,9 @@
     android:layout_height="match_parent"
     tools:context="com.keylesspalace.tusky.EditProfileActivity">
 
-    <include layout="@layout/toolbar_basic" />
+    <include
+        android:id="@+id/includedToolbar"
+        layout="@layout/toolbar_basic" />
 
     <androidx.core.widget.NestedScrollView
         android:id="@+id/scrollView"

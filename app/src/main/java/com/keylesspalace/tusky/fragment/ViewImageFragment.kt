@@ -22,23 +22,22 @@ import android.content.Context
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.TextView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import com.github.chrisbanes.photoview.PhotoViewAttacher
-import com.keylesspalace.tusky.R
+import com.keylesspalace.tusky.ViewMediaActivity
+import com.keylesspalace.tusky.databinding.FragmentViewImageBinding
 import com.keylesspalace.tusky.entity.Attachment
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.visible
 import io.reactivex.subjects.BehaviorSubject
-import kotlinx.android.synthetic.main.activity_view_media.*
-import kotlinx.android.synthetic.main.fragment_view_image.*
 import kotlin.math.abs
 
 class ViewImageFragment : ViewMediaFragment() {
@@ -48,26 +47,71 @@ class ViewImageFragment : ViewMediaFragment() {
         fun onPhotoTap()
     }
 
+    private var _binding: FragmentViewImageBinding? = null
+    private val binding get() = _binding!!
+
     private lateinit var attacher: PhotoViewAttacher
     private lateinit var photoActionsListener: PhotoActionsListener
     private lateinit var toolbar: View
     private var transition = BehaviorSubject.create<Unit>()
     private var shouldStartTransition = false
+
     // Volatile: Image requests happen on background thread and we want to see updates to it
     // immediately on another thread. Atomic is an overkill for such thing.
     @Volatile
     private var startedTransition = false
 
-    override lateinit var descriptionView: TextView
     override fun onAttach(context: Context) {
         super.onAttach(context)
         photoActionsListener = context as PhotoActionsListener
     }
 
-    override fun setupMediaView(url: String, previewUrl: String?) {
-        descriptionView = mediaDescription
-        photoView.transitionName = url
-        attacher = PhotoViewAttacher(photoView).apply {
+
+    override fun setupMediaView(
+            url: String,
+            previewUrl: String?,
+            description: String?,
+            showingDescription: Boolean
+    ) {
+        binding.photoView.transitionName = url
+        binding.mediaDescription.text = description
+        binding.captionSheet.visible(showingDescription)
+
+        startedTransition = false
+        loadImageFromNetwork(url, previewUrl, binding.photoView)
+    }
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        toolbar = (requireActivity() as ViewMediaActivity).toolbar
+        this.transition = BehaviorSubject.create()
+        _binding = FragmentViewImageBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    @SuppressLint("ClickableViewAccessibility")
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        val arguments = this.requireArguments()
+        val attachment = arguments.getParcelable<Attachment>(ARG_ATTACHMENT)
+        this.shouldStartTransition = arguments.getBoolean(ARG_START_POSTPONED_TRANSITION)
+        val url: String?
+        var description: String? = null
+
+        if (attachment != null) {
+            url = attachment.url
+            description = attachment.description
+        } else {
+            url = arguments.getString(ARG_SINGLE_IMAGE_URL)
+            if (url == null) {
+                throw IllegalArgumentException("attachment or image url has to be set")
+            }
+        }
+
+        attacher = PhotoViewAttacher(binding.photoView).apply {
+            // This prevents conflicts with ViewPager
+            setAllowParentInterceptOnEdge(true)
+
             // Clicking outside the photo closes the viewer.
             setOnOutsidePhotoTapListener { photoActionsListener.onDismiss() }
             setOnClickListener { onMediaTap() }
@@ -84,36 +128,47 @@ class ViewImageFragment : ViewMediaFragment() {
             }
         }
 
-        startedTransition = false
-        loadImageFromNetwork(url, previewUrl, photoView)
-    }
+        var lastY = 0f
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        toolbar = requireActivity().toolbar
-        this.transition = BehaviorSubject.create()
-        return inflater.inflate(R.layout.fragment_view_image, container, false)
-    }
+        binding.photoView.setOnTouchListener { v, event ->
+            // This part is for scaling/translating on vertical move.
+            // We use raw coordinates to get the correct ones during scaling
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        val arguments = this.requireArguments()
-        val attachment = arguments.getParcelable<Attachment>(ARG_ATTACHMENT)
-        this.shouldStartTransition = arguments.getBoolean(ARG_START_POSTPONED_TRANSITION)
-        val url: String?
-        var description: String? = null
-
-        if (attachment != null) {
-            url = attachment.url
-            description = attachment.description
-        } else {
-            url = arguments.getString(ARG_AVATAR_URL)
-            if (url == null) {
-                throw IllegalArgumentException("attachment or avatar url has to be set")
+            if (event.action == MotionEvent.ACTION_DOWN) {
+                lastY = event.rawY
+            } else if (event.pointerCount == 1
+                    && attacher.scale == 1f
+                    && event.action == MotionEvent.ACTION_MOVE
+            ) {
+                val diff = event.rawY - lastY
+                // This code is to prevent transformations during page scrolling
+                // If we are already translating or we reached the threshold, then transform.
+                if (binding.photoView.translationY != 0f || abs(diff) > 40) {
+                    binding.photoView.translationY += (diff)
+                    val scale = (-abs(binding.photoView.translationY) / 720 + 1).coerceAtLeast(0.5f)
+                    binding.photoView.scaleY = scale
+                    binding.photoView.scaleX = scale
+                    lastY = event.rawY
+                    return@setOnTouchListener true
+                }
+            } else if (event.action == MotionEvent.ACTION_UP || event.action == MotionEvent.ACTION_CANCEL) {
+                onGestureEnd()
             }
+            attacher.onTouch(v, event)
         }
 
         finalizeViewSetup(url, attachment?.previewUrl, description)
+    }
+
+    private fun onGestureEnd() {
+        if (_binding == null) {
+            return
+        }
+        if (abs(binding.photoView.translationY) > 180) {
+            photoActionsListener.onDismiss()
+        } else {
+            binding.photoView.animate().translationY(0f).scaleX(1f).scaleY(1f).start()
+        }
     }
 
     private fun onMediaTap() {
@@ -121,15 +176,17 @@ class ViewImageFragment : ViewMediaFragment() {
     }
 
     override fun onToolbarVisibilityChange(visible: Boolean) {
-        if (photoView == null || !userVisibleHint) {
+        if (_binding == null || !userVisibleHint ) {
             return
         }
         isDescriptionVisible = showingDescription && visible
         val alpha = if (isDescriptionVisible) 1.0f else 0.0f
-        descriptionView.animate().alpha(alpha)
+        binding.captionSheet.animate().alpha(alpha)
                 .setListener(object : AnimatorListenerAdapter() {
                     override fun onAnimationEnd(animation: Animator) {
-                        descriptionView.visible(isDescriptionVisible)
+                        if (_binding != null) {
+                            binding.captionSheet.visible(isDescriptionVisible)
+                        }
                         animation.removeListener(this)
                     }
                 })
@@ -137,8 +194,9 @@ class ViewImageFragment : ViewMediaFragment() {
     }
 
     override fun onDestroyView() {
-        Glide.with(this).clear(photoView)
+        Glide.with(this).clear(binding.photoView)
         transition.onComplete()
+        _binding = null
         super.onDestroyView()
     }
 
@@ -201,7 +259,7 @@ class ViewImageFragment : ViewMediaFragment() {
                 photoActionsListener.onBringUp()
             }
             // Hide progress bar only on fail request from internet
-            if (!isCacheRequest) progressBar?.hide()
+            if (!isCacheRequest && _binding != null) binding.progressBar.hide()
             // We don't want to overwrite preview with null when main image fails to load
             return !isCacheRequest
         }
@@ -209,14 +267,16 @@ class ViewImageFragment : ViewMediaFragment() {
         @SuppressLint("CheckResult")
         override fun onResourceReady(resource: Drawable, model: Any, target: Target<Drawable>,
                                      dataSource: DataSource, isFirstResource: Boolean): Boolean {
-            progressBar?.hide() // Always hide the progress bar on success
+            if (_binding != null) {
+                binding.progressBar.hide() // Always hide the progress bar on success
+            }
 
             if (!startedTransition || !shouldStartTransition) {
                 // Set this right away so that we don't have to concurrent post() requests
                 startedTransition = true
                 // post() because load() replaces image with null. Sometimes after we set
                 // the thumbnail.
-                photoView.post {
+                binding.photoView.post {
                     target.onResourceReady(resource, null)
                     if (shouldStartTransition) photoActionsListener.onBringUp()
                 }
