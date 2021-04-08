@@ -72,13 +72,13 @@ class StatusDetailedViewHolder extends StatusBaseViewHolder {
         }
 
         reblogs.setOnClickListener(v -> {
-            int position = getAdapterPosition();
+            int position = getBindingAdapterPosition();
             if (position != RecyclerView.NO_POSITION) {
                 listener.onShowReblogs(position);
             }
         });
         favourites.setOnClickListener(v -> {
-            int position = getAdapterPosition();
+            int position = getBindingAdapterPosition();
             if (position != RecyclerView.NO_POSITION) {
                 listener.onShowFavs(position);
             }

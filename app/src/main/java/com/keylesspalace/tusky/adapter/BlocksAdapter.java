@@ -95,7 +95,7 @@ public class BlocksAdapter extends AccountAdapter {
 
         void setupActionListener(final AccountActionListener listener) {
             unblock.setOnClickListener(v -> {
-                int position = getAdapterPosition();
+                int position = getBindingAdapterPosition();
                 if (position != RecyclerView.NO_POSITION) {
                     listener.onBlock(false, id, position);
                 }

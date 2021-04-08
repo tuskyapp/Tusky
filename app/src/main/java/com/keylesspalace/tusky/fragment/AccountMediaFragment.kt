@@ -320,7 +320,7 @@ class AccountMediaFragment : Fragment(R.layout.fragment_timeline), RefreshableFr
 
             // saving some allocations
             override fun onClick(v: View?) {
-                viewMedia(items, adapterPosition, imageView)
+                viewMedia(items, bindingAdapterPosition, imageView)
             }
         }
     }

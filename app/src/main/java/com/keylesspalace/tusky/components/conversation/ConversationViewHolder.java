@@ -147,7 +147,7 @@ public class ConversationViewHolder extends StatusBaseViewHolder {
         /* input filter for TextViews have to be set before text */
         if (collapsible && (expanded || TextUtils.isEmpty(spoilerText))) {
             contentCollapseButton.setOnClickListener(view -> {
-                int position = getAdapterPosition();
+                int position = getBindingAdapterPosition();
                 if (position != RecyclerView.NO_POSITION)
                     listener.onContentCollapsedChange(!collapsed, position);
             });

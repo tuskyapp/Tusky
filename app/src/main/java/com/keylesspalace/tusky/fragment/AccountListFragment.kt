@@ -21,9 +21,9 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.preference.PreferenceManager
+import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.MergeAdapter
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
 import com.google.android.material.snackbar.Snackbar
@@ -97,7 +97,7 @@ class AccountListFragment : Fragment(R.layout.fragment_account_list), AccountAct
             Type.FOLLOW_REQUESTS -> {
                 val headerAdapter = FollowRequestsHeaderAdapter(accountManager.activeAccount!!.domain, arguments?.get(ARG_ACCOUNT_LOCKED) == true)
                 val followRequestsAdapter = FollowRequestsAdapter(this, animateAvatar, animateEmojis)
-                binding.recyclerView.adapter = MergeAdapter(headerAdapter, followRequestsAdapter)
+                binding.recyclerView.adapter = ConcatAdapter(headerAdapter, followRequestsAdapter)
                 followRequestsAdapter
             }
             else -> FollowAdapter(this, animateAvatar, animateEmojis)

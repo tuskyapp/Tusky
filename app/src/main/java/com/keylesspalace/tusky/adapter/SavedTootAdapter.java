@@ -113,9 +113,9 @@ public class SavedTootAdapter extends RecyclerView.Adapter {
 
                 suppr.setOnClickListener(v -> {
                     v.setEnabled(false);
-                    handler.delete(getAdapterPosition(), item);
+                    handler.delete(getBindingAdapterPosition(), item);
                 });
-                view.setOnClickListener(v -> handler.click(getAdapterPosition(), item));
+                view.setOnClickListener(v -> handler.click(getBindingAdapterPosition(), item));
             }
         }
     }

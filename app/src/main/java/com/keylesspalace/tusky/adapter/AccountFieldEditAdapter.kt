@@ -65,7 +65,7 @@ class AccountFieldEditAdapter : RecyclerView.Adapter<BindingHolder<ItemEditField
 
         holder.binding.accountFieldName.addTextChangedListener(object: TextWatcher {
             override fun afterTextChanged(newText: Editable) {
-                fieldData[holder.adapterPosition].first = newText.toString()
+                fieldData[holder.bindingAdapterPosition].first = newText.toString()
             }
 
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
@@ -75,7 +75,7 @@ class AccountFieldEditAdapter : RecyclerView.Adapter<BindingHolder<ItemEditField
 
         holder.binding.accountFieldValue.addTextChangedListener(object: TextWatcher {
             override fun afterTextChanged(newText: Editable) {
-                fieldData[holder.adapterPosition].second = newText.toString()
+                fieldData[holder.bindingAdapterPosition].second = newText.toString()
             }
 
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}

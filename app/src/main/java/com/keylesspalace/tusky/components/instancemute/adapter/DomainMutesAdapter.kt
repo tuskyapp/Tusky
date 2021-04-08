@@ -24,7 +24,7 @@ class DomainMutesAdapter(
 
         holder.binding.mutedDomain.text = instance
         holder.binding.mutedDomainUnmute.setOnClickListener {
-            actionListener.mute(false, instance, holder.adapterPosition)
+            actionListener.mute(false, instance, holder.bindingAdapterPosition)
         }
     }
 
