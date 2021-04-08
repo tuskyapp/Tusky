@@ -33,7 +33,7 @@ class FollowRequestsHeaderAdapter(private val instanceName: String, private val 
         viewHolder.textView.text = viewHolder.textView.context.getString(R.string.follow_requests_info, instanceName)
     }
 
-    override fun getItemCount() = if (accountLocked) 1 else 0
+    override fun getItemCount() = if (accountLocked) 0 else 1
 
 }
 
