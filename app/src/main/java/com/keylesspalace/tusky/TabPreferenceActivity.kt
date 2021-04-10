@@ -109,17 +109,17 @@ class TabPreferenceActivity : BaseActivity(), Injectable, ItemInteractionListene
             }
 
             override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder): Boolean {
-                val temp = currentTabs[viewHolder.adapterPosition]
-                currentTabs[viewHolder.adapterPosition] = currentTabs[target.adapterPosition]
-                currentTabs[target.adapterPosition] = temp
+                val temp = currentTabs[viewHolder.bindingAdapterPosition]
+                currentTabs[viewHolder.bindingAdapterPosition] = currentTabs[target.bindingAdapterPosition]
+                currentTabs[target.bindingAdapterPosition] = temp
 
-                currentTabsAdapter.notifyItemMoved(viewHolder.adapterPosition, target.adapterPosition)
+                currentTabsAdapter.notifyItemMoved(viewHolder.bindingAdapterPosition, target.bindingAdapterPosition)
                 saveTabs()
                 return true
             }
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                onTabRemoved(viewHolder.adapterPosition)
+                onTabRemoved(viewHolder.bindingAdapterPosition)
             }
 
             override fun onSelectedChanged(viewHolder: RecyclerView.ViewHolder?, actionState: Int) {

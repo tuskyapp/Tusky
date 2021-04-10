@@ -100,7 +100,7 @@ class PollAdapter: RecyclerView.Adapter<BindingHolder<ItemPollBinding>>() {
                 radioButton.isChecked = option.selected
                 radioButton.setOnClickListener {
                     pollOptions.forEachIndexed { index, pollOption ->
-                        pollOption.selected = index == holder.adapterPosition
+                        pollOption.selected = index == holder.bindingAdapterPosition
                         notifyItemChanged(index)
                     }
                 }
@@ -110,7 +110,7 @@ class PollAdapter: RecyclerView.Adapter<BindingHolder<ItemPollBinding>>() {
                 checkBox.text = EmojiCompat.get().process(emojifiedPollOptionText)
                 checkBox.isChecked = option.selected
                 checkBox.setOnCheckedChangeListener { _, isChecked ->
-                    pollOptions[holder.adapterPosition].selected = isChecked
+                    pollOptions[holder.bindingAdapterPosition].selected = isChecked
                 }
             }
         }

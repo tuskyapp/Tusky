@@ -103,7 +103,7 @@ class MediaPreviewAdapter(
             progressImageView.layoutParams = layoutParams
             progressImageView.scaleType = ImageView.ScaleType.CENTER_CROP
             progressImageView.setOnClickListener {
-                onMediaClick(adapterPosition, progressImageView)
+                onMediaClick(bindingAdapterPosition, progressImageView)
             }
         }
     }

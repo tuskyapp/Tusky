@@ -67,7 +67,7 @@ public class StatusViewHolder extends StatusBaseViewHolder {
                 hideStatusInfo();
             } else {
                 setRebloggedByDisplayName(rebloggedByDisplayName, status, statusDisplayOptions);
-                statusInfo.setOnClickListener(v -> listener.onOpenReblog(getAdapterPosition()));
+                statusInfo.setOnClickListener(v -> listener.onOpenReblog(getBindingAdapterPosition()));
             }
 
         }
@@ -105,7 +105,7 @@ public class StatusViewHolder extends StatusBaseViewHolder {
         /* input filter for TextViews have to be set before text */
         if (status.isCollapsible() && (status.isExpanded() || TextUtils.isEmpty(status.getSpoilerText()))) {
             contentCollapseButton.setOnClickListener(view -> {
-                int position = getAdapterPosition();
+                int position = getBindingAdapterPosition();
                 if (position != RecyclerView.NO_POSITION)
                     listener.onContentCollapsedChange(!status.isCollapsed(), position);
             });

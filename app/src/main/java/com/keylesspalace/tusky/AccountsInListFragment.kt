@@ -181,7 +181,7 @@ class AccountsInListFragment : DialogFragment(), Injectable {
             binding.notificationTextView.hide()
             binding.acceptButton.hide()
             binding.rejectButton.setOnClickListener {
-                onRemoveFromList(getItem(holder.adapterPosition).id)
+                onRemoveFromList(getItem(holder.bindingAdapterPosition).id)
             }
             binding.rejectButton.contentDescription =
                     binding.root.context.getString(R.string.action_remove_from_list)
@@ -217,7 +217,7 @@ class AccountsInListFragment : DialogFragment(), Injectable {
             binding.notificationTextView.hide()
             binding.acceptButton.hide()
             binding.rejectButton.setOnClickListener {
-                val (account, inAList) = getItem(holder.adapterPosition)
+                val (account, inAList) = getItem(holder.bindingAdapterPosition)
                 if (inAList) {
                     onRemoveFromList(account.id)
                 } else {

@@ -122,9 +122,9 @@ public class MutesAdapter extends AccountAdapter {
         }
 
         void setupActionListener(final AccountActionListener listener) {
-            unmute.setOnClickListener(v -> listener.onMute(false, id, getAdapterPosition(), false));
+            unmute.setOnClickListener(v -> listener.onMute(false, id, getBindingAdapterPosition(), false));
             muteNotifications.setOnClickListener(
-                v -> listener.onMute(true, id, getAdapterPosition(), !notifications));
+                v -> listener.onMute(true, id, getBindingAdapterPosition(), !notifications));
             itemView.setOnClickListener(v -> listener.onViewAccount(id));
         }
     }

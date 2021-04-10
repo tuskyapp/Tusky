@@ -173,5 +173,5 @@ class StatusViewHolder(
         }
     }
 
-    private fun status() = getStatusForPosition(adapterPosition)
+    private fun status() = getStatusForPosition(bindingAdapterPosition)
 }
