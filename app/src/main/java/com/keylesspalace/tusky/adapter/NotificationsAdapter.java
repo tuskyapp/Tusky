@@ -235,6 +235,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
                         holder.setupWithAccount(concreteNotificaton.getAccount(), statusDisplayOptions.animateAvatars(), statusDisplayOptions.animateEmojis());
                         holder.setupActionListener(accountActionListener, concreteNotificaton.getAccount().getId());
                     }
+                    break;
                 }
                 default:
             }
@@ -540,8 +541,8 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
                 }
 
                 contentWarningButton.setOnClickListener(view -> {
-                    if (getAdapterPosition() != RecyclerView.NO_POSITION) {
-                        notificationActionListener.onExpandedChange(!statusViewData.isExpanded(), getAdapterPosition());
+                    if (getBindingAdapterPosition() != RecyclerView.NO_POSITION) {
+                        notificationActionListener.onExpandedChange(!statusViewData.isExpanded(), getBindingAdapterPosition());
                     }
                     statusContent.setVisibility(statusViewData.isExpanded() ? View.GONE : View.VISIBLE);
                 });
@@ -618,7 +619,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
 
             if (statusViewData.isCollapsible() && (statusViewData.isExpanded() || !hasSpoiler)) {
                 contentCollapseButton.setOnClickListener(view -> {
-                    int position = getAdapterPosition();
+                    int position = getBindingAdapterPosition();
                     if (position != RecyclerView.NO_POSITION && notificationActionListener != null) {
                         notificationActionListener.onNotificationContentCollapsedChange(!statusViewData.isCollapsed(), position);
                     }

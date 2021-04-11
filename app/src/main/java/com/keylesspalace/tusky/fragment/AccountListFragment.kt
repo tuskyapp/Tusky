@@ -21,6 +21,7 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.preference.PreferenceManager
+import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -31,6 +32,7 @@ import com.keylesspalace.tusky.AccountListActivity.Type
 import com.keylesspalace.tusky.BaseActivity
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.adapter.*
+import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.databinding.FragmentAccountListBinding
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.entity.Account
@@ -56,6 +58,8 @@ class AccountListFragment : Fragment(R.layout.fragment_account_list), AccountAct
 
     @Inject
     lateinit var api: MastodonApi
+    @Inject
+    lateinit var accountManager: AccountManager
 
     private val binding by viewBinding(FragmentAccountListBinding::bind)
 
@@ -90,10 +94,17 @@ class AccountListFragment : Fragment(R.layout.fragment_account_list), AccountAct
         adapter = when (type) {
             Type.BLOCKS -> BlocksAdapter(this, animateAvatar, animateEmojis)
             Type.MUTES -> MutesAdapter(this, animateAvatar, animateEmojis)
-            Type.FOLLOW_REQUESTS -> FollowRequestsAdapter(this, animateAvatar, animateEmojis)
+            Type.FOLLOW_REQUESTS -> {
+                val headerAdapter = FollowRequestsHeaderAdapter(accountManager.activeAccount!!.domain, arguments?.get(ARG_ACCOUNT_LOCKED) == true)
+                val followRequestsAdapter = FollowRequestsAdapter(this, animateAvatar, animateEmojis)
+                binding.recyclerView.adapter = ConcatAdapter(headerAdapter, followRequestsAdapter)
+                followRequestsAdapter
+            }
             else -> FollowAdapter(this, animateAvatar, animateEmojis)
         }
-        binding.recyclerView.adapter = adapter
+        if (binding.recyclerView.adapter == null) {
+            binding.recyclerView.adapter = adapter
+        }
 
         scrollListener = object : EndlessOnScrollListener(layoutManager) {
             override fun onLoadMore(totalItemsCount: Int, view: RecyclerView) {
@@ -361,12 +372,14 @@ class AccountListFragment : Fragment(R.layout.fragment_account_list), AccountAct
         private const val TAG = "AccountList" // logging tag
         private const val ARG_TYPE = "type"
         private const val ARG_ID = "id"
+        private const val ARG_ACCOUNT_LOCKED = "acc_locked"
 
-        fun newInstance(type: Type, id: String? = null): AccountListFragment {
+        fun newInstance(type: Type, id: String? = null, accountLocked: Boolean = false): AccountListFragment {
             return AccountListFragment().apply {
                 arguments = Bundle(2).apply {
                     putSerializable(ARG_TYPE, type)
                     putString(ARG_ID, id)
+                    putBoolean(ARG_ACCOUNT_LOCKED, accountLocked)
                 }
             }
         }

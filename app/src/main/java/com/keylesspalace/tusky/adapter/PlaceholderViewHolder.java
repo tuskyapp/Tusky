@@ -41,7 +41,7 @@ public final class PlaceholderViewHolder extends RecyclerView.ViewHolder {
         loadMoreButton.setEnabled(true);
         loadMoreButton.setOnClickListener(v -> {
             loadMoreButton.setEnabled(false);
-            listener.onLoadMore(getAdapterPosition());
+            listener.onLoadMore(getBindingAdapterPosition());
         });
 
     }

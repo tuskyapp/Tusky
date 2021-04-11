@@ -250,9 +250,9 @@ class ListsActivity : BaseActivity(), Injectable, HasAndroidInjector {
 
             override fun onClick(v: View) {
                 if (v == itemView) {
-                    onListSelected(getItem(adapterPosition).id)
+                    onListSelected(getItem(bindingAdapterPosition).id)
                 } else {
-                    onMore(getItem(adapterPosition), v)
+                    onMore(getItem(bindingAdapterPosition), v)
                 }
             }
         }

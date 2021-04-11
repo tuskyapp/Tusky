@@ -55,7 +55,7 @@ class DraftsAdapter(
 
         binding.draftMediaPreview.layoutManager = LinearLayoutManager(binding.root.context, RecyclerView.HORIZONTAL, false)
         binding.draftMediaPreview.adapter = DraftMediaAdapter {
-            getItem(viewHolder.adapterPosition)?.let { draft ->
+            getItem(viewHolder.bindingAdapterPosition)?.let { draft ->
                 listener.onOpenDraft(draft)
             }
         }

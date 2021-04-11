@@ -98,7 +98,7 @@ class TabAdapter(private var data: List<TabData>,
                 }
             }
             binding.removeButton.setOnClickListener {
-                listener.onTabRemoved(holder.adapterPosition)
+                listener.onTabRemoved(holder.bindingAdapterPosition)
             }
             binding.removeButton.isEnabled = removeButtonEnabled
             ThemeUtils.setDrawableTint(
@@ -131,7 +131,7 @@ class TabAdapter(private var data: List<TabData>,
                     } else {
                         chip.setChipIconResource(R.drawable.ic_cancel_24dp)
                         chip.setOnClickListener {
-                            listener.onChipClicked(tab, holder.adapterPosition, i)
+                            listener.onChipClicked(tab, holder.bindingAdapterPosition, i)
                         }
                     }
                 }
@@ -141,7 +141,7 @@ class TabAdapter(private var data: List<TabData>,
                 }
 
                 binding.actionChip.setOnClickListener {
-                    listener.onActionChipClicked(tab, holder.adapterPosition)
+                    listener.onActionChipClicked(tab, holder.bindingAdapterPosition)
                 }
 
             } else {

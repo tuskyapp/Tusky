@@ -51,13 +51,13 @@ class FollowRequestViewHolder(
 
     fun setupActionListener(listener: AccountActionListener, accountId: String) {
         binding.acceptButton.setOnClickListener {
-            val position = adapterPosition
+            val position = bindingAdapterPosition
             if (position != RecyclerView.NO_POSITION) {
                 listener.onRespondToFollowRequest(true, accountId, position)
             }
         }
         binding.rejectButton.setOnClickListener {
-            val position = adapterPosition
+            val position = bindingAdapterPosition
             if (position != RecyclerView.NO_POSITION) {
                 listener.onRespondToFollowRequest(false, accountId, position)
             }
