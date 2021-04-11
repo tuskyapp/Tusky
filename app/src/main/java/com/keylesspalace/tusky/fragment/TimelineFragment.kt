@@ -77,7 +77,6 @@ import com.keylesspalace.tusky.util.LinkHelper
 import com.keylesspalace.tusky.util.ListStatusAccessibilityDelegate
 import com.keylesspalace.tusky.util.PairedList
 import com.keylesspalace.tusky.util.StatusDisplayOptions
-import com.keylesspalace.tusky.util.StatusProvider
 import com.keylesspalace.tusky.util.ViewDataUtils
 import com.keylesspalace.tusky.util.dec
 import com.keylesspalace.tusky.util.hide
@@ -164,15 +163,15 @@ class TimelineFragment : SFragment(), OnRefreshListener, StatusActionListener, I
 
         val preferences = PreferenceManager.getDefaultSharedPreferences(activity)
         val statusDisplayOptions = StatusDisplayOptions(
-                preferences.getBoolean("animateGifAvatars", false),
-                accountManager.activeAccount!!.mediaPreviewEnabled,
-                preferences.getBoolean("absoluteTimeView", false),
-                preferences.getBoolean("showBotOverlay", true),
-                preferences.getBoolean("useBlurhash", true),
-                if (preferences.getBoolean("showCardsInTimelines", false)) CardViewMode.INDENTED else CardViewMode.NONE,
-                preferences.getBoolean("confirmReblogs", true),
-                preferences.getBoolean(PrefKeys.WELLBEING_HIDE_STATS_POSTS, false),
-                preferences.getBoolean(PrefKeys.ANIMATE_CUSTOM_EMOJIS, false)
+                animateAvatars = preferences.getBoolean(PrefKeys.ANIMATE_GIF_AVATARS, false),
+                mediaPreviewEnabled = accountManager.activeAccount!!.mediaPreviewEnabled,
+                useAbsoluteTime = preferences.getBoolean(PrefKeys.ABSOLUTE_TIME_VIEW, false),
+                showBotOverlay = preferences.getBoolean(PrefKeys.SHOW_BOT_OVERLAY, true),
+                useBlurhash = preferences.getBoolean(PrefKeys.USE_BLURHASH, true),
+                cardViewMode = if (preferences.getBoolean(PrefKeys.SHOW_CARDS_IN_TIMELINES, false)) CardViewMode.INDENTED else CardViewMode.NONE,
+                confirmReblogs = preferences.getBoolean(PrefKeys.CONFIRM_REBLOGS, true),
+                hideStats = preferences.getBoolean(PrefKeys.WELLBEING_HIDE_STATS_POSTS, false),
+                animateEmojis = preferences.getBoolean(PrefKeys.ANIMATE_CUSTOM_EMOJIS, false)
         )
         adapter = TimelineAdapter(dataSource, statusDisplayOptions, this)
     }
@@ -304,11 +303,9 @@ class TimelineFragment : SFragment(), OnRefreshListener, StatusActionListener, I
 
     private fun setupRecyclerView() {
         binding.recyclerView.setAccessibilityDelegateCompat(
-                ListStatusAccessibilityDelegate(binding.recyclerView, this, object : StatusProvider {
-                    override fun getStatus(pos: Int): StatusViewData? {
-                        return statuses.getPairedItemOrNull(pos)
-                    }
-                }))
+                ListStatusAccessibilityDelegate(binding.recyclerView, this)
+                { pos -> statuses.getPairedItemOrNull(pos) }
+        )
         binding.recyclerView.setHasFixedSize(true)
         layoutManager = LinearLayoutManager(context)
         binding.recyclerView.layoutManager = layoutManager
@@ -386,44 +383,48 @@ class TimelineFragment : SFragment(), OnRefreshListener, StatusActionListener, I
                     .observeOn(AndroidSchedulers.mainThread())
                     .autoDispose(from(this))
                     .subscribe { event: Event? ->
-                        if (event is FavoriteEvent) {
-                            handleFavEvent(event)
-                        } else if (event is ReblogEvent) {
-                            handleReblogEvent(event)
-                        } else if (event is BookmarkEvent) {
-                            handleBookmarkEvent(event)
-                        } else if (event is MuteConversationEvent) {
-                            fullyRefresh()
-                        } else if (event is UnfollowEvent) {
-                            if (kind == Kind.HOME) {
-                                val id = event.accountId
-                                removeAllByAccountId(id)
+                        when (event) {
+                            is FavoriteEvent -> handleFavEvent(event)
+                            is ReblogEvent -> handleReblogEvent(event)
+                            is BookmarkEvent -> handleBookmarkEvent(event)
+                            is MuteConversationEvent -> fullyRefresh()
+                            is UnfollowEvent -> {
+                                if (kind == Kind.HOME) {
+                                    val id = event.accountId
+                                    removeAllByAccountId(id)
+                                }
                             }
-                        } else if (event is BlockEvent) {
-                            if (kind != Kind.USER && kind != Kind.USER_WITH_REPLIES && kind != Kind.USER_PINNED) {
-                                val id = event.accountId
-                                removeAllByAccountId(id)
+                            is BlockEvent -> {
+                                if (kind != Kind.USER && kind != Kind.USER_WITH_REPLIES && kind != Kind.USER_PINNED) {
+                                    val id = event.accountId
+                                    removeAllByAccountId(id)
+                                }
                             }
-                        } else if (event is MuteEvent) {
-                            if (kind != Kind.USER && kind != Kind.USER_WITH_REPLIES && kind != Kind.USER_PINNED) {
-                                val id = event.accountId
-                                removeAllByAccountId(id)
+                            is MuteEvent -> {
+                                if (kind != Kind.USER && kind != Kind.USER_WITH_REPLIES && kind != Kind.USER_PINNED) {
+                                    val id = event.accountId
+                                    removeAllByAccountId(id)
+                                }
                             }
-                        } else if (event is DomainMuteEvent) {
-                            if (kind != Kind.USER && kind != Kind.USER_WITH_REPLIES && kind != Kind.USER_PINNED) {
-                                val instance = event.instance
-                                removeAllByInstance(instance)
+                            is DomainMuteEvent -> {
+                                if (kind != Kind.USER && kind != Kind.USER_WITH_REPLIES && kind != Kind.USER_PINNED) {
+                                    val instance = event.instance
+                                    removeAllByInstance(instance)
+                                }
                             }
-                        } else if (event is StatusDeletedEvent) {
-                            if (kind != Kind.USER && kind != Kind.USER_WITH_REPLIES && kind != Kind.USER_PINNED) {
-                                val id = event.statusId
-                                deleteStatusById(id)
+                            is StatusDeletedEvent -> {
+                                if (kind != Kind.USER && kind != Kind.USER_WITH_REPLIES && kind != Kind.USER_PINNED) {
+                                    val id = event.statusId
+                                    deleteStatusById(id)
+                                }
                             }
-                        } else if (event is StatusComposedEvent) {
-                            val status = event.status
-                            handleStatusComposeEvent(status)
-                        } else if (event is PreferenceChangedEvent) {
-                            onPreferenceChanged(event.preferenceKey)
+                            is StatusComposedEvent -> {
+                                val status = event.status
+                                handleStatusComposeEvent(status)
+                            }
+                            is PreferenceChangedEvent -> {
+                                onPreferenceChanged(event.preferenceKey)
+                            }
                         }
                     }
             eventRegistered = true
@@ -667,10 +668,10 @@ class TimelineFragment : SFragment(), OnRefreshListener, StatusActionListener, I
     private fun onPreferenceChanged(key: String) {
         val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
         when (key) {
-            "fabHide" -> {
-                hideFab = sharedPreferences.getBoolean("fabHide", false)
+            PrefKeys.FAB_HIDE -> {
+                hideFab = sharedPreferences.getBoolean(PrefKeys.FAB_HIDE, false)
             }
-            "mediaPreviewEnabled" -> {
+            PrefKeys.MEDIA_PREVIEW_ENABLED -> {
                 val enabled = accountManager.activeAccount!!.mediaPreviewEnabled
                 val oldMediaPreviewEnabled = adapter.mediaPreviewEnabled
                 if (enabled != oldMediaPreviewEnabled) {
@@ -678,16 +679,16 @@ class TimelineFragment : SFragment(), OnRefreshListener, StatusActionListener, I
                     fullyRefresh()
                 }
             }
-            "tabFilterHomeReplies" -> {
-                val filter = sharedPreferences.getBoolean("tabFilterHomeReplies", true)
+            PrefKeys.TAB_FILTER_HOME_REPLIES -> {
+                val filter = sharedPreferences.getBoolean(PrefKeys.TAB_FILTER_HOME_REPLIES, true)
                 val oldRemoveReplies = filterRemoveReplies
                 filterRemoveReplies = kind == Kind.HOME && !filter
                 if (adapter.itemCount > 1 && oldRemoveReplies != filterRemoveReplies) {
                     fullyRefresh()
                 }
             }
-            "tabFilterHomeBoosts" -> {
-                val filter = sharedPreferences.getBoolean("tabFilterHomeBoosts", true)
+            PrefKeys.TAB_FILTER_HOME_BOOSTS -> {
+                val filter = sharedPreferences.getBoolean(PrefKeys.TAB_FILTER_HOME_BOOSTS, true)
                 val oldRemoveReblogs = filterRemoveReblogs
                 filterRemoveReblogs = kind == Kind.HOME && !filter
                 if (adapter.itemCount > 1 && oldRemoveReblogs != filterRemoveReblogs) {
@@ -699,7 +700,7 @@ class TimelineFragment : SFragment(), OnRefreshListener, StatusActionListener, I
                     reloadFilters(true)
                 }
             }
-            "alwaysShowSensitiveMedia" -> {
+            PrefKeys.ALWAYS_SHOW_SENSITIVE_MEDIA -> {
                 //it is ok if only newly loaded statuses are affected, no need to fully refresh
                 alwaysShowSensitiveMedia = accountManager.activeAccount!!.alwaysShowSensitiveMedia
             }
@@ -757,19 +758,13 @@ class TimelineFragment : SFragment(), OnRefreshListener, StatusActionListener, I
         statuses.setPairedItem(statuses.size - 1,
                 StatusViewData.Placeholder(placeholder.id, true))
         updateAdapter()
-        var bottomId: String? = null
-        if (kind == Kind.FAVOURITES || kind == Kind.BOOKMARKS) {
-            bottomId = nextId
+
+        val bottomId: String? = if (kind == Kind.FAVOURITES || kind == Kind.BOOKMARKS) {
+            nextId
         } else {
-            val iterator: ListIterator<Either<Placeholder, Status>?> = statuses.listIterator(statuses.size)
-            while (iterator.hasPrevious()) {
-                val previous = iterator.previous()
-                if (previous!!.isRight()) {
-                    bottomId = previous.asRight().id
-                    break
-                }
-            }
+            statuses.lastOrNull { it.isRight() }?.asRight()?.id
         }
+
         sendFetchTimelineRequest(bottomId, null, null, FetchEnd.BOTTOM, -1)
     }
 
@@ -1065,7 +1060,7 @@ class TimelineFragment : SFragment(), OnRefreshListener, StatusActionListener, I
         if (someOldViewData is StatusViewData.Placeholder ||
                 (someOldViewData as StatusViewData.Concrete).id != status.id) {
             // try to find the status we need to update
-            val foundPos = statuses.indexOf(Right<Any, Status>(status))
+            val foundPos = statuses.indexOf(Right(status))
             if (foundPos < 0) return null // okay, it's hopeless, give up
             statusToUpdate = statuses.getPairedItem(foundPos) as StatusViewData.Concrete
             positionToUpdate = position
@@ -1179,7 +1174,7 @@ class TimelineFragment : SFragment(), OnRefreshListener, StatusActionListener, I
      */
     private fun startUpdateTimestamp() {
         val preferences = PreferenceManager.getDefaultSharedPreferences(activity)
-        val useAbsoluteTime = preferences.getBoolean("absoluteTimeView", false)
+        val useAbsoluteTime = preferences.getBoolean(PrefKeys.ABSOLUTE_TIME_VIEW, false)
         if (!useAbsoluteTime) {
             Observable.interval(1, TimeUnit.MINUTES)
                     .observeOn(AndroidSchedulers.mainThread())

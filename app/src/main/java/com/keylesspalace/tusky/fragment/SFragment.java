@@ -511,7 +511,7 @@ public abstract class SFragment extends Fragment implements Injectable {
         });
     }
 
-    @VisibleForTesting
+    @VisibleForTesting(otherwise = VisibleForTesting.PROTECTED)
     public void reloadFilters(boolean forceRefresh) {
         if (filters != null && !forceRefresh) {
             applyFilters(forceRefresh);
@@ -547,7 +547,7 @@ public abstract class SFragment extends Fragment implements Injectable {
         // Override to refresh your fragment
     }
 
-    @VisibleForTesting
+    @VisibleForTesting(otherwise = VisibleForTesting.PROTECTED)
     public boolean shouldFilterStatus(Status status) {
 
         if (filterRemoveRegex && status.getPoll() != null) {

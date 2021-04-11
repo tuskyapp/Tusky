@@ -22,7 +22,7 @@ import com.keylesspalace.tusky.viewdata.StatusViewData
 import kotlin.math.min
 
 // Not using lambdas because there's boxing of int then
-interface StatusProvider {
+fun interface StatusProvider {
     fun getStatus(pos: Int): StatusViewData?
 }
 
