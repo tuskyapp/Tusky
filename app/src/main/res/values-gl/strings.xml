@@ -510,4 +510,5 @@
     <string name="action_reset_schedule">Restablecer</string>
     <string name="action_schedule_toot">Programar Toot</string>
     <string name="action_emoji_keyboard">Teclado Emoji</string>
+    <string name="follow_requests_info">Aínda que a túa conta non está bloqueada, a administración de %1$s opina que debes revisar manualmente as peticións de seguimento destas contas.</string>
 </resources>
