@@ -509,4 +509,9 @@
 \n
 \nPush-Benachrichtigungen sind nicht betroffen, aber du kannst diese manuell überprüfen.</string>
     <string name="follow_requests_info">Auch wenn dein Konto nicht gesperrt ist, haben die Admins von %1$s gedacht, dass es besser wäre diese Folgenden manuell zu bestätigen.</string>
+    <string name="wellbeing_hide_stats_profile">Keine Statistiken auf Profilen zeigen</string>
+    <string name="wellbeing_hide_stats_posts">Keine Statistiken in Posts zeigen</string>
+    <string name="limit_notifications">Timeline-Benachrichtigungen einschränken</string>
+    <string name="action_subscribe_account">Abonnieren</string>
+    <string name="action_unsubscribe_account">nicht mehr abonnieren</string>
 </resources>
