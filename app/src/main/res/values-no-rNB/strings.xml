@@ -34,7 +34,7 @@
     <string name="title_favourites">Favoritter</string>
     <string name="title_mutes">Dempede brukere</string>
     <string name="title_blocks">Blokkerte brukere</string>
-    <string name="title_follow_requests">Forespørsler om følgen</string>
+    <string name="title_follow_requests">Følgeforespørsler</string>
     <string name="title_edit_profile">Endre profilen din</string>
     <string name="title_drafts">Kladder</string>
     <string name="title_licenses">Lisenser</string>
@@ -83,7 +83,7 @@
     <string name="action_view_favourites">Favoritter</string>
     <string name="action_view_mutes">Dempede brukere</string>
     <string name="action_view_blocks">Blokkerte brukere</string>
-    <string name="action_view_follow_requests">Forespørsler om følging</string>
+    <string name="action_view_follow_requests">Følgeforespørsler</string>
     <string name="action_view_media">Media</string>
     <string name="action_open_in_web">Åpne i nettleser</string>
     <string name="action_add_media">Legg til media</string>
@@ -452,8 +452,8 @@
         <item quantity="other">%s personer</item>
     </plurals>
     <string name="notification_follow_request_description">Varsler om følgeforespørsler</string>
-    <string name="notification_follow_request_name">Forespørsler om følging</string>
-    <string name="pref_title_notification_filter_follow_requests">følging forespurt</string>
+    <string name="notification_follow_request_name">Følgeforespørsler</string>
+    <string name="pref_title_notification_filter_follow_requests">Følgeforespørsel sendt</string>
     <string name="dialog_mute_warning">Dempe @%s\?</string>
     <string name="dialog_block_warning">Blokkere @%s\?</string>
     <string name="action_unmute_conversation">Fjern demping av samtale</string>
@@ -510,4 +510,5 @@
     <string name="pref_title_animate_custom_emojis">Animer egendefinerte emojis</string>
     <string name="action_unsubscribe_account">Avslutt abonnementet</string>
     <string name="action_subscribe_account">Abonner</string>
+    <string name="follow_requests_info">Selv om kontoen din ikke er låst, har %1$s administratorer markert disse følgeforespørsler for manuell godkjenning.</string>
 </resources>

@@ -500,4 +500,18 @@
     <string name="pref_title_notification_filter_subscriptions">Jemand, den ich abonniert habe, etwas Neues veröffentlicht</string>
     <string name="notification_subscription_format">%s hat gerade etwas gepostet</string>
     <string name="abbreviated_minutes_ago">%dm</string>
+    <string name="review_notifications">Benachrichtigungen überprüfen</string>
+    <string name="wellbeing_mode_notice">Informationen, die dein Wohlbefinden beeinflussen könnten, werden versteckt. Das beinhaltet
+\n
+\n- Benachrichtigungen über favorisierte/geteilte Beiträge, sowie \"Jemand folgt dir\" Benachrichtigungen
+\n- Anzahl der Favoriten/Teilungen von Beiträgen
+\n- Statistiken zu Followern auf Profilen
+\n
+\nPush-Benachrichtigungen sind nicht betroffen, aber du kannst diese manuell überprüfen.</string>
+    <string name="follow_requests_info">Auch wenn dein Konto nicht gesperrt ist, haben die Admins von %1$s gedacht, dass es besser wäre diese Folgenden manuell zu bestätigen.</string>
+    <string name="wellbeing_hide_stats_profile">Keine Statistiken auf Profilen zeigen</string>
+    <string name="wellbeing_hide_stats_posts">Keine Statistiken in Posts zeigen</string>
+    <string name="limit_notifications">Timeline-Benachrichtigungen einschränken</string>
+    <string name="action_subscribe_account">Abonnieren</string>
+    <string name="action_unsubscribe_account">nicht mehr abonnieren</string>
 </resources>

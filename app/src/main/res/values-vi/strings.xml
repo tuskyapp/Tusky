@@ -68,13 +68,13 @@
     <string name="dialog_download_image">Tải về</string>
     <string name="dialog_message_uploading_media">Đang tải…</string>
     <string name="dialog_title_finishing_media_upload">Đã tải xong tập tin</string>
-    <string name="dialog_whats_an_instance">Bạn phải nhập một tên miền, ví dụ mastodon.social, icosahedron.website, social.tchncs.de, và <a href="https://instances.social">nhiều hơn nữa!</a> 
+    <string name="dialog_whats_an_instance">Bạn phải nhập một tên miền, ví dụ mastodon.social, icosahedron.website, social.tchncs.de, và <a href="https://instances.social">vô số khác!</a> 
 \n 
 \nNếu chưa có tài khoản, bạn phải tạo tài khoản trước ở đó. 
 \n 
-\nMáy chủ, nói cách khác là một cộng đồng nơi mà tài khoản của bạn lưu trữ trên đó, nhưng bạn vẫn có thể giao tiếp và theo dõi mọi người trên các máy chủ khác một cách dễ dàng. 
+\nMáy chủ, nói cách khác là một cộng đồng nơi mà tài khoản của bạn lưu trữ trên đó, nhưng bạn vẫn có thể dễ dàng giao tiếp và theo dõi mọi người trên các máy chủ khác. 
 \n 
-\nTham khảo thêm tại <a href="https://joinmastodon.org">joinmastodon.org</a>. </string>
+\nTham khảo <a href="https://joinmastodon.org">joinmastodon.org</a>. </string>
     <string name="login_connection">Đang kết nối…</string>
     <string name="label_header">Ảnh bìa</string>
     <string name="label_avatar">Ảnh đại diện</string>
@@ -136,12 +136,12 @@
     <string name="action_add_poll">Tạo bình chọn</string>
     <string name="action_add_media">Thêm tệp</string>
     <string name="action_open_in_web">Mở trong trình duyệt</string>
-    <string name="action_view_media">Album</string>
+    <string name="action_view_media">Media</string>
     <string name="action_view_follow_requests">Yêu cầu theo dõi</string>
     <string name="action_view_domain_mutes">Máy chủ đã ẩn</string>
     <string name="action_view_blocks">Người dùng đã chặn</string>
     <string name="action_view_mutes">Người dùng đã ẩn</string>
-    <string name="action_view_bookmarks">Xem tút đã lưu</string>
+    <string name="action_view_bookmarks">Lưu</string>
     <string name="action_view_favourites">Thích</string>
     <string name="action_view_profile">Trang cá nhân</string>
     <string name="action_close">Đóng</string>
@@ -186,7 +186,7 @@
     <string name="title_domain_mutes">Máy chủ đã ẩn</string>
     <string name="title_blocks">Người dùng đã chặn</string>
     <string name="title_mutes">Người dùng đã ẩn</string>
-    <string name="title_bookmarks">Lưu</string>
+    <string name="title_bookmarks">Những tút đã lưu</string>
     <string name="title_followers">Người theo dõi</string>
     <string name="title_follows">Theo dõi</string>
     <string name="title_statuses_pinned">Ghim</string>
@@ -200,7 +200,7 @@
     <string name="title_notifications">Thông báo</string>
     <string name="title_home">Bảng tin</string>
     <string name="title_drafts">Nháp</string>
-    <string name="title_favourites">Thích</string>
+    <string name="title_favourites">Những tút đã thích</string>
     <string name="link_whats_an_instance">Máy chủ là gì\?</string>
     <string name="pref_title_show_media_preview">Tải xem trước hình ảnh</string>
     <string name="pref_title_show_replies">Hiện lượt trả lời</string>
@@ -237,7 +237,7 @@
     <string name="pref_title_notifications_enabled">Thông báo</string>
     <string name="pref_title_edit_notification_settings">Thông báo</string>
     <string name="visibility_direct">Nhắn tin: Chỉ người được nhắc tới mới thấy</string>
-    <string name="visibility_private">Người theo dõi: Ai đã theo dõi mới xem được</string>
+    <string name="visibility_private">Người theo dõi: Ai đã theo dõi mới được xem</string>
     <string name="visibility_unlisted">Riêng tư: Không hiện trên bảng tin</string>
     <string name="visibility_public">Công khai: Mọi người đều có thể thấy</string>
     <string name="dialog_mute_warning">Ẩn @%s\?</string>
@@ -291,20 +291,20 @@
     <string name="pref_title_public_filter_keywords">Cộng đồng</string>
     <string name="load_more_placeholder_text">xem thêm</string>
     <string name="replying_to">Trả lời @%s</string>
-    <string name="title_media">Thư viện</string>
+    <string name="title_media">Album</string>
     <string name="pref_title_alway_open_spoiler">Luôn hiện nội dung bị ẩn</string>
     <string name="pref_title_alway_show_sensitive_media">Luôn hiện nội dung nhạy cảm</string>
     <string name="follows_you">Đang theo dõi bạn</string>
     <string name="abbreviated_seconds_ago">%ds</string>
-    <string name="abbreviated_minutes_ago">%d phút</string>
-    <string name="abbreviated_hours_ago">%d giờ</string>
+    <string name="abbreviated_minutes_ago">%dm</string>
+    <string name="abbreviated_hours_ago">%dh</string>
     <string name="abbreviated_days_ago">%d ngày</string>
     <string name="abbreviated_years_ago">%d năm</string>
     <string name="abbreviated_in_seconds">%ds</string>
-    <string name="abbreviated_in_minutes">%d phút</string>
-    <string name="abbreviated_in_hours">in %d giờ</string>
-    <string name="abbreviated_in_days">in %d ngày</string>
-    <string name="abbreviated_in_years">in %d năm</string>
+    <string name="abbreviated_in_minutes">%dm</string>
+    <string name="abbreviated_in_hours">%dh</string>
+    <string name="abbreviated_in_days">%dd</string>
+    <string name="abbreviated_in_years">%dy</string>
     <string name="state_follow_requested">Yêu cầu theo dõi</string>
     <string name="status_media_video">Video</string>
     <string name="status_media_images">Hình ảnh</string>
@@ -357,12 +357,12 @@
     <string name="poll_info_closed">xong</string>
     <string name="poll_info_time_absolute">kết thúc lúc %s</string>
     <plurals name="poll_info_people">
-        <item quantity="other">%s người</item>
+        <item quantity="other">%s người đã bình chọn</item>
     </plurals>
     <plurals name="poll_info_votes">
-        <item quantity="other">%s người</item>
+        <item quantity="other">%s người bình chọn</item>
     </plurals>
-    <string name="poll_info_format"> <!-- 15 người • 1 tiếng nữa kết thúc --> %1$s • %2$s</string>
+    <string name="poll_info_format"> <!-- 15 người bình chọn • 1 giờ nữa kết thúc --> %1$s • %2$s</string>
     <string name="compose_preview_image_description">Mô tả cho hình %s</string>
     <string name="compose_shortcut_short_label">Viết</string>
     <string name="compose_shortcut_long_label">Viết tút</string>
@@ -383,7 +383,7 @@
     <string name="description_status_bookmarked">Đã lưu</string>
     <string name="description_status_favourited">Đã thích</string>
     <string name="description_status_reblogged">Đã chia sẻ</string>
-    <string name="description_status_media_no_description_placeholder">Không có mô tả</string>
+    <string name="description_status_media_no_description_placeholder">Âm thanh</string>
     <string name="description_status_cw">Nội dung nhạy cảm: %s</string>
     <plurals name="max_tab_number_reached">
         <item quantity="other">tối đa %1$d tab</item>
@@ -402,14 +402,14 @@
     <string name="pin_action">Ghim</string>
     <string name="unpin_action">Gỡ ghim</string>
     <string name="label_remote_account">Thông tin có thể hiển thị không đầy đủ. Nhấn để mở xem chi tiết trên trình duyệt.</string>
-    <string name="pref_title_absolute_time">Sử dụng thời gian của thiết bị</string>
+    <string name="pref_title_absolute_time">Sử dụng thời gian thiết bị</string>
     <string name="profile_metadata_content_label">Nội dung</string>
     <string name="profile_metadata_label_label">Nhãn</string>
     <string name="profile_metadata_add">thêm nội dung</string>
     <string name="profile_metadata_label">Metadata</string>
     <string name="license_cc_by_sa_4">CC-BY-SA 4.0</string>
     <string name="license_cc_by_4">CC-BY 4.0</string>
-    <string name="license_apache_2">Licensed under the Apache License (sao chép bên dưới)</string>
+    <string name="license_apache_2">Giấy phép Apache (xem bên dưới)</string>
     <string name="license_description">Tusky có sử dụng mã nguồn từ những dự án mã nguồn mở sau:</string>
     <string name="unreblog_private">Hủy chia sẻ</string>
     <string name="reblog_private">Chia sẻ công khai</string>
@@ -462,11 +462,11 @@
     <string name="action_unmute_domain">Bỏ ẩn %s</string>
     <string name="pref_title_hide_top_toolbar">Ẩn tiêu đề tab</string>
     <string name="account_note_saved">Đã lưu!</string>
-    <string name="account_note_hint">Thêm ghi chú</string>
+    <string name="account_note_hint">Ghi chú</string>
     <string name="no_announcements">Chưa có thông báo.</string>
     <string name="title_announcements">Có gì mới\?</string>
     <string name="wellbeing_hide_stats_profile">Ẩn số liệu trên trang cá nhân</string>
-    <string name="wellbeing_hide_stats_posts">Ẩn tương tác trên tút</string>
+    <string name="wellbeing_hide_stats_posts">Ẩn số liệu trên tút</string>
     <string name="limit_notifications">Hạn chế thông báo trên bảng tin</string>
     <string name="review_notifications">Chọn loại thông báo</string>
     <string name="wellbeing_mode_notice">Các thông tin ảnh hưởng tới tâm lý hành vi của bạn sẽ bị ẩn. Bao gồm:
@@ -499,4 +499,5 @@
     <string name="pref_title_animate_custom_emojis">Emoji động</string>
     <string name="action_unsubscribe_account">Ngưng nhận thông báo</string>
     <string name="action_subscribe_account">Nhận thông báo</string>
+    <string name="follow_requests_info">Dù biết tài khoản của bạn công khai, quản trị viên %1$s vẫn nghĩ bạn hãy nên xem lại yêu cầu theo dõi từ những tài khoản lạ.</string>
 </resources>
