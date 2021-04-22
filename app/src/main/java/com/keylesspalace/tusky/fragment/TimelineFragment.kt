@@ -1038,15 +1038,12 @@ class TimelineFragment : SFragment(), OnRefreshListener, StatusActionListener, I
     }
 
     private fun findStatusOrReblogPositionById(statusId: String): Int {
-        for (i in statuses.indices) {
-            val status = statuses.getOrNull(i)?.asRightOrNull()
-            if (status != null
-                    && (statusId == status.id || (status.reblog != null
-                            && statusId == status.reblog.id))) {
-                return i
-            }
+        return statuses.indexOfFirst { either ->
+            val status = either.asRightOrNull()
+            status != null &&
+                    (statusId == status.id ||
+                            (status.reblog != null && statusId == status.reblog.id))
         }
-        return -1
     }
 
     private val statusLifter: Function1<Status, Either<Placeholder, Status>> = { value -> Right(value) }
