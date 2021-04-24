@@ -517,4 +517,5 @@
         <item quantity="other">نمی‌توانید بیش از %1$d رسانه بارگذارید.</item>
     </plurals>
     <string name="duration_indefinite">نامعیّن</string>
+    <string name="follow_requests_info">با این که حسابتان قفل نیست، کارکنان %1$s فکر کردند ممکن است بخواهید درخواست‌های پی‌گیری از این حساب‌ها را دستی بازبینی کنید.</string>
 </resources>
