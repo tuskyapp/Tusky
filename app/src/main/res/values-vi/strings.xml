@@ -190,7 +190,7 @@
     <string name="title_followers">Người theo dõi</string>
     <string name="title_follows">Theo dõi</string>
     <string name="title_statuses_pinned">Ghim</string>
-    <string name="title_statuses_with_replies">Rép</string>
+    <string name="title_statuses_with_replies">Trả lời</string>
     <string name="title_statuses">Tút</string>
     <string name="title_view_thread">Tút</string>
     <string name="title_tab_preferences">Xếp tab</string>
@@ -203,7 +203,7 @@
     <string name="title_favourites">Những tút đã thích</string>
     <string name="link_whats_an_instance">Máy chủ là gì\?</string>
     <string name="pref_title_show_media_preview">Tải xem trước hình ảnh</string>
-    <string name="pref_title_show_replies">Hiện lượt trả lời</string>
+    <string name="pref_title_show_replies">Hiện những trả lời</string>
     <string name="pref_title_show_boosts">Hiện lượt chia sẻ</string>
     <string name="pref_title_status_tabs">Tabs</string>
     <string name="pref_title_status_filter">Lọc bảng tin</string>
@@ -340,16 +340,16 @@
     <string name="hint_additional_info">Thêm ghi chú</string>
     <string name="report_sent_success">Đã gửi báo cáo @%s</string>
     <plurals name="poll_timespan_seconds">
-        <item quantity="other">%d giây nữa kết thúc</item>
+        <item quantity="other">%d giây</item>
     </plurals>
     <plurals name="poll_timespan_minutes">
-        <item quantity="other">%d phút nữa kết thúc</item>
+        <item quantity="other">%d phút</item>
     </plurals>
     <plurals name="poll_timespan_hours">
-        <item quantity="other">%d giờ nữa kết thúc</item>
+        <item quantity="other">%d giờ</item>
     </plurals>
     <plurals name="poll_timespan_days">
-        <item quantity="other">%d ngày nữa kết thúc</item>
+        <item quantity="other">%d ngày</item>
     </plurals>
     <string name="poll_ended_created">Cuộc bình chọn của bạn đã kết thúc</string>
     <string name="poll_ended_voted">Cuộc bình chọn đã kết thúc</string>
@@ -357,12 +357,12 @@
     <string name="poll_info_closed">xong</string>
     <string name="poll_info_time_absolute">kết thúc lúc %s</string>
     <plurals name="poll_info_people">
-        <item quantity="other">%s người đã bình chọn</item>
+        <item quantity="other">%s người bình chọn</item>
     </plurals>
     <plurals name="poll_info_votes">
         <item quantity="other">%s người bình chọn</item>
     </plurals>
-    <string name="poll_info_format"> <!-- 15 người bình chọn • 1 giờ nữa kết thúc --> %1$s • %2$s</string>
+    <string name="poll_info_format"> <!-- 15 người bình chọn • còn 1 giờ --> %1$s • %2$s</string>
     <string name="compose_preview_image_description">Mô tả cho hình %s</string>
     <string name="compose_shortcut_short_label">Viết</string>
     <string name="compose_shortcut_long_label">Viết tút</string>
@@ -476,7 +476,7 @@
 \n - Số Người theo dõi/Tút trên trang cá nhân
 \n
 \nThông báo đẩy sẽ không ảnh hưởng, bạn có thể tự thiết lập trong phần cài đặt điện thoại của bạn.</string>
-    <string name="pref_title_wellbeing_mode">Cai nghiện</string>
+    <string name="pref_title_wellbeing_mode">Chống nghiện</string>
     <string name="notification_subscription_description">Thông báo khi người bạn đăng ký theo dõi đăng tút mới</string>
     <string name="notification_subscription_name">Tút mới</string>
     <string name="pref_title_notification_filter_subscriptions">người tôi đăng ký theo dõi đăng tút mới</string>
