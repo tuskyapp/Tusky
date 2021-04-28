@@ -381,7 +381,7 @@ class TimelineFragment : SFragment(), OnRefreshListener, StatusActionListener, I
         if (!eventRegistered) {
             eventHub.events
                     .observeOn(AndroidSchedulers.mainThread())
-                    .autoDispose(from(this))
+                    .autoDispose(from(this, Lifecycle.Event.ON_DESTROY))
                     .subscribe { event: Event? ->
                         when (event) {
                             is FavoriteEvent -> handleFavEvent(event)
