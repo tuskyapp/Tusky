@@ -31,7 +31,6 @@ import com.keylesspalace.tusky.entity.Account
 import com.keylesspalace.tusky.entity.Instance
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.service.ServiceClient
-import com.keylesspalace.tusky.util.SaveTootHelper
 import com.nhaarman.mockitokotlin2.any
 import io.reactivex.Single
 import io.reactivex.SingleObserver
@@ -116,7 +115,6 @@ class ComposeActivityTest {
                 mock(MediaUploader::class.java),
                 mock(ServiceClient::class.java),
                 mock(DraftHelper::class.java),
-                mock(SaveTootHelper::class.java),
                 dbMock
         )
         activity.intent = Intent(activity, ComposeActivity::class.java).apply {
