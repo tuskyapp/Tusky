@@ -93,7 +93,7 @@
     <string name="action_accept">Onartu</string>
     <string name="action_reject">Ukatu</string>
     <string name="action_search">Bilatu</string>
-    <string name="action_access_saved_toot">Zirriborroak</string>
+    <string name="action_access_drafts">Zirriborroak</string>
     <string name="action_toggle_visibility">Tutaren ikusgarritasuna</string>
     <string name="action_content_warning">Edukiaren abisua</string>
     <string name="action_emoji_keyboard">Emoji teklatua</string>
@@ -444,7 +444,7 @@
     <string name="error_audio_upload_size">Audioak 40MB baino gutxiago izan behar ditu.</string>
     <string name="select_list_title">Aukeratu zerrenda</string>
     <string name="list">Zerrenda</string>
-    <string name="no_saved_status">Ez duzu zirriborrorik.</string>
+    <string name="no_drafts">Ez duzu zirriborrorik.</string>
     <string name="no_scheduled_status">Ez duzu tut programaturik.</string>
     <string name="warning_scheduling_interval">Mastodonek gutxienez 5 minutuko programazio-tartea du.</string>
     <string name="notification_follow_request_name">Eskakizunak</string>

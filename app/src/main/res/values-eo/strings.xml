@@ -101,7 +101,7 @@
     <string name="action_accept">Rajtigi</string>
     <string name="action_reject">Rifuzi</string>
     <string name="action_search">Serĉi</string>
-    <string name="action_access_saved_toot">Malnetoj</string>
+    <string name="action_access_drafts">Malnetoj</string>
     <string name="action_toggle_visibility">Videblo de la mesaĝo</string>
     <string name="action_content_warning">Enhava averto</string>
     <string name="action_emoji_keyboard">Klavaro de emoĝioj</string>
@@ -438,7 +438,7 @@
     <string name="list">Listo</string>
     <string name="post_lookup_error_format">Eraro dum elserĉo de la mesaĝo %s</string>
     <string name="error_audio_upload_size">Aŭdia dosiero devas esti malpli ol 40MB.</string>
-    <string name="no_saved_status">Vi ne havas iun ajn malneton.</string>
+    <string name="no_drafts">Vi ne havas iun ajn malneton.</string>
     <string name="no_scheduled_status">Vi ne havas iun ajn planitan mesaĝon.</string>
     <string name="notification_follow_request_name">Petoj de sekvado</string>
     <string name="hashtags">Kradvortoj</string>

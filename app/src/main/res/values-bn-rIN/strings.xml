@@ -102,7 +102,7 @@
     <string name="action_accept">গ্রহণ</string>
     <string name="action_reject">প্রত্যাখ্যান</string>
     <string name="action_search">অনুসন্ধান</string>
-    <string name="action_access_saved_toot">খসড়াগুলো</string>
+    <string name="action_access_drafts">খসড়াগুলো</string>
     <string name="action_toggle_visibility">টুট দৃশ্যমানতা</string>
     <string name="action_content_warning">সতর্কবার্তা</string>
     <string name="action_emoji_keyboard">ইমোজি কীবোর্ড</string>
@@ -473,7 +473,7 @@
     <string name="pref_title_enable_swipe_for_tabs">ট্যাবের মাঝে সোয়াইপ সংকেত চালু করো</string>
     <string name="pref_title_show_cards_in_timelines">টাইমলাইনে লিঙ্ক প্রিভিউ দেখাও</string>
     <string name="no_scheduled_status">তোমার কোনো সময়সূচীত স্ট্যাটাস নেই।</string>
-    <string name="no_saved_status">তোমার কোনো খসড়া নেই।</string>
+    <string name="no_drafts">তোমার কোনো খসড়া নেই।</string>
     <string name="warning_scheduling_interval">মাস্টোডনের সর্বনিম্ন ৫ মিনিটের সময়সূচীর বিরতি আছে।</string>
     <string name="pref_title_hide_top_toolbar">শীর্ষস্থানীয় সরঞ্জামদণ্ডের শিরোনামটি লুকান</string>
 </resources>

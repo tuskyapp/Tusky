@@ -102,7 +102,7 @@
     <string name="action_accept">接受</string>
     <string name="action_reject">拒绝</string>
     <string name="action_search">搜索</string>
-    <string name="action_access_saved_toot">草稿</string>
+    <string name="action_access_drafts">草稿</string>
     <string name="action_toggle_visibility">设置嘟文可见范围</string>
     <string name="action_content_warning">设置内容提醒信息</string>
     <string name="action_emoji_keyboard">插入表情符号</string>

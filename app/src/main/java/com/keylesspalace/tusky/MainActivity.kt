@@ -31,7 +31,6 @@ import android.widget.ImageView
 import androidx.appcompat.app.AlertDialog
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.content.ContextCompat
-import androidx.core.content.edit
 import androidx.core.content.pm.ShortcutManagerCompat
 import androidx.emoji.text.EmojiCompat
 import androidx.emoji.text.EmojiCompat.InitCallback
@@ -243,7 +242,6 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
             // Flush old media that was cached for sharing
             deleteStaleCachedMedia(applicationContext.getExternalFilesDir("Tusky"))
         }
-        draftWarning()
     }
 
     override fun onResume() {
@@ -417,7 +415,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
                         }
                     },
                     primaryDrawerItem {
-                        nameRes = R.string.action_access_saved_toot
+                        nameRes = R.string.action_access_drafts
                         iconRes = R.drawable.ic_notebook
                         onClick = {
                             val intent = DraftsActivity.newIntent(context)
@@ -753,29 +751,6 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
         header.clear()
         header.profiles = profiles
         header.setActiveProfile(accountManager.activeAccount!!.id)
-    }
-
-    private fun draftWarning() {
-        val sharedPrefsKey = "show_draft_warning"
-        appDb.tootDao().savedTootCount()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .autoDispose(this, Lifecycle.Event.ON_DESTROY)
-                .subscribe { draftCount ->
-                    val showDraftWarning = preferences.getBoolean(sharedPrefsKey, true)
-                    if (draftCount > 0 && showDraftWarning) {
-                        AlertDialog.Builder(this)
-                                .setMessage(R.string.new_drafts_warning)
-                                .setNegativeButton("Don't show again") { _, _ ->
-                                    preferences.edit(commit = true) {
-                                        putBoolean(sharedPrefsKey, false)
-                                    }
-                                }
-                                .setPositiveButton(android.R.string.ok, null)
-                                .show()
-                    }
-                }
-
     }
 
     override fun getActionButton(): FloatingActionButton? = binding.composeButton

@@ -101,7 +101,7 @@
     <string name="action_accept">Akzeptieren</string>
     <string name="action_reject">Ablehnen</string>
     <string name="action_search">Suche</string>
-    <string name="action_access_saved_toot">Entwürfe</string>
+    <string name="action_access_drafts">Entwürfe</string>
     <string name="action_toggle_visibility">Beitragssichtbarkeit</string>
     <string name="action_content_warning">Inhaltswarnung</string>
     <string name="action_emoji_keyboard">Emoji</string>
@@ -436,7 +436,7 @@
     <string name="select_list_title">Liste auswählen</string>
     <string name="list">Liste</string>
     <string name="post_lookup_error_format">Fehler beim Nachschlagen von Post %s</string>
-    <string name="no_saved_status">Du hast keine Entwürfe.</string>
+    <string name="no_drafts">Du hast keine Entwürfe.</string>
     <string name="no_scheduled_status">Du hast keine geplanten Beiträge.</string>
     <string name="warning_scheduling_interval">Das Datum des geplanten Toots muss mindestens 5 Minuten in der Zukunft liegen.</string>
     <string name="notification_follow_request_description">Benachrichtigungen über neue Folgeanfragen</string>
@@ -480,9 +480,6 @@
     <string name="title_announcements">Ankündigungen</string>
     <string name="drafts_toot_reply_removed">Der Beitrag auf den du antworten willst wurde gelöscht</string>
     <string name="draft_deleted">Entwurf gelöscht</string>
-    <string name="old_drafts">Alte Entwürfe</string>
-    <string name="new_drafts_warning">Das \"Entwürfe\"-Feature in Tusky wurde komplett neu gestaltet um schneller und benutzerfreundlicher zu sein.
-\nDu kannst deine alten Entwürfe noch hinter einem Button bei den neuen Entwürfen finden, aber sie werden mit einem zukünftigen Update gelöscht!</string>
     <string name="drafts_toot_failed_to_send">Dieser Beitrag konnte nicht gesendet werden!</string>
     <string name="dialog_delete_list_warning">Willst du die Liste %s wirklich löschen\?</string>
     <plurals name="error_upload_max_media_reached">

@@ -109,7 +109,7 @@
     <string name="action_content_warning">Rabhadh ábhair</string>
     <string name="action_toggle_visibility">Infheictheacht tút</string>
     <string name="action_access_scheduled_toot">Tútanna sceidealta</string>
-    <string name="action_access_saved_toot">Dréachtaí</string>
+    <string name="action_access_drafts">Dréachtaí</string>
     <string name="action_reject">Diúltaigh</string>
     <string name="action_accept">Glac</string>
     <string name="action_undo">Cealaigh</string>
@@ -463,7 +463,7 @@
     <string name="poll_new_choice_hint">Rogha %d</string>
     <string name="edit_poll">Cuir in Eagar</string>
     <string name="post_lookup_error_format">Earráid agus an post á lorg %s</string>
-    <string name="no_saved_status">Níl aon dréachtaí agat.</string>
+    <string name="no_drafts">Níl aon dréachtaí agat.</string>
     <string name="no_scheduled_status">Níl aon stádas sceidealta agat.</string>
     <string name="warning_scheduling_interval">Tá eatramh sceidealaithe íosta 5 nóiméad ag Mastodon.</string>
     <string name="pref_title_show_cards_in_timelines">Taispeáin réamhamhairc nasc in amlínte</string>

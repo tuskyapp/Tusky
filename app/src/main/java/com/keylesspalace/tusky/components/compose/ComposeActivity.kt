@@ -1013,7 +1013,6 @@ class ComposeActivity : BaseActivity(),
     data class ComposeOptions(
             // Let's keep fields var until all consumers are Kotlin
             var scheduledTootId: String? = null,
-            var savedTootUid: Int? = null,
             var draftId: Int? = null,
             var tootText: String? = null,
             var mediaUrls: List<String>? = null,

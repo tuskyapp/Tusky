@@ -102,7 +102,7 @@
     <string name="action_accept">接受</string>
     <string name="action_reject">拒絕</string>
     <string name="action_search">搜尋</string>
-    <string name="action_access_saved_toot">草稿</string>
+    <string name="action_access_drafts">草稿</string>
     <string name="action_toggle_visibility">設定嘟文可見範圍</string>
     <string name="action_content_warning">設定敏感內容警告</string>
     <string name="action_emoji_keyboard">插入表情符號</string>
@@ -451,7 +451,6 @@
     <string name="drafts_toot_reply_removed">你的草稿欲回覆的原嘟文已被刪除</string>
     <string name="draft_deleted">草稿已刪除</string>
     <string name="drafts_failed_loading_reply">載入回覆資訊失敗</string>
-    <string name="old_drafts">舊的草稿</string>
     <string name="drafts_toot_failed_to_send">這條嘟文發送失敗！</string>
     <string name="dialog_delete_list_warning">你確定要刪除列表 %s？</string>
     <plurals name="error_upload_max_media_reached">
@@ -465,7 +464,7 @@
     <string name="warning_scheduling_interval">Mastodon 的最短發文間隔限制為 5 分鐘。</string>
     <string name="no_announcements">沒有公告。</string>
     <string name="no_scheduled_status">你沒有任何已排程的嘟文。</string>
-    <string name="no_saved_status">你沒有任何草稿。</string>
+    <string name="no_drafts">你沒有任何草稿。</string>
     <string name="post_lookup_error_format">尋找嘟文時發生錯誤 %s</string>
     <string name="poll_new_choice_hint">選項 %d</string>
     <string name="poll_allow_multiple_choices">多個選項</string>

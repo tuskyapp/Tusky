@@ -34,7 +34,7 @@
     <string name="action_content_warning">ئاگاداری ناوەڕۆک</string>
     <string name="action_toggle_visibility">بینینی توت</string>
     <string name="action_access_scheduled_toot">توتی خشتەکراو</string>
-    <string name="action_access_saved_toot">ڕەشنووسەکان</string>
+    <string name="action_access_drafts">ڕەشنووسەکان</string>
     <string name="action_search">گەڕان</string>
     <string name="action_reject">ڕەتکردنەوە</string>
     <string name="action_accept">ڕازیبون</string>
@@ -257,7 +257,7 @@
     <string name="warning_scheduling_interval">ماستۆدۆن کەمترین ماوەی خشتەی هەیە لە ٥ خولەک.</string>
     <string name="no_announcements">هیچ ڕاگه یه نراوێک له بەرده رنه کەون.</string>
     <string name="no_scheduled_status">هیچ بارێکی خشتەکراوت نیە.</string>
-    <string name="no_saved_status">هیچ ڕەشنووسێکت نییە.</string>
+    <string name="no_drafts">هیچ ڕەشنووسێکت نییە.</string>
     <string name="post_lookup_error_format">هەڵە لە گەڕان بەدوای بابەت %s</string>
     <string name="edit_poll">دەستکاریکردن</string>
     <string name="poll_new_choice_hint">هەڵبژاردنی %d</string>

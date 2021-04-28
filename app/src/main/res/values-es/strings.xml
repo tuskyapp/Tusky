@@ -99,7 +99,7 @@
     <string name="action_accept">Aceptar</string>
     <string name="action_reject">Rechazar</string>
     <string name="action_search">Buscar</string>
-    <string name="action_access_saved_toot">Borradores</string>
+    <string name="action_access_drafts">Borradores</string>
     <string name="action_toggle_visibility">Visibilidad del estado</string>
     <string name="action_content_warning">Aviso de contenido</string>
     <string name="action_emoji_keyboard">Teclado de emojis</string>
@@ -451,7 +451,7 @@
     <string name="select_list_title">Seleccionar lista</string>
     <string name="list">Lista</string>
     <string name="error_audio_upload_size">Los ficheros de audio deben ser menores de 40MB.</string>
-    <string name="no_saved_status">No tienes ningún borrador.</string>
+    <string name="no_drafts">No tienes ningún borrador.</string>
     <string name="no_scheduled_status">No tienes ningún estado programado.</string>
     <string name="warning_scheduling_interval">Mastodon tiene un intervalo de programación mínimo de 5 minutos.</string>
     <string name="notification_follow_request_name">Solicitudes</string>
@@ -506,9 +506,6 @@
     <string name="drafts_toot_reply_removed">El toot al que redactaste una respuesta ha sido eliminado</string>
     <string name="draft_deleted">Borrador eliminado</string>
     <string name="drafts_failed_loading_reply">Error al cargar la información de respuesta</string>
-    <string name="old_drafts">Borradores antiguos</string>
-    <string name="new_drafts_warning">La función de borrador en Tusky se ha rediseñado por completo para que sea más rápida, más fácil de usar y con menos errores.
-\nAún puede acceder a sus borradores antiguos a través de un botón en la pantalla de borradores nuevos, ¡pero se eliminarán en una actualización futura!</string>
     <string name="drafts_toot_failed_to_send">¡Este toot no se pudo enviar!</string>
     <string name="dialog_delete_list_warning">¿Realmente quieres eliminar la lista %s\?</string>
     <string name="duration_indefinite">Indefinido</string>

@@ -80,7 +80,7 @@
     <string name="action_accept">D\'acord</string>
     <string name="action_reject">Rebutja</string>
     <string name="action_search">Cerca</string>
-    <string name="action_access_saved_toot">Esborranys</string>
+    <string name="action_access_drafts">Esborranys</string>
     <string name="download_image">S\'està baixant %1$s</string>
     <string name="action_copy_link">Copia l\'enllaç</string>
     <string name="send_status_link_to">Comparteix l\'URL del toot a…</string>
@@ -433,7 +433,7 @@
     <string name="post_lookup_error_format">S\'ha produït un error en cercar la publicació %s</string>
     <string name="no_scheduled_status">No tens cap estat planificat.</string>
     <string name="error_audio_upload_size">Els fitxers d\'àudio han de ser de mida menor de 40MB.</string>
-    <string name="no_saved_status">No teniu cap esborrany.</string>
+    <string name="no_drafts">No teniu cap esborrany.</string>
     <string name="warning_scheduling_interval">L\'interval mínim de planificació a Mastodon és de 5 minuts.</string>
     <string name="notification_follow_request_name">Peticions de seguiment</string>
     <string name="pref_title_confirm_reblogs">Mostra el diàleg de confirmació abans de promoure</string>
@@ -496,7 +496,6 @@
     <string name="drafts_toot_reply_removed">S\'ha esborrat el tut del qual en vau fer un esborrany de resposta</string>
     <string name="draft_deleted">S\'ha eliminat l\'esborrany</string>
     <string name="drafts_failed_loading_reply">No s\'ha pogut carregar la informació de la resposta</string>
-    <string name="old_drafts">Esborranys antics</string>
     <string name="drafts_toot_failed_to_send">No s\'ha pogut enviar aquest tut!</string>
     <string name="dialog_delete_list_warning">Segur que voleu esborrar la llista %s\?</string>
     <plurals name="error_upload_max_media_reached">

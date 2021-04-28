@@ -93,7 +93,7 @@
     <string name="action_accept">پذیرش</string>
     <string name="action_reject">رد</string>
     <string name="action_search">جست‌وجو</string>
-    <string name="action_access_saved_toot">پیش‌نویس‌ها</string>
+    <string name="action_access_drafts">پیش‌نویس‌ها</string>
     <string name="action_toggle_visibility">نمایانی بوق</string>
     <string name="action_content_warning">هشدار محتوا</string>
     <string name="action_emoji_keyboard">صفحه‌کلید اموجی</string>
@@ -439,7 +439,7 @@
     <string name="description_status_bookmarked">نشان‌شده</string>
     <string name="select_list_title">گزینش فهرست</string>
     <string name="list">فهرست</string>
-    <string name="no_saved_status">هیچ پیش‌نویسی ندارید.</string>
+    <string name="no_drafts">هیچ پیش‌نویسی ندارید.</string>
     <string name="no_scheduled_status">هیچ وضعیت زمان‌بسته‌ای ندارید.</string>
     <string name="warning_scheduling_interval">ماستودون، بازهٔ زمان‌بندی‌ای با کمینهٔ ۵ دقیقه دارد.</string>
     <string name="pref_title_confirm_reblogs">نمایش گفت‌وگوی تأیید، پیش از تقویت</string>
@@ -485,7 +485,6 @@
     <string name="action_unsubscribe_account">عدم اشتراک</string>
     <string name="action_subscribe_account">اشتراک</string>
     <string name="draft_deleted">پیش‌نویس حذف شد</string>
-    <string name="old_drafts">پیش‌نویس‌های قدیمی</string>
     <string name="drafts_toot_failed_to_send">فرستادن این بوق شکست خورد!</string>
     <string name="wellbeing_hide_stats_profile">نهفتن آمار کمی روی نمایه‌ها</string>
     <string name="wellbeing_hide_stats_posts">نهفتن آمار کمی روی فرسته‌ها</string>
@@ -509,8 +508,6 @@
 \n - آمار پی‌گیر و فرسته روی نمایه‌ها
 \n
 \n فرستادن آگاهی‌ها تأثیر نمی‌پذیرد، ولی می‌توانید ترجیحات آگاهیتان را به صورت دستی بازبینی کنید.</string>
-    <string name="new_drafts_warning">ویژگی پیش‌نویس در تاسکی به صورت کامل بازطرّاحی شده تا سریع‌تر، کاربرپسندتر و کم‌مشکل‌تر باشد.
-\n همجنان می‌توانید از طریق دکمه‌ای دز صفحهٔ پیش‌نویس‌های جدید، به پیش‌نویس‌های قدیمیتان دسترسی داشته باشید، ولی در به‌روز رسانی آینده برداشته خواهند شد!</string>
     <string name="dialog_delete_list_warning">واقعاً می‌خواهید فهرست %s را حذف کنید؟</string>
     <plurals name="error_upload_max_media_reached">
         <item quantity="one">نمی‌توانید بیش از %1$d رسانه بارگذارید.</item>

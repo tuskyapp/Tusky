@@ -96,7 +96,7 @@
     <string name="action_accept">Sprejmi</string>
     <string name="action_reject">Zavrni</string>
     <string name="action_search">Iskanje</string>
-    <string name="action_access_saved_toot">Osnutki</string>
+    <string name="action_access_drafts">Osnutki</string>
     <string name="action_toggle_visibility">Vidljivost tuta</string>
     <string name="action_content_warning">Opozorilo o vsebini</string>
     <string name="action_emoji_keyboard">Tipkovnica z emotikoni</string>

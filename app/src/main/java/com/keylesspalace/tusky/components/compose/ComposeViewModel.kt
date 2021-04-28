@@ -45,14 +45,12 @@ class ComposeViewModel @Inject constructor(
         private val mediaUploader: MediaUploader,
         private val serviceClient: ServiceClient,
         private val draftHelper: DraftHelper,
-        private val saveTootHelper: SaveTootHelper,
         private val db: AppDatabase
 ) : RxAwareViewModel() {
 
     private var replyingStatusAuthor: String? = null
     private var replyingStatusContent: String? = null
     internal var startingText: String? = null
-    private var savedTootUid: Int = 0
     private var draftId: Int = 0
     private var scheduledTootId: String? = null
     private var startingContentWarning: String = ""
@@ -216,9 +214,6 @@ class ComposeViewModel @Inject constructor(
     }
 
     fun deleteDraft() {
-        if (savedTootUid != 0) {
-            saveTootHelper.deleteDraft(savedTootUid)
-        }
         if (draftId != 0) {
             draftHelper.deleteDraftAndAttachments(draftId)
                     .subscribe()
@@ -291,7 +286,6 @@ class ComposeViewModel @Inject constructor(
                             replyingStatusContent = null,
                             replyingStatusAuthorUsername = null,
                             accountId = accountManager.activeAccount!!.id,
-                            savedTootUid = savedTootUid,
                             draftId = draftId,
                             idempotencyKey = randomAlphanumericString(16),
                             retries = 0
@@ -406,20 +400,8 @@ class ComposeViewModel @Inject constructor(
         }
 
         // recreate media list
-        val loadedDraftMediaUris = composeOptions?.mediaUrls
-        val loadedDraftMediaDescriptions: List<String?>? = composeOptions?.mediaDescriptions
         val draftAttachments = composeOptions?.draftAttachments
-        if (loadedDraftMediaUris != null && loadedDraftMediaDescriptions != null) {
-            // when coming from SavedTootActivity
-            loadedDraftMediaUris.zip(loadedDraftMediaDescriptions)
-                    .forEach { (uri, description) ->
-                        pickMedia(uri.toUri()).observeForever { errorOrItem ->
-                            if (errorOrItem.isRight() && description != null) {
-                                updateDescription(errorOrItem.asRight().localId, description)
-                            }
-                        }
-                    }
-        } else if (draftAttachments != null) {
+        if (draftAttachments != null) {
             // when coming from DraftActivity
             draftAttachments.forEach { attachment -> pickMedia(attachment.uri, attachment.description) }
         } else composeOptions?.mediaAttachments?.forEach { a ->
@@ -432,7 +414,6 @@ class ComposeViewModel @Inject constructor(
             addUploadedMedia(a.id, mediaType, a.url.toUri(), a.description)
         }
 
-        savedTootUid = composeOptions?.savedTootUid ?: 0
         draftId = composeOptions?.draftId ?: 0
         scheduledTootId = composeOptions?.scheduledTootId
         startingText = composeOptions?.tootText

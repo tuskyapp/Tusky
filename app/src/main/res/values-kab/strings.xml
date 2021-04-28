@@ -40,14 +40,14 @@
     <string name="action_open_in_web">Ldi deg uminig</string>
     <string name="action_share">Bḍu</string>
     <string name="action_mute">Sgugem</string>
-    <string name="action_access_saved_toot">Irewwayen</string>
+    <string name="action_access_drafts">Irewwayen</string>
     <string name="action_open_faved_by">Sken-d ismenyifen</string>
     <string name="notification_favourite_name">Ismenyifen</string>
     <plurals name="favs">
         <item quantity="one"><b>%1$s</b> n usmenyaf</item>
         <item quantity="other"><b>%1$s</b> n ismenyifen</item>
     </plurals>
-    <string name="no_saved_status">Ur tesɛiḍ ara irewwayen.</string>
+    <string name="no_drafts">Ur tesɛiḍ ara irewwayen.</string>
     <string name="error_generic">Tella-d tucḍa.</string>
     <string name="title_notifications">Tilɣa</string>
     <string name="link_whats_an_instance">D acu i ttummant\?</string>

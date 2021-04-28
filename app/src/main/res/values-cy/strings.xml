@@ -92,7 +92,7 @@
     <string name="action_accept">Derbyn</string>
     <string name="action_reject">Gwrthod</string>
     <string name="action_search">Chwilio</string>
-    <string name="action_access_saved_toot">Drafftiau</string>
+    <string name="action_access_drafts">Drafftiau</string>
     <string name="action_toggle_visibility">Pwy all weld Tŵt</string>
     <string name="action_content_warning">Rhybudd cynnwys</string>
     <string name="action_emoji_keyboard">Bysellfwrdd emoji</string>

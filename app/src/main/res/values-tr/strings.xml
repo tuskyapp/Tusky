@@ -99,7 +99,7 @@
     <string name="action_accept">Kabul et</string>
     <string name="action_reject">Reddet</string>
     <string name="action_search">Ara</string>
-    <string name="action_access_saved_toot">Taslaklar</string>
+    <string name="action_access_drafts">Taslaklar</string>
     <string name="action_toggle_visibility">Toot görünürlüğü</string>
     <string name="action_content_warning">İçerik uyarı</string>
     <string name="action_emoji_keyboard">İfade klavyesi</string>
@@ -443,7 +443,7 @@
     <string name="failed_report">Bildirilemedi</string>
     <string name="poll_new_choice_hint">Seçenek %d</string>
     <string name="post_lookup_error_format">%s gönderisi aranırken hata oluştu</string>
-    <string name="no_saved_status">Hiç taslağınız yok.</string>
+    <string name="no_drafts">Hiç taslağınız yok.</string>
     <string name="no_scheduled_status">Zamanlanmış durumunuz yok.</string>
     <string name="reblog_private">Kendi kitlenize yükseltin</string>
     <string name="hashtags">Hashtags\'ler</string>

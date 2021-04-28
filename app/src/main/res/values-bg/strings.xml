@@ -320,7 +320,7 @@
     <string name="action_content_warning">Предупреждение за съдържание</string>
     <string name="action_toggle_visibility">Видимост на публикация</string>
     <string name="action_access_scheduled_toot">Планирани публикации</string>
-    <string name="action_access_saved_toot">Чернови</string>
+    <string name="action_access_drafts">Чернови</string>
     <string name="action_search">Търсене</string>
     <string name="action_reject">Отхвърляне</string>
     <string name="action_accept">Приемане</string>
@@ -442,9 +442,6 @@
     <string name="error_generic">Възникна грешка.</string>
     <string name="draft_deleted">Черновата е изтрита</string>
     <string name="drafts_failed_loading_reply">Неуспешно зареждане на информация за отговор</string>
-    <string name="old_drafts">Стари чернови</string>
-    <string name="new_drafts_warning">Функцията за чернови в Tusky е напълно преработена, за да бъде по-бърза, по-лесна за ползване и по-малко бъгава.
-\n Все още можете да осъществите достъп до старите си чернови чрез бутон на екрана за нови чернови, но те ще бъдат премахнати при бъдеща актуализация!</string>
     <string name="drafts_toot_failed_to_send">Тази публикация не успя да се изпрати!</string>
     <string name="dialog_delete_list_warning">Наистина ли искате да изтриете списъка %s\?</string>
     <plurals name="error_upload_max_media_reached">
@@ -470,7 +467,7 @@
     <string name="warning_scheduling_interval">Mastodon има минимален интервал за планиране от 5 минути.</string>
     <string name="no_announcements">Няма оповестявания.</string>
     <string name="no_scheduled_status">Нямате планирани състояния.</string>
-    <string name="no_saved_status">Нямате чернови.</string>
+    <string name="no_drafts">Нямате чернови.</string>
     <string name="post_lookup_error_format">Грешка при търсенето на публикация %s</string>
     <string name="edit_poll">Редакция</string>
     <string name="poll_new_choice_hint">Избор %d</string>

@@ -58,7 +58,7 @@
     <string name="action_links">Посилання</string>
     <string name="action_content_warning">Попередження про вміст</string>
     <string name="action_access_scheduled_toot">Заплановані дмухи</string>
-    <string name="action_access_saved_toot">Чернетки</string>
+    <string name="action_access_drafts">Чернетки</string>
     <string name="action_reject">Відхилити</string>
     <string name="action_accept">Прийняти</string>
     <string name="action_undo">Скасувати</string>
@@ -458,9 +458,6 @@
     <string name="drafts_toot_reply_removed">Дмух, для якого ви створили чернетку відповіді, вилучено</string>
     <string name="draft_deleted">Чернетку видалено</string>
     <string name="drafts_failed_loading_reply">Не вдалося завантажити дані відповіді</string>
-    <string name="old_drafts">Старі чернетки</string>
-    <string name="new_drafts_warning">Функція чернетки в Tusky була повністю перероблена, щоб бути швидшою, зручнішою для користувачів і з меншою кількістю вад.
-\n Ви все ще можете отримати доступ до своїх старих чернеток за допомогою кнопки на екрані нових чернеток, але вони будуть вилучені в майбутньому оновленні!</string>
     <string name="drafts_toot_failed_to_send">Не вдалося надіслати цей дмух!</string>
     <string name="dialog_delete_list_warning">Ви дійсно хочете видалити список %s\?</string>
     <plurals name="error_upload_max_media_reached">
@@ -481,7 +478,7 @@
     <string name="warning_scheduling_interval">Найкоротший час планування Mastodon становить 5 хвилин.</string>
     <string name="no_announcements">Оголошень немає.</string>
     <string name="no_scheduled_status">Черга статусів порожня.</string>
-    <string name="no_saved_status">У вас немає чернеток.</string>
+    <string name="no_drafts">У вас немає чернеток.</string>
     <string name="post_lookup_error_format">Помилка пошуку допису %s</string>
     <string name="pref_title_enable_swipe_for_tabs">Увімкнути перемикання між вкладками жестом проведення пальцем</string>
     <string name="pref_title_show_notifications_filter">Показати фільтр сповіщень</string>

@@ -101,7 +101,7 @@
     <string name="action_accept">Goedkeuren</string>
     <string name="action_reject">Afwijzen</string>
     <string name="action_search">Zoeken</string>
-    <string name="action_access_saved_toot">Concepten</string>
+    <string name="action_access_drafts">Concepten</string>
     <string name="action_toggle_visibility">Zichtbaarheid toot</string>
     <string name="action_content_warning">Tekstwaarschuwing</string>
     <string name="action_emoji_keyboard">Emojis</string>
@@ -454,7 +454,7 @@
     <string name="failed_search">Zoeken mislukt</string>
     <string name="create_poll_title">Poll</string>
     <string name="post_lookup_error_format">Fout tijdens opzoeken toot %s</string>
-    <string name="no_saved_status">Je hebt nog geen concepten</string>
+    <string name="no_drafts">Je hebt nog geen concepten</string>
     <string name="no_scheduled_status">Je hebt nog geen ingeplande toots</string>
     <string name="warning_scheduling_interval">Om in te plannen moet je in Mastodon een minimum interval van 5 minuten gebruiken.</string>
     <string name="notification_follow_request_name">Volgverzoeken</string>

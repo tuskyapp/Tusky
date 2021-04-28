@@ -98,7 +98,7 @@
     <string name="action_accept">許可</string>
     <string name="action_reject">拒否</string>
     <string name="action_search">検索</string>
-    <string name="action_access_saved_toot">下書き</string>
+    <string name="action_access_drafts">下書き</string>
     <string name="action_toggle_visibility">トゥートの公開範囲</string>
     <string name="action_content_warning">注意書き</string>
     <string name="action_emoji_keyboard">絵文字キーボード</string>
@@ -411,7 +411,7 @@
     <string name="notification_follow_request_format">%sさんがあなたにフォローリクエストしました</string>
     <string name="report_sent_success">\@%sさんを通報しました</string>
     <string name="no_scheduled_status">予約した投稿はありません。</string>
-    <string name="no_saved_status">下書きはありません。</string>
+    <string name="no_drafts">下書きはありません。</string>
     <string name="poll_new_choice_hint">項目 %d</string>
     <string name="report_description_remote_instance">このアカウントは外部のサーバーにあります。匿名化された通報の複製をそちらにも送信しますか？</string>
     <string name="report_description_1">通報をサーバーのモデレーターに送信します。以下にこのアカウントを通報理由を入力できます:</string>

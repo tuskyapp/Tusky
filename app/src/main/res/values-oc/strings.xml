@@ -91,7 +91,7 @@
     <string name="action_accept">Acceptar</string>
     <string name="action_reject">Regetar</string>
     <string name="action_search">Cercar</string>
-    <string name="action_access_saved_toot">Borrolhons</string>
+    <string name="action_access_drafts">Borrolhons</string>
     <string name="action_toggle_visibility">Visibilitat del tut</string>
     <string name="action_content_warning">Avis de contengut</string>
     <string name="action_emoji_keyboard">Clavièr Emoji</string>
@@ -450,7 +450,7 @@
     <string name="select_list_title">Seleccionar la list</string>
     <string name="list">Lista</string>
     <string name="error_audio_upload_size">Los fichièrs àudio devon èsser inferiors a 40 Mo.</string>
-    <string name="no_saved_status">Avètz pas cap de borrolhon.</string>
+    <string name="no_drafts">Avètz pas cap de borrolhon.</string>
     <string name="no_scheduled_status">Avètz pas cap de tut planificat.</string>
     <string name="warning_scheduling_interval">L’interval minimum de planificacion sus Mastodon e de 5 minutas.</string>
     <string name="notification_follow_request_name">Demandas d’abonament</string>

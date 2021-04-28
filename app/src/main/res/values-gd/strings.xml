@@ -47,7 +47,7 @@
     <string name="compose_shortcut_short_label">Sgrìobh</string>
     <string name="pref_title_show_boosts">Seall na brosnachaidhean</string>
     <string name="action_open_reblogged_by">Seall na brosnachaidhean</string>
-    <string name="action_access_saved_toot">Dreachdan</string>
+    <string name="action_access_drafts">Dreachdan</string>
     <string name="action_view_favourites">Annsachdan</string>
     <string name="pref_title_notifications_enabled">Brathan</string>
     <string name="title_notifications">Brathan</string>
@@ -58,9 +58,6 @@
     <string name="drafts_toot_reply_removed">Bha againn ris an dùd a bha thu airson freagairt dha a thoirt air falbh</string>
     <string name="draft_deleted">Chaidh an dreach a sguabadh às</string>
     <string name="drafts_failed_loading_reply">Cha deach leinn fiosrachadh na freagairte a luchdadh</string>
-    <string name="old_drafts">Seann-dreachdan</string>
-    <string name="new_drafts_warning">Chaidh dealbhadh gu tur ùr a chur air gleus nan dreachdan aig Tusky ach am biodh e nas luaithe, nas fhasa cleachdadh is nas lugha de bhugaichean ann.
-\n Gheibh thu grèim air na seann-dreachdan agad fhathast le putan air sgrìn ùr nan dreachdan ach thèid an toirt air falbh le ùrachadh ri teachd!</string>
     <string name="drafts_toot_failed_to_send">Cha b’ urrainn dhuinn an dùd a chur!</string>
     <string name="status_media_attachments">Ceanglachain</string>
     <string name="status_media_audio">Fuaim</string>
@@ -108,7 +105,7 @@
     <string name="pref_title_show_cards_in_timelines">Seall ro-sheallaidhean air ceanglaichean sna loidhnichean-ama</string>
     <string name="warning_scheduling_interval">Feumaidh co-dhiù 5 mionaidean a bhith eadar staidean sgeidealaichte air Mastodon.</string>
     <string name="no_scheduled_status">Chan eil staid sam bith air an sgeideal agad.</string>
-    <string name="no_saved_status">Chan eil dreachd sam bith agad.</string>
+    <string name="no_drafts">Chan eil dreachd sam bith agad.</string>
     <string name="post_lookup_error_format">Thachair mearachd le lorg a’ phuist %s</string>
     <string name="poll_new_choice_hint">Roghainn %d</string>
     <string name="poll_allow_multiple_choices">Iomadh roghainn</string>

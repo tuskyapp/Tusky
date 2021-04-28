@@ -101,7 +101,7 @@
     <string name="action_accept">Acceptera</string>
     <string name="action_reject">Avvisa</string>
     <string name="action_search">Sök</string>
-    <string name="action_access_saved_toot">Utkast</string>
+    <string name="action_access_drafts">Utkast</string>
     <string name="action_toggle_visibility">Toot synlighet</string>
     <string name="action_content_warning">Innehållsvarning</string>
     <string name="action_emoji_keyboard">Emoji-tangentbord</string>
@@ -457,7 +457,7 @@
     <string name="list">Lista</string>
     <string name="no_scheduled_status">Du har inga schemalagda statusar.</string>
     <string name="error_audio_upload_size">Ljudfiler måste vara mindre än 40MB.</string>
-    <string name="no_saved_status">Du har inga utkast.</string>
+    <string name="no_drafts">Du har inga utkast.</string>
     <string name="warning_scheduling_interval">Mastodon har ett minimalt schemaläggningsintervall på 5 minuter.</string>
     <string name="action_mute_conversation">Tysta konversation</string>
     <string name="pref_title_confirm_reblogs">Visa bekräftelse innan knuff</string>
