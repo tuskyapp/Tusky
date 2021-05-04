@@ -247,7 +247,7 @@
     <string name="notification_follow_request_name">Yêu cầu theo dõi</string>
     <string name="notification_follow_description">Thông báo về người theo dõi mới</string>
     <string name="notification_follow_name">Người theo dõi mới</string>
-    <string name="notification_mention_descriptions">Thông báo về lược nhắc tới</string>
+    <string name="notification_mention_descriptions">Thông báo về lượt nhắc tới</string>
     <string name="status_text_size_largest">To nhất</string>
     <string name="status_text_size_large">To</string>
     <string name="status_text_size_medium">Trung bình</string>
@@ -269,7 +269,7 @@
     <string name="pref_title_http_proxy_enable">Bật proxy</string>
     <string name="pref_title_http_proxy_settings">Dùng proxy</string>
     <string name="pref_title_proxy_settings">Vượt tường lửa</string>
-    <string name="notification_boost_description">Thông báo khi của bạn được chia sẻ</string>
+    <string name="notification_boost_description">Thông báo khi tút của bạn được chia sẻ</string>
     <string name="notification_boost_name">Chia sẻ</string>
     <string name="notification_follow_request_description">Thông báo về lượt yêu cầu theo dõi</string>
     <string name="about_bug_feature_request_site">Báo lỗi và đề xuất tính năng
@@ -383,7 +383,7 @@
     <string name="description_status_bookmarked">Đã lưu</string>
     <string name="description_status_favourited">Đã thích</string>
     <string name="description_status_reblogged">Đã chia sẻ</string>
-    <string name="description_status_media_no_description_placeholder">Âm thanh</string>
+    <string name="description_status_media_no_description_placeholder">Không có mô tả</string>
     <string name="description_status_cw">Nội dung nhạy cảm: %s</string>
     <plurals name="max_tab_number_reached">
         <item quantity="other">tối đa %1$d tab</item>
