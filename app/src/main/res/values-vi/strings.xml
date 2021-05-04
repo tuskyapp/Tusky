@@ -291,7 +291,7 @@
     <string name="pref_title_public_filter_keywords">Cộng đồng</string>
     <string name="load_more_placeholder_text">xem thêm</string>
     <string name="replying_to">Trả lời @%s</string>
-    <string name="title_media">Album</string>
+    <string name="title_media">Media</string>
     <string name="pref_title_alway_open_spoiler">Luôn hiện nội dung bị ẩn</string>
     <string name="pref_title_alway_show_sensitive_media">Luôn hiện nội dung nhạy cảm</string>
     <string name="follows_you">Đang theo dõi bạn</string>

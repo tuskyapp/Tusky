@@ -532,4 +532,5 @@
     <string name="download_failed">Не вдалося завантажити</string>
     <string name="caption_notoemoji">Поточний набір емодзі Google</string>
     <string name="caption_twemoji">Стандартний набір емодзі Mastodon</string>
+    <string name="follow_requests_info">Навіть попри те, що ваш обліковий запис загальнодоступний, співробітники %1$s вважають, що ви, можливо, захочете переглянути запити від цих облікових записів власноруч.</string>
 </resources>
