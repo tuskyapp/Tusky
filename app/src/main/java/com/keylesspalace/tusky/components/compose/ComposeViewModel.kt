@@ -36,7 +36,6 @@ import com.keylesspalace.tusky.util.*
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.disposables.Disposable
-import io.reactivex.rxjava3.kotlin.Singles
 import java.util.*
 import javax.inject.Inject
 

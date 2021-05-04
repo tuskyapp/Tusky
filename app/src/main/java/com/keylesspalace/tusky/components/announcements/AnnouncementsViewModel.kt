@@ -29,7 +29,6 @@ import com.keylesspalace.tusky.entity.Instance
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.*
 import io.reactivex.rxjava3.core.Single
-import io.reactivex.rxjava3.kotlin.Singles
 import javax.inject.Inject
 
 class AnnouncementsViewModel @Inject constructor(
