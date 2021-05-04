@@ -33,8 +33,8 @@ import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.service.ServiceClient
 import com.keylesspalace.tusky.util.SaveTootHelper
 import com.nhaarman.mockitokotlin2.any
-import io.reactivex.Single
-import io.reactivex.SingleObserver
+import io.reactivex.rxjava3.core.Single
+import io.reactivex.rxjava3.core.SingleObserver
 import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test

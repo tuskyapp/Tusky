@@ -28,10 +28,10 @@ import com.keylesspalace.tusky.db.DraftEntity
 import com.keylesspalace.tusky.entity.NewPoll
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.util.IOUtils
-import io.reactivex.Completable
-import io.reactivex.Observable
-import io.reactivex.Single
-import io.reactivex.schedulers.Schedulers
+import io.reactivex.rxjava3.core.Completable
+import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.core.Single
+import io.reactivex.rxjava3.schedulers.Schedulers
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
@@ -124,7 +124,9 @@ class DraftHelper @Inject constructor(
     fun deleteDraftAndAttachments(draftId: Int): Completable {
         return draftDao.find(draftId)
                 .flatMapCompletable { draft ->
-                    deleteDraftAndAttachments(draft)
+                    draft?.let {
+                        deleteDraftAndAttachments(it)
+                    }
                 }
     }
 

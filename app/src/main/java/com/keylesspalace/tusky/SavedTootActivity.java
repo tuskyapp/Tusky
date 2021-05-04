@@ -48,11 +48,12 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 
+import static autodispose2.AutoDispose.autoDisposable;
+import static autodispose2.androidx.lifecycle.AndroidLifecycleScopeProvider.from;
 import static com.keylesspalace.tusky.components.compose.ComposeActivity.ComposeOptions;
-import static com.uber.autodispose.AutoDispose.autoDisposable;
-import static com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider.from;
+
 
 public final class SavedTootActivity extends BaseActivity implements SavedTootAdapter.SavedTootAction,
         Injectable {
@@ -79,7 +80,7 @@ public final class SavedTootActivity extends BaseActivity implements SavedTootAd
         eventHub.getEvents()
                 .observeOn(AndroidSchedulers.mainThread())
                 .ofType(StatusComposedEvent.class)
-                .as(autoDisposable(from(this, Lifecycle.Event.ON_DESTROY)))
+                .to(autoDisposable(from(this, Lifecycle.Event.ON_DESTROY)))
                 .subscribe((__) -> this.fetchToots());
 
         setContentView(R.layout.activity_saved_toot);

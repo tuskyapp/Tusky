@@ -33,9 +33,10 @@ import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.service.ServiceClient
 import com.keylesspalace.tusky.service.TootToSend
 import com.keylesspalace.tusky.util.*
-import io.reactivex.Observable.just
-import io.reactivex.disposables.Disposable
-import io.reactivex.rxkotlin.Singles
+import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.core.Single
+import io.reactivex.rxjava3.disposables.Disposable
+import io.reactivex.rxjava3.kotlin.Singles
 import java.util.*
 import javax.inject.Inject
 
@@ -91,7 +92,7 @@ class ComposeViewModel @Inject constructor(
 
     init {
 
-        Singles.zip(api.getCustomEmojis(), api.getInstance()) { emojis, instance ->
+        Single.zip(api.getCustomEmojis(), api.getInstance(), { emojis, instance ->
             InstanceEntity(
                     instance = accountManager.activeAccount?.domain!!,
                     emojiList = emojis,
@@ -100,13 +101,13 @@ class ComposeViewModel @Inject constructor(
                     maxPollOptionLength = instance.pollLimits?.maxOptionChars,
                     version = instance.version
             )
-        }
+        })
                 .doOnSuccess {
                     db.instanceDao().insertOrReplace(it)
                 }
-                .onErrorResumeNext(
-                        db.instanceDao().loadMetadataForInstance(accountManager.activeAccount?.domain!!)
-                )
+                .onErrorResumeNext {
+                    db.instanceDao().loadMetadataForInstance(accountManager.activeAccount?.domain!!)
+                }
                 .subscribe({ instanceEntity ->
                     emoji.postValue(instanceEntity.emojiList)
                     instance.postValue(instanceEntity)
@@ -262,7 +263,7 @@ class ComposeViewModel @Inject constructor(
         val deletionObservable = if (isEditingScheduledToot) {
             api.deleteScheduledStatus(scheduledTootId.toString()).toObservable().map { }
         } else {
-            just(Unit)
+            Observable.just(Unit)
         }.toLiveData()
 
         val sendObservable = media

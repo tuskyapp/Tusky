@@ -18,7 +18,7 @@ package com.keylesspalace.tusky.db
 import androidx.paging.DataSource
 import androidx.room.*
 import com.keylesspalace.tusky.components.conversation.ConversationEntity
-import io.reactivex.Single
+import io.reactivex.rxjava3.core.Single
 
 @Dao
 interface ConversationsDao {

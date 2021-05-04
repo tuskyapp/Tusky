@@ -29,9 +29,9 @@ import com.keylesspalace.tusky.entity.Attachment
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.network.ProgressRequestBody
 import com.keylesspalace.tusky.util.*
-import io.reactivex.Observable
-import io.reactivex.Single
-import io.reactivex.schedulers.Schedulers
+import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.core.Single
+import io.reactivex.rxjava3.schedulers.Schedulers
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import java.io.File

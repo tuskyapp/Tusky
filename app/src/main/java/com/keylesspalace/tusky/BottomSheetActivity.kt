@@ -22,12 +22,12 @@ import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.Lifecycle
+import autodispose2.androidx.lifecycle.AndroidLifecycleScopeProvider
+import autodispose2.autoDispose
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.LinkHelper
-import com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider
-import com.uber.autodispose.autoDispose
-import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import java.net.URI
 import java.net.URISyntaxException
 import javax.inject.Inject

@@ -22,8 +22,8 @@ import com.keylesspalace.tusky.db.AppDatabase
 import com.keylesspalace.tusky.db.DraftEntity
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.network.MastodonApi
-import io.reactivex.Observable
-import io.reactivex.Single
+import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.core.Single
 import javax.inject.Inject
 
 class DraftsViewModel @Inject constructor(

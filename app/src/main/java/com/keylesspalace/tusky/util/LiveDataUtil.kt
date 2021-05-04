@@ -16,9 +16,10 @@
 package com.keylesspalace.tusky.util
 
 import androidx.lifecycle.*
-import io.reactivex.BackpressureStrategy
-import io.reactivex.Observable
-import io.reactivex.Single
+import io.reactivex.rxjava3.core.BackpressureStrategy
+import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.core.Single
+
 
 inline fun <X, Y> LiveData<X>.map(crossinline mapFunction: (X) -> Y): LiveData<Y> =
         Transformations.map(this) { input -> mapFunction(input) }

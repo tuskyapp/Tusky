@@ -10,8 +10,8 @@ import com.keylesspalace.tusky.entity.IdentityProof
 import com.keylesspalace.tusky.entity.Relationship
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.*
-import io.reactivex.Single
-import io.reactivex.disposables.Disposable
+import io.reactivex.rxjava3.core.Single
+import io.reactivex.rxjava3.disposables.Disposable
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

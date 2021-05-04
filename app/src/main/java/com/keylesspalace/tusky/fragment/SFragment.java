@@ -73,14 +73,14 @@ import java.util.regex.Pattern;
 
 import javax.inject.Inject;
 
-import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import kotlin.Unit;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static com.uber.autodispose.AutoDispose.autoDisposable;
-import static com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider.from;
+import static autodispose2.AutoDispose.autoDisposable;
+import static autodispose2.androidx.lifecycle.AndroidLifecycleScopeProvider.from;
 
 /* Note from Andrew on Jan. 22, 2017: This class is a design problem for me, so I left it with an
  * awkward name. TimelineFragment and NotificationFragment have significant overlap but the nature
@@ -323,7 +323,7 @@ public abstract class SFragment extends Fragment implements Injectable {
                     timelineCases.muteConversation(status, status.getMuted() == null || !status.getMuted())
                             .onErrorReturnItem(status)
                             .observeOn(AndroidSchedulers.mainThread())
-                            .as(autoDisposable(from(this, Lifecycle.Event.ON_DESTROY)))
+                            .to(autoDisposable(from(this, Lifecycle.Event.ON_DESTROY)))
                             .subscribe();
                     return true;
                 }
@@ -416,7 +416,7 @@ public abstract class SFragment extends Fragment implements Injectable {
                 .setPositiveButton(android.R.string.ok, (dialogInterface, i) -> {
                     timelineCases.delete(id)
                             .observeOn(AndroidSchedulers.mainThread())
-                            .as(autoDisposable(from(this, Lifecycle.Event.ON_DESTROY)))
+                            .to(autoDisposable(from(this, Lifecycle.Event.ON_DESTROY)))
                             .subscribe(
                                     deletedStatus -> {
                                     },
@@ -439,7 +439,7 @@ public abstract class SFragment extends Fragment implements Injectable {
                 .setPositiveButton(android.R.string.ok, (dialogInterface, i) -> {
                     timelineCases.delete(id)
                             .observeOn(AndroidSchedulers.mainThread())
-                            .as(autoDisposable(from(this, Lifecycle.Event.ON_DESTROY)))
+                            .to(autoDisposable(from(this, Lifecycle.Event.ON_DESTROY)))
                             .subscribe(deletedStatus -> {
                                         removeItem(position);
 

@@ -21,8 +21,8 @@ import androidx.paging.ItemKeyedDataSource
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.NetworkState
-import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.functions.BiFunction
+import io.reactivex.rxjava3.disposables.CompositeDisposable
+import io.reactivex.rxjava3.functions.BiFunction
 import java.util.concurrent.Executor
 
 class StatusesDataSource(private val accountId: String,

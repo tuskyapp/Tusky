@@ -24,8 +24,8 @@ import com.keylesspalace.tusky.util.Either.Left
 import com.keylesspalace.tusky.util.Either.Right
 import com.keylesspalace.tusky.util.RxAwareViewModel
 import com.keylesspalace.tusky.util.withoutFirstWhich
-import io.reactivex.Observable
-import io.reactivex.subjects.BehaviorSubject
+import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.subjects.BehaviorSubject
 import javax.inject.Inject
 
 data class State(val accounts: Either<Throwable, List<Account>>, val searchResult: List<Account>?)

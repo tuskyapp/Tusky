@@ -20,7 +20,8 @@ import androidx.room.Query;
 
 import java.util.List;
 
-import io.reactivex.Observable;
+import io.reactivex.rxjava3.core.Observable;
+
 
 /**
  * Created by cto3543 on 28/06/2017.

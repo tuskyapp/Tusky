@@ -27,6 +27,8 @@ import androidx.activity.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import autodispose2.androidx.lifecycle.AndroidLifecycleScopeProvider.from
+import autodispose2.autoDispose
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.snackbar.Snackbar
 import com.keylesspalace.tusky.BaseActivity
@@ -38,9 +40,8 @@ import com.keylesspalace.tusky.db.DraftEntity
 import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.show
-import com.uber.autodispose.android.lifecycle.autoDispose
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.schedulers.Schedulers
 import retrofit2.HttpException
 import javax.inject.Inject
 
@@ -98,7 +99,7 @@ class DraftsActivity : BaseActivity(), DraftActionListener {
         viewModel.showOldDraftsButton()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .autoDispose(this, Lifecycle.Event.ON_DESTROY)
+                .autoDispose(from(this, Lifecycle.Event.ON_DESTROY))
                 .subscribe { showOldDraftsButton ->
                     oldDraftsButton?.isVisible = showOldDraftsButton
                 }
@@ -126,7 +127,7 @@ class DraftsActivity : BaseActivity(), DraftActionListener {
             bottomSheet.state = BottomSheetBehavior.STATE_COLLAPSED
             viewModel.getToot(draft.inReplyToId)
                     .observeOn(AndroidSchedulers.mainThread())
-                    .autoDispose(this)
+                    .autoDispose(from(this))
                     .subscribe({ status ->
                         val composeOptions = ComposeActivity.ComposeOptions(
                                 draftId = draft.id,

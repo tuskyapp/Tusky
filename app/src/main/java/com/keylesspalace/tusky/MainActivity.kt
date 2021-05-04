@@ -38,6 +38,7 @@ import androidx.emoji.text.EmojiCompat.InitCallback
 import androidx.lifecycle.Lifecycle
 import androidx.preference.PreferenceManager
 import androidx.viewpager2.widget.MarginPageTransformer
+import autodispose2.androidx.lifecycle.autoDispose
 import com.bumptech.glide.Glide
 import com.bumptech.glide.RequestManager
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
@@ -82,11 +83,10 @@ import com.mikepenz.materialdrawer.model.*
 import com.mikepenz.materialdrawer.model.interfaces.*
 import com.mikepenz.materialdrawer.util.*
 import com.mikepenz.materialdrawer.widget.AccountHeaderView
-import com.uber.autodispose.android.lifecycle.autoDispose
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.schedulers.Schedulers
 import javax.inject.Inject
 
 class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInjector {
