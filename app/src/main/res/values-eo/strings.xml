@@ -216,7 +216,9 @@
     <string name="notification_summary_large">%1$s, %2$s, %3$s kaj %4$d aliaj</string>
     <string name="notification_summary_medium">%1$s, %2$s, kaj %3$s</string>
     <string name="notification_summary_small">%1$s kaj %2$s</string>
-    <string name="notification_title_summary">%d novaj interagoj</string>
+    <plurals name="notification_title_summary">
+        <item quantity="other">%d novaj interagoj</item>
+    </plurals>
     <string name="description_account_locked">Ŝlosita konto</string>
     <string name="about_title_activity">Pri</string>
     <string name="about_tusky_version">Tusky %s</string>
@@ -281,7 +283,9 @@
     <string name="action_remove_from_list">Forigi konton el la listo</string>
     <string name="compose_active_account_description">Afiŝi per konto %1$s</string>
     <string name="error_failed_set_caption">Redakto de apudskribo malsukcesis</string>
-    <string name="hint_describe_for_visually_impaired">Priskribi por misvidantaj homoj\n(%d signoj maksimume)</string>
+    <plurals name="hint_describe_for_visually_impaired">
+        <item quantity="other">Priskribi por misvidantaj homoj\n(%d signoj maksimume)</item>
+    </plurals>
     <string name="action_set_caption">Redakti apudskribon</string>
     <string name="action_remove">Forigi</string>
     <string name="lock_account_label">Ŝlosi konton</string>
@@ -338,7 +342,9 @@
     <string name="conversation_1_recipients">%1$s</string>
     <string name="conversation_2_recipients">%1$s kaj %2$s</string>
     <string name="conversation_more_recipients">%1$s, %2$s kaj %3$d aliaj</string>
-    <string name="max_tab_number_reached">maksimuma nombro %1$d da langetoj atingita</string>
+    <plurals name="max_tab_number_reached">
+        <item quantity="other">maksimuma nombro %1$d da langetoj atingita</item>
+    </plurals>
     <string name="description_status_media">        Aŭdovidaĵo: %s
     </string>
     <string name="description_status_cw">        Enhava averto: %s

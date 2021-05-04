@@ -1,0 +1,10 @@
+Tusky v13.0
+
+- soporte para notas do perfil (Mastodon >3.2.0)
+- soporte para anuncios da admin (Mastodon >3.1.0)
+
+- móstrase o avatar da túa conta seleccionada na barra de ferramentas principal
+- premendo no nome público nunha cronoloxía abre a páxina de perfil desa usuaria
+
+- corrección de múltiples erros e pequenas melloras
+- melloras nas traducións

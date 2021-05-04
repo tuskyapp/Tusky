@@ -28,6 +28,7 @@ import com.keylesspalace.tusky.appstore.EventHubImpl
 import com.keylesspalace.tusky.components.notifications.Notifier
 import com.keylesspalace.tusky.components.notifications.SystemNotifier
 import com.keylesspalace.tusky.db.AppDatabase
+import com.keylesspalace.tusky.db.Converters
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.network.TimelineCases
 import com.keylesspalace.tusky.network.TimelineCasesImpl
@@ -70,8 +71,9 @@ class AppModule {
 
     @Provides
     @Singleton
-    fun providesDatabase(appContext: Context): AppDatabase {
+    fun providesDatabase(appContext: Context, converters: Converters): AppDatabase {
         return Room.databaseBuilder(appContext, AppDatabase::class.java, "tuskyDB")
+                .addTypeConverter(converters)
                 .allowMainThreadQueries()
                 .addMigrations(AppDatabase.MIGRATION_2_3, AppDatabase.MIGRATION_3_4, AppDatabase.MIGRATION_4_5,
                         AppDatabase.MIGRATION_5_6, AppDatabase.MIGRATION_6_7, AppDatabase.MIGRATION_7_8,

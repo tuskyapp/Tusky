@@ -1,7 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
+apply plugin: 'kotlin-parcelize'
 
 apply from: "../instance-build.gradle"
 
@@ -20,8 +20,8 @@ android {
         applicationId APP_ID
         minSdkVersion 21
         targetSdkVersion 29
-        versionCode 80
-        versionName "14.0"
+        versionCode 81
+        versionName "15.0 beta 1"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
 
@@ -64,9 +64,6 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
-    androidExtensions {
-        experimental = true
-    }
     buildFeatures {
         viewBinding true
     }
@@ -100,7 +97,7 @@ project.tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
 }
 
 ext.lifecycleVersion = "2.2.0"
-ext.roomVersion = '2.2.5'
+ext.roomVersion = '2.3.0'
 ext.retrofitVersion = '2.9.0'
 ext.okhttpVersion = '4.9.0'
 ext.glideVersion = '4.11.0'
@@ -116,7 +113,7 @@ dependencies {
     implementation "androidx.fragment:fragment-ktx:1.2.5"
     implementation "androidx.browser:browser:1.3.0"
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
-    implementation "androidx.recyclerview:recyclerview:1.1.0"
+    implementation "androidx.recyclerview:recyclerview:1.2.0"
     implementation "androidx.exifinterface:exifinterface:1.3.2"
     implementation "androidx.cardview:cardview:1.0.0"
     implementation "androidx.preference:preference-ktx:1.1.1"
@@ -125,6 +122,7 @@ dependencies {
     implementation "androidx.emoji:emoji-appcompat:1.1.0"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion"
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycleVersion"
+    implementation "androidx.lifecycle:lifecycle-common-java8:$lifecycleVersion"
     implementation "androidx.lifecycle:lifecycle-reactivestreams-ktx:$lifecycleVersion"
     implementation "androidx.constraintlayout:constraintlayout:2.0.4"
     implementation "androidx.paging:paging-runtime-ktx:2.1.2"
@@ -134,7 +132,7 @@ dependencies {
     implementation "androidx.room:room-rxjava2:$roomVersion"
     kapt "androidx.room:room-compiler:$roomVersion"
 
-    implementation "com.google.android.material:material:1.2.1"
+    implementation "com.google.android.material:material:1.3.0"
 
     implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
     implementation "com.squareup.retrofit2:converter-gson:$retrofitVersion"
@@ -142,7 +140,6 @@ dependencies {
 
     implementation "com.squareup.okhttp3:okhttp:$okhttpVersion"
     implementation "com.squareup.okhttp3:logging-interceptor:$okhttpVersion"
-    implementation "com.squareup.okhttp3:okhttp-tls:$okhttpVersion"
 
     implementation "org.conscrypt:conscrypt-android:2.5.1"
 

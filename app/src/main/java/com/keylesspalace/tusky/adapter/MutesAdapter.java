@@ -9,7 +9,6 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.core.view.ViewCompat;
-import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.keylesspalace.tusky.R;
@@ -123,9 +122,9 @@ public class MutesAdapter extends AccountAdapter {
         }
 
         void setupActionListener(final AccountActionListener listener) {
-            unmute.setOnClickListener(v -> listener.onMute(false, id, getAdapterPosition(), false));
+            unmute.setOnClickListener(v -> listener.onMute(false, id, getBindingAdapterPosition(), false));
             muteNotifications.setOnClickListener(
-                v -> listener.onMute(true, id, getAdapterPosition(), !notifications));
+                v -> listener.onMute(true, id, getBindingAdapterPosition(), !notifications));
             itemView.setOnClickListener(v -> listener.onViewAccount(id));
         }
     }

@@ -242,7 +242,7 @@ public class NotificationHelper {
 
         if (currentNotifications.length() != 1) {
             try {
-                String title = context.getString(R.string.notification_title_summary, currentNotifications.length());
+                String title = context.getResources().getQuantityString(R.plurals.notification_title_summary, currentNotifications.length(), currentNotifications.length());
                 String text = joinNames(context, currentNotifications);
                 summaryBuilder.setContentTitle(title)
                         .setContentText(text);

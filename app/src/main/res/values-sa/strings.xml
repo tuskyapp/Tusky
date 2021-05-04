@@ -247,7 +247,9 @@
     <string name="about_tusky_version">टस्की %s</string>
     <string name="about_title_activity">विज्ञप्तिः</string>
     <string name="description_account_locked">कपाटितव्यक्तिविवरणलेखः</string>
-    <string name="notification_title_summary">%d नवपरस्परक्रियाः</string>
+    <plurals name="notification_title_summary">
+        <item quantity="other">%d नवपरस्परक्रियाः</item>
+    </plurals>
     <string name="notification_summary_small">%1$s च %2$s च</string>
     <string name="notification_summary_medium">%1$s, %2$s, तथैव %3$s</string>
     <string name="notification_summary_large">%1$s, %2$s, %3$s तथा च %4$d अन्येऽपि</string>
@@ -328,8 +330,10 @@
     <string name="lock_account_label">लेखा अवरुध्यताम्</string>
     <string name="action_remove">नश्यताम्</string>
     <string name="action_set_caption">शीर्षकवाक्यं लिख्यताम्</string>
-    <string name="hint_describe_for_visually_impaired">दृष्ट्यां येषां समस्याऽस्ति तेषांं कृते विवरणम्
-\n(%d परिमिता न्यूनाक्षरसङ्ख्या)</string>
+    <plurals name="hint_describe_for_visually_impaired">
+        <item quantity="other">दृष्ट्यां येषां समस्याऽस्ति तेषांं कृते विवरणम्
+\n(%d परिमिता न्यूनाक्षरसङ्ख्या)</item>
+    </plurals>
     <string name="error_failed_set_caption">शीर्षकवाक्यं लेखितुमशक्यम्</string>
     <string name="compose_active_account_description">%1$s लेखया प्रकटनं क्रियते</string>
     <string name="action_remove_from_list">सूच्याः लेखा नश्यताम्</string>
@@ -449,7 +453,9 @@
     <string name="description_status_media_no_description_placeholder">विवरणं नास्ति</string>
     <string name="description_status_cw">विषयपूर्वसतर्कता: %s</string>
     <string name="description_status_media">सामग्र्यः %s</string>
-    <string name="max_tab_number_reached">अधिकतमपीठिकासङ्ख्या %1$d भूता</string>
+    <plurals name="max_tab_number_reached">
+        <item quantity="other">अधिकतमपीठिकासङ्ख्या %1$d भूता</item>
+    </plurals>
     <string name="conversation_more_recipients">%1$s, %2$s तथा %3$d अन्येऽपि</string>
     <string name="conversation_2_recipients">%1$s तथैव %2$s</string>
     <string name="title_favourited_by">निम्नमित्रस्य प्रीतिः</string>

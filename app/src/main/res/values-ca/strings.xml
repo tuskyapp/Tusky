@@ -153,7 +153,9 @@
     <string name="notification_summary_large">%1$s, %2$s, %3$s i %4$d més</string>
     <string name="notification_summary_medium">%1$s, %2$s i %3$s</string>
     <string name="notification_summary_small">%1$s i %2$s</string>
-    <string name="notification_title_summary">%d interaccions noves</string>
+    <plurals name="notification_title_summary">
+        <item quantity="other">%d interaccions noves</item>
+    </plurals>
     <string name="description_account_locked">Compte blocat</string>
     <string name="about_title_activity">Quant a</string>
     <string name="about_tusky_version">Tusky %s</string>
@@ -286,8 +288,10 @@
     <string name="action_remove_from_list">Suprimir un compte de la llista</string>
     <string name="compose_active_account_description">Publicar amb el compte %1$s</string>
     <string name="error_failed_set_caption">Error al afegir la llegenda</string>
-    <string name="hint_describe_for_visually_impaired">Descriure per a invidentes
-\n(%d character limit)</string>
+    <plurals name="hint_describe_for_visually_impaired">
+        <item quantity="other">Descriure per a invidentes
+\n(%d character limit)</item>
+    </plurals>
     <string name="action_set_caption">Afegir una llegenda</string>
     <string name="action_remove">Eliminar</string>
     <string name="lock_account_label">Protegir el compte</string>
@@ -342,7 +346,9 @@
     <string name="conversation_1_recipients">%1$s</string>
     <string name="conversation_2_recipients">%1$s i %2$s</string>
     <string name="conversation_more_recipients">%1$s, %2$s i %3$d més</string>
-    <string name="max_tab_number_reached">màxim de %1$d pestanyes aconseguides</string>
+    <plurals name="max_tab_number_reached">
+        <item quantity="other">màxim de %1$d pestanyes aconseguides</item>
+    </plurals>
     <string name="description_status_media">Mèdia : %s</string>
     <string name="description_status_media_no_description_placeholder">Sense descripció</string>
     <string name="description_status_favourited">Favorits</string>
@@ -493,7 +499,9 @@
     <string name="old_drafts">Esborranys antics</string>
     <string name="drafts_toot_failed_to_send">No s\'ha pogut enviar aquest tut!</string>
     <string name="dialog_delete_list_warning">Segur que voleu esborrar la llista %s\?</string>
-    <string name="error_upload_max_media_reached">No podeu pujar més de %1$d adjunts multimèdia.</string>
+    <plurals name="error_upload_max_media_reached">
+        <item quantity="other">No podeu pujar més de %1$d adjunts multimèdia.</item>
+    </plurals>
     <string name="wellbeing_hide_stats_profile">Amaga les estadístiques quantitatives dels perfils</string>
     <string name="wellbeing_hide_stats_posts">Amaga les estadístiques quantitatives de les publicacions</string>
     <string name="limit_notifications">Limita les notificacions de la cronologia</string>

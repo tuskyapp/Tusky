@@ -71,7 +71,7 @@
                         app:layout_constraintStart_toEndOf="@id/accountMuteButton"
                         app:layout_constraintTop_toTopOf="parent"
                         tools:text="Follow Requested" />
-                    
+
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/accountSubscribeButton"
                         style="@style/TuskyButton.Outlined"
@@ -248,20 +248,63 @@
                         app:layout_constraintTop_toBottomOf="@id/accountFieldList"
                         tools:visibility="visible" />
 
-                    <ViewStub
+                    <androidx.constraintlayout.widget.Group
                         android:id="@+id/accountMovedView"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:inflatedId="@+id/accountMovedViewLayout"
-                        android:layout="@layout/view_account_moved"
-                        app:layout_constraintTop_toBottomOf="@id/accountRemoveView" />
+                        android:visibility="gone"
+                        app:constraint_referenced_ids="accountMovedText,accountMovedAvatar,accountMovedDisplayName,accountMovedUsername" />
 
-                    <androidx.constraintlayout.widget.Barrier
-                        android:id="@+id/barrierRemote"
+                    <androidx.emoji.widget.EmojiTextView
+                        android:id="@+id/accountMovedText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        app:barrierDirection="bottom"
-                        app:constraint_referenced_ids="accountMovedView,accountMovedViewLayout" />
+                        android:layout_marginTop="12dp"
+                        android:drawablePadding="6dp"
+                        android:textSize="?attr/status_text_medium"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/accountRemoveView"
+                        tools:text="Account has moved" />
+
+                    <ImageView
+                        android:id="@+id/accountMovedAvatar"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:layout_centerVertical="true"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="24dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/accountMovedText"
+                        tools:src="@drawable/avatar_default" />
+
+                    <androidx.emoji.widget.EmojiTextView
+                        android:id="@+id/accountMovedDisplayName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:ellipsize="end"
+                        android:maxLines="1"
+                        android:textColor="?android:textColorPrimary"
+                        android:textSize="?attr/status_text_large"
+                        android:textStyle="normal|bold"
+                        app:layout_constraintBottom_toTopOf="@id/accountMovedUsername"
+                        app:layout_constraintStart_toEndOf="@id/accountMovedAvatar"
+                        app:layout_constraintTop_toTopOf="@id/accountMovedAvatar"
+                        tools:text="Display name" />
+
+                    <TextView
+                        android:id="@+id/accountMovedUsername"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:ellipsize="end"
+                        android:maxLines="1"
+                        android:textColor="?android:textColorSecondary"
+                        android:textSize="?attr/status_text_medium"
+                        app:layout_constraintBottom_toBottomOf="@id/accountMovedAvatar"
+                        app:layout_constraintStart_toEndOf="@id/accountMovedAvatar"
+                        app:layout_constraintTop_toBottomOf="@id/accountMovedDisplayName"
+                        tools:text="\@username" />
 
                     <LinearLayout
                         android:id="@+id/accountStatuses"
@@ -272,7 +315,7 @@
                         android:orientation="vertical"
                         app:layout_constraintEnd_toStartOf="@id/accountFollowing"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/barrierRemote">
+                        app:layout_constraintTop_toBottomOf="@id/accountMovedAvatar">
 
                         <TextView
                             android:id="@+id/accountStatusesTextView"
@@ -303,7 +346,7 @@
                         android:orientation="vertical"
                         app:layout_constraintEnd_toStartOf="@id/accountFollowers"
                         app:layout_constraintStart_toEndOf="@id/accountStatuses"
-                        app:layout_constraintTop_toBottomOf="@id/barrierRemote">
+                        app:layout_constraintTop_toBottomOf="@id/accountMovedAvatar">
 
                         <TextView
                             android:id="@+id/accountFollowingTextView"
@@ -333,7 +376,7 @@
                         android:orientation="vertical"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@id/accountFollowing"
-                        app:layout_constraintTop_toBottomOf="@id/barrierRemote">
+                        app:layout_constraintTop_toBottomOf="@id/accountMovedAvatar">
 
                         <TextView
                             android:id="@+id/accountFollowersTextView"

@@ -24,12 +24,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.activity.viewModels
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.*
 import androidx.recyclerview.widget.ListAdapter
 import at.connyduck.sparkbutton.helpers.Utils
 import com.google.android.material.snackbar.Snackbar
+import com.keylesspalace.tusky.databinding.ActivityListsBinding
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.entity.MastoList
@@ -47,8 +49,6 @@ import com.uber.autodispose.autoDispose
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
 import io.reactivex.android.schedulers.AndroidSchedulers
-import kotlinx.android.synthetic.main.activity_lists.*
-import kotlinx.android.synthetic.main.toolbar_basic.*
 import javax.inject.Inject
 
 /**
@@ -57,47 +57,42 @@ import javax.inject.Inject
 
 class ListsActivity : BaseActivity(), Injectable, HasAndroidInjector {
 
-    companion object {
-        @JvmStatic
-        fun newIntent(context: Context): Intent {
-            return Intent(context, ListsActivity::class.java)
-        }
-    }
-
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
 
     @Inject
     lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Any>
 
-    private lateinit var viewModel: ListsViewModel
+    private val viewModel: ListsViewModel by viewModels { viewModelFactory }
+
+    private val binding by viewBinding(ActivityListsBinding::inflate)
+
     private val adapter = ListsAdapter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_lists)
 
+        setContentView(binding.root)
 
-        setSupportActionBar(toolbar)
+        setSupportActionBar(binding.includedToolbar.toolbar)
         supportActionBar?.apply {
             title = getString(R.string.title_lists)
             setDisplayHomeAsUpEnabled(true)
             setDisplayShowHomeEnabled(true)
         }
 
-        listsRecycler.adapter = adapter
-        listsRecycler.layoutManager = LinearLayoutManager(this)
-        listsRecycler.addItemDecoration(
+        binding.listsRecycler.adapter = adapter
+        binding.listsRecycler.layoutManager = LinearLayoutManager(this)
+        binding.listsRecycler.addItemDecoration(
                 DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
 
-        viewModel = viewModelFactory.create(ListsViewModel::class.java)
         viewModel.state
                 .observeOn(AndroidSchedulers.mainThread())
                 .autoDispose(from(this))
                 .subscribe(this::update)
         viewModel.retryLoading()
 
-        addListButton.setOnClickListener {
+        binding.addListButton.setOnClickListener {
             showlistNameDialog(null)
         }
 
@@ -153,37 +148,36 @@ class ListsActivity : BaseActivity(), Injectable, HasAndroidInjector {
 
     private fun update(state: ListsViewModel.State) {
         adapter.submitList(state.lists)
-        progressBar.visible(state.loadingState == LOADING)
+        binding.progressBar.visible(state.loadingState == LOADING)
         when (state.loadingState) {
-            INITIAL, LOADING -> messageView.hide()
+            INITIAL, LOADING -> binding.messageView.hide()
             ERROR_NETWORK -> {
-                messageView.show()
-                messageView.setup(R.drawable.elephant_offline, R.string.error_network) {
+                binding.messageView.show()
+                binding.messageView.setup(R.drawable.elephant_offline, R.string.error_network) {
                     viewModel.retryLoading()
                 }
             }
             ERROR_OTHER -> {
-                messageView.show()
-                messageView.setup(R.drawable.elephant_error, R.string.error_generic) {
+                binding.messageView.show()
+                binding.messageView.setup(R.drawable.elephant_error, R.string.error_generic) {
                     viewModel.retryLoading()
                 }
             }
             LOADED ->
                 if (state.lists.isEmpty()) {
-                    messageView.show()
-                    messageView.setup(R.drawable.elephant_friend_empty, R.string.message_empty,
+                    binding.messageView.show()
+                    binding.messageView.setup(R.drawable.elephant_friend_empty, R.string.message_empty,
                             null)
                 } else {
-                    messageView.hide()
+                    binding.messageView.hide()
                 }
         }
     }
 
     private fun showMessage(@StringRes messageId: Int) {
         Snackbar.make(
-                listsRecycler, messageId, Snackbar.LENGTH_SHORT
+                binding.listsRecycler, messageId, Snackbar.LENGTH_SHORT
         ).show()
-
     }
 
     private fun onListSelected(listId: String) {
@@ -214,8 +208,6 @@ class ListsActivity : BaseActivity(), Injectable, HasAndroidInjector {
             show()
         }
     }
-
-    override fun androidInjector() = dispatchingAndroidInjector
 
     private object ListsDiffer : DiffUtil.ItemCallback<MastoList>() {
         override fun areItemsTheSame(oldItem: MastoList, newItem: MastoList): Boolean {
@@ -258,9 +250,9 @@ class ListsActivity : BaseActivity(), Injectable, HasAndroidInjector {
 
             override fun onClick(v: View) {
                 if (v == itemView) {
-                    onListSelected(getItem(adapterPosition).id)
+                    onListSelected(getItem(bindingAdapterPosition).id)
                 } else {
-                    onMore(getItem(adapterPosition), v)
+                    onMore(getItem(bindingAdapterPosition), v)
                 }
             }
         }
@@ -272,5 +264,11 @@ class ListsActivity : BaseActivity(), Injectable, HasAndroidInjector {
         } else {
             viewModel.renameList(listId, name.toString())
         }
+    }
+
+    override fun androidInjector() = dispatchingAndroidInjector
+
+    companion object {
+        fun newIntent(context: Context) = Intent(context, ListsActivity::class.java)
     }
 }

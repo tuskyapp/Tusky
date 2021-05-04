@@ -1,0 +1,7 @@
+Tusky v14.0
+
+- Recibe notificacións cando alguén que segues publica - preme na icona da campá no seu perfil! (Mastodon >3.3.0)
+- Os borradores en Tusky foron redeseñados para ser máis rápidos, amigables e con menos fallos.
+- Novo modo benestar que che permite limitar certas características engadidas a Tusky.
+- Tusky xa pode animar os emojis personalizados.
+Rexistro completo dos cambios: https://github.com/tuskyapp/Tusky/releases

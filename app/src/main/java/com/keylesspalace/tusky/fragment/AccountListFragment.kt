@@ -21,6 +21,7 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.preference.PreferenceManager
+import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -31,6 +32,8 @@ import com.keylesspalace.tusky.AccountListActivity.Type
 import com.keylesspalace.tusky.BaseActivity
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.adapter.*
+import com.keylesspalace.tusky.db.AccountManager
+import com.keylesspalace.tusky.databinding.FragmentAccountListBinding
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.entity.Account
 import com.keylesspalace.tusky.entity.Relationship
@@ -40,12 +43,12 @@ import com.keylesspalace.tusky.settings.PrefKeys
 import com.keylesspalace.tusky.util.HttpHeaderLink
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.show
+import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.view.EndlessOnScrollListener
 import com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider.from
 import com.uber.autodispose.autoDispose
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
-import kotlinx.android.synthetic.main.fragment_account_list.*
 import retrofit2.Response
 import java.io.IOException
 import java.util.*
@@ -55,6 +58,10 @@ class AccountListFragment : Fragment(R.layout.fragment_account_list), AccountAct
 
     @Inject
     lateinit var api: MastodonApi
+    @Inject
+    lateinit var accountManager: AccountManager
+
+    private val binding by viewBinding(FragmentAccountListBinding::bind)
 
     private lateinit var type: Type
     private var id: String? = null
@@ -73,12 +80,12 @@ class AccountListFragment : Fragment(R.layout.fragment_account_list), AccountAct
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        recyclerView.setHasFixedSize(true)
+        binding.recyclerView.setHasFixedSize(true)
         val layoutManager = LinearLayoutManager(view.context)
-        recyclerView.layoutManager = layoutManager
-        (recyclerView.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
+        binding.recyclerView.layoutManager = layoutManager
+        (binding.recyclerView.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
 
-        recyclerView.addItemDecoration(DividerItemDecoration(view.context, DividerItemDecoration.VERTICAL))
+        binding.recyclerView.addItemDecoration(DividerItemDecoration(view.context, DividerItemDecoration.VERTICAL))
 
         val pm = PreferenceManager.getDefaultSharedPreferences(view.context)
         val animateAvatar = pm.getBoolean(PrefKeys.ANIMATE_GIF_AVATARS, false)
@@ -87,10 +94,17 @@ class AccountListFragment : Fragment(R.layout.fragment_account_list), AccountAct
         adapter = when (type) {
             Type.BLOCKS -> BlocksAdapter(this, animateAvatar, animateEmojis)
             Type.MUTES -> MutesAdapter(this, animateAvatar, animateEmojis)
-            Type.FOLLOW_REQUESTS -> FollowRequestsAdapter(this, animateAvatar, animateEmojis)
+            Type.FOLLOW_REQUESTS -> {
+                val headerAdapter = FollowRequestsHeaderAdapter(accountManager.activeAccount!!.domain, arguments?.get(ARG_ACCOUNT_LOCKED) == true)
+                val followRequestsAdapter = FollowRequestsAdapter(this, animateAvatar, animateEmojis)
+                binding.recyclerView.adapter = ConcatAdapter(headerAdapter, followRequestsAdapter)
+                followRequestsAdapter
+            }
             else -> FollowAdapter(this, animateAvatar, animateEmojis)
         }
-        recyclerView.adapter = adapter
+        if (binding.recyclerView.adapter == null) {
+            binding.recyclerView.adapter = adapter
+        }
 
         scrollListener = object : EndlessOnScrollListener(layoutManager) {
             override fun onLoadMore(totalItemsCount: Int, view: RecyclerView) {
@@ -101,7 +115,7 @@ class AccountListFragment : Fragment(R.layout.fragment_account_list), AccountAct
             }
         }
 
-        recyclerView.addOnScrollListener(scrollListener)
+        binding.recyclerView.addOnScrollListener(scrollListener)
 
         fetchAccounts()
     }
@@ -136,7 +150,7 @@ class AccountListFragment : Fragment(R.layout.fragment_account_list), AccountAct
         val unmutedUser = mutesAdapter.removeItem(position)
 
         if (unmutedUser != null) {
-            Snackbar.make(recyclerView, R.string.confirmation_unmuted, Snackbar.LENGTH_LONG)
+            Snackbar.make(binding.recyclerView, R.string.confirmation_unmuted, Snackbar.LENGTH_LONG)
                     .setAction(R.string.action_undo) {
                         mutesAdapter.addItem(unmutedUser, position)
                         onMute(true, id, position, notifications)
@@ -180,7 +194,7 @@ class AccountListFragment : Fragment(R.layout.fragment_account_list), AccountAct
         val unblockedUser = blocksAdapter.removeItem(position)
 
         if (unblockedUser != null) {
-            Snackbar.make(recyclerView, R.string.confirmation_unblocked, Snackbar.LENGTH_LONG)
+            Snackbar.make(binding.recyclerView, R.string.confirmation_unblocked, Snackbar.LENGTH_LONG)
                     .setAction(R.string.action_undo) {
                         blocksAdapter.addItem(unblockedUser, position)
                         onBlock(true, id, position)
@@ -260,7 +274,7 @@ class AccountListFragment : Fragment(R.layout.fragment_account_list), AccountAct
         fetching = true
 
         if (fromId != null) {
-            recyclerView.post { adapter.setBottomLoading(true) }
+            binding.recyclerView.post { adapter.setBottomLoading(true) }
         }
 
         getFetchCallByListType(fromId)
@@ -303,14 +317,14 @@ class AccountListFragment : Fragment(R.layout.fragment_account_list), AccountAct
         fetching = false
 
         if (adapter.itemCount == 0) {
-            messageView.show()
-            messageView.setup(
+            binding.messageView.show()
+            binding.messageView.setup(
                     R.drawable.elephant_friend_empty,
                     R.string.message_empty,
                     null
             )
         } else {
-            messageView.hide()
+            binding.messageView.hide()
         }
     }
 
@@ -339,15 +353,15 @@ class AccountListFragment : Fragment(R.layout.fragment_account_list), AccountAct
         Log.e(TAG, "Fetch failure", throwable)
 
         if (adapter.itemCount == 0) {
-            messageView.show()
+            binding.messageView.show()
             if (throwable is IOException) {
-                messageView.setup(R.drawable.elephant_offline, R.string.error_network) {
-                    messageView.hide()
+                binding.messageView.setup(R.drawable.elephant_offline, R.string.error_network) {
+                    binding.messageView.hide()
                     this.fetchAccounts(null)
                 }
             } else {
-                messageView.setup(R.drawable.elephant_error, R.string.error_generic) {
-                    messageView.hide()
+                binding.messageView.setup(R.drawable.elephant_error, R.string.error_generic) {
+                    binding.messageView.hide()
                     this.fetchAccounts(null)
                 }
             }
@@ -358,15 +372,16 @@ class AccountListFragment : Fragment(R.layout.fragment_account_list), AccountAct
         private const val TAG = "AccountList" // logging tag
         private const val ARG_TYPE = "type"
         private const val ARG_ID = "id"
+        private const val ARG_ACCOUNT_LOCKED = "acc_locked"
 
-        fun newInstance(type: Type, id: String? = null): AccountListFragment {
+        fun newInstance(type: Type, id: String? = null, accountLocked: Boolean = false): AccountListFragment {
             return AccountListFragment().apply {
                 arguments = Bundle(2).apply {
                     putSerializable(ARG_TYPE, type)
                     putString(ARG_ID, id)
+                    putBoolean(ARG_ACCOUNT_LOCKED, accountLocked)
                 }
             }
         }
     }
-
 }

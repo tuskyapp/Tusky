@@ -19,24 +19,23 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.RecyclerView
-import com.keylesspalace.tusky.R
-import com.keylesspalace.tusky.adapter.HashtagViewHolder
+import com.keylesspalace.tusky.databinding.ItemHashtagBinding
 import com.keylesspalace.tusky.entity.HashTag
 import com.keylesspalace.tusky.interfaces.LinkListener
+import com.keylesspalace.tusky.util.BindingHolder
 
 class SearchHashtagsAdapter(private val linkListener: LinkListener)
-    : PagedListAdapter<HashTag, RecyclerView.ViewHolder>(HASHTAG_COMPARATOR) {
+    : PagedListAdapter<HashTag, BindingHolder<ItemHashtagBinding>>(HASHTAG_COMPARATOR) {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        val view = LayoutInflater.from(parent.context)
-                .inflate(R.layout.item_hashtag, parent, false)
-        return HashtagViewHolder(view)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BindingHolder<ItemHashtagBinding> {
+        val binding = ItemHashtagBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return BindingHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: BindingHolder<ItemHashtagBinding>, position: Int) {
         getItem(position)?.let { (name) ->
-            (holder as HashtagViewHolder).setup(name, linkListener)
+            holder.binding.root.text = String.format("#%s", name)
+            holder.binding.root.setOnClickListener { linkListener.onViewTag(name) }
         }
     }
 

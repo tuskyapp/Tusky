@@ -190,7 +190,9 @@
     <string name="notification_summary_large">%1$s, %2$s, %3$s a %4$d eraill</string>
     <string name="notification_summary_medium">%1$s, %2$s, a %3$s</string>
     <string name="notification_summary_small">%1$s a %2$s</string>
-    <string name="notification_title_summary">%d rhyngweithiad newydd</string>
+    <plurals name="notification_title_summary">
+        <item quantity="other">%d rhyngweithiad newydd</item>
+    </plurals>
     <string name="description_account_locked">Cyfrif wedi\'i gloi </string>
     <string name="about_title_activity">Amdano</string>
     <string name="about_tusky_license">Mae Tusky yn feddalwedd ffynhonnell agored barn rydd.

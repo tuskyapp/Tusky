@@ -39,6 +39,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.keylesspalace.tusky.R;
+import com.keylesspalace.tusky.databinding.ItemFollowRequestBinding;
 import com.keylesspalace.tusky.entity.Account;
 import com.keylesspalace.tusky.entity.Emoji;
 import com.keylesspalace.tusky.entity.Notification;
@@ -125,9 +126,8 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
                 return new FollowViewHolder(view, statusDisplayOptions);
             }
             case VIEW_TYPE_FOLLOW_REQUEST: {
-                View view = inflater
-                        .inflate(R.layout.item_follow_request_notification, parent, false);
-                return new FollowRequestViewHolder(view, true);
+                ItemFollowRequestBinding binding = ItemFollowRequestBinding.inflate(inflater, parent, false);
+                return new FollowRequestViewHolder(binding, true);
             }
             case VIEW_TYPE_PLACEHOLDER: {
                 View view = inflater
@@ -233,8 +233,9 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
                     if (payloadForHolder == null) {
                         FollowRequestViewHolder holder = (FollowRequestViewHolder) viewHolder;
                         holder.setupWithAccount(concreteNotificaton.getAccount(), statusDisplayOptions.animateAvatars(), statusDisplayOptions.animateEmojis());
-                        holder.setupActionListener(accountActionListener);
+                        holder.setupActionListener(accountActionListener, concreteNotificaton.getAccount().getId());
                     }
+                    break;
                 }
                 default:
             }
@@ -540,8 +541,8 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
                 }
 
                 contentWarningButton.setOnClickListener(view -> {
-                    if (getAdapterPosition() != RecyclerView.NO_POSITION) {
-                        notificationActionListener.onExpandedChange(!statusViewData.isExpanded(), getAdapterPosition());
+                    if (getBindingAdapterPosition() != RecyclerView.NO_POSITION) {
+                        notificationActionListener.onExpandedChange(!statusViewData.isExpanded(), getBindingAdapterPosition());
                     }
                     statusContent.setVisibility(statusViewData.isExpanded() ? View.GONE : View.VISIBLE);
                 });
@@ -618,7 +619,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
 
             if (statusViewData.isCollapsible() && (statusViewData.isExpanded() || !hasSpoiler)) {
                 contentCollapseButton.setOnClickListener(view -> {
-                    int position = getAdapterPosition();
+                    int position = getBindingAdapterPosition();
                     if (position != RecyclerView.NO_POSITION && notificationActionListener != null) {
                         notificationActionListener.onNotificationContentCollapsedChange(!statusViewData.isCollapsed(), position);
                     }

@@ -15,18 +15,16 @@
 
 package com.keylesspalace.tusky.adapter
 
-import androidx.recyclerview.widget.RecyclerView
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
-import com.keylesspalace.tusky.R
+import androidx.recyclerview.widget.RecyclerView
+import com.keylesspalace.tusky.databinding.ItemEditFieldBinding
 import com.keylesspalace.tusky.entity.StringField
-import kotlinx.android.synthetic.main.item_edit_field.view.*
+import com.keylesspalace.tusky.util.BindingHolder
 
-class AccountFieldEditAdapter : RecyclerView.Adapter<AccountFieldEditAdapter.ViewHolder>() {
+class AccountFieldEditAdapter : RecyclerView.Adapter<BindingHolder<ItemEditFieldBinding>>() {
 
     private val fieldData = mutableListOf<MutableStringPair>()
 
@@ -54,20 +52,20 @@ class AccountFieldEditAdapter : RecyclerView.Adapter<AccountFieldEditAdapter.Vie
         notifyItemInserted(fieldData.size - 1)
     }
 
-    override fun getItemCount(): Int = fieldData.size
+    override fun getItemCount() = fieldData.size
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_edit_field, parent, false)
-        return ViewHolder(view)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BindingHolder<ItemEditFieldBinding> {
+        val binding = ItemEditFieldBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return BindingHolder(binding)
     }
 
-    override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
-        viewHolder.nameTextView.setText(fieldData[position].first)
-        viewHolder.valueTextView.setText(fieldData[position].second)
+    override fun onBindViewHolder(holder: BindingHolder<ItemEditFieldBinding>, position: Int) {
+        holder.binding.accountFieldName.setText(fieldData[position].first)
+        holder.binding.accountFieldValue.setText(fieldData[position].second)
 
-        viewHolder.nameTextView.addTextChangedListener(object: TextWatcher {
+        holder.binding.accountFieldName.addTextChangedListener(object: TextWatcher {
             override fun afterTextChanged(newText: Editable) {
-                fieldData[viewHolder.adapterPosition].first = newText.toString()
+                fieldData[holder.bindingAdapterPosition].first = newText.toString()
             }
 
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
@@ -75,9 +73,9 @@ class AccountFieldEditAdapter : RecyclerView.Adapter<AccountFieldEditAdapter.Vie
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
         })
 
-        viewHolder.valueTextView.addTextChangedListener(object: TextWatcher {
+        holder.binding.accountFieldValue.addTextChangedListener(object: TextWatcher {
             override fun afterTextChanged(newText: Editable) {
-                fieldData[viewHolder.adapterPosition].second = newText.toString()
+                fieldData[holder.bindingAdapterPosition].second = newText.toString()
             }
 
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
@@ -85,14 +83,8 @@ class AccountFieldEditAdapter : RecyclerView.Adapter<AccountFieldEditAdapter.Vie
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
         })
 
-    }
-
-    class ViewHolder(rootView: View) : RecyclerView.ViewHolder(rootView) {
-        val nameTextView: EditText = rootView.accountFieldName
-        val valueTextView: EditText = rootView.accountFieldValue
     }
 
     class MutableStringPair (var first: String, var second: String)
-
 
 }

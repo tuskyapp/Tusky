@@ -18,20 +18,19 @@ package com.keylesspalace.tusky.components.scheduled
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import androidx.lifecycle.ViewModelProvider
+import androidx.activity.viewModels
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.keylesspalace.tusky.BaseActivity
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.components.compose.ComposeActivity
+import com.keylesspalace.tusky.databinding.ActivityScheduledTootBinding
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.entity.ScheduledStatus
 import com.keylesspalace.tusky.util.Status
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.show
-import kotlinx.android.synthetic.main.activity_scheduled_toot.*
-import kotlinx.android.synthetic.main.toolbar_basic.*
 import javax.inject.Inject
 
 class ScheduledTootActivity : BaseActivity(), ScheduledTootActionListener, Injectable {
@@ -39,31 +38,31 @@ class ScheduledTootActivity : BaseActivity(), ScheduledTootActionListener, Injec
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
 
-    lateinit var viewModel: ScheduledTootViewModel
+    private val viewModel: ScheduledTootViewModel by viewModels { viewModelFactory }
 
     private val adapter = ScheduledTootAdapter(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_scheduled_toot)
 
-        setSupportActionBar(toolbar)
+        val binding = ActivityScheduledTootBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        setSupportActionBar(binding.includedToolbar.toolbar)
         supportActionBar?.run {
             title = getString(R.string.title_scheduled_toot)
             setDisplayHomeAsUpEnabled(true)
             setDisplayShowHomeEnabled(true)
         }
 
-        swipeRefreshLayout.setOnRefreshListener(this::refreshStatuses)
-        swipeRefreshLayout.setColorSchemeResources(R.color.tusky_blue)
+        binding.swipeRefreshLayout.setOnRefreshListener(this::refreshStatuses)
+        binding.swipeRefreshLayout.setColorSchemeResources(R.color.tusky_blue)
 
-        scheduledTootList.setHasFixedSize(true)
-        scheduledTootList.layoutManager = LinearLayoutManager(this)
+        binding.scheduledTootList.setHasFixedSize(true)
+        binding.scheduledTootList.layoutManager = LinearLayoutManager(this)
         val divider = DividerItemDecoration(this, DividerItemDecoration.VERTICAL)
-        scheduledTootList.addItemDecoration(divider)
-        scheduledTootList.adapter = adapter
-
-        viewModel = ViewModelProvider(this, viewModelFactory)[ScheduledTootViewModel::class.java]
+        binding.scheduledTootList.addItemDecoration(divider)
+        binding.scheduledTootList.adapter = adapter
 
         viewModel.data.observe(this) {
             adapter.submitList(it)
@@ -72,31 +71,31 @@ class ScheduledTootActivity : BaseActivity(), ScheduledTootActionListener, Injec
         viewModel.networkState.observe(this) { (status) ->
             when(status) {
                 Status.SUCCESS -> {
-                    progressBar.hide()
-                    swipeRefreshLayout.isRefreshing = false
+                    binding.progressBar.hide()
+                    binding.swipeRefreshLayout.isRefreshing = false
                     if(viewModel.data.value?.loadedCount == 0) {
-                        errorMessageView.setup(R.drawable.elephant_friend_empty, R.string.no_scheduled_status)
-                        errorMessageView.show()
+                        binding.errorMessageView.setup(R.drawable.elephant_friend_empty, R.string.no_scheduled_status)
+                        binding.errorMessageView.show()
                     } else {
-                        errorMessageView.hide()
+                        binding.errorMessageView.hide()
                     }
                 }
                 Status.RUNNING -> {
-                    errorMessageView.hide()
+                    binding.errorMessageView.hide()
                     if(viewModel.data.value?.loadedCount ?: 0 > 0) {
-                        swipeRefreshLayout.isRefreshing = true
+                        binding.swipeRefreshLayout.isRefreshing = true
                     } else {
-                        progressBar.show()
+                        binding.progressBar.show()
                     }
                 }
                 Status.FAILED -> {
                     if(viewModel.data.value?.loadedCount ?: 0 >= 0) {
-                        progressBar.hide()
-                        swipeRefreshLayout.isRefreshing = false
-                        errorMessageView.setup(R.drawable.elephant_error, R.string.error_generic) {
+                        binding.progressBar.hide()
+                        binding.swipeRefreshLayout.isRefreshing = false
+                        binding.errorMessageView.setup(R.drawable.elephant_error, R.string.error_generic) {
                             refreshStatuses()
                         }
-                        errorMessageView.show()
+                        binding.errorMessageView.show()
                     }
                 }
             }

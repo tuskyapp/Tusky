@@ -217,7 +217,10 @@
     <string name="notification_summary_large">%1$s, %2$s, %3$s und %4$d andere</string>
     <string name="notification_summary_medium">%1$s, %2$s, und %3$s</string>
     <string name="notification_summary_small">%1$s und %2$s</string>
-    <string name="notification_title_summary">%d neue Interaktionen</string>
+    <plurals name="notification_title_summary">
+        <item quantity="one">%d neue Interaktion</item>
+        <item quantity="other">%d neue Interaktionen</item>
+    </plurals>
     <string name="description_account_locked">Gesperrtes Profil</string>
     <string name="about_title_activity">Über</string>
     <string name="about_tusky_license">Tusky ist freie und quelloffene Software. Es ist lizenziert unter der GNU General Public License Version 3. Du kannst dir die Lizenz hier anschauen: https://www.gnu.org/licenses/gpl-3.0.de.html</string>
@@ -261,7 +264,9 @@
     <string name="action_add_to_list">Ein Konto zu einer Liste hinzufügen</string>
     <string name="compose_active_account_description">verfassen mit %1$s</string>
     <string name="error_failed_set_caption">Fehler beim Speichern der Beschreibung</string>
-    <string name="hint_describe_for_visually_impaired">Für Menschen mit Sehbehinderung beschreiben\n(%d Zeichen)</string>
+    <plurals name="hint_describe_for_visually_impaired">
+        <item quantity="other">Für Menschen mit Sehbehinderung beschreiben\n(%d Zeichen)</item>
+    </plurals>
     <string name="action_set_caption">Beschreibung eingeben</string>
     <string name="action_remove">Entfernen</string>
     <string name="lock_account_label">Gesperrtes Profil</string>
@@ -310,13 +315,16 @@
     <string name="conversation_1_recipients">%1$s</string>
     <string name="conversation_2_recipients">%1$s und %2$s</string>
     <string name="conversation_more_recipients">%1$s, %2$s und %3$d mehr</string>
-    <string name="max_tab_number_reached">Maximum von %1$d Tabs erreicht</string>
+    <plurals name="max_tab_number_reached">
+        <item quantity="one">Maximum von %1$d Tab erreicht</item>
+        <item quantity="other">Maximum von %1$d Tabs erreicht</item>
+    </plurals>
     <string name="description_status_media_no_description_placeholder">        Keine Beschreibung    </string>
     <string name="description_status_favourited">Favorisiert    </string>
     <string name="description_visiblity_public">Öffentlich    </string>
     <string name="description_visiblity_private">Folgende</string>
     <string name="description_visiblity_direct">Direkt    </string>
-    <string name="hint_list_name">Name auflisten</string>
+    <string name="hint_list_name">Listenname</string>
     <string name="download_media">Medien herunterladen</string>
     <string name="downloading_media">Medien werden heruntergeladen</string>
     <string name="filter_add_description">zu filternde Phrase</string>
@@ -477,7 +485,10 @@
 \nDu kannst deine alten Entwürfe noch hinter einem Button bei den neuen Entwürfen finden, aber sie werden mit einem zukünftigen Update gelöscht!</string>
     <string name="drafts_toot_failed_to_send">Dieser Beitrag konnte nicht gesendet werden!</string>
     <string name="dialog_delete_list_warning">Willst du die Liste %s wirklich löschen\?</string>
-    <string name="error_upload_max_media_reached">Du kannst nicht mehr als %1$d Anhänge hochladen.</string>
+    <plurals name="error_upload_max_media_reached">
+        <item quantity="one">Du kannst nicht mehr als %1$d Anhang hochladen.</item>
+        <item quantity="other">Du kannst nicht mehr als %1$d Anhänge hochladen.</item>
+    </plurals>
     <string name="pref_title_wellbeing_mode">Wohlbefinden</string>
     <string name="label_duration">Dauer</string>
     <string name="duration_indefinite">Für immer</string>
@@ -488,4 +499,19 @@
     <string name="pref_title_animate_custom_emojis">GIF-Emojis animieren</string>
     <string name="pref_title_notification_filter_subscriptions">Jemand, den ich abonniert habe, etwas Neues veröffentlicht</string>
     <string name="notification_subscription_format">%s hat gerade etwas gepostet</string>
+    <string name="abbreviated_minutes_ago">%dm</string>
+    <string name="review_notifications">Benachrichtigungen überprüfen</string>
+    <string name="wellbeing_mode_notice">Informationen, die dein Wohlbefinden beeinflussen könnten, werden versteckt. Das beinhaltet
+\n
+\n- Benachrichtigungen über favorisierte/geteilte Beiträge, sowie \"Jemand folgt dir\" Benachrichtigungen
+\n- Anzahl der Favoriten/Teilungen von Beiträgen
+\n- Statistiken zu Followern auf Profilen
+\n
+\nPush-Benachrichtigungen sind nicht betroffen, aber du kannst diese manuell überprüfen.</string>
+    <string name="follow_requests_info">Auch wenn dein Konto nicht gesperrt ist, haben die Admins von %1$s gedacht, dass es besser wäre diese Folgenden manuell zu bestätigen.</string>
+    <string name="wellbeing_hide_stats_profile">Keine Statistiken auf Profilen zeigen</string>
+    <string name="wellbeing_hide_stats_posts">Keine Statistiken in Posts zeigen</string>
+    <string name="limit_notifications">Timeline-Benachrichtigungen einschränken</string>
+    <string name="action_subscribe_account">Abonnieren</string>
+    <string name="action_unsubscribe_account">nicht mehr abonnieren</string>
 </resources>

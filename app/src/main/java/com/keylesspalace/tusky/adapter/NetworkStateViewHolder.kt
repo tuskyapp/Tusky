@@ -16,29 +16,28 @@
 package com.keylesspalace.tusky.adapter
 
 import androidx.recyclerview.widget.RecyclerView
-import android.view.View
 import android.view.ViewGroup
+import com.keylesspalace.tusky.databinding.ItemNetworkStateBinding
 import com.keylesspalace.tusky.util.NetworkState
 import com.keylesspalace.tusky.util.Status
 import com.keylesspalace.tusky.util.visible
-import kotlinx.android.synthetic.main.item_network_state.view.*
 
-class NetworkStateViewHolder(itemView: View,
+class NetworkStateViewHolder(private val binding: ItemNetworkStateBinding,
                              private val retryCallback: () -> Unit)
-: RecyclerView.ViewHolder(itemView) {
+: RecyclerView.ViewHolder(binding.root) {
 
     fun setUpWithNetworkState(state: NetworkState?, fullScreen: Boolean) {
-        itemView.progressBar.visible(state?.status == Status.RUNNING)
-        itemView.retryButton.visible(state?.status == Status.FAILED)
-        itemView.errorMsg.visible(state?.msg != null)
-        itemView.errorMsg.text = state?.msg
-        itemView.retryButton.setOnClickListener {
+        binding.progressBar.visible(state?.status == Status.RUNNING)
+        binding.retryButton.visible(state?.status == Status.FAILED)
+        binding.errorMsg.visible(state?.msg != null)
+        binding.errorMsg.text = state?.msg
+        binding.retryButton.setOnClickListener {
             retryCallback()
         }
         if(fullScreen) {
-            itemView.layoutParams.height = ViewGroup.LayoutParams.MATCH_PARENT
+            binding.root.layoutParams.height = ViewGroup.LayoutParams.MATCH_PARENT
         } else {
-            itemView.layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT
+            binding.root.layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT
         }
     }
 

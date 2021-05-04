@@ -203,7 +203,9 @@
     <string name="notification_summary_large">%1$s, %2$s, %3$s y %4$d otros</string>
     <string name="notification_summary_medium">%1$s, %2$s, y %3$s</string>
     <string name="notification_summary_small">%1$s y %2$s</string>
-    <string name="notification_title_summary">%d nuevas interacciones</string>
+    <plurals name="notification_title_summary">
+        <item quantity="other">%d nuevas interacciones</item>
+    </plurals>
     <string name="description_account_locked">Cuenta protegida</string>
     <string name="about_title_activity">Acerca de</string>
     <string name="about_tusky_version">Tusky %s</string>
@@ -251,7 +253,9 @@
     <string name="title_list_timeline">Cronología de lista</string>
     <string name="compose_active_account_description">Publicando con la cuenta %1$s</string>
     <string name="error_failed_set_caption">Error al añadir leyenda</string>
-    <string name="hint_describe_for_visually_impaired">Describir para invidentes\n(límite de %d caracteres)</string>
+    <plurals name="hint_describe_for_visually_impaired">
+        <item quantity="other">Describir para invidentes\n(límite de %d caracteres)</item>
+    </plurals>
     <string name="action_set_caption">Añadir leyenda</string>
     <string name="action_remove">Eliminar</string>
     <string name="lock_account_label">Proteger cuenta</string>
@@ -308,7 +312,9 @@
     <string name="conversation_1_recipients">%1$s</string>
     <string name="conversation_2_recipients">%1$s y %2$s</string>
     <string name="conversation_more_recipients">%1$s, %2$s y %3$d más</string>
-    <string name="max_tab_number_reached">máximo de %1$d pestañas alcanzadas</string>
+    <plurals name="max_tab_number_reached">
+        <item quantity="other">máximo de %1$d pestañas alcanzadas</item>
+    </plurals>
     <string name="action_mentions">Menciones</string>
     <string name="action_open_faved_by">Mostrar favoritos</string>
     <string name="title_mentions_dialog">Menciones</string>
@@ -480,7 +486,9 @@
     <string name="no_announcements">No hay anuncios.</string>
     <string name="title_announcements">Anuncios</string>
     <string name="notification_subscription_format">%s recién publicado</string>
-    <string name="error_upload_max_media_reached">No puedes cargar más de %1$d archivos adjuntos multimedia.</string>
+    <plurals name="error_upload_max_media_reached">
+        <item quantity="other">No puedes cargar más de %1$d archivos adjuntos multimedia.</item>
+    </plurals>
     <string name="wellbeing_hide_stats_profile">Esconder las estadísticas cuantitativas de los perfiles</string>
     <string name="wellbeing_hide_stats_posts">Esconder las estadísticas cuantitativas de las publicaciones</string>
     <string name="review_notifications">Revisar Notificaciones</string>

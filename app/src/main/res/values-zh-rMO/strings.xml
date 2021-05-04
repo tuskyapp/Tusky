@@ -217,7 +217,9 @@
     <string name="notification_summary_large">%1$s, %2$s, %3$s 和 %4$d 人</string>
     <string name="notification_summary_medium">%1$s, %2$s, 和 %3$s</string>
     <string name="notification_summary_small">%1$s 和 %2$s</string>
-    <string name="notification_title_summary">%d 個新互動</string>
+    <plurals name="notification_title_summary">
+        <item quantity="other">%d 個新互動</item>
+    </plurals>
     <string name="description_account_locked">鎖嘟用戶</string>
     <string name="about_title_activity">關於 Tusky</string>
     <string name="about_tusky_license">Tusky 是基於 GNU General Public License Version 3 許可證開源的自由軟體完整的許可證協議：https://www.gnu.org/licenses/gpl-3.0.en.html</string>
@@ -281,7 +283,9 @@
     <string name="action_remove_from_list">從列表中移除用戶</string>
     <string name="compose_active_account_description">以 %1$s 發嘟文</string>
     <string name="error_failed_set_caption">設定圖片標題失敗</string>
-    <string name="hint_describe_for_visually_impaired">為視覺障礙用戶提供的描述\n(限制 %d 字)</string>
+    <plurals name="hint_describe_for_visually_impaired">
+        <item quantity="other">為視覺障礙用戶提供的描述\n(限制 %d 字)</item>
+    </plurals>
     <string name="action_set_caption">設定圖片標題</string>
     <string name="action_remove">移除</string>
     <string name="lock_account_label">保護你的帳戶（鎖嘟）</string>
@@ -337,7 +341,9 @@
     <string name="conversation_1_recipients">%1$s</string>
     <string name="conversation_2_recipients">%1$s 和 %2$s</string>
     <string name="conversation_more_recipients">%1$s, %2$s 和 %3$d 等人</string>
-    <string name="max_tab_number_reached">標籤頁不能超過 %1$d 個</string>
+    <plurals name="max_tab_number_reached">
+        <item quantity="other">標籤頁不能超過 %1$d 個</item>
+    </plurals>
     <string name="description_status_media">
         媒體: %s
     </string>

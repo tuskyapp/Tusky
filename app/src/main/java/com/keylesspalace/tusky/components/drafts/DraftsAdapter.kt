@@ -23,7 +23,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.keylesspalace.tusky.databinding.ItemDraftBinding
 import com.keylesspalace.tusky.db.DraftEntity
-import com.keylesspalace.tusky.util.BindingViewHolder
+import com.keylesspalace.tusky.util.BindingHolder
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.visible
@@ -35,7 +35,7 @@ interface DraftActionListener {
 
 class DraftsAdapter(
         private val listener: DraftActionListener
-) : PagedListAdapter<DraftEntity, BindingViewHolder<ItemDraftBinding>>(
+) : PagedListAdapter<DraftEntity, BindingHolder<ItemDraftBinding>>(
         object : DiffUtil.ItemCallback<DraftEntity>() {
             override fun areItemsTheSame(oldItem: DraftEntity, newItem: DraftEntity): Boolean {
                 return oldItem.id == newItem.id
@@ -47,15 +47,15 @@ class DraftsAdapter(
         }
 ) {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BindingViewHolder<ItemDraftBinding> {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BindingHolder<ItemDraftBinding> {
 
         val binding = ItemDraftBinding.inflate(LayoutInflater.from(parent.context), parent, false)
 
-        val viewHolder = BindingViewHolder(binding)
+        val viewHolder = BindingHolder(binding)
 
         binding.draftMediaPreview.layoutManager = LinearLayoutManager(binding.root.context, RecyclerView.HORIZONTAL, false)
         binding.draftMediaPreview.adapter = DraftMediaAdapter {
-            getItem(viewHolder.adapterPosition)?.let { draft ->
+            getItem(viewHolder.bindingAdapterPosition)?.let { draft ->
                 listener.onOpenDraft(draft)
             }
         }
@@ -63,7 +63,7 @@ class DraftsAdapter(
         return viewHolder
     }
 
-    override fun onBindViewHolder(holder: BindingViewHolder<ItemDraftBinding>, position: Int) {
+    override fun onBindViewHolder(holder: BindingHolder<ItemDraftBinding>, position: Int) {
         getItem(position)?.let { draft ->
             holder.binding.root.setOnClickListener {
                 listener.onOpenDraft(draft)

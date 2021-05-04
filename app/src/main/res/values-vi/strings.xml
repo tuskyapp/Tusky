@@ -5,7 +5,9 @@
     <string name="send_toot_notification_cancel_title">Hủy đăng</string>
     <string name="send_toot_notification_channel_name">Đăng Tút</string>
     <string name="send_toot_notification_title">Đang đăng…</string>
-    <string name="notification_title_summary">%d tương tác mới</string>
+    <plurals name="notification_title_summary">
+        <item quantity="other">%d tương tác mới</item>
+    </plurals>
     <string name="notification_summary_small">%1$s và %2$s</string>
     <string name="notification_summary_medium">%1$s, %2$s, và %3$s</string>
     <string name="notification_summary_large">%1$s, %2$s, %3$s và %4$d người khác</string>
@@ -66,13 +68,13 @@
     <string name="dialog_download_image">Tải về</string>
     <string name="dialog_message_uploading_media">Đang tải…</string>
     <string name="dialog_title_finishing_media_upload">Đã tải xong tập tin</string>
-    <string name="dialog_whats_an_instance">Bạn phải nhập một tên miền, ví dụ mastodon.social, icosahedron.website, social.tchncs.de, và <a href="https://instances.social">nhiều hơn nữa!</a> 
+    <string name="dialog_whats_an_instance">Bạn phải nhập một tên miền, ví dụ mastodon.social, icosahedron.website, social.tchncs.de, và <a href="https://instances.social">vô số khác!</a> 
 \n 
 \nNếu chưa có tài khoản, bạn phải tạo tài khoản trước ở đó. 
 \n 
-\nMáy chủ, nói cách khác là một cộng đồng nơi mà tài khoản của bạn lưu trữ trên đó, nhưng bạn vẫn có thể giao tiếp và theo dõi mọi người trên các máy chủ khác một cách dễ dàng. 
+\nMáy chủ, nói cách khác là một cộng đồng nơi mà tài khoản của bạn lưu trữ trên đó, nhưng bạn vẫn có thể dễ dàng giao tiếp và theo dõi mọi người trên các máy chủ khác. 
 \n 
-\nTham khảo thêm tại <a href="https://joinmastodon.org">joinmastodon.org</a>. </string>
+\nTham khảo <a href="https://joinmastodon.org">joinmastodon.org</a>. </string>
     <string name="login_connection">Đang kết nối…</string>
     <string name="label_header">Ảnh bìa</string>
     <string name="label_avatar">Ảnh đại diện</string>
@@ -134,13 +136,13 @@
     <string name="action_add_poll">Tạo bình chọn</string>
     <string name="action_add_media">Thêm tệp</string>
     <string name="action_open_in_web">Mở trong trình duyệt</string>
-    <string name="action_view_media">Album</string>
+    <string name="action_view_media">Media</string>
     <string name="action_view_follow_requests">Yêu cầu theo dõi</string>
     <string name="action_view_domain_mutes">Máy chủ đã ẩn</string>
     <string name="action_view_blocks">Người dùng đã chặn</string>
     <string name="action_view_mutes">Người dùng đã ẩn</string>
-    <string name="action_view_bookmarks">Đã lưu</string>
-    <string name="action_view_favourites">Lượt thích</string>
+    <string name="action_view_bookmarks">Lưu</string>
+    <string name="action_view_favourites">Thích</string>
     <string name="action_view_profile">Trang cá nhân</string>
     <string name="action_close">Đóng</string>
     <string name="action_retry">Thử lại</string>
@@ -184,24 +186,24 @@
     <string name="title_domain_mutes">Máy chủ đã ẩn</string>
     <string name="title_blocks">Người dùng đã chặn</string>
     <string name="title_mutes">Người dùng đã ẩn</string>
-    <string name="title_bookmarks">Đã lưu</string>
+    <string name="title_bookmarks">Những tút đã lưu</string>
     <string name="title_followers">Người theo dõi</string>
     <string name="title_follows">Theo dõi</string>
     <string name="title_statuses_pinned">Ghim</string>
-    <string name="title_statuses_with_replies">Rép</string>
+    <string name="title_statuses_with_replies">Trả lời</string>
     <string name="title_statuses">Tút</string>
     <string name="title_view_thread">Tút</string>
     <string name="title_tab_preferences">Xếp tab</string>
     <string name="title_direct_messages">Tin nhắn</string>
     <string name="title_public_federated">Thế giới</string>
-    <string name="title_public_local">Cộng đồng</string>
+    <string name="title_public_local">Máy chủ</string>
     <string name="title_notifications">Thông báo</string>
     <string name="title_home">Bảng tin</string>
     <string name="title_drafts">Nháp</string>
-    <string name="title_favourites">Lượt thích</string>
+    <string name="title_favourites">Những tút đã thích</string>
     <string name="link_whats_an_instance">Máy chủ là gì\?</string>
     <string name="pref_title_show_media_preview">Tải xem trước hình ảnh</string>
-    <string name="pref_title_show_replies">Hiện lượt trả lời</string>
+    <string name="pref_title_show_replies">Hiện những trả lời</string>
     <string name="pref_title_show_boosts">Hiện lượt chia sẻ</string>
     <string name="pref_title_status_tabs">Tabs</string>
     <string name="pref_title_status_filter">Lọc bảng tin</string>
@@ -235,7 +237,7 @@
     <string name="pref_title_notifications_enabled">Thông báo</string>
     <string name="pref_title_edit_notification_settings">Thông báo</string>
     <string name="visibility_direct">Nhắn tin: Chỉ người được nhắc tới mới thấy</string>
-    <string name="visibility_private">Người theo dõi: Ai đã theo dõi mới xem được</string>
+    <string name="visibility_private">Người theo dõi: Ai đã theo dõi mới được xem</string>
     <string name="visibility_unlisted">Riêng tư: Không hiện trên bảng tin</string>
     <string name="visibility_public">Công khai: Mọi người đều có thể thấy</string>
     <string name="dialog_mute_warning">Ẩn @%s\?</string>
@@ -289,20 +291,20 @@
     <string name="pref_title_public_filter_keywords">Cộng đồng</string>
     <string name="load_more_placeholder_text">xem thêm</string>
     <string name="replying_to">Trả lời @%s</string>
-    <string name="title_media">Thư viện</string>
+    <string name="title_media">Media</string>
     <string name="pref_title_alway_open_spoiler">Luôn hiện nội dung bị ẩn</string>
     <string name="pref_title_alway_show_sensitive_media">Luôn hiện nội dung nhạy cảm</string>
     <string name="follows_you">Đang theo dõi bạn</string>
     <string name="abbreviated_seconds_ago">%ds</string>
-    <string name="abbreviated_minutes_ago">%d phút</string>
-    <string name="abbreviated_hours_ago">%d giờ</string>
+    <string name="abbreviated_minutes_ago">%dm</string>
+    <string name="abbreviated_hours_ago">%dh</string>
     <string name="abbreviated_days_ago">%d ngày</string>
     <string name="abbreviated_years_ago">%d năm</string>
     <string name="abbreviated_in_seconds">%ds</string>
-    <string name="abbreviated_in_minutes">%d phút</string>
-    <string name="abbreviated_in_hours">in %d giờ</string>
-    <string name="abbreviated_in_days">in %d ngày</string>
-    <string name="abbreviated_in_years">in %d năm</string>
+    <string name="abbreviated_in_minutes">%dm</string>
+    <string name="abbreviated_in_hours">%dh</string>
+    <string name="abbreviated_in_days">%dd</string>
+    <string name="abbreviated_in_years">%dy</string>
     <string name="state_follow_requested">Yêu cầu theo dõi</string>
     <string name="status_media_video">Video</string>
     <string name="status_media_images">Hình ảnh</string>
@@ -338,29 +340,29 @@
     <string name="hint_additional_info">Thêm ghi chú</string>
     <string name="report_sent_success">Đã gửi báo cáo @%s</string>
     <plurals name="poll_timespan_seconds">
-        <item quantity="other">%d giây nữa kết thúc</item>
+        <item quantity="other">%d giây</item>
     </plurals>
     <plurals name="poll_timespan_minutes">
-        <item quantity="other">%d phút nữa kết thúc</item>
+        <item quantity="other">%d phút</item>
     </plurals>
     <plurals name="poll_timespan_hours">
-        <item quantity="other">%d giờ nữa kết thúc</item>
+        <item quantity="other">%d giờ</item>
     </plurals>
     <plurals name="poll_timespan_days">
-        <item quantity="other">%d ngày nữa kết thúc</item>
+        <item quantity="other">%d ngày</item>
     </plurals>
-    <string name="poll_ended_created">Cuộc bình chọn bạn tạo đã kết thúc</string>
-    <string name="poll_ended_voted">Cuộc bình chọn của bạn đã kết thúc</string>
+    <string name="poll_ended_created">Cuộc bình chọn của bạn đã kết thúc</string>
+    <string name="poll_ended_voted">Cuộc bình chọn đã kết thúc</string>
     <string name="poll_vote">Bình chọn</string>
     <string name="poll_info_closed">xong</string>
     <string name="poll_info_time_absolute">kết thúc lúc %s</string>
     <plurals name="poll_info_people">
-        <item quantity="other">%s người</item>
+        <item quantity="other">%s người bình chọn</item>
     </plurals>
     <plurals name="poll_info_votes">
-        <item quantity="other">%s người</item>
+        <item quantity="other">%s người bình chọn</item>
     </plurals>
-    <string name="poll_info_format"> <!-- 15 người • 1 tiếng nữa kết thúc --> %1$s • %2$s</string>
+    <string name="poll_info_format"> <!-- 15 người bình chọn • còn 1 giờ --> %1$s • %2$s</string>
     <string name="compose_preview_image_description">Mô tả cho hình %s</string>
     <string name="compose_shortcut_short_label">Viết</string>
     <string name="compose_shortcut_long_label">Viết tút</string>
@@ -381,9 +383,11 @@
     <string name="description_status_bookmarked">Đã lưu</string>
     <string name="description_status_favourited">Đã thích</string>
     <string name="description_status_reblogged">Đã chia sẻ</string>
-    <string name="description_status_media_no_description_placeholder">Không có mô tả</string>
+    <string name="description_status_media_no_description_placeholder">Âm thanh</string>
     <string name="description_status_cw">Nội dung nhạy cảm: %s</string>
-    <string name="max_tab_number_reached">tối đa %1$d tab</string>
+    <plurals name="max_tab_number_reached">
+        <item quantity="other">tối đa %1$d tab</item>
+    </plurals>
     <string name="conversation_more_recipients">%1$s, %2$s và %3$d người nữa</string>
     <string name="conversation_2_recipients">%1$s và %2$s</string>
     <string name="conversation_1_recipients">%1$s</string>
@@ -398,14 +402,14 @@
     <string name="pin_action">Ghim</string>
     <string name="unpin_action">Gỡ ghim</string>
     <string name="label_remote_account">Thông tin có thể hiển thị không đầy đủ. Nhấn để mở xem chi tiết trên trình duyệt.</string>
-    <string name="pref_title_absolute_time">Sử dụng thời gian của thiết bị</string>
+    <string name="pref_title_absolute_time">Sử dụng thời gian thiết bị</string>
     <string name="profile_metadata_content_label">Nội dung</string>
     <string name="profile_metadata_label_label">Nhãn</string>
     <string name="profile_metadata_add">thêm nội dung</string>
     <string name="profile_metadata_label">Metadata</string>
     <string name="license_cc_by_sa_4">CC-BY-SA 4.0</string>
     <string name="license_cc_by_4">CC-BY 4.0</string>
-    <string name="license_apache_2">Licensed under the Apache License (sao chép bên dưới)</string>
+    <string name="license_apache_2">Giấy phép Apache (xem bên dưới)</string>
     <string name="license_description">Tusky có sử dụng mã nguồn từ những dự án mã nguồn mở sau:</string>
     <string name="unreblog_private">Hủy chia sẻ</string>
     <string name="reblog_private">Chia sẻ công khai</string>
@@ -433,8 +437,10 @@
     <string name="lock_account_label">Tài khoản riêng tư</string>
     <string name="action_remove">Hủy bỏ</string>
     <string name="action_set_caption">Mô tả</string>
-    <string name="hint_describe_for_visually_impaired">Mô tả dành cho người khiếm thị
-\n(giới hạn %d chữ)</string>
+    <plurals name="hint_describe_for_visually_impaired">
+        <item quantity="other">Mô tả dành cho người khiếm thị
+\n(giới hạn %d chữ)</item>
+    </plurals>
     <string name="compose_active_account_description">Đăng bằng tài khoản %1$s</string>
     <string name="action_add_to_list">Thêm tài khoản vào danh sách</string>
     <string name="action_remove_from_list">Xóa tài khoản khỏi danh sách</string>
@@ -456,11 +462,11 @@
     <string name="action_unmute_domain">Bỏ ẩn %s</string>
     <string name="pref_title_hide_top_toolbar">Ẩn tiêu đề tab</string>
     <string name="account_note_saved">Đã lưu!</string>
-    <string name="account_note_hint">Thêm ghi chú</string>
+    <string name="account_note_hint">Ghi chú</string>
     <string name="no_announcements">Chưa có thông báo.</string>
     <string name="title_announcements">Có gì mới\?</string>
     <string name="wellbeing_hide_stats_profile">Ẩn số liệu trên trang cá nhân</string>
-    <string name="wellbeing_hide_stats_posts">Ẩn tương tác trên tút</string>
+    <string name="wellbeing_hide_stats_posts">Ẩn số liệu trên tút</string>
     <string name="limit_notifications">Hạn chế thông báo trên bảng tin</string>
     <string name="review_notifications">Chọn loại thông báo</string>
     <string name="wellbeing_mode_notice">Các thông tin ảnh hưởng tới tâm lý hành vi của bạn sẽ bị ẩn. Bao gồm:
@@ -470,12 +476,14 @@
 \n - Số Người theo dõi/Tút trên trang cá nhân
 \n
 \nThông báo đẩy sẽ không ảnh hưởng, bạn có thể tự thiết lập trong phần cài đặt điện thoại của bạn.</string>
-    <string name="pref_title_wellbeing_mode">Cai nghiện</string>
+    <string name="pref_title_wellbeing_mode">Chống nghiện</string>
     <string name="notification_subscription_description">Thông báo khi người bạn đăng ký theo dõi đăng tút mới</string>
     <string name="notification_subscription_name">Tút mới</string>
     <string name="pref_title_notification_filter_subscriptions">người tôi đăng ký theo dõi đăng tút mới</string>
     <string name="notification_subscription_format">%s vừa đăng tút</string>
-    <string name="error_upload_max_media_reached">Bạn không thể đính kèm quá %1$d tệp.</string>
+    <plurals name="error_upload_max_media_reached">
+        <item quantity="other">Bạn không thể đính kèm quá %1$d tệp.</item>
+    </plurals>
     <string name="duration_indefinite">Vĩnh viễn</string>
     <string name="label_duration">Thời hạn</string>
     <string name="dialog_delete_list_warning">Bạn thật sự muốn xóa danh sách %s\?</string>
@@ -491,4 +499,5 @@
     <string name="pref_title_animate_custom_emojis">Emoji động</string>
     <string name="action_unsubscribe_account">Ngưng nhận thông báo</string>
     <string name="action_subscribe_account">Nhận thông báo</string>
+    <string name="follow_requests_info">Dù biết tài khoản của bạn công khai, quản trị viên %1$s vẫn nghĩ bạn hãy nên xem lại yêu cầu theo dõi từ những tài khoản lạ.</string>
 </resources>

@@ -63,7 +63,6 @@ import com.keylesspalace.tusky.viewdata.StatusViewData
 import com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider.from
 import com.uber.autodispose.autoDispose
 import io.reactivex.android.schedulers.AndroidSchedulers
-import kotlinx.android.synthetic.main.fragment_search.*
 
 class SearchStatusesFragment : SearchFragment<Pair<Status, StatusViewData.Concrete>>(), StatusActionListener {
 
@@ -78,7 +77,7 @@ class SearchStatusesFragment : SearchFragment<Pair<Status, StatusViewData.Concre
         get() = super.adapter as SearchStatusesAdapter
 
     override fun createAdapter(): PagedListAdapter<Pair<Status, StatusViewData.Concrete>, *> {
-        val preferences = PreferenceManager.getDefaultSharedPreferences(searchRecyclerView.context)
+        val preferences = PreferenceManager.getDefaultSharedPreferences(binding.searchRecyclerView.context)
         val statusDisplayOptions = StatusDisplayOptions(
                 animateAvatars = preferences.getBoolean("animateGifAvatars", false),
                 mediaPreviewEnabled = viewModel.mediaPreviewEnabled,
@@ -91,11 +90,10 @@ class SearchStatusesFragment : SearchFragment<Pair<Status, StatusViewData.Concre
                 animateEmojis = preferences.getBoolean(PrefKeys.ANIMATE_CUSTOM_EMOJIS, false)
         )
 
-        searchRecyclerView.addItemDecoration(DividerItemDecoration(searchRecyclerView.context, DividerItemDecoration.VERTICAL))
-        searchRecyclerView.layoutManager = LinearLayoutManager(searchRecyclerView.context)
+        binding.searchRecyclerView.addItemDecoration(DividerItemDecoration(binding.searchRecyclerView.context, DividerItemDecoration.VERTICAL))
+        binding.searchRecyclerView.layoutManager = LinearLayoutManager(binding.searchRecyclerView.context)
         return SearchStatusesAdapter(statusDisplayOptions, this)
     }
-
 
     override fun onContentHiddenChange(isShowing: Boolean, position: Int) {
         searchAdapter.getItem(position)?.let {
@@ -486,5 +484,4 @@ class SearchStatusesFragment : SearchFragment<Pair<Status, StatusViewData.Concre
                     .show()
         }
     }
-
 }

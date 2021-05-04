@@ -6,7 +6,9 @@
     android:layout_height="match_parent"
     tools:context="com.keylesspalace.tusky.AboutActivity">
 
-    <include layout="@layout/toolbar_basic" />
+    <include
+        android:id="@+id/includedToolbar"
+        layout="@layout/toolbar_basic" />
 
     <FrameLayout
         android:layout_width="match_parent"

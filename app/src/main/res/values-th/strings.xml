@@ -71,7 +71,9 @@
     <string name="description_status_media_no_description_placeholder">ไม่มีคำอธิบาย</string>
     <string name="description_status_cw">เตือนเนื้อหา : %s</string>
     <string name="description_status_media">สื่อ: %s</string>
-    <string name="max_tab_number_reached">ถึงจำนวนแท็บสูงสุดคือ %1$d แล้ว</string>
+    <plurals name="max_tab_number_reached">
+        <item quantity="other">ถึงจำนวนแท็บสูงสุดคือ %1$d แล้ว</item>
+    </plurals>
     <string name="conversation_more_recipients">%1$s, %2$s และอีก %3$d</string>
     <string name="conversation_2_recipients">%1$s และ %2$s</string>
     <string name="conversation_1_recipients">%1$s</string>
@@ -128,8 +130,10 @@
     <string name="action_remove">ลบ</string>
     <string name="error_failed_set_caption">ตั้งคำอธิบายล้มเหลว</string>
     <string name="action_set_caption">ตั้งคำอธิบาย</string>
-    <string name="hint_describe_for_visually_impaired">อธิบายเพื่อผู้บกพร่องทางสายตา
-\n(จำกัด %d ตัวอักขระ)</string>
+    <plurals name="hint_describe_for_visually_impaired">
+        <item quantity="other">อธิบายเพื่อผู้บกพร่องทางสายตา
+\n(จำกัด %d ตัวอักขระ)</item>
+    </plurals>
     <string name="compose_active_account_description">โพสต์ด้วยบัญชี %1$s</string>
     <string name="action_remove_from_list">ลบบัญชีออกจากรายการ</string>
     <string name="action_add_to_list">เพิ่มบัญชีไปใส่รายการ</string>
@@ -183,7 +187,9 @@
     <string name="about_powered_by_tusky">ขับเคลื่อนด้วย Tusky</string>
     <string name="about_tusky_version">Tusky %s</string>
     <string name="description_account_locked">บัญชีไม่สาธารณะ</string>
-    <string name="notification_title_summary">การโต้ตอบใหม่จำนวน %d</string>
+    <plurals name="notification_title_summary">
+        <item quantity="other">การโต้ตอบใหม่จำนวน %d</item>
+    </plurals>
     <string name="notification_summary_small">%1$s และ %2$s</string>
     <string name="notification_summary_medium">%1$s, %2$s, และ %3$s</string>
     <string name="notification_summary_large">%1$s, %2$s, %3$s และอีก %4$d คน</string>
@@ -478,7 +484,9 @@
     <string name="drafts_failed_loading_reply">ล้มเหลวในการโหลดข้อมูลตอบกลับ</string>
     <string name="old_drafts">ฉบับร่างเก่า</string>
     <string name="dialog_delete_list_warning">คุณต้องการลบลิสต์ %s ใช่ไหม\?</string>
-    <string name="error_upload_max_media_reached">คุณไม่สามารถอัปโหลดไฟล์แนบมากกว่า %1$d ได้</string>
+    <plurals name="error_upload_max_media_reached">
+        <item quantity="other">คุณไม่สามารถอัปโหลดไฟล์แนบมากกว่า %1$d ได้</item>
+    </plurals>
     <string name="account_note_saved">บันทึกแล้ว!</string>
     <string name="no_announcements">ไม่มีประกาศ</string>
     <string name="duration_indefinite">ไม่มีกำหนด</string>

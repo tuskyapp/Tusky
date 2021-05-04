@@ -18,19 +18,18 @@ package com.keylesspalace.tusky.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.CheckBox
-import android.widget.RadioButton
-import android.widget.TextView
 import androidx.emoji.text.EmojiCompat
 import androidx.recyclerview.widget.RecyclerView
-import com.keylesspalace.tusky.R
+import com.keylesspalace.tusky.databinding.ItemPollBinding
 import com.keylesspalace.tusky.entity.Emoji
-import com.keylesspalace.tusky.util.*
+import com.keylesspalace.tusky.util.BindingHolder
+import com.keylesspalace.tusky.util.emojify
+import com.keylesspalace.tusky.util.visible
 import com.keylesspalace.tusky.viewdata.PollOptionViewData
 import com.keylesspalace.tusky.viewdata.buildDescription
 import com.keylesspalace.tusky.viewdata.calculatePercent
 
-class PollAdapter: RecyclerView.Adapter<PollViewHolder>() {
+class PollAdapter: RecyclerView.Adapter<BindingHolder<ItemPollBinding>>() {
 
     private var pollOptions: List<PollOptionViewData> = emptyList()
     private var voteCount: Int = 0
@@ -64,51 +63,54 @@ class PollAdapter: RecyclerView.Adapter<PollViewHolder>() {
     }
 
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PollViewHolder {
-        return PollViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_poll, parent, false))
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BindingHolder<ItemPollBinding> {
+        val binding = ItemPollBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return BindingHolder(binding)
     }
 
-    override fun getItemCount(): Int {
-        return pollOptions.size
-    }
+    override fun getItemCount() = pollOptions.size
 
-    override fun onBindViewHolder(holder: PollViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: BindingHolder<ItemPollBinding>, position: Int) {
 
         val option = pollOptions[position]
 
-        holder.resultTextView.visible(mode == RESULT)
-        holder.radioButton.visible(mode == SINGLE)
-        holder.checkBox.visible(mode == MULTIPLE)
+        val resultTextView = holder.binding.statusPollOptionResult
+        val radioButton = holder.binding.statusPollRadioButton
+        val checkBox = holder.binding.statusPollCheckbox
+
+        resultTextView.visible(mode == RESULT)
+        radioButton.visible(mode == SINGLE)
+        checkBox.visible(mode == MULTIPLE)
 
         when(mode) {
             RESULT -> {
                 val percent = calculatePercent(option.votesCount, votersCount, voteCount)
-                val emojifiedPollOptionText = buildDescription(option.title, percent, holder.resultTextView.context)
-                        .emojify(emojis, holder.resultTextView, animateEmojis)
-                holder.resultTextView.text =  EmojiCompat.get().process(emojifiedPollOptionText)
+                val emojifiedPollOptionText = buildDescription(option.title, percent, resultTextView.context)
+                        .emojify(emojis, resultTextView, animateEmojis)
+                resultTextView.text =  EmojiCompat.get().process(emojifiedPollOptionText)
 
                 val level = percent * 100
 
-                holder.resultTextView.background.level = level
-                holder.resultTextView.setOnClickListener(resultClickListener)
+                resultTextView.background.level = level
+                resultTextView.setOnClickListener(resultClickListener)
             }
             SINGLE -> {
-                val emojifiedPollOptionText = option.title.emojify(emojis, holder.radioButton, animateEmojis)
-                holder.radioButton.text = EmojiCompat.get().process(emojifiedPollOptionText)
-                holder.radioButton.isChecked = option.selected
-                holder.radioButton.setOnClickListener {
+                val emojifiedPollOptionText = option.title.emojify(emojis, radioButton, animateEmojis)
+                radioButton.text = EmojiCompat.get().process(emojifiedPollOptionText)
+                radioButton.isChecked = option.selected
+                radioButton.setOnClickListener {
                     pollOptions.forEachIndexed { index, pollOption ->
-                        pollOption.selected = index == holder.adapterPosition
+                        pollOption.selected = index == holder.bindingAdapterPosition
                         notifyItemChanged(index)
                     }
                 }
             }
             MULTIPLE -> {
-                val emojifiedPollOptionText = option.title.emojify(emojis, holder.checkBox, animateEmojis)
-                holder.checkBox.text = EmojiCompat.get().process(emojifiedPollOptionText)
-                holder.checkBox.isChecked = option.selected
-                holder.checkBox.setOnCheckedChangeListener { _, isChecked ->
-                    pollOptions[holder.adapterPosition].selected = isChecked
+                val emojifiedPollOptionText = option.title.emojify(emojis, checkBox, animateEmojis)
+                checkBox.text = EmojiCompat.get().process(emojifiedPollOptionText)
+                checkBox.isChecked = option.selected
+                checkBox.setOnCheckedChangeListener { _, isChecked ->
+                    pollOptions[holder.bindingAdapterPosition].selected = isChecked
                 }
             }
         }
@@ -120,14 +122,4 @@ class PollAdapter: RecyclerView.Adapter<PollViewHolder>() {
         const val SINGLE = 1
         const val MULTIPLE = 2
     }
-}
-
-
-
-class PollViewHolder(view: View): RecyclerView.ViewHolder(view) {
-
-    val resultTextView: TextView = view.findViewById(R.id.status_poll_option_result)
-    val radioButton: RadioButton = view.findViewById(R.id.status_poll_radio_button)
-    val checkBox: CheckBox = view.findViewById(R.id.status_poll_checkbox)
-
 }

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="conversation_2_recipients">%1$s සහ %2$s</string>
+    <string name="conversation_1_recipients">%1$s</string>
+    <string name="notifications_apply_filter">පෙරහන</string>
+    <string name="filter_apply">යොදන්න</string>
+    <string name="button_back">ආපසු</string>
+    <string name="title_accounts">ගිණුම්</string>
+    <string name="duration_5_min">විනාඩි 5</string>
+    <string name="duration_30_min">විනාඩි 30</string>
+    <string name="duration_6_hours">හෝරා 6</string>
+    <string name="duration_1_hour">හෝරා 1</string>
+    <string name="duration_3_days">දින 3</string>
+    <string name="duration_1_day">දින 1</string>
+    <string name="duration_7_days">දින 7</string>
+    <string name="edit_poll">සංස්කරණය</string>
+</resources>

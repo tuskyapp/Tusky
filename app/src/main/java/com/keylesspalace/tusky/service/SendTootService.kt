@@ -28,7 +28,7 @@ import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.SaveTootHelper
 import dagger.android.AndroidInjection
-import kotlinx.android.parcel.Parcelize
+import kotlinx.parcelize.Parcelize
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

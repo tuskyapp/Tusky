@@ -18,24 +18,26 @@ package com.keylesspalace.tusky.db
 import android.text.Spanned
 import androidx.core.text.parseAsHtml
 import androidx.core.text.toHtml
+import androidx.room.ProvidedTypeConverter
 import androidx.room.TypeConverter
-import com.google.gson.GsonBuilder
+import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.keylesspalace.tusky.TabData
 import com.keylesspalace.tusky.components.conversation.ConversationAccountEntity
 import com.keylesspalace.tusky.createTabDataFromId
 import com.keylesspalace.tusky.entity.*
-import com.keylesspalace.tusky.json.SpannedTypeAdapter
 import com.keylesspalace.tusky.util.trimTrailingWhitespace
 import java.net.URLDecoder
 import java.net.URLEncoder
 import java.util.*
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class Converters {
-
-    private val gson = GsonBuilder()
-            .registerTypeAdapter(Spanned::class.java, SpannedTypeAdapter())
-            .create()
+@ProvidedTypeConverter
+@Singleton
+class Converters @Inject constructor (
+        private val gson: Gson
+) {
 
     @TypeConverter
     fun jsonToEmojiList(emojiListJson: String?): List<Emoji>? {

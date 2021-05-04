@@ -205,7 +205,10 @@
     <string name="notification_summary_large">%1$s, %2$s, %3$s és még %4$d</string>
     <string name="notification_summary_medium">%1$s, %2$s meg %3$s</string>
     <string name="notification_summary_small">%1$s és %2$s</string>
-    <string name="notification_title_summary">%d új interakció</string>
+    <plurals name="notification_title_summary">
+        <item quantity="one">%d új interakció</item>
+        <item quantity="other">%d új interakció</item>
+    </plurals>
     <string name="description_account_locked">Zárolt fiók</string>
     <string name="about_title_activity">Rólunk</string>
     <string name="about_tusky_version">Tusky %s</string>
@@ -273,7 +276,10 @@
     <string name="title_reblogged_by">Megtolta</string>
     <string name="title_favourited_by">Kedvencnek jelölte</string>
     <string name="conversation_2_recipients">%1$s és %2$s</string>
-    <string name="max_tab_number_reached">elérted a fülek maximális számát (%1$d)</string>
+    <plurals name="max_tab_number_reached">
+        <item quantity="one">elérted a fülek maximális számát (%1$d)</item>
+        <item quantity="other">elérted a fülek maximális számát (%1$d)</item>
+    </plurals>
     <string name="description_status_media_no_description_placeholder">        Nincs leírás
     </string>
     <string name="description_visiblity_public">Nyilvános    </string>
@@ -338,8 +344,10 @@
     <string name="action_remove_from_list">Fiók eltávolítása a listából</string>
     <string name="compose_active_account_description">Tülkölés %1$s fiókkal</string>
     <string name="error_failed_set_caption">Cím beállítása nem sikerült</string>
-    <string name="hint_describe_for_visually_impaired">Leírás látássérülteknek
-\n(%d karakter korlát)</string>
+    <plurals name="hint_describe_for_visually_impaired">
+        <item quantity="other">Leírás látássérülteknek
+\n(%d karakter korlát)</item>
+    </plurals>
     <string name="action_set_caption">Cím beállítása</string>
     <string name="lock_account_label_description">Minden követődet külön engedélyezned kell</string>
     <string name="expand_collapse_all_statuses">Minden tülk kibontása/összecsukása</string>
@@ -484,7 +492,10 @@
 \nTovábbra is elérheted a régi piszkozataidat egy gombbal az új piszkozatok képernyőjén, de ezeket egy későbbi frissítésben el fogjuk törölni!</string>
     <string name="drafts_toot_failed_to_send">Ez a tülk nem küldődött el!</string>
     <string name="dialog_delete_list_warning">Tényleg le akarod törölni a %s listát\?</string>
-    <string name="error_upload_max_media_reached">Nem tölthetsz fel %1$d médiacsatolmányból többet.</string>
+    <plurals name="error_upload_max_media_reached">
+        <item quantity="one">Nem tölthetsz fel %1$d médiacsatolmányból többet.</item>
+        <item quantity="other">Nem tölthetsz fel %1$d médiacsatolmányból többet.</item>
+    </plurals>
     <string name="wellbeing_hide_stats_profile">Profilok mérőszámainak elrejtése</string>
     <string name="wellbeing_hide_stats_posts">Tülkök mérőszámainak elrejtése</string>
     <string name="limit_notifications">Idővonali értesítések korlátozása</string>
@@ -506,4 +517,6 @@
     <string name="notification_subscription_format">%s épp tülkölt</string>
     <string name="pref_title_wellbeing_mode">Jóllét</string>
     <string name="pref_title_animate_custom_emojis">Egyedi emojik animálása</string>
+    <string name="action_unsubscribe_account">Leiratkozás</string>
+    <string name="action_subscribe_account">Feliratkozás</string>
 </resources>

@@ -76,7 +76,9 @@
     <string name="description_status_media_no_description_placeholder">Без описание</string>
     <string name="description_status_cw">Предупреждение за съдържание: %s</string>
     <string name="description_status_media">Мултимедия: %s</string>
-    <string name="max_tab_number_reached">достигнати са максималните %1$d раздела</string>
+    <plurals name="max_tab_number_reached">
+        <item quantity="other">достигнати са максималните %1$d раздела</item>
+    </plurals>
     <string name="conversation_more_recipients">%1$s, %2$s и %3$d други</string>
     <string name="conversation_1_recipients">%1$s</string>
     <string name="conversation_2_recipients">%1$s и %2$s</string>
@@ -134,8 +136,10 @@
     <string name="lock_account_label">Заключване на акаунт</string>
     <string name="action_remove">Премахване</string>
     <string name="action_set_caption">Задаване на надпис</string>
-    <string name="hint_describe_for_visually_impaired">Опишете за хора със зрителни увреждания
-\n(%d ограничение на знаците)</string>
+    <plurals name="hint_describe_for_visually_impaired">
+        <item quantity="other">Опишете за хора със зрителни увреждания
+\n(%d ограничение на знаците)</item>
+    </plurals>
     <string name="error_failed_set_caption">Неуспешно задаване на надпис</string>
     <string name="compose_active_account_description">Публикуване с акаунт %1$s</string>
     <string name="action_remove_from_list">Премахване на акаунт от списъка</string>
@@ -195,7 +199,9 @@
     <string name="about_tusky_version">Tusky %s</string>
     <string name="about_title_activity">Относно</string>
     <string name="description_account_locked">Заключен акаунт</string>
-    <string name="notification_title_summary">%d нови взаимодействия</string>
+    <plurals name="notification_title_summary">
+        <item quantity="other">%d нови взаимодействия</item>
+    </plurals>
     <string name="notification_summary_small">%1$s и %2$s</string>
     <string name="notification_summary_medium">%1$s, %2$s, и %3$s</string>
     <string name="notification_summary_large">%1$s, %2$s, %3$s и %4$d други</string>
@@ -441,7 +447,9 @@
 \n Все още можете да осъществите достъп до старите си чернови чрез бутон на екрана за нови чернови, но те ще бъдат премахнати при бъдеща актуализация!</string>
     <string name="drafts_toot_failed_to_send">Тази публикация не успя да се изпрати!</string>
     <string name="dialog_delete_list_warning">Наистина ли искате да изтриете списъка %s\?</string>
-    <string name="error_upload_max_media_reached">Не можете да качите повече от %1$d мултимедийни прикачени файлове.</string>
+    <plurals name="error_upload_max_media_reached">
+        <item quantity="other">Не можете да качите повече от %1$d мултимедийни прикачени файлове.</item>
+    </plurals>
     <string name="wellbeing_hide_stats_profile">Скриване на количествена статистика на профили</string>
     <string name="wellbeing_hide_stats_posts">Скриване на количествена статистика на публикации</string>
     <string name="limit_notifications">Ограничаване на известия от емисия</string>
