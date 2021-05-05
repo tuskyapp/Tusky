@@ -101,8 +101,10 @@ fun <T> T.makeCaptionDialog(existingDescription: String?,
     // size. Maybe we should limit the size of CustomTarget
     Glide.with(this)
             .load(previewUri)
-            .into(object : CustomTarget<Drawable>() {
-                override fun onLoadCleared(placeholder: Drawable?) {}
+            .into(object : CustomTarget<Drawable>(4096, 4096) {
+                override fun onLoadCleared(placeholder: Drawable?) {
+                    imageView.setImageDrawable(placeholder)
+                }
 
                 override fun onResourceReady(resource: Drawable, transition: Transition<in Drawable>?) {
                     imageView.setImageDrawable(resource)
