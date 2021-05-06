@@ -1,0 +1,5 @@
+Tusky v15.0
+
+- As solicitudes de seguimento móstranse sempre no menú principal.
+- O selector para programar unha publicación ten un deseño consistente co resto da aplicación
+Rexistro completo dos cambios: https://github.com/tuskyapp/Tusky/releases
