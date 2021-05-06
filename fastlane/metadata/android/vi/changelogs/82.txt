@@ -1,0 +1,5 @@
+Tusky v15.0
+
+- Hiện yêu cầu theo dõi trên menu chính.
+- Cải thiện thời gian lên lịch tút với thiết kế thuận tiện hơn.
+Full changelog: https://github.com/tuskyapp/Tusky/releases
