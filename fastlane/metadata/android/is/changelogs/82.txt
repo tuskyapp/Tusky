@@ -1,0 +1,5 @@
+Tusky útg. 15.0
+
+- Fylgjendabeiðnir eru núna alltaf birtar í aðalvalmyndinni.
+- Val tíma áætlaðra færslna hefur verið endurhönnuð til samræmis við aðra hluta forritsins.
+Full breytingaskrá: https://github.com/tuskyapp/Tusky/releases
