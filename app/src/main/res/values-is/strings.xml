@@ -244,6 +244,7 @@
     <string name="notification_summary_medium">%1$s, %2$s og %3$s</string>
     <string name="notification_summary_small">%1$s og %2$s</string>
     <plurals name="notification_title_summary">
+        <item quantity="one">%d ný aðgerð</item>
         <item quantity="other">%d nýjar aðgerðir</item>
     </plurals>
     <string name="description_account_locked">Læstur notandaaðgangur</string>
@@ -354,6 +355,7 @@
     <string name="conversation_2_recipients">%1$s og %2$s</string>
     <string name="conversation_more_recipients">%1$s, %2$s og %3$d til viðbótar</string>
     <plurals name="max_tab_number_reached">
+        <item quantity="one">hámarksfjölda %1$d flipa náð</item>
         <item quantity="other">hámarksfjölda %1$d flipa náð</item>
     </plurals>
     <string name="description_status_media">Myndefni: %s</string>
@@ -496,6 +498,7 @@
     <string name="duration_indefinite">Ótiltekið</string>
     <string name="label_duration">Tímalengd</string>
     <plurals name="error_upload_max_media_reached">
+        <item quantity="one">Þú getur ekki sent inn fleiri en %1$d myndefnisviðhengi.</item>
         <item quantity="other">Þú getur ekki sent inn fleiri en %1$d myndefnisviðhengi.</item>
     </plurals>
     <string name="wellbeing_hide_stats_profile">Fela magntölfræði notendasniða</string>
@@ -507,4 +510,5 @@
     <string name="notification_subscription_name">Ný tíst</string>
     <string name="pref_title_notification_filter_subscriptions">einhver sem ég er áskrifandi að birti nýtt tíst</string>
     <string name="notification_subscription_format">%s sendi inn rétt í þessu</string>
+    <string name="follow_requests_info">Jafnvel þótt aðgangurinn þinn sé ekki læstur, fannst starfsfólki %1$s að þú gætir viljað yfirfara handvirkt fylgjendabeiðnir frá þessum aðgöngum.</string>
 </resources>

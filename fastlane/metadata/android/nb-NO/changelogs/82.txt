@@ -1,0 +1,5 @@
+Tusky v15.0
+
+- Følgeforespørsler vises nå alltid i hovedmenyen
+- Designet på tidsvelgeren som brukes for planlegge toots er likt som resten av appen
+Full liste med endringer: https://github.com/tuskyapp/Tusky/releases

@@ -1,0 +1,5 @@
+Tusky v15.0
+
+- A követési kérelmeket mindig mutatjuk a főmenüben.
+- A posztok időzítésére használt időválasztó kinézete illeszkedik az app többi részéhez.
+Összes változtatás: https://github.com/tuskyapp/Tusky/releases

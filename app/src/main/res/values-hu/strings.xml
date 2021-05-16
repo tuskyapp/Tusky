@@ -182,7 +182,7 @@
     <string name="pref_title_http_proxy_server">HTTP proxy szerver</string>
     <string name="pref_title_http_proxy_port">HTTP Proxy port</string>
     <string name="pref_default_post_privacy">Tülkök alapértelmezett láthatósága</string>
-    <string name="pref_default_media_sensitivity">Minden média szenzitívnek jelölése</string>
+    <string name="pref_default_media_sensitivity">Minden média kényesnek jelölése</string>
     <string name="pref_failed_to_sync">A beállítások szinkronizálása nem sikerült</string>
     <string name="post_privacy_public">Nyilvános</string>
     <string name="post_privacy_unlisted">Listázatlan</string>
@@ -231,7 +231,7 @@
     <string name="state_follow_requested">Követés kérelmezve</string>
     <!--These are for timestamps on statuses. For example: "16s" or "2d"-->
     <string name="follows_you">Követ téged</string>
-    <string name="pref_title_alway_show_sensitive_media">Mindig mutassa a szenzitív tartalmat</string>
+    <string name="pref_title_alway_show_sensitive_media">Mindig mutassa a kényes tartalmat</string>
     <string name="title_media">Média</string>
     <string name="load_more_placeholder_text">több betöltése</string>
     <string name="add_account_name">Fiók hozzáadása</string>
@@ -519,4 +519,5 @@
     <string name="pref_title_animate_custom_emojis">Egyedi emojik animálása</string>
     <string name="action_unsubscribe_account">Leiratkozás</string>
     <string name="action_subscribe_account">Feliratkozás</string>
+    <string name="follow_requests_info">Bár a fiókod nincs zárolva, a %1$s csapata úgy gondolta, hogy ezen fiókok követési kérelmeit átnéznéd.</string>
 </resources>

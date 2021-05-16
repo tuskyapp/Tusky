@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="error_empty">Αυτό δεν μπορεί να είναι κενό.</string>
+    <string name="error_network">Προέκυψε σφάλμα δικτύου! Παρακαλώ ελέγξτε τη σύνδεσή σας και προσπαθήστε ξανά!</string>
+    <string name="error_generic">Προέκυψε ένα σφάλμα.</string>
+</resources>
