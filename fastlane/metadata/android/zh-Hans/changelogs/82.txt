@@ -1,0 +1,5 @@
+Tusky v15.0
+
+- 关注请求将总在首页显示。
+- 预订嘟文时间选取器的设计风格现与 App 一致。
+完整更新日志：https://github.com/tuskyapp/Tusky/releases

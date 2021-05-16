@@ -521,4 +521,5 @@
     <string name="pref_title_animate_custom_emojis">显示动态自定义Emoji</string>
     <string name="pref_title_notification_filter_subscriptions">关注的人发送了新嘟文</string>
     <string name="notification_subscription_format">%s 发送了新嘟文</string>
+    <string name="follow_requests_info">即使您的账号未上锁，管理员 %1$s 认为您可能需要手动处理来自这些账号的关注请求。</string>
 </resources>
