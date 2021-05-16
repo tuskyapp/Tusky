@@ -1,0 +1,5 @@
+Tusky v15.0
+
+- Folgeanfragen werden jetzt immer im Menü angezeigt
+- Der Zeitauswahldialog beim planen eines Beitrags hat jetzt ein besseres Design
+Alle Änderungen: https://github.com/tuskyapp/Tusky/releases
