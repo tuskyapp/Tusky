@@ -236,7 +236,7 @@
     <string name="action_emoji_keyboard">ইমোজি কীবোর্ড</string>
     <string name="action_content_warning">সতর্কবার্তা</string>
     <string name="action_toggle_visibility">টুট দৃশ্যমানতা</string>
-    <string name="action_access_saved_toot">ড্রাফটগুলি</string>
+    <string name="action_access_drafts">ড্রাফটগুলি</string>
     <string name="action_search">অনুসন্ধান</string>
     <string name="action_reject">প্রত্যাখ্যান</string>
     <string name="action_accept">গ্রহণ</string>
@@ -331,7 +331,7 @@
     <string name="action_mute_conversation">আলাপ বন্ধ করো</string>
     <string name="warning_scheduling_interval">মাস্টোডনের সর্বনিম্ন ৫ মিনিটের সময়সূচীর বিরতি আছে।</string>
     <string name="error_audio_upload_size">অডিও ফাইলগুলি অবশ্যই ৪০MB এর চেয়ে কম হওয়া উচিত।</string>
-    <string name="no_saved_status">তোমার কোনো খসড়া নেই।</string>
+    <string name="no_drafts">তোমার কোনো খসড়া নেই।</string>
     <string name="no_scheduled_status">তোমার কোনো সময়সূচীত স্ট্যাটাস নেই।</string>
     <string name="list">তালিকা</string>
     <string name="select_list_title">তালিকা নির্বাচন করো</string>

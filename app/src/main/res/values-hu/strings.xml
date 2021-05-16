@@ -99,7 +99,7 @@
     <string name="action_accept">Elfogadás</string>
     <string name="action_reject">Elutasítás</string>
     <string name="action_search">Keresés</string>
-    <string name="action_access_saved_toot">Piszkozatok</string>
+    <string name="action_access_drafts">Piszkozatok</string>
     <string name="action_toggle_visibility">Tülkök láthatósága</string>
     <string name="action_content_warning">Tartalom figyelmeztetés</string>
     <string name="action_emoji_keyboard">Emoji billentyűzet</string>
@@ -450,7 +450,7 @@
     <string name="select_list_title">Lista kiválasztása</string>
     <string name="list">Lista</string>
     <string name="error_audio_upload_size">A hangfájloknak kisebbnek kell lenniük, mint 40 MB.</string>
-    <string name="no_saved_status">Nincs egy piszkozatod sem.</string>
+    <string name="no_drafts">Nincs egy piszkozatod sem.</string>
     <string name="no_scheduled_status">Nincs egy ütemezett tülköd sem.</string>
     <string name="warning_scheduling_interval">A Mastodonban a legrövidebb ütemezhető időintervallum 5 perc.</string>
     <string name="notification_follow_request_name">Követési kérelmek</string>
@@ -487,9 +487,6 @@
     <string name="drafts_toot_reply_removed">A Tülköt, melyre válaszul piszkozatot készítettél törölték</string>
     <string name="draft_deleted">Piszkozat törölve</string>
     <string name="drafts_failed_loading_reply">Nem sikerült a Válasz információit betölteni</string>
-    <string name="old_drafts">Régi Piszkozatok</string>
-    <string name="new_drafts_warning">A Tusky piszkozat funkcióját teljesen újraterveztük, hogy gyorsabb, felhasználóbarátabb és hibamentesebb legyen.
-\nTovábbra is elérheted a régi piszkozataidat egy gombbal az új piszkozatok képernyőjén, de ezeket egy későbbi frissítésben el fogjuk törölni!</string>
     <string name="drafts_toot_failed_to_send">Ez a tülk nem küldődött el!</string>
     <string name="dialog_delete_list_warning">Tényleg le akarod törölni a %s listát\?</string>
     <plurals name="error_upload_max_media_reached">

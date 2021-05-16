@@ -79,9 +79,6 @@ abstract class ActivitiesModule {
     @ContributesAndroidInjector
     abstract fun contributesSplashActivity(): SplashActivity
 
-    @ContributesAndroidInjector
-    abstract fun contributesSavedTootActivity(): SavedTootActivity
-
     @ContributesAndroidInjector(modules = [FragmentBuildersModule::class])
     abstract fun contributesPreferencesActivity(): PreferencesActivity
 

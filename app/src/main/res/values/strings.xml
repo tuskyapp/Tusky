@@ -127,7 +127,7 @@
     <string name="action_accept">Accept</string>
     <string name="action_reject">Reject</string>
     <string name="action_search">Search</string>
-    <string name="action_access_saved_toot">Drafts</string>
+    <string name="action_access_drafts">Drafts</string>
     <string name="action_access_scheduled_toot">Scheduled toots</string>
     <string name="action_toggle_visibility">Toot visibility</string>
     <string name="action_content_warning">Content warning</string>
@@ -583,7 +583,7 @@
     <string name="edit_poll">Edit</string>
     <string name="post_lookup_error_format">Error looking up post %s</string>
 
-    <string name="no_saved_status">You don\'t have any drafts.</string>
+    <string name="no_drafts">You don\'t have any drafts.</string>
     <string name="no_scheduled_status">You don\'t have any scheduled statuses.</string>
     <string name="no_announcements">There are no announcements.</string>
     <string name="warning_scheduling_interval">Mastodon has a minimum scheduling interval of 5 minutes.</string>
@@ -611,13 +611,6 @@
     <string name="dialog_delete_list_warning">Do you really want to delete the list %s?</string>
     <string name="drafts_toot_failed_to_send">This toot failed to send!</string>
 
-
-    <string name="new_drafts_warning">
-        The draft feature in Tusky has been completely redesigned to be faster, more user friendly and less buggy.\n
-        You can still access your old drafts via a button on the new drafts screen,
-        but they will be removed in a future update!
-    </string>
-    <string name="old_drafts">Old Drafts</string>
     <string name="drafts_failed_loading_reply">Failed loading Reply information</string>
     <string name="draft_deleted">Draft deleted</string>
     <string name="drafts_toot_reply_removed">The Toot you drafted a reply to has been removed</string>

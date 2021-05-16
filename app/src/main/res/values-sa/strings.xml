@@ -131,7 +131,7 @@
     <string name="action_content_warning">विषयप्रत्यादेशः</string>
     <string name="action_toggle_visibility">दौत्यसुदर्शता</string>
     <string name="action_access_scheduled_toot">कालबद्धदौत्यानि</string>
-    <string name="action_access_saved_toot">लेखविकर्षाः</string>
+    <string name="action_access_drafts">लेखविकर्षाः</string>
     <string name="action_search">अन्विष्यताम्</string>
     <string name="action_reject">अस्वीक्रियताम्</string>
     <string name="action_accept">स्वीक्रियताम्</string>
@@ -366,7 +366,7 @@
     <string name="unreblog_private">प्रकाशनंं नश्यताम्</string>
     <string name="reblog_private">मूलदर्शकेभ्यः प्रकाश्यताम्</string>
     <string name="account_moved_description">%1$s मित्रमत्र प्रस्थितम्:</string>
-    <string name="no_saved_status">न लेखविकर्षास्ते सन्ति ।</string>
+    <string name="no_drafts">न लेखविकर्षास्ते सन्ति ।</string>
     <string name="conversation_1_recipients">%1$s</string>
     <string name="pref_title_hide_top_toolbar">उच्चैःस्थितायाः साधनशालकायाः शीर्षकं छाद्यताम्</string>
     <string name="pref_title_confirm_reblogs">प्रकाशनात् प्राक् पुष्टिसंवादमञ्जूषा दर्शनीया</string>

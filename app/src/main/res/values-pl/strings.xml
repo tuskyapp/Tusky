@@ -89,7 +89,7 @@
     <string name="action_accept">Akceptuj</string>
     <string name="action_reject">Odrzuć</string>
     <string name="action_search">Szukaj</string>
-    <string name="action_access_saved_toot">Szkice</string>
+    <string name="action_access_drafts">Szkice</string>
     <string name="action_toggle_visibility">Widoczność wpisu</string>
     <string name="action_content_warning">Ostrzeżenie o zawartości</string>
     <string name="action_emoji_keyboard">Klawiatura emoji</string>
@@ -461,7 +461,7 @@
     <string name="select_list_title">Wybierz listę</string>
     <string name="list">Lista</string>
     <string name="error_audio_upload_size">Pliki audio muszą być mniejsze niż 40MB.</string>
-    <string name="no_saved_status">Nie masz żadnych szkiców.</string>
+    <string name="no_drafts">Nie masz żadnych szkiców.</string>
     <string name="no_scheduled_status">Nie masz żadnych zaplanowanych wpisów.</string>
     <string name="warning_scheduling_interval">Mastodon umożliwia wysłanie minimalnie 5 minut od zaplanowania.</string>
     <string name="notification_follow_request_name">Prośby o możliwość śledzenia</string>

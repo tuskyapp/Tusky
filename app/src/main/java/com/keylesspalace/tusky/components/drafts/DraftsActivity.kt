@@ -19,19 +19,15 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.view.Menu
-import android.view.MenuItem
 import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.activity.viewModels
-import androidx.lifecycle.Lifecycle
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.snackbar.Snackbar
 import com.keylesspalace.tusky.BaseActivity
 import com.keylesspalace.tusky.R
-import com.keylesspalace.tusky.SavedTootActivity
 import com.keylesspalace.tusky.components.compose.ComposeActivity
 import com.keylesspalace.tusky.databinding.ActivityDraftsBinding
 import com.keylesspalace.tusky.db.DraftEntity
@@ -40,7 +36,6 @@ import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.show
 import com.uber.autodispose.android.lifecycle.autoDispose
 import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
 import retrofit2.HttpException
 import javax.inject.Inject
 
@@ -53,8 +48,6 @@ class DraftsActivity : BaseActivity(), DraftActionListener {
 
     private lateinit var binding: ActivityDraftsBinding
     private lateinit var bottomSheet: BottomSheetBehavior<LinearLayout>
-
-    private var oldDraftsButton: MenuItem? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -70,7 +63,7 @@ class DraftsActivity : BaseActivity(), DraftActionListener {
             setDisplayShowHomeEnabled(true)
         }
 
-        binding.draftsErrorMessageView.setup(R.drawable.elephant_friend_empty, R.string.no_saved_status)
+        binding.draftsErrorMessageView.setup(R.drawable.elephant_friend_empty, R.string.no_drafts)
 
         val adapter = DraftsAdapter(this)
 
@@ -90,34 +83,6 @@ class DraftsActivity : BaseActivity(), DraftActionListener {
                 adapter.submitList(draftList)
             }
         }
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.drafts, menu)
-        oldDraftsButton = menu.findItem(R.id.action_old_drafts)
-        viewModel.showOldDraftsButton()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .autoDispose(this, Lifecycle.Event.ON_DESTROY)
-                .subscribe { showOldDraftsButton ->
-                    oldDraftsButton?.isVisible = showOldDraftsButton
-                }
-        return true
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            android.R.id.home -> {
-                onBackPressed()
-                return true
-            }
-            R.id.action_old_drafts -> {
-                val intent = Intent(this, SavedTootActivity::class.java)
-                startActivityWithSlideInAnimation(intent)
-                return true
-            }
-        }
-        return super.onOptionsItemSelected(item)
     }
 
     override fun onOpenDraft(draft: DraftEntity) {

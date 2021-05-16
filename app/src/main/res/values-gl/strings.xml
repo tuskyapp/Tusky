@@ -3,7 +3,7 @@
     <string name="action_content_warning">Aviso sobre o contido</string>
     <string name="action_toggle_visibility">Visibilidade do toot</string>
     <string name="action_access_scheduled_toot">Toots programados</string>
-    <string name="action_access_saved_toot">Borradores</string>
+    <string name="action_access_drafts">Borradores</string>
     <string name="action_search">Buscar</string>
     <string name="action_reject">Rexeitar</string>
     <string name="action_accept">Aceptar</string>
@@ -438,9 +438,6 @@
     <string name="hint_compose">Que contas\?</string>
     <string name="draft_deleted">Borrador eliminado</string>
     <string name="drafts_failed_loading_reply">Fallou a carga da información da Resposta</string>
-    <string name="old_drafts">Borradores antigos</string>
-    <string name="new_drafts_warning">Os borradores en Tusky foron redeseñados para ser máis rápidos, amigables para a usuaria e con menos fallos.
-\nAínda podes acceder aos antigos borradores a través do botón na pantalla de novos borradores, pero eliminarémolo en futuras actualizacións!</string>
     <string name="drafts_toot_failed_to_send">Fallou o envío do toot!</string>
     <string name="dialog_delete_list_warning">Tes a certeza de querer eliminar a listaxe %s\?</string>
     <plurals name="error_upload_max_media_reached">
@@ -467,7 +464,7 @@
     <string name="warning_scheduling_interval">Mastodon ten un intervalo mínimo de 5 minutos para as programacións.</string>
     <string name="no_announcements">Non hai anuncios.</string>
     <string name="no_scheduled_status">Non tes estados programados.</string>
-    <string name="no_saved_status">Non tes borradores.</string>
+    <string name="no_drafts">Non tes borradores.</string>
     <string name="post_lookup_error_format">Erro ao buscar publicación %s</string>
     <string name="edit_poll">Editar</string>
     <string name="poll_new_choice_hint">Opción %d</string>

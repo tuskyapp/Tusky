@@ -101,7 +101,7 @@
     <string name="action_accept">موافقة</string>
     <string name="action_reject">رفض</string>
     <string name="action_search">البحث</string>
-    <string name="action_access_saved_toot">المسودات</string>
+    <string name="action_access_drafts">المسودات</string>
     <string name="action_toggle_visibility">كيفية عرض التبويق</string>
     <string name="action_content_warning">تحذير عن المحتوى</string>
     <string name="action_emoji_keyboard">لوحة مفاتيح الإيموجي</string>
@@ -473,7 +473,7 @@
     <string name="description_status_bookmarked">أضيف إلى الفواصل المرجعية</string>
     <string name="select_list_title">اختر قائمة</string>
     <string name="list">القائمة</string>
-    <string name="no_saved_status">ليس لديك أية مسودات.</string>
+    <string name="no_drafts">ليس لديك أية مسودات.</string>
     <string name="no_scheduled_status">ليس لديك أية منشورات مُبرمَجة للنشر.</string>
     <string name="error_audio_upload_size">يجب أن يكون حجم الملفات الصوتية أقل مِن 40 ميغابايت.</string>
     <string name="warning_scheduling_interval">تُقدّر أدنى فترة لبرمجة النشر في ماستدون بـ 5 دقائق.</string>

@@ -84,7 +84,7 @@
     <string name="action_accept">ஏற்கவும்</string>
     <string name="action_reject">நிராகரி</string>
     <string name="action_search">தேடு</string>
-    <string name="action_access_saved_toot">வரைவுகள்</string>
+    <string name="action_access_drafts">வரைவுகள்</string>
     <string name="action_toggle_visibility">Toot புலப்படும் தன்மை</string>
     <string name="action_content_warning">உள்ளடக்க எச்சரிக்கை</string>
     <string name="action_emoji_keyboard">Emoji விசைபலகை</string>
