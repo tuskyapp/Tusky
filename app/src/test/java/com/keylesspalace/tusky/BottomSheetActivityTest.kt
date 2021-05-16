@@ -22,10 +22,10 @@ import com.keylesspalace.tusky.entity.Account
 import com.keylesspalace.tusky.entity.SearchResult
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.network.MastodonApi
-import io.reactivex.Single
-import io.reactivex.android.plugins.RxAndroidPlugins
-import io.reactivex.plugins.RxJavaPlugins
-import io.reactivex.schedulers.TestScheduler
+import io.reactivex.rxjava3.android.plugins.RxAndroidPlugins
+import io.reactivex.rxjava3.core.Single
+import io.reactivex.rxjava3.plugins.RxJavaPlugins
+import io.reactivex.rxjava3.schedulers.TestScheduler
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test

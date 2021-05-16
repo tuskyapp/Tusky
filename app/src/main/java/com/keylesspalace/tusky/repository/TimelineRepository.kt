@@ -14,8 +14,8 @@ import com.keylesspalace.tusky.util.Either
 import com.keylesspalace.tusky.util.dec
 import com.keylesspalace.tusky.util.inc
 import com.keylesspalace.tusky.util.trimTrailingWhitespace
-import io.reactivex.Single
-import io.reactivex.schedulers.Schedulers
+import io.reactivex.rxjava3.core.Single
+import io.reactivex.rxjava3.schedulers.Schedulers
 import java.io.IOException
 import java.util.*
 import java.util.concurrent.TimeUnit

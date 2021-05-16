@@ -70,8 +70,8 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 
-import io.reactivex.Single;
-import io.reactivex.schedulers.Schedulers;
+import io.reactivex.rxjava3.core.Single;
+import io.reactivex.rxjava3.schedulers.Schedulers;
 
 import static com.keylesspalace.tusky.viewdata.PollViewDataKt.buildDescription;
 

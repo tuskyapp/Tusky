@@ -15,12 +15,12 @@
 
 package com.keylesspalace.tusky.viewdata;
 
+import androidx.annotation.Nullable;
+
 import com.keylesspalace.tusky.entity.Account;
 import com.keylesspalace.tusky.entity.Notification;
 
 import java.util.Objects;
-
-import io.reactivex.annotations.Nullable;
 
 /**
  * Created by charlag on 12/07/2017.

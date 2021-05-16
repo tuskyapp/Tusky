@@ -35,6 +35,8 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener
 import at.connyduck.sparkbutton.helpers.Utils
+import autodispose2.androidx.lifecycle.AndroidLifecycleScopeProvider.from
+import autodispose2.autoDispose
 import com.keylesspalace.tusky.AccountListActivity
 import com.keylesspalace.tusky.AccountListActivity.Companion.newIntent
 import com.keylesspalace.tusky.BaseActivity
@@ -85,11 +87,9 @@ import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.view.EndlessOnScrollListener
 import com.keylesspalace.tusky.viewdata.StatusViewData
-import com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider.from
-import com.uber.autodispose.autoDispose
-import io.reactivex.Observable
-import io.reactivex.Single
-import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.core.Single
 import retrofit2.Response
 import java.io.IOException
 import java.util.concurrent.TimeUnit

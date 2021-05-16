@@ -25,8 +25,8 @@ import com.keylesspalace.tusky.util.EmojiCompatFont.Companion.SYSTEM_DEFAULT
 import com.keylesspalace.tusky.util.EmojiCompatFont.Companion.TWEMOJI
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.show
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.Disposable
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.disposables.Disposable
 import okhttp3.OkHttpClient
 import kotlin.system.exitProcess
 

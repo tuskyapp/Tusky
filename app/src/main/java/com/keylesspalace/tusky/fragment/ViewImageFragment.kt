@@ -37,7 +37,7 @@ import com.keylesspalace.tusky.databinding.FragmentViewImageBinding
 import com.keylesspalace.tusky.entity.Attachment
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.visible
-import io.reactivex.subjects.BehaviorSubject
+import io.reactivex.rxjava3.subjects.BehaviorSubject
 import kotlin.math.abs
 
 class ViewImageFragment : ViewMediaFragment() {

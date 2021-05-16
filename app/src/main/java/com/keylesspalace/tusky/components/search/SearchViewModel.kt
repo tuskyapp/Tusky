@@ -13,8 +13,9 @@ import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.network.TimelineCases
 import com.keylesspalace.tusky.util.*
 import com.keylesspalace.tusky.viewdata.StatusViewData
-import io.reactivex.Single
-import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.core.Single
+
 import javax.inject.Inject
 
 class SearchViewModel @Inject constructor(

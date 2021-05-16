@@ -30,6 +30,8 @@ import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.*
 import androidx.recyclerview.widget.ListAdapter
 import at.connyduck.sparkbutton.helpers.Utils
+import autodispose2.androidx.lifecycle.AndroidLifecycleScopeProvider.from
+import autodispose2.autoDispose
 import com.google.android.material.snackbar.Snackbar
 import com.keylesspalace.tusky.databinding.ActivityListsBinding
 import com.keylesspalace.tusky.di.Injectable
@@ -44,11 +46,9 @@ import com.mikepenz.iconics.IconicsDrawable
 import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial
 import com.mikepenz.iconics.utils.colorInt
 import com.mikepenz.iconics.utils.sizeDp
-import com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider.from
-import com.uber.autodispose.autoDispose
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
-import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import javax.inject.Inject
 
 /**

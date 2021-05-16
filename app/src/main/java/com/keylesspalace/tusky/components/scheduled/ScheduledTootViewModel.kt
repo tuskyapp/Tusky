@@ -23,7 +23,7 @@ import com.keylesspalace.tusky.appstore.StatusScheduledEvent
 import com.keylesspalace.tusky.entity.ScheduledStatus
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.RxAwareViewModel
-import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import javax.inject.Inject
 
 class ScheduledTootViewModel @Inject constructor(

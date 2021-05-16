@@ -38,6 +38,8 @@ import androidx.paging.PagedListAdapter
 import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import autodispose2.androidx.lifecycle.AndroidLifecycleScopeProvider.from
+import autodispose2.autoDispose
 import com.keylesspalace.tusky.BaseActivity
 import com.keylesspalace.tusky.MainActivity
 import com.keylesspalace.tusky.R
@@ -60,9 +62,7 @@ import com.keylesspalace.tusky.util.StatusDisplayOptions
 import com.keylesspalace.tusky.view.showMuteAccountDialog
 import com.keylesspalace.tusky.viewdata.AttachmentViewData
 import com.keylesspalace.tusky.viewdata.StatusViewData
-import com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider.from
-import com.uber.autodispose.autoDispose
-import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 
 class SearchStatusesFragment : SearchFragment<Pair<Status, StatusViewData.Concrete>>(), StatusActionListener {
 

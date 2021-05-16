@@ -22,8 +22,8 @@ import androidx.paging.ItemKeyedDataSource
 import com.keylesspalace.tusky.entity.ScheduledStatus
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.NetworkState
-import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.rxkotlin.addTo
+import io.reactivex.rxjava3.disposables.CompositeDisposable
+import io.reactivex.rxjava3.kotlin.addTo
 
 class ScheduledTootDataSourceFactory(
         private val mastodonApi: MastodonApi,

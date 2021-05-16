@@ -99,18 +99,18 @@ import java.util.concurrent.TimeUnit;
 import javax.inject.Inject;
 
 import at.connyduck.sparkbutton.helpers.Utils;
-import io.reactivex.Observable;
-import io.reactivex.Single;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.disposables.Disposable;
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.core.Single;
+import io.reactivex.rxjava3.disposables.CompositeDisposable;
+import io.reactivex.rxjava3.disposables.Disposable;
 import kotlin.Unit;
 import kotlin.collections.CollectionsKt;
 import kotlin.jvm.functions.Function1;
 
+import static autodispose2.AutoDispose.autoDisposable;
+import static autodispose2.androidx.lifecycle.AndroidLifecycleScopeProvider.from;
 import static com.keylesspalace.tusky.util.StringUtils.isLessThan;
-import static com.uber.autodispose.AutoDispose.autoDisposable;
-import static com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider.from;
 
 public class NotificationsFragment extends SFragment implements
         SwipeRefreshLayout.OnRefreshListener,
@@ -383,7 +383,7 @@ public class NotificationsFragment extends SFragment implements
 
         eventHub.getEvents()
                 .observeOn(AndroidSchedulers.mainThread())
-                .as(autoDisposable(from(this, Lifecycle.Event.ON_DESTROY)))
+                .to(autoDisposable(from(this, Lifecycle.Event.ON_DESTROY)))
                 .subscribe(event -> {
                     if (event instanceof FavoriteEvent) {
                         handleFavEvent((FavoriteEvent) event);
@@ -425,7 +425,7 @@ public class NotificationsFragment extends SFragment implements
         Objects.requireNonNull(status, "Reblog on notification without status");
         timelineCases.reblog(status, reblog)
                 .observeOn(AndroidSchedulers.mainThread())
-                .as(autoDisposable(from(this)))
+                .to(autoDisposable(from(this)))
                 .subscribe(
                         (newStatus) -> setReblogForStatus(position, status, reblog),
                         (t) -> Log.d(getClass().getSimpleName(),
@@ -460,7 +460,7 @@ public class NotificationsFragment extends SFragment implements
 
         timelineCases.favourite(status, favourite)
                 .observeOn(AndroidSchedulers.mainThread())
-                .as(autoDisposable(from(this)))
+                .to(autoDisposable(from(this)))
                 .subscribe(
                         (newStatus) -> setFavouriteForStatus(position, status, favourite),
                         (t) -> Log.d(getClass().getSimpleName(),
@@ -495,7 +495,7 @@ public class NotificationsFragment extends SFragment implements
 
         timelineCases.bookmark(status, bookmark)
                 .observeOn(AndroidSchedulers.mainThread())
-                .as(autoDisposable(from(this)))
+                .to(autoDisposable(from(this)))
                 .subscribe(
                         (newStatus) -> setBookmarkForStatus(position, status, bookmark),
                         (t) -> Log.d(getClass().getSimpleName(),
@@ -529,7 +529,7 @@ public class NotificationsFragment extends SFragment implements
 
         timelineCases.voteInPoll(status, choices)
                 .observeOn(AndroidSchedulers.mainThread())
-                .as(autoDisposable(from(this)))
+                .to(autoDisposable(from(this)))
                 .subscribe(
                         (newPoll) -> setVoteForPoll(position, newPoll),
                         (t) -> Log.d(TAG,
@@ -687,7 +687,7 @@ public class NotificationsFragment extends SFragment implements
         //Execute clear notifications request
         mastodonApi.clearNotifications()
                 .observeOn(AndroidSchedulers.mainThread())
-                .as(autoDisposable(from(this, Lifecycle.Event.ON_DESTROY)))
+                .to(autoDisposable(from(this, Lifecycle.Event.ON_DESTROY)))
                 .subscribe(
                         response -> {
                             // nothing to do
@@ -832,7 +832,7 @@ public class NotificationsFragment extends SFragment implements
                 mastodonApi.authorizeFollowRequest(id) :
                 mastodonApi.rejectFollowRequest(id);
         request.observeOn(AndroidSchedulers.mainThread())
-                .as(autoDisposable(from(this, Lifecycle.Event.ON_DESTROY)))
+                .to(autoDisposable(from(this, Lifecycle.Event.ON_DESTROY)))
                 .subscribe(
                         (relationship) -> fullyRefreshWithProgressBar(true),
                         (error) -> Log.e(TAG, String.format("Failed to %s account id %s", accept ? "accept" : "reject", id))
@@ -952,7 +952,7 @@ public class NotificationsFragment extends SFragment implements
 
         Disposable notificationCall = mastodonApi.notifications(fromId, uptoId, LOAD_AT_ONCE, showNotificationsFilter ? notificationFilter : null)
         .observeOn(AndroidSchedulers.mainThread())
-                .as(autoDisposable(from(this, Lifecycle.Event.ON_DESTROY)))
+                .to(autoDisposable(from(this, Lifecycle.Event.ON_DESTROY)))
                 .subscribe(
                         response -> {
                             if (response.isSuccessful()) {
@@ -1284,7 +1284,7 @@ public class NotificationsFragment extends SFragment implements
         if (!useAbsoluteTime) {
             Observable.interval(1, TimeUnit.MINUTES)
                     .observeOn(AndroidSchedulers.mainThread())
-                    .as(autoDisposable(from(this, Lifecycle.Event.ON_PAUSE)))
+                    .to(autoDisposable(from(this, Lifecycle.Event.ON_PAUSE)))
                     .subscribe(
                             interval -> updateAdapter()
                     );

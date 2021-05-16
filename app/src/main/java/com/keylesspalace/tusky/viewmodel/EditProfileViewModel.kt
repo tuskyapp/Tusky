@@ -31,10 +31,10 @@ import com.keylesspalace.tusky.entity.Instance
 import com.keylesspalace.tusky.entity.StringField
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.*
-import io.reactivex.Single
-import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.rxkotlin.addTo
-import io.reactivex.schedulers.Schedulers
+import io.reactivex.rxjava3.core.Single
+import io.reactivex.rxjava3.disposables.CompositeDisposable
+import io.reactivex.rxjava3.kotlin.addTo
+import io.reactivex.rxjava3.schedulers.Schedulers
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody

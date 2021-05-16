@@ -28,7 +28,7 @@ import com.keylesspalace.tusky.entity.Emoji
 import com.keylesspalace.tusky.entity.Instance
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.*
-import io.reactivex.rxkotlin.Singles
+import io.reactivex.rxjava3.core.Single
 import javax.inject.Inject
 
 class AnnouncementsViewModel @Inject constructor(
@@ -45,25 +45,24 @@ class AnnouncementsViewModel @Inject constructor(
     val emojis: LiveData<List<Emoji>> = emojisMutable
 
     init {
-        Singles.zip(
-                mastodonApi.getCustomEmojis(),
+        Single.zip(mastodonApi.getCustomEmojis(),
                 appDatabase.instanceDao().loadMetadataForInstance(accountManager.activeAccount?.domain!!)
                         .map<Either<InstanceEntity, Instance>> { Either.Left(it) }
-                        .onErrorResumeNext(
-                                mastodonApi.getInstance()
-                                        .map { Either.Right(it) }
-                        )
-        ) { emojis, either ->
-            either.asLeftOrNull()?.copy(emojiList = emojis)
-                    ?: InstanceEntity(
-                            accountManager.activeAccount?.domain!!,
-                            emojis,
-                            either.asRight().maxTootChars,
-                            either.asRight().pollLimits?.maxOptions,
-                            either.asRight().pollLimits?.maxOptionChars,
-                            either.asRight().version
-                    )
-        }
+                        .onErrorResumeNext {
+                            mastodonApi.getInstance()
+                                    .map { Either.Right(it) }
+                        },
+                { emojis, either ->
+                    either.asLeftOrNull()?.copy(emojiList = emojis)
+                            ?: InstanceEntity(
+                                    accountManager.activeAccount?.domain!!,
+                                    emojis,
+                                    either.asRight().maxTootChars,
+                                    either.asRight().pollLimits?.maxOptions,
+                                    either.asRight().pollLimits?.maxOptionChars,
+                                    either.asRight().version
+                            )
+                })
                 .doOnSuccess {
                     appDatabase.instanceDao().insertOrReplace(it)
                 }

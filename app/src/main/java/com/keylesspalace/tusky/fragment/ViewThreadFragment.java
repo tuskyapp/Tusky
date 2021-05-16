@@ -73,10 +73,10 @@ import java.util.Locale;
 
 import javax.inject.Inject;
 
-import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 
-import static com.uber.autodispose.AutoDispose.autoDisposable;
-import static com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider.from;
+import static autodispose2.AutoDispose.autoDisposable;
+import static autodispose2.androidx.lifecycle.AndroidLifecycleScopeProvider.from;
 
 public final class ViewThreadFragment extends SFragment implements
         SwipeRefreshLayout.OnRefreshListener, StatusActionListener, Injectable {
@@ -182,7 +182,7 @@ public final class ViewThreadFragment extends SFragment implements
 
         eventHub.getEvents()
                 .observeOn(AndroidSchedulers.mainThread())
-                .as(autoDisposable(from(this, Lifecycle.Event.ON_DESTROY)))
+                .to(autoDisposable(from(this, Lifecycle.Event.ON_DESTROY)))
                 .subscribe(event -> {
                     if (event instanceof FavoriteEvent) {
                         handleFavEvent((FavoriteEvent) event);
@@ -241,7 +241,7 @@ public final class ViewThreadFragment extends SFragment implements
 
         timelineCases.reblog(statuses.get(position), reblog)
                 .observeOn(AndroidSchedulers.mainThread())
-                .as(autoDisposable(from(this)))
+                .to(autoDisposable(from(this)))
                 .subscribe(
                         (newStatus) -> updateStatus(position, newStatus),
                         (t) -> Log.d(TAG,
@@ -255,7 +255,7 @@ public final class ViewThreadFragment extends SFragment implements
 
         timelineCases.favourite(statuses.get(position), favourite)
                 .observeOn(AndroidSchedulers.mainThread())
-                .as(autoDisposable(from(this)))
+                .to(autoDisposable(from(this)))
                 .subscribe(
                         (newStatus) -> updateStatus(position, newStatus),
                         (t) -> Log.d(TAG,
@@ -269,7 +269,7 @@ public final class ViewThreadFragment extends SFragment implements
 
         timelineCases.bookmark(statuses.get(position), bookmark)
                 .observeOn(AndroidSchedulers.mainThread())
-                .as(autoDisposable(from(this)))
+                .to(autoDisposable(from(this)))
                 .subscribe(
                         (newStatus) -> updateStatus(position, newStatus),
                         (t) -> Log.d(TAG,
@@ -416,7 +416,7 @@ public final class ViewThreadFragment extends SFragment implements
 
         timelineCases.voteInPoll(status, choices)
                 .observeOn(AndroidSchedulers.mainThread())
-                .as(autoDisposable(from(this)))
+                .to(autoDisposable(from(this)))
                 .subscribe(
                         (newPoll) -> setVoteForPoll(position, newPoll),
                         (t) -> Log.d(TAG,
@@ -462,7 +462,7 @@ public final class ViewThreadFragment extends SFragment implements
     private void sendStatusRequest(final String id) {
         mastodonApi.status(id)
                 .observeOn(AndroidSchedulers.mainThread())
-                .as(autoDisposable(from(this, Lifecycle.Event.ON_DESTROY)))
+                .to(autoDisposable(from(this, Lifecycle.Event.ON_DESTROY)))
                 .subscribe(
                         status -> {
                             int position = setStatus(status);
@@ -475,7 +475,7 @@ public final class ViewThreadFragment extends SFragment implements
     private void sendThreadRequest(final String id) {
         mastodonApi.statusContext(id)
                 .observeOn(AndroidSchedulers.mainThread())
-                .as(autoDisposable(from(this, Lifecycle.Event.ON_DESTROY)))
+                .to(autoDisposable(from(this, Lifecycle.Event.ON_DESTROY)))
                 .subscribe(
                         context -> {
                             swipeRefreshLayout.setRefreshing(false);

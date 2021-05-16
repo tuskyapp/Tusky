@@ -11,8 +11,8 @@ import com.keylesspalace.tusky.entity.Conversation
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.Listing
 import com.keylesspalace.tusky.util.NetworkState
-import io.reactivex.Single
-import io.reactivex.schedulers.Schedulers
+import io.reactivex.rxjava3.core.Single
+import io.reactivex.rxjava3.schedulers.Schedulers
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

@@ -28,6 +28,8 @@ import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.ListAdapter
+import autodispose2.androidx.lifecycle.AndroidLifecycleScopeProvider.from
+import autodispose2.autoDispose
 import com.keylesspalace.tusky.databinding.FragmentAccountsInListBinding
 import com.keylesspalace.tusky.databinding.ItemFollowRequestBinding
 import com.keylesspalace.tusky.di.Injectable
@@ -37,9 +39,7 @@ import com.keylesspalace.tusky.settings.PrefKeys
 import com.keylesspalace.tusky.util.*
 import com.keylesspalace.tusky.viewmodel.AccountsInListViewModel
 import com.keylesspalace.tusky.viewmodel.State
-import com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider.from
-import com.uber.autodispose.autoDispose
-import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import java.io.IOException
 import javax.inject.Inject
 

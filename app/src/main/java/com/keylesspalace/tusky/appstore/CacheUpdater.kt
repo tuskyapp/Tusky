@@ -3,9 +3,9 @@ package com.keylesspalace.tusky.appstore
 import com.google.gson.Gson
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.db.AppDatabase
-import io.reactivex.Single
-import io.reactivex.disposables.Disposable
-import io.reactivex.schedulers.Schedulers
+import io.reactivex.rxjava3.core.Single
+import io.reactivex.rxjava3.disposables.Disposable
+import io.reactivex.rxjava3.schedulers.Schedulers
 import javax.inject.Inject
 
 class CacheUpdater @Inject constructor(

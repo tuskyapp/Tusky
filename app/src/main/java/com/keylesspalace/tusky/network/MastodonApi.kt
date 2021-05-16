@@ -16,8 +16,8 @@
 package com.keylesspalace.tusky.network
 
 import com.keylesspalace.tusky.entity.*
-import io.reactivex.Completable
-import io.reactivex.Single
+import io.reactivex.rxjava3.core.Completable
+import io.reactivex.rxjava3.core.Single
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import okhttp3.ResponseBody

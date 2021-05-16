@@ -8,9 +8,9 @@ import androidx.annotation.StringRes
 import androidx.annotation.VisibleForTesting
 import com.keylesspalace.tusky.R
 import de.c1710.filemojicompat.FileEmojiCompatConfig
-import io.reactivex.Observable
-import io.reactivex.ObservableEmitter
-import io.reactivex.schedulers.Schedulers
+import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.core.ObservableEmitter
+import io.reactivex.rxjava3.schedulers.Schedulers
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.Response

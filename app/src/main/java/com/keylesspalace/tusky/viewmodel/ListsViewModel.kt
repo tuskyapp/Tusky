@@ -21,13 +21,12 @@ import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.RxAwareViewModel
 import com.keylesspalace.tusky.util.replacedFirstWhich
 import com.keylesspalace.tusky.util.withoutFirstWhich
-import io.reactivex.Observable
-import io.reactivex.subjects.BehaviorSubject
-import io.reactivex.subjects.PublishSubject
+import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.subjects.BehaviorSubject
+import io.reactivex.rxjava3.subjects.PublishSubject
 import java.io.IOException
 import java.net.ConnectException
 import javax.inject.Inject
-
 
 internal class ListsViewModel @Inject constructor(private val api: MastodonApi) : RxAwareViewModel() {
     enum class LoadingState {

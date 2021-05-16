@@ -22,7 +22,7 @@ import com.keylesspalace.tusky.components.search.SearchType
 import com.keylesspalace.tusky.entity.SearchResult
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.Listing
-import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.rxjava3.disposables.CompositeDisposable
 import java.util.concurrent.Executors
 
 class SearchRepository<T>(private val mastodonApi: MastodonApi) {

@@ -41,6 +41,8 @@ import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Lifecycle
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
+import autodispose2.androidx.lifecycle.AndroidLifecycleScopeProvider
+import autodispose2.autoDispose
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.FutureTarget
 import com.keylesspalace.tusky.BuildConfig.APPLICATION_ID
@@ -52,11 +54,9 @@ import com.keylesspalace.tusky.pager.ImagePagerAdapter
 import com.keylesspalace.tusky.util.getTemporaryMediaFilename
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.viewdata.AttachmentViewData
-import com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider
-import com.uber.autodispose.autoDispose
-import io.reactivex.Single
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.core.Single
+import io.reactivex.rxjava3.schedulers.Schedulers
 import java.io.File
 import java.io.FileNotFoundException
 import java.io.FileOutputStream

@@ -20,9 +20,9 @@ import com.keylesspalace.tusky.appstore.*
 import com.keylesspalace.tusky.entity.DeletedStatus
 import com.keylesspalace.tusky.entity.Poll
 import com.keylesspalace.tusky.entity.Status
-import io.reactivex.Single
-import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.rxkotlin.addTo
+import io.reactivex.rxjava3.core.Single
+import io.reactivex.rxjava3.disposables.CompositeDisposable
+import io.reactivex.rxjava3.kotlin.addTo
 import java.lang.IllegalStateException
 
 /**

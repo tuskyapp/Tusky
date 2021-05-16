@@ -11,7 +11,7 @@ import com.keylesspalace.tusky.network.TimelineCases
 import com.keylesspalace.tusky.util.Listing
 import com.keylesspalace.tusky.util.NetworkState
 import com.keylesspalace.tusky.util.RxAwareViewModel
-import io.reactivex.schedulers.Schedulers
+import io.reactivex.rxjava3.schedulers.Schedulers
 import javax.inject.Inject
 
 class ConversationsViewModel @Inject constructor(
