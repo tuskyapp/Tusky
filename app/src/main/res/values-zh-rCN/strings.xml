@@ -102,7 +102,7 @@
     <string name="action_accept">接受</string>
     <string name="action_reject">拒绝</string>
     <string name="action_search">搜索</string>
-    <string name="action_access_saved_toot">草稿</string>
+    <string name="action_access_drafts">草稿</string>
     <string name="action_toggle_visibility">设置嘟文可见范围</string>
     <string name="action_content_warning">设置内容提醒</string>
     <string name="action_emoji_keyboard">插入表情符号</string>
@@ -454,7 +454,7 @@
     <string name="poll_new_choice_hint">选择 %d</string>
     <string name="edit_poll">编辑</string>
     <string name="post_lookup_error_format">查找嘟文时出错 %s</string>
-    <string name="no_saved_status">您没有草稿。</string>
+    <string name="no_drafts">您没有草稿。</string>
     <string name="no_scheduled_status">您没有任何定时嘟文。</string>
     <string name="warning_scheduling_interval">Mastodon的最小预订时间为5分钟。</string>
     <string name="notification_follow_request_name">关注请求</string>
@@ -492,9 +492,6 @@
     <string name="drafts_toot_reply_removed">该草稿回复的原嘟文已被删除</string>
     <string name="draft_deleted">草稿已删除</string>
     <string name="drafts_failed_loading_reply">加载回复信息失败</string>
-    <string name="old_drafts">旧草稿</string>
-    <string name="new_drafts_warning">Tusky 的草稿功能已被重新设计，现在它更快、更友好，Bug也更少。
-\n 旧草稿依然可以通过新草稿页面的按钮查看，但他们将在未来版本中移除！</string>
     <string name="drafts_toot_failed_to_send">嘟文发送失败！</string>
     <string name="dialog_delete_list_warning">确认删除列表 %s？</string>
     <plurals name="error_upload_max_media_reached">
@@ -524,4 +521,5 @@
     <string name="pref_title_animate_custom_emojis">显示动态自定义Emoji</string>
     <string name="pref_title_notification_filter_subscriptions">关注的人发送了新嘟文</string>
     <string name="notification_subscription_format">%s 发送了新嘟文</string>
+    <string name="follow_requests_info">即使您的账号未上锁，管理员 %1$s 认为您可能需要手动处理来自这些账号的关注请求。</string>
 </resources>

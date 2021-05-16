@@ -115,7 +115,7 @@
     <string name="action_undo">Afturkalla</string>
     <string name="action_accept">Samþykkja</string>
     <string name="action_reject">Hafna</string>
-    <string name="action_access_saved_toot">Drög</string>
+    <string name="action_access_drafts">Drög</string>
     <string name="action_access_scheduled_toot">Áætluð tíst</string>
     <string name="action_toggle_visibility">Sýnileiki tísts</string>
     <string name="action_content_warning">Aðvörun vegna efnis</string>
@@ -244,6 +244,7 @@
     <string name="notification_summary_medium">%1$s, %2$s og %3$s</string>
     <string name="notification_summary_small">%1$s og %2$s</string>
     <plurals name="notification_title_summary">
+        <item quantity="one">%d ný aðgerð</item>
         <item quantity="other">%d nýjar aðgerðir</item>
     </plurals>
     <string name="description_account_locked">Læstur notandaaðgangur</string>
@@ -354,6 +355,7 @@
     <string name="conversation_2_recipients">%1$s og %2$s</string>
     <string name="conversation_more_recipients">%1$s, %2$s og %3$d til viðbótar</string>
     <plurals name="max_tab_number_reached">
+        <item quantity="one">hámarksfjölda %1$d flipa náð</item>
         <item quantity="other">hámarksfjölda %1$d flipa náð</item>
     </plurals>
     <string name="description_status_media">Myndefni: %s</string>
@@ -414,7 +416,7 @@
     <string name="poll_new_choice_hint">Valkostur %d</string>
     <string name="edit_poll">Breyta</string>
     <string name="post_lookup_error_format">Villa við að fletta upp færslunni %s</string>
-    <string name="no_saved_status">Þú ert ekki með nein drög.</string>
+    <string name="no_drafts">Þú ert ekki með nein drög.</string>
     <string name="no_scheduled_status">Þú ert ekki með neinar áætlaðar stöðufærslur.</string>
     <string name="error_audio_upload_size">Hljóðskrár verða að vera minni en 40MB.</string>
     <string name="warning_scheduling_interval">Mastodon er með 5 mínútna lágmarksbil fyrir áætlaðar aðgerðir.</string>
@@ -473,8 +475,6 @@
     <string name="action_unmute_desc">Afþagga %s</string>
     <string name="notification_follow_request_format">%s bað um að fylgjast með þér</string>
     <string name="title_announcements">Tilkynningar</string>
-    <string name="new_drafts_warning">Gerð draga í Tusky hefur verið endurhönnuð til að verða fljótlegri, notendavænni og gallalaus.
-\n Þú getur áfram nýtt eldri drög í gegnum sérstakan hnapp í glugganum fyrir drög, en sá eiginleiki verður fjarlægður í framtíðaruppfærslu!</string>
     <string name="wellbeing_mode_notice">Sumar upplýsingar sem gætu haft áhrif á andlega vellíðan þína verða faldar. Þetta hefur áhrif á:
 \n
 \n - Eftirlæti/Endurbirtingar/Tilkynningar um fylgjendabeiðnir
@@ -488,7 +488,6 @@
     <string name="drafts_toot_reply_removed">Tístið sem þú gerðir drög að svari við hefur veriið fjarlægt</string>
     <string name="draft_deleted">Eyddi drögum</string>
     <string name="drafts_failed_loading_reply">Mistókst að hlaða inn svarupplýsingum</string>
-    <string name="old_drafts">Eldri drög</string>
     <string name="drafts_toot_failed_to_send">Mistókst að senda þetta tíst!</string>
     <string name="status_media_attachments">Viðhengi</string>
     <string name="status_media_audio">Hljóð</string>
@@ -496,6 +495,7 @@
     <string name="duration_indefinite">Ótiltekið</string>
     <string name="label_duration">Tímalengd</string>
     <plurals name="error_upload_max_media_reached">
+        <item quantity="one">Þú getur ekki sent inn fleiri en %1$d myndefnisviðhengi.</item>
         <item quantity="other">Þú getur ekki sent inn fleiri en %1$d myndefnisviðhengi.</item>
     </plurals>
     <string name="wellbeing_hide_stats_profile">Fela magntölfræði notendasniða</string>
@@ -507,4 +507,5 @@
     <string name="notification_subscription_name">Ný tíst</string>
     <string name="pref_title_notification_filter_subscriptions">einhver sem ég er áskrifandi að birti nýtt tíst</string>
     <string name="notification_subscription_format">%s sendi inn rétt í þessu</string>
+    <string name="follow_requests_info">Jafnvel þótt aðgangurinn þinn sé ekki læstur, fannst starfsfólki %1$s að þú gætir viljað yfirfara handvirkt fylgjendabeiðnir frá þessum aðgöngum.</string>
 </resources>

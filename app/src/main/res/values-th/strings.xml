@@ -321,7 +321,7 @@
     <string name="action_content_warning">เตือนเนื้อหา</string>
     <string name="action_toggle_visibility">การมองเห็น Toot</string>
     <string name="action_access_scheduled_toot">Toot แบบตั้งเวลา</string>
-    <string name="action_access_saved_toot">ฉบับร่าง</string>
+    <string name="action_access_drafts">ฉบับร่าง</string>
     <string name="action_reject">ปฏิเสธ</string>
     <string name="action_accept">ยอมรับ</string>
     <string name="action_undo">ยกเลิก</string>
@@ -447,7 +447,7 @@
     <string name="pref_title_show_cards_in_timelines">แสดงตัวอย่างลิงก์ในไทม์ไลน์</string>
     <string name="warning_scheduling_interval">Mastodon กำหนดเวลาขั้นต่ำ 5 นาที</string>
     <string name="no_scheduled_status">ไม่มีสถานะแบบตั้งเวลาใด ๆ</string>
-    <string name="no_saved_status">ไม่มีฉบับร่างใด ๆ</string>
+    <string name="no_drafts">ไม่มีฉบับร่างใด ๆ</string>
     <string name="post_lookup_error_format">การค้นหาโพสต์ %s เกิดข้อผิดผลาด</string>
     <string name="edit_poll">แก้ไข</string>
     <string name="poll_new_choice_hint">ตัวเลือกที่ %d</string>
@@ -472,8 +472,6 @@
     <string name="limit_notifications">แจ้งเตือน Limit timeline</string>
     <string name="review_notifications">แจ้งเตือน Review</string>
     <string name="pref_title_notification_filter_subscriptions">ใครบางคนที่ฉันได้ติดตาม ได้เผยแพร่โพสต์ใหม่</string>
-    <string name="new_drafts_warning">ฟีเจอร์ฉบับร่างใน Tusky ได้รับการออกแบบใหม่ทั้งหมดเพื่อให้เร็วขึ้นเป็นมิตรกับผู้ใช้มากขึ้นและบั๊กน้อยลง
-\n คุณยังสามารถเข้าถึงฉบับร่างเก่าผ่านปุ่มในหน้าฉบับร่างใหม่ แต่จะถูกลบออกในการอัปเดตในอนาคต!</string>
     <string name="wellbeing_hide_stats_profile">ซ่อนสถิติเชิงปริมาณในโปรไฟล์</string>
     <string name="wellbeing_hide_stats_posts">ซ่อนสถิติเชิงปริมาณของโพสต์</string>
     <string name="pref_title_wellbeing_mode">สุขภาวะ</string>
@@ -482,7 +480,6 @@
     <string name="drafts_toot_reply_removed">โพสต์ที่คุณได้ร่างตอบไว้ ถูกลบแลัว</string>
     <string name="draft_deleted">ลบฉบับร่างแล้ว</string>
     <string name="drafts_failed_loading_reply">ล้มเหลวในการโหลดข้อมูลตอบกลับ</string>
-    <string name="old_drafts">ฉบับร่างเก่า</string>
     <string name="dialog_delete_list_warning">คุณต้องการลบลิสต์ %s ใช่ไหม\?</string>
     <plurals name="error_upload_max_media_reached">
         <item quantity="other">คุณไม่สามารถอัปโหลดไฟล์แนบมากกว่า %1$d ได้</item>

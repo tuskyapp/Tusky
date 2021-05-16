@@ -102,7 +102,7 @@
     <string name="action_accept">接受</string>
     <string name="action_reject">拒絕</string>
     <string name="action_search">搜尋</string>
-    <string name="action_access_saved_toot">草稿</string>
+    <string name="action_access_drafts">草稿</string>
     <string name="action_toggle_visibility">設定嘟文可見範圍</string>
     <string name="action_content_warning">敏感內容警告</string>
     <string name="action_emoji_keyboard">插入表情符號</string>
@@ -440,8 +440,6 @@
     <string name="action_edit">編輯</string>
     <string name="title_bookmarks">書籤</string>
     <string name="error_audio_upload_size">音檔必需小於40MB。</string>
-    <string name="new_drafts_warning">Tusky 的草稿功能已重新設計，更快、更好用、更少問題。
-\n 你還是可以在草稿頁面中查看你的先前的舊草稿，但它們在未來的某次更新中將會被移除！</string>
     <string name="wellbeing_hide_stats_profile">隱藏個人頁面中的狀態數量資訊</string>
     <string name="wellbeing_hide_stats_posts">隱藏貼文上的狀態數量資訊</string>
     <string name="limit_notifications">限制時間軸通知</string>
@@ -463,7 +461,6 @@
     <string name="drafts_toot_reply_removed">你的草稿欲回覆的原嘟文已被刪除</string>
     <string name="draft_deleted">草稿已刪除</string>
     <string name="drafts_failed_loading_reply">載入回覆資訊失敗</string>
-    <string name="old_drafts">舊的草稿</string>
     <string name="drafts_toot_failed_to_send">這條嘟文發送失敗！</string>
     <string name="status_media_attachments">附件</string>
     <string name="status_media_audio">錄音</string>
@@ -508,7 +505,7 @@
     <string name="action_unmute_conversation">取消靜音對話</string>
     <string name="action_mute_conversation">靜音對話</string>
     <string name="warning_scheduling_interval">Mastodon 的最短發文間隔限制為 5 分鐘。</string>
-    <string name="no_saved_status">你沒有任何草稿。</string>
+    <string name="no_drafts">你沒有任何草稿。</string>
     <string name="no_scheduled_status">你沒有任何已排程的嘟文。</string>
     <string name="list">列表</string>
     <string name="select_list_title">選擇列表</string>

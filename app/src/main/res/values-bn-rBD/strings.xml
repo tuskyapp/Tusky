@@ -13,7 +13,8 @@
     <string name="description_status_cw">সতর্কবার্তা: %s</string>
     <string name="description_status_media">মিডিয়া: %s</string>
     <plurals name="max_tab_number_reached">
-        <item quantity="other">সর্বাধিক %1$d টি ট্যাব পৌঁছেছে</item>
+        <item quantity="one">সর্বোচ্চ %1$dটি ট্যাব পৌঁছেছে</item>
+        <item quantity="other">সর্বোচ্চ %1$dটি ট্যাব পৌঁছেছে</item>
     </plurals>
     <string name="title_favourited_by">দ্বারা পছন্দ</string>
     <string name="title_reblogged_by">দ্বারা সর্মথন</string>
@@ -235,7 +236,7 @@
     <string name="action_emoji_keyboard">ইমোজি কীবোর্ড</string>
     <string name="action_content_warning">সতর্কবার্তা</string>
     <string name="action_toggle_visibility">টুট দৃশ্যমানতা</string>
-    <string name="action_access_saved_toot">ড্রাফটগুলি</string>
+    <string name="action_access_drafts">ড্রাফটগুলি</string>
     <string name="action_search">অনুসন্ধান</string>
     <string name="action_reject">প্রত্যাখ্যান</string>
     <string name="action_accept">গ্রহণ</string>
@@ -296,7 +297,7 @@
     <string name="status_media_hidden_title">মিডিয়া লুকানো</string>
     <string name="status_sensitive_media_title">সংবেদনশীল কন্টেন্ট</string>
     <string name="title_licenses">লাইসেন্সগুলি</string>
-    <string name="title_drafts">খসড়াগুলো</string>
+    <string name="title_drafts">খসড়া</string>
     <string name="title_edit_profile">আপনার প্রোফাইল সম্পাদনা করুন</string>
     <string name="title_follow_requests">অনুরোধ অনুসরণ করুন</string>
     <string name="title_blocks">অবরুদ্ধ ব্যবহারকারী</string>
@@ -330,7 +331,7 @@
     <string name="action_mute_conversation">আলাপ বন্ধ করো</string>
     <string name="warning_scheduling_interval">মাস্টোডনের সর্বনিম্ন ৫ মিনিটের সময়সূচীর বিরতি আছে।</string>
     <string name="error_audio_upload_size">অডিও ফাইলগুলি অবশ্যই ৪০MB এর চেয়ে কম হওয়া উচিত।</string>
-    <string name="no_saved_status">তোমার কোনো খসড়া নেই।</string>
+    <string name="no_drafts">তোমার কোনো খসড়া নেই।</string>
     <string name="no_scheduled_status">তোমার কোনো সময়সূচীত স্ট্যাটাস নেই।</string>
     <string name="list">তালিকা</string>
     <string name="select_list_title">তালিকা নির্বাচন করো</string>
@@ -439,4 +440,82 @@
     <string name="notification_favourite_format">%s তোমার টুট বুস্ট করেছে</string>
     <string name="notification_reblog_format">%s তোমার টুট বুস্ট করেছে</string>
     <string name="title_announcements">ঘোষণা</string>
+    <string name="notification_summary_large">%1$s,%2$s,%3$s এবং %4$d অন্যরা</string>
+    <string name="notification_subscription_description">যখন আমার সদস্যতা নেওয়া কেউ টুট দেয় তখন বিজ্ঞপ্তি দিবে</string>
+    <string name="notification_subscription_name">নতুন টুট</string>
+    <string name="pref_title_animate_custom_emojis">বিশেষ আবেগ বানাও</string>
+    <string name="pref_title_notification_filter_subscriptions">সদস্যতা আছে এমন একজন টুট দিয়েছে</string>
+    <string name="no_announcements">কোনো ঘোষণা নেই।</string>
+    <string name="follow_requests_info">যদিও তোমার অ্যাকাউন্ট রুদ্ধকৃত না, %1$s রা ভেবেছে এই অ্যাকাউন্টগুলোর অনুসরণ অনুরোধ তোমার পরীক্ষা করা উচিত।</string>
+    <string name="new_drafts_warning">নতুন খসড়া বৈশিষ্ট দ্রুততর হওয়ার জন্য নতুনভাবে নকশা করা হয়েছে, যা সহজে ব্যবহারযোগ্য ও কম সমস্যাপূর্ণ।
+\n আগের খসড়াগুলো খসড়া পাতার বোতাম দিয়ে যেতে পারো, কিন্তু ভবিষ্যত হালনাগাদে তা সরিয়ে ফেলা হবে!</string>
+    <string name="drafts_toot_reply_removed">যে টুটের উত্তর খসড়া করেছিলে তা মুছে ফেলা হয়েছে</string>
+    <string name="dialog_delete_list_warning">এই তালিকাটা আসলেই মুছতে চাও\?</string>
+    <plurals name="error_upload_max_media_reached">
+        <item quantity="one">%1$d টার বেশি সংযুক্তি পাঠানো যাবে না।</item>
+        <item quantity="other">%1$d টার বেশি সংযুক্তি পাঠানো যাবে না।</item>
+    </plurals>
+    <string name="drafts_toot_failed_to_send">টুট পাঠাতে ব্যর্থ!</string>
+    <string name="drafts_failed_loading_reply">উত্তরের তথ্য আনতে ব্যর্থ</string>
+    <string name="account_note_saved">সংরক্ষিত!</string>
+    <string name="wellbeing_hide_stats_profile">অবতারে পরিসংখ্যান লুকাও</string>
+    <string name="wellbeing_hide_stats_posts">ছাপার পরিসংখ্যান লুকাও</string>
+    <string name="limit_notifications">সময়কাল বিজ্ঞপ্তি সীমাবদ্ধ করো</string>
+    <string name="wellbeing_mode_notice">তোমার মানসিক স্বাস্থে নেতিবাচক প্রভাব ফেলতে পারে এমন জিনিসগুলো লুকানো আছে। যেমন:
+\n
+\n - পছন্দ/বুস্ট/অনুসরণ বিজ্ঞপ্তি
+\n - টুটে পছন্দ/বুস্ট সংখ্যা
+\n - অবতারে অনুসরণকারী/পরিসংখ্যান
+\n
+\nপুশ-বিজ্ঞপ্তিতে প্রভাব পরবে না, কিন্তু বিজ্ঞপ্তি পছন্দ পাল্টাতে পারবে।</string>
+    <string name="account_note_hint">এই অ্যাকাউন্ট নিয়ে তোমার ব্যক্তিগত লেখা</string>
+    <string name="pref_title_hide_top_toolbar">শীর্ষস্থানীয় সরঞ্জামের শিরোনামটি লুকাও</string>
+    <string name="draft_deleted">খসড়া মুছো হয়েছে</string>
+    <string name="old_drafts">পুরোনো খসড়া</string>
+    <string name="review_notifications">বিজ্ঞপ্তি</string>
+    <string name="pref_title_wellbeing_mode">সুস্থতা</string>
+    <string name="duration_indefinite">সময়হীন</string>
+    <string name="label_duration">সময়কাল</string>
+    <plurals name="poll_timespan_seconds">
+        <item quantity="one">%d সেকেন্ড বাকি</item>
+        <item quantity="other">%d সেকেন্ড বাকি</item>
+    </plurals>
+    <plurals name="poll_timespan_minutes">
+        <item quantity="one">%d মিনিট বাকি</item>
+        <item quantity="other">%d মিনিট বাকি</item>
+    </plurals>
+    <plurals name="poll_timespan_hours">
+        <item quantity="one">%d ঘন্টা বাকি</item>
+        <item quantity="other">%d ঘন্টা বাকি</item>
+    </plurals>
+    <plurals name="poll_timespan_days">
+        <item quantity="one">%d দিন বাকি</item>
+        <item quantity="other">%d দিন বাকি</item>
+    </plurals>
+    <plurals name="poll_info_people">
+        <item quantity="one">%s জন</item>
+        <item quantity="other">%s জন</item>
+    </plurals>
+    <plurals name="poll_info_votes">
+        <item quantity="one">%sটি ভোট</item>
+        <item quantity="other">%sটি ভোট</item>
+    </plurals>
+    <string name="conversation_more_recipients">%1$s, %2$s এবং %3$d আরো অন্য জন</string>
+    <string name="conversation_2_recipients">%1$s এবং %2$s</string>
+    <string name="action_subscribe_account">সদস্যতা</string>
+    <string name="action_unsubscribe_account">সদস্যতা বাতিল</string>
+    <plurals name="reblogs">
+        <item quantity="one"><b>%s</b> বুস্ট</item>
+        <item quantity="other"><b>%s</b> বুস্ট</item>
+    </plurals>
+    <string name="account_moved_description">%1$s স্থানান্তরিত হয়েছে এখানে:</string>
+    <string name="status_media_attachments">সংযুক্তি</string>
+    <string name="status_media_audio">শব্দ</string>
+    <plurals name="notification_title_summary">
+        <item quantity="one">%dটি নতুন ক্রিয়া</item>
+        <item quantity="other">%dটি নতুন ক্রিয়া</item>
+    </plurals>
+    <string name="notification_summary_small">%1$s আর %2$s</string>
+    <string name="notification_summary_medium">%1$s, %2$s, আর %3$s</string>
+    <string name="notification_mention_format">%s তোমাকে উল্লেখ করেছে</string>
 </resources>

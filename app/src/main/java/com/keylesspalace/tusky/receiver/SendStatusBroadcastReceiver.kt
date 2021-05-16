@@ -101,7 +101,6 @@ class SendStatusBroadcastReceiver : BroadcastReceiver() {
                                 replyingStatusContent = null,
                                 replyingStatusAuthorUsername = null,
                                 accountId = account.id,
-                                savedTootUid = -1,
                                 draftId = -1,
                                 idempotencyKey = randomAlphanumericString(16),
                                 retries = 0

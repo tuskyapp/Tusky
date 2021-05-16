@@ -22,7 +22,6 @@ import com.keylesspalace.tusky.db.AppDatabase
 import com.keylesspalace.tusky.db.DraftEntity
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.network.MastodonApi
-import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.Single
 import javax.inject.Inject
 
@@ -36,11 +35,6 @@ class DraftsViewModel @Inject constructor(
     val drafts = database.draftDao().loadDrafts(accountManager.activeAccount?.id!!).toLiveData(pageSize = 20)
 
     private val deletedDrafts: MutableList<DraftEntity> = mutableListOf()
-
-    fun showOldDraftsButton(): Observable<Boolean> {
-        return database.tootDao().savedTootCount()
-                .map { count -> count > 0 }
-    }
 
     fun deleteDraft(draft: DraftEntity) {
         // this does not immediately delete media files to avoid unnecessary file operations

@@ -99,7 +99,7 @@
     <string name="action_accept">Elfogadás</string>
     <string name="action_reject">Elutasítás</string>
     <string name="action_search">Keresés</string>
-    <string name="action_access_saved_toot">Piszkozatok</string>
+    <string name="action_access_drafts">Piszkozatok</string>
     <string name="action_toggle_visibility">Tülkök láthatósága</string>
     <string name="action_content_warning">Tartalom figyelmeztetés</string>
     <string name="action_emoji_keyboard">Emoji billentyűzet</string>
@@ -182,7 +182,7 @@
     <string name="pref_title_http_proxy_server">HTTP proxy szerver</string>
     <string name="pref_title_http_proxy_port">HTTP Proxy port</string>
     <string name="pref_default_post_privacy">Tülkök alapértelmezett láthatósága</string>
-    <string name="pref_default_media_sensitivity">Minden média szenzitívnek jelölése</string>
+    <string name="pref_default_media_sensitivity">Minden média kényesnek jelölése</string>
     <string name="pref_failed_to_sync">A beállítások szinkronizálása nem sikerült</string>
     <string name="post_privacy_public">Nyilvános</string>
     <string name="post_privacy_unlisted">Listázatlan</string>
@@ -231,7 +231,7 @@
     <string name="state_follow_requested">Követés kérelmezve</string>
     <!--These are for timestamps on statuses. For example: "16s" or "2d"-->
     <string name="follows_you">Követ téged</string>
-    <string name="pref_title_alway_show_sensitive_media">Mindig mutassa a szenzitív tartalmat</string>
+    <string name="pref_title_alway_show_sensitive_media">Mindig mutassa a kényes tartalmat</string>
     <string name="title_media">Média</string>
     <string name="load_more_placeholder_text">több betöltése</string>
     <string name="add_account_name">Fiók hozzáadása</string>
@@ -450,7 +450,7 @@
     <string name="select_list_title">Lista kiválasztása</string>
     <string name="list">Lista</string>
     <string name="error_audio_upload_size">A hangfájloknak kisebbnek kell lenniük, mint 40 MB.</string>
-    <string name="no_saved_status">Nincs egy piszkozatod sem.</string>
+    <string name="no_drafts">Nincs egy piszkozatod sem.</string>
     <string name="no_scheduled_status">Nincs egy ütemezett tülköd sem.</string>
     <string name="warning_scheduling_interval">A Mastodonban a legrövidebb ütemezhető időintervallum 5 perc.</string>
     <string name="notification_follow_request_name">Követési kérelmek</string>
@@ -487,9 +487,6 @@
     <string name="drafts_toot_reply_removed">A Tülköt, melyre válaszul piszkozatot készítettél törölték</string>
     <string name="draft_deleted">Piszkozat törölve</string>
     <string name="drafts_failed_loading_reply">Nem sikerült a Válasz információit betölteni</string>
-    <string name="old_drafts">Régi Piszkozatok</string>
-    <string name="new_drafts_warning">A Tusky piszkozat funkcióját teljesen újraterveztük, hogy gyorsabb, felhasználóbarátabb és hibamentesebb legyen.
-\nTovábbra is elérheted a régi piszkozataidat egy gombbal az új piszkozatok képernyőjén, de ezeket egy későbbi frissítésben el fogjuk törölni!</string>
     <string name="drafts_toot_failed_to_send">Ez a tülk nem küldődött el!</string>
     <string name="dialog_delete_list_warning">Tényleg le akarod törölni a %s listát\?</string>
     <plurals name="error_upload_max_media_reached">
@@ -519,4 +516,5 @@
     <string name="pref_title_animate_custom_emojis">Egyedi emojik animálása</string>
     <string name="action_unsubscribe_account">Leiratkozás</string>
     <string name="action_subscribe_account">Feliratkozás</string>
+    <string name="follow_requests_info">Bár a fiókod nincs zárolva, a %1$s csapata úgy gondolta, hogy ezen fiókok követési kérelmeit átnéznéd.</string>
 </resources>

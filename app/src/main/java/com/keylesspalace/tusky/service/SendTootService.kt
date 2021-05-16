@@ -26,7 +26,6 @@ import com.keylesspalace.tusky.entity.NewPoll
 import com.keylesspalace.tusky.entity.NewStatus
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.network.MastodonApi
-import com.keylesspalace.tusky.util.SaveTootHelper
 import dagger.android.AndroidInjection
 import kotlinx.parcelize.Parcelize
 import retrofit2.Call
@@ -49,8 +48,6 @@ class SendTootService : Service(), Injectable {
     lateinit var database: AppDatabase
     @Inject
     lateinit var draftHelper: DraftHelper
-    @Inject
-    lateinit var saveTootHelper: SaveTootHelper
 
     private val tootsToSend = ConcurrentHashMap<Int, TootToSend>()
     private val sendCalls = ConcurrentHashMap<Int, Call<Status>>()
@@ -162,9 +159,6 @@ class SendTootService : Service(), Injectable {
 
                 if (response.isSuccessful) {
                     // If the status was loaded from a draft, delete the draft and associated media files.
-                    if (tootToSend.savedTootUid != 0) {
-                        saveTootHelper.deleteDraft(tootToSend.savedTootUid)
-                    }
                     if (tootToSend.draftId != 0) {
                         draftHelper.deleteDraftAndAttachments(tootToSend.draftId)
                                 .subscribe()
@@ -332,7 +326,6 @@ data class TootToSend(
         val replyingStatusContent: String?,
         val replyingStatusAuthorUsername: String?,
         val accountId: Long,
-        val savedTootUid: Int,
         val draftId: Int,
         val idempotencyKey: String,
         var retries: Int

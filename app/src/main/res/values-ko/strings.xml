@@ -105,7 +105,7 @@
     <string name="action_accept">수락</string>
     <string name="action_reject">거절</string>
     <string name="action_search">검색</string>
-    <string name="action_access_saved_toot">임시 저장</string>
+    <string name="action_access_drafts">임시 저장</string>
     <string name="action_toggle_visibility">공개 범위</string>
     <string name="action_content_warning">열람 주의</string>
     <string name="action_emoji_keyboard">이모지 추가</string>

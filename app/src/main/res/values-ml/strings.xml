@@ -106,7 +106,7 @@
     <string name="notification_follow_request_name">പിന്തുടാനുള്ള അപേക്ഷകൾ</string>
     <string name="pref_title_show_boosts">ബൂട്ട്‌സ് കാണിക്കുക</string>
     <string name="action_access_scheduled_toot">മുന്‍നിശ്ചയിച്ച ടൂറ്റ്‌സ്</string>
-    <string name="action_access_saved_toot">കരടുകൾ</string>
+    <string name="action_access_drafts">കരടുകൾ</string>
     <string name="action_edit_own_profile">തിരുത്ത്</string>
     <string name="pref_title_edit_notification_settings">അറിയിപ്പുകൾ</string>
     <string name="pref_title_status_tabs">ടാബുകൾ</string>

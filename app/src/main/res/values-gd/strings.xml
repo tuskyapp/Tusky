@@ -26,14 +26,14 @@
     <string name="label_quick_reply">Freagair…</string>
     <string name="hint_search">Lorg…</string>
     <string name="action_login">Clàraich a-steach le Mastodon</string>
-    <string name="action_send_public">DÙD!</string>
+    <string name="action_send_public">POSTAICH!</string>
     <string name="action_emoji_keyboard">Meur-chlàr Emoji</string>
     <string name="action_unfollow">Na lean tuilleadh</string>
     <string name="action_follow">Lean</string>
     <string name="action_more">Barrachd</string>
     <string name="action_retry">Feuch ris a-rithist</string>
     <string name="action_close">Dùin</string>
-    <string name="action_send">DÙD</string>
+    <string name="action_send">POSTAICH</string>
     <string name="action_delete">Sguab às</string>
     <string name="action_delete_and_redraft">Sguab às is dèan dreachd ùr air</string>
     <string name="action_report">Dèan gearan</string>
@@ -47,7 +47,7 @@
     <string name="compose_shortcut_short_label">Sgrìobh</string>
     <string name="pref_title_show_boosts">Seall na brosnachaidhean</string>
     <string name="action_open_reblogged_by">Seall na brosnachaidhean</string>
-    <string name="action_access_saved_toot">Dreachdan</string>
+    <string name="action_access_drafts">Dreachdan</string>
     <string name="action_view_favourites">Annsachdan</string>
     <string name="pref_title_notifications_enabled">Brathan</string>
     <string name="title_notifications">Brathan</string>
@@ -55,12 +55,9 @@
     <string name="action_unsubscribe_account">Cuir crìoch air an fho-sgrìobhadh</string>
     <string name="action_subscribe_account">Fo-sgrìobh</string>
     <string name="pref_title_animate_custom_emojis">Beòthaich na h-Emojis gnàthaichte</string>
-    <string name="drafts_toot_reply_removed">Bha againn ris an dùd a bha thu airson freagairt dha a thoirt air falbh</string>
+    <string name="drafts_toot_reply_removed">Bha againn ris a’ phost a bha thu airson freagairt dha a thoirt air falbh</string>
     <string name="draft_deleted">Chaidh an dreach a sguabadh às</string>
     <string name="drafts_failed_loading_reply">Cha deach leinn fiosrachadh na freagairte a luchdadh</string>
-    <string name="old_drafts">Seann-dreachdan</string>
-    <string name="new_drafts_warning">Chaidh dealbhadh gu tur ùr a chur air gleus nan dreachdan aig Tusky ach am biodh e nas luaithe, nas fhasa cleachdadh is nas lugha de bhugaichean ann.
-\n Gheibh thu grèim air na seann-dreachdan agad fhathast le putan air sgrìn ùr nan dreachdan ach thèid an toirt air falbh le ùrachadh ri teachd!</string>
     <string name="drafts_toot_failed_to_send">Cha b’ urrainn dhuinn an dùd a chur!</string>
     <string name="status_media_attachments">Ceanglachain</string>
     <string name="status_media_audio">Fuaim</string>
@@ -87,14 +84,14 @@
     <string name="wellbeing_mode_notice">Thèid cuid a dh’fhiosrachadh a dh’fhaodadh droch-bhuaidh a thoirt air d’ shlàinte-inntinn fhalach. Tha seo a’ gabhail a-staigh: 
 \n 
 \n - Brathan air annsachdan/brosnachaidhean/leantainn 
-\n - Cunntas nan annsachdan/brosnachaidhean air dùdan
+\n - Cunntas nan annsachdan/brosnachaidhean air postaichean 
 \n - Stadastaireachd an luchd-leantainn/nam postaichean air pròifilean 
 \n 
 \n Cha doir seo buaidh air na brathan-putaidh ach ’s urrainn dhut roghainnean nam brathan agad atharrachadh a làimh.</string>
     <string name="pref_title_wellbeing_mode">Slàinte-inntinn</string>
-    <string name="notification_subscription_description">Brathan nuair a dh’fhoillsich cuideigin air a rinn mi fo-sgrìobhadh dùd ùr</string>
-    <string name="notification_subscription_name">Dùdan ùra</string>
-    <string name="pref_title_notification_filter_subscriptions">dh’fhoillsich cuideigin air a rinn mi fo-sgrìobhadh dùd ùr</string>
+    <string name="notification_subscription_description">Brathan nuair a dh’fhoillsich cuideigin air a rinn mi fo-sgrìobhadh post ùr</string>
+    <string name="notification_subscription_name">Postaichean ùra</string>
+    <string name="pref_title_notification_filter_subscriptions">dh’fhoillsich cuideigin air a rinn mi fo-sgrìobhadh post ùr</string>
     <string name="notification_subscription_format">Tha %s air rud a phostadh</string>
     <string name="no_announcements">Chan eil brath-fios ann.</string>
     <string name="title_announcements">Brathan-fios</string>
@@ -108,7 +105,7 @@
     <string name="pref_title_show_cards_in_timelines">Seall ro-sheallaidhean air ceanglaichean sna loidhnichean-ama</string>
     <string name="warning_scheduling_interval">Feumaidh co-dhiù 5 mionaidean a bhith eadar staidean sgeidealaichte air Mastodon.</string>
     <string name="no_scheduled_status">Chan eil staid sam bith air an sgeideal agad.</string>
-    <string name="no_saved_status">Chan eil dreachd sam bith agad.</string>
+    <string name="no_drafts">Chan eil dreachd sam bith agad.</string>
     <string name="post_lookup_error_format">Thachair mearachd le lorg a’ phuist %s</string>
     <string name="poll_new_choice_hint">Roghainn %d</string>
     <string name="poll_allow_multiple_choices">Iomadh roghainn</string>
@@ -172,7 +169,7 @@
     <string name="poll_info_format"> <!-- 15 bhòtaichean • 1 uair a thìde air fhàgail --> %1$s • %2$s</string>
     <string name="compose_preview_image_description">Gnìomhan dhan dealbh %s</string>
     <string name="notification_clear_text">A bheil thu cinnteach gu bheil thu airson na brathan uile agad fhalamhachadh gu buan\?</string>
-    <string name="compose_shortcut_long_label">Sgrìobh dùd</string>
+    <string name="compose_shortcut_long_label">Sgrìobh post</string>
     <string name="filter_apply">Cuir an sàs</string>
     <string name="notifications_apply_filter">Criathraich</string>
     <string name="notifications_clear">Falamhaich</string>
@@ -236,7 +233,7 @@
     <string name="later">Uaireigin eile</string>
     <string name="restart_emoji">Feumaidh tu Tusky ath-thòiseachadh gus na roghainnean seo a chur an sàs</string>
     <string name="restart_required">Feumaidh tu an aplacaid ath-thòiseachadh</string>
-    <string name="action_open_toot">Fosgail an dùd</string>
+    <string name="action_open_toot">Fosgail am post</string>
     <string name="expand_collapse_all_statuses">Leudaich/Co-theannaich gach staid</string>
     <string name="performing_lookup_title">’Ga lorg…</string>
     <string name="download_fonts">Feumaidh tu na seataichean seo de dh’Emojis a luchdadh a-nuas an toiseach</string>
@@ -244,11 +241,11 @@
     <string name="emoji_style">Stoidhle nan Emojis</string>
     <string name="copy_to_clipboard_success">Chaidh lethbhreac dheth a chur air an stòr-bhòrd</string>
     <string name="error_no_custom_emojis">Chan eil Emojis gnàthaichte aig an ionstans %s agad</string>
-    <string name="send_toot_notification_saved_content">Chaidh lethbhreac dhen dùd agad a shàbhaladh ’na dhreachd</string>
+    <string name="send_toot_notification_saved_content">Chaidh lethbhreac dhen phost agad a shàbhaladh ’na dhreachd</string>
     <string name="send_toot_notification_cancel_title">Chaidh sgur dhen chur</string>
-    <string name="send_toot_notification_channel_name">A’ cur nan dùd</string>
-    <string name="send_toot_notification_error_title">Mearachd a’ cur an dùid</string>
-    <string name="send_toot_notification_title">A’ cur an dùid…</string>
+    <string name="send_toot_notification_channel_name">A’ cur nam post</string>
+    <string name="send_toot_notification_error_title">Mearachd a’ cur a’ phuist</string>
+    <string name="send_toot_notification_title">A’ cur a’ phuist…</string>
     <string name="compose_save_draft">A bheil thu airson a shàbhaladh ’na dhreachd\?</string>
     <string name="lock_account_label_description">Feumaidh tu gabhail ri luchd-leantainn ùr a làimh</string>
     <string name="lock_account_label">Glais an cunntas</string>
@@ -273,14 +270,14 @@
     <string name="add_account_name">Cuir cunntas ris</string>
     <string name="filter_add_description">An abairt ri chriathradh</string>
     <string name="filter_dialog_whole_word_description">Mur eil ach litrichean is àireamhan san fhacal-luirg, cha dèid a chur an sàs ach ma bhios e a’ maidseadh an fhacail shlàin</string>
-    <string name="pref_title_alway_open_spoiler">Leudaich dùdan ris a bheil rabhadh susbainte an-còmhnaidh</string>
-    <string name="status_share_link">Co-roinn ceangal dhan dùd</string>
-    <string name="status_share_content">Co-roinn susbaint an dùid</string>
+    <string name="pref_title_alway_open_spoiler">Leudaich postaichean ris a bheil rabhadh susbainte an-còmhnaidh</string>
+    <string name="status_share_link">Co-roinn ceangal dhan phost</string>
+    <string name="status_share_content">Co-roinn susbaint a’ phuist</string>
     <string name="about_tusky_license">’S e bathar-bog saor le bun-tùs fosgailte a th’ ann an Tusky. Tha e fo cheadachas GNU General Public License tionndadh 3. Chì thu an ceadachas an-seo: https://www.gnu.org/licenses/gpl-3.0.en.html</string>
-    <string name="notification_favourite_description">Brathan nuair a thèid dùd agad a chomharrachadh ’na annsachd</string>
-    <string name="notification_boost_description">Brathan nuair a thèid dùd agad brosnachadh</string>
-    <string name="dialog_redraft_toot_warning">A bheil thu airson an dùd seo a sguabadh às is dreachd ùr a dhèanamh air\?</string>
-    <string name="dialog_delete_toot_warning">A bheil thu airson an dùd seo a sguabadh às\?</string>
+    <string name="notification_favourite_description">Brathan nuair a thèid post agad a chomharrachadh ’na annsachd</string>
+    <string name="notification_boost_description">Brathan nuair a thèid post agad brosnachadh</string>
+    <string name="dialog_redraft_toot_warning">A bheil thu airson am post seo a sguabadh às is dreachd ùr a dhèanamh air\?</string>
+    <string name="dialog_delete_toot_warning">A bheil thu airson am post seo a sguabadh às\?</string>
     <string name="dialog_whats_an_instance">’S urrainn dhut seòladh no àrainn-lìn aig ionstans sam bith a chur a-steach an-seo, can mastodon.social, icosahedron.website, social.tchncs.de agus <a href="https://instances.social">a bharrachd!</a> 
 \n
 \nMur eil cunntas agad fhathast, cuir a-steach ainm an ionstans sa bheil thu airson ballrachd fhaighinn airson cunntas a chruthachadh ann.
@@ -288,16 +285,16 @@
 \n’S e an t-aon àite far an cruthaich thu cunntas a th’ ann an ionstans ud ’s a nì an t-òstadh dhan chunntas agad. Gidheadh, ’s urrainn dhut conaltradh le daoine a tha air ionstans eile agus leantainn orra mar gun robh sibh air an aon làrach. 
 \n
 \nGheibh thu barrachd fiosrachaidh air <a href="https://joinmastodon.org">joinmastodon.org</a>. </string>
-    <string name="send_status_content_to">Co-roinn an dùd le…</string>
-    <string name="send_status_link_to">Co-roinn URL an dùid le…</string>
-    <string name="action_schedule_toot">Cuir dùd air an sgeideal</string>
-    <string name="action_toggle_visibility">Faicsinneachd an dùid</string>
-    <string name="action_access_scheduled_toot">Dùdan air an sgeideal</string>
-    <string name="notification_favourite_format">Chuir %s an dùd agad ris na h-annsachdan</string>
-    <string name="notification_reblog_format">Bhrosnaich %s an dùd agad</string>
-    <string name="title_scheduled_toot">Dùdan air an sgeideal</string>
-    <string name="title_view_thread">Dùd</string>
-    <string name="error_sender_account_gone">Mearachd a’ cur an dùd.</string>
+    <string name="send_status_content_to">Co-roinn am post le…</string>
+    <string name="send_status_link_to">Co-roinn URL a’ phuist le…</string>
+    <string name="action_schedule_toot">Cuir post air an sgeideal</string>
+    <string name="action_toggle_visibility">Faicsinneachd a’ phuist</string>
+    <string name="action_access_scheduled_toot">Postaichean air an sgeideal</string>
+    <string name="notification_favourite_format">Chuir %s am post agad ris na h-annsachdan</string>
+    <string name="notification_reblog_format">Bhrosnaich %s am post agad</string>
+    <string name="title_scheduled_toot">Postaichean air an sgeideal</string>
+    <string name="title_view_thread">Post</string>
+    <string name="error_sender_account_gone">Mearachd a’ cur a’ phuist.</string>
     <string name="action_unmute_desc">Dì-mhùch %s</string>
     <string name="hashtags">Tagaichean hais</string>
     <string name="description_visiblity_private">Luchd-leantainn</string>
@@ -495,7 +492,7 @@
     <string name="status_sensitive_media_directions">Briog air gus a shealltainn</string>
     <string name="status_media_hidden_title">Meadhanan falaichte</string>
     <string name="status_sensitive_media_title">Susbaint fhrionasach</string>
-    <string name="status_boosted_format">Bhrosnaich %s</string>
+    <string name="status_boosted_format">’Ga bhrosnachadh le %s</string>
     <string name="status_username_format">\@%s</string>
     <string name="title_licenses">Ceadachasan</string>
     <string name="title_follow_requests">Iarrtasan leantainn</string>
@@ -532,4 +529,5 @@
     <string name="error_empty">Chan fhaod seo a bhith falamh.</string>
     <string name="error_network">Thachair mearachd leis an lìonra! Thoir sùil air a’ cheangal agad is feuch ris a-rithist!</string>
     <string name="error_generic">Thachair mearachd.</string>
+    <string name="follow_requests_info">Ged nach eil an cunntas agad glaiste, tha sgioba %1$s dhen bheachd gum b’ fheàirrde thu lèirmheas a dhèanamh air na h-iarrtasan leantainn o na cunntasan seo a làimh.</string>
 </resources>

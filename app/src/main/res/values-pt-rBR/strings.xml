@@ -94,7 +94,7 @@
     <string name="action_accept">Aceitar</string>
     <string name="action_reject">Rejeitar</string>
     <string name="action_search">Pesquisar</string>
-    <string name="action_access_saved_toot">Rascunhos</string>
+    <string name="action_access_drafts">Rascunhos</string>
     <string name="action_toggle_visibility">Privacidade do toot</string>
     <string name="action_content_warning">Aviso de Conteúdo</string>
     <string name="action_emoji_keyboard">Teclado de emojis</string>
@@ -449,7 +449,7 @@
     <string name="list">Lista</string>
     <string name="no_scheduled_status">Sem toots agendados.</string>
     <string name="error_audio_upload_size">O áudio deve ser menor que 40MB.</string>
-    <string name="no_saved_status">Sem rascunhos.</string>
+    <string name="no_drafts">Sem rascunhos.</string>
     <string name="warning_scheduling_interval">Mastodon possui um intervalo mínimo de 5 minutos para agendar.</string>
     <string name="notification_follow_request_name">Seguidores pendentes</string>
     <string name="notification_follow_request_format">%s quer te seguir</string>
@@ -484,9 +484,6 @@
     <string name="drafts_toot_failed_to_send">Erro ao enviar o toot!</string>
     <string name="drafts_toot_reply_removed">O toot em que se rascunhou uma resposta foi excluído</string>
     <string name="draft_deleted">Rascunho excluído</string>
-    <string name="new_drafts_warning">A função de rascunhos no Tusky foi totalmente redesenhada para ser mais rápida, mais fácil e com menos erros.
-\nÉ possível acessar rascunhos antigos através de um botão na tela de novos rascunhos, mas serão removidos numa futura atualização!</string>
-    <string name="old_drafts">Rascunhos antigos</string>
     <plurals name="error_upload_max_media_reached">
         <item quantity="other">Não é possível anexar mais de %1$d arquivos de mídia.</item>
     </plurals>

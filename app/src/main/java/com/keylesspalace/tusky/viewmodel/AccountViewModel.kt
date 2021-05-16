@@ -119,7 +119,7 @@ class AccountViewModel @Inject constructor(
         }
     }
 
-    fun muteAccount(notifications: Boolean, duration: Int) {
+    fun muteAccount(notifications: Boolean, duration: Int?) {
         changeRelationship(RelationShipAction.MUTE, notifications, duration)
     }
 

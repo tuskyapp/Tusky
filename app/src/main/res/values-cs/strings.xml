@@ -101,7 +101,7 @@
     <string name="action_accept">Přijmout</string>
     <string name="action_reject">Zamítnout</string>
     <string name="action_search">Hledat</string>
-    <string name="action_access_saved_toot">Koncepty</string>
+    <string name="action_access_drafts">Koncepty</string>
     <string name="action_toggle_visibility">Viditelnost tootu</string>
     <string name="action_content_warning">Varování o obsahu</string>
     <string name="action_emoji_keyboard">Klávesnice s emoji</string>
@@ -465,7 +465,7 @@
     <string name="pref_title_show_cards_in_timelines">Ukazovat náhledy k odkazům</string>
     <string name="warning_scheduling_interval">Mastodon neumožňuje pracovat s intervalem menším než 5 minut.</string>
     <string name="no_scheduled_status">Zatím zde nemáte žádné naplánované statusy.</string>
-    <string name="no_saved_status">Zatím zde nejsou žádné koncepty.</string>
+    <string name="no_drafts">Zatím zde nejsou žádné koncepty.</string>
     <string name="pref_title_enable_swipe_for_tabs">Možnost přetahování prstem pro přechod mezi kartami</string>
     <string name="list">Seznam</string>
     <string name="add_hashtag_title">Přidat hashtag</string>
@@ -481,7 +481,8 @@
     <string name="action_unmute_notifications_desc">Odkrýt oznámení od %s</string>
     <string name="action_unmute_desc">Odkrýt %s</string>
     <string name="dialog_mute_warning">Ztišit @%s\?</string>
-
     <string name="notification_follow_request_format">%s požádal/a aby vás mohl/a sledovat</string>
     <string name="pref_title_confirm_reblogs">Zobrazit dialogové okno s potvrzením při boostování</string>
+    <string name="notification_subscription_format">%s právě vydal</string>
+    <string name="title_announcements">Oznámení</string>
 </resources>
