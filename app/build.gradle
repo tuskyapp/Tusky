@@ -90,12 +90,6 @@ android {
     }
 }
 
-project.tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
-    kotlinOptions {
-        jvmTarget = "1.8"
-    }
-}
-
 ext.lifecycleVersion = "2.2.0"
 ext.roomVersion = '2.3.0'
 ext.retrofitVersion = '2.9.0'
