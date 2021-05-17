@@ -513,7 +513,6 @@
     <string name="draft_deleted">Concept verwijderd</string>
     <string name="wellbeing_hide_stats_posts">Kwantitatieve statistieken voor toots verbergen</string>
     <string name="drafts_failed_loading_reply">Laden van reactie-informatie mislukt</string>
-    <string name="old_drafts">Oude concepten</string>
     <string name="wellbeing_hide_stats_profile">Kwantitatieve statistieken in profielen verbergen</string>
     <string name="pref_main_nav_position">Hoofd navigatiepositie</string>
 </resources>
