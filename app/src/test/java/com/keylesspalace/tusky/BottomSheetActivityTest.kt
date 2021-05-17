@@ -17,6 +17,7 @@ package com.keylesspalace.tusky
 
 import android.text.SpannedString
 import android.widget.LinearLayout
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.keylesspalace.tusky.entity.Account
 import com.keylesspalace.tusky.entity.SearchResult
@@ -28,6 +29,7 @@ import io.reactivex.rxjava3.plugins.RxJavaPlugins
 import io.reactivex.rxjava3.schedulers.TestScheduler
 import org.junit.Assert
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
@@ -38,6 +40,10 @@ import java.util.concurrent.TimeUnit
 
 
 class BottomSheetActivityTest {
+
+    @get:Rule
+    val instantTaskExecutorRule: InstantTaskExecutorRule = InstantTaskExecutorRule()
+
     private lateinit var activity : FakeBottomSheetActivity
     private lateinit var apiMock: MastodonApi
     private val accountQuery = "http://mastodon.foo.bar/@User"
