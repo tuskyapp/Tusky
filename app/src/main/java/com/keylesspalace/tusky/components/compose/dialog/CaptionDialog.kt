@@ -98,8 +98,7 @@ fun <T> T.makeCaptionDialog(existingDescription: String?,
 
     dialog.show()
 
-    // Load the image and manually set it into the ImageView because it doesn't have a fixed
-    // size. Maybe we should limit the size of CustomTarget
+    // Load the image and manually set it into the ImageView because it doesn't have a fixed  size.
     Glide.with(this)
             .load(previewUri)
             .downsample(DownsampleStrategy.CENTER_INSIDE)
