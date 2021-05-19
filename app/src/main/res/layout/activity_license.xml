@@ -171,7 +171,7 @@
                 android:layout_marginStart="12dp"
                 android:layout_marginTop="12dp"
                 license:license="@string/license_apache_2"
-                license:link="https://github.com/ArthurHub/Android-Image-Cropper"
+                license:link="https://github.com/CanHub/Android-Image-Cropper"
                 license:name="Android Image Cropper" />
 
             <com.keylesspalace.tusky.view.LicenseCard
