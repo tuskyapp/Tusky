@@ -47,7 +47,7 @@ import com.mikepenz.iconics.IconicsDrawable
 import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial
 import com.mikepenz.iconics.utils.colorInt
 import com.mikepenz.iconics.utils.sizeDp
-import com.theartofdev.edmodo.cropper.CropImage
+import com.canhub.cropper.CropImage
 import javax.inject.Inject
 
 class EditProfileActivity : BaseActivity(), Injectable {
@@ -374,7 +374,7 @@ class EditProfileActivity : BaseActivity(), Injectable {
             CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE -> {
                 val result = CropImage.getActivityResult(data)
                 when (resultCode) {
-                    Activity.RESULT_OK -> beginResize(result.uri)
+                    Activity.RESULT_OK -> beginResize(result?.uriContent)
                     CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE -> onResizeFailure()
                     else -> endMediaPicking()
                 }
@@ -382,7 +382,12 @@ class EditProfileActivity : BaseActivity(), Injectable {
         }
     }
 
-    private fun beginResize(uri: Uri) {
+    private fun beginResize(uri: Uri?) {
+        if(uri == null) {
+            currentlyPicking = PickType.NOTHING
+            return
+        }
+
         beginMediaPicking()
 
         when (currentlyPicking) {
@@ -398,7 +403,6 @@ class EditProfileActivity : BaseActivity(), Injectable {
         }
 
         currentlyPicking = PickType.NOTHING
-
     }
 
     private fun onResizeFailure() {
