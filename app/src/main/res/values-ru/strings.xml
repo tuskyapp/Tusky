@@ -544,9 +544,6 @@
     <string name="action_subscribe_account">Подписаться</string>
     <string name="drafts_toot_reply_removed">Пост, на который вы написали ответ, был удалён</string>
     <string name="drafts_failed_loading_reply">Не удалось загрузить информацию об ответе</string>
-    <string name="new_drafts_warning">Функция черновика в Tusky была полностью переработана, чтобы сделать её более быстрой, удобной и стабильной.
-\nВы по-прежнему можете получить доступ к своим старым черновикам с помощью кнопки на экране новых черновиков, но они будут удалены в будущем обновлении!</string>
-    <string name="old_drafts">Старые черновики</string>
     <string name="draft_deleted">Черновик удалён</string>
     <string name="drafts_toot_failed_to_send">Этот пост не удалось отправить!</string>
     <string name="dialog_delete_list_warning">Вы действительно хотите удалить список %s\?</string>
