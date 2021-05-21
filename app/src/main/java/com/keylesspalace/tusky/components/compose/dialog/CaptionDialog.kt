@@ -31,6 +31,7 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import at.connyduck.sparkbutton.helpers.Utils
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.DownsampleStrategy
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
 import com.github.chrisbanes.photoview.PhotoView
@@ -97,10 +98,10 @@ fun <T> T.makeCaptionDialog(existingDescription: String?,
 
     dialog.show()
 
-    // Load the image and manually set it into the ImageView because it doesn't have a fixed
-    // size. Maybe we should limit the size of CustomTarget
+    // Load the image and manually set it into the ImageView because it doesn't have a fixed  size.
     Glide.with(this)
             .load(previewUri)
+            .downsample(DownsampleStrategy.CENTER_INSIDE)
             .into(object : CustomTarget<Drawable>(4096, 4096) {
                 override fun onLoadCleared(placeholder: Drawable?) {
                     imageView.setImageDrawable(placeholder)
