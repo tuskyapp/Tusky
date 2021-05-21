@@ -83,9 +83,6 @@ android {
             enableSplit = false
         }
     }
-    kotlinOptions {
-        jvmTarget = '1.8'
-    }
 }
 
 ext.lifecycleVersion = "2.2.0"

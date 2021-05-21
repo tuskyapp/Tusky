@@ -31,8 +31,6 @@ import com.keylesspalace.tusky.entity.Emoji
 
 import java.lang.ref.WeakReference
 import java.util.regex.Pattern
-import androidx.preference.PreferenceManager
-import com.keylesspalace.tusky.settings.PrefKeys
 
 /**
  * replaces emoji shortcodes in a text with EmojiSpans

@@ -65,7 +65,7 @@ class AccountManager @Inject constructor(db: AppDatabase) {
 
         val maxAccountId = accounts.maxByOrNull { it.id }?.id ?: 0
         val newAccountId = maxAccountId + 1
-        activeAccount = AccountEntity(id = newAccountId, domain = domain.toLowerCase(Locale.ROOT), accessToken = accessToken, isActive = true)
+        activeAccount = AccountEntity(id = newAccountId, domain = domain.lowercase(Locale.ROOT), accessToken = accessToken, isActive = true)
 
     }
 
