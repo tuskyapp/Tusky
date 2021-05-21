@@ -351,11 +351,11 @@ class ComposeViewModel @Inject constructor(
             ':' -> {
                 val emojiList = emoji.value ?: return emptyList()
 
-                val incomplete = token.substring(1).toLowerCase(Locale.ROOT)
+                val incomplete = token.substring(1).lowercase(Locale.ROOT)
                 val results = ArrayList<ComposeAutoCompleteAdapter.AutocompleteResult>()
                 val resultsInside = ArrayList<ComposeAutoCompleteAdapter.AutocompleteResult>()
                 for (emoji in emojiList) {
-                    val shortcode = emoji.shortcode.toLowerCase(Locale.ROOT)
+                    val shortcode = emoji.shortcode.lowercase(Locale.ROOT)
                     if (shortcode.startsWith(incomplete)) {
                         results.add(ComposeAutoCompleteAdapter.EmojiResult(emoji))
                     } else if (shortcode.indexOf(incomplete, 1) != -1) {

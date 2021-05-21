@@ -447,8 +447,6 @@
     <string name="pref_title_notification_filter_subscriptions">সদস্যতা আছে এমন একজন টুট দিয়েছে</string>
     <string name="no_announcements">কোনো ঘোষণা নেই।</string>
     <string name="follow_requests_info">যদিও তোমার অ্যাকাউন্ট রুদ্ধকৃত না, %1$s রা ভেবেছে এই অ্যাকাউন্টগুলোর অনুসরণ অনুরোধ তোমার পরীক্ষা করা উচিত।</string>
-    <string name="new_drafts_warning">নতুন খসড়া বৈশিষ্ট দ্রুততর হওয়ার জন্য নতুনভাবে নকশা করা হয়েছে, যা সহজে ব্যবহারযোগ্য ও কম সমস্যাপূর্ণ।
-\n আগের খসড়াগুলো খসড়া পাতার বোতাম দিয়ে যেতে পারো, কিন্তু ভবিষ্যত হালনাগাদে তা সরিয়ে ফেলা হবে!</string>
     <string name="drafts_toot_reply_removed">যে টুটের উত্তর খসড়া করেছিলে তা মুছে ফেলা হয়েছে</string>
     <string name="dialog_delete_list_warning">এই তালিকাটা আসলেই মুছতে চাও\?</string>
     <plurals name="error_upload_max_media_reached">
@@ -471,7 +469,6 @@
     <string name="account_note_hint">এই অ্যাকাউন্ট নিয়ে তোমার ব্যক্তিগত লেখা</string>
     <string name="pref_title_hide_top_toolbar">শীর্ষস্থানীয় সরঞ্জামের শিরোনামটি লুকাও</string>
     <string name="draft_deleted">খসড়া মুছো হয়েছে</string>
-    <string name="old_drafts">পুরোনো খসড়া</string>
     <string name="review_notifications">বিজ্ঞপ্তি</string>
     <string name="pref_title_wellbeing_mode">সুস্থতা</string>
     <string name="duration_indefinite">সময়হীন</string>
