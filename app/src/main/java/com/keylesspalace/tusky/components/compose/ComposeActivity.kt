@@ -619,7 +619,7 @@ class ComposeActivity : BaseActivity(),
                             arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
                             PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE)
                     } else {
-                        pickMediaFile.launch("")
+                        pickMediaFile.launch(true)
                     }
                 }
             }
@@ -774,7 +774,7 @@ class ComposeActivity : BaseActivity(),
 
         if (requestCode == PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE) {
             if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                pickMediaFile.launch("")
+                pickMediaFile.launch(true)
             } else {
                 Snackbar.make(binding.activityCompose, R.string.error_media_upload_permission,
                     Snackbar.LENGTH_SHORT).apply {
