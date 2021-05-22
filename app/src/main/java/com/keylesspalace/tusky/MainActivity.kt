@@ -44,7 +44,6 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.target.FixedSizeDrawable
 import com.bumptech.glide.request.transition.Transition
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
 import com.google.android.material.tabs.TabLayoutMediator
@@ -61,7 +60,6 @@ import com.keylesspalace.tusky.components.scheduled.ScheduledTootActivity
 import com.keylesspalace.tusky.components.search.SearchActivity
 import com.keylesspalace.tusky.databinding.ActivityMainBinding
 import com.keylesspalace.tusky.db.AccountEntity
-import com.keylesspalace.tusky.db.AppDatabase
 import com.keylesspalace.tusky.entity.Account
 import com.keylesspalace.tusky.fragment.SFragment
 import com.keylesspalace.tusky.interfaces.AccountSelectionListener
@@ -102,9 +100,6 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
     lateinit var conversationRepository: ConversationsRepository
 
     @Inject
-    lateinit var appDb: AppDatabase
-
-    @Inject
     lateinit var draftHelper: DraftHelper
 
     private val binding by viewBinding(ActivityMainBinding::inflate)
@@ -134,10 +129,8 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
         super.onCreate(savedInstanceState)
 
         val activeAccount = accountManager.activeAccount
-        if (activeAccount == null) {
-            // will be redirected to LoginActivity by BaseActivity
-            return
-        }
+            ?: return // will be redirected to LoginActivity by BaseActivity
+
         var showNotificationTab = false
         if (intent != null) {
             /** there are two possibilities the accountId can be passed to MainActivity:
@@ -753,7 +746,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
         header.setActiveProfile(accountManager.activeAccount!!.id)
     }
 
-    override fun getActionButton(): FloatingActionButton? = binding.composeButton
+    override fun getActionButton() = binding.composeButton
 
     override fun androidInjector() = androidInjector
 
