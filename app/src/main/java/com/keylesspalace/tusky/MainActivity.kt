@@ -621,7 +621,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
             AlertDialog.Builder(this)
                     .setTitle(R.string.action_logout)
                     .setMessage(getString(R.string.action_logout_confirm, activeAccount.fullName))
-                    .setPositiveButton(android.R.string.yes) { _: DialogInterface?, _: Int ->
+                    .setPositiveButton(android.R.string.ok) { _: DialogInterface?, _: Int ->
                         NotificationHelper.deleteNotificationChannelsForAccount(activeAccount, this)
                         cacheUpdater.clearForUser(activeAccount.id)
                         conversationRepository.deleteCacheForAccount(activeAccount.id)
@@ -639,7 +639,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
                         startActivity(intent)
                         finishWithoutSlideOutAnimation()
                     }
-                    .setNegativeButton(android.R.string.no, null)
+                    .setNegativeButton(android.R.string.cancel, null)
                     .show()
         }
     }

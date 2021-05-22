@@ -51,8 +51,8 @@ class SendStatusBroadcastReceiver : BroadcastReceiver() {
         val senderFullName = intent.getStringExtra(NotificationHelper.KEY_SENDER_ACCOUNT_FULL_NAME)
         val citedStatusId = intent.getStringExtra(NotificationHelper.KEY_CITED_STATUS_ID)
         val visibility = intent.getSerializableExtra(NotificationHelper.KEY_VISIBILITY) as Status.Visibility
-        val spoiler = intent.getStringExtra(NotificationHelper.KEY_SPOILER)
-        val mentions = intent.getStringArrayExtra(NotificationHelper.KEY_MENTIONS)
+        val spoiler = intent.getStringExtra(NotificationHelper.KEY_SPOILER) ?: ""
+        val mentions = intent.getStringArrayExtra(NotificationHelper.KEY_MENTIONS) ?: emptyArray()
         val citedText = intent.getStringExtra(NotificationHelper.KEY_CITED_TEXT)
         val localAuthorId = intent.getStringExtra(NotificationHelper.KEY_CITED_AUTHOR_LOCAL)
 
@@ -69,7 +69,7 @@ class SendStatusBroadcastReceiver : BroadcastReceiver() {
 
                 val builder = NotificationCompat.Builder(context, NotificationHelper.CHANNEL_MENTION + senderIdentifier)
                         .setSmallIcon(R.drawable.ic_notify)
-                        .setColor(ContextCompat.getColor(context, (R.color.tusky_blue)))
+                        .setColor(ContextCompat.getColor(context, R.color.tusky_blue))
                         .setGroup(senderFullName)
                         .setDefaults(0) // So it doesn't ring twice, notify only in Target callback
 

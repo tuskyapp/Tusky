@@ -34,13 +34,15 @@ import androidx.annotation.Px
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityOptionsCompat
 import androidx.core.content.ContextCompat
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.emoji.text.EmojiCompat
 import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager2.widget.MarginPageTransformer
 import com.bumptech.glide.Glide
 import com.google.android.material.appbar.AppBarLayout
-import com.google.android.material.appbar.CollapsingToolbarLayout
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.shape.MaterialShapeDrawable
 import com.google.android.material.shape.ShapeAppearanceModel
@@ -170,7 +172,6 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
         binding.accountFieldList.layoutManager = LinearLayoutManager(this)
         binding.accountFieldList.adapter = accountFieldAdapter
 
-
         val accountListClickListener = { v: View ->
             val type = when (v.id) {
                 R.id.accountFollowers -> AccountListActivity.Type.FOLLOWERS
@@ -237,13 +238,11 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
 
     private fun setupToolbar() {
         // set toolbar top margin according to system window insets
-        binding.accountCoordinatorLayout.setOnApplyWindowInsetsListener { _, insets ->
-            val top = insets.systemWindowInsetTop
-
-            val toolbarParams = binding.accountToolbar.layoutParams as CollapsingToolbarLayout.LayoutParams
+        ViewCompat.setOnApplyWindowInsetsListener(binding.accountCoordinatorLayout) { _, insets ->
+            val top = insets.getInsets(WindowInsetsCompat.Type.systemBars()).top
+            val toolbarParams = binding.accountToolbar.layoutParams as ViewGroup.MarginLayoutParams
             toolbarParams.topMargin = top
-
-            insets.consumeSystemWindowInsets()
+            WindowInsetsCompat.CONSUMED
         }
 
         // Setup the toolbar.
@@ -318,8 +317,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
     }
 
     private fun makeNotificationBarTransparent() {
-        val decorView = window.decorView
-        decorView.systemUiVisibility = decorView.systemUiVisibility or View.SYSTEM_UI_FLAG_LAYOUT_STABLE or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+        WindowCompat.setDecorFitsSystemWindows(window, false)
         window.statusBarColor = statusBarColorTransparent
     }
 
