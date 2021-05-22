@@ -1,0 +1,11 @@
+Tusky v11.0
+
+- Benachrichtigungen über neue Folgeanfragen wenn das Konto gesperrt ist
+- Neue Funktionen die in den Einstellungen aktiviert werden können:
+   - Wischgeste zum Wechseln zwischen Tabs
+   - Bestätigung vor dem Teilen eines Beitrags
+   - Linkvorschauen in Timelines
+- Konversationen können jetzt stummgeschaltet werden
+- Umfrageergebnisse für Umfragen mit Mehrfachauswahl sind jetzt einfacher zu verstehen
+- Viele Fehlerkorrekturen, primär beim Postverfassen
+- Verbesserte Übersetzungen
