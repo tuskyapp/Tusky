@@ -41,7 +41,6 @@ public class StatusViewHolder extends StatusBaseViewHolder {
 
     private TextView statusInfo;
     private Button contentCollapseButton;
-
     public StatusViewHolder(View itemView) {
         super(itemView);
         statusInfo = itemView.findViewById(R.id.status_info);
@@ -54,7 +53,7 @@ public class StatusViewHolder extends StatusBaseViewHolder {
     }
 
     @Override
-    protected void setupWithStatus(StatusViewData.Concrete status,
+    public void setupWithStatus(StatusViewData.Concrete status,
                                    final StatusActionListener listener,
                                    StatusDisplayOptions statusDisplayOptions,
                                    @Nullable Object payloads) {

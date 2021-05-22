@@ -25,7 +25,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.keylesspalace.tusky.fragment.TimelineFragment;
+import com.keylesspalace.tusky.components.timeline.TimelineFragment;
 
 import java.util.Collections;
 

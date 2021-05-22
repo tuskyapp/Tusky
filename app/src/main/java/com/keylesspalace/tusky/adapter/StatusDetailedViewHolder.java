@@ -101,7 +101,7 @@ class StatusDetailedViewHolder extends StatusBaseViewHolder {
     }
 
     @Override
-    protected void setupWithStatus(final StatusViewData.Concrete status,
+    public void setupWithStatus(final StatusViewData.Concrete status,
                                    final StatusActionListener listener,
                                    StatusDisplayOptions statusDisplayOptions,
                                    @Nullable Object payloads) {

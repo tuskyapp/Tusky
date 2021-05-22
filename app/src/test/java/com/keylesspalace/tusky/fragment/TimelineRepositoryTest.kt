@@ -3,6 +3,7 @@ package com.keylesspalace.tusky.fragment
 import android.text.SpannableString
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.google.gson.Gson
+import com.keylesspalace.tusky.components.timeline.*
 import com.keylesspalace.tusky.db.AccountEntity
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.db.TimelineDao
@@ -10,7 +11,6 @@ import com.keylesspalace.tusky.db.TimelineStatusWithAccount
 import com.keylesspalace.tusky.entity.Account
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.network.MastodonApi
-import com.keylesspalace.tusky.repository.*
 import com.keylesspalace.tusky.util.Either
 import com.nhaarman.mockitokotlin2.isNull
 import com.nhaarman.mockitokotlin2.verify

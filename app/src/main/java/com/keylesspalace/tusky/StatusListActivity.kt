@@ -21,8 +21,8 @@ import android.os.Bundle
 import androidx.fragment.app.commit
 import com.keylesspalace.tusky.databinding.ActivityStatuslistBinding
 
-import com.keylesspalace.tusky.fragment.TimelineFragment
-import com.keylesspalace.tusky.fragment.TimelineFragment.Kind
+import com.keylesspalace.tusky.components.timeline.TimelineFragment
+import com.keylesspalace.tusky.components.timeline.TimelineFragment.Kind
 
 import javax.inject.Inject
 

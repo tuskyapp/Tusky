@@ -1,4 +1,4 @@
-package com.keylesspalace.tusky.repository
+package com.keylesspalace.tusky.components.timeline
 
 import android.text.SpannedString
 import androidx.core.text.parseAsHtml
@@ -8,8 +8,8 @@ import com.google.gson.reflect.TypeToken
 import com.keylesspalace.tusky.db.*
 import com.keylesspalace.tusky.entity.*
 import com.keylesspalace.tusky.network.MastodonApi
-import com.keylesspalace.tusky.repository.TimelineRequestMode.DISK
-import com.keylesspalace.tusky.repository.TimelineRequestMode.NETWORK
+import com.keylesspalace.tusky.components.timeline.TimelineRequestMode.DISK
+import com.keylesspalace.tusky.components.timeline.TimelineRequestMode.NETWORK
 import com.keylesspalace.tusky.util.Either
 import com.keylesspalace.tusky.util.dec
 import com.keylesspalace.tusky.util.inc
@@ -31,7 +31,8 @@ enum class TimelineRequestMode {
 
 interface TimelineRepository {
     fun getStatuses(maxId: String?, sinceId: String?, sincedIdMinusOne: String?, limit: Int,
-                    requestMode: TimelineRequestMode): Single<out List<TimelineStatus>>
+                    requestMode: TimelineRequestMode
+    ): Single<out List<TimelineStatus>>
 
     companion object {
         val CLEANUP_INTERVAL = TimeUnit.DAYS.toMillis(14)

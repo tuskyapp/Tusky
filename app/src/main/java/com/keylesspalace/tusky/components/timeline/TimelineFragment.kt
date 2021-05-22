@@ -13,7 +13,7 @@
  * You should have received a copy of the GNU General Public License along with Tusky; if not,
  * see <http://www.gnu.org/licenses>. */
 
-package com.keylesspalace.tusky.fragment
+package com.keylesspalace.tusky.components.timeline
 
 import android.os.Bundle
 import android.util.Log
@@ -42,7 +42,6 @@ import com.keylesspalace.tusky.AccountListActivity.Companion.newIntent
 import com.keylesspalace.tusky.BaseActivity
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.adapter.StatusBaseViewHolder
-import com.keylesspalace.tusky.adapter.TimelineAdapter
 import com.keylesspalace.tusky.appstore.BlockEvent
 import com.keylesspalace.tusky.appstore.BookmarkEvent
 import com.keylesspalace.tusky.appstore.DomainMuteEvent
@@ -62,13 +61,11 @@ import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.entity.Filter
 import com.keylesspalace.tusky.entity.Poll
 import com.keylesspalace.tusky.entity.Status
+import com.keylesspalace.tusky.fragment.SFragment
 import com.keylesspalace.tusky.interfaces.ActionButtonActivity
 import com.keylesspalace.tusky.interfaces.RefreshableFragment
 import com.keylesspalace.tusky.interfaces.ReselectableFragment
 import com.keylesspalace.tusky.interfaces.StatusActionListener
-import com.keylesspalace.tusky.repository.Placeholder
-import com.keylesspalace.tusky.repository.TimelineRepository
-import com.keylesspalace.tusky.repository.TimelineRequestMode
 import com.keylesspalace.tusky.settings.PrefKeys
 import com.keylesspalace.tusky.util.CardViewMode
 import com.keylesspalace.tusky.util.Either
@@ -173,7 +170,11 @@ class TimelineFragment : SFragment(), OnRefreshListener, StatusActionListener, I
                 hideStats = preferences.getBoolean(PrefKeys.WELLBEING_HIDE_STATS_POSTS, false),
                 animateEmojis = preferences.getBoolean(PrefKeys.ANIMATE_CUSTOM_EMOJIS, false)
         )
-        adapter = TimelineAdapter(dataSource, statusDisplayOptions, this)
+        adapter = TimelineAdapter(
+            dataSource,
+            statusDisplayOptions,
+            this
+        )
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -605,7 +606,7 @@ class TimelineFragment : SFragment(), OnRefreshListener, StatusActionListener, I
                 return
             }
             sendFetchTimelineRequest(fromStatus.id, toStatus.id, maxMinusOne,
-                    FetchEnd.MIDDLE, position)
+                FetchEnd.MIDDLE, position)
             val (id1) = statuses[position].asLeft()
             val newViewData: StatusViewData = StatusViewData.Placeholder(id1, true)
             statuses.setPairedItem(position, newViewData)
@@ -624,7 +625,8 @@ class TimelineFragment : SFragment(), OnRefreshListener, StatusActionListener, I
         if (status !is StatusViewData.Concrete) {
             // Statuses PairedList contains a base type of StatusViewData.Concrete and also doesn't
             // check for null values when adding values to it although this doesn't seem to be an issue.
-            Log.e(TAG, String.format(
+            Log.e(
+                TAG, String.format(
                     "Expected StatusViewData.Concrete, got %s instead at position: %d of %d",
                     status?.javaClass?.simpleName ?: "<null>",
                     position,

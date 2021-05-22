@@ -18,7 +18,7 @@ package com.keylesspalace.tusky.pager
 import androidx.fragment.app.*
 
 import com.keylesspalace.tusky.fragment.AccountMediaFragment
-import com.keylesspalace.tusky.fragment.TimelineFragment
+import com.keylesspalace.tusky.components.timeline.TimelineFragment
 import com.keylesspalace.tusky.interfaces.RefreshableFragment
 
 import com.keylesspalace.tusky.util.CustomFragmentStateAdapter

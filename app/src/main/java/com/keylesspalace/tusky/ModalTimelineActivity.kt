@@ -5,7 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.keylesspalace.tusky.databinding.ActivityModalTimelineBinding
-import com.keylesspalace.tusky.fragment.TimelineFragment
+import com.keylesspalace.tusky.components.timeline.TimelineFragment
 import com.keylesspalace.tusky.interfaces.ActionButtonActivity
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector

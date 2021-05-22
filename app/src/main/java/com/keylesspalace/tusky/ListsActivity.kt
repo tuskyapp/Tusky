@@ -37,7 +37,7 @@ import com.keylesspalace.tusky.databinding.ActivityListsBinding
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.entity.MastoList
-import com.keylesspalace.tusky.fragment.TimelineFragment
+import com.keylesspalace.tusky.components.timeline.TimelineFragment
 import com.keylesspalace.tusky.util.*
 import com.keylesspalace.tusky.viewmodel.ListsViewModel
 import com.keylesspalace.tusky.viewmodel.ListsViewModel.Event.*

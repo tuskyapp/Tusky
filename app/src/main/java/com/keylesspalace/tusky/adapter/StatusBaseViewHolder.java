@@ -708,7 +708,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         this.setupWithStatus(status, listener, statusDisplayOptions, null);
     }
 
-    protected void setupWithStatus(StatusViewData.Concrete status,
+    public void setupWithStatus(StatusViewData.Concrete status,
                                    final StatusActionListener listener,
                                    StatusDisplayOptions statusDisplayOptions,
                                    @Nullable Object payloads) {
