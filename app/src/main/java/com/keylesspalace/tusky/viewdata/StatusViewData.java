@@ -300,6 +300,21 @@ public abstract class StatusViewData {
             return id.hashCode();
         }
 
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            Concrete concrete = (Concrete) o;
+            return this.deepEquals(concrete);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = Objects.hash(id, content, reblogged, favourited, bookmarked, muted, spoilerText, visibility, attachments, rebloggedByUsername, rebloggedAvatar, isSensitive, isExpanded, isShowingContent, userFullName, nickname, avatar, createdAt, reblogsCount, favouritesCount, inReplyToId, senderId, rebloggingEnabled, application, statusEmojis, accountEmojis, rebloggedByAccountEmojis, card, isCollapsible, isCollapsed, poll, isBot);
+            result = 31 * result + Arrays.hashCode(mentions);
+            return result;
+        }
+
         public boolean deepEquals(StatusViewData o) {
             if (this == o) return true;
             if (o == null || getClass() != o.getClass()) return false;
@@ -363,6 +378,45 @@ public abstract class StatusViewData {
 
             return replacing ? builder : content;
         }
+
+        @Override
+        public String toString() {
+            return "Concrete{" +
+                    "id='" + id + '\'' +
+                    ", content=" + content +
+                    ", reblogged=" + reblogged +
+                    ", favourited=" + favourited +
+                    ", bookmarked=" + bookmarked +
+                    ", muted=" + muted +
+                    ", spoilerText='" + spoilerText + '\'' +
+                    ", visibility=" + visibility +
+                    ", attachments=" + attachments +
+                    ", rebloggedByUsername='" + rebloggedByUsername + '\'' +
+                    ", rebloggedAvatar='" + rebloggedAvatar + '\'' +
+                    ", isSensitive=" + isSensitive +
+                    ", isExpanded=" + isExpanded +
+                    ", isShowingContent=" + isShowingContent +
+                    ", userFullName='" + userFullName + '\'' +
+                    ", nickname='" + nickname + '\'' +
+                    ", avatar='" + avatar + '\'' +
+                    ", createdAt=" + createdAt +
+                    ", reblogsCount=" + reblogsCount +
+                    ", favouritesCount=" + favouritesCount +
+                    ", inReplyToId='" + inReplyToId + '\'' +
+                    ", mentions=" + Arrays.toString(mentions) +
+                    ", senderId='" + senderId + '\'' +
+                    ", rebloggingEnabled=" + rebloggingEnabled +
+                    ", application=" + application +
+                    ", statusEmojis=" + statusEmojis +
+                    ", accountEmojis=" + accountEmojis +
+                    ", rebloggedByAccountEmojis=" + rebloggedByAccountEmojis +
+                    ", card=" + card +
+                    ", isCollapsible=" + isCollapsible +
+                    ", isCollapsed=" + isCollapsed +
+                    ", poll=" + poll +
+                    ", isBot=" + isBot +
+                    '}';
+        }
     }
 
     public static final class Placeholder extends StatusViewData {
@@ -406,6 +460,14 @@ public abstract class StatusViewData {
             int result = (isLoading ? 1 : 0);
             result = 31 * result + id.hashCode();
             return result;
+        }
+
+        @Override
+        public String toString() {
+            return "Placeholder{" +
+                    "isLoading=" + isLoading +
+                    ", id='" + id + '\'' +
+                    '}';
         }
     }
 
