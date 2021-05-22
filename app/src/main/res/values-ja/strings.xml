@@ -464,4 +464,7 @@
     <string name="warning_scheduling_interval">Mastodonにおける予約までの最小間隔は5分です。</string>
     <string name="notification_subscription_format">%sさんがトゥートしました</string>
     <string name="title_announcements">お知らせ</string>
+    <string name="mute_domain_warning">本当に %s のすべてをブロックするのですか？ そのドメインからのコンテンツは、公開タイムラインや通知に表示されなくなります。また、そのドメインのフォロワーは削除されます。</string>
+    <string name="status_media_audio">音声</string>
+    <string name="mute_domain_warning_dialog_ok">ドメイン全体を非表示</string>
 </resources>
