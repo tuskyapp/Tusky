@@ -89,7 +89,7 @@ ext.lifecycleVersion = "2.2.0"
 ext.roomVersion = '2.3.0'
 ext.retrofitVersion = '2.9.0'
 ext.okhttpVersion = '4.9.0'
-ext.glideVersion = '4.11.0'
+ext.glideVersion = '4.12.0'
 ext.daggerVersion = '2.30.1'
 ext.materialdrawerVersion = '8.2.0'
 
