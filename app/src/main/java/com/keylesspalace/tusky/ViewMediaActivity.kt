@@ -153,9 +153,8 @@ class ViewMediaActivity : BaseActivity(), ViewImageFragment.PhotoActionsListener
             WindowInsetsCompat.CONSUMED
         }
         // hide the system bars
-        WindowInsetsControllerCompat(window, window.decorView).run {
-            hide(systemBars())
-        }
+        WindowInsetsControllerCompat(window, window.decorView).hide(systemBars())
+
         window.statusBarColor = Color.BLACK
         window.sharedElementEnterTransition.addListener(object : NoopTransitionListener {
             override fun onTransitionEnd(transition: Transition) {
