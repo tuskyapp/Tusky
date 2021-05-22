@@ -294,7 +294,7 @@
     <string name="caption_blobmoji">Die Blob–Emojis aus Android 4.4–7.1</string>
     <string name="caption_twemoji">Die Standard-Emojis von Mastodon</string>
     <string name="caption_notoemoji">Die aktuellen Emojis von Google</string>
-    <string name="download_failed">Download fehlgeschlagen.</string>
+    <string name="download_failed">Download fehlgeschlagen</string>
     <string name="profile_badge_bot_text">Bot</string>
     <string name="account_moved_description">%1$s ist umgezogen auf:</string>
     <string name="reblog_private">An ursprüngliches Publikum teilen</string>
@@ -357,7 +357,7 @@
     <string name="compose_shortcut_short_label">Beitrag erstellen</string>
     <string name="pref_title_bot_overlay">Bot-Hinweis anzeigen</string>
     <string name="notification_clear_text">Bist du dir sicher, dass du alle deine Benachrichtigungen dauerhaft löschen möchtest\?</string>
-    <string name="poll_info_format">" %1$s • %2$s"</string>
+    <string name="poll_info_format"> <!-- 15 Stimmen • 1 Stunde verbleibend --> %1$s • %2$s</string>
     <plurals name="poll_info_votes">
         <item quantity="one">%s Stimme</item>
         <item quantity="other">%s Stimmen</item>
@@ -496,7 +496,7 @@
     <string name="pref_title_animate_custom_emojis">GIF-Emojis animieren</string>
     <string name="pref_title_notification_filter_subscriptions">Jemand, den ich abonniert habe, etwas Neues veröffentlicht</string>
     <string name="notification_subscription_format">%s hat gerade etwas gepostet</string>
-    <string name="abbreviated_minutes_ago">%dm</string>
+    <string name="abbreviated_minutes_ago">%d Min.</string>
     <string name="review_notifications">Benachrichtigungen überprüfen</string>
     <string name="wellbeing_mode_notice">Informationen, die dein Wohlbefinden beeinflussen könnten, werden versteckt. Das beinhaltet
 \n
@@ -511,4 +511,10 @@
     <string name="limit_notifications">Timeline-Benachrichtigungen einschränken</string>
     <string name="action_subscribe_account">Abonnieren</string>
     <string name="action_unsubscribe_account">nicht mehr abonnieren</string>
+    <string name="abbreviated_in_minutes">in %d M.</string>
+    <string name="abbreviated_in_hours">in %d St.</string>
+    <string name="drafts_failed_loading_reply">Antwortinformationen konnten nicht geladen werden</string>
+    <string name="abbreviated_days_ago">%d T.</string>
+    <string name="abbreviated_in_years">in %d J.</string>
+    <string name="abbreviated_in_seconds">in %d Sek.</string>
 </resources>
