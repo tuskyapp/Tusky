@@ -35,9 +35,6 @@
 
         </activity>
         <activity
-            android:name=".SavedTootActivity"
-            android:configChanges="orientation|screenSize|keyboardHidden" />
-        <activity
             android:name=".LoginActivity"
             android:windowSoftInputMode="adjustResize">
             <intent-filter>
