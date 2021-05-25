@@ -643,12 +643,17 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
             );
             LinkHelper.setClickableText(statusContent, emojifiedText, statusViewData.getMentions(), listener);
 
-            CharSequence emojifiedContentWarning = CustomEmojiHelper.emojify(
-                    statusViewData.getSpoilerText(),
-                    statusViewData.getStatusEmojis(),
-                    contentWarningDescriptionTextView,
-                    statusDisplayOptions.animateEmojis()
-            );
+            CharSequence emojifiedContentWarning;
+            if (statusViewData.getSpoilerText() != null) {
+                emojifiedContentWarning = CustomEmojiHelper.emojify(
+                        statusViewData.getSpoilerText(),
+                        statusViewData.getStatusEmojis(),
+                        contentWarningDescriptionTextView,
+                        statusDisplayOptions.animateEmojis()
+                );
+            } else {
+                emojifiedContentWarning = "";
+            }
             contentWarningDescriptionTextView.setText(emojifiedContentWarning);
         }
 
