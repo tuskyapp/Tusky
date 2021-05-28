@@ -53,3 +53,7 @@ inline fun <T> List<T>.replacedFirstWhich(replacement: T, predicate: (T) -> Bool
     }
     return newList
 }
+
+inline fun <reified R> Iterable<*>.firstIsInstanceOrNull(): R? {
+    return firstOrNull { it is R }?.let { it as R }
+}

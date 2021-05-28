@@ -131,9 +131,8 @@ public abstract class SFragment extends Fragment implements Injectable {
         bottomSheetActivity.viewAccount(status.getAccount().getId());
     }
 
-    protected void viewThread(Status status) {
-        Status actionableStatus = status.getActionableStatus();
-        bottomSheetActivity.viewThread(actionableStatus.getId(), actionableStatus.getUrl());
+    protected void viewThread(String statusId, @Nullable String statusUrl) {
+        bottomSheetActivity.viewThread(statusId, statusUrl);
     }
 
     protected void viewAccount(String accountId) {
@@ -149,7 +148,7 @@ public abstract class SFragment extends Fragment implements Injectable {
         Status actionableStatus = status.getActionableStatus();
         Status.Visibility replyVisibility = actionableStatus.getVisibility();
         String contentWarning = actionableStatus.getSpoilerText();
-        Status.Mention[] mentions = actionableStatus.getMentions();
+        List<Status.Mention> mentions = actionableStatus.getMentions();
         Set<String> mentionedUsernames = new LinkedHashSet<>();
         mentionedUsernames.add(actionableStatus.getAccount().getUsername());
         String loggedInUsername = null;
@@ -161,8 +160,7 @@ public abstract class SFragment extends Fragment implements Injectable {
             mentionedUsernames.add(mention.getUsername());
         }
         mentionedUsernames.remove(loggedInUsername);
-        ComposeOptions composeOptions = new ComposeOptions();
-        composeOptions.setInReplyToId(inReplyToId);
+        ComposeOptions composeOptions = new ComposeOptions();composeOptions.setInReplyToId(inReplyToId);
         composeOptions.setReplyVisibility(replyVisibility);
         composeOptions.setContentWarning(contentWarning);
         composeOptions.setMentionedUsernames(mentionedUsernames);
@@ -316,11 +314,11 @@ public abstract class SFragment extends Fragment implements Injectable {
                     return true;
                 }
                 case R.id.pin: {
-                    timelineCases.pin(status, !status.isPinned());
+                    timelineCases.pin(status.getId(), !status.isPinned());
                     return true;
                 }
                 case R.id.status_mute_conversation: {
-                    timelineCases.muteConversation(status, status.getMuted() == null || !status.getMuted())
+                    timelineCases.muteConversation(status.getId(), status.getMuted() == null || !status.getMuted())
                             .onErrorReturnItem(status)
                             .observeOn(AndroidSchedulers.mainThread())
                             .to(autoDisposable(from(this, Lifecycle.Event.ON_DESTROY)))
@@ -335,12 +333,12 @@ public abstract class SFragment extends Fragment implements Injectable {
 
     private void onMute(String accountId, String accountUsername) {
         MuteAccountDialog.showMuteAccountDialog(
-            this.getActivity(),
-            accountUsername,
-            (notifications, duration) -> {
-                timelineCases.mute(accountId, notifications, duration);
-                return Unit.INSTANCE;
-            }
+                this.getActivity(),
+                accountUsername,
+                (notifications, duration) -> {
+                    timelineCases.mute(accountId, notifications, duration);
+                    return Unit.INSTANCE;
+                }
         );
     }
 
@@ -352,7 +350,7 @@ public abstract class SFragment extends Fragment implements Injectable {
                 .show();
     }
 
-    private static boolean accountIsInMentions(AccountEntity account, Status.Mention[] mentions) {
+    private static boolean accountIsInMentions(AccountEntity account, List<Status.Mention> mentions) {
         if (account == null) {
             return false;
         }
@@ -368,20 +366,18 @@ public abstract class SFragment extends Fragment implements Injectable {
         return false;
     }
 
-    protected void viewMedia(int urlIndex, Status status, @Nullable View view) {
-        final Status actionable = status.getActionableStatus();
-        final Attachment active = actionable.getAttachments().get(urlIndex);
-        Attachment.Type type = active.getType();
+    protected void viewMedia(int urlIndex, List<AttachmentViewData> attachments, @Nullable View view) {
+        final AttachmentViewData active = attachments.get(urlIndex);
+        Attachment.Type type = active.getAttachment().getType();
         switch (type) {
             case GIFV:
             case VIDEO:
             case IMAGE:
             case AUDIO: {
-                final List<AttachmentViewData> attachments = AttachmentViewData.list(actionable);
                 final Intent intent = ViewMediaActivity.newIntent(getContext(), attachments,
                         urlIndex);
                 if (view != null) {
-                    String url = active.getUrl();
+                    String url = active.getAttachment().getUrl();
                     ViewCompat.setTransitionName(view, url);
                     ActivityOptionsCompat options =
                             ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(),
@@ -394,7 +390,7 @@ public abstract class SFragment extends Fragment implements Injectable {
             }
             default:
             case UNKNOWN: {
-                LinkHelper.openLink(active.getUrl(), getContext());
+                LinkHelper.openLink(active.getAttachment().getUrl(), getContext());
                 break;
             }
         }

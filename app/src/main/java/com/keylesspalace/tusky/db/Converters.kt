@@ -105,13 +105,13 @@ class Converters @Inject constructor (
     }
 
     @TypeConverter
-    fun mentionArrayToJson(mentionArray: Array<Status.Mention>?): String? {
+    fun mentionListToJson(mentionArray: List<Status.Mention>?): String? {
         return gson.toJson(mentionArray)
     }
 
     @TypeConverter
-    fun jsonToMentionArray(mentionListJson: String?): Array<Status.Mention>? {
-        return gson.fromJson(mentionListJson, object : TypeToken<Array<Status.Mention>>() {}.type)
+    fun jsonToMentionArray(mentionListJson: String?): List<Status.Mention>? {
+        return gson.fromJson(mentionListJson, object : TypeToken<List<Status.Mention>>() {}.type)
     }
 
     @TypeConverter

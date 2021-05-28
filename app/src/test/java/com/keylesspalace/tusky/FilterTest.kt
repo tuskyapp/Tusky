@@ -216,7 +216,7 @@ class FilterTest {
                 spoilerText = spoilerText,
                 visibility = Status.Visibility.PUBLIC,
                 attachments = arrayListOf(),
-                mentions = emptyArray(),
+                mentions = listOf(),
                 application = null,
                 pinned = false,
                 muted = false,

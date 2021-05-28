@@ -383,7 +383,7 @@ class SearchStatusesFragment : SearchFragment<Pair<Status, StatusViewData.Concre
         }
     }
 
-    private fun accountIsInMentions(account: AccountEntity?, mentions: Array<Mention>): Boolean {
+    private fun accountIsInMentions(account: AccountEntity?, mentions: List<Mention>): Boolean {
         return mentions.firstOrNull {
             account?.username == it.username && account.domain == Uri.parse(it.url)?.host
         } != null

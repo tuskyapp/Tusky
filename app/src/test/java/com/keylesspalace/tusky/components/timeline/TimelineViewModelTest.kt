@@ -16,7 +16,10 @@ import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
+import org.robolectric.Robolectric
 import org.robolectric.annotation.Config
+import org.robolectric.shadows.ShadowLog
+
 
 @Config(sdk = [29])
 class TimelineViewModelTest {
@@ -28,6 +31,7 @@ class TimelineViewModelTest {
 
     @Before
     fun setup() {
+        ShadowLog.stream = System.out
         timelineRepository = mock()
         timelineCases = mock()
         mastodonApi = mock()
@@ -281,14 +285,14 @@ class TimelineViewModelTest {
                 status4,
                 status3,
                 status1
-            ).map { ViewDataUtils.statusToViewData(it, false, false)!! }
+            ).map { ViewDataUtils.statusToViewData(it, false, false) }
         )
     }
 
     private fun assertHasList(aList: List<StatusViewData>) {
         assertEquals(
             aList,
-            viewModel.statuses.pairedCopy.toList()
+            viewModel.statuses.toList()
         )
     }
 

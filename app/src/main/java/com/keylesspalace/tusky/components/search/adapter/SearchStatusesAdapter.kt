@@ -52,7 +52,7 @@ class SearchStatusesAdapter(
 
         val STATUS_COMPARATOR = object : DiffUtil.ItemCallback<Pair<Status, StatusViewData.Concrete>>() {
             override fun areContentsTheSame(oldItem: Pair<Status, StatusViewData.Concrete>, newItem: Pair<Status, StatusViewData.Concrete>): Boolean =
-                    oldItem.second.deepEquals(newItem.second)
+                oldItem.second == newItem.second
 
             override fun areItemsTheSame(oldItem: Pair<Status, StatusViewData.Concrete>, newItem: Pair<Status, StatusViewData.Concrete>): Boolean =
                     oldItem.second.id == newItem.second.id

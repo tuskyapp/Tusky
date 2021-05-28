@@ -49,6 +49,7 @@ import com.keylesspalace.tusky.interfaces.StatusActionListener
 import com.keylesspalace.tusky.settings.PrefKeys
 import com.keylesspalace.tusky.util.*
 import com.keylesspalace.tusky.view.EndlessOnScrollListener
+import com.keylesspalace.tusky.viewdata.AttachmentViewData
 import com.keylesspalace.tusky.viewdata.StatusViewData
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable
@@ -192,7 +193,7 @@ class TimelineFragment : SFragment(), OnRefreshListener, StatusActionListener, I
     private fun setupRecyclerView() {
         binding.recyclerView.setAccessibilityDelegateCompat(
             ListStatusAccessibilityDelegate(binding.recyclerView, this)
-            { pos -> viewModel.statuses.getPairedItemOrNull(pos) }
+            { pos -> viewModel.statuses.getOrNull(pos) }
         )
         binding.recyclerView.setHasFixedSize(true)
         layoutManager = LinearLayoutManager(context)
@@ -314,7 +315,8 @@ class TimelineFragment : SFragment(), OnRefreshListener, StatusActionListener, I
     }
 
     override fun onReply(position: Int) {
-        super.reply(viewModel.statuses[position].asRight())
+        val status = viewModel.statuses[position].asStatusOrNull() ?: return
+        super.reply(status.status)
     }
 
     override fun onReblog(reblog: Boolean, position: Int) {
@@ -334,11 +336,13 @@ class TimelineFragment : SFragment(), OnRefreshListener, StatusActionListener, I
     }
 
     override fun onMore(view: View, position: Int) {
-        super.more(viewModel.statuses[position].asRight(), view, position)
+        // TODO
+//        super.more(viewModel.statuses[position].asRight(), view, position)
     }
 
     override fun onOpenReblog(position: Int) {
-        super.openReblog(viewModel.statuses[position].asRight())
+        // TODO
+//        super.openReblog(viewModel.statuses[position].asRight())
     }
 
     override fun onExpandedChange(expanded: Boolean, position: Int) {
@@ -352,13 +356,13 @@ class TimelineFragment : SFragment(), OnRefreshListener, StatusActionListener, I
     }
 
     override fun onShowReblogs(position: Int) {
-        val statusId = viewModel.statuses[position].asRight().id
+        val statusId = viewModel.statuses[position].asStatusOrNull()?.id ?: return
         val intent = newIntent(requireContext(), AccountListActivity.Type.REBLOGGED, statusId)
         (activity as BaseActivity).startActivityWithSlideInAnimation(intent)
     }
 
     override fun onShowFavs(position: Int) {
-        val statusId = viewModel.statuses[position].asRight().id
+        val statusId = viewModel.statuses[position].asStatusOrNull()?.id ?: return
         val intent = newIntent(requireContext(), AccountListActivity.Type.FAVOURITED, statusId)
         (activity as BaseActivity).startActivityWithSlideInAnimation(intent)
     }
@@ -372,12 +376,17 @@ class TimelineFragment : SFragment(), OnRefreshListener, StatusActionListener, I
     }
 
     override fun onViewMedia(position: Int, attachmentIndex: Int, view: View?) {
-        val status = viewModel.statuses.getOrNull(position)?.asRightOrNull() ?: return
-        super.viewMedia(attachmentIndex, status, view)
+        val status = viewModel.statuses[position].asStatusOrNull() ?: return
+        super.viewMedia(
+            attachmentIndex,
+            AttachmentViewData.list(status.actionable),
+            view
+        )
     }
 
     override fun onViewThread(position: Int) {
-        super.viewThread(viewModel.statuses[position].asRight())
+        val status = viewModel.statuses[position].asStatusOrNull() ?: return
+        super.viewThread(status.actionable.id, status.actionable.url)
     }
 
     override fun onViewTag(tag: String) {
@@ -467,7 +476,7 @@ class TimelineFragment : SFragment(), OnRefreshListener, StatusActionListener, I
     }
 
     private fun updateViews() {
-        differ.submitList(viewModel.statuses.pairedCopy)
+        differ.submitList(viewModel.statuses.toList())
 
         if (isAdded) {
             binding.swipeRefreshLayout.isRefreshing = viewModel.isRefreshing
@@ -608,7 +617,6 @@ class TimelineFragment : SFragment(), OnRefreshListener, StatusActionListener, I
         }
 
 
-
         private val diffCallback: DiffUtil.ItemCallback<StatusViewData> =
             object : DiffUtil.ItemCallback<StatusViewData>() {
                 override fun areItemsTheSame(
@@ -629,7 +637,7 @@ class TimelineFragment : SFragment(), OnRefreshListener, StatusActionListener, I
                     oldItem: StatusViewData,
                     newItem: StatusViewData
                 ): Any? {
-                    return if (oldItem.deepEquals(newItem)) {
+                    return if (oldItem === newItem) {
                         // If items are equal - update timestamp only
                         listOf(StatusBaseViewHolder.Key.KEY_CREATED)
                     } else  // If items are different - update the whole view holder

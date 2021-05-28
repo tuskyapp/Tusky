@@ -86,9 +86,7 @@ public abstract class NotificationViewData {
             return type == concrete.type &&
                     Objects.equals(id, concrete.id) &&
                     account.getId().equals(concrete.account.getId()) &&
-                    (statusViewData == concrete.statusViewData ||
-                            statusViewData != null &&
-                                    statusViewData.deepEquals(concrete.statusViewData));
+                    (Objects.equals(statusViewData, concrete.statusViewData));
         }
 
         @Override

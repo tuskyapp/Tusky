@@ -22,8 +22,8 @@ import com.google.gson.annotations.SerializedName
 import java.util.*
 
 data class Status(
-        var id: String,
-        var url: String?, // not present if it's reblog
+        val id: String,
+        val url: String?, // not present if it's reblog
         val account: Account,
         @SerializedName("in_reply_to_id") var inReplyToId: String?,
         @SerializedName("in_reply_to_account_id") val inReplyToAccountId: String?,
@@ -40,10 +40,10 @@ data class Status(
         @SerializedName("spoiler_text") val spoilerText: String,
         val visibility: Visibility,
         @SerializedName("media_attachments") var attachments: ArrayList<Attachment>,
-        val mentions: Array<Mention>,
+        val mentions: List<Mention>,
         val application: Application?,
-        var pinned: Boolean?,
-        var muted: Boolean?,
+        val pinned: Boolean?,
+        val muted: Boolean?,
         val poll: Poll?,
         val card: Card?
 ) {

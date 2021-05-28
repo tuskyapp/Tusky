@@ -110,12 +110,13 @@ class StatusDetailedViewHolder extends StatusBaseViewHolder {
         if (payloads == null) {
 
             if (!statusDisplayOptions.hideStats()) {
-                setReblogAndFavCount(status.getReblogsCount(), status.getFavouritesCount(), listener);
+                setReblogAndFavCount(status.getActionable().getReblogsCount(),
+                        status.getActionable().getFavouritesCount(), listener);
             } else {
                 hideQuantitativeStats();
             }
 
-            setApplication(status.getApplication());
+            setApplication(status.getActionable().getApplication());
 
             View.OnLongClickListener longClickListener = view -> {
                 TextView textView = (TextView) view;
@@ -130,7 +131,7 @@ class StatusDetailedViewHolder extends StatusBaseViewHolder {
 
             content.setOnLongClickListener(longClickListener);
             contentWarningDescription.setOnLongClickListener(longClickListener);
-            setStatusVisibility(status.getVisibility());
+            setStatusVisibility(status.getActionable().getVisibility());
         }
     }
 

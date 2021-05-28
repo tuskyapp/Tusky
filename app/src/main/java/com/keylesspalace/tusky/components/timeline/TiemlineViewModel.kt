@@ -1,7 +1,6 @@
 package com.keylesspalace.tusky.components.timeline
 
 import android.util.Log
-import androidx.core.util.Pair
 import androidx.lifecycle.viewModelScope
 import com.keylesspalace.tusky.appstore.*
 import com.keylesspalace.tusky.entity.Filter
@@ -58,19 +57,7 @@ class TimelineViewModel @Inject constructor(
      */
     private var nextId: String? = null
 
-    val statuses = PairedList<Either<Placeholder, Status>, StatusViewData> { input ->
-        val status = input.asRightOrNull()
-        if (status != null) {
-            ViewDataUtils.statusToViewData(
-                status,
-                alwaysShowSensitiveMedia,
-                alwaysOpenSpoilers
-            )
-        } else {
-            val (id1) = input.asLeft()
-            StatusViewData.Placeholder(id1, false)
-        }
-    }
+    val statuses = mutableListOf<StatusViewData>()
 
     fun init(
         kind: Kind, id: String?, tags: List<String>, alwaysShowSensitiveMedia: Boolean,
@@ -90,10 +77,7 @@ class TimelineViewModel @Inject constructor(
     }
 
     private suspend fun updateCurrent() {
-        if (statuses.isEmpty()) {
-            return
-        }
-        val topId = statuses.first { status -> status.isRight() }!!.asRight().id
+        val topId = statuses.firstIsInstanceOrNull<StatusViewData.Concrete>()?.id ?: return
         val statuses = try {
             timelineRepo.getStatuses(
                 maxId = topId,
@@ -122,25 +106,23 @@ class TimelineViewModel @Inject constructor(
         if (statuses.isNotEmpty()) {
             val mutableStatuses = statuses.toMutableList()
             filterStatuses(mutableStatuses)
-            if (!this.statuses.isEmpty()) {
-                // clear old cached statuses
-                val iterator = this.statuses.iterator()
-                while (iterator.hasNext()) {
-                    val item = iterator.next()
-                    if (item.isRight()) {
-                        val (id1) = item.asRight()
-                        if (id1.length < topId.length || id1 < topId) {
-                            iterator.remove()
-                        }
-                    } else {
-                        val (id1) = item.asLeft()
-                        if (id1.length < topId.length || id1 < topId) {
-                            iterator.remove()
-                        }
-                    }
-                }
+            this.statuses.removeAll { item ->
+                val id = if (item is StatusViewData.Concrete) item.id
+                else (item as StatusViewData.Placeholder).id
+
+                id.isLessThan(topId)
             }
-            this.statuses.addAll(mutableStatuses)
+            this.statuses.addAll(mutableStatuses.map {
+                if (it.isLeft()) {
+                    StatusViewData.Placeholder(it.asLeft().id, false)
+                } else {
+                    ViewDataUtils.statusToViewData(
+                        it.asRight(),
+                        this.alwaysShowSensitiveMedia,
+                        this.alwaysOpenSpoilers
+                    )
+                }
+            })
         }
         bottomLoading = false
         triggerViewUpdate()
@@ -166,26 +148,24 @@ class TimelineViewModel @Inject constructor(
                 return@launch
             }
             bottomLoading = true
-            val last = statuses[statuses.size - 1]
-            val placeholder: Placeholder
-            if (last!!.isRight()) {
-                val placeholderId = last.asRight().id.dec()
-                placeholder = Placeholder(placeholderId)
-                statuses.add(Either.Left(placeholder))
+            val last = statuses.last()
+            val placeholder: StatusViewData.Placeholder
+            if (last is StatusViewData.Concrete) {
+                val placeholderId = last.id.dec()
+                placeholder = StatusViewData.Placeholder(placeholderId, true)
+                statuses.add(placeholder)
             } else {
-                placeholder = last.asLeft()
+                placeholder = last as StatusViewData.Placeholder
             }
-            statuses.setPairedItem(
-                statuses.size - 1,
-                StatusViewData.Placeholder(placeholder.id, true)
-            )
+            statuses[statuses.lastIndex] = placeholder
             triggerViewUpdate()
 
             val bottomId: String? =
                 if (kind == Kind.FAVOURITES || kind == Kind.BOOKMARKS) {
                     nextId
                 } else {
-                    statuses.lastOrNull { it.isRight() }?.asRight()?.id
+                    statuses.lastOrNull { it is StatusViewData.Concrete }
+                        ?.let { (it as StatusViewData.Concrete).id }
                 }
 
             loadBelow(bottomId)
@@ -196,16 +176,19 @@ class TimelineViewModel @Inject constructor(
         return viewModelScope.launch {
             //check bounds before accessing list,
             if (statuses.size >= position && position > 0) {
-                val fromStatus = statuses[position - 1].asRightOrNull()
-                val toStatus = statuses[position + 1].asRightOrNull()
-                val maxMinusOne = statuses.getOrNull(position + 2)?.asRightOrNull()?.id
+                val fromStatus = statuses[position - 1].asStatusOrNull()
+                val toStatus = statuses[position + 1].asStatusOrNull()
+                val maxMinusOne = statuses.getOrNull(position + 2)?.asStatusOrNull()?.id
                 if (fromStatus == null || toStatus == null) {
                     Log.e(TAG, "Failed to load more at $position, wrong placeholder position")
                     return@launch
                 }
-                val (id1) = statuses[position].asLeft()
-                val newViewData: StatusViewData = StatusViewData.Placeholder(id1, true)
-                statuses.setPairedItem(position, newViewData)
+                val placeholder = statuses[position].asPlaceholderOrNull() ?: run {
+                    Log.e(TAG, "Not a placeholder at $position")
+                    return@launch
+                }
+                val newViewData: StatusViewData = StatusViewData.Placeholder(placeholder.id, true)
+                statuses[position] = newViewData
                 triggerViewUpdate()
 
                 sendFetchTimelineRequest(
@@ -219,11 +202,9 @@ class TimelineViewModel @Inject constructor(
     }
 
     fun reblog(reblog: Boolean, position: Int) {
-        val status = statuses[position].asRight()
-        timelineCases.reblog(status, reblog)
-            .subscribe(
-                { newStatus: Status -> setRebloggedForStatus(position, newStatus, reblog) }
-            ) { t: Throwable? ->
+        val status = statuses[position].asStatusOrNull() ?: return
+        timelineCases.reblog(status.id, reblog)
+            .subscribe({ newStatus -> updateWithNewStatus(newStatus) }) { t: Throwable? ->
                 Log.d(
                     TAG,
                     "Failed to reblog status " + status.id,
@@ -234,110 +215,85 @@ class TimelineViewModel @Inject constructor(
     }
 
     fun favorite(favorite: Boolean, position: Int) {
-        val status = statuses[position].asRight()
-        timelineCases.favourite(status, favorite)
+        val status = statuses[position].asStatusOrNull() ?: return
+        timelineCases.favourite(status.id, favorite)
             .subscribe(
-                { newStatus: Status -> setFavoriteForStatus(position, newStatus, favorite) },
+                { newStatus -> updateWithNewStatus(newStatus) },
                 { t: Throwable? -> Log.d(TAG, "Failed to favourite status " + status.id, t) }
             )
             .autoDispose()
     }
 
     fun bookmark(bookmark: Boolean, position: Int) {
-        val status = statuses[position].asRight()
-        timelineCases.bookmark(status, bookmark)
+        val status = statuses[position].asStatusOrNull() ?: return
+        timelineCases.bookmark(status.id, bookmark)
             .subscribe(
-                { newStatus: Status -> setBookmarkForStatus(position, newStatus, bookmark) },
+                { newStatus -> updateWithNewStatus(newStatus) },
                 { t: Throwable? -> Log.d(TAG, "Failed to favourite status " + status.id, t) }
             )
             .autoDispose()
     }
 
     fun voteInPoll(position: Int, choices: List<Int>) {
-        val status = statuses[position].asRight()
-        val votedPoll = status.actionableStatus.poll!!.votedCopy(choices)
-        setVoteForPoll(position, status, votedPoll)
-        timelineCases.voteInPoll(status, choices)
+        val status = statuses[position].asStatusOrNull() ?: return
+        val poll = status.status.poll ?: run {
+            Log.w(TAG, "No poll on status ${status.id}")
+            return
+        }
+        // TODO
+//        val votedPoll = status.actionableStatus.poll!!.votedCopy(choices)
+//        setVoteForPoll(position, status, votedPoll)
+        timelineCases.voteInPoll(status.id, poll.id, choices)
             .subscribe(
-                { newPoll: Poll -> setVoteForPoll(position, status, newPoll) },
+                { newPoll: Poll ->
+                    updateStatusById(
+                        status.id,
+                        { it.copy(status = it.status.copy(poll = newPoll)) }
+                    )
+                },
                 { t: Throwable? -> Log.d(TAG, "Failed to vote in poll: " + status.id, t) }
             )
             .autoDispose()
     }
 
     fun changeExpanded(expanded: Boolean, position: Int) {
-        val newViewData: StatusViewData = StatusViewData.Builder(
-            statuses.getPairedItem(position) as StatusViewData.Concrete
-        )
-            .setIsExpanded(expanded).createStatusViewData()
-        statuses.setPairedItem(position, newViewData)
+        updateStatusAt(position) { it.copy(isExpanded = expanded) }
         triggerViewUpdate()
     }
 
     fun changeContentHidden(isShowing: Boolean, position: Int) {
-        val newViewData: StatusViewData = StatusViewData.Builder(
-            statuses.getPairedItem(position) as StatusViewData.Concrete
-        )
-            .setIsShowingSensitiveContent(isShowing).createStatusViewData()
-        statuses.setPairedItem(position, newViewData)
+        updateStatusAt(position) { it.copy(isShowingContent = isShowing) }
         triggerViewUpdate()
     }
 
     fun changeContentCollapsed(isCollapsed: Boolean, position: Int) {
-        if (position < 0 || position >= statuses.size) {
-            Log.e(
-                TAG,
-                String.format(
-                    "Tried to access out of bounds status position: %d of %d",
-                    position,
-                    statuses.size - 1
-                )
-            )
-            return
-        }
-        val status = statuses.getPairedItem(position)
-        if (status !is StatusViewData.Concrete) {
-            // Statuses PairedList contains a base type of StatusViewData.Concrete and also doesn't
-            // check for null values when adding values to it although this doesn't seem to be an issue.
-            Log.e(
-                TAG, String.format(
-                    "Expected StatusViewData.Concrete, got %s instead at position: %d of %d",
-                    status?.javaClass?.simpleName ?: "<null>",
-                    position,
-                    statuses.size - 1
-                )
-            )
-            return
-        }
-        val updatedStatus: StatusViewData = StatusViewData.Builder(status)
-            .setCollapsed(isCollapsed)
-            .createStatusViewData()
-        statuses.setPairedItem(position, updatedStatus)
+        updateStatusAt(position) { it.copy(isCollapsed = isCollapsed) }
         triggerViewUpdate()
     }
 
     fun removeAllByAccountId(accountId: String) {
         // using iterator to safely remove items while iterating
         val iterator = statuses.iterator()
-        while (iterator.hasNext()) {
-            val status = iterator.next().asRightOrNull()
-            if (status != null &&
-                (status.account.id == accountId || status.actionableStatus.account.id == accountId)
-            ) {
-                iterator.remove()
-            }
-        }
+        // TODO
+//        while (iterator.hasNext()) {
+//            val status = iterator.next().asStatusOrNull()
+//            if (status != null &&
+//                (status.account.id == accountId || status.actionableStatus.account.id == accountId)
+//            ) {
+//                iterator.remove()
+//            }
+//        }
     }
 
     fun removeAllByInstance(instance: String) {
         // using iterator to safely remove items while iterating
         val iterator = statuses.iterator()
-        while (iterator.hasNext()) {
-            val status = iterator.next().asRightOrNull()
-            if (status != null && LinkHelper.getDomain(status.account.url) == instance) {
-                iterator.remove()
-            }
-        }
+//        while (iterator.hasNext()) {
+//            val status = iterator.next().asStatusOrNull()
+//            if (status != null && LinkHelper.getDomain(status.account.url) == instance) {
+//                iterator.remove()
+//            }
+//        }
     }
 
     private fun triggerViewUpdate() {
@@ -402,6 +358,10 @@ class TimelineViewModel @Inject constructor(
         }
     }
 
+    private fun updateWithNewStatus(newStatus: Status) {
+        updateStatusById(newStatus.id) { it.copy(status = newStatus) }
+    }
+
     private fun onFetchTimelineSuccess(
         statuses: MutableList<Either<Placeholder, Status>>,
         fetchEnd: FetchEnd, pos: Int
@@ -419,8 +379,8 @@ class TimelineViewModel @Inject constructor(
                 replacePlaceholderWithStatuses(statuses, fullFetch, pos)
             }
             FetchEnd.BOTTOM -> {
-                if (!this.statuses.isEmpty()
-                    && !this.statuses[this.statuses.size - 1].isRight()
+                if (this.statuses.isNotEmpty()
+                    && this.statuses[this.statuses.size - 1] !is StatusViewData.Concrete
                 ) {
                     this.statuses.removeAt(this.statuses.size - 1)
                 }
@@ -456,16 +416,8 @@ class TimelineViewModel @Inject constructor(
         this.isRefreshing = false
         // TODO
 //        binding.topProgressBar.hide()
-        if (fetchEnd == FetchEnd.MIDDLE && !statuses[position].isRight()) {
-            var placeholder = statuses[position].asLeftOrNull()
-            val newViewData: StatusViewData
-            if (placeholder == null) {
-                val (id1) = statuses[position - 1].asRight()
-                val newId = id1.dec()
-                placeholder = Placeholder(newId)
-            }
-            newViewData = StatusViewData.Placeholder(placeholder.id, false)
-            statuses.setPairedItem(position, newViewData)
+        if (fetchEnd == FetchEnd.MIDDLE && statuses[position] is StatusViewData.Placeholder) {
+            updatePlacesholderAt(position) { it.copy(isLoading = false) }
         } else if (statuses.isEmpty()) {
             // TODO
 //            binding.swipeRefreshLayout.isEnabled = false
@@ -494,23 +446,28 @@ class TimelineViewModel @Inject constructor(
         fullFetch: Boolean
     ) {
         if (statuses.isEmpty()) {
-            statuses.addAll(newStatuses)
+            statuses.addAll(newStatuses.toViewData())
         } else {
             val lastOfNew = newStatuses.lastOrNull()
-            val index = if (lastOfNew == null) -1 else statuses.indexOf(lastOfNew)
+            val index = if (lastOfNew == null) -1
+            else statuses.indexOfLast { it.asStatusOrNull()?.id === lastOfNew.asRightOrNull()?.id }
             if (index >= 0) {
                 statuses.subList(0, index).clear()
             }
-            val newIndex = newStatuses.indexOf(statuses[0])
+
+            val newIndex =
+                newStatuses.indexOfFirst {
+                    it.isRight() && it.asRight().id == (statuses[0] as? StatusViewData.Concrete)?.id
+                }
             if (newIndex == -1) {
                 if (index == -1 && fullFetch) {
                     val placeholderId =
                         newStatuses.last { status -> status.isRight() }.asRight().id.inc()
                     newStatuses.add(Either.Left(Placeholder(placeholderId)))
                 }
-                statuses.addAll(0, newStatuses)
+                statuses.addAll(0, newStatuses.toViewData())
             } else {
-                statuses.addAll(0, newStatuses.subList(0, newIndex))
+                statuses.addAll(0, newStatuses.subList(0, newIndex).toViewData())
             }
         }
         // Remove all consecutive placeholders
@@ -548,54 +505,6 @@ class TimelineViewModel @Inject constructor(
         return nextLink.getQueryParameter("max_id")
     }
 
-    private fun setRebloggedForStatus(position: Int, status: Status, reblog: Boolean) {
-        status.reblogged = reblog
-        if (status.reblog != null) {
-            status.reblog.reblogged = reblog
-        }
-        val actual = findStatusAndPosition(position, status) ?: return
-        val newViewData: StatusViewData = StatusViewData.Builder(actual.first)
-            .setReblogged(reblog)
-            .createStatusViewData()
-        statuses.setPairedItem(actual.second!!, newViewData)
-        triggerViewUpdate()
-    }
-
-    private fun setFavoriteForStatus(position: Int, status: Status, favourite: Boolean) {
-        status.favourited = favourite
-        if (status.reblog != null) {
-            status.reblog.favourited = favourite
-        }
-        val actual = findStatusAndPosition(position, status) ?: return
-        val newViewData: StatusViewData = StatusViewData.Builder(actual.first)
-            .setFavourited(favourite)
-            .createStatusViewData()
-        statuses.setPairedItem(actual.second!!, newViewData)
-        triggerViewUpdate()
-    }
-
-    private fun setBookmarkForStatus(position: Int, status: Status, bookmark: Boolean) {
-        status.bookmarked = bookmark
-        if (status.reblog != null) {
-            status.reblog.bookmarked = bookmark
-        }
-        val actual = findStatusAndPosition(position, status) ?: return
-        val newViewData: StatusViewData = StatusViewData.Builder(actual.first)
-            .setBookmarked(bookmark)
-            .createStatusViewData()
-        statuses.setPairedItem(actual.second!!, newViewData)
-        triggerViewUpdate()
-    }
-
-    private fun setVoteForPoll(position: Int, status: Status, newPoll: Poll) {
-        val actual = findStatusAndPosition(position, status) ?: return
-        val newViewData: StatusViewData = StatusViewData.Builder(actual.first)
-            .setPoll(newPoll)
-            .createStatusViewData()
-        statuses.setPairedItem(actual.second!!, newViewData)
-        triggerViewUpdate()
-    }
-
     private suspend fun tryCache() {
         // Request timeline from disk to make it quick, then replace it with timeline from
         // the server to update it
@@ -608,7 +517,7 @@ class TimelineViewModel @Inject constructor(
         if (statuses.size > 1) {
             clearPlaceholdersForResponse(mutableStatusResponse)
             this.statuses.clear()
-            this.statuses.addAll(statuses)
+            this.statuses.addAll(statuses.toViewData())
 
             this.isLoadingInitially = false
             this.triggerViewUpdate()
@@ -637,12 +546,10 @@ class TimelineViewModel @Inject constructor(
             var firstOrNull: String? = null
             var secondOrNull: String? = null
             for (i in statuses.indices) {
-                val status = statuses[i]
-                if (status.isRight()) {
-                    firstOrNull = status.asRight().id
-                    secondOrNull = statuses.getOrNull(i + 1)?.asRightOrNull()?.id
-                    break
-                }
+                val status = statuses[i].asStatusOrNull() ?: continue
+                firstOrNull = status.id
+                secondOrNull = statuses.getOrNull(i + 1)?.asStatusOrNull()?.id
+                break
             }
 
             if (firstOrNull != null) {
@@ -745,42 +652,47 @@ class TimelineViewModel @Inject constructor(
         fullFetch: Boolean, pos: Int
     ) {
         val placeholder = statuses[pos]
-        if (placeholder.isLeft()) {
+        if (placeholder is StatusViewData.Placeholder) {
             statuses.removeAt(pos)
         }
         if (newStatuses.isEmpty()) {
             return
         }
+        val newViewData = newStatuses
+            .toViewData()
+            .toMutableList()
+
         if (fullFetch) {
-            newStatuses.add(placeholder)
+            newViewData.add(placeholder)
         }
-        statuses.addAll(pos, newStatuses)
+        statuses.addAll(pos, newViewData)
         removeConsecutivePlaceholders()
         triggerViewUpdate()
     }
 
     private fun removeConsecutivePlaceholders() {
         for (i in 0 until statuses.size - 1) {
-            if (statuses[i].isLeft() && statuses[i + 1].isLeft()) {
+            if (statuses[i] is StatusViewData.Placeholder &&
+                statuses[i + 1] is StatusViewData.Placeholder
+            ) {
                 statuses.removeAt(i)
             }
         }
     }
 
-    private fun addItems(newStatuses: List<Either<Placeholder, Status>?>) {
+    private fun addItems(newStatuses: List<Either<Placeholder, Status>>) {
         if (newStatuses.isEmpty()) {
             return
         }
-        val last = statuses.last { status ->
-            status.isRight()
-        }
+        val last = statuses.lastOrNull { status -> status is StatusViewData.Concrete }
 
         // I was about to replace findStatus with indexOf but it is incorrect to compare value
         // types by ID anyway and we should change equals() for Status, I think, so this makes sense
-        if (last != null && !newStatuses.contains(last)) {
-            statuses.addAll(newStatuses)
-            removeConsecutivePlaceholders()
-        }
+        // TODO: wat
+//        if (last != null && !newStatuses.contains(last)) {
+        statuses.addAll(newStatuses.toViewData())
+        removeConsecutivePlaceholders()
+//        }
     }
 
     private fun liftStatusList(list: List<Status>): List<Either<Placeholder, Status>> {
@@ -798,32 +710,20 @@ class TimelineViewModel @Inject constructor(
         { value -> Either.Right(value) }
 
     private fun handleReblogEvent(reblogEvent: ReblogEvent) {
-        val pos = findStatusOrReblogPositionById(reblogEvent.statusId)
-        if (pos < 0) return
-        val status = statuses[pos].asRight()
-        setRebloggedForStatus(pos, status, reblogEvent.reblog)
+        updateStatusById(reblogEvent.statusId) {
+            it.copy(status = it.status.copy(reblogged = reblogEvent.reblog))
+        }
     }
 
     private fun handleFavEvent(favEvent: FavoriteEvent) {
-        val pos = findStatusOrReblogPositionById(favEvent.statusId)
-        if (pos < 0) return
-        val status = statuses[pos].asRight()
-        setFavoriteForStatus(pos, status, favEvent.favourite)
+        updateStatusById(favEvent.statusId) {
+            it.copy(status = it.status.copy(favourited = favEvent.favourite))
+        }
     }
 
     private fun handleBookmarkEvent(bookmarkEvent: BookmarkEvent) {
-        val pos = findStatusOrReblogPositionById(bookmarkEvent.statusId)
-        if (pos < 0) return
-        val status = statuses[pos].asRight()
-        setBookmarkForStatus(pos, status, bookmarkEvent.bookmark)
-    }
-
-    private fun findStatusOrReblogPositionById(statusId: String): Int {
-        return statuses.indexOfFirst { either ->
-            val status = either.asRightOrNull()
-            status != null &&
-                    (statusId == status.id ||
-                            (status.reblog != null && statusId == status.reblog.id))
+        updateStatusById(bookmarkEvent.statusId) {
+            it.copy(status = it.status.copy(bookmarked = bookmarkEvent.bookmark))
         }
     }
 
@@ -842,8 +742,8 @@ class TimelineViewModel @Inject constructor(
     private fun deleteStatusById(id: String) {
         for (i in statuses.indices) {
             val either = statuses[i]
-            if (either.isRight() && id == either.asRight().id) {
-                statuses.remove(either)
+            if (either.asStatusOrNull()?.id == id) {
+                statuses.removeAt(i)
                 break
             }
         }
@@ -972,28 +872,42 @@ class TimelineViewModel @Inject constructor(
         )
     }
 
-    private fun findStatusAndPosition(
-        position: Int,
-        status: Status
-    ): Pair<StatusViewData.Concrete, Int>? {
-        val statusToUpdate: StatusViewData.Concrete
-        val positionToUpdate: Int
-        val someOldViewData = statuses.getPairedItem(position)
+    private inline fun updateStatusById(
+        id: String,
+        updater: (StatusViewData.Concrete) -> StatusViewData.Concrete
+    ) {
+        val pos = statuses.indexOfFirst { it.asStatusOrNull()?.id == id }
+        if (pos == -1) return
+        updateStatusAt(pos, updater)
+    }
 
-        // Unlikely, but data could change between the request and response
-        if (someOldViewData is StatusViewData.Placeholder ||
-            (someOldViewData as StatusViewData.Concrete).id != status.id
-        ) {
-            // try to find the status we need to update
-            val foundPos = statuses.indexOf(Either.Right(status))
-            if (foundPos < 0) return null // okay, it's hopeless, give up
-            statusToUpdate = statuses.getPairedItem(foundPos) as StatusViewData.Concrete
-            positionToUpdate = position
+    private inline fun updateStatusAt(
+        position: Int,
+        updater: (StatusViewData.Concrete) -> StatusViewData.Concrete
+    ) {
+        val status = statuses.getOrNull(position)?.asStatusOrNull() ?: return
+        statuses[position] = updater(status)
+        triggerViewUpdate()
+    }
+
+    private inline fun updatePlacesholderAt(
+        position: Int,
+        updater: (StatusViewData.Placeholder) -> StatusViewData.Placeholder
+    ) {
+        val placeholder = statuses.getOrNull(position)?.asPlaceholderOrNull() ?: return
+        statuses[position] = updater(placeholder)
+    }
+
+    private fun List<TimelineStatus>.toViewData(): List<StatusViewData> = this.map {
+        if (it.isRight()) {
+            ViewDataUtils.statusToViewData(
+                it.asRight(),
+                alwaysShowSensitiveMedia,
+                alwaysOpenSpoilers
+            )
         } else {
-            statusToUpdate = someOldViewData
-            positionToUpdate = position
+            StatusViewData.Placeholder(it.asLeft().id, false)
         }
-        return Pair(statusToUpdate, positionToUpdate)
     }
 
     companion object {

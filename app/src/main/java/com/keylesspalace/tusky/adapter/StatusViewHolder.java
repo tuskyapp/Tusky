@@ -26,12 +26,16 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.keylesspalace.tusky.R;
+import com.keylesspalace.tusky.entity.Emoji;
+import com.keylesspalace.tusky.entity.Status;
 import com.keylesspalace.tusky.interfaces.StatusActionListener;
 import com.keylesspalace.tusky.util.CustomEmojiHelper;
 import com.keylesspalace.tusky.util.SmartLengthInputFilter;
 import com.keylesspalace.tusky.util.StatusDisplayOptions;
 import com.keylesspalace.tusky.util.StringUtils;
 import com.keylesspalace.tusky.viewdata.StatusViewData;
+
+import java.util.List;
 
 import at.connyduck.sparkbutton.helpers.Utils;
 
@@ -41,6 +45,7 @@ public class StatusViewHolder extends StatusBaseViewHolder {
 
     private TextView statusInfo;
     private Button contentCollapseButton;
+
     public StatusViewHolder(View itemView) {
         super(itemView);
         statusInfo = itemView.findViewById(R.id.status_info);
@@ -54,18 +59,20 @@ public class StatusViewHolder extends StatusBaseViewHolder {
 
     @Override
     public void setupWithStatus(StatusViewData.Concrete status,
-                                   final StatusActionListener listener,
-                                   StatusDisplayOptions statusDisplayOptions,
-                                   @Nullable Object payloads) {
+                                final StatusActionListener listener,
+                                StatusDisplayOptions statusDisplayOptions,
+                                @Nullable Object payloads) {
         if (payloads == null) {
 
             setupCollapsedState(status, listener);
 
-            String rebloggedByDisplayName = status.getRebloggedByUsername();
-            if (rebloggedByDisplayName == null) {
+            Status reblogging = status.getRebloggingStatus();
+            if (reblogging == null) {
                 hideStatusInfo();
             } else {
-                setRebloggedByDisplayName(rebloggedByDisplayName, status, statusDisplayOptions);
+                String rebloggedByDisplayName = reblogging.getAccount().getDisplayName();
+                setRebloggedByDisplayName(rebloggedByDisplayName,
+                        reblogging.getAccount().getEmojis(), statusDisplayOptions);
                 statusInfo.setOnClickListener(v -> listener.onOpenReblog(getBindingAdapterPosition()));
             }
 
@@ -75,13 +82,13 @@ public class StatusViewHolder extends StatusBaseViewHolder {
     }
 
     private void setRebloggedByDisplayName(final CharSequence name,
-                                           final StatusViewData.Concrete status,
+                                           final List<Emoji> accountEmoji,
                                            final StatusDisplayOptions statusDisplayOptions) {
         Context context = statusInfo.getContext();
         CharSequence wrappedName = StringUtils.unicodeWrap(name);
         CharSequence boostedText = context.getString(R.string.status_boosted_format, wrappedName);
         CharSequence emojifiedText = CustomEmojiHelper.emojify(
-                boostedText, status.getRebloggedByAccountEmojis(), statusInfo, statusDisplayOptions.animateEmojis()
+                boostedText, accountEmoji, statusInfo, statusDisplayOptions.animateEmojis()
         );
         statusInfo.setText(emojifiedText);
         statusInfo.setVisibility(View.VISIBLE);
