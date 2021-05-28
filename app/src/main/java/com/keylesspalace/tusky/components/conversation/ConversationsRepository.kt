@@ -71,7 +71,7 @@ class ConversationsRepository @Inject constructor(val mastodonApi: MastodonApi, 
         // we are using a mutable live data to trigger refresh requests which eventually calls
         // refresh method and gets a new live data. Each refresh request by the user becomes a newly
         // dispatched data in refreshTrigger
-        val refreshTrigger = MutableLiveData<Unit>()
+        val refreshTrigger = MutableLiveData<Unit?>()
         val refreshState = Transformations.switchMap(refreshTrigger) {
             refresh(accountId, true)
         }
