@@ -37,6 +37,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.WindowInsetsCompat.Type.systemBars
 import androidx.emoji.text.EmojiCompat
 import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -239,7 +240,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
     private fun setupToolbar() {
         // set toolbar top margin according to system window insets
         ViewCompat.setOnApplyWindowInsetsListener(binding.accountCoordinatorLayout) { _, insets ->
-            val top = insets.getInsets(WindowInsetsCompat.Type.systemBars()).top
+            val top = insets.getInsets(systemBars()).top
             val toolbarParams = binding.accountToolbar.layoutParams as ViewGroup.MarginLayoutParams
             toolbarParams.topMargin = top
             WindowInsetsCompat.CONSUMED

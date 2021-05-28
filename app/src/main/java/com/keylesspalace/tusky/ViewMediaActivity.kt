@@ -34,15 +34,9 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.view.ViewGroup
 import android.webkit.MimeTypeMap
 import android.widget.Toast
 import androidx.core.content.FileProvider
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowCompat
-import androidx.core.view.WindowInsetsCompat
-import androidx.core.view.WindowInsetsCompat.Type.systemBars
-import androidx.core.view.WindowInsetsControllerCompat
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Lifecycle
 import androidx.viewpager2.adapter.FragmentStateAdapter
@@ -55,8 +49,8 @@ import com.keylesspalace.tusky.BuildConfig.APPLICATION_ID
 import com.keylesspalace.tusky.databinding.ActivityViewMediaBinding
 import com.keylesspalace.tusky.entity.Attachment
 import com.keylesspalace.tusky.fragment.ViewImageFragment
-import com.keylesspalace.tusky.pager.SingleImagePagerAdapter
 import com.keylesspalace.tusky.pager.ImagePagerAdapter
+import com.keylesspalace.tusky.pager.SingleImagePagerAdapter
 import com.keylesspalace.tusky.util.getTemporaryMediaFilename
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.viewdata.AttachmentViewData
@@ -143,17 +137,7 @@ class ViewMediaActivity : BaseActivity(), ViewImageFragment.PhotoActionsListener
             true
         }
 
-        WindowCompat.setDecorFitsSystemWindows(window, false)
-
-        // make sure the toolbar does not move when the system bars are hidden
-        ViewCompat.setOnApplyWindowInsetsListener(binding.root) { _, insets ->
-            val top = insets.getInsets(systemBars()).top
-            val toolbarParams = binding.toolbar.layoutParams as ViewGroup.MarginLayoutParams
-            toolbarParams.topMargin = top
-            WindowInsetsCompat.CONSUMED
-        }
-        // hide the system bars
-        WindowInsetsControllerCompat(window, window.decorView).hide(systemBars())
+        window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LOW_PROFILE
 
         window.statusBarColor = Color.BLACK
         window.sharedElementEnterTransition.addListener(object : NoopTransitionListener {
