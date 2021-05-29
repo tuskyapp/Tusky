@@ -28,7 +28,6 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.arch.core.util.Function;
-import androidx.core.util.Pair;
 import androidx.lifecycle.Lifecycle;
 import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.DividerItemDecoration;
@@ -48,6 +47,7 @@ import com.keylesspalace.tusky.appstore.BlockEvent;
 import com.keylesspalace.tusky.appstore.BookmarkEvent;
 import com.keylesspalace.tusky.appstore.EventHub;
 import com.keylesspalace.tusky.appstore.FavoriteEvent;
+import com.keylesspalace.tusky.appstore.PinEvent;
 import com.keylesspalace.tusky.appstore.ReblogEvent;
 import com.keylesspalace.tusky.appstore.StatusComposedEvent;
 import com.keylesspalace.tusky.appstore.StatusDeletedEvent;
@@ -196,6 +196,8 @@ public final class ViewThreadFragment extends SFragment implements
                         handleReblogEvent((ReblogEvent) event);
                     } else if (event instanceof BookmarkEvent) {
                         handleBookmarkEvent((BookmarkEvent) event);
+                    } else if (event instanceof PinEvent) {
+                        handlePinEvent(((PinEvent) event));
                     } else if (event instanceof BlockEvent) {
                         removeAllByAccountId(((BlockEvent) event).getAccountId());
                     } else if (event instanceof StatusComposedEvent) {
@@ -244,7 +246,7 @@ public final class ViewThreadFragment extends SFragment implements
                 .observeOn(AndroidSchedulers.mainThread())
                 .to(autoDisposable(from(this)))
                 .subscribe(
-                        (newStatus) -> updateStatus(position, newStatus),
+                        this::replaceStatus,
                         (t) -> Log.d(TAG,
                                 "Failed to reblog status: " + status.getId(), t)
                 );
@@ -258,7 +260,7 @@ public final class ViewThreadFragment extends SFragment implements
                 .observeOn(AndroidSchedulers.mainThread())
                 .to(autoDisposable(from(this)))
                 .subscribe(
-                        (newStatus) -> updateStatus(position, newStatus),
+                        this::replaceStatus,
                         (t) -> Log.d(TAG,
                                 "Failed to favourite status: " + status.getId(), t)
                 );
@@ -272,17 +274,25 @@ public final class ViewThreadFragment extends SFragment implements
                 .observeOn(AndroidSchedulers.mainThread())
                 .to(autoDisposable(from(this)))
                 .subscribe(
-                        (newStatus) -> updateStatus(position, newStatus),
+                        this::replaceStatus,
                         (t) -> Log.d(TAG,
                                 "Failed to bookmark status: " + status.getId(), t)
                 );
     }
 
-    private void updateStatus(int position, Status status) {
+    private void replaceStatus(Status status) {
+        updateStatus(status.getId(), (__) -> status);
+    }
+
+    private void updateStatus(String statusId, Function<Status, Status> mapper) {
+        int position = indexOfStatus(statusId);
+
         if (position >= 0 && position < statuses.size()) {
+            Status oldStatus = statuses.get(position);
+            Status newStatus = mapper.apply(oldStatus);
             StatusViewData.Concrete oldViewData = statuses.getPairedItem(position);
-            statuses.set(position, status);
-            updateViewData(position, oldViewData.copyWithStatus(status));
+            statuses.set(position, newStatus);
+            updateViewData(position, oldViewData.copyWithStatus(newStatus));
         }
     }
 
@@ -386,21 +396,21 @@ public final class ViewThreadFragment extends SFragment implements
     public void onVoteInPoll(int position, @NonNull List<Integer> choices) {
         final Status status = statuses.get(position).getActionableStatus();
 
-        setVoteForPoll(position, status.getPoll().votedCopy(choices));
+        setVoteForPoll(status.getId(), status.getPoll().votedCopy(choices));
 
         timelineCases.voteInPoll(status.getId(), status.getPoll().getId(), choices)
                 .observeOn(AndroidSchedulers.mainThread())
                 .to(autoDisposable(from(this)))
                 .subscribe(
-                        (newPoll) -> setVoteForPoll(position, newPoll),
+                        (newPoll) -> setVoteForPoll(status.getId(), newPoll),
                         (t) -> Log.d(TAG,
                                 "Failed to vote in poll: " + status.getId(), t)
                 );
 
     }
 
-    private void setVoteForPoll(int position, Poll newPoll) {
-        updateStatus(position, statuses.get(position).copyWithPoll(newPoll));
+    private void setVoteForPoll(String statusId, Poll newPoll) {
+        updateStatus(statusId, s -> s.copyWithPoll(newPoll));
     }
 
     private void removeAllByAccountId(String accountId) {
@@ -548,45 +558,30 @@ public final class ViewThreadFragment extends SFragment implements
     }
 
     private void handleFavEvent(FavoriteEvent event) {
-        Pair<Integer, Status> posAndStatus = findStatusAndPos(event.getStatusId());
-        if (posAndStatus == null) return;
-
-        boolean favourite = event.getFavourite();
-        posAndStatus.second.setFavourited(favourite);
-
-        if (posAndStatus.second.getReblog() != null) {
-            posAndStatus.second.getReblog().setFavourited(favourite);
-        }
-
-        adapter.setItem(posAndStatus.first, statuses.getPairedItem(posAndStatus.first), true);
+        updateStatus(event.getStatusId(), (s) -> {
+            s.setFavourited(event.getFavourite());
+            return s;
+        });
     }
 
     private void handleReblogEvent(ReblogEvent event) {
-        Pair<Integer, Status> posAndStatus = findStatusAndPos(event.getStatusId());
-        if (posAndStatus == null) return;
-
-        boolean reblog = event.getReblog();
-        posAndStatus.second.setReblogged(reblog);
-
-        if (posAndStatus.second.getReblog() != null) {
-            posAndStatus.second.getReblog().setReblogged(reblog);
-        }
-        adapter.setItem(posAndStatus.first, statuses.getPairedItem(posAndStatus.first), true);
+        updateStatus(event.getStatusId(), (s) -> {
+            s.setReblogged(event.getReblog());
+            return s;
+        });
     }
 
     private void handleBookmarkEvent(BookmarkEvent event) {
-        Pair<Integer, Status> posAndStatus = findStatusAndPos(event.getStatusId());
-        if (posAndStatus == null) return;
-
-        boolean bookmark = event.getBookmark();
-        posAndStatus.second.setBookmarked(bookmark);
-
-        if (posAndStatus.second.getReblog() != null) {
-            posAndStatus.second.getReblog().setBookmarked(bookmark);
-        }
-
-        adapter.setItem(posAndStatus.first, statuses.getPairedItem(posAndStatus.first), true);
+        updateStatus(event.getStatusId(), (s) -> {
+            s.setBookmarked(event.getBookmark());
+            return s;
+        });
     }
+
+    private void handlePinEvent(PinEvent event) {
+        updateStatus(event.getStatusId(), (s) -> s.copyWithPinned(event.getPinned()));
+    }
+
 
     private void handleStatusComposedEvent(StatusComposedEvent event) {
         Status eventStatus = event.getStatus();
@@ -613,23 +608,16 @@ public final class ViewThreadFragment extends SFragment implements
     }
 
     private void handleStatusDeletedEvent(StatusDeletedEvent event) {
-        Pair<Integer, Status> posAndStatus = findStatusAndPos(event.getStatusId());
-        if (posAndStatus == null) return;
-
-        @SuppressWarnings("ConstantConditions")
-        int pos = posAndStatus.first;
-        statuses.remove(pos);
-        adapter.removeItem(pos);
+        int index = this.indexOfStatus(event.getStatusId());
+        if (index != -1) {
+            statuses.remove(index);
+            adapter.removeItem(index);
+        }
     }
 
-    @Nullable
-    private Pair<Integer, Status> findStatusAndPos(@NonNull String statusId) {
-        for (int i = 0; i < statuses.size(); i++) {
-            if (statusId.equals(statuses.get(i).getId())) {
-                return new Pair<>(i, statuses.get(i));
-            }
-        }
-        return null;
+
+    private int indexOfStatus(String statusId) {
+        return CollectionsKt.indexOfFirst(this.statuses, (s) -> s.getId().equals(statusId));
     }
 
     private void updateRevealIcon() {

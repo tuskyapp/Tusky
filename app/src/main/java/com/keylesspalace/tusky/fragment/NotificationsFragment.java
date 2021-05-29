@@ -58,6 +58,7 @@ import com.keylesspalace.tusky.appstore.BlockEvent;
 import com.keylesspalace.tusky.appstore.BookmarkEvent;
 import com.keylesspalace.tusky.appstore.EventHub;
 import com.keylesspalace.tusky.appstore.FavoriteEvent;
+import com.keylesspalace.tusky.appstore.PinEvent;
 import com.keylesspalace.tusky.appstore.PreferenceChangedEvent;
 import com.keylesspalace.tusky.appstore.ReblogEvent;
 import com.keylesspalace.tusky.db.AccountEntity;
@@ -313,31 +314,6 @@ public class NotificationsFragment extends SFragment implements
                 .show();
     }
 
-    private void handleFavEvent(FavoriteEvent event) {
-        Pair<Integer, Notification> posAndNotification =
-                findReplyPosition(event.getStatusId());
-        if (posAndNotification == null) return;
-        //noinspection ConstantConditions
-        setFavouriteForStatus(posAndNotification.second.getStatus(), event.getFavourite());
-    }
-
-    private void handleBookmarkEvent(BookmarkEvent event) {
-        Pair<Integer, Notification> posAndNotification =
-                findReplyPosition(event.getStatusId());
-        if (posAndNotification == null) return;
-        //noinspection ConstantConditions
-        setBookmarkForStatus(posAndNotification.second.getStatus(), event.getBookmark());
-    }
-
-    private void handleReblogEvent(ReblogEvent event) {
-        Pair<Integer, Notification> posAndNotification = findReplyPosition(event.getStatusId());
-        if (posAndNotification == null) return;
-        //noinspection ConstantConditions
-        setReblogForStatus(
-                posAndNotification.second.getStatus(),
-                event.getReblog());
-    }
-
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -384,11 +360,13 @@ public class NotificationsFragment extends SFragment implements
                 .to(autoDisposable(from(this, Lifecycle.Event.ON_DESTROY)))
                 .subscribe(event -> {
                     if (event instanceof FavoriteEvent) {
-                        handleFavEvent((FavoriteEvent) event);
+                        setFavouriteForStatus(((FavoriteEvent) event).getStatusId(), ((FavoriteEvent) event).getFavourite());
                     } else if (event instanceof BookmarkEvent) {
-                        handleBookmarkEvent((BookmarkEvent) event);
+                        setBookmarkForStatus(((BookmarkEvent) event).getStatusId(), ((BookmarkEvent) event).getBookmark());
                     } else if (event instanceof ReblogEvent) {
-                        handleReblogEvent((ReblogEvent) event);
+                        setReblogForStatus(((ReblogEvent) event).getStatusId(), ((ReblogEvent) event).getReblog());
+                    } else if (event instanceof PinEvent) {
+                        setPinForStatus(((PinEvent) event).getStatusId(), ((PinEvent) event).getPinned());
                     } else if (event instanceof BlockEvent) {
                         removeAllByAccountId(((BlockEvent) event).getAccountId());
                     } else if (event instanceof PreferenceChangedEvent) {
@@ -425,15 +403,17 @@ public class NotificationsFragment extends SFragment implements
                 .observeOn(AndroidSchedulers.mainThread())
                 .to(autoDisposable(from(this)))
                 .subscribe(
-                        (newStatus) -> setReblogForStatus(status, reblog),
+                        (newStatus) -> setReblogForStatus(status.getId(), reblog),
                         (t) -> Log.d(getClass().getSimpleName(),
                                 "Failed to reblog status: " + status.getId(), t)
                 );
     }
 
-    private void setReblogForStatus(Status status, boolean reblog) {
-        status.setReblogged(reblog);
-        updateAdapter();
+    private void setReblogForStatus(String statusId, boolean reblog) {
+        updateStatus(statusId, (s) -> {
+            s.setReblogged(reblog);
+            return s;
+        });
     }
 
     @Override
@@ -445,15 +425,17 @@ public class NotificationsFragment extends SFragment implements
                 .observeOn(AndroidSchedulers.mainThread())
                 .to(autoDisposable(from(this)))
                 .subscribe(
-                        (newStatus) -> setFavouriteForStatus(status, favourite),
+                        (newStatus) -> setFavouriteForStatus(status.getId(), favourite),
                         (t) -> Log.d(getClass().getSimpleName(),
                                 "Failed to favourite status: " + status.getId(), t)
                 );
     }
 
-    private void setFavouriteForStatus(Status status, boolean favourite) {
-        status.getActionableStatus().setFavourited(favourite);
-        updateAdapter();
+    private void setFavouriteForStatus(String statusId, boolean favourite) {
+        updateStatus(statusId, (s) -> {
+            s.setFavourited(favourite);
+            return s;
+        });
     }
 
     @Override
@@ -465,15 +447,17 @@ public class NotificationsFragment extends SFragment implements
                 .observeOn(AndroidSchedulers.mainThread())
                 .to(autoDisposable(from(this)))
                 .subscribe(
-                        (newStatus) -> setBookmarkForStatus(status, bookmark),
+                        (newStatus) -> setBookmarkForStatus(status.getId(), bookmark),
                         (t) -> Log.d(getClass().getSimpleName(),
                                 "Failed to bookmark status: " + status.getId(), t)
                 );
     }
 
-    private void setBookmarkForStatus(Status status, boolean bookmark) {
-        status.getActionableStatus().setBookmarked(bookmark);
-        updateAdapter();
+    private void setBookmarkForStatus(String statusId, boolean bookmark) {
+        updateStatus(statusId, (s) -> {
+            s.setBookmarked(bookmark);
+            return s;
+        });
     }
 
     public void onVoteInPoll(int position, @NonNull List<Integer> choices) {
@@ -532,6 +516,13 @@ public class NotificationsFragment extends SFragment implements
         updateViewDataAt(position, (vd) -> vd.copyWithShowingContent(isShowing));
     }
 
+    private void setPinForStatus(String statusId, boolean pinned) {
+        updateStatus(statusId, status -> {
+            status.copyWithPinned(pinned);
+            return status;
+        });
+    }
+
     @Override
     public void onLoadMore(int position) {
         //check bounds before accessing list,
@@ -555,7 +546,8 @@ public class NotificationsFragment extends SFragment implements
 
     @Override
     public void onContentCollapsedChange(boolean isCollapsed, int position) {
-        updateViewDataAt(position, (vd) -> vd.copyWIthCollapsed(isCollapsed));;
+        updateViewDataAt(position, (vd) -> vd.copyWIthCollapsed(isCollapsed));
+        ;
     }
 
     private void updateStatus(String statusId, Function<Status, Status> mapper) {

@@ -721,6 +721,12 @@ class TimelineViewModel @Inject constructor(
         }
     }
 
+    private fun handlePinEvent(pinEvent: PinEvent) {
+        updateStatusById(pinEvent.statusId) {
+            it.copy(status = it.status.copy(pinned = pinEvent.pinned))
+        }
+    }
+
     private suspend fun handleStatusComposeEvent(status: Status) {
         when (kind) {
             Kind.HOME, Kind.PUBLIC_FEDERATED, Kind.PUBLIC_LOCAL -> refresh()
@@ -802,6 +808,7 @@ class TimelineViewModel @Inject constructor(
             is FavoriteEvent -> handleFavEvent(event)
             is ReblogEvent -> handleReblogEvent(event)
             is BookmarkEvent -> handleBookmarkEvent(event)
+            is PinEvent -> handlePinEvent(event)
             is MuteConversationEvent -> fullyRefresh()
             is UnfollowEvent -> {
                 if (kind == Kind.HOME) {

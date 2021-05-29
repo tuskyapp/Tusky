@@ -57,6 +57,9 @@ data class Status(
     /** Helper for Java */
     fun copyWithPoll(poll: Poll?): Status = copy(poll = poll)
 
+    /** Helper for Java */
+    fun copyWithPinned(pinned: Boolean): Status = copy(pinned = pinned)
+
     enum class Visibility(val num: Int) {
         UNKNOWN(0),
         @SerializedName("public")

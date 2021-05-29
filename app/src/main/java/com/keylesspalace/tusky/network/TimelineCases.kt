@@ -125,12 +125,10 @@ class TimelineCasesImpl(
 
     override fun pin(statusId: String, pin: Boolean): Single<Status> {
         // Replace with extension method if we use RxKotlin
-        return if (pin) mastodonApi.pinStatus(statusId) else mastodonApi.unpinStatus(statusId)
-        // TODO: why??
-//                .subscribe({ updatedStatus ->
-//                    status.pinned = updatedStatus.pinned
-//                }, {})
-//                .addTo(this.cancelDisposable)
+        return (if (pin) mastodonApi.pinStatus(statusId) else mastodonApi.unpinStatus(statusId))
+            .doAfterSuccess {
+                eventHub.dispatch(PinEvent(statusId, pin))
+            }
     }
 
     override fun voteInPoll(statusId: String, pollId: String, choices: List<Int>): Single<Poll> {
