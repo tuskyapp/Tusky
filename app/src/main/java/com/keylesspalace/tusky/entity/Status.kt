@@ -54,6 +54,8 @@ data class Status(
     val actionableStatus: Status
         get() = reblog ?: this
 
+    /** Helper for Java */
+    fun copyWithPoll(poll: Poll?): Status = copy(poll = poll)
 
     enum class Visibility(val num: Int) {
         UNKNOWN(0),

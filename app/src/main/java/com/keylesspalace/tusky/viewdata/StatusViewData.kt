@@ -111,6 +111,26 @@ sealed class StatusViewData private constructor() {
 
         val id: String
             get() = status.id
+
+        /** Helper for Java */
+        fun copyWithStatus(status: Status): Concrete {
+            return copy(status = status)
+        }
+
+        /** Helper for Java */
+        fun copyWithExpanded(isExpanded: Boolean): Concrete {
+            return copy(isExpanded = isExpanded)
+        }
+
+        /** Helper for Java */
+        fun copyWithShowingContent(isShowingContent: Boolean): Concrete {
+            return copy(isShowingContent = isShowingContent)
+        }
+
+        /** Helper for Java */
+        fun copyWIthCollapsed(isCollapsed: Boolean): Concrete {
+            return copy(isCollapsed = isCollapsed)
+        }
     }
 
     data class Placeholder(val id: String, val isLoading: Boolean) : StatusViewData() {

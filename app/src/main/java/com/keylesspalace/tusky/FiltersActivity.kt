@@ -5,6 +5,7 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.lifecycle.lifecycleScope
 import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.appstore.PreferenceChangedEvent
 import com.keylesspalace.tusky.databinding.ActivityFiltersBinding
@@ -14,11 +15,14 @@ import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.viewBinding
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.rx3.await
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.io.IOException
+import java.lang.Exception
 import javax.inject.Inject
 
 class FiltersActivity: BaseActivity() {
@@ -162,37 +166,29 @@ class FiltersActivity: BaseActivity() {
         binding.addFilterButton.hide()
         binding.filterProgressBar.show()
 
-        api.getFilters().enqueue(object : Callback<List<Filter>> {
-            override fun onResponse(call: Call<List<Filter>>, response: Response<List<Filter>>) {
-                val filterResponse = response.body()
-                if(response.isSuccessful && filterResponse != null) {
-
-                    filters = filterResponse.filter { filter -> filter.context.contains(context) }.toMutableList()
-                    refreshFilterDisplay()
-
-                    binding.filtersView.show()
-                    binding.addFilterButton.show()
-                    binding.filterProgressBar.hide()
-                } else {
-                    binding.filterProgressBar.hide()
-                    binding.filterMessageView.show()
-                    binding.filterMessageView.setup(R.drawable.elephant_error,
-                            R.string.error_generic) { loadFilters() }
-                }
-            }
-
-            override fun onFailure(call: Call<List<Filter>>, t: Throwable) {
+        lifecycleScope.launch {
+            val newFilters = try {
+                api.getFilters().await()
+            } catch (t: Exception) {
                 binding.filterProgressBar.hide()
                 binding.filterMessageView.show()
                 if (t is IOException) {
                     binding.filterMessageView.setup(R.drawable.elephant_offline,
-                            R.string.error_network) { loadFilters() }
+                        R.string.error_network) { loadFilters() }
                 } else {
                     binding.filterMessageView.setup(R.drawable.elephant_error,
-                            R.string.error_generic) { loadFilters() }
+                        R.string.error_generic) { loadFilters() }
                 }
+                return@launch
             }
-        })
+
+            filters = newFilters.filter { it.context.contains(context) }.toMutableList()
+            refreshFilterDisplay()
+
+            binding.filtersView.show()
+            binding.addFilterButton.show()
+            binding.filterProgressBar.hide()
+        }
     }
 
     companion object {

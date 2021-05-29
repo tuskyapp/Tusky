@@ -36,11 +36,11 @@ import com.keylesspalace.tusky.BaseActivity
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.adapter.StatusBaseViewHolder
 import com.keylesspalace.tusky.appstore.EventHub
+import com.keylesspalace.tusky.appstore.PreferenceChangedEvent
 import com.keylesspalace.tusky.databinding.FragmentTimelineBinding
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.di.ViewModelFactory
-import com.keylesspalace.tusky.entity.Filter
 import com.keylesspalace.tusky.fragment.SFragment
 import com.keylesspalace.tusky.interfaces.ActionButtonActivity
 import com.keylesspalace.tusky.interfaces.RefreshableFragment
@@ -83,8 +83,6 @@ class TimelineFragment : SFragment(), OnRefreshListener, StatusActionListener, I
 
     private var layoutManager: LinearLayoutManager? = null
     private var scrollListener: EndlessOnScrollListener? = null
-    private var filterRemoveReplies = false
-    private var filterRemoveReblogs = false
     private var hideFab = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -111,8 +109,6 @@ class TimelineFragment : SFragment(), OnRefreshListener, StatusActionListener, I
             kind,
             id,
             tags,
-            accountManager.activeAccount!!.alwaysShowSensitiveMedia,
-            accountManager.activeAccount!!.alwaysOpenSpoiler
         )
 
         viewModel.viewUpdates
@@ -157,31 +153,9 @@ class TimelineFragment : SFragment(), OnRefreshListener, StatusActionListener, I
         setupSwipeRefreshLayout()
         setupRecyclerView()
         updateViews()
-        setupTimelinePreferences()
         if (viewModel.statuses.isEmpty()) {
             viewModel.loadInitial()
-        } else {
-            if (viewModel.isNeedRefresh) {
-                onRefresh()
-            }
         }
-    }
-
-    private fun setupTimelinePreferences() {
-        if (viewModel.kind == TimelineViewModel.Kind.HOME) {
-            val preferences = PreferenceManager.getDefaultSharedPreferences(context)
-            filterRemoveReplies = !preferences.getBoolean("tabFilterHomeReplies", true)
-            filterRemoveReblogs = !preferences.getBoolean("tabFilterHomeBoosts", true)
-        }
-        reloadFilters(false)
-    }
-
-    override fun filterIsRelevant(filter: Filter): Boolean {
-        return viewModel.filterContextMatchesKind(viewModel.kind, filter.context)
-    }
-
-    override fun refreshAfterApplyingFilters() {
-        fullyRefresh()
     }
 
     private fun setupSwipeRefreshLayout() {
@@ -254,55 +228,16 @@ class TimelineFragment : SFragment(), OnRefreshListener, StatusActionListener, I
         }
 
         if (!eventRegistered) {
-            // TODO: event handling
-//            eventHub.events
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .autoDispose(from(this, Lifecycle.Event.ON_DESTROY))
-//                .subscribe { event: Event? ->
-//                    when (event) {
-//                        is FavoriteEvent -> handleFavEvent(event)
-//                        is ReblogEvent -> handleReblogEvent(event)
-//                        is BookmarkEvent -> handleBookmarkEvent(event)
-//                        is MuteConversationEvent -> fullyRefresh()
-//                        is UnfollowEvent -> {
-//                            if (kind == TimelineViewModel.Kind.HOME) {
-//                                val id = event.accountId
-//                                removeAllByAccountId(id)
-//                            }
-//                        }
-//                        is BlockEvent -> {
-//                            if (kind != TimelineViewModel.Kind.USER && kind != TimelineViewModel.Kind.USER_WITH_REPLIES && kind != TimelineViewModel.Kind.USER_PINNED) {
-//                                val id = event.accountId
-//                                removeAllByAccountId(id)
-//                            }
-//                        }
-//                        is MuteEvent -> {
-//                            if (kind != TimelineViewModel.Kind.USER && kind != TimelineViewModel.Kind.USER_WITH_REPLIES && kind != TimelineViewModel.Kind.USER_PINNED) {
-//                                val id = event.accountId
-//                                removeAllByAccountId(id)
-//                            }
-//                        }
-//                        is DomainMuteEvent -> {
-//                            if (kind != TimelineViewModel.Kind.USER && kind != TimelineViewModel.Kind.USER_WITH_REPLIES && kind != TimelineViewModel.Kind.USER_PINNED) {
-//                                val instance = event.instance
-//                                removeAllByInstance(instance)
-//                            }
-//                        }
-//                        is StatusDeletedEvent -> {
-//                            if (kind != TimelineViewModel.Kind.USER && kind != TimelineViewModel.Kind.USER_WITH_REPLIES && kind != TimelineViewModel.Kind.USER_PINNED) {
-//                                val id = event.statusId
-//                                deleteStatusById(id)
-//                            }
-//                        }
-//                        is StatusComposedEvent -> {
-//                            val status = event.status
-//                            handleStatusComposeEvent(status)
-//                        }
-//                        is PreferenceChangedEvent -> {
-//                            onPreferenceChanged(event.preferenceKey)
-//                        }
-//                    }
-//                }
+            eventHub.events
+                .observeOn(AndroidSchedulers.mainThread())
+                .autoDispose(this, Lifecycle.Event.ON_DESTROY)
+                .subscribe { event ->
+                    when (event) {
+                        is PreferenceChangedEvent -> {
+                            onPreferenceChanged(event.preferenceKey)
+                        }
+                    }
+                }
             eventRegistered = true
         }
     }
@@ -336,13 +271,13 @@ class TimelineFragment : SFragment(), OnRefreshListener, StatusActionListener, I
     }
 
     override fun onMore(view: View, position: Int) {
-        // TODO
-//        super.more(viewModel.statuses[position].asRight(), view, position)
+        val status = viewModel.statuses[position].asStatusOrNull()?.status ?: return
+        super.more(status, view, position)
     }
 
     override fun onOpenReblog(position: Int) {
-        // TODO
-//        super.openReblog(viewModel.statuses[position].asRight())
+        val status = viewModel.statuses[position].asStatusOrNull()?.status ?: return
+        super.openReblog(status)
     }
 
     override fun onExpandedChange(expanded: Boolean, position: Int) {
@@ -411,49 +346,22 @@ class TimelineFragment : SFragment(), OnRefreshListener, StatusActionListener, I
         super.viewAccount(id)
     }
 
-    // TODO
-//    private fun onPreferenceChanged(key: String) {
-//        val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
-//        when (key) {
-//            PrefKeys.FAB_HIDE -> {
-//                hideFab = sharedPreferences.getBoolean(PrefKeys.FAB_HIDE, false)
-//            }
-//            PrefKeys.MEDIA_PREVIEW_ENABLED -> {
-//                val enabled = accountManager.activeAccount!!.mediaPreviewEnabled
-//                val oldMediaPreviewEnabled = adapter.mediaPreviewEnabled
-//                if (enabled != oldMediaPreviewEnabled) {
-//                    adapter.mediaPreviewEnabled = enabled
-//                    fullyRefresh()
-//                }
-//            }
-//            PrefKeys.TAB_FILTER_HOME_REPLIES -> {
-//                val filter = sharedPreferences.getBoolean(PrefKeys.TAB_FILTER_HOME_REPLIES, true)
-//                val oldRemoveReplies = filterRemoveReplies
-//                filterRemoveReplies = kind == TimelineViewModel.Kind.HOME && !filter
-//                if (adapter.itemCount > 1 && oldRemoveReplies != filterRemoveReplies) {
-//                    fullyRefresh()
-//                }
-//            }
-//            PrefKeys.TAB_FILTER_HOME_BOOSTS -> {
-//                val filter = sharedPreferences.getBoolean(PrefKeys.TAB_FILTER_HOME_BOOSTS, true)
-//                val oldRemoveReblogs = filterRemoveReblogs
-//                filterRemoveReblogs = kind == TimelineViewModel.Kind.HOME && !filter
-//                if (adapter.itemCount > 1 && oldRemoveReblogs != filterRemoveReblogs) {
-//                    fullyRefresh()
-//                }
-//            }
-//            Filter.HOME, Filter.NOTIFICATIONS, Filter.THREAD, Filter.PUBLIC, Filter.ACCOUNT -> {
-//                if (filterContextMatchesKind(kind, listOf(key))) {
-//                    reloadFilters(true)
-//                }
-//            }
-//            PrefKeys.ALWAYS_SHOW_SENSITIVE_MEDIA -> {
-//                //it is ok if only newly loaded statuses are affected, no need to fully refresh
-//                viewModel.alwaysShowSensitiveMedia =
-//                    accountManager.activeAccount!!.alwaysShowSensitiveMedia
-//            }
-//        }
-//    }
+    private fun onPreferenceChanged(key: String) {
+        val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
+        when (key) {
+            PrefKeys.FAB_HIDE -> {
+                hideFab = sharedPreferences.getBoolean(PrefKeys.FAB_HIDE, false)
+            }
+            PrefKeys.MEDIA_PREVIEW_ENABLED -> {
+                val enabled = accountManager.activeAccount!!.mediaPreviewEnabled
+                val oldMediaPreviewEnabled = adapter.mediaPreviewEnabled
+                if (enabled != oldMediaPreviewEnabled) {
+                    adapter.mediaPreviewEnabled = enabled
+                    updateViews()
+                }
+            }
+        }
+    }
 
     public override fun removeItem(position: Int) {
         viewModel.statuses.removeAt(position)
@@ -462,10 +370,6 @@ class TimelineFragment : SFragment(), OnRefreshListener, StatusActionListener, I
 
     private fun onLoadMore() {
         viewModel.loadMore()
-    }
-
-    private fun fullyRefresh() {
-        viewModel.fullyRefresh()
     }
 
     private fun actionButtonPresent(): Boolean {
@@ -595,11 +499,7 @@ class TimelineFragment : SFragment(), OnRefreshListener, StatusActionListener, I
     }
 
     override fun refreshContent() {
-        if (isAdded) {
-            onRefresh()
-        } else {
-            viewModel.isNeedRefresh = true
-        }
+        onRefresh()
     }
 
     companion object {

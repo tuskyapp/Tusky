@@ -56,6 +56,7 @@ import com.keylesspalace.tusky.entity.Filter;
 import com.keylesspalace.tusky.entity.Poll;
 import com.keylesspalace.tusky.entity.Status;
 import com.keylesspalace.tusky.interfaces.StatusActionListener;
+import com.keylesspalace.tusky.network.FilterModel;
 import com.keylesspalace.tusky.network.MastodonApi;
 import com.keylesspalace.tusky.settings.PrefKeys;
 import com.keylesspalace.tusky.util.CardViewMode;
@@ -74,7 +75,9 @@ import java.util.Locale;
 
 import javax.inject.Inject;
 
+import autodispose2.androidx.lifecycle.AndroidLifecycleScopeProvider;
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import kotlin.collections.CollectionsKt;
 
 import static autodispose2.AutoDispose.autoDisposable;
 import static autodispose2.androidx.lifecycle.AndroidLifecycleScopeProvider.from;
@@ -87,6 +90,8 @@ public final class ViewThreadFragment extends SFragment implements
     public MastodonApi mastodonApi;
     @Inject
     public EventHub eventHub;
+    @Inject
+    public FilterModel filterModel;
 
     private SwipeRefreshLayout swipeRefreshLayout;
     private RecyclerView recyclerView;
@@ -164,7 +169,7 @@ public final class ViewThreadFragment extends SFragment implements
         recyclerView.addItemDecoration(new ConversationLineItemDecoration(context));
         alwaysShowSensitiveMedia = accountManager.getActiveAccount().getAlwaysShowSensitiveMedia();
         alwaysOpenSpoiler = accountManager.getActiveAccount().getAlwaysOpenSpoiler();
-        reloadFilters(false);
+        reloadFilters();
 
         recyclerView.setAdapter(adapter);
 
@@ -203,15 +208,9 @@ public final class ViewThreadFragment extends SFragment implements
 
     public void onRevealPressed() {
         boolean allExpanded = allExpanded();
-        // TODO
-//        for (int i = 0; i < statuses.size(); i++) {
-//            StatusViewData.Concrete newViewData =
-//                    new StatusViewData.Concrete.Builder(statuses.getPairedItem(i))
-//                            .setIsExpanded(!allExpanded)
-//                            .createStatusViewData();
-//            statuses.setPairedItem(i, newViewData);
-//        }
-        adapter.setStatuses(statuses.getPairedCopy());
+        for (int i = 0; i < statuses.size(); i++) {
+            updateViewData(i, statuses.getPairedItem(i).copyWithExpanded(!allExpanded));
+        }
         updateRevealIcon();
     }
 
@@ -281,21 +280,9 @@ public final class ViewThreadFragment extends SFragment implements
 
     private void updateStatus(int position, Status status) {
         if (position >= 0 && position < statuses.size()) {
-
-            Status actionableStatus = status.getActionableStatus();
-
-            // TODO
-//            StatusViewData.Concrete viewData = new StatusViewData.Builder(statuses.getPairedItem(position))
-//                    .setReblogged(actionableStatus.getReblogged())
-//                    .setReblogsCount(actionableStatus.getReblogsCount())
-//                    .setFavourited(actionableStatus.getFavourited())
-//                    .setBookmarked(actionableStatus.getBookmarked())
-//                    .setFavouritesCount(actionableStatus.getFavouritesCount())
-//                    .createStatusViewData();
-//            statuses.setPairedItem(position, viewData);
-//
-//            adapter.setItem(position, viewData, true);
-
+            StatusViewData.Concrete oldViewData = statuses.getPairedItem(position);
+            statuses.set(position, status);
+            updateViewData(position, oldViewData.copyWithStatus(status));
         }
     }
 
@@ -328,25 +315,24 @@ public final class ViewThreadFragment extends SFragment implements
 
     @Override
     public void onExpandedChange(boolean expanded, int position) {
-        // TODO
-//        StatusViewData.Concrete newViewData =
-//                new StatusViewData.Builder(statuses.getPairedItem(position))
-//                        .setIsExpanded(expanded)
-//                        .createStatusViewData();
-//        statuses.setPairedItem(position, newViewData);
-//        adapter.setItem(position, newViewData, true);
+        updateViewData(
+                position,
+                statuses.getPairedItem(position).copyWithExpanded(expanded)
+        );
         updateRevealIcon();
     }
 
     @Override
     public void onContentHiddenChange(boolean isShowing, int position) {
-        // TODO
-//        StatusViewData.Concrete newViewData =
-//                new StatusViewData.Builder(statuses.getPairedItem(position))
-//                        .setIsShowingSensitiveContent(isShowing)
-//                        .createStatusViewData();
-//        statuses.setPairedItem(position, newViewData);
-//        adapter.setItem(position, newViewData, true);
+        updateViewData(
+                position,
+                statuses.getPairedItem(position).copyWithShowingContent(isShowing)
+        );
+    }
+
+    private void updateViewData(int position, StatusViewData.Concrete newViewData) {
+        statuses.setPairedItem(position, newViewData);
+        adapter.setItem(position, newViewData, true);
     }
 
     @Override
@@ -370,29 +356,11 @@ public final class ViewThreadFragment extends SFragment implements
 
     @Override
     public void onContentCollapsedChange(boolean isCollapsed, int position) {
-        if (position < 0 || position >= statuses.size()) {
-            Log.e(TAG, String.format("Tried to access out of bounds status position: %d of %d", position, statuses.size() - 1));
-            return;
-        }
-
-        StatusViewData.Concrete status = statuses.getPairedItem(position);
-        if (status == null) {
-            // Statuses PairedList contains a base type of StatusViewData.Concrete and also doesn't
-            // check for null values when adding values to it although this doesn't seem to be an issue.
-            Log.e(TAG, String.format(
-                    "Expected StatusViewData.Concrete, got null instead at position: %d of %d",
-                    position,
-                    statuses.size() - 1
-            ));
-            return;
-        }
-
-        // TODO
-//        StatusViewData.Concrete updatedStatus = new StatusViewData.Builder(status)
-//                .setCollapsed(isCollapsed)
-//                .createStatusViewData();
-//        statuses.setPairedItem(position, updatedStatus);
-//        recyclerView.post(() -> adapter.setItem(position, updatedStatus, true));
+        adapter.setItem(
+                position,
+                statuses.getPairedItem(position).copyWIthCollapsed(isCollapsed),
+                true
+        );
     }
 
     @Override
@@ -432,14 +400,7 @@ public final class ViewThreadFragment extends SFragment implements
     }
 
     private void setVoteForPoll(int position, Poll newPoll) {
-
-        StatusViewData.Concrete viewData = statuses.getPairedItem(position);
-
-//        StatusViewData.Concrete newViewData = new StatusViewData.Builder(viewData)
-//                .setPoll(newPoll)
-//                .createStatusViewData();
-//        statuses.setPairedItem(position, newViewData);
-//        adapter.setItem(position, newViewData, true);
+        updateStatus(position, statuses.get(position).copyWithPoll(newPoll));
     }
 
     private void removeAllByAccountId(String accountId) {
@@ -536,7 +497,7 @@ public final class ViewThreadFragment extends SFragment implements
 
         ArrayList<Status> ancestors = new ArrayList<>();
         for (Status status : unfilteredAncestors)
-            if (!shouldFilterStatus(status))
+            if (!filterModel.shouldFilterStatus(status))
                 ancestors.add(status);
 
         // Insert newly fetched ancestors
@@ -566,7 +527,7 @@ public final class ViewThreadFragment extends SFragment implements
 
         ArrayList<Status> descendants = new ArrayList<>();
         for (Status status : unfilteredDescendants)
-            if (!shouldFilterStatus(status))
+            if (!filterModel.shouldFilterStatus(status))
                 descendants.add(status);
 
         // Insert newly fetched descendants
@@ -597,16 +558,7 @@ public final class ViewThreadFragment extends SFragment implements
             posAndStatus.second.getReblog().setFavourited(favourite);
         }
 
-        StatusViewData.Concrete viewdata = statuses.getPairedItem(posAndStatus.first);
-
-        // TODO
-//        StatusViewData.Builder viewDataBuilder = new StatusViewData.Builder((viewdata));
-//        viewDataBuilder.setFavourited(favourite);
-//
-//        StatusViewData.Concrete newViewData = viewDataBuilder.createStatusViewData();
-//
-//        statuses.setPairedItem(posAndStatus.first, newViewData);
-//        adapter.setItem(posAndStatus.first, newViewData, true);
+        adapter.setItem(posAndStatus.first, statuses.getPairedItem(posAndStatus.first), true);
     }
 
     private void handleReblogEvent(ReblogEvent event) {
@@ -619,17 +571,7 @@ public final class ViewThreadFragment extends SFragment implements
         if (posAndStatus.second.getReblog() != null) {
             posAndStatus.second.getReblog().setReblogged(reblog);
         }
-
-        StatusViewData.Concrete viewdata = statuses.getPairedItem(posAndStatus.first);
-
-        // TODO
-//        StatusViewData.Builder viewDataBuilder = new StatusViewData.Builder((viewdata));
-//        viewDataBuilder.setReblogged(reblog);
-//
-//        StatusViewData.Concrete newViewData = viewDataBuilder.createStatusViewData();
-//
-//        statuses.setPairedItem(posAndStatus.first, newViewData);
-//        adapter.setItem(posAndStatus.first, newViewData, true);
+        adapter.setItem(posAndStatus.first, statuses.getPairedItem(posAndStatus.first), true);
     }
 
     private void handleBookmarkEvent(BookmarkEvent event) {
@@ -643,15 +585,7 @@ public final class ViewThreadFragment extends SFragment implements
             posAndStatus.second.getReblog().setBookmarked(bookmark);
         }
 
-        StatusViewData.Concrete viewdata = statuses.getPairedItem(posAndStatus.first);
-
-//        StatusViewData.Builder viewDataBuilder = new StatusViewData.Builder((viewdata));
-//        viewDataBuilder.setBookmarked(bookmark);
-//
-//        StatusViewData.Concrete newViewData = viewDataBuilder.createStatusViewData();
-
-//        statuses.setPairedItem(posAndStatus.first, newViewData);
-//        adapter.setItem(posAndStatus.first, newViewData, true);
+        adapter.setItem(posAndStatus.first, statuses.getPairedItem(posAndStatus.first), true);
     }
 
     private void handleStatusComposedEvent(StatusComposedEvent event) {
@@ -718,13 +652,25 @@ public final class ViewThreadFragment extends SFragment implements
                 ViewThreadActivity.REVEAL_BUTTON_REVEAL);
     }
 
-    @Override
-    protected boolean filterIsRelevant(@NonNull Filter filter) {
-        return filter.getContext().contains(Filter.THREAD);
+    private void reloadFilters() {
+        mastodonApi.getFilters()
+                .to(autoDisposable(AndroidLifecycleScopeProvider.from(this)))
+                .subscribe(
+                        (filters) -> {
+                            List<Filter> relevantFilters = CollectionsKt.filter(
+                                    filters,
+                                    (f) -> f.getContext().contains(Filter.THREAD)
+                            );
+                            filterModel.initWithFilters(relevantFilters);
+
+                            recyclerView.post(this::applyFilters);
+                        },
+                        (t) -> Log.e(TAG, "Failed to load filters", t)
+                );
     }
 
-    @Override
-    protected void refreshAfterApplyingFilters() {
-        onRefresh();
+    private void applyFilters() {
+        CollectionsKt.removeAll(this.statuses, filterModel::shouldFilterStatus);
+        adapter.setStatuses(this.statuses.getPairedCopy());
     }
 }

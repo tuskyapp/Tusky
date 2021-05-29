@@ -1,13 +1,17 @@
 package com.keylesspalace.tusky.components.timeline
 
+import android.content.SharedPreferences
 import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.keylesspalace.tusky.appstore.*
+import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.entity.Filter
 import com.keylesspalace.tusky.entity.Poll
 import com.keylesspalace.tusky.entity.Status
+import com.keylesspalace.tusky.network.FilterModel
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.network.TimelineCases
+import com.keylesspalace.tusky.settings.PrefKeys
 import com.keylesspalace.tusky.util.*
 import com.keylesspalace.tusky.viewdata.StatusViewData
 import io.reactivex.rxjava3.core.Observable
@@ -28,6 +32,9 @@ class TimelineViewModel @Inject constructor(
     private val timelineCases: TimelineCases,
     private val mastodonApi: MastodonApi,
     private val eventHub: EventHub,
+    private val accountManager: AccountManager,
+    private val sharedPreferences: SharedPreferences,
+    private val filterModel: FilterModel,
 ) : RxAwareViewModel() {
 
     enum class FailureReason {
@@ -39,24 +46,31 @@ class TimelineViewModel @Inject constructor(
         get() = updateViewSubject
 
     var kind: Kind = Kind.HOME
-
-    var alwaysShowSensitiveMedia = false
-    var alwaysOpenSpoilers = false
+        private set
 
     var isLoadingInitially = false
+        private set
     var isRefreshing = false
+        private set
     var bottomLoading = false
+        private set
     var initialUpdateFailed = false
-    var isNeedRefresh = false
+        private set
     var failure: FailureReason? = null
-
-    private var updateViewSubject = PublishSubject.create<Unit>()
-    private var didLoadEverythingBottom = false
-
+        private set
     var id: String? = null
         private set
     var tags: List<String> = emptyList()
         private set
+
+    private var alwaysShowSensitiveMedia = false
+    private var alwaysOpenSpoilers = false
+    private var filterRemoveReplies = false
+    private var filterRemoveReblogs = false
+    private var isNeedRefresh = false
+    private var didLoadEverythingBottom = false
+
+    private var updateViewSubject = PublishSubject.create<Unit>()
 
     /**
      * For some timeline kinds we must use LINK headers and not just status ids.
@@ -66,20 +80,30 @@ class TimelineViewModel @Inject constructor(
     val statuses = mutableListOf<StatusViewData>()
 
     fun init(
-        kind: Kind, id: String?, tags: List<String>, alwaysShowSensitiveMedia: Boolean,
-        alwaysOpenSpoilers: Boolean
+        kind: Kind,
+        id: String?,
+        tags: List<String>
     ) {
         this.kind = kind
         this.id = id
         this.tags = tags
-        this.alwaysShowSensitiveMedia = alwaysShowSensitiveMedia
-        this.alwaysOpenSpoilers = alwaysOpenSpoilers
+
+        if (kind == Kind.HOME) {
+            filterRemoveReplies =
+                !sharedPreferences.getBoolean(PrefKeys.TAB_FILTER_HOME_REPLIES, true)
+            filterRemoveReblogs =
+                !sharedPreferences.getBoolean(PrefKeys.TAB_FILTER_HOME_BOOSTS, true)
+        }
+        this.alwaysShowSensitiveMedia = accountManager.activeAccount!!.alwaysShowSensitiveMedia
+        this.alwaysOpenSpoilers = accountManager.activeAccount!!.alwaysOpenSpoiler
 
         viewModelScope.launch {
             eventHub.events
                 .asFlow()
                 .collect { event -> handleEvent(event) }
         }
+
+        reloadFilters()
     }
 
     private suspend fun updateCurrent() {
@@ -247,20 +271,24 @@ class TimelineViewModel @Inject constructor(
             Log.w(TAG, "No poll on status ${status.id}")
             return
         }
-        // TODO
-//        val votedPoll = status.actionableStatus.poll!!.votedCopy(choices)
-//        setVoteForPoll(position, status, votedPoll)
+
+        val votedPoll = status.actionable.poll!!.votedCopy(choices)
+        updatePoll(status, votedPoll)
         timelineCases.voteInPoll(status.id, poll.id, choices)
             .subscribe(
-                { newPoll: Poll ->
-                    updateStatusById(
-                        status.id,
-                        { it.copy(status = it.status.copy(poll = newPoll)) }
-                    )
-                },
+                { newPoll: Poll -> updatePoll(status, newPoll) },
                 { t: Throwable? -> Log.d(TAG, "Failed to vote in poll: " + status.id, t) }
             )
             .autoDispose()
+    }
+
+    private fun updatePoll(
+        status: StatusViewData.Concrete,
+        newPoll: Poll
+    ) {
+        updateStatusById(status.id) {
+            it.copy(status = it.status.copy(poll = newPoll))
+        }
     }
 
     fun changeExpanded(expanded: Boolean, position: Int) {
@@ -279,28 +307,17 @@ class TimelineViewModel @Inject constructor(
     }
 
     fun removeAllByAccountId(accountId: String) {
-        // using iterator to safely remove items while iterating
-        val iterator = statuses.iterator()
-        // TODO
-//        while (iterator.hasNext()) {
-//            val status = iterator.next().asStatusOrNull()
-//            if (status != null &&
-//                (status.account.id == accountId || status.actionableStatus.account.id == accountId)
-//            ) {
-//                iterator.remove()
-//            }
-//        }
+        statuses.removeAll { vm ->
+            val status = vm.asStatusOrNull()?.status ?: return@removeAll false
+            status.account.id == accountId || status.actionableStatus.account.id == accountId
+        }
     }
 
     fun removeAllByInstance(instance: String) {
-        // using iterator to safely remove items while iterating
-        val iterator = statuses.iterator()
-//        while (iterator.hasNext()) {
-//            val status = iterator.next().asStatusOrNull()
-//            if (status != null && LinkHelper.getDomain(status.account.url) == instance) {
-//                iterator.remove()
-//            }
-//        }
+        statuses.removeAll { vd ->
+            val status = vd.asStatusOrNull()?.status ?: return@removeAll false
+            LinkHelper.getDomain(status.account.url) == instance
+        }
     }
 
     private fun triggerViewUpdate() {
@@ -339,7 +356,6 @@ class TimelineViewModel @Inject constructor(
                     throw t
                 }
             }
-
         } else {
             try {
                 val response = getFetchCallByTimelineType(maxId, sinceId).await()
@@ -471,19 +487,22 @@ class TimelineViewModel @Inject constructor(
         }
     }
 
+    private fun filterViewData(viewData: MutableList<StatusViewData>) {
+        viewData.removeAll { vd ->
+            vd.asStatusOrNull()?.status?.let { shouldFilterStatus(it) } ?: false
+        }
+    }
+
     private fun filterStatuses(statuses: MutableList<Either<Placeholder, Status>>) {
-//        val it = statuses.iterator()
-//        while (it.hasNext()) {
-////            val status = it.next().asRightOrNull()
-////            if (status != null
-//            // TODO
-////                && (status.inReplyToId != null && filterRemoveReplies
-////                        || status.reblog != null && filterRemoveReblogs
-////                        || shouldFilterStatus(status.actionableStatus))
-////            ) {
-////                it.remove()
-////            }
-//        }
+        statuses.removeAll { status ->
+            status.asRightOrNull()?.let { shouldFilterStatus(it) } ?: false
+        }
+    }
+
+    private fun shouldFilterStatus(status: Status): Boolean {
+        return status.inReplyToId != null && filterRemoveReplies
+                || status.reblog != null && filterRemoveReblogs
+                || filterModel.shouldFilterStatus(status.actionableStatus)
     }
 
     private fun extractNextId(response: Response<*>): String? {
@@ -725,52 +744,39 @@ class TimelineViewModel @Inject constructor(
     }
 
     private fun onPreferenceChanged(key: String) {
-        // TODO: do something about all this preference mess entangled with SFragment
-//        val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
-//        when (key) {
-//            PrefKeys.FAB_HIDE -> {
-//                hideFab = sharedPreferences.getBoolean(PrefKeys.FAB_HIDE, false)
-//            }
-//            PrefKeys.MEDIA_PREVIEW_ENABLED -> {
-//                val enabled = accountManager.activeAccount!!.mediaPreviewEnabled
-//                val oldMediaPreviewEnabled = adapter.mediaPreviewEnabled
-//                if (enabled != oldMediaPreviewEnabled) {
-//                    adapter.mediaPreviewEnabled = enabled
-//                    fullyRefresh()
-//                }
-//            }
-//            PrefKeys.TAB_FILTER_HOME_REPLIES -> {
-//                val filter = sharedPreferences.getBoolean(PrefKeys.TAB_FILTER_HOME_REPLIES, true)
-//                val oldRemoveReplies = filterRemoveReplies
-//                filterRemoveReplies = kind == Kind.HOME && !filter
-//                if (statuses.isNotEmpty() && oldRemoveReplies != filterRemoveReplies) {
-//                    fullyRefresh()
-//                }
-//            }
-//            PrefKeys.TAB_FILTER_HOME_BOOSTS -> {
-//                val filter = sharedPreferences.getBoolean(PrefKeys.TAB_FILTER_HOME_BOOSTS, true)
-//                val oldRemoveReblogs = filterRemoveReblogs
-//                filterRemoveReblogs = kind == Kind.HOME && !filter
-//                if (statuses.isNotEmpty() && oldRemoveReblogs != filterRemoveReblogs) {
-//                    fullyRefresh()
-//                }
-//            }
-//            Filter.HOME, Filter.NOTIFICATIONS, Filter.THREAD, Filter.PUBLIC, Filter.ACCOUNT -> {
-//                if (filterContextMatchesKind(kind, listOf(key))) {
-//                    reloadFilters(true)
-//                }
-//            }
-//            PrefKeys.ALWAYS_SHOW_SENSITIVE_MEDIA -> {
-//                //it is ok if only newly loaded statuses are affected, no need to fully refresh
-//                alwaysShowSensitiveMedia =
-//                    accountManager.activeAccount!!.alwaysShowSensitiveMedia
-//            }
-//        }
+        when (key) {
+            PrefKeys.TAB_FILTER_HOME_REPLIES -> {
+                val filter = sharedPreferences.getBoolean(PrefKeys.TAB_FILTER_HOME_REPLIES, true)
+                val oldRemoveReplies = filterRemoveReplies
+                filterRemoveReplies = kind == Kind.HOME && !filter
+                if (statuses.isNotEmpty() && oldRemoveReplies != filterRemoveReplies) {
+                    fullyRefresh()
+                }
+            }
+            PrefKeys.TAB_FILTER_HOME_BOOSTS -> {
+                val filter = sharedPreferences.getBoolean(PrefKeys.TAB_FILTER_HOME_BOOSTS, true)
+                val oldRemoveReblogs = filterRemoveReblogs
+                filterRemoveReblogs = kind == Kind.HOME && !filter
+                if (statuses.isNotEmpty() && oldRemoveReblogs != filterRemoveReblogs) {
+                    fullyRefresh()
+                }
+            }
+            Filter.HOME, Filter.NOTIFICATIONS, Filter.THREAD, Filter.PUBLIC, Filter.ACCOUNT -> {
+                if (filterContextMatchesKind(kind, listOf(key))) {
+                    reloadFilters()
+                }
+            }
+            PrefKeys.ALWAYS_SHOW_SENSITIVE_MEDIA -> {
+                // it is ok if only newly loaded statuses are affected, no need to fully refresh
+                alwaysShowSensitiveMedia =
+                    accountManager.activeAccount!!.alwaysShowSensitiveMedia
+            }
+        }
     }
 
     // public for now
     fun filterContextMatchesKind(
-        kind: Kind?,
+        kind: Kind,
         filterContext: List<String>
     ): Boolean {
         // home, notifications, public, thread
@@ -882,6 +888,21 @@ class TimelineViewModel @Inject constructor(
             )
         } else {
             StatusViewData.Placeholder(it.asLeft().id, false)
+        }
+    }
+
+    private fun reloadFilters() {
+        viewModelScope.launch {
+            val filters = try {
+                mastodonApi.getFilters().await()
+            } catch (t: Exception) {
+                Log.e(TAG, "Failed to fetch filters", t)
+                return@launch
+            }
+            filterModel.initWithFilters(filters.filter {
+                filterContextMatchesKind(kind, it.context)
+            })
+            filterViewData(this@TimelineViewModel.statuses)
         }
     }
 

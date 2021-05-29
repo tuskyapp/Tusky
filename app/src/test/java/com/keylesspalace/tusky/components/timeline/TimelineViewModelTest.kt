@@ -1,7 +1,10 @@
 package com.keylesspalace.tusky.components.timeline
 
+import android.content.SharedPreferences
 import com.keylesspalace.tusky.appstore.EventHub
+import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.entity.Status
+import com.keylesspalace.tusky.network.FilterModel
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.network.TimelineCases
 import com.keylesspalace.tusky.util.Either
@@ -16,7 +19,6 @@ import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
-import org.robolectric.Robolectric
 import org.robolectric.annotation.Config
 import org.robolectric.shadows.ShadowLog
 
@@ -28,6 +30,8 @@ class TimelineViewModelTest {
     lateinit var mastodonApi: MastodonApi
     lateinit var eventHub: EventHub
     lateinit var viewModel: TimelineViewModel
+    lateinit var accountManager: AccountManager
+    lateinit var sharedPreference: SharedPreferences
 
     @Before
     fun setup() {
@@ -36,7 +40,17 @@ class TimelineViewModelTest {
         timelineCases = mock()
         mastodonApi = mock()
         eventHub = mock()
-        viewModel = TimelineViewModel(timelineRepository, timelineCases, mastodonApi, eventHub)
+        accountManager = mock()
+        sharedPreference = mock()
+        viewModel = TimelineViewModel(
+            timelineRepository,
+            timelineCases,
+            mastodonApi,
+            eventHub,
+            accountManager,
+            sharedPreference,
+            FilterModel()
+        )
     }
 
     @Test
