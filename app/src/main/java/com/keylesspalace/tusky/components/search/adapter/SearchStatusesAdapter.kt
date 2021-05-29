@@ -17,7 +17,7 @@ package com.keylesspalace.tusky.components.search.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.paging.PagedListAdapter
+import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.keylesspalace.tusky.R
@@ -30,7 +30,7 @@ import com.keylesspalace.tusky.viewdata.StatusViewData
 class SearchStatusesAdapter(
         private val statusDisplayOptions: StatusDisplayOptions,
         private val statusListener: StatusActionListener
-) : PagedListAdapter<Pair<Status, StatusViewData.Concrete>, RecyclerView.ViewHolder>(STATUS_COMPARATOR) {
+) : PagingDataAdapter<Pair<Status, StatusViewData.Concrete>, RecyclerView.ViewHolder>(STATUS_COMPARATOR) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val view = LayoutInflater.from(parent.context)
@@ -44,8 +44,8 @@ class SearchStatusesAdapter(
         }
     }
 
-    public override fun getItem(position: Int): Pair<Status, StatusViewData.Concrete>? {
-        return super.getItem(position)
+    fun item(position: Int): Pair<Status, StatusViewData.Concrete>? {
+        return getItem(position)
     }
 
     companion object {

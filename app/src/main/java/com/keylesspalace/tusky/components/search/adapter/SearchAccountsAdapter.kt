@@ -17,7 +17,7 @@ package com.keylesspalace.tusky.components.search.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.paging.PagedListAdapter
+import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.keylesspalace.tusky.R
@@ -26,7 +26,7 @@ import com.keylesspalace.tusky.entity.Account
 import com.keylesspalace.tusky.interfaces.LinkListener
 
 class SearchAccountsAdapter(private val linkListener: LinkListener, private val animateAvatars: Boolean, private val animateEmojis: Boolean)
-    : PagedListAdapter<Account, RecyclerView.ViewHolder>(ACCOUNT_COMPARATOR) {
+    : PagingDataAdapter<Account, RecyclerView.ViewHolder>(ACCOUNT_COMPARATOR) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val view = LayoutInflater.from(parent.context)

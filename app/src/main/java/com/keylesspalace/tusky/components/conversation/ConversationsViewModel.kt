@@ -1,142 +1,104 @@
 package com.keylesspalace.tusky.components.conversation
 
-import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations
-import androidx.paging.PagedList
+import androidx.lifecycle.viewModelScope
+import androidx.paging.ExperimentalPagingApi
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.cachedIn
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.db.AppDatabase
+import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.network.TimelineCases
-import com.keylesspalace.tusky.util.Listing
-import com.keylesspalace.tusky.util.NetworkState
 import com.keylesspalace.tusky.util.RxAwareViewModel
-import io.reactivex.rxjava3.schedulers.Schedulers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.rx3.await
 import javax.inject.Inject
 
 class ConversationsViewModel @Inject constructor(
-        private val repository: ConversationsRepository,
-        private val timelineCases: TimelineCases,
-        private val database: AppDatabase,
-        private val accountManager: AccountManager
+    private val timelineCases: TimelineCases,
+    private val database: AppDatabase,
+    private val accountManager: AccountManager,
+    api: MastodonApi
 ) : RxAwareViewModel() {
 
-    private val repoResult = MutableLiveData<Listing<ConversationEntity>>()
+    @ExperimentalPagingApi
+    val conversationFlow = Pager(
+        config = PagingConfig(pageSize = 10, enablePlaceholders = false),
+        remoteMediator = ConversationsRemoteMediator(accountManager.activeAccount!!.id, api, database),
+        pagingSourceFactory = { database.conversationDao().conversationsForAccount(accountManager.activeAccount!!.id) }
+    )
+        .flow
+        .cachedIn(viewModelScope)
 
-    val conversations: LiveData<PagedList<ConversationEntity>> = Transformations.switchMap(repoResult) { it.pagedList }
-    val networkState: LiveData<NetworkState> = Transformations.switchMap(repoResult) { it.networkState }
-    val refreshState: LiveData<NetworkState> = Transformations.switchMap(repoResult) { it.refreshState }
+    fun favourite(favourite: Boolean, conversation: ConversationEntity) {
+            viewModelScope.launch {
+                timelineCases.favourite(conversation.lastStatus.toStatus(), favourite).await()
 
-    fun load() {
-        val accountId = accountManager.activeAccount?.id ?: return
-        if (repoResult.value == null) {
-            repository.refresh(accountId, false)
-        }
-        repoResult.value = repository.conversations(accountId)
+                val newConversation = conversation.copy(
+                    lastStatus = conversation.lastStatus.copy(favourited = favourite)
+                )
+
+                database.conversationDao().insert(newConversation)
+            }
     }
 
-    fun refresh() {
-        repoResult.value?.refresh?.invoke()
+    fun bookmark(bookmark: Boolean, conversation: ConversationEntity) {
+            viewModelScope.launch {
+                timelineCases.bookmark(conversation.lastStatus.toStatus(), bookmark).await()
+
+                val newConversation = conversation.copy(
+                    lastStatus = conversation.lastStatus.copy(bookmarked = bookmark)
+                )
+
+                database.conversationDao().insert(newConversation)
+
+            }
     }
 
-    fun retry() {
-        repoResult.value?.retry?.invoke()
+    fun voteInPoll(choices: MutableList<Int>, conversation: ConversationEntity) {
+            viewModelScope.launch {
+                val poll = timelineCases.voteInPoll(conversation.lastStatus.toStatus(), choices).await()
+                val newConversation = conversation.copy(
+                    lastStatus = conversation.lastStatus.copy(poll = poll)
+                )
+
+                database.conversationDao().insert(newConversation)
+            }
     }
 
-    fun favourite(favourite: Boolean, position: Int) {
-        conversations.value?.getOrNull(position)?.let { conversation ->
-            timelineCases.favourite(conversation.lastStatus.toStatus(), favourite)
-                    .flatMap {
-                        val newConversation = conversation.copy(
-                                lastStatus = conversation.lastStatus.copy(favourited = favourite)
-                        )
-
-                        database.conversationDao().insert(newConversation)
-                    }
-                    .subscribeOn(Schedulers.io())
-                    .doOnError { t -> Log.w("ConversationViewModel", "Failed to favourite conversation", t) }
-                    .onErrorReturnItem(0)
-                    .subscribe()
-                    .autoDispose()
-        }
-
-    }
-
-    fun bookmark(bookmark: Boolean, position: Int) {
-        conversations.value?.getOrNull(position)?.let { conversation ->
-            timelineCases.bookmark(conversation.lastStatus.toStatus(), bookmark)
-                    .flatMap {
-                        val newConversation = conversation.copy(
-                                lastStatus = conversation.lastStatus.copy(bookmarked = bookmark)
-                        )
-
-                        database.conversationDao().insert(newConversation)
-                    }
-                    .subscribeOn(Schedulers.io())
-                    .doOnError { t -> Log.w("ConversationViewModel", "Failed to bookmark conversation", t) }
-                    .onErrorReturnItem(0)
-                    .subscribe()
-                    .autoDispose()
-        }
-
-    }
-
-    fun voteInPoll(position: Int, choices: MutableList<Int>) {
-        conversations.value?.getOrNull(position)?.let { conversation ->
-            timelineCases.voteInPoll(conversation.lastStatus.toStatus(), choices)
-                    .flatMap { poll ->
-                        val newConversation = conversation.copy(
-                                lastStatus = conversation.lastStatus.copy(poll = poll)
-                        )
-
-                        database.conversationDao().insert(newConversation)
-                    }
-                    .subscribeOn(Schedulers.io())
-                    .doOnError { t -> Log.w("ConversationViewModel", "Failed to favourite conversation", t) }
-                    .onErrorReturnItem(0)
-                    .subscribe()
-                    .autoDispose()
-        }
-
-    }
-
-    fun expandHiddenStatus(expanded: Boolean, position: Int) {
-        conversations.value?.getOrNull(position)?.let { conversation ->
-            val newConversation = conversation.copy(
+    fun expandHiddenStatus(expanded: Boolean, conversation: ConversationEntity) {
+            viewModelScope.launch {
+                val newConversation = conversation.copy(
                     lastStatus = conversation.lastStatus.copy(expanded = expanded)
-            )
-            saveConversationToDb(newConversation)
-        }
+                )
+                saveConversationToDb(newConversation)
+            }
     }
 
-    fun collapseLongStatus(collapsed: Boolean, position: Int) {
-        conversations.value?.getOrNull(position)?.let { conversation ->
-            val newConversation = conversation.copy(
+    fun collapseLongStatus(collapsed: Boolean, conversation: ConversationEntity) {
+            viewModelScope.launch {
+                val newConversation = conversation.copy(
                     lastStatus = conversation.lastStatus.copy(collapsed = collapsed)
-            )
-            saveConversationToDb(newConversation)
-        }
+                )
+                saveConversationToDb(newConversation)
+            }
     }
 
-    fun showContent(showing: Boolean, position: Int) {
-        conversations.value?.getOrNull(position)?.let { conversation ->
-            val newConversation = conversation.copy(
+    fun showContent(showing: Boolean, conversation: ConversationEntity) {
+            viewModelScope.launch {
+                val newConversation = conversation.copy(
                     lastStatus = conversation.lastStatus.copy(showingHiddenContent = showing)
-            )
-            saveConversationToDb(newConversation)
-        }
+                )
+                saveConversationToDb(newConversation)
+            }
     }
 
-    fun remove(position: Int) {
-        conversations.value?.getOrNull(position)?.let {
-            refresh()
-        }
+    fun remove(conversation: ConversationEntity) {
+        // TODO
     }
 
-    private fun saveConversationToDb(conversation: ConversationEntity) {
+    suspend fun saveConversationToDb(conversation: ConversationEntity) {
         database.conversationDao().insert(conversation)
-                .subscribeOn(Schedulers.io())
-                .subscribe()
     }
 
 }

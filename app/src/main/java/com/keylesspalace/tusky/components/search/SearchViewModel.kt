@@ -1,21 +1,24 @@
 package com.keylesspalace.tusky.components.search
 
 import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.paging.PagedList
-import com.keylesspalace.tusky.components.search.adapter.SearchRepository
+import androidx.lifecycle.viewModelScope
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.cachedIn
+import com.keylesspalace.tusky.components.search.adapter.SearchPagingSourceFactory
 import com.keylesspalace.tusky.db.AccountEntity
 import com.keylesspalace.tusky.db.AccountManager
-import com.keylesspalace.tusky.entity.*
+import com.keylesspalace.tusky.entity.DeletedStatus
+import com.keylesspalace.tusky.entity.Poll
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.network.TimelineCases
-import com.keylesspalace.tusky.util.*
+import com.keylesspalace.tusky.util.RxAwareViewModel
+import com.keylesspalace.tusky.util.ViewDataUtils
 import com.keylesspalace.tusky.viewdata.StatusViewData
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Single
-
+import java.util.concurrent.Executors
 import javax.inject.Inject
 
 class SearchViewModel @Inject constructor(
@@ -23,6 +26,8 @@ class SearchViewModel @Inject constructor(
         private val timelineCases: TimelineCases,
         private val accountManager: AccountManager
 ) : RxAwareViewModel() {
+
+    private val executor = Executors.newSingleThreadExecutor()
 
     var currentQuery: String = ""
 
@@ -36,51 +41,52 @@ class SearchViewModel @Inject constructor(
     val alwaysShowSensitiveMedia = activeAccount?.alwaysShowSensitiveMedia ?: false
     val alwaysOpenSpoiler = activeAccount?.alwaysOpenSpoiler ?: false
 
-    private val statusesRepository = SearchRepository<Pair<Status, StatusViewData.Concrete>>(mastodonApi)
-    private val accountsRepository = SearchRepository<Account>(mastodonApi)
-    private val hashtagsRepository = SearchRepository<HashTag>(mastodonApi)
+    private val loadedStatuses: MutableList<Pair<Status, StatusViewData.Concrete>> = mutableListOf()
 
-    private val repoResultStatus = MutableLiveData<Listing<Pair<Status, StatusViewData.Concrete>>>()
-    val statuses: LiveData<PagedList<Pair<Status, StatusViewData.Concrete>>> = repoResultStatus.switchMap { it.pagedList }
-    val networkStateStatus: LiveData<NetworkState> = repoResultStatus.switchMap { it.networkState }
-    val networkStateStatusRefresh: LiveData<NetworkState> = repoResultStatus.switchMap { it.refreshState }
+    private val statusesPagingSourceFactory = SearchPagingSourceFactory(mastodonApi, SearchType.Status, "", executor, loadedStatuses){
+        it?.statuses?.map { status -> Pair(status, ViewDataUtils.statusToViewData(status, alwaysShowSensitiveMedia, alwaysOpenSpoiler)!!) }
+            .orEmpty()
+            .apply {
+                loadedStatuses.addAll(this)
+            }
+    }
+    private val accountsPagingSourceFactory = SearchPagingSourceFactory(mastodonApi, SearchType.Account, "", executor){
+        it?.accounts.orEmpty()
+    }
+    private val hashtagsPagingSourceFactory = SearchPagingSourceFactory(mastodonApi, SearchType.Hashtag, "", executor){
+        it?.hashtags.orEmpty()
+    }
 
-    private val repoResultAccount = MutableLiveData<Listing<Account>>()
-    val accounts: LiveData<PagedList<Account>> = repoResultAccount.switchMap { it.pagedList }
-    val networkStateAccount: LiveData<NetworkState> = repoResultAccount.switchMap { it.networkState }
-    val networkStateAccountRefresh: LiveData<NetworkState> = repoResultAccount.switchMap { it.refreshState }
+    val statusesFlow = Pager(
+        config = PagingConfig(pageSize = 20),
+        pagingSourceFactory = statusesPagingSourceFactory
+    ).flow
+        .cachedIn(viewModelScope)
 
-    private val repoResultHashTag = MutableLiveData<Listing<HashTag>>()
-    val hashtags: LiveData<PagedList<HashTag>> = repoResultHashTag.switchMap { it.pagedList }
-    val networkStateHashTag: LiveData<NetworkState> = repoResultHashTag.switchMap { it.networkState }
-    val networkStateHashTagRefresh: LiveData<NetworkState> = repoResultHashTag.switchMap { it.refreshState }
+    val accountsFlow = Pager(
+        config = PagingConfig(pageSize = 20),
+        pagingSourceFactory = accountsPagingSourceFactory
+    ).flow
+        .cachedIn(viewModelScope)
 
-    private val loadedStatuses = ArrayList<Pair<Status, StatusViewData.Concrete>>()
+    val hashtagsFlow = Pager(
+        config = PagingConfig(pageSize = 20),
+        pagingSourceFactory = hashtagsPagingSourceFactory
+    ).flow
+        .cachedIn(viewModelScope)
+
     fun search(query: String) {
         loadedStatuses.clear()
-        repoResultStatus.value = statusesRepository.getSearchData(SearchType.Status, query, disposables, initialItems = loadedStatuses) {
-            it?.statuses?.map { status -> Pair(status, ViewDataUtils.statusToViewData(status, alwaysShowSensitiveMedia, alwaysOpenSpoiler)!!) }
-                    .orEmpty()
-                    .apply {
-                        loadedStatuses.addAll(this)
-                    }
-        }
-        repoResultAccount.value = accountsRepository.getSearchData(SearchType.Account, query, disposables) {
-            it?.accounts.orEmpty()
-        }
-        val hashtagQuery = if (query.startsWith("#")) query else "#$query"
-        repoResultHashTag.value =
-                hashtagsRepository.getSearchData(SearchType.Hashtag, hashtagQuery, disposables) {
-                    it?.hashtags.orEmpty()
-                }
-
+        statusesPagingSourceFactory.newSearch(query)
+        accountsPagingSourceFactory.newSearch(query)
+        hashtagsPagingSourceFactory.newSearch(query)
     }
 
     fun removeItem(status: Pair<Status, StatusViewData.Concrete>) {
         timelineCases.delete(status.first.id)
                 .subscribe({
                     if (loadedStatuses.remove(status))
-                        repoResultStatus.value?.refresh?.invoke()
+                        statusesPagingSourceFactory.invalidate()
                 }, {
                     err -> Log.d(TAG, "Failed to delete status", err)
                 })
@@ -93,7 +99,7 @@ class SearchViewModel @Inject constructor(
         if (idx >= 0) {
             val newPair = Pair(status.first, StatusViewData.Builder(status.second).setIsExpanded(expanded).createStatusViewData())
             loadedStatuses[idx] = newPair
-            repoResultStatus.value?.refresh?.invoke()
+            statusesPagingSourceFactory.invalidate()
         }
     }
 
@@ -115,7 +121,7 @@ class SearchViewModel @Inject constructor(
         if (idx >= 0) {
             val newPair = Pair(status.first, StatusViewData.Builder(status.second).setReblogged(reblog).createStatusViewData())
             loadedStatuses[idx] = newPair
-            repoResultStatus.value?.refresh?.invoke()
+            statusesPagingSourceFactory.invalidate()
         }
     }
 
@@ -124,7 +130,7 @@ class SearchViewModel @Inject constructor(
         if (idx >= 0) {
             val newPair = Pair(status.first, StatusViewData.Builder(status.second).setIsShowingSensitiveContent(isShowing).createStatusViewData())
             loadedStatuses[idx] = newPair
-            repoResultStatus.value?.refresh?.invoke()
+            statusesPagingSourceFactory.invalidate()
         }
     }
 
@@ -133,7 +139,7 @@ class SearchViewModel @Inject constructor(
         if (idx >= 0) {
             val newPair = Pair(status.first, StatusViewData.Builder(status.second).setCollapsed(collapsed).createStatusViewData())
             loadedStatuses[idx] = newPair
-            repoResultStatus.value?.refresh?.invoke()
+            statusesPagingSourceFactory.invalidate()
         }
     }
 
@@ -160,7 +166,7 @@ class SearchViewModel @Inject constructor(
                     .setPoll(newPoll)
                     .createStatusViewData()
             loadedStatuses[idx] = Pair(status.first, newViewData)
-            repoResultStatus.value?.refresh?.invoke()
+            statusesPagingSourceFactory.invalidate()
         }
     }
 
@@ -169,7 +175,7 @@ class SearchViewModel @Inject constructor(
         if (idx >= 0) {
             val newPair = Pair(status.first, StatusViewData.Builder(status.second).setFavourited(isFavorited).createStatusViewData())
             loadedStatuses[idx] = newPair
-            repoResultStatus.value?.refresh?.invoke()
+            statusesPagingSourceFactory.invalidate()
         }
         timelineCases.favourite(status.first, isFavorited)
                 .onErrorReturnItem(status.first)
@@ -182,7 +188,7 @@ class SearchViewModel @Inject constructor(
         if (idx >= 0) {
             val newPair = Pair(status.first, StatusViewData.Builder(status.second).setBookmarked(isBookmarked).createStatusViewData())
             loadedStatuses[idx] = newPair
-            repoResultStatus.value?.refresh?.invoke()
+            statusesPagingSourceFactory.invalidate()
         }
         timelineCases.bookmark(status.first, isBookmarked)
                 .onErrorReturnItem(status.first)
@@ -219,7 +225,7 @@ class SearchViewModel @Inject constructor(
         if (idx >= 0) {
             val newPair = Pair(status.first, StatusViewData.Builder(status.second).setMuted(mute).createStatusViewData())
             loadedStatuses[idx] = newPair
-            repoResultStatus.value?.refresh?.invoke()
+            statusesPagingSourceFactory.invalidate()
         }
         timelineCases.muteConversation(status.first, mute)
                 .onErrorReturnItem(status.first)

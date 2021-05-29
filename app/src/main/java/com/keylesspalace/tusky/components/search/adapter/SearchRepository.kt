@@ -15,19 +15,11 @@
 
 package com.keylesspalace.tusky.components.search.adapter
 
-import androidx.lifecycle.Transformations
-import androidx.paging.Config
-import androidx.paging.toLiveData
-import com.keylesspalace.tusky.components.search.SearchType
-import com.keylesspalace.tusky.entity.SearchResult
 import com.keylesspalace.tusky.network.MastodonApi
-import com.keylesspalace.tusky.util.Listing
-import io.reactivex.rxjava3.disposables.CompositeDisposable
-import java.util.concurrent.Executors
 
 class SearchRepository<T>(private val mastodonApi: MastodonApi) {
 
-    private val executor = Executors.newSingleThreadExecutor()
+    /*private val executor = Executors.newSingleThreadExecutor()
 
     fun getSearchData(searchType: SearchType, searchRequest: String, disposables: CompositeDisposable, pageSize: Int = 20,
                       initialItems: List<T>? = null, parser: (SearchResult?) -> List<T>): Listing<T> {
@@ -52,5 +44,5 @@ class SearchRepository<T>(private val mastodonApi: MastodonApi) {
                 }
 
         )
-    }
+    }*/
 }

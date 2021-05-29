@@ -4,9 +4,10 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.LiveData
-import androidx.paging.PagedList
-import androidx.paging.PagedListAdapter
+import androidx.lifecycle.lifecycleScope
+import androidx.paging.LoadState
+import androidx.paging.PagingData
+import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.SimpleItemAnimator
@@ -21,10 +22,16 @@ import com.keylesspalace.tusky.databinding.FragmentSearchBinding
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.interfaces.LinkListener
-import com.keylesspalace.tusky.util.*
+import com.keylesspalace.tusky.util.hide
+import com.keylesspalace.tusky.util.show
+import com.keylesspalace.tusky.util.viewBinding
+import com.keylesspalace.tusky.util.visible
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-abstract class SearchFragment<T> : Fragment(R.layout.fragment_search),
+abstract class SearchFragment<T: Any> : Fragment(R.layout.fragment_search),
         LinkListener, Injectable, SwipeRefreshLayout.OnRefreshListener {
 
     @Inject
@@ -36,12 +43,10 @@ abstract class SearchFragment<T> : Fragment(R.layout.fragment_search),
 
     private var snackbarErrorRetry: Snackbar? = null
 
-    abstract fun createAdapter(): PagedListAdapter<T, *>
+    abstract fun createAdapter(): PagingDataAdapter<T, *>
 
-    abstract val networkStateRefresh: LiveData<NetworkState>
-    abstract val networkState: LiveData<NetworkState>
-    abstract val data: LiveData<PagedList<T>>
-    protected lateinit var adapter: PagedListAdapter<T, *>
+    abstract val data: Flow<PagingData<T>>
+    protected lateinit var adapter: PagingDataAdapter<T, *>
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         initAdapter()
@@ -55,32 +60,26 @@ abstract class SearchFragment<T> : Fragment(R.layout.fragment_search),
     }
 
     private fun subscribeObservables() {
-        data.observe(viewLifecycleOwner) {
-            adapter.submitList(it)
-        }
-
-        networkStateRefresh.observe(viewLifecycleOwner) {
-
-            binding.searchProgressBar.visible(it == NetworkState.LOADING)
-
-            if (it.status == Status.FAILED) {
-                showError()
-            }
-            checkNoData()
-        }
-
-        networkState.observe(viewLifecycleOwner) {
-
-            binding.progressBarBottom.visible(it == NetworkState.LOADING)
-
-            if (it.status == Status.FAILED) {
-                showError()
+        viewLifecycleOwner.lifecycleScope.launch {
+            data.collectLatest { pagingData ->
+                adapter.submitData(pagingData)
             }
         }
-    }
 
-    private fun checkNoData() {
-        showNoData(adapter.itemCount == 0)
+        adapter.addLoadStateListener { loadState ->
+
+            if (loadState.refresh is LoadState.Error) {
+                showError()
+            }
+
+            binding.searchProgressBar.visible(loadState.refresh == LoadState.Loading)
+
+            if (loadState.refresh is LoadState.NotLoading && adapter.itemCount == 0) {
+                binding.searchNoResultsText.show()
+            } else {
+                binding.searchNoResultsText.hide()
+            }
+        }
     }
 
     private fun initAdapter() {
@@ -90,14 +89,6 @@ abstract class SearchFragment<T> : Fragment(R.layout.fragment_search),
         binding.searchRecyclerView.adapter = adapter
         binding.searchRecyclerView.setHasFixedSize(true)
         (binding.searchRecyclerView.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
-    }
-
-    private fun showNoData(isEmpty: Boolean) {
-        if (isEmpty && networkStateRefresh.value == NetworkState.LOADED) {
-            binding.searchNoResultsText.show()
-        } else {
-            binding.searchNoResultsText.hide()
-        }
     }
 
     private fun showError() {

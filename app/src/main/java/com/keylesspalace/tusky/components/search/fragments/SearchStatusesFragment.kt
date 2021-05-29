@@ -32,9 +32,8 @@ import androidx.appcompat.widget.PopupMenu
 import androidx.core.app.ActivityOptionsCompat
 import androidx.core.view.ViewCompat
 import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LiveData
-import androidx.paging.PagedList
-import androidx.paging.PagedListAdapter
+import androidx.paging.PagingData
+import androidx.paging.PagingDataAdapter
 import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -57,26 +56,22 @@ import com.keylesspalace.tusky.interfaces.StatusActionListener
 import com.keylesspalace.tusky.settings.PrefKeys
 import com.keylesspalace.tusky.util.CardViewMode
 import com.keylesspalace.tusky.util.LinkHelper
-import com.keylesspalace.tusky.util.NetworkState
 import com.keylesspalace.tusky.util.StatusDisplayOptions
 import com.keylesspalace.tusky.view.showMuteAccountDialog
 import com.keylesspalace.tusky.viewdata.AttachmentViewData
 import com.keylesspalace.tusky.viewdata.StatusViewData
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import kotlinx.coroutines.flow.Flow
 
 class SearchStatusesFragment : SearchFragment<Pair<Status, StatusViewData.Concrete>>(), StatusActionListener {
 
-    override val networkStateRefresh: LiveData<NetworkState>
-        get() = viewModel.networkStateStatusRefresh
-    override val networkState: LiveData<NetworkState>
-        get() = viewModel.networkStateStatus
-    override val data: LiveData<PagedList<Pair<Status, StatusViewData.Concrete>>>
-        get() = viewModel.statuses
+    override val data: Flow<PagingData<Pair<Status, StatusViewData.Concrete>>>
+        get() = viewModel.statusesFlow
 
     private val searchAdapter
         get() = super.adapter as SearchStatusesAdapter
 
-    override fun createAdapter(): PagedListAdapter<Pair<Status, StatusViewData.Concrete>, *> {
+    override fun createAdapter(): PagingDataAdapter<Pair<Status, StatusViewData.Concrete>, *> {
         val preferences = PreferenceManager.getDefaultSharedPreferences(binding.searchRecyclerView.context)
         val statusDisplayOptions = StatusDisplayOptions(
                 animateAvatars = preferences.getBoolean("animateGifAvatars", false),
@@ -96,37 +91,37 @@ class SearchStatusesFragment : SearchFragment<Pair<Status, StatusViewData.Concre
     }
 
     override fun onContentHiddenChange(isShowing: Boolean, position: Int) {
-        searchAdapter.getItem(position)?.let {
+        searchAdapter.item(position)?.let {
             viewModel.contentHiddenChange(it, isShowing)
         }
     }
 
     override fun onReply(position: Int) {
-        searchAdapter.getItem(position)?.first?.let { status ->
+        searchAdapter.item(position)?.first?.let { status ->
             reply(status)
         }
     }
 
     override fun onFavourite(favourite: Boolean, position: Int) {
-        searchAdapter.getItem(position)?.let { status ->
+        searchAdapter.item(position)?.let { status ->
             viewModel.favorite(status, favourite)
         }
     }
 
     override fun onBookmark(bookmark: Boolean, position: Int) {
-        searchAdapter.getItem(position)?.let { status ->
+        searchAdapter.item(position)?.let { status ->
             viewModel.bookmark(status, bookmark)
         }
     }
 
     override fun onMore(view: View, position: Int) {
-        searchAdapter.getItem(position)?.first?.let {
+        searchAdapter.item(position)?.first?.let {
             more(it, view, position)
         }
     }
 
     override fun onViewMedia(position: Int, attachmentIndex: Int, view: View?) {
-        searchAdapter.getItem(position)?.first?.actionableStatus?.let { actionable ->
+        searchAdapter.item(position)?.first?.actionableStatus?.let { actionable ->
             when (actionable.attachments[attachmentIndex].type) {
                 Attachment.Type.GIFV, Attachment.Type.VIDEO, Attachment.Type.IMAGE, Attachment.Type.AUDIO -> {
                     val attachments = AttachmentViewData.list(actionable)
@@ -152,20 +147,20 @@ class SearchStatusesFragment : SearchFragment<Pair<Status, StatusViewData.Concre
     }
 
     override fun onViewThread(position: Int) {
-        searchAdapter.getItem(position)?.first?.let { status ->
+        searchAdapter.item(position)?.first?.let { status ->
             val actionableStatus = status.actionableStatus
             bottomSheetActivity?.viewThread(actionableStatus.id, actionableStatus.url)
         }
     }
 
     override fun onOpenReblog(position: Int) {
-        searchAdapter.getItem(position)?.first?.let { status ->
+        searchAdapter.item(position)?.first?.let { status ->
             bottomSheetActivity?.viewAccount(status.account.id)
         }
     }
 
     override fun onExpandedChange(expanded: Boolean, position: Int) {
-        searchAdapter.getItem(position)?.let {
+        searchAdapter.item(position)?.let {
             viewModel.expandedChange(it, expanded)
         }
     }
@@ -175,25 +170,25 @@ class SearchStatusesFragment : SearchFragment<Pair<Status, StatusViewData.Concre
     }
 
     override fun onContentCollapsedChange(isCollapsed: Boolean, position: Int) {
-        searchAdapter.getItem(position)?.let {
+        searchAdapter.item(position)?.let {
             viewModel.collapsedChange(it, isCollapsed)
         }
     }
 
     override fun onVoteInPoll(position: Int, choices: MutableList<Int>) {
-        searchAdapter.getItem(position)?.let {
+        searchAdapter.item(position)?.let {
             viewModel.voteInPoll(it, choices)
         }
     }
 
     private fun removeItem(position: Int) {
-        searchAdapter.getItem(position)?.let {
+        searchAdapter.item(position)?.let {
             viewModel.removeItem(it)
         }
     }
 
     override fun onReblog(reblog: Boolean, position: Int) {
-        searchAdapter.getItem(position)?.let { status ->
+        searchAdapter.item(position)?.let { status ->
             viewModel.reblog(status, reblog)
         }
     }
@@ -323,7 +318,7 @@ class SearchStatusesFragment : SearchFragment<Pair<Status, StatusViewData.Concre
                     return@setOnMenuItemClickListener true
                 }
                 R.id.status_mute_conversation -> {
-                    searchAdapter.getItem(position)?.let { foundStatus ->
+                    searchAdapter.item(position)?.let { foundStatus ->
                         viewModel.muteConversation(foundStatus, status.muted != true)
                     }
                     return@setOnMenuItemClickListener true
