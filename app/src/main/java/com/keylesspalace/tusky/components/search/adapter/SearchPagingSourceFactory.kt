@@ -18,13 +18,11 @@ package com.keylesspalace.tusky.components.search.adapter
 import com.keylesspalace.tusky.components.search.SearchType
 import com.keylesspalace.tusky.entity.SearchResult
 import com.keylesspalace.tusky.network.MastodonApi
-import java.util.concurrent.Executor
 
 class SearchPagingSourceFactory<T : Any>(
     private val mastodonApi: MastodonApi,
     private val searchType: SearchType,
     private var searchRequest: String,
-    private val retryExecutor: Executor,
     private val initialItems: List<T>? = null,
     private val parser: (SearchResult?) -> List<T>
 ) : () -> SearchPagingSource<T> {
@@ -36,7 +34,6 @@ class SearchPagingSourceFactory<T : Any>(
             mastodonApi = mastodonApi,
             searchType = searchType,
             searchRequest = searchRequest,
-            retryExecutor = retryExecutor,
             initialItems = initialItems,
             parser = parser
         ).also { source ->

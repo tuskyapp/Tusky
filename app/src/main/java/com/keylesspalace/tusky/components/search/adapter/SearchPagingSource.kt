@@ -15,37 +15,19 @@
 
 package com.keylesspalace.tusky.components.search.adapter
 
-import androidx.lifecycle.MutableLiveData
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.keylesspalace.tusky.components.search.SearchType
 import com.keylesspalace.tusky.entity.SearchResult
 import com.keylesspalace.tusky.network.MastodonApi
-import com.keylesspalace.tusky.util.NetworkState
 import kotlinx.coroutines.rx3.await
-import java.util.concurrent.Executor
 
 class SearchPagingSource<T: Any>(
     private val mastodonApi: MastodonApi,
     private val searchType: SearchType,
     private val searchRequest: String,
-    private val retryExecutor: Executor,
     private val initialItems: List<T>?,
     private val parser: (SearchResult?) -> List<T>) : PagingSource<Int, T>() {
-
-    val networkState = MutableLiveData<NetworkState>()
-
-    private var retry: (() -> Any)? = null
-
-    val initialLoad = MutableLiveData<NetworkState>()
-
-    fun retry() {
-        retry?.let {
-            retryExecutor.execute {
-                it.invoke()
-            }
-        }
-    }
 
     override fun getRefreshKey(state: PagingState<Int, T>): Int? {
         return null

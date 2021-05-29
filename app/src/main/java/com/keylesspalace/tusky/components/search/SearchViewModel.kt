@@ -18,7 +18,6 @@ import com.keylesspalace.tusky.util.ViewDataUtils
 import com.keylesspalace.tusky.viewdata.StatusViewData
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Single
-import java.util.concurrent.Executors
 import javax.inject.Inject
 
 class SearchViewModel @Inject constructor(
@@ -26,8 +25,6 @@ class SearchViewModel @Inject constructor(
         private val timelineCases: TimelineCases,
         private val accountManager: AccountManager
 ) : RxAwareViewModel() {
-
-    private val executor = Executors.newSingleThreadExecutor()
 
     var currentQuery: String = ""
 
@@ -43,17 +40,17 @@ class SearchViewModel @Inject constructor(
 
     private val loadedStatuses: MutableList<Pair<Status, StatusViewData.Concrete>> = mutableListOf()
 
-    private val statusesPagingSourceFactory = SearchPagingSourceFactory(mastodonApi, SearchType.Status, "", executor, loadedStatuses){
+    private val statusesPagingSourceFactory = SearchPagingSourceFactory(mastodonApi, SearchType.Status, "", loadedStatuses){
         it?.statuses?.map { status -> Pair(status, ViewDataUtils.statusToViewData(status, alwaysShowSensitiveMedia, alwaysOpenSpoiler)!!) }
             .orEmpty()
             .apply {
                 loadedStatuses.addAll(this)
             }
     }
-    private val accountsPagingSourceFactory = SearchPagingSourceFactory(mastodonApi, SearchType.Account, "", executor){
+    private val accountsPagingSourceFactory = SearchPagingSourceFactory(mastodonApi, SearchType.Account, ""){
         it?.accounts.orEmpty()
     }
-    private val hashtagsPagingSourceFactory = SearchPagingSourceFactory(mastodonApi, SearchType.Hashtag, "", executor){
+    private val hashtagsPagingSourceFactory = SearchPagingSourceFactory(mastodonApi, SearchType.Hashtag, ""){
         it?.hashtags.orEmpty()
     }
 
