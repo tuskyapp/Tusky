@@ -20,7 +20,7 @@ import kotlinx.coroutines.rx3.asFlow
 import kotlinx.coroutines.rx3.await
 import retrofit2.HttpException
 import retrofit2.Response
-import java.io.IOError
+import java.io.IOException
 import javax.inject.Inject
 
 class TimelineViewModel @Inject constructor(
@@ -29,6 +29,11 @@ class TimelineViewModel @Inject constructor(
     private val mastodonApi: MastodonApi,
     private val eventHub: EventHub,
 ) : RxAwareViewModel() {
+
+    enum class FailureReason {
+        NETWORK,
+        OTHER,
+    }
 
     val viewUpdates: Observable<Unit>
         get() = updateViewSubject
@@ -43,6 +48,7 @@ class TimelineViewModel @Inject constructor(
     var bottomLoading = false
     var initialUpdateFailed = false
     var isNeedRefresh = false
+    var failure: FailureReason? = null
 
     private var updateViewSubject = PublishSubject.create<Unit>()
     private var didLoadEverythingBottom = false
@@ -128,11 +134,12 @@ class TimelineViewModel @Inject constructor(
         triggerViewUpdate()
     }
 
-    private fun isExpectedRequestException(t: Exception) = t is IOError || t is HttpException
+    private fun isExpectedRequestException(t: Exception) = t is IOException || t is HttpException
 
     fun refresh(): Job {
         return viewModelScope.launch {
             isNeedRefresh = false
+            failure = null
             if (initialUpdateFailed) updateCurrent()
             loadAbove()
         }
@@ -345,7 +352,7 @@ class TimelineViewModel @Inject constructor(
                         nextId = newNextId
                     }
                     onFetchTimelineSuccess(
-                        liftStatusList(response.body()!!).toMutableList(),
+                        response.body()!!.mapTo(mutableListOf()) { Either.Right(it) },
                         fetchEnd,
                         pos
                     )
@@ -402,10 +409,6 @@ class TimelineViewModel @Inject constructor(
             }
         }
 
-
-        // TODO: ???
-//        binding.topProgressBar.hide()
-//        binding.swipeRefreshLayout.isEnabled = true
         updateBottomLoadingState(fetchEnd)
         this.isLoadingInitially = false
         this.isRefreshing = false
@@ -414,26 +417,12 @@ class TimelineViewModel @Inject constructor(
 
     private fun onFetchTimelineFailure(throwable: Throwable, fetchEnd: FetchEnd, position: Int) {
         this.isRefreshing = false
-        // TODO
-//        binding.topProgressBar.hide()
         if (fetchEnd == FetchEnd.MIDDLE && statuses[position] is StatusViewData.Placeholder) {
             updatePlacesholderAt(position) { it.copy(isLoading = false) }
         } else if (statuses.isEmpty()) {
-            // TODO
-//            binding.swipeRefreshLayout.isEnabled = false
-//            binding.statusView.visibility = View.VISIBLE
-            // TODO
-//            if (throwable is IOException) {
-//                binding.statusView.setup(R.drawable.elephant_offline, R.string.error_network) {
-//                    binding.progressBar.visibility = View.VISIBLE
-//                    onRefresh()
-//                }
-//            } else {
-//                binding.statusView.setup(R.drawable.elephant_error, R.string.error_generic) {
-//                    binding.progressBar.visibility = View.VISIBLE
-//                    onRefresh()
-//                }
-//            }
+            this.isRefreshing = false
+            this.failure =
+                if (throwable is IOException) FailureReason.NETWORK else FailureReason.OTHER
         }
         Log.e(TAG, "Fetch Failure: " + throwable.message)
         updateBottomLoadingState(fetchEnd)
@@ -684,19 +673,8 @@ class TimelineViewModel @Inject constructor(
         if (newStatuses.isEmpty()) {
             return
         }
-        val last = statuses.lastOrNull { status -> status is StatusViewData.Concrete }
-
-        // I was about to replace findStatus with indexOf but it is incorrect to compare value
-        // types by ID anyway and we should change equals() for Status, I think, so this makes sense
-        // TODO: wat
-//        if (last != null && !newStatuses.contains(last)) {
         statuses.addAll(newStatuses.toViewData())
         removeConsecutivePlaceholders()
-//        }
-    }
-
-    private fun liftStatusList(list: List<Status>): List<Either<Placeholder, Status>> {
-        return list.map(statusLifter)
     }
 
     /**
@@ -705,9 +683,6 @@ class TimelineViewModel @Inject constructor(
     private fun clearPlaceholdersForResponse(statuses: MutableList<Either<Placeholder, Status>>) {
         statuses.removeAll { status -> status.isLeft() }
     }
-
-    private val statusLifter: Function1<Status, Either<Placeholder, Status>> =
-        { value -> Either.Right(value) }
 
     private fun handleReblogEvent(reblogEvent: ReblogEvent) {
         updateStatusById(reblogEvent.statusId) {
