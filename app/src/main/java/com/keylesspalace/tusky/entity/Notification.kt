@@ -22,10 +22,11 @@ import com.google.gson.JsonParseException
 import com.google.gson.annotations.JsonAdapter
 
 data class Notification(
-        val type: Type,
-        val id: String,
-        val account: Account,
-        val status: Status?) {
+    val type: Type,
+    val id: String,
+    val account: Account,
+    val status: Status?
+) {
 
     @JsonAdapter(NotificationTypeAdapter::class)
     enum class Type(val presentation: String) {
@@ -71,18 +72,25 @@ data class Notification(
     class NotificationTypeAdapter : JsonDeserializer<Type> {
 
         @Throws(JsonParseException::class)
-        override fun deserialize(json: JsonElement, typeOfT: java.lang.reflect.Type, context: JsonDeserializationContext): Type {
+        override fun deserialize(
+            json: JsonElement,
+            typeOfT: java.lang.reflect.Type,
+            context: JsonDeserializationContext
+        ): Type {
             return Type.byString(json.asString)
         }
 
     }
-    
+
+    /** Helper for Java */
+    fun copyWithStatus(status: Status?): Notification = copy(status = status)
+
     // for Pleroma compatibility that uses Mention type
-    fun rewriteToStatusTypeIfNeeded(accountId: String) : Notification {
+    fun rewriteToStatusTypeIfNeeded(accountId: String): Notification {
         if (type == Type.MENTION && status != null) {
             return if (status.mentions.any {
-                it.id == accountId
-            }) this else copy(type = Type.STATUS)
+                    it.id == accountId
+                }) this else copy(type = Type.STATUS)
         }
         return this
     }

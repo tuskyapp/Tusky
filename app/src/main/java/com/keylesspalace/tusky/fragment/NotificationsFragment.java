@@ -85,6 +85,7 @@ import com.keylesspalace.tusky.view.BackgroundMessageView;
 import com.keylesspalace.tusky.view.EndlessOnScrollListener;
 import com.keylesspalace.tusky.viewdata.AttachmentViewData;
 import com.keylesspalace.tusky.viewdata.NotificationViewData;
+import com.keylesspalace.tusky.viewdata.StatusViewData;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -92,6 +93,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
@@ -488,18 +490,7 @@ public class NotificationsFragment extends SFragment implements
     }
 
     private void setVoteForPoll(Status status, Poll poll) {
-        // TODO: need to find and copy status actually
-//        NotificationViewData.Concrete viewdata = (NotificationViewData.Concrete) notifications.getPairedItem(position);
-//
-//        StatusViewData.Builder viewDataBuilder = new StatusViewData.Builder(viewdata.getStatusViewData());
-//        viewDataBuilder.setPoll(poll);
-//
-//        NotificationViewData.Concrete newViewData = new NotificationViewData.Concrete(
-//                viewdata.getType(), viewdata.getId(), viewdata.getAccount(),
-//                viewDataBuilder.createStatusViewData());
-//
-//        notifications.setPairedItem(position, newViewData);
-//        updateAdapter();
+        updateStatus(status.getId(), (s) -> s.copyWithPoll(poll));
     }
 
     @Override
@@ -533,32 +524,12 @@ public class NotificationsFragment extends SFragment implements
 
     @Override
     public void onExpandedChange(boolean expanded, int position) {
-        // TODO
-//        NotificationViewData.Concrete old =
-//                (NotificationViewData.Concrete) notifications.getPairedItem(position);
-//        StatusViewData.Concrete statusViewData =
-//                new StatusViewData.Builder(old.getStatusViewData())
-//                        .setIsExpanded(expanded)
-//                        .createStatusViewData();
-//        NotificationViewData notificationViewData = new NotificationViewData.Concrete(old.getType(),
-//                old.getId(), old.getAccount(), statusViewData);
-//        notifications.setPairedItem(position, notificationViewData);
-//        updateAdapter();
+        updateViewDataAt(position, (vd) -> vd.copyWithExpanded(expanded));
     }
 
     @Override
     public void onContentHiddenChange(boolean isShowing, int position) {
-        // TODO
-//        NotificationViewData.Concrete old =
-//                (NotificationViewData.Concrete) notifications.getPairedItem(position);
-//        StatusViewData.Concrete statusViewData =
-//                new StatusViewData.Builder(old.getStatusViewData())
-//                        .setIsShowingSensitiveContent(isShowing)
-//                        .createStatusViewData();
-//        NotificationViewData notificationViewData = new NotificationViewData.Concrete(old.getType(),
-//                old.getId(), old.getAccount(), statusViewData);
-//        notifications.setPairedItem(position, notificationViewData);
-//        updateAdapter();
+        updateViewDataAt(position, (vd) -> vd.copyWithShowingContent(isShowing));
     }
 
     @Override
@@ -584,43 +555,73 @@ public class NotificationsFragment extends SFragment implements
 
     @Override
     public void onContentCollapsedChange(boolean isCollapsed, int position) {
-        if (position < 0 || position >= notifications.size()) {
-            Log.e(TAG, String.format("Tried to access out of bounds status position: %d of %d", position, notifications.size() - 1));
-            return;
-        }
+        updateViewDataAt(position, (vd) -> vd.copyWIthCollapsed(isCollapsed));;
+    }
 
-        NotificationViewData notification = notifications.getPairedItem(position);
-        if (!(notification instanceof NotificationViewData.Concrete)) {
-            Log.e(TAG, String.format(
-                    "Expected NotificationViewData.Concrete, got %s instead at position: %d of %d",
-                    notification == null ? "null" : notification.getClass().getSimpleName(),
+    private void updateStatus(String statusId, Function<Status, Status> mapper) {
+        int index = CollectionsKt.indexOfFirst(this.notifications, (s) -> s.isRight() &&
+                s.asRight().getStatus() != null &&
+                s.asRight().getStatus().getId().equals(statusId));
+        if (index == -1) return;
+
+        // We have quite some graph here:
+        //
+        //      Notification --------> Status
+        //                                ^
+        //                                |
+        //                             StatusViewData
+        //                                ^
+        //                                |
+        //      NotificationViewData -----+
+        //
+        // So if we have "new" status we need to update all references to be sure that data is
+        // up-to-date:
+        // 1. update status
+        // 2. update notification
+        // 3. update statusViewData
+        // 4. update notificationViewData
+
+        Status oldStatus = notifications.get(index).asRight().getStatus();
+        NotificationViewData.Concrete oldViewData =
+                (NotificationViewData.Concrete) this.notifications.getPairedItem(index);
+        Status newStatus = mapper.apply(oldStatus);
+        Notification newNotification = this.notifications.get(index).asRight()
+                .copyWithStatus(newStatus);
+        StatusViewData.Concrete newStatusViewData =
+                Objects.requireNonNull(oldViewData.getStatusViewData()).copyWithStatus(newStatus);
+        NotificationViewData.Concrete newViewData = oldViewData.copyWithStatus(newStatusViewData);
+
+        notifications.set(index, new Either.Right<>(newNotification));
+        notifications.setPairedItem(index, newViewData);
+
+        updateAdapter();
+    }
+
+    private void updateViewDataAt(int position,
+                                  Function<StatusViewData.Concrete, StatusViewData.Concrete> mapper) {
+        if (position < 0 || position >= notifications.size()) {
+            String message = String.format(
+                    Locale.getDefault(),
+                    "Tried to access out of bounds status position: %d of %d",
                     position,
                     notifications.size() - 1
-            ));
+            );
+            Log.e(TAG, message);
             return;
         }
+        NotificationViewData someViewData = this.notifications.getPairedItem(position);
+        if (!(someViewData instanceof NotificationViewData.Concrete)) {
+            return;
+        }
+        NotificationViewData.Concrete oldViewData = (NotificationViewData.Concrete) someViewData;
+        StatusViewData.Concrete oldStatusViewData = oldViewData.getStatusViewData();
+        if (oldStatusViewData == null) return;
 
-        // TODO
-//        StatusViewData.Concrete status = ((NotificationViewData.Concrete) notification).getStatusViewData();
-//        StatusViewData.Concrete updatedStatus = new StatusViewData.Builder(status)
-//                .setCollapsed(isCollapsed)
-//                .createStatusViewData();
-//
-//        NotificationViewData.Concrete concreteNotification = (NotificationViewData.Concrete) notification;
-//        NotificationViewData updatedNotification = new NotificationViewData.Concrete(
-//                concreteNotification.getType(),
-//                concreteNotification.getId(),
-//                concreteNotification.getAccount(),
-//                updatedStatus
-//        );
-//        notifications.setPairedItem(position, updatedNotification);
+        NotificationViewData.Concrete newViewData =
+                oldViewData.copyWithStatus(mapper.apply(oldStatusViewData));
+        notifications.setPairedItem(position, newViewData);
+
         updateAdapter();
-
-        // Since we cannot notify to the RecyclerView right away because it may be scrolling
-        // we run this when the RecyclerView is done doing measurements and other calculations.
-        // To test this is not bs: try getting a notification while scrolling, without wrapping
-        // notifyItemChanged in a .post() call. App will crash.
-        recyclerView.post(() -> adapter.notifyItemChanged(position, notification));
     }
 
     @Override

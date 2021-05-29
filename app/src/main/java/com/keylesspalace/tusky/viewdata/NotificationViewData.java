@@ -94,6 +94,10 @@ public abstract class NotificationViewData {
 
             return Objects.hash(type, id, account, statusViewData);
         }
+
+        public Concrete copyWithStatus(@Nullable StatusViewData.Concrete statusViewData) {
+            return new Concrete(type, id, account, statusViewData);
+        }
     }
 
     public static final class Placeholder extends NotificationViewData {

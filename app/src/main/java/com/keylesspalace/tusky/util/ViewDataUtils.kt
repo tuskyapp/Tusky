@@ -52,11 +52,9 @@ object ViewDataUtils {
             notification.type,
             notification.id,
             notification.account,
-            statusToViewData(
-                notification.status!!,
-                alwaysShowSensitiveData,
-                alwaysOpenSpoiler
-            )
+            notification.status?.let { status ->
+                statusToViewData(status, alwaysShowSensitiveData, alwaysOpenSpoiler)
+            }
         )
     }
 }
