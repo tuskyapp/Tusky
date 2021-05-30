@@ -18,6 +18,7 @@ class ConversationsRemoteMediator(
         loadType: LoadType,
         state: PagingState<Int, ConversationEntity>
     ): MediatorResult {
+
         val conversationsResult = when (loadType) {
             LoadType.REFRESH -> {
                 api.getConversations(limit = state.config.initialLoadSize)
@@ -26,7 +27,7 @@ class ConversationsRemoteMediator(
                 return MediatorResult.Success(true)
             }
             LoadType.APPEND -> {
-                val maxId = state.pages.findLast { it.data.isNotEmpty() }?.data?.lastOrNull()?.id
+                val maxId = state.pages.findLast { it.data.isNotEmpty() }?.data?.lastOrNull()?.lastStatus?.id
                 api.getConversations(maxId = maxId, limit = state.config.pageSize)
             }
         }
@@ -34,10 +35,13 @@ class ConversationsRemoteMediator(
         if (loadType == LoadType.REFRESH) {
             db.conversationDao().deleteForAccount(accountId)
         }
-        db.conversationDao().insert(conversationsResult.map { it.toEntity(accountId) })
+        db.conversationDao().insert(
+            conversationsResult
+                .filterNot { it.lastStatus == null }
+                .map { it.toEntity(accountId) }
+        )
 
         return MediatorResult.Success(endOfPaginationReached = conversationsResult.isEmpty())
-
     }
 
     override suspend fun initialize() = InitializeAction.SKIP_INITIAL_REFRESH

@@ -8,7 +8,10 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class ConversationsRepository @Inject constructor(val mastodonApi: MastodonApi, val db: AppDatabase) {
+class ConversationsRepository @Inject constructor(
+    val mastodonApi: MastodonApi,
+    val db: AppDatabase
+) {
 
     fun deleteCacheForAccount(accountId: Long) {
         Single.fromCallable {
