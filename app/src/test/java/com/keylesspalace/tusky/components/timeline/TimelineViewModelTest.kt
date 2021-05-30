@@ -131,7 +131,7 @@ class TimelineViewModelTest {
     fun `loads above cached`() {
         val cachedStatuses = (5 downTo 1).map { makeStatus(it.toString()) }
         setCachedResponse(cachedStatuses)
-        setInitialRefresh("5", cachedStatuses.drop(1))
+        setInitialRefresh("6", cachedStatuses.drop(1))
 
         val additionalStatuses = (10 downTo 6)
             .map { makeStatus(it.toString()) }
@@ -161,7 +161,7 @@ class TimelineViewModelTest {
     fun loadAbove() {
         val cachedStatuses = (5 downTo 1).map { makeStatus(it.toString()) }
         setCachedResponse(cachedStatuses)
-        setInitialRefresh("5", cachedStatuses.drop(1))
+        setInitialRefresh("6", cachedStatuses.drop(1))
 
         val additionalStatuses = listOf(makeStatus("6"))
 
@@ -206,7 +206,7 @@ class TimelineViewModelTest {
     fun loadBelow() {
         val cachedStatuses = (10 downTo 5).map { makeStatus(it.toString()) }
         setCachedResponse(cachedStatuses)
-        setInitialRefresh("10", cachedStatuses.drop(1))
+        setInitialRefresh("11", cachedStatuses.drop(1))
 
         // Nothing above
         whenever(
@@ -264,7 +264,7 @@ class TimelineViewModelTest {
         )
 
         setCachedResponseWithGaps(cachedStatuses)
-        setInitialRefreshWithGaps("5", cachedStatuses.drop(1))
+        setInitialRefreshWithGaps("6", cachedStatuses.drop(1))
 
         // Nothing above
         whenever(
@@ -302,6 +302,9 @@ class TimelineViewModelTest {
             ).map { ViewDataUtils.statusToViewData(it, false, false) }
         )
     }
+
+    // TODO: test failure for each
+    // TODO: test concurrent loading below
 
     private fun assertHasList(aList: List<StatusViewData>) {
         assertEquals(
