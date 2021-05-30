@@ -197,8 +197,19 @@ class TimelineViewModel @Inject constructor(
                     statuses.lastOrNull { it is StatusViewData.Concrete }
                         ?.let { (it as StatusViewData.Concrete).id }
                 }
-            loadBelow(bottomId)
-            triggerViewUpdate()
+            try {
+                loadBelow(bottomId)
+            } catch (e: Exception) {
+                if (isExpectedRequestException(e)) {
+                    if (statuses.lastOrNull() is StatusViewData.Placeholder) {
+                        statuses.removeAt(statuses.lastIndex)
+                    }
+                } else {
+                    throw e
+                }
+            } finally {
+                triggerViewUpdate()
+            }
         }
     }
 
@@ -514,14 +525,20 @@ class TimelineViewModel @Inject constructor(
                 tryCache()
                 isLoadingInitially = statuses.isEmpty()
                 updateCurrent()
-                loadAbove()
+                try {
+                    loadAbove()
+                } catch (e: IOException) {
+                    failure = FailureReason.NETWORK
+                } catch (e: HttpException) {
+                    failure = FailureReason.OTHER
+                }
             } else {
                 loadBelow(null)
             }
         }
     }
 
-    suspend fun loadAbove() {
+    private suspend fun loadAbove() {
         var firstOrNull: String? = null
         var secondOrNull: String? = null
         for (i in statuses.indices) {
@@ -546,13 +563,6 @@ class TimelineViewModel @Inject constructor(
                 updateStatuses(statuses.toMutableList(), fullFetch)
             } else {
                 loadBelow(null)
-            }
-        } catch (t: Exception) {
-            if (isExpectedRequestException(t)) {
-                Log.e(TAG, "Failed to load above: ", t)
-                return
-            } else {
-                throw t
             }
         } finally {
             triggerViewUpdate()
