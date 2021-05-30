@@ -134,10 +134,12 @@ class TimelineViewModel @Inject constructor(
             val mutableStatuses = statuses.toMutableList()
             filterStatuses(mutableStatuses)
             this.statuses.removeAll { item ->
-                val id = if (item is StatusViewData.Concrete) item.id
-                else (item as StatusViewData.Placeholder).id
+                val id = when (item) {
+                    is StatusViewData.Concrete -> item.id
+                    is StatusViewData.Placeholder -> item.id
+                }
 
-                id.isLessThan(topId)
+                id == topId || id.isLessThan(topId)
             }
             this.statuses.addAll(mutableStatuses.map {
                 if (it.isLeft()) {
@@ -319,54 +321,59 @@ class TimelineViewModel @Inject constructor(
         }
     }
 
-    fun reblog(reblog: Boolean, position: Int) {
-        val status = statuses[position].asStatusOrNull() ?: return
-        timelineCases.reblog(status.id, reblog)
-            .subscribe({ newStatus -> updateWithNewStatus(newStatus) }) { t: Throwable? ->
-                Log.d(
-                    TAG,
-                    "Failed to reblog status " + status.id,
-                    t
-                )
+    fun reblog(reblog: Boolean, position: Int): Job = viewModelScope.launch {
+        val status = statuses[position].asStatusOrNull() ?: return@launch
+        try {
+            timelineCases.reblog(status.id, reblog).await()
+        } catch (t: Exception) {
+            ifExpected(t) {
+                Log.d(TAG, "Failed to reblog status " + status.id, t)
+
             }
-            .autoDispose()
+        }
     }
 
-    fun favorite(favorite: Boolean, position: Int) {
-        val status = statuses[position].asStatusOrNull() ?: return
-        timelineCases.favourite(status.id, favorite)
-            .subscribe(
-                { newStatus -> updateWithNewStatus(newStatus) },
-                { t: Throwable? -> Log.d(TAG, "Failed to favourite status " + status.id, t) }
-            )
-            .autoDispose()
+    fun favorite(favorite: Boolean, position: Int): Job = viewModelScope.launch {
+        val status = statuses[position].asStatusOrNull() ?: return@launch
+
+        try {
+            timelineCases.favourite(status.id, favorite).await()
+        } catch (t: Exception) {
+            ifExpected(t) {
+                Log.d(TAG, "Failed to favourite status " + status.id, t)
+            }
+        }
     }
 
-    fun bookmark(bookmark: Boolean, position: Int) {
-        val status = statuses[position].asStatusOrNull() ?: return
-        timelineCases.bookmark(status.id, bookmark)
-            .subscribe(
-                { newStatus -> updateWithNewStatus(newStatus) },
-                { t: Throwable? -> Log.d(TAG, "Failed to favourite status " + status.id, t) }
-            )
-            .autoDispose()
+    fun bookmark(bookmark: Boolean, position: Int): Job = viewModelScope.launch {
+        val status = statuses[position].asStatusOrNull() ?: return@launch
+        try {
+            timelineCases.bookmark(status.id, bookmark).await()
+        } catch (t: Exception) {
+            ifExpected(t) {
+                Log.d(TAG, "Failed to favourite status " + status.id, t)
+            }
+        }
     }
 
-    fun voteInPoll(position: Int, choices: List<Int>) {
-        val status = statuses[position].asStatusOrNull() ?: return
+    fun voteInPoll(position: Int, choices: List<Int>): Job = viewModelScope.launch {
+        val status = statuses[position].asStatusOrNull() ?: return@launch
+
         val poll = status.status.poll ?: run {
             Log.w(TAG, "No poll on status ${status.id}")
-            return
+            return@launch
         }
 
         val votedPoll = status.actionable.poll!!.votedCopy(choices)
         updatePoll(status, votedPoll)
-        timelineCases.voteInPoll(status.id, poll.id, choices)
-            .subscribe(
-                { newPoll: Poll -> updatePoll(status, newPoll) },
-                { t: Throwable? -> Log.d(TAG, "Failed to vote in poll: " + status.id, t) }
-            )
-            .autoDispose()
+
+        try {
+            timelineCases.voteInPoll(status.id, poll.id, choices).await()
+        } catch (t: Exception) {
+            ifExpected(t) {
+                Log.d(TAG, "Failed to vote in poll: " + status.id, t)
+            }
+        }
     }
 
     private fun updatePoll(
@@ -531,9 +538,21 @@ class TimelineViewModel @Inject constructor(
                     failure = FailureReason.NETWORK
                 } catch (e: HttpException) {
                     failure = FailureReason.OTHER
+                } finally {
+                    isLoadingInitially = false
+                    triggerViewUpdate()
                 }
             } else {
-                loadBelow(null)
+                try {
+                    loadBelow(null)
+                } catch (e: IOException) {
+                    failure = FailureReason.NETWORK
+                } catch (e: HttpException) {
+                    failure = FailureReason.OTHER
+                } finally {
+                    isLoadingInitially = false
+                    triggerViewUpdate()
+                }
             }
         }
     }
@@ -867,6 +886,18 @@ class TimelineViewModel @Inject constructor(
             filterViewData(this@TimelineViewModel.statuses)
         }
     }
+
+    private inline fun ifExpected(
+        t: Exception,
+        cb: () -> Unit
+    ) {
+        if (isExpectedRequestException(t)) {
+            cb()
+        } else {
+            throw t
+        }
+    }
+
 
     companion object {
         private const val TAG = "TimelineVM"
