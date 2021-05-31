@@ -1,0 +1,3 @@
+Tusky v15.1
+
+This release fixes a crash when captioning images
