@@ -67,7 +67,7 @@ class AnnouncementsViewModel @Inject constructor(
                     appDatabase.instanceDao().insertOrReplace(it)
                 }
                 .subscribe({
-                    emojisMutable.postValue(it.emojiList)
+                    emojisMutable.postValue(it.emojiList.orEmpty())
                 }, {
                     Log.w(TAG, "Failed to get custom emojis.", it)
                 })
