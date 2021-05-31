@@ -12,7 +12,7 @@ import com.keylesspalace.tusky.network.FilterModel
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.network.TimelineCases
 import com.keylesspalace.tusky.util.Either
-import com.keylesspalace.tusky.util.ViewDataUtils
+import com.keylesspalace.tusky.util.toViewData
 import com.keylesspalace.tusky.viewdata.StatusViewData
 import com.nhaarman.mockitokotlin2.*
 import io.reactivex.rxjava3.annotations.NonNull
@@ -340,7 +340,7 @@ class TimelineViewModelTest {
             viewModel.refresh().join()
         }
 
-        assertHasList(cachedStatuses.map { ViewDataUtils.statusToViewData(it, false, false) })
+        assertHasList(cachedStatuses.map { it.toViewData(false, false) })
         assertFalse("refreshing", viewModel.isRefreshing)
         assertNull("failure is not set", viewModel.failure)
     }
@@ -568,9 +568,9 @@ class TimelineViewModelTest {
 
         assertHasList(
             listOf(
-                ViewDataUtils.statusToViewData(status5, false, false),
+                status5.toViewData(false, false),
                 StatusViewData.Placeholder("4", false),
-                ViewDataUtils.statusToViewData(status1, false, false),
+                status1.toViewData(false, false),
             )
         )
     }
@@ -743,9 +743,8 @@ class TimelineViewModelTest {
         ).thenReturn(Single.just(statuses))
     }
 
-    private fun List<Status>.toViewData() = map {
-        ViewDataUtils.statusToViewData(
-            it,
+    private fun List<Status>.toViewData(): List<StatusViewData> = map {
+        it.toViewData(
             alwaysShowSensitiveMedia = false,
             alwaysOpenSpoiler = false
         )

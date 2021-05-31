@@ -73,11 +73,7 @@ class SearchViewModel @Inject constructor(
             it?.statuses?.map { status ->
                 Pair(
                     status,
-                    ViewDataUtils.statusToViewData(
-                        status,
-                        alwaysShowSensitiveMedia,
-                        alwaysOpenSpoiler
-                    )!!
+                    status.toViewData(alwaysShowSensitiveMedia, alwaysOpenSpoiler)
                 )
             }
                 .orEmpty()

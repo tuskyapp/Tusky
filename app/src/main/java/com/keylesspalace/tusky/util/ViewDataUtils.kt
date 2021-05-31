@@ -1,3 +1,5 @@
+@file:JvmName("ViewDataUtils")
+
 /* Copyright 2017 Andrew Dawson
  *
  * This file is a part of Tusky.
@@ -21,40 +23,31 @@ import com.keylesspalace.tusky.viewdata.StatusViewData
 import com.keylesspalace.tusky.viewdata.toViewData
 import java.util.*
 
-/**
- * Created by charlag on 12/07/2017.
- */
-object ViewDataUtils {
-    @JvmStatic
-    fun statusToViewData(
-        status: Status,
-        alwaysShowSensitiveMedia: Boolean,
-        alwaysOpenSpoiler: Boolean
-    ): StatusViewData.Concrete {
-        val visibleStatus = status.reblog ?: status
+@JvmName("statusToViewData")
+fun Status.toViewData(
+    alwaysShowSensitiveMedia: Boolean,
+    alwaysOpenSpoiler: Boolean
+): StatusViewData.Concrete {
+    val visibleStatus = this.reblog ?: this
 
-        return StatusViewData.Concrete(
-            status = status,
-            isShowingContent = alwaysShowSensitiveMedia || !visibleStatus.sensitive,
-            isCollapsible = shouldTrimStatus(visibleStatus.content),
-            isCollapsed = false,
-            isExpanded = alwaysOpenSpoiler,
-        )
-    }
+    return StatusViewData.Concrete(
+        status = this,
+        isShowingContent = alwaysShowSensitiveMedia || !visibleStatus.sensitive,
+        isCollapsible = shouldTrimStatus(visibleStatus.content),
+        isCollapsed = false,
+        isExpanded = alwaysOpenSpoiler,
+    )
+}
 
-    @JvmStatic
-    fun notificationToViewData(
-        notification: Notification,
-        alwaysShowSensitiveData: Boolean,
-        alwaysOpenSpoiler: Boolean
-    ): NotificationViewData.Concrete {
-        return NotificationViewData.Concrete(
-            notification.type,
-            notification.id,
-            notification.account,
-            notification.status?.let { status ->
-                statusToViewData(status, alwaysShowSensitiveData, alwaysOpenSpoiler)
-            }
-        )
-    }
+@JvmName("notificationToViewData")
+fun Notification.toViewData(
+    alwaysShowSensitiveData: Boolean,
+    alwaysOpenSpoiler: Boolean
+): NotificationViewData.Concrete {
+    return NotificationViewData.Concrete(
+        this.type,
+        this.id,
+        this.account,
+        this.status?.toViewData(alwaysShowSensitiveData, alwaysOpenSpoiler)
+    )
 }

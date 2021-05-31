@@ -66,9 +66,6 @@ class TimelineFragment : SFragment(), OnRefreshListener, StatusActionListener, I
     lateinit var eventHub: EventHub
 
     @Inject
-    lateinit var timelineRepo: TimelineRepository
-
-    @Inject
     lateinit var accountManager: AccountManager
 
     private val viewModel: TimelineViewModel by viewModels { viewModelFactory }
@@ -153,9 +150,7 @@ class TimelineFragment : SFragment(), OnRefreshListener, StatusActionListener, I
         setupSwipeRefreshLayout()
         setupRecyclerView()
         updateViews()
-        if (viewModel.statuses.isEmpty()) {
-            viewModel.loadInitial()
-        }
+        viewModel.loadInitial()
     }
 
     private fun setupSwipeRefreshLayout() {

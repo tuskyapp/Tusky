@@ -30,7 +30,7 @@ import javax.inject.Inject
 class TimelineViewModel @Inject constructor(
     private val timelineRepo: TimelineRepository,
     private val timelineCases: TimelineCases,
-    private val mastodonApi: MastodonApi,
+    private val api: MastodonApi,
     private val eventHub: EventHub,
     private val accountManager: AccountManager,
     private val sharedPreferences: SharedPreferences,
@@ -141,17 +141,7 @@ class TimelineViewModel @Inject constructor(
 
                 id == topId || id.isLessThan(topId)
             }
-            this.statuses.addAll(mutableStatuses.map {
-                if (it.isLeft()) {
-                    StatusViewData.Placeholder(it.asLeft().id, false)
-                } else {
-                    ViewDataUtils.statusToViewData(
-                        it.asRight(),
-                        this.alwaysShowSensitiveMedia,
-                        this.alwaysOpenSpoilers
-                    )
-                }
-            })
+            this.statuses.addAll(mutableStatuses.toViewData())
         }
         triggerViewUpdate()
     }
@@ -364,7 +354,7 @@ class TimelineViewModel @Inject constructor(
             return@launch
         }
 
-        val votedPoll = status.actionable.poll!!.votedCopy(choices)
+        val votedPoll = poll.votedCopy(choices)
         updatePoll(status, votedPoll)
 
         try {
@@ -437,7 +427,7 @@ class TimelineViewModel @Inject constructor(
                     // again.
                     nextId = newNextId
                 }
-                response.body()!!.map { Either.Right(it) }
+                response.body()?.map { Either.Right(it) } ?: listOf()
             } else {
                 throw Exception(response.message())
             }
@@ -525,9 +515,13 @@ class TimelineViewModel @Inject constructor(
     }
 
     fun loadInitial(): Job {
-        this.isLoadingInitially = true
-        this.triggerViewUpdate()
         return viewModelScope.launch {
+            if (statuses.isNotEmpty() || initialUpdateFailed || isLoadingInitially) {
+                return@launch
+            }
+            isLoadingInitially = true
+            triggerViewUpdate()
+
             if (kind == Kind.HOME) {
                 tryCache()
                 isLoadingInitially = statuses.isEmpty()
@@ -600,7 +594,6 @@ class TimelineViewModel @Inject constructor(
         uptoId: String?,
         limit: Int
     ): Single<Response<List<Status>>> {
-        val api = mastodonApi
         return when (kind) {
             Kind.HOME -> api.homeTimeline(fromId, uptoId, limit)
             Kind.PUBLIC_FEDERATED -> api.publicTimeline(null, fromId, uptoId, limit)
@@ -847,10 +840,6 @@ class TimelineViewModel @Inject constructor(
         updateStatusAt(pos, updater)
     }
 
-    private fun updateWithNewStatus(newStatus: Status) {
-        updateStatusById(newStatus.id) { it.copy(status = newStatus) }
-    }
-
     private inline fun updateStatusAt(
         position: Int,
         updater: (StatusViewData.Concrete) -> StatusViewData.Concrete
@@ -861,21 +850,19 @@ class TimelineViewModel @Inject constructor(
     }
 
     private fun List<TimelineStatus>.toViewData(): List<StatusViewData> = this.map {
-        if (it.isRight()) {
-            ViewDataUtils.statusToViewData(
-                it.asRight(),
+        when (it) {
+            is Either.Right -> it.value.toViewData(
                 alwaysShowSensitiveMedia,
                 alwaysOpenSpoilers
             )
-        } else {
-            StatusViewData.Placeholder(it.asLeft().id, false)
+            is Either.Left -> StatusViewData.Placeholder(it.value.id, false)
         }
     }
 
     private fun reloadFilters() {
         viewModelScope.launch {
             val filters = try {
-                mastodonApi.getFilters().await()
+                api.getFilters().await()
             } catch (t: Exception) {
                 Log.e(TAG, "Failed to fetch filters", t)
                 return@launch
