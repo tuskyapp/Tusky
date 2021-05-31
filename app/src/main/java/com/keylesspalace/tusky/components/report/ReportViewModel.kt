@@ -37,8 +37,8 @@ class ReportViewModel @Inject constructor(
         private val eventHub: EventHub,
         private val statusesRepository: StatusesRepository) : RxAwareViewModel() {
 
-    private val navigationMutable = MutableLiveData<Screen>()
-    val navigation: LiveData<Screen> = navigationMutable
+    private val navigationMutable = MutableLiveData<Screen?>()
+    val navigation: LiveData<Screen?> = navigationMutable
 
     private val muteStateMutable = MutableLiveData<Resource<Boolean>>()
     val muteState: LiveData<Resource<Boolean>> = muteStateMutable
@@ -49,8 +49,8 @@ class ReportViewModel @Inject constructor(
     private val reportingStateMutable = MutableLiveData<Resource<Boolean>>()
     var reportingState: LiveData<Resource<Boolean>> = reportingStateMutable
 
-    private val checkUrlMutable = MutableLiveData<String>()
-    val checkUrl: LiveData<String> = checkUrlMutable
+    private val checkUrlMutable = MutableLiveData<String?>()
+    val checkUrl: LiveData<String?> = checkUrlMutable
 
     private val repoResult = MutableLiveData<BiListing<Status>>()
     val statuses: LiveData<PagedList<Status>> = Transformations.switchMap(repoResult) { it.pagedList }
