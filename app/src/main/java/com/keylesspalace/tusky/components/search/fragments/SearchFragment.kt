@@ -1,18 +1,3 @@
-/* Copyright 2021 Tusky Contributors
- *
- * This file is a part of Tusky.
- *
- * This program is free software; you can redistribute it and/or modify it under the terms of the
- * GNU General Public License as published by the Free Software Foundation; either version 3 of the
- * License, or (at your option) any later version.
- *
- * Tusky is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even
- * the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
- * Public License for more details.
- *
- * You should have received a copy of the GNU General Public License along with Tusky; if not,
- * see <http://www.gnu.org/licenses>. */
-
 package com.keylesspalace.tusky.components.search.fragments
 
 import android.os.Bundle
@@ -37,8 +22,6 @@ import com.keylesspalace.tusky.databinding.FragmentSearchBinding
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.interfaces.LinkListener
-import com.keylesspalace.tusky.util.hide
-import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.util.visible
 import kotlinx.coroutines.flow.Flow
@@ -87,13 +70,15 @@ abstract class SearchFragment<T: Any> : Fragment(R.layout.fragment_search),
                 showError()
             }
 
-            binding.searchProgressBar.visible(loadState.refresh == LoadState.Loading)
+            binding.searchProgressBar.visible(loadState.refresh == LoadState.Loading && adapter.itemCount == 0)
 
-            if (loadState.refresh is LoadState.NotLoading && adapter.itemCount == 0) {
-                binding.searchNoResultsText.show()
-            } else {
-                binding.searchNoResultsText.hide()
+            if (loadState.refresh != LoadState.Loading) {
+                binding.swipeRefreshLayout.isRefreshing = false
             }
+
+            binding.progressBarBottom.visible(loadState.append == LoadState.Loading)
+
+            binding.searchNoResultsText.visible(loadState.refresh is LoadState.NotLoading && adapter.itemCount == 0)
         }
     }
 
@@ -111,7 +96,7 @@ abstract class SearchFragment<T: Any> : Fragment(R.layout.fragment_search),
             snackbarErrorRetry = Snackbar.make(binding.root, R.string.failed_search, Snackbar.LENGTH_INDEFINITE)
             snackbarErrorRetry?.setAction(R.string.action_retry) {
                 snackbarErrorRetry = null
-                viewModel.retryAllSearches()
+                adapter.retry()
             }
             snackbarErrorRetry?.show()
         }
@@ -129,11 +114,6 @@ abstract class SearchFragment<T: Any> : Fragment(R.layout.fragment_search),
         get() = (activity as? BottomSheetActivity)
 
     override fun onRefresh() {
-
-        // Dismissed here because the RecyclerView bottomProgressBar is shown as soon as the retry begins.
-        binding.swipeRefreshLayout.post {
-            binding.swipeRefreshLayout.isRefreshing = false
-        }
         viewModel.retryAllSearches()
     }
 }
