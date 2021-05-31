@@ -44,5 +44,5 @@ class ConversationsRemoteMediator(
         return MediatorResult.Success(endOfPaginationReached = conversationsResult.isEmpty())
     }
 
-    override suspend fun initialize() = InitializeAction.SKIP_INITIAL_REFRESH
+    override suspend fun initialize() = InitializeAction.LAUNCH_INITIAL_REFRESH
 }

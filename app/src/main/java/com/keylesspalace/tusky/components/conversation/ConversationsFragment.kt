@@ -59,6 +59,8 @@ class ConversationsFragment : SFragment(), StatusActionListener, Injectable, Res
 
     private var layoutManager: LinearLayoutManager? = null
 
+    private var initialRefreshDone: Boolean = false
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_timeline, container, false)
     }
@@ -99,6 +101,12 @@ class ConversationsFragment : SFragment(), StatusActionListener, Injectable, Res
         }
 
         adapter.addLoadStateListener {
+
+            if (it.refresh is LoadState.NotLoading && !initialRefreshDone) {
+                // jump to top after the initial refresh finished
+                binding.recyclerView.scrollToPosition(0)
+            }
+
             if (it.refresh != LoadState.Loading) {
                 binding.swipeRefreshLayout.isRefreshing = false
             }
@@ -106,17 +114,10 @@ class ConversationsFragment : SFragment(), StatusActionListener, Injectable, Res
     }
 
     private fun initSwipeToRefresh() {
-        adapter.addLoadStateListener { loadState ->
-            binding.swipeRefreshLayout.isRefreshing = loadState.refresh == LoadState.Loading
-        }
         binding.swipeRefreshLayout.setOnRefreshListener {
             adapter.refresh()
         }
         binding.swipeRefreshLayout.setColorSchemeResources(R.color.tusky_blue)
-    }
-
-    private fun onTopLoaded() {
-        binding.recyclerView.scrollToPosition(0)
     }
 
     override fun onReblog(reblog: Boolean, position: Int) {

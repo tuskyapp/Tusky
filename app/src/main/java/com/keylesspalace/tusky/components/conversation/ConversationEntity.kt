@@ -85,7 +85,6 @@ data class ConversationStatusEntity(
     val collapsible: Boolean,
     val collapsed: Boolean,
     val poll: Poll?
-
 ) {
     /** its necessary to override this because Spanned.equals does not work as expected  */
     override fun equals(other: Any?): Boolean {

@@ -38,5 +38,4 @@ class ConversationLoadStateAdapter(
         return NetworkStateViewHolder(binding, retryCallback)
     }
 
-
 }
