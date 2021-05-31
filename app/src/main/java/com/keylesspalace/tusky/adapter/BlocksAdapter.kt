@@ -12,95 +12,86 @@
  *
  * You should have received a copy of the GNU General Public License along with Tusky; if not,
  * see <http://www.gnu.org/licenses>. */
+package com.keylesspalace.tusky.adapter
 
-package com.keylesspalace.tusky.adapter;
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.ImageButton
+import android.widget.ImageView
+import android.widget.TextView
+import androidx.recyclerview.widget.RecyclerView
+import com.keylesspalace.tusky.R
+import com.keylesspalace.tusky.entity.Account
+import com.keylesspalace.tusky.interfaces.AccountActionListener
+import com.keylesspalace.tusky.util.emojify
+import com.keylesspalace.tusky.util.loadAvatar
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.TextView;
-
-import androidx.annotation.NonNull;
-import androidx.preference.PreferenceManager;
-import androidx.recyclerview.widget.RecyclerView;
-
-import com.keylesspalace.tusky.R;
-import com.keylesspalace.tusky.entity.Account;
-import com.keylesspalace.tusky.interfaces.AccountActionListener;
-import com.keylesspalace.tusky.util.CustomEmojiHelper;
-import com.keylesspalace.tusky.util.ImageLoadingHelper;
-
-public class BlocksAdapter extends AccountAdapter {
-
-    public BlocksAdapter(AccountActionListener accountActionListener, boolean animateAvatar, boolean animateEmojis) {
-        super(accountActionListener, animateAvatar, animateEmojis);
-    }
-
-    @NonNull
-    @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        switch (viewType) {
-            default:
-            case VIEW_TYPE_ACCOUNT: {
-                View view = LayoutInflater.from(parent.getContext())
-                        .inflate(R.layout.item_blocked_user, parent, false);
-                return new BlockedUserViewHolder(view);
+/** Displays a list of blocked accounts. */
+class BlocksAdapter(
+    accountActionListener: AccountActionListener,
+    animateAvatar: Boolean,
+    animateEmojis: Boolean
+) : AccountAdapter(
+    accountActionListener,
+    animateAvatar,
+    animateEmojis
+) {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        return when (viewType) {
+            VIEW_TYPE_ACCOUNT -> {
+                val view = LayoutInflater.from(parent.context)
+                    .inflate(R.layout.item_blocked_user, parent, false)
+                BlockedUserViewHolder(view)
             }
-            case VIEW_TYPE_FOOTER: {
-                View view = LayoutInflater.from(parent.getContext())
-                        .inflate(R.layout.item_footer, parent, false);
-                return new LoadingFooterViewHolder(view);
+            VIEW_TYPE_FOOTER -> {
+                val view = LayoutInflater.from(parent.context)
+                    .inflate(R.layout.item_footer, parent, false)
+                LoadingFooterViewHolder(view)
+            }
+            else -> {
+                val view = LayoutInflater.from(parent.context)
+                    .inflate(R.layout.item_blocked_user, parent, false)
+                BlockedUserViewHolder(view)
             }
         }
     }
 
-    @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position) {
+    override fun onBindViewHolder(viewHolder: RecyclerView.ViewHolder, position: Int) {
         if (getItemViewType(position) == VIEW_TYPE_ACCOUNT) {
-            BlockedUserViewHolder holder = (BlockedUserViewHolder) viewHolder;
-            holder.setupWithAccount(accountList.get(position), animateAvatar, animateEmojis);
-            holder.setupActionListener(accountActionListener);
+            val holder = viewHolder as BlockedUserViewHolder
+            holder.setupWithAccount(accountList[position], animateAvatar, animateEmojis)
+            holder.setupActionListener(accountActionListener)
         }
     }
 
-    static class BlockedUserViewHolder extends RecyclerView.ViewHolder {
-        private ImageView avatar;
-        private TextView username;
-        private TextView displayName;
-        private ImageButton unblock;
-        private String id;
+    class BlockedUserViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        private val avatar: ImageView = itemView.findViewById(R.id.blocked_user_avatar)
+        private val username: TextView = itemView.findViewById(R.id.blocked_user_username)
+        private val displayName: TextView = itemView.findViewById(R.id.blocked_user_display_name)
+        private val unblock: ImageButton = itemView.findViewById(R.id.blocked_user_unblock)
+        private var id: String? = null
 
-        BlockedUserViewHolder(View itemView) {
-            super(itemView);
-            avatar = itemView.findViewById(R.id.blocked_user_avatar);
-            username = itemView.findViewById(R.id.blocked_user_username);
-            displayName = itemView.findViewById(R.id.blocked_user_display_name);
-            unblock = itemView.findViewById(R.id.blocked_user_unblock);
-
+        fun setupWithAccount(account: Account, animateAvatar: Boolean, animateEmojis: Boolean) {
+            id = account.id
+            val emojifiedName = account.name.emojify(account.emojis, displayName, animateEmojis)
+            displayName.text = emojifiedName
+            val format = username.context.getString(R.string.status_username_format)
+            val formattedUsername = String.format(format, account.username)
+            username.text = formattedUsername
+            val avatarRadius = avatar.context.resources
+                .getDimensionPixelSize(R.dimen.avatar_radius_48dp)
+            loadAvatar(account.avatar, avatar, avatarRadius, animateAvatar)
         }
 
-        void setupWithAccount(Account account, boolean animateAvatar, boolean animateEmojis) {
-            id = account.getId();
-            CharSequence emojifiedName = CustomEmojiHelper.emojify(account.getName(), account.getEmojis(), displayName, animateEmojis);
-            displayName.setText(emojifiedName);
-            String format = username.getContext().getString(R.string.status_username_format);
-            String formattedUsername = String.format(format, account.getUsername());
-            username.setText(formattedUsername);
-            int avatarRadius = avatar.getContext().getResources()
-                    .getDimensionPixelSize(R.dimen.avatar_radius_48dp);
-            ImageLoadingHelper.loadAvatar(account.getAvatar(), avatar, avatarRadius, animateAvatar);
-        }
-
-        void setupActionListener(final AccountActionListener listener) {
-            unblock.setOnClickListener(v -> {
-                int position = getBindingAdapterPosition();
+        fun setupActionListener(listener: AccountActionListener) {
+            unblock.setOnClickListener {
+                val position = bindingAdapterPosition
                 if (position != RecyclerView.NO_POSITION) {
-                    listener.onBlock(false, id, position);
+                    listener.onBlock(false, id, position)
                 }
-            });
-            itemView.setOnClickListener(v -> listener.onViewAccount(id));
+            }
+            itemView.setOnClickListener { listener.onViewAccount(id) }
         }
     }
 }

@@ -12,38 +12,30 @@
  *
  * You should have received a copy of the GNU General Public License along with Tusky; if not,
  * see <http://www.gnu.org/licenses>. */
+package com.keylesspalace.tusky.adapter
 
-package com.keylesspalace.tusky.adapter;
+import android.view.View
+import android.widget.Button
+import android.widget.ProgressBar
+import androidx.recyclerview.widget.RecyclerView
+import com.keylesspalace.tusky.R
+import com.keylesspalace.tusky.interfaces.StatusActionListener
 
-import androidx.recyclerview.widget.RecyclerView;
-import android.view.View;
-import android.widget.Button;
-import android.widget.ProgressBar;
+/**
+ * Placeholder for different timelines.
+ * Either displays "load more" button or a progress indicator.
+ **/
+class PlaceholderViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    private val loadMoreButton: Button = itemView.findViewById(R.id.button_load_more)
+    private val progressBar: ProgressBar = itemView.findViewById(R.id.progressBar)
 
-import com.keylesspalace.tusky.R;
-import com.keylesspalace.tusky.interfaces.StatusActionListener;
-
-public final class PlaceholderViewHolder extends RecyclerView.ViewHolder {
-
-    private Button loadMoreButton;
-    private ProgressBar progressBar;
-
-    public PlaceholderViewHolder(View itemView) {
-        super(itemView);
-        loadMoreButton = itemView.findViewById(R.id.button_load_more);
-        progressBar = itemView.findViewById(R.id.progressBar);
+    fun setup(listener: StatusActionListener, progress: Boolean) {
+        loadMoreButton.visibility = if (progress) View.GONE else View.VISIBLE
+        progressBar.visibility = if (progress) View.VISIBLE else View.GONE
+        loadMoreButton.isEnabled = true
+        loadMoreButton.setOnClickListener { v: View? ->
+            loadMoreButton.isEnabled = false
+            listener.onLoadMore(bindingAdapterPosition)
+        }
     }
-
-    public void setup(final StatusActionListener listener, boolean progress) {
-        loadMoreButton.setVisibility(progress ? View.GONE : View.VISIBLE);
-        progressBar.setVisibility(progress ? View.VISIBLE : View.GONE);
-
-        loadMoreButton.setEnabled(true);
-        loadMoreButton.setOnClickListener(v -> {
-            loadMoreButton.setEnabled(false);
-            listener.onLoadMore(getBindingAdapterPosition());
-        });
-
-    }
-
 }

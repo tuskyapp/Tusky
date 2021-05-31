@@ -12,49 +12,48 @@
  *
  * You should have received a copy of the GNU General Public License along with Tusky; if not,
  * see <http://www.gnu.org/licenses>. */
+package com.keylesspalace.tusky.adapter
 
-package com.keylesspalace.tusky.adapter;
+import android.view.LayoutInflater
+import android.view.ViewGroup
+import androidx.recyclerview.widget.RecyclerView
+import com.keylesspalace.tusky.R
+import com.keylesspalace.tusky.databinding.ItemFollowRequestBinding
+import com.keylesspalace.tusky.interfaces.AccountActionListener
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
-
-import com.keylesspalace.tusky.R;
-import com.keylesspalace.tusky.databinding.ItemFollowRequestBinding;
-import com.keylesspalace.tusky.interfaces.AccountActionListener;
-
-public class FollowRequestsAdapter extends AccountAdapter {
-
-    public FollowRequestsAdapter(AccountActionListener accountActionListener, boolean animateAvatar, boolean animateEmojis) {
-        super(accountActionListener, animateAvatar, animateEmojis);
-    }
-
-    @NonNull
-    @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        switch (viewType) {
-            default:
-            case VIEW_TYPE_ACCOUNT: {
-                ItemFollowRequestBinding binding = ItemFollowRequestBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
-                return new FollowRequestViewHolder(binding, false);
+/** Displays a list of follow requests with accept/reject buttons. */
+class FollowRequestsAdapter(
+    accountActionListener: AccountActionListener,
+    animateAvatar: Boolean,
+    animateEmojis: Boolean
+) : AccountAdapter(accountActionListener, animateAvatar, animateEmojis) {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        return when (viewType) {
+            VIEW_TYPE_ACCOUNT -> {
+                val binding = ItemFollowRequestBinding.inflate(
+                    LayoutInflater.from(parent.context), parent, false
+                )
+                FollowRequestViewHolder(binding, false)
             }
-            case VIEW_TYPE_FOOTER: {
-                View view = LayoutInflater.from(parent.getContext())
-                        .inflate(R.layout.item_footer, parent, false);
-                return new LoadingFooterViewHolder(view);
+            VIEW_TYPE_FOOTER -> {
+                val view = LayoutInflater.from(parent.context)
+                    .inflate(R.layout.item_footer, parent, false)
+                LoadingFooterViewHolder(view)
+            }
+            else -> {
+                val binding = ItemFollowRequestBinding.inflate(
+                    LayoutInflater.from(parent.context), parent, false
+                )
+                FollowRequestViewHolder(binding, false)
             }
         }
     }
 
-    @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position) {
+    override fun onBindViewHolder(viewHolder: RecyclerView.ViewHolder, position: Int) {
         if (getItemViewType(position) == VIEW_TYPE_ACCOUNT) {
-            FollowRequestViewHolder holder = (FollowRequestViewHolder) viewHolder;
-            holder.setupWithAccount(accountList.get(position), animateAvatar, animateEmojis);
-            holder.setupActionListener(accountActionListener, accountList.get(position).getId());
+            val holder = viewHolder as FollowRequestViewHolder
+            holder.setupWithAccount(accountList[position], animateAvatar, animateEmojis)
+            holder.setupActionListener(accountActionListener, accountList[position].id)
         }
     }
 }

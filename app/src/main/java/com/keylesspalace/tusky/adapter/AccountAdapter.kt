@@ -12,105 +12,81 @@
  *
  * You should have received a copy of the GNU General Public License along with Tusky; if not,
  * see <http://www.gnu.org/licenses>. */
+package com.keylesspalace.tusky.adapter
 
-package com.keylesspalace.tusky.adapter;
+import androidx.recyclerview.widget.RecyclerView
+import com.keylesspalace.tusky.entity.Account
+import com.keylesspalace.tusky.interfaces.AccountActionListener
+import com.keylesspalace.tusky.util.removeDuplicates
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.recyclerview.widget.RecyclerView;
+/** Generic adapter with bottom loading indicator. */
+abstract class AccountAdapter internal constructor(
+    var accountActionListener: AccountActionListener,
+    protected val animateAvatar: Boolean,
+    protected val animateEmojis: Boolean
+) : RecyclerView.Adapter<RecyclerView.ViewHolder?>() {
+    var accountList = mutableListOf<Account>()
+    private var bottomLoading: Boolean = false
 
-import com.keylesspalace.tusky.entity.Account;
-import com.keylesspalace.tusky.interfaces.AccountActionListener;
-import com.keylesspalace.tusky.util.ListUtils;
-
-import java.util.ArrayList;
-import java.util.List;
-
-public abstract class AccountAdapter extends RecyclerView.Adapter {
-    static final int VIEW_TYPE_ACCOUNT = 0;
-    static final int VIEW_TYPE_FOOTER = 1;
-
-    List<Account> accountList;
-    AccountActionListener accountActionListener;
-    private boolean bottomLoading;
-    protected final boolean animateEmojis;
-    protected final boolean animateAvatar;
-
-    AccountAdapter(AccountActionListener accountActionListener, boolean animateAvatar, boolean animateEmojis) {
-        this.accountList = new ArrayList<>();
-        this.accountActionListener = accountActionListener;
-        this.animateAvatar = animateAvatar;
-        this.animateEmojis = animateEmojis;
-        bottomLoading = false;
+    override fun getItemCount(): Int {
+        return accountList.size + if (bottomLoading) 1 else 0
     }
 
-    @Override
-    public int getItemCount() {
-        return accountList.size() + (bottomLoading ? 1 : 0);
-    }
-
-    @Override
-    public int getItemViewType(int position) {
-        if (position == accountList.size() && bottomLoading) {
-            return VIEW_TYPE_FOOTER;
+    override fun getItemViewType(position: Int): Int {
+        return if (position == accountList.size && bottomLoading) {
+            VIEW_TYPE_FOOTER
         } else {
-            return VIEW_TYPE_ACCOUNT;
+            VIEW_TYPE_ACCOUNT
         }
     }
 
-    public void update(@NonNull List<Account> newAccounts) {
-        accountList = ListUtils.removeDuplicates(newAccounts);
-        notifyDataSetChanged();
+    fun update(newAccounts: List<Account>) {
+        accountList = removeDuplicates(newAccounts)
+        notifyDataSetChanged()
     }
 
-    public void addItems(@NonNull List<Account> newAccounts) {
-        int end = accountList.size();
-        Account last = accountList.get(end - 1);
-        if (last != null && !findAccount(newAccounts, last.getId())) {
-            accountList.addAll(newAccounts);
-            notifyItemRangeInserted(end, newAccounts.size());
+    fun addItems(newAccounts: List<Account>) {
+        val end = accountList.size
+        val last = accountList[end - 1]
+        if (newAccounts.none { it.id == last.id }) {
+            accountList.addAll(newAccounts)
+            notifyItemRangeInserted(end, newAccounts.size)
         }
     }
 
-    public void setBottomLoading(boolean loading) {
-        boolean wasLoading = bottomLoading;
-        if(wasLoading == loading) {
-            return;
+    fun setBottomLoading(loading: Boolean) {
+        val wasLoading = bottomLoading
+        if (wasLoading == loading) {
+            return
         }
-        bottomLoading = loading;
-        if(loading) {
-            notifyItemInserted(accountList.size());
+        bottomLoading = loading
+        if (loading) {
+            notifyItemInserted(accountList.size)
         } else {
-            notifyItemRemoved(accountList.size());
+            notifyItemRemoved(accountList.size)
         }
     }
 
-    private static boolean findAccount(@NonNull List<Account> accounts, String id) {
-        for (Account account : accounts) {
-            if (account.getId().equals(id)) {
-                return true;
-            }
+    fun removeItem(position: Int): Account? {
+        if (position < 0 || position >= accountList.size) {
+            return null
         }
-        return false;
+        val account = accountList.removeAt(position)
+        notifyItemRemoved(position)
+        return account
     }
 
-    @Nullable
-    public Account removeItem(int position) {
-        if (position < 0 || position >= accountList.size()) {
-            return null;
+    fun addItem(account: Account, position: Int) {
+        if (position < 0 || position > accountList.size) {
+            return
         }
-        Account account = accountList.remove(position);
-        notifyItemRemoved(position);
-        return account;
+        accountList.add(position, account)
+        notifyItemInserted(position)
     }
 
-    public void addItem(@NonNull Account account, int position) {
-        if (position < 0 || position > accountList.size()) {
-            return;
-        }
-        accountList.add(position, account);
-        notifyItemInserted(position);
+    companion object {
+        const val VIEW_TYPE_ACCOUNT = 0
+        const val VIEW_TYPE_FOOTER = 1
     }
-
 
 }

@@ -12,50 +12,45 @@
  *
  * You should have received a copy of the GNU General Public License along with Tusky; if not,
  * see <http://www.gnu.org/licenses>. */
+package com.keylesspalace.tusky.adapter
 
-package com.keylesspalace.tusky.adapter;
+import android.view.LayoutInflater
+import android.view.ViewGroup
+import androidx.recyclerview.widget.RecyclerView
+import com.keylesspalace.tusky.R
+import com.keylesspalace.tusky.interfaces.AccountActionListener
 
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
-import com.keylesspalace.tusky.R;
-import com.keylesspalace.tusky.interfaces.AccountActionListener;
-
-/** Both for follows and following lists. */
-public class FollowAdapter extends AccountAdapter {
-
-    public FollowAdapter(AccountActionListener accountActionListener, boolean animateAvatar, boolean animateEmojis) {
-        super(accountActionListener, animateAvatar, animateEmojis);
-    }
-
-    @NonNull
-    @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        switch (viewType) {
-            default:
-            case VIEW_TYPE_ACCOUNT: {
-                View view = LayoutInflater.from(parent.getContext())
-                        .inflate(R.layout.item_account, parent, false);
-                return new AccountViewHolder(view);
+/** Displays either a follows or following list.  */
+class FollowAdapter(
+    accountActionListener: AccountActionListener,
+    animateAvatar: Boolean,
+    animateEmojis: Boolean
+) : AccountAdapter(accountActionListener, animateAvatar, animateEmojis) {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        return when (viewType) {
+            VIEW_TYPE_ACCOUNT -> {
+                val view = LayoutInflater.from(parent.context)
+                    .inflate(R.layout.item_account, parent, false)
+                AccountViewHolder(view)
             }
-            case VIEW_TYPE_FOOTER: {
-                View view = LayoutInflater.from(parent.getContext())
-                        .inflate(R.layout.item_footer, parent, false);
-                return new LoadingFooterViewHolder(view);
+            VIEW_TYPE_FOOTER -> {
+                val view = LayoutInflater.from(parent.context)
+                    .inflate(R.layout.item_footer, parent, false)
+                LoadingFooterViewHolder(view)
+            }
+            else -> {
+                val view = LayoutInflater.from(parent.context)
+                    .inflate(R.layout.item_account, parent, false)
+                AccountViewHolder(view)
             }
         }
     }
 
-    @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position) {
+    override fun onBindViewHolder(viewHolder: RecyclerView.ViewHolder, position: Int) {
         if (getItemViewType(position) == VIEW_TYPE_ACCOUNT) {
-            AccountViewHolder holder = (AccountViewHolder) viewHolder;
-            holder.setupWithAccount(accountList.get(position), animateAvatar, animateEmojis);
-            holder.setupActionListener(accountActionListener);
+            val holder = viewHolder as AccountViewHolder
+            holder.setupWithAccount(accountList[position], animateAvatar, animateEmojis)
+            holder.setupActionListener(accountActionListener)
         }
     }
-
 }

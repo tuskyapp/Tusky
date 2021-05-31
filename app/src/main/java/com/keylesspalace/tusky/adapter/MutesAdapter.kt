@@ -1,131 +1,145 @@
-package com.keylesspalace.tusky.adapter;
+package com.keylesspalace.tusky.adapter
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.TextView;
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.ImageButton
+import android.widget.ImageView
+import android.widget.TextView
+import androidx.core.view.ViewCompat
+import androidx.recyclerview.widget.RecyclerView
+import com.keylesspalace.tusky.R
+import com.keylesspalace.tusky.entity.Account
+import com.keylesspalace.tusky.interfaces.AccountActionListener
+import com.keylesspalace.tusky.util.emojify
+import com.keylesspalace.tusky.util.loadAvatar
+import java.util.*
 
-import androidx.annotation.NonNull;
-import androidx.core.view.ViewCompat;
-import androidx.recyclerview.widget.RecyclerView;
+/**
+ * Displays a list of muted accounts with mute/unmute account and mute/unmute notifications
+ * buttons.
+ * */
+class MutesAdapter(
+    accountActionListener: AccountActionListener,
+    animateAvatar: Boolean,
+    animateEmojis: Boolean
+) : AccountAdapter(accountActionListener, animateAvatar, animateEmojis) {
+    private val mutingNotificationsMap: HashMap<String, Boolean> = HashMap()
 
-import com.keylesspalace.tusky.R;
-import com.keylesspalace.tusky.entity.Account;
-import com.keylesspalace.tusky.interfaces.AccountActionListener;
-import com.keylesspalace.tusky.util.CustomEmojiHelper;
-import com.keylesspalace.tusky.util.ImageLoadingHelper;
-
-import java.util.HashMap;
-
-public class MutesAdapter extends AccountAdapter {
-    private HashMap<String, Boolean> mutingNotificationsMap;
-
-    public MutesAdapter(AccountActionListener accountActionListener, boolean animateAvatar, boolean animateEmojis) {
-        super(accountActionListener, animateAvatar, animateEmojis);
-        mutingNotificationsMap = new HashMap<String, Boolean>();
-    }
-
-    @NonNull
-    @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        switch (viewType) {
-            default:
-            case VIEW_TYPE_ACCOUNT: {
-                View view = LayoutInflater.from(parent.getContext())
-                        .inflate(R.layout.item_muted_user, parent, false);
-                return new MutesAdapter.MutedUserViewHolder(view);
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        return when (viewType) {
+            VIEW_TYPE_ACCOUNT -> {
+                val view = LayoutInflater.from(parent.context)
+                    .inflate(R.layout.item_muted_user, parent, false)
+                MutedUserViewHolder(view)
             }
-            case VIEW_TYPE_FOOTER: {
-                View view = LayoutInflater.from(parent.getContext())
-                        .inflate(R.layout.item_footer, parent, false);
-                return new LoadingFooterViewHolder(view);
+            VIEW_TYPE_FOOTER -> {
+                val view = LayoutInflater.from(parent.context)
+                    .inflate(R.layout.item_footer, parent, false)
+                LoadingFooterViewHolder(view)
+            }
+            else -> {
+                val view = LayoutInflater.from(parent.context)
+                    .inflate(R.layout.item_muted_user, parent, false)
+                MutedUserViewHolder(view)
             }
         }
     }
 
-    @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position) {
+    override fun onBindViewHolder(viewHolder: RecyclerView.ViewHolder, position: Int) {
         if (getItemViewType(position) == VIEW_TYPE_ACCOUNT) {
-            MutedUserViewHolder holder = (MutedUserViewHolder) viewHolder;
-            Account account = accountList.get(position);
-            holder.setupWithAccount(account, mutingNotificationsMap.get(account.getId()), animateAvatar, animateEmojis);
-            holder.setupActionListener(accountActionListener);
+            val holder = viewHolder as MutedUserViewHolder
+            val account = accountList[position]
+            holder.setupWithAccount(
+                account,
+                mutingNotificationsMap[account.id],
+                animateAvatar,
+                animateEmojis
+            )
+            holder.setupActionListener(accountActionListener)
         }
     }
 
-    public void updateMutingNotifications(String id, boolean mutingNotifications, int position) {
-        mutingNotificationsMap.put(id, mutingNotifications);
-        notifyItemChanged(position);
+    fun updateMutingNotifications(id: String, mutingNotifications: Boolean, position: Int) {
+        mutingNotificationsMap[id] = mutingNotifications
+        notifyItemChanged(position)
     }
 
-    public void updateMutingNotificationsMap(HashMap<String, Boolean> newMutingNotificationsMap) {
-        mutingNotificationsMap.putAll(newMutingNotificationsMap);
-        notifyDataSetChanged();
+    fun updateMutingNotificationsMap(newMutingNotificationsMap: HashMap<String, Boolean>?) {
+        mutingNotificationsMap.putAll(newMutingNotificationsMap!!)
+        notifyDataSetChanged()
     }
 
-    static class MutedUserViewHolder extends RecyclerView.ViewHolder {
-        private ImageView avatar;
-        private TextView username;
-        private TextView displayName;
-        private ImageButton unmute;
-        private ImageButton muteNotifications;
-        private String id;
-        private boolean notifications;
+    internal class MutedUserViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        private val avatar: ImageView = itemView.findViewById(R.id.muted_user_avatar)
+        private val username: TextView = itemView.findViewById(R.id.muted_user_username)
+        private val displayName: TextView = itemView.findViewById(R.id.muted_user_display_name)
+        private val unmute: ImageButton = itemView.findViewById(R.id.muted_user_unmute)
+        private val muteNotifications: ImageButton =
+            itemView.findViewById(R.id.muted_user_mute_notifications)
 
-        MutedUserViewHolder(View itemView) {
-            super(itemView);
-            avatar = itemView.findViewById(R.id.muted_user_avatar);
-            username = itemView.findViewById(R.id.muted_user_username);
-            displayName = itemView.findViewById(R.id.muted_user_display_name);
-            unmute = itemView.findViewById(R.id.muted_user_unmute);
-            muteNotifications = itemView.findViewById(R.id.muted_user_mute_notifications);
-        }
+        private var id: String? = null
+        private var notifications = false
 
-        void setupWithAccount(Account account, Boolean mutingNotifications, boolean animateAvatar, boolean animateEmojis) {
-            id = account.getId();
-            CharSequence emojifiedName = CustomEmojiHelper.emojify(account.getName(), account.getEmojis(), displayName, animateEmojis);
-            displayName.setText(emojifiedName);
-            String format = username.getContext().getString(R.string.status_username_format);
-            String formattedUsername = String.format(format, account.getUsername());
-            username.setText(formattedUsername);
-            int avatarRadius = avatar.getContext().getResources()
-                    .getDimensionPixelSize(R.dimen.avatar_radius_48dp);
-            ImageLoadingHelper.loadAvatar(account.getAvatar(), avatar, avatarRadius, animateAvatar);
-
-            String unmuteString = unmute.getContext().getString(R.string.action_unmute_desc, formattedUsername);
-            unmute.setContentDescription(unmuteString);
-            ViewCompat.setTooltipText(unmute, unmuteString);
-
+        fun setupWithAccount(
+            account: Account,
+            mutingNotifications: Boolean?,
+            animateAvatar: Boolean,
+            animateEmojis: Boolean
+        ) {
+            id = account.id
+            val emojifiedName = account.name.emojify(account.emojis, displayName, animateEmojis)
+            displayName.text = emojifiedName
+            val format = username.context.getString(R.string.status_username_format)
+            val formattedUsername = String.format(format, account.username)
+            username.text = formattedUsername
+            val avatarRadius = avatar.context.resources
+                .getDimensionPixelSize(R.dimen.avatar_radius_48dp)
+            loadAvatar(account.avatar, avatar, avatarRadius, animateAvatar)
+            val unmuteString =
+                unmute.context.getString(R.string.action_unmute_desc, formattedUsername)
+            unmute.contentDescription = unmuteString
+            ViewCompat.setTooltipText(unmute, unmuteString)
             if (mutingNotifications == null) {
-                muteNotifications.setEnabled(false);
-                notifications = true;
+                muteNotifications.isEnabled = false
+                notifications = true
             } else {
-                muteNotifications.setEnabled(true);
-                notifications = mutingNotifications;
+                muteNotifications.isEnabled = true
+                notifications = mutingNotifications
             }
-
             if (notifications) {
-                muteNotifications.setImageResource(R.drawable.ic_notifications_24dp);
-                String unmuteNotificationsString = muteNotifications.getContext()
-                    .getString(R.string.action_unmute_notifications_desc, formattedUsername);
-                muteNotifications.setContentDescription(unmuteNotificationsString);
-                ViewCompat.setTooltipText(muteNotifications, unmuteNotificationsString);
+                muteNotifications.setImageResource(R.drawable.ic_notifications_24dp)
+                val unmuteNotificationsString = muteNotifications.context
+                    .getString(R.string.action_unmute_notifications_desc, formattedUsername)
+                muteNotifications.contentDescription = unmuteNotificationsString
+                ViewCompat.setTooltipText(muteNotifications, unmuteNotificationsString)
             } else {
-                muteNotifications.setImageResource(R.drawable.ic_notifications_off_24dp);
-                String muteNotificationsString = muteNotifications.getContext()
-                    .getString(R.string.action_mute_notifications_desc, formattedUsername);
-                muteNotifications.setContentDescription(muteNotificationsString);
-                ViewCompat.setTooltipText(muteNotifications, muteNotificationsString);
+                muteNotifications.setImageResource(R.drawable.ic_notifications_off_24dp)
+                val muteNotificationsString = muteNotifications.context
+                    .getString(R.string.action_mute_notifications_desc, formattedUsername)
+                muteNotifications.contentDescription = muteNotificationsString
+                ViewCompat.setTooltipText(muteNotifications, muteNotificationsString)
             }
         }
 
-        void setupActionListener(final AccountActionListener listener) {
-            unmute.setOnClickListener(v -> listener.onMute(false, id, getBindingAdapterPosition(), false));
-            muteNotifications.setOnClickListener(
-                v -> listener.onMute(true, id, getBindingAdapterPosition(), !notifications));
-            itemView.setOnClickListener(v -> listener.onViewAccount(id));
+        fun setupActionListener(listener: AccountActionListener) {
+            unmute.setOnClickListener { v: View? ->
+                listener.onMute(
+                    false,
+                    id,
+                    bindingAdapterPosition,
+                    false
+                )
+            }
+            muteNotifications.setOnClickListener { v: View? ->
+                listener.onMute(
+                    true,
+                    id,
+                    bindingAdapterPosition,
+                    !notifications
+                )
+            }
+            itemView.setOnClickListener { v: View? -> listener.onViewAccount(id) }
         }
     }
 }
