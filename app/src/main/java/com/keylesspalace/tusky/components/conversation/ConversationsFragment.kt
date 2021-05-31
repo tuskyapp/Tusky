@@ -1,4 +1,4 @@
-/* Copyright 2019 Conny Duck
+/* Copyright 2021 Tusky Contributors
  *
  * This file is a part of Tusky.
  *

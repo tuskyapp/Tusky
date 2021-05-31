@@ -1,4 +1,4 @@
-/* Copyright 2019 Joel Pyska
+/* Copyright 2021 Tusky Contributors
  *
  * This file is a part of Tusky.
  *

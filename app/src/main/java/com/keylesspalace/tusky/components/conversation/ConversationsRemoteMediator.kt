@@ -24,7 +24,7 @@ class ConversationsRemoteMediator(
                 api.getConversations(limit = state.config.initialLoadSize)
             }
             LoadType.PREPEND -> {
-                return MediatorResult.Success(true)
+                return MediatorResult.Success(endOfPaginationReached = true)
             }
             LoadType.APPEND -> {
                 val maxId = state.pages.findLast { it.data.isNotEmpty() }?.data?.lastOrNull()?.lastStatus?.id
