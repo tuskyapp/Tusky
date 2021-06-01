@@ -27,7 +27,7 @@ class ConversationLoadStateAdapter(
 ) : LoadStateAdapter<NetworkStateViewHolder>() {
 
     override fun onBindViewHolder(holder: NetworkStateViewHolder, loadState: LoadState) {
-        holder.setUpWithNetworkState(loadState, false)
+        holder.setUpWithNetworkState(loadState)
     }
 
     override fun onCreateViewHolder(

@@ -41,6 +41,7 @@ import com.keylesspalace.tusky.settings.PrefKeys
 import com.keylesspalace.tusky.util.CardViewMode
 import com.keylesspalace.tusky.util.StatusDisplayOptions
 import com.keylesspalace.tusky.util.hide
+import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.viewBinding
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -56,6 +57,7 @@ class ConversationsFragment : SFragment(), StatusActionListener, Injectable, Res
     private val binding by viewBinding(FragmentTimelineBinding::bind)
 
     private lateinit var adapter: ConversationAdapter
+    private lateinit var loadStateAdapter: ConversationLoadStateAdapter
 
     private var layoutManager: LinearLayoutManager? = null
 
@@ -82,11 +84,12 @@ class ConversationsFragment : SFragment(), StatusActionListener, Injectable, Res
         )
 
         adapter = ConversationAdapter(statusDisplayOptions, this)
+        loadStateAdapter = ConversationLoadStateAdapter(adapter::retry)
 
         binding.recyclerView.addItemDecoration(DividerItemDecoration(view.context, DividerItemDecoration.VERTICAL))
         layoutManager = LinearLayoutManager(view.context)
         binding.recyclerView.layoutManager = layoutManager
-        binding.recyclerView.adapter = adapter.withLoadStateFooter(ConversationLoadStateAdapter(adapter::retry))
+        binding.recyclerView.adapter = adapter.withLoadStateFooter(loadStateAdapter)
         (binding.recyclerView.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
 
         binding.progressBar.hide()
@@ -101,6 +104,14 @@ class ConversationsFragment : SFragment(), StatusActionListener, Injectable, Res
         }
 
         adapter.addLoadStateListener {
+
+            if (it.refresh ==  LoadState.Loading && adapter.itemCount == 0) {
+                binding.recyclerView.hide()
+                binding.progressBar.show()
+            } else {
+                binding.recyclerView.show()
+                binding.progressBar.hide()
+            }
 
             if (it.refresh is LoadState.NotLoading && !initialRefreshDone) {
                 // jump to top after the initial refresh finished
