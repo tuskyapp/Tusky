@@ -47,7 +47,7 @@ class AddPollOptionsAdapter(
         binding.optionEditText.filters = arrayOf(InputFilter.LengthFilter(maxOptionLength))
 
         binding.optionEditText.onTextChanged { s, _, _, _ ->
-            val pos = holder.adapterPosition
+            val pos = holder.bindingAdapterPosition
             if(pos != RecyclerView.NO_POSITION) {
                 options[pos] = s.toString()
                 onOptionChanged(validateInput())
@@ -68,8 +68,8 @@ class AddPollOptionsAdapter(
 
         holder.binding.deleteButton.setOnClickListener {
             holder.binding.optionEditText.clearFocus()
-            options.removeAt(holder.adapterPosition)
-            notifyItemRemoved(holder.adapterPosition)
+            options.removeAt(holder.bindingAdapterPosition)
+            notifyItemRemoved(holder.bindingAdapterPosition)
             onOptionRemoved(validateInput())
         }
     }
