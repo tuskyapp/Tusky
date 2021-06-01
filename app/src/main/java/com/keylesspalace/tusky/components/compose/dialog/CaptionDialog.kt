@@ -21,7 +21,6 @@ import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.text.InputFilter
 import android.text.InputType
-import android.util.DisplayMetrics
 import android.view.WindowManager
 import android.widget.EditText
 import android.widget.LinearLayout
@@ -53,9 +52,6 @@ fun <T> T.makeCaptionDialog(existingDescription: String?,
     val imageView = PhotoView(this).apply {
         maximumScale = 6f
     }
-
-    val displayMetrics = DisplayMetrics()
-    windowManager.defaultDisplay.getMetrics(displayMetrics)
 
     val margin = Utils.dpToPx(this, 4)
     dialogLayout.addView(imageView)

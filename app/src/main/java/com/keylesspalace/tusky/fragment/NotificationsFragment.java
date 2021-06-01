@@ -306,8 +306,8 @@ public class NotificationsFragment extends SFragment implements
     private void confirmClearNotifications() {
         new AlertDialog.Builder(getContext())
                 .setMessage(R.string.notification_clear_text)
-                .setPositiveButton(android.R.string.yes, (DialogInterface dia, int which) -> clearNotifications())
-                .setNegativeButton(android.R.string.no, null)
+                .setPositiveButton(android.R.string.ok, (DialogInterface dia, int which) -> clearNotifications())
+                .setNegativeButton(android.R.string.cancel, null)
                 .show();
     }
 
