@@ -45,6 +45,7 @@ import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.viewBinding
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import java.io.IOException
 import javax.inject.Inject
 
 class ConversationsFragment : SFragment(), StatusActionListener, Injectable, ReselectableFragment {
@@ -72,15 +73,15 @@ class ConversationsFragment : SFragment(), StatusActionListener, Injectable, Res
         val preferences = PreferenceManager.getDefaultSharedPreferences(view.context)
 
         val statusDisplayOptions = StatusDisplayOptions(
-                animateAvatars = preferences.getBoolean("animateGifAvatars", false),
-                mediaPreviewEnabled = accountManager.activeAccount?.mediaPreviewEnabled ?: true,
-                useAbsoluteTime = preferences.getBoolean("absoluteTimeView", false),
-                showBotOverlay = preferences.getBoolean("showBotOverlay", true),
-                useBlurhash = preferences.getBoolean("useBlurhash", true),
-                cardViewMode = CardViewMode.NONE,
-                confirmReblogs = preferences.getBoolean("confirmReblogs", true),
-                hideStats = preferences.getBoolean(PrefKeys.WELLBEING_HIDE_STATS_POSTS, false),
-                animateEmojis = preferences.getBoolean(PrefKeys.ANIMATE_CUSTOM_EMOJIS, false)
+            animateAvatars = preferences.getBoolean("animateGifAvatars", false),
+            mediaPreviewEnabled = accountManager.activeAccount?.mediaPreviewEnabled ?: true,
+            useAbsoluteTime = preferences.getBoolean("absoluteTimeView", false),
+            showBotOverlay = preferences.getBoolean("showBotOverlay", true),
+            useBlurhash = preferences.getBoolean("useBlurhash", true),
+            cardViewMode = CardViewMode.NONE,
+            confirmReblogs = preferences.getBoolean("confirmReblogs", true),
+            hideStats = preferences.getBoolean(PrefKeys.WELLBEING_HIDE_STATS_POSTS, false),
+            animateEmojis = preferences.getBoolean(PrefKeys.ANIMATE_CUSTOM_EMOJIS, false)
         )
 
         adapter = ConversationAdapter(statusDisplayOptions, this)
@@ -103,23 +104,40 @@ class ConversationsFragment : SFragment(), StatusActionListener, Injectable, Res
             }
         }
 
-        adapter.addLoadStateListener {
+        adapter.addLoadStateListener { loadStates ->
 
-            if (it.refresh ==  LoadState.Loading && adapter.itemCount == 0) {
-                binding.recyclerView.hide()
-                binding.progressBar.show()
-            } else {
-                binding.recyclerView.show()
-                binding.progressBar.hide()
-            }
+            loadStates.refresh.let { refreshState ->
+                if (refreshState is LoadState.Error) {
+                    binding.statusView.show()
+                    if (refreshState.error is IOException) {
+                        binding.statusView.setup(R.drawable.elephant_offline, R.string.error_network) {
+                            adapter.refresh()
+                        }
+                    } else {
+                        binding.statusView.setup(R.drawable.elephant_error, R.string.error_generic) {
+                            adapter.refresh()
+                        }
+                    }
+                } else {
+                    binding.statusView.hide()
+                }
 
-            if (it.refresh is LoadState.NotLoading && !initialRefreshDone) {
-                // jump to top after the initial refresh finished
-                binding.recyclerView.scrollToPosition(0)
-            }
+                if (refreshState ==  LoadState.Loading && adapter.itemCount == 0) {
+                    binding.recyclerView.hide()
+                    binding.progressBar.show()
+                } else {
+                    binding.recyclerView.show()
+                    binding.progressBar.hide()
+                }
 
-            if (it.refresh != LoadState.Loading) {
-                binding.swipeRefreshLayout.isRefreshing = false
+                if (refreshState is LoadState.NotLoading && !initialRefreshDone) {
+                    // jump to top after the initial refresh finished
+                    binding.recyclerView.scrollToPosition(0)
+                }
+
+                if (refreshState != LoadState.Loading) {
+                    binding.swipeRefreshLayout.isRefreshing = false
+                }
             }
         }
     }
