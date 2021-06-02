@@ -52,37 +52,46 @@ class SearchPagingSource<T: Any>(
 
         val currentKey = params.key ?: 0
 
-        val data = mastodonApi.searchObservable(
-            query = searchRequest,
-            type = searchType.apiParameter,
-            resolve = true,
-            limit = params.loadSize,
-            offset = currentKey,
-            following = false
-        ).await()
+        try {
 
-        // Working around Mastodon bug where exact match is returned no matter
-        // which offset is requested (so if we search for a full username, it's
-        // infinite)
-        // see https://github.com/tootsuite/mastodon/issues/11365
-        // see https://github.com/tootsuite/mastodon/issues/13083
-        val res = if ((data.accounts.size == 1 && data.accounts[0].username.equals(searchRequest, ignoreCase = true))
-            || (data.statuses.size == 1 && data.statuses[0].url.equals(searchRequest))) {
-            listOf()
-        } else {
-            parser(data)
+            val data = mastodonApi.searchObservable(
+                query = searchRequest,
+                type = searchType.apiParameter,
+                resolve = true,
+                limit = params.loadSize,
+                offset = currentKey,
+                following = false
+            ).await()
+
+            // Working around Mastodon bug where exact match is returned no matter
+            // which offset is requested (so if we search for a full username, it's
+            // infinite)
+            // see https://github.com/tootsuite/mastodon/issues/11365
+            // see https://github.com/tootsuite/mastodon/issues/13083
+            val res = if ((data.accounts.size == 1 && data.accounts[0].username.equals(
+                    searchRequest,
+                    ignoreCase = true
+                ))
+                || (data.statuses.size == 1 && data.statuses[0].url.equals(searchRequest))
+            ) {
+                listOf()
+            } else {
+                parser(data)
+            }
+
+            val nextKey = if (res.isEmpty()) {
+                null
+            } else {
+                currentKey + res.size
+            }
+
+            return LoadResult.Page(
+                data = res,
+                prevKey = null,
+                nextKey = nextKey
+            )
+        } catch (e: Exception) {
+            return LoadResult.Error(e)
         }
-
-        val nextKey = if (res.isEmpty()) {
-            null
-        } else {
-            currentKey + res.size
-        }
-
-        return LoadResult.Page(
-            data = res,
-            prevKey = null,
-            nextKey = nextKey
-        )
     }
 }
