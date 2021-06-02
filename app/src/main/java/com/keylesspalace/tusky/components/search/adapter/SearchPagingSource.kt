@@ -34,6 +34,14 @@ class SearchPagingSource<T: Any>(
     }
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, T> {
+        if (searchRequest.isEmpty()) {
+            return LoadResult.Page(
+                data = emptyList(),
+                prevKey = null,
+                nextKey = null
+            )
+        }
+
         if (params.key == null && !initialItems.isNullOrEmpty()) {
             return LoadResult.Page(
                 data = initialItems,

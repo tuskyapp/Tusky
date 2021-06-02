@@ -70,19 +70,19 @@ class SearchViewModel @Inject constructor(
     }
 
     val statusesFlow = Pager(
-        config = PagingConfig(pageSize = 20),
+        config = PagingConfig(pageSize = DEFAULT_LOAD_SIZE, initialLoadSize = DEFAULT_LOAD_SIZE),
         pagingSourceFactory = statusesPagingSourceFactory
     ).flow
         .cachedIn(viewModelScope)
 
     val accountsFlow = Pager(
-        config = PagingConfig(pageSize = 20),
+        config = PagingConfig(pageSize = DEFAULT_LOAD_SIZE, initialLoadSize = DEFAULT_LOAD_SIZE),
         pagingSourceFactory = accountsPagingSourceFactory
     ).flow
         .cachedIn(viewModelScope)
 
     val hashtagsFlow = Pager(
-        config = PagingConfig(pageSize = 20),
+        config = PagingConfig(pageSize = DEFAULT_LOAD_SIZE, initialLoadSize = DEFAULT_LOAD_SIZE),
         pagingSourceFactory = hashtagsPagingSourceFactory
     ).flow
         .cachedIn(viewModelScope)
@@ -228,10 +228,6 @@ class SearchViewModel @Inject constructor(
         return timelineCases.delete(id)
     }
 
-    fun retryAllSearches() {
-        search(currentQuery)
-    }
-
     fun muteConversation(status: Pair<Status, StatusViewData.Concrete>, mute: Boolean) {
         val idx = loadedStatuses.indexOf(status)
         if (idx >= 0) {
@@ -247,5 +243,6 @@ class SearchViewModel @Inject constructor(
 
     companion object {
         private const val TAG = "SearchViewModel"
+        private const val DEFAULT_LOAD_SIZE = 20
     }
 }

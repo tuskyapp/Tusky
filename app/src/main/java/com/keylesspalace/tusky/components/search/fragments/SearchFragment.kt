@@ -70,7 +70,8 @@ abstract class SearchFragment<T: Any> : Fragment(R.layout.fragment_search),
                 showError()
             }
 
-            binding.searchProgressBar.visible(loadState.refresh == LoadState.Loading && adapter.itemCount == 0)
+            binding.searchProgressBar.visible(loadState.refresh == LoadState.Loading && !binding.swipeRefreshLayout.isRefreshing)
+            binding.searchRecyclerView.visible(loadState.refresh is LoadState.NotLoading || binding.swipeRefreshLayout.isRefreshing)
 
             if (loadState.refresh != LoadState.Loading) {
                 binding.swipeRefreshLayout.isRefreshing = false
@@ -78,7 +79,7 @@ abstract class SearchFragment<T: Any> : Fragment(R.layout.fragment_search),
 
             binding.progressBarBottom.visible(loadState.append == LoadState.Loading)
 
-            binding.searchNoResultsText.visible(loadState.refresh is LoadState.NotLoading && adapter.itemCount == 0)
+            binding.searchNoResultsText.visible(loadState.refresh is LoadState.NotLoading && adapter.itemCount == 0 && viewModel.currentQuery.isNotEmpty())
         }
     }
 
@@ -114,6 +115,6 @@ abstract class SearchFragment<T: Any> : Fragment(R.layout.fragment_search),
         get() = (activity as? BottomSheetActivity)
 
     override fun onRefresh() {
-        viewModel.retryAllSearches()
+        adapter.refresh()
     }
 }
