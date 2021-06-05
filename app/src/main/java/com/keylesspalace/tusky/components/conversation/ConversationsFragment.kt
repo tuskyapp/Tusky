@@ -38,11 +38,7 @@ import com.keylesspalace.tusky.fragment.SFragment
 import com.keylesspalace.tusky.interfaces.ReselectableFragment
 import com.keylesspalace.tusky.interfaces.StatusActionListener
 import com.keylesspalace.tusky.settings.PrefKeys
-import com.keylesspalace.tusky.util.CardViewMode
-import com.keylesspalace.tusky.util.StatusDisplayOptions
-import com.keylesspalace.tusky.util.hide
-import com.keylesspalace.tusky.util.show
-import com.keylesspalace.tusky.util.viewBinding
+import com.keylesspalace.tusky.util.*
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import java.io.IOException
@@ -122,17 +118,12 @@ class ConversationsFragment : SFragment(), StatusActionListener, Injectable, Res
                     binding.statusView.hide()
                 }
 
-                if (refreshState ==  LoadState.Loading && adapter.itemCount == 0) {
-                    binding.recyclerView.hide()
-                    binding.progressBar.show()
-                } else {
-                    binding.recyclerView.show()
-                    binding.progressBar.hide()
-                }
+                binding.progressBar.visible(refreshState == LoadState.Loading && adapter.itemCount == 0)
 
                 if (refreshState is LoadState.NotLoading && !initialRefreshDone) {
                     // jump to top after the initial refresh finished
                     binding.recyclerView.scrollToPosition(0)
+                    initialRefreshDone = true
                 }
 
                 if (refreshState != LoadState.Loading) {
