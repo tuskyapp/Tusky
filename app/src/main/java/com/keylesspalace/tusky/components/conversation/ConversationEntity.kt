@@ -84,7 +84,8 @@ data class ConversationStatusEntity(
     val expanded: Boolean,
     val collapsible: Boolean,
     val collapsed: Boolean,
-    val poll: Poll?
+    val muted: Boolean,
+    val poll: Poll?,
 ) {
     /** its necessary to override this because Spanned.equals does not work as expected  */
     override fun equals(other: Any?): Boolean {
@@ -111,6 +112,7 @@ data class ConversationStatusEntity(
         if (expanded != other.expanded) return false
         if (collapsible != other.collapsible) return false
         if (collapsed != other.collapsed) return false
+        if (muted != other.muted) return false
         if (poll != other.poll) return false
 
         return true
@@ -135,6 +137,7 @@ data class ConversationStatusEntity(
         result = 31 * result + expanded.hashCode()
         result = 31 * result + collapsible.hashCode()
         result = 31 * result + collapsed.hashCode()
+        result = 31 * result + muted.hashCode()
         result = 31 * result + poll.hashCode()
         return result
     }
@@ -162,7 +165,7 @@ data class ConversationStatusEntity(
             mentions = mentions,
             application = null,
             pinned = false,
-            muted = false,
+            muted = muted,
             poll = poll,
             card = null)
     }
@@ -198,6 +201,7 @@ fun Status.toEntity() =
         expanded = false,
         collapsible = shouldTrimStatus(content),
         collapsed = true,
+        muted = muted ?: false,
         poll = poll
     )
 

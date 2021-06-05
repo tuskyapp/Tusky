@@ -503,6 +503,11 @@ interface MastodonApi {
             @Query("limit") limit: Int
     ): List<Conversation>
 
+    @DELETE("/api/v1/conversations/{id}")
+    suspend fun deleteConversation(
+        @Path("id") conversationId: String
+    )
+
     @FormUrlEncoded
     @POST("api/v1/filters")
     fun createFilter(

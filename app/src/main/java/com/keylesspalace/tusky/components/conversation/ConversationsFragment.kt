@@ -20,6 +20,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.widget.PopupMenu
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.ExperimentalPagingApi
@@ -158,7 +160,25 @@ class ConversationsFragment : SFragment(), StatusActionListener, Injectable, Res
 
     override fun onMore(view: View, position: Int) {
         adapter.item(position)?.let { conversation ->
-            more(conversation.lastStatus.toStatus(), view, position)
+
+            val popup = PopupMenu(requireContext(), view)
+            popup.inflate(R.menu.conversation_more)
+
+            if (conversation.lastStatus.muted) {
+                popup.menu.removeItem(R.id.status_mute_conversation)
+            } else {
+                popup.menu.removeItem(R.id.status_unmute_conversation)
+            }
+
+            popup.setOnMenuItemClickListener { item ->
+                when (item.itemId) {
+                    R.id.status_mute_conversation -> viewModel.muteConversation(conversation)
+                    R.id.status_unmute_conversation -> viewModel.muteConversation(conversation)
+                    R.id.conversation_delete -> deleteConversation(conversation)
+                }
+                true
+            }
+            popup.show()
         }
     }
 
@@ -212,15 +232,23 @@ class ConversationsFragment : SFragment(), StatusActionListener, Injectable, Res
     }
 
     override fun removeItem(position: Int) {
-        adapter.item(position)?.let { conversation ->
-            viewModel.remove(conversation)
-        }
+        // not needed
     }
 
     override fun onReply(position: Int) {
         adapter.item(position)?.let { conversation ->
             reply(conversation.lastStatus.toStatus())
         }
+    }
+
+    private fun deleteConversation(conversation: ConversationEntity) {
+        AlertDialog.Builder(requireContext())
+            .setMessage(R.string.dialog_delete_conversation_warning)
+            .setNegativeButton(android.R.string.cancel, null)
+            .setPositiveButton(android.R.string.ok) { _, _ ->
+                viewModel.remove(conversation)
+            }
+            .show()
     }
 
     private fun jumpToTop() {

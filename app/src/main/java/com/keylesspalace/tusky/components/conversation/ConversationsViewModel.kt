@@ -15,6 +15,7 @@
 
 package com.keylesspalace.tusky.components.conversation
 
+import android.util.Log
 import androidx.lifecycle.viewModelScope
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.Pager
@@ -27,13 +28,14 @@ import com.keylesspalace.tusky.network.TimelineCases
 import com.keylesspalace.tusky.util.RxAwareViewModel
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.rx3.await
+import java.lang.Exception
 import javax.inject.Inject
 
 class ConversationsViewModel @Inject constructor(
     private val timelineCases: TimelineCases,
     private val database: AppDatabase,
     private val accountManager: AccountManager,
-    api: MastodonApi
+    private val api: MastodonApi
 ) : RxAwareViewModel() {
 
     @ExperimentalPagingApi
@@ -66,7 +68,6 @@ class ConversationsViewModel @Inject constructor(
                 )
 
                 database.conversationDao().insert(newConversation)
-
             }
     }
 
@@ -109,7 +110,27 @@ class ConversationsViewModel @Inject constructor(
     }
 
     fun remove(conversation: ConversationEntity) {
-        // TODO
+        viewModelScope.launch {
+            try {
+                api.deleteConversation(conversationId = conversation.id)
+
+                database.conversationDao().delete(conversation)
+            } catch (e: Exception) {
+                Log.w("ConversationsViewModel", "failed to delete conversation", e)
+            }
+        }
+    }
+
+    fun muteConversation(conversation: ConversationEntity) {
+        viewModelScope.launch {
+            val newStatus = timelineCases.muteConversation(conversation.lastStatus.toStatus(), !conversation.lastStatus.muted).await()
+
+            val newConversation = conversation.copy(
+                lastStatus = newStatus.toEntity()
+            )
+
+            database.conversationDao().insert(newConversation)
+        }
     }
 
     suspend fun saveConversationToDb(conversation: ConversationEntity) {
