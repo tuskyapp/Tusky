@@ -28,7 +28,6 @@ import com.keylesspalace.tusky.network.TimelineCases
 import com.keylesspalace.tusky.util.RxAwareViewModel
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.rx3.await
-import java.lang.Exception
 import javax.inject.Inject
 
 class ConversationsViewModel @Inject constructor(
@@ -48,7 +47,8 @@ class ConversationsViewModel @Inject constructor(
         .cachedIn(viewModelScope)
 
     fun favourite(favourite: Boolean, conversation: ConversationEntity) {
-            viewModelScope.launch {
+        viewModelScope.launch {
+            try {
                 timelineCases.favourite(conversation.lastStatus.toStatus(), favourite).await()
 
                 val newConversation = conversation.copy(
@@ -56,11 +56,15 @@ class ConversationsViewModel @Inject constructor(
                 )
 
                 database.conversationDao().insert(newConversation)
+            } catch (e: Exception) {
+                Log.w(TAG, "failed to favourite status", e)
             }
+        }
     }
 
     fun bookmark(bookmark: Boolean, conversation: ConversationEntity) {
-            viewModelScope.launch {
+        viewModelScope.launch {
+            try {
                 timelineCases.bookmark(conversation.lastStatus.toStatus(), bookmark).await()
 
                 val newConversation = conversation.copy(
@@ -68,45 +72,52 @@ class ConversationsViewModel @Inject constructor(
                 )
 
                 database.conversationDao().insert(newConversation)
+            } catch (e: Exception) {
+                Log.w(TAG, "failed to bookmark status", e)
             }
+        }
     }
 
     fun voteInPoll(choices: MutableList<Int>, conversation: ConversationEntity) {
-            viewModelScope.launch {
+        viewModelScope.launch {
+            try {
                 val poll = timelineCases.voteInPoll(conversation.lastStatus.toStatus(), choices).await()
                 val newConversation = conversation.copy(
                     lastStatus = conversation.lastStatus.copy(poll = poll)
                 )
 
                 database.conversationDao().insert(newConversation)
+            } catch (e: Exception) {
+                Log.w(TAG, "failed to vote in poll", e)
             }
+        }
     }
 
     fun expandHiddenStatus(expanded: Boolean, conversation: ConversationEntity) {
-            viewModelScope.launch {
-                val newConversation = conversation.copy(
-                    lastStatus = conversation.lastStatus.copy(expanded = expanded)
-                )
-                saveConversationToDb(newConversation)
-            }
+        viewModelScope.launch {
+            val newConversation = conversation.copy(
+                lastStatus = conversation.lastStatus.copy(expanded = expanded)
+            )
+            saveConversationToDb(newConversation)
+        }
     }
 
     fun collapseLongStatus(collapsed: Boolean, conversation: ConversationEntity) {
-            viewModelScope.launch {
-                val newConversation = conversation.copy(
-                    lastStatus = conversation.lastStatus.copy(collapsed = collapsed)
-                )
-                saveConversationToDb(newConversation)
-            }
+        viewModelScope.launch {
+            val newConversation = conversation.copy(
+                lastStatus = conversation.lastStatus.copy(collapsed = collapsed)
+            )
+            saveConversationToDb(newConversation)
+        }
     }
 
     fun showContent(showing: Boolean, conversation: ConversationEntity) {
-            viewModelScope.launch {
-                val newConversation = conversation.copy(
-                    lastStatus = conversation.lastStatus.copy(showingHiddenContent = showing)
-                )
-                saveConversationToDb(newConversation)
-            }
+        viewModelScope.launch {
+            val newConversation = conversation.copy(
+                lastStatus = conversation.lastStatus.copy(showingHiddenContent = showing)
+            )
+            saveConversationToDb(newConversation)
+        }
     }
 
     fun remove(conversation: ConversationEntity) {
@@ -116,20 +127,27 @@ class ConversationsViewModel @Inject constructor(
 
                 database.conversationDao().delete(conversation)
             } catch (e: Exception) {
-                Log.w("ConversationsViewModel", "failed to delete conversation", e)
+                Log.w(TAG, "failed to delete conversation", e)
             }
         }
     }
 
     fun muteConversation(conversation: ConversationEntity) {
         viewModelScope.launch {
-            val newStatus = timelineCases.muteConversation(conversation.lastStatus.toStatus(), !conversation.lastStatus.muted).await()
+            try {
+                val newStatus = timelineCases.muteConversation(
+                    conversation.lastStatus.toStatus(),
+                    !conversation.lastStatus.muted
+                ).await()
 
-            val newConversation = conversation.copy(
-                lastStatus = newStatus.toEntity()
-            )
+                val newConversation = conversation.copy(
+                    lastStatus = newStatus.toEntity()
+                )
 
-            database.conversationDao().insert(newConversation)
+                database.conversationDao().insert(newConversation)
+            } catch (e: Exception) {
+                Log.w(TAG, "failed to mute conversation", e)
+            }
         }
     }
 
@@ -137,4 +155,7 @@ class ConversationsViewModel @Inject constructor(
         database.conversationDao().insert(conversation)
     }
 
+    companion object {
+        private const val TAG = "ConversationsViewModel"
+    }
 }
