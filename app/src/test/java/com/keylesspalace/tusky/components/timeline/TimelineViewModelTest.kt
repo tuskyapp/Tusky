@@ -209,6 +209,35 @@ class TimelineViewModelTest {
     }
 
     @Test
+    fun `loadInitial, home, with cache, error on load above`() {
+        val statuses = (5 downTo 1).map { makeStatus(it.toString()) }
+        setCachedResponse(statuses)
+        setInitialRefresh("6", statuses)
+
+        whenever(
+            timelineRepository.getStatuses(
+                maxId = null,
+                sinceId = "5",
+                sincedIdMinusOne = "4",
+                limit = LOAD_AT_ONCE,
+                TimelineRequestMode.NETWORK,
+            )
+        ).thenReturn(Single.error(IOException("test")))
+
+        val updates = viewModel.viewUpdates.test()
+
+        runBlocking {
+            viewModel.loadInitial()
+        }
+
+        assertViewUpdated(updates)
+
+        assertHasList(statuses.toViewData())
+        // No failure set since we had statuses
+        assertNull(viewModel.failure)
+    }
+
+    @Test
     fun `loadInitial, home, with cache, error on refresh`() {
         val statuses = (5 downTo 2).map { makeStatus(it.toString()) }
         setCachedResponse(statuses)

@@ -520,6 +520,7 @@ class TimelineViewModel @Inject constructor(
                 return@launch
             }
             isLoadingInitially = true
+            failure = null
             triggerViewUpdate()
 
             if (kind == Kind.HOME) {
@@ -528,10 +529,15 @@ class TimelineViewModel @Inject constructor(
                 updateCurrent()
                 try {
                     loadAbove()
-                } catch (e: IOException) {
-                    failure = FailureReason.NETWORK
-                } catch (e: HttpException) {
-                    failure = FailureReason.OTHER
+                } catch (e: Exception) {
+                    Log.e(TAG, "Loading above failed", e)
+                    if (!isExpectedRequestException(e)) {
+                        throw e
+                    } else if (statuses.isEmpty()) {
+                        failure =
+                            if (e is IOException) FailureReason.NETWORK
+                            else FailureReason.OTHER
+                    }
                 } finally {
                     isLoadingInitially = false
                     triggerViewUpdate()

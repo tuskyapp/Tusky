@@ -376,12 +376,11 @@ class TimelineFragment : SFragment(), OnRefreshListener, StatusActionListener, I
 
     private fun updateViews() {
         differ.submitList(viewModel.statuses.toList())
+        binding.swipeRefreshLayout.isEnabled = viewModel.failure == null
 
         if (isAdded) {
             binding.swipeRefreshLayout.isRefreshing = viewModel.isRefreshing
             binding.progressBar.visible(viewModel.isLoadingInitially)
-            // TODO: ??
-            binding.swipeRefreshLayout.isEnabled = true
             if (viewModel.failure == null && viewModel.statuses.isEmpty() && !viewModel.isLoadingInitially) {
                 showEmptyView()
             } else {
@@ -392,7 +391,8 @@ class TimelineFragment : SFragment(), OnRefreshListener, StatusActionListener, I
                             R.drawable.elephant_offline,
                             R.string.error_network
                         ) {
-                            onRefresh()
+                            binding.statusView.hide()
+                            viewModel.loadInitial()
                         }
                     }
                     TimelineViewModel.FailureReason.OTHER -> {
@@ -401,7 +401,8 @@ class TimelineFragment : SFragment(), OnRefreshListener, StatusActionListener, I
                             R.drawable.elephant_error,
                             R.string.error_generic
                         ) {
-                            onRefresh()
+                            binding.statusView.hide()
+                            viewModel.loadInitial()
                         }
                     }
                     null -> binding.statusView.hide()
