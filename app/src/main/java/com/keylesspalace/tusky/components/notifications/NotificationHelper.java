@@ -316,7 +316,7 @@ public class NotificationHelper {
         Status actionableStatus = status.getActionableStatus();
         Status.Visibility replyVisibility = actionableStatus.getVisibility();
         String contentWarning = actionableStatus.getSpoilerText();
-        Status.Mention[] mentions = actionableStatus.getMentions();
+        List<Status.Mention> mentions = actionableStatus.getMentions();
         List<String> mentionedUsernames = new ArrayList<>();
         mentionedUsernames.add(actionableStatus.getAccount().getUsername());
         for (Status.Mention mention : mentions) {
@@ -381,7 +381,6 @@ public class NotificationHelper {
 
             NotificationChannelGroup channelGroup = new NotificationChannelGroup(account.getIdentifier(), account.getFullName());
 
-            //noinspection ConstantConditions
             notificationManager.createNotificationChannelGroup(channelGroup);
 
             for (int i = 0; i < channelIds.length; i++) {

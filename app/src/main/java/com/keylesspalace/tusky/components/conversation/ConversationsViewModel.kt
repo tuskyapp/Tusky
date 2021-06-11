@@ -49,7 +49,7 @@ class ConversationsViewModel @Inject constructor(
     fun favourite(favourite: Boolean, conversation: ConversationEntity) {
         viewModelScope.launch {
             try {
-                timelineCases.favourite(conversation.lastStatus.toStatus(), favourite).await()
+                timelineCases.favourite(conversation.lastStatus.id, favourite).await()
 
                 val newConversation = conversation.copy(
                     lastStatus = conversation.lastStatus.copy(favourited = favourite)
@@ -65,7 +65,7 @@ class ConversationsViewModel @Inject constructor(
     fun bookmark(bookmark: Boolean, conversation: ConversationEntity) {
         viewModelScope.launch {
             try {
-                timelineCases.bookmark(conversation.lastStatus.toStatus(), bookmark).await()
+                timelineCases.bookmark(conversation.lastStatus.id, bookmark).await()
 
                 val newConversation = conversation.copy(
                     lastStatus = conversation.lastStatus.copy(bookmarked = bookmark)
@@ -78,10 +78,10 @@ class ConversationsViewModel @Inject constructor(
         }
     }
 
-    fun voteInPoll(choices: MutableList<Int>, conversation: ConversationEntity) {
+    fun voteInPoll(choices: List<Int>, conversation: ConversationEntity) {
         viewModelScope.launch {
             try {
-                val poll = timelineCases.voteInPoll(conversation.lastStatus.toStatus(), choices).await()
+                val poll = timelineCases.voteInPoll(conversation.lastStatus.id, conversation.lastStatus.poll?.id!!, choices).await()
                 val newConversation = conversation.copy(
                     lastStatus = conversation.lastStatus.copy(poll = poll)
                 )
@@ -136,7 +136,7 @@ class ConversationsViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 val newStatus = timelineCases.muteConversation(
-                    conversation.lastStatus.toStatus(),
+                    conversation.lastStatus.id,
                     !conversation.lastStatus.muted
                 ).await()
 

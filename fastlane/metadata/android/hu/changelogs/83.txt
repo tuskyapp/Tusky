@@ -1,0 +1,3 @@
+Tusky v15.1
+
+Ez a kiadás egy képek feliratozása közben jelentkező hibát javít

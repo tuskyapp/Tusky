@@ -44,6 +44,11 @@ import com.keylesspalace.tusky.util.*
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import java.io.IOException
+import com.keylesspalace.tusky.util.CardViewMode
+import com.keylesspalace.tusky.util.StatusDisplayOptions
+import com.keylesspalace.tusky.util.hide
+import com.keylesspalace.tusky.util.viewBinding
+import com.keylesspalace.tusky.viewdata.AttachmentViewData
 import javax.inject.Inject
 
 class ConversationsFragment : SFragment(), StatusActionListener, Injectable, ReselectableFragment {
@@ -184,13 +189,13 @@ class ConversationsFragment : SFragment(), StatusActionListener, Injectable, Res
 
     override fun onViewMedia(position: Int, attachmentIndex: Int, view: View?) {
         adapter.item(position)?.let { conversation ->
-            viewMedia(attachmentIndex, conversation.lastStatus.toStatus(), view)
+            viewMedia(attachmentIndex, AttachmentViewData.list(conversation.lastStatus.toStatus()), view)
         }
     }
 
     override fun onViewThread(position: Int) {
         adapter.item(position)?.let { conversation ->
-            viewThread(conversation.lastStatus.toStatus())
+            viewThread(conversation.lastStatus.id, conversation.lastStatus.url)
         }
     }
 

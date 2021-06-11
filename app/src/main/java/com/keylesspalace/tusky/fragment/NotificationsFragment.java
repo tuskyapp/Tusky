@@ -58,6 +58,7 @@ import com.keylesspalace.tusky.appstore.BlockEvent;
 import com.keylesspalace.tusky.appstore.BookmarkEvent;
 import com.keylesspalace.tusky.appstore.EventHub;
 import com.keylesspalace.tusky.appstore.FavoriteEvent;
+import com.keylesspalace.tusky.appstore.PinEvent;
 import com.keylesspalace.tusky.appstore.PreferenceChangedEvent;
 import com.keylesspalace.tusky.appstore.ReblogEvent;
 import com.keylesspalace.tusky.db.AccountEntity;
@@ -83,6 +84,7 @@ import com.keylesspalace.tusky.util.StatusDisplayOptions;
 import com.keylesspalace.tusky.util.ViewDataUtils;
 import com.keylesspalace.tusky.view.BackgroundMessageView;
 import com.keylesspalace.tusky.view.EndlessOnScrollListener;
+import com.keylesspalace.tusky.viewdata.AttachmentViewData;
 import com.keylesspalace.tusky.viewdata.NotificationViewData;
 import com.keylesspalace.tusky.viewdata.StatusViewData;
 
@@ -92,6 +94,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
@@ -311,35 +314,6 @@ public class NotificationsFragment extends SFragment implements
                 .show();
     }
 
-    private void handleFavEvent(FavoriteEvent event) {
-        Pair<Integer, Notification> posAndNotification =
-                findReplyPosition(event.getStatusId());
-        if (posAndNotification == null) return;
-        //noinspection ConstantConditions
-        setFavouriteForStatus(posAndNotification.first,
-                posAndNotification.second.getStatus(),
-                event.getFavourite());
-    }
-
-    private void handleBookmarkEvent(BookmarkEvent event) {
-        Pair<Integer, Notification> posAndNotification =
-                findReplyPosition(event.getStatusId());
-        if (posAndNotification == null) return;
-        //noinspection ConstantConditions
-        setBookmarkForStatus(posAndNotification.first,
-                posAndNotification.second.getStatus(),
-                event.getBookmark());
-    }
-
-    private void handleReblogEvent(ReblogEvent event) {
-        Pair<Integer, Notification> posAndNotification = findReplyPosition(event.getStatusId());
-        if (posAndNotification == null) return;
-        //noinspection ConstantConditions
-        setReblogForStatus(posAndNotification.first,
-                posAndNotification.second.getStatus(),
-                event.getReblog());
-    }
-
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -386,11 +360,13 @@ public class NotificationsFragment extends SFragment implements
                 .to(autoDisposable(from(this, Lifecycle.Event.ON_DESTROY)))
                 .subscribe(event -> {
                     if (event instanceof FavoriteEvent) {
-                        handleFavEvent((FavoriteEvent) event);
+                        setFavouriteForStatus(((FavoriteEvent) event).getStatusId(), ((FavoriteEvent) event).getFavourite());
                     } else if (event instanceof BookmarkEvent) {
-                        handleBookmarkEvent((BookmarkEvent) event);
+                        setBookmarkForStatus(((BookmarkEvent) event).getStatusId(), ((BookmarkEvent) event).getBookmark());
                     } else if (event instanceof ReblogEvent) {
-                        handleReblogEvent((ReblogEvent) event);
+                        setReblogForStatus(((ReblogEvent) event).getStatusId(), ((ReblogEvent) event).getReblog());
+                    } else if (event instanceof PinEvent) {
+                        setPinForStatus(((PinEvent) event).getStatusId(), ((PinEvent) event).getPinned());
                     } else if (event instanceof BlockEvent) {
                         removeAllByAccountId(((BlockEvent) event).getAccountId());
                     } else if (event instanceof PreferenceChangedEvent) {
@@ -423,34 +399,21 @@ public class NotificationsFragment extends SFragment implements
         final Notification notification = notifications.get(position).asRight();
         final Status status = notification.getStatus();
         Objects.requireNonNull(status, "Reblog on notification without status");
-        timelineCases.reblog(status, reblog)
+        timelineCases.reblog(status.getId(), reblog)
                 .observeOn(AndroidSchedulers.mainThread())
                 .to(autoDisposable(from(this)))
                 .subscribe(
-                        (newStatus) -> setReblogForStatus(position, status, reblog),
+                        (newStatus) -> setReblogForStatus(status.getId(), reblog),
                         (t) -> Log.d(getClass().getSimpleName(),
                                 "Failed to reblog status: " + status.getId(), t)
                 );
     }
 
-    private void setReblogForStatus(int position, Status status, boolean reblog) {
-        status.setReblogged(reblog);
-
-        if (status.getReblog() != null) {
-            status.getReblog().setReblogged(reblog);
-        }
-
-        NotificationViewData.Concrete viewdata = (NotificationViewData.Concrete) notifications.getPairedItem(position);
-
-        StatusViewData.Builder viewDataBuilder = new StatusViewData.Builder(viewdata.getStatusViewData());
-        viewDataBuilder.setReblogged(reblog);
-
-        NotificationViewData.Concrete newViewData = new NotificationViewData.Concrete(
-                viewdata.getType(), viewdata.getId(), viewdata.getAccount(),
-                viewDataBuilder.createStatusViewData());
-
-        notifications.setPairedItem(position, newViewData);
-        updateAdapter();
+    private void setReblogForStatus(String statusId, boolean reblog) {
+        updateStatus(statusId, (s) -> {
+            s.setReblogged(reblog);
+            return s;
+        });
     }
 
     @Override
@@ -458,34 +421,21 @@ public class NotificationsFragment extends SFragment implements
         final Notification notification = notifications.get(position).asRight();
         final Status status = notification.getStatus();
 
-        timelineCases.favourite(status, favourite)
+        timelineCases.favourite(status.getId(), favourite)
                 .observeOn(AndroidSchedulers.mainThread())
                 .to(autoDisposable(from(this)))
                 .subscribe(
-                        (newStatus) -> setFavouriteForStatus(position, status, favourite),
+                        (newStatus) -> setFavouriteForStatus(status.getId(), favourite),
                         (t) -> Log.d(getClass().getSimpleName(),
                                 "Failed to favourite status: " + status.getId(), t)
                 );
     }
 
-    private void setFavouriteForStatus(int position, Status status, boolean favourite) {
-        status.setFavourited(favourite);
-
-        if (status.getReblog() != null) {
-            status.getReblog().setFavourited(favourite);
-        }
-
-        NotificationViewData.Concrete viewdata = (NotificationViewData.Concrete) notifications.getPairedItem(position);
-
-        StatusViewData.Builder viewDataBuilder = new StatusViewData.Builder(viewdata.getStatusViewData());
-        viewDataBuilder.setFavourited(favourite);
-
-        NotificationViewData.Concrete newViewData = new NotificationViewData.Concrete(
-                viewdata.getType(), viewdata.getId(), viewdata.getAccount(),
-                viewDataBuilder.createStatusViewData());
-
-        notifications.setPairedItem(position, newViewData);
-        updateAdapter();
+    private void setFavouriteForStatus(String statusId, boolean favourite) {
+        updateStatus(statusId, (s) -> {
+            s.setFavourited(favourite);
+            return s;
+        });
     }
 
     @Override
@@ -493,63 +443,38 @@ public class NotificationsFragment extends SFragment implements
         final Notification notification = notifications.get(position).asRight();
         final Status status = notification.getStatus();
 
-        timelineCases.bookmark(status, bookmark)
+        timelineCases.bookmark(status.getActionableId(), bookmark)
                 .observeOn(AndroidSchedulers.mainThread())
                 .to(autoDisposable(from(this)))
                 .subscribe(
-                        (newStatus) -> setBookmarkForStatus(position, status, bookmark),
+                        (newStatus) -> setBookmarkForStatus(status.getId(), bookmark),
                         (t) -> Log.d(getClass().getSimpleName(),
                                 "Failed to bookmark status: " + status.getId(), t)
                 );
     }
 
-    private void setBookmarkForStatus(int position, Status status, boolean bookmark) {
-        status.setBookmarked(bookmark);
-
-        if (status.getReblog() != null) {
-            status.getReblog().setBookmarked(bookmark);
-        }
-
-        NotificationViewData.Concrete viewdata = (NotificationViewData.Concrete) notifications.getPairedItem(position);
-
-        StatusViewData.Builder viewDataBuilder = new StatusViewData.Builder(viewdata.getStatusViewData());
-        viewDataBuilder.setBookmarked(bookmark);
-
-        NotificationViewData.Concrete newViewData = new NotificationViewData.Concrete(
-                viewdata.getType(), viewdata.getId(), viewdata.getAccount(),
-                viewDataBuilder.createStatusViewData());
-
-        notifications.setPairedItem(position, newViewData);
-        updateAdapter();
+    private void setBookmarkForStatus(String statusId, boolean bookmark) {
+        updateStatus(statusId, (s) -> {
+            s.setBookmarked(bookmark);
+            return s;
+        });
     }
 
     public void onVoteInPoll(int position, @NonNull List<Integer> choices) {
         final Notification notification = notifications.get(position).asRight();
-        final Status status = notification.getStatus();
-
-        timelineCases.voteInPoll(status, choices)
+        final Status status = notification.getStatus().getActionableStatus();
+        timelineCases.voteInPoll(status.getId(), status.getPoll().getId(), choices)
                 .observeOn(AndroidSchedulers.mainThread())
                 .to(autoDisposable(from(this)))
                 .subscribe(
-                        (newPoll) -> setVoteForPoll(position, newPoll),
+                        (newPoll) -> setVoteForPoll(status, newPoll),
                         (t) -> Log.d(TAG,
                                 "Failed to vote in poll: " + status.getId(), t)
                 );
     }
 
-    private void setVoteForPoll(int position, Poll poll) {
-
-        NotificationViewData.Concrete viewdata = (NotificationViewData.Concrete) notifications.getPairedItem(position);
-
-        StatusViewData.Builder viewDataBuilder = new StatusViewData.Builder(viewdata.getStatusViewData());
-        viewDataBuilder.setPoll(poll);
-
-        NotificationViewData.Concrete newViewData = new NotificationViewData.Concrete(
-                viewdata.getType(), viewdata.getId(), viewdata.getAccount(),
-                viewDataBuilder.createStatusViewData());
-
-        notifications.setPairedItem(position, newViewData);
-        updateAdapter();
+    private void setVoteForPoll(Status status, Poll poll) {
+        updateStatus(status.getId(), (s) -> s.copyWithPoll(poll));
     }
 
     @Override
@@ -562,13 +487,17 @@ public class NotificationsFragment extends SFragment implements
     public void onViewMedia(int position, int attachmentIndex, @Nullable View view) {
         Notification notification = notifications.get(position).asRightOrNull();
         if (notification == null || notification.getStatus() == null) return;
-        super.viewMedia(attachmentIndex, notification.getStatus(), view);
+        Status status = notification.getStatus();
+        super.viewMedia(attachmentIndex, AttachmentViewData.list(status), view);
     }
 
     @Override
     public void onViewThread(int position) {
         Notification notification = notifications.get(position).asRight();
-        super.viewThread(notification.getStatus());
+        Status status = notification.getStatus();
+        if (status == null) return;
+        ;
+        super.viewThread(status.getActionableId(), status.getActionableStatus().getUrl());
     }
 
     @Override
@@ -579,30 +508,19 @@ public class NotificationsFragment extends SFragment implements
 
     @Override
     public void onExpandedChange(boolean expanded, int position) {
-        NotificationViewData.Concrete old =
-                (NotificationViewData.Concrete) notifications.getPairedItem(position);
-        StatusViewData.Concrete statusViewData =
-                new StatusViewData.Builder(old.getStatusViewData())
-                        .setIsExpanded(expanded)
-                        .createStatusViewData();
-        NotificationViewData notificationViewData = new NotificationViewData.Concrete(old.getType(),
-                old.getId(), old.getAccount(), statusViewData);
-        notifications.setPairedItem(position, notificationViewData);
-        updateAdapter();
+        updateViewDataAt(position, (vd) -> vd.copyWithExpanded(expanded));
     }
 
     @Override
     public void onContentHiddenChange(boolean isShowing, int position) {
-        NotificationViewData.Concrete old =
-                (NotificationViewData.Concrete) notifications.getPairedItem(position);
-        StatusViewData.Concrete statusViewData =
-                new StatusViewData.Builder(old.getStatusViewData())
-                        .setIsShowingSensitiveContent(isShowing)
-                        .createStatusViewData();
-        NotificationViewData notificationViewData = new NotificationViewData.Concrete(old.getType(),
-                old.getId(), old.getAccount(), statusViewData);
-        notifications.setPairedItem(position, notificationViewData);
-        updateAdapter();
+        updateViewDataAt(position, (vd) -> vd.copyWithShowingContent(isShowing));
+    }
+
+    private void setPinForStatus(String statusId, boolean pinned) {
+        updateStatus(statusId, status -> {
+            status.copyWithPinned(pinned);
+            return status;
+        });
     }
 
     @Override
@@ -628,42 +546,74 @@ public class NotificationsFragment extends SFragment implements
 
     @Override
     public void onContentCollapsedChange(boolean isCollapsed, int position) {
-        if (position < 0 || position >= notifications.size()) {
-            Log.e(TAG, String.format("Tried to access out of bounds status position: %d of %d", position, notifications.size() - 1));
-            return;
-        }
+        updateViewDataAt(position, (vd) -> vd.copyWIthCollapsed(isCollapsed));
+        ;
+    }
 
-        NotificationViewData notification = notifications.getPairedItem(position);
-        if (!(notification instanceof NotificationViewData.Concrete)) {
-            Log.e(TAG, String.format(
-                    "Expected NotificationViewData.Concrete, got %s instead at position: %d of %d",
-                    notification == null ? "null" : notification.getClass().getSimpleName(),
+    private void updateStatus(String statusId, Function<Status, Status> mapper) {
+        int index = CollectionsKt.indexOfFirst(this.notifications, (s) -> s.isRight() &&
+                s.asRight().getStatus() != null &&
+                s.asRight().getStatus().getId().equals(statusId));
+        if (index == -1) return;
+
+        // We have quite some graph here:
+        //
+        //      Notification --------> Status
+        //                                ^
+        //                                |
+        //                             StatusViewData
+        //                                ^
+        //                                |
+        //      NotificationViewData -----+
+        //
+        // So if we have "new" status we need to update all references to be sure that data is
+        // up-to-date:
+        // 1. update status
+        // 2. update notification
+        // 3. update statusViewData
+        // 4. update notificationViewData
+
+        Status oldStatus = notifications.get(index).asRight().getStatus();
+        NotificationViewData.Concrete oldViewData =
+                (NotificationViewData.Concrete) this.notifications.getPairedItem(index);
+        Status newStatus = mapper.apply(oldStatus);
+        Notification newNotification = this.notifications.get(index).asRight()
+                .copyWithStatus(newStatus);
+        StatusViewData.Concrete newStatusViewData =
+                Objects.requireNonNull(oldViewData.getStatusViewData()).copyWithStatus(newStatus);
+        NotificationViewData.Concrete newViewData = oldViewData.copyWithStatus(newStatusViewData);
+
+        notifications.set(index, new Either.Right<>(newNotification));
+        notifications.setPairedItem(index, newViewData);
+
+        updateAdapter();
+    }
+
+    private void updateViewDataAt(int position,
+                                  Function<StatusViewData.Concrete, StatusViewData.Concrete> mapper) {
+        if (position < 0 || position >= notifications.size()) {
+            String message = String.format(
+                    Locale.getDefault(),
+                    "Tried to access out of bounds status position: %d of %d",
                     position,
                     notifications.size() - 1
-            ));
+            );
+            Log.e(TAG, message);
             return;
         }
+        NotificationViewData someViewData = this.notifications.getPairedItem(position);
+        if (!(someViewData instanceof NotificationViewData.Concrete)) {
+            return;
+        }
+        NotificationViewData.Concrete oldViewData = (NotificationViewData.Concrete) someViewData;
+        StatusViewData.Concrete oldStatusViewData = oldViewData.getStatusViewData();
+        if (oldStatusViewData == null) return;
 
-        StatusViewData.Concrete status = ((NotificationViewData.Concrete) notification).getStatusViewData();
-        StatusViewData.Concrete updatedStatus = new StatusViewData.Builder(status)
-                .setCollapsed(isCollapsed)
-                .createStatusViewData();
+        NotificationViewData.Concrete newViewData =
+                oldViewData.copyWithStatus(mapper.apply(oldStatusViewData));
+        notifications.setPairedItem(position, newViewData);
 
-        NotificationViewData.Concrete concreteNotification = (NotificationViewData.Concrete) notification;
-        NotificationViewData updatedNotification = new NotificationViewData.Concrete(
-                concreteNotification.getType(),
-                concreteNotification.getId(),
-                concreteNotification.getAccount(),
-                updatedStatus
-        );
-        notifications.setPairedItem(position, updatedNotification);
         updateAdapter();
-
-        // Since we cannot notify to the RecyclerView right away because it may be scrolling
-        // we run this when the RecyclerView is done doing measurements and other calculations.
-        // To test this is not bs: try getting a notification while scrolling, without wrapping
-        // notifyItemChanged in a .post() call. App will crash.
-        recyclerView.post(() -> adapter.notifyItemChanged(position, notification));
     }
 
     @Override
@@ -844,8 +794,11 @@ public class NotificationsFragment extends SFragment implements
         for (Either<Placeholder, Notification> either : notifications) {
             Notification notification = either.asRightOrNull();
             if (notification != null && notification.getId().equals(notificationId)) {
-                super.viewThread(notification.getStatus());
-                return;
+                Status status = notification.getStatus();
+                if (status != null) {
+                    super.viewThread(status.getActionableId(), status.getActionableStatus().getUrl());
+                    return;
+                }
             }
         }
         Log.w(TAG, "Didn't find a notification for ID: " + notificationId);
@@ -951,7 +904,7 @@ public class NotificationsFragment extends SFragment implements
         }
 
         Disposable notificationCall = mastodonApi.notifications(fromId, uptoId, LOAD_AT_ONCE, showNotificationsFilter ? notificationFilter : null)
-        .observeOn(AndroidSchedulers.mainThread())
+                .observeOn(AndroidSchedulers.mainThread())
                 .to(autoDisposable(from(this, Lifecycle.Event.ON_DESTROY)))
                 .subscribe(
                         response -> {

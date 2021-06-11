@@ -43,6 +43,7 @@ import com.keylesspalace.tusky.databinding.ItemFollowRequestBinding;
 import com.keylesspalace.tusky.entity.Account;
 import com.keylesspalace.tusky.entity.Emoji;
 import com.keylesspalace.tusky.entity.Notification;
+import com.keylesspalace.tusky.entity.Status;
 import com.keylesspalace.tusky.interfaces.AccountActionListener;
 import com.keylesspalace.tusky.interfaces.LinkListener;
 import com.keylesspalace.tusky.interfaces.StatusActionListener;
@@ -195,14 +196,15 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
                         } else {
                             holder.showNotificationContent(true);
 
-                            holder.setDisplayName(statusViewData.getUserFullName(), statusViewData.getAccountEmojis());
-                            holder.setUsername(statusViewData.getNickname());
-                            holder.setCreatedAt(statusViewData.getCreatedAt());
+                            Status status = statusViewData.getActionable();
+                            holder.setDisplayName(status.getAccount().getDisplayName(), status.getAccount().getEmojis());
+                            holder.setUsername(status.getAccount().getUsername());
+                            holder.setCreatedAt(status.getCreatedAt());
 
-                            if(concreteNotificaton.getType() == Notification.Type.STATUS) {
-                                holder.setAvatar(statusViewData.getAvatar(), statusViewData.isBot());
+                            if (concreteNotificaton.getType() == Notification.Type.STATUS) {
+                                holder.setAvatar(status.getAccount().getAvatar(), status.getAccount().getBot());
                             } else {
-                                holder.setAvatars(statusViewData.getAvatar(),
+                                holder.setAvatars(status.getAccount().getAvatar(),
                                         concreteNotificaton.getAccount().getAvatar());
                             }
                         }
@@ -215,7 +217,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
                         if (payloadForHolder instanceof List)
                             for (Object item : (List) payloadForHolder) {
                                 if (StatusBaseViewHolder.Key.KEY_CREATED.equals(item) && statusViewData != null) {
-                                    holder.setCreatedAt(statusViewData.getCreatedAt());
+                                    holder.setCreatedAt(statusViewData.getStatus().getActionableStatus().getCreatedAt());
                                 }
                             }
                     }
@@ -386,7 +388,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
         private StatusViewData.Concrete statusViewData;
         private SimpleDateFormat shortSdf;
         private SimpleDateFormat longSdf;
-        
+
         private int avatarRadius48dp;
         private int avatarRadius36dp;
         private int avatarRadius24dp;
@@ -415,7 +417,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
             statusContent.setOnClickListener(this);
             shortSdf = new SimpleDateFormat("HH:mm:ss", Locale.getDefault());
             longSdf = new SimpleDateFormat("MM/dd HH:mm:ss", Locale.getDefault());
-            
+
             this.avatarRadius48dp = itemView.getContext().getResources().getDimensionPixelSize(R.dimen.avatar_radius_48dp);
             this.avatarRadius36dp = itemView.getContext().getResources().getDimensionPixelSize(R.dimen.avatar_radius_36dp);
             this.avatarRadius24dp = itemView.getContext().getResources().getDimensionPixelSize(R.dimen.avatar_radius_24dp);
@@ -531,7 +533,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
             message.setText(emojifiedText);
 
             if (statusViewData != null) {
-                boolean hasSpoiler = !TextUtils.isEmpty(statusViewData.getSpoilerText());
+                boolean hasSpoiler = !TextUtils.isEmpty(statusViewData.getStatus().getSpoilerText());
                 contentWarningDescriptionTextView.setVisibility(hasSpoiler ? View.VISIBLE : View.GONE);
                 contentWarningButton.setVisibility(hasSpoiler ? View.VISIBLE : View.GONE);
                 if (statusViewData.isExpanded()) {
@@ -586,7 +588,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
 
             notificationAvatar.setVisibility(View.VISIBLE);
             ImageLoadingHelper.loadAvatar(notificationAvatarUrl, notificationAvatar,
-                avatarRadius24dp, statusDisplayOptions.animateAvatars());
+                    avatarRadius24dp, statusDisplayOptions.animateAvatars());
         }
 
         @Override
@@ -607,7 +609,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
         private void setupContentAndSpoiler(final LinkListener listener) {
 
             boolean shouldShowContentIfSpoiler = statusViewData.isExpanded();
-            boolean hasSpoiler = !TextUtils.isEmpty(statusViewData.getSpoilerText());
+            boolean hasSpoiler = !TextUtils.isEmpty(statusViewData.getStatus(). getSpoilerText());
             if (!shouldShowContentIfSpoiler && hasSpoiler) {
                 statusContent.setVisibility(View.GONE);
             } else {
@@ -615,7 +617,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
             }
 
             Spanned content = statusViewData.getContent();
-            List<Emoji> emojis = statusViewData.getStatusEmojis();
+            List<Emoji> emojis = statusViewData.getActionable().getEmojis();
 
             if (statusViewData.isCollapsible() && (statusViewData.isExpanded() || !hasSpoiler)) {
                 contentCollapseButton.setOnClickListener(view -> {
@@ -641,13 +643,13 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
             CharSequence emojifiedText = CustomEmojiHelper.emojify(
                     content, emojis, statusContent, statusDisplayOptions.animateEmojis()
             );
-            LinkHelper.setClickableText(statusContent, emojifiedText, statusViewData.getMentions(), listener);
+            LinkHelper.setClickableText(statusContent, emojifiedText, statusViewData.getActionable().getMentions(), listener);
 
             CharSequence emojifiedContentWarning;
             if (statusViewData.getSpoilerText() != null) {
                 emojifiedContentWarning = CustomEmojiHelper.emojify(
                         statusViewData.getSpoilerText(),
-                        statusViewData.getStatusEmojis(),
+                        statusViewData.getActionable().getEmojis(),
                         contentWarningDescriptionTextView,
                         statusDisplayOptions.animateEmojis()
                 );

@@ -28,7 +28,6 @@ import com.keylesspalace.tusky.entity.Emoji
 import com.keylesspalace.tusky.entity.Poll
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.util.shouldTrimStatus
-import java.util.ArrayList
 import java.util.Date
 
 @Entity(primaryKeys = ["id","accountId"])
@@ -79,13 +78,13 @@ data class ConversationStatusEntity(
     val sensitive: Boolean,
     val spoilerText: String,
     val attachments: ArrayList<Attachment>,
-    val mentions: Array<Status.Mention>,
+    val mentions: List<Status.Mention>,
     val showingHiddenContent: Boolean,
     val expanded: Boolean,
     val collapsible: Boolean,
     val collapsed: Boolean,
     val muted: Boolean,
-    val poll: Poll?,
+    val poll: Poll?
 ) {
     /** its necessary to override this because Spanned.equals does not work as expected  */
     override fun equals(other: Any?): Boolean {
@@ -107,7 +106,7 @@ data class ConversationStatusEntity(
         if (sensitive != other.sensitive) return false
         if (spoilerText != other.spoilerText) return false
         if (attachments != other.attachments) return false
-        if (!mentions.contentEquals(other.mentions)) return false
+        if (mentions != other.mentions) return false
         if (showingHiddenContent != other.showingHiddenContent) return false
         if (expanded != other.expanded) return false
         if (collapsible != other.collapsible) return false
@@ -132,7 +131,7 @@ data class ConversationStatusEntity(
         result = 31 * result + sensitive.hashCode()
         result = 31 * result + spoilerText.hashCode()
         result = 31 * result + attachments.hashCode()
-        result = 31 * result + mentions.contentHashCode()
+        result = 31 * result + mentions.hashCode()
         result = 31 * result + showingHiddenContent.hashCode()
         result = 31 * result + expanded.hashCode()
         result = 31 * result + collapsible.hashCode()
@@ -204,7 +203,6 @@ fun Status.toEntity() =
         muted = muted ?: false,
         poll = poll
     )
-
 
 fun Conversation.toEntity(accountId: Long) =
     ConversationEntity(

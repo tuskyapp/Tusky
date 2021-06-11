@@ -29,16 +29,16 @@ import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.network.TimelineCases
 import com.keylesspalace.tusky.util.RxAwareViewModel
-import com.keylesspalace.tusky.util.ViewDataUtils
+import com.keylesspalace.tusky.util.toViewData
 import com.keylesspalace.tusky.viewdata.StatusViewData
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Single
 import javax.inject.Inject
 
 class SearchViewModel @Inject constructor(
-        mastodonApi: MastodonApi,
-        private val timelineCases: TimelineCases,
-        private val accountManager: AccountManager
+    mastodonApi: MastodonApi,
+    private val timelineCases: TimelineCases,
+    private val accountManager: AccountManager
 ) : RxAwareViewModel() {
 
     var currentQuery: String = ""
@@ -56,7 +56,7 @@ class SearchViewModel @Inject constructor(
     private val loadedStatuses: MutableList<Pair<Status, StatusViewData.Concrete>> = mutableListOf()
 
     private val statusesPagingSourceFactory = SearchPagingSourceFactory(mastodonApi, SearchType.Status, "", loadedStatuses){
-        it?.statuses?.map { status -> Pair(status, ViewDataUtils.statusToViewData(status, alwaysShowSensitiveMedia, alwaysOpenSpoiler)!!) }
+        it?.statuses?.map { status -> Pair(status, status.toViewData(alwaysShowSensitiveMedia, alwaysOpenSpoiler)) }
             .orEmpty()
             .apply {
                 loadedStatuses.addAll(this)
@@ -109,38 +109,35 @@ class SearchViewModel @Inject constructor(
     fun expandedChange(status: Pair<Status, StatusViewData.Concrete>, expanded: Boolean) {
         val idx = loadedStatuses.indexOf(status)
         if (idx >= 0) {
-            val newPair = Pair(status.first, StatusViewData.Builder(status.second).setIsExpanded(expanded).createStatusViewData())
+            val newPair = Pair(status.first, status.second.copy(isExpanded = expanded))
             loadedStatuses[idx] = newPair
             statusesPagingSourceFactory.invalidate()
         }
     }
 
     fun reblog(status: Pair<Status, StatusViewData.Concrete>, reblog: Boolean) {
-        timelineCases.reblog(status.first, reblog)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(
-                        { setRebloggedForStatus(status, reblog) },
-                        { err -> Log.d(TAG, "Failed to reblog status ${status.first.id}", err) }
-                )
-                .autoDispose()
+        timelineCases.reblog(status.first.id, reblog)
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(
+                { setRebloggedForStatus(status, reblog) },
+                { err -> Log.d(TAG, "Failed to reblog status ${status.first.id}", err) }
+            )
+            .autoDispose()
     }
 
-    private fun setRebloggedForStatus(status: Pair<Status, StatusViewData.Concrete>, reblog: Boolean) {
+    private fun setRebloggedForStatus(
+        status: Pair<Status, StatusViewData.Concrete>,
+        reblog: Boolean
+    ) {
         status.first.reblogged = reblog
         status.first.reblog?.reblogged = reblog
-
-        val idx = loadedStatuses.indexOf(status)
-        if (idx >= 0) {
-            val newPair = Pair(status.first, StatusViewData.Builder(status.second).setReblogged(reblog).createStatusViewData())
-            loadedStatuses[idx] = newPair
-            statusesPagingSourceFactory.invalidate()
-        }
+        statusesPagingSourceFactory.invalidate()
     }
 
     fun contentHiddenChange(status: Pair<Status, StatusViewData.Concrete>, isShowing: Boolean) {
         val idx = loadedStatuses.indexOf(status)
         if (idx >= 0) {
-            val newPair = Pair(status.first, StatusViewData.Builder(status.second).setIsShowingSensitiveContent(isShowing).createStatusViewData())
+            val newPair = Pair(status.first, status.second.copy(isShowingContent = isShowing))
             loadedStatuses[idx] = newPair
             statusesPagingSourceFactory.invalidate()
         }
@@ -149,7 +146,7 @@ class SearchViewModel @Inject constructor(
     fun collapsedChange(status: Pair<Status, StatusViewData.Concrete>, collapsed: Boolean) {
         val idx = loadedStatuses.indexOf(status)
         if (idx >= 0) {
-            val newPair = Pair(status.first, StatusViewData.Builder(status.second).setCollapsed(collapsed).createStatusViewData())
+            val newPair = Pair(status.first, status.second.copy(isCollapsed = collapsed))
             loadedStatuses[idx] = newPair
             statusesPagingSourceFactory.invalidate()
         }
@@ -158,54 +155,46 @@ class SearchViewModel @Inject constructor(
     fun voteInPoll(status: Pair<Status, StatusViewData.Concrete>, choices: MutableList<Int>) {
         val votedPoll = status.first.actionableStatus.poll!!.votedCopy(choices)
         updateStatus(status, votedPoll)
-        timelineCases.voteInPoll(status.first, choices)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(
-                        { newPoll -> updateStatus(status, newPoll) },
-                        { t ->
-                            Log.d(TAG,
-                                    "Failed to vote in poll: ${status.first.id}", t)
-                        }
-                )
-                .autoDispose()
+        timelineCases.voteInPoll(status.first.id, votedPoll.id, choices)
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(
+                { newPoll -> updateStatus(status, newPoll) },
+                { t ->
+                    Log.d(
+                        TAG,
+                        "Failed to vote in poll: ${status.first.id}", t
+                    )
+                }
+            )
+            .autoDispose()
     }
 
     private fun updateStatus(status: Pair<Status, StatusViewData.Concrete>, newPoll: Poll) {
         val idx = loadedStatuses.indexOf(status)
         if (idx >= 0) {
-
-            val newViewData = StatusViewData.Builder(status.second)
-                    .setPoll(newPoll)
-                    .createStatusViewData()
-            loadedStatuses[idx] = Pair(status.first, newViewData)
+            val newStatus = status.first.copy(poll = newPoll)
+            val newViewData = status.second.copy(status = newStatus)
+            loadedStatuses[idx] = Pair(newStatus, newViewData)
             statusesPagingSourceFactory.invalidate()
         }
     }
 
     fun favorite(status: Pair<Status, StatusViewData.Concrete>, isFavorited: Boolean) {
-        val idx = loadedStatuses.indexOf(status)
-        if (idx >= 0) {
-            val newPair = Pair(status.first, StatusViewData.Builder(status.second).setFavourited(isFavorited).createStatusViewData())
-            loadedStatuses[idx] = newPair
-            statusesPagingSourceFactory.invalidate()
-        }
-        timelineCases.favourite(status.first, isFavorited)
-                .onErrorReturnItem(status.first)
-                .subscribe()
-                .autoDispose()
+        status.first.favourited = isFavorited
+        statusesPagingSourceFactory.invalidate()
+        timelineCases.favourite(status.first.id, isFavorited)
+            .onErrorReturnItem(status.first)
+            .subscribe()
+            .autoDispose()
     }
 
     fun bookmark(status: Pair<Status, StatusViewData.Concrete>, isBookmarked: Boolean) {
-        val idx = loadedStatuses.indexOf(status)
-        if (idx >= 0) {
-            val newPair = Pair(status.first, StatusViewData.Builder(status.second).setBookmarked(isBookmarked).createStatusViewData())
-            loadedStatuses[idx] = newPair
-            statusesPagingSourceFactory.invalidate()
-        }
-        timelineCases.bookmark(status.first, isBookmarked)
-                .onErrorReturnItem(status.first)
-                .subscribe()
-                .autoDispose()
+        status.first.bookmarked = isBookmarked
+        statusesPagingSourceFactory.invalidate()
+        timelineCases.bookmark(status.first.id, isBookmarked)
+            .onErrorReturnItem(status.first)
+            .subscribe()
+            .autoDispose()
     }
 
     fun getAllAccountsOrderedByActive(): List<AccountEntity> {
@@ -217,7 +206,7 @@ class SearchViewModel @Inject constructor(
     }
 
     fun pinAccount(status: Status, isPin: Boolean) {
-        timelineCases.pin(status, isPin)
+        timelineCases.pin(status.id, isPin)
     }
 
     fun blockAccount(accountId: String) {
@@ -231,14 +220,18 @@ class SearchViewModel @Inject constructor(
     fun muteConversation(status: Pair<Status, StatusViewData.Concrete>, mute: Boolean) {
         val idx = loadedStatuses.indexOf(status)
         if (idx >= 0) {
-            val newPair = Pair(status.first, StatusViewData.Builder(status.second).setMuted(mute).createStatusViewData())
+            val newStatus = status.first.copy(muted = mute)
+            val newPair = Pair(
+                newStatus,
+                status.second.copy(status = newStatus)
+            )
             loadedStatuses[idx] = newPair
             statusesPagingSourceFactory.invalidate()
         }
-        timelineCases.muteConversation(status.first, mute)
-                .onErrorReturnItem(status.first)
-                .subscribe()
-                .autoDispose()
+        timelineCases.muteConversation(status.first.id, mute)
+            .onErrorReturnItem(status.first)
+            .subscribe()
+            .autoDispose()
     }
 
     companion object {

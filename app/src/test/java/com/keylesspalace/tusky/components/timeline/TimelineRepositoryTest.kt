@@ -1,4 +1,4 @@
-package com.keylesspalace.tusky.fragment
+package com.keylesspalace.tusky.components.timeline
 
 import android.text.SpannableString
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -10,7 +10,6 @@ import com.keylesspalace.tusky.db.TimelineStatusWithAccount
 import com.keylesspalace.tusky.entity.Account
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.network.MastodonApi
-import com.keylesspalace.tusky.repository.*
 import com.keylesspalace.tusky.util.Either
 import com.nhaarman.mockitokotlin2.isNull
 import com.nhaarman.mockitokotlin2.verify
@@ -54,10 +53,10 @@ class TimelineRepositoryTest {
 
     private val limit = 30
     private val account = AccountEntity(
-            id = 2,
-            accessToken = "token",
-            domain = "domain.com",
-            isActive = true
+        id = 2,
+        accessToken = "token",
+        domain = "domain.com",
+        isActive = true
     )
 
     @Before
@@ -74,13 +73,13 @@ class TimelineRepositoryTest {
     @Test
     fun testNetworkUnbounded() {
         val statuses = listOf(
-                makeStatus("3"),
-                makeStatus("2")
+            makeStatus("3"),
+            makeStatus("2")
         )
         whenever(mastodonApi.homeTimeline(isNull(), isNull(), anyInt()))
-                .thenReturn(Single.just(Response.success(statuses)))
+            .thenReturn(Single.just(Response.success(statuses)))
         val result = subject.getStatuses(null, null, null, limit, TimelineRequestMode.NETWORK)
-                .blockingGet()
+            .blockingGet()
 
         assertEquals(statuses.map(Status::lift), result)
         testScheduler.advanceTimeBy(100, TimeUnit.SECONDS)
@@ -90,9 +89,9 @@ class TimelineRepositoryTest {
         verify(timelineDao).insertStatusIfNotThere(Placeholder("1").toEntity(account.id))
         for (status in statuses) {
             verify(timelineDao).insertInTransaction(
-                    status.toEntity(account.id, gson),
-                    status.account.toEntity(account.id, gson),
-                    null
+                status.toEntity(account.id, gson),
+                status.account.toEntity(account.id, gson),
+                null
             )
         }
         verify(timelineDao).cleanup(anyLong())
@@ -102,34 +101,38 @@ class TimelineRepositoryTest {
     @Test
     fun testNetworkLoadingTopNoGap() {
         val response = listOf(
-                makeStatus("4"),
-                makeStatus("3"),
-                makeStatus("2")
+            makeStatus("4"),
+            makeStatus("3"),
+            makeStatus("2")
         )
         val sinceId = "2"
         val sinceIdMinusOne = "1"
         whenever(mastodonApi.homeTimeline(null, sinceIdMinusOne, limit + 1))
-                .thenReturn(Single.just(Response.success(response)))
-        val result = subject.getStatuses(null, sinceId, sinceIdMinusOne, limit,
-                TimelineRequestMode.NETWORK)
-                .blockingGet()
+            .thenReturn(Single.just(Response.success(response)))
+        val result = subject.getStatuses(
+            null, sinceId, sinceIdMinusOne, limit,
+            TimelineRequestMode.NETWORK
+        )
+            .blockingGet()
 
         assertEquals(
-                response.subList(0, 2).map(Status::lift),
-                result
+            response.subList(0, 2).map(Status::lift),
+            result
         )
         testScheduler.advanceTimeBy(100, TimeUnit.SECONDS)
         verify(timelineDao).deleteRange(account.id, response.last().id, response.first().id)
         // We assume for now that overlapped one is inserted but it's not that important
         for (status in response) {
             verify(timelineDao).insertInTransaction(
-                    status.toEntity(account.id, gson),
-                    status.account.toEntity(account.id, gson),
-                    null
+                status.toEntity(account.id, gson),
+                status.account.toEntity(account.id, gson),
+                null
             )
         }
-        verify(timelineDao).removeAllPlaceholdersBetween(account.id, response.first().id,
-                response.last().id)
+        verify(timelineDao).removeAllPlaceholdersBetween(
+            account.id, response.first().id,
+            response.last().id
+        )
         verify(timelineDao).cleanup(anyLong())
         verifyNoMoreInteractions(timelineDao)
     }
@@ -137,16 +140,18 @@ class TimelineRepositoryTest {
     @Test
     fun testNetworkLoadingTopWithGap() {
         val response = listOf(
-                makeStatus("5"),
-                makeStatus("4")
+            makeStatus("5"),
+            makeStatus("4")
         )
         val sinceId = "2"
         val sinceIdMinusOne = "1"
         whenever(mastodonApi.homeTimeline(null, sinceIdMinusOne, limit + 1))
-                .thenReturn(Single.just(Response.success(response)))
-        val result = subject.getStatuses(null, sinceId, sinceIdMinusOne, limit,
-                TimelineRequestMode.NETWORK)
-                .blockingGet()
+            .thenReturn(Single.just(Response.success(response)))
+        val result = subject.getStatuses(
+            null, sinceId, sinceIdMinusOne, limit,
+            TimelineRequestMode.NETWORK
+        )
+            .blockingGet()
 
         val placeholder = Placeholder("3")
         assertEquals(response.map(Status::lift) + Either.Left(placeholder), result)
@@ -154,9 +159,9 @@ class TimelineRepositoryTest {
         verify(timelineDao).deleteRange(account.id, response.last().id, response.first().id)
         for (status in response) {
             verify(timelineDao).insertInTransaction(
-                    status.toEntity(account.id, gson),
-                    status.account.toEntity(account.id, gson),
-                    null
+                status.toEntity(account.id, gson),
+                status.account.toEntity(account.id, gson),
+                null
             )
         }
         verify(timelineDao).insertStatusIfNotThere(placeholder.toEntity(account.id))
@@ -174,36 +179,40 @@ class TimelineRepositoryTest {
         // 1
 
         val response = listOf(
-                makeStatus("5"),
-                makeStatus("4"),
-                makeStatus("3"),
-                makeStatus("2")
+            makeStatus("5"),
+            makeStatus("4"),
+            makeStatus("3"),
+            makeStatus("2")
         )
         val sinceId = "2"
         val sinceIdMinusOne = "1"
         val maxId = "3"
         whenever(mastodonApi.homeTimeline(maxId, sinceIdMinusOne, limit + 1))
-                .thenReturn(Single.just(Response.success(response)))
-        val result = subject.getStatuses(maxId, sinceId, sinceIdMinusOne, limit,
-                TimelineRequestMode.NETWORK)
-                .blockingGet()
+            .thenReturn(Single.just(Response.success(response)))
+        val result = subject.getStatuses(
+            maxId, sinceId, sinceIdMinusOne, limit,
+            TimelineRequestMode.NETWORK
+        )
+            .blockingGet()
 
         assertEquals(
-                response.subList(0, response.lastIndex).map(Status::lift),
-                result
+            response.subList(0, response.lastIndex).map(Status::lift),
+            result
         )
         testScheduler.advanceTimeBy(100, TimeUnit.SECONDS)
         verify(timelineDao).deleteRange(account.id, response.last().id, response.first().id)
         // We assume for now that overlapped one is inserted but it's not that important
         for (status in response) {
             verify(timelineDao).insertInTransaction(
-                    status.toEntity(account.id, gson),
-                    status.account.toEntity(account.id, gson),
-                    null
+                status.toEntity(account.id, gson),
+                status.account.toEntity(account.id, gson),
+                null
             )
         }
-        verify(timelineDao).removeAllPlaceholdersBetween(account.id, response.first().id,
-                response.last().id)
+        verify(timelineDao).removeAllPlaceholdersBetween(
+            account.id, response.first().id,
+            response.last().id
+        )
         verify(timelineDao).cleanup(anyLong())
         verifyNoMoreInteractions(timelineDao)
     }
@@ -218,23 +227,25 @@ class TimelineRepositoryTest {
         // 1
 
         val response = listOf(
-                makeStatus("6"),
-                makeStatus("5"),
-                makeStatus("4")
+            makeStatus("6"),
+            makeStatus("5"),
+            makeStatus("4")
         )
         val sinceId = "2"
         val sinceIdMinusOne = "1"
         val maxId = "4"
         whenever(mastodonApi.homeTimeline(maxId, sinceIdMinusOne, limit + 1))
-                .thenReturn(Single.just(Response.success(response)))
-        val result = subject.getStatuses(maxId, sinceId, sinceIdMinusOne, limit,
-                TimelineRequestMode.NETWORK)
-                .blockingGet()
+            .thenReturn(Single.just(Response.success(response)))
+        val result = subject.getStatuses(
+            maxId, sinceId, sinceIdMinusOne, limit,
+            TimelineRequestMode.NETWORK
+        )
+            .blockingGet()
 
         val placeholder = Placeholder("3")
         assertEquals(
-                response.map(Status::lift) + Either.Left(placeholder),
-                result
+            response.map(Status::lift) + Either.Left(placeholder),
+            result
         )
         testScheduler.advanceTimeBy(100, TimeUnit.SECONDS)
         // We assume for now that overlapped one is inserted but it's not that important
@@ -243,13 +254,15 @@ class TimelineRepositoryTest {
 
         for (status in response) {
             verify(timelineDao).insertInTransaction(
-                    status.toEntity(account.id, gson),
-                    status.account.toEntity(account.id, gson),
-                    null
+                status.toEntity(account.id, gson),
+                status.account.toEntity(account.id, gson),
+                null
             )
         }
-        verify(timelineDao).removeAllPlaceholdersBetween(account.id, response.first().id,
-                response.last().id)
+        verify(timelineDao).removeAllPlaceholdersBetween(
+            account.id, response.first().id,
+            response.last().id
+        )
         verify(timelineDao).insertStatusIfNotThere(placeholder.toEntity(account.id))
         verify(timelineDao).cleanup(anyLong())
         verifyNoMoreInteractions(timelineDao)
@@ -265,11 +278,11 @@ class TimelineRepositoryTest {
         dbResult.account = status.account.toEntity(account.id, gson)
 
         whenever(mastodonApi.homeTimeline(any(), any(), any()))
-                .thenReturn(Single.just(Response.success((listOf(status)))))
+            .thenReturn(Single.just(Response.success((listOf(status)))))
         whenever(timelineDao.getStatusesForAccount(account.id, status.id, null, 30))
-                .thenReturn(Single.just(listOf(dbResult)))
+            .thenReturn(Single.just(listOf(dbResult)))
         val result = subject.getStatuses(null, null, null, limit, TimelineRequestMode.ANY)
-                .blockingGet()
+            .blockingGet()
         assertEquals(listOf(status, dbStatus).map(Status::lift), result)
     }
 
@@ -283,60 +296,60 @@ class TimelineRepositoryTest {
         dbResult2.status = Placeholder("1").toEntity(account.id)
 
         whenever(mastodonApi.homeTimeline(any(), any(), any()))
-                .thenReturn(Single.just(Response.success(listOf(status))))
+            .thenReturn(Single.just(Response.success(listOf(status))))
         whenever(timelineDao.getStatusesForAccount(account.id, status.id, null, 30))
-                .thenReturn(Single.just(listOf(dbResult, dbResult2)))
+            .thenReturn(Single.just(listOf(dbResult, dbResult2)))
         val result = subject.getStatuses(null, null, null, limit, TimelineRequestMode.ANY)
-                .blockingGet()
+            .blockingGet()
         assertEquals(listOf(status).map(Status::lift), result)
     }
+}
 
-    private fun makeStatus(id: String, account: Account = makeAccount(id)): Status {
-        return Status(
-                id = id,
-                account = account,
-                content = SpannableString("hello$id"),
-                createdAt = Date(),
-                emojis = listOf(),
-                reblogsCount = 3,
-                favouritesCount = 5,
-                sensitive = false,
-                visibility = Status.Visibility.PUBLIC,
-                spoilerText = "",
-                reblogged = true,
-                favourited = false,
-                bookmarked = false,
-                attachments = ArrayList(),
-                mentions = arrayOf(),
-                application = null,
-                inReplyToAccountId = null,
-                inReplyToId = null,
-                pinned = false,
-                muted = false,
-                reblog = null,
-                url = "http://example.com/statuses/$id",
-                poll = null,
-                card = null
-        )
-    }
+fun makeAccount(id: String): Account {
+    return Account(
+        id = id,
+        localUsername = "test$id",
+        username = "test$id@example.com",
+        displayName = "Example Account $id",
+        note = SpannableString("Note! $id"),
+        url = "https://example.com/@test$id",
+        avatar = "avatar$id",
+        header = "Header$id",
+        followersCount = 300,
+        followingCount = 400,
+        statusesCount = 1000,
+        bot = false,
+        emojis = listOf(),
+        fields = null,
+        source = null
+    )
+}
 
-    private fun makeAccount(id: String): Account {
-        return Account(
-                id = id,
-                localUsername = "test$id",
-                username = "test$id@example.com",
-                displayName = "Example Account $id",
-                note = SpannableString("Note! $id"),
-                url = "https://example.com/@test$id",
-                avatar = "avatar$id",
-                header = "Header$id",
-                followersCount = 300,
-                followingCount = 400,
-                statusesCount = 1000,
-                bot = false,
-                emojis = listOf(),
-                fields = null,
-                source = null
-        )
-    }
+fun makeStatus(id: String, account: Account = makeAccount(id)): Status {
+    return Status(
+        id = id,
+        account = account,
+        content = SpannableString("hello$id"),
+        createdAt = Date(),
+        emojis = listOf(),
+        reblogsCount = 3,
+        favouritesCount = 5,
+        sensitive = false,
+        visibility = Status.Visibility.PUBLIC,
+        spoilerText = "",
+        reblogged = true,
+        favourited = false,
+        bookmarked = false,
+        attachments = ArrayList(),
+        mentions = listOf(),
+        application = null,
+        inReplyToAccountId = null,
+        inReplyToId = null,
+        pinned = false,
+        muted = false,
+        reblog = null,
+        url = "http://example.com/statuses/$id",
+        poll = null,
+        card = null
+    )
 }

@@ -73,6 +73,15 @@ fun String.isLessThan(other: String): Boolean {
     }
 }
 
+fun String.idCompareTo(other: String): Int {
+    return when {
+        this === other -> 0
+        this.length < other.length -> -1
+        this.length > other.length -> 1
+        else -> this.compareTo(other)
+    }
+}
+
 fun Spanned.trimTrailingWhitespace(): Spanned {
     var i = length
     do {

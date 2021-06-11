@@ -1,0 +1,3 @@
+Tusky v15.1
+
+Denne versjonen retter en programfeil ved skriving av bildetekst

@@ -28,7 +28,7 @@ public final class PlaceholderViewHolder extends RecyclerView.ViewHolder {
     private Button loadMoreButton;
     private ProgressBar progressBar;
 
-    PlaceholderViewHolder(View itemView) {
+    public PlaceholderViewHolder(View itemView) {
         super(itemView);
         loadMoreButton = itemView.findViewById(R.id.button_load_more);
         progressBar = itemView.findViewById(R.id.progressBar);
