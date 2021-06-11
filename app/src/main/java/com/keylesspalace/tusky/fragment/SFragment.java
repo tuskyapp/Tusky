@@ -24,7 +24,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Environment;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -33,7 +32,6 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.VisibleForTesting;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.core.app.ActivityOptionsCompat;
@@ -55,8 +53,6 @@ import com.keylesspalace.tusky.db.AccountEntity;
 import com.keylesspalace.tusky.db.AccountManager;
 import com.keylesspalace.tusky.di.Injectable;
 import com.keylesspalace.tusky.entity.Attachment;
-import com.keylesspalace.tusky.entity.Filter;
-import com.keylesspalace.tusky.entity.PollOption;
 import com.keylesspalace.tusky.entity.Status;
 import com.keylesspalace.tusky.network.MastodonApi;
 import com.keylesspalace.tusky.network.TimelineCases;
@@ -64,20 +60,14 @@ import com.keylesspalace.tusky.util.LinkHelper;
 import com.keylesspalace.tusky.view.MuteAccountDialog;
 import com.keylesspalace.tusky.viewdata.AttachmentViewData;
 
-import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import javax.inject.Inject;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import kotlin.Unit;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 import static autodispose2.AutoDispose.autoDisposable;
 import static autodispose2.androidx.lifecycle.AndroidLifecycleScopeProvider.from;
@@ -95,11 +85,6 @@ public abstract class SFragment extends Fragment implements Injectable {
     protected abstract void onReblog(final boolean reblog, final int position);
 
     private BottomSheetActivity bottomSheetActivity;
-
-    private static List<Filter> filters;
-    private boolean filterRemoveRegex;
-    private Matcher filterRemoveRegexMatcher;
-    private static final Matcher alphanumeric = Pattern.compile("^\\w+$").matcher("");
 
     @Inject
     public MastodonApi mastodonApi;
@@ -131,9 +116,8 @@ public abstract class SFragment extends Fragment implements Injectable {
         bottomSheetActivity.viewAccount(status.getAccount().getId());
     }
 
-    protected void viewThread(Status status) {
-        Status actionableStatus = status.getActionableStatus();
-        bottomSheetActivity.viewThread(actionableStatus.getId(), actionableStatus.getUrl());
+    protected void viewThread(String statusId, @Nullable String statusUrl) {
+        bottomSheetActivity.viewThread(statusId, statusUrl);
     }
 
     protected void viewAccount(String accountId) {
@@ -149,7 +133,7 @@ public abstract class SFragment extends Fragment implements Injectable {
         Status actionableStatus = status.getActionableStatus();
         Status.Visibility replyVisibility = actionableStatus.getVisibility();
         String contentWarning = actionableStatus.getSpoilerText();
-        Status.Mention[] mentions = actionableStatus.getMentions();
+        List<Status.Mention> mentions = actionableStatus.getMentions();
         Set<String> mentionedUsernames = new LinkedHashSet<>();
         mentionedUsernames.add(actionableStatus.getAccount().getUsername());
         String loggedInUsername = null;
@@ -316,11 +300,11 @@ public abstract class SFragment extends Fragment implements Injectable {
                     return true;
                 }
                 case R.id.pin: {
-                    timelineCases.pin(status, !status.isPinned());
+                    timelineCases.pin(status.getId(), !status.isPinned());
                     return true;
                 }
                 case R.id.status_mute_conversation: {
-                    timelineCases.muteConversation(status, status.getMuted() == null || !status.getMuted())
+                    timelineCases.muteConversation(status.getId(), status.getMuted() == null || !status.getMuted())
                             .onErrorReturnItem(status)
                             .observeOn(AndroidSchedulers.mainThread())
                             .to(autoDisposable(from(this, Lifecycle.Event.ON_DESTROY)))
@@ -335,12 +319,12 @@ public abstract class SFragment extends Fragment implements Injectable {
 
     private void onMute(String accountId, String accountUsername) {
         MuteAccountDialog.showMuteAccountDialog(
-            this.getActivity(),
-            accountUsername,
-            (notifications, duration) -> {
-                timelineCases.mute(accountId, notifications, duration);
-                return Unit.INSTANCE;
-            }
+                this.getActivity(),
+                accountUsername,
+                (notifications, duration) -> {
+                    timelineCases.mute(accountId, notifications, duration);
+                    return Unit.INSTANCE;
+                }
         );
     }
 
@@ -352,7 +336,7 @@ public abstract class SFragment extends Fragment implements Injectable {
                 .show();
     }
 
-    private static boolean accountIsInMentions(AccountEntity account, Status.Mention[] mentions) {
+    private static boolean accountIsInMentions(AccountEntity account, List<Status.Mention> mentions) {
         if (account == null) {
             return false;
         }
@@ -368,20 +352,18 @@ public abstract class SFragment extends Fragment implements Injectable {
         return false;
     }
 
-    protected void viewMedia(int urlIndex, Status status, @Nullable View view) {
-        final Status actionable = status.getActionableStatus();
-        final Attachment active = actionable.getAttachments().get(urlIndex);
-        Attachment.Type type = active.getType();
+    protected void viewMedia(int urlIndex, List<AttachmentViewData> attachments, @Nullable View view) {
+        final AttachmentViewData active = attachments.get(urlIndex);
+        Attachment.Type type = active.getAttachment().getType();
         switch (type) {
             case GIFV:
             case VIDEO:
             case IMAGE:
             case AUDIO: {
-                final List<AttachmentViewData> attachments = AttachmentViewData.list(actionable);
                 final Intent intent = ViewMediaActivity.newIntent(getContext(), attachments,
                         urlIndex);
                 if (view != null) {
-                    String url = active.getUrl();
+                    String url = active.getAttachment().getUrl();
                     ViewCompat.setTransitionName(view, url);
                     ActivityOptionsCompat options =
                             ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(),
@@ -394,7 +376,7 @@ public abstract class SFragment extends Fragment implements Injectable {
             }
             default:
             case UNKNOWN: {
-                LinkHelper.openLink(active.getUrl(), getContext());
+                LinkHelper.openLink(active.getAttachment().getUrl(), getContext());
                 break;
             }
         }
@@ -509,84 +491,5 @@ public abstract class SFragment extends Fragment implements Injectable {
                 Toast.makeText(getContext(), R.string.error_media_download_permission, Toast.LENGTH_SHORT).show();
             }
         });
-    }
-
-    @VisibleForTesting(otherwise = VisibleForTesting.PROTECTED)
-    public void reloadFilters(boolean forceRefresh) {
-        if (filters != null && !forceRefresh) {
-            applyFilters(forceRefresh);
-            return;
-        }
-
-        mastodonApi.getFilters().enqueue(new Callback<List<Filter>>() {
-            @Override
-            public void onResponse(@NonNull Call<List<Filter>> call, @NonNull Response<List<Filter>> response) {
-                filters = response.body();
-                if (response.isSuccessful() && filters != null) {
-                    applyFilters(forceRefresh);
-                } else {
-                    Log.e(TAG, "Error getting filters from server");
-                }
-            }
-
-            @Override
-            public void onFailure(@NonNull Call<List<Filter>> call, @NonNull Throwable t) {
-                Log.e(TAG, "Error getting filters from server", t);
-            }
-        });
-    }
-
-    protected boolean filterIsRelevant(@NonNull Filter filter) {
-        // Called when building local filter expression
-        // Override to select relevant filters for your fragment
-        return false;
-    }
-
-    protected void refreshAfterApplyingFilters() {
-        // Called after filters are updated
-        // Override to refresh your fragment
-    }
-
-    @VisibleForTesting(otherwise = VisibleForTesting.PROTECTED)
-    public boolean shouldFilterStatus(Status status) {
-
-        if (filterRemoveRegex && status.getPoll() != null) {
-            for (PollOption option : status.getPoll().getOptions()) {
-                if (filterRemoveRegexMatcher.reset(option.getTitle()).find()) {
-                    return true;
-                }
-            }
-        }
-
-        return (filterRemoveRegex && (filterRemoveRegexMatcher.reset(status.getActionableStatus().getContent()).find()
-                || (!status.getSpoilerText().isEmpty() && filterRemoveRegexMatcher.reset(status.getActionableStatus().getSpoilerText()).find())));
-    }
-
-    private void applyFilters(boolean refresh) {
-        List<String> tokens = new ArrayList<>();
-        for (Filter filter : filters) {
-            if (filterIsRelevant(filter)) {
-                tokens.add(filterToRegexToken(filter));
-            }
-        }
-        filterRemoveRegex = !tokens.isEmpty();
-        if (filterRemoveRegex) {
-            filterRemoveRegexMatcher = Pattern.compile(TextUtils.join("|", tokens), Pattern.CASE_INSENSITIVE).matcher("");
-        }
-        if (refresh) {
-            refreshAfterApplyingFilters();
-        }
-    }
-
-    private static String filterToRegexToken(Filter filter) {
-        String phrase = filter.getPhrase();
-        String quotedPhrase = Pattern.quote(phrase);
-        return (filter.getWholeWord() && alphanumeric.reset(phrase).matches()) ? // "whole word" should only apply to alphanumeric filters, #1543
-                String.format("(^|\\W)%s($|\\W)", quotedPhrase) :
-                quotedPhrase;
-    }
-
-    public static void flushFilters() {
-        filters = null;
     }
 }

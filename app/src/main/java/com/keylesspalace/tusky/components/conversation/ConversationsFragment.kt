@@ -40,6 +40,7 @@ import com.keylesspalace.tusky.util.NetworkState
 import com.keylesspalace.tusky.util.StatusDisplayOptions
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.viewBinding
+import com.keylesspalace.tusky.viewdata.AttachmentViewData
 import javax.inject.Inject
 
 class ConversationsFragment : SFragment(), StatusActionListener, Injectable, ReselectableFragment {
@@ -132,13 +133,14 @@ class ConversationsFragment : SFragment(), StatusActionListener, Injectable, Res
 
     override fun onViewMedia(position: Int, attachmentIndex: Int, view: View?) {
         viewModel.conversations.value?.getOrNull(position)?.lastStatus?.let {
-            viewMedia(attachmentIndex, it.toStatus(), view)
+            viewMedia(attachmentIndex, AttachmentViewData.list(it.toStatus()), view)
         }
     }
 
     override fun onViewThread(position: Int) {
         viewModel.conversations.value?.getOrNull(position)?.lastStatus?.let {
-            viewThread(it.toStatus())
+            val status = it.toStatus()
+            viewThread(status.actionableId, status.actionableStatus.url)
         }
     }
 

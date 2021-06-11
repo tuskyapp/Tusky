@@ -4,8 +4,8 @@ import com.google.gson.Gson
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.db.AppDatabase
 import com.keylesspalace.tusky.network.MastodonApi
-import com.keylesspalace.tusky.repository.TimelineRepository
-import com.keylesspalace.tusky.repository.TimelineRepositoryImpl
+import com.keylesspalace.tusky.components.timeline.TimelineRepository
+import com.keylesspalace.tusky.components.timeline.TimelineRepositoryImpl
 import dagger.Module
 import dagger.Provides
 

@@ -21,7 +21,8 @@ import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
 import com.keylesspalace.tusky.components.conversation.ConversationsFragment
 import com.keylesspalace.tusky.fragment.NotificationsFragment
-import com.keylesspalace.tusky.fragment.TimelineFragment
+import com.keylesspalace.tusky.components.timeline.TimelineFragment
+import com.keylesspalace.tusky.components.timeline.TimelineViewModel
 
 /** this would be a good case for a sealed class, but that does not work nice with Room */
 
@@ -47,7 +48,7 @@ fun createTabDataFromId(id: String, arguments: List<String> = emptyList()): TabD
                 HOME,
                 R.string.title_home,
                 R.drawable.ic_home_24dp,
-                { TimelineFragment.newInstance(TimelineFragment.Kind.HOME) }
+                { TimelineFragment.newInstance(TimelineViewModel.Kind.HOME) }
         )
         NOTIFICATIONS -> TabData(
                 NOTIFICATIONS,
@@ -59,13 +60,13 @@ fun createTabDataFromId(id: String, arguments: List<String> = emptyList()): TabD
                 LOCAL,
                 R.string.title_public_local,
                 R.drawable.ic_local_24dp,
-                { TimelineFragment.newInstance(TimelineFragment.Kind.PUBLIC_LOCAL) }
+                { TimelineFragment.newInstance(TimelineViewModel.Kind.PUBLIC_LOCAL) }
         )
         FEDERATED -> TabData(
                 FEDERATED,
                 R.string.title_public_federated,
                 R.drawable.ic_public_24dp,
-                { TimelineFragment.newInstance(TimelineFragment.Kind.PUBLIC_FEDERATED) }
+                { TimelineFragment.newInstance(TimelineViewModel.Kind.PUBLIC_FEDERATED) }
         )
         DIRECT -> TabData(
                 DIRECT,
@@ -85,7 +86,7 @@ fun createTabDataFromId(id: String, arguments: List<String> = emptyList()): TabD
                     LIST,
                     R.string.list,
                     R.drawable.ic_list,
-                    { args -> TimelineFragment.newInstance(TimelineFragment.Kind.LIST, args.getOrNull(0).orEmpty()) },
+                    { args -> TimelineFragment.newInstance(TimelineViewModel.Kind.LIST, args.getOrNull(0).orEmpty()) },
                     arguments,
                 { arguments.getOrNull(1).orEmpty() }
             )

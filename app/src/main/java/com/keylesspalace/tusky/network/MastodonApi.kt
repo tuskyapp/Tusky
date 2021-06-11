@@ -49,7 +49,7 @@ interface MastodonApi {
     fun getInstance(): Single<Instance>
 
     @GET("api/v1/filters")
-    fun getFilters(): Call<List<Filter>>
+    fun getFilters(): Single<List<Filter>>
 
     @GET("api/v1/timelines/home")
     fun homeTimeline(

@@ -13,7 +13,7 @@
  * You should have received a copy of the GNU General Public License along with Tusky; if not,
  * see <http://www.gnu.org/licenses>. */
 
-package com.keylesspalace.tusky.adapter;
+package com.keylesspalace.tusky.components.timeline;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,6 +24,8 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.keylesspalace.tusky.R;
+import com.keylesspalace.tusky.adapter.PlaceholderViewHolder;
+import com.keylesspalace.tusky.adapter.StatusViewHolder;
 import com.keylesspalace.tusky.interfaces.StatusActionListener;
 import com.keylesspalace.tusky.util.StatusDisplayOptions;
 import com.keylesspalace.tusky.viewdata.StatusViewData;
