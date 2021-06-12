@@ -1,0 +1,3 @@
+Tusky v15.1
+
+Esta versión arranxa o problema coa descrición de imaxes
