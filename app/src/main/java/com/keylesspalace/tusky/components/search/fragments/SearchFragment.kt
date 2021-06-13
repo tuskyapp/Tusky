@@ -46,6 +46,8 @@ abstract class SearchFragment<T: Any> : Fragment(R.layout.fragment_search),
     abstract val data: Flow<PagingData<T>>
     protected lateinit var adapter: PagingDataAdapter<T, *>
 
+    private var currentQuery: String = ""
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         initAdapter()
         setupSwipeRefreshLayout()
@@ -70,11 +72,14 @@ abstract class SearchFragment<T: Any> : Fragment(R.layout.fragment_search),
                 showError()
             }
 
-            binding.searchProgressBar.visible(loadState.refresh == LoadState.Loading && !binding.swipeRefreshLayout.isRefreshing)
-            binding.searchRecyclerView.visible(loadState.refresh is LoadState.NotLoading || binding.swipeRefreshLayout.isRefreshing)
+            val isNewSearch = currentQuery != viewModel.currentQuery
+
+            binding.searchProgressBar.visible(loadState.refresh == LoadState.Loading && isNewSearch && !binding.swipeRefreshLayout.isRefreshing)
+            binding.searchRecyclerView.visible(loadState.refresh is LoadState.NotLoading || !isNewSearch || binding.swipeRefreshLayout.isRefreshing)
 
             if (loadState.refresh != LoadState.Loading) {
                 binding.swipeRefreshLayout.isRefreshing = false
+                currentQuery = viewModel.currentQuery
             }
 
             binding.progressBarBottom.visible(loadState.append == LoadState.Loading)
