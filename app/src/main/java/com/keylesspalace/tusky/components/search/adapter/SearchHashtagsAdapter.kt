@@ -48,7 +48,5 @@ class SearchHashtagsAdapter(private val linkListener: LinkListener)
             override fun areItemsTheSame(oldItem: HashTag, newItem: HashTag): Boolean =
                     oldItem.name == newItem.name
         }
-
     }
-
 }

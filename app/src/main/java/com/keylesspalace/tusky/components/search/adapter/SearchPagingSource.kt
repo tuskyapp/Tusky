@@ -27,7 +27,7 @@ class SearchPagingSource<T: Any>(
     private val searchType: SearchType,
     private val searchRequest: String,
     private val initialItems: List<T>?,
-    private val parser: (SearchResult?) -> List<T>) : PagingSource<Int, T>() {
+    private val parser: (SearchResult) -> List<T>) : PagingSource<Int, T>() {
 
     override fun getRefreshKey(state: PagingState<Int, T>): Int? {
         return null
@@ -44,7 +44,7 @@ class SearchPagingSource<T: Any>(
 
         if (params.key == null && !initialItems.isNullOrEmpty()) {
             return LoadResult.Page(
-                data = initialItems,
+                data = initialItems.toList(),
                 prevKey = null,
                 nextKey = initialItems.size
             )

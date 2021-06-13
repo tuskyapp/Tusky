@@ -22,10 +22,11 @@ import com.keylesspalace.tusky.network.MastodonApi
 class SearchPagingSourceFactory<T : Any>(
     private val mastodonApi: MastodonApi,
     private val searchType: SearchType,
-    private var searchRequest: String,
     private val initialItems: List<T>? = null,
-    private val parser: (SearchResult?) -> List<T>
+    private val parser: (SearchResult) -> List<T>
 ) : () -> SearchPagingSource<T> {
+
+    private var searchRequest: String = ""
 
     private var currentSource: SearchPagingSource<T>? = null
 

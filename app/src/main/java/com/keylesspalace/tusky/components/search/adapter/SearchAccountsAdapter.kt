@@ -19,24 +19,23 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.RecyclerView
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.adapter.AccountViewHolder
 import com.keylesspalace.tusky.entity.Account
 import com.keylesspalace.tusky.interfaces.LinkListener
 
 class SearchAccountsAdapter(private val linkListener: LinkListener, private val animateAvatars: Boolean, private val animateEmojis: Boolean)
-    : PagingDataAdapter<Account, RecyclerView.ViewHolder>(ACCOUNT_COMPARATOR) {
+    : PagingDataAdapter<Account, AccountViewHolder>(ACCOUNT_COMPARATOR) {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AccountViewHolder {
         val view = LayoutInflater.from(parent.context)
                 .inflate(R.layout.item_account, parent, false)
         return AccountViewHolder(view)
     }
 
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: AccountViewHolder, position: Int) {
         getItem(position)?.let { item ->
-            (holder as AccountViewHolder).apply {
+            holder.apply {
                 setupWithAccount(item, animateAvatars, animateEmojis)
                 setupLinkListener(linkListener)
             }
@@ -52,7 +51,5 @@ class SearchAccountsAdapter(private val linkListener: LinkListener, private val 
             override fun areItemsTheSame(oldItem: Account, newItem: Account): Boolean =
                     oldItem.id == newItem.id
         }
-
     }
-
 }

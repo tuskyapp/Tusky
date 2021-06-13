@@ -141,9 +141,7 @@ class SearchStatusesFragment : SearchFragment<Pair<Status, StatusViewData.Concre
                     LinkHelper.openLink(actionable.attachments[attachmentIndex].url, context)
                 }
             }
-
         }
-
     }
 
     override fun onViewThread(position: Int) {

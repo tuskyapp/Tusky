@@ -55,18 +55,17 @@ class SearchViewModel @Inject constructor(
 
     private val loadedStatuses: MutableList<Pair<Status, StatusViewData.Concrete>> = mutableListOf()
 
-    private val statusesPagingSourceFactory = SearchPagingSourceFactory(mastodonApi, SearchType.Status, "", loadedStatuses){
-        it?.statuses?.map { status -> Pair(status, status.toViewData(alwaysShowSensitiveMedia, alwaysOpenSpoiler)) }
-            .orEmpty()
+    private val statusesPagingSourceFactory = SearchPagingSourceFactory(mastodonApi, SearchType.Status, loadedStatuses) {
+        it.statuses.map { status -> Pair(status, status.toViewData(alwaysShowSensitiveMedia, alwaysOpenSpoiler)) }
             .apply {
                 loadedStatuses.addAll(this)
             }
     }
-    private val accountsPagingSourceFactory = SearchPagingSourceFactory(mastodonApi, SearchType.Account, ""){
-        it?.accounts.orEmpty()
+    private val accountsPagingSourceFactory = SearchPagingSourceFactory(mastodonApi, SearchType.Account) {
+        it.accounts
     }
-    private val hashtagsPagingSourceFactory = SearchPagingSourceFactory(mastodonApi, SearchType.Hashtag, ""){
-        it?.hashtags.orEmpty()
+    private val hashtagsPagingSourceFactory = SearchPagingSourceFactory(mastodonApi, SearchType.Hashtag) {
+        it.hashtags
     }
 
     val statusesFlow = Pager(
@@ -103,14 +102,12 @@ class SearchViewModel @Inject constructor(
                     err -> Log.d(TAG, "Failed to delete status", err)
                 })
                 .autoDispose()
-
     }
 
     fun expandedChange(status: Pair<Status, StatusViewData.Concrete>, expanded: Boolean) {
         val idx = loadedStatuses.indexOf(status)
         if (idx >= 0) {
-            val newPair = Pair(status.first, status.second.copy(isExpanded = expanded))
-            loadedStatuses[idx] = newPair
+            loadedStatuses[idx] = Pair(status.first, status.second.copy(isExpanded = expanded))
             statusesPagingSourceFactory.invalidate()
         }
     }
@@ -120,15 +117,12 @@ class SearchViewModel @Inject constructor(
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(
                 { setRebloggedForStatus(status, reblog) },
-                { err -> Log.d(TAG, "Failed to reblog status ${status.first.id}", err) }
+                { t -> Log.d(TAG, "Failed to reblog status ${status.first.id}", t) }
             )
             .autoDispose()
     }
 
-    private fun setRebloggedForStatus(
-        status: Pair<Status, StatusViewData.Concrete>,
-        reblog: Boolean
-    ) {
+    private fun setRebloggedForStatus(status: Pair<Status, StatusViewData.Concrete>, reblog: Boolean) {
         status.first.reblogged = reblog
         status.first.reblog?.reblogged = reblog
         statusesPagingSourceFactory.invalidate()
@@ -137,8 +131,7 @@ class SearchViewModel @Inject constructor(
     fun contentHiddenChange(status: Pair<Status, StatusViewData.Concrete>, isShowing: Boolean) {
         val idx = loadedStatuses.indexOf(status)
         if (idx >= 0) {
-            val newPair = Pair(status.first, status.second.copy(isShowingContent = isShowing))
-            loadedStatuses[idx] = newPair
+            loadedStatuses[idx] = Pair(status.first, status.second.copy(isShowingContent = isShowing))
             statusesPagingSourceFactory.invalidate()
         }
     }
@@ -146,8 +139,7 @@ class SearchViewModel @Inject constructor(
     fun collapsedChange(status: Pair<Status, StatusViewData.Concrete>, collapsed: Boolean) {
         val idx = loadedStatuses.indexOf(status)
         if (idx >= 0) {
-            val newPair = Pair(status.first, status.second.copy(isCollapsed = collapsed))
-            loadedStatuses[idx] = newPair
+            loadedStatuses[idx] = Pair(status.first, status.second.copy(isCollapsed = collapsed))
             statusesPagingSourceFactory.invalidate()
         }
     }
@@ -159,12 +151,7 @@ class SearchViewModel @Inject constructor(
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(
                 { newPoll -> updateStatus(status, newPoll) },
-                { t ->
-                    Log.d(
-                        TAG,
-                        "Failed to vote in poll: ${status.first.id}", t
-                    )
-                }
+                { t -> Log.d(TAG, "Failed to vote in poll: ${status.first.id}", t) }
             )
             .autoDispose()
     }
