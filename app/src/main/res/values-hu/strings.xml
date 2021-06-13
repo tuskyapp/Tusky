@@ -60,7 +60,7 @@
     <string name="action_favourite">Kedvencnek jelölés</string>
     <string name="action_more">Több</string>
     <string name="action_compose">Szerkesztés</string>
-    <string name="action_login">Bejelentkezés Mastodon-nal</string>
+    <string name="action_login">Bejelentkezés Mastodonnal</string>
     <string name="action_logout">Kijelentkezés</string>
     <string name="action_logout_confirm">Biztosan ki szeretnél jelentkezni a következőből: %1$s?</string>
     <string name="action_follow">Követés</string>
@@ -235,7 +235,7 @@
     <string name="title_media">Média</string>
     <string name="load_more_placeholder_text">több betöltése</string>
     <string name="add_account_name">Fiók hozzáadása</string>
-    <string name="add_account_description">Új Mastodon fiók hozzáadása</string>
+    <string name="add_account_description">Új Mastodon-fiók hozzáadása</string>
     <string name="action_lists">Listák</string>
     <string name="title_lists">Listák</string>
     <string name="action_remove">Törlés</string>
@@ -255,12 +255,12 @@
     <string name="performing_lookup_title">Keresés…</string>
     <string name="action_open_toot">Tülk megnyitása</string>
     <string name="restart_required">Az app újraindítása szükséges</string>
-    <string name="restart_emoji">A beállítások érvényesítéséhez újra kell indítani a Tusky-t</string>
+    <string name="restart_emoji">A beállítások érvényesítéséhez újra kell indítani a Tuskyt</string>
     <string name="later">Később</string>
     <string name="restart">Újraindítás</string>
-    <string name="caption_systememoji">Az eszközöd alapértelmezett emoji készlete</string>
-    <string name="caption_blobmoji">Az Android 4.4-7.1 Blob emoji-jai</string>
-    <string name="caption_twemoji">Mastodon alapértelmezett emoji készlet</string>
+    <string name="caption_systememoji">Az eszközöd alapértelmezett emodzsi készlete</string>
+    <string name="caption_blobmoji">Az Android 4.4–7.1 Blob emodzsijai</string>
+    <string name="caption_twemoji">A Mastodon alapértelmezett emodzsi készlete</string>
     <string name="download_failed">Letöltés sikertelen</string>
     <string name="profile_badge_bot_text">Bot</string>
     <string name="account_moved_description">%1$s elköltözött:</string>
@@ -351,7 +351,7 @@
     <string name="action_set_caption">Cím beállítása</string>
     <string name="lock_account_label_description">Minden követődet külön engedélyezned kell</string>
     <string name="expand_collapse_all_statuses">Minden tülk kibontása/összecsukása</string>
-    <string name="caption_notoemoji">Google jelenlegi emoji készlete</string>
+    <string name="caption_notoemoji">A Google jelenlegi emodzsi készlete</string>
     <string name="reblog_private">Megtolás az eredeti közönségnek</string>
     <string name="unreblog_private">Megtolás visszavonása</string>
     <string name="license_apache_2">Apache licensz alatt</string>
@@ -379,10 +379,10 @@
     <string name="notifications_clear">Törlés</string>
     <string name="notifications_apply_filter">Szűrés</string>
     <string name="filter_apply">Alkalmaz</string>
-    <string name="compose_shortcut_long_label">Tülk Szerkesztése</string>
+    <string name="compose_shortcut_long_label">Tülk szerkesztése</string>
     <string name="compose_shortcut_short_label">Szerkesztés</string>
     <string name="notification_clear_text">Biztos, hogy minden értesítésedet véglegesen törlöd\?</string>
-    <string name="compose_preview_image_description">Műveletek a %s képpel</string>
+    <string name="compose_preview_image_description">Műveletek a(z) %s képpel</string>
     <string name="poll_info_format"> <!-- 15 szavazat • 1 óra maradt --> %1$s • %2$s</string>
     <plurals name="poll_info_votes">
         <item quantity="one">%s szavazat</item>
@@ -456,7 +456,7 @@
     <string name="notification_follow_request_name">Követési kérelmek</string>
     <string name="pref_title_confirm_reblogs">Jóváhagyó ablak mutatása megtolás előtt</string>
     <string name="pref_title_show_cards_in_timelines">Hivatkozás előnézetének mutatása idővonalakon</string>
-    <string name="pref_title_enable_swipe_for_tabs">Tabok közötti váltás engedélyezése csúsztatással</string>
+    <string name="pref_title_enable_swipe_for_tabs">Lapok közötti váltás engedélyezése csúsztatással</string>
     <plurals name="poll_info_people">
         <item quantity="one">%s személy</item>
         <item quantity="other">%s személy</item>
@@ -484,7 +484,7 @@
     <string name="account_note_hint">Saját, mások számára nem látható megjegyzés erről a fiókról</string>
     <string name="no_announcements">Nincsenek közlemények.</string>
     <string name="title_announcements">Közlemények</string>
-    <string name="drafts_toot_reply_removed">A Tülköt, melyre válaszul piszkozatot készítettél törölték</string>
+    <string name="drafts_toot_reply_removed">A tülköt, melyre válaszul piszkozatot készítettél törölték</string>
     <string name="draft_deleted">Piszkozat törölve</string>
     <string name="drafts_failed_loading_reply">Nem sikerült a Válasz információit betölteni</string>
     <string name="drafts_toot_failed_to_send">Ez a tülk nem küldődött el!</string>

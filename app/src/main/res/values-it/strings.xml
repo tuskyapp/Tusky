@@ -217,6 +217,7 @@
     <string name="notification_summary_medium">%1$s, %2$s e %3$s</string>
     <string name="notification_summary_small">%1$s e %2$s</string>
     <plurals name="notification_title_summary">
+        <item quantity="one">%d nuova interazione</item>
         <item quantity="other">%d nuove interazioni</item>
     </plurals>
     <string name="description_account_locked">Account bloccato</string>
@@ -341,6 +342,7 @@
     <string name="conversation_2_recipients">%1$s e %2$s</string>
     <string name="conversation_more_recipients">%1$s, %2$s ed altri %3$d</string>
     <plurals name="max_tab_number_reached">
+        <item quantity="one">limite massimo di %1$d tab raggiunto</item>
         <item quantity="other">limite massimo di %1$d tab raggiunto</item>
     </plurals>
     <string name="description_status_media">        Media: %s
@@ -499,6 +501,16 @@
     <string name="pref_title_notification_filter_subscriptions">qualcuno a cui sono iscritto ha pubblicato un nuovo toot</string>
     <string name="notification_subscription_format">%s appena pubblicato</string>
     <plurals name="error_upload_max_media_reached">
+        <item quantity="one">Non puoi caricare più di %1$d allegato multimediale.</item>
         <item quantity="other">Non puoi caricare più di %1$d allegati multimediali.</item>
     </plurals>
+    <string name="drafts_toot_reply_removed">Il toot a cui hai scritto una risposta è stato rimosso</string>
+    <string name="draft_deleted">Bozza cancellata</string>
+    <string name="drafts_toot_failed_to_send">L\'invio di questo toot è fallito!</string>
+    <string name="dialog_delete_list_warning">Sei sicuro di voler cancellare la lista %s\?</string>
+    <string name="duration_indefinite">Indefinita</string>
+    <string name="label_duration">Durata</string>
+    <string name="status_media_attachments">Allegati</string>
+    <string name="status_media_audio">Audio</string>
+    <string name="pref_title_animate_custom_emojis">Mostra le animazioni delle emojis personalizzate</string>
 </resources>
