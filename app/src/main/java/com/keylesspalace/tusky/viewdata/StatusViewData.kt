@@ -60,7 +60,11 @@ sealed class StatusViewData private constructor() {
             get() = status.actionableStatus
 
         val rebloggedAvatar: String?
-            get() = status.reblog?.account?.avatar
+            get() = if (status.reblog != null) {
+                status.account.avatar
+            } else {
+                null
+            }
 
         val rebloggingStatus: Status?
             get() = if (status.reblog != null) status else null

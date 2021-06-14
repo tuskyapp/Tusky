@@ -11,7 +11,7 @@ import android.text.util.Linkify
 import android.widget.TextView
 import com.keylesspalace.tusky.databinding.ActivityAboutBinding
 import com.keylesspalace.tusky.di.Injectable
-import com.keylesspalace.tusky.util.CustomURLSpan
+import com.keylesspalace.tusky.util.NoUnderlineURLSpan
 import com.keylesspalace.tusky.util.hide
 
 class AboutActivity : BottomSheetActivity(), Injectable {
@@ -63,7 +63,7 @@ private fun TextView.setClickableTextWithoutUnderlines(@StringRes textId: Int) {
         val end = builder.getSpanEnd(span)
         val flags = builder.getSpanFlags(span)
 
-        val customSpan = object : CustomURLSpan(span.url) {}
+        val customSpan = NoUnderlineURLSpan(span.url)
 
         builder.removeSpan(span)
         builder.setSpan(customSpan, start, end, flags)

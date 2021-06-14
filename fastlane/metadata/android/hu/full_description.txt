@@ -1,12 +1,12 @@
-A Tusky egy kliens a Mastodonhoz, mely egy nyílt forráskódú szociális háló szerver.
+A Tusky egy könnyűsúlyú kliens a Mastodonhoz, mely egy nyílt forráskódú közösségi hálózati kiszolgáló.
 
 • Material design
-• A legtöbb Mastodon API-t implementáltuk
+• A legtöbb Mastodon API-t megvalósításra került
 • Többfiókos támogatás
 • Sötét és világos téma, valamint automatikus váltási lehetőség napszak szerint
-• Piszkozatok - készíts tülköket és mentsd el őket későbbre
-• Emoji stílusok közötti választás
+• Piszkozatok – tülkök készítése, és mentés későbbre
+• Emodzsi stílusok közötti választás
 • Minden képernyőméretre optimalizálva
-• Teljesen nyílt forráskód - nincsenek nem szabad függőségeink pl. Google Services
+• Teljesen nyílt forráskód – nincsenek nem szabad függőségek, mint például a Google szolgáltatások
 
-Többet a Mastodonról: https://joinmastodon.org/
+Több információ a Mastodonról: https://joinmastodon.org/

@@ -151,14 +151,6 @@ class PreferencesFragment : PreferenceFragmentCompat(), Injectable {
                     key = PrefKeys.SHOW_NOTIFICATIONS_FILTER
                     setTitle(R.string.pref_title_show_notifications_filter)
                     isSingleLineTitle = false
-                    setOnPreferenceClickListener {
-                        activity?.let { activity ->
-                            val intent = PreferencesActivity.newIntent(activity, PreferencesActivity.TAB_FILTER_PREFERENCES)
-                            activity.startActivity(intent)
-                            activity.overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
-                        }
-                        true
-                    }
                 }
 
                 switchPreference {
