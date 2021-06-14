@@ -82,7 +82,7 @@ public class LinkHelper {
 
             if (text.charAt(0) == '#') {
                 final String tag = text.subSequence(1, text.length()).toString();
-                customSpan = new ClickableSpanNoUnderline() {
+                customSpan = new NoUnderlineURLSpan(span.getURL()) {
                     @Override
                     public void onClick(@NonNull View widget) { listener.onViewTag(tag); }
                 };
@@ -102,7 +102,7 @@ public class LinkHelper {
                 }
                 if (id != null) {
                     final String accountId = id;
-                    customSpan = new ClickableSpanNoUnderline() {
+                    customSpan = new NoUnderlineURLSpan(span.getURL()) {
                         @Override
                         public void onClick(@NonNull View widget) { listener.onViewAccount(accountId); }
                     };
@@ -110,9 +110,9 @@ public class LinkHelper {
             }
 
             if (customSpan == null) {
-                customSpan = new CustomURLSpan(span.getURL()) {
+                customSpan = new NoUnderlineURLSpan(span.getURL()) {
                     @Override
-                    public void onClick(View widget) {
+                    public void onClick(@NonNull View widget) {
                         listener.onViewUrl(getURL());
                     }
                 };
@@ -155,7 +155,7 @@ public class LinkHelper {
         for (Status.Mention mention : mentions) {
             String accountUsername = mention.getLocalUsername();
             final String accountId = mention.getId();
-            ClickableSpan customSpan = new ClickableSpanNoUnderline() {
+            ClickableSpan customSpan = new NoUnderlineURLSpan(mention.getUrl()) {
                 @Override
                 public void onClick(@NonNull View widget) { listener.onViewAccount(accountId); }
             };
@@ -181,7 +181,7 @@ public class LinkHelper {
     }
 
     public static CharSequence createClickableText(String text, String link) {
-        URLSpan span = new CustomURLSpan(link);
+        URLSpan span = new NoUnderlineURLSpan(link);
 
         SpannableStringBuilder clickableText = new SpannableStringBuilder(text);
         clickableText.setSpan(span, 0, text.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);

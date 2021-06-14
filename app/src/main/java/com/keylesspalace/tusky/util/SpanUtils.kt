@@ -117,8 +117,8 @@ private fun findEndOfPattern(string: String, result: FindCharsResult, pattern: P
 
 private fun getSpan(matchType: FoundMatchType, string: String, colour: Int, start: Int, end: Int): CharacterStyle {
     return when(matchType) {
-        FoundMatchType.HTTP_URL -> CustomURLSpan(string.substring(start, end))
-        FoundMatchType.HTTPS_URL -> CustomURLSpan(string.substring(start, end))
+        FoundMatchType.HTTP_URL -> NoUnderlineURLSpan(string.substring(start, end))
+        FoundMatchType.HTTPS_URL -> NoUnderlineURLSpan(string.substring(start, end))
         else -> ForegroundColorSpan(colour)
     }
 }
