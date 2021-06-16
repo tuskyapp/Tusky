@@ -429,7 +429,7 @@ class TimelineViewModel @Inject constructor(
                 }
                 response.body()?.map { Either.Right(it) } ?: listOf()
             } else {
-                throw Exception(response.message())
+                throw HttpException(response)
             }
         }
 
