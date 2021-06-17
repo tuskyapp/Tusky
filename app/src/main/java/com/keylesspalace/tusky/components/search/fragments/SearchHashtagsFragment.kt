@@ -1,4 +1,4 @@
-/* Copyright 2019 Joel Pyska
+/* Copyright 2021 Tusky Contributors
  *
  * This file is a part of Tusky.
  *
@@ -15,22 +15,18 @@
 
 package com.keylesspalace.tusky.components.search.fragments
 
-import androidx.lifecycle.LiveData
-import androidx.paging.PagedList
-import androidx.paging.PagedListAdapter
+import androidx.paging.PagingData
+import androidx.paging.PagingDataAdapter
 import com.keylesspalace.tusky.components.search.adapter.SearchHashtagsAdapter
 import com.keylesspalace.tusky.entity.HashTag
-import com.keylesspalace.tusky.util.NetworkState
+import kotlinx.coroutines.flow.Flow
 
 class SearchHashtagsFragment : SearchFragment<HashTag>() {
-    override val networkStateRefresh: LiveData<NetworkState>
-        get() = viewModel.networkStateHashTagRefresh
-    override val networkState: LiveData<NetworkState>
-        get() = viewModel.networkStateHashTag
-    override val data: LiveData<PagedList<HashTag>>
-        get() = viewModel.hashtags
 
-    override fun createAdapter(): PagedListAdapter<HashTag, *> = SearchHashtagsAdapter(this)
+    override val data: Flow<PagingData<HashTag>>
+        get() = viewModel.hashtagsFlow
+
+    override fun createAdapter(): PagingDataAdapter<HashTag, *> = SearchHashtagsAdapter(this)
 
     companion object {
         fun newInstance() = SearchHashtagsFragment()

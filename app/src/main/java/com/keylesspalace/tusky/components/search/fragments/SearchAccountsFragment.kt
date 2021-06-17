@@ -1,4 +1,4 @@
-/* Copyright 2019 Joel Pyska
+/* Copyright 2021 Tusky Contributors
  *
  * This file is a part of Tusky.
  *
@@ -15,17 +15,16 @@
 
 package com.keylesspalace.tusky.components.search.fragments
 
-import androidx.lifecycle.LiveData
-import androidx.paging.PagedList
-import androidx.paging.PagedListAdapter
+import androidx.paging.PagingData
+import androidx.paging.PagingDataAdapter
 import androidx.preference.PreferenceManager
 import com.keylesspalace.tusky.components.search.adapter.SearchAccountsAdapter
 import com.keylesspalace.tusky.entity.Account
 import com.keylesspalace.tusky.settings.PrefKeys
-import com.keylesspalace.tusky.util.NetworkState
+import kotlinx.coroutines.flow.Flow
 
 class SearchAccountsFragment : SearchFragment<Account>() {
-    override fun createAdapter(): PagedListAdapter<Account, *> {
+    override fun createAdapter(): PagingDataAdapter<Account, *> {
         val preferences = PreferenceManager.getDefaultSharedPreferences(binding.searchRecyclerView.context)
 
         return SearchAccountsAdapter(
@@ -35,12 +34,8 @@ class SearchAccountsFragment : SearchFragment<Account>() {
         )
     }
 
-    override val networkStateRefresh: LiveData<NetworkState>
-        get() = viewModel.networkStateAccountRefresh
-    override val networkState: LiveData<NetworkState>
-        get() = viewModel.networkStateAccount
-    override val data: LiveData<PagedList<Account>>
-        get() = viewModel.accounts
+    override val data: Flow<PagingData<Account>>
+        get() = viewModel.accountsFlow
 
     companion object {
         fun newInstance() = SearchAccountsFragment()

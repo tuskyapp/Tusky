@@ -1,4 +1,4 @@
-/* Copyright 2019 Joel Pyska
+/* Copyright 2021 Tusky Contributors
  *
  * This file is a part of Tusky.
  *
@@ -17,7 +17,7 @@ package com.keylesspalace.tusky.components.search.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.paging.PagedListAdapter
+import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import com.keylesspalace.tusky.databinding.ItemHashtagBinding
 import com.keylesspalace.tusky.entity.HashTag
@@ -25,7 +25,7 @@ import com.keylesspalace.tusky.interfaces.LinkListener
 import com.keylesspalace.tusky.util.BindingHolder
 
 class SearchHashtagsAdapter(private val linkListener: LinkListener)
-    : PagedListAdapter<HashTag, BindingHolder<ItemHashtagBinding>>(HASHTAG_COMPARATOR) {
+    : PagingDataAdapter<HashTag, BindingHolder<ItemHashtagBinding>>(HASHTAG_COMPARATOR) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BindingHolder<ItemHashtagBinding> {
         val binding = ItemHashtagBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -48,7 +48,5 @@ class SearchHashtagsAdapter(private val linkListener: LinkListener)
             override fun areItemsTheSame(oldItem: HashTag, newItem: HashTag): Boolean =
                     oldItem.name == newItem.name
         }
-
     }
-
 }

@@ -4,9 +4,10 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.LiveData
-import androidx.paging.PagedList
-import androidx.paging.PagedListAdapter
+import androidx.lifecycle.lifecycleScope
+import androidx.paging.LoadState
+import androidx.paging.PagingData
+import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.SimpleItemAnimator
@@ -21,10 +22,14 @@ import com.keylesspalace.tusky.databinding.FragmentSearchBinding
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.interfaces.LinkListener
-import com.keylesspalace.tusky.util.*
+import com.keylesspalace.tusky.util.viewBinding
+import com.keylesspalace.tusky.util.visible
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-abstract class SearchFragment<T> : Fragment(R.layout.fragment_search),
+abstract class SearchFragment<T: Any> : Fragment(R.layout.fragment_search),
         LinkListener, Injectable, SwipeRefreshLayout.OnRefreshListener {
 
     @Inject
@@ -36,12 +41,12 @@ abstract class SearchFragment<T> : Fragment(R.layout.fragment_search),
 
     private var snackbarErrorRetry: Snackbar? = null
 
-    abstract fun createAdapter(): PagedListAdapter<T, *>
+    abstract fun createAdapter(): PagingDataAdapter<T, *>
 
-    abstract val networkStateRefresh: LiveData<NetworkState>
-    abstract val networkState: LiveData<NetworkState>
-    abstract val data: LiveData<PagedList<T>>
-    protected lateinit var adapter: PagedListAdapter<T, *>
+    abstract val data: Flow<PagingData<T>>
+    protected lateinit var adapter: PagingDataAdapter<T, *>
+
+    private var currentQuery: String = ""
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         initAdapter()
@@ -55,32 +60,32 @@ abstract class SearchFragment<T> : Fragment(R.layout.fragment_search),
     }
 
     private fun subscribeObservables() {
-        data.observe(viewLifecycleOwner) {
-            adapter.submitList(it)
-        }
-
-        networkStateRefresh.observe(viewLifecycleOwner) {
-
-            binding.searchProgressBar.visible(it == NetworkState.LOADING)
-
-            if (it.status == Status.FAILED) {
-                showError()
-            }
-            checkNoData()
-        }
-
-        networkState.observe(viewLifecycleOwner) {
-
-            binding.progressBarBottom.visible(it == NetworkState.LOADING)
-
-            if (it.status == Status.FAILED) {
-                showError()
+        viewLifecycleOwner.lifecycleScope.launch {
+            data.collectLatest { pagingData ->
+                adapter.submitData(pagingData)
             }
         }
-    }
 
-    private fun checkNoData() {
-        showNoData(adapter.itemCount == 0)
+        adapter.addLoadStateListener { loadState ->
+
+            if (loadState.refresh is LoadState.Error) {
+                showError()
+            }
+
+            val isNewSearch = currentQuery != viewModel.currentQuery
+
+            binding.searchProgressBar.visible(loadState.refresh == LoadState.Loading && isNewSearch && !binding.swipeRefreshLayout.isRefreshing)
+            binding.searchRecyclerView.visible(loadState.refresh is LoadState.NotLoading || !isNewSearch || binding.swipeRefreshLayout.isRefreshing)
+
+            if (loadState.refresh != LoadState.Loading) {
+                binding.swipeRefreshLayout.isRefreshing = false
+                currentQuery = viewModel.currentQuery
+            }
+
+            binding.progressBarBottom.visible(loadState.append == LoadState.Loading)
+
+            binding.searchNoResultsText.visible(loadState.refresh is LoadState.NotLoading && adapter.itemCount == 0 && viewModel.currentQuery.isNotEmpty())
+        }
     }
 
     private fun initAdapter() {
@@ -92,20 +97,12 @@ abstract class SearchFragment<T> : Fragment(R.layout.fragment_search),
         (binding.searchRecyclerView.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
     }
 
-    private fun showNoData(isEmpty: Boolean) {
-        if (isEmpty && networkStateRefresh.value == NetworkState.LOADED) {
-            binding.searchNoResultsText.show()
-        } else {
-            binding.searchNoResultsText.hide()
-        }
-    }
-
     private fun showError() {
         if (snackbarErrorRetry?.isShown != true) {
             snackbarErrorRetry = Snackbar.make(binding.root, R.string.failed_search, Snackbar.LENGTH_INDEFINITE)
             snackbarErrorRetry?.setAction(R.string.action_retry) {
                 snackbarErrorRetry = null
-                viewModel.retryAllSearches()
+                adapter.retry()
             }
             snackbarErrorRetry?.show()
         }
@@ -123,11 +120,6 @@ abstract class SearchFragment<T> : Fragment(R.layout.fragment_search),
         get() = (activity as? BottomSheetActivity)
 
     override fun onRefresh() {
-
-        // Dismissed here because the RecyclerView bottomProgressBar is shown as soon as the retry begins.
-        binding.swipeRefreshLayout.post {
-            binding.swipeRefreshLayout.isRefreshing = false
-        }
-        viewModel.retryAllSearches()
+        adapter.refresh()
     }
 }

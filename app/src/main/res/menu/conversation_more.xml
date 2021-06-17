@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/status_mute_conversation"
+        android:title="@string/action_mute_conversation" />
+    <item
+        android:id="@+id/status_unmute_conversation"
+        android:title="@string/action_unmute_conversation" />
+    <item
+        android:id="@+id/conversation_delete"
+        android:title="@string/action_delete_conversation" />
+
+</menu>

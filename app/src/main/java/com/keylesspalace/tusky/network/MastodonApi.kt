@@ -15,7 +15,27 @@
 
 package com.keylesspalace.tusky.network
 
-import com.keylesspalace.tusky.entity.*
+import com.keylesspalace.tusky.entity.AccessToken
+import com.keylesspalace.tusky.entity.Account
+import com.keylesspalace.tusky.entity.Announcement
+import com.keylesspalace.tusky.entity.AppCredentials
+import com.keylesspalace.tusky.entity.Attachment
+import com.keylesspalace.tusky.entity.Conversation
+import com.keylesspalace.tusky.entity.DeletedStatus
+import com.keylesspalace.tusky.entity.Emoji
+import com.keylesspalace.tusky.entity.Filter
+import com.keylesspalace.tusky.entity.IdentityProof
+import com.keylesspalace.tusky.entity.Instance
+import com.keylesspalace.tusky.entity.Marker
+import com.keylesspalace.tusky.entity.MastoList
+import com.keylesspalace.tusky.entity.NewStatus
+import com.keylesspalace.tusky.entity.Notification
+import com.keylesspalace.tusky.entity.Poll
+import com.keylesspalace.tusky.entity.Relationship
+import com.keylesspalace.tusky.entity.ScheduledStatus
+import com.keylesspalace.tusky.entity.SearchResult
+import com.keylesspalace.tusky.entity.Status
+import com.keylesspalace.tusky.entity.StatusContext
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Single
 import okhttp3.MultipartBody
@@ -23,8 +43,20 @@ import okhttp3.RequestBody
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Response
-import retrofit2.http.*
+import retrofit2.http.Body
+import retrofit2.http.DELETE
 import retrofit2.http.Field
+import retrofit2.http.FormUrlEncoded
+import retrofit2.http.GET
+import retrofit2.http.HTTP
+import retrofit2.http.Header
+import retrofit2.http.Multipart
+import retrofit2.http.PATCH
+import retrofit2.http.POST
+import retrofit2.http.PUT
+import retrofit2.http.Part
+import retrofit2.http.Path
+import retrofit2.http.Query
 
 /**
  * for documentation of the Mastodon REST API see https://docs.joinmastodon.org/api/
@@ -466,10 +498,15 @@ interface MastodonApi {
     ): Completable
 
     @GET("/api/v1/conversations")
-    fun getConversations(
+    suspend fun getConversations(
             @Query("max_id") maxId: String? = null,
             @Query("limit") limit: Int
-    ): Call<List<Conversation>>
+    ): List<Conversation>
+
+    @DELETE("/api/v1/conversations/{id}")
+    suspend fun deleteConversation(
+        @Path("id") conversationId: String
+    )
 
     @FormUrlEncoded
     @POST("api/v1/filters")

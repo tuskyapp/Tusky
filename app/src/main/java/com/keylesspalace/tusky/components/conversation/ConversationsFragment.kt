@@ -1,4 +1,4 @@
-/* Copyright 2019 Conny Duck
+/* Copyright 2021 Tusky Contributors
  *
  * This file is a part of Tusky.
  *
@@ -20,7 +20,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.widget.PopupMenu
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
+import androidx.paging.ExperimentalPagingApi
+import androidx.paging.LoadState
 import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -35,8 +40,11 @@ import com.keylesspalace.tusky.fragment.SFragment
 import com.keylesspalace.tusky.interfaces.ReselectableFragment
 import com.keylesspalace.tusky.interfaces.StatusActionListener
 import com.keylesspalace.tusky.settings.PrefKeys
+import com.keylesspalace.tusky.util.*
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
+import java.io.IOException
 import com.keylesspalace.tusky.util.CardViewMode
-import com.keylesspalace.tusky.util.NetworkState
 import com.keylesspalace.tusky.util.StatusDisplayOptions
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.viewBinding
@@ -53,34 +61,39 @@ class ConversationsFragment : SFragment(), StatusActionListener, Injectable, Res
     private val binding by viewBinding(FragmentTimelineBinding::bind)
 
     private lateinit var adapter: ConversationAdapter
+    private lateinit var loadStateAdapter: ConversationLoadStateAdapter
 
     private var layoutManager: LinearLayoutManager? = null
+
+    private var initialRefreshDone: Boolean = false
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_timeline, container, false)
     }
 
+    @ExperimentalPagingApi
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val preferences = PreferenceManager.getDefaultSharedPreferences(view.context)
 
         val statusDisplayOptions = StatusDisplayOptions(
-                animateAvatars = preferences.getBoolean("animateGifAvatars", false),
-                mediaPreviewEnabled = accountManager.activeAccount?.mediaPreviewEnabled ?: true,
-                useAbsoluteTime = preferences.getBoolean("absoluteTimeView", false),
-                showBotOverlay = preferences.getBoolean("showBotOverlay", true),
-                useBlurhash = preferences.getBoolean("useBlurhash", true),
-                cardViewMode = CardViewMode.NONE,
-                confirmReblogs = preferences.getBoolean("confirmReblogs", true),
-                hideStats = preferences.getBoolean(PrefKeys.WELLBEING_HIDE_STATS_POSTS, false),
-                animateEmojis = preferences.getBoolean(PrefKeys.ANIMATE_CUSTOM_EMOJIS, false)
+            animateAvatars = preferences.getBoolean("animateGifAvatars", false),
+            mediaPreviewEnabled = accountManager.activeAccount?.mediaPreviewEnabled ?: true,
+            useAbsoluteTime = preferences.getBoolean("absoluteTimeView", false),
+            showBotOverlay = preferences.getBoolean("showBotOverlay", true),
+            useBlurhash = preferences.getBoolean("useBlurhash", true),
+            cardViewMode = CardViewMode.NONE,
+            confirmReblogs = preferences.getBoolean("confirmReblogs", true),
+            hideStats = preferences.getBoolean(PrefKeys.WELLBEING_HIDE_STATS_POSTS, false),
+            animateEmojis = preferences.getBoolean(PrefKeys.ANIMATE_CUSTOM_EMOJIS, false)
         )
 
-        adapter = ConversationAdapter(statusDisplayOptions, this, ::onTopLoaded, viewModel::retry)
+        adapter = ConversationAdapter(statusDisplayOptions, this)
+        loadStateAdapter = ConversationLoadStateAdapter(adapter::retry)
 
         binding.recyclerView.addItemDecoration(DividerItemDecoration(view.context, DividerItemDecoration.VERTICAL))
         layoutManager = LinearLayoutManager(view.context)
         binding.recyclerView.layoutManager = layoutManager
-        binding.recyclerView.adapter = adapter
+        binding.recyclerView.adapter = adapter.withLoadStateFooter(loadStateAdapter)
         (binding.recyclerView.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
 
         binding.progressBar.hide()
@@ -88,29 +101,50 @@ class ConversationsFragment : SFragment(), StatusActionListener, Injectable, Res
 
         initSwipeToRefresh()
 
-        viewModel.conversations.observe(viewLifecycleOwner) {
-            adapter.submitList(it)
-        }
-        viewModel.networkState.observe(viewLifecycleOwner) {
-            adapter.setNetworkState(it)
+        lifecycleScope.launch {
+            viewModel.conversationFlow.collectLatest { pagingData ->
+                adapter.submitData(pagingData)
+            }
         }
 
-        viewModel.load()
+        adapter.addLoadStateListener { loadStates ->
 
+            loadStates.refresh.let { refreshState ->
+                if (refreshState is LoadState.Error) {
+                    binding.statusView.show()
+                    if (refreshState.error is IOException) {
+                        binding.statusView.setup(R.drawable.elephant_offline, R.string.error_network) {
+                            adapter.refresh()
+                        }
+                    } else {
+                        binding.statusView.setup(R.drawable.elephant_error, R.string.error_generic) {
+                            adapter.refresh()
+                        }
+                    }
+                } else {
+                    binding.statusView.hide()
+                }
+
+                binding.progressBar.visible(refreshState == LoadState.Loading && adapter.itemCount == 0)
+
+                if (refreshState is LoadState.NotLoading && !initialRefreshDone) {
+                    // jump to top after the initial refresh finished
+                    binding.recyclerView.scrollToPosition(0)
+                    initialRefreshDone = true
+                }
+
+                if (refreshState != LoadState.Loading) {
+                    binding.swipeRefreshLayout.isRefreshing = false
+                }
+            }
+        }
     }
 
     private fun initSwipeToRefresh() {
-        viewModel.refreshState.observe(viewLifecycleOwner) {
-            binding.swipeRefreshLayout.isRefreshing = it == NetworkState.LOADING
-        }
         binding.swipeRefreshLayout.setOnRefreshListener {
-            viewModel.refresh()
+            adapter.refresh()
         }
         binding.swipeRefreshLayout.setColorSchemeResources(R.color.tusky_blue)
-    }
-
-    private fun onTopLoaded() {
-        binding.recyclerView.scrollToPosition(0)
     }
 
     override fun onReblog(reblog: Boolean, position: Int) {
@@ -118,29 +152,50 @@ class ConversationsFragment : SFragment(), StatusActionListener, Injectable, Res
     }
 
     override fun onFavourite(favourite: Boolean, position: Int) {
-        viewModel.favourite(favourite, position)
+        adapter.item(position)?.let { conversation ->
+            viewModel.favourite(favourite, conversation)
+        }
     }
 
     override fun onBookmark(favourite: Boolean, position: Int) {
-        viewModel.bookmark(favourite, position)
+        adapter.item(position)?.let { conversation ->
+            viewModel.bookmark(favourite, conversation)
+        }
     }
 
     override fun onMore(view: View, position: Int) {
-        viewModel.conversations.value?.getOrNull(position)?.lastStatus?.let {
-            more(it.toStatus(), view, position)
+        adapter.item(position)?.let { conversation ->
+
+            val popup = PopupMenu(requireContext(), view)
+            popup.inflate(R.menu.conversation_more)
+
+            if (conversation.lastStatus.muted) {
+                popup.menu.removeItem(R.id.status_mute_conversation)
+            } else {
+                popup.menu.removeItem(R.id.status_unmute_conversation)
+            }
+
+            popup.setOnMenuItemClickListener { item ->
+                when (item.itemId) {
+                    R.id.status_mute_conversation -> viewModel.muteConversation(conversation)
+                    R.id.status_unmute_conversation -> viewModel.muteConversation(conversation)
+                    R.id.conversation_delete -> deleteConversation(conversation)
+                }
+                true
+            }
+            popup.show()
         }
     }
 
     override fun onViewMedia(position: Int, attachmentIndex: Int, view: View?) {
-        viewModel.conversations.value?.getOrNull(position)?.lastStatus?.let {
-            viewMedia(attachmentIndex, AttachmentViewData.list(it.toStatus()), view)
+        adapter.item(position)?.let { conversation ->
+            viewMedia(attachmentIndex, AttachmentViewData.list(conversation.lastStatus.toStatus()), view)
         }
     }
 
     override fun onViewThread(position: Int) {
-        viewModel.conversations.value?.getOrNull(position)?.lastStatus?.let {
-            val status = it.toStatus()
-            viewThread(status.actionableId, status.actionableStatus.url)
+        adapter.item(position)?.let { conversation ->
+            viewThread(conversation.lastStatus.id, conversation.lastStatus.url)
         }
     }
 
@@ -149,11 +204,15 @@ class ConversationsFragment : SFragment(), StatusActionListener, Injectable, Res
     }
 
     override fun onExpandedChange(expanded: Boolean, position: Int) {
-        viewModel.expandHiddenStatus(expanded, position)
+        adapter.item(position)?.let { conversation ->
+            viewModel.expandHiddenStatus(expanded, conversation)
+        }
     }
 
     override fun onContentHiddenChange(isShowing: Boolean, position: Int) {
-        viewModel.showContent(isShowing, position)
+        adapter.item(position)?.let { conversation ->
+            viewModel.showContent(isShowing, conversation)
+        }
     }
 
     override fun onLoadMore(position: Int) {
@@ -161,7 +220,9 @@ class ConversationsFragment : SFragment(), StatusActionListener, Injectable, Res
     }
 
     override fun onContentCollapsedChange(isCollapsed: Boolean, position: Int) {
-        viewModel.collapseLongStatus(isCollapsed, position)
+        adapter.item(position)?.let { conversation ->
+            viewModel.collapseLongStatus(isCollapsed, conversation)
+        }
     }
 
     override fun onViewAccount(id: String) {
@@ -176,13 +237,23 @@ class ConversationsFragment : SFragment(), StatusActionListener, Injectable, Res
     }
 
     override fun removeItem(position: Int) {
-        viewModel.remove(position)
+        // not needed
     }
 
     override fun onReply(position: Int) {
-        viewModel.conversations.value?.getOrNull(position)?.lastStatus?.let {
-            reply(it.toStatus())
+        adapter.item(position)?.let { conversation ->
+            reply(conversation.lastStatus.toStatus())
         }
+    }
+
+    private fun deleteConversation(conversation: ConversationEntity) {
+        AlertDialog.Builder(requireContext())
+            .setMessage(R.string.dialog_delete_conversation_warning)
+            .setNegativeButton(android.R.string.cancel, null)
+            .setPositiveButton(android.R.string.ok) { _, _ ->
+                viewModel.remove(conversation)
+            }
+            .show()
     }
 
     private fun jumpToTop() {
@@ -197,7 +268,9 @@ class ConversationsFragment : SFragment(), StatusActionListener, Injectable, Res
     }
 
     override fun onVoteInPoll(position: Int, choices: MutableList<Int>) {
-        viewModel.voteInPoll(position, choices)
+        adapter.item(position)?.let { conversation ->
+            viewModel.voteInPoll(choices, conversation)
+        }
     }
 
     companion object {
