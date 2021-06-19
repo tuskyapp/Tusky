@@ -1,4 +1,4 @@
-/* Copyright 2017 Andrew Dawson
+/* Copyright 2021 Tusky Contributors.
  *
  * This file is a part of Tusky.
  *
@@ -14,13 +14,16 @@
  * see <http://www.gnu.org/licenses>. */
 package com.keylesspalace.tusky.adapter
 
+import android.view.LayoutInflater
+import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.entity.Account
 import com.keylesspalace.tusky.interfaces.AccountActionListener
 import com.keylesspalace.tusky.util.removeDuplicates
 
 /** Generic adapter with bottom loading indicator. */
-abstract class AccountAdapter internal constructor(
+abstract class AccountAdapter<AVH : RecyclerView.ViewHolder> internal constructor(
     var accountActionListener: AccountActionListener,
     protected val animateAvatar: Boolean,
     protected val animateEmojis: Boolean
@@ -30,6 +33,36 @@ abstract class AccountAdapter internal constructor(
 
     override fun getItemCount(): Int {
         return accountList.size + if (bottomLoading) 1 else 0
+    }
+
+    abstract fun createAccountViewHolder(parent: ViewGroup): AVH
+
+    abstract fun onBindAccountViewHolder(viewHolder: AVH, position: Int)
+
+    final override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        if (getItemViewType(position) == VIEW_TYPE_ACCOUNT) {
+            @Suppress("UNCHECKED_CAST")
+            this.onBindAccountViewHolder(holder as AVH, position)
+        }
+    }
+
+    final override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int
+    ): RecyclerView.ViewHolder {
+        return when (viewType) {
+            VIEW_TYPE_ACCOUNT -> this.createAccountViewHolder(parent)
+            VIEW_TYPE_FOOTER -> this.createFooterViewHolder(parent)
+            else -> error("Unknown item type: $viewType")
+        }
+    }
+
+    private fun createFooterViewHolder(
+        parent: ViewGroup,
+    ): RecyclerView.ViewHolder {
+        val view = LayoutInflater.from(parent.context)
+            .inflate(R.layout.item_footer, parent, false)
+        return LoadingFooterViewHolder(view)
     }
 
     override fun getItemViewType(position: Int): Int {

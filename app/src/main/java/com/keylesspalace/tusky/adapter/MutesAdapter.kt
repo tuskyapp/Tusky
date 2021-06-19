@@ -23,41 +23,28 @@ class MutesAdapter(
     accountActionListener: AccountActionListener,
     animateAvatar: Boolean,
     animateEmojis: Boolean
-) : AccountAdapter(accountActionListener, animateAvatar, animateEmojis) {
-    private val mutingNotificationsMap: HashMap<String, Boolean> = HashMap()
+) : AccountAdapter<MutesAdapter.MutedUserViewHolder>(
+    accountActionListener,
+    animateAvatar,
+    animateEmojis
+) {
+    private val mutingNotificationsMap = HashMap<String, Boolean>()
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return when (viewType) {
-            VIEW_TYPE_ACCOUNT -> {
-                val view = LayoutInflater.from(parent.context)
-                    .inflate(R.layout.item_muted_user, parent, false)
-                MutedUserViewHolder(view)
-            }
-            VIEW_TYPE_FOOTER -> {
-                val view = LayoutInflater.from(parent.context)
-                    .inflate(R.layout.item_footer, parent, false)
-                LoadingFooterViewHolder(view)
-            }
-            else -> {
-                val view = LayoutInflater.from(parent.context)
-                    .inflate(R.layout.item_muted_user, parent, false)
-                MutedUserViewHolder(view)
-            }
-        }
+    override fun createAccountViewHolder(parent: ViewGroup): MutedUserViewHolder {
+        val view = LayoutInflater.from(parent.context)
+            .inflate(R.layout.item_muted_user, parent, false)
+        return MutedUserViewHolder(view)
     }
 
-    override fun onBindViewHolder(viewHolder: RecyclerView.ViewHolder, position: Int) {
-        if (getItemViewType(position) == VIEW_TYPE_ACCOUNT) {
-            val holder = viewHolder as MutedUserViewHolder
-            val account = accountList[position]
-            holder.setupWithAccount(
-                account,
-                mutingNotificationsMap[account.id],
-                animateAvatar,
-                animateEmojis
-            )
-            holder.setupActionListener(accountActionListener)
-        }
+    override fun onBindAccountViewHolder(viewHolder: MutedUserViewHolder, position: Int) {
+        val account = accountList[position]
+        viewHolder.setupWithAccount(
+            account,
+            mutingNotificationsMap[account.id],
+            animateAvatar,
+            animateEmojis
+        )
+        viewHolder.setupActionListener(accountActionListener)
     }
 
     fun updateMutingNotifications(id: String, mutingNotifications: Boolean, position: Int) {
@@ -70,7 +57,7 @@ class MutesAdapter(
         notifyDataSetChanged()
     }
 
-    internal class MutedUserViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    class MutedUserViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val avatar: ImageView = itemView.findViewById(R.id.muted_user_avatar)
         private val username: TextView = itemView.findViewById(R.id.muted_user_username)
         private val displayName: TextView = itemView.findViewById(R.id.muted_user_display_name)
@@ -123,7 +110,7 @@ class MutesAdapter(
         }
 
         fun setupActionListener(listener: AccountActionListener) {
-            unmute.setOnClickListener { v: View? ->
+            unmute.setOnClickListener {
                 listener.onMute(
                     false,
                     id,
@@ -131,7 +118,7 @@ class MutesAdapter(
                     false
                 )
             }
-            muteNotifications.setOnClickListener { v: View? ->
+            muteNotifications.setOnClickListener {
                 listener.onMute(
                     true,
                     id,
@@ -139,7 +126,7 @@ class MutesAdapter(
                     !notifications
                 )
             }
-            itemView.setOnClickListener { v: View? -> listener.onViewAccount(id) }
+            itemView.setOnClickListener { listener.onViewAccount(id) }
         }
     }
 }

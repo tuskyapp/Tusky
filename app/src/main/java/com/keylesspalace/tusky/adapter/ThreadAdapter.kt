@@ -1,4 +1,4 @@
-/* Copyright 2017 Andrew Dawson
+/* Copyright 2021 Tusky Contributors
  *
  * This file is a part of Tusky.
  *
@@ -42,11 +42,7 @@ class ThreadAdapter(
                     .inflate(R.layout.item_status_detailed, parent, false)
                 StatusDetailedViewHolder(view)
             }
-            else -> {
-                val view = LayoutInflater.from(parent.context)
-                    .inflate(R.layout.item_status, parent, false)
-                StatusViewHolder(view)
-            }
+            else -> error("Unknown item type: $viewType")
         }
     }
 
@@ -63,9 +59,7 @@ class ThreadAdapter(
         }
     }
 
-    override fun getItemCount(): Int {
-        return statuses.size
-    }
+    override fun getItemCount(): Int = statuses.size
 
     fun setStatuses(statuses: List<StatusViewData.Concrete>?) {
         this.statuses.clear()

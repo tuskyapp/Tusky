@@ -1,4 +1,4 @@
-/* Copyright 2017 Andrew Dawson
+/* Copyright 2021 Tusky Contributors
  *
  * This file is a part of Tusky.
  *
@@ -25,32 +25,15 @@ class FollowAdapter(
     accountActionListener: AccountActionListener,
     animateAvatar: Boolean,
     animateEmojis: Boolean
-) : AccountAdapter(accountActionListener, animateAvatar, animateEmojis) {
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return when (viewType) {
-            VIEW_TYPE_ACCOUNT -> {
-                val view = LayoutInflater.from(parent.context)
-                    .inflate(R.layout.item_account, parent, false)
-                AccountViewHolder(view)
-            }
-            VIEW_TYPE_FOOTER -> {
-                val view = LayoutInflater.from(parent.context)
-                    .inflate(R.layout.item_footer, parent, false)
-                LoadingFooterViewHolder(view)
-            }
-            else -> {
-                val view = LayoutInflater.from(parent.context)
-                    .inflate(R.layout.item_account, parent, false)
-                AccountViewHolder(view)
-            }
-        }
+) : AccountAdapter<AccountViewHolder>(accountActionListener, animateAvatar, animateEmojis) {
+    override fun createAccountViewHolder(parent: ViewGroup): AccountViewHolder {
+        val view = LayoutInflater.from(parent.context)
+            .inflate(R.layout.item_account, parent, false)
+        return AccountViewHolder(view)
     }
 
-    override fun onBindViewHolder(viewHolder: RecyclerView.ViewHolder, position: Int) {
-        if (getItemViewType(position) == VIEW_TYPE_ACCOUNT) {
-            val holder = viewHolder as AccountViewHolder
-            holder.setupWithAccount(accountList[position], animateAvatar, animateEmojis)
-            holder.setupActionListener(accountActionListener)
-        }
+    override fun onBindAccountViewHolder(viewHolder: AccountViewHolder, position: Int) {
+        viewHolder.setupWithAccount(accountList[position], animateAvatar, animateEmojis)
+        viewHolder.setupActionListener(accountActionListener)
     }
 }

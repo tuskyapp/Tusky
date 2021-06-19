@@ -32,37 +32,20 @@ class BlocksAdapter(
     accountActionListener: AccountActionListener,
     animateAvatar: Boolean,
     animateEmojis: Boolean
-) : AccountAdapter(
+) : AccountAdapter<BlocksAdapter.BlockedUserViewHolder>(
     accountActionListener,
     animateAvatar,
     animateEmojis
 ) {
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return when (viewType) {
-            VIEW_TYPE_ACCOUNT -> {
-                val view = LayoutInflater.from(parent.context)
-                    .inflate(R.layout.item_blocked_user, parent, false)
-                BlockedUserViewHolder(view)
-            }
-            VIEW_TYPE_FOOTER -> {
-                val view = LayoutInflater.from(parent.context)
-                    .inflate(R.layout.item_footer, parent, false)
-                LoadingFooterViewHolder(view)
-            }
-            else -> {
-                val view = LayoutInflater.from(parent.context)
-                    .inflate(R.layout.item_blocked_user, parent, false)
-                BlockedUserViewHolder(view)
-            }
-        }
+    override fun createAccountViewHolder(parent: ViewGroup): BlockedUserViewHolder {
+        val view = LayoutInflater.from(parent.context)
+            .inflate(R.layout.item_blocked_user, parent, false)
+        return BlockedUserViewHolder(view)
     }
 
-    override fun onBindViewHolder(viewHolder: RecyclerView.ViewHolder, position: Int) {
-        if (getItemViewType(position) == VIEW_TYPE_ACCOUNT) {
-            val holder = viewHolder as BlockedUserViewHolder
-            holder.setupWithAccount(accountList[position], animateAvatar, animateEmojis)
-            holder.setupActionListener(accountActionListener)
-        }
+    override fun onBindAccountViewHolder(viewHolder: BlockedUserViewHolder, position: Int) {
+        viewHolder.setupWithAccount(accountList[position], animateAvatar, animateEmojis)
+        viewHolder.setupActionListener(accountActionListener)
     }
 
     class BlockedUserViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

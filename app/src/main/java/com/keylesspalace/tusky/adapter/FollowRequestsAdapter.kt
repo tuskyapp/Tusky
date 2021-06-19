@@ -1,4 +1,4 @@
-/* Copyright 2017 Andrew Dawson
+/* Copyright 2021 Tusky Contributors
  *
  * This file is a part of Tusky.
  *
@@ -26,34 +26,16 @@ class FollowRequestsAdapter(
     accountActionListener: AccountActionListener,
     animateAvatar: Boolean,
     animateEmojis: Boolean
-) : AccountAdapter(accountActionListener, animateAvatar, animateEmojis) {
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return when (viewType) {
-            VIEW_TYPE_ACCOUNT -> {
-                val binding = ItemFollowRequestBinding.inflate(
-                    LayoutInflater.from(parent.context), parent, false
-                )
-                FollowRequestViewHolder(binding, false)
-            }
-            VIEW_TYPE_FOOTER -> {
-                val view = LayoutInflater.from(parent.context)
-                    .inflate(R.layout.item_footer, parent, false)
-                LoadingFooterViewHolder(view)
-            }
-            else -> {
-                val binding = ItemFollowRequestBinding.inflate(
-                    LayoutInflater.from(parent.context), parent, false
-                )
-                FollowRequestViewHolder(binding, false)
-            }
-        }
+) : AccountAdapter<FollowRequestViewHolder>(accountActionListener, animateAvatar, animateEmojis) {
+    override fun createAccountViewHolder(parent: ViewGroup): FollowRequestViewHolder {
+        val binding = ItemFollowRequestBinding.inflate(
+            LayoutInflater.from(parent.context), parent, false
+        )
+        return FollowRequestViewHolder(binding, false)
     }
 
-    override fun onBindViewHolder(viewHolder: RecyclerView.ViewHolder, position: Int) {
-        if (getItemViewType(position) == VIEW_TYPE_ACCOUNT) {
-            val holder = viewHolder as FollowRequestViewHolder
-            holder.setupWithAccount(accountList[position], animateAvatar, animateEmojis)
-            holder.setupActionListener(accountActionListener, accountList[position].id)
-        }
+    override fun onBindAccountViewHolder(viewHolder: FollowRequestViewHolder, position: Int) {
+        viewHolder.setupWithAccount(accountList[position], animateAvatar, animateEmojis)
+        viewHolder.setupActionListener(accountActionListener, accountList[position].id)
     }
 }
