@@ -15,30 +15,28 @@
 
 package com.keylesspalace.tusky.db
 
-import androidx.paging.DataSource
+import androidx.paging.PagingSource
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import io.reactivex.rxjava3.core.Completable
-import io.reactivex.rxjava3.core.Single
 
 @Dao
 interface DraftDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertOrReplace(draft: DraftEntity): Completable
+    suspend fun insertOrReplace(draft: DraftEntity)
 
     @Query("SELECT * FROM DraftEntity WHERE accountId = :accountId ORDER BY id ASC")
-    fun loadDrafts(accountId: Long): DataSource.Factory<Int, DraftEntity>
+    fun draftsPagingSource(accountId: Long): PagingSource<Int, DraftEntity>
 
     @Query("SELECT * FROM DraftEntity WHERE accountId = :accountId")
-    fun loadDraftsSingle(accountId: Long): Single<List<DraftEntity>>
+    suspend fun loadDrafts(accountId: Long): List<DraftEntity>
 
     @Query("DELETE FROM DraftEntity WHERE id = :id")
-    fun delete(id: Int): Completable
+    suspend fun delete(id: Int)
 
     @Query("SELECT * FROM DraftEntity WHERE id = :id")
-    fun find(id: Int): Single<DraftEntity?>
+    suspend fun find(id: Int): DraftEntity?
 
 }
