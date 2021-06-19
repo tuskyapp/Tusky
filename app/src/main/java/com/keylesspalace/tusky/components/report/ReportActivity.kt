@@ -51,7 +51,6 @@ class ReportActivity : BottomSheetActivity(), HasAndroidInjector {
 
         viewModel.init(accountId, accountUserName, intent?.getStringExtra(STATUS_ID))
 
-
         setContentView(binding.root)
 
         setSupportActionBar(binding.includedToolbar.toolbar)
