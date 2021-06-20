@@ -65,8 +65,10 @@ class DraftsViewModel @Inject constructor(
     }
 
     override fun onCleared() {
-        deletedDrafts.forEach {
-            draftHelper.deleteAttachments(it).subscribe()
+        viewModelScope.launch {
+            deletedDrafts.forEach {
+                draftHelper.deleteAttachments(it)
+            }
         }
     }
 }
