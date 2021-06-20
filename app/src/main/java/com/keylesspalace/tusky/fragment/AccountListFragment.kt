@@ -67,7 +67,7 @@ class AccountListFragment : Fragment(R.layout.fragment_account_list), AccountAct
     private var id: String? = null
 
     private lateinit var scrollListener: EndlessOnScrollListener
-    private lateinit var adapter: AccountAdapter
+    private lateinit var adapter: AccountAdapter<*>
     private var fetching = false
     private var bottomId: String? = null
 
