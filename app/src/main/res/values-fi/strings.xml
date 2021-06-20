@@ -3,9 +3,9 @@
     <string name="pref_title_animate_custom_emojis">Animoi mukautetut emojit</string>
     <string name="pref_title_animate_gif_avatars">Animoi GIF-avatarit</string>
     <string name="app_theme_system">Seuraa laitteen teemaa</string>
-    <string name="dialog_unfollow_warning">Lopeta tilin seuraaminen\?</string>
+    <string name="dialog_unfollow_warning">Lopeta tilin seuraaminen?</string>
     <string name="dialog_delete_post_warning">Poista tuuttaus?</string>
-    <string name="link_whats_an_instance">Mikä on instanssi\?</string>
+    <string name="link_whats_an_instance">Mikä on instanssi?</string>
     <string name="action_copy_link">Kopioi linkki</string>
     <string name="action_open_in_web">Avaa selaimessa</string>
     <string name="action_login">Kirjaudu Tuskylla</string>
@@ -30,7 +30,7 @@
     <string name="system_default">Järjestelmän oletus</string>
     <string name="emoji_style">Emojien tyyli</string>
     <string name="send_post_notification_title">Lähetetään tuuttausta…</string>
-    <string name="compose_save_draft">Tallennetaanko luonnoksena\?</string>
+    <string name="compose_save_draft">Tallennetaanko luonnoksena?</string>
     <string name="lock_account_label">Lukitse tili</string>
     <string name="add_account_name">Lisää tili</string>
     <string name="follows_you">Seuraa sinua</string>
@@ -46,8 +46,8 @@
     <string name="pref_title_app_theme">Teema</string>
     <string name="search_no_results">Ei tuloksia</string>
     <string name="hint_content_warning">Sisältövaroitus</string>
-    <string name="hint_compose">Mitä tapahtuu\?</string>
-    <string name="hint_domain">Mikä instanssi\?</string>
+    <string name="hint_compose">Mitä tapahtuu?</string>
+    <string name="hint_domain">Mikä instanssi?</string>
     <string name="downloading_media">Ladataan mediaa</string>
     <string name="download_media">Lataa media</string>
     <string name="action_open_faved_by">Näytä suosikit</string>
