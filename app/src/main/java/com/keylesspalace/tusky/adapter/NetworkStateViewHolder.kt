@@ -23,8 +23,7 @@ import com.keylesspalace.tusky.util.visible
 class NetworkStateViewHolder(
     private val binding: ItemNetworkStateBinding,
     private val retryCallback: () -> Unit
-) :
-    RecyclerView.ViewHolder(binding.root) {
+) : RecyclerView.ViewHolder(binding.root) {
 
     fun setUpWithNetworkState(state: LoadState) {
         binding.progressBar.visible(state == LoadState.Loading)

@@ -27,16 +27,26 @@ import com.keylesspalace.tusky.components.search.SearchType
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.db.AppDatabase
 import com.keylesspalace.tusky.db.InstanceEntity
-import com.keylesspalace.tusky.entity.*
+import com.keylesspalace.tusky.entity.Attachment
+import com.keylesspalace.tusky.entity.Emoji
+import com.keylesspalace.tusky.entity.NewPoll
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.service.ServiceClient
 import com.keylesspalace.tusky.service.TootToSend
-import com.keylesspalace.tusky.util.*
+import com.keylesspalace.tusky.util.Either
+import com.keylesspalace.tusky.util.RxAwareViewModel
+import com.keylesspalace.tusky.util.VersionUtils
+import com.keylesspalace.tusky.util.combineLiveData
+import com.keylesspalace.tusky.util.filter
+import com.keylesspalace.tusky.util.map
+import com.keylesspalace.tusky.util.randomAlphanumericString
+import com.keylesspalace.tusky.util.toLiveData
+import com.keylesspalace.tusky.util.withoutFirstWhich
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.disposables.Disposable
-import java.util.*
+import java.util.Locale
 import javax.inject.Inject
 
 class ComposeViewModel @Inject constructor(

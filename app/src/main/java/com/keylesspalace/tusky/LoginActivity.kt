@@ -231,28 +231,14 @@ class LoginActivity : BaseActivity(), Injectable {
                         } else {
                             setLoading(false)
                             binding.domainTextInputLayout.error = getString(R.string.error_retrieving_oauth_token)
-                            Log.e(
-                                TAG,
-                                String.format(
-                                    "%s %s",
-                                    getString(R.string.error_retrieving_oauth_token),
-                                    response.message()
-                                )
-                            )
+                            Log.e(TAG, "%s %s".format(getString(R.string.error_retrieving_oauth_token), response.message()))
                         }
                     }
 
                     override fun onFailure(call: Call<AccessToken>, t: Throwable) {
                         setLoading(false)
                         binding.domainTextInputLayout.error = getString(R.string.error_retrieving_oauth_token)
-                        Log.e(
-                            TAG,
-                            String.format(
-                                "%s %s",
-                                getString(R.string.error_retrieving_oauth_token),
-                                t.message
-                            )
-                        )
+                        Log.e(TAG, "%s %s".format(getString(R.string.error_retrieving_oauth_token), t.message))
                     }
                 }
 
@@ -265,14 +251,7 @@ class LoginActivity : BaseActivity(), Injectable {
                  * can try again. */
                 setLoading(false)
                 binding.domainTextInputLayout.error = getString(R.string.error_authorization_denied)
-                Log.e(
-                    TAG,
-                    String.format(
-                        "%s %s",
-                        getString(R.string.error_authorization_denied),
-                        error
-                    )
-                )
+                Log.e(TAG, "%s %s".format(getString(R.string.error_authorization_denied), error))
             } else {
                 // This case means a junk response was received somehow.
                 setLoading(false)

@@ -28,7 +28,10 @@ import com.keylesspalace.tusky.components.compose.ComposeActivity.QueuedMedia
 import com.keylesspalace.tusky.entity.Attachment
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.network.ProgressRequestBody
-import com.keylesspalace.tusky.util.*
+import com.keylesspalace.tusky.util.MEDIA_SIZE_UNKNOWN
+import com.keylesspalace.tusky.util.getImageSquarePixels
+import com.keylesspalace.tusky.util.getMediaSize
+import com.keylesspalace.tusky.util.randomAlphanumericString
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.schedulers.Schedulers
@@ -37,7 +40,7 @@ import okhttp3.MultipartBody
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
-import java.util.*
+import java.util.Date
 
 sealed class UploadEvent {
     data class ProgressEvent(val percentage: Int) : UploadEvent()
@@ -152,8 +155,7 @@ class MediaUploaderImpl(
             var mimeType = contentResolver.getType(media.uri)
             val map = MimeTypeMap.getSingleton()
             val fileExtension = map.getExtensionFromMimeType(mimeType)
-            val filename = String.format(
-                "%s_%s_%s.%s",
+            val filename = "%s_%s_%s.%s".format(
                 context.getString(R.string.app_name),
                 Date().time.toString(),
                 randomAlphanumericString(10),
@@ -210,10 +212,7 @@ class MediaUploaderImpl(
 
     private fun shouldResizeMedia(media: QueuedMedia): Boolean {
         return media.type == QueuedMedia.Type.IMAGE &&
-            (
-                media.mediaSize > STATUS_IMAGE_SIZE_LIMIT ||
-                    getImageSquarePixels(context.contentResolver, media.uri) > STATUS_IMAGE_PIXEL_SIZE_LIMIT
-                )
+            (media.mediaSize > STATUS_IMAGE_SIZE_LIMIT || getImageSquarePixels(context.contentResolver, media.uri) > STATUS_IMAGE_PIXEL_SIZE_LIMIT)
     }
 
     private companion object {

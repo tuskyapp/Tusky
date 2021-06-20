@@ -67,44 +67,42 @@ class AnnouncementAdapter(
         }
 
         item.reactions.forEachIndexed { i, reaction ->
-            (
-                chips.getChildAt(i)?.takeUnless { it.id == R.id.addReactionChip } as Chip?
-                    ?: Chip(ContextThemeWrapper(chips.context, R.style.Widget_MaterialComponents_Chip_Choice)).apply {
-                        isCheckable = true
-                        checkedIcon = null
-                        chips.addView(this, i)
-                    }
-                )
-                .apply {
-                    val emojiText = if (reaction.url == null) {
-                        reaction.name
-                    } else {
-                        context.getString(R.string.emoji_shortcode_format, reaction.name)
-                    }
-                    this.text = ("$emojiText ${reaction.count}")
-                        .emojify(
-                            listOf(
-                                Emoji(
-                                    reaction.name,
-                                    reaction.url ?: "",
-                                    reaction.staticUrl ?: "",
-                                    null
-                                )
-                            ),
-                            this,
-                            animateEmojis
-                        )
-
-                    isChecked = reaction.me
-
-                    setOnClickListener {
-                        if (reaction.me) {
-                            listener.removeReaction(item.id, reaction.name)
+            chips.getChildAt(i)?.takeUnless { it.id == R.id.addReactionChip } as Chip?
+                ?: Chip(ContextThemeWrapper(chips.context, R.style.Widget_MaterialComponents_Chip_Choice)).apply {
+                    isCheckable = true
+                    checkedIcon = null
+                    chips.addView(this, i)
+                }
+                    .apply {
+                        val emojiText = if (reaction.url == null) {
+                            reaction.name
                         } else {
-                            listener.addReaction(item.id, reaction.name)
+                            context.getString(R.string.emoji_shortcode_format, reaction.name)
+                        }
+                        this.text = ("$emojiText ${reaction.count}")
+                            .emojify(
+                                listOf(
+                                    Emoji(
+                                        reaction.name,
+                                        reaction.url ?: "",
+                                        reaction.staticUrl ?: "",
+                                        null
+                                    )
+                                ),
+                                this,
+                                animateEmojis
+                            )
+
+                        isChecked = reaction.me
+
+                        setOnClickListener {
+                            if (reaction.me) {
+                                listener.removeReaction(item.id, reaction.name)
+                            } else {
+                                listener.addReaction(item.id, reaction.name)
+                            }
                         }
                     }
-                }
         }
 
         while (chips.size - 1 > item.reactions.size) {

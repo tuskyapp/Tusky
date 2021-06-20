@@ -18,7 +18,8 @@ package com.keylesspalace.tusky.util
 
 import android.graphics.Canvas
 import android.graphics.Paint
-import android.graphics.drawable.*
+import android.graphics.drawable.Animatable
+import android.graphics.drawable.Drawable
 import android.text.SpannableStringBuilder
 import android.text.style.ReplacementSpan
 import android.view.View
