@@ -23,7 +23,7 @@ import androidx.core.widget.TextViewCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.keylesspalace.tusky.R
 
-class PreviewPollOptionsAdapter: RecyclerView.Adapter<PreviewViewHolder>() {
+class PreviewPollOptionsAdapter : RecyclerView.Adapter<PreviewViewHolder>() {
 
     private var options: List<String> = emptyList()
     private var multiple: Boolean = false
@@ -60,7 +60,6 @@ class PreviewPollOptionsAdapter: RecyclerView.Adapter<PreviewViewHolder>() {
 
         textView.setOnClickListener(clickListener)
     }
-
 }
 
-class PreviewViewHolder(itemView: View): RecyclerView.ViewHolder(itemView)
+class PreviewViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)

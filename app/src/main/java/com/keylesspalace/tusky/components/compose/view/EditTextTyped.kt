@@ -16,25 +16,27 @@
 package com.keylesspalace.tusky.components.compose.view
 
 import android.content.Context
-import androidx.emoji.widget.EmojiEditTextHelper
-import androidx.core.view.inputmethod.EditorInfoCompat
-import androidx.core.view.inputmethod.InputConnectionCompat
-import androidx.appcompat.widget.AppCompatMultiAutoCompleteTextView
 import android.text.InputType
 import android.text.method.KeyListener
 import android.util.AttributeSet
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputConnection
+import androidx.appcompat.widget.AppCompatMultiAutoCompleteTextView
+import androidx.core.view.inputmethod.EditorInfoCompat
+import androidx.core.view.inputmethod.InputConnectionCompat
+import androidx.emoji.widget.EmojiEditTextHelper
 
-class EditTextTyped @JvmOverloads constructor(context: Context,
-                                              attributeSet: AttributeSet? = null)
-    : AppCompatMultiAutoCompleteTextView(context, attributeSet) {
+class EditTextTyped @JvmOverloads constructor(
+    context: Context,
+    attributeSet: AttributeSet? = null
+) :
+    AppCompatMultiAutoCompleteTextView(context, attributeSet) {
 
     private var onCommitContentListener: InputConnectionCompat.OnCommitContentListener? = null
     private val emojiEditTextHelper: EmojiEditTextHelper = EmojiEditTextHelper(this)
 
     init {
-        //fix a bug with autocomplete and some keyboards
+        // fix a bug with autocomplete and some keyboards
         val newInputType = inputType and (inputType xor InputType.TYPE_TEXT_FLAG_AUTO_COMPLETE)
         inputType = newInputType
         super.setKeyListener(getEmojiEditTextHelper().getKeyListener(keyListener))
@@ -52,8 +54,13 @@ class EditTextTyped @JvmOverloads constructor(context: Context,
         val connection = super.onCreateInputConnection(editorInfo)
         return if (onCommitContentListener != null) {
             EditorInfoCompat.setContentMimeTypes(editorInfo, arrayOf("image/*"))
-            getEmojiEditTextHelper().onCreateInputConnection(InputConnectionCompat.createWrapper(connection, editorInfo,
-                    onCommitContentListener!!), editorInfo)!!
+            getEmojiEditTextHelper().onCreateInputConnection(
+                InputConnectionCompat.createWrapper(
+                    connection, editorInfo,
+                    onCommitContentListener!!
+                ),
+                editorInfo
+            )!!
         } else {
             connection
         }

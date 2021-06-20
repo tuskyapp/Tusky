@@ -69,11 +69,11 @@ class ScheduledTootActivity : BaseActivity(), ScheduledTootActionListener, Injec
         }
 
         viewModel.networkState.observe(this) { (status) ->
-            when(status) {
+            when (status) {
                 Status.SUCCESS -> {
                     binding.progressBar.hide()
                     binding.swipeRefreshLayout.isRefreshing = false
-                    if(viewModel.data.value?.loadedCount == 0) {
+                    if (viewModel.data.value?.loadedCount == 0) {
                         binding.errorMessageView.setup(R.drawable.elephant_friend_empty, R.string.no_scheduled_status)
                         binding.errorMessageView.show()
                     } else {
@@ -82,14 +82,14 @@ class ScheduledTootActivity : BaseActivity(), ScheduledTootActionListener, Injec
                 }
                 Status.RUNNING -> {
                     binding.errorMessageView.hide()
-                    if(viewModel.data.value?.loadedCount ?: 0 > 0) {
+                    if (viewModel.data.value?.loadedCount ?: 0 > 0) {
                         binding.swipeRefreshLayout.isRefreshing = true
                     } else {
                         binding.progressBar.show()
                     }
                 }
                 Status.FAILED -> {
-                    if(viewModel.data.value?.loadedCount ?: 0 >= 0) {
+                    if (viewModel.data.value?.loadedCount ?: 0 >= 0) {
                         binding.progressBar.hide()
                         binding.swipeRefreshLayout.isRefreshing = false
                         binding.errorMessageView.setup(R.drawable.elephant_error, R.string.error_generic) {
@@ -107,7 +107,9 @@ class ScheduledTootActivity : BaseActivity(), ScheduledTootActionListener, Injec
     }
 
     override fun edit(item: ScheduledStatus) {
-        val intent = ComposeActivity.startIntent(this, ComposeActivity.ComposeOptions(
+        val intent = ComposeActivity.startIntent(
+            this,
+            ComposeActivity.ComposeOptions(
                 scheduledTootId = item.id,
                 tootText = item.params.text,
                 contentWarning = item.params.spoilerText,
@@ -116,7 +118,8 @@ class ScheduledTootActivity : BaseActivity(), ScheduledTootActionListener, Injec
                 visibility = item.params.visibility,
                 scheduledAt = item.scheduledAt,
                 sensitive = item.params.sensitive
-        ))
+            )
+        )
         startActivity(intent)
     }
 

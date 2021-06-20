@@ -21,23 +21,24 @@ import dagger.Component
 import dagger.android.support.AndroidSupportInjectionModule
 import javax.inject.Singleton
 
-
 /**
  * Created by charlag on 3/21/18.
  */
 
 @Singleton
-@Component(modules = [
-    AppModule::class,
-    NetworkModule::class,
-    AndroidSupportInjectionModule::class,
-    ActivitiesModule::class,
-    ServicesModule::class,
-    BroadcastReceiverModule::class,
-    ViewModelModule::class,
-    RepositoryModule::class,
-    MediaUploaderModule::class
-])
+@Component(
+    modules = [
+        AppModule::class,
+        NetworkModule::class,
+        AndroidSupportInjectionModule::class,
+        ActivitiesModule::class,
+        ServicesModule::class,
+        BroadcastReceiverModule::class,
+        ViewModelModule::class,
+        RepositoryModule::class,
+        MediaUploaderModule::class
+    ]
+)
 interface AppComponent {
     @Component.Builder
     interface Builder {

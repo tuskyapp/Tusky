@@ -16,35 +16,35 @@ import kotlin.reflect.KProperty
  */
 
 inline fun <T : ViewBinding> AppCompatActivity.viewBinding(
-        crossinline bindingInflater: (LayoutInflater) -> T
+    crossinline bindingInflater: (LayoutInflater) -> T
 ) = lazy(LazyThreadSafetyMode.NONE) {
     bindingInflater(layoutInflater)
 }
 
 class FragmentViewBindingDelegate<T : ViewBinding>(
-        val fragment: Fragment,
-        val viewBindingFactory: (View) -> T
+    val fragment: Fragment,
+    val viewBindingFactory: (View) -> T
 ) : ReadOnlyProperty<Fragment, T> {
     private var binding: T? = null
 
     init {
         fragment.lifecycle.addObserver(
-                object : DefaultLifecycleObserver {
-                    override fun onCreate(owner: LifecycleOwner) {
-                        fragment.viewLifecycleOwnerLiveData.observe(
-                                fragment,
-                                { t ->
-                                    t?.lifecycle?.addObserver(
-                                            object : DefaultLifecycleObserver {
-                                                override fun onDestroy(owner: LifecycleOwner) {
-                                                    binding = null
-                                                }
-                                            }
-                                    )
+            object : DefaultLifecycleObserver {
+                override fun onCreate(owner: LifecycleOwner) {
+                    fragment.viewLifecycleOwnerLiveData.observe(
+                        fragment,
+                        { t ->
+                            t?.lifecycle?.addObserver(
+                                object : DefaultLifecycleObserver {
+                                    override fun onDestroy(owner: LifecycleOwner) {
+                                        binding = null
+                                    }
                                 }
-                        )
-                    }
+                            )
+                        }
+                    )
                 }
+            }
         )
     }
 
@@ -64,4 +64,4 @@ class FragmentViewBindingDelegate<T : ViewBinding>(
 }
 
 fun <T : ViewBinding> Fragment.viewBinding(viewBindingFactory: (View) -> T) =
-        FragmentViewBindingDelegate(this, viewBindingFactory)
+    FragmentViewBindingDelegate(this, viewBindingFactory)

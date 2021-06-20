@@ -15,18 +15,17 @@
 
 package com.keylesspalace.tusky.pager
 
-import androidx.fragment.app.*
-
-import com.keylesspalace.tusky.fragment.AccountMediaFragment
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
 import com.keylesspalace.tusky.components.timeline.TimelineFragment
 import com.keylesspalace.tusky.components.timeline.TimelineViewModel
+import com.keylesspalace.tusky.fragment.AccountMediaFragment
 import com.keylesspalace.tusky.interfaces.RefreshableFragment
-
 import com.keylesspalace.tusky.util.CustomFragmentStateAdapter
 
 class AccountPagerAdapter(
-        activity: FragmentActivity,
-        private val accountId: String
+    activity: FragmentActivity,
+    private val accountId: String
 ) : CustomFragmentStateAdapter(activity) {
 
     override fun getItemCount() = TAB_COUNT

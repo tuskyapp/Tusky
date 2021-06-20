@@ -23,9 +23,9 @@ import androidx.work.WorkerParameters
 import javax.inject.Inject
 
 class NotificationWorker(
-        context: Context,
-        params: WorkerParameters,
-        private val notificationsFetcher: NotificationFetcher
+    context: Context,
+    params: WorkerParameters,
+    private val notificationsFetcher: NotificationFetcher
 ) : Worker(context, params) {
 
     override fun doWork(): Result {
@@ -35,13 +35,13 @@ class NotificationWorker(
 }
 
 class NotificationWorkerFactory @Inject constructor(
-        private val notificationsFetcher: NotificationFetcher
+    private val notificationsFetcher: NotificationFetcher
 ) : WorkerFactory() {
 
     override fun createWorker(
-            appContext: Context,
-            workerClassName: String,
-            workerParameters: WorkerParameters
+        appContext: Context,
+        workerClassName: String,
+        workerParameters: WorkerParameters
     ): ListenableWorker? {
         if (workerClassName == NotificationWorker::class.java.name) {
             return NotificationWorker(appContext, workerParameters, notificationsFetcher)

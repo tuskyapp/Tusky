@@ -15,17 +15,21 @@
 
 package com.keylesspalace.tusky.util
 
-import androidx.lifecycle.*
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.LiveDataReactiveStreams
+import androidx.lifecycle.MediatorLiveData
+import androidx.lifecycle.Observer
+import androidx.lifecycle.Transformations
 import io.reactivex.rxjava3.core.BackpressureStrategy
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.Single
 
-
 inline fun <X, Y> LiveData<X>.map(crossinline mapFunction: (X) -> Y): LiveData<Y> =
-        Transformations.map(this) { input -> mapFunction(input) }
+    Transformations.map(this) { input -> mapFunction(input) }
 
 inline fun <X, Y> LiveData<X>.switchMap(
-        crossinline switchMapFunction: (X) -> LiveData<Y>
+    crossinline switchMapFunction: (X) -> LiveData<Y>
 ): LiveData<Y> = Transformations.switchMap(this) { input -> switchMapFunction(input) }
 
 inline fun <X> LiveData<X>.filter(crossinline predicate: (X) -> Boolean): LiveData<X> {
@@ -39,17 +43,17 @@ inline fun <X> LiveData<X>.filter(crossinline predicate: (X) -> Boolean): LiveDa
 }
 
 fun LifecycleOwner.withLifecycleContext(body: LifecycleContext.() -> Unit) =
-        LifecycleContext(this).apply(body)
+    LifecycleContext(this).apply(body)
 
 class LifecycleContext(val lifecycleOwner: LifecycleOwner) {
     inline fun <T> LiveData<T>.observe(crossinline observer: (T) -> Unit) =
-            this.observe(lifecycleOwner, Observer { observer(it) })
+        this.observe(lifecycleOwner, Observer { observer(it) })
 
     /**
      * Just hold a subscription,
      */
     fun <T> LiveData<T>.subscribe() =
-            this.observe(lifecycleOwner, Observer { })
+        this.observe(lifecycleOwner, Observer { })
 }
 
 /**
@@ -90,5 +94,5 @@ fun <A, B, R> combineOptionalLiveData(a: LiveData<A>, b: LiveData<B>, combiner: 
 
 fun <T> Single<T>.toLiveData() = LiveDataReactiveStreams.fromPublisher(this.toFlowable())
 fun <T> Observable<T>.toLiveData(
-        backpressureStrategy: BackpressureStrategy = BackpressureStrategy.LATEST
+    backpressureStrategy: BackpressureStrategy = BackpressureStrategy.LATEST
 ) = LiveDataReactiveStreams.fromPublisher(this.toFlowable(BackpressureStrategy.LATEST))

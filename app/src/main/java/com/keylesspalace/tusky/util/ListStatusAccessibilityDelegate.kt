@@ -32,7 +32,7 @@ class ListStatusAccessibilityDelegate(
     private val statusProvider: StatusProvider
 ) : RecyclerViewAccessibilityDelegate(recyclerView) {
     private val a11yManager = context.getSystemService(Context.ACCESSIBILITY_SERVICE)
-            as AccessibilityManager
+        as AccessibilityManager
 
     override fun getItemDelegate(): AccessibilityDelegateCompat = itemDelegate
 
@@ -92,11 +92,11 @@ class ListStatusAccessibilityDelegate(
 
                 info.addAction(moreAction)
             }
-
         }
 
         override fun performAccessibilityAction(
-            host: View, action: Int,
+            host: View,
+            action: Int,
             args: Bundle?
         ): Boolean {
             val pos = recyclerView.getChildAdapterPosition(host)
@@ -170,7 +170,6 @@ class ListStatusAccessibilityDelegate(
             return true
         }
 
-
         private fun showLinksDialog(host: View) {
             val status = getStatus(host) as? StatusViewData.Concrete ?: return
             val links = getLinks(status).toList()
@@ -228,7 +227,6 @@ class ListStatusAccessibilityDelegate(
         }
     }
 
-
     private fun getLinks(status: StatusViewData.Concrete): Sequence<LinkSpanInfo> {
         val content = status.content
         return if (content is Spannable) {
@@ -267,7 +265,6 @@ class ListStatusAccessibilityDelegate(
     private fun interrupt() {
         a11yManager.interrupt()
     }
-
 
     private fun isHashtag(text: CharSequence) = text.startsWith("#")
 

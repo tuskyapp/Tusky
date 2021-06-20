@@ -2,13 +2,13 @@ package com.keylesspalace.tusky
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.annotation.StringRes
 import android.text.SpannableString
 import android.text.SpannableStringBuilder
 import android.text.method.LinkMovementMethod
 import android.text.style.URLSpan
 import android.text.util.Linkify
 import android.widget.TextView
+import androidx.annotation.StringRes
 import com.keylesspalace.tusky.databinding.ActivityAboutBinding
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.util.NoUnderlineURLSpan
@@ -32,7 +32,7 @@ class AboutActivity : BottomSheetActivity(), Injectable {
 
         binding.versionTextView.text = getString(R.string.about_app_version, getString(R.string.app_name), BuildConfig.VERSION_NAME)
 
-        if(BuildConfig.CUSTOM_INSTANCE.isBlank()) {
+        if (BuildConfig.CUSTOM_INSTANCE.isBlank()) {
             binding.aboutPoweredByTusky.hide()
         }
 

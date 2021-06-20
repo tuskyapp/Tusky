@@ -19,16 +19,16 @@ import android.text.Spanned
 import com.google.gson.annotations.SerializedName
 
 data class Card(
-        val url: String,
-        val title: Spanned,
-        val description: Spanned,
-        @SerializedName("author_name") val authorName: String,
-        val image: String,
-        val type: String,
-        val width: Int,
-        val height: Int,
-        val blurhash: String?,
-        val embed_url: String?
+    val url: String,
+    val title: Spanned,
+    val description: Spanned,
+    @SerializedName("author_name") val authorName: String,
+    val image: String,
+    val type: String,
+    val width: Int,
+    val height: Int,
+    val blurhash: String?,
+    val embed_url: String?
 ) {
 
     override fun hashCode(): Int {

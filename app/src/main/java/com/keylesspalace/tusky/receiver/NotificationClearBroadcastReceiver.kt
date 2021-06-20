@@ -18,9 +18,8 @@ package com.keylesspalace.tusky.receiver
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-
-import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.components.notifications.NotificationHelper
+import com.keylesspalace.tusky.db.AccountManager
 import dagger.android.AndroidInjection
 import javax.inject.Inject
 
@@ -40,5 +39,4 @@ class NotificationClearBroadcastReceiver : BroadcastReceiver() {
             accountManager.saveAccount(account)
         }
     }
-
 }

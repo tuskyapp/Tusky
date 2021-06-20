@@ -50,9 +50,9 @@ fun createNewImageFile(context: Context): File {
     val imageFileName = "Tusky_${randomId}_"
     val storageDir = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
     return File.createTempFile(
-            imageFileName, /* prefix */
-            ".jpg", /* suffix */
-            storageDir      /* directory */
+        imageFileName, /* prefix */
+        ".jpg", /* suffix */
+        storageDir /* directory */
     )
 }
 
@@ -69,18 +69,18 @@ class MediaTypeException : Exception()
 class CouldNotOpenFileException : Exception()
 
 class MediaUploaderImpl(
-        private val context: Context,
-        private val mastodonApi: MastodonApi
+    private val context: Context,
+    private val mastodonApi: MastodonApi
 ) : MediaUploader {
     override fun uploadMedia(media: QueuedMedia): Observable<UploadEvent> {
         return Observable
-                .fromCallable {
-                    if (shouldResizeMedia(media)) {
-                        downsize(media)
-                    } else media
-                }
-                .switchMap { upload(it) }
-                .subscribeOn(Schedulers.io())
+            .fromCallable {
+                if (shouldResizeMedia(media)) {
+                    downsize(media)
+                } else media
+            }
+            .switchMap { upload(it) }
+            .subscribeOn(Schedulers.io())
     }
 
     override fun prepareMedia(inUri: Uri): Single<PreparedMedia> {
@@ -101,12 +101,13 @@ class MediaUploaderImpl(
                     val file = File.createTempFile("randomTemp1", suffix, context.cacheDir)
                     FileOutputStream(file.absoluteFile).use { out ->
                         input.copyTo(out)
-                        uri = FileProvider.getUriForFile(context,
-                                BuildConfig.APPLICATION_ID + ".fileprovider",
-                                file)
+                        uri = FileProvider.getUriForFile(
+                            context,
+                            BuildConfig.APPLICATION_ID + ".fileprovider",
+                            file
+                        )
                         mediaSize = getMediaSize(contentResolver, uri)
                     }
-
                 }
             } catch (e: IOException) {
                 Log.w(TAG, e)
@@ -151,20 +152,23 @@ class MediaUploaderImpl(
             var mimeType = contentResolver.getType(media.uri)
             val map = MimeTypeMap.getSingleton()
             val fileExtension = map.getExtensionFromMimeType(mimeType)
-            val filename = String.format("%s_%s_%s.%s",
-                    context.getString(R.string.app_name),
-                    Date().time.toString(),
-                    randomAlphanumericString(10),
-                    fileExtension)
+            val filename = String.format(
+                "%s_%s_%s.%s",
+                context.getString(R.string.app_name),
+                Date().time.toString(),
+                randomAlphanumericString(10),
+                fileExtension
+            )
 
             val stream = contentResolver.openInputStream(media.uri)
 
             if (mimeType == null) mimeType = "multipart/form-data"
 
-
             var lastProgress = -1
-            val fileBody = ProgressRequestBody(stream, media.mediaSize,
-                    mimeType.toMediaTypeOrNull()) { percentage ->
+            val fileBody = ProgressRequestBody(
+                stream, media.mediaSize,
+                mimeType.toMediaTypeOrNull()
+            ) { percentage ->
                 if (percentage != lastProgress) {
                     emitter.onNext(UploadEvent.ProgressEvent(percentage))
                 }
@@ -180,12 +184,15 @@ class MediaUploaderImpl(
             }
 
             val uploadDisposable = mastodonApi.uploadMedia(body, description)
-                    .subscribe({ attachment ->
+                .subscribe(
+                    { attachment ->
                         emitter.onNext(UploadEvent.FinishedEvent(attachment))
                         emitter.onComplete()
-                    }, { e ->
+                    },
+                    { e ->
                         emitter.onError(e)
-                    })
+                    }
+                )
 
             // Cancel the request when our observable is cancelled
             emitter.setDisposable(uploadDisposable)
@@ -194,15 +201,19 @@ class MediaUploaderImpl(
 
     private fun downsize(media: QueuedMedia): QueuedMedia {
         val file = createNewImageFile(context)
-        DownsizeImageTask.resize(arrayOf(media.uri),
-                STATUS_IMAGE_SIZE_LIMIT, context.contentResolver, file)
+        DownsizeImageTask.resize(
+            arrayOf(media.uri),
+            STATUS_IMAGE_SIZE_LIMIT, context.contentResolver, file
+        )
         return media.copy(uri = file.toUri(), mediaSize = file.length())
     }
 
     private fun shouldResizeMedia(media: QueuedMedia): Boolean {
-        return media.type == QueuedMedia.Type.IMAGE
-                && (media.mediaSize > STATUS_IMAGE_SIZE_LIMIT
-                || getImageSquarePixels(context.contentResolver, media.uri) > STATUS_IMAGE_PIXEL_SIZE_LIMIT)
+        return media.type == QueuedMedia.Type.IMAGE &&
+            (
+                media.mediaSize > STATUS_IMAGE_SIZE_LIMIT ||
+                    getImageSquarePixels(context.contentResolver, media.uri) > STATUS_IMAGE_PIXEL_SIZE_LIMIT
+                )
     }
 
     private companion object {
@@ -211,6 +222,5 @@ class MediaUploaderImpl(
         private const val STATUS_AUDIO_SIZE_LIMIT = 41943040 // 40MiB
         private const val STATUS_IMAGE_SIZE_LIMIT = 8388608 // 8MiB
         private const val STATUS_IMAGE_PIXEL_SIZE_LIMIT = 16777216 // 4096^2 Pixels
-
     }
 }

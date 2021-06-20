@@ -32,7 +32,7 @@ class StatusesPagingSource(
 
     override fun getRefreshKey(state: PagingState<String, Status>): String? {
         return state.anchorPosition?.let { anchorPosition ->
-                state.closestItemToPosition(anchorPosition)?.id
+            state.closestItemToPosition(anchorPosition)?.id
         }
     }
 
@@ -65,7 +65,6 @@ class StatusesPagingSource(
                 prevKey = result.firstOrNull()?.id,
                 nextKey = result.lastOrNull()?.id
             )
-
         } catch (e: Exception) {
             Log.w("StatusesPagingSource", "failed to load statuses", e)
             return LoadResult.Error(e)

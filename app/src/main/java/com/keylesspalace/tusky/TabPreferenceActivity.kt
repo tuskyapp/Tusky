@@ -221,26 +221,26 @@ class TabPreferenceActivity : BaseActivity(), Injectable, ItemInteractionListene
         frameLayout.addView(editText)
 
         val dialog = AlertDialog.Builder(this)
-                .setTitle(R.string.add_hashtag_title)
-                .setView(frameLayout)
-                .setNegativeButton(android.R.string.cancel, null)
-                .setPositiveButton(R.string.action_save) { _, _ ->
-                    val input = editText.text.toString().trim()
-                    if (tab == null) {
-                        val newTab = createTabDataFromId(HASHTAG, listOf(input))
-                        currentTabs.add(newTab)
-                        currentTabsAdapter.notifyItemInserted(currentTabs.size - 1)
-                    } else {
-                        val newTab = tab.copy(arguments = tab.arguments + input)
-                        currentTabs[tabPosition] = newTab
+            .setTitle(R.string.add_hashtag_title)
+            .setView(frameLayout)
+            .setNegativeButton(android.R.string.cancel, null)
+            .setPositiveButton(R.string.action_save) { _, _ ->
+                val input = editText.text.toString().trim()
+                if (tab == null) {
+                    val newTab = createTabDataFromId(HASHTAG, listOf(input))
+                    currentTabs.add(newTab)
+                    currentTabsAdapter.notifyItemInserted(currentTabs.size - 1)
+                } else {
+                    val newTab = tab.copy(arguments = tab.arguments + input)
+                    currentTabs[tabPosition] = newTab
 
-                        currentTabsAdapter.notifyItemChanged(tabPosition)
-                    }
-
-                    updateAvailableTabs()
-                    saveTabs()
+                    currentTabsAdapter.notifyItemChanged(tabPosition)
                 }
-                .create()
+
+                updateAvailableTabs()
+                saveTabs()
+            }
+            .create()
 
         editText.onTextChanged { s, _, _, _ ->
             dialog.getButton(AlertDialog.BUTTON_POSITIVE).isEnabled = validateHashtag(s)
@@ -254,28 +254,28 @@ class TabPreferenceActivity : BaseActivity(), Injectable, ItemInteractionListene
     private fun showSelectListDialog() {
         val adapter = ListSelectionAdapter(this)
         mastodonApi.getLists()
-                .observeOn(AndroidSchedulers.mainThread())
-                .autoDispose(from(this, Lifecycle.Event.ON_DESTROY))
-                .subscribe (
-                        { lists ->
-                            adapter.addAll(lists)
-                        },
-                        { throwable ->
-                            Log.e("TabPreferenceActivity", "failed to load lists", throwable)
-                        }
-                )
+            .observeOn(AndroidSchedulers.mainThread())
+            .autoDispose(from(this, Lifecycle.Event.ON_DESTROY))
+            .subscribe(
+                { lists ->
+                    adapter.addAll(lists)
+                },
+                { throwable ->
+                    Log.e("TabPreferenceActivity", "failed to load lists", throwable)
+                }
+            )
 
         AlertDialog.Builder(this)
-                .setTitle(R.string.select_list_title)
-                .setAdapter(adapter) { _, position ->
-                    val list = adapter.getItem(position)
-                    val newTab = createTabDataFromId(LIST, listOf(list!!.id, list.title))
-                    currentTabs.add(newTab)
-                    currentTabsAdapter.notifyItemInserted(currentTabs.size - 1)
-                    updateAvailableTabs()
-                    saveTabs()
-                }
-                .show()
+            .setTitle(R.string.select_list_title)
+            .setAdapter(adapter) { _, position ->
+                val list = adapter.getItem(position)
+                val newTab = createTabDataFromId(LIST, listOf(list!!.id, list.title))
+                currentTabs.add(newTab)
+                currentTabsAdapter.notifyItemInserted(currentTabs.size - 1)
+                updateAvailableTabs()
+                saveTabs()
+            }
+            .show()
     }
 
     private fun validateHashtag(input: CharSequence?): Boolean {
@@ -330,10 +330,9 @@ class TabPreferenceActivity : BaseActivity(), Injectable, ItemInteractionListene
                 it.tabPreferences = currentTabs
                 accountManager.saveAccount(it)
             }
-                    .subscribeOn(Schedulers.io())
-                    .autoDispose(from(this, Lifecycle.Event.ON_DESTROY))
-                    .subscribe()
-
+                .subscribeOn(Schedulers.io())
+                .autoDispose(from(this, Lifecycle.Event.ON_DESTROY))
+                .subscribe()
         }
         tabsChanged = true
     }
@@ -357,5 +356,4 @@ class TabPreferenceActivity : BaseActivity(), Injectable, ItemInteractionListene
         private const val MIN_TAB_COUNT = 2
         private const val MAX_TAB_COUNT = 5
     }
-
 }

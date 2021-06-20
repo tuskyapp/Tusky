@@ -107,15 +107,15 @@ class ReportStatusesFragment : Fragment(R.layout.fragment_report_statuses), Inje
     private fun initStatusesView() {
         val preferences = PreferenceManager.getDefaultSharedPreferences(requireContext())
         val statusDisplayOptions = StatusDisplayOptions(
-                animateAvatars = false,
-                mediaPreviewEnabled = accountManager.activeAccount?.mediaPreviewEnabled ?: true,
-                useAbsoluteTime = preferences.getBoolean("absoluteTimeView", false),
-                showBotOverlay = false,
-                useBlurhash = preferences.getBoolean("useBlurhash", true),
-                cardViewMode = CardViewMode.NONE,
-                confirmReblogs = preferences.getBoolean("confirmReblogs", true),
-                hideStats = preferences.getBoolean(PrefKeys.WELLBEING_HIDE_STATS_POSTS, false),
-                animateEmojis = preferences.getBoolean(PrefKeys.ANIMATE_CUSTOM_EMOJIS, false)
+            animateAvatars = false,
+            mediaPreviewEnabled = accountManager.activeAccount?.mediaPreviewEnabled ?: true,
+            useAbsoluteTime = preferences.getBoolean("absoluteTimeView", false),
+            showBotOverlay = false,
+            useBlurhash = preferences.getBoolean("useBlurhash", true),
+            cardViewMode = CardViewMode.NONE,
+            confirmReblogs = preferences.getBoolean("confirmReblogs", true),
+            hideStats = preferences.getBoolean(PrefKeys.WELLBEING_HIDE_STATS_POSTS, false),
+            animateEmojis = preferences.getBoolean(PrefKeys.ANIMATE_CUSTOM_EMOJIS, false)
         )
 
         adapter = StatusesAdapter(statusDisplayOptions, viewModel.statusViewState, this)
@@ -132,9 +132,10 @@ class ReportStatusesFragment : Fragment(R.layout.fragment_report_statuses), Inje
         }
 
         adapter.addLoadStateListener { loadState ->
-            if (loadState.refresh is LoadState.Error
-                || loadState.append is LoadState.Error
-                || loadState.prepend is LoadState.Error) {
+            if (loadState.refresh is LoadState.Error ||
+                loadState.append is LoadState.Error ||
+                loadState.prepend is LoadState.Error
+            ) {
                 showError()
             }
 

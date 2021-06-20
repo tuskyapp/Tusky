@@ -38,39 +38,52 @@ class AccountsInListViewModel @Inject constructor(private val api: MastodonApi) 
     fun load(listId: String) {
         val state = _state.value!!
         if (state.accounts.isLeft() || state.accounts.asRight().isEmpty()) {
-            api.getAccountsInList(listId, 0).subscribe({ accounts ->
-                updateState { copy(accounts = Right(accounts)) }
-            }, { e ->
-                updateState { copy(accounts = Left(e)) }
-            }).autoDispose()
+            api.getAccountsInList(listId, 0).subscribe(
+                { accounts ->
+                    updateState { copy(accounts = Right(accounts)) }
+                },
+                { e ->
+                    updateState { copy(accounts = Left(e)) }
+                }
+            ).autoDispose()
         }
     }
 
     fun addAccountToList(listId: String, account: Account) {
         api.addCountToList(listId, listOf(account.id))
-                .subscribe({
+            .subscribe(
+                {
                     updateState {
                         copy(accounts = accounts.map { it + account })
                     }
-                }, {
-                    Log.i(javaClass.simpleName,
-                            "Failed to add account to the list: ${account.username}")
-                })
-                .autoDispose()
+                },
+                {
+                    Log.i(
+                        javaClass.simpleName,
+                        "Failed to add account to the list: ${account.username}"
+                    )
+                }
+            )
+            .autoDispose()
     }
 
     fun deleteAccountFromList(listId: String, accountId: String) {
         api.deleteAccountFromList(listId, listOf(accountId))
-                .subscribe({
+            .subscribe(
+                {
                     updateState {
-                        copy(accounts = accounts.map { accounts ->
-                            accounts.withoutFirstWhich { it.id == accountId }
-                        })
+                        copy(
+                            accounts = accounts.map { accounts ->
+                                accounts.withoutFirstWhich { it.id == accountId }
+                            }
+                        )
                     }
-                }, {
+                },
+                {
                     Log.i(javaClass.simpleName, "Failed to remove account from thelist: $accountId")
-                })
-                .autoDispose()
+                }
+            )
+            .autoDispose()
     }
 
     fun search(query: String) {
@@ -78,11 +91,14 @@ class AccountsInListViewModel @Inject constructor(private val api: MastodonApi) 
             query.isEmpty() -> updateState { copy(searchResult = null) }
             query.isBlank() -> updateState { copy(searchResult = listOf()) }
             else -> api.searchAccounts(query, null, 10, true)
-                    .subscribe({ result ->
+                .subscribe(
+                    { result ->
                         updateState { copy(searchResult = result) }
-                    }, {
+                    },
+                    {
                         updateState { copy(searchResult = listOf()) }
-                    }).autoDispose()
+                    }
+                ).autoDispose()
         }
     }
 

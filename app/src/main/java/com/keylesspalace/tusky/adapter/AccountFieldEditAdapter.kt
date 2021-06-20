@@ -34,7 +34,7 @@ class AccountFieldEditAdapter : RecyclerView.Adapter<BindingHolder<ItemEditField
         fields.forEach { field ->
             fieldData.add(MutableStringPair(field.name, field.value))
         }
-        if(fieldData.isEmpty()) {
+        if (fieldData.isEmpty()) {
             fieldData.add(MutableStringPair("", ""))
         }
 
@@ -63,7 +63,7 @@ class AccountFieldEditAdapter : RecyclerView.Adapter<BindingHolder<ItemEditField
         holder.binding.accountFieldName.setText(fieldData[position].first)
         holder.binding.accountFieldValue.setText(fieldData[position].second)
 
-        holder.binding.accountFieldName.addTextChangedListener(object: TextWatcher {
+        holder.binding.accountFieldName.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(newText: Editable) {
                 fieldData[holder.bindingAdapterPosition].first = newText.toString()
             }
@@ -73,7 +73,7 @@ class AccountFieldEditAdapter : RecyclerView.Adapter<BindingHolder<ItemEditField
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
         })
 
-        holder.binding.accountFieldValue.addTextChangedListener(object: TextWatcher {
+        holder.binding.accountFieldValue.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(newText: Editable) {
                 fieldData[holder.bindingAdapterPosition].second = newText.toString()
             }
@@ -82,9 +82,7 @@ class AccountFieldEditAdapter : RecyclerView.Adapter<BindingHolder<ItemEditField
 
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
         })
-
     }
 
-    class MutableStringPair (var first: String, var second: String)
-
+    class MutableStringPair(var first: String, var second: String)
 }

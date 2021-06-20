@@ -26,9 +26,9 @@ import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.kotlin.addTo
 
 class ScheduledTootDataSourceFactory(
-        private val mastodonApi: MastodonApi,
-        private val disposables: CompositeDisposable
-): DataSource.Factory<String, ScheduledStatus>() {
+    private val mastodonApi: MastodonApi,
+    private val disposables: CompositeDisposable
+) : DataSource.Factory<String, ScheduledStatus>() {
 
     private val scheduledTootsCache = mutableListOf<ScheduledStatus>()
 
@@ -51,44 +51,48 @@ class ScheduledTootDataSourceFactory(
         scheduledTootsCache.remove(status)
         dataSource?.invalidate()
     }
-
 }
 
-
 class ScheduledTootDataSource(
-        private val mastodonApi: MastodonApi,
-        private val disposables: CompositeDisposable,
-        private val scheduledTootsCache: MutableList<ScheduledStatus>,
-        private val networkState: MutableLiveData<NetworkState>
-): ItemKeyedDataSource<String, ScheduledStatus>() {
+    private val mastodonApi: MastodonApi,
+    private val disposables: CompositeDisposable,
+    private val scheduledTootsCache: MutableList<ScheduledStatus>,
+    private val networkState: MutableLiveData<NetworkState>
+) : ItemKeyedDataSource<String, ScheduledStatus>() {
     override fun loadInitial(params: LoadInitialParams<String>, callback: LoadInitialCallback<ScheduledStatus>) {
-        if(scheduledTootsCache.isNotEmpty()) {
+        if (scheduledTootsCache.isNotEmpty()) {
             callback.onResult(scheduledTootsCache.toList())
         } else {
             networkState.postValue(NetworkState.LOADING)
             mastodonApi.scheduledStatuses(limit = params.requestedLoadSize)
-                    .subscribe({ newData ->
+                .subscribe(
+                    { newData ->
                         scheduledTootsCache.addAll(newData)
                         callback.onResult(newData)
                         networkState.postValue(NetworkState.LOADED)
-                    }, { throwable ->
+                    },
+                    { throwable ->
                         Log.w("ScheduledTootDataSource", "Error loading scheduled statuses", throwable)
                         networkState.postValue(NetworkState.error(throwable.message))
-                    })
-                    .addTo(disposables)
+                    }
+                )
+                .addTo(disposables)
         }
     }
 
     override fun loadAfter(params: LoadParams<String>, callback: LoadCallback<ScheduledStatus>) {
         mastodonApi.scheduledStatuses(limit = params.requestedLoadSize, maxId = params.key)
-                .subscribe({ newData ->
+            .subscribe(
+                { newData ->
                     scheduledTootsCache.addAll(newData)
                     callback.onResult(newData)
-                }, { throwable ->
+                },
+                { throwable ->
                     Log.w("ScheduledTootDataSource", "Error loading scheduled statuses", throwable)
                     networkState.postValue(NetworkState.error(throwable.message))
-                })
-                .addTo(disposables)
+                }
+            )
+            .addTo(disposables)
     }
 
     override fun loadBefore(params: LoadParams<String>, callback: LoadCallback<ScheduledStatus>) {
@@ -98,5 +102,4 @@ class ScheduledTootDataSource(
     override fun getKey(item: ScheduledStatus): String {
         return item.id
     }
-
 }

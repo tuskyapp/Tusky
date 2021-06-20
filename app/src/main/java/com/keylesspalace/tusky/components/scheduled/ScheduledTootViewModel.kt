@@ -27,27 +27,27 @@ import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import javax.inject.Inject
 
 class ScheduledTootViewModel @Inject constructor(
-        val mastodonApi: MastodonApi,
-        val eventHub: EventHub
-): RxAwareViewModel() {
+    val mastodonApi: MastodonApi,
+    val eventHub: EventHub
+) : RxAwareViewModel() {
 
     private val dataSourceFactory = ScheduledTootDataSourceFactory(mastodonApi, disposables)
 
     val data = dataSourceFactory.toLiveData(
-            config = Config(pageSize = 20, initialLoadSizeHint = 20, enablePlaceholders = false)
+        config = Config(pageSize = 20, initialLoadSizeHint = 20, enablePlaceholders = false)
     )
 
     val networkState = dataSourceFactory.networkState
 
     init {
         eventHub.events
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe { event ->
-                    if (event is StatusScheduledEvent) {
-                        reload()
-                    }
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe { event ->
+                if (event is StatusScheduledEvent) {
+                    reload()
                 }
-                .autoDispose()
+            }
+            .autoDispose()
     }
 
     fun reload() {
@@ -56,13 +56,14 @@ class ScheduledTootViewModel @Inject constructor(
 
     fun deleteScheduledStatus(status: ScheduledStatus) {
         mastodonApi.deleteScheduledStatus(status.id)
-                .subscribe({
+            .subscribe(
+                {
                     dataSourceFactory.remove(status)
-                },{ throwable ->
+                },
+                { throwable ->
                     Log.w("ScheduledTootViewModel", "Error deleting scheduled status", throwable)
-                })
-                .autoDispose()
-
+                }
+            )
+            .autoDispose()
     }
-
 }

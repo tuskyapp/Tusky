@@ -121,5 +121,4 @@ abstract class AccountAdapter<AVH : RecyclerView.ViewHolder> internal constructo
         const val VIEW_TYPE_ACCOUNT = 0
         const val VIEW_TYPE_FOOTER = 1
     }
-
 }

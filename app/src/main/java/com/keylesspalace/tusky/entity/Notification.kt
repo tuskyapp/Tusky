@@ -79,7 +79,6 @@ data class Notification(
         ): Type {
             return Type.byString(json.asString)
         }
-
     }
 
     /** Helper for Java */
@@ -89,8 +88,9 @@ data class Notification(
     fun rewriteToStatusTypeIfNeeded(accountId: String): Notification {
         if (type == Type.MENTION && status != null) {
             return if (status.mentions.any {
-                    it.id == accountId
-                }) this else copy(type = Type.STATUS)
+                it.id == accountId
+            }
+            ) this else copy(type = Type.STATUS)
         }
         return this
     }

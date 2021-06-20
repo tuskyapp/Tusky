@@ -35,9 +35,8 @@ interface ConversationsDao {
     suspend fun delete(conversation: ConversationEntity): Int
 
     @Query("SELECT * FROM ConversationEntity WHERE accountId = :accountId ORDER BY s_createdAt DESC")
-    fun conversationsForAccount(accountId: Long) : PagingSource<Int, ConversationEntity>
+    fun conversationsForAccount(accountId: Long): PagingSource<Int, ConversationEntity>
 
     @Query("DELETE FROM ConversationEntity WHERE accountId = :accountId")
     fun deleteForAccount(accountId: Long)
-
 }

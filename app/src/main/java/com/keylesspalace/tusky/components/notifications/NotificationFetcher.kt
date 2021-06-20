@@ -10,9 +10,9 @@ import com.keylesspalace.tusky.util.isLessThan
 import javax.inject.Inject
 
 class NotificationFetcher @Inject constructor(
-        private val mastodonApi: MastodonApi,
-        private val accountManager: AccountManager,
-        private val notifier: Notifier
+    private val mastodonApi: MastodonApi,
+    private val accountManager: AccountManager,
+    private val notifier: Notifier
 ) {
     fun fetchAndShow() {
         for (account in accountManager.getAllAccountsOrderedByActive()) {
@@ -39,9 +39,9 @@ class NotificationFetcher @Inject constructor(
         }
         Log.d(TAG, "getting Notifications for " + account.fullName)
         val notifications = mastodonApi.notificationsWithAuth(
-                authHeader,
-                account.domain,
-                account.lastNotificationId
+            authHeader,
+            account.domain,
+            account.lastNotificationId
         ).blockingGet()
 
         val newId = account.lastNotificationId
@@ -63,9 +63,9 @@ class NotificationFetcher @Inject constructor(
     private fun fetchMarker(authHeader: String, account: AccountEntity): Marker? {
         return try {
             val allMarkers = mastodonApi.markersWithAuth(
-                    authHeader,
-                    account.domain,
-                    listOf("notifications")
+                authHeader,
+                account.domain,
+                listOf("notifications")
             ).blockingGet()
             val notificationMarker = allMarkers["notifications"]
             Log.d(TAG, "Fetched marker: $notificationMarker")

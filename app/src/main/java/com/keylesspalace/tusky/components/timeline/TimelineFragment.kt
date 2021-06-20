@@ -56,8 +56,13 @@ import io.reactivex.rxjava3.core.Observable
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
-class TimelineFragment : SFragment(), OnRefreshListener, StatusActionListener, Injectable,
-    ReselectableFragment, RefreshableFragment {
+class TimelineFragment :
+    SFragment(),
+    OnRefreshListener,
+    StatusActionListener,
+    Injectable,
+    ReselectableFragment,
+    RefreshableFragment {
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
@@ -161,8 +166,7 @@ class TimelineFragment : SFragment(), OnRefreshListener, StatusActionListener, I
 
     private fun setupRecyclerView() {
         binding.recyclerView.setAccessibilityDelegateCompat(
-            ListStatusAccessibilityDelegate(binding.recyclerView, this)
-            { pos -> viewModel.statuses.getOrNull(pos) }
+            ListStatusAccessibilityDelegate(binding.recyclerView, this) { pos -> viewModel.statuses.getOrNull(pos) }
         )
         binding.recyclerView.setHasFixedSize(true)
         layoutManager = LinearLayoutManager(context)
@@ -330,8 +334,10 @@ class TimelineFragment : SFragment(), OnRefreshListener, StatusActionListener, I
     }
 
     override fun onViewAccount(id: String) {
-        if ((viewModel.kind == TimelineViewModel.Kind.USER ||
-                    viewModel.kind == TimelineViewModel.Kind.USER_WITH_REPLIES) &&
+        if ((
+            viewModel.kind == TimelineViewModel.Kind.USER ||
+                viewModel.kind == TimelineViewModel.Kind.USER_WITH_REPLIES
+            ) &&
             viewModel.id == id
         ) {
             /* If already viewing an account page, then any requests to view that account page
@@ -369,9 +375,9 @@ class TimelineFragment : SFragment(), OnRefreshListener, StatusActionListener, I
 
     private fun actionButtonPresent(): Boolean {
         return viewModel.kind != TimelineViewModel.Kind.TAG &&
-                viewModel.kind != TimelineViewModel.Kind.FAVOURITES &&
-                viewModel.kind != TimelineViewModel.Kind.BOOKMARKS &&
-                activity is ActionButtonActivity
+            viewModel.kind != TimelineViewModel.Kind.FAVOURITES &&
+            viewModel.kind != TimelineViewModel.Kind.BOOKMARKS &&
+            activity is ActionButtonActivity
     }
 
     private fun updateViews() {
@@ -505,7 +511,6 @@ class TimelineFragment : SFragment(), OnRefreshListener, StatusActionListener, I
         private const val HASHTAGS_ARG = "hashtags"
         private const val ARG_ENABLE_SWIPE_TO_REFRESH = "enableSwipeToRefresh"
 
-
         fun newInstance(
             kind: TimelineViewModel.Kind,
             hashtagOrId: String? = null,
@@ -531,7 +536,6 @@ class TimelineFragment : SFragment(), OnRefreshListener, StatusActionListener, I
             return fragment
         }
 
-
         private val diffCallback: DiffUtil.ItemCallback<StatusViewData> =
             object : DiffUtil.ItemCallback<StatusViewData>() {
                 override fun areItemsTheSame(
@@ -555,7 +559,7 @@ class TimelineFragment : SFragment(), OnRefreshListener, StatusActionListener, I
                     return if (oldItem === newItem) {
                         // If items are equal - update timestamp only
                         listOf(StatusBaseViewHolder.Key.KEY_CREATED)
-                    } else  // If items are different - update the whole view holder
+                    } else // If items are different - update the whole view holder
                         null
                 }
             }

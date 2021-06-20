@@ -16,7 +16,6 @@
 package com.keylesspalace.tusky.util
 
 import android.graphics.Matrix
-
 import com.keylesspalace.tusky.entity.Attachment.Focus
 
 /**
@@ -54,12 +53,14 @@ object FocalPointUtil {
      *
      * @return The matrix which correctly crops the image
      */
-    fun updateFocalPointMatrix(viewWidth: Float,
-                               viewHeight: Float,
-                               imageWidth: Float,
-                               imageHeight: Float,
-                               focus: Focus,
-                               mat: Matrix) {
+    fun updateFocalPointMatrix(
+        viewWidth: Float,
+        viewHeight: Float,
+        imageWidth: Float,
+        imageHeight: Float,
+        focus: Focus,
+        mat: Matrix
+    ) {
         // Reset the cached matrix:
         mat.reset()
 
@@ -84,11 +85,15 @@ object FocalPointUtil {
      *
      * The scaling used depends on if we need a vertical of horizontal crop.
      */
-    fun calculateScaling(viewWidth: Float, viewHeight: Float,
-                         imageWidth: Float, imageHeight: Float): Float {
+    fun calculateScaling(
+        viewWidth: Float,
+        viewHeight: Float,
+        imageWidth: Float,
+        imageHeight: Float
+    ): Float {
         return if (isVerticalCrop(viewWidth, viewHeight, imageWidth, imageHeight)) {
             viewWidth / imageWidth
-        } else {     // horizontal crop:
+        } else { // horizontal crop:
             viewHeight / imageHeight
         }
     }
@@ -96,8 +101,12 @@ object FocalPointUtil {
     /**
      * Return true if we need a vertical crop, false for a horizontal crop.
      */
-    fun isVerticalCrop(viewWidth: Float, viewHeight: Float,
-                       imageWidth: Float, imageHeight: Float): Boolean {
+    fun isVerticalCrop(
+        viewWidth: Float,
+        viewHeight: Float,
+        imageWidth: Float,
+        imageHeight: Float
+    ): Boolean {
         val viewRatio = viewWidth / viewHeight
         val imageRatio = imageWidth / imageHeight
 
@@ -135,8 +144,12 @@ object FocalPointUtil {
      * the image. So it won't put the very edge of the image in center, because that would
      * leave part of the view empty.
      */
-    fun focalOffset(view: Float, image: Float,
-                    scale: Float, focal: Float): Float {
+    fun focalOffset(
+        view: Float,
+        image: Float,
+        scale: Float,
+        focal: Float
+    ): Float {
         // The fraction of the image that will be in view:
         val inView = view / (scale * image)
         var offset = 0f

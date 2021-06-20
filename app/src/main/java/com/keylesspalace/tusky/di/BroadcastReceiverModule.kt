@@ -16,16 +16,16 @@
 
 package com.keylesspalace.tusky.di
 
-import com.keylesspalace.tusky.receiver.SendStatusBroadcastReceiver
 import com.keylesspalace.tusky.receiver.NotificationClearBroadcastReceiver
+import com.keylesspalace.tusky.receiver.SendStatusBroadcastReceiver
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
 @Module
 abstract class BroadcastReceiverModule {
     @ContributesAndroidInjector
-    abstract fun contributeSendStatusBroadcastReceiver() : SendStatusBroadcastReceiver
+    abstract fun contributeSendStatusBroadcastReceiver(): SendStatusBroadcastReceiver
 
     @ContributesAndroidInjector
-    abstract fun contributeNotificationClearBroadcastReceiver() : NotificationClearBroadcastReceiver
+    abstract fun contributeNotificationClearBroadcastReceiver(): NotificationClearBroadcastReceiver
 }

@@ -23,14 +23,15 @@ import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.mockito.ArgumentMatchers.*
+import org.mockito.ArgumentMatchers.any
+import org.mockito.ArgumentMatchers.anyInt
+import org.mockito.ArgumentMatchers.anyLong
 import org.mockito.Mock
 import org.mockito.MockitoAnnotations
 import org.robolectric.annotation.Config
 import retrofit2.Response
-import java.util.*
+import java.util.Date
 import java.util.concurrent.TimeUnit
-import kotlin.collections.ArrayList
 
 @Config(sdk = [28])
 @RunWith(AndroidJUnit4::class)
@@ -49,7 +50,6 @@ class TimelineRepositoryTest {
     private lateinit var subject: TimelineRepository
 
     private lateinit var testScheduler: TestScheduler
-
 
     private val limit = 30
     private val account = AccountEntity(

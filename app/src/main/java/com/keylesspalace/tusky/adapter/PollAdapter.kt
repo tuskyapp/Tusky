@@ -29,7 +29,7 @@ import com.keylesspalace.tusky.viewdata.PollOptionViewData
 import com.keylesspalace.tusky.viewdata.buildDescription
 import com.keylesspalace.tusky.viewdata.calculatePercent
 
-class PollAdapter: RecyclerView.Adapter<BindingHolder<ItemPollBinding>>() {
+class PollAdapter : RecyclerView.Adapter<BindingHolder<ItemPollBinding>>() {
 
     private var pollOptions: List<PollOptionViewData> = emptyList()
     private var voteCount: Int = 0
@@ -40,13 +40,14 @@ class PollAdapter: RecyclerView.Adapter<BindingHolder<ItemPollBinding>>() {
     private var animateEmojis = false
 
     fun setup(
-            options: List<PollOptionViewData>,
-            voteCount: Int,
-            votersCount: Int?,
-            emojis: List<Emoji>,
-            mode: Int,
-            resultClickListener: View.OnClickListener?,
-            animateEmojis: Boolean) {
+        options: List<PollOptionViewData>,
+        voteCount: Int,
+        votersCount: Int?,
+        emojis: List<Emoji>,
+        mode: Int,
+        resultClickListener: View.OnClickListener?,
+        animateEmojis: Boolean
+    ) {
         this.pollOptions = options
         this.voteCount = voteCount
         this.votersCount = votersCount
@@ -57,11 +58,10 @@ class PollAdapter: RecyclerView.Adapter<BindingHolder<ItemPollBinding>>() {
         notifyDataSetChanged()
     }
 
-    fun getSelected() : List<Int> {
+    fun getSelected(): List<Int> {
         return pollOptions.filter { it.selected }
-                .map { pollOptions.indexOf(it) }
+            .map { pollOptions.indexOf(it) }
     }
-
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BindingHolder<ItemPollBinding> {
         val binding = ItemPollBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -82,12 +82,12 @@ class PollAdapter: RecyclerView.Adapter<BindingHolder<ItemPollBinding>>() {
         radioButton.visible(mode == SINGLE)
         checkBox.visible(mode == MULTIPLE)
 
-        when(mode) {
+        when (mode) {
             RESULT -> {
                 val percent = calculatePercent(option.votesCount, votersCount, voteCount)
                 val emojifiedPollOptionText = buildDescription(option.title, percent, resultTextView.context)
-                        .emojify(emojis, resultTextView, animateEmojis)
-                resultTextView.text =  EmojiCompat.get().process(emojifiedPollOptionText)
+                    .emojify(emojis, resultTextView, animateEmojis)
+                resultTextView.text = EmojiCompat.get().process(emojifiedPollOptionText)
 
                 val level = percent * 100
 
@@ -114,7 +114,6 @@ class PollAdapter: RecyclerView.Adapter<BindingHolder<ItemPollBinding>>() {
                 }
             }
         }
-
     }
 
     companion object {

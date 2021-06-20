@@ -238,8 +238,8 @@ class TimelineViewModel @Inject constructor(
     private fun addStatusesBelow(statuses: MutableList<Either<Placeholder, Status>>) {
         val fullFetch = isFullFetch(statuses)
         // Remove placeholder in the bottom if it's there
-        if (this.statuses.isNotEmpty()
-            && this.statuses.last() !is StatusViewData.Concrete
+        if (this.statuses.isNotEmpty() &&
+            this.statuses.last() !is StatusViewData.Concrete
         ) {
             this.statuses.removeAt(this.statuses.lastIndex)
         }
@@ -264,7 +264,7 @@ class TimelineViewModel @Inject constructor(
 
     fun loadGap(position: Int): Job {
         return viewModelScope.launch {
-            //check bounds before accessing list,
+            // check bounds before accessing list,
             if (statuses.size < position || position <= 0) {
                 Log.e(TAG, "Wrong gap position: $position")
                 return@launch
@@ -318,7 +318,6 @@ class TimelineViewModel @Inject constructor(
         } catch (t: Exception) {
             ifExpected(t) {
                 Log.d(TAG, "Failed to reblog status " + status.id, t)
-
             }
         }
     }
@@ -485,9 +484,9 @@ class TimelineViewModel @Inject constructor(
     }
 
     private fun shouldFilterStatus(status: Status): Boolean {
-        return status.inReplyToId != null && filterRemoveReplies
-                || status.reblog != null && filterRemoveReblogs
-                || filterModel.shouldFilterStatus(status.actionableStatus)
+        return status.inReplyToId != null && filterRemoveReplies ||
+            status.reblog != null && filterRemoveReblogs ||
+            filterModel.shouldFilterStatus(status.actionableStatus)
     }
 
     private fun extractNextId(response: Response<*>): String? {
@@ -644,7 +643,8 @@ class TimelineViewModel @Inject constructor(
 
     private fun replacePlaceholderWithStatuses(
         newStatuses: MutableList<Either<Placeholder, Status>>,
-        fullFetch: Boolean, pos: Int
+        fullFetch: Boolean,
+        pos: Int
     ) {
         val placeholder = statuses[pos]
         if (placeholder is StatusViewData.Placeholder) {
@@ -873,9 +873,11 @@ class TimelineViewModel @Inject constructor(
                 Log.e(TAG, "Failed to fetch filters", t)
                 return@launch
             }
-            filterModel.initWithFilters(filters.filter {
-                filterContextMatchesKind(kind, it.context)
-            })
+            filterModel.initWithFilters(
+                filters.filter {
+                    filterContextMatchesKind(kind, it.context)
+                }
+            )
             filterViewData(this@TimelineViewModel.statuses)
         }
     }
@@ -890,7 +892,6 @@ class TimelineViewModel @Inject constructor(
             throw t
         }
     }
-
 
     companion object {
         private const val TAG = "TimelineVM"

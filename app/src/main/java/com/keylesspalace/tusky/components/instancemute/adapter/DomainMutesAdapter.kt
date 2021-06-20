@@ -8,8 +8,8 @@ import com.keylesspalace.tusky.databinding.ItemMutedDomainBinding
 import com.keylesspalace.tusky.util.BindingHolder
 
 class DomainMutesAdapter(
-        private val actionListener: InstanceActionListener
-): RecyclerView.Adapter<BindingHolder<ItemMutedDomainBinding>>() {
+    private val actionListener: InstanceActionListener
+) : RecyclerView.Adapter<BindingHolder<ItemMutedDomainBinding>>() {
 
     var instances: MutableList<String> = mutableListOf()
     var bottomLoading: Boolean = false

@@ -34,17 +34,20 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
 import org.mockito.ArgumentMatchers
-import org.mockito.Mockito.*
-import java.util.*
+import org.mockito.Mockito.`when`
+import org.mockito.Mockito.eq
+import org.mockito.Mockito.mock
+import java.util.ArrayList
+import java.util.Collections
+import java.util.Date
 import java.util.concurrent.TimeUnit
-
 
 class BottomSheetActivityTest {
 
     @get:Rule
     val instantTaskExecutorRule: InstantTaskExecutorRule = InstantTaskExecutorRule()
 
-    private lateinit var activity : FakeBottomSheetActivity
+    private lateinit var activity: FakeBottomSheetActivity
     private lateinit var apiMock: MastodonApi
     private val accountQuery = "http://mastodon.foo.bar/@User"
     private val statusQuery = "http://mastodon.foo.bar/@User/345678"
@@ -52,51 +55,51 @@ class BottomSheetActivityTest {
     private val emptyCallback = Single.just(SearchResult(emptyList(), emptyList(), emptyList()))
     private val testScheduler = TestScheduler()
 
-    private val account = Account (
-            "1",
-            "admin",
-            "admin",
-            "Ad Min",
-            SpannedString(""),
-            "http://mastodon.foo.bar",
-            "",
-            "",
-            false,
-            0,
-            0,
-            0,
-            null,
-            false,
-            emptyList(),
-            emptyList()
+    private val account = Account(
+        "1",
+        "admin",
+        "admin",
+        "Ad Min",
+        SpannedString(""),
+        "http://mastodon.foo.bar",
+        "",
+        "",
+        false,
+        0,
+        0,
+        0,
+        null,
+        false,
+        emptyList(),
+        emptyList()
     )
     private val accountSingle = Single.just(SearchResult(listOf(account), emptyList(), emptyList()))
 
     private val status = Status(
-            "1",
-            statusQuery,
-            account,
-            null,
-            null,
-            null,
-            SpannedString("omgwat"),
-            Date(),
-            Collections.emptyList(),
-            0,
-            0,
-            false,
-            false,
-            false,
-            false,
-            "",
-            Status.Visibility.PUBLIC,
-            ArrayList(),
-            listOf(),
-            null,
-            pinned = false,
-            muted = false,
-            poll = null,
-            card = null
+        "1",
+        statusQuery,
+        account,
+        null,
+        null,
+        null,
+        SpannedString("omgwat"),
+        Date(),
+        Collections.emptyList(),
+        0,
+        0,
+        false,
+        false,
+        false,
+        false,
+        "",
+        Status.Visibility.PUBLIC,
+        ArrayList(),
+        listOf(),
+        null,
+        pinned = false,
+        muted = false,
+        poll = null,
+        card = null
     )
     private val statusSingle = Single.just(SearchResult(emptyList(), listOf(status), emptyList()))
 
@@ -119,7 +122,7 @@ class BottomSheetActivityTest {
         companion object {
             @Parameterized.Parameters(name = "match_{0}")
             @JvmStatic
-            fun data() : Iterable<Any> {
+            fun data(): Iterable<Any> {
                 return listOf(
                     arrayOf("https://mastodon.foo.bar/@User", true),
                     arrayOf("http://mastodon.foo.bar/@abc123", true),

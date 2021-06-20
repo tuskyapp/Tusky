@@ -102,17 +102,16 @@ class ViewMediaActivity : BaseActivity(), ViewImageFragment.PhotoActionsListener
             val realAttachs = attachments!!.map(AttachmentViewData::attachment)
             // Setup the view pager.
             ImagePagerAdapter(this, realAttachs, initialPosition)
-
         } else {
             imageUrl = intent.getStringExtra(EXTRA_SINGLE_IMAGE_URL)
-                    ?: throw IllegalArgumentException("attachment list or image url has to be set")
+                ?: throw IllegalArgumentException("attachment list or image url has to be set")
 
             SingleImagePagerAdapter(this, imageUrl!!)
         }
 
         binding.viewPager.adapter = adapter
         binding.viewPager.setCurrentItem(initialPosition, false)
-        binding.viewPager.registerOnPageChangeCallback(object: ViewPager2.OnPageChangeCallback() {
+        binding.viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
                 binding.toolbar.title = getPageTitle(position)
             }
@@ -183,17 +182,17 @@ class ViewMediaActivity : BaseActivity(), ViewImageFragment.PhotoActionsListener
         }
 
         binding.toolbar.animate().alpha(alpha)
-                .setListener(object : AnimatorListenerAdapter() {
-                    override fun onAnimationEnd(animation: Animator) {
-                        binding.toolbar.visibility = visibility
-                        animation.removeListener(this)
-                    }
-                })
-                .start()
+            .setListener(object : AnimatorListenerAdapter() {
+                override fun onAnimationEnd(animation: Animator) {
+                    binding.toolbar.visibility = visibility
+                    animation.removeListener(this)
+                }
+            })
+            .start()
     }
 
     private fun getPageTitle(position: Int): CharSequence {
-        if(attachments == null) {
+        if (attachments == null) {
             return ""
         }
         return String.format(Locale.getDefault(), "%d/%d", position + 1, attachments?.size)
@@ -206,8 +205,10 @@ class ViewMediaActivity : BaseActivity(), ViewImageFragment.PhotoActionsListener
 
         val downloadManager = getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
         val request = DownloadManager.Request(Uri.parse(url))
-        request.setDestinationInExternalPublicDir(Environment.DIRECTORY_PICTURES,
-                getString(R.string.app_name) + "/" + filename)
+        request.setDestinationInExternalPublicDir(
+            Environment.DIRECTORY_PICTURES,
+            getString(R.string.app_name) + "/" + filename
+        )
         downloadManager.enqueue(request)
     }
 
@@ -261,7 +262,6 @@ class ViewMediaActivity : BaseActivity(), ViewImageFragment.PhotoActionsListener
         startActivity(Intent.createChooser(sendIntent, resources.getText(R.string.send_media_to)))
     }
 
-
     private var isCreating: Boolean = false
 
     private fun shareImage(directory: File, url: String) {
@@ -270,7 +270,7 @@ class ViewMediaActivity : BaseActivity(), ViewImageFragment.PhotoActionsListener
         invalidateOptionsMenu()
         val file = File(directory, getTemporaryMediaFilename("png"))
         val futureTask: FutureTarget<Bitmap> =
-                Glide.with(applicationContext).asBitmap().load(Uri.parse(url)).submit()
+            Glide.with(applicationContext).asBitmap().load(Uri.parse(url)).submit()
         Single.fromCallable {
             val bitmap = futureTask.get()
             try {
@@ -284,32 +284,30 @@ class ViewMediaActivity : BaseActivity(), ViewImageFragment.PhotoActionsListener
                 Log.e(TAG, "Error writing temporary media.")
             }
             return@fromCallable false
-
         }
 
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .doOnDispose {
-                    futureTask.cancel(true)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .doOnDispose {
+                futureTask.cancel(true)
+            }
+            .autoDispose(AndroidLifecycleScopeProvider.from(this, Lifecycle.Event.ON_DESTROY))
+            .subscribe(
+                { result ->
+                    Log.d(TAG, "Download image result: $result")
+                    isCreating = false
+                    invalidateOptionsMenu()
+                    binding.progressBarShare.visibility = View.GONE
+                    if (result)
+                        shareFile(file, "image/png")
+                },
+                { error ->
+                    isCreating = false
+                    invalidateOptionsMenu()
+                    binding.progressBarShare.visibility = View.GONE
+                    Log.e(TAG, "Failed to download image", error)
                 }
-                .autoDispose(AndroidLifecycleScopeProvider.from(this, Lifecycle.Event.ON_DESTROY))
-                .subscribe(
-                        { result ->
-                            Log.d(TAG, "Download image result: $result")
-                            isCreating = false
-                            invalidateOptionsMenu()
-                            binding.progressBarShare.visibility = View.GONE
-                            if (result)
-                                shareFile(file, "image/png")
-                        },
-                        { error ->
-                            isCreating = false
-                            invalidateOptionsMenu()
-                            binding.progressBarShare.visibility = View.GONE
-                            Log.e(TAG, "Failed to download image", error)
-                        }
-                )
-
+            )
     }
 
     private fun shareMediaFile(directory: File, url: String) {
@@ -352,7 +350,7 @@ class ViewMediaActivity : BaseActivity(), ViewImageFragment.PhotoActionsListener
     }
 }
 
-abstract class ViewMediaAdapter(activity: FragmentActivity): FragmentStateAdapter(activity) {
+abstract class ViewMediaAdapter(activity: FragmentActivity) : FragmentStateAdapter(activity) {
     abstract fun onTransitionEnd(position: Int)
 }
 

@@ -34,7 +34,11 @@ import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.entity.AccessToken
 import com.keylesspalace.tusky.entity.AppCredentials
 import com.keylesspalace.tusky.network.MastodonApi
-import com.keylesspalace.tusky.util.*
+import com.keylesspalace.tusky.util.ThemeUtils
+import com.keylesspalace.tusky.util.getNonNullString
+import com.keylesspalace.tusky.util.rickRoll
+import com.keylesspalace.tusky.util.shouldRickRoll
+import com.keylesspalace.tusky.util.viewBinding
 import okhttp3.HttpUrl
 import retrofit2.Call
 import retrofit2.Callback
@@ -62,28 +66,29 @@ class LoginActivity : BaseActivity(), Injectable {
 
         setContentView(binding.root)
 
-        if(savedInstanceState == null && BuildConfig.CUSTOM_INSTANCE.isNotBlank() && !isAdditionalLogin()) {
+        if (savedInstanceState == null && BuildConfig.CUSTOM_INSTANCE.isNotBlank() && !isAdditionalLogin()) {
             binding.domainEditText.setText(BuildConfig.CUSTOM_INSTANCE)
             binding.domainEditText.setSelection(BuildConfig.CUSTOM_INSTANCE.length)
         }
 
-        if(BuildConfig.CUSTOM_LOGO_URL.isNotBlank()) {
+        if (BuildConfig.CUSTOM_LOGO_URL.isNotBlank()) {
             Glide.with(binding.loginLogo)
-                    .load(BuildConfig.CUSTOM_LOGO_URL)
-                    .placeholder(null)
-                    .into(binding.loginLogo)
+                .load(BuildConfig.CUSTOM_LOGO_URL)
+                .placeholder(null)
+                .into(binding.loginLogo)
         }
 
         preferences = getSharedPreferences(
-                getString(R.string.preferences_file_key), Context.MODE_PRIVATE)
+            getString(R.string.preferences_file_key), Context.MODE_PRIVATE
+        )
 
         binding.loginButton.setOnClickListener { onButtonClick() }
 
         binding.whatsAnInstanceTextView.setOnClickListener {
             val dialog = AlertDialog.Builder(this)
-                    .setMessage(R.string.dialog_whats_an_instance)
-                    .setPositiveButton(R.string.action_close, null)
-                    .show()
+                .setMessage(R.string.dialog_whats_an_instance)
+                .setPositiveButton(R.string.action_close, null)
+                .show()
             val textView = dialog.findViewById<TextView>(android.R.id.message)
             textView?.movementMethod = LinkMovementMethod.getInstance()
         }
@@ -95,7 +100,6 @@ class LoginActivity : BaseActivity(), Injectable {
         } else {
             binding.toolbar.visibility = View.GONE
         }
-
     }
 
     override fun requiresLogin(): Boolean {
@@ -104,7 +108,7 @@ class LoginActivity : BaseActivity(), Injectable {
 
     override fun finish() {
         super.finish()
-        if(isAdditionalLogin()) {
+        if (isAdditionalLogin()) {
             overridePendingTransition(R.anim.slide_from_left, R.anim.slide_to_right)
         }
     }
@@ -134,8 +138,10 @@ class LoginActivity : BaseActivity(), Injectable {
         }
 
         val callback = object : Callback<AppCredentials> {
-            override fun onResponse(call: Call<AppCredentials>,
-                                    response: Response<AppCredentials>) {
+            override fun onResponse(
+                call: Call<AppCredentials>,
+                response: Response<AppCredentials>
+            ) {
                 if (!response.isSuccessful) {
                     binding.loginButton.isEnabled = true
                     binding.domainTextInputLayout.error = getString(R.string.error_failed_app_registration)
@@ -148,10 +154,10 @@ class LoginActivity : BaseActivity(), Injectable {
                 val clientSecret = credentials.clientSecret
 
                 preferences.edit()
-                        .putString("domain", domain)
-                        .putString("clientId", clientId)
-                        .putString("clientSecret", clientSecret)
-                        .apply()
+                    .putString("domain", domain)
+                    .putString("clientId", clientId)
+                    .putString("clientSecret", clientSecret)
+                    .apply()
 
                 redirectUserToAuthorizeAndLogin(domain, clientId)
             }
@@ -165,11 +171,12 @@ class LoginActivity : BaseActivity(), Injectable {
         }
 
         mastodonApi
-                .authenticateApp(domain, getString(R.string.app_name), oauthRedirectUri,
-                        OAUTH_SCOPES, getString(R.string.tusky_website))
-                .enqueue(callback)
+            .authenticateApp(
+                domain, getString(R.string.app_name), oauthRedirectUri,
+                OAUTH_SCOPES, getString(R.string.tusky_website)
+            )
+            .enqueue(callback)
         setLoading(true)
-
     }
 
     private fun redirectUserToAuthorizeAndLogin(domain: String, clientId: String) {
@@ -177,10 +184,10 @@ class LoginActivity : BaseActivity(), Injectable {
          * login there, and the server will redirect back to the app with its response. */
         val endpoint = MastodonApi.ENDPOINT_AUTHORIZE
         val parameters = mapOf(
-                "client_id" to clientId,
-                "redirect_uri" to oauthRedirectUri,
-                "response_type" to "code",
-                "scope" to OAUTH_SCOPES
+            "client_id" to clientId,
+            "redirect_uri" to oauthRedirectUri,
+            "response_type" to "code",
+            "scope" to OAUTH_SCOPES
         )
         val url = "https://" + domain + endpoint + "?" + toQueryString(parameters)
         val uri = Uri.parse(url)
@@ -224,31 +231,48 @@ class LoginActivity : BaseActivity(), Injectable {
                         } else {
                             setLoading(false)
                             binding.domainTextInputLayout.error = getString(R.string.error_retrieving_oauth_token)
-                            Log.e(TAG, String.format("%s %s",
+                            Log.e(
+                                TAG,
+                                String.format(
+                                    "%s %s",
                                     getString(R.string.error_retrieving_oauth_token),
-                                    response.message()))
+                                    response.message()
+                                )
+                            )
                         }
                     }
 
                     override fun onFailure(call: Call<AccessToken>, t: Throwable) {
                         setLoading(false)
                         binding.domainTextInputLayout.error = getString(R.string.error_retrieving_oauth_token)
-                        Log.e(TAG, String.format("%s %s",
+                        Log.e(
+                            TAG,
+                            String.format(
+                                "%s %s",
                                 getString(R.string.error_retrieving_oauth_token),
-                                t.message))
+                                t.message
+                            )
+                        )
                     }
                 }
 
-                mastodonApi.fetchOAuthToken(domain, clientId, clientSecret, redirectUri, code,
-                        "authorization_code").enqueue(callback)
+                mastodonApi.fetchOAuthToken(
+                    domain, clientId, clientSecret, redirectUri, code,
+                    "authorization_code"
+                ).enqueue(callback)
             } else if (error != null) {
                 /* Authorization failed. Put the error response where the user can read it and they
                  * can try again. */
                 setLoading(false)
                 binding.domainTextInputLayout.error = getString(R.string.error_authorization_denied)
-                Log.e(TAG, String.format("%s %s",
+                Log.e(
+                    TAG,
+                    String.format(
+                        "%s %s",
                         getString(R.string.error_authorization_denied),
-                        error))
+                        error
+                    )
+                )
             } else {
                 // This case means a junk response was received somehow.
                 setLoading(false)
@@ -340,14 +364,14 @@ class LoginActivity : BaseActivity(), Injectable {
             val navigationbarDividerColor = ThemeUtils.getColor(context, R.attr.dividerColor)
 
             val colorSchemeParams = CustomTabColorSchemeParams.Builder()
-                    .setToolbarColor(toolbarColor)
-                    .setNavigationBarColor(navigationbarColor)
-                    .setNavigationBarDividerColor(navigationbarDividerColor)
-                    .build()
+                .setToolbarColor(toolbarColor)
+                .setNavigationBarColor(navigationbarColor)
+                .setNavigationBarDividerColor(navigationbarDividerColor)
+                .build()
 
             val customTabsIntent = CustomTabsIntent.Builder()
-                    .setDefaultColorSchemeParams(colorSchemeParams)
-                    .build()
+                .setDefaultColorSchemeParams(colorSchemeParams)
+                .build()
 
             try {
                 customTabsIntent.launchUrl(context, uri)

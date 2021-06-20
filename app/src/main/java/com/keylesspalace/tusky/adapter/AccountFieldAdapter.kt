@@ -16,20 +16,23 @@
 package com.keylesspalace.tusky.adapter
 
 import android.text.method.LinkMovementMethod
-import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.RecyclerView
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.databinding.ItemAccountFieldBinding
 import com.keylesspalace.tusky.entity.Emoji
 import com.keylesspalace.tusky.entity.Field
 import com.keylesspalace.tusky.entity.IdentityProof
 import com.keylesspalace.tusky.interfaces.LinkListener
-import com.keylesspalace.tusky.util.*
+import com.keylesspalace.tusky.util.BindingHolder
+import com.keylesspalace.tusky.util.Either
+import com.keylesspalace.tusky.util.LinkHelper
+import com.keylesspalace.tusky.util.emojify
 
 class AccountFieldAdapter(
-        private val linkListener: LinkListener,
-        private val animateEmojis: Boolean
+    private val linkListener: LinkListener,
+    private val animateEmojis: Boolean
 ) : RecyclerView.Adapter<BindingHolder<ItemAccountFieldBinding>>() {
 
     var emojis: List<Emoji> = emptyList()
@@ -47,7 +50,7 @@ class AccountFieldAdapter(
         val nameTextView = holder.binding.accountFieldName
         val valueTextView = holder.binding.accountFieldValue
 
-        if(proofOrField.isLeft()) {
+        if (proofOrField.isLeft()) {
             val identityProof = proofOrField.asLeft()
 
             nameTextView.text = identityProof.provider
@@ -55,7 +58,7 @@ class AccountFieldAdapter(
 
             valueTextView.movementMethod = LinkMovementMethod.getInstance()
 
-            valueTextView.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0,  R.drawable.ic_check_circle, 0)
+            valueTextView.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.ic_check_circle, 0)
         } else {
             val field = proofOrField.asRight()
             val emojifiedName = field.name.emojify(emojis, nameTextView, animateEmojis)
@@ -64,12 +67,11 @@ class AccountFieldAdapter(
             val emojifiedValue = field.value.emojify(emojis, valueTextView, animateEmojis)
             LinkHelper.setClickableText(valueTextView, emojifiedValue, null, linkListener)
 
-            if(field.verifiedAt != null) {
-                valueTextView.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0,  R.drawable.ic_check_circle, 0)
+            if (field.verifiedAt != null) {
+                valueTextView.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.ic_check_circle, 0)
             } else {
-                valueTextView.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, 0, 0 )
+                valueTextView.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, 0, 0)
             }
         }
-
     }
 }

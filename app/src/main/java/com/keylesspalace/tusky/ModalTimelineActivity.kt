@@ -4,9 +4,9 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.keylesspalace.tusky.databinding.ActivityModalTimelineBinding
 import com.keylesspalace.tusky.components.timeline.TimelineFragment
 import com.keylesspalace.tusky.components.timeline.TimelineViewModel
+import com.keylesspalace.tusky.databinding.ActivityModalTimelineBinding
 import com.keylesspalace.tusky.interfaces.ActionButtonActivity
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
@@ -31,11 +31,11 @@ class ModalTimelineActivity : BottomSheetActivity(), ActionButtonActivity, HasAn
 
         if (supportFragmentManager.findFragmentById(R.id.contentFrame) == null) {
             val kind = intent?.getSerializableExtra(ARG_KIND) as? TimelineViewModel.Kind
-                    ?: TimelineViewModel.Kind.HOME
+                ?: TimelineViewModel.Kind.HOME
             val argument = intent?.getStringExtra(ARG_ARG)
             supportFragmentManager.beginTransaction()
-                    .replace(R.id.contentFrame, TimelineFragment.newInstance(kind, argument))
-                    .commit()
+                .replace(R.id.contentFrame, TimelineFragment.newInstance(kind, argument))
+                .commit()
         }
     }
 
@@ -48,13 +48,15 @@ class ModalTimelineActivity : BottomSheetActivity(), ActionButtonActivity, HasAn
         private const val ARG_ARG = "arg"
 
         @JvmStatic
-        fun newIntent(context: Context, kind: TimelineViewModel.Kind,
-                      argument: String?): Intent {
+        fun newIntent(
+            context: Context,
+            kind: TimelineViewModel.Kind,
+            argument: String?
+        ): Intent {
             val intent = Intent(context, ModalTimelineActivity::class.java)
             intent.putExtra(ARG_KIND, kind)
             intent.putExtra(ARG_ARG, argument)
             return intent
         }
-
     }
 }

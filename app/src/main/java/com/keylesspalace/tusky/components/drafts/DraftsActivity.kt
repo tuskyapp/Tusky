@@ -91,27 +91,28 @@ class DraftsActivity : BaseActivity(), DraftActionListener {
         if (draft.inReplyToId != null) {
             bottomSheet.state = BottomSheetBehavior.STATE_COLLAPSED
             viewModel.getToot(draft.inReplyToId)
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .autoDispose(from(this))
-                    .subscribe({ status ->
+                .observeOn(AndroidSchedulers.mainThread())
+                .autoDispose(from(this))
+                .subscribe(
+                    { status ->
                         val composeOptions = ComposeActivity.ComposeOptions(
-                                draftId = draft.id,
-                                tootText = draft.content,
-                                contentWarning = draft.contentWarning,
-                                inReplyToId = draft.inReplyToId,
-                                replyingStatusContent = status.content.toString(),
-                                replyingStatusAuthor = status.account.localUsername,
-                                draftAttachments = draft.attachments,
-                                poll = draft.poll,
-                                sensitive = draft.sensitive,
-                                visibility = draft.visibility
+                            draftId = draft.id,
+                            tootText = draft.content,
+                            contentWarning = draft.contentWarning,
+                            inReplyToId = draft.inReplyToId,
+                            replyingStatusContent = status.content.toString(),
+                            replyingStatusAuthor = status.account.localUsername,
+                            draftAttachments = draft.attachments,
+                            poll = draft.poll,
+                            sensitive = draft.sensitive,
+                            visibility = draft.visibility
                         )
 
                         bottomSheet.state = BottomSheetBehavior.STATE_HIDDEN
 
                         startActivity(ComposeActivity.startIntent(this, composeOptions))
-
-                    }, { throwable ->
+                    },
+                    { throwable ->
 
                         bottomSheet.state = BottomSheetBehavior.STATE_HIDDEN
 
@@ -124,9 +125,10 @@ class DraftsActivity : BaseActivity(), DraftActionListener {
                             openDraftWithoutReply(draft)
                         } else {
                             Snackbar.make(binding.root, getString(R.string.drafts_failed_loading_reply), Snackbar.LENGTH_SHORT)
-                                    .show()
+                                .show()
                         }
-                    })
+                    }
+                )
         } else {
             openDraftWithoutReply(draft)
         }
@@ -134,13 +136,13 @@ class DraftsActivity : BaseActivity(), DraftActionListener {
 
     private fun openDraftWithoutReply(draft: DraftEntity) {
         val composeOptions = ComposeActivity.ComposeOptions(
-                draftId = draft.id,
-                tootText = draft.content,
-                contentWarning = draft.contentWarning,
-                draftAttachments = draft.attachments,
-                poll = draft.poll,
-                sensitive = draft.sensitive,
-                visibility = draft.visibility
+            draftId = draft.id,
+            tootText = draft.content,
+            contentWarning = draft.contentWarning,
+            draftAttachments = draft.attachments,
+            poll = draft.poll,
+            sensitive = draft.sensitive,
+            visibility = draft.visibility
         )
 
         startActivity(ComposeActivity.startIntent(this, composeOptions))
@@ -149,10 +151,10 @@ class DraftsActivity : BaseActivity(), DraftActionListener {
     override fun onDeleteDraft(draft: DraftEntity) {
         viewModel.deleteDraft(draft)
         Snackbar.make(binding.root, getString(R.string.draft_deleted), Snackbar.LENGTH_LONG)
-                .setAction(R.string.action_undo) {
-                    viewModel.restoreDraft(draft)
-                }
-                .show()
+            .setAction(R.string.action_undo) {
+                viewModel.restoreDraft(draft)
+            }
+            .show()
     }
 
     companion object {

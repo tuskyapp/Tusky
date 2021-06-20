@@ -40,5 +40,4 @@ interface DraftDao {
 
     @Query("SELECT * FROM DraftEntity WHERE id = :id")
     fun find(id: Int): Single<DraftEntity?>
-
 }

@@ -64,9 +64,9 @@ class AccountListActivity : BaseActivity(), HasAndroidInjector {
         }
 
         supportFragmentManager
-                .beginTransaction()
-                .replace(R.id.fragment_container, AccountListFragment.newInstance(type, id, accountLocked))
-                .commit()
+            .beginTransaction()
+            .replace(R.id.fragment_container, AccountListFragment.newInstance(type, id, accountLocked))
+            .commit()
     }
 
     override fun androidInjector() = dispatchingAndroidInjector

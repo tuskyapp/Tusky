@@ -25,18 +25,25 @@ import com.keylesspalace.tusky.databinding.ItemReportStatusBinding
 import com.keylesspalace.tusky.entity.Emoji
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.interfaces.LinkListener
-import com.keylesspalace.tusky.util.*
+import com.keylesspalace.tusky.util.LinkHelper
+import com.keylesspalace.tusky.util.StatusDisplayOptions
+import com.keylesspalace.tusky.util.StatusViewHelper
 import com.keylesspalace.tusky.util.StatusViewHelper.Companion.COLLAPSE_INPUT_FILTER
 import com.keylesspalace.tusky.util.StatusViewHelper.Companion.NO_INPUT_FILTER
+import com.keylesspalace.tusky.util.TimestampUtils
+import com.keylesspalace.tusky.util.emojify
+import com.keylesspalace.tusky.util.hide
+import com.keylesspalace.tusky.util.shouldTrimStatus
+import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.viewdata.toViewData
-import java.util.*
+import java.util.Date
 
 class StatusViewHolder(
-        private val binding: ItemReportStatusBinding,
-        private val statusDisplayOptions: StatusDisplayOptions,
-        private val viewState: StatusViewState,
-        private val adapterHandler: AdapterHandler,
-        private val getStatusForPosition: (Int) -> Status?
+    private val binding: ItemReportStatusBinding,
+    private val statusDisplayOptions: StatusDisplayOptions,
+    private val viewState: StatusViewState,
+    private val adapterHandler: AdapterHandler,
+    private val getStatusForPosition: (Int) -> Status?
 ) : RecyclerView.ViewHolder(binding.root) {
     private val mediaViewHeight = itemView.context.resources.getDimensionPixelSize(R.dimen.status_media_preview_height)
     private val statusViewHelper = StatusViewHelper(itemView)
@@ -71,9 +78,11 @@ class StatusViewHolder(
 
         val sensitive = status.sensitive
 
-        statusViewHelper.setMediasPreview(statusDisplayOptions, status.attachments,
-                sensitive, previewListener, viewState.isMediaShow(status.id, status.sensitive),
-                mediaViewHeight)
+        statusViewHelper.setMediasPreview(
+            statusDisplayOptions, status.attachments,
+            sensitive, previewListener, viewState.isMediaShow(status.id, status.sensitive),
+            mediaViewHeight
+        )
 
         statusViewHelper.setupPollReadonly(status.poll.toViewData(), status.emojis, statusDisplayOptions)
         setCreatedAt(status.createdAt)
@@ -81,8 +90,10 @@ class StatusViewHolder(
 
     private fun updateTextView() {
         status()?.let { status ->
-            setupCollapsedState(shouldTrimStatus(status.content), viewState.isCollapsed(status.id, true),
-                    viewState.isContentShow(status.id, status.sensitive), status.spoilerText)
+            setupCollapsedState(
+                shouldTrimStatus(status.content), viewState.isCollapsed(status.id, true),
+                viewState.isContentShow(status.id, status.sensitive), status.spoilerText
+            )
 
             if (status.spoilerText.isBlank()) {
                 setTextVisible(true, status.content, status.mentions, status.emojis, adapterHandler)
@@ -109,18 +120,20 @@ class StatusViewHolder(
     }
 
     private fun setContentWarningButtonText(contentShown: Boolean) {
-        if(contentShown) {
+        if (contentShown) {
             binding.statusContentWarningButton.setText(R.string.status_content_warning_show_less)
         } else {
             binding.statusContentWarningButton.setText(R.string.status_content_warning_show_more)
         }
     }
 
-    private fun setTextVisible(expanded: Boolean,
-                               content: Spanned,
-                               mentions: List<Status.Mention>?,
-                               emojis: List<Emoji>,
-                               listener: LinkListener) {
+    private fun setTextVisible(
+        expanded: Boolean,
+        content: Spanned,
+        mentions: List<Status.Mention>?,
+        emojis: List<Emoji>,
+        listener: LinkListener
+    ) {
         if (expanded) {
             val emojifiedText = content.emojify(emojis, binding.statusContent, statusDisplayOptions.animateEmojis)
             LinkHelper.setClickableText(binding.statusContent, emojifiedText, mentions, listener)
@@ -152,7 +165,7 @@ class StatusViewHolder(
     private fun setupCollapsedState(collapsible: Boolean, collapsed: Boolean, expanded: Boolean, spoilerText: String) {
         /* input filter for TextViews have to be set before text */
         if (collapsible && (expanded || TextUtils.isEmpty(spoilerText))) {
-            binding.buttonToggleContent.setOnClickListener{
+            binding.buttonToggleContent.setOnClickListener {
                 status()?.let { status ->
                     viewState.setCollapsed(status.id, !collapsed)
                     updateTextView()

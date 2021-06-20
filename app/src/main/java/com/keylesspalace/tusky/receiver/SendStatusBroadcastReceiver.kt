@@ -26,11 +26,11 @@ import androidx.core.content.ContextCompat
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.components.compose.ComposeActivity
 import com.keylesspalace.tusky.components.compose.ComposeActivity.ComposeOptions
+import com.keylesspalace.tusky.components.notifications.NotificationHelper
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.service.SendTootService
 import com.keylesspalace.tusky.service.TootToSend
-import com.keylesspalace.tusky.components.notifications.NotificationHelper
 import com.keylesspalace.tusky.util.randomAlphanumericString
 import dagger.android.AndroidInjection
 import javax.inject.Inject
@@ -68,10 +68,10 @@ class SendStatusBroadcastReceiver : BroadcastReceiver() {
                 Log.w(TAG, "Account \"$senderId\" not found in database. Aborting quick reply!")
 
                 val builder = NotificationCompat.Builder(context, NotificationHelper.CHANNEL_MENTION + senderIdentifier)
-                        .setSmallIcon(R.drawable.ic_notify)
-                        .setColor(ContextCompat.getColor(context, R.color.tusky_blue))
-                        .setGroup(senderFullName)
-                        .setDefaults(0) // So it doesn't ring twice, notify only in Target callback
+                    .setSmallIcon(R.drawable.ic_notify)
+                    .setColor(ContextCompat.getColor(context, R.color.tusky_blue))
+                    .setGroup(senderFullName)
+                    .setDefaults(0) // So it doesn't ring twice, notify only in Target callback
 
                 builder.setContentTitle(context.getString(R.string.error_generic))
                 builder.setContentText(context.getString(R.string.error_sender_account_gone))
@@ -86,34 +86,34 @@ class SendStatusBroadcastReceiver : BroadcastReceiver() {
                 val text = mentions.joinToString(" ", postfix = " ") { "@$it" } + message.toString()
 
                 val sendIntent = SendTootService.sendTootIntent(
-                        context,
-                        TootToSend(
-                                text = text,
-                                warningText = spoiler,
-                                visibility = visibility.serverString(),
-                                sensitive = false,
-                                mediaIds = emptyList(),
-                                mediaUris = emptyList(),
-                                mediaDescriptions = emptyList(),
-                                scheduledAt = null,
-                                inReplyToId = citedStatusId,
-                                poll = null,
-                                replyingStatusContent = null,
-                                replyingStatusAuthorUsername = null,
-                                accountId = account.id,
-                                draftId = -1,
-                                idempotencyKey = randomAlphanumericString(16),
-                                retries = 0
-                        )
+                    context,
+                    TootToSend(
+                        text = text,
+                        warningText = spoiler,
+                        visibility = visibility.serverString(),
+                        sensitive = false,
+                        mediaIds = emptyList(),
+                        mediaUris = emptyList(),
+                        mediaDescriptions = emptyList(),
+                        scheduledAt = null,
+                        inReplyToId = citedStatusId,
+                        poll = null,
+                        replyingStatusContent = null,
+                        replyingStatusAuthorUsername = null,
+                        accountId = account.id,
+                        draftId = -1,
+                        idempotencyKey = randomAlphanumericString(16),
+                        retries = 0
+                    )
                 )
 
                 context.startService(sendIntent)
 
                 val builder = NotificationCompat.Builder(context, NotificationHelper.CHANNEL_MENTION + senderIdentifier)
-                        .setSmallIcon(R.drawable.ic_notify)
-                        .setColor(ContextCompat.getColor(context, (R.color.tusky_blue)))
-                        .setGroup(senderFullName)
-                        .setDefaults(0) // So it doesn't ring twice, notify only in Target callback
+                    .setSmallIcon(R.drawable.ic_notify)
+                    .setColor(ContextCompat.getColor(context, (R.color.tusky_blue)))
+                    .setGroup(senderFullName)
+                    .setDefaults(0) // So it doesn't ring twice, notify only in Target callback
 
                 builder.setContentTitle(context.getString(R.string.status_sent))
                 builder.setContentText(context.getString(R.string.status_sent_long))
@@ -133,14 +133,17 @@ class SendStatusBroadcastReceiver : BroadcastReceiver() {
 
             accountManager.setActiveAccount(senderId)
 
-            val composeIntent = ComposeActivity.startIntent(context, ComposeOptions(
+            val composeIntent = ComposeActivity.startIntent(
+                context,
+                ComposeOptions(
                     inReplyToId = citedStatusId,
                     replyVisibility = visibility,
                     contentWarning = spoiler,
                     mentionedUsernames = mentions.toSet(),
                     replyingStatusAuthor = localAuthorId,
                     replyingStatusContent = citedText
-            ))
+                )
+            )
 
             composeIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
 
@@ -153,5 +156,4 @@ class SendStatusBroadcastReceiver : BroadcastReceiver() {
 
         return remoteInput.getCharSequence(NotificationHelper.KEY_REPLY, "")
     }
-
 }

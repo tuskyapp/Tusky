@@ -30,7 +30,7 @@ class StatusViewState {
     fun setCollapsed(id: String, isCollapsed: Boolean) = setStateEnabled(longContentCollapsedState, id, isCollapsed)
 
     private fun isStateEnabled(map: Map<String, Boolean>, id: String, def: Boolean): Boolean = map[id]
-            ?: def
+        ?: def
 
     private fun setStateEnabled(map: MutableMap<String, Boolean>, id: String, state: Boolean) = map.put(id, state)
 }

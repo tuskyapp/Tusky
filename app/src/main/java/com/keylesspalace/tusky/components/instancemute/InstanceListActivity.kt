@@ -9,7 +9,7 @@ import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
 import javax.inject.Inject
 
-class InstanceListActivity: BaseActivity(), HasAndroidInjector {
+class InstanceListActivity : BaseActivity(), HasAndroidInjector {
 
     @Inject
     lateinit var androidInjector: DispatchingAndroidInjector<Any>
@@ -27,11 +27,10 @@ class InstanceListActivity: BaseActivity(), HasAndroidInjector {
         }
 
         supportFragmentManager
-                .beginTransaction()
-                .replace(R.id.fragment_container, InstanceListFragment())
-                .commit()
+            .beginTransaction()
+            .replace(R.id.fragment_container, InstanceListFragment())
+            .commit()
     }
 
     override fun androidInjector() = androidInjector
-
 }

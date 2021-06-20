@@ -35,10 +35,10 @@ private const val LENGTH_DEFAULT = 500
  * be hidden will not be enough to justify the operation.
  *
  * @param message The message to trim.
- * @return        Whether the message should be trimmed or not.
+ * @return Whether the message should be trimmed or not.
  */
 fun shouldTrimStatus(message: Spanned): Boolean {
-	return message.isNotEmpty() && LENGTH_DEFAULT.toFloat() / message.length < 0.75
+    return message.isNotEmpty() && LENGTH_DEFAULT.toFloat() / message.length < 0.75
 }
 
 /**
@@ -53,59 +53,59 @@ fun shouldTrimStatus(message: Spanned): Boolean {
  * </ul>
  */
 object SmartLengthInputFilter : InputFilter {
-	/** {@inheritDoc} */
-	override fun filter(source: CharSequence, start: Int, end: Int, dest: Spanned, dstart: Int, dend: Int): CharSequence? {
-		// Code originally imported from InputFilter.LengthFilter but heavily customized and converted to Kotlin.
-		// https://android.googlesource.com/platform/frameworks/base/+/master/core/java/android/text/InputFilter.java#175
+    /** {@inheritDoc} */
+    override fun filter(source: CharSequence, start: Int, end: Int, dest: Spanned, dstart: Int, dend: Int): CharSequence? {
+        // Code originally imported from InputFilter.LengthFilter but heavily customized and converted to Kotlin.
+        // https://android.googlesource.com/platform/frameworks/base/+/master/core/java/android/text/InputFilter.java#175
 
-		val sourceLength = source.length
-		var keep = LENGTH_DEFAULT - (dest.length - (dend - dstart))
-		if (keep <= 0) return ""
-		if (keep >= end - start) return null // Keep original
+        val sourceLength = source.length
+        var keep = LENGTH_DEFAULT - (dest.length - (dend - dstart))
+        if (keep <= 0) return ""
+        if (keep >= end - start) return null // Keep original
 
-		keep += start
+        keep += start
 
-		// Skip trimming if the ratio doesn't warrant it
-		if (keep.toDouble() / sourceLength > 0.75) return null
+        // Skip trimming if the ratio doesn't warrant it
+        if (keep.toDouble() / sourceLength > 0.75) return null
 
-		// Enable trimming at the end of the closest word if possible
-		if (source[keep].isLetterOrDigit()) {
-			var boundary: Int
+        // Enable trimming at the end of the closest word if possible
+        if (source[keep].isLetterOrDigit()) {
+            var boundary: Int
 
-			// Android N+ offer a clone of the ICU APIs in Java for better internationalization and
-			// unicode support. Using the ICU version of BreakIterator grants better support for
-			// those without having to add the ICU4J library at a minimum Api trade-off.
-			if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
-				val iterator = android.icu.text.BreakIterator.getWordInstance()
-			iterator.setText(source.toString())
-			boundary = iterator.following(keep)
-			if (keep - boundary > RUNWAY) boundary = iterator.preceding(keep)
-		} else {
-			val iterator = java.text.BreakIterator.getWordInstance()
-			iterator.setText(source.toString())
-			boundary = iterator.following(keep)
-			if (keep - boundary > RUNWAY) boundary = iterator.preceding(keep)
-		}
+            // Android N+ offer a clone of the ICU APIs in Java for better internationalization and
+            // unicode support. Using the ICU version of BreakIterator grants better support for
+            // those without having to add the ICU4J library at a minimum Api trade-off.
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+                val iterator = android.icu.text.BreakIterator.getWordInstance()
+                iterator.setText(source.toString())
+                boundary = iterator.following(keep)
+                if (keep - boundary > RUNWAY) boundary = iterator.preceding(keep)
+            } else {
+                val iterator = java.text.BreakIterator.getWordInstance()
+                iterator.setText(source.toString())
+                boundary = iterator.following(keep)
+                if (keep - boundary > RUNWAY) boundary = iterator.preceding(keep)
+            }
 
-		keep = boundary
-		} else {
+            keep = boundary
+        } else {
 
-			// If no runway is allowed simply remove whitespaces if present
-			while(source[keep - 1].isWhitespace()) {
-				--keep
-				if (keep == start) return ""
-			}
-		}
+            // If no runway is allowed simply remove whitespaces if present
+            while (source[keep - 1].isWhitespace()) {
+                --keep
+                if (keep == start) return ""
+            }
+        }
 
-		if (source[keep - 1].isHighSurrogate()) {
-			--keep
-			if (keep == start) return ""
-		}
+        if (source[keep - 1].isHighSurrogate()) {
+            --keep
+            if (keep == start) return ""
+        }
 
-		return if (source is Spanned) {
-			SpannableStringBuilder(source, start, keep).append("…")
-		} else {
-			"${source.subSequence(start, keep)}…"
-		}
-	}
+        return if (source is Spanned) {
+            SpannableStringBuilder(source, start, keep).append("…")
+        } else {
+            "${source.subSequence(start, keep)}…"
+        }
+    }
 }
