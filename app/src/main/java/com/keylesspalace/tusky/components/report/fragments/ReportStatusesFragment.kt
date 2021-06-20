@@ -132,10 +132,10 @@ class ReportStatusesFragment : Fragment(R.layout.fragment_report_statuses), Inje
         }
 
         adapter.addLoadStateListener { loadState ->
-            (loadState.refresh as? LoadState.Error?
-                ?:loadState.append as? LoadState.Error?
-                ?:loadState.prepend as? LoadState.Error?)?.let { error ->
-                showError(error.error.message)
+            if (loadState.refresh is LoadState.Error
+                || loadState.append is LoadState.Error
+                || loadState.prepend is LoadState.Error) {
+                showError()
             }
 
             binding.progressBarBottom.visible(loadState.append == LoadState.Loading)
@@ -148,7 +148,7 @@ class ReportStatusesFragment : Fragment(R.layout.fragment_report_statuses), Inje
         }
     }
 
-    private fun showError(@Suppress("UNUSED_PARAMETER") msg: String?) {
+    private fun showError() {
         if (snackbarErrorRetry?.isShown != true) {
             snackbarErrorRetry = Snackbar.make(binding.swipeRefreshLayout, R.string.failed_fetch_statuses, Snackbar.LENGTH_INDEFINITE)
             snackbarErrorRetry?.setAction(R.string.action_retry) {

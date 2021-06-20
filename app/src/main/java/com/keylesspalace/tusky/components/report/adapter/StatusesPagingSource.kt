@@ -15,6 +15,7 @@
 
 package com.keylesspalace.tusky.components.report.adapter
 
+import android.util.Log
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.keylesspalace.tusky.entity.Status
@@ -30,12 +31,8 @@ class StatusesPagingSource(
 ) : PagingSource<String, Status>() {
 
     override fun getRefreshKey(state: PagingState<String, Status>): String? {
-        state.anchorPosition.let { anchorPosition ->
-            return if (anchorPosition == null) {
-                null
-            } else {
+        return state.anchorPosition?.let { anchorPosition ->
                 state.closestItemToPosition(anchorPosition)?.id
-            }
         }
     }
 
@@ -70,6 +67,7 @@ class StatusesPagingSource(
             )
 
         } catch (e: Exception) {
+            Log.w("StatusesPagingSource", "failed to load statuses", e)
             return LoadResult.Error(e)
         }
     }
