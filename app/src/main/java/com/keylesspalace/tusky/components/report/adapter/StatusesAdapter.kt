@@ -17,7 +17,7 @@ package com.keylesspalace.tusky.components.report.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.paging.PagedListAdapter
+import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.keylesspalace.tusky.components.report.model.StatusViewState
@@ -29,7 +29,7 @@ class StatusesAdapter(
         private val statusDisplayOptions: StatusDisplayOptions,
         private val statusViewState: StatusViewState,
         private val adapterHandler: AdapterHandler
-) : PagedListAdapter<Status, StatusViewHolder>(STATUS_COMPARATOR) {
+) : PagingDataAdapter<Status, StatusViewHolder>(STATUS_COMPARATOR) {
 
     private val statusForPosition: (Int) -> Status? = { position: Int ->
         if (position != RecyclerView.NO_POSITION) getItem(position) else null

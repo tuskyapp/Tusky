@@ -577,6 +577,7 @@ interface MastodonApi {
             @Path("id") accountId: String,
             @Query("max_id") maxId: String?,
             @Query("since_id") sinceId: String?,
+            @Query("min_id") minId: String?,
             @Query("limit") limit: Int?,
             @Query("exclude_reblogs") excludeReblogs: Boolean?
     ): Single<List<Status>>

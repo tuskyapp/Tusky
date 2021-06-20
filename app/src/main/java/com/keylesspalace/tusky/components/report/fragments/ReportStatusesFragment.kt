@@ -21,6 +21,8 @@ import androidx.core.app.ActivityOptionsCompat
 import androidx.core.view.ViewCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
+import androidx.paging.LoadState
 import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -43,10 +45,11 @@ import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.settings.PrefKeys
 import com.keylesspalace.tusky.util.CardViewMode
 import com.keylesspalace.tusky.util.StatusDisplayOptions
-import com.keylesspalace.tusky.util.hide
-import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.viewBinding
+import com.keylesspalace.tusky.util.visible
 import com.keylesspalace.tusky.viewdata.AttachmentViewData
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class ReportStatusesFragment : Fragment(R.layout.fragment_report_statuses), Injectable, AdapterHandler {
@@ -70,13 +73,11 @@ class ReportStatusesFragment : Fragment(R.layout.fragment_report_statuses), Inje
             when (actionable.attachments[idx].type) {
                 Attachment.Type.GIFV, Attachment.Type.VIDEO, Attachment.Type.IMAGE, Attachment.Type.AUDIO -> {
                     val attachments = AttachmentViewData.list(actionable)
-                    val intent = ViewMediaActivity.newIntent(context, attachments,
-                            idx)
+                    val intent = ViewMediaActivity.newIntent(context, attachments, idx)
                     if (v != null) {
                         val url = actionable.attachments[idx].url
                         ViewCompat.setTransitionName(v, url)
-                        val options = ActivityOptionsCompat.makeSceneTransitionAnimation(requireActivity(),
-                                v, url)
+                        val options = ActivityOptionsCompat.makeSceneTransitionAnimation(requireActivity(), v, url)
                         startActivity(intent, options.toBundle())
                     } else {
                         startActivity(intent)
@@ -85,7 +86,6 @@ class ReportStatusesFragment : Fragment(R.layout.fragment_report_statuses), Inje
                 Attachment.Type.UNKNOWN -> {
                 }
             }
-
         }
     }
 
@@ -100,7 +100,7 @@ class ReportStatusesFragment : Fragment(R.layout.fragment_report_statuses), Inje
 
         binding.swipeRefreshLayout.setOnRefreshListener {
             snackbarErrorRetry?.dismiss()
-            viewModel.refreshStatuses()
+            adapter.refresh()
         }
     }
 
@@ -118,61 +118,45 @@ class ReportStatusesFragment : Fragment(R.layout.fragment_report_statuses), Inje
                 animateEmojis = preferences.getBoolean(PrefKeys.ANIMATE_CUSTOM_EMOJIS, false)
         )
 
-        adapter = StatusesAdapter(statusDisplayOptions,
-                viewModel.statusViewState, this)
+        adapter = StatusesAdapter(statusDisplayOptions, viewModel.statusViewState, this)
 
         binding.recyclerView.addItemDecoration(DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL))
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerView.adapter = adapter
         (binding.recyclerView.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
 
-        viewModel.statuses.observe(viewLifecycleOwner) {
-            adapter.submitList(it)
+        lifecycleScope.launch {
+            viewModel.statusesFlow.collectLatest { pagingData ->
+                adapter.submitData(pagingData)
+            }
         }
 
-        viewModel.networkStateAfter.observe(viewLifecycleOwner) {
-            if (it?.status == com.keylesspalace.tusky.util.Status.RUNNING)
-                binding.progressBarBottom.show()
-            else
-                binding.progressBarBottom.hide()
+        adapter.addLoadStateListener { loadState ->
+            if (loadState.refresh is LoadState.Error
+                || loadState.append is LoadState.Error
+                || loadState.prepend is LoadState.Error) {
+                showError()
+            }
 
-            if (it?.status == com.keylesspalace.tusky.util.Status.FAILED)
-                showError(it.msg)
-        }
+            binding.progressBarBottom.visible(loadState.append == LoadState.Loading)
+            binding.progressBarTop.visible(loadState.prepend == LoadState.Loading)
+            binding.progressBarLoading.visible(loadState.refresh == LoadState.Loading && !binding.swipeRefreshLayout.isRefreshing)
 
-        viewModel.networkStateBefore.observe(viewLifecycleOwner) {
-            if (it?.status == com.keylesspalace.tusky.util.Status.RUNNING)
-                binding.progressBarTop.show()
-            else
-                binding.progressBarTop.hide()
-
-            if (it?.status == com.keylesspalace.tusky.util.Status.FAILED)
-                showError(it.msg)
-        }
-
-        viewModel.networkStateRefresh.observe(viewLifecycleOwner) {
-            if (it?.status == com.keylesspalace.tusky.util.Status.RUNNING && !binding.swipeRefreshLayout.isRefreshing)
-                binding.progressBarLoading.show()
-            else
-                binding.progressBarLoading.hide()
-
-            if (it?.status != com.keylesspalace.tusky.util.Status.RUNNING)
+            if (loadState.refresh != LoadState.Loading) {
                 binding.swipeRefreshLayout.isRefreshing = false
-            if (it?.status == com.keylesspalace.tusky.util.Status.FAILED)
-                showError(it.msg)
+            }
         }
     }
 
-    private fun showError(@Suppress("UNUSED_PARAMETER") msg: String?) {
+    private fun showError() {
         if (snackbarErrorRetry?.isShown != true) {
             snackbarErrorRetry = Snackbar.make(binding.swipeRefreshLayout, R.string.failed_fetch_statuses, Snackbar.LENGTH_INDEFINITE)
             snackbarErrorRetry?.setAction(R.string.action_retry) {
-                viewModel.retryStatusLoad()
+                adapter.retry()
             }
             snackbarErrorRetry?.show()
         }
     }
-
 
     private fun handleClicks() {
         binding.buttonCancel.setOnClickListener {

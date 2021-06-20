@@ -27,7 +27,12 @@ import com.keylesspalace.tusky.components.report.Screen
 import com.keylesspalace.tusky.databinding.FragmentReportNoteBinding
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.di.ViewModelFactory
-import com.keylesspalace.tusky.util.*
+import com.keylesspalace.tusky.util.Error
+import com.keylesspalace.tusky.util.Loading
+import com.keylesspalace.tusky.util.Success
+import com.keylesspalace.tusky.util.hide
+import com.keylesspalace.tusky.util.show
+import com.keylesspalace.tusky.util.viewBinding
 import java.io.IOException
 import javax.inject.Inject
 
@@ -92,12 +97,10 @@ class ReportNoteFragment : Fragment(R.layout.fragment_report_note), Injectable {
         binding.progressBar.hide()
 
         Snackbar.make(binding.buttonBack, if (error is IOException) R.string.error_network else R.string.error_generic, Snackbar.LENGTH_LONG)
-                .apply {
-                    setAction(R.string.action_retry) {
-                        sendReport()
-                    }
-                }
-                .show()
+            .setAction(R.string.action_retry) {
+                sendReport()
+            }
+            .show()
     }
 
     private fun sendReport() {
