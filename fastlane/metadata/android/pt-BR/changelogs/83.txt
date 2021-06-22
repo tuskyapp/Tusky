@@ -1,0 +1,3 @@
+Tusky v15.1
+
+Esta atualização corrige aquele inconveniente ao descrever imagens

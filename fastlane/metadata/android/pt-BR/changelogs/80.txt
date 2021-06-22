@@ -1,0 +1,7 @@
+Tusky v14.0
+
+- Receba notificação quando a pessoa amada tootar - toca no sininho e aproveita! (novidade do Mastodon 3.3.0)
+- Rascunhos no Tusky foi completamente redesenhado e agora está mais chique!
+- Foi adicionado funções de bem-estar que permite limitar certas coisinhas no Tusky.
+- Tusky consegue animar os emojis personalizados 
+Para ver mais: https://github.com/tuskyapp/Tusky/releases

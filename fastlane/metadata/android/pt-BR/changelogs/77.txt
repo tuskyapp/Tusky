@@ -1,0 +1,10 @@
+Tusky v13.0
+
+- Suporte à função de nota pessoal sobre o perfil (novidade do Mastodon 3.2.0)
+- Suporte à função de Comunicados da administração (novidade do Mastodon 3.1.0)
+
+- O avatar de sua conta selecionada agora ficará visível no cantinho da barra de títulos
+- Tocar no nome de exibição na linha do tempo abrirá o perfil em questão
+
+- O desenvolvedor pegou o mata-moscas e fez um monte de pequenas melhorias e correções
+- Tradução atualizada
