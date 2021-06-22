@@ -508,4 +508,6 @@
     <string name="action_unsubscribe_account">Avslutt abonnementet</string>
     <string name="action_subscribe_account">Abonner</string>
     <string name="follow_requests_info">Selv om kontoen din ikke er låst, har %1$s administratorer markert disse følgeforespørsler for manuell godkjenning.</string>
+    <string name="dialog_delete_conversation_warning">Slette denne samtalen\?</string>
+    <string name="action_delete_conversation">Slett samtale</string>
 </resources>

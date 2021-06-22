@@ -58,7 +58,7 @@
     <string name="action_compose">Compor</string>
     <string name="action_login">Entrar com Mastodon</string>
     <string name="action_logout">Sair</string>
-    <string name="action_logout_confirm">Você tem certeza de que deseja sair da conta %1$s\?</string>
+    <string name="action_logout_confirm">Tem certeza de que deseja sair da conta %1$s\?</string>
     <string name="action_follow">Seguir</string>
     <string name="action_unfollow">Deixar de seguir</string>
     <string name="action_block">Bloquear</string>
@@ -131,9 +131,9 @@
     <string name="login_connection">Conectando…</string>
     <string name="dialog_whats_an_instance">O domínio de qualquer instância pode ser inserido aqui, como mastodon.social, masto.donte.com.br, colorid.es ou qualquer <a href="https://instances.social">outro!</a> 
 \n 
-\n Se você não tem uma conta ainda, você pode inserir o nome da instância a qual você gostaria de participar e criar uma conta lá. 
+\n Se não tem uma conta ainda, insira o nome da instância que gostaria de participar e crie uma conta lá. 
 \n 
-\n Uma instância é um lugar onde sua conta é hospedada, mas você pode facilmente se comunicar e seguir pessoas de outras instâncias como se vocês estivessem no mesmo site. 
+\n Uma instância é um lugar onde sua conta é hospedada, mas é fácil se comunicar e seguir pessoas de outras instâncias como se todos estivessem no mesmo site. 
 \n 
 \n Mais informações podem ser encontradas em <a href="https://joinmastodon.org">joinmastodon.org</a>. </string>
     <string name="dialog_title_finishing_media_upload">Envio de mídia terminando</string>
@@ -203,14 +203,13 @@
     <string name="notification_summary_medium">%1$s, %2$s, e %3$s</string>
     <string name="notification_summary_small">%1$s e %2$s</string>
     <plurals name="notification_title_summary">
+        <item quantity="one">%d nova interação</item>
         <item quantity="other">%d novas interações</item>
     </plurals>
-    <string name="description_account_locked">Conta trancada</string>
+    <string name="description_account_locked">Perfil trancado</string>
     <string name="about_title_activity">Sobre</string>
     <string name="about_tusky_version">Tusky %s</string>
-    <string name="about_tusky_license">Tusky é um software livre e de código aberto.
-        Ele é licenciado sob a versão 3 da Licença Pública Geral GNU.
-        Você pode ler a licença aqui: https://www.gnu.org/licenses/gpl-3.0.pt-br.html</string>
+    <string name="about_tusky_license">Tusky é um software livre e de código aberto. Ele é licenciado sob a versão 3 da Licença Pública Geral GNU. Leia a licença aqui: https://www.gnu.org/licenses/gpl-3.0.pt-br.html</string>
     <!-- note to translators:
          * you should think of “free” as in “free speech,” not as in “free beer”.
            We sometimes call it “libre software,” borrowing the French or Spanish word for “free” as in freedom,
@@ -252,7 +251,7 @@
     <string name="error_failed_set_caption">Erro ao incluir descrição</string>
     <string name="action_set_caption">Descrever</string>
     <string name="action_remove">Remover</string>
-    <string name="lock_account_label">Trancar conta</string>
+    <string name="lock_account_label">Trancar perfil</string>
     <string name="lock_account_label_description">Requer aprovação manual de seguidores</string>
     <string name="compose_save_draft">Salvar rascunho?</string>
     <string name="send_toot_notification_title">Enviando toot…</string>
@@ -351,6 +350,7 @@
     <string name="conversation_2_recipients">%1$s e %2$s</string>
     <string name="conversation_more_recipients">%1$s, %2$s e %3$d outros</string>
     <plurals name="max_tab_number_reached">
+        <item quantity="one">excedeu o máximo de %1$d aba</item>
         <item quantity="other">excedeu o máximo de %1$d abas</item>
     </plurals>
     <string name="description_status_media">Mídia: %s</string>
@@ -368,7 +368,7 @@
     <string name="compose_shortcut_long_label">Compor toot</string>
     <string name="compose_shortcut_short_label">Compor</string>
     <string name="pref_title_bot_overlay">Mostrar indicador de robôs</string>
-    <string name="notification_clear_text">Você tem certeza de que quer limpar permanentemente todas as suas notificações\?</string>
+    <string name="notification_clear_text">Tem certeza de que deseja limpar permanentemente todas as suas notificações\?</string>
     <string name="compose_preview_image_description">Opções para imagem %s</string>
     <string name="poll_info_format"> <!-- 15 votos • 1 hora restante --> %1$s • %2$s</string>
     <plurals name="poll_info_votes">
@@ -382,19 +382,19 @@
     <string name="poll_ended_created">Sua enquete terminou</string>
     <plurals name="poll_timespan_days">
         <item quantity="one">%d dia restante</item>
-        <item quantity="other">%d dias restante</item>
+        <item quantity="other">%d dias restantes</item>
     </plurals>
     <plurals name="poll_timespan_hours">
         <item quantity="one">%d hora restante</item>
-        <item quantity="other">%d horas restante</item>
+        <item quantity="other">%d horas restantes</item>
     </plurals>
     <plurals name="poll_timespan_minutes">
         <item quantity="one">%d minuto restante</item>
-        <item quantity="other">%d minutos restante</item>
+        <item quantity="other">%d minutos restantes</item>
     </plurals>
     <plurals name="poll_timespan_seconds">
         <item quantity="one">%d segundo restante</item>
-        <item quantity="other">%d segundos restante</item>
+        <item quantity="other">%d segundos restantes</item>
     </plurals>
     <string name="pref_title_animate_gif_avatars">Reproduzir GIFs</string>
     <string name="description_poll">Enquete com as opções: %1$s, %2$s, %3$s, %4$s; %5$s</string>
@@ -407,13 +407,13 @@
     <string name="report_remote_instance">Encaminhar para %s</string>
     <string name="failed_report">Erro ao denunciar</string>
     <string name="failed_fetch_statuses">Erro ao carregar toots</string>
-    <string name="report_description_1">A denúncia será enviada aos moderadores da instância. Você pode explicar por que você denunciou a conta:</string>
+    <string name="report_description_1">A denúncia será enviada aos moderadores da instância. Explique por que denunciou a conta:</string>
     <string name="report_description_remote_instance">A conta está em outra instância. Enviar uma cópia anônima da denúncia para lá\?</string>
     <string name="title_domain_mutes">Instâncias bloqueadas</string>
     <string name="action_view_domain_mutes">Instâncias bloqueadas</string>
     <string name="action_mute_domain">Bloquear %s</string>
     <string name="confirmation_domain_unmuted">%s desbloqueada</string>
-    <string name="mute_domain_warning">Você tem certeza de que deseja bloquear tudo de %s\? Você não verá mais o conteúdo desta instância em nenhuma linha do tempo pública ou nas suas notificações. Seus seguidores desta instância serão removidos.</string>
+    <string name="mute_domain_warning">Tem certeza de que deseja bloquear tudo de %s\? Você não verá mais o conteúdo desta instância em nenhuma linha do tempo pública ou nas suas notificações. Seus seguidores desta instância serão removidos.</string>
     <string name="mute_domain_warning_dialog_ok">Bloquear instância</string>
     <string name="pref_title_show_notifications_filter">Mostrar filtro de notificações</string>
     <string name="filter_dialog_whole_word">Toda palavra</string>
@@ -485,6 +485,7 @@
     <string name="drafts_toot_reply_removed">O toot em que se rascunhou uma resposta foi excluído</string>
     <string name="draft_deleted">Rascunho excluído</string>
     <plurals name="error_upload_max_media_reached">
+        <item quantity="one">Não é possível anexar mais de %1$d arquivo de mídia.</item>
         <item quantity="other">Não é possível anexar mais de %1$d arquivos de mídia.</item>
     </plurals>
     <string name="wellbeing_hide_stats_profile">Ocultar status dos perfis</string>
@@ -499,7 +500,7 @@
 \n
 \nNotificações push não serão afetadas, mas é possível revisar sua preferência manualmente.</string>
     <string name="account_note_saved">Salvo!</string>
-    <string name="account_note_hint">Nota pessoal sobre esta conta aqui</string>
+    <string name="account_note_hint">Nota pessoal sobre este perfil aqui</string>
     <string name="pref_title_wellbeing_mode">Bem-estar</string>
     <string name="no_announcements">Sem comunicados.</string>
     <string name="duration_indefinite">Indefinido</string>
@@ -509,4 +510,11 @@
     <string name="notification_subscription_name">Novos toots</string>
     <string name="notification_subscription_format">%s recém tootou</string>
     <string name="title_announcements">Comunicados</string>
+    <string name="follow_requests_info">Apesar do seu perfil não ser trancado, %1$s exige que você revise a solicitação para te seguir destes perfis manualmente.</string>
+    <string name="action_unsubscribe_account">Cancelar</string>
+    <string name="action_subscribe_account">Notificar</string>
+    <string name="pref_title_animate_custom_emojis">Animar emojis personalizados</string>
+    <string name="dialog_delete_conversation_warning">Excluir esta conversa\?</string>
+    <string name="action_delete_conversation">Excluir conversa</string>
+    <string name="dialog_delete_list_warning">Deseja excluir a lista %s\?</string>
 </resources>
