@@ -19,24 +19,34 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
+import androidx.lifecycle.lifecycleScope
+import androidx.paging.LoadState
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import autodispose2.androidx.lifecycle.autoDispose
 import com.keylesspalace.tusky.BaseActivity
 import com.keylesspalace.tusky.R
+import com.keylesspalace.tusky.appstore.EventHub
+import com.keylesspalace.tusky.appstore.StatusScheduledEvent
 import com.keylesspalace.tusky.components.compose.ComposeActivity
 import com.keylesspalace.tusky.databinding.ActivityScheduledTootBinding
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.entity.ScheduledStatus
-import com.keylesspalace.tusky.util.Status
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.show
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class ScheduledTootActivity : BaseActivity(), ScheduledTootActionListener, Injectable {
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
+
+    @Inject
+    lateinit var eventHub: EventHub
 
     private val viewModel: ScheduledTootViewModel by viewModels { viewModelFactory }
 
@@ -64,58 +74,58 @@ class ScheduledTootActivity : BaseActivity(), ScheduledTootActionListener, Injec
         binding.scheduledTootList.addItemDecoration(divider)
         binding.scheduledTootList.adapter = adapter
 
-        viewModel.data.observe(this) {
-            adapter.submitList(it)
+        lifecycleScope.launch {
+            viewModel.data.collectLatest { pagingData ->
+                adapter.submitData(pagingData)
+            }
         }
 
-        viewModel.networkState.observe(this) { (status) ->
-            when(status) {
-                Status.SUCCESS -> {
-                    binding.progressBar.hide()
-                    binding.swipeRefreshLayout.isRefreshing = false
-                    if(viewModel.data.value?.loadedCount == 0) {
-                        binding.errorMessageView.setup(R.drawable.elephant_friend_empty, R.string.no_scheduled_status)
-                        binding.errorMessageView.show()
-                    } else {
-                        binding.errorMessageView.hide()
-                    }
+        adapter.addLoadStateListener { loadState ->
+            if (loadState.refresh is Error) {
+                binding.progressBar.hide()
+                binding.errorMessageView.setup(R.drawable.elephant_error, R.string.error_generic) {
+                    refreshStatuses()
                 }
-                Status.RUNNING -> {
+                binding.errorMessageView.show()
+            }
+            if (loadState.refresh != LoadState.Loading) {
+                binding.swipeRefreshLayout.isRefreshing = false
+            }
+            if (loadState.refresh is LoadState.NotLoading) {
+                binding.progressBar.hide()
+                if(adapter.itemCount == 0) {
+                    binding.errorMessageView.setup(R.drawable.elephant_friend_empty, R.string.no_scheduled_status)
+                    binding.errorMessageView.show()
+                } else {
                     binding.errorMessageView.hide()
-                    if(viewModel.data.value?.loadedCount ?: 0 > 0) {
-                        binding.swipeRefreshLayout.isRefreshing = true
-                    } else {
-                        binding.progressBar.show()
-                    }
-                }
-                Status.FAILED -> {
-                    if(viewModel.data.value?.loadedCount ?: 0 >= 0) {
-                        binding.progressBar.hide()
-                        binding.swipeRefreshLayout.isRefreshing = false
-                        binding.errorMessageView.setup(R.drawable.elephant_error, R.string.error_generic) {
-                            refreshStatuses()
-                        }
-                        binding.errorMessageView.show()
-                    }
                 }
             }
         }
+
+        eventHub.events
+            .observeOn(AndroidSchedulers.mainThread())
+            .autoDispose(this)
+            .subscribe { event ->
+                if (event is StatusScheduledEvent) {
+                    adapter.refresh()
+                }
+            }
     }
 
     private fun refreshStatuses() {
-        viewModel.reload()
+        adapter.refresh()
     }
 
     override fun edit(item: ScheduledStatus) {
         val intent = ComposeActivity.startIntent(this, ComposeActivity.ComposeOptions(
-                scheduledTootId = item.id,
-                tootText = item.params.text,
-                contentWarning = item.params.spoilerText,
-                mediaAttachments = item.mediaAttachments,
-                inReplyToId = item.params.inReplyToId,
-                visibility = item.params.visibility,
-                scheduledAt = item.scheduledAt,
-                sensitive = item.params.sensitive
+            scheduledTootId = item.id,
+            tootText = item.params.text,
+            contentWarning = item.params.spoilerText,
+            mediaAttachments = item.mediaAttachments,
+            inReplyToId = item.params.inReplyToId,
+            visibility = item.params.visibility,
+            scheduledAt = item.scheduledAt,
+            sensitive = item.params.sensitive
         ))
         startActivity(intent)
     }
@@ -125,9 +135,6 @@ class ScheduledTootActivity : BaseActivity(), ScheduledTootActionListener, Injec
     }
 
     companion object {
-        @JvmStatic
-        fun newIntent(context: Context): Intent {
-            return Intent(context, ScheduledTootActivity::class.java)
-        }
+        fun newIntent(context: Context) = Intent(context, ScheduledTootActivity::class.java)
     }
 }
