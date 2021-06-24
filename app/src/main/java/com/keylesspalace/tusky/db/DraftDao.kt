@@ -38,5 +38,4 @@ interface DraftDao {
 
     @Query("SELECT * FROM DraftEntity WHERE id = :id")
     suspend fun find(id: Int): DraftEntity?
-
 }
