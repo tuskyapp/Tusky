@@ -21,6 +21,7 @@ import androidx.core.net.toUri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
+import androidx.lifecycle.viewModelScope
 import com.keylesspalace.tusky.components.compose.ComposeActivity.QueuedMedia
 import com.keylesspalace.tusky.components.drafts.DraftHelper
 import com.keylesspalace.tusky.components.search.SearchType
@@ -36,6 +37,7 @@ import com.keylesspalace.tusky.util.*
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.disposables.Disposable
+import kotlinx.coroutines.launch
 import java.util.*
 import javax.inject.Inject
 
@@ -214,22 +216,23 @@ class ComposeViewModel @Inject constructor(
     }
 
     fun deleteDraft() {
-        if (draftId != 0) {
-            draftHelper.deleteDraftAndAttachments(draftId)
-                    .subscribe()
+        viewModelScope.launch {
+            if (draftId != 0) {
+                draftHelper.deleteDraftAndAttachments(draftId)
+            }
         }
     }
 
     fun saveDraft(content: String, contentWarning: String) {
+        viewModelScope.launch {
+            val mediaUris: MutableList<String> = mutableListOf()
+            val mediaDescriptions: MutableList<String?> = mutableListOf()
+            media.value?.forEach { item ->
+                mediaUris.add(item.uri.toString())
+                mediaDescriptions.add(item.description)
+            }
 
-        val mediaUris: MutableList<String> = mutableListOf()
-        val mediaDescriptions: MutableList<String?> = mutableListOf()
-        media.value?.forEach { item ->
-            mediaUris.add(item.uri.toString())
-            mediaDescriptions.add(item.description)
-        }
-
-        draftHelper.saveDraft(
+            draftHelper.saveDraft(
                 draftId = draftId,
                 accountId = accountManager.activeAccount?.id!!,
                 inReplyToId = inReplyToId,
@@ -241,7 +244,8 @@ class ComposeViewModel @Inject constructor(
                 mediaDescriptions = mediaDescriptions,
                 poll = poll.value,
                 failedToSend = false
-        ).subscribe()
+            )
+        }
     }
 
     /**

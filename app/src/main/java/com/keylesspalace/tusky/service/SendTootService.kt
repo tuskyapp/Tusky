@@ -27,6 +27,10 @@ import com.keylesspalace.tusky.entity.NewStatus
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.network.MastodonApi
 import dagger.android.AndroidInjection
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.launch
 import kotlinx.parcelize.Parcelize
 import retrofit2.Call
 import retrofit2.Callback
@@ -48,6 +52,9 @@ class SendTootService : Service(), Injectable {
     lateinit var database: AppDatabase
     @Inject
     lateinit var draftHelper: DraftHelper
+
+    private val supervisorJob = SupervisorJob()
+    private val serviceScope = CoroutineScope(Dispatchers.Main + supervisorJob)
 
     private val tootsToSend = ConcurrentHashMap<Int, TootToSend>()
     private val sendCalls = ConcurrentHashMap<Int, Call<Status>>()
@@ -148,7 +155,6 @@ class SendTootService : Service(), Injectable {
                 newStatus
         )
 
-
         sendCalls[tootId] = sendCall
 
         val callback = object : Callback<Status> {
@@ -160,8 +166,9 @@ class SendTootService : Service(), Injectable {
                 if (response.isSuccessful) {
                     // If the status was loaded from a draft, delete the draft and associated media files.
                     if (tootToSend.draftId != 0) {
-                        draftHelper.deleteDraftAndAttachments(tootToSend.draftId)
-                                .subscribe()
+                        serviceScope.launch {
+                            draftHelper.deleteDraftAndAttachments(tootToSend.draftId)
+                        }
                     }
 
                     if (scheduled) {
@@ -244,8 +251,8 @@ class SendTootService : Service(), Injectable {
     }
 
     private fun saveTootToDrafts(toot: TootToSend) {
-
-        draftHelper.saveDraft(
+        serviceScope.launch {
+            draftHelper.saveDraft(
                 draftId = toot.draftId,
                 accountId = toot.accountId,
                 inReplyToId = toot.inReplyToId,
@@ -257,7 +264,8 @@ class SendTootService : Service(), Injectable {
                 mediaDescriptions = toot.mediaDescriptions,
                 poll = toot.poll,
                 failedToSend = true
-        ).subscribe()
+            )
+        }
     }
 
     private fun cancelSendingIntent(tootId: Int): PendingIntent {
@@ -269,6 +277,10 @@ class SendTootService : Service(), Injectable {
         return PendingIntent.getService(this, tootId, intent, PendingIntent.FLAG_UPDATE_CURRENT)
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        supervisorJob.cancel()
+    }
 
     companion object {
 

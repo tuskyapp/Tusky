@@ -22,6 +22,7 @@ import android.util.Log
 import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import autodispose2.androidx.lifecycle.AndroidLifecycleScopeProvider.from
@@ -34,9 +35,10 @@ import com.keylesspalace.tusky.components.compose.ComposeActivity
 import com.keylesspalace.tusky.databinding.ActivityDraftsBinding
 import com.keylesspalace.tusky.db.DraftEntity
 import com.keylesspalace.tusky.di.ViewModelFactory
-import com.keylesspalace.tusky.util.hide
-import com.keylesspalace.tusky.util.show
+import com.keylesspalace.tusky.util.visible
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import javax.inject.Inject
 
@@ -51,7 +53,6 @@ class DraftsActivity : BaseActivity(), DraftActionListener {
     private lateinit var bottomSheet: BottomSheetBehavior<LinearLayout>
 
     override fun onCreate(savedInstanceState: Bundle?) {
-
         super.onCreate(savedInstanceState)
 
         binding = ActivityDraftsBinding.inflate(layoutInflater)
@@ -74,15 +75,14 @@ class DraftsActivity : BaseActivity(), DraftActionListener {
 
         bottomSheet = BottomSheetBehavior.from(binding.bottomSheet.root)
 
-        viewModel.drafts.observe(this) { draftList ->
-            if (draftList.isEmpty()) {
-                binding.draftsRecyclerView.hide()
-                binding.draftsErrorMessageView.show()
-            } else {
-                binding.draftsRecyclerView.show()
-                binding.draftsErrorMessageView.hide()
-                adapter.submitList(draftList)
+        lifecycleScope.launch {
+            viewModel.drafts.collectLatest { draftData ->
+                adapter.submitData(draftData)
             }
+        }
+
+        adapter.addLoadStateListener {
+            binding.draftsErrorMessageView.visible(adapter.itemCount == 0)
         }
     }
 

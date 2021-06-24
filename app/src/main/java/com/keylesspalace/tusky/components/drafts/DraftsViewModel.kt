@@ -16,13 +16,17 @@
 package com.keylesspalace.tusky.components.drafts
 
 import androidx.lifecycle.ViewModel
-import androidx.paging.toLiveData
+import androidx.lifecycle.viewModelScope
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.cachedIn
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.db.AppDatabase
 import com.keylesspalace.tusky.db.DraftEntity
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.network.MastodonApi
 import io.reactivex.rxjava3.core.Single
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class DraftsViewModel @Inject constructor(
@@ -32,22 +36,28 @@ class DraftsViewModel @Inject constructor(
     val draftHelper: DraftHelper
 ) : ViewModel() {
 
-    val drafts = database.draftDao().loadDrafts(accountManager.activeAccount?.id!!).toLiveData(pageSize = 20)
+    val drafts = Pager(
+        config = PagingConfig(pageSize = 20),
+        pagingSourceFactory = { database.draftDao().draftsPagingSource(accountManager.activeAccount?.id!!) }
+    ).flow
+        .cachedIn(viewModelScope)
 
     private val deletedDrafts: MutableList<DraftEntity> = mutableListOf()
 
     fun deleteDraft(draft: DraftEntity) {
         // this does not immediately delete media files to avoid unnecessary file operations
         // in case the user decides to restore the draft
-        database.draftDao().delete(draft.id)
-                .subscribe()
-        deletedDrafts.add(draft)
+        viewModelScope.launch {
+            database.draftDao().delete(draft.id)
+            deletedDrafts.add(draft)
+        }
     }
 
     fun restoreDraft(draft: DraftEntity) {
-        database.draftDao().insertOrReplace(draft)
-                .subscribe()
-        deletedDrafts.remove(draft)
+        viewModelScope.launch {
+            database.draftDao().insertOrReplace(draft)
+            deletedDrafts.remove(draft)
+        }
     }
 
     fun getToot(tootId: String): Single<Status> {
@@ -55,9 +65,10 @@ class DraftsViewModel @Inject constructor(
     }
 
     override fun onCleared() {
-        deletedDrafts.forEach {
-            draftHelper.deleteAttachments(it).subscribe()
+        viewModelScope.launch {
+            deletedDrafts.forEach {
+                draftHelper.deleteAttachments(it)
+            }
         }
     }
-
 }
