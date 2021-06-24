@@ -18,7 +18,7 @@ package com.keylesspalace.tusky.components.scheduled
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.paging.PagedListAdapter
+import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import com.keylesspalace.tusky.databinding.ItemScheduledTootBinding
 import com.keylesspalace.tusky.entity.ScheduledStatus
@@ -30,17 +30,18 @@ interface ScheduledTootActionListener {
 }
 
 class ScheduledTootAdapter(
-    val listener: ScheduledTootActionListener
-) : PagedListAdapter<ScheduledStatus, BindingHolder<ItemScheduledTootBinding>>(
-    object : DiffUtil.ItemCallback<ScheduledStatus>() {
-        override fun areItemsTheSame(oldItem: ScheduledStatus, newItem: ScheduledStatus): Boolean {
-            return oldItem.id == newItem.id
-        }
+        val listener: ScheduledTootActionListener
+) : PagingDataAdapter<ScheduledStatus, BindingHolder<ItemScheduledTootBinding>>(
+        object: DiffUtil.ItemCallback<ScheduledStatus>(){
+            override fun areItemsTheSame(oldItem: ScheduledStatus, newItem: ScheduledStatus): Boolean {
+                return oldItem.id == newItem.id
+            }
 
-        override fun areContentsTheSame(oldItem: ScheduledStatus, newItem: ScheduledStatus): Boolean {
-            return oldItem == newItem
+            override fun areContentsTheSame(oldItem: ScheduledStatus, newItem: ScheduledStatus): Boolean {
+                return oldItem == newItem
+            }
+
         }
-    }
 ) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BindingHolder<ItemScheduledTootBinding> {
@@ -49,7 +50,7 @@ class ScheduledTootAdapter(
     }
 
     override fun onBindViewHolder(holder: BindingHolder<ItemScheduledTootBinding>, position: Int) {
-        getItem(position)?.let { item ->
+        getItem(position)?.let{ item ->
             holder.binding.edit.isEnabled = true
             holder.binding.delete.isEnabled = true
             holder.binding.text.text = item.params.text

@@ -530,4 +530,6 @@
     <string name="caption_notoemoji">Поточний набір емодзі Google</string>
     <string name="caption_twemoji">Стандартний набір емодзі Mastodon</string>
     <string name="follow_requests_info">Навіть попри те, що ваш обліковий запис загальнодоступний, співробітники %1$s вважають, що ви, можливо, захочете переглянути запити від цих облікових записів власноруч.</string>
+    <string name="dialog_delete_conversation_warning">Видалити цю бесіду\?</string>
+    <string name="action_delete_conversation">Видалити бесіду</string>
 </resources>

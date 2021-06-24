@@ -1,0 +1,5 @@
+Tusky v15.0
+
+- Seguidores Pendentes agora ficará fixo no menu principal! 
+- O relógio para agendar toots ficou mais bonitinho e combina melhor com o resto do Tusky
+Para ver mais: https://github.com/tuskyapp/Tusky/releases

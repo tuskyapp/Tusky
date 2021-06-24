@@ -16,54 +16,39 @@
 package com.keylesspalace.tusky.components.scheduled
 
 import android.util.Log
-import androidx.paging.Config
-import androidx.paging.toLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.cachedIn
 import com.keylesspalace.tusky.appstore.EventHub
-import com.keylesspalace.tusky.appstore.StatusScheduledEvent
 import com.keylesspalace.tusky.entity.ScheduledStatus
 import com.keylesspalace.tusky.network.MastodonApi
-import com.keylesspalace.tusky.util.RxAwareViewModel
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.rx3.await
 import javax.inject.Inject
 
 class ScheduledTootViewModel @Inject constructor(
-    val mastodonApi: MastodonApi,
-    val eventHub: EventHub
-) : RxAwareViewModel() {
+        val mastodonApi: MastodonApi,
+        val eventHub: EventHub
+): ViewModel() {
 
-    private val dataSourceFactory = ScheduledTootDataSourceFactory(mastodonApi, disposables)
+    private val pagingSourceFactory = ScheduledTootPagingSourceFactory(mastodonApi)
 
-    val data = dataSourceFactory.toLiveData(
-        config = Config(pageSize = 20, initialLoadSizeHint = 20, enablePlaceholders = false)
-    )
-
-    val networkState = dataSourceFactory.networkState
-
-    init {
-        eventHub.events
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe { event ->
-                if (event is StatusScheduledEvent) {
-                    reload()
-                }
-            }
-            .autoDispose()
-    }
-
-    fun reload() {
-        dataSourceFactory.reload()
-    }
+    val data = Pager(
+        config = PagingConfig(pageSize = 20, initialLoadSize = 20),
+        pagingSourceFactory = pagingSourceFactory
+    ).flow
+        .cachedIn(viewModelScope)
 
     fun deleteScheduledStatus(status: ScheduledStatus) {
-        mastodonApi.deleteScheduledStatus(status.id)
-            .subscribe(
-                {
-                    dataSourceFactory.remove(status)
-                },
-                { throwable ->
-                    Log.w("ScheduledTootViewModel", "Error deleting scheduled status", throwable)
-                }
-            )
-            .autoDispose()
+        viewModelScope.launch {
+            try {
+                mastodonApi.deleteScheduledStatus(status.id).await()
+                pagingSourceFactory.remove(status)
+            } catch (throwable: Throwable) {
+                Log.w("ScheduledTootViewModel", "Error deleting scheduled status", throwable)
+            }
+        }
     }
 }
