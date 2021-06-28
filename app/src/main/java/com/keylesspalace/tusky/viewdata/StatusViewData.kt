@@ -59,6 +59,9 @@ sealed class StatusViewData private constructor() {
         val actionable: Status
             get() = status.actionableStatus
 
+        val actionableId: String
+            get() = status.actionableStatus.id
+
         val rebloggedAvatar: String?
             get() = if (status.reblog != null) {
                 status.account.avatar
@@ -91,10 +94,10 @@ sealed class StatusViewData private constructor() {
                 return replaceCrashingCharacters(content as CharSequence) as Spanned
             }
 
-            fun replaceCrashingCharacters(content: CharSequence?): CharSequence? {
+            fun replaceCrashingCharacters(content: CharSequence): CharSequence? {
                 var replacing = false
                 var builder: SpannableStringBuilder? = null
-                val length = content!!.length
+                val length = content.length
                 for (index in 0 until length) {
                     val character = content[index]
 

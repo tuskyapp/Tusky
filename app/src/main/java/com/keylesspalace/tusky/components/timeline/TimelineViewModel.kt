@@ -335,10 +335,10 @@ class TimelineViewModel @Inject constructor(
     fun reblog(reblog: Boolean, position: Int): Job = viewModelScope.launch {
         val status = statuses[position].asStatusOrNull() ?: return@launch
         try {
-            timelineCases.reblog(status.id, reblog).await()
+            timelineCases.reblog(status.actionableId, reblog).await()
         } catch (t: Exception) {
             ifExpected(t) {
-                Log.d(TAG, "Failed to reblog status " + status.id, t)
+                Log.d(TAG, "Failed to reblog status " + status.actionableId, t)
             }
         }
     }
@@ -347,10 +347,10 @@ class TimelineViewModel @Inject constructor(
         val status = statuses[position].asStatusOrNull() ?: return@launch
 
         try {
-            timelineCases.favourite(status.id, favorite).await()
+            timelineCases.favourite(status.actionableId, favorite).await()
         } catch (t: Exception) {
             ifExpected(t) {
-                Log.d(TAG, "Failed to favourite status " + status.id, t)
+                Log.d(TAG, "Failed to favourite status " + status.actionableId, t)
             }
         }
     }
@@ -358,10 +358,10 @@ class TimelineViewModel @Inject constructor(
     fun bookmark(bookmark: Boolean, position: Int): Job = viewModelScope.launch {
         val status = statuses[position].asStatusOrNull() ?: return@launch
         try {
-            timelineCases.bookmark(status.id, bookmark).await()
+            timelineCases.bookmark(status.actionableId, bookmark).await()
         } catch (t: Exception) {
             ifExpected(t) {
-                Log.d(TAG, "Failed to favourite status " + status.id, t)
+                Log.d(TAG, "Failed to favourite status " + status.actionableId, t)
             }
         }
     }
@@ -378,10 +378,10 @@ class TimelineViewModel @Inject constructor(
         updatePoll(status, votedPoll)
 
         try {
-            timelineCases.voteInPoll(status.id, poll.id, choices).await()
+            timelineCases.voteInPoll(status.actionableId, poll.id, choices).await()
         } catch (t: Exception) {
             ifExpected(t) {
-                Log.d(TAG, "Failed to vote in poll: " + status.id, t)
+                Log.d(TAG, "Failed to vote in poll: " + status.actionableId, t)
             }
         }
     }
@@ -718,20 +718,20 @@ class TimelineViewModel @Inject constructor(
     }
 
     private fun handleFavEvent(favEvent: FavoriteEvent) {
-        updateStatusById(favEvent.statusId) {
-            it.copy(status = it.status.copy(favourited = favEvent.favourite))
+        updateActionableStatusById(favEvent.statusId) {
+            it.copy(favourited = favEvent.favourite)
         }
     }
 
     private fun handleBookmarkEvent(bookmarkEvent: BookmarkEvent) {
-        updateStatusById(bookmarkEvent.statusId) {
-            it.copy(status = it.status.copy(bookmarked = bookmarkEvent.bookmark))
+        updateActionableStatusById(bookmarkEvent.statusId) {
+            it.copy(bookmarked = bookmarkEvent.bookmark)
         }
     }
 
     private fun handlePinEvent(pinEvent: PinEvent) {
-        updateStatusById(pinEvent.statusId) {
-            it.copy(status = it.status.copy(pinned = pinEvent.pinned))
+        updateActionableStatusById(pinEvent.statusId) {
+            it.copy(pinned = pinEvent.pinned)
         }
     }
 
@@ -854,6 +854,21 @@ class TimelineViewModel @Inject constructor(
             }
             is PreferenceChangedEvent -> {
                 onPreferenceChanged(event.preferenceKey)
+            }
+        }
+    }
+
+    private inline fun updateActionableStatusById(
+        id: String,
+        updater: (Status) -> Status
+    ) {
+        val pos = statuses.indexOfFirst { it.asStatusOrNull()?.id == id }
+        if (pos == -1) return
+        updateStatusAt(pos) {
+            if (it.status.reblog != null) {
+                it.copy(status = it.status.copy(reblog = updater(it.status.reblog)))
+            } else {
+                it.copy(status = updater(it.status))
             }
         }
     }
