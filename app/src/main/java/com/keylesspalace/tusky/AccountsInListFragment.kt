@@ -36,7 +36,13 @@ import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.entity.Account
 import com.keylesspalace.tusky.settings.PrefKeys
-import com.keylesspalace.tusky.util.*
+import com.keylesspalace.tusky.util.BindingHolder
+import com.keylesspalace.tusky.util.Either
+import com.keylesspalace.tusky.util.emojify
+import com.keylesspalace.tusky.util.hide
+import com.keylesspalace.tusky.util.loadAvatar
+import com.keylesspalace.tusky.util.show
+import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.viewmodel.AccountsInListViewModel
 import com.keylesspalace.tusky.viewmodel.State
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
@@ -93,18 +99,18 @@ class AccountsInListFragment : DialogFragment(), Injectable {
         binding.accountsSearchRecycler.adapter = searchAdapter
 
         viewModel.state
-                .observeOn(AndroidSchedulers.mainThread())
-                .autoDispose(from(this))
-                .subscribe { state ->
-                    adapter.submitList(state.accounts.asRightOrNull() ?: listOf())
+            .observeOn(AndroidSchedulers.mainThread())
+            .autoDispose(from(this))
+            .subscribe { state ->
+                adapter.submitList(state.accounts.asRightOrNull() ?: listOf())
 
-                    when (state.accounts) {
-                        is Either.Right -> binding.messageView.hide()
-                        is Either.Left -> handleError(state.accounts.value)
-                    }
-
-                    setupSearchView(state)
+                when (state.accounts) {
+                    is Either.Right -> binding.messageView.hide()
+                    is Either.Left -> handleError(state.accounts.value)
                 }
+
+                setupSearchView(state)
+            }
 
         binding.searchView.isSubmitButtonEnabled = true
         binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
@@ -146,11 +152,15 @@ class AccountsInListFragment : DialogFragment(), Injectable {
             viewModel.load(listId)
         }
         if (error is IOException) {
-            binding.messageView.setup(R.drawable.elephant_offline,
-                    R.string.error_network, retryAction)
+            binding.messageView.setup(
+                R.drawable.elephant_offline,
+                R.string.error_network, retryAction
+            )
         } else {
-            binding.messageView.setup(R.drawable.elephant_error,
-                    R.string.error_generic, retryAction)
+            binding.messageView.setup(
+                R.drawable.elephant_error,
+                R.string.error_generic, retryAction
+            )
         }
     }
 
@@ -184,7 +194,7 @@ class AccountsInListFragment : DialogFragment(), Injectable {
                 onRemoveFromList(getItem(holder.bindingAdapterPosition).id)
             }
             binding.rejectButton.contentDescription =
-                    binding.root.context.getString(R.string.action_remove_from_list)
+                binding.root.context.getString(R.string.action_remove_from_list)
 
             return holder
         }
@@ -203,8 +213,8 @@ class AccountsInListFragment : DialogFragment(), Injectable {
         }
 
         override fun areContentsTheSame(oldItem: AccountInfo, newItem: AccountInfo): Boolean {
-            return oldItem.second == newItem.second
-                    && oldItem.first.deepEquals(newItem.first)
+            return oldItem.second == newItem.second &&
+                oldItem.first.deepEquals(newItem.first)
         }
     }
 

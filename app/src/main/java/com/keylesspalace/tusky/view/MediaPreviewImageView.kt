@@ -24,7 +24,6 @@ import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import com.keylesspalace.tusky.entity.Attachment
-
 import com.keylesspalace.tusky.util.FocalPointUtil
 
 /**
@@ -40,10 +39,10 @@ import com.keylesspalace.tusky.util.FocalPointUtil
  */
 class MediaPreviewImageView
 @JvmOverloads constructor(
-context: Context,
-attrs: AttributeSet? = null,
-defStyleAttr: Int = 0
-) : AppCompatImageView(context, attrs, defStyleAttr),RequestListener<Drawable> {
+    context: Context,
+    attrs: AttributeSet? = null,
+    defStyleAttr: Int = 0
+) : AppCompatImageView(context, attrs, defStyleAttr), RequestListener<Drawable> {
     private var focus: Attachment.Focus? = null
     private var focalMatrix: Matrix? = null
 
@@ -106,7 +105,6 @@ defStyleAttr: Int = 0
         return false
     }
 
-
     /**
      * Called when the size of the view changes, it calls the FocalPointUtil to update the
      * matrix if we have a set focal point. It then reassigns the matrix to this imageView.
@@ -120,9 +118,11 @@ defStyleAttr: Int = 0
     private fun recalculateMatrix(width: Int, height: Int, drawable: Drawable?) {
         if (drawable != null && focus != null && focalMatrix != null) {
             scaleType = ScaleType.MATRIX
-            FocalPointUtil.updateFocalPointMatrix(width.toFloat(), height.toFloat(),
-                    drawable.intrinsicWidth.toFloat(), drawable.intrinsicHeight.toFloat(),
-                    focus as Attachment.Focus, focalMatrix as Matrix)
+            FocalPointUtil.updateFocalPointMatrix(
+                width.toFloat(), height.toFloat(),
+                drawable.intrinsicWidth.toFloat(), drawable.intrinsicHeight.toFloat(),
+                focus as Attachment.Focus, focalMatrix as Matrix
+            )
             imageMatrix = focalMatrix
         }
     }

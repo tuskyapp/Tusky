@@ -31,17 +31,17 @@ import com.keylesspalace.tusky.util.BindingHolder
 import com.keylesspalace.tusky.util.LinkHelper
 import com.keylesspalace.tusky.util.emojify
 
-interface AnnouncementActionListener: LinkListener {
+interface AnnouncementActionListener : LinkListener {
     fun openReactionPicker(announcementId: String, target: View)
     fun addReaction(announcementId: String, name: String)
     fun removeReaction(announcementId: String, name: String)
 }
 
 class AnnouncementAdapter(
-        private var items: List<Announcement> = emptyList(),
-        private val listener: AnnouncementActionListener,
-        private val wellbeingEnabled: Boolean = false,
-        private val animateEmojis: Boolean = false
+    private var items: List<Announcement> = emptyList(),
+    private val listener: AnnouncementActionListener,
+    private val wellbeingEnabled: Boolean = false,
+    private val animateEmojis: Boolean = false
 ) : RecyclerView.Adapter<BindingHolder<ItemAnnouncementBinding>>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BindingHolder<ItemAnnouncementBinding> {
@@ -67,12 +67,12 @@ class AnnouncementAdapter(
         }
 
         item.reactions.forEachIndexed { i, reaction ->
-            (chips.getChildAt(i)?.takeUnless { it.id == R.id.addReactionChip } as Chip?
-                    ?: Chip(ContextThemeWrapper(chips.context, R.style.Widget_MaterialComponents_Chip_Choice)).apply {
-                        isCheckable = true
-                        checkedIcon = null
-                        chips.addView(this, i)
-                    })
+            chips.getChildAt(i)?.takeUnless { it.id == R.id.addReactionChip } as Chip?
+                ?: Chip(ContextThemeWrapper(chips.context, R.style.Widget_MaterialComponents_Chip_Choice)).apply {
+                    isCheckable = true
+                    checkedIcon = null
+                    chips.addView(this, i)
+                }
                     .apply {
                         val emojiText = if (reaction.url == null) {
                             reaction.name
@@ -80,16 +80,18 @@ class AnnouncementAdapter(
                             context.getString(R.string.emoji_shortcode_format, reaction.name)
                         }
                         this.text = ("$emojiText ${reaction.count}")
-                                .emojify(
-                                        listOf(Emoji(
-                                                reaction.name,
-                                                reaction.url ?: "",
-                                                reaction.staticUrl ?: "",
-                                                null
-                                        )),
-                                        this,
-                                        animateEmojis
-                                )
+                            .emojify(
+                                listOf(
+                                    Emoji(
+                                        reaction.name,
+                                        reaction.url ?: "",
+                                        reaction.staticUrl ?: "",
+                                        null
+                                    )
+                                ),
+                                this,
+                                animateEmojis
+                            )
 
                         isChecked = reaction.me
 

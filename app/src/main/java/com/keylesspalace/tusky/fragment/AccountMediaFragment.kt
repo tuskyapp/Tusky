@@ -49,7 +49,7 @@ import io.reactivex.rxjava3.core.SingleObserver
 import io.reactivex.rxjava3.disposables.Disposable
 import retrofit2.Response
 import java.io.IOException
-import java.util.*
+import java.util.Random
 import javax.inject.Inject
 
 /**
@@ -156,18 +156,17 @@ class AccountMediaFragment : Fragment(R.layout.fragment_timeline), RefreshableFr
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        isSwipeToRefreshEnabled = arguments?.getBoolean(ARG_ENABLE_SWIPE_TO_REFRESH,true) == true
-        accountId =  arguments?.getString(ACCOUNT_ID_ARG)!!
+        isSwipeToRefreshEnabled = arguments?.getBoolean(ARG_ENABLE_SWIPE_TO_REFRESH, true) == true
+        accountId = arguments?.getString(ACCOUNT_ID_ARG)!!
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
         val columnCount = view.context.resources.getInteger(R.integer.profile_media_column_count)
         val layoutManager = GridLayoutManager(view.context, columnCount)
 
-        adapter.baseItemColor =  ThemeUtils.getColor(view.context, android.R.attr.windowBackground)
+        adapter.baseItemColor = ThemeUtils.getColor(view.context, android.R.attr.windowBackground)
 
         binding.recyclerView.layoutManager = layoutManager
         binding.recyclerView.adapter = adapter
@@ -188,12 +187,12 @@ class AccountMediaFragment : Fragment(R.layout.fragment_timeline), RefreshableFr
                     val lastItem = layoutManager.findLastCompletelyVisibleItemPosition()
                     if (itemCount <= lastItem + 3 && fetchingStatus == FetchingStatus.NOT_FETCHING) {
                         statuses.lastOrNull()?.let { (id) ->
-                            Log.d(TAG, "Requesting statuses with max_id: ${id}, (bottom)")
+                            Log.d(TAG, "Requesting statuses with max_id: $id, (bottom)")
                             fetchingStatus = FetchingStatus.FETCHING_BOTTOM
                             api.accountStatuses(accountId, id, null, null, null, true, null)
-                                    .observeOn(AndroidSchedulers.mainThread())
-                                    .autoDispose(this@AccountMediaFragment, Lifecycle.Event.ON_DESTROY)
-                                    .subscribe(bottomCallback)
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .autoDispose(this@AccountMediaFragment, Lifecycle.Event.ON_DESTROY)
+                                .subscribe(bottomCallback)
                         }
                     }
                 }
@@ -213,8 +212,8 @@ class AccountMediaFragment : Fragment(R.layout.fragment_timeline), RefreshableFr
             fetchingStatus = FetchingStatus.REFRESHING
             api.accountStatuses(accountId, null, statuses[0].id, null, null, true, null)
         }.observeOn(AndroidSchedulers.mainThread())
-                .autoDispose(this, Lifecycle.Event.ON_DESTROY)
-                .subscribe(callback)
+            .autoDispose(this, Lifecycle.Event.ON_DESTROY)
+            .subscribe(callback)
 
         if (!isSwipeToRefreshEnabled)
             binding.topProgressBar.show()
@@ -227,11 +226,10 @@ class AccountMediaFragment : Fragment(R.layout.fragment_timeline), RefreshableFr
         if (fetchingStatus == FetchingStatus.NOT_FETCHING && statuses.isEmpty()) {
             fetchingStatus = FetchingStatus.INITIAL_FETCHING
             api.accountStatuses(accountId, null, null, null, null, true, null)
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .autoDispose(this@AccountMediaFragment, Lifecycle.Event.ON_DESTROY)
-                    .subscribe(callback)
-        }
-        else if (needToRefresh)
+                .observeOn(AndroidSchedulers.mainThread())
+                .autoDispose(this@AccountMediaFragment, Lifecycle.Event.ON_DESTROY)
+                .subscribe(callback)
+        } else if (needToRefresh)
             refresh()
         needToRefresh = false
     }
@@ -264,7 +262,7 @@ class AccountMediaFragment : Fragment(R.layout.fragment_timeline), RefreshableFr
     }
 
     inner class MediaGridAdapter :
-            RecyclerView.Adapter<MediaGridAdapter.MediaViewHolder>() {
+        RecyclerView.Adapter<MediaGridAdapter.MediaViewHolder>() {
 
         var baseItemColor = Color.BLACK
 
@@ -305,15 +303,14 @@ class AccountMediaFragment : Fragment(R.layout.fragment_timeline), RefreshableFr
             val item = items[position]
 
             Glide.with(holder.imageView)
-                    .load(item.attachment.previewUrl)
-                    .centerInside()
-                    .into(holder.imageView)
+                .load(item.attachment.previewUrl)
+                .centerInside()
+                .into(holder.imageView)
         }
 
-
-        inner class MediaViewHolder(val imageView: ImageView)
-            : RecyclerView.ViewHolder(imageView),
-                View.OnClickListener {
+        inner class MediaViewHolder(val imageView: ImageView) :
+            RecyclerView.ViewHolder(imageView),
+            View.OnClickListener {
             init {
                 itemView.setOnClickListener(this)
             }
@@ -334,11 +331,11 @@ class AccountMediaFragment : Fragment(R.layout.fragment_timeline), RefreshableFr
 
     companion object {
         @JvmStatic
-        fun newInstance(accountId: String, enableSwipeToRefresh:Boolean=true): AccountMediaFragment {
+        fun newInstance(accountId: String, enableSwipeToRefresh: Boolean = true): AccountMediaFragment {
             val fragment = AccountMediaFragment()
             val args = Bundle()
             args.putString(ACCOUNT_ID_ARG, accountId)
-            args.putBoolean(ARG_ENABLE_SWIPE_TO_REFRESH,enableSwipeToRefresh)
+            args.putBoolean(ARG_ENABLE_SWIPE_TO_REFRESH, enableSwipeToRefresh)
             fragment.arguments = args
             return fragment
         }

@@ -19,15 +19,12 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.commit
-import com.keylesspalace.tusky.databinding.ActivityStatuslistBinding
-
 import com.keylesspalace.tusky.components.timeline.TimelineFragment
 import com.keylesspalace.tusky.components.timeline.TimelineViewModel.Kind
-
-import javax.inject.Inject
-
+import com.keylesspalace.tusky.databinding.ActivityStatuslistBinding
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
+import javax.inject.Inject
 
 class StatusListActivity : BottomSheetActivity(), HasAndroidInjector {
 
@@ -44,7 +41,7 @@ class StatusListActivity : BottomSheetActivity(), HasAndroidInjector {
 
         setSupportActionBar(binding.includedToolbar.toolbar)
 
-        val title = if(kind == Kind.FAVOURITES) {
+        val title = if (kind == Kind.FAVOURITES) {
             R.string.title_favourites
         } else {
             R.string.title_bookmarks
@@ -60,7 +57,6 @@ class StatusListActivity : BottomSheetActivity(), HasAndroidInjector {
             val fragment = TimelineFragment.newInstance(kind)
             replace(R.id.fragment_container, fragment)
         }
-
     }
 
     override fun androidInjector() = dispatchingAndroidInjector
@@ -71,15 +67,14 @@ class StatusListActivity : BottomSheetActivity(), HasAndroidInjector {
 
         @JvmStatic
         fun newFavouritesIntent(context: Context) =
-                Intent(context, StatusListActivity::class.java).apply {
-                    putExtra(EXTRA_KIND, Kind.FAVOURITES.name)
-                }
+            Intent(context, StatusListActivity::class.java).apply {
+                putExtra(EXTRA_KIND, Kind.FAVOURITES.name)
+            }
 
         @JvmStatic
         fun newBookmarksIntent(context: Context) =
-                Intent(context, StatusListActivity::class.java).apply {
-                    putExtra(EXTRA_KIND, Kind.BOOKMARKS.name)
-                }
+            Intent(context, StatusListActivity::class.java).apply {
+                putExtra(EXTRA_KIND, Kind.BOOKMARKS.name)
+            }
     }
-
 }

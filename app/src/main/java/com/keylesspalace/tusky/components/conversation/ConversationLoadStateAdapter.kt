@@ -37,5 +37,4 @@ class ConversationLoadStateAdapter(
         val binding = ItemNetworkStateBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return NetworkStateViewHolder(binding, retryCallback)
     }
-
 }

@@ -16,7 +16,6 @@ package com.keylesspalace.tusky.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.recyclerview.widget.RecyclerView
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.interfaces.AccountActionListener
 

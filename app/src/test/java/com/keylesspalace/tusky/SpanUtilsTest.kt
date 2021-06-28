@@ -36,10 +36,10 @@ class SpanUtilsTest {
             @JvmStatic
             fun data(): Iterable<Any> {
                 return listOf(
-                        "@mention",
-                        "#tag",
-                        "https://thr.ee/meh?foo=bar&wat=@at#hmm",
-                        "http://thr.ee/meh?foo=bar&wat=@at#hmm"
+                    "@mention",
+                    "#tag",
+                    "https://thr.ee/meh?foo=bar&wat=@at#hmm",
+                    "http://thr.ee/meh?foo=bar&wat=@at#hmm"
                 )
             }
         }
@@ -94,21 +94,23 @@ class SpanUtilsTest {
     }
 
     @RunWith(Parameterized::class)
-    class HighlightingTestsForTag(private val text: String,
-                                private val expectedStartIndex: Int,
-                                private val expectedEndIndex: Int) {
+    class HighlightingTestsForTag(
+        private val text: String,
+        private val expectedStartIndex: Int,
+        private val expectedEndIndex: Int
+    ) {
         companion object {
             @Parameterized.Parameters(name = "{0}")
             @JvmStatic
             fun data(): Iterable<Any> {
                 return listOf(
-                        arrayOf("#test", 0, 5),
-                        arrayOf(" #AfterSpace", 1, 12),
-                        arrayOf("#BeforeSpace ", 0, 12),
-                        arrayOf("@#after_at", 1, 10),
-                        arrayOf("あいうえお#after_hiragana", 5, 20),
-                        arrayOf("##DoubleHash", 1, 12),
-                        arrayOf("###TripleHash", 2, 13)
+                    arrayOf("#test", 0, 5),
+                    arrayOf(" #AfterSpace", 1, 12),
+                    arrayOf("#BeforeSpace ", 0, 12),
+                    arrayOf("@#after_at", 1, 10),
+                    arrayOf("あいうえお#after_hiragana", 5, 20),
+                    arrayOf("##DoubleHash", 1, 12),
+                    arrayOf("###TripleHash", 2, 13)
                 )
             }
         }
@@ -133,13 +135,13 @@ class SpanUtilsTest {
         }
 
         override fun <T : Any> getSpans(start: Int, end: Int, type: Class<T>): Array<T> {
-            return spans.filter { it.start >= start && it.end <= end && type.isInstance(it)}
-                        .map { it.span }
-                        .toTypedArray() as Array<T>
+            return spans.filter { it.start >= start && it.end <= end && type.isInstance(it) }
+                .map { it.span }
+                .toTypedArray() as Array<T>
         }
 
         override fun removeSpan(what: Any?) {
-            spans.removeIf { span -> span.span == what}
+            spans.removeIf { span -> span.span == what }
         }
 
         override fun toString(): String {

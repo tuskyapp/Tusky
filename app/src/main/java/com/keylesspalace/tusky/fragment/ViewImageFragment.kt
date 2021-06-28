@@ -66,12 +66,11 @@ class ViewImageFragment : ViewMediaFragment() {
         photoActionsListener = context as PhotoActionsListener
     }
 
-
     override fun setupMediaView(
-            url: String,
-            previewUrl: String?,
-            description: String?,
-            showingDescription: Boolean
+        url: String,
+        previewUrl: String?,
+        description: String?,
+        showingDescription: Boolean
     ) {
         binding.photoView.transitionName = url
         binding.mediaDescription.text = description
@@ -136,9 +135,9 @@ class ViewImageFragment : ViewMediaFragment() {
 
             if (event.action == MotionEvent.ACTION_DOWN) {
                 lastY = event.rawY
-            } else if (event.pointerCount == 1
-                    && attacher.scale == 1f
-                    && event.action == MotionEvent.ACTION_MOVE
+            } else if (event.pointerCount == 1 &&
+                attacher.scale == 1f &&
+                event.action == MotionEvent.ACTION_MOVE
             ) {
                 val diff = event.rawY - lastY
                 // This code is to prevent transformations during page scrolling
@@ -176,21 +175,21 @@ class ViewImageFragment : ViewMediaFragment() {
     }
 
     override fun onToolbarVisibilityChange(visible: Boolean) {
-        if (_binding == null || !userVisibleHint ) {
+        if (_binding == null || !userVisibleHint) {
             return
         }
         isDescriptionVisible = showingDescription && visible
         val alpha = if (isDescriptionVisible) 1.0f else 0.0f
         binding.captionSheet.animate().alpha(alpha)
-                .setListener(object : AnimatorListenerAdapter() {
-                    override fun onAnimationEnd(animation: Animator) {
-                        if (_binding != null) {
-                            binding.captionSheet.visible(isDescriptionVisible)
-                        }
-                        animation.removeListener(this)
+            .setListener(object : AnimatorListenerAdapter() {
+                override fun onAnimationEnd(animation: Animator) {
+                    if (_binding != null) {
+                        binding.captionSheet.visible(isDescriptionVisible)
                     }
-                })
-                .start()
+                    animation.removeListener(this)
+                }
+            })
+            .start()
     }
 
     override fun onDestroyView() {
@@ -204,27 +203,30 @@ class ViewImageFragment : ViewMediaFragment() {
         val glide = Glide.with(this)
         // Request image from the any cache
         glide
-                .load(url)
-                .dontAnimate()
-                .onlyRetrieveFromCache(true)
-                .let {
-                    if (previewUrl != null)
-                        it.thumbnail(glide
-                                .load(previewUrl)
-                                .dontAnimate()
-                                .onlyRetrieveFromCache(true)
-                                .centerInside()
-                                .addListener(ImageRequestListener(true, isThumnailRequest = true)))
-                    else it
-                }
-                //Request image from the network on fail load image from cache
-                .error(glide.load(url)
-                        .centerInside()
-                        .addListener(ImageRequestListener(false, isThumnailRequest = false))
-                )
-                .centerInside()
-                .addListener(ImageRequestListener(true, isThumnailRequest = false))
-                .into(photoView)
+            .load(url)
+            .dontAnimate()
+            .onlyRetrieveFromCache(true)
+            .let {
+                if (previewUrl != null)
+                    it.thumbnail(
+                        glide
+                            .load(previewUrl)
+                            .dontAnimate()
+                            .onlyRetrieveFromCache(true)
+                            .centerInside()
+                            .addListener(ImageRequestListener(true, isThumnailRequest = true))
+                    )
+                else it
+            }
+            // Request image from the network on fail load image from cache
+            .error(
+                glide.load(url)
+                    .centerInside()
+                    .addListener(ImageRequestListener(false, isThumnailRequest = false))
+            )
+            .centerInside()
+            .addListener(ImageRequestListener(true, isThumnailRequest = false))
+            .into(photoView)
     }
 
     /**
@@ -248,14 +250,20 @@ class ViewImageFragment : ViewMediaFragment() {
      * @param isCacheRequest - is this listener for request image from cache or from the network
      */
     private inner class ImageRequestListener(
-            private val isCacheRequest: Boolean,
-            private val isThumnailRequest: Boolean) : RequestListener<Drawable> {
+        private val isCacheRequest: Boolean,
+        private val isThumnailRequest: Boolean
+    ) : RequestListener<Drawable> {
 
-        override fun onLoadFailed(e: GlideException?, model: Any, target: Target<Drawable>,
-                                  isFirstResource: Boolean): Boolean {
+        override fun onLoadFailed(
+            e: GlideException?,
+            model: Any,
+            target: Target<Drawable>,
+            isFirstResource: Boolean
+        ): Boolean {
             // If cache for full image failed complete transition
-            if (isCacheRequest && !isThumnailRequest && shouldStartTransition
-                    && !startedTransition) {
+            if (isCacheRequest && !isThumnailRequest && shouldStartTransition &&
+                !startedTransition
+            ) {
                 photoActionsListener.onBringUp()
             }
             // Hide progress bar only on fail request from internet
@@ -265,8 +273,13 @@ class ViewImageFragment : ViewMediaFragment() {
         }
 
         @SuppressLint("CheckResult")
-        override fun onResourceReady(resource: Drawable, model: Any, target: Target<Drawable>,
-                                     dataSource: DataSource, isFirstResource: Boolean): Boolean {
+        override fun onResourceReady(
+            resource: Drawable,
+            model: Any,
+            target: Target<Drawable>,
+            dataSource: DataSource,
+            isFirstResource: Boolean
+        ): Boolean {
             if (_binding != null) {
                 binding.progressBar.hide() // Always hide the progress bar on success
             }
@@ -284,14 +297,14 @@ class ViewImageFragment : ViewMediaFragment() {
                 // This wait for transition. If there's no transition then we should hit
                 // another branch. take() will unsubscribe after we have it to not leak menmory
                 transition
-                        .take(1)
-                        .subscribe {
-                            target.onResourceReady(resource, null)
-                            // It's needed. Don't ask why, I don't know, setImageDrawable() should
-                            // do it by itself but somehow it doesn't work automatically.
-                            // Just do it. If you don't, image will jump around when touched.
-                            attacher.update()
-                        }
+                    .take(1)
+                    .subscribe {
+                        target.onResourceReady(resource, null)
+                        // It's needed. Don't ask why, I don't know, setImageDrawable() should
+                        // do it by itself but somehow it doesn't work automatically.
+                        // Just do it. If you don't, image will jump around when touched.
+                        attacher.update()
+                    }
             }
             return true
         }

@@ -14,21 +14,30 @@ import com.keylesspalace.tusky.network.TimelineCases
 import com.keylesspalace.tusky.util.Either
 import com.keylesspalace.tusky.util.toViewData
 import com.keylesspalace.tusky.viewdata.StatusViewData
-import com.nhaarman.mockitokotlin2.*
+import com.nhaarman.mockitokotlin2.clearInvocations
+import com.nhaarman.mockitokotlin2.doReturn
+import com.nhaarman.mockitokotlin2.eq
+import com.nhaarman.mockitokotlin2.isNull
+import com.nhaarman.mockitokotlin2.mock
+import com.nhaarman.mockitokotlin2.times
+import com.nhaarman.mockitokotlin2.verify
+import com.nhaarman.mockitokotlin2.whenever
 import io.reactivex.rxjava3.annotations.NonNull
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.observers.TestObserver
 import io.reactivex.rxjava3.subjects.PublishSubject
 import kotlinx.coroutines.runBlocking
-import org.junit.Assert.*
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertFalse
+import org.junit.Assert.assertNull
+import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 import org.robolectric.annotation.Config
 import org.robolectric.shadows.ShadowLog
 import retrofit2.Response
 import java.io.IOException
-
 
 @Config(sdk = [29])
 class TimelineViewModelTest {
@@ -726,7 +735,6 @@ class TimelineViewModelTest {
             )
         ).thenReturn(Single.just(items))
     }
-
 
     private fun assertHasList(aList: List<StatusViewData>) {
         assertEquals(

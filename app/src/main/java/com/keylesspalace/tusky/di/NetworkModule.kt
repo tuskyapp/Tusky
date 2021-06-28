@@ -53,16 +53,16 @@ class NetworkModule {
     @Singleton
     fun providesGson(): Gson {
         return GsonBuilder()
-                .registerTypeAdapter(Spanned::class.java, SpannedTypeAdapter())
-                .create()
+            .registerTypeAdapter(Spanned::class.java, SpannedTypeAdapter())
+            .create()
     }
 
     @Provides
     @Singleton
     fun providesHttpClient(
-            accountManager: AccountManager,
-            context: Context,
-            preferences: SharedPreferences
+        accountManager: AccountManager,
+        context: Context,
+        preferences: SharedPreferences
     ): OkHttpClient {
         val httpProxyEnabled = preferences.getBoolean("httpProxyEnabled", false)
         val httpServer = preferences.getNonNullString("httpProxyServer", "")
@@ -92,27 +92,26 @@ class NetworkModule {
             builder.proxy(Proxy(Proxy.Type.HTTP, address))
         }
         return builder
-                .apply {
-                    addInterceptor(InstanceSwitchAuthInterceptor(accountManager))
-                    if (BuildConfig.DEBUG) {
-                        addInterceptor(HttpLoggingInterceptor().apply { level = HttpLoggingInterceptor.Level.BASIC })
-                    }
+            .apply {
+                addInterceptor(InstanceSwitchAuthInterceptor(accountManager))
+                if (BuildConfig.DEBUG) {
+                    addInterceptor(HttpLoggingInterceptor().apply { level = HttpLoggingInterceptor.Level.BASIC })
                 }
-                .build()
+            }
+            .build()
     }
 
     @Provides
     @Singleton
     fun providesRetrofit(
-            httpClient: OkHttpClient,
-            gson: Gson
+        httpClient: OkHttpClient,
+        gson: Gson
     ): Retrofit {
         return Retrofit.Builder().baseUrl("https://" + MastodonApi.PLACEHOLDER_DOMAIN)
-                .client(httpClient)
-                .addConverterFactory(GsonConverterFactory.create(gson))
-                .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
-                .build()
-
+            .client(httpClient)
+            .addConverterFactory(GsonConverterFactory.create(gson))
+            .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
+            .build()
     }
 
     @Provides

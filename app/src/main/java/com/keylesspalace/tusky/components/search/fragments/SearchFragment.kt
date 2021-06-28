@@ -29,8 +29,11 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-abstract class SearchFragment<T: Any> : Fragment(R.layout.fragment_search),
-        LinkListener, Injectable, SwipeRefreshLayout.OnRefreshListener {
+abstract class SearchFragment<T : Any> :
+    Fragment(R.layout.fragment_search),
+    LinkListener,
+    Injectable,
+    SwipeRefreshLayout.OnRefreshListener {
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory

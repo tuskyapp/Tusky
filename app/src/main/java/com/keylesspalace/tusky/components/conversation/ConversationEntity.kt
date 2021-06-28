@@ -30,7 +30,7 @@ import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.util.shouldTrimStatus
 import java.util.Date
 
-@Entity(primaryKeys = ["id","accountId"])
+@Entity(primaryKeys = ["id", "accountId"])
 @TypeConverters(Converters::class)
 data class ConversationEntity(
     val accountId: Long,
@@ -98,7 +98,7 @@ data class ConversationStatusEntity(
         if (inReplyToId != other.inReplyToId) return false
         if (inReplyToAccountId != other.inReplyToAccountId) return false
         if (account != other.account) return false
-        if (content.toString() != other.content.toString()) return false //TODO find a better method to compare two spanned strings
+        if (content.toString() != other.content.toString()) return false // TODO find a better method to compare two spanned strings
         if (createdAt != other.createdAt) return false
         if (emojis != other.emojis) return false
         if (favouritesCount != other.favouritesCount) return false
@@ -157,7 +157,7 @@ data class ConversationStatusEntity(
             reblogged = false,
             favourited = favourited,
             bookmarked = bookmarked,
-            sensitive= sensitive,
+            sensitive = sensitive,
             spoilerText = spoilerText,
             visibility = Status.Visibility.DIRECT,
             attachments = attachments,
@@ -166,7 +166,8 @@ data class ConversationStatusEntity(
             pinned = false,
             muted = muted,
             poll = poll,
-            card = null)
+            card = null
+        )
     }
 }
 

@@ -28,15 +28,15 @@ import com.mikepenz.iconics.utils.sizeDp
 
 class TootButton
 @JvmOverloads constructor(
-        context: Context,
-        attrs: AttributeSet? = null,
-        defStyleAttr: Int = 0
+    context: Context,
+    attrs: AttributeSet? = null,
+    defStyleAttr: Int = 0
 ) : MaterialButton(context, attrs, defStyleAttr) {
 
     private val smallStyle: Boolean = context.resources.getBoolean(R.bool.show_small_toot_button)
 
     init {
-        if(smallStyle) {
+        if (smallStyle) {
             setIconResource(R.drawable.ic_send_24dp)
         } else {
             setText(R.string.action_send)
@@ -47,7 +47,7 @@ class TootButton
     }
 
     fun setStatusVisibility(visibility: Status.Visibility) {
-        if(!smallStyle) {
+        if (!smallStyle) {
 
             icon = when (visibility) {
                 Status.Visibility.PUBLIC -> {
@@ -68,8 +68,5 @@ class TootButton
                 }
             }
         }
-
     }
-
 }
-

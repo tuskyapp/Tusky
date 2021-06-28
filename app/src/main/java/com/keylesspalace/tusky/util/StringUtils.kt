@@ -3,8 +3,7 @@
 package com.keylesspalace.tusky.util
 
 import android.text.Spanned
-import java.util.*
-
+import java.util.Random
 
 private const val POSSIBLE_CHARS = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
@@ -29,7 +28,6 @@ fun String.inc(): String {
     builder[lastIndex] = builder[lastIndex].inc()
     return String(builder)
 }
-
 
 /**
  * "Decrement" string so that during sorting it's smaller than [this].

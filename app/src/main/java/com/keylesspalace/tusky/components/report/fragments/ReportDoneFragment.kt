@@ -56,27 +56,29 @@ class ReportDoneFragment : Fragment(R.layout.fragment_report_done), Injectable {
                 binding.progressMute.hide()
             }
 
-            binding.buttonMute.setText(when (it.data) {
-                true -> R.string.action_unmute
-                else -> R.string.action_mute
-            })
+            binding.buttonMute.setText(
+                when (it.data) {
+                    true -> R.string.action_unmute
+                    else -> R.string.action_mute
+                }
+            )
         }
 
         viewModel.blockState.observe(viewLifecycleOwner) {
             if (it !is Loading) {
                 binding.buttonBlock.show()
                 binding.progressBlock.show()
-            }
-            else {
+            } else {
                 binding.buttonBlock.hide()
                 binding.progressBlock.hide()
             }
-            binding.buttonBlock.setText(when (it.data) {
-                true -> R.string.action_unblock
-                else -> R.string.action_block
-            })
+            binding.buttonBlock.setText(
+                when (it.data) {
+                    true -> R.string.action_unblock
+                    else -> R.string.action_block
+                }
+            )
         }
-
     }
 
     private fun handleClicks() {

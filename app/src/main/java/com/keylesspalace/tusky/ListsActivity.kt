@@ -23,25 +23,41 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.*
+import android.widget.EditText
+import android.widget.FrameLayout
+import android.widget.ImageButton
+import android.widget.PopupMenu
+import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AlertDialog
-import androidx.recyclerview.widget.*
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.ListAdapter
+import androidx.recyclerview.widget.RecyclerView
 import at.connyduck.sparkbutton.helpers.Utils
 import autodispose2.androidx.lifecycle.AndroidLifecycleScopeProvider.from
 import autodispose2.autoDispose
 import com.google.android.material.snackbar.Snackbar
+import com.keylesspalace.tusky.components.timeline.TimelineViewModel
 import com.keylesspalace.tusky.databinding.ActivityListsBinding
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.entity.MastoList
-import com.keylesspalace.tusky.components.timeline.TimelineViewModel
-import com.keylesspalace.tusky.util.*
+import com.keylesspalace.tusky.util.ThemeUtils
+import com.keylesspalace.tusky.util.hide
+import com.keylesspalace.tusky.util.onTextChanged
+import com.keylesspalace.tusky.util.show
+import com.keylesspalace.tusky.util.viewBinding
+import com.keylesspalace.tusky.util.visible
 import com.keylesspalace.tusky.viewmodel.ListsViewModel
-import com.keylesspalace.tusky.viewmodel.ListsViewModel.Event.*
-import com.keylesspalace.tusky.viewmodel.ListsViewModel.LoadingState.*
+import com.keylesspalace.tusky.viewmodel.ListsViewModel.Event
+import com.keylesspalace.tusky.viewmodel.ListsViewModel.LoadingState.ERROR_NETWORK
+import com.keylesspalace.tusky.viewmodel.ListsViewModel.LoadingState.ERROR_OTHER
+import com.keylesspalace.tusky.viewmodel.ListsViewModel.LoadingState.INITIAL
+import com.keylesspalace.tusky.viewmodel.ListsViewModel.LoadingState.LOADED
+import com.keylesspalace.tusky.viewmodel.ListsViewModel.LoadingState.LOADING
 import com.mikepenz.iconics.IconicsDrawable
 import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial
 import com.mikepenz.iconics.utils.colorInt
@@ -84,12 +100,13 @@ class ListsActivity : BaseActivity(), Injectable, HasAndroidInjector {
         binding.listsRecycler.adapter = adapter
         binding.listsRecycler.layoutManager = LinearLayoutManager(this)
         binding.listsRecycler.addItemDecoration(
-                DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
+            DividerItemDecoration(this, DividerItemDecoration.VERTICAL)
+        )
 
         viewModel.state
-                .observeOn(AndroidSchedulers.mainThread())
-                .autoDispose(from(this))
-                .subscribe(this::update)
+            .observeOn(AndroidSchedulers.mainThread())
+            .autoDispose(from(this))
+            .subscribe(this::update)
         viewModel.retryLoading()
 
         binding.addListButton.setOnClickListener {
@@ -97,15 +114,15 @@ class ListsActivity : BaseActivity(), Injectable, HasAndroidInjector {
         }
 
         viewModel.events.observeOn(AndroidSchedulers.mainThread())
-                .autoDispose(from(this))
-                .subscribe { event ->
-                    @Suppress("WHEN_ENUM_CAN_BE_NULL_IN_JAVA")
-                    when (event) {
-                        CREATE_ERROR -> showMessage(R.string.error_create_list)
-                        RENAME_ERROR -> showMessage(R.string.error_rename_list)
-                        DELETE_ERROR -> showMessage(R.string.error_delete_list)
-                    }
+            .autoDispose(from(this))
+            .subscribe { event ->
+                @Suppress("WHEN_ENUM_CAN_BE_NULL_IN_JAVA")
+                when (event) {
+                    Event.CREATE_ERROR -> showMessage(R.string.error_create_list)
+                    Event.RENAME_ERROR -> showMessage(R.string.error_rename_list)
+                    Event.DELETE_ERROR -> showMessage(R.string.error_delete_list)
                 }
+            }
     }
 
     private fun showlistNameDialog(list: MastoList?) {
@@ -115,17 +132,18 @@ class ListsActivity : BaseActivity(), Injectable, HasAndroidInjector {
         layout.addView(editText)
         val margin = Utils.dpToPx(this, 8)
         (editText.layoutParams as ViewGroup.MarginLayoutParams)
-                .setMargins(margin, margin, margin, 0)
+            .setMargins(margin, margin, margin, 0)
 
         val dialog = AlertDialog.Builder(this)
-                .setView(layout)
-                .setPositiveButton(
-                        if (list == null) R.string.action_create_list
-                        else R.string.action_rename_list) { _, _ ->
-                    onPickedDialogName(editText.text, list?.id)
-                }
-                .setNegativeButton(android.R.string.cancel, null)
-                .show()
+            .setView(layout)
+            .setPositiveButton(
+                if (list == null) R.string.action_create_list
+                else R.string.action_rename_list
+            ) { _, _ ->
+                onPickedDialogName(editText.text, list?.id)
+            }
+            .setNegativeButton(android.R.string.cancel, null)
+            .show()
 
         val positiveButton = dialog.getButton(Dialog.BUTTON_POSITIVE)
         editText.onTextChanged { s, _, _, _ ->
@@ -137,14 +155,13 @@ class ListsActivity : BaseActivity(), Injectable, HasAndroidInjector {
 
     private fun showListDeleteDialog(list: MastoList) {
         AlertDialog.Builder(this)
-                .setMessage(getString(R.string.dialog_delete_list_warning, list.title))
-                .setPositiveButton(R.string.action_delete){ _, _ ->
-                    viewModel.deleteList(list.id)
-                }
-                .setNegativeButton(android.R.string.cancel, null)
-                .show()
+            .setMessage(getString(R.string.dialog_delete_list_warning, list.title))
+            .setPositiveButton(R.string.action_delete) { _, _ ->
+                viewModel.deleteList(list.id)
+            }
+            .setNegativeButton(android.R.string.cancel, null)
+            .show()
     }
-
 
     private fun update(state: ListsViewModel.State) {
         adapter.submitList(state.lists)
@@ -166,8 +183,10 @@ class ListsActivity : BaseActivity(), Injectable, HasAndroidInjector {
             LOADED ->
                 if (state.lists.isEmpty()) {
                     binding.messageView.show()
-                    binding.messageView.setup(R.drawable.elephant_friend_empty, R.string.message_empty,
-                            null)
+                    binding.messageView.setup(
+                        R.drawable.elephant_friend_empty, R.string.message_empty,
+                        null
+                    )
                 } else {
                     binding.messageView.hide()
                 }
@@ -176,13 +195,14 @@ class ListsActivity : BaseActivity(), Injectable, HasAndroidInjector {
 
     private fun showMessage(@StringRes messageId: Int) {
         Snackbar.make(
-                binding.listsRecycler, messageId, Snackbar.LENGTH_SHORT
+            binding.listsRecycler, messageId, Snackbar.LENGTH_SHORT
         ).show()
     }
 
     private fun onListSelected(listId: String) {
         startActivityWithSlideInAnimation(
-                ModalTimelineActivity.newIntent(this, TimelineViewModel.Kind.LIST, listId))
+            ModalTimelineActivity.newIntent(this, TimelineViewModel.Kind.LIST, listId)
+        )
     }
 
     private fun openListSettings(list: MastoList) {
@@ -219,27 +239,28 @@ class ListsActivity : BaseActivity(), Injectable, HasAndroidInjector {
         }
     }
 
-    private inner class ListsAdapter
-        : ListAdapter<MastoList, ListsAdapter.ListViewHolder>(ListsDiffer) {
+    private inner class ListsAdapter :
+        ListAdapter<MastoList, ListsAdapter.ListViewHolder>(ListsDiffer) {
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListViewHolder {
             return LayoutInflater.from(parent.context).inflate(R.layout.item_list, parent, false)
-                    .let(this::ListViewHolder)
-                    .apply {
-                        val context = nameTextView.context
-                        val iconColor = ThemeUtils.getColor(context, android.R.attr.textColorTertiary)
-                        val icon = IconicsDrawable(context, GoogleMaterial.Icon.gmd_list).apply { sizeDp = 20; colorInt = iconColor }
+                .let(this::ListViewHolder)
+                .apply {
+                    val context = nameTextView.context
+                    val iconColor = ThemeUtils.getColor(context, android.R.attr.textColorTertiary)
+                    val icon = IconicsDrawable(context, GoogleMaterial.Icon.gmd_list).apply { sizeDp = 20; colorInt = iconColor }
 
-                        nameTextView.setCompoundDrawablesRelativeWithIntrinsicBounds(icon, null, null, null)
-                    }
+                    nameTextView.setCompoundDrawablesRelativeWithIntrinsicBounds(icon, null, null, null)
+                }
         }
 
         override fun onBindViewHolder(holder: ListViewHolder, position: Int) {
             holder.nameTextView.text = getItem(position).title
         }
 
-        private inner class ListViewHolder(view: View) : RecyclerView.ViewHolder(view),
-                View.OnClickListener {
+        private inner class ListViewHolder(view: View) :
+            RecyclerView.ViewHolder(view),
+            View.OnClickListener {
             val nameTextView: TextView = view.findViewById(R.id.list_name_textview)
             val moreButton: ImageButton = view.findViewById(R.id.editListButton)
 

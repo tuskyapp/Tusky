@@ -43,8 +43,8 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class ReportViewModel @Inject constructor(
-        private val mastodonApi: MastodonApi,
-        private val eventHub: EventHub
+    private val mastodonApi: MastodonApi,
+    private val eventHub: EventHub
 ) : RxAwareViewModel() {
 
     private val navigationMutable = MutableLiveData<Screen?>()
@@ -121,18 +121,17 @@ class ReportViewModel @Inject constructor(
         muteStateMutable.value = Loading()
         blockStateMutable.value = Loading()
         mastodonApi.relationships(ids)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(
-                        { data ->
-                            updateRelationship(data.getOrNull(0))
-
-                        },
-                        {
-                            updateRelationship(null)
-                        }
-                )
-                .autoDispose()
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(
+                { data ->
+                    updateRelationship(data.getOrNull(0))
+                },
+                {
+                    updateRelationship(null)
+                }
+            )
+            .autoDispose()
     }
 
     private fun updateRelationship(relationship: Relationship?) {
@@ -152,20 +151,20 @@ class ReportViewModel @Inject constructor(
         } else {
             mastodonApi.muteAccount(accountId)
         }
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(
-                        { relationship ->
-                            val muting = relationship?.muting == true
-                            muteStateMutable.value = Success(muting)
-                            if (muting) {
-                                eventHub.dispatch(MuteEvent(accountId))
-                            }
-                        },
-                        { error ->
-                            muteStateMutable.value = Error(false, error.message)
-                        }
-                ).autoDispose()
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(
+                { relationship ->
+                    val muting = relationship?.muting == true
+                    muteStateMutable.value = Success(muting)
+                    if (muting) {
+                        eventHub.dispatch(MuteEvent(accountId))
+                    }
+                },
+                { error ->
+                    muteStateMutable.value = Error(false, error.message)
+                }
+            ).autoDispose()
 
         muteStateMutable.value = Loading()
     }
@@ -177,21 +176,21 @@ class ReportViewModel @Inject constructor(
         } else {
             mastodonApi.blockAccount(accountId)
         }
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(
-                        { relationship ->
-                            val blocking = relationship?.blocking == true
-                            blockStateMutable.value = Success(blocking)
-                            if (blocking) {
-                                eventHub.dispatch(BlockEvent(accountId))
-                            }
-                        },
-                        { error ->
-                            blockStateMutable.value = Error(false, error.message)
-                        }
-                )
-                .autoDispose()
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(
+                { relationship ->
+                    val blocking = relationship?.blocking == true
+                    blockStateMutable.value = Success(blocking)
+                    if (blocking) {
+                        eventHub.dispatch(BlockEvent(accountId))
+                    }
+                },
+                { error ->
+                    blockStateMutable.value = Error(false, error.message)
+                }
+            )
+            .autoDispose()
 
         blockStateMutable.value = Loading()
     }
@@ -199,18 +198,17 @@ class ReportViewModel @Inject constructor(
     fun doReport() {
         reportingStateMutable.value = Loading()
         mastodonApi.reportObservable(accountId, selectedIds.toList(), reportNote, if (isRemoteAccount) isRemoteNotify else null)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(
-                        {
-                            reportingStateMutable.value = Success(true)
-                        },
-                        { error ->
-                            reportingStateMutable.value = Error(cause = error)
-                        }
-                )
-                .autoDispose()
-
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(
+                {
+                    reportingStateMutable.value = Success(true)
+                },
+                { error ->
+                    reportingStateMutable.value = Error(cause = error)
+                }
+            )
+            .autoDispose()
     }
 
     fun checkClickedUrl(url: String?) {

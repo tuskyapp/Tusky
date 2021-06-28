@@ -15,12 +15,12 @@
 
 package com.keylesspalace.tusky.viewmodel
 
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import android.content.Context
 import android.graphics.Bitmap
 import android.net.Uri
 import android.util.Log
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import com.keylesspalace.tusky.EditProfileActivity.Companion.AVATAR_SIZE
 import com.keylesspalace.tusky.EditProfileActivity.Companion.HEADER_HEIGHT
 import com.keylesspalace.tusky.EditProfileActivity.Companion.HEADER_WIDTH
@@ -30,16 +30,22 @@ import com.keylesspalace.tusky.entity.Account
 import com.keylesspalace.tusky.entity.Instance
 import com.keylesspalace.tusky.entity.StringField
 import com.keylesspalace.tusky.network.MastodonApi
-import com.keylesspalace.tusky.util.*
+import com.keylesspalace.tusky.util.Error
+import com.keylesspalace.tusky.util.IOUtils
+import com.keylesspalace.tusky.util.Loading
+import com.keylesspalace.tusky.util.Resource
+import com.keylesspalace.tusky.util.Success
+import com.keylesspalace.tusky.util.getSampledBitmap
+import com.keylesspalace.tusky.util.randomAlphanumericString
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.kotlin.addTo
 import io.reactivex.rxjava3.schedulers.Schedulers
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
-import okhttp3.RequestBody.Companion.asRequestBody
-import okhttp3.RequestBody.Companion.toRequestBody
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.asRequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
 import org.json.JSONException
 import org.json.JSONObject
 import retrofit2.Call
@@ -56,10 +62,10 @@ private const val AVATAR_FILE_NAME = "avatar.png"
 
 private const val TAG = "EditProfileViewModel"
 
-class EditProfileViewModel  @Inject constructor(
-        private val mastodonApi: MastodonApi,
-        private val eventHub: EventHub
-): ViewModel() {
+class EditProfileViewModel @Inject constructor(
+    private val mastodonApi: MastodonApi,
+    private val eventHub: EventHub
+) : ViewModel() {
 
     val profileData = MutableLiveData<Resource<Account>>()
     val avatarData = MutableLiveData<Resource<Bitmap>>()
@@ -72,21 +78,21 @@ class EditProfileViewModel  @Inject constructor(
     private val disposeables = CompositeDisposable()
 
     fun obtainProfile() {
-        if(profileData.value == null || profileData.value is Error) {
+        if (profileData.value == null || profileData.value is Error) {
 
             profileData.postValue(Loading())
 
             mastodonApi.accountVerifyCredentials()
-                    .subscribe(
-                            {profile ->
-                                oldProfileData = profile
-                                profileData.postValue(Success(profile))
-                            },
-                            {
-                                profileData.postValue(Error())
-                            })
-                    .addTo(disposeables)
-
+                .subscribe(
+                    { profile ->
+                        oldProfileData = profile
+                        profileData.postValue(Success(profile))
+                    },
+                    {
+                        profileData.postValue(Error())
+                    }
+                )
+                .addTo(disposeables)
         }
     }
 
@@ -102,12 +108,14 @@ class EditProfileViewModel  @Inject constructor(
         resizeImage(uri, context, HEADER_WIDTH, HEADER_HEIGHT, cacheFile, headerData)
     }
 
-    private fun resizeImage(uri: Uri,
-                            context: Context,
-                            resizeWidth: Int,
-                            resizeHeight: Int,
-                            cacheFile: File,
-                            imageLiveData: MutableLiveData<Resource<Bitmap>>) {
+    private fun resizeImage(
+        uri: Uri,
+        context: Context,
+        resizeWidth: Int,
+        resizeHeight: Int,
+        cacheFile: File,
+        imageLiveData: MutableLiveData<Resource<Bitmap>>
+    ) {
 
         Single.fromCallable {
             val contentResolver = context.contentResolver
@@ -117,13 +125,13 @@ class EditProfileViewModel  @Inject constructor(
                 throw Exception()
             }
 
-            //dont upscale image if its smaller than the desired size
+            // dont upscale image if its smaller than the desired size
             val bitmap =
-                    if (sourceBitmap.width <= resizeWidth && sourceBitmap.height <= resizeHeight) {
-                        sourceBitmap
-                    } else {
-                        Bitmap.createScaledBitmap(sourceBitmap, resizeWidth, resizeHeight, true)
-                    }
+                if (sourceBitmap.width <= resizeWidth && sourceBitmap.height <= resizeHeight) {
+                    sourceBitmap
+                } else {
+                    Bitmap.createScaledBitmap(sourceBitmap, resizeWidth, resizeHeight, true)
+                }
 
             if (!saveBitmapToFile(bitmap, cacheFile)) {
                 throw Exception()
@@ -131,17 +139,20 @@ class EditProfileViewModel  @Inject constructor(
 
             bitmap
         }.subscribeOn(Schedulers.io())
-                .subscribe({
+            .subscribe(
+                {
                     imageLiveData.postValue(Success(it))
-                }, {
+                },
+                {
                     imageLiveData.postValue(Error())
-                })
-                .addTo(disposeables)
+                }
+            )
+            .addTo(disposeables)
     }
 
     fun save(newDisplayName: String, newNote: String, newLocked: Boolean, newFields: List<StringField>, context: Context) {
 
-        if(saveData.value is Loading || profileData.value !is Success) {
+        if (saveData.value is Loading || profileData.value !is Success) {
             return
         }
 
@@ -184,21 +195,23 @@ class EditProfileViewModel  @Inject constructor(
         val field3 = calculateFieldToUpdate(newFields.getOrNull(2), fieldsUnchanged)
         val field4 = calculateFieldToUpdate(newFields.getOrNull(3), fieldsUnchanged)
 
-        if (displayName == null && note == null && locked == null && avatar == null && header == null
-                && field1 == null && field2 == null && field3 == null && field4 == null) {
+        if (displayName == null && note == null && locked == null && avatar == null && header == null &&
+            field1 == null && field2 == null && field3 == null && field4 == null
+        ) {
             /** if nothing has changed, there is no need to make a network request */
             saveData.postValue(Success())
             return
         }
 
-        mastodonApi.accountUpdateCredentials(displayName, note, locked, avatar, header,
-                field1?.first, field1?.second, field2?.first, field2?.second, field3?.first, field3?.second, field4?.first, field4?.second
+        mastodonApi.accountUpdateCredentials(
+            displayName, note, locked, avatar, header,
+            field1?.first, field1?.second, field2?.first, field2?.second, field3?.first, field3?.second, field4?.first, field4?.second
         ).enqueue(object : Callback<Account> {
             override fun onResponse(call: Call<Account>, response: Response<Account>) {
                 val newProfileData = response.body()
                 if (!response.isSuccessful || newProfileData == null) {
                     val errorResponse = response.errorBody()?.string()
-                    val errorMsg = if(!errorResponse.isNullOrBlank()) {
+                    val errorMsg = if (!errorResponse.isNullOrBlank()) {
                         try {
                             JSONObject(errorResponse).optString("error", null)
                         } catch (e: JSONException) {
@@ -218,29 +231,28 @@ class EditProfileViewModel  @Inject constructor(
                 saveData.postValue(Error())
             }
         })
-
     }
 
     // cache activity state for rotation change
     fun updateProfile(newDisplayName: String, newNote: String, newLocked: Boolean, newFields: List<StringField>) {
-        if(profileData.value is Success) {
+        if (profileData.value is Success) {
             val newProfileSource = profileData.value?.data?.source?.copy(note = newNote, fields = newFields)
-            val newProfile = profileData.value?.data?.copy(displayName = newDisplayName,
-                    locked = newLocked, source = newProfileSource)
+            val newProfile = profileData.value?.data?.copy(
+                displayName = newDisplayName,
+                locked = newLocked, source = newProfileSource
+            )
 
             profileData.postValue(Success(newProfile))
         }
-
     }
 
-
     private fun calculateFieldToUpdate(newField: StringField?, fieldsUnchanged: Boolean): Pair<RequestBody, RequestBody>? {
-        if(fieldsUnchanged || newField == null) {
+        if (fieldsUnchanged || newField == null) {
             return null
         }
         return Pair(
-                newField.name.toRequestBody(MultipartBody.FORM),
-                newField.value.toRequestBody(MultipartBody.FORM)
+            newField.name.toRequestBody(MultipartBody.FORM),
+            newField.value.toRequestBody(MultipartBody.FORM)
         )
     }
 
@@ -270,19 +282,18 @@ class EditProfileViewModel  @Inject constructor(
     }
 
     fun obtainInstance() {
-        if(instanceData.value == null || instanceData.value is Error) {
+        if (instanceData.value == null || instanceData.value is Error) {
             instanceData.postValue(Loading())
 
             mastodonApi.getInstance().subscribe(
-                    { instance ->
-                        instanceData.postValue(Success(instance))
-                    },
-                    {
-                        instanceData.postValue(Error())
-                    })
-                    .addTo(disposeables)
+                { instance ->
+                    instanceData.postValue(Success(instance))
+                },
+                {
+                    instanceData.postValue(Error())
+                }
+            )
+                .addTo(disposeables)
         }
     }
-
-
 }

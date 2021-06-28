@@ -17,7 +17,7 @@ package com.keylesspalace.tusky.entity
 
 import com.google.gson.annotations.SerializedName
 
-data class Filter (
+data class Filter(
     val id: String,
     val phrase: String,
     val context: List<String>,
@@ -45,4 +45,3 @@ data class Filter (
         return filter?.id.equals(id)
     }
 }
-

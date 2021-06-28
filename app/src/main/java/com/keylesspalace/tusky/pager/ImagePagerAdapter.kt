@@ -8,9 +8,9 @@ import com.keylesspalace.tusky.fragment.ViewMediaFragment
 import java.lang.ref.WeakReference
 
 class ImagePagerAdapter(
-        activity: FragmentActivity,
-        private val attachments: List<Attachment>,
-        private val initialPosition: Int
+    activity: FragmentActivity,
+    private val attachments: List<Attachment>,
+    private val initialPosition: Int
 ) : ViewMediaAdapter(activity) {
 
     private var didTransition = false
@@ -25,8 +25,8 @@ class ImagePagerAdapter(
             // forth photo and then back to the first. The first fragment will try to start the
             // transition and wait until it's over and it will never take place.
             val fragment = ViewMediaFragment.newInstance(
-                    attachment = attachments[position],
-                    shouldStartPostponedTransition = !didTransition && position == initialPosition
+                attachment = attachments[position],
+                shouldStartPostponedTransition = !didTransition && position == initialPosition
             )
             fragments[position] = WeakReference(fragment)
             return fragment
@@ -35,7 +35,7 @@ class ImagePagerAdapter(
         }
     }
 
-   override fun onTransitionEnd(position: Int) {
+    override fun onTransitionEnd(position: Int) {
         this.didTransition = true
         fragments[position]?.get()?.onTransitionEnd()
     }

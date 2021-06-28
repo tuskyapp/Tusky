@@ -18,10 +18,9 @@ package com.keylesspalace.tusky
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.keylesspalace.tusky.components.notifications.NotificationHelper
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.di.Injectable
-
-import com.keylesspalace.tusky.components.notifications.NotificationHelper
 import javax.inject.Inject
 
 class SplashActivity : AppCompatActivity(), Injectable {
@@ -46,5 +45,4 @@ class SplashActivity : AppCompatActivity(), Injectable {
         startActivity(intent)
         finish()
     }
-
 }

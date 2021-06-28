@@ -25,10 +25,16 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.preference.PreferenceManager
-import androidx.recyclerview.widget.*
+import androidx.recyclerview.widget.AsyncDifferConfig
+import androidx.recyclerview.widget.AsyncListDiffer
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.ListUpdateCallback
+import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.SimpleItemAnimator
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener
 import at.connyduck.sparkbutton.helpers.Utils
-import autodispose2.androidx.lifecycle.AndroidLifecycleScopeProvider.*
 import autodispose2.androidx.lifecycle.autoDispose
 import com.keylesspalace.tusky.AccountListActivity
 import com.keylesspalace.tusky.AccountListActivity.Companion.newIntent
@@ -47,7 +53,13 @@ import com.keylesspalace.tusky.interfaces.RefreshableFragment
 import com.keylesspalace.tusky.interfaces.ReselectableFragment
 import com.keylesspalace.tusky.interfaces.StatusActionListener
 import com.keylesspalace.tusky.settings.PrefKeys
-import com.keylesspalace.tusky.util.*
+import com.keylesspalace.tusky.util.CardViewMode
+import com.keylesspalace.tusky.util.ListStatusAccessibilityDelegate
+import com.keylesspalace.tusky.util.StatusDisplayOptions
+import com.keylesspalace.tusky.util.hide
+import com.keylesspalace.tusky.util.show
+import com.keylesspalace.tusky.util.viewBinding
+import com.keylesspalace.tusky.util.visible
 import com.keylesspalace.tusky.view.EndlessOnScrollListener
 import com.keylesspalace.tusky.viewdata.AttachmentViewData
 import com.keylesspalace.tusky.viewdata.StatusViewData
@@ -56,8 +68,13 @@ import io.reactivex.rxjava3.core.Observable
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
-class TimelineFragment : SFragment(), OnRefreshListener, StatusActionListener, Injectable,
-    ReselectableFragment, RefreshableFragment {
+class TimelineFragment :
+    SFragment(),
+    OnRefreshListener,
+    StatusActionListener,
+    Injectable,
+    ReselectableFragment,
+    RefreshableFragment {
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
@@ -161,8 +178,7 @@ class TimelineFragment : SFragment(), OnRefreshListener, StatusActionListener, I
 
     private fun setupRecyclerView() {
         binding.recyclerView.setAccessibilityDelegateCompat(
-            ListStatusAccessibilityDelegate(binding.recyclerView, this)
-            { pos -> viewModel.statuses.getOrNull(pos) }
+            ListStatusAccessibilityDelegate(binding.recyclerView, this) { pos -> viewModel.statuses.getOrNull(pos) }
         )
         binding.recyclerView.setHasFixedSize(true)
         layoutManager = LinearLayoutManager(context)
@@ -330,8 +346,10 @@ class TimelineFragment : SFragment(), OnRefreshListener, StatusActionListener, I
     }
 
     override fun onViewAccount(id: String) {
-        if ((viewModel.kind == TimelineViewModel.Kind.USER ||
-                    viewModel.kind == TimelineViewModel.Kind.USER_WITH_REPLIES) &&
+        if ((
+            viewModel.kind == TimelineViewModel.Kind.USER ||
+                viewModel.kind == TimelineViewModel.Kind.USER_WITH_REPLIES
+            ) &&
             viewModel.id == id
         ) {
             /* If already viewing an account page, then any requests to view that account page
@@ -369,9 +387,9 @@ class TimelineFragment : SFragment(), OnRefreshListener, StatusActionListener, I
 
     private fun actionButtonPresent(): Boolean {
         return viewModel.kind != TimelineViewModel.Kind.TAG &&
-                viewModel.kind != TimelineViewModel.Kind.FAVOURITES &&
-                viewModel.kind != TimelineViewModel.Kind.BOOKMARKS &&
-                activity is ActionButtonActivity
+            viewModel.kind != TimelineViewModel.Kind.FAVOURITES &&
+            viewModel.kind != TimelineViewModel.Kind.BOOKMARKS &&
+            activity is ActionButtonActivity
     }
 
     private fun updateViews() {
@@ -505,7 +523,6 @@ class TimelineFragment : SFragment(), OnRefreshListener, StatusActionListener, I
         private const val HASHTAGS_ARG = "hashtags"
         private const val ARG_ENABLE_SWIPE_TO_REFRESH = "enableSwipeToRefresh"
 
-
         fun newInstance(
             kind: TimelineViewModel.Kind,
             hashtagOrId: String? = null,
@@ -531,7 +548,6 @@ class TimelineFragment : SFragment(), OnRefreshListener, StatusActionListener, I
             return fragment
         }
 
-
         private val diffCallback: DiffUtil.ItemCallback<StatusViewData> =
             object : DiffUtil.ItemCallback<StatusViewData>() {
                 override fun areItemsTheSame(
@@ -555,7 +571,7 @@ class TimelineFragment : SFragment(), OnRefreshListener, StatusActionListener, I
                     return if (oldItem === newItem) {
                         // If items are equal - update timestamp only
                         listOf(StatusBaseViewHolder.Key.KEY_CREATED)
-                    } else  // If items are different - update the whole view holder
+                    } else // If items are different - update the whole view holder
                         null
                 }
             }

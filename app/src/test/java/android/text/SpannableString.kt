@@ -23,7 +23,6 @@ class SpannableString(private val text: CharSequence) : Spannable {
     override val length: Int
         get() = text.length
 
-
     override fun nextSpanTransition(start: Int, limit: Int, type: Class<*>?): Int {
         throw NotImplementedError()
     }

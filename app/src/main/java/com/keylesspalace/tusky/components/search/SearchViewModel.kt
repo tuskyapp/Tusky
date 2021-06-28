@@ -95,13 +95,17 @@ class SearchViewModel @Inject constructor(
 
     fun removeItem(status: Pair<Status, StatusViewData.Concrete>) {
         timelineCases.delete(status.first.id)
-                .subscribe({
+            .subscribe(
+                {
                     if (loadedStatuses.remove(status))
                         statusesPagingSourceFactory.invalidate()
-                }, {
-                    err -> Log.d(TAG, "Failed to delete status", err)
-                })
-                .autoDispose()
+                },
+                {
+                    err ->
+                    Log.d(TAG, "Failed to delete status", err)
+                }
+            )
+            .autoDispose()
     }
 
     fun expandedChange(status: Pair<Status, StatusViewData.Concrete>, expanded: Boolean) {

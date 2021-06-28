@@ -36,18 +36,24 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.FitCenter
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.canhub.cropper.CropImage
 import com.google.android.material.snackbar.Snackbar
 import com.keylesspalace.tusky.adapter.AccountFieldEditAdapter
 import com.keylesspalace.tusky.databinding.ActivityEditProfileBinding
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.di.ViewModelFactory
-import com.keylesspalace.tusky.util.*
+import com.keylesspalace.tusky.util.Error
+import com.keylesspalace.tusky.util.Loading
+import com.keylesspalace.tusky.util.Resource
+import com.keylesspalace.tusky.util.Success
+import com.keylesspalace.tusky.util.hide
+import com.keylesspalace.tusky.util.show
+import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.viewmodel.EditProfileViewModel
 import com.mikepenz.iconics.IconicsDrawable
 import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial
 import com.mikepenz.iconics.utils.colorInt
 import com.mikepenz.iconics.utils.sizeDp
-import com.canhub.cropper.CropImage
 import javax.inject.Inject
 
 class EditProfileActivity : BaseActivity(), Injectable {
@@ -110,11 +116,11 @@ class EditProfileActivity : BaseActivity(), Injectable {
 
         binding.addFieldButton.setOnClickListener {
             accountFieldEditAdapter.addField()
-            if(accountFieldEditAdapter.itemCount >= MAX_ACCOUNT_FIELDS) {
+            if (accountFieldEditAdapter.itemCount >= MAX_ACCOUNT_FIELDS) {
                 it.isVisible = false
             }
 
-            binding.scrollView.post{
+            binding.scrollView.post {
                 binding.scrollView.smoothScrollTo(0, it.bottom)
             }
         }
@@ -134,23 +140,22 @@ class EditProfileActivity : BaseActivity(), Injectable {
                         accountFieldEditAdapter.setFields(me.source?.fields ?: emptyList())
                         binding.addFieldButton.isEnabled = me.source?.fields?.size ?: 0 < MAX_ACCOUNT_FIELDS
 
-                        if(viewModel.avatarData.value == null) {
+                        if (viewModel.avatarData.value == null) {
                             Glide.with(this)
-                                    .load(me.avatar)
-                                    .placeholder(R.drawable.avatar_default)
-                                    .transform(
-                                            FitCenter(),
-                                            RoundedCorners(resources.getDimensionPixelSize(R.dimen.avatar_radius_80dp))
-                                    )
-                                    .into(binding.avatarPreview)
+                                .load(me.avatar)
+                                .placeholder(R.drawable.avatar_default)
+                                .transform(
+                                    FitCenter(),
+                                    RoundedCorners(resources.getDimensionPixelSize(R.dimen.avatar_radius_80dp))
+                                )
+                                .into(binding.avatarPreview)
                         }
 
-                        if(viewModel.headerData.value == null) {
+                        if (viewModel.headerData.value == null) {
                             Glide.with(this)
-                                    .load(me.header)
-                                    .into(binding.headerPreview)
+                                .load(me.header)
+                                .into(binding.headerPreview)
                         }
-
                     }
                 }
                 is Error -> {
@@ -159,7 +164,6 @@ class EditProfileActivity : BaseActivity(), Injectable {
                         viewModel.obtainProfile()
                     }
                     snackbar.show()
-
                 }
             }
         }
@@ -179,20 +183,22 @@ class EditProfileActivity : BaseActivity(), Injectable {
         observeImage(viewModel.avatarData, binding.avatarPreview, binding.avatarProgressBar, true)
         observeImage(viewModel.headerData, binding.headerPreview, binding.headerProgressBar, false)
 
-        viewModel.saveData.observe(this, {
-            when(it) {
-                is Success -> {
-                    finish()
-                }
-                is Loading -> {
-                    binding.saveProgressBar.visibility = View.VISIBLE
-                }
-                is Error -> {
-                    onSaveFailure(it.errorMessage)
+        viewModel.saveData.observe(
+            this,
+            {
+                when (it) {
+                    is Success -> {
+                        finish()
+                    }
+                    is Loading -> {
+                        binding.saveProgressBar.visibility = View.VISIBLE
+                    }
+                    is Error -> {
+                        onSaveFailure(it.errorMessage)
+                    }
                 }
             }
-        })
-
+        )
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -202,50 +208,56 @@ class EditProfileActivity : BaseActivity(), Injectable {
 
     override fun onStop() {
         super.onStop()
-        if(!isFinishing) {
-            viewModel.updateProfile(binding.displayNameEditText.text.toString(),
-                    binding.noteEditText.text.toString(),
-                    binding.lockedCheckBox.isChecked,
-                    accountFieldEditAdapter.getFieldData())
+        if (!isFinishing) {
+            viewModel.updateProfile(
+                binding.displayNameEditText.text.toString(),
+                binding.noteEditText.text.toString(),
+                binding.lockedCheckBox.isChecked,
+                accountFieldEditAdapter.getFieldData()
+            )
         }
     }
 
-    private fun observeImage(liveData: LiveData<Resource<Bitmap>>,
-                             imageView: ImageView,
-                             progressBar: View,
-                             roundedCorners: Boolean) {
-        liveData.observe(this, {
+    private fun observeImage(
+        liveData: LiveData<Resource<Bitmap>>,
+        imageView: ImageView,
+        progressBar: View,
+        roundedCorners: Boolean
+    ) {
+        liveData.observe(
+            this,
+            {
 
-            when (it) {
-                is Success -> {
-                    val glide = Glide.with(imageView)
+                when (it) {
+                    is Success -> {
+                        val glide = Glide.with(imageView)
                             .load(it.data)
 
-                            if (roundedCorners) {
-                                glide.transform(
-                                        FitCenter(),
-                                        RoundedCorners(resources.getDimensionPixelSize(R.dimen.avatar_radius_80dp))
-                                )
-                            }
+                        if (roundedCorners) {
+                            glide.transform(
+                                FitCenter(),
+                                RoundedCorners(resources.getDimensionPixelSize(R.dimen.avatar_radius_80dp))
+                            )
+                        }
 
-                            glide.into(imageView)
+                        glide.into(imageView)
 
-                    imageView.show()
-                    progressBar.hide()
-                }
-                is Loading -> {
-                    progressBar.show()
-                }
-                is Error -> {
-                    progressBar.hide()
-                    if(!it.consumed) {
-                        onResizeFailure()
-                        it.consumed = true
+                        imageView.show()
+                        progressBar.hide()
                     }
-
+                    is Loading -> {
+                        progressBar.show()
+                    }
+                    is Error -> {
+                        progressBar.hide()
+                        if (!it.consumed) {
+                            onResizeFailure()
+                            it.consumed = true
+                        }
+                    }
                 }
             }
-        })
+        )
     }
 
     private fun onMediaPick(pickType: PickType) {
@@ -261,8 +273,11 @@ class EditProfileActivity : BaseActivity(), Injectable {
         }
     }
 
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>,
-                                            grantResults: IntArray) {
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<String>,
+        grantResults: IntArray
+    ) {
         when (requestCode) {
             PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE -> {
                 if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
@@ -307,14 +322,16 @@ class EditProfileActivity : BaseActivity(), Injectable {
 
     private fun save() {
         if (currentlyPicking != PickType.NOTHING) {
-               return
+            return
         }
 
-        viewModel.save(binding.displayNameEditText.text.toString(),
-                binding.noteEditText.text.toString(),
-                binding.lockedCheckBox.isChecked,
-                accountFieldEditAdapter.getFieldData(),
-                this)
+        viewModel.save(
+            binding.displayNameEditText.text.toString(),
+            binding.noteEditText.text.toString(),
+            binding.lockedCheckBox.isChecked,
+            accountFieldEditAdapter.getFieldData(),
+            this
+        )
     }
 
     private fun onSaveFailure(msg: String?) {
@@ -352,10 +369,10 @@ class EditProfileActivity : BaseActivity(), Injectable {
             AVATAR_PICK_RESULT -> {
                 if (resultCode == Activity.RESULT_OK && data != null) {
                     CropImage.activity(data.data)
-                            .setInitialCropWindowPaddingRatio(0f)
-                            .setOutputCompressFormat(Bitmap.CompressFormat.PNG)
-                            .setAspectRatio(AVATAR_SIZE, AVATAR_SIZE)
-                            .start(this)
+                        .setInitialCropWindowPaddingRatio(0f)
+                        .setOutputCompressFormat(Bitmap.CompressFormat.PNG)
+                        .setAspectRatio(AVATAR_SIZE, AVATAR_SIZE)
+                        .start(this)
                 } else {
                     endMediaPicking()
                 }
@@ -363,10 +380,10 @@ class EditProfileActivity : BaseActivity(), Injectable {
             HEADER_PICK_RESULT -> {
                 if (resultCode == Activity.RESULT_OK && data != null) {
                     CropImage.activity(data.data)
-                            .setInitialCropWindowPaddingRatio(0f)
-                            .setOutputCompressFormat(Bitmap.CompressFormat.PNG)
-                            .setAspectRatio(HEADER_WIDTH, HEADER_HEIGHT)
-                            .start(this)
+                        .setInitialCropWindowPaddingRatio(0f)
+                        .setOutputCompressFormat(Bitmap.CompressFormat.PNG)
+                        .setAspectRatio(HEADER_WIDTH, HEADER_HEIGHT)
+                        .start(this)
                 } else {
                     endMediaPicking()
                 }
@@ -383,7 +400,7 @@ class EditProfileActivity : BaseActivity(), Injectable {
     }
 
     private fun beginResize(uri: Uri?) {
-        if(uri == null) {
+        if (uri == null) {
             currentlyPicking = PickType.NOTHING
             return
         }
@@ -409,5 +426,4 @@ class EditProfileActivity : BaseActivity(), Injectable {
         Snackbar.make(binding.avatarButton, R.string.error_media_upload_sending, Snackbar.LENGTH_LONG).show()
         endMediaPicking()
     }
-
 }

@@ -19,7 +19,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.content.res.Configuration
 import androidx.preference.PreferenceManager
-import java.util.*
+import java.util.Locale
 
 class LocaleManager(context: Context) {
 

@@ -20,8 +20,6 @@ import com.keylesspalace.tusky.entity.Notification
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.viewdata.NotificationViewData
 import com.keylesspalace.tusky.viewdata.StatusViewData
-import com.keylesspalace.tusky.viewdata.toViewData
-import java.util.*
 
 @JvmName("statusToViewData")
 fun Status.toViewData(

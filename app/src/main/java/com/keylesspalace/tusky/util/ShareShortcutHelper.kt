@@ -43,17 +43,17 @@ fun updateShortcut(context: Context, account: AccountEntity) {
 
         val bmp = if (TextUtils.isEmpty(account.profilePictureUrl)) {
             Glide.with(context)
-                    .asBitmap()
-                    .load(R.drawable.avatar_default)
-                    .submit(innerSize, innerSize)
-                    .get()
+                .asBitmap()
+                .load(R.drawable.avatar_default)
+                .submit(innerSize, innerSize)
+                .get()
         } else {
             Glide.with(context)
-                    .asBitmap()
-                    .load(account.profilePictureUrl)
-                    .error(R.drawable.avatar_default)
-                    .submit(innerSize, innerSize)
-                    .get()
+                .asBitmap()
+                .load(account.profilePictureUrl)
+                .error(R.drawable.avatar_default)
+                .submit(innerSize, innerSize)
+                .get()
         }
 
         // inset the loaded bitmap inside a 108dp transparent canvas so it looks good as adaptive icon
@@ -65,10 +65,10 @@ fun updateShortcut(context: Context, account: AccountEntity) {
         val icon = IconCompat.createWithAdaptiveBitmap(outBmp)
 
         val person = Person.Builder()
-                .setIcon(icon)
-                .setName(account.displayName)
-                .setKey(account.identifier)
-                .build()
+            .setIcon(icon)
+            .setName(account.displayName)
+            .setKey(account.identifier)
+            .build()
 
         // This intent will be sent when the user clicks on one of the launcher shortcuts. Intent from share sheet will be different
         val intent = Intent(context, MainActivity::class.java).apply {
@@ -78,26 +78,22 @@ fun updateShortcut(context: Context, account: AccountEntity) {
         }
 
         val shortcutInfo = ShortcutInfoCompat.Builder(context, account.id.toString())
-                .setIntent(intent)
-                .setCategories(setOf("com.keylesspalace.tusky.Share"))
-                .setShortLabel(account.displayName)
-                .setPerson(person)
-                .setLongLived(true)
-                .setIcon(icon)
-                .build()
+            .setIntent(intent)
+            .setCategories(setOf("com.keylesspalace.tusky.Share"))
+            .setShortLabel(account.displayName)
+            .setPerson(person)
+            .setLongLived(true)
+            .setIcon(icon)
+            .build()
 
         ShortcutManagerCompat.addDynamicShortcuts(context, listOf(shortcutInfo))
-
     }
-            .subscribeOn(Schedulers.io())
-            .onErrorReturnItem(false)
-            .subscribe()
-
-
+        .subscribeOn(Schedulers.io())
+        .onErrorReturnItem(false)
+        .subscribe()
 }
 
 fun removeShortcut(context: Context, account: AccountEntity) {
 
     ShortcutManagerCompat.removeDynamicShortcuts(context, listOf(account.id.toString()))
-
 }

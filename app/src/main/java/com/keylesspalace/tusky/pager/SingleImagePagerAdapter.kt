@@ -6,8 +6,8 @@ import com.keylesspalace.tusky.ViewMediaAdapter
 import com.keylesspalace.tusky.fragment.ViewMediaFragment
 
 class SingleImagePagerAdapter(
-        activity: FragmentActivity,
-        private val imageUrl: String
+    activity: FragmentActivity,
+    private val imageUrl: String
 ) : ViewMediaAdapter(activity) {
 
     override fun createFragment(position: Int): Fragment {

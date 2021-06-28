@@ -28,18 +28,17 @@ import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.db.DraftAttachment
 
 class DraftMediaAdapter(
-        private val attachmentClick: () -> Unit
+    private val attachmentClick: () -> Unit
 ) : ListAdapter<DraftAttachment, DraftMediaAdapter.DraftMediaViewHolder>(
-        object: DiffUtil.ItemCallback<DraftAttachment>() {
-            override fun areItemsTheSame(oldItem: DraftAttachment, newItem: DraftAttachment): Boolean {
-                return oldItem == newItem
-            }
-
-            override fun areContentsTheSame(oldItem: DraftAttachment, newItem: DraftAttachment): Boolean {
-                return oldItem == newItem
-            }
-
+    object : DiffUtil.ItemCallback<DraftAttachment>() {
+        override fun areItemsTheSame(oldItem: DraftAttachment, newItem: DraftAttachment): Boolean {
+            return oldItem == newItem
         }
+
+        override fun areContentsTheSame(oldItem: DraftAttachment, newItem: DraftAttachment): Boolean {
+            return oldItem == newItem
+        }
+    }
 ) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DraftMediaViewHolder {
@@ -52,24 +51,24 @@ class DraftMediaAdapter(
                 holder.imageView.setImageResource(R.drawable.ic_music_box_preview_24dp)
             } else {
                 Glide.with(holder.itemView.context)
-                        .load(attachment.uri)
-                        .diskCacheStrategy(DiskCacheStrategy.NONE)
-                        .dontAnimate()
-                        .into(holder.imageView)
+                    .load(attachment.uri)
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .dontAnimate()
+                    .into(holder.imageView)
             }
         }
     }
 
-    inner class DraftMediaViewHolder(val imageView: ImageView)
-        : RecyclerView.ViewHolder(imageView) {
+    inner class DraftMediaViewHolder(val imageView: ImageView) :
+        RecyclerView.ViewHolder(imageView) {
         init {
             val thumbnailViewSize =
-                    imageView.context.resources.getDimensionPixelSize(R.dimen.compose_media_preview_size)
+                imageView.context.resources.getDimensionPixelSize(R.dimen.compose_media_preview_size)
             val layoutParams = ConstraintLayout.LayoutParams(thumbnailViewSize, thumbnailViewSize)
             val margin = itemView.context.resources
-                    .getDimensionPixelSize(R.dimen.compose_media_preview_margin)
+                .getDimensionPixelSize(R.dimen.compose_media_preview_margin)
             val marginBottom = itemView.context.resources
-                    .getDimensionPixelSize(R.dimen.compose_media_preview_margin_bottom)
+                .getDimensionPixelSize(R.dimen.compose_media_preview_margin_bottom)
             layoutParams.setMargins(margin, 0, margin, marginBottom)
             imageView.layoutParams = layoutParams
             imageView.scaleType = ImageView.ScaleType.CENTER_CROP

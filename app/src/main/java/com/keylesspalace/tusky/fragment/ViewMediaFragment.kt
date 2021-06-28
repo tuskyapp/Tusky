@@ -25,10 +25,10 @@ abstract class ViewMediaFragment : Fragment() {
     private var toolbarVisibiltyDisposable: Function0<Boolean>? = null
 
     abstract fun setupMediaView(
-            url: String,
-            previewUrl: String?,
-            description: String?,
-            showingDescription: Boolean
+        url: String,
+        previewUrl: String?,
+        description: String?,
+        showingDescription: Boolean
     )
 
     abstract fun onToolbarVisibilityChange(visible: Boolean)
@@ -56,7 +56,7 @@ abstract class ViewMediaFragment : Fragment() {
                 Attachment.Type.VIDEO,
                 Attachment.Type.GIFV,
                 Attachment.Type.AUDIO -> ViewVideoFragment()
-                else -> ViewImageFragment()   // it probably won't show anything, but its better than crashing
+                else -> ViewImageFragment() // it probably won't show anything, but its better than crashing
             }
             fragment.arguments = arguments
             return fragment
@@ -84,9 +84,9 @@ abstract class ViewMediaFragment : Fragment() {
         setupMediaView(url, previewUrl, description, showingDescription && mediaActivity.isToolbarVisible)
 
         toolbarVisibiltyDisposable = (activity as ViewMediaActivity)
-                .addToolbarVisibilityListener { isVisible ->
-                    onToolbarVisibilityChange(isVisible)
-                }
+            .addToolbarVisibilityListener { isVisible ->
+                onToolbarVisibilityChange(isVisible)
+            }
     }
 
     override fun onDestroyView() {

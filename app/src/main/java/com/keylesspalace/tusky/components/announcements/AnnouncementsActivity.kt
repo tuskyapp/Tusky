@@ -34,7 +34,12 @@ import com.keylesspalace.tusky.databinding.ActivityAnnouncementsBinding
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.settings.PrefKeys
-import com.keylesspalace.tusky.util.*
+import com.keylesspalace.tusky.util.Error
+import com.keylesspalace.tusky.util.Loading
+import com.keylesspalace.tusky.util.Success
+import com.keylesspalace.tusky.util.hide
+import com.keylesspalace.tusky.util.show
+import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.view.EmojiPicker
 import javax.inject.Inject
 
@@ -52,13 +57,13 @@ class AnnouncementsActivity : BottomSheetActivity(), AnnouncementActionListener,
     private val picker by lazy { EmojiPicker(this) }
     private val pickerDialog by lazy {
         PopupWindow(this)
-                .apply {
-                    contentView = picker
-                    isFocusable = true
-                    setOnDismissListener {
-                        currentAnnouncementId = null
-                    }
+            .apply {
+                contentView = picker
+                isFocusable = true
+                setOnDismissListener {
+                    currentAnnouncementId = null
                 }
+            }
     }
     private var currentAnnouncementId: String? = null
 

@@ -50,7 +50,6 @@ class ProxyPreferencesFragment : PreferenceFragmentCompat() {
                 setSummaryProvider { text }
             }
         }
-
     }
 
     override fun onPause() {

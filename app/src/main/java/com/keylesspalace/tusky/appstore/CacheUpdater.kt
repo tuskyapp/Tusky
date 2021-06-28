@@ -9,10 +9,10 @@ import io.reactivex.rxjava3.schedulers.Schedulers
 import javax.inject.Inject
 
 class CacheUpdater @Inject constructor(
-        eventHub: EventHub,
-        accountManager: AccountManager,
-        private val appDatabase: AppDatabase,
-        gson: Gson
+    eventHub: EventHub,
+    accountManager: AccountManager,
+    private val appDatabase: AppDatabase,
+    gson: Gson
 ) {
 
     private val disposable: Disposable
@@ -27,7 +27,7 @@ class CacheUpdater @Inject constructor(
                 is ReblogEvent ->
                     timelineDao.setReblogged(accountId, event.statusId, event.reblog)
                 is BookmarkEvent ->
-                    timelineDao.setBookmarked(accountId, event.statusId, event.bookmark )
+                    timelineDao.setBookmarked(accountId, event.statusId, event.bookmark)
                 is UnfollowEvent ->
                     timelineDao.removeAllByUser(accountId, event.accountId)
                 is StatusDeletedEvent ->
@@ -49,7 +49,7 @@ class CacheUpdater @Inject constructor(
             appDatabase.timelineDao().removeAllForAccount(accountId)
             appDatabase.timelineDao().removeAllUsersForAccount(accountId)
         }
-                .subscribeOn(Schedulers.io())
-                .subscribe()
+            .subscribeOn(Schedulers.io())
+            .subscribe()
     }
 }

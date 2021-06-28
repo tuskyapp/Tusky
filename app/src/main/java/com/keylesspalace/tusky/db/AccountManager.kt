@@ -18,7 +18,7 @@ package com.keylesspalace.tusky.db
 import android.util.Log
 import com.keylesspalace.tusky.entity.Account
 import com.keylesspalace.tusky.entity.Status
-import java.util.*
+import java.util.Locale
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -66,7 +66,6 @@ class AccountManager @Inject constructor(db: AppDatabase) {
         val maxAccountId = accounts.maxByOrNull { it.id }?.id ?: 0
         val newAccountId = maxAccountId + 1
         activeAccount = AccountEntity(id = newAccountId, domain = domain.lowercase(Locale.ROOT), accessToken = accessToken, isActive = true)
-
     }
 
     /**
@@ -79,7 +78,6 @@ class AccountManager @Inject constructor(db: AppDatabase) {
             Log.d(TAG, "saveAccount: saving account with id " + account.id)
             accountDao.insertOrReplace(account)
         }
-
     }
 
     /**
@@ -103,9 +101,7 @@ class AccountManager @Inject constructor(db: AppDatabase) {
                 activeAccount = null
             }
             return activeAccount
-
         }
-
     }
 
     /**
@@ -129,13 +125,12 @@ class AccountManager @Inject constructor(db: AppDatabase) {
             val accountIndex = accounts.indexOf(it)
 
             if (accountIndex != -1) {
-                //in case the user was already logged in with this account, remove the old information
+                // in case the user was already logged in with this account, remove the old information
                 accounts.removeAt(accountIndex)
                 accounts.add(accountIndex, it)
             } else {
                 accounts.add(it)
             }
-
         }
     }
 
@@ -194,5 +189,4 @@ class AccountManager @Inject constructor(db: AppDatabase) {
             id == accountId
         }
     }
-
 }

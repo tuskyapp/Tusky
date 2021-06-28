@@ -111,8 +111,8 @@ class ThreadAdapter(
     fun getItem(position: Int): StatusViewData.Concrete? = statuses.getOrNull(position)
 
     fun setDetailedStatusPosition(position: Int) {
-        if (position != detailedStatusPosition
-            && detailedStatusPosition != RecyclerView.NO_POSITION
+        if (position != detailedStatusPosition &&
+            detailedStatusPosition != RecyclerView.NO_POSITION
         ) {
             val prior = detailedStatusPosition
             detailedStatusPosition = position

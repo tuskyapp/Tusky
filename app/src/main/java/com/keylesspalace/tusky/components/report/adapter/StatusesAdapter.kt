@@ -26,9 +26,9 @@ import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.util.StatusDisplayOptions
 
 class StatusesAdapter(
-        private val statusDisplayOptions: StatusDisplayOptions,
-        private val statusViewState: StatusViewState,
-        private val adapterHandler: AdapterHandler
+    private val statusDisplayOptions: StatusDisplayOptions,
+    private val statusViewState: StatusViewState,
+    private val adapterHandler: AdapterHandler
 ) : PagingDataAdapter<Status, StatusViewHolder>(STATUS_COMPARATOR) {
 
     private val statusForPosition: (Int) -> Status? = { position: Int ->
@@ -37,8 +37,10 @@ class StatusesAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StatusViewHolder {
         val binding = ItemReportStatusBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return StatusViewHolder(binding, statusDisplayOptions, statusViewState, adapterHandler,
-                statusForPosition)
+        return StatusViewHolder(
+            binding, statusDisplayOptions, statusViewState, adapterHandler,
+            statusForPosition
+        )
     }
 
     override fun onBindViewHolder(holder: StatusViewHolder, position: Int) {
@@ -50,10 +52,10 @@ class StatusesAdapter(
     companion object {
         val STATUS_COMPARATOR = object : DiffUtil.ItemCallback<Status>() {
             override fun areContentsTheSame(oldItem: Status, newItem: Status): Boolean =
-                    oldItem == newItem
+                oldItem == newItem
 
             override fun areItemsTheSame(oldItem: Status, newItem: Status): Boolean =
-                    oldItem.id == newItem.id
+                oldItem.id == newItem.id
         }
     }
 }

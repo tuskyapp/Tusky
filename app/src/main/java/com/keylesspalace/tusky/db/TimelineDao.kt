@@ -17,11 +17,11 @@ abstract class TimelineDao {
     @Insert(onConflict = REPLACE)
     abstract fun insertStatus(timelineAccountEntity: TimelineStatusEntity): Long
 
-
     @Insert(onConflict = IGNORE)
     abstract fun insertStatusIfNotThere(timelineAccountEntity: TimelineStatusEntity): Long
 
-    @Query("""
+    @Query(
+        """
 SELECT s.serverId, s.url, s.timelineUserId,
 s.authorServerId, s.inReplyToId, s.inReplyToAccountId, s.createdAt,
 s.emojis, s.reblogsCount, s.favouritesCount, s.reblogged, s.favourited, s.bookmarked, s.sensitive,
@@ -46,47 +46,62 @@ AND (CASE WHEN :sinceId IS NOT NULL THEN
 (LENGTH(s.serverId) > LENGTH(:sinceId) OR LENGTH(s.serverId) == LENGTH(:sinceId) AND s.serverId > :sinceId)
 ELSE 1 END)
 ORDER BY LENGTH(s.serverId) DESC, s.serverId DESC
-LIMIT :limit""")
+LIMIT :limit"""
+    )
     abstract fun getStatusesForAccount(account: Long, maxId: String?, sinceId: String?, limit: Int): Single<List<TimelineStatusWithAccount>>
 
-
     @Transaction
-    open fun insertInTransaction(status: TimelineStatusEntity, account: TimelineAccountEntity,
-                                 reblogAccount: TimelineAccountEntity?) {
+    open fun insertInTransaction(
+        status: TimelineStatusEntity,
+        account: TimelineAccountEntity,
+        reblogAccount: TimelineAccountEntity?
+    ) {
         insertAccount(account)
         reblogAccount?.let(this::insertAccount)
         insertStatus(status)
     }
 
-    @Query("""DELETE FROM TimelineStatusEntity WHERE timelineUserId = :accountId AND
+    @Query(
+        """DELETE FROM TimelineStatusEntity WHERE timelineUserId = :accountId AND
         (LENGTH(serverId) < LENGTH(:maxId) OR LENGTH(serverId) == LENGTH(:maxId) AND serverId < :maxId)
 AND
 (LENGTH(serverId) > LENGTH(:minId) OR LENGTH(serverId) == LENGTH(:minId) AND serverId > :minId)
-    """)
+    """
+    )
     abstract fun deleteRange(accountId: Long, minId: String, maxId: String)
 
-    @Query("""DELETE FROM TimelineStatusEntity WHERE authorServerId = null
+    @Query(
+        """DELETE FROM TimelineStatusEntity WHERE authorServerId = null
 AND timelineUserId = :account AND
 (LENGTH(serverId) < LENGTH(:maxId) OR LENGTH(serverId) == LENGTH(:maxId) AND serverId < :maxId)
 AND
 (LENGTH(serverId) > LENGTH(:sinceId) OR LENGTH(serverId) == LENGTH(:sinceId) AND serverId > :sinceId)
-""")
+"""
+    )
     abstract fun removeAllPlaceholdersBetween(account: Long, maxId: String, sinceId: String)
 
-    @Query("""UPDATE TimelineStatusEntity SET favourited = :favourited
-WHERE timelineUserId = :accountId AND (serverId = :statusId OR reblogServerId = :statusId)""")
+    @Query(
+        """UPDATE TimelineStatusEntity SET favourited = :favourited
+WHERE timelineUserId = :accountId AND (serverId = :statusId OR reblogServerId = :statusId)"""
+    )
     abstract fun setFavourited(accountId: Long, statusId: String, favourited: Boolean)
 
-    @Query("""UPDATE TimelineStatusEntity SET bookmarked = :bookmarked
-WHERE timelineUserId = :accountId AND (serverId = :statusId OR reblogServerId = :statusId)""")
+    @Query(
+        """UPDATE TimelineStatusEntity SET bookmarked = :bookmarked
+WHERE timelineUserId = :accountId AND (serverId = :statusId OR reblogServerId = :statusId)"""
+    )
     abstract fun setBookmarked(accountId: Long, statusId: String, bookmarked: Boolean)
 
-    @Query("""UPDATE TimelineStatusEntity SET reblogged = :reblogged
-WHERE timelineUserId = :accountId AND (serverId = :statusId OR reblogServerId = :statusId)""")
+    @Query(
+        """UPDATE TimelineStatusEntity SET reblogged = :reblogged
+WHERE timelineUserId = :accountId AND (serverId = :statusId OR reblogServerId = :statusId)"""
+    )
     abstract fun setReblogged(accountId: Long, statusId: String, reblogged: Boolean)
 
-    @Query("""DELETE FROM TimelineStatusEntity WHERE timelineUserId = :accountId AND
-(authorServerId = :userId OR reblogAccountId = :userId)""")
+    @Query(
+        """DELETE FROM TimelineStatusEntity WHERE timelineUserId = :accountId AND
+(authorServerId = :userId OR reblogAccountId = :userId)"""
+    )
     abstract fun removeAllByUser(accountId: Long, userId: String)
 
     @Query("DELETE FROM TimelineStatusEntity WHERE timelineUserId = :accountId")
@@ -95,14 +110,18 @@ WHERE timelineUserId = :accountId AND (serverId = :statusId OR reblogServerId = 
     @Query("DELETE FROM TimelineAccountEntity WHERE timelineUserId = :accountId")
     abstract fun removeAllUsersForAccount(accountId: Long)
 
-    @Query("""DELETE FROM TimelineStatusEntity WHERE timelineUserId = :accountId
-AND serverId = :statusId""")
+    @Query(
+        """DELETE FROM TimelineStatusEntity WHERE timelineUserId = :accountId
+AND serverId = :statusId"""
+    )
     abstract fun delete(accountId: Long, statusId: String)
 
     @Query("""DELETE FROM TimelineStatusEntity WHERE createdAt < :olderThan""")
     abstract fun cleanup(olderThan: Long)
 
-    @Query("""UPDATE TimelineStatusEntity SET poll = :poll
-WHERE timelineUserId = :accountId AND (serverId = :statusId OR reblogServerId = :statusId)""")
+    @Query(
+        """UPDATE TimelineStatusEntity SET poll = :poll
+WHERE timelineUserId = :accountId AND (serverId = :statusId OR reblogServerId = :statusId)"""
+    )
     abstract fun setVoted(accountId: Long, statusId: String, poll: String)
 }
