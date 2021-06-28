@@ -120,8 +120,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
 
     private val emojiInitCallback = object : InitCallback() {
         override fun onInitialized() {
-            if (!isDestroyed) {
-                updateProfiles()
+            if (!isDestroyed) { updateProfiles()
             }
         }
     }
