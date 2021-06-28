@@ -7,17 +7,14 @@ import com.keylesspalace.tusky.entity.Poll
 import com.keylesspalace.tusky.entity.PollOption
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.network.FilterModel
-import com.keylesspalace.tusky.network.MastodonApi
-import com.nhaarman.mockitokotlin2.doReturn
 import com.nhaarman.mockitokotlin2.mock
-import io.reactivex.rxjava3.core.Single
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.annotation.Config
-import java.util.*
+import java.util.Date
 
 @Config(sdk = [28])
 @RunWith(AndroidJUnit4::class)
@@ -182,5 +179,4 @@ class FilterTest {
             card = null
         )
     }
-
 }

@@ -29,8 +29,10 @@ class FilterModel @Inject constructor() {
         }
 
         val spoilerText = status.actionableStatus.spoilerText
-        return (matcher.reset(status.actionableStatus.content).find() ||
-                spoilerText.isNotEmpty() && matcher.reset(spoilerText).find())
+        return (
+            matcher.reset(status.actionableStatus.content).find() ||
+                spoilerText.isNotEmpty() && matcher.reset(spoilerText).find()
+            )
     }
 
     private fun filterToRegexToken(filter: Filter): String? {
@@ -47,7 +49,7 @@ class FilterModel @Inject constructor() {
         if (filters.isEmpty()) return null
         val tokens = filters.map { filterToRegexToken(it) }
 
-        return Pattern.compile(TextUtils.join("|", tokens), Pattern.CASE_INSENSITIVE);
+        return Pattern.compile(TextUtils.join("|", tokens), Pattern.CASE_INSENSITIVE)
     }
 
     companion object {

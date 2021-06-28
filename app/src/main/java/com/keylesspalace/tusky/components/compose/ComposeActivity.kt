@@ -32,7 +32,10 @@ import android.view.KeyEvent
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import android.widget.*
+import android.widget.ImageButton
+import android.widget.LinearLayout
+import android.widget.PopupMenu
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.annotation.ColorInt
@@ -70,7 +73,20 @@ import com.keylesspalace.tusky.entity.Emoji
 import com.keylesspalace.tusky.entity.NewPoll
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.settings.PrefKeys
-import com.keylesspalace.tusky.util.*
+import com.keylesspalace.tusky.util.ComposeTokenizer
+import com.keylesspalace.tusky.util.PickMediaFiles
+import com.keylesspalace.tusky.util.ThemeUtils
+import com.keylesspalace.tusky.util.afterTextChanged
+import com.keylesspalace.tusky.util.combineLiveData
+import com.keylesspalace.tusky.util.combineOptionalLiveData
+import com.keylesspalace.tusky.util.hide
+import com.keylesspalace.tusky.util.highlightSpans
+import com.keylesspalace.tusky.util.loadAvatar
+import com.keylesspalace.tusky.util.onTextChanged
+import com.keylesspalace.tusky.util.show
+import com.keylesspalace.tusky.util.viewBinding
+import com.keylesspalace.tusky.util.visible
+import com.keylesspalace.tusky.util.withLifecycleContext
 import com.mikepenz.iconics.IconicsDrawable
 import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial
 import com.mikepenz.iconics.utils.colorInt
@@ -83,7 +99,8 @@ import javax.inject.Inject
 import kotlin.math.max
 import kotlin.math.min
 
-class ComposeActivity : BaseActivity(),
+class ComposeActivity :
+    BaseActivity(),
     ComposeOptionsListener,
     ComposeAutoCompleteAdapter.AutocompletionProvider,
     OnEmojiSelectedListener,
@@ -288,8 +305,9 @@ class ComposeActivity : BaseActivity(),
         }
 
         // work around Android platform bug -> https://issuetracker.google.com/issues/67102093
-        if (Build.VERSION.SDK_INT == Build.VERSION_CODES.O
-            || Build.VERSION.SDK_INT == Build.VERSION_CODES.O_MR1) {
+        if (Build.VERSION.SDK_INT == Build.VERSION_CODES.O ||
+            Build.VERSION.SDK_INT == Build.VERSION_CODES.O_MR1
+        ) {
             binding.composeEditField.setLayerType(View.LAYER_TYPE_SOFTWARE, null)
         }
     }
@@ -330,9 +348,9 @@ class ComposeActivity : BaseActivity(),
                 updateScheduleButton()
             }
             combineOptionalLiveData(viewModel.media, viewModel.poll) { media, poll ->
-                val active = poll == null
-                        && media!!.size != 4
-                        && (media.isEmpty() || media.first().type == QueuedMedia.Type.IMAGE)
+                val active = poll == null &&
+                    media!!.size != 4 &&
+                    (media.isEmpty() || media.first().type == QueuedMedia.Type.IMAGE)
                 enableButton(binding.composeAddMediaButton, active, active)
                 enablePollButton(media.isNullOrEmpty())
             }.subscribe()
@@ -393,7 +411,6 @@ class ComposeActivity : BaseActivity(),
             setDisplayShowHomeEnabled(true)
             setHomeAsUpIndicator(R.drawable.ic_close_24dp)
         }
-
     }
 
     private fun setupAvatar(preferences: SharedPreferences, activeAccount: AccountEntity) {
@@ -409,8 +426,10 @@ class ComposeActivity : BaseActivity(),
             avatarSize / 8,
             animateAvatars
         )
-        binding.composeAvatar.contentDescription = getString(R.string.compose_active_account_description,
-            activeAccount.fullName)
+        binding.composeAvatar.contentDescription = getString(
+            R.string.compose_active_account_description,
+            activeAccount.fullName
+        )
     }
 
     private fun replaceTextAtCaret(text: CharSequence) {
@@ -468,7 +487,6 @@ class ComposeActivity : BaseActivity(),
         }
     }
 
-
     private fun atButtonClicked() {
         prependSelectedWordsWith("@")
     }
@@ -484,7 +502,7 @@ class ComposeActivity : BaseActivity(),
 
     private fun displayTransientError(@StringRes stringId: Int) {
         val bar = Snackbar.make(binding.activityCompose, stringId, Snackbar.LENGTH_LONG)
-        //necessary so snackbar is shown over everything
+        // necessary so snackbar is shown over everything
         bar.view.elevation = resources.getDimension(R.dimen.compose_activity_snackbar_elevation)
         bar.show()
     }
@@ -502,7 +520,6 @@ class ComposeActivity : BaseActivity(),
                 binding.composeHideMediaButton.setImageResource(R.drawable.ic_hide_media_24dp)
                 binding.composeHideMediaButton.isClickable = false
                 ContextCompat.getColor(this, R.color.transparent_tusky_blue)
-
             } else {
                 binding.composeHideMediaButton.isClickable = true
                 if (markMediaSensitive) {
@@ -611,13 +628,15 @@ class ComposeActivity : BaseActivity(),
     private fun onMediaPick() {
         addMediaBehavior.addBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
             override fun onStateChanged(bottomSheet: View, newState: Int) {
-                //Wait until bottom sheet is not collapsed and show next screen after
+                // Wait until bottom sheet is not collapsed and show next screen after
                 if (newState == BottomSheetBehavior.STATE_COLLAPSED) {
                     addMediaBehavior.removeBottomSheetCallback(this)
                     if (ContextCompat.checkSelfPermission(this@ComposeActivity, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                        ActivityCompat.requestPermissions(this@ComposeActivity,
+                        ActivityCompat.requestPermissions(
+                            this@ComposeActivity,
                             arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
-                            PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE)
+                            PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE
+                        )
                     } else {
                         pickMediaFile.launch(true)
                     }
@@ -633,8 +652,10 @@ class ComposeActivity : BaseActivity(),
     private fun openPollDialog() {
         addMediaBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
         val instanceParams = viewModel.instanceParams.value!!
-        showAddPollDialog(this, viewModel.poll.value, instanceParams.pollMaxOptions,
-            instanceParams.pollMaxLength, viewModel::updatePoll)
+        showAddPollDialog(
+            this, viewModel.poll.value, instanceParams.pollMaxOptions,
+            instanceParams.pollMaxLength, viewModel::updatePoll
+        )
     }
 
     private fun setupPollView() {
@@ -755,14 +776,17 @@ class ComposeActivity : BaseActivity(),
             if (viewModel.media.value!!.isNotEmpty()) {
                 finishingUploadDialog = ProgressDialog.show(
                     this, getString(R.string.dialog_title_finishing_media_upload),
-                    getString(R.string.dialog_message_uploading_media), true, true)
+                    getString(R.string.dialog_message_uploading_media), true, true
+                )
             }
 
-            viewModel.sendStatus(contentText, spoilerText).observe(this, {
-                finishingUploadDialog?.dismiss()
-                deleteDraftAndFinish()
-            })
-
+            viewModel.sendStatus(contentText, spoilerText).observe(
+                this,
+                {
+                    finishingUploadDialog?.dismiss()
+                    deleteDraftAndFinish()
+                }
+            )
         } else {
             binding.composeEditField.error = getString(R.string.error_compose_character_limit)
             enableButtons(true)
@@ -776,10 +800,12 @@ class ComposeActivity : BaseActivity(),
             if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 pickMediaFile.launch(true)
             } else {
-                Snackbar.make(binding.activityCompose, R.string.error_media_upload_permission,
-                    Snackbar.LENGTH_SHORT).apply {
+                Snackbar.make(
+                    binding.activityCompose, R.string.error_media_upload_permission,
+                    Snackbar.LENGTH_SHORT
+                ).apply {
                     setAction(R.string.action_retry) { onMediaPick() }
-                    //necessary so snackbar is shown over everything
+                    // necessary so snackbar is shown over everything
                     view.elevation = resources.getDimension(R.dimen.compose_activity_snackbar_elevation)
                     show()
                 }
@@ -798,24 +824,30 @@ class ComposeActivity : BaseActivity(),
         }
 
         // Continue only if the File was successfully created
-        photoUploadUri = FileProvider.getUriForFile(this,
+        photoUploadUri = FileProvider.getUriForFile(
+            this,
             BuildConfig.APPLICATION_ID + ".fileprovider",
-            photoFile)
+            photoFile
+        )
         takePicture.launch(photoUploadUri)
     }
 
     private fun enableButton(button: ImageButton, clickable: Boolean, colorActive: Boolean) {
         button.isEnabled = clickable
-        ThemeUtils.setDrawableTint(this, button.drawable,
+        ThemeUtils.setDrawableTint(
+            this, button.drawable,
             if (colorActive) android.R.attr.textColorTertiary
-            else R.attr.textColorDisabled)
+            else R.attr.textColorDisabled
+        )
     }
 
     private fun enablePollButton(enable: Boolean) {
         binding.addPollTextActionTextView.isEnabled = enable
-        val textColor = ThemeUtils.getColor(this,
+        val textColor = ThemeUtils.getColor(
+            this,
             if (enable) android.R.attr.textColorTertiary
-            else R.attr.textColorDisabled)
+            else R.attr.textColorDisabled
+        )
         binding.addPollTextActionTextView.setTextColor(textColor)
         binding.addPollTextActionTextView.compoundDrawablesRelative[0].colorFilter = PorterDuffColorFilter(textColor, PorterDuff.Mode.SRC_IN)
     }
@@ -847,7 +879,6 @@ class ComposeActivity : BaseActivity(),
                     }
                     displayTransientError(errorId)
                 }
-
             }
         }
     }
@@ -881,7 +912,8 @@ class ComposeActivity : BaseActivity(),
         if (composeOptionsBehavior.state == BottomSheetBehavior.STATE_EXPANDED ||
             addMediaBehavior.state == BottomSheetBehavior.STATE_EXPANDED ||
             emojiBehavior.state == BottomSheetBehavior.STATE_EXPANDED ||
-            scheduleBehavior.state == BottomSheetBehavior.STATE_EXPANDED) {
+            scheduleBehavior.state == BottomSheetBehavior.STATE_EXPANDED
+        ) {
             composeOptionsBehavior.state = BottomSheetBehavior.STATE_HIDDEN
             addMediaBehavior.state = BottomSheetBehavior.STATE_HIDDEN
             emojiBehavior.state = BottomSheetBehavior.STATE_HIDDEN

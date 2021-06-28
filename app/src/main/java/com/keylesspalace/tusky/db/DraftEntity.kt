@@ -28,24 +28,24 @@ import kotlinx.parcelize.Parcelize
 @Entity
 @TypeConverters(Converters::class)
 data class DraftEntity(
-        @PrimaryKey(autoGenerate = true) val id: Int = 0,
-        val accountId: Long,
-        val inReplyToId: String?,
-        val content: String?,
-        val contentWarning: String?,
-        val sensitive: Boolean,
-        val visibility: Status.Visibility,
-        val attachments: List<DraftAttachment>,
-        val poll: NewPoll?,
-        val failedToSend: Boolean
+    @PrimaryKey(autoGenerate = true) val id: Int = 0,
+    val accountId: Long,
+    val inReplyToId: String?,
+    val content: String?,
+    val contentWarning: String?,
+    val sensitive: Boolean,
+    val visibility: Status.Visibility,
+    val attachments: List<DraftAttachment>,
+    val poll: NewPoll?,
+    val failedToSend: Boolean
 )
 
 @Parcelize
 data class DraftAttachment(
-        val uriString: String,
-        val description: String?,
-        val type: Type
-): Parcelable {
+    val uriString: String,
+    val description: String?,
+    val type: Type
+) : Parcelable {
     val uri: Uri
         get() = uriString.toUri()
 

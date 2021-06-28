@@ -32,7 +32,6 @@ class ConversationsRepository @Inject constructor(
         Single.fromCallable {
             db.conversationDao().deleteForAccount(accountId)
         }.subscribeOn(Schedulers.io())
-                .subscribe()
+            .subscribe()
     }
-
 }

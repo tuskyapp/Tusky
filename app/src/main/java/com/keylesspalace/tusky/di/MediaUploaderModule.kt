@@ -26,5 +26,5 @@ import dagger.Provides
 class MediaUploaderModule {
     @Provides
     fun providesMediaUploder(context: Context, mastodonApi: MastodonApi): MediaUploader =
-            MediaUploaderImpl(context, mastodonApi)
+        MediaUploaderImpl(context, mastodonApi)
 }

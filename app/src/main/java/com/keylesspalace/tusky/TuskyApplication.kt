@@ -68,8 +68,8 @@ class TuskyApplication : Application(), HasAndroidInjector {
         // init the custom emoji fonts
         val emojiSelection = preferences.getInt(PrefKeys.EMOJI, 0)
         val emojiConfig = EmojiCompatFont.byId(emojiSelection)
-                .getConfig(this)
-                .setReplaceAll(true)
+            .getConfig(this)
+            .setReplaceAll(true)
         EmojiCompat.init(emojiConfig)
 
         // init night mode
@@ -81,10 +81,10 @@ class TuskyApplication : Application(), HasAndroidInjector {
         }
 
         WorkManager.initialize(
-                this,
-                androidx.work.Configuration.Builder()
-                        .setWorkerFactory(notificationWorkerFactory)
-                        .build()
+            this,
+            androidx.work.Configuration.Builder()
+                .setWorkerFactory(notificationWorkerFactory)
+                .build()
         )
     }
 

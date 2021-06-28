@@ -49,13 +49,17 @@ private class FindCharsResult {
     var end: Int = -1
 }
 
-private class PatternFinder(val searchCharacter: Char, regex: String, val searchPrefixWidth: Int,
-                            val prefixValidator: (Int) -> Boolean) {
+private class PatternFinder(
+    val searchCharacter: Char,
+    regex: String,
+    val searchPrefixWidth: Int,
+    val prefixValidator: (Int) -> Boolean
+) {
     val pattern: Pattern = Pattern.compile(regex, Pattern.CASE_INSENSITIVE)
 }
 
 private fun <T> clearSpans(text: Spannable, spanClass: Class<T>) {
-    for(span in text.getSpans(0, text.length, spanClass)) {
+    for (span in text.getSpans(0, text.length, spanClass)) {
         text.removeSpan(span)
     }
 }
@@ -66,14 +70,18 @@ private fun findPattern(string: String, fromIndex: Int): FindCharsResult {
         val c = string[i]
         for (matchType in FoundMatchType.values()) {
             val finder = finders[matchType]
-            if (finder!!.searchCharacter == c
-                    && ((i - fromIndex) < finder.searchPrefixWidth ||
-                            finder.prefixValidator(string.codePointAt(i - finder.searchPrefixWidth)))) {
+            if (finder!!.searchCharacter == c &&
+                (
+                    (i - fromIndex) < finder.searchPrefixWidth ||
+                        finder.prefixValidator(string.codePointAt(i - finder.searchPrefixWidth))
+                    )
+            ) {
                 result.matchType = matchType
                 result.start = max(0, i - finder.searchPrefixWidth)
                 findEndOfPattern(string, result, finder.pattern)
                 if (result.start + finder.searchPrefixWidth <= i + 1 && // The found result is actually triggered by the correct search character
-                        result.end >= result.start) {                   // ...and we actually found a valid result
+                    result.end >= result.start
+                ) { // ...and we actually found a valid result
                     return result
                 }
             }
@@ -92,7 +100,8 @@ private fun findEndOfPattern(string: String, result: FindCharsResult, pattern: P
             FoundMatchType.TAG -> {
                 if (isValidForTagPrefix(string.codePointAt(result.start))) {
                     if (string[result.start] != '#' ||
-                            (string[result.start] == '#' && string[result.start + 1] == '#')) {
+                        (string[result.start] == '#' && string[result.start + 1] == '#')
+                    ) {
                         ++result.start
                     }
                 }
@@ -116,7 +125,7 @@ private fun findEndOfPattern(string: String, result: FindCharsResult, pattern: P
 }
 
 private fun getSpan(matchType: FoundMatchType, string: String, colour: Int, start: Int, end: Int): CharacterStyle {
-    return when(matchType) {
+    return when (matchType) {
         FoundMatchType.HTTP_URL -> NoUnderlineURLSpan(string.substring(start, end))
         FoundMatchType.HTTPS_URL -> NoUnderlineURLSpan(string.substring(start, end))
         else -> ForegroundColorSpan(colour)
@@ -149,13 +158,15 @@ fun highlightSpans(text: Spannable, colour: Int) {
 
 private fun isWordCharacters(codePoint: Int): Boolean {
     return (codePoint in 0x30..0x39) || // [0-9]
-            (codePoint in 0x41..0x5a) || // [A-Z]
-            (codePoint == 0x5f) || // _
-            (codePoint in 0x61..0x7a) // [a-z]
+        (codePoint in 0x41..0x5a) || // [A-Z]
+        (codePoint == 0x5f) || // _
+        (codePoint in 0x61..0x7a) // [a-z]
 }
 
 private fun isValidForTagPrefix(codePoint: Int): Boolean {
-    return !(isWordCharacters(codePoint) || // \w
+    return !(
+        isWordCharacters(codePoint) || // \w
             (codePoint == 0x2f) || // /
-            (codePoint == 0x29)) // )
+            (codePoint == 0x29)
+        ) // )
 }

@@ -16,14 +16,22 @@
 package com.keylesspalace.tusky.network
 
 import android.util.Log
-import com.keylesspalace.tusky.appstore.*
+import com.keylesspalace.tusky.appstore.BlockEvent
+import com.keylesspalace.tusky.appstore.BookmarkEvent
+import com.keylesspalace.tusky.appstore.EventHub
+import com.keylesspalace.tusky.appstore.FavoriteEvent
+import com.keylesspalace.tusky.appstore.MuteConversationEvent
+import com.keylesspalace.tusky.appstore.MuteEvent
+import com.keylesspalace.tusky.appstore.PinEvent
+import com.keylesspalace.tusky.appstore.PollVoteEvent
+import com.keylesspalace.tusky.appstore.ReblogEvent
+import com.keylesspalace.tusky.appstore.StatusDeletedEvent
 import com.keylesspalace.tusky.entity.DeletedStatus
 import com.keylesspalace.tusky.entity.Poll
 import com.keylesspalace.tusky.entity.Status
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.kotlin.addTo
-import java.lang.IllegalStateException
 
 /**
  * Created by charlag on 3/24/18.
@@ -98,21 +106,27 @@ class TimelineCasesImpl(
 
     override fun mute(statusId: String, notifications: Boolean, duration: Int?) {
         mastodonApi.muteAccount(statusId, notifications, duration)
-            .subscribe({
-                eventHub.dispatch(MuteEvent(statusId))
-            }, { t ->
-                Log.w("Failed to mute account", t)
-            })
+            .subscribe(
+                {
+                    eventHub.dispatch(MuteEvent(statusId))
+                },
+                { t ->
+                    Log.w("Failed to mute account", t)
+                }
+            )
             .addTo(cancelDisposable)
     }
 
     override fun block(statusId: String) {
         mastodonApi.blockAccount(statusId)
-            .subscribe({
-                eventHub.dispatch(BlockEvent(statusId))
-            }, { t ->
-                Log.w("Failed to block account", t)
-            })
+            .subscribe(
+                {
+                    eventHub.dispatch(BlockEvent(statusId))
+                },
+                { t ->
+                    Log.w("Failed to block account", t)
+                }
+            )
             .addTo(cancelDisposable)
     }
 
@@ -140,5 +154,4 @@ class TimelineCasesImpl(
             eventHub.dispatch(PollVoteEvent(statusId, it))
         }
     }
-
 }

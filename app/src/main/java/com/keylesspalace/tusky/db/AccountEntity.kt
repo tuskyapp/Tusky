@@ -21,42 +21,49 @@ import androidx.room.PrimaryKey
 import androidx.room.TypeConverters
 import com.keylesspalace.tusky.TabData
 import com.keylesspalace.tusky.defaultTabs
-
 import com.keylesspalace.tusky.entity.Emoji
 import com.keylesspalace.tusky.entity.Status
 
-@Entity(indices = [Index(value = ["domain", "accountId"],
-        unique = true)])
+@Entity(
+    indices = [
+        Index(
+            value = ["domain", "accountId"],
+            unique = true
+        )
+    ]
+)
 @TypeConverters(Converters::class)
-data class AccountEntity(@field:PrimaryKey(autoGenerate = true) var id: Long,
-                         val domain: String,
-                         var accessToken: String,
-                         var isActive: Boolean,
-                         var accountId: String = "",
-                         var username: String = "",
-                         var displayName: String = "",
-                         var profilePictureUrl: String = "",
-                         var notificationsEnabled: Boolean = true,
-                         var notificationsMentioned: Boolean = true,
-                         var notificationsFollowed: Boolean = true,
-                         var notificationsFollowRequested: Boolean = false,
-                         var notificationsReblogged: Boolean = true,
-                         var notificationsFavorited: Boolean = true,
-                         var notificationsPolls: Boolean = true,
-                         var notificationsSubscriptions: Boolean = true,
-                         var notificationSound: Boolean = true,
-                         var notificationVibration: Boolean = true,
-                         var notificationLight: Boolean = true,
-                         var defaultPostPrivacy: Status.Visibility = Status.Visibility.PUBLIC,
-                         var defaultMediaSensitivity: Boolean = false,
-                         var alwaysShowSensitiveMedia: Boolean = false,
-                         var alwaysOpenSpoiler: Boolean = false,
-                         var mediaPreviewEnabled: Boolean = true,
-                         var lastNotificationId: String = "0",
-                         var activeNotifications: String = "[]",
-                         var emojis: List<Emoji> = emptyList(),
-                         var tabPreferences: List<TabData> = defaultTabs(),
-                         var notificationsFilter: String = "[\"follow_request\"]") {
+data class AccountEntity(
+    @field:PrimaryKey(autoGenerate = true) var id: Long,
+    val domain: String,
+    var accessToken: String,
+    var isActive: Boolean,
+    var accountId: String = "",
+    var username: String = "",
+    var displayName: String = "",
+    var profilePictureUrl: String = "",
+    var notificationsEnabled: Boolean = true,
+    var notificationsMentioned: Boolean = true,
+    var notificationsFollowed: Boolean = true,
+    var notificationsFollowRequested: Boolean = false,
+    var notificationsReblogged: Boolean = true,
+    var notificationsFavorited: Boolean = true,
+    var notificationsPolls: Boolean = true,
+    var notificationsSubscriptions: Boolean = true,
+    var notificationSound: Boolean = true,
+    var notificationVibration: Boolean = true,
+    var notificationLight: Boolean = true,
+    var defaultPostPrivacy: Status.Visibility = Status.Visibility.PUBLIC,
+    var defaultMediaSensitivity: Boolean = false,
+    var alwaysShowSensitiveMedia: Boolean = false,
+    var alwaysOpenSpoiler: Boolean = false,
+    var mediaPreviewEnabled: Boolean = true,
+    var lastNotificationId: String = "0",
+    var activeNotifications: String = "[]",
+    var emojis: List<Emoji> = emptyList(),
+    var tabPreferences: List<TabData> = defaultTabs(),
+    var notificationsFilter: String = "[\"follow_request\"]"
+) {
 
     val identifier: String
         get() = "$domain:$accountId"

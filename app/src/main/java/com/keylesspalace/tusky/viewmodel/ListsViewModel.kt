@@ -55,49 +55,63 @@ internal class ListsViewModel @Inject constructor(private val api: MastodonApi) 
             copy(loadingState = LoadingState.LOADING)
         }
 
-        api.getLists().subscribe({ lists ->
-            updateState {
-                copy(
+        api.getLists().subscribe(
+            { lists ->
+                updateState {
+                    copy(
                         lists = lists,
                         loadingState = LoadingState.LOADED
-                )
+                    )
+                }
+            },
+            { err ->
+                updateState {
+                    copy(
+                        loadingState = if (err is IOException || err is ConnectException)
+                            LoadingState.ERROR_NETWORK else LoadingState.ERROR_OTHER
+                    )
+                }
             }
-        }, { err ->
-            updateState {
-                copy(loadingState = if (err is IOException || err is ConnectException)
-                    LoadingState.ERROR_NETWORK else LoadingState.ERROR_OTHER)
-            }
-        }).autoDispose()
+        ).autoDispose()
     }
 
     fun createNewList(listName: String) {
-        api.createList(listName).subscribe({ list ->
-            updateState {
-                copy(lists = lists + list)
+        api.createList(listName).subscribe(
+            { list ->
+                updateState {
+                    copy(lists = lists + list)
+                }
+            },
+            {
+                sendEvent(Event.CREATE_ERROR)
             }
-        }, {
-            sendEvent(Event.CREATE_ERROR)
-        }).autoDispose()
+        ).autoDispose()
     }
 
     fun renameList(listId: String, listName: String) {
-        api.updateList(listId, listName).subscribe({ list ->
-            updateState {
-                copy(lists = lists.replacedFirstWhich(list) { it.id == listId })
+        api.updateList(listId, listName).subscribe(
+            { list ->
+                updateState {
+                    copy(lists = lists.replacedFirstWhich(list) { it.id == listId })
+                }
+            },
+            {
+                sendEvent(Event.RENAME_ERROR)
             }
-        }, {
-            sendEvent(Event.RENAME_ERROR)
-        }).autoDispose()
+        ).autoDispose()
     }
 
     fun deleteList(listId: String) {
-        api.deleteList(listId).subscribe({
-            updateState {
-                copy(lists = lists.withoutFirstWhich { it.id == listId })
+        api.deleteList(listId).subscribe(
+            {
+                updateState {
+                    copy(lists = lists.withoutFirstWhich { it.id == listId })
+                }
+            },
+            {
+                sendEvent(Event.DELETE_ERROR)
             }
-        }, {
-            sendEvent(Event.DELETE_ERROR)
-        }).autoDispose()
+        ).autoDispose()
     }
 
     private inline fun updateState(crossinline fn: State.() -> State) {

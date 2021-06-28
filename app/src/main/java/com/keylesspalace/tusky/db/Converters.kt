@@ -25,18 +25,23 @@ import com.google.gson.reflect.TypeToken
 import com.keylesspalace.tusky.TabData
 import com.keylesspalace.tusky.components.conversation.ConversationAccountEntity
 import com.keylesspalace.tusky.createTabDataFromId
-import com.keylesspalace.tusky.entity.*
+import com.keylesspalace.tusky.entity.Attachment
+import com.keylesspalace.tusky.entity.Emoji
+import com.keylesspalace.tusky.entity.NewPoll
+import com.keylesspalace.tusky.entity.Poll
+import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.util.trimTrailingWhitespace
 import java.net.URLDecoder
 import java.net.URLEncoder
-import java.util.*
+import java.util.ArrayList
+import java.util.Date
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @ProvidedTypeConverter
 @Singleton
 class Converters @Inject constructor (
-        private val gson: Gson
+    private val gson: Gson
 ) {
 
     @TypeConverter
@@ -62,10 +67,10 @@ class Converters @Inject constructor (
     @TypeConverter
     fun stringToTabData(str: String?): List<TabData>? {
         return str?.split(";")
-                ?.map {
-                    val data = it.split(":")
-                    createTabDataFromId(data[0], data.drop(1).map { s -> URLDecoder.decode(s, "UTF-8") })
-                }
+            ?.map {
+                val data = it.split(":")
+                createTabDataFromId(data[0], data.drop(1).map { s -> URLDecoder.decode(s, "UTF-8") })
+            }
     }
 
     @TypeConverter
@@ -126,7 +131,7 @@ class Converters @Inject constructor (
 
     @TypeConverter
     fun spannedToString(spanned: Spanned?): String? {
-        if(spanned == null) {
+        if (spanned == null) {
             return null
         }
         return spanned.toHtml()
@@ -134,7 +139,7 @@ class Converters @Inject constructor (
 
     @TypeConverter
     fun stringToSpanned(spannedString: String?): Spanned? {
-        if(spannedString == null) {
+        if (spannedString == null) {
             return null
         }
         return spannedString.parseAsHtml().trimTrailingWhitespace()

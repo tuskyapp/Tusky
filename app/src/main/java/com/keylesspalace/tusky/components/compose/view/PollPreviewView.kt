@@ -25,10 +25,11 @@ import com.keylesspalace.tusky.databinding.ViewPollPreviewBinding
 import com.keylesspalace.tusky.entity.NewPoll
 
 class PollPreviewView @JvmOverloads constructor(
-        context: Context?,
-        attrs: AttributeSet? = null,
-        defStyleAttr: Int = 0)
-    : LinearLayout(context, attrs, defStyleAttr) {
+    context: Context?,
+    attrs: AttributeSet? = null,
+    defStyleAttr: Int = 0
+) :
+    LinearLayout(context, attrs, defStyleAttr) {
 
     private val adapter = PreviewPollOptionsAdapter()
 
@@ -46,7 +47,7 @@ class PollPreviewView @JvmOverloads constructor(
         binding.pollPreviewOptions.adapter = adapter
     }
 
-    fun setPoll(poll: NewPoll){
+    fun setPoll(poll: NewPoll) {
         adapter.update(poll.options, poll.multiple)
 
         val pollDurationId = resources.getIntArray(R.array.poll_duration_values).indexOfLast {

@@ -25,7 +25,7 @@ class FollowRequestsHeaderAdapter(private val instanceName: String, private val 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HeaderViewHolder {
         val view = LayoutInflater.from(parent.context)
-                .inflate(R.layout.item_follow_requests_header, parent, false) as TextView
+            .inflate(R.layout.item_follow_requests_header, parent, false) as TextView
         return HeaderViewHolder(view)
     }
 
@@ -34,7 +34,6 @@ class FollowRequestsHeaderAdapter(private val instanceName: String, private val 
     }
 
     override fun getItemCount() = if (accountLocked) 0 else 1
-
 }
 
 class HeaderViewHolder(var textView: TextView) : RecyclerView.ViewHolder(textView)

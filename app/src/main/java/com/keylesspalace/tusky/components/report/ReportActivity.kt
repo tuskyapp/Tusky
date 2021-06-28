@@ -126,12 +126,12 @@ class ReportActivity : BottomSheetActivity(), HasAndroidInjector {
 
         @JvmStatic
         fun getIntent(context: Context, accountId: String, userName: String, statusId: String? = null) =
-                Intent(context, ReportActivity::class.java)
-                        .apply {
-                            putExtra(ACCOUNT_ID, accountId)
-                            putExtra(ACCOUNT_USERNAME, userName)
-                            putExtra(STATUS_ID, statusId)
-                        }
+            Intent(context, ReportActivity::class.java)
+                .apply {
+                    putExtra(ACCOUNT_ID, accountId)
+                    putExtra(ACCOUNT_USERNAME, userName)
+                    putExtra(STATUS_ID, statusId)
+                }
     }
 
     override fun androidInjector() = androidInjector

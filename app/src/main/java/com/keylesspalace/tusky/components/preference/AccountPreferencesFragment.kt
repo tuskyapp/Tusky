@@ -22,7 +22,11 @@ import android.util.Log
 import androidx.annotation.DrawableRes
 import androidx.preference.PreferenceFragmentCompat
 import com.google.android.material.snackbar.Snackbar
-import com.keylesspalace.tusky.*
+import com.keylesspalace.tusky.AccountListActivity
+import com.keylesspalace.tusky.BuildConfig
+import com.keylesspalace.tusky.FiltersActivity
+import com.keylesspalace.tusky.R
+import com.keylesspalace.tusky.TabPreferenceActivity
 import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.appstore.PreferenceChangedEvent
 import com.keylesspalace.tusky.components.instancemute.InstanceListActivity
@@ -33,7 +37,12 @@ import com.keylesspalace.tusky.entity.Account
 import com.keylesspalace.tusky.entity.Filter
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.network.MastodonApi
-import com.keylesspalace.tusky.settings.*
+import com.keylesspalace.tusky.settings.PrefKeys
+import com.keylesspalace.tusky.settings.listPreference
+import com.keylesspalace.tusky.settings.makePreferenceScreen
+import com.keylesspalace.tusky.settings.preference
+import com.keylesspalace.tusky.settings.preferenceCategory
+import com.keylesspalace.tusky.settings.switchPreference
 import com.keylesspalace.tusky.util.ThemeUtils
 import com.mikepenz.iconics.IconicsDrawable
 import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial
@@ -75,8 +84,10 @@ class AccountPreferencesFragment : PreferenceFragmentCompat(), Injectable {
                 setOnPreferenceClickListener {
                     val intent = Intent(context, TabPreferenceActivity::class.java)
                     activity?.startActivity(intent)
-                    activity?.overridePendingTransition(R.anim.slide_from_right,
-                            R.anim.slide_to_left)
+                    activity?.overridePendingTransition(
+                        R.anim.slide_from_right,
+                        R.anim.slide_to_left
+                    )
                     true
                 }
             }
@@ -88,8 +99,10 @@ class AccountPreferencesFragment : PreferenceFragmentCompat(), Injectable {
                     val intent = Intent(context, AccountListActivity::class.java)
                     intent.putExtra("type", AccountListActivity.Type.MUTES)
                     activity?.startActivity(intent)
-                    activity?.overridePendingTransition(R.anim.slide_from_right,
-                            R.anim.slide_to_left)
+                    activity?.overridePendingTransition(
+                        R.anim.slide_from_right,
+                        R.anim.slide_to_left
+                    )
                     true
                 }
             }
@@ -104,8 +117,10 @@ class AccountPreferencesFragment : PreferenceFragmentCompat(), Injectable {
                     val intent = Intent(context, AccountListActivity::class.java)
                     intent.putExtra("type", AccountListActivity.Type.BLOCKS)
                     activity?.startActivity(intent)
-                    activity?.overridePendingTransition(R.anim.slide_from_right,
-                            R.anim.slide_to_left)
+                    activity?.overridePendingTransition(
+                        R.anim.slide_from_right,
+                        R.anim.slide_to_left
+                    )
                     true
                 }
             }
@@ -116,8 +131,10 @@ class AccountPreferencesFragment : PreferenceFragmentCompat(), Injectable {
                 setOnPreferenceClickListener {
                     val intent = Intent(context, InstanceListActivity::class.java)
                     activity?.startActivity(intent)
-                    activity?.overridePendingTransition(R.anim.slide_from_right,
-                            R.anim.slide_to_left)
+                    activity?.overridePendingTransition(
+                        R.anim.slide_from_right,
+                        R.anim.slide_to_left
+                    )
                     true
                 }
             }
@@ -130,7 +147,7 @@ class AccountPreferencesFragment : PreferenceFragmentCompat(), Injectable {
                     key = PrefKeys.DEFAULT_POST_PRIVACY
                     setSummaryProvider { entry }
                     val visibility = accountManager.activeAccount?.defaultPostPrivacy
-                            ?: Status.Visibility.PUBLIC
+                        ?: Status.Visibility.PUBLIC
                     value = visibility.serverString()
                     setIcon(getIconForVisibility(visibility))
                     setOnPreferenceChangeListener { _, newValue ->
@@ -147,7 +164,7 @@ class AccountPreferencesFragment : PreferenceFragmentCompat(), Injectable {
                     key = PrefKeys.DEFAULT_MEDIA_SENSITIVITY
                     isSingleLineTitle = false
                     val sensitivity = accountManager.activeAccount?.defaultMediaSensitivity
-                            ?: false
+                        ?: false
                     setDefaultValue(sensitivity)
                     setIcon(getIconForSensitivity(sensitivity))
                     setOnPreferenceChangeListener { _, newValue ->
@@ -201,8 +218,10 @@ class AccountPreferencesFragment : PreferenceFragmentCompat(), Injectable {
                 preference {
                     setTitle(R.string.pref_title_public_filter_keywords)
                     setOnPreferenceClickListener {
-                        launchFilterActivity(Filter.PUBLIC,
-                                R.string.pref_title_public_filter_keywords)
+                        launchFilterActivity(
+                            Filter.PUBLIC,
+                            R.string.pref_title_public_filter_keywords
+                        )
                         true
                     }
                 }
@@ -226,8 +245,10 @@ class AccountPreferencesFragment : PreferenceFragmentCompat(), Injectable {
                 preference {
                     setTitle(R.string.pref_title_thread_filter_keywords)
                     setOnPreferenceClickListener {
-                        launchFilterActivity(Filter.THREAD,
-                                R.string.pref_title_thread_filter_keywords)
+                        launchFilterActivity(
+                            Filter.THREAD,
+                            R.string.pref_title_thread_filter_keywords
+                        )
                         true
                     }
                 }
@@ -255,7 +276,6 @@ class AccountPreferencesFragment : PreferenceFragmentCompat(), Injectable {
                 it.startActivity(intent)
                 it.overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
             }
-
         }
     }
 
@@ -268,36 +288,35 @@ class AccountPreferencesFragment : PreferenceFragmentCompat(), Injectable {
 
     private fun syncWithServer(visibility: String? = null, sensitive: Boolean? = null) {
         mastodonApi.accountUpdateSource(visibility, sensitive)
-                .enqueue(object : Callback<Account> {
-                    override fun onResponse(call: Call<Account>, response: Response<Account>) {
-                        val account = response.body()
-                        if (response.isSuccessful && account != null) {
+            .enqueue(object : Callback<Account> {
+                override fun onResponse(call: Call<Account>, response: Response<Account>) {
+                    val account = response.body()
+                    if (response.isSuccessful && account != null) {
 
-                            accountManager.activeAccount?.let {
-                                it.defaultPostPrivacy = account.source?.privacy
-                                        ?: Status.Visibility.PUBLIC
-                                it.defaultMediaSensitivity = account.source?.sensitive ?: false
-                                accountManager.saveAccount(it)
-                            }
-                        } else {
-                            Log.e("AccountPreferences", "failed updating settings on server")
-                            showErrorSnackbar(visibility, sensitive)
+                        accountManager.activeAccount?.let {
+                            it.defaultPostPrivacy = account.source?.privacy
+                                ?: Status.Visibility.PUBLIC
+                            it.defaultMediaSensitivity = account.source?.sensitive ?: false
+                            accountManager.saveAccount(it)
                         }
-                    }
-
-                    override fun onFailure(call: Call<Account>, t: Throwable) {
-                        Log.e("AccountPreferences", "failed updating settings on server", t)
+                    } else {
+                        Log.e("AccountPreferences", "failed updating settings on server")
                         showErrorSnackbar(visibility, sensitive)
                     }
+                }
 
-                })
+                override fun onFailure(call: Call<Account>, t: Throwable) {
+                    Log.e("AccountPreferences", "failed updating settings on server", t)
+                    showErrorSnackbar(visibility, sensitive)
+                }
+            })
     }
 
     private fun showErrorSnackbar(visibility: String?, sensitive: Boolean?) {
         view?.let { view ->
             Snackbar.make(view, R.string.pref_failed_to_sync, Snackbar.LENGTH_LONG)
-                    .setAction(R.string.action_retry) { syncWithServer(visibility, sensitive) }
-                    .show()
+                .setAction(R.string.action_retry) { syncWithServer(visibility, sensitive) }
+                .show()
         }
     }
 

@@ -29,9 +29,9 @@ import kotlinx.coroutines.rx3.await
 import javax.inject.Inject
 
 class ScheduledTootViewModel @Inject constructor(
-        val mastodonApi: MastodonApi,
-        val eventHub: EventHub
-): ViewModel() {
+    val mastodonApi: MastodonApi,
+    val eventHub: EventHub
+) : ViewModel() {
 
     private val pagingSourceFactory = ScheduledTootPagingSourceFactory(mastodonApi)
 

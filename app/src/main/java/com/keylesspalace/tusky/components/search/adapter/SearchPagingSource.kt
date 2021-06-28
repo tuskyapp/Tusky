@@ -22,12 +22,13 @@ import com.keylesspalace.tusky.entity.SearchResult
 import com.keylesspalace.tusky.network.MastodonApi
 import kotlinx.coroutines.rx3.await
 
-class SearchPagingSource<T: Any>(
+class SearchPagingSource<T : Any>(
     private val mastodonApi: MastodonApi,
     private val searchType: SearchType,
     private val searchRequest: String,
     private val initialItems: List<T>?,
-    private val parser: (SearchResult) -> List<T>) : PagingSource<Int, T>() {
+    private val parser: (SearchResult) -> List<T>
+) : PagingSource<Int, T>() {
 
     override fun getRefreshKey(state: PagingState<Int, T>): Int? {
         return null

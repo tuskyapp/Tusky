@@ -57,12 +57,10 @@ class ComposeOptionsView @JvmOverloads constructor(context: Context, attrs: Attr
                 R.id.directRadioButton
             else ->
                 R.id.directRadioButton
-
         }
 
         check(selectedButton)
     }
-
 }
 
 interface ComposeOptionsListener {

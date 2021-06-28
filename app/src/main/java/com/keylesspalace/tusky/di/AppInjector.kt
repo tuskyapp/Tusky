@@ -34,7 +34,7 @@ import dagger.android.support.AndroidSupportInjection
 object AppInjector {
     fun init(app: TuskyApplication) {
         DaggerAppComponent.builder().application(app)
-                .build().inject(app)
+            .build().inject(app)
 
         app.registerActivityLifecycleCallbacks(object : Application.ActivityLifecycleCallbacks {
             override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
@@ -58,7 +58,6 @@ object AppInjector {
 
             override fun onActivityStopped(activity: Activity) {
             }
-
         })
     }
 
@@ -68,13 +67,15 @@ object AppInjector {
         }
         if (activity is FragmentActivity) {
             activity.supportFragmentManager.registerFragmentLifecycleCallbacks(
-                    object : FragmentManager.FragmentLifecycleCallbacks() {
-                        override fun onFragmentPreAttached(fm: FragmentManager, f: Fragment, context: Context) {
-                            if (f is Injectable) {
-                                AndroidSupportInjection.inject(f)
-                            }
+                object : FragmentManager.FragmentLifecycleCallbacks() {
+                    override fun onFragmentPreAttached(fm: FragmentManager, f: Fragment, context: Context) {
+                        if (f is Injectable) {
+                            AndroidSupportInjection.inject(f)
                         }
-                    }, true)
+                    }
+                },
+                true
+            )
         }
     }
 }

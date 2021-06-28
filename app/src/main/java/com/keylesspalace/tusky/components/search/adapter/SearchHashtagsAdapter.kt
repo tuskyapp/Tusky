@@ -24,8 +24,8 @@ import com.keylesspalace.tusky.entity.HashTag
 import com.keylesspalace.tusky.interfaces.LinkListener
 import com.keylesspalace.tusky.util.BindingHolder
 
-class SearchHashtagsAdapter(private val linkListener: LinkListener)
-    : PagingDataAdapter<HashTag, BindingHolder<ItemHashtagBinding>>(HASHTAG_COMPARATOR) {
+class SearchHashtagsAdapter(private val linkListener: LinkListener) :
+    PagingDataAdapter<HashTag, BindingHolder<ItemHashtagBinding>>(HASHTAG_COMPARATOR) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BindingHolder<ItemHashtagBinding> {
         val binding = ItemHashtagBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -43,10 +43,10 @@ class SearchHashtagsAdapter(private val linkListener: LinkListener)
 
         val HASHTAG_COMPARATOR = object : DiffUtil.ItemCallback<HashTag>() {
             override fun areContentsTheSame(oldItem: HashTag, newItem: HashTag): Boolean =
-                    oldItem.name == newItem.name
+                oldItem.name == newItem.name
 
             override fun areItemsTheSame(oldItem: HashTag, newItem: HashTag): Boolean =
-                    oldItem.name == newItem.name
+                oldItem.name == newItem.name
         }
     }
 }

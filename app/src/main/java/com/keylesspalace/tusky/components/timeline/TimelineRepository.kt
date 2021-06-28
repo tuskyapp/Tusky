@@ -5,11 +5,19 @@ import androidx.core.text.parseAsHtml
 import androidx.core.text.toHtml
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import com.keylesspalace.tusky.db.*
-import com.keylesspalace.tusky.entity.*
-import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.components.timeline.TimelineRequestMode.DISK
 import com.keylesspalace.tusky.components.timeline.TimelineRequestMode.NETWORK
+import com.keylesspalace.tusky.db.AccountManager
+import com.keylesspalace.tusky.db.TimelineAccountEntity
+import com.keylesspalace.tusky.db.TimelineDao
+import com.keylesspalace.tusky.db.TimelineStatusEntity
+import com.keylesspalace.tusky.db.TimelineStatusWithAccount
+import com.keylesspalace.tusky.entity.Account
+import com.keylesspalace.tusky.entity.Attachment
+import com.keylesspalace.tusky.entity.Emoji
+import com.keylesspalace.tusky.entity.Poll
+import com.keylesspalace.tusky.entity.Status
+import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.Either
 import com.keylesspalace.tusky.util.dec
 import com.keylesspalace.tusky.util.inc
@@ -17,9 +25,8 @@ import com.keylesspalace.tusky.util.trimTrailingWhitespace
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.schedulers.Schedulers
 import java.io.IOException
-import java.util.*
+import java.util.Date
 import java.util.concurrent.TimeUnit
-import kotlin.collections.ArrayList
 
 data class Placeholder(val id: String)
 
@@ -31,7 +38,10 @@ enum class TimelineRequestMode {
 
 interface TimelineRepository {
     fun getStatuses(
-        maxId: String?, sinceId: String?, sincedIdMinusOne: String?, limit: Int,
+        maxId: String?,
+        sinceId: String?,
+        sincedIdMinusOne: String?,
+        limit: Int,
         requestMode: TimelineRequestMode
     ): Single<out List<TimelineStatus>>
 
@@ -52,8 +62,11 @@ class TimelineRepositoryImpl(
     }
 
     override fun getStatuses(
-        maxId: String?, sinceId: String?, sincedIdMinusOne: String?,
-        limit: Int, requestMode: TimelineRequestMode
+        maxId: String?,
+        sinceId: String?,
+        sincedIdMinusOne: String?,
+        limit: Int,
+        requestMode: TimelineRequestMode
     ): Single<out List<TimelineStatus>> {
         val acc = accountManager.activeAccount ?: throw IllegalStateException()
         val accountId = acc.id
@@ -66,9 +79,12 @@ class TimelineRepositoryImpl(
     }
 
     private fun getStatusesFromNetwork(
-        maxId: String?, sinceId: String?,
-        sinceIdMinusOne: String?, limit: Int,
-        accountId: Long, requestMode: TimelineRequestMode
+        maxId: String?,
+        sinceId: String?,
+        sinceIdMinusOne: String?,
+        limit: Int,
+        accountId: Long,
+        requestMode: TimelineRequestMode
     ): Single<out List<TimelineStatus>> {
         return mastodonApi.homeTimeline(maxId, sinceIdMinusOne, limit + 1)
             .map { response ->
@@ -87,8 +103,11 @@ class TimelineRepositoryImpl(
     }
 
     private fun addFromDbIfNeeded(
-        accountId: Long, statuses: List<Either<Placeholder, Status>>,
-        maxId: String?, sinceId: String?, limit: Int,
+        accountId: Long,
+        statuses: List<Either<Placeholder, Status>>,
+        maxId: String?,
+        sinceId: String?,
+        limit: Int,
         requestMode: TimelineRequestMode
     ): Single<List<TimelineStatus>> {
         return if (requestMode != NETWORK && statuses.size < 2) {
@@ -113,7 +132,9 @@ class TimelineRepositoryImpl(
     }
 
     private fun getStatusesFromDb(
-        accountId: Long, maxId: String?, sinceId: String?,
+        accountId: Long,
+        maxId: String?,
+        sinceId: String?,
         limit: Int
     ): Single<out List<TimelineStatus>> {
         return timelineDao.getStatusesForAccount(accountId, maxId, sinceId, limit)
@@ -124,8 +145,10 @@ class TimelineRepositoryImpl(
     }
 
     private fun saveStatusesToDb(
-        accountId: Long, statuses: List<Status>,
-        maxId: String?, sinceId: String?
+        accountId: Long,
+        statuses: List<Status>,
+        maxId: String?,
+        sinceId: String?
     ): List<Either<Placeholder, Status>> {
         var placeholderToInsert: Placeholder? = null
 
@@ -346,7 +369,6 @@ fun TimelineAccountEntity.toAccount(gson: Gson): Account {
         moved = null
     )
 }
-
 
 fun Placeholder.toEntity(timelineUserId: Long): TimelineStatusEntity {
     return TimelineStatusEntity(

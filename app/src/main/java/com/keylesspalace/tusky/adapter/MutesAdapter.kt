@@ -13,7 +13,7 @@ import com.keylesspalace.tusky.entity.Account
 import com.keylesspalace.tusky.interfaces.AccountActionListener
 import com.keylesspalace.tusky.util.emojify
 import com.keylesspalace.tusky.util.loadAvatar
-import java.util.*
+import java.util.HashMap
 
 /**
  * Displays a list of muted accounts with mute/unmute account and mute/unmute notifications

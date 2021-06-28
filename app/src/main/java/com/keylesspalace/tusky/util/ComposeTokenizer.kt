@@ -22,10 +22,10 @@ import android.widget.MultiAutoCompleteTextView
 
 class ComposeTokenizer : MultiAutoCompleteTextView.Tokenizer {
 
-    private fun isMentionOrHashtagAllowedCharacter(character: Char) : Boolean {
-        return Character.isLetterOrDigit(character) || character == '_' // simple usernames
-                || character == '-' // extended usernames
-                || character == '.' // domain dot
+    private fun isMentionOrHashtagAllowedCharacter(character: Char): Boolean {
+        return Character.isLetterOrDigit(character) || character == '_' || // simple usernames
+            character == '-' || // extended usernames
+            character == '.' // domain dot
     }
 
     override fun findTokenStart(text: CharSequence, cursor: Int): Int {
@@ -36,8 +36,8 @@ class ComposeTokenizer : MultiAutoCompleteTextView.Tokenizer {
         var character = text[i - 1]
 
         // go up to first illegal character or character we're looking for (@, # or :)
-        while(i > 0 && !(character == '@' || character == '#' || character == ':')) {
-            if(!isMentionOrHashtagAllowedCharacter(character)) {
+        while (i > 0 && !(character == '@' || character == '#' || character == ':')) {
+            if (!isMentionOrHashtagAllowedCharacter(character)) {
                 return cursor
             }
 
@@ -46,13 +46,13 @@ class ComposeTokenizer : MultiAutoCompleteTextView.Tokenizer {
         }
 
         // maybe caught domain name? try search username
-        if(i > 2 && character == '@') {
+        if (i > 2 && character == '@') {
             var j = i - 1
             var character2 = text[i - 2]
 
             // again go up to first illegal character or tag "@"
-            while(j > 0 && character2 != '@') {
-                if(!isMentionOrHashtagAllowedCharacter(character2)) {
+            while (j > 0 && character2 != '@') {
+                if (!isMentionOrHashtagAllowedCharacter(character2)) {
                     break
                 }
 
@@ -61,15 +61,16 @@ class ComposeTokenizer : MultiAutoCompleteTextView.Tokenizer {
             }
 
             // found mention symbol, override cursor
-            if(character2 == '@') {
+            if (character2 == '@') {
                 i = j
                 character = character2
             }
         }
 
-        if (i < 1
-                || (character != '@' && character != '#' && character != ':')
-                || i > 1 && !Character.isWhitespace(text[i - 2])) {
+        if (i < 1 ||
+            (character != '@' && character != '#' && character != ':') ||
+            i > 1 && !Character.isWhitespace(text[i - 2])
+        ) {
             return cursor
         }
         return i - 1

@@ -28,9 +28,9 @@ class SearchAccountsFragment : SearchFragment<Account>() {
         val preferences = PreferenceManager.getDefaultSharedPreferences(binding.searchRecyclerView.context)
 
         return SearchAccountsAdapter(
-                this,
-                preferences.getBoolean(PrefKeys.ANIMATE_GIF_AVATARS, false),
-                preferences.getBoolean(PrefKeys.ANIMATE_CUSTOM_EMOJIS, false)
+            this,
+            preferences.getBoolean(PrefKeys.ANIMATE_GIF_AVATARS, false),
+            preferences.getBoolean(PrefKeys.ANIMATE_CUSTOM_EMOJIS, false)
         )
     }
 

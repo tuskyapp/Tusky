@@ -22,11 +22,13 @@ import android.graphics.BitmapFactory
 import android.graphics.Matrix
 import android.net.Uri
 import android.provider.OpenableColumns
+import android.util.Log
 import androidx.annotation.Px
 import androidx.exifinterface.media.ExifInterface
-import android.util.Log
-import java.io.*
-
+import java.io.File
+import java.io.FileNotFoundException
+import java.io.IOException
+import java.io.InputStream
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
@@ -46,7 +48,7 @@ const val MEDIA_SIZE_UNKNOWN = -1L
  * @return the size of the media in bytes or {@link MediaUtils#MEDIA_SIZE_UNKNOWN}
  */
 fun getMediaSize(contentResolver: ContentResolver, uri: Uri?): Long {
-    if(uri == null) {
+    if (uri == null) {
         return MEDIA_SIZE_UNKNOWN
     }
 
@@ -165,8 +167,10 @@ fun reorientBitmap(bitmap: Bitmap?, orientation: Int): Bitmap? {
     }
 
     return try {
-        val result = Bitmap.createBitmap(bitmap, 0, 0, bitmap.width,
-                bitmap.height, matrix, true)
+        val result = Bitmap.createBitmap(
+            bitmap, 0, 0, bitmap.width,
+            bitmap.height, matrix, true
+        )
         if (!bitmap.sameAs(result)) {
             bitmap.recycle()
         }
@@ -210,7 +214,7 @@ fun deleteStaleCachedMedia(mediaDirectory: File?) {
     twentyfourHoursAgo.add(Calendar.HOUR, -24)
     val unixTime = twentyfourHoursAgo.timeInMillis
 
-    val files = mediaDirectory.listFiles{ file -> unixTime > file.lastModified() && file.name.contains(MEDIA_TEMP_PREFIX) }
+    val files = mediaDirectory.listFiles { file -> unixTime > file.lastModified() && file.name.contains(MEDIA_TEMP_PREFIX) }
     if (files == null || files.isEmpty()) {
         // Nothing to do
         return

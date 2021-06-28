@@ -19,6 +19,6 @@ data class ProfileEditedEvent(val newProfileData: Account) : Dispatchable
 data class PreferenceChangedEvent(val preferenceKey: String) : Dispatchable
 data class MainTabsChangedEvent(val newTabs: List<TabData>) : Dispatchable
 data class PollVoteEvent(val statusId: String, val poll: Poll) : Dispatchable
-data class DomainMuteEvent(val instance: String): Dispatchable
-data class AnnouncementReadEvent(val announcementId: String): Dispatchable
-data class PinEvent(val statusId: String, val pinned: Boolean): Dispatchable
+data class DomainMuteEvent(val instance: String) : Dispatchable
+data class AnnouncementReadEvent(val announcementId: String) : Dispatchable
+data class PinEvent(val statusId: String, val pinned: Boolean) : Dispatchable

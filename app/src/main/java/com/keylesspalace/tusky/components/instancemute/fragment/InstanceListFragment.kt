@@ -29,7 +29,7 @@ import retrofit2.Response
 import java.io.IOException
 import javax.inject.Inject
 
-class InstanceListFragment: Fragment(R.layout.fragment_instance_list), Injectable, InstanceActionListener {
+class InstanceListFragment : Fragment(R.layout.fragment_instance_list), Injectable, InstanceActionListener {
 
     @Inject
     lateinit var api: MastodonApi
@@ -65,7 +65,7 @@ class InstanceListFragment: Fragment(R.layout.fragment_instance_list), Injectabl
 
     override fun mute(mute: Boolean, instance: String, position: Int) {
         if (mute) {
-            api.blockDomain(instance).enqueue(object: Callback<Any> {
+            api.blockDomain(instance).enqueue(object : Callback<Any> {
                 override fun onFailure(call: Call<Any>, t: Throwable) {
                     Log.e(TAG, "Error muting domain $instance")
                 }
@@ -79,7 +79,7 @@ class InstanceListFragment: Fragment(R.layout.fragment_instance_list), Injectabl
                 }
             })
         } else {
-            api.unblockDomain(instance).enqueue(object: Callback<Any> {
+            api.unblockDomain(instance).enqueue(object : Callback<Any> {
                 override fun onFailure(call: Call<Any>, t: Throwable) {
                     Log.e(TAG, "Error unmuting domain $instance")
                 }
@@ -88,10 +88,10 @@ class InstanceListFragment: Fragment(R.layout.fragment_instance_list), Injectabl
                     if (response.isSuccessful) {
                         adapter.removeItem(position)
                         Snackbar.make(binding.recyclerView, getString(R.string.confirmation_domain_unmuted, instance), Snackbar.LENGTH_LONG)
-                                .setAction(R.string.action_undo) {
-                                    mute(true, instance, position)
-                                }
-                                .show()
+                            .setAction(R.string.action_undo) {
+                                mute(true, instance, position)
+                            }
+                            .show()
                     } else {
                         Log.e(TAG, "Error unmuting domain $instance")
                     }
@@ -112,9 +112,10 @@ class InstanceListFragment: Fragment(R.layout.fragment_instance_list), Injectabl
         }
 
         api.domainBlocks(id, bottomId)
-                .observeOn(AndroidSchedulers.mainThread())
-                .autoDispose(from(this, Lifecycle.Event.ON_DESTROY))
-                .subscribe({ response ->
+            .observeOn(AndroidSchedulers.mainThread())
+            .autoDispose(from(this, Lifecycle.Event.ON_DESTROY))
+            .subscribe(
+                { response ->
                     val instances = response.body()
 
                     if (response.isSuccessful && instances != null) {
@@ -122,9 +123,11 @@ class InstanceListFragment: Fragment(R.layout.fragment_instance_list), Injectabl
                     } else {
                         onFetchInstancesFailure(Exception(response.message()))
                     }
-                }, {throwable ->
+                },
+                { throwable ->
                     onFetchInstancesFailure(throwable)
-                })
+                }
+            )
     }
 
     private fun onFetchInstancesSuccess(instances: List<String>, linkHeader: String?) {
@@ -141,9 +144,9 @@ class InstanceListFragment: Fragment(R.layout.fragment_instance_list), Injectabl
         if (adapter.itemCount == 0) {
             binding.messageView.show()
             binding.messageView.setup(
-                    R.drawable.elephant_friend_empty,
-                    R.string.message_empty,
-                    null
+                R.drawable.elephant_friend_empty,
+                R.string.message_empty,
+                null
             )
         } else {
             binding.messageView.hide()

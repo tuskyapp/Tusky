@@ -60,7 +60,6 @@ abstract class BottomSheetActivity : BaseActivity() {
 
             override fun onSlide(bottomSheet: View, slideOffset: Float) {}
         })
-
     }
 
     open fun viewUrl(url: String, lookupFallbackBehavior: PostLookupFallbackBehavior = PostLookupFallbackBehavior.OPEN_IN_BROWSER) {
@@ -70,11 +69,12 @@ abstract class BottomSheetActivity : BaseActivity() {
         }
 
         mastodonApi.searchObservable(
-                query = url,
-                resolve = true
+            query = url,
+            resolve = true
         ).observeOn(AndroidSchedulers.mainThread())
-                .autoDispose(AndroidLifecycleScopeProvider.from(this, Lifecycle.Event.ON_DESTROY))
-                .subscribe({ (accounts, statuses) ->
+            .autoDispose(AndroidLifecycleScopeProvider.from(this, Lifecycle.Event.ON_DESTROY))
+            .subscribe(
+                { (accounts, statuses) ->
                     if (getCancelSearchRequested(url)) {
                         return@subscribe
                     }
@@ -90,12 +90,14 @@ abstract class BottomSheetActivity : BaseActivity() {
                     }
 
                     performUrlFallbackAction(url, lookupFallbackBehavior)
-                }, {
+                },
+                {
                     if (!getCancelSearchRequested(url)) {
                         onEndSearch(url)
                         performUrlFallbackAction(url, lookupFallbackBehavior)
                     }
-                })
+                }
+            )
 
         onBeginSearch(url)
     }
@@ -186,20 +188,21 @@ fun looksLikeMastodonUrl(urlString: String): Boolean {
     }
 
     if (uri.query != null ||
-            uri.fragment != null ||
-            uri.path == null) {
+        uri.fragment != null ||
+        uri.path == null
+    ) {
         return false
     }
 
     val path = uri.path
     return path.matches("^/@[^/]+$".toRegex()) ||
-            path.matches("^/@[^/]+/\\d+$".toRegex()) ||
-            path.matches("^/users/\\w+$".toRegex()) ||
-            path.matches("^/notice/[a-zA-Z0-9]+$".toRegex()) ||
-            path.matches("^/objects/[-a-f0-9]+$".toRegex()) ||
-            path.matches("^/notes/[a-z0-9]+$".toRegex()) ||
-            path.matches("^/display/[-a-f0-9]+$".toRegex()) ||
-            path.matches("^/profile/\\w+$".toRegex())
+        path.matches("^/@[^/]+/\\d+$".toRegex()) ||
+        path.matches("^/users/\\w+$".toRegex()) ||
+        path.matches("^/notice/[a-zA-Z0-9]+$".toRegex()) ||
+        path.matches("^/objects/[-a-f0-9]+$".toRegex()) ||
+        path.matches("^/notes/[a-z0-9]+$".toRegex()) ||
+        path.matches("^/display/[-a-f0-9]+$".toRegex()) ||
+        path.matches("^/profile/\\w+$".toRegex())
 }
 
 enum class PostLookupFallbackBehavior {

@@ -34,8 +34,8 @@ import kotlin.system.exitProcess
  * This Preference lets the user select their preferred emoji font
  */
 class EmojiPreference(
-        context: Context,
-        private val okHttpClient: OkHttpClient
+    context: Context,
+    private val okHttpClient: OkHttpClient
 ) : Preference(context) {
 
     private lateinit var selected: EmojiCompatFont
@@ -51,7 +51,7 @@ class EmojiPreference(
 
         // Find out which font is currently active
         selected = EmojiCompatFont.byId(
-                PreferenceManager.getDefaultSharedPreferences(context).getInt(key, 0)
+            PreferenceManager.getDefaultSharedPreferences(context).getInt(key, 0)
         )
         // We'll use this later to determine if anything has changed
         original = selected
@@ -67,10 +67,10 @@ class EmojiPreference(
         setupItem(SYSTEM_DEFAULT, binding.itemNomoji)
 
         AlertDialog.Builder(context)
-                .setView(binding.root)
-                .setPositiveButton(android.R.string.ok) { _, _ -> onDialogOk() }
-                .setNegativeButton(android.R.string.cancel, null)
-                .show()
+            .setView(binding.root)
+            .setPositiveButton(android.R.string.ok) { _, _ -> onDialogOk() }
+            .setNegativeButton(android.R.string.cancel, null)
+            .show()
     }
 
     private fun setupItem(font: EmojiCompatFont, binding: ItemEmojiPrefBinding) {
@@ -100,32 +100,30 @@ class EmojiPreference(
         binding.emojiProgress.progress = 0
         binding.emojiDownloadCancel.show()
         font.downloadFontFile(context, okHttpClient)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(
-                        { progress ->
-                            // The progress is returned as a float between 0 and 1, or -1 if it could not determined
-                            if (progress >= 0) {
-                                binding.emojiProgress.isIndeterminate = false
-                                val max = binding.emojiProgress.max.toFloat()
-                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                                    binding.emojiProgress.setProgress((max * progress).toInt(), true)
-                                } else {
-                                    binding.emojiProgress.progress = (max * progress).toInt()
-                                }
-                            } else {
-                                binding.emojiProgress.isIndeterminate = true
-                            }
-                        },
-                        {
-                            Toast.makeText(context, R.string.download_failed, Toast.LENGTH_SHORT).show()
-                            updateItem(font, binding)
-                        },
-                        {
-                            finishDownload(font, binding)
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(
+                { progress ->
+                    // The progress is returned as a float between 0 and 1, or -1 if it could not determined
+                    if (progress >= 0) {
+                        binding.emojiProgress.isIndeterminate = false
+                        val max = binding.emojiProgress.max.toFloat()
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                            binding.emojiProgress.setProgress((max * progress).toInt(), true)
+                        } else {
+                            binding.emojiProgress.progress = (max * progress).toInt()
                         }
-                ).also { downloadDisposables[font.id] = it }
-
-
+                    } else {
+                        binding.emojiProgress.isIndeterminate = true
+                    }
+                },
+                {
+                    Toast.makeText(context, R.string.download_failed, Toast.LENGTH_SHORT).show()
+                    updateItem(font, binding)
+                },
+                {
+                    finishDownload(font, binding)
+                }
+            ).also { downloadDisposables[font.id] = it }
     }
 
     private fun cancelDownload(font: EmojiCompatFont, binding: ItemEmojiPrefBinding) {
@@ -197,10 +195,10 @@ class EmojiPreference(
         val index = selected.id
         Log.i(TAG, "saveSelectedFont: Font ID: $index")
         PreferenceManager
-                .getDefaultSharedPreferences(context)
-                .edit()
-                .putInt(key, index)
-                .apply()
+            .getDefaultSharedPreferences(context)
+            .edit()
+            .putInt(key, index)
+            .apply()
         summary = selected.getDisplay(context)
     }
 
@@ -211,25 +209,27 @@ class EmojiPreference(
         saveSelectedFont()
         if (selected !== original || updated) {
             AlertDialog.Builder(context)
-                    .setTitle(R.string.restart_required)
-                    .setMessage(R.string.restart_emoji)
-                    .setNegativeButton(R.string.later, null)
-                    .setPositiveButton(R.string.restart) { _, _ ->
-                        // Restart the app
-                        // From https://stackoverflow.com/a/17166729/5070653
-                        val launchIntent = Intent(context, SplashActivity::class.java)
-                        val mPendingIntent = PendingIntent.getActivity(
-                                context,
-                                0x1f973, // This is the codepoint of the party face emoji :D
-                                launchIntent,
-                                PendingIntent.FLAG_CANCEL_CURRENT)
-                        val mgr = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-                        mgr.set(
-                                AlarmManager.RTC,
-                                System.currentTimeMillis() + 100,
-                                mPendingIntent)
-                        exitProcess(0)
-                    }.show()
+                .setTitle(R.string.restart_required)
+                .setMessage(R.string.restart_emoji)
+                .setNegativeButton(R.string.later, null)
+                .setPositiveButton(R.string.restart) { _, _ ->
+                    // Restart the app
+                    // From https://stackoverflow.com/a/17166729/5070653
+                    val launchIntent = Intent(context, SplashActivity::class.java)
+                    val mPendingIntent = PendingIntent.getActivity(
+                        context,
+                        0x1f973, // This is the codepoint of the party face emoji :D
+                        launchIntent,
+                        PendingIntent.FLAG_CANCEL_CURRENT
+                    )
+                    val mgr = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+                    mgr.set(
+                        AlarmManager.RTC,
+                        System.currentTimeMillis() + 100,
+                        mPendingIntent
+                    )
+                    exitProcess(0)
+                }.show()
         }
     }
 

@@ -48,7 +48,7 @@ class ViewVideoFragment : ViewMediaFragment() {
     }
     private lateinit var mediaActivity: ViewMediaActivity
     private val TOOLBAR_HIDE_DELAY_MS = 3000L
-    private lateinit var mediaController : MediaController
+    private lateinit var mediaController: MediaController
     private var isAudio = false
 
     override fun setUserVisibleHint(isVisibleToUser: Boolean) {
@@ -72,10 +72,10 @@ class ViewVideoFragment : ViewMediaFragment() {
 
     @SuppressLint("ClickableViewAccessibility")
     override fun setupMediaView(
-            url: String,
-            previewUrl: String?,
-            description: String?,
-            showingDescription: Boolean
+        url: String,
+        previewUrl: String?,
+        description: String?,
+        showingDescription: Boolean
     ) {
         binding.mediaDescription.text = description
         binding.mediaDescription.visible(showingDescription)
@@ -105,7 +105,7 @@ class ViewVideoFragment : ViewMediaFragment() {
         mediaController.setMediaPlayer(binding.videoView)
         binding.videoView.setMediaController(mediaController)
         binding.videoView.requestFocus()
-        binding.videoView.setPlayPauseListener(object: ExposedPlayPauseVideoView.PlayPauseListener {
+        binding.videoView.setPlayPauseListener(object : ExposedPlayPauseVideoView.PlayPauseListener {
             override fun onPause() {
                 handler.removeCallbacks(hideToolbar)
             }
@@ -125,7 +125,7 @@ class ViewVideoFragment : ViewMediaFragment() {
             val videoWidth = mp.videoWidth.toFloat()
             val videoHeight = mp.videoHeight.toFloat()
 
-            if(containerWidth/containerHeight > videoWidth/videoHeight) {
+            if (containerWidth / containerHeight > videoWidth / videoHeight) {
                 binding.videoView.layoutParams.height = ViewGroup.LayoutParams.MATCH_PARENT
                 binding.videoView.layoutParams.width = ViewGroup.LayoutParams.WRAP_CONTENT
             } else {
@@ -190,15 +190,15 @@ class ViewVideoFragment : ViewMediaFragment() {
         }
 
         binding.mediaDescription.animate().alpha(alpha)
-                .setListener(object : AnimatorListenerAdapter() {
-                    override fun onAnimationEnd(animation: Animator) {
-                        if (_binding != null) {
-                            binding.mediaDescription.visible(isDescriptionVisible)
-                        }
-                        animation.removeListener(this)
+            .setListener(object : AnimatorListenerAdapter() {
+                override fun onAnimationEnd(animation: Animator) {
+                    if (_binding != null) {
+                        binding.mediaDescription.visible(isDescriptionVisible)
                     }
-                })
-                .start()
+                    animation.removeListener(this)
+                }
+            })
+            .start()
 
         if (visible && binding.videoView.isPlaying && !isAudio) {
             hideToolbarAfterDelay(TOOLBAR_HIDE_DELAY_MS)

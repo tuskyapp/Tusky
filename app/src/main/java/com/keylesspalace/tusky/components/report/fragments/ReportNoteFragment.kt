@@ -64,11 +64,10 @@ class ReportNoteFragment : Fragment(R.layout.fragment_report_note), Injectable {
     private fun fillViews() {
         binding.editNote.setText(viewModel.reportNote)
 
-        if (viewModel.isRemoteAccount){
+        if (viewModel.isRemoteAccount) {
             binding.checkIsNotifyRemote.show()
             binding.reportDescriptionRemoteInstance.show()
-        }
-        else{
+        } else {
             binding.checkIsNotifyRemote.hide()
             binding.reportDescriptionRemoteInstance.hide()
         }
@@ -84,7 +83,6 @@ class ReportNoteFragment : Fragment(R.layout.fragment_report_note), Injectable {
                 is Success -> viewModel.navigateTo(Screen.Done)
                 is Loading -> showLoading()
                 is Error -> showError(it.cause)
-
             }
         }
     }

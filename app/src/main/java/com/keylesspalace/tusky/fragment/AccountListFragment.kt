@@ -33,9 +33,14 @@ import com.keylesspalace.tusky.AccountActivity
 import com.keylesspalace.tusky.AccountListActivity.Type
 import com.keylesspalace.tusky.BaseActivity
 import com.keylesspalace.tusky.R
-import com.keylesspalace.tusky.adapter.*
-import com.keylesspalace.tusky.db.AccountManager
+import com.keylesspalace.tusky.adapter.AccountAdapter
+import com.keylesspalace.tusky.adapter.BlocksAdapter
+import com.keylesspalace.tusky.adapter.FollowAdapter
+import com.keylesspalace.tusky.adapter.FollowRequestsAdapter
+import com.keylesspalace.tusky.adapter.FollowRequestsHeaderAdapter
+import com.keylesspalace.tusky.adapter.MutesAdapter
 import com.keylesspalace.tusky.databinding.FragmentAccountListBinding
+import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.entity.Account
 import com.keylesspalace.tusky.entity.Relationship
@@ -51,7 +56,7 @@ import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Single
 import retrofit2.Response
 import java.io.IOException
-import java.util.*
+import java.util.HashMap
 import javax.inject.Inject
 
 class AccountListFragment : Fragment(R.layout.fragment_account_list), AccountActionListener, Injectable {
@@ -133,12 +138,15 @@ class AccountListFragment : Fragment(R.layout.fragment_account_list), AccountAct
         } else {
             api.muteAccount(id, notifications)
         }
-                .autoDispose(from(this))
-                .subscribe({
+            .autoDispose(from(this))
+            .subscribe(
+                {
                     onMuteSuccess(mute, id, position, notifications)
-                }, {
+                },
+                {
                     onMuteFailure(mute, id, notifications)
-                })
+                }
+            )
     }
 
     private fun onMuteSuccess(muted: Boolean, id: String, position: Int, notifications: Boolean) {
@@ -151,11 +159,11 @@ class AccountListFragment : Fragment(R.layout.fragment_account_list), AccountAct
 
         if (unmutedUser != null) {
             Snackbar.make(binding.recyclerView, R.string.confirmation_unmuted, Snackbar.LENGTH_LONG)
-                    .setAction(R.string.action_undo) {
-                        mutesAdapter.addItem(unmutedUser, position)
-                        onMute(true, id, position, notifications)
-                    }
-                    .show()
+                .setAction(R.string.action_undo) {
+                    mutesAdapter.addItem(unmutedUser, position)
+                    onMute(true, id, position, notifications)
+                }
+                .show()
         }
     }
 
@@ -178,12 +186,15 @@ class AccountListFragment : Fragment(R.layout.fragment_account_list), AccountAct
         } else {
             api.blockAccount(id)
         }
-                .autoDispose(from(this))
-                .subscribe({
+            .autoDispose(from(this))
+            .subscribe(
+                {
                     onBlockSuccess(block, id, position)
-                }, {
+                },
+                {
                     onBlockFailure(block, id)
-                })
+                }
+            )
     }
 
     private fun onBlockSuccess(blocked: Boolean, id: String, position: Int) {
@@ -195,11 +206,11 @@ class AccountListFragment : Fragment(R.layout.fragment_account_list), AccountAct
 
         if (unblockedUser != null) {
             Snackbar.make(binding.recyclerView, R.string.confirmation_unblocked, Snackbar.LENGTH_LONG)
-                    .setAction(R.string.action_undo) {
-                        blocksAdapter.addItem(unblockedUser, position)
-                        onBlock(true, id, position)
-                    }
-                    .show()
+                .setAction(R.string.action_undo) {
+                    blocksAdapter.addItem(unblockedUser, position)
+                    onBlock(true, id, position)
+                }
+                .show()
         }
     }
 
@@ -212,26 +223,31 @@ class AccountListFragment : Fragment(R.layout.fragment_account_list), AccountAct
         Log.e(TAG, "Failed to $verb account accountId $accountId")
     }
 
-    override fun onRespondToFollowRequest(accept: Boolean, accountId: String,
-                                          position: Int) {
+    override fun onRespondToFollowRequest(
+        accept: Boolean,
+        accountId: String,
+        position: Int
+    ) {
 
         if (accept) {
             api.authorizeFollowRequest(accountId)
         } else {
             api.rejectFollowRequest(accountId)
         }.observeOn(AndroidSchedulers.mainThread())
-                .autoDispose(from(this, Lifecycle.Event.ON_DESTROY))
-                .subscribe({
+            .autoDispose(from(this, Lifecycle.Event.ON_DESTROY))
+            .subscribe(
+                {
                     onRespondToFollowRequestSuccess(position)
-                }, { throwable ->
+                },
+                { throwable ->
                     val verb = if (accept) {
                         "accept"
                     } else {
                         "reject"
                     }
                     Log.e(TAG, "Failed to $verb account id $accountId.", throwable)
-                })
-
+                }
+            )
     }
 
     private fun onRespondToFollowRequestSuccess(position: Int) {
@@ -264,7 +280,7 @@ class AccountListFragment : Fragment(R.layout.fragment_account_list), AccountAct
     }
 
     private fun requireId(type: Type, id: String?): String {
-        return requireNotNull(id) { "id must not be null for type "+type.name }
+        return requireNotNull(id) { "id must not be null for type " + type.name }
     }
 
     private fun fetchAccounts(fromId: String? = null) {
@@ -278,9 +294,10 @@ class AccountListFragment : Fragment(R.layout.fragment_account_list), AccountAct
         }
 
         getFetchCallByListType(fromId)
-                .observeOn(AndroidSchedulers.mainThread())
-                .autoDispose(from(this, Lifecycle.Event.ON_DESTROY))
-                .subscribe({ response ->
+            .observeOn(AndroidSchedulers.mainThread())
+            .autoDispose(from(this, Lifecycle.Event.ON_DESTROY))
+            .subscribe(
+                { response ->
                     val accountList = response.body()
 
                     if (response.isSuccessful && accountList != null) {
@@ -289,10 +306,11 @@ class AccountListFragment : Fragment(R.layout.fragment_account_list), AccountAct
                     } else {
                         onFetchAccountsFailure(Exception(response.message()))
                     }
-                }, {throwable ->
+                },
+                { throwable ->
                     onFetchAccountsFailure(throwable)
-                })
-
+                }
+            )
     }
 
     private fun onFetchAccountsSuccess(accounts: List<Account>, linkHeader: String?) {
@@ -319,9 +337,9 @@ class AccountListFragment : Fragment(R.layout.fragment_account_list), AccountAct
         if (adapter.itemCount == 0) {
             binding.messageView.show()
             binding.messageView.setup(
-                    R.drawable.elephant_friend_empty,
-                    R.string.message_empty,
-                    null
+                R.drawable.elephant_friend_empty,
+                R.string.message_empty,
+                null
             )
         } else {
             binding.messageView.hide()
@@ -330,11 +348,11 @@ class AccountListFragment : Fragment(R.layout.fragment_account_list), AccountAct
 
     private fun fetchRelationships(ids: List<String>) {
         api.relationships(ids)
-                .observeOn(AndroidSchedulers.mainThread())
-                .autoDispose(from(this))
-                .subscribe(::onFetchRelationshipsSuccess) {
-                    onFetchRelationshipsFailure(ids)
-                }
+            .observeOn(AndroidSchedulers.mainThread())
+            .autoDispose(from(this))
+            .subscribe(::onFetchRelationshipsSuccess) {
+                onFetchRelationshipsFailure(ids)
+            }
     }
 
     private fun onFetchRelationshipsSuccess(relationships: List<Relationship>) {

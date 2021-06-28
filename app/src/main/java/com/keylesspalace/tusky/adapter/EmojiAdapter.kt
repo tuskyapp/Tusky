@@ -22,15 +22,15 @@ import com.bumptech.glide.Glide
 import com.keylesspalace.tusky.databinding.ItemEmojiButtonBinding
 import com.keylesspalace.tusky.entity.Emoji
 import com.keylesspalace.tusky.util.BindingHolder
-import java.util.*
+import java.util.Locale
 
 class EmojiAdapter(
-        emojiList: List<Emoji>,
-        private val onEmojiSelectedListener: OnEmojiSelectedListener
+    emojiList: List<Emoji>,
+    private val onEmojiSelectedListener: OnEmojiSelectedListener
 ) : RecyclerView.Adapter<BindingHolder<ItemEmojiButtonBinding>>() {
 
-    private val emojiList : List<Emoji> = emojiList.filter { emoji -> emoji.visibleInPicker == null || emoji.visibleInPicker }
-            .sortedBy { it.shortcode.lowercase(Locale.ROOT) }
+    private val emojiList: List<Emoji> = emojiList.filter { emoji -> emoji.visibleInPicker == null || emoji.visibleInPicker }
+        .sortedBy { it.shortcode.lowercase(Locale.ROOT) }
 
     override fun getItemCount() = emojiList.size
 
@@ -44,8 +44,8 @@ class EmojiAdapter(
         val emojiImageView = holder.binding.root
 
         Glide.with(emojiImageView)
-                .load(emoji.url)
-                .into(emojiImageView)
+            .load(emoji.url)
+            .into(emojiImageView)
 
         emojiImageView.setOnClickListener {
             onEmojiSelectedListener.onEmojiSelected(emoji.shortcode)

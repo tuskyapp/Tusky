@@ -3,7 +3,20 @@ package com.keylesspalace.tusky.components.timeline
 import android.content.SharedPreferences
 import android.util.Log
 import androidx.lifecycle.viewModelScope
-import com.keylesspalace.tusky.appstore.*
+import com.keylesspalace.tusky.appstore.BlockEvent
+import com.keylesspalace.tusky.appstore.BookmarkEvent
+import com.keylesspalace.tusky.appstore.DomainMuteEvent
+import com.keylesspalace.tusky.appstore.Event
+import com.keylesspalace.tusky.appstore.EventHub
+import com.keylesspalace.tusky.appstore.FavoriteEvent
+import com.keylesspalace.tusky.appstore.MuteConversationEvent
+import com.keylesspalace.tusky.appstore.MuteEvent
+import com.keylesspalace.tusky.appstore.PinEvent
+import com.keylesspalace.tusky.appstore.PreferenceChangedEvent
+import com.keylesspalace.tusky.appstore.ReblogEvent
+import com.keylesspalace.tusky.appstore.StatusComposedEvent
+import com.keylesspalace.tusky.appstore.StatusDeletedEvent
+import com.keylesspalace.tusky.appstore.UnfollowEvent
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.entity.Filter
 import com.keylesspalace.tusky.entity.Poll
@@ -12,7 +25,15 @@ import com.keylesspalace.tusky.network.FilterModel
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.network.TimelineCases
 import com.keylesspalace.tusky.settings.PrefKeys
-import com.keylesspalace.tusky.util.*
+import com.keylesspalace.tusky.util.Either
+import com.keylesspalace.tusky.util.HttpHeaderLink
+import com.keylesspalace.tusky.util.LinkHelper
+import com.keylesspalace.tusky.util.RxAwareViewModel
+import com.keylesspalace.tusky.util.dec
+import com.keylesspalace.tusky.util.firstIsInstanceOrNull
+import com.keylesspalace.tusky.util.inc
+import com.keylesspalace.tusky.util.isLessThan
+import com.keylesspalace.tusky.util.toViewData
 import com.keylesspalace.tusky.viewdata.StatusViewData
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.Single
@@ -238,8 +259,8 @@ class TimelineViewModel @Inject constructor(
     private fun addStatusesBelow(statuses: MutableList<Either<Placeholder, Status>>) {
         val fullFetch = isFullFetch(statuses)
         // Remove placeholder in the bottom if it's there
-        if (this.statuses.isNotEmpty()
-            && this.statuses.last() !is StatusViewData.Concrete
+        if (this.statuses.isNotEmpty() &&
+            this.statuses.last() !is StatusViewData.Concrete
         ) {
             this.statuses.removeAt(this.statuses.lastIndex)
         }
@@ -264,7 +285,7 @@ class TimelineViewModel @Inject constructor(
 
     fun loadGap(position: Int): Job {
         return viewModelScope.launch {
-            //check bounds before accessing list,
+            // check bounds before accessing list,
             if (statuses.size < position || position <= 0) {
                 Log.e(TAG, "Wrong gap position: $position")
                 return@launch
@@ -318,7 +339,6 @@ class TimelineViewModel @Inject constructor(
         } catch (t: Exception) {
             ifExpected(t) {
                 Log.d(TAG, "Failed to reblog status " + status.actionableId, t)
-
             }
         }
     }
@@ -485,9 +505,9 @@ class TimelineViewModel @Inject constructor(
     }
 
     private fun shouldFilterStatus(status: Status): Boolean {
-        return status.inReplyToId != null && filterRemoveReplies
-                || status.reblog != null && filterRemoveReblogs
-                || filterModel.shouldFilterStatus(status.actionableStatus)
+        return status.inReplyToId != null && filterRemoveReplies ||
+            status.reblog != null && filterRemoveReblogs ||
+            filterModel.shouldFilterStatus(status.actionableStatus)
     }
 
     private fun extractNextId(response: Response<*>): String? {
@@ -644,7 +664,8 @@ class TimelineViewModel @Inject constructor(
 
     private fun replacePlaceholderWithStatuses(
         newStatuses: MutableList<Either<Placeholder, Status>>,
-        fullFetch: Boolean, pos: Int
+        fullFetch: Boolean,
+        pos: Int
     ) {
         val placeholder = statuses[pos]
         if (placeholder is StatusViewData.Placeholder) {
@@ -888,9 +909,11 @@ class TimelineViewModel @Inject constructor(
                 Log.e(TAG, "Failed to fetch filters", t)
                 return@launch
             }
-            filterModel.initWithFilters(filters.filter {
-                filterContextMatchesKind(kind, it.context)
-            })
+            filterModel.initWithFilters(
+                filters.filter {
+                    filterContextMatchesKind(kind, it.context)
+                }
+            )
             filterViewData(this@TimelineViewModel.statuses)
         }
     }
@@ -905,7 +928,6 @@ class TimelineViewModel @Inject constructor(
             throw t
         }
     }
-
 
     companion object {
         private const val TAG = "TimelineVM"

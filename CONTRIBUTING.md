@@ -11,17 +11,23 @@
 All English text that will be visible to users should be put in ```app/src/main/res/values/strings.xml```. Any text that is missing in a translation will fall back to the version in this file. Be aware that anything added to this file will need to be translated, so be very concise with wording and try to add as few things as possible. Look for existing strings to use first. If there is untranslatable text that you don't want to keep as a string constant in a Java class, you can use the string resource file ```app/src/main/res/values/donottranslate.xml```.
 
 ### Translation
-Translations are done through https://weblate.tusky.app/projects/tusky/tusky/ . 
-To add a new language, clic on the 'Start a new translation' button on at the bottom of the page. 
+Translations are done through our [Weblate](https://weblate.tusky.app/projects/tusky/tusky/). 
+To add a new language, click on the 'Start a new translation' button on at the bottom of the page. 
 
 ### Kotlin
-This project is in the process of migrating to Kotlin, we prefer new code to be written in Kotlin. We try to follow the [Kotlin Style Guide](https://android.github.io/kotlin-guides/style.html) and make use of the [Kotlin Android Extensions](https://kotlinlang.org/docs/tutorials/android-plugin.html).
+This project is in the process of migrating to Kotlin, all new code must be written in Kotlin.
+We try to follow the [Kotlin Style Guide](https://developer.android.com/kotlin/style-guide) and make format the code according to the default [ktlint codestyle](https://github.com/pinterest/ktlint).
+You can check the codestyle by running `./gradlew ktlintCheck`.
 
 ### Java
-Existing code in Java should follow the [Android Style Guide](https://source.android.com/source/code-style), which is what Android uses for their own source code. ```@Nullable``` and ```@NotNull``` annotations are really helpful for Kotlin interoperability.
+Existing code in Java should follow the [Android Style Guide](https://source.android.com/source/code-style), which is what Android uses for their own source code. ```@Nullable``` and ```@NotNull``` annotations are really helpful for Kotlin interoperability. Please don't submit new features written in Kotlin.
+
+### Viewbinding
+We use [Viewbinding](https://developer.android.com/topic/libraries/view-binding) to reference views. No contribution using another mechanism will be accepted.
+There are useful extensions in `src/main/java/com/keylesspalace/tusky/util/ViewExtensions.kt` that make working with viewbinding easier.
 
 ### Visuals
-There are three themes in the app, so any visual changes should be checked with each of them to ensure they look appropriate no matter which theme is selected. Usually, you can use existing color attributes like ```?attr/colorPrimary``` and ```?attr/textColorSecondary```. For icons and drawables, use a white drawable and tint it at runtime using ```ThemeUtils``` and specify an attribute that references different colours depending on the theme.
+There are three themes in the app, so any visual changes should be checked with each of them to ensure they look appropriate no matter which theme is selected. Usually, you can use existing color attributes like ```?attr/colorPrimary``` and ```?attr/textColorSecondary```.
 
 ### Saving
 Any time you get a good chunk of work done it's good to make a commit. You can either uses Android Studio's built-in UI for doing this or running the commands:

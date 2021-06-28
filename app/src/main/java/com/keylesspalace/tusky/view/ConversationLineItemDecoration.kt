@@ -18,10 +18,9 @@ package com.keylesspalace.tusky.view
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.drawable.Drawable
-import androidx.recyclerview.widget.RecyclerView
 import android.view.View
 import androidx.core.content.ContextCompat
-
+import androidx.recyclerview.widget.RecyclerView
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.adapter.ThreadAdapter
 
@@ -54,7 +53,8 @@ class ConversationLineItemDecoration(private val context: Context) : RecyclerVie
                 }
                 val below = adapter.getItem(position + 1)
                 dividerBottom = if (below != null && current.id == below.status.inReplyToId &&
-                        adapter.detailedStatusPosition != position) {
+                    adapter.detailedStatusPosition != position
+                ) {
                     child.bottom
                 } else {
                     child.top + avatarMargin
@@ -66,7 +66,6 @@ class ConversationLineItemDecoration(private val context: Context) : RecyclerVie
                     divider.setBounds(canvas.width - dividerEnd, dividerTop, canvas.width - dividerStart, dividerBottom)
                 }
                 divider.draw(canvas)
-
             }
         }
     }

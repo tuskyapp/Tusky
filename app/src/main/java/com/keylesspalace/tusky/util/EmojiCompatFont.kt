@@ -29,13 +29,14 @@ import kotlin.math.max
  * This class bundles information about an emoji font as well as many convenient actions.
  */
 class EmojiCompatFont(
-        val name: String,
-        private val display: String,
-        @StringRes val caption: Int,
-        @DrawableRes val img: Int,
-        val url: String,
-        // The version is stored as a String in the x.xx.xx format (to be able to compare versions)
-        val version: String) {
+    val name: String,
+    private val display: String,
+    @StringRes val caption: Int,
+    @DrawableRes val img: Int,
+    val url: String,
+    // The version is stored as a String in the x.xx.xx format (to be able to compare versions)
+    val version: String
+) {
 
     private val versionCode = getVersionCode(version)
 
@@ -102,8 +103,13 @@ class EmojiCompatFont(
             if (compareVersions(fileExists.second, versionCode) < 0) {
                 val file = fileExists.first
                 // Uses side effects!
-                Log.d(TAG, String.format("Deleted %s successfully: %s", file.absolutePath,
-                        file.delete()))
+                Log.d(
+                    TAG,
+                    String.format(
+                        "Deleted %s successfully: %s", file.absolutePath,
+                        file.delete()
+                    )
+                )
             }
         }
     }
@@ -131,8 +137,13 @@ class EmojiCompatFont(
         val fontRegex = "$name(\\d+(\\.\\d+)*)?\\.ttf".toPattern()
         val ttfFilter = FilenameFilter { _, name: String -> name.endsWith(".ttf") }
         val foundFontFiles = directory.listFiles(ttfFilter).orEmpty()
-        Log.d(TAG, String.format("loadExistingFontFiles: %d other font files found",
-                foundFontFiles.size))
+        Log.d(
+            TAG,
+            String.format(
+                "loadExistingFontFiles: %d other font files found",
+                foundFontFiles.size
+            )
+        )
 
         return foundFontFiles.map { file ->
             val matcher = fontRegex.matcher(file.name)
@@ -170,8 +181,10 @@ class EmojiCompatFont(
         }
     }
 
-    fun downloadFontFile(context: Context,
-                         okHttpClient: OkHttpClient): Observable<Float> {
+    fun downloadFontFile(
+        context: Context,
+        okHttpClient: OkHttpClient
+    ): Observable<Float> {
         return Observable.create { emitter: ObservableEmitter<Float> ->
             // It is possible (and very likely) that the file does not exist yet
             val downloadFile = getFontFile(context)!!
@@ -180,7 +193,7 @@ class EmojiCompatFont(
                 downloadFile.createNewFile()
             }
             val request = Request.Builder().url(url)
-                    .build()
+                .build()
 
             val sink = downloadFile.sink().buffer()
             var source: Source? = null
@@ -197,7 +210,7 @@ class EmojiCompatFont(
                         while (!emitter.isDisposed) {
                             sink.write(source, CHUNK_SIZE)
                             progress += CHUNK_SIZE.toFloat()
-                            if(size > 0) {
+                            if (size > 0) {
                                 emitter.onNext(progress / size)
                             } else {
                                 emitter.onNext(-1f)
@@ -213,7 +226,6 @@ class EmojiCompatFont(
                     Log.e(TAG, "Downloading $url failed. Status code: ${response.code}")
                     emitter.tryOnError(Exception())
                 }
-
             } catch (ex: IOException) {
                 Log.e(TAG, "Downloading $url failed.", ex)
                 downloadFile.deleteIfExists()
@@ -228,10 +240,8 @@ class EmojiCompatFont(
                     emitter.onComplete()
                 }
             }
-
         }
-                .subscribeOn(Schedulers.io())
-
+            .subscribeOn(Schedulers.io())
     }
 
     /**
@@ -256,32 +266,37 @@ class EmojiCompatFont(
         private const val CHUNK_SIZE = 4096L
 
         // The system font gets some special behavior...
-        val SYSTEM_DEFAULT = EmojiCompatFont("system-default",
-                "System Default",
-                R.string.caption_systememoji,
-                R.drawable.ic_emoji_34dp,
-                "",
-                "0")
-        val BLOBMOJI = EmojiCompatFont("Blobmoji",
-                "Blobmoji",
-                R.string.caption_blobmoji,
-                R.drawable.ic_blobmoji,
-                "https://tusky.app/hosted/emoji/BlobmojiCompat.ttf",
-                "12.0.0"
+        val SYSTEM_DEFAULT = EmojiCompatFont(
+            "system-default",
+            "System Default",
+            R.string.caption_systememoji,
+            R.drawable.ic_emoji_34dp,
+            "",
+            "0"
         )
-        val TWEMOJI = EmojiCompatFont("Twemoji",
-                "Twemoji",
-                R.string.caption_twemoji,
-                R.drawable.ic_twemoji,
-                "https://tusky.app/hosted/emoji/TwemojiCompat.ttf",
-                "12.0.0"
+        val BLOBMOJI = EmojiCompatFont(
+            "Blobmoji",
+            "Blobmoji",
+            R.string.caption_blobmoji,
+            R.drawable.ic_blobmoji,
+            "https://tusky.app/hosted/emoji/BlobmojiCompat.ttf",
+            "12.0.0"
         )
-        val NOTOEMOJI = EmojiCompatFont("NotoEmoji",
-                "Noto Emoji",
-                R.string.caption_notoemoji,
-                R.drawable.ic_notoemoji,
-                "https://tusky.app/hosted/emoji/NotoEmojiCompat.ttf",
-                "11.0.0"
+        val TWEMOJI = EmojiCompatFont(
+            "Twemoji",
+            "Twemoji",
+            R.string.caption_twemoji,
+            R.drawable.ic_twemoji,
+            "https://tusky.app/hosted/emoji/TwemojiCompat.ttf",
+            "12.0.0"
+        )
+        val NOTOEMOJI = EmojiCompatFont(
+            "NotoEmoji",
+            "Noto Emoji",
+            R.string.caption_notoemoji,
+            R.drawable.ic_notoemoji,
+            "https://tusky.app/hosted/emoji/NotoEmojiCompat.ttf",
+            "11.0.0"
         )
 
         /**
@@ -341,11 +356,9 @@ class EmojiCompatFont(
         }
 
         private fun File.deleteIfExists() {
-            if(exists() && !delete()) {
+            if (exists() && !delete()) {
                 Log.e(TAG, "Could not delete file $this")
             }
         }
-
     }
-
 }

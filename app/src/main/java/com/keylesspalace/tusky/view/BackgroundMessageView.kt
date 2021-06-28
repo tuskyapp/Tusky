@@ -17,9 +17,9 @@ import com.keylesspalace.tusky.util.visible
  * Can show an image, text and button below them.
  */
 class BackgroundMessageView @JvmOverloads constructor(
-        context: Context,
-        attrs: AttributeSet? = null,
-        defStyleAttr: Int = 0
+    context: Context,
+    attrs: AttributeSet? = null,
+    defStyleAttr: Int = 0
 ) : LinearLayout(context, attrs, defStyleAttr) {
 
     private val binding = ViewBackgroundMessageBinding.inflate(LayoutInflater.from(context), this)
@@ -38,9 +38,9 @@ class BackgroundMessageView @JvmOverloads constructor(
      * If [clickListener] is `null` then the button will be hidden.
      */
     fun setup(
-            @DrawableRes imageRes: Int,
-            @StringRes messageRes: Int,
-            clickListener: ((v: View) -> Unit)? = null
+        @DrawableRes imageRes: Int,
+        @StringRes messageRes: Int,
+        clickListener: ((v: View) -> Unit)? = null
     ) {
         binding.messageTextView.setText(messageRes)
         binding.imageView.setImageResource(imageRes)

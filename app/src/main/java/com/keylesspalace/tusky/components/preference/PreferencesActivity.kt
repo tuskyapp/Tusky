@@ -36,8 +36,10 @@ import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
 import javax.inject.Inject
 
-class PreferencesActivity : BaseActivity(), SharedPreferences.OnSharedPreferenceChangeListener,
-        HasAndroidInjector {
+class PreferencesActivity :
+    BaseActivity(),
+    SharedPreferences.OnSharedPreferenceChangeListener,
+    HasAndroidInjector {
 
     @Inject
     lateinit var eventHub: EventHub
@@ -62,36 +64,35 @@ class PreferencesActivity : BaseActivity(), SharedPreferences.OnSharedPreference
         val fragmentTag = "preference_fragment_$EXTRA_PREFERENCE_TYPE"
 
         val fragment: Fragment = supportFragmentManager.findFragmentByTag(fragmentTag)
-                ?: when (intent.getIntExtra(EXTRA_PREFERENCE_TYPE, 0)) {
-                    GENERAL_PREFERENCES -> {
-                        setTitle(R.string.action_view_preferences)
-                        PreferencesFragment.newInstance()
-                    }
-                    ACCOUNT_PREFERENCES -> {
-                        setTitle(R.string.action_view_account_preferences)
-                        AccountPreferencesFragment.newInstance()
-                    }
-                    NOTIFICATION_PREFERENCES -> {
-                        setTitle(R.string.pref_title_edit_notification_settings)
-                        NotificationPreferencesFragment.newInstance()
-                    }
-                    TAB_FILTER_PREFERENCES -> {
-                        setTitle(R.string.pref_title_status_tabs)
-                        TabFilterPreferencesFragment.newInstance()
-                    }
-                    PROXY_PREFERENCES -> {
-                        setTitle(R.string.pref_title_http_proxy_settings)
-                        ProxyPreferencesFragment.newInstance()
-                    }
-                    else -> throw IllegalArgumentException("preferenceType not known")
+            ?: when (intent.getIntExtra(EXTRA_PREFERENCE_TYPE, 0)) {
+                GENERAL_PREFERENCES -> {
+                    setTitle(R.string.action_view_preferences)
+                    PreferencesFragment.newInstance()
                 }
+                ACCOUNT_PREFERENCES -> {
+                    setTitle(R.string.action_view_account_preferences)
+                    AccountPreferencesFragment.newInstance()
+                }
+                NOTIFICATION_PREFERENCES -> {
+                    setTitle(R.string.pref_title_edit_notification_settings)
+                    NotificationPreferencesFragment.newInstance()
+                }
+                TAB_FILTER_PREFERENCES -> {
+                    setTitle(R.string.pref_title_status_tabs)
+                    TabFilterPreferencesFragment.newInstance()
+                }
+                PROXY_PREFERENCES -> {
+                    setTitle(R.string.pref_title_http_proxy_settings)
+                    ProxyPreferencesFragment.newInstance()
+                }
+                else -> throw IllegalArgumentException("preferenceType not known")
+            }
 
         supportFragmentManager.commit {
             replace(R.id.fragment_container, fragment, fragmentTag)
         }
 
         restartActivitiesOnExit = intent.getBooleanExtra("restart", false)
-
     }
 
     override fun onResume() {
@@ -122,7 +123,6 @@ class PreferencesActivity : BaseActivity(), SharedPreferences.OnSharedPreference
 
                 restartActivitiesOnExit = true
                 this.restartCurrentActivity()
-
             }
             "statusTextSize", "absoluteTimeView", "showBotOverlay", "animateGifAvatars",
             "useBlurhash", "showCardsInTimelines", "confirmReblogs", "enableSwipeForTabs", "mainNavPosition", PrefKeys.HIDE_TOP_TOOLBAR -> {
@@ -179,5 +179,4 @@ class PreferencesActivity : BaseActivity(), SharedPreferences.OnSharedPreference
             return intent
         }
     }
-
 }

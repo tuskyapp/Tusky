@@ -24,12 +24,12 @@ import com.keylesspalace.tusky.adapter.AccountViewHolder
 import com.keylesspalace.tusky.entity.Account
 import com.keylesspalace.tusky.interfaces.LinkListener
 
-class SearchAccountsAdapter(private val linkListener: LinkListener, private val animateAvatars: Boolean, private val animateEmojis: Boolean)
-    : PagingDataAdapter<Account, AccountViewHolder>(ACCOUNT_COMPARATOR) {
+class SearchAccountsAdapter(private val linkListener: LinkListener, private val animateAvatars: Boolean, private val animateEmojis: Boolean) :
+    PagingDataAdapter<Account, AccountViewHolder>(ACCOUNT_COMPARATOR) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AccountViewHolder {
         val view = LayoutInflater.from(parent.context)
-                .inflate(R.layout.item_account, parent, false)
+            .inflate(R.layout.item_account, parent, false)
         return AccountViewHolder(view)
     }
 
@@ -46,10 +46,10 @@ class SearchAccountsAdapter(private val linkListener: LinkListener, private val 
 
         val ACCOUNT_COMPARATOR = object : DiffUtil.ItemCallback<Account>() {
             override fun areContentsTheSame(oldItem: Account, newItem: Account): Boolean =
-                    oldItem.deepEquals(newItem)
+                oldItem.deepEquals(newItem)
 
             override fun areItemsTheSame(oldItem: Account, newItem: Account): Boolean =
-                    oldItem.id == newItem.id
+                oldItem.id == newItem.id
         }
     }
 }

@@ -45,7 +45,8 @@ open class DefaultTextWatcher : TextWatcher {
 }
 
 inline fun EditText.onTextChanged(
-        crossinline callback: (s: CharSequence, start: Int, before: Int, count: Int) -> Unit) {
+    crossinline callback: (s: CharSequence, start: Int, before: Int, count: Int) -> Unit
+) {
     addTextChangedListener(object : DefaultTextWatcher() {
         override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
             callback(s, start, before, count)
@@ -54,7 +55,8 @@ inline fun EditText.onTextChanged(
 }
 
 inline fun EditText.afterTextChanged(
-        crossinline callback: (s: Editable) -> Unit) {
+    crossinline callback: (s: Editable) -> Unit
+) {
     addTextChangedListener(object : DefaultTextWatcher() {
         override fun afterTextChanged(s: Editable) {
             callback(s)

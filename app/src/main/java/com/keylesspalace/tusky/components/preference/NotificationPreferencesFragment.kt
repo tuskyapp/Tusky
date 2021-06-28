@@ -111,7 +111,7 @@ class NotificationPreferencesFragment : PreferenceFragmentCompat(), Injectable {
                         true
                     }
                 }
-                
+
                 switchPreference {
                     setTitle(R.string.pref_title_notification_filter_subscriptions)
                     key = PrefKeys.NOTIFICATION_FILTER_SUBSCRIPTIONS
@@ -176,5 +176,4 @@ class NotificationPreferencesFragment : PreferenceFragmentCompat(), Injectable {
             return NotificationPreferencesFragment()
         }
     }
-
 }

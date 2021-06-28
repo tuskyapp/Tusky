@@ -21,8 +21,8 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class Emoji(
-        val shortcode: String,
-        val url: String,
-        @SerializedName("static_url") val staticUrl: String,
-        @SerializedName("visible_in_picker") val visibleInPicker: Boolean?
+    val shortcode: String,
+    val url: String,
+    @SerializedName("static_url") val staticUrl: String,
+    @SerializedName("visible_in_picker") val visibleInPicker: Boolean?
 ) : Parcelable

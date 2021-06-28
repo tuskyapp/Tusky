@@ -15,7 +15,23 @@
 
 package com.keylesspalace.tusky.di
 
-import com.keylesspalace.tusky.*
+import com.keylesspalace.tusky.AboutActivity
+import com.keylesspalace.tusky.AccountActivity
+import com.keylesspalace.tusky.AccountListActivity
+import com.keylesspalace.tusky.BaseActivity
+import com.keylesspalace.tusky.EditProfileActivity
+import com.keylesspalace.tusky.FiltersActivity
+import com.keylesspalace.tusky.LicenseActivity
+import com.keylesspalace.tusky.ListsActivity
+import com.keylesspalace.tusky.LoginActivity
+import com.keylesspalace.tusky.MainActivity
+import com.keylesspalace.tusky.ModalTimelineActivity
+import com.keylesspalace.tusky.SplashActivity
+import com.keylesspalace.tusky.StatusListActivity
+import com.keylesspalace.tusky.TabPreferenceActivity
+import com.keylesspalace.tusky.ViewMediaActivity
+import com.keylesspalace.tusky.ViewTagActivity
+import com.keylesspalace.tusky.ViewThreadActivity
 import com.keylesspalace.tusky.components.announcements.AnnouncementsActivity
 import com.keylesspalace.tusky.components.compose.ComposeActivity
 import com.keylesspalace.tusky.components.drafts.DraftsActivity

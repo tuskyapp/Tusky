@@ -24,11 +24,14 @@ import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.databinding.ItemFollowRequestBinding
 import com.keylesspalace.tusky.entity.Account
 import com.keylesspalace.tusky.interfaces.AccountActionListener
-import com.keylesspalace.tusky.util.*
+import com.keylesspalace.tusky.util.emojify
+import com.keylesspalace.tusky.util.loadAvatar
+import com.keylesspalace.tusky.util.unicodeWrap
+import com.keylesspalace.tusky.util.visible
 
 class FollowRequestViewHolder(
-        private val binding: ItemFollowRequestBinding,
-        private val showHeader: Boolean
+    private val binding: ItemFollowRequestBinding,
+    private val showHeader: Boolean
 ) : RecyclerView.ViewHolder(binding.root) {
 
     fun setupWithAccount(account: Account, animateAvatar: Boolean, animateEmojis: Boolean) {

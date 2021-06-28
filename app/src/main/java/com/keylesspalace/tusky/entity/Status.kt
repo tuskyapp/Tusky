@@ -19,33 +19,34 @@ import android.text.SpannableStringBuilder
 import android.text.Spanned
 import android.text.style.URLSpan
 import com.google.gson.annotations.SerializedName
-import java.util.*
+import java.util.ArrayList
+import java.util.Date
 
 data class Status(
-        val id: String,
-        val url: String?, // not present if it's reblog
-        val account: Account,
-        @SerializedName("in_reply_to_id") var inReplyToId: String?,
-        @SerializedName("in_reply_to_account_id") val inReplyToAccountId: String?,
-        val reblog: Status?,
-        val content: Spanned,
-        @SerializedName("created_at") val createdAt: Date,
-        val emojis: List<Emoji>,
-        @SerializedName("reblogs_count") val reblogsCount: Int,
-        @SerializedName("favourites_count") val favouritesCount: Int,
-        var reblogged: Boolean,
-        var favourited: Boolean,
-        var bookmarked: Boolean,
-        var sensitive: Boolean,
-        @SerializedName("spoiler_text") val spoilerText: String,
-        val visibility: Visibility,
-        @SerializedName("media_attachments") var attachments: ArrayList<Attachment>,
-        val mentions: List<Mention>,
-        val application: Application?,
-        val pinned: Boolean?,
-        val muted: Boolean?,
-        val poll: Poll?,
-        val card: Card?
+    val id: String,
+    val url: String?, // not present if it's reblog
+    val account: Account,
+    @SerializedName("in_reply_to_id") var inReplyToId: String?,
+    @SerializedName("in_reply_to_account_id") val inReplyToAccountId: String?,
+    val reblog: Status?,
+    val content: Spanned,
+    @SerializedName("created_at") val createdAt: Date,
+    val emojis: List<Emoji>,
+    @SerializedName("reblogs_count") val reblogsCount: Int,
+    @SerializedName("favourites_count") val favouritesCount: Int,
+    var reblogged: Boolean,
+    var favourited: Boolean,
+    var bookmarked: Boolean,
+    var sensitive: Boolean,
+    @SerializedName("spoiler_text") val spoilerText: String,
+    val visibility: Visibility,
+    @SerializedName("media_attachments") var attachments: ArrayList<Attachment>,
+    val mentions: List<Mention>,
+    val application: Application?,
+    val pinned: Boolean?,
+    val muted: Boolean?,
+    val poll: Poll?,
+    val card: Card?
 ) {
 
     val actionableId: String
@@ -119,14 +120,14 @@ data class Status(
 
     fun toDeletedStatus(): DeletedStatus {
         return DeletedStatus(
-                text = getEditableText(),
-                inReplyToId = inReplyToId,
-                spoilerText = spoilerText,
-                visibility = visibility,
-                sensitive = sensitive,
-                attachments = attachments,
-                poll = poll,
-                createdAt = createdAt
+            text = getEditableText(),
+            inReplyToId = inReplyToId,
+            spoilerText = spoilerText,
+            visibility = visibility,
+            sensitive = sensitive,
+            attachments = attachments,
+            poll = poll,
+            createdAt = createdAt
         )
     }
 
@@ -158,15 +159,14 @@ data class Status(
         return id.hashCode()
     }
 
-
-    data class Mention (
+    data class Mention(
         val id: String,
         val url: String,
         @SerializedName("acct") val username: String,
         @SerializedName("username") val localUsername: String
     )
 
-    data class Application (
+    data class Application(
         val name: String,
         val website: String?
     )

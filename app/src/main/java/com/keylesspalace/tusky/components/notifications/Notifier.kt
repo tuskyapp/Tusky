@@ -12,7 +12,7 @@ interface Notifier {
 }
 
 class SystemNotifier(
-        private val context: Context
+    private val context: Context
 ) : Notifier {
     override fun show(notification: Notification, account: AccountEntity, isFirstInBatch: Boolean) {
         NotificationHelper.make(context, notification, account, isFirstInBatch)

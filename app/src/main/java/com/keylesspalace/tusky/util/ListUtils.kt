@@ -17,9 +17,8 @@
 
 package com.keylesspalace.tusky.util
 
-import java.util.LinkedHashSet
 import java.util.ArrayList
-
+import java.util.LinkedHashSet
 
 /**
  * @return true if list is null or else return list.isEmpty()
