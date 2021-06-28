@@ -37,83 +37,83 @@ import java.util.Locale
 import javax.inject.Inject
 
 class DraftHelper @Inject constructor(
-        val context: Context,
-        db: AppDatabase
+    val context: Context,
+    db: AppDatabase
 ) {
 
     private val draftDao = db.draftDao()
 
     suspend fun saveDraft(
-            draftId: Int,
-            accountId: Long,
-            inReplyToId: String?,
-            content: String?,
-            contentWarning: String?,
-            sensitive: Boolean,
-            visibility: Status.Visibility,
-            mediaUris: List<String>,
-            mediaDescriptions: List<String?>,
-            poll: NewPoll?,
-            failedToSend: Boolean
+        draftId: Int,
+        accountId: Long,
+        inReplyToId: String?,
+        content: String?,
+        contentWarning: String?,
+        sensitive: Boolean,
+        visibility: Status.Visibility,
+        mediaUris: List<String>,
+        mediaDescriptions: List<String?>,
+        poll: NewPoll?,
+        failedToSend: Boolean
     ) = withContext(Dispatchers.IO) {
-            val externalFilesDir = context.getExternalFilesDir("Tusky")
+        val externalFilesDir = context.getExternalFilesDir("Tusky")
 
-            if (externalFilesDir == null || !(externalFilesDir.exists())) {
-                Log.e("DraftHelper", "Error obtaining directory to save media.")
-                throw Exception()
+        if (externalFilesDir == null || !(externalFilesDir.exists())) {
+            Log.e("DraftHelper", "Error obtaining directory to save media.")
+            throw Exception()
+        }
+
+        val draftDirectory = File(externalFilesDir, "Drafts")
+
+        if (!draftDirectory.exists()) {
+            draftDirectory.mkdir()
+        }
+
+        val uris = mediaUris.map { uriString ->
+            uriString.toUri()
+        }.map { uri ->
+            if (uri.isNotInFolder(draftDirectory)) {
+                uri.copyToFolder(draftDirectory)
+            } else {
+                uri
             }
+        }
 
-            val draftDirectory = File(externalFilesDir, "Drafts")
-
-            if (!draftDirectory.exists()) {
-                draftDirectory.mkdir()
+        val types = uris.map { uri ->
+            val mimeType = context.contentResolver.getType(uri)
+            when (mimeType?.substring(0, mimeType.indexOf('/'))) {
+                "video" -> DraftAttachment.Type.VIDEO
+                "image" -> DraftAttachment.Type.IMAGE
+                "audio" -> DraftAttachment.Type.AUDIO
+                else -> throw IllegalStateException("unknown media type")
             }
+        }
 
-            val uris = mediaUris.map { uriString ->
-                uriString.toUri()
-            }.map { uri ->
-                if (uri.isNotInFolder(draftDirectory)) {
-                    uri.copyToFolder(draftDirectory)
-                } else {
-                    uri
-                }
-            }
-
-            val types = uris.map { uri ->
-                val mimeType = context.contentResolver.getType(uri)
-                when (mimeType?.substring(0, mimeType.indexOf('/'))) {
-                    "video" -> DraftAttachment.Type.VIDEO
-                    "image" -> DraftAttachment.Type.IMAGE
-                    "audio" -> DraftAttachment.Type.AUDIO
-                    else -> throw IllegalStateException("unknown media type")
-                }
-            }
-
-            val attachments: MutableList<DraftAttachment> = mutableListOf()
-            for (i in mediaUris.indices) {
-                attachments.add(
-                        DraftAttachment(
-                                uriString = uris[i].toString(),
-                                description = mediaDescriptions[i],
-                                type = types[i]
-                        )
+        val attachments: MutableList<DraftAttachment> = mutableListOf()
+        for (i in mediaUris.indices) {
+            attachments.add(
+                DraftAttachment(
+                    uriString = uris[i].toString(),
+                    description = mediaDescriptions[i],
+                    type = types[i]
                 )
-            }
-
-            val draft = DraftEntity(
-                    id = draftId,
-                    accountId = accountId,
-                    inReplyToId = inReplyToId,
-                    content = content,
-                    contentWarning = contentWarning,
-                    sensitive = sensitive,
-                    visibility = visibility,
-                    attachments = attachments,
-                    poll = poll,
-                    failedToSend = failedToSend
             )
+        }
 
-            draftDao.insertOrReplace(draft)
+        val draft = DraftEntity(
+            id = draftId,
+            accountId = accountId,
+            inReplyToId = inReplyToId,
+            content = content,
+            contentWarning = contentWarning,
+            sensitive = sensitive,
+            visibility = visibility,
+            attachments = attachments,
+            poll = poll,
+            failedToSend = failedToSend
+        )
+
+        draftDao.insertOrReplace(draft)
     }
 
     suspend fun deleteDraftAndAttachments(draftId: Int) {
@@ -162,5 +162,4 @@ class DraftHelper @Inject constructor(
         IOUtils.copyToFile(contentResolver, this, file)
         return FileProvider.getUriForFile(context, BuildConfig.APPLICATION_ID + ".fileprovider", file)
     }
-
 }

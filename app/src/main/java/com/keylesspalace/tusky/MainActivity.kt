@@ -48,7 +48,12 @@ import com.bumptech.glide.request.transition.Transition
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
 import com.google.android.material.tabs.TabLayoutMediator
-import com.keylesspalace.tusky.appstore.*
+import com.keylesspalace.tusky.appstore.AnnouncementReadEvent
+import com.keylesspalace.tusky.appstore.CacheUpdater
+import com.keylesspalace.tusky.appstore.Event
+import com.keylesspalace.tusky.appstore.EventHub
+import com.keylesspalace.tusky.appstore.MainTabsChangedEvent
+import com.keylesspalace.tusky.appstore.ProfileEditedEvent
 import com.keylesspalace.tusky.components.announcements.AnnouncementsActivity
 import com.keylesspalace.tusky.components.compose.ComposeActivity
 import com.keylesspalace.tusky.components.compose.ComposeActivity.Companion.canHandleMimeType
@@ -67,7 +72,14 @@ import com.keylesspalace.tusky.interfaces.ActionButtonActivity
 import com.keylesspalace.tusky.interfaces.ReselectableFragment
 import com.keylesspalace.tusky.pager.MainPagerAdapter
 import com.keylesspalace.tusky.settings.PrefKeys
-import com.keylesspalace.tusky.util.*
+import com.keylesspalace.tusky.util.ThemeUtils
+import com.keylesspalace.tusky.util.deleteStaleCachedMedia
+import com.keylesspalace.tusky.util.emojify
+import com.keylesspalace.tusky.util.hide
+import com.keylesspalace.tusky.util.removeShortcut
+import com.keylesspalace.tusky.util.updateShortcut
+import com.keylesspalace.tusky.util.viewBinding
+import com.keylesspalace.tusky.util.visible
 import com.mikepenz.iconics.IconicsDrawable
 import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial
 import com.mikepenz.iconics.utils.colorInt
@@ -76,9 +88,24 @@ import com.mikepenz.materialdrawer.holder.BadgeStyle
 import com.mikepenz.materialdrawer.holder.ColorHolder
 import com.mikepenz.materialdrawer.holder.StringHolder
 import com.mikepenz.materialdrawer.iconics.iconicsIcon
-import com.mikepenz.materialdrawer.model.*
-import com.mikepenz.materialdrawer.model.interfaces.*
-import com.mikepenz.materialdrawer.util.*
+import com.mikepenz.materialdrawer.model.AbstractDrawerItem
+import com.mikepenz.materialdrawer.model.DividerDrawerItem
+import com.mikepenz.materialdrawer.model.PrimaryDrawerItem
+import com.mikepenz.materialdrawer.model.ProfileDrawerItem
+import com.mikepenz.materialdrawer.model.ProfileSettingDrawerItem
+import com.mikepenz.materialdrawer.model.SecondaryDrawerItem
+import com.mikepenz.materialdrawer.model.interfaces.IProfile
+import com.mikepenz.materialdrawer.model.interfaces.descriptionRes
+import com.mikepenz.materialdrawer.model.interfaces.descriptionText
+import com.mikepenz.materialdrawer.model.interfaces.iconRes
+import com.mikepenz.materialdrawer.model.interfaces.iconUrl
+import com.mikepenz.materialdrawer.model.interfaces.nameRes
+import com.mikepenz.materialdrawer.model.interfaces.nameText
+import com.mikepenz.materialdrawer.util.AbstractDrawerImageLoader
+import com.mikepenz.materialdrawer.util.DrawerImageLoader
+import com.mikepenz.materialdrawer.util.addItems
+import com.mikepenz.materialdrawer.util.addItemsAtPosition
+import com.mikepenz.materialdrawer.util.updateBadge
 import com.mikepenz.materialdrawer.widget.AccountHeaderView
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
@@ -156,19 +183,22 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
                     forwardShare(intent)
                 } else {
                     // No account was provided, show the chooser
-                    showAccountChooserDialog(getString(R.string.action_share_as), true, object : AccountSelectionListener {
-                        override fun onAccountSelected(account: AccountEntity) {
-                            val requestedId = account.id
-                            if (requestedId == activeAccount.id) {
-                                // The correct account is already active
-                                forwardShare(intent)
-                            } else {
-                                // A different account was requested, restart the activity
-                                intent.putExtra(NotificationHelper.ACCOUNT_ID, requestedId)
-                                changeAccount(requestedId, intent)
+                    showAccountChooserDialog(
+                        getString(R.string.action_share_as), true,
+                        object : AccountSelectionListener {
+                            override fun onAccountSelected(account: AccountEntity) {
+                                val requestedId = account.id
+                                if (requestedId == activeAccount.id) {
+                                    // The correct account is already active
+                                    forwardShare(intent)
+                                } else {
+                                    // A different account was requested, restart the activity
+                                    intent.putExtra(NotificationHelper.ACCOUNT_ID, requestedId)
+                                    changeAccount(requestedId, intent)
+                                }
                             }
                         }
-                    })
+                    )
                 }
             } else if (accountRequested && savedInstanceState == null) {
                 // user clicked a notification, show notification tab
@@ -323,12 +353,15 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
             headerBackgroundScaleType = ImageView.ScaleType.CENTER_CROP
             currentHiddenInList = true
             onAccountHeaderListener = { _: View?, profile: IProfile, current: Boolean -> handleProfileClick(profile, current) }
-            addProfile(ProfileSettingDrawerItem().apply {
-                identifier = DRAWER_ITEM_ADD_ACCOUNT
-                nameRes = R.string.add_account_name
-                descriptionRes = R.string.add_account_description
-                iconicsIcon = GoogleMaterial.Icon.gmd_add
-            }, 0)
+            addProfile(
+                ProfileSettingDrawerItem().apply {
+                    identifier = DRAWER_ITEM_ADD_ACCOUNT
+                    nameRes = R.string.add_account_name
+                    descriptionRes = R.string.add_account_description
+                    iconicsIcon = GoogleMaterial.Icon.gmd_add
+                },
+                0
+            )
             attachToSliderView(binding.mainDrawer)
             dividerBelowHeader = false
             closeDrawerOnProfileListClick = true
@@ -468,14 +501,16 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
             )
 
             if (addSearchButton) {
-                binding.mainDrawer.addItemsAtPosition(4,
+                binding.mainDrawer.addItemsAtPosition(
+                    4,
                     primaryDrawerItem {
                         nameRes = R.string.action_search
                         iconicsIcon = GoogleMaterial.Icon.gmd_search
                         onClick = {
                             startActivityWithSlideInAnimation(SearchActivity.getIntent(context))
                         }
-                    })
+                    }
+                )
             }
 
             setSavedInstance(savedInstanceState)
@@ -572,24 +607,23 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
         binding.mainToolbar.setOnClickListener {
             (adapter.getFragment(activeTabLayout.selectedTabPosition) as? ReselectableFragment)?.onReselect()
         }
-
     }
 
     private fun handleProfileClick(profile: IProfile, current: Boolean): Boolean {
         val activeAccount = accountManager.activeAccount
 
-        //open profile when active image was clicked
+        // open profile when active image was clicked
         if (current && activeAccount != null) {
             val intent = AccountActivity.getIntent(this, activeAccount.accountId)
             startActivityWithSlideInAnimation(intent)
             return false
         }
-        //open LoginActivity to add new account
+        // open LoginActivity to add new account
         if (profile.identifier == DRAWER_ITEM_ADD_ACCOUNT) {
             startActivityWithSlideInAnimation(LoginActivity.getIntent(this, true))
             return false
         }
-        //change Account
+        // change Account
         changeAccount(profile.identifier, null)
         return false
     }
@@ -638,130 +672,130 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
                         finishWithoutSlideOutAnimation()
                     }
                 }
-            .setNegativeButton(android.R.string.cancel, null)
-            .show()
-    }
-}
-
-private fun fetchUserInfo() {
-    mastodonApi.accountVerifyCredentials()
-        .observeOn(AndroidSchedulers.mainThread())
-        .autoDispose(this, Lifecycle.Event.ON_DESTROY)
-        .subscribe(
-            { userInfo ->
-                onFetchUserInfoSuccess(userInfo)
-            },
-            { throwable ->
-                Log.e(TAG, "Failed to fetch user info. " + throwable.message)
-            }
-        )
-}
-
-private fun onFetchUserInfoSuccess(me: Account) {
-    glide.asBitmap()
-        .load(me.header)
-        .into(header.accountHeaderBackground)
-
-    loadDrawerAvatar(me.avatar, false)
-
-    accountManager.updateActiveAccount(me)
-    NotificationHelper.createNotificationChannelsForAccount(accountManager.activeAccount!!, this)
-
-    accountLocked = me.locked
-
-    updateProfiles()
-    updateShortcut(this, accountManager.activeAccount!!)
-}
-
-private fun loadDrawerAvatar(avatarUrl: String, showPlaceholder: Boolean) {
-    val navIconSize = resources.getDimensionPixelSize(R.dimen.avatar_toolbar_nav_icon_size)
-
-    glide.asDrawable()
-        .load(avatarUrl)
-        .transform(
-            RoundedCorners(resources.getDimensionPixelSize(R.dimen.avatar_radius_36dp))
-        )
-        .apply {
-            if (showPlaceholder) {
-                placeholder(R.drawable.avatar_default)
-            }
-        }
-        .into(object : CustomTarget<Drawable>(navIconSize, navIconSize) {
-
-            override fun onLoadStarted(placeholder: Drawable?) {
-                if (placeholder != null) {
-                    binding.mainToolbar.navigationIcon = FixedSizeDrawable(placeholder, navIconSize, navIconSize)
-                }
-            }
-
-            override fun onResourceReady(resource: Drawable, transition: Transition<in Drawable>?) {
-                binding.mainToolbar.navigationIcon = FixedSizeDrawable(resource, navIconSize, navIconSize)
-            }
-
-            override fun onLoadCleared(placeholder: Drawable?) {
-                if (placeholder != null) {
-                    binding.mainToolbar.navigationIcon = FixedSizeDrawable(placeholder, navIconSize, navIconSize)
-                }
-            }
-        })
-}
-
-private fun fetchAnnouncements() {
-    mastodonApi.listAnnouncements(false)
-        .observeOn(AndroidSchedulers.mainThread())
-        .autoDispose(this, Lifecycle.Event.ON_DESTROY)
-        .subscribe(
-            { announcements ->
-                unreadAnnouncementsCount = announcements.count { !it.read }
-                updateAnnouncementsBadge()
-            },
-            {
-                Log.w(TAG, "Failed to fetch announcements.", it)
-            }
-        )
-}
-
-private fun updateAnnouncementsBadge() {
-    binding.mainDrawer.updateBadge(DRAWER_ITEM_ANNOUNCEMENTS, StringHolder(if (unreadAnnouncementsCount <= 0) null else unreadAnnouncementsCount.toString()))
-}
-
-private fun updateProfiles() {
-    val animateEmojis = preferences.getBoolean(PrefKeys.ANIMATE_CUSTOM_EMOJIS, false)
-    val profiles: MutableList<IProfile> = accountManager.getAllAccountsOrderedByActive().map { acc ->
-        val emojifiedName = EmojiCompat.get().process(acc.displayName.emojify(acc.emojis, header, animateEmojis))
-
-        ProfileDrawerItem().apply {
-            isSelected = acc.isActive
-            nameText = emojifiedName
-            iconUrl = acc.profilePictureUrl
-            isNameShown = true
-            identifier = acc.id
-            descriptionText = acc.fullName
-        }
-    }.toMutableList()
-
-    // reuse the already existing "add account" item
-    for (profile in header.profiles.orEmpty()) {
-        if (profile.identifier == DRAWER_ITEM_ADD_ACCOUNT) {
-            profiles.add(profile)
-            break
+                .setNegativeButton(android.R.string.cancel, null)
+                .show()
         }
     }
-    header.clear()
-    header.profiles = profiles
-    header.setActiveProfile(accountManager.activeAccount!!.id)
-}
 
-override fun getActionButton() = binding.composeButton
+    private fun fetchUserInfo() {
+        mastodonApi.accountVerifyCredentials()
+            .observeOn(AndroidSchedulers.mainThread())
+            .autoDispose(this, Lifecycle.Event.ON_DESTROY)
+            .subscribe(
+                { userInfo ->
+                    onFetchUserInfoSuccess(userInfo)
+                },
+                { throwable ->
+                    Log.e(TAG, "Failed to fetch user info. " + throwable.message)
+                }
+            )
+    }
 
-override fun androidInjector() = androidInjector
+    private fun onFetchUserInfoSuccess(me: Account) {
+        glide.asBitmap()
+            .load(me.header)
+            .into(header.accountHeaderBackground)
 
-companion object {
-    private const val TAG = "MainActivity" // logging tag
-    private const val DRAWER_ITEM_ADD_ACCOUNT: Long = -13
-    private const val DRAWER_ITEM_ANNOUNCEMENTS: Long = 14
-    const val STATUS_URL = "statusUrl"
-}
+        loadDrawerAvatar(me.avatar, false)
+
+        accountManager.updateActiveAccount(me)
+        NotificationHelper.createNotificationChannelsForAccount(accountManager.activeAccount!!, this)
+
+        accountLocked = me.locked
+
+        updateProfiles()
+        updateShortcut(this, accountManager.activeAccount!!)
+    }
+
+    private fun loadDrawerAvatar(avatarUrl: String, showPlaceholder: Boolean) {
+        val navIconSize = resources.getDimensionPixelSize(R.dimen.avatar_toolbar_nav_icon_size)
+
+        glide.asDrawable()
+            .load(avatarUrl)
+            .transform(
+                RoundedCorners(resources.getDimensionPixelSize(R.dimen.avatar_radius_36dp))
+            )
+            .apply {
+                if (showPlaceholder) {
+                    placeholder(R.drawable.avatar_default)
+                }
+            }
+            .into(object : CustomTarget<Drawable>(navIconSize, navIconSize) {
+
+                override fun onLoadStarted(placeholder: Drawable?) {
+                    if (placeholder != null) {
+                        binding.mainToolbar.navigationIcon = FixedSizeDrawable(placeholder, navIconSize, navIconSize)
+                    }
+                }
+
+                override fun onResourceReady(resource: Drawable, transition: Transition<in Drawable>?) {
+                    binding.mainToolbar.navigationIcon = FixedSizeDrawable(resource, navIconSize, navIconSize)
+                }
+
+                override fun onLoadCleared(placeholder: Drawable?) {
+                    if (placeholder != null) {
+                        binding.mainToolbar.navigationIcon = FixedSizeDrawable(placeholder, navIconSize, navIconSize)
+                    }
+                }
+            })
+    }
+
+    private fun fetchAnnouncements() {
+        mastodonApi.listAnnouncements(false)
+            .observeOn(AndroidSchedulers.mainThread())
+            .autoDispose(this, Lifecycle.Event.ON_DESTROY)
+            .subscribe(
+                { announcements ->
+                    unreadAnnouncementsCount = announcements.count { !it.read }
+                    updateAnnouncementsBadge()
+                },
+                {
+                    Log.w(TAG, "Failed to fetch announcements.", it)
+                }
+            )
+    }
+
+    private fun updateAnnouncementsBadge() {
+        binding.mainDrawer.updateBadge(DRAWER_ITEM_ANNOUNCEMENTS, StringHolder(if (unreadAnnouncementsCount <= 0) null else unreadAnnouncementsCount.toString()))
+    }
+
+    private fun updateProfiles() {
+        val animateEmojis = preferences.getBoolean(PrefKeys.ANIMATE_CUSTOM_EMOJIS, false)
+        val profiles: MutableList<IProfile> = accountManager.getAllAccountsOrderedByActive().map { acc ->
+            val emojifiedName = EmojiCompat.get().process(acc.displayName.emojify(acc.emojis, header, animateEmojis))
+
+            ProfileDrawerItem().apply {
+                isSelected = acc.isActive
+                nameText = emojifiedName
+                iconUrl = acc.profilePictureUrl
+                isNameShown = true
+                identifier = acc.id
+                descriptionText = acc.fullName
+            }
+        }.toMutableList()
+
+        // reuse the already existing "add account" item
+        for (profile in header.profiles.orEmpty()) {
+            if (profile.identifier == DRAWER_ITEM_ADD_ACCOUNT) {
+                profiles.add(profile)
+                break
+            }
+        }
+        header.clear()
+        header.profiles = profiles
+        header.setActiveProfile(accountManager.activeAccount!!.id)
+    }
+
+    override fun getActionButton() = binding.composeButton
+
+    override fun androidInjector() = androidInjector
+
+    companion object {
+        private const val TAG = "MainActivity" // logging tag
+        private const val DRAWER_ITEM_ADD_ACCOUNT: Long = -13
+        private const val DRAWER_ITEM_ANNOUNCEMENTS: Long = 14
+        const val STATUS_URL = "statusUrl"
+    }
 }
 
 private inline fun primaryDrawerItem(block: PrimaryDrawerItem.() -> Unit): PrimaryDrawerItem {

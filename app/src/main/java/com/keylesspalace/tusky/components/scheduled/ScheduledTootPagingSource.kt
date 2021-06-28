@@ -24,7 +24,7 @@ import kotlinx.coroutines.rx3.await
 
 class ScheduledTootPagingSourceFactory(
     private val mastodonApi: MastodonApi
-): () -> ScheduledTootPagingSource {
+) : () -> ScheduledTootPagingSource {
 
     private val scheduledTootsCache = mutableListOf<ScheduledStatus>()
 
@@ -45,7 +45,7 @@ class ScheduledTootPagingSourceFactory(
 class ScheduledTootPagingSource(
     private val mastodonApi: MastodonApi,
     private val scheduledTootsCache: MutableList<ScheduledStatus>
-): PagingSource<String, ScheduledStatus>() {
+) : PagingSource<String, ScheduledStatus>() {
 
     override fun getRefreshKey(state: PagingState<String, ScheduledStatus>): String? {
         return null

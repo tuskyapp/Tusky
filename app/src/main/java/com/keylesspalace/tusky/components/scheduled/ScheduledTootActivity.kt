@@ -93,7 +93,7 @@ class ScheduledTootActivity : BaseActivity(), ScheduledTootActionListener, Injec
             }
             if (loadState.refresh is LoadState.NotLoading) {
                 binding.progressBar.hide()
-                if(adapter.itemCount == 0) {
+                if (adapter.itemCount == 0) {
                     binding.errorMessageView.setup(R.drawable.elephant_friend_empty, R.string.no_scheduled_status)
                     binding.errorMessageView.show()
                 } else {
@@ -117,16 +117,19 @@ class ScheduledTootActivity : BaseActivity(), ScheduledTootActionListener, Injec
     }
 
     override fun edit(item: ScheduledStatus) {
-        val intent = ComposeActivity.startIntent(this, ComposeActivity.ComposeOptions(
-            scheduledTootId = item.id,
-            tootText = item.params.text,
-            contentWarning = item.params.spoilerText,
-            mediaAttachments = item.mediaAttachments,
-            inReplyToId = item.params.inReplyToId,
-            visibility = item.params.visibility,
-            scheduledAt = item.scheduledAt,
-            sensitive = item.params.sensitive
-        ))
+        val intent = ComposeActivity.startIntent(
+            this,
+            ComposeActivity.ComposeOptions(
+                scheduledTootId = item.id,
+                tootText = item.params.text,
+                contentWarning = item.params.spoilerText,
+                mediaAttachments = item.mediaAttachments,
+                inReplyToId = item.params.inReplyToId,
+                visibility = item.params.visibility,
+                scheduledAt = item.scheduledAt,
+                sensitive = item.params.sensitive
+            )
+        )
         startActivity(intent)
     }
 
