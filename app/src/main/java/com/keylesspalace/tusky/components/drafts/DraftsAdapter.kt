@@ -34,17 +34,17 @@ interface DraftActionListener {
 }
 
 class DraftsAdapter(
-        private val listener: DraftActionListener
+    private val listener: DraftActionListener
 ) : PagingDataAdapter<DraftEntity, BindingHolder<ItemDraftBinding>>(
-        object : DiffUtil.ItemCallback<DraftEntity>() {
-            override fun areItemsTheSame(oldItem: DraftEntity, newItem: DraftEntity): Boolean {
-                return oldItem.id == newItem.id
-            }
-
-            override fun areContentsTheSame(oldItem: DraftEntity, newItem: DraftEntity): Boolean {
-                return oldItem == newItem
-            }
+    object : DiffUtil.ItemCallback<DraftEntity>() {
+        override fun areItemsTheSame(oldItem: DraftEntity, newItem: DraftEntity): Boolean {
+            return oldItem.id == newItem.id
         }
+
+        override fun areContentsTheSame(oldItem: DraftEntity, newItem: DraftEntity): Boolean {
+            return oldItem == newItem
+        }
+    }
 ) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BindingHolder<ItemDraftBinding> {

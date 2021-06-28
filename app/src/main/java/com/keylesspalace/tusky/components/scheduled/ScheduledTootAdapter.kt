@@ -30,18 +30,17 @@ interface ScheduledTootActionListener {
 }
 
 class ScheduledTootAdapter(
-        val listener: ScheduledTootActionListener
+    val listener: ScheduledTootActionListener
 ) : PagingDataAdapter<ScheduledStatus, BindingHolder<ItemScheduledTootBinding>>(
-        object: DiffUtil.ItemCallback<ScheduledStatus>(){
-            override fun areItemsTheSame(oldItem: ScheduledStatus, newItem: ScheduledStatus): Boolean {
-                return oldItem.id == newItem.id
-            }
-
-            override fun areContentsTheSame(oldItem: ScheduledStatus, newItem: ScheduledStatus): Boolean {
-                return oldItem == newItem
-            }
-
+    object : DiffUtil.ItemCallback<ScheduledStatus>() {
+        override fun areItemsTheSame(oldItem: ScheduledStatus, newItem: ScheduledStatus): Boolean {
+            return oldItem.id == newItem.id
         }
+
+        override fun areContentsTheSame(oldItem: ScheduledStatus, newItem: ScheduledStatus): Boolean {
+            return oldItem == newItem
+        }
+    }
 ) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BindingHolder<ItemScheduledTootBinding> {
@@ -50,7 +49,7 @@ class ScheduledTootAdapter(
     }
 
     override fun onBindViewHolder(holder: BindingHolder<ItemScheduledTootBinding>, position: Int) {
-        getItem(position)?.let{ item ->
+        getItem(position)?.let { item ->
             holder.binding.edit.isEnabled = true
             holder.binding.delete.isEnabled = true
             holder.binding.text.text = item.params.text
