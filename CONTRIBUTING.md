@@ -37,15 +37,15 @@ git commit -m "Describe the changes in this commit here."
 ```
 
 ## Submitting Your Changes
-1. Make sure your branch is up-to-date with the ```master``` branch. Run:
+1. Make sure your branch is up-to-date with the ```develop``` branch. Run:
 ```
 git fetch
-git rebase origin/master
+git rebase origin/develop
 ```
-It may refuse to start the rebase if there's changes that haven't been committed, so make sure you've added and committed everything. If there were changes on master to any of the parts of files you worked on, a conflict will arise when you rebase. [Resolving a merge conflict](https://help.github.com/articles/resolving-a-merge-conflict-using-the-command-line) is a good guide to help with this. After committing the resolution, you can run ```git rebase --continue``` to finish the rebase. If you want to cancel, like if you make some mistake in resolving the conflict, you can always do ```git rebase --abort```.
+It may refuse to start the rebase if there's changes that haven't been committed, so make sure you've added and committed everything. If there were changes on develop to any of the parts of files you worked on, a conflict will arise when you rebase. [Resolving a merge conflict](https://help.github.com/articles/resolving-a-merge-conflict-using-the-command-line) is a good guide to help with this. After committing the resolution, you can run ```git rebase --continue``` to finish the rebase. If you want to cancel, like if you make some mistake in resolving the conflict, you can always do ```git rebase --abort```.
 
 2. Push your local branch to your fork on GitHub by running ```git push origin your-change-name```.
-3. Then, go to the original project page and make a pull request. Select your fork/branch and use ```master``` as the base branch.
+3. Then, go to the original project page and make a pull request. Select your fork/branch and use ```develop``` as the base branch.
 4. Wait for feedback on your pull request and be ready to make some changes
 
 If you have any questions, don't hesitate to open an issue or contact [Tusky@mastodon.social](https://mastodon.social/@Tusky). Please also ask before you start implementing a new big feature.
