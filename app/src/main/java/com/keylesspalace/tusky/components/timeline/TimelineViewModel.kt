@@ -546,6 +546,7 @@ class TimelineViewModel @Inject constructor(
             if (kind == Kind.HOME) {
                 tryCache()
                 isLoadingInitially = statuses.isEmpty()
+                triggerViewUpdate()
                 updateCurrent()
                 try {
                     loadAbove()
