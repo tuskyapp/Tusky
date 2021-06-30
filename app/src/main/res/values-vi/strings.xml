@@ -237,8 +237,8 @@
     <string name="pref_title_notifications_enabled">Thông báo</string>
     <string name="pref_title_edit_notification_settings">Thông báo</string>
     <string name="visibility_direct">Nhắn tin: Chỉ người được nhắc tới mới thấy</string>
-    <string name="visibility_private">Người theo dõi: Ai đã theo dõi mới được xem</string>
-    <string name="visibility_unlisted">Riêng tư: Không hiện trên bảng tin</string>
+    <string name="visibility_private">Riêng tư: Chỉ người theo dõi mới thấy</string>
+    <string name="visibility_unlisted">Bán công: Không hiện trên bảng tin</string>
     <string name="visibility_public">Công khai: Mọi người đều có thể thấy</string>
     <string name="dialog_mute_warning">Ẩn @%s\?</string>
     <string name="dialog_block_warning">Chặn @%s\?</string>
@@ -254,8 +254,8 @@
     <string name="status_text_size_small">Nhỏ vừa</string>
     <string name="status_text_size_smallest">Nhỏ</string>
     <string name="pref_status_text_size">Kích thức phông chữ</string>
-    <string name="post_privacy_followers_only">Người theo dõi</string>
-    <string name="post_privacy_unlisted">Riêng tư</string>
+    <string name="post_privacy_followers_only">Riêng tư</string>
+    <string name="post_privacy_unlisted">Bán công</string>
     <string name="post_privacy_public">Công khai</string>
     <string name="pref_main_nav_position_option_bottom">Dưới màn hình</string>
     <string name="pref_main_nav_position_option_top">Trên màn hình</string>
@@ -378,7 +378,7 @@
     <string name="description_poll">Lượt bình chọn: %1$s, %2$s, %3$s, %4$s; %5$s</string>
     <string name="description_visiblity_direct">Tin nhắn</string>
     <string name="description_visiblity_private">Người theo dõi</string>
-    <string name="description_visiblity_unlisted">Riêng tư</string>
+    <string name="description_visiblity_unlisted">Bán công</string>
     <string name="description_visiblity_public">Công khai</string>
     <string name="description_status_bookmarked">Đã lưu</string>
     <string name="description_status_favourited">Đã thích</string>
@@ -497,4 +497,6 @@
     <string name="action_unsubscribe_account">Ngưng nhận thông báo</string>
     <string name="action_subscribe_account">Nhận thông báo</string>
     <string name="follow_requests_info">Dù biết tài khoản của bạn công khai, quản trị viên %1$s vẫn nghĩ bạn hãy nên xem lại yêu cầu theo dõi từ những tài khoản lạ.</string>
+    <string name="dialog_delete_conversation_warning">Xoá cuộc thảo luận này\?</string>
+    <string name="action_delete_conversation">Xoá thảo luận</string>
 </resources>
