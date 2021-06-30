@@ -13,7 +13,7 @@
  * You should have received a copy of the GNU General Public License along with Tusky; if not,
  * see <http://www.gnu.org/licenses>. */
 
-package com.keylesspalace.tusky
+package com.keylesspalace.tusky.components.account
 
 import android.animation.ArgbEvaluator
 import android.content.Context
@@ -50,7 +50,12 @@ import com.google.android.material.shape.ShapeAppearanceModel
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
-import com.keylesspalace.tusky.adapter.AccountFieldAdapter
+import com.keylesspalace.tusky.AccountListActivity
+import com.keylesspalace.tusky.BottomSheetActivity
+import com.keylesspalace.tusky.EditProfileActivity
+import com.keylesspalace.tusky.R
+import com.keylesspalace.tusky.ViewMediaActivity
+import com.keylesspalace.tusky.ViewTagActivity
 import com.keylesspalace.tusky.components.compose.ComposeActivity
 import com.keylesspalace.tusky.components.report.ReportActivity
 import com.keylesspalace.tusky.databinding.ActivityAccountBinding
@@ -60,7 +65,6 @@ import com.keylesspalace.tusky.entity.Relationship
 import com.keylesspalace.tusky.interfaces.ActionButtonActivity
 import com.keylesspalace.tusky.interfaces.LinkListener
 import com.keylesspalace.tusky.interfaces.ReselectableFragment
-import com.keylesspalace.tusky.pager.AccountPagerAdapter
 import com.keylesspalace.tusky.settings.PrefKeys
 import com.keylesspalace.tusky.util.DefaultTextWatcher
 import com.keylesspalace.tusky.util.LinkHelper
@@ -73,7 +77,6 @@ import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.util.visible
 import com.keylesspalace.tusky.view.showMuteAccountDialog
-import com.keylesspalace.tusky.viewmodel.AccountViewModel
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
 import java.text.NumberFormat
@@ -160,7 +163,9 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
      */
     private fun loadResources() {
         toolbarColor = ThemeUtils.getColor(this, R.attr.colorSurface)
-        statusBarColorTransparent = ContextCompat.getColor(this, R.color.transparent_statusbar_background)
+        statusBarColorTransparent = ContextCompat.getColor(this,
+            R.color.transparent_statusbar_background
+        )
         statusBarColorOpaque = ThemeUtils.getColor(this, R.attr.colorPrimaryDark)
         avatarSize = resources.getDimension(R.dimen.account_activity_avatar_size)
         titleVisibleHeight = resources.getDimensionPixelSize(R.dimen.account_activity_scroll_title_visible_height)
@@ -223,7 +228,9 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
         binding.accountFragmentViewPager.adapter = adapter
         binding.accountFragmentViewPager.offscreenPageLimit = 2
 
-        val pageTitles = arrayOf(getString(R.string.title_statuses), getString(R.string.title_statuses_with_replies), getString(R.string.title_statuses_pinned), getString(R.string.title_media))
+        val pageTitles = arrayOf(getString(R.string.title_statuses), getString(R.string.title_statuses_with_replies), getString(
+            R.string.title_statuses_pinned
+        ), getString(R.string.title_media))
 
         TabLayoutMediator(binding.accountTabLayout, binding.accountFragmentViewPager) { tab, position ->
             tab.text = pageTitles[position]
@@ -434,7 +441,8 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
                 .into(binding.accountHeaderImageView)
 
             binding.accountAvatarImageView.setOnClickListener { avatarView ->
-                val intent = ViewMediaActivity.newSingleImageIntent(avatarView.context, account.avatar)
+                val intent =
+                    ViewMediaActivity.newSingleImageIntent(avatarView.context, account.avatar)
 
                 avatarView.transitionName = account.avatar
                 val options = ActivityOptionsCompat.makeSceneTransitionAnimation(this, avatarView, account.avatar)

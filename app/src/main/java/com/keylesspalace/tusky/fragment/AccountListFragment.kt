@@ -29,7 +29,7 @@ import androidx.recyclerview.widget.SimpleItemAnimator
 import autodispose2.androidx.lifecycle.AndroidLifecycleScopeProvider.from
 import autodispose2.autoDispose
 import com.google.android.material.snackbar.Snackbar
-import com.keylesspalace.tusky.AccountActivity
+import com.keylesspalace.tusky.components.account.AccountActivity
 import com.keylesspalace.tusky.AccountListActivity.Type
 import com.keylesspalace.tusky.BaseActivity
 import com.keylesspalace.tusky.R

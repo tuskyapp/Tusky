@@ -25,6 +25,7 @@ import androidx.lifecycle.Lifecycle
 import autodispose2.androidx.lifecycle.AndroidLifecycleScopeProvider
 import autodispose2.autoDispose
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.keylesspalace.tusky.components.account.AccountActivity
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.LinkHelper
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers

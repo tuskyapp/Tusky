@@ -1,4 +1,4 @@
-package com.keylesspalace.tusky.viewmodel
+package com.keylesspalace.tusky.components.account
 
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
