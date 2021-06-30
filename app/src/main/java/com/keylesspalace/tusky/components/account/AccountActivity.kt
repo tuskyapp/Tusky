@@ -163,9 +163,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
      */
     private fun loadResources() {
         toolbarColor = ThemeUtils.getColor(this, R.attr.colorSurface)
-        statusBarColorTransparent = ContextCompat.getColor(this,
-            R.color.transparent_statusbar_background
-        )
+        statusBarColorTransparent = ContextCompat.getColor(this, R.color.transparent_statusbar_background)
         statusBarColorOpaque = ThemeUtils.getColor(this, R.attr.colorPrimaryDark)
         avatarSize = resources.getDimension(R.dimen.account_activity_avatar_size)
         titleVisibleHeight = resources.getDimensionPixelSize(R.dimen.account_activity_scroll_title_visible_height)
@@ -228,9 +226,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
         binding.accountFragmentViewPager.adapter = adapter
         binding.accountFragmentViewPager.offscreenPageLimit = 2
 
-        val pageTitles = arrayOf(getString(R.string.title_statuses), getString(R.string.title_statuses_with_replies), getString(
-            R.string.title_statuses_pinned
-        ), getString(R.string.title_media))
+        val pageTitles = arrayOf(getString(R.string.title_statuses), getString(R.string.title_statuses_with_replies), getString(R.string.title_statuses_pinned), getString(R.string.title_media))
 
         TabLayoutMediator(binding.accountTabLayout, binding.accountFragmentViewPager) { tab, position ->
             tab.text = pageTitles[position]
