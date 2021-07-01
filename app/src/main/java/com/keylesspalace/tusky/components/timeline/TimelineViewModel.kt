@@ -369,7 +369,7 @@ class TimelineViewModel @Inject constructor(
     fun voteInPoll(position: Int, choices: List<Int>): Job = viewModelScope.launch {
         val status = statuses[position].asStatusOrNull() ?: return@launch
 
-        val poll = status.status.poll ?: run {
+        val poll = status.actionable.poll ?: run {
             Log.w(TAG, "No poll on status ${status.id}")
             return@launch
         }
@@ -390,8 +390,8 @@ class TimelineViewModel @Inject constructor(
         status: StatusViewData.Concrete,
         newPoll: Poll
     ) {
-        updateStatusById(status.id) {
-            it.copy(status = it.status.copy(poll = newPoll))
+        updateActionableStatusById(status.id) {
+            it.copy(poll = newPoll)
         }
     }
 
@@ -712,8 +712,8 @@ class TimelineViewModel @Inject constructor(
     }
 
     private fun handleReblogEvent(reblogEvent: ReblogEvent) {
-        updateStatusById(reblogEvent.statusId) {
-            it.copy(status = it.status.copy(reblogged = reblogEvent.reblog))
+        updateActionableStatusById(reblogEvent.statusId) {
+            it.copy(reblogged = reblogEvent.reblog)
         }
     }
 
@@ -862,7 +862,7 @@ class TimelineViewModel @Inject constructor(
         id: String,
         updater: (Status) -> Status
     ) {
-        val pos = statuses.indexOfFirst { it.asStatusOrNull()?.id == id }
+        val pos = statuses.indexOfFirst { it.asStatusOrNull()?.actionableId == id }
         if (pos == -1) return
         updateStatusAt(pos) {
             if (it.status.reblog != null) {
@@ -871,15 +871,6 @@ class TimelineViewModel @Inject constructor(
                 it.copy(status = updater(it.status))
             }
         }
-    }
-
-    private inline fun updateStatusById(
-        id: String,
-        updater: (StatusViewData.Concrete) -> StatusViewData.Concrete
-    ) {
-        val pos = statuses.indexOfFirst { it.asStatusOrNull()?.id == id }
-        if (pos == -1) return
-        updateStatusAt(pos, updater)
     }
 
     private inline fun updateStatusAt(
