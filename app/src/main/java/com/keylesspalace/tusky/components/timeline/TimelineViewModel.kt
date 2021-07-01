@@ -610,6 +610,10 @@ class TimelineViewModel @Inject constructor(
         }
     }
 
+    /**
+     *  "full" in a sense that we get as many statuses as we requested, meaning there might be more
+     *  still.
+     */
     private fun isFullFetch(statuses: List<TimelineStatus>) = statuses.size >= LOAD_AT_ONCE
 
     private fun fullyRefresh(): Job {
@@ -674,6 +678,7 @@ class TimelineViewModel @Inject constructor(
             statuses.removeAt(pos)
         }
         if (newStatuses.isEmpty()) {
+            triggerViewUpdate()
             return
         }
         val newViewData = newStatuses
