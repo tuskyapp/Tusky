@@ -166,8 +166,8 @@ class TimelineFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         setupSwipeRefreshLayout()
         setupRecyclerView()
-        updateViews()
         viewModel.loadInitial()
+        updateViews()
     }
 
     private fun setupSwipeRefreshLayout() {
@@ -393,13 +393,16 @@ class TimelineFragment :
     }
 
     private fun updateViews() {
-        differ.submitList(viewModel.statuses.toList())
-        binding.swipeRefreshLayout.isEnabled = viewModel.failure == null
+        Log.d(TAG, "submitting list of length ${viewModel.statuses.size}, isAdded: ${isAdded}, isLoadingInitially ${viewModel.isLoadingInitially}")
 
         if (isAdded) {
+            differ.submitList(viewModel.statuses.toList())
+            binding.swipeRefreshLayout.isEnabled = viewModel.failure == null
+
             binding.swipeRefreshLayout.isRefreshing = viewModel.isRefreshing
             binding.progressBar.visible(viewModel.isLoadingInitially)
             if (viewModel.failure == null && viewModel.statuses.isEmpty() && !viewModel.isLoadingInitially) {
+                Log.d(TAG, "updateViews: empty")
                 showEmptyView()
             } else {
                 when (viewModel.failure) {
@@ -423,7 +426,10 @@ class TimelineFragment :
                             viewModel.loadInitial()
                         }
                     }
-                    null -> binding.statusView.hide()
+                    null -> {
+                        Log.d(TAG, "updateViews: hide")
+                        binding.statusView.hide()
+                    }
                 }
             }
         }

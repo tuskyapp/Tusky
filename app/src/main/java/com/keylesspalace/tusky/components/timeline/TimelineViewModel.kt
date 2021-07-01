@@ -506,8 +506,8 @@ class TimelineViewModel @Inject constructor(
 
     private fun shouldFilterStatus(status: Status): Boolean {
         return status.inReplyToId != null && filterRemoveReplies ||
-            status.reblog != null && filterRemoveReblogs ||
-            filterModel.shouldFilterStatus(status.actionableStatus)
+                status.reblog != null && filterRemoveReblogs ||
+                filterModel.shouldFilterStatus(status.actionableStatus)
     }
 
     private fun extractNextId(response: Response<*>): String? {
@@ -535,6 +535,7 @@ class TimelineViewModel @Inject constructor(
     }
 
     fun loadInitial(): Job {
+        Log.d(TAG, "loadInitial")
         return viewModelScope.launch {
             if (statuses.isNotEmpty() || initialUpdateFailed || isLoadingInitially) {
                 return@launch
