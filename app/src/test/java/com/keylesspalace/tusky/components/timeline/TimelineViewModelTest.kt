@@ -12,6 +12,7 @@ import com.keylesspalace.tusky.network.FilterModel
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.network.TimelineCases
 import com.keylesspalace.tusky.util.Either
+import com.keylesspalace.tusky.util.inc
 import com.keylesspalace.tusky.util.toViewData
 import com.keylesspalace.tusky.viewdata.StatusViewData
 import com.nhaarman.mockitokotlin2.clearInvocations
@@ -85,13 +86,13 @@ class TimelineViewModelTest {
         val initialResponse = listOf<Status>()
         setCachedResponse(initialResponse)
 
-        // loadAbove -> loadBelow
+        // loadAbove
         whenever(
             timelineRepository.getStatuses(
                 maxId = null,
                 sinceId = null,
                 sincedIdMinusOne = null,
-                requestMode = TimelineRequestMode.ANY,
+                requestMode = TimelineRequestMode.NETWORK,
                 limit = LOAD_AT_ONCE
             )
         ).thenReturn(Single.just(listOf()))
@@ -105,7 +106,7 @@ class TimelineViewModelTest {
             null,
             null,
             LOAD_AT_ONCE,
-            TimelineRequestMode.ANY
+            TimelineRequestMode.NETWORK
         )
     }
 
@@ -120,7 +121,7 @@ class TimelineViewModelTest {
                 isNull(),
                 isNull(),
                 eq(LOAD_AT_ONCE),
-                eq(TimelineRequestMode.ANY)
+                eq(TimelineRequestMode.NETWORK)
             )
         ).thenReturn(
             Single.just(
@@ -141,7 +142,7 @@ class TimelineViewModelTest {
             isNull(),
             isNull(),
             eq(LOAD_AT_ONCE),
-            eq(TimelineRequestMode.ANY)
+            eq(TimelineRequestMode.NETWORK)
         )
 
         assertViewUpdated(updates)
@@ -193,7 +194,7 @@ class TimelineViewModelTest {
                 sinceId = null,
                 sincedIdMinusOne = null,
                 limit = LOAD_AT_ONCE,
-                TimelineRequestMode.ANY,
+                TimelineRequestMode.NETWORK,
             )
         ).thenReturn(Single.error(IOException("test")))
 
@@ -208,7 +209,7 @@ class TimelineViewModelTest {
             isNull(),
             isNull(),
             eq(LOAD_AT_ONCE),
-            eq(TimelineRequestMode.ANY)
+            eq(TimelineRequestMode.NETWORK)
         )
 
         assertViewUpdated(updates)
@@ -221,7 +222,7 @@ class TimelineViewModelTest {
     fun `loadInitial, home, with cache, error on load above`() {
         val statuses = (5 downTo 1).map { makeStatus(it.toString()) }
         setCachedResponse(statuses)
-        setInitialRefresh("6", statuses)
+        setInitialRefresh(statuses)
 
         whenever(
             timelineRepository.getStatuses(
@@ -263,7 +264,7 @@ class TimelineViewModelTest {
         ).thenReturn(Single.error(IOException("test")))
 
         // Empty on loading above
-        setLoadAbove("5", "4", listOf())
+        setInitialRefresh(listOf())
 
         val updates = viewModel.viewUpdates.test()
 
@@ -278,23 +279,64 @@ class TimelineViewModelTest {
     }
 
     @Test
+    fun `loadInitial but there's a gap above now`() {
+        val cachedStatuses = (5 downTo 1).map { makeStatus(it.toString()) }
+        val newStatuses = (100 downTo 100 - LOAD_AT_ONCE).map { makeStatus(it.toString()) }
+        setCachedResponse(cachedStatuses)
+        setInitialRefresh(newStatuses)
+
+        runBlocking {
+            viewModel.loadInitial()
+        }
+
+        clearInvocations(timelineRepository)
+
+        runBlocking {
+            viewModel.refresh().join()
+        }
+
+        val expected = newStatuses.toViewData() +
+                listOf(StatusViewData.Placeholder(newStatuses.last().id.inc(), false)) +
+                cachedStatuses.toViewData()
+
+        assertHasList(expected)
+        assertFalse("refreshing", viewModel.isRefreshing)
+        assertNull("failure is not set", viewModel.failure)
+    }
+
+    @Test
+    fun `loadInitial but there's overlap`() {
+        val cachedStatuses = (5 downTo 1).map { makeStatus(it.toString()) }
+        val newStatuses = (3 + LOAD_AT_ONCE downTo 3).map { makeStatus(it.toString()) }
+        setCachedResponse(cachedStatuses)
+        setInitialRefresh(newStatuses)
+
+        runBlocking {
+            viewModel.loadInitial()
+        }
+
+        clearInvocations(timelineRepository)
+
+        runBlocking {
+            viewModel.refresh().join()
+        }
+
+        val expected = (3 + LOAD_AT_ONCE downTo 1).map { makeStatus(it.toString()) }.toViewData()
+
+        assertHasList(expected)
+        assertFalse("refreshing", viewModel.isRefreshing)
+        assertNull("failure is not set", viewModel.failure)
+    }
+
+    @Test
     fun `loads above cached`() {
         val cachedStatuses = (5 downTo 1).map { makeStatus(it.toString()) }
         setCachedResponse(cachedStatuses)
-        setInitialRefresh("6", cachedStatuses)
 
         val additionalStatuses = (10 downTo 6)
             .map { makeStatus(it.toString()) }
 
-        whenever(
-            timelineRepository.getStatuses(
-                null,
-                "5",
-                "4",
-                LOAD_AT_ONCE,
-                TimelineRequestMode.NETWORK
-            )
-        ).thenReturn(Single.just(additionalStatuses.toEitherList()))
+        setInitialRefresh(additionalStatuses + cachedStatuses)
 
         runBlocking {
             viewModel.loadInitial()
@@ -309,19 +351,10 @@ class TimelineViewModelTest {
     fun refresh() {
         val cachedStatuses = (5 downTo 1).map { makeStatus(it.toString()) }
         setCachedResponse(cachedStatuses)
-        setInitialRefresh("6", cachedStatuses)
 
         val additionalStatuses = listOf(makeStatus("6"))
 
-        whenever(
-            timelineRepository.getStatuses(
-                null,
-                "5",
-                "4",
-                LOAD_AT_ONCE,
-                TimelineRequestMode.NETWORK
-            )
-        ).thenReturn(Single.just(additionalStatuses.toEitherList()))
+        setInitialRefresh(additionalStatuses + cachedStatuses)
 
         runBlocking {
             viewModel.loadInitial()
@@ -335,12 +368,12 @@ class TimelineViewModelTest {
         whenever(
             timelineRepository.getStatuses(
                 null,
-                "6",
-                "5",
+                null,
+                null,
                 LOAD_AT_ONCE,
                 TimelineRequestMode.NETWORK
             )
-        ).thenReturn(Single.just(newStatuses.toEitherList()))
+        ).thenReturn(Single.just((newStatuses + additionalStatuses + cachedStatuses).toEitherList()))
 
         runBlocking {
             viewModel.refresh()
@@ -354,8 +387,7 @@ class TimelineViewModelTest {
     fun `refresh failed`() {
         val cachedStatuses = (5 downTo 1).map { makeStatus(it.toString()) }
         setCachedResponse(cachedStatuses)
-        setInitialRefresh("6", cachedStatuses)
-        setLoadAbove("5", "4", listOf())
+        setInitialRefresh(cachedStatuses)
 
         runBlocking {
             viewModel.loadInitial()
@@ -367,8 +399,8 @@ class TimelineViewModelTest {
         whenever(
             timelineRepository.getStatuses(
                 null,
-                "6",
-                "5",
+                null,
+                null,
                 LOAD_AT_ONCE,
                 TimelineRequestMode.NETWORK
             )
@@ -387,10 +419,7 @@ class TimelineViewModelTest {
     fun loadMore() {
         val cachedStatuses = (10 downTo 5).map { makeStatus(it.toString()) }
         setCachedResponse(cachedStatuses)
-        setInitialRefresh("11", cachedStatuses)
-
-        // Nothing above
-        setLoadAbove("10", "9", listOf())
+        setInitialRefresh(cachedStatuses)
 
         runBlocking {
             viewModel.loadInitial().join()
@@ -423,10 +452,7 @@ class TimelineViewModelTest {
     fun `loadMore parallel`() {
         val cachedStatuses = (10 downTo 5).map { makeStatus(it.toString()) }
         setCachedResponse(cachedStatuses)
-        setInitialRefresh("11", cachedStatuses)
-
-        // Nothing above
-        setLoadAbove("10", "9", listOf())
+        setInitialRefresh(cachedStatuses)
 
         runBlocking {
             viewModel.loadInitial().join()
@@ -477,10 +503,7 @@ class TimelineViewModelTest {
     fun `loadMore failed`() {
         val cachedStatuses = (10 downTo 5).map { makeStatus(it.toString()) }
         setCachedResponse(cachedStatuses)
-        setInitialRefresh("11", cachedStatuses)
-
-        // Nothing above
-        setLoadAbove("10", "9", listOf())
+        setInitialRefresh(cachedStatuses)
 
         runBlocking {
             viewModel.loadInitial().join()
@@ -542,10 +565,7 @@ class TimelineViewModelTest {
         )
 
         setCachedResponseWithGaps(cachedStatuses)
-        setInitialRefreshWithGaps("6", cachedStatuses)
-
-        // Nothing above
-        setLoadAbove("5", items = listOf())
+        setInitialRefreshWithGaps(cachedStatuses)
 
         whenever(
             timelineRepository.getStatuses(
@@ -584,9 +604,7 @@ class TimelineViewModelTest {
             Either.Right(status1)
         )
         setCachedResponseWithGaps(cachedStatuses)
-        setInitialRefreshWithGaps("6", cachedStatuses)
-
-        setLoadAbove("5", items = listOf())
+        setInitialRefreshWithGaps(cachedStatuses)
 
         whenever(
             timelineRepository.getStatuses(
@@ -620,8 +638,7 @@ class TimelineViewModelTest {
         val status3 = makeStatus("3")
         val statuses = listOf(status5, status4, status3)
         setCachedResponse(statuses)
-        setInitialRefresh("6", statuses)
-        setLoadAbove("5", "4", listOf())
+        setInitialRefresh(listOf())
 
         runBlocking { viewModel.loadInitial() }
 
@@ -644,8 +661,7 @@ class TimelineViewModelTest {
         val status3 = makeStatus("3")
         val statuses = listOf(status5, status4, status3)
         setCachedResponse(statuses)
-        setInitialRefresh("6", statuses)
-        setLoadAbove("5", "4", listOf())
+        setInitialRefresh(statuses)
 
         runBlocking { viewModel.loadInitial() }
 
@@ -668,8 +684,7 @@ class TimelineViewModelTest {
         val status3 = makeStatus("3")
         val statuses = listOf(status5, status4, status3)
         setCachedResponse(statuses)
-        setInitialRefresh("6", statuses)
-        setLoadAbove("5", "4", listOf())
+        setInitialRefresh(statuses)
 
         runBlocking { viewModel.loadInitial() }
 
@@ -702,8 +717,7 @@ class TimelineViewModelTest {
         val status3 = makeStatus("3")
         val statuses = listOf(status5, status4, status3)
         setCachedResponse(statuses)
-        setInitialRefresh("6", statuses)
-        setLoadAbove("5", "4", listOf())
+        setInitialRefresh(statuses)
 
         runBlocking { viewModel.loadInitial() }
 
@@ -720,22 +734,6 @@ class TimelineViewModelTest {
         assertHasList(listOf(status5, status4.copy(poll = votedPoll), status3).toViewData())
     }
 
-    private fun setLoadAbove(
-        above: String,
-        aboveMinusOne: String? = null,
-        items: List<TimelineStatus>
-    ) {
-        whenever(
-            timelineRepository.getStatuses(
-                null,
-                above,
-                aboveMinusOne,
-                LOAD_AT_ONCE,
-                TimelineRequestMode.NETWORK
-            )
-        ).thenReturn(Single.just(items))
-    }
-
     private fun assertHasList(aList: List<StatusViewData>) {
         assertEquals(
             aList,
@@ -747,8 +745,8 @@ class TimelineViewModelTest {
         assertTrue("There were view updates", updates.values().isNotEmpty())
     }
 
-    private fun setInitialRefresh(maxId: String?, statuses: List<Status>) {
-        setInitialRefreshWithGaps(maxId, statuses.toEitherList())
+    private fun setInitialRefresh(statuses: List<Status>) {
+        setInitialRefreshWithGaps(statuses.toEitherList())
     }
 
     private fun setCachedResponse(initialResponse: List<Status>) {
@@ -768,10 +766,10 @@ class TimelineViewModelTest {
             .thenReturn(Single.just(initialResponse))
     }
 
-    private fun setInitialRefreshWithGaps(maxId: String?, statuses: List<TimelineStatus>) {
+    private fun setInitialRefreshWithGaps(statuses: List<TimelineStatus>) {
         whenever(
             timelineRepository.getStatuses(
-                maxId,
+                null,
                 null,
                 null,
                 LOAD_AT_ONCE,

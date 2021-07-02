@@ -126,47 +126,6 @@ class TimelineViewModel @Inject constructor(
         reloadFilters()
     }
 
-    private suspend fun updateCurrent() {
-        val topId = statuses.firstIsInstanceOrNull<StatusViewData.Concrete>()?.id ?: return
-        // Request statuses including current top to refresh all of them
-        val topIdMinusOne = topId.inc()
-        val statuses = try {
-            loadStatuses(
-                maxId = topIdMinusOne,
-                sinceId = null,
-                sinceIdMinusOne = null,
-                TimelineRequestMode.NETWORK,
-            )
-        } catch (t: Exception) {
-            initialUpdateFailed = true
-            if (isExpectedRequestException(t)) {
-                Log.d(TAG, "Failed updating timeline", t)
-                triggerViewUpdate()
-                return
-            } else {
-                throw t
-            }
-        }
-
-        initialUpdateFailed = false
-
-        // When cached timeline is too old, we would replace it with nothing
-        if (statuses.isNotEmpty()) {
-            val mutableStatuses = statuses.toMutableList()
-            filterStatuses(mutableStatuses)
-            this.statuses.removeAll { item ->
-                val id = when (item) {
-                    is StatusViewData.Concrete -> item.id
-                    is StatusViewData.Placeholder -> item.id
-                }
-
-                id == topId || id.isLessThan(topId)
-            }
-            this.statuses.addAll(mutableStatuses.toViewData())
-        }
-        triggerViewUpdate()
-    }
-
     private fun isExpectedRequestException(t: Exception) = t is IOException || t is HttpException
 
     fun refresh(): Job {
@@ -176,7 +135,6 @@ class TimelineViewModel @Inject constructor(
             triggerViewUpdate()
 
             try {
-                if (initialUpdateFailed) updateCurrent()
                 loadAbove()
             } catch (e: Exception) {
                 if (isExpectedRequestException(e)) {
@@ -458,34 +416,45 @@ class TimelineViewModel @Inject constructor(
         return statuses
     }
 
+    /** Insert statuses from above taking overlaps into account and adding gap if needed. */
     private fun updateStatuses(
         newStatuses: MutableList<Either<Placeholder, Status>>,
         fullFetch: Boolean
     ) {
+        // What we want to do here is:
+        // 1. Find out if there's an overlap between old and new. If there is one, take overlap
+        // from the server:
+        // server: [5, 4, 3, 2]
+        // cached:       [3, 2, 1]
+        // result: [5, 4, 3, 2, 1], index = 2
+        //
+        // 2. If there's none and it was full fetch then insert a gap:
+        // server: [9, 8, 7, 6]
+        // cached:             [4, 3, 2, 1]
+        // result: [9, 8, 7, 6, 5, 4, 3, 2, 1]
+        //                      ^ placeholder
+        // (assuming LOAD_AT_ONE = 4)
+
         if (statuses.isEmpty()) {
             statuses.addAll(newStatuses.toViewData())
         } else {
             val lastOfNew = newStatuses.lastOrNull()
             val index = if (lastOfNew == null) -1
-            else statuses.indexOfLast { it.asStatusOrNull()?.id === lastOfNew.asRightOrNull()?.id }
+            else statuses.indexOfFirst { it.asStatusOrNull()?.id == lastOfNew.asRightOrNull()?.id }
+            Log.d(TAG, "updateStatuses: clearing up to $index")
             if (index >= 0) {
-                statuses.subList(0, index).clear()
+                statuses.subList(0, index + 1).clear()
             }
 
-            val newIndex =
-                newStatuses.indexOfFirst {
-                    it.isRight() && it.asRight().id == (statuses[0] as? StatusViewData.Concrete)?.id
-                }
-            if (newIndex == -1) {
-                if (index == -1 && fullFetch) {
-                    val placeholderId =
-                        newStatuses.last { status -> status.isRight() }.asRight().id.inc()
-                    newStatuses.add(Either.Left(Placeholder(placeholderId)))
-                }
-                statuses.addAll(0, newStatuses.toViewData())
-            } else {
-                statuses.addAll(0, newStatuses.subList(0, newIndex).toViewData())
+            // If we loaded max and didn't find overlap then there might be a gap
+            if (index == -1 && fullFetch) {
+                val placeholderId =
+                    newStatuses.last { status -> status.isRight() }.asRight().id.inc()
+                Log.d(TAG, "updateStatuses: Adding placeholder for ")
+                newStatuses.add(Either.Left(Placeholder(placeholderId)))
             }
+
+            statuses.addAll(0, newStatuses.toViewData())
         }
         // Remove all consecutive placeholders
         removeConsecutivePlaceholders()
@@ -526,7 +495,6 @@ class TimelineViewModel @Inject constructor(
                 .await()
 
         val mutableStatusResponse = statuses.toMutableList()
-        filterStatuses(mutableStatusResponse)
         if (statuses.size > 1) {
             clearPlaceholdersForResponse(mutableStatusResponse)
             this.statuses.clear()
@@ -548,7 +516,6 @@ class TimelineViewModel @Inject constructor(
                 tryCache()
                 isLoadingInitially = statuses.isEmpty()
                 triggerViewUpdate()
-                updateCurrent()
                 try {
                     loadAbove()
                 } catch (e: Exception) {
@@ -580,31 +547,14 @@ class TimelineViewModel @Inject constructor(
     }
 
     private suspend fun loadAbove() {
-        var firstOrNull: String? = null
-        var secondOrNull: String? = null
-        for (i in statuses.indices) {
-            val status = statuses[i].asStatusOrNull() ?: continue
-            firstOrNull = status.id
-            secondOrNull = statuses.getOrNull(i + 1)?.asStatusOrNull()?.id
-            break
-        }
-
         try {
-            if (firstOrNull != null) {
-                triggerViewUpdate()
-
-                val statuses = loadStatuses(
-                    maxId = null,
-                    sinceId = firstOrNull,
-                    sinceIdMinusOne = secondOrNull,
-                    homeMode = TimelineRequestMode.NETWORK
-                )
-
-                val fullFetch = isFullFetch(statuses)
-                updateStatuses(statuses.toMutableList(), fullFetch)
-            } else {
-                loadBelow(null)
-            }
+            val statuses = loadStatuses(
+                maxId = null,
+                sinceId = null,
+                sinceIdMinusOne = null,
+                TimelineRequestMode.NETWORK
+            )
+            updateStatuses(statuses.toMutableList(), isFullFetch(statuses))
         } finally {
             triggerViewUpdate()
         }
