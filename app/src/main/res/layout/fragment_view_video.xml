@@ -20,6 +20,7 @@
         android:textAlignment="center"
         android:textColor="#eee"
         android:textSize="?attr/status_text_medium"
+        android:scrollbars="vertical"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Some media description" />
 

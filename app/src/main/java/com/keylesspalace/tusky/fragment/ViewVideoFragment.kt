@@ -21,6 +21,7 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.text.method.ScrollingMovementMethod
 import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
@@ -79,6 +80,7 @@ class ViewVideoFragment : ViewMediaFragment() {
     ) {
         binding.mediaDescription.text = description
         binding.mediaDescription.visible(showingDescription)
+        binding.mediaDescription.movementMethod = ScrollingMovementMethod()
 
         binding.videoView.transitionName = url
         binding.videoView.setVideoPath(url)
