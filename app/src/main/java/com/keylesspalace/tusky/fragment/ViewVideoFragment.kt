@@ -125,7 +125,10 @@ class ViewVideoFragment : ViewMediaFragment() {
             val videoWidth = mp.videoWidth.toFloat()
             val videoHeight = mp.videoHeight.toFloat()
 
-            if (containerWidth / containerHeight > videoWidth / videoHeight) {
+            if (isAudio) {
+                binding.videoView.layoutParams.height = 1
+                binding.videoView.layoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT
+            } else if (containerWidth / containerHeight > videoWidth / videoHeight) {
                 binding.videoView.layoutParams.height = ViewGroup.LayoutParams.MATCH_PARENT
                 binding.videoView.layoutParams.width = ViewGroup.LayoutParams.WRAP_CONTENT
             } else {
