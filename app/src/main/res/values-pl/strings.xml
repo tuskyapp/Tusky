@@ -482,7 +482,7 @@
     </plurals>
     <string name="drafts_failed_loading_reply">Nie udało się załadować informacji o odpowiedzi</string>
     <string name="drafts_post_failed_to_send">Przesłanie wpisu nie powiodło się!</string>
-    <string name="dialog_delete_list_warning">Czy na pewno chcesz usunąć listę %1$s\?</string>
+    <string name="dialog_delete_list_warning">Czy na pewno chcesz usunąć listę %1$s?</string>
     <string name="no_announcements">Nie ma ogłoszeń.</string>
     <string name="limit_notifications">Ogranicz liczbę powiadomień o zmianach na osi czasu</string>
     <string name="label_duration">Czas trwania</string>
@@ -514,7 +514,7 @@
     <string name="notification_subscription_description">Powiadomienia o opublikowaniu nowego wpisu przez kogoś, kogo obserwujesz</string>
     <string name="pref_main_nav_position">Pozycja głównego paska nawigacji</string>
     <string name="pref_title_animate_custom_emojis">Animuj niestandardowe emoji</string>
-    <string name="dialog_delete_conversation_warning">Usunąć tą konwersację\?</string>
+    <string name="dialog_delete_conversation_warning">Usunąć tą konwersację?</string>
     <string name="action_delete_conversation">Usuń konwersację</string>
     <string name="notification_subscription_format">%1$s opublikował/a post</string>
     <string name="notification_follow_request_format">%1$s poprosił/a o możliwość obserwowania Cię</string>
