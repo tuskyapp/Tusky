@@ -1,0 +1,5 @@
+Tusky v15.0
+
+- Prośby o zezwolenie na obserwowanie są teraz wyświetlane na menu głównym
+- Design wyboru czasu wysłania zaplanowanych wpisów jest bardziej zgodny z resztą aplikacji
+Pełna lista zmian: https://github.com/tuskyapp/Tusky/releases
