@@ -335,10 +335,10 @@
     <string name="about_tusky_version">Tusky %s</string>
     <string name="description_account_locked">Cunntas glaiste</string>
     <plurals name="notification_title_summary">
-        <item quantity="one">%d eadar-ghabhail ùr</item>
-        <item quantity="two">%d eadar-ghabhail ùr</item>
-        <item quantity="few">%d eadar-ghabhailean ùra</item>
-        <item quantity="other">%d eadar-ghabhail ùr</item>
+        <item quantity="one">%d chonaltradh ùr</item>
+        <item quantity="two">%d chonaltradh ùr</item>
+        <item quantity="few">%d conaltraidhean ùra</item>
+        <item quantity="other">%d conaltradh ùr</item>
     </plurals>
     <string name="notification_summary_small">%1$s ’s %2$s</string>
     <string name="notification_summary_medium">%1$s, %2$s ’s %3$s</string>
@@ -530,4 +530,6 @@
     <string name="error_network">Thachair mearachd leis an lìonra! Thoir sùil air a’ cheangal agad is feuch ris a-rithist!</string>
     <string name="error_generic">Thachair mearachd.</string>
     <string name="follow_requests_info">Ged nach eil an cunntas agad glaiste, tha sgioba %1$s dhen bheachd gum b’ fheàirrde thu lèirmheas a dhèanamh air na h-iarrtasan leantainn o na cunntasan seo a làimh.</string>
+    <string name="dialog_delete_conversation_warning">A bheil thu airson an còmhradh seo a sguabadh às\?</string>
+    <string name="action_delete_conversation">Sguab às an còmhradh</string>
 </resources>
