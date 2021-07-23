@@ -437,14 +437,14 @@
     <string name="notification_follow_request_format">%1$s a demandat a vos seguir</string>
     <string name="pref_title_show_cards_in_timelines">Mostrar los apercebuts dels ligams</string>
     <string name="notification_subscription_description">Notificacions quand qualqu’un que seguissètz publica una publicacion novèla</string>
-    <string name="dialog_delete_conversation_warning">Suprimir aquesta conversacion \?</string>
+    <string name="dialog_delete_conversation_warning">Suprimir aquesta conversacion ?</string>
     <string name="notification_subscription_format">%1$s ven de publicar</string>
     <string name="action_unsubscribe_account">Quitar de seguir</string>
     <string name="action_subscribe_account">Seguir</string>
     <string name="draft_deleted">Borrolhon suprimit</string>
     <string name="drafts_failed_loading_reply">Fracàs del cargament de las info de responsa</string>
     <string name="drafts_post_failed_to_send">Fracàs de l’enviament !</string>
-    <string name="dialog_delete_list_warning">Volètz vertadièrament suprimir la lista %1$s \?</string>
+    <string name="dialog_delete_list_warning">Volètz vertadièrament suprimir la lista %1$s ?</string>
     <string name="review_notifications">Repassar las notificacions</string>
     <string name="account_note_saved">Enregistrat !</string>
     <string name="account_note_hint">Vòstra nòta privada tocant aqueste compte</string>
@@ -465,8 +465,8 @@
     <string name="pref_main_nav_position">Posicion de navigacion principala</string>
     <string name="pref_title_animate_custom_emojis">Emoji animats personalizats</string>
     <string name="pref_title_gradient_for_media">Afichar un degradat colorat pels mèdias amagats</string>
-    <string name="dialog_mute_warning">Amagar @%1$s \?</string>
-    <string name="dialog_block_warning">Blocar @%1$s \?</string>
+    <string name="dialog_mute_warning">Amagar @%1$s ?</string>
+    <string name="dialog_block_warning">Blocar @%1$s ?</string>
     <string name="dialog_mute_hide_notifications">Amagar las notificacions</string>
     <string name="action_unmute_conversation">Amagar pas mai la conversacion</string>
     <string name="action_mute_conversation">Amagar la conversacion</string>
