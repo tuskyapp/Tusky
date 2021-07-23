@@ -1,0 +1,8 @@
+Tusky v12.0
+
+- Ulepszony interfejs - teraz można przenieść zakładki na dół ekranu
+- Podczas wyciszania użytkownika można teraz wyciszyć wysłane przez niego powiadomienia
+- Można teraz obserwować kilka hashtagów w jednej zakładce
+- Ulepszono sposób, w jaki są wyświetlane opisy załączników
+
+Pełna lista zmian: https://github.com/tuskyapp/Tusky/releases

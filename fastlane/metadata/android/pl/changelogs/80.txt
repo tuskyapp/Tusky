@@ -1,0 +1,7 @@
+Tusky v14.0
+
+- Otrzymaj powiadomienie gdy użytkownik, którego obserwujesz, prześle wpis - kliknij na ikonkę dzwonka na ich profilu! (Funkcja dostępna w Mastodonie 3.3.0)
+- Szkice zostały przeprojektowane, by ułatwić ich używanie.
+- Nowy tryb samopoczucia, który pozwala Ci limitować niektóre funkcje.
+- Dodano funkcję animowania niestandardowych emoji.
+Pełna lista zmian: https://github.com/tuskyapp/Tusky/releases

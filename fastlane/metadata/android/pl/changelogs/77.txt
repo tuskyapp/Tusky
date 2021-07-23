@@ -1,0 +1,10 @@
+Tusky v13.0
+
+- Wsparcie dla opisów profilów (Funkcja dostępna w Mastodonie 3.2.0)
+- Wsparcie dla ogłoszeń od administracji (Funkcja dostępna w Mastodonie 3.1.0)
+
+- Zdjęcie profilowe wybranego konta widnieje teraz w głównym pasku nawigacyjnym
+- Kliknięcie nazwy użytkownika na osi czasu teraz otwiera profil tego użytkownika
+
+- Wiele małych poprawek
+- Ulepszone tłumaczenia
