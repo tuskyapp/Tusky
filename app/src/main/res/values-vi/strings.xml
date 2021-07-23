@@ -68,13 +68,13 @@
     <string name="dialog_download_image">Tải về</string>
     <string name="dialog_message_uploading_media">Đang tải…</string>
     <string name="dialog_title_finishing_media_upload">Đã tải xong tập tin</string>
-    <string name="dialog_whats_an_instance">Bạn phải nhập một tên miền, ví dụ mastodon.social, icosahedron.website, social.tchncs.de, và <a href="https://instances.social">vô số khác!</a> 
+    <string name="dialog_whats_an_instance">Bạn phải nhập một tên miền. Ví dụ mastodon.social, icosahedron.website, social.tchncs.de và <a href="https://instances.social">vô số khác!</a> 
 \n 
-\nNếu chưa có tài khoản, bạn phải tạo tài khoản trước ở đó. 
+\nNếu chưa có tài khoản, bạn phải tạo tài khoản ở đó trước. 
 \n 
-\nMáy chủ, nói cách khác là một cộng đồng nơi mà tài khoản của bạn lưu trữ trên đó, nhưng bạn vẫn có thể dễ dàng giao tiếp và theo dõi mọi người trên các máy chủ khác. 
+\nMáy chủ, nói cách khác là một cộng đồng nơi mà bạn đăng ký tài khoản trên đó, nhưng bạn vẫn có thể dễ dàng giao tiếp và theo dõi mọi người trên các máy chủ khác. 
 \n 
-\nTham khảo <a href="https://joinmastodon.org">joinmastodon.org</a>. </string>
+\nTham khảo <a href="https://joinmastodon.org">joinmastodon.org</a> </string>
     <string name="login_connection">Đang kết nối…</string>
     <string name="label_header">Ảnh bìa</string>
     <string name="label_avatar">Ảnh đại diện</string>
@@ -208,8 +208,8 @@
     <string name="pref_title_status_tabs">Tabs</string>
     <string name="pref_title_status_filter">Lọc bảng tin</string>
     <string name="pref_title_gradient_for_media">Che mờ nội dung nhạy cảm</string>
-    <string name="pref_title_animate_gif_avatars">Hiện ảnh đại diện GIF</string>
-    <string name="pref_title_bot_overlay">Hiện icon cho tài khoản Bot</string>
+    <string name="pref_title_animate_gif_avatars">Ảnh đại diện GIF</string>
+    <string name="pref_title_bot_overlay">Icon cho tài khoản Bot</string>
     <string name="pref_title_language">Ngôn ngữ</string>
     <string name="pref_title_hide_follow_button">Ẩn nút viết tút khi xem bảng tin</string>
     <string name="pref_title_custom_tabs">Mở luôn trong app</string>
@@ -253,7 +253,7 @@
     <string name="status_text_size_medium">Trung bình</string>
     <string name="status_text_size_small">Nhỏ vừa</string>
     <string name="status_text_size_smallest">Nhỏ</string>
-    <string name="pref_status_text_size">Kích thức phông chữ</string>
+    <string name="pref_status_text_size">Phông chữ</string>
     <string name="post_privacy_followers_only">Riêng tư</string>
     <string name="post_privacy_unlisted">Bán công</string>
     <string name="post_privacy_public">Công khai</string>
@@ -263,7 +263,7 @@
     <string name="pref_failed_to_sync">Đồng bộ hoá thất bại</string>
     <string name="pref_publishing">Đăng (đồng bộ với máy chủ)</string>
     <string name="pref_default_media_sensitivity">Tài khoản nhạy cảm</string>
-    <string name="pref_default_post_privacy">Trạng thái tút mặc định</string>
+    <string name="pref_default_post_privacy">Kiểu tút mặc định</string>
     <string name="pref_title_http_proxy_server">Máy chủ proxy</string>
     <string name="pref_title_http_proxy_port">Cổng</string>
     <string name="pref_title_http_proxy_enable">Bật proxy</string>
@@ -288,8 +288,8 @@
     <string name="filter_edit_dialog_title">Sửa bộ lọc</string>
     <string name="filter_addition_dialog_title">Thêm bộ lọc</string>
     <string name="pref_title_thread_filter_keywords">Chủ đề</string>
-    <string name="pref_title_public_filter_keywords">Cộng đồng</string>
-    <string name="load_more_placeholder_text">xem thêm</string>
+    <string name="pref_title_public_filter_keywords">Thế giới</string>
+    <string name="load_more_placeholder_text">xem tiếp</string>
     <string name="replying_to">Trả lời @%s</string>
     <string name="title_media">Media</string>
     <string name="pref_title_alway_open_spoiler">Luôn hiện nội dung bị ẩn</string>
@@ -311,7 +311,7 @@
     <string name="status_share_link">URL tút</string>
     <string name="status_share_content">Nội dung của tút</string>
     <string name="about_tusky_account">Trang cá nhân Tusky</string>
-    <string name="pref_title_confirm_reblogs">Hiện xác nhận trước khi chia sẻ</string>
+    <string name="pref_title_confirm_reblogs">Xác nhận trước khi chia sẻ</string>
     <string name="pref_title_show_cards_in_timelines">Hiện xem trước của link</string>
     <string name="warning_scheduling_interval">Mastodon giới hạn tối thiểu 5 phút.</string>
     <string name="no_scheduled_status">Bạn không có tút đã lên lịch.</string>
@@ -429,7 +429,7 @@
     <string name="performing_lookup_title">Đang tìm kiếm…</string>
     <string name="download_fonts">Bạn cần tải về bộ emoji này trước</string>
     <string name="system_default">Mặc định của thiết bị</string>
-    <string name="emoji_style">Kiểu Emoji</string>
+    <string name="emoji_style">Emoji</string>
     <string name="copy_to_clipboard_success">Đã chép vào clipboard</string>
     <string name="action_compose_shortcut">Viết</string>
     <string name="compose_save_draft">Lưu nháp\?</string>
@@ -453,7 +453,7 @@
     <string name="add_account_description">Thêm tài khoản Mastodon</string>
     <string name="add_account_name">Thêm tài khoản</string>
     <string name="filter_add_description">Thêm mô tả</string>
-    <string name="filter_dialog_whole_word_description">Bất kể từ khóa là từ hoặc cụm từ, những kết quả hiện ra sẽ giống hệt như bạn nhập</string>
+    <string name="filter_dialog_whole_word_description">Chỉ áp dụng nếu từ khóa là chữ-số trùng khớp, viết liền không dấu cách</string>
     <string name="description_status_media">Media: %s</string>
     <string name="dialog_mute_hide_notifications">Ẩn thông báo</string>
     <string name="action_mute_notifications_desc">Ẩn thông báo từ %s</string>
@@ -467,7 +467,7 @@
     <string name="title_announcements">Có gì mới\?</string>
     <string name="wellbeing_hide_stats_profile">Ẩn số liệu trên trang cá nhân</string>
     <string name="wellbeing_hide_stats_posts">Ẩn số liệu trên tút</string>
-    <string name="limit_notifications">Hạn chế thông báo trên bảng tin</string>
+    <string name="limit_notifications">Giảm bớt thông báo</string>
     <string name="review_notifications">Chọn loại thông báo</string>
     <string name="wellbeing_mode_notice">Các thông tin ảnh hưởng tới tâm lý hành vi của bạn sẽ bị ẩn. Bao gồm:
 \n
