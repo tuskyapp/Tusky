@@ -140,7 +140,7 @@ class TimelineRepositoryImpl(
         return timelineDao.getStatusesForAccount(accountId, maxId, sinceId, limit)
             .subscribeOn(Schedulers.io())
             .map { statuses ->
-                statuses.map { it.toStatus() }
+                statuses.map { it.toStatus(gson) }
             }
     }
 
@@ -223,113 +223,7 @@ class TimelineRepositoryImpl(
         }
     }
 
-    private fun TimelineStatusWithAccount.toStatus(): TimelineStatus {
-        if (this.status.authorServerId == null) {
-            return Either.Left(Placeholder(this.status.serverId))
-        }
 
-        val attachments: ArrayList<Attachment> = gson.fromJson(
-            status.attachments,
-            object : TypeToken<List<Attachment>>() {}.type
-        ) ?: ArrayList()
-        val mentions: List<Status.Mention> = gson.fromJson(
-            status.mentions,
-            object : TypeToken<List<Status.Mention>>() {}.type
-        ) ?: listOf()
-        val application = gson.fromJson(status.application, Status.Application::class.java)
-        val emojis: List<Emoji> = gson.fromJson(
-            status.emojis,
-            object : TypeToken<List<Emoji>>() {}.type
-        ) ?: listOf()
-        val poll: Poll? = gson.fromJson(status.poll, Poll::class.java)
-
-        val reblog = status.reblogServerId?.let { id ->
-            Status(
-                id = id,
-                url = status.url,
-                account = account.toAccount(gson),
-                inReplyToId = status.inReplyToId,
-                inReplyToAccountId = status.inReplyToAccountId,
-                reblog = null,
-                content = status.content?.parseAsHtml()?.trimTrailingWhitespace()
-                    ?: SpannedString(""),
-                createdAt = Date(status.createdAt),
-                emojis = emojis,
-                reblogsCount = status.reblogsCount,
-                favouritesCount = status.favouritesCount,
-                reblogged = status.reblogged,
-                favourited = status.favourited,
-                bookmarked = status.bookmarked,
-                sensitive = status.sensitive,
-                spoilerText = status.spoilerText!!,
-                visibility = status.visibility!!,
-                attachments = attachments,
-                mentions = mentions,
-                application = application,
-                pinned = false,
-                muted = status.muted,
-                poll = poll,
-                card = null
-            )
-        }
-        val status = if (reblog != null) {
-            Status(
-                id = status.serverId,
-                url = null, // no url for reblogs
-                account = this.reblogAccount!!.toAccount(gson),
-                inReplyToId = null,
-                inReplyToAccountId = null,
-                reblog = reblog,
-                content = SpannedString(""),
-                createdAt = Date(status.createdAt), // lie but whatever?
-                emojis = listOf(),
-                reblogsCount = 0,
-                favouritesCount = 0,
-                reblogged = false,
-                favourited = false,
-                bookmarked = false,
-                sensitive = false,
-                spoilerText = "",
-                visibility = status.visibility!!,
-                attachments = ArrayList(),
-                mentions = listOf(),
-                application = null,
-                pinned = false,
-                muted = status.muted,
-                poll = null,
-                card = null
-            )
-        } else {
-            Status(
-                id = status.serverId,
-                url = status.url,
-                account = account.toAccount(gson),
-                inReplyToId = status.inReplyToId,
-                inReplyToAccountId = status.inReplyToAccountId,
-                reblog = null,
-                content = status.content?.parseAsHtml()?.trimTrailingWhitespace()
-                    ?: SpannedString(""),
-                createdAt = Date(status.createdAt),
-                emojis = emojis,
-                reblogsCount = status.reblogsCount,
-                favouritesCount = status.favouritesCount,
-                reblogged = status.reblogged,
-                favourited = status.favourited,
-                bookmarked = status.bookmarked,
-                sensitive = status.sensitive,
-                spoilerText = status.spoilerText!!,
-                visibility = status.visibility!!,
-                attachments = attachments,
-                mentions = mentions,
-                application = application,
-                pinned = false,
-                muted = status.muted,
-                poll = poll,
-                card = null
-            )
-        }
-        return Either.Right(status)
-    }
 }
 
 private val emojisListTypeToken = object : TypeToken<List<Emoji>>() {}
@@ -433,3 +327,111 @@ fun Status.toEntity(
 }
 
 fun Status.lift(): Either<Placeholder, Status> = Either.Right(this)
+
+fun TimelineStatusWithAccount.toStatus(gson: Gson): TimelineStatus {
+    if (this.status.authorServerId == null) {
+        return Either.Left(Placeholder(this.status.serverId))
+    }
+
+    val attachments: ArrayList<Attachment> = gson.fromJson(
+        status.attachments,
+        object : TypeToken<List<Attachment>>() {}.type
+    ) ?: ArrayList()
+    val mentions: List<Status.Mention> = gson.fromJson(
+        status.mentions,
+        object : TypeToken<List<Status.Mention>>() {}.type
+    ) ?: listOf()
+    val application = gson.fromJson(status.application, Status.Application::class.java)
+    val emojis: List<Emoji> = gson.fromJson(
+        status.emojis,
+        object : TypeToken<List<Emoji>>() {}.type
+    ) ?: listOf()
+    val poll: Poll? = gson.fromJson(status.poll, Poll::class.java)
+
+    val reblog = status.reblogServerId?.let { id ->
+        Status(
+            id = id,
+            url = status.url,
+            account = account.toAccount(gson),
+            inReplyToId = status.inReplyToId,
+            inReplyToAccountId = status.inReplyToAccountId,
+            reblog = null,
+            content = status.content?.parseAsHtml()?.trimTrailingWhitespace()
+                ?: SpannedString(""),
+            createdAt = Date(status.createdAt),
+            emojis = emojis,
+            reblogsCount = status.reblogsCount,
+            favouritesCount = status.favouritesCount,
+            reblogged = status.reblogged,
+            favourited = status.favourited,
+            bookmarked = status.bookmarked,
+            sensitive = status.sensitive,
+            spoilerText = status.spoilerText!!,
+            visibility = status.visibility!!,
+            attachments = attachments,
+            mentions = mentions,
+            application = application,
+            pinned = false,
+            muted = status.muted,
+            poll = poll,
+            card = null
+        )
+    }
+    val status = if (reblog != null) {
+        Status(
+            id = status.serverId,
+            url = null, // no url for reblogs
+            account = this.reblogAccount!!.toAccount(gson),
+            inReplyToId = null,
+            inReplyToAccountId = null,
+            reblog = reblog,
+            content = SpannedString(""),
+            createdAt = Date(status.createdAt), // lie but whatever?
+            emojis = listOf(),
+            reblogsCount = 0,
+            favouritesCount = 0,
+            reblogged = false,
+            favourited = false,
+            bookmarked = false,
+            sensitive = false,
+            spoilerText = "",
+            visibility = status.visibility!!,
+            attachments = ArrayList(),
+            mentions = listOf(),
+            application = null,
+            pinned = false,
+            muted = status.muted,
+            poll = null,
+            card = null
+        )
+    } else {
+        Status(
+            id = status.serverId,
+            url = status.url,
+            account = account.toAccount(gson),
+            inReplyToId = status.inReplyToId,
+            inReplyToAccountId = status.inReplyToAccountId,
+            reblog = null,
+            content = status.content?.parseAsHtml()?.trimTrailingWhitespace()
+                ?: SpannedString(""),
+            createdAt = Date(status.createdAt),
+            emojis = emojis,
+            reblogsCount = status.reblogsCount,
+            favouritesCount = status.favouritesCount,
+            reblogged = status.reblogged,
+            favourited = status.favourited,
+            bookmarked = status.bookmarked,
+            sensitive = status.sensitive,
+            spoilerText = status.spoilerText!!,
+            visibility = status.visibility!!,
+            attachments = attachments,
+            mentions = mentions,
+            application = application,
+            pinned = false,
+            muted = status.muted,
+            poll = poll,
+            card = null
+        )
+    }
+    return Either.Right(status)
+}

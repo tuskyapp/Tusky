@@ -1,8 +1,9 @@
 package com.keylesspalace.tusky.components.timeline
 
+import com.keylesspalace.tusky.components.timeline.viewmodel.TimelineViewModel
 import android.content.SharedPreferences
 import com.keylesspalace.tusky.appstore.EventHub
-import com.keylesspalace.tusky.components.timeline.TimelineViewModel.Companion.LOAD_AT_ONCE
+import com.keylesspalace.tusky.components.timeline.viewmodel.TimelineViewModel.Companion.LOAD_AT_ONCE
 import com.keylesspalace.tusky.db.AccountEntity
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.entity.Poll

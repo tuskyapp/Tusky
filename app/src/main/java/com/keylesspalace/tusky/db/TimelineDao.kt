@@ -1,5 +1,6 @@
 package com.keylesspalace.tusky.db
 
+import androidx.paging.PagingSource
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy.IGNORE
@@ -19,6 +20,30 @@ abstract class TimelineDao {
 
     @Insert(onConflict = IGNORE)
     abstract fun insertStatusIfNotThere(timelineAccountEntity: TimelineStatusEntity): Long
+
+    @Query(
+        """
+SELECT s.serverId, s.url, s.timelineUserId,
+s.authorServerId, s.inReplyToId, s.inReplyToAccountId, s.createdAt,
+s.emojis, s.reblogsCount, s.favouritesCount, s.reblogged, s.favourited, s.bookmarked, s.sensitive,
+s.spoilerText, s.visibility, s.mentions, s.application, s.reblogServerId,s.reblogAccountId,
+s.content, s.attachments, s.poll, s.muted,
+a.serverId as 'a_serverId', a.timelineUserId as 'a_timelineUserId',
+a.localUsername as 'a_localUsername', a.username as 'a_username',
+a.displayName as 'a_displayName', a.url as 'a_url', a.avatar as 'a_avatar',
+a.emojis as 'a_emojis', a.bot as 'a_bot',
+rb.serverId as 'rb_serverId', rb.timelineUserId 'rb_timelineUserId',
+rb.localUsername as 'rb_localUsername', rb.username as 'rb_username',
+rb.displayName as 'rb_displayName', rb.url as 'rb_url', rb.avatar as 'rb_avatar',
+rb.emojis as'rb_emojis', rb.bot as 'rb_bot'
+FROM TimelineStatusEntity s
+LEFT JOIN TimelineAccountEntity a ON (s.timelineUserId = a.timelineUserId AND s.authorServerId = a.serverId)
+LEFT JOIN TimelineAccountEntity rb ON (s.timelineUserId = rb.timelineUserId AND s.reblogAccountId = rb.serverId)
+WHERE s.timelineUserId = :account
+ORDER BY LENGTH(s.serverId) DESC, s.serverId DESC"""
+    )
+    abstract fun getStatusesForAccount(account: Long): PagingSource<Int, TimelineStatusWithAccount>
+
 
     @Query(
         """
@@ -63,9 +88,9 @@ LIMIT :limit"""
 
     @Query(
         """DELETE FROM TimelineStatusEntity WHERE timelineUserId = :accountId AND
-        (LENGTH(serverId) < LENGTH(:maxId) OR LENGTH(serverId) == LENGTH(:maxId) AND serverId < :maxId)
+        (LENGTH(serverId) < LENGTH(:maxId) OR LENGTH(serverId) == LENGTH(:maxId) AND serverId <= :maxId)
 AND
-(LENGTH(serverId) > LENGTH(:minId) OR LENGTH(serverId) == LENGTH(:minId) AND serverId > :minId)
+(LENGTH(serverId) > LENGTH(:minId) OR LENGTH(serverId) == LENGTH(:minId) AND serverId >= :minId)
     """
     )
     abstract fun deleteRange(accountId: Long, minId: String, maxId: String)

@@ -85,9 +85,9 @@ interface MastodonApi {
 
     @GET("api/v1/timelines/home")
     fun homeTimeline(
-        @Query("max_id") maxId: String?,
-        @Query("since_id") sinceId: String?,
-        @Query("limit") limit: Int?
+        @Query("max_id") maxId: String? = null,
+        @Query("since_id") sinceId: String? = null,
+        @Query("limit") limit: Int? = null
     ): Single<Response<List<Status>>>
 
     @GET("api/v1/timelines/public")
