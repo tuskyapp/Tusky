@@ -183,6 +183,9 @@
     <string name="notification_summary_medium">%1$s, %2$s, i %3$s</string>
     <string name="notification_summary_small">%1$s i %2$s</string>
     <plurals name="notification_title_summary">
+        <item quantity="one">%d nowe powiadomienie</item>
+        <item quantity="few">%d nowe powiadomienia</item>
+        <item quantity="many">%d nowych powiadomień</item>
         <item quantity="other">%d nowych powiadomień</item>
     </plurals>
     <string name="description_account_locked">Konto zablokowane</string>
@@ -365,6 +368,9 @@
     <string name="conversation_2_recipients">%1$s i %2$s</string>
     <string name="conversation_more_recipients">%1$s, %2$s i %3$d innych</string>
     <plurals name="max_tab_number_reached">
+        <item quantity="one">maksymalna liczba zakładek (%1$d) osiągnięta</item>
+        <item quantity="few">maksymalna liczba zakładek (%1$d) osiągnięta</item>
+        <item quantity="many">maksymalna liczba zakładek (%1$d) osiągnięta</item>
         <item quantity="other">maksymalna liczba zakładek (%1$d) osiągnięta</item>
     </plurals>
     <string name="description_status_media">Media: %s</string>
@@ -487,4 +493,51 @@
     <string name="pref_title_hide_top_toolbar">Ukryj tytuł górnego paska narzędzi</string>
     <string name="pref_main_nav_position_option_bottom">Dół</string>
     <string name="pref_main_nav_position_option_top">Góra</string>
+    <plurals name="error_upload_max_media_reached">
+        <item quantity="one">Nie możesz przesłać więcej niż %1$d załącznika.</item>
+        <item quantity="few">Nie możesz przesłać więcej niż %1$d załączników.</item>
+        <item quantity="many">Nie możesz przesłać więcej niż %1$d załączników.</item>
+        <item quantity="other">Nie możesz przesłać więcej niż %1$d załączników.</item>
+    </plurals>
+    <string name="drafts_failed_loading_reply">Nie udało się załadować informacji o odpowiedzi</string>
+    <string name="drafts_toot_failed_to_send">Przesłanie wpisu nie powiodło się!</string>
+    <string name="dialog_delete_list_warning">Czy na pewno chcesz usunąć listę %s\?</string>
+    <string name="no_announcements">Nie ma ogłoszeń.</string>
+    <string name="limit_notifications">Ogranicz liczbę powiadomień o zmianach na osi czasu</string>
+    <string name="label_duration">Czas trwania</string>
+    <string name="notification_subscription_name">Nowe wpisy</string>
+    <string name="wellbeing_mode_notice">Niektóre informacje, które mogą wpływać na Twoj dobrostan psychiczny zostaną ukryte. W ich skład wchodzą: 
+\n
+\n - powiadomienia o ulubionych/podbiciach/obserwowaniu
+\n - liczba polubień/podbić toota
+\n - statystyki obserwujących/postów na profilach
+\n
+\nNie będzie to miało wpływu na powiadomienia typu push, ale możesz zmienić ustawienia powiadomień ręcznie.</string>
+    <string name="pref_title_enable_swipe_for_tabs">Włącz gest przesuwania by przełączać między zakładkami</string>
+    <string name="status_media_attachments">Załączniki</string>
+    <string name="notification_follow_request_description">Powiadomienia o prośbach o obserwowanie</string>
+    <string name="pref_title_notification_filter_subscriptions">ktoś kogo zasubskrybowałem/zasubskrybowałam opublikował nowy wpis</string>
+    <string name="pref_title_notification_filter_follow_requests">Wysłano prośbę o obserwowanie</string>
+    <string name="title_announcements">Ogłoszenia</string>
+    <string name="pref_title_wellbeing_mode">Samopoczucie</string>
+    <string name="action_unsubscribe_account">Anuluj subskrypcję</string>
+    <string name="action_subscribe_account">Zasubskrybuj</string>
+    <string name="follow_requests_info">Mimo tego, że twoje konto nie jest zablokowane, administracja %1$s uznała, że możesz chcieć ręcznie przejrzeć te prośby o możliwość śledzenia od tych kont.</string>
+    <string name="drafts_toot_reply_removed">Wpis dla którego naszkicowałeś/naszkicowałaś odpowiedź został usunięty</string>
+    <string name="draft_deleted">Usunięto szkic</string>
+    <string name="wellbeing_hide_stats_profile">Ukryj ilościowe statystyki na profilach</string>
+    <string name="wellbeing_hide_stats_posts">Ukryj ilościowe statystyki na postach</string>
+    <string name="review_notifications">Przejrzyj powiadomienia</string>
+    <string name="account_note_saved">Zapisano!</string>
+    <string name="account_note_hint">Twoja prywatna notatka o tym koncie</string>
+    <string name="duration_indefinite">Czas nieokreślony</string>
+    <string name="status_media_audio">Audio</string>
+    <string name="notification_subscription_description">Powiadomienia o opublikowaniu nowego wpisu przez kogoś, kogo obserwujesz</string>
+    <string name="pref_main_nav_position">Pozycja głównego paska nawigacji</string>
+    <string name="pref_title_animate_custom_emojis">Animuj niestandardowe emoji</string>
+    <string name="dialog_delete_conversation_warning">Usunąć tą konwersację\?</string>
+    <string name="action_unmute_notifications_desc">Wyłącz wyciszenie powiadomień od %s</string>
+    <string name="action_delete_conversation">Usuń konwersację</string>
+    <string name="notification_subscription_format">%s opublikował/a post</string>
+    <string name="notification_follow_request_format">%s poprosił(a) o możliwość śledzenia Cię</string>
 </resources>
