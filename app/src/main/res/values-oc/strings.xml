@@ -186,6 +186,7 @@
     <string name="notification_summary_medium">%1$s, %2$s e %3$s</string>
     <string name="notification_summary_small">%1$s e %2$s</string>
     <plurals name="notification_title_summary">
+        <item quantity="one">%d interaccion nòva</item>
         <item quantity="other">%d interaccions nòvas</item>
     </plurals>
     <string name="description_account_locked">Compte blocat</string>
@@ -345,6 +346,7 @@
     <string name="conversation_2_recipients">%1$s e %2$s</string>
     <string name="conversation_more_recipients">%1$s, %2$s e %3$d mai</string>
     <plurals name="max_tab_number_reached">
+        <item quantity="one">nombre maximum d’onglet %1$d atengut</item>
         <item quantity="other">nombre maximum d’onglets %1$d atengut</item>
     </plurals>
     <string name="description_status_media">Mèdia : %s</string>
@@ -459,4 +461,44 @@
     <string name="action_unmute_notifications_desc">Activar las notificacions per %s</string>
     <string name="action_unmute_desc">Amagar pas mai a %s</string>
     <string name="notification_follow_request_format">%s a demandat a vos seguir</string>
+    <string name="pref_title_show_cards_in_timelines">Mostrar los apercebuts dels ligams</string>
+    <string name="notification_subscription_description">Notificacions quand qualqu’un que seguissètz publica un tut novèl</string>
+    <string name="dialog_delete_conversation_warning">Suprimir aquesta conversacion \?</string>
+    <string name="notification_subscription_format">%s ven de publicar</string>
+    <string name="action_unsubscribe_account">Quitar de seguir</string>
+    <string name="action_subscribe_account">Seguir</string>
+    <string name="draft_deleted">Borrolhon suprimit</string>
+    <string name="drafts_failed_loading_reply">Fracàs del cargament de las info de responsa</string>
+    <string name="drafts_toot_failed_to_send">Fracàs de l’enviament !</string>
+    <string name="dialog_delete_list_warning">Volètz vertadièrament suprimir la lista %s \?</string>
+    <string name="review_notifications">Repassar las notificacions</string>
+    <string name="account_note_saved">Enregistrat !</string>
+    <string name="account_note_hint">Vòstra nòta privada tocant aqueste compte</string>
+    <string name="no_announcements">I a pas cap d’anóncia.</string>
+    <string name="duration_indefinite">Infinit</string>
+    <string name="label_duration">Durada</string>
+    <plurals name="poll_info_people">
+        <item quantity="one">% persona</item>
+        <item quantity="other">% personas</item>
+    </plurals>
+    <string name="add_hashtag_title">Apondre hashtag</string>
+    <string name="status_media_attachments">Pèças juntas</string>
+    <string name="status_media_audio">Àudio</string>
+    <string name="notification_subscription_name">Tuts novèls</string>
+    <string name="notification_follow_request_description">Notificacions de demandas de seguiment</string>
+    <string name="pref_main_nav_position_option_bottom">Enbàs</string>
+    <string name="pref_main_nav_position_option_top">Ennaut</string>
+    <string name="pref_main_nav_position">Posicion de navigacion principala</string>
+    <string name="pref_title_animate_custom_emojis">Emoji animats personalizats</string>
+    <string name="pref_title_gradient_for_media">Afichar un degradat colorat pels mèdias amagats</string>
+    <string name="pref_title_notification_filter_subscriptions">qualqu’un que seguissi a publicat un tut novèl</string>
+    <string name="pref_title_notification_filter_follow_requests">abonament demandat</string>
+    <string name="dialog_mute_warning">Amagar @%s \?</string>
+    <string name="dialog_block_warning">Blocar @%s \?</string>
+    <string name="dialog_mute_hide_notifications">Amagar las notificacions</string>
+    <string name="action_unmute_conversation">Amagar pas mai la conversacion</string>
+    <string name="action_mute_conversation">Amagar la conversacion</string>
+    <string name="action_unmute_domain">Amagar pas mai a %s</string>
+    <string name="action_delete_conversation">Suprimir la conversacion</string>
+    <string name="title_announcements">Anóncias</string>
 </resources>
