@@ -46,12 +46,11 @@ class TimelineRemoteMediator(
 
             val timelineDao = db.timelineDao()
 
-            if (loadType == LoadType.REFRESH) {
-                db.conversationDao().deleteForAccount(accountId)
-            }
             db.withTransaction {
-                if (statuses.isNotEmpty()) {
+                val overlappedStatuses = if (statuses.isNotEmpty()) {
                     timelineDao.deleteRange(accountId, statuses.last().id, statuses.first().id)
+                } else {
+                    0
                 }
 
                 for (status in statuses) {
@@ -62,18 +61,19 @@ class TimelineRemoteMediator(
                     )
                 }
 
-                if (loadType == LoadType.REFRESH ) {
-                    val linkHeader = statusResponse.headers()["Link"]
+                if (loadType == LoadType.REFRESH && overlappedStatuses == 0) {
+                    /*val linkHeader = statusResponse.headers()["Link"]
                     val links = HttpHeaderLink.parse(linkHeader)
                     val nextId = HttpHeaderLink.findByRelationType(links, "next")?.uri?.getQueryParameter("max_id")
 
                     val topId = state.firstItemOrNull()?.status?.serverId
 
-                    if (topId?.isLessThan(nextId!!) == true) {
-                        timelineDao.insertStatusIfNotThere(
-                            Placeholder(nextId!!).toEntity(accountId)
+                    Log.d("TimelineMediator", " topId: $topId")
+                    Log.d("TimelineMediator", "nextId: $nextId")*/
+
+                        timelineDao.insertStatus(
+                            Placeholder(statuses.last().id.dec()).toEntity(accountId)
                         )
-                    }
 
                 }
 
@@ -84,5 +84,5 @@ class TimelineRemoteMediator(
         }
     }
 
-    override suspend fun initialize() = InitializeAction.LAUNCH_INITIAL_REFRESH
+    override suspend fun initialize() = InitializeAction.SKIP_INITIAL_REFRESH
 }

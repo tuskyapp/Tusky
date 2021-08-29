@@ -16,10 +16,10 @@ abstract class TimelineDao {
     abstract fun insertAccount(timelineAccountEntity: TimelineAccountEntity): Long
 
     @Insert(onConflict = REPLACE)
-    abstract fun insertStatus(timelineAccountEntity: TimelineStatusEntity): Long
+    abstract fun insertStatus(timelineStatusEntity: TimelineStatusEntity): Long
 
     @Insert(onConflict = IGNORE)
-    abstract fun insertStatusIfNotThere(timelineAccountEntity: TimelineStatusEntity): Long
+    abstract fun insertStatusIfNotThere(timelineStatusEntity: TimelineStatusEntity): Long
 
     @Query(
         """
@@ -27,7 +27,7 @@ SELECT s.serverId, s.url, s.timelineUserId,
 s.authorServerId, s.inReplyToId, s.inReplyToAccountId, s.createdAt,
 s.emojis, s.reblogsCount, s.favouritesCount, s.reblogged, s.favourited, s.bookmarked, s.sensitive,
 s.spoilerText, s.visibility, s.mentions, s.application, s.reblogServerId,s.reblogAccountId,
-s.content, s.attachments, s.poll, s.muted,
+s.content, s.attachments, s.poll, s.muted, s.expanded, s.contentHidden, s.contentCollapsed,
 a.serverId as 'a_serverId', a.timelineUserId as 'a_timelineUserId',
 a.localUsername as 'a_localUsername', a.username as 'a_username',
 a.displayName as 'a_displayName', a.url as 'a_url', a.avatar as 'a_avatar',
@@ -51,7 +51,7 @@ SELECT s.serverId, s.url, s.timelineUserId,
 s.authorServerId, s.inReplyToId, s.inReplyToAccountId, s.createdAt,
 s.emojis, s.reblogsCount, s.favouritesCount, s.reblogged, s.favourited, s.bookmarked, s.sensitive,
 s.spoilerText, s.visibility, s.mentions, s.application, s.reblogServerId,s.reblogAccountId,
-s.content, s.attachments, s.poll, s.muted,
+s.content, s.attachments, s.poll, s.muted, s.expanded, s.contentHidden, s.contentCollapsed,
 a.serverId as 'a_serverId', a.timelineUserId as 'a_timelineUserId',
 a.localUsername as 'a_localUsername', a.username as 'a_username',
 a.displayName as 'a_displayName', a.url as 'a_url', a.avatar as 'a_avatar',
@@ -93,7 +93,7 @@ AND
 (LENGTH(serverId) > LENGTH(:minId) OR LENGTH(serverId) == LENGTH(:minId) AND serverId >= :minId)
     """
     )
-    abstract fun deleteRange(accountId: Long, minId: String, maxId: String)
+    abstract fun deleteRange(accountId: Long, minId: String, maxId: String): Int
 
     @Query(
         """DELETE FROM TimelineStatusEntity WHERE authorServerId = null
@@ -149,4 +149,22 @@ AND serverId = :statusId"""
 WHERE timelineUserId = :accountId AND (serverId = :statusId OR reblogServerId = :statusId)"""
     )
     abstract fun setVoted(accountId: Long, statusId: String, poll: String)
+
+    @Query(
+        """UPDATE TimelineStatusEntity SET expanded = :expanded
+WHERE timelineUserId = :accountId AND (serverId = :statusId OR reblogServerId = :statusId)"""
+    )
+    abstract fun setExpanded(accountId: Long, statusId: String, expanded: Boolean)
+
+    @Query(
+        """UPDATE TimelineStatusEntity SET contentHidden = :contentHidden
+WHERE timelineUserId = :accountId AND (serverId = :statusId OR reblogServerId = :statusId)"""
+    )
+    abstract fun setContentHidden(accountId: Long, statusId: String, contentHidden: Boolean)
+
+    @Query(
+        """UPDATE TimelineStatusEntity SET contentCollapsed = :contentCollapsed
+WHERE timelineUserId = :accountId AND (serverId = :statusId OR reblogServerId = :statusId)"""
+    )
+    abstract fun setContentCollapsed(accountId: Long, statusId: String, contentCollapsed: Boolean)
 }

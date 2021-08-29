@@ -333,7 +333,8 @@ class TimelineFragment :
     }
 
     override fun onLoadMore(position: Int) {
-        // TODO
+        val placeholder = adapter.peek(position)?.asPlaceholderOrNull() ?: return
+        viewModel.loadMore(placeholder.id)
     }
 
     override fun onContentCollapsedChange(isCollapsed: Boolean, position: Int) {

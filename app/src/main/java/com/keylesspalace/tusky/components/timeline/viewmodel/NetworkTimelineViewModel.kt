@@ -1,28 +1,34 @@
 package com.keylesspalace.tusky.components.timeline.viewmodel
 
 import android.content.SharedPreferences
+import androidx.lifecycle.viewModelScope
+import androidx.paging.ExperimentalPagingApi
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
-import androidx.paging.map
+import androidx.paging.cachedIn
 import com.google.gson.Gson
 import com.keylesspalace.tusky.appstore.BookmarkEvent
 import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.appstore.FavoriteEvent
 import com.keylesspalace.tusky.appstore.PinEvent
 import com.keylesspalace.tusky.appstore.ReblogEvent
-import com.keylesspalace.tusky.components.timeline.TimelineRepository
-import com.keylesspalace.tusky.components.timeline.toStatus
-import com.keylesspalace.tusky.components.timeline.viewmodel.TimelineViewModel
+import com.keylesspalace.tusky.components.timeline.NetworkTimelineRemoteMediator
+import com.keylesspalace.tusky.components.timeline.Placeholder
+import com.keylesspalace.tusky.components.timeline.TimelinePagingSource
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.db.AppDatabase
 import com.keylesspalace.tusky.entity.Poll
+import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.network.FilterModel
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.network.TimelineCases
-import com.keylesspalace.tusky.util.Either
+import com.keylesspalace.tusky.util.LinkHelper
+import com.keylesspalace.tusky.util.inc
 import com.keylesspalace.tusky.util.toViewData
 import com.keylesspalace.tusky.viewdata.StatusViewData
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.rx3.await
+import retrofit2.Response
 import javax.inject.Inject
 
 class NetworkTimelineViewModel @Inject constructor(
@@ -31,63 +37,197 @@ class NetworkTimelineViewModel @Inject constructor(
     private val eventHub: EventHub,
     private val accountManager: AccountManager,
     private val sharedPreferences: SharedPreferences,
-    private val filterModel: FilterModel,
-    private val db: AppDatabase,
-    private val gson: Gson
+    private val filterModel: FilterModel
 ) : TimelineViewModel(timelineCases, api, eventHub, accountManager, sharedPreferences, filterModel) {
 
+    var currentSource: TimelinePagingSource? = null
+
+    val statusData: MutableList<StatusViewData> = mutableListOf()
+
+    var nextKey: String? = null
+
+    @ExperimentalPagingApi
     override val statuses = Pager(
         config = PagingConfig(pageSize = 10),
-        pagingSourceFactory = { db.timelineDao().getStatusesForAccount(accountManager.activeAccount!!.id) }
-    ).flow
-        .map { it.map { item ->
-            when (val status = item.toStatus(gson)) {
-                is Either.Right -> status.value.toViewData(
-                    alwaysShowSensitiveMedia,
-                    alwaysOpenSpoilers
-                )
-                is Either.Left -> StatusViewData.Placeholder(status.value.id, false)
-            }
-        }
-        }
+        pagingSourceFactory = { TimelinePagingSource(
+            viewModel = this
+        ).also { source ->
+            currentSource = source
+        } },
+        remoteMediator = NetworkTimelineRemoteMediator(this)
 
-    override fun updatePoll(status: StatusViewData.Concrete, newPoll: Poll) {
-        TODO("Not yet implemented")
+    ).flow
+        .cachedIn(viewModelScope)
+
+    override fun updatePoll(newPoll: Poll, status: StatusViewData.Concrete, ) {
+        status.copy(
+            status = status.status.copy(poll = newPoll)
+        ).update()
     }
 
     override fun changeExpanded(expanded: Boolean, status: StatusViewData.Concrete) {
-        TODO("Not yet implemented")
+        status.copy(
+            isExpanded = expanded
+        ).update()
     }
 
     override fun changeContentHidden(isShowing: Boolean, status: StatusViewData.Concrete) {
-        TODO("Not yet implemented")
+        status.copy(
+            isShowingContent = isShowing
+        ).update()
     }
 
     override fun changeContentCollapsed(isCollapsed: Boolean, status: StatusViewData.Concrete) {
-        TODO("Not yet implemented")
+        status.copy(
+            isCollapsed = isCollapsed
+        ).update()
     }
 
     override fun removeAllByAccountId(accountId: String) {
-        TODO("Not yet implemented")
+        statusData.removeAll { vd ->
+            val status = vd.asStatusOrNull()?.status ?: return@removeAll false
+            status.account.id == accountId || status.actionableStatus.account.id == accountId
+        }
+        currentSource?.invalidate()
     }
 
     override fun removeAllByInstance(instance: String) {
-        TODO("Not yet implemented")
+        statusData.removeAll { vd ->
+            val status = vd.asStatusOrNull()?.status ?: return@removeAll false
+            LinkHelper.getDomain(status.account.url) == instance
+        }
+    }
+
+    override fun loadMore(placeholderId: String) {
+        viewModelScope.launch {
+            val response = fetchStatusesForKind(
+                fromId = placeholderId.inc(),
+                uptoId = null,
+                limit = 20
+            )
+
+            val statuses = response.body()!!.map { status ->
+                status.toViewData(false, false) //todo
+            }
+
+            val index = statusData.indexOfFirst { it is StatusViewData.Placeholder && it.id == placeholderId }
+            statusData.removeAt(index)
+            statusData.addAll(index, statuses)
+
+            currentSource?.invalidate()
+        }
+
+
     }
 
     override fun handleReblogEvent(reblogEvent: ReblogEvent) {
-        TODO("Not yet implemented")
+        updateStatusById(reblogEvent.statusId) {
+            it.copy(status = it.status.copy(reblogged = reblogEvent.reblog))
+        }
     }
 
     override fun handleFavEvent(favEvent: FavoriteEvent) {
-        TODO("Not yet implemented")
+        updateActionableStatusById(favEvent.statusId) {
+            it.copy(favourited = favEvent.favourite)
+        }
     }
 
     override fun handleBookmarkEvent(bookmarkEvent: BookmarkEvent) {
-        TODO("Not yet implemented")
+        updateActionableStatusById(bookmarkEvent.statusId) {
+            it.copy(bookmarked = bookmarkEvent.bookmark)
+        }
     }
 
     override fun handlePinEvent(pinEvent: PinEvent) {
-        TODO("Not yet implemented")
+        updateActionableStatusById(pinEvent.statusId) {
+            it.copy(pinned = pinEvent.pinned)
+        }
     }
+
+    suspend fun fetchStatusesForKind(
+        fromId: String?,
+        uptoId: String?,
+        limit: Int
+    ): Response<List<Status>> {
+        return when (kind) {
+            TimelineViewModel.Kind.HOME -> api.homeTimeline(fromId, uptoId, limit)
+            TimelineViewModel.Kind.PUBLIC_FEDERATED -> api.publicTimeline(null, fromId, uptoId, limit)
+            TimelineViewModel.Kind.PUBLIC_LOCAL -> api.publicTimeline(true, fromId, uptoId, limit)
+            TimelineViewModel.Kind.TAG -> {
+                val firstHashtag = tags[0]
+                val additionalHashtags = tags.subList(1, tags.size)
+                api.hashtagTimeline(firstHashtag, additionalHashtags, null, fromId, uptoId, limit)
+            }
+            TimelineViewModel.Kind.USER -> api.accountStatuses(
+                id!!,
+                fromId,
+                uptoId,
+                limit,
+                excludeReplies = true,
+                onlyMedia = null,
+                pinned = null
+            )
+            TimelineViewModel.Kind.USER_PINNED -> api.accountStatuses(
+                id!!,
+                fromId,
+                uptoId,
+                limit,
+                excludeReplies = null,
+                onlyMedia = null,
+                pinned = true
+            )
+            TimelineViewModel.Kind.USER_WITH_REPLIES -> api.accountStatuses(
+                id!!,
+                fromId,
+                uptoId,
+                limit,
+                excludeReplies = null,
+                onlyMedia = null,
+                pinned = null
+            )
+            TimelineViewModel.Kind.FAVOURITES -> api.favourites(fromId, uptoId, limit)
+            TimelineViewModel.Kind.BOOKMARKS -> api.bookmarks(fromId, uptoId, limit)
+            TimelineViewModel.Kind.LIST -> api.listTimeline(id!!, fromId, uptoId, limit)
+        }.await()
+    }
+
+    private fun StatusViewData.Concrete.update() {
+        val position = statusData.indexOfFirst { viewData -> viewData.asStatusOrNull()?.id == this.id }
+        statusData[position] = this
+        currentSource?.invalidate()
+    }
+
+    private inline fun updateStatusById(
+        id: String,
+        updater: (StatusViewData.Concrete) -> StatusViewData.Concrete
+    ) {
+        val pos = statusData.indexOfFirst { it.asStatusOrNull()?.id == id }
+        if (pos == -1) return
+        updateViewDataAt(pos, updater)
+    }
+
+    private inline fun updateActionableStatusById(
+        id: String,
+        updater: (Status) -> Status
+    ) {
+        val pos = statusData.indexOfFirst { it.asStatusOrNull()?.id == id }
+        if (pos == -1) return
+        updateViewDataAt(pos) { vd ->
+            if (vd.status.reblog != null) {
+                vd.copy(status = vd.status.copy(reblog = updater(vd.status.reblog)))
+            } else {
+                vd.copy(status = updater(vd.status))
+            }
+        }
+    }
+
+    private inline fun updateViewDataAt(
+        position: Int,
+        updater: (StatusViewData.Concrete) -> StatusViewData.Concrete
+    ) {
+        val status = statusData.getOrNull(position)?.asStatusOrNull() ?: return
+        statusData[position] = updater(status)
+        currentSource?.invalidate()
+    }
+
 }

@@ -130,7 +130,7 @@ abstract class TimelineViewModel(
         }
 
         val votedPoll = poll.votedCopy(choices)
-        updatePoll(status, votedPoll)
+        updatePoll(votedPoll, status)
 
         try {
             timelineCases.voteInPoll(status.actionableId, poll.id, choices).await()
@@ -141,7 +141,7 @@ abstract class TimelineViewModel(
         }
     }
 
-    abstract fun updatePoll(status: StatusViewData.Concrete, newPoll: Poll)
+    abstract fun updatePoll(newPoll: Poll, status: StatusViewData.Concrete)
 
     abstract fun changeExpanded(expanded: Boolean, status: StatusViewData.Concrete)
 
@@ -217,6 +217,8 @@ abstract class TimelineViewModel(
             Kind.LIST -> api.listTimeline(id!!, fromId, uptoId, limit)
         }
     }
+
+    abstract fun loadMore(placeholderId: String)
 
     abstract fun handleReblogEvent(reblogEvent: ReblogEvent)
 
@@ -326,7 +328,7 @@ abstract class TimelineViewModel(
             is StatusDeletedEvent -> {
                 if (kind != Kind.USER && kind != Kind.USER_WITH_REPLIES && kind != Kind.USER_PINNED) {
                     val id = event.statusId
-                    TODO()
+
                 }
             }
             is StatusComposedEvent -> {

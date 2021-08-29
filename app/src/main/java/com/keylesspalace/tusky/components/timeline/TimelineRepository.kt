@@ -289,7 +289,10 @@ fun Placeholder.toEntity(timelineUserId: Long): TimelineStatusEntity {
         reblogServerId = null,
         reblogAccountId = null,
         poll = null,
-        muted = false
+        muted = false,
+        expanded = false,
+        contentCollapsed = false,
+        contentHidden = false
     )
 }
 
@@ -322,7 +325,10 @@ fun Status.toEntity(
         reblogServerId = reblog?.id,
         reblogAccountId = reblog?.let { this.account.id },
         poll = actionable.poll.let(gson::toJson),
-        muted = actionable.muted
+        muted = actionable.muted,
+        expanded = false,
+        contentHidden = false,
+        contentCollapsed = false
     )
 }
 
