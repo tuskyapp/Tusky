@@ -1,0 +1,5 @@
+Tusky v15.0
+
+- Las solicitudes de seguimiento ahora se muestran siempre en el menú principal
+- El selector de tiempo para programar una publicación tiene un diseño consistente con el resto de la app
+Registro completo: https://github.com/tuskyapp/Tusky/releases
