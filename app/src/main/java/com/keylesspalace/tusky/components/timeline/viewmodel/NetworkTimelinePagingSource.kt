@@ -13,7 +13,7 @@
  * You should have received a copy of the GNU General Public License along with Tusky; if not,
  * see <http://www.gnu.org/licenses>. */
 
-package com.keylesspalace.tusky.components.timeline
+package com.keylesspalace.tusky.components.timeline.viewmodel
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
@@ -25,7 +25,7 @@ import com.keylesspalace.tusky.util.toViewData
 import com.keylesspalace.tusky.viewdata.StatusViewData
 import retrofit2.HttpException
 
-class TimelinePagingSource(
+class NetworkTimelinePagingSource(
     private val viewModel: NetworkTimelineViewModel
 ) : PagingSource<String, StatusViewData>() {
 

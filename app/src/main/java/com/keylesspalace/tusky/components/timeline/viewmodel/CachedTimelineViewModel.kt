@@ -14,7 +14,6 @@ import com.keylesspalace.tusky.appstore.FavoriteEvent
 import com.keylesspalace.tusky.appstore.PinEvent
 import com.keylesspalace.tusky.appstore.ReblogEvent
 import com.keylesspalace.tusky.components.timeline.Placeholder
-import com.keylesspalace.tusky.components.timeline.TimelineRemoteMediator
 import com.keylesspalace.tusky.components.timeline.toEntity
 import com.keylesspalace.tusky.components.timeline.toStatus
 import com.keylesspalace.tusky.db.AccountManager
@@ -47,7 +46,7 @@ class CachedTimelineViewModel @Inject constructor(
     @ExperimentalPagingApi
     override val statuses = Pager(
         config = PagingConfig(pageSize = 10),
-        remoteMediator = TimelineRemoteMediator(accountManager.activeAccount!!.id, api, db, gson),
+        remoteMediator = CachedTimelineRemoteMediator(accountManager.activeAccount!!.id, api, db, gson),
         pagingSourceFactory = { db.timelineDao().getStatusesForAccount(accountManager.activeAccount!!.id) }
     ).flow
         .map { it.map { item ->

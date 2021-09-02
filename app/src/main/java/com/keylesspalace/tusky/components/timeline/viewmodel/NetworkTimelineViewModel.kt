@@ -6,17 +6,12 @@ import androidx.paging.ExperimentalPagingApi
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.cachedIn
-import com.google.gson.Gson
 import com.keylesspalace.tusky.appstore.BookmarkEvent
 import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.appstore.FavoriteEvent
 import com.keylesspalace.tusky.appstore.PinEvent
 import com.keylesspalace.tusky.appstore.ReblogEvent
-import com.keylesspalace.tusky.components.timeline.NetworkTimelineRemoteMediator
-import com.keylesspalace.tusky.components.timeline.Placeholder
-import com.keylesspalace.tusky.components.timeline.TimelinePagingSource
 import com.keylesspalace.tusky.db.AccountManager
-import com.keylesspalace.tusky.db.AppDatabase
 import com.keylesspalace.tusky.entity.Poll
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.network.FilterModel
@@ -40,7 +35,7 @@ class NetworkTimelineViewModel @Inject constructor(
     private val filterModel: FilterModel
 ) : TimelineViewModel(timelineCases, api, eventHub, accountManager, sharedPreferences, filterModel) {
 
-    var currentSource: TimelinePagingSource? = null
+    var currentSource: NetworkTimelinePagingSource? = null
 
     val statusData: MutableList<StatusViewData> = mutableListOf()
 
@@ -49,7 +44,7 @@ class NetworkTimelineViewModel @Inject constructor(
     @ExperimentalPagingApi
     override val statuses = Pager(
         config = PagingConfig(pageSize = 10),
-        pagingSourceFactory = { TimelinePagingSource(
+        pagingSourceFactory = { NetworkTimelinePagingSource(
             viewModel = this
         ).also { source ->
             currentSource = source

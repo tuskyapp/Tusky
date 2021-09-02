@@ -1,22 +1,21 @@
-package com.keylesspalace.tusky.components.timeline
+package com.keylesspalace.tusky.components.timeline.viewmodel
 
-import android.util.Log
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadType
 import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
 import androidx.room.withTransaction
 import com.google.gson.Gson
+import com.keylesspalace.tusky.components.timeline.Placeholder
+import com.keylesspalace.tusky.components.timeline.toEntity
 import com.keylesspalace.tusky.db.AppDatabase
 import com.keylesspalace.tusky.db.TimelineStatusWithAccount
 import com.keylesspalace.tusky.network.MastodonApi
-import com.keylesspalace.tusky.util.HttpHeaderLink
 import com.keylesspalace.tusky.util.dec
-import com.keylesspalace.tusky.util.isLessThan
 import kotlinx.coroutines.rx3.await
 
 @ExperimentalPagingApi
-class TimelineRemoteMediator(
+class CachedTimelineRemoteMediator(
     private val accountId: Long,
     private val api: MastodonApi,
     private val db: AppDatabase,

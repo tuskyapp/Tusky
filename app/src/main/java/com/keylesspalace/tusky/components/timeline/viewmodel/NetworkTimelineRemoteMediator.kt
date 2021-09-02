@@ -1,11 +1,10 @@
-package com.keylesspalace.tusky.components.timeline
+package com.keylesspalace.tusky.components.timeline.viewmodel
 
 import android.util.Log
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadType
 import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
-import com.keylesspalace.tusky.components.timeline.viewmodel.NetworkTimelineViewModel
 import com.keylesspalace.tusky.util.HttpHeaderLink
 import com.keylesspalace.tusky.util.dec
 import com.keylesspalace.tusky.util.toViewData
