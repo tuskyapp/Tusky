@@ -61,21 +61,10 @@ class CachedTimelineRemoteMediator(
                 }
 
                 if (loadType == LoadType.REFRESH && overlappedStatuses == 0) {
-                    /*val linkHeader = statusResponse.headers()["Link"]
-                    val links = HttpHeaderLink.parse(linkHeader)
-                    val nextId = HttpHeaderLink.findByRelationType(links, "next")?.uri?.getQueryParameter("max_id")
-
-                    val topId = state.firstItemOrNull()?.status?.serverId
-
-                    Log.d("TimelineMediator", " topId: $topId")
-                    Log.d("TimelineMediator", "nextId: $nextId")*/
-
-                        timelineDao.insertStatus(
-                            Placeholder(statuses.last().id.dec()).toEntity(accountId)
-                        )
-
+                    timelineDao.insertStatus(
+                        Placeholder(statuses.last().id.dec()).toEntity(accountId)
+                    )
                 }
-
             }
             return MediatorResult.Success(endOfPaginationReached = statuses.isEmpty())
         } catch (e: Exception) {

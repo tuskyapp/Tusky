@@ -44,7 +44,6 @@ ORDER BY LENGTH(s.serverId) DESC, s.serverId DESC"""
     )
     abstract fun getStatusesForAccount(account: Long): PagingSource<Int, TimelineStatusWithAccount>
 
-
     @Query(
         """
 SELECT s.serverId, s.url, s.timelineUserId,

@@ -1,6 +1,5 @@
 package com.keylesspalace.tusky.components.timeline.viewmodel
 
-import android.util.Log
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadType
 import androidx.paging.PagingState
@@ -37,7 +36,7 @@ class NetworkTimelineRemoteMediator(
             val statuses = statusResponse.body()!!
 
             val data = statuses.map { status ->
-                status.toViewData(false, false) //todo
+                status.toViewData(false, false) // todo
             }
 
             val overlappedStatuses = if (statuses.isNotEmpty()) {
@@ -53,18 +52,12 @@ class NetworkTimelineRemoteMediator(
                 viewModel.statusData.addAll(0, data)
 
                 if (!overlappedStatuses) {
-                    viewModel.statusData.add(statuses.size,StatusViewData.Placeholder(statuses.last().id.dec(), false))
+                    viewModel.statusData.add(statuses.size, StatusViewData.Placeholder(statuses.last().id.dec(), false))
                 }
-
             } else {
                 val linkHeader = statusResponse.headers()["Link"]
                 val links = HttpHeaderLink.parse(linkHeader)
                 val nextId = HttpHeaderLink.findByRelationType(links, "next")?.uri?.getQueryParameter("max_id")
-
-                val topId = state.firstItemOrNull()?.asStatusOrNull()?.id
-
-                Log.d("TimelineMediator", " topId: $topId")
-                Log.d("TimelineMediator", "nextId: $nextId")
 
                 viewModel.nextKey = nextId
 

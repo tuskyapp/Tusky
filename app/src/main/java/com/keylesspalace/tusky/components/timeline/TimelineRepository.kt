@@ -222,8 +222,6 @@ class TimelineRepositoryImpl(
             timelineDao.cleanup(olderThan)
         }
     }
-
-
 }
 
 private val emojisListTypeToken = object : TypeToken<List<Emoji>>() {}

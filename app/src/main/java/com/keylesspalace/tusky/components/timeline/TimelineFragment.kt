@@ -15,9 +15,6 @@
 
 package com.keylesspalace.tusky.components.timeline
 
-import com.keylesspalace.tusky.components.timeline.viewmodel.CachedTimelineViewModel
-import com.keylesspalace.tusky.components.timeline.viewmodel.NetworkTimelineViewModel
-import com.keylesspalace.tusky.components.timeline.viewmodel.TimelineViewModel
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -43,6 +40,9 @@ import com.keylesspalace.tusky.BaseActivity
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.appstore.PreferenceChangedEvent
+import com.keylesspalace.tusky.components.timeline.viewmodel.CachedTimelineViewModel
+import com.keylesspalace.tusky.components.timeline.viewmodel.NetworkTimelineViewModel
+import com.keylesspalace.tusky.components.timeline.viewmodel.TimelineViewModel
 import com.keylesspalace.tusky.databinding.FragmentTimelineBinding
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.di.Injectable
@@ -86,7 +86,7 @@ class TimelineFragment :
     lateinit var accountManager: AccountManager
 
     private val viewModel: TimelineViewModel by lazy {
-        if(kind == TimelineViewModel.Kind.HOME) {
+        if (kind == TimelineViewModel.Kind.HOME) {
             ViewModelProvider(this, viewModelFactory).get(CachedTimelineViewModel::class.java)
         } else {
             ViewModelProvider(this, viewModelFactory).get(NetworkTimelineViewModel::class.java)
@@ -175,12 +175,9 @@ class TimelineFragment :
             }
 
             binding.progressBar.visible(loadState.refresh == LoadState.Loading && adapter.itemCount == 0)
-
-
-
         }
 
-        adapter.registerAdapterDataObserver(object: RecyclerView.AdapterDataObserver() {
+        adapter.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
             override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
                 if (positionStart == 0 && adapter.itemCount != itemCount) {
                     binding.recyclerView.post {
@@ -197,7 +194,6 @@ class TimelineFragment :
                 adapter.submitData(pagingData)
             }
         }
-
     }
 
     private fun setupSwipeRefreshLayout() {
@@ -486,6 +482,5 @@ class TimelineFragment :
             fragment.arguments = arguments
             return fragment
         }
-
     }
 }

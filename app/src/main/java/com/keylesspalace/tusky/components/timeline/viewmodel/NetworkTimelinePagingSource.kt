@@ -17,13 +17,7 @@ package com.keylesspalace.tusky.components.timeline.viewmodel
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.keylesspalace.tusky.components.timeline.viewmodel.NetworkTimelineViewModel
-import com.keylesspalace.tusky.util.HttpHeaderLink
-import com.keylesspalace.tusky.util.idCompareTo
-import com.keylesspalace.tusky.util.isLessThan
-import com.keylesspalace.tusky.util.toViewData
 import com.keylesspalace.tusky.viewdata.StatusViewData
-import retrofit2.HttpException
 
 class NetworkTimelinePagingSource(
     private val viewModel: NetworkTimelineViewModel

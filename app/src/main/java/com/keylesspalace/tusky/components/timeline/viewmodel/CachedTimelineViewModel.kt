@@ -33,31 +33,32 @@ import kotlinx.coroutines.rx3.await
 import javax.inject.Inject
 
 class CachedTimelineViewModel @Inject constructor(
-    private val timelineCases: TimelineCases,
+    timelineCases: TimelineCases,
     private val api: MastodonApi,
-    private val eventHub: EventHub,
+    eventHub: EventHub,
     private val accountManager: AccountManager,
-    private val sharedPreferences: SharedPreferences,
-    private val filterModel: FilterModel,
+    sharedPreferences: SharedPreferences,
+    filterModel: FilterModel,
     private val db: AppDatabase,
     private val gson: Gson
 ) : TimelineViewModel(timelineCases, api, eventHub, accountManager, sharedPreferences, filterModel) {
 
     @ExperimentalPagingApi
     override val statuses = Pager(
-        config = PagingConfig(pageSize = 10),
+        config = PagingConfig(pageSize = LOAD_AT_ONCE),
         remoteMediator = CachedTimelineRemoteMediator(accountManager.activeAccount!!.id, api, db, gson),
         pagingSourceFactory = { db.timelineDao().getStatusesForAccount(accountManager.activeAccount!!.id) }
     ).flow
-        .map { it.map { item ->
-            when (val status = item.toStatus(gson)) {
-                is Either.Right -> status.value.toViewData(
-                    alwaysShowSensitiveMedia,
-                    alwaysOpenSpoilers
-                )
-                is Either.Left -> StatusViewData.Placeholder(status.value.id, false)
+        .map {
+            it.map { item ->
+                when (val status = item.toStatus(gson)) {
+                    is Either.Right -> status.value.toViewData(
+                        alwaysShowSensitiveMedia,
+                        alwaysOpenSpoilers
+                    )
+                    is Either.Left -> StatusViewData.Placeholder(status.value.id, false)
+                }
             }
-        }
         }
 
     override fun updatePoll(newPoll: Poll, status: StatusViewData.Concrete) {
@@ -83,11 +84,9 @@ class CachedTimelineViewModel @Inject constructor(
     }
 
     override fun removeAllByAccountId(accountId: String) {
-
     }
 
     override fun removeAllByInstance(instance: String) {
-
     }
 
     override fun loadMore(placeholderId: String) {
@@ -131,27 +130,20 @@ class CachedTimelineViewModel @Inject constructor(
                     timelineDao.insertStatus(
                         Placeholder(statuses.last().id.dec()).toEntity(accountId)
                     )
-
                 }
-
             }
         }
     }
 
     override fun handleReblogEvent(reblogEvent: ReblogEvent) {
-
     }
 
     override fun handleFavEvent(favEvent: FavoriteEvent) {
-
     }
 
     override fun handleBookmarkEvent(bookmarkEvent: BookmarkEvent) {
-
     }
 
     override fun handlePinEvent(pinEvent: PinEvent) {
-
     }
 }
-

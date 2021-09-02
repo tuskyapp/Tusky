@@ -32,7 +32,6 @@ import com.keylesspalace.tusky.settings.PrefKeys
 import com.keylesspalace.tusky.util.Either
 import com.keylesspalace.tusky.util.toViewData
 import com.keylesspalace.tusky.viewdata.StatusViewData
-import io.reactivex.rxjava3.core.Single
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
@@ -40,7 +39,6 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.rx3.asFlow
 import kotlinx.coroutines.rx3.await
 import retrofit2.HttpException
-import retrofit2.Response
 import java.io.IOException
 
 abstract class TimelineViewModel(
@@ -171,53 +169,6 @@ abstract class TimelineViewModel(
             filterModel.shouldFilterStatus(status.actionableStatus)
     }
 
-    private fun fetchStatusesForKind(
-        fromId: String?,
-        uptoId: String?,
-        limit: Int
-    ): Single<Response<List<Status>>> {
-        return when (kind) {
-            Kind.HOME -> api.homeTimeline(fromId, uptoId, limit)
-            Kind.PUBLIC_FEDERATED -> api.publicTimeline(null, fromId, uptoId, limit)
-            Kind.PUBLIC_LOCAL -> api.publicTimeline(true, fromId, uptoId, limit)
-            Kind.TAG -> {
-                val firstHashtag = tags[0]
-                val additionalHashtags = tags.subList(1, tags.size)
-                api.hashtagTimeline(firstHashtag, additionalHashtags, null, fromId, uptoId, limit)
-            }
-            Kind.USER -> api.accountStatuses(
-                id!!,
-                fromId,
-                uptoId,
-                limit,
-                excludeReplies = true,
-                onlyMedia = null,
-                pinned = null
-            )
-            Kind.USER_PINNED -> api.accountStatuses(
-                id!!,
-                fromId,
-                uptoId,
-                limit,
-                excludeReplies = null,
-                onlyMedia = null,
-                pinned = true
-            )
-            Kind.USER_WITH_REPLIES -> api.accountStatuses(
-                id!!,
-                fromId,
-                uptoId,
-                limit,
-                excludeReplies = null,
-                onlyMedia = null,
-                pinned = null
-            )
-            Kind.FAVOURITES -> api.favourites(fromId, uptoId, limit)
-            Kind.BOOKMARKS -> api.bookmarks(fromId, uptoId, limit)
-            Kind.LIST -> api.listTimeline(id!!, fromId, uptoId, limit)
-        }
-    }
-
     abstract fun loadMore(placeholderId: String)
 
     abstract fun handleReblogEvent(reblogEvent: ReblogEvent)
@@ -328,7 +279,6 @@ abstract class TimelineViewModel(
             is StatusDeletedEvent -> {
                 if (kind != Kind.USER && kind != Kind.USER_WITH_REPLIES && kind != Kind.USER_PINNED) {
                     val id = event.statusId
-
                 }
             }
             is StatusComposedEvent -> {
@@ -364,7 +314,7 @@ abstract class TimelineViewModel(
                     filterContextMatchesKind(kind, it.context)
                 }
             )
-            //filterViewData(this@com.keylesspalace.tusky.components.timeline.viewmodel.TimelineViewModel.statuses)
+            // filterViewData(this@com.keylesspalace.tusky.components.timeline.viewmodel.TimelineViewModel.statuses)
         }
     }
 

@@ -62,15 +62,7 @@ class TimelinePagingAdapter(
         get() = statusDisplayOptions.mediaPreviewEnabled
         set(mediaPreviewEnabled) {
             statusDisplayOptions = statusDisplayOptions.copy(
-                statusDisplayOptions.animateAvatars,
-                mediaPreviewEnabled,
-                statusDisplayOptions.useAbsoluteTime,
-                statusDisplayOptions.showBotOverlay,
-                statusDisplayOptions.useBlurhash,
-                statusDisplayOptions.cardViewMode,
-                statusDisplayOptions.confirmReblogs,
-                statusDisplayOptions.hideStats,
-                statusDisplayOptions.animateEmojis
+                mediaPreviewEnabled = mediaPreviewEnabled
             )
         }
 

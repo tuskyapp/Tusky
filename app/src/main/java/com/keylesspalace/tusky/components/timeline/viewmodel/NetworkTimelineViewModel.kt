@@ -27,12 +27,12 @@ import retrofit2.Response
 import javax.inject.Inject
 
 class NetworkTimelineViewModel @Inject constructor(
-    private val timelineCases: TimelineCases,
+    timelineCases: TimelineCases,
     private val api: MastodonApi,
-    private val eventHub: EventHub,
-    private val accountManager: AccountManager,
-    private val sharedPreferences: SharedPreferences,
-    private val filterModel: FilterModel
+    eventHub: EventHub,
+    accountManager: AccountManager,
+    sharedPreferences: SharedPreferences,
+    filterModel: FilterModel
 ) : TimelineViewModel(timelineCases, api, eventHub, accountManager, sharedPreferences, filterModel) {
 
     var currentSource: NetworkTimelinePagingSource? = null
@@ -43,18 +43,19 @@ class NetworkTimelineViewModel @Inject constructor(
 
     @ExperimentalPagingApi
     override val statuses = Pager(
-        config = PagingConfig(pageSize = 10),
-        pagingSourceFactory = { NetworkTimelinePagingSource(
-            viewModel = this
-        ).also { source ->
-            currentSource = source
-        } },
+        config = PagingConfig(pageSize = LOAD_AT_ONCE),
+        pagingSourceFactory = {
+            NetworkTimelinePagingSource(
+                viewModel = this
+            ).also { source ->
+                currentSource = source
+            }
+        },
         remoteMediator = NetworkTimelineRemoteMediator(this)
-
     ).flow
         .cachedIn(viewModelScope)
 
-    override fun updatePoll(newPoll: Poll, status: StatusViewData.Concrete, ) {
+    override fun updatePoll(newPoll: Poll, status: StatusViewData.Concrete,) {
         status.copy(
             status = status.status.copy(poll = newPoll)
         ).update()
@@ -102,7 +103,7 @@ class NetworkTimelineViewModel @Inject constructor(
             )
 
             val statuses = response.body()!!.map { status ->
-                status.toViewData(false, false) //todo
+                status.toViewData(false, false) // todo
             }
 
             val index = statusData.indexOfFirst { it is StatusViewData.Placeholder && it.id == placeholderId }
@@ -111,8 +112,6 @@ class NetworkTimelineViewModel @Inject constructor(
 
             currentSource?.invalidate()
         }
-
-
     }
 
     override fun handleReblogEvent(reblogEvent: ReblogEvent) {
@@ -145,15 +144,15 @@ class NetworkTimelineViewModel @Inject constructor(
         limit: Int
     ): Response<List<Status>> {
         return when (kind) {
-            TimelineViewModel.Kind.HOME -> api.homeTimeline(fromId, uptoId, limit)
-            TimelineViewModel.Kind.PUBLIC_FEDERATED -> api.publicTimeline(null, fromId, uptoId, limit)
-            TimelineViewModel.Kind.PUBLIC_LOCAL -> api.publicTimeline(true, fromId, uptoId, limit)
-            TimelineViewModel.Kind.TAG -> {
+            Kind.HOME -> api.homeTimeline(fromId, uptoId, limit)
+            Kind.PUBLIC_FEDERATED -> api.publicTimeline(null, fromId, uptoId, limit)
+            Kind.PUBLIC_LOCAL -> api.publicTimeline(true, fromId, uptoId, limit)
+            Kind.TAG -> {
                 val firstHashtag = tags[0]
                 val additionalHashtags = tags.subList(1, tags.size)
                 api.hashtagTimeline(firstHashtag, additionalHashtags, null, fromId, uptoId, limit)
             }
-            TimelineViewModel.Kind.USER -> api.accountStatuses(
+            Kind.USER -> api.accountStatuses(
                 id!!,
                 fromId,
                 uptoId,
@@ -162,7 +161,7 @@ class NetworkTimelineViewModel @Inject constructor(
                 onlyMedia = null,
                 pinned = null
             )
-            TimelineViewModel.Kind.USER_PINNED -> api.accountStatuses(
+            Kind.USER_PINNED -> api.accountStatuses(
                 id!!,
                 fromId,
                 uptoId,
@@ -171,7 +170,7 @@ class NetworkTimelineViewModel @Inject constructor(
                 onlyMedia = null,
                 pinned = true
             )
-            TimelineViewModel.Kind.USER_WITH_REPLIES -> api.accountStatuses(
+            Kind.USER_WITH_REPLIES -> api.accountStatuses(
                 id!!,
                 fromId,
                 uptoId,
@@ -180,9 +179,9 @@ class NetworkTimelineViewModel @Inject constructor(
                 onlyMedia = null,
                 pinned = null
             )
-            TimelineViewModel.Kind.FAVOURITES -> api.favourites(fromId, uptoId, limit)
-            TimelineViewModel.Kind.BOOKMARKS -> api.bookmarks(fromId, uptoId, limit)
-            TimelineViewModel.Kind.LIST -> api.listTimeline(id!!, fromId, uptoId, limit)
+            Kind.FAVOURITES -> api.favourites(fromId, uptoId, limit)
+            Kind.BOOKMARKS -> api.bookmarks(fromId, uptoId, limit)
+            Kind.LIST -> api.listTimeline(id!!, fromId, uptoId, limit)
         }.await()
     }
 
@@ -224,5 +223,4 @@ class NetworkTimelineViewModel @Inject constructor(
         statusData[position] = updater(status)
         currentSource?.invalidate()
     }
-
 }
