@@ -39,7 +39,8 @@ data class PollViewData(
 data class PollOptionViewData(
     val title: String,
     var votesCount: Int,
-    var selected: Boolean
+    var selected: Boolean,
+    var voted: Boolean
 )
 
 fun calculatePercent(fraction: Int, totalVoters: Int?, totalVotes: Int): Int {
@@ -66,15 +67,16 @@ fun Poll?.toViewData(): PollViewData? {
         multiple = multiple,
         votesCount = votesCount,
         votersCount = votersCount,
-        options = options.map { it.toViewData() },
-        voted = voted
+        options = options.mapIndexed { index, option -> option.toViewData(ownVotes?.contains(index) == true) },
+        voted = voted,
     )
 }
 
-fun PollOption.toViewData(): PollOptionViewData {
+fun PollOption.toViewData(voted: Boolean): PollOptionViewData {
     return PollOptionViewData(
         title = title,
         votesCount = votesCount,
-        selected = false
+        selected = false,
+        voted = voted
     )
 }

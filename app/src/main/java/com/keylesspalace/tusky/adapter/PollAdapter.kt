@@ -18,8 +18,10 @@ package com.keylesspalace.tusky.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.emoji.text.EmojiCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.databinding.ItemPollBinding
 import com.keylesspalace.tusky.entity.Emoji
 import com.keylesspalace.tusky.util.BindingHolder
@@ -90,8 +92,14 @@ class PollAdapter : RecyclerView.Adapter<BindingHolder<ItemPollBinding>>() {
                 resultTextView.text = EmojiCompat.get().process(emojifiedPollOptionText)
 
                 val level = percent * 100
+                val optionColor = if (option.voted) {
+                    R.color.colorBackgroundHighlight
+                } else {
+                    R.color.colorBackgroundAccent
+                }
 
                 resultTextView.background.level = level
+                resultTextView.background.setTint(ContextCompat.getColor(resultTextView.context, optionColor))
                 resultTextView.setOnClickListener(resultClickListener)
             }
             SINGLE -> {

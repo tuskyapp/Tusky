@@ -15,6 +15,7 @@
     <color name="iconColor">@color/tusky_grey_50</color>
 
     <color name="colorBackgroundAccent">@color/tusky_grey_70</color>
+    <color name="colorBackgroundHighlight">@color/tusky_grey_50</color>
     <color name="dividerColor">@color/tusky_grey_80</color>
 
     <color name="favoriteButtonActiveColor">@color/tusky_orange_light</color>
