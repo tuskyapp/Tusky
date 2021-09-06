@@ -173,7 +173,8 @@ class FilterTest {
                     options = pollOptions.map {
                         PollOption(it, 0)
                     },
-                    voted = false
+                    voted = false,
+                    ownVotes = null
                 )
             } else null,
             card = null
