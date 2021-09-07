@@ -889,7 +889,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             for (int i = 0; i < args.length; i++) {
                 if (i < options.size()) {
                     int percent = PollViewDataKt.calculatePercent(options.get(i).getVotesCount(), poll.getVotersCount(), poll.getVotesCount());
-                    args[i] = buildDescription(options.get(i).getTitle(), percent, context);
+                    args[i] = buildDescription(options.get(i).getTitle(), percent, options.get(i).getVoted(), context);
                 } else {
                     args[i] = "";
                 }

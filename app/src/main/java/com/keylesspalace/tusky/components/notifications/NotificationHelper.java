@@ -659,9 +659,12 @@ public class NotificationHelper {
                     StringBuilder builder = new StringBuilder(notification.getStatus().getContent());
                     builder.append('\n');
                     Poll poll = notification.getStatus().getPoll();
-                    for(PollOption option: poll.getOptions()) {
+                    List<PollOption> options = poll.getOptions();
+                    for(int i = 0; i < options.size(); ++i) {
+                        PollOption option = options.get(i);
                         builder.append(buildDescription(option.getTitle(),
                                 PollViewDataKt.calculatePercent(option.getVotesCount(), poll.getVotersCount(), poll.getVotesCount()),
+                                poll.getOwnVotes() != null && poll.getOwnVotes().contains(i),
                                 context));
                         builder.append('\n');
                     }
