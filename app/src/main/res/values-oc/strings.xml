@@ -501,4 +501,13 @@
     <string name="action_unmute_domain">Amagar pas mai a %s</string>
     <string name="action_delete_conversation">Suprimir la conversacion</string>
     <string name="title_announcements">Anóncias</string>
+    <plurals name="error_upload_max_media_reached">
+        <item quantity="one">Podètz pas enviar mai de %1$d pèça junta.</item>
+        <item quantity="other">Podètz pas enviar mai de %1$d pèças juntas.</item>
+    </plurals>
+    <string name="wellbeing_hide_stats_profile">Amagar las estatisticas dels perfils</string>
+    <string name="wellbeing_hide_stats_posts">Amagar las estatisticas dels tuts</string>
+    <string name="limit_notifications">Limitar las notificacions de la cronologia</string>
+    <string name="pref_title_hide_top_toolbar">Amagar lo títol ennaut de la barra</string>
+    <string name="pref_title_confirm_reblogs">Afichar una fenèstra de confirmacion abans de partejar</string>
 </resources>
