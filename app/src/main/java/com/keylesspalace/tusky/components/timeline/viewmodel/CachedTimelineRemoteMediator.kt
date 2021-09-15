@@ -53,11 +53,11 @@ class CachedTimelineRemoteMediator(
                 }
 
                 for (status in statuses) {
-                    timelineDao.insertInTransaction(
-                        status.toEntity(accountId, gson),
-                        status.account.toEntity(accountId, gson),
-                        status.reblog?.account?.toEntity(accountId, gson)
-                    )
+                    timelineDao.insertAccount(status.account.toEntity(accountId, gson))
+                    status.reblog?.account?.toEntity(accountId, gson)?.let { rebloggedAccount ->
+                        timelineDao.insertAccount(rebloggedAccount)
+                    }
+                    timelineDao.insertStatus(status.toEntity(accountId, gson))
                 }
 
                 if (loadType == LoadType.REFRESH && overlappedStatuses == 0) {

@@ -110,23 +110,14 @@ class CachedTimelineViewModel @Inject constructor(
                 }
 
                 for (status in statuses) {
-                    timelineDao.insertInTransaction(
-                        status.toEntity(accountId, gson),
-                        status.account.toEntity(accountId, gson),
-                        status.reblog?.account?.toEntity(accountId, gson)
-                    )
+                    timelineDao.insertAccount(status.account.toEntity(accountId, gson))
+                    status.reblog?.account?.toEntity(accountId, gson)?.let { rebloggedAccount ->
+                        timelineDao.insertAccount(rebloggedAccount)
+                    }
+                    timelineDao.insertStatus(status.toEntity(accountId, gson))
                 }
 
                 if (overlappedStatuses == 0) {
-                    /*val linkHeader = statusResponse.headers()["Link"]
-                    val links = HttpHeaderLink.parse(linkHeader)
-                    val nextId = HttpHeaderLink.findByRelationType(links, "next")?.uri?.getQueryParameter("max_id")
-
-                    val topId = state.firstItemOrNull()?.status?.serverId
-
-                    Log.d("TimelineMediator", " topId: $topId")
-                    Log.d("TimelineMediator", "nextId: $nextId")*/
-
                     timelineDao.insertStatus(
                         Placeholder(statuses.last().id.dec()).toEntity(accountId)
                     )
