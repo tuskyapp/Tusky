@@ -215,6 +215,11 @@
     <string name="notification_summary_medium">%1$s, %2$s, و %3$s</string>
     <string name="notification_summary_small">%1$s و %2$s</string>
     <plurals name="notification_title_summary">
+        <item quantity="zero">%d تفاعلات جديدة</item>
+        <item quantity="one">تفاعل جديد</item>
+        <item quantity="two">تفاعلين جديدين</item>
+        <item quantity="few">%d تفاعلات جديدة</item>
+        <item quantity="many">%d تفاعلات جديدة</item>
         <item quantity="other">%d تفاعلات جديدة</item>
     </plurals>
     <string name="description_account_locked">حساب مقفل</string>
@@ -330,6 +335,11 @@
     <string name="conversation_2_recipients">%1$s و %2$s</string>
     <string name="conversation_more_recipients">%1$s و %2$s و %3$d آخَرون</string>
     <plurals name="max_tab_number_reached">
+        <item quantity="zero">لقد بلغت الحد الأقصى مِن الألسنة %1$d</item>
+        <item quantity="one">لقد بلغت الحد الأقصى مِن الألسنة %1$d</item>
+        <item quantity="two">لقد بلغت الحد الأقصى مِن الألسنة %1$d</item>
+        <item quantity="few">لقد بلغت الحد الأقصى مِن الألسنة %1$d</item>
+        <item quantity="many">لقد بلغت الحد الأقصى مِن الألسنة %1$d</item>
         <item quantity="other">لقد بلغت الحد الأقصى مِن الألسنة %1$d</item>
     </plurals>
     <string name="description_status_media">الوسائط: %s    </string>
@@ -508,4 +518,26 @@
     <string name="action_unmute_notifications_desc">إلغاء كتم إشعارات %s</string>
     <string name="action_unmute_desc">إلغاء كتم %s</string>
     <string name="pref_title_hide_top_toolbar">إخفاء عنوان شريط الأدوات العلوي</string>
+    <string name="title_announcements">الاعلانات</string>
+    <string name="dialog_delete_list_warning">أتريد حقا حذف القائمة %s؟</string>
+    <string name="drafts_toot_failed_to_send">فشلت عملية إرسال التبويق!</string>
+    <string name="draft_deleted">حُذفَت المسودة</string>
+    <string name="action_subscribe_account">اشترك</string>
+    <string name="action_unsubscribe_account">إلغاء الإشتراك</string>
+    <string name="notification_subscription_format">نشر %s للتوّ</string>
+    <string name="action_delete_conversation">احذف المحادثة</string>
+    <string name="dialog_delete_conversation_warning">هل تريد حذف هذه المحادثة؟</string>
+    <string name="notification_subscription_name">تبويقات جديدة</string>
+    <string name="status_media_attachments">مرفقات</string>
+    <string name="label_duration">المدة</string>
+    <string name="no_announcements">لا توجد إعلانات.</string>
+    <string name="account_note_hint">ملاحظتك الخاصة عن هذا الحساب</string>
+    <string name="account_note_saved">تم حفظها!</string>
+    <string name="review_notifications">راجع الإشعارات</string>
+    <string name="status_media_audio">صوت</string>
+    <string name="drafts_toot_reply_removed">لقد حُذِف التبويق الذي حررت من أجله مسودة الرد</string>
+    <string name="pref_title_notification_filter_subscriptions">شخص ما أنا مشترك في حسابه قد نشر تبويقا جديدا</string>
+    <string name="pref_title_animate_custom_emojis">حرّك الإيموجيات المخصصة</string>
+    <string name="wellbeing_hide_stats_posts">إخفاء الإحصائيات الكمية عن المنشورات</string>
+    <string name="wellbeing_hide_stats_profile">إخفاء الإحصائيات الكمية عن الملفات التعريفية</string>
 </resources>

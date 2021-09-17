@@ -1,0 +1,3 @@
+Tusky v15.1
+
+To wydanie naprawia błąd aplikacji przy dodawaniu opisów do zdjęć

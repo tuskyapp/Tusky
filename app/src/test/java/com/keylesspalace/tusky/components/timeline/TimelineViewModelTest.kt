@@ -698,6 +698,7 @@ class TimelineViewModelTest {
             votesCount = 1,
             voted = false,
             options = listOf(PollOption("1", 1), PollOption("2", 2)),
+            ownVotes = null
         )
         val status4 = makeStatus("4").copy(poll = poll)
         val status3 = makeStatus("3")

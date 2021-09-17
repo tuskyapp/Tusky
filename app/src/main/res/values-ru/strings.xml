@@ -554,4 +554,6 @@
     <string name="notification_subscription_name">Новые записи</string>
     <string name="pref_title_animate_custom_emojis">Анимировать собственные эмодзи</string>
     <string name="pref_title_notification_filter_subscriptions">кто-то, на кого я подписан, опубликовал новую запись</string>
+    <string name="dialog_delete_conversation_warning">Удалить этот разговор\?</string>
+    <string name="action_delete_conversation">Удалить разговор</string>
 </resources>
