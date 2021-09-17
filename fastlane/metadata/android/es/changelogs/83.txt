@@ -1,0 +1,3 @@
+Tusky v15.1
+
+Esta versión arregla un fallo al subtitular imágenes

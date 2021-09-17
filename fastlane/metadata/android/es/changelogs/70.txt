@@ -1,0 +1,8 @@
+Tusky v10.0
+
+- Ahora puedes marcar estas y listar tus marcadores en Tusky.
+- Ahora puedes programar toots con Tusky. Ten en cuenta que el tiempo que elijas tiene que ser al menos 5 minutos en el futuro.
+- Ahora puedes añadir listas a la pantalla principal.
+- Ahora puedes publicar audio adjunto en Tusky.
+
+¡Y muchos otros pequeños cambios y mejoras!

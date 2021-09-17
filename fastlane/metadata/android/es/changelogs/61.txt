@@ -1,0 +1,7 @@
+Tusky v7.0
+
+- Soporte para mostrar encuestas, votar y recibir notificaciones de ellas
+- Nuevos botones para filtrar la pestaña de notificaciones y borrar todas las notificaciones
+- Borra y edita tus propios toots
+- nuevo indicador para mostrar si la cuenta es un bot en la foto de perfil (puede apagarse en las preferencias)
+- Nueva traduccion: Norwegian Bokmål and Slovenian.
