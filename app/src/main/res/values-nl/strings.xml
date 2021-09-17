@@ -517,4 +517,12 @@
     <string name="pref_main_nav_position">Hoofd navigatiepositie</string>
     <string name="dialog_delete_conversation_warning">Dit gesprek verwijderen\?</string>
     <string name="action_delete_conversation">Gesprek verwijderen</string>
+    <string name="follow_requests_info">Ook al heb je geen besloten account, de medewerkers van %1$s dachten dat je misschien de volgverzoeken van deze accounts handmatig zou willen controleren.</string>
+    <string name="wellbeing_mode_notice">Bepaalde informatie die invloed kan hebben op uw geestelijk welzijn zal worden verborgen. Dit bevat onder andere:
+\n
+\n- Favoriet/Boost/Volg notificaties
+\n- Favoriet/Boost/Aantal boosts per toot
+\n- Volger/Bericht statistieken op profielen
+\n
+\nPush-notificaties zullen niet worden beïnvloed, maar uw kunt uw notificatie voorkeuren handmatig wijzigen.</string>
 </resources>
