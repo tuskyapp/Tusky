@@ -39,7 +39,8 @@ data class PollViewData(
 data class PollOptionViewData(
     val title: String,
     var votesCount: Int,
-    var selected: Boolean
+    var selected: Boolean,
+    var voted: Boolean
 )
 
 fun calculatePercent(fraction: Int, totalVoters: Int?, totalVotes: Int): Int {
@@ -51,10 +52,14 @@ fun calculatePercent(fraction: Int, totalVoters: Int?, totalVotes: Int): Int {
     }
 }
 
-fun buildDescription(title: String, percent: Int, context: Context): Spanned {
-    return SpannableStringBuilder(context.getString(R.string.poll_percent_format, percent).parseAsHtml())
-        .append(" ")
-        .append(title)
+fun buildDescription(title: String, percent: Int, voted: Boolean, context: Context): Spanned {
+    val builder = SpannableStringBuilder(context.getString(R.string.poll_percent_format, percent).parseAsHtml())
+    if (voted) {
+        builder.append(" ✓ ")
+    } else {
+        builder.append(" ")
+    }
+    return builder.append(title)
 }
 
 fun Poll?.toViewData(): PollViewData? {
@@ -66,15 +71,16 @@ fun Poll?.toViewData(): PollViewData? {
         multiple = multiple,
         votesCount = votesCount,
         votersCount = votersCount,
-        options = options.map { it.toViewData() },
-        voted = voted
+        options = options.mapIndexed { index, option -> option.toViewData(ownVotes?.contains(index) == true) },
+        voted = voted,
     )
 }
 
-fun PollOption.toViewData(): PollOptionViewData {
+fun PollOption.toViewData(voted: Boolean): PollOptionViewData {
     return PollOptionViewData(
         title = title,
         votesCount = votesCount,
-        selected = false
+        selected = false,
+        voted = voted
     )
 }

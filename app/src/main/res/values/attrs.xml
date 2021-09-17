@@ -10,6 +10,7 @@
 
     <!--Themed Attributes-->
     <attr name="colorBackgroundAccent" format="reference|color" />
+    <attr name="colorBackgroundHighlight" format="reference|color" />
     <attr name="textColorDisabled" format="reference|color" />
     <attr name="iconColor" format="reference|color" />
     <attr name="windowBackgroundColor" format="reference|color" />
