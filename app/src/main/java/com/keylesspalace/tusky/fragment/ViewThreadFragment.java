@@ -140,6 +140,8 @@ public final class ViewThreadFragment extends SFragment implements
                         CardViewMode.INDENTED :
                         CardViewMode.NONE,
                 preferences.getBoolean("confirmReblogs", true),
+                preferences.getBoolean("confirmFavourites", true),
+                preferences.getBoolean("confirmBookmarks", true),
                 preferences.getBoolean(PrefKeys.WELLBEING_HIDE_STATS_POSTS, false),
                 preferences.getBoolean(PrefKeys.ANIMATE_CUSTOM_EMOJIS, false)
         );

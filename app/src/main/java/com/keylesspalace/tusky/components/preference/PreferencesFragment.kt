@@ -168,6 +168,20 @@ class PreferencesFragment : PreferenceFragmentCompat(), Injectable {
 
                 switchPreference {
                     setDefaultValue(true)
+                    key = PrefKeys.CONFIRM_FAVOURITES
+                    setTitle(R.string.pref_title_confirm_favourites)
+                    isSingleLineTitle = false
+                }
+
+                switchPreference {
+                    setDefaultValue(true)
+                    key = PrefKeys.CONFIRM_BOOKMARKS
+                    setTitle(R.string.pref_title_confirm_bookmarks)
+                    isSingleLineTitle = false
+                }
+
+                switchPreference {
+                    setDefaultValue(true)
                     key = PrefKeys.ENABLE_SWIPE_FOR_TABS
                     setTitle(R.string.pref_title_enable_swipe_for_tabs)
                     isSingleLineTitle = false

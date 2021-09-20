@@ -651,19 +651,35 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         }
 
         favouriteButton.setEventListener((button, buttonState) -> {
+            // return true to play animaion
             int position = getBindingAdapterPosition();
             if (position != RecyclerView.NO_POSITION) {
-                listener.onFavourite(!buttonState, position);
+                if (statusDisplayOptions.confirmFavourites()) {
+                    showConfirmFavouriteDialog(listener, statusContent, buttonState, position);
+                    return false;
+                } else {
+                    listener.onFavourite(!buttonState, position);
+                    return true;
+                }
+            } else {
+                return true;
             }
-            return true;
         });
 
         bookmarkButton.setEventListener((button, buttonState) -> {
+            // return true to play animaion
             int position = getBindingAdapterPosition();
             if (position != RecyclerView.NO_POSITION) {
-                listener.onBookmark(!buttonState, position);
+                if (statusDisplayOptions.confirmBookmarks()) {
+                    showConfirmBookmarkDialog(listener, statusContent, buttonState, position);
+                    return false;
+                } else {
+                    listener.onBookmark(!buttonState, position);
+                    return true;
+                }
+            } else {
+                return true;
             }
-            return true;
         });
 
         moreButton.setOnClickListener(v -> {
@@ -698,6 +714,40 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
                     if (!buttonState) {
                         // Play animation only when it's reblog, not unreblog
                         reblogButton.playAnimation();
+                    }
+                })
+                .show();
+    }
+
+    private void showConfirmFavouriteDialog(StatusActionListener listener,
+                                         String statusContent,
+                                         boolean buttonState,
+                                         int position) {
+        int okButtonTextId = buttonState ? R.string.action_unfavourite : R.string.action_favourite;
+        new AlertDialog.Builder(favouriteButton.getContext())
+                .setMessage(statusContent)
+                .setPositiveButton(okButtonTextId, (__, ___) -> {
+                    listener.onFavourite(!buttonState, position);
+                    if (!buttonState) {
+                        // Play animation only when it's favourite, not unfavourite
+                        favouriteButton.playAnimation();
+                    }
+                })
+                .show();
+    }
+
+    private void showConfirmBookmarkDialog(StatusActionListener listener,
+                                         String statusContent,
+                                         boolean buttonState,
+                                         int position) {
+        int okButtonTextId = buttonState ? R.string.action_unbookmark : R.string.action_bookmark;
+        new AlertDialog.Builder(bookmarkButton.getContext())
+                .setMessage(statusContent)
+                .setPositiveButton(okButtonTextId, (__, ___) -> {
+                    listener.onBookmark(!buttonState, position);
+                    if (!buttonState) {
+                        // Play animation only when it's bookmark, not unbookmark
+                        bookmarkButton.playAnimation();
                     }
                 })
                 .show();
