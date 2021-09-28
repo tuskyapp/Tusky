@@ -167,14 +167,14 @@ class PreferencesFragment : PreferenceFragmentCompat(), Injectable {
                 }
 
                 switchPreference {
-                    setDefaultValue(true)
+                    setDefaultValue(false)
                     key = PrefKeys.CONFIRM_FAVOURITES
                     setTitle(R.string.pref_title_confirm_favourites)
                     isSingleLineTitle = false
                 }
 
                 switchPreference {
-                    setDefaultValue(true)
+                    setDefaultValue(false)
                     key = PrefKeys.CONFIRM_BOOKMARKS
                     setTitle(R.string.pref_title_confirm_bookmarks)
                     isSingleLineTitle = false
