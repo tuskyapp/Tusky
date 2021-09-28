@@ -14,7 +14,9 @@ import com.keylesspalace.tusky.entity.Emoji
 import com.keylesspalace.tusky.entity.Poll
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.util.Either
+import com.keylesspalace.tusky.util.shouldTrimStatus
 import com.keylesspalace.tusky.util.trimTrailingWhitespace
+import com.keylesspalace.tusky.viewdata.StatusViewData
 import java.util.Date
 
 data class Placeholder(val id: String)
@@ -129,9 +131,9 @@ fun Status.toEntity(
     )
 }
 
-fun TimelineStatusWithAccount.toStatus(gson: Gson): TimelineStatus {
+fun TimelineStatusWithAccount.toViewData(gson: Gson): StatusViewData {
     if (this.status.authorServerId == null) {
-        return Either.Left(Placeholder(this.status.serverId))
+        return StatusViewData.Placeholder(this.status.serverId, false)
     }
 
     val attachments: ArrayList<Attachment> = gson.fromJson(status.attachments, attachmentArrayListType) ?: arrayListOf()
@@ -225,5 +227,12 @@ fun TimelineStatusWithAccount.toStatus(gson: Gson): TimelineStatus {
             card = null
         )
     }
-    return Either.Right(status)
+    return StatusViewData.Concrete(
+        status = status,
+        isExpanded = this.status.expanded,
+        isShowingContent = this.status.contentHidden,
+        isCollapsible = shouldTrimStatus(status.content),
+        isCollapsed = this.status.contentCollapsed
+    )
+
 }

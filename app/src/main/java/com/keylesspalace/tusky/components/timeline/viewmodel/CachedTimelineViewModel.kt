@@ -15,17 +15,15 @@ import com.keylesspalace.tusky.appstore.PinEvent
 import com.keylesspalace.tusky.appstore.ReblogEvent
 import com.keylesspalace.tusky.components.timeline.Placeholder
 import com.keylesspalace.tusky.components.timeline.toEntity
-import com.keylesspalace.tusky.components.timeline.toStatus
+import com.keylesspalace.tusky.components.timeline.toViewData
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.db.AppDatabase
 import com.keylesspalace.tusky.entity.Poll
 import com.keylesspalace.tusky.network.FilterModel
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.network.TimelineCases
-import com.keylesspalace.tusky.util.Either
 import com.keylesspalace.tusky.util.dec
 import com.keylesspalace.tusky.util.inc
-import com.keylesspalace.tusky.util.toViewData
 import com.keylesspalace.tusky.viewdata.StatusViewData
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
@@ -51,13 +49,7 @@ class CachedTimelineViewModel @Inject constructor(
     ).flow
         .map {
             it.map { item ->
-                when (val status = item.toStatus(gson)) {
-                    is Either.Right -> status.value.toViewData(
-                        alwaysShowSensitiveMedia,
-                        alwaysOpenSpoilers
-                    )
-                    is Either.Left -> StatusViewData.Placeholder(status.value.id, false)
-                }
+                item.toViewData(gson)
             }
         }
 
