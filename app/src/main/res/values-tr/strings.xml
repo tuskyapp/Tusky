@@ -112,7 +112,7 @@
     <string name="confirmation_reported">Gönderildi!</string>
     <string name="confirmation_unblocked">Kullanıcının engeli kaldırıldı</string>
     <string name="confirmation_unmuted">Kullanıcının sesi açıldı</string>
-    <string name="hint_domain">Hangi sunucu\?</string>
+    <string name="hint_domain">Hangi sunucu?</string>
     <string name="hint_compose">Neler oluyor?</string>
     <string name="hint_content_warning">İçerik uyarısı</string>
     <string name="hint_display_name">Görünen ad</string>
