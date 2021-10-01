@@ -667,19 +667,11 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         });
 
         bookmarkButton.setEventListener((button, buttonState) -> {
-            // return true to play animaion
             int position = getBindingAdapterPosition();
             if (position != RecyclerView.NO_POSITION) {
-                if (statusDisplayOptions.confirmBookmarks()) {
-                    showConfirmBookmarkDialog(listener, statusContent, buttonState, position);
-                    return false;
-                } else {
-                    listener.onBookmark(!buttonState, position);
-                    return true;
-                }
-            } else {
-                return true;
+                listener.onBookmark(!buttonState, position);
             }
+            return true;
         });
 
         moreButton.setOnClickListener(v -> {
@@ -731,23 +723,6 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
                     if (!buttonState) {
                         // Play animation only when it's favourite, not unfavourite
                         favouriteButton.playAnimation();
-                    }
-                })
-                .show();
-    }
-
-    private void showConfirmBookmarkDialog(StatusActionListener listener,
-                                         String statusContent,
-                                         boolean buttonState,
-                                         int position) {
-        int okButtonTextId = buttonState ? R.string.action_unbookmark : R.string.action_bookmark;
-        new AlertDialog.Builder(bookmarkButton.getContext())
-                .setMessage(statusContent)
-                .setPositiveButton(okButtonTextId, (__, ___) -> {
-                    listener.onBookmark(!buttonState, position);
-                    if (!buttonState) {
-                        // Play animation only when it's bookmark, not unbookmark
-                        bookmarkButton.playAnimation();
                     }
                 })
                 .show();

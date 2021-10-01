@@ -17,8 +17,6 @@ data class StatusDisplayOptions(
     val confirmReblogs: Boolean,
     @get:JvmName("confirmFavourites")
     val confirmFavourites: Boolean,
-    @get:JvmName("confirmBookmarks")
-    val confirmBookmarks: Boolean,
     @get:JvmName("hideStats")
     val hideStats: Boolean,
     @get:JvmName("animateEmojis")

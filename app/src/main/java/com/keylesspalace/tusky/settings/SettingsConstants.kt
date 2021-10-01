@@ -31,7 +31,6 @@ object PrefKeys {
     const val SHOW_CARDS_IN_TIMELINES = "showCardsInTimelines"
     const val CONFIRM_REBLOGS = "confirmReblogs"
     const val CONFIRM_FAVOURITES = "confirmFavourites"
-    const val CONFIRM_BOOKMARKS = "confirmBookmarks"
     const val ENABLE_SWIPE_FOR_TABS = "enableSwipeForTabs"
     const val ANIMATE_CUSTOM_EMOJIS = "animateCustomEmojis"
 

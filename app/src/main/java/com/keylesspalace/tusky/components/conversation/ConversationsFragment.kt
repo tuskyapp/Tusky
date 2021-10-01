@@ -85,7 +85,6 @@ class ConversationsFragment : SFragment(), StatusActionListener, Injectable, Res
             cardViewMode = CardViewMode.NONE,
             confirmReblogs = preferences.getBoolean("confirmReblogs", true),
             confirmFavourites = preferences.getBoolean("confirmFavourites", true),
-            confirmBookmarks = preferences.getBoolean("confirmBookmarks", true),
             hideStats = preferences.getBoolean(PrefKeys.WELLBEING_HIDE_STATS_POSTS, false),
             animateEmojis = preferences.getBoolean(PrefKeys.ANIMATE_CUSTOM_EMOJIS, false)
         )
