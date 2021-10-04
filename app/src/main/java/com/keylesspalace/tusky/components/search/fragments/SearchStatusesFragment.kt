@@ -81,6 +81,7 @@ class SearchStatusesFragment : SearchFragment<Pair<Status, StatusViewData.Concre
             useBlurhash = preferences.getBoolean("useBlurhash", true),
             cardViewMode = CardViewMode.NONE,
             confirmReblogs = preferences.getBoolean("confirmReblogs", true),
+            confirmFavourites = preferences.getBoolean("confirmFavourites", true),
             hideStats = preferences.getBoolean(PrefKeys.WELLBEING_HIDE_STATS_POSTS, false),
             animateEmojis = preferences.getBoolean(PrefKeys.ANIMATE_CUSTOM_EMOJIS, false)
         )

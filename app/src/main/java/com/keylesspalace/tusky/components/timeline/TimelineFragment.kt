@@ -145,6 +145,7 @@ class TimelineFragment :
                 )
             ) CardViewMode.INDENTED else CardViewMode.NONE,
             confirmReblogs = preferences.getBoolean(PrefKeys.CONFIRM_REBLOGS, true),
+            confirmFavourites = preferences.getBoolean(PrefKeys.CONFIRM_FAVOURITES, true),
             hideStats = preferences.getBoolean(PrefKeys.WELLBEING_HIDE_STATS_POSTS, false),
             animateEmojis = preferences.getBoolean(PrefKeys.ANIMATE_CUSTOM_EMOJIS, false)
         )
