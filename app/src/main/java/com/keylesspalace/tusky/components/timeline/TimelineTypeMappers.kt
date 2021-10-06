@@ -97,7 +97,10 @@ fun Placeholder.toEntity(timelineUserId: Long): TimelineStatusEntity {
 
 fun Status.toEntity(
     timelineUserId: Long,
-    gson: Gson
+    gson: Gson,
+    expanded: Boolean,
+    contentHidden: Boolean,
+    contentCollapsed: Boolean
 ): TimelineStatusEntity {
     val actionable = actionableStatus
     return TimelineStatusEntity(
@@ -125,9 +128,9 @@ fun Status.toEntity(
         reblogAccountId = reblog?.let { this.account.id },
         poll = actionable.poll.let(gson::toJson),
         muted = actionable.muted,
-        expanded = false,
-        contentHidden = false,
-        contentCollapsed = false
+        expanded = expanded,
+        contentHidden = contentHidden,
+        contentCollapsed = contentCollapsed
     )
 }
 

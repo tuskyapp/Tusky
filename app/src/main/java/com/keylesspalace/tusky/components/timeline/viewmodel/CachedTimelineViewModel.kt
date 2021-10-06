@@ -44,7 +44,7 @@ class CachedTimelineViewModel @Inject constructor(
     @ExperimentalPagingApi
     override val statuses = Pager(
         config = PagingConfig(pageSize = LOAD_AT_ONCE),
-        remoteMediator = CachedTimelineRemoteMediator(accountManager.activeAccount!!.id, api, db, gson),
+        remoteMediator = CachedTimelineRemoteMediator(accountManager, api, db, gson),
         pagingSourceFactory = { db.timelineDao().getStatusesForAccount(accountManager.activeAccount!!.id) }
     ).flow
         .map {
@@ -89,29 +89,37 @@ class CachedTimelineViewModel @Inject constructor(
 
             val timelineDao = db.timelineDao()
 
-            val accountId = accountManager.activeAccount!!.id
+            val activeAccount = accountManager.activeAccount!!
 
             db.withTransaction {
 
-                timelineDao.delete(accountId, placeholderId)
+                timelineDao.delete(activeAccount.id, placeholderId)
 
                 val overlappedStatuses = if (statuses.isNotEmpty()) {
-                    timelineDao.deleteRange(accountId, statuses.last().id, statuses.first().id)
+                    timelineDao.deleteRange(activeAccount.id, statuses.last().id, statuses.first().id)
                 } else {
                     0
                 }
 
                 for (status in statuses) {
-                    timelineDao.insertAccount(status.account.toEntity(accountId, gson))
-                    status.reblog?.account?.toEntity(accountId, gson)?.let { rebloggedAccount ->
+                    timelineDao.insertAccount(status.account.toEntity(activeAccount.id, gson))
+                    status.reblog?.account?.toEntity(activeAccount.id, gson)?.let { rebloggedAccount ->
                         timelineDao.insertAccount(rebloggedAccount)
                     }
-                    timelineDao.insertStatus(status.toEntity(accountId, gson))
+                    timelineDao.insertStatus(
+                        status.toEntity(
+                            timelineUserId = activeAccount.id,
+                            gson = gson,
+                            expanded = activeAccount.alwaysOpenSpoiler,
+                            contentHidden = !activeAccount.alwaysShowSensitiveMedia && status.actionableStatus.sensitive,
+                            contentCollapsed = false
+                        )
+                    )
                 }
 
                 if (overlappedStatuses == 0) {
                     timelineDao.insertStatus(
-                        Placeholder(statuses.last().id.dec()).toEntity(accountId)
+                        Placeholder(statuses.last().id.dec()).toEntity(activeAccount.id)
                     )
                 }
             }
