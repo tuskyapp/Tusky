@@ -532,4 +532,6 @@
     <string name="follow_requests_info">Ged nach eil an cunntas agad glaiste, tha sgioba %1$s dhen bheachd gum b’ fheàirrde thu lèirmheas a dhèanamh air na h-iarrtasan leantainn o na cunntasan seo a làimh.</string>
     <string name="dialog_delete_conversation_warning">A bheil thu airson an còmhradh seo a sguabadh às\?</string>
     <string name="action_delete_conversation">Sguab às an còmhradh</string>
+    <string name="action_unbookmark">Thoir an comharra-lìn air falbh</string>
+    <string name="pref_title_confirm_favourites">Ceall còmhradh dearbhaidh mus dèid post ’na annsachd</string>
 </resources>
