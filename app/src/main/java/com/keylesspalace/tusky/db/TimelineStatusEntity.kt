@@ -61,7 +61,8 @@ data class TimelineStatusEntity(
     val muted: Boolean?,
     val expanded: Boolean,
     val contentCollapsed: Boolean,
-    val contentHidden: Boolean
+    val contentHidden: Boolean,
+    val pinned: Boolean
 )
 
 @Entity(

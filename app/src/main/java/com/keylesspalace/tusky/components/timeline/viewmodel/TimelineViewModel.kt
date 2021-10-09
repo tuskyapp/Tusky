@@ -20,7 +20,6 @@ import com.keylesspalace.tusky.appstore.StatusComposedEvent
 import com.keylesspalace.tusky.appstore.StatusDeletedEvent
 import com.keylesspalace.tusky.appstore.UnfollowEvent
 import com.keylesspalace.tusky.components.timeline.Placeholder
-import com.keylesspalace.tusky.components.timeline.TimelineStatus
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.entity.Filter
 import com.keylesspalace.tusky.entity.Poll
@@ -30,7 +29,6 @@ import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.network.TimelineCases
 import com.keylesspalace.tusky.settings.PrefKeys
 import com.keylesspalace.tusky.util.Either
-import com.keylesspalace.tusky.util.toViewData
 import com.keylesspalace.tusky.viewdata.StatusViewData
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.Flow
@@ -179,6 +177,8 @@ abstract class TimelineViewModel(
 
     abstract fun handlePinEvent(pinEvent: PinEvent)
 
+    abstract fun fullReload()
+
     private fun handleStatusComposeEvent(status: Status) {
         when (kind) {
             Kind.HOME, Kind.PUBLIC_FEDERATED, Kind.PUBLIC_LOCAL -> TODO()
@@ -288,16 +288,6 @@ abstract class TimelineViewModel(
             is PreferenceChangedEvent -> {
                 onPreferenceChanged(event.preferenceKey)
             }
-        }
-    }
-
-    private fun List<TimelineStatus>.toViewData(): List<StatusViewData> = this.map {
-        when (it) {
-            is Either.Right -> it.value.toViewData(
-                alwaysShowSensitiveMedia,
-                alwaysOpenSpoilers
-            )
-            is Either.Left -> StatusViewData.Placeholder(it.value.id, false)
         }
     }
 

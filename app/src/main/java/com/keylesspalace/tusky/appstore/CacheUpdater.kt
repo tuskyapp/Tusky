@@ -36,6 +36,8 @@ class CacheUpdater @Inject constructor(
                     val pollString = gson.toJson(event.poll)
                     timelineDao.setVoted(accountId, event.statusId, pollString)
                 }
+                is PinEvent ->
+                    timelineDao.setPinned(accountId, event.statusId, event.pinned)
             }
         }
     }

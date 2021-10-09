@@ -91,7 +91,8 @@ fun Placeholder.toEntity(timelineUserId: Long): TimelineStatusEntity {
         muted = false,
         expanded = false,
         contentCollapsed = false,
-        contentHidden = false
+        contentHidden = false,
+        pinned = false
     )
 }
 
@@ -102,35 +103,35 @@ fun Status.toEntity(
     contentHidden: Boolean,
     contentCollapsed: Boolean
 ): TimelineStatusEntity {
-    val actionable = actionableStatus
     return TimelineStatusEntity(
         serverId = this.id,
-        url = actionable.url!!,
+        url = actionableStatus.url!!,
         timelineUserId = timelineUserId,
-        authorServerId = actionable.account.id,
-        inReplyToId = actionable.inReplyToId,
-        inReplyToAccountId = actionable.inReplyToAccountId,
-        content = actionable.content.toHtml(),
-        createdAt = actionable.createdAt.time,
-        emojis = actionable.emojis.let(gson::toJson),
-        reblogsCount = actionable.reblogsCount,
-        favouritesCount = actionable.favouritesCount,
-        reblogged = actionable.reblogged,
-        favourited = actionable.favourited,
-        bookmarked = actionable.bookmarked,
-        sensitive = actionable.sensitive,
-        spoilerText = actionable.spoilerText,
-        visibility = actionable.visibility,
-        attachments = actionable.attachments.let(gson::toJson),
-        mentions = actionable.mentions.let(gson::toJson),
-        application = actionable.application.let(gson::toJson),
+        authorServerId = actionableStatus.account.id,
+        inReplyToId = actionableStatus.inReplyToId,
+        inReplyToAccountId = actionableStatus.inReplyToAccountId,
+        content = actionableStatus.content.toHtml(),
+        createdAt = actionableStatus.createdAt.time,
+        emojis = actionableStatus.emojis.let(gson::toJson),
+        reblogsCount = actionableStatus.reblogsCount,
+        favouritesCount = actionableStatus.favouritesCount,
+        reblogged = actionableStatus.reblogged,
+        favourited = actionableStatus.favourited,
+        bookmarked = actionableStatus.bookmarked,
+        sensitive = actionableStatus.sensitive,
+        spoilerText = actionableStatus.spoilerText,
+        visibility = actionableStatus.visibility,
+        attachments = actionableStatus.attachments.let(gson::toJson),
+        mentions = actionableStatus.mentions.let(gson::toJson),
+        application = actionableStatus.application.let(gson::toJson),
         reblogServerId = reblog?.id,
         reblogAccountId = reblog?.let { this.account.id },
-        poll = actionable.poll.let(gson::toJson),
-        muted = actionable.muted,
+        poll = actionableStatus.poll.let(gson::toJson),
+        muted = actionableStatus.muted,
         expanded = expanded,
         contentHidden = contentHidden,
-        contentCollapsed = contentCollapsed
+        contentCollapsed = contentCollapsed,
+        pinned = actionableStatus.pinned == true
     )
 }
 
@@ -196,7 +197,7 @@ fun TimelineStatusWithAccount.toViewData(gson: Gson): StatusViewData {
             attachments = ArrayList(),
             mentions = listOf(),
             application = null,
-            pinned = false,
+            pinned = status.pinned,
             muted = status.muted,
             poll = null,
             card = null
@@ -224,7 +225,7 @@ fun TimelineStatusWithAccount.toViewData(gson: Gson): StatusViewData {
             attachments = attachments,
             mentions = mentions,
             application = application,
-            pinned = false,
+            pinned = status.pinned,
             muted = status.muted,
             poll = poll,
             card = null

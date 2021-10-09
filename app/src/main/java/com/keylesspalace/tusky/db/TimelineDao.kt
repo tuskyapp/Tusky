@@ -6,8 +6,6 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy.IGNORE
 import androidx.room.OnConflictStrategy.REPLACE
 import androidx.room.Query
-import androidx.room.Transaction
-import io.reactivex.rxjava3.core.Single
 
 @Dao
 abstract class TimelineDao {
@@ -27,7 +25,7 @@ SELECT s.serverId, s.url, s.timelineUserId,
 s.authorServerId, s.inReplyToId, s.inReplyToAccountId, s.createdAt,
 s.emojis, s.reblogsCount, s.favouritesCount, s.reblogged, s.favourited, s.bookmarked, s.sensitive,
 s.spoilerText, s.visibility, s.mentions, s.application, s.reblogServerId,s.reblogAccountId,
-s.content, s.attachments, s.poll, s.muted, s.expanded, s.contentHidden, s.contentCollapsed,
+s.content, s.attachments, s.poll, s.muted, s.expanded, s.contentHidden, s.contentCollapsed, s.pinned,
 a.serverId as 'a_serverId', a.timelineUserId as 'a_timelineUserId',
 a.localUsername as 'a_localUsername', a.username as 'a_username',
 a.displayName as 'a_displayName', a.url as 'a_url', a.avatar as 'a_avatar',
@@ -115,4 +113,10 @@ WHERE timelineUserId = :accountId AND (serverId = :statusId OR reblogServerId = 
 WHERE timelineUserId = :accountId AND (serverId = :statusId OR reblogServerId = :statusId)"""
     )
     abstract fun setContentCollapsed(accountId: Long, statusId: String, contentCollapsed: Boolean)
+
+    @Query(
+        """UPDATE TimelineStatusEntity SET pinned = :pinned
+WHERE timelineUserId = :accountId AND (serverId = :statusId OR reblogServerId = :statusId)"""
+    )
+    abstract fun setPinned(accountId: Long, statusId: String, pinned: Boolean)
 }

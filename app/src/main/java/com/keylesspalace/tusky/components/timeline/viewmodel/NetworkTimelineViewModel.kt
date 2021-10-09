@@ -138,6 +138,11 @@ class NetworkTimelineViewModel @Inject constructor(
         }
     }
 
+    override fun fullReload() {
+        statusData.clear()
+        currentSource?.invalidate()
+    }
+
     suspend fun fetchStatusesForKind(
         fromId: String?,
         uptoId: String?,

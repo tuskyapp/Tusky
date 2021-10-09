@@ -127,14 +127,22 @@ class CachedTimelineViewModel @Inject constructor(
     }
 
     override fun handleReblogEvent(reblogEvent: ReblogEvent) {
+        // handled by CacheUpdater
     }
 
     override fun handleFavEvent(favEvent: FavoriteEvent) {
+        // handled by CacheUpdater
     }
 
     override fun handleBookmarkEvent(bookmarkEvent: BookmarkEvent) {
+        // handled by CacheUpdater
     }
 
     override fun handlePinEvent(pinEvent: PinEvent) {
+        // handled by CacheUpdater
+    }
+
+    override fun fullReload() {
+
     }
 }
