@@ -17,7 +17,7 @@ class InstanceListActivity : BaseActivity(), HasAndroidInjector {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val binding = ActivityAccountListBinding.inflate(layoutInflater)
-        setContentView(R.layout.activity_account_list)
+        setContentView(binding.root)
 
         setSupportActionBar(binding.includedToolbar.toolbar)
         supportActionBar?.apply {
