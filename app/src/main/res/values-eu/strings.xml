@@ -103,7 +103,7 @@
     <string name="confirmation_reported">Bidalia!</string>
     <string name="confirmation_unblocked">Erabiltzailea desblokeatuta</string>
     <string name="confirmation_unmuted">Erabiltzailea isilgabetuta</string>
-    <string name="hint_domain">Zein instantzia\?</string>
+    <string name="hint_domain">Zein instantzia?</string>
     <string name="hint_compose">Zer duzu buruan?</string>
     <string name="hint_content_warning">Edukiaren abisua</string>
     <string name="hint_display_name">Agertuko den izena</string>
@@ -456,10 +456,10 @@
     <string name="pref_title_confirm_favourites">Erakutsi berrespena gogokoenetara gehitu aurretik</string>
     <string name="follow_requests_info">Zure kontua blokeatuta ez badago ere, %1$s-ko langileek kontu hauetako eskaerak eskuz berrikusi nahi dituzula pentsatu dute.</string>
     <string name="post_media_attachments">Eranskinak</string>
-    <string name="dialog_delete_list_warning">Ziur %1$s zerrenda ezabatu nahi duzula\?</string>
+    <string name="dialog_delete_list_warning">Ziur %1$s zerrenda ezabatu nahi duzula?</string>
     <string name="post_media_audio">Audioa</string>
     <string name="action_subscribe_account">Harpidetu</string>
-    <string name="dialog_delete_conversation_warning">Elkarrizketa ezabatu nahi duzu\?</string>
+    <string name="dialog_delete_conversation_warning">Elkarrizketa ezabatu nahi duzu?</string>
     <string name="pref_title_animate_custom_emojis">Animatu emoji pertsonalizatuak</string>
     <string name="drafts_failed_loading_reply">Erantzunaren informazioa ezin izan da kargatu</string>
     <string name="wellbeing_hide_stats_profile">Ezkutatu profilen estatistika kuantitatiboak</string>
