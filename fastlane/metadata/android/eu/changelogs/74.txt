@@ -1,0 +1,8 @@
+Tusky v12.0
+
+- Interfaze nagusia hobetuta - fitxak beheko aldera eraman ditzakezu.
+- Erabiltzailea mututzean, orain ere jakinarazpenak isilarazi nahi dituzun erabaki dezakezu.
+- Orain nahi dituzun traola traola fitxa bakarrean jarrai ditzakezu.
+- Multimedia deskribapenak bistaratzeko modua hobetu da, beraz deskribapen oso luzeetarako ere funtzionatzen du.
+
+Aldaketa erregistro osoa: https://github.com/tuskyapp/Tusky/releases
