@@ -51,7 +51,7 @@ class NetworkTimelineViewModel @Inject constructor(
                 currentSource = source
             }
         },
-        remoteMediator = NetworkTimelineRemoteMediator(this)
+        remoteMediator = NetworkTimelineRemoteMediator(accountManager, this)
     ).flow
         .cachedIn(viewModelScope)
 
