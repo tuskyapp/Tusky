@@ -92,6 +92,4 @@ class NetworkTimelineRemoteMediator(
             return MediatorResult.Error(e)
         }
     }
-
-    override suspend fun initialize() = InitializeAction.SKIP_INITIAL_REFRESH
 }

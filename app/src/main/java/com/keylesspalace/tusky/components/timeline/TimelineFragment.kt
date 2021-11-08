@@ -59,12 +59,12 @@ import com.keylesspalace.tusky.util.StatusDisplayOptions
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.viewBinding
-import com.keylesspalace.tusky.util.visible
 import com.keylesspalace.tusky.viewdata.AttachmentViewData
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import java.io.IOException
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -175,7 +175,29 @@ class TimelineFragment :
                 binding.swipeRefreshLayout.isRefreshing = false
             }
 
-            binding.progressBar.visible(loadState.refresh == LoadState.Loading && adapter.itemCount == 0)
+            binding.statusView.hide()
+            binding.progressBar.hide()
+
+            if (adapter.itemCount == 0) {
+                when (loadState.refresh) {
+                    is LoadState.NotLoading -> {
+                        binding.statusView.show()
+                        binding.statusView.setup(R.drawable.elephant_friend_empty, R.string.message_empty, null)
+                    }
+                    is LoadState.Error -> {
+                        binding.statusView.show()
+
+                        if ((loadState.refresh as LoadState.Error).error is IOException) {
+                            binding.statusView.setup(R.drawable.elephant_offline, R.string.error_network, null)
+                        } else {
+                            binding.statusView.setup(R.drawable.elephant_error, R.string.error_generic, null)
+                        }
+                    }
+                    is LoadState.Loading -> {
+                        binding.progressBar.show()
+                    }
+                }
+            }
         }
 
         adapter.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
@@ -216,11 +238,6 @@ class TimelineFragment :
         // CWs are expanded without animation, buttons animate itself, we don't need it basically
         (binding.recyclerView.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
         binding.recyclerView.adapter = adapter
-    }
-
-    private fun showEmptyView() {
-        binding.statusView.show()
-        binding.statusView.setup(R.drawable.elephant_friend_empty, R.string.message_empty, null)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
