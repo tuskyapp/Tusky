@@ -4,6 +4,7 @@ import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadType
 import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
+import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.util.HttpHeaderLink
 import com.keylesspalace.tusky.util.dec
 import com.keylesspalace.tusky.util.toViewData
@@ -11,6 +12,7 @@ import com.keylesspalace.tusky.viewdata.StatusViewData
 
 @ExperimentalPagingApi
 class NetworkTimelineRemoteMediator(
+    private val accountManager: AccountManager,
     private val viewModel: NetworkTimelineViewModel
 ) : RemoteMediator<String, StatusViewData>() {
 
@@ -18,6 +20,8 @@ class NetworkTimelineRemoteMediator(
         loadType: LoadType,
         state: PagingState<String, StatusViewData>
     ): MediatorResult {
+
+        val activeAccount = accountManager.activeAccount!!
 
         try {
             val statusResponse = when (loadType) {
@@ -36,7 +40,10 @@ class NetworkTimelineRemoteMediator(
             val statuses = statusResponse.body()!!
 
             val data = statuses.map { status ->
-                status.toViewData(false, false) // todo
+                status.toViewData(
+                    alwaysShowSensitiveMedia = !activeAccount.alwaysShowSensitiveMedia && status.actionableStatus.sensitive,
+                    alwaysOpenSpoiler = activeAccount.alwaysOpenSpoiler
+                )
             }
 
             val overlappedStatuses = if (statuses.isNotEmpty()) {
