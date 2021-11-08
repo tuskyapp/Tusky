@@ -28,7 +28,7 @@ class NetworkTimelinePagingSource(
     override suspend fun load(params: LoadParams<String>): LoadResult<String, StatusViewData> {
 
         return if (params is LoadParams.Refresh) {
-            LoadResult.Page(viewModel.statusData, null, viewModel.nextKey)
+            LoadResult.Page(viewModel.statusData.toList(), null, viewModel.nextKey)
         } else {
             LoadResult.Page(emptyList(), null, null)
         }
