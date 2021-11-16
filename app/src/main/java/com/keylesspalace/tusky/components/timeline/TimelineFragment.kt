@@ -415,10 +415,6 @@ class TimelineFragment :
         // TODO
     }
 
-    private fun onLoadMore() {
-        // TODO
-    }
-
     private fun actionButtonPresent(): Boolean {
         return viewModel.kind != TimelineViewModel.Kind.TAG &&
             viewModel.kind != TimelineViewModel.Kind.FAVOURITES &&
@@ -454,7 +450,9 @@ class TimelineFragment :
             Observable.interval(1, TimeUnit.MINUTES)
                 .observeOn(AndroidSchedulers.mainThread())
                 .autoDispose(this, Lifecycle.Event.ON_PAUSE)
-                .subscribe { } // TODO
+                .subscribe {
+                    adapter.notifyDataSetChanged()
+                }
         }
     }
 
