@@ -499,4 +499,6 @@
     <string name="follow_requests_info">Dù biết tài khoản của bạn công khai, quản trị viên %1$s vẫn nghĩ bạn hãy nên duyệt thủ công yêu cầu theo dõi từ những tài khoản lạ.</string>
     <string name="dialog_delete_conversation_warning">Xóa cuộc thảo luận này\?</string>
     <string name="action_delete_conversation">Xóa thảo luận</string>
+    <string name="pref_title_confirm_favourites">Xác nhận trước khi thích</string>
+    <string name="action_unbookmark">Bỏ lưu</string>
 </resources>
