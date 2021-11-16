@@ -777,7 +777,6 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
                     }
                 })
         }
-
     }
 
     private fun fetchAnnouncements() {
