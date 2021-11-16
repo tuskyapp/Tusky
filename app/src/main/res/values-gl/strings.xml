@@ -159,8 +159,8 @@
         <item quantity="other">quedan %d horas</item>
     </plurals>
     <plurals name="poll_timespan_days">
-        <item quantity="one">queda %s día</item>
-        <item quantity="other">quedan %s días</item>
+        <item quantity="one">queda %d día</item>
+        <item quantity="other">quedan %d días</item>
     </plurals>
     <string name="poll_ended_created">Rematou unha enquisa creada por ti</string>
     <string name="poll_ended_voted">Rematou unha enquisa na que votaches</string>
@@ -510,4 +510,6 @@
     <string name="follow_requests_info">Aínda que a túa conta non está bloqueada, a administración de %1$s opina que debes revisar manualmente as peticións de seguimento destas contas.</string>
     <string name="dialog_delete_conversation_warning">Eliminar esta conversa\?</string>
     <string name="action_delete_conversation">Eliminar conversa</string>
+    <string name="action_unbookmark">Eliminar marcador</string>
+    <string name="pref_title_confirm_favourites">Mostrar diálogo de confirmación antes de favorecer</string>
 </resources>

@@ -204,6 +204,7 @@
     <string name="notification_summary_medium">%1$s, %2$s, y %3$s</string>
     <string name="notification_summary_small">%1$s y %2$s</string>
     <plurals name="notification_title_summary">
+        <item quantity="one">%d nueva interacción</item>
         <item quantity="other">%d nuevas interacciones</item>
     </plurals>
     <string name="description_account_locked">Cuenta protegida</string>
@@ -313,6 +314,7 @@
     <string name="conversation_2_recipients">%1$s y %2$s</string>
     <string name="conversation_more_recipients">%1$s, %2$s y %3$d más</string>
     <plurals name="max_tab_number_reached">
+        <item quantity="one">máximo de %1$d pestaña alcanzada</item>
         <item quantity="other">máximo de %1$d pestañas alcanzadas</item>
     </plurals>
     <string name="action_mentions">Menciones</string>
@@ -471,7 +473,7 @@
     <string name="hashtags">Etiquetas</string>
     <string name="add_hashtag_title">Añadir etiqueta</string>
     <string name="notification_follow_request_format">%s solicita seguirte</string>
-    <string name="pref_main_nav_position_option_bottom">Fondo</string>
+    <string name="pref_main_nav_position_option_bottom">Abajo</string>
     <string name="pref_main_nav_position_option_top">Arriba</string>
     <string name="pref_main_nav_position">Posición de navegación principal</string>
     <string name="pref_title_gradient_for_media">Mostrar degradados colorido para los medios ocultos</string>
@@ -487,7 +489,8 @@
     <string name="title_announcements">Anuncios</string>
     <string name="notification_subscription_format">%s recién publicado</string>
     <plurals name="error_upload_max_media_reached">
-        <item quantity="other">No puedes cargar más de %1$d archivos adjuntos multimedia.</item>
+        <item quantity="one">No puedes cargar más de %1$d archivo multimedia adjunto.</item>
+        <item quantity="other">No puedes cargar más de %1$d archivos multimedia adjuntos.</item>
     </plurals>
     <string name="wellbeing_hide_stats_profile">Esconder las estadísticas cuantitativas de los perfiles</string>
     <string name="wellbeing_hide_stats_posts">Esconder las estadísticas cuantitativas de las publicaciones</string>
@@ -496,12 +499,12 @@
     <string name="notification_subscription_description">Notificaciones cuando alguien al que estoy suscrito publicó un nuevo toot</string>
     <string name="notification_subscription_name">Nuevos toots</string>
     <string name="pref_title_notification_filter_subscriptions">alguien al que estoy suscrito publicó un nuevo toot</string>
-    <string name="wellbeing_mode_notice">Algunas informaciones que podríam afectar tu bienestar van a ser ocultas. Esto incluye: 
-\n 
-\n- Notificaciones de favoritos, impulsos e seguidores 
-\n- Conteo de favoritos e impulsos en toots 
+    <string name="wellbeing_mode_notice">Algunas informaciones que podríam afectar tu bienestar van a ser ocultas. Esto incluye:
+\n
+\n- Notificaciones de favoritos, impulsos y seguidores
+\n- Conteo de favoritos e impulsos en toots
 \n- Estadísticas de seguidores e toots en perfiles
-\n 
+\n
 \nLas notificaciones Push no serán afectadas, pero puedes revisar manualmente tus preferencias.</string>
     <string name="drafts_toot_reply_removed">El toot al que redactaste una respuesta ha sido eliminado</string>
     <string name="draft_deleted">Borrador eliminado</string>
@@ -512,5 +515,13 @@
     <string name="label_duration">Duración</string>
     <string name="status_media_attachments">Adjuntos</string>
     <string name="status_media_audio">Audio</string>
-    <string name="limit_notifications">Limitar notificaciones de cronología</string>
+    <string name="limit_notifications">Limitar cronología de notificaciones</string>
+    <string name="action_unbookmark">Quitar marcador</string>
+    <string name="follow_requests_info">Aunque su cuenta no está bloqueada, el personal de %1$s pensó que podría querer revisar las solicitudes de seguimiento de estas cuentas manualmente.</string>
+    <string name="action_subscribe_account">Suscribir</string>
+    <string name="dialog_delete_conversation_warning">¿Eliminar esta conversación\?</string>
+    <string name="pref_title_animate_custom_emojis">Animar emojis personalizados</string>
+    <string name="action_unsubscribe_account">Darse de baja</string>
+    <string name="action_delete_conversation">Eliminar conversación</string>
+    <string name="pref_title_confirm_favourites">Mostrar diálogo de confirmación antes de marcar como favorito</string>
 </resources>

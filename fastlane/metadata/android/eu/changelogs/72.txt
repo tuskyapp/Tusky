@@ -1,0 +1,9 @@
+Tusky v11.0
+
+- Jarraipena egiteko eskaera berriei buruzko jakinarazpenak zure kontua blokeatuta dagoenean.
+- Hobespenen pantailan txanda daitezkeen eginbide berriak:
+   - Desgaitu fitxen artean irristatzea.
+   - Erakutsi baieztapen elkarrizketa-koadroa tuta bultzatu aurretik.
+   - Erakutsi esteken aurrebistak kronogrametan.
+- Elkarrizketak isil daitezke.
+- Inkesten emaitzak orain hautesle kopuruaren arabera kalkulatuko dira horrek egiten du anitz aukerako inkesta errazago ulertzen.

@@ -1,0 +1,7 @@
+Tusky v14.0
+
+- Jaso jakinarazpena jarraitutako erabiltzaile batek argitaratzen duenean - egin klik bere profileko kanpaiaren ikonoan! (Mastodon 3.3.0-ren ezaugarria)
+- Tusky-ren zirriborroa erabat birmoldatu da azkarragoa, erabilerrazagoa eta txikiagoa izan dadin.
+- Tusky-ren zenbait ezaugarri mugatzea ahalbidetzen duen ongizate modu berria gehitu da.
+- Tusky-k emoji pertsonalizatuak animatu ditzake orain.
+Aldaketa erregistro osoa : https://github.com/tuskyapp/Tusky/releases
