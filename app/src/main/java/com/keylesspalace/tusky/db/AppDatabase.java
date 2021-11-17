@@ -448,6 +448,7 @@ public abstract class AppDatabase extends RoomDatabase {
                     "`expanded` INTEGER NOT NULL," +
                     "`contentCollapsed` INTEGER NOT NULL," +
                     "`contentHidden` INTEGER NOT NULL," +
+                    "`pinned` INTEGER NOT NULL," +
                     "PRIMARY KEY(`serverId`, `timelineUserId`)," +
                     "FOREIGN KEY(`authorServerId`, `timelineUserId`) REFERENCES `TimelineAccountEntity`(`serverId`, `timelineUserId`)" +
                     "ON UPDATE NO ACTION ON DELETE NO ACTION )");
