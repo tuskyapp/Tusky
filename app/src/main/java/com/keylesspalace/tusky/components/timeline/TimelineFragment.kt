@@ -405,7 +405,7 @@ class TimelineFragment :
                 val oldMediaPreviewEnabled = adapter.mediaPreviewEnabled
                 if (enabled != oldMediaPreviewEnabled) {
                     adapter.mediaPreviewEnabled = enabled
-                    // updateViews() TODO
+                    adapter.notifyDataSetChanged()
                 }
             }
         }
