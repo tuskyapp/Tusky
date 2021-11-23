@@ -68,10 +68,10 @@
     <string name="action_unfavourite">ප්‍රියතමය ඉවත් කරන්න</string>
     <string name="drafts_failed_loading_reply">පිළිතුරෙහි තොරතුරු පූරණය වීමට අසමත් විය</string>
     <string name="report_username_format">\@%1$s වාර්තා කරන්න</string>
-    <string name="report_comment_hint">අතිරේක අදහස්\?</string>
+    <string name="report_comment_hint">අතිරේක අදහස්?</string>
     <string name="send_post_link_to">වෙත ටූට් ඒ.ස.නි. බෙදාගන්න…</string>
     <string name="app_theme_light">දීප්ත</string>
-    <string name="compose_save_draft">කටුපිටපත සුරකින්නද\?</string>
+    <string name="compose_save_draft">කටුපිටපත සුරකින්නද?</string>
     <string name="post_sensitive_media_title">සංවේදී අන්තර්ගතයකි</string>
     <string name="profile_badge_bot_text">ස්වයංක්‍රමලේඛය</string>
     <string name="action_bookmark">පොත්යොමුව</string>
@@ -97,7 +97,7 @@
     <string name="hint_search">සොයන්න…</string>
     <string name="pref_title_app_theme">යෙදුමේ තේමාව</string>
     <string name="title_bookmarks">පොත්යොමු</string>
-    <string name="dialog_mute_warning">\@%1$s නිහඬ\?</string>
+    <string name="dialog_mute_warning">\@%1$s නිහඬ?</string>
     <string name="compose_shortcut_short_label">රචනා කරන්න</string>
     <string name="poll_ended_voted">ඔබ ජන්දය දුන් මත විමසුව නිම වී ඇත</string>
     <string name="about_title_activity">පිළිබඳව</string>
@@ -238,7 +238,7 @@
     <string name="about_tusky_license">ටුස්කි යනු නොමිලේ සහ විවෘත-මූලාශ්‍ර මෘදුකාංගයකි. එය ජීඑන්යූ පොදු බලපත්‍ර අනුවාදය 3 යටතේ අවසර ලබා ඇත. ඔබට මෙතැනින් බලපත්‍රය දැකීමට හැකිය: https://www.gnu.org/licenses/gpl-3.0.en.html</string>
     <string name="title_links_dialog">සබැඳි</string>
     <string name="title_media">මාධ්‍ය</string>
-    <string name="dialog_block_warning">\@%1$s අවහිර\?</string>
+    <string name="dialog_block_warning">\@%1$s අවහිර?</string>
     <string name="pref_title_notification_alert_light">ආලෝකය සමඟ දන්වන්න</string>
     <string name="account_note_hint">මෙම ගිණුම පිළිබඳව ඔබගේ පෞද්ගලික සටහන</string>
     <string name="action_close">වසන්න</string>
