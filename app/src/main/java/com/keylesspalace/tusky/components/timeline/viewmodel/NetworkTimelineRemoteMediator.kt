@@ -61,19 +61,19 @@ class NetworkTimelineRemoteMediator(
                 )
             }
 
-            val overlappedStatuses = if (statuses.isNotEmpty()) {
-                viewModel.statusData.removeAll { statusViewData ->
-                    statuses.find { status -> status.id == statusViewData.asStatusOrNull()?.id } != null
-                }
-            } else {
-                false
-            }
-
             if (loadType == LoadType.REFRESH) {
+
+                val overlappedStatuses = if (statuses.isNotEmpty()) {
+                    viewModel.statusData.removeAll { statusViewData ->
+                        statuses.find { status -> status.id == statusViewData.asStatusOrNull()?.id } != null
+                    }
+                } else {
+                    false
+                }
 
                 viewModel.statusData.addAll(0, data)
 
-                if (!overlappedStatuses) {
+                if (!overlappedStatuses && viewModel.statusData.isNotEmpty()) {
                     viewModel.statusData.add(statuses.size, StatusViewData.Placeholder(statuses.last().id.dec(), false))
                 }
             } else {
