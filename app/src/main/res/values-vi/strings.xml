@@ -236,7 +236,7 @@
     <string name="pref_title_notification_alerts">Báo động</string>
     <string name="pref_title_notifications_enabled">Thông báo</string>
     <string name="pref_title_edit_notification_settings">Thông báo</string>
-    <string name="visibility_direct">Nhắn tin: Chỉ người được nhắc tới mới thấy</string>
+    <string name="visibility_direct">Nhắn riêng: Chỉ người được nhắc đến mới thấy</string>
     <string name="visibility_private">Riêng tư: Chỉ người theo dõi mới thấy</string>
     <string name="visibility_unlisted">Hạn chế: Không hiện trên bảng tin</string>
     <string name="visibility_public">Công khai: Mọi người đều có thể thấy</string>
@@ -376,7 +376,7 @@
     <string name="add_hashtag_title">Thêm hashtag</string>
     <string name="hint_list_name">Tên danh sách</string>
     <string name="description_poll">Lượt bình chọn: %1$s, %2$s, %3$s, %4$s; %5$s</string>
-    <string name="description_visiblity_direct">Tin nhắn</string>
+    <string name="description_visiblity_direct">Nhắn riêng</string>
     <string name="description_visiblity_private">Người theo dõi</string>
     <string name="description_visiblity_unlisted">Hạn chế</string>
     <string name="description_visiblity_public">Công khai</string>
