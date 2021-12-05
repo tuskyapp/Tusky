@@ -20,6 +20,8 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
+import androidx.paging.cachedIn
+import androidx.paging.filter
 import androidx.paging.map
 import androidx.room.withTransaction
 import com.google.gson.Gson
@@ -62,11 +64,17 @@ class CachedTimelineViewModel @Inject constructor(
         remoteMediator = CachedTimelineRemoteMediator(accountManager, api, db, gson),
         pagingSourceFactory = { db.timelineDao().getStatusesForAccount(accountManager.activeAccount!!.id) }
     ).flow
-        .map {
-            it.map { item ->
-                item.toViewData(gson)
+        .map { pagingData ->
+            pagingData.map { timelineStatus ->
+                timelineStatus.toViewData(gson)
             }
         }
+        .map { pagingData ->
+            pagingData.filter { statusViewData ->
+                !shouldFilterStatus(statusViewData)
+            }
+        }
+        .cachedIn(viewModelScope)
 
     override fun updatePoll(newPoll: Poll, status: StatusViewData.Concrete) {
         // handled by CacheUpdater
@@ -91,9 +99,19 @@ class CachedTimelineViewModel @Inject constructor(
     }
 
     override fun removeAllByAccountId(accountId: String) {
+        viewModelScope.launch {
+            db.timelineDao().removeAllByUser(accountManager.activeAccount!!.id, accountId)
+        }
     }
 
     override fun removeAllByInstance(instance: String) {
+        viewModelScope.launch {
+           // Todo
+        }
+    }
+
+    override fun removeStatusWithId(id: String) {
+        // handled by CacheUpdater
     }
 
     override fun loadMore(placeholderId: String) {
@@ -158,6 +176,12 @@ class CachedTimelineViewModel @Inject constructor(
     }
 
     override fun fullReload() {
-
+        viewModelScope.launch {
+            val activeAccount = accountManager.activeAccount!!
+            db.runInTransaction {
+                db.timelineDao().removeAllForAccount(activeAccount.id)
+                db.timelineDao().removeAllUsersForAccount(activeAccount.id)
+            }
+        }
     }
 }

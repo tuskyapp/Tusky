@@ -34,7 +34,6 @@ import com.keylesspalace.tusky.appstore.ReblogEvent
 import com.keylesspalace.tusky.appstore.StatusComposedEvent
 import com.keylesspalace.tusky.appstore.StatusDeletedEvent
 import com.keylesspalace.tusky.appstore.UnfollowEvent
-import com.keylesspalace.tusky.components.timeline.Placeholder
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.entity.Filter
 import com.keylesspalace.tusky.entity.Poll
@@ -43,7 +42,6 @@ import com.keylesspalace.tusky.network.FilterModel
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.network.TimelineCases
 import com.keylesspalace.tusky.settings.PrefKeys
-import com.keylesspalace.tusky.util.Either
 import com.keylesspalace.tusky.viewdata.StatusViewData
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.Flow
@@ -164,23 +162,7 @@ abstract class TimelineViewModel(
 
     abstract fun removeAllByInstance(instance: String)
 
-    private fun filterViewData(viewData: MutableList<StatusViewData>) {
-        viewData.removeAll { vd ->
-            vd.asStatusOrNull()?.status?.let { shouldFilterStatus(it) } ?: false
-        }
-    }
-
-    private fun filterStatuses(statuses: MutableList<Either<Placeholder, Status>>) {
-        statuses.removeAll { status ->
-            status.asRightOrNull()?.let { shouldFilterStatus(it) } ?: false
-        }
-    }
-
-    private fun shouldFilterStatus(status: Status): Boolean {
-        return status.inReplyToId != null && filterRemoveReplies ||
-            status.reblog != null && filterRemoveReblogs ||
-            filterModel.shouldFilterStatus(status.actionableStatus)
-    }
+    abstract fun removeStatusWithId(id: String)
 
     abstract fun loadMore(placeholderId: String)
 
@@ -194,13 +176,18 @@ abstract class TimelineViewModel(
 
     abstract fun fullReload()
 
+    protected fun shouldFilterStatus(statusViewData: StatusViewData): Boolean {
+        val status = statusViewData.asStatusOrNull()?.status ?: return false
+        return status.inReplyToId != null && filterRemoveReplies ||
+            status.reblog != null && filterRemoveReblogs ||
+            filterModel.shouldFilterStatus(status.actionableStatus)
+    }
+
     private fun handleStatusComposeEvent(status: Status) {
         when (kind) {
             Kind.HOME, Kind.PUBLIC_FEDERATED, Kind.PUBLIC_LOCAL -> TODO()
             Kind.USER, Kind.USER_WITH_REPLIES -> if (status.account.id == id) {
                 TODO()
-            } else {
-                return
             }
             Kind.TAG, Kind.FAVOURITES, Kind.LIST, Kind.BOOKMARKS, Kind.USER_PINNED -> return
         }
@@ -208,20 +195,20 @@ abstract class TimelineViewModel(
 
     private fun onPreferenceChanged(key: String) {
         when (key) {
-          /*  PrefKeys.TAB_FILTER_HOME_REPLIES -> {
+            PrefKeys.TAB_FILTER_HOME_REPLIES -> {
                 val filter = sharedPreferences.getBoolean(PrefKeys.TAB_FILTER_HOME_REPLIES, true)
                 val oldRemoveReplies = filterRemoveReplies
                 filterRemoveReplies = kind == Kind.HOME && !filter
-                if (statuses.isNotEmpty() && oldRemoveReplies != filterRemoveReplies) {
-                    fullyRefresh()
+                if (oldRemoveReplies != filterRemoveReplies) {
+                    fullReload()
                 }
             }
             PrefKeys.TAB_FILTER_HOME_BOOSTS -> {
                 val filter = sharedPreferences.getBoolean(PrefKeys.TAB_FILTER_HOME_BOOSTS, true)
                 val oldRemoveReblogs = filterRemoveReblogs
                 filterRemoveReblogs = kind == Kind.HOME && !filter
-                if (statuses.isNotEmpty() && oldRemoveReblogs != filterRemoveReblogs) {
-                    fullyRefresh()
+                if (oldRemoveReblogs != filterRemoveReblogs) {
+                    fullReload()
                 }
             }
             Filter.HOME, Filter.NOTIFICATIONS, Filter.THREAD, Filter.PUBLIC, Filter.ACCOUNT -> {
@@ -233,7 +220,7 @@ abstract class TimelineViewModel(
                 // it is ok if only newly loaded statuses are affected, no need to fully refresh
                 alwaysShowSensitiveMedia =
                     accountManager.activeAccount!!.alwaysShowSensitiveMedia
-            }*/
+            }
         }
     }
 
@@ -293,7 +280,7 @@ abstract class TimelineViewModel(
             }
             is StatusDeletedEvent -> {
                 if (kind != Kind.USER && kind != Kind.USER_WITH_REPLIES && kind != Kind.USER_PINNED) {
-                    val id = event.statusId
+                    removeStatusWithId(event.statusId)
                 }
             }
             is StatusComposedEvent -> {
@@ -319,7 +306,6 @@ abstract class TimelineViewModel(
                     filterContextMatchesKind(kind, it.context)
                 }
             )
-            // filterViewData(this@com.keylesspalace.tusky.components.timeline.viewmodel.TimelineViewModel.statuses)
         }
     }
 

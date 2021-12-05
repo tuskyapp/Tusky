@@ -21,6 +21,7 @@ import androidx.paging.ExperimentalPagingApi
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.cachedIn
+import androidx.paging.filter
 import com.keylesspalace.tusky.appstore.BookmarkEvent
 import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.appstore.FavoriteEvent
@@ -36,6 +37,7 @@ import com.keylesspalace.tusky.util.LinkHelper
 import com.keylesspalace.tusky.util.inc
 import com.keylesspalace.tusky.util.toViewData
 import com.keylesspalace.tusky.viewdata.StatusViewData
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.rx3.await
 import retrofit2.Response
@@ -68,9 +70,14 @@ class NetworkTimelineViewModel @Inject constructor(
         },
         remoteMediator = NetworkTimelineRemoteMediator(accountManager, this)
     ).flow
+        .map { pagingData ->
+            pagingData.filter { statusViewData ->
+                !shouldFilterStatus(statusViewData)
+            }
+        }
         .cachedIn(viewModelScope)
 
-    override fun updatePoll(newPoll: Poll, status: StatusViewData.Concrete,) {
+    override fun updatePoll(newPoll: Poll, status: StatusViewData.Concrete) {
         status.copy(
             status = status.status.copy(poll = newPoll)
         ).update()
@@ -107,6 +114,15 @@ class NetworkTimelineViewModel @Inject constructor(
             val status = vd.asStatusOrNull()?.status ?: return@removeAll false
             LinkHelper.getDomain(status.account.url) == instance
         }
+        currentSource?.invalidate()
+    }
+
+    override fun removeStatusWithId(id: String) {
+        statusData.removeAll { vd ->
+            val status = vd.asStatusOrNull()?.status ?: return@removeAll false
+            status.id == id || status.reblog?.id == id
+        }
+        currentSource?.invalidate()
     }
 
     override fun loadMore(placeholderId: String) {
