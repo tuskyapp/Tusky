@@ -6,6 +6,7 @@ import com.keylesspalace.tusky.db.AppDatabase
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.disposables.Disposable
 import io.reactivex.rxjava3.schedulers.Schedulers
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class CacheUpdater @Inject constructor(
@@ -19,6 +20,12 @@ class CacheUpdater @Inject constructor(
 
     init {
         val timelineDao = appDatabase.timelineDao()
+
+        Schedulers.io().scheduleDirect {
+            val olderThan = System.currentTimeMillis() - CLEANUP_INTERVAL
+            appDatabase.timelineDao().cleanup(olderThan)
+        }
+
         disposable = eventHub.events.subscribe { event ->
             val accountId = accountManager.activeAccount?.id ?: return@subscribe
             when (event) {
@@ -53,5 +60,9 @@ class CacheUpdater @Inject constructor(
         }
             .subscribeOn(Schedulers.io())
             .subscribe()
+    }
+
+    companion object {
+        val CLEANUP_INTERVAL = TimeUnit.DAYS.toMillis(14)
     }
 }
