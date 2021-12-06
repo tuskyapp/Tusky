@@ -1,6 +1,6 @@
 Tusky v9.0
 
-- Możesz teraz tworzyć ankiety z poziomu programu Tusky
+- Możesz teraz tworzyć ankiety z poziomu Tusky
 - Ulepszone wyszukiwanie
 - Nowa opcja w Ustawieniach konta która zawsze rozwija ostrzeżenia o zawartości
 - Awatary w szufladzie nawigacji mają teraz kształt zaokrąglonego kwadratu
