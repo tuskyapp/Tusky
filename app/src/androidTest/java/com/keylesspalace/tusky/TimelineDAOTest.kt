@@ -104,7 +104,6 @@ class TimelineDAOTest {
 
         assertStatuses(listOf(recentThisAccount), loadedStatusAccount1)
         assertStatuses(listOf(recentAnotherAccount), loadedStatusAccount2)
-
     }
 
     @Test

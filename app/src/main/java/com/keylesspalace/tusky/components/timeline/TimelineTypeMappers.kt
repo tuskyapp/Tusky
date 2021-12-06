@@ -253,5 +253,4 @@ fun TimelineStatusWithAccount.toViewData(gson: Gson): StatusViewData {
         isCollapsible = shouldTrimStatus(status.content),
         isCollapsed = this.status.contentCollapsed
     )
-
 }
