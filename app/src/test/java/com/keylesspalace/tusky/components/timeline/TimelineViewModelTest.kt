@@ -40,7 +40,7 @@ import org.robolectric.shadows.ShadowLog
 import retrofit2.Response
 import java.io.IOException
 
-@Config(sdk = [29])
+/*@Config(sdk = [29])
 class TimelineViewModelTest {
     lateinit var timelineRepository: TimelineRepository
     lateinit var timelineCases: TimelineCases
@@ -790,4 +790,4 @@ class TimelineViewModelTest {
     }
 
     private fun List<Status>.toEitherList() = map { Either.Right<Placeholder, Status>(it) }
-}
+}*/

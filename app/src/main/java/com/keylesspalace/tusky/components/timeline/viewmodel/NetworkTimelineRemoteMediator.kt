@@ -24,6 +24,7 @@ import com.keylesspalace.tusky.util.HttpHeaderLink
 import com.keylesspalace.tusky.util.dec
 import com.keylesspalace.tusky.util.toViewData
 import com.keylesspalace.tusky.viewdata.StatusViewData
+import retrofit2.HttpException
 
 @ExperimentalPagingApi
 class NetworkTimelineRemoteMediator(
@@ -52,7 +53,10 @@ class NetworkTimelineRemoteMediator(
                 }
             }
 
-            val statuses = statusResponse.body()!!
+            val statuses = statusResponse.body()
+            if (!statusResponse.isSuccessful || statuses == null) {
+                return MediatorResult.Error(HttpException(statusResponse))
+            }
 
             val data = statuses.map { status ->
                 status.toViewData(
