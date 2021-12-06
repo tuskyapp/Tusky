@@ -31,9 +31,6 @@ abstract class TimelineDao {
     @Insert(onConflict = REPLACE)
     abstract suspend fun insertStatus(timelineStatusEntity: TimelineStatusEntity): Long
 
-    @Insert(onConflict = IGNORE)
-    abstract suspend fun insertStatusIfNotThere(timelineStatusEntity: TimelineStatusEntity): Long
-
     @Query(
         """
 SELECT s.serverId, s.url, s.timelineUserId,

@@ -1,18 +1,21 @@
 package com.keylesspalace.tusky
 
+import androidx.paging.PagingSource
 import androidx.room.Room
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
-import com.keylesspalace.tusky.components.timeline.TimelineRepository
+import com.google.gson.Gson
+import com.keylesspalace.tusky.appstore.CacheUpdater
 import com.keylesspalace.tusky.db.AppDatabase
+import com.keylesspalace.tusky.db.Converters
 import com.keylesspalace.tusky.db.TimelineAccountEntity
 import com.keylesspalace.tusky.db.TimelineDao
 import com.keylesspalace.tusky.db.TimelineStatusEntity
 import com.keylesspalace.tusky.db.TimelineStatusWithAccount
 import com.keylesspalace.tusky.entity.Status
+import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Assert.assertEquals
-import org.junit.Assert.assertNull
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -25,7 +28,9 @@ class TimelineDAOTest {
     @Before
     fun createDb() {
         val context = InstrumentationRegistry.getInstrumentation().targetContext
-        db = Room.inMemoryDatabaseBuilder(context, AppDatabase::class.java).build()
+        db = Room.inMemoryDatabaseBuilder(context, AppDatabase::class.java)
+            .addTypeConverter(Converters(Gson()))
+            .build()
         timelineDao = db.timelineDao()
     }
 
@@ -35,54 +40,34 @@ class TimelineDAOTest {
     }
 
     @Test
-    fun insertGetStatus() {
+    fun insertGetStatus() = runBlocking {
         val setOne = makeStatus(statusId = 3)
         val setTwo = makeStatus(statusId = 20, reblog = true)
         val ignoredOne = makeStatus(statusId = 1)
         val ignoredTwo = makeStatus(accountId = 2)
 
         for ((status, author, reblogger) in listOf(setOne, setTwo, ignoredOne, ignoredTwo)) {
-            timelineDao.insertInTransaction(status, author, reblogger)
+            timelineDao.insertAccount(author)
+            reblogger?.let {
+                timelineDao.insertAccount(it)
+            }
+            timelineDao.insertStatus(status)
         }
 
-        val resultsFromDb = timelineDao.getStatusesForAccount(
-            setOne.first.timelineUserId,
-            maxId = "21", sinceId = ignoredOne.first.serverId, limit = 10
-        )
-            .blockingGet()
+        val pagingSource = timelineDao.getStatusesForAccount(setOne.first.timelineUserId)
 
-        assertEquals(2, resultsFromDb.size)
-        for ((set, fromDb) in listOf(setTwo, setOne).zip(resultsFromDb)) {
-            val (status, author, reblogger) = set
-            assertEquals(status, fromDb.status)
-            assertEquals(author, fromDb.account)
-            assertEquals(reblogger, fromDb.reblogAccount)
-        }
+        val loadResult = pagingSource.load(PagingSource.LoadParams.Refresh(null, 2, false))
+
+        val loadedStatuses = (loadResult as PagingSource.LoadResult.Page).data
+
+        assertEquals(2, loadedStatuses.size)
+        assertStatuses(listOf(setTwo, setOne), loadedStatuses)
     }
 
     @Test
-    fun doNotOverwrite() {
-        val (status, author) = makeStatus()
-        timelineDao.insertInTransaction(status, author, null)
-
-        val placeholder = createPlaceholder(status.serverId, status.timelineUserId)
-
-        timelineDao.insertStatusIfNotThere(placeholder)
-
-        val fromDb = timelineDao.getStatusesForAccount(status.timelineUserId, null, null, 10)
-            .blockingGet()
-        val result = fromDb.first()
-
-        assertEquals(1, fromDb.size)
-        assertEquals(author, result.account)
-        assertEquals(status, result.status)
-        assertNull(result.reblogAccount)
-    }
-
-    @Test
-    fun cleanup() {
+    fun cleanup() = runBlocking {
         val now = System.currentTimeMillis()
-        val oldDate = now - TimelineRepository.CLEANUP_INTERVAL - 20_000
+        val oldDate = now - CacheUpdater.CLEANUP_INTERVAL - 20_000
         val oldThisAccount = makeStatus(
             statusId = 5,
             createdAt = oldDate
@@ -103,26 +88,27 @@ class TimelineDAOTest {
         )
 
         for ((status, author, reblogAuthor) in listOf(oldThisAccount, oldAnotherAccount, recentThisAccount, recentAnotherAccount)) {
-            timelineDao.insertInTransaction(status, author, reblogAuthor)
+            timelineDao.insertAccount(author)
+            reblogAuthor?.let {
+                timelineDao.insertAccount(it)
+            }
+            timelineDao.insertStatus(status)
         }
 
-        timelineDao.cleanup(now - TimelineRepository.CLEANUP_INTERVAL)
+        timelineDao.cleanup(now - CacheUpdater.CLEANUP_INTERVAL)
 
-        assertEquals(
-            listOf(recentThisAccount),
-            timelineDao.getStatusesForAccount(1, null, null, 100).blockingGet()
-                .map { it.toTriple() }
-        )
+        val loadParams: PagingSource.LoadParams<Int> = PagingSource.LoadParams.Refresh(null, 100, false)
 
-        assertEquals(
-            listOf(recentAnotherAccount),
-            timelineDao.getStatusesForAccount(2, null, null, 100).blockingGet()
-                .map { it.toTriple() }
-        )
+        val loadedStatusAccount1 = (timelineDao.getStatusesForAccount(1).load(loadParams) as PagingSource.LoadResult.Page).data
+        val loadedStatusAccount2 = (timelineDao.getStatusesForAccount(2).load(loadParams) as PagingSource.LoadResult.Page).data
+
+        assertStatuses(listOf(recentThisAccount), loadedStatusAccount1)
+        assertStatuses(listOf(recentAnotherAccount), loadedStatusAccount2)
+
     }
 
     @Test
-    fun overwriteDeletedStatus() {
+    fun overwriteDeletedStatus() = runBlocking {
 
         val oldStatuses = listOf(
             makeStatus(statusId = 3),
@@ -133,7 +119,11 @@ class TimelineDAOTest {
         timelineDao.deleteRange(1, oldStatuses.last().first.serverId, oldStatuses.first().first.serverId)
 
         for ((status, author, reblogAuthor) in oldStatuses) {
-            timelineDao.insertInTransaction(status, author, reblogAuthor)
+            timelineDao.insertAccount(author)
+            reblogAuthor?.let {
+                timelineDao.insertAccount(it)
+            }
+            timelineDao.insertStatus(status)
         }
 
         // status 2 gets deleted, newly loaded status contain only 1 + 3
@@ -145,16 +135,22 @@ class TimelineDAOTest {
         timelineDao.deleteRange(1, newStatuses.last().first.serverId, newStatuses.first().first.serverId)
 
         for ((status, author, reblogAuthor) in newStatuses) {
-            timelineDao.insertInTransaction(status, author, reblogAuthor)
+            timelineDao.insertAccount(author)
+            reblogAuthor?.let {
+                timelineDao.insertAccount(it)
+            }
+            timelineDao.insertStatus(status)
         }
 
         // make sure status 2 is no longer in db
 
-        assertEquals(
-            newStatuses,
-            timelineDao.getStatusesForAccount(1, null, null, 100).blockingGet()
-                .map { it.toTriple() }
-        )
+        val pagingSource = timelineDao.getStatusesForAccount(1)
+
+        val loadResult = pagingSource.load(PagingSource.LoadParams.Refresh(null, 100, false))
+
+        val loadedStatuses = (loadResult as PagingSource.LoadResult.Page).data
+
+        assertStatuses(newStatuses, loadedStatuses)
     }
 
     private fun makeStatus(
@@ -215,39 +211,24 @@ class TimelineDAOTest {
             reblogServerId = if (reblog) (statusId * 100).toString() else null,
             reblogAccountId = reblogAuthor?.serverId,
             poll = null,
-            muted = false
+            muted = false,
+            expanded = false,
+            contentCollapsed = false,
+            contentHidden = false,
+            pinned = false
         )
         return Triple(status, author, reblogAuthor)
     }
 
-    private fun createPlaceholder(serverId: String, timelineUserId: Long): TimelineStatusEntity {
-        return TimelineStatusEntity(
-            serverId = serverId,
-            url = null,
-            timelineUserId = timelineUserId,
-            authorServerId = null,
-            inReplyToId = null,
-            inReplyToAccountId = null,
-            content = null,
-            createdAt = 0L,
-            emojis = null,
-            reblogsCount = 0,
-            favouritesCount = 0,
-            reblogged = false,
-            favourited = false,
-            bookmarked = false,
-            sensitive = false,
-            spoilerText = null,
-            visibility = null,
-            attachments = null,
-            mentions = null,
-            application = null,
-            reblogServerId = null,
-            reblogAccountId = null,
-            poll = null,
-            muted = false
-        )
+    private fun assertStatuses(
+        expected: List<Triple<TimelineStatusEntity, TimelineAccountEntity, TimelineAccountEntity?>>,
+        provided: List<TimelineStatusWithAccount>
+    ) {
+        for ((exp, prov) in expected.zip(provided)) {
+            val (status, author, reblogger) = exp
+            assertEquals(status, prov.status)
+            assertEquals(author, prov.account)
+            assertEquals(reblogger, prov.reblogAccount)
+        }
     }
-
-    private fun TimelineStatusWithAccount.toTriple() = Triple(status, account, reblogAccount)
 }
