@@ -96,7 +96,7 @@ fun Placeholder.toEntity(timelineUserId: Long): TimelineStatusEntity {
         bookmarked = false,
         sensitive = false,
         spoilerText = null,
-        visibility = null,
+        visibility = Status.Visibility.UNKNOWN,
         attachments = null,
         mentions = null,
         application = null,

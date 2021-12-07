@@ -29,6 +29,7 @@ import com.keylesspalace.tusky.db.TimelineStatusWithAccount
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.dec
 import kotlinx.coroutines.rx3.await
+import retrofit2.HttpException
 
 @ExperimentalPagingApi
 class CachedTimelineRemoteMediator(
@@ -59,7 +60,10 @@ class CachedTimelineRemoteMediator(
                 }
             }
 
-            val statuses = statusResponse.body()!!
+            val statuses = statusResponse.body()
+            if (!statusResponse.isSuccessful || statuses == null) {
+                return MediatorResult.Error(HttpException(statusResponse))
+            }
 
             val timelineDao = db.timelineDao()
 

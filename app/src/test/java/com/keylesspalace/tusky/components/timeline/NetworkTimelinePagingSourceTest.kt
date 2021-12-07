@@ -11,11 +11,11 @@ import org.junit.Test
 
 class NetworkTimelinePagingSourceTest {
 
+    private val status = mockStatusViewData()
+
     private val timelineViewModel: NetworkTimelineViewModel = mock {
         on { statusData } doReturn mutableListOf(status)
     }
-
-    private val status = mockStatusViewData()
 
     @Test
     fun `should return empty list when params are Append`() {
@@ -26,7 +26,7 @@ class NetworkTimelinePagingSourceTest {
         val expectedResult = PagingSource.LoadResult.Page(emptyList(), null, null)
 
         runBlocking {
-            assertEquals(pagingSource.load(params), expectedResult)
+            assertEquals(expectedResult, pagingSource.load(params))
         }
     }
 
@@ -39,7 +39,7 @@ class NetworkTimelinePagingSourceTest {
         val expectedResult = PagingSource.LoadResult.Page(emptyList(), null, null)
 
         runBlocking {
-            assertEquals(pagingSource.load(params), expectedResult)
+            assertEquals(expectedResult, pagingSource.load(params))
         }
     }
 
@@ -52,7 +52,8 @@ class NetworkTimelinePagingSourceTest {
         val expectedResult = PagingSource.LoadResult.Page(listOf(status), null, null)
 
         runBlocking {
-            assertEquals(pagingSource.load(params), expectedResult)
+            val result = pagingSource.load(params)
+            assertEquals(expectedResult, result)
         }
     }
 }

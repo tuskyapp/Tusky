@@ -1,6 +1,6 @@
 package com.keylesspalace.tusky.components.timeline
 
-import com.keylesspalace.tusky.components.timeline.viewmodel.TimelineViewModel
+/*import com.keylesspalace.tusky.components.timeline.viewmodel.TimelineViewModel
 import android.content.SharedPreferences
 import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.components.timeline.viewmodel.TimelineViewModel.Companion.LOAD_AT_ONCE
@@ -40,7 +40,7 @@ import org.robolectric.shadows.ShadowLog
 import retrofit2.Response
 import java.io.IOException
 
-/*@Config(sdk = [29])
+@Config(sdk = [29])
 class TimelineViewModelTest {
     lateinit var timelineRepository: TimelineRepository
     lateinit var timelineCases: TimelineCases

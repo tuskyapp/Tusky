@@ -1,11 +1,15 @@
 package com.keylesspalace.tusky.components.timeline
 
 import android.text.SpannedString
+import com.google.gson.Gson
+import com.keylesspalace.tusky.db.TimelineStatusWithAccount
 import com.keylesspalace.tusky.entity.Account
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.viewdata.StatusViewData
 import java.util.ArrayList
 import java.util.Date
+
+private val fixedDate = Date(1638889052000)
 
 fun mockStatus(id: String = "100") = Status(
     id = id,
@@ -24,7 +28,7 @@ fun mockStatus(id: String = "100") = Status(
     inReplyToAccountId = null,
     reblog = null,
     content = SpannedString("Test"),
-    createdAt = Date(),
+    createdAt = fixedDate,
     emojis = emptyList(),
     reblogsCount = 1,
     favouritesCount = 2,
@@ -48,5 +52,27 @@ fun mockStatusViewData(id: String = "100") = StatusViewData.Concrete(
     isExpanded = false,
     isShowingContent = true,
     isCollapsible = false,
-    isCollapsed= false,
+    isCollapsed = false,
 )
+
+fun mockStatusEntityWithAccount(
+    id: String = "100",
+    userId: Long = 1
+): TimelineStatusWithAccount {
+    val mockedStatus = mockStatus(id)
+    val gson = Gson()
+
+    return TimelineStatusWithAccount().apply {
+        status = mockedStatus.toEntity(
+            timelineUserId = userId,
+            gson = gson,
+            expanded = false,
+            contentHidden = true,
+            contentCollapsed = false
+        )
+        account = mockedStatus.account.toEntity(
+            accountId = userId,
+            gson = gson
+        )
+    }
+}
