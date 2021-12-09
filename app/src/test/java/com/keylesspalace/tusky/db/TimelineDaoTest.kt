@@ -1,4 +1,4 @@
-package com.keylesspalace.tusky
+package com.keylesspalace.tusky.db
 
 import androidx.paging.PagingSource
 import androidx.room.Room
@@ -6,12 +6,6 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import com.google.gson.Gson
 import com.keylesspalace.tusky.appstore.CacheUpdater
-import com.keylesspalace.tusky.db.AppDatabase
-import com.keylesspalace.tusky.db.Converters
-import com.keylesspalace.tusky.db.TimelineAccountEntity
-import com.keylesspalace.tusky.db.TimelineDao
-import com.keylesspalace.tusky.db.TimelineStatusEntity
-import com.keylesspalace.tusky.db.TimelineStatusWithAccount
 import com.keylesspalace.tusky.entity.Status
 import kotlinx.coroutines.runBlocking
 import org.junit.After
@@ -19,7 +13,9 @@ import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.robolectric.annotation.Config
 
+@Config(sdk = [28])
 @RunWith(AndroidJUnit4::class)
 class TimelineDAOTest {
     private lateinit var timelineDao: TimelineDao
@@ -30,6 +26,7 @@ class TimelineDAOTest {
         val context = InstrumentationRegistry.getInstrumentation().targetContext
         db = Room.inMemoryDatabaseBuilder(context, AppDatabase::class.java)
             .addTypeConverter(Converters(Gson()))
+            .allowMainThreadQueries()
             .build()
         timelineDao = db.timelineDao()
     }
