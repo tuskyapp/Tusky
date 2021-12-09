@@ -106,7 +106,7 @@ class CachedTimelineViewModel @Inject constructor(
 
     override fun removeAllByInstance(instance: String) {
         viewModelScope.launch {
-            // Todo
+            db.timelineDao().deleteAllFromInstance(accountManager.activeAccount!!.id, instance)
         }
     }
 

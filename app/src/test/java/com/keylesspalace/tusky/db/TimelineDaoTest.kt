@@ -17,7 +17,7 @@ import org.robolectric.annotation.Config
 
 @Config(sdk = [28])
 @RunWith(AndroidJUnit4::class)
-class TimelineDAOTest {
+class TimelineDaoTest {
     private lateinit var timelineDao: TimelineDao
     private lateinit var db: AppDatabase
 
@@ -149,18 +149,80 @@ class TimelineDAOTest {
         assertStatuses(newStatuses, loadedStatuses)
     }
 
+    @Test
+    fun deleteAllForInstance() = runBlocking {
+
+        val statusWithRedDomain1 = makeStatus(
+            statusId = 15,
+            accountId = 1,
+            domain = "mastodon.red",
+            authorServerId = "1"
+        )
+        val statusWithRedDomain2 = makeStatus(
+            statusId = 14,
+            accountId = 1,
+            domain = "mastodon.red",
+            authorServerId = "2"
+        )
+        val statusWithRedDomainOtherAccount = makeStatus(
+            statusId = 12,
+            accountId = 2,
+            domain = "mastodon.red",
+            authorServerId = "3"
+        )
+        val statusWithBlueDomain = makeStatus(
+            statusId = 10,
+            accountId = 1,
+            domain = "mastodon.blue",
+            authorServerId = "4"
+        )
+        val statusWithBlueDomainOtherAccount = makeStatus(
+            statusId = 10,
+            accountId = 2,
+            domain = "mastodon.blue",
+            authorServerId = "5"
+        )
+        val statusWithGreenDomain = makeStatus(
+            statusId = 8,
+            accountId = 1,
+            domain = "mastodon.green",
+            authorServerId = "6"
+        )
+
+        for ((status, author, reblogAuthor) in listOf(statusWithRedDomain1, statusWithRedDomain2, statusWithRedDomainOtherAccount, statusWithBlueDomain, statusWithBlueDomainOtherAccount, statusWithGreenDomain)) {
+            timelineDao.insertAccount(author)
+            reblogAuthor?.let {
+                timelineDao.insertAccount(it)
+            }
+            timelineDao.insertStatus(status)
+        }
+
+        timelineDao.deleteAllFromInstance(1, "mastodon.red")
+        timelineDao.deleteAllFromInstance(1, "mastodon.blu") //shouldn't delete anything
+        timelineDao.deleteAllFromInstance(1, "greenmastodon.green") //shouldn't delete anything
+
+        val loadParams: PagingSource.LoadParams<Int> = PagingSource.LoadParams.Refresh(null, 100, false)
+
+        val statusesAccount1 = (timelineDao.getStatusesForAccount(1).load(loadParams) as PagingSource.LoadResult.Page).data
+        val statusesAccount2 = (timelineDao.getStatusesForAccount(2).load(loadParams) as PagingSource.LoadResult.Page).data
+
+        assertStatuses(listOf(statusWithBlueDomain, statusWithGreenDomain), statusesAccount1)
+        assertStatuses(listOf(statusWithRedDomainOtherAccount, statusWithBlueDomainOtherAccount), statusesAccount2)
+    }
+
     private fun makeStatus(
         accountId: Long = 1,
         statusId: Long = 10,
         reblog: Boolean = false,
         createdAt: Long = statusId,
-        authorServerId: String = "20"
+        authorServerId: String = "20",
+        domain: String = "mastodon.example"
     ): Triple<TimelineStatusEntity, TimelineAccountEntity, TimelineAccountEntity?> {
         val author = TimelineAccountEntity(
             authorServerId,
             accountId,
-            "localUsername",
-            "username",
+            "localUsername@$domain",
+            "username@$domain",
             "displayName",
             "blah",
             "avatar",
@@ -185,7 +247,7 @@ class TimelineDAOTest {
         val even = accountId % 2 == 0L
         val status = TimelineStatusEntity(
             serverId = statusId.toString(),
-            url = "url$statusId",
+            url = "https://$domain/whatever/$statusId",
             timelineUserId = accountId,
             authorServerId = authorServerId,
             inReplyToId = "inReplyToId$statusId",

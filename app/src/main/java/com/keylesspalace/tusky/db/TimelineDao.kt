@@ -44,7 +44,7 @@ a.emojis as 'a_emojis', a.bot as 'a_bot',
 rb.serverId as 'rb_serverId', rb.timelineUserId 'rb_timelineUserId',
 rb.localUsername as 'rb_localUsername', rb.username as 'rb_username',
 rb.displayName as 'rb_displayName', rb.url as 'rb_url', rb.avatar as 'rb_avatar',
-rb.emojis as'rb_emojis', rb.bot as 'rb_bot'
+rb.emojis as 'rb_emojis', rb.bot as 'rb_bot'
 FROM TimelineStatusEntity s
 LEFT JOIN TimelineAccountEntity a ON (s.timelineUserId = a.timelineUserId AND s.authorServerId = a.serverId)
 LEFT JOIN TimelineAccountEntity rb ON (s.timelineUserId = rb.timelineUserId AND s.reblogAccountId = rb.serverId)
@@ -130,4 +130,10 @@ WHERE timelineUserId = :accountId AND (serverId = :statusId OR reblogServerId = 
 WHERE timelineUserId = :accountId AND (serverId = :statusId OR reblogServerId = :statusId)"""
     )
     abstract fun setPinned(accountId: Long, statusId: String, pinned: Boolean)
+
+    @Query("""DELETE FROM TimelineStatusEntity WHERE authorServerId IN (
+SELECT serverId FROM TimelineAccountEntity WHERE username LIKE '%@' || :instanceDomain
+AND timelineUserId = :accountId
+)""")
+    abstract suspend fun deleteAllFromInstance(accountId: Long, instanceDomain: String)
 }
