@@ -131,9 +131,11 @@ WHERE timelineUserId = :accountId AND (serverId = :statusId OR reblogServerId = 
     )
     abstract fun setPinned(accountId: Long, statusId: String, pinned: Boolean)
 
-    @Query("""DELETE FROM TimelineStatusEntity WHERE authorServerId IN (
+    @Query(
+        """DELETE FROM TimelineStatusEntity WHERE authorServerId IN (
 SELECT serverId FROM TimelineAccountEntity WHERE username LIKE '%@' || :instanceDomain
 AND timelineUserId = :accountId
-)""")
+)"""
+    )
     abstract suspend fun deleteAllFromInstance(accountId: Long, instanceDomain: String)
 }

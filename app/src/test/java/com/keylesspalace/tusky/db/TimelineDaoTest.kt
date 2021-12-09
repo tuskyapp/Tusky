@@ -198,8 +198,8 @@ class TimelineDaoTest {
         }
 
         timelineDao.deleteAllFromInstance(1, "mastodon.red")
-        timelineDao.deleteAllFromInstance(1, "mastodon.blu") //shouldn't delete anything
-        timelineDao.deleteAllFromInstance(1, "greenmastodon.green") //shouldn't delete anything
+        timelineDao.deleteAllFromInstance(1, "mastodon.blu") // shouldn't delete anything
+        timelineDao.deleteAllFromInstance(1, "greenmastodon.green") // shouldn't delete anything
 
         val loadParams: PagingSource.LoadParams<Int> = PagingSource.LoadParams.Refresh(null, 100, false)
 
