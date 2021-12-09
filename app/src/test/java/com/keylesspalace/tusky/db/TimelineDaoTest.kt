@@ -168,7 +168,7 @@ class TimelineDaoTest {
             statusId = 12,
             accountId = 2,
             domain = "mastodon.red",
-            authorServerId = "3"
+            authorServerId = "2"
         )
         val statusWithBlueDomain = makeStatus(
             statusId = 10,
