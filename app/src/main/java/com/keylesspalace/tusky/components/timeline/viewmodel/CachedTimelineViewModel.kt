@@ -51,7 +51,7 @@ class CachedTimelineViewModel @Inject constructor(
     timelineCases: TimelineCases,
     private val api: MastodonApi,
     eventHub: EventHub,
-    private val accountManager: AccountManager,
+    accountManager: AccountManager,
     sharedPreferences: SharedPreferences,
     filterModel: FilterModel,
     private val db: AppDatabase,
