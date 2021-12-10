@@ -37,8 +37,6 @@ class NetworkTimelineRemoteMediator(
         state: PagingState<String, StatusViewData>
     ): MediatorResult {
 
-        val activeAccount = accountManager.activeAccount!!
-
         try {
             val statusResponse = when (loadType) {
                 LoadType.REFRESH -> {
@@ -57,6 +55,8 @@ class NetworkTimelineRemoteMediator(
             if (!statusResponse.isSuccessful || statuses == null) {
                 return MediatorResult.Error(HttpException(statusResponse))
             }
+
+            val activeAccount = accountManager.activeAccount!!
 
             val data = statuses.map { status ->
                 status.toViewData(

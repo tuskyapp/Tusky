@@ -16,6 +16,7 @@
 package com.keylesspalace.tusky.components.timeline.viewmodel
 
 import android.content.SharedPreferences
+import android.util.Log
 import androidx.lifecycle.viewModelScope
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.Pager
@@ -40,6 +41,7 @@ import com.keylesspalace.tusky.viewdata.StatusViewData
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.rx3.await
+import retrofit2.HttpException
 import retrofit2.Response
 import javax.inject.Inject
 
@@ -127,19 +129,35 @@ class NetworkTimelineViewModel @Inject constructor(
 
     override fun loadMore(placeholderId: String) {
         viewModelScope.launch {
-            val response = fetchStatusesForKind(
+            val statusResponse = fetchStatusesForKind(
                 fromId = placeholderId.inc(),
                 uptoId = null,
                 limit = 20
             )
 
-            val statuses = response.body()!!.map { status ->
-                status.toViewData(false, false) // todo
+            val statuses = statusResponse.body()
+            if (!statusResponse.isSuccessful || statuses == null) {
+                Log.w("NetworkTimelineVM", "failed loading statuses", HttpException(statusResponse))
+
+                val index = statusData.indexOfFirst { it is StatusViewData.Placeholder && it.id == placeholderId }
+                statusData[index] = StatusViewData.Placeholder(placeholderId, isLoading = false)
+
+                currentSource?.invalidate()
+                return@launch
+            }
+
+            val activeAccount = accountManager.activeAccount!!
+
+            val data = statuses.map { status ->
+                status.toViewData(
+                    alwaysShowSensitiveMedia = !activeAccount.alwaysShowSensitiveMedia && status.actionableStatus.sensitive,
+                    alwaysOpenSpoiler = activeAccount.alwaysOpenSpoiler
+                )
             }
 
             val index = statusData.indexOfFirst { it is StatusViewData.Placeholder && it.id == placeholderId }
             statusData.removeAt(index)
-            statusData.addAll(index, statuses)
+            statusData.addAll(index, data)
 
             currentSource?.invalidate()
         }
