@@ -26,6 +26,7 @@ import com.keylesspalace.tusky.components.timeline.toEntity
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.db.AppDatabase
 import com.keylesspalace.tusky.db.TimelineStatusWithAccount
+import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.dec
 import kotlinx.coroutines.rx3.await
@@ -33,20 +34,40 @@ import retrofit2.HttpException
 
 @ExperimentalPagingApi
 class CachedTimelineRemoteMediator(
-    private val accountManager: AccountManager,
+    accountManager: AccountManager,
     private val api: MastodonApi,
     private val db: AppDatabase,
     private val gson: Gson
 ) : RemoteMediator<Int, TimelineStatusWithAccount>() {
+
+    private var initialRefresh = false
+
+    private val timelineDao = db.timelineDao()
+    private val activeAccount = accountManager.activeAccount!!
 
     override suspend fun load(
         loadType: LoadType,
         state: PagingState<Int, TimelineStatusWithAccount>
     ): MediatorResult {
 
-        val activeAccount = accountManager.activeAccount!!
-
         try {
+            if (!initialRefresh) {
+                timelineDao.getTopId(activeAccount.id)?.let { cachedTopId ->
+                    val statusResponse = api.homeTimeline(
+                        maxId = cachedTopId,
+                        limit = state.config.pageSize
+                    ).await()
+
+                    val statuses = statusResponse.body()
+                    if (statusResponse.isSuccessful && statuses != null) {
+                        db.withTransaction {
+                            replaceStatusRange(statuses)
+                        }
+                    }
+                }
+                initialRefresh = true
+            }
+
             val statusResponse = when (loadType) {
                 LoadType.REFRESH -> {
                     api.homeTimeline(limit = state.config.pageSize).await()
@@ -65,30 +86,8 @@ class CachedTimelineRemoteMediator(
                 return MediatorResult.Error(HttpException(statusResponse))
             }
 
-            val timelineDao = db.timelineDao()
-
             db.withTransaction {
-                val overlappedStatuses = if (statuses.isNotEmpty()) {
-                    timelineDao.deleteRange(activeAccount.id, statuses.last().id, statuses.first().id)
-                } else {
-                    0
-                }
-
-                for (status in statuses) {
-                    timelineDao.insertAccount(status.account.toEntity(activeAccount.id, gson))
-                    status.reblog?.account?.toEntity(activeAccount.id, gson)?.let { rebloggedAccount ->
-                        timelineDao.insertAccount(rebloggedAccount)
-                    }
-                    timelineDao.insertStatus(
-                        status.toEntity(
-                            timelineUserId = activeAccount.id,
-                            gson = gson,
-                            expanded = activeAccount.alwaysOpenSpoiler,
-                            contentHidden = !activeAccount.alwaysShowSensitiveMedia && status.actionableStatus.sensitive,
-                            contentCollapsed = false
-                        )
-                    )
-                }
+                val overlappedStatuses = replaceStatusRange(statuses)
 
                 if (loadType == LoadType.REFRESH && overlappedStatuses == 0) {
                     timelineDao.insertStatus(
@@ -100,5 +99,37 @@ class CachedTimelineRemoteMediator(
         } catch (e: Exception) {
             return MediatorResult.Error(e)
         }
+    }
+
+    /**
+     * Deletes all statuses in a given range with new statuses.
+     * This is necessary so statuses that have been deleted on the server are cleaned up.
+     * Should be run in a transaction as it executes multiple db updates
+     * @param statuses the new statuses
+     * @return the number of old statuses that have been cleared from the database
+     */
+    private suspend fun replaceStatusRange(statuses: List<Status>): Int {
+        val overlappedStatuses = if (statuses.isNotEmpty()) {
+            timelineDao.deleteRange(activeAccount.id, statuses.last().id, statuses.first().id)
+        } else {
+            0
+        }
+
+        for (status in statuses) {
+            timelineDao.insertAccount(status.account.toEntity(activeAccount.id, gson))
+            status.reblog?.account?.toEntity(activeAccount.id, gson)?.let { rebloggedAccount ->
+                timelineDao.insertAccount(rebloggedAccount)
+            }
+            timelineDao.insertStatus(
+                status.toEntity(
+                    timelineUserId = activeAccount.id,
+                    gson = gson,
+                    expanded = activeAccount.alwaysOpenSpoiler,
+                    contentHidden = !activeAccount.alwaysShowSensitiveMedia && status.actionableStatus.sensitive,
+                    contentCollapsed = false
+                )
+            )
+        }
+        return overlappedStatuses
     }
 }
