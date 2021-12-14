@@ -92,7 +92,7 @@ class CachedTimelineRemoteMediator(
             db.withTransaction {
                 val overlappedStatuses = replaceStatusRange(statuses)
 
-                if (loadType == LoadType.REFRESH && overlappedStatuses == 0 && !dbEmpty) {
+                if (loadType == LoadType.REFRESH && overlappedStatuses == 0 && statuses.isNotEmpty() && !dbEmpty) {
                     timelineDao.insertStatus(
                         Placeholder(statuses.last().id.dec()).toEntity(activeAccount.id)
                     )

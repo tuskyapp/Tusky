@@ -315,6 +315,60 @@ class CachedTimelineRemoteMediatorTest {
 
     @Test
     @ExperimentalPagingApi
+    fun `should remove deleted status from db`() {
+
+        val statusesAlreadyInDb = listOf(
+            mockStatusEntityWithAccount("3"),
+            mockStatusEntityWithAccount("2"),
+            mockStatusEntityWithAccount("1"),
+        )
+
+        db.insert(statusesAlreadyInDb)
+
+        val remoteMediator = CachedTimelineRemoteMediator(
+            accountManager = accountManager,
+            api = mock {
+                on { homeTimeline(limit = 20) } doReturn Single.just(
+                    Response.success(emptyList())
+                )
+                on { homeTimeline(maxId = "3", limit = 20) } doReturn Single.just(
+                    Response.success(
+                        listOf(
+                            mockStatus("3"),
+                            mockStatus("1")
+                        )
+                    )
+                )
+            },
+            db = db,
+            gson = Gson()
+        )
+
+        val state = state(
+            listOf(
+                PagingSource.LoadResult.Page(
+                    data = statusesAlreadyInDb,
+                    prevKey = null,
+                    nextKey = 0
+                )
+            )
+        )
+
+        val result = runBlocking { remoteMediator.load(LoadType.REFRESH, state) }
+
+        assertTrue(result is RemoteMediator.MediatorResult.Success)
+        assertTrue((result as RemoteMediator.MediatorResult.Success).endOfPaginationReached)
+
+        db.assertStatuses(
+            listOf(
+                mockStatusEntityWithAccount("3"),
+                mockStatusEntityWithAccount("1")
+            )
+        )
+    }
+
+    @Test
+    @ExperimentalPagingApi
     fun `should append statuses`() {
 
         val statusesAlreadyInDb = listOf(
