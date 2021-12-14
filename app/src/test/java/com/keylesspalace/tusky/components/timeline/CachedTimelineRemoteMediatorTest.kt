@@ -17,6 +17,7 @@ import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.db.AppDatabase
 import com.keylesspalace.tusky.db.Converters
 import com.keylesspalace.tusky.db.TimelineStatusWithAccount
+import com.nhaarman.mockitokotlin2.anyOrNull
 import com.nhaarman.mockitokotlin2.doReturn
 import com.nhaarman.mockitokotlin2.mock
 import io.reactivex.rxjava3.core.Single
@@ -74,7 +75,7 @@ class CachedTimelineRemoteMediatorTest {
         val remoteMediator = CachedTimelineRemoteMediator(
             accountManager = accountManager,
             api = mock {
-                on { homeTimeline(limit = 20) } doReturn Single.just(Response.error(500, "".toResponseBody()))
+                on { homeTimeline(anyOrNull(), anyOrNull(), anyOrNull()) } doReturn Single.just(Response.error(500, "".toResponseBody()))
             },
             db = db,
             gson = Gson()
@@ -94,7 +95,7 @@ class CachedTimelineRemoteMediatorTest {
         val remoteMediator = CachedTimelineRemoteMediator(
             accountManager = accountManager,
             api = mock {
-                on { homeTimeline(limit = 20) } doReturn Single.error(IOException())
+                on { homeTimeline(anyOrNull(), anyOrNull(), anyOrNull()) } doReturn Single.error(IOException())
             },
             db = db,
             gson = Gson()
@@ -159,6 +160,15 @@ class CachedTimelineRemoteMediatorTest {
                         )
                     )
                 )
+                on { homeTimeline(maxId = "3", limit = 20) } doReturn Single.just(
+                    Response.success(
+                        listOf(
+                            mockStatus("3"),
+                            mockStatus("2"),
+                            mockStatus("1")
+                        )
+                    )
+                )
             },
             db = db,
             gson = Gson()
@@ -218,6 +228,15 @@ class CachedTimelineRemoteMediatorTest {
                         )
                     )
                 )
+                on { homeTimeline(maxId = "3", limit = 20) } doReturn Single.just(
+                    Response.success(
+                        listOf(
+                            mockStatus("3"),
+                            mockStatus("2"),
+                            mockStatus("1")
+                        )
+                    )
+                )
             },
             db = db,
             gson = Gson()
@@ -245,6 +264,51 @@ class CachedTimelineRemoteMediatorTest {
                 mockStatusEntityWithAccount("3"),
                 mockStatusEntityWithAccount("2"),
                 mockStatusEntityWithAccount("1"),
+            )
+        )
+    }
+
+    @Test
+    @ExperimentalPagingApi
+    fun `should not try to refresh deleted statuses when db is empty`() {
+
+        val remoteMediator = CachedTimelineRemoteMediator(
+            accountManager = accountManager,
+            api = mock {
+                on { homeTimeline(limit = 20) } doReturn Single.just(
+                    Response.success(
+                        listOf(
+                            mockStatus("5"),
+                            mockStatus("4"),
+                            mockStatus("3")
+                        )
+                    )
+                )
+            },
+            db = db,
+            gson = Gson()
+        )
+
+        val state = state(
+            listOf(
+                PagingSource.LoadResult.Page(
+                    data = emptyList(),
+                    prevKey = null,
+                    nextKey = 0
+                )
+            )
+        )
+
+        val result = runBlocking { remoteMediator.load(LoadType.REFRESH, state) }
+
+        assertTrue(result is RemoteMediator.MediatorResult.Success)
+        assertEquals(false, (result as RemoteMediator.MediatorResult.Success).endOfPaginationReached)
+
+        db.assertStatuses(
+            listOf(
+                mockStatusEntityWithAccount("5"),
+                mockStatusEntityWithAccount("4"),
+                mockStatusEntityWithAccount("3")
             )
         )
     }

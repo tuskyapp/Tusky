@@ -51,8 +51,10 @@ class CachedTimelineRemoteMediator(
     ): MediatorResult {
 
         try {
-            if (!initialRefresh) {
-                timelineDao.getTopId(activeAccount.id)?.let { cachedTopId ->
+            var dbEmpty = false
+            if (!initialRefresh && loadType == LoadType.REFRESH) {
+                val topId = timelineDao.getTopId(activeAccount.id)
+                topId?.let { cachedTopId ->
                     val statusResponse = api.homeTimeline(
                         maxId = cachedTopId,
                         limit = state.config.pageSize
@@ -66,6 +68,7 @@ class CachedTimelineRemoteMediator(
                     }
                 }
                 initialRefresh = true
+                dbEmpty = topId == null
             }
 
             val statusResponse = when (loadType) {
@@ -89,7 +92,7 @@ class CachedTimelineRemoteMediator(
             db.withTransaction {
                 val overlappedStatuses = replaceStatusRange(statuses)
 
-                if (loadType == LoadType.REFRESH && overlappedStatuses == 0) {
+                if (loadType == LoadType.REFRESH && overlappedStatuses == 0 && !dbEmpty) {
                     timelineDao.insertStatus(
                         Placeholder(statuses.last().id.dec()).toEntity(activeAccount.id)
                     )
