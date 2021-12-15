@@ -31,13 +31,11 @@ import com.keylesspalace.tusky.appstore.MuteEvent
 import com.keylesspalace.tusky.appstore.PinEvent
 import com.keylesspalace.tusky.appstore.PreferenceChangedEvent
 import com.keylesspalace.tusky.appstore.ReblogEvent
-import com.keylesspalace.tusky.appstore.StatusComposedEvent
 import com.keylesspalace.tusky.appstore.StatusDeletedEvent
 import com.keylesspalace.tusky.appstore.UnfollowEvent
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.entity.Filter
 import com.keylesspalace.tusky.entity.Poll
-import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.network.FilterModel
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.network.TimelineCases
@@ -183,16 +181,6 @@ abstract class TimelineViewModel(
             filterModel.shouldFilterStatus(status.actionableStatus)
     }
 
-    private fun handleStatusComposeEvent(status: Status) {
-        when (kind) {
-            Kind.HOME, Kind.PUBLIC_FEDERATED, Kind.PUBLIC_LOCAL -> TODO()
-            Kind.USER, Kind.USER_WITH_REPLIES -> if (status.account.id == id) {
-                TODO()
-            }
-            Kind.TAG, Kind.FAVOURITES, Kind.LIST, Kind.BOOKMARKS, Kind.USER_PINNED -> return
-        }
-    }
-
     private fun onPreferenceChanged(key: String) {
         when (key) {
             PrefKeys.TAB_FILTER_HOME_REPLIES -> {
@@ -253,7 +241,7 @@ abstract class TimelineViewModel(
             is ReblogEvent -> handleReblogEvent(event)
             is BookmarkEvent -> handleBookmarkEvent(event)
             is PinEvent -> handlePinEvent(event)
-            is MuteConversationEvent -> TODO()
+            is MuteConversationEvent -> fullReload()
             is UnfollowEvent -> {
                 if (kind == Kind.HOME) {
                     val id = event.accountId
@@ -282,10 +270,6 @@ abstract class TimelineViewModel(
                 if (kind != Kind.USER && kind != Kind.USER_WITH_REPLIES && kind != Kind.USER_PINNED) {
                     removeStatusWithId(event.statusId)
                 }
-            }
-            is StatusComposedEvent -> {
-                val status = event.status
-                handleStatusComposeEvent(status)
             }
             is PreferenceChangedEvent -> {
                 onPreferenceChanged(event.preferenceKey)

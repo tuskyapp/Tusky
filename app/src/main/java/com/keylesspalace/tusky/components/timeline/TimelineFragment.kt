@@ -40,6 +40,7 @@ import com.keylesspalace.tusky.BaseActivity
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.appstore.PreferenceChangedEvent
+import com.keylesspalace.tusky.appstore.StatusComposedEvent
 import com.keylesspalace.tusky.components.timeline.viewmodel.CachedTimelineViewModel
 import com.keylesspalace.tusky.components.timeline.viewmodel.NetworkTimelineViewModel
 import com.keylesspalace.tusky.components.timeline.viewmodel.TimelineViewModel
@@ -47,6 +48,7 @@ import com.keylesspalace.tusky.databinding.FragmentTimelineBinding
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.di.ViewModelFactory
+import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.fragment.SFragment
 import com.keylesspalace.tusky.interfaces.ActionButtonActivity
 import com.keylesspalace.tusky.interfaces.RefreshableFragment
@@ -279,6 +281,10 @@ class TimelineFragment :
                         is PreferenceChangedEvent -> {
                             onPreferenceChanged(event.preferenceKey)
                         }
+                        is StatusComposedEvent -> {
+                            val status = event.status
+                            handleStatusComposeEvent(status)
+                        }
                     }
                 }
             eventRegistered = true
@@ -410,6 +416,23 @@ class TimelineFragment :
                     adapter.notifyDataSetChanged()
                 }
             }
+        }
+    }
+
+    private fun handleStatusComposeEvent(status: Status) {
+        when (kind) {
+            TimelineViewModel.Kind.HOME,
+            TimelineViewModel.Kind.PUBLIC_FEDERATED,
+            TimelineViewModel.Kind.PUBLIC_LOCAL -> adapter.refresh()
+            TimelineViewModel.Kind.USER,
+            TimelineViewModel.Kind.USER_WITH_REPLIES -> if (status.account.id == viewModel.id) {
+                adapter.refresh()
+            }
+            TimelineViewModel.Kind.TAG,
+            TimelineViewModel.Kind.FAVOURITES,
+            TimelineViewModel.Kind.LIST,
+            TimelineViewModel.Kind.BOOKMARKS,
+            TimelineViewModel.Kind.USER_PINNED -> return
         }
     }
 
