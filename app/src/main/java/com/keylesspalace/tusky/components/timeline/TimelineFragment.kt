@@ -437,7 +437,8 @@ class TimelineFragment :
     }
 
     public override fun removeItem(position: Int) {
-        // TODO
+        val status = adapter.peek(position)?.asStatusOrNull() ?: return
+        viewModel.removeStatusWithId(status.id)
     }
 
     private fun actionButtonPresent(): Boolean {
