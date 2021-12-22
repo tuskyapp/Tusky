@@ -6,7 +6,7 @@ Tusky jest lekkim klientem dla Mastodona, darmowej i otwartoźródłowej sieci s
 • Ciemny i jasny motyw z możliwością automatycznej zmiany bazując na porze dnia
 • Szkice - stwórz wpis i zachowaj go na później
 • Wybierz między różnymi stylami emoji
-• Optymizowana dla wszystkich rozmiarów ekranu
+• Zoptymalizowany dla wszystkich rozmiarów ekranu
 • W pełni open-source - bez niewolnych elementów np. serwisów Google
 
 By dowiedzieć się więcej o sieci Mastodon, zobacz stronę https://joinmastodon.org/
