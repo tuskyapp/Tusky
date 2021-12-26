@@ -231,7 +231,9 @@ class TimelineFragment :
 
     private fun setupRecyclerView() {
         binding.recyclerView.setAccessibilityDelegateCompat(
-            ListStatusAccessibilityDelegate(binding.recyclerView, this) { null }
+            ListStatusAccessibilityDelegate(binding.recyclerView, this) { pos ->
+                adapter.peek(pos)
+            }
         )
         binding.recyclerView.setHasFixedSize(true)
         layoutManager = LinearLayoutManager(context)
