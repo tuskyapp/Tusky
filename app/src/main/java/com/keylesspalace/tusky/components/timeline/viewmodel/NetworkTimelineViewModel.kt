@@ -129,38 +129,48 @@ class NetworkTimelineViewModel @Inject constructor(
 
     override fun loadMore(placeholderId: String) {
         viewModelScope.launch {
-            val statusResponse = fetchStatusesForKind(
-                fromId = placeholderId.inc(),
-                uptoId = null,
-                limit = 20
-            )
+            try {
+                val statusResponse = fetchStatusesForKind(
+                    fromId = placeholderId.inc(),
+                    uptoId = null,
+                    limit = 20
+                )
 
-            val statuses = statusResponse.body()
-            if (!statusResponse.isSuccessful || statuses == null) {
-                Log.w("NetworkTimelineVM", "failed loading statuses", HttpException(statusResponse))
+                val statuses = statusResponse.body()
+                if (!statusResponse.isSuccessful || statuses == null) {
+                    loadMoreFailed(placeholderId, HttpException(statusResponse))
+                    return@launch
+                }
 
-                val index = statusData.indexOfFirst { it is StatusViewData.Placeholder && it.id == placeholderId }
-                statusData[index] = StatusViewData.Placeholder(placeholderId, isLoading = false)
+                val activeAccount = accountManager.activeAccount!!
+
+                val data = statuses.map { status ->
+                    status.toViewData(
+                        alwaysShowSensitiveMedia = !activeAccount.alwaysShowSensitiveMedia && status.actionableStatus.sensitive,
+                        alwaysOpenSpoiler = activeAccount.alwaysOpenSpoiler
+                    )
+                }
+
+                val index =
+                    statusData.indexOfFirst { it is StatusViewData.Placeholder && it.id == placeholderId }
+                statusData.removeAt(index)
+                statusData.addAll(index, data)
 
                 currentSource?.invalidate()
-                return@launch
+            } catch (e: Exception) {
+                loadMoreFailed(placeholderId, e)
             }
-
-            val activeAccount = accountManager.activeAccount!!
-
-            val data = statuses.map { status ->
-                status.toViewData(
-                    alwaysShowSensitiveMedia = !activeAccount.alwaysShowSensitiveMedia && status.actionableStatus.sensitive,
-                    alwaysOpenSpoiler = activeAccount.alwaysOpenSpoiler
-                )
-            }
-
-            val index = statusData.indexOfFirst { it is StatusViewData.Placeholder && it.id == placeholderId }
-            statusData.removeAt(index)
-            statusData.addAll(index, data)
-
-            currentSource?.invalidate()
         }
+    }
+
+    private fun loadMoreFailed(placeholderId: String, e: Exception) {
+        Log.w("NetworkTimelineVM", "failed loading statuses", e)
+
+        val index =
+            statusData.indexOfFirst { it is StatusViewData.Placeholder && it.id == placeholderId }
+        statusData[index] = StatusViewData.Placeholder(placeholderId, isLoading = false)
+
+        currentSource?.invalidate()
     }
 
     override fun handleReblogEvent(reblogEvent: ReblogEvent) {
