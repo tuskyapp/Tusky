@@ -91,7 +91,7 @@ class NetworkTimelineViewModel @Inject constructor(
         ).update()
     }
 
-    override fun changeContentHidden(isShowing: Boolean, status: StatusViewData.Concrete) {
+    override fun changeContentShowing(isShowing: Boolean, status: StatusViewData.Concrete) {
         status.copy(
             isShowingContent = isShowing
         ).update()

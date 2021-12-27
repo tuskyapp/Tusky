@@ -103,7 +103,7 @@ fun Placeholder.toEntity(timelineUserId: Long): TimelineStatusEntity {
         muted = false,
         expanded = false,
         contentCollapsed = false,
-        contentHidden = false,
+        contentShowing = false,
         pinned = false
     )
 }
@@ -112,7 +112,7 @@ fun Status.toEntity(
     timelineUserId: Long,
     gson: Gson,
     expanded: Boolean,
-    contentHidden: Boolean,
+    contentShowing: Boolean,
     contentCollapsed: Boolean
 ): TimelineStatusEntity {
     return TimelineStatusEntity(
@@ -141,7 +141,7 @@ fun Status.toEntity(
         poll = actionableStatus.poll.let(gson::toJson),
         muted = actionableStatus.muted,
         expanded = expanded,
-        contentHidden = contentHidden,
+        contentShowing = contentShowing,
         contentCollapsed = contentCollapsed,
         pinned = actionableStatus.pinned == true
     )
@@ -246,7 +246,7 @@ fun TimelineStatusWithAccount.toViewData(gson: Gson): StatusViewData {
     return StatusViewData.Concrete(
         status = status,
         isExpanded = this.status.expanded,
-        isShowingContent = this.status.contentHidden,
+        isShowingContent = this.status.contentShowing,
         isCollapsible = shouldTrimStatus(status.content),
         isCollapsed = this.status.contentCollapsed
     )

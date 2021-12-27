@@ -341,7 +341,7 @@ class TimelineFragment :
 
     override fun onContentHiddenChange(isShowing: Boolean, position: Int) {
         val status = adapter.peek(position)?.asStatusOrNull() ?: return
-        viewModel.changeContentHidden(isShowing, status)
+        viewModel.changeContentShowing(isShowing, status)
     }
 
     override fun onShowReblogs(position: Int) {

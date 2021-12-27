@@ -128,7 +128,7 @@ class CachedTimelineRemoteMediator(
                     timelineUserId = activeAccount.id,
                     gson = gson,
                     expanded = activeAccount.alwaysOpenSpoiler,
-                    contentHidden = !activeAccount.alwaysShowSensitiveMedia && status.actionableStatus.sensitive,
+                    contentShowing = activeAccount.alwaysShowSensitiveMedia || !status.actionableStatus.sensitive,
                     contentCollapsed = true
                 )
             )

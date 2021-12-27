@@ -152,7 +152,7 @@ abstract class TimelineViewModel(
 
     abstract fun changeExpanded(expanded: Boolean, status: StatusViewData.Concrete)
 
-    abstract fun changeContentHidden(isShowing: Boolean, status: StatusViewData.Concrete)
+    abstract fun changeContentShowing(isShowing: Boolean, status: StatusViewData.Concrete)
 
     abstract fun changeContentCollapsed(isCollapsed: Boolean, status: StatusViewData.Concrete)
 

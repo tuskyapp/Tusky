@@ -86,9 +86,9 @@ class CachedTimelineViewModel @Inject constructor(
         }
     }
 
-    override fun changeContentHidden(isShowing: Boolean, status: StatusViewData.Concrete) {
+    override fun changeContentShowing(isShowing: Boolean, status: StatusViewData.Concrete) {
         viewModelScope.launch {
-            db.timelineDao().setContentHidden(accountManager.activeAccount!!.id, status.id, isShowing)
+            db.timelineDao().setContentShowing(accountManager.activeAccount!!.id, status.id, isShowing)
         }
     }
 
@@ -144,7 +144,7 @@ class CachedTimelineViewModel @Inject constructor(
                             timelineUserId = activeAccount.id,
                             gson = gson,
                             expanded = activeAccount.alwaysOpenSpoiler,
-                            contentHidden = !activeAccount.alwaysShowSensitiveMedia && status.actionableStatus.sensitive,
+                            contentShowing = activeAccount.alwaysShowSensitiveMedia || !status.actionableStatus.sensitive,
                             contentCollapsed = true
                         )
                     )

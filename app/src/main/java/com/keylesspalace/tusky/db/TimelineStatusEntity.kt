@@ -76,7 +76,7 @@ data class TimelineStatusEntity(
     val muted: Boolean?,
     val expanded: Boolean,
     val contentCollapsed: Boolean,
-    val contentHidden: Boolean,
+    val contentShowing: Boolean,
     val pinned: Boolean
 )
 

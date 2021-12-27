@@ -447,7 +447,7 @@ public abstract class AppDatabase extends RoomDatabase {
                     "`muted` INTEGER," +
                     "`expanded` INTEGER NOT NULL," +
                     "`contentCollapsed` INTEGER NOT NULL," +
-                    "`contentHidden` INTEGER NOT NULL," +
+                    "`contentShowing` INTEGER NOT NULL," +
                     "`pinned` INTEGER NOT NULL," +
                     "PRIMARY KEY(`serverId`, `timelineUserId`)," +
                     "FOREIGN KEY(`authorServerId`, `timelineUserId`) REFERENCES `TimelineAccountEntity`(`serverId`, `timelineUserId`)" +
