@@ -16,6 +16,7 @@
 package com.keylesspalace.tusky.components.timeline.viewmodel
 
 import android.content.SharedPreferences
+import android.util.Log
 import androidx.lifecycle.viewModelScope
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.Pager
@@ -45,6 +46,7 @@ import com.keylesspalace.tusky.viewdata.StatusViewData
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.rx3.await
+import retrofit2.HttpException
 import javax.inject.Inject
 
 class CachedTimelineViewModel @Inject constructor(
@@ -116,47 +118,59 @@ class CachedTimelineViewModel @Inject constructor(
 
     override fun loadMore(placeholderId: String) {
         viewModelScope.launch {
-            val response = api.homeTimeline(maxId = placeholderId.inc(), limit = 20).await()
+            try {
+                val response = api.homeTimeline(maxId = placeholderId.inc(), limit = 20).await()
 
-            val statuses = response.body()!!
-
-            val timelineDao = db.timelineDao()
-
-            val activeAccount = accountManager.activeAccount!!
-
-            db.withTransaction {
-
-                timelineDao.delete(activeAccount.id, placeholderId)
-
-                val overlappedStatuses = if (statuses.isNotEmpty()) {
-                    timelineDao.deleteRange(activeAccount.id, statuses.last().id, statuses.first().id)
-                } else {
-                    0
+                val statuses = response.body()
+                if (!response.isSuccessful || statuses == null) {
+                    loadMoreFailed(placeholderId, HttpException(response))
+                    return@launch
                 }
 
-                for (status in statuses) {
-                    timelineDao.insertAccount(status.account.toEntity(activeAccount.id, gson))
-                    status.reblog?.account?.toEntity(activeAccount.id, gson)?.let { rebloggedAccount ->
-                        timelineDao.insertAccount(rebloggedAccount)
+                val timelineDao = db.timelineDao()
+
+                val activeAccount = accountManager.activeAccount!!
+
+                db.withTransaction {
+
+                    timelineDao.delete(activeAccount.id, placeholderId)
+
+                    val overlappedStatuses = if (statuses.isNotEmpty()) {
+                        timelineDao.deleteRange(activeAccount.id, statuses.last().id, statuses.first().id)
+                    } else {
+                        0
                     }
-                    timelineDao.insertStatus(
-                        status.toEntity(
-                            timelineUserId = activeAccount.id,
-                            gson = gson,
-                            expanded = activeAccount.alwaysOpenSpoiler,
-                            contentShowing = activeAccount.alwaysShowSensitiveMedia || !status.actionableStatus.sensitive,
-                            contentCollapsed = true
-                        )
-                    )
-                }
 
-                if (overlappedStatuses == 0) {
-                    timelineDao.insertStatus(
-                        Placeholder(statuses.last().id.dec()).toEntity(activeAccount.id)
-                    )
+                    for (status in statuses) {
+                        timelineDao.insertAccount(status.account.toEntity(activeAccount.id, gson))
+                        status.reblog?.account?.toEntity(activeAccount.id, gson)?.let { rebloggedAccount ->
+                            timelineDao.insertAccount(rebloggedAccount)
+                        }
+                        timelineDao.insertStatus(
+                            status.toEntity(
+                                timelineUserId = activeAccount.id,
+                                gson = gson,
+                                expanded = activeAccount.alwaysOpenSpoiler,
+                                contentShowing = activeAccount.alwaysShowSensitiveMedia || !status.actionableStatus.sensitive,
+                                contentCollapsed = true
+                            )
+                        )
+                    }
+
+                    if (overlappedStatuses == 0) {
+                        timelineDao.insertStatus(
+                            Placeholder(statuses.last().id.dec()).toEntity(activeAccount.id)
+                        )
+                    }
                 }
+            } catch (e: java.lang.Exception) {
+                loadMoreFailed(placeholderId, e)
             }
         }
+    }
+
+    private fun loadMoreFailed(placeholderId: String, e: Exception) {
+        Log.w("CachedTimelineVM", "failed loading statuses", e)
     }
 
     override fun handleReblogEvent(reblogEvent: ReblogEvent) {
