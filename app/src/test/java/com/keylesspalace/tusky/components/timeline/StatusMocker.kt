@@ -67,7 +67,7 @@ fun mockStatusEntityWithAccount(
             timelineUserId = userId,
             gson = gson,
             expanded = false,
-            contentHidden = true,
+            contentShowing = false,
             contentCollapsed = true
         )
         account = mockedStatus.account.toEntity(

@@ -311,7 +311,7 @@ class TimelineDaoTest {
             muted = false,
             expanded = false,
             contentCollapsed = false,
-            contentHidden = false,
+            contentShowing = true,
             pinned = false
         )
         return Triple(status, author, reblogAuthor)
