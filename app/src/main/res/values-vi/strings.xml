@@ -236,8 +236,8 @@
     <string name="pref_title_notification_alerts">Báo động</string>
     <string name="pref_title_notifications_enabled">Thông báo</string>
     <string name="pref_title_edit_notification_settings">Thông báo</string>
-    <string name="visibility_direct">Nhắn riêng: Chỉ người được nhắc đến mới thấy</string>
-    <string name="visibility_private">Riêng tư: Chỉ người theo dõi mới thấy</string>
+    <string name="visibility_direct">Nhắn riêng: Chỉ người được nhắc đến thấy</string>
+    <string name="visibility_private">Riêng tư: Chỉ người theo dõi</string>
     <string name="visibility_unlisted">Hạn chế: Không hiện trên bảng tin</string>
     <string name="visibility_public">Công khai: Mọi người đều có thể thấy</string>
     <string name="dialog_mute_warning">Ẩn @%s\?</string>
