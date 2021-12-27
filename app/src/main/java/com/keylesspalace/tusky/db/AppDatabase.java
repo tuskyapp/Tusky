@@ -436,8 +436,8 @@ public abstract class AppDatabase extends RoomDatabase {
                     "`bookmarked` INTEGER NOT NULL," +
                     "`favourited` INTEGER NOT NULL," +
                     "`sensitive` INTEGER NOT NULL," +
-                    "`spoilerText` TEXT," +
-                    "`visibility` INTEGER," +
+                    "`spoilerText` TEXT NOT NULL," +
+                    "`visibility` INTEGER NOT NULL," +
                     "`attachments` TEXT," +
                     "`mentions` TEXT," +
                     "`application` TEXT," +
