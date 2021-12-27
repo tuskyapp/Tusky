@@ -145,7 +145,7 @@ class CachedTimelineViewModel @Inject constructor(
                             gson = gson,
                             expanded = activeAccount.alwaysOpenSpoiler,
                             contentHidden = !activeAccount.alwaysShowSensitiveMedia && status.actionableStatus.sensitive,
-                            contentCollapsed = false
+                            contentCollapsed = true
                         )
                     )
                 }

@@ -28,15 +28,12 @@ import com.keylesspalace.tusky.entity.Attachment
 import com.keylesspalace.tusky.entity.Emoji
 import com.keylesspalace.tusky.entity.Poll
 import com.keylesspalace.tusky.entity.Status
-import com.keylesspalace.tusky.util.Either
 import com.keylesspalace.tusky.util.shouldTrimStatus
 import com.keylesspalace.tusky.util.trimTrailingWhitespace
 import com.keylesspalace.tusky.viewdata.StatusViewData
 import java.util.Date
 
 data class Placeholder(val id: String)
-
-typealias TimelineStatus = Either<Placeholder, Status>
 
 private val attachmentArrayListType = object : TypeToken<ArrayList<Attachment>>() {}.type
 private val emojisListType = object : TypeToken<List<Emoji>>() {}.type

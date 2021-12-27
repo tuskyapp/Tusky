@@ -32,7 +32,7 @@ fun Status.toViewData(
         status = this,
         isShowingContent = alwaysShowSensitiveMedia || !visibleStatus.sensitive,
         isCollapsible = shouldTrimStatus(visibleStatus.content),
-        isCollapsed = false,
+        isCollapsed = true,
         isExpanded = alwaysOpenSpoiler,
     )
 }
