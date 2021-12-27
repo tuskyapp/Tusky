@@ -179,7 +179,6 @@ class NetworkTimelineRemoteMediatorTest {
     @Test
     @ExperimentalPagingApi
     fun `should refresh and not insert placeholders`() {
-
         val statuses: MutableList<StatusViewData> = mutableListOf(
             mockStatusViewData("8"),
             mockStatusViewData("7"),
@@ -233,7 +232,6 @@ class NetworkTimelineRemoteMediatorTest {
     @Test
     @ExperimentalPagingApi
     fun `should append statuses`() {
-
         val statuses: MutableList<StatusViewData> = mutableListOf(
             mockStatusViewData("8"),
             mockStatusViewData("7"),

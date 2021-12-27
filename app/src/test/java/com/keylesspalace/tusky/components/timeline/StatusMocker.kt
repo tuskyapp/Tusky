@@ -52,7 +52,7 @@ fun mockStatusViewData(id: String = "100") = StatusViewData.Concrete(
     isExpanded = false,
     isShowingContent = true,
     isCollapsible = false,
-    isCollapsed = false,
+    isCollapsed = true,
 )
 
 fun mockStatusEntityWithAccount(
@@ -68,7 +68,7 @@ fun mockStatusEntityWithAccount(
             gson = gson,
             expanded = false,
             contentHidden = true,
-            contentCollapsed = false
+            contentCollapsed = true
         )
         account = mockedStatus.account.toEntity(
             accountId = userId,
