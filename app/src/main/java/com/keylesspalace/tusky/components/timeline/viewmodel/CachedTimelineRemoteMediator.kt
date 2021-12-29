@@ -25,6 +25,7 @@ import com.keylesspalace.tusky.components.timeline.Placeholder
 import com.keylesspalace.tusky.components.timeline.toEntity
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.db.AppDatabase
+import com.keylesspalace.tusky.db.TimelineStatusEntity
 import com.keylesspalace.tusky.db.TimelineStatusWithAccount
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.network.MastodonApi
@@ -63,7 +64,7 @@ class CachedTimelineRemoteMediator(
                     val statuses = statusResponse.body()
                     if (statusResponse.isSuccessful && statuses != null) {
                         db.withTransaction {
-                            replaceStatusRange(statuses)
+                            replaceStatusRange(statuses, state)
                         }
                     }
                 }
@@ -90,7 +91,7 @@ class CachedTimelineRemoteMediator(
             }
 
             db.withTransaction {
-                val overlappedStatuses = replaceStatusRange(statuses)
+                val overlappedStatuses = replaceStatusRange(statuses, state)
 
                 if (loadType == LoadType.REFRESH && overlappedStatuses == 0 && statuses.isNotEmpty() && !dbEmpty) {
                     timelineDao.insertStatus(
@@ -111,7 +112,7 @@ class CachedTimelineRemoteMediator(
      * @param statuses the new statuses
      * @return the number of old statuses that have been cleared from the database
      */
-    private suspend fun replaceStatusRange(statuses: List<Status>): Int {
+    private suspend fun replaceStatusRange(statuses: List<Status>, state: PagingState<Int, TimelineStatusWithAccount>): Int {
         val overlappedStatuses = if (statuses.isNotEmpty()) {
             timelineDao.deleteRange(activeAccount.id, statuses.last().id, statuses.first().id)
         } else {
@@ -123,13 +124,26 @@ class CachedTimelineRemoteMediator(
             status.reblog?.account?.toEntity(activeAccount.id, gson)?.let { rebloggedAccount ->
                 timelineDao.insertAccount(rebloggedAccount)
             }
+
+            var oldStatus: TimelineStatusEntity? = null
+            for (page in state.pages) {
+                oldStatus = page.data.find { s ->
+                    s.status.serverId == status.id
+                }?.status
+                if (oldStatus != null) break
+            }
+
+            val expanded = oldStatus?.expanded ?: activeAccount.alwaysOpenSpoiler
+            val contentShowing = oldStatus?.contentShowing ?: activeAccount.alwaysShowSensitiveMedia || !status.actionableStatus.sensitive
+            val contentCollapsed = oldStatus?.contentCollapsed ?: true
+
             timelineDao.insertStatus(
                 status.toEntity(
                     timelineUserId = activeAccount.id,
                     gson = gson,
-                    expanded = activeAccount.alwaysOpenSpoiler,
-                    contentShowing = activeAccount.alwaysShowSensitiveMedia || !status.actionableStatus.sensitive,
-                    contentCollapsed = true
+                    expanded = expanded,
+                    contentShowing = contentShowing,
+                    contentCollapsed = contentCollapsed
                 )
             )
         }

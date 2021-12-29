@@ -57,7 +57,8 @@ fun mockStatusViewData(id: String = "100") = StatusViewData.Concrete(
 
 fun mockStatusEntityWithAccount(
     id: String = "100",
-    userId: Long = 1
+    userId: Long = 1,
+    expanded: Boolean = false
 ): TimelineStatusWithAccount {
     val mockedStatus = mockStatus(id)
     val gson = Gson()
@@ -66,7 +67,7 @@ fun mockStatusEntityWithAccount(
         status = mockedStatus.toEntity(
             timelineUserId = userId,
             gson = gson,
-            expanded = false,
+            expanded = expanded,
             contentShowing = false,
             contentCollapsed = true
         )

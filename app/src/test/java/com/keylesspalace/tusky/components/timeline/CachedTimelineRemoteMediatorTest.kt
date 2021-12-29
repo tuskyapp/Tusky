@@ -270,7 +270,7 @@ class CachedTimelineRemoteMediatorTest {
 
     @Test
     @ExperimentalPagingApi
-    fun `should not try to refresh deleted statuses when db is empty`() {
+    fun `should not try to refresh already cached statuses when db is empty`() {
 
         val remoteMediator = CachedTimelineRemoteMediator(
             accountManager = accountManager,
@@ -315,12 +315,12 @@ class CachedTimelineRemoteMediatorTest {
 
     @Test
     @ExperimentalPagingApi
-    fun `should remove deleted status from db`() {
+    fun `should remove deleted status from db and keep state of other cached statuses`() {
 
         val statusesAlreadyInDb = listOf(
-            mockStatusEntityWithAccount("3"),
+            mockStatusEntityWithAccount("3", expanded = true),
             mockStatusEntityWithAccount("2"),
-            mockStatusEntityWithAccount("1"),
+            mockStatusEntityWithAccount("1", expanded = false),
         )
 
         db.insert(statusesAlreadyInDb)
@@ -361,8 +361,8 @@ class CachedTimelineRemoteMediatorTest {
 
         db.assertStatuses(
             listOf(
-                mockStatusEntityWithAccount("3"),
-                mockStatusEntityWithAccount("1")
+                mockStatusEntityWithAccount("3", expanded = true),
+                mockStatusEntityWithAccount("1", expanded = false)
             )
         )
     }
