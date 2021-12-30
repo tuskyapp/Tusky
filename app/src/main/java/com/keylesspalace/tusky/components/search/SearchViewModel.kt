@@ -56,7 +56,7 @@ class SearchViewModel @Inject constructor(
     private val loadedStatuses: MutableList<Pair<Status, StatusViewData.Concrete>> = mutableListOf()
 
     private val statusesPagingSourceFactory = SearchPagingSourceFactory(mastodonApi, SearchType.Status, loadedStatuses) {
-        it.statuses.map { status -> Pair(status, status.toViewData(alwaysShowSensitiveMedia, alwaysOpenSpoiler)) }
+        it.statuses.map { status -> Pair(status, status.toViewData(alwaysShowSensitiveMedia, alwaysOpenSpoiler, true)) }
             .apply {
                 loadedStatuses.addAll(this)
             }

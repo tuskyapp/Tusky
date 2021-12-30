@@ -50,7 +50,7 @@ fun mockStatus(id: String = "100") = Status(
 fun mockStatusViewData(id: String = "100") = StatusViewData.Concrete(
     status = mockStatus(id),
     isExpanded = false,
-    isShowingContent = true,
+    isShowingContent = false,
     isCollapsible = false,
     isCollapsed = true,
 )

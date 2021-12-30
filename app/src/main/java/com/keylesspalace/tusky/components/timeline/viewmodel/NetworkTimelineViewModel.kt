@@ -145,9 +145,18 @@ class NetworkTimelineViewModel @Inject constructor(
                 val activeAccount = accountManager.activeAccount!!
 
                 val data = statuses.map { status ->
+                    val oldStatus = statusData.find { s ->
+                        s.asStatusOrNull()?.id == status.id
+                    }?.asStatusOrNull()
+
+                    val contentShowing = oldStatus?.isShowingContent ?: activeAccount.alwaysShowSensitiveMedia || !status.actionableStatus.sensitive
+                    val expanded = oldStatus?.isExpanded ?: activeAccount.alwaysOpenSpoiler
+                    val contentCollapsed = oldStatus?.isCollapsed ?: true
+
                     status.toViewData(
-                        alwaysShowSensitiveMedia = !activeAccount.alwaysShowSensitiveMedia && status.actionableStatus.sensitive,
-                        alwaysOpenSpoiler = activeAccount.alwaysOpenSpoiler
+                        isShowingContent = contentShowing,
+                        isExpanded = expanded,
+                        isCollapsed = contentCollapsed
                     )
                 }
 
