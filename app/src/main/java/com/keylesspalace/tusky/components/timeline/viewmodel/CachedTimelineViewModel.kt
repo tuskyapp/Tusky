@@ -119,6 +119,12 @@ class CachedTimelineViewModel @Inject constructor(
     override fun loadMore(placeholderId: String) {
         viewModelScope.launch {
             try {
+                val timelineDao = db.timelineDao()
+
+                val activeAccount = accountManager.activeAccount!!
+
+                timelineDao.insertStatus(Placeholder(placeholderId, loading = true).toEntity(activeAccount.id))
+
                 val response = api.homeTimeline(maxId = placeholderId.inc(), limit = 20).await()
 
                 val statuses = response.body()
@@ -126,10 +132,6 @@ class CachedTimelineViewModel @Inject constructor(
                     loadMoreFailed(placeholderId, HttpException(response))
                     return@launch
                 }
-
-                val timelineDao = db.timelineDao()
-
-                val activeAccount = accountManager.activeAccount!!
 
                 db.withTransaction {
 
@@ -159,7 +161,7 @@ class CachedTimelineViewModel @Inject constructor(
 
                     if (overlappedStatuses == 0) {
                         timelineDao.insertStatus(
-                            Placeholder(statuses.last().id.dec()).toEntity(activeAccount.id)
+                            Placeholder(statuses.last().id.dec(), loading = false).toEntity(activeAccount.id)
                         )
                     }
                 }
@@ -169,8 +171,10 @@ class CachedTimelineViewModel @Inject constructor(
         }
     }
 
-    private fun loadMoreFailed(placeholderId: String, e: Exception) {
+    private suspend fun loadMoreFailed(placeholderId: String, e: Exception) {
         Log.w("CachedTimelineVM", "failed loading statuses", e)
+        val activeAccount = accountManager.activeAccount!!
+        db.timelineDao().insertStatus(Placeholder(placeholderId, loading = false).toEntity(activeAccount.id))
     }
 
     override fun handleReblogEvent(reblogEvent: ReblogEvent) {

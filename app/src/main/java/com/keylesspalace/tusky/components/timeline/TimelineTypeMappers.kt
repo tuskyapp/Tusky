@@ -33,7 +33,10 @@ import com.keylesspalace.tusky.util.trimTrailingWhitespace
 import com.keylesspalace.tusky.viewdata.StatusViewData
 import java.util.Date
 
-data class Placeholder(val id: String)
+data class Placeholder(
+    val id: String,
+    val loading: Boolean
+)
 
 private val attachmentArrayListType = object : TypeToken<ArrayList<Attachment>>() {}.type
 private val emojisListType = object : TypeToken<List<Emoji>>() {}.type
@@ -101,7 +104,7 @@ fun Placeholder.toEntity(timelineUserId: Long): TimelineStatusEntity {
         reblogAccountId = null,
         poll = null,
         muted = false,
-        expanded = false,
+        expanded = loading,
         contentCollapsed = false,
         contentShowing = false,
         pinned = false
@@ -149,7 +152,7 @@ fun Status.toEntity(
 
 fun TimelineStatusWithAccount.toViewData(gson: Gson): StatusViewData {
     if (this.status.authorServerId == null) {
-        return StatusViewData.Placeholder(this.status.serverId, false)
+        return StatusViewData.Placeholder(this.status.serverId, this.status.expanded)
     }
 
     val attachments: ArrayList<Attachment> = gson.fromJson(status.attachments, attachmentArrayListType) ?: arrayListOf()

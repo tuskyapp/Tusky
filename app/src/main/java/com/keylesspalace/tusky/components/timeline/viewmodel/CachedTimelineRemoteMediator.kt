@@ -95,7 +95,7 @@ class CachedTimelineRemoteMediator(
 
                 if (loadType == LoadType.REFRESH && overlappedStatuses == 0 && statuses.isNotEmpty() && !dbEmpty) {
                     timelineDao.insertStatus(
-                        Placeholder(statuses.last().id.dec()).toEntity(activeAccount.id)
+                        Placeholder(statuses.last().id.dec(), loading = false).toEntity(activeAccount.id)
                     )
                 }
             }

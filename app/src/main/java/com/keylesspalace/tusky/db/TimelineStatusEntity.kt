@@ -74,7 +74,7 @@ data class TimelineStatusEntity(
     val reblogAccountId: String?,
     val poll: String?,
     val muted: Boolean?,
-    val expanded: Boolean,
+    val expanded: Boolean, // used as the "loading" attribute when this TimelineStatusEntity is a placeholder
     val contentCollapsed: Boolean,
     val contentShowing: Boolean,
     val pinned: Boolean
