@@ -45,6 +45,9 @@ import retrofit2.HttpException
 import retrofit2.Response
 import javax.inject.Inject
 
+/**
+ * TimelineViewModel that caches all statuses in an in-memory list
+ */
 class NetworkTimelineViewModel @Inject constructor(
     timelineCases: TimelineCases,
     private val api: MastodonApi,

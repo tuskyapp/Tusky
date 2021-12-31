@@ -106,7 +106,7 @@ class CachedTimelineRemoteMediator(
     }
 
     /**
-     * Deletes all statuses in a given range with new statuses.
+     * Deletes all statuses in a given range and inserts new statuses.
      * This is necessary so statuses that have been deleted on the server are cleaned up.
      * Should be run in a transaction as it executes multiple db updates
      * @param statuses the new statuses
@@ -125,6 +125,8 @@ class CachedTimelineRemoteMediator(
                 timelineDao.insertAccount(rebloggedAccount)
             }
 
+            // check if we already have one of the newly loaded statuses cached locally
+            // in case we do, copy the local state (expanded, contentShowing, contentCollapsed) over so it doesn't get lost
             var oldStatus: TimelineStatusEntity? = null
             for (page in state.pages) {
                 oldStatus = page.data.find { s ->

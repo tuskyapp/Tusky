@@ -212,8 +212,7 @@ abstract class TimelineViewModel(
         }
     }
 
-    // public for now
-    fun filterContextMatchesKind(
+    private fun filterContextMatchesKind(
         kind: Kind,
         filterContext: List<String>
     ): Boolean {

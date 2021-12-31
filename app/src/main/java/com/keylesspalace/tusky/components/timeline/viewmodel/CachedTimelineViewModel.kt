@@ -49,6 +49,9 @@ import kotlinx.coroutines.rx3.await
 import retrofit2.HttpException
 import javax.inject.Inject
 
+/**
+ * TimelineViewModel that caches all statuses in a local database
+ */
 class CachedTimelineViewModel @Inject constructor(
     timelineCases: TimelineCases,
     private val api: MastodonApi,
