@@ -105,7 +105,7 @@ class TimelinePagingAdapter(
         private const val VIEW_TYPE_STATUS = 0
         private const val VIEW_TYPE_PLACEHOLDER = 2
 
-        val TimelineDifferCallback = object: DiffUtil.ItemCallback<StatusViewData>() {
+        val TimelineDifferCallback = object : DiffUtil.ItemCallback<StatusViewData>() {
             override fun areItemsTheSame(
                 oldItem: StatusViewData,
                 newItem: StatusViewData
@@ -131,6 +131,5 @@ class TimelinePagingAdapter(
                     null
             }
         }
-
     }
 }
