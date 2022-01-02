@@ -31,32 +31,7 @@ import com.keylesspalace.tusky.viewdata.StatusViewData
 class TimelinePagingAdapter(
     private var statusDisplayOptions: StatusDisplayOptions,
     private val statusListener: StatusActionListener
-) : PagingDataAdapter<StatusViewData, RecyclerView.ViewHolder>(object : DiffUtil.ItemCallback<StatusViewData>() {
-    override fun areItemsTheSame(
-        oldItem: StatusViewData,
-        newItem: StatusViewData
-    ): Boolean {
-        return oldItem.viewDataId == newItem.viewDataId
-    }
-
-    override fun areContentsTheSame(
-        oldItem: StatusViewData,
-        newItem: StatusViewData
-    ): Boolean {
-        return false // Items are different always. It allows to refresh timestamp on every view holder update
-    }
-
-    override fun getChangePayload(
-        oldItem: StatusViewData,
-        newItem: StatusViewData
-    ): Any? {
-        return if (oldItem === newItem) {
-            // If items are equal - update timestamp only
-            listOf(StatusBaseViewHolder.Key.KEY_CREATED)
-        } else // If items are different - update the whole view holder
-            null
-    }
-}) {
+) : PagingDataAdapter<StatusViewData, RecyclerView.ViewHolder>(TimelineDifferCallback) {
 
     var mediaPreviewEnabled: Boolean
         get() = statusDisplayOptions.mediaPreviewEnabled
@@ -129,5 +104,33 @@ class TimelinePagingAdapter(
     companion object {
         private const val VIEW_TYPE_STATUS = 0
         private const val VIEW_TYPE_PLACEHOLDER = 2
+
+        val TimelineDifferCallback = object: DiffUtil.ItemCallback<StatusViewData>() {
+            override fun areItemsTheSame(
+                oldItem: StatusViewData,
+                newItem: StatusViewData
+            ): Boolean {
+                return oldItem.viewDataId == newItem.viewDataId
+            }
+
+            override fun areContentsTheSame(
+                oldItem: StatusViewData,
+                newItem: StatusViewData
+            ): Boolean {
+                return false // Items are different always. It allows to refresh timestamp on every view holder update
+            }
+
+            override fun getChangePayload(
+                oldItem: StatusViewData,
+                newItem: StatusViewData
+            ): Any? {
+                return if (oldItem === newItem) {
+                    // If items are equal - update timestamp only
+                    listOf(StatusBaseViewHolder.Key.KEY_CREATED)
+                } else // If items are different - update the whole view holder
+                    null
+            }
+        }
+
     }
 }

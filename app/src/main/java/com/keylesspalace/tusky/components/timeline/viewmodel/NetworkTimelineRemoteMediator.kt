@@ -75,10 +75,10 @@ class NetworkTimelineRemoteMediator(
                 )
             }
 
-            if (loadType == LoadType.REFRESH) {
+            if (loadType == LoadType.REFRESH && viewModel.statusData.isNotEmpty()) {
 
-                val overlappedStatuses = if (statuses.isNotEmpty()) {
-                    viewModel.statusData.removeAll { statusViewData ->
+                val insertPlaceholder = if (statuses.isNotEmpty()) {
+                    !viewModel.statusData.removeAll { statusViewData ->
                         statuses.find { status -> status.id == statusViewData.asStatusOrNull()?.id } != null
                     }
                 } else {
@@ -87,7 +87,7 @@ class NetworkTimelineRemoteMediator(
 
                 viewModel.statusData.addAll(0, data)
 
-                if (!overlappedStatuses && viewModel.statusData.isNotEmpty()) {
+                if (insertPlaceholder) {
                     viewModel.statusData.add(statuses.size, StatusViewData.Placeholder(statuses.last().id.dec(), false))
                 }
             } else {
