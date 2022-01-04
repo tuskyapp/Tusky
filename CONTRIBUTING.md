@@ -20,7 +20,7 @@ We try to follow the [Kotlin Style Guide](https://developer.android.com/kotlin/s
 You can check the codestyle by running `./gradlew ktlintCheck`.
 
 ### Java
-Existing code in Java should follow the [Android Style Guide](https://source.android.com/source/code-style), which is what Android uses for their own source code. ```@Nullable``` and ```@NotNull``` annotations are really helpful for Kotlin interoperability. Please don't submit new features written in Kotlin.
+Existing code in Java should follow the [Android Style Guide](https://source.android.com/source/code-style), which is what Android uses for their own source code. ```@Nullable``` and ```@NotNull``` annotations are really helpful for Kotlin interoperability. Please don't submit new features written in Java.
 
 ### Viewbinding
 We use [Viewbinding](https://developer.android.com/topic/libraries/view-binding) to reference views. No contribution using another mechanism will be accepted.
