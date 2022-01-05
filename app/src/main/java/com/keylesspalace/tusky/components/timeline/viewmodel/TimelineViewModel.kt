@@ -131,7 +131,7 @@ abstract class TimelineViewModel(
     }
 
     fun voteInPoll(choices: List<Int>, status: StatusViewData.Concrete): Job = viewModelScope.launch {
-        val poll = status.status.poll ?: run {
+        val poll = status.status.actionableStatus.poll ?: run {
             Log.w(TAG, "No poll on status ${status.id}")
             return@launch
         }
