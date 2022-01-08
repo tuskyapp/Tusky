@@ -6,7 +6,7 @@
     <string name="send_toot_notification_channel_name">Đăng Tút</string>
     <string name="send_toot_notification_title">Đang đăng…</string>
     <plurals name="notification_title_summary">
-        <item quantity="other">%d tương tác mới</item>
+        <item quantity="other">%d thông báo mới</item>
     </plurals>
     <string name="notification_summary_small">%1$s và %2$s</string>
     <string name="notification_summary_medium">%1$s, %2$s, và %3$s</string>
@@ -239,7 +239,7 @@
     <string name="visibility_direct">Nhắn riêng: Chỉ người được nhắc đến thấy</string>
     <string name="visibility_private">Riêng tư: Chỉ người theo dõi</string>
     <string name="visibility_unlisted">Hạn chế: Không hiện trên bảng tin</string>
-    <string name="visibility_public">Công khai: Mọi người đều có thể thấy</string>
+    <string name="visibility_public">Công khai: Mọi người đều thấy</string>
     <string name="dialog_mute_warning">Ẩn @%s\?</string>
     <string name="dialog_block_warning">Chặn @%s\?</string>
     <string name="mute_domain_warning_dialog_ok">Ẩn toàn bộ máy chủ</string>
