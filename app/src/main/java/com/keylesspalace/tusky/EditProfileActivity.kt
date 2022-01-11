@@ -165,6 +165,7 @@ class EditProfileActivity : BaseActivity(), Injectable {
                     }
                     snackbar.show()
                 }
+                is Loading -> { }
             }
         }
 
@@ -278,6 +279,7 @@ class EditProfileActivity : BaseActivity(), Injectable {
         permissions: Array<String>,
         grantResults: IntArray
     ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         when (requestCode) {
             PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE -> {
                 if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {

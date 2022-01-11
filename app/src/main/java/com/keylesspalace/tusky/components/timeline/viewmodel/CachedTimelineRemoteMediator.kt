@@ -33,7 +33,7 @@ import com.keylesspalace.tusky.util.dec
 import kotlinx.coroutines.rx3.await
 import retrofit2.HttpException
 
-@ExperimentalPagingApi
+@OptIn(ExperimentalPagingApi::class)
 class CachedTimelineRemoteMediator(
     accountManager: AccountManager,
     private val api: MastodonApi,

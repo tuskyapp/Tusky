@@ -68,7 +68,9 @@ import com.keylesspalace.tusky.interfaces.LinkListener
 import com.keylesspalace.tusky.interfaces.ReselectableFragment
 import com.keylesspalace.tusky.settings.PrefKeys
 import com.keylesspalace.tusky.util.DefaultTextWatcher
+import com.keylesspalace.tusky.util.Error
 import com.keylesspalace.tusky.util.LinkHelper
+import com.keylesspalace.tusky.util.Loading
 import com.keylesspalace.tusky.util.Success
 import com.keylesspalace.tusky.util.ThemeUtils
 import com.keylesspalace.tusky.util.emojify
@@ -351,6 +353,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
                         .setAction(R.string.action_retry) { viewModel.refresh() }
                         .show()
                 }
+                is Loading -> { }
             }
         }
         viewModel.relationshipData.observe(this) {

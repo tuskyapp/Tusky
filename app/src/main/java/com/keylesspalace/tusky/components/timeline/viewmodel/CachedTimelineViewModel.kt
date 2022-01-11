@@ -63,7 +63,7 @@ class CachedTimelineViewModel @Inject constructor(
     private val gson: Gson
 ) : TimelineViewModel(timelineCases, api, eventHub, accountManager, sharedPreferences, filterModel) {
 
-    @ExperimentalPagingApi
+    @OptIn(ExperimentalPagingApi::class)
     override val statuses = Pager(
         config = PagingConfig(pageSize = LOAD_AT_ONCE),
         remoteMediator = CachedTimelineRemoteMediator(accountManager, api, db, gson),
