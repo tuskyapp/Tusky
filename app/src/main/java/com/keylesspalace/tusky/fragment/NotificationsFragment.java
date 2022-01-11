@@ -188,7 +188,8 @@ public class NotificationsFragment extends SFragment implements
                 return ViewDataUtils.notificationToViewData(
                         notification,
                         alwaysShowSensitiveMedia,
-                        alwaysOpenSpoiler
+                        alwaysOpenSpoiler,
+                        true
                 );
             } else {
                 return new NotificationViewData.Placeholder(input.asLeft().id, false);
