@@ -19,7 +19,6 @@ import android.content.Context
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
-import androidx.paging.ExperimentalPagingApi
 import com.keylesspalace.tusky.components.conversation.ConversationsFragment
 import com.keylesspalace.tusky.components.timeline.TimelineFragment
 import com.keylesspalace.tusky.components.timeline.viewmodel.TimelineViewModel
