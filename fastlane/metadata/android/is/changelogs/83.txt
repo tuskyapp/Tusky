@@ -1,0 +1,3 @@
+Tusky útg.15.1
+
+Þessi útgáfa lagfærir hrun þegar skýringatexti er settur á myndefni

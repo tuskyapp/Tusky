@@ -510,4 +510,6 @@
     <string name="follow_requests_info">Selv om kontoen din ikke er låst, har %1$s administratorer markert disse følgeforespørsler for manuell godkjenning.</string>
     <string name="dialog_delete_conversation_warning">Slette denne samtalen\?</string>
     <string name="action_delete_conversation">Slett samtale</string>
+    <string name="action_unbookmark">Slett bokmerke</string>
+    <string name="pref_title_confirm_favourites">Vis bekreftelsesdialog når favoritt skal legges til</string>
 </resources>

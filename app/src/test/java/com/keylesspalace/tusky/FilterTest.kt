@@ -2,6 +2,7 @@ package com.keylesspalace.tusky
 
 import android.text.SpannedString
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.keylesspalace.tusky.entity.Attachment
 import com.keylesspalace.tusky.entity.Filter
 import com.keylesspalace.tusky.entity.Poll
 import com.keylesspalace.tusky.entity.PollOption
@@ -14,6 +15,7 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.annotation.Config
+import java.util.ArrayList
 import java.util.Date
 
 @Config(sdk = [28])
@@ -126,6 +128,19 @@ class FilterTest {
     }
 
     @Test
+    fun shouldFilter_whenMediaDescriptionDoesMatch() {
+        assertTrue(
+            filterModel.shouldFilterStatus(
+                mockStatus(
+                    content = "should not be filtered",
+                    spoilerText = "should not be filtered",
+                    attachmentsDescriptions = listOf("should not be filtered", "badWord"),
+                )
+            )
+        )
+    }
+
+    @Test
     fun shouldFilterPartialWord_whenWholeWordFilterContainsNonAlphanumericCharacters() {
         assertTrue(
             filterModel.shouldFilterStatus(
@@ -137,7 +152,8 @@ class FilterTest {
     private fun mockStatus(
         content: String = "",
         spoilerText: String = "",
-        pollOptions: List<String>? = null
+        pollOptions: List<String>? = null,
+        attachmentsDescriptions: List<String>? = null
     ): Status {
         return Status(
             id = "123",
@@ -157,7 +173,21 @@ class FilterTest {
             sensitive = false,
             spoilerText = spoilerText,
             visibility = Status.Visibility.PUBLIC,
-            attachments = arrayListOf(),
+            attachments = if (attachmentsDescriptions != null) {
+                ArrayList(
+                    attachmentsDescriptions.map {
+                        Attachment(
+                            id = "1234",
+                            url = "",
+                            previewUrl = null,
+                            meta = null,
+                            type = Attachment.Type.IMAGE,
+                            description = it,
+                            blurhash = null
+                        )
+                    }
+                )
+            } else arrayListOf(),
             mentions = listOf(),
             application = null,
             pinned = false,
@@ -173,7 +203,8 @@ class FilterTest {
                     options = pollOptions.map {
                         PollOption(it, 0)
                     },
-                    voted = false
+                    voted = false,
+                    ownVotes = null
                 )
             } else null,
             card = null

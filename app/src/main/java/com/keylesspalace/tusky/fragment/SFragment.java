@@ -300,7 +300,9 @@ public abstract class SFragment extends Fragment implements Injectable {
                     return true;
                 }
                 case R.id.pin: {
-                    timelineCases.pin(status.getId(), !status.isPinned());
+                    timelineCases.pin(status.getId(), !status.isPinned())
+                            .to(autoDisposable(from(this, Lifecycle.Event.ON_DESTROY)))
+                            .subscribe();
                     return true;
                 }
                 case R.id.status_mute_conversation: {

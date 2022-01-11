@@ -1,0 +1,5 @@
+Tusky v15.0
+
+- Jarraitzeko eskaerak menu nagusian agertzen dira beti.
+- Mezu bat antolatzeko denbora-hautatzaileak orain gainerako aplikazioekin bat datorren diseinua du
+Aldaketa erregistro osoa: https://github.com/tuskyapp/Tusky/releases

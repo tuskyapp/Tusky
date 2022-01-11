@@ -109,7 +109,8 @@ public final class ViewThreadFragment extends SFragment implements
                     return ViewDataUtils.statusToViewData(
                             input,
                             alwaysShowSensitiveMedia,
-                            alwaysOpenSpoiler
+                            alwaysOpenSpoiler,
+                            true
                     );
                 }
             });
@@ -140,6 +141,7 @@ public final class ViewThreadFragment extends SFragment implements
                         CardViewMode.INDENTED :
                         CardViewMode.NONE,
                 preferences.getBoolean("confirmReblogs", true),
+                preferences.getBoolean("confirmFavourites", false),
                 preferences.getBoolean(PrefKeys.WELLBEING_HIDE_STATS_POSTS, false),
                 preferences.getBoolean(PrefKeys.ANIMATE_CUSTOM_EMOJIS, false)
         );

@@ -1,3 +1,18 @@
+/* Copyright 2021 Tusky Contributors
+ *
+ * This file is a part of Tusky.
+ *
+ * This program is free software; you can redistribute it and/or modify it under the terms of the
+ * GNU General Public License as published by the Free Software Foundation; either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * Tusky is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even
+ * the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
+ * Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with Tusky; if not,
+ * see <http://www.gnu.org/licenses>. */
+
 package com.keylesspalace.tusky.db
 
 import androidx.room.Embedded
@@ -50,15 +65,19 @@ data class TimelineStatusEntity(
     val bookmarked: Boolean,
     val favourited: Boolean,
     val sensitive: Boolean,
-    val spoilerText: String?,
-    val visibility: Status.Visibility?,
+    val spoilerText: String,
+    val visibility: Status.Visibility,
     val attachments: String?,
     val mentions: String?,
     val application: String?,
     val reblogServerId: String?, // if it has a reblogged status, it's id is stored here
     val reblogAccountId: String?,
     val poll: String?,
-    val muted: Boolean?
+    val muted: Boolean?,
+    val expanded: Boolean, // used as the "loading" attribute when this TimelineStatusEntity is a placeholder
+    val contentCollapsed: Boolean,
+    val contentShowing: Boolean,
+    val pinned: Boolean
 )
 
 @Entity(

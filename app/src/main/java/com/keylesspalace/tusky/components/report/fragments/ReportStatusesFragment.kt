@@ -113,6 +113,7 @@ class ReportStatusesFragment : Fragment(R.layout.fragment_report_statuses), Inje
             useBlurhash = preferences.getBoolean("useBlurhash", true),
             cardViewMode = CardViewMode.NONE,
             confirmReblogs = preferences.getBoolean("confirmReblogs", true),
+            confirmFavourites = preferences.getBoolean("confirmFavourites", false),
             hideStats = preferences.getBoolean(PrefKeys.WELLBEING_HIDE_STATS_POSTS, false),
             animateEmojis = preferences.getBoolean(PrefKeys.ANIMATE_CUSTOM_EMOJIS, false)
         )

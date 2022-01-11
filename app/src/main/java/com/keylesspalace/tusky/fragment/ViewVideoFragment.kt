@@ -21,6 +21,7 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.text.method.ScrollingMovementMethod
 import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
@@ -79,6 +80,7 @@ class ViewVideoFragment : ViewMediaFragment() {
     ) {
         binding.mediaDescription.text = description
         binding.mediaDescription.visible(showingDescription)
+        binding.mediaDescription.movementMethod = ScrollingMovementMethod()
 
         binding.videoView.transitionName = url
         binding.videoView.setVideoPath(url)
@@ -125,7 +127,10 @@ class ViewVideoFragment : ViewMediaFragment() {
             val videoWidth = mp.videoWidth.toFloat()
             val videoHeight = mp.videoHeight.toFloat()
 
-            if (containerWidth / containerHeight > videoWidth / videoHeight) {
+            if (isAudio) {
+                binding.videoView.layoutParams.height = 1
+                binding.videoView.layoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT
+            } else if (containerWidth / containerHeight > videoWidth / videoHeight) {
                 binding.videoView.layoutParams.height = ViewGroup.LayoutParams.MATCH_PARENT
                 binding.videoView.layoutParams.width = ViewGroup.LayoutParams.WRAP_CONTENT
             } else {

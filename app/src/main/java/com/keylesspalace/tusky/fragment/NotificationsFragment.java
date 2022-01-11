@@ -188,7 +188,8 @@ public class NotificationsFragment extends SFragment implements
                 return ViewDataUtils.notificationToViewData(
                         notification,
                         alwaysShowSensitiveMedia,
-                        alwaysOpenSpoiler
+                        alwaysOpenSpoiler,
+                        true
                 );
             } else {
                 return new NotificationViewData.Placeholder(input.asLeft().id, false);
@@ -255,6 +256,7 @@ public class NotificationsFragment extends SFragment implements
                 preferences.getBoolean("useBlurhash", true),
                 CardViewMode.NONE,
                 preferences.getBoolean("confirmReblogs", true),
+                preferences.getBoolean("confirmFavourites", false),
                 preferences.getBoolean(PrefKeys.WELLBEING_HIDE_STATS_POSTS, false),
                 preferences.getBoolean(PrefKeys.ANIMATE_CUSTOM_EMOJIS, false)
         );

@@ -35,7 +35,6 @@ import javax.inject.Singleton
         ServicesModule::class,
         BroadcastReceiverModule::class,
         ViewModelModule::class,
-        RepositoryModule::class,
         MediaUploaderModule::class
     ]
 )
