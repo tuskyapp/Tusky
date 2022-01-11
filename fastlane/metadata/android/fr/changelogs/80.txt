@@ -1,0 +1,7 @@
+Tusky v14.0
+
+- Soyez notifié·e des nouveaux message d’un compte suivi — cliquez l’icône de cloche sur son profil ! (fonctionnalité de Mastodon 3.3.0)
+- La fonctionnalité de brouillon a été complètement repensée pour être plus rapide, plus conviviale et moins boguée.
+- Un nouveau mode bien-être qui vous permet de limiter certaines fonctions de Tusky a été ajouté.
+- Tusky peut désormais animer les émojis personnalisés.
+Liste complète des changements : https://github.com/tuskyapp/Tusky/releases
