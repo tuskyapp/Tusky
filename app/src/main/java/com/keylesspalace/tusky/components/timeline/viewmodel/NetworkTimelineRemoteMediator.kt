@@ -79,7 +79,7 @@ class NetworkTimelineRemoteMediator(
 
                 val insertPlaceholder = if (statuses.isNotEmpty()) {
                     !viewModel.statusData.removeAll { statusViewData ->
-                        statuses.find { status -> status.id == statusViewData.asStatusOrNull()?.id } != null
+                        statuses.any { status -> status.id == statusViewData.asStatusOrNull()?.id }
                     }
                 } else {
                     false
