@@ -171,12 +171,10 @@ class EditProfileActivity : BaseActivity(), Injectable {
 
         viewModel.obtainInstance()
         viewModel.instanceData.observe(this) { result ->
-            when (result) {
-                is Success -> {
-                    val instance = result.data
-                    if (instance?.maxBioChars != null && instance.maxBioChars > 0) {
-                        binding.noteEditTextLayout.counterMaxLength = instance.maxBioChars
-                    }
+            if (result is Success) {
+                val instance = result.data
+                if (instance?.maxBioChars != null && instance.maxBioChars > 0) {
+                    binding.noteEditTextLayout.counterMaxLength = instance.maxBioChars
                 }
             }
         }

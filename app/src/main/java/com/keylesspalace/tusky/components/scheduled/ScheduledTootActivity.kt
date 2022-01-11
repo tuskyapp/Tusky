@@ -81,7 +81,7 @@ class ScheduledTootActivity : BaseActivity(), ScheduledTootActionListener, Injec
         }
 
         adapter.addLoadStateListener { loadState ->
-            if (loadState.refresh is Error) {
+            if (loadState.refresh is LoadState.Error) {
                 binding.progressBar.hide()
                 binding.errorMessageView.setup(R.drawable.elephant_error, R.string.error_generic) {
                     refreshStatuses()
