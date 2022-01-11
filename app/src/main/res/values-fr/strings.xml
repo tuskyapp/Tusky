@@ -53,7 +53,7 @@
     <string name="notification_favourite_format">%s a ajouté votre pouet à ses favoris</string>
     <string name="notification_follow_format">%s vous suit</string>
     <string name="report_username_format">Signaler @%s</string>
-    <string name="report_comment_hint">Commentaires additonnels ?</string>
+    <string name="report_comment_hint">Commentaires additionnels \?</string>
     <string name="action_quick_reply">Réponse rapide</string>
     <string name="action_reply">Répondre</string>
     <string name="action_reblog">Partager</string>
@@ -221,6 +221,7 @@
     <string name="notification_summary_medium">%1$s, %2$s et %3$s</string>
     <string name="notification_summary_small">%1$s et %2$s</string>
     <plurals name="notification_title_summary">
+        <item quantity="one">%d nouvelle interaction</item>
         <item quantity="other">%d nouvelles interactions</item>
     </plurals>
     <string name="description_account_locked">Compte verrouillé</string>
@@ -348,7 +349,8 @@
     <string name="conversation_2_recipients">%1$s et %2$s</string>
     <string name="conversation_more_recipients">%1$s, %2$s et %3$d autres</string>
     <plurals name="max_tab_number_reached">
-        <item quantity="other">nombre maximum d\'onglets %1$d atteint</item>
+        <item quantity="one">maximum de %1$d onglet atteint</item>
+        <item quantity="other">maximum de %1$d onglets atteint</item>
     </plurals>
     <string name="description_status_media">        Média : %s
     </string>
@@ -461,7 +463,7 @@
     <string name="warning_scheduling_interval">L’intervalle minimum de planification sur Mastodon est de 5 minutes.</string>
     <string name="notification_follow_request_name">Demandes d\'abonnement</string>
     <string name="dialog_block_warning">Bloquer @%s \?</string>
-    <string name="pref_title_confirm_reblogs">Afficher une fenêtre de confirmation avant de partager</string>
+    <string name="pref_title_confirm_reblogs">Demander confirmation avant de partager</string>
     <string name="pref_title_show_cards_in_timelines">Afficher les aperçus des liens dans les fils</string>
     <string name="notification_follow_request_format">%s a demandé à vous suivre</string>
     <string name="notification_follow_request_description">Notifications à propos des demandes d’abonnement</string>
@@ -501,11 +503,12 @@
 \n - des statistiques sur les profils
 \n
 \n Les notifications \"push\" ne seront pas affectées, mais vous pouvez revoir vos préférences de notification manuellement.</string>
-    <string name="pref_title_notification_filter_subscriptions">une personne à laquelle je suis abonné a publié un nouveau pouet</string>
+    <string name="pref_title_notification_filter_subscriptions">une personne que je suis a publié un nouveau pouet</string>
     <string name="notification_subscription_format">%s vient de publier</string>
     <string name="review_notifications">Examiner les notifications</string>
-    <string name="notification_subscription_name">Nouveau pouets</string>
+    <string name="notification_subscription_name">Nouveaux pouets</string>
     <plurals name="error_upload_max_media_reached">
+        <item quantity="one">Vous ne pouvez pas téléverser plus de %1$d pièce jointe.</item>
         <item quantity="other">Vous ne pouvez pas téléverser plus de %1$d pièces jointes.</item>
     </plurals>
     <string name="pref_title_wellbeing_mode">Bien-être</string>
@@ -513,4 +516,17 @@
     <string name="limit_notifications">Limiter les notifications de la timeline</string>
     <string name="wellbeing_hide_stats_profile">Cacher les statistiques quantitatives sur les profils</string>
     <string name="wellbeing_hide_stats_posts">Cacher les statistiques quantitatives sur les publications</string>
+    <string name="action_unbookmark">Supprimer le marque-page</string>
+    <string name="status_media_attachments">Pièces jointes</string>
+    <string name="dialog_delete_list_warning">Voulez-vous vraiment supprimer la liste %s \?</string>
+    <string name="action_subscribe_account">S’abonner</string>
+    <string name="dialog_delete_conversation_warning">Supprimer cette conversation \?</string>
+    <string name="pref_title_animate_custom_emojis">Animer les émojis personnalisés</string>
+    <string name="draft_deleted">Brouillon supprimé</string>
+    <string name="label_duration">Durée</string>
+    <string name="duration_indefinite">Indéfinie</string>
+    <string name="action_unsubscribe_account">Se désabonner</string>
+    <string name="action_delete_conversation">Supprimer la conversation</string>
+    <string name="status_media_audio">Audio</string>
+    <string name="pref_title_confirm_favourites">Demander confirmation avant de mettre en favoris</string>
 </resources>
