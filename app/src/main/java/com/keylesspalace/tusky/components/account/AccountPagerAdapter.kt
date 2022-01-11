@@ -13,13 +13,13 @@
  * You should have received a copy of the GNU General Public License along with Tusky; if not,
  * see <http://www.gnu.org/licenses>. */
 
-package com.keylesspalace.tusky.pager
+package com.keylesspalace.tusky.components.account
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
+import com.keylesspalace.tusky.components.account.media.AccountMediaFragment
 import com.keylesspalace.tusky.components.timeline.TimelineFragment
 import com.keylesspalace.tusky.components.timeline.viewmodel.TimelineViewModel
-import com.keylesspalace.tusky.fragment.AccountMediaFragment
 import com.keylesspalace.tusky.interfaces.RefreshableFragment
 import com.keylesspalace.tusky.util.CustomFragmentStateAdapter
 
