@@ -5,7 +5,6 @@
 -optimizationpasses 6
 -allowaccessmodification
 -dontpreverify
--dontobfuscate
 
 -dontusemixedcaseclassnames
 -dontskipnonpubliclibraryclasses
