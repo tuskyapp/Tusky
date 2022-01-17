@@ -105,10 +105,10 @@ public final class ViewThreadFragment extends SFragment implements
     private final PairedList<Status, StatusViewData.Concrete> statuses =
             new PairedList<>(new Function<Status, StatusViewData.Concrete>() {
                 @Override
-                public StatusViewData.Concrete apply(Status input) {
+                public StatusViewData.Concrete apply(Status status) {
                     return ViewDataUtils.statusToViewData(
-                            input,
-                            alwaysShowSensitiveMedia,
+                            status,
+                            alwaysShowSensitiveMedia || !status.getActionableStatus().getSensitive(),
                             alwaysOpenSpoiler,
                             true
                     );
