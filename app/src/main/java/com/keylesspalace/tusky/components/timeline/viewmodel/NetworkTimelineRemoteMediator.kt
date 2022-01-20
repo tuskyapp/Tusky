@@ -26,7 +26,7 @@ import com.keylesspalace.tusky.util.toViewData
 import com.keylesspalace.tusky.viewdata.StatusViewData
 import retrofit2.HttpException
 
-@ExperimentalPagingApi
+@OptIn(ExperimentalPagingApi::class)
 class NetworkTimelineRemoteMediator(
     private val accountManager: AccountManager,
     private val viewModel: NetworkTimelineViewModel

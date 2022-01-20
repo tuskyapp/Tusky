@@ -165,17 +165,16 @@ class EditProfileActivity : BaseActivity(), Injectable {
                     }
                     snackbar.show()
                 }
+                is Loading -> { }
             }
         }
 
         viewModel.obtainInstance()
         viewModel.instanceData.observe(this) { result ->
-            when (result) {
-                is Success -> {
-                    val instance = result.data
-                    if (instance?.maxBioChars != null && instance.maxBioChars > 0) {
-                        binding.noteEditTextLayout.counterMaxLength = instance.maxBioChars
-                    }
+            if (result is Success) {
+                val instance = result.data
+                if (instance?.maxBioChars != null && instance.maxBioChars > 0) {
+                    binding.noteEditTextLayout.counterMaxLength = instance.maxBioChars
                 }
             }
         }
@@ -278,6 +277,7 @@ class EditProfileActivity : BaseActivity(), Injectable {
         permissions: Array<String>,
         grantResults: IntArray
     ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         when (requestCode) {
             PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE -> {
                 if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {

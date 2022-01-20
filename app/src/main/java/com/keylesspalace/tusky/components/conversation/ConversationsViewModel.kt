@@ -37,7 +37,7 @@ class ConversationsViewModel @Inject constructor(
     private val api: MastodonApi
 ) : RxAwareViewModel() {
 
-    @ExperimentalPagingApi
+    @OptIn(ExperimentalPagingApi::class)
     val conversationFlow = Pager(
         config = PagingConfig(pageSize = 10, enablePlaceholders = false, initialLoadSize = 20),
         remoteMediator = ConversationsRemoteMediator(accountManager.activeAccount!!.id, api, database),

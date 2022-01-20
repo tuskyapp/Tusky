@@ -33,6 +33,10 @@
     public static final ** CREATOR;
 }
 
+-keepclassmembers class **.R$* {
+    public static <fields>;
+}
+
 # TUSKY SPECIFIC OPTIONS
 
 # keep members of our model classes, they are used in json de/serialization
@@ -46,6 +50,18 @@
 -keep enum com.keylesspalace.tusky.db.DraftAttachment$Type {
     public *;
 }
+
+# https://github.com/google/gson/blob/master/examples/android-proguard-example/proguard.cfg
+# Retain generic signatures of TypeToken and its subclasses with R8 version 3.0 and higher.
+-keep,allowobfuscation,allowshrinking class com.google.gson.reflect.TypeToken
+-keep,allowobfuscation,allowshrinking class * extends com.google.gson.reflect.TypeToken
+
+# Retain generic signatures of classes used in MastodonApi so Retrofit works
+-keep,allowobfuscation,allowshrinking class io.reactivex.rxjava3.core.Single
+-keep,allowobfuscation,allowshrinking class retrofit2.Response
+-keep,allowobfuscation,allowshrinking class kotlin.collections.List
+-keep,allowobfuscation,allowshrinking class kotlin.collections.Map
+-keep,allowobfuscation,allowshrinking class retrofit2.Call
 
 # preserve line numbers for crash reporting
 -keepattributes SourceFile,LineNumberTable

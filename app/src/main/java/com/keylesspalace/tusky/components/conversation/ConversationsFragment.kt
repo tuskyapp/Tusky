@@ -52,6 +52,7 @@ import kotlinx.coroutines.launch
 import java.io.IOException
 import javax.inject.Inject
 
+@OptIn(ExperimentalPagingApi::class)
 class ConversationsFragment : SFragment(), StatusActionListener, Injectable, ReselectableFragment {
 
     @Inject
@@ -72,7 +73,6 @@ class ConversationsFragment : SFragment(), StatusActionListener, Injectable, Res
         return inflater.inflate(R.layout.fragment_timeline, container, false)
     }
 
-    @ExperimentalPagingApi
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val preferences = PreferenceManager.getDefaultSharedPreferences(view.context)
 
