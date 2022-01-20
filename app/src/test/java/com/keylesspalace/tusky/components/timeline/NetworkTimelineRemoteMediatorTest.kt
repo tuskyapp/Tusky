@@ -6,6 +6,7 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
+import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.keylesspalace.tusky.components.timeline.viewmodel.NetworkTimelineRemoteMediator
 import com.keylesspalace.tusky.components.timeline.viewmodel.NetworkTimelineViewModel
 import com.keylesspalace.tusky.db.AccountEntity
@@ -15,15 +16,21 @@ import com.nhaarman.mockitokotlin2.anyOrNull
 import com.nhaarman.mockitokotlin2.doReturn
 import com.nhaarman.mockitokotlin2.doThrow
 import com.nhaarman.mockitokotlin2.mock
+import com.nhaarman.mockitokotlin2.verify
 import kotlinx.coroutines.runBlocking
+import okhttp3.Headers
 import okhttp3.ResponseBody.Companion.toResponseBody
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Test
+import org.junit.runner.RunWith
+import org.robolectric.annotation.Config
 import retrofit2.HttpException
 import retrofit2.Response
 import java.lang.RuntimeException
 
+@Config(sdk = [29])
+@RunWith(AndroidJUnit4::class)
 class NetworkTimelineRemoteMediatorTest {
 
     private val accountManager: AccountManager = mock {
@@ -68,6 +75,52 @@ class NetworkTimelineRemoteMediatorTest {
 
         assertTrue(result is RemoteMediator.MediatorResult.Error)
         assertTrue((result as RemoteMediator.MediatorResult.Error).throwable is RuntimeException)
+    }
+
+    @Test
+    @ExperimentalPagingApi
+    fun `should do initial loading`() {
+        val statuses: MutableList<StatusViewData> = mutableListOf()
+
+        val timelineViewModel: NetworkTimelineViewModel = mock {
+            on { statusData } doReturn statuses
+            on { nextKey } doReturn null
+            onBlocking { fetchStatusesForKind(null, null, 20) } doReturn Response.success(
+                listOf(
+                    mockStatus("7"),
+                    mockStatus("6"),
+                    mockStatus("5")
+                ),
+                Headers.headersOf(
+                    "Link", "<https://mastodon.example/api/v1/favourites?limit=20&max_id=4>; rel=\"next\", <https://mastodon.example/api/v1/favourites?limit=20&min_id=8>; rel=\"prev\""
+                )
+            )
+        }
+
+        val remoteMediator = NetworkTimelineRemoteMediator(accountManager, timelineViewModel)
+
+        val state = state(
+            listOf(
+                PagingSource.LoadResult.Page(
+                    data = emptyList(),
+                    prevKey = null,
+                    nextKey = null
+                )
+            )
+        )
+
+        val result = runBlocking { remoteMediator.load(LoadType.REFRESH, state) }
+
+        val newStatusData = mutableListOf(
+            mockStatusViewData("7"),
+            mockStatusViewData("6"),
+            mockStatusViewData("5"),
+        )
+
+        verify(timelineViewModel).nextKey = "4"
+        assertTrue(result is RemoteMediator.MediatorResult.Success)
+        assertEquals(false, (result as RemoteMediator.MediatorResult.Success).endOfPaginationReached)
+        assertEquals(newStatusData, statuses)
     }
 
     @Test
@@ -246,6 +299,9 @@ class NetworkTimelineRemoteMediatorTest {
                     mockStatus("3"),
                     mockStatus("2"),
                     mockStatus("1")
+                ),
+                Headers.headersOf(
+                    "Link", "<https://mastodon.example/api/v1/favourites?limit=20&max_id=0>; rel=\"next\", <https://mastodon.example/api/v1/favourites?limit=20&min_id=4>; rel=\"prev\""
                 )
             )
         }
@@ -277,8 +333,52 @@ class NetworkTimelineRemoteMediatorTest {
             mockStatusViewData("1"),
         )
 
+        verify(timelineViewModel).nextKey = "0"
         assertTrue(result is RemoteMediator.MediatorResult.Success)
         assertEquals(false, (result as RemoteMediator.MediatorResult.Success).endOfPaginationReached)
+        assertEquals(newStatusData, statuses)
+    }
+
+    @Test
+    @ExperimentalPagingApi
+    fun `should not append statuses when pagination end has been reached`() {
+        val statuses: MutableList<StatusViewData> = mutableListOf(
+            mockStatusViewData("8"),
+            mockStatusViewData("7"),
+            mockStatusViewData("5"),
+        )
+
+        val timelineViewModel: NetworkTimelineViewModel = mock {
+            on { statusData } doReturn statuses
+            on { nextKey } doReturn null
+        }
+
+        val remoteMediator = NetworkTimelineRemoteMediator(accountManager, timelineViewModel)
+
+        val state = state(
+            listOf(
+                PagingSource.LoadResult.Page(
+                    data = listOf(
+                        mockStatusViewData("8"),
+                        mockStatusViewData("7"),
+                        mockStatusViewData("5"),
+                    ),
+                    prevKey = null,
+                    nextKey = null
+                )
+            )
+        )
+
+        val result = runBlocking { remoteMediator.load(LoadType.APPEND, state) }
+
+        val newStatusData = mutableListOf(
+            mockStatusViewData("8"),
+            mockStatusViewData("7"),
+            mockStatusViewData("5")
+        )
+
+        assertTrue(result is RemoteMediator.MediatorResult.Success)
+        assertTrue((result as RemoteMediator.MediatorResult.Success).endOfPaginationReached)
         assertEquals(newStatusData, statuses)
     }
 
