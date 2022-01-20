@@ -56,7 +56,7 @@
 -keep,allowobfuscation,allowshrinking class com.google.gson.reflect.TypeToken
 -keep,allowobfuscation,allowshrinking class * extends com.google.gson.reflect.TypeToken
 
-# Retain generic signaturs of classes used in MastodonApi so Retrofit works
+# Retain generic signatures of classes used in MastodonApi so Retrofit works
 -keep,allowobfuscation,allowshrinking class io.reactivex.rxjava3.core.Single
 -keep,allowobfuscation,allowshrinking class retrofit2.Response
 -keep,allowobfuscation,allowshrinking class kotlin.collections.List
