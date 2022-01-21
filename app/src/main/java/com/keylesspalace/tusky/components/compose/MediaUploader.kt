@@ -62,7 +62,6 @@ fun createNewImageFile(context: Context): File {
 
 data class PreparedMedia(val type: QueuedMedia.Type, val uri: Uri, val size: Long)
 
-
 class AudioSizeException : Exception()
 class VideoSizeException : Exception()
 class MediaTypeException : Exception()
