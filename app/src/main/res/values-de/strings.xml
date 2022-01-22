@@ -517,4 +517,8 @@
     <string name="abbreviated_days_ago">%d T.</string>
     <string name="abbreviated_in_years">in %d J.</string>
     <string name="abbreviated_in_seconds">in %d Sek.</string>
+    <string name="action_unbookmark">Lesezeichen entfernen</string>
+    <string name="pref_title_confirm_favourites">Bestätigungsdialog vor dem Favorisieren eines Beitrags</string>
+    <string name="dialog_delete_conversation_warning">Diese Unterhaltung wirklich löschen\?</string>
+    <string name="action_delete_conversation">Unterhaltung löschen</string>
 </resources>
