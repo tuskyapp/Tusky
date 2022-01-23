@@ -32,27 +32,16 @@ import com.keylesspalace.tusky.entity.Status
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.kotlin.addTo
+import javax.inject.Inject
 
 /**
  * Created by charlag on 3/24/18.
  */
 
-interface TimelineCases {
-    fun reblog(statusId: String, reblog: Boolean): Single<Status>
-    fun favourite(statusId: String, favourite: Boolean): Single<Status>
-    fun bookmark(statusId: String, bookmark: Boolean): Single<Status>
-    fun mute(statusId: String, notifications: Boolean, duration: Int?)
-    fun block(statusId: String)
-    fun delete(statusId: String): Single<DeletedStatus>
-    fun pin(statusId: String, pin: Boolean): Single<Status>
-    fun voteInPoll(statusId: String, pollId: String, choices: List<Int>): Single<Poll>
-    fun muteConversation(statusId: String, mute: Boolean): Single<Status>
-}
-
-class TimelineCasesImpl(
+class TimelineCases @Inject constructor(
     private val mastodonApi: MastodonApi,
     private val eventHub: EventHub
-) : TimelineCases {
+) {
 
     /**
      * Unused yet but can be use for cancellation later. It's always a good idea to save
@@ -60,7 +49,7 @@ class TimelineCasesImpl(
      */
     private val cancelDisposable = CompositeDisposable()
 
-    override fun reblog(statusId: String, reblog: Boolean): Single<Status> {
+    fun reblog(statusId: String, reblog: Boolean): Single<Status> {
         val call = if (reblog) {
             mastodonApi.reblogStatus(statusId)
         } else {
@@ -71,7 +60,7 @@ class TimelineCasesImpl(
         }
     }
 
-    override fun favourite(statusId: String, favourite: Boolean): Single<Status> {
+    fun favourite(statusId: String, favourite: Boolean): Single<Status> {
         val call = if (favourite) {
             mastodonApi.favouriteStatus(statusId)
         } else {
@@ -82,7 +71,7 @@ class TimelineCasesImpl(
         }
     }
 
-    override fun bookmark(statusId: String, bookmark: Boolean): Single<Status> {
+    fun bookmark(statusId: String, bookmark: Boolean): Single<Status> {
         val call = if (bookmark) {
             mastodonApi.bookmarkStatus(statusId)
         } else {
@@ -93,7 +82,7 @@ class TimelineCasesImpl(
         }
     }
 
-    override fun muteConversation(statusId: String, mute: Boolean): Single<Status> {
+    fun muteConversation(statusId: String, mute: Boolean): Single<Status> {
         val call = if (mute) {
             mastodonApi.muteConversation(statusId)
         } else {
@@ -104,7 +93,7 @@ class TimelineCasesImpl(
         }
     }
 
-    override fun mute(statusId: String, notifications: Boolean, duration: Int?) {
+    fun mute(statusId: String, notifications: Boolean, duration: Int?) {
         mastodonApi.muteAccount(statusId, notifications, duration)
             .subscribe(
                 {
@@ -117,7 +106,7 @@ class TimelineCasesImpl(
             .addTo(cancelDisposable)
     }
 
-    override fun block(statusId: String) {
+    fun block(statusId: String) {
         mastodonApi.blockAccount(statusId)
             .subscribe(
                 {
@@ -130,14 +119,14 @@ class TimelineCasesImpl(
             .addTo(cancelDisposable)
     }
 
-    override fun delete(statusId: String): Single<DeletedStatus> {
+    fun delete(statusId: String): Single<DeletedStatus> {
         return mastodonApi.deleteStatus(statusId)
             .doAfterSuccess {
                 eventHub.dispatch(StatusDeletedEvent(statusId))
             }
     }
 
-    override fun pin(statusId: String, pin: Boolean): Single<Status> {
+    fun pin(statusId: String, pin: Boolean): Single<Status> {
         // Replace with extension method if we use RxKotlin
         return (if (pin) mastodonApi.pinStatus(statusId) else mastodonApi.unpinStatus(statusId))
             .doAfterSuccess {
@@ -145,7 +134,7 @@ class TimelineCasesImpl(
             }
     }
 
-    override fun voteInPoll(statusId: String, pollId: String, choices: List<Int>): Single<Poll> {
+    fun voteInPoll(statusId: String, pollId: String, choices: List<Int>): Single<Poll> {
         if (choices.isEmpty()) {
             return Single.error(IllegalStateException())
         }

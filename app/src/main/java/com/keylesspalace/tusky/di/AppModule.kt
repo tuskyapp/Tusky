@@ -18,19 +18,11 @@ package com.keylesspalace.tusky.di
 import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
-import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.preference.PreferenceManager
 import androidx.room.Room
 import com.keylesspalace.tusky.TuskyApplication
-import com.keylesspalace.tusky.appstore.EventHub
-import com.keylesspalace.tusky.appstore.EventHubImpl
-import com.keylesspalace.tusky.components.notifications.Notifier
-import com.keylesspalace.tusky.components.notifications.SystemNotifier
 import com.keylesspalace.tusky.db.AppDatabase
 import com.keylesspalace.tusky.db.Converters
-import com.keylesspalace.tusky.network.MastodonApi
-import com.keylesspalace.tusky.network.TimelineCases
-import com.keylesspalace.tusky.network.TimelineCasesImpl
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -54,23 +46,6 @@ class AppModule {
     }
 
     @Provides
-    fun providesBroadcastManager(app: Application): LocalBroadcastManager {
-        return LocalBroadcastManager.getInstance(app)
-    }
-
-    @Provides
-    fun providesTimelineUseCases(
-        api: MastodonApi,
-        eventHub: EventHub
-    ): TimelineCases {
-        return TimelineCasesImpl(api, eventHub)
-    }
-
-    @Provides
-    @Singleton
-    fun providesEventHub(): EventHub = EventHubImpl
-
-    @Provides
     @Singleton
     fun providesDatabase(appContext: Context, converters: Converters): AppDatabase {
         return Room.databaseBuilder(appContext, AppDatabase::class.java, "tuskyDB")
@@ -90,8 +65,4 @@ class AppModule {
             )
             .build()
     }
-
-    @Provides
-    @Singleton
-    fun notifier(context: Context): Notifier = SystemNotifier(context)
 }

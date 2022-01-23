@@ -57,16 +57,13 @@ abstract class FragmentBuildersModule {
     abstract fun notificationsFragment(): NotificationsFragment
 
     @ContributesAndroidInjector
-    abstract fun searchFragment(): SearchStatusesFragment
-
-    @ContributesAndroidInjector
     abstract fun notificationPreferencesFragment(): NotificationPreferencesFragment
 
     @ContributesAndroidInjector
     abstract fun accountPreferencesFragment(): AccountPreferencesFragment
 
     @ContributesAndroidInjector
-    abstract fun directMessagesPreferencesFragment(): ConversationsFragment
+    abstract fun conversationsFragment(): ConversationsFragment
 
     @ContributesAndroidInjector
     abstract fun accountInListsFragment(): AccountsInListFragment
@@ -82,6 +79,9 @@ abstract class FragmentBuildersModule {
 
     @ContributesAndroidInjector
     abstract fun instanceListFragment(): InstanceListFragment
+
+    @ContributesAndroidInjector
+    abstract fun searchStatusesFragment(): SearchStatusesFragment
 
     @ContributesAndroidInjector
     abstract fun searchAccountFragment(): SearchAccountsFragment

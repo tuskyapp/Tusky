@@ -9,7 +9,7 @@ import androidx.room.Room
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import com.google.gson.Gson
-import com.keylesspalace.tusky.appstore.EventHubImpl
+import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.components.timeline.TimelinePagingAdapter.Companion.TimelineDifferCallback
 import com.keylesspalace.tusky.components.timeline.viewmodel.CachedTimelineViewModel
 import com.keylesspalace.tusky.components.timeline.viewmodel.NetworkTimelineViewModel
@@ -20,7 +20,7 @@ import com.keylesspalace.tusky.db.AppDatabase
 import com.keylesspalace.tusky.db.Converters
 import com.keylesspalace.tusky.network.FilterModel
 import com.keylesspalace.tusky.network.MastodonApi
-import com.keylesspalace.tusky.network.TimelineCasesImpl
+import com.keylesspalace.tusky.network.TimelineCases
 import com.nhaarman.mockitokotlin2.doReturn
 import com.nhaarman.mockitokotlin2.mock
 import io.reactivex.rxjava3.core.Single
@@ -65,6 +65,8 @@ class TimelineViewModelTest {
             isActive = true
         )
     }
+
+    private val eventHub = EventHub()
 
     private lateinit var db: AppDatabase
 
@@ -115,9 +117,9 @@ class TimelineViewModelTest {
         }
 
         val viewModel = NetworkTimelineViewModel(
-            TimelineCasesImpl(api, EventHubImpl),
+            TimelineCases(api, eventHub),
             api,
-            EventHubImpl,
+            eventHub,
             accountManager,
             mock(),
             FilterModel()
@@ -171,9 +173,9 @@ class TimelineViewModelTest {
         }
 
         val viewModel = CachedTimelineViewModel(
-            TimelineCasesImpl(api, EventHubImpl),
+            TimelineCases(api, eventHub),
             api,
-            EventHubImpl,
+            eventHub,
             accountManager,
             mock(),
             FilterModel(),
@@ -189,7 +191,6 @@ class TimelineViewModelTest {
             workerDispatcher = testDispatcher
         )
 
-        var x = 1
         viewModel.statuses.take(1000).collectLatest {
             testScope.launch {
                 differ.submitData(it)
