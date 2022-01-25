@@ -771,7 +771,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             }
 
             if (cardView != null) {
-                setupCard(status, statusDisplayOptions.cardViewMode(), statusDisplayOptions);
+                setupCard(status, statusDisplayOptions.cardViewMode(), statusDisplayOptions, listener);
             }
 
             setupButtons(listener, actionable.getAccount().getId(), status.getContent().toString(),
@@ -1034,7 +1034,12 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         return pollDescription.getContext().getString(R.string.poll_info_format, votesText, pollDurationInfo);
     }
 
-    protected void setupCard(StatusViewData.Concrete status, CardViewMode cardViewMode, StatusDisplayOptions statusDisplayOptions) {
+    protected void setupCard(
+            StatusViewData.Concrete status,
+            CardViewMode cardViewMode,
+            StatusDisplayOptions statusDisplayOptions,
+            final StatusActionListener listener
+    ) {
         final Card card = status.getActionable().getCard();
         if (cardViewMode != CardViewMode.NONE &&
                 status.getActionable().getAttachments().size() == 0 &&
@@ -1125,7 +1130,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
                 cardImage.setImageResource(R.drawable.card_image_placeholder);
             }
 
-            View.OnClickListener visitLink = v -> LinkHelper.openLink(card.getUrl(), v.getContext());
+            View.OnClickListener visitLink = v -> listener.onViewUrl(card.getUrl());
             View.OnClickListener openImage = v -> cardView.getContext().startActivity(ViewMediaActivity.newSingleImageIntent(cardView.getContext(), card.getEmbed_url()));
 
             cardInfo.setOnClickListener(visitLink);

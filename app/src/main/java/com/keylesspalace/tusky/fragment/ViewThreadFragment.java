@@ -320,6 +320,19 @@ public final class ViewThreadFragment extends SFragment implements
     }
 
     @Override
+    public void onViewUrl(String url) {
+        Status status = null;
+        if (!statuses.isEmpty()) {
+            status = statuses.get(statusIndex);
+        }
+        if (status != null && status.getUrl().equals(url)) {
+            // already viewing the status with this url
+            return;
+        }
+        super.onViewUrl(url);
+    }
+
+    @Override
     public void onOpenReblog(int position) {
         // there should be no reblogs in the thread but let's implement it to be sure
         super.openReblog(statuses.get(position));
