@@ -60,6 +60,7 @@ import com.keylesspalace.tusky.network.FilterModel;
 import com.keylesspalace.tusky.network.MastodonApi;
 import com.keylesspalace.tusky.settings.PrefKeys;
 import com.keylesspalace.tusky.util.CardViewMode;
+import com.keylesspalace.tusky.util.LinkHelper;
 import com.keylesspalace.tusky.util.ListStatusAccessibilityDelegate;
 import com.keylesspalace.tusky.util.PairedList;
 import com.keylesspalace.tusky.util.StatusDisplayOptions;
@@ -327,6 +328,9 @@ public final class ViewThreadFragment extends SFragment implements
         }
         if (status != null && status.getUrl().equals(url)) {
             // already viewing the status with this url
+            // probably just a preview federated and the user is clicking again to view more -> open the browser
+            // this can happen with some friendica statuses
+            LinkHelper.openLink(url, requireContext());
             return;
         }
         super.onViewUrl(url);
