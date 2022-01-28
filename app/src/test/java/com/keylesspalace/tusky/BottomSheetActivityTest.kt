@@ -23,22 +23,24 @@ import com.keylesspalace.tusky.entity.Account
 import com.keylesspalace.tusky.entity.SearchResult
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.network.MastodonApi
+import com.nhaarman.mockitokotlin2.doReturn
+import com.nhaarman.mockitokotlin2.mock
 import io.reactivex.rxjava3.android.plugins.RxAndroidPlugins
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.plugins.RxJavaPlugins
 import io.reactivex.rxjava3.schedulers.TestScheduler
-import org.junit.Assert
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertFalse
+import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
-import org.mockito.ArgumentMatchers
-import org.mockito.Mockito.`when`
+import org.mockito.ArgumentMatchers.anyBoolean
 import org.mockito.Mockito.eq
 import org.mockito.Mockito.mock
 import java.util.ArrayList
-import java.util.Collections
 import java.util.Date
 import java.util.concurrent.TimeUnit
 
@@ -56,46 +58,42 @@ class BottomSheetActivityTest {
     private val testScheduler = TestScheduler()
 
     private val account = Account(
-        "1",
-        "admin",
-        "admin",
-        "Ad Min",
-        SpannedString(""),
-        "http://mastodon.foo.bar",
-        "",
-        "",
-        false,
-        0,
-        0,
-        0,
-        null,
-        false,
-        emptyList(),
-        emptyList()
+        id = "1",
+        localUsername = "admin",
+        username = "admin",
+        displayName = "Ad Min",
+        note = SpannedString(""),
+        url = "http://mastodon.foo.bar",
+        avatar = "",
+        header = "",
+        locked = false,
+        followersCount = 0,
+        followingCount = 0,
+        statusesCount = 0
     )
     private val accountSingle = Single.just(SearchResult(listOf(account), emptyList(), emptyList()))
 
     private val status = Status(
-        "1",
-        statusQuery,
-        account,
-        null,
-        null,
-        null,
-        SpannedString("omgwat"),
-        Date(),
-        Collections.emptyList(),
-        0,
-        0,
-        false,
-        false,
-        false,
-        false,
-        "",
-        Status.Visibility.PUBLIC,
-        ArrayList(),
-        listOf(),
-        null,
+        id = "1",
+        url = statusQuery,
+        account = account,
+        inReplyToId = null,
+        inReplyToAccountId = null,
+        reblog = null,
+        content = SpannedString("omgwat"),
+        createdAt = Date(),
+        emojis = emptyList(),
+        reblogsCount = 0,
+        favouritesCount = 0,
+        reblogged = false,
+        favourited = false,
+        bookmarked = false,
+        sensitive = false,
+        spoilerText = "",
+        visibility = Status.Visibility.PUBLIC,
+        attachments = ArrayList(),
+        mentions = emptyList(),
+        application = null,
         pinned = false,
         muted = false,
         poll = null,
@@ -109,10 +107,11 @@ class BottomSheetActivityTest {
         RxJavaPlugins.setIoSchedulerHandler { testScheduler }
         RxAndroidPlugins.setMainThreadSchedulerHandler { testScheduler }
 
-        apiMock = mock(MastodonApi::class.java)
-        `when`(apiMock.searchObservable(eq(accountQuery), eq(null), ArgumentMatchers.anyBoolean(), eq(null), eq(null), eq(null))).thenReturn(accountSingle)
-        `when`(apiMock.searchObservable(eq(statusQuery), eq(null), ArgumentMatchers.anyBoolean(), eq(null), eq(null), eq(null))).thenReturn(statusSingle)
-        `when`(apiMock.searchObservable(eq(nonMastodonQuery), eq(null), ArgumentMatchers.anyBoolean(), eq(null), eq(null), eq(null))).thenReturn(emptyCallback)
+        apiMock = mock {
+            on { searchObservable(eq(accountQuery), eq(null), anyBoolean(), eq(null), eq(null), eq(null)) } doReturn accountSingle
+            on { searchObservable(eq(statusQuery), eq(null), anyBoolean(), eq(null), eq(null), eq(null)) } doReturn statusSingle
+            on { searchObservable(eq(nonMastodonQuery), eq(null), anyBoolean(), eq(null), eq(null), eq(null)) } doReturn emptyCallback
+        }
 
         activity = FakeBottomSheetActivity(apiMock)
     }
@@ -168,21 +167,23 @@ class BottomSheetActivityTest {
                     arrayOf("https://friendica.foo.bar/profile/@mew/", false),
                     arrayOf("https://misskey.foo.bar/notes/@nyan", false),
                     arrayOf("https://misskey.foo.bar/notes/NYAN123", false),
-                    arrayOf("https://misskey.foo.bar/notes/meow123/", false)
+                    arrayOf("https://misskey.foo.bar/notes/meow123/", false),
+                    arrayOf("https://pixelfed.social/p/connyduck/391263492998670833", true),
+                    arrayOf("https://pixelfed.social/connyduck", true)
                 )
             }
         }
 
         @Test
         fun test() {
-            Assert.assertEquals(expectedResult, looksLikeMastodonUrl(url))
+            assertEquals(expectedResult, looksLikeMastodonUrl(url))
         }
     }
 
     @Test
     fun beginEndSearch_setIsSearching_isSearchingAfterBegin() {
         activity.onBeginSearch("https://mastodon.foo.bar/@User")
-        Assert.assertTrue(activity.isSearching())
+        assertTrue(activity.isSearching())
     }
 
     @Test
@@ -190,7 +191,7 @@ class BottomSheetActivityTest {
         val validUrl = "https://mastodon.foo.bar/@User"
         activity.onBeginSearch(validUrl)
         activity.onEndSearch(validUrl)
-        Assert.assertFalse(activity.isSearching())
+        assertFalse(activity.isSearching())
     }
 
     @Test
@@ -200,7 +201,7 @@ class BottomSheetActivityTest {
 
         activity.onBeginSearch(validUrl)
         activity.onEndSearch(invalidUrl)
-        Assert.assertTrue(activity.isSearching())
+        assertTrue(activity.isSearching())
     }
 
     @Test
@@ -209,7 +210,7 @@ class BottomSheetActivityTest {
 
         activity.onBeginSearch(url)
         activity.cancelActiveSearch()
-        Assert.assertFalse(activity.isSearching())
+        assertFalse(activity.isSearching())
     }
 
     @Test
@@ -221,29 +222,29 @@ class BottomSheetActivityTest {
         activity.cancelActiveSearch()
 
         activity.onBeginSearch(secondUrl)
-        Assert.assertTrue(activity.getCancelSearchRequested(firstUrl))
-        Assert.assertFalse(activity.getCancelSearchRequested(secondUrl))
+        assertTrue(activity.getCancelSearchRequested(firstUrl))
+        assertFalse(activity.getCancelSearchRequested(secondUrl))
     }
 
     @Test
     fun search_inIdealConditions_returnsRequestedResults_forAccount() {
         activity.viewUrl(accountQuery)
         testScheduler.advanceTimeBy(100, TimeUnit.MILLISECONDS)
-        Assert.assertEquals(account.id, activity.accountId)
+        assertEquals(account.id, activity.accountId)
     }
 
     @Test
     fun search_inIdealConditions_returnsRequestedResults_forStatus() {
         activity.viewUrl(statusQuery)
         testScheduler.advanceTimeBy(100, TimeUnit.MILLISECONDS)
-        Assert.assertEquals(status.id, activity.statusId)
+        assertEquals(status.id, activity.statusId)
     }
 
     @Test
     fun search_inIdealConditions_returnsRequestedResults_forNonMastodonURL() {
         activity.viewUrl(nonMastodonQuery)
         testScheduler.advanceTimeBy(100, TimeUnit.MILLISECONDS)
-        Assert.assertEquals(nonMastodonQuery, activity.link)
+        assertEquals(nonMastodonQuery, activity.link)
     }
 
     @Test
@@ -251,32 +252,32 @@ class BottomSheetActivityTest {
         for (fallbackBehavior in listOf(PostLookupFallbackBehavior.OPEN_IN_BROWSER, PostLookupFallbackBehavior.DISPLAY_ERROR)) {
             activity.viewUrl(nonMastodonQuery, fallbackBehavior)
             testScheduler.advanceTimeBy(100, TimeUnit.MILLISECONDS)
-            Assert.assertEquals(nonMastodonQuery, activity.link)
-            Assert.assertEquals(fallbackBehavior, activity.fallbackBehavior)
+            assertEquals(nonMastodonQuery, activity.link)
+            assertEquals(fallbackBehavior, activity.fallbackBehavior)
         }
     }
 
     @Test
     fun search_withCancellation_doesNotLoadUrl_forAccount() {
         activity.viewUrl(accountQuery)
-        Assert.assertTrue(activity.isSearching())
+        assertTrue(activity.isSearching())
         activity.cancelActiveSearch()
-        Assert.assertFalse(activity.isSearching())
-        Assert.assertEquals(null, activity.accountId)
+        assertFalse(activity.isSearching())
+        assertEquals(null, activity.accountId)
     }
 
     @Test
     fun search_withCancellation_doesNotLoadUrl_forStatus() {
         activity.viewUrl(accountQuery)
         activity.cancelActiveSearch()
-        Assert.assertEquals(null, activity.accountId)
+        assertEquals(null, activity.accountId)
     }
 
     @Test
     fun search_withCancellation_doesNotLoadUrl_forNonMastodonURL() {
         activity.viewUrl(nonMastodonQuery)
         activity.cancelActiveSearch()
-        Assert.assertEquals(null, activity.searchUrl)
+        assertEquals(null, activity.searchUrl)
     }
 
     @Test
@@ -289,15 +290,15 @@ class BottomSheetActivityTest {
         activity.viewUrl(statusQuery)
 
         // ensure that search is still ongoing
-        Assert.assertTrue(activity.isSearching())
+        assertTrue(activity.isSearching())
 
         // return searchResults
         testScheduler.advanceTimeBy(100, TimeUnit.MILLISECONDS)
 
         // ensure that the result of the status search was recorded
         // and the account search wasn't
-        Assert.assertEquals(status.id, activity.statusId)
-        Assert.assertEquals(null, activity.accountId)
+        assertEquals(status.id, activity.statusId)
+        assertEquals(null, activity.accountId)
     }
 
     class FakeBottomSheetActivity(api: MastodonApi) : BottomSheetActivity() {

@@ -180,6 +180,8 @@ abstract class BottomSheetActivity : BaseActivity() {
 // https://friendica.foo.bar/profile/user
 // https://friendica.foo.bar/display/d4643c42-3ae0-4b73-b8b0-c725f5819207
 // https://misskey.foo.bar/notes/83w6r388br (always lowercase)
+// https://pixelfed.social/p/connyduck/391263492998670833
+// https://pixelfed.social/connyduck
 fun looksLikeMastodonUrl(urlString: String): Boolean {
     val uri: URI
     try {
@@ -203,7 +205,9 @@ fun looksLikeMastodonUrl(urlString: String): Boolean {
         path.matches("^/objects/[-a-f0-9]+$".toRegex()) ||
         path.matches("^/notes/[a-z0-9]+$".toRegex()) ||
         path.matches("^/display/[-a-f0-9]+$".toRegex()) ||
-        path.matches("^/profile/\\w+$".toRegex())
+        path.matches("^/profile/\\w+$".toRegex()) ||
+        path.matches("^/p/\\w+/\\d+$".toRegex()) ||
+        path.matches("^/\\w+$".toRegex())
 }
 
 enum class PostLookupFallbackBehavior {
