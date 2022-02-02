@@ -56,7 +56,9 @@ class AnnouncementAdapter(
         val chips = holder.binding.chipGroup
         val addReactionChip = holder.binding.addReactionChip
 
-        LinkHelper.setClickableText(text, item.content, null, listener)
+        val emojifiedText: CharSequence = item.content.emojify(item.emojis, text, animateEmojis)
+
+        LinkHelper.setClickableText(text, emojifiedText, item.mentions, listener)
 
         // If wellbeing mode is enabled, announcement badge counts should not be shown.
         if (wellbeingEnabled) {
