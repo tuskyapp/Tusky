@@ -15,21 +15,23 @@
 
 package com.keylesspalace.tusky.components.announcements
 
+import android.text.SpannableStringBuilder
 import android.view.ContextThemeWrapper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.size
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.google.android.material.chip.Chip
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.databinding.ItemAnnouncementBinding
 import com.keylesspalace.tusky.entity.Announcement
-import com.keylesspalace.tusky.entity.Emoji
 import com.keylesspalace.tusky.interfaces.LinkListener
 import com.keylesspalace.tusky.util.BindingHolder
+import com.keylesspalace.tusky.util.EmojiSpan
 import com.keylesspalace.tusky.util.LinkHelper
-import com.keylesspalace.tusky.util.emojify
+import java.lang.ref.WeakReference
 
 interface AnnouncementActionListener : LinkListener {
     fun openReactionPicker(announcementId: String, target: View)
@@ -74,24 +76,19 @@ class AnnouncementAdapter(
                     chips.addView(this, i)
                 }
                     .apply {
-                        val emojiText = if (reaction.url == null) {
-                            reaction.name
+                        if (reaction.url == null) {
+                            this.text = "${reaction.name} ${reaction.count}"
                         } else {
                             context.getString(R.string.emoji_shortcode_format, reaction.name)
+                            val spanBuilder = SpannableStringBuilder("E ${reaction.count}")
+                            val span = EmojiSpan(WeakReference(this))
+                            spanBuilder.setSpan(span, 0, 1, 0)
+                            Glide.with(this)
+                                .asDrawable()
+                                .load(reaction.url)
+                                .into(span.getTarget(animateEmojis))
+                            this.text = spanBuilder
                         }
-                        this.text = ("$emojiText ${reaction.count}")
-                            .emojify(
-                                listOf(
-                                    Emoji(
-                                        reaction.name,
-                                        reaction.url ?: "",
-                                        reaction.staticUrl ?: "",
-                                        null
-                                    )
-                                ),
-                                this,
-                                animateEmojis
-                            )
 
                         isChecked = reaction.me
 
