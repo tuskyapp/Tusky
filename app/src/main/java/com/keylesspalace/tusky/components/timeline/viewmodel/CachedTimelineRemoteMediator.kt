@@ -57,7 +57,7 @@ class CachedTimelineRemoteMediator(
             val topPlaceholderId = if (loadType == LoadType.REFRESH) {
                 timelineDao.getTopPlaceholderId(activeAccount.id)
             } else {
-                null  // don't execute the query if it is not needed
+                null // don't execute the query if it is not needed
             }
 
             if (!initialRefresh && loadType == LoadType.REFRESH) {
