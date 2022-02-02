@@ -162,13 +162,13 @@ class CachedTimelineViewModel @Inject constructor(
                         )
                     }
 
-                    if (overlappedStatuses == 0) {
+                    if (overlappedStatuses == 0 && statuses.isNotEmpty()) {
                         timelineDao.insertStatus(
                             Placeholder(statuses.last().id.dec(), loading = false).toEntity(activeAccount.id)
                         )
                     }
                 }
-            } catch (e: java.lang.Exception) {
+            } catch (e: Exception) {
                 loadMoreFailed(placeholderId, e)
             }
         }
