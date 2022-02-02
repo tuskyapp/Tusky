@@ -254,15 +254,15 @@ class TimelineDaoTest {
     }
 
     @Test
-    fun `should return correct placeholderId`() = runBlocking {
+    fun `should return correct placeholderId after other ids`() = runBlocking {
 
         val statusData = listOf(
-            makeStatus(statusId = 10),
-            makePlaceholder(id = 8),
-            makeStatus(statusId = 7),
-            makeStatus(statusId = 5),
-            makePlaceholder(id = 4),
-            makeStatus(statusId = 2)
+            makeStatus(statusId = 1000),
+            makePlaceholder(id = 99),
+            makeStatus(statusId = 97),
+            makeStatus(statusId = 95),
+            makePlaceholder(id = 94),
+            makeStatus(statusId = 90)
         )
 
         for ((status, author, reblogAuthor) in statusData) {
@@ -275,17 +275,35 @@ class TimelineDaoTest {
             timelineDao.insertStatus(status)
         }
 
-        val loadParams: PagingSource.LoadParams<Int> = PagingSource.LoadParams.Refresh(null, 100, false)
+        assertEquals("99", timelineDao.getNextPlaceholderIdAfter(1, "1000"))
+        assertEquals("94", timelineDao.getNextPlaceholderIdAfter(1, "97"))
+        assertNull(timelineDao.getNextPlaceholderIdAfter(1, "90"))
+    }
 
-        val statusesAccount1 = (timelineDao.getStatusesForAccount(1).load(loadParams) as PagingSource.LoadResult.Page).data
+    @Test
+    fun `should return correct top placeholderId`() = runBlocking {
 
-        statusesAccount1.forEach{
-            println("${it.status.serverId} ${it.status.authorServerId}")
+        val statusData = listOf(
+            makeStatus(statusId = 1000),
+            makePlaceholder(id = 99),
+            makeStatus(statusId = 97),
+            makePlaceholder(id = 96),
+            makeStatus(statusId = 90),
+            makePlaceholder(id = 80),
+            makeStatus(statusId = 77)
+        )
+
+        for ((status, author, reblogAuthor) in statusData) {
+            author?.let {
+                timelineDao.insertAccount(it)
+            }
+            reblogAuthor?.let {
+                timelineDao.insertAccount(it)
+            }
+            timelineDao.insertStatus(status)
         }
 
-        assertEquals("8", timelineDao.getNextPlaceholderIdAfter(1, "10"))
-        assertEquals("4", timelineDao.getNextPlaceholderIdAfter(1, "7"))
-        assertNull(timelineDao.getNextPlaceholderIdAfter(1, "2"))
+        assertEquals("99", timelineDao.getTopPlaceholderId(1))
     }
 
     private fun makeStatus(
