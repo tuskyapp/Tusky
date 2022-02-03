@@ -53,11 +53,19 @@ class CachedTimelineRemoteMediator(
 
         try {
             var dbEmpty = false
+
+            val topPlaceholderId = if (loadType == LoadType.REFRESH) {
+                timelineDao.getTopPlaceholderId(activeAccount.id)
+            } else {
+                null // don't execute the query if it is not needed
+            }
+
             if (!initialRefresh && loadType == LoadType.REFRESH) {
                 val topId = timelineDao.getTopId(activeAccount.id)
                 topId?.let { cachedTopId ->
                     val statusResponse = api.homeTimeline(
                         maxId = cachedTopId,
+                        sinceId = topPlaceholderId, // so already existing placeholders don't get accidentally overwritten
                         limit = state.config.pageSize
                     ).await()
 
@@ -74,7 +82,7 @@ class CachedTimelineRemoteMediator(
 
             val statusResponse = when (loadType) {
                 LoadType.REFRESH -> {
-                    api.homeTimeline(limit = state.config.pageSize).await()
+                    api.homeTimeline(sinceId = topPlaceholderId, limit = state.config.pageSize).await()
                 }
                 LoadType.PREPEND -> {
                     return MediatorResult.Success(endOfPaginationReached = true)
