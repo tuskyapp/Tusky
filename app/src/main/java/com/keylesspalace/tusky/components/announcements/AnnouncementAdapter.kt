@@ -84,7 +84,6 @@ class AnnouncementAdapter(
                     if (reaction.url == null) {
                         this.text = "${reaction.name} ${reaction.count}"
                     } else {
-                        context.getString(R.string.emoji_shortcode_format, reaction.name)
                         val spanBuilder = SpannableStringBuilder("E ${reaction.count}")
                         val span = EmojiSpan(WeakReference(this))
                         spanBuilder.setSpan(span, 0, 1, 0)
