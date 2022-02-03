@@ -31,6 +31,7 @@ import com.keylesspalace.tusky.interfaces.LinkListener
 import com.keylesspalace.tusky.util.BindingHolder
 import com.keylesspalace.tusky.util.EmojiSpan
 import com.keylesspalace.tusky.util.LinkHelper
+import com.keylesspalace.tusky.util.emojify
 import java.lang.ref.WeakReference
 
 interface AnnouncementActionListener : LinkListener {
@@ -71,37 +72,39 @@ class AnnouncementAdapter(
         }
 
         item.reactions.forEachIndexed { i, reaction ->
-            chips.getChildAt(i)?.takeUnless { it.id == R.id.addReactionChip } as Chip?
-                ?: Chip(ContextThemeWrapper(chips.context, R.style.Widget_MaterialComponents_Chip_Choice)).apply {
-                    isCheckable = true
-                    checkedIcon = null
-                    chips.addView(this, i)
-                }
-                    .apply {
-                        if (reaction.url == null) {
-                            this.text = "${reaction.name} ${reaction.count}"
+            (
+                chips.getChildAt(i)?.takeUnless { it.id == R.id.addReactionChip } as Chip?
+                    ?: Chip(ContextThemeWrapper(chips.context, R.style.Widget_MaterialComponents_Chip_Choice)).apply {
+                        isCheckable = true
+                        checkedIcon = null
+                        chips.addView(this, i)
+                    }
+                )
+                .apply {
+                    if (reaction.url == null) {
+                        this.text = "${reaction.name} ${reaction.count}"
+                    } else {
+                        context.getString(R.string.emoji_shortcode_format, reaction.name)
+                        val spanBuilder = SpannableStringBuilder("E ${reaction.count}")
+                        val span = EmojiSpan(WeakReference(this))
+                        spanBuilder.setSpan(span, 0, 1, 0)
+                        Glide.with(this)
+                            .asDrawable()
+                            .load(reaction.url)
+                            .into(span.getTarget(animateEmojis))
+                        this.text = spanBuilder
+                    }
+
+                    isChecked = reaction.me
+
+                    setOnClickListener {
+                        if (reaction.me) {
+                            listener.removeReaction(item.id, reaction.name)
                         } else {
-                            context.getString(R.string.emoji_shortcode_format, reaction.name)
-                            val spanBuilder = SpannableStringBuilder("E ${reaction.count}")
-                            val span = EmojiSpan(WeakReference(this))
-                            spanBuilder.setSpan(span, 0, 1, 0)
-                            Glide.with(this)
-                                .asDrawable()
-                                .load(reaction.url)
-                                .into(span.getTarget(animateEmojis))
-                            this.text = spanBuilder
-                        }
-
-                        isChecked = reaction.me
-
-                        setOnClickListener {
-                            if (reaction.me) {
-                                listener.removeReaction(item.id, reaction.name)
-                            } else {
-                                listener.addReaction(item.id, reaction.name)
-                            }
+                            listener.addReaction(item.id, reaction.name)
                         }
                     }
+                }
         }
 
         while (chips.size - 1 > item.reactions.size) {
