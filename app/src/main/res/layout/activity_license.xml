@@ -101,6 +101,16 @@
                 android:layout_marginStart="12dp"
                 android:layout_marginTop="12dp"
                 license:license="@string/license_apache_2"
+                license:link="https://github.com/google/gson"
+                license:name="Gson" />
+
+            <com.keylesspalace.tusky.view.LicenseCard
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="12dp"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="12dp"
+                license:license="@string/license_apache_2"
                 license:link="https://bumptech.github.io/glide/"
                 license:name="Glide" />
 
@@ -181,6 +191,16 @@
                 android:layout_marginStart="12dp"
                 android:layout_marginTop="12dp"
                 license:license="@string/license_apache_2"
+                license:link="https://github.com/penfeizhou/APNG4Android"
+                license:name="APNG4Android" />
+
+            <com.keylesspalace.tusky.view.LicenseCard
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="12dp"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="12dp"
+                license:license="@string/license_apache_2"
                 license:link="https://github.com/C1710/FileMojiCompat"
                 license:name="FileMojiCompat" />
 
@@ -222,7 +242,6 @@
                 android:layout_marginStart="18dp"
                 android:layout_marginTop="12dp"
                 android:textSize="12sp" />
-
 
         </LinearLayout>
 
