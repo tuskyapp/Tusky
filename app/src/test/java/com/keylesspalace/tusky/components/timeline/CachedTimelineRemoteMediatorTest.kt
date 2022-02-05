@@ -26,6 +26,7 @@ import kotlinx.coroutines.runBlocking
 import okhttp3.ResponseBody.Companion.toResponseBody
 import org.junit.After
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
@@ -369,6 +370,70 @@ class CachedTimelineRemoteMediatorTest {
 
     @Test
     @ExperimentalPagingApi
+    fun `should not remove placeholder in timeline`() {
+
+        val statusesAlreadyInDb = listOf(
+            mockStatusEntityWithAccount("8"),
+            mockStatusEntityWithAccount("7"),
+            mockPlaceholderEntityWithAccount("6"),
+            mockStatusEntityWithAccount("1"),
+        )
+
+        db.insert(statusesAlreadyInDb)
+
+        val remoteMediator = CachedTimelineRemoteMediator(
+            accountManager = accountManager,
+            api = mock {
+                on { homeTimeline(sinceId = "6", limit = 20) } doReturn Single.just(
+                    Response.success(
+                        listOf(
+                            mockStatus("9"),
+                            mockStatus("8"),
+                            mockStatus("7")
+                        )
+                    )
+                )
+                on { homeTimeline(maxId = "8", sinceId = "6", limit = 20) } doReturn Single.just(
+                    Response.success(
+                        listOf(
+                            mockStatus("8"),
+                            mockStatus("7")
+                        )
+                    )
+                )
+            },
+            db = db,
+            gson = Gson()
+        )
+
+        val state = state(
+            listOf(
+                PagingSource.LoadResult.Page(
+                    data = statusesAlreadyInDb,
+                    prevKey = null,
+                    nextKey = 0
+                )
+            )
+        )
+
+        val result = runBlocking { remoteMediator.load(LoadType.REFRESH, state) }
+
+        assertTrue(result is RemoteMediator.MediatorResult.Success)
+        assertFalse((result as RemoteMediator.MediatorResult.Success).endOfPaginationReached)
+
+        db.assertStatuses(
+            listOf(
+                mockStatusEntityWithAccount("9"),
+                mockStatusEntityWithAccount("8"),
+                mockStatusEntityWithAccount("7"),
+                mockPlaceholderEntityWithAccount("6"),
+                mockStatusEntityWithAccount("1"),
+            )
+        )
+    }
+
+    @Test
+    @ExperimentalPagingApi
     fun `should append statuses`() {
 
         val statusesAlreadyInDb = listOf(
@@ -434,7 +499,9 @@ class CachedTimelineRemoteMediatorTest {
     private fun AppDatabase.insert(statuses: List<TimelineStatusWithAccount>) {
         runBlocking {
             statuses.forEach { statusWithAccount ->
-                timelineDao().insertAccount(statusWithAccount.account)
+                if (statusWithAccount.status.authorServerId != null) {
+                    timelineDao().insertAccount(statusWithAccount.account)
+                }
                 statusWithAccount.reblogAccount?.let { account ->
                     timelineDao().insertAccount(account)
                 }

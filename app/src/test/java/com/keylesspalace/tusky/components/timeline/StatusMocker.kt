@@ -77,3 +77,12 @@ fun mockStatusEntityWithAccount(
         )
     }
 }
+
+fun mockPlaceholderEntityWithAccount(
+    id: String,
+    userId: Long = 1,
+): TimelineStatusWithAccount {
+    return TimelineStatusWithAccount().apply {
+        status = Placeholder(id, false).toEntity(userId)
+    }
+}
