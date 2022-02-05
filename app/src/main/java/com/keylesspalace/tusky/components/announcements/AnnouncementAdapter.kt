@@ -15,21 +15,25 @@
 
 package com.keylesspalace.tusky.components.announcements
 
+import android.os.Build
+import android.text.SpannableStringBuilder
 import android.view.ContextThemeWrapper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.size
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.google.android.material.chip.Chip
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.databinding.ItemAnnouncementBinding
 import com.keylesspalace.tusky.entity.Announcement
-import com.keylesspalace.tusky.entity.Emoji
 import com.keylesspalace.tusky.interfaces.LinkListener
 import com.keylesspalace.tusky.util.BindingHolder
+import com.keylesspalace.tusky.util.EmojiSpan
 import com.keylesspalace.tusky.util.LinkHelper
 import com.keylesspalace.tusky.util.emojify
+import java.lang.ref.WeakReference
 
 interface AnnouncementActionListener : LinkListener {
     fun openReactionPicker(announcementId: String, target: View)
@@ -69,42 +73,43 @@ class AnnouncementAdapter(
         }
 
         item.reactions.forEachIndexed { i, reaction ->
-            chips.getChildAt(i)?.takeUnless { it.id == R.id.addReactionChip } as Chip?
-                ?: Chip(ContextThemeWrapper(chips.context, R.style.Widget_MaterialComponents_Chip_Choice)).apply {
-                    isCheckable = true
-                    checkedIcon = null
-                    chips.addView(this, i)
-                }
-                    .apply {
-                        val emojiText = if (reaction.url == null) {
-                            reaction.name
-                        } else {
-                            context.getString(R.string.emoji_shortcode_format, reaction.name)
+            (
+                chips.getChildAt(i)?.takeUnless { it.id == R.id.addReactionChip } as Chip?
+                    ?: Chip(ContextThemeWrapper(chips.context, R.style.Widget_MaterialComponents_Chip_Choice)).apply {
+                        isCheckable = true
+                        checkedIcon = null
+                        chips.addView(this, i)
+                    }
+                )
+                .apply {
+                    if (reaction.url == null) {
+                        this.text = "${reaction.name} ${reaction.count}"
+                    } else {
+                        // we set the EmojiSpan on a space, because otherwise the Chip won't have the right size
+                        // https://github.com/tuskyapp/Tusky/issues/2308
+                        val spanBuilder = SpannableStringBuilder("  ${reaction.count}")
+                        val span = EmojiSpan(WeakReference(this))
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                            span.contentDescription = reaction.name
                         }
-                        this.text = ("$emojiText ${reaction.count}")
-                            .emojify(
-                                listOf(
-                                    Emoji(
-                                        reaction.name,
-                                        reaction.url ?: "",
-                                        reaction.staticUrl ?: "",
-                                        null
-                                    )
-                                ),
-                                this,
-                                animateEmojis
-                            )
+                        spanBuilder.setSpan(span, 0, 1, 0)
+                        Glide.with(this)
+                            .asDrawable()
+                            .load(if (animateEmojis) { reaction.url } else { reaction.staticUrl })
+                            .into(span.getTarget(animateEmojis))
+                        this.text = spanBuilder
+                    }
 
-                        isChecked = reaction.me
+                    isChecked = reaction.me
 
-                        setOnClickListener {
-                            if (reaction.me) {
-                                listener.removeReaction(item.id, reaction.name)
-                            } else {
-                                listener.addReaction(item.id, reaction.name)
-                            }
+                    setOnClickListener {
+                        if (reaction.me) {
+                            listener.removeReaction(item.id, reaction.name)
+                        } else {
+                            listener.addReaction(item.id, reaction.name)
                         }
                     }
+                }
         }
 
         while (chips.size - 1 > item.reactions.size) {
