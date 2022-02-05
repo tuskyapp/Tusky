@@ -15,11 +15,14 @@
 
 package com.keylesspalace.tusky.components.announcements
 
+import android.os.Build
 import android.text.SpannableStringBuilder
 import android.view.ContextThemeWrapper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
+import androidx.core.view.ViewCompat
 import androidx.core.view.size
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -84,12 +87,17 @@ class AnnouncementAdapter(
                     if (reaction.url == null) {
                         this.text = "${reaction.name} ${reaction.count}"
                     } else {
-                        val spanBuilder = SpannableStringBuilder("E ${reaction.count}")
+                        // we set the EmojiSpan on a space, because otherwise the Chip won't have the right size
+                        // https://github.com/tuskyapp/Tusky/issues/2308
+                        val spanBuilder = SpannableStringBuilder("  ${reaction.count}")
                         val span = EmojiSpan(WeakReference(this))
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                            span.contentDescription = reaction.name
+                        }
                         spanBuilder.setSpan(span, 0, 1, 0)
                         Glide.with(this)
                             .asDrawable()
-                            .load(reaction.url)
+                            .load(if (animateEmojis) { reaction.url } else { reaction.staticUrl })
                             .into(span.getTarget(animateEmojis))
                         this.text = spanBuilder
                     }
