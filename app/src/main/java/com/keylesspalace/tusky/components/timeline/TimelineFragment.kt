@@ -208,9 +208,11 @@ class TimelineFragment :
             override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
                 if (positionStart == 0 && adapter.itemCount != itemCount) {
                     binding.recyclerView.post {
-                        if (isSwipeToRefreshEnabled) {
-                            binding.recyclerView.scrollBy(0, Utils.dpToPx(requireContext(), -30))
-                        } else binding.recyclerView.scrollToPosition(0)
+                        if (getView() != null) {
+                            if (isSwipeToRefreshEnabled) {
+                                binding.recyclerView.scrollBy(0, Utils.dpToPx(requireContext(), -30))
+                            } else binding.recyclerView.scrollToPosition(0)
+                        }
                     }
                 }
             }
