@@ -540,4 +540,8 @@
     <string name="pref_title_animate_custom_emojis">حرّك الإيموجيات المخصصة</string>
     <string name="wellbeing_hide_stats_posts">إخفاء الإحصائيات الكمية عن المنشورات</string>
     <string name="wellbeing_hide_stats_profile">إخفاء الإحصائيات الكمية عن الملفات التعريفية</string>
+    <string name="action_unbookmark">احذف الفاصلة المرجعية</string>
+    <string name="pref_title_confirm_favourites">أظهر نافذة لطلب التأكيد قبل الإضافة إلى المفضلة</string>
+    <string name="drafts_failed_loading_reply">فشل في تحميل معلومات الرد</string>
+    <string name="duration_indefinite">غير محددة</string>
 </resources>
