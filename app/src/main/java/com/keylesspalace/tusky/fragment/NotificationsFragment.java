@@ -412,10 +412,7 @@ public class NotificationsFragment extends SFragment implements
     }
 
     private void setReblogForStatus(String statusId, boolean reblog) {
-        updateStatus(statusId, (s) -> {
-            s.setReblogged(reblog);
-            return s;
-        });
+        updateStatus(statusId, (s) -> s.copyWithReblogged(reblog));
     }
 
     @Override
@@ -434,10 +431,7 @@ public class NotificationsFragment extends SFragment implements
     }
 
     private void setFavouriteForStatus(String statusId, boolean favourite) {
-        updateStatus(statusId, (s) -> {
-            s.setFavourited(favourite);
-            return s;
-        });
+        updateStatus(statusId, (s) -> s.copyWithFavourited(favourite));
     }
 
     @Override
@@ -456,10 +450,7 @@ public class NotificationsFragment extends SFragment implements
     }
 
     private void setBookmarkForStatus(String statusId, boolean bookmark) {
-        updateStatus(statusId, (s) -> {
-            s.setBookmarked(bookmark);
-            return s;
-        });
+        updateStatus(statusId, (s) -> s.copyWithBookmarked(bookmark));
     }
 
     public void onVoteInPoll(int position, @NonNull List<Integer> choices) {
@@ -519,10 +510,7 @@ public class NotificationsFragment extends SFragment implements
     }
 
     private void setPinForStatus(String statusId, boolean pinned) {
-        updateStatus(statusId, status -> {
-            status.copyWithPinned(pinned);
-            return status;
-        });
+        updateStatus(statusId, status -> status.copyWithPinned(pinned));
     }
 
     @Override

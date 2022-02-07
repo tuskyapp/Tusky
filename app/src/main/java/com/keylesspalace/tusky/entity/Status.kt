@@ -55,10 +55,11 @@ data class Status(
     val actionableStatus: Status
         get() = reblog ?: this
 
-    /** Helper for Java */
+    /** Helpers for Java */
+    fun copyWithFavourited(favourited: Boolean): Status = copy(favourited = favourited)
+    fun copyWithReblogged(reblogged: Boolean): Status = copy(reblogged = reblogged)
+    fun copyWithBookmarked(bookmarked: Boolean): Status = copy(bookmarked = bookmarked)
     fun copyWithPoll(poll: Poll?): Status = copy(poll = poll)
-
-    /** Helper for Java */
     fun copyWithPinned(pinned: Boolean): Status = copy(pinned = pinned)
 
     enum class Visibility(val num: Int) {
@@ -145,18 +146,6 @@ data class Status(
             }
         }
         return builder.toString()
-    }
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) return true
-        if (other == null || javaClass != other.javaClass) return false
-
-        val status = other as Status?
-        return id == status?.id
-    }
-
-    override fun hashCode(): Int {
-        return id.hashCode()
     }
 
     data class Mention(
