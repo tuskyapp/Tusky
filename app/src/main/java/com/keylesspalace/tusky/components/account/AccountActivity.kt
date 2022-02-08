@@ -258,8 +258,10 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
             val toolbarParams = binding.accountToolbar.layoutParams as ViewGroup.MarginLayoutParams
             toolbarParams.topMargin = top
 
+            val right = insets.getInsets(systemBars()).right
             val bottom = insets.getInsets(systemBars()).bottom
-            binding.accountCoordinatorLayout.updatePadding(bottom = bottom)
+            val left = insets.getInsets(systemBars()).left
+            binding.accountCoordinatorLayout.updatePadding(right = right, bottom = bottom, left = left)
 
             WindowInsetsCompat.CONSUMED
         }
