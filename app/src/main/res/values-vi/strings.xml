@@ -83,7 +83,7 @@
     <string name="hint_search">Tìm kiếm…</string>
     <string name="hint_note">Tiểu sử</string>
     <string name="hint_display_name">Tên hiển thị</string>
-    <string name="hint_content_warning">Nội dung nhạy cảm</string>
+    <string name="hint_content_warning">Nội dung bạn muốn ẩn</string>
     <string name="hint_compose">Bạn đang nghĩ về điều gì\?</string>
     <string name="hint_domain">Bạn ở máy chủ nào\?</string>
     <string name="status_sent_long">Trả lời đã được gửi đi.</string>
@@ -114,7 +114,7 @@
     <string name="action_add_tab">Thêm Tab</string>
     <string name="action_schedule_toot">Lên lịch</string>
     <string name="action_emoji_keyboard">Emoji</string>
-    <string name="action_content_warning">Nội dung nhạy cảm</string>
+    <string name="action_content_warning">Nội dung ẩn</string>
     <string name="action_toggle_visibility">Công khai</string>
     <string name="action_access_scheduled_toot">Đăng tự động</string>
     <string name="action_access_drafts">Nháp</string>

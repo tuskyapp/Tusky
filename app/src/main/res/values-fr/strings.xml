@@ -197,7 +197,7 @@
     <string name="pref_title_http_proxy_port">Port du proxy HTTP</string>
     <string name="pref_default_post_privacy">Confidentialité par défaut</string>
     <string name="pref_default_media_sensitivity">Toujours marquer les médias comme sensibles</string>
-    <string name="pref_publishing">Publication</string>
+    <string name="pref_publishing">Publication (synchronisée avec le serveur)</string>
     <string name="pref_failed_to_sync">Échec de synchronisation des paramètres</string>
     <string name="post_privacy_public">Public</string>
     <string name="post_privacy_unlisted">Non listé</string>
@@ -465,7 +465,7 @@
     <string name="dialog_block_warning">Bloquer @%s \?</string>
     <string name="pref_title_confirm_reblogs">Demander confirmation avant de partager</string>
     <string name="pref_title_show_cards_in_timelines">Afficher les aperçus des liens dans les fils</string>
-    <string name="notification_follow_request_format">%s a demandé à vous suivre</string>
+    <string name="notification_follow_request_format">%s vous a envoyé une demande d’abonnement</string>
     <string name="notification_follow_request_description">Notifications à propos des demandes d’abonnement</string>
     <string name="pref_title_notification_filter_follow_requests">on demande à me suivre</string>
     <string name="dialog_mute_warning">Mettre en sourdine @%s \?</string>
@@ -529,4 +529,6 @@
     <string name="action_delete_conversation">Supprimer la conversation</string>
     <string name="status_media_audio">Audio</string>
     <string name="pref_title_confirm_favourites">Demander confirmation avant de mettre en favoris</string>
+    <string name="drafts_toot_reply_removed">Le pouet pour lequel vous avez esquissé une réponse a été supprimé</string>
+    <string name="drafts_toot_failed_to_send">Échec d’envoi du pouet !</string>
 </resources>
