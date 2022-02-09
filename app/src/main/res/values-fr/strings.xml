@@ -260,7 +260,7 @@
     <string name="abbreviated_minutes_ago">%dm</string>
     <string name="abbreviated_seconds_ago">%ds</string>
     <string name="follows_you">Vous suit</string>
-    <string name="pref_title_alway_show_sensitive_media">Toujours afficher le contenu sensible</string>
+    <string name="pref_title_alway_show_sensitive_media">Toujours afficher les contenus sensibles</string>
     <string name="title_media">Média</string>
     <string name="replying_to">Réponse à @%s</string>
     <string name="load_more_placeholder_text">en charger plus</string>
@@ -531,4 +531,5 @@
     <string name="pref_title_confirm_favourites">Demander confirmation avant de mettre en favoris</string>
     <string name="drafts_toot_reply_removed">Le pouet pour lequel vous avez esquissé une réponse a été supprimé</string>
     <string name="drafts_toot_failed_to_send">Échec d’envoi du pouet !</string>
+    <string name="follow_requests_info">Bien que votre compte ne soit pas verrouillé, l\'équipe de %1$s pense que vous préféreriez valider les demandes de suivi provenant de ces comptes manuellement.</string>
 </resources>
