@@ -1,0 +1,8 @@
+Tusky v16.0
+
+- Die Logik des Ladens der Timeline wurde komplett neu geschrieben um schneller, weniger fehlerhaft und wartungsfreundlicher zu sein.
+- Tusky kann nun benutzerdefinierte Emojis im APNG- & Animated-WebP-Format animieren.
+- Viele Fehlerbehebungen
+- Unterstützung von Android 11
+- Neue Übersetzungen: Schottisches Gälisch, Galicisch, Ukrainisch
+- Verbesserte Übersetzungen
