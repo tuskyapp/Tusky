@@ -505,4 +505,14 @@
     <string name="action_unsubscribe_account">Malaboni</string>
     <string name="notification_subscription_name">Novaj mesaĝoj</string>
     <string name="action_unbookmark">Forigi la legosignon</string>
+    <string name="dialog_delete_conversation_warning">Ĉu forigi ĉi-tiun konversacion\?</string>
+    <string name="pref_title_animate_custom_emojis">Animacii proprajn emoĝiojn</string>
+    <string name="wellbeing_hide_stats_profile">Kaŝi kvantecajn statistikaĵojn sur la profiloj</string>
+    <string name="action_delete_conversation">Forigi konversacion</string>
+    <string name="notification_subscription_format">%s ĵus afiŝis</string>
+    <string name="notification_subscription_description">Sciigoj kiam iu kiun vi sekvas afiŝis novan mesaĝon</string>
+    <string name="drafts_toot_failed_to_send">Sendo de ĉi-tiu mesaĝo malsukcesis!</string>
+    <string name="wellbeing_hide_stats_posts">Kaŝi kvantecajn statistikaĵojn sur la mesaĝoj</string>
+    <string name="pref_title_confirm_favourites">Demandi konfirmon antaŭ ol stelumi</string>
+    <string name="pref_title_wellbeing_mode">Bonstato</string>
 </resources>
