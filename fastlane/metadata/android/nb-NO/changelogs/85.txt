@@ -1,0 +1,8 @@
+Tusky v16.0
+
+- Tidslinjelogikken er skrevet om, og er nå raskere, med færre feil og enklere å vedlikeholde
+- Tusky kan nå animere egendefinerte emojis i formatene APNG og Animated WebP
+- Mange feilrettinger
+- Støtte for Android 11
+- Nye oversettelser: Skotsk-gælisk, galisisk, ukrainsk
+- Oppdaterte oversettelser
