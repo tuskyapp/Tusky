@@ -51,6 +51,8 @@
     public *;
 }
 
+-keepclassmembers class com.keylesspalace.tusky.components.conversation.ConversationAccountEntity { *; }
+
 # https://github.com/google/gson/blob/master/examples/android-proguard-example/proguard.cfg
 
 # Prevent proguard from stripping interface information from TypeAdapter, TypeAdapterFactory,
@@ -70,6 +72,10 @@
 -keep,allowobfuscation,allowshrinking class kotlin.collections.List
 -keep,allowobfuscation,allowshrinking class kotlin.collections.Map
 -keep,allowobfuscation,allowshrinking class retrofit2.Call
+
+# https://r8.googlesource.com/r8/+/refs/heads/master/compatibility-faq.md#retrofit
+-keepattributes Signature
+-keep class kotlin.coroutines.Continuation
 
 # preserve line numbers for crash reporting
 -keepattributes SourceFile,LineNumberTable
