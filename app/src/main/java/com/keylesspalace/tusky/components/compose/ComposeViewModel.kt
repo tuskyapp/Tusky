@@ -185,7 +185,7 @@ class ComposeViewModel @Inject constructor(
                         is UploadEvent.ProgressEvent ->
                             item.copy(uploadPercent = event.percentage)
                         is UploadEvent.FinishedEvent ->
-                            item.copy(id = event.attachment.id, uploadPercent = -1)
+                            item.copy(id = event.mediaId, uploadPercent = -1)
                     }
                     synchronized(media) {
                         val mediaValue = media.value!!
