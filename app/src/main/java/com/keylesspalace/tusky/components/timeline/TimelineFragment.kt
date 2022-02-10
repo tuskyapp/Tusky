@@ -103,8 +103,6 @@ class TimelineFragment :
 
     private var isSwipeToRefreshEnabled = true
 
-    private var eventRegistered = false
-
     private var layoutManager: LinearLayoutManager? = null
     private var scrollListener: RecyclerView.OnScrollListener? = null
     private var hideFab = false
@@ -223,36 +221,7 @@ class TimelineFragment :
                 adapter.submitData(pagingData)
             }
         }
-    }
 
-    private fun setupSwipeRefreshLayout() {
-        binding.swipeRefreshLayout.isEnabled = isSwipeToRefreshEnabled
-        binding.swipeRefreshLayout.setOnRefreshListener(this)
-        binding.swipeRefreshLayout.setColorSchemeResources(R.color.tusky_blue)
-    }
-
-    private fun setupRecyclerView() {
-        binding.recyclerView.setAccessibilityDelegateCompat(
-            ListStatusAccessibilityDelegate(binding.recyclerView, this) { pos ->
-                adapter.peek(pos)
-            }
-        )
-        binding.recyclerView.setHasFixedSize(true)
-        layoutManager = LinearLayoutManager(context)
-        binding.recyclerView.layoutManager = layoutManager
-        val divider = DividerItemDecoration(context, RecyclerView.VERTICAL)
-        binding.recyclerView.addItemDecoration(divider)
-
-        // CWs are expanded without animation, buttons animate itself, we don't need it basically
-        (binding.recyclerView.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
-        binding.recyclerView.adapter = adapter
-    }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-
-        /* This is delayed until onActivityCreated solely because MainActivity.composeButton isn't
-         * guaranteed to be set until then. */
         if (actionButtonPresent()) {
             val preferences = PreferenceManager.getDefaultSharedPreferences(context)
             hideFab = preferences.getBoolean("fabHide", false)
@@ -276,23 +245,43 @@ class TimelineFragment :
             }
         }
 
-        if (!eventRegistered) {
-            eventHub.events
-                .observeOn(AndroidSchedulers.mainThread())
-                .autoDispose(this, Lifecycle.Event.ON_DESTROY)
-                .subscribe { event ->
-                    when (event) {
-                        is PreferenceChangedEvent -> {
-                            onPreferenceChanged(event.preferenceKey)
-                        }
-                        is StatusComposedEvent -> {
-                            val status = event.status
-                            handleStatusComposeEvent(status)
-                        }
+        eventHub.events
+            .observeOn(AndroidSchedulers.mainThread())
+            .autoDispose(this, Lifecycle.Event.ON_DESTROY)
+            .subscribe { event ->
+                when (event) {
+                    is PreferenceChangedEvent -> {
+                        onPreferenceChanged(event.preferenceKey)
+                    }
+                    is StatusComposedEvent -> {
+                        val status = event.status
+                        handleStatusComposeEvent(status)
                     }
                 }
-            eventRegistered = true
-        }
+            }
+    }
+
+    private fun setupSwipeRefreshLayout() {
+        binding.swipeRefreshLayout.isEnabled = isSwipeToRefreshEnabled
+        binding.swipeRefreshLayout.setOnRefreshListener(this)
+        binding.swipeRefreshLayout.setColorSchemeResources(R.color.tusky_blue)
+    }
+
+    private fun setupRecyclerView() {
+        binding.recyclerView.setAccessibilityDelegateCompat(
+            ListStatusAccessibilityDelegate(binding.recyclerView, this) { pos ->
+                adapter.peek(pos)
+            }
+        )
+        binding.recyclerView.setHasFixedSize(true)
+        layoutManager = LinearLayoutManager(context)
+        binding.recyclerView.layoutManager = layoutManager
+        val divider = DividerItemDecoration(context, RecyclerView.VERTICAL)
+        binding.recyclerView.addItemDecoration(divider)
+
+        // CWs are expanded without animation, buttons animate itself, we don't need it basically
+        (binding.recyclerView.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
+        binding.recyclerView.adapter = adapter
     }
 
     override fun onRefresh() {
