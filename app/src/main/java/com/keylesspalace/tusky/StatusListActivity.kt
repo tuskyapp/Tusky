@@ -39,12 +39,13 @@ class StatusListActivity : BottomSheetActivity(), HasAndroidInjector {
         setSupportActionBar(binding.includedToolbar.toolbar)
 
         val kind = Kind.valueOf(intent.getStringExtra(EXTRA_KIND)!!)
-        val id = intent.getStringExtra(EXTRA_ID)
+        val listId = intent.getStringExtra(EXTRA_LIST_ID)
+        val hashtag = intent.getStringExtra(EXTRA_HASHTAG)
 
         val title = when (kind) {
             Kind.FAVOURITES -> getString(R.string.title_favourites)
             Kind.BOOKMARKS -> getString(R.string.title_bookmarks)
-            Kind.TAG -> getString(R.string.title_tag).format(id)
+            Kind.TAG -> getString(R.string.title_tag).format(hashtag)
             else -> getString(R.string.title_list_timeline)
         }
 
@@ -56,7 +57,11 @@ class StatusListActivity : BottomSheetActivity(), HasAndroidInjector {
 
         if (supportFragmentManager.findFragmentById(R.id.fragmentContainer) == null) {
             supportFragmentManager.commit {
-                val fragment = TimelineFragment.newInstance(kind, id)
+                val fragment = if (kind == Kind.TAG) {
+                    TimelineFragment.newHashtagInstance(listOf(hashtag!!))
+                } else {
+                    TimelineFragment.newInstance(kind, listId)
+                }
                 replace(R.id.fragmentContainer, fragment)
             }
         }
@@ -67,7 +72,8 @@ class StatusListActivity : BottomSheetActivity(), HasAndroidInjector {
     companion object {
 
         private const val EXTRA_KIND = "kind"
-        private const val EXTRA_ID = "id"
+        private const val EXTRA_LIST_ID = "id"
+        private const val EXTRA_HASHTAG = "tag"
 
         fun newFavouritesIntent(context: Context) =
             Intent(context, StatusListActivity::class.java).apply {
@@ -82,14 +88,14 @@ class StatusListActivity : BottomSheetActivity(), HasAndroidInjector {
         fun newListIntent(context: Context, listId: String) =
             Intent(context, StatusListActivity::class.java).apply {
                 putExtra(EXTRA_KIND, Kind.LIST.name)
-                putExtra(EXTRA_ID, listId)
+                putExtra(EXTRA_LIST_ID, listId)
             }
 
         @JvmStatic
         fun newHashtagIntent(context: Context, hashtag: String) =
             Intent(context, StatusListActivity::class.java).apply {
                 putExtra(EXTRA_KIND, Kind.TAG.name)
-                putExtra(EXTRA_ID, hashtag)
+                putExtra(EXTRA_HASHTAG, hashtag)
             }
     }
 }
