@@ -529,7 +529,7 @@
     <string name="action_delete_conversation">Supprimer la conversation</string>
     <string name="status_media_audio">Audio</string>
     <string name="pref_title_confirm_favourites">Demander confirmation avant de mettre en favoris</string>
-    <string name="drafts_toot_reply_removed">Le pouet pour lequel vous avez esquissé une réponse a été supprimé</string>
+    <string name="drafts_toot_reply_removed">Le message auquel répondait ce brouillon a été supprimé</string>
     <string name="drafts_toot_failed_to_send">Échec d’envoi du pouet !</string>
     <string name="follow_requests_info">Bien que votre compte ne soit pas verrouillé, l\'équipe de %1$s a pensé que vous voudriez valider manuellement les demandes de suivi provenant de ces comptes.</string>
     <string name="drafts_failed_loading_reply">Échec du chargement des informations de réponse</string>

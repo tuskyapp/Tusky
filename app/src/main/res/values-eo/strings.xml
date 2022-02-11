@@ -396,7 +396,7 @@
     <string name="mute_domain_warning">Ĉu vi certas ke vi volas tute bloki %s\? Vi ne vidos enhavon de tiu domajno en publika tempolinio aŭ en viaj sciigoj. Viaj sekvantoj de tiu domajno estos forigitaj.</string>
     <string name="mute_domain_warning_dialog_ok">Kaŝi la tutan domajnon</string>
     <string name="caption_notoemoji">La aktuala emoĝiaro de Google</string>
-    <string name="description_poll">Balotenketo kun elektoj: %s, %s, %s, %s; %s</string>
+    <string name="description_poll">Balotenketo kun elektoj: %1$s, %2$s, %3$s, %4$s, %5$s</string>
     <string name="button_continue">Daŭrigi</string>
     <string name="button_back">Reveni</string>
     <string name="button_done">Farita</string>
@@ -515,4 +515,15 @@
     <string name="wellbeing_hide_stats_posts">Kaŝi kvantecajn statistikaĵojn sur la mesaĝoj</string>
     <string name="pref_title_confirm_favourites">Demandi konfirmon antaŭ ol stelumi</string>
     <string name="pref_title_wellbeing_mode">Bonstato</string>
+    <string name="drafts_failed_loading_reply">Ŝarĝado de respondaj informoj malsukcesis</string>
+    <string name="wellbeing_mode_notice">Kelkaj informoj kiuj povas afekci vian mensan bonstaton estos kaŝitaj. Ĉi tiuj inkluzivas:
+\n
+\n - Sciigoj pri stelumo/diskonigo/sekvado
+\n- Nombro de stelumoj/diskonigoj sur la mesaĝoj
+\n- Statistikoj pri mesaĝoj/sekvantoj sur la profiloj
+\n
+\n Puŝosciigoj ne estos influitaj, sed vi povas kontroli viajn sciigojn preferojn permane.</string>
+    <string name="review_notifications">Kontroli la sciigojn</string>
+    <string name="limit_notifications">Limigi sciigojn pri tempolinio</string>
+    <string name="drafts_toot_reply_removed">La mesaĝo al kiu ĉi tiu malneto respondas estis forigita</string>
 </resources>
