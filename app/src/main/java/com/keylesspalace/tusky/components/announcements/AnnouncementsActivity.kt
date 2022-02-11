@@ -27,7 +27,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.keylesspalace.tusky.BottomSheetActivity
 import com.keylesspalace.tusky.R
-import com.keylesspalace.tusky.ViewTagActivity
+import com.keylesspalace.tusky.StatusListActivity
 import com.keylesspalace.tusky.adapter.EmojiAdapter
 import com.keylesspalace.tusky.adapter.OnEmojiSelectedListener
 import com.keylesspalace.tusky.databinding.ActivityAnnouncementsBinding
@@ -152,22 +152,17 @@ class AnnouncementsActivity : BottomSheetActivity(), AnnouncementActionListener,
         viewModel.removeReaction(announcementId, name)
     }
 
-    override fun onViewTag(tag: String?) {
-        val intent = Intent(this, ViewTagActivity::class.java)
-        intent.putExtra("hashtag", tag)
+    override fun onViewTag(tag: String) {
+        val intent = StatusListActivity.newHashtagIntent(this, tag)
         startActivityWithSlideInAnimation(intent)
     }
 
-    override fun onViewAccount(id: String?) {
-        if (id != null) {
-            viewAccount(id)
-        }
+    override fun onViewAccount(id: String) {
+        viewAccount(id)
     }
 
-    override fun onViewUrl(url: String?) {
-        if (url != null) {
-            viewUrl(url)
-        }
+    override fun onViewUrl(url: String) {
+        viewUrl(url)
     }
 
     companion object {

@@ -29,8 +29,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.SimpleItemAnimator
 import com.google.android.material.snackbar.Snackbar
 import com.keylesspalace.tusky.R
+import com.keylesspalace.tusky.StatusListActivity
 import com.keylesspalace.tusky.ViewMediaActivity
-import com.keylesspalace.tusky.ViewTagActivity
 import com.keylesspalace.tusky.components.account.AccountActivity
 import com.keylesspalace.tusky.components.report.ReportViewModel
 import com.keylesspalace.tusky.components.report.Screen
@@ -180,9 +180,9 @@ class ReportStatusesFragment : Fragment(R.layout.fragment_report_statuses), Inje
 
     override fun onViewAccount(id: String) = startActivity(AccountActivity.getIntent(requireContext(), id))
 
-    override fun onViewTag(tag: String) = startActivity(ViewTagActivity.getIntent(requireContext(), tag))
+    override fun onViewTag(tag: String) = startActivity(StatusListActivity.newHashtagIntent(requireContext(), tag))
 
-    override fun onViewUrl(url: String?) = viewModel.checkClickedUrl(url)
+    override fun onViewUrl(url: String) = viewModel.checkClickedUrl(url)
 
     companion object {
         fun newInstance() = ReportStatusesFragment()

@@ -31,9 +31,6 @@ class StatusListActivity : BottomSheetActivity(), HasAndroidInjector {
     @Inject
     lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Any>
 
-    private val kind: Kind
-        get() = Kind.valueOf(intent.getStringExtra(EXTRA_KIND)!!)
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val binding = ActivityStatuslistBinding.inflate(layoutInflater)
@@ -41,10 +38,14 @@ class StatusListActivity : BottomSheetActivity(), HasAndroidInjector {
 
         setSupportActionBar(binding.includedToolbar.toolbar)
 
-        val title = if (kind == Kind.FAVOURITES) {
-            R.string.title_favourites
-        } else {
-            R.string.title_bookmarks
+        val kind = Kind.valueOf(intent.getStringExtra(EXTRA_KIND)!!)
+        val id = intent.getStringExtra(EXTRA_ID)
+
+        val title = when (kind) {
+            Kind.FAVOURITES -> getString(R.string.title_favourites)
+            Kind.BOOKMARKS -> getString(R.string.title_bookmarks)
+            Kind.TAG -> getString(R.string.title_tag).format(id)
+            else -> getString(R.string.title_list_timeline)
         }
 
         supportActionBar?.run {
@@ -53,9 +54,11 @@ class StatusListActivity : BottomSheetActivity(), HasAndroidInjector {
             setDisplayShowHomeEnabled(true)
         }
 
-        supportFragmentManager.commit {
-            val fragment = TimelineFragment.newInstance(kind)
-            replace(R.id.fragment_container, fragment)
+        if (supportFragmentManager.findFragmentById(R.id.fragmentContainer) == null) {
+            supportFragmentManager.commit {
+                val fragment = TimelineFragment.newInstance(kind, id)
+                replace(R.id.fragmentContainer, fragment)
+            }
         }
     }
 
@@ -64,17 +67,29 @@ class StatusListActivity : BottomSheetActivity(), HasAndroidInjector {
     companion object {
 
         private const val EXTRA_KIND = "kind"
+        private const val EXTRA_ID = "id"
 
-        @JvmStatic
         fun newFavouritesIntent(context: Context) =
             Intent(context, StatusListActivity::class.java).apply {
                 putExtra(EXTRA_KIND, Kind.FAVOURITES.name)
             }
 
-        @JvmStatic
         fun newBookmarksIntent(context: Context) =
             Intent(context, StatusListActivity::class.java).apply {
                 putExtra(EXTRA_KIND, Kind.BOOKMARKS.name)
+            }
+
+        fun newListIntent(context: Context, listId: String) =
+            Intent(context, StatusListActivity::class.java).apply {
+                putExtra(EXTRA_KIND, Kind.LIST.name)
+                putExtra(EXTRA_ID, listId)
+            }
+
+        @JvmStatic
+        fun newHashtagIntent(context: Context, hashtag: String) =
+            Intent(context, StatusListActivity::class.java).apply {
+                putExtra(EXTRA_KIND, Kind.TAG.name)
+                putExtra(EXTRA_ID, hashtag)
             }
     }
 }

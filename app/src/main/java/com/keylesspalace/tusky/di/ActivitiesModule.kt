@@ -24,12 +24,10 @@ import com.keylesspalace.tusky.LicenseActivity
 import com.keylesspalace.tusky.ListsActivity
 import com.keylesspalace.tusky.LoginActivity
 import com.keylesspalace.tusky.MainActivity
-import com.keylesspalace.tusky.ModalTimelineActivity
 import com.keylesspalace.tusky.SplashActivity
 import com.keylesspalace.tusky.StatusListActivity
 import com.keylesspalace.tusky.TabPreferenceActivity
 import com.keylesspalace.tusky.ViewMediaActivity
-import com.keylesspalace.tusky.ViewTagActivity
 import com.keylesspalace.tusky.ViewThreadActivity
 import com.keylesspalace.tusky.components.account.AccountActivity
 import com.keylesspalace.tusky.components.announcements.AnnouncementsActivity
@@ -70,12 +68,6 @@ abstract class ActivitiesModule {
 
     @ContributesAndroidInjector(modules = [FragmentBuildersModule::class])
     abstract fun contributesAccountListActivity(): AccountListActivity
-
-    @ContributesAndroidInjector(modules = [FragmentBuildersModule::class])
-    abstract fun contributesModalTimelineActivity(): ModalTimelineActivity
-
-    @ContributesAndroidInjector(modules = [FragmentBuildersModule::class])
-    abstract fun contributesViewTagActivity(): ViewTagActivity
 
     @ContributesAndroidInjector(modules = [FragmentBuildersModule::class])
     abstract fun contributesViewThreadActivity(): ViewThreadActivity

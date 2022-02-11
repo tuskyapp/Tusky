@@ -11,11 +11,11 @@
         layout="@layout/toolbar_basic" />
 
     <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/fragment_container"
+        android:id="@+id/fragmentContainer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
-    <include layout="@layout/item_status_bottom_sheet"/>
+    <include layout="@layout/item_status_bottom_sheet" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
