@@ -38,6 +38,7 @@ import com.keylesspalace.tusky.AccountListActivity
 import com.keylesspalace.tusky.AccountListActivity.Companion.newIntent
 import com.keylesspalace.tusky.BaseActivity
 import com.keylesspalace.tusky.R
+import com.keylesspalace.tusky.adapter.StatusBaseViewHolder
 import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.appstore.PreferenceChangedEvent
 import com.keylesspalace.tusky.appstore.StatusComposedEvent
@@ -417,7 +418,7 @@ class TimelineFragment :
                 val oldMediaPreviewEnabled = adapter.mediaPreviewEnabled
                 if (enabled != oldMediaPreviewEnabled) {
                     adapter.mediaPreviewEnabled = enabled
-                    adapter.notifyDataSetChanged()
+                    adapter.notifyItemRangeChanged(0, adapter.itemCount)
                 }
             }
         }
@@ -463,7 +464,7 @@ class TimelineFragment :
         talkBackWasEnabled = a11yManager?.isEnabled == true
         Log.d(TAG, "talkback was enabled: $wasEnabled, now $talkBackWasEnabled")
         if (talkBackWasEnabled && !wasEnabled) {
-            adapter.notifyDataSetChanged()
+            adapter.notifyItemRangeChanged(0, adapter.itemCount)
         }
         startUpdateTimestamp()
     }
@@ -481,7 +482,7 @@ class TimelineFragment :
                 .observeOn(AndroidSchedulers.mainThread())
                 .autoDispose(this, Lifecycle.Event.ON_PAUSE)
                 .subscribe {
-                    adapter.notifyDataSetChanged()
+                    adapter.notifyItemRangeChanged(0, adapter.itemCount, listOf(StatusBaseViewHolder.Key.KEY_CREATED))
                 }
         }
     }
