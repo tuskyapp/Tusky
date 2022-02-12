@@ -185,9 +185,11 @@ public class NotificationsFragment extends SFragment implements
                 Notification notification = input.asRight()
                         .rewriteToStatusTypeIfNeeded(accountManager.getActiveAccount().getAccountId());
 
+                boolean sensitiveStatus = notification.getStatus() != null && notification.getStatus().getActionableStatus().getSensitive();
+
                 return ViewDataUtils.notificationToViewData(
                         notification,
-                        alwaysShowSensitiveMedia,
+                        alwaysShowSensitiveMedia || !sensitiveStatus,
                         alwaysOpenSpoiler,
                         true
                 );

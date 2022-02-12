@@ -56,10 +56,17 @@ class SearchViewModel @Inject constructor(
     private val loadedStatuses: MutableList<Pair<Status, StatusViewData.Concrete>> = mutableListOf()
 
     private val statusesPagingSourceFactory = SearchPagingSourceFactory(mastodonApi, SearchType.Status, loadedStatuses) {
-        it.statuses.map { status -> Pair(status, status.toViewData(alwaysShowSensitiveMedia, alwaysOpenSpoiler, true)) }
-            .apply {
-                loadedStatuses.addAll(this)
-            }
+        it.statuses.map { status ->
+            val statusViewData = status.toViewData(
+                isShowingContent = alwaysShowSensitiveMedia || !status.actionableStatus.sensitive,
+                isExpanded = alwaysOpenSpoiler,
+                isCollapsed = true
+            )
+
+            Pair(status, statusViewData)
+        }.apply {
+            loadedStatuses.addAll(this)
+        }
     }
     private val accountsPagingSourceFactory = SearchPagingSourceFactory(mastodonApi, SearchType.Account) {
         it.accounts
@@ -100,8 +107,7 @@ class SearchViewModel @Inject constructor(
                     if (loadedStatuses.remove(status))
                         statusesPagingSourceFactory.invalidate()
                 },
-                {
-                    err ->
+                { err ->
                     Log.d(TAG, "Failed to delete status", err)
                 }
             )
