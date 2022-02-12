@@ -48,9 +48,9 @@ data class DraftEntity(
  */
 @Parcelize
 data class DraftAttachment(
-    @SerializedName(value="uriString", alternate=["e", "i"]) val uriString: String,
-    @SerializedName(value="description", alternate=["f", "j"]) val description: String?,
-    @SerializedName(value="type", alternate=["g", "k"]) val type: Type
+    @SerializedName(value = "uriString", alternate = ["e", "i"]) val uriString: String,
+    @SerializedName(value = "description", alternate = ["f", "j"]) val description: String?,
+    @SerializedName(value = "type", alternate = ["g", "k"]) val type: Type
 ) : Parcelable {
     val uri: Uri
         get() = uriString.toUri()
