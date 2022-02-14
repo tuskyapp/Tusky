@@ -87,6 +87,7 @@ public class LinkHelper {
                     public void onClick(@NonNull View widget) { listener.onViewTag(tag); }
                 };
             } else if (text.charAt(0) == '@' && mentions != null && mentions.size() > 0) {
+                // https://github.com/tuskyapp/Tusky/pull/2339
                 String id = null;
                 for (Status.Mention mention : mentions) {
                     if (mention.getUrl().equals(span.getURL())) {
