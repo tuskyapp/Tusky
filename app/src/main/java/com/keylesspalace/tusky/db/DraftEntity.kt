@@ -21,6 +21,7 @@ import androidx.core.net.toUri
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverters
+import com.google.gson.annotations.SerializedName
 import com.keylesspalace.tusky.entity.NewPoll
 import com.keylesspalace.tusky.entity.Status
 import kotlinx.parcelize.Parcelize
@@ -40,11 +41,16 @@ data class DraftEntity(
     val failedToSend: Boolean
 )
 
+/**
+ * The alternate names are here because we accidentally published versions were DraftAttachment was minified
+ * Tusky 15: uriString = e, description = f, type = g
+ * Tusky 16 beta: uriString = i, description = j, type = k
+ */
 @Parcelize
 data class DraftAttachment(
-    val uriString: String,
-    val description: String?,
-    val type: Type
+    @SerializedName(value = "uriString", alternate = ["e", "i"]) val uriString: String,
+    @SerializedName(value = "description", alternate = ["f", "j"]) val description: String?,
+    @SerializedName(value = "type", alternate = ["g", "k"]) val type: Type
 ) : Parcelable {
     val uri: Uri
         get() = uriString.toUri()

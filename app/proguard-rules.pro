@@ -47,11 +47,12 @@
     public *;
 }
 
+-keepclassmembers class com.keylesspalace.tusky.components.conversation.ConversationAccountEntity { *; }
+-keepclassmembers class com.keylesspalace.tusky.db.DraftAttachment { *; }
+
 -keep enum com.keylesspalace.tusky.db.DraftAttachment$Type {
     public *;
 }
-
--keepclassmembers class com.keylesspalace.tusky.components.conversation.ConversationAccountEntity { *; }
 
 # https://github.com/google/gson/blob/master/examples/android-proguard-example/proguard.cfg
 
