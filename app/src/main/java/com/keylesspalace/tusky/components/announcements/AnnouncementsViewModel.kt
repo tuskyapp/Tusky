@@ -57,20 +57,19 @@ class AnnouncementsViewModel @Inject constructor(
                 .onErrorResumeNext {
                     mastodonApi.getInstance()
                         .map { Either.Right(it) }
-                },
-            { emojis, either ->
-                either.asLeftOrNull()?.copy(emojiList = emojis)
+                }
+        ) { emojis, either ->
+            either.asLeftOrNull()?.copy(emojiList = emojis)
                     ?: InstanceEntity(
-                        accountManager.activeAccount?.domain!!,
-                        emojis,
-                        either.asRight().maxTootChars,
-                        either.asRight().pollLimits?.maxOptions,
-                        either.asRight().pollLimits?.maxOptionChars,
-                        either.asRight().version
+                            accountManager.activeAccount?.domain!!,
+                            emojis,
+                            either.asRight().configuration?.statuses?.maxCharacters ?: either.asRight().maxTootChars,
+                            either.asRight().pollConfiguration?.maxOptions,
+                            either.asRight().pollConfiguration?.maxOptionChars,
+                            either.asRight().version
                     )
-            }
-        )
-            .doOnSuccess {
+        }
+                .doOnSuccess {
                 appDatabase.instanceDao().insertOrReplace(it)
             }
             .subscribe(

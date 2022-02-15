@@ -102,19 +102,18 @@ class ComposeViewModel @Inject constructor(
     init {
 
         Single.zip(
-            api.getCustomEmojis(), api.getInstance(),
-            { emojis, instance ->
-                InstanceEntity(
+            api.getCustomEmojis(), api.getInstance()
+        ) { emojis, instance ->
+            InstanceEntity(
                     instance = accountManager.activeAccount?.domain!!,
                     emojiList = emojis,
-                    maximumTootCharacters = instance.maxTootChars,
-                    maxPollOptions = instance.pollLimits?.maxOptions,
-                    maxPollOptionLength = instance.pollLimits?.maxOptionChars,
+                    maximumTootCharacters = instance.configuration?.statuses?.maxCharacters ?: instance.maxTootChars,
+                    maxPollOptions = instance.pollConfiguration?.maxOptions,
+                    maxPollOptionLength = instance.pollConfiguration?.maxOptionChars,
                     version = instance.version
-                )
-            }
-        )
-            .doOnSuccess {
+            )
+        }
+                .doOnSuccess {
                 db.instanceDao().insertOrReplace(it)
             }
             .onErrorResumeNext {

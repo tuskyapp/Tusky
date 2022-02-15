@@ -33,6 +33,8 @@ import com.keylesspalace.tusky.db.InstanceEntity
 import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.entity.Account
 import com.keylesspalace.tusky.entity.Instance
+import com.keylesspalace.tusky.entity.InstanceConfiguration
+import com.keylesspalace.tusky.entity.StatusConfiguration
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.service.ServiceClient
 import com.nhaarman.mockitokotlin2.any
@@ -190,10 +192,37 @@ class ComposeActivityTest {
     @Test
     fun whenMaximumTootCharsIsPopulated_customLimitIsUsed() {
         val customMaximum = 1000
+        instanceResponseCallback = { getInstanceWithMaximumTootCharacters(customMaximum, customMaximum) }
+        setupActivity()
+        shadowOf(getMainLooper()).idle()
+        assertEquals(customMaximum, activity.maximumTootCharacters)
+    }
+
+    @Test
+    fun whenOnlyLegacyMaximumTootCharsIsPopulated_customLimitIsUsed() {
+        val customMaximum = 1000
         instanceResponseCallback = { getInstanceWithMaximumTootCharacters(customMaximum) }
         setupActivity()
         shadowOf(getMainLooper()).idle()
         assertEquals(customMaximum, activity.maximumTootCharacters)
+    }
+
+    @Test
+    fun whenOnlyConfigurationMaximumTootCharsIsPopulated_customLimitIsUsed() {
+        val customMaximum = 1000
+        instanceResponseCallback = { getInstanceWithMaximumTootCharacters(null, customMaximum) }
+        setupActivity()
+        shadowOf(getMainLooper()).idle()
+        assertEquals(customMaximum, activity.maximumTootCharacters)
+    }
+
+    @Test
+    fun whenDifferentCharLimitsArePopulated_statusConfigurationLimitIsUsed() {
+        val customMaximum = 1000
+        instanceResponseCallback = { getInstanceWithMaximumTootCharacters(customMaximum, customMaximum * 2) }
+        setupActivity()
+        shadowOf(getMainLooper()).idle()
+        assertEquals(customMaximum * 2, activity.maximumTootCharacters)
     }
 
     @Test
@@ -387,7 +416,21 @@ class ComposeActivityTest {
         activity.findViewById<EditText>(R.id.composeEditField).setText(text ?: "Some text")
     }
 
-    private fun getInstanceWithMaximumTootCharacters(maximumTootCharacters: Int?): Instance {
+    private fun getInstanceWithMaximumTootCharacters(maximumLegacyTootCharacters: Int?, maximumConfigurationStatusCharacters: Int? = null): Instance {
+        val configuration = if (maximumConfigurationStatusCharacters != null) {
+            InstanceConfiguration(
+                statuses = StatusConfiguration(
+                    maxCharacters = maximumConfigurationStatusCharacters,
+                    maxMediaAttachments = null,
+                    charactersReservedPerUrl = null
+                ),
+                mediaAttachments = null,
+                polls = null
+            )
+        } else {
+            null
+        }
+
         return Instance(
             "https://example.token",
             "Example dot Token",
@@ -416,10 +459,10 @@ class ComposeActivityTest {
                 emptyList(),
                 emptyList()
             ),
-            maximumTootCharacters,
+            maximumLegacyTootCharacters,
             null,
             null,
-            null
+            configuration,
         )
     }
 }
