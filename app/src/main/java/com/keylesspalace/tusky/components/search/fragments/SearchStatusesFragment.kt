@@ -40,7 +40,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import autodispose2.androidx.lifecycle.AndroidLifecycleScopeProvider.from
 import autodispose2.autoDispose
 import com.keylesspalace.tusky.BaseActivity
-import com.keylesspalace.tusky.MainActivity
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.ViewMediaActivity
 import com.keylesspalace.tusky.components.compose.ComposeActivity
@@ -228,9 +227,6 @@ class SearchStatusesFragment : SearchFragment<Pair<Status, StatusViewData.Concre
         val accountId = status.actionableStatus.account.id
         val accountUsername = status.actionableStatus.account.username
         val statusUrl = status.actionableStatus.url
-        val accounts = viewModel.getAllAccountsOrderedByActive()
-        var openAsTitle: String? = null
-
         val loggedInAccountId = viewModel.activeAccount?.accountId
 
         val popup = PopupMenu(view.context, view)
@@ -261,17 +257,12 @@ class SearchStatusesFragment : SearchFragment<Pair<Status, StatusViewData.Concre
         }
 
         val openAsItem = popup.menu.findItem(R.id.status_open_as)
-        when (accounts.size) {
-            0, 1 -> openAsItem.isVisible = false
-            2 -> for (account in accounts) {
-                if (account !== viewModel.activeAccount) {
-                    openAsTitle = String.format(getString(R.string.action_open_as), account.fullName)
-                    break
-                }
-            }
-            else -> openAsTitle = String.format(getString(R.string.action_open_as), "…")
+        val openAsText = bottomSheetActivity?.openAsText
+        if (openAsText == null) {
+            openAsItem.isVisible = false
+        } else {
+            openAsItem.title = openAsText
         }
-        openAsItem.title = openAsTitle
 
         val mutable = statusIsByCurrentUser || accountIsInMentions(viewModel.activeAccount, status.mentions)
         val muteConversationItem = popup.menu.findItem(R.id.status_mute_conversation).apply {
@@ -396,19 +387,10 @@ class SearchStatusesFragment : SearchFragment<Pair<Status, StatusViewData.Concre
             dialogTitle, false,
             object : AccountSelectionListener {
                 override fun onAccountSelected(account: AccountEntity) {
-                    openAsAccount(statusUrl, account)
+                    bottomSheetActivity?.openAsAccount(statusUrl, account)
                 }
             }
         )
-    }
-
-    private fun openAsAccount(statusUrl: String, account: AccountEntity) {
-        viewModel.activeAccount = account
-        val intent = Intent(context, MainActivity::class.java)
-        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-        intent.putExtra(MainActivity.STATUS_URL, statusUrl)
-        startActivity(intent)
-        (activity as BaseActivity).finishWithoutSlideOutAnimation()
     }
 
     private fun downloadAllMedia(status: Status) {
