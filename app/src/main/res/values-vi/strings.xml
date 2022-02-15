@@ -171,9 +171,9 @@
     <string name="footer_empty">Trượt xuống để tải nội dung!</string>
     <string name="message_empty">Trống.</string>
     <string name="status_content_show_less">Thu gọn</string>
-    <string name="status_content_show_more">Đọc tiếp</string>
+    <string name="status_content_show_more">Tiếp tục đọc</string>
     <string name="status_content_warning_show_less">Thu gọn</string>
-    <string name="status_content_warning_show_more">Xem thêm</string>
+    <string name="status_content_warning_show_more">Mở rộng</string>
     <string name="status_sensitive_media_directions">Hiển thị</string>
     <string name="status_media_hidden_title">Nội dung bị ẩn</string>
     <string name="status_sensitive_media_title">Nhạy cảm</string>
@@ -424,7 +424,7 @@
     <string name="later">Để sau</string>
     <string name="restart_emoji">Bạn cần khởi động lại Tusky để áp dụng các thiết lập</string>
     <string name="restart_required">Yêu cầu khởi động lại ứng dụng</string>
-    <string name="action_open_toot">Xem tút</string>
+    <string name="action_open_toot">Đọc tút</string>
     <string name="expand_collapse_all_statuses">Mở rộng/Thu gọn toàn bộ tút</string>
     <string name="performing_lookup_title">Đang tìm kiếm…</string>
     <string name="download_fonts">Bạn cần tải về bộ emoji này trước</string>
