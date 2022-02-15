@@ -51,34 +51,20 @@ import com.google.android.material.shape.ShapeAppearanceModel
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
-import com.keylesspalace.tusky.AccountListActivity
-import com.keylesspalace.tusky.BottomSheetActivity
-import com.keylesspalace.tusky.EditProfileActivity
-import com.keylesspalace.tusky.R
-import com.keylesspalace.tusky.ViewMediaActivity
-import com.keylesspalace.tusky.ViewTagActivity
+import com.keylesspalace.tusky.*
 import com.keylesspalace.tusky.components.compose.ComposeActivity
 import com.keylesspalace.tusky.components.report.ReportActivity
 import com.keylesspalace.tusky.databinding.ActivityAccountBinding
+import com.keylesspalace.tusky.db.AccountEntity
 import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.entity.Account
 import com.keylesspalace.tusky.entity.Relationship
+import com.keylesspalace.tusky.interfaces.AccountSelectionListener
 import com.keylesspalace.tusky.interfaces.ActionButtonActivity
 import com.keylesspalace.tusky.interfaces.LinkListener
 import com.keylesspalace.tusky.interfaces.ReselectableFragment
 import com.keylesspalace.tusky.settings.PrefKeys
-import com.keylesspalace.tusky.util.DefaultTextWatcher
-import com.keylesspalace.tusky.util.Error
-import com.keylesspalace.tusky.util.LinkHelper
-import com.keylesspalace.tusky.util.Loading
-import com.keylesspalace.tusky.util.Success
-import com.keylesspalace.tusky.util.ThemeUtils
-import com.keylesspalace.tusky.util.emojify
-import com.keylesspalace.tusky.util.hide
-import com.keylesspalace.tusky.util.loadAvatar
-import com.keylesspalace.tusky.util.show
-import com.keylesspalace.tusky.util.viewBinding
-import com.keylesspalace.tusky.util.visible
+import com.keylesspalace.tusky.util.*
 import com.keylesspalace.tusky.view.showMuteAccountDialog
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
@@ -686,6 +672,14 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.account_toolbar, menu)
 
+        val openAsItem = menu.findItem(R.id.action_open_as)
+        val title = openAsText
+        if (title == null) {
+            openAsItem.isVisible = false
+        } else {
+            openAsItem.title = title
+        }
+
         if (!viewModel.isSelf) {
 
             val block = menu.findItem(R.id.action_block)
@@ -828,6 +822,18 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
                     LinkHelper.openLink(loadedAccount?.url, this)
                 }
                 return true
+            }
+            R.id.action_open_as -> {
+                if (loadedAccount != null) {
+                    showAccountChooserDialog(
+                        item.title, false,
+                        object : AccountSelectionListener {
+                            override fun onAccountSelected(account: AccountEntity) {
+                                openAsAccount(loadedAccount?.url, account)
+                            }
+                        }
+                    )
+                }
             }
             R.id.action_block -> {
                 toggleBlock()
