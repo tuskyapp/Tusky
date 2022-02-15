@@ -418,6 +418,7 @@ class ComposeActivityTest {
             ),
             maximumTootCharacters,
             null,
+            null,
             null
         )
     }
