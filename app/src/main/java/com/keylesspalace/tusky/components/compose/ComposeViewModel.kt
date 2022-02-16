@@ -79,6 +79,7 @@ class ComposeViewModel @Inject constructor(
             maxChars = instance?.maximumTootCharacters ?: DEFAULT_CHARACTER_LIMIT,
             pollMaxOptions = instance?.maxPollOptions ?: DEFAULT_MAX_OPTION_COUNT,
             pollMaxLength = instance?.maxPollOptionLength ?: DEFAULT_MAX_OPTION_LENGTH,
+            charactersReservedPerUrl = instance?.charactersReservedPerUrl ?: DEFAULT_MAXIMUM_URL_LENGTH,
             supportsScheduled = instance?.version?.let { VersionUtils(it).supportsScheduledToots() } ?: false
         )
     }
@@ -110,6 +111,7 @@ class ComposeViewModel @Inject constructor(
                     maximumTootCharacters = instance.configuration?.statuses?.maxCharacters ?: instance.maxTootChars,
                     maxPollOptions = instance.pollConfiguration?.maxOptions,
                     maxPollOptionLength = instance.pollConfiguration?.maxOptionChars,
+                    charactersReservedPerUrl = instance.configuration?.statuses?.charactersReservedPerUrl,
                     version = instance.version
             )
         }
@@ -506,10 +508,15 @@ const val DEFAULT_CHARACTER_LIMIT = 500
 private const val DEFAULT_MAX_OPTION_COUNT = 4
 private const val DEFAULT_MAX_OPTION_LENGTH = 50
 
+// Mastodon only counts URLs as this long in terms of status character limits
+const val DEFAULT_MAXIMUM_URL_LENGTH = 23
+
+
 data class ComposeInstanceParams(
     val maxChars: Int,
     val pollMaxOptions: Int,
     val pollMaxLength: Int,
+    val charactersReservedPerUrl: Int,
     val supportsScheduled: Boolean
 )
 

@@ -20,6 +20,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.keylesspalace.tusky.appstore.AnnouncementReadEvent
 import com.keylesspalace.tusky.appstore.EventHub
+import com.keylesspalace.tusky.components.compose.DEFAULT_MAXIMUM_URL_LENGTH
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.db.AppDatabase
 import com.keylesspalace.tusky.db.InstanceEntity
@@ -66,6 +67,7 @@ class AnnouncementsViewModel @Inject constructor(
                             either.asRight().configuration?.statuses?.maxCharacters ?: either.asRight().maxTootChars,
                             either.asRight().pollConfiguration?.maxOptions,
                             either.asRight().pollConfiguration?.maxOptionChars,
+                            either.asRight().configuration?.statuses?.charactersReservedPerUrl ?: DEFAULT_MAXIMUM_URL_LENGTH,
                             either.asRight().version
                     )
         }

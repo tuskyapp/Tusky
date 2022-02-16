@@ -122,6 +122,7 @@ class ComposeActivity :
 
     @VisibleForTesting
     var maximumTootCharacters = DEFAULT_CHARACTER_LIMIT
+    var charactersReservedPerUrl = DEFAULT_MAXIMUM_URL_LENGTH
 
     private val viewModel: ComposeViewModel by viewModels { viewModelFactory }
 
@@ -316,6 +317,7 @@ class ComposeActivity :
         withLifecycleContext {
             viewModel.instanceParams.observe { instanceData ->
                 maximumTootCharacters = instanceData.maxChars
+                charactersReservedPerUrl = instanceData.charactersReservedPerUrl
                 updateVisibleCharactersLeft()
                 binding.composeScheduleButton.visible(instanceData.supportsScheduled)
             }
@@ -699,7 +701,7 @@ class ComposeActivity :
         val urlSpans = binding.composeEditField.urls
         if (urlSpans != null) {
             for (span in urlSpans) {
-                offset += max(0, span.url.length - MAXIMUM_URL_LENGTH)
+                offset += max(0, span.url.length - charactersReservedPerUrl)
             }
         }
         var length = binding.composeEditField.length() - offset
@@ -1041,10 +1043,6 @@ class ComposeActivity :
 
         internal const val COMPOSE_OPTIONS_EXTRA = "COMPOSE_OPTIONS"
         private const val PHOTO_UPLOAD_URI_KEY = "PHOTO_UPLOAD_URI"
-
-        // Mastodon only counts URLs as this long in terms of status character limits
-        @VisibleForTesting
-        const val MAXIMUM_URL_LENGTH = 23
 
         @JvmStatic
         fun startIntent(context: Context, options: ComposeOptions): Intent {

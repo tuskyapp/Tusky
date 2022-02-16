@@ -23,6 +23,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.keylesspalace.tusky.components.compose.ComposeActivity
 import com.keylesspalace.tusky.components.compose.ComposeViewModel
 import com.keylesspalace.tusky.components.compose.DEFAULT_CHARACTER_LIMIT
+import com.keylesspalace.tusky.components.compose.DEFAULT_MAXIMUM_URL_LENGTH
 import com.keylesspalace.tusky.components.compose.MediaUploader
 import com.keylesspalace.tusky.components.drafts.DraftHelper
 import com.keylesspalace.tusky.db.AccountEntity
@@ -111,7 +112,7 @@ class ComposeActivityTest {
 
         val instanceDaoMock = mock(InstanceDao::class.java)
         `when`(instanceDaoMock.loadMetadataForInstance(any())).thenReturn(
-            Single.just(InstanceEntity(instanceDomain, emptyList(), null, null, null, null))
+            Single.just(InstanceEntity(instanceDomain, emptyList(), null, null, null, null, null))
         )
 
         val dbMock = mock(AppDatabase::class.java)
@@ -184,7 +185,7 @@ class ComposeActivityTest {
 
     @Test
     fun whenMaximumTootCharsIsNull_defaultLimitIsUsed() {
-        instanceResponseCallback = { getInstanceWithMaximumTootCharacters(null) }
+        instanceResponseCallback = { getInstanceWithCustomConfiguration(null) }
         setupActivity()
         assertEquals(DEFAULT_CHARACTER_LIMIT, activity.maximumTootCharacters)
     }
@@ -192,7 +193,7 @@ class ComposeActivityTest {
     @Test
     fun whenMaximumTootCharsIsPopulated_customLimitIsUsed() {
         val customMaximum = 1000
-        instanceResponseCallback = { getInstanceWithMaximumTootCharacters(customMaximum, customMaximum) }
+        instanceResponseCallback = { getInstanceWithCustomConfiguration(customMaximum, getCustomInstanceConfiguration(maximumStatusCharacters = customMaximum)) }
         setupActivity()
         shadowOf(getMainLooper()).idle()
         assertEquals(customMaximum, activity.maximumTootCharacters)
@@ -201,7 +202,7 @@ class ComposeActivityTest {
     @Test
     fun whenOnlyLegacyMaximumTootCharsIsPopulated_customLimitIsUsed() {
         val customMaximum = 1000
-        instanceResponseCallback = { getInstanceWithMaximumTootCharacters(customMaximum) }
+        instanceResponseCallback = { getInstanceWithCustomConfiguration(customMaximum) }
         setupActivity()
         shadowOf(getMainLooper()).idle()
         assertEquals(customMaximum, activity.maximumTootCharacters)
@@ -210,7 +211,7 @@ class ComposeActivityTest {
     @Test
     fun whenOnlyConfigurationMaximumTootCharsIsPopulated_customLimitIsUsed() {
         val customMaximum = 1000
-        instanceResponseCallback = { getInstanceWithMaximumTootCharacters(null, customMaximum) }
+        instanceResponseCallback = { getInstanceWithCustomConfiguration(null, getCustomInstanceConfiguration(maximumStatusCharacters = customMaximum)) }
         setupActivity()
         shadowOf(getMainLooper()).idle()
         assertEquals(customMaximum, activity.maximumTootCharacters)
@@ -219,7 +220,7 @@ class ComposeActivityTest {
     @Test
     fun whenDifferentCharLimitsArePopulated_statusConfigurationLimitIsUsed() {
         val customMaximum = 1000
-        instanceResponseCallback = { getInstanceWithMaximumTootCharacters(customMaximum, customMaximum * 2) }
+        instanceResponseCallback = { getInstanceWithCustomConfiguration(customMaximum, getCustomInstanceConfiguration(maximumStatusCharacters = customMaximum * 2)) }
         setupActivity()
         shadowOf(getMainLooper()).idle()
         assertEquals(customMaximum * 2, activity.maximumTootCharacters)
@@ -237,7 +238,7 @@ class ComposeActivityTest {
         val url = "https://www.google.dk/search?biw=1920&bih=990&tbm=isch&sa=1&ei=bmDrWuOoKMv6kwWOkIaoDQ&q=indiana+jones+i+hate+snakes+animated&oq=indiana+jones+i+hate+snakes+animated&gs_l=psy-ab.3...54174.55443.0.55553.9.7.0.0.0.0.255.333.1j0j1.2.0....0...1c.1.64.psy-ab..7.0.0....0.40G-kcDkC6A#imgdii=PSp15hQjN1JqvM:&imgrc=H0hyE2JW5wrpBM:"
         val additionalContent = "Check out this @image #search result: "
         insertSomeTextInContent(additionalContent + url)
-        assertEquals(activity.calculateTextLength(), additionalContent.length + ComposeActivity.MAXIMUM_URL_LENGTH)
+        assertEquals(activity.calculateTextLength(), additionalContent.length + DEFAULT_MAXIMUM_URL_LENGTH)
     }
 
     @Test
@@ -246,7 +247,7 @@ class ComposeActivityTest {
         val url = "https://www.google.dk/search?biw=1920&bih=990&tbm=isch&sa=1&ei=bmDrWuOoKMv6kwWOkIaoDQ&q=indiana+jones+i+hate+snakes+animated&oq=indiana+jones+i+hate+snakes+animated&gs_l=psy-ab.3...54174.55443.0.55553.9.7.0.0.0.0.255.333.1j0j1.2.0....0...1c.1.64.psy-ab..7.0.0....0.40G-kcDkC6A#imgdii=PSp15hQjN1JqvM:&imgrc=H0hyE2JW5wrpBM:"
         val additionalContent = " Check out this @image #search result: "
         insertSomeTextInContent(shortUrl + additionalContent + url)
-        assertEquals(activity.calculateTextLength(), additionalContent.length + shortUrl.length + ComposeActivity.MAXIMUM_URL_LENGTH)
+        assertEquals(activity.calculateTextLength(), additionalContent.length + shortUrl.length + DEFAULT_MAXIMUM_URL_LENGTH)
     }
 
     @Test
@@ -254,7 +255,44 @@ class ComposeActivityTest {
         val url = "https://www.google.dk/search?biw=1920&bih=990&tbm=isch&sa=1&ei=bmDrWuOoKMv6kwWOkIaoDQ&q=indiana+jones+i+hate+snakes+animated&oq=indiana+jones+i+hate+snakes+animated&gs_l=psy-ab.3...54174.55443.0.55553.9.7.0.0.0.0.255.333.1j0j1.2.0....0...1c.1.64.psy-ab..7.0.0....0.40G-kcDkC6A#imgdii=PSp15hQjN1JqvM:&imgrc=H0hyE2JW5wrpBM:"
         val additionalContent = " Check out this @image #search result: "
         insertSomeTextInContent(url + additionalContent + url)
-        assertEquals(activity.calculateTextLength(), additionalContent.length + (ComposeActivity.MAXIMUM_URL_LENGTH * 2))
+        assertEquals(activity.calculateTextLength(), additionalContent.length + (DEFAULT_MAXIMUM_URL_LENGTH * 2))
+    }
+
+    @Test
+    fun whenTextContainsUrl_onlyEllipsizedURLIsCounted_withCustomConfiguration() {
+        val url = "https://www.google.dk/search?biw=1920&bih=990&tbm=isch&sa=1&ei=bmDrWuOoKMv6kwWOkIaoDQ&q=indiana+jones+i+hate+snakes+animated&oq=indiana+jones+i+hate+snakes+animated&gs_l=psy-ab.3...54174.55443.0.55553.9.7.0.0.0.0.255.333.1j0j1.2.0....0...1c.1.64.psy-ab..7.0.0....0.40G-kcDkC6A#imgdii=PSp15hQjN1JqvM:&imgrc=H0hyE2JW5wrpBM:"
+        val additionalContent = "Check out this @image #search result: "
+        val customUrlLength = 16
+        instanceResponseCallback = { getInstanceWithCustomConfiguration(configuration = getCustomInstanceConfiguration(charactersReservedPerUrl = customUrlLength)) }
+        setupActivity()
+        shadowOf(getMainLooper()).idle()
+        insertSomeTextInContent(additionalContent + url)
+        assertEquals(activity.calculateTextLength(), additionalContent.length + customUrlLength)
+    }
+
+    @Test
+    fun whenTextContainsMultipleUrls_onlyEllipsizedURLIsCounted_withCustomConfiguration() {
+        val shortUrl = "https://tusky.app"
+        val url = "https://www.google.dk/search?biw=1920&bih=990&tbm=isch&sa=1&ei=bmDrWuOoKMv6kwWOkIaoDQ&q=indiana+jones+i+hate+snakes+animated&oq=indiana+jones+i+hate+snakes+animated&gs_l=psy-ab.3...54174.55443.0.55553.9.7.0.0.0.0.255.333.1j0j1.2.0....0...1c.1.64.psy-ab..7.0.0....0.40G-kcDkC6A#imgdii=PSp15hQjN1JqvM:&imgrc=H0hyE2JW5wrpBM:"
+        val additionalContent = " Check out this @image #search result: "
+        val customUrlLength = 18 // The intention is that this is longer than shortUrl.length
+        instanceResponseCallback = { getInstanceWithCustomConfiguration(configuration = getCustomInstanceConfiguration(charactersReservedPerUrl = customUrlLength)) }
+        setupActivity()
+        shadowOf(getMainLooper()).idle()
+        insertSomeTextInContent(shortUrl + additionalContent + url)
+        assertEquals(activity.calculateTextLength(), additionalContent.length + shortUrl.length + customUrlLength)
+    }
+
+    @Test
+    fun whenTextContainsMultipleURLs_allURLsGetEllipsized_withCustomConfiguration() {
+        val url = "https://www.google.dk/search?biw=1920&bih=990&tbm=isch&sa=1&ei=bmDrWuOoKMv6kwWOkIaoDQ&q=indiana+jones+i+hate+snakes+animated&oq=indiana+jones+i+hate+snakes+animated&gs_l=psy-ab.3...54174.55443.0.55553.9.7.0.0.0.0.255.333.1j0j1.2.0....0...1c.1.64.psy-ab..7.0.0....0.40G-kcDkC6A#imgdii=PSp15hQjN1JqvM:&imgrc=H0hyE2JW5wrpBM:"
+        val additionalContent = " Check out this @image #search result: "
+        val customUrlLength = 16
+        instanceResponseCallback = { getInstanceWithCustomConfiguration(configuration = getCustomInstanceConfiguration(charactersReservedPerUrl = customUrlLength)) }
+        setupActivity()
+        shadowOf(getMainLooper()).idle()
+        insertSomeTextInContent(url + additionalContent + url)
+        assertEquals(activity.calculateTextLength(), additionalContent.length + (customUrlLength * 2))
     }
 
     @Test
@@ -416,21 +454,7 @@ class ComposeActivityTest {
         activity.findViewById<EditText>(R.id.composeEditField).setText(text ?: "Some text")
     }
 
-    private fun getInstanceWithMaximumTootCharacters(maximumLegacyTootCharacters: Int?, maximumConfigurationStatusCharacters: Int? = null): Instance {
-        val configuration = if (maximumConfigurationStatusCharacters != null) {
-            InstanceConfiguration(
-                statuses = StatusConfiguration(
-                    maxCharacters = maximumConfigurationStatusCharacters,
-                    maxMediaAttachments = null,
-                    charactersReservedPerUrl = null
-                ),
-                mediaAttachments = null,
-                polls = null
-            )
-        } else {
-            null
-        }
-
+    private fun getInstanceWithCustomConfiguration(maximumLegacyTootCharacters: Int? = null, configuration: InstanceConfiguration? = null): Instance {
         return Instance(
             "https://example.token",
             "Example dot Token",
@@ -463,6 +487,18 @@ class ComposeActivityTest {
             null,
             null,
             configuration,
+        )
+    }
+
+    fun getCustomInstanceConfiguration(maximumStatusCharacters: Int? = null, charactersReservedPerUrl: Int? = null): InstanceConfiguration {
+        return InstanceConfiguration(
+                statuses = StatusConfiguration(
+                        maxCharacters = maximumStatusCharacters,
+                        maxMediaAttachments = null,
+                        charactersReservedPerUrl = charactersReservedPerUrl
+                ),
+                mediaAttachments = null,
+                polls = null
         )
     }
 }
