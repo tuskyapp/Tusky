@@ -492,13 +492,13 @@ class ComposeActivityTest {
 
     fun getCustomInstanceConfiguration(maximumStatusCharacters: Int? = null, charactersReservedPerUrl: Int? = null): InstanceConfiguration {
         return InstanceConfiguration(
-                statuses = StatusConfiguration(
-                        maxCharacters = maximumStatusCharacters,
-                        maxMediaAttachments = null,
-                        charactersReservedPerUrl = charactersReservedPerUrl
-                ),
-                mediaAttachments = null,
-                polls = null
+            statuses = StatusConfiguration(
+                maxCharacters = maximumStatusCharacters,
+                maxMediaAttachments = null,
+                charactersReservedPerUrl = charactersReservedPerUrl
+            ),
+            mediaAttachments = null,
+            polls = null
         )
     }
 }

@@ -61,17 +61,17 @@ class AnnouncementsViewModel @Inject constructor(
                 }
         ) { emojis, either ->
             either.asLeftOrNull()?.copy(emojiList = emojis)
-                    ?: InstanceEntity(
-                            accountManager.activeAccount?.domain!!,
-                            emojis,
-                            either.asRight().configuration?.statuses?.maxCharacters ?: either.asRight().maxTootChars,
-                            either.asRight().configuration?.polls?.maxOptions ?: either.asRight().pollConfiguration?.maxOptions,
-                            either.asRight().configuration?.polls?.maxCharactersPerOption ?: either.asRight().pollConfiguration?.maxOptionChars,
-                            either.asRight().configuration?.statuses?.charactersReservedPerUrl ?: DEFAULT_MAXIMUM_URL_LENGTH,
-                            either.asRight().version
-                    )
+                ?: InstanceEntity(
+                    accountManager.activeAccount?.domain!!,
+                    emojis,
+                    either.asRight().configuration?.statuses?.maxCharacters ?: either.asRight().maxTootChars,
+                    either.asRight().configuration?.polls?.maxOptions ?: either.asRight().pollConfiguration?.maxOptions,
+                    either.asRight().configuration?.polls?.maxCharactersPerOption ?: either.asRight().pollConfiguration?.maxOptionChars,
+                    either.asRight().configuration?.statuses?.charactersReservedPerUrl ?: DEFAULT_MAXIMUM_URL_LENGTH,
+                    either.asRight().version
+                )
         }
-                .doOnSuccess {
+            .doOnSuccess {
                 appDatabase.instanceDao().insertOrReplace(it)
             }
             .subscribe(

@@ -106,16 +106,16 @@ class ComposeViewModel @Inject constructor(
             api.getCustomEmojis(), api.getInstance()
         ) { emojis, instance ->
             InstanceEntity(
-                    instance = accountManager.activeAccount?.domain!!,
-                    emojiList = emojis,
-                    maximumTootCharacters = instance.configuration?.statuses?.maxCharacters ?: instance.maxTootChars,
-                    maxPollOptions = instance.configuration?.polls?.maxOptions ?: instance.pollConfiguration?.maxOptions,
-                    maxPollOptionLength = instance.configuration?.polls?.maxCharactersPerOption ?: instance.pollConfiguration?.maxOptionChars,
-                    charactersReservedPerUrl = instance.configuration?.statuses?.charactersReservedPerUrl,
-                    version = instance.version
+                instance = accountManager.activeAccount?.domain!!,
+                emojiList = emojis,
+                maximumTootCharacters = instance.configuration?.statuses?.maxCharacters ?: instance.maxTootChars,
+                maxPollOptions = instance.configuration?.polls?.maxOptions ?: instance.pollConfiguration?.maxOptions,
+                maxPollOptionLength = instance.configuration?.polls?.maxCharactersPerOption ?: instance.pollConfiguration?.maxOptionChars,
+                charactersReservedPerUrl = instance.configuration?.statuses?.charactersReservedPerUrl,
+                version = instance.version
             )
         }
-                .doOnSuccess {
+            .doOnSuccess {
                 db.instanceDao().insertOrReplace(it)
             }
             .onErrorResumeNext {
@@ -510,7 +510,6 @@ private const val DEFAULT_MAX_OPTION_LENGTH = 50
 
 // Mastodon only counts URLs as this long in terms of status character limits
 const val DEFAULT_MAXIMUM_URL_LENGTH = 23
-
 
 data class ComposeInstanceParams(
     val maxChars: Int,
