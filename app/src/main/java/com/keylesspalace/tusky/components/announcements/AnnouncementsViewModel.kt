@@ -65,8 +65,8 @@ class AnnouncementsViewModel @Inject constructor(
                             accountManager.activeAccount?.domain!!,
                             emojis,
                             either.asRight().configuration?.statuses?.maxCharacters ?: either.asRight().maxTootChars,
-                            either.asRight().pollConfiguration?.maxOptions,
-                            either.asRight().pollConfiguration?.maxOptionChars,
+                            either.asRight().configuration?.polls?.maxOptions ?: either.asRight().pollConfiguration?.maxOptions,
+                            either.asRight().configuration?.polls?.maxCharactersPerOption ?: either.asRight().pollConfiguration?.maxOptionChars,
                             either.asRight().configuration?.statuses?.charactersReservedPerUrl ?: DEFAULT_MAXIMUM_URL_LENGTH,
                             either.asRight().version
                     )

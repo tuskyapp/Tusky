@@ -109,8 +109,8 @@ class ComposeViewModel @Inject constructor(
                     instance = accountManager.activeAccount?.domain!!,
                     emojiList = emojis,
                     maximumTootCharacters = instance.configuration?.statuses?.maxCharacters ?: instance.maxTootChars,
-                    maxPollOptions = instance.pollConfiguration?.maxOptions,
-                    maxPollOptionLength = instance.pollConfiguration?.maxOptionChars,
+                    maxPollOptions = instance.configuration?.polls?.maxOptions ?: instance.pollConfiguration?.maxOptions,
+                    maxPollOptionLength = instance.configuration?.polls?.maxCharactersPerOption ?: instance.pollConfiguration?.maxOptionChars,
                     charactersReservedPerUrl = instance.configuration?.statuses?.charactersReservedPerUrl,
                     version = instance.version
             )
