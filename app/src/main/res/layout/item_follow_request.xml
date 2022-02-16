@@ -72,12 +72,13 @@
         android:layout_height="32dp"
         android:layout_centerVertical="true"
         android:layout_marginStart="12dp"
-        android:layout_marginTop="14dp"
+        android:layout_marginEnd="4dp"
         android:background="?attr/selectableItemBackgroundBorderless"
         android:contentDescription="@string/action_accept"
         android:padding="4dp"
         app:layout_constraintEnd_toStartOf="@id/rejectButton"
-        app:layout_constraintTop_toBottomOf="@id/notificationTextView"
+        app:layout_constraintTop_toTopOf="@id/avatar"
+        app:layout_constraintBottom_toBottomOf="@id/avatar"
         app:srcCompat="@drawable/ic_check_24dp" />
 
     <ImageButton
@@ -87,12 +88,12 @@
         android:layout_height="32dp"
         android:layout_centerVertical="true"
         android:layout_marginStart="12dp"
-        android:layout_marginTop="14dp"
         android:background="?attr/selectableItemBackgroundBorderless"
         android:contentDescription="@string/action_reject"
         android:padding="4dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/notificationTextView"
+        app:layout_constraintTop_toTopOf="@id/avatar"
+        app:layout_constraintBottom_toBottomOf="@id/avatar"
         app:srcCompat="@drawable/ic_reject_24dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
