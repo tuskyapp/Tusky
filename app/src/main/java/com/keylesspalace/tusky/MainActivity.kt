@@ -325,9 +325,9 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
         super.onPostCreate(savedInstanceState)
 
         if (intent != null) {
-            val statusUrl = intent.getStringExtra(STATUS_URL)
-            if (statusUrl != null) {
-                viewUrl(statusUrl, PostLookupFallbackBehavior.DISPLAY_ERROR)
+            val redirectUrl = intent.getStringExtra(REDIRECT_URL)
+            if (redirectUrl != null) {
+                viewUrl(redirectUrl, PostLookupFallbackBehavior.DISPLAY_ERROR)
             }
         }
     }
@@ -834,7 +834,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
         private const val TAG = "MainActivity" // logging tag
         private const val DRAWER_ITEM_ADD_ACCOUNT: Long = -13
         private const val DRAWER_ITEM_ANNOUNCEMENTS: Long = 14
-        const val STATUS_URL = "statusUrl"
+        const val REDIRECT_URL = "redirectUrl"
     }
 }
 

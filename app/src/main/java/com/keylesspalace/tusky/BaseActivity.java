@@ -219,7 +219,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Injectab
         accountManager.setActiveAccount(account);
         Intent intent = new Intent(this, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        intent.putExtra(MainActivity.STATUS_URL, url);
+        intent.putExtra(MainActivity.REDIRECT_URL, url);
         startActivity(intent);
         finishWithoutSlideOutAnimation();
     }
