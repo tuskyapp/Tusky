@@ -829,7 +829,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
                         item.title, false,
                         object : AccountSelectionListener {
                             override fun onAccountSelected(account: AccountEntity) {
-                                openAsAccount(loadedAccount?.url, account)
+                                openAsAccount(loadedAccount!!.url, account)
                             }
                         }
                     )

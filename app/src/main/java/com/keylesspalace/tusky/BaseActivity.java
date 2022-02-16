@@ -197,7 +197,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Injectab
                 .show();
     }
 
-    public String getOpenAsText() {
+    public @Nullable String getOpenAsText() {
         List<AccountEntity> accounts = accountManager.getAllAccountsOrderedByActive();
         switch (accounts.size()) {
             case 0:
@@ -215,7 +215,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Injectab
         }
     }
 
-    public void openAsAccount(String url, AccountEntity account) {
+    public void openAsAccount(@NonNull String url, @NonNull AccountEntity account) {
         accountManager.setActiveAccount(account);
         Intent intent = new Intent(this, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
