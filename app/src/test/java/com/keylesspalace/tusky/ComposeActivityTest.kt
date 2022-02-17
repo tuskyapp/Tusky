@@ -112,7 +112,7 @@ class ComposeActivityTest {
 
         val instanceDaoMock = mock(InstanceDao::class.java)
         `when`(instanceDaoMock.loadMetadataForInstance(any())).thenReturn(
-            Single.just(InstanceEntity(instanceDomain, emptyList(), null, null, null, null, null))
+            Single.just(InstanceEntity(instanceDomain, emptyList(), null, null, null, null, null, null, null))
         )
 
         val dbMock = mock(AppDatabase::class.java)

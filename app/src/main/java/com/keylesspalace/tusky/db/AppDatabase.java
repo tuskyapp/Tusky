@@ -470,6 +470,8 @@ public abstract class AppDatabase extends RoomDatabase {
         @Override
         public void migrate(@NonNull SupportSQLiteDatabase database) {
             database.execSQL("ALTER TABLE `InstanceEntity` ADD COLUMN `charactersReservedPerUrl` INTEGER");
+            database.execSQL("ALTER TABLE `InstanceEntity` ADD COLUMN `minPollDuration` INTEGER");
+            database.execSQL("ALTER TABLE `InstanceEntity` ADD COLUMN `maxPollDuration` INTEGER");
         }
     };
 }

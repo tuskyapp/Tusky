@@ -656,7 +656,8 @@ class ComposeActivity :
         val instanceParams = viewModel.instanceParams.value!!
         showAddPollDialog(
             this, viewModel.poll.value, instanceParams.pollMaxOptions,
-            instanceParams.pollMaxLength, viewModel::updatePoll
+            instanceParams.pollMaxLength, instanceParams.pollMinDuration, instanceParams.pollMaxDuration,
+            viewModel::updatePoll
         )
     }
 

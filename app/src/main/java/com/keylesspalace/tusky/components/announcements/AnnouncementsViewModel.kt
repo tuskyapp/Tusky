@@ -67,6 +67,8 @@ class AnnouncementsViewModel @Inject constructor(
                     either.asRight().configuration?.statuses?.maxCharacters ?: either.asRight().maxTootChars,
                     either.asRight().configuration?.polls?.maxOptions ?: either.asRight().pollConfiguration?.maxOptions,
                     either.asRight().configuration?.polls?.maxCharactersPerOption ?: either.asRight().pollConfiguration?.maxOptionChars,
+                    either.asRight().configuration?.polls?.minExpiration ?: either.asRight().pollConfiguration?.minExpiration,
+                    either.asRight().configuration?.polls?.maxExpiration ?: either.asRight().pollConfiguration?.maxExpiration,
                     either.asRight().configuration?.statuses?.charactersReservedPerUrl ?: DEFAULT_MAXIMUM_URL_LENGTH,
                     either.asRight().version
                 )
