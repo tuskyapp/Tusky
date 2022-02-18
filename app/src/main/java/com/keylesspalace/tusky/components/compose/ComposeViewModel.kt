@@ -505,7 +505,7 @@ fun <T> mutableLiveData(default: T) = MutableLiveData<T>().apply { value = defau
 
 const val DEFAULT_CHARACTER_LIMIT = 500
 private const val DEFAULT_MAX_OPTION_COUNT = 4
-private const val DEFAULT_MAX_OPTION_LENGTH = 25
+private const val DEFAULT_MAX_OPTION_LENGTH = 50
 
 data class ComposeInstanceParams(
     val maxChars: Int,
