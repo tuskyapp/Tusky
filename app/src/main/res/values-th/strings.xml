@@ -76,7 +76,7 @@
     <string name="title_favourited_by">ชื่นชอบโดย</string>
     <string name="title_reblogged_by">บูสต์โดย</string>
     <plurals name="reblogs">
-        <item quantity="other">&lt;b&gt;%1$s&lt;/b&gt; บูสต์</item>
+        <item quantity="other"><b>%1$s</b> บูสต์</item>
     </plurals>
     <plurals name="favs">
         <item quantity="other"><b>%1$s</b> ชื่นชอบ</item>
