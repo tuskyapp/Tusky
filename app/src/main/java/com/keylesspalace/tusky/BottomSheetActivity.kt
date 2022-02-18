@@ -27,7 +27,7 @@ import autodispose2.autoDispose
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.keylesspalace.tusky.components.account.AccountActivity
 import com.keylesspalace.tusky.network.MastodonApi
-import com.keylesspalace.tusky.util.LinkHelper
+import com.keylesspalace.tusky.util.openLink
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import java.net.URI
 import java.net.URISyntaxException
@@ -159,7 +159,7 @@ abstract class BottomSheetActivity : BaseActivity() {
 
     @VisibleForTesting
     open fun openLink(url: String) {
-        LinkHelper.openLink(url, this)
+        openLink(url, this)
     }
 
     private fun showQuerySheet() {

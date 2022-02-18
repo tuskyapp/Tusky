@@ -25,7 +25,6 @@ import com.keylesspalace.tusky.databinding.ItemReportStatusBinding
 import com.keylesspalace.tusky.entity.Emoji
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.interfaces.LinkListener
-import com.keylesspalace.tusky.util.LinkHelper
 import com.keylesspalace.tusky.util.StatusDisplayOptions
 import com.keylesspalace.tusky.util.StatusViewHelper
 import com.keylesspalace.tusky.util.StatusViewHelper.Companion.COLLAPSE_INPUT_FILTER
@@ -33,6 +32,8 @@ import com.keylesspalace.tusky.util.StatusViewHelper.Companion.NO_INPUT_FILTER
 import com.keylesspalace.tusky.util.TimestampUtils
 import com.keylesspalace.tusky.util.emojify
 import com.keylesspalace.tusky.util.hide
+import com.keylesspalace.tusky.util.setClickableMentions
+import com.keylesspalace.tusky.util.setClickableText
 import com.keylesspalace.tusky.util.shouldTrimStatus
 import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.viewdata.toViewData
@@ -136,9 +137,9 @@ class StatusViewHolder(
     ) {
         if (expanded) {
             val emojifiedText = content.emojify(emojis, binding.statusContent, statusDisplayOptions.animateEmojis)
-            LinkHelper.setClickableText(binding.statusContent, emojifiedText, mentions, listener)
+            setClickableText(binding.statusContent, emojifiedText, mentions, listener)
         } else {
-            LinkHelper.setClickableMentions(binding.statusContent, mentions, listener)
+            setClickableMentions(binding.statusContent, mentions, listener)
         }
         if (binding.statusContent.text.isNullOrBlank()) {
             binding.statusContent.hide()
