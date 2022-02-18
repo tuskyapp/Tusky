@@ -361,6 +361,7 @@ class TimelineDaoTest {
             visibility = Status.Visibility.PRIVATE,
             attachments = "attachments$accountId",
             mentions = "mentions$accountId",
+            tags = "tags$accountId",
             application = "application$accountId",
             reblogServerId = if (reblog) (statusId * 100).toString() else null,
             reblogAccountId = reblogAuthor?.serverId,

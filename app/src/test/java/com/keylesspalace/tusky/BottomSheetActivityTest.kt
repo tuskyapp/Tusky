@@ -93,6 +93,7 @@ class BottomSheetActivityTest {
         visibility = Status.Visibility.PUBLIC,
         attachments = ArrayList(),
         mentions = emptyList(),
+        tags = emptyList(),
         application = null,
         pinned = false,
         muted = false,

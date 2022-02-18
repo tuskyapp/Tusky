@@ -62,7 +62,7 @@ class AnnouncementAdapter(
 
         val emojifiedText: CharSequence = item.content.emojify(item.emojis, text, animateEmojis)
 
-        setClickableText(text, emojifiedText, item.mentions, listener)
+        setClickableText(text, emojifiedText, item.mentions, item.tags, listener)
 
         // If wellbeing mode is enabled, announcement badge counts should not be shown.
         if (wellbeingEnabled) {

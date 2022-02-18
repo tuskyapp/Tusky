@@ -23,6 +23,7 @@ import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.components.report.model.StatusViewState
 import com.keylesspalace.tusky.databinding.ItemReportStatusBinding
 import com.keylesspalace.tusky.entity.Emoji
+import com.keylesspalace.tusky.entity.HashTag
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.interfaces.LinkListener
 import com.keylesspalace.tusky.util.StatusDisplayOptions
@@ -97,7 +98,7 @@ class StatusViewHolder(
             )
 
             if (status.spoilerText.isBlank()) {
-                setTextVisible(true, status.content, status.mentions, status.emojis, adapterHandler)
+                setTextVisible(true, status.content, status.mentions, status.tags, status.emojis, adapterHandler)
                 binding.statusContentWarningButton.hide()
                 binding.statusContentWarningDescription.hide()
             } else {
@@ -111,11 +112,11 @@ class StatusViewHolder(
                         val contentShown = viewState.isContentShow(status.id, true)
                         binding.statusContentWarningDescription.invalidate()
                         viewState.setContentShow(status.id, !contentShown)
-                        setTextVisible(!contentShown, status.content, status.mentions, status.emojis, adapterHandler)
+                        setTextVisible(!contentShown, status.content, status.mentions, status.tags, status.emojis, adapterHandler)
                         setContentWarningButtonText(!contentShown)
                     }
                 }
-                setTextVisible(viewState.isContentShow(status.id, true), status.content, status.mentions, status.emojis, adapterHandler)
+                setTextVisible(viewState.isContentShow(status.id, true), status.content, status.mentions, status.tags, status.emojis, adapterHandler)
             }
         }
     }
@@ -132,12 +133,13 @@ class StatusViewHolder(
         expanded: Boolean,
         content: Spanned,
         mentions: List<Status.Mention>?,
+        tags: List<HashTag>?,
         emojis: List<Emoji>,
         listener: LinkListener
     ) {
         if (expanded) {
             val emojifiedText = content.emojify(emojis, binding.statusContent, statusDisplayOptions.animateEmojis)
-            setClickableText(binding.statusContent, emojifiedText, mentions, listener)
+            setClickableText(binding.statusContent, emojifiedText, mentions, tags, listener)
         } else {
             setClickableMentions(binding.statusContent, mentions, listener)
         }

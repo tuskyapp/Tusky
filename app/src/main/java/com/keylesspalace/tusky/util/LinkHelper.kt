@@ -33,6 +33,7 @@ import androidx.browser.customtabs.CustomTabColorSchemeParams
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.preference.PreferenceManager
 import com.keylesspalace.tusky.R
+import com.keylesspalace.tusky.entity.HashTag
 import com.keylesspalace.tusky.entity.Status.Mention
 import com.keylesspalace.tusky.interfaces.LinkListener
 import java.net.URI
@@ -62,26 +63,33 @@ fun getDomain(urlString: String?): String {
  * @param mentions any '@' mentions which are known to be in the content
  * @param listener to notify about particular spans that are clicked
  */
-fun setClickableText(view: TextView, content: CharSequence, mentions: List<Mention>?, listener: LinkListener) {
+fun setClickableText(view: TextView, content: CharSequence, mentions: List<Mention>?, tags: List<HashTag>?, listener: LinkListener) {
     val builder = SpannableStringBuilder.valueOf(content)
     val urlSpans = builder.getSpans(0, content.length, URLSpan::class.java)
 
     for (span in urlSpans) {
-        setClickableText(span, builder, mentions, listener)
+        setClickableText(span, builder, mentions, tags, listener)
     }
     view.text = builder
     view.movementMethod = LinkMovementMethod.getInstance()
 }
 
-private fun setClickableText(span: URLSpan, builder: SpannableStringBuilder, mentions: List<Mention>?, listener: LinkListener) {
+@VisibleForTesting
+fun setClickableText(
+    span: URLSpan,
+    builder: SpannableStringBuilder,
+    mentions: List<Mention>?,
+    tags: List<HashTag>?,
+    listener: LinkListener
+) {
     val start = builder.getSpanStart(span)
     val end = builder.getSpanEnd(span)
     val flags = builder.getSpanFlags(span)
     val text = builder.subSequence(start, end)
 
     val customSpan = when {
-        text[0] == '#' -> getCustomSpanForTag(text, span, listener)
-        text[0] == '@' && mentions?.isNotEmpty() == true -> getCustomSpanForMention(mentions, span, listener)
+        text[0] == '#' -> getCustomSpanForTag(tags, span, listener)
+        text[0] == '@' -> getCustomSpanForMention(mentions, span, listener)
         else -> null
     } ?: object : NoUnderlineURLSpan(span.url) {
         override fun onClick(view: View) {
@@ -100,18 +108,20 @@ private fun setClickableText(span: URLSpan, builder: SpannableStringBuilder, men
     }
 }
 
-private fun getCustomSpanForTag(text: CharSequence, span: URLSpan, listener: LinkListener): ClickableSpan {
-    val tag = text.subSequence(1, text.length).toString()
-    return object : NoUnderlineURLSpan(span.url) {
-        override fun onClick(view: View) {
-            listener.onViewTag(tag)
+private fun getCustomSpanForTag(tags: List<HashTag>?, span: URLSpan, listener: LinkListener): ClickableSpan? {
+    return when (val tag = tags?.firstOrNull { it.url == span.url }) {
+        null -> null
+        else -> object : NoUnderlineURLSpan(span.url) {
+            override fun onClick(view: View) {
+                listener.onViewTag(tag.name)
+            }
         }
     }
 }
 
-private fun getCustomSpanForMention(mentions: List<Mention>, span: URLSpan, listener: LinkListener): ClickableSpan? {
+private fun getCustomSpanForMention(mentions: List<Mention>?, span: URLSpan, listener: LinkListener): ClickableSpan? {
     // https://github.com/tuskyapp/Tusky/pull/2339
-    return when (val mention = mentions.firstOrNull { it.url == span.url }) {
+    return when (val mention = mentions?.firstOrNull { it.url == span.url }) {
         null -> null
         else -> getCustomSpanForMentionUrl(span.url, mention.id, listener)
     }
