@@ -56,7 +56,7 @@
     <string name="action_compose">ایجاد</string>
     <string name="action_login">ورود با ماستودون</string>
     <string name="action_logout">خروج</string>
-    <string name="action_logout_confirm">مطمئنید می‌خواهید از حساب %1s خارج شوید؟</string>
+    <string name="action_logout_confirm"></string>
     <string name="action_follow">پیگیری</string>
     <string name="action_unfollow">ناپیگیری</string>
     <string name="action_block">انسداد</string>

@@ -478,8 +478,8 @@
     <string name="duration_indefinite">Infinit</string>
     <string name="label_duration">Durada</string>
     <plurals name="poll_info_people">
-        <item quantity="one">% persona</item>
-        <item quantity="other">% personas</item>
+        <item quantity="one">%s persona</item>
+        <item quantity="other">%s personas</item>
     </plurals>
     <string name="add_hashtag_title">Apondre hashtag</string>
     <string name="status_media_attachments">Pèças juntas</string>
