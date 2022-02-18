@@ -499,7 +499,7 @@ public final class ViewThreadFragment extends SFragment implements
     private int setStatus(Status status) {
         if (statuses.size() > 0
                 && statusIndex < statuses.size()
-                && statuses.get(statusIndex).equals(status)) {
+                && statuses.get(statusIndex).getId().equals(status.getId())) {
             // Do not add this status on refresh, it's already in there.
             statuses.set(statusIndex, status);
             return statusIndex;
