@@ -337,8 +337,8 @@
     <string name="action_open_reblogger">Öffne Autor des geteilten Beitrages</string>
     <string name="pref_title_public_filter_keywords">Öffentliche Zeitleisten</string>
     <plurals name="favs">
-        <item quantity="one"><b>%1$s</b> Favorit</item>
-        <item quantity="other"><b>%1$s</b> Favoriten</item>
+        <item quantity="one">&lt;b>%1$s&lt;/b> Favorit</item>
+        <item quantity="other">&lt;b>%1$s&lt;/b> Favoriten</item>
     </plurals>
     <string name="title_reblogged_by">Geteilt von</string>
     <string name="description_status_media">Medien: %s</string>
@@ -461,8 +461,8 @@
     <string name="pref_main_nav_position_option_top">Oben</string>
     <string name="action_unmute_domain">%s nicht mehr verstecken</string>
     <plurals name="reblogs">
-        <item quantity="one"><b>%s</b> Boost</item>
-        <item quantity="other"><b>%s</b> Boosts</item>
+        <item quantity="one">&lt;b>%s&lt;/b> Boost</item>
+        <item quantity="other">&lt;b>%s&lt;/b> Boosts</item>
     </plurals>
     <string name="pref_main_nav_position">Hauptnavigations-Position</string>
     <string name="dialog_mute_hide_notifications">Benachrichtigungen ausblenden</string>
