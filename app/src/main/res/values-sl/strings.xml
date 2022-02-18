@@ -46,9 +46,9 @@
     <string name="status_content_show_less">Strni</string>
     <string name="message_empty">Tukaj ni ničesar.</string>
     <string name="footer_empty">Tukaj ni ničesar. Potegnite navzdol za osvežitev!</string>
-    <string name="notification_reblog_format">% je spodbudil tvoj tut</string>
+    <string name="notification_reblog_format">%s je spodbudil tvoj tut</string>
     <string name="notification_favourite_format">% je vzljubil vaš tut</string>
-    <string name="notification_follow_format">% vam sledi</string>
+    <string name="notification_follow_format">%s vam sledi</string>
     <string name="report_username_format">Prijavi @%s</string>
     <string name="report_comment_hint">Dodatni komentarji\?</string>
     <string name="action_quick_reply">Hiter odgovor</string>

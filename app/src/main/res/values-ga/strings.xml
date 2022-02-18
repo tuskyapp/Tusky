@@ -301,11 +301,11 @@
     <string name="notification_clear_text">An bhfuil tú cinnte gur mhaith leat do chuid fógraí go léir a ghlanadh go buan\?</string>
     <string name="poll_ended_created">Tá deireadh le vótaíocht a chruthaigh tú</string>
     <plurals name="poll_timespan_minutes">
-        <item quantity="one">D\'imigh $d nóiméad</item>
-        <item quantity="two">D\'imigh $d nóiméad</item>
-        <item quantity="few">D\'imigh $d nóiméad</item>
-        <item quantity="many">D\'imigh $d nóiméad</item>
-        <item quantity="other">D\'imigh $d nóiméad</item>
+        <item quantity="one">D\'imigh %d nóiméad</item>
+        <item quantity="two">D\'imigh %d nóiméad</item>
+        <item quantity="few">D\'imigh %d nóiméad</item>
+        <item quantity="many">D\'imigh %d nóiméad</item>
+        <item quantity="other">D\'imigh %d nóiméad</item>
     </plurals>
     <string name="failed_fetch_statuses">Theip ar stádas a fháil</string>
     <string name="report_description_1">Seolfar an tuarascáil chuig do mhodhnóir freastalaí. Féadfaidh tú míniú a thabhairt ar an bhfáth go bhfuil tú ag tuairisciú an chuntais seo thíos:</string>
