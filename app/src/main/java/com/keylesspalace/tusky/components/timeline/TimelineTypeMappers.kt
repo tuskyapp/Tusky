@@ -26,6 +26,7 @@ import com.keylesspalace.tusky.db.TimelineStatusWithAccount
 import com.keylesspalace.tusky.entity.Account
 import com.keylesspalace.tusky.entity.Attachment
 import com.keylesspalace.tusky.entity.Emoji
+import com.keylesspalace.tusky.entity.HashTag
 import com.keylesspalace.tusky.entity.Poll
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.util.shouldTrimStatus
@@ -41,6 +42,7 @@ data class Placeholder(
 private val attachmentArrayListType = object : TypeToken<ArrayList<Attachment>>() {}.type
 private val emojisListType = object : TypeToken<List<Emoji>>() {}.type
 private val mentionListType = object : TypeToken<List<Status.Mention>>() {}.type
+private val tagListType = object : TypeToken<List<HashTag>>() {}.type
 
 fun Account.toEntity(accountId: Long, gson: Gson): TimelineAccountEntity {
     return TimelineAccountEntity(
@@ -99,6 +101,7 @@ fun Placeholder.toEntity(timelineUserId: Long): TimelineStatusEntity {
         visibility = Status.Visibility.UNKNOWN,
         attachments = null,
         mentions = null,
+        tags = null,
         application = null,
         reblogServerId = null,
         reblogAccountId = null,
@@ -138,6 +141,7 @@ fun Status.toEntity(
         visibility = actionableStatus.visibility,
         attachments = actionableStatus.attachments.let(gson::toJson),
         mentions = actionableStatus.mentions.let(gson::toJson),
+        tags = actionableStatus.tags.let(gson::toJson),
         application = actionableStatus.application.let(gson::toJson),
         reblogServerId = reblog?.id,
         reblogAccountId = reblog?.let { this.account.id },
@@ -157,6 +161,7 @@ fun TimelineStatusWithAccount.toViewData(gson: Gson): StatusViewData {
 
     val attachments: ArrayList<Attachment> = gson.fromJson(status.attachments, attachmentArrayListType) ?: arrayListOf()
     val mentions: List<Status.Mention> = gson.fromJson(status.mentions, mentionListType) ?: emptyList()
+    val tags: List<HashTag> = gson.fromJson(status.tags, tagListType) ?: emptyList()
     val application = gson.fromJson(status.application, Status.Application::class.java)
     val emojis: List<Emoji> = gson.fromJson(status.emojis, emojisListType) ?: emptyList()
     val poll: Poll? = gson.fromJson(status.poll, Poll::class.java)
@@ -183,6 +188,7 @@ fun TimelineStatusWithAccount.toViewData(gson: Gson): StatusViewData {
             visibility = status.visibility,
             attachments = attachments,
             mentions = mentions,
+            tags = tags,
             application = application,
             pinned = false,
             muted = status.muted,
@@ -211,6 +217,7 @@ fun TimelineStatusWithAccount.toViewData(gson: Gson): StatusViewData {
             visibility = status.visibility,
             attachments = ArrayList(),
             mentions = listOf(),
+            tags = listOf(),
             application = null,
             pinned = status.pinned,
             muted = status.muted,
@@ -239,6 +246,7 @@ fun TimelineStatusWithAccount.toViewData(gson: Gson): StatusViewData {
             visibility = status.visibility,
             attachments = attachments,
             mentions = mentions,
+            tags = tags,
             application = application,
             pinned = status.pinned,
             muted = status.muted,

@@ -25,6 +25,7 @@ import com.keylesspalace.tusky.entity.Account
 import com.keylesspalace.tusky.entity.Attachment
 import com.keylesspalace.tusky.entity.Conversation
 import com.keylesspalace.tusky.entity.Emoji
+import com.keylesspalace.tusky.entity.HashTag
 import com.keylesspalace.tusky.entity.Poll
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.util.shouldTrimStatus
@@ -79,6 +80,7 @@ data class ConversationStatusEntity(
     val spoilerText: String,
     val attachments: ArrayList<Attachment>,
     val mentions: List<Status.Mention>,
+    val tags: List<HashTag>,
     val showingHiddenContent: Boolean,
     val expanded: Boolean,
     val collapsible: Boolean,
@@ -107,6 +109,7 @@ data class ConversationStatusEntity(
         if (spoilerText != other.spoilerText) return false
         if (attachments != other.attachments) return false
         if (mentions != other.mentions) return false
+        if (tags != other.tags) return false
         if (showingHiddenContent != other.showingHiddenContent) return false
         if (expanded != other.expanded) return false
         if (collapsible != other.collapsible) return false
@@ -132,6 +135,7 @@ data class ConversationStatusEntity(
         result = 31 * result + spoilerText.hashCode()
         result = 31 * result + attachments.hashCode()
         result = 31 * result + mentions.hashCode()
+        result = 31 * result + tags.hashCode()
         result = 31 * result + showingHiddenContent.hashCode()
         result = 31 * result + expanded.hashCode()
         result = 31 * result + collapsible.hashCode()
@@ -162,6 +166,7 @@ data class ConversationStatusEntity(
             visibility = Status.Visibility.DIRECT,
             attachments = attachments,
             mentions = mentions,
+            tags = tags,
             application = null,
             pinned = false,
             muted = muted,
@@ -197,6 +202,7 @@ fun Status.toEntity() =
         spoilerText = spoilerText,
         attachments = attachments,
         mentions = mentions,
+        tags = tags,
         showingHiddenContent = false,
         expanded = false,
         collapsible = shouldTrimStatus(content),
