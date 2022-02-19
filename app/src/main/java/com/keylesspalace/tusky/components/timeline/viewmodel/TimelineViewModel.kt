@@ -43,7 +43,6 @@ import com.keylesspalace.tusky.settings.PrefKeys
 import com.keylesspalace.tusky.viewdata.StatusViewData
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.rx3.asFlow
 import kotlinx.coroutines.rx3.await
@@ -307,7 +306,7 @@ abstract class TimelineViewModel(
 
     companion object {
         private const val TAG = "TimelineVM"
-        internal const val LOAD_AT_ONCE = 30
+        internal const val LOAD_AT_ONCE = 5
     }
 
     enum class Kind {
