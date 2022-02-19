@@ -306,7 +306,7 @@ abstract class TimelineViewModel(
 
     companion object {
         private const val TAG = "TimelineVM"
-        internal const val LOAD_AT_ONCE = 5
+        internal const val LOAD_AT_ONCE = 30
     }
 
     enum class Kind {
