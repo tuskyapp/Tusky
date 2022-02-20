@@ -10,7 +10,7 @@ import javax.inject.Inject
 
 class CacheUpdater @Inject constructor(
     eventHub: EventHub,
-    accountManager: AccountManager,
+    private val accountManager: AccountManager,
     private val appDatabase: AppDatabase,
     gson: Gson
 ) {
@@ -54,5 +54,16 @@ class CacheUpdater @Inject constructor(
         }
             .subscribeOn(Schedulers.io())
             .subscribe()
+    }
+
+    suspend fun cleanupDbForCurrentAccount() {
+        accountManager.activeAccount?.id?.let { accountId ->
+            appDatabase.timelineDao().cleanup(accountId, MAX_STATUSES_IN_CACHE)
+            appDatabase.timelineDao().cleanupAccounts(accountId)
+        }
+    }
+
+    companion object {
+        private const val MAX_STATUSES_IN_CACHE = 1000
     }
 }

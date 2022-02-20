@@ -27,6 +27,7 @@ import androidx.paging.map
 import androidx.room.withTransaction
 import com.google.gson.Gson
 import com.keylesspalace.tusky.appstore.BookmarkEvent
+import com.keylesspalace.tusky.appstore.CacheUpdater
 import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.appstore.FavoriteEvent
 import com.keylesspalace.tusky.appstore.PinEvent
@@ -63,7 +64,8 @@ class CachedTimelineViewModel @Inject constructor(
     sharedPreferences: SharedPreferences,
     filterModel: FilterModel,
     private val db: AppDatabase,
-    private val gson: Gson
+    private val gson: Gson,
+    private val cacheUpdater: CacheUpdater
 ) : TimelineViewModel(timelineCases, api, eventHub, accountManager, sharedPreferences, filterModel) {
 
     @OptIn(ExperimentalPagingApi::class)
@@ -86,11 +88,8 @@ class CachedTimelineViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            delay(5.toDuration(DurationUnit.SECONDS)) // delay so the db is not locked during initial
-            accountManager.activeAccount?.id?.let { accountId ->
-                db.timelineDao().cleanup(accountId, MAX_STATUSES_IN_CACHE )
-                db.timelineDao().cleanupAccounts(accountId)
-            }
+            delay(5.toDuration(DurationUnit.SECONDS)) // delay so the db is not locked during initial ui refresh
+            cacheUpdater.cleanupDbForCurrentAccount()
         }
     }
 
@@ -219,9 +218,5 @@ class CachedTimelineViewModel @Inject constructor(
                 db.timelineDao().removeAllUsersForAccount(activeAccount.id)
             }
         }
-    }
-
-    companion object {
-        private const val MAX_STATUSES_IN_CACHE = 1000
     }
 }
