@@ -180,8 +180,7 @@ class TimelineViewModelTest {
             mock(),
             FilterModel(),
             db,
-            Gson(),
-            mock()
+            Gson()
         )
 
         viewModel.init(TimelineViewModel.Kind.HOME, null, emptyList())

@@ -55,15 +55,4 @@ class CacheUpdater @Inject constructor(
             .subscribeOn(Schedulers.io())
             .subscribe()
     }
-
-    suspend fun cleanupDbForCurrentAccount() {
-        accountManager.activeAccount?.id?.let { accountId ->
-            appDatabase.timelineDao().cleanup(accountId, MAX_STATUSES_IN_CACHE)
-            appDatabase.timelineDao().cleanupAccounts(accountId)
-        }
-    }
-
-    companion object {
-        private const val MAX_STATUSES_IN_CACHE = 1000
-    }
 }
