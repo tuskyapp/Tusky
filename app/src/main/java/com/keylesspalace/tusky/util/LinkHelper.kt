@@ -31,6 +31,7 @@ import android.widget.TextView
 import androidx.annotation.VisibleForTesting
 import androidx.browser.customtabs.CustomTabColorSchemeParams
 import androidx.browser.customtabs.CustomTabsIntent
+import androidx.core.net.toUri
 import androidx.preference.PreferenceManager
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.entity.HashTag
@@ -194,7 +195,7 @@ fun createClickableText(text: String, link: String): CharSequence {
  * @param context context
  */
 fun Context.openLink(url: String) {
-    val uri = Uri.parse(url).normalizeScheme()
+    val uri = url.toUri().normalizeScheme()
     val useCustomTabs = PreferenceManager.getDefaultSharedPreferences(this).getBoolean("customTabs", false)
 
     if (useCustomTabs) {
