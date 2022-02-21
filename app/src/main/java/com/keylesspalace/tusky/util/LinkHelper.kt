@@ -63,7 +63,7 @@ fun getDomain(urlString: String?): String {
  * @param mentions any '@' mentions which are known to be in the content
  * @param listener to notify about particular spans that are clicked
  */
-fun setClickableText(view: TextView, content: CharSequence, mentions: List<Mention>?, tags: List<HashTag>?, listener: LinkListener) {
+fun setClickableText(view: TextView, content: CharSequence, mentions: List<Mention>, tags: List<HashTag>, listener: LinkListener) {
     val builder = SpannableStringBuilder.valueOf(content)
     val urlSpans = builder.getSpans(0, content.length, URLSpan::class.java)
 
@@ -78,8 +78,8 @@ fun setClickableText(view: TextView, content: CharSequence, mentions: List<Menti
 fun setClickableText(
     span: URLSpan,
     builder: SpannableStringBuilder,
-    mentions: List<Mention>?,
-    tags: List<HashTag>?,
+    mentions: List<Mention>,
+    tags: List<HashTag>,
     listener: LinkListener
 ) {
     val start = builder.getSpanStart(span)

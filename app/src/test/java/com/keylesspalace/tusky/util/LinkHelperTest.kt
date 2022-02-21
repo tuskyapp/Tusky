@@ -39,7 +39,7 @@ class LinkHelperTest {
 
         var urlSpans = builder.getSpans(0, builder.length, URLSpan::class.java)
         for (span in urlSpans) {
-            setClickableText(span, builder, mentions, null, listener)
+            setClickableText(span, builder, mentions, emptyList(), listener)
         }
 
         urlSpans = builder.getSpans(0, builder.length, URLSpan::class.java)
@@ -60,7 +60,7 @@ class LinkHelperTest {
 
         var urlSpans = builder.getSpans(0, builder.length, URLSpan::class.java)
         for (span in urlSpans) {
-            setClickableText(span, builder, mentions, null, listener)
+            setClickableText(span, builder, mentions, emptyList(), listener)
         }
 
         urlSpans = builder.getSpans(0, builder.length, URLSpan::class.java)
@@ -79,7 +79,7 @@ class LinkHelperTest {
 
         var urlSpans = builder.getSpans(0, builder.length, URLSpan::class.java)
         for (span in urlSpans) {
-            setClickableText(span, builder, null, tags, listener)
+            setClickableText(span, builder, emptyList(), tags, listener)
         }
 
         urlSpans = builder.getSpans(0, builder.length, URLSpan::class.java)
@@ -100,7 +100,7 @@ class LinkHelperTest {
 
         var urlSpans = builder.getSpans(0, builder.length, URLSpan::class.java)
         for (span in urlSpans) {
-            setClickableText(span, builder, null, tags, listener)
+            setClickableText(span, builder, emptyList(), tags, listener)
         }
 
         urlSpans = builder.getSpans(0, builder.length, URLSpan::class.java)

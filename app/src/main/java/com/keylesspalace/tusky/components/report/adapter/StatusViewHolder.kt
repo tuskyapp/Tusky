@@ -132,8 +132,8 @@ class StatusViewHolder(
     private fun setTextVisible(
         expanded: Boolean,
         content: Spanned,
-        mentions: List<Status.Mention>?,
-        tags: List<HashTag>?,
+        mentions: List<Status.Mention>,
+        tags: List<HashTag>,
         emojis: List<Emoji>,
         listener: LinkListener
     ) {
