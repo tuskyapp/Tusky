@@ -15,6 +15,7 @@
 
 package com.keylesspalace.tusky
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
@@ -157,9 +158,9 @@ abstract class BottomSheetActivity : BaseActivity() {
         }
     }
 
-    @VisibleForTesting
+    @VisibleForTesting(otherwise = VisibleForTesting.PROTECTED)
     open fun openLink(url: String) {
-        openLink(url, this)
+        (this as Context).openLink(url)
     }
 
     private fun showQuerySheet() {

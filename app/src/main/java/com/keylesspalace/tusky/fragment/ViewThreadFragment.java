@@ -330,7 +330,7 @@ public final class ViewThreadFragment extends SFragment implements
             // already viewing the status with this url
             // probably just a preview federated and the user is clicking again to view more -> open the browser
             // this can happen with some friendica statuses
-            LinkHelper.openLink(url, requireContext());
+            LinkHelper.openLink(requireContext(), url);
             return;
         }
         super.onViewUrl(url);

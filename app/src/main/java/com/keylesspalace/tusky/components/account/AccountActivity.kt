@@ -517,7 +517,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
             if (account.isRemote()) {
                 binding.accountRemoveView.show()
                 binding.accountRemoveView.setOnClickListener {
-                    openLink(account.url, this)
+                    openLink(account.url)
                 }
             }
         }
@@ -826,8 +826,8 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
         when (item.itemId) {
             R.id.action_open_in_web -> {
                 // If the account isn't loaded yet, eat the input.
-                if (loadedAccount != null) {
-                    openLink(loadedAccount?.url, this)
+                if (loadedAccount?.url != null) {
+                    openLink(loadedAccount!!.url)
                 }
                 return true
             }

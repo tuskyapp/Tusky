@@ -193,14 +193,14 @@ fun createClickableText(text: String, link: String): CharSequence {
  * @param url a string containing the url to open
  * @param context context
  */
-fun openLink(url: String?, context: Context) {
+fun Context.openLink(url: String) {
     val uri = Uri.parse(url).normalizeScheme()
-    val useCustomTabs = PreferenceManager.getDefaultSharedPreferences(context).getBoolean("customTabs", false)
+    val useCustomTabs = PreferenceManager.getDefaultSharedPreferences(this).getBoolean("customTabs", false)
 
     if (useCustomTabs) {
-        openLinkInCustomTab(uri, context)
+        openLinkInCustomTab(uri, this)
     } else {
-        openLinkInBrowser(uri, context)
+        openLinkInBrowser(uri, this)
     }
 }
 

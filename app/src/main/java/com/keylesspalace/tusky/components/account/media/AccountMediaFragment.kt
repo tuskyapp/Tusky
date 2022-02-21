@@ -252,7 +252,7 @@ class AccountMediaFragment : Fragment(R.layout.fragment_timeline), RefreshableFr
                 }
             }
             Attachment.Type.UNKNOWN -> {
-                openLink(items[currentIndex].attachment.url, requireContext())
+                context?.openLink(items[currentIndex].attachment.url)
             }
         }
     }
