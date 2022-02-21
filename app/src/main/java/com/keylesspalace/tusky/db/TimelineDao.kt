@@ -98,8 +98,29 @@ AND serverId = :statusId"""
     )
     abstract fun delete(accountId: Long, statusId: String)
 
-    @Query("""DELETE FROM TimelineStatusEntity WHERE createdAt < :olderThan""")
-    abstract fun cleanup(olderThan: Long)
+    /**
+     * Cleans the TimelineStatusEntity table from old status entries.
+     * @param accountId id of the account for which to clean statuses
+     * @param limit how many statuses to keep
+     */
+    @Query(
+        """DELETE FROM TimelineStatusEntity WHERE timelineUserId = :accountId AND serverId NOT IN
+        (SELECT serverId FROM TimelineStatusEntity WHERE timelineUserId = :accountId ORDER BY LENGTH(serverId) DESC, serverId DESC LIMIT :limit)
+    """
+    )
+    abstract suspend fun cleanup(accountId: Long, limit: Int)
+
+    /**
+     * Cleans the TimelineAccountEntity table from accounts that are no longer referenced in the TimelineStatusEntity table
+     * @param accountId id of the user account for which to clean timeline accounts
+     */
+    @Query(
+        """DELETE FROM TimelineAccountEntity WHERE timelineUserId = :accountId AND serverId NOT IN
+        (SELECT authorServerId FROM TimelineStatusEntity WHERE timelineUserId = :accountId) 
+        AND serverId NOT IN 
+        (SELECT reblogAccountId FROM TimelineStatusEntity WHERE timelineUserId = :accountId AND reblogAccountId IS NOT NULL)"""
+    )
+    abstract suspend fun cleanupAccounts(accountId: Long)
 
     @Query(
         """UPDATE TimelineStatusEntity SET poll = :poll

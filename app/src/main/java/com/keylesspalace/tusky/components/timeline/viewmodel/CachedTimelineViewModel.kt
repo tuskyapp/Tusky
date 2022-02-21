@@ -43,11 +43,14 @@ import com.keylesspalace.tusky.network.TimelineCases
 import com.keylesspalace.tusky.util.dec
 import com.keylesspalace.tusky.util.inc
 import com.keylesspalace.tusky.viewdata.StatusViewData
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.rx3.await
 import retrofit2.HttpException
 import javax.inject.Inject
+import kotlin.time.DurationUnit
+import kotlin.time.toDuration
 
 /**
  * TimelineViewModel that caches all statuses in a local database
@@ -80,6 +83,16 @@ class CachedTimelineViewModel @Inject constructor(
             }
         }
         .cachedIn(viewModelScope)
+
+    init {
+        viewModelScope.launch {
+            delay(5.toDuration(DurationUnit.SECONDS)) // delay so the db is not locked during initial ui refresh
+            accountManager.activeAccount?.id?.let { accountId ->
+                db.timelineDao().cleanup(accountId, MAX_STATUSES_IN_CACHE)
+                db.timelineDao().cleanupAccounts(accountId)
+            }
+        }
+    }
 
     override fun updatePoll(newPoll: Poll, status: StatusViewData.Concrete) {
         // handled by CacheUpdater
@@ -206,5 +219,9 @@ class CachedTimelineViewModel @Inject constructor(
                 db.timelineDao().removeAllUsersForAccount(activeAccount.id)
             }
         }
+    }
+
+    companion object {
+        private const val MAX_STATUSES_IN_CACHE = 1000
     }
 }

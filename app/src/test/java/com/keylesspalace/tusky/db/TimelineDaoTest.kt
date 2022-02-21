@@ -5,7 +5,6 @@ import androidx.room.Room
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import com.google.gson.Gson
-import com.keylesspalace.tusky.appstore.CacheUpdater
 import com.keylesspalace.tusky.components.timeline.Placeholder
 import com.keylesspalace.tusky.components.timeline.toEntity
 import com.keylesspalace.tusky.entity.Status
@@ -66,28 +65,25 @@ class TimelineDaoTest {
 
     @Test
     fun cleanup() = runBlocking {
-        val now = System.currentTimeMillis()
-        val oldDate = now - CacheUpdater.CLEANUP_INTERVAL - 20_000
-        val oldThisAccount = makeStatus(
-            statusId = 5,
-            createdAt = oldDate
-        )
-        val oldAnotherAccount = makeStatus(
-            statusId = 10,
-            createdAt = oldDate,
-            accountId = 2
-        )
-        val recentThisAccount = makeStatus(
-            statusId = 30,
-            createdAt = System.currentTimeMillis()
-        )
-        val recentAnotherAccount = makeStatus(
-            statusId = 60,
-            createdAt = System.currentTimeMillis(),
-            accountId = 2
+
+        val statusesBeforeCleanup = listOf(
+            makeStatus(statusId = 100),
+            makeStatus(statusId = 10, authorServerId = "3"),
+            makeStatus(statusId = 8, reblog = true, authorServerId = "10"),
+            makeStatus(statusId = 5),
+            makeStatus(statusId = 3, authorServerId = "4"),
+            makeStatus(statusId = 2, accountId = 2, authorServerId = "5"),
+            makeStatus(statusId = 1, authorServerId = "5")
         )
 
-        for ((status, author, reblogAuthor) in listOf(oldThisAccount, oldAnotherAccount, recentThisAccount, recentAnotherAccount)) {
+        val statusesAfterCleanup = listOf(
+            makeStatus(statusId = 100),
+            makeStatus(statusId = 10, authorServerId = "3"),
+            makeStatus(statusId = 8, reblog = true, authorServerId = "10"),
+            makeStatus(statusId = 2, accountId = 2, authorServerId = "5"),
+        )
+
+        for ((status, author, reblogAuthor) in statusesBeforeCleanup) {
             timelineDao.insertAccount(author)
             reblogAuthor?.let {
                 timelineDao.insertAccount(it)
@@ -95,15 +91,34 @@ class TimelineDaoTest {
             timelineDao.insertStatus(status)
         }
 
-        timelineDao.cleanup(now - CacheUpdater.CLEANUP_INTERVAL)
+        timelineDao.cleanup(accountId = 1, limit = 3)
+        timelineDao.cleanupAccounts(accountId = 1)
 
         val loadParams: PagingSource.LoadParams<Int> = PagingSource.LoadParams.Refresh(null, 100, false)
 
-        val loadedStatusAccount1 = (timelineDao.getStatusesForAccount(1).load(loadParams) as PagingSource.LoadResult.Page).data
-        val loadedStatusAccount2 = (timelineDao.getStatusesForAccount(2).load(loadParams) as PagingSource.LoadResult.Page).data
+        val loadedStatuses = (timelineDao.getStatusesForAccount(1).load(loadParams) as PagingSource.LoadResult.Page).data
 
-        assertStatuses(listOf(recentThisAccount), loadedStatusAccount1)
-        assertStatuses(listOf(recentAnotherAccount), loadedStatusAccount2)
+        assertStatuses(statusesAfterCleanup, loadedStatuses)
+
+        val loadedAccounts: MutableList<Pair<Long, String>> = mutableListOf()
+        val accountCursor = db.query("SELECT timelineUserId, serverId FROM TimelineAccountEntity", null)
+        accountCursor.moveToFirst()
+        while (!accountCursor.isAfterLast) {
+            val accountId: Long = accountCursor.getLong(accountCursor.getColumnIndex("timelineUserId"))
+            val serverId: String = accountCursor.getString(accountCursor.getColumnIndex("serverId"))
+            loadedAccounts.add(accountId to serverId)
+            accountCursor.moveToNext()
+        }
+
+        val expectedAccounts = listOf(
+            1L to "3",
+            1L to "10",
+            1L to "R10",
+            1L to "20",
+            2L to "5"
+        )
+
+        assertEquals(expectedAccounts, loadedAccounts)
     }
 
     @Test
@@ -114,8 +129,6 @@ class TimelineDaoTest {
             makeStatus(statusId = 2),
             makeStatus(statusId = 1)
         )
-
-        timelineDao.deleteRange(1, oldStatuses.last().first.serverId, oldStatuses.first().first.serverId)
 
         for ((status, author, reblogAuthor) in oldStatuses) {
             timelineDao.insertAccount(author)
@@ -150,6 +163,42 @@ class TimelineDaoTest {
         val loadedStatuses = (loadResult as PagingSource.LoadResult.Page).data
 
         assertStatuses(newStatuses, loadedStatuses)
+    }
+
+    @Test
+    fun deleteRange() = runBlocking {
+        val statuses = listOf(
+            makeStatus(statusId = 100),
+            makeStatus(statusId = 15),
+            makeStatus(statusId = 14),
+            makeStatus(statusId = 13),
+            makeStatus(statusId = 12),
+            makeStatus(statusId = 11),
+            makeStatus(statusId = 9)
+        )
+
+        for ((status, author, reblogAuthor) in statuses) {
+            timelineDao.insertAccount(author)
+            reblogAuthor?.let {
+                timelineDao.insertAccount(it)
+            }
+            timelineDao.insertStatus(status)
+        }
+
+        timelineDao.deleteRange(1, "12", "14")
+
+        val pagingSource = timelineDao.getStatusesForAccount(1)
+        val loadResult = pagingSource.load(PagingSource.LoadParams.Refresh(null, 100, false))
+        val loadedStatuses = (loadResult as PagingSource.LoadResult.Page).data
+
+        val remainingStatuses = listOf(
+            makeStatus(statusId = 100),
+            makeStatus(statusId = 15),
+            makeStatus(statusId = 11),
+            makeStatus(statusId = 9)
+        )
+
+        assertStatuses(remainingStatuses, loadedStatuses)
     }
 
     @Test
