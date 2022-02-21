@@ -108,4 +108,51 @@ class LinkHelperTest {
             Assert.assertEquals(nonTagUrl, span.url)
         }
     }
+
+    @Test
+    fun whenStringIsInvalidUri_emptyStringIsReturnedFromGetDomain() {
+        listOf(
+            null,
+            "foo bar baz",
+            "http:/foo.bar",
+            "c:/foo/bar",
+        ).forEach {
+            Assert.assertEquals("", getDomain(it))
+        }
+    }
+
+    @Test
+    fun whenUrlIsValid_correctDomainIsReturned() {
+        listOf(
+            "example.com",
+            "localhost",
+            "sub.domain.com",
+            "10.45.0.123",
+        ).forEach { domain ->
+            listOf(
+                "https://$domain",
+                "https://$domain/",
+                "https://$domain/foo/bar",
+                "https://$domain/foo/bar.html",
+                "https://$domain/foo/bar.html#",
+                "https://$domain/foo/bar.html#anchor",
+                "https://$domain/foo/bar.html?argument=value",
+                "https://$domain/foo/bar.html?argument=value&otherArgument=otherValue",
+            ).forEach { url ->
+                Assert.assertEquals(domain, getDomain(url))
+            }
+        }
+    }
+
+    @Test
+    fun wwwPrefixIsStrippedFromGetDomain() {
+        mapOf(
+            "https://www.example.com/foo/bar" to "example.com",
+            "https://awww.example.com/foo/bar" to "awww.example.com",
+            "http://www.localhost" to "localhost",
+            "https://wwwexample.com/" to "wwwexample.com",
+        ).forEach { (url, domain) ->
+            Assert.assertEquals(domain, getDomain(url))
+        }
+    }
 }

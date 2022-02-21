@@ -37,17 +37,9 @@ import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.entity.HashTag
 import com.keylesspalace.tusky.entity.Status.Mention
 import com.keylesspalace.tusky.interfaces.LinkListener
-import java.net.URI
-import java.net.URISyntaxException
 
 fun getDomain(urlString: String?): String {
-    val uri: URI = try {
-        URI(urlString)
-    } catch (e: URISyntaxException) {
-        return ""
-    }
-
-    val host = uri.host
+    val host = urlString?.toUri()?.host
     return when {
         host == null -> ""
         host.startsWith("www.") -> host.substring(4)
