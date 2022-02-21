@@ -65,13 +65,11 @@ fun getDomain(urlString: String?): String {
  * @param listener to notify about particular spans that are clicked
  */
 fun setClickableText(view: TextView, content: CharSequence, mentions: List<Mention>, tags: List<HashTag>, listener: LinkListener) {
-    val builder = SpannableStringBuilder.valueOf(content)
-    val urlSpans = builder.getSpans(0, content.length, URLSpan::class.java)
-
-    for (span in urlSpans) {
-        setClickableText(span, builder, mentions, tags, listener)
+    view.text = SpannableStringBuilder.valueOf(content).apply {
+        getSpans(0, content.length, URLSpan::class.java).forEach {
+            setClickableText(it, this, mentions, tags, listener)
+        }
     }
-    view.text = builder
     view.movementMethod = LinkMovementMethod.getInstance()
 }
 
@@ -82,57 +80,49 @@ fun setClickableText(
     mentions: List<Mention>,
     tags: List<HashTag>,
     listener: LinkListener
-) {
-    val start = builder.getSpanStart(span)
-    val end = builder.getSpanEnd(span)
-    val flags = builder.getSpanFlags(span)
-    val text = builder.subSequence(start, end)
+) = builder.apply {
+    val start = getSpanStart(span)
+    val end = getSpanEnd(span)
+    val flags = getSpanFlags(span)
+    val text = subSequence(start, end)
 
-    val customSpan = when {
-        text[0] == '#' -> getCustomSpanForTag(tags, span, listener)
-        text[0] == '@' -> getCustomSpanForMention(mentions, span, listener)
+    val customSpan = when (text[0]) {
+        '#' -> getCustomSpanForTag(tags, span, listener)
+        '@' -> getCustomSpanForMention(mentions, span, listener)
         else -> null
     } ?: object : NoUnderlineURLSpan(span.url) {
-        override fun onClick(view: View) {
-            listener.onViewUrl(url)
-        }
+        override fun onClick(view: View) = listener.onViewUrl(url)
     }
 
-    builder.removeSpan(span)
-    builder.setSpan(customSpan, start, end, flags)
+    removeSpan(span)
+    setSpan(customSpan, start, end, flags)
 
     /* Add zero-width space after links in end of line to fix its too large hitbox.
      * See also : https://github.com/tuskyapp/Tusky/issues/846
      *            https://github.com/tuskyapp/Tusky/pull/916 */
-    if (end >= builder.length || builder.subSequence(end, end + 1).toString() == "\n") {
-        builder.insert(end, "\u200B")
+    if (end >= length || subSequence(end, end + 1).toString() == "\n") {
+        insert(end, "\u200B")
     }
 }
 
 private fun getCustomSpanForTag(tags: List<HashTag>?, span: URLSpan, listener: LinkListener): ClickableSpan? {
-    return when (val tag = tags?.firstOrNull { it.url == span.url }) {
-        null -> null
-        else -> object : NoUnderlineURLSpan(span.url) {
-            override fun onClick(view: View) {
-                listener.onViewTag(tag.name)
-            }
+    return tags?.firstOrNull { it.url == span.url }?.let {
+        object : NoUnderlineURLSpan(span.url) {
+            override fun onClick(view: View) = listener.onViewTag(it.name)
         }
     }
 }
 
 private fun getCustomSpanForMention(mentions: List<Mention>?, span: URLSpan, listener: LinkListener): ClickableSpan? {
     // https://github.com/tuskyapp/Tusky/pull/2339
-    return when (val mention = mentions?.firstOrNull { it.url == span.url }) {
-        null -> null
-        else -> getCustomSpanForMentionUrl(span.url, mention.id, listener)
+    return mentions?.firstOrNull { it.url == span.url }?.let {
+        getCustomSpanForMentionUrl(span.url, it.id, listener)
     }
 }
 
 private fun getCustomSpanForMentionUrl(url: String, mentionId: String, listener: LinkListener): ClickableSpan {
     return object : NoUnderlineURLSpan(url) {
-        override fun onClick(view: View) {
-            listener.onViewAccount(mentionId)
-        }
+        override fun onClick(view: View) = listener.onViewAccount(mentionId)
     }
 }
 
@@ -150,35 +140,32 @@ fun setClickableMentions(view: TextView, mentions: List<Mention>?, listener: Lin
         return
     }
 
-    val builder = SpannableStringBuilder()
-    var start = 0
-    var end = 0
-    var flags: Int
-    var firstMention = true
+    view.text = SpannableStringBuilder().apply {
+        var start = 0
+        var end = 0
+        var flags: Int
+        var firstMention = true
 
-    for (mention in mentions) {
-        val customSpan = getCustomSpanForMentionUrl(mention.url, mention.id, listener)
-        end += 1 + mention.username.length // length of @ + username
-        flags = builder.getSpanFlags(customSpan)
-        if (firstMention) {
-            firstMention = false
-        } else {
-            builder.append(" ")
-            start += 1
-            end += 1
-        }
+        for (mention in mentions) {
+            val customSpan = getCustomSpanForMentionUrl(mention.url, mention.id, listener)
+            end += 1 + mention.username.length // length of @ + username
+            flags = getSpanFlags(customSpan)
+            if (firstMention) {
+                firstMention = false
+            } else {
+                append(" ")
+                start += 1
+                end += 1
+            }
 
-        builder.apply {
             append("@")
             append(mention.username)
             setSpan(customSpan, start, end, flags)
             append("\u200B") // same reasoning as in setClickableText
+            end += 1 // shift position to take the previous character into account
+            start = end
         }
-        end += 1 // shift position to take the previous character into account
-        start = end
     }
-
-    view.text = builder
     view.movementMethod = LinkMovementMethod.getInstance()
 }
 
