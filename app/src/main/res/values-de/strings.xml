@@ -238,7 +238,7 @@
     <string name="about_tusky_account">Tuskys Profil</string>
     <string name="status_share_content">Inhalt teilen</string>
     <string name="status_share_link">Link teilen</string>
-    <string name="status_media_images">Real credit card information</string>
+    <string name="status_media_images">Bilder</string>
     <string name="status_media_video">Video</string>
     <string name="state_follow_requested">Folgeanfrage gesendet</string>
     <!--These are for timestamps on statuses. For example: "16s" or "2d"-->
