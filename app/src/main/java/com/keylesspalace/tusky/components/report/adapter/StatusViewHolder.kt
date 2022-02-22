@@ -133,7 +133,7 @@ class StatusViewHolder(
         expanded: Boolean,
         content: Spanned,
         mentions: List<Status.Mention>,
-        tags: List<HashTag>,
+        tags: List<HashTag>?,
         emojis: List<Emoji>,
         listener: LinkListener
     ) {

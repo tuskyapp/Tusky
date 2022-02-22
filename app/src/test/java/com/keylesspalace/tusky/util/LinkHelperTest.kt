@@ -39,7 +39,7 @@ class LinkHelperTest {
 
         var urlSpans = builder.getSpans(0, builder.length, URLSpan::class.java)
         for (span in urlSpans) {
-            setClickableText(span, builder, mentions, emptyList(), listener)
+            setClickableText(span, builder, mentions, null, listener)
         }
 
         urlSpans = builder.getSpans(0, builder.length, URLSpan::class.java)
@@ -60,7 +60,7 @@ class LinkHelperTest {
 
         var urlSpans = builder.getSpans(0, builder.length, URLSpan::class.java)
         for (span in urlSpans) {
-            setClickableText(span, builder, mentions, emptyList(), listener)
+            setClickableText(span, builder, mentions, null, listener)
         }
 
         urlSpans = builder.getSpans(0, builder.length, URLSpan::class.java)
@@ -106,6 +106,20 @@ class LinkHelperTest {
         urlSpans = builder.getSpans(0, builder.length, URLSpan::class.java)
         for (span in urlSpans) {
             Assert.assertEquals(nonTagUrl, span.url)
+        }
+    }
+
+    @Test
+    fun whenTagsAreNull_tagNameIsGeneratedFromText() {
+        SpannableStringBuilder().apply {
+            for (tag in tags) {
+                append("#${tag.name}", URLSpan(tag.url), 0)
+                append(" ")
+            }
+
+            getSpans(0, length, URLSpan::class.java).forEach {
+                Assert.assertNotNull(getTagName(subSequence(getSpanStart(it), getSpanEnd(it)), null, it))
+            }
         }
     }
 

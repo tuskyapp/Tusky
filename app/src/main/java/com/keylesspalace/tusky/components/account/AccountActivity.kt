@@ -409,7 +409,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
         binding.accountDisplayNameTextView.text = account.name.emojify(account.emojis, binding.accountDisplayNameTextView, animateEmojis)
 
         val emojifiedNote = account.note.emojify(account.emojis, binding.accountNoteTextView, animateEmojis)
-        setClickableText(binding.accountNoteTextView, emojifiedNote, emptyList(), emptyList(), this)
+        setClickableText(binding.accountNoteTextView, emojifiedNote, emptyList(), null, this)
 
         // accountFieldAdapter.fields = account.fields ?: emptyList()
         accountFieldAdapter.emojis = account.emojis ?: emptyList()

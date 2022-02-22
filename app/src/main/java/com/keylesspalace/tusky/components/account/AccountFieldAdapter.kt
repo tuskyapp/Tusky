@@ -66,7 +66,7 @@ class AccountFieldAdapter(
             nameTextView.text = emojifiedName
 
             val emojifiedValue = field.value.emojify(emojis, valueTextView, animateEmojis)
-            setClickableText(valueTextView, emojifiedValue, emptyList(), emptyList(), linkListener)
+            setClickableText(valueTextView, emojifiedValue, emptyList(), null, linkListener)
 
             if (field.verifiedAt != null) {
                 valueTextView.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.ic_check_circle, 0)

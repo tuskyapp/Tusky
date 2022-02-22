@@ -56,7 +56,7 @@ fun getDomain(urlString: String?): String {
  * @param mentions any '@' mentions which are known to be in the content
  * @param listener to notify about particular spans that are clicked
  */
-fun setClickableText(view: TextView, content: CharSequence, mentions: List<Mention>, tags: List<HashTag>, listener: LinkListener) {
+fun setClickableText(view: TextView, content: CharSequence, mentions: List<Mention>, tags: List<HashTag>?, listener: LinkListener) {
     view.text = SpannableStringBuilder.valueOf(content).apply {
         getSpans(0, content.length, URLSpan::class.java).forEach {
             setClickableText(it, this, mentions, tags, listener)
@@ -70,7 +70,7 @@ fun setClickableText(
     span: URLSpan,
     builder: SpannableStringBuilder,
     mentions: List<Mention>,
-    tags: List<HashTag>,
+    tags: List<HashTag>?,
     listener: LinkListener
 ) = builder.apply {
     val start = getSpanStart(span)
@@ -79,7 +79,7 @@ fun setClickableText(
     val text = subSequence(start, end)
 
     val customSpan = when (text[0]) {
-        '#' -> getCustomSpanForTag(tags, span, listener)
+        '#' -> getCustomSpanForTag(text, tags, span, listener)
         '@' -> getCustomSpanForMention(mentions, span, listener)
         else -> null
     } ?: object : NoUnderlineURLSpan(span.url) {
@@ -97,17 +97,25 @@ fun setClickableText(
     }
 }
 
-private fun getCustomSpanForTag(tags: List<HashTag>?, span: URLSpan, listener: LinkListener): ClickableSpan? {
-    return tags?.firstOrNull { it.url == span.url }?.let {
+@VisibleForTesting
+fun getTagName(text: CharSequence, tags: List<HashTag>?, span: URLSpan): String? {
+    return when (tags) {
+        null -> text.subSequence(1, text.length).toString()
+        else -> tags.firstOrNull { it.url == span.url }?.name
+    }
+}
+
+private fun getCustomSpanForTag(text: CharSequence, tags: List<HashTag>?, span: URLSpan, listener: LinkListener): ClickableSpan? {
+    return getTagName(text, tags, span)?.let {
         object : NoUnderlineURLSpan(span.url) {
-            override fun onClick(view: View) = listener.onViewTag(it.name)
+            override fun onClick(view: View) = listener.onViewTag(it)
         }
     }
 }
 
-private fun getCustomSpanForMention(mentions: List<Mention>?, span: URLSpan, listener: LinkListener): ClickableSpan? {
+private fun getCustomSpanForMention(mentions: List<Mention>, span: URLSpan, listener: LinkListener): ClickableSpan? {
     // https://github.com/tuskyapp/Tusky/pull/2339
-    return mentions?.firstOrNull { it.url == span.url }?.let {
+    return mentions.firstOrNull { it.url == span.url }?.let {
         getCustomSpanForMentionUrl(span.url, it.id, listener)
     }
 }
