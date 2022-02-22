@@ -178,8 +178,8 @@ fun createClickableText(text: String, link: String): CharSequence {
 /**
  * Opens a link, depending on the settings, either in the browser or in a custom tab
  *
+ * @receiver the Context to open the link from
  * @param url a string containing the url to open
- * @param context context
  */
 fun Context.openLink(url: String) {
     val uri = url.toUri().normalizeScheme()
