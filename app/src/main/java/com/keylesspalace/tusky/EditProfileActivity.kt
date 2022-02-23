@@ -15,28 +15,26 @@
 
 package com.keylesspalace.tusky
 
-import android.Manifest
-import android.app.Activity
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.ImageView
 import androidx.activity.viewModels
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.lifecycle.LiveData
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.bitmap.FitCenter
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
-import com.canhub.cropper.CropImage
+import com.canhub.cropper.CropImageContract
+import com.canhub.cropper.options
 import com.google.android.material.snackbar.Snackbar
 import com.keylesspalace.tusky.adapter.AccountFieldEditAdapter
 import com.keylesspalace.tusky.databinding.ActivityEditProfileBinding
@@ -44,9 +42,7 @@ import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.util.Error
 import com.keylesspalace.tusky.util.Loading
-import com.keylesspalace.tusky.util.Resource
 import com.keylesspalace.tusky.util.Success
-import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.viewmodel.EditProfileViewModel
@@ -63,12 +59,7 @@ class EditProfileActivity : BaseActivity(), Injectable {
         const val HEADER_WIDTH = 1500
         const val HEADER_HEIGHT = 500
 
-        private const val AVATAR_PICK_RESULT = 1
-        private const val HEADER_PICK_RESULT = 2
-        private const val PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 1
         private const val MAX_ACCOUNT_FIELDS = 4
-
-        private const val BUNDLE_CURRENTLY_PICKING = "BUNDLE_CURRENTLY_PICKING"
     }
 
     @Inject
@@ -78,22 +69,27 @@ class EditProfileActivity : BaseActivity(), Injectable {
 
     private val binding by viewBinding(ActivityEditProfileBinding::inflate)
 
-    private var currentlyPicking: PickType = PickType.NOTHING
-
     private val accountFieldEditAdapter = AccountFieldEditAdapter()
 
     private enum class PickType {
-        NOTHING,
         AVATAR,
         HEADER
     }
 
+    private val cropImage = registerForActivityResult(CropImageContract()) { result ->
+        if (result.isSuccessful) {
+            if (result.uriContent == viewModel.getAvatarUri(this)) {
+                viewModel.newAvatarPicked(this)
+            } else {
+                viewModel.newHeaderPicked(this)
+            }
+        } else {
+            onPickFailure(result.error)
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        savedInstanceState?.getString(BUNDLE_CURRENTLY_PICKING)?.let {
-            currentlyPicking = PickType.valueOf(it)
-        }
 
         setContentView(binding.root)
 
@@ -104,8 +100,8 @@ class EditProfileActivity : BaseActivity(), Injectable {
             setDisplayShowHomeEnabled(true)
         }
 
-        binding.avatarButton.setOnClickListener { onMediaPick(PickType.AVATAR) }
-        binding.headerButton.setOnClickListener { onMediaPick(PickType.HEADER) }
+        binding.avatarButton.setOnClickListener { pickMedia(PickType.AVATAR) }
+        binding.headerButton.setOnClickListener { pickMedia(PickType.HEADER) }
 
         binding.fieldList.layoutManager = LinearLayoutManager(this)
         binding.fieldList.adapter = accountFieldEditAdapter
@@ -159,11 +155,11 @@ class EditProfileActivity : BaseActivity(), Injectable {
                     }
                 }
                 is Error -> {
-                    val snackbar = Snackbar.make(binding.avatarButton, R.string.error_generic, Snackbar.LENGTH_LONG)
-                    snackbar.setAction(R.string.action_retry) {
-                        viewModel.obtainProfile()
-                    }
-                    snackbar.show()
+                    Snackbar.make(binding.avatarButton, R.string.error_generic, Snackbar.LENGTH_LONG)
+                        .setAction(R.string.action_retry) {
+                            viewModel.obtainProfile()
+                        }
+                        .show()
                 }
                 is Loading -> { }
             }
@@ -179,30 +175,24 @@ class EditProfileActivity : BaseActivity(), Injectable {
             }
         }
 
-        observeImage(viewModel.avatarData, binding.avatarPreview, binding.avatarProgressBar, true)
-        observeImage(viewModel.headerData, binding.headerPreview, binding.headerProgressBar, false)
+        observeImage(viewModel.avatarData, binding.avatarPreview, true)
+        observeImage(viewModel.headerData, binding.headerPreview, false)
 
         viewModel.saveData.observe(
-            this,
-            {
-                when (it) {
-                    is Success -> {
-                        finish()
-                    }
-                    is Loading -> {
-                        binding.saveProgressBar.visibility = View.VISIBLE
-                    }
-                    is Error -> {
-                        onSaveFailure(it.errorMessage)
-                    }
+            this
+        ) {
+            when (it) {
+                is Success -> {
+                    finish()
+                }
+                is Loading -> {
+                    binding.saveProgressBar.visibility = View.VISIBLE
+                }
+                is Error -> {
+                    onSaveFailure(it.errorMessage)
                 }
             }
-        )
-    }
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        outState.putString(BUNDLE_CURRENTLY_PICKING, currentlyPicking.toString())
+        }
     }
 
     override fun onStop() {
@@ -218,90 +208,58 @@ class EditProfileActivity : BaseActivity(), Injectable {
     }
 
     private fun observeImage(
-        liveData: LiveData<Resource<Bitmap>>,
+        liveData: LiveData<Uri>,
         imageView: ImageView,
-        progressBar: View,
         roundedCorners: Boolean
     ) {
         liveData.observe(
-            this,
-            {
+            this
+        ) { imageUri ->
+            val glide = Glide.with(imageView)
+                .load(imageUri)
+                .skipMemoryCache(true)
+                .diskCacheStrategy(DiskCacheStrategy.NONE)
 
-                when (it) {
-                    is Success -> {
-                        val glide = Glide.with(imageView)
-                            .load(it.data)
-
-                        if (roundedCorners) {
-                            glide.transform(
-                                FitCenter(),
-                                RoundedCorners(resources.getDimensionPixelSize(R.dimen.avatar_radius_80dp))
-                            )
-                        }
-
-                        glide.into(imageView)
-
-                        imageView.show()
-                        progressBar.hide()
-                    }
-                    is Loading -> {
-                        progressBar.show()
-                    }
-                    is Error -> {
-                        progressBar.hide()
-                        if (!it.consumed) {
-                            onResizeFailure()
-                            it.consumed = true
-                        }
-                    }
-                }
+            if (roundedCorners) {
+                glide.transform(
+                    FitCenter(),
+                    RoundedCorners(resources.getDimensionPixelSize(R.dimen.avatar_radius_80dp))
+                ).into(imageView)
+            } else {
+                glide.into(imageView)
             }
-        )
-    }
 
-    private fun onMediaPick(pickType: PickType) {
-        if (currentlyPicking != PickType.NOTHING) {
-            // Ignore inputs if another pick operation is still occurring.
-            return
-        }
-        currentlyPicking = pickType
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE), PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE)
-        } else {
-            initiateMediaPicking()
+            imageView.show()
         }
     }
 
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<String>,
-        grantResults: IntArray
-    ) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        when (requestCode) {
-            PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE -> {
-                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    initiateMediaPicking()
-                } else {
-                    endMediaPicking()
-                    Snackbar.make(binding.avatarButton, R.string.error_media_upload_permission, Snackbar.LENGTH_LONG).show()
-                }
-            }
-        }
-    }
-
-    private fun initiateMediaPicking() {
+    private fun pickMedia(pickType: PickType) {
         val intent = Intent(Intent.ACTION_GET_CONTENT)
         intent.addCategory(Intent.CATEGORY_OPENABLE)
         intent.type = "image/*"
-        when (currentlyPicking) {
+        when (pickType) {
             PickType.AVATAR -> {
-                startActivityForResult(intent, AVATAR_PICK_RESULT)
+                cropImage.launch(
+                    options {
+                        setRequestedSize(AVATAR_SIZE, AVATAR_SIZE)
+                        setAspectRatio(AVATAR_SIZE, AVATAR_SIZE)
+                        setImageSource(includeGallery = true, includeCamera = false)
+                        setOutputUri(viewModel.getAvatarUri(this@EditProfileActivity))
+                        setOutputCompressFormat(Bitmap.CompressFormat.PNG)
+                    }
+                )
             }
             PickType.HEADER -> {
-                startActivityForResult(intent, HEADER_PICK_RESULT)
+                cropImage.launch(
+                    options {
+                        setRequestedSize(HEADER_WIDTH, HEADER_HEIGHT)
+                        setAspectRatio(HEADER_WIDTH, HEADER_HEIGHT)
+                        setImageSource(includeGallery = true, includeCamera = false)
+                        setOutputUri(viewModel.getHeaderUri(this@EditProfileActivity))
+                        setOutputCompressFormat(Bitmap.CompressFormat.PNG)
+                    }
+                )
             }
-            PickType.NOTHING -> { /* do nothing */ }
         }
     }
 
@@ -321,10 +279,6 @@ class EditProfileActivity : BaseActivity(), Injectable {
     }
 
     private fun save() {
-        if (currentlyPicking != PickType.NOTHING) {
-            return
-        }
-
         viewModel.save(
             binding.displayNameEditText.text.toString(),
             binding.noteEditText.text.toString(),
@@ -340,90 +294,8 @@ class EditProfileActivity : BaseActivity(), Injectable {
         binding.saveProgressBar.visibility = View.GONE
     }
 
-    private fun beginMediaPicking() {
-        when (currentlyPicking) {
-            PickType.AVATAR -> {
-                binding.avatarProgressBar.visibility = View.VISIBLE
-                binding.avatarPreview.visibility = View.INVISIBLE
-                binding.avatarButton.setImageDrawable(null)
-            }
-            PickType.HEADER -> {
-                binding.headerProgressBar.visibility = View.VISIBLE
-                binding.headerPreview.visibility = View.INVISIBLE
-                binding.headerButton.setImageDrawable(null)
-            }
-            PickType.NOTHING -> { /* do nothing */ }
-        }
-    }
-
-    private fun endMediaPicking() {
-        binding.avatarProgressBar.visibility = View.GONE
-        binding.headerProgressBar.visibility = View.GONE
-
-        currentlyPicking = PickType.NOTHING
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        when (requestCode) {
-            AVATAR_PICK_RESULT -> {
-                if (resultCode == Activity.RESULT_OK && data != null) {
-                    CropImage.activity(data.data)
-                        .setInitialCropWindowPaddingRatio(0f)
-                        .setOutputCompressFormat(Bitmap.CompressFormat.PNG)
-                        .setAspectRatio(AVATAR_SIZE, AVATAR_SIZE)
-                        .start(this)
-                } else {
-                    endMediaPicking()
-                }
-            }
-            HEADER_PICK_RESULT -> {
-                if (resultCode == Activity.RESULT_OK && data != null) {
-                    CropImage.activity(data.data)
-                        .setInitialCropWindowPaddingRatio(0f)
-                        .setOutputCompressFormat(Bitmap.CompressFormat.PNG)
-                        .setAspectRatio(HEADER_WIDTH, HEADER_HEIGHT)
-                        .start(this)
-                } else {
-                    endMediaPicking()
-                }
-            }
-            CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE -> {
-                val result = CropImage.getActivityResult(data)
-                when (resultCode) {
-                    Activity.RESULT_OK -> beginResize(result?.uriContent)
-                    CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE -> onResizeFailure()
-                    else -> endMediaPicking()
-                }
-            }
-        }
-    }
-
-    private fun beginResize(uri: Uri?) {
-        if (uri == null) {
-            currentlyPicking = PickType.NOTHING
-            return
-        }
-
-        beginMediaPicking()
-
-        when (currentlyPicking) {
-            PickType.AVATAR -> {
-                viewModel.newAvatar(uri, this)
-            }
-            PickType.HEADER -> {
-                viewModel.newHeader(uri, this)
-            }
-            else -> {
-                throw AssertionError("PickType not set.")
-            }
-        }
-
-        currentlyPicking = PickType.NOTHING
-    }
-
-    private fun onResizeFailure() {
+    private fun onPickFailure(throwable: Throwable?) {
+        Log.w("EditProfileActivity", "failed to pick media", throwable)
         Snackbar.make(binding.avatarButton, R.string.error_media_upload_sending, Snackbar.LENGTH_LONG).show()
-        endMediaPicking()
     }
 }

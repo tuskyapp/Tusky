@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.keylesspalace.tusky.EditProfileActivity">
+    tools:context=".EditProfileActivity">
 
     <include
         android:id="@+id/includedToolbar"
@@ -37,17 +37,6 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/ic_add_a_photo_32dp" />
 
-            <ProgressBar
-                android:id="@+id/headerProgressBar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:indeterminate="true"
-                android:visibility="gone"
-                app:layout_constraintBottom_toBottomOf="@id/headerPreview"
-                app:layout_constraintEnd_toEndOf="@id/headerPreview"
-                app:layout_constraintStart_toStartOf="@id/headerPreview"
-                app:layout_constraintTop_toTopOf="@id/headerPreview" />
-
             <ImageView
                 android:id="@+id/avatarPreview"
                 android:layout_width="80dp"
@@ -70,18 +59,6 @@
                 app:layout_constraintStart_toStartOf="@id/contentContainer"
                 app:layout_constraintTop_toBottomOf="@id/headerPreview"
                 app:srcCompat="@drawable/ic_add_a_photo_32dp" />
-
-            <ProgressBar
-                android:id="@+id/avatarProgressBar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:indeterminate="true"
-                android:visibility="gone"
-                app:layout_constraintBottom_toBottomOf="@id/avatarPreview"
-                app:layout_constraintEnd_toEndOf="@id/avatarPreview"
-                app:layout_constraintStart_toStartOf="@id/avatarPreview"
-                app:layout_constraintTop_toTopOf="@id/avatarPreview" />
 
             <LinearLayout
                 android:id="@+id/contentContainer"
