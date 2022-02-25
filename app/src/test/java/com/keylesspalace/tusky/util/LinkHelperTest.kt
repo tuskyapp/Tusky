@@ -15,9 +15,9 @@ import org.robolectric.annotation.Config
 @RunWith(AndroidJUnit4::class)
 class LinkHelperTest {
     private val listener = object : LinkListener {
-        override fun onViewTag(tag: String?) { }
-        override fun onViewAccount(id: String?) { }
-        override fun onViewUrl(url: String?) { }
+        override fun onViewTag(tag: String) { }
+        override fun onViewAccount(id: String) { }
+        override fun onViewUrl(url: String) { }
     }
 
     private val mentions = listOf(
