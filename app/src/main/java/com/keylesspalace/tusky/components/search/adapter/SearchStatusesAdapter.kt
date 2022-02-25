@@ -21,7 +21,6 @@ import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.adapter.StatusViewHolder
-import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.interfaces.StatusActionListener
 import com.keylesspalace.tusky.util.StatusDisplayOptions
 import com.keylesspalace.tusky.viewdata.StatusViewData
@@ -29,7 +28,7 @@ import com.keylesspalace.tusky.viewdata.StatusViewData
 class SearchStatusesAdapter(
     private val statusDisplayOptions: StatusDisplayOptions,
     private val statusListener: StatusActionListener
-) : PagingDataAdapter<Pair<Status, StatusViewData.Concrete>, StatusViewHolder>(STATUS_COMPARATOR) {
+) : PagingDataAdapter<StatusViewData.Concrete, StatusViewHolder>(STATUS_COMPARATOR) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StatusViewHolder {
         val view = LayoutInflater.from(parent.context)
@@ -39,22 +38,18 @@ class SearchStatusesAdapter(
 
     override fun onBindViewHolder(holder: StatusViewHolder, position: Int) {
         getItem(position)?.let { item ->
-            holder.setupWithStatus(item.second, statusListener, statusDisplayOptions)
+            holder.setupWithStatus(item, statusListener, statusDisplayOptions)
         }
-    }
-
-    fun item(position: Int): Pair<Status, StatusViewData.Concrete>? {
-        return getItem(position)
     }
 
     companion object {
 
-        val STATUS_COMPARATOR = object : DiffUtil.ItemCallback<Pair<Status, StatusViewData.Concrete>>() {
-            override fun areContentsTheSame(oldItem: Pair<Status, StatusViewData.Concrete>, newItem: Pair<Status, StatusViewData.Concrete>): Boolean =
+        val STATUS_COMPARATOR = object : DiffUtil.ItemCallback<StatusViewData.Concrete>() {
+            override fun areContentsTheSame(oldItem: StatusViewData.Concrete, newItem: StatusViewData.Concrete): Boolean =
                 oldItem == newItem
 
-            override fun areItemsTheSame(oldItem: Pair<Status, StatusViewData.Concrete>, newItem: Pair<Status, StatusViewData.Concrete>): Boolean =
-                oldItem.second.id == newItem.second.id
+            override fun areItemsTheSame(oldItem: StatusViewData.Concrete, newItem: StatusViewData.Concrete): Boolean =
+                oldItem.id == newItem.id
         }
     }
 }

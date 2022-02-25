@@ -62,15 +62,15 @@ import com.keylesspalace.tusky.viewdata.StatusViewData
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import kotlinx.coroutines.flow.Flow
 
-class SearchStatusesFragment : SearchFragment<Pair<Status, StatusViewData.Concrete>>(), StatusActionListener {
+class SearchStatusesFragment : SearchFragment<StatusViewData.Concrete>(), StatusActionListener {
 
-    override val data: Flow<PagingData<Pair<Status, StatusViewData.Concrete>>>
+    override val data: Flow<PagingData<StatusViewData.Concrete>>
         get() = viewModel.statusesFlow
 
     private val searchAdapter
         get() = super.adapter as SearchStatusesAdapter
 
-    override fun createAdapter(): PagingDataAdapter<Pair<Status, StatusViewData.Concrete>, *> {
+    override fun createAdapter(): PagingDataAdapter<StatusViewData.Concrete, *> {
         val preferences = PreferenceManager.getDefaultSharedPreferences(binding.searchRecyclerView.context)
         val statusDisplayOptions = StatusDisplayOptions(
             animateAvatars = preferences.getBoolean("animateGifAvatars", false),
@@ -91,37 +91,37 @@ class SearchStatusesFragment : SearchFragment<Pair<Status, StatusViewData.Concre
     }
 
     override fun onContentHiddenChange(isShowing: Boolean, position: Int) {
-        searchAdapter.item(position)?.let {
+        searchAdapter.peek(position)?.let {
             viewModel.contentHiddenChange(it, isShowing)
         }
     }
 
     override fun onReply(position: Int) {
-        searchAdapter.item(position)?.first?.let { status ->
+        searchAdapter.peek(position)?.status?.let { status ->
             reply(status)
         }
     }
 
     override fun onFavourite(favourite: Boolean, position: Int) {
-        searchAdapter.item(position)?.let { status ->
+        searchAdapter.peek(position)?.let { status ->
             viewModel.favorite(status, favourite)
         }
     }
 
     override fun onBookmark(bookmark: Boolean, position: Int) {
-        searchAdapter.item(position)?.let { status ->
+        searchAdapter.peek(position)?.let { status ->
             viewModel.bookmark(status, bookmark)
         }
     }
 
     override fun onMore(view: View, position: Int) {
-        searchAdapter.item(position)?.first?.let {
+        searchAdapter.peek(position)?.status?.let {
             more(it, view, position)
         }
     }
 
     override fun onViewMedia(position: Int, attachmentIndex: Int, view: View?) {
-        searchAdapter.item(position)?.first?.actionableStatus?.let { actionable ->
+        searchAdapter.peek(position)?.status?.actionableStatus?.let { actionable ->
             when (actionable.attachments[attachmentIndex].type) {
                 Attachment.Type.GIFV, Attachment.Type.VIDEO, Attachment.Type.IMAGE, Attachment.Type.AUDIO -> {
                     val attachments = AttachmentViewData.list(actionable)
@@ -149,20 +149,20 @@ class SearchStatusesFragment : SearchFragment<Pair<Status, StatusViewData.Concre
     }
 
     override fun onViewThread(position: Int) {
-        searchAdapter.item(position)?.first?.let { status ->
+        searchAdapter.peek(position)?.status?.let { status ->
             val actionableStatus = status.actionableStatus
             bottomSheetActivity?.viewThread(actionableStatus.id, actionableStatus.url)
         }
     }
 
     override fun onOpenReblog(position: Int) {
-        searchAdapter.item(position)?.first?.let { status ->
+        searchAdapter.peek(position)?.status?.let { status ->
             bottomSheetActivity?.viewAccount(status.account.id)
         }
     }
 
     override fun onExpandedChange(expanded: Boolean, position: Int) {
-        searchAdapter.item(position)?.let {
+        searchAdapter.peek(position)?.let {
             viewModel.expandedChange(it, expanded)
         }
     }
@@ -172,25 +172,25 @@ class SearchStatusesFragment : SearchFragment<Pair<Status, StatusViewData.Concre
     }
 
     override fun onContentCollapsedChange(isCollapsed: Boolean, position: Int) {
-        searchAdapter.item(position)?.let {
+        searchAdapter.peek(position)?.let {
             viewModel.collapsedChange(it, isCollapsed)
         }
     }
 
     override fun onVoteInPoll(position: Int, choices: MutableList<Int>) {
-        searchAdapter.item(position)?.let {
+        searchAdapter.peek(position)?.let {
             viewModel.voteInPoll(it, choices)
         }
     }
 
     private fun removeItem(position: Int) {
-        searchAdapter.item(position)?.let {
+        searchAdapter.peek(position)?.let {
             viewModel.removeItem(it)
         }
     }
 
     override fun onReblog(reblog: Boolean, position: Int) {
-        searchAdapter.item(position)?.let { status ->
+        searchAdapter.peek(position)?.let { status ->
             viewModel.reblog(status, reblog)
         }
     }
@@ -316,7 +316,7 @@ class SearchStatusesFragment : SearchFragment<Pair<Status, StatusViewData.Concre
                     return@setOnMenuItemClickListener true
                 }
                 R.id.status_mute_conversation -> {
-                    searchAdapter.item(position)?.let { foundStatus ->
+                    searchAdapter.peek(position)?.let { foundStatus ->
                         viewModel.muteConversation(foundStatus, status.muted != true)
                     }
                     return@setOnMenuItemClickListener true
