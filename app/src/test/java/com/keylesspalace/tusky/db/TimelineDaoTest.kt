@@ -53,7 +53,7 @@ class TimelineDaoTest {
             timelineDao.insertStatus(status)
         }
 
-        val pagingSource = timelineDao.getStatusesForAccount(setOne.first.timelineUserId)
+        val pagingSource = timelineDao.getStatuses(setOne.first.timelineUserId)
 
         val loadResult = pagingSource.load(PagingSource.LoadParams.Refresh(null, 2, false))
 
@@ -96,7 +96,7 @@ class TimelineDaoTest {
 
         val loadParams: PagingSource.LoadParams<Int> = PagingSource.LoadParams.Refresh(null, 100, false)
 
-        val loadedStatuses = (timelineDao.getStatusesForAccount(1).load(loadParams) as PagingSource.LoadResult.Page).data
+        val loadedStatuses = (timelineDao.getStatuses(1).load(loadParams) as PagingSource.LoadResult.Page).data
 
         assertStatuses(statusesAfterCleanup, loadedStatuses)
 
@@ -156,7 +156,7 @@ class TimelineDaoTest {
 
         // make sure status 2 is no longer in db
 
-        val pagingSource = timelineDao.getStatusesForAccount(1)
+        val pagingSource = timelineDao.getStatuses(1)
 
         val loadResult = pagingSource.load(PagingSource.LoadParams.Refresh(null, 100, false))
 
@@ -187,7 +187,7 @@ class TimelineDaoTest {
 
         timelineDao.deleteRange(1, "12", "14")
 
-        val pagingSource = timelineDao.getStatusesForAccount(1)
+        val pagingSource = timelineDao.getStatuses(1)
         val loadResult = pagingSource.load(PagingSource.LoadParams.Refresh(null, 100, false))
         val loadedStatuses = (loadResult as PagingSource.LoadResult.Page).data
 
@@ -255,8 +255,8 @@ class TimelineDaoTest {
 
         val loadParams: PagingSource.LoadParams<Int> = PagingSource.LoadParams.Refresh(null, 100, false)
 
-        val statusesAccount1 = (timelineDao.getStatusesForAccount(1).load(loadParams) as PagingSource.LoadResult.Page).data
-        val statusesAccount2 = (timelineDao.getStatusesForAccount(2).load(loadParams) as PagingSource.LoadResult.Page).data
+        val statusesAccount1 = (timelineDao.getStatuses(1).load(loadParams) as PagingSource.LoadResult.Page).data
+        val statusesAccount2 = (timelineDao.getStatuses(2).load(loadParams) as PagingSource.LoadResult.Page).data
 
         assertStatuses(listOf(statusWithBlueDomain, statusWithGreenDomain), statusesAccount1)
         assertStatuses(listOf(statusWithRedDomainOtherAccount, statusWithBlueDomainOtherAccount), statusesAccount2)

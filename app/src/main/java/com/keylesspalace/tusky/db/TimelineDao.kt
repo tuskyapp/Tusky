@@ -20,6 +20,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy.REPLACE
 import androidx.room.Query
+import androidx.room.Transaction
 
 @Dao
 abstract class TimelineDao {
@@ -51,7 +52,7 @@ LEFT JOIN TimelineAccountEntity rb ON (s.timelineUserId = rb.timelineUserId AND 
 WHERE s.timelineUserId = :account
 ORDER BY LENGTH(s.serverId) DESC, s.serverId DESC"""
     )
-    abstract fun getStatusesForAccount(account: Long): PagingSource<Int, TimelineStatusWithAccount>
+    abstract fun getStatuses(account: Long): PagingSource<Int, TimelineStatusWithAccount>
 
     @Query(
         """DELETE FROM TimelineStatusEntity WHERE timelineUserId = :accountId AND
@@ -86,17 +87,38 @@ WHERE timelineUserId = :accountId AND (serverId = :statusId OR reblogServerId = 
     )
     abstract fun removeAllByUser(accountId: Long, userId: String)
 
+    /**
+     * Removes everything in the TimelineStatusEntity and TimelineAccountEntity tables for one user account
+     * @param accountId id of the account for which to clean tables
+     */
+    @Transaction
+    open suspend fun removeAll(accountId: Long) {
+        removeAllStatuses(accountId)
+        removeAllAccounts(accountId)
+    }
+
     @Query("DELETE FROM TimelineStatusEntity WHERE timelineUserId = :accountId")
-    abstract fun removeAllForAccount(accountId: Long)
+    abstract suspend fun removeAllStatuses(accountId: Long)
 
     @Query("DELETE FROM TimelineAccountEntity WHERE timelineUserId = :accountId")
-    abstract fun removeAllUsersForAccount(accountId: Long)
+    abstract suspend fun removeAllAccounts(accountId: Long)
 
     @Query(
         """DELETE FROM TimelineStatusEntity WHERE timelineUserId = :accountId
 AND serverId = :statusId"""
     )
     abstract fun delete(accountId: Long, statusId: String)
+
+    /**
+     * Cleans the TimelineStatusEntity and TimelineAccountEntity tables from old entries.
+     * @param accountId id of the account for which to clean tables
+     * @param limit how many statuses to keep
+     */
+    @Transaction
+    open suspend fun cleanup(accountId: Long, limit: Int) {
+        cleanupStatuses(accountId, limit)
+        cleanupAccounts(accountId)
+    }
 
     /**
      * Cleans the TimelineStatusEntity table from old status entries.
@@ -108,7 +130,7 @@ AND serverId = :statusId"""
         (SELECT serverId FROM TimelineStatusEntity WHERE timelineUserId = :accountId ORDER BY LENGTH(serverId) DESC, serverId DESC LIMIT :limit)
     """
     )
-    abstract suspend fun cleanup(accountId: Long, limit: Int)
+    abstract suspend fun cleanupStatuses(accountId: Long, limit: Int)
 
     /**
      * Cleans the TimelineAccountEntity table from accounts that are no longer referenced in the TimelineStatusEntity table
