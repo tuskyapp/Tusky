@@ -28,6 +28,7 @@ import com.keylesspalace.tusky.entity.IdentityProof
 import com.keylesspalace.tusky.entity.Instance
 import com.keylesspalace.tusky.entity.Marker
 import com.keylesspalace.tusky.entity.MastoList
+import com.keylesspalace.tusky.entity.MediaUploadResult
 import com.keylesspalace.tusky.entity.NewStatus
 import com.keylesspalace.tusky.entity.Notification
 import com.keylesspalace.tusky.entity.Poll
@@ -142,11 +143,11 @@ interface MastodonApi {
     fun clearNotifications(): Single<ResponseBody>
 
     @Multipart
-    @POST("api/v1/media")
+    @POST("api/v2/media")
     fun uploadMedia(
         @Part file: MultipartBody.Part,
         @Part description: MultipartBody.Part? = null
-    ): Single<Attachment>
+    ): Single<MediaUploadResult>
 
     @FormUrlEncoded
     @PUT("api/v1/media/{mediaId}")
