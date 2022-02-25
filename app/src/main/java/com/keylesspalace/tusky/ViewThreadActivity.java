@@ -111,7 +111,7 @@ public class ViewThreadActivity extends BottomSheetActivity implements HasAndroi
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_open_in_web: {
-                LinkHelper.openLink(getIntent().getStringExtra(URL_EXTRA), this);
+                openLink(getIntent().getStringExtra(URL_EXTRA));
                 return true;
             }
             case R.id.action_reveal: {

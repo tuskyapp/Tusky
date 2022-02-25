@@ -363,7 +363,7 @@ public abstract class SFragment extends Fragment implements Injectable {
             }
             default:
             case UNKNOWN: {
-                LinkHelper.openLink(active.getAttachment().getUrl(), getContext());
+                LinkHelper.openLink(requireContext(), active.getAttachment().getUrl());
                 break;
             }
         }

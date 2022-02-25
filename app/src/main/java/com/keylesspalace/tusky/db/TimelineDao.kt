@@ -35,7 +35,7 @@ abstract class TimelineDao {
 SELECT s.serverId, s.url, s.timelineUserId,
 s.authorServerId, s.inReplyToId, s.inReplyToAccountId, s.createdAt,
 s.emojis, s.reblogsCount, s.favouritesCount, s.reblogged, s.favourited, s.bookmarked, s.sensitive,
-s.spoilerText, s.visibility, s.mentions, s.application, s.reblogServerId,s.reblogAccountId,
+s.spoilerText, s.visibility, s.mentions, s.tags, s.application, s.reblogServerId,s.reblogAccountId,
 s.content, s.attachments, s.poll, s.muted, s.expanded, s.contentShowing, s.contentCollapsed, s.pinned,
 a.serverId as 'a_serverId', a.timelineUserId as 'a_timelineUserId',
 a.localUsername as 'a_localUsername', a.username as 'a_username',

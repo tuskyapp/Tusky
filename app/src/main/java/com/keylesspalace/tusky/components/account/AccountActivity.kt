@@ -71,13 +71,15 @@ import com.keylesspalace.tusky.interfaces.ReselectableFragment
 import com.keylesspalace.tusky.settings.PrefKeys
 import com.keylesspalace.tusky.util.DefaultTextWatcher
 import com.keylesspalace.tusky.util.Error
-import com.keylesspalace.tusky.util.LinkHelper
 import com.keylesspalace.tusky.util.Loading
 import com.keylesspalace.tusky.util.Success
 import com.keylesspalace.tusky.util.ThemeUtils
 import com.keylesspalace.tusky.util.emojify
+import com.keylesspalace.tusky.util.getDomain
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.loadAvatar
+import com.keylesspalace.tusky.util.openLink
+import com.keylesspalace.tusky.util.setClickableText
 import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.util.visible
@@ -409,7 +411,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
         binding.accountDisplayNameTextView.text = account.name.emojify(account.emojis, binding.accountDisplayNameTextView, animateEmojis)
 
         val emojifiedNote = account.note.emojify(account.emojis, binding.accountNoteTextView, animateEmojis)
-        LinkHelper.setClickableText(binding.accountNoteTextView, emojifiedNote, null, this)
+        setClickableText(binding.accountNoteTextView, emojifiedNote, emptyList(), null, this)
 
         // accountFieldAdapter.fields = account.fields ?: emptyList()
         accountFieldAdapter.emojis = account.emojis ?: emptyList()
@@ -517,7 +519,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
             if (account.isRemote()) {
                 binding.accountRemoveView.show()
                 binding.accountRemoveView.setOnClickListener {
-                    LinkHelper.openLink(account.url, this)
+                    openLink(account.url)
                 }
             }
         }
@@ -714,7 +716,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
 
             if (loadedAccount != null) {
                 val muteDomain = menu.findItem(R.id.action_mute_domain)
-                domain = LinkHelper.getDomain(loadedAccount?.url)
+                domain = getDomain(loadedAccount?.url)
                 if (domain.isEmpty()) {
                     // If we can't get the domain, there's no way we can mute it anyway...
                     menu.removeItem(R.id.action_mute_domain)
@@ -834,8 +836,8 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
         when (item.itemId) {
             R.id.action_open_in_web -> {
                 // If the account isn't loaded yet, eat the input.
-                if (loadedAccount != null) {
-                    LinkHelper.openLink(loadedAccount?.url, this)
+                if (loadedAccount?.url != null) {
+                    openLink(loadedAccount!!.url)
                 }
                 return true
             }

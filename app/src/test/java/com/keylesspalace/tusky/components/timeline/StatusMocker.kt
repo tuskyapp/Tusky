@@ -40,6 +40,7 @@ fun mockStatus(id: String = "100") = Status(
     visibility = Status.Visibility.PUBLIC,
     attachments = ArrayList(),
     mentions = emptyList(),
+    tags = emptyList(),
     application = Status.Application("Tusky", "https://tusky.app"),
     pinned = false,
     muted = false,

@@ -182,7 +182,7 @@ class ListStatusAccessibilityDelegate(
                         android.R.layout.simple_list_item_1,
                         textLinks
                     )
-                ) { _, which -> LinkHelper.openLink(links[which].link, host.context) }
+                ) { _, which -> host.context.openLink(links[which].link) }
                 .show()
                 .let { forceFocus(it.listView) }
         }

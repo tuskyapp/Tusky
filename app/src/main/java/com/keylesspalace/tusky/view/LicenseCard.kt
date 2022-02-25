@@ -21,9 +21,9 @@ import android.view.LayoutInflater
 import com.google.android.material.card.MaterialCardView
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.databinding.CardLicenseBinding
-import com.keylesspalace.tusky.util.LinkHelper
 import com.keylesspalace.tusky.util.ThemeUtils
 import com.keylesspalace.tusky.util.hide
+import com.keylesspalace.tusky.util.openLink
 
 class LicenseCard
 @JvmOverloads constructor(
@@ -50,7 +50,7 @@ class LicenseCard
             binding.licenseCardLink.hide()
         } else {
             binding.licenseCardLink.text = link
-            setOnClickListener { LinkHelper.openLink(link, context) }
+            setOnClickListener { context.openLink(link) }
         }
     }
 }

@@ -29,6 +29,6 @@ open class NoUnderlineURLSpan(
     }
 
     override fun onClick(view: View) {
-        LinkHelper.openLink(url, view.context)
+        view.context.openLink(url)
     }
 }

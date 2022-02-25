@@ -31,8 +31,8 @@ import com.keylesspalace.tusky.entity.Announcement
 import com.keylesspalace.tusky.interfaces.LinkListener
 import com.keylesspalace.tusky.util.BindingHolder
 import com.keylesspalace.tusky.util.EmojiSpan
-import com.keylesspalace.tusky.util.LinkHelper
 import com.keylesspalace.tusky.util.emojify
+import com.keylesspalace.tusky.util.setClickableText
 import java.lang.ref.WeakReference
 
 interface AnnouncementActionListener : LinkListener {
@@ -62,7 +62,7 @@ class AnnouncementAdapter(
 
         val emojifiedText: CharSequence = item.content.emojify(item.emojis, text, animateEmojis)
 
-        LinkHelper.setClickableText(text, emojifiedText, item.mentions, listener)
+        setClickableText(text, emojifiedText, item.mentions, item.tags, listener)
 
         // If wellbeing mode is enabled, announcement badge counts should not be shown.
         if (wellbeingEnabled) {
