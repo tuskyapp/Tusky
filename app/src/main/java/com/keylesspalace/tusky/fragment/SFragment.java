@@ -43,8 +43,8 @@ import com.keylesspalace.tusky.BaseActivity;
 import com.keylesspalace.tusky.BottomSheetActivity;
 import com.keylesspalace.tusky.PostLookupFallbackBehavior;
 import com.keylesspalace.tusky.R;
+import com.keylesspalace.tusky.StatusListActivity;
 import com.keylesspalace.tusky.ViewMediaActivity;
-import com.keylesspalace.tusky.ViewTagActivity;
 import com.keylesspalace.tusky.components.compose.ComposeActivity;
 import com.keylesspalace.tusky.components.compose.ComposeActivity.ComposeOptions;
 import com.keylesspalace.tusky.components.report.ReportActivity;
@@ -370,8 +370,7 @@ public abstract class SFragment extends Fragment implements Injectable {
     }
 
     protected void viewTag(String tag) {
-        Intent intent = new Intent(getContext(), ViewTagActivity.class);
-        intent.putExtra("hashtag", tag);
+        Intent intent = StatusListActivity.newHashtagIntent(requireContext(), tag);
         startActivity(intent);
     }
 

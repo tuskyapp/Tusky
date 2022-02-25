@@ -55,8 +55,8 @@ import com.keylesspalace.tusky.AccountListActivity
 import com.keylesspalace.tusky.BottomSheetActivity
 import com.keylesspalace.tusky.EditProfileActivity
 import com.keylesspalace.tusky.R
+import com.keylesspalace.tusky.StatusListActivity
 import com.keylesspalace.tusky.ViewMediaActivity
-import com.keylesspalace.tusky.ViewTagActivity
 import com.keylesspalace.tusky.components.compose.ComposeActivity
 import com.keylesspalace.tusky.components.report.ReportActivity
 import com.keylesspalace.tusky.databinding.ActivityAccountBinding
@@ -817,8 +817,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
     }
 
     override fun onViewTag(tag: String) {
-        val intent = Intent(this, ViewTagActivity::class.java)
-        intent.putExtra("hashtag", tag)
+        val intent = StatusListActivity.newHashtagIntent(this, tag)
         startActivityWithSlideInAnimation(intent)
     }
 
