@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 29,
-    "identityHash": "d3643e2bf6d8a2efb13254a0ea3ab2a1",
+    "identityHash": "62c289344334da2db091ad4ba0a49c6a",
     "entities": [
       {
         "tableName": "DraftEntity",
@@ -610,7 +610,7 @@
       },
       {
         "tableName": "ConversationEntity",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`accountId` INTEGER NOT NULL, `id` TEXT NOT NULL, `accounts` TEXT NOT NULL, `unread` INTEGER NOT NULL, `s_id` TEXT NOT NULL, `s_url` TEXT, `s_inReplyToId` TEXT, `s_inReplyToAccountId` TEXT, `s_account` TEXT NOT NULL, `s_content` TEXT NOT NULL, `s_createdAt` INTEGER NOT NULL, `s_emojis` TEXT NOT NULL, `s_favouritesCount` INTEGER NOT NULL, `s_favourited` INTEGER NOT NULL, `s_bookmarked` INTEGER NOT NULL, `s_sensitive` INTEGER NOT NULL, `s_spoilerText` TEXT NOT NULL, `s_attachments` TEXT NOT NULL, `s_mentions` TEXT NOT NULL, `s_tags` TEXT NOT NULL, `s_showingHiddenContent` INTEGER NOT NULL, `s_expanded` INTEGER NOT NULL, `s_collapsible` INTEGER NOT NULL, `s_collapsed` INTEGER NOT NULL, `s_muted` INTEGER NOT NULL, `s_poll` TEXT, PRIMARY KEY(`id`, `accountId`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`accountId` INTEGER NOT NULL, `id` TEXT NOT NULL, `accounts` TEXT NOT NULL, `unread` INTEGER NOT NULL, `s_id` TEXT NOT NULL, `s_url` TEXT, `s_inReplyToId` TEXT, `s_inReplyToAccountId` TEXT, `s_account` TEXT NOT NULL, `s_content` TEXT NOT NULL, `s_createdAt` INTEGER NOT NULL, `s_emojis` TEXT NOT NULL, `s_favouritesCount` INTEGER NOT NULL, `s_favourited` INTEGER NOT NULL, `s_bookmarked` INTEGER NOT NULL, `s_sensitive` INTEGER NOT NULL, `s_spoilerText` TEXT NOT NULL, `s_attachments` TEXT NOT NULL, `s_mentions` TEXT NOT NULL, `s_tags` TEXT, `s_showingHiddenContent` INTEGER NOT NULL, `s_expanded` INTEGER NOT NULL, `s_collapsible` INTEGER NOT NULL, `s_collapsed` INTEGER NOT NULL, `s_muted` INTEGER NOT NULL, `s_poll` TEXT, PRIMARY KEY(`id`, `accountId`))",
         "fields": [
           {
             "fieldPath": "accountId",
@@ -730,7 +730,7 @@
             "fieldPath": "lastStatus.tags",
             "columnName": "s_tags",
             "affinity": "TEXT",
-            "notNull": true
+            "notNull": false
           },
           {
             "fieldPath": "lastStatus.showingHiddenContent",
@@ -783,7 +783,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'd3643e2bf6d8a2efb13254a0ea3ab2a1')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '62c289344334da2db091ad4ba0a49c6a')"
     ]
   }
 }
