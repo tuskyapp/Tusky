@@ -226,7 +226,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
                 case VIEW_TYPE_FOLLOW: {
                     if (payloadForHolder == null) {
                         FollowViewHolder holder = (FollowViewHolder) viewHolder;
-                        holder.setMessage(concreteNotificaton.getAccount());
+                        holder.setMessage(concreteNotificaton.getAccount(), concreteNotificaton.getType() == Notification.Type.SIGN_UP);
                         holder.setupButtons(notificationActionListener, concreteNotificaton.getAccount().getId());
                     }
                     break;
@@ -283,7 +283,8 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
                 case REBLOG: {
                     return VIEW_TYPE_STATUS_NOTIFICATION;
                 }
-                case FOLLOW: {
+                case FOLLOW:
+                case SIGN_UP: {
                     return VIEW_TYPE_FOLLOW;
                 }
                 case FOLLOW_REQUEST: {
@@ -335,10 +336,10 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
             this.statusDisplayOptions = statusDisplayOptions;
         }
 
-        void setMessage(TimelineAccount account) {
+        void setMessage(TimelineAccount account, Boolean isSignUp) {
             Context context = message.getContext();
 
-            String format = context.getString(R.string.notification_follow_format);
+            String format = context.getString(isSignUp ? R.string.notification_sign_up_format : R.string.notification_follow_format);
             String wrappedDisplayName = StringUtils.unicodeWrap(account.getName());
             String wholeMessage = String.format(format, wrappedDisplayName);
             CharSequence emojifiedMessage = CustomEmojiHelper.emojify(

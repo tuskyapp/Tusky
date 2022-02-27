@@ -62,6 +62,7 @@
     <string name="notification_favourite_format">%s favorited your post</string>
     <string name="notification_follow_format">%s followed you</string>
     <string name="notification_follow_request_format">%s requested to follow you</string>
+    <string name="notification_sign_up_format">%s signed up</string>
     <string name="notification_subscription_format">%s just posted</string>
 
     <string name="report_username_format">Report @%s</string>
@@ -228,6 +229,7 @@
     <string name="pref_title_notification_filter_favourites">my posts are favorited</string>
     <string name="pref_title_notification_filter_poll">polls have ended</string>
     <string name="pref_title_notification_filter_subscriptions">somebody I\'m subscribed to published a new post</string>
+    <string name="pref_title_notification_filter_sign_ups">somebody signed up</string>
     <string name="pref_title_appearance_settings">Appearance</string>
     <string name="pref_title_app_theme">App Theme</string>
     <string name="pref_title_timelines">Timelines</string>
@@ -295,6 +297,8 @@
     <string name="notification_poll_description">Notifications about polls that have ended</string>
     <string name="notification_subscription_name">New posts</string>
     <string name="notification_subscription_description">Notifications when somebody you\'re subscribed to published a new post</string>
+    <string name="notification_sign_up_name">Sign ups</string>
+    <string name="notification_sign_up_description">Notifications about new users</string>
 
     <string name="notification_mention_format">%s mentioned you</string>
     <string name="notification_summary_large">%1$s, %2$s, %3$s and %4$d others</string>
