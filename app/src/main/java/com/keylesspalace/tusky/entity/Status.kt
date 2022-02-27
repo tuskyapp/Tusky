@@ -42,7 +42,7 @@ data class Status(
     val visibility: Visibility,
     @SerializedName("media_attachments") var attachments: ArrayList<Attachment>,
     val mentions: List<Mention>,
-    val tags: List<HashTag>,
+    val tags: List<HashTag>?,
     val application: Application?,
     val pinned: Boolean?,
     val muted: Boolean?,

@@ -461,7 +461,7 @@ public abstract class AppDatabase extends RoomDatabase {
     public static final Migration MIGRATION_28_29 = new Migration(28, 29) {
         @Override
         public void migrate(@NonNull SupportSQLiteDatabase database) {
-            database.execSQL("ALTER TABLE `ConversationEntity` ADD COLUMN `s_tags` TEXT NOT NULL");
+            database.execSQL("ALTER TABLE `ConversationEntity` ADD COLUMN `s_tags` TEXT");
             database.execSQL("ALTER TABLE `TimelineStatusEntity` ADD COLUMN `tags` TEXT");
         }
     };
