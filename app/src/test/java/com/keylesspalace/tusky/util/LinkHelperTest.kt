@@ -124,6 +124,24 @@ class LinkHelperTest {
     }
 
     @Test
+    fun whenSettingClickableTest_convertedLocalTagUrlsAreAccepted() {
+        SpannableStringBuilder().apply {
+            val remoteTags = mutableListOf<String>()
+            for (tag in tags) {
+                remoteTags.add(tag.url.replace("example.com", "instance.remote"))
+                append("#${tag.name}", URLSpan(remoteTags.last()), 0)
+                append(" ")
+            }
+
+            getSpans(0, length, URLSpan::class.java).forEach { span ->
+                val tagName = getTagName(subSequence(getSpanStart(span), getSpanEnd(span)), tags, span)
+                Assert.assertNotNull(tagName)
+                Assert.assertNotNull(tags.firstOrNull { tag -> tag.name == tagName })
+            }
+        }
+    }
+
+    @Test
     fun whenStringIsInvalidUri_emptyStringIsReturnedFromGetDomain() {
         listOf(
             null,

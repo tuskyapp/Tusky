@@ -47,6 +47,10 @@ fun getDomain(urlString: String?): String {
     }
 }
 
+private fun getPath(urlString: String?): String {
+    return urlString?.toUri()?.path ?: ""
+}
+
 /**
  * Finds links, mentions, and hashtags in a piece of text and makes them clickable, associating
  * them with callbacks to notify when they're clicked.
@@ -101,7 +105,7 @@ fun setClickableText(
 fun getTagName(text: CharSequence, tags: List<HashTag>?, span: URLSpan): String? {
     return when (tags) {
         null -> text.subSequence(1, text.length).toString()
-        else -> tags.firstOrNull { it.url == span.url }?.name
+        else -> tags.firstOrNull { getPath(it.url) == getPath(span.url) }?.name
     }
 }
 
