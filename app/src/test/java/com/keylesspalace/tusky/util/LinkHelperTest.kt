@@ -70,74 +70,27 @@ class LinkHelperTest {
     }
 
     @Test
-    fun whenSettingClickableTest_tagUrlsArePreserved() {
-        val builder = SpannableStringBuilder()
+    fun whenCheckingTags_tagNameIsComparedCaseInsensitively() {
         for (tag in tags) {
-            builder.append("#${tag.name}", URLSpan(tag.url), 0)
-            builder.append(" ")
-        }
-
-        var urlSpans = builder.getSpans(0, builder.length, URLSpan::class.java)
-        for (span in urlSpans) {
-            setClickableText(span, builder, emptyList(), tags, listener)
-        }
-
-        urlSpans = builder.getSpans(0, builder.length, URLSpan::class.java)
-        for (span in urlSpans) {
-            Assert.assertNotNull(tags.firstOrNull { it.url == span.url })
+            for (mutatedTagName in listOf(tag.name, tag.name.uppercase(), tag.name.lowercase())) {
+                val tagName = getTagName("#$mutatedTagName", tags)
+                Assert.assertNotNull(tagName)
+                Assert.assertNotNull(tags.firstOrNull { it.name == tagName })
+            }
         }
     }
 
     @Test
-    fun whenSettingClickableTest_nonTagUrlsAreNotConverted() {
-        val builder = SpannableStringBuilder()
-        val nonTagUrl = "http://example.com/"
+    fun hashedUrlSpans_withNoMatchingTag_areNotModified() {
         for (tag in tags) {
-            builder.append("#${tag.name}", URLSpan(nonTagUrl), 0)
-            builder.append(" ")
-            builder.append("#${tag.name} ")
-        }
-
-        var urlSpans = builder.getSpans(0, builder.length, URLSpan::class.java)
-        for (span in urlSpans) {
-            setClickableText(span, builder, emptyList(), tags, listener)
-        }
-
-        urlSpans = builder.getSpans(0, builder.length, URLSpan::class.java)
-        for (span in urlSpans) {
-            Assert.assertEquals(nonTagUrl, span.url)
+            Assert.assertNull(getTagName("#not${tag.name}", tags))
         }
     }
 
     @Test
     fun whenTagsAreNull_tagNameIsGeneratedFromText() {
-        SpannableStringBuilder().apply {
-            for (tag in tags) {
-                append("#${tag.name}", URLSpan(tag.url), 0)
-                append(" ")
-            }
-
-            getSpans(0, length, URLSpan::class.java).forEach {
-                Assert.assertNotNull(getTagName(subSequence(getSpanStart(it), getSpanEnd(it)), null, it))
-            }
-        }
-    }
-
-    @Test
-    fun whenSettingClickableTest_convertedLocalTagUrlsAreAccepted() {
-        SpannableStringBuilder().apply {
-            val remoteTags = mutableListOf<String>()
-            for (tag in tags) {
-                remoteTags.add(tag.url.replace("example.com", "instance.remote"))
-                append("#${tag.name}", URLSpan(remoteTags.last()), 0)
-                append(" ")
-            }
-
-            getSpans(0, length, URLSpan::class.java).forEach { span ->
-                val tagName = getTagName(subSequence(getSpanStart(span), getSpanEnd(span)), tags, span)
-                Assert.assertNotNull(tagName)
-                Assert.assertNotNull(tags.firstOrNull { tag -> tag.name == tagName })
-            }
+        for (tag in tags) {
+            Assert.assertEquals(tag.name, getTagName("#${tag.name}", null))
         }
     }
 

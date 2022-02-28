@@ -47,10 +47,6 @@ fun getDomain(urlString: String?): String {
     }
 }
 
-private fun getPath(urlString: String?): String {
-    return urlString?.toUri()?.path ?: ""
-}
-
 /**
  * Finds links, mentions, and hashtags in a piece of text and makes them clickable, associating
  * them with callbacks to notify when they're clicked.
@@ -102,15 +98,16 @@ fun setClickableText(
 }
 
 @VisibleForTesting
-fun getTagName(text: CharSequence, tags: List<HashTag>?, span: URLSpan): String? {
+fun getTagName(text: CharSequence, tags: List<HashTag>?): String? {
+    val scrapedName = text.subSequence(1, text.length).toString()
     return when (tags) {
-        null -> text.subSequence(1, text.length).toString()
-        else -> tags.firstOrNull { getPath(it.url) == getPath(span.url) }?.name
+        null -> scrapedName
+        else -> tags.firstOrNull { it.name.equals(scrapedName, true) }?.name
     }
 }
 
 private fun getCustomSpanForTag(text: CharSequence, tags: List<HashTag>?, span: URLSpan, listener: LinkListener): ClickableSpan? {
-    return getTagName(text, tags, span)?.let {
+    return getTagName(text, tags)?.let {
         object : NoUnderlineURLSpan(span.url) {
             override fun onClick(view: View) = listener.onViewTag(it)
         }
