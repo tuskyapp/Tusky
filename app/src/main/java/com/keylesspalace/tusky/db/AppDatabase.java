@@ -466,7 +466,7 @@ public abstract class AppDatabase extends RoomDatabase {
         }
     };
 
-    public static final Migration MIGRATION_29_30 = new Migration(28, 29) {
+    public static final Migration MIGRATION_29_30 = new Migration(29, 30) {
         @Override
         public void migrate(@NonNull SupportSQLiteDatabase database) {
             database.execSQL("ALTER TABLE `InstanceEntity` ADD COLUMN `charactersReservedPerUrl` INTEGER");
