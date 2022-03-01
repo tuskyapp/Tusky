@@ -70,7 +70,7 @@ public class StatusViewHolder extends StatusBaseViewHolder {
             if (reblogging == null) {
                 hideStatusInfo();
             } else {
-                String rebloggedByDisplayName = reblogging.getAccount().getDisplayName();
+                String rebloggedByDisplayName = reblogging.getAccount().getName();
                 setRebloggedByDisplayName(rebloggedByDisplayName,
                         reblogging.getAccount().getEmojis(), statusDisplayOptions);
                 statusInfo.setOnClickListener(v -> listener.onOpenReblog(getBindingAdapterPosition()));

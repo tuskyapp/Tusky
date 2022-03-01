@@ -742,7 +742,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
                                 @Nullable Object payloads) {
         if (payloads == null) {
             Status actionable = status.getActionable();
-            setDisplayName(actionable.getAccount().getDisplayName(), actionable.getAccount().getEmojis(), statusDisplayOptions);
+            setDisplayName(actionable.getAccount().getName(), actionable.getAccount().getEmojis(), statusDisplayOptions);
             setUsername(status.getUsername());
             setCreatedAt(actionable.getCreatedAt(), statusDisplayOptions);
             setIsReply(actionable.getInReplyToId() != null);
