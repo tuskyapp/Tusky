@@ -15,7 +15,7 @@
 
 package com.keylesspalace.tusky.viewmodel
 
-import android.content.Context
+import android.app.Application
 import android.net.Uri
 import androidx.core.net.toUri
 import androidx.lifecycle.MutableLiveData
@@ -51,7 +51,8 @@ private const val AVATAR_FILE_NAME = "avatar.png"
 
 class EditProfileViewModel @Inject constructor(
     private val mastodonApi: MastodonApi,
-    private val eventHub: EventHub
+    private val eventHub: EventHub,
+    private val application: Application
 ) : ViewModel() {
 
     val profileData = MutableLiveData<Resource<Account>>()
@@ -83,19 +84,19 @@ class EditProfileViewModel @Inject constructor(
         }
     }
 
-    fun getAvatarUri(context: Context) = getCacheFileForName(context, AVATAR_FILE_NAME).toUri()
+    fun getAvatarUri() = getCacheFileForName(AVATAR_FILE_NAME).toUri()
 
-    fun getHeaderUri(context: Context) = getCacheFileForName(context, HEADER_FILE_NAME).toUri()
+    fun getHeaderUri() = getCacheFileForName(HEADER_FILE_NAME).toUri()
 
-    fun newAvatarPicked(context: Context) {
-        avatarData.value = getAvatarUri(context)
+    fun newAvatarPicked() {
+        avatarData.value = getAvatarUri()
     }
 
-    fun newHeaderPicked(context: Context) {
-        headerData.value = getHeaderUri(context)
+    fun newHeaderPicked() {
+        headerData.value = getHeaderUri()
     }
 
-    fun save(newDisplayName: String, newNote: String, newLocked: Boolean, newFields: List<StringField>, context: Context) {
+    fun save(newDisplayName: String, newNote: String, newLocked: Boolean, newFields: List<StringField>) {
 
         if (saveData.value is Loading || profileData.value !is Success) {
             return
@@ -122,14 +123,14 @@ class EditProfileViewModel @Inject constructor(
         }
 
         val avatar = if (avatarData.value != null) {
-            val avatarBody = getCacheFileForName(context, AVATAR_FILE_NAME).asRequestBody("image/png".toMediaTypeOrNull())
+            val avatarBody = getCacheFileForName(AVATAR_FILE_NAME).asRequestBody("image/png".toMediaTypeOrNull())
             MultipartBody.Part.createFormData("avatar", randomAlphanumericString(12), avatarBody)
         } else {
             null
         }
 
         val header = if (headerData.value != null) {
-            val headerBody = getCacheFileForName(context, HEADER_FILE_NAME).asRequestBody("image/png".toMediaTypeOrNull())
+            val headerBody = getCacheFileForName(HEADER_FILE_NAME).asRequestBody("image/png".toMediaTypeOrNull())
             MultipartBody.Part.createFormData("header", randomAlphanumericString(12), headerBody)
         } else {
             null
@@ -203,8 +204,8 @@ class EditProfileViewModel @Inject constructor(
         )
     }
 
-    private fun getCacheFileForName(context: Context, filename: String): File {
-        return File(context.cacheDir, filename)
+    private fun getCacheFileForName(filename: String): File {
+        return File(application.cacheDir, filename)
     }
 
     override fun onCleared() {

@@ -78,10 +78,10 @@ class EditProfileActivity : BaseActivity(), Injectable {
 
     private val cropImage = registerForActivityResult(CropImageContract()) { result ->
         if (result.isSuccessful) {
-            if (result.uriContent == viewModel.getAvatarUri(this)) {
-                viewModel.newAvatarPicked(this)
+            if (result.uriContent == viewModel.getAvatarUri()) {
+                viewModel.newAvatarPicked()
             } else {
-                viewModel.newHeaderPicked(this)
+                viewModel.newHeaderPicked()
             }
         } else {
             onPickFailure(result.error)
@@ -246,7 +246,7 @@ class EditProfileActivity : BaseActivity(), Injectable {
                         setRequestedSize(AVATAR_SIZE, AVATAR_SIZE)
                         setAspectRatio(AVATAR_SIZE, AVATAR_SIZE)
                         setImageSource(includeGallery = true, includeCamera = false)
-                        setOutputUri(viewModel.getAvatarUri(this@EditProfileActivity))
+                        setOutputUri(viewModel.getAvatarUri())
                         setOutputCompressFormat(Bitmap.CompressFormat.PNG)
                     }
                 )
@@ -257,7 +257,7 @@ class EditProfileActivity : BaseActivity(), Injectable {
                         setRequestedSize(HEADER_WIDTH, HEADER_HEIGHT)
                         setAspectRatio(HEADER_WIDTH, HEADER_HEIGHT)
                         setImageSource(includeGallery = true, includeCamera = false)
-                        setOutputUri(viewModel.getHeaderUri(this@EditProfileActivity))
+                        setOutputUri(viewModel.getHeaderUri())
                         setOutputCompressFormat(Bitmap.CompressFormat.PNG)
                     }
                 )
@@ -285,8 +285,7 @@ class EditProfileActivity : BaseActivity(), Injectable {
             binding.displayNameEditText.text.toString(),
             binding.noteEditText.text.toString(),
             binding.lockedCheckBox.isChecked,
-            accountFieldEditAdapter.getFieldData(),
-            this
+            accountFieldEditAdapter.getFieldData()
         )
     }
 
