@@ -17,27 +17,39 @@ fun randomAlphanumericString(count: Int): String {
 }
 
 // We sort statuses by ID. Something we need to invent some ID for placeholder.
-// Not sure if inc()/dec() should be made `operator` or not
 
 /**
- * "Increment" string so that during sorting it's bigger than [this].
+ * "Increment" string so that during sorting it's bigger than [this]. Inverse operation to [dec].
  */
 fun String.inc(): String {
-    // We assume that we will stay in the safe range for now
     val builder = this.toCharArray()
-    builder[lastIndex] = builder[lastIndex].inc()
-    return String(builder)
+    var i = builder.lastIndex
+
+    while (i >= 0) {
+        if (builder[i] < 'z') {
+            builder[i] = builder[i].inc()
+            return String(builder)
+        } else {
+            builder[i] = '0'
+        }
+        i--
+    }
+    return String(
+        CharArray(builder.size + 1) { index ->
+            if (index == 0) '0' else builder[index - 1]
+        }
+    )
 }
 
 /**
- * "Decrement" string so that during sorting it's smaller than [this].
+ * "Decrement" string so that during sorting it's smaller than [this]. Inverse operation to [inc].
  */
 fun String.dec(): String {
     if (this.isEmpty()) return this
 
     val builder = this.toCharArray()
     var i = builder.lastIndex
-    while (i > 0) {
+    while (i >= 0) {
         if (builder[i] > '0') {
             builder[i] = builder[i].dec()
             return String(builder)
@@ -46,12 +58,7 @@ fun String.dec(): String {
         }
         i--
     }
-    return if (builder[0] > '1') {
-        builder[0] = builder[0].dec()
-        String(builder)
-    } else {
-        String(builder.copyOfRange(1, builder.size))
-    }
+    return String(builder.copyOfRange(1, builder.size))
 }
 
 /**
@@ -68,15 +75,6 @@ fun String.isLessThan(other: String): Boolean {
         this.length < other.length -> true
         this.length > other.length -> false
         else -> this < other
-    }
-}
-
-fun String.idCompareTo(other: String): Int {
-    return when {
-        this === other -> 0
-        this.length < other.length -> -1
-        this.length > other.length -> 1
-        else -> this.compareTo(other)
     }
 }
 

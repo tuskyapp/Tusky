@@ -144,7 +144,8 @@ class TimelineDaoTest {
             makeStatus(statusId = 1)
         )
 
-        timelineDao.deleteRange(1, newStatuses.last().first.serverId, newStatuses.first().first.serverId)
+        val deletedCount = timelineDao.deleteRange(1, newStatuses.last().first.serverId, newStatuses.first().first.serverId)
+        assertEquals(3, deletedCount)
 
         for ((status, author, reblogAuthor) in newStatuses) {
             timelineDao.insertAccount(author)
@@ -169,9 +170,11 @@ class TimelineDaoTest {
     fun deleteRange() = runBlocking {
         val statuses = listOf(
             makeStatus(statusId = 100),
+            makeStatus(statusId = 50),
             makeStatus(statusId = 15),
             makeStatus(statusId = 14),
             makeStatus(statusId = 13),
+            makeStatus(statusId = 13, accountId = 2),
             makeStatus(statusId = 12),
             makeStatus(statusId = 11),
             makeStatus(statusId = 9)
@@ -185,20 +188,31 @@ class TimelineDaoTest {
             timelineDao.insertStatus(status)
         }
 
-        timelineDao.deleteRange(1, "12", "14")
+        assertEquals(3, timelineDao.deleteRange(1, "12", "14"))
+        assertEquals(0, timelineDao.deleteRange(1, "80", "80"))
+        assertEquals(0, timelineDao.deleteRange(1, "60", "80"))
+        assertEquals(0, timelineDao.deleteRange(1, "5", "8"))
+        assertEquals(0, timelineDao.deleteRange(1, "101", "1000"))
+        assertEquals(1, timelineDao.deleteRange(1, "50", "50"))
 
-        val pagingSource = timelineDao.getStatusesForAccount(1)
-        val loadResult = pagingSource.load(PagingSource.LoadParams.Refresh(null, 100, false))
-        val loadedStatuses = (loadResult as PagingSource.LoadResult.Page).data
+        val loadParams: PagingSource.LoadParams<Int> = PagingSource.LoadParams.Refresh(null, 100, false)
 
-        val remainingStatuses = listOf(
+        val statusesAccount1 = (timelineDao.getStatusesForAccount(1).load(loadParams) as PagingSource.LoadResult.Page).data
+        val statusesAccount2 = (timelineDao.getStatusesForAccount(2).load(loadParams) as PagingSource.LoadResult.Page).data
+
+        val remainingStatusesAccount1 = listOf(
             makeStatus(statusId = 100),
             makeStatus(statusId = 15),
             makeStatus(statusId = 11),
             makeStatus(statusId = 9)
         )
 
-        assertStatuses(remainingStatuses, loadedStatuses)
+        val remainingStatusesAccount2 = listOf(
+            makeStatus(statusId = 13, accountId = 2)
+        )
+
+        assertStatuses(remainingStatusesAccount1, statusesAccount1)
+        assertStatuses(remainingStatusesAccount2, statusesAccount2)
     }
 
     @Test
@@ -325,7 +339,7 @@ class TimelineDaoTest {
         }
 
         assertEquals("99", timelineDao.getNextPlaceholderIdAfter(1, "1000"))
-        assertEquals("94", timelineDao.getNextPlaceholderIdAfter(1, "97"))
+        assertEquals("94", timelineDao.getNextPlaceholderIdAfter(1, "99"))
         assertNull(timelineDao.getNextPlaceholderIdAfter(1, "90"))
     }
 
@@ -364,28 +378,28 @@ class TimelineDaoTest {
         domain: String = "mastodon.example"
     ): Triple<TimelineStatusEntity, TimelineAccountEntity, TimelineAccountEntity?> {
         val author = TimelineAccountEntity(
-            authorServerId,
-            accountId,
-            "localUsername@$domain",
-            "username@$domain",
-            "displayName",
-            "blah",
-            "avatar",
-            "[\"tusky\": \"http://tusky.cool/emoji.jpg\"]",
-            false
+            serverId = authorServerId,
+            timelineUserId = accountId,
+            localUsername = "localUsername@$domain",
+            username = "username@$domain",
+            displayName = "displayName",
+            url = "blah",
+            avatar = "avatar",
+            emojis = "[\"tusky\": \"http://tusky.cool/emoji.jpg\"]",
+            bot = false
         )
 
         val reblogAuthor = if (reblog) {
             TimelineAccountEntity(
-                "R$authorServerId",
-                accountId,
-                "RlocalUsername",
-                "Rusername",
-                "RdisplayName",
-                "Rblah",
-                "Ravatar",
-                "[]",
-                false
+                serverId = "R$authorServerId",
+                timelineUserId = accountId,
+                localUsername = "RlocalUsername",
+                username = "Rusername",
+                displayName = "RdisplayName",
+                url = "Rblah",
+                avatar = "Ravatar",
+                emojis = "[]",
+                bot = false
             )
         } else null
 
