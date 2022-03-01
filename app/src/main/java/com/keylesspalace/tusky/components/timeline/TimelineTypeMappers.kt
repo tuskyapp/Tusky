@@ -161,7 +161,7 @@ fun TimelineStatusWithAccount.toViewData(gson: Gson): StatusViewData {
 
     val attachments: ArrayList<Attachment> = gson.fromJson(status.attachments, attachmentArrayListType) ?: arrayListOf()
     val mentions: List<Status.Mention> = gson.fromJson(status.mentions, mentionListType) ?: emptyList()
-    val tags: List<HashTag> = gson.fromJson(status.tags, tagListType) ?: emptyList()
+    val tags: List<HashTag>? = gson.fromJson(status.tags, tagListType)
     val application = gson.fromJson(status.application, Status.Application::class.java)
     val emojis: List<Emoji> = gson.fromJson(status.emojis, emojisListType) ?: emptyList()
     val poll: Poll? = gson.fromJson(status.poll, Poll::class.java)

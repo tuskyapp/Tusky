@@ -80,7 +80,7 @@ data class ConversationStatusEntity(
     val spoilerText: String,
     val attachments: ArrayList<Attachment>,
     val mentions: List<Status.Mention>,
-    val tags: List<HashTag>,
+    val tags: List<HashTag>?,
     val showingHiddenContent: Boolean,
     val expanded: Boolean,
     val collapsible: Boolean,

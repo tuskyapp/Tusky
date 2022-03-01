@@ -524,4 +524,6 @@
     <string name="follow_requests_info">即使您的账号未上锁，管理员 %1$s 认为您可能需要手动处理来自这些账号的关注请求。</string>
     <string name="dialog_delete_conversation_warning">删除此对话吗？</string>
     <string name="action_delete_conversation">删除对话</string>
+    <string name="pref_title_confirm_favourites">收藏前显示确认对话框</string>
+    <string name="action_unbookmark">删除书签</string>
 </resources>

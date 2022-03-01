@@ -30,7 +30,8 @@ data class Instance(
     @SerializedName("contact_account") val contactAccount: Account,
     @SerializedName("max_toot_chars") val maxTootChars: Int?,
     @SerializedName("max_bio_chars") val maxBioChars: Int?,
-    @SerializedName("poll_limits") val pollLimits: PollLimits?
+    @SerializedName("poll_limits") val pollConfiguration: PollConfiguration?,
+    val configuration: InstanceConfiguration?,
 ) {
     override fun hashCode(): Int {
         return uri.hashCode()
@@ -45,7 +46,31 @@ data class Instance(
     }
 }
 
-data class PollLimits(
+data class PollConfiguration(
     @SerializedName("max_options") val maxOptions: Int?,
-    @SerializedName("max_option_chars") val maxOptionChars: Int?
+    @SerializedName("max_option_chars") val maxOptionChars: Int?,
+    @SerializedName("max_characters_per_option") val maxCharactersPerOption: Int?,
+    @SerializedName("min_expiration") val minExpiration: Int?,
+    @SerializedName("max_expiration") val maxExpiration: Int?,
+)
+
+data class InstanceConfiguration(
+    val statuses: StatusConfiguration?,
+    @SerializedName("media_attachments") val mediaAttachments: MediaAttachmentConfiguration?,
+    val polls: PollConfiguration?,
+)
+
+data class StatusConfiguration(
+    @SerializedName("max_characters") val maxCharacters: Int?,
+    @SerializedName("max_media_attachments") val maxMediaAttachments: Int?,
+    @SerializedName("characters_reserved_per_url") val charactersReservedPerUrl: Int?,
+)
+
+data class MediaAttachmentConfiguration(
+    @SerializedName("supported_mime_types") val supportedMimeTypes: List<String>?,
+    @SerializedName("image_size_limit") val imageSizeLimit: Int?,
+    @SerializedName("image_matrix_limit") val imageMatrixLimit: Int?,
+    @SerializedName("video_size_limit") val videoSizeLimit: Int?,
+    @SerializedName("video_frame_rate_limit") val videoFrameRateLimit: Int?,
+    @SerializedName("video_matrix_limit") val videoMatrixLimit: Int?,
 )

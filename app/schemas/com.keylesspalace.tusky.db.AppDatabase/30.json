@@ -1,8 +1,8 @@
 {
   "formatVersion": 1,
   "database": {
-    "version": 29,
-    "identityHash": "62c289344334da2db091ad4ba0a49c6a",
+    "version": 30,
+    "identityHash": "a75615171612bdfc9e3d4201ebf6071a",
     "entities": [
       {
         "tableName": "DraftEntity",
@@ -278,7 +278,7 @@
       },
       {
         "tableName": "InstanceEntity",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`instance` TEXT NOT NULL, `emojiList` TEXT, `maximumTootCharacters` INTEGER, `maxPollOptions` INTEGER, `maxPollOptionLength` INTEGER, `version` TEXT, PRIMARY KEY(`instance`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`instance` TEXT NOT NULL, `emojiList` TEXT, `maximumTootCharacters` INTEGER, `maxPollOptions` INTEGER, `maxPollOptionLength` INTEGER, `minPollDuration` INTEGER, `maxPollDuration` INTEGER, `charactersReservedPerUrl` INTEGER, `version` TEXT, PRIMARY KEY(`instance`))",
         "fields": [
           {
             "fieldPath": "instance",
@@ -307,6 +307,24 @@
           {
             "fieldPath": "maxPollOptionLength",
             "columnName": "maxPollOptionLength",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "minPollDuration",
+            "columnName": "minPollDuration",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "maxPollDuration",
+            "columnName": "maxPollDuration",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "charactersReservedPerUrl",
+            "columnName": "charactersReservedPerUrl",
             "affinity": "INTEGER",
             "notNull": false
           },
@@ -783,7 +801,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '62c289344334da2db091ad4ba0a49c6a')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'a75615171612bdfc9e3d4201ebf6071a')"
     ]
   }
 }
