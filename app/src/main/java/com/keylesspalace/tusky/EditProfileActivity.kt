@@ -215,6 +215,8 @@ class EditProfileActivity : BaseActivity(), Injectable {
         liveData.observe(
             this
         ) { imageUri ->
+
+            // skipping all caches so we can always reuse the same uri
             val glide = Glide.with(imageView)
                 .load(imageUri)
                 .skipMemoryCache(true)
