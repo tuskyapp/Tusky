@@ -143,7 +143,7 @@ class CachedTimelineViewModel @Inject constructor(
 
                 val nextPlaceholderId = timelineDao.getNextPlaceholderIdAfter(activeAccount.id, placeholderId)
 
-                val response = api.homeTimeline(maxId = placeholderId.inc(), sinceId = nextPlaceholderId, limit = 20).await()
+                val response = api.homeTimeline(maxId = placeholderId.inc(), sinceId = nextPlaceholderId, limit = LOAD_AT_ONCE).await()
 
                 val statuses = response.body()
                 if (!response.isSuccessful || statuses == null) {
