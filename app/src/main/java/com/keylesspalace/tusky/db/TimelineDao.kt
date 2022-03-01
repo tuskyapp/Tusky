@@ -20,7 +20,6 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy.REPLACE
 import androidx.room.Query
-import androidx.room.Transaction
 
 @Dao
 abstract class TimelineDao {
@@ -91,8 +90,7 @@ WHERE timelineUserId = :accountId AND (serverId = :statusId OR reblogServerId = 
      * Removes everything in the TimelineStatusEntity and TimelineAccountEntity tables for one user account
      * @param accountId id of the account for which to clean tables
      */
-    @Transaction
-    open suspend fun removeAll(accountId: Long) {
+    suspend fun removeAll(accountId: Long) {
         removeAllStatuses(accountId)
         removeAllAccounts(accountId)
     }
@@ -114,8 +112,7 @@ AND serverId = :statusId"""
      * @param accountId id of the account for which to clean tables
      * @param limit how many statuses to keep
      */
-    @Transaction
-    open suspend fun cleanup(accountId: Long, limit: Int) {
+    suspend fun cleanup(accountId: Long, limit: Int) {
         cleanupStatuses(accountId, limit)
         cleanupAccounts(accountId)
     }
