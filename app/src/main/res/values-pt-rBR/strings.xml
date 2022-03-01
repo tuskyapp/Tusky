@@ -500,7 +500,7 @@
     <string name="action_unsubscribe_account">Cancelar</string>
     <string name="action_subscribe_account">Notificar</string>
     <string name="pref_title_animate_custom_emojis">Animar emojis personalizados</string>
-    <string name="dialog_delete_conversation_warning">Excluir esta conversa\?</string>
+    <string name="dialog_delete_conversation_warning">Excluir esta conversa?</string>
     <string name="action_delete_conversation">Excluir conversa</string>
     <string name="dialog_delete_list_warning">Deseja excluir a lista %1$s?</string>
     <string name="action_unbookmark">Remover do Salvos</string>
