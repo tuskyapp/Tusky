@@ -20,6 +20,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.keylesspalace.tusky.appstore.AnnouncementReadEvent
 import com.keylesspalace.tusky.appstore.EventHub
+import com.keylesspalace.tusky.components.compose.DEFAULT_MAXIMUM_URL_LENGTH
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.db.AppDatabase
 import com.keylesspalace.tusky.db.InstanceEntity
@@ -57,19 +58,21 @@ class AnnouncementsViewModel @Inject constructor(
                 .onErrorResumeNext {
                     mastodonApi.getInstance()
                         .map { Either.Right(it) }
-                },
-            { emojis, either ->
-                either.asLeftOrNull()?.copy(emojiList = emojis)
-                    ?: InstanceEntity(
-                        accountManager.activeAccount?.domain!!,
-                        emojis,
-                        either.asRight().maxTootChars,
-                        either.asRight().pollLimits?.maxOptions,
-                        either.asRight().pollLimits?.maxOptionChars,
-                        either.asRight().version
-                    )
-            }
-        )
+                }
+        ) { emojis, either ->
+            either.asLeftOrNull()?.copy(emojiList = emojis)
+                ?: InstanceEntity(
+                    accountManager.activeAccount?.domain!!,
+                    emojis,
+                    either.asRight().configuration?.statuses?.maxCharacters ?: either.asRight().maxTootChars,
+                    either.asRight().configuration?.polls?.maxOptions ?: either.asRight().pollConfiguration?.maxOptions,
+                    either.asRight().configuration?.polls?.maxCharactersPerOption ?: either.asRight().pollConfiguration?.maxOptionChars,
+                    either.asRight().configuration?.polls?.minExpiration ?: either.asRight().pollConfiguration?.minExpiration,
+                    either.asRight().configuration?.polls?.maxExpiration ?: either.asRight().pollConfiguration?.maxExpiration,
+                    either.asRight().configuration?.statuses?.charactersReservedPerUrl ?: DEFAULT_MAXIMUM_URL_LENGTH,
+                    either.asRight().version
+                )
+        }
             .doOnSuccess {
                 appDatabase.instanceDao().insertOrReplace(it)
             }

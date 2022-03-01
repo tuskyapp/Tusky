@@ -28,5 +28,8 @@ data class InstanceEntity(
     val maximumTootCharacters: Int?,
     val maxPollOptions: Int?,
     val maxPollOptionLength: Int?,
+    val minPollDuration: Int?,
+    val maxPollDuration: Int?,
+    val charactersReservedPerUrl: Int?,
     val version: String?
 )

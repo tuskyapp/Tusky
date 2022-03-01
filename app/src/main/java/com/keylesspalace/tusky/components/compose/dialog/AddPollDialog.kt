@@ -20,6 +20,7 @@ package com.keylesspalace.tusky.components.compose.dialog
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.WindowManager
+import android.widget.ArrayAdapter
 import androidx.appcompat.app.AlertDialog
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.databinding.DialogAddPollBinding
@@ -30,6 +31,8 @@ fun showAddPollDialog(
     poll: NewPoll?,
     maxOptionCount: Int,
     maxOptionLength: Int,
+    minDuration: Int,
+    maxDuration: Int,
     onUpdatePoll: (NewPoll) -> Unit
 ) {
 
@@ -57,6 +60,13 @@ fun showAddPollDialog(
 
     binding.pollChoices.adapter = adapter
 
+    var durations = context.resources.getIntArray(R.array.poll_duration_values).toList()
+    val durationLabels = context.resources.getStringArray(R.array.poll_duration_names).filterIndexed { index, _ -> durations[index] in minDuration..maxDuration }
+    binding.pollDurationSpinner.adapter = ArrayAdapter(context, android.R.layout.simple_spinner_item, durationLabels).apply {
+        setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item)
+    }
+    durations = durations.filter { it in minDuration..maxDuration }
+
     binding.addChoiceButton.setOnClickListener {
         if (adapter.itemCount < maxOptionCount) {
             adapter.addChoice()
@@ -66,7 +76,7 @@ fun showAddPollDialog(
         }
     }
 
-    val pollDurationId = context.resources.getIntArray(R.array.poll_duration_values).indexOfLast {
+    val pollDurationId = durations.indexOfLast {
         it <= poll?.expiresIn ?: 0
     }
 
@@ -79,13 +89,10 @@ fun showAddPollDialog(
         button.setOnClickListener {
             val selectedPollDurationId = binding.pollDurationSpinner.selectedItemPosition
 
-            val pollDuration = context.resources
-                .getIntArray(R.array.poll_duration_values)[selectedPollDurationId]
-
             onUpdatePoll(
                 NewPoll(
                     options = adapter.pollOptions,
-                    expiresIn = pollDuration,
+                    expiresIn = durations[selectedPollDurationId],
                     multiple = binding.multipleChoicesCheckBox.isChecked
                 )
             )
