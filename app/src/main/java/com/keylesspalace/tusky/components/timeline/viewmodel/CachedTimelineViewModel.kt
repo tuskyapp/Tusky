@@ -70,7 +70,7 @@ class CachedTimelineViewModel @Inject constructor(
     override val statuses = Pager(
         config = PagingConfig(pageSize = LOAD_AT_ONCE),
         remoteMediator = CachedTimelineRemoteMediator(accountManager, api, db, gson),
-        pagingSourceFactory = { db.timelineDao().getStatusesForAccount(accountManager.activeAccount!!.id) }
+        pagingSourceFactory = { db.timelineDao().getStatuses(accountManager.activeAccount!!.id) }
     ).flow
         .map { pagingData ->
             pagingData.map { timelineStatus ->
@@ -214,10 +214,7 @@ class CachedTimelineViewModel @Inject constructor(
     override fun fullReload() {
         viewModelScope.launch {
             val activeAccount = accountManager.activeAccount!!
-            db.runInTransaction {
-                db.timelineDao().removeAllForAccount(activeAccount.id)
-                db.timelineDao().removeAllUsersForAccount(activeAccount.id)
-            }
+            db.timelineDao().removeAll(activeAccount.id)
         }
     }
 

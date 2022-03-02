@@ -3,9 +3,7 @@ package com.keylesspalace.tusky.appstore
 import com.google.gson.Gson
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.db.AppDatabase
-import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.disposables.Disposable
-import io.reactivex.rxjava3.schedulers.Schedulers
 import javax.inject.Inject
 
 class CacheUpdater @Inject constructor(
@@ -47,12 +45,7 @@ class CacheUpdater @Inject constructor(
         this.disposable.dispose()
     }
 
-    fun clearForUser(accountId: Long) {
-        Single.fromCallable {
-            appDatabase.timelineDao().removeAllForAccount(accountId)
-            appDatabase.timelineDao().removeAllUsersForAccount(accountId)
-        }
-            .subscribeOn(Schedulers.io())
-            .subscribe()
+    suspend fun clearForUser(accountId: Long) {
+        appDatabase.timelineDao().removeAll(accountId)
     }
 }
