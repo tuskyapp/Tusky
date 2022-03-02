@@ -15,15 +15,11 @@
 
 package com.keylesspalace.tusky.viewmodel
 
-import android.content.Context
-import android.graphics.Bitmap
+import android.app.Application
 import android.net.Uri
-import android.util.Log
+import androidx.core.net.toUri
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.keylesspalace.tusky.EditProfileActivity.Companion.AVATAR_SIZE
-import com.keylesspalace.tusky.EditProfileActivity.Companion.HEADER_HEIGHT
-import com.keylesspalace.tusky.EditProfileActivity.Companion.HEADER_WIDTH
 import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.appstore.ProfileEditedEvent
 import com.keylesspalace.tusky.entity.Account
@@ -31,16 +27,12 @@ import com.keylesspalace.tusky.entity.Instance
 import com.keylesspalace.tusky.entity.StringField
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.Error
-import com.keylesspalace.tusky.util.IOUtils
 import com.keylesspalace.tusky.util.Loading
 import com.keylesspalace.tusky.util.Resource
 import com.keylesspalace.tusky.util.Success
-import com.keylesspalace.tusky.util.getSampledBitmap
 import com.keylesspalace.tusky.util.randomAlphanumericString
-import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.kotlin.addTo
-import io.reactivex.rxjava3.schedulers.Schedulers
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -52,30 +44,26 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.io.File
-import java.io.FileNotFoundException
-import java.io.FileOutputStream
-import java.io.OutputStream
 import javax.inject.Inject
 
 private const val HEADER_FILE_NAME = "header.png"
 private const val AVATAR_FILE_NAME = "avatar.png"
 
-private const val TAG = "EditProfileViewModel"
-
 class EditProfileViewModel @Inject constructor(
     private val mastodonApi: MastodonApi,
-    private val eventHub: EventHub
+    private val eventHub: EventHub,
+    private val application: Application
 ) : ViewModel() {
 
     val profileData = MutableLiveData<Resource<Account>>()
-    val avatarData = MutableLiveData<Resource<Bitmap>>()
-    val headerData = MutableLiveData<Resource<Bitmap>>()
+    val avatarData = MutableLiveData<Uri>()
+    val headerData = MutableLiveData<Uri>()
     val saveData = MutableLiveData<Resource<Nothing>>()
     val instanceData = MutableLiveData<Resource<Instance>>()
 
     private var oldProfileData: Account? = null
 
-    private val disposeables = CompositeDisposable()
+    private val disposables = CompositeDisposable()
 
     fun obtainProfile() {
         if (profileData.value == null || profileData.value is Error) {
@@ -92,69 +80,29 @@ class EditProfileViewModel @Inject constructor(
                         profileData.postValue(Error())
                     }
                 )
-                .addTo(disposeables)
+                .addTo(disposables)
         }
     }
 
-    fun newAvatar(uri: Uri, context: Context) {
-        val cacheFile = getCacheFileForName(context, AVATAR_FILE_NAME)
+    fun getAvatarUri() = getCacheFileForName(AVATAR_FILE_NAME).toUri()
 
-        resizeImage(uri, context, AVATAR_SIZE, AVATAR_SIZE, cacheFile, avatarData)
+    fun getHeaderUri() = getCacheFileForName(HEADER_FILE_NAME).toUri()
+
+    fun newAvatarPicked() {
+        avatarData.value = getAvatarUri()
     }
 
-    fun newHeader(uri: Uri, context: Context) {
-        val cacheFile = getCacheFileForName(context, HEADER_FILE_NAME)
-
-        resizeImage(uri, context, HEADER_WIDTH, HEADER_HEIGHT, cacheFile, headerData)
+    fun newHeaderPicked() {
+        headerData.value = getHeaderUri()
     }
 
-    private fun resizeImage(
-        uri: Uri,
-        context: Context,
-        resizeWidth: Int,
-        resizeHeight: Int,
-        cacheFile: File,
-        imageLiveData: MutableLiveData<Resource<Bitmap>>
-    ) {
-
-        Single.fromCallable {
-            val contentResolver = context.contentResolver
-            val sourceBitmap = getSampledBitmap(contentResolver, uri, resizeWidth, resizeHeight)
-
-            if (sourceBitmap == null) {
-                throw Exception()
-            }
-
-            // dont upscale image if its smaller than the desired size
-            val bitmap =
-                if (sourceBitmap.width <= resizeWidth && sourceBitmap.height <= resizeHeight) {
-                    sourceBitmap
-                } else {
-                    Bitmap.createScaledBitmap(sourceBitmap, resizeWidth, resizeHeight, true)
-                }
-
-            if (!saveBitmapToFile(bitmap, cacheFile)) {
-                throw Exception()
-            }
-
-            bitmap
-        }.subscribeOn(Schedulers.io())
-            .subscribe(
-                {
-                    imageLiveData.postValue(Success(it))
-                },
-                {
-                    imageLiveData.postValue(Error())
-                }
-            )
-            .addTo(disposeables)
-    }
-
-    fun save(newDisplayName: String, newNote: String, newLocked: Boolean, newFields: List<StringField>, context: Context) {
+    fun save(newDisplayName: String, newNote: String, newLocked: Boolean, newFields: List<StringField>) {
 
         if (saveData.value is Loading || profileData.value !is Success) {
             return
         }
+
+        saveData.value = Loading()
 
         val displayName = if (oldProfileData?.displayName == newDisplayName) {
             null
@@ -174,15 +122,15 @@ class EditProfileViewModel @Inject constructor(
             newLocked.toString().toRequestBody(MultipartBody.FORM)
         }
 
-        val avatar = if (avatarData.value is Success && avatarData.value?.data != null) {
-            val avatarBody = getCacheFileForName(context, AVATAR_FILE_NAME).asRequestBody("image/png".toMediaTypeOrNull())
+        val avatar = if (avatarData.value != null) {
+            val avatarBody = getCacheFileForName(AVATAR_FILE_NAME).asRequestBody("image/png".toMediaTypeOrNull())
             MultipartBody.Part.createFormData("avatar", randomAlphanumericString(12), avatarBody)
         } else {
             null
         }
 
-        val header = if (headerData.value is Success && headerData.value?.data != null) {
-            val headerBody = getCacheFileForName(context, HEADER_FILE_NAME).asRequestBody("image/png".toMediaTypeOrNull())
+        val header = if (headerData.value != null) {
+            val headerBody = getCacheFileForName(HEADER_FILE_NAME).asRequestBody("image/png".toMediaTypeOrNull())
             MultipartBody.Part.createFormData("header", randomAlphanumericString(12), headerBody)
         } else {
             null
@@ -256,29 +204,12 @@ class EditProfileViewModel @Inject constructor(
         )
     }
 
-    private fun getCacheFileForName(context: Context, filename: String): File {
-        return File(context.cacheDir, filename)
-    }
-
-    private fun saveBitmapToFile(bitmap: Bitmap, file: File): Boolean {
-
-        val outputStream: OutputStream
-
-        try {
-            outputStream = FileOutputStream(file)
-        } catch (e: FileNotFoundException) {
-            Log.w(TAG, Log.getStackTraceString(e))
-            return false
-        }
-
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream)
-        IOUtils.closeQuietly(outputStream)
-
-        return true
+    private fun getCacheFileForName(filename: String): File {
+        return File(application.cacheDir, filename)
     }
 
     override fun onCleared() {
-        disposeables.dispose()
+        disposables.dispose()
     }
 
     fun obtainInstance() {
@@ -293,7 +224,7 @@ class EditProfileViewModel @Inject constructor(
                     instanceData.postValue(Error())
                 }
             )
-                .addTo(disposeables)
+                .addTo(disposables)
         }
     }
 }
