@@ -1,12 +1,12 @@
 Tusky v6.0
 
-- Filtros de timeline movidos para "Preferências da conta" e vai sincronizar com servidor
+- Filtros de timeline movidos para "Preferências da conta" sincronizando com servidor
 - Agora você pode ter uma hashtag personalizada como aba
 - Suporte a edição de listas
 - O compositor vai sugerir emojis personalizados ao digitar
 - Nova configuração de tema "seguir tema do sistema"
 - Acessibilidade da timeline melhorada
-- Tusky agora vai ignorar notificações desconhecidas
-- Nova opção: Idioma pessoal do Tusky
+- Notificações desconhecidas serão ignoradas
+- Nova opção: substituir o idioma do sistema por outro
 - Novas traduções: Tcheco e Esperanto
 - Muitas outras melhorias
