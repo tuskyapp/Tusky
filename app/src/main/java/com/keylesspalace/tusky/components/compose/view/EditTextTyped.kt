@@ -57,10 +57,10 @@ class EditTextTyped @JvmOverloads constructor(
 
     override fun onCreateInputConnection(editorInfo: EditorInfo): InputConnection {
         val connection = super.onCreateInputConnection(editorInfo)
-            EditorInfoCompat.setContentMimeTypes(editorInfo, arrayOf("image/*"))
-            return emojiEditTextHelper.onCreateInputConnection(
-                InputConnectionCompat.createWrapper(this, connection, editorInfo),
-                editorInfo
-            )!!
+        EditorInfoCompat.setContentMimeTypes(editorInfo, arrayOf("image/*"))
+        return emojiEditTextHelper.onCreateInputConnection(
+            InputConnectionCompat.createWrapper(this, connection, editorInfo),
+            editorInfo
+        )!!
     }
 }
