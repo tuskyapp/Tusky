@@ -70,7 +70,14 @@ class CachedTimelineViewModel @Inject constructor(
     override val statuses = Pager(
         config = PagingConfig(pageSize = LOAD_AT_ONCE),
         remoteMediator = CachedTimelineRemoteMediator(accountManager, api, db, gson),
-        pagingSourceFactory = { db.timelineDao().getStatuses(accountManager.activeAccount!!.id) }
+        pagingSourceFactory = {
+            val activeAccount = accountManager.activeAccount
+            if (activeAccount == null) {
+                EmptyTimelinePagingSource()
+            } else {
+                db.timelineDao().getStatuses(activeAccount.id)
+            }
+        }
     ).flow
         .map { pagingData ->
             pagingData.map { timelineStatus ->
