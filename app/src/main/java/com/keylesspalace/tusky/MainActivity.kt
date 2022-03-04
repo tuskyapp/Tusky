@@ -162,11 +162,8 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
         installSplashScreen()
         super.onCreate(savedInstanceState)
 
-        /** delete old notification channels */
+        // delete old notification channels
         NotificationHelper.deleteLegacyNotificationChannels(this, accountManager)
-
-        /** Determine whether the user is currently logged in, and if so go ahead and load the
-         *  timeline. Otherwise, start the activity_login screen. */
 
         val activeAccount = accountManager.activeAccount
             ?: return // will be redirected to LoginActivity by BaseActivity
