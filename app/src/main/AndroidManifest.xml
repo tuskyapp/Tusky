@@ -22,7 +22,8 @@
         android:usesCleartextTraffic="false">
         <activity
             android:name=".SplashActivity"
-            android:theme="@style/SplashTheme">
+            android:theme="@style/SplashTheme"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -36,7 +37,8 @@
         </activity>
         <activity
             android:name=".LoginActivity"
-            android:windowSoftInputMode="adjustResize">
+            android:windowSoftInputMode="adjustResize"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -50,7 +52,8 @@
         </activity>
         <activity
             android:name=".MainActivity"
-            android:configChanges="orientation|screenSize|keyboardHidden|screenLayout|smallestScreenSize">
+            android:configChanges="orientation|screenSize|keyboardHidden|screenLayout|smallestScreenSize"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />
 
@@ -106,7 +109,6 @@
         <activity
             android:name=".ViewThreadActivity"
             android:configChanges="orientation|screenSize" />
-        <activity android:name=".ViewTagActivity" />
         <activity
             android:name=".ViewMediaActivity"
             android:theme="@style/TuskyBaseTheme" />
@@ -124,7 +126,8 @@
             android:theme="@style/Base.Theme.AppCompat" />
         <activity
             android:name=".components.search.SearchActivity"
-            android:launchMode="singleTop">
+            android:launchMode="singleTop"
+            android:exported="false">
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
@@ -134,7 +137,6 @@
                 android:resource="@xml/searchable" />
         </activity>
         <activity android:name=".ListsActivity" />
-        <activity android:name=".ModalTimelineActivity" />
         <activity android:name=".LicenseActivity" />
         <activity android:name=".FiltersActivity" />
         <activity
@@ -145,7 +147,8 @@
         <activity android:name=".components.announcements.AnnouncementsActivity" />
         <activity android:name=".components.drafts.DraftsActivity" />
 
-        <receiver android:name=".receiver.NotificationClearBroadcastReceiver" />
+        <receiver android:name=".receiver.NotificationClearBroadcastReceiver"
+            android:exported="false" />
         <receiver
             android:name=".receiver.SendStatusBroadcastReceiver"
             android:enabled="true"
@@ -156,13 +159,15 @@
             android:icon="@drawable/ic_tusky"
             android:label="Compose Toot"
             android:permission="android.permission.BIND_QUICK_SETTINGS_TILE"
+            android:exported="true"
             tools:targetApi="24">
             <intent-filter>
                 <action android:name="android.service.quicksettings.action.QS_TILE" />
             </intent-filter>
         </service>
 
-        <service android:name=".service.SendTootService" />
+        <service android:name=".service.SendTootService"
+            android:exported="false" />
 
         <provider
             android:name="androidx.core.content.FileProvider"
@@ -176,10 +181,16 @@
 
         <!-- disable automatic WorkManager initialization -->
         <provider
-            android:name="androidx.work.impl.WorkManagerInitializer"
-            android:authorities="${applicationId}.workmanager-init"
+            android:name="androidx.startup.InitializationProvider"
+            android:authorities="${applicationId}.androidx-startup"
             android:exported="false"
-            tools:node="remove" />
+            tools:node="merge">
+            <meta-data
+                android:name="androidx.work.WorkManagerInitializer"
+                android:value="androidx.startup"
+                tools:node="remove" />
+        </provider>
+
     </application>
 
 </manifest>

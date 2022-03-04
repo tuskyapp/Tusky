@@ -90,9 +90,9 @@ class TimelineFragment :
 
     private val viewModel: TimelineViewModel by lazy {
         if (kind == TimelineViewModel.Kind.HOME) {
-            ViewModelProvider(this, viewModelFactory).get(CachedTimelineViewModel::class.java)
+            ViewModelProvider(this, viewModelFactory)[CachedTimelineViewModel::class.java]
         } else {
-            ViewModelProvider(this, viewModelFactory).get(NetworkTimelineViewModel::class.java)
+            ViewModelProvider(this, viewModelFactory)[NetworkTimelineViewModel::class.java]
         }
     }
 
@@ -136,7 +136,7 @@ class TimelineFragment :
 
         isSwipeToRefreshEnabled = arguments.getBoolean(ARG_ENABLE_SWIPE_TO_REFRESH, true)
 
-        val preferences = PreferenceManager.getDefaultSharedPreferences(activity)
+        val preferences = PreferenceManager.getDefaultSharedPreferences(requireContext())
         val statusDisplayOptions = StatusDisplayOptions(
             animateAvatars = preferences.getBoolean(PrefKeys.ANIMATE_GIF_AVATARS, false),
             mediaPreviewEnabled = accountManager.activeAccount!!.mediaPreviewEnabled,
@@ -224,7 +224,7 @@ class TimelineFragment :
         }
 
         if (actionButtonPresent()) {
-            val preferences = PreferenceManager.getDefaultSharedPreferences(context)
+            val preferences = PreferenceManager.getDefaultSharedPreferences(requireContext())
             hideFab = preferences.getBoolean("fabHide", false)
             scrollListener = object : RecyclerView.OnScrollListener() {
                 override fun onScrolled(view: RecyclerView, dx: Int, dy: Int) {
@@ -397,7 +397,7 @@ class TimelineFragment :
     }
 
     private fun onPreferenceChanged(key: String) {
-        val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
+        val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(requireContext())
         when (key) {
             PrefKeys.FAB_HIDE -> {
                 hideFab = sharedPreferences.getBoolean(PrefKeys.FAB_HIDE, false)
@@ -464,7 +464,7 @@ class TimelineFragment :
      * Auto dispose observable on pause
      */
     private fun startUpdateTimestamp() {
-        val preferences = PreferenceManager.getDefaultSharedPreferences(activity)
+        val preferences = PreferenceManager.getDefaultSharedPreferences(requireContext())
         val useAbsoluteTime = preferences.getBoolean(PrefKeys.ABSOLUTE_TIME_VIEW, false)
         if (!useAbsoluteTime) {
             Observable.interval(1, TimeUnit.MINUTES)
