@@ -127,8 +127,6 @@ class SendStatusBroadcastReceiver : BroadcastReceiver() {
             }
         } else if (intent.action == NotificationHelper.COMPOSE_ACTION) {
 
-            context.sendBroadcast(Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS))
-
             notificationManager.cancel(notificationId)
 
             accountManager.setActiveAccount(senderId)
