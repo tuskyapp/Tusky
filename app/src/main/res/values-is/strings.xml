@@ -512,4 +512,10 @@
     <string name="pref_title_confirm_favourites">Birta staðfestingarglugga áður en sett er í eftirlæti</string>
     <string name="dialog_delete_conversation_warning">Eyða þessu samtali\?</string>
     <string name="action_delete_conversation">Eyða samtali</string>
+    <string name="duration_30_days">30 dagar</string>
+    <string name="duration_60_days">60 dagar</string>
+    <string name="duration_90_days">90 dagar</string>
+    <string name="duration_180_days">180 dagar</string>
+    <string name="duration_365_days">365 dagar</string>
+    <string name="duration_14_days">14 dagar</string>
 </resources>
