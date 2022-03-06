@@ -28,21 +28,15 @@ import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.browser.customtabs.CustomTabColorSchemeParams
 import androidx.browser.customtabs.CustomTabsIntent
+import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.keylesspalace.tusky.databinding.ActivityLoginBinding
 import com.keylesspalace.tusky.di.Injectable
-import com.keylesspalace.tusky.entity.AccessToken
 import com.keylesspalace.tusky.entity.AppCredentials
 import com.keylesspalace.tusky.network.MastodonApi
-import com.keylesspalace.tusky.util.ThemeUtils
-import com.keylesspalace.tusky.util.getNonNullString
-import com.keylesspalace.tusky.util.rickRoll
-import com.keylesspalace.tusky.util.shouldRickRoll
-import com.keylesspalace.tusky.util.viewBinding
+import com.keylesspalace.tusky.util.*
+import kotlinx.coroutines.launch
 import okhttp3.HttpUrl
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 import javax.inject.Inject
 
 class LoginActivity : BaseActivity(), Injectable {
@@ -119,7 +113,6 @@ class LoginActivity : BaseActivity(), Injectable {
      * saved in SharedPreferences and every subsequent run they are simply fetched from there.
      */
     private fun onButtonClick() {
-
         binding.loginButton.isEnabled = false
 
         val domain = canonicalizeDomain(binding.domainEditText.text.toString())
@@ -137,60 +130,47 @@ class LoginActivity : BaseActivity(), Injectable {
             return
         }
 
-        val callback = object : Callback<AppCredentials> {
-            override fun onResponse(
-                call: Call<AppCredentials>,
-                response: Response<AppCredentials>
-            ) {
-                if (!response.isSuccessful) {
-                    binding.loginButton.isEnabled = true
-                    binding.domainTextInputLayout.error = getString(R.string.error_failed_app_registration)
-                    setLoading(false)
-                    Log.e(TAG, "App authentication failed. " + response.message())
-                    return
-                }
-                val credentials = response.body()
-                val clientId = credentials!!.clientId
-                val clientSecret = credentials.clientSecret
-
-                preferences.edit()
-                    .putString("domain", domain)
-                    .putString("clientId", clientId)
-                    .putString("clientSecret", clientSecret)
-                    .apply()
-
-                redirectUserToAuthorizeAndLogin(domain, clientId)
-            }
-
-            override fun onFailure(call: Call<AppCredentials>, t: Throwable) {
-                binding.loginButton.isEnabled = true
-                binding.domainTextInputLayout.error = getString(R.string.error_failed_app_registration)
-                setLoading(false)
-                Log.e(TAG, Log.getStackTraceString(t))
-            }
-        }
-
-        mastodonApi
-            .authenticateApp(
-                domain, getString(R.string.app_name), oauthRedirectUri,
-                OAUTH_SCOPES, getString(R.string.tusky_website)
-            )
-            .enqueue(callback)
         setLoading(true)
+
+        lifecycleScope.launch {
+            val credentials: AppCredentials = try {
+                mastodonApi.authenticateApp(
+                    domain, getString(R.string.app_name), oauthRedirectUri,
+                    OAUTH_SCOPES, getString(R.string.tusky_website)
+                )
+            } catch (e: Exception) {
+                binding.loginButton.isEnabled = true
+                binding.domainTextInputLayout.error =
+                    getString(R.string.error_failed_app_registration)
+                setLoading(false)
+                Log.e(TAG, Log.getStackTraceString(e))
+                return@launch
+            }
+
+
+            preferences.edit()
+                .putString(DOMAIN, domain)
+                .putString(CLIENT_ID, credentials.clientId)
+                .putString(CLIENT_SECRET, credentials.clientSecret)
+                .apply()
+
+            redirectUserToAuthorizeAndLogin(domain, credentials.clientId)
+        }
     }
 
     private fun redirectUserToAuthorizeAndLogin(domain: String, clientId: String) {
         /* To authorize this app and log in it's necessary to redirect to the domain given,
          * login there, and the server will redirect back to the app with its response. */
-        val endpoint = MastodonApi.ENDPOINT_AUTHORIZE
-        val parameters = mapOf(
-            "client_id" to clientId,
-            "redirect_uri" to oauthRedirectUri,
-            "response_type" to "code",
-            "scope" to OAUTH_SCOPES
-        )
-        val url = "https://" + domain + endpoint + "?" + toQueryString(parameters)
-        val uri = Uri.parse(url)
+        val url = HttpUrl.Builder()
+            .scheme("https")
+            .host(domain)
+            .addPathSegments(MastodonApi.ENDPOINT_AUTHORIZE)
+            .addQueryParameter("client_id", clientId)
+            .addQueryParameter("redirect_uri", oauthRedirectUri)
+            .addQueryParameter("response_type", "code")
+            .addQueryParameter("scope", OAUTH_SCOPES)
+            .build()
+        val uri = Uri.parse(url.toString())
         if (!openInCustomTab(uri, this)) {
             val viewIntent = Intent(Intent.ACTION_VIEW, uri)
             if (viewIntent.resolveActivity(packageManager) != null) {
@@ -219,33 +199,17 @@ class LoginActivity : BaseActivity(), Injectable {
             val clientId = preferences.getNonNullString(CLIENT_ID, "")
             val clientSecret = preferences.getNonNullString(CLIENT_SECRET, "")
 
-            if (code != null && domain.isNotEmpty() && clientId.isNotEmpty() && clientSecret.isNotEmpty()) {
-
+            if (code != null &&
+                domain.isNotEmpty() &&
+                clientId.isNotEmpty() &&
+                clientSecret.isNotEmpty()
+            ) {
                 setLoading(true)
                 /* Since authorization has succeeded, the final step to log in is to exchange
                  * the authorization code for an access token. */
-                val callback = object : Callback<AccessToken> {
-                    override fun onResponse(call: Call<AccessToken>, response: Response<AccessToken>) {
-                        if (response.isSuccessful) {
-                            onLoginSuccess(response.body()!!.accessToken, domain)
-                        } else {
-                            setLoading(false)
-                            binding.domainTextInputLayout.error = getString(R.string.error_retrieving_oauth_token)
-                            Log.e(TAG, "%s %s".format(getString(R.string.error_retrieving_oauth_token), response.message()))
-                        }
-                    }
-
-                    override fun onFailure(call: Call<AccessToken>, t: Throwable) {
-                        setLoading(false)
-                        binding.domainTextInputLayout.error = getString(R.string.error_retrieving_oauth_token)
-                        Log.e(TAG, "%s %s".format(getString(R.string.error_retrieving_oauth_token), t.message))
-                    }
+                lifecycleScope.launch {
+                    fetchOauthToken(redirectUri, code)
                 }
-
-                mastodonApi.fetchOAuthToken(
-                    domain, clientId, clientSecret, redirectUri, code,
-                    "authorization_code"
-                ).enqueue(callback)
             } else if (error != null) {
                 /* Authorization failed. Put the error response where the user can read it and they
                  * can try again. */
@@ -255,12 +219,46 @@ class LoginActivity : BaseActivity(), Injectable {
             } else {
                 // This case means a junk response was received somehow.
                 setLoading(false)
-                binding.domainTextInputLayout.error = getString(R.string.error_authorization_unknown)
+                binding.domainTextInputLayout.error =
+                    getString(R.string.error_authorization_unknown)
             }
         } else {
             // first show or user cancelled login
             setLoading(false)
         }
+    }
+
+    private suspend fun fetchOauthToken(redirectUri: String, code: String) {
+        /* restore variables from SharedPreferences */
+        val domain = preferences.getNonNullString(DOMAIN, "")
+        val clientId = preferences.getNonNullString(CLIENT_ID, "")
+        val clientSecret = preferences.getNonNullString(CLIENT_SECRET, "")
+
+        setLoading(true)
+
+        val accessToken = try {
+            mastodonApi.fetchOAuthToken(
+                domain, clientId, clientSecret, redirectUri, code,
+                "authorization_code"
+            )
+        } catch (e: Exception) {
+            setLoading(false)
+            binding.domainTextInputLayout.error =
+                getString(R.string.error_retrieving_oauth_token)
+            Log.e(
+                TAG,
+                "%s %s".format(getString(R.string.error_retrieving_oauth_token), e.message),
+            )
+            return
+        }
+
+        accountManager.addAccount(accessToken.accessToken, domain)
+
+        val intent = Intent(this, MainActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        startActivity(intent)
+        finish()
+        overridePendingTransition(R.anim.explode, R.anim.explode)
     }
 
     private fun setLoading(loadingState: Boolean) {
@@ -276,19 +274,6 @@ class LoginActivity : BaseActivity(), Injectable {
 
     private fun isAdditionalLogin(): Boolean {
         return intent.getBooleanExtra(LOGIN_MODE, false)
-    }
-
-    private fun onLoginSuccess(accessToken: String, domain: String) {
-
-        setLoading(true)
-
-        accountManager.addAccount(accessToken, domain)
-
-        val intent = Intent(this, MainActivity::class.java)
-        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-        startActivity(intent)
-        finish()
-        overridePendingTransition(R.anim.explode, R.anim.explode)
     }
 
     companion object {
@@ -319,25 +304,7 @@ class LoginActivity : BaseActivity(), Injectable {
             return s.trim { it <= ' ' }
         }
 
-        /**
-         * Chain together the key-value pairs into a query string, for either appending to a URL or
-         * as the content of an HTTP request.
-         */
-        private fun toQueryString(parameters: Map<String, String>): String {
-            val s = StringBuilder()
-            var between = ""
-            for ((key, value) in parameters) {
-                s.append(between)
-                s.append(Uri.encode(key))
-                s.append("=")
-                s.append(Uri.encode(value))
-                between = "&"
-            }
-            return s.toString()
-        }
-
         private fun openInCustomTab(uri: Uri, context: Context): Boolean {
-
             val toolbarColor = ThemeUtils.getColor(context, R.attr.colorSurface)
             val navigationbarColor = ThemeUtils.getColor(context, android.R.attr.navigationBarColor)
             val navigationbarDividerColor = ThemeUtils.getColor(context, R.attr.dividerColor)
