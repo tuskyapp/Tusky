@@ -217,7 +217,7 @@ class TimelineFragment :
             }
         })
 
-        lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             viewModel.statuses.collectLatest { pagingData ->
                 adapter.submitData(pagingData)
             }
@@ -271,7 +271,11 @@ class TimelineFragment :
     private fun setupRecyclerView() {
         binding.recyclerView.setAccessibilityDelegateCompat(
             ListStatusAccessibilityDelegate(binding.recyclerView, this) { pos ->
-                adapter.peek(pos)
+                if (pos in 0 until adapter.itemCount) {
+                    adapter.peek(pos)
+                } else {
+                    null
+                }
             }
         )
         binding.recyclerView.setHasFixedSize(true)
