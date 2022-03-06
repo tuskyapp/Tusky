@@ -15,7 +15,6 @@
 
 package com.keylesspalace.tusky
 
-import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
@@ -26,19 +25,21 @@ import android.util.Log
 import android.view.View
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
-import androidx.browser.customtabs.CustomTabColorSchemeParams
-import androidx.browser.customtabs.CustomTabsIntent
 import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.keylesspalace.tusky.databinding.ActivityLoginBinding
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.entity.AppCredentials
 import com.keylesspalace.tusky.network.MastodonApi
-import com.keylesspalace.tusky.util.*
+import com.keylesspalace.tusky.util.getNonNullString
+import com.keylesspalace.tusky.util.rickRoll
+import com.keylesspalace.tusky.util.shouldRickRoll
+import com.keylesspalace.tusky.util.viewBinding
 import kotlinx.coroutines.launch
 import okhttp3.HttpUrl
 import javax.inject.Inject
 
+/** Main login page, the first thing that users see. Has prompt for instance and login button. */
 class LoginActivity : BaseActivity(), Injectable {
 
     @Inject
@@ -55,12 +56,39 @@ class LoginActivity : BaseActivity(), Injectable {
             return "$scheme://$host/"
         }
 
+    private val doWebViewAuth = registerForActivityResult(OauthLogin()) { result ->
+        when (result) {
+            is LoginResult.Ok -> lifecycleScope.launch {
+                fetchOauthToken(result.code)
+            }
+            is LoginResult.Err -> {
+                // Authorization failed. Put the error response where the user can read it and they
+                // can try again.
+                setLoading(false)
+                binding.domainTextInputLayout.error = getString(R.string.error_authorization_denied)
+                Log.e(
+                    TAG,
+                    "%s %s".format(
+                        getString(R.string.error_authorization_denied),
+                        result.errorMessage
+                    )
+                )
+            }
+            is LoginResult.Cancel -> {
+                setLoading(false)
+            }
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         setContentView(binding.root)
 
-        if (savedInstanceState == null && BuildConfig.CUSTOM_INSTANCE.isNotBlank() && !isAdditionalLogin()) {
+        if (savedInstanceState == null &&
+            BuildConfig.CUSTOM_INSTANCE.isNotBlank() &&
+            !isAdditionalLogin()
+        ) {
             binding.domainEditText.setText(BuildConfig.CUSTOM_INSTANCE)
             binding.domainEditText.setSelection(BuildConfig.CUSTOM_INSTANCE.length)
         }
@@ -114,6 +142,7 @@ class LoginActivity : BaseActivity(), Injectable {
      */
     private fun onButtonClick() {
         binding.loginButton.isEnabled = false
+        binding.domainTextInputLayout.error = null
 
         val domain = canonicalizeDomain(binding.domainEditText.text.toString())
 
@@ -135,7 +164,7 @@ class LoginActivity : BaseActivity(), Injectable {
         lifecycleScope.launch {
             val credentials: AppCredentials = try {
                 mastodonApi.authenticateApp(
-                    domain, getString(R.string.app_name), oauthRedirectUri,
+                    domain, getString(R.string.app_name), oauthRedirectUri.toString(),
                     OAUTH_SCOPES, getString(R.string.tusky_website)
                 )
             } catch (e: Exception) {
@@ -148,6 +177,11 @@ class LoginActivity : BaseActivity(), Injectable {
             }
 
 
+            // Before we open browser page we save the data.
+            // Even if we don't open other apps user may go to password manager or somewhere else
+            // and we will need to pick up the process where we left off.
+            // Alternatively we could pass it all as part of the intent and receive it back
+            // but it is a bit of a workaround.
             preferences.edit()
                 .putString(DOMAIN, domain)
                 .putString(CLIENT_ID, credentials.clientId)
@@ -159,76 +193,28 @@ class LoginActivity : BaseActivity(), Injectable {
     }
 
     private fun redirectUserToAuthorizeAndLogin(domain: String, clientId: String) {
-        /* To authorize this app and log in it's necessary to redirect to the domain given,
-         * login there, and the server will redirect back to the app with its response. */
+        // To authorize this app and log in it's necessary to redirect to the domain given,
+        // login there, and the server will redirect back to the app with its response.
         val url = HttpUrl.Builder()
             .scheme("https")
             .host(domain)
             .addPathSegments(MastodonApi.ENDPOINT_AUTHORIZE)
             .addQueryParameter("client_id", clientId)
-            .addQueryParameter("redirect_uri", oauthRedirectUri)
+            .addQueryParameter("redirect_uri", oauthRedirectUri.toString())
             .addQueryParameter("response_type", "code")
             .addQueryParameter("scope", OAUTH_SCOPES)
             .build()
         val uri = Uri.parse(url.toString())
-        if (!openInCustomTab(uri, this)) {
-            val viewIntent = Intent(Intent.ACTION_VIEW, uri)
-            if (viewIntent.resolveActivity(packageManager) != null) {
-                startActivity(viewIntent)
-            } else {
-                binding.domainEditText.error = getString(R.string.error_no_web_browser_found)
-                setLoading(false)
-            }
-        }
+        doWebViewAuth.launch(LoginData(uri, Uri.parse(oauthRedirectUri.toString())))
     }
 
     override fun onStart() {
         super.onStart()
-        /* Check if we are resuming during authorization by seeing if the intent contains the
-         * redirect that was given to the server. If so, its response is here! */
-        val uri = intent.data
-        val redirectUri = oauthRedirectUri
-
-        if (uri != null && uri.toString().startsWith(redirectUri)) {
-            // This should either have returned an authorization code or an error.
-            val code = uri.getQueryParameter("code")
-            val error = uri.getQueryParameter("error")
-
-            /* restore variables from SharedPreferences */
-            val domain = preferences.getNonNullString(DOMAIN, "")
-            val clientId = preferences.getNonNullString(CLIENT_ID, "")
-            val clientSecret = preferences.getNonNullString(CLIENT_SECRET, "")
-
-            if (code != null &&
-                domain.isNotEmpty() &&
-                clientId.isNotEmpty() &&
-                clientSecret.isNotEmpty()
-            ) {
-                setLoading(true)
-                /* Since authorization has succeeded, the final step to log in is to exchange
-                 * the authorization code for an access token. */
-                lifecycleScope.launch {
-                    fetchOauthToken(redirectUri, code)
-                }
-            } else if (error != null) {
-                /* Authorization failed. Put the error response where the user can read it and they
-                 * can try again. */
-                setLoading(false)
-                binding.domainTextInputLayout.error = getString(R.string.error_authorization_denied)
-                Log.e(TAG, "%s %s".format(getString(R.string.error_authorization_denied), error))
-            } else {
-                // This case means a junk response was received somehow.
-                setLoading(false)
-                binding.domainTextInputLayout.error =
-                    getString(R.string.error_authorization_unknown)
-            }
-        } else {
-            // first show or user cancelled login
-            setLoading(false)
-        }
+        // first show or user cancelled login
+        setLoading(false)
     }
 
-    private suspend fun fetchOauthToken(redirectUri: String, code: String) {
+    private suspend fun fetchOauthToken(code: String) {
         /* restore variables from SharedPreferences */
         val domain = preferences.getNonNullString(DOMAIN, "")
         val clientId = preferences.getNonNullString(CLIENT_ID, "")
@@ -238,7 +224,7 @@ class LoginActivity : BaseActivity(), Injectable {
 
         val accessToken = try {
             mastodonApi.fetchOAuthToken(
-                domain, clientId, clientSecret, redirectUri, code,
+                domain, clientId, clientSecret, oauthRedirectUri.toString(), code,
                 "authorization_code"
             )
         } catch (e: Exception) {
@@ -302,31 +288,6 @@ class LoginActivity : BaseActivity(), Injectable {
                 s = s.substring(at + 1)
             }
             return s.trim { it <= ' ' }
-        }
-
-        private fun openInCustomTab(uri: Uri, context: Context): Boolean {
-            val toolbarColor = ThemeUtils.getColor(context, R.attr.colorSurface)
-            val navigationbarColor = ThemeUtils.getColor(context, android.R.attr.navigationBarColor)
-            val navigationbarDividerColor = ThemeUtils.getColor(context, R.attr.dividerColor)
-
-            val colorSchemeParams = CustomTabColorSchemeParams.Builder()
-                .setToolbarColor(toolbarColor)
-                .setNavigationBarColor(navigationbarColor)
-                .setNavigationBarDividerColor(navigationbarDividerColor)
-                .build()
-
-            val customTabsIntent = CustomTabsIntent.Builder()
-                .setDefaultColorSchemeParams(colorSchemeParams)
-                .build()
-
-            try {
-                customTabsIntent.launchUrl(context, uri)
-            } catch (e: ActivityNotFoundException) {
-                Log.w(TAG, "Activity was not found for intent $customTabsIntent")
-                return false
-            }
-
-            return true
         }
     }
 }
