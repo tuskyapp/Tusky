@@ -526,4 +526,10 @@
     <string name="action_delete_conversation">删除对话</string>
     <string name="pref_title_confirm_favourites">收藏前显示确认对话框</string>
     <string name="action_unbookmark">删除书签</string>
+    <string name="duration_30_days">30 天</string>
+    <string name="duration_60_days">60 天</string>
+    <string name="duration_90_days">90 天</string>
+    <string name="duration_180_days">180 天</string>
+    <string name="duration_14_days">14 天</string>
+    <string name="duration_365_days">365 天</string>
 </resources>
