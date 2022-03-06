@@ -534,4 +534,10 @@
     <string name="action_delete_conversation">Sguab às an còmhradh</string>
     <string name="action_unbookmark">Thoir an comharra-lìn air falbh</string>
     <string name="pref_title_confirm_favourites">Ceall còmhradh dearbhaidh mus dèid post ’na annsachd</string>
+    <string name="duration_30_days">30 latha</string>
+    <string name="duration_90_days">90 latha</string>
+    <string name="duration_180_days">180 latha</string>
+    <string name="duration_365_days">365 latha</string>
+    <string name="duration_14_days">14 làithean</string>
+    <string name="duration_60_days">60 latha</string>
 </resources>
