@@ -234,7 +234,9 @@ class NetworkTimelineViewModel @Inject constructor(
 
     override fun fullReload() {
         statusData.clear()
+        nextKey = null
         currentSource?.invalidate()
+        // FIXME: auto reload needed
     }
 
     suspend fun fetchStatusesForKind(
