@@ -19,6 +19,7 @@ import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadType
 import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
+import com.keylesspalace.tusky.components.timeline.util.isExpected
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.util.HttpHeaderLink
 import com.keylesspalace.tusky.util.dec
@@ -107,7 +108,11 @@ class NetworkTimelineRemoteMediator(
             viewModel.currentSource?.invalidate()
             return MediatorResult.Success(endOfPaginationReached = statuses.isEmpty())
         } catch (e: Exception) {
-            return MediatorResult.Error(e)
+            if (e.isExpected()) {
+                return MediatorResult.Error(e)
+            } else {
+                throw e
+            }
         }
     }
 }

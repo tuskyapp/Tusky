@@ -33,6 +33,7 @@ import com.keylesspalace.tusky.appstore.PreferenceChangedEvent
 import com.keylesspalace.tusky.appstore.ReblogEvent
 import com.keylesspalace.tusky.appstore.StatusDeletedEvent
 import com.keylesspalace.tusky.appstore.UnfollowEvent
+import com.keylesspalace.tusky.components.timeline.util.ifExpected
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.entity.Filter
 import com.keylesspalace.tusky.entity.Poll
@@ -46,8 +47,6 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.rx3.asFlow
 import kotlinx.coroutines.rx3.await
-import retrofit2.HttpException
-import java.io.IOException
 
 abstract class TimelineViewModel(
     private val timelineCases: TimelineCases,
@@ -288,19 +287,6 @@ abstract class TimelineViewModel(
                     filterContextMatchesKind(kind, it.context)
                 }
             )
-        }
-    }
-
-    private fun isExpectedRequestException(t: Exception) = t is IOException || t is HttpException
-
-    private inline fun ifExpected(
-        t: Exception,
-        cb: () -> Unit
-    ) {
-        if (isExpectedRequestException(t)) {
-            cb()
-        } else {
-            throw t
         }
     }
 
