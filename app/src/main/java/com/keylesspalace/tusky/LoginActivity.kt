@@ -18,13 +18,13 @@ package com.keylesspalace.tusky
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
-import android.net.Uri
 import android.os.Bundle
 import android.text.method.LinkMovementMethod
 import android.util.Log
 import android.view.View
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
+import androidx.core.net.toUri
 import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.keylesspalace.tusky.databinding.ActivityLoginBinding
@@ -164,7 +164,7 @@ class LoginActivity : BaseActivity(), Injectable {
         lifecycleScope.launch {
             val credentials: AppCredentials = try {
                 mastodonApi.authenticateApp(
-                    domain, getString(R.string.app_name), oauthRedirectUri.toString(),
+                    domain, getString(R.string.app_name), oauthRedirectUri,
                     OAUTH_SCOPES, getString(R.string.tusky_website)
                 )
             } catch (e: Exception) {
@@ -200,12 +200,11 @@ class LoginActivity : BaseActivity(), Injectable {
             .host(domain)
             .addPathSegments(MastodonApi.ENDPOINT_AUTHORIZE)
             .addQueryParameter("client_id", clientId)
-            .addQueryParameter("redirect_uri", oauthRedirectUri.toString())
+            .addQueryParameter("redirect_uri", oauthRedirectUri)
             .addQueryParameter("response_type", "code")
             .addQueryParameter("scope", OAUTH_SCOPES)
             .build()
-        val uri = Uri.parse(url.toString())
-        doWebViewAuth.launch(LoginData(uri, Uri.parse(oauthRedirectUri.toString())))
+        doWebViewAuth.launch(LoginData(url.toString().toUri(), oauthRedirectUri.toUri()))
     }
 
     override fun onStart() {
@@ -224,7 +223,7 @@ class LoginActivity : BaseActivity(), Injectable {
 
         val accessToken = try {
             mastodonApi.fetchOAuthToken(
-                domain, clientId, clientSecret, oauthRedirectUri.toString(), code,
+                domain, clientId, clientSecret, oauthRedirectUri, code,
                 "authorization_code"
             )
         } catch (e: Exception) {

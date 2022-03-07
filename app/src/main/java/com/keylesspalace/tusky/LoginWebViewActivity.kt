@@ -86,7 +86,7 @@ class LoginWebViewActivity : BaseActivity(), Injectable {
         webView.settings.databaseEnabled = false
         webView.settings.displayZoomControls = false
         webView.settings.javaScriptCanOpenWindowsAutomatically = false
-        webView.settings.userAgentString += "Tusky ${BuildConfig.VERSION_NAME}"
+        webView.settings.userAgentString += " Tusky/${BuildConfig.VERSION_NAME}"
 
 
         val oauthUrl = data.oauthRedirectUrl
