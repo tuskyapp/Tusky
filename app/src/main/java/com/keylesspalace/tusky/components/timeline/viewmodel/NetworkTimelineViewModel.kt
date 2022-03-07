@@ -44,6 +44,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.rx3.await
 import retrofit2.HttpException
 import retrofit2.Response
+import java.io.IOException
 import javax.inject.Inject
 
 /**
@@ -217,6 +218,7 @@ class NetworkTimelineViewModel @Inject constructor(
         currentSource?.invalidate()
     }
 
+    @Throws(IOException::class, HttpException::class)
     suspend fun fetchStatusesForKind(
         fromId: String?,
         uptoId: String?,
