@@ -16,6 +16,7 @@
 package com.keylesspalace.tusky.components.compose
 
 import android.Manifest
+import android.app.NotificationManager
 import android.app.ProgressDialog
 import android.content.ClipData
 import android.content.Context
@@ -149,6 +150,18 @@ class ComposeActivity :
 
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        val notificationId = intent.getIntExtra(NOTIFICATION_ID_EXTRA, -1)
+        if (notificationId != -1) {
+            // ComposeActivity was opened from a notification, delete the notification
+            val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
+            notificationManager.cancel(notificationId)
+        }
+
+        val accountId = intent.getLongExtra(ACCOUNT_ID_EXTRA, -1)
+        if (accountId != -1L) {
+            accountManager.setActiveAccount(accountId)
+        }
 
         val preferences = PreferenceManager.getDefaultSharedPreferences(this)
         val theme = preferences.getString("appTheme", ThemeUtils.APP_THEME_DEFAULT)
@@ -1032,12 +1045,32 @@ class ComposeActivity :
         private const val PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 1
 
         internal const val COMPOSE_OPTIONS_EXTRA = "COMPOSE_OPTIONS"
+        private const val NOTIFICATION_ID_EXTRA = "NOTIFICATION_ID"
+        private const val ACCOUNT_ID_EXTRA = "ACCOUNT_ID"
         private const val PHOTO_UPLOAD_URI_KEY = "PHOTO_UPLOAD_URI"
 
+        /**
+         * @param options ComposeOptions to configure the ComposeActivity
+         * @param notificationId the id of the notification that starts the Activity
+         * @param accountId the id of the account to compose with, null for the current account
+         * @return an Intent to start the ComposeActivity
+         */
         @JvmStatic
-        fun startIntent(context: Context, options: ComposeOptions): Intent {
+        @JvmOverloads
+        fun startIntent(
+            context: Context,
+            options: ComposeOptions,
+            notificationId: Int? = null,
+            accountId: Long? = null
+        ): Intent {
             return Intent(context, ComposeActivity::class.java).apply {
                 putExtra(COMPOSE_OPTIONS_EXTRA, options)
+                if (notificationId != null) {
+                    putExtra(NOTIFICATION_ID_EXTRA, notificationId)
+                }
+                if (accountId != null) {
+                    putExtra(ACCOUNT_ID_EXTRA, accountId)
+                }
             }
         }
 

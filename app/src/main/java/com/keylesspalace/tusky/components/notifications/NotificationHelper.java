@@ -49,6 +49,7 @@ import com.bumptech.glide.request.FutureTarget;
 import com.keylesspalace.tusky.BuildConfig;
 import com.keylesspalace.tusky.MainActivity;
 import com.keylesspalace.tusky.R;
+import com.keylesspalace.tusky.components.compose.ComposeActivity;
 import com.keylesspalace.tusky.db.AccountEntity;
 import com.keylesspalace.tusky.db.AccountManager;
 import com.keylesspalace.tusky.entity.Notification;
@@ -67,6 +68,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 
@@ -88,8 +90,6 @@ public class NotificationHelper {
 
     public static final String REPLY_ACTION = "REPLY_ACTION";
 
-    public static final String COMPOSE_ACTION = "COMPOSE_ACTION";
-
     public static final String KEY_REPLY = "KEY_REPLY";
 
     public static final String KEY_SENDER_ACCOUNT_ID = "KEY_SENDER_ACCOUNT_ID";
@@ -107,10 +107,6 @@ public class NotificationHelper {
     public static final String KEY_SPOILER = "KEY_SPOILER";
 
     public static final String KEY_MENTIONS = "KEY_MENTIONS";
-
-    public static final String KEY_CITED_TEXT = "KEY_CITED_TEXT";
-
-    public static final String KEY_CITED_AUTHOR_LOCAL = "KEY_CITED_AUTHOR_LOCAL";
 
     /**
      * notification channels used on Android O+
@@ -206,21 +202,24 @@ public class NotificationHelper {
                     .setLabel(context.getString(R.string.label_quick_reply))
                     .build();
 
-            PendingIntent quickReplyPendingIntent = getStatusReplyIntent(REPLY_ACTION, context, body, account);
+            PendingIntent quickReplyPendingIntent = getStatusReplyIntent(context, body, account);
 
             NotificationCompat.Action quickReplyAction =
                     new NotificationCompat.Action.Builder(R.drawable.ic_reply_24dp,
-                            context.getString(R.string.action_quick_reply), quickReplyPendingIntent)
+                            context.getString(R.string.action_quick_reply),
+                            quickReplyPendingIntent)
                             .addRemoteInput(replyRemoteInput)
                             .build();
 
             builder.addAction(quickReplyAction);
 
-            PendingIntent composePendingIntent = getStatusReplyIntent(COMPOSE_ACTION, context, body, account);
+            PendingIntent composeIntent = getStatusComposeIntent(context, body, account);
 
             NotificationCompat.Action composeAction =
                     new NotificationCompat.Action.Builder(R.drawable.ic_reply_24dp,
-                            context.getString(R.string.action_compose_shortcut), composePendingIntent)
+                            context.getString(R.string.action_compose_shortcut),
+                            composeIntent)
+                            .setShowsUserInterface(true)
                             .build();
 
             builder.addAction(composeAction);
@@ -237,7 +236,6 @@ public class NotificationHelper {
         }
 
         // Summary
-        // =======
         final NotificationCompat.Builder summaryBuilder = newNotification(context, body, account, true);
 
         if (currentNotifications.length() != 1) {
@@ -275,7 +273,7 @@ public class NotificationHelper {
         summaryStackBuilder.addNextIntent(summaryResultIntent);
 
         PendingIntent summaryResultPendingIntent = summaryStackBuilder.getPendingIntent((int) (notificationId + account.getId() * 10000),
-                PendingIntent.FLAG_UPDATE_CURRENT);
+                PendingIntent.FLAG_UPDATE_CURRENT | (Build.VERSION.SDK_INT > Build.VERSION_CODES.M ? PendingIntent.FLAG_IMMUTABLE : 0));
 
         // we have to switch account here
         Intent eventResultIntent = new Intent(context, MainActivity.class);
@@ -285,12 +283,12 @@ public class NotificationHelper {
         eventStackBuilder.addNextIntent(eventResultIntent);
 
         PendingIntent eventResultPendingIntent = eventStackBuilder.getPendingIntent((int) account.getId(),
-                PendingIntent.FLAG_UPDATE_CURRENT);
+                PendingIntent.FLAG_UPDATE_CURRENT | (Build.VERSION.SDK_INT > Build.VERSION_CODES.M ? PendingIntent.FLAG_IMMUTABLE : 0));
 
         Intent deleteIntent = new Intent(context, NotificationClearBroadcastReceiver.class);
         deleteIntent.putExtra(ACCOUNT_ID, account.getId());
         PendingIntent deletePendingIntent = PendingIntent.getBroadcast(context, summary ? (int) account.getId() : notificationId, deleteIntent,
-                PendingIntent.FLAG_UPDATE_CURRENT);
+                PendingIntent.FLAG_UPDATE_CURRENT | (Build.VERSION.SDK_INT > Build.VERSION_CODES.M ? PendingIntent.FLAG_IMMUTABLE : 0));
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, getChannelId(account, body))
                 .setSmallIcon(R.drawable.ic_notify)
@@ -307,11 +305,9 @@ public class NotificationHelper {
         return builder;
     }
 
-    private static PendingIntent getStatusReplyIntent(String action, Context context, Notification body, AccountEntity account) {
+    private static PendingIntent getStatusReplyIntent(Context context, Notification body, AccountEntity account) {
         Status status = body.getStatus();
 
-        String citedLocalAuthor = status.getAccount().getLocalUsername();
-        String citedText = status.getContent().toString();
         String inReplyToId = status.getId();
         Status actionableStatus = status.getActionableStatus();
         Status.Visibility replyVisibility = actionableStatus.getVisibility();
@@ -326,9 +322,7 @@ public class NotificationHelper {
         mentionedUsernames = new ArrayList<>(new LinkedHashSet<>(mentionedUsernames));
 
         Intent replyIntent = new Intent(context, SendStatusBroadcastReceiver.class)
-                .setAction(action)
-                .putExtra(KEY_CITED_AUTHOR_LOCAL, citedLocalAuthor)
-                .putExtra(KEY_CITED_TEXT, citedText)
+                .setAction(REPLY_ACTION)
                 .putExtra(KEY_SENDER_ACCOUNT_ID, account.getId())
                 .putExtra(KEY_SENDER_ACCOUNT_IDENTIFIER, account.getIdentifier())
                 .putExtra(KEY_SENDER_ACCOUNT_FULL_NAME, account.getFullName())
@@ -341,7 +335,50 @@ public class NotificationHelper {
         return PendingIntent.getBroadcast(context.getApplicationContext(),
                 notificationId,
                 replyIntent,
-                PendingIntent.FLAG_UPDATE_CURRENT);
+                PendingIntent.FLAG_UPDATE_CURRENT | (Build.VERSION.SDK_INT > Build.VERSION_CODES.M ? PendingIntent.FLAG_MUTABLE : 0));
+    }
+
+    private static PendingIntent getStatusComposeIntent(Context context, Notification body, AccountEntity account) {
+        Status status = body.getStatus();
+
+        String citedLocalAuthor = status.getAccount().getLocalUsername();
+        String citedText = status.getContent().toString();
+        String inReplyToId = status.getId();
+        Status actionableStatus = status.getActionableStatus();
+        Status.Visibility replyVisibility = actionableStatus.getVisibility();
+        String contentWarning = actionableStatus.getSpoilerText();
+        List<Status.Mention> mentions = actionableStatus.getMentions();
+        Set<String> mentionedUsernames = new LinkedHashSet<>();
+        mentionedUsernames.add(actionableStatus.getAccount().getUsername());
+        for (Status.Mention mention : mentions) {
+            String mentionedUsername = mention.getUsername();
+            if (!mentionedUsername.equals(account.getUsername())) {
+                mentionedUsernames.add(mention.getUsername());
+            }
+        }
+
+        ComposeActivity.ComposeOptions composeOptions = new ComposeActivity.ComposeOptions();
+        composeOptions.setInReplyToId(inReplyToId);
+        composeOptions.setReplyVisibility(replyVisibility);
+        composeOptions.setContentWarning(contentWarning);
+        composeOptions.setReplyingStatusAuthor(citedLocalAuthor);
+        composeOptions.setReplyingStatusContent(citedText);
+        composeOptions.setMentionedUsernames(mentionedUsernames);
+        composeOptions.setModifiedInitialState(true);
+
+        Intent composeIntent = ComposeActivity.startIntent(
+                context,
+                composeOptions,
+                notificationId,
+                account.getId()
+        );
+
+        composeIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+        return PendingIntent.getActivity(context.getApplicationContext(),
+                notificationId,
+                composeIntent,
+                PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_MUTABLE);
     }
 
     public static void createNotificationChannelsForAccount(@NonNull AccountEntity account, @NonNull Context context) {
@@ -409,9 +446,7 @@ public class NotificationHelper {
 
             NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
-            //noinspection ConstantConditions
             notificationManager.deleteNotificationChannelGroup(account.getIdentifier());
-
         }
     }
 
@@ -421,7 +456,6 @@ public class NotificationHelper {
             NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
             // used until Tusky 1.4
-            //noinspection ConstantConditions
             notificationManager.deleteNotificationChannel(CHANNEL_MENTION);
             notificationManager.deleteNotificationChannel(CHANNEL_FAVOURITE);
             notificationManager.deleteNotificationChannel(CHANNEL_BOOST);
@@ -440,7 +474,6 @@ public class NotificationHelper {
             // on Android >= O, notifications are enabled, if at least one channel is enabled
             NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
-            //noinspection ConstantConditions
             if (notificationManager.areNotificationsEnabled()) {
                 for (NotificationChannel channel : notificationManager.getNotificationChannels()) {
                     if (channel.getImportance() > NotificationManager.IMPORTANCE_NONE) {
@@ -491,7 +524,6 @@ public class NotificationHelper {
                 accountManager.saveAccount(account);
 
                 NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-                //noinspection ConstantConditions
                 notificationManager.cancel((int) account.getId());
                 return true;
             })
@@ -511,7 +543,6 @@ public class NotificationHelper {
                 // unknown notificationtype
                 return false;
             }
-            //noinspection ConstantConditions
             NotificationChannel channel = notificationManager.getNotificationChannel(channelId);
             return channel.getImportance() > NotificationManager.IMPORTANCE_NONE;
         }
@@ -673,5 +704,4 @@ public class NotificationHelper {
         }
         return null;
     }
-
 }
