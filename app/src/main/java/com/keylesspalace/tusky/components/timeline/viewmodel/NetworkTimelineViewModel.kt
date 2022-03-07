@@ -34,6 +34,7 @@ import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.network.FilterModel
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.network.TimelineCases
+import com.keylesspalace.tusky.util.dec
 import com.keylesspalace.tusky.util.getDomain
 import com.keylesspalace.tusky.util.inc
 import com.keylesspalace.tusky.util.toViewData
@@ -133,6 +134,10 @@ class NetworkTimelineViewModel @Inject constructor(
     override fun loadMore(placeholderId: String) {
         viewModelScope.launch {
             try {
+                val placeholderIndex =
+                    statusData.indexOfFirst { it is StatusViewData.Placeholder && it.id == placeholderId }
+                statusData[placeholderIndex] = StatusViewData.Placeholder(placeholderId, isLoading = true)
+
                 val statusResponse = fetchStatusesForKind(
                     fromId = placeholderId.inc(),
                     uptoId = null,
@@ -145,28 +150,46 @@ class NetworkTimelineViewModel @Inject constructor(
                     return@launch
                 }
 
+                statusData.removeAt(placeholderIndex)
+
                 val activeAccount = accountManager.activeAccount!!
-
                 val data = statuses.map { status ->
-                    val oldStatus = statusData.find { s ->
-                        s.asStatusOrNull()?.id == status.id
-                    }?.asStatusOrNull()
-
-                    val contentShowing = oldStatus?.isShowingContent ?: activeAccount.alwaysShowSensitiveMedia || !status.actionableStatus.sensitive
-                    val expanded = oldStatus?.isExpanded ?: activeAccount.alwaysOpenSpoiler
-                    val contentCollapsed = oldStatus?.isCollapsed ?: true
-
                     status.toViewData(
-                        isShowingContent = contentShowing,
-                        isExpanded = expanded,
-                        isCollapsed = contentCollapsed
+                        isShowingContent = activeAccount.alwaysShowSensitiveMedia || !status.actionableStatus.sensitive,
+                        isExpanded = activeAccount.alwaysOpenSpoiler,
+                        isCollapsed = true
                     )
+                }.toMutableList()
+
+                if (statuses.isNotEmpty()) {
+                    val firstId = statuses.first().id.hashCode().toLong()
+                    val lastId = statuses.last().id.hashCode().toLong()
+                    val overlappedFrom = statusData.indexOfFirst { it.viewDataId <= firstId }
+                    val overlappedTo = statusData.indexOfFirst { it.viewDataId < lastId }
+
+                    if (overlappedFrom < overlappedTo) {
+                        repeat(overlappedTo - overlappedFrom) {
+                            statusData[overlappedFrom].asStatusOrNull()?.let { oldStatus ->
+                                val dataIndex = statuses.indexOfFirst { it.id == oldStatus.id }
+                                if (dataIndex == -1) {
+                                    return@let
+                                }
+                                data[dataIndex] = data[dataIndex]
+                                    .copy(
+                                        isShowingContent = oldStatus.isShowingContent,
+                                        isExpanded = oldStatus.isExpanded,
+                                        isCollapsed = oldStatus.isCollapsed,
+                                    )
+                            }
+
+                            statusData.removeAt(overlappedFrom)
+                        }
+                    } else {
+                        statusData.add(overlappedFrom, StatusViewData.Placeholder(statuses.last().id.dec(), isLoading = false))
+                    }
                 }
 
-                val index =
-                    statusData.indexOfFirst { it is StatusViewData.Placeholder && it.id == placeholderId }
-                statusData.removeAt(index)
-                statusData.addAll(index, data)
+                statusData.addAll(placeholderIndex, data)
 
                 currentSource?.invalidate()
             } catch (e: Exception) {
