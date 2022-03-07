@@ -545,4 +545,10 @@
     <string name="drafts_failed_loading_reply">فشل في تحميل معلومات الرد</string>
     <string name="duration_indefinite">غير محددة</string>
     <string name="limit_notifications">وضع حد لإشعارات الخيط الزمني</string>
+    <string name="duration_14_days">14 يومًا</string>
+    <string name="duration_30_days">30 يومًا</string>
+    <string name="duration_60_days">60 يومًا</string>
+    <string name="duration_90_days">90 يومًا</string>
+    <string name="duration_180_days">180 يومًا</string>
+    <string name="duration_365_days">365 يومًا</string>
 </resources>

@@ -534,4 +534,10 @@
     <string name="action_delete_conversation">Видалити бесіду</string>
     <string name="action_unbookmark">Вилучити закладку</string>
     <string name="pref_title_confirm_favourites">Запитувати підтвердження перед додаванням до вподобаних</string>
+    <string name="duration_14_days">14 днів</string>
+    <string name="duration_30_days">30 днів</string>
+    <string name="duration_60_days">60 днів</string>
+    <string name="duration_90_days">90 днів</string>
+    <string name="duration_180_days">180 днів</string>
+    <string name="duration_365_days">365 днів</string>
 </resources>
