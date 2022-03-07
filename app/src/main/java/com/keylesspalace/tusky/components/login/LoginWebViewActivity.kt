@@ -1,4 +1,4 @@
-package com.keylesspalace.tusky
+package com.keylesspalace.tusky.components.login
 
 import android.app.Activity
 import android.content.Context
@@ -10,6 +10,8 @@ import android.os.Parcelable
 import android.util.Log
 import android.webkit.*
 import androidx.activity.result.contract.ActivityResultContract
+import com.keylesspalace.tusky.BaseActivity
+import com.keylesspalace.tusky.BuildConfig
 import com.keylesspalace.tusky.databinding.LoginWebviewBinding
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.util.viewBinding

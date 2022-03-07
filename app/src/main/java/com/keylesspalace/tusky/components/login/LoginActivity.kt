@@ -13,7 +13,7 @@
  * You should have received a copy of the GNU General Public License along with Tusky; if not,
  * see <http://www.gnu.org/licenses>. */
 
-package com.keylesspalace.tusky
+package com.keylesspalace.tusky.components.login
 
 import android.content.Context
 import android.content.Intent
@@ -27,6 +27,10 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.net.toUri
 import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
+import com.keylesspalace.tusky.BaseActivity
+import com.keylesspalace.tusky.BuildConfig
+import com.keylesspalace.tusky.MainActivity
+import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.databinding.ActivityLoginBinding
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.entity.AppCredentials
