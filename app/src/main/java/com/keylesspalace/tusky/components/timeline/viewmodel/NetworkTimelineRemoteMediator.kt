@@ -108,7 +108,7 @@ class NetworkTimelineRemoteMediator(
             viewModel.currentSource?.invalidate()
             return MediatorResult.Success(endOfPaginationReached = statuses.isEmpty())
         } catch (e: Exception) {
-            return ifExpected (e) {
+            return ifExpected(e) {
                 MediatorResult.Error(e)
             }
         }
