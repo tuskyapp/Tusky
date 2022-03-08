@@ -180,7 +180,6 @@ class LoginActivity : BaseActivity(), Injectable {
                 return@launch
             }
 
-
             // Before we open browser page we save the data.
             // Even if we don't open other apps user may go to password manager or somewhere else
             // and we will need to pick up the process where we left off.

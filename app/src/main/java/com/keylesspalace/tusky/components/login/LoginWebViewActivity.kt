@@ -8,7 +8,12 @@ import android.net.Uri
 import android.os.Bundle
 import android.os.Parcelable
 import android.util.Log
-import android.webkit.*
+import android.webkit.CookieManager
+import android.webkit.WebResourceError
+import android.webkit.WebResourceRequest
+import android.webkit.WebStorage
+import android.webkit.WebView
+import android.webkit.WebViewClient
 import androidx.activity.result.contract.ActivityResultContract
 import com.keylesspalace.tusky.BaseActivity
 import com.keylesspalace.tusky.BuildConfig
@@ -89,7 +94,6 @@ class LoginWebViewActivity : BaseActivity(), Injectable {
         webView.settings.displayZoomControls = false
         webView.settings.javaScriptCanOpenWindowsAutomatically = false
         webView.settings.userAgentString += " Tusky/${BuildConfig.VERSION_NAME}"
-
 
         val oauthUrl = data.oauthRedirectUrl
 
