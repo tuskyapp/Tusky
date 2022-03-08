@@ -22,7 +22,6 @@ import com.keylesspalace.tusky.EditProfileActivity
 import com.keylesspalace.tusky.FiltersActivity
 import com.keylesspalace.tusky.LicenseActivity
 import com.keylesspalace.tusky.ListsActivity
-import com.keylesspalace.tusky.LoginActivity
 import com.keylesspalace.tusky.MainActivity
 import com.keylesspalace.tusky.SplashActivity
 import com.keylesspalace.tusky.StatusListActivity
@@ -34,6 +33,8 @@ import com.keylesspalace.tusky.components.announcements.AnnouncementsActivity
 import com.keylesspalace.tusky.components.compose.ComposeActivity
 import com.keylesspalace.tusky.components.drafts.DraftsActivity
 import com.keylesspalace.tusky.components.instancemute.InstanceListActivity
+import com.keylesspalace.tusky.components.login.LoginActivity
+import com.keylesspalace.tusky.components.login.LoginWebViewActivity
 import com.keylesspalace.tusky.components.preference.PreferencesActivity
 import com.keylesspalace.tusky.components.report.ReportActivity
 import com.keylesspalace.tusky.components.scheduled.ScheduledTootActivity
@@ -83,6 +84,9 @@ abstract class ActivitiesModule {
 
     @ContributesAndroidInjector
     abstract fun contributesLoginActivity(): LoginActivity
+
+    @ContributesAndroidInjector
+    abstract fun contributesLoginWebViewActivity(): LoginWebViewActivity
 
     @ContributesAndroidInjector
     abstract fun contributesSplashActivity(): SplashActivity

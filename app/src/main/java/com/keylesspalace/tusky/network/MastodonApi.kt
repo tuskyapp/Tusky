@@ -440,24 +440,24 @@ interface MastodonApi {
 
     @FormUrlEncoded
     @POST("api/v1/apps")
-    fun authenticateApp(
+    suspend fun authenticateApp(
         @Header(DOMAIN_HEADER) domain: String,
         @Field("client_name") clientName: String,
         @Field("redirect_uris") redirectUris: String,
         @Field("scopes") scopes: String,
         @Field("website") website: String
-    ): Call<AppCredentials>
+    ): AppCredentials
 
     @FormUrlEncoded
     @POST("oauth/token")
-    fun fetchOAuthToken(
+    suspend fun fetchOAuthToken(
         @Header(DOMAIN_HEADER) domain: String,
         @Field("client_id") clientId: String,
         @Field("client_secret") clientSecret: String,
         @Field("redirect_uri") redirectUri: String,
         @Field("code") code: String,
         @Field("grant_type") grantType: String
-    ): Call<AccessToken>
+    ): AccessToken
 
     @FormUrlEncoded
     @POST("api/v1/lists")
