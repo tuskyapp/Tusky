@@ -24,7 +24,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.os.Build;
 import android.provider.Settings;
 import android.text.TextUtils;
@@ -46,7 +45,6 @@ import androidx.work.WorkRequest;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.FutureTarget;
-import com.keylesspalace.tusky.BuildConfig;
 import com.keylesspalace.tusky.MainActivity;
 import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.components.compose.ComposeActivity;
@@ -273,7 +271,7 @@ public class NotificationHelper {
         summaryStackBuilder.addNextIntent(summaryResultIntent);
 
         PendingIntent summaryResultPendingIntent = summaryStackBuilder.getPendingIntent((int) (notificationId + account.getId() * 10000),
-                PendingIntent.FLAG_UPDATE_CURRENT | (Build.VERSION.SDK_INT > Build.VERSION_CODES.M ? PendingIntent.FLAG_IMMUTABLE : 0));
+                pendingIntentFlags(false));
 
         // we have to switch account here
         Intent eventResultIntent = new Intent(context, MainActivity.class);
@@ -283,18 +281,18 @@ public class NotificationHelper {
         eventStackBuilder.addNextIntent(eventResultIntent);
 
         PendingIntent eventResultPendingIntent = eventStackBuilder.getPendingIntent((int) account.getId(),
-                PendingIntent.FLAG_UPDATE_CURRENT | (Build.VERSION.SDK_INT > Build.VERSION_CODES.M ? PendingIntent.FLAG_IMMUTABLE : 0));
+                pendingIntentFlags(false));
 
         Intent deleteIntent = new Intent(context, NotificationClearBroadcastReceiver.class);
         deleteIntent.putExtra(ACCOUNT_ID, account.getId());
         PendingIntent deletePendingIntent = PendingIntent.getBroadcast(context, summary ? (int) account.getId() : notificationId, deleteIntent,
-                PendingIntent.FLAG_UPDATE_CURRENT | (Build.VERSION.SDK_INT > Build.VERSION_CODES.M ? PendingIntent.FLAG_IMMUTABLE : 0));
+                pendingIntentFlags(false));
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, getChannelId(account, body))
                 .setSmallIcon(R.drawable.ic_notify)
                 .setContentIntent(summary ? summaryResultPendingIntent : eventResultPendingIntent)
                 .setDeleteIntent(deletePendingIntent)
-                .setColor(BuildConfig.FLAVOR == "green" ? Color.parseColor("#19A341") : ContextCompat.getColor(context, R.color.tusky_blue))
+                .setColor(ContextCompat.getColor(context, R.color.notification_color))
                 .setGroup(account.getAccountId())
                 .setAutoCancel(true)
                 .setShortcutId(Long.toString(account.getId()))
@@ -335,7 +333,7 @@ public class NotificationHelper {
         return PendingIntent.getBroadcast(context.getApplicationContext(),
                 notificationId,
                 replyIntent,
-                PendingIntent.FLAG_UPDATE_CURRENT | (Build.VERSION.SDK_INT > Build.VERSION_CODES.M ? PendingIntent.FLAG_MUTABLE : 0));
+                pendingIntentFlags(true));
     }
 
     private static PendingIntent getStatusComposeIntent(Context context, Notification body, AccountEntity account) {
@@ -378,7 +376,7 @@ public class NotificationHelper {
         return PendingIntent.getActivity(context.getApplicationContext(),
                 notificationId,
                 composeIntent,
-                PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_MUTABLE);
+                pendingIntentFlags(false));
     }
 
     public static void createNotificationChannelsForAccount(@NonNull AccountEntity account, @NonNull Context context) {
@@ -703,5 +701,13 @@ public class NotificationHelper {
                 }
         }
         return null;
+    }
+
+    public static int pendingIntentFlags(boolean mutable) {
+        if (mutable) {
+            return PendingIntent.FLAG_UPDATE_CURRENT | (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S ? PendingIntent.FLAG_MUTABLE : 0);
+        } else {
+            return PendingIntent.FLAG_UPDATE_CURRENT | (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M ? PendingIntent.FLAG_IMMUTABLE : 0);
+        }
     }
 }
