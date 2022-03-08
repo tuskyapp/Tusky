@@ -27,7 +27,7 @@ import org.junit.runner.RunWith
 import org.robolectric.annotation.Config
 import retrofit2.HttpException
 import retrofit2.Response
-import java.lang.RuntimeException
+import java.io.IOException
 
 @Config(sdk = [29])
 @RunWith(AndroidJUnit4::class)
@@ -66,7 +66,7 @@ class NetworkTimelineRemoteMediatorTest {
 
         val timelineViewModel: NetworkTimelineViewModel = mock {
             on { statusData } doReturn mutableListOf()
-            onBlocking { fetchStatusesForKind(anyOrNull(), anyOrNull(), anyOrNull()) } doThrow RuntimeException()
+            onBlocking { fetchStatusesForKind(anyOrNull(), anyOrNull(), anyOrNull()) } doThrow IOException()
         }
 
         val remoteMediator = NetworkTimelineRemoteMediator(accountManager, timelineViewModel)
@@ -74,7 +74,7 @@ class NetworkTimelineRemoteMediatorTest {
         val result = runBlocking { remoteMediator.load(LoadType.REFRESH, state()) }
 
         assertTrue(result is RemoteMediator.MediatorResult.Error)
-        assertTrue((result as RemoteMediator.MediatorResult.Error).throwable is RuntimeException)
+        assertTrue((result as RemoteMediator.MediatorResult.Error).throwable is IOException)
     }
 
     @Test

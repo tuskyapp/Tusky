@@ -34,6 +34,7 @@ import com.keylesspalace.tusky.appstore.ReblogEvent
 import com.keylesspalace.tusky.components.timeline.Placeholder
 import com.keylesspalace.tusky.components.timeline.toEntity
 import com.keylesspalace.tusky.components.timeline.toViewData
+import com.keylesspalace.tusky.components.timeline.util.ifExpected
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.db.AppDatabase
 import com.keylesspalace.tusky.entity.Poll
@@ -191,7 +192,9 @@ class CachedTimelineViewModel @Inject constructor(
                     }
                 }
             } catch (e: Exception) {
-                loadMoreFailed(placeholderId, e)
+                ifExpected(e) {
+                    loadMoreFailed(placeholderId, e)
+                }
             }
         }
     }
