@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:gravity="center"
     android:orientation="vertical"
-    tools:context="com.keylesspalace.tusky.LoginActivity">
+    tools:context="com.keylesspalace.tusky.components.login.LoginActivity">
 
     <ScrollView
         android:layout_width="match_parent"

@@ -28,6 +28,7 @@ import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.appstore.FavoriteEvent
 import com.keylesspalace.tusky.appstore.PinEvent
 import com.keylesspalace.tusky.appstore.ReblogEvent
+import com.keylesspalace.tusky.components.timeline.util.ifExpected
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.entity.Poll
 import com.keylesspalace.tusky.entity.Status
@@ -43,6 +44,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.rx3.await
 import retrofit2.HttpException
 import retrofit2.Response
+import java.io.IOException
 import javax.inject.Inject
 
 /**
@@ -170,7 +172,9 @@ class NetworkTimelineViewModel @Inject constructor(
 
                 currentSource?.invalidate()
             } catch (e: Exception) {
-                loadMoreFailed(placeholderId, e)
+                ifExpected(e) {
+                    loadMoreFailed(placeholderId, e)
+                }
             }
         }
     }
@@ -214,6 +218,7 @@ class NetworkTimelineViewModel @Inject constructor(
         currentSource?.invalidate()
     }
 
+    @Throws(IOException::class, HttpException::class)
     suspend fun fetchStatusesForKind(
         fromId: String?,
         uptoId: String?,

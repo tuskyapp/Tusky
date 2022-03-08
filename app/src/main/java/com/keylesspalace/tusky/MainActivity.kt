@@ -65,6 +65,7 @@ import com.keylesspalace.tusky.components.compose.ComposeActivity.Companion.canH
 import com.keylesspalace.tusky.components.conversation.ConversationsRepository
 import com.keylesspalace.tusky.components.drafts.DraftHelper
 import com.keylesspalace.tusky.components.drafts.DraftsActivity
+import com.keylesspalace.tusky.components.login.LoginActivity
 import com.keylesspalace.tusky.components.notifications.NotificationHelper
 import com.keylesspalace.tusky.components.preference.PreferencesActivity
 import com.keylesspalace.tusky.components.scheduled.ScheduledTootActivity

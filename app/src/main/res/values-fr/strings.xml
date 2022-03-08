@@ -531,6 +531,12 @@
     <string name="pref_title_confirm_favourites">Demander confirmation avant de mettre en favoris</string>
     <string name="drafts_toot_reply_removed">Le message auquel répondait ce brouillon a été supprimé</string>
     <string name="drafts_toot_failed_to_send">Échec d’envoi du pouet !</string>
-    <string name="follow_requests_info">Bien que votre compte ne soit pas verrouillé, l\'équipe de %1$s a pensé que vous voudriez valider manuellement les demandes de suivi provenant de ces comptes.</string>
+    <string name="follow_requests_info">Bien que votre compte ne soit pas verrouillé, l’équipe de %1$s a pensé que vous voudriez valider manuellement les demandes de d’abonnement provenant de ces comptes.</string>
     <string name="drafts_failed_loading_reply">Échec du chargement des informations de réponse</string>
+    <string name="duration_30_days">30 jours</string>
+    <string name="duration_60_days">60 jours</string>
+    <string name="duration_90_days">90 jours</string>
+    <string name="duration_365_days">365 jours</string>
+    <string name="duration_14_days">14 jours</string>
+    <string name="duration_180_days">180 jours</string>
 </resources>

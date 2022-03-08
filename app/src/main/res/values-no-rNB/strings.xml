@@ -39,7 +39,7 @@
     <string name="title_drafts">Kladder</string>
     <string name="title_licenses">Lisenser</string>
     <string name="status_username_format">\@%s</string>
-    <string name="status_boosted_format">%s boosted</string>
+    <string name="status_boosted_format">%s boostet</string>
     <string name="status_sensitive_media_title">Sensitivt innhold</string>
     <string name="status_media_hidden_title">Media skjult</string>
     <string name="status_sensitive_media_directions">Klikk for å vise</string>
@@ -194,7 +194,7 @@
     <string name="pref_status_text_size">Størrelse på statustekst</string>
     <string name="notification_follow_name">Nye følgere</string>
     <string name="notification_follow_description">Varsler om nye følgere</string>
-    <string name="notification_boost_name">Boosts</string>
+    <string name="notification_boost_name">Booster</string>
     <string name="notification_boost_description">Varsler når tootene dine blir boostet</string>
     <string name="notification_favourite_name">Favoritter</string>
     <string name="notification_favourite_description">Varsler når tootene dine blir favorisert</string>
@@ -314,8 +314,8 @@
         <item quantity="other">&lt;b&gt;%1$s&lt;/b&gt; Favoritter</item>
     </plurals>
     <plurals name="reblogs">
-        <item quantity="one">&lt;b&gt;%s&lt;/b&gt; Boost</item>
-        <item quantity="other">&lt;b&gt;%s&lt;/b&gt; Boosts</item>
+        <item quantity="one"><b>%s</b> Boost</item>
+        <item quantity="other"><b>%s</b> Booster</item>
     </plurals>
     <string name="title_reblogged_by">Boostet av</string>
     <string name="title_favourited_by">Favorisert av</string>
@@ -512,4 +512,10 @@
     <string name="action_delete_conversation">Slett samtale</string>
     <string name="action_unbookmark">Slett bokmerke</string>
     <string name="pref_title_confirm_favourites">Vis bekreftelsesdialog når favoritt skal legges til</string>
+    <string name="duration_30_days">30 dager</string>
+    <string name="duration_60_days">60 dager</string>
+    <string name="duration_90_days">90 dager</string>
+    <string name="duration_180_days">180 dager</string>
+    <string name="duration_365_days">365 dager</string>
+    <string name="duration_14_days">14 dager</string>
 </resources>

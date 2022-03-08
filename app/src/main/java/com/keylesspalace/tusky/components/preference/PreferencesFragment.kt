@@ -139,6 +139,13 @@ class PreferencesFragment : PreferenceFragmentCompat(), Injectable {
                 }
 
                 switchPreference {
+                    setDefaultValue(false)
+                    key = PrefKeys.ANIMATE_CUSTOM_EMOJIS
+                    setTitle(R.string.pref_title_animate_custom_emojis)
+                    isSingleLineTitle = false
+                }
+
+                switchPreference {
                     setDefaultValue(true)
                     key = PrefKeys.USE_BLURHASH
                     setTitle(R.string.pref_title_gradient_for_media)
@@ -177,13 +184,6 @@ class PreferencesFragment : PreferenceFragmentCompat(), Injectable {
                     setDefaultValue(true)
                     key = PrefKeys.ENABLE_SWIPE_FOR_TABS
                     setTitle(R.string.pref_title_enable_swipe_for_tabs)
-                    isSingleLineTitle = false
-                }
-
-                switchPreference {
-                    setDefaultValue(false)
-                    key = PrefKeys.ANIMATE_CUSTOM_EMOJIS
-                    setTitle(R.string.pref_title_animate_custom_emojis)
                     isSingleLineTitle = false
                 }
             }
