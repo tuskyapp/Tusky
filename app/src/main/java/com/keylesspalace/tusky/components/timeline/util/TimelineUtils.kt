@@ -5,12 +5,12 @@ import java.io.IOException
 
 fun Throwable.isExpected() = this is IOException || this is HttpException
 
-inline fun ifExpected(
+inline fun <T> ifExpected(
     t: Throwable,
-    cb: () -> Unit
-) {
+    cb: () -> T
+): T {
     if (t.isExpected()) {
-        cb()
+        return cb()
     } else {
         throw t
     }

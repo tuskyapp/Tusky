@@ -23,7 +23,7 @@ import androidx.room.withTransaction
 import com.google.gson.Gson
 import com.keylesspalace.tusky.components.timeline.Placeholder
 import com.keylesspalace.tusky.components.timeline.toEntity
-import com.keylesspalace.tusky.components.timeline.util.isExpected
+import com.keylesspalace.tusky.components.timeline.util.ifExpected
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.db.AppDatabase
 import com.keylesspalace.tusky.db.TimelineStatusEntity
@@ -110,10 +110,8 @@ class CachedTimelineRemoteMediator(
             }
             return MediatorResult.Success(endOfPaginationReached = statuses.isEmpty())
         } catch (e: Exception) {
-            if (e.isExpected()) {
-                return MediatorResult.Error(e)
-            } else {
-                throw e
+            return ifExpected (e) {
+                MediatorResult.Error(e)
             }
         }
     }
