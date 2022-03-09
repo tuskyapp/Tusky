@@ -15,11 +15,11 @@ def getGitSha = {
 }
 
 android {
-    compileSdkVersion 30
+    compileSdkVersion 31
     defaultConfig {
         applicationId APP_ID
         minSdkVersion 21
-        targetSdkVersion 30
+        targetSdkVersion 31
         versionCode 87
         versionName "16.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -89,8 +89,8 @@ android {
 }
 
 ext.coroutinesVersion = "1.6.0"
-ext.lifecycleVersion = "2.3.1"
-ext.roomVersion = '2.3.0'
+ext.lifecycleVersion = "2.4.1"
+ext.roomVersion = '2.4.2'
 ext.retrofitVersion = '2.9.0'
 ext.okhttpVersion = '4.9.3'
 ext.glideVersion = '4.12.0'
@@ -104,31 +104,33 @@ dependencies {
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-rx3:$coroutinesVersion"
 
-    implementation "androidx.core:core-ktx:1.5.0"
-    implementation "androidx.appcompat:appcompat:1.3.0"
-    implementation "androidx.fragment:fragment-ktx:1.3.4"
-    implementation "androidx.browser:browser:1.3.0"
+    implementation "androidx.core:core-ktx:1.7.0"
+    implementation "androidx.appcompat:appcompat:1.4.1"
+    implementation "androidx.fragment:fragment-ktx:1.4.1"
+    implementation "androidx.browser:browser:1.4.0"
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
     implementation "androidx.recyclerview:recyclerview:1.2.1"
     implementation "androidx.exifinterface:exifinterface:1.3.3"
     implementation "androidx.cardview:cardview:1.0.0"
-    implementation "androidx.preference:preference-ktx:1.1.1"
-    implementation "androidx.sharetarget:sharetarget:1.1.0"
+    implementation "androidx.preference:preference-ktx:1.2.0"
+    implementation "androidx.sharetarget:sharetarget:1.2.0-rc01"
     implementation "androidx.emoji:emoji:1.1.0"
     implementation "androidx.emoji:emoji-appcompat:1.1.0"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion"
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycleVersion"
     implementation "androidx.lifecycle:lifecycle-common-java8:$lifecycleVersion"
     implementation "androidx.lifecycle:lifecycle-reactivestreams-ktx:$lifecycleVersion"
-    implementation "androidx.constraintlayout:constraintlayout:2.1.2"
-    implementation "androidx.paging:paging-runtime-ktx:3.0.0"
+    implementation "androidx.constraintlayout:constraintlayout:2.1.3"
+    implementation "androidx.paging:paging-runtime-ktx:3.1.0"
     implementation "androidx.viewpager2:viewpager2:1.0.0"
-    implementation "androidx.work:work-runtime:2.5.0"
+    implementation "androidx.work:work-runtime:2.7.1"
     implementation "androidx.room:room-ktx:$roomVersion"
+    implementation "androidx.room:room-paging:$roomVersion"
     implementation "androidx.room:room-rxjava3:$roomVersion"
     kapt "androidx.room:room-compiler:$roomVersion"
+    implementation 'androidx.core:core-splashscreen:1.0.0-beta01'
 
-    implementation "com.google.android.material:material:1.4.0"
+    implementation "com.google.android.material:material:1.5.0"
 
     implementation "com.google.code.gson:gson:2.8.9"
 

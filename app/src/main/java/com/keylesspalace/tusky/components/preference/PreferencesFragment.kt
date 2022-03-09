@@ -280,23 +280,24 @@ class PreferencesFragment : PreferenceFragmentCompat(), Injectable {
     }
 
     private fun updateHttpProxySummary() {
-        val sharedPreferences = preferenceManager.sharedPreferences
-        val httpProxyEnabled = sharedPreferences.getBoolean(PrefKeys.HTTP_PROXY_ENABLED, false)
-        val httpServer = sharedPreferences.getNonNullString(PrefKeys.HTTP_PROXY_SERVER, "")
+        preferenceManager.sharedPreferences?.let { sharedPreferences ->
+            val httpProxyEnabled = sharedPreferences.getBoolean(PrefKeys.HTTP_PROXY_ENABLED, false)
+            val httpServer = sharedPreferences.getNonNullString(PrefKeys.HTTP_PROXY_SERVER, "")
 
-        try {
-            val httpPort = sharedPreferences.getNonNullString(PrefKeys.HTTP_PROXY_PORT, "-1")
-                .toInt()
+            try {
+                val httpPort = sharedPreferences.getNonNullString(PrefKeys.HTTP_PROXY_PORT, "-1")
+                    .toInt()
 
-            if (httpProxyEnabled && httpServer.isNotBlank() && httpPort > 0 && httpPort < 65535) {
-                httpProxyPref?.summary = "$httpServer:$httpPort"
-                return
+                if (httpProxyEnabled && httpServer.isNotBlank() && httpPort > 0 && httpPort < 65535) {
+                    httpProxyPref?.summary = "$httpServer:$httpPort"
+                    return
+                }
+            } catch (e: NumberFormatException) {
+                // user has entered wrong port, fall back to empty summary
             }
-        } catch (e: NumberFormatException) {
-            // user has entered wrong port, fall back to empty summary
-        }
 
-        httpProxyPref?.summary = ""
+            httpProxyPref?.summary = ""
+        }
     }
 
     companion object {
