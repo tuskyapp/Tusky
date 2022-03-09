@@ -486,14 +486,14 @@
     <string name="drafts_post_reply_removed">Il post a cui hai scritto una bozza di risposta è stato rimosso</string>
     <string name="draft_deleted">Bozza eliminata</string>
     <string name="drafts_post_failed_to_send">L\'invio di questo post è fallito!</string>
-    <string name="dialog_delete_list_warning">Sei sicuro di voler cancellare la lista %1$s\?</string>
+    <string name="dialog_delete_list_warning">Sei sicuro di voler cancellare la lista %1$s?</string>
     <string name="duration_indefinite">Indefinita</string>
     <string name="label_duration">Durata</string>
     <string name="post_media_attachments">Allegati</string>
     <string name="post_media_audio">Audio</string>
     <string name="pref_title_animate_custom_emojis">Riproduci emoji animate</string>
     <string name="action_subscribe_account">Iscriviti</string>
-    <string name="dialog_delete_conversation_warning">Rimuovere questa conversazione\?</string>
+    <string name="dialog_delete_conversation_warning">Rimuovere questa conversazione?</string>
     <string name="drafts_failed_loading_reply">Errore nel recupero delle informazioni sulla risposta</string>
     <string name="action_unsubscribe_account">Disiscriviti</string>
     <string name="action_delete_conversation">Elimina conversazione</string>
