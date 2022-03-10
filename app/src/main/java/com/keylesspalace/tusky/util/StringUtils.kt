@@ -78,6 +78,19 @@ fun String.isLessThan(other: String): Boolean {
     }
 }
 
+/**
+ * A <= B (strictly) by length and then by content.
+ * Examples:
+ * "abc" <= "bcd"
+ * "ab"  <= "abc"
+ * "cb"  <= "abc"
+ * "ab"  <= "ab"
+ * not: "abc" > "cb"
+ */
+fun String.isLessThanOrEqual(other: String): Boolean {
+    return this == other || isLessThan(other)
+}
+
 fun Spanned.trimTrailingWhitespace(): Spanned {
     var i = length
     do {

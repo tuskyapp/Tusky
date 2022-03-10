@@ -37,6 +37,8 @@ import com.keylesspalace.tusky.network.TimelineCases
 import com.keylesspalace.tusky.util.dec
 import com.keylesspalace.tusky.util.getDomain
 import com.keylesspalace.tusky.util.inc
+import com.keylesspalace.tusky.util.isLessThan
+import com.keylesspalace.tusky.util.isLessThanOrEqual
 import com.keylesspalace.tusky.util.toViewData
 import com.keylesspalace.tusky.viewdata.StatusViewData
 import kotlinx.coroutines.flow.map
@@ -162,27 +164,28 @@ class NetworkTimelineViewModel @Inject constructor(
                 }.toMutableList()
 
                 if (statuses.isNotEmpty()) {
-                    val firstId = statuses.first().id.hashCode().toLong()
-                    val lastId = statuses.last().id.hashCode().toLong()
-                    val overlappedFrom = statusData.indexOfFirst { it.viewDataId <= firstId }
-                    val overlappedTo = statusData.indexOfFirst { it.viewDataId < lastId }
+                    val firstId = statuses.first().id
+                    val lastId = statuses.last().id
+                    val overlappedFrom = statusData.indexOfFirst { it.asStatusOrNull()?.id?.isLessThanOrEqual(firstId) ?: false }
+                    val overlappedTo = statusData.indexOfFirst { it.asStatusOrNull()?.id?.isLessThan(lastId) ?: false }
 
                     if (overlappedFrom < overlappedTo) {
-                        repeat(overlappedTo - overlappedFrom) {
-                            statusData[overlappedFrom].asStatusOrNull()?.let { oldStatus ->
-                                val dataIndex = statuses.indexOfFirst { it.id == oldStatus.id }
-                                if (dataIndex == -1) {
-                                    return@let
-                                }
-                                data[dataIndex] = data[dataIndex]
+                        data.mapIndexed { i, status -> i to statusData.firstOrNull { it.asStatusOrNull()?.id == status.id }?.asStatusOrNull() }
+                            .filter { (_, oldStatus) -> oldStatus != null }
+                            .forEach { (i, oldStatus) ->
+                                data[i] = data[i]
                                     .copy(
-                                        isShowingContent = oldStatus.isShowingContent,
+                                        isShowingContent = oldStatus!!.isShowingContent,
                                         isExpanded = oldStatus.isExpanded,
                                         isCollapsed = oldStatus.isCollapsed,
                                     )
                             }
 
-                            statusData.removeAt(overlappedFrom)
+                        statusData.removeAll { status ->
+                            when (status) {
+                                is StatusViewData.Placeholder -> lastId.isLessThan(status.id) && status.id.isLessThanOrEqual(firstId)
+                                is StatusViewData.Concrete -> lastId.isLessThan(status.id) && status.id.isLessThanOrEqual(firstId)
+                            }
                         }
                     } else {
                         statusData.add(overlappedFrom, StatusViewData.Placeholder(statuses.last().id.dec(), isLoading = false))
