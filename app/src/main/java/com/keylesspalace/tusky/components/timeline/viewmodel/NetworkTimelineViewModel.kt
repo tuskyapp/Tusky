@@ -35,8 +35,11 @@ import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.network.FilterModel
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.network.TimelineCases
+import com.keylesspalace.tusky.util.dec
 import com.keylesspalace.tusky.util.getDomain
 import com.keylesspalace.tusky.util.inc
+import com.keylesspalace.tusky.util.isLessThan
+import com.keylesspalace.tusky.util.isLessThanOrEqual
 import com.keylesspalace.tusky.util.toViewData
 import com.keylesspalace.tusky.viewdata.StatusViewData
 import kotlinx.coroutines.flow.map
@@ -135,6 +138,10 @@ class NetworkTimelineViewModel @Inject constructor(
     override fun loadMore(placeholderId: String) {
         viewModelScope.launch {
             try {
+                val placeholderIndex =
+                    statusData.indexOfFirst { it is StatusViewData.Placeholder && it.id == placeholderId }
+                statusData[placeholderIndex] = StatusViewData.Placeholder(placeholderId, isLoading = true)
+
                 val statusResponse = fetchStatusesForKind(
                     fromId = placeholderId.inc(),
                     uptoId = null,
@@ -147,28 +154,47 @@ class NetworkTimelineViewModel @Inject constructor(
                     return@launch
                 }
 
+                statusData.removeAt(placeholderIndex)
+
                 val activeAccount = accountManager.activeAccount!!
-
                 val data = statuses.map { status ->
-                    val oldStatus = statusData.find { s ->
-                        s.asStatusOrNull()?.id == status.id
-                    }?.asStatusOrNull()
-
-                    val contentShowing = oldStatus?.isShowingContent ?: activeAccount.alwaysShowSensitiveMedia || !status.actionableStatus.sensitive
-                    val expanded = oldStatus?.isExpanded ?: activeAccount.alwaysOpenSpoiler
-                    val contentCollapsed = oldStatus?.isCollapsed ?: true
-
                     status.toViewData(
-                        isShowingContent = contentShowing,
-                        isExpanded = expanded,
-                        isCollapsed = contentCollapsed
+                        isShowingContent = activeAccount.alwaysShowSensitiveMedia || !status.actionableStatus.sensitive,
+                        isExpanded = activeAccount.alwaysOpenSpoiler,
+                        isCollapsed = true
                     )
+                }.toMutableList()
+
+                if (statuses.isNotEmpty()) {
+                    val firstId = statuses.first().id
+                    val lastId = statuses.last().id
+                    val overlappedFrom = statusData.indexOfFirst { it.asStatusOrNull()?.id?.isLessThanOrEqual(firstId) ?: false }
+                    val overlappedTo = statusData.indexOfFirst { it.asStatusOrNull()?.id?.isLessThan(lastId) ?: false }
+
+                    if (overlappedFrom < overlappedTo) {
+                        data.mapIndexed { i, status -> i to statusData.firstOrNull { it.asStatusOrNull()?.id == status.id }?.asStatusOrNull() }
+                            .filter { (_, oldStatus) -> oldStatus != null }
+                            .forEach { (i, oldStatus) ->
+                                data[i] = data[i]
+                                    .copy(
+                                        isShowingContent = oldStatus!!.isShowingContent,
+                                        isExpanded = oldStatus.isExpanded,
+                                        isCollapsed = oldStatus.isCollapsed,
+                                    )
+                            }
+
+                        statusData.removeAll { status ->
+                            when (status) {
+                                is StatusViewData.Placeholder -> lastId.isLessThan(status.id) && status.id.isLessThanOrEqual(firstId)
+                                is StatusViewData.Concrete -> lastId.isLessThan(status.id) && status.id.isLessThanOrEqual(firstId)
+                            }
+                        }
+                    } else {
+                        statusData.add(overlappedFrom, StatusViewData.Placeholder(statuses.last().id.dec(), isLoading = false))
+                    }
                 }
 
-                val index =
-                    statusData.indexOfFirst { it is StatusViewData.Placeholder && it.id == placeholderId }
-                statusData.removeAt(index)
-                statusData.addAll(index, data)
+                statusData.addAll(placeholderIndex, data)
 
                 currentSource?.invalidate()
             } catch (e: Exception) {
@@ -214,6 +240,7 @@ class NetworkTimelineViewModel @Inject constructor(
     }
 
     override fun fullReload() {
+        nextKey = statusData.firstOrNull { it is StatusViewData.Concrete }?.asStatusOrNull()?.id?.inc()
         statusData.clear()
         currentSource?.invalidate()
     }
