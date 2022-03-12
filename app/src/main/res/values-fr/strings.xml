@@ -503,17 +503,17 @@
 \n - des statistiques sur les profils
 \n
 \n Les notifications \"push\" ne seront pas affectées, mais vous pouvez revoir vos préférences de notification manuellement.</string>
-    <string name="pref_title_notification_filter_subscriptions">une personne que je suis a publié un nouveau pouet</string>
+    <string name="pref_title_notification_filter_subscriptions">un compte auquel je suis abonné·e a publié un nouveau pouet</string>
     <string name="notification_subscription_format">%s vient de publier</string>
     <string name="review_notifications">Examiner les notifications</string>
     <string name="notification_subscription_name">Nouveaux pouets</string>
     <plurals name="error_upload_max_media_reached">
-        <item quantity="one">Vous ne pouvez pas téléverser plus de %1$d pièce jointe.</item>
+        <item quantity="one">Vous ne pouvez pas téléverser plus d’ %1$d pièce jointe.</item>
         <item quantity="other">Vous ne pouvez pas téléverser plus de %1$d pièces jointes.</item>
     </plurals>
     <string name="pref_title_wellbeing_mode">Bien-être</string>
     <string name="notification_subscription_description">Notifications quand quelqu\'un que vous suivez publie un nouveau pouet</string>
-    <string name="limit_notifications">Limiter les notifications de la timeline</string>
+    <string name="limit_notifications">Limiter les notifications du fil</string>
     <string name="wellbeing_hide_stats_profile">Cacher les statistiques quantitatives sur les profils</string>
     <string name="wellbeing_hide_stats_posts">Cacher les statistiques quantitatives sur les messages</string>
     <string name="action_unbookmark">Supprimer le marque-page</string>
