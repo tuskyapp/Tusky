@@ -45,37 +45,57 @@ data class Account(
             localUsername
         } else displayName
 
-    override fun hashCode(): Int {
-        return id.hashCode()
-    }
-
-    override fun equals(other: Any?): Boolean {
-        if (other !is Account) {
-            return false
-        }
-        return other.id == this.id
-    }
-
-    fun deepEquals(other: Account): Boolean {
-        return id == other.id &&
-            localUsername == other.localUsername &&
-            displayName == other.displayName &&
-            note == other.note &&
-            url == other.url &&
-            avatar == other.avatar &&
-            header == other.header &&
-            locked == other.locked &&
-            followersCount == other.followersCount &&
-            followingCount == other.followingCount &&
-            statusesCount == other.statusesCount &&
-            source == other.source &&
-            bot == other.bot &&
-            emojis == other.emojis &&
-            fields == other.fields &&
-            moved == other.moved
-    }
-
     fun isRemote(): Boolean = this.username != this.localUsername
+
+    /**
+     * overriding equals & hashcode because Spanned does not always ompare correctly otherwise
+     */
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+        other as Account
+
+        if (id != other.id) return false
+        if (localUsername != other.localUsername) return false
+        if (username != other.username) return false
+        if (displayName != other.displayName) return false
+        if (note.toString() != other.note.toString()) return false
+        if (url != other.url) return false
+        if (avatar != other.avatar) return false
+        if (header != other.header) return false
+        if (locked != other.locked) return false
+        if (followersCount != other.followersCount) return false
+        if (followingCount != other.followingCount) return false
+        if (statusesCount != other.statusesCount) return false
+        if (source != other.source) return false
+        if (bot != other.bot) return false
+        if (emojis != other.emojis) return false
+        if (fields != other.fields) return false
+        if (moved != other.moved) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = id.hashCode()
+        result = 31 * result + localUsername.hashCode()
+        result = 31 * result + username.hashCode()
+        result = 31 * result + (displayName?.hashCode() ?: 0)
+        result = 31 * result + note.toString().hashCode()
+        result = 31 * result + url.hashCode()
+        result = 31 * result + avatar.hashCode()
+        result = 31 * result + header.hashCode()
+        result = 31 * result + locked.hashCode()
+        result = 31 * result + followersCount
+        result = 31 * result + followingCount
+        result = 31 * result + statusesCount
+        result = 31 * result + (source?.hashCode() ?: 0)
+        result = 31 * result + bot.hashCode()
+        result = 31 * result + (emojis?.hashCode() ?: 0)
+        result = 31 * result + (fields?.hashCode() ?: 0)
+        result = 31 * result + (moved?.hashCode() ?: 0)
+        return result
+    }
 }
 
 data class AccountSource(

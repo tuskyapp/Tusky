@@ -174,11 +174,11 @@ class AccountsInListFragment : DialogFragment(), Injectable {
 
     private object AccountDiffer : DiffUtil.ItemCallback<Account>() {
         override fun areItemsTheSame(oldItem: Account, newItem: Account): Boolean {
-            return oldItem == newItem
+            return oldItem.id == newItem.id
         }
 
         override fun areContentsTheSame(oldItem: Account, newItem: Account): Boolean {
-            return oldItem.deepEquals(newItem)
+            return oldItem == newItem
         }
     }
 
@@ -209,12 +209,11 @@ class AccountsInListFragment : DialogFragment(), Injectable {
 
     private object SearchDiffer : DiffUtil.ItemCallback<AccountInfo>() {
         override fun areItemsTheSame(oldItem: AccountInfo, newItem: AccountInfo): Boolean {
-            return oldItem == newItem
+            return oldItem.first.id == newItem.first.id
         }
 
         override fun areContentsTheSame(oldItem: AccountInfo, newItem: AccountInfo): Boolean {
-            return oldItem.second == newItem.second &&
-                oldItem.first.deepEquals(newItem.first)
+            return oldItem == newItem
         }
     }
 

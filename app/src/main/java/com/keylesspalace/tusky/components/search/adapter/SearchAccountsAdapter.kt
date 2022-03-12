@@ -46,7 +46,7 @@ class SearchAccountsAdapter(private val linkListener: LinkListener, private val 
 
         val ACCOUNT_COMPARATOR = object : DiffUtil.ItemCallback<Account>() {
             override fun areContentsTheSame(oldItem: Account, newItem: Account): Boolean =
-                oldItem.deepEquals(newItem)
+                oldItem == newItem
 
             override fun areItemsTheSame(oldItem: Account, newItem: Account): Boolean =
                 oldItem.id == newItem.id
