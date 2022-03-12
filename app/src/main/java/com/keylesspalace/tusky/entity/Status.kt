@@ -25,7 +25,7 @@ import java.util.Date
 data class Status(
     val id: String,
     val url: String?, // not present if it's reblog
-    val account: Account,
+    val account: TimelineAccount,
     @SerializedName("in_reply_to_id") var inReplyToId: String?,
     @SerializedName("in_reply_to_account_id") val inReplyToAccountId: String?,
     val reblog: Status?,

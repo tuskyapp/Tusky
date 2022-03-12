@@ -16,19 +16,19 @@
 package com.keylesspalace.tusky.components.conversation
 
 import android.text.Spanned
-import android.text.SpannedString
 import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.TypeConverters
 import com.keylesspalace.tusky.db.Converters
-import com.keylesspalace.tusky.entity.Account
 import com.keylesspalace.tusky.entity.Attachment
 import com.keylesspalace.tusky.entity.Conversation
 import com.keylesspalace.tusky.entity.Emoji
 import com.keylesspalace.tusky.entity.HashTag
 import com.keylesspalace.tusky.entity.Poll
 import com.keylesspalace.tusky.entity.Status
+import com.keylesspalace.tusky.entity.TimelineAccount
 import com.keylesspalace.tusky.util.shouldTrimStatus
+import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial.url
 import java.util.Date
 
 @Entity(primaryKeys = ["id", "accountId"])
@@ -48,17 +48,15 @@ data class ConversationAccountEntity(
     val avatar: String,
     val emojis: List<Emoji>
 ) {
-    fun toAccount(): Account {
-        return Account(
+    fun toAccount(): TimelineAccount {
+        return TimelineAccount(
             id = id,
             username = username,
             displayName = displayName,
+            url = url,
             avatar = avatar,
             emojis = emojis,
-            url = "",
             localUsername = "",
-            note = SpannedString(""),
-            header = ""
         )
     }
 }
@@ -176,7 +174,7 @@ data class ConversationStatusEntity(
     }
 }
 
-fun Account.toEntity() =
+fun TimelineAccount.toEntity() =
     ConversationAccountEntity(
         id = id,
         username = username,
