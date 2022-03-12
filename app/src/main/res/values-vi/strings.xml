@@ -16,7 +16,7 @@
     <string name="notification_follow_request_format">%s yêu cầu theo dõi bạn</string>
     <string name="notification_follow_format">%s theo dõi bạn</string>
     <string name="notification_favourite_format">%s thích tút của bạn</string>
-    <string name="notification_reblog_format">%s chia sẻ tút của bạn</string>
+    <string name="notification_reblog_format">%s đăng lại tút của bạn</string>
     <string name="post_lookup_error_format">Lỗi khi tìm tút %s</string>
     <string name="error_no_custom_emojis">Máy chủ %s không có emoji tùy chỉnh</string>
     <string name="send_toot_notification_error_title">Lỗi khi đăng tút</string>
@@ -93,11 +93,11 @@
     <string name="confirmation_unblocked">Đã bỏ chặn người dùng</string>
     <string name="confirmation_reported">Đã gửi!</string>
     <string name="send_media_to">Chia sẻ tập tin với…</string>
-    <string name="send_status_link_to">Chia sẻ URL tút với…</string>
-    <string name="send_status_content_to">Chia sẻ tút với…</string>
+    <string name="send_status_link_to">Đăng lại URL tút với…</string>
+    <string name="send_status_content_to">Đăng lại tút với…</string>
     <string name="downloading_media">Đang lưu vào thiết bị</string>
     <string name="download_media">Tải về</string>
-    <string name="action_share_as">Chia sẻ với tư cách …</string>
+    <string name="action_share_as">Đăng lại với tư cách …</string>
     <string name="action_open_as">Mở với tư cách %s</string>
     <string name="action_copy_link">Chép URL</string>
     <string name="download_image">Đang tải %1$s</string>
@@ -106,8 +106,8 @@
     <string name="title_mentions_dialog">Lượt nhắc tới</string>
     <string name="title_hashtags_dialog">Hashtag</string>
     <string name="action_open_faved_by">Xem lượt thích</string>
-    <string name="action_open_reblogged_by">Xem lượt chia sẻ</string>
-    <string name="action_open_reblogger">Xem lượt chia sẻ</string>
+    <string name="action_open_reblogged_by">Xem lượt đăng lại</string>
+    <string name="action_open_reblogger">Xem lượt đăng lại</string>
     <string name="action_hashtags">Hashtag</string>
     <string name="action_mentions">Lượt nhắc tới</string>
     <string name="action_links">Links</string>
@@ -131,7 +131,7 @@
     <string name="action_mute_domain">Ẩn %s</string>
     <string name="action_unmute">Bỏ ẩn</string>
     <string name="action_mute">Ẩn</string>
-    <string name="action_share">Chia sẻ</string>
+    <string name="action_share">Đăng lại</string>
     <string name="action_photo_take">Chụp hình</string>
     <string name="action_add_poll">Tạo bình chọn</string>
     <string name="action_add_media">Thêm tệp</string>
@@ -150,8 +150,8 @@
     <string name="action_delete">Xóa</string>
     <string name="action_edit">Chỉnh sửa</string>
     <string name="action_report">Báo cáo</string>
-    <string name="action_show_reblogs">Hiện lượt chia sẻ</string>
-    <string name="action_hide_reblogs">Ẩn lượt chia sẻ</string>
+    <string name="action_show_reblogs">Hiện lượt đăng lại</string>
+    <string name="action_hide_reblogs">Ẩn lượt đăng lại</string>
     <string name="action_unblock">Bỏ chặn</string>
     <string name="action_block">Chặn</string>
     <string name="action_unfollow">Ngưng theo dõi</string>
@@ -162,8 +162,8 @@
     <string name="action_unfavourite">Bỏ lưu</string>
     <string name="action_bookmark">Lưu</string>
     <string name="action_favourite">Thích</string>
-    <string name="action_unreblog">Hủy chia sẻ</string>
-    <string name="action_reblog">Chia sẻ</string>
+    <string name="action_unreblog">Hủy đăng lại</string>
+    <string name="action_reblog">Đăng lại</string>
     <string name="action_reply">Trả lời</string>
     <string name="action_quick_reply">Trả lời nhanh</string>
     <string name="report_comment_hint">Ghi chú\?</string>
@@ -177,7 +177,7 @@
     <string name="status_sensitive_media_directions">Hiển thị</string>
     <string name="status_media_hidden_title">Nội dung bị ẩn</string>
     <string name="status_sensitive_media_title">Nhạy cảm</string>
-    <string name="status_boosted_format">%s chia sẻ</string>
+    <string name="status_boosted_format">%s đăng lại</string>
     <string name="status_username_format">\@%s</string>
     <string name="title_licenses">Giấy phép</string>
     <string name="title_scheduled_toot">Những tút đã lên lịch</string>
@@ -204,7 +204,7 @@
     <string name="link_whats_an_instance">Máy chủ là gì\?</string>
     <string name="pref_title_show_media_preview">Tải xem trước hình ảnh</string>
     <string name="pref_title_show_replies">Hiện những trả lời</string>
-    <string name="pref_title_show_boosts">Hiện lượt chia sẻ</string>
+    <string name="pref_title_show_boosts">Hiện lượt đăng lại</string>
     <string name="pref_title_status_tabs">Tabs</string>
     <string name="pref_title_status_filter">Lọc bảng tin</string>
     <string name="pref_title_gradient_for_media">Che mờ nội dung nhạy cảm</string>
@@ -225,7 +225,7 @@
     <string name="pref_title_appearance_settings">Giao diện</string>
     <string name="pref_title_notification_filter_poll">cuộc bình chọn kết thúc</string>
     <string name="pref_title_notification_filter_favourites">tút được thích</string>
-    <string name="pref_title_notification_filter_reblogs">tút được chia sẻ</string>
+    <string name="pref_title_notification_filter_reblogs">tút được đăng lại</string>
     <string name="pref_title_notification_filter_follow_requests">yêu cầu theo dõi</string>
     <string name="pref_title_notification_filter_follows">lượt theo dõi</string>
     <string name="pref_title_notification_filter_mentions">nhắc tới</string>
@@ -269,8 +269,8 @@
     <string name="pref_title_http_proxy_enable">Bật proxy</string>
     <string name="pref_title_http_proxy_settings">Dùng proxy</string>
     <string name="pref_title_proxy_settings">Vượt tường lửa</string>
-    <string name="notification_boost_description">Thông báo khi tút của bạn được chia sẻ</string>
-    <string name="notification_boost_name">Chia sẻ</string>
+    <string name="notification_boost_description">Thông báo khi tút của bạn được đăng lại</string>
+    <string name="notification_boost_name">Đăng lại</string>
     <string name="notification_follow_request_description">Thông báo về lượt yêu cầu theo dõi</string>
     <string name="about_bug_feature_request_site">Báo lỗi và đề xuất tính năng
 \nhttps://github.com/tuskyapp/Tusky/issues</string>
@@ -311,7 +311,7 @@
     <string name="status_share_link">URL tút</string>
     <string name="status_share_content">Nội dung của tút</string>
     <string name="about_tusky_account">Trang cá nhân Tusky</string>
-    <string name="pref_title_confirm_reblogs">Xác nhận trước khi chia sẻ</string>
+    <string name="pref_title_confirm_reblogs">Xác nhận trước khi đăng lại</string>
     <string name="pref_title_show_cards_in_timelines">Hiện xem trước của link</string>
     <string name="warning_scheduling_interval">Mastodon giới hạn tối thiểu 5 phút.</string>
     <string name="no_scheduled_status">Bạn không có tút đã lên lịch.</string>
@@ -382,7 +382,7 @@
     <string name="description_visiblity_public">Công khai</string>
     <string name="description_status_bookmarked">Đã lưu</string>
     <string name="description_status_favourited">Đã thích</string>
-    <string name="description_status_reblogged">Đã chia sẻ</string>
+    <string name="description_status_reblogged">Đã đăng lại</string>
     <string name="description_status_media_no_description_placeholder">Không có mô tả</string>
     <string name="description_status_cw">Nội dung nhạy cảm: %s</string>
     <plurals name="max_tab_number_reached">
@@ -392,9 +392,9 @@
     <string name="conversation_2_recipients">%1$s và %2$s</string>
     <string name="conversation_1_recipients">%1$s</string>
     <string name="title_favourited_by">Những người thích tút này</string>
-    <string name="title_reblogged_by">Những người chia sẻ tút này</string>
+    <string name="title_reblogged_by">Những người đăng lại tút này</string>
     <plurals name="reblogs">
-        <item quantity="other"><b>%s</b> lượt chia sẻ</item>
+        <item quantity="other"><b>%s</b> lượt đăng lại</item>
     </plurals>
     <plurals name="favs">
         <item quantity="other"><b>%1$s</b> Thích</item>
@@ -411,8 +411,8 @@
     <string name="license_cc_by_4">CC-BY 4.0</string>
     <string name="license_apache_2">Giấy phép Apache (xem bên dưới)</string>
     <string name="license_description">Tusky có sử dụng mã nguồn từ những dự án mã nguồn mở sau:</string>
-    <string name="unreblog_private">Hủy chia sẻ</string>
-    <string name="reblog_private">Chia sẻ công khai</string>
+    <string name="unreblog_private">Hủy đăng lại</string>
+    <string name="reblog_private">Đăng lại công khai</string>
     <string name="account_moved_description">%1$s đã dời sang:</string>
     <string name="profile_badge_bot_text">Tài khoản Bot</string>
     <string name="download_failed">Tải về thất bại</string>
@@ -471,8 +471,8 @@
     <string name="review_notifications">Chọn loại thông báo</string>
     <string name="wellbeing_mode_notice">Các thông tin ảnh hưởng tới tâm lý hành vi của bạn sẽ bị ẩn. Bao gồm:
 \n
-\n - Thông báo Lượt thích/Chia sẻ/Theo dõi
-\n - Số Lượt thích/Chia sẻ của tút
+\n - Thông báo Lượt thích/Đăng lại/Theo dõi
+\n - Số Lượt thích/Đăng lại của tút
 \n - Số Người theo dõi/Tút trên trang cá nhân
 \n
 \nThông báo đẩy sẽ không ảnh hưởng, bạn có thể tự thiết lập trong phần cài đặt điện thoại của bạn.</string>
