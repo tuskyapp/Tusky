@@ -18,7 +18,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.keylesspalace.tusky.R
-import com.keylesspalace.tusky.entity.Account
+import com.keylesspalace.tusky.entity.TimelineAccount
 import com.keylesspalace.tusky.interfaces.AccountActionListener
 import com.keylesspalace.tusky.util.removeDuplicates
 
@@ -28,7 +28,7 @@ abstract class AccountAdapter<AVH : RecyclerView.ViewHolder> internal constructo
     protected val animateAvatar: Boolean,
     protected val animateEmojis: Boolean
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder?>() {
-    var accountList = mutableListOf<Account>()
+    var accountList = mutableListOf<TimelineAccount>()
     private var bottomLoading: Boolean = false
 
     override fun getItemCount(): Int {
@@ -73,12 +73,12 @@ abstract class AccountAdapter<AVH : RecyclerView.ViewHolder> internal constructo
         }
     }
 
-    fun update(newAccounts: List<Account>) {
+    fun update(newAccounts: List<TimelineAccount>) {
         accountList = removeDuplicates(newAccounts)
         notifyDataSetChanged()
     }
 
-    fun addItems(newAccounts: List<Account>) {
+    fun addItems(newAccounts: List<TimelineAccount>) {
         val end = accountList.size
         val last = accountList[end - 1]
         if (newAccounts.none { it.id == last.id }) {
@@ -100,7 +100,7 @@ abstract class AccountAdapter<AVH : RecyclerView.ViewHolder> internal constructo
         }
     }
 
-    fun removeItem(position: Int): Account? {
+    fun removeItem(position: Int): TimelineAccount? {
         if (position < 0 || position >= accountList.size) {
             return null
         }
@@ -109,7 +109,7 @@ abstract class AccountAdapter<AVH : RecyclerView.ViewHolder> internal constructo
         return account
     }
 
-    fun addItem(account: Account, position: Int) {
+    fun addItem(account: TimelineAccount, position: Int) {
         if (position < 0 || position > accountList.size) {
             return
         }

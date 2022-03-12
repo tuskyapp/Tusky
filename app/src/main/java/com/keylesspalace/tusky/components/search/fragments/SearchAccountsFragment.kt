@@ -19,12 +19,12 @@ import androidx.paging.PagingData
 import androidx.paging.PagingDataAdapter
 import androidx.preference.PreferenceManager
 import com.keylesspalace.tusky.components.search.adapter.SearchAccountsAdapter
-import com.keylesspalace.tusky.entity.Account
+import com.keylesspalace.tusky.entity.TimelineAccount
 import com.keylesspalace.tusky.settings.PrefKeys
 import kotlinx.coroutines.flow.Flow
 
-class SearchAccountsFragment : SearchFragment<Account>() {
-    override fun createAdapter(): PagingDataAdapter<Account, *> {
+class SearchAccountsFragment : SearchFragment<TimelineAccount>() {
+    override fun createAdapter(): PagingDataAdapter<TimelineAccount, *> {
         val preferences = PreferenceManager.getDefaultSharedPreferences(binding.searchRecyclerView.context)
 
         return SearchAccountsAdapter(
@@ -34,7 +34,7 @@ class SearchAccountsFragment : SearchFragment<Account>() {
         )
     }
 
-    override val data: Flow<PagingData<Account>>
+    override val data: Flow<PagingData<TimelineAccount>>
         get() = viewModel.accountsFlow
 
     companion object {

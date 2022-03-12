@@ -17,7 +17,7 @@
 package com.keylesspalace.tusky.viewmodel
 
 import android.util.Log
-import com.keylesspalace.tusky.entity.Account
+import com.keylesspalace.tusky.entity.TimelineAccount
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.Either
 import com.keylesspalace.tusky.util.Either.Left
@@ -28,7 +28,7 @@ import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.subjects.BehaviorSubject
 import javax.inject.Inject
 
-data class State(val accounts: Either<Throwable, List<Account>>, val searchResult: List<Account>?)
+data class State(val accounts: Either<Throwable, List<TimelineAccount>>, val searchResult: List<TimelineAccount>?)
 
 class AccountsInListViewModel @Inject constructor(private val api: MastodonApi) : RxAwareViewModel() {
 
@@ -49,7 +49,7 @@ class AccountsInListViewModel @Inject constructor(private val api: MastodonApi) 
         }
     }
 
-    fun addAccountToList(listId: String, account: Account) {
+    fun addAccountToList(listId: String, account: TimelineAccount) {
         api.addCountToList(listId, listOf(account.id))
             .subscribe(
                 {
