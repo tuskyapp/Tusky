@@ -43,7 +43,7 @@ class SpannedTypeAdapter : JsonDeserializer<Spanned>, JsonSerializer<Spanned?> {
             ?.replace("  ", "&nbsp;&nbsp;")
             ?.parseAsHtml()
             /* Html.fromHtml returns trailing whitespace if the html ends in a </p> tag, which
-             * all status contents do, so it should be trimmed. */
+             * most status contents do, so it should be trimmed. */
             ?.trimTrailingWhitespace()
             ?: SpannedString("")
     }
