@@ -1,0 +1,8 @@
+Tusky v16.0
+
+- Cambiamos completamente a lóxica de carga da cronoloxía para facela máis rápida, con menos fallos e doada de manter.
+- Tusky pode animar os emojis personalizados en APNG & formato WebP Animado.
+- Arranxamos moitos problemas.
+- Soporte para Android 11
+- Novas traducións: Gaélico de Escocia, Galego, Ucraíno
+- Mellora nas traducións
