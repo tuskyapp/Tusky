@@ -33,6 +33,11 @@ class StatusComparisonTest {
         assertNotEquals(createStatus(), createStatus(content = content))
     }
 
+    @Test
+    fun `accounts with different notes in json - should be equal because notes are not relevant for timelines`() {
+        assertEquals(createStatus(note = "Test"), createStatus(note = "Test 123456"))
+    }
+
     private val gson = GsonBuilder().registerTypeAdapter(
         Spanned::class.java, SpannedTypeAdapter()
     ).create()

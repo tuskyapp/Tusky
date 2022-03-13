@@ -3,8 +3,8 @@ package com.keylesspalace.tusky.components.timeline
 import android.text.SpannedString
 import com.google.gson.Gson
 import com.keylesspalace.tusky.db.TimelineStatusWithAccount
-import com.keylesspalace.tusky.entity.Account
 import com.keylesspalace.tusky.entity.Status
+import com.keylesspalace.tusky.entity.TimelineAccount
 import com.keylesspalace.tusky.viewdata.StatusViewData
 import java.util.ArrayList
 import java.util.Date
@@ -14,15 +14,13 @@ private val fixedDate = Date(1638889052000)
 fun mockStatus(id: String = "100") = Status(
     id = id,
     url = "https://mastodon.example/@ConnyDuck/$id",
-    account = Account(
+    account = TimelineAccount(
         id = "1",
         localUsername = "connyduck",
         username = "connyduck@mastodon.example",
         displayName = "Conny Duck",
-        note = SpannedString(""),
         url = "https://mastodon.example/@ConnyDuck",
-        avatar = "https://mastodon.example/system/accounts/avatars/000/150/486/original/ab27d7ddd18a10ea.jpg",
-        header = "https://mastodon.example/system/accounts/header/000/106/476/original/e590545d7eb4da39.jpg"
+        avatar = "https://mastodon.example/system/accounts/avatars/000/150/486/original/ab27d7ddd18a10ea.jpg"
     ),
     inReplyToId = null,
     inReplyToAccountId = null,
