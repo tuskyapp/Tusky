@@ -98,7 +98,7 @@ data class ConversationStatusEntity(
         if (inReplyToId != other.inReplyToId) return false
         if (inReplyToAccountId != other.inReplyToAccountId) return false
         if (account != other.account) return false
-        if (content.toString() != other.content.toString()) return false // TODO find a better method to compare two spanned strings
+        if (content.toString() != other.content.toString()) return false
         if (createdAt != other.createdAt) return false
         if (emojis != other.emojis) return false
         if (favouritesCount != other.favouritesCount) return false
@@ -124,7 +124,7 @@ data class ConversationStatusEntity(
         result = 31 * result + (inReplyToId?.hashCode() ?: 0)
         result = 31 * result + (inReplyToAccountId?.hashCode() ?: 0)
         result = 31 * result + account.hashCode()
-        result = 31 * result + content.hashCode()
+        result = 31 * result + content.toString().hashCode()
         result = 31 * result + createdAt.hashCode()
         result = 31 * result + emojis.hashCode()
         result = 31 * result + favouritesCount
