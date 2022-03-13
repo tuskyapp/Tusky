@@ -32,9 +32,19 @@ import java.lang.reflect.Type
 class SpannedTypeAdapter : JsonDeserializer<Spanned>, JsonSerializer<Spanned?> {
     @Throws(JsonParseException::class)
     override fun deserialize(json: JsonElement, typeOfT: Type, context: JsonDeserializationContext): Spanned {
-        /* Html.fromHtml returns trailing whitespace if the html ends in a </p> tag, which
-         * all status contents do, so it should be trimmed. */
-        return json.asString?.parseAsHtml()?.trimTrailingWhitespace() ?: SpannedString("")
+        return json.asString
+            /* Mastodon uses 'white-space: pre-wrap;' so spaces are displayed as returned by the Api.
+             * We can't use CSS so we replace spaces with non-breaking-spaces to emulate the behavior.
+             */
+            ?.replace("<br> ", "<br>&nbsp;")
+            ?.replace("<br /> ", "<br />&nbsp;")
+            ?.replace("<br/> ", "<br/>&nbsp;")
+            ?.replace("  ", "&nbsp;&nbsp;")
+            ?.parseAsHtml()
+            /* Html.fromHtml returns trailing whitespace if the html ends in a </p> tag, which
+             * all status contents do, so it should be trimmed. */
+            ?.trimTrailingWhitespace()
+            ?: SpannedString("")
     }
 
     override fun serialize(src: Spanned?, typeOfSrc: Type, context: JsonSerializationContext): JsonElement {
