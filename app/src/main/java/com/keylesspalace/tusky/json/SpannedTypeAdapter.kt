@@ -19,6 +19,7 @@ import android.text.Spanned
 import android.text.SpannedString
 import androidx.core.text.HtmlCompat
 import androidx.core.text.parseAsHtml
+import androidx.core.text.toHtml
 import com.google.gson.JsonDeserializationContext
 import com.google.gson.JsonDeserializer
 import com.google.gson.JsonElement
@@ -48,6 +49,6 @@ class SpannedTypeAdapter : JsonDeserializer<Spanned>, JsonSerializer<Spanned?> {
     }
 
     override fun serialize(src: Spanned?, typeOfSrc: Type, context: JsonSerializationContext): JsonElement {
-        return JsonPrimitive(HtmlCompat.toHtml(src!!, HtmlCompat.TO_HTML_PARAGRAPH_LINES_INDIVIDUAL))
+        return JsonPrimitive(src!!.toHtml(HtmlCompat.TO_HTML_PARAGRAPH_LINES_INDIVIDUAL))
     }
 }
