@@ -5,6 +5,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.google.gson.GsonBuilder
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.json.SpannedTypeAdapter
+import com.keylesspalace.tusky.viewdata.StatusViewData
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotEquals
 import org.junit.Test
@@ -41,6 +42,63 @@ class StatusComparisonTest {
     private val gson = GsonBuilder().registerTypeAdapter(
         Spanned::class.java, SpannedTypeAdapter()
     ).create()
+
+    @Test
+    fun `two equal status view data - should be equal`() {
+        val viewdata1 = StatusViewData.Concrete(
+            status = createStatus(),
+            isExpanded = false,
+            isShowingContent = false,
+            isCollapsible = false,
+            isCollapsed = false
+        )
+        val viewdata2 = StatusViewData.Concrete(
+            status = createStatus(),
+            isExpanded = false,
+            isShowingContent = false,
+            isCollapsible = false,
+            isCollapsed = false
+        )
+        assertEquals(viewdata1, viewdata2)
+    }
+
+    @Test
+    fun `status view data with different isExpanded - should not be equal`() {
+        val viewdata1 = StatusViewData.Concrete(
+            status = createStatus(),
+            isExpanded = true,
+            isShowingContent = false,
+            isCollapsible = false,
+            isCollapsed = false
+        )
+        val viewdata2 = StatusViewData.Concrete(
+            status = createStatus(),
+            isExpanded = false,
+            isShowingContent = false,
+            isCollapsible = false,
+            isCollapsed = false
+        )
+        assertNotEquals(viewdata1, viewdata2)
+    }
+
+    @Test
+    fun `status view data with different statuses- should not be equal`() {
+        val viewdata1 = StatusViewData.Concrete(
+            status = createStatus(content = "whatever"),
+            isExpanded = true,
+            isShowingContent = false,
+            isCollapsible = false,
+            isCollapsed = false
+        )
+        val viewdata2 = StatusViewData.Concrete(
+            status = createStatus(),
+            isExpanded = false,
+            isShowingContent = false,
+            isCollapsible = false,
+            isCollapsed = false
+        )
+        assertNotEquals(viewdata1, viewdata2)
+    }
 
     private fun createStatus(
         id: String = "123456",
