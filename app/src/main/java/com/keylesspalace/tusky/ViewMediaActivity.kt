@@ -205,10 +205,7 @@ class ViewMediaActivity : BaseActivity(), ViewImageFragment.PhotoActionsListener
 
         val downloadManager = getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
         val request = DownloadManager.Request(Uri.parse(url))
-        request.setDestinationInExternalPublicDir(
-            Environment.DIRECTORY_PICTURES,
-            getString(R.string.app_name) + "/" + filename
-        )
+        request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, filename)
         downloadManager.enqueue(request)
     }
 
