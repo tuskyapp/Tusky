@@ -22,12 +22,11 @@ import com.keylesspalace.tusky.entity.Status
 /**
  * Created by charlag on 11/07/2017.
  *
- *
  * Class to represent data required to display either a notification or a placeholder.
  * It is either a [StatusViewData.Concrete] or a [StatusViewData.Placeholder].
  */
-sealed class StatusViewData private constructor() {
-    abstract val viewDataId: Long
+sealed class StatusViewData {
+    abstract val id: String
 
     data class Concrete(
         val status: Status,
@@ -49,8 +48,8 @@ sealed class StatusViewData private constructor() {
         /** Whether the status meets the requirement to be collapse  */
         val isCollapsed: Boolean,
     ) : StatusViewData() {
-        override val viewDataId: Long
-            get() = status.id.hashCode().toLong()
+        override val id: String
+            get() = status.id
 
         val content: Spanned
         val spoilerText: String
@@ -116,9 +115,6 @@ sealed class StatusViewData private constructor() {
             }
         }
 
-        val id: String
-            get() = status.id
-
         /** Helper for Java */
         fun copyWithStatus(status: Status): Concrete {
             return copy(status = status)
@@ -140,10 +136,10 @@ sealed class StatusViewData private constructor() {
         }
     }
 
-    data class Placeholder(val id: String, val isLoading: Boolean) : StatusViewData() {
-        override val viewDataId: Long
-            get() = id.hashCode().toLong()
-    }
+    data class Placeholder(
+        override val id: String,
+        val isLoading: Boolean
+    ) : StatusViewData()
 
     fun asStatusOrNull() = this as? Concrete
 
