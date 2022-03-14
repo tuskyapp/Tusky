@@ -28,7 +28,6 @@ import com.keylesspalace.tusky.entity.Poll
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.entity.TimelineAccount
 import com.keylesspalace.tusky.util.shouldTrimStatus
-import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial.url
 import java.util.Date
 
 @Entity(primaryKeys = ["id", "accountId"])
@@ -53,7 +52,7 @@ data class ConversationAccountEntity(
             id = id,
             username = username,
             displayName = displayName,
-            url = url,
+            url = "",
             avatar = avatar,
             emojis = emojis,
             localUsername = "",
