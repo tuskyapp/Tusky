@@ -48,7 +48,7 @@ data class Account(
     fun isRemote(): Boolean = this.username != this.localUsername
 
     /**
-     * overriding equals & hashcode because Spanned does not always ompare correctly otherwise
+     * overriding equals & hashcode because Spanned does not always compare correctly otherwise
      */
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
