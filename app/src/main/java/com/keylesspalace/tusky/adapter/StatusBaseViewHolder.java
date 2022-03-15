@@ -1,6 +1,7 @@
 package com.keylesspalace.tusky.adapter;
 
 import static com.keylesspalace.tusky.viewdata.PollViewDataKt.buildDescription;
+import android.annotation.SuppressLint;
 
 import android.content.Context;
 import android.graphics.drawable.BitmapDrawable;
@@ -12,6 +13,9 @@ import android.text.format.DateUtils;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -97,6 +101,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
     protected final CharSequence[] mediaDescriptions;
     private final MaterialButton contentWarningButton;
     private final ImageView avatarInset;
+    private WebView cardEmbedWebView;
 
     public final ImageView avatar;
     public final TextView metaInfo;
@@ -125,6 +130,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
     protected final int avatarRadius48dp;
     private final int avatarRadius36dp;
     private final int avatarRadius24dp;
+    private int cardEmbedWebViewWidth;
 
     private final Drawable mediaPreviewUnloaded;
 
@@ -169,6 +175,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         cardTitle = itemView.findViewById(R.id.card_title);
         cardDescription = itemView.findViewById(R.id.card_description);
         cardUrl = itemView.findViewById(R.id.card_link);
+        cardEmbedWebView = itemView.findViewById(R.id.card_embed_webview);
 
         filteredPlaceholder = itemView.findViewById(R.id.status_filtered_placeholder);
         filteredPlaceholderLabel = itemView.findViewById(R.id.status_filter_label);
@@ -1076,6 +1083,16 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         return pollDescription.getContext().getString(R.string.poll_info_format, votesText, pollDurationInfo);
     }
 
+    private String getHtmlWrapperForEmbedFragment(String fragment) {
+        // Remove default margin and padding from embedded html frame
+        StringBuilder builder = new StringBuilder("<html><body style='margin:0;padding:0;'>");
+        builder.append(fragment);
+        builder.append("</body></html>");
+
+        return builder.toString();
+    }
+
+    @SuppressLint("SetJavaScriptEnabled")
     protected void setupCard(
             final StatusViewData.Concrete status,
             boolean expanded,
@@ -1098,50 +1115,97 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             (!actionable.getSensitive() || expanded) &&
             (!status.isCollapsible() || !status.isCollapsed())) {
 
-            cardView.setVisibility(View.VISIBLE);
-            cardTitle.setText(card.getTitle());
-            if (TextUtils.isEmpty(card.getDescription()) && TextUtils.isEmpty(card.getAuthorName())) {
-                cardDescription.setVisibility(View.GONE);
-            } else {
-                cardDescription.setVisibility(View.VISIBLE);
-                if (TextUtils.isEmpty(card.getDescription())) {
-                    cardDescription.setText(card.getAuthorName());
-                } else {
-                    cardDescription.setText(card.getDescription());
+            String embedHtml = card.getHtml();
+            String url = card.getUrl();
+
+            if (cardEmbedWebView != null && !TextUtils.isEmpty(embedHtml)) {
+                cardView.setVisibility(View.VISIBLE);
+                cardEmbedWebView.setVisibility(View.VISIBLE);
+                cardImage.setVisibility(View.GONE);
+                cardInfo.setVisibility(View.GONE);
+
+                WebSettings settings = cardEmbedWebView.getSettings();
+                // Embeds seem to universally require javascript
+                settings.setJavaScriptEnabled(true);
+
+                // webview doesn't scale to fill correctly unless we manually calculate the scale
+                // which we can't do until the view has been laid out
+                cardEmbedWebView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                    @Override
+                    public void onGlobalLayout() {
+                        cardEmbedWebView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+
+                        try
+                        {
+                            // This isn't nice, but probably better than loading a full html parser for one iframe tag?
+                            // (capture the value of: width="200")
+                            int width = Integer.parseInt(embedHtml.replaceFirst(".*width=[\"']([^\"']+)[\"'].*", "$1"));
+                            if (cardEmbedWebViewWidth == 0) {
+                                // If I call getWidth repeatedly, it eventually starts throwing exceptions
+                                cardEmbedWebViewWidth = cardEmbedWebView.getWidth();
+                            }
+                            // setInitialScale takes an integer percentage value
+                            cardEmbedWebView.setInitialScale(cardEmbedWebViewWidth * 100 / width);
+                        } catch (Exception e){
+                            // If we can't calculate the real scaling factor,
+                            // let the webview try best-effort
+                            settings.setUseWideViewPort(true);
+                            settings.setLoadWithOverviewMode(true);
+                        }
+                        cardEmbedWebView.loadDataWithBaseURL(url, getHtmlWrapperForEmbedFragment(embedHtml), "text/html", "UTF-8", null);
+                    }
+                });
+            } else if (!TextUtils.isEmpty(url)) {
+                cardView.setVisibility(View.VISIBLE);
+                cardImage.setVisibility(View.VISIBLE);
+                cardInfo.setVisibility(View.VISIBLE);
+                if (cardEmbedWebView != null) {
+                    cardEmbedWebView.setVisibility(View.GONE);
                 }
-            }
 
-            cardUrl.setText(card.getUrl());
+                cardTitle.setText(card.getTitle());
+                if (TextUtils.isEmpty(card.getDescription()) && TextUtils.isEmpty(card.getAuthorName())) {
+                    cardDescription.setVisibility(View.GONE);
+                } else {
+                    cardDescription.setVisibility(View.VISIBLE);
+                    if (TextUtils.isEmpty(card.getDescription())) {
+                        cardDescription.setText(card.getAuthorName());
+                    } else {
+                        cardDescription.setText(card.getDescription());
+                    }
+                }
 
-            // Statuses from other activitypub sources can be marked sensitive even if there's no media,
-            // so let's blur the preview in that case
-            // If media previews are disabled, show placeholder for cards as well
-            if (statusDisplayOptions.mediaPreviewEnabled() && !actionable.getSensitive() && !TextUtils.isEmpty(card.getImage())) {
+                cardUrl.setText(card.getUrl());
 
-                int radius = cardImage.getContext().getResources()
-                        .getDimensionPixelSize(R.dimen.card_radius);
+                // Statuses from other activitypub sources can be marked sensitive even if there's no media,
+                // so let's blur the preview in that case
+                // If media previews are disabled, show placeholder for cards as well
+                if (statusDisplayOptions.mediaPreviewEnabled() && !actionable.getSensitive() && !TextUtils.isEmpty(card.getImage())) {
+
+                    int radius = cardImage.getContext().getResources()
+                            .getDimensionPixelSize(R.dimen.card_radius);
                 ShapeAppearanceModel.Builder cardImageShape = ShapeAppearanceModel.builder();
 
-                if (card.getWidth() > card.getHeight()) {
-                    cardView.setOrientation(LinearLayout.VERTICAL);
+                    if (card.getWidth() > card.getHeight()) {
+                        cardView.setOrientation(LinearLayout.VERTICAL);
 
-                    cardImage.getLayoutParams().height = cardImage.getContext().getResources()
-                            .getDimensionPixelSize(R.dimen.card_image_vertical_height);
-                    cardImage.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
-                    cardInfo.getLayoutParams().height = ViewGroup.LayoutParams.MATCH_PARENT;
-                    cardInfo.getLayoutParams().width = ViewGroup.LayoutParams.WRAP_CONTENT;
-                    cardImageShape.setTopLeftCorner(CornerFamily.ROUNDED, radius);
-                    cardImageShape.setTopRightCorner(CornerFamily.ROUNDED, radius);
-                } else {
-                    cardView.setOrientation(LinearLayout.HORIZONTAL);
-                    cardImage.getLayoutParams().height = ViewGroup.LayoutParams.MATCH_PARENT;
-                    cardImage.getLayoutParams().width = cardImage.getContext().getResources()
-                            .getDimensionPixelSize(R.dimen.card_image_horizontal_width);
-                    cardInfo.getLayoutParams().height = ViewGroup.LayoutParams.WRAP_CONTENT;
-                    cardInfo.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
-                    cardImageShape.setTopLeftCorner(CornerFamily.ROUNDED, radius);
-                    cardImageShape.setBottomLeftCorner(CornerFamily.ROUNDED, radius);
-                }
+                        cardImage.getLayoutParams().height = cardImage.getContext().getResources()
+                                .getDimensionPixelSize(R.dimen.card_image_vertical_height);
+                        cardImage.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
+                        cardInfo.getLayoutParams().height = ViewGroup.LayoutParams.MATCH_PARENT;
+                        cardInfo.getLayoutParams().width = ViewGroup.LayoutParams.WRAP_CONTENT;
+                        cardImageShape.setTopLeftCorner(CornerFamily.ROUNDED, radius);
+                        cardImageShape.setTopRightCorner(CornerFamily.ROUNDED, radius);
+                    } else {
+                        cardView.setOrientation(LinearLayout.HORIZONTAL);
+                        cardImage.getLayoutParams().height = ViewGroup.LayoutParams.MATCH_PARENT;
+                        cardImage.getLayoutParams().width = cardImage.getContext().getResources()
+                                .getDimensionPixelSize(R.dimen.card_image_horizontal_width);
+                        cardInfo.getLayoutParams().height = ViewGroup.LayoutParams.WRAP_CONTENT;
+                        cardInfo.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
+                        cardImageShape.setTopLeftCorner(CornerFamily.ROUNDED, radius);
+                        cardImageShape.setBottomLeftCorner(CornerFamily.ROUNDED, radius);
+                    }
 
                 cardImage.setShapeAppearanceModel(cardImageShape.build());
 
@@ -1150,25 +1214,25 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
                 RequestBuilder<Drawable> builder = Glide.with(cardImage.getContext())
                         .load(card.getImage())
                         .dontTransform();
-                if (statusDisplayOptions.useBlurhash() && !TextUtils.isEmpty(card.getBlurhash())) {
-                    builder = builder.placeholder(decodeBlurHash(card.getBlurhash()));
-                }
-                builder.into(cardImage);
-            } else if (statusDisplayOptions.useBlurhash() && !TextUtils.isEmpty(card.getBlurhash())) {
-                int radius = cardImage.getContext().getResources()
-                        .getDimensionPixelSize(R.dimen.card_radius);
+                    if (statusDisplayOptions.useBlurhash() && !TextUtils.isEmpty(card.getBlurhash())) {
+                        builder = builder.placeholder(decodeBlurHash(card.getBlurhash()));
+                    }
+                    builder.into(cardImage);
+                } else if (statusDisplayOptions.useBlurhash() && !TextUtils.isEmpty(card.getBlurhash())) {
+                    int radius = cardImage.getContext().getResources()
+                            .getDimensionPixelSize(R.dimen.card_radius);
 
-                cardView.setOrientation(LinearLayout.HORIZONTAL);
-                cardImage.getLayoutParams().height = ViewGroup.LayoutParams.MATCH_PARENT;
-                cardImage.getLayoutParams().width = cardImage.getContext().getResources()
-                        .getDimensionPixelSize(R.dimen.card_image_horizontal_width);
-                cardInfo.getLayoutParams().height = ViewGroup.LayoutParams.WRAP_CONTENT;
-                cardInfo.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
+                    cardView.setOrientation(LinearLayout.HORIZONTAL);
+                    cardImage.getLayoutParams().height = ViewGroup.LayoutParams.MATCH_PARENT;
+                    cardImage.getLayoutParams().width = cardImage.getContext().getResources()
+                            .getDimensionPixelSize(R.dimen.card_image_horizontal_width);
+                    cardInfo.getLayoutParams().height = ViewGroup.LayoutParams.WRAP_CONTENT;
+                    cardInfo.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
 
-                ShapeAppearanceModel cardImageShape = ShapeAppearanceModel.builder()
-                        .setTopLeftCorner(CornerFamily.ROUNDED, radius)
-                        .setBottomLeftCorner(CornerFamily.ROUNDED, radius)
-                        .build();
+                    ShapeAppearanceModel cardImageShape = ShapeAppearanceModel.builder()
+                            .setTopLeftCorner(CornerFamily.ROUNDED, radius)
+                            .setBottomLeftCorner(CornerFamily.ROUNDED, radius)
+                            .build();
                 cardImage.setShapeAppearanceModel(cardImageShape);
 
                 cardImage.setScaleType(ImageView.ScaleType.CENTER_CROP);
@@ -1176,14 +1240,14 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
                 Glide.with(cardImage.getContext())
                         .load(decodeBlurHash(card.getBlurhash()))
                         .dontTransform()
-                        .into(cardImage);
-            } else {
-                cardView.setOrientation(LinearLayout.HORIZONTAL);
-                cardImage.getLayoutParams().height = ViewGroup.LayoutParams.MATCH_PARENT;
-                cardImage.getLayoutParams().width = cardImage.getContext().getResources()
-                        .getDimensionPixelSize(R.dimen.card_image_horizontal_width);
-                cardInfo.getLayoutParams().height = ViewGroup.LayoutParams.WRAP_CONTENT;
-                cardInfo.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
+                            .into(cardImage);
+                } else {
+                    cardView.setOrientation(LinearLayout.HORIZONTAL);
+                    cardImage.getLayoutParams().height = ViewGroup.LayoutParams.MATCH_PARENT;
+                    cardImage.getLayoutParams().width = cardImage.getContext().getResources()
+                            .getDimensionPixelSize(R.dimen.card_image_horizontal_width);
+                    cardInfo.getLayoutParams().height = ViewGroup.LayoutParams.WRAP_CONTENT;
+                    cardInfo.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
 
                 cardImage.setShapeAppearanceModel(new ShapeAppearanceModel());
 
@@ -1192,17 +1256,18 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
                 Glide.with(cardImage.getContext())
                         .load(R.drawable.card_image_placeholder)
                         .into(cardImage);
+                }
+
+                View.OnClickListener visitLink = v -> listener.onViewUrl(card.getUrl());
+
+                cardView.setOnClickListener(visitLink);
+                // View embedded photos in our image viewer instead of opening the browser
+                cardImage.setOnClickListener(card.getType().equals(Card.TYPE_PHOTO) && !TextUtils.isEmpty(card.getEmbedUrl()) ?
+                        v -> cardView.getContext().startActivity(ViewMediaActivity.newSingleImageIntent(cardView.getContext(), card.getEmbedUrl())) :
+                        visitLink);
+
+                cardView.setClipToOutline(true);
             }
-
-            View.OnClickListener visitLink = v -> listener.onViewUrl(card.getUrl());
-
-            cardView.setOnClickListener(visitLink);
-            // View embedded photos in our image viewer instead of opening the browser
-            cardImage.setOnClickListener(card.getType().equals(Card.TYPE_PHOTO) && !TextUtils.isEmpty(card.getEmbedUrl()) ?
-                    v -> cardView.getContext().startActivity(ViewMediaActivity.newSingleImageIntent(cardView.getContext(), card.getEmbedUrl())) :
-                    visitLink);
-
-            cardView.setClipToOutline(true);
         } else {
             cardView.setVisibility(View.GONE);
         }

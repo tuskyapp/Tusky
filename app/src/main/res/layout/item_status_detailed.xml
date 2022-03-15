@@ -202,6 +202,13 @@
                 android:textSize="?attr/status_text_medium" />
         </LinearLayout>
 
+        <WebView
+            android:id="@+id/card_embed_webview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="0dp"
+            android:layout_margin="0dp"
+            tools:ignore="WebViewLayout" />
     </LinearLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
