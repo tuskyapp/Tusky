@@ -19,9 +19,9 @@ import android.text.SpannedString
 import android.widget.LinearLayout
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.google.android.material.bottomsheet.BottomSheetBehavior
-import com.keylesspalace.tusky.entity.Account
 import com.keylesspalace.tusky.entity.SearchResult
 import com.keylesspalace.tusky.entity.Status
+import com.keylesspalace.tusky.entity.TimelineAccount
 import com.keylesspalace.tusky.network.MastodonApi
 import com.nhaarman.mockitokotlin2.doReturn
 import com.nhaarman.mockitokotlin2.mock
@@ -57,19 +57,13 @@ class BottomSheetActivityTest {
     private val emptyCallback = Single.just(SearchResult(emptyList(), emptyList(), emptyList()))
     private val testScheduler = TestScheduler()
 
-    private val account = Account(
+    private val account = TimelineAccount(
         id = "1",
         localUsername = "admin",
         username = "admin",
         displayName = "Ad Min",
-        note = SpannedString(""),
         url = "http://mastodon.foo.bar",
-        avatar = "",
-        header = "",
-        locked = false,
-        followersCount = 0,
-        followingCount = 0,
-        statusesCount = 0
+        avatar = ""
     )
     private val accountSingle = Single.just(SearchResult(listOf(account), emptyList(), emptyList()))
 

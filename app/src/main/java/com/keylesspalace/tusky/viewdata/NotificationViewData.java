@@ -19,6 +19,7 @@ import androidx.annotation.Nullable;
 
 import com.keylesspalace.tusky.entity.Account;
 import com.keylesspalace.tusky.entity.Notification;
+import com.keylesspalace.tusky.entity.TimelineAccount;
 
 import java.util.Objects;
 
@@ -44,11 +45,11 @@ public abstract class NotificationViewData {
     public static final class Concrete extends NotificationViewData {
         private final Notification.Type type;
         private final String id;
-        private final Account account;
+        private final TimelineAccount account;
         @Nullable
         private final StatusViewData.Concrete statusViewData;
 
-        public Concrete(Notification.Type type, String id, Account account,
+        public Concrete(Notification.Type type, String id, TimelineAccount account,
                         @Nullable StatusViewData.Concrete statusViewData) {
             this.type = type;
             this.id = id;
@@ -64,7 +65,7 @@ public abstract class NotificationViewData {
             return id;
         }
 
-        public Account getAccount() {
+        public TimelineAccount getAccount() {
             return account;
         }
 

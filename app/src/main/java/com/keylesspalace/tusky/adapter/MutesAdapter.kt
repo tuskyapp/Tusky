@@ -9,7 +9,7 @@ import android.widget.TextView
 import androidx.core.view.ViewCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.keylesspalace.tusky.R
-import com.keylesspalace.tusky.entity.Account
+import com.keylesspalace.tusky.entity.TimelineAccount
 import com.keylesspalace.tusky.interfaces.AccountActionListener
 import com.keylesspalace.tusky.util.emojify
 import com.keylesspalace.tusky.util.loadAvatar
@@ -69,7 +69,7 @@ class MutesAdapter(
         private var notifications = false
 
         fun setupWithAccount(
-            account: Account,
+            account: TimelineAccount,
             mutingNotifications: Boolean?,
             animateAvatar: Boolean,
             animateEmojis: Boolean

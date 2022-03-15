@@ -21,11 +21,11 @@ import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.adapter.AccountViewHolder
-import com.keylesspalace.tusky.entity.Account
+import com.keylesspalace.tusky.entity.TimelineAccount
 import com.keylesspalace.tusky.interfaces.LinkListener
 
 class SearchAccountsAdapter(private val linkListener: LinkListener, private val animateAvatars: Boolean, private val animateEmojis: Boolean) :
-    PagingDataAdapter<Account, AccountViewHolder>(ACCOUNT_COMPARATOR) {
+    PagingDataAdapter<TimelineAccount, AccountViewHolder>(ACCOUNT_COMPARATOR) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AccountViewHolder {
         val view = LayoutInflater.from(parent.context)
@@ -44,11 +44,11 @@ class SearchAccountsAdapter(private val linkListener: LinkListener, private val 
 
     companion object {
 
-        val ACCOUNT_COMPARATOR = object : DiffUtil.ItemCallback<Account>() {
-            override fun areContentsTheSame(oldItem: Account, newItem: Account): Boolean =
-                oldItem.deepEquals(newItem)
+        val ACCOUNT_COMPARATOR = object : DiffUtil.ItemCallback<TimelineAccount>() {
+            override fun areContentsTheSame(oldItem: TimelineAccount, newItem: TimelineAccount): Boolean =
+                oldItem == newItem
 
-            override fun areItemsTheSame(oldItem: Account, newItem: Account): Boolean =
+            override fun areItemsTheSame(oldItem: TimelineAccount, newItem: TimelineAccount): Boolean =
                 oldItem.id == newItem.id
         }
     }

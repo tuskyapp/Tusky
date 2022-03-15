@@ -114,7 +114,7 @@ class TimelinePagingAdapter(
                 oldItem: StatusViewData,
                 newItem: StatusViewData
             ): Boolean {
-                return oldItem.viewDataId == newItem.viewDataId
+                return oldItem.id == newItem.id
             }
 
             override fun areContentsTheSame(
@@ -128,7 +128,7 @@ class TimelinePagingAdapter(
                 oldItem: StatusViewData,
                 newItem: StatusViewData
             ): Any? {
-                return if (oldItem === newItem) {
+                return if (oldItem == newItem) {
                     // If items are equal - update timestamp only
                     listOf(StatusBaseViewHolder.Key.KEY_CREATED)
                 } else // If items are different - update the whole view holder

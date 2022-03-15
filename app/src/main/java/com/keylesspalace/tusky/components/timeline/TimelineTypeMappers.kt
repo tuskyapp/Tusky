@@ -23,12 +23,12 @@ import com.google.gson.reflect.TypeToken
 import com.keylesspalace.tusky.db.TimelineAccountEntity
 import com.keylesspalace.tusky.db.TimelineStatusEntity
 import com.keylesspalace.tusky.db.TimelineStatusWithAccount
-import com.keylesspalace.tusky.entity.Account
 import com.keylesspalace.tusky.entity.Attachment
 import com.keylesspalace.tusky.entity.Emoji
 import com.keylesspalace.tusky.entity.HashTag
 import com.keylesspalace.tusky.entity.Poll
 import com.keylesspalace.tusky.entity.Status
+import com.keylesspalace.tusky.entity.TimelineAccount
 import com.keylesspalace.tusky.util.shouldTrimStatus
 import com.keylesspalace.tusky.util.trimTrailingWhitespace
 import com.keylesspalace.tusky.viewdata.StatusViewData
@@ -44,7 +44,7 @@ private val emojisListType = object : TypeToken<List<Emoji>>() {}.type
 private val mentionListType = object : TypeToken<List<Status.Mention>>() {}.type
 private val tagListType = object : TypeToken<List<HashTag>>() {}.type
 
-fun Account.toEntity(accountId: Long, gson: Gson): TimelineAccountEntity {
+fun TimelineAccount.toEntity(accountId: Long, gson: Gson): TimelineAccountEntity {
     return TimelineAccountEntity(
         serverId = id,
         timelineUserId = accountId,
@@ -58,25 +58,16 @@ fun Account.toEntity(accountId: Long, gson: Gson): TimelineAccountEntity {
     )
 }
 
-fun TimelineAccountEntity.toAccount(gson: Gson): Account {
-    return Account(
+fun TimelineAccountEntity.toAccount(gson: Gson): TimelineAccount {
+    return TimelineAccount(
         id = serverId,
         localUsername = localUsername,
         username = username,
         displayName = displayName,
-        note = SpannedString(""),
         url = url,
         avatar = avatar,
-        header = "",
-        locked = false,
-        followingCount = 0,
-        followersCount = 0,
-        statusesCount = 0,
-        source = null,
         bot = bot,
-        emojis = gson.fromJson(emojis, emojisListType),
-        fields = null,
-        moved = null
+        emojis = gson.fromJson(emojis, emojisListType)
     )
 }
 

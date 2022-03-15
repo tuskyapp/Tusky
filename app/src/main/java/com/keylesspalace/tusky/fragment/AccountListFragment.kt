@@ -42,8 +42,8 @@ import com.keylesspalace.tusky.components.account.AccountActivity
 import com.keylesspalace.tusky.databinding.FragmentAccountListBinding
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.di.Injectable
-import com.keylesspalace.tusky.entity.Account
 import com.keylesspalace.tusky.entity.Relationship
+import com.keylesspalace.tusky.entity.TimelineAccount
 import com.keylesspalace.tusky.interfaces.AccountActionListener
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.settings.PrefKeys
@@ -255,7 +255,7 @@ class AccountListFragment : Fragment(R.layout.fragment_account_list), AccountAct
         followRequestsAdapter.removeItem(position)
     }
 
-    private fun getFetchCallByListType(fromId: String?): Single<Response<List<Account>>> {
+    private fun getFetchCallByListType(fromId: String?): Single<Response<List<TimelineAccount>>> {
         return when (type) {
             Type.FOLLOWS -> {
                 val accountId = requireId(type, id)
@@ -313,7 +313,7 @@ class AccountListFragment : Fragment(R.layout.fragment_account_list), AccountAct
             )
     }
 
-    private fun onFetchAccountsSuccess(accounts: List<Account>, linkHeader: String?) {
+    private fun onFetchAccountsSuccess(accounts: List<TimelineAccount>, linkHeader: String?) {
         adapter.setBottomLoading(false)
 
         val links = HttpHeaderLink.parse(linkHeader)
