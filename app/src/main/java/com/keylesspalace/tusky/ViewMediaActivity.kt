@@ -36,6 +36,7 @@ import android.view.MenuItem
 import android.view.View
 import android.webkit.MimeTypeMap
 import android.widget.Toast
+import androidx.core.app.ShareCompat
 import androidx.core.content.FileProvider
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Lifecycle
@@ -252,11 +253,11 @@ class ViewMediaActivity : BaseActivity(), ViewImageFragment.PhotoActionsListener
     }
 
     private fun shareFile(file: File, mimeType: String?) {
-        val sendIntent = Intent()
-        sendIntent.action = Intent.ACTION_SEND
-        sendIntent.putExtra(Intent.EXTRA_STREAM, FileProvider.getUriForFile(applicationContext, "$APPLICATION_ID.fileprovider", file))
-        sendIntent.type = mimeType
-        startActivity(Intent.createChooser(sendIntent, resources.getText(R.string.send_media_to)))
+        ShareCompat.IntentBuilder(this)
+            .setType(mimeType)
+            .addStream(FileProvider.getUriForFile(applicationContext, "$APPLICATION_ID.fileprovider", file))
+            .setChooserTitle(R.string.send_media_to)
+            .startChooser()
     }
 
     private var isCreating: Boolean = false
