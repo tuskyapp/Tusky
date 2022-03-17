@@ -127,19 +127,29 @@ class LoginWebViewActivity : BaseActivity(), Injectable {
             }
         }
         webView.setBackgroundColor(Color.TRANSPARENT)
-        webView.loadUrl(data.url.toString())
+
+        if (savedInstanceState == null) {
+            webView.loadUrl(data.url.toString())
+        } else {
+            webView.restoreState(savedInstanceState)
+        }
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        binding.loginWebView.saveState(outState)
     }
 
     override fun onDestroy() {
-        // We don't want to keep user session in WebView, we just want our own accessToken
-        WebStorage.getInstance().deleteAllData()
-        CookieManager.getInstance().removeAllCookies(null)
+        if (isFinishing) {
+            // We don't want to keep user session in WebView, we just want our own accessToken
+            WebStorage.getInstance().deleteAllData()
+            CookieManager.getInstance().removeAllCookies(null)
+        }
         super.onDestroy()
     }
 
-    override fun requiresLogin(): Boolean {
-        return false
-    }
+    override fun requiresLogin() = false
 
     private fun sendResult(result: LoginResult) {
         setResult(Activity.RESULT_OK, OauthLogin.makeResultIntent(result))
