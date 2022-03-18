@@ -1,0 +1,3 @@
+Tusky v15.1
+
+Bertsio honek konpondu egin du irudiak azpititulatzean huts egitea

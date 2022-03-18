@@ -1,0 +1,8 @@
+Tusky v16.0
+
+- Viết lại hoàn toàn phương thức tải bảng tin để tải nhanh hơn, ít lỗi hơn và dễ bảo trì
+- Hỗ trợ emoji định dạng APNG & WebP động
+- Sửa nhiều lỗi khác
+- Hỗ trợ Android 11
+- Ngôn ngữ mới: Scottish Gaelic, Galician, Ukrainian
+- Cải thiện bản dịch

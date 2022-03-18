@@ -32,7 +32,7 @@ import java.io.File;
 
 @Database(entities = { DraftEntity.class, AccountEntity.class, InstanceEntity.class, TimelineStatusEntity.class,
                 TimelineAccountEntity.class,  ConversationEntity.class
-        }, version = 27)
+        }, version = 28)
 public abstract class AppDatabase extends RoomDatabase {
 
     public abstract AccountDao accountDao();
@@ -398,6 +398,63 @@ public abstract class AppDatabase extends RoomDatabase {
         @Override
         public void migrate(@NonNull SupportSQLiteDatabase database) {
             database.execSQL("ALTER TABLE `ConversationEntity` ADD COLUMN `s_muted`  INTEGER NOT NULL DEFAULT 0");
+        }
+    };
+
+    public static final Migration MIGRATION_27_28 = new Migration(27, 28) {
+        @Override
+        public void migrate(@NonNull SupportSQLiteDatabase database) {
+
+            database.execSQL("DROP TABLE IF EXISTS `TimelineAccountEntity`");
+            database.execSQL("DROP TABLE IF EXISTS `TimelineStatusEntity`");
+
+            database.execSQL("CREATE TABLE IF NOT EXISTS `TimelineAccountEntity` (" +
+                    "`serverId` TEXT NOT NULL," +
+                    "`timelineUserId` INTEGER NOT NULL," +
+                    "`localUsername` TEXT NOT NULL," +
+                    "`username` TEXT NOT NULL," +
+                    "`displayName` TEXT NOT NULL," +
+                    "`url` TEXT NOT NULL," +
+                    "`avatar` TEXT NOT NULL," +
+                    "`emojis` TEXT NOT NULL," +
+                    "`bot` INTEGER NOT NULL," +
+                    "PRIMARY KEY(`serverId`, `timelineUserId`) )");
+
+            database.execSQL("CREATE TABLE IF NOT EXISTS `TimelineStatusEntity` (" +
+                    "`serverId` TEXT NOT NULL," +
+                    "`url` TEXT," +
+                    "`timelineUserId` INTEGER NOT NULL," +
+                    "`authorServerId` TEXT," +
+                    "`inReplyToId` TEXT," +
+                    "`inReplyToAccountId` TEXT," +
+                    "`content` TEXT," +
+                    "`createdAt` INTEGER NOT NULL," +
+                    "`emojis` TEXT," +
+                    "`reblogsCount` INTEGER NOT NULL," +
+                    "`favouritesCount` INTEGER NOT NULL," +
+                    "`reblogged` INTEGER NOT NULL," +
+                    "`bookmarked` INTEGER NOT NULL," +
+                    "`favourited` INTEGER NOT NULL," +
+                    "`sensitive` INTEGER NOT NULL," +
+                    "`spoilerText` TEXT NOT NULL," +
+                    "`visibility` INTEGER NOT NULL," +
+                    "`attachments` TEXT," +
+                    "`mentions` TEXT," +
+                    "`application` TEXT," +
+                    "`reblogServerId` TEXT," +
+                    "`reblogAccountId` TEXT," +
+                    "`poll` TEXT," +
+                    "`muted` INTEGER," +
+                    "`expanded` INTEGER NOT NULL," +
+                    "`contentCollapsed` INTEGER NOT NULL," +
+                    "`contentShowing` INTEGER NOT NULL," +
+                    "`pinned` INTEGER NOT NULL," +
+                    "PRIMARY KEY(`serverId`, `timelineUserId`)," +
+                    "FOREIGN KEY(`authorServerId`, `timelineUserId`) REFERENCES `TimelineAccountEntity`(`serverId`, `timelineUserId`)" +
+                    "ON UPDATE NO ACTION ON DELETE NO ACTION )");
+
+            database.execSQL("CREATE INDEX IF NOT EXISTS `index_TimelineStatusEntity_authorServerId_timelineUserId`" +
+                    "ON `TimelineStatusEntity` (`authorServerId`, `timelineUserId`)");
         }
     };
 }

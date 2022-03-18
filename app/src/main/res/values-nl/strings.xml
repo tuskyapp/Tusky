@@ -395,7 +395,7 @@
     <string name="pref_title_animate_gif_avatars">GIF-avatars animeren</string>
     <string name="caption_notoemoji">Google\'s huidige emojiset</string>
     <string name="mute_domain_warning">Weet je zeker dat je alles van %s wilt blokkeren\? Je zult op alle openbare tijdlijnen en in jouw meldingen geen inhoud van dat domein zien. Jouw volgers van dat domein worden verwijderd.</string>
-    <string name="description_poll">Poll met keuzes: %s, %s, %s, %s; %s</string>
+    <string name="description_poll">Poll met keuzes: %1$s, %2$s, %3$s, %4$s; %5$s</string>
     <string name="compose_preview_image_description">Acties voor afbeelding %s</string>
     <plurals name="poll_timespan_days">
         <item quantity="one">%d dag te gaan</item>
@@ -517,4 +517,12 @@
     <string name="pref_main_nav_position">Hoofd navigatiepositie</string>
     <string name="dialog_delete_conversation_warning">Dit gesprek verwijderen\?</string>
     <string name="action_delete_conversation">Gesprek verwijderen</string>
+    <string name="follow_requests_info">Ook al heb je geen besloten account, de medewerkers van %1$s dachten dat je misschien de volgverzoeken van deze accounts handmatig zou willen controleren.</string>
+    <string name="wellbeing_mode_notice">Bepaalde informatie die invloed kan hebben op uw geestelijk welzijn zal worden verborgen. Dit bevat onder andere:
+\n
+\n- Favoriet/Boost/Volg notificaties
+\n- Favoriet/Boost/Aantal boosts per toot
+\n- Volger/Bericht statistieken op profielen
+\n
+\nPush-notificaties zullen niet worden beïnvloed, maar uw kunt uw notificatie voorkeuren handmatig wijzigen.</string>
 </resources>

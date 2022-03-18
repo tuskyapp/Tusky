@@ -22,15 +22,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.accessibility.AccessibilityManager
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
+import androidx.paging.LoadState
 import androidx.preference.PreferenceManager
-import androidx.recyclerview.widget.AsyncDifferConfig
-import androidx.recyclerview.widget.AsyncListDiffer
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.ListUpdateCallback
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener
@@ -40,13 +38,17 @@ import com.keylesspalace.tusky.AccountListActivity
 import com.keylesspalace.tusky.AccountListActivity.Companion.newIntent
 import com.keylesspalace.tusky.BaseActivity
 import com.keylesspalace.tusky.R
-import com.keylesspalace.tusky.adapter.StatusBaseViewHolder
 import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.appstore.PreferenceChangedEvent
+import com.keylesspalace.tusky.appstore.StatusComposedEvent
+import com.keylesspalace.tusky.components.timeline.viewmodel.CachedTimelineViewModel
+import com.keylesspalace.tusky.components.timeline.viewmodel.NetworkTimelineViewModel
+import com.keylesspalace.tusky.components.timeline.viewmodel.TimelineViewModel
 import com.keylesspalace.tusky.databinding.FragmentTimelineBinding
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.di.ViewModelFactory
+import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.fragment.SFragment
 import com.keylesspalace.tusky.interfaces.ActionButtonActivity
 import com.keylesspalace.tusky.interfaces.RefreshableFragment
@@ -59,12 +61,12 @@ import com.keylesspalace.tusky.util.StatusDisplayOptions
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.viewBinding
-import com.keylesspalace.tusky.util.visible
-import com.keylesspalace.tusky.view.EndlessOnScrollListener
 import com.keylesspalace.tusky.viewdata.AttachmentViewData
-import com.keylesspalace.tusky.viewdata.StatusViewData
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
+import java.io.IOException
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -85,25 +87,33 @@ class TimelineFragment :
     @Inject
     lateinit var accountManager: AccountManager
 
-    private val viewModel: TimelineViewModel by viewModels { viewModelFactory }
+    private val viewModel: TimelineViewModel by lazy {
+        if (kind == TimelineViewModel.Kind.HOME) {
+            ViewModelProvider(this, viewModelFactory).get(CachedTimelineViewModel::class.java)
+        } else {
+            ViewModelProvider(this, viewModelFactory).get(NetworkTimelineViewModel::class.java)
+        }
+    }
 
     private val binding by viewBinding(FragmentTimelineBinding::bind)
 
-    private lateinit var adapter: TimelineAdapter
+    private lateinit var kind: TimelineViewModel.Kind
+
+    private lateinit var adapter: TimelinePagingAdapter
 
     private var isSwipeToRefreshEnabled = true
 
     private var eventRegistered = false
 
     private var layoutManager: LinearLayoutManager? = null
-    private var scrollListener: EndlessOnScrollListener? = null
+    private var scrollListener: RecyclerView.OnScrollListener? = null
     private var hideFab = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         val arguments = requireArguments()
-        val kind = TimelineViewModel.Kind.valueOf(arguments.getString(KIND_ARG)!!)
+        kind = TimelineViewModel.Kind.valueOf(arguments.getString(KIND_ARG)!!)
         val id: String? = if (kind == TimelineViewModel.Kind.USER ||
             kind == TimelineViewModel.Kind.USER_PINNED ||
             kind == TimelineViewModel.Kind.USER_WITH_REPLIES ||
@@ -125,11 +135,6 @@ class TimelineFragment :
             tags,
         )
 
-        viewModel.viewUpdates
-            .observeOn(AndroidSchedulers.mainThread())
-            .autoDispose(this)
-            .subscribe { this.updateViews() }
-
         isSwipeToRefreshEnabled = arguments.getBoolean(ARG_ENABLE_SWIPE_TO_REFRESH, true)
 
         val preferences = PreferenceManager.getDefaultSharedPreferences(activity)
@@ -145,11 +150,11 @@ class TimelineFragment :
                 )
             ) CardViewMode.INDENTED else CardViewMode.NONE,
             confirmReblogs = preferences.getBoolean(PrefKeys.CONFIRM_REBLOGS, true),
+            confirmFavourites = preferences.getBoolean(PrefKeys.CONFIRM_FAVOURITES, false),
             hideStats = preferences.getBoolean(PrefKeys.WELLBEING_HIDE_STATS_POSTS, false),
             animateEmojis = preferences.getBoolean(PrefKeys.ANIMATE_CUSTOM_EMOJIS, false)
         )
-        adapter = TimelineAdapter(
-            dataSource,
+        adapter = TimelinePagingAdapter(
             statusDisplayOptions,
             this
         )
@@ -166,8 +171,58 @@ class TimelineFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         setupSwipeRefreshLayout()
         setupRecyclerView()
-        updateViews()
-        viewModel.loadInitial()
+
+        adapter.addLoadStateListener { loadState ->
+            if (loadState.refresh != LoadState.Loading) {
+                binding.swipeRefreshLayout.isRefreshing = false
+            }
+
+            binding.statusView.hide()
+            binding.progressBar.hide()
+
+            if (adapter.itemCount == 0) {
+                when (loadState.refresh) {
+                    is LoadState.NotLoading -> {
+                        if (loadState.append is LoadState.NotLoading) {
+                            binding.statusView.show()
+                            binding.statusView.setup(R.drawable.elephant_friend_empty, R.string.message_empty, null)
+                        }
+                    }
+                    is LoadState.Error -> {
+                        binding.statusView.show()
+
+                        if ((loadState.refresh as LoadState.Error).error is IOException) {
+                            binding.statusView.setup(R.drawable.elephant_offline, R.string.error_network, null)
+                        } else {
+                            binding.statusView.setup(R.drawable.elephant_error, R.string.error_generic, null)
+                        }
+                    }
+                    is LoadState.Loading -> {
+                        binding.progressBar.show()
+                    }
+                }
+            }
+        }
+
+        adapter.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
+            override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
+                if (positionStart == 0 && adapter.itemCount != itemCount) {
+                    binding.recyclerView.post {
+                        if (getView() != null) {
+                            if (isSwipeToRefreshEnabled) {
+                                binding.recyclerView.scrollBy(0, Utils.dpToPx(requireContext(), -30))
+                            } else binding.recyclerView.scrollToPosition(0)
+                        }
+                    }
+                }
+            }
+        })
+
+        lifecycleScope.launch {
+            viewModel.statuses.collectLatest { pagingData ->
+                adapter.submitData(pagingData)
+            }
+        }
     }
 
     private fun setupSwipeRefreshLayout() {
@@ -178,7 +233,9 @@ class TimelineFragment :
 
     private fun setupRecyclerView() {
         binding.recyclerView.setAccessibilityDelegateCompat(
-            ListStatusAccessibilityDelegate(binding.recyclerView, this) { pos -> viewModel.statuses.getOrNull(pos) }
+            ListStatusAccessibilityDelegate(binding.recyclerView, this) { pos ->
+                adapter.peek(pos)
+            }
         )
         binding.recyclerView.setHasFixedSize(true)
         layoutManager = LinearLayoutManager(context)
@@ -191,24 +248,16 @@ class TimelineFragment :
         binding.recyclerView.adapter = adapter
     }
 
-    private fun showEmptyView() {
-        binding.statusView.show()
-        binding.statusView.setup(R.drawable.elephant_friend_empty, R.string.message_empty, null)
-    }
-
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
         /* This is delayed until onActivityCreated solely because MainActivity.composeButton isn't
          * guaranteed to be set until then. */
-        scrollListener = if (actionButtonPresent()) {
-            /* Use a modified scroll listener that both loads more statuses as it goes, and hides
-             * the follow button on down-scroll. */
+        if (actionButtonPresent()) {
             val preferences = PreferenceManager.getDefaultSharedPreferences(context)
             hideFab = preferences.getBoolean("fabHide", false)
-            object : EndlessOnScrollListener(layoutManager) {
+            scrollListener = object : RecyclerView.OnScrollListener() {
                 override fun onScrolled(view: RecyclerView, dx: Int, dy: Int) {
-                    super.onScrolled(view, dx, dy)
                     val composeButton = (activity as ActionButtonActivity).actionButton
                     if (composeButton != null) {
                         if (hideFab) {
@@ -222,20 +271,9 @@ class TimelineFragment :
                         }
                     }
                 }
-
-                override fun onLoadMore(totalItemsCount: Int, view: RecyclerView) {
-                    this@TimelineFragment.onLoadMore()
-                }
+            }.also {
+                binding.recyclerView.addOnScrollListener(it)
             }
-        } else {
-            // Just use the basic scroll listener to load more statuses.
-            object : EndlessOnScrollListener(layoutManager) {
-                override fun onLoadMore(totalItemsCount: Int, view: RecyclerView) {
-                    this@TimelineFragment.onLoadMore()
-                }
-            }
-        }.also {
-            binding.recyclerView.addOnScrollListener(it)
         }
 
         if (!eventRegistered) {
@@ -247,6 +285,10 @@ class TimelineFragment :
                         is PreferenceChangedEvent -> {
                             onPreferenceChanged(event.preferenceKey)
                         }
+                        is StatusComposedEvent -> {
+                            val status = event.status
+                            handleStatusComposeEvent(status)
+                        }
                     }
                 }
             eventRegistered = true
@@ -254,75 +296,80 @@ class TimelineFragment :
     }
 
     override fun onRefresh() {
-        binding.swipeRefreshLayout.isEnabled = isSwipeToRefreshEnabled
         binding.statusView.hide()
 
-        viewModel.refresh()
+        adapter.refresh()
     }
 
     override fun onReply(position: Int) {
-        val status = viewModel.statuses[position].asStatusOrNull() ?: return
+        val status = adapter.peek(position)?.asStatusOrNull() ?: return
         super.reply(status.status)
     }
 
     override fun onReblog(reblog: Boolean, position: Int) {
-        viewModel.reblog(reblog, position)
+        val status = adapter.peek(position)?.asStatusOrNull() ?: return
+        viewModel.reblog(reblog, status)
     }
 
     override fun onFavourite(favourite: Boolean, position: Int) {
-        viewModel.favorite(favourite, position)
+        val status = adapter.peek(position)?.asStatusOrNull() ?: return
+        viewModel.favorite(favourite, status)
     }
 
     override fun onBookmark(bookmark: Boolean, position: Int) {
-        viewModel.bookmark(bookmark, position)
+        val status = adapter.peek(position)?.asStatusOrNull() ?: return
+        viewModel.bookmark(bookmark, status)
     }
 
     override fun onVoteInPoll(position: Int, choices: List<Int>) {
-        viewModel.voteInPoll(position, choices)
+        val status = adapter.peek(position)?.asStatusOrNull() ?: return
+        viewModel.voteInPoll(choices, status)
     }
 
     override fun onMore(view: View, position: Int) {
-        val status = viewModel.statuses[position].asStatusOrNull()?.status ?: return
-        super.more(status, view, position)
+        val status = adapter.peek(position)?.asStatusOrNull() ?: return
+        super.more(status.status, view, position)
     }
 
     override fun onOpenReblog(position: Int) {
-        val status = viewModel.statuses[position].asStatusOrNull()?.status ?: return
-        super.openReblog(status)
+        val status = adapter.peek(position)?.asStatusOrNull() ?: return
+        super.openReblog(status.status)
     }
 
     override fun onExpandedChange(expanded: Boolean, position: Int) {
-        viewModel.changeExpanded(expanded, position)
-        updateViews()
+        val status = adapter.peek(position)?.asStatusOrNull() ?: return
+        viewModel.changeExpanded(expanded, status)
     }
 
     override fun onContentHiddenChange(isShowing: Boolean, position: Int) {
-        viewModel.changeContentHidden(isShowing, position)
-        updateViews()
+        val status = adapter.peek(position)?.asStatusOrNull() ?: return
+        viewModel.changeContentShowing(isShowing, status)
     }
 
     override fun onShowReblogs(position: Int) {
-        val statusId = viewModel.statuses[position].asStatusOrNull()?.id ?: return
+        val statusId = adapter.peek(position)?.asStatusOrNull()?.id ?: return
         val intent = newIntent(requireContext(), AccountListActivity.Type.REBLOGGED, statusId)
         (activity as BaseActivity).startActivityWithSlideInAnimation(intent)
     }
 
     override fun onShowFavs(position: Int) {
-        val statusId = viewModel.statuses[position].asStatusOrNull()?.id ?: return
+        val statusId = adapter.peek(position)?.asStatusOrNull()?.id ?: return
         val intent = newIntent(requireContext(), AccountListActivity.Type.FAVOURITED, statusId)
         (activity as BaseActivity).startActivityWithSlideInAnimation(intent)
     }
 
     override fun onLoadMore(position: Int) {
-        viewModel.loadGap(position)
+        val placeholder = adapter.peek(position)?.asPlaceholderOrNull() ?: return
+        viewModel.loadMore(placeholder.id)
     }
 
     override fun onContentCollapsedChange(isCollapsed: Boolean, position: Int) {
-        viewModel.changeContentCollapsed(isCollapsed, position)
+        val status = adapter.peek(position)?.asStatusOrNull() ?: return
+        viewModel.changeContentCollapsed(isCollapsed, status)
     }
 
     override fun onViewMedia(position: Int, attachmentIndex: Int, view: View?) {
-        val status = viewModel.statuses[position].asStatusOrNull() ?: return
+        val status = adapter.peek(position)?.asStatusOrNull() ?: return
         super.viewMedia(
             attachmentIndex,
             AttachmentViewData.list(status.actionable),
@@ -331,7 +378,7 @@ class TimelineFragment :
     }
 
     override fun onViewThread(position: Int) {
-        val status = viewModel.statuses[position].asStatusOrNull() ?: return
+        val status = adapter.peek(position)?.asStatusOrNull() ?: return
         super.viewThread(status.actionable.id, status.actionable.url)
     }
 
@@ -370,19 +417,32 @@ class TimelineFragment :
                 val oldMediaPreviewEnabled = adapter.mediaPreviewEnabled
                 if (enabled != oldMediaPreviewEnabled) {
                     adapter.mediaPreviewEnabled = enabled
-                    updateViews()
+                    adapter.notifyDataSetChanged()
                 }
             }
         }
     }
 
-    public override fun removeItem(position: Int) {
-        viewModel.statuses.removeAt(position)
-        updateViews()
+    private fun handleStatusComposeEvent(status: Status) {
+        when (kind) {
+            TimelineViewModel.Kind.HOME,
+            TimelineViewModel.Kind.PUBLIC_FEDERATED,
+            TimelineViewModel.Kind.PUBLIC_LOCAL -> adapter.refresh()
+            TimelineViewModel.Kind.USER,
+            TimelineViewModel.Kind.USER_WITH_REPLIES -> if (status.account.id == viewModel.id) {
+                adapter.refresh()
+            }
+            TimelineViewModel.Kind.TAG,
+            TimelineViewModel.Kind.FAVOURITES,
+            TimelineViewModel.Kind.LIST,
+            TimelineViewModel.Kind.BOOKMARKS,
+            TimelineViewModel.Kind.USER_PINNED -> return
+        }
     }
 
-    private fun onLoadMore() {
-        viewModel.loadMore()
+    public override fun removeItem(position: Int) {
+        val status = adapter.peek(position)?.asStatusOrNull() ?: return
+        viewModel.removeStatusWithId(status.id)
     }
 
     private fun actionButtonPresent(): Boolean {
@@ -391,86 +451,6 @@ class TimelineFragment :
             viewModel.kind != TimelineViewModel.Kind.BOOKMARKS &&
             activity is ActionButtonActivity
     }
-
-    private fun updateViews() {
-        differ.submitList(viewModel.statuses.toList())
-        binding.swipeRefreshLayout.isEnabled = viewModel.failure == null
-
-        if (isAdded) {
-            binding.swipeRefreshLayout.isRefreshing = viewModel.isRefreshing
-            binding.progressBar.visible(viewModel.isLoadingInitially)
-            if (viewModel.failure == null && viewModel.statuses.isEmpty() && !viewModel.isLoadingInitially) {
-                showEmptyView()
-            } else {
-                when (viewModel.failure) {
-                    TimelineViewModel.FailureReason.NETWORK -> {
-                        binding.statusView.show()
-                        binding.statusView.setup(
-                            R.drawable.elephant_offline,
-                            R.string.error_network
-                        ) {
-                            binding.statusView.hide()
-                            viewModel.loadInitial()
-                        }
-                    }
-                    TimelineViewModel.FailureReason.OTHER -> {
-                        binding.statusView.show()
-                        binding.statusView.setup(
-                            R.drawable.elephant_error,
-                            R.string.error_generic
-                        ) {
-                            binding.statusView.hide()
-                            viewModel.loadInitial()
-                        }
-                    }
-                    null -> binding.statusView.hide()
-                }
-            }
-        }
-    }
-
-    private val listUpdateCallback: ListUpdateCallback = object : ListUpdateCallback {
-        override fun onInserted(position: Int, count: Int) {
-            if (isAdded) {
-                adapter.notifyItemRangeInserted(position, count)
-                val context = context
-                // scroll up when new items at the top are loaded while being in the first position
-                // https://github.com/tuskyapp/Tusky/pull/1905#issuecomment-677819724
-                if (position == 0 && context != null && adapter.itemCount != count) {
-                    if (isSwipeToRefreshEnabled) {
-                        binding.recyclerView.scrollBy(0, Utils.dpToPx(context, -30))
-                    } else binding.recyclerView.scrollToPosition(0)
-                }
-            }
-        }
-
-        override fun onRemoved(position: Int, count: Int) {
-            adapter.notifyItemRangeRemoved(position, count)
-        }
-
-        override fun onMoved(fromPosition: Int, toPosition: Int) {
-            adapter.notifyItemMoved(fromPosition, toPosition)
-        }
-
-        override fun onChanged(position: Int, count: Int, payload: Any?) {
-            adapter.notifyItemRangeChanged(position, count, payload)
-        }
-    }
-    private val differ = AsyncListDiffer(
-        listUpdateCallback,
-        AsyncDifferConfig.Builder(diffCallback).build()
-    )
-
-    private val dataSource: TimelineAdapter.AdapterDataSource<StatusViewData> =
-        object : TimelineAdapter.AdapterDataSource<StatusViewData> {
-            override fun getItemCount(): Int {
-                return differ.currentList.size
-            }
-
-            override fun getItemAt(pos: Int): StatusViewData {
-                return differ.currentList[pos]
-            }
-        }
 
     private var talkBackWasEnabled = false
 
@@ -500,7 +480,9 @@ class TimelineFragment :
             Observable.interval(1, TimeUnit.MINUTES)
                 .observeOn(AndroidSchedulers.mainThread())
                 .autoDispose(this, Lifecycle.Event.ON_PAUSE)
-                .subscribe { updateViews() }
+                .subscribe {
+                    adapter.notifyDataSetChanged()
+                }
         }
     }
 
@@ -508,7 +490,6 @@ class TimelineFragment :
         if (isAdded) {
             layoutManager!!.scrollToPosition(0)
             binding.recyclerView.stopScroll()
-            scrollListener!!.reset()
         }
     }
 
@@ -547,33 +528,5 @@ class TimelineFragment :
             fragment.arguments = arguments
             return fragment
         }
-
-        private val diffCallback: DiffUtil.ItemCallback<StatusViewData> =
-            object : DiffUtil.ItemCallback<StatusViewData>() {
-                override fun areItemsTheSame(
-                    oldItem: StatusViewData,
-                    newItem: StatusViewData
-                ): Boolean {
-                    return oldItem.viewDataId == newItem.viewDataId
-                }
-
-                override fun areContentsTheSame(
-                    oldItem: StatusViewData,
-                    newItem: StatusViewData
-                ): Boolean {
-                    return false // Items are different always. It allows to refresh timestamp on every view holder update
-                }
-
-                override fun getChangePayload(
-                    oldItem: StatusViewData,
-                    newItem: StatusViewData
-                ): Any? {
-                    return if (oldItem === newItem) {
-                        // If items are equal - update timestamp only
-                        listOf(StatusBaseViewHolder.Key.KEY_CREATED)
-                    } else // If items are different - update the whole view holder
-                        null
-                }
-            }
     }
 }

@@ -1,0 +1,8 @@
+Tusky v16.0
+
+- Le fonctionnement des fils a été complètement revu de manière à être plus rapide, moins dysfonctionnel et plus simple à maintenir,
+- Tusky peut désormais lire les émoticônes animées au format APNG et au format Animated WebP,
+- Une quantité considérable de bugs a été résolue,
+- Le support pour Android 11 a été mis en place,
+- De nouvelles traductions sont disponibles : Gaélique écossais, Galicien et Ukrainien,
+- Les traductions existantes ont été améliorées.

@@ -448,7 +448,6 @@
     <string name="no_announcements">কোনো ঘোষণা নেই।</string>
     <string name="follow_requests_info">যদিও তোমার অ্যাকাউন্ট রুদ্ধকৃত না, %1$s রা ভেবেছে এই অ্যাকাউন্টগুলোর অনুসরণ অনুরোধ তোমার পরীক্ষা করা উচিত।</string>
     <string name="drafts_toot_reply_removed">যে টুটের উত্তর খসড়া করেছিলে তা মুছে ফেলা হয়েছে</string>
-    <string name="dialog_delete_list_warning">এই তালিকাটা আসলেই মুছতে চাও\?</string>
     <plurals name="error_upload_max_media_reached">
         <item quantity="one">%1$d টার বেশি সংযুক্তি পাঠানো যাবে না।</item>
         <item quantity="other">%1$d টার বেশি সংযুক্তি পাঠানো যাবে না।</item>

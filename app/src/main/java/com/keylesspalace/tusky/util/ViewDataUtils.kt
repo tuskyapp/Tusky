@@ -23,29 +23,31 @@ import com.keylesspalace.tusky.viewdata.StatusViewData
 
 @JvmName("statusToViewData")
 fun Status.toViewData(
-    alwaysShowSensitiveMedia: Boolean,
-    alwaysOpenSpoiler: Boolean
+    isShowingContent: Boolean,
+    isExpanded: Boolean,
+    isCollapsed: Boolean
 ): StatusViewData.Concrete {
     val visibleStatus = this.reblog ?: this
 
     return StatusViewData.Concrete(
         status = this,
-        isShowingContent = alwaysShowSensitiveMedia || !visibleStatus.sensitive,
+        isShowingContent = isShowingContent,
         isCollapsible = shouldTrimStatus(visibleStatus.content),
-        isCollapsed = false,
-        isExpanded = alwaysOpenSpoiler,
+        isCollapsed = isCollapsed,
+        isExpanded = isExpanded,
     )
 }
 
 @JvmName("notificationToViewData")
 fun Notification.toViewData(
-    alwaysShowSensitiveData: Boolean,
-    alwaysOpenSpoiler: Boolean
+    isShowingContent: Boolean,
+    isExpanded: Boolean,
+    isCollapsed: Boolean
 ): NotificationViewData.Concrete {
     return NotificationViewData.Concrete(
         this.type,
         this.id,
         this.account,
-        this.status?.toViewData(alwaysShowSensitiveData, alwaysOpenSpoiler)
+        this.status?.toViewData(isShowingContent, isExpanded, isCollapsed)
     )
 }

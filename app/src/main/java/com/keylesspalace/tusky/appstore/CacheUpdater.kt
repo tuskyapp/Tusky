@@ -10,7 +10,7 @@ import javax.inject.Inject
 
 class CacheUpdater @Inject constructor(
     eventHub: EventHub,
-    accountManager: AccountManager,
+    private val accountManager: AccountManager,
     private val appDatabase: AppDatabase,
     gson: Gson
 ) {
@@ -19,6 +19,7 @@ class CacheUpdater @Inject constructor(
 
     init {
         val timelineDao = appDatabase.timelineDao()
+
         disposable = eventHub.events.subscribe { event ->
             val accountId = accountManager.activeAccount?.id ?: return@subscribe
             when (event) {
@@ -36,6 +37,8 @@ class CacheUpdater @Inject constructor(
                     val pollString = gson.toJson(event.poll)
                     timelineDao.setVoted(accountId, event.statusId, pollString)
                 }
+                is PinEvent ->
+                    timelineDao.setPinned(accountId, event.statusId, event.pinned)
             }
         }
     }

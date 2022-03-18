@@ -1,0 +1,10 @@
+Tusky v13.0
+
+- Profileko oharren laguntza. (Mastodon 3.2.0-ren ezaugarria)
+- Administratzaileentzako iragarkien laguntza. (Mastodon 3.1.0-ren ezaugarria)
+
+- Hautatutako kontuaren abatarra tresna barra nagusian erakutsiko da.
+- Denbora-lerro batean bistaratzeko izena klikatuz gero, erabiltzaile horren profil orria irekiko da.
+
+- Akats konponketa asko eta hobekuntza txikiak.
+- Itzulpenak hobetuta.

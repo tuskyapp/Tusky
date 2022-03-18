@@ -217,6 +217,7 @@
     <string name="notification_summary_medium">%1$s, %2$s, kaj %3$s</string>
     <string name="notification_summary_small">%1$s kaj %2$s</string>
     <plurals name="notification_title_summary">
+        <item quantity="one">%d nova interago</item>
         <item quantity="other">%d novaj interagoj</item>
     </plurals>
     <string name="description_account_locked">Ŝlosita konto</string>
@@ -343,7 +344,8 @@
     <string name="conversation_2_recipients">%1$s kaj %2$s</string>
     <string name="conversation_more_recipients">%1$s, %2$s kaj %3$d aliaj</string>
     <plurals name="max_tab_number_reached">
-        <item quantity="other">maksimuma nombro %1$d da langetoj atingita</item>
+        <item quantity="one">maksimumo da %1$d langeto atingita</item>
+        <item quantity="other">maksimumo da %1$d langetoj atingita</item>
     </plurals>
     <string name="description_status_media">        Aŭdovidaĵo: %s
     </string>
@@ -394,7 +396,7 @@
     <string name="mute_domain_warning">Ĉu vi certas ke vi volas tute bloki %s\? Vi ne vidos enhavon de tiu domajno en publika tempolinio aŭ en viaj sciigoj. Viaj sekvantoj de tiu domajno estos forigitaj.</string>
     <string name="mute_domain_warning_dialog_ok">Kaŝi la tutan domajnon</string>
     <string name="caption_notoemoji">La aktuala emoĝiaro de Google</string>
-    <string name="description_poll">Balotenketo kun elektoj: %s, %s, %s, %s; %s</string>
+    <string name="description_poll">Balotenketo kun elektoj: %1$s, %2$s, %3$s, %4$s, %5$s</string>
     <string name="button_continue">Daŭrigi</string>
     <string name="button_back">Reveni</string>
     <string name="button_done">Farita</string>
@@ -488,4 +490,40 @@
     <string name="no_announcements">Estas neniu anonco.</string>
     <string name="pref_title_enable_swipe_for_tabs">Ebligi ŝovumadon por ŝanĝi inter la langetoj</string>
     <string name="warning_scheduling_interval">Mastodon havas minimuman intervalon de planado de 5 minutoj.</string>
+    <string name="status_media_attachments">Kunsendaĵoj</string>
+    <string name="pref_title_notification_filter_subscriptions">iu kiun mi sekvas afiŝis novan mesaĝon</string>
+    <string name="dialog_delete_list_warning">Ĉu vi vere volas forigi la liston %s\?</string>
+    <string name="status_media_audio">Aŭdio</string>
+    <string name="action_subscribe_account">Aboni</string>
+    <string name="draft_deleted">Malneto forigita</string>
+    <plurals name="error_upload_max_media_reached">
+        <item quantity="one">Vi ne povas elŝuti pli ol %1$d aŭdovidaĵa kunsendaĵo.</item>
+        <item quantity="other">Vi ne povas elŝuti pli ol %1$d aŭdovidaĵaj kunsendaĵoj.</item>
+    </plurals>
+    <string name="label_duration">Daŭro</string>
+    <string name="duration_indefinite">Nedefinita</string>
+    <string name="action_unsubscribe_account">Malaboni</string>
+    <string name="notification_subscription_name">Novaj mesaĝoj</string>
+    <string name="action_unbookmark">Forigi la legosignon</string>
+    <string name="dialog_delete_conversation_warning">Ĉu forigi ĉi-tiun konversacion\?</string>
+    <string name="pref_title_animate_custom_emojis">Animacii proprajn emoĝiojn</string>
+    <string name="wellbeing_hide_stats_profile">Kaŝi kvantecajn statistikaĵojn sur la profiloj</string>
+    <string name="action_delete_conversation">Forigi konversacion</string>
+    <string name="notification_subscription_format">%s ĵus afiŝis</string>
+    <string name="notification_subscription_description">Sciigoj kiam iu kiun vi sekvas afiŝis novan mesaĝon</string>
+    <string name="drafts_toot_failed_to_send">Sendo de ĉi-tiu mesaĝo malsukcesis!</string>
+    <string name="wellbeing_hide_stats_posts">Kaŝi kvantecajn statistikaĵojn sur la mesaĝoj</string>
+    <string name="pref_title_confirm_favourites">Demandi konfirmon antaŭ ol stelumi</string>
+    <string name="pref_title_wellbeing_mode">Bonstato</string>
+    <string name="drafts_failed_loading_reply">Ŝarĝado de respondaj informoj malsukcesis</string>
+    <string name="wellbeing_mode_notice">Kelkaj informoj kiuj povas afekci vian mensan bonstaton estos kaŝitaj. Ĉi tiuj inkluzivas:
+\n
+\n - Sciigoj pri stelumo/diskonigo/sekvado
+\n- Nombro de stelumoj/diskonigoj sur la mesaĝoj
+\n- Statistikoj pri mesaĝoj/sekvantoj sur la profiloj
+\n
+\n Puŝosciigoj ne estos influitaj, sed vi povas kontroli viajn sciigojn preferojn permane.</string>
+    <string name="review_notifications">Kontroli la sciigojn</string>
+    <string name="limit_notifications">Limigi sciigojn pri tempolinio</string>
+    <string name="drafts_toot_reply_removed">La mesaĝo al kiu ĉi tiu malneto respondas estis forigita</string>
 </resources>

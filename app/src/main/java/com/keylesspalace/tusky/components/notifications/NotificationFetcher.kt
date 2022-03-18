@@ -1,5 +1,6 @@
 package com.keylesspalace.tusky.components.notifications
 
+import android.content.Context
 import android.util.Log
 import com.keylesspalace.tusky.db.AccountEntity
 import com.keylesspalace.tusky.db.AccountManager
@@ -12,7 +13,7 @@ import javax.inject.Inject
 class NotificationFetcher @Inject constructor(
     private val mastodonApi: MastodonApi,
     private val accountManager: AccountManager,
-    private val notifier: Notifier
+    private val context: Context
 ) {
     fun fetchAndShow() {
         for (account in accountManager.getAllAccountsOrderedByActive()) {
@@ -20,7 +21,7 @@ class NotificationFetcher @Inject constructor(
                 try {
                     val notifications = fetchNotifications(account)
                     notifications.forEachIndexed { index, notification ->
-                        notifier.show(notification, account, index == 0)
+                        NotificationHelper.make(context, notification, account, index == 0)
                     }
                     accountManager.saveAccount(account)
                 } catch (e: Exception) {

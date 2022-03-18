@@ -28,10 +28,10 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.SimpleItemAnimator
 import com.google.android.material.snackbar.Snackbar
-import com.keylesspalace.tusky.AccountActivity
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.ViewMediaActivity
 import com.keylesspalace.tusky.ViewTagActivity
+import com.keylesspalace.tusky.components.account.AccountActivity
 import com.keylesspalace.tusky.components.report.ReportViewModel
 import com.keylesspalace.tusky.components.report.Screen
 import com.keylesspalace.tusky.components.report.adapter.AdapterHandler
@@ -114,6 +114,7 @@ class ReportStatusesFragment : Fragment(R.layout.fragment_report_statuses), Inje
             useBlurhash = preferences.getBoolean("useBlurhash", true),
             cardViewMode = CardViewMode.NONE,
             confirmReblogs = preferences.getBoolean("confirmReblogs", true),
+            confirmFavourites = preferences.getBoolean("confirmFavourites", false),
             hideStats = preferences.getBoolean(PrefKeys.WELLBEING_HIDE_STATS_POSTS, false),
             animateEmojis = preferences.getBoolean(PrefKeys.ANIMATE_CUSTOM_EMOJIS, false)
         )

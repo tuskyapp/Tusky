@@ -34,9 +34,7 @@ import javax.inject.Singleton
         ActivitiesModule::class,
         ServicesModule::class,
         BroadcastReceiverModule::class,
-        ViewModelModule::class,
-        RepositoryModule::class,
-        MediaUploaderModule::class
+        ViewModelModule::class
     ]
 )
 interface AppComponent {

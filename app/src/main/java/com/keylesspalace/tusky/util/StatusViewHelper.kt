@@ -23,6 +23,7 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.DrawableRes
+import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.entity.Attachment
@@ -310,13 +311,19 @@ class StatusViewHelper(private val itemView: View) {
             if (i < options.size) {
                 val percent = calculatePercent(options[i].votesCount, poll.votersCount, poll.votesCount)
 
-                val pollOptionText = buildDescription(options[i].title, percent, pollResults[i].context)
+                val pollOptionText = buildDescription(options[i].title, percent, options[i].voted, pollResults[i].context)
                 pollResults[i].text = pollOptionText.emojify(emojis, pollResults[i], animateEmojis)
                 pollResults[i].visibility = View.VISIBLE
 
                 val level = percent * 100
+                val optionColor = if (options[i].voted) {
+                    R.color.colorBackgroundHighlight
+                } else {
+                    R.color.colorBackgroundAccent
+                }
 
                 pollResults[i].background.level = level
+                pollResults[i].background.setTint(ContextCompat.getColor(pollResults[i].context, optionColor))
             } else {
                 pollResults[i].visibility = View.GONE
             }

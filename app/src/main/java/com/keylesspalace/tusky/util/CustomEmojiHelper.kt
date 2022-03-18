@@ -33,7 +33,7 @@ import java.util.regex.Pattern
 
 /**
  * replaces emoji shortcodes in a text with EmojiSpans
- * @param text the text containing custom emojis
+ * @receiver the text containing custom emojis
  * @param emojis a list of the custom emojis (nullable for backward compatibility with old mastodon instances)
  * @param view a reference to the a view the emojis will be shown in (should be the TextView, but parents of the TextView are also acceptable)
  * @return the text with the shortcodes replaced by EmojiSpans
@@ -44,7 +44,7 @@ fun CharSequence.emojify(emojis: List<Emoji>?, view: View, animate: Boolean): Ch
 
     val builder = SpannableStringBuilder.valueOf(this)
 
-    emojis.forEach { (shortcode, url) ->
+    emojis.forEach { (shortcode, url, staticUrl) ->
         val matcher = Pattern.compile(":$shortcode:", Pattern.LITERAL)
             .matcher(this)
 
@@ -54,7 +54,7 @@ fun CharSequence.emojify(emojis: List<Emoji>?, view: View, animate: Boolean): Ch
             builder.setSpan(span, matcher.start(), matcher.end(), 0)
             Glide.with(view)
                 .asDrawable()
-                .load(url)
+                .load(if (animate) { url } else { staticUrl })
                 .into(span.getTarget(animate))
         }
     }

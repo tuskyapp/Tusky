@@ -7,7 +7,7 @@ import androidx.paging.RemoteMediator
 import com.keylesspalace.tusky.db.AppDatabase
 import com.keylesspalace.tusky.network.MastodonApi
 
-@ExperimentalPagingApi
+@OptIn(ExperimentalPagingApi::class)
 class ConversationsRemoteMediator(
     private val accountId: Long,
     private val api: MastodonApi,

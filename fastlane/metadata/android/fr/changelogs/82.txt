@@ -1,0 +1,5 @@
+Tusky v15.0
+
+- Les demandes de suivi sont désormais toujours montrées dans le menu principal.
+- Le sélecteur de date/heure pour planifier un message a désormais un design cohérent avec le reste de l’application
+Liste complète des changements : https://github.com/tuskyapp/Tusky/releases

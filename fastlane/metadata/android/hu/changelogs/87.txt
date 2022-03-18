@@ -1,0 +1,8 @@
+Tusky v16.0
+
+- Az idővonal betöltési logikáját teljesen újraírtuk, hogy gyorsabb, hibamentesebb és karbantarthatóbb legyen.
+- A Tusky már animálja az APNG és Animated WebP formátumú emodzsikat.
+- Sok hibajavítás
+- Android 11 támogatás
+- Új fordítások: skót, galíciai, ukrán
+- Javított fordítások

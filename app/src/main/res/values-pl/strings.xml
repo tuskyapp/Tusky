@@ -20,7 +20,7 @@
     <string name="title_home">Strona główna</string>
     <string name="title_notifications">Powiadomienia</string>
     <string name="title_public_local">Lokalne</string>
-    <string name="title_public_federated">Federalne</string>
+    <string name="title_public_federated">Globalne</string>
     <string name="title_view_thread">Wątek</string>
     <string name="title_statuses">Wpisy</string>
     <string name="title_statuses_with_replies">Z odpowiedziami</string>
@@ -68,7 +68,7 @@
     <string name="action_close">Zamknij</string>
     <string name="action_view_profile">Profil</string>
     <string name="action_view_preferences">Preferencje</string>
-    <string name="action_view_favourites">Polubione</string>
+    <string name="action_view_favourites">Ulubione</string>
     <string name="action_view_mutes">Wyciszeni użytkownicy</string>
     <string name="action_view_blocks">Zablokowani użytkownicy</string>
     <string name="action_view_follow_requests">Prośby o możliwość śledzenia</string>
@@ -276,7 +276,7 @@
     <string name="status_content_show_less">Zwiń</string>
     <string name="message_empty">Nic tu nie ma.</string>
     <string name="action_unfavourite">Usuń z ulubionych</string>
-    <string name="action_delete_and_redraft">Usuń i napisz jeszcze raz</string>
+    <string name="action_delete_and_redraft">Usuń i przeredaguj</string>
     <string name="action_view_account_preferences">Ustawienia konta</string>
     <string name="action_links">Linki</string>
     <string name="action_mentions">Wzmianki</string>
@@ -461,7 +461,7 @@
     <string name="about_powered_by_tusky">Napędzane przez Tusky</string>
     <string name="post_lookup_error_format">Błąd przy wyszukiwaniu wpisu %s</string>
     <string name="title_bookmarks">Zakładki</string>
-    <string name="action_bookmark">Zakładka</string>
+    <string name="action_bookmark">Dodaj do zakładek</string>
     <string name="action_view_bookmarks">Zakładki</string>
     <string name="description_status_bookmarked">Dodane do zakładek</string>
     <string name="select_list_title">Wybierz listę</string>
@@ -531,7 +531,7 @@
     <string name="account_note_saved">Zapisano!</string>
     <string name="account_note_hint">Twoja prywatna notatka o tym koncie</string>
     <string name="duration_indefinite">Czas nieokreślony</string>
-    <string name="status_media_audio">Audio</string>
+    <string name="status_media_audio">Dźwięk</string>
     <string name="notification_subscription_description">Powiadomienia o opublikowaniu nowego wpisu przez kogoś, kogo obserwujesz</string>
     <string name="pref_main_nav_position">Pozycja głównego paska nawigacji</string>
     <string name="pref_title_animate_custom_emojis">Animuj niestandardowe emoji</string>
@@ -540,4 +540,6 @@
     <string name="action_delete_conversation">Usuń konwersację</string>
     <string name="notification_subscription_format">%s opublikował/a post</string>
     <string name="notification_follow_request_format">%s poprosił(a) o możliwość śledzenia Cię</string>
+    <string name="action_unbookmark">Usuń z zakładek</string>
+    <string name="pref_title_confirm_favourites">Pytaj o potwierdzenie przed dodaniem do ulubionych</string>
 </resources>

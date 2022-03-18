@@ -221,14 +221,14 @@
     <string name="license_apache_2">Fo cheadachas Apache License (chì thu lethbhreac dheth gu h-ìosal)</string>
     <string name="license_description">Tha còs is maoin o na pròiseactan open source seo am broinn Tusky:</string>
     <string name="unreblog_private">Na brosnaich tuilleadh</string>
-    <string name="reblog_private">Brosnaich dhan èisteachd tùsail</string>
+    <string name="reblog_private">Brosnaich dhan èisteachd thùsail</string>
     <string name="account_moved_description">Chaidh %1$s a ghluasad gu:</string>
     <string name="profile_badge_bot_text">Robotair</string>
     <string name="download_failed">Dh’fhàillig an luchdadh a-nuas</string>
     <string name="caption_notoemoji">Seata làithreach nan Emoji aig Google</string>
     <string name="caption_twemoji">Seata stannardach nan Emoji aig Mastodon</string>
     <string name="caption_blobmoji">Emojis Blob aig Android 4.4–7.1</string>
-    <string name="caption_systememoji">Seata tùsail nan Emojis air an uidheam agad</string>
+    <string name="caption_systememoji">Seata bunaiteach nan Emojis air an uidheam agad</string>
     <string name="restart">Ath-thòisich</string>
     <string name="later">Uaireigin eile</string>
     <string name="restart_emoji">Feumaidh tu Tusky ath-thòiseachadh gus na roghainnean seo a chur an sàs</string>
@@ -368,7 +368,7 @@
     <string name="pref_failed_to_sync">Dh’fhàillig le sioncronachadh nan roghainnean</string>
     <string name="pref_publishing">’Ga fhoillseachadh (ga shioncronachadh le frithealaiche)</string>
     <string name="pref_default_media_sensitivity">Cuir comharra ri meadhanan an-còmhnaidh gu bheil iad frionasach</string>
-    <string name="pref_default_post_privacy">Prìobhaideachd thùsail nam post</string>
+    <string name="pref_default_post_privacy">Prìobhaideachd bhunaiteach nam post</string>
     <string name="pref_title_http_proxy_port">Port progsaidh HTTP</string>
     <string name="pref_title_http_proxy_server">Frithealaiche progsaidh HTTP</string>
     <string name="pref_title_http_proxy_enable">Cuir an comas a’ phrogsaidh HTTP</string>
@@ -532,4 +532,6 @@
     <string name="follow_requests_info">Ged nach eil an cunntas agad glaiste, tha sgioba %1$s dhen bheachd gum b’ fheàirrde thu lèirmheas a dhèanamh air na h-iarrtasan leantainn o na cunntasan seo a làimh.</string>
     <string name="dialog_delete_conversation_warning">A bheil thu airson an còmhradh seo a sguabadh às\?</string>
     <string name="action_delete_conversation">Sguab às an còmhradh</string>
+    <string name="action_unbookmark">Thoir an comharra-lìn air falbh</string>
+    <string name="pref_title_confirm_favourites">Ceall còmhradh dearbhaidh mus dèid post ’na annsachd</string>
 </resources>

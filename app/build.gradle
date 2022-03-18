@@ -20,8 +20,8 @@ android {
         applicationId APP_ID
         minSdkVersion 21
         targetSdkVersion 30
-        versionCode 83
-        versionName "15.1"
+        versionCode 87
+        versionName "16.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
 
@@ -83,23 +83,27 @@ android {
             enableSplit = false
         }
     }
+    kotlinOptions {
+        freeCompilerArgs += "-opt-in=kotlin.RequiresOptIn"
+    }
 }
 
+ext.coroutinesVersion = "1.6.0"
 ext.lifecycleVersion = "2.3.1"
 ext.roomVersion = '2.3.0'
 ext.retrofitVersion = '2.9.0'
-ext.okhttpVersion = '4.9.1'
+ext.okhttpVersion = '4.9.3'
 ext.glideVersion = '4.12.0'
-ext.daggerVersion = '2.37'
-ext.materialdrawerVersion = '8.4.1'
+ext.daggerVersion = '2.40.5'
+ext.materialdrawerVersion = '8.4.5'
 ext.emoji2_version = '1.2.0-alpha01'
 
 // if libraries are changed here, they should also be changed in LicenseActivity
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
 
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.0'
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-rx3:1.5.0'
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-rx3:$coroutinesVersion"
 
     implementation "androidx.core:core-ktx:1.5.0"
     implementation "androidx.appcompat:appcompat:1.3.0"
@@ -107,7 +111,7 @@ dependencies {
     implementation "androidx.browser:browser:1.3.0"
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
     implementation "androidx.recyclerview:recyclerview:1.2.1"
-    implementation "androidx.exifinterface:exifinterface:1.3.2"
+    implementation "androidx.exifinterface:exifinterface:1.3.3"
     implementation "androidx.cardview:cardview:1.0.0"
     implementation "androidx.preference:preference-ktx:1.1.1"
     implementation "androidx.sharetarget:sharetarget:1.1.0"
@@ -121,7 +125,7 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycleVersion"
     implementation "androidx.lifecycle:lifecycle-common-java8:$lifecycleVersion"
     implementation "androidx.lifecycle:lifecycle-reactivestreams-ktx:$lifecycleVersion"
-    implementation "androidx.constraintlayout:constraintlayout:2.0.4"
+    implementation "androidx.constraintlayout:constraintlayout:2.1.2"
     implementation "androidx.paging:paging-runtime-ktx:3.0.0"
     implementation "androidx.viewpager2:viewpager2:1.0.0"
     implementation "androidx.work:work-runtime:2.5.0"
@@ -129,7 +133,9 @@ dependencies {
     implementation "androidx.room:room-rxjava3:$roomVersion"
     kapt "androidx.room:room-compiler:$roomVersion"
 
-    implementation "com.google.android.material:material:1.3.0"
+    implementation "com.google.android.material:material:1.4.0"
+
+    implementation "com.google.code.gson:gson:2.8.9"
 
     implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
     implementation "com.squareup.retrofit2:converter-gson:$retrofitVersion"
@@ -142,6 +148,9 @@ dependencies {
 
     implementation "com.github.bumptech.glide:glide:$glideVersion"
     implementation "com.github.bumptech.glide:okhttp3-integration:$glideVersion"
+    kapt "com.github.bumptech.glide:compiler:$glideVersion"
+
+    implementation "com.github.penfeizhou.android.animation:glide-plugin:2.17.0"
 
     implementation "io.reactivex.rxjava3:rxjava:3.0.12"
     implementation "io.reactivex.rxjava3:rxandroid:3.0.0"
@@ -162,17 +171,19 @@ dependencies {
 
     implementation "com.mikepenz:materialdrawer:$materialdrawerVersion"
     implementation "com.mikepenz:materialdrawer-iconics:$materialdrawerVersion"
-    implementation 'com.mikepenz:google-material-typeface:3.0.1.4.original-kotlin@aar'
+    implementation 'com.mikepenz:google-material-typeface:4.0.0.2-kotlin@aar'
 
     implementation "com.github.CanHub:Android-Image-Cropper:3.1.0"
 
-    testImplementation "androidx.test.ext:junit:1.1.2"
+    testImplementation "androidx.test.ext:junit:1.1.3"
     testImplementation "org.robolectric:robolectric:4.4"
     testImplementation "org.mockito:mockito-inline:3.6.28"
     testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:2.2.0"
 
-    androidTestImplementation "androidx.test.espresso:espresso-core:3.3.0"
+    androidTestImplementation "androidx.test.espresso:espresso-core:3.4.0"
     androidTestImplementation "androidx.room:room-testing:$roomVersion"
-    androidTestImplementation "androidx.test.ext:junit:1.1.2"
+    androidTestImplementation "androidx.test.ext:junit:1.1.3"
     testImplementation "androidx.arch.core:core-testing:2.1.0"
+
+    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutinesVersion"
 }

@@ -185,10 +185,13 @@ public class NotificationsFragment extends SFragment implements
                 Notification notification = input.asRight()
                         .rewriteToStatusTypeIfNeeded(accountManager.getActiveAccount().getAccountId());
 
+                boolean sensitiveStatus = notification.getStatus() != null && notification.getStatus().getActionableStatus().getSensitive();
+
                 return ViewDataUtils.notificationToViewData(
                         notification,
-                        alwaysShowSensitiveMedia,
-                        alwaysOpenSpoiler
+                        alwaysShowSensitiveMedia || !sensitiveStatus,
+                        alwaysOpenSpoiler,
+                        true
                 );
             } else {
                 return new NotificationViewData.Placeholder(input.asLeft().id, false);
@@ -255,6 +258,7 @@ public class NotificationsFragment extends SFragment implements
                 preferences.getBoolean("useBlurhash", true),
                 CardViewMode.NONE,
                 preferences.getBoolean("confirmReblogs", true),
+                preferences.getBoolean("confirmFavourites", false),
                 preferences.getBoolean(PrefKeys.WELLBEING_HIDE_STATS_POSTS, false),
                 preferences.getBoolean(PrefKeys.ANIMATE_CUSTOM_EMOJIS, false)
         );
@@ -410,10 +414,7 @@ public class NotificationsFragment extends SFragment implements
     }
 
     private void setReblogForStatus(String statusId, boolean reblog) {
-        updateStatus(statusId, (s) -> {
-            s.setReblogged(reblog);
-            return s;
-        });
+        updateStatus(statusId, (s) -> s.copyWithReblogged(reblog));
     }
 
     @Override
@@ -432,10 +433,7 @@ public class NotificationsFragment extends SFragment implements
     }
 
     private void setFavouriteForStatus(String statusId, boolean favourite) {
-        updateStatus(statusId, (s) -> {
-            s.setFavourited(favourite);
-            return s;
-        });
+        updateStatus(statusId, (s) -> s.copyWithFavourited(favourite));
     }
 
     @Override
@@ -454,10 +452,7 @@ public class NotificationsFragment extends SFragment implements
     }
 
     private void setBookmarkForStatus(String statusId, boolean bookmark) {
-        updateStatus(statusId, (s) -> {
-            s.setBookmarked(bookmark);
-            return s;
-        });
+        updateStatus(statusId, (s) -> s.copyWithBookmarked(bookmark));
     }
 
     public void onVoteInPoll(int position, @NonNull List<Integer> choices) {
@@ -517,10 +512,7 @@ public class NotificationsFragment extends SFragment implements
     }
 
     private void setPinForStatus(String statusId, boolean pinned) {
-        updateStatus(statusId, status -> {
-            status.copyWithPinned(pinned);
-            return status;
-        });
+        updateStatus(statusId, status -> status.copyWithPinned(pinned));
     }
 
     @Override

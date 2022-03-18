@@ -517,4 +517,8 @@
     <string name="action_unsubscribe_account">Leiratkozás</string>
     <string name="action_subscribe_account">Feliratkozás</string>
     <string name="follow_requests_info">Bár a fiókod nincs zárolva, a %1$s csapata úgy gondolta, hogy ezen fiókok követési kérelmeit átnéznéd.</string>
+    <string name="dialog_delete_conversation_warning">Töröljük ezt a beszélgetést\?</string>
+    <string name="action_delete_conversation">Beszélgetés törlése</string>
+    <string name="action_unbookmark">Könyvjelző törlése</string>
+    <string name="pref_title_confirm_favourites">Jóváhagyás mutatása kedvencnek jelölés előtt</string>
 </resources>

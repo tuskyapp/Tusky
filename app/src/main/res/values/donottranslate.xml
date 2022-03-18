@@ -47,6 +47,8 @@
         <item>Euskara</item>
         <item>Français</item>
         <item>Gaeilge</item>
+        <item>Gàidhlig</item>
+        <item>Galego</item>
         <item>íslenska</item>
         <item>Italiano</item>
         <item>Magyar</item>
@@ -62,6 +64,7 @@
         <item>Türkçe</item>
         <item>български</item>
         <item>Русский</item>
+        <item>Українська</item>
         <item>العربية</item>
         <item>کوردیی ناوەندی</item>
         <item>বাংলা (বাংলাদেশ)</item>
@@ -93,6 +96,8 @@
         <item>eu</item>
         <item>fr</item>
         <item>ga</item>
+        <item>gd</item>
+        <item>gl</item>
         <item>is</item>
         <item>it</item>
         <item>hu</item>
@@ -108,6 +113,7 @@
         <item>tr</item>
         <item>bg</item>
         <item>ru</item>
+        <item>uk</item>
         <item>ar</item>
         <item>ckb</item>
         <item>bn-bd</item>

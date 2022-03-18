@@ -54,6 +54,7 @@
 
         <item name="android:colorBackground">@color/colorBackground</item>
         <item name="colorBackgroundAccent">@color/colorBackgroundAccent</item>
+        <item name="colorBackgroundHighlight">@color/colorBackgroundHighlight</item>
         <item name="windowBackgroundColor">@color/windowBackground</item>
 
         <item name="android:textColorPrimary">@color/textColorPrimary</item>
@@ -142,6 +143,7 @@
         <item name="colorSurface">@color/tusky_grey_10</item>
 
         <item name="iconColor">@color/tusky_grey_40</item>
+        <item name="colorBackgroundHighlight">@color/tusky_grey_40</item>
         <item name="colorBackgroundAccent">@color/tusky_grey_20</item>
 
         <item name="dividerColor">@color/tusky_grey_10</item>

@@ -29,7 +29,6 @@ import androidx.recyclerview.widget.SimpleItemAnimator
 import autodispose2.androidx.lifecycle.AndroidLifecycleScopeProvider.from
 import autodispose2.autoDispose
 import com.google.android.material.snackbar.Snackbar
-import com.keylesspalace.tusky.AccountActivity
 import com.keylesspalace.tusky.AccountListActivity.Type
 import com.keylesspalace.tusky.BaseActivity
 import com.keylesspalace.tusky.R
@@ -39,6 +38,7 @@ import com.keylesspalace.tusky.adapter.FollowAdapter
 import com.keylesspalace.tusky.adapter.FollowRequestsAdapter
 import com.keylesspalace.tusky.adapter.FollowRequestsHeaderAdapter
 import com.keylesspalace.tusky.adapter.MutesAdapter
+import com.keylesspalace.tusky.components.account.AccountActivity
 import com.keylesspalace.tusky.databinding.FragmentAccountListBinding
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.di.Injectable

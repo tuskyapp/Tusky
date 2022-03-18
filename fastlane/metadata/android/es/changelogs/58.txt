@@ -1,0 +1,10 @@
+Tusky v6.0
+
+- Filtros de linea de tiempo movidos a preferencias de cuenta y se sincroniza con servidor
+- Hashtags personalizados como una pestaña en la interfaz principal
+- Puedes editar listas
+- Seguridad: el soporte para TLS 1.0 y 1.1 se ha removido, se añade soporte para TLS 1.3 en Android 6+
+- La vista de composición ahora sugiere emojis personalizados al escribir
+- Nueva opción para seguir tema del sistema
+- Nueva traducción: Czech y Esperanto
+- Otras mejoras y arreglos

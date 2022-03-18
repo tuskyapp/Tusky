@@ -11,7 +11,8 @@ data class Poll(
     @SerializedName("votes_count") val votesCount: Int,
     @SerializedName("voters_count") val votersCount: Int?, // nullable for compatibility with Pleroma
     val options: List<PollOption>,
-    val voted: Boolean
+    val voted: Boolean,
+    @SerializedName("own_votes") val ownVotes: List<Int>?
 ) {
 
     fun votedCopy(choices: List<Int>): Poll {

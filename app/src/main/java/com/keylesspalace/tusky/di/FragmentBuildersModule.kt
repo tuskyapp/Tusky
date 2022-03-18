@@ -16,6 +16,7 @@
 package com.keylesspalace.tusky.di
 
 import com.keylesspalace.tusky.AccountsInListFragment
+import com.keylesspalace.tusky.components.account.media.AccountMediaFragment
 import com.keylesspalace.tusky.components.conversation.ConversationsFragment
 import com.keylesspalace.tusky.components.instancemute.fragment.InstanceListFragment
 import com.keylesspalace.tusky.components.preference.AccountPreferencesFragment
@@ -29,7 +30,6 @@ import com.keylesspalace.tusky.components.search.fragments.SearchHashtagsFragmen
 import com.keylesspalace.tusky.components.search.fragments.SearchStatusesFragment
 import com.keylesspalace.tusky.components.timeline.TimelineFragment
 import com.keylesspalace.tusky.fragment.AccountListFragment
-import com.keylesspalace.tusky.fragment.AccountMediaFragment
 import com.keylesspalace.tusky.fragment.NotificationsFragment
 import com.keylesspalace.tusky.fragment.ViewThreadFragment
 import dagger.Module
@@ -57,16 +57,13 @@ abstract class FragmentBuildersModule {
     abstract fun notificationsFragment(): NotificationsFragment
 
     @ContributesAndroidInjector
-    abstract fun searchFragment(): SearchStatusesFragment
-
-    @ContributesAndroidInjector
     abstract fun notificationPreferencesFragment(): NotificationPreferencesFragment
 
     @ContributesAndroidInjector
     abstract fun accountPreferencesFragment(): AccountPreferencesFragment
 
     @ContributesAndroidInjector
-    abstract fun directMessagesPreferencesFragment(): ConversationsFragment
+    abstract fun conversationsFragment(): ConversationsFragment
 
     @ContributesAndroidInjector
     abstract fun accountInListsFragment(): AccountsInListFragment
@@ -82,6 +79,9 @@ abstract class FragmentBuildersModule {
 
     @ContributesAndroidInjector
     abstract fun instanceListFragment(): InstanceListFragment
+
+    @ContributesAndroidInjector
+    abstract fun searchStatusesFragment(): SearchStatusesFragment
 
     @ContributesAndroidInjector
     abstract fun searchAccountFragment(): SearchAccountsFragment

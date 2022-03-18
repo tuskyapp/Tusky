@@ -29,9 +29,16 @@ class FilterModel @Inject constructor() {
         }
 
         val spoilerText = status.actionableStatus.spoilerText
+        val attachmentsDescriptions = status.attachments
+            .mapNotNull { it.description }
+
         return (
             matcher.reset(status.actionableStatus.content).find() ||
-                spoilerText.isNotEmpty() && matcher.reset(spoilerText).find()
+                (spoilerText.isNotEmpty() && matcher.reset(spoilerText).find()) ||
+                (
+                    attachmentsDescriptions.isNotEmpty() &&
+                        matcher.reset(attachmentsDescriptions.joinToString("\n")).find()
+                    )
             )
     }
 

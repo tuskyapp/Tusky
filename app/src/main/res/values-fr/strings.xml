@@ -18,7 +18,7 @@
     <string name="error_media_download_permission">Permission requise pour enregistrer le média.</string>
     <string name="error_media_upload_image_or_video">Un même pouet ne peut contenir à la fois une vidéo et une image.</string>
     <string name="error_media_upload_sending">Échec d’envoi du média.</string>
-    <string name="error_sender_account_gone">Erreur lors de l’envoi du pouet.</string>
+    <string name="error_sender_account_gone">Erreur lors de l’envoi du message.</string>
     <string name="title_home">Accueil</string>
     <string name="title_notifications">Notifications</string>
     <string name="title_public_local">Local</string>
@@ -53,7 +53,7 @@
     <string name="notification_favourite_format">%s a ajouté votre pouet à ses favoris</string>
     <string name="notification_follow_format">%s vous suit</string>
     <string name="report_username_format">Signaler @%s</string>
-    <string name="report_comment_hint">Commentaires additonnels ?</string>
+    <string name="report_comment_hint">Commentaires additionnels \?</string>
     <string name="action_quick_reply">Réponse rapide</string>
     <string name="action_reply">Répondre</string>
     <string name="action_reblog">Partager</string>
@@ -197,7 +197,7 @@
     <string name="pref_title_http_proxy_port">Port du proxy HTTP</string>
     <string name="pref_default_post_privacy">Confidentialité par défaut</string>
     <string name="pref_default_media_sensitivity">Toujours marquer les médias comme sensibles</string>
-    <string name="pref_publishing">Publication</string>
+    <string name="pref_publishing">Publication (synchronisée avec le serveur)</string>
     <string name="pref_failed_to_sync">Échec de synchronisation des paramètres</string>
     <string name="post_privacy_public">Public</string>
     <string name="post_privacy_unlisted">Non listé</string>
@@ -221,6 +221,7 @@
     <string name="notification_summary_medium">%1$s, %2$s et %3$s</string>
     <string name="notification_summary_small">%1$s et %2$s</string>
     <plurals name="notification_title_summary">
+        <item quantity="one">%d nouvelle interaction</item>
         <item quantity="other">%d nouvelles interactions</item>
     </plurals>
     <string name="description_account_locked">Compte verrouillé</string>
@@ -259,7 +260,7 @@
     <string name="abbreviated_minutes_ago">%dm</string>
     <string name="abbreviated_seconds_ago">%ds</string>
     <string name="follows_you">Vous suit</string>
-    <string name="pref_title_alway_show_sensitive_media">Toujours afficher le contenu sensible</string>
+    <string name="pref_title_alway_show_sensitive_media">Toujours afficher les contenus sensibles</string>
     <string name="title_media">Média</string>
     <string name="replying_to">Réponse à @%s</string>
     <string name="load_more_placeholder_text">en charger plus</string>
@@ -348,7 +349,8 @@
     <string name="conversation_2_recipients">%1$s et %2$s</string>
     <string name="conversation_more_recipients">%1$s, %2$s et %3$d autres</string>
     <plurals name="max_tab_number_reached">
-        <item quantity="other">nombre maximum d\'onglets %1$d atteint</item>
+        <item quantity="one">maximum de %1$d onglet atteint</item>
+        <item quantity="other">maximum de %1$d onglets atteint</item>
     </plurals>
     <string name="description_status_media">        Média : %s
     </string>
@@ -461,9 +463,9 @@
     <string name="warning_scheduling_interval">L’intervalle minimum de planification sur Mastodon est de 5 minutes.</string>
     <string name="notification_follow_request_name">Demandes d\'abonnement</string>
     <string name="dialog_block_warning">Bloquer @%s \?</string>
-    <string name="pref_title_confirm_reblogs">Afficher une fenêtre de confirmation avant de partager</string>
+    <string name="pref_title_confirm_reblogs">Demander confirmation avant de partager</string>
     <string name="pref_title_show_cards_in_timelines">Afficher les aperçus des liens dans les fils</string>
-    <string name="notification_follow_request_format">%s a demandé à vous suivre</string>
+    <string name="notification_follow_request_format">%s vous a envoyé une demande d’abonnement</string>
     <string name="notification_follow_request_description">Notifications à propos des demandes d’abonnement</string>
     <string name="pref_title_notification_filter_follow_requests">on demande à me suivre</string>
     <string name="dialog_mute_warning">Mettre en sourdine @%s \?</string>
@@ -501,16 +503,34 @@
 \n - des statistiques sur les profils
 \n
 \n Les notifications \"push\" ne seront pas affectées, mais vous pouvez revoir vos préférences de notification manuellement.</string>
-    <string name="pref_title_notification_filter_subscriptions">une personne à laquelle je suis abonné a publié un nouveau pouet</string>
+    <string name="pref_title_notification_filter_subscriptions">une personne que je suis a publié un nouveau pouet</string>
     <string name="notification_subscription_format">%s vient de publier</string>
     <string name="review_notifications">Examiner les notifications</string>
-    <string name="notification_subscription_name">Nouveau pouets</string>
+    <string name="notification_subscription_name">Nouveaux pouets</string>
     <plurals name="error_upload_max_media_reached">
+        <item quantity="one">Vous ne pouvez pas téléverser plus de %1$d pièce jointe.</item>
         <item quantity="other">Vous ne pouvez pas téléverser plus de %1$d pièces jointes.</item>
     </plurals>
     <string name="pref_title_wellbeing_mode">Bien-être</string>
     <string name="notification_subscription_description">Notifications quand quelqu\'un que vous suivez publie un nouveau pouet</string>
     <string name="limit_notifications">Limiter les notifications de la timeline</string>
     <string name="wellbeing_hide_stats_profile">Cacher les statistiques quantitatives sur les profils</string>
-    <string name="wellbeing_hide_stats_posts">Cacher les statistiques quantitatives sur les publications</string>
+    <string name="wellbeing_hide_stats_posts">Cacher les statistiques quantitatives sur les messages</string>
+    <string name="action_unbookmark">Supprimer le marque-page</string>
+    <string name="status_media_attachments">Pièces jointes</string>
+    <string name="dialog_delete_list_warning">Voulez-vous vraiment supprimer la liste %s \?</string>
+    <string name="action_subscribe_account">S’abonner</string>
+    <string name="dialog_delete_conversation_warning">Supprimer cette conversation \?</string>
+    <string name="pref_title_animate_custom_emojis">Animer les émojis personnalisés</string>
+    <string name="draft_deleted">Brouillon supprimé</string>
+    <string name="label_duration">Durée</string>
+    <string name="duration_indefinite">Indéfinie</string>
+    <string name="action_unsubscribe_account">Se désabonner</string>
+    <string name="action_delete_conversation">Supprimer la conversation</string>
+    <string name="status_media_audio">Audio</string>
+    <string name="pref_title_confirm_favourites">Demander confirmation avant de mettre en favoris</string>
+    <string name="drafts_toot_reply_removed">Le message auquel répondait ce brouillon a été supprimé</string>
+    <string name="drafts_toot_failed_to_send">Échec d’envoi du pouet !</string>
+    <string name="follow_requests_info">Bien que votre compte ne soit pas verrouillé, l\'équipe de %1$s a pensé que vous voudriez valider manuellement les demandes de suivi provenant de ces comptes.</string>
+    <string name="drafts_failed_loading_reply">Échec du chargement des informations de réponse</string>
 </resources>

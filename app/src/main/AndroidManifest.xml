@@ -111,7 +111,7 @@
             android:name=".ViewMediaActivity"
             android:theme="@style/TuskyBaseTheme" />
         <activity
-            android:name=".AccountActivity"
+            android:name=".components.account.AccountActivity"
             android:configChanges="orientation|screenSize|keyboardHidden|screenLayout|smallestScreenSize" />
         <activity android:name=".EditProfileActivity" />
         <activity android:name=".components.preference.PreferencesActivity" />

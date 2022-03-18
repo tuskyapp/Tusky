@@ -651,11 +651,19 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         }
 
         favouriteButton.setEventListener((button, buttonState) -> {
+            // return true to play animaion
             int position = getBindingAdapterPosition();
             if (position != RecyclerView.NO_POSITION) {
-                listener.onFavourite(!buttonState, position);
+                if (statusDisplayOptions.confirmFavourites()) {
+                    showConfirmFavouriteDialog(listener, statusContent, buttonState, position);
+                    return false;
+                } else {
+                    listener.onFavourite(!buttonState, position);
+                    return true;
+                }
+            } else {
+                return true;
             }
-            return true;
         });
 
         bookmarkButton.setEventListener((button, buttonState) -> {
@@ -698,6 +706,23 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
                     if (!buttonState) {
                         // Play animation only when it's reblog, not unreblog
                         reblogButton.playAnimation();
+                    }
+                })
+                .show();
+    }
+
+    private void showConfirmFavouriteDialog(StatusActionListener listener,
+                                         String statusContent,
+                                         boolean buttonState,
+                                         int position) {
+        int okButtonTextId = buttonState ? R.string.action_unfavourite : R.string.action_favourite;
+        new AlertDialog.Builder(favouriteButton.getContext())
+                .setMessage(statusContent)
+                .setPositiveButton(okButtonTextId, (__, ___) -> {
+                    listener.onFavourite(!buttonState, position);
+                    if (!buttonState) {
+                        // Play animation only when it's favourite, not unfavourite
+                        favouriteButton.playAnimation();
                     }
                 })
                 .show();
@@ -746,7 +771,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             }
 
             if (cardView != null) {
-                setupCard(status, statusDisplayOptions.cardViewMode(), statusDisplayOptions);
+                setupCard(status, statusDisplayOptions.cardViewMode(), statusDisplayOptions, listener);
             }
 
             setupButtons(listener, actionable.getAccount().getId(), status.getContent().toString(),
@@ -889,7 +914,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             for (int i = 0; i < args.length; i++) {
                 if (i < options.size()) {
                     int percent = PollViewDataKt.calculatePercent(options.get(i).getVotesCount(), poll.getVotersCount(), poll.getVotesCount());
-                    args[i] = buildDescription(options.get(i).getTitle(), percent, context);
+                    args[i] = buildDescription(options.get(i).getTitle(), percent, options.get(i).getVoted(), context);
                 } else {
                     args[i] = "";
                 }
@@ -1009,7 +1034,12 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         return pollDescription.getContext().getString(R.string.poll_info_format, votesText, pollDurationInfo);
     }
 
-    protected void setupCard(StatusViewData.Concrete status, CardViewMode cardViewMode, StatusDisplayOptions statusDisplayOptions) {
+    protected void setupCard(
+            StatusViewData.Concrete status,
+            CardViewMode cardViewMode,
+            StatusDisplayOptions statusDisplayOptions,
+            final StatusActionListener listener
+    ) {
         final Card card = status.getActionable().getCard();
         if (cardViewMode != CardViewMode.NONE &&
                 status.getActionable().getAttachments().size() == 0 &&
@@ -1100,7 +1130,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
                 cardImage.setImageResource(R.drawable.card_image_placeholder);
             }
 
-            View.OnClickListener visitLink = v -> LinkHelper.openLink(card.getUrl(), v.getContext());
+            View.OnClickListener visitLink = v -> listener.onViewUrl(card.getUrl());
             View.OnClickListener openImage = v -> cardView.getContext().startActivity(ViewMediaActivity.newSingleImageIntent(cardView.getContext(), card.getEmbed_url()));
 
             cardInfo.setOnClickListener(visitLink);

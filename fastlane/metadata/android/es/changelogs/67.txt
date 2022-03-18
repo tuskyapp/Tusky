@@ -1,0 +1,9 @@
+Tusky v9.0
+
+- Ahora puedes crear encuestas desde Tusky
+- Se mejoro la búsqueda
+- Nueva opción en preferencias de Cuenta para siempre expandir contenido con aviso
+- Los avatar en el cajón de navegación ahora tienen forma de cuadro redondeado
+- Ahora puedes reportar usuarios incluso cuando nunca hayan tenido un estado
+- Tusky no se conectara a conexiones cleartext en Android 6+
+- Otras mejoras y arreglo de errores

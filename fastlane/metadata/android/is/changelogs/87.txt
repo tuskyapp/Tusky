@@ -1,0 +1,8 @@
+Tusky útg.16.0
+
+- Aðferðin við hleðslu tímalínu hefur verið endurskrifuð til að vera hraðari og einfaldari í viðhaldi.
+- Tusky getur núna hreyft sérsniðin emoji-tákn á APNG & Animated WebP sniði.
+- Mikið af smávægilegum göllum leystir
+- Stuðningur við Android 11
+- Nýjar þýðingar: Skosk gelíska, Galisíska, Úkraínska
+- Bættar þýðingar

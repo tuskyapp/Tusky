@@ -2,11 +2,11 @@
 <resources>
     <string name="error_generic">Ein Fehler ist aufgetreten.</string>
     <string name="error_network">Ein Netzwerkfehler ist aufgetreten! Bitte überprüfen Sie Ihre Internetverbindung und versuchen Sie es erneut!</string>
-    <string name="error_empty">Dies darf nicht leer sein.</string>
+    <string name="error_empty">Das darf nicht leer sein.</string>
     <string name="error_invalid_domain">Ungültige Domain angegeben</string>
     <string name="error_failed_app_registration">Authentifizieren mit dieser Instanz fehlgeschlagen.</string>
     <string name="error_no_web_browser_found">Kein Webbrowser gefunden.</string>
-    <string name="error_authorization_unknown">Ein undefinierbarer Autorisierungsfehler ist aufgetreten.</string>
+    <string name="error_authorization_unknown">Ein unbekannter Fehler ist bei der Autorisierung aufgetreten.</string>
     <string name="error_authorization_denied">Autorisierung fehlgeschlagen.</string>
     <string name="error_retrieving_oauth_token">Es konnte kein Login-Token abgerufen werden.</string>
     <string name="error_compose_character_limit">Der Beitrag ist zu lang!</string>
@@ -16,7 +16,7 @@
     <string name="error_media_upload_opening">Die Datei konnte nicht geöffnet werden.</string>
     <string name="error_media_upload_permission">Eine Leseberechtigung wird für das Hochladen der Mediendatei benötigt.</string>
     <string name="error_media_download_permission">Eine Berechtigung wird zum Speichern des Mediums benötigt.</string>
-    <string name="error_media_upload_image_or_video">Bilder und Videos können nicht beide gleichzeitig an einen Beitrag angehängt werden.</string>
+    <string name="error_media_upload_image_or_video">Bilder und Videos können nicht an den gleichen Beitrag angehängt werden.</string>
     <string name="error_media_upload_sending">Die Mediendatei konnte nicht hochgeladen werden.</string>
     <string name="error_sender_account_gone">Fehler beim Senden des Beitrags.</string>
     <string name="title_home">Start</string>
@@ -62,7 +62,7 @@
     <string name="action_unfavourite">Favorisierung entfernen</string>
     <string name="action_more">Mehr</string>
     <string name="action_compose">Beitrag erstellen</string>
-    <string name="action_login">Anmelden mit Mastodon</string>
+    <string name="action_login">Mit Mastodon anmelden</string>
     <string name="action_logout">Ausloggen</string>
     <string name="action_logout_confirm">Bist du sicher, dass du dich aus dem Konto %1$s ausloggen möchtest\?</string>
     <string name="action_follow">Folgen</string>
@@ -117,7 +117,7 @@
     <string name="action_open_media_n">Medium #%d öffnen</string>
     <string name="download_image">%1$s heruntergeladen</string>
     <string name="action_copy_link">Link kopieren</string>
-    <string name="action_open_as">Öffnen als %s</string>
+    <string name="action_open_as">Öffne als %s</string>
     <string name="action_share_as">Teilen als …</string>
     <string name="send_status_link_to">Beitragslink teilen…</string>
     <string name="send_status_content_to">Beitragsinhalt teilen…</string>
@@ -334,11 +334,11 @@
     <string name="hint_search_people_list">Suche nach Leuten denen du folgst</string>
     <string name="action_remove_from_list">Von der Liste entfernen</string>
     <string name="edit_hashtag_hint">Hashtag ohne #</string>
-    <string name="action_open_reblogger">Öffne Autor des geteilten Beitrages</string>
+    <string name="action_open_reblogger">Boost Autor öffnen</string>
     <string name="pref_title_public_filter_keywords">Öffentliche Zeitleisten</string>
     <plurals name="favs">
-        <item quantity="one"><b>%1$s</b> Favorit</item>
-        <item quantity="other"><b>%1$s</b> Favoriten</item>
+        <item quantity="one">&lt;b&gt;%1$s&lt;/b&gt; Favorit</item>
+        <item quantity="other">&lt;b&gt;%1$s&lt;/b&gt; Favoriten</item>
     </plurals>
     <string name="title_reblogged_by">Geteilt von</string>
     <string name="description_status_media">Medien: %s</string>
@@ -461,8 +461,8 @@
     <string name="pref_main_nav_position_option_top">Oben</string>
     <string name="action_unmute_domain">%s nicht mehr verstecken</string>
     <plurals name="reblogs">
-        <item quantity="one"><b>%s</b> Boost</item>
-        <item quantity="other"><b>%s</b> Boosts</item>
+        <item quantity="one">&lt;b&gt;%s&lt;/b&gt; Boost</item>
+        <item quantity="other">&lt;b&gt;%s&lt;/b&gt; Boosts</item>
     </plurals>
     <string name="pref_main_nav_position">Hauptnavigations-Position</string>
     <string name="dialog_mute_hide_notifications">Benachrichtigungen ausblenden</string>
@@ -517,4 +517,8 @@
     <string name="abbreviated_days_ago">%d T.</string>
     <string name="abbreviated_in_years">in %d J.</string>
     <string name="abbreviated_in_seconds">in %d Sek.</string>
+    <string name="action_unbookmark">Lesezeichen entfernen</string>
+    <string name="pref_title_confirm_favourites">Bestätigungsdialog vor dem Favorisieren eines Beitrags</string>
+    <string name="dialog_delete_conversation_warning">Diese Unterhaltung wirklich löschen\?</string>
+    <string name="action_delete_conversation">Unterhaltung löschen</string>
 </resources>

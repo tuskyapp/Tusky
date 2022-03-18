@@ -87,17 +87,12 @@ public class LinkHelper {
                     public void onClick(@NonNull View widget) { listener.onViewTag(tag); }
                 };
             } else if (text.charAt(0) == '@' && mentions != null && mentions.size() > 0) {
-                String accountUsername = text.subSequence(1, text.length()).toString();
-                /* There may be multiple matches for users on different instances with the same
-                 * username. If a match has the same domain we know it's for sure the same, but if
-                 * that can't be found then just go with whichever one matched last. */
+                // https://github.com/tuskyapp/Tusky/pull/2339
                 String id = null;
                 for (Status.Mention mention : mentions) {
-                    if (mention.getLocalUsername().equalsIgnoreCase(accountUsername)) {
+                    if (mention.getUrl().equals(span.getURL())) {
                         id = mention.getId();
-                        if (mention.getUrl().contains(getDomain(span.getURL()))) {
-                            break;
-                        }
+                        break;
                     }
                 }
                 if (id != null) {

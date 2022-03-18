@@ -1,0 +1,3 @@
+Tusky v15.1
+
+Dieses Release behebt einen Absturz bei der Eingabe einer Bildbeschreibung

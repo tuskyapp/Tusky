@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="error_generic">应用程序出现异常</string>
+    <string name="error_generic">应用程序出现异常。</string>
     <string name="error_network">网络请求出错，请检查互联网连接并重试！</string>
-    <string name="error_empty">内容不能为空</string>
+    <string name="error_empty">内容不能为空。</string>
     <string name="error_invalid_domain">该域名无效</string>
-    <string name="error_failed_app_registration">无法连接此服务器</string>
-    <string name="error_no_web_browser_found">没有可用的浏览器</string>
-    <string name="error_authorization_unknown">认证过程出现未知错误</string>
-    <string name="error_authorization_denied">授权被拒绝</string>
-    <string name="error_retrieving_oauth_token">无法获取登录信息</string>
+    <string name="error_failed_app_registration">未能通过该实例的身份验证。</string>
+    <string name="error_no_web_browser_found">找不到可用的浏览器。</string>
+    <string name="error_authorization_unknown">发生不明授权错误。</string>
+    <string name="error_authorization_denied">授权被拒绝。</string>
+    <string name="error_retrieving_oauth_token">未能获取登录令牌。</string>
     <string name="error_compose_character_limit">嘟文太长了！</string>
-    <string name="error_image_upload_size">文件大小限制 8MB</string>
-    <string name="error_video_upload_size">视频文件大小限制 40MB</string>
-    <string name="error_media_upload_type">无法上传此类型的文件</string>
-    <string name="error_media_upload_opening">此文件无法打开</string>
-    <string name="error_media_upload_permission">需要授予 Tusky 读取媒体文件的权限</string>
-    <string name="error_media_download_permission">需要授予 Tusky 写入存储空间的权限</string>
-    <string name="error_media_upload_image_or_video">无法在嘟文中同时插入视频和图片</string>
-    <string name="error_media_upload_sending">媒体文件上传失败</string>
-    <string name="error_sender_account_gone">嘟文发送时出错</string>
+    <string name="error_image_upload_size">文件大小限制为 8MB。</string>
+    <string name="error_video_upload_size">视频文件大小限制为 40MB。</string>
+    <string name="error_media_upload_type">无法上传此类型的文件。</string>
+    <string name="error_media_upload_opening">打不开此文件。</string>
+    <string name="error_media_upload_permission">需要授予 Tusky 读取媒体文件的权限。</string>
+    <string name="error_media_download_permission">需要授予 Tusky 存储媒体的权限。</string>
+    <string name="error_media_upload_image_or_video">无法在嘟文中同时插入视频和图片。</string>
+    <string name="error_media_upload_sending">上传失败。</string>
+    <string name="error_sender_account_gone">嘟文发送时出错。</string>
     <string name="title_home">主页</string>
     <string name="title_notifications">通知</string>
     <string name="title_public_local">本站时间轴</string>
@@ -47,7 +47,7 @@
     <string name="status_content_warning_show_less">折叠内容</string>
     <string name="status_content_show_more">展开</string>
     <string name="status_content_show_less">折叠</string>
-    <string name="message_empty">还没有内容</string>
+    <string name="message_empty">还没有内容。</string>
     <string name="footer_empty">还没有内容，向下拉动即可刷新！</string>
     <string name="notification_reblog_format">%s 转嘟了你的嘟文</string>
     <string name="notification_favourite_format">%s 收藏了你的嘟文</string>
@@ -130,8 +130,8 @@
     <string name="confirmation_unblocked">已解除屏蔽</string>
     <string name="confirmation_unmuted">已取消隐藏</string>
     <string name="status_sent">已发送！</string>
-    <string name="status_sent_long">成功发送回复</string>
-    <string name="hint_domain">域名</string>
+    <string name="status_sent_long">成功发送回复。</string>
+    <string name="hint_domain">哪个实例？</string>
     <string name="hint_compose">有什么新鲜事？</string>
     <string name="hint_content_warning">内容提醒</string>
     <string name="hint_display_name">昵称</string>
@@ -405,7 +405,7 @@
         <item quantity="other">剩余 %d 秒</item>
     </plurals>
     <string name="action_reset_schedule">重置</string>
-    <string name="error_audio_upload_size">音频文件大小限制 40M</string>
+    <string name="error_audio_upload_size">音频文件大小限制为 40M。</string>
     <string name="title_bookmarks">书签</string>
     <string name="title_domain_mutes">隐藏的域名</string>
     <string name="title_scheduled_toot">定时嘟文</string>
@@ -485,7 +485,7 @@
     <string name="pref_title_hide_top_toolbar">隐藏顶部工具栏标题</string>
     <string name="no_announcements">本站暂无公告。</string>
     <string name="title_announcements">公告</string>
-    <string name="account_note_saved">已保存</string>
+    <string name="account_note_saved">已保存！</string>
     <string name="account_note_hint">此账号的备注</string>
     <string name="action_unsubscribe_account">取消关注</string>
     <string name="action_subscribe_account">关注</string>
@@ -495,7 +495,7 @@
     <string name="drafts_toot_failed_to_send">嘟文发送失败！</string>
     <string name="dialog_delete_list_warning">确认删除列表 %s？</string>
     <plurals name="error_upload_max_media_reached">
-        <item quantity="other">最多只可上传 %1$d 个媒体附件</item>
+        <item quantity="other">最多只可上传 %1$d 个媒体附件。</item>
     </plurals>
     <string name="wellbeing_hide_stats_profile">隐藏账号的统计信息</string>
     <string name="review_notifications">反馈通知</string>
@@ -522,4 +522,6 @@
     <string name="pref_title_notification_filter_subscriptions">关注的人发送了新嘟文</string>
     <string name="notification_subscription_format">%s 发送了新嘟文</string>
     <string name="follow_requests_info">即使您的账号未上锁，管理员 %1$s 认为您可能需要手动处理来自这些账号的关注请求。</string>
+    <string name="dialog_delete_conversation_warning">删除此对话吗？</string>
+    <string name="action_delete_conversation">删除对话</string>
 </resources>

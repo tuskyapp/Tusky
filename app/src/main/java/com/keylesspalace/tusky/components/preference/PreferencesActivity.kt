@@ -124,8 +124,9 @@ class PreferencesActivity :
                 restartActivitiesOnExit = true
                 this.restartCurrentActivity()
             }
-            "statusTextSize", "absoluteTimeView", "showBotOverlay", "animateGifAvatars",
-            "useBlurhash", "showCardsInTimelines", "confirmReblogs", "enableSwipeForTabs", "mainNavPosition", PrefKeys.HIDE_TOP_TOOLBAR -> {
+            "statusTextSize", "absoluteTimeView", "showBotOverlay", "animateGifAvatars", "useBlurhash",
+            "showCardsInTimelines", "confirmReblogs", "confirmFavourites",
+            "enableSwipeForTabs", "mainNavPosition", PrefKeys.HIDE_TOP_TOOLBAR -> {
                 restartActivitiesOnExit = true
             }
             "language" -> {

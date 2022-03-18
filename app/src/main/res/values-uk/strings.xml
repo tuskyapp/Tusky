@@ -532,4 +532,6 @@
     <string name="follow_requests_info">Навіть попри те, що ваш обліковий запис загальнодоступний, співробітники %1$s вважають, що ви, можливо, захочете переглянути запити від цих облікових записів власноруч.</string>
     <string name="dialog_delete_conversation_warning">Видалити цю бесіду\?</string>
     <string name="action_delete_conversation">Видалити бесіду</string>
+    <string name="action_unbookmark">Вилучити закладку</string>
+    <string name="pref_title_confirm_favourites">Запитувати підтвердження перед додаванням до вподобаних</string>
 </resources>
