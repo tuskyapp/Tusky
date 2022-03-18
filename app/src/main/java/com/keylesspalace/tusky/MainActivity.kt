@@ -32,8 +32,8 @@ import androidx.appcompat.app.AlertDialog
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.content.ContextCompat
 import androidx.core.content.pm.ShortcutManagerCompat
-import androidx.emoji.text.EmojiCompat
-import androidx.emoji.text.EmojiCompat.InitCallback
+import androidx.emoji2.text.EmojiCompat
+import androidx.emoji2.text.EmojiCompat.InitCallback
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.preference.PreferenceManager
@@ -762,7 +762,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
     private fun updateProfiles() {
         val animateEmojis = preferences.getBoolean(PrefKeys.ANIMATE_CUSTOM_EMOJIS, false)
         val profiles: MutableList<IProfile> = accountManager.getAllAccountsOrderedByActive().map { acc ->
-            val emojifiedName = EmojiCompat.get().process(acc.displayName.emojify(acc.emojis, header, animateEmojis))
+            val emojifiedName = EmojiCompat.get().process(acc.displayName.emojify(acc.emojis, header, animateEmojis))!!
 
             ProfileDrawerItem().apply {
                 isSelected = acc.isActive

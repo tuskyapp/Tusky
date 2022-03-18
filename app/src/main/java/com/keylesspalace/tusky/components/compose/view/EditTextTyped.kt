@@ -24,7 +24,7 @@ import android.view.inputmethod.InputConnection
 import androidx.appcompat.widget.AppCompatMultiAutoCompleteTextView
 import androidx.core.view.inputmethod.EditorInfoCompat
 import androidx.core.view.inputmethod.InputConnectionCompat
-import androidx.emoji.widget.EmojiEditTextHelper
+import androidx.emoji2.viewsintegration.EmojiEditTextHelper
 
 class EditTextTyped @JvmOverloads constructor(
     context: Context,

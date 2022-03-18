@@ -18,7 +18,7 @@ package com.keylesspalace.tusky.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.emoji.text.EmojiCompat
+import androidx.emoji2.text.EmojiCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.keylesspalace.tusky.databinding.ItemPollBinding
 import com.keylesspalace.tusky.entity.Emoji

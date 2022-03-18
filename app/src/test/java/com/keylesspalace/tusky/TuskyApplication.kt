@@ -18,7 +18,7 @@ package com.keylesspalace.tusky
 import android.app.Application
 import android.content.Context
 import android.content.res.Configuration
-import androidx.emoji.text.EmojiCompat
+import androidx.emoji2.text.EmojiCompat
 import com.keylesspalace.tusky.util.LocaleManager
 import de.c1710.filemojicompat.FileEmojiCompatConfig
 
