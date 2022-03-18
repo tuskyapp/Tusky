@@ -12,7 +12,7 @@ import androidx.preference.PreferenceCategory
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.PreferenceScreen
 import androidx.preference.SwitchPreference
-import de.c1710.filemojicompat_ui.views.picker.EmojiPickerPreference
+import de.c1710.filemojicompat_ui.pack_helpers.EmojiPackImporter
 import de.c1710.filemojicompat_ui.views.picker.preference.EmojiPickerPreference
 
 class PreferenceParent(
@@ -34,9 +34,8 @@ inline fun PreferenceParent.listPreference(builder: ListPreference.() -> Unit): 
     return pref
 }
 
-inline fun <A> PreferenceParent.emojiPreference(activity: A, builder: EmojiPickerPreference<A>.() -> Unit): EmojiPickerPreference<A>
-        where  A : Context, A : ActivityResultRegistryOwner, A : LifecycleOwner {
-    val pref = EmojiPickerPreference(activity)
+inline fun PreferenceParent.emojiPreference(importer: EmojiPackImporter, builder: EmojiPickerPreference.() -> Unit): EmojiPickerPreference {
+    val pref = EmojiPickerPreference(importer, context)
     builder(pref)
     addPref(pref)
     return pref
