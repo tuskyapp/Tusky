@@ -33,7 +33,8 @@ import com.keylesspalace.tusky.util.setClickableText
 
 class AccountFieldAdapter(
     private val linkListener: LinkListener,
-    private val animateEmojis: Boolean
+    private val animateEmojis: Boolean,
+    private val useCustomTabs: Boolean,
 ) : RecyclerView.Adapter<BindingHolder<ItemAccountFieldBinding>>() {
 
     var emojis: List<Emoji> = emptyList()
@@ -55,7 +56,11 @@ class AccountFieldAdapter(
             val identityProof = proofOrField.asLeft()
 
             nameTextView.text = identityProof.provider
-            valueTextView.text = createClickableText(identityProof.username, identityProof.profileUrl)
+            valueTextView.text = createClickableText(
+                identityProof.username,
+                identityProof.profileUrl,
+                useCustomTabs,
+            )
 
             valueTextView.movementMethod = LinkMovementMethod.getInstance()
 

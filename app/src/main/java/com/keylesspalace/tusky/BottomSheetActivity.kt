@@ -28,6 +28,7 @@ import autodispose2.autoDispose
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.keylesspalace.tusky.components.account.AccountActivity
 import com.keylesspalace.tusky.network.MastodonApi
+import com.keylesspalace.tusky.settings.getBlocking
 import com.keylesspalace.tusky.util.openLink
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import java.net.URI
@@ -160,7 +161,7 @@ abstract class BottomSheetActivity : BaseActivity() {
 
     @VisibleForTesting(otherwise = VisibleForTesting.PROTECTED)
     open fun openLink(url: String) {
-        (this as Context).openLink(url)
+        (this as Context).openLink(url, prefStore.getBlocking().customTabs)
     }
 
     private fun showQuerySheet() {

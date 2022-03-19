@@ -34,7 +34,7 @@ import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.network.FilterModel
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.network.TimelineCases
-import com.keylesspalace.tusky.settings.Prefs
+import com.keylesspalace.tusky.settings.PrefStore
 import com.keylesspalace.tusky.util.dec
 import com.keylesspalace.tusky.util.getDomain
 import com.keylesspalace.tusky.util.inc
@@ -58,7 +58,7 @@ class NetworkTimelineViewModel @Inject constructor(
     private val api: MastodonApi,
     eventHub: EventHub,
     accountManager: AccountManager,
-    prefs: Prefs,
+    prefs: PrefStore,
     filterModel: FilterModel
 ) : TimelineViewModel(timelineCases, api, eventHub, accountManager, prefs, filterModel) {
 

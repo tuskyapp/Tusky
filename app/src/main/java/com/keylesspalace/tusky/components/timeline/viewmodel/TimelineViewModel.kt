@@ -40,7 +40,9 @@ import com.keylesspalace.tusky.network.FilterModel
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.network.TimelineCases
 import com.keylesspalace.tusky.settings.PrefKeys
-import com.keylesspalace.tusky.settings.Prefs
+import com.keylesspalace.tusky.settings.PrefStore
+import com.keylesspalace.tusky.settings.get
+import com.keylesspalace.tusky.settings.getBlocking
 import com.keylesspalace.tusky.viewdata.StatusViewData
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.Flow
@@ -53,7 +55,7 @@ abstract class TimelineViewModel(
     private val api: MastodonApi,
     private val eventHub: EventHub,
     protected val accountManager: AccountManager,
-    private val prefs: Prefs,
+    private val prefStore: PrefStore,
     private val filterModel: FilterModel
 ) : ViewModel() {
 
@@ -81,6 +83,7 @@ abstract class TimelineViewModel(
         this.tags = tags
 
         if (kind == Kind.HOME) {
+            val prefs = prefStore.getBlocking()
             filterRemoveReplies = !prefs.tabFilterHomeReplies
             filterRemoveReblogs = !prefs.tabFilterHomeBoosts
         }
@@ -177,10 +180,10 @@ abstract class TimelineViewModel(
             filterModel.shouldFilterStatus(status.actionableStatus)
     }
 
-    private fun onPreferenceChanged(key: String) {
+    private suspend fun onPreferenceChanged(key: String) {
         when (key) {
             PrefKeys.TAB_FILTER_HOME_REPLIES -> {
-                val filter = prefs.tabFilterHomeReplies
+                val filter = prefStore.get().tabFilterHomeReplies
                 val oldRemoveReplies = filterRemoveReplies
                 filterRemoveReplies = kind == Kind.HOME && !filter
                 if (oldRemoveReplies != filterRemoveReplies) {
@@ -188,7 +191,7 @@ abstract class TimelineViewModel(
                 }
             }
             PrefKeys.TAB_FILTER_HOME_BOOSTS -> {
-                val filter = prefs.tabFilterHomeBoosts
+                val filter = prefStore.get().tabFilterHomeBoosts
                 val oldRemoveReblogs = filterRemoveReblogs
                 filterRemoveReblogs = kind == Kind.HOME && !filter
                 if (oldRemoveReblogs != filterRemoveReblogs) {
@@ -230,7 +233,7 @@ abstract class TimelineViewModel(
         }
     }
 
-    private fun handleEvent(event: Event) {
+    private suspend fun handleEvent(event: Event) {
         when (event) {
             is FavoriteEvent -> handleFavEvent(event)
             is ReblogEvent -> handleReblogEvent(event)

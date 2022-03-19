@@ -16,7 +16,6 @@
 package com.keylesspalace.tusky.di
 
 import android.content.Context
-import android.content.SharedPreferences
 import android.os.Build
 import android.text.Spanned
 import com.google.gson.Gson
@@ -26,8 +25,8 @@ import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.json.SpannedTypeAdapter
 import com.keylesspalace.tusky.network.InstanceSwitchAuthInterceptor
 import com.keylesspalace.tusky.network.MastodonApi
-import com.keylesspalace.tusky.settings.Prefs
-import com.keylesspalace.tusky.util.getNonNullString
+import com.keylesspalace.tusky.settings.PrefStore
+import com.keylesspalace.tusky.settings.getBlocking
 import dagger.Module
 import dagger.Provides
 import okhttp3.Cache
@@ -63,8 +62,9 @@ class NetworkModule {
     fun providesHttpClient(
         accountManager: AccountManager,
         context: Context,
-        prefs: Prefs,
+        prefStore: PrefStore,
     ): OkHttpClient {
+        val prefs = prefStore.getBlocking()
         val httpProxyEnabled = prefs.httpProxyEnabled
         val httpServer = prefs.httpProxyServer
         val httpPort = prefs.httpProxyPort.toIntOrNull() ?: -1

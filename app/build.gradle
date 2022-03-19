@@ -129,6 +129,8 @@ dependencies {
     implementation "androidx.room:room-rxjava3:$roomVersion"
     kapt "androidx.room:room-compiler:$roomVersion"
     implementation 'androidx.core:core-splashscreen:1.0.0-beta01'
+    implementation "androidx.datastore:datastore-core:1.0.0"
+//    implementation "androidx.datastore:datastore-preferences:1.0.0"
 
     implementation "com.google.android.material:material:1.5.0"
 

@@ -124,16 +124,23 @@ private fun findEndOfPattern(string: String, result: FindCharsResult, pattern: P
     }
 }
 
-private fun getSpan(matchType: FoundMatchType, string: String, colour: Int, start: Int, end: Int): CharacterStyle {
+private fun getSpan(
+    matchType: FoundMatchType,
+    string: String,
+    colour: Int,
+    start: Int,
+    end: Int,
+    useCustomTabs: Boolean,
+): CharacterStyle {
     return when (matchType) {
-        FoundMatchType.HTTP_URL -> NoUnderlineURLSpan(string.substring(start, end))
-        FoundMatchType.HTTPS_URL -> NoUnderlineURLSpan(string.substring(start, end))
+        FoundMatchType.HTTP_URL -> NoUnderlineURLSpan(string.substring(start, end), useCustomTabs)
+        FoundMatchType.HTTPS_URL -> NoUnderlineURLSpan(string.substring(start, end), useCustomTabs)
         else -> ForegroundColorSpan(colour)
     }
 }
 
 /** Takes text containing mentions and hashtags and urls and makes them the given colour. */
-fun highlightSpans(text: Spannable, colour: Int) {
+fun highlightSpans(text: Spannable, colour: Int, useCustomTabs: Boolean) {
     // Strip all existing colour spans.
     for (spanClass in spanClasses) {
         clearSpans(text, spanClass)
@@ -150,7 +157,7 @@ fun highlightSpans(text: Spannable, colour: Int) {
         start = found.start
         end = found.end
         if (start >= 0 && end > start) {
-            text.setSpan(getSpan(found.matchType, string, colour, start, end), start, end, Spanned.SPAN_INCLUSIVE_EXCLUSIVE)
+            text.setSpan(getSpan(found.matchType, string, colour, start, end, useCustomTabs), start, end, Spanned.SPAN_INCLUSIVE_EXCLUSIVE)
             start += finders[found.matchType]!!.searchPrefixWidth
         }
     }

@@ -50,7 +50,7 @@ class LicenseCard
             binding.licenseCardLink.hide()
         } else {
             binding.licenseCardLink.text = link
-            setOnClickListener { context.openLink(link) }
+            setOnClickListener { context.openLink(link, false) }
         }
     }
 }

@@ -23,7 +23,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
-import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.SimpleItemAnimator
@@ -42,8 +41,8 @@ import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.entity.Attachment
 import com.keylesspalace.tusky.entity.Status
-import com.keylesspalace.tusky.settings.PrefKeys
-import com.keylesspalace.tusky.settings.Prefs
+import com.keylesspalace.tusky.settings.PrefStore
+import com.keylesspalace.tusky.settings.getBlocking
 import com.keylesspalace.tusky.util.CardViewMode
 import com.keylesspalace.tusky.util.StatusDisplayOptions
 import com.keylesspalace.tusky.util.viewBinding
@@ -62,7 +61,7 @@ class ReportStatusesFragment : Fragment(R.layout.fragment_report_statuses), Inje
     lateinit var accountManager: AccountManager
 
     @Inject
-    lateinit var prefs: Prefs
+    lateinit var prefStore: PrefStore
 
     private val viewModel: ReportViewModel by activityViewModels { viewModelFactory }
 
@@ -109,6 +108,7 @@ class ReportStatusesFragment : Fragment(R.layout.fragment_report_statuses), Inje
     }
 
     private fun initStatusesView() {
+        val prefs = prefStore.getBlocking()
         val statusDisplayOptions = StatusDisplayOptions(
             animateAvatars = false,
             mediaPreviewEnabled = accountManager.activeAccount?.mediaPreviewEnabled ?: true,

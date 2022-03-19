@@ -26,7 +26,6 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
-import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -56,7 +55,9 @@ import com.keylesspalace.tusky.interfaces.RefreshableFragment
 import com.keylesspalace.tusky.interfaces.ReselectableFragment
 import com.keylesspalace.tusky.interfaces.StatusActionListener
 import com.keylesspalace.tusky.settings.PrefKeys
-import com.keylesspalace.tusky.settings.Prefs
+import com.keylesspalace.tusky.settings.PrefStore
+import com.keylesspalace.tusky.settings.get
+import com.keylesspalace.tusky.settings.getBlocking
 import com.keylesspalace.tusky.util.CardViewMode
 import com.keylesspalace.tusky.util.ListStatusAccessibilityDelegate
 import com.keylesspalace.tusky.util.StatusDisplayOptions
@@ -67,10 +68,13 @@ import com.keylesspalace.tusky.viewdata.AttachmentViewData
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.rx3.asFlow
 import java.io.IOException
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
+import kotlin.concurrent.timer
 
 class TimelineFragment :
     SFragment(),
@@ -90,7 +94,7 @@ class TimelineFragment :
     lateinit var accountManager: AccountManager
 
     @Inject
-    lateinit var prefs: Prefs
+    lateinit var prefStore: PrefStore
 
     private val viewModel: TimelineViewModel by lazy {
         if (kind == TimelineViewModel.Kind.HOME) {
@@ -140,6 +144,7 @@ class TimelineFragment :
 
         isSwipeToRefreshEnabled = arguments.getBoolean(ARG_ENABLE_SWIPE_TO_REFRESH, true)
 
+        val prefs = prefStore.getBlocking()
         val statusDisplayOptions = StatusDisplayOptions(
             animateAvatars = prefs.animateAvatars,
             mediaPreviewEnabled = accountManager.activeAccount!!.mediaPreviewEnabled,
@@ -238,7 +243,7 @@ class TimelineFragment :
         }
 
         if (actionButtonPresent()) {
-            hideFab = prefs.hideFab
+            hideFab = prefStore.getBlocking().hideFab
             scrollListener = object : RecyclerView.OnScrollListener() {
                 override fun onScrolled(view: RecyclerView, dx: Int, dy: Int) {
                     val composeButton = (activity as ActionButtonActivity).actionButton
@@ -259,20 +264,21 @@ class TimelineFragment :
             }
         }
 
-        eventHub.events
-            .observeOn(AndroidSchedulers.mainThread())
-            .autoDispose(this, Lifecycle.Event.ON_DESTROY)
-            .subscribe { event ->
-                when (event) {
-                    is PreferenceChangedEvent -> {
-                        onPreferenceChanged(event.preferenceKey)
-                    }
-                    is StatusComposedEvent -> {
-                        val status = event.status
-                        handleStatusComposeEvent(status)
+        lifecycleScope.launch {
+            eventHub.events
+                .asFlow()
+                .collect { event ->
+                    when (event) {
+                        is PreferenceChangedEvent -> {
+                            onPreferenceChanged(event.preferenceKey)
+                        }
+                        is StatusComposedEvent -> {
+                            val status = event.status
+                            handleStatusComposeEvent(status)
+                        }
                     }
                 }
-            }
+        }
     }
 
     private fun setupSwipeRefreshLayout() {
@@ -283,7 +289,7 @@ class TimelineFragment :
 
     private fun setupRecyclerView() {
         binding.recyclerView.setAccessibilityDelegateCompat(
-            ListStatusAccessibilityDelegate(binding.recyclerView, this) { pos ->
+            ListStatusAccessibilityDelegate(binding.recyclerView, this, prefStore) { pos ->
                 if (pos in 0 until adapter.itemCount) {
                     adapter.peek(pos)
                 } else {
@@ -413,10 +419,10 @@ class TimelineFragment :
         super.viewAccount(id)
     }
 
-    private fun onPreferenceChanged(key: String) {
+    private suspend fun onPreferenceChanged(key: String) {
         when (key) {
             PrefKeys.FAB_HIDE -> {
-                hideFab = prefs.hideFab
+                hideFab = prefStore.get().hideFab
             }
             PrefKeys.MEDIA_PREVIEW_ENABLED -> {
                 val enabled = accountManager.activeAccount!!.mediaPreviewEnabled
@@ -471,7 +477,9 @@ class TimelineFragment :
         if (talkBackWasEnabled && !wasEnabled) {
             adapter.notifyItemRangeChanged(0, adapter.itemCount)
         }
-        startUpdateTimestamp()
+        lifecycleScope.launchWhenResumed {
+            startUpdateTimestamp()
+        }
     }
 
     /**
@@ -479,8 +487,8 @@ class TimelineFragment :
      * If setting absoluteTimeView is false
      * Auto dispose observable on pause
      */
-    private fun startUpdateTimestamp() {
-        val useAbsoluteTime = prefs.useAbsoluteTime
+    private suspend fun startUpdateTimestamp() {
+        val useAbsoluteTime = prefStore.get().useAbsoluteTime
         if (!useAbsoluteTime) {
             Observable.interval(1, TimeUnit.MINUTES)
                 .observeOn(AndroidSchedulers.mainThread())

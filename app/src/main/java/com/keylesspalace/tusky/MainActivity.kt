@@ -76,8 +76,8 @@ import com.keylesspalace.tusky.interfaces.AccountSelectionListener
 import com.keylesspalace.tusky.interfaces.ActionButtonActivity
 import com.keylesspalace.tusky.interfaces.ReselectableFragment
 import com.keylesspalace.tusky.pager.MainPagerAdapter
-import com.keylesspalace.tusky.settings.PrefKeys
-import com.keylesspalace.tusky.settings.Prefs
+import com.keylesspalace.tusky.settings.PrefStore
+import com.keylesspalace.tusky.settings.getBlocking
 import com.keylesspalace.tusky.util.ThemeUtils
 import com.keylesspalace.tusky.util.deleteStaleCachedMedia
 import com.keylesspalace.tusky.util.emojify
@@ -137,7 +137,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
     lateinit var draftHelper: DraftHelper
 
     @Inject
-    lateinit var prefs: Prefs
+    lateinit var prefs: PrefStore
 
     private val binding by viewBinding(ActivityMainBinding::inflate)
 
@@ -227,7 +227,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
             startActivity(composeIntent)
         }
 
-        val hideTopToolbar = prefs.hideTopToolbar
+        val hideTopToolbar = prefStore.getBlocking().hideTopToolbar
         binding.mainToolbar.visible(!hideTopToolbar)
 
         loadDrawerAvatar(activeAccount.profilePictureUrl, true)
@@ -396,7 +396,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
                 R.attr.colorBackgroundAccent
             )
         )
-        val animateAvatars = prefs.animateAvatars
+        val animateAvatars = prefStore.getBlocking().animateAvatars
 
         DrawerImageLoader.init(object : AbstractDrawerImageLoader() {
             override fun set(imageView: ImageView, uri: Uri, placeholder: Drawable, tag: String?) {
@@ -580,8 +580,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
     }
 
     private fun setupTabs(selectNotificationTab: Boolean) {
-
-        val activeTabLayout = if (prefs.mainNavPosition == "bottom") {
+        val activeTabLayout = if (prefStore.getBlocking().mainNavPosition == "bottom") {
             val actionBarSize = ThemeUtils.getDimension(this, R.attr.actionBarSize)
             val fabMargin = resources.getDimensionPixelSize(R.dimen.fabMargin)
             (binding.composeButton.layoutParams as CoordinatorLayout.LayoutParams).bottomMargin =
@@ -626,7 +625,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
         val pageMargin = resources.getDimensionPixelSize(R.dimen.tab_page_margin)
         binding.viewPager.setPageTransformer(MarginPageTransformer(pageMargin))
 
-        binding.viewPager.isUserInputEnabled = prefs.enableSwipeForTabs
+        binding.viewPager.isUserInputEnabled = prefStore.getBlocking().enableSwipeForTabs
 
         onTabSelectedListener?.let {
             activeTabLayout.removeOnTabSelectedListener(it)
@@ -770,7 +769,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
     private fun loadDrawerAvatar(avatarUrl: String, showPlaceholder: Boolean) {
         val navIconSize = resources.getDimensionPixelSize(R.dimen.avatar_toolbar_nav_icon_size)
 
-        val animateAvatars = prefs.animateAvatars
+        val animateAvatars = prefStore.getBlocking().animateAvatars
 
         if (animateAvatars) {
             glide.asDrawable()
@@ -874,7 +873,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
     }
 
     private fun updateProfiles() {
-        val animateEmojis = prefs.animateEmojis
+        val animateEmojis = prefStore.getBlocking().animateEmojis
         val profiles: MutableList<IProfile> =
             accountManager.getAllAccountsOrderedByActive().map { acc ->
                 val emojifiedName = EmojiCompat.get()

@@ -20,18 +20,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
-import androidx.preference.PreferenceManager
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.databinding.ItemAutocompleteAccountBinding
 import com.keylesspalace.tusky.db.AccountEntity
-import com.keylesspalace.tusky.settings.PrefKeys
-import com.keylesspalace.tusky.settings.Prefs
+import com.keylesspalace.tusky.settings.PrefStore
+import com.keylesspalace.tusky.settings.getBlocking
 import com.keylesspalace.tusky.util.emojify
 import com.keylesspalace.tusky.util.loadAvatar
 
 class AccountSelectionAdapter(
     context: Context,
-    private val prefs: Prefs,
+    private val prefStore: PrefStore,
 ) : ArrayAdapter<AccountEntity>(context, R.layout.item_autocomplete_account) {
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
@@ -44,6 +43,7 @@ class AccountSelectionAdapter(
         val account = getItem(position)
         if (account != null) {
             // TODO: is this even okay to do prefs things for each invocation here?
+            val prefs = prefStore.getBlocking()
             val animateEmojis = prefs.animateEmojis
 
             binding.username.text = account.fullName

@@ -1,129 +1,81 @@
+@file:JvmName("Prefs")
+
 package com.keylesspalace.tusky.settings
 
 import android.content.Context
-import android.content.SharedPreferences
-import androidx.annotation.Keep
-import androidx.preference.PreferenceManager
+import androidx.datastore.core.DataStore
+import androidx.datastore.core.DataStoreFactory
+import androidx.datastore.core.Serializer
+import com.google.gson.Gson
 import com.keylesspalace.tusky.util.ThemeUtils
-import javax.inject.Inject
-import kotlin.properties.ReadWriteProperty
-import kotlin.reflect.KProperty
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.runBlocking
+import java.io.File
+import java.io.InputStream
+import java.io.OutputStream
 
-// TODO: do we every plan to use them as writable properties?
-// TODO: is this enough to preserve fields/names?
-// TODO: what about observing changes? Do we keep PrefKeys and reference them?
-@Keep
-class Prefs @Inject constructor(context: Context) {
-    // TODO: not sure if should be lazy or non-cached at all
-    private val sharedPreferences: SharedPreferences =
-        PreferenceManager.getDefaultSharedPreferences(context)
+data class PrefData(
+    var appTheme: String = ThemeUtils.APP_THEME_DEFAULT,
+    var emojiFont: Int = 0,
+    val hideFab: Boolean = false,
+    var language: String = "default",
+    val statusTextSize: String = "medium",
+    val mainNavPosition: String? = null,
+    val hideTopToolbar: Boolean = false,
+    val animateAvatars: Boolean = true,
+    val useAbsoluteTime: Boolean = false,
+    val showBotOverlay: Boolean = true,
+    val useBlurhash: Boolean = true,
+    val showNotificationsFilter: Boolean = true,
+    val showCardsInTimelines: Boolean = false,
+    val confirmReblogs: Boolean = true,
+    val confirmFavourites: Boolean = false,
+    val enableSwipeForTabs: Boolean = true,
+    val customTabs: Boolean = false,
+    val hideStatsPosts: Boolean = false,
+    val hideStatsProfile: Boolean = false,
+    val animateEmojis: Boolean = false,
+    val tabFilterHomeReplies: Boolean = true,
+    val tabFilterHomeBoosts: Boolean = true,
 
-    var appTheme by stringProperty(ThemeUtils.APP_THEME_DEFAULT)
-    var emojiFont by intProperty(0, "selected_emoji_font")
-    val hideFab by booleanProperty(false, "fabHide")
-    var language by stringProperty(defaultValue = "default")
-    val statusTextSize by stringProperty("medium")
-    val mainNavPosition by stringProperty()
-    val hideTopToolbar by booleanProperty(false)
+    val httpProxyEnabled: Boolean = false,
+    val httpProxyServer: String = "",
+    val httpProxyPort: String = ""
+)
 
-    val animateAvatars by booleanProperty(false, "animateGifAvatars")
-    val useAbsoluteTime by booleanProperty(false, "absoluteTimeView")
-    val showBotOverlay by booleanProperty(true)
-    val useBlurhash by booleanProperty(true)
-    val showNotificationsFilter by booleanProperty(true)
-    val showCardsInTimelines by booleanProperty(false)
-    val confirmReblogs by booleanProperty(true)
-    val confirmFavourites by booleanProperty(false)
-    val enableSwipeForTabs by booleanProperty(true)
-    val customTabs by booleanProperty(false)
-    val hideStatsPosts by booleanProperty(false, "wellbeingHideStatsPosts")
-    val hideStatsProfile by booleanProperty(false, "wellbeingHideStatsProfile")
-    val animateEmojis by booleanProperty(false, "animateCustomEmojis")
-    val tabFilterHomeReplies by booleanProperty(true)
-    val tabFilterHomeBoosts by booleanProperty(true)
+abstract class GsonSerializer<T>(
+    private val classOfData: Class<T>,
+) : Serializer<T> {
+    private val gson = Gson()
 
-    val httpProxyEnabled by booleanProperty(false)
-    val httpProxyServer by stringProperty(defaultValue = "")
-    val httpProxyPort by stringProperty(defaultValue = "")
-
-    private fun stringProperty(overrideName: String? = null) =
-        StringProperty(sharedPreferences, overrideName)
-
-    private fun stringProperty(
-        defaultValue: String,
-        overrideName: String? = null,
-    ): ReadWriteProperty<Prefs, String> =
-        this.stringProperty(overrideName).withDefault(defaultValue)
-
-    private fun booleanProperty(
-        defaultValue: Boolean,
-        overrideName: String? = null,
-    ) = BooleanProperty(sharedPreferences, overrideName, defaultValue)
-
-    private fun intProperty(
-        defaultValue: Int,
-        overrideName: String? = null,
-    ) = IntProperty(sharedPreferences, overrideName, defaultValue)
-}
-
-private fun <T, P> ReadWriteProperty<T, P?>.withDefault(
-    default: P
-): ReadWriteProperty<T, P> = object : ReadWriteProperty<T, P> {
-    override fun getValue(thisRef: T, property: KProperty<*>): P {
-        return this@withDefault.getValue(thisRef, property) ?: default
+    override suspend fun readFrom(input: InputStream): T {
+        return gson.fromJson(input.reader(), classOfData)
     }
 
-    override fun setValue(thisRef: T, property: KProperty<*>, value: P) {
-        this@withDefault.setValue(thisRef, property, value)
+    override suspend fun writeTo(t: T, output: OutputStream) {
+        gson.toJson(t, output.writer())
     }
 }
 
-private class StringProperty(
-    private val sharedPreferences: SharedPreferences,
-    private val overrideName: String?,
-) : ReadWriteProperty<Prefs, String?> {
-    override fun getValue(thisRef: Prefs, property: KProperty<*>): String? {
-        return sharedPreferences.getString(overrideName ?: property.name, null)
-    }
-
-    override fun setValue(thisRef: Prefs, property: KProperty<*>, value: String?) {
-        sharedPreferences.edit().putString(overrideName ?: property.name, value)
-            .apply()
-    }
+object PrefDataSerializer : GsonSerializer<PrefData>(PrefData::class.java) {
+    override val defaultValue: PrefData
+        get() = PrefData()
 }
 
-private class BooleanProperty(
-    private val sharedPreferences: SharedPreferences,
-    private val overrideName: String?,
-    private val defaultValue: Boolean,
-) : ReadWriteProperty<Prefs, Boolean> {
-    override fun getValue(thisRef: Prefs, property: KProperty<*>): Boolean {
-        return sharedPreferences.getBoolean(
-            overrideName ?: property.name,
-            defaultValue,
-        )
-    }
+fun <T> DataStore<T>.getBlocking() = runBlocking { this@getBlocking.data.first() }
+suspend fun <T> DataStore<T>.get() = this.data.first()
 
-    override fun setValue(thisRef: Prefs, property: KProperty<*>, value: Boolean) {
-        sharedPreferences.edit().putBoolean(overrideName ?: property.name, value)
-            .apply()
-    }
-}
+typealias PrefStore = DataStore<PrefData>
 
-private class IntProperty(
-    private val sharedPreferences: SharedPreferences,
-    private val overrideName: String?,
-    private val defaultValue: Int,
-) : ReadWriteProperty<Prefs, Int> {
-    override fun getValue(thisRef: Prefs, property: KProperty<*>): Int {
-        return sharedPreferences.getInt(
-            overrideName ?: property.name,
-            defaultValue,
-        )
-    }
-
-    override fun setValue(thisRef: Prefs, property: KProperty<*>, value: Int) {
-        sharedPreferences.edit().putInt(overrideName ?: property.name, value)
-            .apply()
+/** Exposed for special cases, please inject singleton instead! */
+fun makePrefStore(context: Context, scope: CoroutineScope): PrefStore {
+    return DataStoreFactory.create(
+        PrefDataSerializer,
+        scope = scope,
+    ) {
+        // Would love to use dataStoreFile() here but it needs app context which we might not have
+        // yet.
+        File(context.filesDir, "datastore/prefs.json")
     }
 }

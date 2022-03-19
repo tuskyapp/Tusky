@@ -36,6 +36,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.core.app.ActivityOptionsCompat;
 import androidx.core.view.ViewCompat;
+import androidx.datastore.core.DataStore;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Lifecycle;
 
@@ -55,6 +56,8 @@ import com.keylesspalace.tusky.entity.Attachment;
 import com.keylesspalace.tusky.entity.Status;
 import com.keylesspalace.tusky.network.MastodonApi;
 import com.keylesspalace.tusky.network.TimelineCases;
+import com.keylesspalace.tusky.settings.PrefData;
+import com.keylesspalace.tusky.settings.Prefs;
 import com.keylesspalace.tusky.util.LinkHelper;
 import com.keylesspalace.tusky.view.MuteAccountDialog;
 import com.keylesspalace.tusky.viewdata.AttachmentViewData;
@@ -91,6 +94,8 @@ public abstract class SFragment extends Fragment implements Injectable {
     public AccountManager accountManager;
     @Inject
     public TimelineCases timelineCases;
+    @Inject
+    public DataStore<PrefData> prefStore;
 
     private static final String TAG = "SFragment";
 
@@ -363,7 +368,11 @@ public abstract class SFragment extends Fragment implements Injectable {
             }
             default:
             case UNKNOWN: {
-                LinkHelper.openLink(requireContext(), active.getAttachment().getUrl());
+                LinkHelper.openLink(
+                        requireContext(),
+                        active.getAttachment().getUrl(),
+                        Prefs.getBlocking(prefStore).getCustomTabs()
+                        );
                 break;
             }
         }

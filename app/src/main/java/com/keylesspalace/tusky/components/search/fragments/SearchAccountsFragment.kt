@@ -17,23 +17,23 @@ package com.keylesspalace.tusky.components.search.fragments
 
 import androidx.paging.PagingData
 import androidx.paging.PagingDataAdapter
-import androidx.preference.PreferenceManager
 import com.keylesspalace.tusky.components.search.adapter.SearchAccountsAdapter
 import com.keylesspalace.tusky.entity.TimelineAccount
-import com.keylesspalace.tusky.settings.PrefKeys
-import com.keylesspalace.tusky.settings.Prefs
+import com.keylesspalace.tusky.settings.PrefStore
+import com.keylesspalace.tusky.settings.get
+import com.keylesspalace.tusky.settings.getBlocking
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class SearchAccountsFragment : SearchFragment<TimelineAccount>() {
     @Inject
-    lateinit var prefs: Prefs
+    lateinit var prefStore: PrefStore
 
     override fun createAdapter(): PagingDataAdapter<TimelineAccount, *> {
         return SearchAccountsAdapter(
             this,
-            animateAvatars = prefs.animateAvatars,
-            animateEmojis = prefs.animateEmojis,
+            animateAvatars = prefStore.getBlocking().animateAvatars,
+            animateEmojis = prefStore.getBlocking().animateEmojis,
         )
     }
 

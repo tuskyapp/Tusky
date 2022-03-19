@@ -27,6 +27,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.arch.core.util.Function;
+import androidx.datastore.core.DataStore;
 import androidx.lifecycle.Lifecycle;
 import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.DividerItemDecoration;
@@ -57,6 +58,7 @@ import com.keylesspalace.tusky.entity.Status;
 import com.keylesspalace.tusky.interfaces.StatusActionListener;
 import com.keylesspalace.tusky.network.FilterModel;
 import com.keylesspalace.tusky.network.MastodonApi;
+import com.keylesspalace.tusky.settings.PrefData;
 import com.keylesspalace.tusky.settings.PrefKeys;
 import com.keylesspalace.tusky.settings.Prefs;
 import com.keylesspalace.tusky.util.CardViewMode;
@@ -94,7 +96,7 @@ public final class ViewThreadFragment extends SFragment implements
     @Inject
     public FilterModel filterModel;
     @Inject
-    public Prefs prefs;
+    public DataStore<PrefData> prefStore;
 
     private SwipeRefreshLayout swipeRefreshLayout;
     private RecyclerView recyclerView;
@@ -132,6 +134,7 @@ public final class ViewThreadFragment extends SFragment implements
 
         thisThreadsStatusId = getArguments().getString("id");
 
+        PrefData prefs = Prefs.getBlocking(prefStore);
         StatusDisplayOptions statusDisplayOptions = new StatusDisplayOptions(
                 prefs.getAnimateAvatars(),
                 accountManager.getActiveAccount().getMediaPreviewEnabled(),
@@ -164,7 +167,7 @@ public final class ViewThreadFragment extends SFragment implements
         LinearLayoutManager layoutManager = new LinearLayoutManager(context);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAccessibilityDelegateCompat(
-                new ListStatusAccessibilityDelegate(recyclerView, this, statuses::getPairedItemOrNull));
+                new ListStatusAccessibilityDelegate(recyclerView, this, prefStore, statuses::getPairedItemOrNull));
         DividerItemDecoration divider = new DividerItemDecoration(
                 context, layoutManager.getOrientation());
         recyclerView.addItemDecoration(divider);
@@ -330,7 +333,7 @@ public final class ViewThreadFragment extends SFragment implements
             // already viewing the status with this url
             // probably just a preview federated and the user is clicking again to view more -> open the browser
             // this can happen with some friendica statuses
-            LinkHelper.openLink(requireContext(), url);
+            LinkHelper.openLink(requireContext(), url, Prefs.getBlocking(prefStore).getCustomTabs());
             return;
         }
         super.onViewUrl(url);

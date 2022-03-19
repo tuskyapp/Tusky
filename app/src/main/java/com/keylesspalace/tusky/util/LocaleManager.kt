@@ -17,15 +17,16 @@ package com.keylesspalace.tusky.util
 
 import android.content.Context
 import android.content.res.Configuration
-import com.keylesspalace.tusky.settings.Prefs
+import com.keylesspalace.tusky.settings.PrefStore
+import com.keylesspalace.tusky.settings.getBlocking
 import java.util.*
 
 class LocaleManager(
-    private val prefs: Prefs,
+    private val prefs: PrefStore,
 ) {
 
     fun setLocale(context: Context): Context {
-        val language = prefs.language
+        val language = prefs.getBlocking().language
         if (language == "default") {
             return context
         }

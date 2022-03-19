@@ -34,7 +34,8 @@ import com.keylesspalace.tusky.databinding.ItemFollowRequestBinding
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.entity.TimelineAccount
-import com.keylesspalace.tusky.settings.Prefs
+import com.keylesspalace.tusky.settings.PrefStore
+import com.keylesspalace.tusky.settings.getBlocking
 import com.keylesspalace.tusky.util.BindingHolder
 import com.keylesspalace.tusky.util.Either
 import com.keylesspalace.tusky.util.emojify
@@ -56,7 +57,7 @@ class AccountsInListFragment : DialogFragment(), Injectable {
     lateinit var viewModelFactory: ViewModelFactory
 
     @Inject
-    lateinit var prefs: Prefs
+    lateinit var prefs: PrefStore
 
     private val viewModel: AccountsInListViewModel by viewModels { viewModelFactory }
     private val binding by viewBinding(FragmentAccountsInListBinding::bind)
@@ -67,8 +68,8 @@ class AccountsInListFragment : DialogFragment(), Injectable {
     private val searchAdapter = SearchAdapter()
 
     private val radius by lazy { resources.getDimensionPixelSize(R.dimen.avatar_radius_48dp) }
-    private val animateAvatar by lazy { prefs.animateAvatars }
-    private val animateEmojis by lazy { prefs.animateEmojis }
+    private val animateAvatar by lazy { prefs.getBlocking().animateAvatars }
+    private val animateEmojis by lazy { prefs.getBlocking().animateEmojis }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

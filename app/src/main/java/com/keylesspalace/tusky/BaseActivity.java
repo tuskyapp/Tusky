@@ -33,6 +33,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.datastore.core.DataStore;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.keylesspalace.tusky.adapter.AccountSelectionAdapter;
@@ -42,6 +43,7 @@ import com.keylesspalace.tusky.db.AccountManager;
 import com.keylesspalace.tusky.di.Injectable;
 import com.keylesspalace.tusky.interfaces.AccountSelectionListener;
 import com.keylesspalace.tusky.interfaces.PermissionRequester;
+import com.keylesspalace.tusky.settings.PrefData;
 import com.keylesspalace.tusky.settings.Prefs;
 import com.keylesspalace.tusky.util.ThemeUtils;
 
@@ -57,7 +59,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Injectab
     public AccountManager accountManager;
 
     @Inject
-    public Prefs prefs;
+    public DataStore<PrefData> prefStore;
 
     private static final int REQUESTER_NONE = Integer.MAX_VALUE;
     private HashMap<Integer, PermissionRequester> requesters;
@@ -70,6 +72,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Injectab
         // There isn't presently a way to globally change the theme of a whole application at
         // runtime, just individual activities. So, each activity has to set its theme before any
         // views are created.
+        PrefData prefs = Prefs.getBlocking(prefStore);
         String theme = prefs.getAppTheme();
         Log.d("activeTheme", theme);
         if (theme.equals("black")) {
@@ -190,7 +193,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Injectab
         if (!showActiveAccount && activeAccount != null) {
             accounts.remove(activeAccount);
         }
-        AccountSelectionAdapter adapter = new AccountSelectionAdapter(this, this.prefs);
+        AccountSelectionAdapter adapter = new AccountSelectionAdapter(this, this.prefStore);
         adapter.addAll(accounts);
 
         new AlertDialog.Builder(this)

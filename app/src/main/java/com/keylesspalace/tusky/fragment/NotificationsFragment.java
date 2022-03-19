@@ -15,6 +15,10 @@
 
 package com.keylesspalace.tusky.fragment;
 
+import static com.keylesspalace.tusky.util.StringUtils.isLessThan;
+import static autodispose2.AutoDispose.autoDisposable;
+import static autodispose2.androidx.lifecycle.AndroidLifecycleScopeProvider.from;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -36,8 +40,8 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.arch.core.util.Function;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.core.util.Pair;
+import androidx.datastore.core.DataStore;
 import androidx.lifecycle.Lifecycle;
-import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.AsyncDifferConfig;
 import androidx.recyclerview.widget.AsyncListDiffer;
 import androidx.recyclerview.widget.DiffUtil;
@@ -71,6 +75,7 @@ import com.keylesspalace.tusky.interfaces.AccountActionListener;
 import com.keylesspalace.tusky.interfaces.ActionButtonActivity;
 import com.keylesspalace.tusky.interfaces.ReselectableFragment;
 import com.keylesspalace.tusky.interfaces.StatusActionListener;
+import com.keylesspalace.tusky.settings.PrefData;
 import com.keylesspalace.tusky.settings.PrefKeys;
 import com.keylesspalace.tusky.settings.Prefs;
 import com.keylesspalace.tusky.util.CardViewMode;
@@ -110,10 +115,6 @@ import io.reactivex.rxjava3.disposables.Disposable;
 import kotlin.Unit;
 import kotlin.collections.CollectionsKt;
 import kotlin.jvm.functions.Function1;
-
-import static autodispose2.AutoDispose.autoDisposable;
-import static autodispose2.androidx.lifecycle.AndroidLifecycleScopeProvider.from;
-import static com.keylesspalace.tusky.util.StringUtils.isLessThan;
 
 public class NotificationsFragment extends SFragment implements
         SwipeRefreshLayout.OnRefreshListener,
@@ -157,7 +158,7 @@ public class NotificationsFragment extends SFragment implements
     @Inject
     EventHub eventHub;
     @Inject
-    Prefs prefs;
+    DataStore<PrefData> prefStore;
 
     private SwipeRefreshLayout swipeRefreshLayout;
     private RecyclerView recyclerView;
@@ -216,6 +217,7 @@ public class NotificationsFragment extends SFragment implements
 
         @NonNull Context context = inflater.getContext(); // from inflater to silence warning
 
+        PrefData prefs = Prefs.getBlocking(prefStore);
         boolean showNotificationsFilterSetting = prefs.getShowNotificationsFilter();
         //Clear notifications on filter visibility change to force refresh
         if (showNotificationsFilterSetting != showNotificationsFilter)
@@ -239,7 +241,7 @@ public class NotificationsFragment extends SFragment implements
         layoutManager = new LinearLayoutManager(context);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAccessibilityDelegateCompat(
-                new ListStatusAccessibilityDelegate(recyclerView, this, (pos) -> {
+                new ListStatusAccessibilityDelegate(recyclerView, this, prefStore, (pos) -> {
                     NotificationViewData notification = notifications.getPairedItemOrNull(pos);
                     // We support replies only for now
                     if (notification instanceof NotificationViewData.Concrete) {
@@ -329,7 +331,8 @@ public class NotificationsFragment extends SFragment implements
         // guaranteed to be set until then.
         // Use a modified scroll listener that both loads more notificationsEnabled as it goes, and hides
         // the compose button on down-scroll.
-        hideFab = prefs.getHideFab();
+
+        hideFab = Prefs.getBlocking(prefStore).getHideFab();
         scrollListener = new EndlessOnScrollListener(layoutManager) {
             @Override
             public void onScrolled(@NonNull RecyclerView view, int dx, int dy) {
@@ -799,7 +802,7 @@ public class NotificationsFragment extends SFragment implements
     private void onPreferenceChanged(String key) {
         switch (key) {
             case PrefKeys.FAB_HIDE: {
-                hideFab = prefs.getHideFab();
+                hideFab = Prefs.getBlocking(prefStore).getHideFab();
                 break;
             }
             case PrefKeys.MEDIA_PREVIEW_ENABLED: {
@@ -812,7 +815,7 @@ public class NotificationsFragment extends SFragment implements
             }
             case PrefKeys.SHOW_NOTIFICATIONS_FILTER: {
                 if (isAdded()) {
-                    showNotificationsFilter = prefs.getShowNotificationsFilter();
+                    showNotificationsFilter = Prefs.getBlocking(prefStore).getShowNotificationsFilter();
                     updateFilterVisibility();
                     fullyRefreshWithProgressBar(true);
                 }
@@ -1224,7 +1227,7 @@ public class NotificationsFragment extends SFragment implements
      * Auto dispose observable on pause
      */
     private void startUpdateTimestamp() {
-        boolean useAbsoluteTime = prefs.getUseAbsoluteTime();
+        boolean useAbsoluteTime = Prefs.getBlocking(prefStore).getUseAbsoluteTime();
         if (!useAbsoluteTime) {
             Observable.interval(1, TimeUnit.MINUTES)
                     .observeOn(AndroidSchedulers.mainThread())

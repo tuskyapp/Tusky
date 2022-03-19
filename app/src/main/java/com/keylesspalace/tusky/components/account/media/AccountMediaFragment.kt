@@ -37,6 +37,8 @@ import com.keylesspalace.tusky.entity.Attachment
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.interfaces.RefreshableFragment
 import com.keylesspalace.tusky.network.MastodonApi
+import com.keylesspalace.tusky.settings.PrefStore
+import com.keylesspalace.tusky.settings.getBlocking
 import com.keylesspalace.tusky.util.ThemeUtils
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.openLink
@@ -62,6 +64,9 @@ class AccountMediaFragment : Fragment(R.layout.fragment_timeline), RefreshableFr
 
     @Inject
     lateinit var api: MastodonApi
+
+    @Inject
+    lateinit var prefStore: PrefStore
 
     private val binding by viewBinding(FragmentTimelineBinding::bind)
 
@@ -252,7 +257,10 @@ class AccountMediaFragment : Fragment(R.layout.fragment_timeline), RefreshableFr
                 }
             }
             Attachment.Type.UNKNOWN -> {
-                context?.openLink(items[currentIndex].attachment.url)
+                context?.openLink(
+                    items[currentIndex].attachment.url,
+                    prefStore.getBlocking().customTabs,
+                )
             }
         }
     }

@@ -25,7 +25,6 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadState
-import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.SimpleItemAnimator
@@ -38,8 +37,8 @@ import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.fragment.SFragment
 import com.keylesspalace.tusky.interfaces.ReselectableFragment
 import com.keylesspalace.tusky.interfaces.StatusActionListener
-import com.keylesspalace.tusky.settings.PrefKeys
-import com.keylesspalace.tusky.settings.Prefs
+import com.keylesspalace.tusky.settings.PrefStore
+import com.keylesspalace.tusky.settings.getBlocking
 import com.keylesspalace.tusky.util.CardViewMode
 import com.keylesspalace.tusky.util.StatusDisplayOptions
 import com.keylesspalace.tusky.util.hide
@@ -58,7 +57,7 @@ class ConversationsFragment : SFragment(), StatusActionListener, Injectable, Res
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
     @Inject
-    lateinit var prefs: Prefs
+    lateinit var prefsStore: PrefStore
 
     private val viewModel: ConversationsViewModel by viewModels { viewModelFactory }
 
@@ -76,6 +75,7 @@ class ConversationsFragment : SFragment(), StatusActionListener, Injectable, Res
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        val prefs = prefsStore.getBlocking()
         val statusDisplayOptions = StatusDisplayOptions(
             animateAvatars = prefs.animateAvatars,
             mediaPreviewEnabled =  accountManager.activeAccount?.mediaPreviewEnabled ?: true,

@@ -50,7 +50,6 @@ import androidx.core.view.ContentInfoCompat
 import androidx.core.view.OnReceiveContentListener
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
-import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.transition.TransitionManager
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -73,8 +72,9 @@ import com.keylesspalace.tusky.entity.Attachment
 import com.keylesspalace.tusky.entity.Emoji
 import com.keylesspalace.tusky.entity.NewPoll
 import com.keylesspalace.tusky.entity.Status
-import com.keylesspalace.tusky.settings.PrefKeys
-import com.keylesspalace.tusky.settings.Prefs
+import com.keylesspalace.tusky.settings.PrefData
+import com.keylesspalace.tusky.settings.PrefStore
+import com.keylesspalace.tusky.settings.getBlocking
 import com.keylesspalace.tusky.util.ComposeTokenizer
 import com.keylesspalace.tusky.util.PickMediaFiles
 import com.keylesspalace.tusky.util.ThemeUtils
@@ -113,7 +113,7 @@ class ComposeActivity :
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
     @Inject
-    lateinit var prefs: Prefs
+    lateinit var prefs: PrefStore
 
     private lateinit var composeOptionsBehavior: BottomSheetBehavior<*>
     private lateinit var addMediaBehavior: BottomSheetBehavior<*>
@@ -165,6 +165,7 @@ class ComposeActivity :
             accountManager.setActiveAccount(accountId)
         }
 
+        val prefs = prefStore.getBlocking()
         val theme = prefs.appTheme
         if (theme == "black") {
             setTheme(R.style.TuskyDialogActivityBlackTheme)
@@ -175,7 +176,7 @@ class ComposeActivity :
         // do not do anything when not logged in, activity will be finished in super.onCreate() anyway
         val activeAccount = accountManager.activeAccount ?: return
 
-        setupAvatar(activeAccount)
+        setupAvatar(prefs, activeAccount)
         val mediaAdapter = MediaPreviewAdapter(
             this,
             onAddCaption = { item ->
@@ -211,7 +212,7 @@ class ComposeActivity :
             binding.composeScheduleView.setDateTime(composeOptions?.scheduledAt)
         }
 
-        setupComposeField(viewModel.startingText)
+        setupComposeField(prefs, viewModel.startingText)
         setupContentWarningField(composeOptions?.contentWarning)
         setupPollView()
         applyShareIntent(intent, savedInstanceState)
@@ -296,7 +297,7 @@ class ComposeActivity :
         binding.composeContentWarningField.onTextChanged { _, _, _, _ -> updateVisibleCharactersLeft() }
     }
 
-    private fun setupComposeField(startingText: String?) {
+    private fun setupComposeField(prefs: PrefData, startingText: String?) {
         binding.composeEditField.setOnReceiveContentListener(this)
 
         binding.composeEditField.setOnKeyListener { _, keyCode, event -> this.onKeyDown(keyCode, event) }
@@ -314,9 +315,9 @@ class ComposeActivity :
         binding.composeEditField.setSelection(binding.composeEditField.length())
 
         val mentionColour = binding.composeEditField.linkTextColors.defaultColor
-        highlightSpans(binding.composeEditField.text, mentionColour)
+        highlightSpans(binding.composeEditField.text, mentionColour, prefs.customTabs)
         binding.composeEditField.afterTextChanged { editable ->
-            highlightSpans(editable, mentionColour)
+            highlightSpans(editable, mentionColour, prefs.customTabs)
             updateVisibleCharactersLeft()
         }
 
@@ -430,7 +431,7 @@ class ComposeActivity :
         }
     }
 
-    private fun setupAvatar(activeAccount: AccountEntity) {
+    private fun setupAvatar(prefs: PrefData, activeAccount: AccountEntity) {
         val actionBarSizeAttr = intArrayOf(R.attr.actionBarSize)
         val a = obtainStyledAttributes(null, actionBarSizeAttr)
         val avatarSize = a.getDimensionPixelSize(0, 1)

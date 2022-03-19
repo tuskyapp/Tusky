@@ -18,13 +18,19 @@ package com.keylesspalace.tusky.di
 import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
+import androidx.datastore.core.DataStore
 import androidx.preference.PreferenceManager
 import androidx.room.Room
 import com.keylesspalace.tusky.TuskyApplication
 import com.keylesspalace.tusky.db.AppDatabase
 import com.keylesspalace.tusky.db.Converters
+import com.keylesspalace.tusky.settings.PrefData
+import com.keylesspalace.tusky.settings.makePrefStore
 import dagger.Module
 import dagger.Provides
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
 import javax.inject.Singleton
 
 /**
@@ -47,21 +53,46 @@ class AppModule {
 
     @Provides
     @Singleton
+    fun providesDataStore(app: Application): DataStore<PrefData> {
+        // Scope is the copy of default one
+        return makePrefStore(app, CoroutineScope(Dispatchers.IO + SupervisorJob()))
+    }
+
+    @Provides
+    @Singleton
     fun providesDatabase(appContext: Context, converters: Converters): AppDatabase {
         return Room.databaseBuilder(appContext, AppDatabase::class.java, "tuskyDB")
             .addTypeConverter(converters)
             .allowMainThreadQueries()
             .addMigrations(
-                AppDatabase.MIGRATION_2_3, AppDatabase.MIGRATION_3_4, AppDatabase.MIGRATION_4_5,
-                AppDatabase.MIGRATION_5_6, AppDatabase.MIGRATION_6_7, AppDatabase.MIGRATION_7_8,
-                AppDatabase.MIGRATION_8_9, AppDatabase.MIGRATION_9_10, AppDatabase.MIGRATION_10_11,
-                AppDatabase.MIGRATION_11_12, AppDatabase.MIGRATION_12_13, AppDatabase.MIGRATION_10_13,
-                AppDatabase.MIGRATION_13_14, AppDatabase.MIGRATION_14_15, AppDatabase.MIGRATION_15_16,
-                AppDatabase.MIGRATION_16_17, AppDatabase.MIGRATION_17_18, AppDatabase.MIGRATION_18_19,
-                AppDatabase.MIGRATION_19_20, AppDatabase.MIGRATION_20_21, AppDatabase.MIGRATION_21_22,
-                AppDatabase.MIGRATION_22_23, AppDatabase.MIGRATION_23_24, AppDatabase.MIGRATION_24_25,
+                AppDatabase.MIGRATION_2_3,
+                AppDatabase.MIGRATION_3_4,
+                AppDatabase.MIGRATION_4_5,
+                AppDatabase.MIGRATION_5_6,
+                AppDatabase.MIGRATION_6_7,
+                AppDatabase.MIGRATION_7_8,
+                AppDatabase.MIGRATION_8_9,
+                AppDatabase.MIGRATION_9_10,
+                AppDatabase.MIGRATION_10_11,
+                AppDatabase.MIGRATION_11_12,
+                AppDatabase.MIGRATION_12_13,
+                AppDatabase.MIGRATION_10_13,
+                AppDatabase.MIGRATION_13_14,
+                AppDatabase.MIGRATION_14_15,
+                AppDatabase.MIGRATION_15_16,
+                AppDatabase.MIGRATION_16_17,
+                AppDatabase.MIGRATION_17_18,
+                AppDatabase.MIGRATION_18_19,
+                AppDatabase.MIGRATION_19_20,
+                AppDatabase.MIGRATION_20_21,
+                AppDatabase.MIGRATION_21_22,
+                AppDatabase.MIGRATION_22_23,
+                AppDatabase.MIGRATION_23_24,
+                AppDatabase.MIGRATION_24_25,
                 AppDatabase.Migration25_26(appContext.getExternalFilesDir("Tusky")),
-                AppDatabase.MIGRATION_26_27, AppDatabase.MIGRATION_27_28, AppDatabase.MIGRATION_28_29,
+                AppDatabase.MIGRATION_26_27,
+                AppDatabase.MIGRATION_27_28,
+                AppDatabase.MIGRATION_28_29,
                 AppDatabase.MIGRATION_29_30
             )
             .build()
