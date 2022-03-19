@@ -118,9 +118,9 @@ dependencies {
     implementation "androidx.emoji2:emoji2:$emoji2_version"
     implementation "androidx.emoji2:emoji2-views:$emoji2_version"
     implementation "androidx.emoji2:emoji2-views-helper:$emoji2_version"
-    implementation files('C:/Users/const/Git/filemojicompat/filemojicompat-ui/build/outputs/aar/filemojicompat-ui-release.aar')
-    implementation files('C:/Users/const/Git/filemojicompat/filemojicompat/build/outputs/aar/filemojicompat-release.aar')
-    implementation files('C:/Users/const/Git/filemojicompat/filemojicompat-defaults/build/outputs/aar/filemojicompat-defaults-release.aar')
+    implementation "de.c1710:filemojicompat-ui:3.2.0-alpha2"
+    implementation "de.c1710:filemojicompat:3.2.0-alpha2"
+    implementation "de.c1710:filemojicompat-defaults:3.2.0-alpha2"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion"
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycleVersion"
     implementation "androidx.lifecycle:lifecycle-common-java8:$lifecycleVersion"
