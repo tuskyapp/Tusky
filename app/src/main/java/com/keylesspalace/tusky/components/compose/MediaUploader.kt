@@ -121,7 +121,12 @@ class MediaUploader @Inject constructor(
                             Log.w(TAG, "empty uri path $uri")
                             throw CouldNotOpenFileException()
                         }
-                        val suffix = path.substring(path.lastIndexOf("."))
+                        val dotIndex = path.lastIndexOf(".")
+                        val suffix = if (dotIndex == -1) {
+                            ".tmp"
+                        } else {
+                            path.substring(dotIndex)
+                        }
                         mimeType = MimeTypeMap.getSingleton().getMimeTypeFromExtension(suffix.drop(1))
                         val file = File.createTempFile("randomTemp1", suffix, context.cacheDir)
                         val input = FileInputStream(File(path))
@@ -147,7 +152,7 @@ class MediaUploader @Inject constructor(
             }
             if (mediaSize == MEDIA_SIZE_UNKNOWN) {
                 Log.w(TAG, "Could not determine file size of upload")
-                throw CouldNotOpenFileException()
+                throw MediaTypeException()
             }
 
             if (mimeType != null) {
