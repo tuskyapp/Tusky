@@ -1,9 +1,7 @@
 package com.keylesspalace.tusky.settings
 
 import android.content.Context
-import androidx.activity.result.ActivityResultRegistryOwner
 import androidx.annotation.StringRes
-import androidx.lifecycle.LifecycleOwner
 import androidx.preference.CheckBoxPreference
 import androidx.preference.EditTextPreference
 import androidx.preference.ListPreference
