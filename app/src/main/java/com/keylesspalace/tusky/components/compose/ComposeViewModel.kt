@@ -34,7 +34,7 @@ import com.keylesspalace.tusky.entity.NewPoll
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.service.ServiceClient
-import com.keylesspalace.tusky.service.TootToSend
+import com.keylesspalace.tusky.service.StatusToSend
 import com.keylesspalace.tusky.util.Either
 import com.keylesspalace.tusky.util.RxAwareViewModel
 import com.keylesspalace.tusky.util.VersionUtils
@@ -308,7 +308,7 @@ class ComposeViewModel @Inject constructor(
                     mediaDescriptions.add(item.description ?: "")
                 }
 
-                val tootToSend = TootToSend(
+                val tootToSend = StatusToSend(
                     text = content,
                     warningText = spoilerText,
                     visibility = statusVisibility.value!!.serverString(),
@@ -456,7 +456,7 @@ class ComposeViewModel @Inject constructor(
 
         draftId = composeOptions?.draftId ?: 0
         scheduledTootId = composeOptions?.scheduledTootId
-        startingText = composeOptions?.tootText
+        startingText = composeOptions?.content
 
         val tootVisibility = composeOptions?.visibility ?: Status.Visibility.UNKNOWN
         if (tootVisibility.num != Status.Visibility.UNKNOWN.num) {

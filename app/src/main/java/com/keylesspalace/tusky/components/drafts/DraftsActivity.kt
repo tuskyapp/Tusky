@@ -90,14 +90,14 @@ class DraftsActivity : BaseActivity(), DraftActionListener {
 
         if (draft.inReplyToId != null) {
             bottomSheet.state = BottomSheetBehavior.STATE_COLLAPSED
-            viewModel.getToot(draft.inReplyToId)
+            viewModel.getStatus(draft.inReplyToId)
                 .observeOn(AndroidSchedulers.mainThread())
                 .autoDispose(from(this))
                 .subscribe(
                     { status ->
                         val composeOptions = ComposeActivity.ComposeOptions(
                             draftId = draft.id,
-                            tootText = draft.content,
+                            content = draft.content,
                             contentWarning = draft.contentWarning,
                             inReplyToId = draft.inReplyToId,
                             replyingStatusContent = status.content.toString(),
@@ -137,7 +137,7 @@ class DraftsActivity : BaseActivity(), DraftActionListener {
     private fun openDraftWithoutReply(draft: DraftEntity) {
         val composeOptions = ComposeActivity.ComposeOptions(
             draftId = draft.id,
-            tootText = draft.content,
+            content = draft.content,
             contentWarning = draft.contentWarning,
             draftAttachments = draft.attachments,
             poll = draft.poll,

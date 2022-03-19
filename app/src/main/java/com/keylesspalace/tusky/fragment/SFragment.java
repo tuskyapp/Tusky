@@ -415,7 +415,7 @@ public abstract class SFragment extends Fragment implements Injectable {
                                             deletedStatus = status.toDeletedStatus();
                                         }
                                         ComposeOptions composeOptions = new ComposeOptions();
-                                        composeOptions.setTootText(deletedStatus.getText());
+                                        composeOptions.setContent(deletedStatus.getText());
                                         composeOptions.setInReplyToId(deletedStatus.getInReplyToId());
                                         composeOptions.setVisibility(deletedStatus.getVisibility());
                                         composeOptions.setContentWarning(deletedStatus.getSpoilerText());

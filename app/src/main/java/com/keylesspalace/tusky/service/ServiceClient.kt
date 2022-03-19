@@ -20,8 +20,8 @@ import androidx.core.content.ContextCompat
 import javax.inject.Inject
 
 class ServiceClient @Inject constructor(private val context: Context) {
-    fun sendToot(tootToSend: TootToSend) {
-        val intent = SendTootService.sendTootIntent(context, tootToSend)
+    fun sendToot(tootToSend: StatusToSend) {
+        val intent = SendStatusService.sendStatusIntent(context, tootToSend)
         ContextCompat.startForegroundService(context, intent)
     }
 }

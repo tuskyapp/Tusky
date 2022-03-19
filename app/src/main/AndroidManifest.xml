@@ -129,7 +129,7 @@
             android:name=".components.report.ReportActivity"
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
         <activity android:name=".components.instancemute.InstanceListActivity" />
-        <activity android:name=".components.scheduled.ScheduledTootActivity" />
+        <activity android:name=".components.scheduled.ScheduledStatusActivity" />
         <activity android:name=".components.announcements.AnnouncementsActivity" />
         <activity android:name=".components.drafts.DraftsActivity" />
 
@@ -152,7 +152,7 @@
             </intent-filter>
         </service>
 
-        <service android:name=".service.SendTootService"
+        <service android:name=".service.SendStatusService"
             android:exported="false" />
 
         <provider

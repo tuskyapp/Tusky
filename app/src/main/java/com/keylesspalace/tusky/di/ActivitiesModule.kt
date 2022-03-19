@@ -36,7 +36,7 @@ import com.keylesspalace.tusky.components.login.LoginActivity
 import com.keylesspalace.tusky.components.login.LoginWebViewActivity
 import com.keylesspalace.tusky.components.preference.PreferencesActivity
 import com.keylesspalace.tusky.components.report.ReportActivity
-import com.keylesspalace.tusky.components.scheduled.ScheduledTootActivity
+import com.keylesspalace.tusky.components.scheduled.ScheduledStatusActivity
 import com.keylesspalace.tusky.components.search.SearchActivity
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
@@ -109,7 +109,7 @@ abstract class ActivitiesModule {
     abstract fun contributesInstanceListActivity(): InstanceListActivity
 
     @ContributesAndroidInjector
-    abstract fun contributesScheduledTootActivity(): ScheduledTootActivity
+    abstract fun contributesScheduledStatusActivity(): ScheduledStatusActivity
 
     @ContributesAndroidInjector
     abstract fun contributesAnnouncementsActivity(): AnnouncementsActivity

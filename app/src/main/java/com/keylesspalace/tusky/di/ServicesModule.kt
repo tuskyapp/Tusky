@@ -15,12 +15,12 @@
 
 package com.keylesspalace.tusky.di
 
-import com.keylesspalace.tusky.service.SendTootService
+import com.keylesspalace.tusky.service.SendStatusService
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
 @Module
 abstract class ServicesModule {
     @ContributesAndroidInjector
-    abstract fun contributesSendTootService(): SendTootService
+    abstract fun contributesSendStatusService(): SendStatusService
 }
