@@ -60,7 +60,7 @@ class ScheduledTootActivity : BaseActivity(), ScheduledTootActionListener, Injec
 
         setSupportActionBar(binding.includedToolbar.toolbar)
         supportActionBar?.run {
-            title = getString(R.string.title_scheduled_toot)
+            title = getString(R.string.title_scheduled_posts)
             setDisplayHomeAsUpEnabled(true)
             setDisplayShowHomeEnabled(true)
         }

@@ -460,7 +460,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
                     }
                 },
                 primaryDrawerItem {
-                    nameRes = R.string.action_access_scheduled_toot
+                    nameRes = R.string.action_access_scheduled_posts
                     iconRes = R.drawable.ic_access_time
                     onClick = {
                         startActivityWithSlideInAnimation(ScheduledTootActivity.newIntent(context))

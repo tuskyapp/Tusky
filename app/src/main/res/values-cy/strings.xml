@@ -132,7 +132,7 @@
     <string name="dialog_download_image">Lawrlwytho</string>
     <string name="dialog_message_cancel_follow_request">Tynnu\'r cais i ddilyn yn ôl?</string>
     <string name="dialog_unfollow_warning">Dad-ddilyn y cyfrif hwn?</string>
-    <string name="dialog_delete_toot_warning">Dileu\'r tŵt hwn?</string>
+    <string name="dialog_delete_post_warning">Dileu\'r tŵt hwn?</string>
     <string name="visibility_public">Cyhoeddus: Postio i ffrydiau cyhoeddus</string>
     <string name="visibility_unlisted">Heb restru: Peidio â dangos ar ffrydiau cyhoeddus</string>
     <string name="visibility_private">Dilynwyr yn Unig: Postio i ddilynwyr yn unig</string>
@@ -244,11 +244,11 @@
     <string name="lock_account_label">Cloi cyfrif</string>
     <string name="lock_account_label_description">Angen cymeradwyo dilynwyr eich hun</string>
     <string name="compose_save_draft">Cadw drafft?</string>
-    <string name="send_toot_notification_title">Yn anfon Tŵt…</string>
-    <string name="send_toot_notification_error_title">Gwall wrth anfon Tŵt</string>
-    <string name="send_toot_notification_channel_name">Yn anfon Tŵtiau </string>
-    <string name="send_toot_notification_cancel_title">Canslo anfon </string>
-    <string name="send_toot_notification_saved_content">Cadwyd copi o\'r tŵt i\'ch drafftiau </string>
+    <string name="send_post_notification_title">Yn anfon Tŵt…</string>
+    <string name="send_post_notification_error_title">Gwall wrth anfon Tŵt</string>
+    <string name="send_post_notification_channel_name">Yn anfon Tŵtiau </string>
+    <string name="send_post_notification_cancel_title">Canslo anfon </string>
+    <string name="send_post_notification_saved_content">Cadwyd copi o\'r tŵt i\'ch drafftiau </string>
     <string name="action_compose_shortcut">Creu</string>
     <string name="error_no_custom_emojis">Nid oes gan eich achos %s emoji bersonol</string>
     <string name="copy_to_clipboard_success">Copïwyd i\'r clipfwrdd</string>
@@ -257,7 +257,7 @@
     <string name="download_fonts">Bydd angen i chi lawrlwytho\'r setiau emoji hyn yn gyntaf </string>
     <string name="performing_lookup_title">Wrthi\'n chwilio…</string>
     <string name="expand_collapse_all_statuses">Chwyddo/lleihau pob statws </string>
-    <string name="action_open_toot">Agor tŵt</string>
+    <string name="action_open_post">Agor tŵt</string>
     <string name="restart_required">Angen ailddechrau\'r app</string>
     <string name="restart_emoji">Bydd angen ailddechrau Tusky i roi\'r newidiadau ar waith</string>
     <string name="later">Nes ymlaen</string>

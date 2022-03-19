@@ -153,7 +153,7 @@
     <string name="dialog_download_image">Ladda ned</string>
     <string name="dialog_message_cancel_follow_request">Återkalla följningsförfrågan?</string>
     <string name="dialog_unfollow_warning">Sluta följ detta konto\?</string>
-    <string name="dialog_delete_toot_warning">Radera denna toot?</string>
+    <string name="dialog_delete_post_warning">Radera denna toot?</string>
     <string name="visibility_public">Offentlig: Skicka till offentliga tidslinjer</string>
     <string name="visibility_unlisted">Olistad: Visa inte i offentliga tidslinjer</string>
     <string name="visibility_private">Enbart-följare: Ses enbart av följare</string>
@@ -290,11 +290,11 @@
     <string name="lock_account_label">Lås konto</string>
     <string name="lock_account_label_description">Kräver att du manuellt godkänner följare</string>
     <string name="compose_save_draft">Spara utkast?</string>
-    <string name="send_toot_notification_title">Skickar toot…</string>
-    <string name="send_toot_notification_error_title">Kunde inte skicka toot</string>
-    <string name="send_toot_notification_channel_name">Skickar toot</string>
-    <string name="send_toot_notification_cancel_title">Sändning avbruten</string>
-    <string name="send_toot_notification_saved_content">En kopia av tooten har sparats i dina utkast</string>
+    <string name="send_post_notification_title">Skickar toot…</string>
+    <string name="send_post_notification_error_title">Kunde inte skicka toot</string>
+    <string name="send_post_notification_channel_name">Skickar toot</string>
+    <string name="send_post_notification_cancel_title">Sändning avbruten</string>
+    <string name="send_post_notification_saved_content">En kopia av tooten har sparats i dina utkast</string>
     <string name="action_compose_shortcut">Skriv</string>
     <string name="error_no_custom_emojis">Din instans %s har inga anpassade emojis</string>
     <string name="copy_to_clipboard_success">Kopierat till urklipp</string>
@@ -303,7 +303,7 @@
     <string name="download_fonts">Du behöver ladda ned dessa emojis först</string>
     <string name="performing_lookup_title">Utför sökning…</string>
     <string name="expand_collapse_all_statuses">Expandera/Dölj alla statusar</string>
-    <string name="action_open_toot">Öppna toot</string>
+    <string name="action_open_post">Öppna toot</string>
     <string name="restart_required">Omstart av appen krävs</string>
     <string name="restart_emoji">Du måste starta om Tusky för att tillämpa ändringarna</string>
     <string name="later">Senare</string>
@@ -373,7 +373,7 @@
     <string name="pref_title_bot_overlay">Visa robotindikator</string>
     <string name="notification_clear_text">Är du säker på att du vill rensa dina aviseringar permanent\?</string>
     <string name="action_delete_and_redraft">Radera och skriv på nytt</string>
-    <string name="dialog_redraft_toot_warning">Radera och skriv ny toot\?</string>
+    <string name="dialog_redraft_post_warning">Radera och skriv ny toot\?</string>
     <string name="poll_info_format"> <!-- 15 röster • 1 timme kvar --> %1$s • %2$s</string>
     <plurals name="poll_info_votes">
         <item quantity="one">%s röst</item>
@@ -442,10 +442,10 @@
     <string name="poll_allow_multiple_choices">Flerval</string>
     <string name="poll_new_choice_hint">Val %d</string>
     <string name="edit_poll">Redigera</string>
-    <string name="title_scheduled_toot">Schemalagda toots</string>
+    <string name="title_scheduled_posts">Schemalagda toots</string>
     <string name="action_edit">Ändra</string>
-    <string name="action_access_scheduled_toot">Schemalagda toots</string>
-    <string name="action_schedule_toot">Schemalägg toot</string>
+    <string name="action_access_scheduled_posts">Schemalagda toots</string>
+    <string name="action_schedule_post">Schemalägg toot</string>
     <string name="action_reset_schedule">Återställ</string>
     <string name="post_lookup_error_format">Fel vid uppslagning av status %s</string>
     <string name="title_bookmarks">Bokmärken</string>

@@ -78,7 +78,7 @@ class SendTootService : Service(), Injectable {
                 ?: throw IllegalStateException("SendTootService started without $KEY_TOOT extra")
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                val channel = NotificationChannel(CHANNEL_ID, getString(R.string.send_toot_notification_channel_name), NotificationManager.IMPORTANCE_LOW)
+                val channel = NotificationChannel(CHANNEL_ID, getString(R.string.send_post_notification_channel_name), NotificationManager.IMPORTANCE_LOW)
                 notificationManager.createNotificationChannel(channel)
             }
 
@@ -89,7 +89,7 @@ class SendTootService : Service(), Injectable {
 
             val builder = NotificationCompat.Builder(this, CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_notify)
-                .setContentTitle(getString(R.string.send_toot_notification_title))
+                .setContentTitle(getString(R.string.send_post_notification_title))
                 .setContentText(notificationText)
                 .setProgress(1, 0, true)
                 .setOngoing(true)
@@ -179,8 +179,8 @@ class SendTootService : Service(), Injectable {
 
                     val builder = NotificationCompat.Builder(this@SendTootService, CHANNEL_ID)
                         .setSmallIcon(R.drawable.ic_notify)
-                        .setContentTitle(getString(R.string.send_toot_notification_error_title))
-                        .setContentText(getString(R.string.send_toot_notification_saved_content))
+                        .setContentTitle(getString(R.string.send_post_notification_error_title))
+                        .setContentText(getString(R.string.send_post_notification_saved_content))
                         .setColor(ContextCompat.getColor(this@SendTootService, R.color.notification_color))
 
                     notificationManager.cancel(tootId)
@@ -228,8 +228,8 @@ class SendTootService : Service(), Injectable {
 
             val builder = NotificationCompat.Builder(this@SendTootService, CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_notify)
-                .setContentTitle(getString(R.string.send_toot_notification_cancel_title))
-                .setContentText(getString(R.string.send_toot_notification_saved_content))
+                .setContentTitle(getString(R.string.send_post_notification_cancel_title))
+                .setContentText(getString(R.string.send_post_notification_saved_content))
                 .setColor(ContextCompat.getColor(this, R.color.notification_color))
 
             notificationManager.notify(tootId, builder.build())

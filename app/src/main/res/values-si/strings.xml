@@ -32,7 +32,7 @@
     <string name="notification_mention_name">නව සැඳහුම්</string>
     <string name="action_compose_shortcut">රචනා කරන්න</string>
     <string name="status_content_warning_show_more">තව පෙන්වන්න</string>
-    <string name="send_toot_notification_saved_content">ටූට් හි පිටපතක් ඔබගේ කටුපිටපත් තුළට සුරකින ලදි</string>
+    <string name="send_post_notification_saved_content">ටූට් හි පිටපතක් ඔබගේ කටුපිටපත් තුළට සුරකින ලදි</string>
     <string name="action_hide_media">මාධ්‍ය සඟවන්න</string>
     <string name="title_edit_profile">පැතිකඩ සංස්කරණය</string>
     <string name="confirmation_reported">යැවිණි!</string>
@@ -119,7 +119,7 @@
     <string name="confirmation_unblocked">පරිශීලක අනවහිර කෙරිණි</string>
     <string name="profile_metadata_add">දත්ත එක්කරන්න</string>
     <string name="send_status_content_to">වෙත ටූට් බෙදාගන්න…</string>
-    <string name="send_toot_notification_cancel_title">යැවීම අවලංගු කෙරිණි</string>
+    <string name="send_post_notification_cancel_title">යැවීම අවලංගු කෙරිණි</string>
     <string name="action_unblock">අනවහිර</string>
     <string name="action_send_public">ටූට්!</string>
     <string name="title_favourites">ප්‍රියතමයන්</string>
@@ -127,7 +127,7 @@
     <string name="failed_fetch_statuses">තත්ව ගෙන ඒමට අසමත් විය</string>
     <string name="description_status_media">මාධ්‍ය: %s</string>
     <string name="action_mute_conversation">සංවාදය නිහඬ කරන්න</string>
-    <string name="send_toot_notification_channel_name">ටූට්ස් යැවෙමින්</string>
+    <string name="send_post_notification_channel_name">ටූට්ස් යැවෙමින්</string>
     <string name="pref_title_thread_filter_keywords">සංවාද</string>
     <string name="status_text_size_large">විශාල</string>
     <string name="description_visiblity_public">ප්‍රසිද්ධ</string>
@@ -142,7 +142,7 @@
     <string name="action_view_favourites">ප්‍රියතමයන්</string>
     <string name="label_quick_reply">පිළිතුරු…</string>
     <string name="limit_notifications">කාලරේඛා දැනුම්දීම් සීමාකරන්න</string>
-    <string name="send_toot_notification_error_title">ටූට් යැවීමේ දෝෂයකි</string>
+    <string name="send_post_notification_error_title">ටූට් යැවීමේ දෝෂයකි</string>
     <string name="filter_addition_dialog_title">පෙරහන එකතු කරන්න</string>
     <string name="pref_default_media_sensitivity">සැමවිටම මාධ්‍ය සංවේදී ලෙස සලකුණු කරන්න</string>
     <string name="restart_required">යෙදුම යළි ඇරඹීම ඇවැසිය</string>
@@ -177,7 +177,7 @@
     <string name="action_add_media">මාධ්‍ය එකතු කරන්න</string>
     <string name="abbreviated_in_days">ද. %d කින්</string>
     <string name="notification_summary_large">%1$s, %2$s, %3$s සහ වෙනත් %4$d</string>
-    <string name="action_open_toot">ටූට් විවෘත කරන්න</string>
+    <string name="action_open_post">ටූට් විවෘත කරන්න</string>
     <string name="title_domain_mutes">සැඟවුනු වසම්</string>
     <string name="abbreviated_hours_ago">පැය %d</string>
     <string name="pref_failed_to_sync">සැකසුම් සමමුහූර්ත වීමට අසමත් විය</string>
@@ -253,13 +253,13 @@
     <string name="action_login">මාස්ටඩන් සමඟ පිවිසෙන්න</string>
     <string name="poll_vote">ජන්දය</string>
     <string name="filter_dialog_whole_word">මුළු වචනය</string>
-    <string name="drafts_toot_failed_to_send">මෙම ටූට් යැවීමට අසමත් විය!</string>
+    <string name="drafts_post_failed_to_send">මෙම ටූට් යැවීමට අසමත් විය!</string>
     <string name="status_media_video">දෘශ්‍යකය</string>
     <string name="later">පසුව</string>
     <string name="action_edit_own_profile">සංස්කරණය</string>
     <string name="app_them_dark">අඳුරු</string>
     <string name="message_empty">කිසිවක් නැත.</string>
-    <string name="send_toot_notification_title">ටූට් යැවෙමින්…</string>
+    <string name="send_post_notification_title">ටූට් යැවෙමින්…</string>
     <string name="system_default">පද්ධති පෙරනිමිය</string>
     <string name="action_mention">සඳැහුම</string>
     <string name="filter_dialog_remove_button">ඉවත් කරන්න</string>

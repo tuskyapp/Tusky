@@ -130,7 +130,7 @@
     <string name="dialog_download_image">بارگیری</string>
     <string name="dialog_message_cancel_follow_request">درخواست دنبال کردن را لغو می‌کنید؟</string>
     <string name="dialog_unfollow_warning">ناپیگیری این حساب؟</string>
-    <string name="dialog_delete_toot_warning">حذف این بوق؟</string>
+    <string name="dialog_delete_post_warning">حذف این بوق؟</string>
     <string name="visibility_public">عمومی: فرستادن به خط زمانی‌های عمومی</string>
     <string name="visibility_unlisted">فهرست‌نشده: نشان ندادن در خط زمانی‌های عمومی</string>
     <string name="visibility_private">تنها دنبال‌کنندگان:پست فقط به دنبال‌کنندگان</string>
@@ -241,11 +241,11 @@
     <string name="lock_account_label">قفل حساب</string>
     <string name="lock_account_label_description">لازم است پی‌گیران را دستی تأیید کنید</string>
     <string name="compose_save_draft">ذخیرهٔ پیش‌نویس؟</string>
-    <string name="send_toot_notification_title">در حال فرستادن بوق…</string>
-    <string name="send_toot_notification_error_title">خطای فرستادن بوق</string>
-    <string name="send_toot_notification_channel_name">در حال فرستادن بوق‌ها</string>
-    <string name="send_toot_notification_cancel_title">فرستادن لغو شد</string>
-    <string name="send_toot_notification_saved_content">رونوشتی از بوق در پیش‌نویس‌هایتان ذخیره شد</string>
+    <string name="send_post_notification_title">در حال فرستادن بوق…</string>
+    <string name="send_post_notification_error_title">خطای فرستادن بوق</string>
+    <string name="send_post_notification_channel_name">در حال فرستادن بوق‌ها</string>
+    <string name="send_post_notification_cancel_title">فرستادن لغو شد</string>
+    <string name="send_post_notification_saved_content">رونوشتی از بوق در پیش‌نویس‌هایتان ذخیره شد</string>
     <string name="action_compose_shortcut">ایجاد</string>
     <string name="error_no_custom_emojis">نمونه‌تان %s هیچ اموجی سفارشی‌ای ندارد</string>
     <string name="copy_to_clipboard_success">در تخته‌گیره رونوشت شد</string>
@@ -254,7 +254,7 @@
     <string name="download_fonts">نخست باید این مجموعه‌های اموجی را بارگیری کنید</string>
     <string name="performing_lookup_title">در حال جست‌وجو…</string>
     <string name="expand_collapse_all_statuses">گسترده/جمع کردن تمام وضعیت‌ها</string>
-    <string name="action_open_toot">گشودن بوق</string>
+    <string name="action_open_post">گشودن بوق</string>
     <string name="restart_required">نیاز به آغاز دوبارهٔ کاره</string>
     <string name="restart_emoji">برای اعمال این تغییرات، نیاز به شروع دوبارهٔ تاسکی دارید</string>
     <string name="later">بعداً</string>
@@ -306,7 +306,7 @@
     <string name="download_media">بارگیری رسانه</string>
     <string name="downloading_media">در حال بارگیری رسانه</string>
     <string name="confirmation_domain_unmuted">%s نانهفته</string>
-    <string name="dialog_redraft_toot_warning">می‌خواهید این بوق را پاک و بازنویسی کنید؟</string>
+    <string name="dialog_redraft_post_warning">می‌خواهید این بوق را پاک و بازنویسی کنید؟</string>
     <string name="mute_domain_warning_dialog_ok">نهفتن تمام دامنه</string>
     <string name="pref_title_notification_filter_poll">پایان نظرسنجی‌ها</string>
     <string name="pref_title_timeline_filters">پالایه‌ها</string>
@@ -418,10 +418,10 @@
     <string name="poll_allow_multiple_choices">گزینه‌های چندگانه</string>
     <string name="poll_new_choice_hint">گزینهٔ %d</string>
     <string name="edit_poll">ویرایش</string>
-    <string name="title_scheduled_toot">بوق‌های زمان‌بسته</string>
+    <string name="title_scheduled_posts">بوق‌های زمان‌بسته</string>
     <string name="action_edit">ویرایش</string>
-    <string name="action_access_scheduled_toot">بوق‌های زمان‌بسته</string>
-    <string name="action_schedule_toot">بوق زمان‌بسته</string>
+    <string name="action_access_scheduled_posts">بوق‌های زمان‌بسته</string>
+    <string name="action_schedule_post">بوق زمان‌بسته</string>
     <string name="action_reset_schedule">بازنشانی</string>
     <string name="mute_domain_warning">مطمئنید می‌خواهید تمام %s را مسدود کنید؟ محتوای آن دامنه را در هیچ‌یک از خط زمانی‌ها یا در آگاهی‌هایتان نخواهید دید. پی‌گیرانتان از آن دامنه، برداشته خواهند شد.</string>
     <string name="filter_dialog_whole_word_description">هنگامی که کلیدواژه یا عبارت، فقط حروف‌عددی باشد، فقط اگر با تمام واژه مطابق باشد، اعمال خواهد شد</string>
@@ -484,7 +484,7 @@
     <string name="action_unsubscribe_account">عدم اشتراک</string>
     <string name="action_subscribe_account">اشتراک</string>
     <string name="draft_deleted">پیش‌نویس حذف شد</string>
-    <string name="drafts_toot_failed_to_send">فرستادن این بوق شکست خورد!</string>
+    <string name="drafts_post_failed_to_send">فرستادن این بوق شکست خورد!</string>
     <string name="wellbeing_hide_stats_profile">نهفتن آمار کمی روی نمایه‌ها</string>
     <string name="wellbeing_hide_stats_posts">نهفتن آمار کمی روی فرسته‌ها</string>
     <string name="limit_notifications">محدود کردن آگاهی‌های خط‌زمانی</string>
@@ -498,7 +498,7 @@
     <string name="pref_title_animate_custom_emojis">اموجی‌های شخصی متحرّک</string>
     <string name="pref_title_notification_filter_subscriptions">کسی که مشترکش شده‌ام، بوقی جدید منتشر کرد</string>
     <string name="notification_subscription_format">%s چیزی فرستاد</string>
-    <string name="drafts_toot_reply_removed">بوقی که پاسخی به آن را پیش‌نویس کردید، برداشته شده</string>
+    <string name="drafts_post_reply_removed">بوقی که پاسخی به آن را پیش‌نویس کردید، برداشته شده</string>
     <string name="drafts_failed_loading_reply">شکست در بار کردن اطّلاعات پاسخ</string>
     <string name="wellbeing_mode_notice">برخی اطّلاعات که ممکن است روی سلامتی ذهنیتان تأثیر بگذارد، پنهان خواهند شد. همچون:
 \n

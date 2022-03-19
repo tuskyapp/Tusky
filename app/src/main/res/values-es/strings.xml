@@ -142,7 +142,7 @@
     <string name="dialog_download_image">Descargar</string>
     <string name="dialog_message_cancel_follow_request">¿Cancelar petición de amistad?</string>
     <string name="dialog_unfollow_warning">¿Dejar de seguir esta cuenta?</string>
-    <string name="dialog_delete_toot_warning">¿Eliminar este toot\?</string>
+    <string name="dialog_delete_post_warning">¿Eliminar este toot\?</string>
     <string name="visibility_public">Público: Mostrar en historias públicas</string>
     <string name="visibility_unlisted">Oculto: No mostrar en historias públicas</string>
     <string name="visibility_private">Privado: Sólo visible para seguidores</string>
@@ -262,11 +262,11 @@
     <string name="lock_account_label">Proteger cuenta</string>
     <string name="lock_account_label_description">Tendrá que admitir los seguidores manualmente</string>
     <string name="compose_save_draft">¿Guardar borrador?</string>
-    <string name="send_toot_notification_title">Enviando estado…</string>
-    <string name="send_toot_notification_error_title">Error al enviar el estado</string>
-    <string name="send_toot_notification_channel_name">Enviando estado</string>
-    <string name="send_toot_notification_cancel_title">Envío cancelado</string>
-    <string name="send_toot_notification_saved_content">Una copia del estado se ha guardado en borradores</string>
+    <string name="send_post_notification_title">Enviando estado…</string>
+    <string name="send_post_notification_error_title">Error al enviar el estado</string>
+    <string name="send_post_notification_channel_name">Enviando estado</string>
+    <string name="send_post_notification_cancel_title">Envío cancelado</string>
+    <string name="send_post_notification_saved_content">Una copia del estado se ha guardado en borradores</string>
     <string name="action_compose_shortcut">Redactar</string>
     <string name="error_no_custom_emojis">Su instancia %s no ofrece emojis personalizados</string>
     <string name="copy_to_clipboard_success">Copiado al portapapeles</string>
@@ -275,7 +275,7 @@
     <string name="download_fonts">Tendrás que descargarlos primero</string>
     <string name="performing_lookup_title">Buscando…</string>
     <string name="expand_collapse_all_statuses">Expandir/ocultar todos los estados</string>
-    <string name="action_open_toot">Abrir</string>
+    <string name="action_open_post">Abrir</string>
     <string name="restart_required">Reinicio requerido</string>
     <string name="restart_emoji">Tendrás que reiniciar la aplicación para aplicar estos cambios</string>
     <string name="later">Más tarde</string>
@@ -366,7 +366,7 @@
     <string name="title_links_dialog">Enlaces</string>
     <string name="action_open_media_n">Abrir contenido #%d</string>
     <string name="downloading_media">Descargando contenido</string>
-    <string name="dialog_redraft_toot_warning">¿Eliminar y devolver a borradores este toot\?</string>
+    <string name="dialog_redraft_post_warning">¿Eliminar y devolver a borradores este toot\?</string>
     <string name="pref_title_notification_filter_poll">encuestas han terminado</string>
     <string name="notification_poll_description">Notificaciones sobre encuestas que han terminado</string>
     <string name="pref_title_public_filter_keywords">Cronologías públicas</string>
@@ -439,10 +439,10 @@
     <string name="poll_allow_multiple_choices">Opciones múltiples</string>
     <string name="poll_new_choice_hint">Opción %d</string>
     <string name="edit_poll">Editar</string>
-    <string name="title_scheduled_toot">Estados programados</string>
+    <string name="title_scheduled_posts">Estados programados</string>
     <string name="action_edit">Editar</string>
-    <string name="action_access_scheduled_toot">Estados programados</string>
-    <string name="action_schedule_toot">Programar estado</string>
+    <string name="action_access_scheduled_posts">Estados programados</string>
+    <string name="action_schedule_post">Programar estado</string>
     <string name="action_reset_schedule">Reiniciar</string>
     <string name="post_lookup_error_format">Error al buscar el post %s</string>
     <string name="about_powered_by_tusky">Potenciado por Tusky</string>
@@ -506,10 +506,10 @@
 \n- Estadísticas de seguidores e toots en perfiles
 \n
 \nLas notificaciones Push no serán afectadas, pero puedes revisar manualmente tus preferencias.</string>
-    <string name="drafts_toot_reply_removed">El toot al que redactaste una respuesta ha sido eliminado</string>
+    <string name="drafts_post_reply_removed">El toot al que redactaste una respuesta ha sido eliminado</string>
     <string name="draft_deleted">Borrador eliminado</string>
     <string name="drafts_failed_loading_reply">Error al cargar la información de respuesta</string>
-    <string name="drafts_toot_failed_to_send">¡Este toot no se pudo enviar!</string>
+    <string name="drafts_post_failed_to_send">¡Este toot no se pudo enviar!</string>
     <string name="dialog_delete_list_warning">¿Realmente quieres eliminar la lista %s\?</string>
     <string name="duration_indefinite">Indefinido</string>
     <string name="label_duration">Duración</string>

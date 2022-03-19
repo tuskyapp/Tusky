@@ -150,7 +150,7 @@
     <string name="dialog_download_image">تنزيل</string>
     <string name="dialog_message_cancel_follow_request">هل تريد رفض طلب المتابعة؟</string>
     <string name="dialog_unfollow_warning">هل تود إلغاء متابعة هذا الحساب؟</string>
-    <string name="dialog_delete_toot_warning">هل تريد حذف هذا التبويق؟</string>
+    <string name="dialog_delete_post_warning">هل تريد حذف هذا التبويق؟</string>
     <string name="visibility_public">للعامة: ينشر على الخيوط العمومية</string>
     <string name="visibility_unlisted">غير مدرج: لا يُعرَض على الخيوط العمومية</string>
     <string name="visibility_private">لمتابعيك فقط: يُنشر إلى متابعيك فقط</string>
@@ -291,11 +291,11 @@
     <string name="lock_account_label">تجميد الحساب</string>
     <string name="lock_account_label_description">يتطلب منك قبول طلبات المتابَعة يدويا</string>
     <string name="compose_save_draft">هل تود الإحتفاظ بالمسودة ؟</string>
-    <string name="send_toot_notification_title">جارٍ إرسال التبويق…</string>
-    <string name="send_toot_notification_error_title">خطأ أثناء عملية إرسال التبويق</string>
-    <string name="send_toot_notification_channel_name">إرسال التبويقات</string>
-    <string name="send_toot_notification_cancel_title">أُلغيَ الإرسال</string>
-    <string name="send_toot_notification_saved_content">تم الاحتفاظ بنسخة مِن التبويق في مسوداتك</string>
+    <string name="send_post_notification_title">جارٍ إرسال التبويق…</string>
+    <string name="send_post_notification_error_title">خطأ أثناء عملية إرسال التبويق</string>
+    <string name="send_post_notification_channel_name">إرسال التبويقات</string>
+    <string name="send_post_notification_cancel_title">أُلغيَ الإرسال</string>
+    <string name="send_post_notification_saved_content">تم الاحتفاظ بنسخة مِن التبويق في مسوداتك</string>
     <string name="action_compose_shortcut">حرر</string>
     <string name="error_no_custom_emojis">لا يحتوي مثيل خادومكم %s على أية حزمة إيموجي مخصصة</string>
     <string name="copy_to_clipboard_success">تم نسخه إلى الحافظة</string>
@@ -304,7 +304,7 @@
     <string name="download_fonts">يجب عليك أولا تنزيل حزمة الإيموجي هذه</string>
     <string name="performing_lookup_title">البحث جارٍ …</string>
     <string name="expand_collapse_all_statuses">توسيع/طي كافة المنشورات</string>
-    <string name="action_open_toot">افتح التبويق</string>
+    <string name="action_open_post">افتح التبويق</string>
     <string name="restart_required">مطلوب إعادة تشغيل التطبيق</string>
     <string name="restart_emoji">إعادة تشغيل توسكي مطلوبة قصد تفعيل التعديلات</string>
     <string name="later">لاحقًا</string>
@@ -356,7 +356,7 @@
     <string name="action_open_media_n">افتح الوسيط #%d</string>
     <string name="download_media">نزّل الوسائط</string>
     <string name="downloading_media">جارٍ تنزيل الوسائط</string>
-    <string name="dialog_redraft_toot_warning">هل تريد حذف وإعادة صياغة هذا التبويق؟</string>
+    <string name="dialog_redraft_post_warning">هل تريد حذف وإعادة صياغة هذا التبويق؟</string>
     <string name="description_status_favourited">تم تفضيله</string>
     <string name="edit_hashtag_hint">وسم بدون #</string>
     <string name="notifications_clear">مسح</string>
@@ -470,10 +470,10 @@
     <string name="edit_poll">تعديل</string>
     <string name="filter_dialog_whole_word_description">عندما تكون الكلمة أو العبارة أبجدية رقمية فقط ، فلن يتم تطبيقها إلا إذا كانت مطابقة للكلمة بأكملها</string>
     <string name="poll_info_format"> <!-- 15 votes • 1 hour left --> %1$s • %2$s</string>
-    <string name="title_scheduled_toot">التبويقات المبَرمَجة</string>
+    <string name="title_scheduled_posts">التبويقات المبَرمَجة</string>
     <string name="action_edit">تعديل</string>
-    <string name="action_access_scheduled_toot">التبويقات المبَرمَجة</string>
-    <string name="action_schedule_toot">برمجة تبويق</string>
+    <string name="action_access_scheduled_posts">التبويقات المبَرمَجة</string>
+    <string name="action_schedule_post">برمجة تبويق</string>
     <string name="action_reset_schedule">صفّر</string>
     <string name="post_lookup_error_format">خطأ أثناء البحث عن منشور %s</string>
     <string name="title_bookmarks">الفواصل المرجعية</string>
@@ -520,7 +520,7 @@
     <string name="pref_title_hide_top_toolbar">إخفاء عنوان شريط الأدوات العلوي</string>
     <string name="title_announcements">الاعلانات</string>
     <string name="dialog_delete_list_warning">أتريد حقا حذف القائمة %s؟</string>
-    <string name="drafts_toot_failed_to_send">فشلت عملية إرسال التبويق!</string>
+    <string name="drafts_post_failed_to_send">فشلت عملية إرسال التبويق!</string>
     <string name="draft_deleted">حُذفَت المسودة</string>
     <string name="action_subscribe_account">اشترك</string>
     <string name="action_unsubscribe_account">إلغاء الإشتراك</string>
@@ -535,7 +535,7 @@
     <string name="account_note_saved">تم حفظها!</string>
     <string name="review_notifications">راجع الإشعارات</string>
     <string name="status_media_audio">صوت</string>
-    <string name="drafts_toot_reply_removed">لقد حُذِف التبويق الذي حررت من أجله مسودة الرد</string>
+    <string name="drafts_post_reply_removed">لقد حُذِف التبويق الذي حررت من أجله مسودة الرد</string>
     <string name="pref_title_notification_filter_subscriptions">شخص ما أنا مشترك في حسابه قد نشر تبويقا جديدا</string>
     <string name="pref_title_animate_custom_emojis">حرّك الإيموجيات المخصصة</string>
     <string name="wellbeing_hide_stats_posts">إخفاء الإحصائيات الكمية عن المنشورات</string>

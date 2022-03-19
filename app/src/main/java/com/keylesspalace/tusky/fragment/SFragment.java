@@ -380,7 +380,7 @@ public abstract class SFragment extends Fragment implements Injectable {
 
     protected void showConfirmDeleteDialog(final String id, final int position) {
         new AlertDialog.Builder(getActivity())
-                .setMessage(R.string.dialog_delete_toot_warning)
+                .setMessage(R.string.dialog_delete_post_warning)
                 .setPositiveButton(android.R.string.ok, (dialogInterface, i) -> {
                     timelineCases.delete(id)
                             .observeOn(AndroidSchedulers.mainThread())
@@ -403,7 +403,7 @@ public abstract class SFragment extends Fragment implements Injectable {
             return;
         }
         new AlertDialog.Builder(getActivity())
-                .setMessage(R.string.dialog_redraft_toot_warning)
+                .setMessage(R.string.dialog_redraft_post_warning)
                 .setPositiveButton(android.R.string.ok, (dialogInterface, i) -> {
                     timelineCases.delete(id)
                             .observeOn(AndroidSchedulers.mainThread())

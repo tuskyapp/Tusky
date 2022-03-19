@@ -72,7 +72,7 @@
     <string name="label_quick_reply">Tiririn…</string>
     <string name="label_avatar">Tugna n umaɣnu</string>
     <string name="dialog_download_image">Sider</string>
-    <string name="dialog_delete_toot_warning">Kkes tijewwiqt-a\?</string>
+    <string name="dialog_delete_post_warning">Kkes tijewwiqt-a\?</string>
     <string name="pref_title_edit_notification_settings">Ẓreg tilɣa</string>
     <string name="pref_title_appearance_settings">Agrudem</string>
     <string name="app_theme_light">Aceɛlal</string>
@@ -94,7 +94,7 @@
     <string name="add_account_description">Rnu yiwen umiḍan amaynut n Maṣṭudun</string>
     <string name="action_compose_shortcut">Aru</string>
     <string name="error_no_custom_emojis">Tummant-ik·im %s ur tesɛi ara imujiyen udmawanen</string>
-    <string name="action_open_toot">Ldi tijewwiqt</string>
+    <string name="action_open_post">Ldi tijewwiqt</string>
     <string name="license_cc_by_4">CC-BY 4.0</string>
     <string name="license_cc_by_sa_4">CC-BY-SA 4.0</string>
     <string name="pin_action">Senṭeḍ</string>
@@ -118,7 +118,7 @@
     <string name="action_add_poll">Rnu assenqed</string>
     <string name="action_photo_take">Ṭef tugna</string>
     <string name="action_toggle_visibility">Timeẓriwt n tijewwaqt</string>
-    <string name="action_schedule_toot">Sɣiwes tijewwaqt-a</string>
+    <string name="action_schedule_post">Sɣiwes tijewwaqt-a</string>
     <string name="status_share_content">Bḍu agbur n tijewwiqt-a</string>
     <string name="status_share_link">Bḍu aseɣwen ɣer tijewwiqt</string>
     <string name="filter_addition_dialog_title">Rnu amsizdeg</string>
@@ -269,8 +269,8 @@
     <string name="report_remote_instance">Bren-it ɣer %s</string>
     <string name="pref_title_app_theme">Asentel n wesnas</string>
     <string name="no_scheduled_status">Ulac ɣur-k·m ula d yiwet n tjewwiqt yettwasɣawsen.</string>
-    <string name="action_access_scheduled_toot">Tijewwiqin yettwasɣawsen</string>
-    <string name="title_scheduled_toot">Tijewwiqin yettwasɣawsen</string>
+    <string name="action_access_scheduled_posts">Tijewwiqin yettwasɣawsen</string>
+    <string name="title_scheduled_posts">Tijewwiqin yettwasɣawsen</string>
     <string name="pref_title_show_boosts">Sken-d beṭuyat</string>
     <string name="hashtags">Ihacṭagen</string>
     <string name="notification_follow_request_name">Isuturen n teḍfeṛt</string>

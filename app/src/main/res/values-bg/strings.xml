@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="title_view_thread">Публикация</string>
-    <string name="drafts_toot_reply_removed">Публикацията, на която сте изготвили отговор, е премахната</string>
+    <string name="drafts_post_reply_removed">Публикацията, на която сте изготвили отговор, е премахната</string>
     <string name="duration_1_hour">1 час</string>
     <string name="duration_30_min">30 минути</string>
     <string name="duration_5_min">5 минути</string>
@@ -118,7 +118,7 @@
     <string name="later">По-късно</string>
     <string name="restart_emoji">Ще трябва да рестартирате Tusky, за да приложите тези промени</string>
     <string name="restart_required">Изисква се рестартиране на приложението</string>
-    <string name="action_open_toot">Отваряне на публикация</string>
+    <string name="action_open_post">Отваряне на публикация</string>
     <string name="expand_collapse_all_statuses">Разгъване/свиване на всички състояния</string>
     <string name="performing_lookup_title">Извършва се търсене…</string>
     <string name="system_default">По подразбиране от системата</string>
@@ -126,11 +126,11 @@
     <string name="copy_to_clipboard_success">Копирано в клипборда</string>
     <string name="error_no_custom_emojis">Инстанцията ви %s няма персонализирани емоджита</string>
     <string name="action_compose_shortcut">Композиране</string>
-    <string name="send_toot_notification_saved_content">Копие от публикацията е запазено във вашите чернови</string>
-    <string name="send_toot_notification_cancel_title">Изпращането е отменено</string>
-    <string name="send_toot_notification_channel_name">Изпращане на публикации</string>
-    <string name="send_toot_notification_error_title">Грешка при изпращане на публикация</string>
-    <string name="send_toot_notification_title">Изпращане на публикация…</string>
+    <string name="send_post_notification_saved_content">Копие от публикацията е запазено във вашите чернови</string>
+    <string name="send_post_notification_cancel_title">Изпращането е отменено</string>
+    <string name="send_post_notification_channel_name">Изпращане на публикации</string>
+    <string name="send_post_notification_error_title">Грешка при изпращане на публикация</string>
+    <string name="send_post_notification_title">Изпращане на публикация…</string>
     <string name="compose_save_draft">Запазване на чернова\?</string>
     <string name="lock_account_label_description">Изисква ръчно одобряване на последователи</string>
     <string name="lock_account_label">Заключване на акаунт</string>
@@ -256,8 +256,8 @@
     <string name="dialog_block_warning">Блокиране на @%s\?</string>
     <string name="mute_domain_warning_dialog_ok">Скриване на целия домейн</string>
     <string name="mute_domain_warning">Сигурни ли сте, че искате да блокирате всички от %s\? Няма да виждате съдържание от този домейн в нито една публична емисия или във вашите известия. Последователите ви от този домейн ще бъдат премахнати.</string>
-    <string name="dialog_redraft_toot_warning">Изтриване и преработване на тази публикация\?</string>
-    <string name="dialog_delete_toot_warning">Изтриване на тази публикация\?</string>
+    <string name="dialog_redraft_post_warning">Изтриване и преработване на тази публикация\?</string>
+    <string name="dialog_delete_post_warning">Изтриване на тази публикация\?</string>
     <string name="dialog_unfollow_warning">Отследване на този акаунт\?</string>
     <string name="dialog_message_cancel_follow_request">Отмяна на заявката за последване\?</string>
     <string name="dialog_download_image">Изтегляне</string>
@@ -315,11 +315,11 @@
     <string name="action_links">Връзки</string>
     <string name="action_add_tab">Добавяне на раздел</string>
     <string name="action_reset_schedule">Нулиране</string>
-    <string name="action_schedule_toot">Планиране на публикация</string>
+    <string name="action_schedule_post">Планиране на публикация</string>
     <string name="action_emoji_keyboard">Емоджи клавиатура</string>
     <string name="action_content_warning">Предупреждение за съдържание</string>
     <string name="action_toggle_visibility">Видимост на публикация</string>
-    <string name="action_access_scheduled_toot">Планирани публикации</string>
+    <string name="action_access_scheduled_posts">Планирани публикации</string>
     <string name="action_access_drafts">Чернови</string>
     <string name="action_search">Търсене</string>
     <string name="action_reject">Отхвърляне</string>
@@ -401,7 +401,7 @@
     <string name="status_username_format">\@%s</string>
     <string name="title_licenses">Лицензи</string>
     <string name="title_announcements">Оповестявания</string>
-    <string name="title_scheduled_toot">Планирани публикации</string>
+    <string name="title_scheduled_posts">Планирани публикации</string>
     <string name="title_drafts">Чернови</string>
     <string name="title_edit_profile">Редакция на профила ви</string>
     <string name="title_follow_requests">Заявки за последване</string>
@@ -442,7 +442,7 @@
     <string name="error_generic">Възникна грешка.</string>
     <string name="draft_deleted">Черновата е изтрита</string>
     <string name="drafts_failed_loading_reply">Неуспешно зареждане на информация за отговор</string>
-    <string name="drafts_toot_failed_to_send">Тази публикация не успя да се изпрати!</string>
+    <string name="drafts_post_failed_to_send">Тази публикация не успя да се изпрати!</string>
     <string name="dialog_delete_list_warning">Наистина ли искате да изтриете списъка %s\?</string>
     <plurals name="error_upload_max_media_reached">
         <item quantity="other">Не можете да качите повече от %1$d мултимедийни прикачени файлове.</item>

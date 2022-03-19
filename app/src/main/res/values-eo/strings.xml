@@ -152,7 +152,7 @@
     <string name="dialog_download_image">Elŝuti</string>
     <string name="dialog_message_cancel_follow_request">Nuligi peton de sekvado?</string>
     <string name="dialog_unfollow_warning">Ne plu sekvi?</string>
-    <string name="dialog_delete_toot_warning">Forigi ĉi tiun mesaĝon?</string>
+    <string name="dialog_delete_post_warning">Forigi ĉi tiun mesaĝon?</string>
     <string name="visibility_public">Publika: afiŝi en publikaj tempolinioj</string>
     <string name="visibility_unlisted">Nelistigita: Ne afiŝi en publikaj tempolinioj</string>
     <string name="visibility_private">Nur por sekvantoj: Afiŝi nur al sekvantoj</string>
@@ -292,11 +292,11 @@
     <string name="lock_account_label">Ŝlosi konton</string>
     <string name="lock_account_label_description">Vi devas permane rajtigi sekvantojn</string>
     <string name="compose_save_draft">Konservi malneton?</string>
-    <string name="send_toot_notification_title">Sendante la mesaĝo…</string>
-    <string name="send_toot_notification_error_title">Eraro dum sendo de la mesaĝo</string>
-    <string name="send_toot_notification_channel_name">Sendante la mesaĝoj</string>
-    <string name="send_toot_notification_cancel_title">Sendo nuligita</string>
-    <string name="send_toot_notification_saved_content">Kopio de la mesaĝo estis konservita en viaj malnetoj</string>
+    <string name="send_post_notification_title">Sendante la mesaĝo…</string>
+    <string name="send_post_notification_error_title">Eraro dum sendo de la mesaĝo</string>
+    <string name="send_post_notification_channel_name">Sendante la mesaĝoj</string>
+    <string name="send_post_notification_cancel_title">Sendo nuligita</string>
+    <string name="send_post_notification_saved_content">Kopio de la mesaĝo estis konservita en viaj malnetoj</string>
     <string name="action_compose_shortcut">Verki</string>
     <string name="error_no_custom_emojis">Via nodo %s ne havas proprajn emoĝiojn</string>
     <string name="copy_to_clipboard_success">Kopiita en tondujo</string>
@@ -305,7 +305,7 @@
     <string name="download_fonts">Vi unue devos elŝuti ĉi tiujn emoĝiarojn</string>
     <string name="performing_lookup_title">Serĉante…</string>
     <string name="expand_collapse_all_statuses">Pligrandigi/malgrandigi ĉiujn mesaĝojn</string>
-    <string name="action_open_toot">Malfermi mesaĝon</string>
+    <string name="action_open_post">Malfermi mesaĝon</string>
     <string name="restart_required">Restartigo necesas</string>
     <string name="restart_emoji">Vi devos restartigi Tusky por apliki ĉi tiujn ŝanĝojn</string>
     <string name="later">Poste</string>
@@ -365,7 +365,7 @@
     <string name="description_visiblity_direct">        Rekta    </string>
     <string name="hint_list_name">Nomo de la listo</string>
     <string name="action_delete_and_redraft">Forigi kaj reskribi</string>
-    <string name="dialog_redraft_toot_warning">Ĉu forigi kaj reskribi ĉi-tiun mesaĝon\?</string>
+    <string name="dialog_redraft_post_warning">Ĉu forigi kaj reskribi ĉi-tiun mesaĝon\?</string>
     <string name="pref_title_notification_filter_poll">enketoj finiĝis</string>
     <string name="pref_title_bot_overlay">Montri indikilon por robotoj</string>
     <string name="pref_title_animate_gif_avatars">Moviĝi GIF profilbildojn</string>
@@ -427,12 +427,12 @@
     <string name="poll_new_choice_hint">Elekton %d</string>
     <string name="edit_poll">Redakti</string>
     <string name="title_bookmarks">Legosignoj</string>
-    <string name="title_scheduled_toot">Planitaj mesaĝoj</string>
+    <string name="title_scheduled_posts">Planitaj mesaĝoj</string>
     <string name="action_bookmark">Aldoni al la legosignoj</string>
     <string name="action_edit">Redakti</string>
     <string name="action_view_bookmarks">Legosignoj</string>
-    <string name="action_access_scheduled_toot">Planitaj mesaĝoj</string>
-    <string name="action_schedule_toot">Plani mesaĝon</string>
+    <string name="action_access_scheduled_posts">Planitaj mesaĝoj</string>
+    <string name="action_schedule_post">Plani mesaĝon</string>
     <string name="action_reset_schedule">Restarigi</string>
     <string name="about_powered_by_tusky">Funkciigita de Tusky</string>
     <string name="description_status_bookmarked">Aldonita al la legosignoj</string>
@@ -511,7 +511,7 @@
     <string name="action_delete_conversation">Forigi konversacion</string>
     <string name="notification_subscription_format">%s ĵus afiŝis</string>
     <string name="notification_subscription_description">Sciigoj kiam iu kiun vi sekvas afiŝis novan mesaĝon</string>
-    <string name="drafts_toot_failed_to_send">Sendo de ĉi-tiu mesaĝo malsukcesis!</string>
+    <string name="drafts_post_failed_to_send">Sendo de ĉi-tiu mesaĝo malsukcesis!</string>
     <string name="wellbeing_hide_stats_posts">Kaŝi kvantecajn statistikaĵojn sur la mesaĝoj</string>
     <string name="pref_title_confirm_favourites">Demandi konfirmon antaŭ ol stelumi</string>
     <string name="pref_title_wellbeing_mode">Bonstato</string>
@@ -525,5 +525,5 @@
 \n Puŝosciigoj ne estos influitaj, sed vi povas kontroli viajn sciigojn preferojn permane.</string>
     <string name="review_notifications">Kontroli la sciigojn</string>
     <string name="limit_notifications">Limigi sciigojn pri tempolinio</string>
-    <string name="drafts_toot_reply_removed">La mesaĝo al kiu ĉi tiu malneto respondas estis forigita</string>
+    <string name="drafts_post_reply_removed">La mesaĝo al kiu ĉi tiu malneto respondas estis forigita</string>
 </resources>

@@ -128,7 +128,7 @@
     <string name="dialog_download_image">Telecargar</string>
     <string name="dialog_message_cancel_follow_request">Anullar la demandar d’abonament ?</string>
     <string name="dialog_unfollow_warning">Volètz quitar de seguir aqueste compte ?</string>
-    <string name="dialog_delete_toot_warning">Suprimir aqueste tut \?</string>
+    <string name="dialog_delete_post_warning">Suprimir aqueste tut \?</string>
     <string name="visibility_public">Publica : es visibla a la cronologia publica</string>
     <string name="visibility_unlisted">Pas listada :es pas visibla a las cronologias publicas</string>
     <string name="visibility_private">Solament seguidors : pas que visibla pels vòstres seguidors</string>
@@ -236,11 +236,11 @@
     <string name="lock_account_label">Clavar lo compte</string>
     <string name="lock_account_label_description">Demanda que validetz manualament los seguidors</string>
     <string name="compose_save_draft">Salvar lo borrolhon ?</string>
-    <string name="send_toot_notification_title">Mandadís del tut…</string>
-    <string name="send_toot_notification_error_title">Error en enviar lo tut</string>
-    <string name="send_toot_notification_channel_name">Mandadís dels tuts</string>
-    <string name="send_toot_notification_cancel_title">Mandadís anullat</string>
-    <string name="send_toot_notification_saved_content">Una còpia del tut es estat salvat dins los borrolhons</string>
+    <string name="send_post_notification_title">Mandadís del tut…</string>
+    <string name="send_post_notification_error_title">Error en enviar lo tut</string>
+    <string name="send_post_notification_channel_name">Mandadís dels tuts</string>
+    <string name="send_post_notification_cancel_title">Mandadís anullat</string>
+    <string name="send_post_notification_saved_content">Una còpia del tut es estat salvat dins los borrolhons</string>
     <string name="action_compose_shortcut">Redactar</string>
     <string name="error_no_custom_emojis">L’instància %s es pas compatibla amb los emoji personalizats</string>
     <string name="copy_to_clipboard_success">Copiat al quichapapièr</string>
@@ -249,7 +249,7 @@
     <string name="download_fonts">D’en primièr vos cal telecargar los emojis seguents</string>
     <string name="performing_lookup_title">Recèrca…</string>
     <string name="expand_collapse_all_statuses">Desplegar/Plegar totes los estatuts</string>
-    <string name="action_open_toot">Dobrir lo tut</string>
+    <string name="action_open_post">Dobrir lo tut</string>
     <string name="restart_required">Reaviada necessària</string>
     <string name="restart_emoji">Vos caldrà reaviar Tusky per aplicar aquestes cambiaments</string>
     <string name="later">Mai tard</string>
@@ -363,7 +363,7 @@
     <string name="compose_shortcut_long_label">Escriure un tut</string>
     <string name="compose_shortcut_short_label">Redactar</string>
     <string name="action_delete_and_redraft">Suprimir e reformular</string>
-    <string name="dialog_redraft_toot_warning">Suprimir e reformular aqueste tut \?</string>
+    <string name="dialog_redraft_post_warning">Suprimir e reformular aqueste tut \?</string>
     <string name="app_theme_system">Utilizar lo tèma sistèma</string>
     <string name="notifications_clear">Netejar</string>
     <string name="notifications_apply_filter">Filtrar</string>
@@ -438,10 +438,10 @@
     <string name="poll_allow_multiple_choices">Opcions multiplas</string>
     <string name="poll_new_choice_hint">Opcion %d</string>
     <string name="edit_poll">Modificar</string>
-    <string name="title_scheduled_toot">Tuts planificats</string>
+    <string name="title_scheduled_posts">Tuts planificats</string>
     <string name="action_edit">Modificar</string>
-    <string name="action_access_scheduled_toot">Tuts planificats</string>
-    <string name="action_schedule_toot">Planificar de tuts</string>
+    <string name="action_access_scheduled_posts">Tuts planificats</string>
+    <string name="action_schedule_post">Planificar de tuts</string>
     <string name="action_reset_schedule">Escafar</string>
     <string name="post_lookup_error_format">Error en cercant la publicacion %s</string>
     <string name="about_powered_by_tusky">Propulsat per Tusky</string>
@@ -469,7 +469,7 @@
     <string name="action_subscribe_account">Seguir</string>
     <string name="draft_deleted">Borrolhon suprimit</string>
     <string name="drafts_failed_loading_reply">Fracàs del cargament de las info de responsa</string>
-    <string name="drafts_toot_failed_to_send">Fracàs de l’enviament !</string>
+    <string name="drafts_post_failed_to_send">Fracàs de l’enviament !</string>
     <string name="dialog_delete_list_warning">Volètz vertadièrament suprimir la lista %s \?</string>
     <string name="review_notifications">Repassar las notificacions</string>
     <string name="account_note_saved">Enregistrat !</string>

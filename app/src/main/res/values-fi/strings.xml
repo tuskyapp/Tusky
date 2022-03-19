@@ -4,7 +4,7 @@
     <string name="pref_title_animate_gif_avatars">Animoi GIF-avatarit</string>
     <string name="app_theme_system">Seuraa laitteen teemaa</string>
     <string name="dialog_unfollow_warning">Lopeta tilin seuraaminen\?</string>
-    <string name="dialog_delete_toot_warning">Poista tuuttaus\?</string>
+    <string name="dialog_delete_post_warning">Poista tuuttaus\?</string>
     <string name="link_whats_an_instance">Mikä on instanssi\?</string>
     <string name="action_copy_link">Kopioi linkki</string>
     <string name="action_open_in_web">Avaa selaimessa</string>
@@ -26,10 +26,10 @@
     <string name="license_cc_by_sa_4">CC-BY-SA 4.0</string>
     <string name="license_cc_by_4">CC-BY 4.0</string>
     <string name="download_failed">Lataus epäonnistui</string>
-    <string name="action_open_toot">Avaa tuuttaus</string>
+    <string name="action_open_post">Avaa tuuttaus</string>
     <string name="system_default">Järjestelmän oletus</string>
     <string name="emoji_style">Emojien tyyli</string>
-    <string name="send_toot_notification_title">Lähetetään tuuttausta…</string>
+    <string name="send_post_notification_title">Lähetetään tuuttausta…</string>
     <string name="compose_save_draft">Tallennetaanko luonnoksena\?</string>
     <string name="lock_account_label">Lukitse tili</string>
     <string name="add_account_name">Lisää tili</string>
@@ -52,10 +52,10 @@
     <string name="download_media">Lataa media</string>
     <string name="action_open_faved_by">Näytä suosikit</string>
     <string name="action_add_tab">Lisää välilehti</string>
-    <string name="action_schedule_toot">Ajasta tuuttaus</string>
+    <string name="action_schedule_post">Ajasta tuuttaus</string>
     <string name="action_emoji_keyboard">Emoji-näppäimistö</string>
     <string name="action_content_warning">Sisältövaroitus</string>
-    <string name="action_access_scheduled_toot">Ajastetut tuuttaukset</string>
+    <string name="action_access_scheduled_posts">Ajastetut tuuttaukset</string>
     <string name="action_edit_profile">Muokkaa profiilia</string>
     <string name="action_hide_media">Piilota media</string>
     <string name="action_photo_take">Ota kuva</string>
@@ -152,7 +152,7 @@
     <string name="action_follow">Seuraa</string>
     <string name="action_send_public">TUUTAA!</string>
     <string name="title_view_thread">Tuuttaus</string>
-    <string name="title_scheduled_toot">Ajastetut tuuttaukset</string>
+    <string name="title_scheduled_posts">Ajastetut tuuttaukset</string>
     <string name="action_reply">Vastaa</string>
     <string name="status_username_format">\@%s</string>
     <string name="title_licenses">Lisenssit</string>

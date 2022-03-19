@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="notification_clear_text">Bạn có muốn xóa toàn bộ thông báo\?</string>
-    <string name="send_toot_notification_saved_content">Đã lưu tút vào nháp</string>
-    <string name="send_toot_notification_cancel_title">Hủy đăng</string>
-    <string name="send_toot_notification_channel_name">Đăng Tút</string>
-    <string name="send_toot_notification_title">Đang đăng…</string>
+    <string name="send_post_notification_saved_content">Đã lưu tút vào nháp</string>
+    <string name="send_post_notification_cancel_title">Hủy đăng</string>
+    <string name="send_post_notification_channel_name">Đăng Tút</string>
+    <string name="send_post_notification_title">Đang đăng…</string>
     <plurals name="notification_title_summary">
         <item quantity="other">%d thông báo mới</item>
     </plurals>
@@ -19,7 +19,7 @@
     <string name="notification_reblog_format">%s đăng lại tút của bạn</string>
     <string name="post_lookup_error_format">Lỗi khi tìm tút %s</string>
     <string name="error_no_custom_emojis">Máy chủ %s không có emoji tùy chỉnh</string>
-    <string name="send_toot_notification_error_title">Lỗi khi đăng tút</string>
+    <string name="send_post_notification_error_title">Lỗi khi đăng tút</string>
     <string name="error_failed_set_caption">Thêm nội dung thất bại</string>
     <string name="error_delete_list">Không thể xóa danh sách</string>
     <string name="error_rename_list">Không thể đổi tên danh sách</string>
@@ -61,8 +61,8 @@
     <string name="filter_dialog_remove_button">Xóa</string>
     <string name="action_send">TÚT</string>
     <string name="action_login">Đăng nhập Mastodon</string>
-    <string name="dialog_redraft_toot_warning">Xóa và viết lại tút này\?</string>
-    <string name="dialog_delete_toot_warning">Xóa tút này\?</string>
+    <string name="dialog_redraft_post_warning">Xóa và viết lại tút này\?</string>
+    <string name="dialog_delete_post_warning">Xóa tút này\?</string>
     <string name="dialog_unfollow_warning">Ngưng theo dõi người này\?</string>
     <string name="dialog_message_cancel_follow_request">Hủy yêu cầu theo dõi\?</string>
     <string name="dialog_download_image">Tải về</string>
@@ -112,11 +112,11 @@
     <string name="action_mentions">Lượt nhắc tới</string>
     <string name="action_links">Links</string>
     <string name="action_add_tab">Thêm Tab</string>
-    <string name="action_schedule_toot">Lên lịch</string>
+    <string name="action_schedule_post">Lên lịch</string>
     <string name="action_emoji_keyboard">Emoji</string>
     <string name="action_content_warning">Nội dung ẩn</string>
     <string name="action_toggle_visibility">Công khai</string>
-    <string name="action_access_scheduled_toot">Đăng tự động</string>
+    <string name="action_access_scheduled_posts">Đăng tự động</string>
     <string name="action_access_drafts">Nháp</string>
     <string name="action_reject">Từ chối</string>
     <string name="action_accept">Đồng ý</string>
@@ -180,7 +180,7 @@
     <string name="status_boosted_format">%s đăng lại</string>
     <string name="status_username_format">\@%s</string>
     <string name="title_licenses">Giấy phép</string>
-    <string name="title_scheduled_toot">Những tút đã lên lịch</string>
+    <string name="title_scheduled_posts">Những tút đã lên lịch</string>
     <string name="title_edit_profile">Chỉnh sửa trang cá nhân</string>
     <string name="title_follow_requests">Yêu cầu theo dõi</string>
     <string name="title_domain_mutes">Máy chủ đã ẩn</string>
@@ -424,7 +424,7 @@
     <string name="later">Để sau</string>
     <string name="restart_emoji">Bạn cần khởi động lại Tusky để áp dụng các thiết lập</string>
     <string name="restart_required">Yêu cầu khởi động lại ứng dụng</string>
-    <string name="action_open_toot">Đọc tút</string>
+    <string name="action_open_post">Đọc tút</string>
     <string name="expand_collapse_all_statuses">Mở rộng/Thu gọn toàn bộ tút</string>
     <string name="performing_lookup_title">Đang tìm kiếm…</string>
     <string name="download_fonts">Bạn cần tải về bộ emoji này trước</string>
@@ -489,10 +489,10 @@
     <string name="dialog_delete_list_warning">Bạn thật sự muốn xóa danh sách %s\?</string>
     <string name="status_media_attachments">Đính kèm</string>
     <string name="status_media_audio">Âm thanh</string>
-    <string name="drafts_toot_reply_removed">Đã xóa tút trả lời nháp</string>
+    <string name="drafts_post_reply_removed">Đã xóa tút trả lời nháp</string>
     <string name="draft_deleted">Đã xóa tút lên lịch</string>
     <string name="drafts_failed_loading_reply">Chưa tải được bình luận</string>
-    <string name="drafts_toot_failed_to_send">Đăng tút không thành công!</string>
+    <string name="drafts_post_failed_to_send">Đăng tút không thành công!</string>
     <string name="pref_title_animate_custom_emojis">Emoji động</string>
     <string name="action_unsubscribe_account">Ngưng nhận thông báo</string>
     <string name="action_subscribe_account">Nhận thông báo</string>

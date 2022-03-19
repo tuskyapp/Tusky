@@ -424,7 +424,7 @@ class SearchStatusesFragment : SearchFragment<StatusViewData.Concrete>(), Status
     private fun showConfirmDeleteDialog(id: String, position: Int) {
         context?.let {
             AlertDialog.Builder(it)
-                .setMessage(R.string.dialog_delete_toot_warning)
+                .setMessage(R.string.dialog_delete_post_warning)
                 .setPositiveButton(android.R.string.ok) { _, _ ->
                     viewModel.deleteStatus(id)
                     removeItem(position)
@@ -437,7 +437,7 @@ class SearchStatusesFragment : SearchFragment<StatusViewData.Concrete>(), Status
     private fun showConfirmEditDialog(id: String, position: Int, status: Status) {
         activity?.let {
             AlertDialog.Builder(it)
-                .setMessage(R.string.dialog_redraft_toot_warning)
+                .setMessage(R.string.dialog_redraft_post_warning)
                 .setPositiveButton(android.R.string.ok) { _, _ ->
                     viewModel.deleteStatus(id)
                         .observeOn(AndroidSchedulers.mainThread())
