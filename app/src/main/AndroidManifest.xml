@@ -143,7 +143,7 @@
         <service
             android:name=".service.TuskyTileService"
             android:icon="@drawable/ic_tusky"
-            android:label="Compose Toot"
+            android:label="@string/tusky_compose_post_quicksetting_label"
             android:permission="android.permission.BIND_QUICK_SETTINGS_TILE"
             android:exported="true"
             tools:targetApi="24">

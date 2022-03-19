@@ -630,4 +630,6 @@
     <string name="action_subscribe_account">Subscribe</string>
     <string name="action_unsubscribe_account">Unsubscribe</string>
 
+    <string name="tusky_compose_post_quicksetting_label">Compose Post</string>
+
 </resources>
