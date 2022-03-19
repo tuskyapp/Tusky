@@ -580,6 +580,12 @@
     <string name="duration_1_day">1 day</string>
     <string name="duration_3_days">3 days</string>
     <string name="duration_7_days">7 days</string>
+    <string name="duration_14_days">14 days</string>
+    <string name="duration_30_days">30 days</string>
+    <string name="duration_60_days">60 days</string>
+    <string name="duration_90_days">90 days</string>
+    <string name="duration_180_days">180 days</string>
+    <string name="duration_365_days">365 days</string>
     <string name="add_poll_choice">Add choice</string>
     <string name="poll_allow_multiple_choices">Multiple choices</string>
     <string name="poll_new_choice_hint">Choice %d</string>

@@ -25,7 +25,6 @@ import androidx.core.net.toUri
 import com.keylesspalace.tusky.BuildConfig
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.components.compose.ComposeActivity.QueuedMedia
-import com.keylesspalace.tusky.entity.Attachment
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.network.ProgressRequestBody
 import com.keylesspalace.tusky.util.MEDIA_SIZE_UNKNOWN
@@ -45,7 +44,7 @@ import javax.inject.Inject
 
 sealed class UploadEvent {
     data class ProgressEvent(val percentage: Int) : UploadEvent()
-    data class FinishedEvent(val attachment: Attachment) : UploadEvent()
+    data class FinishedEvent(val mediaId: String) : UploadEvent()
 }
 
 fun createNewImageFile(context: Context): File {
@@ -183,8 +182,8 @@ class MediaUploader @Inject constructor(
 
             val uploadDisposable = mastodonApi.uploadMedia(body, description)
                 .subscribe(
-                    { attachment ->
-                        emitter.onNext(UploadEvent.FinishedEvent(attachment))
+                    { result ->
+                        emitter.onNext(UploadEvent.FinishedEvent(result.id))
                         emitter.onComplete()
                     },
                     { e ->

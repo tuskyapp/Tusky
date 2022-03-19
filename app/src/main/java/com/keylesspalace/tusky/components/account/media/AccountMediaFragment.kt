@@ -37,9 +37,9 @@ import com.keylesspalace.tusky.entity.Attachment
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.interfaces.RefreshableFragment
 import com.keylesspalace.tusky.network.MastodonApi
-import com.keylesspalace.tusky.util.LinkHelper
 import com.keylesspalace.tusky.util.ThemeUtils
 import com.keylesspalace.tusky.util.hide
+import com.keylesspalace.tusky.util.openLink
 import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.view.SquareImageView
@@ -252,7 +252,7 @@ class AccountMediaFragment : Fragment(R.layout.fragment_timeline), RefreshableFr
                 }
             }
             Attachment.Type.UNKNOWN -> {
-                LinkHelper.openLink(items[currentIndex].attachment.url, context)
+                context?.openLink(items[currentIndex].attachment.url)
             }
         }
     }

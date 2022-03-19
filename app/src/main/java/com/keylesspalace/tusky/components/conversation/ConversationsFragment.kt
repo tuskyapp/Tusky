@@ -15,7 +15,6 @@
 
 package com.keylesspalace.tusky.components.conversation
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -31,7 +30,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.SimpleItemAnimator
 import com.keylesspalace.tusky.R
-import com.keylesspalace.tusky.ViewTagActivity
+import com.keylesspalace.tusky.StatusListActivity
 import com.keylesspalace.tusky.components.account.AccountActivity
 import com.keylesspalace.tusky.databinding.FragmentTimelineBinding
 import com.keylesspalace.tusky.di.Injectable
@@ -233,8 +232,7 @@ class ConversationsFragment : SFragment(), StatusActionListener, Injectable, Res
     }
 
     override fun onViewTag(tag: String) {
-        val intent = Intent(context, ViewTagActivity::class.java)
-        intent.putExtra("hashtag", tag)
+        val intent = StatusListActivity.newHashtagIntent(requireContext(), tag)
         startActivity(intent)
     }
 

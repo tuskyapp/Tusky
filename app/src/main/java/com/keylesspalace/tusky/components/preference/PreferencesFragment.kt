@@ -141,6 +141,13 @@ class PreferencesFragment : PreferenceFragmentCompat(), Injectable {
                 }
 
                 switchPreference {
+                    setDefaultValue(false)
+                    key = PrefKeys.ANIMATE_CUSTOM_EMOJIS
+                    setTitle(R.string.pref_title_animate_custom_emojis)
+                    isSingleLineTitle = false
+                }
+
+                switchPreference {
                     setDefaultValue(true)
                     key = PrefKeys.USE_BLURHASH
                     setTitle(R.string.pref_title_gradient_for_media)
@@ -179,13 +186,6 @@ class PreferencesFragment : PreferenceFragmentCompat(), Injectable {
                     setDefaultValue(true)
                     key = PrefKeys.ENABLE_SWIPE_FOR_TABS
                     setTitle(R.string.pref_title_enable_swipe_for_tabs)
-                    isSingleLineTitle = false
-                }
-
-                switchPreference {
-                    setDefaultValue(false)
-                    key = PrefKeys.ANIMATE_CUSTOM_EMOJIS
-                    setTitle(R.string.pref_title_animate_custom_emojis)
                     isSingleLineTitle = false
                 }
             }
@@ -282,23 +282,24 @@ class PreferencesFragment : PreferenceFragmentCompat(), Injectable {
     }
 
     private fun updateHttpProxySummary() {
-        val sharedPreferences = preferenceManager.sharedPreferences
-        val httpProxyEnabled = sharedPreferences.getBoolean(PrefKeys.HTTP_PROXY_ENABLED, false)
-        val httpServer = sharedPreferences.getNonNullString(PrefKeys.HTTP_PROXY_SERVER, "")
+        preferenceManager.sharedPreferences?.let { sharedPreferences ->
+            val httpProxyEnabled = sharedPreferences.getBoolean(PrefKeys.HTTP_PROXY_ENABLED, false)
+            val httpServer = sharedPreferences.getNonNullString(PrefKeys.HTTP_PROXY_SERVER, "")
 
-        try {
-            val httpPort = sharedPreferences.getNonNullString(PrefKeys.HTTP_PROXY_PORT, "-1")
-                .toInt()
+            try {
+                val httpPort = sharedPreferences.getNonNullString(PrefKeys.HTTP_PROXY_PORT, "-1")
+                    .toInt()
 
-            if (httpProxyEnabled && httpServer.isNotBlank() && httpPort > 0 && httpPort < 65535) {
-                httpProxyPref?.summary = "$httpServer:$httpPort"
-                return
+                if (httpProxyEnabled && httpServer.isNotBlank() && httpPort > 0 && httpPort < 65535) {
+                    httpProxyPref?.summary = "$httpServer:$httpPort"
+                    return
+                }
+            } catch (e: NumberFormatException) {
+                // user has entered wrong port, fall back to empty summary
             }
-        } catch (e: NumberFormatException) {
-            // user has entered wrong port, fall back to empty summary
-        }
 
-        httpProxyPref?.summary = ""
+            httpProxyPref?.summary = ""
+        }
     }
 
     override fun onDisplayPreferenceDialog(preference: Preference?) {

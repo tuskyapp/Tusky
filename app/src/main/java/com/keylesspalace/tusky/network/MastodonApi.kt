@@ -28,6 +28,7 @@ import com.keylesspalace.tusky.entity.IdentityProof
 import com.keylesspalace.tusky.entity.Instance
 import com.keylesspalace.tusky.entity.Marker
 import com.keylesspalace.tusky.entity.MastoList
+import com.keylesspalace.tusky.entity.MediaUploadResult
 import com.keylesspalace.tusky.entity.NewStatus
 import com.keylesspalace.tusky.entity.Notification
 import com.keylesspalace.tusky.entity.Poll
@@ -36,6 +37,7 @@ import com.keylesspalace.tusky.entity.ScheduledStatus
 import com.keylesspalace.tusky.entity.SearchResult
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.entity.StatusContext
+import com.keylesspalace.tusky.entity.TimelineAccount
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Single
 import okhttp3.MultipartBody
@@ -142,11 +144,11 @@ interface MastodonApi {
     fun clearNotifications(): Single<ResponseBody>
 
     @Multipart
-    @POST("api/v1/media")
+    @POST("api/v2/media")
     fun uploadMedia(
         @Part file: MultipartBody.Part,
         @Part description: MultipartBody.Part? = null
-    ): Single<Attachment>
+    ): Single<MediaUploadResult>
 
     @FormUrlEncoded
     @PUT("api/v1/media/{mediaId}")
@@ -177,13 +179,13 @@ interface MastodonApi {
     fun statusRebloggedBy(
         @Path("id") statusId: String,
         @Query("max_id") maxId: String?
-    ): Single<Response<List<Account>>>
+    ): Single<Response<List<TimelineAccount>>>
 
     @GET("api/v1/statuses/{id}/favourited_by")
     fun statusFavouritedBy(
         @Path("id") statusId: String,
         @Query("max_id") maxId: String?
-    ): Single<Response<List<Account>>>
+    ): Single<Response<List<TimelineAccount>>>
 
     @DELETE("api/v1/statuses/{id}")
     fun deleteStatus(
@@ -285,7 +287,7 @@ interface MastodonApi {
         @Query("resolve") resolve: Boolean? = null,
         @Query("limit") limit: Int? = null,
         @Query("following") following: Boolean? = null
-    ): Single<List<Account>>
+    ): Single<List<TimelineAccount>>
 
     @GET("api/v1/accounts/{id}")
     fun account(
@@ -316,13 +318,13 @@ interface MastodonApi {
     fun accountFollowers(
         @Path("id") accountId: String,
         @Query("max_id") maxId: String?
-    ): Single<Response<List<Account>>>
+    ): Single<Response<List<TimelineAccount>>>
 
     @GET("api/v1/accounts/{id}/following")
     fun accountFollowing(
         @Path("id") accountId: String,
         @Query("max_id") maxId: String?
-    ): Single<Response<List<Account>>>
+    ): Single<Response<List<TimelineAccount>>>
 
     @FormUrlEncoded
     @POST("api/v1/accounts/{id}/follow")
@@ -383,12 +385,12 @@ interface MastodonApi {
     @GET("api/v1/blocks")
     fun blocks(
         @Query("max_id") maxId: String?
-    ): Single<Response<List<Account>>>
+    ): Single<Response<List<TimelineAccount>>>
 
     @GET("api/v1/mutes")
     fun mutes(
         @Query("max_id") maxId: String?
-    ): Single<Response<List<Account>>>
+    ): Single<Response<List<TimelineAccount>>>
 
     @GET("api/v1/domain_blocks")
     fun domainBlocks(
@@ -425,7 +427,7 @@ interface MastodonApi {
     @GET("api/v1/follow_requests")
     fun followRequests(
         @Query("max_id") maxId: String?
-    ): Single<Response<List<Account>>>
+    ): Single<Response<List<TimelineAccount>>>
 
     @POST("api/v1/follow_requests/{id}/authorize")
     fun authorizeFollowRequest(
@@ -439,24 +441,24 @@ interface MastodonApi {
 
     @FormUrlEncoded
     @POST("api/v1/apps")
-    fun authenticateApp(
+    suspend fun authenticateApp(
         @Header(DOMAIN_HEADER) domain: String,
         @Field("client_name") clientName: String,
         @Field("redirect_uris") redirectUris: String,
         @Field("scopes") scopes: String,
         @Field("website") website: String
-    ): Call<AppCredentials>
+    ): AppCredentials
 
     @FormUrlEncoded
     @POST("oauth/token")
-    fun fetchOAuthToken(
+    suspend fun fetchOAuthToken(
         @Header(DOMAIN_HEADER) domain: String,
         @Field("client_id") clientId: String,
         @Field("client_secret") clientSecret: String,
         @Field("redirect_uri") redirectUri: String,
         @Field("code") code: String,
         @Field("grant_type") grantType: String
-    ): Call<AccessToken>
+    ): AccessToken
 
     @FormUrlEncoded
     @POST("api/v1/lists")
@@ -480,7 +482,7 @@ interface MastodonApi {
     fun getAccountsInList(
         @Path("listId") listId: String,
         @Query("limit") limit: Int
-    ): Single<List<Account>>
+    ): Single<List<TimelineAccount>>
 
     @FormUrlEncoded
     // @DELETE doesn't support fields

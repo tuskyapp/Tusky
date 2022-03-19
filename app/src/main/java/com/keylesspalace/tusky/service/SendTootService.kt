@@ -19,8 +19,8 @@ import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.appstore.StatusComposedEvent
 import com.keylesspalace.tusky.appstore.StatusScheduledEvent
 import com.keylesspalace.tusky.components.drafts.DraftHelper
+import com.keylesspalace.tusky.components.notifications.NotificationHelper
 import com.keylesspalace.tusky.db.AccountManager
-import com.keylesspalace.tusky.db.AppDatabase
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.entity.NewPoll
 import com.keylesspalace.tusky.entity.NewStatus
@@ -49,8 +49,6 @@ class SendTootService : Service(), Injectable {
     lateinit var accountManager: AccountManager
     @Inject
     lateinit var eventHub: EventHub
-    @Inject
-    lateinit var database: AppDatabase
     @Inject
     lateinit var draftHelper: DraftHelper
 
@@ -95,7 +93,7 @@ class SendTootService : Service(), Injectable {
                 .setContentText(notificationText)
                 .setProgress(1, 0, true)
                 .setOngoing(true)
-                .setColor(ContextCompat.getColor(this, R.color.tusky_blue))
+                .setColor(ContextCompat.getColor(this, R.color.notification_color))
                 .addAction(0, getString(android.R.string.cancel), cancelSendingIntent(sendingNotificationId))
 
             if (tootsToSend.size == 0 || Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -183,7 +181,7 @@ class SendTootService : Service(), Injectable {
                         .setSmallIcon(R.drawable.ic_notify)
                         .setContentTitle(getString(R.string.send_toot_notification_error_title))
                         .setContentText(getString(R.string.send_toot_notification_saved_content))
-                        .setColor(ContextCompat.getColor(this@SendTootService, R.color.tusky_blue))
+                        .setColor(ContextCompat.getColor(this@SendTootService, R.color.notification_color))
 
                     notificationManager.cancel(tootId)
                     notificationManager.notify(errorNotificationId--, builder.build())
@@ -232,7 +230,7 @@ class SendTootService : Service(), Injectable {
                 .setSmallIcon(R.drawable.ic_notify)
                 .setContentTitle(getString(R.string.send_toot_notification_cancel_title))
                 .setContentText(getString(R.string.send_toot_notification_saved_content))
-                .setColor(ContextCompat.getColor(this@SendTootService, R.color.tusky_blue))
+                .setColor(ContextCompat.getColor(this, R.color.notification_color))
 
             notificationManager.notify(tootId, builder.build())
 
@@ -267,12 +265,9 @@ class SendTootService : Service(), Injectable {
     }
 
     private fun cancelSendingIntent(tootId: Int): PendingIntent {
-
         val intent = Intent(this, SendTootService::class.java)
-
         intent.putExtra(KEY_CANCEL, tootId)
-
-        return PendingIntent.getService(this, tootId, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+        return PendingIntent.getService(this, tootId, intent, NotificationHelper.pendingIntentFlags(false))
     }
 
     override fun onDestroy() {

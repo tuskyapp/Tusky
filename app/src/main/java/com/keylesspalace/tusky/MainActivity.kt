@@ -35,6 +35,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.content.ContextCompat
 import androidx.core.content.pm.ShortcutManagerCompat
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.emoji2.text.EmojiCompat
 import androidx.emoji2.text.EmojiCompat.InitCallback
 import androidx.lifecycle.Lifecycle
@@ -64,6 +65,7 @@ import com.keylesspalace.tusky.components.compose.ComposeActivity.Companion.canH
 import com.keylesspalace.tusky.components.conversation.ConversationsRepository
 import com.keylesspalace.tusky.components.drafts.DraftHelper
 import com.keylesspalace.tusky.components.drafts.DraftsActivity
+import com.keylesspalace.tusky.components.login.LoginActivity
 import com.keylesspalace.tusky.components.notifications.NotificationHelper
 import com.keylesspalace.tusky.components.preference.PreferencesActivity
 import com.keylesspalace.tusky.components.scheduled.ScheduledTootActivity
@@ -158,7 +160,11 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        installSplashScreen()
         super.onCreate(savedInstanceState)
+
+        // delete old notification channels
+        NotificationHelper.deleteLegacyNotificationChannels(this, accountManager)
 
         val activeAccount = accountManager.activeAccount
             ?: return // will be redirected to LoginActivity by BaseActivity
@@ -325,9 +331,9 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
         super.onPostCreate(savedInstanceState)
 
         if (intent != null) {
-            val statusUrl = intent.getStringExtra(STATUS_URL)
-            if (statusUrl != null) {
-                viewUrl(statusUrl, PostLookupFallbackBehavior.DISPLAY_ERROR)
+            val redirectUrl = intent.getStringExtra(REDIRECT_URL)
+            if (redirectUrl != null) {
+                viewUrl(redirectUrl, PostLookupFallbackBehavior.DISPLAY_ERROR)
             }
         }
     }
@@ -834,7 +840,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
         private const val TAG = "MainActivity" // logging tag
         private const val DRAWER_ITEM_ADD_ACCOUNT: Long = -13
         private const val DRAWER_ITEM_ANNOUNCEMENTS: Long = 14
-        const val STATUS_URL = "statusUrl"
+        const val REDIRECT_URL = "redirectUrl"
     }
 }
 

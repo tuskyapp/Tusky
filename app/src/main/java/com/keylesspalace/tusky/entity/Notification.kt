@@ -24,7 +24,7 @@ import com.google.gson.annotations.JsonAdapter
 data class Notification(
     val type: Type,
     val id: String,
-    val account: Account,
+    val account: TimelineAccount,
     val status: Status?
 ) {
 

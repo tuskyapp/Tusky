@@ -514,7 +514,7 @@ class CachedTimelineRemoteMediatorTest {
         expected: List<TimelineStatusWithAccount>,
         forAccount: Long = 1
     ) {
-        val pagingSource = timelineDao().getStatusesForAccount(forAccount)
+        val pagingSource = timelineDao().getStatuses(forAccount)
 
         val loadResult = runBlocking {
             pagingSource.load(PagingSource.LoadParams.Refresh(null, 100, false))

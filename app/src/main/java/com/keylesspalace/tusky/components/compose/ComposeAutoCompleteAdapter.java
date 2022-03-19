@@ -16,7 +16,6 @@
 package com.keylesspalace.tusky.components.compose;
 
 import android.content.Context;
-import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,9 +27,9 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.keylesspalace.tusky.R;
-import com.keylesspalace.tusky.entity.Account;
 import com.keylesspalace.tusky.entity.Emoji;
 import com.keylesspalace.tusky.entity.HashTag;
+import com.keylesspalace.tusky.entity.TimelineAccount;
 import com.keylesspalace.tusky.util.CustomEmojiHelper;
 import com.keylesspalace.tusky.util.ImageLoadingHelper;
 
@@ -144,7 +143,7 @@ public class ComposeAutoCompleteAdapter extends BaseAdapter
 
                 AccountResult accountResult = ((AccountResult) getItem(position));
                 if (accountResult != null) {
-                    Account account = accountResult.account;
+                    TimelineAccount account = accountResult.account;
                     String formattedUsername = context.getString(
                             R.string.status_username_format,
                             account.getUsername()
@@ -268,9 +267,9 @@ public class ComposeAutoCompleteAdapter extends BaseAdapter
     }
 
     public final static class AccountResult extends AutocompleteResult {
-        private final Account account;
+        private final TimelineAccount account;
 
-        public AccountResult(Account account) {
+        public AccountResult(TimelineAccount account) {
             this.account = account;
         }
     }

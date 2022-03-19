@@ -34,7 +34,7 @@ import com.keylesspalace.tusky.databinding.FragmentAccountsInListBinding
 import com.keylesspalace.tusky.databinding.ItemFollowRequestBinding
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.di.ViewModelFactory
-import com.keylesspalace.tusky.entity.Account
+import com.keylesspalace.tusky.entity.TimelineAccount
 import com.keylesspalace.tusky.settings.PrefKeys
 import com.keylesspalace.tusky.util.BindingHolder
 import com.keylesspalace.tusky.util.Either
@@ -49,7 +49,7 @@ import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import java.io.IOException
 import javax.inject.Inject
 
-private typealias AccountInfo = Pair<Account, Boolean>
+private typealias AccountInfo = Pair<TimelineAccount, Boolean>
 
 class AccountsInListFragment : DialogFragment(), Injectable {
 
@@ -168,21 +168,21 @@ class AccountsInListFragment : DialogFragment(), Injectable {
         viewModel.deleteAccountFromList(listId, accountId)
     }
 
-    private fun onAddToList(account: Account) {
+    private fun onAddToList(account: TimelineAccount) {
         viewModel.addAccountToList(listId, account)
     }
 
-    private object AccountDiffer : DiffUtil.ItemCallback<Account>() {
-        override fun areItemsTheSame(oldItem: Account, newItem: Account): Boolean {
-            return oldItem == newItem
+    private object AccountDiffer : DiffUtil.ItemCallback<TimelineAccount>() {
+        override fun areItemsTheSame(oldItem: TimelineAccount, newItem: TimelineAccount): Boolean {
+            return oldItem.id == newItem.id
         }
 
-        override fun areContentsTheSame(oldItem: Account, newItem: Account): Boolean {
-            return oldItem.deepEquals(newItem)
+        override fun areContentsTheSame(oldItem: TimelineAccount, newItem: TimelineAccount): Boolean {
+            return oldItem == newItem
         }
     }
 
-    inner class Adapter : ListAdapter<Account, BindingHolder<ItemFollowRequestBinding>>(AccountDiffer) {
+    inner class Adapter : ListAdapter<TimelineAccount, BindingHolder<ItemFollowRequestBinding>>(AccountDiffer) {
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BindingHolder<ItemFollowRequestBinding> {
             val binding = ItemFollowRequestBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -209,12 +209,11 @@ class AccountsInListFragment : DialogFragment(), Injectable {
 
     private object SearchDiffer : DiffUtil.ItemCallback<AccountInfo>() {
         override fun areItemsTheSame(oldItem: AccountInfo, newItem: AccountInfo): Boolean {
-            return oldItem == newItem
+            return oldItem.first.id == newItem.first.id
         }
 
         override fun areContentsTheSame(oldItem: AccountInfo, newItem: AccountInfo): Boolean {
-            return oldItem.second == newItem.second &&
-                oldItem.first.deepEquals(newItem.first)
+            return oldItem == newItem
         }
     }
 

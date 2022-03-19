@@ -30,11 +30,10 @@
         <item name="status_text_large">22sp</item>
     </style>
 
-    <style name="SplashTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
-        <item name="android:windowBackground">@drawable/background_splash</item>
-        <item name="colorPrimary">@color/tusky_grey_10</item>
-        <item name="colorPrimaryDark">@color/tusky_grey_10</item>
-        <item name="android:windowNoTitle">true</item>
+    <style name="SplashTheme" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_splash</item>
+        <item name="windowSplashScreenBackground">@color/tusky_grey_20</item>
+        <item name="postSplashScreenTheme">@style/TuskyTheme</item>
     </style>
 
     <style name="TuskyTheme" parent="TuskyBaseTheme" />

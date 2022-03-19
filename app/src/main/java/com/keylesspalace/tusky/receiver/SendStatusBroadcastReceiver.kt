@@ -18,14 +18,14 @@ package com.keylesspalace.tusky.receiver
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.app.RemoteInput
 import androidx.core.content.ContextCompat
+import com.keylesspalace.tusky.BuildConfig
 import com.keylesspalace.tusky.R
-import com.keylesspalace.tusky.components.compose.ComposeActivity
-import com.keylesspalace.tusky.components.compose.ComposeActivity.ComposeOptions
 import com.keylesspalace.tusky.components.notifications.NotificationHelper
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.entity.Status
@@ -45,22 +45,19 @@ class SendStatusBroadcastReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
         AndroidInjection.inject(this, context)
 
-        val notificationId = intent.getIntExtra(NotificationHelper.KEY_NOTIFICATION_ID, -1)
-        val senderId = intent.getLongExtra(NotificationHelper.KEY_SENDER_ACCOUNT_ID, -1)
-        val senderIdentifier = intent.getStringExtra(NotificationHelper.KEY_SENDER_ACCOUNT_IDENTIFIER)
-        val senderFullName = intent.getStringExtra(NotificationHelper.KEY_SENDER_ACCOUNT_FULL_NAME)
-        val citedStatusId = intent.getStringExtra(NotificationHelper.KEY_CITED_STATUS_ID)
-        val visibility = intent.getSerializableExtra(NotificationHelper.KEY_VISIBILITY) as Status.Visibility
-        val spoiler = intent.getStringExtra(NotificationHelper.KEY_SPOILER) ?: ""
-        val mentions = intent.getStringArrayExtra(NotificationHelper.KEY_MENTIONS) ?: emptyArray()
-        val citedText = intent.getStringExtra(NotificationHelper.KEY_CITED_TEXT)
-        val localAuthorId = intent.getStringExtra(NotificationHelper.KEY_CITED_AUTHOR_LOCAL)
-
-        val account = accountManager.getAccountById(senderId)
-
-        val notificationManager = NotificationManagerCompat.from(context)
-
         if (intent.action == NotificationHelper.REPLY_ACTION) {
+            val notificationId = intent.getIntExtra(NotificationHelper.KEY_NOTIFICATION_ID, -1)
+            val senderId = intent.getLongExtra(NotificationHelper.KEY_SENDER_ACCOUNT_ID, -1)
+            val senderIdentifier = intent.getStringExtra(NotificationHelper.KEY_SENDER_ACCOUNT_IDENTIFIER)
+            val senderFullName = intent.getStringExtra(NotificationHelper.KEY_SENDER_ACCOUNT_FULL_NAME)
+            val citedStatusId = intent.getStringExtra(NotificationHelper.KEY_CITED_STATUS_ID)
+            val visibility = intent.getSerializableExtra(NotificationHelper.KEY_VISIBILITY) as Status.Visibility
+            val spoiler = intent.getStringExtra(NotificationHelper.KEY_SPOILER) ?: ""
+            val mentions = intent.getStringArrayExtra(NotificationHelper.KEY_MENTIONS) ?: emptyArray()
+
+            val account = accountManager.getAccountById(senderId)
+
+            val notificationManager = NotificationManagerCompat.from(context)
 
             val message = getReplyMessage(intent)
 
@@ -109,9 +106,15 @@ class SendStatusBroadcastReceiver : BroadcastReceiver() {
 
                 context.startService(sendIntent)
 
+                val color = if (BuildConfig.FLAVOR == "green") {
+                    Color.parseColor("#19A341")
+                } else {
+                    ContextCompat.getColor(context, R.color.tusky_blue)
+                }
+
                 val builder = NotificationCompat.Builder(context, NotificationHelper.CHANNEL_MENTION + senderIdentifier)
                     .setSmallIcon(R.drawable.ic_notify)
-                    .setColor(ContextCompat.getColor(context, (R.color.tusky_blue)))
+                    .setColor(color)
                     .setGroup(senderFullName)
                     .setDefaults(0) // So it doesn't ring twice, notify only in Target callback
 
@@ -125,29 +128,6 @@ class SendStatusBroadcastReceiver : BroadcastReceiver() {
 
                 notificationManager.notify(notificationId, builder.build())
             }
-        } else if (intent.action == NotificationHelper.COMPOSE_ACTION) {
-
-            context.sendBroadcast(Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS))
-
-            notificationManager.cancel(notificationId)
-
-            accountManager.setActiveAccount(senderId)
-
-            val composeIntent = ComposeActivity.startIntent(
-                context,
-                ComposeOptions(
-                    inReplyToId = citedStatusId,
-                    replyVisibility = visibility,
-                    contentWarning = spoiler,
-                    mentionedUsernames = mentions.toSet(),
-                    replyingStatusAuthor = localAuthorId,
-                    replyingStatusContent = citedText
-                )
-            )
-
-            composeIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-
-            context.startActivity(composeIntent)
         }
     }
 

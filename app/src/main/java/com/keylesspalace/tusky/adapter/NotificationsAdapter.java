@@ -40,10 +40,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.databinding.ItemFollowRequestBinding;
-import com.keylesspalace.tusky.entity.Account;
 import com.keylesspalace.tusky.entity.Emoji;
 import com.keylesspalace.tusky.entity.Notification;
 import com.keylesspalace.tusky.entity.Status;
+import com.keylesspalace.tusky.entity.TimelineAccount;
 import com.keylesspalace.tusky.interfaces.AccountActionListener;
 import com.keylesspalace.tusky.interfaces.LinkListener;
 import com.keylesspalace.tusky.interfaces.StatusActionListener;
@@ -335,7 +335,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
             this.statusDisplayOptions = statusDisplayOptions;
         }
 
-        void setMessage(Account account) {
+        void setMessage(TimelineAccount account) {
             Context context = message.getContext();
 
             String format = context.getString(R.string.notification_follow_format);
@@ -644,7 +644,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
             CharSequence emojifiedText = CustomEmojiHelper.emojify(
                     content, emojis, statusContent, statusDisplayOptions.animateEmojis()
             );
-            LinkHelper.setClickableText(statusContent, emojifiedText, statusViewData.getActionable().getMentions(), listener);
+            LinkHelper.setClickableText(statusContent, emojifiedText, statusViewData.getActionable().getMentions(), statusViewData.getActionable().getTags(), listener);
 
             CharSequence emojifiedContentWarning;
             if (statusViewData.getSpoilerText() != null) {

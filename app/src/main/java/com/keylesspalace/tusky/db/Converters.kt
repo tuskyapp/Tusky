@@ -27,6 +27,7 @@ import com.keylesspalace.tusky.components.conversation.ConversationAccountEntity
 import com.keylesspalace.tusky.createTabDataFromId
 import com.keylesspalace.tusky.entity.Attachment
 import com.keylesspalace.tusky.entity.Emoji
+import com.keylesspalace.tusky.entity.HashTag
 import com.keylesspalace.tusky.entity.NewPoll
 import com.keylesspalace.tusky.entity.Poll
 import com.keylesspalace.tusky.entity.Status
@@ -117,6 +118,16 @@ class Converters @Inject constructor (
     @TypeConverter
     fun jsonToMentionArray(mentionListJson: String?): List<Status.Mention>? {
         return gson.fromJson(mentionListJson, object : TypeToken<List<Status.Mention>>() {}.type)
+    }
+
+    @TypeConverter
+    fun tagListToJson(tagArray: List<HashTag>?): String? {
+        return gson.toJson(tagArray)
+    }
+
+    @TypeConverter
+    fun jsonToTagArray(tagListJson: String?): List<HashTag>? {
+        return gson.fromJson(tagListJson, object : TypeToken<List<HashTag>>() {}.type)
     }
 
     @TypeConverter

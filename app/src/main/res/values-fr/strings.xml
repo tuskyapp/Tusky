@@ -503,17 +503,17 @@
 \n - des statistiques sur les profils
 \n
 \n Les notifications \"push\" ne seront pas affectées, mais vous pouvez revoir vos préférences de notification manuellement.</string>
-    <string name="pref_title_notification_filter_subscriptions">une personne que je suis a publié un nouveau pouet</string>
+    <string name="pref_title_notification_filter_subscriptions">un compte auquel je suis abonné·e a publié un nouveau pouet</string>
     <string name="notification_subscription_format">%s vient de publier</string>
     <string name="review_notifications">Examiner les notifications</string>
     <string name="notification_subscription_name">Nouveaux pouets</string>
     <plurals name="error_upload_max_media_reached">
-        <item quantity="one">Vous ne pouvez pas téléverser plus de %1$d pièce jointe.</item>
+        <item quantity="one">Vous ne pouvez pas téléverser plus d’ %1$d pièce jointe.</item>
         <item quantity="other">Vous ne pouvez pas téléverser plus de %1$d pièces jointes.</item>
     </plurals>
     <string name="pref_title_wellbeing_mode">Bien-être</string>
     <string name="notification_subscription_description">Notifications quand quelqu\'un que vous suivez publie un nouveau pouet</string>
-    <string name="limit_notifications">Limiter les notifications de la timeline</string>
+    <string name="limit_notifications">Limiter les notifications du fil</string>
     <string name="wellbeing_hide_stats_profile">Cacher les statistiques quantitatives sur les profils</string>
     <string name="wellbeing_hide_stats_posts">Cacher les statistiques quantitatives sur les messages</string>
     <string name="action_unbookmark">Supprimer le marque-page</string>
@@ -531,6 +531,12 @@
     <string name="pref_title_confirm_favourites">Demander confirmation avant de mettre en favoris</string>
     <string name="drafts_toot_reply_removed">Le message auquel répondait ce brouillon a été supprimé</string>
     <string name="drafts_toot_failed_to_send">Échec d’envoi du pouet !</string>
-    <string name="follow_requests_info">Bien que votre compte ne soit pas verrouillé, l\'équipe de %1$s a pensé que vous voudriez valider manuellement les demandes de suivi provenant de ces comptes.</string>
+    <string name="follow_requests_info">Bien que votre compte ne soit pas verrouillé, l’équipe de %1$s a pensé que vous voudriez valider manuellement les demandes de d’abonnement provenant de ces comptes.</string>
     <string name="drafts_failed_loading_reply">Échec du chargement des informations de réponse</string>
+    <string name="duration_30_days">30 jours</string>
+    <string name="duration_60_days">60 jours</string>
+    <string name="duration_90_days">90 jours</string>
+    <string name="duration_365_days">365 jours</string>
+    <string name="duration_14_days">14 jours</string>
+    <string name="duration_180_days">180 jours</string>
 </resources>

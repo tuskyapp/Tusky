@@ -41,11 +41,10 @@ import androidx.lifecycle.Lifecycle;
 
 import com.keylesspalace.tusky.BaseActivity;
 import com.keylesspalace.tusky.BottomSheetActivity;
-import com.keylesspalace.tusky.MainActivity;
 import com.keylesspalace.tusky.PostLookupFallbackBehavior;
 import com.keylesspalace.tusky.R;
+import com.keylesspalace.tusky.StatusListActivity;
 import com.keylesspalace.tusky.ViewMediaActivity;
-import com.keylesspalace.tusky.ViewTagActivity;
 import com.keylesspalace.tusky.components.compose.ComposeActivity;
 import com.keylesspalace.tusky.components.compose.ComposeActivity.ComposeOptions;
 import com.keylesspalace.tusky.components.report.ReportActivity;
@@ -162,8 +161,6 @@ public abstract class SFragment extends Fragment implements Injectable {
         final String accountId = status.getActionableStatus().getAccount().getId();
         final String accountUsername = status.getActionableStatus().getAccount().getUsername();
         final String statusUrl = status.getActionableStatus().getUrl();
-        List<AccountEntity> accounts = accountManager.getAllAccountsOrderedByActive();
-        String openAsTitle = null;
 
         String loggedInAccountId = null;
         AccountEntity activeAccount = accountManager.getActiveAccount();
@@ -201,24 +198,12 @@ public abstract class SFragment extends Fragment implements Injectable {
 
         Menu menu = popup.getMenu();
         MenuItem openAsItem = menu.findItem(R.id.status_open_as);
-        switch (accounts.size()) {
-            case 0:
-            case 1:
-                openAsItem.setVisible(false);
-                break;
-            case 2:
-                for (AccountEntity account : accounts) {
-                    if (account != activeAccount) {
-                        openAsTitle = String.format(getString(R.string.action_open_as), account.getFullName());
-                        break;
-                    }
-                }
-                break;
-            default:
-                openAsTitle = String.format(getString(R.string.action_open_as), "…");
-                break;
+        String openAsText = ((BaseActivity)getActivity()).getOpenAsText();
+        if (openAsText == null) {
+            openAsItem.setVisible(false);
+        } else {
+            openAsItem.setTitle(openAsText);
         }
-        openAsItem.setTitle(openAsTitle);
 
         MenuItem muteConversationItem = menu.findItem(R.id.status_mute_conversation);
         boolean mutable = statusIsByCurrentUser || accountIsInMentions(activeAccount, status.getMentions());
@@ -378,15 +363,14 @@ public abstract class SFragment extends Fragment implements Injectable {
             }
             default:
             case UNKNOWN: {
-                LinkHelper.openLink(active.getAttachment().getUrl(), getContext());
+                LinkHelper.openLink(requireContext(), active.getAttachment().getUrl());
                 break;
             }
         }
     }
 
     protected void viewTag(String tag) {
-        Intent intent = new Intent(getContext(), ViewTagActivity.class);
-        intent.putExtra("hashtag", tag);
+        Intent intent = StatusListActivity.newHashtagIntent(requireContext(), tag);
         startActivity(intent);
     }
 
@@ -456,18 +440,9 @@ public abstract class SFragment extends Fragment implements Injectable {
                 .show();
     }
 
-    private void openAsAccount(String statusUrl, AccountEntity account) {
-        accountManager.setActiveAccount(account);
-        Intent intent = new Intent(getContext(), MainActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        intent.putExtra(MainActivity.STATUS_URL, statusUrl);
-        startActivity(intent);
-        ((BaseActivity) getActivity()).finishWithoutSlideOutAnimation();
-    }
-
     private void showOpenAsDialog(String statusUrl, CharSequence dialogTitle) {
         BaseActivity activity = (BaseActivity) getActivity();
-        activity.showAccountChooserDialog(dialogTitle, false, account -> openAsAccount(statusUrl, account));
+        activity.showAccountChooserDialog(dialogTitle, false, account -> activity.openAsAccount(statusUrl, account));
     }
 
     private void downloadAllMedia(Status status) {

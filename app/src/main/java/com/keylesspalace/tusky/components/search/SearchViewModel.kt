@@ -53,17 +53,15 @@ class SearchViewModel @Inject constructor(
     val alwaysShowSensitiveMedia = activeAccount?.alwaysShowSensitiveMedia ?: false
     val alwaysOpenSpoiler = activeAccount?.alwaysOpenSpoiler ?: false
 
-    private val loadedStatuses: MutableList<Pair<Status, StatusViewData.Concrete>> = mutableListOf()
+    private val loadedStatuses: MutableList<StatusViewData.Concrete> = mutableListOf()
 
     private val statusesPagingSourceFactory = SearchPagingSourceFactory(mastodonApi, SearchType.Status, loadedStatuses) {
         it.statuses.map { status ->
-            val statusViewData = status.toViewData(
+            status.toViewData(
                 isShowingContent = alwaysShowSensitiveMedia || !status.actionableStatus.sensitive,
                 isExpanded = alwaysOpenSpoiler,
                 isCollapsed = true
             )
-
-            Pair(status, statusViewData)
         }.apply {
             loadedStatuses.addAll(this)
         }
@@ -100,11 +98,11 @@ class SearchViewModel @Inject constructor(
         hashtagsPagingSourceFactory.newSearch(query)
     }
 
-    fun removeItem(status: Pair<Status, StatusViewData.Concrete>) {
-        timelineCases.delete(status.first.id)
+    fun removeItem(statusViewData: StatusViewData.Concrete) {
+        timelineCases.delete(statusViewData.id)
             .subscribe(
                 {
-                    if (loadedStatuses.remove(status))
+                    if (loadedStatuses.remove(statusViewData))
                         statusesPagingSourceFactory.invalidate()
                 },
                 { err ->
@@ -114,82 +112,81 @@ class SearchViewModel @Inject constructor(
             .autoDispose()
     }
 
-    fun expandedChange(status: Pair<Status, StatusViewData.Concrete>, expanded: Boolean) {
-        val idx = loadedStatuses.indexOf(status)
+    fun expandedChange(statusViewData: StatusViewData.Concrete, expanded: Boolean) {
+        val idx = loadedStatuses.indexOf(statusViewData)
         if (idx >= 0) {
-            loadedStatuses[idx] = Pair(status.first, status.second.copy(isExpanded = expanded))
+            loadedStatuses[idx] = statusViewData.copy(isExpanded = expanded)
             statusesPagingSourceFactory.invalidate()
         }
     }
 
-    fun reblog(status: Pair<Status, StatusViewData.Concrete>, reblog: Boolean) {
-        timelineCases.reblog(status.first.id, reblog)
+    fun reblog(statusViewData: StatusViewData.Concrete, reblog: Boolean) {
+        timelineCases.reblog(statusViewData.id, reblog)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(
-                { setRebloggedForStatus(status, reblog) },
-                { t -> Log.d(TAG, "Failed to reblog status ${status.first.id}", t) }
+                { setRebloggedForStatus(statusViewData, reblog) },
+                { t -> Log.d(TAG, "Failed to reblog status ${statusViewData.id}", t) }
             )
             .autoDispose()
     }
 
-    private fun setRebloggedForStatus(status: Pair<Status, StatusViewData.Concrete>, reblog: Boolean) {
-        status.first.reblogged = reblog
-        status.first.reblog?.reblogged = reblog
+    private fun setRebloggedForStatus(statusViewData: StatusViewData.Concrete, reblog: Boolean) {
+        statusViewData.status.reblogged = reblog
+        statusViewData.status.reblog?.reblogged = reblog
         statusesPagingSourceFactory.invalidate()
     }
 
-    fun contentHiddenChange(status: Pair<Status, StatusViewData.Concrete>, isShowing: Boolean) {
-        val idx = loadedStatuses.indexOf(status)
+    fun contentHiddenChange(statusViewData: StatusViewData.Concrete, isShowing: Boolean) {
+        val idx = loadedStatuses.indexOf(statusViewData)
         if (idx >= 0) {
-            loadedStatuses[idx] = Pair(status.first, status.second.copy(isShowingContent = isShowing))
+            loadedStatuses[idx] = statusViewData.copy(isShowingContent = isShowing)
             statusesPagingSourceFactory.invalidate()
         }
     }
 
-    fun collapsedChange(status: Pair<Status, StatusViewData.Concrete>, collapsed: Boolean) {
-        val idx = loadedStatuses.indexOf(status)
+    fun collapsedChange(statusViewData: StatusViewData.Concrete, collapsed: Boolean) {
+        val idx = loadedStatuses.indexOf(statusViewData)
         if (idx >= 0) {
-            loadedStatuses[idx] = Pair(status.first, status.second.copy(isCollapsed = collapsed))
+            loadedStatuses[idx] = statusViewData.copy(isCollapsed = collapsed)
             statusesPagingSourceFactory.invalidate()
         }
     }
 
-    fun voteInPoll(status: Pair<Status, StatusViewData.Concrete>, choices: MutableList<Int>) {
-        val votedPoll = status.first.actionableStatus.poll!!.votedCopy(choices)
-        updateStatus(status, votedPoll)
-        timelineCases.voteInPoll(status.first.id, votedPoll.id, choices)
+    fun voteInPoll(statusViewData: StatusViewData.Concrete, choices: MutableList<Int>) {
+        val votedPoll = statusViewData.status.actionableStatus.poll!!.votedCopy(choices)
+        updateStatus(statusViewData, votedPoll)
+        timelineCases.voteInPoll(statusViewData.id, votedPoll.id, choices)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(
-                { newPoll -> updateStatus(status, newPoll) },
-                { t -> Log.d(TAG, "Failed to vote in poll: ${status.first.id}", t) }
+                { newPoll -> updateStatus(statusViewData, newPoll) },
+                { t -> Log.d(TAG, "Failed to vote in poll: ${statusViewData.id}", t) }
             )
             .autoDispose()
     }
 
-    private fun updateStatus(status: Pair<Status, StatusViewData.Concrete>, newPoll: Poll) {
-        val idx = loadedStatuses.indexOf(status)
+    private fun updateStatus(statusViewData: StatusViewData.Concrete, newPoll: Poll) {
+        val idx = loadedStatuses.indexOf(statusViewData)
         if (idx >= 0) {
-            val newStatus = status.first.copy(poll = newPoll)
-            val newViewData = status.second.copy(status = newStatus)
-            loadedStatuses[idx] = Pair(newStatus, newViewData)
+            val newStatus = statusViewData.status.copy(poll = newPoll)
+            loadedStatuses[idx] = statusViewData.copy(status = newStatus)
             statusesPagingSourceFactory.invalidate()
         }
     }
 
-    fun favorite(status: Pair<Status, StatusViewData.Concrete>, isFavorited: Boolean) {
-        status.first.favourited = isFavorited
+    fun favorite(statusViewData: StatusViewData.Concrete, isFavorited: Boolean) {
+        statusViewData.status.favourited = isFavorited
         statusesPagingSourceFactory.invalidate()
-        timelineCases.favourite(status.first.id, isFavorited)
-            .onErrorReturnItem(status.first)
+        timelineCases.favourite(statusViewData.id, isFavorited)
+            .onErrorReturnItem(statusViewData.status)
             .subscribe()
             .autoDispose()
     }
 
-    fun bookmark(status: Pair<Status, StatusViewData.Concrete>, isBookmarked: Boolean) {
-        status.first.bookmarked = isBookmarked
+    fun bookmark(statusViewData: StatusViewData.Concrete, isBookmarked: Boolean) {
+        statusViewData.status.bookmarked = isBookmarked
         statusesPagingSourceFactory.invalidate()
-        timelineCases.bookmark(status.first.id, isBookmarked)
-            .onErrorReturnItem(status.first)
+        timelineCases.bookmark(statusViewData.id, isBookmarked)
+            .onErrorReturnItem(statusViewData.status)
             .subscribe()
             .autoDispose()
     }
@@ -214,19 +211,15 @@ class SearchViewModel @Inject constructor(
         return timelineCases.delete(id)
     }
 
-    fun muteConversation(status: Pair<Status, StatusViewData.Concrete>, mute: Boolean) {
-        val idx = loadedStatuses.indexOf(status)
+    fun muteConversation(statusViewData: StatusViewData.Concrete, mute: Boolean) {
+        val idx = loadedStatuses.indexOf(statusViewData)
         if (idx >= 0) {
-            val newStatus = status.first.copy(muted = mute)
-            val newPair = Pair(
-                newStatus,
-                status.second.copy(status = newStatus)
-            )
-            loadedStatuses[idx] = newPair
+            val newStatus = statusViewData.status.copy(muted = mute)
+            loadedStatuses[idx] = statusViewData.copy(status = newStatus)
             statusesPagingSourceFactory.invalidate()
         }
-        timelineCases.muteConversation(status.first.id, mute)
-            .onErrorReturnItem(status.first)
+        timelineCases.muteConversation(statusViewData.id, mute)
+            .onErrorReturnItem(statusViewData.status)
             .subscribe()
             .autoDispose()
     }

@@ -6,6 +6,10 @@
         android:title="@string/action_open_in_web"
         app:showAsAction="never" />
 
+    <item android:id="@+id/action_open_as"
+        android:title="@string/action_open_as"
+        app:showAsAction="never" />
+
     <item android:id="@+id/action_mute"
         android:title="@string/action_mute"
         app:showAsAction="never" />

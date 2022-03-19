@@ -69,6 +69,7 @@ data class TimelineStatusEntity(
     val visibility: Status.Visibility,
     val attachments: String?,
     val mentions: String?,
+    val tags: String?,
     val application: String?,
     val reblogServerId: String?, // if it has a reblogged status, it's id is stored here
     val reblogAccountId: String?,

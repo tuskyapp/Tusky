@@ -38,6 +38,7 @@ import androidx.preference.PreferenceManager;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.keylesspalace.tusky.adapter.AccountSelectionAdapter;
+import com.keylesspalace.tusky.components.login.LoginActivity;
 import com.keylesspalace.tusky.db.AccountEntity;
 import com.keylesspalace.tusky.db.AccountManager;
 import com.keylesspalace.tusky.di.Injectable;
@@ -195,6 +196,33 @@ public abstract class BaseActivity extends AppCompatActivity implements Injectab
                 .setTitle(dialogTitle)
                 .setAdapter(adapter, (dialogInterface, index) -> listener.onAccountSelected(accounts.get(index)))
                 .show();
+    }
+
+    public @Nullable String getOpenAsText() {
+        List<AccountEntity> accounts = accountManager.getAllAccountsOrderedByActive();
+        switch (accounts.size()) {
+            case 0:
+            case 1:
+                return null;
+            case 2:
+                for (AccountEntity account : accounts) {
+                    if (account != accountManager.getActiveAccount()) {
+                        return String.format(getString(R.string.action_open_as), account.getFullName());
+                    }
+                }
+                return null;
+            default:
+                return String.format(getString(R.string.action_open_as), "…");
+        }
+    }
+
+    public void openAsAccount(@NonNull String url, @NonNull AccountEntity account) {
+        accountManager.setActiveAccount(account);
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        intent.putExtra(MainActivity.REDIRECT_URL, url);
+        startActivity(intent);
+        finishWithoutSlideOutAnimation();
     }
 
     @Override

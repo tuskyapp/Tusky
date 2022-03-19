@@ -29,8 +29,8 @@
     <string name="title_statuses">Post</string>
     <string name="title_statuses_with_replies">Con risposte</string>
     <string name="title_statuses_pinned">Fissati in alto</string>
-    <string name="title_follows">Seguono</string>
-    <string name="title_followers">Ti seguono</string>
+    <string name="title_follows">Seguiti</string>
+    <string name="title_followers">Seguono</string>
     <string name="title_favourites">Preferiti</string>
     <string name="title_mutes">Utenti silenziati</string>
     <string name="title_blocks">Utenti bloccati</string>
@@ -513,4 +513,25 @@
     <string name="status_media_attachments">Allegati</string>
     <string name="status_media_audio">Audio</string>
     <string name="pref_title_animate_custom_emojis">Mostra le animazioni delle emojis personalizzate</string>
+    <string name="action_subscribe_account">Iscriviti</string>
+    <string name="dialog_delete_conversation_warning">Rimuovere questa conversazione\?</string>
+    <string name="drafts_failed_loading_reply">Errore nel recuperare le informazioni sulla risposta</string>
+    <string name="action_unsubscribe_account">Disiscriviti</string>
+    <string name="action_delete_conversation">Rimuovi conversazione</string>
+    <string name="wellbeing_mode_notice">Alcune informazioni che potrebbero influenzare il tuo benessere mentale saranno nascoste. Questo include:
+\n
+\n - Notifiche riguardo a Preferiti/Boost/Following
+\n - Conteggio dei Preferiti/Boost nei toot
+\n - Statistiche riguardo a Preferiti e Post nei profili
+\n
+\n Le notifiche push non saranno influenzate, ma puoi rivedere le tue impostazioni delle notifiche manualmente.</string>
+    <string name="action_unbookmark">Rimuovi segnalibro</string>
+    <string name="pref_title_confirm_favourites">Chiedi conferma prima di boostare</string>
+    <string name="duration_14_days">14 giorni</string>
+    <string name="duration_30_days">30 giorni</string>
+    <string name="duration_60_days">60 giorni</string>
+    <string name="duration_90_days">90 giorni</string>
+    <string name="duration_180_days">180 giorni</string>
+    <string name="duration_365_days">365 giorni</string>
+    <string name="follow_requests_info">Anche se il tuo account non è bloccato, lo staff di %1$s ha pensato che potresti voler controllare queste richieste di following da parte questi account manualmente.</string>
 </resources>

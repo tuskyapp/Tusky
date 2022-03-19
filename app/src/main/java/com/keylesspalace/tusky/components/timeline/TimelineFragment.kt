@@ -38,6 +38,7 @@ import com.keylesspalace.tusky.AccountListActivity
 import com.keylesspalace.tusky.AccountListActivity.Companion.newIntent
 import com.keylesspalace.tusky.BaseActivity
 import com.keylesspalace.tusky.R
+import com.keylesspalace.tusky.adapter.StatusBaseViewHolder
 import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.appstore.PreferenceChangedEvent
 import com.keylesspalace.tusky.appstore.StatusComposedEvent
@@ -89,9 +90,9 @@ class TimelineFragment :
 
     private val viewModel: TimelineViewModel by lazy {
         if (kind == TimelineViewModel.Kind.HOME) {
-            ViewModelProvider(this, viewModelFactory).get(CachedTimelineViewModel::class.java)
+            ViewModelProvider(this, viewModelFactory)[CachedTimelineViewModel::class.java]
         } else {
-            ViewModelProvider(this, viewModelFactory).get(NetworkTimelineViewModel::class.java)
+            ViewModelProvider(this, viewModelFactory)[NetworkTimelineViewModel::class.java]
         }
     }
 
@@ -102,8 +103,6 @@ class TimelineFragment :
     private lateinit var adapter: TimelinePagingAdapter
 
     private var isSwipeToRefreshEnabled = true
-
-    private var eventRegistered = false
 
     private var layoutManager: LinearLayoutManager? = null
     private var scrollListener: RecyclerView.OnScrollListener? = null
@@ -137,7 +136,7 @@ class TimelineFragment :
 
         isSwipeToRefreshEnabled = arguments.getBoolean(ARG_ENABLE_SWIPE_TO_REFRESH, true)
 
-        val preferences = PreferenceManager.getDefaultSharedPreferences(activity)
+        val preferences = PreferenceManager.getDefaultSharedPreferences(requireContext())
         val statusDisplayOptions = StatusDisplayOptions(
             animateAvatars = preferences.getBoolean(PrefKeys.ANIMATE_GIF_AVATARS, false),
             mediaPreviewEnabled = accountManager.activeAccount!!.mediaPreviewEnabled,
@@ -183,7 +182,7 @@ class TimelineFragment :
             if (adapter.itemCount == 0) {
                 when (loadState.refresh) {
                     is LoadState.NotLoading -> {
-                        if (loadState.append is LoadState.NotLoading) {
+                        if (loadState.append is LoadState.NotLoading && loadState.source.refresh is LoadState.NotLoading) {
                             binding.statusView.show()
                             binding.statusView.setup(R.drawable.elephant_friend_empty, R.string.message_empty, null)
                         }
@@ -218,43 +217,14 @@ class TimelineFragment :
             }
         })
 
-        lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             viewModel.statuses.collectLatest { pagingData ->
                 adapter.submitData(pagingData)
             }
         }
-    }
 
-    private fun setupSwipeRefreshLayout() {
-        binding.swipeRefreshLayout.isEnabled = isSwipeToRefreshEnabled
-        binding.swipeRefreshLayout.setOnRefreshListener(this)
-        binding.swipeRefreshLayout.setColorSchemeResources(R.color.tusky_blue)
-    }
-
-    private fun setupRecyclerView() {
-        binding.recyclerView.setAccessibilityDelegateCompat(
-            ListStatusAccessibilityDelegate(binding.recyclerView, this) { pos ->
-                adapter.peek(pos)
-            }
-        )
-        binding.recyclerView.setHasFixedSize(true)
-        layoutManager = LinearLayoutManager(context)
-        binding.recyclerView.layoutManager = layoutManager
-        val divider = DividerItemDecoration(context, RecyclerView.VERTICAL)
-        binding.recyclerView.addItemDecoration(divider)
-
-        // CWs are expanded without animation, buttons animate itself, we don't need it basically
-        (binding.recyclerView.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
-        binding.recyclerView.adapter = adapter
-    }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-
-        /* This is delayed until onActivityCreated solely because MainActivity.composeButton isn't
-         * guaranteed to be set until then. */
         if (actionButtonPresent()) {
-            val preferences = PreferenceManager.getDefaultSharedPreferences(context)
+            val preferences = PreferenceManager.getDefaultSharedPreferences(requireContext())
             hideFab = preferences.getBoolean("fabHide", false)
             scrollListener = object : RecyclerView.OnScrollListener() {
                 override fun onScrolled(view: RecyclerView, dx: Int, dy: Int) {
@@ -276,23 +246,47 @@ class TimelineFragment :
             }
         }
 
-        if (!eventRegistered) {
-            eventHub.events
-                .observeOn(AndroidSchedulers.mainThread())
-                .autoDispose(this, Lifecycle.Event.ON_DESTROY)
-                .subscribe { event ->
-                    when (event) {
-                        is PreferenceChangedEvent -> {
-                            onPreferenceChanged(event.preferenceKey)
-                        }
-                        is StatusComposedEvent -> {
-                            val status = event.status
-                            handleStatusComposeEvent(status)
-                        }
+        eventHub.events
+            .observeOn(AndroidSchedulers.mainThread())
+            .autoDispose(this, Lifecycle.Event.ON_DESTROY)
+            .subscribe { event ->
+                when (event) {
+                    is PreferenceChangedEvent -> {
+                        onPreferenceChanged(event.preferenceKey)
+                    }
+                    is StatusComposedEvent -> {
+                        val status = event.status
+                        handleStatusComposeEvent(status)
                     }
                 }
-            eventRegistered = true
-        }
+            }
+    }
+
+    private fun setupSwipeRefreshLayout() {
+        binding.swipeRefreshLayout.isEnabled = isSwipeToRefreshEnabled
+        binding.swipeRefreshLayout.setOnRefreshListener(this)
+        binding.swipeRefreshLayout.setColorSchemeResources(R.color.tusky_blue)
+    }
+
+    private fun setupRecyclerView() {
+        binding.recyclerView.setAccessibilityDelegateCompat(
+            ListStatusAccessibilityDelegate(binding.recyclerView, this) { pos ->
+                if (pos in 0 until adapter.itemCount) {
+                    adapter.peek(pos)
+                } else {
+                    null
+                }
+            }
+        )
+        binding.recyclerView.setHasFixedSize(true)
+        layoutManager = LinearLayoutManager(context)
+        binding.recyclerView.layoutManager = layoutManager
+        val divider = DividerItemDecoration(context, RecyclerView.VERTICAL)
+        binding.recyclerView.addItemDecoration(divider)
+
+        // CWs are expanded without animation, buttons animate itself, we don't need it basically
+        (binding.recyclerView.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
+        binding.recyclerView.adapter = adapter
     }
 
     override fun onRefresh() {
@@ -407,7 +401,7 @@ class TimelineFragment :
     }
 
     private fun onPreferenceChanged(key: String) {
-        val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
+        val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(requireContext())
         when (key) {
             PrefKeys.FAB_HIDE -> {
                 hideFab = sharedPreferences.getBoolean(PrefKeys.FAB_HIDE, false)
@@ -417,7 +411,7 @@ class TimelineFragment :
                 val oldMediaPreviewEnabled = adapter.mediaPreviewEnabled
                 if (enabled != oldMediaPreviewEnabled) {
                     adapter.mediaPreviewEnabled = enabled
-                    adapter.notifyDataSetChanged()
+                    adapter.notifyItemRangeChanged(0, adapter.itemCount)
                 }
             }
         }
@@ -463,7 +457,7 @@ class TimelineFragment :
         talkBackWasEnabled = a11yManager?.isEnabled == true
         Log.d(TAG, "talkback was enabled: $wasEnabled, now $talkBackWasEnabled")
         if (talkBackWasEnabled && !wasEnabled) {
-            adapter.notifyDataSetChanged()
+            adapter.notifyItemRangeChanged(0, adapter.itemCount)
         }
         startUpdateTimestamp()
     }
@@ -474,14 +468,14 @@ class TimelineFragment :
      * Auto dispose observable on pause
      */
     private fun startUpdateTimestamp() {
-        val preferences = PreferenceManager.getDefaultSharedPreferences(activity)
+        val preferences = PreferenceManager.getDefaultSharedPreferences(requireContext())
         val useAbsoluteTime = preferences.getBoolean(PrefKeys.ABSOLUTE_TIME_VIEW, false)
         if (!useAbsoluteTime) {
             Observable.interval(1, TimeUnit.MINUTES)
                 .observeOn(AndroidSchedulers.mainThread())
                 .autoDispose(this, Lifecycle.Event.ON_PAUSE)
                 .subscribe {
-                    adapter.notifyDataSetChanged()
+                    adapter.notifyItemRangeChanged(0, adapter.itemCount, listOf(StatusBaseViewHolder.Key.KEY_CREATED))
                 }
         }
     }

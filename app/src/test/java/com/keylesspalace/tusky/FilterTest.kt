@@ -189,6 +189,7 @@ class FilterTest {
                 )
             } else arrayListOf(),
             mentions = listOf(),
+            tags = listOf(),
             application = null,
             pinned = false,
             muted = false,

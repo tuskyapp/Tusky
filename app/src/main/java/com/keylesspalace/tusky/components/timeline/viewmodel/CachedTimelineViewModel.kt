@@ -34,6 +34,7 @@ import com.keylesspalace.tusky.appstore.ReblogEvent
 import com.keylesspalace.tusky.components.timeline.Placeholder
 import com.keylesspalace.tusky.components.timeline.toEntity
 import com.keylesspalace.tusky.components.timeline.toViewData
+import com.keylesspalace.tusky.components.timeline.util.ifExpected
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.db.AppDatabase
 import com.keylesspalace.tusky.entity.Poll
@@ -70,7 +71,14 @@ class CachedTimelineViewModel @Inject constructor(
     override val statuses = Pager(
         config = PagingConfig(pageSize = LOAD_AT_ONCE),
         remoteMediator = CachedTimelineRemoteMediator(accountManager, api, db, gson),
-        pagingSourceFactory = { db.timelineDao().getStatusesForAccount(accountManager.activeAccount!!.id) }
+        pagingSourceFactory = {
+            val activeAccount = accountManager.activeAccount
+            if (activeAccount == null) {
+                EmptyTimelinePagingSource()
+            } else {
+                db.timelineDao().getStatuses(activeAccount.id)
+            }
+        }
     ).flow
         .map { pagingData ->
             pagingData.map { timelineStatus ->
@@ -143,7 +151,7 @@ class CachedTimelineViewModel @Inject constructor(
 
                 val nextPlaceholderId = timelineDao.getNextPlaceholderIdAfter(activeAccount.id, placeholderId)
 
-                val response = api.homeTimeline(maxId = placeholderId.inc(), sinceId = nextPlaceholderId, limit = 20).await()
+                val response = api.homeTimeline(maxId = placeholderId.inc(), sinceId = nextPlaceholderId, limit = LOAD_AT_ONCE).await()
 
                 val statuses = response.body()
                 if (!response.isSuccessful || statuses == null) {
@@ -184,7 +192,9 @@ class CachedTimelineViewModel @Inject constructor(
                     }
                 }
             } catch (e: Exception) {
-                loadMoreFailed(placeholderId, e)
+                ifExpected(e) {
+                    loadMoreFailed(placeholderId, e)
+                }
             }
         }
     }
@@ -214,10 +224,7 @@ class CachedTimelineViewModel @Inject constructor(
     override fun fullReload() {
         viewModelScope.launch {
             val activeAccount = accountManager.activeAccount!!
-            db.runInTransaction {
-                db.timelineDao().removeAllForAccount(activeAccount.id)
-                db.timelineDao().removeAllUsersForAccount(activeAccount.id)
-            }
+            db.timelineDao().removeAll(activeAccount.id)
         }
     }
 

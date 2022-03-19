@@ -13,10 +13,10 @@
  * You should have received a copy of the GNU General Public License along with Tusky; if not,
  * see <http://www.gnu.org/licenses>. */
 
-package com.keylesspalace.tusky.interfaces;
+package com.keylesspalace.tusky.interfaces
 
-public interface LinkListener {
-    void onViewTag(String tag);
-    void onViewAccount(String id);
-    void onViewUrl(String url);
+interface LinkListener {
+    fun onViewTag(tag: String)
+    fun onViewAccount(id: String)
+    fun onViewUrl(url: String)
 }

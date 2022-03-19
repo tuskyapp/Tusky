@@ -47,7 +47,7 @@
     <string name="notification_favourite_format">%s favoritou teu toot</string>
     <string name="notification_follow_format">%s te seguiu</string>
     <string name="report_username_format">Denunciar @%s</string>
-    <string name="report_comment_hint">Comentários adicionais aqui</string>
+    <string name="report_comment_hint">Mais comentários\?</string>
     <string name="action_quick_reply">Resposta rápida</string>
     <string name="action_reply">Responder</string>
     <string name="action_reblog">Dar boost</string>
@@ -517,4 +517,6 @@
     <string name="dialog_delete_conversation_warning">Excluir esta conversa\?</string>
     <string name="action_delete_conversation">Excluir conversa</string>
     <string name="dialog_delete_list_warning">Deseja excluir a lista %s\?</string>
+    <string name="action_unbookmark">Remover favorito</string>
+    <string name="pref_title_confirm_favourites">Mostrar janela de confirmação antes de favoritar</string>
 </resources>
