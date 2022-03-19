@@ -521,4 +521,10 @@
     <string name="pref_title_confirm_favourites">Bestätigungsdialog vor dem Favorisieren eines Beitrags</string>
     <string name="dialog_delete_conversation_warning">Diese Unterhaltung wirklich löschen\?</string>
     <string name="action_delete_conversation">Unterhaltung löschen</string>
+    <string name="duration_30_days">30 Tage</string>
+    <string name="duration_60_days">60 Tage</string>
+    <string name="duration_90_days">90 Tage</string>
+    <string name="duration_365_days">365 Tage</string>
+    <string name="duration_14_days">14 Tage</string>
+    <string name="duration_180_days">180 Tage</string>
 </resources>
