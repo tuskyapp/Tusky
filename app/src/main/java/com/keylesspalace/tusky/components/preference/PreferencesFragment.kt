@@ -302,7 +302,7 @@ class PreferencesFragment : PreferenceFragmentCompat(), Injectable {
         }
     }
 
-    override fun onDisplayPreferenceDialog(preference: Preference?) {
+    override fun onDisplayPreferenceDialog(preference: Preference) {
         if (!EmojiPickerPreference.onDisplayPreferenceDialog(this, preference)) {
             super.onDisplayPreferenceDialog(preference)
         }
