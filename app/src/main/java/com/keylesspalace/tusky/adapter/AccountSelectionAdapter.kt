@@ -25,10 +25,14 @@ import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.databinding.ItemAutocompleteAccountBinding
 import com.keylesspalace.tusky.db.AccountEntity
 import com.keylesspalace.tusky.settings.PrefKeys
+import com.keylesspalace.tusky.settings.Prefs
 import com.keylesspalace.tusky.util.emojify
 import com.keylesspalace.tusky.util.loadAvatar
 
-class AccountSelectionAdapter(context: Context) : ArrayAdapter<AccountEntity>(context, R.layout.item_autocomplete_account) {
+class AccountSelectionAdapter(
+    context: Context,
+    private val prefs: Prefs,
+) : ArrayAdapter<AccountEntity>(context, R.layout.item_autocomplete_account) {
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         val binding = if (convertView == null) {
@@ -39,14 +43,15 @@ class AccountSelectionAdapter(context: Context) : ArrayAdapter<AccountEntity>(co
 
         val account = getItem(position)
         if (account != null) {
-            val pm = PreferenceManager.getDefaultSharedPreferences(binding.avatar.context)
-            val animateEmojis = pm.getBoolean(PrefKeys.ANIMATE_CUSTOM_EMOJIS, false)
+            // TODO: is this even okay to do prefs things for each invocation here?
+            val animateEmojis = prefs.animateEmojis
 
             binding.username.text = account.fullName
-            binding.displayName.text = account.displayName.emojify(account.emojis, binding.displayName, animateEmojis)
+            binding.displayName.text =
+                account.displayName.emojify(account.emojis, binding.displayName, animateEmojis)
 
             val avatarRadius = context.resources.getDimensionPixelSize(R.dimen.avatar_radius_42dp)
-            val animateAvatar = pm.getBoolean("animateGifAvatars", false)
+            val animateAvatar = prefs.animateAvatars
 
             loadAvatar(account.profilePictureUrl, binding.avatar, avatarRadius, animateAvatar)
         }

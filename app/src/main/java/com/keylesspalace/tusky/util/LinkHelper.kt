@@ -37,6 +37,7 @@ import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.entity.HashTag
 import com.keylesspalace.tusky.entity.Status.Mention
 import com.keylesspalace.tusky.interfaces.LinkListener
+import com.keylesspalace.tusky.settings.Prefs
 
 fun getDomain(urlString: String?): String {
     val host = urlString?.toUri()?.host
@@ -184,7 +185,7 @@ fun createClickableText(text: String, link: String): CharSequence {
  */
 fun Context.openLink(url: String) {
     val uri = url.toUri().normalizeScheme()
-    val useCustomTabs = PreferenceManager.getDefaultSharedPreferences(this).getBoolean("customTabs", false)
+    val useCustomTabs = Prefs(this).customTabs
 
     if (useCustomTabs) {
         openLinkInCustomTab(uri, this)

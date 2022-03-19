@@ -56,6 +56,7 @@ import com.keylesspalace.tusky.interfaces.RefreshableFragment
 import com.keylesspalace.tusky.interfaces.ReselectableFragment
 import com.keylesspalace.tusky.interfaces.StatusActionListener
 import com.keylesspalace.tusky.settings.PrefKeys
+import com.keylesspalace.tusky.settings.Prefs
 import com.keylesspalace.tusky.util.CardViewMode
 import com.keylesspalace.tusky.util.ListStatusAccessibilityDelegate
 import com.keylesspalace.tusky.util.StatusDisplayOptions
@@ -87,6 +88,9 @@ class TimelineFragment :
 
     @Inject
     lateinit var accountManager: AccountManager
+
+    @Inject
+    lateinit var prefs: Prefs
 
     private val viewModel: TimelineViewModel by lazy {
         if (kind == TimelineViewModel.Kind.HOME) {
@@ -136,22 +140,17 @@ class TimelineFragment :
 
         isSwipeToRefreshEnabled = arguments.getBoolean(ARG_ENABLE_SWIPE_TO_REFRESH, true)
 
-        val preferences = PreferenceManager.getDefaultSharedPreferences(requireContext())
         val statusDisplayOptions = StatusDisplayOptions(
-            animateAvatars = preferences.getBoolean(PrefKeys.ANIMATE_GIF_AVATARS, false),
+            animateAvatars = prefs.animateAvatars,
             mediaPreviewEnabled = accountManager.activeAccount!!.mediaPreviewEnabled,
-            useAbsoluteTime = preferences.getBoolean(PrefKeys.ABSOLUTE_TIME_VIEW, false),
-            showBotOverlay = preferences.getBoolean(PrefKeys.SHOW_BOT_OVERLAY, true),
-            useBlurhash = preferences.getBoolean(PrefKeys.USE_BLURHASH, true),
-            cardViewMode = if (preferences.getBoolean(
-                    PrefKeys.SHOW_CARDS_IN_TIMELINES,
-                    false
-                )
-            ) CardViewMode.INDENTED else CardViewMode.NONE,
-            confirmReblogs = preferences.getBoolean(PrefKeys.CONFIRM_REBLOGS, true),
-            confirmFavourites = preferences.getBoolean(PrefKeys.CONFIRM_FAVOURITES, false),
-            hideStats = preferences.getBoolean(PrefKeys.WELLBEING_HIDE_STATS_POSTS, false),
-            animateEmojis = preferences.getBoolean(PrefKeys.ANIMATE_CUSTOM_EMOJIS, false)
+            useAbsoluteTime = prefs.useAbsoluteTime,
+            showBotOverlay = prefs.showBotOverlay,
+            useBlurhash = prefs.useBlurhash,
+            cardViewMode = if (prefs.showCardsInTimelines) CardViewMode.INDENTED else CardViewMode.NONE,
+            confirmReblogs = prefs.confirmReblogs,
+            confirmFavourites = prefs.confirmFavourites,
+            hideStats = prefs.hideStatsPosts,
+            animateEmojis = prefs.animateEmojis,
         )
         adapter = TimelinePagingAdapter(
             statusDisplayOptions,
@@ -184,16 +183,28 @@ class TimelineFragment :
                     is LoadState.NotLoading -> {
                         if (loadState.append is LoadState.NotLoading && loadState.source.refresh is LoadState.NotLoading) {
                             binding.statusView.show()
-                            binding.statusView.setup(R.drawable.elephant_friend_empty, R.string.message_empty, null)
+                            binding.statusView.setup(
+                                R.drawable.elephant_friend_empty,
+                                R.string.message_empty,
+                                null
+                            )
                         }
                     }
                     is LoadState.Error -> {
                         binding.statusView.show()
 
                         if ((loadState.refresh as LoadState.Error).error is IOException) {
-                            binding.statusView.setup(R.drawable.elephant_offline, R.string.error_network, null)
+                            binding.statusView.setup(
+                                R.drawable.elephant_offline,
+                                R.string.error_network,
+                                null
+                            )
                         } else {
-                            binding.statusView.setup(R.drawable.elephant_error, R.string.error_generic, null)
+                            binding.statusView.setup(
+                                R.drawable.elephant_error,
+                                R.string.error_generic,
+                                null
+                            )
                         }
                     }
                     is LoadState.Loading -> {
@@ -209,7 +220,10 @@ class TimelineFragment :
                     binding.recyclerView.post {
                         if (getView() != null) {
                             if (isSwipeToRefreshEnabled) {
-                                binding.recyclerView.scrollBy(0, Utils.dpToPx(requireContext(), -30))
+                                binding.recyclerView.scrollBy(
+                                    0,
+                                    Utils.dpToPx(requireContext(), -30)
+                                )
                             } else binding.recyclerView.scrollToPosition(0)
                         }
                     }
@@ -224,8 +238,7 @@ class TimelineFragment :
         }
 
         if (actionButtonPresent()) {
-            val preferences = PreferenceManager.getDefaultSharedPreferences(requireContext())
-            hideFab = preferences.getBoolean("fabHide", false)
+            hideFab = prefs.hideFab
             scrollListener = object : RecyclerView.OnScrollListener() {
                 override fun onScrolled(view: RecyclerView, dx: Int, dy: Int) {
                     val composeButton = (activity as ActionButtonActivity).actionButton
@@ -388,9 +401,9 @@ class TimelineFragment :
 
     override fun onViewAccount(id: String) {
         if ((
-            viewModel.kind == TimelineViewModel.Kind.USER ||
-                viewModel.kind == TimelineViewModel.Kind.USER_WITH_REPLIES
-            ) &&
+                    viewModel.kind == TimelineViewModel.Kind.USER ||
+                            viewModel.kind == TimelineViewModel.Kind.USER_WITH_REPLIES
+                    ) &&
             viewModel.id == id
         ) {
             /* If already viewing an account page, then any requests to view that account page
@@ -401,10 +414,9 @@ class TimelineFragment :
     }
 
     private fun onPreferenceChanged(key: String) {
-        val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(requireContext())
         when (key) {
             PrefKeys.FAB_HIDE -> {
-                hideFab = sharedPreferences.getBoolean(PrefKeys.FAB_HIDE, false)
+                hideFab = prefs.hideFab
             }
             PrefKeys.MEDIA_PREVIEW_ENABLED -> {
                 val enabled = accountManager.activeAccount!!.mediaPreviewEnabled
@@ -441,9 +453,9 @@ class TimelineFragment :
 
     private fun actionButtonPresent(): Boolean {
         return viewModel.kind != TimelineViewModel.Kind.TAG &&
-            viewModel.kind != TimelineViewModel.Kind.FAVOURITES &&
-            viewModel.kind != TimelineViewModel.Kind.BOOKMARKS &&
-            activity is ActionButtonActivity
+                viewModel.kind != TimelineViewModel.Kind.FAVOURITES &&
+                viewModel.kind != TimelineViewModel.Kind.BOOKMARKS &&
+                activity is ActionButtonActivity
     }
 
     private var talkBackWasEnabled = false
@@ -468,14 +480,17 @@ class TimelineFragment :
      * Auto dispose observable on pause
      */
     private fun startUpdateTimestamp() {
-        val preferences = PreferenceManager.getDefaultSharedPreferences(requireContext())
-        val useAbsoluteTime = preferences.getBoolean(PrefKeys.ABSOLUTE_TIME_VIEW, false)
+        val useAbsoluteTime = prefs.useAbsoluteTime
         if (!useAbsoluteTime) {
             Observable.interval(1, TimeUnit.MINUTES)
                 .observeOn(AndroidSchedulers.mainThread())
                 .autoDispose(this, Lifecycle.Event.ON_PAUSE)
                 .subscribe {
-                    adapter.notifyItemRangeChanged(0, adapter.itemCount, listOf(StatusBaseViewHolder.Key.KEY_CREATED))
+                    adapter.notifyItemRangeChanged(
+                        0,
+                        adapter.itemCount,
+                        listOf(StatusBaseViewHolder.Key.KEY_CREATED)
+                    )
                 }
         }
     }

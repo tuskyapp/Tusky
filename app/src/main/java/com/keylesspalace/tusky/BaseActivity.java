@@ -18,7 +18,6 @@ package com.keylesspalace.tusky;
 import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -34,7 +33,6 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import androidx.preference.PreferenceManager;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.keylesspalace.tusky.adapter.AccountSelectionAdapter;
@@ -44,6 +42,7 @@ import com.keylesspalace.tusky.db.AccountManager;
 import com.keylesspalace.tusky.di.Injectable;
 import com.keylesspalace.tusky.interfaces.AccountSelectionListener;
 import com.keylesspalace.tusky.interfaces.PermissionRequester;
+import com.keylesspalace.tusky.settings.Prefs;
 import com.keylesspalace.tusky.util.ThemeUtils;
 
 import java.util.ArrayList;
@@ -57,6 +56,9 @@ public abstract class BaseActivity extends AppCompatActivity implements Injectab
     @Inject
     public AccountManager accountManager;
 
+    @Inject
+    public Prefs prefs;
+
     private static final int REQUESTER_NONE = Integer.MAX_VALUE;
     private HashMap<Integer, PermissionRequester> requesters;
 
@@ -64,25 +66,24 @@ public abstract class BaseActivity extends AppCompatActivity implements Injectab
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
 
-        /* There isn't presently a way to globally change the theme of a whole application at
-         * runtime, just individual activities. So, each activity has to set its theme before any
-         * views are created. */
-        String theme = preferences.getString("appTheme", ThemeUtils.APP_THEME_DEFAULT);
+        // There isn't presently a way to globally change the theme of a whole application at
+        // runtime, just individual activities. So, each activity has to set its theme before any
+        // views are created.
+        String theme = prefs.getAppTheme();
         Log.d("activeTheme", theme);
         if (theme.equals("black")) {
             setTheme(R.style.TuskyBlackTheme);
         }
 
-        /* set the taskdescription programmatically, the theme would turn it blue */
+        // set the task description programmatically, the theme would turn it blue
         String appName = getString(R.string.app_name);
         Bitmap appIcon = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
         int recentsBackgroundColor = ThemeUtils.getColor(this, R.attr.colorSurface);
 
         setTaskDescription(new ActivityManager.TaskDescription(appName, appIcon, recentsBackgroundColor));
 
-        int style = textStyle(preferences.getString("statusTextSize", "medium"));
+        int style = textStyle(prefs.getStatusTextSize());
         getTheme().applyStyle(style, false);
 
         if(requiresLogin()) {
@@ -189,7 +190,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Injectab
         if (!showActiveAccount && activeAccount != null) {
             accounts.remove(activeAccount);
         }
-        AccountSelectionAdapter adapter = new AccountSelectionAdapter(this);
+        AccountSelectionAdapter adapter = new AccountSelectionAdapter(this, this.prefs);
         adapter.addAll(accounts);
 
         new AlertDialog.Builder(this)

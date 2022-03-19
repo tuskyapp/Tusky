@@ -1,5 +1,14 @@
 package com.keylesspalace.tusky.settings
 
+import android.content.Context
+import android.content.SharedPreferences
+import androidx.annotation.Keep
+import androidx.preference.PreferenceManager
+import com.keylesspalace.tusky.util.ThemeUtils
+import javax.inject.Inject
+import kotlin.properties.ReadWriteProperty
+import kotlin.reflect.KProperty
+
 enum class AppTheme(val value: String) {
     NIGHT("night"),
     DAY("day"),

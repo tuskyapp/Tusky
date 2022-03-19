@@ -17,7 +17,6 @@ package com.keylesspalace.tusky.fragment;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -59,6 +58,7 @@ import com.keylesspalace.tusky.interfaces.StatusActionListener;
 import com.keylesspalace.tusky.network.FilterModel;
 import com.keylesspalace.tusky.network.MastodonApi;
 import com.keylesspalace.tusky.settings.PrefKeys;
+import com.keylesspalace.tusky.settings.Prefs;
 import com.keylesspalace.tusky.util.CardViewMode;
 import com.keylesspalace.tusky.util.LinkHelper;
 import com.keylesspalace.tusky.util.ListStatusAccessibilityDelegate;
@@ -93,6 +93,8 @@ public final class ViewThreadFragment extends SFragment implements
     public EventHub eventHub;
     @Inject
     public FilterModel filterModel;
+    @Inject
+    public Prefs prefs;
 
     private SwipeRefreshLayout swipeRefreshLayout;
     private RecyclerView recyclerView;
@@ -129,22 +131,20 @@ public final class ViewThreadFragment extends SFragment implements
         super.onCreate(savedInstanceState);
 
         thisThreadsStatusId = getArguments().getString("id");
-        SharedPreferences preferences =
-                PreferenceManager.getDefaultSharedPreferences(getActivity());
 
         StatusDisplayOptions statusDisplayOptions = new StatusDisplayOptions(
-                preferences.getBoolean("animateGifAvatars", false),
+                prefs.getAnimateAvatars(),
                 accountManager.getActiveAccount().getMediaPreviewEnabled(),
-                preferences.getBoolean("absoluteTimeView", false),
-                preferences.getBoolean("showBotOverlay", true),
-                preferences.getBoolean("useBlurhash", true),
-                preferences.getBoolean("showCardsInTimelines", false) ?
+                prefs.getUseAbsoluteTime(),
+                prefs.getShowBotOverlay(),
+                prefs.getUseBlurhash(),
+                prefs.getShowCardsInTimelines() ?
                         CardViewMode.INDENTED :
                         CardViewMode.NONE,
-                preferences.getBoolean("confirmReblogs", true),
-                preferences.getBoolean("confirmFavourites", false),
-                preferences.getBoolean(PrefKeys.WELLBEING_HIDE_STATS_POSTS, false),
-                preferences.getBoolean(PrefKeys.ANIMATE_CUSTOM_EMOJIS, false)
+                prefs.getConfirmReblogs(),
+                prefs.getConfirmFavourites(),
+                prefs.getHideStatsPosts(),
+                prefs.getAnimateEmojis()
         );
         adapter = new ThreadAdapter(statusDisplayOptions, this);
     }

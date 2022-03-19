@@ -16,17 +16,16 @@
 package com.keylesspalace.tusky.util
 
 import android.content.Context
-import android.content.SharedPreferences
 import android.content.res.Configuration
-import androidx.preference.PreferenceManager
-import java.util.Locale
+import com.keylesspalace.tusky.settings.Prefs
+import java.util.*
 
-class LocaleManager(context: Context) {
-
-    private var prefs: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
+class LocaleManager(
+    private val prefs: Prefs,
+) {
 
     fun setLocale(context: Context): Context {
-        val language = prefs.getNonNullString("language", "default")
+        val language = prefs.language
         if (language == "default") {
             return context
         }

@@ -21,7 +21,6 @@ import android.app.ProgressDialog
 import android.content.ClipData
 import android.content.Context
 import android.content.Intent
-import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter
@@ -75,6 +74,7 @@ import com.keylesspalace.tusky.entity.Emoji
 import com.keylesspalace.tusky.entity.NewPoll
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.settings.PrefKeys
+import com.keylesspalace.tusky.settings.Prefs
 import com.keylesspalace.tusky.util.ComposeTokenizer
 import com.keylesspalace.tusky.util.PickMediaFiles
 import com.keylesspalace.tusky.util.ThemeUtils
@@ -112,6 +112,8 @@ class ComposeActivity :
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
+    @Inject
+    lateinit var prefs: Prefs
 
     private lateinit var composeOptionsBehavior: BottomSheetBehavior<*>
     private lateinit var addMediaBehavior: BottomSheetBehavior<*>
@@ -163,8 +165,7 @@ class ComposeActivity :
             accountManager.setActiveAccount(accountId)
         }
 
-        val preferences = PreferenceManager.getDefaultSharedPreferences(this)
-        val theme = preferences.getString("appTheme", ThemeUtils.APP_THEME_DEFAULT)
+        val theme = prefs.appTheme
         if (theme == "black") {
             setTheme(R.style.TuskyDialogActivityBlackTheme)
         }
@@ -174,7 +175,7 @@ class ComposeActivity :
         // do not do anything when not logged in, activity will be finished in super.onCreate() anyway
         val activeAccount = accountManager.activeAccount ?: return
 
-        setupAvatar(preferences, activeAccount)
+        setupAvatar(activeAccount)
         val mediaAdapter = MediaPreviewAdapter(
             this,
             onAddCaption = { item ->
@@ -210,7 +211,7 @@ class ComposeActivity :
             binding.composeScheduleView.setDateTime(composeOptions?.scheduledAt)
         }
 
-        setupComposeField(preferences, viewModel.startingText)
+        setupComposeField(viewModel.startingText)
         setupContentWarningField(composeOptions?.contentWarning)
         setupPollView()
         applyShareIntent(intent, savedInstanceState)
@@ -295,7 +296,7 @@ class ComposeActivity :
         binding.composeContentWarningField.onTextChanged { _, _, _, _ -> updateVisibleCharactersLeft() }
     }
 
-    private fun setupComposeField(preferences: SharedPreferences, startingText: String?) {
+    private fun setupComposeField(startingText: String?) {
         binding.composeEditField.setOnReceiveContentListener(this)
 
         binding.composeEditField.setOnKeyListener { _, keyCode, event -> this.onKeyDown(keyCode, event) }
@@ -303,8 +304,8 @@ class ComposeActivity :
         binding.composeEditField.setAdapter(
             ComposeAutoCompleteAdapter(
                 this,
-                preferences.getBoolean(PrefKeys.ANIMATE_GIF_AVATARS, false),
-                preferences.getBoolean(PrefKeys.ANIMATE_CUSTOM_EMOJIS, false)
+                prefs.animateAvatars,
+                prefs.animateEmojis,
             )
         )
         binding.composeEditField.setTokenizer(ComposeTokenizer())
@@ -429,13 +430,13 @@ class ComposeActivity :
         }
     }
 
-    private fun setupAvatar(preferences: SharedPreferences, activeAccount: AccountEntity) {
+    private fun setupAvatar(activeAccount: AccountEntity) {
         val actionBarSizeAttr = intArrayOf(R.attr.actionBarSize)
         val a = obtainStyledAttributes(null, actionBarSizeAttr)
         val avatarSize = a.getDimensionPixelSize(0, 1)
         a.recycle()
 
-        val animateAvatars = preferences.getBoolean("animateGifAvatars", false)
+        val animateAvatars = prefs.animateAvatars
         loadAvatar(
             activeAccount.profilePictureUrl,
             binding.composeAvatar,

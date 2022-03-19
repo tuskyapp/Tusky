@@ -51,6 +51,7 @@ class LoginActivity : BaseActivity(), Injectable {
 
     private val binding by viewBinding(ActivityLoginBinding::inflate)
 
+    /** Special SharedPreferences for persisting login state in some cases. */
     private lateinit var preferences: SharedPreferences
 
     private val oauthRedirectUri: String

@@ -15,7 +15,6 @@
 
 package com.keylesspalace.tusky.components.timeline.viewmodel
 
-import android.content.SharedPreferences
 import android.util.Log
 import androidx.lifecycle.viewModelScope
 import androidx.paging.ExperimentalPagingApi
@@ -35,6 +34,7 @@ import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.network.FilterModel
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.network.TimelineCases
+import com.keylesspalace.tusky.settings.Prefs
 import com.keylesspalace.tusky.util.dec
 import com.keylesspalace.tusky.util.getDomain
 import com.keylesspalace.tusky.util.inc
@@ -58,9 +58,9 @@ class NetworkTimelineViewModel @Inject constructor(
     private val api: MastodonApi,
     eventHub: EventHub,
     accountManager: AccountManager,
-    sharedPreferences: SharedPreferences,
+    prefs: Prefs,
     filterModel: FilterModel
-) : TimelineViewModel(timelineCases, api, eventHub, accountManager, sharedPreferences, filterModel) {
+) : TimelineViewModel(timelineCases, api, eventHub, accountManager, prefs, filterModel) {
 
     var currentSource: NetworkTimelinePagingSource? = null
 

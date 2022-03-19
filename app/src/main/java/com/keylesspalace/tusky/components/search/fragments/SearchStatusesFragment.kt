@@ -53,6 +53,7 @@ import com.keylesspalace.tusky.entity.Status.Mention
 import com.keylesspalace.tusky.interfaces.AccountSelectionListener
 import com.keylesspalace.tusky.interfaces.StatusActionListener
 import com.keylesspalace.tusky.settings.PrefKeys
+import com.keylesspalace.tusky.settings.Prefs
 import com.keylesspalace.tusky.util.CardViewMode
 import com.keylesspalace.tusky.util.StatusDisplayOptions
 import com.keylesspalace.tusky.util.openLink
@@ -61,8 +62,11 @@ import com.keylesspalace.tusky.viewdata.AttachmentViewData
 import com.keylesspalace.tusky.viewdata.StatusViewData
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import kotlinx.coroutines.flow.Flow
+import javax.inject.Inject
 
 class SearchStatusesFragment : SearchFragment<StatusViewData.Concrete>(), StatusActionListener {
+    @Inject
+    lateinit var prefs: Prefs
 
     override val data: Flow<PagingData<StatusViewData.Concrete>>
         get() = viewModel.statusesFlow
@@ -71,18 +75,17 @@ class SearchStatusesFragment : SearchFragment<StatusViewData.Concrete>(), Status
         get() = super.adapter as SearchStatusesAdapter
 
     override fun createAdapter(): PagingDataAdapter<StatusViewData.Concrete, *> {
-        val preferences = PreferenceManager.getDefaultSharedPreferences(binding.searchRecyclerView.context)
         val statusDisplayOptions = StatusDisplayOptions(
-            animateAvatars = preferences.getBoolean("animateGifAvatars", false),
+            animateAvatars = prefs.animateAvatars,
             mediaPreviewEnabled = viewModel.mediaPreviewEnabled,
-            useAbsoluteTime = preferences.getBoolean("absoluteTimeView", false),
-            showBotOverlay = preferences.getBoolean("showBotOverlay", true),
-            useBlurhash = preferences.getBoolean("useBlurhash", true),
+            useAbsoluteTime = prefs.useAbsoluteTime,
+            showBotOverlay = prefs.showBotOverlay,
+            useBlurhash = prefs.useBlurhash,
             cardViewMode = CardViewMode.NONE,
-            confirmReblogs = preferences.getBoolean("confirmReblogs", true),
-            confirmFavourites = preferences.getBoolean("confirmFavourites", false),
-            hideStats = preferences.getBoolean(PrefKeys.WELLBEING_HIDE_STATS_POSTS, false),
-            animateEmojis = preferences.getBoolean(PrefKeys.ANIMATE_CUSTOM_EMOJIS, false)
+            confirmReblogs = prefs.confirmReblogs,
+            confirmFavourites = prefs.confirmFavourites,
+            hideStats = prefs.hideStatsPosts,
+            animateEmojis = prefs.animateEmojis,
         )
 
         binding.searchRecyclerView.addItemDecoration(DividerItemDecoration(binding.searchRecyclerView.context, DividerItemDecoration.VERTICAL))

@@ -15,7 +15,6 @@
 
 package com.keylesspalace.tusky.components.timeline.viewmodel
 
-import android.content.SharedPreferences
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -41,6 +40,7 @@ import com.keylesspalace.tusky.network.FilterModel
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.network.TimelineCases
 import com.keylesspalace.tusky.settings.PrefKeys
+import com.keylesspalace.tusky.settings.Prefs
 import com.keylesspalace.tusky.viewdata.StatusViewData
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.Flow
@@ -53,7 +53,7 @@ abstract class TimelineViewModel(
     private val api: MastodonApi,
     private val eventHub: EventHub,
     protected val accountManager: AccountManager,
-    private val sharedPreferences: SharedPreferences,
+    private val prefs: Prefs,
     private val filterModel: FilterModel
 ) : ViewModel() {
 
@@ -81,10 +81,8 @@ abstract class TimelineViewModel(
         this.tags = tags
 
         if (kind == Kind.HOME) {
-            filterRemoveReplies =
-                !sharedPreferences.getBoolean(PrefKeys.TAB_FILTER_HOME_REPLIES, true)
-            filterRemoveReblogs =
-                !sharedPreferences.getBoolean(PrefKeys.TAB_FILTER_HOME_BOOSTS, true)
+            filterRemoveReplies = !prefs.tabFilterHomeReplies
+            filterRemoveReblogs = !prefs.tabFilterHomeBoosts
         }
         this.alwaysShowSensitiveMedia = accountManager.activeAccount!!.alwaysShowSensitiveMedia
         this.alwaysOpenSpoilers = accountManager.activeAccount!!.alwaysOpenSpoiler
@@ -182,7 +180,7 @@ abstract class TimelineViewModel(
     private fun onPreferenceChanged(key: String) {
         when (key) {
             PrefKeys.TAB_FILTER_HOME_REPLIES -> {
-                val filter = sharedPreferences.getBoolean(PrefKeys.TAB_FILTER_HOME_REPLIES, true)
+                val filter = prefs.tabFilterHomeReplies
                 val oldRemoveReplies = filterRemoveReplies
                 filterRemoveReplies = kind == Kind.HOME && !filter
                 if (oldRemoveReplies != filterRemoveReplies) {
@@ -190,7 +188,7 @@ abstract class TimelineViewModel(
                 }
             }
             PrefKeys.TAB_FILTER_HOME_BOOSTS -> {
-                val filter = sharedPreferences.getBoolean(PrefKeys.TAB_FILTER_HOME_BOOSTS, true)
+                val filter = prefs.tabFilterHomeBoosts
                 val oldRemoveReblogs = filterRemoveReblogs
                 filterRemoveReblogs = kind == Kind.HOME && !filter
                 if (oldRemoveReblogs != filterRemoveReblogs) {

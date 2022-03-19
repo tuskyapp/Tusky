@@ -47,6 +47,7 @@ import com.keylesspalace.tusky.entity.TimelineAccount
 import com.keylesspalace.tusky.interfaces.AccountActionListener
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.settings.PrefKeys
+import com.keylesspalace.tusky.settings.Prefs
 import com.keylesspalace.tusky.util.HttpHeaderLink
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.show
@@ -65,6 +66,8 @@ class AccountListFragment : Fragment(R.layout.fragment_account_list), AccountAct
     lateinit var api: MastodonApi
     @Inject
     lateinit var accountManager: AccountManager
+    @Inject
+    lateinit var prefs: Prefs
 
     private val binding by viewBinding(FragmentAccountListBinding::bind)
 
@@ -92,9 +95,8 @@ class AccountListFragment : Fragment(R.layout.fragment_account_list), AccountAct
 
         binding.recyclerView.addItemDecoration(DividerItemDecoration(view.context, DividerItemDecoration.VERTICAL))
 
-        val pm = PreferenceManager.getDefaultSharedPreferences(view.context)
-        val animateAvatar = pm.getBoolean(PrefKeys.ANIMATE_GIF_AVATARS, false)
-        val animateEmojis = pm.getBoolean(PrefKeys.ANIMATE_CUSTOM_EMOJIS, false)
+        val animateAvatar = prefs.animateAvatars
+        val animateEmojis = prefs.animateEmojis
 
         adapter = when (type) {
             Type.BLOCKS -> BlocksAdapter(this, animateAvatar, animateEmojis)

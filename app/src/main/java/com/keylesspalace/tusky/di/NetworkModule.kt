@@ -26,6 +26,7 @@ import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.json.SpannedTypeAdapter
 import com.keylesspalace.tusky.network.InstanceSwitchAuthInterceptor
 import com.keylesspalace.tusky.network.MastodonApi
+import com.keylesspalace.tusky.settings.Prefs
 import com.keylesspalace.tusky.util.getNonNullString
 import dagger.Module
 import dagger.Provides
@@ -62,11 +63,11 @@ class NetworkModule {
     fun providesHttpClient(
         accountManager: AccountManager,
         context: Context,
-        preferences: SharedPreferences
+        prefs: Prefs,
     ): OkHttpClient {
-        val httpProxyEnabled = preferences.getBoolean("httpProxyEnabled", false)
-        val httpServer = preferences.getNonNullString("httpProxyServer", "")
-        val httpPort = preferences.getNonNullString("httpProxyPort", "-1").toIntOrNull() ?: -1
+        val httpProxyEnabled = prefs.httpProxyEnabled
+        val httpServer = prefs.httpProxyServer
+        val httpPort = prefs.httpProxyPort.toIntOrNull() ?: -1
         val cacheSize = 25 * 1024 * 1024L // 25 MiB
         val builder = OkHttpClient.Builder()
             .addInterceptor { chain ->

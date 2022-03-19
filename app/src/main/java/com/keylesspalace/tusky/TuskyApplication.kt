@@ -26,6 +26,7 @@ import autodispose2.AutoDisposePlugins
 import com.keylesspalace.tusky.components.notifications.NotificationWorkerFactory
 import com.keylesspalace.tusky.di.AppInjector
 import com.keylesspalace.tusky.settings.PrefKeys
+import com.keylesspalace.tusky.settings.Prefs
 import com.keylesspalace.tusky.util.EmojiCompatFont
 import com.keylesspalace.tusky.util.LocaleManager
 import com.keylesspalace.tusky.util.ThemeUtils
@@ -43,6 +44,9 @@ class TuskyApplication : Application(), HasAndroidInjector {
 
     @Inject
     lateinit var notificationWorkerFactory: NotificationWorkerFactory
+
+    @Inject
+    lateinit var prefs: Prefs
 
     override fun onCreate() {
         // Uncomment me to get StrictMode violation logs
@@ -63,17 +67,16 @@ class TuskyApplication : Application(), HasAndroidInjector {
 
         AppInjector.init(this)
 
-        val preferences = PreferenceManager.getDefaultSharedPreferences(this)
 
         // init the custom emoji fonts
-        val emojiSelection = preferences.getInt(PrefKeys.EMOJI, 0)
+        val emojiSelection = prefs.emojiFont
         val emojiConfig = EmojiCompatFont.byId(emojiSelection)
             .getConfig(this)
             .setReplaceAll(true)
         EmojiCompat.init(emojiConfig)
 
         // init night mode
-        val theme = preferences.getString("appTheme", ThemeUtils.APP_THEME_DEFAULT)
+        val theme = prefs.appTheme
         ThemeUtils.setAppNightMode(theme)
 
         RxJavaPlugins.setErrorHandler {
@@ -89,7 +92,8 @@ class TuskyApplication : Application(), HasAndroidInjector {
     }
 
     override fun attachBaseContext(base: Context) {
-        localeManager = LocaleManager(base)
+        // special case: injected field cannot be injected here yet so we create Prefs by hand
+        localeManager = LocaleManager(Prefs(base))
         super.attachBaseContext(localeManager.setLocale(base))
     }
 
